@@ -1,7 +1,7 @@
 # COMP/CON
  A Character and Mech builder, organizer, and item database (other stuff, too) for Miguel Lopez and Tom Parkinson Morgan's LANCER Tabletop RPG.
  
- As of this writing, LANCER is at version 1.7.5β and COMP/CON is at [version 0.0.1α](#Changelog).
+ As of this writing, LANCER is at version 1.7.5β and COMP/CON is at [version 0.0.1α](#changelog).
 
 <br>
 
@@ -13,7 +13,7 @@
 
  <br>
 
- This is a piece of [open source software](#License) — feel free to contribute via the [GitHub repository](#) or yell at me directly on Twitter at [@jarena3](https://www.twitter.com/jarena3). If you want to support development of this software, please consider [buying me a beer](buymeacoff.ee/a7xoLjHfG).
+ This is a piece of [open source software](#license) — feel free to contribute via the [GitHub repository](https://github.com/jarena3/compcon) or yell at me directly on Twitter at [@jarena3](https://www.twitter.com/jarena3). If you want to support development of this software, please consider [buying me a beer](buymeacoff.ee/a7xoLjHfG).
 
 ---
 ## Roadmap
