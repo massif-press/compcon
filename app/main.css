@@ -1,0 +1,277 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body { 
+  height: 100%; 
+  font-family: 'Titillium Web', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+img {
+  display:block;
+  margin:auto;
+}
+
+hr {
+  color: #5F909C;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 4fr;
+  grid-template-rows: 1fr 20fr 1fr;
+  grid-gap: 5px ;
+  height: 100%;
+  background-color: #273336;
+  color: #DBEBE9;
+}
+
+.header {
+  grid-area: 1 / 1 / 1 / 4;
+  align-self: stretch;
+  font-family: 'K2D', sans-serif;
+}
+
+#about-btn {
+  float: right;
+}
+
+.column-header {
+  color: white;
+  background-color: #25616E;
+  text-align: center;
+}
+
+.name {
+  font-weight: 800;
+  font-size: 1.5vw;
+}
+
+.pilot-sidebar {
+  grid-area: 2 / 1 / 2 / 1;
+  border: 1px solid;
+  border-color: #25616E;
+  overflow-y: scroll;
+}
+
+.pilot-info {
+  font-size: 12px;
+}
+
+.pilot-expander, .mech-expander {
+  border: 1px solid;
+  border-color: #25616E;
+  padding: 5px;
+  margin: 3px;
+}
+
+.mech-sub {
+  font-size: 12px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  color: #5F909C;
+  font-style: normal;
+  float: right;
+  margin-top: 10px;
+}
+
+.closed:hover, .closed:focus, .closed:active {
+  color: white;
+  background-color: #25616E;
+}
+
+.open {
+  background-color: #314347;
+}
+
+.mech-sidebar {
+  grid-area: 2 / 2 / 2 / 2;
+  border: 1px solid;
+  border-color: #25616E;
+  overflow-y: scroll;
+}
+
+.main {
+  grid-area: 2 / 3 / 4 / 3;
+  border: 1px solid;
+  border-color: #25616E;
+  position: relative;
+  overflow-y: scroll;
+}
+
+.add-pilot {
+  grid-area: 3 / 1 / 3 / 1;
+  background-color: #25616E
+}
+
+.add-mech {
+  grid-area: 3 / 2 / 3 / 2;
+  background-color: #25616E
+}
+
+.title {
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 10px;
+  margin: 5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  font-weight: 100;
+  letter-spacing: 3px;
+  color: #5F909C;
+  margin: 5px;
+}
+
+.btn {
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+}
+
+.btn:before {
+  pointer-events: none;
+  content: '';
+  position: absolute;
+  border: #DBEBE9 solid 1px;
+  top: -6px;
+  right: -6px;
+  bottom: -6px;
+  left: -6px;
+  opacity: 0;
+  transition-duration: 0.1s;
+  transition-property: top, right, bottom, left;
+}
+
+.btn:hover:before, .btn:focus:before, .btn:active:before {
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  opacity: 1;
+}
+
+/* Sweep To Right */
+.sweep-btn {
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  transition-property: color;
+  transition-duration: 0.3s;
+}
+
+.sweep-btn:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #DBEBE9;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition-property: transform;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+}
+.sweep-btn:hover, .sweep-btn:focus, .sweep-btn:active {
+  color: #273336;
+}
+.sweep-btn:hover:before, .sweep-btn:focus:before, .hsweep-btn:active:before {
+  transform: scaleX(1);
+}
+
+.menu-btn {
+  display: block;
+  margin: 3px;
+  padding-left: 5px;
+  background-color: #5F909C;
+  text-align: center;
+}
+
+.menu-btn:hover, .menu-btn:focus, .menu-btn:active {
+  color: #273336;
+  background-color: #57DF9A;
+}
+
+.mech-expander-table{
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.mech-expander-table th {
+  background-color: #273336;
+  font-size: 13px;
+}
+
+.menu-border {
+  padding: 2px;
+  border: 1px solid;
+  border-color: #5F909C;
+}
+
+.active {
+  color: #57DF9A;
+}
+
+.unavailable {
+  color: #F2B134;
+}
+
+.destroyed {
+  color: #5F909C;
+}
+
+.warning-stripes {
+  background: repeating-linear-gradient(
+  -45deg,
+  #314347,
+  #314347 10px,
+  #273336 10px,
+  #273336 20px) !important;
+}
+
+.pull-right {
+  float: right;
+}
+
+blockquote {
+  background: #273336;
+  border-left: 10px solid #314347;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+blockquote p {
+  display: inline;
+  padding-left: 20px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.mech-table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.mech-table th {
+  background-color: #314347;
+  font-size: 13px;
+}
+
+.mech-table canvas {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,72 @@
+# COMP/CON
+ A Character and Mech builder, organizer, and item database (other stuff, too) for Miguel Lopez and Tom Parkinson Morgan's LANCER Tabletop RPG.
+ 
+ As of this writing, LANCER is at version 1.7.5β and COMP/CON is at [version 0.0.1α](#Changelog).
+
+<br>
+
+ More information about LANCER can be found at: 
+
+ [Official Twitter](https://twitter.com/lancer_rpg)
+
+ [LANCER Subredit](https://www.reddit.com/r/LancerRPG/)
+
+ <br>
+
+ This is a piece of [open source software](#License) — feel free to contribute via the [GitHub repository](#) or yell at me directly on Twitter at [@jarena3](https://www.twitter.com/jarena3). If you want to support development of this software, please consider [buying me a beer](buymeacoff.ee/a7xoLjHfG).
+
+---
+## Roadmap
+### v1.0
+#### Character Tools
+ - Create and save LANCER pilots
+ - Create and save LANCER mech configurations, per pilot
+ - Edit, retrofit, level up, and upgrade pilots and mecha
+ - Generate and print character sheets for tabletop play
+ - Track the status of pilots (active, retired, deceased) and mecha (active, blueprint, unavailable, destroyed)
+
+### v2.0
+#### Export
+ - Provide an easy way for users to export some or all of their characters and mech configurations
+ - Import option for mech configs so that they can be easily copied to/from characters
+#### Mission Log
+ - Provide a way for players to track missions and combat operations
+ - Include player journal, travel log, kill stats, etc.
+ - Version-track configurations. Start at v1.0, increment whenever a player edits a configuration
+#### Homebrew Data Editor
+ - Implement a full-featured editor so that users can add their own LANCER data
+ - Mark homebrew data so players can filter homebrew/core items
+ - Package homebrew data so users can easily share; allow 
+
+### v3.0
+#### Player Mode
+ - Make the Character Sheet interactive: track damage, heat, weapon status, etc.
+ - Auto-roll dice etc (eg. increment heat) if a user activates a weapon
+#### GM Mode
+ - Initiative tracker
+ - NPC creators: procedural and handmade
+---
+## Changelog
+### v0.0.1 - MM/DD/YYYY
+- Initial Commit
+---
+## License
+[GPL v3](LICENSE.md)
+
+COMP/CON LANCER TTRPG Assistant
+
+Copyright 2018  J. Arena III
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+

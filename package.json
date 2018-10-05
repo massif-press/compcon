@@ -1,0 +1,21 @@
+{
+  "name": "compcon",
+  "version": "0.0.1",
+  "description": "LANCER player assistant",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "",
+  "author": "J. Arena",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.2",
+    "electron-require": "^0.3.0",
+    "jquery": "^3.3.1",
+    "mustache": "^3.0.0"
+  }
+}
