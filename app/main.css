@@ -20,7 +20,9 @@ img {
 }
 
 hr {
-  color: #5F909C;
+  background-color: #25616E;
+  height: 1px; 
+  border: 0; 
 }
 
 .wrapper {
@@ -58,7 +60,8 @@ hr {
   grid-area: 2 / 1 / 2 / 1;
   border: 1px solid;
   border-color: #25616E;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .pilot-info {
@@ -82,20 +85,25 @@ hr {
   margin-top: 10px;
 }
 
-.closed:hover, .closed:focus, .closed:active {
-  color: white;
-  background-color: #25616E;
-}
-
 .open {
   background-color: #314347;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #25616E;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+}
+
+.open:hover {
+  border-left-color: #DBEBE9;
 }
 
 .mech-sidebar {
   grid-area: 2 / 2 / 2 / 2;
   border: 1px solid;
   border-color: #25616E;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .main {
@@ -103,7 +111,20 @@ hr {
   border: 1px solid;
   border-color: #25616E;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.mount-btn {
+  background-color: #314347; 
+  color:#5F909C; 
+  text-align: center;
+  height: 30px!important;
+  padding-top: 2px;
+}
+
+.mount-btn td {
+  width: 20%;
 }
 
 .add-pilot {
@@ -117,7 +138,7 @@ hr {
 }
 
 .title {
-  font-size: 23px;
+  font-size: 25px;
   font-weight: 900;
   letter-spacing: 10px;
   margin: 5px;
@@ -149,6 +170,7 @@ hr {
   left: -6px;
   opacity: 0;
   transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
   transition-property: top, right, bottom, left;
 }
 
@@ -158,6 +180,11 @@ hr {
   bottom: -2px;
   left: -2px;
   opacity: 1;
+}
+
+.btn:hover, .btn:focus, .btn:active {
+  color: white;
+  background-color: #25616E;
 }
 
 /* Sweep To Right */
@@ -177,15 +204,16 @@ hr {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #DBEBE9;
+  background: #314347;
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition-property: transform;
-  transition-duration: 0.15s;
-  transition-timing-function: ease-out;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 .sweep-btn:hover, .sweep-btn:focus, .sweep-btn:active {
-  color: #273336;
+  color: #fff;
+  border-color: #DBEBE9;
 }
 .sweep-btn:hover:before, .sweep-btn:focus:before, .hsweep-btn:active:before {
   transform: scaleX(1);
@@ -199,7 +227,7 @@ hr {
   text-align: center;
 }
 
-.menu-btn:hover, .menu-btn:focus, .menu-btn:active {
+.menu-btn:hover, .menu-btn:focus {
   color: #273336;
   background-color: #57DF9A;
 }
@@ -219,6 +247,10 @@ hr {
   padding: 2px;
   border: 1px solid;
   border-color: #5F909C;
+}
+
+.sm-mg {
+  margin: 3px;
 }
 
 .active {
@@ -247,16 +279,9 @@ hr {
 }
 
 blockquote {
-  background: #273336;
-  border-left: 10px solid #314347;
-  margin: 1.5em 10px;
+  margin: 0.5em 10px;
   padding: 0.5em 10px;
-}
-
-blockquote p {
-  display: inline;
-  padding-left: 20px;
-  font-weight: 300;
+  font-weight: 200;
   font-style: italic;
 }
 
@@ -274,4 +299,71 @@ blockquote p {
 .mech-table canvas {
   width: 100%;
   height: 100%;
+}
+
+.pip-box {
+  display: inline-block;
+  align-self: flex-start;
+  height: 25px;
+  width: 18px;
+  transform: skew(-45deg);
+}
+
+.hp {
+  border: 1px solid #5F909C;
+  background-color: #314347;
+}
+
+.armor {
+  border: 1px solid #DBEBE9;
+  background-color: #5F909C;
+}
+
+.heatcap {
+  border: 1px solid #F2B134;
+  background-color: #F2B13433;
+}
+
+.hase-num {
+  z-index: 3;
+  position: relative;
+  top: -5px;
+  font-size: 18px;
+}
+
+.hexagon {
+  z-index: 2;
+  position: relative;
+  width: 32px; 
+  height: 18px;
+  /* background-color: #314347; */
+  margin: 8.66px 0;
+  border-left: solid 1px #5F909C;
+  border-right: solid 1px #5F909C;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 21.21px;
+  height: 21.21px;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background-color: inherit;
+  left: 3.3934px;
+}
+
+.hexagon:before {
+  top: -10.6066px;
+  border-top: solid 1.4142px #5F909C;
+  border-right: solid 1.4142px #5F909C;
+}
+
+.hexagon:after {
+  bottom: -10.6066px;
+  border-bottom: solid 1.4142px #5F909C;
+  border-left: solid 1.4142px #5F909C;
 }

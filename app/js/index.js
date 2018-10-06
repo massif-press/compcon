@@ -5,9 +5,9 @@ var ctx = document.getElementById("damagechart").getContext('2d');
 var damagechart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Melee", 1, 5, 10, 15, 20, 25, 30, "35+"],
+    labels: ["M", 1, 5, 10, 15, 20, 25, 30, "35+"],
     datasets: [{
-      label: 'Possible Damage',
+      label: 'Maximum Damage',
       data: [10, 15, 20, 15, 11, 11, 10, 5, 0, 0],
       backgroundColor: '#F2B13433',
       borderColor: '#F2B134',
