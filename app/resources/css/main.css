@@ -17,12 +17,17 @@ a {
 img {
   display:block;
   margin:auto;
+  border: 1px solid #25616E;
 }
 
 hr {
   background-color: #25616E;
   height: 1px; 
   border: 0; 
+}
+
+.hidden {
+  display: none;
 }
 
 .wrapper {
@@ -75,6 +80,7 @@ hr {
   margin: 3px;
 }
 
+.pilot-sub,
 .mech-sub {
   font-size: 12px;
   font-weight: 100;
@@ -100,16 +106,14 @@ hr {
 
 .mech-sidebar {
   grid-area: 2 / 2 / 2 / 2;
-  border: 1px solid;
-  border-color: #25616E;
+  border: 1px solid #25616E;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .main {
   grid-area: 2 / 3 / 4 / 3;
-  border: 1px solid;
-  border-color: #25616E;
+  border: 1px solid #25616E;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
@@ -304,9 +308,14 @@ blockquote {
 .pip-box {
   display: inline-block;
   align-self: flex-start;
-  height: 25px;
-  width: 18px;
+  height: 30px;
+  width: 20px;
   transform: skew(-45deg);
+}
+
+.structure {
+  border: 1px solid #fff;
+  background-color: #DBEBE9;
 }
 
 .hp {
@@ -327,43 +336,34 @@ blockquote {
 .hase-num {
   z-index: 3;
   position: relative;
-  top: -5px;
-  font-size: 18px;
+  font-size: 35px;
+  margin-right: 35px;
+}
+
+.hase-title {
+  padding-top: 10px;
+  color: #5F909C;
 }
 
 .hexagon {
-  z-index: 2;
-  position: relative;
-  width: 32px; 
-  height: 18px;
-  /* background-color: #314347; */
-  margin: 8.66px 0;
-  border-left: solid 1px #5F909C;
-  border-right: solid 1px #5F909C;
-}
-
-.hexagon:before,
-.hexagon:after {
-  content: "";
   position: absolute;
-  z-index: 1;
-  width: 21.21px;
-  height: 21.21px;
-  -webkit-transform: scaleY(0.5774) rotate(-45deg);
-  -ms-transform: scaleY(0.5774) rotate(-45deg);
-  transform: scaleY(0.5774) rotate(-45deg);
-  background-color: inherit;
-  left: 3.3934px;
+  /* filter: drop-shadow(#314347 0px 0px 10px); */
+  left: 20px;
 }
 
-.hexagon:before {
-  top: -10.6066px;
-  border-top: solid 1.4142px #5F909C;
-  border-right: solid 1.4142px #5F909C;
+.exp-text {
+  line-height: 5px;
+  font-size: 12px;
+  font-style: italic;
+  color: #5F909C;
 }
 
-.hexagon:after {
-  bottom: -10.6066px;
-  border-bottom: solid 1.4142px #5F909C;
-  border-left: solid 1.4142px #5F909C;
+.manufacturer {
+  font-size: 26px;
+}
+
+#ips-n {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 900;
+  letter-spacing: 10px;
 }
