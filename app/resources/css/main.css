@@ -333,6 +333,25 @@ blockquote {
   background-color: #F2B13433;
 }
 
+.stress {
+  border: 1px solid #F3573B;
+  background-color: #F3573B33;
+}
+
+.overcharge {
+  border: 1px solid #57DF9A;
+  background-color: #57DF9A33;
+}
+
+.oc-on {
+  background-color: #57DF9A;
+}
+
+.empty {
+  border: 0px;
+  background-color: #F2B13400;
+}
+
 .hase-num {
   z-index: 3;
   position: relative;
