@@ -1,0 +1,66 @@
+<script id="pilot-info-template" type="text/template">
+  <table width="100%">
+    <span class="title">{{callsign}}</span>{{name}}<br>
+    LL{{level}} <span class="subtitle">//</span> {{background}}
+    <span class="pull-right">HP: {{current_hp}}/{{max_hp}}&emsp;</span>
+    <tr valign="top">
+      <td>{{history}}<br>{{fnf}}</td>
+      <td><img src="{{img-full}}"></td>
+    </tr>
+    <tr>
+      <td colspan="2">licenses</td>
+    </tr>
+    <tr>
+      <td colspan="2">pilot gear</td>
+    </tr>
+  </table>
+  <hr>
+  <table>
+</script>
+
+<div id="pilot-info-output"></div>
+
+  <tr>
+    talents
+  </tr>
+</table>
+<table>
+  <tr>
+    core
+  </tr>
+</table>
+<hr>
+<div>notes</div>
+<hr>
+<div style="padding: 20px;">
+  <table width="100%">
+    <tr>
+      <td width=46%><a href=#>
+          <div class="menu-border btn active" style="text-align: center;">Level Up</div>
+        </a></td>
+      <td witdth="3.333%">&nbsp;</td>
+      <td width=46%><a href=#>
+          <div class="menu-border btn" style="text-align: center">Set Status</div>
+        </a></td>
+    </tr>
+  </table>
+<div style="padding: 20px;">
+  <table width="100%">
+    <tr>
+      <td width=30%><a href=#>
+          <div class="menu-border btn" style="text-align: center;">Edit Pilot Sheet</div>
+        </a></td>
+      <td witdth="3.333%">&nbsp;</td>
+      <td width=30%><a href=#>
+          <div class="menu-border btn" style="text-align: center">Print Pilot Sheet</div>
+        </a></td>
+      <td witdth="3.333%">&nbsp;</td>
+      <td width=30%><a href=#>
+          <div class="menu-border btn" style="text-align: center">Delete Pilot Data</div>
+        </a></td>
+    </tr>
+  </table>
+</div>
+<script>
+  require('./js/pilot.js')
+</script>

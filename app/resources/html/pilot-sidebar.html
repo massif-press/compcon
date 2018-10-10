@@ -1,57 +1,29 @@
-<div class="column-header">PILOTS</div>
-
-<a href=#>
-  <div class="pilot-expander btn">
-    <span class="name">CIO</span>
-    <span class="pilot-sub">HACKER//LL2</span>
-    <div class="pilot-open-info hidden">
-      <img src="https://via.placeholder.com/150x150?text=pilot+portrait">
-      <span class="name" style="display: inline-block; text-align: center;">Ciocie Cioelle</span>
-      <span class="pilot-info"><br>Hacker ∙ License Level 2<br><b class="destroyed">INACTIVE</b></span>
-      <br>      
-      <a href=# class="btn menu-btn">CHARACTER SHEET</a>
+<script id="pilot-sidebar-template" type="text/template">
+  <div class="column-header">PILOTS</div>
+  {{#pilots}}
+  <a href=#>
+    <div class="pilot-expander btn {{statusStripes status}}" data-id="{{id}}">
+      <span class="name {{activeStatus status}}">{{callsign}}</span>
+      <span class="pilot-sub">{{allCaps background}}//LL{{level}}</span>
+      <div class="pilot-open-info hidden">
+        <img src="{{img-portrait}}">
+        <span class="name" style="display: inline-block; text-align: center;">{{name}}</span>
+        <span class="pilot-info">
+          <br>
+          {{background}}<span class="subtitle">//</span>License Level <b>{{level}}</b>
+          <br>
+          <b class="{{statusStyle status}}">{{allCaps status}}</b>
+        </span>
+        <br>
+        <a href=# class="btn menu-btn pilot-sheet-btn" data-id="{{id}}">PILOT SHEET</a>
+      </div>
     </div>
-  </div>
-</a>
+  </a>
+  {{/pilots}}
+</script>
 
-<a href=#>
-  <div class="pilot-expander btn">
-    <span class="name active">ODA</span>
-    <span class="pilot-sub">COLONIST//LL3</span>
-    <div class="pilot-open-info hidden">
-      <img src="./resources/img/pilots/oda.png">
-      <span class="name" style="display: inline-block; text-align: center;">Taro Oda</span>
-      <span class="pilot-info"><br>Colonist ∙ License Level 3<br><b class="active">ACTIVE</b></span>
-      <br>
-      <a href=# class="btn menu-btn">CHARACTER SHEET</a>
-    </div>
-  </div>
-</a>
+<div id="pilot-sidebar-output"></div>
 
-<a href=#>
-  <div class="pilot-expander btn">
-    <span class="name">SUCCESSOR</span>
-    <span class="pilot-sub">OUTLAW//LL1</span>
-    <div class="pilot-open-info hidden">
-      <img src="https://via.placeholder.com/150x150?text=pilot+portrait">
-      <span class="name" style="display: inline-block; text-align: center;">Allison W. Ruth</span>
-      <span class="pilot-info"><br>Outlaw ∙ License Level 1<br><b class="destroyed">INACTIVE</b></span>
-      <br>      
-      <a href=# class="btn menu-btn">CHARACTER SHEET</a>
-    </div>
-  </div>
-</a>
-
-<a href=#>
-  <div class="pilot-expander btn warning-stripes">
-    <span class="name destroyed">YS-PRIM</span>
-    <span class="pilot-sub">SPACER//LL12</span>
-    <div class="pilot-open-info hidden">
-      <img src="https://via.placeholder.com/150x150?text=pilot+portrait">
-      <span class="name" style="display: inline-block; text-align: center;">Hansa Primpiyat</span>
-      <span class="pilot-info"><br>Spacer ∙ License Level 12<br><b class="unavailable">DECEASED</b></span>
-      <br>      
-      <a href=# class="btn menu-btn">CHARACTER SHEET</a>
-    </div>
-  </div>
-</a>
+<script>
+  require('./js/pilot-sidebar.js')
+</script>

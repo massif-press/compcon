@@ -1,0 +1,58 @@
+[
+  {
+    "id" : 0,
+    "callsign": "CIO",
+    "name": "Ciocie Cioelle ",
+    "level": "2",
+    "background": "Hacker",
+    "history": "A blue devil and the former bookkeeper for the Gilded Cage Guild.",
+    "fnf": "Friends: Gilded Cage Guild (former), Allison, Oscar. Enemies: Many.",
+    "img-portrait": "https://via.placeholder.com/150x150",
+    "img-full": "https://via.placeholder.com/300x450",
+    "max_hp": 5,
+    "current_hp": 5,
+    "status": "inactive"
+  },
+  {
+    "id" : 1,
+    "callsign": "ODA",
+    "name": "Taro Oda",
+    "level": "3",
+    "background": "Colonist",
+    "history": "Taro Oda grew up on a colony. He is good at gunplay.",
+    "fnf": "Friends: None. Enemies: None.",
+    "img-portrait": "https://via.placeholder.com/150x150",
+    "img-full": "https://via.placeholder.com/300x450",
+    "max_hp": 5,
+    "current_hp": 5,
+    "status": "ACTIVE"
+  },
+  {
+    "id": 2,
+    "callsign": "SUCCESSOR",
+    "name": "Allison Wanda Ruth",
+    "level": "1",
+    "background": "Outlaw",
+    "history": "Allison is part of an impending prophecy, one in which only she can overthrow the Seven.",
+    "fnf": "Friends: None. Enemies: None.",
+    "img-portrait": "https://via.placeholder.com/150x150",
+    "img-full": "https://via.placeholder.com/300x450",
+    "max_hp": 5,
+    "current_hp": 5,
+    "status": "INACTIVE"
+  },
+  {
+    "id": 3,
+    "callsign": "YS-PRIM",
+    "name": "Hansa Primpiyat",
+    "level": "12",
+    "background": "Spacer",
+    "history": "A goddess and the daughter of Hansa who served as his loyal housekeeper until his death.",
+    "fnf": "Friends: None. Enemies: None.",
+    "img-portrait": "https://via.placeholder.com/150x150",
+    "img-full": "https://via.placeholder.com/300x450",
+    "max_hp": 5,
+    "current_hp": 5,
+    "status": "DECEASED"
+  }
+]

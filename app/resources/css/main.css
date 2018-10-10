@@ -240,6 +240,11 @@ hr {
   background-color: #57DF9A;
 }
 
+.menu-btn:active {
+  color: #273336;
+  background-color: #DBEBE9;
+}
+
 .mech-expander-table{
   border-collapse: collapse;
   width: 100%;
@@ -265,10 +270,12 @@ hr {
   color: #57DF9A;
 }
 
+.deceased,
 .unavailable {
   color: #F2B134;
 }
 
+.inactive,
 .destroyed {
   color: #5F909C;
 }
