@@ -18,10 +18,20 @@ $(document).ready(function () {
     });
   });
   $('.main').load('./resources/html/mech-sheet.html', function () {
-    setCharts()
+    setCharts();
+    bindEquipmentExpanders();
   });
 
 });
+
+function bindEquipmentExpanders() {
+  $('.equip-expander-header').click(function () {
+    $(this).toggleClass('sweep-btn bold');
+    var parent = $(this).closest('.equip-expander');
+    $(parent).toggleClass('open');
+    $($(parent).find(".equip-open-info")).toggle("swing");
+  });
+}
 
 function toggleExpander(expanderType, element) {
   $(element).toggleClass('open btn');

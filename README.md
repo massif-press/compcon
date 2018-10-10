@@ -13,7 +13,12 @@
 
  <br>
 
- This is a piece of [open source software](#license) — feel free to contribute via the [GitHub repository](https://github.com/jarena2/compcon) or yell at me directly on Twitter at [@jarena3](https://www.twitter.com/jarena3). If you want to support development of this software, please consider [buying me a beer](buymeacoff.ee/a7xoLjHfG).
+ This is a piece of [open source software](#license) — feel free to contribute via the [GitHub repository](https://github.com/jarena3/compcon) or yell at me directly on Twitter at [@jarena3](https://www.twitter.com/jarena2). If you want to support development of this software, please consider [buying me a beer](buymeacoff.ee/a7xoLjHfG).
+
+ <br>
+
+ ###Attributions
+ Icons courtesy https://game-icons.net/
 
 ---
 ## Roadmap
