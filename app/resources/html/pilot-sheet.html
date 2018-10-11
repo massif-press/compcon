@@ -1,10 +1,13 @@
 <script id="pilot-info-template" type="text/template">
+  <div style="padding: 10px;">
+    <span class="callsign">{{callsign}}</span>&emsp;<span class="header">{{name}}</span><br>
+    LL<b>{{level}}</b> <span class="subtitle">//</span> {{background}}
+    <span class="pull-right">HP: {{#repeat current_hp}}0{{/repeat}}/{{#repeat max_hp}}0{{/repeat}}&emsp;</span>
   <table width="100%">
-    <span class="title">{{callsign}}</span>{{name}}<br>
-    LL{{level}} <span class="subtitle">//</span> {{background}}
-    <span class="pull-right">HP: {{current_hp}}/{{max_hp}}&emsp;</span>
     <tr valign="top">
-      <td>{{history}}<br>{{fnf}}</td>
+      <td>{{history}}
+      <hr>
+      {{fnf}}</td>
       <td><img src="{{img-full}}"></td>
     </tr>
     <tr>
@@ -44,6 +47,7 @@
         </a></td>
     </tr>
   </table>
+</div>
 <div style="padding: 20px;">
   <table width="100%">
     <tr>

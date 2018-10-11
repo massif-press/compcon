@@ -1,0 +1,13 @@
+.callsign {
+  font-size: 30px;
+  font-weight: bolder;
+  letter-spacing: 8px;
+  color: #DBEBE9;
+  font-family: 'K2D', sans-serif;
+}
+
+.header {
+  font-size: 20px;
+  letter-spacing: 4px;
+  color: #5F909C;
+}

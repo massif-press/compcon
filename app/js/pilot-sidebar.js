@@ -40,3 +40,10 @@ function loadPilot(index) {
 
   $("#pilot-info-output").html(info_template(pilot));
 }
+
+Handlebars.registerHelper('repeat', function (n, block) {
+  var str = '';
+  for (var i = 0; i < n; ++i)
+    str += block.fn(i);
+  return str;
+});

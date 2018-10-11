@@ -20,12 +20,25 @@
     "level": "3",
     "background": "Colonist",
     "history": "Taro Oda grew up on a colony. He is good at gunplay.",
-    "fnf": "Friends: None. Enemies: None.",
-    "img-portrait": "https://via.placeholder.com/150x150",
+    "fnf": "Friends: None. Enemies: Many.",
+    "img-portrait": "./resources/img/pilots/portrait_oda.png",
     "img-full": "https://via.placeholder.com/300x450",
     "max_hp": 5,
     "current_hp": 5,
-    "status": "ACTIVE"
+    "status": "ACTIVE",
+    "licenses" : [
+      {
+        "name": "test license a",
+        "level": 1
+      },
+      {
+        "name": "test license b",
+        "level": 3
+      }
+    ],
+    "gear" : [
+
+    ]
   },
   {
     "id": 2,
