@@ -38,18 +38,27 @@
  - Provide a way for players to track missions and combat operations
  - Include player journal, travel log, kill stats, etc.
  - Version-track configurations. Start at v1.0, increment whenever a player edits a configuration
-#### Homebrew Data Editor
- - Implement a full-featured editor so that users can add their own LANCER data
- - Mark homebrew data so players can filter homebrew/core items
- - Package homebrew data so users can easily share; allow 
+#### Power Cards
+ - Provide a card-based print option, printing a basic player sheet along with a set of D&D4e-style power cards
+
 
 ### v3.0
+#### Homebrew Data Editor
+ - Implement a full-featured editor so that users can add their own LANCER data without having to screw with JSON
+ - Mark homebrew data so players can filter homebrew/core items
+ - Package homebrew data so users can easily share; allow sorting and filtering by author/set
+
+
+### v4.0
+ - Hook into chat services (Discord, Skype, etc) for online play
 #### Player Mode
  - Make the Character Sheet interactive: track damage, heat, weapon status, etc.
  - Auto-roll dice etc (eg. increment heat) if a user activates a weapon
+ - Chat based player commands that reference app data
 #### GM Mode
  - Initiative tracker
  - NPC creators: procedural and handmade
+ - Chat based GM commands
 ---
 ## Changelog
 ### v0.0.1 - MM/DD/YYYY
@@ -60,7 +69,7 @@
 
 COMP/CON LANCER TTRPG Assistant
 
-Copyright 2018  J. Arena III
+Copyright 2018  J. Arena
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

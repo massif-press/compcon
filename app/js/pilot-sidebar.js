@@ -1,10 +1,13 @@
 var $ = require("jquery");
-var pilots = require("../resources/data/pilots.json");
 var Handlebars = require("handlebars");
+var pilots = require("../resources/data/pilots.json");
 
-//-- Sidebar Templating -----------------------//
-var info_template = Handlebars.compile($('#pilot-sidebar-template').html());
+var mechSidebar = require("./mech-sidebar");
+var pilotSheet = require("./pilot-sheet");
 
+var template = Handlebars.compile($('#pilot-sidebar-template').html());
+
+// helpers
 Handlebars.registerHelper('allCaps', function (str) {
   return str.toUpperCase();
 });
@@ -14,36 +17,32 @@ Handlebars.registerHelper('statusStripes', function (status) {
 });
 
 Handlebars.registerHelper('statusStyle', function (status) {
-  if (status.toUpperCase() === "DECEASED") return "deceased";
+  if (status.toUpperCase() === "AVAILABLE") return "";
+  else if (status.toUpperCase() === "INACTIVE") return "";
   else if (status.toUpperCase() === "ACTIVE") return "active";
-  return "inactive";
+  else if (status.toUpperCase() === "DECEASED") return "destroyed";
+  else if (status.toUpperCase() === "DESTROYED") return "destroyed";
+  return "unavailable";
 });
 
 Handlebars.registerHelper('activeStatus', function (status) {
   return status.toUpperCase() === "ACTIVE" ? "active" : "";
 });
+// end helpers
 
-$("#pilot-sidebar-output").html(info_template({"pilots": pilots}));
-//-- End Sidebar Templating -------------------//
-
+$("#pilot-sidebar-output").html(template({"pilots": pilots}));
 
 $(".pilot-expander, .pilot-sheet-btn").click(function() {
   var id = $(this).attr('data-id');
+
   $('.main').load('./resources/html/pilot-sheet.html', function () {
-    loadPilot(id);
+    pilotSheet(pilots[id]);
+  });
+
+  $('.mech-sidebar').load('./resources/html/mech-sidebar.html', function () {
+    mechSidebar(pilots[id].configs);
   });
 })
 
-function loadPilot(index) {
-  var info_template = Handlebars.compile($('#pilot-info-template').html());
-  var pilot = pilots[index];
 
-  $("#pilot-info-output").html(info_template(pilot));
-}
 
-Handlebars.registerHelper('repeat', function (n, block) {
-  var str = '';
-  for (var i = 0; i < n; ++i)
-    str += block.fn(i);
-  return str;
-});

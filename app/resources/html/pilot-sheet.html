@@ -1,3 +1,28 @@
+<script id="p_weapon-template" type="text/template">
+  <div>
+    <b>this is a weapon</b>
+    {{name}} -- {{damage}}
+  </div>
+</script>
+
+<script id="p_armor-template" type="text/template">
+  <div>
+    {{name}} -- {{armor}} -- {{speed}}
+  </div>
+</script>
+
+<script id="p_gear-template" type="text/template">
+  <div>{{name}}</div>
+</script>
+
+<script id="p_talent-template" type="text/template">
+  <div>{{name}} -- {{rank}}</div>
+</script>
+
+<script id="p_bonus-template" type="text/template">
+  <div>{{name}} -- {{source}} -- {{effect}}</div>
+</script>
+
 <script id="pilot-info-template" type="text/template">
   <div style="padding: 10px;">
     <span class="callsign">{{callsign}}</span>&emsp;<span class="header">{{name}}</span><br>
@@ -11,29 +36,52 @@
       <td><img src="{{img-full}}"></td>
     </tr>
     <tr>
-      <td colspan="2">licenses</td>
+      <td colspan="2">
+        LICENSES
+        <br>
+        {{#licenses}}
+          {{name}} - {{level}}
+        {{/licenses}}
+      <td>
     </tr>
     <tr>
-      <td colspan="2">pilot gear</td>
+      <td colspan="2">
+        GEAR
+        <br>
+        <div id="pilot-gear"></div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        TALENTS
+        <br>
+        <div id="pilot-talents"></div>
+      </td>
+    </tr>
+  </table>
+  <table width="100%">
+    <tr>
+      <td width="20%">
+        CORE
+        <br>H: {{core.h}}
+        <br>A: {{core.a}}
+        <br>S: {{core.s}}
+        <br>E: {{core.e}}
+      </td>
+      <td>
+        <div id="pilot-bonuses"></div>
+      </td>
     </tr>
   </table>
   <hr>
-  <table>
+  <div>
+    NOTES
+    <br>
+    {{notes}}
+  </div>
 </script>
 
 <div id="pilot-info-output"></div>
-
-  <tr>
-    talents
-  </tr>
-</table>
-<table>
-  <tr>
-    core
-  </tr>
-</table>
-<hr>
-<div>notes</div>
 <hr>
 <div style="padding: 20px;">
   <table width="100%">
@@ -65,6 +113,3 @@
     </tr>
   </table>
 </div>
-<script>
-  require('./js/pilot.js')
-</script>

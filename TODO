@@ -11,3 +11,6 @@ Todo:
 Ideas:
   ☐ color scheme for pilots/mechs?
   ☐ color schemes based off of licenses?
+  ☐ Custom notes/descriptions for items?
+  ☐ on print: traverse pilot data structure to get all possible power cards
+  ☐ on print: update regular action cards with player/shell bonuses

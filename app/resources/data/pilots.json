@@ -19,7 +19,7 @@
     "name": "Taro Oda",
     "level": "3",
     "background": "Colonist",
-    "history": "Taro Oda grew up on a colony. He is good at gunplay.",
+    "history": "Taro Oda grew up in the colonies. He is pretty good at gunplay, and a bad liar.",
     "fnf": "Friends: None. Enemies: Many.",
     "img-portrait": "./resources/img/pilots/portrait_oda.png",
     "img-full": "https://via.placeholder.com/300x450",
@@ -37,8 +37,48 @@
       }
     ],
     "gear" : [
-
-    ]
+      {
+        "id": "pw_sig_combat",
+        "notes": "Hunting Rifle<br>Deals Kinetic damage."
+      },
+      {
+        "id": "pw_peacekeeper",
+        "notes": ""
+      },
+      {
+        "id": "pa_lighthardsuit",
+        "notes": ""
+      },
+      {
+        "id": "pg_rations",
+        "notes": ""
+      }
+    ],
+    "talents": [
+      {
+        "id" : "tal_shot",
+        "rank": 2
+      },
+      {
+        "id": "tal_infiltrator",
+        "rank": 1
+      },
+      {
+        "id": "tal_leader",
+        "rank": 3
+      }
+    ],
+    "core": {
+      "h": 2,
+      "a": 2,
+      "s": 0,
+      "e": 1
+    },
+    "core_bonuses": [
+      "cb_frame"
+    ],
+    "notes": "test pilot notes",
+    "configs" : [0, 1, 2, 3]
   },
   {
     "id": 2,

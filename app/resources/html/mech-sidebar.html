@@ -1,41 +1,18 @@
 <div class="column-header">CONFIGURATIONS</div>
-<a href=#>
-  <div class="mech-expander btn">
-    <span class="name">HACHIMAN</span>
-    <span class="mech-sub">DRAKE</span>
-    <div class="mech-open-info hidden">
-      <span class="pilot-info">IPS-Northstar DRAKE Shell</span><br>
-      <span class="pilot-info">AVAILABLE</span>
-    </div>
-  </div>
-</a>
-<a href=#>
-  <div class="mech-expander btn warning-stripes">
-    <span class="name unavailable">ŌYAMATSUMI</span>
-    <span class="mech-sub">NELSON</span>
-    <div class="mech-open-info hidden">
-      <span class="pilot-info">IPS-Northstar NELSON Shell</span><br>
-      <span class="pilot-info unavailable">LICENSE MISSING (IPS-N NELSON II)</span>
-    </div>
-  </div>
-</a>
-<a href=#>
-  <div class="mech-expander btn">
-    <span class="name active">RAIJIN</span>
-    <span class="mech-sub">RALEIGH</span>
-    <div class="mech-open-info hidden">
-      <span class="pilot-info">IPS-Northstar RALEIGH Shell</span><br>
-      <span class="pilot-info active">ACTIVE</span>
-    </div>
-  </div>
-</a>
-<a href=#>
-  <div class="mech-expander warning-stripes btn">
-    <span class="name destroyed">RAIJIN</span>
-    <span class="mech-sub">EVEREST</span>
-    <div class="mech-open-info hidden">
-      <span class="pilot-info">GMS Standard Pattern I Shell</span><br>
-      <span class="pilot-info destroyed">DESTROYED</span>
-    </div>
-  </div>
-</a>
+<!-- TODO: pull in shell data, don't use in config json! -->
+<script id="mech-sidebar-template" type="text/template">
+  {{#configs}}
+    <a href=#>
+      <div class="mech-expander btn {{checkStripes status}}">
+        <span class="name {{checkAvail status}}">{{allCaps name}}</span>
+        <span class="mech-sub">{{allCaps shell}}</span>
+        <div class="mech-open-info hidden">
+          <span class="pilot-info">{{source}} {{allCaps shell}} Shell</span><br>
+          <span class="pilot-info {{checkAvail status}}">{{allCaps status}}</span>
+        </div>
+      </div>
+    </a>
+  {{/configs}}
+</script>
+
+<div id="mech-sidebar-output"></div>
