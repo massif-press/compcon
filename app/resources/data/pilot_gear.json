@@ -1,0 +1,282 @@
+[
+  {
+    "id": "pg_ambrosia",
+    "type": "pilot_gear",
+    "name": "Ambrosia Reservoir",
+    "uses": "",
+    "description": "Typically collar-mounted, an Ambrosia Reservoir carries a two-week complement of flavored or unflavored Ambrosia, a fuel-paste that can keep pilots fed and hydrated in emergency situation.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_antiphoton",
+    "type": "pilot_gear",
+    "name": "Antiphoton Visor",
+    "uses": "",
+    "description": "Flash/light protection, commonly found among breach teams, solar- forward operators. Effective against flash weapons, intense UV light, and incidental charge from energy weapons.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_camocloth",
+    "type": "pilot_gear",
+    "name": "Camo Cloth",
+    "uses": "",
+    "description": "A 5x5 square of reactive material that slowly shifts to reflect the environment around it. The effect takes about 10 seconds to complete, and makes anything hidden underneath very hard to spot.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_concussion",
+    "type": "pilot_gear",
+    "name": "Concussion Grenade",
+    "uses": 2,
+    "description": "Grenades that detonate for a burst of concussive energy and a bright flash on impact. A pilot can throw a concussion grenade at any point in range 5 as an action. It detonates on impact in a blast 1 area. Make an attack roll against each target caught in the area, on hit, the target is stunned until the start of your next turn. Does not affect mechs or targets larger than human-sized.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_corrective",
+    "type": "pilot_gear",
+    "name": "Corrective",
+    "uses": 1,
+    "description": "This clear, plastic-sheet like medical deployable can be attached to severely wounded pilot, where it instantly begins stabilizing them, injecting medicine, and deploying nanites to stitch shut wounds. A corrective can be applied to any pilot that’s Down and Out to instantly bring them back to consciousness at 1⁄2 HP as if they had taken a rest.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_rations",
+    "type": "pilot_gear",
+    "name": "Extra Rations",
+    "uses": "",
+    "description": "Pilot rations are typically no better than their nautical antecedents - hard tack and nutritious paste. It’s not uncommon for pilots to store extra food or luxuries such as chocolate, coffee, alcohol, or canned or dried goods from their home world",
+    "rarity": 0
+  },
+  {
+    "id": "pg_frag",
+    "type": "pilot_gear",
+    "name": "Fragmentation Grenade",
+    "uses": 2,
+    "description": "A pilot can throw a frag grenade at any point in range 5 as an action. It detonates on impact in a blast 1 area. Make an attack roll against each target caught in the area, on hit, it deals 2 explosive damage.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_printer",
+    "type": "pilot_gear",
+    "name": "Handheld Printer",
+    "uses": "",
+    "description": "A miniaturized version of the much larger Union printers, can make simple objects out of a flexible and durable plastic as long as you have the pattern chip for them.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_magclamps",
+    "type": "pilot_gear",
+    "name": "Mag-clamps",
+    "uses": "",
+    "description": "These clamps attach easily onto any metal surface, giving good maneuverability in zero-g or when repairing mechs. Can be fitted to boots.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_spray",
+    "type": "pilot_gear",
+    "name": "Nanite Spray",
+    "uses": "",
+    "description": "This spray paint can be sprayed on any surface. It is invisible to the naked eye but can be used to transmit a simple message or limited data packets when scanned",
+    "rarity": 0
+  },
+  {
+    "id": "pg_omnihook",
+    "type": "pilot_gear",
+    "name": "Omnihook",
+    "uses": "",
+    "description": "A bulky, miniaturized, portable field omninet terminal that allows for communication, data transfer, and limited hotspotting. Very valuable. Most mech teams have at least one of these, mounted or carried by a designated operator. Tuning an omnihook requires a high degree of skill.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_patch",
+    "type": "pilot_gear",
+    "name": "Patch",
+    "uses": 1,
+    "description": "‘Patch’ is a catch all term for sprayable medi-gel, instant-acting medical patches, or other first aid gear. Using a patch takes a full action and restores 1⁄2 your pilot’s HP (round up). It can be used on another adjacent pilot for the same effects, and although it can heal a down and out pilot, it won’t bring them back to consciousness. Has no effect on mechs.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_drone",
+    "type": "pilot_gear",
+    "name": "Personal Drone",
+    "uses": "",
+    "description": "A small, non-combat drone. Fairly noisy, but can fly with good maneuverability up to half a mile without losing signal and can relay audio and visual information.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_bag",
+    "type": "pilot_gear",
+    "name": "Sleeping Bag",
+    "uses": "",
+    "description": "Compact enough to fit in a mech cockpit, highly resistant to changes in temperature. Some mech pilots swear by them as emergency fire protection",
+    "rarity": 0
+  },
+  {
+    "id": "pg_scope",
+    "type": "pilot_gear",
+    "name": "Smart Scope",
+    "uses": "",
+    "description": "A powerful electronic scope that can give good vision up to two miles away, automatically adjusts its reticle for wind, gravity, and pressure. Can be paired with other thermal, optical, or simulated-vision devices to allow for more precise targeting. Can project its FoV and all data to a user or networked user’s HUD.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_speakers",
+    "type": "pilot_gear",
+    "name": "Sound System",
+    "uses": "",
+    "description": "Though not strictly necessary, many mech pilots hook up internal speakers to give them a clear line to their compatriots during combat, or simply play music",
+    "rarity": 0
+  },
+  {
+    "id": "pg_stims",
+    "type": "pilot_gear",
+    "name": "Stims",
+    "uses": 3,
+    "description": "These chemical stimulants are sometimes administered automatically by built-in injectors in a pilot’s suit, or even their body. Choose one when you take a stim:  <br>Kick: Keeps a pilot awake and alert for up to 30 hours.<br>Freeze: Keeps a pilot calm and emotionally stable, deadens fear or other strong reactions. <br>Juice: Heightens senses, alertness, dispels fatigue, and shortens reaction times. Known to occasionally provoke rage in some users.<br>Uncontrolled use of any stims can be addictive and dangerous to health in the long term and is a problem for some pilots.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_arm",
+    "type": "pilot_gear",
+    "name": "Tertiary Arm",
+    "uses": "",
+    "description": "A powered third arm, mounted on a bracket on the hardsuit. Can be equipped with a manipulator to allow for fine motor control, fitted with a weapon to allow for greater combat efficacy, or a specialty tool. It is powered, and controlled via the same neurological bridge processes that lets hardsuits respond to user input.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_thermal",
+    "type": "pilot_gear",
+    "name": "Thermal Charge",
+    "uses": 1,
+    "description": "This charge can be planted on any free space for a full action, and detonated remotely as an action. Once detonated, it explodes in a blast 1 area. Attack all targets in the area, aim vs evasion, for 3 AP energy damage. This deals double damage to objects such as doors, walls, and automatically hits them.",
+    "rarity": 0
+  },
+  {
+    "id": "pg_survivalkit",
+    "type": "pilot_gear",
+    "name": "Wilderness Survival Kit",
+    "uses": "",
+    "description": "Contains many of the essentials for surviving in a hostile environment - rebreather, water filter, backup environmental suit, bivouac kit, etc",
+    "rarity": 0
+  },
+  {
+    "id": "pg_kcal",
+    "type": "pilot_gear",
+    "name": "K-Cal Wafer",
+    "uses": "",
+    "description": "Provides a full day’s worth of sustenance in compact form. Nobody can vouch for the taste.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_nullrad",
+    "type": "pilot_gear",
+    "name": "Null-Rad Caps",
+    "uses": "",
+    "description": "Anti-radiation medication for extended interstellar trips. If taken in concentrated form, a pilot can pass through areas of high or even deadly radiation for around an hour, with relative safety.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_lifesaver",
+    "type": "pilot_gear",
+    "name": "Lifesaver",
+    "uses": "",
+    "description": "A personal transponder and vacuum movement device, in case you get spaced. The lifesaver compacts to a tiny pack that can be strapped on the body, provides good EVA movement, and once deployed has power for several days.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_stabilizers",
+    "type": "pilot_gear",
+    "name": "Vascular Stabilizers",
+    "uses": "",
+    "description": "A custom drug cocktail that helps the human body deal with combat- rated gee forces; ensures blood movement to brain, mixed with a suite of anti-nausea and anti-fatigue drugs. When you take them, until the end of the current challenge, you can re-roll any Down and Out check you make, though you must choose the second result.",
+    "rarity": 2
+  },
+  {
+    "id": "pg_infoskin",
+    "type": "pilot_gear",
+    "name": "Infoskin",
+    "uses": "",
+    "description": "This reactive, synthetic polymer bonds easily to real skin and hair. It responds to electronic signals and can rapidly change color, texture, or even contort or distort, allowing a wearer to make minor changes in their appearance such as facial features, hair color, or makeup patterns with a linked program.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_panacea",
+    "type": "pilot_gear",
+    "name": "Panacea",
+    "uses": "",
+    "description": "This fast healing injectable derived from the Sylph protects its host from disease and promotes rapid healing. This gives 1 use. When injected as a quick action, heals a pilot to full HP, but the shock means a pilot is stunned until the end of their next turn",
+    "rarity": 3
+  },
+  {
+    "id": "pg_prosocollar",
+    "type": "pilot_gear",
+    "name": "Prosocollar",
+    "uses": "",
+    "description": "A collar-like device that fits snugly around the mech and projects a holographic image over your face and head. The collar can change your voice and scramble or change your appearance. It doesn’t stand up to close inspection, but it’s very easy to fool electronic systems or people at a distance.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_projector",
+    "type": "pilot_gear",
+    "name": "Dream Projector",
+    "uses": "",
+    "description": "This small, puck-like system can be deployed or thrown to a point within range 4 as a quick action and remotely activated as another action. While deployed and active, it can project extremely convincing holographic images within 2 spaces of its location of nearly any size that could fit in that space. If inspected closely, a Tech or Swindle pilot action might be required to maintain the illusion.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_ses",
+    "type": "pilot_gear",
+    "name": "Subjectivity Enhancement Suite",
+    "uses": "",
+    "description": "Cybernetic implants that allow you to hack without gear or a rig. While you have these implants, you can extrude cables or ports from within your body to plug in and experience an alternate reality interface that provides full interactivity and omninet access.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_p2",
+    "type": "pilot_gear",
+    "name": "Player_Two",
+    "uses": "",
+    "description": "With this implant, you can hand complete control of your body’s motor functions over to an NHP, allowing you to sleep, rest, or relax while it performs tasks. It’s not skilled enough to pilot a mech in combat or perform very complex tasks, but it can pilot your mech out of combat and perform certain tasks or work such as cooking, administrative work, data entry, mech repair, piloting a ship or driving, or other mundane tasks. It can also imitate you and your personality fairly well, though not to a degree that someone who knows you well would be fooled in the slightest.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_dataplating",
+    "type": "pilot_gear",
+    "name": "Dataplating",
+    "uses": "",
+    "description": "Linked jewelry/faceplates that allow sub-vocal communication and augmented reality. Dataplates can quickly translate many languages, and anyone with a dataplate can talk to any other person with a dataplate without vocalizing, creating something eerily similar to telepathy.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_flexsuit",
+    "type": "pilot_gear",
+    "name": "Flexsuit",
+    "uses": "",
+    "description": "A strong, under-clothing suit that recycles water, generates nutrients, and adapts very rapidly to hostile environs, keeping its wearer in a state of stability and extending their survivability. Very good for colonists adapting to a new environs.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_sleepsuit",
+    "type": "pilot_gear",
+    "name": "Sleep suit",
+    "uses": "",
+    "description": "Once activated, the suit can put an individual into a state of human hibernation for 3 hours and up to 6 months, lowering their vital signs to almost nothing, relieving them of the need for food, air, or sleep, and halting the process of any diseases. During the first 10 minutes, the suit extrudes a hardened polymer around the sleeper, protecting them from impact and making them resistant to all damage.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_hlnl",
+    "type": "pilot_gear",
+    "name": "Hold/Lock Nonlethal",
+    "uses": "",
+    "description": "This mine can be planted in a free adjacent space as an action, and detonated remotely as an action. It can also be set to detonate once any target moves adjacent to it. Once detonated, any target caught in a burst 1 zone around the mine is stunned and immune to all damage until the end of their next turn. Mechs cannot be affected.",
+    "rarity": 1
+  },
+  {
+    "id": "pg_dropshield",
+    "type": "pilot_gear",
+    "name": "Dispersal Dropshield",
+    "uses": "",
+    "description": "This shield can be deployed as an action in a free adjacent space. Once deployed, it creates a burst 2 zone around it. Ranged attacks against all non-mech targets size 1⁄2 or smaller in the zone suffer from +1 difficulty. The shield deactivates after the current challenge and must recharge on a full repair.",
+    "rarity": 2
+  }
+]

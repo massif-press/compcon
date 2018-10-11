@@ -1,0 +1,86 @@
+[
+  {
+    "id": 0,
+    "name": "hachiman",
+    "shell-id": "ipsn_drake",
+    "shell": "drake",
+    "source": "IPS-N Northstar",
+    "status": "available",
+    "license_req": [
+      {
+        "name": "test license b",
+        "level": 2
+      }
+    ],
+    "notes": "pilot's notes test",
+    "weapons": [
+
+    ],
+    "systems": [
+
+    ]
+  },
+  {
+    "id": 1,
+    "name": "ōyamatasumi",
+    "shell-id": "ipsn_nelson",
+    "shell": "nelson",
+    "source": "IPS-N Northstar",
+    "status": "unavailable",
+    "license_req": [
+      {
+        "name": "test license b",
+        "level": 3
+      }
+    ],
+    "notes": "pilot's notes test",
+    "weapons": [
+
+    ],
+    "systems": [
+      
+    ]
+  },
+  {
+    "id": 2,
+    "name": "raijin",
+    "shell-id": "ipsn_raleigh",
+    "shell": "raliegh",
+    "source": "IPS-N Northstar",
+    "status": "active",
+    "license_req": [
+      {
+        "name": "test license b",
+        "level": 2
+      }
+    ],
+    "notes": "pilot's notes test",
+    "weapons": [
+
+    ],
+    "systems": [
+      
+    ]
+  },
+  {
+    "id": 3,
+    "name": "raijin",
+    "shell-id": "ipsn_raleigh",
+    "shell": "raliegh",
+    "source": "IPS-N Northstar",
+    "status": "destroyed",
+    "license_req": [
+      {
+        "name": "test license b",
+        "level": 1
+      }
+    ],
+    "notes": "pilot's notes test",
+    "weapons": [
+
+    ],
+    "systems": [
+      
+    ]
+  }
+]

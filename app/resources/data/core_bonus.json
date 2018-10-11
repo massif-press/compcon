@@ -1,0 +1,181 @@
+[{
+    "id": "cb_hardpoints",
+    "name": "Auto-Stabilizing Hardpoints",
+    "source": "GMS",
+    "effect": "Choose 1 mount on your mech. Attacks from this mount can be made with +1 Accuracy."
+  },
+  {
+    "id": "cb_burnout",
+    "name": "BURNOUT Insulation",
+    "source": "GMS",
+    "effect": "Choose 1 mount on your mech. The first time per turn you hit with an attack from this mount, deal +1d6 bonus damage."
+  },
+  {
+    "id": "cb_imparm",
+    "name": "Improved Armament",
+    "source": "GMS",
+    "effect": "If your mech has less than 3 mounts, gain an additional mount of the same type as any of the mounts already on your mech."
+  },
+  {
+    "id": "cb_intweapon",
+    "name": "Integrated Weapon",
+    "source": "GMS",
+    "effect": "Choose 1 mount on your mech. It gains capacity for an additional auxiliary weapon, which can be fired whenever that mount is fired."
+  },
+  {
+    "id": "cb_retrofit",
+    "name": "Mount Retrofitting",
+    "source": "GMS",
+    "effect": "Upgrade one of your mech’s mounts into a CORE mount. A CORE mount can mount 1 heavy, 1 main, or up to 2 auxiliary weapons."
+  },
+  {
+    "id": "cb_caps",
+    "name": "Reserve Capacitors",
+    "source": "GMS",
+    "effect": "When you spend core power to activate an ultimate, you can also repair your mech’s HP to full and cool all heat as a free action, then roll a 1d20. On a 20, regain 1 core power."
+  },
+  {
+    "id": "cb_briareos",
+    "name": "BRIAREOS frame reinforcement",
+    "source": "IPS-N",
+    "effect": "Your mech has resistance to all damage when it has 1 or less points of structure remaining."
+  },
+  {
+    "id": "cb_fomorian",
+    "name": "FOMORIAN frame reinforcement",
+    "source": "IPS-N",
+    "effect": "Your mech gains +1 size, up to size 3. It gains +1 threat with melee weapons, and cannot be knocked prone, pulled, or pushed by targets smaller than itself (as part of a grapple, for example)."
+  },
+  {
+    "id": "cb_gyges",
+    "name": "GYGES frame reinforcement",
+    "source": "IPS-N",
+    "effect": "Your mech gains +1 accuracy on all hull checks"
+  },
+  {
+    "id": "cb_frame",
+    "name": "Reinforced Frame",
+    "source": "IPS-N",
+    "effect": "Your mech gains +5 HP"
+  },
+  {
+    "id": "cb_plating",
+    "name": "Sloped Plating",
+    "source": "IPS-N",
+    "effect": "Your mech gains +1 armor, up to its maximum (+4)."
+  },
+  {
+    "id": "cb_titanomachy",
+    "name": "Titanomachy Mesh",
+    "source": "IPS-N",
+    "effect": "When you successfully ram or grapple a mech, you can make an additional ram or grapple action as a free action. When you knock targets back, you knock them back 1 additional space."
+  },
+  {
+    "id": "cb_fssync",
+    "name": "Full subjectivity Sync",
+    "source": "SSC",
+    "effect": "Your mech gains +1 evasion. You control the mech with no separation between your subjectivity and your input; a second set of physical controls are built in to a retractable panel."
+  },
+  {
+    "id": "cb_ghostweave",
+    "name": "Ghostweave",
+    "source": "SSC",
+    "effect": "Your mech is invisible during your turn (from the start until the end of your turn). If you do nothing on your turn except move, hide, or boost (no attack rolls or other actions), keep this invisibility until the start of your next turn. It breaks if you take a reaction."
+  },
+  {
+    "id": "cb_nerveweave",
+    "name": "Integrated Nerveweave",
+    "source": "SSC",
+    "effect": "Your mech gains +3 speed when boosting."
+  },
+  {
+    "id": "cb_kai",
+    "name": "Kai Bioplating",
+    "source": "SSC",
+    "effect": "You gain +1 accuracy on all agility checks"
+  },
+  {
+    "id": "cb_neurolinked",
+    "name": "Neuro-linked Targeting",
+    "source": "SSC",
+    "effect": "All ranged weapons your mech wields gain +3 range."
+  },
+  {
+    "id": "cb_sscatms",
+    "name": "SSC All-Theatre Movement Suit",
+    "source": "SSC",
+    "effect": "Your mech can fly when it moves or boosts."
+  },
+  {
+    "id": "cb_disbelief",
+    "name": "The Lesson of Disbelief",
+    "source": "HORUS",
+    "effect": "Deal +1 heat when inflicting heat. All tech attacks now inflict +2 heat on hit (includes bonus)."
+  },
+  {
+    "id": "cb_opendoor",
+    "name": "The Lesson of The Open Door",
+    "source": "HORUS",
+    "effect": "Your mech gains +1 e-defense and +5 sensor range."
+  },
+  {
+    "id": "cb_heldimage",
+    "name": "The Lesson of The Held Image",
+    "source": "HORUS",
+    "effect": "1/round your mech can make a Lock On tech action as a reaction at the start of any ally’s turn"
+  },
+  {
+    "id": "cb_transub",
+    "name": "The Lesson of Transubstantiation",
+    "source": "HORUS",
+    "effect": "Gain +1 Accuracy on all systems checks."
+  },
+  {
+    "id": "cb_ttt",
+    "name": "The Lesson of Thinking-Tomorrow’s-Thought",
+    "source": "HORUS",
+    "effect": "The first ranged or melee attack you make per turn has the Smart tag and deals +2 heat on hit."
+  },
+  {
+    "id": "cb_shaping",
+    "name": "The Lesson of Shaping",
+    "source": "HORUS",
+    "effect": "You can now install up to 2 AI systems in your mech (you still can’t duplicate AIs). If one becomes unshackled, the other gains control automatically."
+  },
+  {
+    "id": "cb_sculpted",
+    "name": "Armory Sculpted",
+    "source": "H.A.",
+    "effect": "Your mech takes +1 Accuracy to all engineering checks"
+  },
+  {
+    "id": "cb_heatfall",
+    "name": "HEATFALL coolant system",
+    "source": "H.A.",
+    "effect": "The heat cost for overcharging your mech never exceeds 1d6"
+  },
+  {
+    "id": "cb_ammofeeds",
+    "name": "Integrated Ammo Feeds",
+    "source": "H.A.",
+    "effect": "Your mech gains +1 use to all limited systems or deployables"
+  },
+  {
+    "id": "cb_redundant",
+    "name": "Redundant Repair Systems",
+    "source": "H.A.",
+    "effect": "You can now spend 3 repairs as part of a stabilize systems action in combat to repair 1 reactor stress and cool your mech, or regain 1 structure and heal your mech to full."
+  },
+  {
+    "id": "cb_stasis",
+    "name": "Stasis Shielding",
+    "source": "H.A.",
+    "effect": "Your mech gains +2 repair capacity. Repairing a destroyed weapon or system during a rest now costs 0 repairs (only the time to rest)."
+  },
+  {
+    "id": "cb_superior",
+    "name": "Superior By Design",
+    "source": "H.A.",
+    "effect": "Your mech is immune to the impaired condition and gains +2 heat capacity"
+  }
+]
