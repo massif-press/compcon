@@ -9,15 +9,6 @@ $(document).ready(function () {
       }
     });
   });
-
-  // $('.main').load('./resources/html/mech-sheet.html', function () {
-  //   setCharts();
-  //   bindEquipmentExpanders();
-  // });
-  // $('.main').load('./resources/html/pilot-sheet.html', function () {
-  $('.main').load('./resources/html/empty.html', function () {
-  });
-
 });
 
 

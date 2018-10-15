@@ -1,34 +1,38 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <meta charset="UTF-8">
-  <title>L A N C E R comp/con</title>
-  <link rel="stylesheet" type="text/css" href="./resources/css/main.css">
-  <link rel="stylesheet" type="text/css" href="./resources/css/pilot.css">
-  <link rel="stylesheet" href="./resources/css/balloon.css">
-  <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web" rel="stylesheet">
-</head>
-
-<body>
-  <div class="wrapper">
-    <div class="header">
-      <b class="title">L A N C E R</b><i class="subtitle">&nbsp;comp/con // v.0.01α</i>
-      <a href=#>
-        <div id="about-btn"> &emsp; ? &emsp; </div>
-      </a>
+  <head>
+    <meta charset="UTF-8">
+    <title>L A N C E R comp/con</title>
+    <link rel="stylesheet" href="./resources/css/main.css">
+    <link rel="stylesheet" href="./resources/css/sidebars.css">
+    <link rel="stylesheet" href="./resources/css/mech.css">
+    <link rel="stylesheet" href="./resources/css/pilot.css">
+    <link rel="stylesheet" href="./resources/css/balloon.css">
+    <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web" rel="stylesheet">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <b class="title">LANCER</b><i class="subtitle">&nbsp;comp/con // v.0.01α</i>
+        <a href=#>
+          <div id="about-btn"> &emsp; ? &emsp; </div>
+        </a>
+      </div>
+      <div class="pilot-sidebar"></div>
+      <div class="mech-sidebar"></div>
+      <div class="main">
+        <table width="100%" height="100%">
+          <tr>
+            <td class="destroyed" style="text-align: center;"> </td>
+          </tr>
+        </table>
+      </div>
+      <a href=#><div class="add-pilot btn menu-btn">Add Pilot</div></a>
+      <a href=#><div class="add-mech btn menu-btn">Add Mech</div></a>
     </div>
-    <div class="pilot-sidebar"></div>
-    <div class="mech-sidebar"></div>
-    <div class="main"></div>
-    <a href=#><div class="add-pilot btn menu-btn">Add Pilot</div></a>
-    <a href=#><div class="add-mech btn menu-btn">Add Mech</div></a>
-  </div>
-  <script>
-    require('./renderer.js')
-    require('./js/index.js')
-    // require('./js/pilot-sidebar.js')
-  </script>
-</body>
-
+    <script>
+      require('./renderer.js')
+      require('./js/index.js')
+    </script>
+  </body>
 </html>
