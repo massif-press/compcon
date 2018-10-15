@@ -1,0 +1,202 @@
+[
+  {
+    "id": "bg_ai",
+    "name": "AI Specialist",
+    "description": "You were heavily involved in the study, manifestation, creation, or maintenance of a prime Non Human Person, a production line of subalterns, civilian or military drones, or smart weaponry. Do you have a personal connection to an NHP or prime NHP? Did you interact with an NHP as a scientist or engineer would, or as priest or shaman would? How do you view non-human intelligence now, in your role as a pilot?",
+    "skills": [
+      "tech",
+      "acquire",
+      "investigate"
+    ]
+  },
+  {
+    "id": "bg_celeb",
+    "name": "Celebrity",
+    "description": "You were a figure in the public eye. Were you an actor? A singer? An artist? An athlete? A politician? The public face of a corporate or military advertising campaign? In your previous life you couldn’t go anywhere without the paparazzi hovering nearby. How are you adjusting to your new life as a pilot? Did you volunteer, or were you conscripted? Can you still practice your art, your craft, your profession, or is the rigid military structure not amenable to you pulling double-duty?",
+    "skills": [
+      "acquire",
+      "swindle",
+      "command"
+    ]
+  },
+  {
+    "id": "bg_colonist",
+    "name": "Colonist",
+    "description": "You were a settler on a planetary frontier, perhaps as a farmer or worker. You’re used to the demands of a frontier life and know well the precarious position most homesteaders live in. Why did you leave? Were you forced to flee as a refugee? Did you choose to enlist? And what of the home you left behind - is the colony still there? Is your family still there?",
+    "skills": [
+      "notice",
+      "maneuver",
+      "survive"
+    ]
+  },
+  {
+    "id": "bg_criminal",
+    "name": "Criminal",
+    "description": "You were a criminal, small time or master. Did you work for corporate clients? A criminal organization? For yourself? Did you mug pedestrians in the dark underbelly of a massive city, or did you slip, unnoticed, into corporate databases to steal data? Did you do it for personal gain, or just to feed your family? How did you find yourself in this life, and how did you become a pilot?",
+    "skills": [
+      "infiltrate",
+      "swindle",
+      "flash"
+    ]
+  },
+  {
+    "id": "bg_hacker",
+    "name": "Hacker",
+    "description": "You specialized in information warfare and data espionage, whether for your own gain or the benefit of your employers. How did you come to this life? Did you grow up plugged in to the Omninet, or did you come to it late? How well-versed in the hidden places, tricks, and secrets of the Omninet are you? How notorious were you before you became a pilot, and are you still?",
+    "skills": [
+      "tech",
+      "swindle",
+      "investigate"
+    ]
+  },
+  {
+    "id": "bg_mechanic",
+    "name": "Mechanic",
+    "description": "Grease Monkey, Wrench, Union man. You were a mechanic prior to becoming a pilot. Did you work in space, swaddled in an EVA rig, patching up damaged starships? Did you work planetside in a motor pool, tuning trucks and haulers? Did you tune mechs, dreaming of one day piloting your own? Did you own your own garage, or did you work for someone? Were you military, corporate, or a member of a caste or union?",
+    "skills": [
+      "tech",
+      "maneuver",
+      "notice"
+    ]
+  },
+  {
+    "id": "bg_media",
+    "name": "Medic",
+    "description": "You were a medical expert in your old life. You might have worked in a colony, for the military, for a corporation, or for a noble family -- how did you wind up piloting a mech? What was your specialty? Did you work in research, care, or trauma? Did you love the life and take your oath seriously, or did you not?",
+    "skills": [
+      "survive",
+      "investigate",
+      "persuade"
+    ]
+  },
+  {
+    "id": "bg_merc",
+    "name": "Mercenary",
+    "description": "Soldier of fortune. Have gun, will travel. You and your kit were available for the highest bidder. Did you work alone or with a crew? Did you all have a ship? Did you pilot your own mech? What was your code of honor, if you had one? Why did you decide to leave the mercenary life?",
+    "skills": [
+      "survive",
+      "notice",
+      "flash"
+    ]
+  },
+  {
+    "id": "bg_outlaw",
+    "name": "Outlaw",
+    "description": "Your beginnings were humble, born on the edge of cultivated space or under the looming towers of Core worlds, forgotten until you reached out and took what was owed. Some might call you a criminal, a thief, an outlaw, but you just call it like it is: if they hadn’t denied you bread, you never would have taken it from them.",
+    "skills": [
+      "flash",
+      "maneuver",
+      "infiltrate"
+    ]
+  },
+  {
+    "id": "bg_noble",
+    "name": "Noble",
+    "description": "You are a member of your world’s noble class, destined from birth to ascend to power. From what authority does this ordainment come? Was it a god? An ancestor? An ancient text? Some annual rotation? Is power passed patrilineally or matrilineally? Are you the first to establish your nobility, or are you the last of your house? Or are you a son or daughter from a well-established and sturdy line?Are you the heir, or just a middle child? What’s your relationship with your noble parents? Know that Union disregards titles of nobility in its armed forces - your status on your world is just background noise. How do you take this change of status?",
+    "skills": [
+      "acquire",
+      "persuade",
+      "command"
+    ]
+  },
+  {
+    "id": "bg_penal",
+    "name": "Penal Colonist",
+    "description": "You were exiled to a penal colony for a sentence of hard labor. Are you guilty or innocent of your crimes? Penal colonies are harsh, unforgiving environments -- was yours monitored by an authority, or was it relegated to anarchy? Was there some kind of rudimentary society set up there? Did others make it off world when you were chosen? Or did you escape it?",
+    "skills": [
+      "swindle",
+      "survive",
+      "brawl"
+    ]
+  },
+  {
+    "id": "bg_priest",
+    "name": "Priest",
+    "description": "You were a priest in your old life, either from a large, pan-galactic religion, or a smaller sect or cult. Were you in hermitage? Did you live celibate in a monastery? Did you wear simple cloth robes, or majestic vestments? What restrictions were placed upon you by your church? Were you a member of a prominent religion, or a secretive, outlawed one? What manner of respect was afforded to you as a member of the cloth, and was it your choice to join their ranks? How did you come to serve as a pilot?",
+    "skills": [
+      "persuade",
+      "command",
+      "notice"
+    ]
+  },
+  {
+    "id": "bg_scientist",
+    "name": "Scientist",
+    "description": "You were a scientist, private or public, in the lab or in the field. What was your area of expertise and how long have you been practicing? Where did you go to school, and what’s your relationship with that institution? Do you have rivals, are you well-known, or are you relatively obscure? How did your home society perceive science? How did you become a pilot?",
+    "skills": [
+      "tech",
+      "investigate",
+      "notice"
+    ]
+  },
+  {
+    "id": "bg_soldier",
+    "name": "Soldier",
+    "description": "Grunt. GI. Enlisted. Man-at-Arms. You were a rank-and-file soldier for a planetary defense force, a local militia, national army, or king’s own. How long did you serve before your Union call-up? What specialty was your focus? Have you seen combat before, or are you green? Are you a volunteer, a conscript, a member of a warrior caste? Is soldiering a proud family, civic, or religious tradition, or is this a life that you regret? Where are the other soldiers from your old squad, and what is your relationship with them like?",
+    "skills": [
+      "command",
+      "maneuver",
+      "survive"
+    ]
+  },
+  {
+    "id": "bg_spacer",
+    "name": "Spacer",
+    "description": "You grew up on a space station, in tight quarters and small populations, surrounded by the unforgiving hard vacuum of space. Were resources scarce or plentiful? Was your station isolated, or was it a system (or galactic!) hub? Was it parked in the endless night of deep space, or was it in orbit above a planet, moon, or other stellar body? Was it entirely man-made, or was it built into an asteroid or moon? Did you grow up watching great ships dock and depart, exposed to the thousands of languages and cultures of the galaxy, dreaming of exploration, or did you grow up in dark, rocky halls, ignorant of the galaxy outside? In short, what was life like where you grew up, why did you leave, and can you go back?",
+    "skills": [
+      "acquire",
+      "persuade",
+      "tech"
+    ]
+  },
+  {
+    "id": "bg_specops",
+    "name": "Spec Ops",
+    "description": "You were a spy or assassin, working alone, or else a member of an elite unit, meant to work behind enemy lines with little or no support, in a small squad, with the best equipment your military would trust you with. Your missions were long, dangerous, and never publicized. If a soldier is a hammer, you were a scalpel; the organization you served in was spoken in whispers around military barracks and academies both.",
+    "skills": [
+      "tech",
+      "infiltrate",
+      "maneuver"
+    ]
+  },
+  {
+    "id": "bg_super",
+    "name": "Super Soldier",
+    "description": "You are the result of a corporate or state project to create a better soldier through biological enhancement, gene therapy, neurological enhancement, or simply extreme conditioning. Were you raised from birth to become what you are, or did you volunteer as an adult for a super soldier program? Was the project sanctioned or not? Did it succeed? Have you tested your abilities in the field, or are you unproven and eager to see what you can do?",
+    "skills": [
+      "notice",
+      "maneuver",
+      "brawl"
+    ]
+  },
+  {
+    "id": "bg_survey",
+    "name": "Survey Corps",
+    "description": "You were a member of a survey corps, working on the frontier and on the edge of civilization to evaluate strange worlds and planetoids for anomalies, interesting discoveries, and habitability. What have you seen on the wild frontier? How many worlds have you traveled? Do you survey alone, or with a crew? Where is your homeworld? Is there a grail world, an Eden out there that you seek? What drives you to exploration?",
+    "skills": [
+      "investigate",
+      "tech",
+      "survive"
+    ]
+  },
+  {
+    "id": "bg_pilot",
+    "name": "Starship Pilot",
+    "description": "You flew a starship, civilian, corporate, military or otherwise. You may have piloted a freighter, a fighter, a shuttle, or a larger ship. Did you have a run that you frequented, or did you fly anywhere? Did you have a crew, or were you a member of one? What happened to your ship? What kind of flying did you do?",
+    "skills": [
+      "tech",
+      "maneuver",
+      "acquire"
+    ]
+  },
+  {
+    "id": "bg_worker",
+    "name": "Worker",
+    "description": "Ultimately, the empire only functions when labor clocks in. Labor mines the raw materials, labor fashions stone and metal and organic matter into bolts and screws and glue, labor designs the patterns for printers, labor shapes and welds and hammers and builds. Without the labor of trillions, all progress would grind to a halt. Before you set down the wrench and picked up a helm, you worked in the fields, the factories, the shipyards, or the mines. What was your life like before you began training? Why did you leave? Will you return?",
+    "skills": [
+      "notice",
+      "tech",
+      "acquire"
+    ]
+  }
+]
