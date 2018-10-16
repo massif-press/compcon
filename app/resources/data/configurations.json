@@ -1,15 +1,13 @@
-[
-  {
+[{
     "id": 0,
     "name": "hachiman",
-    "shell-id": "sh_drake",
+    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "shell_id": "sh_drake",
     "status": "available",
-    "license_req": [
-      {
-        "name": "test license b",
-        "level": 2
-      }
-    ],
+    "license_req": [{
+      "name": "test license b",
+      "level": 2
+    }],
     "notes": "pilot's notes test",
     "weapons": [
 
@@ -21,58 +19,67 @@
   {
     "id": 1,
     "name": "ōyamatasumi",
-    "shell-id": "sh_nelson",
+    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "shell_id": "sh_nelson",
     "status": "unavailable",
-    "license_req": [
-      {
-        "name": "test license b",
-        "level": 3
-      }
-    ],
+    "license_req": [{
+      "name": "test license b",
+      "level": 3
+    }],
     "notes": "pilot's notes test",
-    "weapons": [
-
-    ],
+    "weapons": [],
     "systems": [
-      
+
     ]
   },
   {
     "id": 2,
     "name": "raijin",
-    "shell-id": "sh_raleign",
+    "img": "./resources/img/mecha/ispn_raleigh.png",
+    "shell_id": "sh_raleign",
     "status": "active",
-    "license_req": [
-      {
-        "name": "test license b",
-        "level": 2
-      }
-    ],
+    "license_req": [{
+      "name": "test license b",
+      "level": 2
+    }],
     "notes": "pilot's notes test",
     "weapons": [
-
+      {
+        "mount": "main",
+        "id": "wp_ar",
+        "notes": ""
+      },
+      {
+        "mount": "aux",
+        "id": "wp_handcannon",
+        "notes": ""
+      },
+      {
+        "mount": "aux",
+        "id": "wp_handcannon",
+        "notes": ""
+      }
     ],
     "systems": [
-      
+
     ]
   },
   {
     "id": 3,
     "name": "raijin",
-    "shell-id": "sh_raleigh",
+    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "shell_id": "sh_raleigh",
     "status": "destroyed",
-    "license_req": [
-      {
-        "name": "test license b",
-        "level": 1
-      }
-    ],
+    "license_req": [{
+      "name": "test license b",
+      "level": 1
+    }],
     "notes": "pilot's notes test",
     "weapons": [
 
     ],
     "systems": [
-      
+
     ]
   }
 ]

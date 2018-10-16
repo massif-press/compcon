@@ -1,10 +1,10 @@
-// <!-- TODO: pull in shell data, don't use in config json! -->
 //TODO: move this
 var charts = require('chart.js');
 
 var $ = require("jquery");
 var Handlebars = require("handlebars");
 var configs = require("../resources/data/configurations.json");
+var shells = require("../resources/data/shells.json");
 
 Handlebars.registerHelper('checkStripes', function (status) {
   var ok = status.toUpperCase() === "AVAILABLE" || status.toUpperCase() === "ACTIVE";
@@ -25,10 +25,16 @@ Handlebars.registerHelper('checkAvail', function (status) {
 function loadMecha(idArray) {
   var configArray = [];
 
+  for (var i = 0; i < configs.length; i++) {
+    configs[i].shell = shells.find(s => s.id == configs[i].shell_id);;
+  }
+
   for (var i = 0; i < idArray.length; i++) {
     var id = idArray[i];
     configArray.push(configs.find(function (c) { return c.id === id; }))
   }
+
+  console.log(configArray[0].shell.name);
 
   var template = Handlebars.compile($('#mech-sidebar-template').html());
 

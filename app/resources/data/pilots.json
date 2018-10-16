@@ -11,7 +11,7 @@
     "img-full": "https://via.placeholder.com/300x450",
     "max_hp": 5,
     "current_hp": 5,
-    "status": "inactive"
+    "status": "INACTIVE"
   },
   {
     "id" : 1,

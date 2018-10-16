@@ -1,6 +1,5 @@
 var $ = require("jquery");
 
-
 $(document).ready(function () {
   $('.pilot-sidebar').load('./resources/html/pilot-sidebar.html', function() {
     $('.pilot-expander').click(function () {
@@ -10,8 +9,6 @@ $(document).ready(function () {
     });
   });
 });
-
-
 
 function toggleExpander(expanderType, element) {
   $(element).toggleClass('open btn');
