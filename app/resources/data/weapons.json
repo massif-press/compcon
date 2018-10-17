@@ -6,10 +6,19 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "1d3 Kinetic",
-    "range": 20,
-    "tags": [
-      "Reliable 1"
+    "damage_raw": [
+      "1d3",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 20,
+    "tags": [{
+      "id": "tag_reliable",
+      "val": 1
+    }],
     "source": "HA",
     "license": "BARBAROSSA",
     "license_level": 2,
@@ -23,12 +32,28 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "3d6 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      "3d6",
+      0,
+      0,
+      0
+    ],
     "range": "20, Blast 3",
-    "tags": [
-      "Loading",
-      "Ordnance",
-      "Arcing",
-      "4 Heat (self)"
+    "tags": [{
+        "id": "tag_loading"
+      },
+      {
+        "id": "tag_ordnance"
+      },
+      {
+        "id": "tag_arcing"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 4
+      }
     ],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -42,7 +67,15 @@
     "mount": "Heavy",
     "type": "CQB",
     "sp": 0,
-    "damage": "Burn 4 + 1 Heat",
+    "damage": "Burn 4, 1 Heat",
+    "damage_raw": [
+      0,
+      0,
+      0,
+      4,
+      0,
+      1
+    ],
     "range": "Cone 5",
     "tags": [
       ""
@@ -59,11 +92,23 @@
     "mount": "Superheavy",
     "type": "CQB",
     "sp": 0,
-    "damage": "Burn 5 + 1d6 Heat",
+    "damage": "Burn 5, 1d6 Heat",
+    "damage_raw": [
+      0,
+      0,
+      0,
+      5,
+      0,
+      "1d6"
+    ],
     "range": "Cone 7",
-    "tags": [
-      "CQB",
-      "4 Heat (self)"
+    "tags": [{
+        "id": "tag_cqb"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 4
+      }
     ],
     "source": "HA",
     "license": "GENGHIS",
@@ -78,10 +123,19 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "3 Kinetic",
-    "range": 5,
-    "tags": [
-      "Limited (6)"
+    "damage_raw": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 5,
+    "tags": [{
+      "id": "tag_limited",
+      "val": 6
+    }],
     "source": "HA",
     "license": "ISKANDER",
     "license_level": 1,
@@ -94,7 +148,15 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "",
+    "damage": "1d6 Energy",
+    "damage_raw": [
+      0,
+      "1d6",
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "8, Blast 3",
     "tags": [
       ""
@@ -111,11 +173,14 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "*Dependent on payload",
-    "range": 15,
-    "tags": [
-      "Arcing"
+    "damage": "Dependent on payload",
+    "damage_raw": [
+      ""
     ],
+    "range": 15,
+    "tags": [{
+      " id ": " tag_arcing "
+    }],
     "source": "HA",
     "license": "ISKANDER",
     "license_level": 2,
@@ -128,11 +193,19 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "",
-    "range": 15,
-    "tags": [
-      "Arcing"
+    "damage": "1d6 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      "1d6",
+      0,
+      0,
+      0
     ],
+    "range": 15,
+    "tags": [{
+      "id": "tag_arcing"
+    }],
     "source": "HA",
     "license": "ISKANDER",
     "license_level": 3,
@@ -146,12 +219,28 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "12 Energy",
+    "damage_raw": [
+      0,
+      12,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Range 15, Blast 1",
-    "tags": [
-      "Unique",
-      "Loading",
-      "AP",
-      "10 heat (self)"
+    "tags": [{
+        "id": "tag_unique"
+      },
+      {
+        "id": "tag_loading"
+      },
+      {
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 10
+      }
     ],
     "source": "HA",
     "license": "NAPOLEON",
@@ -165,11 +254,20 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Energy + Burn 1",
-    "range": 10,
-    "tags": [
-      "1 heat (self)"
+    "damage": "1d6 Energy, Burn 1",
+    "damage_raw": [
+      0,
+      "1d6",
+      0,
+      1,
+      0,
+      0
     ],
+    "range": 10,
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 1
+    }],
     "source": "HA",
     "license": "SHERMAN",
     "license_level": 1,
@@ -182,11 +280,20 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Energy + Burn 3",
-    "range": 15,
-    "tags": [
-      "3 heat (self)"
+    "damage": "2d6 Energy, Burn 3",
+    "damage_raw": [
+      0,
+      "2d6",
+      0,
+      3,
+      0,
+      0
     ],
+    "range": 15,
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 3
+    }],
     "source": "HA",
     "license": "SHERMAN",
     "license_level": 2,
@@ -199,11 +306,23 @@
     "mount": "Superheavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Energy + Burn 8",
+    "damage": "2d6 Energy, Burn 8",
+    "damage_raw": [
+      0,
+      "2d6",
+      0,
+      3,
+      0,
+      0
+    ],
     "range": 20,
-    "tags": [
-      "Ordnance",
-      "4 Heat (self)"
+    "tags": [{
+        "id": "tag_ordnance"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 4
+      }
     ],
     "source": "HA",
     "license": "SHERMAN",
@@ -218,10 +337,22 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1d3+1 Energy",
+    "damage_raw": [
+      0,
+      "1d3+1",
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Cone 5",
-    "tags": [
-      "AP",
-      "2 heat (self)"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 2
+      }
     ],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -236,10 +367,19 @@
     "type": "Melee or CQB",
     "sp": 0,
     "damage": "1 Energy Damage, Burn 3",
-    "range": "5, Threat 3",
-    "tags": [
-      "1 heat (self)"
+    "damage_raw": [
+      0,
+      1,
+      0,
+      3,
+      0,
+      0
     ],
+    "range": "5, Threat 3",
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 1
+    }],
     "source": "HA",
     "license": "TOKUGAWA",
     "license_level": 2,
@@ -253,10 +393,19 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6 Energy, Burn 2",
-    "range": "Threat",
-    "tags": [
-      "1 heat (self)"
+    "damage_raw": [
+      0,
+      "1d6",
+      0,
+      2,
+      0,
+      0
     ],
+    "range": "Threat",
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 1
+    }],
     "source": "HA",
     "license": "TOKUGAWA",
     "license_level": 3,
@@ -270,10 +419,21 @@
     "type": "Nexus",
     "sp": 0,
     "damage": "1 Kinetic, Burn 2",
+    "damage_raw": [
+      1,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
     "range": 10,
-    "tags": [
-      "Smart",
-      "Seeking"
+    "tags": [{
+        "id": "tag_smart"
+      },
+      {
+        "id": "tag_seeking"
+      }
     ],
     "source": "HORUS",
     "license": "BALOR",
@@ -288,6 +448,14 @@
     "type": "Melee",
     "sp": 2,
     "damage": "2d6 Kinetic",
+    "damage_raw": [
+      "2d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat+2",
     "tags": [
       ""
@@ -304,11 +472,19 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": 2,
-    "range": 10,
-    "tags": [
-      "Seeking"
+    "damage": "2 Kinetic",
+    "damage_raw": [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 10,
+    "tags": [{
+      "id": "tag_seeking"
+    }],
     "source": "HORUS",
     "license": "GOBLIN",
     "license_level": 2,
@@ -322,10 +498,18 @@
     "type": "Nexus",
     "sp": 0,
     "damage": "1d3+2 Variable",
-    "range": 15,
-    "tags": [
-      "Smart"
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      "1d3+2",
+      0
     ],
+    "range": 15,
+    "tags": [{
+      "id": "tag_smart"
+    }],
     "source": "HORUS",
     "license": "HYDRA",
     "license_level": 1,
@@ -339,10 +523,18 @@
     "type": "Nexus",
     "sp": 0,
     "damage": "1d6+3 Explosive",
-    "range": 15,
-    "tags": [
-      "Smart"
+    "damage_raw": [
+      0,
+      0,
+      "1d6+3",
+      0,
+      0,
+      0
     ],
+    "range": 15,
+    "tags": [{
+      "id": "tag_smart"
+    }],
     "source": "HORUS",
     "license": "HYDRA",
     "license_level": 2,
@@ -356,10 +548,19 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1d3+1 Heat",
-    "range": "Cone 5",
-    "tags": [
-      "2 heat (self)"
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      "1d3+1"
     ],
+    "range": "Cone 5",
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 2
+    }],
     "source": "HORUS",
     "license": "MANTICORE",
     "license_level": 3,
@@ -373,6 +574,14 @@
     "type": "Cannon",
     "sp": 1,
     "damage": "3 Kinetic",
+    "damage_raw": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 20,
     "tags": [
       ""
@@ -390,11 +599,24 @@
     "type": "Rifle",
     "sp": 2,
     "damage": "4 Kinetic",
+    "damage_raw": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 20,
-    "tags": [
-      "Smart",
-      "Seeking",
-      "Accurate"
+    "tags": [{
+        "id": "tag_smart"
+      },
+      {
+        "id": "tag_seeking"
+      },
+      {
+        "id": "tag_accurate"
+      }
     ],
     "source": "HORUS",
     "license": "PEGASUS",
@@ -409,6 +631,14 @@
     "type": "???",
     "sp": 0,
     "damage": "1d20/2 +1 Explosive or Energy",
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      "1d10+1"
+    ],
     "range": "1d20",
     "tags": [
       ""
@@ -426,10 +656,19 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6+1 Kinetic",
-    "range": "Threat 1",
-    "tags": [
-      "Reliable 2"
+    "damage_raw": [
+      "1d6+1",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat 1",
+    "tags": [{
+      "id": "tag_reliable",
+      "val": 2
+    }],
     "source": "IPS-N",
     "license": "BLACKBEARD",
     "license_level": 1,
@@ -443,6 +682,14 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1 Kinetic",
+    "damage_raw": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Burst 1",
     "tags": [
       ""
@@ -460,10 +707,19 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6+3 Kinetic",
-    "range": "Threat 2",
-    "tags": [
-      "Reliable 3"
+    "damage_raw": [
+      "1d6+3",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat 2",
+    "tags": [{
+      "id": "tag_reliable",
+      "val": 3
+    }],
     "source": "IPS-N",
     "license": "BLACKBEARD",
     "license_level": 2,
@@ -477,6 +733,14 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d3+1 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      "1d3+1",
+      0,
+      0,
+      0
+    ],
     "range": 8,
     "tags": [
       ""
@@ -494,10 +758,22 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "2d6+2 Kinetic",
+    "damage_raw": [
+      "2d6+2",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 10,
-    "tags": [
-      "Unreliable",
-      "1 heat (self)"
+    "tags": [{
+        "id": "tag_unreliable"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 1
+      }
     ],
     "source": "IPS-N",
     "license": "DRAKE",
@@ -512,9 +788,23 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "1d6 Kinetic (4d6+4 Kinetic if spun up)",
+    "damage_raw": [
+      "4d6+4",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 8,
-    "tags": [
-      "2 heat (self) Reliable 4 if spun up"
+    "tags": [{
+        "id": "tag_heatself",
+        "val": 2
+      },
+      {
+        "id": "tag_reliable",
+        "val": 4
+      }
     ],
     "source": "IPS-N",
     "license": "DRAKE",
@@ -528,11 +818,20 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "1 Energy , 1 Heat, Burn 1",
-    "range": "Threat 1",
-    "tags": [
-      "1 heat (self)"
+    "damage": "1 Energy, 1 Heat, Burn 1",
+    "damage_raw": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      1
     ],
+    "range": "Threat 1",
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 1
+    }],
     "source": "IPS-N",
     "license": "LANCASTER",
     "license_level": 3,
@@ -546,6 +845,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat +1, Thrown 5",
     "tags": [
       ""
@@ -563,6 +870,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d3+1 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      "1d3+1",
+      0,
+      0,
+      0
+    ],
     "range": "Threat 1",
     "tags": [
       ""
@@ -580,10 +895,18 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1d6+1 Kinetic",
-    "range": "5, Threat 3",
-    "tags": [
-      "Loading"
+    "damage_raw": [
+      "1d6+1",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "5, Threat 3",
+    "tags": [{
+      "id": "tag_loading"
+    }],
     "source": "IPS-N",
     "license": "RALEIGH",
     "license_level": 1,
@@ -597,6 +920,14 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "1d6 Kinetic, 1d6 Explosive",
+    "damage_raw": [
+      "1d6",
+      0,
+      "1d6",
+      0,
+      0,
+      0
+    ],
     "range": 10,
     "tags": [
       ""
@@ -614,10 +945,19 @@
     "type": "Melee",
     "sp": 0,
     "damage": "2d6+1 Kinetic",
-    "range": "Threat",
-    "tags": [
-      "Reliable 3"
+    "damage_raw": [
+      "2d6+1",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat",
+    "tags": [{
+      "id": "tag_reliable",
+      "val": 3
+    }],
     "source": "IPS-N",
     "license": "RALEIGH",
     "license_level": 3,
@@ -631,10 +971,18 @@
     "type": "CQB",
     "sp": 0,
     "damage": "2d6 Kinetic",
-    "range": "3, Threat 3",
-    "tags": [
-      "Inaccurate"
+    "damage_raw": [
+      "2d6",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "3, Threat 3",
+    "tags": [{
+      "id": "tag_inaccurate"
+    }],
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 1,
@@ -648,6 +996,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Melee",
     "tags": [
       ""
@@ -665,10 +1021,18 @@
     "type": "CQB",
     "sp": 0,
     "damage": "3d6 Kinetic",
-    "range": "Cone 7",
-    "tags": [
-      "CQB"
+    "damage_raw": [
+      "3d6",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Cone 7",
+    "tags": [{
+      "id": "tag_cqb"
+    }],
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
@@ -682,10 +1046,18 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d3+4 Kinetic",
-    "range": "Threat 1",
-    "tags": [
-      "Loading"
+    "damage_raw": [
+      "1d3+4",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat 1",
+    "tags": [{
+      "id": "tag_loading"
+    }],
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 3,
@@ -699,10 +1071,22 @@
     "type": "Launcher",
     "sp": 1,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Line 5",
-    "tags": [
-      "AP",
-      "1 heat (self)"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 1
+      }
     ],
     "source": "IPS-N",
     "license": "VLAD",
@@ -717,10 +1101,22 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "8, Threat 3",
-    "tags": [
-      "AP",
-      "2 heat (self)"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 2
+      }
     ],
     "source": "IPS-N",
     "license": "VLAD",
@@ -735,10 +1131,21 @@
     "type": "Melee",
     "sp": 0,
     "damage": "3d6 Kinetic, 1d6 Energy",
+    "damage_raw": [
+      "3d6",
+      "1d6",
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat 1",
-    "tags": [
-      "Unreliable",
-      "AP"
+    "tags": [{
+        "id": "tag_unreliable"
+      },
+      {
+        "id": "tag_ap"
+      }
     ],
     "source": "IPS-N",
     "license": "VLAD",
@@ -753,6 +1160,14 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "1d3+1 Heat",
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      "1d3+1"
+    ],
     "range": "Line 8",
     "tags": [
       ""
@@ -770,6 +1185,14 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d6 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      "1d6",
+      0,
+      0,
+      0
+    ],
     "range": "15, Blast 1",
     "tags": [
       ""
@@ -787,10 +1210,21 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d6+3 Kinetic",
+    "damage_raw": [
+      "1d6+3",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Line 20",
-    "tags": [
-      "AP",
-      "Ordnance"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_ordnance"
+      }
     ],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -805,10 +1239,18 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d3 Heat",
-    "range": 10,
-    "tags": [
-      "Arcing"
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      "1d3"
     ],
+    "range": 10,
+    "tags": [{
+      "id": "tag_arcing"
+    }],
     "source": "SSC",
     "license": "DUSK WING",
     "license_level": 2,
@@ -822,10 +1264,21 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 15,
-    "tags": [
-      "Accurate",
-      "Unreliable"
+    "tags": [{
+        "id": "tag_accurate"
+      },
+      {
+        "id": "tag_unreliable"
+      }
     ],
     "source": "SSC",
     "license": "DUSK WING",
@@ -840,6 +1293,14 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "2d6 Kinetic",
+    "damage_raw": [
+      "2d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 5,
     "tags": [
       ""
@@ -857,6 +1318,14 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Line 10",
     "tags": [
       ""
@@ -874,10 +1343,19 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1 Energy, Burn 2",
-    "range": "Threat 1",
-    "tags": [
-      "1 heat (self)"
+    "damage_raw": [
+      0,
+      1,
+      0,
+      2,
+      0,
+      0
     ],
+    "range": "Threat 1",
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 1
+    }],
     "source": "SSC",
     "license": "METALMARK",
     "license_level": 3,
@@ -890,11 +1368,19 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": 3,
-    "range": 15,
-    "tags": [
-      "Arcing"
+    "damage": "3 Explosive",
+    "damage_raw": [
+      0,
+      0,
+      3,
+      0,
+      0,
+      0
     ],
+    "range": 15,
+    "tags": [{
+      "id": "tag_arcing"
+    }],
     "source": "SSC",
     "license": "MONARCH",
     "license_level": 1,
@@ -908,11 +1394,22 @@
     "type": "Launcher",
     "sp": 1,
     "damage": "1d6+1 Energy",
+    "damage_raw": [
+      0,
+      "1d6+1",
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 15,
-    "tags": [
-      "Smart",
+    "tags": [{
+        "id": "tag_smart"
+      },
       "Seeking",
-      "Accurate"
+      {
+        "id": "tag_accurate"
+      }
     ],
     "source": "SSC",
     "license": "MONARCH",
@@ -927,10 +1424,22 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "2d6+2 Explosive x2",
+    "damage_raw": [
+      0,
+      0,
+      "4d6+4",
+      0,
+      0,
+      0
+    ],
     "range": "30, Blast 2 x2",
-    "tags": [
-      "Arcing",
-      "2 Heat (self)"
+    "tags": [{
+        "id": "tag_arcing"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 2
+      }
     ],
     "source": "SSC",
     "license": "MONARCH",
@@ -945,10 +1454,18 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d3 Explosive",
-    "range": 5,
-    "tags": [
-      "Accurate"
+    "damage_raw": [
+      0,
+      0,
+      "1d3",
+      0,
+      0,
+      0
     ],
+    "range": 5,
+    "tags": [{
+      "id": "tag_accurate"
+    }],
     "source": "SSC",
     "license": "MOURNING CLOAK",
     "license_level": 1,
@@ -962,10 +1479,21 @@
     "type": "Melee",
     "sp": 0,
     "damage": "2 Kinetic",
+    "damage_raw": [
+      2,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat",
-    "tags": [
-      "AP",
-      "Accurate"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_accurate"
+      }
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -980,10 +1508,21 @@
     "type": "Melee",
     "sp": 0,
     "damage": "4 Kinetic",
+    "damage_raw": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat 2",
-    "tags": [
-      "AP",
-      "Accurate",
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_accurate"
+      },
       "Unique"
     ],
     "source": "SSC",
@@ -999,10 +1538,21 @@
     "type": "Rifle",
     "sp": 1,
     "damage": "1d3 Kinetic",
+    "damage_raw": [
+      "1d3",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 15,
-    "tags": [
-      "Arcing",
-      "Accurate"
+    "tags": [{
+        "id": "tag_arcing"
+      },
+      {
+        "id": "tag_accurate"
+      }
     ],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1017,6 +1567,14 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "",
+    "damage_raw": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 20,
     "tags": [
       ""
@@ -1034,10 +1592,18 @@
     "type": "Nexus",
     "sp": 0,
     "damage": "1d3 Kinetic",
-    "range": 8,
-    "tags": [
-      "Smart"
+    "damage_raw": [
+      "1d3",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 8,
+    "tags": [{
+      "id": "tag_smart"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1051,10 +1617,18 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d3+1 Explosive",
-    "range": "10, Blast 1",
-    "tags": [
-      "Loading"
+    "damage_raw": [
+      0,
+      0,
+      "1d3+1",
+      0,
+      0,
+      0
     ],
+    "range": "10, Blast 1",
+    "tags": [{
+      "id": "tag_loading"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1068,6 +1642,14 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1d3 Kinetic",
+    "damage_raw": [
+      "1d3",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "5, Threat 3",
     "tags": [
       ""
@@ -1085,6 +1667,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d3+1 Kinetic",
+    "damage_raw": [
+      "1d3+1",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat",
     "tags": [
       ""
@@ -1102,6 +1692,14 @@
     "type": "CQB",
     "sp": 0,
     "damage": "2 Energy",
+    "damage_raw": [
+      0,
+      2,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Line 5",
     "tags": [
       ""
@@ -1119,6 +1717,14 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 10,
     "tags": [
       ""
@@ -1136,10 +1742,18 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d3+3 Energy",
-    "range": "Threat 1",
-    "tags": [
-      "AP"
+    "damage_raw": [
+      0,
+      "1d3+3",
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat 1",
+    "tags": [{
+      "id": "tag_ap"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1153,10 +1767,18 @@
     "type": "Nexus",
     "sp": 0,
     "damage": "1d6 Kinetic",
-    "range": 10,
-    "tags": [
-      "Smart"
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 10,
+    "tags": [{
+      "id": "tag_smart"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1170,10 +1792,21 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d6 Kinetic",
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "10, Blast 1",
-    "tags": [
-      "Arcing",
-      "Inaccurate"
+    "tags": [{
+        "id": "tag_arcing"
+      },
+      {
+        "id": "tag_inaccurate"
+      }
     ],
     "source": "GMS",
     "license": "",
@@ -1188,10 +1821,18 @@
     "type": "Launcher",
     "sp": 0,
     "damage": "1d6 Kinetic",
-    "range": "10, Blast 2",
-    "tags": [
-      "Loading"
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "10, Blast 2",
+    "tags": [{
+      "id": "tag_loading"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1205,10 +1846,19 @@
     "type": "CQB",
     "sp": 0,
     "damage": "1d6 Kinetic",
-    "range": 5,
-    "tags": [
-      "Reliable 1"
+    "damage_raw": [
+      "1d6",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 5,
+    "tags": [{
+      "id": "tag_reliable",
+      "val": 1
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1222,6 +1872,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6+2 Kinetic",
+    "damage_raw": [
+      "1d6+2",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat",
     "tags": [
       ""
@@ -1239,10 +1897,18 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "1d3+2 Energy",
-    "range": 5,
-    "tags": [
-      "AP"
+    "damage_raw": [
+      0,
+      "1d3+2",
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 5,
+    "tags": [{
+      "id": "tag_ap"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1256,11 +1922,24 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "2d6+2 Kinetic",
+    "damage_raw": [
+      "2d6+2",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 20,
-    "tags": [
-      "AP",
-      "Loading",
-      "Ordnance"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_loading"
+      },
+      {
+        "id": "tag_ordnance"
+      }
     ],
     "source": "GMS",
     "license": "",
@@ -1275,10 +1954,18 @@
     "type": "Melee",
     "sp": 0,
     "damage": "1d6+2 Energy",
-    "range": "Threat",
-    "tags": [
-      "AP"
+    "damage_raw": [
+      0,
+      "1d6+2",
+      0,
+      0,
+      0,
+      0
     ],
+    "range": "Threat",
+    "tags": [{
+      "id": "tag_ap"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1292,6 +1979,14 @@
     "type": "Melee",
     "sp": 0,
     "damage": "2d6+2 Kinetic",
+    "damage_raw": [
+      "2d6+2",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Threat",
     "tags": [
       ""
@@ -1309,10 +2004,18 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "2d6+1 Kinetic",
-    "range": 10,
-    "tags": [
-      "Inaccurate"
+    "damage_raw": [
+      "2d6+1",
+      0,
+      0,
+      0,
+      0,
+      0
     ],
+    "range": 10,
+    "tags": [{
+      "id": "tag_inaccurate"
+    }],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -1326,12 +2029,27 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "2d6 Kinetic",
+    "damage_raw": [
+      "2d6",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "20, Blast 2",
-    "tags": [
-      "Arcing",
-      "Inaccurate",
-      "Loading",
-      "Ordnance"
+    "tags": [{
+        "id": "tag_arcing"
+      },
+      {
+        "id": "tag_inaccurate"
+      },
+      {
+        "id": "tag_loading"
+      },
+      {
+        "id": "tag_ordnance"
+      }
     ],
     "source": "GMS",
     "license": "",
@@ -1346,10 +2064,22 @@
     "type": "Cannon",
     "sp": 0,
     "damage": "1d6+2 Energy",
+    "damage_raw": [
+      0,
+      "1d6+2",
+      0,
+      0,
+      0,
+      0
+    ],
     "range": "Line 10",
-    "tags": [
-      "AP",
-      "2 heat (self)"
+    "tags": [{
+        "id": "tag_ap"
+      },
+      {
+        "id": "tag_heatself",
+        "val": 2
+      }
     ],
     "source": "GMS",
     "license": "",
@@ -1364,11 +2094,25 @@
     "type": "Rifle",
     "sp": 0,
     "damage": "3d6+3 Kinetic",
+    "damage_raw": [
+      "3d6+3",
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
     "range": 15,
-    "tags": [
-      "Reliable 5",
-      "Accurate",
-      "Loading"
+    "tags": [{
+        "id": "tag_reliable",
+        "val": 5
+      },
+      {
+        "id": "tag_accurate"
+      },
+      {
+        "id": "tag_loading"
+      }
     ],
     "source": "GMS",
     "license": "",

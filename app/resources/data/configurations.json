@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": 0,
     "name": "hachiman",
     "img": "https://via.placeholder.com/500x400?text=mech+img",
@@ -35,34 +36,16 @@
   {
     "id": 2,
     "name": "raijin",
-    "img": "./resources/img/mecha/ispn_raleigh.png",
-    "shell_id": "sh_raleign",
+    "img": "ispn_raleigh.png",
+    "shell_id": "sh_raleigh",
     "status": "active",
     "license_req": [{
       "name": "test license b",
       "level": 2
     }],
     "notes": "pilot's notes test",
-    "weapons": [
-      {
-        "mount": "main",
-        "id": "wp_ar",
-        "notes": ""
-      },
-      {
-        "mount": "aux",
-        "id": "wp_handcannon",
-        "notes": ""
-      },
-      {
-        "mount": "aux",
-        "id": "wp_handcannon",
-        "notes": ""
-      }
-    ],
-    "systems": [
-
-    ]
+    "weapons": ["wp_ar", "wp_handcannon", "wp_handcannon", "wp_amrifle"],
+    "systems": []
   },
   {
     "id": 3,
@@ -74,7 +57,6 @@
       "name": "test license b",
       "level": 1
     }],
-    "notes": "pilot's notes test",
     "weapons": [
 
     ],

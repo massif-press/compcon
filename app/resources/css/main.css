@@ -14,7 +14,7 @@ a {
   text-decoration: inherit;
 }
 
-img {
+.block-img {
   display:block;
   margin:auto;
   border: 1px solid #25616E;

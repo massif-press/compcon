@@ -1,3 +1,40 @@
+/* header */
+.mech-name {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 25px;
+  margin: 5px;
+  padding-top: 10px;
+}
+
+.big-subtitle {
+  font-size: 20px;
+  font-weight: 100;
+  letter-spacing: 3px;
+  color: #5F909C;
+  margin: 5px 5px 0 5px;
+}
+
+/* info box and img */
+.mech-type {
+  font-size:18px;
+  font-weight: 900;
+  letter-spacing:5px;
+}
+
+.license-block {
+  margin:5px;
+  background-color: #314347;
+  color:#5F909C;
+  text-align: center;
+}
+
+/* statbox */
+.statbox {
+  padding-left: 20px;
+  padding-right:20px;
+}
+
 .mech-table {
   border-collapse: collapse;
   width: 100%;
@@ -76,6 +113,7 @@
 .hexagon {
   position: absolute;
   left: 20px;
+  border: 0;
 }
 
 .equipment-table {

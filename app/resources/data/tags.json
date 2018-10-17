@@ -70,7 +70,7 @@
     "description": "When attacking with this weapon, roll a d6 before you make your attack roll. If it comes up as a ‘1’, the weapon jams immediately. Lose the attack, and it cannot be used until the start of your next turn."
   },
   {
-    "id": "tag_ordinance",
+    "id": "tag_ordnance",
     "name": "Ordnance",
     "description": "Ordnance weapons must be fired before taking any other action or movement on a turn (you can still act and move normally afterwards). In addition, ordnance weapons are too cumbersome to be used against targets in engagement with your mech, and cannot be used for overwatch."
   },
@@ -163,5 +163,10 @@
     "id": "tag_unique",
     "name": "Unique",
     "description": "indicates that a weapon or system cannot be duplicated. You can only install it once per mech."
+  }, 
+  {
+    "id": "tag_cqb",
+    "name": "CQB",
+    "description": "TODO: add cqb"
   }
 ]

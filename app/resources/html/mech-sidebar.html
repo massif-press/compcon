@@ -3,7 +3,7 @@
 <script id="mech-sidebar-template" type="text/template">
   {{#configs}}
     <a href=#>
-      <div class="mech-expander btn {{checkStripes status}}">
+      <div class="mech-expander btn {{checkStripes status}}" id="{{id}}">
         <span class="name {{checkAvail status}}">{{allCaps name}}</span>
         <span class="mech-sub">{{shell.name}}</span>
         <div class="mech-open-info hidden">

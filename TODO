@@ -4,7 +4,7 @@ Todo:
   ☐ Organize CSS
   ✔ Equipment items expand (and stay open) on click @done(18-10-10 14:53)
   ☐ Button active states
-  ☐ Fix stat box so overcharge aligns correctly
+  ✔ Fix stat box so overcharge aligns correctly @done(18-10-17 12:41)
   ✘ Add statuses and core power to stat box @cancelled(18-10-10 14:53)
   ✔ Tooltips @done(18-10-09 19:47)
   ☐ Get special mounts etc from ultimates
@@ -12,6 +12,9 @@ Todo:
   ☐ HA Assault Launcher gets a free grenade or mine
   ☐ Have tags take optional data, replace out in tooltip
   ☐ Change mech img links to data in mecha folder
+  ☐ Damage-by-type breakdown per weapon and in charts
+  ☐ Weapon damage array into damage object
+  ☐ Move damage dice math into its own file
 
 Ideas:
   ☐ color scheme for pilots/mechs?

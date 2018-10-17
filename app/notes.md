@@ -11,3 +11,8 @@ kinetic:  #ABB7B7
 energy:   #74b9ff
 heat:     #F3573B
 blast:    #F2B134
+
+
+
+ar_dmg_raw
+kinetic, energy, explosive, burn, variable, heat, 
