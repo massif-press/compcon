@@ -12,7 +12,7 @@ energy:   #74b9ff
 heat:     #F3573B
 blast:    #F2B134
 
-
+core bonuses that affect stats should be applied/removed during player creation/leveling. don't re-parse core bonus info when loading mech.
 
 ar_dmg_raw
 kinetic, energy, explosive, burn, variable, heat, 

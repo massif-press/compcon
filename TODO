@@ -8,17 +8,26 @@ Todo:
   ✘ Add statuses and core power to stat box @cancelled(18-10-10 14:53)
   ✔ Tooltips @done(18-10-09 19:47)
   ☐ Get special mounts etc from ultimates
-  ☐ Split ultimate passive and active on mech sheet
+  ✔ Split ultimate passive and active on mech sheet @done(18-10-18 16:43)
   ☐ HA Assault Launcher gets a free grenade or mine
-  ☐ Have tags take optional data, replace out in tooltip
-  ☐ Change mech img links to data in mecha folder
-  ☐ Damage-by-type breakdown per weapon and in charts
+  ✔ Have tags take optional data, replace out in tooltip @done(18-10-18 16:43)
+  ✔ Change mech img links to data in mecha folder @done(18-10-18 10:52)
+  ✔ Damage-by-type breakdown per weapon @done(18-10-18 16:44)
   ☐ Weapon damage array into damage object
   ☐ Move damage dice math into its own file
+  ✔ Move tag handling into its own file @done(18-10-18 16:44)
+  ✔ Move stat math into its own file @done(18-10-18 16:44)
+  ☐ Error handling for every find() (refactor)
+  ☐ Handlebars:partial the weapon template for ults and systems
+  ☐ Weapon Mods
+  ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
+  ☐ Clean up names
+  ☐ Add aptitude points to weapons, systems, and shells
 
 Ideas:
-  ☐ color scheme for pilots/mechs?
-  ☐ color schemes based off of licenses?
-  ☐ Custom notes/descriptions for items?
+  ☐ color scheme for pilots/mechs
+  ☐ color schemes based off of licenses
+  ☐ Custom notes/descriptions for items
   ☐ on print: traverse pilot data structure to get all possible power cards
   ☐ on print: update regular action cards with player/shell bonuses
+  ☐ range/threat pips for weapons/systems

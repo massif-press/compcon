@@ -40,7 +40,7 @@ $(".pilot-expander, .pilot-sheet-btn").click(function() {
   });
 
   $('.mech-sidebar').load('./resources/html/mech-sidebar.html', function () {
-    mechSidebar(pilots[id].configs);
+    mechSidebar(pilots[id]);
   });
 })
 

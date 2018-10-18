@@ -21,7 +21,7 @@
     "ult_description": "?????",
     "ult_passive": "If you roll a ‘20’ on your d20 for the first roll of any kind on your turn (the actual number 20 on the physical die, before modifiers, sometimes called a ‘natural’ 20) you can make any quick action as a free action at any point before the end of your turn. This passive can only take effect once per turn, and only on your turn.",
     "ult_active_name": "Power up",
-    "ult_active": "Protocol This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions"
+    "ult_active": "This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions <br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_blackbeard",
@@ -74,7 +74,7 @@
     "ult_description": "?????",
     "ult_passive": "This huge, plated shield can be used to bash enemies. It counts as its own mount (doesn’t take mount space), cannot be modified, and has the following profile: Argonaut shield Main melee Threat 1 1d6 kinetic damage",
     "ult_active_name": "FORTRESS",
-    "ult_active": "Protocol When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. While this system is active, your mech is immobilized, though you can still rotate and aim in any direction. You are immune to being knocked back, rammed, grappled, or involuntarily moved by any reason. Two line 2 sections of heavy cover unfold, drawn from your mech in any direction. Your mech grants heavy cover for allied mechs while this system is active, has heavy cover itself, has resistance to damage from blast, line, and cone attacks, and also grants this resistance to any mechs making use of its cover. This system can be deactivated at the start of your turn but cannot be reactivated without more core power."
+    "ult_active": "When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. While this system is active, your mech is immobilized, though you can still rotate and aim in any direction. You are immune to being knocked back, rammed, grappled, or involuntarily moved by any reason. Two line 2 sections of heavy cover unfold, drawn from your mech in any direction. Your mech grants heavy cover for allied mechs while this system is active, has heavy cover itself, has resistance to damage from blast, line, and cone attacks, and also grants this resistance to any mechs making use of its cover. This system can be deactivated at the start of your turn but cannot be reactivated without more core power.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_lancaster",
@@ -124,8 +124,8 @@
     "ult_name": "Perpetual Momentum Drive",
     "ult_description": "IPS-N’s PMD exploits fighter-tier nearlight spooling to conserve and sustain a passive .000001LS charge, able to be dumped into extant boost systems at the pilot’s command. The chassis fielding this system must be heavily adapted through strengthening joints, limbs, and installing a k-comp crash couch to protect the pilot from sudden g force and shear.",
     "ult_passive": "Before or after you make any skirmish or barrage action, you can move 1 in any direction. This movement doesn’t provoke reactions, ignores engagement, and doesn’t count against your movement for the turn.",
-    "ult_active_name": "Spool up PMD",
-    "ult_active": "Protocol Once activated, this system remains active until the rest of the current challenge. While its active, the free movement from this system’s passive increases to 5."
+    "ult_active_name": "Spool Up PMD",
+    "ult_active": "Once activated, this system remains active until the rest of the current challenge. While its active, the free movement from this system’s passive increases to 5.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_raleigh",
@@ -145,11 +145,11 @@
     "stats": {
       "hull": 1
     },
-    "ult_name": "M-35 MJOLNIR cannon",
-    "ult_description": "IPS-N’s M35 MJOLNIR cannon is a carryover from Northstar’s WATCHMAN line of defensive weapons, reworked for frontline combat. The MJOLNIR is a hard-mount, multi-barrel auxiliary cannon that uses magnetic acceleration to fire stacks of airburst projectiles at its target. It is an impulse weapon, a system tied to a pilot’s second-tier neural processes as dictated and coached by their partner Comp/Con or NHP; even in death, a pilot’s MJOLNIR will continue to identify and attack hostile targets until total systemic failure. For this reason, the MJOLNIR is often referred to as a deadgun, one of many such weapons common among CQB-oriented pilots.",
-    "ult_passive": "Gain the M35 cannon. It doesn’t take a mount on your mech, and it cannot be modified or take special ammo. M35 Auxiliary CQB Range 5, Threat 3 3 kinetic damage",
+    "ult_name": "M-35 MJOLNIR Cannon",
+    "ult_description": "IPS-N’s M35 MJOLNIR Cannon is a carryover from Northstar’s WATCHMAN line of defensive weapons, reworked for frontline combat. The MJOLNIR is a hard-mount, multi-barrel auxiliary cannon that uses magnetic acceleration to fire stacks of airburst projectiles at its target. It is an impulse weapon, a system tied to a pilot’s second-tier neural processes as dictated and coached by their partner Comp/Con or NHP; even in death, a pilot’s MJOLNIR will continue to identify and attack hostile targets until total systemic failure. For this reason, the MJOLNIR is often referred to as a deadgun, one of many such weapons common among CQB-oriented pilots.",
+    "ult_passive": "Gain the M35 cannon. It doesn’t take a mount on your mech, and it cannot be modified or take special ammo. <br><br>M35<br>Auxiliary CQB<br>Range 5, Threat 3<br>3 <span class='kinetic'>Kinetic</span> damage",
     "ult_active_name": "Thunder God",
-    "ult_active": "Until the end of the current challenge, if you didn’t fire your M35 on your turn, it gains 1 more round in the chamber at the end your turn (you can use a d6 to track this). It starts with 1 round in the chamber. When you next fire the weapon, it fires all chambers, for 3 damage per chamber, then loads 1 round. The M35 has six chambers, for a maximum of 18 damage. If 3 or more chambers are fired at once, this weapon gains the AP tag and any target struck must pass a hull check or be knocked prone."
+    "ult_active": "Until the end of the current challenge, if you didn’t fire your M35 on your turn, it gains 1 more round in the chamber at the end your turn (you can use a d6 to track this). <br>It starts with 1 round in the chamber. When you next fire the weapon, it fires all chambers, for 3 damage per chamber, then loads 1 round. The M35 has six chambers, for a maximum of 18 damage. <br><br>If 3 or more chambers are fired at once, this weapon gains the <span class='tag'><a href='#' data-balloon-length='medium' data-balloon='The damage from this weapon ignores armor.' data-balloon-pos='up'>Armor Piercing (AP)</a></span> tag and any target struck must pass a hull check or be knocked prone."
   },
   {
     "id": "sh_tortuga",
@@ -174,7 +174,7 @@
     "ult_description": "IPS-N security teams are no strangers to the danger of ship-to-ship or ship-to-station boarding actions. Tight corridors, unstable gravity, dark environments, hard vacuum, and the dual threat of organic and inorganic opposition forces make boarding actions some of the most deadly engagements (by percentage) that one could participate in -- the winning side, according to IPS-N’s internal metrics, should expect at least 30% casualties on average. To lessen the cognitive burden of pilots and any NHPs or comp/cons they have installed in their chassis, IPS-N developed the SENTINEL co-pilot subsentient partition. The Sentinel is a simple subsentient: a flash-homunculus of an aggregate-intelligence compiled through thousands of after-action reports from boarding actions, debriefings, and volunteer donors. Not a true AI, nor an NHP, the SENTINEL is a robust tactical program similar to a smart weapon, though without the need to cycle it presents certain tactical advantages -- namely, the ability for limited learning and best-guess predictive capabilities alongside its pilot. SENTINELs are largely plain in their personalities, such that they develop, and are a favorite of pilots for their no-nonsense attitude and crisp, efficient counsel. The SENTINEL is currently under review by a joint USB/UDoJ-HR committee, but no formal stay on production has yet been issued.",
     "ult_passive": "Gain +1 Accuracy to all overwatch attacks",
     "ult_active_name": "Hyper-reflex mode",
-    "ult_active": "Protocol For the rest of this combat, your threat with ranged weapons increases to 5 if it was less than 5. You can make one additional overwatch attack between turns, and any target struck by your overwatch attacks is immediately immobilized until the start of its next turn."
+    "ult_active": "For the rest of this combat, your threat with ranged weapons increases to 5 if it was less than 5. You can make one additional overwatch attack between turns, and any target struck by your overwatch attacks is immediately immobilized until the start of its next turn. <br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_vlad",
@@ -199,7 +199,7 @@
     "ult_description": "A nod to the pre-Fall namesake of the VLAD, Shrike armor plating bristles with shaped spikes, hardened with chromium/tungsten alloy tips. Strategic studding places Shrike tips in high-likelihood kinetic encounter areas: gauntlet covers, manipulator joint covers, shoulder plating, and so on. Primarily a defensive modification, Shrike armor is uncommon among Coreside pilots, and seen as a mark of underdeveloped -- if terrifying - tactics.",
     "ult_passive": "When you are attacked by a non-grunt target within range 3, your attacker takes 1 AP kinetic damage before they attack",
     "ult_active_name": "Tormentor spines",
-    "ult_active": "Protocol Until the end of the current challenge, you gain resistance to all damage from within range 3, and your damage from this armor’s passive increases to 3 AP kinetic damage."
+    "ult_active": "Until the end of the current challenge, you gain resistance to all damage from within range 3, and your damage from this armor’s passive increases to 3 AP kinetic damage.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_bwitch",
@@ -277,7 +277,7 @@
     "ult_description": "Equipped with an EX Hover-PropSys, a mech can achieve not only sustained flight in any theater, but VTOL and hover capacity in atmospheric environments as well.",
     "ult_passive": "When your mech moves or boosts, it can Fly",
     "ult_active_name": "Engage Flicker Drives",
-    "ult_active": "Protocol For the rest of this challenge, your mech can Hover when it moves or boosts (it can fly, doesn’t need to move, it can move without going in a straight line, and doesn’t need to land). During your turn, your mech is covering in coruscating patterns of distorting energy and counts as Invisible. Electronic systems such as sensors/cameras, etc have a hard time picking up the outline of your mech at all. When your turn finishes, you lose this invisibility until the start of your next turn."
+    "ult_active": "For the rest of this challenge, your mech can Hover when it moves or boosts (it can fly, doesn’t need to move, it can move without going in a straight line, and doesn’t need to land). During your turn, your mech is covering in coruscating patterns of distorting energy and counts as Invisible. Electronic systems such as sensors/cameras, etc have a hard time picking up the outline of your mech at all. When your turn finishes, you lose this invisibility until the start of your next turn.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_metalmark",
@@ -354,7 +354,7 @@
     "ult_description": "The EX SLIPSTREAM program is a Smith-Shimano innovation open only to highly licensed pilots. An interesting development in personal travel, the EX SLIPSTREAM module itself is a miniaturized nearlightspeed star drive capable of transporting the user through blinkspace with acceptable accuracy. The program and its technology is temperamental; a mech core is the smallest unit capable of surviving the stress of exposed blink travel, though the experience is still traumatic to the user and those in close proximity to egress.",
     "ult_passive": "This dangerous and experimental module is a miniaturized starship nearlight drive. You can use it instead of moving or taking the boost action. When you use it, roll 3d6. You can teleport to a point within that range around you as long as there is space for your mech. You don’t have to be able to see this point, but if you attempt to teleport to an already occupied space (by terrain, another mech, etc), the teleport fails and you take 2d6 kinetic damage. If you roll triples for this system, your mech disappears and does not re-appear, either indefinitely or until your party rests (up to you).",
     "ult_active_name": "Stabilize singularity",
-    "ult_active": "Protocol Until the end of this challenge, when you move or boost, you instead teleport up to the same distance."
+    "ult_active": "Until the end of this challenge, when you move or boost, you instead teleport up to the same distance.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_swallowtail",
@@ -406,7 +406,7 @@
     "ult_description": "As one, without any command but desire, you control a cloak of millions of miniscule, quick-print drones: a hellswarm cloak, a living shield, a fluid-dynamic knife -- you cut and guard in one shimmering wave. You are Hivemaster, and your will is followed by millions.",
     "ult_passive": "Any target grappled by your mech or that starts their turn adjacent to your mech takes 2 kinetic damage at the start of your turn",
     "ult_active_name": "Hive Frenzy",
-    "ult_active": "Protocol Your swarm goes into a hyper-active mode. You can set your swarm to one of three modes, and swap at the start of your turn as a free action: Hive Shield: 1/round as a reaction, you can gain resistance to all the damage from any one attack that just hit you. Hive Repulse: While this mode is active, you have resistance to all damage from Smart, Nexus, and Drone weapons and systems and hostile tech actions are made at +1 difficulty against you Hive Scour: While this mode is active, the damage from your passive increases to 3 AP kinetic damage"
+    "ult_active": "Your swarm goes into a hyper-active mode. You can set your swarm to one of three modes, and swap at the start of your turn as a free action: Hive Shield: 1/round as a reaction, you can gain resistance to all the damage from any one attack that just hit you. Hive Repulse: While this mode is active, you have resistance to all damage from Smart, Nexus, and Drone weapons and systems and hostile tech actions are made at +1 difficulty against you Hive Scour: While this mode is active, the damage from your passive increases to 3 AP kinetic damage<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_goblin",
@@ -509,7 +509,7 @@
     "ult_description": "And RA Said To Themselves: LET MY NAME ENVELOP YOU. SEEK NO SHELTER FROM THE FLAME OR THE TEETH OF THE BEAST. CLOAK YOURSELF IN THE FIRE (MY WORD) AND CAST BACK TO YOUR ENEMIES THAT WHICH WOULD BLACKEN YOUR FORM.",
     "ult_passive": "When you take heat damage from any source, one target in range 3 of you takes 1 energy damage.",
     "ult_active_name": "?????",
-    "ult_active": "Protocol Your mech crackles with energy. For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat (from any source, even self), increase the die by 1, to a maximum of 6. You can discharge the accumulated energy in a burst 2 area around you by taking an action to do so. This deals 1d6 energy damage to all targets caught inside, allied or enemy, per charge on the die, and affected mechs can pass a system check to halve the damage. This system then deactivates for the remainder of combat, including its passive."
+    "ult_active": "Your mech crackles with energy. For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat (from any source, even self), increase the die by 1, to a maximum of 6. You can discharge the accumulated energy in a burst 2 area around you by taking an action to do so. This deals 1d6 energy damage to all targets caught inside, allied or enemy, per charge on the die, and affected mechs can pass a system check to halve the damage. This system then deactivates for the remainder of combat, including its passive. <br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   },
   {
     "id": "sh_minotaur",
@@ -736,6 +736,6 @@
     "ult_description": "A certain breed of pilot rides the very edge of catastrophe, swinging between an equal chance of success and failure each moment. Tokugawa pilots are familiar with the howl of their chassis’s heat warning, the warbling siren a song of destruction: with a superheated reactor feed, Tok pilots ramp their heat debt to the max in order to supercharge their energy weapons. This allows them to churn out damage and make no friends in the engineering bay, should they not melt into a ball of slag before they make it back from the line.",
     "ult_passive": "While your mech is in the Danger Zone you deal +2 Burn on the first hit with any attack on your turn.",
     "ult_active_name": "Radiance",
-    "ult_active": "Protocol Choose 1 energy weapon your mech is wielding. If it is a ranged weapon, its range increases by 5, if it is a melee weapon, its threat increases by +1. For the rest of this combat, this weapon also deals +1d6 Burn damage (roll on each attack). However, each time you fire this weapon, you gain +3 heat."
+    "ult_active": "Choose 1 energy weapon your mech is wielding. If it is a ranged weapon, its range increases by 5, if it is a melee weapon, its threat increases by +1. For the rest of this combat, this weapon also deals +1d6 Burn damage (roll on each attack). However, each time you fire this weapon, you gain +3 heat.<br><div class='tag-div'><span class='tag'><a href='#' data-balloon-length='large' data-balloon='This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action.' data-balloon-pos='up'>Protocol</a></span></div>"
   }
 ]

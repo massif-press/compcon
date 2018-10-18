@@ -1,3 +1,24 @@
+:root {
+  /* page elements */
+  --bg: #273336;
+  --bg-alt: #314347;
+  --border: #25616E;
+  --highlight: #5F909C;
+  --text: #DBEBE9;
+  --alert: #F2B134;
+  --warn: #F3573B;
+  --success: #57DF9A;
+
+  /* damage types */
+  --kinetic: #ABB7B7;
+  --energy: #74b9ff;
+  --explosive: #F2B134;
+  --variable: #81597f;
+  --heat: #F3573B;
+  --burn: #832e2e;
+}
+
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -17,12 +38,12 @@ a {
 .block-img {
   display:block;
   margin:auto;
-  border: 1px solid #25616E;
-  background-color: #273336;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
 }
 
 hr {
-  background-color: #25616E;
+  background-color: var(--border);
   height: 1px; 
   border: 0; 
 }
@@ -37,8 +58,8 @@ hr {
   grid-template-rows: 1fr 20fr 1fr;
   grid-gap: 5px ;
   height: 100%;
-  background-color: #273336;
-  color: #DBEBE9;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .header {
@@ -53,7 +74,7 @@ hr {
 
 .column-header {
   color: white;
-  background-color: #25616E;
+  background-color: var(--border);
   text-align: center;
 }
 
@@ -65,7 +86,7 @@ hr {
 .pilot-sidebar {
   grid-area: 2 / 1 / 2 / 1;
   border: 1px solid;
-  border-color: #25616E;
+  border-color: var(--border);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -76,7 +97,7 @@ hr {
 
 .pilot-expander, .mech-expander {
   border: 1px solid;
-  border-color: #25616E;
+  border-color: var(--border);
   padding: 5px;
   margin: 3px;
 }
@@ -86,43 +107,43 @@ hr {
   font-size: 12px;
   font-weight: 100;
   letter-spacing: 1px;
-  color: #5F909C;
+  color: var(--highlight);
   font-style: normal;
   float: right;
   margin-top: 10px;
 }
 
 .open {
-  background-color: #314347;
+  background-color: var(--bg-alt);
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-left: 5px solid #25616E;
+  border-left: 5px solid var(--border);
   transition-duration: 0.1s;
   transition-timing-function: ease-in-out;
 }
 
 .open:hover {
-  border-left-color: #DBEBE9;
+  border-left-color: var(--text);
 }
 
 .mech-sidebar {
   grid-area: 2 / 2 / 2 / 2;
-  border: 1px solid #25616E;
+  border: 1px solid var(--border);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .main {
   grid-area: 2 / 3 / 4 / 3;
-  border: 1px solid #25616E;
+  border: 1px solid var(--border);
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .mount-btn {
-  background-color: #314347; 
-  color:#5F909C; 
+  background-color: var(--bg-alt); 
+  color:var(--highlight); 
   text-align: center;
   height: 30px!important;
   padding-top: 2px;
@@ -134,12 +155,12 @@ hr {
 
 .add-pilot {
   grid-area: 3 / 1 / 3 / 1;
-  background-color: #25616E
+  background-color: var(--border)
 }
 
 .add-mech {
   grid-area: 3 / 2 / 3 / 2;
-  background-color: #25616E
+  background-color: var(--border)
 }
 
 .title {
@@ -154,7 +175,7 @@ hr {
   font-size: 13px;
   font-weight: 100;
   letter-spacing: 3px;
-  color: #5F909C;
+  color: var(--highlight);
   margin: 5px 5px 0 5px;
 }
 
@@ -169,7 +190,7 @@ hr {
   pointer-events: none;
   content: '';
   position: absolute;
-  border: #DBEBE9 solid 1px;
+  border: var(--text) solid 1px;
   top: -6px;
   right: -6px;
   bottom: -6px;
@@ -190,25 +211,25 @@ hr {
 
 .btn:hover, .btn:focus, .btn:active {
   color: white;
-  background-color: #25616E;
+  background-color: var(--border);
 }
 
 .menu-btn {
   display: block;
   margin: 3px;
   padding-left: 5px;
-  background-color: #5F909C;
+  background-color: var(--highlight);
   text-align: center;
 }
 
 .menu-btn:hover, .menu-btn:focus {
-  color: #273336;
-  background-color: #57DF9A;
+  color: var(--bg);
+  background-color: var(--success);
 }
 
 .menu-btn:active {
-  color: #273336;
-  background-color: #DBEBE9;
+  color: var(--bg);
+  background-color: var(--text);
 }
 
 .mech-expander-table{
@@ -218,14 +239,14 @@ hr {
 }
 
 .mech-expander-table th {
-  background-color: #273336;
+  background-color: var(--bg);
   font-size: 13px;
 }
 
 .menu-border {
   padding: 2px;
   border: 1px solid;
-  border-color: #5F909C;
+  border-color: var(--highlight);
 }
 
 .sm-mg {
@@ -233,37 +254,37 @@ hr {
 }
 
 .active {
-  color: #57DF9A;
+  color: var(--success);
 }
 
 .deceased,
 .unavailable {
-  color: #F2B134;
+  color: var(--alert);
 }
 
 .inactive,
 .destroyed {
-  color: #5F909C;
+  color: var(--highlight);
 }
 
 .warning-stripes {
   background: repeating-linear-gradient(
   -45deg,
-  #314347,
-  #314347 10px,
-  #273336 10px,
-  #273336 20px) !important;
+  var(--bg-alt),
+  var(--bg-alt) 10px,
+  var(--bg) 10px,
+  var(--bg) 20px) !important;
 }
 
 .heat-stripes {
   padding: 0 10px 0 10px;
   font-weight: bold;
-  color: #DBEBE9;
+  color: var(--text);
   background: repeating-linear-gradient(-45deg,
-    #F2B13433,
-    #F2B13433 10px,
-    #27333600 10px,
-    #27333600 20px) !important;
+    var(--alert) 33,
+    var(--alert) 33 10px,
+    var(--bg) 00 10px,
+    var(--bg) 00 20px) !important;
 }
 
 .pull-right {
@@ -281,7 +302,7 @@ blockquote {
   line-height: 5px;
   font-size: 12px;
   font-style: italic;
-  color: #5F909C;
+  color: var(--highlight);
 }
 
 .manufacturer {
@@ -297,35 +318,38 @@ blockquote {
 .desc-text {
   padding-left: 20px;
   font-weight: 200;
-  font-size: 13px;
+  font-size: 14px;
   font-style: italic;
 }
 
 .tag {
-    margin:5px;
-    font:13px/20px 'K2D', sans-serif;
-    text-decoration:none;
-    padding: 3px;
-    padding-left: 8px;
-    padding-right: 5px;
-    color:#DBEBE9;
-    border: 1px solid #5F909C;
-    border-width: 1px;
-    border-left-width: 5px;
+  display: inline;
+  margin:5px;
+  font:13px/20px 'K2D', sans-serif;
+  text-decoration:none;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 5px;
+  color:var(--text);
+  background-color: var(--bg);
+  border: 1px solid var(--highlight);
+  border-width: 1px;
+  border-left-width: 5px;
 }
 
 .tag:hover, .tag:focus, {
-  border-color: #DBEBE9;
+  border-color: var(--text);
   color: #fff
 }
 
 .equip-open-info {
-  background-color: #314347;
+  background-color: var(--bg-alt);
 }
 
 .bold {
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
+  line-height: 30px;
 }
 
 .tag-div {
@@ -333,24 +357,7 @@ blockquote {
   margin:3px;
 }
 
-
-.dmg-kinetic {
-  color: #ABB7B7
-}
-
-.dmg-energy {
-  color: #74b9ff;
-}
-
-.dmg-heat {
-  color: #ff7675;
-}
-
-.dmg-explosive {
-  color: #F2B134
-}
-
 .disabled {
-  color: #5F909C;
+  color: var(--highlight);
   cursor: not-allowed;
 }

@@ -28,11 +28,8 @@
     "status": "ACTIVE",
     "licenses" : [
       {
-        "name": "test license a",
-        "level": 1
-      },
-      {
-        "name": "test license b",
+        "name": "RALEIGH",
+        "source": "ISP-N",
         "level": 3
       }
     ],
@@ -54,6 +51,21 @@
         "notes": ""
       }
     ],
+    "skills": {
+      "grit": 0,
+      "acquire": -1,
+      "brawl": 0,
+      "flash": 1,
+      "infiltrate": 0,
+      "investigate": 0,
+      "persuade": 0,
+      "command": 0,
+      "swindle": -1,
+      "tech": 0,
+      "survive": 1,
+      "maneuver": 1,
+      "notice": 2
+    },
     "talents": [
       {
         "id" : "tal_shot",
@@ -69,10 +81,14 @@
       }
     ],
     "core": {
-      "h": 2,
-      "a": 2,
-      "s": 0,
-      "e": 1
+      "hull": 2,
+      "agi": 2,
+      "eng": 1,
+      "sys": 0,
+      "targeting": 1,
+      "hp": 8,
+      "sp": 1,
+      "core_sp": 1
     },
     "core_bonuses": [
       "cb_frame"

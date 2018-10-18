@@ -16,15 +16,15 @@ Handlebars.registerHelper('checkAvail', function (status) {
   else return "unavailable"
   });
 
-function loadMecha(idArray) {
+function loadMecha(pilot) {
   var configArray = [];
 
   for (var i = 0; i < configs.length; i++) {
     configs[i].shell = shells.find(s => s.id == configs[i].shell_id);;
   }
 
-  for (var i = 0; i < idArray.length; i++) {
-    var id = idArray[i];
+  for (var i = 0; i < pilot.configs.length; i++) {
+    var id = pilot.configs[i];
     configArray.push(configs.find(function (c) { return c.id == id; }))
   }
 
@@ -38,7 +38,7 @@ function loadMecha(idArray) {
       var id = $(this).attr("id");
       
       $('.main').load('./resources/html/mech-sheet.html', function () {
-        loadMech(configArray.find(function (c) { return c.id == id; }));
+        loadMech(configArray.find(function (c) { return c.id == id; }), pilot);
       });
     }
   });

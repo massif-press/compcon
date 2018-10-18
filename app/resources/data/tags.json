@@ -1,5 +1,4 @@
-[
-  {
+[{
     "id": "tag_blast",
     "name": "Blast (X)",
     "description": "This weapon or system affects an area with radius of X from a target point within line of sight and the specified range. Trace cover and line of sight from its origin point. Make separate attack rolls for each target caught in the area."
@@ -17,7 +16,7 @@
   {
     "id": "tag_line",
     "name": "Line (X)",
-    "description": "This weapon or system affects a straight line x squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
+    "description": "This weapon or system affects a straight line X squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
   },
   {
     "id": "tag_ap",
@@ -42,12 +41,12 @@
   {
     "id": "tag_heatother",
     "name": "Heat X (target)",
-    "description": "this weapon or system deals additional Heat on hit to its target."
+    "description": "this weapon or system deals an additional X Heat on hit to its target."
   },
   {
     "id": "tag_heatself",
     "name": "Heat X (self)",
-    "description": "this weapon or system deals Heat to its user, applied immediately upon firing"
+    "description": "this weapon or system deals X Heat to its user, applied immediately upon firing"
   },
   {
     "id": "tag_inaccurate",
@@ -122,7 +121,7 @@
   {
     "id": "tag_limited",
     "name": "Limited (X)",
-    "description": "This weapon or system can only be used X number of times before a full repair"
+    "description": "This weapon or system can only be used X times before a full repair"
   },
   {
     "id": "tag_mine",
@@ -163,10 +162,35 @@
     "id": "tag_unique",
     "name": "Unique",
     "description": "indicates that a weapon or system cannot be duplicated. You can only install it once per mech."
-  }, 
+  },
   {
-    "id": "tag_cqb",
-    "name": "CQB",
-    "description": "TODO: add cqb"
+    "id": "tag_quickaction",
+    "name": "Quick Action",
+    "description": "This system can be activated as a Quick Action"
+  },
+  {
+    "id": "tag_ai",
+    "name": "AI",
+    "description": "Your mech gains the AI property. You may cede control of your mech to the AI at the start of your turn. You can only ever install one system with the AI tag unless you have a talent, feature, or piece of gear that says otherwise."
+  },
+  {
+    "id": "tag_fullaction",
+    "name": "Full Action",
+    "description": "This system can be activated as a Full Action"
+  },
+  {
+    "id": "tag_quicktech",
+    "name": "Quick Tech",
+    "description": "This tech can be used as a Quick Tech Action"
+  },
+  {
+    "id": "tag_fulltech",
+    "name": "Full Tech",
+    "description": "This tech can be used as a Full Tech Action"
+  },
+  {
+    "id": "tag_range",
+    "name": "Range",
+    "description": "This system can be activated at a range of X spaces."
   }
 ]

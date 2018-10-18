@@ -1,12 +1,11 @@
 var $ = require("jquery");
 var Handlebars = require("handlebars");
-var charts = require('chart.js');
+var Chart = require('chart.js');
+var Stats = require('./util/stats');
+var Tags = require('./util/taghelper');
+var Dicemath = require('./util/dicemath');
 var weapons = require("../resources/data/weapons.json");
 var systems = require("../resources/data/systems.json");
-var tags = require("../resources/data/tags.json");
-
-// TODO:
-// When loading this, take pilot(core), config, and shell data (and systems?) and combine to get final stats
 
 Handlebars.registerHelper('longSource', function (source) {
   switch (source) {
@@ -23,15 +22,31 @@ Handlebars.registerHelper('ifElse', function (a, b) {
 });
 
 Handlebars.registerHelper('plusMinus', function (val) {
-  if (parseInt(val) === 0) return val;
-  return val > 0 ? "+" + val : "-" + val;
+  return val >= 0 ? "+" + val : "-" + val;
+});
+
+Handlebars.registerHelper('balloonSize', function (str) {
+  str.split(' ');
+  if (str.length < 10) return 'small';
+  if (str.length < 30) return 'medium';
+  if (str.length < 100) return 'large';
+  return 'xlarge';
+});
+
+Handlebars.registerHelper('dmgFormat', function (str) {
+  str = str.replace('Kinetic', '<span class="kinetic">Kinetic</span>');
+  str = str.replace('Energy', '<span class="energy">Energy</span>');
+  str = str.replace('Explosive', '<span class="explosive">Explosive</span>');
+  str = str.replace('Variable', '<span class="variable">Variable</span>');
+  str = str.replace('Heat', '<span class="heat">Heat</span>');
+  str = str.replace('Burn', '<span class="burn">Burn</span>');
+  return str;
 });
 
 Handlebars.registerHelper('dmgRange', function (arr) {
-  console.log(arr);
   if (!arr) return "";
   if (!arr.length) return "";
-  var d = diceDamageParser(arr);
+  var d = Dicemath.parse(arr);
 
   var totalMin = d.min.slice(0 , 4).reduce((a, b) => a + b, 0);
   var totalMax = d.max.slice(0, 4).reduce((a, b) => a + b, 0);
@@ -44,59 +59,22 @@ Handlebars.registerHelper('dmgRange', function (arr) {
 });
 
 
-function loadMech(config) {
-  console.log(config);
-
-  var stats = {
-    h: 1,
-    a: 2,
-    s: 3,
-    e: 4,
-    structure: 4,
-    hp: 22,
-    armor: 1,
-    hp_core_bonus: 5,
-    hp_level_bonus: 3,
-    hp_hull_bonus: 4,
-    stress: 4,
-    heatcap: 7,
-    heat_eng_bonus: 1,
-    overcharge_active: 1,
-    overcharge_remaining: 3,
-    speed: 7,
-    evasion: 8,
-    edef: 8,
-    repcap: 7,
-    targeting: 1,
-    speed_agi_bonus: 1,
-    evasion_agi_bonus: 0,
-    edef_sys_bonus: 1,
-    repcap_eng_bonus: 1,
-    targeting_eng_bonus: 1,
-    max_sp: 7,
-    grapple: 0,
-    ram: 0,
-    sp_shell: 6,
-    sp_core_bonus: 1
-  }
+function loadMech(config, pilot) {
+  var stats = Stats.getStats(config, pilot)
 
   var wp = [];
+  var sys = [];
   
   for (var i = 0; i < config.weapons.length; i++) {
     wp.push(weapons.find(w => w.id == config.weapons[i]));
   }
 
-  for (var i = 0; i < wp.length; i++) {
-    var fullTags = [];
-    for (var j = 0; j < wp[i].tags.length; j++) {
-      //TODO: parse tags with correct numbers
-      var tID = wp[i].tags[j];
-      fullTags.push(tags.find(t => t.id == tID))
-    }
-    wp[i].tags = fullTags;
+  for (var i = 0; i < config.systems.length; i++) {
+    sys.push(systems.find(s => s.id == config.systems[i]));
   }
 
-  console.log(wp);
+  wp = Tags.expand(wp);
+  sys = Tags.expand(sys);
 
   var info_template = Handlebars.compile($('#mech-info-template').html());
   $("#mech-info-output").html(info_template(config));
@@ -104,45 +82,18 @@ function loadMech(config) {
   var stat_template = Handlebars.compile($('#mech-stats-template').html());
   $("#mech-stats-output").html(stat_template(stats));
 
-  var weapons_template = Handlebars.compile($('#mech-weapons-template').html());
-  $("#mech-weapons-output").html(weapons_template({"weapons": wp}));
+  var gear_template = Handlebars.compile($('#mech-gear-template').html());
+  $("#mech-gear-output").html(gear_template({
+    "weapons": wp,
+    "systems": sys,
+    "shell": config.shell
+  }));
+
 
   setCharts();
   bindEquipmentExpanders();
-
-
 }
 
-function diceDamageParser(diceArray) {
-  var minDmgs = [];
-  var maxDmgs = [];
-  var avgDmgs = [];
-
-  for (var i = 0; i < diceArray.length; i++) {
-    var e = diceArray[i].toString();
-    var bSplit = e.split('+'); //split value for flat bonus
-    var plus = bSplit > 1 ? parseInt(bSplit[1].substring(1)) : 0; //collect flat bonus, if any
-    var dice = bSplit[0];
-    if (!dice.includes('d')) { //if dmg is flat
-      var val = parseInt(dice) + plus;
-      minDmgs.push(val);
-      maxDmgs.push(val);
-      avgDmgs.push(val)
-    } else {
-      var diceNum = parseInt(dice.split('d')[0]);
-      var diceSize = parseInt(dice.split('d')[1]);
-      minDmgs.push(diceNum + plus);
-      maxDmgs.push((diceNum * diceSize) + plus)
-      avgDmgs.push((((diceSize + 1) / 2) * diceNum) + plus)
-    }
-  }
-
-  return {
-    min: minDmgs,
-    max: maxDmgs,
-    avg: avgDmgs
-  }
-}
 
 
 //TODO: offload these

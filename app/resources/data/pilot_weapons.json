@@ -17,9 +17,7 @@
     "id": "pw_alloy_combat",
     "type": "pilot_weapon",
     "name": "Combat Alloy/Composite Weapon",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": "Threat",
     "damage": "2 kinetic",
     "source": "GMS",
@@ -73,9 +71,7 @@
     "id": "pw_sig_sidearm",
     "type": "pilot_weapon",
     "name": "Signature Sidearm",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": 3,
     "damage": 1,
     "source": "GMS",
@@ -87,9 +83,7 @@
     "id": "pw_sig_combat",
     "type": "pilot_weapon",
     "name": "Signature Combat Weapon",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": 5,
     "damage": 2,
     "source": "GMS",
@@ -173,9 +167,7 @@
     "id": "pw_nanowhip",
     "type": "pilot_weapon",
     "name": "Nanobot Whip",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": "Threat +1",
     "damage": "1 kinetic",
     "source": "HORUS",
@@ -187,9 +179,7 @@
     "id": "pw_nullspike",
     "type": "pilot_weapon",
     "name": "Null Spike",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": "Threat",
     "damage": "*",
     "source": "HORUS",
@@ -274,9 +264,7 @@
     "id": "pw_ripjack",
     "type": "pilot_weapon",
     "name": "Ripjack",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": "Threat (Thrown 4)",
     "damage": "2 kinetic",
     "source": "IPS-N",
@@ -376,9 +364,7 @@
     "id": "pw_implantedgun",
     "type": "pilot_weapon",
     "name": "Implanted Gun",
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "range": 2,
     "damage": "1 energy",
     "source": "SSC",

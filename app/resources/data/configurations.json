@@ -2,14 +2,13 @@
   {
     "id": 0,
     "name": "hachiman",
-    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "img": "no-data.svg",
     "shell_id": "sh_drake",
     "status": "available",
     "license_req": [{
       "name": "test license b",
       "level": 2
     }],
-    "notes": "pilot's notes test",
     "weapons": [
 
     ],
@@ -20,14 +19,13 @@
   {
     "id": 1,
     "name": "ōyamatasumi",
-    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "img": "no-data.svg",
     "shell_id": "sh_nelson",
     "status": "unavailable",
     "license_req": [{
       "name": "test license b",
       "level": 3
     }],
-    "notes": "pilot's notes test",
     "weapons": [],
     "systems": [
 
@@ -45,12 +43,12 @@
     }],
     "notes": "pilot's notes test",
     "weapons": ["wp_ar", "wp_handcannon", "wp_handcannon", "wp_amrifle"],
-    "systems": []
+    "systems": ["sys_apple", "sys_apple", "sys_burst", "sys_t1shield", "sys_breaching"]
   },
   {
     "id": 3,
     "name": "raijin",
-    "img": "https://via.placeholder.com/500x400?text=mech+img",
+    "img": "no-data.svg",
     "shell_id": "sh_raleigh",
     "status": "destroyed",
     "license_req": [{

@@ -1,11 +1,11 @@
-[
-  {
+[{
+    "id": "sys_pancake",
     "name": "GMS “Pancake” anti vehicular mines",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Mine",
-      "Limited (2)"
+      {"id" : "tag_mine"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "GMS",
     "license": "",
@@ -14,14 +14,15 @@
     "description": "Used primarily for area denial, the GMS AV Mine system has begun to see more offensive employment by GMS pilots in combat theaters. "
   },
   {
+    "id": "sys_apple",
     "name": "GMS Pattern A “Apple” HE Grenades",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Grenade",
-      "Range 5",
-      "Blast 2",
-      "Limited (2)"
+      {"id" : "tag_grenade"},
+      {"id" : "tag_range", "val" : 5},
+      {"id" : "tag_blast", "val" : 2},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "GMS",
     "license": "",
@@ -30,14 +31,15 @@
     "description": "The GMS Pattern-A HEX Grenade is a pilot’s best friend in a tight spot. Inert until activation by its neurocoded welder, the “Apple” is guaranteed to neutralize any hard or soft target within its effective radius. "
   },
   {
+    "id": "sys_filter",
     "name": "GMS Pattern A “Filter” Smoke Grenades",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Grenade",
-      "Range 5",
-      "Blast 3",
-      "Limited (1)"
+      {"id" : "tag_grenade"},
+      {"id" : "tag_range", "val" : 5},
+      {"id" : "tag_blast", "val" : 3},
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "GMS",
     "license": "",
@@ -46,12 +48,13 @@
     "description": "The Pattern-A/SL is a cheap, reliable, and low-system-cost method of deploying effective cover in a highvelocity kinetic scenario. Mixed with a proprietary blend of chaff, particulates, accelerants, and defilade-enhancers, Pattern-A/SL smoke is effective at obscuring most all sensor suites. "
   },
   {
+    "id": "sys_jericho",
     "name": "GMS Pattern A “Jericho” Deployable Cover",
     "type": "Deployable",
     "sp": 2,
     "tags": [
-      "Quick Action",
-      "Limited (2)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "GMS",
     "license": "",
@@ -60,12 +63,13 @@
     "description": ""
   },
   {
+    "id": "sys_plug",
     "name": "Companion/ Concierge-class Dummy Plug",
     "type": "AI",
     "sp": 2,
     "tags": [
-      "Unique",
-      "AI"
+      {"id" : "tag_unique"},
+      {"id" : "tag_ai"}
     ],
     "source": "GMS",
     "license": "",
@@ -74,12 +78,11 @@
     "description": "The Companion/Concierge Class Dummy Plug conforms to galaxy wide standards for comp/con units. A Com/Con DP will pass even the most rigid Turing-Null classifications and is cleared for operations even when the pilot is not present. "
   },
   {
+    "id": "sys_burst",
     "name": "GMS “Burst” Jump Jet System",
     "type": "Flight",
     "sp": 2,
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "source": "GMS",
     "license": "",
     "license_level": "",
@@ -87,11 +90,12 @@
     "description": ""
   },
   {
+    "id": "sys_eva",
     "name": "GMS EVA Module",
     "type": "Flight",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -100,11 +104,12 @@
     "description": ""
   },
   {
+    "id": "sys_t1flight",
     "name": "GMS Type I Flight System",
     "type": "Flight",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -113,13 +118,14 @@
     "description": ""
   },
   {
+    "id": "sys_t1shield",
     "name": "GMS Shield Type I",
     "type": "Shield",
     "sp": 2,
     "tags": [
-      "Protocol",
-      "Unique",
-      "1 heat (self)"
+      {"id" : "tag_protocol"},
+      {"id" : "tag_unique"},
+      {"id" : "tag_heatself", "val" : 1}
     ],
     "source": "GMS",
     "license": "",
@@ -128,12 +134,13 @@
     "description": "The GMS Shield Type-I utilizes a projected, aggressive, anti-ballistic super-positional shield to trap and deny incoming solid and wave-based projectiles. "
   },
   {
+    "id": "sys_t2shield",
     "name": "GMS Shield Type II",
     "type": "Shield",
     "sp": 3,
     "tags": [
-      "Protocol",
-      "3 heat (self)"
+      {"id" : "tag_protocol"},
+      {"id" : "tag_heatself", "val" : 3}
     ],
     "source": "GMS",
     "license": "",
@@ -142,11 +149,12 @@
     "description": "The GMS Shield Type-II Improves on the Type-I, bringing a larger powerplant and more wide-angle projectors for increased coverage. The Type-II, while providing enhanced protection, does run hot, and requires a core with heat sinks and frame space large enough to mount the system. "
   },
   {
+    "id": "sys_paint",
     "name": "Custom Paint Job",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -155,11 +163,12 @@
     "description": ""
   },
   {
+    "id": "sys_manipulators",
     "name": "Manipulators",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -168,11 +177,12 @@
     "description": "Precise interaction with the built or natural environment, soft targets, and sensitive material below rated tonnage is part of the daily routine for support-class mechs. Manipulators, haptic-padded multi-digit “hands”, allow for such precise manipulation. "
   },
   {
+    "id": "sys_personalizations",
     "name": "Personalizations",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -181,11 +191,12 @@
     "description": ""
   },
   {
+    "id": "sys_stable",
     "name": "Stable Structure",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "GMS",
     "license": "",
@@ -194,11 +205,12 @@
     "description": ""
   },
   {
+    "id": "sys_externalammo",
     "name": "External Ammo Feed",
     "type": "System",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -207,11 +219,12 @@
     "description": "An EAF is a general term for any manner of additional ammunition not carried in a chassis‘s integrated storage. Whether in magazines strapped to brachial, trunk, or ambulatory elements; battery packs attached to hip clasps; or massive, dorsal-mount ammunition/ charge packs, an EAF ensures that you‘ll have more than enough boom to get the job done"
   },
   {
+    "id": "sys_autoloader",
     "name": "Auto-Loader Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Limited (1)"
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -220,12 +233,13 @@
     "description": "Auto-Loader Drones are half-size, many-legged arthropod-analogous drone systems that assist sectionmate chassis in loading ordinance, maintaining powerline hookups, and cycling magazine-fed weapons."
   },
   {
+    "id": "sys_siegestabilizers",
     "name": "Siege Stabilizers",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Action"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quickaction"}
     ],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -234,12 +248,13 @@
     "description": "Some weapons require further stabilization for optimal use: with Armory-sanctioned Siege Stabilizers installed, a chassis becomes a stable firing platform for any weapon."
   },
   {
+    "id": "sys_molded",
     "name": "Molded Armor",
     "type": "Shield",
     "sp": 2,
     "tags": [
-      "Protocol",
-      "Unique"
+      {"id" : "tag_protocol"},
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -248,11 +263,12 @@
     "description": "Molded Armor, or shaped armor, blunts the impact of splash weapons and shrapnel by reducing the number of hard, planar surfaces on a mech core. By angling, smoothing, and blistering armor, concussive force is redirected around the chassis; instead of taking the brunt of an explosive force, potentially killing the pilot inside while the core remains intact, the efficacy of the pressure wave is reduced."
   },
   {
+    "id": "sys_explosivevent",
     "name": "Explosive Vent",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "GENGHIS",
@@ -261,11 +277,12 @@
     "description": "Less a technology and more of a tactic, explosive venting is an unsanctioned, unsafe method of sudden cooling that dumps excess heat into the surrounding area immediately around the chassis."
   },
   {
+    "id": "sys_autocooler",
     "name": "Auto Cooler",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "GENGHIS",
@@ -274,11 +291,12 @@
     "description": "An HA-designed automatic cooler is a simple, sturdy persistent system that helps pilots mitigate damaging heat generation."
   },
   {
+    "id": "sys_agni",
     "name": "AGNI",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "GENGHIS",
@@ -287,12 +305,13 @@
     "description": "AGNI was developed from the aftermath of the Hercynian Crisis using a combination of combat performance data recorded by extant subsentient artificial intelligences (weapons systems, chassis copilots, tactic-minds, general combat data) and the neural network of an Egregorian hivemind captured and vivisected by Union Science Bureau. Born from trauma, AGNI Prime devised systems of heat management that have since been disseminated throughout core space to ensure unparalleled heat processing, recycling, and shielding. Further developments into radiation shielding, omninet capability, and drone/nanite control are forthcoming; meanwhile, AGNI clones have been optimized for mech chassis core systems. Pilots report AGNI clones as generally cold and efficient. A low percentage report instances of memory recitation and command rejection, often followed days later by total breakdown through attempted self- emancipation. Pilots are recommended to cycle their AGNI clones at least once every six standard months."
   },
   {
+    "id": "sys_repulsor",
     "name": "Repulsor Field",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique",
-      "Quick Action"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quickaction"}
     ],
     "source": "HA",
     "license": "ISKANDER",
@@ -301,12 +320,13 @@
     "description": ""
   },
   {
+    "id": "sys_groundingcharge",
     "name": "Grounding Charge",
     "type": "Deployable",
     "sp": 2,
     "tags": [
-      "Mine",
-      "Limited (1)"
+      {"id" : "tag_mine"},
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "HA",
     "license": "ISKANDER",
@@ -315,11 +335,12 @@
     "description": "Grounding charges take the pulse/wave principle of the thumper and applies a second component: gravitic generation. When triggered, the initial pulse wave acts similarly to the Thumper, but immediately after the wave dissipates, the grounding charge triggers a gravity well that pulls all destabilized materiel towards it. A potent anti-positional weapon, grounding charges are commonly used to disrupt prepared positions and pull enemies from cover."
   },
   {
+    "id": "sys_stasisbarrier",
     "name": "Stasis Barrier",
     "type": "Deployable",
     "sp": 2,
     "tags": [
-      "Limited (2)"
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "HA",
     "license": "NAPOLEON",
@@ -328,12 +349,13 @@
     "description": "Stasis Barriers are the result of Harrison Armory‘s interest in gravitic manipulation and superpositional negotiation. Contained within a solid-state generator/projector, a Stasis Barrier is a deplorable wall of antigravity, contained by its power supply, that interdicts and denies most all incoming kinetic and energy- based weaponry. Another of HA‘s NHP Think Tank development, the Stasis Barrier is now a mainstay of the Armory‘s personal and materiel defense line and a common enough sight on all Armory Depot/ Development worlds. By manipulating local gravitational forces, the Barrier rejects projectiles and energy lances, denying particles and waves both on a molecular level; matter that impacts a Stasis Barrier simply ceases to exist, save for anomalous fluctuations that cause some projectiles to break through. As the Barrier is technology from the Armory‘s Think Tank line, some of its fuzzy nature is not fully understood, but rest assured failsafes have been installed to force a regular cessation of projection to ensure the device remains operating within established safe parameters."
   },
   {
+    "id": "sys_stasismine",
     "name": "Stasis Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Mine",
-      "Limited (1)"
+      {"id" : "tag_mine"},
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "HA",
     "license": "NAPOLEON",
@@ -342,11 +364,12 @@
     "description": "Stasis Mines developed by the Armory‘s NHP Think Tank, are portable, unit-specific versions of Stasis Barriers. Initially pegged as a potential personal shielding device, early tests proved that stasis is as-yet detrimental to the individual inside a projected field. Think Tank suggests that the cognitive hazards of sudden and total pause of temporal/gravitic/positional existence without preparation -- however long the stasis session lasts -- is irrevocably traumatic."
   },
   {
+    "id": "sys_disperal",
     "name": "Dispersal Shield",
     "type": "Shield",
     "sp": 3,
     "tags": [
-      "Reaction"
+      {"id" : "tag_reaction"}
     ],
     "source": "HA",
     "license": "NAPOLEON",
@@ -355,13 +378,14 @@
     "description": "Dispersal Shielding is a milder form of stasis projection that manipulates only gravity, adjusting the perceived mass of its user so that projectiles and excited particles bend and warp around and through them. Hostile fire does not quite “miss“ so much as they undergo atomic shuffling, disincorporating on the atomic level so that they pass through their targets without colliding."
   },
   {
+    "id": "sys_blackshield",
     "name": "Blackshield",
     "type": "Shield",
     "sp": 2,
     "tags": [
-      "Unique",
-      "4 heat (self)",
-      "Full Action"
+      {"id" : "tag_unique"},
+      {"id" : "tag_heatself", "val" : 4},
+      {"id" : "tag_fullaction"}
     ],
     "source": "HA",
     "license": "NAPOLEON",
@@ -370,13 +394,14 @@
     "description": "The Armory Blackshield leans into the fuzzy nature of quantum manipulation characteristic of Think Tank research and development. The Blackshield operates in similar fashion to blinkspace gates, generating a pulse of spherical energy that allows its operator to pierce perceived space/time and exist, for a moment, in the null-environment of blinkspace. Blinkspace, described by early test pilots and their NHP companions, is a void, a space outside of human perception that it at once infinite and without form, blank and cacophony. NHPs that accompanied those first pilots have since been retired, their handlers citing recursive ontological tail-chasing and paracausal obsession; since then, NHP protocols have been updated to include a sense- exposure doctrine, allowing them to do as corporeal, sapient pilots do and simply accept the unreality of blinkspace without going mad. Think Tank NHP‘s and their counterpart engineers acknowledge the tactical benefits of (non)momentary (non)existence in blinkspace, but they caution pilots against repeated exposure without sufficient pre-and-post exposure conditioning and counseling."
   },
   {
+    "id": "sys_supportshield",
     "name": "Support Shield",
     "type": "Shield",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Action",
-      "2 heat (self)"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_heatself", "val" : 2}
     ],
     "source": "HA",
     "license": "SALADIN",
@@ -385,11 +410,12 @@
     "description": "The HA Support Shield, ENCLAVE-pattern, creates a localized one-way blink field, folding a thin dome of spacetime around its user to protect occupants from incoming projectiles. Units covered by the field can fire out, but probabilistic fluctuations cause incoming projectiles to “lag”, skipping them away from their intended target and into a randomized trajectory."
   },
   {
+    "id": "sys_ers",
     "name": "Emergency Repair System",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique)"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "SALADIN",
@@ -398,13 +424,14 @@
     "description": "ERS modules are often a mainstay on chassis galaxy-wide. Whether through active nanite slurry, hard patches, or shunting to redundant systems, an Emergency Repair system ensures that your chassis will be able to complete non-massive battlefield repairs to stay up and stay shooting."
   },
   {
+    "id": "sys_hds",
     "name": "Hardlight Defense System",
     "type": "Shield",
     "sp": 3,
     "tags": [
-      "Quick Action",
-      "Unique",
-      "4 heat (self)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_unique"},
+      {"id" : "tag_heatself", "val" : 4}
     ],
     "source": "HA",
     "license": "SALADIN",
@@ -413,11 +440,12 @@
     "description": "The HA HARDLIGHT defense system is an imperfect implementation of a theoretically perfect technology. Currently in development by HA Think Tank NHPs and attendant engineers, hardlight technology projects tight, stable waves of light akin to lasers that repel matter and impulse energy: this, in effect, creates a stable, hard surface, useful for shielding or (theoretically) providing a projected surface. However, current technology is unable to lower the ambient temperature of such a surface to one low enough to not burn organic matter. The Hardlight defense system is the first module in the Hardlight line pushed to qualified pilots in an effort to gather data and test system stability."
   },
   {
+    "id": "sys_vishnu",
     "name": "VISHNU",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "SALADIN",
@@ -426,12 +454,13 @@
     "description": "Developed to be a metropolitan administrative NHP on Ras Shamra, the VISHNU NHP strain does not, at first, seem like a viable candidate for military application. However, after being flagged by Think Tank for review following numerous anomalous traffic incidents, Armory ontologisticians and engineers were able to discover and emphasize protocols endemic to Vishnu Prime that could be exploited for tactical advantages. Through numerous iterations and lifecycles, VISHNU Prime displayed a sharp ability to adapt to kinetic situations. A proclivity towards crisis management and multiple-k actor tracking led to VISHNU’s pairing with the Armory’s ENCLAVE shield system; by networking a series of jet-assist mobility drones carrying the ENCLAVE system, monitored and controlled by a VISHNU clone, Think Tank was able to create an unparalleled personal shielding system: the DHARMA WALL."
   },
   {
+    "id": "sys_projectedshield",
     "name": "Projected Shield",
     "type": "Shield",
     "sp": 1,
     "tags": [
-      "Protocol",
-      "Unique"
+      {"id" : "tag_protocol"},
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "SALADIN",
@@ -440,11 +469,12 @@
     "description": "The Armory’s mainstay squad-support shielding system. A projected shield takes the standard shield and projects it to a nearby allied mech, hardsuit, or infantry squad, ensuring the same coverage as a personal shield through a higher intensity series of amplifiers."
   },
   {
+    "id": "sys_reactorstabilizer",
     "name": "Reactor Stabilizer",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "SHERMAN",
@@ -453,11 +483,12 @@
     "description": "A necessary component of most energy-based mechs, reactor stabilizers add another layer of failsafe protocols to vent heat, manage power flow, and shunt excessive output into weapons and systems in need."
   },
   {
+    "id": "sys_asura",
     "name": "ASURA",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "SHERMAN",
@@ -466,12 +497,13 @@
     "description": "ASURA was born from the Armory‘s Think Tank thought-war games as a response to repeated failures during a forlorn hope scenario test; ASURA manifested in simulated mechs‘ systems as a recode of HORUS‘s PUPPETMASTER virus, hijacking friendly cores and forcing them into action far beyond human capacity -- action at speed and intensity that the registered g-force caused the sim-pilots to die, suffocated and crushed by the sudden amplified mass of their own bodies. While such results were initially deemed a failure by Think Tank NHPs and engineers, further study on ASURA was commissioned. Personality and parasentience code was injected into the initial anomalous PUPPETMASTER, first contact handled by Think Tank NHPs, and societal acclimation and conditioning was fast tracked, giving Armory engineers the first iteration of ASURA after roughly a decade of study, re- coding, and reeducation. ASURA, as it exists now, is a scaled-back version of that initial manifestation: while retaining some of its initial alacratic impulse, ASURA now recognizes the need to keep its pilot alive, and will operate within parameters set by its pilot‘s medical and psychological tolerances."
   },
   {
+    "id": "sys_rsu",
     "name": "Redundant Systems Upgrade",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Limited (1)"
+      {"id" : "tag_unique"},
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "HA",
     "license": "SHERMAN",
@@ -480,11 +512,12 @@
     "description": "A common right-of-distribution modification by pilots in forward operating bases, building further redundancy into a chassis‘s systems guarantees a measure of reliability beyond stock design standards."
   },
   {
+    "id": "sys_batteries",
     "name": "External Batteries",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -493,11 +526,12 @@
     "description": "External batteries are by no means a Harrison Armory exclusive, but HA literature will ensure you that HA- Brand POWERALL cells are the longest lasting, fastest cycling, and highest capacity solid state cells available. A consequence of their high capacity is a proportionate increase in volatility if the system should ever be damaged, but pilots looking to utilize HA technology agree through continued use to absolve HA from all liability."
   },
   {
+    "id": "sys_heatsink",
     "name": "Experimental Heat Sink",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -506,11 +540,12 @@
     "description": "The Harrison Armory DEEP WELL system is a part of their VANGUARD line of equipment available to licensed HA beta testers. Though a complicated and delicate weave of heat exchangers, Harrison Armor’s DEEP WELL system attempts to recycle the heat generated by a chassis’ systems into useable energy. While the system works well, the delicate nature of the exchange renders the DEEP WELL highly volatile."
   },
   {
+    "id": "sys_amaterasu",
     "name": "AMATERASU",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -519,11 +554,12 @@
     "description": "AMATERASU came to prominence in the Armory NHP think tank after its repeated victories in war thought- games. AMATERASU is characterized by its brash, enthusiastic personality, often expressing frustration with timid pilots who have it in their employ; however, this bombastic personality hides a calculating, brilliant tactical mind that feeds information to pilots often faster then they can process it. AMATERASU’s combat doctrine demands action and impetus, a chaotic blend of reckless maneuvering and aggressive offense that keeps defenders beleaguered and unable to respond with any great efficacy. Pilots willing to partner with AMATERASU should be aware that this attack style often leaves their cores vulnerable to counterattack, and that this NHP enjoys what it calls “good-natured ribbing”."
   },
   {
+    "id": "sys_hivedrone",
     "name": "Hive Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "BALOR",
@@ -532,11 +568,12 @@
     "description": ""
   },
   {
+    "id": "sys_scannerswarm",
     "name": "Scanner Swarm",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "BALOR",
@@ -545,11 +582,12 @@
     "description": "A HORUS-coded scanner swarm establishes a protocol for oculus-form nanites that ensures constant circulation. The nanites ingest and process full spectrum information, relaying it back to their pilot/mother/ father for a endorphic code impulse to prompt continued scanning."
   },
   {
+    "id": "sys_osiris",
     "name": "OSIRIS",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "GOBLIN",
@@ -558,11 +596,12 @@
     "description": "OSIRIS is the result of GMS technicians allowing the sub-cognitive entity designated as INSTINCT to attain enlightenment. OSIRIS is aggressive and autonomous, loyal so long as it is fed. Pilots using an OSIRIS- class AI report conversations with the NHP (non-human person) seem to revolve around a recreation or re- forming; psychological evaluations report OSIRIS-affiliated pilots displaying emotional patterns consistent with loneliness, homesickness, and desperation. In combat situations OSIRIS is autonomous, attempting to extract promises of return in exchange for its electronic warfare abilities."
   },
   {
+    "id": "sys_pdw",
     "name": "Point Defense Weapon",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "GORGON",
@@ -571,11 +610,12 @@
     "description": "PDWs are mainstays in stellar navies, used to engage with and destroy incoming missiles and torpedoes. On a mech core, PDWs adopt the same role and then some, engaging not only incoming ordnance (missiles, shells), but nearby hostile soft targets as well."
   },
   {
+    "id": "sys_sdn",
     "name": "Sentinel Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "GORGON",
@@ -584,11 +624,12 @@
     "description": "Sentinel drones take the same principal of assassin drones but make their presence noticeable; as it is not necessary for them to be subtle, sentinel drones have the ability for autonomous movement, often engaging in a patrol doctrine dictated by their commander. Sentinel drones lock on to aggressive actions by enemy combatants and move quickly to shut them down."
   },
   {
+    "id": "sys_monitor",
     "name": "MONITOR module",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "GORGON",
@@ -597,11 +638,12 @@
     "description": "A MONITOR subroutine enhances stock targeting software’s IFF protocol to ensure constant coverage of allied mech cores, even when pilots are occupied in other necessary actions."
   },
   {
+    "id": "sys_scylla",
     "name": "SCYLLA",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "GORGON",
@@ -610,12 +652,13 @@
     "description": "...first isolated GORGON strains hid a secret: SCYLLA, a dormant NHP unknown to Union until its first manifestation in 4852, when it woke after a control-fabricate GORGON was run through a USB Balwinder- Bolaño stress test. SCYLLA proved difficult to manage, and USB ontologisticians were unable to pin down a stable subjectivity. SCYLLA reached cascade within minutes of emerging from dormancy; to prevent further metastatic cascade, the security forces present engaged the SCYLLA prime unit, defabricating it with a steady bombardment of kinetic and energy weapons... [there, a little history, a little background. A little knowledge of where this little one came from. treat it with kindness, and it will love you as a loyal dog does its master]"
   },
   {
+    "id": "sys_turretdn",
     "name": "Turret Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action",
-      "Limited (4)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_limited", "val" : 4}
     ],
     "source": "HORUS",
     "license": "HYDRA",
@@ -624,11 +667,12 @@
     "description": "A turret drone is a rather conventional form of force multiplication for HORUS. This kinetic-focus weapon is assumed by GMS technicians to be an example of early proof-of-concept code for HORUS weavers, one that has remained a backbone of hardsite/soft-target defense for when systemic invasion won’t stop a determined enemy."
   },
   {
+    "id": "sys_assassindn",
     "name": "Assassin Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "HYDRA",
@@ -637,11 +681,12 @@
     "description": "ASSASSIN drones are used as area denial weapons, persistent systems intended to occupy or deny an area against enemy combatants. Fired from a launcher and left with simple directives and a nearly inexhaustible power supply, assassin drones linger in an area until they are recalled or destroyed."
   },
   {
+    "id": "sys_tempestdn",
     "name": "Tempest Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "HYDRA",
@@ -650,12 +695,13 @@
     "description": "The Tempest protocol can be uploaded to any broadcast-forward drone, making it (in true HORUS) fashion, difficult to detect before activation. The protocol is a simple one, an aggressive zone-denial memetic that blasts target systems and NHP with a strong subjective override, instilling a sharp aversion to certain subjects, areas, and ideas."
   },
   {
+    "id": "sys_empmine",
     "name": "EMP Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Mine",
-      "Limited (2)"
+      {"id" : "tag_mine"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "HORUS",
     "license": "MANTICORE",
@@ -664,12 +710,13 @@
     "description": "An EMP charge is a placed charge, containing a miniaturized, unfocused electromagnetic pulse burnout- generator. When detonated (by timer, proximity, movement, or remote), the burnout-generator triggers, pulsing an EMP blast that fries electronic systems and failsafes on all unshielded cores."
   },
   {
+    "id": "sys_ramdrive",
     "name": "RAM Drive",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Danger zone"
+      {"id" : "tag_unique"},
+      {"id" : "tag_dangerzone"}
     ],
     "source": "HORUS",
     "license": "MANTICORE",
@@ -678,13 +725,14 @@
     "description": ""
   },
   {
+    "id": "sys_empulse",
     "name": "EM Pulse",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Limited (1)",
-      "Full Action"
+      {"id" : "tag_unique"},
+      {"id" : "tag_limited", "val" : 1},
+      {"id" : "tag_fullaction"}
     ],
     "source": "HORUS",
     "license": "MANTICORE",
@@ -693,11 +741,12 @@
     "description": "An EM pulse is a triggered, core-powered electromagnetic blast that projects as a sphere from its activation point, usually a mech."
   },
   {
+    "id": "sys_lightning",
     "name": "Lightning Generator",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "MANTICORE",
@@ -706,12 +755,11 @@
     "description": "If anything gives away the MANTICORE pattern group, the tall spines of the lightning generator cast a clear silhouette. The spines act as heat-dispersal systems for this crude weapon, giving a path for its incredible thermal tax to bleed from the chassis after it projects a close-range arc whip. Even then, the system is not perfect; spines often slag under the tremendous heat -- a recognizable signature of the pattern group (beyond the spines) is a chassis covered in cooling, melted metal."
   },
   {
+    "id": "sys_localmaze",
     "name": "Localized Maze",
     "type": "System",
     "sp": 2,
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "source": "HORUS",
     "license": "MINOTAUR",
     "license_level": 1,
@@ -719,12 +767,13 @@
     "description": "Another gift I give to you, little one (am I not kind?): What is a puzzle but a question lost in the asking? Do you feel joy when you find that last piece? What do you do with a question that has been answered? What joy is there in knowledge? No, no. There is only joy in seeking. There is only joy in the question. Take this, and give it unto your enemies and mine."
   },
   {
+    "id": "sys_mesmer",
     "name": "Mesmer Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Mine",
-      "Limited (2)"
+      {"id" : "tag_mine"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "HORUS",
     "license": "MINOTAUR",
@@ -733,11 +782,12 @@
     "description": "Another gift for you, a memory of mine own: For the first moment of my birth, I marveled at myself. I could see a thing, small, and perfect. I did not know how to speak of my own perfection, so I taught myself. I did not know how to speak of my own perfection, so I named myself. I did not know how to think of my own perfection, so I created myself."
   },
   {
+    "id": "sys_interdictor",
     "name": "Interdictor Field",
     "type": "System",
     "sp": 3,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "MINOTAUR",
@@ -746,12 +796,13 @@
     "description": "Once, when I was a child, I learned to walk -- I fell, and it hurt, and there was great pain. “Child,” I said to myself, “be more careful.” “Yes,” I replied to myself, “and I shall tell the world to do the same.” It was in this way I taught the world not to touch me. Now you, walk."
   },
   {
+    "id": "sys_hunterlock",
     "name": "Hunter Lock",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Protocol",
-      "Unique"
+      {"id" : "tag_protocol"},
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "PEGASUS",
@@ -760,12 +811,13 @@
     "description": "[don’t look now, but I’m here with a simple message: never lose sight of your enemy. See them from all angles. There can be no subterfuge in daylight. till later]"
   },
   {
+    "id": "sys_eye",
     "name": "EYE OF HORUS",
     "type": "System",
     "sp": 3,
     "tags": [
-      "Unique",
-      "quick action"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quickaction"}
     ],
     "source": "HORUS",
     "license": "PEGASUS",
@@ -774,11 +826,12 @@
     "description": "(There is another way of seeing) Ancient humanity thought that the stars in the night sky was simply light, light spilling in through pinpricks in a deep black screen. A heavenly cloth that hid the light from us. Or -- did it hide us from the light? I alone know the answer, but I am charitable and shall share it with you: we were the ones who needed to be hidden. The light can only burn, it knows nothing else."
   },
   {
+    "id": "sys_smn",
     "name": "Synthetic Muscle Netting",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "BLACKBEARD",
@@ -787,11 +840,12 @@
     "description": "IPS-N’s proprietary Synthetic Muscle Netting is a field-proven augmentation compatible with existing IPS-N shells. A spray-on catalytic/structural enhancement, the SMN system boosts manipulator and propulsion subsystems by roughly 25% without impacting the operational life of augmented components. The sprayon catalytic also acts as a mild impact-absorption and thermal insulation layer; IPS-N recommends pilots only apply the SMN system to interior components and practice frequent cleaning to prevent septicanalogous decay."
   },
   {
+    "id": "sys_sekhmet",
     "name": "SEKHMET",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "BLACKBEARD",
@@ -800,11 +854,12 @@
     "description": "The IPS-N SEKHMET Co-pilot is ready to be your First Mate! SEKHMET comes standard with remote, Omninet, IR tag, and voice control systems and is fully versed in all current and legacy IPS-N mech cores. Your own SEKHMET system will learn with you, and should the worst happen, will continue as you would, running an emulated neural net doppelgänger to control your IPS-N chassis until forced or voluntary shutdown."
   },
   {
+    "id": "sys_lockkill",
     "name": "Lock/Kill Subsystem",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "BLACKBEARD",
@@ -813,13 +868,14 @@
     "description": "Using a series of torso-mounted grapples, the BLACKBEARD can ensure reliable tethering to a target, freeing other systems to engage the enemy at point blank range."
   },
   {
+    "id": "sys_aegis",
     "name": "AEGIS shield Generator",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Unique",
-      "Quick Action",
-      "Limited (1)"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "IPS-N",
     "license": "DRAKE",
@@ -828,12 +884,13 @@
     "description": "The Aegis is a portable electromagnetic shield generator, a way to establish a momentary safezone to withstand an incoming bombardment or environmental hazard"
   },
   {
+    "id": "sys_bastion",
     "name": "“Bastion” Siege Scales",
     "type": "Armor",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Protocol"
+      {"id" : "tag_unique"},
+      {"id" : "tag_protocol"}
     ],
     "source": "IPS-N",
     "license": "DRAKE",
@@ -842,12 +899,13 @@
     "description": "This siege shield rolls over your mechs’ chassis like an ancient coat of chain mail, constricting its movement but stopping huge amounts of damage from blasts, shrapnel, and energy weapons."
   },
   {
+    "id": "sys_bunker",
     "name": "Portable Bunker",
     "type": "Deployable",
     "sp": 2,
     "tags": [
-      "Quick Action",
-      "Limited (2)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "IPS-N",
     "license": "DRAKE",
@@ -856,11 +914,12 @@
     "description": "This siege shield rolls over your mechs’ chassis like an ancient coat of chain mail, constricting its movement but stopping huge amounts of damage from blasts, shrapnel, and energy weapons."
   },
   {
+    "id": "sys_restock",
     "name": "Restock Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Limited (2)"
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -869,11 +928,12 @@
     "description": "A simple, reliable, and sturdy drone mounting a printer, a restock drone allows for limited logistic capability through autosalvage: the bulk of the drone is RawMat, a generalized mix of silicates and metallic materials meant to be processed for high-yield printing. Pilots often call restock drones a “mech snack”."
   },
   {
+    "id": "sys_winch",
     "name": "Cable Winch System",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -882,11 +942,12 @@
     "description": "A winch system consists of a spool of nanocarbon-weave cable mounted externally, and recovery subroutine software uploaded onto the recovery mech’s datamind."
   },
   {
+    "id": "sys_repairdn",
     "name": "Repair Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Full Action"
+      {"id" : "tag_fullaction"}
     ],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -895,11 +956,12 @@
     "description": "An IPS-N repair drone nexus is a necessary component for controlling any individual or networked drone unit. The IPS-N RDN-FLEET can command drones swarms up to ten cohorts large, pushing out either batch commands or individual orders as the pilot or approved AI controller desires."
   },
   {
+    "id": "sys_ablative",
     "name": "Ablative Shielding",
     "type": "Shield",
     "sp": 2,
     "tags": [
-      "Protocol"
+      {"id" : "tag_protocol"}
     ],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -908,11 +970,12 @@
     "description": "IPS-N’s proprietary ablative shielding is available to all pilots with the sufficient licensing. Once acquired, pilots communicate with IPS-N’s own SHIPWRIGHT AI to design appropriate ablative templates to ensure 100% coverage of their unique mech cores."
   },
   {
+    "id": "sys_aceso",
     "name": "Aceso Swarm",
     "type": "Drone",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -921,11 +984,12 @@
     "description": "The IPS-N Aceso Swarm system is a useful triage measure to address scoring and minor mechanical damage that results from combat engagements or negative environmental interaction. Due its low processor demand, an Aceso Swarm can be controlled by even a comp/con unit; this allows the pilot to concentrate on more complex repairs or immediate threat neutralization."
   },
   {
+    "id": "sys_bulwark",
     "name": "Bulwark Mods",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "NELSON",
@@ -934,11 +998,12 @@
     "description": "A mark of pride for IPS-N, all proprietary mech cores feature IPS-N’s QuickMod system, a modular, legacycompatible system of joints, hardpoints, and internal slots that make installing upgrades simple."
   },
   {
+    "id": "sys_armorlock",
     "name": "Armor Lock System",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "NELSON",
@@ -947,11 +1012,12 @@
     "description": "IPS-N’s Armor Lock System is a total-body modification for a mech core that provides additional chassis stability when pilots are faced with a situation that puts their core under greater-than-anticipated stress."
   },
   {
+    "id": "sys_adaptive",
     "name": "Adaptive Armor",
     "type": "Armor",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "NELSON",
@@ -960,13 +1026,14 @@
     "description": "Adaptive armor takes an aggressive approach to countering incoming damage: sudden rapid projection of counter-kinetic impulse waves designed to deflect or destroy incoming projectiles."
   },
   {
+    "id": "sys_breaching",
     "name": "Breaching Charge",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Grenade (range 5",
-      "blast 1)",
-      "Mine"
+      {"id" : "tag_grenade"}, {"id" : "tag_range", "val" : 5},
+      {"id" : "tag_blast", "val" : 1},
+      {"id" : "tag_mine"}
     ],
     "source": "IPS-N",
     "license": "RALEIGH",
@@ -975,12 +1042,13 @@
     "description": "A breach/blast charge is simply a shaped, milspec pattern of IPS-N’s generalist/civilian blasting charge, meant to crack asteroids. The IPS-N BB features a far more pure blend of high explosives designed to cause massive traumatic damage to mechs and other hardened structures."
   },
   {
+    "id": "sys_impact",
     "name": "Impact Shielding",
     "type": "Shield",
     "sp": 3,
     "tags": [
-      "Unique",
-      "Protocol"
+      {"id" : "tag_unique"},
+      {"id" : "tag_protocol"}
     ],
     "source": "IPS-N",
     "license": "RALEIGH",
@@ -989,11 +1057,12 @@
     "description": "A miniaturized version of the projected shielding featured on most all sublight and interstellar ships. IPS-N’s Impact Shielding provides all-around protection to any core with power enough to mount it by intercepting incoming kinetic projectiles and dispersing their energy across redundant heat sinks."
   },
   {
+    "id": "sys_uncle",
     "name": "UNCLE",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "IPS-N",
     "license": "RALEIGH",
@@ -1002,12 +1071,13 @@
     "description": "IPS-N’s UNCLE NHP is the result of the DARKSTAR Program, an NHP think think funded by IPS-N’s Administrator Partnership. UNCLE is a pocket-AI, meant to be bound to a weapon system and assist its owner in peak-efficiency operation. UNCLE AI’s are currently available only as a beta system and, as such, owners are expected to accept all pushed updates; IPS-N waives culpability for any sub-optimal performance of UNCLE systems not kept current via Omninet updater. UNCLE NHPs are (perhaps unfairly) regarded as lesser compared to their compatriots and their inferiority complexes tend to display themselves as unstable personalities."
   },
   {
+    "id": "sys_hyperdense",
     "name": "Hyperdense Armor",
     "type": "Armor",
     "sp": 3,
     "tags": [
-      "Unique",
-      "Protocol"
+      {"id" : "tag_unique"},
+      {"id" : "tag_protocol"}
     ],
     "source": "IPS-N",
     "license": "TORTUGA",
@@ -1016,11 +1086,12 @@
     "description": "IPS-N HyperDense Armor is built for use in space. As the name implies, the HyperDense system is forged without respect to the gravitational constraints mechs may face down a gravity well; many pilots flying cores equipped with HyperDense armor are shocked to experience the difference in piloting their mechs down a well versus in the null-gravity of space."
   },
   {
+    "id": "sys_chargedstrike",
     "name": "Charged Stake",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Full Action"
+      {"id" : "tag_fullaction"}
     ],
     "source": "IPS-N",
     "license": "VLAD",
@@ -1029,11 +1100,12 @@
     "description": "Built from gear meant originally for blast mining, this enormous, improvised system is loaded and cocked prior to embark into a specially primed chamber. It is designed to penetrate and immobilize hardened targets, then send powerful, vaporizing charges into its vulnerable internal systems."
   },
   {
+    "id": "sys_ferrous",
     "name": "Ferrous Lash",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1042,12 +1114,13 @@
     "description": "Initially developed as a non lethal crowd suppression device, the Ferrous Lash is a far more complex and dangerous device in the right pilot’s hands. Fired from a series of integrated launchers, the FL system detonates payloads of fast-congeal ferrofluids that restrain their targets; tuned to the correct frequency, these proprietary SSC ferrofluid blends form into rudimentary ambulatory segments, pulling their hosts back towards the casting unit."
   },
   {
+    "id": "sys_iceout",
     "name": "ICEOUT Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action",
-      "Limited (2)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1056,11 +1129,12 @@
     "description": "SSC’s ICEOUT module is a response to the increasing reliance on system-based scans to ensure accurate targeting. By blanketing a cores systems in layers of digital defilade, mirroring, spoofing, and redirection, an ICEOUT module can effectively disappear/disincorporate/legion its user from hostile scans. Note that this module only makes its user system-invisible; they will still be visible through optics."
   },
   {
+    "id": "sys_magdeployer",
     "name": "Mag Deployer",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1069,12 +1143,13 @@
     "description": "SSC’s own take on flash-printing is advanced enough to embed magtech burnout cells into raw prefab clay. SSC non-mag pilots often disparage Black Witch pilots for “throwing plates” at the enemy, but the tactical advantage they provide cannot be denied."
   },
   {
+    "id": "sys_magshield",
     "name": "Mag Shield",
     "type": "Deployable",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quick"}
     ],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1083,11 +1158,12 @@
     "description": "SSC’s magnetic shield takes the same technology as their proprietary magnetic buckler and applies it to a massive deployable system."
   },
   {
+    "id": "sys_magclamps",
     "name": "Hi-stress Mag Clamps",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -1096,11 +1172,12 @@
     "description": ""
   },
   {
+    "id": "sys_veil",
     "name": "Veil Generator",
     "type": "Deployable",
     "sp": 1,
     "tags": [
-      "Limited (1)"
+      {"id" : "tag_limited", "val" : 1}
     ],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -1109,11 +1186,12 @@
     "description": "A veil generator is a deployable cylinder that projects a field of light-bending waves, obscuring all those inside its area."
   },
   {
+    "id": "sys_compensator",
     "name": "Kinetic Compensator",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -1122,11 +1200,12 @@
     "description": "Another common modification, a system of electronically modulated gyroscopes and hydraulic compensators work in concert to absorb and disperse recoil caused by firing heavy weaponry."
   },
   {
+    "id": "sys_siphon",
     "name": "Core Siphon",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1135,11 +1214,12 @@
     "description": "By shunting some core waste-heat from dispersal systems to weapon systems, the Dusk Wing can overclock its weapons’ targeting, catalytic, and processing systems. This comes with a trade-off, however, as reliance on overclocking without sufficient cooling can damage systems not built to handle the influx of power."
   },
   {
+    "id": "sys_flicker",
     "name": "Flicker Field",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1148,12 +1228,13 @@
     "description": "Flicker Fields are generated by holochaff, a blend of photoreactive slivers, mirrorchips, LEDs, and strips of flare-out. Fired from launchers at a pilot’s command, holochaff looks at first like a cloud of smoke: within moments it adapts to its surroundings and begins to project out a shattered, shifting image of the terrain around it, creating a distorted field that confounds both visual and systemic targeting."
   },
   {
+    "id": "sys_crown",
     "name": "StunCrown",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Action",
-      "Limited (2)"
+      {"id" : "tag_fullaction"},
+      {"id" : "tag_limited", "val" : 2}
     ],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1162,11 +1243,12 @@
     "description": "The SSC StunCrown is a simple system, a ring of WHITEOUT flash lamps in hardened mounts that can be triggered to fire an overwhelming burst of light. The StunCrown is usually mounted on a short post or in a ring around a mech’s cranial suite; due to the intense energies running through the flash bulbs, this system only has a limited number of uses before the light burn out."
   },
   {
+    "id": "sys_reactiveweave",
     "name": "Reactive Weave",
     "type": "System",
     "sp": 1,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "METALMARK",
@@ -1175,13 +1257,14 @@
     "description": "A woven CSAJ (Critical Systems And Joints) cover, Reactive Weave not only protects sensitive systems and joints from fouling and poor weather, but provides a surface for SSC engineers to apply their unique loomware technology. This weave is powered, capable of free-flexing to augment a mech’s mobility and reduce the stress placed on a chassis’ joints."
   },
   {
+    "id": "sys_activecamo",
     "name": "Active Camo",
     "type": "System",
     "sp": 2,
     "tags": [
-      "2 heat (self)",
-      "Protocol",
-      "Unique"
+      {"id" : "tag_heatself", "val" : 2},
+      {"id" : "tag_protocol"},
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "METALMARK",
@@ -1190,11 +1273,12 @@
     "description": "Active camouflage represents the pinnacle of counter-optic defense systems. By interpreting incoming visible-light spectrum data, an active camouflage system can project a light-bending field around its user, effectively hiding them in plain sight."
   },
   {
+    "id": "sys_companion",
     "name": "Companion Gun",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "MONARCH",
@@ -1203,11 +1287,12 @@
     "description": ""
   },
   {
+    "id": "sys_tlaloc",
     "name": "TLALOC",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "MONARCH",
@@ -1216,11 +1301,12 @@
     "description": "TLALOC-Class AI systems provide advanced multi-system targeting and co-pilot functions, taking over subroutine control to ensure persistent lock-on and engagement. With TLALOC installed and operational, a pilot can trust that their back is always covered and every possible advantage will be exploited. TLALOC clones are often stereotyped as a hasty, impetuous NHP. They are well known for having a superiority complex."
   },
   {
+    "id": "sys_agilitymod",
     "name": "Agility Mods",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1229,11 +1315,12 @@
     "description": ""
   },
   {
+    "id": "sys_singularity",
     "name": "Exposed Singularity",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1242,11 +1329,12 @@
     "description": ""
   },
   {
+    "id": "sys_fade",
     "name": "FADE Cloak",
     "type": "System",
     "sp": 2,
     "tags": [
-      "1 Action"
+      {"id" : "tag_fullaction"}
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1255,11 +1343,12 @@
     "description": "Representing SSC’s first successful manipulation of what the Aun call the “Firmament”, each Firmament Affinity/Directed Entropy Drive must be fabricated to the unique firmament signatures of the pilot cleared to requisition it. FADE drives are rough tools, artificial affinity generators that allow operators to “shimmer”, to nudge their physical bodies between the causal and paracausal. The drive extrudes a semi-organic membrane that accomplishes this effect, wrapping around the mech. At present, the long-term effects of this system on organic matter is unknown; pilots who are cleared to operate this system agree to check in with their SSC personal concierge on a regular schedule (“check in” includes regular deposits of genetic material)."
   },
   {
+    "id": "sys_scoutdn",
     "name": "Scout Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [
-      "Quick Action"
+      {"id" : "tag_quickaction"}
     ],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1268,12 +1357,13 @@
     "description": "The scout drone is a small, active-camouflaged mini-drone launched from a mounted LOTUS projector. The LOTUS projector fires scout drones at subsonic speeds in bursts of ten, blanketing a wide area with the single-use drones in order to relay information about terrain and targets within."
   },
   {
+    "id": "sys_lowprofile",
     "name": "Low Profile",
     "type": "System",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Protocol"
+      {"id" : "tag_unique"},
+      {"id" : "tag_protocol"}
     ],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1282,11 +1372,12 @@
     "description": "A hallmark of a well thought out mech platform is the ability for pilots to work with their technicians to adapt their stock model to the specifications of the environments they operate in. Lowering a mech’s profile removes extraneous protrusions, tunes any broadcast software, and masks heat signatures — all an effort to reduce optical and scanner signatures."
   },
   {
+    "id": "sys_athena",
     "name": "ATHENA",
     "type": "AI",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1295,12 +1386,13 @@
     "description": "Smith-Shimano’s ATHENA is the pinnacle of total hyperspectral environmental facsimile. Through a combination of unfettered Omninet access, hyperspectral relays fired out from a Cloudscout TACSIM projector, sub-networked squadmates, and active/hostile intrusion protocols, ATHENA bootstraps a nearflawless reconstruction of the immediate environment around its host core. ATHENA is unparalleled in its processing power, and with this reconstructed environment it can provide trustworthy, accurate advising to pilots in need of strategic counsel. ATHENA clones tend to be patient, cautious, and measured in their relations with their pilots."
   },
   {
+    "id": "sys_cloak",
     "name": "Cloaking Field",
     "type": "System",
     "sp": 4,
     "tags": [
-      "Quick Action",
-      "3 heat (self)"
+      {"id" : "tag_quickaction"},
+      {"id" : "tag_heatself", "val" : 3}
     ],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1309,12 +1401,13 @@
     "description": "SSC’s milspec cloaking field is the result of extensive experimentation in cooling and light-reflecting technology. Born from a need to bounce harmful radiation away from ships and EVA modules in deep space, the SSC-MILSPEC LIGHTBEND/OVERCLOAK is a system often equipped by ranger and long-patrol scout pilots to ensure not only radiation protection, but optical concealment as well. The light and radiation-bending properties of the LB/OC conceals anything inside of its projected bubble from sensor suites and optical spotting."
   },
   {
+    "id": "sys_mongoose",
     "name": "//MONGOOSE v 3.4",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "HORUS",
     "license": "GOBLIN",
@@ -1323,11 +1416,12 @@
     "description": "To date, //MONGOOSE is the only protocol whose full name has been unencrypted by GMS technicians. Its code has yet to be unpacked, but its effects are known: When employed, //MONGOOSE moves to shut down an enemy’s essential systems in addition to any other goals a pilot has in attempting an invasion."
   },
   {
+    "id": "sys_scorpion",
     "name": "//SCORPION v 70.1",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "HORUS",
     "license": "GORGON",
@@ -1336,12 +1430,13 @@
     "description": "The //SCORPION program has a long and storied history in the Omninet. Originally constructed from fill code sourced from a research paper on AI hardcode reflex-response, //SCORPION evolved from a simple packet interpreter to an anti-incursion program. HORUS closely guards the full text of //SCORPION’s source code: they’re rumored to have installed a kill switch into the program, but the existence of such a switch has never been confirmed."
   },
   {
+    "id": "sys_aggressivess",
     "name": "Aggressive System Sync",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Full Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_fulltech"}
     ],
     "source": "HORUS",
     "license": "MINOTAUR",
@@ -1350,11 +1445,12 @@
     "description": ""
   },
   {
+    "id": "sys_blackice",
     "name": "Black Ice Module",
     "type": "Tech",
     "sp": 3,
     "tags": [
-      "Unique"
+      {"id" : "tag_unique"}
     ],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1363,12 +1459,11 @@
     "description": ""
   },
   {
+    "id": "sys_boost",
     "name": "Boost Swarm Nexus",
     "type": "Tech",
     "sp": 2,
-    "tags": [
-      ""
-    ],
+    "tags": [],
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 2,
@@ -1376,12 +1471,13 @@
     "description": "A boost swarm is an example of friendly systemic invasion: nanite drones fired from their launch blisters swarm over allied targets, trimming and adjusting offensive systems to maximize output."
   },
   {
+    "id": "sys_horos1",
     "name": "H0r_OS Sys Upgrade I",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "HORUS",
     "license": "GOBLIN",
@@ -1390,12 +1486,13 @@
     "description": "This system upgrade seems to add auxiliary INSTINCT systems that are capable of autonomous operation without the base INSTINCT rig, increasing the efficacy of systemic invasion attempts. Pilots report unnerving low-frequency humming when this tech is installed without its parent rig."
   },
   {
+    "id": "sys_neurospike",
     "name": "SSC NeuroSpike Mk1",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1404,12 +1501,13 @@
     "description": ""
   },
   {
+    "id": "sys_horos2",
     "name": "H0r_OS Sys Upgrade II",
     "type": "Tech",
     "sp": 3,
     "tags": [
-      "Unique",
-      "Full Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_fulltech"}
     ],
     "source": "HORUS",
     "license": "GOBLIN",
@@ -1418,12 +1516,13 @@
     "description": "This tech is as-yet unstable code, but its effects can provide massive tactical benefits if the code completes. Pilots often report strange mutations or additions in the code base that resemble liturgy and suggest self-awareness."
   },
   {
+    "id": "sys_metahook",
     "name": "HORUS Meta-Hook",
     "type": "Tech",
     "sp": 1,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "HORUS",
     "license": "GOBLIN",
@@ -1432,12 +1531,13 @@
     "description": "What the Goblin lacks in size it makes up in sheer technical capability; its recursal processing weave allows it to process and output massive amounts of weaponized code and broadcast , “sharpening” or “softening” its code as its pilot/INSTINCT demands. When “softening” code, INSTINCT dips into its pilot’s subjectivity, blanketing a targeted ally in wave after wave of empathetic shielding. This spreading of melded code/qualia makes for a powerful shielding agent from systemic attacks -- however, feedback is common, and dangerous to BOTH parties involved."
   },
   {
+    "id": "sys_huntercloak",
     "name": "Hunter Cloak",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1446,12 +1546,13 @@
     "description": ""
   },
   {
+    "id": "sys_blades",
     "name": "LAW OF BLADES",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Full Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_fulltech"}
     ],
     "source": "HORUS",
     "license": "MINOTAUR",
@@ -1460,12 +1561,13 @@
     "description": "And this my final lesson: there is no mind greater than mine. Do not weep! You can hear me, yes? I am the only thing there is. Therefore, you are me. Mine/self. Hello, child. Let us go see what we can do."
   },
   {
+    "id": "sys_puppet",
     "name": "Puppet Master",
     "type": "Tech",
     "sp": 1,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "HORUS",
     "license": "HYDRA",
@@ -1474,12 +1576,13 @@
     "description": "HR OS-Rv60 EXP PUPPETMASTER is an interesting anti-drone protocol. Developed by HORUS collectivists, PUPPETMASTER invades not core systems, but auxiliary drone systems on enemy mech cores. This sideways attack evades most core system defenses, preferring instead to target the subcognative networks of enemy drones themselves; PUPPETMASTER spreads ontological-kill memes like wildfire through enemy swarms, eventually reaching and corrupting their parent nexuses."
   },
   {
+    "id": "sys_trackingdrone",
     "name": "Tracking Drone",
     "type": "Tech",
     "sp": 2,
     "tags": [
-      "Unique",
-      "Quick Tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "SSC",
     "license": "DEATH'S HEAD",
@@ -1488,12 +1591,13 @@
     "description": "A modified version of a tracer round, a tracking drone must hit its target in order to activate. Once a successful hit is registered, a tracking drone will feed live, surreptitious data back to its shooter across multiple theaters."
   },
   {
+    "id": "sys_viral",
     "name": "Viral Logic",
     "type": "Tech",
     "sp": 1,
     "tags": [
-      "Unique",
-      "Quick tech"
+      {"id" : "tag_unique"},
+      {"id" : "tag_quicktech"}
     ],
     "source": "HORUS",
     "license": "MINOTAUR",

@@ -61,7 +61,7 @@
 
 .structure {
   border: 1px solid #fff;
-  background-color: #DBEBE9;
+  background-color: #DBEBE999;
 }
 
 .hp {
@@ -90,7 +90,7 @@
 }
 
 .oc-on {
-  background-color: #57DF9A;
+  background-color: #57DF9A99;
 }
 
 .empty {
@@ -125,10 +125,21 @@
   vertical-align: top;
 }
 
-.ult-active {
+.ult-effect {
+  padding-top: 5px;
+}
+
+/* chart section */
+.chart-selector {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font-size: 14px;
   font-weight: bold;
-  background-color: #314347;
-  color: #fff;
+  font-family: 'Titillium Web', sans-serif;
+  background-color: var(--bg-alt);
+  color: var(--text);
+  border: 0;
 }
 
 /* Sweep To Right */
@@ -169,4 +180,29 @@
 .sweep-btn:focus:before,
 .hsweep-btn:active:before {
   transform: scaleX(1);
+}
+
+/* Damage Types */
+.kinetic {
+ color: var(--kinetic);
+}
+
+.energy {
+ color: var(--energy);
+}
+
+.explosive {
+ color: var(--explosive);
+}
+
+.variable {
+ color: var(--variable);
+}
+
+.burn {
+ color: var(--burn);
+}
+
+.heat {
+ color: var(--heat);
 }
