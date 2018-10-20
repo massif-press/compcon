@@ -11,3 +11,72 @@
   letter-spacing: 4px;
   color: #5F909C;
 }
+
+.fnf {
+  text-align: center;
+  display: inline-block;
+}
+
+.fnf-desc {
+  margin-top: 0px;
+  margin-bottom: 2px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.fnf,
+.pilot-table th {
+  width: 100%;
+  background-color: var(--bg-alt);
+  color: var(--highlight);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pilot-license-block {
+  font-size: 18px;
+  padding: 5px 5px 5px 5px;
+  vertical-align: top;
+}
+
+.lb-span {
+  position: absolute;
+  margin-top: 4px;
+  margin-left: 5px;
+}
+
+.rankImg {
+  width: 25px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.talent-rank-title {
+  display: block;
+  width: 99.25%;
+  background-color: var(--bg-alt);
+}
+
+.equip-open-info p {
+  padding: 10px 30px 5px 10px;
+}
+
+.core-bonus-item {
+  margin: 10px;
+  border: 1px solid var(--border);
+}
+
+.core-hex-td {
+  width: 25%;
+  padding-bottom: 25px;
+  padding-left: 5vw;
+}
+
+.core-hex-td span {
+  padding-left: 16px;
+}
+
+.inline-hexagon {
+  position: absolute;
+}
+

@@ -1,389 +1,389 @@
 [
   {
     "id": "pw_alloy_light",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Light Alloy/Composite Weapon",
     "tags": [
-      "Accurate"
+      {"id" : "tag_accurate"}
     ],
     "range": "Threat",
     "damage": "1 kinetic",
     "source": "GMS",
     "rarity": 0,
-    "other": "1/round you can re-roll any attack with a light weapon, but must keep the second result.",
+    "effect": "1/round you can re-roll any attack with a light weapon, but must keep the second result.",
     "description": ""
   },
   {
     "id": "pw_alloy_combat",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Combat Alloy/Composite Weapon",
     "tags": [],
     "range": "Threat",
     "damage": "2 kinetic",
     "source": "GMS",
     "rarity": 0,
-    "other": "",
+    "effect": "",
     "description": ""
   },
   {
     "id": "pw_alloy_heavy",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Heavy Alloy/Composite Weapon",
     "tags": [
-      "Inaccurate"
+      {"id" : "tag_inaccurate"}
     ],
     "range": "Threat",
     "damage": "4 kinetic",
     "source": "GMS",
     "rarity": 0,
-    "other": "",
+    "effect": "",
     "description": ""
   },
   {
     "id": "pw_prim_melee",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Primitive Melee",
     "tags": [
-      "Unreliable"
+      {"id" : "tag_unreliable"}
     ],
     "range": "Threat",
     "damage": "1 kinetic",
     "source": "GMS",
     "rarity": 0,
-    "other": "",
+    "effect": "",
     "description": ""
   },
   {
     "id": "pw_prim_ranged",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Primitive Ranged",
     "tags": [
-      "Unreliable"
+      {"id" : "tag_unreliable"}
     ],
     "range": 5,
     "damage": "1 kinetic",
     "source": "GMS",
     "rarity": 0,
-    "other": "",
+    "effect": "",
     "description": ""
   },
   {
     "id": "pw_sig_sidearm",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Signature Sidearm",
     "tags": [],
     "range": 3,
     "damage": 1,
     "source": "GMS",
     "rarity": 0,
-    "other": "Player selects damage type at item creation.\n1/round you can re-roll any attack with a sidearm, but must keep the second result.",
+    "effect": "Player selects damage type at item creation.\n1/round you can re-roll any attack with a sidearm, but must keep the second result.",
     "description": ""
   },
   {
     "id": "pw_sig_combat",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Signature Combat Weapon",
     "tags": [],
     "range": 5,
     "damage": 2,
     "source": "GMS",
     "rarity": 0,
-    "other": "Player selects damage type at item creation",
+    "effect": "Player selects damage type at item creation",
     "description": ""
   },
   {
     "id": "pw_sig_heavy",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Signature Heavy Weapon",
     "tags": [
-      "Ordnance",
-      "Limited (3)"
+      {"id" : "tag_ordnance"},
+      {"id" : "tag_limited", "val" : 3}
     ],
     "range": 10,
     "damage": 4,
     "source": "GMS",
     "rarity": 0,
-    "other": "Player selects damage type at item creation",
+    "effect": "Player selects damage type at item creation",
     "description": ""
   },
   {
     "id": "pw_atlatl",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Atlatl",
     "tags": [
-      "Seeking"
+      {"id" : "tag_seeking"}
     ],
     "range": "Threat (Thrown 5)",
     "damage": "1 explosive",
     "source": "H.A.",
     "rarity": 3,
-    "other": "Though deceptively simple in appearance, this javelin-like weapon contains a hardened suite of intelligent hardware and a miniaturized pressure wave generator in the tip. It can be thrown very accurately up to range 5, recalled to hand as an action, and guides itself around cover and other obstacles.",
+    "effect": "Though deceptively simple in appearance, this javelin-like weapon contains a hardened suite of intelligent hardware and a miniaturized pressure wave generator in the tip. It can be thrown very accurately up to range 5, recalled to hand as an action, and guides itself around cover and effect obstacles.",
     "description": "Developed following the suppression of anti-Armory elements in the initial wave of recolonization in the Dawline Shore, the Atlatl is a neo-primitivist weapon indigenous to New Madrassa, a voluntary Arcadian world set in a blended Neo-Bronze/Information Age idyll."
   },
   {
     "id": "pw_hardlight",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Hardlight Weapon",
     "tags": [
-      "Burn 1"
+      {"id" : "tag_burn", "val" : 1}
     ],
     "range": "Threat",
     "damage": "2 energy",
     "source": "H.A.",
     "rarity": 4,
-    "other": "These rare and powerful weapons project a sheathed energy field that ignites targets on impact.",
+    "effect": "These rare and powerful weapons project a sheathed energy field that ignites targets on impact.",
     "description": "One of a limited supply scavenged from Boundary Garden, this hardlight blade has been patched by independent Ecumenical contractors to a serviceable, minimum-milspec functionality. These are exotic weapons, and their wielders must be coached in their use by trained handlers."
   },
   {
     "id": "pw_kottos",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "KOTTOS AA/Largearm Rifle",
     "tags": [
-      "Ordnance"
+      {"id" : "tag_ordnance"}
     ],
     "range": 8,
     "damage": "1d3 kinetic",
     "source": "H.A.",
     "rarity": 1,
-    "other": "This heavy anti-armor rifle fired superheated bullets used to punch through infantry-scale hardsuits and light mechs. It requires mounting on a tripod before use, though some models come with a built-in stand. The enormous kick from this weapon is infamous for dislocating rookie pilots’ shoulders.",
+    "effect": "This heavy anti-armor rifle fired superheated bullets used to punch through infantry-scale hardsuits and light mechs. It requires mounting on a tripod before use, though some models come with a built-in stand. The enormous kick from this weapon is infamous for dislocating rookie pilots’ shoulders.",
     "description": "Harrison Armory’s KOTTOS distance-denial anti-armor system was ordered following repeated instances of HAAT legionnaires encountering hostile local chassis armed with sufficient anti-kinetic/ablative armor; KOTTOS, developed in conjunction with GMS’s Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable kinetic anti-armor kinetics."
   },
   {
     "id": "pw_microcore",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "MicroCore Laser Rifle",
     "tags": [
-      "Burn 2",
-      "Loading"
+      {"id" : "tag_burn", "val" : 2},
+      {"id" : "tag_loading"}
     ],
     "range": 5,
     "damage": "1 energy",
     "source": "H.A.",
     "rarity": 2,
-    "other": "An infantry-scale model of the larger, mech mounted lasers, this weapon requires heavy cooling after each use. Standard squad-support weapon for Armory legionnaires.",
+    "effect": "An infantry-scale model of the larger, mech mounted lasers, this weapon requires heavy cooling after each use. Standard squad-support weapon for Armory legionnaires.",
     "description": "A Think-Tank product, the MicroCore is a miniaturized, infantry-portable version of the popular SolidCore laser cannon mounted atop HA’s Sherman Chassis. The MicroCore has been tuned to not require windup on firing, but as a result must be “reloaded” after each shot with a new power core."
   },
   {
     "id": "pw_nanowhip",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Nanobot Whip",
     "tags": [],
     "range": "Threat +1",
     "damage": "1 kinetic",
     "source": "HORUS",
     "rarity": 3,
-    "other": "This whip is made up of linked microbots that flow in ring-like arcs around the body when not in use, defending against drone and nanorobotic threats. If you don’t attack with this weapon, until the end of your next turn, weapons or systems with the Smart, Nexus, or Drone tags cannot target you.",
+    "effect": "This whip is made up of linked microbots that flow in ring-like arcs around the body when not in use, defending against drone and nanorobotic threats. If you don’t attack with this weapon, until the end of your next turn, weapons or systems with the Smart, Nexus, or Drone tags cannot target you.",
     "description": "The first instance of a technology akin to what is now called a nanobot whip was encountered during a raid on an Ungrateful cell by Barony lawmen. With word secreted to them by informants seeded in the movement, lawmen descended on a cell hidden in the wildcat stations lashed around the House of Dust. Blasting open the doors, they encountered Ungratefuls wreathed in clouds of charcoal smoke; the Ungratefuls used these clouds, shaping them into thin whips that cut through armor and flesh like it was nothing. After the cell was wiped out and the control nodules cut from their bodies, Barony codemasters were able to crack and replicate -- safely -- the HORUS code."
   },
   {
     "id": "pw_nullspike",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Null Spike",
     "tags": [],
     "range": "Threat",
     "damage": "*",
     "source": "HORUS",
     "rarity": 3,
-    "other": "Has no effect against non-organic targets, but on a successful hit, any human target is stunned until the start of your next turn. A target develops a short term resistance to this weapon and can only be affected by it once per challenge.",
+    "effect": "Has no effect against non-organic targets, but on a successful hit, any human target is stunned until the start of your next turn. A target develops a short term resistance to this weapon and can only be affected by it once per challenge.",
     "description": "A HORUS-developed ecstatic/exult device, the generic null spike is an effective, single-fire, non-lethal weapon that simulates a cascade-analogue in organics through specific neuron excitement. Upon skin contact, they deliver a bio-electric shock to a victim’s brain that causes them to feel overwhelming pleasure, completely disabling them. Null Spikes, it is said, are used by HORUS adherents in realspace to bring themselves closer to RA’s subjectivity."
   },
   {
     "id": "pw_smartknife",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Smart Knife",
     "tags": [
-      "Accurate"
+      {"id" : "tag_accurate"}
     ],
     "range": "Threat",
     "damage": "1 kinetic",
     "source": "HORUS",
     "rarity": 2,
-    "other": "The tip of the knife is semi-solid and re-moldable and can be inserted into most electronic ports and used as a point of insertion for hacking rigs.",
-    "description": "A “Smart” knife is the combination of a HORUS-tuned external-mount processor and any mundane charged blade. Piggybacking off the current coursing through the charged blade, the HORUS mount can be loaded with null or fry-code, making this blade a threat not only to organic targets, but to synthetic ones as well. Particular models have an adjustable subliminal suggestion corrective, which guides its user’s hand to identified weaknesses in their target’s hardsuit, armor, or other plating."
+    "effect": "The tip of the knife is semi-solid and re-moldable and can be inserted into most electronic ports and used as a point of insertion for hacking rigs.",
+    "description": "A “Smart” knife is the combination of a HORUS-tuned external-mount processor and any mundane charged blade. Piggybacking off the current coursing through the charged blade, the HORUS mount can be loaded with null or fry-code, making this blade a threat not only to organic targets, but to synthetic ones as well. Particular models have an adjustable subliminal suggestion corrective, which guides its user’s hand to identified weaknesses in their target’s hardsuit, armor, or effect plating."
   },
   {
     "id": "pw_eyestack",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "EYESTACK_WINK",
     "tags": [
-      "Limited 1",
-      "AP"
+      {"id" : "tag_limited", "val" : 1},
+      {"id" : "tag_ap"}
     ],
     "range": 2,
     "damage": "3 kinetic",
     "source": "HORUS",
     "rarity": 4,
-    "other": "This weapon doesn’t count against your maximum weapons wielded.",
+    "effect": "This weapon doesn’t count against your maximum weapons wielded.",
     "description": "Also known as a ‘Skullgun’, this miniaturized, superposed charge weapon is implanted in the head, generally in the orbital void left by a removed or missing eye. It is completely undetectable by almost any electronic system or security and can be fired with sub-vocal commands."
   },
   {
     "id": "pw_gourd",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "PGR_GOURD",
     "tags": [
-      "Smart",
-      "Seeking"
+      {"id" : "tag_smart"},
+      {"id" : "tag_seeking"}
     ],
     "range": 5,
     "damage": "1 kinetic",
     "source": "HORUS",
     "rarity": 2,
-    "other": "This shoulder mounted drone hive is usually integrated into armor and releases a neurally linked, short ranged hunter-killer drone swarm. Designed to expire within moments of release, the aerosolized greywash swarm sweeps over the target, devouring organic and inorganic material with equal rapidity.",
+    "effect": "This shoulder mounted drone hive is usually integrated into armor and releases a neurally linked, short ranged hunter-killer drone swarm. Designed to expire within moments of release, the aerosolized greywash swarm sweeps over the target, devouring organic and inorganic material with equal rapidity.",
     "description": "The PGR_GOURD pattern portable hive killed the first people who printed it. Fabricated in secret by a desperate cell of Ungrateful in the undercity of Dune Redoubt, a team of Barony Authority officers first encountered the aftermath of a PGR_GOURD burnout; an organic smear, ringed around the printer that crafted the gourd. Subsequent encounters of the PGR_GOURD system saw it used as a remote-detonated device until the BA was able to find and edit the plan into a more controllable, less deadly format. Since then, the House of Sand controls the distribution of any PGR_GOURD system; however, there are unconfirmed reports of the unedited version of the GOURD available on the omninet."
   },
   {
     "id": "pw_sidekick",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Sidekick",
     "tags": [
-      "Reliable 1"
+      {"id" : "tag_reliable", "val" : 1}
     ],
     "range": 3,
     "damage": "1 kinetic",
     "source": "HORUS",
     "rarity": 2,
-    "other": "This HORUS-marked SMG has a companion/concierge unit built into it which provides aim assist in real time. It also has helpful and frequent tips for improving your combat skills and organizes your calendar, sometimes without you asking it.",
+    "effect": "This HORUS-marked SMG has a companion/concierge unit built into it which provides aim assist in real time. It also has helpful and frequent tips for improving your combat skills and organizes your calendar, sometimes without you asking it.",
     "description": "Typically affixed to a back-mounted, over-the-shoulder armature, the SIDEKICK is an eyelinked subcompact/caseless machine gun developed by a collective of unknown, potentially HORUS-aligned scripters. Paired with a C/C Wingman unit, the SIDEKICK will always watch your back; its placement, commonly perched over its operator’s shoulder, has earned it the common nickname of “Parrotgun”."
   },
   {
     "id": "pw_hackiron",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Hackiron",
     "tags": [
-      "Reliable 1",
-      "Inaccurate"
+      {"id" : "tag_reliable", "val" : 1},
+      {"id" : "tag_inaccurate"}
     ],
     "range": "Threat",
     "damage": "3 kinetic",
     "source": "IPS-N",
     "rarity": 2,
-    "other": "A pilot must be wearing a hard suit worth at least 1 armor to even wield a hackiron.",
+    "effect": "A pilot must be wearing a hard suit worth at least 1 armor to even wield a hackiron.",
     "description": "This blade uses an ultra-dense carbon polymer to magnify the brute strength from hard suits to crude but brutal effect. Made popular by security forces and pirates both, the hackiron-type saw sword was put into heavy use in early micro/null gravity melee combat where mass is not always a necessary consideration, gravity can fluctuate, and it is likely that any combat will be powered combat."
   },
   {
     "id": "pw_ripjack",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Ripjack",
     "tags": [],
     "range": "Threat (Thrown 4)",
     "damage": "2 kinetic",
     "source": "IPS-N",
     "rarity": 3,
-    "other": "The ripjack can be used as a Thrown 4 weapon against a human sized, non-mech target in range, immobilizing them on hit instead of dealing damage until the start of your next turn. It can also be used as a regular grappling hook.",
-    "description": "Another standardized utility weapon born from early micro/null-grav combat, ripjacks are employed both as a last-result method of locomotion and a distance-closing utility weapon. Offered both as a handheld launcher and an integrated hardsuit system, the ripjacks are fired using gaussian acceleration to create as light a Newtonian feedback as possible when used in null-grav."
+    "effect": "The ripjack can be used as a Thrown 4 weapon against a human sized, non-mech target in range, immobilizing them on hit instead of dealing damage until the start of your next turn. It can also be used as a regular grappling hook.",
+    "description": "Aneffect standardized utility weapon born from early micro/null-grav combat, ripjacks are employed both as a last-result method of locomotion and a distance-closing utility weapon. Offered both as a handheld launcher and an integrated hardsuit system, the ripjacks are fired using gaussian acceleration to create as light a Newtonian feedback as possible when used in null-grav."
   },
   {
     "id": "pw_siegehammer",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Siege Hammer",
     "tags": [
-      "Loading",
-      "AP"
+      {"id" : "tag_loading"},
+      {"id" : "tag_ap"}
     ],
     "range": "Threat",
     "damage": "5 kinetic",
     "source": "IPS-N",
     "rarity": 3,
-    "other": "While wielding this weapon, you can take the dash action.",
+    "effect": "While wielding this weapon, you can take the dash action.",
     "description": "When faced with sealed bulkheads in O2 rich environments, boarding teams needed a way to tear down doors without potentially catastrophic explosions -- enter the siege hammer, or Nutcracker, as it became known to forces that employed it. Requiring two hands to wield effectively, and held like a battering ram, it cocks and primes a superheated cylinder of ultra-hard alloy that fires on activation to punch through even the thickest armor."
   },
   {
     "id": "pw_peacekeeper",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "“Peacekeeper” R35",
     "tags": [
-      "Limited (6)"
+      {"id" : "tag_limited", "val" : 6}
     ],
     "range": 3,
     "damage": "3 explosive",
     "source": "IPS-N",
     "rarity": 1,
-    "other": "",
+    "effect": "",
     "description": "IPS-N’s Peacekeeper model R35 is a popular option from their ARGONAUT line of luxury/collector goods. Handcrafted by IPS-N gunsmith artisans, the Peacekeeper model R35 is fashioned after ancient pre- collapse frontier weaponry: functional, reliable, and simple in its action, the P-R35 hides its expertly crafted interior elements under its simple matte finish. It is a statement weapon, functional, that can be chambered for heavy slugs, self-propelled microrockets, or single-core hotshots."
   },
   {
     "id": "pw_prismgun",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Prism Gun",
     "tags": [
-      "Inaccurate"
+      {"id" : "tag_inaccurate"}
     ],
     "range": "Cone 3",
     "damage": "2 energy",
     "source": "IPS-N",
     "rarity": 4,
-    "other": "",
+    "effect": "",
     "description": "A common secondary weapon found among stellar security forces and pirates, a prism gun is a shotgun analog, a blend between the kinetic and the exotic that projects a superheated blast of synthetic-crystalline nanoflechettes when fired. Ineffective against hardened targets, it is nevertheless a popular choice as a finishing option should a hardened targets external armor be breached; when fired into compartments, between armor joints, or into confined spaces with soft targets, the prism gun is a terribly deadly weapon."
   },
   {
     "id": "pw_arcblade",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Arc Blade",
     "tags": [
-      "Reliable 1"
+      {"id" : "tag_reliable", "val" : 1}
     ],
     "range": "Threat",
     "damage": "2 energy",
     "source": "SSC",
     "rarity": 2,
-    "other": "",
+    "effect": "",
     "description": "This master-forged sword is threaded with fine filaments and powered either by a slim battery in its handle, or a long cable with a universal power adaptor that can be attached to any standardized power pack. A sturdy, light weapon, the charged filaments can be triggered by the sword’s user or by proximity to lash their enemies with an electric arc even if they do not connect."
   },
   {
     "id": "pw_varsword",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Variable Sword",
     "tags": [
-      "AP",
-      "Limited 6"
+      {"id" : "tag_ap"},
+      {"id" : "tag_limited", "val" : 6}
     ],
     "range": "Threat+1",
     "damage": "3 kinetic",
     "source": "SSC",
     "rarity": 4,
-    "other": "",
+    "effect": "",
     "description": "This pilot-scale variant of the popular SSC weapon is a field-sheathed length of mono-molecular wire completely invisible to the naked eye. Only the handle and the tip guide are visible. Coiled while not in use, the wire itself can be extended up to 20 feet from the handle, creating an incredibly light and extremely deadly weapon that cuts through nearly anything. Due to immense power usage, this weapon can only be unsheathed for a short period."
   },
   {
     "id": "pw_coldcore",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Coldcore Sabot AA Rifle",
     "tags": [
-      "Accurate",
-      "Loading",
-      "Ordnance"
+      {"id" : "tag_accurate"},
+      {"id" : "tag_loading"},
+      {"id" : "tag_ordnance"}
     ],
     "range": 15,
     "damage": "3 energy",
     "source": "SSC",
     "rarity": 3,
-    "other": "",
+    "effect": "",
     "description": "This heavy anti-armor rifle is recognisable by its long, minimalist construction and classic Smith-Shimano matte-black colorway. A COLDCORE sabot anti-armor rifle is a consumable-sabot energy weapon that uses depleted demi-coldcore units to create a superheated, precise, directed blast of plasma on its user’s target. After firing, it must be reloaded; COLDCORE Sabot-AA rifles can be breech-fed, box-fed, or belt- fed, depending on their receiver."
   },
   {
     "id": "pw_implantedgun",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Implanted Gun",
     "tags": [],
     "range": 2,
     "damage": "1 energy",
     "source": "SSC",
     "rarity": 1,
-    "other": "Whenever you fire a weapon, you can fire this gun at the same or a different target.",
+    "effect": "Whenever you fire a weapon, you can fire this gun at the same or a different target.",
     "description": "This bespoke biological weapon, integrated with its user’s circulatory, respiratory, and nerve systems, can be fired by a triggering thought, association, movement, or memory. Commonly installed in the arm or hand, it is a quiet, small weapon, a gun in name only -- it launches a spasm-propelled, fin-stabilized needle from a keloidal canal grown to be inserted in the bearer’s arm. With a short effective range and untraceable profile, it is a popular choice for assassins."
   },
   {
     "id": "pw_micropack",
-    "type": "pilot_weapon",
+    "type": "weapon",
     "name": "Micropack Launcher",
     "tags": [
-      "Loading"
+      {"id" : "tag_loading"}
     ],
     "range": "5, Blast 1",
     "damage": "2 explosive",
     "source": "SSC",
     "rarity": 3,
-    "other": "",
+    "effect": "",
     "description": "This heavy rifle is a drum-fed micro-rocket launcher capable of single or automatic fire. A popular choice in total-combat environments, the Micropack is a squad-tier support weapon usually carried by a single trooper or mounted on a hardsuit’s tertiary arm. SSC developed the Micropack as an all-theater weapon, capable of being used in vacuum, submerged, or in any atmosphere -- the Micropack uses an electronic trigger to catapult its self-propelled ordinance to a minimum safe distance before the projectile ignites, allowing for its use in close-quarters; some skilled handlers learn to use this brief ignition period to skip the miniature rockets around corners in boarding actions and station combat."
   }
 ]

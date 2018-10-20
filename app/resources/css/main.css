@@ -102,6 +102,15 @@ hr {
   margin: 3px;
 }
 
+.pilot-expander.open,
+.mech-expander.open {
+  background-color: var(--bg-alt);
+  border: 1px solid;
+  border-color: var(--border);
+  padding: 5px;
+  margin: 3px;
+}
+
 .pilot-sub,
 .mech-sub {
   font-size: 12px;
@@ -114,7 +123,7 @@ hr {
 }
 
 .open {
-  background-color: var(--bg-alt);
+  /* background-color: var(--bg-alt); */
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 5px solid var(--border);
@@ -145,7 +154,8 @@ hr {
   background-color: var(--bg-alt); 
   color:var(--highlight); 
   text-align: center;
-  height: 30px!important;
+  height: 34px!important;
+  line-height: 30px;
   padding-top: 2px;
 }
 
@@ -325,7 +335,7 @@ blockquote {
 .tag {
   display: inline;
   margin:5px;
-  font:13px/20px 'K2D', sans-serif;
+  font: 'K2D', sans-serif;
   text-decoration:none;
   padding: 3px;
   padding-left: 8px;
@@ -343,7 +353,7 @@ blockquote {
 }
 
 .equip-open-info {
-  background-color: var(--bg-alt);
+  /* background-color: var(--bg-alt); */
 }
 
 .bold {
@@ -360,4 +370,18 @@ blockquote {
 .disabled {
   color: var(--highlight);
   cursor: not-allowed;
+}
+
+.gear-table {
+  width: 100%;
+}
+
+.gear-table th {
+  background-color: var(--bg-alt);
+  width: 25%!important;
+}
+
+.gear-table td {
+  text-align: center;
+  font-weight: bold;
 }

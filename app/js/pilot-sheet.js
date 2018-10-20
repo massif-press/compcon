@@ -17,43 +17,68 @@ Handlebars.registerHelper('repeat', function (n, block) {
   return str;
 });
 
-function loadPilot(pilot) {  
-  var info_template = Handlebars.compile($('#pilot-info-template').html());
-
-  $("#pilot-info-output").html(info_template(pilot));
-
-  for (var i = 0; i < pilot.gear.length; i++) {
-    var pRef = pilot.gear[i];
-    var item = allGear.find(function (g) { return g.id === pRef.id; });
-    item.notes = pRef.notes;
-
-    var template_type = "gear"
-    if (item.type === "pilot_weapon") template_type = "weapon"
-    else if (item.type === "pilot_armor") template_type = "armor"
-
-    var template = Handlebars.compile($("#p_" + template_type + "-template").html())
-    $("#pilot-gear").append(template(item));
+Handlebars.registerHelper('titleCase', function (str) {
+  str = str.toLowerCase().split(' ');
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
   }
+  return str.join(' ');
+});
 
+Handlebars.registerHelper('talentLock', function (level, itemRank, retTrue, retFalse) {
+  if (level >= itemRank) return retTrue;
+  return retFalse
+});
+
+function loadPilot(pilot) {  
+
+  $("#pilot-info-output").empty();
+
+  var expandedTalents = [];
   for (var i = 0; i < pilot.talents.length; i++) {
     var pRef = pilot.talents[i];
     var talent = talents.find(function (t) { return t.id === pRef.id; });
     talent.rank = pRef.rank;
 
-    //TODO: change template based on talent rank
-
-    var template = Handlebars.compile($("#p_talent-template").html())
-    $("#pilot-talents").append(template(talent));
+    expandedTalents.push(talent);
   }
+  pilot.talents = expandedTalents;
 
+  var expandedCoreBonuses = [];
   for (var i = 0; i < pilot.core_bonuses.length; i++) {
     var pRef = pilot.core_bonuses[i];
     var bonus = coreBonuses.find(function (b) { return b.id === pRef; });
 
-    var template = Handlebars.compile($("#p_bonus-template").html())
-    $("#pilot-bonuses").append(template(bonus));
+    expandedCoreBonuses.push(bonus);
+  }
+  pilot.bonuses = expandedCoreBonuses;
+
+  var info_template = Handlebars.compile($('#pilot-info-template').html());
+  $("#pilot-info-output").html(info_template(pilot));
+
+  for (var i = 0; i < pilot.gear.length; i++) {
+    var pRef = pilot.gear[i];
+    var item = allGear.find(function (g) {
+      return g.id === pRef.id;
+    });
+    item.notes = pRef.notes;
+    item = Tags.expand(item);
+
+    var template = Handlebars.compile($("#p_" + item.type + "-template").html())
+    $("#pilot-gear-output").append(template(item));
   }
 
+  bindEquipmentExpanders();
+}
+
+//TODO: offload these
+function bindEquipmentExpanders() {
+  $('.equip-expander-header').click(function () {
+    $(this).toggleClass('sweep-btn bold');
+    var parent = $(this).closest('.equip-expander');
+    $(parent).toggleClass('open');
+    $($(parent).find(".equip-open-info")).toggle("swing");
+  });
 }
 
 

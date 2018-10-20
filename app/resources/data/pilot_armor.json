@@ -1,7 +1,7 @@
 [
   {
     "id": "pa_lighthardsuit",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Light Hardsuit",
     "bonus": "",
     "armor": 1,
@@ -14,7 +14,7 @@
   },
   {
     "id": "pa_hardsuit",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Assault Hardsuit",
     "bonus": "",
     "armor": 2,
@@ -27,7 +27,7 @@
   },
   {
     "id": "pa_stambha",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "STAMBHA Overarmor",
     "bonus": "Offers a short ranged protective shield.",
     "armor": 1,
@@ -40,7 +40,7 @@
   },
   {
     "id": "pa_djed",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "DJED Overarmor",
     "bonus": "Provides stasis instead of Down and Out 1/full repair",
     "armor": 2,
@@ -53,7 +53,7 @@
   },
   {
     "id": "pa_ashoka",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "ASHOKA Overarmor",
     "bonus": "Reduces heavy damage",
     "armor": 2,
@@ -66,7 +66,7 @@
   },
   {
     "id": "pa_icepack",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "ICEPACK",
     "bonus": "Gain the ability to overcharge",
     "armor": "",
@@ -79,7 +79,7 @@
   },
   {
     "id": "pa_buckler",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Buckler",
     "bonus": "Provides protection in plain clothes",
     "armor": "",
@@ -92,7 +92,7 @@
   },
   {
     "id": "pa_mam",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "MINE/ALL/MINE",
     "bonus": "Able to hack mechs while jockeying",
     "armor": 1,
@@ -105,7 +105,7 @@
   },
   {
     "id": "pa_uv",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "UNAVOIDABLE_ VOID",
     "bonus": "Completely undetectable by electronic systems",
     "armor": 1,
@@ -118,7 +118,7 @@
   },
   {
     "id": "pa_uentt",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "UNCLEAR_END/NTT",
     "bonus": "Limited action during unconsciousness/death",
     "armor": 2,
@@ -131,7 +131,7 @@
   },
   {
     "id": "pa_metafold",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Metafold Processor",
     "bonus": "Bonus e-defense and ability to make invasion actions",
     "armor": "",
@@ -144,7 +144,7 @@
   },
   {
     "id": "pa_wac",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "WILD_AND_CRAZY",
     "bonus": "Count adjacent spaces as your mech’s sensor range",
     "armor": "",
@@ -157,7 +157,7 @@
   },
   {
     "id": "pa_wayland",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "WAYLAND Mobile Cuirass",
     "bonus": "Increased Mobility",
     "armor": 1,
@@ -170,7 +170,7 @@
   },
   {
     "id": "pa_caladbolg",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "CALADBOLG Mobile Cuirass",
     "bonus": "+5 HP",
     "armor": 2,
@@ -183,7 +183,7 @@
   },
   {
     "id": "pa_durendal",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "DURENDAL Mobile Cuirass",
     "bonus": "Unarmed attack",
     "armor": 2,
@@ -196,7 +196,7 @@
   },
   {
     "id": "pa_goliath",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Goliath Weave",
     "bonus": "Bonus HP, increased strength",
     "armor": "",
@@ -209,7 +209,7 @@
   },
   {
     "id": "pa_webbing",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Combat Webbing",
     "bonus": "Bonus weapon/gear",
     "armor": "",
@@ -222,7 +222,7 @@
   },
   {
     "id": "pa_acherontia",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Acherontia Panoply",
     "bonus": "Extremely fast",
     "armor": 1,
@@ -235,7 +235,7 @@
   },
   {
     "id": "pa_mythimna",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Mythimna Panoply",
     "bonus": "Invisibility",
     "armor": 1,
@@ -248,7 +248,7 @@
   },
   {
     "id": "pa_eloria",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Eloria Panoply",
     "bonus": "Flight",
     "armor": "",
@@ -261,7 +261,7 @@
   },
   {
     "id": "pa_nerveweave",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Nerveweave",
     "bonus": "Gain bonus speed and evasion",
     "armor": "",
@@ -274,7 +274,7 @@
   },
   {
     "id": "pa_sylph",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Sylph",
     "bonus": "Semi-biological undersuit",
     "armor": "",
@@ -287,7 +287,7 @@
   },
   {
     "id": "pa_fallingwater",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "“Falling Water” Overcoat",
     "bonus": "Smart, omni-net linked coat",
     "armor": "",
@@ -300,7 +300,7 @@
   },
   {
     "id": "pa_clothes",
-    "type": "pilot_armor",
+    "type": "armor",
     "name": "Plain clothes",
     "bonus": "",
     "armor": 0,

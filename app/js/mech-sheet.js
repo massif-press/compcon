@@ -34,12 +34,13 @@ Handlebars.registerHelper('balloonSize', function (str) {
 });
 
 Handlebars.registerHelper('dmgFormat', function (str) {
-  str = str.replace('Kinetic', '<span class="kinetic">Kinetic</span>');
-  str = str.replace('Energy', '<span class="energy">Energy</span>');
-  str = str.replace('Explosive', '<span class="explosive">Explosive</span>');
-  str = str.replace('Variable', '<span class="variable">Variable</span>');
-  str = str.replace('Heat', '<span class="heat">Heat</span>');
-  str = str.replace('Burn', '<span class="burn">Burn</span>');
+  str = str.toString();
+  str = str.replace(/kinetic/ig, ' <span class = "kinetic"> Kinetic </span>');
+  str = str.replace(/energy/ig, '<span class="energy">Energy</span>');
+  str = str.replace(/explosive/ig, '<span class="explosive">Explosive</span>');
+  str = str.replace(/variable/ig, '<span class="variable">Variable</span>');
+  str = str.replace(/heat/ig, '<span class="heat">Heat</span>');
+  str = str.replace(/burn/ig, '<span class="burn">Burn</span>');
   return str;
 });
 
@@ -88,7 +89,6 @@ function loadMech(config, pilot) {
     "systems": sys,
     "shell": config.shell
   }));
-
 
   setCharts();
   bindEquipmentExpanders();

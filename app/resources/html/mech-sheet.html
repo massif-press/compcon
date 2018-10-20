@@ -128,9 +128,11 @@
     <table class="equipment-table">
       {{#weapons}}
       <tr>
-        <td width="20%"><a href=#>
+        <td width="20%">
+          <a href=#>
             <div class="btn mount-btn">{{allCaps mount}} MOUNT</div>
-          </a></td>
+          </a>
+        </td>
         <td class="menu-border equip-expander">
           <a href=#>
             <div class="equip-expander-header sweep-btn">&nbsp;{{name}}
@@ -140,14 +142,18 @@
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
-              <blockquote class="desc-text">{{description}}</blockquote>
+              {{#if description}}<blockquote class="desc-text">{{description}}</blockquote>{{/if}}
               <span>{{mount}} {{type}}</span>
               {{#if sp}}<span>{{sp}} SP <span class="subtitle">{{/if}}
-              <span><br>Range: <b>{{range}}</b></span>
-              <span><br><b>{{{dmgFormat damage}}} Damage</span><span class="subtitle">&emsp;{{dmgRange damage_raw}}</span>
+              <table class="gear-table">
+                <tr><th>Range</th><th>Damage</th>
+                <tr><td>{{range}}</td><td>{{{dmgFormat damage}}}<br><span class="subtitle">{{dmgRange damage_raw}}</span></td>
+              </table>
               <div class="tag-div">
                 {{#tags}}
-                  <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a></span>
+                  <div class="tag">
+                    <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a>
+                  </div>
                 {{/tags}}
               </div>
             </div>
@@ -204,10 +210,10 @@
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
-              <blockquote class="desc-text">{{description}}</blockquote>
+              {{#if description}}<blockquote class="desc-text">{{description}}</blockquote>{{/if}}
               <span>{{type}}</span>
               <span class="subtitle"><br>{{sp}} SP </span>
-              <span><br>{{effect}}</span>
+              {{#if effect}}<span><br>{{effect}}</span>{{/if}}
               <div class="tag-div">
                 {{#tags}}
                   <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a></span>

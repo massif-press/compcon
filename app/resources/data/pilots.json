@@ -20,9 +20,26 @@
     "level": "3",
     "background": "Colonist",
     "history": "Taro Oda grew up in the colonies. He is pretty good at gunplay, and a bad liar.",
-    "fnf": "Friends: None. Enemies: Many.",
+    "fnf": [
+      {
+        "name": "\"'Ol\" Buddy O'Pal",
+        "relationship": "Comrade",
+        "description": "Taro's best friend."
+      },
+      {
+        "name": "Shay D. Bizness",
+        "relationship": "Fence",
+        "description": "A dude Taro sold some hot car steroes through."
+      },
+      {
+        "name": "Lee Thol",
+        "relationship": "Arch-rival",
+        "description": "This guy sucks. Just the worst."
+      }
+    ],
     "img-portrait": "./resources/img/pilots/portrait_oda.png",
-    "img-full": "https://via.placeholder.com/300x450",
+    "img-appearance": "./resources/img/pilots/portrait_oda.png",
+    "text-appearance": "my man laughin cuz he know",
     "max_hp": 5,
     "current_hp": 5,
     "status": "ACTIVE",
@@ -93,7 +110,7 @@
     "core_bonuses": [
       "cb_frame"
     ],
-    "notes": "test pilot notes",
+    "notes": "a player would enter notes here about the campaign, builds, etc etc.",
     "configs" : [0, 1, 2, 3]
   },
   {

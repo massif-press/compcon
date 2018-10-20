@@ -14,7 +14,7 @@ Todo:
   ✔ Change mech img links to data in mecha folder @done(18-10-18 10:52)
   ✔ Damage-by-type breakdown per weapon @done(18-10-18 16:44)
   ☐ Weapon damage array into damage object
-  ☐ Move damage dice math into its own file
+  ✔ Move damage dice math into its own file @done(18-10-20 16:01)
   ✔ Move tag handling into its own file @done(18-10-18 16:44)
   ✔ Move stat math into its own file @done(18-10-18 16:44)
   ☐ Error handling for every find() (refactor)
@@ -23,6 +23,14 @@ Todo:
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
   ☐ Add aptitude points to weapons, systems, and shells
+  ☐ Scroll to top when reloading pilot or mech sheets
+  ☐ Shell info expander on mech sheet
+  ☐ Partialize player table items
+  ☐ Move handlebars helper to own file and load on start
+  
+  Bugs:
+  ✔ Range tag is missing (X) @done(18-10-20 16:02)
+  ✔ Core Bonus Info box is set to "()" when reloading player sheet @done(18-10-20 16:02)
 
 Ideas:
   ☐ color scheme for pilots/mechs
@@ -31,3 +39,5 @@ Ideas:
   ☐ on print: traverse pilot data structure to get all possible power cards
   ☐ on print: update regular action cards with player/shell bonuses
   ☐ range/threat pips for weapons/systems
+  ☐ rename weapons/gear; set custom descriptions instead of notes
+  ☐ override eg. signature weapons to create custom versions at player creation

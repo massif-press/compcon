@@ -45,6 +45,7 @@
  - Implement a full-featured editor so that users can add their own LANCER data without having to screw with JSON
  - Mark homebrew data so players can filter homebrew/core items
  - Package homebrew data so users can easily share; allow sorting and filtering by author/set
+ - Provide an equipment catalog mode so players can browse data w/o building a character or mech
 
 ### v3
  - Provide a card-based print option, printing a basic player sheet along with a set of D&D4e-style power cards
@@ -65,6 +66,9 @@
 ## Changelog
 ### v0.0.1 - MM/DD/YYYY
 - Alpha development complete
+---
+## Contributing
+
 ---
 ## License
 [GPL v3](LICENSE.md)

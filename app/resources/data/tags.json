@@ -190,7 +190,7 @@
   },
   {
     "id": "tag_range",
-    "name": "Range",
+    "name": "Range (X)",
     "description": "This system can be activated at a range of X spaces."
   }
 ]
