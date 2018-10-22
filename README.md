@@ -71,6 +71,10 @@
 ---
 ## Contributing
 
+Embedding tags in item effects/descriptions:
+`tag_id# tag_id` tag id, seperated by spaces, if the tag takes a number value (eg. range 5), append that to the tag id, no space. Extraneous numbers that aren't used in descriptions get removed. For example:
+tag_blast3 => Blast (3)
+
 ---
 ## License
 [GPL v3](LICENSE.md)

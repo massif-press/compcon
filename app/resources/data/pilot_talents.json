@@ -194,7 +194,7 @@
     "r2_name": "Fusion Hemorrhage",
     "r2_desc": "When you’re in the danger zone, your first attack roll that hits on your turn deals +1d6 bonus damage.",
     "r3_name": "Here, Catch!",
-    "r3_desc": "You can modify your mech to fire its fuel rods as a weapon. <br>Gain the <b>Fuel Rod Gun</b> weapon. It takes mount space."
+    "r3_desc": "You can modify your mech to fire its fuel rods as a weapon. Gain the <b>Fuel Rod Gun</b> weapon. It takes mount space."
   },
   {
     "id": "tal_siege",

@@ -94,6 +94,9 @@
         "rank": 3
       }
     ],
+    "talent_weapons": [
+      "wp_fuelrod"
+    ],
     "core": {
       "hull": 2,
       "agi": 2,

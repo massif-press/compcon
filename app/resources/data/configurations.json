@@ -10,7 +10,6 @@
       "level": 2
     }],
     "weapons": [
-
     ],
     "systems": [
 
@@ -89,7 +88,6 @@
       "level": 2
     }],
     "weapons": [
-      "wp_fuelrod"
     ],
     "systems": [
 
@@ -99,7 +97,7 @@
     "id": 5,
     "name": "ōyamatasumi",
     "img": "ipsn_drake.png",
-    "shell_id": "sh_drake",
+    "shell_id": "sh_hydra",
     "status": "available",
     "license_req": [{
       "name": "test license b",

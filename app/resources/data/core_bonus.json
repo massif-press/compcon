@@ -143,8 +143,8 @@
     "id": "cb_heldimage",
     "name": "The Lesson of The Held Image",
     "source": "HORUS",
-    "effect": "1/round your mech can make a Lock On tech action as a reaction at the start of any ally’s turn",
-    "description": "Close your eyes. Hold the image of your enemy in your mind. Imagine it in all light and from every angle. In your mind it has become a more perfect version of the thing in pale light. Crush it in your mind and you kill the perfect thing. Open your eyes."
+    "effect": "Once per round your mech can make a Lock On tech action as a reaction at the start of any ally’s turn",
+    "description": "Close your eyes. <br>Hold the image of your enemy in your mind. Imagine it in all light and from every angle. In your mind it has become a more perfect version of the thing in pale light. <br>Crush it in your mind and you kill the perfect thing. <br>Open your eyes."
   },
   {
     "id": "cb_transub",

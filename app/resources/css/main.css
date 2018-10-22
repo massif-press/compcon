@@ -353,9 +353,6 @@ blockquote {
   color: #fff
 }
 
-.equip-open-info {
-  /* background-color: var(--bg-alt); */
-}
 
 .bold {
   font-weight: bold;
@@ -399,4 +396,11 @@ blockquote {
 
 .external-link:hover{
   color: var(--success);
+}
+
+.ra-text{
+  font-family: 'Cinzel Decorative', monospace;
+  color: greenyellow;
+  letter-spacing: 5px;
+  text-shadow: 2px 2px 4px magenta;
 }

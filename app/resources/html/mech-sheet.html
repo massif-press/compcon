@@ -145,12 +145,13 @@
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
-              {{#if description}}<blockquote class="desc-text">{{description}}</blockquote>{{/if}}
-              <span>{{mount}} {{type}}</span>
+              {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+              {{#if effect}}<span>{{effect}}<br></span>{{/if}}
+              <span class="subtitle">{{mount}} {{type}}</span>
               {{#if sp}}<span>{{sp}} SP <span class="subtitle">{{/if}}
               <table class="gear-table">
                 <tr><th>Range</th><th>Damage</th>
-                <tr><td>{{range}}</td><td>{{{dmgFormat damage}}}<br><span class="subtitle">{{dmgRange damage_raw}}</span></td>
+                <tr><td>{{range}}</td><td>{{{dmgFormat damage}}}<br><span class="subtitle">{{dmgRange damage}}</span></td>
               </table>
               <div class="tag-div">
                 {{#tags}}
@@ -174,7 +175,9 @@
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
-              <blockquote class="desc-text">{{shell.ult_description}}</blockquote>
+            {{#if shell.ult_description}}
+              <blockquote class="desc-text">{{{shell.ult_description}}}</blockquote>
+            {{/if}}
               <span>{{{shell.ult_passive}}}</span>
             </div>
           </div>
@@ -213,7 +216,7 @@
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
-              {{#if description}}<blockquote class="desc-text">{{description}}</blockquote>{{/if}}
+              {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
               <span>{{type}}</span>
               <span class="subtitle"><br>{{sp}} SP </span>
               {{#if effect}}<span><br>{{effect}}</span>{{/if}}
@@ -232,9 +235,9 @@
     <tr>
       <td width="66%"></td>
       <td>
-        <div class="menu-border warning-stripes disabled" style="text-align: center">
+        <!--div class="menu-border warning-stripes disabled" style="text-align: center">
           Add System <span class="pull-right subtitle"><b>7/7SP</b></span>
-        </div>
+        </div-->
       </td>
     </tr>
   </table>
@@ -263,14 +266,20 @@
           <select class="chart-selector">
             <option value="range">Range</option>
             <option value="type">Type</option>
-            <option value="type">Mount</option>
+            <option value="mount">Mount</option>
           </select>
         </th>
         <th>Role Aptitude</th>
       </tr>
       <tr>
-        <td><canvas id="damagechart" height="160"></canvas></td>
-        <td><canvas id="rolechart" height="160"></canvas></td>
+        <td style="padding: 10px;">
+          <canvas id="damage-range-chart" height="200"></canvas>
+          <canvas id="damage-type-chart" class='hidden'height="200"></canvas>
+          <canvas id="damage-mount-chart" class='hidden'height="200"></canvas>
+        </td>
+        <td style="padding: 10px;" width=40%;>
+          <canvas id="rolechart" height="200"></canvas>
+        </td>
       </tr>
     </table>
   </div>

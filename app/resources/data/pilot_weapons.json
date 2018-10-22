@@ -42,7 +42,7 @@
   {
     "id": "pw_prim_melee",
     "type": "weapon",
-    "name": "Primitive Melee",
+    "name": "Primitive Melee Weapon",
     "tags": [
       {"id" : "tag_unreliable"}
     ],
@@ -56,7 +56,7 @@
   {
     "id": "pw_prim_ranged",
     "type": "weapon",
-    "name": "Primitive Ranged",
+    "name": "Primitive Ranged Weapon",
     "tags": [
       {"id" : "tag_unreliable"}
     ],

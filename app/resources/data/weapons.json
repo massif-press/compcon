@@ -1,19 +1,17 @@
-[
-  {
+[{
     "id": "wp_flak",
     "name": "Flak Cannon",
     "mount": "Main",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d3 Kinetic",
-    "damage_raw": [
-      "1d3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [{
       "id": "tag_reliable",
@@ -31,15 +29,14 @@
     "mount": "Superheavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "3d6 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "3d6",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "3d6",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "20, Blast 3",
     "tags": [{
         "id": "tag_loading"
@@ -67,15 +64,14 @@
     "mount": "Heavy",
     "type": "CQB",
     "sp": 0,
-    "damage": "Burn 4, 1 Heat",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      4,
-      0,
-      1
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 4,
+      "burn": 0,
+      "heat": 1
+    },
     "range": "Cone 5",
     "tags": [],
     "source": "HA",
@@ -90,22 +86,19 @@
     "mount": "Superheavy",
     "type": "CQB",
     "sp": 0,
-    "damage": "Burn 5, 1d6 Heat",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      5,
-      0,
-      "1d6"
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 5,
+      "burn": 0,
+      "heat": "1d6"
+    },
     "range": "Cone 7",
-    "tags": [
-      {
-        "id": "tag_heatself",
-        "val": 4
-      }
-    ],
+    "tags": [{
+      "id": "tag_heatself",
+      "val": 4
+    }],
     "source": "HA",
     "license": "GENGHIS",
     "license_level": 3,
@@ -118,15 +111,14 @@
     "mount": "Auxiliary",
     "type": "Cannon",
     "sp": 0,
-    "damage": "3 Kinetic",
-    "damage_raw": [
-      3,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 3,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 5,
     "tags": [{
       "id": "tag_limited",
@@ -144,15 +136,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d6 Energy",
-    "damage_raw": [
-      0,
-      "1d6",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "8, Blast 3",
     "tags": [],
     "source": "HA",
@@ -167,8 +158,15 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "Dependent on payload",
-    "damage_raw": [],
+    "damage": {
+      "override": "Dependent on payload",
+      "kinetic": 0,
+      "energy": "1d6",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       " id ": " tag_arcing "
@@ -185,15 +183,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d6 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d6",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d6",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       "id": "tag_arcing"
@@ -210,15 +207,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "12 Energy",
-    "damage_raw": [
-      0,
-      12,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 12,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Range 15, Blast 1",
     "tags": [{
         "id": "tag_unique"
@@ -246,15 +242,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Energy, Burn 1",
-    "damage_raw": [
-      0,
-      "1d6",
-      0,
-      1,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6",
+      "explosive": 0,
+      "variable": 1,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
       "id": "tag_heatself",
@@ -272,15 +267,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Energy, Burn 3",
-    "damage_raw": [
-      0,
-      "2d6",
-      0,
-      3,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "2d6",
+      "explosive": 0,
+      "variable": 3,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       "id": "tag_heatself",
@@ -298,15 +292,14 @@
     "mount": "Superheavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Energy, Burn 8",
-    "damage_raw": [
-      0,
-      "2d6",
-      0,
-      3,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "2d6",
+      "explosive": 0,
+      "variable": 3,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [{
         "id": "tag_ordnance"
@@ -328,15 +321,14 @@
     "mount": "Main",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d3+1 Energy",
-    "damage_raw": [
-      0,
-      "1d3+1",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d3+1",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Cone 5",
     "tags": [{
         "id": "tag_ap"
@@ -358,15 +350,14 @@
     "mount": "Main",
     "type": "Melee or CQB",
     "sp": 0,
-    "damage": "1 Energy Damage, Burn 3",
-    "damage_raw": [
-      0,
-      1,
-      0,
-      3,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 1,
+      "explosive": 0,
+      "variable": 3,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "5, Threat 3",
     "tags": [{
       "id": "tag_heatself",
@@ -384,15 +375,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6 Energy, Burn 2",
-    "damage_raw": [
-      0,
-      "1d6",
-      0,
-      2,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6",
+      "explosive": 0,
+      "variable": 2,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [{
       "id": "tag_heatself",
@@ -410,15 +400,14 @@
     "mount": "Main",
     "type": "Nexus",
     "sp": 0,
-    "damage": "1 Kinetic, Burn 2",
-    "damage_raw": [
-      1,
-      0,
-      0,
-      2,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 1,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 2,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
         "id": "tag_smart"
@@ -439,15 +428,14 @@
     "mount": "Heavy",
     "type": "Melee",
     "sp": 2,
-    "damage": "2d6 Kinetic",
-    "damage_raw": [
-      "2d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat+2",
     "tags": [],
     "source": "HORUS",
@@ -462,15 +450,14 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "2 Kinetic",
-    "damage_raw": [
-      2,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 2,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
       "id": "tag_seeking"
@@ -487,15 +474,14 @@
     "mount": "Main",
     "type": "Nexus",
     "sp": 0,
-    "damage": "1d3+2 Variable",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      "1d3+2",
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": "1d3+2",
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       "id": "tag_smart"
@@ -512,15 +498,14 @@
     "mount": "Heavy",
     "type": "Nexus",
     "sp": 0,
-    "damage": "1d6+3 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d6+3",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d6+3",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       "id": "tag_smart"
@@ -537,15 +522,14 @@
     "mount": "Main",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d3+1 Heat",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      "1d3+1"
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": "1d3+1"
+    },
     "range": "Cone 5",
     "tags": [{
       "id": "tag_heatself",
@@ -563,15 +547,14 @@
     "mount": "Main",
     "type": "Cannon",
     "sp": 1,
-    "damage": "3 Kinetic",
-    "damage_raw": [
-      3,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 3,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [],
     "source": "HORUS",
@@ -586,15 +569,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 2,
-    "damage": "4 Kinetic",
-    "damage_raw": [
-      4,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 4,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [{
         "id": "tag_smart"
@@ -618,15 +600,15 @@
     "mount": "Heavy",
     "type": "???",
     "sp": 0,
-    "damage": "1d20/2 +1 Explosive or Energy",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      "1d10+1"
-    ],
+    "damage": {
+      "override": "1d20/2+1 Explosive or Energy",
+      "kinetic": 0,
+      "energy": 5,
+      "explosive": 5,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "1d20",
     "tags": [],
     "source": "HORUS",
@@ -641,15 +623,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6+1 Kinetic",
-    "damage_raw": [
-      "1d6+1",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6+1",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [{
       "id": "tag_reliable",
@@ -667,15 +648,14 @@
     "mount": "Auxiliary",
     "type": "CQB",
     "sp": 0,
-    "damage": "1 Kinetic",
-    "damage_raw": [
-      1,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 1,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Burst 1",
     "tags": [],
     "source": "IPS-N",
@@ -690,15 +670,14 @@
     "mount": "Heavy",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6+3 Kinetic",
-    "damage_raw": [
-      "1d6+3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6+3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 2",
     "tags": [{
       "id": "tag_reliable",
@@ -716,15 +695,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d3+1 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d3+1",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d3+1",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 8,
     "tags": [],
     "source": "IPS-N",
@@ -739,15 +717,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6+2 Kinetic",
-    "damage_raw": [
-      "2d6+2",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6+2",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
         "id": "tag_unreliable"
@@ -769,15 +746,15 @@
     "mount": "Superheavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d6 Kinetic (4d6+4 Kinetic if spun up)",
-    "damage_raw": [
-      "4d6+4",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "override": "1d6 (4d6+4 if spun up)",
+      "kinetic": "4d6+4",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 8,
     "tags": [{
         "id": "tag_heatself",
@@ -800,15 +777,14 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "1 Energy, 1 Heat, Burn 1",
-    "damage_raw": [
-      0,
-      1,
-      0,
-      0,
-      1,
-      1
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 1,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 1,
+      "heat": 1
+    },
     "range": "Threat 1",
     "tags": [{
       "id": "tag_heatself",
@@ -826,15 +802,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat +1, Thrown 5",
     "tags": [],
     "source": "IPS-N",
@@ -849,15 +824,14 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d3+1 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d3+1",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d3+1",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [],
     "source": "IPS-N",
@@ -872,15 +846,14 @@
     "mount": "Auxiliary",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d6+1 Kinetic",
-    "damage_raw": [
-      "1d6+1",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6+1",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "5, Threat 3",
     "tags": [{
       "id": "tag_loading"
@@ -897,15 +870,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d6 Kinetic, 1d6 Explosive",
-    "damage_raw": [
-      "1d6",
-      0,
-      "1d6",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": "1d6",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [],
     "source": "IPS-N",
@@ -920,15 +892,14 @@
     "mount": "Heavy",
     "type": "Melee",
     "sp": 0,
-    "damage": "2d6+1 Kinetic",
-    "damage_raw": [
-      "2d6+1",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6+1",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [{
       "id": "tag_reliable",
@@ -946,15 +917,14 @@
     "mount": "Main",
     "type": "CQB",
     "sp": 0,
-    "damage": "2d6 Kinetic",
-    "damage_raw": [
-      "2d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "3, Threat 3",
     "tags": [{
       "id": "tag_inaccurate"
@@ -971,15 +941,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Melee",
     "tags": [],
     "source": "IPS-N",
@@ -994,15 +963,14 @@
     "mount": "Heavy",
     "type": "CQB",
     "sp": 0,
-    "damage": "3d6 Kinetic",
-    "damage_raw": [
-      "3d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "3d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Cone 7",
     "tags": [],
     "source": "IPS-N",
@@ -1017,15 +985,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d3+4 Kinetic",
-    "damage_raw": [
-      "1d3+4",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3+4",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [{
       "id": "tag_loading"
@@ -1042,15 +1009,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 1,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Line 5",
     "tags": [{
         "id": "tag_ap"
@@ -1072,15 +1038,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "8, Threat 3",
     "tags": [{
         "id": "tag_ap"
@@ -1102,15 +1067,14 @@
     "mount": "Superheavy",
     "type": "Melee",
     "sp": 0,
-    "damage": "3d6 Kinetic, 1d6 Energy",
-    "damage_raw": [
-      "3d6",
-      "1d6",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "3d6",
+      "energy": "1d6",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [{
         "id": "tag_unreliable"
@@ -1131,15 +1095,14 @@
     "mount": "Main",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d3+1 Heat",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      "1d3+1"
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": "1d3+1"
+    },
     "range": "Line 8",
     "tags": [],
     "source": "SSC",
@@ -1154,15 +1117,14 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d6 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d6",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d6",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "15, Blast 1",
     "tags": [],
     "source": "SSC",
@@ -1177,15 +1139,14 @@
     "mount": "Heavy",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6+3 Kinetic",
-    "damage_raw": [
-      "1d6+3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6+3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Line 20",
     "tags": [{
         "id": "tag_ap"
@@ -1206,15 +1167,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d3 Heat",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      "1d3"
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": "1d3"
+    },
     "range": 10,
     "tags": [{
       "id": "tag_arcing"
@@ -1231,15 +1191,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
         "id": "tag_accurate"
@@ -1260,15 +1219,14 @@
     "mount": "Main",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Kinetic",
-    "damage_raw": [
-      "2d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 5,
     "tags": [],
     "source": "HORUS",
@@ -1283,15 +1241,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Line 10",
     "tags": [],
     "source": "SSC",
@@ -1306,15 +1263,14 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "1 Energy, Burn 2",
-    "damage_raw": [
-      0,
-      1,
-      0,
-      2,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 1,
+      "explosive": 0,
+      "variable": 2,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [{
       "id": "tag_heatself",
@@ -1332,15 +1288,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "3 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      3,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 3,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
       "id": "tag_arcing"
@@ -1357,15 +1312,14 @@
     "mount": "Heavy",
     "type": "Launcher",
     "sp": 1,
-    "damage": "1d6+1 Energy",
-    "damage_raw": [
-      0,
-      "1d6+1",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6+1",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
         "id": "tag_smart"
@@ -1387,15 +1341,15 @@
     "mount": "Superheavy",
     "type": "Launcher",
     "sp": 0,
-    "damage": "2d6+2 Explosive x2",
-    "damage_raw": [
-      0,
-      0,
-      "4d6+4",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "override": "2d6+2 Explosive x2",
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "4d6+4",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "30, Blast 2 x2",
     "tags": [{
         "id": "tag_arcing"
@@ -1417,15 +1371,14 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d3 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d3",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d3",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 5,
     "tags": [{
       "id": "tag_accurate"
@@ -1442,15 +1395,14 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "2 Kinetic",
-    "damage_raw": [
-      2,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 2,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [{
         "id": "tag_ap"
@@ -1471,15 +1423,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "4 Kinetic",
-    "damage_raw": [
-      4,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 4,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 2",
     "tags": [{
         "id": "tag_ap"
@@ -1501,15 +1452,14 @@
     "mount": "Auxiliary",
     "type": "Rifle",
     "sp": 1,
-    "damage": "1d3 Kinetic",
-    "damage_raw": [
-      "1d3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
         "id": "tag_arcing"
@@ -1530,15 +1480,15 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "",
-    "damage_raw": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "override": "",
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [],
     "source": "SSC",
@@ -1553,15 +1503,14 @@
     "mount": "Auxiliary",
     "type": "Nexus",
     "sp": 0,
-    "damage": "1d3 Kinetic",
-    "damage_raw": [
-      "1d3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 8,
     "tags": [{
       "id": "tag_smart"
@@ -1578,15 +1527,14 @@
     "mount": "Auxiliary",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d3+1 Explosive",
-    "damage_raw": [
-      0,
-      0,
-      "1d3+1",
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": "1d3+1",
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "10, Blast 1",
     "tags": [{
       "id": "tag_loading"
@@ -1603,15 +1551,14 @@
     "mount": "Auxiliary",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d3 Kinetic",
-    "damage_raw": [
-      "1d3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "5, Threat 3",
     "tags": [],
     "source": "GMS",
@@ -1626,15 +1573,14 @@
     "mount": "Auxiliary",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d3+1 Kinetic",
-    "damage_raw": [
-      "1d3+1",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d3+1",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [],
     "source": "GMS",
@@ -1649,15 +1595,14 @@
     "mount": "Auxiliary",
     "type": "CQB",
     "sp": 0,
-    "damage": "2 Energy",
-    "damage_raw": [
-      0,
-      2,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": 2,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Line 5",
     "tags": [],
     "source": "GMS",
@@ -1672,15 +1617,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [],
     "source": "GMS",
@@ -1695,15 +1639,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d3+3 Energy",
-    "damage_raw": [
-      0,
-      "1d3+3",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d3+3",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat 1",
     "tags": [{
       "id": "tag_ap"
@@ -1720,15 +1663,14 @@
     "mount": "Main",
     "type": "Nexus",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
       "id": "tag_smart"
@@ -1745,15 +1687,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "10, Blast 1",
     "tags": [{
         "id": "tag_arcing"
@@ -1774,15 +1715,14 @@
     "mount": "Main",
     "type": "Launcher",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "10, Blast 2",
     "tags": [{
       "id": "tag_loading"
@@ -1799,15 +1739,14 @@
     "mount": "Main",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d6 Kinetic",
-    "damage_raw": [
-      "1d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 5,
     "tags": [{
       "id": "tag_reliable",
@@ -1825,15 +1764,14 @@
     "mount": "Main",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6+2 Kinetic",
-    "damage_raw": [
-      "1d6+2",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "1d6+2",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [],
     "source": "GMS",
@@ -1848,15 +1786,14 @@
     "mount": "Main",
     "type": "Rifle",
     "sp": 0,
-    "damage": "1d3+2 Energy",
-    "damage_raw": [
-      0,
-      "1d3+2",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d3+2",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 5,
     "tags": [{
       "id": "tag_ap"
@@ -1873,15 +1810,14 @@
     "mount": "Heavy",
     "type": "Rifle",
     "sp": 0,
-    "damage": "2d6+2 Kinetic",
-    "damage_raw": [
-      "2d6+2",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6+2",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 20,
     "tags": [{
         "id": "tag_ap"
@@ -1905,15 +1841,14 @@
     "mount": "Heavy",
     "type": "Melee",
     "sp": 0,
-    "damage": "1d6+2 Energy",
-    "damage_raw": [
-      0,
-      "1d6+2",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6+2",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [{
       "id": "tag_ap"
@@ -1930,15 +1865,14 @@
     "mount": "Heavy",
     "type": "Melee",
     "sp": 0,
-    "damage": "2d6+2 Kinetic",
-    "damage_raw": [
-      "2d6+2",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6+2",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Threat",
     "tags": [],
     "source": "GMS",
@@ -1953,15 +1887,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6+1 Kinetic",
-    "damage_raw": [
-      "2d6+1",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6+1",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 10,
     "tags": [{
       "id": "tag_inaccurate"
@@ -1978,15 +1911,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "2d6 Kinetic",
-    "damage_raw": [
-      "2d6",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "2d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "20, Blast 2",
     "tags": [{
         "id": "tag_arcing"
@@ -2013,15 +1945,14 @@
     "mount": "Heavy",
     "type": "Cannon",
     "sp": 0,
-    "damage": "1d6+2 Energy",
-    "damage_raw": [
-      0,
-      "1d6+2",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6+2",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": "Line 10",
     "tags": [{
         "id": "tag_ap"
@@ -2043,15 +1974,14 @@
     "mount": "Superheavy",
     "type": "Rifle",
     "sp": 0,
-    "damage": "3d6+3 Kinetic",
-    "damage_raw": [
-      "3d6+3",
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": "3d6+3",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
         "id": "tag_reliable",
@@ -2076,15 +2006,14 @@
     "mount": "Auxiliary",
     "type": "CQB",
     "sp": 0,
-    "damage": "1d1+1 Energy",
-    "damage_raw": [
-      0,
-      "1d6+1",
-      0,
-      0,
-      0,
-      0
-    ],
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d6+1",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
     "range": 15,
     "tags": [{
         "id": "tag_limited",
@@ -2099,5 +2028,101 @@
     "license_level": "",
     "effect": "When you fire this weapon, hit or miss, cool 1d3+1 heat",
     "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent"
+  },
+  {
+    "id": "wp_argonaut",
+    "name": "Argonaut Shield",
+    "mount": "Main",
+    "type": "Melee",
+    "sp": 0,
+    "damage": {
+      "kinetic": "1d6",
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
+    "range": "Threat 1",
+    "tags": [],
+    "source": "Special",
+    "license": "",
+    "license_level": "",
+    "effect": "",
+    "description": "Gained from the \"Argonaut Shield\" IPS-N Drake Ultimate passive ability"
+  },
+  {
+    "id": "wp_latchdrone",
+    "name": "Latch Drone",
+    "mount": "Auxiliary",
+    "type": "Launcher",
+    "sp": 0,
+    "damage": {
+      "kinetic": 0,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
+    "range": 8,
+    "tags": [],
+    "source": "Special",
+    "license": "",
+    "license_level": "",
+    "effect": "Make a targeting roll vs evasion 8 and target any friendly mech in range (still take cover and line of sight into account). On hit, your target can spend up to 1 repair to heal.",
+    "description": "Gained from the \"Latch Drone\" IPS-N Lancaster Ultimate passive ability"
+  },
+  {
+    "id": "wp_m35",
+    "name": "M35",
+    "mount": "Auxiliary",
+    "type": "CQB",
+    "sp": 0,
+    "damage": {
+      "kinetic": 3,
+      "energy": 0,
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
+    "range": "5, Threat 3",
+    "tags": [],
+    "source": "Special",
+    "license": "",
+    "license_level": "",
+    "effect": "",
+    "description": "Gained from the \"M-35 MJOLNIR Cannon\" IPS-N Raleigh Ultimate passive ability"
+  },
+  {
+    "id": "wp_solidcore",
+    "name": "SOLIDCORE",
+    "mount": "Main",
+    "type": "Cannon",
+    "sp": 0,
+    "damage": {
+      "kinetic": 0,
+      "energy": "1d3+1",
+      "explosive": 0,
+      "variable": 0,
+      "burn": 0,
+      "heat": 0
+    },
+    "range": "5, Threat 3",
+    "tags": [{
+        "id": "tag_ordnance"
+      },
+      {
+        "id": "tag_line",
+        "val": 15
+      }
+    ],
+    "source": "Special",
+    "license": "",
+    "license_level": "",
+    "effect": "",
+    "description": "Gained from the \"Zone Focus Mk IV SOLIDCORE\" HA Sherman Ultimate passive ability"
   }
+
 ]

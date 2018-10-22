@@ -2,29 +2,31 @@
 Todo:
   ☐ Local Fonts
   ☐ Organize CSS
-  ☐ Button active states
-  ☐ Get special mounts etc from ultimates
   ☐ HA Assault Launcher gets a free grenade or mine
-  ☐ Weapon damage array into damage object
+  ✔ Weapon damage array into damage object @done(18-10-22 17:00)
   ☐ Error handling for every find() (refactor)
   ☐ Handlebars:partial the weapon template for ults and systems
   ☐ Weapon Mods
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
   ☐ Add aptitude points to weapons, systems, and shells
-  ✔ Scroll to top when reloading pilot or mech sheets @done(18-10-20 16:42)
-  ☐ Shell info expander on mech sheet
+  ☐ Shell info modal on mech sheet
   ☐ Partialize player table items
   ☐ Move handlebars helper to own file and load on start
   ☐ Don't rely on image file dimensions
   ☐ require-handlebars-plugin to break out hbs files
   ☐ custom background option
   ☐ pilot HP/EDEF/SPD based off level+armor
-  ☐ expand tags in descriptions (search for string)
   ☐ resize mech pictures to pilot full pic size
-  ☐ shell info modal
+  ☐ denote danger zone (bottom half of heat gauge) on pilot sheet
+  ☐ refactor taghelper
+  ✔ collapse damage into damage_raw @done(18-10-22 17:00)
+  ☐ remove tag arrays and use tag syntax in a "tags" string in the json
+  ☐ parse effects and descriptions for damage words
+  ☐ add apoc rail mount for barbarossa on config creation
+  ☐ sort mounts
+  ☐ fix range chart
   
-  Ideas:
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of licenses
   ☐ Custom notes/descriptions for items
@@ -36,6 +38,11 @@ Todo:
   ☐ technophile confers 0sp custom NHP system
 
 Archive:
+  ✘ Button active states @cancelled(18-10-22 13:08) @project(Todo)
+  ✔ Get special mounts etc from ultimates @done(18-10-22 13:08) @project(Todo)
+  ✔ Get special mounts from talents @done(18-10-22 13:10) @project(Todo)
+  ✔ Scroll to top when reloading pilot or mech sheets @done(18-10-20 16:42) @project(Todo)
+  ✔ expand tags in descriptions (search for string) @done(18-10-22 13:11) @project(Todo)
   ✔ Equipment items expand (and stay open) on click @done(18-10-10 14:53) @project(Todo)
   ✔ Fix stat box so overcharge aligns correctly @done(18-10-17 12:41) @project(Todo)
   ✘ Add statuses and core power to stat box @cancelled(18-10-10 14:53) @project(Todo)

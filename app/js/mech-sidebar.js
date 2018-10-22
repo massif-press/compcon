@@ -20,7 +20,7 @@ function loadMecha(pilot) {
   var configArray = [];
 
   for (var i = 0; i < configs.length; i++) {
-    configs[i].shell = shells.find(s => s.id == configs[i].shell_id);;
+    configs[i].shell = shells.find(s => s.id == configs[i].shell_id);
   }
 
   for (var i = 0; i < pilot.configs.length; i++) {
