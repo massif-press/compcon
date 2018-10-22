@@ -66,6 +66,28 @@
   border: 1px solid var(--border);
 }
 
+.skills-table {
+  text-align: center;
+  width: 100%;
+}
+
+.skills-table th {
+  background-color: var(--bg-alt);
+  padding: 5px;
+  color: var(--highlight);
+}
+
+.skills-table td {
+  font-size: 30px;
+  border: 1px solid var(--bg-alt);
+}
+
+#grit {
+  font-size: 46px;
+  font-weight: 900;
+  color: #fff;
+}
+
 .core-hex-td {
   width: 25%;
   padding-bottom: 25px;
@@ -73,7 +95,7 @@
 }
 
 .core-hex-td span {
-  padding-left: 16px;
+  padding-left: 4px;
 }
 
 .inline-hexagon {

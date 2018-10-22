@@ -1,8 +1,8 @@
 [
   {
-    "id": 0,
-    "name": "hachiman",
-    "img": "no-data.svg",
+    "id": 0, 
+    "name": "ōyamatasumi",
+    "img": "ipsn_drake.png",
     "shell_id": "sh_drake",
     "status": "available",
     "license_req": [{
@@ -18,9 +18,9 @@
   },
   {
     "id": 1,
-    "name": "ōyamatasumi",
-    "img": "no-data.svg",
-    "shell_id": "sh_nelson",
+    "name": "hachiman",
+    "img": "ipsn_blackbeard.png",
+    "shell_id": "sh_blackbeard",
     "status": "unavailable",
     "license_req": [{
       "name": "test license b",
@@ -34,7 +34,7 @@
   {
     "id": 2,
     "name": "raijin",
-    "img": "ispn_raleigh.png",
+    "img": "ipsn_raleigh.png",
     "shell_id": "sh_raleigh",
     "status": "active",
     "license_req": [{
@@ -48,15 +48,65 @@
   {
     "id": 3,
     "name": "raijin",
-    "img": "no-data.svg",
-    "shell_id": "sh_raleigh",
+    "img": "",
+    "shell_id": "sh_everest",
     "status": "destroyed",
     "license_req": [{
-      "name": "test license b",
-      "level": 1
+
     }],
     "weapons": [
 
+    ],
+    "systems": [
+
+    ]
+  },
+  {
+    "id": 4,
+    "name": "ōyamatasumi",
+    "img": "ipsn_drake.png",
+    "shell_id": "sh_drake",
+    "status": "available",
+    "license_req": [{
+      "name": "test license b",
+      "level": 2
+    }],
+    "weapons": [
+
+    ],
+    "systems": [
+
+    ]
+  }, 
+  {
+    "id": 6,
+    "name": "ys-prim",
+    "img": "horus_gorgon.png",
+    "shell_id": "sh_gorgon",
+    "status": "available",
+    "license_req": [{
+      "name": "HORUS GORGON",
+      "level": 2
+    }],
+    "weapons": [
+      "wp_fuelrod"
+    ],
+    "systems": [
+
+    ]
+  }, 
+  {
+    "id": 5,
+    "name": "ōyamatasumi",
+    "img": "ipsn_drake.png",
+    "shell_id": "sh_drake",
+    "status": "available",
+    "license_req": [{
+      "name": "test license b",
+      "level": 2
+    }],
+    "weapons": [
+      
     ],
     "systems": [
 

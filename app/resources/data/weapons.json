@@ -2069,5 +2069,35 @@
     "license_level": "",
     "effect": "",
     "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+  },
+  {
+    "id": "wp_fuelrod",
+    "name": "Fuel Rod Gun",
+    "mount": "Auxiliary",
+    "type": "CQB",
+    "sp": 0,
+    "damage": "1d1+1 Energy",
+    "damage_raw": [
+      0,
+      "1d6+1",
+      0,
+      0,
+      0,
+      0
+    ],
+    "range": 15,
+    "tags": [{
+        "id": "tag_limited",
+        "val": 6
+      },
+      {
+        "id": "tag_unique"
+      }
+    ],
+    "source": "Special",
+    "license": "",
+    "license_level": "",
+    "effect": "When you fire this weapon, hit or miss, cool 1d3+1 heat",
+    "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent"
   }
 ]

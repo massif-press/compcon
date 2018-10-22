@@ -2,37 +2,29 @@
 Todo:
   ☐ Local Fonts
   ☐ Organize CSS
-  ✔ Equipment items expand (and stay open) on click @done(18-10-10 14:53)
   ☐ Button active states
-  ✔ Fix stat box so overcharge aligns correctly @done(18-10-17 12:41)
-  ✘ Add statuses and core power to stat box @cancelled(18-10-10 14:53)
-  ✔ Tooltips @done(18-10-09 19:47)
   ☐ Get special mounts etc from ultimates
-  ✔ Split ultimate passive and active on mech sheet @done(18-10-18 16:43)
   ☐ HA Assault Launcher gets a free grenade or mine
-  ✔ Have tags take optional data, replace out in tooltip @done(18-10-18 16:43)
-  ✔ Change mech img links to data in mecha folder @done(18-10-18 10:52)
-  ✔ Damage-by-type breakdown per weapon @done(18-10-18 16:44)
   ☐ Weapon damage array into damage object
-  ✔ Move damage dice math into its own file @done(18-10-20 16:01)
-  ✔ Move tag handling into its own file @done(18-10-18 16:44)
-  ✔ Move stat math into its own file @done(18-10-18 16:44)
   ☐ Error handling for every find() (refactor)
   ☐ Handlebars:partial the weapon template for ults and systems
   ☐ Weapon Mods
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
   ☐ Add aptitude points to weapons, systems, and shells
-  ☐ Scroll to top when reloading pilot or mech sheets
+  ✔ Scroll to top when reloading pilot or mech sheets @done(18-10-20 16:42)
   ☐ Shell info expander on mech sheet
   ☐ Partialize player table items
   ☐ Move handlebars helper to own file and load on start
+  ☐ Don't rely on image file dimensions
+  ☐ require-handlebars-plugin to break out hbs files
+  ☐ custom background option
+  ☐ pilot HP/EDEF/SPD based off level+armor
+  ☐ expand tags in descriptions (search for string)
+  ☐ resize mech pictures to pilot full pic size
+  ☐ shell info modal
   
-  Bugs:
-  ✔ Range tag is missing (X) @done(18-10-20 16:02)
-  ✔ Core Bonus Info box is set to "()" when reloading player sheet @done(18-10-20 16:02)
-
-Ideas:
+  Ideas:
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of licenses
   ☐ Custom notes/descriptions for items
@@ -41,3 +33,19 @@ Ideas:
   ☐ range/threat pips for weapons/systems
   ☐ rename weapons/gear; set custom descriptions instead of notes
   ☐ override eg. signature weapons to create custom versions at player creation
+  ☐ technophile confers 0sp custom NHP system
+
+Archive:
+  ✔ Equipment items expand (and stay open) on click @done(18-10-10 14:53) @project(Todo)
+  ✔ Fix stat box so overcharge aligns correctly @done(18-10-17 12:41) @project(Todo)
+  ✘ Add statuses and core power to stat box @cancelled(18-10-10 14:53) @project(Todo)
+  ✔ Tooltips @done(18-10-09 19:47) @project(Todo)
+  ✔ Split ultimate passive and active on mech sheet @done(18-10-18 16:43) @project(Todo)
+  ✔ Have tags take optional data, replace out in tooltip @done(18-10-18 16:43) @project(Todo)
+  ✔ Change mech img links to data in mecha folder @done(18-10-18 10:52) @project(Todo)
+  ✔ Damage-by-type breakdown per weapon @done(18-10-18 16:44) @project(Todo)
+  ✔ Move damage dice math into its own file @done(18-10-20 16:01) @project(Todo)
+  ✔ Move tag handling into its own file @done(18-10-18 16:44) @project(Todo)
+  ✔ Move stat math into its own file @done(18-10-18 16:44) @project(Todo)
+  ✔ Range tag is missing (X) @done(18-10-20 16:02) @project(Todo)
+  ✔ Core Bonus Info box is set to "()" when reloading player sheet @done(18-10-20 16:02) @project(Todo)

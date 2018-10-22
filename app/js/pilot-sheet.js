@@ -30,9 +30,15 @@ Handlebars.registerHelper('talentLock', function (level, itemRank, retTrue, retF
   return retFalse
 });
 
-function loadPilot(pilot) {  
+Handlebars.registerHelper('trSplit', function (v1, v2, options) {
+  if (v1 % v2 === 0) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
 
-  $("#pilot-info-output").empty();
+function loadPilot(pilot) {  
+  $(".main").scrollTop(1);
 
   var expandedTalents = [];
   for (var i = 0; i < pilot.talents.length; i++) {

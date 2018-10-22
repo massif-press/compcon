@@ -22,7 +22,7 @@ Handlebars.registerHelper('ifElse', function (a, b) {
 });
 
 Handlebars.registerHelper('plusMinus', function (val) {
-  return val >= 0 ? "+" + val : "-" + val;
+  return val >= 0 ? "+" + val : val;
 });
 
 Handlebars.registerHelper('balloonSize', function (str) {
@@ -61,6 +61,7 @@ Handlebars.registerHelper('dmgRange', function (arr) {
 
 
 function loadMech(config, pilot) {
+  $(".main-scroll").scrollTop(1);
   var stats = Stats.getStats(config, pilot)
 
   var wp = [];

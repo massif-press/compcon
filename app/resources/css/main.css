@@ -120,6 +120,7 @@ hr {
   font-style: normal;
   float: right;
   margin-top: 10px;
+  text-overflow: ellipsis;
 }
 
 .open {
@@ -384,4 +385,18 @@ blockquote {
 .gear-table td {
   text-align: center;
   font-weight: bold;
+}
+
+#about-btn {
+  margin: 8px;
+  margin-bottom: 0px;
+}
+
+.external-link {
+  color: var(--highlight);
+  font-weight: bold;
+}
+
+.external-link:hover{
+  color: var(--success);
 }

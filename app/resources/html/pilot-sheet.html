@@ -13,7 +13,7 @@
       <div class="equip-open-info hidden">
         <div style="padding-left:5px">
           {{#if description}}
-            <blockquote class="desc-text">{{description}}<br></blockquote>
+            <blockquote class="desc-text">{{{description}}}<br></blockquote>
           {{/if}}
           {{#if effect}}
             <span>{{effect}}<br></span>
@@ -50,7 +50,7 @@
       <div class="equip-open-info hidden">
         <div style="padding-left:5px">
           {{#if description}}
-            <blockquote class="desc-text">{{description}}<br></blockquote>
+            <blockquote class="desc-text">{{{description}}}<br></blockquote>
           {{/if}}
           {{#if bonus}}
             <span>{{bonus}}<br></span>
@@ -90,7 +90,7 @@
       <div class="equip-open-info hidden">
         <div style="padding-left:5px">
           {{#if description}}
-            <blockquote class="desc-text">{{description}}<br></blockquote>
+            <blockquote class="desc-text">{{{description}}}<br></blockquote>
           {{/if}}
           {{#if effect}}
             <span>{{effect}}<br></span>
@@ -120,7 +120,7 @@
     </tr>
     <tr valign="top">
       <td>
-        <p>{{history}}</p>
+        <p>{{{history}}}</p>
         <br>
         <span class="fnf">Friends and Foes</span>
         <div style="padding-left:20px;">
@@ -135,13 +135,58 @@
         </div>
       </td>
       <td style="text-align:center">{{#if img-appearance}}<img class="block-img" src="{{img-appearance}}">{{/if}}
-        <span>{{text-appearance}}&nbsp;</span></td>
+        <span>{{{text-appearance}}}</span></td>
     </tr>
   </table>
 
   <table class="pilot-table" width="100%">
-    <tr><th colspan=4>TALENTS</th></tr>
+    <tr><th colspan=4>SKILLS</th></tr>
+    <tr>
+      <table class="skills-table">
+        <tr>
+          <th>GRIT</th>
+          <th>ACQUIRE</th>
+          <th>FLASH</th>
+          <th>BRAWL</th>
+          <th>INFILTRATE</th>
+        </tr>
+        <tr>
+          <td rowspan=6 id="grit">{{plusMinus skills.grit}}</td>
+          <td>{{plusMinus skills.acquire}}</td>
+          <td>{{plusMinus skills.flash}}</td>
+          <td>{{plusMinus skills.brawl}}</td>
+          <td>{{plusMinus skills.infiltrate}}</td>
+        </tr>
+        <tr>
+          <th>INVESTIGATE</th>
+          <th>PERSUADE</th>
+          <th>COMMAND</th>
+          <th>SWINDLE</th>
+        </tr>
+        <tr>
+          <td>{{plusMinus skills.investigate}}</td>
+          <td>{{plusMinus skills.persuade}}</td>
+          <td>{{plusMinus skills.command}}</td>
+          <td>{{plusMinus skills.swindle}}</td>
+        </tr>
+        <tr>
+          <th>TECH</th>
+          <th>SURVIVE</th>
+          <th>MANEUVER</th>
+          <th>NOTICE</th>
+        </tr>
+        <tr>
+          <td>{{plusMinus skills.tech}}</td>
+          <td>{{plusMinus skills.survive}}</td>
+          <td>{{plusMinus skills.maneuver}}</td>
+          <td>{{plusMinus skills.notice}}</td>
+        </tr>
+      </table>
+    </tr>
+</table>
 
+  <table class="pilot-table" width="100%">
+    <tr><th colspan=4>TALENTS</th></tr>
     {{#talents}}
     <tr>
       <td colspan=4 class="menu-border equip-expander">
@@ -201,22 +246,22 @@
       <td class="core-hex-td">
           <div class="hase-title">HULL</div>
           <img class="inline-hexagon" src="./resources/icons/hex.svg" width="52px" height="60px">
-          <span class="hase-num">{{core.hull}}</span>
+          <span class="hase-num">{{plusMinus core.hull}}</span>
       </td>
       <td class="core-hex-td">
           <div class="hase-title">AGI</div>
           <img class="inline-hexagon" src="./resources/icons/hex.svg" width="52px" height="60px">
-          <span class="hase-num">{{core.agi}}</span>
+          <span class="hase-num">{{plusMinus core.agi}}</span>
       </td>
       <td class="core-hex-td">
           <div class="hase-title">SYS</div>
           <img class="inline-hexagon" src="./resources/icons/hex.svg" width="52px" height="60px">
-          <span class="hase-num">{{core.sys}}</span>
+          <span class="hase-num">{{plusMinus core.sys}}</span>
       </td>
       <td class="core-hex-td">
           <div class="hase-title">ENG</div>
           <img class="inline-hexagon" src="./resources/icons/hex.svg" width="52px" height="60px">
-          <span class="hase-num">{{core.eng}}</span>
+          <span class="hase-num">{{plusMinus core.eng}}</span>
       </td>
     <tr><th colspan=4>CORE BONUSES</th></tr>
 
@@ -244,7 +289,7 @@
       <th colspan=4>NOTES</th>
     </tr>
     <tr>
-      <td colspan=4 class="menu-border"><span style="padding:10px">{{notes}}</span></td>
+      <td colspan=4><span style="padding:10px">{{notes}}</span></td>
     </tr>
   </table>
 

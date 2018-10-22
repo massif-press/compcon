@@ -1,3 +1,4 @@
+var shell = require('electron').shell;
 var $ = require("jquery");
 
 $(document).ready(function () {
@@ -23,3 +24,18 @@ function toggleExpander(expanderType, element) {
     }
   });
 }
+
+$("#about-btn").click(function () {
+  var modalID = $(this).data("modal");
+  $('#' + modalID).css("display", "block");
+});
+
+$('.close').click(function () {
+  var modalID = $(this).data("modal");
+  $('#' + modalID).css("display", "none");
+});
+
+$(document).on('click', 'a[href^="http"]', function (event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
+});

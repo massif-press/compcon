@@ -194,7 +194,7 @@
     "r2_name": "Fusion Hemorrhage",
     "r2_desc": "When you’re in the danger zone, your first attack roll that hits on your turn deals +1d6 bonus damage.",
     "r3_name": "Here, Catch!",
-    "r3_desc": "You can modify your mech to fire its fuel rods as a weapon. Gain a new weapon with the following profile. It takes mount space. Fuel Rod Gun Auxiliary CQB (unique) Range 8, 1d3+1 energy damage When you fire this weapon, hit or miss, cool 1d3+1 heat Limited (6)"
+    "r3_desc": "You can modify your mech to fire its fuel rods as a weapon. <br>Gain the <b>Fuel Rod Gun</b> weapon. It takes mount space."
   },
   {
     "id": "tal_siege",

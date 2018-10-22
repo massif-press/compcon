@@ -1,6 +1,9 @@
 <script id="mech-info-template" type="text/template">
   <div style="padding: 5px;">
-    <span class="mech-name">{{allCaps name}}</span><span class="pull-right big-subtitle">{{allCaps shell.name}}</span>
+    <span class="mech-name">{{allCaps name}}</span>
+    <a href=#>
+      <span id="shell-info-btn" data-modal="shellInfoModal"class="big-subtitle btn">{{allCaps shell.name}}</span>
+    </a>
   </div>
   <table width=100%>
     <td width=50% style="vertical-align: top; padding-left: 5px;">
@@ -11,7 +14,7 @@
         {{ifElse notes shell.description}}
       </blockquote>
     </td>
-    <td><img class="block-img" src="./resources/img/mecha/{{img}}"></td>
+    {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" width=500 height=400></td>{{/if}}
   </table>
 </script>
 
