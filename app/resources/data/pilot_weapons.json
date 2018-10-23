@@ -7,7 +7,7 @@
       {"id" : "tag_accurate"}
     ],
     "range": "Threat",
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "GMS",
     "rarity": 0,
     "effect": "1/round you can re-roll any attack with a light weapon, but must keep the second result.",
@@ -19,7 +19,7 @@
     "name": "Combat Alloy/Composite Weapon",
     "tags": [],
     "range": "Threat",
-    "damage": "2 kinetic",
+    "damage": "2 Kinetic",
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -33,7 +33,7 @@
       {"id" : "tag_inaccurate"}
     ],
     "range": "Threat",
-    "damage": "4 kinetic",
+    "damage": "4 Kinetic",
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -47,7 +47,7 @@
       {"id" : "tag_unreliable"}
     ],
     "range": "Threat",
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -61,7 +61,7 @@
       {"id" : "tag_unreliable"}
     ],
     "range": 5,
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -114,7 +114,7 @@
       {"id" : "tag_seeking"}
     ],
     "range": "Threat (Thrown 5)",
-    "damage": "1 explosive",
+    "damage": "1 Explosive",
     "source": "H.A.",
     "rarity": 3,
     "effect": "Though deceptively simple in appearance, this javelin-like weapon contains a hardened suite of intelligent hardware and a miniaturized pressure wave generator in the tip. It can be thrown very accurately up to range 5, recalled to hand as an action, and guides itself around cover and effect obstacles.",
@@ -128,10 +128,10 @@
       {"id" : "tag_burn", "val" : 1}
     ],
     "range": "Threat",
-    "damage": "2 energy",
+    "damage": "2 Energy",
     "source": "H.A.",
     "rarity": 4,
-    "effect": "These rare and powerful weapons project a sheathed energy field that ignites targets on impact.",
+    "effect": "These rare and powerful weapons project a sheathed Energy field that ignites targets on impact.",
     "description": "One of a limited supply scavenged from Boundary Garden, this hardlight blade has been patched by independent Ecumenical contractors to a serviceable, minimum-milspec functionality. These are exotic weapons, and their wielders must be coached in their use by trained handlers."
   },
   {
@@ -142,11 +142,11 @@
       {"id" : "tag_ordnance"}
     ],
     "range": 8,
-    "damage": "1d3 kinetic",
+    "damage": "1d3 Kinetic",
     "source": "H.A.",
     "rarity": 1,
     "effect": "This heavy anti-armor rifle fired superheated bullets used to punch through infantry-scale hardsuits and light mechs. It requires mounting on a tripod before use, though some models come with a built-in stand. The enormous kick from this weapon is infamous for dislocating rookie pilots’ shoulders.",
-    "description": "Harrison Armory’s KOTTOS distance-denial anti-armor system was ordered following repeated instances of HAAT legionnaires encountering hostile local chassis armed with sufficient anti-kinetic/ablative armor; KOTTOS, developed in conjunction with GMS’s Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable kinetic anti-armor kinetics."
+    "description": "Harrison Armory’s KOTTOS distance-denial anti-armor system was ordered following repeated instances of HAAT legionnaires encountering hostile local chassis armed with sufficient anti-Kinetic/ablative armor; KOTTOS, developed in conjunction with GMS’s Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable Kinetic anti-armor Kinetics."
   },
   {
     "id": "pw_microcore",
@@ -157,7 +157,7 @@
       {"id" : "tag_loading"}
     ],
     "range": 5,
-    "damage": "1 energy",
+    "damage": "1 Energy",
     "source": "H.A.",
     "rarity": 2,
     "effect": "An infantry-scale model of the larger, mech mounted lasers, this weapon requires heavy cooling after each use. Standard squad-support weapon for Armory legionnaires.",
@@ -169,7 +169,7 @@
     "name": "Nanobot Whip",
     "tags": [],
     "range": "Threat +1",
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "HORUS",
     "rarity": 3,
     "effect": "This whip is made up of linked microbots that flow in ring-like arcs around the body when not in use, defending against drone and nanorobotic threats. If you don’t attack with this weapon, until the end of your next turn, weapons or systems with the Smart, Nexus, or Drone tags cannot target you.",
@@ -195,7 +195,7 @@
       {"id" : "tag_accurate"}
     ],
     "range": "Threat",
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "HORUS",
     "rarity": 2,
     "effect": "The tip of the knife is semi-solid and re-moldable and can be inserted into most electronic ports and used as a point of insertion for hacking rigs.",
@@ -210,7 +210,7 @@
       {"id" : "tag_ap"}
     ],
     "range": 2,
-    "damage": "3 kinetic",
+    "damage": "3 Kinetic",
     "source": "HORUS",
     "rarity": 4,
     "effect": "This weapon doesn’t count against your maximum weapons wielded.",
@@ -225,7 +225,7 @@
       {"id" : "tag_seeking"}
     ],
     "range": 5,
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "HORUS",
     "rarity": 2,
     "effect": "This shoulder mounted drone hive is usually integrated into armor and releases a neurally linked, short ranged hunter-killer drone swarm. Designed to expire within moments of release, the aerosolized greywash swarm sweeps over the target, devouring organic and inorganic material with equal rapidity.",
@@ -239,7 +239,7 @@
       {"id" : "tag_reliable", "val" : 1}
     ],
     "range": 3,
-    "damage": "1 kinetic",
+    "damage": "1 Kinetic",
     "source": "HORUS",
     "rarity": 2,
     "effect": "This HORUS-marked SMG has a companion/concierge unit built into it which provides aim assist in real time. It also has helpful and frequent tips for improving your combat skills and organizes your calendar, sometimes without you asking it.",
@@ -254,7 +254,7 @@
       {"id" : "tag_inaccurate"}
     ],
     "range": "Threat",
-    "damage": "3 kinetic",
+    "damage": "3 Kinetic",
     "source": "IPS-N",
     "rarity": 2,
     "effect": "A pilot must be wearing a hard suit worth at least 1 armor to even wield a hackiron.",
@@ -266,7 +266,7 @@
     "name": "Ripjack",
     "tags": [],
     "range": "Threat (Thrown 4)",
-    "damage": "2 kinetic",
+    "damage": "2 Kinetic",
     "source": "IPS-N",
     "rarity": 3,
     "effect": "The ripjack can be used as a Thrown 4 weapon against a human sized, non-mech target in range, immobilizing them on hit instead of dealing damage until the start of your next turn. It can also be used as a regular grappling hook.",
@@ -281,7 +281,7 @@
       {"id" : "tag_ap"}
     ],
     "range": "Threat",
-    "damage": "5 kinetic",
+    "damage": "5 Kinetic",
     "source": "IPS-N",
     "rarity": 3,
     "effect": "While wielding this weapon, you can take the dash action.",
@@ -295,7 +295,7 @@
       {"id" : "tag_limited", "val" : 6}
     ],
     "range": 3,
-    "damage": "3 explosive",
+    "damage": "3 Explosive",
     "source": "IPS-N",
     "rarity": 1,
     "effect": "",
@@ -309,11 +309,11 @@
       {"id" : "tag_inaccurate"}
     ],
     "range": "Cone 3",
-    "damage": "2 energy",
+    "damage": "2 Energy",
     "source": "IPS-N",
     "rarity": 4,
     "effect": "",
-    "description": "A common secondary weapon found among stellar security forces and pirates, a prism gun is a shotgun analog, a blend between the kinetic and the exotic that projects a superheated blast of synthetic-crystalline nanoflechettes when fired. Ineffective against hardened targets, it is nevertheless a popular choice as a finishing option should a hardened targets external armor be breached; when fired into compartments, between armor joints, or into confined spaces with soft targets, the prism gun is a terribly deadly weapon."
+    "description": "A common secondary weapon found among stellar security forces and pirates, a prism gun is a shotgun analog, a blend between the Kinetic and the exotic that projects a superheated blast of synthetic-crystalline nanoflechettes when fired. Ineffective against hardened targets, it is nevertheless a popular choice as a finishing option should a hardened targets external armor be breached; when fired into compartments, between armor joints, or into confined spaces with soft targets, the prism gun is a terribly deadly weapon."
   },
   {
     "id": "pw_arcblade",
@@ -323,7 +323,7 @@
       {"id" : "tag_reliable", "val" : 1}
     ],
     "range": "Threat",
-    "damage": "2 energy",
+    "damage": "2 Energy",
     "source": "SSC",
     "rarity": 2,
     "effect": "",
@@ -338,7 +338,7 @@
       {"id" : "tag_limited", "val" : 6}
     ],
     "range": "Threat+1",
-    "damage": "3 kinetic",
+    "damage": "3 Kinetic",
     "source": "SSC",
     "rarity": 4,
     "effect": "",
@@ -354,11 +354,11 @@
       {"id" : "tag_ordnance"}
     ],
     "range": 15,
-    "damage": "3 energy",
+    "damage": "3 Energy",
     "source": "SSC",
     "rarity": 3,
     "effect": "",
-    "description": "This heavy anti-armor rifle is recognisable by its long, minimalist construction and classic Smith-Shimano matte-black colorway. A COLDCORE sabot anti-armor rifle is a consumable-sabot energy weapon that uses depleted demi-coldcore units to create a superheated, precise, directed blast of plasma on its user’s target. After firing, it must be reloaded; COLDCORE Sabot-AA rifles can be breech-fed, box-fed, or belt- fed, depending on their receiver."
+    "description": "This heavy anti-armor rifle is recognisable by its long, minimalist construction and classic Smith-Shimano matte-black colorway. A COLDCORE sabot anti-armor rifle is a consumable-sabot Energy weapon that uses depleted demi-coldcore units to create a superheated, precise, directed blast of plasma on its user’s target. After firing, it must be reloaded; COLDCORE Sabot-AA rifles can be breech-fed, box-fed, or belt- fed, depending on their receiver."
   },
   {
     "id": "pw_implantedgun",
@@ -366,7 +366,7 @@
     "name": "Implanted Gun",
     "tags": [],
     "range": 2,
-    "damage": "1 energy",
+    "damage": "1 Energy",
     "source": "SSC",
     "rarity": 1,
     "effect": "Whenever you fire a weapon, you can fire this gun at the same or a different target.",
@@ -380,7 +380,7 @@
       {"id" : "tag_loading"}
     ],
     "range": "5, Blast 1",
-    "damage": "2 explosive",
+    "damage": "2 Explosive",
     "source": "SSC",
     "rarity": 3,
     "effect": "",

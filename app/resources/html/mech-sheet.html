@@ -14,7 +14,7 @@
         {{ifElse notes shell.description}}
       </blockquote>
     </td>
-    {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" width=500 height=400></td>{{/if}}
+    {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" height=400></td>{{/if}}
   </table>
 </script>
 
@@ -301,3 +301,25 @@
     </table>
   </div>
 </div>
+
+<div id="shell-info-modal-output"></div>
+
+<script id="shell-info-modal-template" type="text/template">
+<!-- SHELL INFO modal -->
+<div id="shellInfoModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close close-x" data-modal="shellInfoModal">&times;</span>
+      <span>{{source}} {{name}}</span>
+    </div>
+    <div class="modal-body">
+      <div id="shell-info">
+        {{{description}}}
+        <br>
+        <span class="close pull-right menu-border btn" data-modal="shellInfoModal">&emsp;Close&emsp;</span>
+        <br><br>
+      </div>
+    </div>
+  </div>
+</div>
+</script>

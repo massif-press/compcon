@@ -78,6 +78,18 @@ function loadMech(config, pilot) {
   wp = Tags.expand(wp);
   sys = Tags.expand(sys);
 
+  wp.sort(function(a, b) {
+    var sortOrder = {
+      "Main": 0,
+      "Auxiliary": 1,
+      "Heavy": 2,
+      "Superheavy": 3,
+      "Special": 4
+  }
+
+    return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
+  })
+
   var info_template = Handlebars.compile($('#mech-info-template').html());
   $("#mech-info-output").html(info_template(config));
 
@@ -116,6 +128,19 @@ function loadMech(config, pilot) {
         break;
     }
   })
+
+  var shell_info_template = Handlebars.compile($('#shell-info-modal-template').html());
+  $("#shell-info-modal-output").html(shell_info_template(config.shell));
+
+  $("#shell-info-btn").click(function () {
+    var modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "block");
+  });
+
+  $('.close').click(function () {
+    var modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
 
   bindEquipmentExpanders();
 }

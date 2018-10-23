@@ -1,4 +1,13 @@
 
+Alpha:
+  ☐ better config notes on mech sheet (license breakdown?)
+  ☐ implement license mechanics
+  ☐ Weapon Mods
+  ☐ Add aptitude points to weapons, systems, and shells
+  ☐ pilot HP/EDEF/SPD based off level+armor
+  ☐ denote danger zone (bottom half of heat gauge) on pilot sheet
+  ☐ finsh sample configs
+
 Todo:
   ☐ Local Fonts
   ☐ Organize CSS
@@ -6,27 +15,27 @@ Todo:
   ✔ Weapon damage array into damage object @done(18-10-22 17:00)
   ☐ Error handling for every find() (refactor)
   ☐ Handlebars:partial the weapon template for ults and systems
-  ☐ Weapon Mods
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
-  ☐ Add aptitude points to weapons, systems, and shells
-  ☐ Shell info modal on mech sheet
+  ✔ Shell info modal on mech sheet @done(18-10-22 23:11)
   ☐ Partialize player table items
   ☐ Move handlebars helper to own file and load on start
-  ☐ Don't rely on image file dimensions
+  ✔ Don't rely on image file dimensions @done(18-10-22 23:12)
   ☐ require-handlebars-plugin to break out hbs files
   ☐ custom background option
-  ☐ pilot HP/EDEF/SPD based off level+armor
-  ☐ resize mech pictures to pilot full pic size
-  ☐ denote danger zone (bottom half of heat gauge) on pilot sheet
+  ✘ resize mech pictures to pilot full pic size @cancelled(18-10-22 22:58)
   ☐ refactor taghelper
   ✔ collapse damage into damage_raw @done(18-10-22 17:00)
   ☐ remove tag arrays and use tag syntax in a "tags" string in the json
   ☐ parse effects and descriptions for damage words
   ☐ add apoc rail mount for barbarossa on config creation
-  ☐ sort mounts
-  ☐ fix range chart
-  
+  ✔ sort mounts @done(18-10-22 22:50)
+  ✔ fix range chart @done(18-10-22 22:44)
+  ☐ refactor chart builder
+  ☐ technophile confers 0sp custom NHP system
+
+Ideas:
+  ☐ Find a better solution for mech pics. Look stale atm.
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of licenses
   ☐ Custom notes/descriptions for items
@@ -35,7 +44,6 @@ Todo:
   ☐ range/threat pips for weapons/systems
   ☐ rename weapons/gear; set custom descriptions instead of notes
   ☐ override eg. signature weapons to create custom versions at player creation
-  ☐ technophile confers 0sp custom NHP system
 
 Archive:
   ✘ Button active states @cancelled(18-10-22 13:08) @project(Todo)
