@@ -16,7 +16,7 @@ function getStats(config, pilot) {
     hp_level_bonus: 3, //TODO: make getPilotLevel()
     hp_hull_bonus: v(stats.hull) + core.hull,
     stress: 4,
-    heatcap: 6 + v(stats.eng) + core.eng,
+    heatcap: 6 + v(stats.eng) + v(stats.heatcap) + core.eng, //HA GENGHIS
     heat_eng_bonus: v(stats.eng) + core.eng,
     overcharge_active: 1,
     overcharge_remaining: 3,

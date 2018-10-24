@@ -80,6 +80,8 @@ function loadMech(config, pilot) {
   wp = Tags.expand(wp);
   sys = Tags.expand(sys);
 
+
+
   //collect all licenses required
   var isEverest = config.shell.id === "sh_everest"
   config.licenses = [{
@@ -90,6 +92,7 @@ function loadMech(config, pilot) {
   }]
 
   var items = wp.concat(sys);
+
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     if (item.source == "Special") continue;
@@ -111,6 +114,22 @@ function loadMech(config, pilot) {
         "level": item.license_level,
         "items": item.name
       })
+    }
+  }
+
+  var aptitudes = {
+    "melee": 0,
+    "ranged": 0,
+    "tech": 0,
+    "support": 0,
+    "control": 0,
+    "repair": 0
+  };
+
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    for (key in item.aptitude) {
+      aptitudes[key] += item.aptitude[key];
     }
   }
 
@@ -159,7 +178,7 @@ function loadMech(config, pilot) {
     "shell": config.shell
   }));
   
-  Charts(wp);
+  Charts(wp, aptitudes);
 
   //TODO: animations aren't playing well with div show/hide. Fix via canvas?
   //bad hack incoming:

@@ -18,7 +18,6 @@
   --burn: #832e2e;
 }
 
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -28,6 +27,19 @@
 html, body { 
   height: 100%; 
   font-family: 'Titillium Web', sans-serif;
+}
+
+.ra-text {
+  font-family: 'Cinzel Decorative', monospace;
+  color: greenyellow;
+  letter-spacing: 5px;
+  text-shadow: 2px 2px 4px magenta;
+}
+
+.header {
+  grid-area: 1 / 1 / 1 / 4;
+  align-self: stretch;
+  font-family: 'K2D', sans-serif;
 }
 
 a {
@@ -60,12 +72,6 @@ hr {
   height: 100%;
   background-color: var(--bg);
   color: var(--text);
-}
-
-.header {
-  grid-area: 1 / 1 / 1 / 4;
-  align-self: stretch;
-  font-family: 'K2D', sans-serif;
 }
 
 #about-btn {
@@ -362,7 +368,7 @@ blockquote {
 }
 
 .tag-div {
-  padding:3px;
+  padding:10px;
   margin:3px;
 }
 
@@ -397,11 +403,4 @@ blockquote {
 
 .external-link:hover{
   color: var(--success);
-}
-
-.ra-text{
-  font-family: 'Cinzel Decorative', monospace;
-  color: greenyellow;
-  letter-spacing: 5px;
-  text-shadow: 2px 2px 4px magenta;
 }

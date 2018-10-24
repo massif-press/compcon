@@ -3,7 +3,7 @@
 var Chart = require('chart.js');
 var Dice = require('./dicemath');
 
-function getCharts(weapons) {
+function getCharts(weapons, aptitudes) {
 
   var minDmgByType = {
     "kinetic": 0,
@@ -87,7 +87,7 @@ function getCharts(weapons) {
   rangeChart(dmgAtRange.map(a => a.range), dmgAtRange.map(a => a.max), dmgAtRange.map(a => a.avg))
 
   mountChart(Object.values(maxDamageByMount), Object.values(minDamageByMount), Object.keys(minDamageByMount))
-  roleChart();
+  roleChart(aptitudes);
 }
 
 
@@ -173,18 +173,18 @@ function rangeChart(ranges, maxDmg, avgDmg) {
   var i = ranges.length; 
   var adds = [0,0]
   while (i--) {
-    maxDmg[i] += adds[0];
-    avgDmg[i] += adds[1]
     adds[0] += maxDmg[i];
     adds[1] += avgDmg[i];
+    maxDmg[i] = adds[0];
+    avgDmg[i] = adds[1]
   }
 
   if (ranges[0] !== 0) {
-    ranges.unshift("M");
+    ranges.unshift("Melee");
     maxDmg.unshift(maxDmg[0]);
     avgDmg.unshift(avgDmg[0]);
   } else {
-    ranges[0] = "M"
+    ranges[0] = "Melee"
   }
 
   ctx = document.getElementById("damage-range-chart").getContext('2d');
@@ -197,7 +197,11 @@ function rangeChart(ranges, maxDmg, avgDmg) {
         data: maxDmg,
         backgroundColor: '#F2B13433',
         borderColor: '#F2B134',
-        borderWidth: 1
+        borderWidth: 1,
+        cubicInterpolationMode: 'monotone',
+        pointStyle: "triangle",
+        pointRadius: 5,
+        pointHitRadius: 8
       },
       {
         label: 'Average Damage',
@@ -205,7 +209,9 @@ function rangeChart(ranges, maxDmg, avgDmg) {
         backgroundColor: '#F3573B33',
         borderColor: '#F3573B',
         borderWidth: 3,
-        fill: false
+        fill: false,
+        pointRadius: 5,
+        pointHitRadius: 8
       }
       ]
     },
@@ -303,24 +309,26 @@ function mountChart(minDmgs, maxDmgs, labels) {
   });
 }
 
-function roleChart() {
+function roleChart(a) {
+  var d = [a.melee + 1, a.ranged + 1, a.tech + 1, a.control + 1, a.support + 1, a.repair + 1];
   var ctx = document.getElementById("rolechart").getContext('2d');
   new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['Melee', 'Ranged', 'Support', 'Control', 'Repair'],
+      labels: ['Melee', 'Ranged', 'Tech', 'Control', 'Support', 'Repair'],
       datasets: [{
-        data: [7, 9, 4, 3, 4],
+        data: d,
         backgroundColor: '#5F909C33',
         borderColor: '#5F909C',
         borderWidth: 1,
       }],
     },
     options: {
+      tooltips: {enabled: false},
       scale: {
         ticks: {
           beginAtZero: true,
-          suggestedMax: 10,
+          suggestedMax: 8,
           display: false
         },
         pointLabels: {

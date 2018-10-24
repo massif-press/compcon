@@ -1,44 +1,37 @@
 
 Alpha:
-  ✔ better config notes on mech sheet (license breakdown?) @done(18-10-23 14:58)
-  ✔ implement license mechanics @done(18-10-23 16:09)
-  ☐ First pass at data formatting
+
+Alpha 1.5:
+  ☐ Catalog
   ☐ Weapon Mods
-  ☐ Add aptitude points to weapons, systems, and shells
-  ✔ pilot HP/EDEF/SPD based off level+armor @done(18-10-23 22:20)
-  ✘ denote danger zone on pilot sheet @cancelled(18-10-23 22:08)
-  ✔ finsh sample configs @done(18-10-23 22:04)
 
 Todo:
-  ☐ Local Fonts
   ☐ Organize CSS
-  ✔ Weapon damage array into damage object @done(18-10-22 17:00)
   ☐ Error handling for every find() (refactor)
   ☐ Utility function (where()?)
   ☐ Handlebars:partial the weapon template for ults and systems
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
-  ✔ Shell info modal on mech sheet @done(18-10-22 23:11)
   ☐ Partialize player table items
   ☐ Move handlebars helper to own file and load on start
-  ✔ Don't rely on image file dimensions @done(18-10-22 23:12)
+  ☐ Local Fonts
   ☐ require-handlebars-plugin to break out hbs files
-  ✘ resize mech pictures to pilot full pic size @cancelled(18-10-22 22:58)
   ☐ refactor taghelper
-  ✔ collapse damage into damage_raw @done(18-10-22 17:00)
   ☐ remove tag arrays and use tag syntax in a "tags" string in the json
   ☐ parse effects and descriptions for damage words
   ☐ add apoc rail mount for barbarossa on config creation
-  ✔ sort mounts @done(18-10-22 22:50)
-  ✔ fix range chart @done(18-10-22 22:44)
   ☐ refactor chart builder
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type
+  ☐ weapon threat calc
+  ☐ flex mounts
+  ☐ CORE mounts
+  ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
+  ☐ inaccurate/accurate etc. should modify average damage
 
 Bugs:
   ☐ Damage by Range isn't adding numbers correctly
   ☐ Locked licenses captured by a lower license number: eg. LL2 is hiding requirement for LL3.
-  ☐ No heat damage type on damage by mount
 
 Reminders:
   ☐ cb_hardpoints should be applied like a mod
@@ -65,6 +58,21 @@ Ideas:
   ☐ override eg. signature weapons to create custom versions at player creation
 
 Archive:
+  ✔ better config notes on mech sheet (license breakdown?) @done(18-10-23 14:58) @project(Alpha)
+  ✔ implement license mechanics @done(18-10-23 16:09) @project(Alpha)
+  ✔ First pass at data formatting @done(18-10-24 14:36) @project(Alpha)
+  ✔ Add aptitude points to weapons, systems, and shells @done(18-10-24 14:02) @project(Alpha)
+  ✔ pilot HP/EDEF/SPD based off level+armor @done(18-10-23 22:20) @project(Alpha)
+  ✘ denote danger zone on pilot sheet @cancelled(18-10-23 22:08) @project(Alpha)
+  ✔ finsh sample configs @done(18-10-23 22:04) @project(Alpha)
+  ✔ Weapon damage array into damage object @done(18-10-22 17:00) @project(Alpha)
+  ✔ Shell info modal on mech sheet @done(18-10-22 23:11) @project(Alpha)
+  ✔ Don't rely on image file dimensions @done(18-10-22 23:12) @project(Alpha)
+  ✘ resize mech pictures to pilot full pic size @cancelled(18-10-22 22:58) @project(Alpha)
+  ✔ collapse damage into damage_raw @done(18-10-22 17:00) @project(Alpha)
+  ✔ sort mounts @done(18-10-22 22:50) @project(Alpha)
+  ✔ fix range chart @done(18-10-22 22:44) @project(Alpha)
+  ✘ No heat damage type on damage by mount @cancelled(18-10-24 10:04) @project(Bugs)
   ✘ Button active states @cancelled(18-10-22 13:08) @project(Todo)
   ✔ Get special mounts etc from ultimates @done(18-10-22 13:08) @project(Todo)
   ✔ Get special mounts from talents @done(18-10-22 13:10) @project(Todo)

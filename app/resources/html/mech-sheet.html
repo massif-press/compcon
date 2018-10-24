@@ -165,7 +165,7 @@
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
               {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-              {{#if effect}}<span>{{effect}}<br></span>{{/if}}
+              {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
               <span class="subtitle">{{mount}} {{type}}</span>
               {{#if sp}}<span>{{sp}} SP <span class="subtitle">{{/if}}
               <table class="gear-table">
@@ -238,7 +238,7 @@
               {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
               <span>{{type}}</span>
               <span class="subtitle"><br>{{sp}} SP </span>
-              {{#if effect}}<span><br>{{effect}}</span>{{/if}}
+              {{#if effect}}<span><br>{{{effect}}}</span>{{/if}}
               <div class="tag-div">
                 {{#tags}}
                   <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a></span>
@@ -293,8 +293,8 @@
       <tr>
         <td style="padding: 10px;">
           <canvas id="damage-range-chart" height="200"></canvas>
-          <canvas id="damage-type-chart" class='hidden'height="200"></canvas>
-          <canvas id="damage-mount-chart" class='hidden'height="200"></canvas>
+          <canvas id="damage-type-chart" class='hidden' height="200"></canvas>
+          <canvas id="damage-mount-chart" class='hidden' height="200"></canvas>
         </td>
         <td style="padding: 10px;" width=40%;>
           <canvas id="rolechart" height="200"></canvas>

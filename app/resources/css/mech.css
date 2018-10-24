@@ -211,7 +211,7 @@
 
 .sweep-btn:hover:before,
 .sweep-btn:focus:before,
-.hsweep-btn:active:before {
+.sweep-btn:active:before {
   transform: scaleX(1);
 }
 

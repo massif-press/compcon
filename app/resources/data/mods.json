@@ -1,0 +1,216 @@
+[
+  {
+    "id": "mod_havok",
+    "name": "HAVOK Ammo",
+    "sp": 2,
+    "tags": [
+      "Ammo"
+    ],
+    "applied_to": [
+      "ranged"
+    ],
+    "source": "HA",
+    "license": "GHENGIS",
+    "license_level": 2,
+    "effect": "On a critical hit, the target also takes +1 burn and +1 heat",
+    "description": "HAVOK ammunition was developed concurrently with the Krakatoa flamethrower system during the Hercynian Crisis to provide pilots with a long range, anti-overmind weapon. HAVOK ammunition activates upon firing, triggering a plasmatic charge inside the body of a needlepoint slug. When the round impacts, the plasmatic charge detonates a moment later, overwhelming the target with a combination of traumatic kinetic damage and intense heat."
+  },
+  {
+    "id": "mod_para",
+    "name": " When you fire this weapon, draw a line 3 spaces long from your mech, then measure its original range from the end of this line as though the attack was fired from that position (also measure cover from this new position for the rest of the attack). This line can easily punch through walls or other barriers. Any targets hit by this line are also hit by the attack (ignoring cover). The attack cannot change directions after being fired.",
+    "sp": 4,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "weapon"
+    ],
+    "source": "HA",
+    "license": "SALADIN",
+    "license_level": 2,
+    "effect": "Damage from this weapon cannot be reduced in any way, by armor, resistance, or any other kind of damage reduction.",
+    "description": "Paracausal weapons are, to say it plain, difficult to describe and visualize. The first incident was recorded when paracausal ammunition was pushed to frontline soldiers during the Tian Shen civil engagements. It arrived in sealed magazines with directions to be loaded and fired as normal. There was to be no inspection of the magazines’ contents, as this would “damage the payload” — frontline reports indicate that this ammunition impacts as normal on intended targets, though it seems to pierce armor and shielding at near-100% efficacy. Samples of paracausal ammunition have been flagged by Union for retrieval, and due to its development Harrison Armory is currently undergoing investigation by the Bureau; paracausal ammunition is still in use in the field, however, as shipments continue to leak to interested parties. HORUS is suspected, and a concurrent investigation is underway."
+  },
+  {
+    "id": "mod_phasing",
+    "name": "Phasing Ammo",
+    "sp": 3,
+    "tags": [
+      "Ammo"
+    ],
+    "applied_to": [
+      "ranged"
+    ],
+    "source": "HA",
+    "license": "NAPOLEON",
+    "license_level": 1,
+    "effect": "This weapon completely ignores cover of all kinds. It can fire through solid walls or obstacles at targets, as long as their location is known and they are in range.",
+    "description": "Phase-Ready ammunition, as first described after its incorporation into the civil hostilities on Luna de Oro, is the “devil‘s round“: each round contains a nanoprocessor suite networked with its firing weapon that, ideally, calculates and translates the specific nature of that round‘s superpositional relation with its doppelgänger in the immediate space before its intended target. To wit, Phase Ready ammunition, when fired, exists in two places at once: exiting the barrel of the weapon it was fired from, and at the moment of impact into its target. The prime round may never hit its target, but as it already exists at the moment of impact, its doppelgänger round will hit its target. The fuzzy nature of such spooky action occurs in a way not fully understood save for in the faltering explanations of Harrison Armory‘s NHP Think Tank; as such, the action is not perfect, but falls within acceptable parameters for licensed production."
+  },
+  {
+    "id": "mod_haywire",
+    "name": "Haywire Ammo",
+    "sp": 1,
+    "tags": [
+      "Ammo"
+    ],
+    "applied_to": [
+      "ranged"
+    ],
+    "source": "HORUS",
+    "license": "MANTICORE",
+    "license_level": 2,
+    "effect": "On a hit, the next Tech action against that target is made with +1 Accuracy",
+    "description": "HAYWIRE ammunition carries a codex-slurry payload within its core that, upon impact, pulses blanket viral code out to systems in close proximity. The effect is lost on soft targets, as HAYWIRE codex-slurry ammunition is only chambered in 30mm and up."
+  },
+  {
+    "id": "mod_nanite",
+    "name": "Nanite Ammo",
+    "sp": 2,
+    "tags": [
+      "Ammo"
+    ],
+    "applied_to": [
+      "ranged"
+    ],
+    "source": "HORUS",
+    "license": "BALOR",
+    "license_level": 2,
+    "effect": "This weapon fires a swarm of nanobots instead of regular ammo. The weapon gains the Smart and Seeking properties. tag_smart tag_seeking",
+    "description": "Nanite ammunition takes the principal of aggressive drone swarms and condenses it to a single round. Five maniples of autonomous nanites are packed into a shaped CONSUME/HIVE round that shatters on positive target impact. On impact (or airburst/ penetration detonation) the maniples are released and begin to eat away at surrounding tissue or superstructure. They proceed until maniple burnout or total target consumption, whichever occurs first. In flight, the maniples are able to hive-link and adjust their round’s flight somewhat to ensure positive impact."
+  },
+  {
+    "id": "mod_smart",
+    "name": "Smart Weapon Mod",
+    "sp": 1,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "weapon"
+    ],
+    "source": "HORUS",
+    "license": "PEGASUS",
+    "license_level": 3,
+    "effect": "This weapon gains the Smart property, as advanced sub-sentient AI routines and targeting guide its attacks. tag_smart",
+    "description": "A smart weapon modification package, applied to a compatible weapon system, makes an inert weapon into one capable of communicating with host NHPs and pilots."
+  },
+  {
+    "id": "mod_op",
+    "name": "Over-Penetrating Mod",
+    "sp": 1,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "cannon",
+      "rifle"
+    ],
+    "source": "IPS-N",
+    "license": "VLAD",
+    "license_level": 2,
+    "effect": "The range for this weapon becomes Line 5.",
+    "description": "Over-Penetrating rounds take design cues from flechette projectiles, hardening their cores in order to ensure multiple-target penetration."
+  },
+  {
+    "id": "mod_snub",
+    "name": "Snub Barrel Mod",
+    "sp": 1,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "cqb",
+      "cannon",
+      "rifle"
+    ],
+    "source": "IPS-N",
+    "license": "VLAD",
+    "license_level": 1,
+    "effect": "The range for this weapon becomes Cone 3 (Cone +1 if it already has a cone attack pattern)",
+    "description": "This is a popular modification for pilots looking to tune their weapons for CQB scenarios. Snubbing a barrel shortens it, to allow of ease of movement in restricted quarters; this modification often shortens effective range and widens conical scatter, though in a CQB engagement this is not necessarily a bad thing."
+  },
+  {
+    "id": "mod_thermal",
+    "name": "Thermal Charge",
+    "sp": 2,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "melee"
+    ],
+    "source": "IPS-N",
+    "license": "NELSON",
+    "license_level": 2,
+    "effect": "As a free action, you may activate the shaped charge on your weapon to do +2d6 explosive damage on a successful hit. tag_limited1",
+    "description": "Pilots have long made this popular modification to their pikes. Now, IPS-N is offering these pilots’ modifications as a licensed and quality-tested suite for pan-galactic printing. A pike modified with a charge -- often colloquially called a “Fire Pike”-- is a simple plasma projector integrated into war pike, tuned to project a plasma sheath over the pike’s head. "
+  },
+  {
+    "id": "mod_throughbolt",
+    "name": "Throughbolt Rounds",
+    "sp": 1,
+    "tags": [
+      "Ammo"
+    ],
+    "applied_to": [
+      "cqb",
+      "cannon",
+      "rifle"
+    ],
+    "source": "IPS-N",
+    "license": "TORTUGA",
+    "license_level": 2,
+    "effect": "Choose 1 CQB, cannon, or rifle weapon. When you fire this weapon, draw a line 3 spaces long from your mech, then measure its original range from the end of this line as though the attack was fired from that position (also measure cover from this new position for the rest of the attack). This line can easily punch through walls or other barriers. Any targets hit by this line are also hit by the attack (ignoring cover). The attack cannot change directions after being fired.",
+    "description": "Throughbolt Rounds are a proprietary IPS-N invention. Throughbolts are Tungsten-jacketed, uranium core rounds with projection-activated plasma sheaths. When fired, the rounds ignite and project a superheated cone of plasma before them, creating a miniature lance effect that ensures multiple-target penetration through soft and hard surfaces"
+  },
+  {
+    "id": "mod_ap",
+    "name": "Armor-Piercing Mod",
+    "sp": 2,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "weapn"
+    ],
+    "source": "SSC",
+    "license": "METALMARK",
+    "license_level": 2,
+    "effect": "This weapon gains the AP tag. tag_ap",
+    "description": "Armor Piercing Modifications describe any of a host of modifications that can be applied to ranged and melee kinetic and/or energy weapon, from hardening the tips and edges of melee weapons, to stocking hardnose depleted uranium shells instead of stock shells, to nudging the aperture of a beam weapon, or creating a more volatile mix of explosive chemicals to pack into a missile."
+  },
+  {
+    "id": "mod_wreathe",
+    "name": "Shock Wreathe",
+    "sp": 2,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "melee"
+    ],
+    "source": "SSC",
+    "license": "METALMARK",
+    "license_level": 1,
+    "effect": "It gains Burn depending on its size (Aux: Burn 1, Main: Burn 2, Heavy or larger: Burn 3). If it already has Burn, this increases the burn it deals by the same amount. tag_burn1",
+    "description": "An after-fabrication modification popular among melee-oriented pilots, the Shock Wreath applies an integrated bundle of conductive filaments to the blade, point, tip, or surface of a close combat weapon. Paired with a power source (typically in the hilt or half of a weapon, but sometimes external), the Shock Wreath adds a thermal element to the kinetic, and a distinct visual marker: their weapons are picked out in fine lines of white-hot light, shrouded in heat shimmer"
+  },
+  {
+    "id": "mod_stabilizer",
+    "name": "Stabilizer Weapon Mod",
+    "sp": 1,
+    "tags": [
+      "Mod"
+    ],
+    "applied_to": [
+      "launcher",
+      "cannon"
+    ],
+    "source": "SSC",
+    "license": "MONARCH",
+    "license_level": 2,
+    "effect": "The base range of this weapon increases by 5.",
+    "description": "A stabilizer modification is a series of modifications to physical mounts and targeting software that ensures weapons will remain level, steady, and angled at max-optimum in order to ensure positive target engagement at range."
+  }
+]

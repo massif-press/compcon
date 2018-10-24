@@ -39,4 +39,29 @@ every 2 levels:
 
 every 3 levels:
 - +1 core sp
-- grit +1
+- grit +1m
+
+
+APTITUDES
+CQB - capacity/ability for near/melee damage or associated skills
+ranged - capacity for ranged damage, long range attacks, overwatch, or ranged weapon accuracy
+tech - capacity and bonuses, and extra tech attacks
+support - non-repair help for allies (dropping barriers, removing statuses, providing buffs, etc)
+repair - capacity for and bonuses to repair allies
+control - debuffing enemies or forcing their actions (eg. movement)
+
+for shells:
+0 - no effective bonus to this
+1 - some bonus
+2 - good bonus
+3 - the shell is specifically meant for this role 
+shells should not have more than 5 aptitude points
+
+for weapons/systems:
+0 - no effective bonus to this
+1 - significant bonus
+2 - excellent bonus
+w/s should not have more than 3 aptitude points
+weapons should always have at least 1 for their damage type (melee/ranged)
+
+(.*?): 0,+$\n      

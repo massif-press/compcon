@@ -22,15 +22,25 @@ function parse(dmg) {
     }
   }
 
-  minDmgs.total = minDmgs.kinetic + minDmgs.energy + minDmgs.explosive + minDmgs.variable;
-  maxDmgs.total = maxDmgs.kinetic + maxDmgs.energy + maxDmgs.explosive + maxDmgs.variable;
-  avgDmgs.total = avgDmgs.kinetic + avgDmgs.energy + avgDmgs.explosive + avgDmgs.variable;
+  minDmgs.total = damageSum(minDmgs);
+  maxDmgs.total = damageSum(maxDmgs);
+  avgDmgs.total = damageSum(avgDmgs);
 
   return {
     min: minDmgs,
     max: maxDmgs,
     avg: avgDmgs
   }
+}
+
+function damageSum(dmgObj) {
+  var sum = 0;
+  for (key in dmgObj) {
+    if (key !== "heat") {
+      sum += dmgObj[key];
+    }
+  }
+  return sum;
 }
 
 module.exports.parse = parse;

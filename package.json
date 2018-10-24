@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "LANCER player assistant",
   "main": "main.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": "",
   "author": "J. Arena",
-  "license": "MIT",
+  "license": "GPM",
   "devDependencies": {
     "electron": "^3.0.0"
   },

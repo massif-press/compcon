@@ -5,12 +5,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": "1d3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3"
     },
     "range": 20,
     "tags": [{
@@ -21,7 +16,11 @@
     "license": "BARBAROSSA",
     "license_level": 2,
     "effect": "Any flying target damaged by this weapon must pass an agility check or immediately fall.",
-    "description": "A quad-barreled autocannon, flack cannons are loaded with proximity-explosive shells perfect for blanketing fire. A perfect weapon for use against massed infantry or low-altitude flyers."
+    "description": "A quad-barreled autocannon, flack cannons are loaded with proximity-explosive shells perfect for blanketing fire. A perfect weapon for use against massed infantry or low-altitude flyers.",
+    "aptitude": {
+      "ranged": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_siegecannon",
@@ -30,12 +29,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "3d6",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "3d6"
     },
     "range": "20, Blast 3",
     "tags": [{
@@ -56,7 +50,10 @@
     "license": "BARBAROSSA",
     "license_level": 3,
     "effect": "",
-    "description": "Siege Cannons are the Armory‘s core-squadron level artillery, a howitzer-style 10“ gun fed by a self- contained loading system. Commonly mounted on rear-line mechs deployed in an artillery/ squad support role, the Siege Cannon is capable of direct fire should the necessities of dynamic combat call for it. Siege cannons can fire HE and canister shells, depending on the target."
+    "description": "Siege Cannons are the Armory‘s core-squadron level artillery, a howitzer-style 10“ gun fed by a self- contained loading system. Commonly mounted on rear-line mechs deployed in an artillery/ squad support role, the Siege Cannon is capable of direct fire should the necessities of dynamic combat call for it. Siege cannons can fire HE and canister shells, depending on the target.",
+    "aptitude": {
+      "ranged": 2
+    }
   },
   {
     "id": "wp_flamethrower",
@@ -65,11 +62,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
       "variable": 4,
-      "burn": 0,
       "heat": 1
     },
     "range": "Cone 5",
@@ -78,7 +71,10 @@
     "license": "GENGHIS",
     "license_level": 1,
     "effect": "",
-    "description": "The HA Krakatoa was developed specifically for the Hercynian crisis, as chassis-size flamethrowers had been deemed unnecessary, and more to the point, banned by anti-terror conventions. With the combination of thick arboreal environment, swarm tactics of the Egregorians, and ineffectual performance of slug ammunition, the need for a recession on the ban was apparent. The Krakatoa was quickly developed and affiliate patterns disseminated. Adopted by Union MEF units, the Krakatoa saw heavy use in the deep world-jungle of Hercynia and towering hives of the Egregorians thanks to its stability, intensity, and stopping power — a necessary feature competitor makes lacked. Egregorian drones and warriors, commanded by their overminds, would not stop advancing until they were physically incapable of doing so — the force at which the Krakatoa expelled flame and fuel was sufficient to knock back or otherwise incapacitate charging warriors on the periphery of the flame cone. Reworked after the cessation of the Hercynian crisis, the Krakatoa is now a popular tool for creating area-of-denial firebreaks. It’s legality is currently under review by the Galactic Treaties Board."
+    "description": "The HA Krakatoa was developed specifically for the Hercynian crisis, as chassis-size flamethrowers had been deemed unnecessary, and more to the point, banned by anti-terror conventions. With the combination of thick arboreal environment, swarm tactics of the Egregorians, and ineffectual performance of slug ammunition, the need for a recession on the ban was apparent. The Krakatoa was quickly developed and affiliate patterns disseminated. Adopted by Union MEF units, the Krakatoa saw heavy use in the deep world-jungle of Hercynia and towering hives of the Egregorians thanks to its stability, intensity, and stopping power — a necessary feature competitor makes lacked. Egregorian drones and warriors, commanded by their overminds, would not stop advancing until they were physically incapable of doing so — the force at which the Krakatoa expelled flame and fuel was sufficient to knock back or otherwise incapacitate charging warriors on the periphery of the flame cone. Reworked after the cessation of the Hercynian crisis, the Krakatoa is now a popular tool for creating area-of-denial firebreaks. It’s legality is currently under review by the Galactic Treaties Board.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_plasmathrower",
@@ -87,11 +83,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
       "variable": 5,
-      "burn": 0,
       "heat": "1d6"
     },
     "range": "Cone 7",
@@ -103,7 +95,10 @@
     "license": "GENGHIS",
     "license_level": 3,
     "effect": "",
-    "description": "The plasma thrower arrived late in the Hercynian Crisis, too late to see widespread battlefield application. Some MEF squadrons were able to mount the superheavy system, and what little data there is to see from its use suggests that this system would have had a tremendous impact during the major battles that raged in the deep jungles during the middle of the Crisis."
+    "description": "The plasma thrower arrived late in the Hercynian Crisis, too late to see widespread battlefield application. Some MEF squadrons were able to mount the superheavy system, and what little data there is to see from its use suggests that this system would have had a tremendous impact during the major battles that raged in the deep jungles during the middle of the Crisis.",
+    "aptitude": {
+      "ranged": 2
+    }
   },
   {
     "id": "wp_stub",
@@ -112,12 +107,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 3,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 3
     },
     "range": 5,
     "tags": [{
@@ -128,7 +118,11 @@
     "license": "ISKANDER",
     "license_level": 1,
     "effect": "Targets struck are knocked back 1 space",
-    "description": "A supercompact rotary pistol, short range, but and able to be integrated into hardpoints or held in a manipulator."
+    "description": "A supercompact rotary pistol, short range, but and able to be integrated into hardpoints or held in a manipulator.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 0
+    }
   },
   {
     "id": "wp_gravity",
@@ -137,12 +131,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d6",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6"
     },
     "range": "8, Blast 3",
     "tags": [],
@@ -150,7 +139,11 @@
     "license": "ISKANDER",
     "license_level": 2,
     "effect": "Targets in the area must pass a hull check or take 1d6 energy damage and be pulled to center",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "ranged": 1,
+      "control": 2
+    }
   },
   {
     "id": "wp_assaultlauncher",
@@ -160,12 +153,7 @@
     "sp": 0,
     "damage": {
       "override": "Dependent on payload",
-      "kinetic": 0,
-      "energy": "1d6",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6"
     },
     "range": 15,
     "tags": [{
@@ -175,7 +163,10 @@
     "license": "ISKANDER",
     "license_level": 2,
     "effect": "Can fire grenades and mines at range 15 with attack actions.",
-    "description": "Assault launchers are universal launchers. Ammunition is loaded first into a comparable sabot, then electromagnetically accelerated either directly or indirectly towards its target. The sabot shatters upon firing, releasing the projectile to perform as designed at range far greater than factory limits."
+    "description": "Assault launchers are universal launchers. Ammunition is loaded first into a comparable sabot, then electromagnetically accelerated either directly or indirectly towards its target. The sabot shatters upon firing, releasing the projectile to perform as designed at range far greater than factory limits.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_sticky",
@@ -184,12 +175,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d6",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d6"
     },
     "range": 15,
     "tags": [{
@@ -199,7 +185,10 @@
     "license": "ISKANDER",
     "license_level": 3,
     "effect": "Attaches sticky bombs on hit that can be detonated as a free action for 1d6 explosive",
-    "description": "Sticky bombs attach to ferrous metals by means of burnout electromagnetic generators, triggered in proximity after firing or manually by the user."
+    "description": "Sticky bombs attach to ferrous metals by means of burnout electromagnetic generators, triggered in proximity after firing or manually by the user.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_displacer",
@@ -208,12 +197,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 12,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": 12
     },
     "range": "Range 15, Blast 1",
     "tags": [{
@@ -234,7 +218,10 @@
     "license": "NAPOLEON",
     "license_level": 3,
     "effect": "",
-    "description": "The Displacer is the result of ongoing blinkspace exposure tests in Think Tank‘s R&D department and miniaturization of commonly employed interstellar travel methods. The Displacer itself is conventional in appearance but requires a massive secondary, dorsal-mounted core in order to power: when fired, the Displacer identifies a bubble of local space (size and location determined by the firing pilot) and snaps it into blinkspace. Where the contents of that bubble go is unknown, but the effect is dramatic: anything inside the projected bubble simply ceases to exist in this dimension, transported somewhere else in the void of blinkspace. The Displacer makes no sound when fired, but the sudden and necessary venting of its power supply is tremendous; similarly, the heat wave of its backblast is deadly to any unshielded personnel exposed to it."
+    "description": "The Displacer is the result of ongoing blinkspace exposure tests in Think Tank‘s R&D department and miniaturization of commonly employed interstellar travel methods. The Displacer itself is conventional in appearance but requires a massive secondary, dorsal-mounted core in order to power: when fired, the Displacer identifies a bubble of local space (size and location determined by the firing pilot) and snaps it into blinkspace. Where the contents of that bubble go is unknown, but the effect is dramatic: anything inside the projected bubble simply ceases to exist in this dimension, transported somewhere else in the void of blinkspace. The Displacer makes no sound when fired, but the sudden and necessary venting of its power supply is tremendous; similarly, the heat wave of its backblast is deadly to any unshielded personnel exposed to it.",
+    "aptitude": {
+      "ranged": 2
+    }
   },
   {
     "id": "wp_sollaser",
@@ -243,12 +230,8 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": "1d6",
-      "explosive": 0,
-      "variable": 1,
-      "burn": 0,
-      "heat": 0
+      "variable": 1
     },
     "range": 10,
     "tags": [{
@@ -259,7 +242,10 @@
     "license": "SHERMAN",
     "license_level": 1,
     "effect": "",
-    "description": "The laser rifle is a near-ubiquitous weapon throughout the galaxy, the energy-based cousin to GMS‘s Type-I AR. To call it a rifle, though, is shorthand: a laser rifle is a projector that utilizes a series of apertures and lenses to amplify and focus light into tight beam, visible in the right circumstances, that paints a target long enough to heat the area of “impact“ into plasma. The HA SOL-pattern laser rifle is capable of a 3.5PW maximum output, pulsed, but can project a beam at lower power levels; additionally, while some laser rifles can double as communication/data transfer devices, the Armory‘s SOL is strictly tuned for combat, and has no such communication capability. The SOL is a solid state and entirely self-contained, but can be patched into a chassis‘ reactor core for operation and to re-charge spent weaponry. Energy weapons, while having downsides of their own, are commonly used in micro-and-zero-gravity environments due to having no impulse or kinetic user feedback."
+    "description": "The laser rifle is a near-ubiquitous weapon throughout the galaxy, the energy-based cousin to GMS‘s Type-I AR. To call it a rifle, though, is shorthand: a laser rifle is a projector that utilizes a series of apertures and lenses to amplify and focus light into tight beam, visible in the right circumstances, that paints a target long enough to heat the area of “impact“ into plasma. The HA SOL-pattern laser rifle is capable of a 3.5PW maximum output, pulsed, but can project a beam at lower power levels; additionally, while some laser rifles can double as communication/data transfer devices, the Armory‘s SOL is strictly tuned for combat, and has no such communication capability. The SOL is a solid state and entirely self-contained, but can be patched into a chassis‘ reactor core for operation and to re-charge spent weaponry. Energy weapons, while having downsides of their own, are commonly used in micro-and-zero-gravity environments due to having no impulse or kinetic user feedback.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_heavylaser",
@@ -268,12 +254,8 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": "2d6",
-      "explosive": 0,
-      "variable": 3,
-      "burn": 0,
-      "heat": 0
+      "burn": 3
     },
     "range": 15,
     "tags": [{
@@ -284,7 +266,10 @@
     "license": "SHERMAN",
     "license_level": 2,
     "effect": "",
-    "description": "A heavy laser rifle is a larger-scale laser weapon. The Harrison Armory ANDROMEDA-pattern heavy laser scales up the SOL by half, adding a second projector that can fire independently, synchronized, or in alternating patterns and wavelengths as the primary projector. The effect overwhelms most shields, but the power draw necessary makes this weapon impractical on platforms without the necessary heat reduction/ dispersal to manage the incredible cost."
+    "description": "A heavy laser rifle is a larger-scale laser weapon. The Harrison Armory ANDROMEDA-pattern heavy laser scales up the SOL by half, adding a second projector that can fire independently, synchronized, or in alternating patterns and wavelengths as the primary projector. The effect overwhelms most shields, but the power draw necessary makes this weapon impractical on platforms without the necessary heat reduction/ dispersal to manage the incredible cost.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_tachyon",
@@ -293,12 +278,8 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": "2d6",
-      "explosive": 0,
-      "variable": 3,
-      "burn": 0,
-      "heat": 0
+      "variable": 3
     },
     "range": 20,
     "tags": [{
@@ -313,7 +294,10 @@
     "license": "SHERMAN",
     "license_level": 3,
     "effect": "",
-    "description": "The tachyon lance is the weaponized result of early Harrison Armory experiments into faster-than-light travel. Rendered obsolete by developments in blinkspace travel and the difficulty of ensuring corporeal passenger survival, HA‘s tachyon accelerators were mothballed until Think Tank engineers realized their potential application as weapons. A tachyon accelerator projects tachyon particles -- essentially a subatomic localized object -- faster than light towards its target. These particles are impossible to see through optical/visible means: as they travel faster than light, they cannot be seen or avoided intentionally. Though the size of the particle is tiny, the sheer speed and energy of travel is titanic, and the damage a tachyon lance imparts on its target -- should it connect -- is unparalleled."
+    "description": "The tachyon lance is the weaponized result of early Harrison Armory experiments into faster-than-light travel. Rendered obsolete by developments in blinkspace travel and the difficulty of ensuring corporeal passenger survival, HA‘s tachyon accelerators were mothballed until Think Tank engineers realized their potential application as weapons. A tachyon accelerator projects tachyon particles -- essentially a subatomic localized object -- faster than light towards its target. These particles are impossible to see through optical/visible means: as they travel faster than light, they cannot be seen or avoided intentionally. Though the size of the particle is tiny, the sheer speed and energy of travel is titanic, and the damage a tachyon lance imparts on its target -- should it connect -- is unparalleled.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_annihilator",
@@ -322,12 +306,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d3+1",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d3+1"
     },
     "range": "Cone 5",
     "tags": [{
@@ -342,7 +321,10 @@
     "license": "TOKUGAWA",
     "license_level": 1,
     "effect": "",
-    "description": "HA specializes in conventional and unconventional arms development; solutions to tactical problems are designed both in the lab and in the field, often the latter outperforming the former in combat situations. The Annihilator takes its name from pilots’ slang for a field-rigged weapon developed during the Bradbury Rebellion, when desperate resistance pilots machined a way of shunting the incredible waste heat of their core’s reactor into a directed blast."
+    "description": "HA specializes in conventional and unconventional arms development; solutions to tactical problems are designed both in the lab and in the field, often the latter outperforming the former in combat situations. The Annihilator takes its name from pilots’ slang for a field-rigged weapon developed during the Bradbury Rebellion, when desperate resistance pilots machined a way of shunting the incredible waste heat of their core’s reactor into a directed blast.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_lash",
@@ -351,12 +333,8 @@
     "type": "Melee or CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": 1,
-      "explosive": 0,
-      "variable": 3,
-      "burn": 0,
-      "heat": 0
+      "variable": 3
     },
     "range": "5, Threat 3",
     "tags": [{
@@ -367,7 +345,11 @@
     "license": "TOKUGAWA",
     "license_level": 2,
     "effect": "Can be used as melee or CQB, but not both on the same turn",
-    "description": "A threat at multiple ranges, the Lash was designed following the Armory’s review of data collected from the Hercynian Crisis. After-action reports noted the efficacy of thermal and thermobaric weapons against hardened targets, but made constant reference to the limitations placed upon conventional thermal weapons: the need for atmosphere-specific fuel, the impact of prevailing weather conditions, the necessity of atmosphere. Enter the Plasma Lash, an early development into plasma weaponry. Firing an excited toroid of plasma, the Lash can be used as a ranged weapon with a delayed-detonation, or, essentially, a point-blank melee weapon; if used at point blank range, the toroid is detonated inside of its launcher, directing an intense thermal blast directly at its target."
+    "description": "A threat at multiple ranges, the Lash was designed following the Armory’s review of data collected from the Hercynian Crisis. After-action reports noted the efficacy of thermal and thermobaric weapons against hardened targets, but made constant reference to the limitations placed upon conventional thermal weapons: the need for atmosphere-specific fuel, the impact of prevailing weather conditions, the necessity of atmosphere. Enter the Plasma Lash, an early development into plasma weaponry. Firing an excited toroid of plasma, the Lash can be used as a ranged weapon with a delayed-detonation, or, essentially, a point-blank melee weapon; if used at point blank range, the toroid is detonated inside of its launcher, directing an intense thermal blast directly at its target.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 1
+    }
   },
   {
     "id": "wp_torch",
@@ -376,12 +358,8 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": "1d6",
-      "explosive": 0,
-      "variable": 2,
-      "burn": 0,
-      "heat": 0
+      "variable": 2
     },
     "range": "Threat",
     "tags": [{
@@ -392,7 +370,11 @@
     "license": "TOKUGAWA",
     "license_level": 3,
     "effect": "",
-    "description": "The Armory’s TORCH is a backbone core weapon: a heavy, two-handed, dual crescent-bladed plasma torch. The melee weapon is powered by its wielder’s reactor, connected by both powerlines and inert cabling; it can be separated into two torch-axes, and its plasma blades are capable of being tuned into new shapes. A common sight in CQB situations, the torch has of late become a status symbol among pilot officers, many preferring to carry them alongside a smaller auxiliary weapon."
+    "description": "The Armory’s TORCH is a backbone core weapon: a heavy, two-handed, dual crescent-bladed plasma torch. The melee weapon is powered by its wielder’s reactor, connected by both powerlines and inert cabling; it can be separated into two torch-axes, and its plasma blades are capable of being tuned into new shapes. A common sight in CQB situations, the torch has of late become a status symbol among pilot officers, many preferring to carry them alongside a smaller auxiliary weapon.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 0
+    }
   },
   {
     "id": "wp_nexus_seeker",
@@ -402,11 +384,7 @@
     "sp": 0,
     "damage": {
       "kinetic": 1,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 2,
-      "burn": 0,
-      "heat": 0
+      "variable": 2
     },
     "range": 10,
     "tags": [{
@@ -420,7 +398,10 @@
     "license": "BALOR",
     "license_level": 3,
     "effect": "",
-    "description": "The SWARM/HIVE protocol developed by HORUS collectivists is one of the more insidious weapons they have produced. A SWARM/HIVE nanite swarm combines the systemic invasion properties of HORUS’s BOOST/HIVE protocol with the aggressive tuning of a CONSUME/HIVE maniple. Launched from mounted HIVE blisters, a SWARM/HIVE nanite swarm will coalesce upon an enemy, infiltrate sensitive compartments and modules, and begin to eat away at any material they can find."
+    "description": "The SWARM/HIVE protocol developed by HORUS collectivists is one of the more insidious weapons they have produced. A SWARM/HIVE nanite swarm combines the systemic invasion properties of HORUS’s BOOST/HIVE protocol with the aggressive tuning of a CONSUME/HIVE maniple. Launched from mounted HIVE blisters, a SWARM/HIVE nanite swarm will coalesce upon an enemy, infiltrate sensitive compartments and modules, and begin to eat away at any material they can find.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_whip",
@@ -429,12 +410,7 @@
     "type": "Melee",
     "sp": 2,
     "damage": {
-      "kinetic": "2d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6"
     },
     "range": "Threat+2",
     "tags": [],
@@ -442,7 +418,11 @@
     "license": "BALOR",
     "license_level": 3,
     "effect": "On a critical hit (20+), the target must pass a systems check to scramble the nanites or be pulled to any free adjacent space to your mech, or as far as possible while still obeying obstructions.",
-    "description": "Nanobot whips are a unique protocol offered by HORUS collectivists; using swarm coding and legion directives, HORUS collectivists created a protocol for nanites that collects them into a whip-like weapon. This nanobot whip can retract to its base blister for stowing, and detach in melee combat to restrain nearby enemies. The nanobot whip returns to its base unit when summoned."
+    "description": "Nanobot whips are a unique protocol offered by HORUS collectivists; using swarm coding and legion directives, HORUS collectivists created a protocol for nanites that collects them into a whip-like weapon. This nanobot whip can retract to its base blister for stowing, and detach in melee combat to restrain nearby enemies. The nanobot whip returns to its base unit when summoned.",
+    "aptitude": {
+      "melee": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_autopod",
@@ -451,12 +431,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 2,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 2
     },
     "range": 10,
     "tags": [{
@@ -466,7 +441,10 @@
     "license": "GOBLIN",
     "license_level": 2,
     "effect": "Cannot be fired normally. Instead attacks targets of Lock On for free when Lock On is consumed.",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_nexus_ghoul",
@@ -475,12 +453,7 @@
     "type": "Nexus",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": "1d3+2",
-      "heat": 0
+      "burn": "1d3+2"
     },
     "range": 15,
     "tags": [{
@@ -490,7 +463,10 @@
     "license": "HYDRA",
     "license_level": 1,
     "effect": "Weapon deals Kinetic, Explosive, or Energy damage (choose when attacking)",
-    "description": "An Ghoul Drone Nexus commands some of the largest drones viable in modern combat. Ghoul drones are slightly smaller than an average human, metal cylinders bristling with hardpoints that accept most infantry- level anti-mech weapons. Propelled by VTOL/HOVER capable jet-flight systems, Ghoul drones are fearsome, all-theater autonomous units that are difficult to track and take down."
+    "description": "An Ghoul Drone Nexus commands some of the largest drones viable in modern combat. Ghoul drones are slightly smaller than an average human, metal cylinders bristling with hardpoints that accept most infantry- level anti-mech weapons. Propelled by VTOL/HOVER capable jet-flight systems, Ghoul drones are fearsome, all-theater autonomous units that are difficult to track and take down.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_nexus_ghast",
@@ -499,12 +475,7 @@
     "type": "Nexus",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d6+3",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d6+3"
     },
     "range": 15,
     "tags": [{
@@ -514,7 +485,10 @@
     "license": "HYDRA",
     "license_level": 2,
     "effect": "",
-    "description": "The GHAST is an upgraded form of the ghoul drone. A GHAST boasts an upgraded flight system capable of wielding mech-tier weapons within optimum parameters."
+    "description": "The GHAST is an upgraded form of the ghoul drone. A GHAST boasts an upgraded flight system capable of wielding mech-tier weapons within optimum parameters.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_arcprojector",
@@ -523,11 +497,6 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
       "heat": "1d3+1"
     },
     "range": "Cone 5",
@@ -539,7 +508,10 @@
     "license": "MANTICORE",
     "license_level": 3,
     "effect": "",
-    "description": "Arc Projectors, developed by HORUS communalists for the MANTICORE platform, are heavy, energy- based weapons designed to cast sustained ropes of plasma towards its target(s)."
+    "description": "Arc Projectors, developed by HORUS communalists for the MANTICORE platform, are heavy, energy-based weapons designed to cast sustained ropes of plasma towards its target(s).",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_autogun",
@@ -548,12 +520,7 @@
     "type": "Cannon",
     "sp": 1,
     "damage": {
-      "kinetic": 3,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 3
     },
     "range": 20,
     "tags": [],
@@ -561,7 +528,10 @@
     "license": "PEGASUS",
     "license_level": 1,
     "effect": "Fires itself as a free action (cannot be fired normally)",
-    "description": "An autogun is, as its name implies, an automated weapon. Similar to a point-defense system, an autogun is chambered to provide effective fire against armored targets instead. Typically mounted on a stabilized, secondary arm, a reliably-tuned autogun can be trusted to track and eliminate designated enemy units while a pilot concentrates on more specialized weapons or processes."
+    "description": "An autogun is, as its name implies, an automated weapon. Similar to a point-defense system, an autogun is chambered to provide effective fire against armored targets instead. Typically mounted on a stabilized, secondary arm, a reliably-tuned autogun can be trusted to track and eliminate designated enemy units while a pilot concentrates on more specialized weapons or processes.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_smartgun",
@@ -570,12 +540,7 @@
     "type": "Rifle",
     "sp": 2,
     "damage": {
-      "kinetic": 4,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 4
     },
     "range": 20,
     "tags": [{
@@ -592,7 +557,10 @@
     "license": "PEGASUS",
     "license_level": 2,
     "effect": "",
-    "description": "A “smart“ weapon is a blanket term for any and all weapons that are capable of interacting with onboard systems in order to boost their combat efficacy. Smart guns are weapons that come pre-loaded with companion software and the necessary hardware in order to interact with targeting systems and host NHPs."
+    "description": "A “smart“ weapon is a blanket term for any and all weapons that are capable of interacting with onboard systems in order to boost their combat efficacy. Smart guns are weapons that come pre-loaded with companion software and the necessary hardware in order to interact with targeting systems and host NHPs.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_mimic",
@@ -602,12 +570,8 @@
     "sp": 0,
     "damage": {
       "override": "1d20/2+1 Explosive or Energy",
-      "kinetic": 0,
       "energy": 5,
-      "explosive": 5,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": 5
     },
     "range": "1d20",
     "tags": [],
@@ -615,7 +579,10 @@
     "license": "PEGASUS",
     "license_level": 3,
     "effect": "Rolls for damage and range at the start of its turns. Deals flat damage.",
-    "description": "This is not a gun"
+    "description": "This is not a gun",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_chainaxe",
@@ -624,12 +591,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6+1",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6+1"
     },
     "range": "Threat 1",
     "tags": [{
@@ -640,7 +602,11 @@
     "license": "BLACKBEARD",
     "license_level": 1,
     "effect": "",
-    "description": "A simple tactical scale-up of a felling axe, IPS-N’s chain axe is a serrated, powered chainblade hardlinked to a chassis’ power core. The teeth of the IPS-N chain axe are tungsten-tipped, hardened to chew through hard and soft targets both. It is an effective weapon and utility tool, and is often used by boarding parties to make initial breaches in ship and station bulkheads."
+    "description": "A simple tactical scale-up of a felling axe, IPS-N’s chain axe is a serrated, powered chainblade hardlinked to a chassis’ power core. The teeth of the IPS-N chain axe are tungsten-tipped, hardened to chew through hard and soft targets both. It is an effective weapon and utility tool, and is often used by boarding parties to make initial breaches in ship and station bulkheads.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 0
+    }
   },
   {
     "id": "wp_flechette",
@@ -649,12 +615,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 1,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 1
     },
     "range": "Burst 1",
     "tags": [],
@@ -662,7 +623,11 @@
     "license": "BLACKBEARD",
     "license_level": 2,
     "effect": "Does +2 bonus damage to grappled targets or targets with the biological tag",
-    "description": "The IPS-N Flechette Launcher utilizes a hive-analogous construction to project a total soft target kill zone in a dome around the user, denying personnel the opportunity to engage in aggressive infantry-tier actions."
+    "description": "The IPS-N Flechette Launcher utilizes a hive-analogous construction to project a total soft target kill zone in a dome around the user, denying personnel the opportunity to engage in aggressive infantry-tier actions.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 0
+    }
   },
   {
     "id": "wp_nanocarbon",
@@ -671,12 +636,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6+3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6+3"
     },
     "range": "Threat 2",
     "tags": [{
@@ -687,7 +647,11 @@
     "license": "BLACKBEARD",
     "license_level": 2,
     "effect": "",
-    "description": "IPS-N’s nanocarbon sword is a new spin on an old essential. Embedded nanosensors along the length of the blade capture a full spectrum of data while in use, recording to cloud-based Omninet storage banks for after-action review. Live feedback is relayed to the user, interpreted by their equipped sensor suite, and real-time adjustments are made to the molecular composition of the blade edge."
+    "description": "IPS-N’s nanocarbon sword is a new spin on an old essential. Embedded nanosensors along the length of the blade capture a full spectrum of data while in use, recording to cloud-based Omninet storage banks for after-action review. Live feedback is relayed to the user, interpreted by their equipped sensor suite, and real-time adjustments are made to the molecular composition of the blade edge.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 0
+    }
   },
   {
     "id": "wp_concussionmissiles",
@@ -696,12 +660,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d3+1",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d3+1"
     },
     "range": 8,
     "tags": [],
@@ -709,7 +668,11 @@
     "license": "DRAKE",
     "license_level": 1,
     "effect": "Targets struck by these missiles are knocked back 1 space and must pass a systems check or become impaired until the end of their next turn",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "melee": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_assaultcannon",
@@ -718,12 +681,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6+2",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6+2"
     },
     "range": 10,
     "tags": [{
@@ -738,7 +696,10 @@
     "license": "DRAKE",
     "license_level": 1,
     "effect": "",
-    "description": "The IPS-N assault cannon is a deep-cooled autocannon, able to be fielded as a fixed weapon or manipulator-compatible platform. This autocannon can be fed by box-magazine or belt, is simple in its functionality, and is a mainstay among IPS-N chassis fleet orders."
+    "description": "The IPS-N assault cannon is a deep-cooled autocannon, able to be fielded as a fixed weapon or manipulator-compatible platform. This autocannon can be fed by box-magazine or belt, is simple in its functionality, and is a mainstay among IPS-N chassis fleet orders.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_leviathan",
@@ -748,12 +709,7 @@
     "sp": 0,
     "damage": {
       "override": "1d6 (4d6+4 if spun up)",
-      "kinetic": "4d6+4",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "4d6+4"
     },
     "range": 8,
     "tags": [{
@@ -769,7 +725,10 @@
     "license": "DRAKE",
     "license_level": 3,
     "effect": "Deals only 1d6 kinetic if not spun up (takes an action and cripples mech). Can be fired with normal profile as a skirmish action.",
-    "description": "The Leviathan AC is a massive rotary autocannon, an enclosed multi-barrel automatic weapon fed by an external reservoir, usually dorsally mounted on the chassis carrying it. At its current chambering, the Leviathan should only be fired on automatic when absolutely necessary; IPS-N is currently working on a solution to meet the cannon’s needs remotely. IPS-N recommends outfitting willing squadmates with extra reservoirs, should their chassis have room to support it."
+    "description": "The Leviathan AC is a massive rotary autocannon, an enclosed multi-barrel automatic weapon fed by an external reservoir, usually dorsally mounted on the chassis carrying it. At its current chambering, the Leviathan should only be fired on automatic when absolutely necessary; IPS-N is currently working on a solution to meet the cannon’s needs remotely. IPS-N recommends outfitting willing squadmates with extra reservoirs, should their chassis have room to support it.",
+    "aptitude": {
+      "ranged": 2
+    }
   },
   {
     "id": "wp_plasmacutter",
@@ -778,10 +737,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": 1,
-      "explosive": 0,
-      "variable": 0,
       "burn": 1,
       "heat": 1
     },
@@ -794,7 +750,10 @@
     "license": "LANCASTER",
     "license_level": 3,
     "effect": "",
-    "description": "Plasma cutters were tools first, simple blades built to toggle and sustain a plasma sheath to make cutting metal easier for its user. Repeated ad-hoc use of cutters as a personal defense weapon to repel pirate boarding actions convinced IPS-N of the need for a mil-spec variant of the civilian tool. They developed the Cutter, now in its second generation. The Cutter MkII is hard-lined into the mech’s power core, with a port to attach power packs in case of cord severance. The cutting edge can be shortened to a knife variant, but is most popular in its “cutlass” option, a middling length variant that allows for a balance of reach and maneuverability in close quarters."
+    "description": "Plasma cutters were tools first, simple blades built to toggle and sustain a plasma sheath to make cutting metal easier for its user. Repeated ad-hoc use of cutters as a personal defense weapon to repel pirate boarding actions convinced IPS-N of the need for a mil-spec variant of the civilian tool. They developed the Cutter, now in its second generation. The Cutter MkII is hard-lined into the mech’s power core, with a port to attach power packs in case of cord severance. The cutting edge can be shortened to a knife variant, but is most popular in its “cutlass” option, a middling length variant that allows for a balance of reach and maneuverability in close quarters.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_warpike",
@@ -803,12 +762,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "Threat +1, Thrown 5",
     "tags": [],
@@ -816,7 +770,11 @@
     "license": "NELSON",
     "license_level": 1,
     "effect": "",
-    "description": "A War Pike is a simple weapon. A long haft, topped with a dense, slim point, meant to puncture armor. Derivative of a mining pylon, the modern war pike is a sturdy, balanced, and reliable weapon, perfect for a charge."
+    "description": "A War Pike is a simple weapon. A long haft, topped with a dense, slim point, meant to puncture armor. Derivative of a mining pylon, the modern war pike is a sturdy, balanced, and reliable weapon, perfect for a charge.",
+    "aptitude": {
+      "melee": 1,
+      "ranged": 1
+    }
   },
   {
     "id": "wp_knuckles",
@@ -825,12 +783,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d3+1",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d3+1"
     },
     "range": "Threat 1",
     "tags": [],
@@ -838,7 +791,11 @@
     "license": "NELSON",
     "license_level": 3,
     "effect": "On a 20+ to hit, a target must pass a hull check or be knocked prone",
-    "description": "A simple weapon system, IPS-N’s power knuckles are a popular modification for pilots of CQB mech cores. Whether as shaped studs, hyperdense knuckles, or a series of magnetically-accelerated micro-rams, power knuckles amplify the already incredible hitting power of a mech core."
+    "description": "A simple weapon system, IPS-N’s power knuckles are a popular modification for pilots of CQB mech cores. Whether as shaped studs, hyperdense knuckles, or a series of magnetically-accelerated micro-rams, power knuckles amplify the already incredible hitting power of a mech core.",
+    "aptitude": {
+      "melee": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_handcannon",
@@ -847,12 +804,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6+1",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6+1"
     },
     "range": "5, Threat 3",
     "tags": [{
@@ -862,7 +814,10 @@
     "license": "RALEIGH",
     "license_level": 1,
     "effect": "",
-    "description": "The IPS-N HAND CANNON is a licensed version of GMS’s Pattern I Pistol, chambered for a heavier caliber of round. This modification requires a change from the belt-fed system of the P1P to a magazine-based system, limiting the number of rounds that a mech can load at a time."
+    "description": "The IPS-N HAND CANNON is a licensed version of GMS’s Pattern I Pistol, chambered for a heavier caliber of round. This modification requires a change from the belt-fed system of the P1P to a magazine-based system, limiting the number of rounds that a mech can load at a time.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_boltthrower",
@@ -872,11 +827,7 @@
     "sp": 0,
     "damage": {
       "kinetic": "1d6",
-      "energy": 0,
-      "explosive": "1d6",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d6"
     },
     "range": 10,
     "tags": [],
@@ -884,7 +835,10 @@
     "license": "RALEIGH",
     "license_level": 2,
     "effect": "",
-    "description": "IPS-N’s bolt thrower is a milspec variant of a civilian mining tool. A bolt thrower fires self-propelled explosive bolts that can be triggered manually, on a timer, on impact, on designated-depth penetration, on proximity, on on some combination of any allowable parameter."
+    "description": "IPS-N’s bolt thrower is a milspec variant of a civilian mining tool. A bolt thrower fires self-propelled explosive bolts that can be triggered manually, on a timer, on impact, on designated-depth penetration, on proximity, on on some combination of any allowable parameter.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_kinetichammer",
@@ -893,12 +847,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6+1",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6+1"
     },
     "range": "Threat",
     "tags": [{
@@ -909,7 +858,10 @@
     "license": "RALEIGH",
     "license_level": 3,
     "effect": "",
-    "description": "A Kinetic Hammer is, in the trend of IPS-N weapons, a simple tool. A supermassive, shaped head fused to a long haft, the Hammer impacts with enough force to create massively traumatic pressure waves upon landing a successful blow."
+    "description": "A Kinetic Hammer is, in the trend of IPS-N weapons, a simple tool. A supermassive, shaped head fused to a long haft, the Hammer impacts with enough force to create massively traumatic pressure waves upon landing a successful blow.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_autoshotgun",
@@ -918,12 +870,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6"
     },
     "range": "3, Threat 3",
     "tags": [{
@@ -933,7 +880,10 @@
     "license": "TORTUGA",
     "license_level": 1,
     "effect": "",
-    "description": "The IPS-N Deck-Sweeper Automatic Shotgun is a belt-fed scattergun, a favorite of marine pilots aboard stations and capital ships. It’s operation is simple and straightforward: charge, point, and fire. The single-barrel constriction allows for pneumatic absorption, dampening the effect of its incredible recoil, and its belt-fed action accepts many types of shot-and-shell ammunition. The DSAS is a mainstay among IPS-N licensed pilots."
+    "description": "The IPS-N Deck-Sweeper Automatic Shotgun is a belt-fed scattergun, a favorite of marine pilots aboard stations and capital ships. It’s operation is simple and straightforward: charge, point, and fire. The single-barrel constriction allows for pneumatic absorption, dampening the effect of its incredible recoil, and its belt-fed action accepts many types of shot-and-shell ammunition. The DSAS is a mainstay among IPS-N licensed pilots.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_siegeram",
@@ -942,12 +892,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "Melee",
     "tags": [],
@@ -955,7 +900,10 @@
     "license": "TORTUGA",
     "license_level": 2,
     "effect": "Ram attacks deal 1d6 kinetic on hit",
-    "description": "The Siege Ram is another holdover from IPS-N’s pre-merger days. When Bulkheads slam closed and there is a need to get them open, marine pilots mount a siege ram to get the job done. Heavy, dumb, and unbreakable, the Siege Ram is the universal key. Carried in-hand by a qualified chassis, the IPS-N Siege Ram is a solid metal beam with a wedge tip, meant to be slammed into the seam of a sealed bulkhead door and driven home, cracking open ships and stations like a can."
+    "description": "The Siege Ram is another holdover from IPS-N’s pre-merger days. When Bulkheads slam closed and there is a need to get them open, marine pilots mount a siege ram to get the job done. Heavy, dumb, and unbreakable, the Siege Ram is the universal key. Carried in-hand by a qualified chassis, the IPS-N Siege Ram is a solid metal beam with a wedge tip, meant to be slammed into the seam of a sealed bulkhead door and driven home, cracking open ships and stations like a can.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_daisy",
@@ -964,20 +912,19 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": "3d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "3d6"
     },
     "range": "Cone 7",
     "tags": [],
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
-    "effect": "Limited (2) Creates light cover in area for 1 round after firing.",
-    "description": "The Daisy Cutter is an effective, if outdated, weapon system for which many marine pilots still place print requisitions. The Daisy Cutter is, essentially, a massive shotgun: the pilot loads a shaped charge into the breech of the Cutter, drops a packed sabot down the barrel, aims, and fires a mixed hellfire cloud of flechette darts, bearings, and ignited magnesium strips, clearing any deck it’s been fired on."
+    "effect": "Creates light cover in area for 1 round after firing.",
+    "description": "The Daisy Cutter is an effective, if outdated, weapon system for which many marine pilots still place print requisitions. The Daisy Cutter is, essentially, a massive shotgun: the pilot loads a shaped charge into the breech of the Cutter, drops a packed sabot down the barrel, aims, and fires a mixed hellfire cloud of flechette darts, bearings, and ignited magnesium strips, clearing any deck it’s been fired on. tag_limited2",
+    "aptitude": {
+      "ranged": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_pneumatic",
@@ -986,12 +933,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d3+4",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3+4"
     },
     "range": "Threat 1",
     "tags": [{
@@ -1001,7 +943,11 @@
     "license": "TORTUGA",
     "license_level": 3,
     "effect": "On a 20+, target must pass a hull check or be stunned until end of its next turn",
-    "description": "Colloquially known as a ‘pilebunker’, built originally from blast mining equipment, the pneumatic hammer has been refined into a widely feared weapon - a solid-core cylinder cocked and locked in place by a miniaturized gravity well. When fired, the cylinder is propelled forward by a charge of superheated plasma through a cannon-like shaft, creating enormous kinetic force. Without proper reinforcement, the power created by this weapon will literally tear its wielder’s arm off."
+    "description": "Colloquially known as a ‘pilebunker’, built originally from blast mining equipment, the pneumatic hammer has been refined into a widely feared weapon - a solid-core cylinder cocked and locked in place by a miniaturized gravity well. When fired, the cylinder is propelled forward by a charge of superheated plasma through a cannon-like shaft, creating enormous kinetic force. Without proper reinforcement, the power created by this weapon will literally tear its wielder’s arm off.",
+    "aptitude": {
+      "melee": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_impaler",
@@ -1010,12 +956,7 @@
     "type": "Launcher",
     "sp": 1,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "Line 5",
     "tags": [{
@@ -1030,7 +971,11 @@
     "license": "VLAD",
     "license_level": 1,
     "effect": "The farthest target from you hit by this weapon must pass a hull check or become immobilized until the start of your next turn.",
-    "description": "Derivative of legacy IPS-N equipment meant for deep space mineral exploitation, an IPS-N Impaler is a brutal, short-range weapon that fires massive, two-stage (magnetic acceleration/ self propelled) bolts designed to penetrate hardened targets."
+    "description": "Derivative of legacy IPS-N equipment meant for deep space mineral exploitation, an IPS-N Impaler is a brutal, short-range weapon that fires massive, two-stage (magnetic acceleration/ self propelled) bolts designed to penetrate hardened targets.",
+    "aptitude": {
+      "ranged": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_nailgun",
@@ -1039,12 +984,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "8, Threat 3",
     "tags": [{
@@ -1059,7 +999,11 @@
     "license": "VLAD",
     "license_level": 2,
     "effect": "On 20+ to hit target must pass a hull check or be immobilized until start of your next turn",
-    "description": "Improving on the initial design of the IPS-N Impaler, the milspec Nailgun utilizes non-combustible, sabotjacketed two-stage macroflechettes to pierce even the most substantial of armor. First catapulted from its launcher, the macroflehette’s sabot disengages on approach to its target, triggering a second stage where internal propulsion drives the macroflechette forward with incredible velocity. Against soft targets, overpenetration is certain: IPS-N advises pilots employ this weapon platform only when the area behind the target is clear of allies and/or noncombatants."
+    "description": "Improving on the initial design of the IPS-N Impaler, the milspec Nailgun utilizes non-combustible, sabotjacketed two-stage macroflechettes to pierce even the most substantial of armor. First catapulted from its launcher, the macroflehette’s sabot disengages on approach to its target, triggering a second stage where internal propulsion drives the macroflechette forward with incredible velocity. Against soft targets, overpenetration is certain: IPS-N advises pilots employ this weapon platform only when the area behind the target is clear of allies and/or noncombatants.",
+    "aptitude": {
+      "ranged": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_combatdrill",
@@ -1069,11 +1013,7 @@
     "sp": 0,
     "damage": {
       "kinetic": "3d6",
-      "energy": "1d6",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6"
     },
     "range": "Threat 1",
     "tags": [{
@@ -1087,7 +1027,10 @@
     "license": "VLAD",
     "license_level": 3,
     "effect": "",
-    "description": "The IPS-N combat drill is a brutal close combat weapon, powered by a massive catalyst pack mounted externally on a mech core. The drill is tipped with micro-plasmatic projectors designed to pre-treat the target to ensure bit purchase and facilitate drill penetration."
+    "description": "The IPS-N combat drill is a brutal close combat weapon, powered by a massive catalyst pack mounted externally on a mech core. The drill is tipped with micro-plasmatic projectors designed to pre-treat the target to ensure bit purchase and facilitate drill penetration.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_magcannon",
@@ -1096,11 +1039,6 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
       "heat": "1d3+1"
     },
     "range": "Line 8",
@@ -1109,7 +1047,10 @@
     "license": "BLACK WITCH",
     "license_level": 1,
     "effect": "",
-    "description": "The SSC Magnetic Cannon is a first in Smith-Shimano’s ENERGY line: an aperture-focused magnetic projection beam that disrupts and damages hardware using intense pulses of magnetic force. Cores caught in the beam of a mag cannon suffer additional damage to their software, as even hardened components come under massive systemic stress."
+    "description": "The SSC Magnetic Cannon is a first in Smith-Shimano’s ENERGY line: an aperture-focused magnetic projection beam that disrupts and damages hardware using intense pulses of magnetic force. Cores caught in the beam of a mag cannon suffer additional damage to their software, as even hardened components come under massive systemic stress.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_kodandam",
@@ -1118,12 +1059,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d6",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d6"
     },
     "range": "15, Blast 1",
     "tags": [],
@@ -1131,7 +1067,10 @@
     "license": "DEATH’S HEAD",
     "license_level": 2,
     "effect": "Limited (3)",
-    "description": "Kodandam missiles are designed as an all-theater/any-target missile platform meant to act as a backbone around which to build a mid-ranged battery. The base Kodandam warhead is a shaped HE charge, built to disable/defeat targets through a combined HE blast and traumatic pressure wave. Kodandam missiles are loaded three to a pack, warheads mixed and affixed prior to mission start."
+    "description": "Kodandam missiles are designed as an all-theater/any-target missile platform meant to act as a backbone around which to build a mid-ranged battery. The base Kodandam warhead is a shaped HE charge, built to disable/defeat targets through a combined HE blast and traumatic pressure wave. Kodandam missiles are loaded three to a pack, warheads mixed and affixed prior to mission start.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_railgun",
@@ -1140,12 +1079,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6+3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6+3"
     },
     "range": "Line 20",
     "tags": [{
@@ -1159,7 +1093,10 @@
     "license": "DEATH’S HEAD",
     "license_level": 3,
     "effect": "",
-    "description": "A railgun is a simple, elegant weapon. With no moving parts and a magnetically-acceleratedprojectile, a railgun can be used at peak efficacy in any combat theater and is entirely self contained in a disposable unit. However, power draw is massive, and it is necessary for mechsmounting a railgun to be fitted with a core-charged auxiliary power pack. "
+    "description": "A railgun is a simple, elegant weapon. With no moving parts and a magnetically-acceleratedprojectile, a railgun can be used at peak efficacy in any combat theater and is entirely self contained in a disposable unit. However, power draw is massive, and it is necessary for mechsmounting a railgun to be fitted with a core-charged auxiliary power pack. ",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_burst",
@@ -1168,11 +1105,6 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
       "heat": "1d3"
     },
     "range": 10,
@@ -1183,7 +1115,11 @@
     "license": "DUSK WING",
     "license_level": 2,
     "effect": "On a 20+, a target struck must pass an engineering check or become impaired until the end of their next turn.",
-    "description": "Typically dorsally mounted, Burst Launchers fire rapid streams of explosive shells. These thermal spheres are tuned for an airburst detonation, overwhelming the target zone with rippling chain explosions that damage and suppress units in the area."
+    "description": "Typically dorsally mounted, Burst Launchers fire rapid streams of explosive shells. These thermal spheres are tuned for an airburst detonation, overwhelming the target zone with rippling chain explosions that damage and suppress units in the area.",
+    "aptitude": {
+      "ranged": 1,
+      "control": 1
+    }
   },
   {
     "id": "wp_vulture",
@@ -1192,12 +1128,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": 15,
     "tags": [{
@@ -1211,7 +1142,10 @@
     "license": "DUSK WING",
     "license_level": 2,
     "effect": "",
-    "description": "The SSC VULTURE-BR is Smith-Shimano’s core line battle rifle, chambered for 12.7x108mm HTI rounds. Field performance reports of the VULTURE report low TTK rates and satisfactory all-theater capability, though some pilots have reported fouled-fire incidents as a result of the high burst rate."
+    "description": "The SSC VULTURE-BR is Smith-Shimano’s core line battle rifle, chambered for 12.7x108mm HTI rounds. Field performance reports of the VULTURE report low TTK rates and satisfactory all-theater capability, though some pilots have reported fouled-fire incidents as a result of the high burst rate.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_vorpal",
@@ -1220,12 +1154,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6"
     },
     "range": 5,
     "tags": [],
@@ -1233,7 +1162,11 @@
     "license": "GORGON",
     "license_level": 3,
     "effect": "Can only be fired as a reaction 1/round when an ally takes damage from a target in range",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "ranged": 1,
+      "support": 1
+    }
   },
   {
     "id": "wp_railrifle",
@@ -1242,12 +1175,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "Line 10",
     "tags": [],
@@ -1255,7 +1183,10 @@
     "license": "METALMARK",
     "license_level": 2,
     "effect": "",
-    "description": "A rail rifle is a popular weapon for pilots in any theater, but the only choice for those operating in atmospheres made up of highly combustible gasses. Using a line of cascading electromagnets, a rail rifle accelerates a small projectile up to tremendous speeds, launching it without combustion or heat reactions. A rail weapon is kinetic and comparatively quiet when fired next to combustion weapons, though its energy signature is difficult to mask given the massive power requirements demanded by the weapon system."
+    "description": "A rail rifle is a popular weapon for pilots in any theater, but the only choice for those operating in atmospheres made up of highly combustible gasses. Using a line of cascading electromagnets, a rail rifle accelerates a small projectile up to tremendous speeds, launching it without combustion or heat reactions. A rail weapon is kinetic and comparatively quiet when fired next to combustion weapons, though its energy signature is difficult to mask given the massive power requirements demanded by the weapon system.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_shockknife",
@@ -1264,12 +1195,8 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
       "energy": 1,
-      "explosive": 0,
-      "variable": 2,
-      "burn": 0,
-      "heat": 0
+      "variable": 2
     },
     "range": "Threat 1",
     "tags": [{
@@ -1280,7 +1207,10 @@
     "license": "METALMARK",
     "license_level": 3,
     "effect": "",
-    "description": "The shock knife is a mech-sized blade made to accept and integrate the post-fabrication Shock Wreathe system. The knives are custom-fabricated by SSC’s Terashima artisan enclave, each one bearing its stamp."
+    "description": "The shock knife is a mech-sized blade made to accept and integrate the post-fabrication Shock Wreathe system. The knives are custom-fabricated by SSC’s Terashima artisan enclave, each one bearing its stamp.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_sharanga",
@@ -1289,12 +1219,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 3,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": 3
     },
     "range": 15,
     "tags": [{
@@ -1304,7 +1229,10 @@
     "license": "MONARCH",
     "license_level": 1,
     "effect": "Attacks one or two targets in range",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_gandiva",
@@ -1313,12 +1241,7 @@
     "type": "Launcher",
     "sp": 1,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d6+1",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6+1"
     },
     "range": 15,
     "tags": [{
@@ -1333,7 +1256,10 @@
     "license": "MONARCH",
     "license_level": 2,
     "effect": "",
-    "description": "Gandiva missiles are a reliable mainstay from Smith-Shimano’s EWAR line. Like the Pinaka, the Gandiva platform is equipped with jet-assisted mid-flight repositioning systems, allowing the Gandiva to respond to changing battlefield environments with a high degree of expected successful navigation to its target. Each Gandiva missile platform comes pre-loaded with a hivemind companion/concierge class drone AI, making an equipped system capable of learning from each right-of-launch experience."
+    "description": "Gandiva missiles are a reliable mainstay from Smith-Shimano’s EWAR line. Like the Pinaka, the Gandiva platform is equipped with jet-assisted mid-flight repositioning systems, allowing the Gandiva to respond to changing battlefield environments with a high degree of expected successful navigation to its target. Each Gandiva missile platform comes pre-loaded with a hivemind companion/concierge class drone AI, making an equipped system capable of learning from each right-of-launch experience.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_pinaka",
@@ -1343,12 +1269,7 @@
     "sp": 0,
     "damage": {
       "override": "2d6+2 Explosive x2",
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "4d6+4",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "4d6+4"
     },
     "range": "30, Blast 2 x2",
     "tags": [{
@@ -1363,7 +1284,10 @@
     "license": "MONARCH",
     "license_level": 3,
     "effect": "When this weapon is fired, it chooses one or two Blast 2 areas within range to attack. The areas cannot overlap.",
-    "description": "Pinaka missiles are massive, two-stage missiles mounted along the spine of a mech core or carried disassembled, to be affixed and launched from a brachial mount. Pinaka missiles are adapted from ship-toship missiles, their second stage intended to be able to re-orient in flight through jet-assisted repositioning."
+    "description": "Pinaka missiles are massive, two-stage missiles mounted along the spine of a mech core or carried disassembled, to be affixed and launched from a brachial mount. Pinaka missiles are adapted from ship-toship missiles, their second stage intended to be able to re-orient in flight through jet-assisted repositioning.",
+    "aptitude": {
+      "ranged": 2
+    }
   },
   {
     "id": "wp_vijaya",
@@ -1372,12 +1296,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d3",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d3"
     },
     "range": 5,
     "tags": [{
@@ -1387,7 +1306,10 @@
     "license": "MOURNING CLOAK",
     "license_level": 1,
     "effect": "",
-    "description": "Vijaya rockets are miniaturized, close range missiles fired from a portable, drum-fed launcher. Their shaped charges are formed in such a way as to project their blast forward, away from the user, and are intended for use in close range engagements as a force multiplier."
+    "description": "Vijaya rockets are miniaturized, close range missiles fired from a portable, drum-fed launcher. Their shaped charges are formed in such a way as to project their blast forward, away from the user, and are intended for use in close range engagements as a force multiplier.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_variableknife",
@@ -1396,12 +1318,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 2,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 2
     },
     "range": "Threat",
     "tags": [{
@@ -1415,7 +1332,10 @@
     "license": "MOURNING CLOAK",
     "license_level": 2,
     "effect": "",
-    "description": "A variable knife is a shorter version of a variable sword, a shielded length of mono-molecular wire. The power drain on a mech’s systems makes mounting these weapons incredible taxing."
+    "description": "A variable knife is a shorter version of a variable sword, a shielded length of mono-molecular wire. The power drain on a mech’s systems makes mounting these weapons incredible taxing.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_variablesword",
@@ -1424,12 +1344,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 4,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 4
     },
     "range": "Threat 2",
     "tags": [{
@@ -1444,7 +1359,10 @@
     "license": "MOURNING CLOAK",
     "license_level": 3,
     "effect": "",
-    "description": "The variable sword is a Smith-Shimano hallmark. A length of razor sharp molecular wire attached to a handle and caught in a magnetic field, a variable sword is invisible to the naked eye until it makes cuts in an enemy. Built in the early days of interstellar travel, the variable sword was meant to allow for precision sample gathering in the field, while also reducing the overall payload on a mech core."
+    "description": "The variable sword is a Smith-Shimano hallmark. A length of razor sharp molecular wire attached to a handle and caught in a magnetic field, a variable sword is invisible to the naked eye until it makes cuts in an enemy. Built in the early days of interstellar travel, the variable sword was meant to allow for precision sample gathering in the field, while also reducing the overall payload on a mech core.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_oracle",
@@ -1453,12 +1371,7 @@
     "type": "Rifle",
     "sp": 1,
     "damage": {
-      "kinetic": "1d3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3"
     },
     "range": 15,
     "tags": [{
@@ -1472,7 +1385,10 @@
     "license": "SWALLOWTAIL",
     "license_level": 1,
     "effect": "",
-    "description": ""
+    "description": "",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_markerlight",
@@ -1481,13 +1397,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "override": "",
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "override": ""
     },
     "range": 20,
     "tags": [],
@@ -1495,7 +1405,9 @@
     "license": "SWALLOWTAIL",
     "license_level": 2,
     "effect": "This weapon deals no damage and cannot deal damage (from talents or otherwise) or take ammunition, but on hit, it inflicts Lock On on your target at the end of your turn.",
-    "description": ""
+    "description": "",
+    "aptitude": {
+    }
   },
   {
     "id": "wp_nexus_light",
@@ -1504,12 +1416,7 @@
     "type": "Nexus",
     "sp": 0,
     "damage": {
-      "kinetic": "1d3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3"
     },
     "range": 8,
     "tags": [{
@@ -1519,7 +1426,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_missilerack",
@@ -1528,12 +1438,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": "1d3+1",
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "explosive": "1d3+1"
     },
     "range": "10, Blast 1",
     "tags": [{
@@ -1543,7 +1448,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_pistol",
@@ -1552,12 +1460,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": "1d3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3"
     },
     "range": "5, Threat 3",
     "tags": [],
@@ -1565,7 +1468,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_tacticalknife",
@@ -1574,12 +1480,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d3+1",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d3+1"
     },
     "range": "Threat",
     "tags": [],
@@ -1587,7 +1488,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_thermalpistol",
@@ -1596,12 +1500,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 2,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": 2
     },
     "range": "Line 5",
     "tags": [],
@@ -1609,7 +1508,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_ar",
@@ -1618,12 +1520,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": 10,
     "tags": [],
@@ -1631,7 +1528,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_charedblade",
@@ -1640,12 +1540,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d3+3",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d3+3"
     },
     "range": "Threat 1",
     "tags": [{
@@ -1655,7 +1550,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_nexus_hk",
@@ -1664,12 +1562,7 @@
     "type": "Nexus",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": 10,
     "tags": [{
@@ -1679,7 +1572,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_mortar",
@@ -1688,12 +1584,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "10, Blast 1",
     "tags": [{
@@ -1707,7 +1598,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_rpg",
@@ -1716,12 +1610,7 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "10, Blast 2",
     "tags": [{
@@ -1731,7 +1620,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_shotgun",
@@ -1740,12 +1632,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": 5,
     "tags": [{
@@ -1756,7 +1643,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_tmw",
@@ -1765,12 +1655,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6+2",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6+2"
     },
     "range": "Threat",
     "tags": [],
@@ -1778,7 +1663,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_thermalrifle",
@@ -1787,12 +1675,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d3+2",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d3+2"
     },
     "range": 5,
     "tags": [{
@@ -1802,7 +1685,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_amrifle",
@@ -1811,12 +1697,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6+2",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6+2"
     },
     "range": 20,
     "tags": [{
@@ -1833,7 +1714,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_hcb",
@@ -1842,12 +1726,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d6+2",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6+2"
     },
     "range": "Threat",
     "tags": [{
@@ -1857,7 +1736,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_hmw",
@@ -1866,12 +1748,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6+2",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6+2"
     },
     "range": "Threat",
     "tags": [],
@@ -1879,7 +1756,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_hmg",
@@ -1888,12 +1768,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6+1",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6+1"
     },
     "range": 10,
     "tags": [{
@@ -1903,7 +1778,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_howitzer",
@@ -1912,12 +1790,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": "2d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "2d6"
     },
     "range": "20, Blast 2",
     "tags": [{
@@ -1937,7 +1810,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_lance",
@@ -1946,12 +1822,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d6+2",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6+2"
     },
     "range": "Line 10",
     "tags": [{
@@ -1966,7 +1837,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_cyclone",
@@ -1975,12 +1849,7 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "kinetic": "3d6+3",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "3d6+3"
     },
     "range": 15,
     "tags": [{
@@ -1998,7 +1867,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_fuelrod",
@@ -2007,12 +1879,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d6+1",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d6+1"
     },
     "range": 15,
     "tags": [{
@@ -2027,7 +1894,10 @@
     "license": "",
     "license_level": "",
     "effect": "When you fire this weapon, hit or miss, cool 1d3+1 heat",
-    "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent"
+    "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_argonaut",
@@ -2036,12 +1906,7 @@
     "type": "Melee",
     "sp": 0,
     "damage": {
-      "kinetic": "1d6",
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": "1d6"
     },
     "range": "Threat 1",
     "tags": [],
@@ -2049,7 +1914,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "Gained from the \"Argonaut Shield\" IPS-N Drake Ultimate passive ability"
+    "description": "Gained from the \"Argonaut Shield\" IPS-N Drake Ultimate passive ability",
+    "aptitude": {
+      "melee": 1
+    }
   },
   {
     "id": "wp_latchdrone",
@@ -2058,12 +1926,6 @@
     "type": "Launcher",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
     },
     "range": 8,
     "tags": [],
@@ -2071,7 +1933,10 @@
     "license": "",
     "license_level": "",
     "effect": "Make a targeting roll vs evasion 8 and target any friendly mech in range (still take cover and line of sight into account). On hit, your target can spend up to 1 repair to heal.",
-    "description": "Gained from the \"Latch Drone\" IPS-N Lancaster Ultimate passive ability"
+    "description": "Gained from the \"Latch Drone\" IPS-N Lancaster Ultimate passive ability",
+    "aptitude": {
+      "repair": 2
+    }
   },
   {
     "id": "wp_m35",
@@ -2080,12 +1945,7 @@
     "type": "CQB",
     "sp": 0,
     "damage": {
-      "kinetic": 3,
-      "energy": 0,
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "kinetic": 3
     },
     "range": "5, Threat 3",
     "tags": [],
@@ -2093,7 +1953,10 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "Gained from the \"M-35 MJOLNIR Cannon\" IPS-N Raleigh Ultimate passive ability"
+    "description": "Gained from the \"M-35 MJOLNIR Cannon\" IPS-N Raleigh Ultimate passive ability",
+    "aptitude": {
+      "ranged": 1
+    }
   },
   {
     "id": "wp_solidcore",
@@ -2102,12 +1965,7 @@
     "type": "Cannon",
     "sp": 0,
     "damage": {
-      "kinetic": 0,
-      "energy": "1d3+1",
-      "explosive": 0,
-      "variable": 0,
-      "burn": 0,
-      "heat": 0
+      "energy": "1d3+1"
     },
     "range": "5, Threat 3",
     "tags": [{
@@ -2122,7 +1980,9 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "Gained from the \"Zone Focus Mk IV SOLIDCORE\" HA Sherman Ultimate passive ability"
+    "description": "Gained from the \"Zone Focus Mk IV SOLIDCORE\" HA Sherman Ultimate passive ability",
+    "aptitude": {
+      "ranged": 1
+    }
   }
-
 ]

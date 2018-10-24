@@ -57,8 +57,13 @@
   background-color: var(--bg-alt);
 }
 
-.equip-open-info p {
+.equip-open-info p,
+.equip-open-info ul {
   padding: 10px 30px 5px 10px;
+}
+
+.equip-open-info ul {
+  padding-left: 40px;
 }
 
 .core-bonus-item {
