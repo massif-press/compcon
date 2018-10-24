@@ -17,16 +17,49 @@
 
 /* info box and img */
 .mech-type {
-  font-size:18px;
-  font-weight: 900;
+  font-size:15px;
+  font-weight: 300;
   letter-spacing:5px;
+  color: var(--highlight);
 }
 
 .license-block {
   margin:5px;
   background-color: #314347;
   color:#5F909C;
+}
+
+.license-block-header {
+  margin: 5px;
+  background-color: #314347;
+  color: #5F909C;
   text-align: center;
+  font-weight: bold;
+}
+
+.license-block-locked {
+  margin:5px;
+  color:var(--alert);
+}
+
+.license-block-locked .subtitle{
+  color: #F2B13499;
+  font-size: 12px;
+}
+
+.license-block img {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+.license-block span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.warning {
+  color: var(--warn);
 }
 
 /* statbox */

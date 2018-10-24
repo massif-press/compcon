@@ -1590,7 +1590,7 @@
     "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable."
   },
   {
-    "id": "wp_thermalpistor",
+    "id": "wp_thermalpistol",
     "name": "Thermal Pistol",
     "mount": "Auxiliary",
     "type": "CQB",

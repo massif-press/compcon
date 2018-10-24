@@ -32,8 +32,8 @@ function getCharts(weapons) {
     var range = 0;
     if (Number.isInteger(w.range)) range = w.range;
     else {
-      var val = parseFloat(w.range.split(',')[0]);
-      range = (val === NaN) ? 0 : val;
+      var val = parseFloat(w.range.replace("Line", "").replace("Cone", "").split(',')[0].trim());
+      range = (isNaN(val)) ? 0 : val;
     }
 
 

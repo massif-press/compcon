@@ -26,8 +26,8 @@
     "img-portrait": "./resources/img/pilots/portrait_cio.png",
     "img-appearance": "./resources/img/pilots/cio_full.png",
     "text-appearance": "",
-    "max_hp": 5,
-    "current_hp": 5,
+    "max_hp": 9,
+    "current_hp": 9,
     "status": "INACTIVE",
     "licenses": [
       {
@@ -94,9 +94,7 @@
         "rank": 3
       }
     ],
-    "talent_weapons": [
-      "wp_fuelrod"
-    ],
+    "talent_weapon": "wp_fuelrod",
     "core": {
       "hull": 2,
       "agi": 2,

@@ -55,11 +55,8 @@ Handlebars.registerHelper('dmgRange', function (dmg) {
   return `${d.min.total} - ${d.max.total}${h}   (${d.avg.total}) ${ha}`;
 });
 
-
 function loadMech(config, pilot) {
   config.shell.ult_active = Tags.parse(config.shell.ult_active);
-  if (config.shell.ult_passive_weapon) config.weapons.push(config.shell.ult_passive_weapon);
-  if (pilot.talent_weapons) config.weapons = config.weapons.concat(pilot.talent_weapons);
 
   $(".main-scroll").scrollTop(1);
   var stats = Stats.getStats(config, pilot)
@@ -67,6 +64,11 @@ function loadMech(config, pilot) {
   var wp = [];
   var sys = [];
   
+  if (config.shell.ult_passive_weapon) wp.push(weapons.find(w => w.id == config.shell.ult_passive_weapon));
+
+  //I think this is only the fuel rod gun. If not, make this a loop
+  if (pilot.talent_weapon) wp.push(weapons.find(w => w.id == pilot.talent_weapon));
+
   for (var i = 0; i < config.weapons.length; i++) {
     wp.push(weapons.find(w => w.id == config.weapons[i]));
   }
@@ -78,6 +80,61 @@ function loadMech(config, pilot) {
   wp = Tags.expand(wp);
   sys = Tags.expand(sys);
 
+  //collect all licenses required
+  var isEverest = config.shell.id === "sh_everest"
+  config.licenses = [{
+    "source": config.shell.source,
+    "name": isEverest ? "" : config.shell.name,
+    "level": isEverest ? "" : 2,
+    "items": `${config.shell.source} ${config.shell.name} Shell`
+  }]
+
+  var items = wp.concat(sys);
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    if (item.source == "Special") continue;
+    var lIndex = config.licenses.findIndex(l => l.name === item.license);
+    if (lIndex > -1) {
+      if (config.licenses[lIndex].level < wp.license_level) {
+        config.licenses.push({
+          "source": item.source,
+          "name": item.license,
+          "level": item.license_level,
+          "items": item.name
+        })
+      }
+      config.licenses[lIndex].items += ", " + item.name;
+    } else {
+      config.licenses.push({
+        "source": item.source,
+        "name": item.license,
+        "level": item.license_level,
+        "items": item.name
+      })
+    }
+  }
+
+  for (var i = 0; i < config.licenses.length; i++) {
+    var l = config.licenses[i];
+    if (l.source === "GMS") {
+      config.licenses[i].locked = false;
+    } else {
+      var lockIndex = pilot.licenses.findIndex(pl => pl.name === l.name);
+      if (lockIndex == -1) config.licenses[i].locked = true;
+      else if (pilot.licenses[lockIndex].level < l.level) config.licenses[i].locked = true;
+      else config.licenses[i].locked = false;
+    }
+  }
+
+  //move gms to the front of the license block
+  var gmsIndex = config.licenses.findIndex(l => l.source === "GMS");
+  if (gmsIndex > 0) move(config.licenses, gmsIndex, 0);
+
+  //make sure the shell is the second item
+  var shellIndex = config.licenses.findIndex(l => l.source === config.shell.source);
+  if (shellIndex > 0) move(config.licenses, shellIndex, 1);
+
+  //sort by mounts
   wp.sort(function(a, b) {
     var sortOrder = {
       "Main": 0,
@@ -86,7 +143,6 @@ function loadMech(config, pilot) {
       "Superheavy": 3,
       "Special": 4
   }
-
     return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
   })
 
@@ -154,6 +210,16 @@ function bindEquipmentExpanders() {
     $($(parent).find(".equip-open-info")).toggle("swing");
   });
 }
+
+function move (arr, old_index, new_index) {
+  if (new_index >= arr.length) {
+    var k = new_index - arr.length + 1;
+    while (k--) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+};
 
 
 module.exports = loadMech;

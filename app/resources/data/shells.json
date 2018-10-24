@@ -17,10 +17,10 @@
     "stats": {
       "any": 1
     },
-    "ult_name": "Hyperspec fuel injectors",
+    "ult_name": "Hyperspec Fuel Injectors",
     "ult_description": "",
     "ult_passive": "If you roll a ‘20’ on your d20 for the first roll of any kind on your turn (the actual number 20 on the physical die, before modifiers, sometimes called a ‘natural’ 20) you can make any quick action as a free action at any point before the end of your turn. This passive can only take effect once per turn, and only on your turn.",
-    "ult_active_name": "Power up",
+    "ult_active_name": "Power Up",
     "ult_active": "This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions. tag_protocol"
   },
   {

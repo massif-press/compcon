@@ -1,7 +1,8 @@
 
 Alpha:
-  ☐ better config notes on mech sheet (license breakdown?)
-  ☐ implement license mechanics
+  ✔ better config notes on mech sheet (license breakdown?) @done(18-10-23 14:58)
+  ✔ implement license mechanics @done(18-10-23 16:09)
+  ☐ First pass at data formatting
   ☐ Weapon Mods
   ☐ Add aptitude points to weapons, systems, and shells
   ☐ pilot HP/EDEF/SPD based off level+armor
@@ -30,11 +31,16 @@ Todo:
   ✔ sort mounts @done(18-10-22 22:50)
   ✔ fix range chart @done(18-10-22 22:44)
   ☐ refactor chart builder
+  ☐ set config status unavailable on JSON update if pilot is missing licenses
+
+Bugs:
+  ☐ Damage by Range isn't adding numbers correctly
 
 Reminders:
   ☐ HA Assault Launcher gets a free grenade or mine
   ☐ technophile confers 0sp custom NHP system
   ☐ custom background option
+  ☐ personalizations adds +2 hp to mech
 
 Ideas:
   ☐ Find a better solution for mech pics. Look stale atm.

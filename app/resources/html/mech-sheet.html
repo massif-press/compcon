@@ -9,12 +9,31 @@
     <td width=50% style="vertical-align: top; padding-left: 5px;">
       <div><span id="ips-n" class="manufacturer">{{longSource shell.source}}</span></div>
       <div class="mech-type">{{shell.mechtype}} Mech</div>
-      <div class="license-block">{{shell.source}} {{shell.name}} LICENSE LEVEL 2</div>
-      <blockquote>
-        {{ifElse notes shell.description}}
-      </blockquote>
+      <div class="license-block-header">LICENSES REQUIRED:</div>
+      
+      {{#licenses}}
+        {{#if locked}}
+          <div class="license-block-locked warning-stripes " style="padding-left: 10px;">
+            <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
+              <img src="./resources/icons/locked.svg" height=20>
+              <span>{{source}} {{allCaps name}} {{level}}</span><span class="subtitle">(LICENSE REQUIRED)</span>
+            </a>
+          </div>         
+        {{else}}
+          <div class="license-block"style="padding-left: 10px;">
+            <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
+              <img src="./resources/icons/rank-{{ifElse level source}}.svg" height=20> 
+              <span>{{source}} {{allCaps name}} {{level}}</span>
+            </a>
+          </div>
+        {{/if}}
+      {{/licenses}}
+
+      <br>
+      <div class="license-block-header">PILOT'S NOTES:</div>
+      {{#if notes}}<blockquote>{{{notes}}}</blockquote>{{/if}}
     </td>
-    {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" height=400></td>{{/if}}
+    {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" height=400><span class="pull-right subtitle">Size {{shell.size}}</span></td>{{/if}}
   </table>
 </script>
 
@@ -287,15 +306,15 @@
     <table width="100%">
       <tr>
         <td width=30%><a href=#>
-            <div class="menu-border btn" style="text-align: center;">Edit Configuration</div>
+            <div class="menu-border btn disabled" style="text-align: center;">Edit Configuration</div>
           </a></td>
         <td witdth="3.333%">&nbsp;</td>
         <td width=30%><a href=#>
-            <div class="menu-border btn" style="text-align: center">Print Configuration</div>
+            <div class="menu-border btn disabled" style="text-align: center">Print Configuration</div>
           </a></td>
         <td witdth="3.333%">&nbsp;</td>
         <td width=30%><a href=#>
-            <div class="menu-border btn" style="text-align: center">Delete Configuration</div>
+            <div class="menu-border btn disabled" style="text-align: center">Delete Configuration</div>
           </a></td>
       </tr>
     </table>
@@ -313,6 +332,7 @@
       <span>{{source}} {{name}}</span>
     </div>
     <div class="modal-body">
+      <br>
       <div id="shell-info">
         {{{description}}}
         <br>

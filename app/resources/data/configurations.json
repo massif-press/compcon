@@ -4,11 +4,7 @@
     "name": "ōyamatasumi",
     "img": "ipsn_drake.png",
     "shell_id": "sh_drake",
-    "status": "available",
-    "license_req": [{
-      "name": "test license b",
-      "level": 2
-    }],
+    "status": "unavailable",
     "weapons": [
     ],
     "systems": [
@@ -21,10 +17,6 @@
     "img": "ipsn_blackbeard.png",
     "shell_id": "sh_blackbeard",
     "status": "unavailable",
-    "license_req": [{
-      "name": "test license b",
-      "level": 3
-    }],
     "weapons": [],
     "systems": [
 
@@ -36,10 +28,6 @@
     "img": "ipsn_raleigh.png",
     "shell_id": "sh_raleigh",
     "status": "active",
-    "license_req": [{
-      "name": "test license b",
-      "level": 2
-    }],
     "notes": "pilot's notes test",
     "weapons": ["wp_ar", "wp_handcannon", "wp_handcannon", "wp_amrifle"],
     "systems": ["sys_apple", "sys_apple", "sys_burst", "sys_t1shield", "sys_breaching"]
@@ -50,26 +38,15 @@
     "img": "",
     "shell_id": "sh_everest",
     "status": "destroyed",
-    "license_req": [{
-
-    }],
-    "weapons": [
-
-    ],
-    "systems": [
-
-    ]
+    "weapons": ["wp_ar", "wp_tacticalknife", "wp_tacticalknife", "wp_amrifle"],
+    "systems": ["sys_apple", "sys_apple", "sys_burst", "sys_personalizations", "sys_t1shield"]
   },
   {
     "id": 4,
-    "name": "ōyamatasumi",
-    "img": "ipsn_drake.png",
-    "shell_id": "sh_drake",
+    "name": "aaa",
+    "img": "ssc_metalmark.png",
+    "shell_id": "sh_metalmark",
     "status": "available",
-    "license_req": [{
-      "name": "test license b",
-      "level": 2
-    }],
     "weapons": [
 
     ],
@@ -79,30 +56,23 @@
   }, 
   {
     "id": 6,
-    "name": "ys-prim",
+    "name": "aesma",
     "img": "horus_gorgon.png",
     "shell_id": "sh_gorgon",
     "status": "available",
-    "license_req": [{
-      "name": "HORUS GORGON",
-      "level": 2
-    }],
     "weapons": [
+      "wp_autopod", "wp_thermalrifle", "wp_thermalpistol", "wp_howitzer"
     ],
     "systems": [
-
+      "sys_monitor", "sys_pdw", "sys_horos1", "sys_manipulators", "sys_metahook"
     ]
   }, 
   {
     "id": 5,
-    "name": "ōyamatasumi",
-    "img": "ipsn_drake.png",
-    "shell_id": "sh_hydra",
+    "name": "bbb",
+    "img": "ssc_blackwitch.png",
+    "shell_id": "sh_bwitch",
     "status": "available",
-    "license_req": [{
-      "name": "test license b",
-      "level": 2
-    }],
     "weapons": [
       
     ],
