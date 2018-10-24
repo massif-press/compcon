@@ -23,7 +23,7 @@
     "source": "GMS",
     "rarity": 0,
     "other": "",
-    "description": "Standard hardsuits have heavier plating than light hardsuits, restricting movement but providing greater protection from damage--the heaviest versions will have vital plating comparable to mech armor.They are often environmentally sealed and powered, and typically have a faceplate, visor, or closed helm."
+    "description": "Standard hardsuits have heavier plating than light hardsuits, restricting movement but providing greater protection from damage&emsp;the heaviest versions will have vital plating comparable to mech armor.They are often environmentally sealed and powered, and typically have a faceplate, visor, or closed helm."
   },
   {
     "id": "pa_stambha",
@@ -42,7 +42,7 @@
     "id": "pa_djed",
     "type": "armor",
     "name": "DJED Overarmor",
-    "bonus": "Provides stasis instead of Down and Out 1/full repair",
+    "bonus": "Provides stasis instead of Down and Out once per full repair",
     "armor": 2,
     "ee": "8/8",
     "speed": 4,
@@ -101,7 +101,7 @@
     "source": "HORUS",
     "rarity": 4,
     "other": "While you’re jockeying a mech while wearing this suit, you can force it to make a systems skill check with 1 difficulty or immediately move up to its full speed in direction of your choice.",
-    "description": "Here, take this -- a code that writes itself, a sentence spiraling and spiraling. Take from it what you can (there is a gift hidden in the chaff, a needle you must burn the hay to find) there are evermore everalways more meanings and forms and shapes (so many! Ah! And to see all of them is to EXULT all of them!) and here is one for you: a coat to wear that will let you travel further/deeper/longer/ LETYOUTAKEWHATISYOURS.<br>Talk soon love."
+    "description": "Here, take this &emsp; a code that writes itself, a sentence spiraling and spiraling. Take from it what you can (there is a gift hidden in the chaff, a needle you must burn the hay to find) there are evermore everalways more meanings and forms and shapes (so many! Ah! And to see all of them is to EXULT all of them!) and here is one for you: a coat to wear that will let you travel further/deeper/longer/ LETYOUTAKEWHATISYOURS.<br><br>Talk soon love."
   },
   {
     "id": "pa_uv",
@@ -126,7 +126,7 @@
     "speed": 4,
     "source": "HORUS",
     "rarity": 2,
-    "other": "While wearing this suit, if you go unconscious due to Down and Out or if you die, the suit injects you with a thanatologic necroanimate cocktail that temporarily replaces you by a digital homunculus of yourself that animates your corpse or unconscious form. <br>You’re still unconscious (or dead), you can only take quick action on your turn, and you cannot benefit from talents while in this state. You regain 5 HP and can otherwise act as normal. If you go to 0 again, you are returned to a normal Down and Out state or death. This effect also wears off after the current challenge or about 10 min, and can’t be activated again until you take a full repair. If dying caused this ability to trigger, you are dead once this effect wears off.<br>The homunculus cannot respond to novel situations or stimuli, but in a familiar setting or with familiar faces it can interact roughly as normal -- this trends deeply into the uncanny valley, however, and will likely not fool anyone into thinking that the reanimated you is “you”.",
+    "other": "While wearing this suit, if you go unconscious due to Down and Out or if you die, the suit injects you with a thanatologic necroanimate cocktail that temporarily replaces you by a digital homunculus of yourself that animates your corpse or unconscious form. <br>You’re still unconscious (or dead), you can only take quick action on your turn, and you cannot benefit from talents while in this state. You regain 5 HP and can otherwise act as normal. If you go to 0 again, you are returned to a normal Down and Out state or death. This effect also wears off after the current challenge or about 10 min, and can’t be activated again until you take a full repair. If dying caused this ability to trigger, you are dead once this effect wears off.<br>The homunculus cannot respond to novel situations or stimuli, but in a familiar setting or with familiar faces it can interact roughly as normal &emsp; this trends deeply into the uncanny valley, however, and will likely not fool anyone into thinking that the reanimated you is “you”.",
     "description": "A relic-code predating HORUS’s official foundation date, UNCLEAR_END/NOT THIS TIME seems to be a dead branch of transhumanist exploration: thanatologic praxis. Utilizing a now-classically HORUS greywash nanite swarm, this system triggers on one of a number of user-defined parameters to “reanimate” the user’s body using a backup homunculus subjectivity. The readme urges users of this system to regularly purge and reset the failsafe homunculus."
   },
   {
@@ -135,12 +135,12 @@
     "name": "Metafold Processor",
     "bonus": "Bonus e-defense and ability to make invasion actions",
     "armor": 0,
-    "ee": "-/+2",
+    "ee": "10/10",
     "speed": 4,
     "source": "HORUS",
     "rarity": 4,
     "other": "It is unclear exactly how this system works, but it does, and it grants a pilot hardsuit unprecedented processing power. A pilot can only benefit from this enhancement while wearing armor. While wearing this armor, a pilot gains a +2 bonus to e-defense and can make the Invasion tech action as if they were a mech with a +3 systems score.",
-    "description": "How large is the vault of your mind? Where do you mark the boundaries of an interiority? When you dream, can you place a boundary on the imagined plane? Hold a vast image inside your mind’s eye -- see? The universe can fit inside.<br>Take this. It can hold your mind, which can hold the universe, which holds all of us. Use it as you wish, but do not look inside."
+    "description": "How large is the vault of your mind? Where do you mark the boundaries of an interiority? When you dream, can you place a boundary on the imagined plane? Hold a vast image inside your mind’s eye &emsp; see? The universe can fit inside.<br>Take this. It can hold your mind, which can hold the universe, which holds all of us. Use it as you wish, but do not look inside."
   },
   {
     "id": "pa_wac",
@@ -153,7 +153,7 @@
     "source": "HORUS",
     "rarity": 1,
     "other": "This pattern prints a sheet of nanites that rapidly absorb and integrate into any piece of clothing. While wearing this clothing, any space adjacent to your pilot counts as your mech’s sensor range for the purposes of making tech actions only.",
-    "description": "A rather benign code -- as HORUS decrypts go -- WILD_AND_CRAZY(WITH ALL MY FRIENDS) is a simple program, one that neuters their greywash nanites, rendering them docile. It then uses their massed processing power and semi-autonomous atmospheric movement capabilities to channel systemic and sensor processes, effectively acting as a cloud-projector around its host."
+    "description": "A rather benign code &emsp; as HORUS decrypts go &emsp; WILD_AND_CRAZY(WITH ALL MY FRIENDS) is a simple program, one that neuters their greywash nanites, rendering them docile. It then uses their massed processing power and semi-autonomous atmospheric movement capabilities to channel systemic and sensor processes, effectively acting as a cloud-projector around its host."
   },
   {
     "id": "pa_wayland",
@@ -283,7 +283,7 @@
     "source": "SSC",
     "rarity": 1,
     "other": "This semi-biological, skin-tight undersuit can be worn for extended periods. In its natural form, it is translucent and semi-liquid, and can be stored easily. It cleans the body, aids its natural healing processes, and eliminates waste. Parts of it can be made opaque or translucent or change color or texture. It can cowl over the head, providing sealant from vacuum, high protection against radiation, and filtering of air or liquid, providing the ability to breathe water for a limited time.",
-    "description": "Discovered on Acrimea IV, an SSC biome cultivar world, the Sylph is an organic lifeform that appears to find homeostasis in nearly any and all environments. Working with breeding-analogous methods familiar to SSC bioengineering doctrines, SSC developed Sylph Undersuits -- sterile, living sylphs grown as an envelope, fitted to its owner. Once fitted, the Sylph bonds, creating a symbiotic relationship -- it sustains itself off the waste products of its host, while protecting its host from a number of hostile environmental factors. It can be removed and stored when not in use, where it conforms to whatever container it is placed in."
+    "description": "Discovered on Acrimea IV, an SSC biome cultivar world, the Sylph is an organic lifeform that appears to find homeostasis in nearly any and all environments. Working with breeding-analogous methods familiar to SSC bioengineering doctrines, SSC developed Sylph Undersuits &emsp; sterile, living sylphs grown as an envelope, fitted to its owner. Once fitted, the Sylph bonds, creating a symbiotic relationship &emsp; it sustains itself off the waste products of its host, while protecting its host from a number of hostile environmental factors. It can be removed and stored when not in use, where it conforms to whatever container it is placed in."
   },
   {
     "id": "pa_fallingwater",

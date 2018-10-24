@@ -12,13 +12,13 @@
   {
     "id": "tal_bond",
     "name": "Bonded",
-    "description": "The galaxy is a big place: everyone can use a friend to watch their back. Maybe you two enlisted together, or were the only survivors of a bloody engagement. Maybe you weren’t even friends to begin with, or maybe you were raised to fight together -- however it came to be, when it comes time to drop, there’s no one you’d rather have at your side. Alone, you’re deadly, but together you’re a force of nature",
+    "description": "The galaxy is a big place: everyone can use a friend to watch their back. Maybe you two enlisted together, or were the only survivors of a bloody engagement. Maybe you weren’t even friends to begin with, or maybe you were raised to fight together &emsp; however it came to be, when it comes time to drop, there’s no one you’d rather have at your side. Alone, you’re deadly, but together you’re a force of nature",
     "r1_name": "I’m Your Huckleberry",
     "r1_desc": "When you take this talent, choose another pilot to be your bondmate. When you make any mech skill check while your mech is adjacent to theirs, gain +1 Accuracy. You can change your bondmate between missions, but only if something has changed between the two of you.",
     "r2_name": "Cover me!",
     "r2_desc": "You can use your overwatch reaction to attack any target in your threat range that successfully damages your bondmate (this replaces your regular overwatch reaction for the round).",
     "r3_name": "Sundance",
-    "r3_desc": "Gain the following reaction: Intercede Reaction Once per round, when your bondmate is adjacent to you and takes damage from a source you can see, you can choose to take the damage instead of your bond mate."
+    "r3_desc": "Gain the following reaction: <br><b>Intercede</b><br><i>Reaction</i><br>Once per round, when your bondmate is adjacent to you and takes damage from a source you can see, you can choose to take the damage instead of your bond mate."
   },
   {
     "id": "tal_brawl",
@@ -34,11 +34,11 @@
   {
     "id": "tal_brutal",
     "name": "Brutal",
-    "description": "In dismounted sparring and in live combat, you only know one speed: maximum. When others go hard, you go hardest. When the order is to eliminate the enemy, you do so with prejudice. This isn’t a dance, this isn’t a game, this is war, and you mean to see it through. If it means becoming a little bit of a monster, than so be it -- let them hate you from the grave.",
+    "description": "In dismounted sparring and in live combat, you only know one speed: maximum. When others go hard, you go hardest. When the order is to eliminate the enemy, you do so with prejudice. This isn’t a dance, this isn’t a game, this is war, and you mean to see it through. If it means becoming a little bit of a monster, than so be it &emsp; let them hate you from the grave.",
     "r1_name": "Cull the Herd",
     "r1_desc": "Your critical hits now knock your target 2 spaces in any direction.",
     "r2_name": "Predator",
-    "r2_desc": "If your die result on your d20 is a 20 (sometimes called a ‘natural 20) on any ranged or melee attack roll, your attack is a critical hit, no matter what, and instead of rolling all the damage twice and choosing the highest result, your attack deals maximum damage (for its base and bonus dice).",
+    "r2_desc": "If your die result on your d20 is a 20 (sometimes called a natural 20) on any ranged or melee attack roll, your attack is a critical hit, no matter what, and instead of rolling all the damage twice and choosing the highest result, your attack deals maximum damage (for its base and bonus dice).",
     "r3_name": "Relentless",
     "r3_desc": "When you miss with an attack on your turn, your very next attack gains +1 accuracy."
   },
@@ -71,7 +71,7 @@
     "r1_name": "Man-At-Arms",
     "r1_desc": "Gain +2 Accuracy on the first melee attack on your turn with a main or auxiliary melee weapon.",
     "r2_name": "Blademaster",
-    "r2_desc": "Once per round, you can take 1 Difficulty on any melee attack roll to gain one of the following benefits: - Guard: Until the start of your next turn, the next melee attack against you is made with +2 Difficulty - Feint: On hit, until the start of your next turn, your movement doesn't provoke reactions and ignores engagement from your target - Lunge: Your threat increases by 2 for this attack only - Trip: On hit, the target must succeed on an agility check with 1 difficulty or fall prone",
+    "r2_desc": "Once per round, you can take 1 Difficulty on any melee attack roll to gain one of the following benefits: <ul><li>Guard: Until the start of your next turn, the next melee attack against you is made with +2 Difficulty</li><li>Feint: On hit, until the start of your next turn, your movement doesn't provoke reactions and ignores engagement from your target</li><li>Lunge: Your threat increases by 2 for this attack only</li><li>Trip: On hit, the target must succeed on an agility check with 1 difficulty or fall prone</li></ul>",
     "r3_name": "Unstoppable",
     "r3_desc": "Once per round, when you critical hit with a melee attack roll, you can immediately make an improvised attack, grapple, or ram action as a free action."
   },
@@ -80,7 +80,7 @@
     "name": "Drone Commander",
     "description": "For a pilot fresh out of boot, keeping a drone swarm in line is like trying to carry water with a net. They seem to have a mind of their own, well, because they do, and it’s not that smart. Your initial frustration was enough to get you practicing, and practice pays off. Now, your swarm obeys almost before you order — an unnerving trend, but a useful one. The swarm is yours.",
     "r1_name": "Hivemaster",
-    "r1_desc": "1/round when you consume Lock On with an attack from a drone system or nexus weapon, on hit, your target is also impaired until the end of its next turn.",
+    "r1_desc": "Once per round when you consume Lock On with an attack from a drone system or nexus weapon, on hit, your target is also impaired until the end of its next turn.",
     "r2_name": "Memories of Hercynia",
     "r2_desc": "Your deployed systems with the drone tag gain +10 HP. In addition, at the start of your turn, you can move one of your deployed drones up to 5 spaces as a free action.",
     "r3_name": "Energized Swam",
@@ -91,9 +91,9 @@
     "name": "Engineer",
     "description": "Pilots are creative and driven individuals, but you’re an exceptional case - some would say to the point of excess. In your spare time you’ve managed to scrape together just enough scrap, requisitioned materials, and workshop space to apply a little old fashioned ingenuity to your mech.",
     "r1_name": "Spark",
-    "r1_desc": "On a full repair, you can, with some trial and error, install a prototype weapon system on your mech. It has the following profile -- the specifics you may choose upon installation. Roll the Limited property each full repair. You can change the profile of this weapon each time you full repair. Prototype Weapon Main (Choose 1; Melee, Rifle, Cannon, Launcher, CQB) Limited (1d6+2), Unreliable Reach (melee) or range 8 (ranged) 1d6 kinetic, explosive, or energy damage This weapon does not take a mount to add to your mech, and counts as its own mount.",
+    "r1_desc": "On a full repair, you can, with some trial and error, install a prototype weapon system on your mech. It has the following profile &emsp; the specifics you may choose upon installation. Roll the Limited property each full repair. You can change the profile of this weapon each time you full repair. <br><b>Prototype Weapon</b><br>Main (Choose 1; Melee, Rifle, Cannon, Launcher, CQB)<br>Limited (1d6+2), Unreliable Reach (melee) or range 8 (ranged)<br>1d6 Kinetic, Explosive, or Energy damage<br>This weapon does not take a mount to add to your mech, and counts as its own mount.",
     "r2_name": "Updated Plans",
-    "r2_desc": "On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon. Choose 1 of the following: - Tweak optics: You always fire your prototype weapon with +1 Accuracy. - Tweak Computer Your prototype weapon gains the Smart property. - Removing reactor shielding Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon (choose when you fire), but costs 2 heat to fire",
+    "r2_desc": "On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon. Choose 1 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon (choose when you fire), but costs 2 heat to fire</li></ul>",
     "r3_name": "Final Draft",
     "r3_desc": "Your prototype weapon is now limited (2d6+1) and does 1d6+2 damage."
   },
@@ -113,9 +113,9 @@
     "name": "Exemplar",
     "description": "Your livery is famous, your voice brassy, your weapons polished to a sheen. Your training in certain martial orders has given you the power to harry and hinder even the most powerful of foes.",
     "r1_name": "Honorable Challenge",
-    "r1_desc": "The first time you attack an enemy on your turn, hit or miss, you can give it your Exemplar’s Mark. A target can only be affected by this mark from one target (the most recent mark replaces all others). The mark lasts until the start of your next turn, and while marked, gain the following reaction: Harry Reaction Once per round, when an ally attacks your target and misses, you can allow them to re- roll the attack. They must use the second result, even if it’s worse.",
+    "r1_desc": "The first time you attack an enemy on your turn, hit or miss, you can give it your Exemplar’s Mark. A target can only be affected by this mark from one target (the most recent mark replaces all others). The mark lasts until the start of your next turn, and while marked, gain the following reaction: <br><b>Harry</b><br><i>Reaction</i><br>Once per round, when an ally attacks your target and misses, you can allow them to re- roll the attack. They must use the second result, even if it’s worse.",
     "r2_name": "Punishment",
-    "r2_desc": "Gain the following reaction: Punishment Reaction Once per round, when the target of your mark makes an attack against a target other than you, you may immediately make a skirmish action as a reaction against your target as long as your target is within range.",
+    "r2_desc": "Gain the following reaction: <br><b>Punishment</b><br><i>Reaction</i><br>Once per round, when the target of your mark makes an attack against a target other than you, you may immediately make a skirmish action as a reaction against your target as long as your target is within range.",
     "r3_name": "To The Death",
     "r3_desc": "When you give a target your mark, you can choose to challenge it. If you do so, you and your marked target gain +2 difficulty to attack any target other than each other until the end of your next turn."
   },
@@ -126,7 +126,7 @@
     "r1_name": "Truth and Justice",
     "r1_desc": "Gain +1 Accuracy on your first two attack rolls in a round with auxiliary ranged weapons",
     "r2_name": "From The Hip",
-    "r2_desc": "Gain the following reaction: Return fire Reaction Once per round, when you are attacked by a target within your range, you can immediately attack the target with an auxiliary ranged weapon.",
+    "r2_desc": "Gain the following reaction: <br><b>Return Fire</b><br><i>Reaction</i><br>Once per round, when you are attacked by a target within your range, you can immediately attack the target with an auxiliary ranged weapon.",
     "r3_name": "I Kill With My Heart",
     "r3_desc": "You gain a gunslinger die (a d6), that starts at 6. When you hit with an auxiliary ranged weapon, you can reduce this value of this die by 1. When the value of this die is 1, you can spend it to make your next auxiliary weapon attack roll deal +2d6 bonus damage on a hit. This attack ignores cover. After spending this die, hit or miss, it resets back to 6."
   },
@@ -148,7 +148,7 @@
     "r1_name": "Snow_Crash",
     "r1_desc": "When you consume Lock On with a tech attack, your attack deals +1d3 heat on hit.",
     "r2_name": "Safe_Cracker",
-    "r2_desc": "Gain the following options when attempting Invasion on a mech: Jam Cockpit: Your target cannot mount or dismount their mech until they take an action and succeed on an engineering check to fix their cockpit. Disable Life Support: Your target’s life support is disabled. Their mech can function in a hazardous environment for a number of minutes equal to their engineering score before consequences such as radiation or lack of air start to affect them. They can take an action and make an engineering check with 1 difficulty to reactivate it. Hack./Slash: Your target cannot benefit from or make Tech actions until they spend a quick action and make a successful systems check to reboot their core computer. They can also shut down their mech to gain the same effect.",
+    "r2_desc": "Gain the following options when attempting Invasion on a mech:<ul><li>Jam Cockpit: Your target cannot mount or dismount their mech until they take an action and succeed on an engineering check to fix their cockpit.</li><li>Disable Life Support: Your target’s life support is disabled. Their mech can function in a hazardous environment for a number of minutes equal to their engineering score before consequences such as radiation or lack of air start to affect them. They can take an action and make an engineering check with 1 difficulty to reactivate it.</li><li>Hack./Slash: Your target cannot benefit from or make Tech actions until they spend a quick action and make a successful systems check to reboot their core computer. They can also shut down their mech to gain the same effect.</ul>",
     "r3_name": "Last Argument of Kings",
     "r3_desc": "Any target that overheats as a direct result of your tech attacks rolls twice on their overheating check and chooses the lowest result, then gains the volatile property for the rest of this challenge."
   },
@@ -172,7 +172,7 @@
     "r2_name": "Hard-Ultimates",
     "r2_desc": "If your ram attacks knock a target into another target, the second target must also pass a hull check or be knocked prone. If your ram attacks knock a target into an obstacle or wall, your target also takes 1d6 kinetic damage.",
     "r3_name": "Unstoppable Force",
-    "r3_desc": "1/round, when you take the boost action, you can choose to supercharge your mech’s servos. Take 1d3+3 heat, but if you move in a straight line your maximum speed, gain the following benefits: - You can freely pass through enemies and obstacles smaller than your mech. Normal obstacles are punched through, destroyed, or otherwise smashed out of the way. If you pass through an obstacle larger than yourself, it counts as dangerous terrain. If there’s something especially hardy (a starship hull, for example), it’s GM discretion whether you can punch through it at all. - You ignore difficult terrain - Your movement does not provoke reactions and ignores engagement - Any targets your mech passes directly through must pass an hull skill check or be knocked prone"
+    "r3_desc": "Once per round, when you take the boost action, you can choose to supercharge your mech’s servos. Take 1d3+3 heat, but if you move in a straight line your maximum speed, gain the following benefits:<ul><li>You can freely pass through enemies and obstacles smaller than your mech. Normal obstacles are punched through, destroyed, or otherwise smashed out of the way. If you pass through an obstacle larger than yourself, it counts as dangerous terrain. If there’s something especially hardy (a starship hull, for example), it’s GM discretion whether you can punch through it at all.</li><li>You ignore difficult terrain</li><li>Your movement does not provoke reactions and ignores engagement</li><li>Any targets your mech passes directly through must pass an hull skill check or be knocked prone</li></ul>"
   },
   {
     "id": "tal_leader",
@@ -201,7 +201,7 @@
     "name": "Siege Specalist",
     "description": "No wall can withstand you, no bunker can stay sealed before you. Your skill with cannon and blast is uncanny: after-action reports describe ordnance tagged with your firing signature hitting their targets with accuracy greater than AI-controlled weaponry, a stat written off as an anomaly by your commanders. Still, they always seem to pick you for missions where they bring out the big guns.",
     "r1_name": "Select Fire Gunner",
-    "r1_desc": "Once per round, while attacking with a cannon weapon, you can choose the following firing modes, taking +1 difficulty on the attack roll. Saturation Fire: Your weapon fires as a cone (3) Suppressive Fire: The next ranged attack made by targets hit by your attack is made with +1 Difficulty Shock: Your target must succeed on an engineering check or become crippled until the start of your next turn",
+    "r1_desc": "Once per round, while attacking with a cannon weapon, you can choose the following firing modes, taking +1 difficulty on the attack roll.<ul> <li>Saturation Fire: Your weapon fires as a cone (3)</li><li>Suppressive Fire: The next ranged attack made by targets hit by your attack is made with +1 </li><li>Difficulty Shock: Your target must succeed on an engineering check or become crippled until the start of your next turn</li</ul>",
     "r2_name": "Jackhammer",
     "r2_desc": "If your mech has a cannon weapon, as a quick action, you can target a size 1 section of any cover, deployable, building, or piece of terrain or scenery in range. You deal 20 AP damage to that section (typically destroying it, most size 1 sections of objects have 10 HP). Any targets adjacent to your target are knocked back 1 space directly away from it.",
     "r3_name": "Shaped Charges",
@@ -214,9 +214,9 @@
     "r1_name": "Integrated Chaff Launchers",
     "r1_desc": "If you didn’t make any attack rolls during your entire turn, after your turn you count as in light cover until the start of your next turn.",
     "r2_name": "Lockbreaker",
-    "r2_desc": "1/round, before or after making any skirmish action, you can move 3 spaces as a free action.",
+    "r2_desc": "once per round, before or after making any skirmish action, you can move 3 spaces as a free action.",
     "r3_name": "Open Sight Targeting",
-    "r3_desc": "1/round when you take the Skirmish action, you can make a boost action as a free action."
+    "r3_desc": "once per round when you take the Skirmish action, you can make a boost action as a free action."
   },
   {
     "id": "tal_spotter",
@@ -234,9 +234,9 @@
     "name": "Stormbringer",
     "description": "Talent",
     "r1_name": "Stormbringer I",
-    "r1_desc": "1/round when you consume Lock On with an attack from a launcher weapon, on hit, your target is also knocked prone.",
+    "r1_desc": "once per round when you consume Lock On with an attack from a launcher weapon, on hit, your target is also knocked prone.",
     "r2_name": "Stormbringer II",
-    "r2_desc": "You install auxiliary missile systems into your mech. You have 6 charges in this system (track it with a die, when you run out of charges it can no longer be used). Get all your charges back on a Full Repair. You can spend one of the charges from this system as a quick action to do one of the following: - Thunderous Discharge - You loose a concentrated blast of missiles at a single adjacent target. The target must pass a hull check or be knocked back 3 spaces directly away from you. The force of the blast then knocks you back 3 spaces directly away from the firing direction. - Concussive Burst - You fire a spray of missiles at a blast 3 area within range 15 of you. All targets in the area (allied or enemy) must pass an agility check or be knocked back 1 space directly away from the center of the blast.",
+    "r2_desc": "You install auxiliary missile systems into your mech. You have 6 charges in this system (track it with a die, when you run out of charges it can no longer be used). Get all your charges back on a Full Repair. You can spend one of the charges from this system as a quick action to do one of the following:<ul><li>Thunderous Discharge: You loose a concentrated blast of missiles at a single adjacent target. The target must pass a hull check or be knocked back 3 spaces directly away from you. The force of the blast then knocks you back 3 spaces directly away from the firing direction.</li><li>Concussive Burst: You fire a spray of missiles at a blast 3 area within range 15 of you. All targets in the area (allied or enemy) must pass an agility check or be knocked back 1 space directly away from the center of the blast.</li></ul>",
     "r3_name": "Stormbringer III",
     "r3_desc": "When your die for your missile system is 1, you can spend it to dump the remaining magazine in a massive attack, targeting a single enemy within range 15. That enemy must pass an agility check with 1 difficulty or take 3d6 explosive damage and become stunned, knocked back 3 spaces, and knocked prone. If they succeed on the check, they are not knocked prone or stunned, but they are still knocked back and take half damage."
   },
@@ -249,7 +249,7 @@
     "r2_name": "Solar Backdrop",
     "r2_desc": "Once per round, gain +1 Accuracy on any attack roll if you are standing or flying at a higher elevation than your target when you start your attack.",
     "r3_name": "Overlapping Fire",
-    "r3_desc": "Gain the following reaction: Flank Reaction Once per round, when a target not in cover from you is attacked by an allied mech, you may make a skirmish action as a reaction against the target. This attack deals half damage on hit."
+    "r3_desc": "Gain the following reaction:<br><b>Flank</b><br><i>Reaction</i><br>Once per round, when a target not in cover from you is attacked by an allied mech, you may make a skirmish action as a reaction against the target. This attack deals half damage on hit."
   },
   {
     "id": "tal_techno",

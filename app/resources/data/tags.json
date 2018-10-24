@@ -46,7 +46,7 @@
   {
     "id": "tag_heatself",
     "name": "Heat X (self)",
-    "description": "this weapon or system deals X Heat to its user, applied immediately upon firing"
+    "description": "this weapon or system deals X Heat to its user, applied immediately upon activation"
   },
   {
     "id": "tag_inaccurate",

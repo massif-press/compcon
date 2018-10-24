@@ -40,6 +40,8 @@ Handlebars.registerHelper('trSplit', function (v1, v2, options) {
 function loadPilot(pilot) {  
   $(".main").scrollTop(1);
 
+  pilot.hp = 5 + parseInt(pilot.level);
+
   var expandedTalents = [];
   for (var i = 0; i < pilot.talents.length; i++) {
     var pRef = pilot.talents[i];

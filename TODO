@@ -5,15 +5,16 @@ Alpha:
   ☐ First pass at data formatting
   ☐ Weapon Mods
   ☐ Add aptitude points to weapons, systems, and shells
-  ☐ pilot HP/EDEF/SPD based off level+armor
-  ☐ denote danger zone (bottom half of heat gauge) on pilot sheet
-  ☐ finsh sample configs
+  ✔ pilot HP/EDEF/SPD based off level+armor @done(18-10-23 22:20)
+  ✘ denote danger zone on pilot sheet @cancelled(18-10-23 22:08)
+  ✔ finsh sample configs @done(18-10-23 22:04)
 
 Todo:
   ☐ Local Fonts
   ☐ Organize CSS
   ✔ Weapon damage array into damage object @done(18-10-22 17:00)
   ☐ Error handling for every find() (refactor)
+  ☐ Utility function (where()?)
   ☐ Handlebars:partial the weapon template for ults and systems
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
@@ -32,11 +33,21 @@ Todo:
   ✔ fix range chart @done(18-10-22 22:44)
   ☐ refactor chart builder
   ☐ set config status unavailable on JSON update if pilot is missing licenses
+  ☐ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type
 
 Bugs:
   ☐ Damage by Range isn't adding numbers correctly
+  ☐ Locked licenses captured by a lower license number: eg. LL2 is hiding requirement for LL3.
+  ☐ No heat damage type on damage by mount
 
 Reminders:
+  ☐ cb_hardpoints should be applied like a mod
+  ☐ cb_burnout should be applied like a mod
+  ☐ cb_neurolinked should be applied like a mod to all equipped weapons
+  ☐ cb_ammofeeds should be applied like a mod to all limited systems
+  ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
+  ☐ tal_eng should add a custom weapon
+  ☐ tal_techno rank 2 should add a system
   ☐ HA Assault Launcher gets a free grenade or mine
   ☐ technophile confers 0sp custom NHP system
   ☐ custom background option
@@ -45,7 +56,7 @@ Reminders:
 Ideas:
   ☐ Find a better solution for mech pics. Look stale atm.
   ☐ color scheme for pilots/mechs
-  ☐ color schemes based off of licenses
+  ☐ color schemes based off of manufacturer
   ☐ Custom notes/descriptions for items
   ☐ on print: traverse pilot data structure to get all possible power cards
   ☐ on print: update regular action cards with player/shell bonuses

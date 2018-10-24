@@ -5,11 +5,8 @@
     "img": "ipsn_drake.png",
     "shell_id": "sh_drake",
     "status": "unavailable",
-    "weapons": [
-    ],
-    "systems": [
-
-    ]
+    "weapons": ["wp_leviathan", "wp_concussionmissiles", "wp_plasmacutter", "wp_stub", "wp_heavylaser"],
+    "systems": ["sys_aegis", "sys_bastion", "sys_siegestabilizers", "sys_stable"]
   },
   {
     "id": 1,
@@ -17,10 +14,8 @@
     "img": "ipsn_blackbeard.png",
     "shell_id": "sh_blackbeard",
     "status": "unavailable",
-    "weapons": [],
-    "systems": [
-
-    ]
+    "weapons": ["wp_chainaxe", "wp_flechette", "wp_flechette", "wp_nanocarbon"],
+    "systems": ["sys_smn", "sys_lockkill", "sys_sekhmet", "sys_eva"]
   },
   {
     "id": 2,
@@ -43,41 +38,29 @@
   },
   {
     "id": 4,
-    "name": "aaa",
+    "name": "claremont",
     "img": "ssc_metalmark.png",
     "shell_id": "sh_metalmark",
     "status": "available",
-    "weapons": [
-
-    ],
-    "systems": [
-
-    ]
+    "weapons": ["wp_railrifle", "wp_pistol", "wp_tacticalknife", "wp_howitzer"],
+    "systems": ["sys_reactiveweave", "sys_plug", "sys_t2shield"]
   }, 
+  {
+    "id": 5,
+    "name": "parlier",
+    "img": "ssc_blackwitch.png",
+    "shell_id": "sh_bwitch",
+    "status": "available",
+    "weapons": ["wp_magcannon", "wp_thermalpistol", "wp_thermalpistol", "wp_lance"],
+    "systems": ["sys_ferrous", "sys_iceout", "sys_magdeployer", "sys_reactiveweave", "sys_jericho"]
+  },
   {
     "id": 6,
     "name": "aesma",
     "img": "horus_gorgon.png",
     "shell_id": "sh_gorgon",
     "status": "available",
-    "weapons": [
-      "wp_autopod", "wp_thermalrifle", "wp_thermalpistol", "wp_howitzer"
-    ],
-    "systems": [
-      "sys_monitor", "sys_pdw", "sys_horos1", "sys_manipulators", "sys_metahook"
-    ]
-  }, 
-  {
-    "id": 5,
-    "name": "bbb",
-    "img": "ssc_blackwitch.png",
-    "shell_id": "sh_bwitch",
-    "status": "available",
-    "weapons": [
-      
-    ],
-    "systems": [
-
-    ]
+    "weapons": ["wp_autopod", "wp_thermalrifle", "wp_thermalpistol", "wp_howitzer"],
+    "systems": ["sys_monitor", "sys_pdw", "sys_horos1", "sys_manipulators", "sys_metahook"]
   }
 ]

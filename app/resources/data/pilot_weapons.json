@@ -10,7 +10,7 @@
     "damage": "1 Kinetic",
     "source": "GMS",
     "rarity": 0,
-    "effect": "1/round you can re-roll any attack with a light weapon, but must keep the second result.",
+    "effect": "Once per round you can re-roll any attack with a light weapon, but must keep the second result.",
     "description": ""
   },
   {
@@ -76,7 +76,7 @@
     "damage": 1,
     "source": "GMS",
     "rarity": 0,
-    "effect": "Player selects damage type at item creation.\n1/round you can re-roll any attack with a sidearm, but must keep the second result.",
+    "effect": "Player selects damage type at item creation.\nOnce per round you can re-roll any attack with a sidearm, but must keep the second result.",
     "description": ""
   },
   {

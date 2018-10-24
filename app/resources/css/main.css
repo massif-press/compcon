@@ -317,14 +317,15 @@ blockquote {
 }
 
 .manufacturer {
-  font-size: 20px;
+  font-size: 18px;
+  letter-spacing: 5px;
 }
 
-#ips-n {
+/* #ips-n {
   font-family: 'Titillium Web', sans-serif;
   font-weight: 900;
   letter-spacing: 10px;
-}
+} */
 
 .desc-text {
   padding-left: 20px;

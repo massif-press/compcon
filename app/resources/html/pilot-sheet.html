@@ -112,7 +112,15 @@
   <div style="padding: 10px;">
     <span class="callsign">{{callsign}}</span>&emsp;<span class="header">{{name}}</span><br>
     License Level &nbsp;<b>{{level}}</b> <span class="subtitle">//</span> {{background}}
-    <span class="pull-right">HP: {{#repeat current_hp}}0{{/repeat}}/{{#repeat max_hp}}0{{/repeat}}&emsp;</span>
+    <span class="pull-right">
+      <span class="subtitle">HP:</span><span> {{hp}}</span>
+      &emsp;
+      <span class="subtitle">ARMOR:</span><span> {{armor}}</span>
+      &emsp;
+      <span class="subtitle">E/E:</span><span> {{ee}}</span>
+      &emsp;
+      <span class="subtitle">SPEED:</span><span> {{speed}}</span>
+    </span>
   <table class="pilot-table" width="100%">
     <tr valign="top">
       <th style="width:60%!important">Background</th>

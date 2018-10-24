@@ -43,21 +43,21 @@
   },
   {
     "id": "cb_briareos",
-    "name": "BRIAREOS frame reinforcement",
+    "name": "BRIAREOS Frame Reinforcement",
     "source": "IPS-N",
     "effect": "Your mech has resistance to all damage when it has 1 or less points of structure remaining.",
     "description": "The BRIAREOS is the newest development in IPS-N’s line of near-fail frame upgrades, templates designed to maximize what pilots can get out of frames before the need for a reprint or catastrophic failure. BRIAREOS fabricates a frame that is superlight, woven throughout with Goliath Weave meshing, to increase the resilience of all inorganic components. "
   },
   {
     "id": "cb_fomorian",
-    "name": "FOMORIAN frame reinforcement",
+    "name": "FOMORIAN Frame Reinforcement",
     "source": "IPS-N",
     "effect": "Your mech gains +1 size, up to size 3. It gains +1 threat with melee weapons, and cannot be knocked prone, pulled, or pushed by targets smaller than itself (as part of a grapple, for example).",
     "description": "The FOMORIAN is an up-scaled version of the stock IPS-N template, following guidelines suggested by long-haul Cosmopolitans in need of robust micro/macro-impact protection, as well as additional brachial/manipulator needs. "
   },
   {
     "id": "cb_gyges",
-    "name": "GYGES frame reinforcement",
+    "name": "GYGES Frame Reinforcement",
     "source": "IPS-N",
     "effect": "Your mech gains +1 accuracy on all hull checks",
     "description": "Gyges is a frame upgrade built for combat, with finely tuned stabilizers and a robust suite of targeting software and hardware included at-fabrication."
@@ -85,7 +85,7 @@
   },
   {
     "id": "cb_fssync",
-    "name": "Full subjectivity Sync",
+    "name": "Full Subjectivity Sync",
     "source": "SSC",
     "effect": "Your mech gains +1 evasion. You control the mech with no separation between your subjectivity and your input; a second set of physical controls are built in to a retractable panel.",
     "description": "By creating a strong, stable, and secure biased two-way ontologic bridge, SSC has removed the need for a pilot to rely primarily on physical controls to crew their mech. With a full subjectivity sync installed, pilots in their chassis perceive the mech to be their own body, and can control it with no input lag. Dissociation remains a concern, however, and SSC engineers do not recommend extended periods of sync without proper desync and cooldown."

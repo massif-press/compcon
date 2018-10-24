@@ -26,8 +26,10 @@
     "img-portrait": "./resources/img/pilots/portrait_cio.png",
     "img-appearance": "./resources/img/pilots/cio_full.png",
     "text-appearance": "",
-    "max_hp": 9,
-    "current_hp": 9,
+    "hp_bonus": 0,
+    "armor": 2,
+    "ee": "8/8",
+    "speed": 4,
     "status": "INACTIVE",
     "licenses": [
       {
@@ -132,8 +134,10 @@
     "img-portrait": "./resources/img/pilots/portrait_oda.png",
     "img-appearance": "",
     "text-appearance": "my man laughin cuz he know<br><br>(this appearance text will appear along with, or instead of, a pilot image)",
-    "max_hp": 7,
-    "current_hp": 7,
+    "hp_bonus": 0,
+    "armor": 1,
+    "ee": "10/10",
+    "speed": 4,
     "status": "ACTIVE",
     "licenses": [{
       "name": "RALEIGH",
@@ -222,8 +226,10 @@
     "img-portrait": "./resources/img/pilots/portrait_allison.png",
     "img-appearance": "./resources/img/pilots/allison_full.png",
     "text-appearance": "",
-    "max_hp": 10,
-    "current_hp": 10,
+    "hp_bonus": 0,
+    "armor": 0,
+    "ee": "10/10",
+    "speed": 5,
     "status": "INACTIVE",
     "licenses": [
       {

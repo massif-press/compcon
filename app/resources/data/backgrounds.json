@@ -62,7 +62,7 @@
   {
     "id": "bg_media",
     "name": "Medic",
-    "description": "You were a medical expert in your old life. You might have worked in a colony, for the military, for a corporation, or for a noble family -- how did you wind up piloting a mech? What was your specialty? Did you work in research, care, or trauma? Did you love the life and take your oath seriously, or did you not?",
+    "description": "You were a medical expert in your old life. You might have worked in a colony, for the military, for a corporation, or for a noble family &emsp; how did you wind up piloting a mech? What was your specialty? Did you work in research, care, or trauma? Did you love the life and take your oath seriously, or did you not?",
     "skills": [
       "survive",
       "investigate",
@@ -92,7 +92,7 @@
   {
     "id": "bg_noble",
     "name": "Noble",
-    "description": "You are a member of your world’s noble class, destined from birth to ascend to power. From what authority does this ordainment come? Was it a god? An ancestor? An ancient text? Some annual rotation? Is power passed patrilineally or matrilineally? Are you the first to establish your nobility, or are you the last of your house? Or are you a son or daughter from a well-established and sturdy line?Are you the heir, or just a middle child? What’s your relationship with your noble parents? Know that Union disregards titles of nobility in its armed forces - your status on your world is just background noise. How do you take this change of status?",
+    "description": "You are a member of your world’s noble class, destined from birth to ascend to power. From what authority does this ordainment come? Was it a god? An ancestor? An ancient text? Some annual rotation? Is power passed patrilineally or matrilineally? Are you the first to establish your nobility, or are you the last of your house? Or are you a son or daughter from a well-established and sturdy line? Are you the heir, or just a middle child? What’s your relationship with your noble parents? Know that Union disregards titles of nobility in its armed forces - your status on your world is just background noise. How do you take this change of status?",
     "skills": [
       "acquire",
       "persuade",
@@ -102,7 +102,7 @@
   {
     "id": "bg_penal",
     "name": "Penal Colonist",
-    "description": "You were exiled to a penal colony for a sentence of hard labor. Are you guilty or innocent of your crimes? Penal colonies are harsh, unforgiving environments -- was yours monitored by an authority, or was it relegated to anarchy? Was there some kind of rudimentary society set up there? Did others make it off world when you were chosen? Or did you escape it?",
+    "description": "You were exiled to a penal colony for a sentence of hard labor. Are you guilty or innocent of your crimes? Penal colonies are harsh, unforgiving environments &emsp; was yours monitored by an authority, or was it relegated to anarchy? Was there some kind of rudimentary society set up there? Did others make it off world when you were chosen? Or did you escape it?",
     "skills": [
       "swindle",
       "survive",
