@@ -1,6 +1,12 @@
-Source: v0.1.1-alpha
-Release: [v0.1.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.1-alpha)
+# Release: [v0.1.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.1-alpha)
+## Source: v0.1.1-alpha
 
+Requires [node.js](https://nodejs.org/en/download/)
+
+```
+> npm i && npm start
+```
+---
 <h1>COMP/CON</h1>
   <hr>
   <p>A pilot and mech builder, organizer, and item database (other stuff, too) for Miguel Lopez and Tom Parkinson Morgan's LANCER Tabletop RPG.
