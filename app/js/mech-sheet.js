@@ -6,6 +6,7 @@ var Dicemath = require('./util/dicemath');
 var Charts = require("./util/chartbuilder");
 var weapons = require("../resources/data/weapons.json");
 var systems = require("../resources/data/systems.json");
+var mods = require("../resources/data/mods.json");
 
 Handlebars.registerHelper('longSource', function (source) {
   switch (source) {
@@ -70,7 +71,12 @@ function loadMech(config, pilot) {
   if (pilot.talent_weapon) wp.push(weapons.find(w => w.id == pilot.talent_weapon));
 
   for (var i = 0; i < config.weapons.length; i++) {
-    wp.push(weapons.find(w => w.id == config.weapons[i]));
+    var add = weapons.find(w => w.id == config.weapons[i].id);
+    if (config.weapons[i].mod) {
+      var m = mods.find(w => w.id == config.weapons[i].mod);
+      add.mod = m;
+    }
+    wp.push(add);
   }
 
   for (var i = 0; i < config.systems.length; i++) {
@@ -79,8 +85,6 @@ function loadMech(config, pilot) {
 
   wp = Tags.expand(wp);
   sys = Tags.expand(sys);
-
-
 
   //collect all licenses required
   var isEverest = config.shell.id === "sh_everest"

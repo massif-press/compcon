@@ -2,37 +2,37 @@ Alpha:
 
 Alpha 1.5:
   ☐ Catalog
-  ☐ Weapon Mods
+  ✔ Weapon Mods @done(18-10-25 17:32)
 
 Todo:
   ☐ Organize CSS
   ☐ Error handling for every find() (refactor)
   ☐ Utility function (where()?)
-  ☐ Handlebars:partial the weapon template for ults and systems
   ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
   ☐ Clean up names
   ☐ Partialize player table items
   ☐ Move handlebars helper to own file and load on start
-  ☐ Local Fonts
+  ✘ Local Fonts @cancelled(18-10-25 16:35)
+  ☐ Handlebars:partial the weapon template for ults and systems
   ☐ require-handlebars-plugin to break out hbs files
   ☐ refactor taghelper
   ☐ remove tag arrays and use tag syntax in a "tags" string in the json
   ☐ parse effects and descriptions for damage words
-  ☐ add apoc rail mount for barbarossa on config creation
   ☐ refactor chart builder
-  ☐ set config status unavailable on JSON update if pilot is missing licenses
-  ☐ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type
+  ✔ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type @done(18-10-25 16:59)
   ☐ weapon threat calc
   ☐ flex mounts
   ☐ CORE mounts
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
-
-Bugs:
-  ☐ Damage by Range isn't adding numbers correctly
+  
+  Bugs:
+  ✔ Damage by Range isn't adding numbers correctly @done(18-10-25 17:37)
   ☐ Locked licenses captured by a lower license number: eg. LL2 is hiding requirement for LL3.
-
-Reminders:
+  
+  Reminders:
+  ☐ set config status unavailable on JSON update if pilot is missing licenses
+  ☐ add apoc rail mount for barbarossa on config creation
   ☐ cb_hardpoints should be applied like a mod
   ☐ cb_burnout should be applied like a mod
   ☐ cb_neurolinked should be applied like a mod to all equipped weapons

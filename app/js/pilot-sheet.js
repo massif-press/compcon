@@ -2,13 +2,11 @@ var $ = require("jquery");
 var Handlebars = require("handlebars");
 var Tags = require("./util/taghelper");
 
-var pilotWeapons = require("../resources/data/pilot_weapons.json");
-var pilotArmor = require("../resources/data/pilot_armor.json");
 var pilotGear = require("../resources/data/pilot_gear.json");
 var talents = require("../resources/data/pilot_talents.json");
 var coreBonuses = require("../resources/data/core_bonus.json");
 
-var allGear = pilotWeapons.concat(pilotArmor).concat(pilotGear);
+var allGear = pilotGear.gear.concat(pilotGear.weapons, pilotGear.armor);
 
 Handlebars.registerHelper('repeat', function (n, block) {
   var str = '';

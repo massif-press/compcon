@@ -1,11 +1,26 @@
-[
-  {
-    "id": 0, 
+[{
+    "id": 0,
     "name": "ōyamatasumi",
     "img": "ipsn_drake.png",
     "shell_id": "sh_drake",
     "status": "unavailable",
-    "weapons": ["wp_leviathan", "wp_concussionmissiles", "wp_plasmacutter", "wp_stub", "wp_heavylaser"],
+    "weapons": [{
+        "id": "wp_leviathan"
+      },
+      {
+        "id": "wp_concussionmissiles"
+      },
+      {
+        "id": "wp_plasmacutter"
+      },
+      {
+        "id": "wp_stub",
+        "mod": "mod_throughbolt"
+      },
+      {
+        "id": "wp_heavylaser"
+      }
+    ],
     "systems": ["sys_aegis", "sys_bastion", "sys_siegestabilizers", "sys_stable"]
   },
   {
@@ -14,7 +29,19 @@
     "img": "ipsn_blackbeard.png",
     "shell_id": "sh_blackbeard",
     "status": "unavailable",
-    "weapons": ["wp_chainaxe", "wp_flechette", "wp_flechette", "wp_nanocarbon"],
+    "weapons": [{
+        "id": "wp_chainaxe"
+      },
+      {
+        "id": "wp_flechette"
+      },
+      {
+        "id": "wp_flechette"
+      },
+      {
+        "id": "wp_nanocarbon"
+      }
+    ],
     "systems": ["sys_smn", "sys_lockkill", "sys_sekhmet", "sys_eva"]
   },
   {
@@ -24,7 +51,19 @@
     "shell_id": "sh_raleigh",
     "status": "active",
     "notes": "pilot's notes test",
-    "weapons": ["wp_ar", "wp_handcannon", "wp_handcannon", "wp_amrifle"],
+    "weapons": [{
+        "id": "wp_ar"
+      },
+      {
+        "id": "wp_handcannon"
+      },
+      {
+        "id": "wp_handcannon"
+      },
+      {
+        "id": "wp_amrifle"
+      }
+    ],
     "systems": ["sys_apple", "sys_apple", "sys_burst", "sys_t1shield", "sys_breaching"]
   },
   {
@@ -33,8 +72,35 @@
     "img": "",
     "shell_id": "sh_everest",
     "status": "destroyed",
-    "weapons": ["wp_ar", "wp_tacticalknife", "wp_tacticalknife", "wp_amrifle"],
-    "systems": ["sys_apple", "sys_apple", "sys_burst", "sys_personalizations", "sys_t1shield"]
+    "weapons": [{
+        "id": "wp_ar"
+      },
+      {
+        "id": "wp_tacticalknife"
+      },
+      {
+        "id": "wp_tacticalknife"
+      },
+      {
+        "id": "wp_amrifle"
+      }
+    ],
+    "systems": [{
+        "id": "sys_apple"
+      },
+      {
+        "id": "sys_apple"
+      },
+      {
+        "id": "sys_burst"
+      },
+      {
+        "id": "sys_personalizations"
+      },
+      {
+        "id": "sys_t1shield"
+      }
+    ]
   },
   {
     "id": 4,
@@ -42,16 +108,40 @@
     "img": "ssc_metalmark.png",
     "shell_id": "sh_metalmark",
     "status": "available",
-    "weapons": ["wp_railrifle", "wp_pistol", "wp_tacticalknife", "wp_howitzer"],
+    "weapons": [{
+        "id": "wp_railrifle"
+      },
+      {
+        "id": "wp_pistol"
+      },
+      {
+        "id": "wp_tacticalknife"
+      },
+      {
+        "id": "wp_howitzer"
+      }
+    ],
     "systems": ["sys_reactiveweave", "sys_plug", "sys_t2shield"]
-  }, 
+  },
   {
     "id": 5,
     "name": "parlier",
     "img": "ssc_blackwitch.png",
     "shell_id": "sh_bwitch",
     "status": "available",
-    "weapons": ["wp_magcannon", "wp_thermalpistol", "wp_thermalpistol", "wp_lance"],
+    "weapons": [{
+        "id": "wp_magcannon"
+      },
+      {
+        "id": "wp_thermalpistol"
+      },
+      {
+        "id": "wp_thermalpistol"
+      },
+      {
+        "id": "wp_lance"
+      }
+    ],
     "systems": ["sys_ferrous", "sys_iceout", "sys_magdeployer", "sys_reactiveweave", "sys_jericho"]
   },
   {
@@ -60,7 +150,19 @@
     "img": "horus_gorgon.png",
     "shell_id": "sh_gorgon",
     "status": "available",
-    "weapons": ["wp_autopod", "wp_thermalrifle", "wp_thermalpistol", "wp_howitzer"],
+    "weapons": [{
+        "id": "wp_autopod"
+      },
+      {
+        "id": "wp_thermalrifle"
+      },
+      {
+        "id": "wp_thermalpistol"
+      },
+      {
+        "id": "wp_howitzer"
+      }
+    ],
     "systems": ["sys_monitor", "sys_pdw", "sys_horos1", "sys_manipulators", "sys_metahook"]
   }
 ]

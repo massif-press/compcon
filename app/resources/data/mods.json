@@ -3,9 +3,7 @@
     "id": "mod_havok",
     "name": "HAVOK Ammo",
     "sp": 2,
-    "tags": [
-      "Ammo"
-    ],
+    "modType": "Ammo",
     "applied_to": [
       "ranged"
     ],
@@ -17,11 +15,9 @@
   },
   {
     "id": "mod_para",
-    "name": " When you fire this weapon, draw a line 3 spaces long from your mech, then measure its original range from the end of this line as though the attack was fired from that position (also measure cover from this new position for the rest of the attack). This line can easily punch through walls or other barriers. Any targets hit by this line are also hit by the attack (ignoring cover). The attack cannot change directions after being fired.",
+    "name": "Paracausal Weapon Mod ",
     "sp": 4,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "weapon"
     ],
@@ -35,9 +31,7 @@
     "id": "mod_phasing",
     "name": "Phasing Ammo",
     "sp": 3,
-    "tags": [
-      "Ammo"
-    ],
+    "modType": "Ammo",
     "applied_to": [
       "ranged"
     ],
@@ -51,9 +45,7 @@
     "id": "mod_haywire",
     "name": "Haywire Ammo",
     "sp": 1,
-    "tags": [
-      "Ammo"
-    ],
+    "modType": "Ammo",
     "applied_to": [
       "ranged"
     ],
@@ -67,9 +59,7 @@
     "id": "mod_nanite",
     "name": "Nanite Ammo",
     "sp": 2,
-    "tags": [
-      "Ammo"
-    ],
+    "modType": "Ammo",
     "applied_to": [
       "ranged"
     ],
@@ -83,9 +73,7 @@
     "id": "mod_smart",
     "name": "Smart Weapon Mod",
     "sp": 1,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "weapon"
     ],
@@ -99,9 +87,7 @@
     "id": "mod_op",
     "name": "Over-Penetrating Mod",
     "sp": 1,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "cannon",
       "rifle"
@@ -116,9 +102,7 @@
     "id": "mod_snub",
     "name": "Snub Barrel Mod",
     "sp": 1,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "cqb",
       "cannon",
@@ -134,9 +118,7 @@
     "id": "mod_thermal",
     "name": "Thermal Charge",
     "sp": 2,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "melee"
     ],
@@ -150,9 +132,7 @@
     "id": "mod_throughbolt",
     "name": "Throughbolt Rounds",
     "sp": 1,
-    "tags": [
-      "Ammo"
-    ],
+    "modType": "Ammo",
     "applied_to": [
       "cqb",
       "cannon",
@@ -161,16 +141,14 @@
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
-    "effect": "Choose 1 CQB, cannon, or rifle weapon. When you fire this weapon, draw a line 3 spaces long from your mech, then measure its original range from the end of this line as though the attack was fired from that position (also measure cover from this new position for the rest of the attack). This line can easily punch through walls or other barriers. Any targets hit by this line are also hit by the attack (ignoring cover). The attack cannot change directions after being fired.",
+    "effect": "When you fire this weapon, draw a line 3 spaces long from your mech, then measure its original range from the end of this line as though the attack was fired from that position (also measure cover from this new position for the rest of the attack). This line can easily punch through walls or other barriers. Any targets hit by this line are also hit by the attack (ignoring cover). The attack cannot change directions after being fired.",
     "description": "Throughbolt Rounds are a proprietary IPS-N invention. Throughbolts are Tungsten-jacketed, uranium core rounds with projection-activated plasma sheaths. When fired, the rounds ignite and project a superheated cone of plasma before them, creating a miniature lance effect that ensures multiple-target penetration through soft and hard surfaces"
   },
   {
     "id": "mod_ap",
     "name": "Armor-Piercing Mod",
     "sp": 2,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "weapn"
     ],
@@ -184,25 +162,21 @@
     "id": "mod_wreathe",
     "name": "Shock Wreathe",
     "sp": 2,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "melee"
     ],
     "source": "SSC",
     "license": "METALMARK",
     "license_level": 1,
-    "effect": "It gains Burn depending on its size (Aux: Burn 1, Main: Burn 2, Heavy or larger: Burn 3). If it already has Burn, this increases the burn it deals by the same amount. tag_burn1",
+    "effect": "It gains Burn depending on its size (Aux: Burn 1, Main: Burn 2, Heavy or larger: Burn 3). If it already has Burn, this increases the burn it deals by the same amount.",
     "description": "An after-fabrication modification popular among melee-oriented pilots, the Shock Wreath applies an integrated bundle of conductive filaments to the blade, point, tip, or surface of a close combat weapon. Paired with a power source (typically in the hilt or half of a weapon, but sometimes external), the Shock Wreath adds a thermal element to the kinetic, and a distinct visual marker: their weapons are picked out in fine lines of white-hot light, shrouded in heat shimmer"
   },
   {
     "id": "mod_stabilizer",
     "name": "Stabilizer Weapon Mod",
     "sp": 1,
-    "tags": [
-      "Mod"
-    ],
+    "modType": "Modification",
     "applied_to": [
       "launcher",
       "cannon"

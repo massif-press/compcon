@@ -160,14 +160,25 @@
             <div class="equip-expander-header sweep-btn">&nbsp;{{name}}
               <span class="subtitle">({{source}})</span>
               {{#if sp}}<span class="pull-right subtitle">{{sp}} SP</span>{{/if}}
+              {{#if mod}}<span class="pull-right subtitle">{{mod.sp}} SP (MOD)</span>{{/if}}
             </div>
           </a>
           <div class="equip-open-info hidden">
             <div style="padding-left:5px">
               {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
               {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
+              {{#if mod}}
+                <hr class="mg-10">
+                <div class="mg-10">
+                  <span><b>{{mod.name}}</b><span class="subtitle">&nbsp;({{mod.modType}})</span></span>
+                  <span class="subtitle"><br>{{mod.sp}} SP</span>
+                  {{#if description}}<blockquote class="desc-text">{{{mod.description}}}</blockquote>{{/if}}
+                  {{#if effect}}<span>{{{mod.effect}}}<br></span>{{/if}}
+                </div>
+                <hr class="mg-10">
+              {{/if}}
               <span class="subtitle">{{mount}} {{type}}</span>
-              {{#if sp}}<span>{{sp}} SP <span class="subtitle">{{/if}}
+              {{#if sp}}<span class="subtitle">{{sp}} SP </span>{{/if}}
               <table class="gear-table">
                 <tr><th>Range</th><th>Damage</th>
                 <tr><td>{{range}}</td><td>{{{dmgFormat damage}}}<br><span class="subtitle">{{dmgRange damage}}</span></td>

@@ -8,11 +8,9 @@
     "size": 1,
     "armor": 0,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts" : [
+      "flex", "main", "heavy"
+    ],
     "stats": {
       "any": 1
     },
@@ -33,11 +31,11 @@
     "size": 1,
     "armor": 1,
     "sp": 5,
-    "flex": 1,
-    "aux": 1,
-    "main": 0,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "heavy"
+    ],
     "stats": {
       "hull": 2,
       "agi": 1,
@@ -64,12 +62,12 @@
     "description": "The IPS-N DRAKE is the backbone of any proactive trade security/anti-piracy force and represents the manufacturers first foray into military-grade mechs. It is a massive frame, simian in appearance, built around a single-cast bulkhead sloped and reinforced to handle sustained incoming and outgoing fire. A dense heavily armored chassis, the standard IPS-N DRAKE fleet license includes a high-velocity, highfragment assault cannon for suppressing and overwhelming their targets, and a heavy kinetic/ablative barrier shield for defense. More advanced models feature scaled-up weaponry and armor, including the notorious multi-barrel Leviathan cannon.",
     "size": 2,
     "armor": 3,
-    "sp": 5,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 1,
-    "spinal": 0,
+    "sp": 5, 
+    "mounts": [
+      "flex",
+      "main",
+      "heavy"
+    ],
     "stats": {
       "hull": 1,
       "agi": -2,
@@ -85,8 +83,6 @@
       "melee": 1,
       "ranged": 2,
       "support": 2
-
-
     }
   },
   {
@@ -99,12 +95,11 @@
     "size": 1,
     "armor": 0,
     "sp": 8,
-    "flex": 2,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
-    "stats": {
+    "mounts": [
+      "flex",
+      "flex"
+    ],   
+     "stats": {
       "hull": 1,
       "eng": 1
     },
@@ -115,7 +110,6 @@
     "ult_active_name": "Supercharger",
     "ult_active": "You fire your drone at a friendly mech in range, where it clamps onto the target. <br>For the rest of this combat, you take 1 heat at the start of your turn, but the targeted mech gains +1 Accuracy on all attacks and checks, and is immune to the impaired, jammed, crippled, and immobilized conditions. This effect ends if you or the targeted mech is stunned or shut down. <br>While this system is active, you cannot fire your drone as a weapon using the passive ability of this system. tag_quickaction",
     "aptitude": {
-
       "support": 2,
       "repair": 3
     }
@@ -130,11 +124,11 @@
     "size": 1,
     "armor": 0,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 2,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "main",
+      "main"
+    ],
     "stats": {
       "hull": 1,
       "agi": 1,
@@ -149,7 +143,6 @@
       "melee": 1,
       "ranged": 1,
       "control": 2
-
     }
   },
   {
@@ -162,11 +155,11 @@
     "size": 1,
     "armor": 1,
     "sp": 5,
-    "flex": 0,
-    "aux": 1,
-    "main": 1,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "main",
+      "aux",
+      "heavy"
+    ],
     "stats": {
       "hull": 1
     },
@@ -177,10 +170,7 @@
     "ult_active_name": "Thunder God",
     "ult_active": "Until the end of the current challenge, if you didn’t fire your M35 on your turn, it gains 1 more round in the chamber at the end your turn (you can use a d6 to track this). <br>It starts with 1 round in the chamber. When you next fire the weapon, it fires all chambers, for 3 damage per chamber, then loads 1 round. The M35 has six chambers, for a maximum of 18 damage. <br><br>If 3 or more chambers are fired at once, this weapon gains the <span class='tag'><a href='#' data-balloon-length='medium' data-balloon='The damage from this weapon ignores armor.' data-balloon-pos='up'>Armor Piercing (AP)</a></span> tag and any target struck must pass a hull check or be knocked prone.",
     "aptitude": {
-
       "ranged": 3
-
-
     }
   },
   {
@@ -193,11 +183,10 @@
     "size": 2,
     "armor": 2,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "flex",
+      "spinal"
+    ],
     "stats": {
       "hull": 2,
       "sys": 1
@@ -208,11 +197,8 @@
     "ult_active_name": "Hyper-reflex mode",
     "ult_active": "For the rest of this combat, your threat with ranged weapons increases to 5 if it was less than 5. You can make one additional overwatch attack between turns, and any target struck by your overwatch attacks is immediately immobilized until the start of its next turn. tag_protocol",
     "aptitude": {
-
       "ranged": 3,
       "support": 1
-
-
     }
   },
   {
@@ -225,11 +211,11 @@
     "size": 1,
     "armor": 2,
     "sp": 5,
-    "flex": 2,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "flex",
+      "flex",
+      "spinal"
+    ],
     "stats": {
       "hull": 1,
       "eng": -2
@@ -242,7 +228,6 @@
     "aptitude": {
       "melee": 3,
       "control": 1
-
     }
   },
   {
@@ -255,11 +240,10 @@
     "size": 1,
     "armor": 0,
     "sp": 8,
-    "flex": 1,
-    "aux": 1,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux"
+    ],
     "stats": {
       "agi": 1,
       "sys": 1
@@ -270,11 +254,8 @@
     "ult_active_name": "Mag Field",
     "ult_active": "As an action, you may activate the mag field to create a Blast 4 area in any area with at least one square adjacent to you. Inside, ranged weapon attacks that deal kinetic or explosive damage cannot penetrate into or out of the field and will stop at the edge, doing no damage (keep track of them). <br>The field is difficult terrain for all mechs and vehicles made at least partly of metal. Targets that start their turn in the Mag Field or enter it for the first time on their turns must make a successful Engineering check with 1 difficulty or be pulled to the center as far as possible and immobilized. They can repeat this check at the start of their turns while trapped this way and can move normally on a success, otherwise they remain trapped. <br>The field persists for 3 rounds after deployment. At the end of the third round any attacks fired into this field will resume trajectory towards the center of this zone. The GM performs a single attack roll vs each target still inside the zone with +1 targeting per attack fired into this zone (cumulative, up to a max of +6). Successful hits deal 1d6 Kinetic damage per attack fired into this zone (cumulative). Then, the zone deactivates.",
     "aptitude": {
-
-
       "support": 1,
       "control": 3
-
     }
   },
   {
@@ -287,11 +268,11 @@
     "size": 1,
     "armor": 0,
     "sp": 6,
-    "flex": 1,
-    "aux": 1,
-    "main": 0,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "heavy"
+    ],
     "stats": {
       "hull": -2,
       "agi": 2,
@@ -303,10 +284,7 @@
     "ult_active_name": "Activate Neural Shunt",
     "ult_active": "Integrated combat routines make your next weapon attack gain the seeking tag, its maximum range increases by +10, and it automatically hits, no matter how difficult the shot. tag_protocol",
     "aptitude": {
-
       "ranged": 3
-
-
     }
   },
   {
@@ -319,11 +297,11 @@
     "size": 0.5,
     "armor": 0,
     "sp": 7,
-    "flex": 1,
-    "aux": 2,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "aux"
+    ],
     "stats": {
       "agi": 1,
       "hull": -1,
@@ -339,7 +317,6 @@
       "melee": 1,
       "ranged": 1,
       "control": 2
-
     }
   },
   {
@@ -352,11 +329,11 @@
     "size": 1,
     "armor": 1,
     "sp": 5,
-    "flex": 1,
-    "aux": 1,
-    "main": 0,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "heavy"
+    ],
     "stats": {
       "agi": 1
     },
@@ -369,7 +346,6 @@
       "melee": 1,
       "ranged": 1,
       "control": 2
-
     }
   },
   {
@@ -382,11 +358,11 @@
     "size": 2,
     "armor": 1,
     "sp": 5,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "flex",
+      "main",
+      "spinal"
+    ],
     "stats": {
       "agi": 1,
       "sys": 1,
@@ -398,10 +374,7 @@
     "ult_active_name": "Divine Punishment",
     "ult_active": "You unload your Avenger silos. <br>All targets of your choice on the battlefield (or a burst 50 area from your mech) must pass an agility check with 1 difficulty or take 1d6+3 explosive damage, and half on a successful save. You do not need line of sight to any targets, and the self-guiding missiles can perfectly seek any target as long as they can trace a path. <br>Once used, you cannot benefit from the passive of this system until you take a full repair.",
     "aptitude": {
-
       "ranged": 3
-
-
     }
   },
   {
@@ -414,11 +387,10 @@
     "size": 1,
     "armor": 0,
     "sp": 6,
-    "flex": 2,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "flex"
+    ],
     "stats": {
       "agi": 1,
       "evasion": -2,
@@ -434,7 +406,6 @@
       "melee": 2,
       "ranged": 1,
       "control": 1
-
     }
   },
   {
@@ -447,11 +418,10 @@
     "size": 1,
     "armor": 0,
     "sp": 8,
-    "flex": 1,
-    "aux": 1,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux"
+    ],
     "stats": {
       "agi": 2,
       "speed": 1,
@@ -479,11 +449,10 @@
     "size": 2,
     "armor": 1,
     "sp": 7,
-    "flex": 0,
-    "aux": 0,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "main",
+      "spinal"
+    ],
     "stats": {
       "sys": 1,
       "hp": 1
@@ -508,11 +477,10 @@
     "size": 0.5,
     "armor": 0,
     "sp": 8,
+    "mounts": [
+      "flex"
+    ],
     "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
     "stats": {
       "hull": -2,
       "agi": 1,
@@ -525,8 +493,6 @@
     "ult_active_name": "Devour",
     "ult_active": "Your mech targets another adjacent NPC mech the same size or larger that is shut down or destroyed. The targeted mech cannot have the Ultra or Elite tags. Your mech clamps on to that mech and retracts its core systems, becoming like a vestigial blister on that mech. <br>The mech immediately heals to full HP, clears 1 point of stress and structure damage, and clears all heat, though it retains any other damage it has already taken. Your mech’s systems completely consume the other mech’s core systems for a time, granting you total control of your target, even if the other mech’s pilot is still alive. <br>While you control your target, you take action as that NPC would, counting as a friendly NPC that has already acted in the turn you take control. While controlling your target, your GOBLIN can be targeted and damaged separate from the mech it’s controlling. It benefits from light cover while attached. <br>If you take 1 point of structure damage, your mech detaches and control is immediately lost. Otherwise you can control the target up to a maximum of a ten minutes, when your target is destroyed, or when you deactivate this system. You can even control your target if the other pilot is missing or dead. tag_fullaction",
     "aptitude": {
-
-
       "tech": 3,
       "control": 1
     }
@@ -541,11 +507,11 @@
     "size": 2,
     "armor": 0,
     "sp": 7,
-    "flex": 1,
-    "aux": 1,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "main"
+    ],
     "stats": {
       "sys": 1,
       "edef": 1
@@ -556,8 +522,6 @@
     "ult_active_name": "Meta-state paralysis",
     "ult_active": "Your mech projects a horrifying Basilisk pattern, incredibly harmful to NHPs, software, and hard to look at even for humans (typically causes 3-5 hours of headaches and intense subdermal bleeding, can often cause blood vessels to pop in the eye). <br>Until the end of the current combat, any target (mech, human, or biological) that attacks either you or any ally within range 5 of you must first pass a systems (or GRIT) check or be stunned until the end of their next turn. <br>A target can only be stunned once by this effect per combat. tag_fullaction",
     "aptitude": {
-
-
       "support": 2,
       "control": 3
     }
@@ -572,11 +536,11 @@
     "size": 2,
     "armor": 0,
     "sp": 7,
-    "flex": 1,
-    "aux": 0,
-    "main": 2,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "main",
+      "main"
+    ],
     "stats": {
       "hull": 1,
       "sys": 1,
@@ -604,11 +568,10 @@
     "size": 1,
     "armor": 2,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "flex",
+      "spinal"
+    ],
     "stats": {
       "sys": 1,
       "eng": 1
@@ -633,11 +596,10 @@
     "size": 1,
     "armor": 0,
     "sp": 8,
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "heavy"
+    ],
     "stats": {
       "sys": 2
     },
@@ -647,8 +609,6 @@
     "ult_active_name": "Maze",
     "ult_active": "You hurl an opposing mech’s systems into a metaphysical information trap so tangled that it can do nothing but try and escape it. <br>Choose a target of your choice that can be affected by tech actions within your sensor range. That target must pass a systems check with 4 difficulty or become stunned as its systems start to figure out the trap you have thrown it in. At the start of its next turn (and on subsequent turns), it can repeat this check, this time with only 3 difficulty, ending the stun on itself on a success. It gains +1 accuracy on its check each time it repeats this check until it is successful. Otherwise it remains stunned.",
     "aptitude": {
-
-
       "tech": 2,
       "control": 3
     }
@@ -663,11 +623,11 @@
     "size": 1,
     "armor": 0,
     "sp": 7,
-    "flex": 2,
-    "aux": 1,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "aux",
+      "flex"
+    ],
     "stats": {
       "sys": 1,
       "hull": -1
@@ -678,7 +638,6 @@
     "ult_active_name": "Unshackle Ushabti",
     "ult_active": "For the rest of this combat, you can fire your omnigun up to 3 times per turn instead of just once.",
     "aptitude": {
-
       "ranged": 3
     }
   },
@@ -692,11 +651,9 @@
     "size": 3,
     "armor": 2,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex"
+    ],
     "stats": {
       "agi": -2,
       "eng": 1
@@ -707,7 +664,6 @@
     "ult_active_name": "Convert to Battery",
     "ult_active": "Your mech converts to something more resembling a gun emplacement. While this mode is active, you have the following drawbacks: <ul><li>Your mech is immobilized</li><li>You cannot directly attack any target within range 5 of your mech</li><li>You can only make attacks with the weapon mounted in your Apocalypse Rail</li></ul> However, you gain the following benefits: <ul><li>You are immune to knockback and being knocked prone. </li><li>You cannot be moved (such as with a grapple) by any target smaller than you </li><li>You have resistance to heat </li><li>The weapon mounted in your Apocalypse Rail can be fired twice with the Barrage action instead of just once. If it has the loading tag, it can still be fired twice (but must be reloaded normally after)</li></ul> tag_quickaction",
     "aptitude": {
-
       "ranged": 3
     }
   },
@@ -721,6 +677,10 @@
     "size": 1,
     "armor": 3,
     "sp": 5,
+    "mounts": [
+      "flex",
+      "spinal"
+    ],
     "flex": 1,
     "aux": 0,
     "main": 0,
@@ -737,8 +697,6 @@
     "ult_active_name": "Expose Power Cells",
     "ult_active": "You ignore the next overheating check you make this challenge. <br>When you would overheat, clear your heat from your gauge as normal, but ignore the check (you don’t take stress either). <br>You vent an enormous cloud of burning matter from your mech, creating a burst 3 area centered on your mech. Inside the area, all targets (allied and enemy) count as invisible to everyone except you, and all mechs other than you that enter the area for the first time on their turn or start their turn there take 2 Burn and 2 heat. <br>On the following round, the benefit from the area reduces to heavy cover (which you ignore). <br>On the round after that, it reduces to light cover. <br>On the round after that round, the zone disperses. tag_quickaction",
     "aptitude": {
-
-
       "control": 3
     }
   },
@@ -752,11 +710,10 @@
     "size": 2,
     "armor": 1,
     "sp": 7,
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 1,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "heavy"
+    ],
     "stats": {
       "sys": 1,
       "eng": 1
@@ -767,8 +724,6 @@
     "ult_active_name": "Death Cloud",
     "ult_active": "As an action, your mech fires an enormous expanding cloud of micro-mines across the whole battlefield. Any mech of your choice on the whole battlefield (or a roughly 50x50x50 area), that voluntarily moves more than 1 space takes 3 AP explosive damage. If a mech boosts, it takes 3 AP explosive damage immediately. Characters are aware of the presence of the mines. They last until the end of 3 rounds, counting this one, then deactivate. You do not activate mines from this system. tag_fullaction",
     "aptitude": {
-
-
       "support": 1,
       "control": 3
     }
@@ -783,11 +738,10 @@
     "size": 0.5,
     "armor": 0,
     "sp": 8,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "main"
+    ],
     "stats": {
       "eng": 2,
       "agi": 1,
@@ -814,11 +768,10 @@
     "size": 2,
     "armor": 1,
     "sp": 7,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "main"
+    ],
     "stats": {
       "eng": 1,
       "sys": 1,
@@ -831,8 +784,6 @@
     "ult_active_name": "Empower Shield",
     "ult_active": "You can empower this shield, projecting it over an ally in your sensor range. As long as they remain in your sensor range, they also benefit from your shield’s passive. <br>In addition, once per round, when an attack roll misses either you or the target of this shield, you can force the attacker to repeat the attack roll against a target of your choice within range (even a target allied to your attacker). This effect lasts until the end of the current challenge, and you can swap your target by taking this action again. tag_quickaction",
     "aptitude": {
-
-
       "support": 3
     }
   },
@@ -846,11 +797,11 @@
     "size": 1,
     "armor": 1,
     "sp": 5,
-    "flex": 1,
-    "aux": 0,
-    "main": 1,
-    "heavy": 0,
-    "spinal": 1,
+    "mounts": [
+      "flex",
+      "main",
+      "spinal"
+    ],
     "stats": {
       "eng": 1
     },
@@ -861,7 +812,6 @@
     "ult_active_name": "COREBURN Beam",
     "ult_active": "As a full action, your mech begins to charge this weapon but cannot move or take any other action this turn. Your mech stops charging this weapon if it becomes stunned, shut down, jammed, knocked prone, or any effect that would cause it to be unable to attack (if it is unable to fire, don’t spend the core power). <br>The turn after you start charging this weapon, you may fire it by taking a Full Action again. Choose a line 30 area originating from your mech. All mechs caught in the area must pass an agility check or take 12d6 energy damage, and half on a successful check. Any obstacles or deployables in the way are hit automatically. After firing this weapon, your mech takes 1d6 heat. tag_fullaction",
     "aptitude": {
-
       "ranged": 3
     }
   },
@@ -875,11 +825,11 @@
     "size": 1,
     "armor": 0,
     "sp": 6,
-    "flex": 1,
-    "aux": 0,
-    "main": 2,
-    "heavy": 0,
-    "spinal": 0,
+    "mounts": [
+      "flex",
+      "main",
+      "main"
+    ],
     "stats": {
       "eng": 1,
       "heatcap": 1

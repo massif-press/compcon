@@ -74,8 +74,19 @@ hr {
   color: var(--text);
 }
 
-#about-btn {
+#about-btn, #catalog-btn {
   float: right;
+  margin: 8px;
+  margin-bottom: 0px;
+}
+
+#catalog-btn {
+  font-size: 15px;
+  background: var(--bg-alt);
+}
+
+#catalog-btn:hover {
+  color: var(--text);
 }
 
 .column-header {
@@ -389,11 +400,6 @@ blockquote {
 .gear-table td {
   text-align: center;
   font-weight: bold;
-}
-
-#about-btn {
-  margin: 8px;
-  margin-bottom: 0px;
 }
 
 .external-link {
