@@ -1,195 +1,195 @@
 [{
-    "id": "tag_blast",
+    "id": "blast",
     "name": "Blast (X)",
     "description": "This weapon or system affects an area with radius of X from a target point within line of sight and the specified range. Trace cover and line of sight from its origin point. Make separate attack rolls for each target caught in the area."
   },
   {
-    "id": "tag_burst",
+    "id": "burst",
     "name": "Burst (X)",
     "description": "This weapon or system affects an area of up to X spaces around the target making the action or attack, including the target. Trace cover from its origin point. Make separate attack rolls for each target caught in the area."
   },
   {
-    "id": "tag_cone",
+    "id": "cone",
     "name": "Cone (X)",
     "description": "This weapon or system affects a cone X squares wide at its longest end, and X squares long, with its short end adjacent to the attacker. Ignores cover. Make separate attack rolls for each target caught in the area."
   },
   {
-    "id": "tag_line",
+    "id": "line",
     "name": "Line (X)",
     "description": "This weapon or system affects a straight line X squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
   },
   {
-    "id": "tag_ap",
+    "id": "ap",
     "name": "Armor Piercing (AP)",
     "description": "The damage from this weapon ignores armor."
   },
   {
-    "id": "tag_accurate",
+    "id": "accurate",
     "name": "Accurate",
     "description": "This weapon attacks with +1 Accuracy."
   },
   {
-    "id": "tag_arcing",
+    "id": "arcing",
     "name": "Arcing",
     "description": "This weapon ignores line of sight as long as it can trace a path to its target. Arcing weapons typically lob projectiles in an arc."
   },
   {
-    "id": "tag_burn",
+    "id": "burn",
     "name": "Burn X",
     "description": "On hit, this weapon applies X burn to a target, stacking with any other source of burn. A target takes energy damage equal to their current burn the start of each of its turns, ignoring armor but taking resistance into account as normal. An affected target can pass an engineering skill check at the end of its turn to clear all burn on it, otherwise this effect persists."
   },
   {
-    "id": "tag_heatother",
+    "id": "heatother",
     "name": "Heat X (target)",
     "description": "this weapon or system deals an additional X Heat on hit to its target."
   },
   {
-    "id": "tag_heatself",
+    "id": "heatself",
     "name": "Heat X (self)",
     "description": "this weapon or system deals X Heat to its user, applied immediately upon activation"
   },
   {
-    "id": "tag_inaccurate",
+    "id": "inaccurate",
     "name": "Inaccurate",
     "description": "This weapon attacks with +1 Difficulty."
   },
   {
-    "id": "tag_loading",
+    "id": "loading",
     "name": "Loading",
     "description": "This weapon weapon must be reloaded before being used again. Weapons can be reloaded by the Stabilize action or certain systems."
   },
   {
-    "id": "tag_reliable",
+    "id": "reliable",
     "name": "Reliable X",
     "description": "This weapon always does X damage, even if it misses its target or rolls lower damage. It has some degree or self-correction or is simply powerful enough that even a glancing blow will cause damage."
   },
   {
-    "id": "tag_unreliable",
+    "id": "unreliable",
     "name": "Unreliable",
-    "description": "When attacking with this weapon, roll a d6 before you make your attack roll. If it comes up as a ‘1’, the weapon jams immediately. Lose the attack, and it cannot be used until the start of your next turn."
+    "description": "When attacking with this weapon, roll a d6 before you make your attack roll. If it comes up as a ‘1’, the weapon jams immediately. Lose the attack, and it cannot be used until the start of your neXt turn."
   },
   {
-    "id": "tag_ordnance",
+    "id": "ordnance",
     "name": "Ordnance",
     "description": "Ordnance weapons must be fired before taking any other action or movement on a turn (you can still act and move normally afterwards). In addition, ordnance weapons are too cumbersome to be used against targets in engagement with your mech, and cannot be used for overwatch."
   },
   {
-    "id": "tag_seeking",
+    "id": "seeking",
     "name": "Seeking",
     "description": "This weapon totally ignores cover and line of sight as long as it can draw a path to its target. Seeking weapons are typically self guided and propelled, and can move through complicated paths to their targets."
   },
   {
-    "id": "tag_smart",
+    "id": "smart",
     "name": "Smart",
     "description": "Smart weapons have some degree of self-guiding systems, self-propelled projectiles, or even nanorobotic ammunition. They must typically be scrambled or jammed rather than avoided. Smart weapons attack e-defense instead of evasion, even when making a melee or ranged attack. If a target has no listed e-defense, they count e-defense as 8."
   },
   {
-    "id": "tag_threat",
+    "id": "threat",
     "name": "Threat X",
     "description": "This weapon can be used to make overwatch attacks at range X. A melee weapon’s range is its threat."
   },
   {
-    "id": "tag_thrown",
+    "id": "thrown",
     "name": "Thrown X",
     "description": "This melee weapon can be thrown up to range X. A thrown melee weapon makes an attack against a target as if it was a ranged attack (it takes cover and line of sight into account as normal) and disarms you of that weapon. A thrown melee weapon can be retrieved as a free action by moving adjacent to it."
   },
   {
-    "id": "tag_ammo",
+    "id": "ammo",
     "name": "Ammo",
     "description": "Indicates a special damage type. Only one can be used per weapon at a time and can be swapped as an interaction."
   },
   {
-    "id": "tag_dangerzone",
+    "id": "dangerzone",
     "name": "Danger Zone",
     "description": "This system, talent, or weapon only activates when your mech has 1/2 or more of its heat gauge filled in"
   },
   {
-    "id": "tag_deployable",
+    "id": "deployable",
     "name": "Deployable",
     "description": "This system can be deployed in a free adjacent space as a quick action, unless otherwise noted. It has 10 hp/size and evasion 5."
   },
   {
-    "id": "tag_drone",
+    "id": "drone",
     "name": "Drone",
     "description": "Indicates a self-propelled system with rudimentary intelligence. Some drone systems are mech systems that must be activated, others are deployable. Deployable drones, unless otherwise noted, are size ½ and have evasion 10, 10 HP, and 0 armor, and can benefit from cover and other defenses. They roll all mech skill checks with +0. If they are destroyed (when they reach 0 HP), they must be repaired (like any other system) before they can be used again, but are restored to full hp when you rest or full repair"
   },
   {
-    "id": "tag_grenade",
+    "id": "grenade",
     "name": "Grenade",
-    "description": "This explosive or other device can be thrown at a point in range and line of sight as a quick action"
+    "description": "This eXplosive or other device can be thrown at a point in range and line of sight as a quick action"
   },
   {
-    "id": "tag_limited",
+    "id": "limited",
     "name": "Limited (X)",
     "description": "This weapon or system can only be used X times before a full repair"
   },
   {
-    "id": "tag_mine",
+    "id": "mine",
     "name": "Mine",
-    "description": "Indicates an explosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine explodes normally)."
+    "description": "Indicates an eXplosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine eXplodes normally)."
   },
   {
-    "id": "tag_mod",
+    "id": "mod",
     "name": "Mod",
     "description": "Indicates a weapon mod. Only one can be taken per weapon."
   },
   {
-    "id": "tag_modded",
+    "id": "modded",
     "name": "Modded",
     "description": "This weapon has been equipped with a weapon mod."
   },
   {
-    "id": "tag_protocol",
+    "id": "protocol",
     "name": "Protocol",
     "description": "This system can be activated as a Free Action at the start of your turn. Deactivating it might take a different action"
   },
   {
-    "id": "tag_reaction",
+    "id": "reaction",
     "name": "Reaction",
     "description": "This system can be used as a reaction"
   },
   {
-    "id": "tag_resistance",
+    "id": "resistance",
     "name": "Resistance",
     "description": "Reduce all damage from a source you have resistance to by half"
   },
   {
-    "id": "tag_shield",
+    "id": "shield",
     "name": "Shield",
     "description": "Indicates the system is an energy shield of some kind"
   },
   {
-    "id": "tag_unique",
+    "id": "unique",
     "name": "Unique",
     "description": "indicates that a weapon or system cannot be duplicated. You can only install it once per mech."
   },
   {
-    "id": "tag_quickaction",
+    "id": "quickaction",
     "name": "Quick Action",
     "description": "This system can be activated as a Quick Action"
   },
   {
-    "id": "tag_ai",
+    "id": "ai",
     "name": "AI",
     "description": "Your mech gains the AI property. You may cede control of your mech to the AI at the start of your turn. You can only ever install one system with the AI tag unless you have a talent, feature, or piece of gear that says otherwise."
   },
   {
-    "id": "tag_fullaction",
+    "id": "fullaction",
     "name": "Full Action",
     "description": "This system can be activated as a Full Action"
   },
   {
-    "id": "tag_quicktech",
+    "id": "quicktech",
     "name": "Quick Tech",
     "description": "This tech can be used as a Quick Tech Action"
   },
   {
-    "id": "tag_fulltech",
+    "id": "fulltech",
     "name": "Full Tech",
     "description": "This tech can be used as a Full Tech Action"
   },
   {
-    "id": "tag_range",
+    "id": "range",
     "name": "Range (X)",
     "description": "This system can be activated at a range of X spaces."
   }

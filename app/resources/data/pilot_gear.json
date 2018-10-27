@@ -1,10 +1,10 @@
 {
   "weapons": [{
-      "id": "pw_alloy_light",
+      "id": "alloy_light",
       "type": "weapon",
       "name": "Light Alloy/Composite Weapon",
       "tags": [{
-        "id": "tag_accurate"
+        "id": "accurate"
       }],
       "range": "Threat",
       "damage": "1 Kinetic",
@@ -14,7 +14,7 @@
       "description": ""
     },
     {
-      "id": "pw_alloy_combat",
+      "id": "alloy_combat",
       "type": "weapon",
       "name": "Combat Alloy/Composite Weapon",
       "tags": [],
@@ -26,11 +26,11 @@
       "description": ""
     },
     {
-      "id": "pw_alloy_heavy",
+      "id": "alloy_heavy",
       "type": "weapon",
       "name": "Heavy Alloy/Composite Weapon",
       "tags": [{
-        "id": "tag_inaccurate"
+        "id": "inaccurate"
       }],
       "range": "Threat",
       "damage": "4 Kinetic",
@@ -40,11 +40,11 @@
       "description": ""
     },
     {
-      "id": "pw_prim_melee",
+      "id": "prim_melee",
       "type": "weapon",
       "name": "Primitive Melee Weapon",
       "tags": [{
-        "id": "tag_unreliable"
+        "id": "unreliable"
       }],
       "range": "Threat",
       "damage": "1 Kinetic",
@@ -54,11 +54,11 @@
       "description": ""
     },
     {
-      "id": "pw_prim_ranged",
+      "id": "prim_ranged",
       "type": "weapon",
       "name": "Primitive Ranged Weapon",
       "tags": [{
-        "id": "tag_unreliable"
+        "id": "unreliable"
       }],
       "range": 5,
       "damage": "1 Kinetic",
@@ -68,7 +68,7 @@
       "description": ""
     },
     {
-      "id": "pw_sig_sidearm",
+      "id": "sig_sidearm",
       "type": "weapon",
       "name": "Signature Sidearm",
       "tags": [],
@@ -80,7 +80,7 @@
       "description": ""
     },
     {
-      "id": "pw_sig_combat",
+      "id": "sig_combat",
       "type": "weapon",
       "name": "Signature Combat Weapon",
       "tags": [],
@@ -92,14 +92,14 @@
       "description": ""
     },
     {
-      "id": "pw_sig_heavy",
+      "id": "sig_heavy",
       "type": "weapon",
       "name": "Signature Heavy Weapon",
       "tags": [{
-          "id": "tag_ordnance"
+          "id": "ordnance"
         },
         {
-          "id": "tag_limited",
+          "id": "limited",
           "val": 3
         }
       ],
@@ -111,11 +111,11 @@
       "description": ""
     },
     {
-      "id": "pw_atlatl",
+      "id": "atlatl",
       "type": "weapon",
       "name": "Atlatl",
       "tags": [{
-        "id": "tag_seeking"
+        "id": "seeking"
       }],
       "range": "Threat (Thrown 5)",
       "damage": "1 Explosive",
@@ -125,11 +125,11 @@
       "description": "Developed following the suppression of anti-Armory elements in the initial wave of recolonization in the Dawline Shore, the Atlatl is a neo-primitivist weapon indigenous to New Madrassa, a voluntary Arcadian world set in a blended Neo-Bronze/Information Age idyll."
     },
     {
-      "id": "pw_hardlight",
+      "id": "hardlight",
       "type": "weapon",
       "name": "Hardlight Weapon",
       "tags": [{
-        "id": "tag_burn",
+        "id": "burn",
         "val": 1
       }],
       "range": "Threat",
@@ -140,11 +140,11 @@
       "description": "One of a limited supply scavenged from Boundary Garden, this hardlight blade has been patched by independent Ecumenical contractors to a serviceable, minimum-milspec functionality. These are exotic weapons, and their wielders must be coached in their use by trained handlers."
     },
     {
-      "id": "pw_kottos",
+      "id": "kottos",
       "type": "weapon",
       "name": "KOTTOS AA/Largearm Rifle",
       "tags": [{
-        "id": "tag_ordnance"
+        "id": "ordnance"
       }],
       "range": 8,
       "damage": "1d3 Kinetic",
@@ -154,15 +154,15 @@
       "description": "Harrison Armory’s KOTTOS distance-denial anti-armor system was ordered following repeated instances of HAAT legionnaires encountering hostile local chassis armed with sufficient anti-Kinetic/ablative armor; KOTTOS, developed in conjunction with GMS’s Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable Kinetic anti-armor Kinetics."
     },
     {
-      "id": "pw_microcore",
+      "id": "microcore",
       "type": "weapon",
       "name": "MicroCore Laser Rifle",
       "tags": [{
-          "id": "tag_burn",
+          "id": "burn",
           "val": 2
         },
         {
-          "id": "tag_loading"
+          "id": "loading"
         }
       ],
       "range": 5,
@@ -173,7 +173,7 @@
       "description": "A Think-Tank product, the MicroCore is a miniaturized, infantry-portable version of the popular SolidCore laser cannon mounted atop HA’s Sherman Chassis. The MicroCore has been tuned to not require windup on firing, but as a result must be “reloaded” after each shot with a new power core."
     },
     {
-      "id": "pw_nanowhip",
+      "id": "nanowhip",
       "type": "weapon",
       "name": "Nanobot Whip",
       "tags": [],
@@ -185,7 +185,7 @@
       "description": "The first instance of a technology akin to what is now called a nanobot whip was encountered during a raid on an Ungrateful cell by Barony lawmen. With word secreted to them by informants seeded in the movement, lawmen descended on a cell hidden in the wildcat stations lashed around the House of Dust. Blasting open the doors, they encountered Ungratefuls wreathed in clouds of charcoal smoke; the Ungratefuls used these clouds, shaping them into thin whips that cut through armor and flesh like it was nothing. After the cell was wiped out and the control nodules cut from their bodies, Barony codemasters were able to crack and replicate -- safely -- the HORUS code."
     },
     {
-      "id": "pw_nullspike",
+      "id": "nullspike",
       "type": "weapon",
       "name": "Null Spike",
       "tags": [],
@@ -197,11 +197,11 @@
       "description": "A HORUS-developed ecstatic/exult device, the generic null spike is an effective, single-fire, non-lethal weapon that simulates a cascade-analogue in organics through specific neuron excitement. Upon skin contact, they deliver a bio-electric shock to a victim’s brain that causes them to feel overwhelming pleasure, completely disabling them. Null Spikes, it is said, are used by HORUS adherents in realspace to bring themselves closer to RA’s subjectivity."
     },
     {
-      "id": "pw_smartknife",
+      "id": "smartknife",
       "type": "weapon",
       "name": "Smart Knife",
       "tags": [{
-        "id": "tag_accurate"
+        "id": "accurate"
       }],
       "range": "Threat",
       "damage": "1 Kinetic",
@@ -211,15 +211,15 @@
       "description": "A “Smart” knife is the combination of a HORUS-tuned external-mount processor and any mundane charged blade. Piggybacking off the current coursing through the charged blade, the HORUS mount can be loaded with null or fry-code, making this blade a threat not only to organic targets, but to synthetic ones as well. Particular models have an adjustable subliminal suggestion corrective, which guides its user’s hand to identified weaknesses in their target’s hardsuit, armor, or effect plating."
     },
     {
-      "id": "pw_eyestack",
+      "id": "eyestack",
       "type": "weapon",
       "name": "EYESTACK_WINK",
       "tags": [{
-          "id": "tag_limited",
+          "id": "limited",
           "val": 1
         },
         {
-          "id": "tag_ap"
+          "id": "ap"
         }
       ],
       "range": 2,
@@ -230,14 +230,14 @@
       "description": "Also known as a ‘Skullgun’, this miniaturized, superposed charge weapon is implanted in the head, generally in the orbital void left by a removed or missing eye. It is completely undetectable by almost any electronic system or security and can be fired with sub-vocal commands."
     },
     {
-      "id": "pw_gourd",
+      "id": "gourd",
       "type": "weapon",
       "name": "PGR_GOURD",
       "tags": [{
-          "id": "tag_smart"
+          "id": "smart"
         },
         {
-          "id": "tag_seeking"
+          "id": "seeking"
         }
       ],
       "range": 5,
@@ -248,11 +248,11 @@
       "description": "The PGR_GOURD pattern portable hive killed the first people who printed it. Fabricated in secret by a desperate cell of Ungrateful in the undercity of Dune Redoubt, a team of Barony Authority officers first encountered the aftermath of a PGR_GOURD burnout; an organic smear, ringed around the printer that crafted the gourd. Subsequent encounters of the PGR_GOURD system saw it used as a remote-detonated device until the BA was able to find and edit the plan into a more controllable, less deadly format. Since then, the House of Sand controls the distribution of any PGR_GOURD system; however, there are unconfirmed reports of the unedited version of the GOURD available on the omninet."
     },
     {
-      "id": "pw_sidekick",
+      "id": "sidekick",
       "type": "weapon",
       "name": "Sidekick",
       "tags": [{
-        "id": "tag_reliable",
+        "id": "reliable",
         "val": 1
       }],
       "range": 3,
@@ -263,15 +263,15 @@
       "description": "Typically affixed to a back-mounted, over-the-shoulder armature, the SIDEKICK is an eyelinked subcompact/caseless machine gun developed by a collective of unknown, potentially HORUS-aligned scripters. Paired with a C/C Wingman unit, the SIDEKICK will always watch your back; its placement, commonly perched over its operator’s shoulder, has earned it the common nickname of “Parrotgun”."
     },
     {
-      "id": "pw_hackiron",
+      "id": "hackiron",
       "type": "weapon",
       "name": "Hackiron",
       "tags": [{
-          "id": "tag_reliable",
+          "id": "reliable",
           "val": 1
         },
         {
-          "id": "tag_inaccurate"
+          "id": "inaccurate"
         }
       ],
       "range": "Threat",
@@ -282,7 +282,7 @@
       "description": "This blade uses an ultra-dense carbon polymer to magnify the brute strength from hard suits to crude but brutal effect. Made popular by security forces and pirates both, the hackiron-type saw sword was put into heavy use in early micro/null gravity melee combat where mass is not always a necessary consideration, gravity can fluctuate, and it is likely that any combat will be powered combat."
     },
     {
-      "id": "pw_ripjack",
+      "id": "ripjack",
       "type": "weapon",
       "name": "Ripjack",
       "tags": [],
@@ -294,14 +294,14 @@
       "description": "Aneffect standardized utility weapon born from early micro/null-grav combat, ripjacks are employed both as a last-result method of locomotion and a distance-closing utility weapon. Offered both as a handheld launcher and an integrated hardsuit system, the ripjacks are fired using gaussian acceleration to create as light a Newtonian feedback as possible when used in null-grav."
     },
     {
-      "id": "pw_siegehammer",
+      "id": "siegehammer",
       "type": "weapon",
       "name": "Siege Hammer",
       "tags": [{
-          "id": "tag_loading"
+          "id": "loading"
         },
         {
-          "id": "tag_ap"
+          "id": "ap"
         }
       ],
       "range": "Threat",
@@ -312,11 +312,11 @@
       "description": "When faced with sealed bulkheads in O2 rich environments, boarding teams needed a way to tear down doors without potentially catastrophic explosions -- enter the siege hammer, or Nutcracker, as it became known to forces that employed it. Requiring two hands to wield effectively, and held like a battering ram, it cocks and primes a superheated cylinder of ultra-hard alloy that fires on activation to punch through even the thickest armor."
     },
     {
-      "id": "pw_peacekeeper",
+      "id": "peacekeeper",
       "type": "weapon",
       "name": "“Peacekeeper” R35",
       "tags": [{
-        "id": "tag_limited",
+        "id": "limited",
         "val": 6
       }],
       "range": 3,
@@ -327,11 +327,11 @@
       "description": "IPS-N’s Peacekeeper model R35 is a popular option from their ARGONAUT line of luxury/collector goods. Handcrafted by IPS-N gunsmith artisans, the Peacekeeper model R35 is fashioned after ancient pre- collapse frontier weaponry: functional, reliable, and simple in its action, the P-R35 hides its expertly crafted interior elements under its simple matte finish. It is a statement weapon, functional, that can be chambered for heavy slugs, self-propelled microrockets, or single-core hotshots."
     },
     {
-      "id": "pw_prismgun",
+      "id": "prismgun",
       "type": "weapon",
       "name": "Prism Gun",
       "tags": [{
-        "id": "tag_inaccurate"
+        "id": "inaccurate"
       }],
       "range": "Cone 3",
       "damage": "2 Energy",
@@ -341,11 +341,11 @@
       "description": "A common secondary weapon found among stellar security forces and pirates, a prism gun is a shotgun analog, a blend between the Kinetic and the exotic that projects a superheated blast of synthetic-crystalline nanoflechettes when fired. Ineffective against hardened targets, it is nevertheless a popular choice as a finishing option should a hardened targets external armor be breached; when fired into compartments, between armor joints, or into confined spaces with soft targets, the prism gun is a terribly deadly weapon."
     },
     {
-      "id": "pw_arcblade",
+      "id": "arcblade",
       "type": "weapon",
       "name": "Arc Blade",
       "tags": [{
-        "id": "tag_reliable",
+        "id": "reliable",
         "val": 1
       }],
       "range": "Threat",
@@ -356,14 +356,14 @@
       "description": "This master-forged sword is threaded with fine filaments and powered either by a slim battery in its handle, or a long cable with a universal power adaptor that can be attached to any standardized power pack. A sturdy, light weapon, the charged filaments can be triggered by the sword’s user or by proximity to lash their enemies with an electric arc even if they do not connect."
     },
     {
-      "id": "pw_varsword",
+      "id": "varsword",
       "type": "weapon",
       "name": "Variable Sword",
       "tags": [{
-          "id": "tag_ap"
+          "id": "ap"
         },
         {
-          "id": "tag_limited",
+          "id": "limited",
           "val": 6
         }
       ],
@@ -375,17 +375,17 @@
       "description": "This pilot-scale variant of the popular SSC weapon is a field-sheathed length of mono-molecular wire completely invisible to the naked eye. Only the handle and the tip guide are visible. Coiled while not in use, the wire itself can be extended up to 20 feet from the handle, creating an incredibly light and extremely deadly weapon that cuts through nearly anything. Due to immense power usage, this weapon can only be unsheathed for a short period."
     },
     {
-      "id": "pw_coldcore",
+      "id": "coldcore",
       "type": "weapon",
       "name": "Coldcore Sabot AA Rifle",
       "tags": [{
-          "id": "tag_accurate"
+          "id": "accurate"
         },
         {
-          "id": "tag_loading"
+          "id": "loading"
         },
         {
-          "id": "tag_ordnance"
+          "id": "ordnance"
         }
       ],
       "range": 15,
@@ -396,7 +396,7 @@
       "description": "This heavy anti-armor rifle is recognisable by its long, minimalist construction and classic Smith-Shimano matte-black colorway. A COLDCORE sabot anti-armor rifle is a consumable-sabot Energy weapon that uses depleted demi-coldcore units to create a superheated, precise, directed blast of plasma on its user’s target. After firing, it must be reloaded; COLDCORE Sabot-AA rifles can be breech-fed, box-fed, or belt- fed, depending on their receiver."
     },
     {
-      "id": "pw_implantedgun",
+      "id": "implantedgun",
       "type": "weapon",
       "name": "Implanted Gun",
       "tags": [],
@@ -408,11 +408,11 @@
       "description": "This bespoke biological weapon, integrated with its user’s circulatory, respiratory, and nerve systems, can be fired by a triggering thought, association, movement, or memory. Commonly installed in the arm or hand, it is a quiet, small weapon, a gun in name only -- it launches a spasm-propelled, fin-stabilized needle from a keloidal canal grown to be inserted in the bearer’s arm. With a short effective range and untraceable profile, it is a popular choice for assassins."
     },
     {
-      "id": "pw_micropack",
+      "id": "micropack",
       "type": "weapon",
       "name": "Micropack Launcher",
       "tags": [{
-        "id": "tag_loading"
+        "id": "loading"
       }],
       "range": "5, Blast 1",
       "damage": "2 Explosive",
@@ -423,7 +423,7 @@
     }
   ],
   "armor": [{
-      "id": "pa_lighthardsuit",
+      "id": "lighthardsuit",
       "type": "armor",
       "name": "Light Hardsuit",
       "bonus": "",
@@ -436,7 +436,7 @@
       "description": "Light hard suits are usually made of reactive, cloth like weaves, with plating and powered components kept to a minimum to maximize mobility.Often, they resemble light body armor or military fatigues and they may or may not have a closed helm by default, depending on environmental expectations"
     },
     {
-      "id": "pa_hardsuit",
+      "id": "hardsuit",
       "type": "armor",
       "name": "Assault Hardsuit",
       "bonus": "",
@@ -449,7 +449,7 @@
       "description": "Standard hardsuits have heavier plating than light hardsuits, restricting movement but providing greater protection from damage&emsp;the heaviest versions will have vital plating comparable to mech armor.They are often environmentally sealed and powered, and typically have a faceplate, visor, or closed helm."
     },
     {
-      "id": "pa_stambha",
+      "id": "stambha",
       "type": "armor",
       "name": "STAMBHA Overarmor",
       "bonus": "Offers a short ranged protective shield.",
@@ -462,7 +462,7 @@
       "description": "Another combat-posture hardsuit, the STAMBHA employs a beefed-up buckler/flickershield system that protects its wearer from hostile fire. Resting somewhere between the Armory’s DJED and ASHOKA lines, the STAMBHA is a favorite of the officer class who are willing to trade mobility for protection."
     },
     {
-      "id": "pa_djed",
+      "id": "djed",
       "type": "armor",
       "name": "DJED Overarmor",
       "bonus": "Provides stasis instead of Down and Out once per full repair",
@@ -475,7 +475,7 @@
       "description": "The DJED Overarmor is a medium weight, combat-posture hardsuit designed to preserve its user in case of sudden traumatic/catastrophic injury. Favored by legionnaires on patrol-and-liaise missions, the DJED is an Armory favorite and the most commonly requisitioned hardsuit among HAAT personnel."
     },
     {
-      "id": "pa_ashoka",
+      "id": "ashoka",
       "type": "armor",
       "name": "ASHOKA Overarmor",
       "bonus": "Reduces heavy damage",
@@ -488,7 +488,7 @@
       "description": "The Ashoka Overarmor Hardsuit is favored by frontline HAAT legionnaires in hostile colonies. Large and heavily armored, the ASHOKA is built to appear imposing: when it is needed, soft power has failed, and the Armory does not discount the memetic power of an intimidating appearance."
     },
     {
-      "id": "pa_icepack",
+      "id": "icepack",
       "type": "armor",
       "name": "ICEPACK",
       "bonus": "Gain the ability to overcharge",
@@ -501,7 +501,7 @@
       "description": "A stabilized sliver of coldcore, the ICEPACK is a near-perpetual power system that allows for momentary overclocking of powered hardsuit components."
     },
     {
-      "id": "pa_buckler",
+      "id": "buckler",
       "type": "armor",
       "name": "Buckler",
       "bonus": "Provides protection in plain clothes",
@@ -514,7 +514,7 @@
       "description": "This personal energy shield fits snugly under clothing and is standard issue to protect the Armory’s colonial bureaucrats and collaborators while venturing outside of green zones."
     },
     {
-      "id": "pa_mam",
+      "id": "mam",
       "type": "armor",
       "name": "MINE/ALL/MINE",
       "bonus": "Able to hack mechs while jockeying",
@@ -527,7 +527,7 @@
       "description": "Here, take this &emsp; a code that writes itself, a sentence spiraling and spiraling. Take from it what you can (there is a gift hidden in the chaff, a needle you must burn the hay to find) there are evermore everalways more meanings and forms and shapes (so many! Ah! And to see all of them is to EXULT all of them!) and here is one for you: a coat to wear that will let you travel further/deeper/longer/ LETYOUTAKEWHATISYOURS.<br><br>Talk soon love."
     },
     {
-      "id": "pa_uv",
+      "id": "uv",
       "type": "armor",
       "name": "UNAVOIDABLE_ VOID",
       "bonus": "Completely undetectable by electronic systems",
@@ -540,7 +540,7 @@
       "description": "Following the opening of hostilities in the Boundary Garden sector, UIB agents in the Annamite Line began to note in their reports repeated instances of companion NHP “blindness” when engaging with anti-Union elements on New Mahangaatuamatua. Worryingly, this phenomena is analogous to anomalous entities described by Union elements engaged with Ascendant Chosen on Cornucopia; the similarity has lead UIB to conclude that HORUS has some as-yet-unidentified presence in Boundary Garden (another possibility: in Ascendant space) not only capable of transmitting data back from the embargoed area, but processing and manipulating as-yet-unworkable Ascendant technology."
     },
     {
-      "id": "pa_uentt",
+      "id": "uentt",
       "type": "armor",
       "name": "UNCLEAR_END/NTT",
       "bonus": "Limited action during unconsciousness/death",
@@ -553,7 +553,7 @@
       "description": "A relic-code predating HORUS’s official foundation date, UNCLEAR_END/NOT THIS TIME seems to be a dead branch of transhumanist exploration: thanatologic praxis. Utilizing a now-classically HORUS greywash nanite swarm, this system triggers on one of a number of user-defined parameters to “reanimate” the user’s body using a backup homunculus subjectivity. The readme urges users of this system to regularly purge and reset the failsafe homunculus."
     },
     {
-      "id": "pa_metafold",
+      "id": "metafold",
       "type": "armor",
       "name": "Metafold Processor",
       "bonus": "Bonus e-defense and ability to make invasion actions",
@@ -566,7 +566,7 @@
       "description": "How large is the vault of your mind? Where do you mark the boundaries of an interiority? When you dream, can you place a boundary on the imagined plane? Hold a vast image inside your mind’s eye &emsp; see? The universe can fit inside.<br>Take this. It can hold your mind, which can hold the universe, which holds all of us. Use it as you wish, but do not look inside."
     },
     {
-      "id": "pa_wac",
+      "id": "wac",
       "type": "armor",
       "name": "WILD_AND_CRAZY",
       "bonus": "Count adjacent spaces as your mech’s sensor range",
@@ -579,7 +579,7 @@
       "description": "A rather benign code &emsp; as HORUS decrypts go &emsp; WILD_AND_CRAZY(WITH ALL MY FRIENDS) is a simple program, one that neuters their greywash nanites, rendering them docile. It then uses their massed processing power and semi-autonomous atmospheric movement capabilities to channel systemic and sensor processes, effectively acting as a cloud-projector around its host."
     },
     {
-      "id": "pa_wayland",
+      "id": "wayland",
       "type": "armor",
       "name": "WAYLAND Mobile Cuirass",
       "bonus": "Increased Mobility",
@@ -592,7 +592,7 @@
       "description": "The WAYLAND-MC builds off of IPS-N’s DURENDAL platform, stripping some of the integrated weapons and systems and replacing them with a system of integrated grapples and an impulse pack, which allows for limited periods of thrust-assisted mobility."
     },
     {
-      "id": "pa_caladbolg",
+      "id": "caladbolg",
       "type": "armor",
       "name": "CALADBOLG Mobile Cuirass",
       "bonus": "+5 HP",
@@ -605,7 +605,7 @@
       "description": "The CALADBOLG-MC is a heavy tactical hardsuit, with plated armor coverings, an integrated powered exoskeleton, and hardpoints for systems, integrated weapons, external power sources, and high-fidelity chassis links; it is fully sealed, modular, and hardened from radiation and other HAZMAT threats. The CALADBOLG-MC boasts one of the highest survival rates of all hardsuits in the field and is known for its reliability and durability. No fancy tricks with this one, the CALADBOLG is heavy, simple, and does its job."
     },
     {
-      "id": "pa_durendal",
+      "id": "durendal",
       "type": "armor",
       "name": "DURENDAL Mobile Cuirass",
       "bonus": "Unarmed attack",
@@ -618,7 +618,7 @@
       "description": "IPS-N’s DURENDAL-MC hardsuit is a popular choice for frontline marines, security forces, and mercenaries who expect to see high-fragmentation, high-kinetic combat. Built on top of a base, sealed suit of mixed anti-ballistic weave and insulated cordage, the DURENDAL features sloped core and dorsal plating, leg and groin plating, brachial plating with mounts for integrated systems and weapons, compatibility with any IPS-N helm, and total powered-system integration. the DURENDAL is IPS-N’s signature frontline hardsuit, and through its modularity it is well-suited to space and terrestrial movement."
     },
     {
-      "id": "pa_goliath",
+      "id": "goliath",
       "type": "armor",
       "name": "Goliath Weave",
       "bonus": "Bonus HP, increased strength",
@@ -631,7 +631,7 @@
       "description": "Goliath Weave is an innovative new approach to the standard IPS-N exoskeleton. A product of IPS-N’s R&D campus on Vela, Goliath Weave is a woven, miniaturized, fiber-adjacent mesh augmentation that can be layered over extant structures in order to boost physical durability and strength."
     },
     {
-      "id": "pa_webbing",
+      "id": "webbing",
       "type": "armor",
       "name": "Combat Webbing",
       "bonus": "Bonus weapon/gear",
@@ -644,7 +644,7 @@
       "description": ""
     },
     {
-      "id": "pa_acherontia",
+      "id": "acherontia",
       "type": "armor",
       "name": "Acherontia Panoply",
       "bonus": "Extremely fast",
@@ -657,7 +657,7 @@
       "description": "Named for the fine colors of the spring swift migration on Triaara I, a plains-paradise world in the SSC Constellation, the Acherontia Panoply is a lightweight hardsuit with minimal paneling over a tailored half- brigandine. Visible armored paneling is kept to a minimum, and without its helm, it is hard to tell that a pilot is even armored."
     },
     {
-      "id": "pa_mythimna",
+      "id": "mythimna",
       "type": "armor",
       "name": "Mythimna Panoply",
       "bonus": "Invisibility",
@@ -670,7 +670,7 @@
       "description": "The Mythimna panoply is another light, minimalist design by SSC, built to support an anti-optic/photon platform that blends its user into any background environment."
     },
     {
-      "id": "pa_eloria",
+      "id": "eloria",
       "type": "armor",
       "name": "Eloria Panoply",
       "bonus": "Flight",
@@ -683,7 +683,7 @@
       "description": "The Eloria is the heavier cousin of the Acherontia, a plate-forward brigandine with reinforced panels and contrast-color ablative cuirass built for rapid aerodynamic/null gravity movement. The Eloria system employs a move/arrest system of impulse thrusters to ensure a pilot using the Eloria’s rapid-reposition capabilities always lands in the way they want."
     },
     {
-      "id": "pa_nerveweave",
+      "id": "nerveweave",
       "type": "armor",
       "name": "Nerveweave",
       "bonus": "Gain bonus speed and evasion",
@@ -696,7 +696,7 @@
       "description": "Nerveweave blends fibers of HORUS-derived, SSC-modified greywash nanites with fibrous Sylph silk into a smart fabric capable of augmenting its wearer’s movement. The predictive/kinetic capabilities of the greywash and semi-autonomous/symbiotic nature of the Sylph create an expensive, powerful system dedicated to reflexively protecting its pilot (within established parameters)"
     },
     {
-      "id": "pa_sylph",
+      "id": "sylph",
       "type": "armor",
       "name": "Sylph",
       "bonus": "Semi-biological undersuit",
@@ -709,7 +709,7 @@
       "description": "Discovered on Acrimea IV, an SSC biome cultivar world, the Sylph is an organic lifeform that appears to find homeostasis in nearly any and all environments. Working with breeding-analogous methods familiar to SSC bioengineering doctrines, SSC developed Sylph Undersuits &emsp; sterile, living sylphs grown as an envelope, fitted to its owner. Once fitted, the Sylph bonds, creating a symbiotic relationship &emsp; it sustains itself off the waste products of its host, while protecting its host from a number of hostile environmental factors. It can be removed and stored when not in use, where it conforms to whatever container it is placed in."
     },
     {
-      "id": "pa_fallingwater",
+      "id": "fallingwater",
       "type": "armor",
       "name": "“Falling Water” Overcoat",
       "bonus": "Smart, omni-net linked coat",
@@ -722,7 +722,7 @@
       "description": "The FallingWater is a signature SSC sartorial anti-ballistic personal protective garment. Created with a charged magnetorheological hydrofiber and coached by an attendant comp/con, the FallingWater pre- adapts to incoming threats moments before they transfer their kinetic/thermal impulse upon its wearer."
     },
     {
-      "id": "pa_clothes",
+      "id": "clothes",
       "type": "armor",
       "name": "Plain clothes",
       "bonus": "",
@@ -736,7 +736,7 @@
     }
   ],
   "gear": [{
-      "id": "pg_ambrosia",
+      "id": "ambrosia",
       "type": "gear",
       "source": "GMS",
       "name": "Ambrosia Reservoir",
@@ -745,7 +745,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_antiphoton",
+      "id": "antiphoton",
       "type": "gear",
       "source": "GMS",
       "name": "Antiphoton Visor",
@@ -754,7 +754,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_camocloth",
+      "id": "camocloth",
       "type": "gear",
       "source": "GMS",
       "name": "Camo Cloth",
@@ -763,7 +763,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_concussion",
+      "id": "concussion",
       "type": "gear",
       "source": "GMS",
       "name": "Concussion Grenade",
@@ -772,7 +772,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_corrective",
+      "id": "corrective",
       "type": "gear",
       "source": "GMS",
       "name": "Corrective",
@@ -781,7 +781,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_rations",
+      "id": "rations",
       "type": "gear",
       "source": "GMS",
       "name": "Extra Rations",
@@ -790,7 +790,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_frag",
+      "id": "frag",
       "type": "gear",
       "source": "GMS",
       "name": "Fragmentation Grenade",
@@ -799,7 +799,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_printer",
+      "id": "printer",
       "type": "gear",
       "source": "GMS",
       "name": "Handheld Printer",
@@ -808,7 +808,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_magclamps",
+      "id": "magclamps",
       "type": "gear",
       "source": "GMS",
       "name": "Mag-clamps",
@@ -817,7 +817,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_spray",
+      "id": "spray",
       "type": "gear",
       "source": "GMS",
       "name": "Nanite Spray",
@@ -826,7 +826,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_omnihook",
+      "id": "omnihook",
       "type": "gear",
       "source": "GMS",
       "name": "Omnihook",
@@ -835,7 +835,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_patch",
+      "id": "patch",
       "type": "gear",
       "source": "GMS",
       "name": "Patch",
@@ -844,7 +844,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_drone",
+      "id": "drone",
       "type": "gear",
       "source": "GMS",
       "name": "Personal Drone",
@@ -853,7 +853,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_bag",
+      "id": "bag",
       "type": "gear",
       "source": "GMS",
       "name": "Sleeping Bag",
@@ -862,7 +862,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_scope",
+      "id": "scope",
       "type": "gear",
       "source": "GMS",
       "name": "Smart Scope",
@@ -871,7 +871,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_speakers",
+      "id": "speakers",
       "type": "gear",
       "source": "GMS",
       "name": "Sound System",
@@ -880,7 +880,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_stims",
+      "id": "stims",
       "type": "gear",
       "source": "GMS",
       "name": "Stims",
@@ -889,7 +889,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_arm",
+      "id": "arm",
       "type": "gear",
       "source": "GMS",
       "name": "Tertiary Arm",
@@ -898,7 +898,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_thermal",
+      "id": "thermal",
       "type": "gear",
       "source": "GMS",
       "name": "Thermal Charge",
@@ -907,7 +907,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_survivalkit",
+      "id": "survivalkit",
       "type": "gear",
       "source": "GMS",
       "name": "Wilderness Survival Kit",
@@ -916,7 +916,7 @@
       "rarity": 0
     },
     {
-      "id": "pg_kcal",
+      "id": "kcal",
       "type": "gear",
       "source": "IPS-N",
       "name": "K-Cal Wafer",
@@ -925,7 +925,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_nullrad",
+      "id": "nullrad",
       "type": "gear",
       "source": "IPS-N",
       "name": "Null-Rad Caps",
@@ -934,7 +934,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_lifesaver",
+      "id": "lifesaver",
       "type": "gear",
       "source": "IPS-N",
       "name": "Lifesaver",
@@ -943,7 +943,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_stabilizers",
+      "id": "stabilizers",
       "type": "gear",
       "source": "IPS-N",
       "name": "Vascular Stabilizers",
@@ -952,7 +952,7 @@
       "rarity": 2
     },
     {
-      "id": "pg_infoskin",
+      "id": "infoskin",
       "type": "gear",
       "source": "SSC",
       "name": "Infoskin",
@@ -961,7 +961,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_panacea",
+      "id": "panacea",
       "type": "gear",
       "source": "SSC",
       "name": "Panacea",
@@ -970,7 +970,7 @@
       "rarity": 3
     },
     {
-      "id": "pg_prosocollar",
+      "id": "prosocollar",
       "type": "gear",
       "source": "HORUS",
       "name": "Prosocollar",
@@ -979,7 +979,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_projector",
+      "id": "projector",
       "type": "gear",
       "source": "HORUS",
       "name": "Dream Projector",
@@ -988,7 +988,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_ses",
+      "id": "ses",
       "type": "gear",
       "source": "HORUS",
       "name": "Subjectivity Enhancement Suite",
@@ -997,7 +997,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_p2",
+      "id": "p2",
       "type": "gear",
       "source": "HORUS",
       "name": "Player_Two",
@@ -1006,7 +1006,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_dataplating",
+      "id": "dataplating",
       "type": "gear",
       "source": "HA",
       "name": "Dataplating",
@@ -1015,7 +1015,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_flexsuit",
+      "id": "flexsuit",
       "type": "gear",
       "source": "HA",
       "name": "Flexsuit",
@@ -1024,7 +1024,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_sleepsuit",
+      "id": "sleepsuit",
       "type": "gear",
       "source": "HA",
       "name": "Sleep suit",
@@ -1033,7 +1033,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_hlnl",
+      "id": "hlnl",
       "type": "gear",
       "source": "HA",
       "name": "Hold/Lock Nonlethal",
@@ -1042,7 +1042,7 @@
       "rarity": 1
     },
     {
-      "id": "pg_dropshield",
+      "id": "dropshield",
       "type": "gear",
       "source": "HA",
       "name": "Dispersal Dropshield",

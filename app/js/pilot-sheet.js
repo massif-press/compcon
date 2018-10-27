@@ -1,50 +1,27 @@
-var $ = require("jquery");
-var Handlebars = require("handlebars");
-var Tags = require("./util/taghelper");
-
-var pilotGear = require("../resources/data/pilot_gear.json");
-var talents = require("../resources/data/pilot_talents.json");
-var coreBonuses = require("../resources/data/core_bonus.json");
-
-var allGear = pilotGear.gear.concat(pilotGear.weapons, pilotGear.armor);
-
-Handlebars.registerHelper('repeat', function (n, block) {
-  var str = '';
-  for (var i = 0; i < n; ++i)
-    str += block.fn(i);
-  return str;
-});
-
-Handlebars.registerHelper('titleCase', function (str) {
-  str = str.toLowerCase().split(' ');
-  for (var i = 0; i < str.length; i++) {
-    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-  }
-  return str.join(' ');
-});
-
-Handlebars.registerHelper('talentLock', function (level, itemRank, retTrue, retFalse) {
-  if (level >= itemRank) return retTrue;
-  return retFalse
-});
-
-Handlebars.registerHelper('trSplit', function (v1, v2, options) {
-  if (v1 % v2 === 0) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
+const $ = require("jquery");
+const Handlebars = require("handlebars");
+const fs = require("fs");
+const Tags = require("./util/taghelper");
+const Search = require("./util/search");
+const Stats = require("./util/stats");
+const Expander = require("./util/expander");
+//data
+const pilotGear = require("../resources/data/pilot_gear.json");
+const talents = require("../resources/data/pilot_talents.json");
+const coreBonuses = require("../resources/data/core_bonus.json");
+//templates
+const sheetTemplate = fs.readFileSync(__dirname + "/templates/pilot-sheet.hbs", "utf8");
+const weaponTemplate = fs.readFileSync(__dirname + "/templates/pilot-weapon.hbs", "utf8");
+const armorTemplate = fs.readFileSync(__dirname + "/templates/pilot-armor.hbs", "utf8");
+const gearTemplate = fs.readFileSync(__dirname + "/templates/pilot-gear.hbs", "utf8");
 
 function loadPilot(pilot) {  
-  $(".main").scrollTop(1);
-
-  pilot.hp = 5 + parseInt(pilot.level);
+  pilot.hp = Stats.getPilotHP(pilot.level);
 
   var expandedTalents = [];
   for (var i = 0; i < pilot.talents.length; i++) {
-    var pRef = pilot.talents[i];
-    var talent = talents.find(function (t) { return t.id === pRef.id; });
-    talent.rank = pRef.rank;
+    var talent = Search.byID(talents, pilot.talents[i].id);
+    talent.rank = pilot.talents[i].rank;
 
     expandedTalents.push(talent);
   }
@@ -52,40 +29,34 @@ function loadPilot(pilot) {
 
   var expandedCoreBonuses = [];
   for (var i = 0; i < pilot.core_bonuses.length; i++) {
-    var pRef = pilot.core_bonuses[i];
-    var bonus = coreBonuses.find(function (b) { return b.id === pRef; });
+    var bonus = Search.byID(coreBonuses, pilot.core_bonuses[i]);
 
     expandedCoreBonuses.push(bonus);
   }
   pilot.bonuses = expandedCoreBonuses;
 
-  var info_template = Handlebars.compile($('#pilot-info-template').html());
+  var info_template = Handlebars.compile(sheetTemplate);
   $("#pilot-info-output").html(info_template(pilot));
+  
+  var allGear = pilotGear.gear.concat(pilotGear.weapons, pilotGear.armor);
 
   for (var i = 0; i < pilot.gear.length; i++) {
-    var pRef = pilot.gear[i];
-    var item = allGear.find(function (g) {
-      return g.id === pRef.id;
-    });
-    item.notes = pRef.notes;
-    item = Tags.expand(item);
+    var item = Search.byID(allGear, pilot.gear[i].id);
+    item.notes = pilot.gear[i].notes;
+    Tags.expand(item);
 
-    var template = Handlebars.compile($("#p_" + item.type + "-template").html())
+    var itemTemplate = gearTemplate;
+    if (item.type === "weapon") itemTemplate = weaponTemplate;
+    if (item.type === "armor") itemTemplate = armorTemplate;
+
+    var template = Handlebars.compile(itemTemplate);
     $("#pilot-gear-output").append(template(item));
   }
 
-  bindEquipmentExpanders();
-}
+  //not worth it to make a new template at this time.
+  $("#pilot-notes-output").html(pilot.notes);
 
-//TODO: offload these
-function bindEquipmentExpanders() {
-  $('.equip-expander-header').click(function () {
-    $(this).toggleClass('sweep-btn bold');
-    var parent = $(this).closest('.equip-expander');
-    $(parent).toggleClass('open');
-    $($(parent).find(".equip-open-info")).toggle("swing");
-  });
+  Expander.bindEquipment();
 }
-
 
 module.exports = loadPilot;

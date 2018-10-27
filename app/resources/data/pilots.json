@@ -3,7 +3,7 @@
     "id": 0,
     "callsign": "CIO",
     "name": "Ciocie Cioelle",
-    "level": "4",
+    "level": 4,
     "background": "Hacker",
     "history": "Ciocie \"Cio\" Cioelle Estrella Von Maximus the Third is a blue devil and the former bookkeeper for the Gilded Cage Guild. A cigar chomping, kleptomaniac, compulsive liar, Cio is known for her overbearing personality and a tendency to speak in a confusing dialect known as the Black Speech. Cio is rather particular about storytelling. <br>Cio has a rather abrasive, overbearing personality. She is very easy to rile up, and she will be quick to cuss people out in her crankier moods. She is also notably impatient, unscrupulous, cowardly and a habitual liar, but she can be surprisingly calm and mature in serious situations. She exhibits most typical personality traits of blue devils.",
     "fnf": [
@@ -44,27 +44,27 @@
       }   
     ],
     "gear": [{
-        "id": "pw_smartknife",
+        "id": "smartknife",
         "notes": ""
       },
       {
-        "id": "pw_prim_ranged",
+        "id": "prim_ranged",
         "notes": ""
       },
       {
-        "id": "pa_hardsuit",
+        "id": "hardsuit",
         "notes": ""
       },
       {
-        "id": "pg_camocloth",
+        "id": "camocloth",
         "notes": ""
       },
       {
-        "id": "pg_scope",
+        "id": "scope",
         "notes": ""
       },
       {
-        "id": "pg_prosocollar",
+        "id": "prosocollar",
         "notes": ""
       }
     ],
@@ -84,31 +84,31 @@
       "notice": 0
     },
     "talents": [{
-        "id": "tal_arms",
+        "id": "arms",
         "rank": 2
       },
       {
-        "id": "tal_techno",
+        "id": "techno",
         "rank": 3
       },
       {
-        "id": "tal_ncavalier",
+        "id": "ncavalier",
         "rank": 3
       }
     ],
-    "talent_weapon": "wp_fuelrod",
+    "talent_weapons": ["fuelrod"],
     "core": {
       "hull": 2,
       "agi": 2,
       "eng": 1,
       "sys": 0,
       "targeting": 1,
-      "hp": 8,
+      "hp": 0,
       "sp": 1,
       "core_sp": 1
     },
     "core_bonuses": [
-      "cb_heldimage"
+      "heldimage"
     ],
     "notes": "Cioelle carries a book containing fan fiction, spells and her Coat of Arms. The devil-made coat apparantly provides her with extra arms.",
     "configs": [6]
@@ -117,7 +117,7 @@
     "id": 1,
     "callsign": "ODA",
     "name": "Taro Oda",
-    "level": "3",
+    "level": 3,
     "background": "Colonist",
     "history": "Taro Oda grew up in the colonies. He is pretty good at gunplay, and a bad liar.",
     "fnf": [{
@@ -145,19 +145,19 @@
       "level": 3
     }],
     "gear": [{
-        "id": "pw_sig_combat",
+        "id": "sig_combat",
         "notes": "Hunting Rifle<br>Deals Kinetic damage."
       },
       {
-        "id": "pw_peacekeeper",
+        "id": "peacekeeper",
         "notes": ""
       },
       {
-        "id": "pa_lighthardsuit",
+        "id": "lighthardsuit",
         "notes": ""
       },
       {
-        "id": "pg_rations",
+        "id": "rations",
         "notes": ""
       }
     ],
@@ -177,15 +177,15 @@
       "notice": 3
     },
     "talents": [{
-        "id": "tal_shot",
+        "id": "shot",
         "rank": 2
       },
       {
-        "id": "tal_infiltrator",
+        "id": "infiltrator",
         "rank": 1
       },
       {
-        "id": "tal_leader",
+        "id": "leader",
         "rank": 3
       }
     ],
@@ -195,12 +195,12 @@
       "eng": 1,
       "sys": 0,
       "targeting": 1,
-      "hp": 8,
+      "hp": 5,
       "sp": 1,
       "core_sp": 1
     },
     "core_bonuses": [
-      "cb_frame"
+      "frame"
     ],
     "notes": "a player would enter notes here about the campaign, builds, etc etc.",
     "configs": [0, 1, 2, 3]
@@ -209,7 +209,7 @@
     "id": 2,
     "callsign": "SUCCESSOR",
     "name": "Allison Wanda Ruth",
-    "level": "5",
+    "level": 5,
     "background": "Outlaw",
     "history": "Allison Wanda Ruth is a human and the owner of a Key of Kings. Born on Earth, Allison worked as a barista before being taken to Throne against her will. After nearly being sold into slavery and killed in the Battle of Hell 71, Allison undergoes a dramatic change of character with the help of Cio and 82. Shortly after, Zoss reveals that he orchestrated her transfer because Allison is part of an impending prophecy, one in which only she can overthrow the Seven.",
     "fnf": [{
@@ -249,23 +249,23 @@
       }
     ],
     "gear": [{
-        "id": "pw_arcblade",
+        "id": "arcblade",
         "notes": ""
       },
       {
-        "id": "pa_eloria",
+        "id": "eloria",
         "notes": ""
       },
       {
-        "id": "pg_spray",
+        "id": "spray",
         "notes": ""
       },
       {
-        "id": "pg_kcal",
+        "id": "kcal",
         "notes": ""
       },
       {
-        "id": "pg_printer",
+        "id": "printer",
         "notes": ""
       }
     ],
@@ -285,19 +285,19 @@
       "notice": 0
     },
     "talents": [{
-        "id": "tal_bond",
+        "id": "bond",
         "rank": 2
       },
       {
-        "id": "tal_exemplar",
+        "id": "exemplar",
         "rank": 3
       },
       {
-        "id": "tal_skirmisher",
+        "id": "skirmisher",
         "rank": 1
       },
       {
-        "id": "tal_van",
+        "id": "van",
         "rank": 2
       }
     ],
@@ -307,12 +307,12 @@
       "eng": 1,
       "sys": 1,
       "targeting": 0,
-      "hp": 5,
+      "hp": 0,
       "sp": 1,
       "core_sp": 1
     },
     "core_bonuses": [
-      "cb_sscatms"
+      "sscatms"
     ],
     "notes": "killsixbilliondemons.wikia.com/wiki/Allison",
     "configs": [4, 5]

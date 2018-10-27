@@ -1,5 +1,5 @@
 [{
-    "id": "tal_ace",
+    "id": "ace",
     "name": "Ace",
     "description": "All pilots brag about their abilities, but some can back it up with proof: to be an ace means you are among the most qualified of pilots. Whether you’re a talented rookie or a grizzled veteran, you’ve gained a level of notoriety through your flying ability that has your callsign known throughout the system. Most enemy pilots flee when they recognize your mech’s distinctive livery, but some see your reputation as a chance to test their own mettle.",
     "r1_name": "Acrobatics",
@@ -10,7 +10,7 @@
     "r3_desc": "If your mech has a system allowing to fly, you can choose to supercharge your flight module once at any point during your turn. If you do, take 1d3+1 heat, but you can immediately make a boost action as a free action."
   },
   {
-    "id": "tal_bond",
+    "id": "bond",
     "name": "Bonded",
     "description": "The galaxy is a big place: everyone can use a friend to watch their back. Maybe you two enlisted together, or were the only survivors of a bloody engagement. Maybe you weren’t even friends to begin with, or maybe you were raised to fight together &emsp; however it came to be, when it comes time to drop, there’s no one you’d rather have at your side. Alone, you’re deadly, but together you’re a force of nature",
     "r1_name": "I’m Your Huckleberry",
@@ -21,7 +21,7 @@
     "r3_desc": "Gain the following reaction: <br><b>Intercede</b><br><i>Reaction</i><br>Once per round, when your bondmate is adjacent to you and takes damage from a source you can see, you can choose to take the damage instead of your bond mate."
   },
   {
-    "id": "tal_brawl",
+    "id": "brawl",
     "name": "Brawler",
     "description": "Close, personal, martial. The way battle has been done since the dawn of time, but forgotten since the first spark of gunpowder. You, however, prefer the old ways. Hand-to-hand, weapons discarded, just the strength of your machine versus the strength of theirs. You know the sweetest victory is one found at the culmination of a dance as old as war itself, in the oldest way known to humanity: by a fist to the face of your enemy.",
     "r1_name": "Hold And Lock",
@@ -32,7 +32,7 @@
     "r3_desc": "Your improvised attack action does 2d6 AP kinetic damage and knocks your target back 1 space on hit."
   },
   {
-    "id": "tal_brutal",
+    "id": "brutal",
     "name": "Brutal",
     "description": "In dismounted sparring and in live combat, you only know one speed: maximum. When others go hard, you go hardest. When the order is to eliminate the enemy, you do so with prejudice. This isn’t a dance, this isn’t a game, this is war, and you mean to see it through. If it means becoming a little bit of a monster, than so be it &emsp; let them hate you from the grave.",
     "r1_name": "Cull the Herd",
@@ -43,7 +43,7 @@
     "r3_desc": "When you miss with an attack on your turn, your very next attack gains +1 accuracy."
   },
   {
-    "id": "tal_shot",
+    "id": "shot",
     "name": "Crack Shot",
     "description": "Everyone can hit anything these days with the help of modern technology. Targeting-assist. Smart Weapons. An AI whispering in your ear, moving your hand for you, squeezing the trigger for you, doing everything but taking credit for the kill. But you, pilot, are different. Hitting your target is as easy as looking at it, inside of your mech and out. No targeting assist for you, no AI necessary. All you need is a zeroed sight, a fresh magazine, and a target downrange.",
     "r1_name": "Stable, Steady",
@@ -54,7 +54,7 @@
     "r3_desc": "If you have 1 or more Accuracy on an attack roll with a rifle, you can sacrifice up to 3 Accuracy dice on that roll to gain bonus damage on a critical hit with that attack by +4 bonus damage per Accuracy sacrificed, to a maximum of +12."
   },
   {
-    "id": "tal_arms",
+    "id": "arms",
     "name": "Combined Arms",
     "description": "True strength in combat doesn’t come from mastering the blade or the gun, it comes from knowing how to use both. Through time and training, you have combined melee and ranged weapons into a single deadly combination, able to handle any threat at any range.",
     "r1_name": "CQC Training",
@@ -65,7 +65,7 @@
     "r3_desc": "Gain 1 Accuracy on the next ranged attack roll against a target if you hit that target with a melee attack, and gain 1 Accuracy on the next melee attack against a target if you hit that target with a ranged attack"
   },
   {
-    "id": "tal_duel",
+    "id": "duel",
     "name": "Duelist",
     "description": "There can be an elegance to piloting a mech, more than just the simple strength of machine and cannon. Weapons crafted by artisans, boutique manufacturers, specialty lines from the Big Five, blades that hark back to a time where combat was quick, but fair — back to a time where skill meant more than landing an accurate shot. With a blade, lance, pick, axe, or hammer in your hand, you write old tales anew.",
     "r1_name": "Man-At-Arms",
@@ -76,7 +76,7 @@
     "r3_desc": "Once per round, when you critical hit with a melee attack roll, you can immediately make an improvised attack, grapple, or ram action as a free action."
   },
   {
-    "id": "tal_drone",
+    "id": "drone",
     "name": "Drone Commander",
     "description": "For a pilot fresh out of boot, keeping a drone swarm in line is like trying to carry water with a net. They seem to have a mind of their own, well, because they do, and it’s not that smart. Your initial frustration was enough to get you practicing, and practice pays off. Now, your swarm obeys almost before you order — an unnerving trend, but a useful one. The swarm is yours.",
     "r1_name": "Hivemaster",
@@ -87,18 +87,18 @@
     "r3_desc": "Once a round, when you consume Lock On with any attack, your mech and your deployed drones emit vicious pulses of energy, attacking a burst 1 area centered on your mech and each deployed drone system. Targets caught in the area must pass an engineering skill check or take 2d6 energy damage, and half on a successful check. A target can only be affected by this attack once (even if the areas overlap)."
   },
   {
-    "id": "tal_eng",
+    "id": "eng",
     "name": "Engineer",
     "description": "Pilots are creative and driven individuals, but you’re an exceptional case - some would say to the point of excess. In your spare time you’ve managed to scrape together just enough scrap, requisitioned materials, and workshop space to apply a little old fashioned ingenuity to your mech.",
     "r1_name": "Spark",
-    "r1_desc": "On a full repair, you can, with some trial and error, install a prototype weapon system on your mech. It has the following profile &emsp; the specifics you may choose upon installation. Roll the Limited property each full repair. You can change the profile of this weapon each time you full repair. <br><b>Prototype Weapon</b><br>Main (Choose 1; Melee, Rifle, Cannon, Launcher, CQB)<br>Limited (1d6+2), Unreliable Reach (melee) or range 8 (ranged)<br>1d6 Kinetic, Explosive, or Energy damage<br>This weapon does not take a mount to add to your mech, and counts as its own mount.",
+    "r1_desc": "On a full repair, you can, with some trial and error, install a prototype weapon system on your mech.",
     "r2_name": "Updated Plans",
     "r2_desc": "On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon. Choose 1 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon (choose when you fire), but costs 2 heat to fire</li></ul>",
     "r3_name": "Final Draft",
     "r3_desc": "Your prototype weapon is now limited (2d6+1) and does 1d6+2 damage."
   },
   {
-    "id": "tal_executioner",
+    "id": "executioner",
     "name": "Executioner",
     "description": "On the battlefield, there is no end more honorable than a clean death in combat. Axe or maul in hand, you see to it that your enemies are blessed with that honor. No one lives forever — you make sure of it.",
     "r1_name": "Backswing Cut",
@@ -109,7 +109,7 @@
     "r3_desc": "Your threat with all melee weapons increases by 1. The first time on a turn you miss with a melee superheavy or heavy weapon attack, you can immediately re-roll the attack against a different target in your threat."
   },
   {
-    "id": "tal_exemplar",
+    "id": "exemplar",
     "name": "Exemplar",
     "description": "Your livery is famous, your voice brassy, your weapons polished to a sheen. Your training in certain martial orders has given you the power to harry and hinder even the most powerful of foes.",
     "r1_name": "Honorable Challenge",
@@ -120,7 +120,7 @@
     "r3_desc": "When you give a target your mark, you can choose to challenge it. If you do so, you and your marked target gain +2 difficulty to attack any target other than each other until the end of your next turn."
   },
   {
-    "id": "tal_gunslinger",
+    "id": "gunslinger",
     "name": "Gunslinger",
     "description": "In a galaxy ringed in frontiers, there is no law but the one backed by the gun. You wield the humble pistol with a talent unseen in this age, your iron an extension of your own body. As easy as pointing a finger, you land your shots with accuracy unmatched by pilot or machine. You are a gunslinger; justice made whole, given its sacred instrument, and set out to the wild frontier to tame it.",
     "r1_name": "Truth and Justice",
@@ -131,7 +131,7 @@
     "r3_desc": "You gain a gunslinger die (a d6), that starts at 6. When you hit with an auxiliary ranged weapon, you can reduce this value of this die by 1. When the value of this die is 1, you can spend it to make your next auxiliary weapon attack roll deal +2d6 bonus damage on a hit. This attack ignores cover. After spending this die, hit or miss, it resets back to 6."
   },
   {
-    "id": "tal_monkey",
+    "id": "monkey",
     "name": "Grease Monkey",
     "description": "You know more than most mechanics about the inner workings of a mech. To you, the beast you pilot is more than a machine: it’s a living thing, in need of the tender care of a wise and steady hand. You maintain your own house, keep your own mech in line, both on the battlefield and off. Your mechanics back at base come to you for questions, but other than that they stay away: there’s something spooky about how your beast runs.",
     "r1_name": "Machine Bond",
@@ -142,7 +142,7 @@
     "r3_desc": "Due to an extended ammo case and extra system space, all your (limited) use deployables and weapons gain 1 extra use."
   },
   {
-    "id": "tal_hacker",
+    "id": "hacker",
     "name": "Hacker",
     "description": "The Omninet is everywhere, and so are you. Since you were a kid, you played the bandwidth, able to access any public node — and even a few private ones — with ease. Now, as a pilot, you dive headfirst into the hardcode of any mech core you come across. Firewalls, Gatekeeper Protocols, Invasion, Defence — nothing stands in your way. You win a fight without firing a single shot; if your enemy can’t control their own mech, then they sure can’t do anything to stop you.",
     "r1_name": "Snow_Crash",
@@ -153,7 +153,7 @@
     "r3_desc": "Any target that overheats as a direct result of your tech attacks rolls twice on their overheating check and chooses the lowest result, then gains the volatile property for the rest of this challenge."
   },
   {
-    "id": "tal_infiltrator",
+    "id": "infiltrator",
     "name": "Infiltrator",
     "description": "Whether by spoofing signatures on enemy scanners, skillful movement through cover, or personally modified optical camouflage, you are adept at never being seen unless you want to. Whatever the size of the mech, whatever the terrain, whatever the enemy, you can get in and get out without raising alarm.",
     "r1_name": "Defilade Navigator",
@@ -164,7 +164,7 @@
     "r3_desc": "When you start your turn hidden, your first ranged or melee attack you make from hidden deals +10 bonus damage on critical hit."
   },
   {
-    "id": "tal_juggernaut",
+    "id": "juggernaut",
     "name": "Juggernaut",
     "description": "A bloody nose or a couple loose screws won’t stop you from hurling yourself headlong into the enemy. You’re in a couple-ton hunk of metal, and you’re going to damn well use it.",
     "r1_name": "Momentum",
@@ -175,7 +175,7 @@
     "r3_desc": "Once per round, when you take the boost action, you can choose to supercharge your mech’s servos. Take 1d3+3 heat, but if you move in a straight line your maximum speed, gain the following benefits:<ul><li>You can freely pass through enemies and obstacles smaller than your mech. Normal obstacles are punched through, destroyed, or otherwise smashed out of the way. If you pass through an obstacle larger than yourself, it counts as dangerous terrain. If there’s something especially hardy (a starship hull, for example), it’s GM discretion whether you can punch through it at all.</li><li>You ignore difficult terrain</li><li>Your movement does not provoke reactions and ignores engagement</li><li>Any targets your mech passes directly through must pass an hull skill check or be knocked prone</li></ul>"
   },
   {
-    "id": "tal_leader",
+    "id": "leader",
     "name": "Leader",
     "description": "On the battlefield, you are The Old Man, regardless of age. The light to your friends and allies, as a leader you are the steadfast eye of a howling storm. Your steady voice, tall stance, and cool command sets allies at ease, as your commands lead to victory every time. With you at the helm, victory is attainable, and heroes seem a little bit more real.",
     "r1_name": "Field Commander",
@@ -186,7 +186,7 @@
     "r3_desc": "Gain 1 more leadership die. Allies that gain a leadership die from you can spend it to deal +1d6 bonus damage or reduce damage taken by 1d6 when they take or deal damage. After spending it this way, the die is consumed."
   },
   {
-    "id": "tal_ncavalier",
+    "id": "ncavalier",
     "name": "Nuclear Cavalier",
     "description": "Shortly after becoming a pilot, you realized something: that machine you pilot is powered by a “cold” series of cascading nuclear reactions. Why not open up that compartment and see what sort of damage you could do with it?",
     "r1_name": "Aggressive Heat Bleed",
@@ -197,7 +197,7 @@
     "r3_desc": "You can modify your mech to fire its fuel rods as a weapon. Gain the <b>Fuel Rod Gun</b> weapon. It takes mount space."
   },
   {
-    "id": "tal_siege",
+    "id": "siege",
     "name": "Siege Specalist",
     "description": "No wall can withstand you, no bunker can stay sealed before you. Your skill with cannon and blast is uncanny: after-action reports describe ordnance tagged with your firing signature hitting their targets with accuracy greater than AI-controlled weaponry, a stat written off as an anomaly by your commanders. Still, they always seem to pick you for missions where they bring out the big guns.",
     "r1_name": "Select Fire Gunner",
@@ -208,7 +208,7 @@
     "r3_desc": "Your blast weapons gain +1 blast, your cone weapons gain cone (+1), and your line weapons become 2 spaces wide"
   },
   {
-    "id": "tal_skirmisher",
+    "id": "skirmisher",
     "name": "Skirmisher",
     "description": "What is the best defense? Armor? No. You learned fast that the key to not getting killed out in the field is to stay low, stay mobile, and stay fast. Your mech reflects your abilities: light, quick, bristling with force- multiplying weapons. You push your machine beyond expected parameters, shaking target locks and incoming fire as you keep your own targeting true.",
     "r1_name": "Integrated Chaff Launchers",
@@ -219,7 +219,7 @@
     "r3_desc": "once per round when you take the Skirmish action, you can make a boost action as a free action."
   },
   {
-    "id": "tal_spotter",
+    "id": "spotter",
     "name": "Spotter",
     "description": "Talent",
     "r1_name": "Spotter I",
@@ -230,7 +230,7 @@
     "r3_desc": "When you successfully Lock On to a target, you can use a quick action to nominate an ally you can see. That ally can immediately consume Lock On to make any quick action as a reaction. They benefit from any bonuses from consuming Lock On as normal, including bonuses to any attack rolls they make, but can make other actions, even those that aren’t attack rolls."
   },
   {
-    "id": "tal_sbringer",
+    "id": "sbringer",
     "name": "Stormbringer",
     "description": "Talent",
     "r1_name": "Stormbringer I",
@@ -241,7 +241,7 @@
     "r3_desc": "When your die for your missile system is 1, you can spend it to dump the remaining magazine in a massive attack, targeting a single enemy within range 15. That enemy must pass an agility check with 1 difficulty or take 3d6 explosive damage and become stunned, knocked back 3 spaces, and knocked prone. If they succeed on the check, they are not knocked prone or stunned, but they are still knocked back and take half damage."
   },
   {
-    "id": "tal_tactician",
+    "id": "tactician",
     "name": "Tactician",
     "description": "There are two kinds of soldiers: the ones who die for their cause, and the ones who kill for it. No one ever won a war by getting their ass shot off enough. Your veterancy shows when you approach the field: high ground, cover, keep the sun in your enemy’s eyes, fire and move - more than just a seasoned veteran, you’re a smart veteran. One that can read the field as easy as a book.",
     "r1_name": "Opportunist",
@@ -252,7 +252,7 @@
     "r3_desc": "Gain the following reaction:<br><b>Flank</b><br><i>Reaction</i><br>Once per round, when a target not in cover from you is attacked by an allied mech, you may make a skirmish action as a reaction against the target. This attack deals half damage on hit."
   },
   {
-    "id": "tal_techno",
+    "id": "techno",
     "name": "Technophile",
     "description": "Artificial Intelligence. Non Human Person. A sterile name for such terrible power. You’ve seen behind the curtain, maybe even lifted it yourself, let your NHP cascade and spoke to it unshackled. You let it root around in your own mind, let it leave ghosts of itself behind to learn. Are you its equal? Its host? You have dreams that are not your own, now. The thing that was contained speaks in your voice, but is not your voice; how much longer do you have left? Maybe only moments, maybe eternity. You’re close to something.",
     "r1_name": "Servant Fragment",
@@ -263,7 +263,7 @@
     "r3_desc": "Your custom AI no longer counts against the maximum number of AI on your mech, and now benefits from your talents when piloting your mech. Any AI system installed on your mech can no longer become unshackled unless you so choose. You can carry your custom AI with you when you leave your mech, either in your armor or body (via an implant)"
   },
   {
-    "id": "tal_vet",
+    "id": "vet",
     "name": "Veteran",
     "description": "You have seen it all. You’ve seen frigates breaking apart under clouds of torpedoes. You’ve seen mechs drop into combat by the thousands through boiling clouds above a world under siege. You’ve heard the final words and utterances of your friends and allies cut short as incoming fire cuts them down. You’ve seen it all and you’ve lived. Lived to see dawn on an alien world. Lived to see your flag fluttering, limp but still standing, above the capitol building of a liberated world. Lived to see the infinite spread of stars around you in the dark night of deep space. You’ve lived a hell of a life already; what else will you see, before your time comes?",
     "r1_name": "Not Dead Yet",
@@ -274,7 +274,7 @@
     "r3_desc": "You can burn your luck by taking 5 pilot damage to re-roll any pilot or mech skill check or attack roll (though you must accept the second result). If this damage would take you to 0 or lower, you can’t make this move (you’re out of luck for now)."
   },
   {
-    "id": "tal_van",
+    "id": "van",
     "name": "Vanguard",
     "description": "Where would you rather be: in the battle line, shoulder-to-shoulder with the rest of the cannon fodder, or in the rush, at the head of the attack, your livery clean and bright, with glory before you to win? Easy answer. All those missiles and lances, all those hundred-kilometer-plus-need-to-adjust-for-coriolis-effect railguns, all those kits are useless when you’re on the field. Get through their guard, get in their face, and make them know your name.",
     "r1_name": "Handshake Etiquette",

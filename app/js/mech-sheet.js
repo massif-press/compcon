@@ -1,93 +1,51 @@
-var $ = require("jquery");
-var Handlebars = require("handlebars");
-var Stats = require('./util/stats');
-var Tags = require('./util/taghelper');
-var Dicemath = require('./util/dicemath');
-var Charts = require("./util/chartbuilder");
-var weapons = require("../resources/data/weapons.json");
-var systems = require("../resources/data/systems.json");
-var mods = require("../resources/data/mods.json");
-
-Handlebars.registerHelper('longSource', function (source) {
-  switch (source) {
-    case "IPS-N": return "IPS-Northstar"
-    case "SSC": return "Smith Shimano Corpo"
-    case "HA": return "Harrison Armory"
-    case "GMS": return "General Massive Systems"
-    default: return source
-  }
-});
-
-Handlebars.registerHelper('ifElse', function (a, b) {
-  return a ? a : b;
-});
-
-Handlebars.registerHelper('plusMinus', function (val) {
-  return val >= 0 ? "+" + val : val;
-});
-
-Handlebars.registerHelper('balloonSize', function (str) {
-  str.split(' ');
-  if (str.length < 10) return 'small';
-  if (str.length < 30) return 'medium';
-  if (str.length < 100) return 'large';
-  return 'xlarge';
-});
-
-Handlebars.registerHelper('dmgFormat', function (dmg) {
-if (dmg.override) return dmg.override;
-
-  var outArr = [];
-  for (var key in dmg) {
-    if(dmg[key].toString() === "0") continue;
-    outArr.push(`<span class="${key}">${dmg[key]} ${key.charAt(0).toUpperCase() + key.slice(1)} Damage</span>`)
-  }
-
-  return outArr.join(', ');
-});
-
-Handlebars.registerHelper('dmgRange', function (dmg) {
-  if (!dmg) return "";
-  var d = Dicemath.parse(dmg);
-
-  var h = d.min.heat > 0 ? `, + ${d.min.heat} - ${d.max.heat} Heat` : "";
-  var ha = d.min.heat > 0 ? ` (${d.avg.heat} Heat)` : ''
-
-  return `${d.min.total} - ${d.max.total}${h}   (${d.avg.total}) ${ha}`;
-});
+const $ = require('jquery');
+const Handlebars = require('handlebars');
+const Stats = require('./util/stats');
+const Tags = require('./util/taghelper');
+const Charts = require('./util/chartbuilder');
+const Expander = require('./util/expander');
+const Search = require('./util/search');
+//data
+const weapons = require("../resources/data/weapons.json");
+const systems = require("../resources/data/systems.json");
+const mods = require("../resources/data/mods.json");
+//templates
 
 function loadMech(config, pilot) {
   config.shell.ult_active = Tags.parse(config.shell.ult_active);
 
   $(".main-scroll").scrollTop(1);
-  var stats = Stats.getStats(config, pilot)
+  var stats = Stats.getMechStats(config, pilot)
 
   var wp = [];
   var sys = [];
   
-  if (config.shell.ult_passive_weapon) wp.push(weapons.find(w => w.id == config.shell.ult_passive_weapon));
+  if (config.shell.ult_passive_weapon) wp.push(Search.byID(weapons, config.shell.ult_passive_weapon));
 
-  //I think this is only the fuel rod gun. If not, make this a loop
-  if (pilot.talent_weapon) wp.push(weapons.find(w => w.id == pilot.talent_weapon));
+  if (pilot.talent_weapons) {
+    for (var i = 0; i < pilot.talent_weapons.length; i++) {
+      wp.push(Search.byID(weapons, pilot.talent_weapons[i]));
+    }
+  }
 
   for (var i = 0; i < config.weapons.length; i++) {
-    var add = weapons.find(w => w.id == config.weapons[i].id);
+    var add = Search.byID(weapons, config.weapons[i].id)
     if (config.weapons[i].mod) {
-      var m = mods.find(w => w.id == config.weapons[i].mod);
-      add.mod = m;
+      add.mod = Search.byID(mods, config.weapons[i].mod);
+      add.mod.effect = Tags.parse(add.mod.effect);
     }
     wp.push(add);
   }
 
   for (var i = 0; i < config.systems.length; i++) {
-    sys.push(systems.find(s => s.id == config.systems[i]));
+    sys.push(Search.byID(systems, config.systems[i]));
   }
-
+  
   wp = Tags.expand(wp);
   sys = Tags.expand(sys);
 
   //collect all licenses required
-  var isEverest = config.shell.id === "sh_everest"
+  var isEverest = config.shell.id === "everest"
   config.licenses = [{
     "source": config.shell.source,
     "name": isEverest ? "" : config.shell.name,
@@ -102,13 +60,18 @@ function loadMech(config, pilot) {
     if (item.source == "Special") continue;
     var lIndex = config.licenses.findIndex(l => l.name === item.license);
     if (lIndex > -1) {
-      if (config.licenses[lIndex].level < wp.license_level) {
-        config.licenses.push({
-          "source": item.source,
-          "name": item.license,
-          "level": item.license_level,
-          "items": item.name
-        })
+      if (config.licenses[lIndex].level < item.license_level) { //if our new item exceeds our current license level
+        var upperIdx = config.licenses.findIndex(l => l.level === item.license_level);
+        if (upperIdx < 0) { //if we don't already have this license recorded, add it
+          config.licenses.push({ 
+            "source": item.source,
+            "name": item.license,
+            "level": item.license_level,
+            "items": item.name
+          })
+        } else {
+          config.licenses[upperIdx].items += ", " + item.name;  //otherwise, mark the system on the higher level license
+        }
       }
       config.licenses[lIndex].items += ", " + item.name;
     } else {
@@ -221,17 +184,7 @@ function loadMech(config, pilot) {
     $('#' + modalID).css("display", "none");
   });
 
-  bindEquipmentExpanders();
-}
-
-//TODO: offload these
-function bindEquipmentExpanders() {
-  $('.equip-expander-header').click(function () {
-    $(this).toggleClass('sweep-btn bold');
-    var parent = $(this).closest('.equip-expander');
-    $(parent).toggleClass('open');
-    $($(parent).find(".equip-open-info")).toggle("swing");
-  });
+  Expander.bindEquipment();
 }
 
 function move (arr, old_index, new_index) {
@@ -243,6 +196,5 @@ function move (arr, old_index, new_index) {
   }
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
 };
-
 
 module.exports = loadMech;

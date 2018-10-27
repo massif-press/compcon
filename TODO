@@ -1,36 +1,25 @@
-Alpha:
 
 Alpha 1.5:
   ☐ Catalog
-  ✔ Weapon Mods @done(18-10-25 17:32)
 
 Todo:
   ☐ Organize CSS
-  ☐ Error handling for every find() (refactor)
-  ☐ Utility function (where()?)
-  ☐ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding
-  ☐ Clean up names
-  ☐ Partialize player table items
-  ☐ Move handlebars helper to own file and load on start
-  ✘ Local Fonts @cancelled(18-10-25 16:35)
-  ☐ Handlebars:partial the weapon template for ults and systems
-  ☐ require-handlebars-plugin to break out hbs files
   ☐ refactor taghelper
-  ☐ remove tag arrays and use tag syntax in a "tags" string in the json
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
-  ✔ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type @done(18-10-25 16:59)
   ☐ weapon threat calc
   ☐ flex mounts
   ☐ CORE mounts
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
+  ☐ lancerdata exporter
+  ☐ lancerdata importer
+
+Bugs:
+  ☐ Overly long names/callsigns break formatting
+  ☐ Undefineds appearing in parsed tags
   
-  Bugs:
-  ✔ Damage by Range isn't adding numbers correctly @done(18-10-25 17:37)
-  ☐ Locked licenses captured by a lower license number: eg. LL2 is hiding requirement for LL3.
-  
-  Reminders:
+Reminders:
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ add apoc rail mount for barbarossa on config creation
   ☐ cb_hardpoints should be applied like a mod
@@ -38,7 +27,6 @@ Todo:
   ☐ cb_neurolinked should be applied like a mod to all equipped weapons
   ☐ cb_ammofeeds should be applied like a mod to all limited systems
   ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
-  ☐ tal_eng should add a custom weapon
   ☐ tal_techno rank 2 should add a system
   ☐ HA Assault Launcher gets a free grenade or mine
   ☐ technophile confers 0sp custom NHP system
@@ -57,6 +45,24 @@ Ideas:
   ☐ override eg. signature weapons to create custom versions at player creation
 
 Archive:
+  ✔ Weapon Mods @done(18-10-25 17:32) @project(Alpha 1.5)
+  ✔ Remove extraneous id prefixes @done(18-10-26 14:37) @project(Todo)
+  ✔ Error handling for every find() (refactor) @done(18-10-26 14:01) @project(Todo)
+  ✔ Utility function (where()?) @done(18-10-26 13:29) @project(Todo)
+  ✔ Put hardcoded stuff (eg. structure points) in external config json for easier updates/modding @done(18-10-26 12:19) @project(Todo)
+  ✔ Clean up names @done(18-10-26 14:02) @project(Todo)
+  ✔ Partialize player table items @done(18-10-26 12:19) @project(Todo)
+  ✔ Move handlebars helper to own file and load on start @done(18-10-26 12:19) @project(Todo)
+  ✘ Local Fonts @cancelled(18-10-25 16:35) @project(Todo)
+  ✘ Handlebars:partial the weapon template for ults and systems @cancelled(18-10-26 14:33) @project(Todo)
+  ✘ require-handlebars-plugin to break out hbs files @cancelled(18-10-26 12:19) @project(Todo)
+  ✘ remove tag arrays and use tag syntax in item effects @cancelled(18-10-26 23:17) @project(Todo)
+  ✔ change tag parsing to look for #inline_tags# @done(18-10-26 16:06) @project(Todo)
+  ✔ change tag parsing to look for %tag blocks% @done(18-10-26 16:06) @project(Todo)
+  ✔ collapse pilot_armor/weapons/gear jsons into single pilot_gear, differentiate by type @done(18-10-25 16:59) @project(Todo)
+  ✔ Damage by Range isn't adding numbers correctly @done(18-10-25 17:37) @project(Todo)
+  ✔ Locked licenses captured by a lower license number: eg. LL2 is hiding requirement for LL3. @done(18-10-26 23:17) @project(Todo)
+  ✔ tal_eng should add a custom weapon @done(18-10-26 14:01) @project(Todo)
   ✔ better config notes on mech sheet (license breakdown?) @done(18-10-23 14:58) @project(Alpha)
   ✔ implement license mechanics @done(18-10-23 16:09) @project(Alpha)
   ✔ First pass at data formatting @done(18-10-24 14:36) @project(Alpha)

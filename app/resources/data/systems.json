@@ -1,13 +1,13 @@
 [{
-    "id": "sys_pancake",
+    "id": "pancake",
     "name": "GMS “Pancake” anti vehicular mines",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_mine"
+        "id": "mine"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -22,23 +22,23 @@
     }
   },
   {
-    "id": "sys_apple",
+    "id": "apple",
     "name": "GMS Pattern A “Apple” HE Grenades",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_grenade"
+        "id": "grenade"
       },
       {
-        "id": "tag_range",
+        "id": "range",
         "val": 5
       },
       {
-        "id": "tag_blast",
+        "id": "blast",
         "val": 2
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -53,23 +53,23 @@
     }
   },
   {
-    "id": "sys_filter",
+    "id": "filter",
     "name": "GMS Pattern A “Filter” Smoke Grenades",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_grenade"
+        "id": "grenade"
       },
       {
-        "id": "tag_range",
+        "id": "range",
         "val": 5
       },
       {
-        "id": "tag_blast",
+        "id": "blast",
         "val": 3
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -84,15 +84,15 @@
     }
   },
   {
-    "id": "sys_jericho",
+    "id": "jericho",
     "name": "GMS Pattern A “Jericho” Deployable Cover",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -107,15 +107,15 @@
     }
   },
   {
-    "id": "sys_plug",
+    "id": "plug",
     "name": "Companion/ Concierge-class Dummy Plug",
     "type": "AI",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       }
     ],
     "source": "GMS",
@@ -128,7 +128,7 @@
     }
   },
   {
-    "id": "sys_burst",
+    "id": "burst",
     "name": "GMS “Burst” Jump Jet System",
     "type": "Flight",
     "sp": 2,
@@ -143,12 +143,12 @@
     }
   },
   {
-    "id": "sys_eva",
+    "id": "eva",
     "name": "GMS EVA Module",
     "type": "Flight",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -160,12 +160,12 @@
     }
   },
   {
-    "id": "sys_t1flight",
+    "id": "t1flight",
     "name": "GMS Type I Flight System",
     "type": "Flight",
     "sp": 3,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -177,18 +177,18 @@
     }
   },
   {
-    "id": "sys_t1shield",
+    "id": "t1shield",
     "name": "GMS Shield Type I",
     "type": "Shield",
     "sp": 2,
     "tags": [{
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 1
       }
     ],
@@ -203,15 +203,15 @@
     }
   },
   {
-    "id": "sys_t2shield",
+    "id": "t2shield",
     "name": "GMS Shield Type II",
     "type": "Shield",
     "sp": 3,
     "tags": [{
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 3
       }
     ],
@@ -226,12 +226,12 @@
     }
   },
   {
-    "id": "sys_paint",
+    "id": "paint",
     "name": "Custom Paint Job",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -243,12 +243,12 @@
     }
   },
   {
-    "id": "sys_manipulators",
+    "id": "manipulators",
     "name": "Manipulators",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -260,12 +260,12 @@
     }
   },
   {
-    "id": "sys_personalizations",
+    "id": "personalizations",
     "name": "Personalizations",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -277,12 +277,12 @@
     }
   },
   {
-    "id": "sys_stable",
+    "id": "stable",
     "name": "Stable Structure",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "GMS",
     "license": "",
@@ -294,12 +294,12 @@
     }
   },
   {
-    "id": "sys_externalammo",
+    "id": "externalammo",
     "name": "External Ammo Feed",
     "type": "System",
     "sp": 3,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "BARBAROSSA",
@@ -312,12 +312,12 @@
     }
   },
   {
-    "id": "sys_autoloader",
+    "id": "autoloader",
     "name": "Auto-Loader Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_limited",
+      "id": "limited",
       "val": 1
     }],
     "source": "HA",
@@ -331,15 +331,15 @@
     }
   },
   {
-    "id": "sys_siegestabilizers",
+    "id": "siegestabilizers",
     "name": "Siege Stabilizers",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       }
     ],
     "source": "HA",
@@ -353,15 +353,15 @@
     }
   },
   {
-    "id": "sys_molded",
+    "id": "molded",
     "name": "Molded Armor",
     "type": "Shield",
     "sp": 2,
     "tags": [{
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       }
     ],
     "source": "HA",
@@ -374,12 +374,12 @@
     }
   },
   {
-    "id": "sys_explosivevent",
+    "id": "explosivevent",
     "name": "Explosive Vent",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "GENGHIS",
@@ -392,12 +392,12 @@
     }
   },
   {
-    "id": "sys_autocooler",
+    "id": "autocooler",
     "name": "Auto Cooler",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "GENGHIS",
@@ -409,15 +409,15 @@
     }
   },
   {
-    "id": "sys_agni",
+    "id": "agni",
     "name": "AGNI",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
         "id": "protocol"
@@ -439,15 +439,15 @@
     }
   },
   {
-    "id": "sys_repulsor",
+    "id": "repulsor",
     "name": "Repulsor Field",
     "type": "System",
     "sp": 1,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       }
     ],
     "source": "HA",
@@ -461,15 +461,15 @@
     }
   },
   {
-    "id": "sys_groundingcharge",
+    "id": "groundingcharge",
     "name": "Grounding Charge",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
-        "id": "tag_mine"
+        "id": "mine"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -484,12 +484,12 @@
     }
   },
   {
-    "id": "sys_stasisbarrier",
+    "id": "stasisbarrier",
     "name": "Stasis Barrier",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
-      "id": "tag_limited",
+      "id": "limited",
       "val": 2
     }],
     "source": "HA",
@@ -503,15 +503,15 @@
     }
   },
   {
-    "id": "sys_stasismine",
+    "id": "stasismine",
     "name": "Stasis Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_mine"
+        "id": "mine"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -526,12 +526,12 @@
     }
   },
   {
-    "id": "sys_disperal",
+    "id": "disperal",
     "name": "Dispersal Shield",
     "type": "Shield",
     "sp": 3,
     "tags": [{
-      "id": "tag_reaction"
+      "id": "reaction"
     }],
     "source": "HA",
     "license": "NAPOLEON",
@@ -544,19 +544,19 @@
     }
   },
   {
-    "id": "sys_blackshield",
+    "id": "blackshield",
     "name": "Blackshield",
     "type": "Shield",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 4
       },
       {
-        "id": "tag_fullaction"
+        "id": "fullaction"
       }
     ],
     "source": "HA",
@@ -571,18 +571,18 @@
     }
   },
   {
-    "id": "sys_supportshield",
+    "id": "supportshield",
     "name": "Support Shield",
     "type": "Shield",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 2
       }
     ],
@@ -597,12 +597,12 @@
     }
   },
   {
-    "id": "sys_ers",
+    "id": "ers",
     "name": "Emergency Repair System",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "SALADIN",
@@ -614,18 +614,18 @@
     }
   },
   {
-    "id": "sys_hds",
+    "id": "hds",
     "name": "Hardlight Defense System",
     "type": "Shield",
     "sp": 3,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 4
       }
     ],
@@ -640,21 +640,21 @@
     }
   },
   {
-    "id": "sys_vishnu",
+    "id": "vishnu",
     "name": "VISHNU",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 3
       }
     ],
@@ -670,15 +670,15 @@
     }
   },
   {
-    "id": "sys_projectedshield",
+    "id": "projectedshield",
     "name": "Projected Shield",
     "type": "Shield",
     "sp": 1,
     "tags": [{
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       }
     ],
     "source": "HA",
@@ -692,12 +692,12 @@
     }
   },
   {
-    "id": "sys_reactorstabilizer",
+    "id": "reactorstabilizer",
     "name": "Reactor Stabilizer",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "SHERMAN",
@@ -709,18 +709,18 @@
     }
   },
   {
-    "id": "sys_asura",
+    "id": "asura",
     "name": "ASURA",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -734,15 +734,15 @@
     }
   },
   {
-    "id": "sys_rsu",
+    "id": "rsu",
     "name": "Redundant Systems Upgrade",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -756,12 +756,12 @@
     }
   },
   {
-    "id": "sys_batteries",
+    "id": "batteries",
     "name": "External Batteries",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -775,12 +775,12 @@
     }
   },
   {
-    "id": "sys_heatsink",
+    "id": "heatsink",
     "name": "Experimental Heat Sink",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HA",
     "license": "TOKUGAWA",
@@ -792,18 +792,18 @@
     }
   },
   {
-    "id": "sys_amaterasu",
+    "id": "amaterasu",
     "name": "AMATERASU",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": "1d3+3"
       }
     ],
@@ -819,12 +819,12 @@
     }
   },
   {
-    "id": "sys_hivedrone",
+    "id": "hivedrone",
     "name": "Hive Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "BALOR",
@@ -837,12 +837,12 @@
     }
   },
   {
-    "id": "sys_scannerswarm",
+    "id": "scannerswarm",
     "name": "Scanner Swarm",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HORUS",
     "license": "BALOR",
@@ -855,21 +855,21 @@
     }
   },
   {
-    "id": "sys_osiris",
+    "id": "osiris",
     "name": "OSIRIS",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": "1d3+2"
       }
     ],
@@ -884,12 +884,12 @@
     }
   },
   {
-    "id": "sys_pdw",
+    "id": "pdw",
     "name": "Point Defense Weapon",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "GORGON",
@@ -902,12 +902,12 @@
     }
   },
   {
-    "id": "sys_sdn",
+    "id": "sdn",
     "name": "Sentinel Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "GORGON",
@@ -920,12 +920,12 @@
     }
   },
   {
-    "id": "sys_monitor",
+    "id": "monitor",
     "name": "MONITOR module",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "GORGON",
@@ -938,24 +938,24 @@
     }
   },
   {
-    "id": "sys_scylla",
+    "id": "scylla",
     "name": "SCYLLA",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 3
       }
     ],
@@ -971,15 +971,15 @@
     }
   },
   {
-    "id": "sys_turretdn",
+    "id": "turretdn",
     "name": "Turret Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 4
       }
     ],
@@ -995,12 +995,12 @@
     }
   },
   {
-    "id": "sys_assassindn",
+    "id": "assassindn",
     "name": "Assassin Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "HYDRA",
@@ -1014,12 +1014,12 @@
     }
   },
   {
-    "id": "sys_tempestdn",
+    "id": "tempestdn",
     "name": "Tempest Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "HYDRA",
@@ -1032,15 +1032,15 @@
     }
   },
   {
-    "id": "sys_empmine",
+    "id": "empmine",
     "name": "EMP Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_mine"
+        "id": "mine"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -1055,15 +1055,15 @@
     }
   },
   {
-    "id": "sys_ramdrive",
+    "id": "ramdrive",
     "name": "RAM Drive",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_dangerzone"
+        "id": "dangerzone"
       }
     ],
     "source": "HORUS",
@@ -1077,19 +1077,19 @@
     }
   },
   {
-    "id": "sys_empulse",
+    "id": "empulse",
     "name": "EM Pulse",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       },
       {
-        "id": "tag_fullaction"
+        "id": "fullaction"
       }
     ],
     "source": "HORUS",
@@ -1103,12 +1103,12 @@
     }
   },
   {
-    "id": "sys_lightning",
+    "id": "lightning",
     "name": "Lightning Generator",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HORUS",
     "license": "MANTICORE",
@@ -1121,7 +1121,7 @@
     }
   },
   {
-    "id": "sys_localmaze",
+    "id": "localmaze",
     "name": "Localized Maze",
     "type": "System",
     "sp": 2,
@@ -1137,15 +1137,15 @@
     }
   },
   {
-    "id": "sys_mesmer",
+    "id": "mesmer",
     "name": "Mesmer Mine",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_mine"
+        "id": "mine"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -1160,12 +1160,12 @@
     }
   },
   {
-    "id": "sys_interdictor",
+    "id": "interdictor",
     "name": "Interdictor Field",
     "type": "System",
     "sp": 3,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "HORUS",
     "license": "MINOTAUR",
@@ -1178,15 +1178,15 @@
     }
   },
   {
-    "id": "sys_hunterlock",
+    "id": "hunterlock",
     "name": "Hunter Lock",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       }
     ],
     "source": "HORUS",
@@ -1201,15 +1201,15 @@
     }
   },
   {
-    "id": "sys_eye",
+    "id": "eye",
     "name": "EYE OF HORUS",
     "type": "System",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       }
     ],
     "source": "HORUS",
@@ -1224,12 +1224,12 @@
     }
   },
   {
-    "id": "sys_smn",
+    "id": "smn",
     "name": "Synthetic Muscle Netting",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "BLACKBEARD",
@@ -1242,18 +1242,18 @@
     }
   },
   {
-    "id": "sys_sekhmet",
+    "id": "sekhmet",
     "name": "SEKHMET",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }
     ],
     "source": "IPS-N",
@@ -1267,12 +1267,12 @@
     }
   },
   {
-    "id": "sys_lockkill",
+    "id": "lockkill",
     "name": "Lock/Kill Subsystem",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "BLACKBEARD",
@@ -1285,18 +1285,18 @@
     }
   },
   {
-    "id": "sys_aegis",
+    "id": "aegis",
     "name": "AEGIS shield Generator",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 1
       }
     ],
@@ -1311,15 +1311,15 @@
     }
   },
   {
-    "id": "sys_bastion",
+    "id": "bastion",
     "name": "“Bastion” Siege Scales",
     "type": "Armor",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }
     ],
     "source": "IPS-N",
@@ -1333,15 +1333,15 @@
     }
   },
   {
-    "id": "sys_bunker",
+    "id": "bunker",
     "name": "Portable Bunker",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -1356,12 +1356,12 @@
     }
   },
   {
-    "id": "sys_restock",
+    "id": "restock",
     "name": "Restock Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_limited",
+      "id": "limited",
       "val": 2
     }],
     "source": "IPS-N",
@@ -1375,12 +1375,12 @@
     }
   },
   {
-    "id": "sys_winch",
+    "id": "winch",
     "name": "Cable Winch System",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -1394,12 +1394,12 @@
     }
   },
   {
-    "id": "sys_repairdn",
+    "id": "repairdn",
     "name": "Repair Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_fullaction"
+      "id": "fullaction"
     }],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -1411,12 +1411,12 @@
     }
   },
   {
-    "id": "sys_ablative",
+    "id": "ablative",
     "name": "Ablative Shielding",
     "type": "Shield",
     "sp": 2,
     "tags": [{
-      "id": "tag_protocol"
+      "id": "protocol"
     }],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -1428,12 +1428,12 @@
     }
   },
   {
-    "id": "sys_aceso",
+    "id": "aceso",
     "name": "Aceso Swarm",
     "type": "Drone",
     "sp": 3,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "LANCASTER",
@@ -1445,12 +1445,12 @@
     }
   },
   {
-    "id": "sys_bulwark",
+    "id": "bulwark",
     "name": "Bulwark Mods",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "NELSON",
@@ -1462,12 +1462,12 @@
     }
   },
   {
-    "id": "sys_armorlock",
+    "id": "armorlock",
     "name": "Armor Lock System",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "NELSON",
@@ -1480,12 +1480,12 @@
     }
   },
   {
-    "id": "sys_adaptive",
+    "id": "adaptive",
     "name": "Adaptive Armor",
     "type": "Armor",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "IPS-N",
     "license": "NELSON",
@@ -1497,22 +1497,22 @@
     }
   },
   {
-    "id": "sys_breaching",
+    "id": "breaching",
     "name": "Breaching Charge",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-        "id": "tag_grenade"
+        "id": "grenade"
       }, {
-        "id": "tag_range",
+        "id": "range",
         "val": 5
       },
       {
-        "id": "tag_blast",
+        "id": "blast",
         "val": 1
       },
       {
-        "id": "tag_mine"
+        "id": "mine"
       }
     ],
     "source": "IPS-N",
@@ -1526,15 +1526,15 @@
     }
   },
   {
-    "id": "sys_impact",
+    "id": "impact",
     "name": "Impact Shielding",
     "type": "Shield",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }
     ],
     "source": "IPS-N",
@@ -1547,15 +1547,15 @@
     }
   },
   {
-    "id": "sys_uncle",
+    "id": "uncle",
     "name": "UNCLE",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       }
     ],
     "source": "IPS-N",
@@ -1570,15 +1570,15 @@
     }
   },
   {
-    "id": "sys_hyperdense",
+    "id": "hyperdense",
     "name": "Hyperdense Armor",
     "type": "Armor",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }
     ],
     "source": "IPS-N",
@@ -1591,12 +1591,12 @@
     }
   },
   {
-    "id": "sys_chargedstrike",
+    "id": "chargedstrike",
     "name": "Charged Stake",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_fullaction"
+      "id": "fullaction"
     }],
     "source": "IPS-N",
     "license": "VLAD",
@@ -1610,12 +1610,12 @@
     }
   },
   {
-    "id": "sys_ferrous",
+    "id": "ferrous",
     "name": "Ferrous Lash",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1628,15 +1628,15 @@
     }
   },
   {
-    "id": "sys_iceout",
+    "id": "iceout",
     "name": "ICEOUT Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -1652,12 +1652,12 @@
     }
   },
   {
-    "id": "sys_magdeployer",
+    "id": "magdeployer",
     "name": "Mag Deployer",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -1670,15 +1670,15 @@
     }
   },
   {
-    "id": "sys_magshield",
+    "id": "magshield",
     "name": "Mag Shield",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quick"
+        "id": "quick"
       }
     ],
     "source": "SSC",
@@ -1692,12 +1692,12 @@
     }
   },
   {
-    "id": "sys_magclamps",
+    "id": "magclamps",
     "name": "Hi-stress Mag Clamps",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -1709,12 +1709,12 @@
     }
   },
   {
-    "id": "sys_veil",
+    "id": "veil",
     "name": "Veil Generator",
     "type": "Deployable",
     "sp": 1,
     "tags": [{
-      "id": "tag_limited",
+      "id": "limited",
       "val": 1
     }],
     "source": "SSC",
@@ -1729,12 +1729,12 @@
     }
   },
   {
-    "id": "sys_compensator",
+    "id": "compensator",
     "name": "Kinetic Compensator",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "DEATH’S HEAD",
@@ -1747,12 +1747,12 @@
     }
   },
   {
-    "id": "sys_siphon",
+    "id": "siphon",
     "name": "Core Siphon",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1764,12 +1764,12 @@
     }
   },
   {
-    "id": "sys_flicker",
+    "id": "flicker",
     "name": "Flicker Field",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "DUSK WING",
@@ -1781,15 +1781,15 @@
     }
   },
   {
-    "id": "sys_crown",
+    "id": "crown",
     "name": "StunCrown",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_fullaction"
+        "id": "fullaction"
       },
       {
-        "id": "tag_limited",
+        "id": "limited",
         "val": 2
       }
     ],
@@ -1804,12 +1804,12 @@
     }
   },
   {
-    "id": "sys_reactiveweave",
+    "id": "reactiveweave",
     "name": "Reactive Weave",
     "type": "System",
     "sp": 1,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "METALMARK",
@@ -1821,19 +1821,19 @@
     }
   },
   {
-    "id": "sys_activecamo",
+    "id": "activecamo",
     "name": "Active Camo",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 2
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_unique"
+        "id": "unique"
       }
     ],
     "source": "SSC",
@@ -1846,12 +1846,12 @@
     }
   },
   {
-    "id": "sys_companion",
+    "id": "companion",
     "name": "Companion Gun",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "MONARCH",
@@ -1864,21 +1864,21 @@
     }
   },
   {
-    "id": "sys_tlaloc",
+    "id": "tlaloc",
     "name": "TLALOC",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_ai"
+        "id": "ai"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }, 
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 2
       }
     ],
@@ -1894,12 +1894,12 @@
     }
   },
   {
-    "id": "sys_agilitymod",
+    "id": "agilitymod",
     "name": "Agility Mods",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1911,12 +1911,12 @@
     }
   },
   {
-    "id": "sys_singularity",
+    "id": "singularity",
     "name": "Exposed Singularity",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1928,12 +1928,12 @@
     }
   },
   {
-    "id": "sys_fade",
+    "id": "fade",
     "name": "FADE Cloak",
     "type": "System",
     "sp": 2,
     "tags": [{
-      "id": "tag_fullaction"
+      "id": "fullaction"
     }],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1945,12 +1945,12 @@
     }
   },
   {
-    "id": "sys_scoutdn",
+    "id": "scoutdn",
     "name": "Scout Drone Nexus",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "tag_quickaction"
+      "id": "quickaction"
     }],
     "source": "SSC",
     "license": "SWALLOWTAIL",
@@ -1963,15 +1963,15 @@
     }
   },
   {
-    "id": "sys_lowprofile",
+    "id": "lowprofile",
     "name": "Low Profile",
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       }
     ],
     "source": "SSC",
@@ -1985,18 +1985,18 @@
     }
   },
   {
-    "id": "sys_athena",
+    "id": "athena",
     "name": "ATHENA",
     "type": "AI",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_protocol"
+        "id": "protocol"
       },
       {
-        "id": "tag_quickaction"
+        "id": "quickaction"
       }
     ],
     "source": "SSC",
@@ -2010,15 +2010,15 @@
     }
   },
   {
-    "id": "sys_cloak",
+    "id": "cloak",
     "name": "Cloaking Field",
     "type": "System",
     "sp": 4,
     "tags": [{
-        "id": "tag_quickaction"
+        "id": "quickaction"
       },
       {
-        "id": "tag_heatself",
+        "id": "heatself",
         "val": 3
       }
     ],
@@ -2033,15 +2033,15 @@
     }
   },
   {
-    "id": "sys_mongoose",
+    "id": "mongoose",
     "name": "//MONGOOSE v 3.4",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "HORUS",
@@ -2056,12 +2056,12 @@
     }
   },
   {
-    "id": "sys_scorpion",
+    "id": "scorpion",
     "name": "//SCORPION v 70.1",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "HORUS",
     "license": "GORGON",
@@ -2075,15 +2075,15 @@
     }
   },
   {
-    "id": "sys_aggressivess",
+    "id": "aggressivess",
     "name": "Aggressive System Sync",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_fulltech"
+        "id": "fulltech"
       }
     ],
     "source": "HORUS",
@@ -2098,12 +2098,12 @@
     }
   },
   {
-    "id": "sys_blackice",
+    "id": "blackice",
     "name": "Black Ice Module",
     "type": "Tech",
     "sp": 3,
     "tags": [{
-      "id": "tag_unique"
+      "id": "unique"
     }],
     "source": "SSC",
     "license": "BLACK WITCH",
@@ -2117,7 +2117,7 @@
     }
   },
   {
-    "id": "sys_boost",
+    "id": "boost",
     "name": "Boost Swarm Nexus",
     "type": "Tech",
     "sp": 2,
@@ -2134,15 +2134,15 @@
     }
   },
   {
-    "id": "sys_horos1",
+    "id": "horos1",
     "name": "H0r_OS Sys Upgrade I",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "HORUS",
@@ -2157,15 +2157,15 @@
     }
   },
   {
-    "id": "sys_neurospike",
+    "id": "neurospike",
     "name": "SSC NeuroSpike Mk1",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "SSC",
@@ -2180,15 +2180,15 @@
     }
   },
   {
-    "id": "sys_horos2",
+    "id": "horos2",
     "name": "H0r_OS Sys Upgrade II",
     "type": "Tech",
     "sp": 3,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_fulltech"
+        "id": "fulltech"
       }
     ],
     "source": "HORUS",
@@ -2202,15 +2202,15 @@
     }
   },
   {
-    "id": "sys_metahook",
+    "id": "metahook",
     "name": "HORUS Meta-Hook",
     "type": "Tech",
     "sp": 1,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "HORUS",
@@ -2225,15 +2225,15 @@
     }
   },
   {
-    "id": "sys_huntercloak",
+    "id": "huntercloak",
     "name": "Hunter Cloak",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "SSC",
@@ -2247,15 +2247,15 @@
     }
   },
   {
-    "id": "sys_blades",
+    "id": "blades",
     "name": "LAW OF BLADES",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_fulltech"
+        "id": "fulltech"
       }
     ],
     "source": "HORUS",
@@ -2270,15 +2270,15 @@
     }
   },
   {
-    "id": "sys_puppet",
+    "id": "puppet",
     "name": "Puppet Master",
     "type": "Tech",
     "sp": 1,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "HORUS",
@@ -2293,15 +2293,15 @@
     }
   },
   {
-    "id": "sys_trackingdrone",
+    "id": "trackingdrone",
     "name": "Tracking Drone",
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "SSC",
@@ -2316,15 +2316,15 @@
     }
   },
   {
-    "id": "sys_viral",
+    "id": "viral",
     "name": "Viral Logic",
     "type": "Tech",
     "sp": 1,
     "tags": [{
-        "id": "tag_unique"
+        "id": "unique"
       },
       {
-        "id": "tag_quicktech"
+        "id": "quicktech"
       }
     ],
     "source": "HORUS",

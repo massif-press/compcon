@@ -1,59 +1,48 @@
-var electron = require('electron')
-var path = require('path')
-var $ = require("jquery");
+const $ = require("jquery");
+const Electron = require('electron')
+const Expander = require('./util/expander');
+const Helpers = require('./util/handlebar-helpers');
 
 $(document).ready(function () {
-  $('.pilot-sidebar').load('./resources/html/pilot-sidebar.html', function() {
-    $('.pilot-expander').click(function () {
+  Helpers.init();
+
+  $('.pilot-sidebar').load('./html/pilot-sidebar.html', function() {
+    $('.pilot-Expander').click(function () {
       if ($(this).hasClass('btn')) {
-        toggleExpander('pilot', this);
+        Expander.bind('pilot', this);
       }
     });
   });
 });
 
-function toggleExpander(expanderType, element) {
-  $(element).toggleClass('open btn');
-  $($(element).find("." + expanderType + '-sub')).toggle();
-  $($(element).find("." + expanderType + '-open-info')).toggle("swing");
+// force web links to open in the OS default browser
+$(document).on('click', 'a[href^="http"]', function (event) {
+  event.preventDefault();
+  Electron.shell.openExternal(this.href);
+});
 
-  $('.' + expanderType + '-expander').each(function () {
-    if (this !== element && $(this).hasClass('open')) {
-      $(this).toggleClass('open btn');
-      $($(this).find("." + expanderType + '-sub')).toggle();
-      $($(this).find("." + expanderType + '-open-info')).toggle("swing");
-    }
-  });
-}
-
+// About modal button
 $("#about-btn").click(function () {
-  var modalID = $(this).data("modal");
+  let modalID = $(this).data("modal");
   $('#' + modalID).css("display", "block");
 });
 
 $('.close').click(function () {
-  var modalID = $(this).data("modal");
+  let modalID = $(this).data("modal");
   $('#' + modalID).css("display", "none");
 });
 
-
+// Catalog button and window
 $("#catalog-btn").click(function () {
-  let catalogWindow = new electron.remote.BrowserWindow({
+  let catalogWindow = new Electron.remote.BrowserWindow({
     'height': 800,
     'minHeight': 720,
     'width': 1400,
     'minWidth': 1280
   })
-    catalogWindow.setMenu(null);
-
-  catalogWindow.loadFile('./app/catalog.html')
-  catalogWindow.on('close', function () {
-    win = null
-  })
+  catalogWindow.setMenu(null);
+  catalogWindow.loadFile('./app/html/catalog/index.html')
+  catalogWindow.on('close', function () { win = null })
   catalogWindow.show()
 });
 
-$(document).on('click', 'a[href^="http"]', function (event) {
-  event.preventDefault();
-  electron.shell.openExternal(this.href);
-});

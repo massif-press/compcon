@@ -69,7 +69,6 @@
           <div class="exp-text" style="margin-left: -20px;">
             <b>10</b> (Base HP) 
             <b>{{plusMinus hp_core_bonus}}</b> (CORE Bonus) 
-            <b>{{plusMinus hp_level_bonus}}</b> (Level Bonus) 
             <b>{{plusMinus hp_hull_bonus}}</b> (HULL Bonus)
           </div>
           <div style="display: inline-block">
@@ -173,7 +172,7 @@
                   <span><b>{{mod.name}}</b><span class="subtitle">&nbsp;({{mod.modType}})</span></span>
                   <span class="subtitle"><br>{{mod.sp}} SP</span>
                   {{#if description}}<blockquote class="desc-text">{{{mod.description}}}</blockquote>{{/if}}
-                  {{#if effect}}<span>{{{mod.effect}}}<br></span>{{/if}}
+                  {{#if effect}}<span>{{{mod.effect}}}</span>{{/if}}
                 </div>
                 <hr class="mg-10">
               {{/if}}

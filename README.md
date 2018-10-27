@@ -74,7 +74,7 @@ Requires [node.js](https://nodejs.org/en/download/)
   <br>
   <hr>
 <h1>Changelog</h1>
-  <h3> v0.0.1 - 10/24/2018 </h3>
+  <h3> v0.1.0 - 10/24/2018 </h3>
     <p>Alpha preview release</p>
   <br>
   <hr>

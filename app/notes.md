@@ -25,7 +25,6 @@ pilot creation:
 - pick 3 talents (level 1 only)
 - choose starting gear (1-2 weapons, 1 armor, 0-3 gear)
 
-
 level up:
 - +1 hp
 - +1 to 1 skill
@@ -65,3 +64,13 @@ w/s should not have more than 3 aptitude points
 weapons should always have at least 1 for their damage type (melee/ranged)
 
 (.*?): 0,+$\n      
+
+
+
+prefer utility/search.js : search.where() over array.find() (it includes error handling)
+
+insert an inline tag: `#unique#`
+insert a block of tags `%unique ordnance loading%`
+add a value to a tag: `#limited(6)#`
+the capital X charater will be replaced in both name a description by whatever is passed within the brackets
+
