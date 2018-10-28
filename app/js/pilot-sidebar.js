@@ -1,10 +1,11 @@
 const $ = require("jquery");
 const fs = require("fs");
 const Handlebars = require("handlebars");
-const pilots = require("../resources/data/pilots.json");
 const mechSidebar = require("./mech-sidebar");
 const pilotSheet = require("./pilot-sheet");
-
+//data
+const pilots = require("../resources/data/pilots.json");
+//templates
 const pilotTemplate = fs.readFileSync(__dirname  + "/templates/pilot-expander.hbs", "utf8");
 
 var template = Handlebars.compile(pilotTemplate);

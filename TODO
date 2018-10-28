@@ -3,6 +3,8 @@ Alpha 1.5:
   ☐ Catalog
 
 Todo:
+  ☐ Custom multiselector for catalog dropdowns
+  ☐ Manufacturer info button for info modal
   ☐ Organize CSS
   ☐ refactor taghelper
   ☐ parse effects and descriptions for damage words

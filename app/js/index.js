@@ -41,8 +41,9 @@ $("#catalog-btn").click(function () {
     'minWidth': 1280
   })
   catalogWindow.setMenu(null);
-  catalogWindow.loadFile('./app/html/catalog/index.html')
+  catalogWindow.loadFile('./app/html/catalog.html')
   catalogWindow.on('close', function () { win = null })
   catalogWindow.show()
+  catalogWindow.webContents.openDevTools()
 });
 
