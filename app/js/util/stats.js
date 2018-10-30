@@ -43,7 +43,7 @@ function getMechStats(config, pilot) {
 }
 
 function getPilotHP(pilotLevel) {
-   return rules.pilot_base_hp + pilotLevel;
+   return rules.base_pilot_hp + pilotLevel;
 }
 
 function v(val) {

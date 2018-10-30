@@ -13,6 +13,10 @@
   align-self: stretch;
 }
 
+#manu-btns {
+  overflow: hidden;
+}
+
 #catalog-header {
   grid-area: 1 / 1 / 1 / 3;
   align-self: stretch;
@@ -81,25 +85,25 @@
   padding-left: 3px;
   cursor: pointer;
   color: var(--highlight);
-  border: 1px solid var(--bg-alt)
+  border: 1px solid var(--bg-alt);
+  display: inline-grid;
 }
 
 .manu-block:hover{
-  background-color: var(--bg-alt);
   color: var(--text);
-  border: 1px solid var(--text)
+  border: 1px solid var(--border)
 }
 
-.manu-block .selected {
-  background-color: var(--highlight);
-  color: #fff;
-  border: 0;
-}
-
-.manu-block .selected:hover {
+.manu-block.selected {
   background-color: var(--bg-alt);
   color: var(--text);
-  border: 0;
+  border: 1px solid var(--border);
+}
+
+.manu-block.selected:hover {
+  background-color: var(--bg);
+  color: grey;
+  border: 1px solid var(--border);
 }
 
 .manu-title {
@@ -110,5 +114,40 @@
 }
 
 .manu-modal-btn {
+  position: relative;
+  top:-5px;
+  text-align:center;
+  line-height:19px;
+  background-color:var(--bg-alt);
+  color:grey;
+  width:18px;
+  height:18px;           
+  border-radius:50%;
+}
 
+.manu-modal-btn:hover {
+  color: #fff;
+  background-color: var(--success);
+}
+
+.spacer {
+  height: 25px;
+}
+
+.sort-bar {
+  position: fixed;
+  height: 25px;
+  z-index: 100;
+  width: 100%;
+  background-color: var(--bg);
+}
+
+.catalog-item {
+  /* background-color: var(--bg-alt); */
+  width: 98%;
+  border: 1px solid var(--border);
+  padding: 10px;
+  margin: 5px;
+  font-size: 18px;
+  line-height: 30px;
 }

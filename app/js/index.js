@@ -44,6 +44,6 @@ $("#catalog-btn").click(function () {
   catalogWindow.loadFile('./app/html/catalog.html')
   catalogWindow.on('close', function () { win = null })
   catalogWindow.show()
-  catalogWindow.webContents.openDevTools()
+  // catalogWindow.webContents.openDevTools()
 });
 

@@ -5,6 +5,7 @@
     <title>Gear Catalogue</title>
     <link rel="stylesheet" href="../resources/css/catalog.css">
     <link rel="stylesheet" href="../resources/css/main.css">
+    <link rel="stylesheet" href="../resources/css/modal.css">
     <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web|Cinzel+Decorative" rel="stylesheet">
   </head>
   <body>
@@ -21,7 +22,11 @@
       </select>
 
       <!-- Subtype Selector -->
-      <select id="subtype-dropdown" class="btn catalog-filter catalog-dropdown hidden">
+      <select id="subtype-pg-dropdown" class="btn catalog-filter catalog-dropdown subtype-dropdown hidden">
+        <option value="" selected>All</option>
+        <option value="pilot_gear">Weapons</option>
+        <option value="core_bonuses">Armor</option>
+        <option value="shells">Gear</option>
       </select>
 
       <!-- Text Search -->
@@ -29,7 +34,7 @@
 
       <!-- Brew selector -->
       <select id="brew-dropdown" class="btn catalog-filter pull-right">
-        <option value="core" selected>VANILLA</option>
+        <option value="core" selected>LANCER CORE</option>
         <option value="">ALL</option>
       </select>
 
@@ -37,38 +42,19 @@
       <div id="manufacturer-sidebar"></div>
       <div id="manu-btns">
         <a href=#>
-          <div class="btn menu-btn">Select All</div>
+          <div id="select-all" class="btn menu-btn">Select All</div>
         </a>
         <a href=#>
-          <div class="btn menu-btn">Deselect All</div>
+          <div id="select-none" class="btn menu-btn">Deselect All</div>
         </a>
       </div>
       <div id="catalog-main">
-        this is the catalogue
-        catalogs: pilot weapons, pilot armor, pilot gear, weapons, systems
-        <br>
-        filters:
-        source: gms, ips-n, ssc, horus, ha
-        LL required: 0, 1, 2, 3
-        <br><br>
-        ordering:
-        pilot weapons-- <br>
-        source, name, rarity, damage
-        <br><br>
-        pilot armor-- <br>
-        source, name, rarity, armor, evasion, e-def, speed
-        <br><br>
-        pilot gear-- <br>
-        source, name, rarity
-        <br><br>
-        shells-- <br>
-        source, license, name, size, armor, sp, mounts, stats
-        <br><br>
-        weapons-- <br>
-        source, license, name, mount, type, sp, range, damage
-        <br><br>
-        systems-- <br>
-        source, license, name, type, sp
+      <div class="sort-bar">
+        <button class="sort" data-sort="source">Source</button>
+        <button class="sort" data-sort="name">Name</button>
+      </div>
+      <div class=spacer></div>
+      <div id="scroll-body"></div>
       </div>
     </div>
 
@@ -76,7 +62,7 @@
       <div id="manuModal" class="modal">
         <div class="modal-content">
           <div class="modal-header">
-            <span class="close close-x" data-modal="aboutModal">&times;</span>
+            <span class="close close-x" data-modal="manuModal">&times;</span>
             <span>Manufacturer Information</span>
           </div>
           <div class="modal-body">
