@@ -1,5 +1,5 @@
 # Release: [v0.1.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.1-alpha)
-## Source: v0.1.1-alpha
+## Source: v0.1.2-alpha
 
 Requires [node.js](https://nodejs.org/en/download/)
 
@@ -77,10 +77,8 @@ Requires [node.js](https://nodejs.org/en/download/)
   ---
 
 # Changelog
-###  v0.1.0 - 10/24/2018 
+###  v0.1 - 10/24/2018 
   - Alpha preview release
-###  v0.1.1 - 10/26/2018 
-  - Many refactoring and data schema changes
 
   ---
 
