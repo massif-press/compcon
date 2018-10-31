@@ -143,17 +143,55 @@
 }
 
 .catalog-item {
-  /* background-color: var(--bg-alt); */
   width: 98%;
   border: 1px solid var(--border);
   padding: 10px;
   margin: 5px;
   font-size: 18px;
   line-height: 30px;
+  cursor: pointer;
 }
 
 .catalog-item:hover,
 .catalog-item.equip-open-info:hover {
   background-color: var(--bg-alt);
+}
+
+.catalog-open {
+  background-color: var(--bg-alt);
+  color: var(--text);
+}
+
+.catalog-minor {
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.catalog-ult {
+  margin: 5px;
+  margin-bottom: 0px;
+  padding:5px;
+  background-color: var(--bg);
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-align: center;
+  width: 98%;
+}
+
+.catalog-ult-sub {
+  margin: 0px 5px;
+  padding:0px 5px;
+  letter-spacing: 8px;
+  text-align: center;
+  width: 98%;
+  font-size: 13px;
+  font-weight: 100;
+  color: var(--highlight);
+}
+
+.catalog-ult-desc {
+  padding-left: 20px;
+  padding-bottom: 5px;
 }
 

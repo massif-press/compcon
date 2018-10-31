@@ -1,24 +1,24 @@
-{{#items}}
-  <div class="catalog-item equip-expander">
-    <a href=#>
-      <div class="equip-expander-header">
-        <table width="100%">
-          <tr>
-            <td width="50%">
-              <span class="lb-span"><b>&nbsp;{{name}}</b></span>
-            </td>
-            <td>
-              <span class="subtitle pull-right">{{source}}</span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </a>
-    <div class="equip-open-info hidden">
-      <div style="padding-left:5px">
+<table width="100%" class="tablesorter" style="border-collapse: collapse;">
+  <thead>
+    <tr style="text-align: left; background-color:var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; ">
+      <th width="50%"><span class="subtitle">Name</span></th>
+      <th><span class="subtitle">Source</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#items}}
+    <tr style="text-align: left; border: 0; border-bottom: 1px solid var(--border);" class="catalog-item toggle" data-id="{{id}}" rowspan="2">
+      <td><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
+      <td><span class="catalog-minor">&nbsp;{{source}}</span></td>
+    </tr>
+
+    <tr class="tablesorter-childRow" data-id="{{id}}">
+      <td class="equip-open-info catalog-open" style="padding:10px;" colspan="16">
         {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
         <span>{{{effect}}}</span>
-      </div>
-    </div>
-  </div>
-{{/items}}
+      </td>
+    </tr>
+
+    {{/items}}
+  </tbody>
+</table>

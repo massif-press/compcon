@@ -1,7 +1,7 @@
 const $ = require("jquery");
 const fs = require("fs");
 const Handlebars = require("handlebars");
-const Expanders = require("./util/expander");
+const Tablesorter = require("tablesorter");
 //data
 const manufacturers = require("../resources/data/manufacturers.json");
 const core_bonuses = require("../resources/data/core_bonus.json");
@@ -12,12 +12,16 @@ const manufacturerTemplate = fs.readFileSync(__dirname + "/templates/catalog/man
 const bonusTemplate = fs.readFileSync(__dirname + "/templates/catalog/core-bonuses.hbs", "utf8");
 const shellTemplate = fs.readFileSync(__dirname + "/templates/catalog/shells.hbs", "utf8");
 
-Handlebars.registerHelper('haseString', function (stats) {
-  return "hase"
+Handlebars.registerHelper('haseString', function (stats, prop) {
+  return stats[prop] ? stats[prop] : 0;
 });
 
-Handlebars.registerHelper('mountString', function (mounts) {
-  return "mounts"
+Handlebars.registerHelper('mountString', function (mounts, prop) {
+  var count = 0;
+  for (var i = 0; i < mounts.length; i++) {
+    if (mounts[i] == prop) count ++
+  }
+  return count;
 });
   
 
@@ -58,10 +62,8 @@ $("#type-dropdown").change(function() {
       break;
   }
 
-
   $("#scroll-body").html(template(itemObj));
-  Expanders.bindEquipment();
-
+  tableInit()
 })
 
 //select/unselect all
@@ -90,3 +92,13 @@ $('.close').click(function () {
   let modalID = $(this).data("modal");
   $('#' + modalID).css("display", "none");
 });
+
+function tableInit() {
+  $('.tablesorter-childRow td').hide();
+  $(".tablesorter").tablesorter({cssChildRow: "tablesorter-childRow"})
+  $('.tablesorter').delegate('.toggle', 'click', function () {
+    $(this).closest('tr').toggleClass('catalog-open')
+    $(this).closest('tr').nextUntil('tr.tablesorter-hasChildRow').find('td').toggle();
+    return false;
+  });
+}

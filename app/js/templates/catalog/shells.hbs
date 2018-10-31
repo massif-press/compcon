@@ -1,72 +1,63 @@
-<div style="position:fixed; width: 98%;
-  border: 1px;
-  padding: 5px;
-  font-size: 18px;
-  line-height: 30px;">
-  <table width="100%">
-    <tr style="text-align: left; background-color:var(--bg); border-bottom: 1px solid var(--border);">
-      <th width="35%">
-        <span class="subtitle">Name</span>
+<table width="100%" class="tablesorter" style="border-collapse: collapse;">
+  <thead>
+    <tr style="text-align: left; background-color:var(--bg); border: 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; ">
+      <th width="20%"><span class="subtitle">Name</span></th>
+      <th width="10%"><span class="subtitle">Source</span>
       </th>
-      <th width="10%">
-        <span class="subtitle">Source</span>
-      </th>
-      <th width="5%">
-        <span class="subtitle">Size</span>
-      </th>
-      <th width="5%">
-        <span class="subtitle">Armor</span>
-      </th>
-      <th width="5%">
-        <span class="subtitle">SP</span>
-      </th>
-      <th width="20%" style="text-align: center;">
-        <span class="subtitle">Mounts</span>
-      </th>
-      <th width="20%" style="text-align: center;">
-        <span class="subtitle">HASE</span>
-      </th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">Size</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">Armor</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">SP</span></th>
+      <th width="2%"></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">FLEX</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">AUX</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">MAIN</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">HEAVY</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">SPINAL</span></th>
+      <th width="2%"></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">HULL</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">AGI</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">SYS</span></th>
+      <th width="5%" style="text-align: center;"><span class="subtitle">ENG</span></th>
     </tr>
-  </table>
-</div>
-<div class=spacer></div>
+  </thead>
+  <tbody>
+    {{#items}}
+    <tr class="catalog-item toggle" style="text-align: left; border: 0; border-bottom: 1px solid var(--border);" data-id="{{id}}" rowspan="2">
+      <td><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
+      <td><span class="catalog-minor">&nbsp;{{source}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{size}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{armor}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{sp}}</span></td>
+      <td></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'flex'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'aux'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'main'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'heavy'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'spinal'}}}</span></td>
+      <td></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'hull'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'sys'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'agi'}}}</span></td>
+      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'eng'}}}</span></td>
+    </tr>
 
-{{#items}}
-<div class="catalog-item equip-expander">
-  <a href=#>
-    <div class="equip-expander-header">
-      <table width="100%">
-        <tr style="text-align: left;">
-          <td width="35%">
-            <span class="lb-span"><b>&nbsp;{{name}}</b></span>
-          </td>
-          <td width="10%">
-            <span class="subtitle">{{source}}</span>
-          </td>
-          <td width="5%" style="text-align: center;">
-            <span class="subtitle">{{size}}</span>
-          </td>
-          <td width="5%" style="text-align: center;">
-            <span class="subtitle">{{armor}}</span>
-          </td>
-          <td width="5%" style="text-align: center;">
-            <span class="subtitle">{{sp}}</span>
-          </td>
-          <td width="20%" style="text-align: center;">
-            <span class="subtitle">{{mountString mounts}}</span>
-          </td>
-          <td width="20%" style="text-align: center;">
-            <span class="subtitle">{{haseString stats}}</span>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </a>
-  <div class="equip-open-info hidden">
-    <div style="padding-left:5px">
-      {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-      <span>{{{effect}}}</span>
-    </div>
-  </div>
-</div>
-{{/items}}
+    <tr class="tablesorter-childRow" data-id="{{id}}">
+      <td class="equip-open-info catalog-open" style="padding-left:5px;" colspan="16">
+        {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+        <div class="catalog-ult">{{ult_name}}</div>
+        <div class="catalog-ult-sub">PASSIVE</div>
+        {{#if ult_description}}
+         <blockquote class="desc-text">{{{ult_description}}}</blockquote>
+        {{/if}}
+        <p class="catalog-ult-desc">{{{ult_passive}}}</p>
+        <br>
+        <div class="catalog-ult">{{ult_active_name}}</div>
+        <div class="catalog-ult-sub">ACTIVE</div>
+        <p class="catalog-ult-desc">{{{ult_active}}}</p>
+        <br>
+      </td>
+    </tr>
+
+    {{/items}}
+  </tbody>
+</table>
