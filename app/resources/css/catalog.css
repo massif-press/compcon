@@ -131,7 +131,7 @@
 }
 
 .spacer {
-  height: 25px;
+  height: 35px;
 }
 
 .sort-bar {
@@ -151,3 +151,9 @@
   font-size: 18px;
   line-height: 30px;
 }
+
+.catalog-item:hover,
+.catalog-item.equip-open-info:hover {
+  background-color: var(--bg-alt);
+}
+
