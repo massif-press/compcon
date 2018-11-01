@@ -157,7 +157,7 @@
     },
     "range": 15,
     "tags": [{
-      " id ": " arcing "
+      "id": "arcing"
     }],
     "source": "HA",
     "license": "ISKANDER",
@@ -1247,7 +1247,9 @@
     "tags": [{
         "id": "smart"
       },
-      "Seeking",
+      {
+        "id": "seeking"
+      },
       {
         "id": "accurate"
       }
@@ -1352,8 +1354,9 @@
       },
       {
         "id": "accurate"
-      },
-      "Unique"
+      }, {
+        "id": "unique"
+      }
     ],
     "source": "SSC",
     "license": "MOURNING CLOAK",
@@ -1397,7 +1400,6 @@
     "type": "Rifle",
     "sp": 0,
     "damage": {
-      "override": ""
     },
     "range": 20,
     "tags": [],
@@ -1891,7 +1893,7 @@
       }
     ],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
     "effect": "When you fire this weapon, hit or miss, cool 1d3+1 heat",
     "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent",
@@ -1911,7 +1913,7 @@
     "range": "Threat 1",
     "tags": [],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
     "effect": "",
     "description": "Gained from the \"Argonaut Shield\" IPS-N Drake Ultimate passive ability",
@@ -1930,7 +1932,7 @@
     "range": 8,
     "tags": [],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
     "effect": "Make a targeting roll vs evasion 8 and target any friendly mech in range (still take cover and line of sight into account). On hit, your target can spend up to 1 repair to heal.",
     "description": "Gained from the \"Latch Drone\" IPS-N Lancaster Ultimate passive ability",
@@ -1950,7 +1952,7 @@
     "range": "5, Threat 3",
     "tags": [],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
     "effect": "",
     "description": "Gained from the \"M-35 MJOLNIR Cannon\" IPS-N Raleigh Ultimate passive ability",
@@ -1977,9 +1979,9 @@
       }
     ],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
-    "effect": "",
+    "effect": " ",
     "description": "Gained from the \"Zone Focus Mk IV SOLIDCORE\" HA Sherman Ultimate passive ability",
     "aptitude": {
       "ranged": 1
@@ -2004,9 +2006,9 @@
       }
     ],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:/b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li>Damage: 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll the Limited property each full repair.<br>You can change the profile of this weapon each time you full repair.",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll the Limited property each full repair.<br>You can change the profile of this weapon each time you full repair.",
     "description": "Gained from the \"Engineer\" Rank 2 Talent",
     "aptitude": {
       "ranged": 1,
@@ -2032,9 +2034,9 @@
       }
     ],
     "source": "Special",
-    "license": "",
+    "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:/b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li>Damage: 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll the Limited property each full repair.<br>You can change the profile of this weapon each time you full repair.",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll the Limited property each full repair.<br>You can change the profile of this weapon each time you full repair.",
     "description": "Gained from the \"Engineer\" Rank 3 Talent",
     "aptitude": {
       "ranged": 1,

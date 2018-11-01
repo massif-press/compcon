@@ -1,8 +1,13 @@
 {{#manufacturers}}
-<div class="manu-block selected">
-  <span class="manu-title">{{name}}</span>
-  <a href="#" style="margin-top: -20px;">
-    <span class="subtitle pull-right manu-modal-btn" data-modal="manuModal" data-description="{{description}}"><i>i</i></span>
-  </a>
-</div>
+<table width="98%" style="border-spacing: 0px 3px; margin-left: 5px;" >
+  <tr>
+    <td width="95%">
+      <div class="manu-block selected" data-filter-text="{{id}}">
+        <span class="manu-title">{{name}}</span>
+      </div>
+    </td>
+    <td class="subtitle manu-modal-btn" data-modal="manuModal" data-description="{{description}}">
+      <span><i>i</i></span>
+    </td>
+  </tr>
 {{/manufacturers}}
