@@ -1,5 +1,5 @@
-# Release: [v0.1.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.1-alpha)
-## Source: v0.1.2-alpha
+# Release: [v0.2.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.2-alpha)
+## Source: v0.2.0-alpha
 
 Requires [node.js](https://nodejs.org/en/download/)
 
@@ -33,9 +33,6 @@ Requires [node.js](https://nodejs.org/en/download/)
   ---
 
 # Roadmap
-### α
-- View LANCER pilots and their mech configurations from stored JSON data
-  
 ### β
 - Create and save LANCER pilots
 - Create and save LANCER mech configurations, per pilot
@@ -78,8 +75,13 @@ Requires [node.js](https://nodejs.org/en/download/)
 
 # Changelog
 ###  v0.1 - 10/24/2018 
-  - Alpha preview release
-
+- Alpha preview release
+###  v0.2 - 10/24/2018 
+- Catalogue Viewer
+  - View pilot gear, shell, core bonus, system, and weapon data in sortable and filterable tables
+  - Pops out for easy reference
+  - Data has a lot of errors/missing formatting. This'll be fixed after LANCER 1.8
+  
   ---
 
 # Contributing

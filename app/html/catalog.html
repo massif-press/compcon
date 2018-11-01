@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../resources/css/catalog.css">
     <link rel="stylesheet" href="../resources/css/main.css">
     <link rel="stylesheet" href="../resources/css/modal.css">
+    <link rel="stylesheet" href="../resources/css/balloon.css">
     <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web|Cinzel+Decorative" rel="stylesheet">
   </head>
   <body>
@@ -18,19 +19,21 @@
         <option value="core_bonuses">CORE Bonuses</option>
         <option value="shells">Shells</option>
         <option value="weapons">Weapons</option>
+        <option value="mods">Weapon Mods</option>
         <option value="systems">Systems</option>
       </select>
 
       <!-- Subtype Selector -->
       <select id="subtype-pg-dropdown" class="btn catalog-filter catalog-dropdown subtype-dropdown hidden">
-        <option value="" selected>All</option>
-        <option value="pilot_gear">Weapons</option>
-        <option value="core_bonuses">Armor</option>
-        <option value="shells">Gear</option>
+        <option value="" disabled selected>Select Item Subtype...</option>
+        <option value="weapons">Weapons</option>
+        <option value="armor">Armor</option>
+        <option value="gear">Gear</option>
       </select>
 
       <!-- Text Search -->
-      <input class="catalog-filter search-input" type="text" placeholder="Search...">
+      <input id="catalog-search" class="catalog-filter search-input" type="search" data-column="0" placeholder="Search...">
+      <span type="button" class="reset">&times;</span>
 
       <!-- Brew selector -->
       <select id="brew-dropdown" class="btn catalog-filter pull-right">
@@ -49,11 +52,6 @@
         </a>
       </div>
       <div id="catalog-main">
-      <div class="sort-bar">
-        <button class="sort" data-sort="source">Source</button>
-        <button class="sort" data-sort="name">Name</button>
-      </div>
-      <div class=spacer></div>
       <div id="scroll-body"></div>
       </div>
     </div>

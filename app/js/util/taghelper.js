@@ -18,7 +18,7 @@ function parse(str) {
     if (tag) {
       tag.name = tag.name.replace(new RegExp('X', 'g'), val);
       tag.description = tag.description.replace(new RegExp('X', 'g'), val);
-      var html = `<span class='tag'><a href='#' data-balloon-length='${balloonSize(tag.description)}' data-balloon='${tag.description}' data-balloon-pos='up'>${tag.name}</a></span>`
+      var html = `<span class='tag'><a href='#' data-balloon-length='${balloonSize(tag.description)}' data-balloon='${tag.description}' data-balloon-pos='right'>${tag.name}</a></span>`
       str = str.replace(inlineMatch[0], html);
     } else {
       console.error(`Cannot find tag with id: ${id}`);
@@ -64,7 +64,7 @@ function parse(str) {
   str += `<br><div class='tag-div'>`
   for (var i = 0; i < tags.length; i++) {
     var bSize = balloonSize(tags[i].description)
-    str += `<span class='tag'><a href='#' data-balloon-length='${bSize}' data-balloon='${tags[i].description}' data-balloon-pos='up'>${tags[i].name}</a></span>`
+    str += `<span class='tag'><a href='#' data-balloon-length='${bSize}' data-balloon='${tags[i].description}' data-balloon-pos='right'>${tags[i].name}</a></span>`
   }
   str += `</div>`
   return str;

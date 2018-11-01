@@ -1,10 +1,18 @@
-
-Alpha 1.5:
-  ☐ Catalog
+Beta:
+  ☐ Pilot creation wizard
+  ☐ Pilot editor
+  ☐ Pilot gear quick editor
+  ☐ Pilot level-up tool
+  ☐ Config creation wizard
+  ☐ Config editor
+  ☐ Config level-up tool
+  ☐ Config loadout quick editor
+  ☐ Config loadout saves
 
 Todo:
-  ☐ Custom multiselector for catalog dropdowns
-  ☐ Manufacturer info button for info modal
+  ☐ Fix catalog header position
+  ☐ Catalog - write sort function to correctly sort damage/range
+  ☐ Move Tags.Parse() calls into helpers
   ☐ Organize CSS
   ☐ refactor taghelper
   ☐ parse effects and descriptions for damage words
@@ -47,6 +55,14 @@ Ideas:
   ☐ override eg. signature weapons to create custom versions at player creation
 
 Archive:
+  ✔ Catalog @done(18-11-01 16:39) @project(Alpha 1.5)
+  ✔ Source selectors @done(18-11-01 16:39) @project(Todo)
+  ✔ Name search @done(18-11-01 16:39) @project(Todo)
+  ✔ Catalog ult active needs parsed tags @done(18-11-01 13:09) @project(Todo)
+  ✔ Catalog - pilot weapons, weapons, systems need tags @done(18-11-01 12:59) @project(Todo)
+  ✘ Catalog - weapon sort by damage type @cancelled(18-11-01 12:59) @project(Todo)
+  ✔ Custom multiselector for catalog dropdowns @done(18-11-01 12:59) @project(Todo)
+  ✔ Manufacturer info button for info modal @done(18-10-31 15:50) @project(Todo)
   ✔ Weapon Mods @done(18-10-25 17:32) @project(Alpha 1.5)
   ✔ Remove extraneous id prefixes @done(18-10-26 14:37) @project(Todo)
   ✔ Error handling for every find() (refactor) @done(18-10-26 14:01) @project(Todo)

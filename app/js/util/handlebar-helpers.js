@@ -1,5 +1,6 @@
 const Handlebars = require('handlebars');
 const Dicemath = require('./dicemath');
+const Tags = require('./taghelper');
 
 const Manufacturers = require("../../resources/data/manufacturers.json");
 
@@ -91,7 +92,7 @@ function init() {
     var outArr = [];
     for (var key in dmg) {
       if (dmg[key].toString() === "0") continue;
-      outArr.push(`<span class="${key}">${dmg[key]} ${key.charAt(0).toUpperCase() + key.slice(1)} Damage</span>`)
+      outArr.push(`<span class="${key}">${dmg[key]} ${key.charAt(0).toUpperCase() + key.slice(1)}</span>`)
     }
 
     return outArr.join(', ');
@@ -107,5 +108,31 @@ function init() {
     return `${d.min.total} - ${d.max.total}${h}   (${d.avg.total}) ${ha}`;
   });
 }
+
+Handlebars.registerHelper('haseString', function (stats, prop) {
+  return stats[prop] ? stats[prop] : 0;
+});
+
+Handlebars.registerHelper('mountString', function (mounts, prop) {
+  var count = 0;
+  for (var i = 0; i < mounts.length; i++) {
+    if (mounts[i] == prop) count++
+  }
+  return count;
+});
+
+Handlebars.registerHelper('appliedString', function (app) {
+  var str = "";
+  for (var i = 0; i < app.length; i++) {
+    if (app[i] === "cqb") str += "CQB"
+    else str += app[i].charAt(0).toUpperCase() + app[i].slice(1);
+    if (i < app.length - 1) str += ", "
+  }
+  return str;
+});
+
+Handlebars.registerHelper('parseTags', function (str) {
+  return Tags.parse(str);
+});
 
 module.exports.init = init;
