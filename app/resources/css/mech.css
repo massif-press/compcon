@@ -175,31 +175,6 @@
   border: 0;
 }
 
-/* Damage Types */
-.kinetic {
- color: var(--kinetic);
-}
-
-.energy {
- color: var(--energy);
-}
-
-.explosive {
- color: var(--explosive);
-}
-
-.variable {
- color: var(--variable);
-}
-
-.burn {
- color: var(--burn);
-}
-
-.heat {
- color: var(--heat);
-}
-
 .mg-10{
   margin: 10px;
 }

@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "v0.1.2",
+  "version": "v0.2.0",
   "description": "LANCER player assistant",
   "main": "main.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": "",
   "author": "J. Arena",
-  "license": "GPM",
+  "license": "GPL",
   "devDependencies": {
     "electron": "^3.0.0"
   },
@@ -17,7 +17,6 @@
     "electron-require": "^0.3.0",
     "handlebars": "^4.0.12",
     "jquery": "^3.3.1",
-    "list.js": "^1.5.0",
     "tablesorter": "^2.31.0"
   }
 }

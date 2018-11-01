@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../resources/css/catalog.css">
     <link rel="stylesheet" href="../resources/css/main.css">
     <link rel="stylesheet" href="../resources/css/modal.css">
+    <link rel="stylesheet" href="../resources/css/balloon.css">
     <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web|Cinzel+Decorative" rel="stylesheet">
   </head>
   <body>
@@ -31,7 +32,8 @@
       </select>
 
       <!-- Text Search -->
-      <input class="catalog-filter search-input" type="text" placeholder="Search...">
+      <input id="catalog-search" class="catalog-filter search-input" type="search" data-column="0" placeholder="Search...">
+      <span type="button" class="reset">&times;</span>
 
       <!-- Brew selector -->
       <select id="brew-dropdown" class="btn catalog-filter pull-right">

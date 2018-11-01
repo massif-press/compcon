@@ -13,9 +13,34 @@
   --kinetic: #ABB7B7;
   --energy: #74b9ff;
   --explosive: #F2B134;
-  --variable: #81597f;
-  --heat: #F3573B;
-  --burn: #832e2e;
+  --variable: #a557a1;
+  --heat: #eb5317;
+  --burn: #ce3232;
+}
+
+/* Damage Types */
+.kinetic {
+  color: var(--kinetic);
+}
+
+.energy {
+  color: var(--energy);
+}
+
+.explosive {
+  color: var(--explosive);
+}
+
+.variable {
+  color: var(--variable);
+}
+
+.burn {
+  color: var(--burn);
+}
+
+.heat {
+  color: var(--heat);
 }
 
 * {
