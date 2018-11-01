@@ -1,44 +1,44 @@
 <table width="100%" class="tablesorter" style="border-collapse: collapse;">
   <thead>
-    <tr style="text-align: left; background-color:var(--bg); border: 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; ">
-      <th width="20%"><span class="subtitle">Name</span></th>
-      <th width="10%"><span class="subtitle">Source</span>
+    <tr class="catalog-header-line">
+      <th width="20%" style="text-align: left;"><span class="subtitle">Name</span></th>
+      <th width="10%" style="text-align: left;"><span class="subtitle">Source</span>
       </th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">Size</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">Armor</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">SP</span></th>
+      <th width="5%"><span class="subtitle">Size</span></th>
+      <th width="5%"><span class="subtitle">Armor</span></th>
+      <th width="5%"><span class="subtitle">SP</span></th>
       <th width="2%"></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">FLEX</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">AUX</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">MAIN</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">HEAVY</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">SPINAL</span></th>
+      <th width="5%"><span class="subtitle">FLEX</span></th>
+      <th width="5%"><span class="subtitle">AUX</span></th>
+      <th width="5%"><span class="subtitle">MAIN</span></th>
+      <th width="5%"><span class="subtitle">HEAVY</span></th>
+      <th width="5%"><span class="subtitle">SPINAL</span></th>
       <th width="2%"></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">HULL</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">AGI</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">SYS</span></th>
-      <th width="5%" style="text-align: center;"><span class="subtitle">ENG</span></th>
+      <th width="5%"><span class="subtitle">HULL</span></th>
+      <th width="5%"><span class="subtitle">AGI</span></th>
+      <th width="5%"><span class="subtitle">SYS</span></th>
+      <th width="5%"><span class="subtitle">ENG</span></th>
     </tr>
   </thead>
   <tbody>
     {{#items}}
-    <tr class="catalog-item toggle" style="text-align: left; border: 0; border-bottom: 1px solid var(--border);" data-id="{{id}}" rowspan="2">
-      <td><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
-      <td><span class="catalog-minor">&nbsp;{{source}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{size}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{armor}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{sp}}</span></td>
+    <tr class="catalog-item toggle" data-id="{{id}}" rowspan="2">
+      <td style="text-align: left;"><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
+      <td style="text-align: left;"><span class="catalog-minor">&nbsp;{{source}}</span></td>
+      <td ><span class="catalog-minor">{{size}}</span></td>
+      <td ><span class="catalog-minor">{{armor}}</span></td>
+      <td ><span class="catalog-minor">{{sp}}</span></td>
       <td></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'flex'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'aux'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'main'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'heavy'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{mountString mounts 'spinal'}}}</span></td>
+      <td><span class="catalog-minor">{{{mountString mounts 'flex'}}}</span></td>
+      <td><span class="catalog-minor">{{{mountString mounts 'aux'}}}</span></td>
+      <td><span class="catalog-minor">{{{mountString mounts 'main'}}}</span></td>
+      <td><span class="catalog-minor">{{{mountString mounts 'heavy'}}}</span></td>
+      <td><span class="catalog-minor">{{{mountString mounts 'spinal'}}}</span></td>
       <td></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'hull'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'sys'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'agi'}}}</span></td>
-      <td style="text-align: center;"><span class="catalog-minor">{{{haseString stats 'eng'}}}</span></td>
+      <td><span class="catalog-minor">{{{haseString stats 'hull'}}}</span></td>
+      <td><span class="catalog-minor">{{{haseString stats 'sys'}}}</span></td>
+      <td><span class="catalog-minor">{{{haseString stats 'agi'}}}</span></td>
+      <td><span class="catalog-minor">{{{haseString stats 'eng'}}}</span></td>
     </tr>
 
     <tr class="tablesorter-childRow" data-id="{{id}}">

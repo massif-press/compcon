@@ -4,6 +4,8 @@ Alpha 1.5:
 
 Todo:
   ☐ Catalog ult active needs parsed tags
+  ☐ Catalog - pilot weapons, weapons, systems need tags
+  ☐ Catalog - weapon sort by damage type
   ☐ Fix catalog header position
   ☐ Custom multiselector for catalog dropdowns
   ✔ Manufacturer info button for info modal @done(18-10-31 15:50)

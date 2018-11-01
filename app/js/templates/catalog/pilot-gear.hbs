@@ -1,15 +1,27 @@
-{{#items}}
-  <div class="catalog-item equip-expander">
-    <a href=#>
-      <div class="equip-expander-header sweep-btn">
-        <span class="lb-span catalog-corebonus-name"><b>&nbsp;{{name}}</b>&nbsp;<span class="subtitle catalog-corebonus-source">{{source}}</span></span>
-      </div>
-    </a>
-    <div class="equip-open-info hidden" style="background-color: var(--bg);">
-      <div style="padding-left:5px">
-        {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-        <span>{{{effect}}}</span>
-      </div>
-    </div>
-  </div>
-{{/items}}
+<table width="100%" class="tablesorter" style="border-collapse: collapse;">
+  <thead>
+    <tr class="catalog-header-line">
+      <th width="40%" style="text-align: left;"><span class="subtitle">Name</span></th>
+      <th style="text-align: left;"><span class="subtitle">Source</span></th>
+      <th><span class="subtitle">Uses</span></th>
+      <th><span class="subtitle">Rarity</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#items}}
+    <tr class="catalog-item toggle" data-id="{{id}}" rowspan="2">
+      <td style="text-align: left;"><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
+      <td style="text-align: left;"><span class="catalog-minor">&nbsp;{{source}}</span></td>
+      <td><span class="catalog-minor">{{uses}}</span></td>
+      <td><span class="catalog-minor">{{rarity}}</span></td>
+    </tr>
+
+    <tr class="tablesorter-childRow" data-id="{{id}}">
+      <td class="equip-open-info catalog-open" style="padding:10px;" colspan="16">
+        <span>{{{description}}}</span>
+      </td>
+    </tr>
+
+    {{/items}}
+  </tbody>
+</table>

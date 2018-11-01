@@ -1,8 +1,12 @@
 <table width="100%" class="tablesorter" style="border-collapse: collapse;">
   <thead>
     <tr class="catalog-header-line">
-      <th width="50%" style="text-align: left;"><span class="subtitle">Name</span></th>
+      <th width="40%" style="text-align: left;"><span class="subtitle">Name</span></th>
       <th style="text-align: left;"><span class="subtitle">Source</span></th>
+      <th><span class="subtitle">Armor</span></th>
+      <th><span class="subtitle">E/E</span></th>
+      <th><span class="subtitle">Speed</span></th>
+      <th><span class="subtitle">Rarity</span></th>
     </tr>
   </thead>
   <tbody>
@@ -10,15 +14,21 @@
     <tr class="catalog-item toggle" data-id="{{id}}" rowspan="2">
       <td style="text-align: left;"><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
       <td style="text-align: left;"><span class="catalog-minor">&nbsp;{{source}}</span></td>
+      <td><span class="catalog-minor">{{armor}}</span></td>
+      <td><span class="catalog-minor">{{ee}}</span></td>
+      <td><span class="catalog-minor">{{speed}}</span></td>
+      <td><span class="catalog-minor">{{rarity}}</span></td>
     </tr>
 
     <tr class="tablesorter-childRow" data-id="{{id}}">
       <td class="equip-open-info catalog-open" style="padding:10px;" colspan="16">
         {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-        <span>{{{effect}}}</span>
+        {{#if bonus}}<span><b>{{{bonus}}}</b><br></span>{{/if}}
+        <span>{{{other}}}</span>
       </td>
     </tr>
 
     {{/items}}
   </tbody>
 </table>
+

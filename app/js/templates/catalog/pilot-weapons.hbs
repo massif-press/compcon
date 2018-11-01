@@ -1,8 +1,10 @@
 <table width="100%" class="tablesorter" style="border-collapse: collapse;">
   <thead>
     <tr class="catalog-header-line">
-      <th width="50%" style="text-align: left;"><span class="subtitle">Name</span></th>
+      <th width="40%" style="text-align: left;"><span class="subtitle">Name</span></th>
       <th style="text-align: left;"><span class="subtitle">Source</span></th>
+      <th><span class="subtitle">Damage</span></th>
+      <th><span class="subtitle">Rarity</span></th>
     </tr>
   </thead>
   <tbody>
@@ -10,6 +12,8 @@
     <tr class="catalog-item toggle" data-id="{{id}}" rowspan="2">
       <td style="text-align: left;"><span class="lb-span"><b>&nbsp;{{name}}</b></span></td>
       <td style="text-align: left;"><span class="catalog-minor">&nbsp;{{source}}</span></td>
+      <td><span class="catalog-minor">{{damage}}</span></td>
+      <td><span class="catalog-minor">{{rarity}}</span></td>
     </tr>
 
     <tr class="tablesorter-childRow" data-id="{{id}}">

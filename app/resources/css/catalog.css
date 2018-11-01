@@ -144,12 +144,14 @@
 
 .catalog-item {
   width: 98%;
-  border: 1px solid var(--border);
   padding: 10px;
   margin: 5px;
   font-size: 18px;
   line-height: 30px;
   cursor: pointer;
+  text-align: center;
+  border: 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .catalog-item:hover,
@@ -195,3 +197,11 @@
   padding-bottom: 5px;
 }
 
+.catalog-header-line {
+  text-align: center;
+  background-color:var(--bg);
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+}
