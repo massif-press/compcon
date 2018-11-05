@@ -4,3 +4,21 @@
 <script>
   require('./js/pilot-sidebar.js')
 </script>
+
+<!-- New pilot modal -->
+  <div id="newPilotModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="new-pilot">
+          <button>new pilot</button>
+          <button>import from file</button><button>import from clipboard</button>
+          <span class="close pull-right menu-border btn" data-modal="newPilotModal">&emsp;Cancel&emsp;</span>
+          <br><br>
+        </div>
+        <div id="new-pilot-wizard-1">
+          <input type="text" placeholder="Callsign">
+          <input type="text" placeholder="Name">
+        </div>
+      </div>
+    </div>
+  </div>

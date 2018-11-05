@@ -1,6 +1,6 @@
 [
   {
-    "id": 0,
+    "id": "cio",
     "callsign": "CIO",
     "name": "Ciocie Cioelle",
     "level": 4,
@@ -114,7 +114,7 @@
     "configs": [6]
   },
   {
-    "id": 1,
+    "id": "oda",
     "callsign": "ODA",
     "name": "Taro Oda",
     "level": 3,
@@ -206,7 +206,7 @@
     "configs": [0, 1, 2, 3]
   },
   {
-    "id": 2,
+    "id": "succsssor",
     "callsign": "SUCCESSOR",
     "name": "Allison Wanda Ruth",
     "level": 5,

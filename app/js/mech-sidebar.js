@@ -5,8 +5,9 @@ const Load = require("./mech-sheet")
 const Search = require("./util/search");
 const Expander = require("./util/expander");
 //data
-const configs = require("../resources/data/configurations.json");
+var configs = require("../resources/data/configurations.json");
 const shells = require("../resources/data/shells.json");
+var pilots = require("../resources/data/pilots.json");
 //templates
 const mechTemplate = fs.readFileSync(__dirname + "/templates/config-expander.hbs", "utf8");
 
@@ -32,12 +33,30 @@ function loadMecha(pilot) {
       var id = $(this).attr("id");
 
       $('.main').load('./html/mech-sheet.html', function () {
-        Load(configArray.find(function (c) {
-          return c.id == id;
-        }), pilot);
+        Load(Search.byID(configArray, id), pilot);
       });
     }
   });
+
+  $('#add-config-btn').off(); //prevent this from multiple binds
+  $('#add-config-btn').click(function () {
+    var id = Math.random().toString(36).substr(2, 9);
+    configs.push({
+      "id": id,
+      "name": "new mech",
+      "img": "",
+      "shell_id": "everest",
+      "status": "active",
+      "weapons": [],
+      "systems": []
+    })
+    Search.byID(pilots, pilot.id).configs.push(id);
+
+    console.log(configs, pilot.configs);
+    loadMecha(pilot)
+  })
 }
+
+
 
 module.exports = loadMecha;
