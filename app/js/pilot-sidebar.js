@@ -32,6 +32,19 @@ function init() {
       mechSidebar(Search.byID(pilots, id));
     });
   })
+
+  $('.close').click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
+
+  $('.wizard-btn').off();
+  $('.wizard-btn').click(function() {
+    let step = $(this).data("step");   
+    $(".np-wizard").hide()    
+    $(`.np-wizard[data-step='${step}']`).show();
+  })
+
 }
 
 $('#add-pilot-btn').click(function(){
@@ -49,7 +62,7 @@ $('#add-pilot-btn').click(function(){
       "text-appearance": "",
       "hp_bonus": 0,
       "armor": 0,
-      "ee": "8/8",
+      "ee": "10/10",
       "speed": 4,
       "status": "ACTIVE",
       "licenses": [],

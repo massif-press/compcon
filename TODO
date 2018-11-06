@@ -10,6 +10,8 @@ Beta:
   ☐ Config loadout saves
 
 Todo:
+  ☐ split out wizard css
+  ☐ add disabled attr to all wizard breadcrumbs until accessed through Next
   ☐ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard)
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
   ☐ Expose data folder

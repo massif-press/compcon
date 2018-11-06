@@ -1,0 +1,15 @@
+.wizard-btn-container {
+  width: 100%;
+  padding: 30px 50px;
+  display: flex;
+}
+
+.wizard-btn-container .breadcrumbs {
+  width: 100%;
+  justify-content: center;
+  display: inline-flex;
+}
+
+.wizard-btn {
+  cursor: pointer;
+}

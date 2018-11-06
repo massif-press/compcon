@@ -59,6 +59,7 @@
   background-color: var(--bg-alt);
   color: var(--highlight);
   font-weight: bold;
+  z-index: 300;
 }
 
 .modal-body {
