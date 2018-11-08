@@ -54,7 +54,7 @@
 .modal-footer,
 .modal-header {
   position: fixed;
-  width: 79.9%;
+  width: 79.8%;
   padding: 5px 5px;
   background-color: var(--bg-alt);
   color: var(--highlight);
@@ -66,8 +66,14 @@
   padding: 2px 16px;
   padding-top: 35px;
   color: var(--text);
+  height: 100%;
 }
 
 .modal-body ul {
   padding-left: 20px;
+}
+
+.modal-scrollrect {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

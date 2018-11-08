@@ -1,0 +1,38 @@
+{{#talents}}
+<tr>
+  <td>
+    <div class="menu-border equip-expander">
+        <div class="equip-expander-header sweep-btn">
+          <span><b>&nbsp;{{name}}</b></span>
+        </div>
+      <div class="equip-open-info hidden" style="background-color: var(--bg);">
+        <div style="padding-left:5px">
+          <blockquote class="desc-text">{{{description}}}</blockquote>
+          <span class="talent-rank-title">&emsp;
+            <span><b>{{r1_name}}</b></span>
+          </span>
+          <p>{{{r1_desc}}}</p><br>
+          <span class="talent-rank-title warning-stripes disabled">&emsp;
+            <span class="subtitle">Rank II: </span>
+            <span><b>{{r2_name}}</b> &nbsp;
+            </span>
+          </span>
+          <p class="disabled">{{{r2_desc}}}</p><br>
+          <span class="talent-rank-title warning-stripes disabled">&emsp;
+            <span class="subtitle">Rank III: </span>
+            <span><b>{{r3_name}}</b> &nbsp;</span>
+          </span>
+          <p class="{{talentLock rank 3 '' 'disabled'}}">{{{r3_desc}}}</p><br>
+        </div>
+      </div>
+    </div>
+  </td>
+  <td style="vertical-align: top" width="24px;">
+    <div>
+      <span class="pull-right add-button" data-talent="{{id}}">
+        <a href="#" data-balloon-length="small" data-balloon="Add Talent" data-balloon-pos="left">+</a>
+      </span>
+    </div>
+  </td>
+</tr>
+{{/talents}}

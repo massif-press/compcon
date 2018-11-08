@@ -15,9 +15,13 @@
       <div class="modal-body">
         <!-- new/load -->
         <div class="np-wizard" data-step="0">
-          <button class="wizard-btn" data-step="1">register new pilot</button><br>
-          <button>import pilot data from file</button><br>
-          <button>import pilot data from clipboard</button><br>
+          <br><br>
+          <div class="wizard-btn btn" data-step="1" style="width: 100%!important"><span style="width: 100%!important">Register New Pilot</span></div>
+          <br>
+          <hr>
+          <br>
+          <div class="wizard-load-btn disabled"><span>Load Pilot Data From File</span></div>
+          <div class="wizard-load-btn disabled"><span>Load Pilot Data From Clipboard</span></div>
 
           <div class="wizard-btn-container">
             <span class="close menu-border btn" data-modal="newPilotModal">&emsp;Cancel&emsp;</span>
@@ -26,101 +30,112 @@
 
         <!-- name/callsign -->
         <div class="np-wizard hidden" data-step="1">
-          Pilot Registration
-          <br>
-          <input type="text" placeholder="Callsign"><br>
-          <input type="text" placeholder="Name"><br>
+          <h1>Welcome, pilot</h1>
+          <span class="subtitle">Please register your name and callsign</span>
+          <br><br><br><br>
+          <span class="label">Callsign</span><br>
+          <input class="line-input" id="callsign-input" type="text" placeholder="Enter Callsign...">
           <br><br>
-          <div class="wizard-btn-container">            
-            <div class="menu-border btn wizard-btn disabled" data-step="0">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn selected" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="6">Details</div>
+          <span class="label">Name</span><br>
+          <input class="line-input" id="name-input" type="text" placeholder="Enter Name..."><br>
+          <div class="wizard-btn-container">
+            <div class="wizard-btn btn disabled" data-step="0"><span>Back</span></div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb selected" data-step="1"><a>ID</a></div>
+              <div class="breadcrumb disabled" data-step="2"><a>Background</a></div>
+              <div class="breadcrumb disabled" data-step="3"><a>Skills</a></div>
+              <div class="breadcrumb disabled" data-step="4"><a>Talents</a></div>
+              <div class="breadcrumb disabled" data-step="5"><a>Gear</a></div>
+              <div class="breadcrumb disabled" data-step="6"><a>Details</a></div>
             </div>
-            <div class="menu-border btn wizard-btn" data-step="2">Next</div>
+            <div class="wizard-btn btn" id="step-1-next" data-step="2"><span>Next</span></div>
           </div>
         </div>
 
         <!-- background -->
         <div class="np-wizard hidden" data-step="2">
-          Select Background<br>
-          <div id="bg-options" class="modal-scrollrect">
-            <button>sample bg</button><br>
-            <button>sample bg</button><br>            
-          </div>
-          <div id="bg-explanation">
-            &c&c
-          </div>
-          <br><br>
+        <h1>Select Background</h1>
+        <span class="subtitle">bottom text</span>
+        <br>
+          <div id="bg-options" class="menu-border modal-scrollrect" style="height:65%"></div>
+          <p id="bg-selection" class="subtitle pull-right"></p>
+
           <div class="wizard-btn-container">            
-            <div class="menu-border btn wizard-btn" data-step="1">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn selected" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="6">Details</div>
+            <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb" data-step="1">ID</div>
+              <div class="breadcrumb selected" data-step="2">Background</div>
+              <div class="breadcrumb disabled" data-step="3">Skills</div>
+              <div class="breadcrumb disabled" data-step="4">Talents</div>
+              <div class="breadcrumb disabled" data-step="5">Gear</div>
+              <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="menu-border btn wizard-btn" data-step="3">Next</div>
+            <div class="wizard-btn btn" data-step="3"><span>Next</span></div>
           </div>
         </div>
 
         <!-- skills -->
         <div class="np-wizard hidden" data-step="3">
-          Select Primary skill (+2) (select additional bonus (+1); select weakness (-1); select weakness (-1)) <br>
+          <h1 id="skill-instruction">Select Primary Strength</h1> 
+          <span id="skill-instruction-sub" class="subtitle">Select +2 Skill Bonus</span>
           <div id="skill-grid">
-            <button>skill</button><button>skill</button><br>
-            <button>skill</button><button>skill</button><br> 
+            <table width=100% style="border-spacing: 15px;">
+              <tr>
+                <td class="skillbox" data-skill="acquire" width="25%">ACQUIRE</td>
+                <td class="skillbox skill-primary" data-skill="flash" width="25%">FLASH<br><span class="subtitle skill-primary">+2</span></td>
+                <td class="skillbox" data-skill="brawl" width="25%">BRAWL</td>
+                <td class="skillbox skill-malus" data-skill="infiltrade" width="25%">INFILTRATE<br><span class="subtitle skill-malus">-1</span></td>
+              </tr>
+              <tr>
+                <td class="skillbox" data-skill="investigate">INVESTIGATE</td>
+                <td class="skillbox skill-bonus" data-skill="persuade">PERSUADE<br><span class="subtitle skill-bonus">+1</span></td>
+                <td class="skillbox skill-bonus" data-skill="command">COMMAND<br><span class="subtitle skill-bonus">+1</span></td>
+                <td class="skillbox" data-skill="swindle">SWINDLE</td>
+              </tr>
+              <tr>
+                <td class="skillbox skill-malus" data-skill="tech">TECH<br><span class="subtitle skill-malus">-1</span></td>
+                <td class="skillbox skill-bonus" data-skill="survive">SURVIVE<br><span class="subtitle skill-bonus">+1</span></td>
+                <td class="skillbox" data-skill="maneuver">MANEUVER</td>
+                <td class="skillbox" data-skill="notice">NOTICE</td>
+              </tr>
+            </table>
           </div>
-          <div id="skill-explanation">
-            &c&c
-          </div>
-          <button>reset</button>
-          <br><br>
+          <div class="minor-btn btn pull-right">RESET</div>
           <div class="wizard-btn-container">            
-            <div class="menu-border btn wizard-btn" data-step="2">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn selected" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="6">Details</div>
+            <div class="wizard-btn btn" data-step="2">Back</div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb" data-step="1">ID</div>
+              <div class="breadcrumb" data-step="2">Background</div>
+              <div class="breadcrumb selected" data-step="3">Skills</div>
+              <div class="breadcrumb disabled" data-step="4">Talents</div>
+              <div class="breadcrumb disabled" data-step="5">Gear</div>
+              <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="menu-border btn wizard-btn" data-step="4">Next</div>
+            <div class="wizard-btn btn" data-step="4">Next</div>
           </div>
         </div>        
 
         <!-- talents -->
         <div class="np-wizard hidden" data-step="4">
-          Select Talents (3)<br>
-          <div id="talents-list" class="modal-scrollrect">
-            <button>talent</button><br>
-            <button>talent</button>
+          <h1>Select Talents</h1><span id="talents-remaining" class="subtitle">(3 Remaining)</span>
+          <div class="modal-scrollrect menu-border" style="height:60%">
+          <table id="talents-list" width="100%" style="border-collapse: collapse;">
+
+          </table>
           </div>
-          <div id="talent-explanation">
-            &c&c
-          </div>
-          <div id="starting-talent-list">
-            &c&c
-          </div>
-          <br><br>
+          <span class="subtitle">Selected Talents:</span>
+          <div id="starting-talent-list"></div>
           <div class="wizard-btn-container">            
-            <div class="menu-border btn wizard-btn" data-step="3">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn selected" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="6">Details</div>
+            <div class="wizard-btn btn" data-step="3">Back</div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb" data-step="1">ID</div>
+              <div class="breadcrumb" data-step="2">Background</div>
+              <div class="breadcrumb" data-step="3">Skills</div>
+              <div class="breadcrumb selected" data-step="4">Talents</div>
+              <div class="breadcrumb disabled" data-step="5">Gear</div>
+              <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="menu-border btn wizard-btn" data-step="5">Next</div>
+            <div class="wizard-btn btn" data-step="5">Next</div>
           </div>        
         </div>
 
@@ -139,16 +154,16 @@
 
           <br><br>
           <div class="wizard-btn-container">            
-            <div class="menu-border btn wizard-btn" data-step="4">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn selected" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn disabled" data-step="6">Details</div>
+            <div class="wizard-btn btn" data-step="4">Back</div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb" data-step="1">ID</div>
+              <div class="breadcrumb" data-step="2">Background</div>
+              <div class="breadcrumb" data-step="3">Skills</div>
+              <div class="breadcrumb" data-step="4">Talents</div>
+              <div class="breadcrumb selected" data-step="5">Gear</div>
+              <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="menu-border btn wizard-btn" data-step="6">Next</div>
+            <div class="wizard-btn btn" data-step="6">Next</div>
           </div>        
         </div>
 
@@ -169,16 +184,16 @@
           <textarea placeholder="appearance text"></textarea>
           <br><br>
           <div class="wizard-btn-container">
-            <div class="menu-border btn wizard-btn" data-step="4">Back</div>
-            <div class="breadcrumbs">
-              <div class="menu-border btn wizard-btn" data-step="1">ID</div>
-              <div class="menu-border btn wizard-btn" data-step="2">Background</div>
-              <div class="menu-border btn wizard-btn" data-step="3">Skills</div>
-              <div class="menu-border btn wizard-btn" data-step="4">Talents</div>
-              <div class="menu-border btn wizard-btn" data-step="5">Gear</div>
-              <div class="menu-border btn wizard-btn selected" data-step="6">Details</div>
+            <div class="wizard-btn btn" data-step="4">Back</div>
+            <div class="breadcrumb-container">
+              <div class="breadcrumb" data-step="1">ID</div>
+              <div class="breadcrumb" data-step="2">Background</div>
+              <div class="breadcrumb" data-step="3">Skills</div>
+              <div class="breadcrumb" data-step="4">Talents</div>
+              <div class="breadcrumb" data-step="5">Gear</div>
+              <div class="breadcrumb selected" data-step="6">Details</div>
             </div>
-            <div class="menu-border btn wizard-btn">Complete</div>
+            <div class="wizard-btn btn">Complete</div>
           </div>
         </div>
 

@@ -135,4 +135,11 @@ Handlebars.registerHelper('parseTags', function (str) {
   return Tags.parse(str);
 });
 
+Handlebars.registerHelper('listArray', function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substr(1);
+  }
+  return arr.join(", ")
+});
+
 module.exports.init = init;

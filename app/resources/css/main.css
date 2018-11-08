@@ -237,6 +237,7 @@ hr {
   transform: perspective(1px) translateZ(0);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
+  cursor: pointer;
 }
 
 .btn:before {
@@ -362,12 +363,6 @@ blockquote {
   font-size: 18px;
   letter-spacing: 5px;
 }
-
-/* #ips-n {
-  font-family: 'Titillium Web', sans-serif;
-  font-weight: 900;
-  letter-spacing: 10px;
-} */
 
 .desc-text {
   padding-left: 20px;

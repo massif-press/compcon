@@ -10,8 +10,9 @@ Beta:
   ☐ Config loadout saves
 
 Todo:
-  ☐ split out wizard css
-  ☐ add disabled attr to all wizard breadcrumbs until accessed through Next
+  ☐ refactor and atomize button jquery
+  ✔ split out wizard css @done(18-11-07 16:06)
+  ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06)
   ☐ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard)
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
   ☐ Expose data folder
@@ -34,7 +35,7 @@ Todo:
 
 Bugs:
   ☐ Overly long names/callsigns break formatting
-  ☐ Undefineds appearing in parsed tags
+  ✔ Undefineds appearing in parsed tags @done(18-11-07 16:06)
   
 Reminders:
   ☐ set config status unavailable on JSON update if pilot is missing licenses
@@ -61,6 +62,8 @@ Ideas:
   ☐ rename weapons/gear; set custom descriptions instead of notes
   ☐ override eg. signature weapons to create custom versions at player creation
   ☐ text based quick copy for disc/roll20
+  ☐ better and more consistent animations
+  ☐ animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
   ✔ Catalog @done(18-11-01 16:39) @project(Alpha 1.5)
