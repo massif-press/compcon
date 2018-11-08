@@ -174,12 +174,20 @@
 #skill-grid td {
   background-color: var(--bg-alt);
   font-size: 25px;
+}
+
+#skill-grid .selectable {
   cursor: pointer;
 }
 
 #skill-grid td:hover {
   background-color: var(--highlight);
   color: white;
+}
+
+.skillbox.disabled:hover{
+  color:var(--highlight)!important;
+  background-color:var(--bg-alt)!important;
 }
 
 #skill-grid .subtitle {
@@ -190,14 +198,17 @@
 
 .skill-primary {
   color: var(--energy);
+  cursor: default!important;
 }
 
 .skill-bonus {
   color: var(--success);
+  cursor: default!important;
 }
 
 .skill-malus {
   color: var(--explosive);
+  cursor: default!important;
 }
 
 .add-button {
@@ -230,4 +241,10 @@
 .subtract-button:hover {
   color: var(--bg);
   background-color: var(--burn);
+}
+
+.add-button.off {
+  color: grey;
+  border-color: grey;
+  cursor: not-allowed;
 }

@@ -12,7 +12,7 @@ Beta:
 Todo:
   ☐ refactor and atomize button jquery
   ✔ split out wizard css @done(18-11-07 16:06)
-  ☐ style scrollbar
+  ✔ style scrollbar @done(18-11-08 11:15)
   ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06)
   ☐ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard)
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
@@ -36,6 +36,8 @@ Todo:
 
 Bugs:
   ☐ Overly long names/callsigns break formatting
+  ☐ new pilot wizard: open background options bounce on click
+  ☐ talent <ul> not taking disabled coloring
   ✔ Undefineds appearing in parsed tags @done(18-11-07 16:06)
   
 Reminders:

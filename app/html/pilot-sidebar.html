@@ -76,31 +76,31 @@
 
         <!-- skills -->
         <div class="np-wizard hidden" data-step="3">
-          <h1 id="skill-instruction">Select Primary Strength</h1> 
-          <span id="skill-instruction-sub" class="subtitle">Select +2 Skill Bonus</span>
+          <h1 id="skill-instruction"></h1> 
+          <span id="skill-instruction-sub" class="subtitle"></span>
           <div id="skill-grid">
             <table width=100% style="border-spacing: 15px;">
               <tr>
-                <td class="skillbox" data-skill="acquire" width="25%">ACQUIRE</td>
-                <td class="skillbox skill-primary" data-skill="flash" width="25%">FLASH<br><span class="subtitle skill-primary">+2</span></td>
-                <td class="skillbox" data-skill="brawl" width="25%">BRAWL</td>
-                <td class="skillbox skill-malus" data-skill="infiltrade" width="25%">INFILTRATE<br><span class="subtitle skill-malus">-1</span></td>
+                <td class="skillbox" data-skill="Acquire" width="25%"></td>
+                <td class="skillbox" data-skill="Flash" width="25%"></td>
+                <td class="skillbox" data-skill="Brawl" width="25%"></td>
+                <td class="skillbox" data-skill="Infiltrate" width="25%"></td>
               </tr>
               <tr>
-                <td class="skillbox" data-skill="investigate">INVESTIGATE</td>
-                <td class="skillbox skill-bonus" data-skill="persuade">PERSUADE<br><span class="subtitle skill-bonus">+1</span></td>
-                <td class="skillbox skill-bonus" data-skill="command">COMMAND<br><span class="subtitle skill-bonus">+1</span></td>
-                <td class="skillbox" data-skill="swindle">SWINDLE</td>
+                <td class="skillbox" data-skill="Investigate"></td>
+                <td class="skillbox" data-skill="Persuade"></td>
+                <td class="skillbox" data-skill="Command"></td>
+                <td class="skillbox" data-skill="Swindle"></td>
               </tr>
               <tr>
-                <td class="skillbox skill-malus" data-skill="tech">TECH<br><span class="subtitle skill-malus">-1</span></td>
-                <td class="skillbox skill-bonus" data-skill="survive">SURVIVE<br><span class="subtitle skill-bonus">+1</span></td>
-                <td class="skillbox" data-skill="maneuver">MANEUVER</td>
-                <td class="skillbox" data-skill="notice">NOTICE</td>
+                <td class="skillbox" data-skill="Tech"><br></td>
+                <td class="skillbox" data-skill="Survive"></td>
+                <td class="skillbox" data-skill="Maneuver"></td>
+                <td class="skillbox" data-skill="Notice"></td>
               </tr>
             </table>
           </div>
-          <div class="minor-btn btn pull-right">RESET</div>
+          <div id="skill-reset" class="minor-btn btn pull-right">RESET</div>
           <div class="wizard-btn-container">            
             <div class="wizard-btn btn" data-step="2">Back</div>
             <div class="breadcrumb-container">
@@ -117,7 +117,7 @@
 
         <!-- talents -->
         <div class="np-wizard hidden" data-step="4">
-          <h1>Select Talents</h1><span id="talents-remaining" class="subtitle">(3 Remaining)</span>
+          <h1>Select Talents</h1><span id="talents-remaining" class="subtitle">(<b>3</b> Remaining)</span>
           <div class="modal-scrollrect menu-border" style="height:60%">
           <table id="talents-list" width="100%" style="border-collapse: collapse;"></table>
           </div>
@@ -139,17 +139,22 @@
 
       <!-- gear -->
       <div class="np-wizard hidden" data-step="5">
-          Select starting armor (then weapon(s), then gear, next button is SKIP until first selection, then NEXT) <br>
-          <div id="starting-gear" class="modal-scrollrect">
-            <button>skill</button><button>skill</button><br>
-            <button>skill</button><button>skill</button><br> 
+          <h1 id="gear-select-header">Select Starting Gear</h1>
+          <span class="subtitle"><span id="weapons-select-sub">0/2</span> Weapons Selected&emsp;//&emsp;</span>
+          <span class="subtitle"><span id="armor-select-sub">0/1</span> Armor Selected&emsp;//&emsp;</span>
+          <span class="subtitle"><span id="gear-select-sub">0/3</span> Gear Selected&emsp;//&emsp;</span>
+          <div>
+            &emsp;<div id="gear-gear-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 5px">Gear</div>&emsp;
+            &emsp;<div id="gear-armor-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 5px">Armor</div>&emsp;
+            &emsp;<div id="gear-weapons-btn" class="menu-border minor-btn btn pull-right selected" style="margin: 0px 5px">Weapons</div>&emsp;
           </div>
-          <div id="starting-gear-list">
-            Armor: (NONE)<br>
-            Weapons: (NONE)<br>
-            Gear: (NONE)<br>
+          <br>
+          <div id="starting-gear" class="modal-scrollrect menu-border" style="height:60%; margin-top: -20px">
+            <table id="pilot-weapons-list" width="100%" style="border-collapse: collapse;"></table>
+            <table id="pilot-armor-list" width="100%" style="border-collapse: collapse; display: none;"></table>
+            <table id="pilot-gear-list" width="100%" style="border-collapse: collapse; display: none;"></table>
           </div>
-
+          <span class="subtitle" id="starting-gear-list"></span>
           <br><br>
           <div class="wizard-btn-container">            
             <div class="wizard-btn btn" data-step="4">Back</div>
@@ -161,7 +166,7 @@
               <div class="breadcrumb selected" data-step="5">Gear</div>
               <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="wizard-btn btn" data-step="6">Skip</div>
+            <div class="wizard-btn btn" data-step="6">Next</div>
           </div>        
         </div>
 

@@ -5,15 +5,23 @@ const mechSidebar = require("./mech-sidebar");
 const pilotSheet = require("./pilot-sheet");
 const Expander = require("./util/expander");
 const Search = require("./util/search")
+const Tags = require("./util/taghelper")
 //data
 const backgrounds = require("../resources/data/backgrounds.json");
 const talents = require("../resources/data/pilot_talents.json");
+const weapons = require("../resources/data/pilot_gear.json").weapons.filter(x => x.rarity === 0);
+Tags.expand(weapons);
+const armor = require("../resources/data/pilot_gear.json").armor.filter(x => x.rarity === 0);
+const gear = require("../resources/data/pilot_gear.json").gear.filter(x => x.rarity === 0);
 //mutable data
 var pilots = require("../resources/data/pilots.json");
 //templates
 const pilotTemplate = fs.readFileSync(__dirname + "/templates/pilot-expander.hbs", "utf8");
 const w_backgroundTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-background.hbs", "utf8");
-const w_talentTemplate = fs.readFileSync(__dirname  + "/templates/wizards/pilot-talents.hbs", "utf8");
+const w_talentTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-talents.hbs", "utf8");
+const w_weaponTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-weapons.hbs", "utf8");
+const w_armorTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-armor.hbs", "utf8");
+const w_gearTemplate = fs.readFileSync(__dirname  + "/templates/wizards/pilot-gear.hbs", "utf8");
 
 var template = Handlebars.compile(pilotTemplate);
 
@@ -58,6 +66,7 @@ function init() {
     else $(`.wizard-btn[data-step='2']`).addClass('disabled').removeClass('btn');
   })
 
+  var selectedBackground;
   //Backgrounds
   var bgTemp = Handlebars.compile(w_backgroundTemplate);
   $("#bg-options").html(bgTemp({"backgrounds": backgrounds}));
@@ -80,14 +89,112 @@ function init() {
     $(this).addClass('selected');
     $('#bg-selection').html(`<b>"${$(this).data("name")}"</b> Selected`);
     $(`.wizard-btn[data-step='3']`).removeClass('disabled').addClass('btn');
+    selectedBackground = backgrounds.find(x => x.id === $(this).data("id"));
+    setSkillsArray(selectedBackground.skills)
   });
 
   //Skills
+  var selectedSkills = {};
+  function setSkillsArray(skillsArray) {
+    $("#skill-instruction").text("Select Primary Skill")
+    $("#skill-instruction-sub").text("Selected skill gains a +2 skill bonus. The other skills gain a +1 bonus.")
+    $(`.wizard-btn[data-step='4']`).addClass('disabled').removeClass('btn');
+
+    selectedSkills = {};   
+    var selectables = [];
+    var allSkills = [];
+    $('.skillbox').each(function() {
+      allSkills.push($(this));
+      $(this).html($(this).data("skill").toUpperCase());
+      $(this).removeClass('skill-primary skill-bonus skill-malus');
+      $(this).css("cursor", "pointer");
+      var skillIdx = skillsArray.findIndex(x => x === $(this).data("skill"));
+      //disable all non-bg aligned skills
+      if (skillIdx === -1) {
+        $(this).addClass("disabled");
+      } else {
+        //make all bg skills clickable
+        $(this).addClass("selectable");
+        var clickable = $(this);
+        selectables.push(clickable);
+        clickable.off();
+        //bind clickable skills
+        clickable.click(function () {  
+          for (let i = 0; i < selectables.length; i++) {
+            var e = selectables[i];
+            var id = e.data("skill").toLowerCase();
+            //remove selectables from allskills
+            allSkills.splice(allSkills.findIndex(x => x.data("skill") === e.data("skill")), 1);
+            //on click, assign primary skill
+            if (e.data("skill") === $(this).data("skill")) {
+              e.addClass("skill-primary").removeClass("selectable");
+              e.append('<br><span class="subtitle skill-primary">+2</span>')
+              selectedSkills[id] = 2;
+            } else {
+              //assign secondary skills
+              e.addClass("skill-bonus").removeClass("selectable");
+              e.append('<br><span class="subtitle skill-bonus">+1</span>')
+              selectedSkills[id] = 1;
+            }
+            e.off();
+          }
+
+            //replace selectables with remaining skills
+            selectables = allSkills;
+            $("#skill-instruction").text("Select Additional Skill")
+            $("#skill-instruction-sub").text("Selected skill gains a +1 Bonus")
+
+            //set this so we only have to bind one more time
+            currentClick = 0;
+            clicked = [];
+
+            //make remaining skills clickable           
+            for (let j = 0; j < selectables.length; j++) {
+              e = selectables[j];
+              e.removeClass('disabled').addClass('selectable');      
+              e.off();
+              e.click(function() {
+                var clicked = $(this);
+                if (!clicked.hasClass("selectable")) return;
+                var id = clicked.data("skill").toLowerCase();
+                clicked.removeClass('selectable');
+                //first click == add bonus
+                if (currentClick === 0) {
+                  currentClick++;
+                  $("#skill-instruction").text("Select Weakness")
+                  $("#skill-instruction-sub").text("Select a skill at a -1 malus. (1/2)")
+                  clicked.addClass("skill-bonus");
+                  clicked.append('<br><span class="subtitle skill-bonus">+1</span>')
+                  selectedSkills[id] = 1;
+                } else {  //add malus
+                  currentClick++;
+                  $("#skill-instruction").text("Select Weakness")
+                  $("#skill-instruction-sub").text("Select another skill at a -1 malus. (2/2)")
+                  clicked.addClass("skill-malus");
+                  clicked.append('<br><span class="subtitle skill-malus">-1</span>')
+                  selectedSkills[id] = -1;
+                  if (currentClick == 3) {
+                    $('.skillbox').off(); //stop selection
+                    $('.skillbox').css("pointer", "default");
+                    $("#skill-instruction").text("Skills")
+                    $("#skill-instruction-sub").text("Skill selection complete")
+                    $(`.wizard-btn[data-step='4']`).removeClass('disabled').addClass('btn');
+                  }
+                }
+              })       
+            }
+        })
+      }
+    })
+  }
+
+  $("#skill-reset").off()
+  $("#skill-reset").click(function(){setSkillsArray(selectedBackground.skills)});
 
   //Talents 
   var talTemp = Handlebars.compile(w_talentTemplate);
   $("#talents-list").html(talTemp({ "talents": talents }));
-  Expander.bindEquipment();
+  // Expander.bindEquipment();
 
   var talent_selections = [];
   var talent_names = [];
@@ -107,9 +214,139 @@ function init() {
       add.show();
     }
     $("#selected-talents").html("Selected Talents: <b>" + talent_names.join(", ") + "</b>");
-    if (talent_selections.length === 3) $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
-    else $(`.wizard-btn[data-step='5']`).addClass('disabled').removeClass('btn');
+    if (talent_selections.length === 3) {
+      $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
+      $('.talent-btn').each(function () {$(this).find(".add-button").addClass('off')});
+    } else {
+      $(`.wizard-btn[data-step='5']`).addClass('disabled').removeClass('btn');
+      $('.talent-btn').each(function () {$(this).find(".add-button").removeClass('off')});
+    }
+    $("#talents-remaining").html(`(<b>${3 - talent_selections.length}</b> Remaining)`)
   })
+
+  //Gear 
+  var weaponTemp = Handlebars.compile(w_weaponTemplate);
+  $("#pilot-weapons-list").html(weaponTemp({"items": weapons}));
+  var armorTemp = Handlebars.compile(w_armorTemplate);
+  $("#pilot-armor-list").html(armorTemp({"items": armor}));
+  var gearTemp = Handlebars.compile(w_gearTemplate);
+  $("#pilot-gear-list").html(gearTemp({"items": gear}));
+  Expander.bindEquipment();
+
+  var weapon_selections = [];
+  var armor_selections = [];
+  var other_selections = [];
+  var gear_selections = [];
+
+  $("#pilot-weapons-list").show();
+
+  $("#gear-gear-btn").off();
+  $("#gear-gear-btn").click(function () {
+    $("#starting-gear-list").html("Selected Gear: <b>" + other_selections.join(", ") + "</b>");
+    $("#gear-armor-btn, #gear-weapons-btn").removeClass("selected");
+    $(this).addClass("selected");
+    $("#pilot-weapons-list, #pilot-armor-list").hide();
+    $("#pilot-gear-list").show()
+  });
+
+  $("#gear-armor-btn").off();
+  $("#gear-armor-btn").click(function () {
+    $("#starting-gear-list").html("Selected Gear: <b>" + armor_selections.join(", ") + "</b>");
+    $("#gear-gear-btn, #gear-weapons-btn").removeClass("selected");
+    $(this).addClass("selected");
+    $("#pilot-weapons-list, #pilot-gear-list").hide();
+    $("#pilot-armor-list").show()
+  });
+
+  $("#gear-weapons-btn").off();
+  $("#gear-weapons-btn").click(function () {
+    $("#starting-gear-list").html("Selected Gear: <b>" + weapon_selections.join(", ") + "</b>");
+    $("#gear-armor-btn, #gear-gear-btn").removeClass("selected");
+    $("#pilot-gear-list, #pilot-armor-list").hide();
+    $("#pilot-weapons-list").show()
+  }); 
+
+  $('.pilot-weapon-btn').off();
+  $('.pilot-weapon-btn').click(function () {
+    var e = $(this);
+    var add = e.children(".add-button");
+    var remove = e.children(".subtract-button");
+    if (add.is(':visible') && weapon_selections.length < 2) {
+      gear_selections.push(e.data("item"));
+      weapon_selections.push(e.data("item-name"));
+      add.hide();
+      remove.show();
+      if (weapon_selections.length == 2) {
+        $('.pilot-weapon-btn').each(function(){$(this).find(".add-button").addClass('off')});
+      }
+    } else if (remove.is(':visible')) {
+      gear_selections.pop(gear_selections.findIndex(x => x === e.data("item")));
+      weapon_selections.pop(weapon_selections.findIndex(x => x === e.data("item-name")));
+      remove.hide();
+      add.show();
+      if (weapon_selections.length < 2) {
+        $('.pilot-weapon-btn').each(function(){$(this).find(".add-button").removeClass('off')});
+      }
+    }
+    $("#weapons-select-sub").text(weapon_selections.length + "/2");
+    $("#starting-gear-list").html("Selected Gear: <b>" + weapon_selections.join(", ") + "</b>");
+  });
+  
+  $('.pilot-armor-btn').off();
+  $('.pilot-armor-btn').click(function () {
+    var e = $(this);
+    var add = e.children(".add-button");
+    var remove = e.children(".subtract-button");
+    if (add.is(':visible') && armor_selections.length < 1) {
+      gear_selections.push(e.data("item"));
+      armor_selections.push(e.data("item-name"));
+      add.hide();
+      remove.show();
+      if (armor_selections.length == 1) {
+        $('.pilot-armor-btn').each(function(){$(this).find(".add-button").addClass('off')});
+      }      
+    } else if (remove.is(':visible')) {
+      gear_selections.pop(gear_selections.findIndex(x => x === e.data("item")));
+      armor_selections.pop(armor_selections.findIndex(x => x === e.data("item-name")));
+      remove.hide();
+      add.show();
+      if (armor_selections.length < 1) {
+        $('.pilot-armor-btn').each(function(){$(this).find(".add-button").removeClass('off')});
+      }         
+    }
+    $("#armor-select-sub").text(armor_selections.length + "/1");
+    $("#starting-gear-list").html("Selected Gear: <b>" + armor_selections.join(", ") + "</b>");
+  });
+  
+
+  $('.pilot-gear-btn').off();
+  $('.pilot-gear-btn').click(function () {
+    var e = $(this);
+    var add = e.children(".add-button");
+    var remove = e.children(".subtract-button");
+    if (add.is(':visible') && other_selections.length < 3) {
+      gear_selections.push(e.data("item"));
+      other_selections.push(e.data("item-name"));
+      add.hide();
+      remove.show();
+      if (other_selections.length == 3) {
+        $('.pilot-gear-btn').each(function(){$(this).find(".add-button").removeClass('off')});
+      }         
+    } else if (remove.is(':visible')) {
+      gear_selections.pop(gear_selections.findIndex(x => x === e.data("item")));
+      other_selections.pop(other_selections.findIndex(x => x === e.data("item-name")));
+      remove.hide();
+      add.show();
+      if (other_selections.length < 3) {
+        $('.pilot-gear-btn').each(function(){$(this).find(".add-button").removeClass('off')});
+      }         
+    }
+    $("#gear-select-sub").text(other_selections.length + "/3");
+    $("#starting-gear-list").html("Selected Gear: <b>" + other_selections.join(", ") + "</b>");
+  });
+  
+
+
 
 
 
