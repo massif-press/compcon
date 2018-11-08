@@ -30,8 +30,8 @@
 
         <!-- name/callsign -->
         <div class="np-wizard hidden" data-step="1">
-          <h1>Welcome, pilot</h1>
-          <span class="subtitle">Please register your name and callsign</span>
+          <h1>Welcome, Pilot</h1>
+          <span class="subtitle">IDENT PROTOCOL // Name and callsign registration</span>
           <br><br><br><br>
           <span class="label">Callsign</span><br>
           <input class="line-input" id="callsign-input" type="text" placeholder="Enter Callsign...">
@@ -39,7 +39,7 @@
           <span class="label">Name</span><br>
           <input class="line-input" id="name-input" type="text" placeholder="Enter Name..."><br>
           <div class="wizard-btn-container">
-            <div class="wizard-btn btn disabled" data-step="0"><span>Back</span></div>
+            <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
             <div class="breadcrumb-container">
               <div class="breadcrumb selected" data-step="1"><a>ID</a></div>
               <div class="breadcrumb disabled" data-step="2"><a>Background</a></div>
@@ -48,7 +48,7 @@
               <div class="breadcrumb disabled" data-step="5"><a>Gear</a></div>
               <div class="breadcrumb disabled" data-step="6"><a>Details</a></div>
             </div>
-            <div class="wizard-btn btn" id="step-1-next" data-step="2"><span>Next</span></div>
+            <div class="wizard-btn disabled" data-step="2"><span>Next</span></div>
           </div>
         </div>
 
@@ -70,7 +70,7 @@
               <div class="breadcrumb disabled" data-step="5">Gear</div>
               <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="wizard-btn btn" data-step="3"><span>Next</span></div>
+            <div class="wizard-btn disabled" data-step="3"><span>Next</span></div>
           </div>
         </div>
 
@@ -119,11 +119,9 @@
         <div class="np-wizard hidden" data-step="4">
           <h1>Select Talents</h1><span id="talents-remaining" class="subtitle">(3 Remaining)</span>
           <div class="modal-scrollrect menu-border" style="height:60%">
-          <table id="talents-list" width="100%" style="border-collapse: collapse;">
-
-          </table>
+          <table id="talents-list" width="100%" style="border-collapse: collapse;"></table>
           </div>
-          <span class="subtitle">Selected Talents:</span>
+          <span class="subtitle" id="selected-talents">Selected Talents:</span>
           <div id="starting-talent-list"></div>
           <div class="wizard-btn-container">            
             <div class="wizard-btn btn" data-step="3">Back</div>
@@ -135,7 +133,7 @@
               <div class="breadcrumb disabled" data-step="5">Gear</div>
               <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="wizard-btn btn" data-step="5">Next</div>
+            <div class="wizard-btn disabled" data-step="5">Next</div>
           </div>        
         </div>
 
@@ -163,7 +161,7 @@
               <div class="breadcrumb selected" data-step="5">Gear</div>
               <div class="breadcrumb disabled" data-step="6">Details</div>
             </div>
-            <div class="wizard-btn btn" data-step="6">Next</div>
+            <div class="wizard-btn btn" data-step="6">Skip</div>
           </div>        
         </div>
 
@@ -184,7 +182,7 @@
           <textarea placeholder="appearance text"></textarea>
           <br><br>
           <div class="wizard-btn-container">
-            <div class="wizard-btn btn" data-step="4">Back</div>
+            <div class="wizard-btn btn" data-step="5">Back</div>
             <div class="breadcrumb-container">
               <div class="breadcrumb" data-step="1">ID</div>
               <div class="breadcrumb" data-step="2">Background</div>

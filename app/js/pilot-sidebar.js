@@ -45,11 +45,20 @@ function init() {
 
   $('.wizard-btn').off();
   $('.wizard-btn').click(function() {
+    if ($(this).hasClass('disabled')) return;
     let step = $(this).data("step");   
     $(".np-wizard").hide()    
     $(`.np-wizard[data-step='${step}']`).show();
   });
 
+  //name
+  $("line-input").off();
+  $('.line-input').keyup(function(){
+    if ($('#callsign-input').val().length && $('#name-input').val().length) $(`.wizard-btn[data-step='2']`).removeClass('disabled').addClass('btn');
+    else $(`.wizard-btn[data-step='2']`).addClass('disabled').removeClass('btn');
+  })
+
+  //Backgrounds
   var bgTemp = Handlebars.compile(w_backgroundTemplate);
   $("#bg-options").html(bgTemp({"backgrounds": backgrounds}));
 
@@ -70,11 +79,39 @@ function init() {
 
     $(this).addClass('selected');
     $('#bg-selection').html(`<b>"${$(this).data("name")}"</b> Selected`);
+    $(`.wizard-btn[data-step='3']`).removeClass('disabled').addClass('btn');
   });
 
+  //Skills
+
+  //Talents 
   var talTemp = Handlebars.compile(w_talentTemplate);
   $("#talents-list").html(talTemp({ "talents": talents }));
   Expander.bindEquipment();
+
+  var talent_selections = [];
+  var talent_names = [];
+  $('.talent-btn').click(function(){
+    var e = $(this);
+    var add = e.children(".add-button");
+    var remove = e.children(".subtract-button");
+    if (add.is(':visible') && talent_selections.length < 3) {
+      talent_selections.push(e.data("talent"));
+      talent_names.push(e.data("talent-name"));
+      add.hide();
+      remove.show();
+    } else if (remove.is(':visible')) {
+      talent_selections.pop(talent_selections.findIndex(x => x === e.data("talent")));
+      talent_names.pop(talent_selections.findIndex(x => x === e.data("talent-name")));
+      remove.hide();
+      add.show();
+    }
+    $("#selected-talents").html("Selected Talents: <b>" + talent_names.join(", ") + "</b>");
+    if (talent_selections.length === 3) $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
+    else $(`.wizard-btn[data-step='5']`).addClass('disabled').removeClass('btn');
+  })
+
+
 
 }
 

@@ -1,14 +1,15 @@
 {{#talents}}
 <tr>
-  <td>
+  <td style="padding-bottom: 5px; ">
     <div class="menu-border equip-expander">
-        <div class="equip-expander-header sweep-btn">
-          <span><b>&nbsp;{{name}}</b></span>
+        <div class="equip-expander-header sweep-btn" style="text-align:center;" data-talent="{{id}}">
+          <span><b>{{name}}</b></span>
         </div>
       <div class="equip-open-info hidden" style="background-color: var(--bg);">
         <div style="padding-left:5px">
           <blockquote class="desc-text">{{{description}}}</blockquote>
           <span class="talent-rank-title">&emsp;
+            <span class="subtitle">Unlock Rank I: </span>
             <span><b>{{r1_name}}</b></span>
           </span>
           <p>{{{r1_desc}}}</p><br>
@@ -28,9 +29,12 @@
     </div>
   </td>
   <td style="vertical-align: top" width="24px;">
-    <div>
-      <span class="pull-right add-button" data-talent="{{id}}">
+    <div class="talent-btn" data-talent="{{id}}" data-talent-name="{{name}}">
+      <span class="pull-right add-button">
         <a href="#" data-balloon-length="small" data-balloon="Add Talent" data-balloon-pos="left">+</a>
+      </span>
+      <span class="pull-right subtract-button" style="display: none;" data-talent="{{id}}">
+        <a href="#" data-balloon-length="medium" data-balloon="Remove Talent" data-balloon-pos="left">-</a>
       </span>
     </div>
   </td>

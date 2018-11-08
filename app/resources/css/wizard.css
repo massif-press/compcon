@@ -105,7 +105,7 @@
   font-family: 'K2D',
   sans-serif;
   border-bottom: 2px solid var(--highlight);
-  width: 90%;
+  width: 98%;
 }
 
 #callsign-input {
@@ -214,4 +214,20 @@
 .add-button:hover{
   color: var(--bg);
   background-color: var(--success);
+}
+
+.subtract-button {
+  text-align: center;
+  color: var(--burn);
+  font-size: 30px;
+  line-height: 26px;
+  border: 1px solid var(--burn);
+  width: 26px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.subtract-button:hover {
+  color: var(--bg);
+  background-color: var(--burn);
 }
