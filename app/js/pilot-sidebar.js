@@ -1,3 +1,4 @@
+const {dialog} = require('electron').remote;
 const $ = require("jquery");
 const fs = require("fs");
 const Handlebars = require("handlebars");
@@ -25,6 +26,7 @@ const w_gearTemplate = fs.readFileSync(__dirname  + "/templates/wizards/pilot-ge
 
 var template = Handlebars.compile(pilotTemplate);
 
+//TODO: write a state machine or something for this. this is gross. i'm sorry.
 function init() {
   $("#pilot-sidebar-output").html(template({"pilots": pilots}));
 
@@ -45,6 +47,7 @@ function init() {
       mechSidebar(Search.byID(pilots, id));
     });
   });
+}
 
   $('.close').click(function () {
     let modalID = $(this).data("modal");
@@ -262,6 +265,7 @@ function init() {
   $("#gear-weapons-btn").click(function () {
     $("#starting-gear-list").html("Selected Gear: <b>" + weapon_selections.join(", ") + "</b>");
     $("#gear-armor-btn, #gear-gear-btn").removeClass("selected");
+    $(this).addClass("selected");
     $("#pilot-gear-list, #pilot-armor-list").hide();
     $("#pilot-weapons-list").show()
   }); 
@@ -330,7 +334,7 @@ function init() {
       add.hide();
       remove.show();
       if (other_selections.length == 3) {
-        $('.pilot-gear-btn').each(function(){$(this).find(".add-button").removeClass('off')});
+        $('.pilot-gear-btn').each(function(){$(this).find(".add-button").addClass('off')});
       }         
     } else if (remove.is(':visible')) {
       gear_selections.pop(gear_selections.findIndex(x => x === e.data("item")));
@@ -345,15 +349,75 @@ function init() {
     $("#starting-gear-list").html("Selected Gear: <b>" + other_selections.join(", ") + "</b>");
   });
   
+  //details
+  var portraitPath = "";
+  var appearancePath = "";
 
+  $('#portrait-select').off()
+  $('#portrait-select').click(function() {
+    var filepath = dialog.showOpenDialog({
+      defaultPath: __dirname + "../resources/img/pilots",
+      title: "Select Portrait Image",
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
+      ],
+      properties: ['openFile']
+    });
+    
+    if (filepath) {
+      portraitPath = filepath[0];
+      $("#portait-filename").text(filepath[0].split('\\').pop().split('/').pop());
+    };
+  });
 
+  $('#appearance-select').off()
+  $('#appearance-select').click(function () {
+    var filepath = dialog.showOpenDialog({
+      defaultPath: __dirname + "../resources/img/pilots",
+      title: "Select Pilot Image",
+      filters: [
+        { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
+      ],
+      properties: ['openFile']
+    });
 
+    if (filepath) {
+      appearancePath = filepath[0];
+      $("#appearance-filename").text(filepath[0].split('\\').pop().split('/').pop());
+    };
+  });
 
+  //fnf
+  var fnf = 0;
+  $("#fnf-add").off()
+  $("#fnf-add").click(function() {
+    $('#fnf-items').append(
+      `<div class="fnf-item" data-idx="${fnf}">
+        <input class="line-input" id="fnf-name" type="text" placeholder="Name...">
+        <input class="line-input" id="fnf-relationship" type="text" placeholder=" Relationship..."><br>
+        <textarea class="wizard-textarea" id="fnf-notes" name="appearance" rows="3" cols="55" spellcheck="true" style="margin-left:3%" placeholder=" Appearance description..."></textarea>
+        <br>
+        <div data-idx="${fnf}" class="fnf-remove minor-btn btn pull-right" style="display: inline; color:var(--burn);">REMOVE</div>
+        <br>
+        <hr>
+      </div>`
+    )
+    $(`#fnf-remove[data-idx='${fnf}']`).off()
+    $(`.fnf-remove`).click(function(){
+      $(`.fnf-item[data-idx='${$(this).data('idx')}']`).remove();
+    })
+    fnf ++;
+  })
 
-}
+  $("#pilot-complete-btn").off();
+  $("#pilot-complete-btn").click(function(){
+    pilots.push(getNewPilot());
+    $('#newPilotModal').css("display", "none");
+    init();
+  })
+
 
 $('#add-pilot-btn').click(function(){
-  pilots.push(getNewPilot());    
   init();
 })
 

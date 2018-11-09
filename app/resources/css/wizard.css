@@ -1,3 +1,14 @@
+textarea {
+  resize: none;
+}
+
+.wizard-textarea {
+  background-color: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 15px;
+}
+
 .wizard-btn-container {
   width: 100%;
   padding: 30px 50px;
@@ -247,4 +258,19 @@
   color: grey;
   border-color: grey;
   cursor: not-allowed;
+}
+
+#fnf-name {
+  margin: 2px;
+}
+
+#fnf-relationship {
+  margin: 3px 0px 10px 2px;
+  margin-left: 3%;
+  width: 95%;
+  font-size: 15px;
+}
+
+.fnf-item {
+  margin: 10px;
 }

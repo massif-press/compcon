@@ -139,52 +139,80 @@
 
       <!-- gear -->
       <div class="np-wizard hidden" data-step="5">
-          <h1 id="gear-select-header">Select Starting Gear</h1>
-          <span class="subtitle"><span id="weapons-select-sub">0/2</span> Weapons Selected&emsp;//&emsp;</span>
-          <span class="subtitle"><span id="armor-select-sub">0/1</span> Armor Selected&emsp;//&emsp;</span>
-          <span class="subtitle"><span id="gear-select-sub">0/3</span> Gear Selected&emsp;//&emsp;</span>
-          <div>
-            &emsp;<div id="gear-gear-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 5px">Gear</div>&emsp;
-            &emsp;<div id="gear-armor-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 5px">Armor</div>&emsp;
-            &emsp;<div id="gear-weapons-btn" class="menu-border minor-btn btn pull-right selected" style="margin: 0px 5px">Weapons</div>&emsp;
-          </div>
-          <br>
-          <div id="starting-gear" class="modal-scrollrect menu-border" style="height:60%; margin-top: -20px">
-            <table id="pilot-weapons-list" width="100%" style="border-collapse: collapse;"></table>
-            <table id="pilot-armor-list" width="100%" style="border-collapse: collapse; display: none;"></table>
-            <table id="pilot-gear-list" width="100%" style="border-collapse: collapse; display: none;"></table>
-          </div>
-          <span class="subtitle" id="starting-gear-list"></span>
-          <br><br>
-          <div class="wizard-btn-container">            
-            <div class="wizard-btn btn" data-step="4">Back</div>
-            <div class="breadcrumb-container">
-              <div class="breadcrumb" data-step="1">ID</div>
-              <div class="breadcrumb" data-step="2">Background</div>
-              <div class="breadcrumb" data-step="3">Skills</div>
-              <div class="breadcrumb" data-step="4">Talents</div>
-              <div class="breadcrumb selected" data-step="5">Gear</div>
-              <div class="breadcrumb disabled" data-step="6">Details</div>
-            </div>
-            <div class="wizard-btn btn" data-step="6">Next</div>
-          </div>        
+        <h1 id="gear-select-header">Select Starting Gear</h1>
+        <span class="subtitle"><span id="weapons-select-sub">0/2</span> Weapons Selected&nbsp;//&nbsp;</span>
+        <span class="subtitle"><span id="armor-select-sub">0/1</span> Armor Selected&nbsp;//&nbsp;</span>
+        <span class="subtitle"><span id="gear-select-sub">0/3</span> Gear Selected</span>
+        <div style="margin-bottom: -2px;">
+          &emsp;<div id="gear-gear-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 1px; border-bottom: 0">Gear</div>&emsp;
+          &emsp;<div id="gear-armor-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 1px; border-bottom: 0">Armor</div>&emsp;
+          &emsp;<div id="gear-weapons-btn" class="menu-border minor-btn btn pull-right selected" style="margin: 0px 1px; border-bottom: 0">Weapons</div>&emsp;
         </div>
+        <br>
+        <div id="starting-gear" class="modal-scrollrect menu-border" style="height:60%; margin-top: -20px">
+          <table id="pilot-weapons-list" width="100%" style="border-collapse: collapse;"></table>
+          <table id="pilot-armor-list" width="100%" style="border-collapse: collapse; display: none;"></table>
+          <table id="pilot-gear-list" width="100%" style="border-collapse: collapse; display: none;"></table>
+        </div>
+        <span class="subtitle" id="starting-gear-list"></span>
+        <br><br>
+        <div class="wizard-btn-container">            
+          <div class="wizard-btn btn" data-step="4">Back</div>
+          <div class="breadcrumb-container">
+            <div class="breadcrumb" data-step="1">ID</div>
+            <div class="breadcrumb" data-step="2">Background</div>
+            <div class="breadcrumb" data-step="3">Skills</div>
+            <div class="breadcrumb" data-step="4">Talents</div>
+            <div class="breadcrumb selected" data-step="5">Gear</div>
+            <div class="breadcrumb disabled" data-step="6">Details</div>
+          </div>
+          <div class="wizard-btn btn" data-step="6">Next</div>
+        </div>        
+      </div>
 
         <!-- details -->
         <div class="np-wizard hidden" data-step="6">
-          (next button is SKIP until first selection, then NEXT)<br>
-          background<br>
-          <textarea placeholder="background"></textarea>
-          <textarea placeholder="notes"></textarea>
-          <div id="starting-fnf">
-            <input type="text" placeholder="name">
-            <input type="text" placeholder="relationship">
-            <textarea placeholder="notes"></textarea>
-            <button>+</button><br>
-          </div>
-          Portrait (150x150) image: <button>select</button><br>
-          Appearance (350x560) image: <button>select</button><br>
-          <textarea placeholder="appearance text"></textarea>
+          <table style="height: 82%;">
+            <tr style="vertical-align: top; height: 10%;">
+              <td>
+                <h1>Details</h1>
+                <span class="subtitle">bottom text</span>
+              </td>
+              <td>
+                <h1>Friends and Foes</h1>
+                <span class="subtitle">bottom text</span>
+              </td>
+            </tr>
+            <tr style="vertical-align: top;">
+              <td width="50%">
+                <div class="modal-scrollrect menu-border" style="height:100%">
+                  <span class="subtitle pull-right">Background Details</span>
+                  <textarea class="wizard-textarea" id="pilot-history" name="history" rows="7" cols="65" spellcheck="true"></textarea>
+                  <br>
+                  <br>
+                  <span class="subtitle pull-right">Additional Notes</span>
+                  <textarea class="wizard-textarea" id="pilot-notes" name="notes" rows="7" cols="65" spellcheck="true"></textarea>
+                  <br><br>
+                  <span class="subtitle pull-right">Appearance</span>
+                  <textarea class="wizard-textarea" id="pilot-appearance" name="appearance" rows="7" cols="65" spellcheck="true"></textarea>
+                  <br>
+                  <div style="padding: 5px;">
+                    <span>Portrait</span><span class="subtitle">(150x150px)&emsp;</span>&nbsp;
+                    <div id="portrait-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="portait-filename">(NONE)</span>
+                  </div>
+                  <div style="padding:5px">
+                    <span>Image</span><span class="subtitle">(350x560px)&emsp;</span>&nbsp;
+                    <div id="appearance-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="appearance-filename">(NONE)</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div id="starting-fnf" class="modal-scrollrect menu-border" style="height:100%">
+                  <div id="fnf-items"></div>
+                  <div id="fnf-add" class="menu-border minor-btn btn" style="display: inline; margin: 10px; top:10px;">&nbsp;ADD RELATIONSHIP&nbsp;</div>
+              </td>
+            </tr>
+          </table>
           <br><br>
           <div class="wizard-btn-container">
             <div class="wizard-btn btn" data-step="5">Back</div>
@@ -196,7 +224,7 @@
               <div class="breadcrumb" data-step="5">Gear</div>
               <div class="breadcrumb selected" data-step="6">Details</div>
             </div>
-            <div class="wizard-btn btn">Complete</div>
+            <div id="pilot-complete-btn" class="wizard-btn btn" style="width:125px">Complete</div>
           </div>
         </div>
 

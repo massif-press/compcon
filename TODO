@@ -11,6 +11,7 @@ Beta:
 
 Todo:
   ☐ refactor and atomize button jquery
+  ☐ tab styling (pw-gear)
   ✔ split out wizard css @done(18-11-07 16:06)
   ✔ style scrollbar @done(18-11-08 11:15)
   ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06)
