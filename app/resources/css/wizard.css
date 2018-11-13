@@ -274,3 +274,42 @@ textarea {
 .fnf-item {
   margin: 10px;
 }
+
+#register-new-pilot {
+  margin: 5% 0%;
+  font-size: 28px;
+  letter-spacing: 3px;
+  line-height: 50px;
+  height: 60px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.pulsate {
+  animation: pulsate 1s ease-out;
+  animation-iteration-count: infinite; 
+  opacity: 0.5;
+}
+@keyframes pulsate {
+  0% { 
+      opacity: 0.25;
+  }
+  50% { 
+      opacity: 1.0;
+  }
+  100% { 
+      opacity: 0.25;
+  }
+}
+
+.level-gains-list li {
+  text-align: center;
+  display: inline-block;
+  width: 30%;
+  background-color: var(--bg-alt);
+  color: var(--text);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 3px;
+  margin: 5px;
+}

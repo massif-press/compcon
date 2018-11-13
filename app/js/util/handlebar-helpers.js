@@ -142,4 +142,16 @@ Handlebars.registerHelper('listArray', function (arr) {
   return arr.join(", ")
 });
 
+Handlebars.registerHelper("inc", function (value) {
+  return parseInt(value) + 1;
+});
+
+Handlebars.registerHelper('modCond', function (v1, v2, options) {
+  if ((v1 + 1) % v2 == 0) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
 module.exports.init = init;

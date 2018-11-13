@@ -1,28 +1,42 @@
 Beta:
-  ☐ Pilot creation wizard
+  ✔ Pilot creation wizard @done(18-11-12 16:23)
+  ☐ Pilot level-up tool
   ☐ Pilot editor
   ☐ Pilot gear quick editor
-  ☐ Pilot level-up tool
   ☐ Config creation wizard
   ☐ Config editor
-  ☐ Config level-up tool
   ☐ Config loadout quick editor
+  ☐ Pilot export tool
+  ☐ Pilot clone tool
+  ☐ Pilot delete
+  ☐ Pilot status setting tool
+  ☐ Config export tool
+  ☐ Config clone tool
+  ☐ Config delete
+  ☐ Config status setting tool
   ☐ Config loadout saves
-
+  ☐ Pilot load from file
+  ☐ Pilot load from clipboard
+  ☐ Config load from file
+  ☐ Config load from clipboard
+  
 Todo:
-  ☐ Style initial new pilot screen
-  ☐ Connect NPW input to new pilot data
-  ☐ NPW: register new/re-open modal should re-init modal fields (template + re-init fn)
+  ☐ Put modal close binding into a utility
+  ✔ Disable level up if max pilot level reached @done(18-11-13 15:07)
+  ✔ Style initial new pilot screen @done(18-11-12 15:27)
+  ✔ Connect NPW input to new pilot data @done(18-11-12 15:01)
+  ✔ NPW: register new/re-open modal should re-init modal fields (template + re-init fn) @done(18-11-12 14:49)
+  ☐ NPW: "select x at character creation" overrides
   ☐ refactor and atomize button jquery
   ✔ tab styling (pw-gear) @done(18-11-09 15:23)
   ✔ split out wizard css @done(18-11-07 16:06)
   ✔ style scrollbar @done(18-11-08 11:15)
   ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06)
-  ☐ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard)
+  ✔ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard) @done(18-11-13 15:16)
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
   ☐ Expose data folder
   ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
-  ☐ Wire up pilot image select buttons
+  ✔ Wire up pilot image select buttons @done(18-11-12 16:23)
   ☐ Range into object (melee, threat, range)
   ☐ Fix catalog header position
   ☐ Catalog - write sort function to correctly sort damage/range
@@ -60,6 +74,7 @@ Reminders:
   ☐ personalizations adds +2 hp to mech
 
 Ideas:
+  ☐ Clone Pilot >> roll on clone complications table?
   ☐ Find a better solution for mech pics. Look stale atm.
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of manufacturer

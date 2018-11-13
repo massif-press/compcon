@@ -5,6 +5,7 @@ const Tags = require("./util/taghelper");
 const Search = require("./util/search");
 const Stats = require("./util/stats");
 const Expander = require("./util/expander");
+const LP = require("./wizards/levelpilot");
 //data
 const pilotGear = require("../resources/data/pilot_gear.json");
 const talents = require("../resources/data/pilot_talents.json");
@@ -14,6 +15,8 @@ const sheetTemplate = fs.readFileSync(__dirname + "/templates/pilot-sheet.hbs", 
 const weaponTemplate = fs.readFileSync(__dirname + "/templates/pilot-weapon.hbs", "utf8");
 const armorTemplate = fs.readFileSync(__dirname + "/templates/pilot-armor.hbs", "utf8");
 const gearTemplate = fs.readFileSync(__dirname + "/templates/pilot-gear.hbs", "utf8");
+//wizard template
+const levelTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-level.hbs", "utf8");
 
 function loadPilot(pilot) {  
   pilot.hp = Stats.getPilotHP(pilot.level);
@@ -53,10 +56,25 @@ function loadPilot(pilot) {
     $("#pilot-gear-output").append(template(item));
   }
 
-  //not worth it to make a new template at this time.
   $("#pilot-notes-output").html(pilot.notes);
 
   Expander.bindEquipment();
+
+  if (pilot.level < 15) {
+    $("#plvl-btn").click(function () {
+      $('#levelPilotModal').css("display", "block");
+      var template = Handlebars.compile(levelTemplate);
+      $("#plvl-modal-body").html(template(pilot));
+      LP.init(pilot);
+    });
+  } else {
+    $("#plvl-btn").addClass("warning-stripes disabled")
+  }
+
+  $('.close').click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
 }
 
 module.exports = loadPilot;
