@@ -1,0 +1,214 @@
+<!-- new/load -->
+<div class="np-wizard" data-step="0">
+  <br><br>
+  <div id="register-new-pilot" class="wizard-btn btn" data-step="1"><span style="width: 100%">Register New Pilot</span></div>
+  <br>
+  <hr>
+  <br>
+  <div class="wizard-load-btn disabled warning-stripes"><span>Load Pilot Data From File</span></div>
+  <br>
+  <div class="wizard-load-btn disabled warning-stripes"><span>Load Pilot Data From Clipboard</span></div>
+
+  <div class="wizard-btn-container">
+    <span class="close menu-border btn" data-modal="newPilotModal">&emsp;Cancel&emsp;</span>
+  </div>
+</div>
+
+<!-- name/callsign -->
+<div class="np-wizard hidden" data-step="1">
+  <h1>Welcome, Pilot</h1>
+  <span class="subtitle">IDENT PROTOCOL // Name and callsign registration</span>
+  <br><br><br><br>
+  <span class="label">Callsign</span><br>
+  <input class="line-input" id="callsign-input" type="text" placeholder="Enter Callsign...">
+  <br><br>
+  <span class="label">Name</span><br>
+  <input class="line-input" id="name-input" type="text" placeholder="Enter Name..."><br>
+  <div class="wizard-btn-container">
+    <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
+    <div class="breadcrumb-container">
+      <div class="breadcrumb selected" data-step="1"><a>ID</a></div>
+      <div class="breadcrumb disabled" data-step="2"><a>Background</a></div>
+      <div class="breadcrumb disabled" data-step="3"><a>Skills</a></div>
+      <div class="breadcrumb disabled" data-step="4"><a>Talents</a></div>
+      <div class="breadcrumb disabled" data-step="5"><a>Gear</a></div>
+      <div class="breadcrumb disabled" data-step="6"><a>Details</a></div>
+    </div>
+    <div class="wizard-btn disabled" data-step="2"><span>Next</span></div>
+  </div>
+</div>
+
+<!-- background -->
+<div class="np-wizard hidden" data-step="2">
+<h1>Select Background</h1>
+<span class="subtitle">bottom text</span>
+<br>
+  <div id="bg-options" class="menu-border modal-scrollrect" style="height:65%"></div>
+  <p id="bg-selection" class="subtitle pull-right"></p>
+
+  <div class="wizard-btn-container">            
+    <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
+    <div class="breadcrumb-container">
+      <div class="breadcrumb" data-step="1">ID</div>
+      <div class="breadcrumb selected" data-step="2">Background</div>
+      <div class="breadcrumb disabled" data-step="3">Skills</div>
+      <div class="breadcrumb disabled" data-step="4">Talents</div>
+      <div class="breadcrumb disabled" data-step="5">Gear</div>
+      <div class="breadcrumb disabled" data-step="6">Details</div>
+    </div>
+    <div class="wizard-btn disabled" data-step="3"><span>Next</span></div>
+  </div>
+</div>
+
+<!-- skills -->
+<div class="np-wizard hidden" data-step="3">
+  <h1 id="skill-instruction"></h1> 
+  <span id="skill-instruction-sub" class="subtitle"></span>
+  <div id="skill-grid">
+    <table width="100%" style="border-spacing: 15px;">
+      <tr>
+        <td class="skillbox" data-skill="Acquire" width="25%"></td>
+        <td class="skillbox" data-skill="Flash" width="25%"></td>
+        <td class="skillbox" data-skill="Brawl" width="25%"></td>
+        <td class="skillbox" data-skill="Infiltrate" width="25%"></td>
+      </tr>
+      <tr>
+        <td class="skillbox" data-skill="Investigate"></td>
+        <td class="skillbox" data-skill="Persuade"></td>
+        <td class="skillbox" data-skill="Command"></td>
+        <td class="skillbox" data-skill="Swindle"></td>
+      </tr>
+      <tr>
+        <td class="skillbox" data-skill="Tech"><br></td>
+        <td class="skillbox" data-skill="Survive"></td>
+        <td class="skillbox" data-skill="Maneuver"></td>
+        <td class="skillbox" data-skill="Notice"></td>
+      </tr>
+    </table>
+  </div>
+  <div id="skill-reset" class="minor-btn btn pull-right">RESET</div>
+  <div class="wizard-btn-container">            
+    <div class="wizard-btn btn" data-step="2">Back</div>
+    <div class="breadcrumb-container">
+      <div class="breadcrumb" data-step="1">ID</div>
+      <div class="breadcrumb" data-step="2">Background</div>
+      <div class="breadcrumb selected" data-step="3">Skills</div>
+      <div class="breadcrumb disabled" data-step="4">Talents</div>
+      <div class="breadcrumb disabled" data-step="5">Gear</div>
+      <div class="breadcrumb disabled" data-step="6">Details</div>
+    </div>
+    <div class="wizard-btn btn" data-step="4">Next</div>
+  </div>
+</div>        
+
+<!-- talents -->
+<div class="np-wizard hidden" data-step="4">
+  <h1>Select Talents</h1><span id="talents-remaining" class="subtitle">(<b>3</b> Remaining)</span>
+  <div class="modal-scrollrect menu-border" style="height:60%">
+  <table id="talents-list" width="100%" style="border-collapse: collapse;"></table>
+  </div>
+  <span class="subtitle" id="selected-talents">Selected Talents:</span>
+  <div id="starting-talent-list"></div>
+  <div class="wizard-btn-container">            
+    <div class="wizard-btn btn" data-step="3">Back</div>
+    <div class="breadcrumb-container">
+      <div class="breadcrumb" data-step="1">ID</div>
+      <div class="breadcrumb" data-step="2">Background</div>
+      <div class="breadcrumb" data-step="3">Skills</div>
+      <div class="breadcrumb selected" data-step="4">Talents</div>
+      <div class="breadcrumb disabled" data-step="5">Gear</div>
+      <div class="breadcrumb disabled" data-step="6">Details</div>
+    </div>
+    <div class="wizard-btn disabled" data-step="5">Next</div>
+  </div>        
+</div>
+
+<!-- gear -->
+<div class="np-wizard hidden" data-step="5">
+<h1 id="gear-select-header">Select Starting Gear</h1>
+<span class="subtitle"><span id="weapons-select-sub">0/2</span> Weapons Selected&nbsp;//&nbsp;</span>
+<span class="subtitle"><span id="armor-select-sub">0/1</span> Armor Selected&nbsp;//&nbsp;</span>
+<span class="subtitle"><span id="gear-select-sub">0/3</span> Gear Selected</span>
+<div style="margin-bottom: -2px;">
+  &emsp;<div id="gear-gear-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 1px; border-bottom: 0">Gear</div>&emsp;
+  &emsp;<div id="gear-armor-btn" class="menu-border minor-btn btn pull-right" style="margin: 0px 1px; border-bottom: 0">Armor</div>&emsp;
+  &emsp;<div id="gear-weapons-btn" class="menu-border minor-btn btn pull-right selected" style="margin: 0px 1px; border-bottom: 0">Weapons</div>&emsp;
+</div>
+<br>
+<div id="starting-gear" class="modal-scrollrect menu-border" style="height:60%; margin-top: -20px">
+  <table id="pilot-weapons-list" width="100%" style="border-collapse: collapse;"></table>
+  <table id="pilot-armor-list" width="100%" style="border-collapse: collapse; display: none;"></table>
+  <table id="pilot-gear-list" width="100%" style="border-collapse: collapse; display: none;"></table>
+</div>
+<span class="subtitle" id="starting-gear-list">Selected Gear: </span>
+<br><br>
+<div class="wizard-btn-container">            
+  <div class="wizard-btn btn" data-step="4">Back</div>
+  <div class="breadcrumb-container">
+    <div class="breadcrumb" data-step="1">ID</div>
+    <div class="breadcrumb" data-step="2">Background</div>
+    <div class="breadcrumb" data-step="3">Skills</div>
+    <div class="breadcrumb" data-step="4">Talents</div>
+    <div class="breadcrumb selected" data-step="5">Gear</div>
+    <div class="breadcrumb disabled" data-step="6">Details</div>
+  </div>
+  <div class="wizard-btn btn" data-step="6">Next</div>
+</div>        
+</div>
+
+<!-- details -->
+<div class="np-wizard hidden" data-step="6">
+  <table style="height: 82%;">
+    <tr style="vertical-align: top; height: 10%;">
+      <td>
+        <h1>Details</h1>
+        <span class="subtitle">bottom text</span>
+      </td>
+      <td>
+        <h1>Friends and Foes</h1>
+        <span class="subtitle">bottom text</span>
+      </td>
+    </tr>
+    <tr style="vertical-align: top;">
+      <td width="50%">
+        <div class="modal-scrollrect menu-border" style="height:100%">
+          <span class="subtitle pull-right">Background Details</span>
+          <textarea class="wizard-textarea" id="pilot-history" name="history" rows="7" cols="65" spellcheck="true"></textarea>
+          <br>
+          <br>
+          <span class="subtitle pull-right">Additional Notes</span>
+          <textarea class="wizard-textarea" id="pilot-notes" name="notes" rows="7" cols="65" spellcheck="true"></textarea>
+          <br><br>
+          <span class="subtitle pull-right">Appearance</span>
+          <textarea class="wizard-textarea" id="pilot-appearance" name="appearance" rows="7" cols="65" spellcheck="true"></textarea>
+          <br>
+          <div style="padding: 5px;">
+            <span>Portrait</span><span class="subtitle">(150x150px)&emsp;</span>&nbsp;
+            <div id="portrait-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="portait-filename">(NONE)</span>
+          </div>
+          <div style="padding:5px">
+            <span>Image</span><span class="subtitle">(350x560px)&emsp;</span>&nbsp;
+            <div id="appearance-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="appearance-filename">(NONE)</span>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div id="starting-fnf" class="modal-scrollrect menu-border" style="height:100%">
+          <div id="fnf-items"></div>
+          <div id="fnf-add" class="menu-border minor-btn btn" style="display: inline; margin: 10px; top:10px;">&nbsp;ADD RELATIONSHIP&nbsp;</div>
+      </td>
+    </tr>
+  </table>
+  <br><br>
+  <div class="wizard-btn-container">
+    <div class="wizard-btn btn" data-step="5">Back</div>
+    <div class="breadcrumb-container">
+      <div class="breadcrumb" data-step="1">ID</div>
+      <div class="breadcrumb" data-step="2">Background</div>
+      <div class="breadcrumb" data-step="3">Skills</div>
+      <div class="breadcrumb" data-step="4">Talents</div>
+      <div class="breadcrumb" data-step="5">Gear</div>
+      <div class="breadcrumb selected" data-step="6">Details</div>
+    </div>
+    <div id="pilot-complete-btn" class="wizard-btn btn" style="width:125px">Complete</div>
+  </div>
