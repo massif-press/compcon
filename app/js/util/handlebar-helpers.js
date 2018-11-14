@@ -58,6 +58,37 @@ function init() {
     return retFalse
   });
 
+Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+
+    if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+    var operator = options.hash.operator || "==";
+
+    var operators = {
+        '==': function(l,r) { return l == r; },
+        '===': function(l,r) { return l === r; },
+        '!=': function(l,r) { return l != r; },
+        '<': function(l,r) { return l < r; },
+        '>': function(l,r) { return l > r; },
+        '<=': function(l,r) { return l <= r; },
+        '>=': function(l,r) { return l >= r; },
+        'typeof': function(l,r) { return typeof l == r; }
+    }
+
+    if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+    var result = operators[operator](lvalue,rvalue);
+
+    if( result ) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+
+});
+
   Handlebars.registerHelper('trSplit', function (v1, v2, options) {
     if (v1 % v2 === 0) {
       return options.fn(this);
@@ -152,6 +183,10 @@ Handlebars.registerHelper('modCond', function (v1, v2, options) {
   } else {
     return options.inverse(this);
   }
+});
+
+Handlebars.registerHelper('listJoin', function (arr) {
+  return arr.join(', ');
 });
 
 module.exports.init = init;

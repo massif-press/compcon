@@ -6,7 +6,7 @@
   <br>
   <span class="subtitle"><i>License Upgrade Pending:</i></span>
   <br>
-  <div class="menu-border" style="text-align: center">
+  <div class="menu-border" style="text-align: center; background-color:var(--bg-alt)">
     <span class="subtitle">LL</span>
     <span style="font-size: 38px">{{level}}</span>
     <span style="vertical-align: text-top; font-size:30px; line-height:0px;">&emsp;>>&emsp;</span>
@@ -15,7 +15,7 @@
   </div>
   <div>
     <br><br>
-    <div style="text-align: center; width:100%"><span class="subtitle">Level {{inc level}} Bonuses:</span></div>
+    <div style="text-align: center; width:100%;"><span class="subtitle">Level {{inc level}} Bonuses:</span></div>
     <br>
     <ul class="level-gains-list">
       <li>+1 Pilot HP</li>
@@ -40,21 +40,8 @@
   </div>
 </div>
 
-<!-- confirm stats -->
-<div class="np-wizard hidden" data-step="1" >
-  <h1>New Stats</h1>
-  <span class="subtitle"></span>
-  <div id="new-stats"></div>
-  <div class="wizard-btn-container">
-    <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
-    <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn" data-step="2"><span>Next</span></div>
-  </div>
-</div>
-
 <!-- select skill -->
-<div class="np-wizard hidden" data-step="2">
+<div class="np-wizard hidden" data-step="1">
   <h1>Upgrade Skill</h1>
   <span id="skill-instruction-sub" class="subtitle">Add a +1 bonus to a Skill (+4 max)</span>
   <div id="skill-grid">
@@ -81,73 +68,73 @@
   </div>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn" data-step="3"><span>Next</span></div>
+    <div class="wizard-btn btn" data-step="2"><span>Next</span></div>
   </div>
 </div>
 
 <!-- select talent -->
-<div class="np-wizard hidden" data-step="3">
+<div class="np-wizard hidden" data-step="2">
   <h1>Upgrade Talent</h1>
   <span class="subtitle">Unlock a new Talent or upgrade the rank of an unlocked Talent</span>
-  <div class="modal-scrollrect menu-border" style="height:60%">
+  <div class="modal-scrollrect menu-border" style="height:65%">
     <table id="talents-list" width="100%" style="border-collapse: collapse;"></table>
   </div>
   <span class="subtitle" id="selected-talent">Selected:</span>
-  <div id="starting-talent-list"></div>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="2"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn" data-step="4"><span>Next</span></div>
+    <div class="wizard-btn btn disabled" data-step="3"><span>Next</span></div>
   </div>
 </div>
 
 <!-- select license -->
-<div class="np-wizard hidden" data-step="4">
+<div class="np-wizard hidden" data-step="3">
   <h1>Unlock License</h1>
   <span class="subtitle">Unlock a new License or upgrade the rank of an unlocked Licensed</span>
-  <div class="modal-scrollrect menu-border" style="height:60%">
+  <div class="modal-scrollrect menu-border" style="height:65%">
     <table id="licenses-list" width="100%" style="border-collapse: collapse;"></table>
   </div>
   <span class="subtitle" id="selected-unlocks">Unlocks:</span>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="2"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
     {{#modCond level 3}}
-      <div class="wizard-btn btn" data-step="5"><span>Next</span></div>
+      <div class="wizard-btn btn disabled" data-step="4"><span>Next</span></div>
     {{else}}
-      <div class="wizard-btn btn" data-step="6"><span>Next</span></div>
+      <div class="wizard-btn btn disabled" data-step="5"><span>Next</span></div>
     {{/modCond}}
   </div>
 </div>
 
 <!-- select core skill -->
-<div class="np-wizard hidden" data-step="5">
+<div class="np-wizard hidden" data-step="4">
   <h1>Select Core Skill</h1>
-  <div class="modal-scrollrect menu-border" style="height:60%">
+  <div class="modal-scrollrect menu-border" style="height:65%">
     <table id="coreskills-list" width="100%" style="border-collapse: collapse;"></table>
   </div>
   <span class="subtitle" id="selected-coreskill">Selected:</span>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="4"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn" data-step="6"><span>Next</span></div>
+    <div class="wizard-btn btn disabled" data-step="5"><span>Next</span></div>
   </div>
 </div>
 
 <!-- final confirm -->
-<div class="np-wizard hidden" data-step="6">
+<div class="np-wizard hidden" data-step="5">
+  <h1>New Stats</h1>
   are you sure? this cannot be undone
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
     {{#modCond level 3}}
-      <div class="wizard-btn btn" data-step="5"><span>Back</span></div>
-    {{else}}
       <div class="wizard-btn btn" data-step="4"><span>Back</span></div>
+    {{else}}
+      <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
     {{/modCond}}
     <div class="breadcrumb-container"></div>
     <div class="wizard-btn btn"><span>Confirm</span></div>

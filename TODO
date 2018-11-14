@@ -22,6 +22,9 @@ Beta:
   
 Todo:
   ☐ Put modal close binding into a utility
+  ☐ increase modal height
+  ☐ shorten modal button container
+  ☐ update licenses.json on every open
   ✔ Disable level up if max pilot level reached @done(18-11-13 15:07)
   ✔ Style initial new pilot screen @done(18-11-12 15:27)
   ✔ Connect NPW input to new pilot data @done(18-11-12 15:01)
@@ -56,6 +59,7 @@ Todo:
 Bugs:
   ☐ Overly long names/callsigns break formatting
   ☐ new pilot wizard: open background options bounce on click
+  ☐ level pilot wizard: open options bounce on click
   ☐ talent <ul> not taking disabled coloring
   ✔ Undefineds appearing in parsed tags @done(18-11-07 16:06)
   

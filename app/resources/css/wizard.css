@@ -203,7 +203,7 @@ textarea {
 
 #skill-grid .subtitle {
   position: absolute;
-  padding-left: 60px;
+  padding-left: 95px;
   font-weight: bold;
 }
 
@@ -220,6 +220,10 @@ textarea {
 .skill-malus {
   color: var(--explosive);
   cursor: default!important;
+}
+
+.skill-upgrade {
+  border: 2px solid var(--energy);
 }
 
 .add-button {
@@ -312,4 +316,9 @@ textarea {
   text-transform: uppercase;
   padding: 3px;
   margin: 5px;
+}
+
+.lb-margin {
+  margin-top: 4px;
+  margin-left: 5px;
 }

@@ -5,6 +5,7 @@ const Helpers = require('./util/handlebar-helpers');
 $(document).ready(function () {
   //loads all handlebars helpers.
   Helpers.init();
+
   $('.pilot-sidebar').load('./html/pilot-sidebar.html');
 });
 

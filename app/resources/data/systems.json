@@ -2305,7 +2305,7 @@
       }
     ],
     "source": "SSC",
-    "license": "DEATH'S HEAD",
+    "license": "DEATH’S HEAD",
     "license_level": 1,
     "effect": "Gain the following quick tech option:<br><b>Tracking Drone:​</b> Make a tech attack against a target in your sensor range. On a hit, you know the target’s exact location, HP, Structure, Heat, and speed, and it cannot hide or benefit from invisibility from you until the drone is removed from them. It takes a quick action and a successful engineering check from the targeted mech to remove a tracking drone.",
     "description": "A modified version of a tracer round, a tracking drone must hit its target in order to activate. Once a successful hit is registered, a tracking drone will feed live, surreptitious data back to its shooter across multiple theaters.",

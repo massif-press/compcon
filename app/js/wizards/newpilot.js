@@ -95,24 +95,24 @@ function init() {
         clickable.off();
         //bind clickable skills
         clickable.click(function () {
-          for (let i = 0; i < selectables.length; i++) {
-            var e = selectables[i];
-            var id = e.data("skill").toLowerCase();
-            //remove selectables from allskills
-            allSkills.splice(allSkills.findIndex(x => x.data("skill") === e.data("skill")), 1);
-            //on click, assign primary skill
-            if (e.data("skill") === $(this).data("skill")) {
-              e.addClass("skill-primary").removeClass("selectable");
-              e.append('<br><span class="subtitle skill-primary">+2</span>')
-              selectedSkills[id] = 2;
-            } else {
-              //assign secondary skills
-              e.addClass("skill-bonus").removeClass("selectable");
-              e.append('<br><span class="subtitle skill-bonus">+1</span>')
-              selectedSkills[id] = 1;
-            }
-            e.off();
+        for (let i = 0; i < selectables.length; i++) {
+          var e = selectables[i];
+          var id = e.data("skill").toLowerCase();
+          //remove selectables from allskills
+          allSkills.splice(allSkills.findIndex(x => x.data("skill") === e.data("skill")), 1);
+          //on click, assign primary skill
+          if (e.data("skill") === $(this).data("skill")) {
+            e.addClass("skill-primary").removeClass("selectable");
+            e.append('<br><span class="subtitle skill-primary">+2</span>')
+            selectedSkills[id] = 2;
+          } else {
+            //assign secondary skills
+            e.addClass("skill-bonus").removeClass("selectable");
+            e.append('<br><span class="subtitle skill-bonus">+1</span>')
+            selectedSkills[id] = 1;
           }
+          e.off();
+        }
 
           //replace selectables with remaining skills
           selectables = allSkills;
