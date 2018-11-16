@@ -113,7 +113,7 @@ hr {
   color: var(--text);
 }
 
-#about-btn, #catalog-btn {
+#about-btn, #catalog-btn, #options-btn {
   float: right;
   margin: 8px;
   margin-bottom: 0px;
@@ -174,7 +174,6 @@ hr {
   letter-spacing: 1px;
   color: var(--highlight);
   font-style: normal;
-  float: right;
   margin-top: 10px;
   text-overflow: ellipsis;
 }

@@ -1,14 +1,10 @@
 Beta:
-  ✔ Pilot creation wizard @done(18-11-12 16:23)
-  ☐ Pilot level-up tool
   ☐ Pilot editor
   ☐ Pilot gear quick editor
   ☐ Config creation wizard
   ☐ Config editor
   ☐ Config loadout quick editor
   ☐ Pilot export tool
-  ☐ Pilot clone tool
-  ☐ Pilot delete
   ☐ Pilot status setting tool
   ☐ Config export tool
   ☐ Config clone tool
@@ -19,28 +15,28 @@ Beta:
   ☐ Pilot load from clipboard
   ☐ Config load from file
   ☐ Config load from clipboard
+  ☐ Options Menu
   
 Todo:
+  ☐ Pilot Sheet: Add gear button
+  ☐ Pilot sheet: Clicking gear "mount" allows edit/remove
+  ☐ Mech Sheet: Add system button -> free sp / total sp display
+  ☐ Mech Sheet: If free sp, add empty system slot
+  ☐ Mech Sheet: Map mount assignments to weapons
+  ☐ Mech Sheet: Wire mount button to assign weapon (if occupied, display and add remove btn)
+  ☐ Mech Sheet: loadout button into modal
+  ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
+  ☐ Use Font Awesome
   ☐ Put modal close binding into a utility
+  ☐ Refactor modal waterfalls into visibility-bound series
+  ☐ wizard lists should be sortable
   ☐ increase modal height
   ☐ shorten modal button container
-  ☐ update licenses.json on every open
-  ☐ wizard lists should be sortable
-  ✔ Disable level up if max pilot level reached @done(18-11-13 15:07)
-  ✔ Style initial new pilot screen @done(18-11-12 15:27)
-  ✔ Connect NPW input to new pilot data @done(18-11-12 15:01)
-  ✔ NPW: register new/re-open modal should re-init modal fields (template + re-init fn) @done(18-11-12 14:49)
   ☐ NPW: "select x at character creation" overrides
   ☐ refactor and atomize button jquery
-  ✔ tab styling (pw-gear) @done(18-11-09 15:23)
-  ✔ split out wizard css @done(18-11-07 16:06)
-  ✔ style scrollbar @done(18-11-08 11:15)
-  ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06)
-  ✔ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard) @done(18-11-13 15:16)
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
   ☐ Expose data folder
   ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
-  ✔ Wire up pilot image select buttons @done(18-11-12 16:23)
   ☐ Range into object (melee, threat, range)
   ☐ Fix catalog header position
   ☐ Catalog - write sort function to correctly sort damage/range
@@ -54,15 +50,15 @@ Todo:
   ☐ CORE mounts
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
-  ☐ lancerdata exporter
-  ☐ lancerdata importer
+  ☐ Options: export all
+  ☐ Options: lancerdata exporter
+  ☐ Options: lancerdata importer
 
 Bugs:
-  ☐ Overly long names/callsigns break formatting
-  ☐ new pilot wizard: open background options bounce on click
+  ☐ new pilot wizard: open options bounce on click
   ☐ level pilot wizard: open options bounce on click
   ☐ talent <ul> not taking disabled coloring
-  ✔ Undefineds appearing in parsed tags @done(18-11-07 16:06)
+  ☐ Options gear icon doesn't change color on hover
   
 Reminders:
   ☐ set config status unavailable on JSON update if pilot is missing licenses
@@ -94,6 +90,23 @@ Ideas:
   ☐ animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ Pilot level-up tool @done(18-11-16 13:56) @project(Beta)
+  ✔ Pilot clone tool @done(18-11-16 15:01) @project(Beta)
+  ✔ Pilot delete @done(18-11-16 15:01) @project(Beta)
+  ✔ Overly long names/callsigns break formatting @done(18-11-16 14:58) @project(Bugs)
+  ✔ Pilot creation wizard @done(18-11-12 16:23) @project(Beta)
+  ✘ update licenses.json on every open @cancelled(18-11-16 11:14) @project(Todo)
+  ✔ Disable level up if max pilot level reached @done(18-11-13 15:07) @project(Todo)
+  ✔ Style initial new pilot screen @done(18-11-12 15:27) @project(Todo)
+  ✔ Connect NPW input to new pilot data @done(18-11-12 15:01) @project(Todo)
+  ✔ NPW: register new/re-open modal should re-init modal fields (template + re-init fn) @done(18-11-12 14:49) @project(Todo)
+  ✔ tab styling (pw-gear) @done(18-11-09 15:23) @project(Todo)
+  ✔ split out wizard css @done(18-11-07 16:06) @project(Todo)
+  ✔ style scrollbar @done(18-11-08 11:15) @project(Todo)
+  ✘ add disabled attr to all wizard breadcrumbs until accessed through Next @cancelled(18-11-07 16:06) @project(Todo)
+  ✔ Add pilot/mech => new or saved dialog (new X, load X from file, load X from clipboard) @done(18-11-13 15:16) @project(Todo)
+  ✔ Wire up pilot image select buttons @done(18-11-12 16:23) @project(Todo)
+  ✔ Undefineds appearing in parsed tags @done(18-11-07 16:06) @project(Bugs)
   ✔ Catalog @done(18-11-01 16:39) @project(Alpha 1.5)
   ✔ Source selectors @done(18-11-01 16:39) @project(Todo)
   ✔ Name search @done(18-11-01 16:39) @project(Todo)

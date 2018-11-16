@@ -3,20 +3,27 @@ const fs = require("fs");
 const Handlebars = require("handlebars");
 const Expander = require("../util/expander");
 const Licenses = require('../util/licensemanager');
+const PilotSidebar = require('../pilot-sidebar');
 
 const w_talentTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-talent-upgrade.hbs", "utf8");
 const w_licenseTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-license-upgrade.hbs", "utf8");
-const w_coreskillsTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-coreskills.hbs", "utf8");
+const w_coreskillTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-coreskills.hbs", "utf8");
 
 const talents = require("../../resources/data/pilot_talents.json");
 const coreskills = require("../../resources/data/core_bonus.json");
 
-
 var selectedSkill;
 var selectedHASE;
-var core_skill_id;
+var newTalent;
+var newLicense;
+var newCoreskill;
 
 function init(pilot) {
+  selectedSkill = "";
+  selectedHASE = "";
+  newTalent = {};
+  newLicense = {};
+  newCoreskill = {};
 
   $('.wizard-btn').off();
   $('.wizard-btn').click(function () {
@@ -55,10 +62,9 @@ function init(pilot) {
   var talTemp = Handlebars.compile(w_talentTemplate);
   $("#talents-list").html(talTemp({ "talents": selectableTalents }));
 
-  var talent_id = "";
   $('.talent-upg').click(function () {
     var e = $(this);
-    $(`.wizard-btn[data-step='3']`).removeClass('disabled').addClass('btn');
+    $(`.wizard-btn[data-step='4']`).removeClass('disabled').addClass('btn');
     $('.talent-upg').each(function () {
       $(this).removeClass("skill-upgrade")
       if ($(this).closest('.equip-expander').hasClass('open')) {
@@ -70,7 +76,11 @@ function init(pilot) {
     })
     e.addClass("skill-upgrade")   
     $("#selected-talent").html("Selected Talent: <b>" + e.data("talent-name") + "</b>");
-    talent_id = e.data("talent");
+    newTalent = {
+      id: e.data("talent"),
+      name: e.data("talent-name"),
+      rank: e.data("upg-rank")
+    };
   })
 
   //get license lists
@@ -81,7 +91,7 @@ function init(pilot) {
     var pIdx = pilot.licenses.findIndex(x => x.name === licenseList[i].name);
 
     if (pIdx > -1) {
-      licenseList[i].pilot_rank = pilot.licenses[pIdx].rank;
+      licenseList[i].pilot_rank = pilot.licenses[pIdx].level;
     } else {
       licenseList[i].pilot_rank = 0;
     }
@@ -89,15 +99,13 @@ function init(pilot) {
 
   licenseList = licenseList.filter(l => l.pilot_rank < 3 && l.source !== "GMS");
 
-
   var licenseTemp = Handlebars.compile(w_licenseTemplate);
   $("#licenses-list").html(licenseTemp({ "licenses": licenseList }));
 
-  var newLicense;
   $('.license-upg').click(function () {
     var e = $(this);
-    if ((pilot.level + 1) % 3 === 0) $(`.wizard-btn[data-step='4']`).removeClass('disabled').addClass('btn');
-    else $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
+    if ((pilot.level + 1) % 3 === 0) $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
+    else $(`.wizard-btn[data-step='6']`).removeClass('disabled').addClass('btn');
     $('.license-upg').each(function () {
       $(this).removeClass("skill-upgrade")
       if ($(this).closest('.equip-expander').hasClass('open')) {
@@ -117,10 +125,12 @@ function init(pilot) {
     setCoreSkills(pilot, e.data("source"));
   })
 
-  
+  $(`.wizard-btn[data-step='6']`).click(function() {
+    if ($(this).hasClass('btn'))
+      $("#results-table").html(setResultsTable(pilot))
+  });
+
   Expander.bindEquipment();
-
-
 }
 
 function setSkillboxes(pilot) {
@@ -154,7 +164,7 @@ function setSkillboxes(pilot) {
 }
 
 function setCoreboxes(pilot) {
-  $(`.wizard-btn[data-step='2']`).addClass('disabled').removeClass('btn');
+  $(`.wizard-btn[data-step='3']`).addClass('disabled').removeClass('btn');
 
   $('.core-skillbox').each(function () {
     var e = $(this);   
@@ -162,10 +172,10 @@ function setCoreboxes(pilot) {
     var haseVal = pilot.core[hase];
     e.children('.subtitle').removeClass("skill-primary");
     e.addClass('selectable').removeClass("skill-upgrade");
-    e.html(hase.toUpperCase());
+    e.html(`<span class="core-name">${e.data("name")}</span>`);
     var haseClass = haseVal > 0 ? 'skill-bonus' : 'skill-malus';
     if (haseVal === 0) haseClass = '';
-    e.append(`<br><span class="hase-num ${haseClass}">${haseVal > 0 ? '+' : ''}${haseVal}</span>`)
+    e.append(`<br><span class="core-skillbox-num ${haseClass}">${haseVal > 0 ? '+' : ''}${haseVal}</span>`)
 
     if (haseVal > 6) {
       e.addClass("disabled").removeClass("selectable");
@@ -175,8 +185,8 @@ function setCoreboxes(pilot) {
         if (selectedHASE) setCoreboxes(pilot)
         else(selectedHASE = hase.toLowerCase())
         $(`.wizard-btn[data-step='3']`).removeClass('disabled').addClass('btn');
-        e.html(hase.toUpperCase());
-        e.append(`<br><span class="hase-num skill-primary">${haseVal + 1 > 0 ? '+' : ''}${haseVal + 1}</span>`);
+        e.html(`<span class="core-name">${e.data("name")}</span>`);
+        e.append(`<br><span class="core-skillbox-num skill-primary">${haseVal + 1 > 0 ? '+' : ''}${haseVal + 1}</span>`);
         e.addClass("skill-upgrade");
       });
     }
@@ -217,13 +227,105 @@ function setCoreSkills(pilot, addedLicenseSource) {
 
   $('.coreskill-upg').click(function () {
     var e = $(this);
-    $(`.wizard-btn[data-step='5']`).removeClass('disabled').addClass('btn');
+    $(`.wizard-btn[data-step='6']`).removeClass('disabled').addClass('btn');
     $('.coreskill-upg').each(function () { $(this).removeClass("skill-upgrade");})
     e.addClass("skill-upgrade")
     $("#selected-coreskill").html(`Selected: <b>${e.data("name")}</b>`);
-    core_skill_id = e.data("id");
+    newCoreskill = {
+      id: e.data("id"),
+      name: e.data("name")
+    };
   })
 
+}
+
+function setResultsTable(pilot) {
+  var leveledPilot = getLeveledPilot(pilot);
+
+  var talHtml = newTalent.rank === 1
+    ? `<span class="newval">${newTalent.name} </span><span class="subtitle">UNLOCKED</span></span>`
+    : `${newTalent.name} <span class="oldval">${newTalent.rank}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${newTalent.rank + 1}</span>`; 
+
+  var licHtml = newLicense.level === 1
+    ? `<span class="newval">${newLicense.name} </span><span class="subtitle">UNLOCKED</span></span>`
+    : `${newLicense.name} <span class="oldval">${newLicense.level}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${newLicense.level + 1}</span>`; 
+
+  var t = `
+    <table id="level-results">
+      <tr>
+        <th width="16.6%">Pilot Base HP</th>
+        <th width="16.6%">Pilot ${selectedSkill.toUpperCase()}</th>
+        <th width="16.6%">Pilot GRIT</th>
+        <th width="16.6%">CORE HP</th>
+        <th width="16.6%">CORE ${selectedHASE}</th>
+        <th width="16.6%">CORE Targeting</th>
+      </tr>
+      <tr>
+        <td style="text-align:center"><span class="oldval">${pilot.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.hp}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.skills[selectedSkill]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills[selectedSkill]}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.skills.grit}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills.grit}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.core.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core.hp}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.core[selectedHASE]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core[selectedHASE]}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.core.targeting}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core.targeting}</span></td>
+      </tr>
+      <tr>
+        <th colspan="3">Talent Upgrade</th>
+        <th colspan="3">License Upgrade</th>
+      </tr>
+      <tr>
+        <td style="text-align:center" colspan="3">${talHtml}</td>
+        <td style="text-align:center" colspan="3">${licHtml}</td>
+      </tr>`
+
+    if (newCoreskill && newCoreskill.id) {
+      t += `      
+      <tr>
+        <th colspan="6">Core Skill Unlocked</th>
+      </tr>
+      <tr>
+        <td style="text-align:center" colspan="6"><span class="newval">${newCoreskill.name}</span></td>
+      </tr>`
+    }
+
+    t += '</table>'
+
+    $("#confirm-level-up").off();
+    $("#confirm-level-up").click(function(){
+      PilotSidebar.update(leveledPilot);
+      $('#levelPilotModal').css("display", "none");
+    })
+
+  return t;
+}
+
+function getLeveledPilot(pilot) {
+  var lp = Object.assign({}, pilot);;
+  lp.level ++;
+  lp.hp ++;
+  lp.skills[selectedSkill] ++;
+  if (lp.level % 3 === 0) lp.skills.grit ++
+  lp.core[selectedHASE] ++;
+  if (lp.level % 2 === 0 && lp.core.targeting < 6) lp.core.targeting ++
+  var talentIndex = lp.talents.findIndex(x => x.id === newTalent.id);
+  if (talentIndex === -1) {
+    lp.talents.push({
+      id: newTalent.id,
+      rank: newTalent.rank
+    })
+  } else {
+    lp.talents[talentIndex].rank ++;
+  }
+  var licenseIndex = lp.licenses.findIndex(x => x.name === newLicense.name);
+  if (licenseIndex === -1) {
+    lp.licenses.push(newLicense)
+  } else {
+    lp.licenses[licenseIndex].level ++;
+  }
+  if (newCoreskill && newCoreskill.id) {
+    lp.core_bonuses.push(newCoreskill.id)
+  }
+
+  return lp;
 }
 
 

@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "v0.2.2",
+  "version": "v0.2.3",
   "description": "LANCER player assistant",
   "main": "main.js",
   "scripts": {

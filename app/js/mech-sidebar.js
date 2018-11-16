@@ -33,6 +33,7 @@ function loadMecha(pilot) {
       var id = $(this).attr("id");
 
       $('.main').load('./html/mech-sheet.html', function () {
+        console.log(configArray, id);
         Load(Search.byID(configArray, id), pilot);
       });
     }

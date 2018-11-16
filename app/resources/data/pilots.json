@@ -87,7 +87,7 @@
     "talents": [
       {
         "id": "arms",
-        "rank": 2
+        "rank": 1
       },
       {
         "id": "techno",
@@ -116,7 +116,17 @@
     ],
     "notes": "Cioelle carries a book containing fan fiction, spells and her Coat of Arms. The devil-made coat apparantly provides her with extra arms.",
     "configs": [
-      6
+      "6"
+    ],
+    "hp": 9,
+    "bonuses": [
+      {
+        "id": "heldimage",
+        "name": "The Lesson of The Held Image",
+        "source": "HORUS",
+        "effect": "Once per round your mech can make a Lock On tech action as a reaction at the start of any ally’s turn",
+        "description": "Close your eyes. <br>Hold the image of your enemy in your mind. Imagine it in all light and from every angle. In your mind it has become a more perfect version of the thing in pale light. <br>Crush it in your mind and you kill the perfect thing. <br>Open your eyes."
+      }
     ]
   },
   {
@@ -189,7 +199,7 @@
     "talents": [
       {
         "id": "shot",
-        "rank": 2
+        "rank": 1
       },
       {
         "id": "infiltrator",
@@ -215,10 +225,20 @@
     ],
     "notes": "a player would enter notes here about the campaign, builds, etc etc.",
     "configs": [
-      0,
-      1,
-      2,
-      3
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "hp": 8,
+    "bonuses": [
+      {
+        "id": "frame",
+        "name": "Reinforced Frame",
+        "source": "IPS-N",
+        "effect": "Your mech gains +5 HP",
+        "description": "The addition of redundant shock-absorption systems increases the survivability of a pilot in combat, flight, and kinetic situations."
+      }
     ]
   },
   {
@@ -335,14 +355,14 @@
     ],
     "notes": "killsixbilliondemons.wikia.com/wiki/Allison",
     "configs": [
-      4,
-      5
+      "4",
+      "5"
     ]
   },
   {
     "id": "jfi0i1z6x",
     "callsign": "FNG",
-    "name": "Nü Guye",
+    "name": "Nü Guie",
     "level": 0,
     "background": "Soldier",
     "fnf": [
@@ -430,6 +450,8 @@
     "history": "Some background details and history",
     "text_appearance": "Some appearance text, if you don't want to include an image",
     "img_portrait": "",
-    "img_appearance": ""
+    "img_appearance": "",
+    "hp": 5,
+    "bonuses": []
   }
 ]

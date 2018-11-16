@@ -84,6 +84,7 @@ function loadMech(config, pilot) {
     }
   }
 
+
   var aptitudes = {
     "melee": 0,
     "ranged": 0,
@@ -138,11 +139,18 @@ function loadMech(config, pilot) {
   var stat_template = Handlebars.compile($('#mech-stats-template').html());
   $("#mech-stats-output").html(stat_template(stats));
 
+  var sp = {
+    max: stats.max_sp,
+    free: stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b, 0)
+  }
+
   var gear_template = Handlebars.compile($('#mech-gear-template').html());
   $("#mech-gear-output").html(gear_template({
+    "mounts": config.shell.mounts,
     "weapons": wp,
     "systems": sys,
-    "shell": config.shell
+    "shell": config.shell,
+    "sp": sp
   }));
   
   Charts(wp, aptitudes);

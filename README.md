@@ -1,5 +1,5 @@
 # Release: [v0.2.0-alpha](https://github.com/jarena3/compcon/releases/tag/v0.2-alpha)
-## Source: v0.2.2-alpha
+## Source: v0.2.3-alpha
 
 Requires [node.js](https://nodejs.org/en/download/)
 

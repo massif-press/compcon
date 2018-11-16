@@ -43,7 +43,37 @@ function init(newpilot) {
   });
 }
 
-// $("#newPilotModal").off();
+function updatePilot(newpilot) {
+  var idx = pilots.findIndex(p => p.id === newpilot.id)
+
+  if (idx === -1) { 
+    alert(`ERROR: Bad pilot ID!`); 
+    return
+  }
+  pilots[idx] = newpilot;
+  fs.writeFile(__dirname + '/../resources/data/pilots.json', JSON.stringify(pilots), 'utf8', function (err) {
+    if (err) alert(`ERROR: Unable to save pilot to pilots.json. Ensure you have write access to ${__dirname}/../resources/data/`);
+  });
+  init();
+  $('.main').load('./html/pilot-sheet.html', function () {
+    pilotSheet(pilots[idx]);
+});}
+
+function removePilot(oldpilot) {
+  var idx = pilots.findIndex(p => p.id === oldpilot.id)
+
+  if (idx === -1) {
+    alert(`ERROR: Bad pilot ID!`);
+    return
+  }
+  pilots.splice(idx, 1) 
+  fs.writeFile(__dirname + '/../resources/data/pilots.json', JSON.stringify(pilots), 'utf8', function (err) {
+    if (err) alert(`ERROR: Unable to edit pilots.json. Ensure you have write access to ${__dirname}/../resources/data/`);
+  });
+  init();
+  $('.main').html('');
+}
+
 $("#add-pilot-btn").click(function() {
   $('#newPilotModal').css("display", "block");
   var npwt = Handlebars.compile(npwTemplate);
@@ -60,3 +90,5 @@ $(document).ready(function() {
 })
 
 module.exports.init = init;
+module.exports.update = updatePilot;
+module.exports.remove = removePilot;

@@ -79,12 +79,12 @@
   <h1>Upgrade CORE</h1>
   <span class="subtitle">Add a +1 bonus to a CORE attribute (+6 max)</span>
   <div id="core-grid">
-    <table width="100%" style="border-spacing: 15px;">
+    <table width="100%" style="border-spacing: 15px; margin-top:10%;">
       <tr>
-        <td class="core-skillbox" data-hase="hull" width="25%"></td>
-        <td class="core-skillbox" data-hase="agi" width="25%"></td>
-        <td class="core-skillbox" data-hase="eng" width="25%"></td>
-        <td class="core-skillbox" data-hase="sys" width="25%"></td>
+        <td class="core-skillbox" data-hase="hull" data-name="HULL" width="25%"></td>
+        <td class="core-skillbox" data-hase="agi" data-name="AGILITY" width="25%"></td>
+        <td class="core-skillbox" data-hase="eng" data-name="ENGINEERING" width="25%"></td>
+        <td class="core-skillbox" data-hase="sys" data-name="SYSTEMS" width="25%"></td>
       </tr>
     </table>
   </div>
@@ -151,31 +151,10 @@
 <div class="np-wizard hidden" data-step="6">
   <h1>New Stats</h1>
   <span class="subtitle">Confirm level upgrades.</span>
-  <table>
-    <tr>
-      <th>Pilot HP</th>
-      <th>Pilot XX</th>
-      <th>Pilot GRIT</th>
-      <th>CORE HP</th>
-      <th>CORE XX</th>
-      <th>CORE Targeting</th>
-    </tr>
-    <tr>
-      
-    </tr>
-    <tr>
-      <th>Talent Upgrade</th>
-      <th>License Upgrade</th>
-    </tr>
-  </table>
-  
-{{!-- <ul class="level-gains-list">
-  <li>+1 CORE Point</li>
-</ul> --}}
-
+  <br><br>
+  <div id="results-table"></div>
   <div style="text-align: center"><span class="subtitle" style="color: var(--explosive)">WARNING: This cannot be undone</span></div>
   <div id="confirm-level-up" class="wizard-btn btn"><span style="width: 100%">Confirm</span></div>
-
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
     {{#modCond level 3}}

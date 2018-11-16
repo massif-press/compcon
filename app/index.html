@@ -14,19 +14,16 @@
   <body>
     <div class="wrapper">
       <div class="header">
-        <b class="title">LANCER</b><i class="subtitle">&nbsp;comp/con // v.0.2.2α</i>
-        <a href=#>
-          <div id="about-btn" class='btn modal-btn' data-modal="aboutModal">&nbsp;?&nbsp;</div>
-        </a>
-        <a href=#>
-          <div id="catalog-btn" class='btn menu-btn menu-border' data-modal="catalogModal">&nbsp;GEAR CATALOGUE&nbsp;</div>
-        </a>
+        <b class="title">LANCER</b><i class="subtitle">&nbsp;comp/con // v.0.2.3α</i>
+        <div id="about-btn" class='btn modal-btn' data-modal="aboutModal">&nbsp;?&nbsp;</div>
+        <div id="options-btn" class='btn modal-btn' data-modal="optionsModal">&nbsp;<embed src="./resources/icons/gear.svg">&nbsp;</div>
+        <div id="catalog-btn" class='btn menu-btn menu-border' data-modal="catalogModal">&nbsp;GEAR CATALOGUE&nbsp;</div>
       </div>
       <div class="pilot-sidebar"></div>
       <div class="mech-sidebar"></div>
       <div class="main"></div>
-      <a href=#><div id="add-pilot-btn" class="btn menu-btn">Add Pilot</div></a>
-      <a href=#><div id="add-config-btn" class="btn menu-btn">Add Mech</div></a>
+      <div id="add-pilot-btn" class="btn menu-btn">Add Pilot</div>
+      <div id="add-config-btn" class="btn menu-btn">Add Mech</div>
     </div>
 
 <!-- ABOUT modal -->
@@ -48,6 +45,24 @@
           <p>If you want to support development of this software, please consider <a class="external-link" href="https://buymeacoff.ee/a7xoLjHfG">buying me a beer</a>. More information about this software, including a changelog and development roadmap, can be found <a class="external-link" href="https://github.com/jarena3/compcon">here</a></p>
           <br><br>
           <span class="close pull-right menu-border btn" data-modal="aboutModal">&emsp;Close&emsp;</span>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTIONS modal -->
+  <div id="optionsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close close-x" data-modal="optionsModal">&times;</span>
+        <span>Options</span>
+      </div>
+      <div class="modal-body">
+        <div id="about-info">
+          options
+          <br><br>
+          <span class="close pull-right menu-border btn" data-modal="optionsModal">&emsp;Close&emsp;</span>
           <br><br>
         </div>
       </div>

@@ -147,6 +147,18 @@
   <div style="padding: 10px;">
     <span class="title">LOADOUT</span>
     <table class="equipment-table">
+      {{#mounts}}
+      <tr>
+        <td width="20%">
+          <a href=#>
+            <div class="btn mount-btn" data-mount={{this}}>{{allCaps this}} MOUNT</div>
+          </a>
+        </td>
+        <td class="menu-border equip-expander">
+            <div class="subtitle">&nbsp;// EMPTY //</div>
+        </td>
+      </tr>
+      {{/mounts}}
       {{#weapons}}
       <tr>
         <td width="20%">
@@ -264,9 +276,15 @@
     <tr>
       <td width="66%"></td>
       <td>
-        <!--div class="menu-border warning-stripes disabled" style="text-align: center">
-          Add System <span class="pull-right subtitle"><b>7/7SP</b></span>
-        </div-->
+        {{#if sp.free}}
+          <div id="add-system-btn" class="menu-border btn" style="text-align: center">
+            Add System <span class="pull-right subtitle"><b>{{sp.free}}/{{sp.max}}SP</b></span>
+          </div>
+        {{else}}
+          <div id="add-system-btn" class="menu-border warning-stripes disabled" style="text-align: center">
+            Add System <span class="pull-right subtitle"><b>{{sp.free}}/{{sp.max}}SP</b></span>
+          </div>
+        {{/if}}
       </td>
     </tr>
   </table>
