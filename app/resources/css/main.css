@@ -453,6 +453,7 @@ blockquote {
   position: relative;
   transition-property: color;
   transition-duration: 0.3s;
+  cursor: pointer;
 }
 
 .sweep-btn:before {

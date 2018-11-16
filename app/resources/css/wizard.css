@@ -182,20 +182,24 @@ textarea {
   text-align: center;
 }
 
+#core-grid td,
 #skill-grid td {
   background-color: var(--bg-alt);
   font-size: 25px;
 }
 
+#core-grid .selectable,
 #skill-grid .selectable {
   cursor: pointer;
 }
 
+#core-grid td:hover,
 #skill-grid td:hover {
   background-color: var(--highlight);
   color: white;
 }
 
+.core-skillbox.disabled:hover,
 .skillbox.disabled:hover{
   color:var(--highlight)!important;
   background-color:var(--bg-alt)!important;
@@ -279,14 +283,18 @@ textarea {
   margin: 10px;
 }
 
-#register-new-pilot {
-  margin: 5% 0%;
+#register-new-pilot, 
+#confirm-level-up {
   font-size: 28px;
   letter-spacing: 3px;
   line-height: 50px;
   height: 60px;
   width: 100%;
   font-weight: bold;
+}
+
+#register-new-pilot {
+  margin: 5% 0%;
 }
 
 .pulsate {

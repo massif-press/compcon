@@ -74,8 +74,30 @@
   </div>
 </div>
 
-<!-- select talent -->
+<!-- select skill -->
 <div class="np-wizard hidden" data-step="2">
+  <h1>Upgrade CORE</h1>
+  <span class="subtitle">Add a +1 bonus to a CORE attribute (+6 max)</span>
+  <div id="core-grid">
+    <table width="100%" style="border-spacing: 15px;">
+      <tr>
+        <td class="core-skillbox" data-hase="hull" width="25%"></td>
+        <td class="core-skillbox" data-hase="agi" width="25%"></td>
+        <td class="core-skillbox" data-hase="eng" width="25%"></td>
+        <td class="core-skillbox" data-hase="sys" width="25%"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="wizard-btn-container">
+    <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
+    <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
+    <div class="breadcrumb-container"></div>
+    <div class="wizard-btn btn" data-step="3"><span>Next</span></div>
+  </div>
+</div>
+
+<!-- select talent -->
+<div class="np-wizard hidden" data-step="3">
   <h1>Upgrade Talent</h1>
   <span class="subtitle">Unlock a new Talent or upgrade the rank of an unlocked Talent</span>
   <div class="modal-scrollrect menu-border" style="height:65%">
@@ -84,34 +106,34 @@
   <span class="subtitle" id="selected-talent">Selected:</span>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="1"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="2"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn disabled" data-step="3"><span>Next</span></div>
+    <div class="wizard-btn btn disabled" data-step="4"><span>Next</span></div>
   </div>
 </div>
 
 <!-- select license -->
-<div class="np-wizard hidden" data-step="3">
+<div class="np-wizard hidden" data-step="4">
   <h1>Unlock License</h1>
   <span class="subtitle">Unlock a new License or upgrade the rank of an unlocked Licensed</span>
   <div class="modal-scrollrect menu-border" style="height:65%">
     <table id="licenses-list" width="100%" style="border-collapse: collapse;"></table>
   </div>
-  <span class="subtitle" id="selected-unlocks">Unlocks:</span>
+  <span class="subtitle" id="selected-license">Selected:</span>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
     <div class="wizard-btn btn" data-step="2"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
     {{#modCond level 3}}
-      <div class="wizard-btn btn disabled" data-step="4"><span>Next</span></div>
-    {{else}}
       <div class="wizard-btn btn disabled" data-step="5"><span>Next</span></div>
+    {{else}}
+      <div class="wizard-btn btn disabled" data-step="6"><span>Next</span></div>
     {{/modCond}}
   </div>
 </div>
 
 <!-- select core skill -->
-<div class="np-wizard hidden" data-step="4">
+<div class="np-wizard hidden" data-step="5">
   <h1>Select Core Skill</h1>
   <div class="modal-scrollrect menu-border" style="height:65%">
     <table id="coreskills-list" width="100%" style="border-collapse: collapse;"></table>
@@ -119,16 +141,41 @@
   <span class="subtitle" id="selected-coreskill">Selected:</span>
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
-    <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
+    <div class="wizard-btn btn" data-step="4"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn disabled" data-step="5"><span>Next</span></div>
+    <div class="wizard-btn btn disabled" data-step="6"><span>Next</span></div>
   </div>
 </div>
 
 <!-- final confirm -->
-<div class="np-wizard hidden" data-step="5">
+<div class="np-wizard hidden" data-step="6">
   <h1>New Stats</h1>
-  are you sure? this cannot be undone
+  <span class="subtitle">Confirm level upgrades.</span>
+  <table>
+    <tr>
+      <th>Pilot HP</th>
+      <th>Pilot XX</th>
+      <th>Pilot GRIT</th>
+      <th>CORE HP</th>
+      <th>CORE XX</th>
+      <th>CORE Targeting</th>
+    </tr>
+    <tr>
+      
+    </tr>
+    <tr>
+      <th>Talent Upgrade</th>
+      <th>License Upgrade</th>
+    </tr>
+  </table>
+  
+{{!-- <ul class="level-gains-list">
+  <li>+1 CORE Point</li>
+</ul> --}}
+
+  <div style="text-align: center"><span class="subtitle" style="color: var(--explosive)">WARNING: This cannot be undone</span></div>
+  <div id="confirm-level-up" class="wizard-btn btn"><span style="width: 100%">Confirm</span></div>
+
   <div class="wizard-btn-container">
     <div class="close wizard-btn btn" data-modal="levelPilotModal"><span>Cancel</span></div>
     {{#modCond level 3}}
@@ -137,6 +184,5 @@
       <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
     {{/modCond}}
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn btn"><span>Confirm</span></div>
   </div>
 </div>

@@ -25,6 +25,7 @@ Todo:
   ☐ increase modal height
   ☐ shorten modal button container
   ☐ update licenses.json on every open
+  ☐ wizard lists should be sortable
   ✔ Disable level up if max pilot level reached @done(18-11-13 15:07)
   ✔ Style initial new pilot screen @done(18-11-12 15:27)
   ✔ Connect NPW input to new pilot data @done(18-11-12 15:01)
