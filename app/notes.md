@@ -74,3 +74,21 @@ insert a block of tags `%unique ordnance loading%`
 add a value to a tag: `#limited(6)#`
 the capital X charater will be replaced in both name a description by whatever is passed within the brackets
 
+
+
+
+
+
+11/16/18
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+JSON                            16              1              0           9277
+JavaScript                      18            320             92           2075
+CSS                              7            272             11           1646
+Handlebars                      27             48             32           1412
+Markdown                         3            175              0            653
+HTML                            11             29             11            624
+-------------------------------------------------------------------------------
+SUM:                            82            845            146          15687
+-------------------------------------------------------------------------------
