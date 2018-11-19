@@ -26,6 +26,7 @@
         <p>{{{history}}}</p>
         <br>
         <span class="fnf">Friends and Foes</span>
+        <div id="edit-pilot-fnf-btn" class="menu-border btn edit hidden" style="text-align: center;">Edit Friends and Foes</div>
         <div style="padding-left:20px;">
           <ul>
             {{#fnf}}
@@ -49,6 +50,9 @@
   <table class="pilot-table" width="100%">
     <tr>
       <th colspan=4>SKILLS</th>
+    </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-skills-btn" class="menu-border btn" style="text-align: center;">Reassign Skills</div></th>
     </tr>
     <tr>
       <table class="skills-table">
@@ -98,6 +102,9 @@
     <tr>
       <th colspan=4>TALENTS</th>
     </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-talents-btn" class="menu-border btn" style="text-align: center;">Reassign Talents</div></th>
+    </tr>
     {{#talents}}
     <tr>
       <td colspan=4 class="menu-border equip-expander">
@@ -143,6 +150,9 @@
     <tr>
       <th colspan=4>LICENSES</th>
     </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-licenses-btn" class="menu-border btn" style="text-align: center;">Reassign Licenses</div></th>
+    </tr>
     <tr>
       <td colspan=2 class="pilot-license-block">
         <img class="rankImg" src="./resources/icons/rank-gms.svg">
@@ -163,6 +173,9 @@
 
     <tr>
       <th colspan=4>CORE</th>
+    </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-core-btn" class="menu-border btn" style="text-align: center;">Reassign CORE Points</div></th>
     </tr>
     <tr>
       <td class="core-hex-td">
@@ -188,7 +201,9 @@
     <tr>
       <th colspan=4>CORE BONUSES</th>
     </tr>
-
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-talents-btn" class="menu-border btn" style="text-align: center;">Reassign CORE Bonuses</div></th>
+    </tr>
     {{#bonuses}}
     <tr>
       <td colspan=4>

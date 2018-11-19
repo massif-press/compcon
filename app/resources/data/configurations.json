@@ -4,21 +4,24 @@
     "img": "ipsn_drake.png",
     "shell_id": "drake",
     "status": "unavailable",
-    "weapons": [{
-        "id": "leviathan"
+    "mounts": [{
+        "mount": "Superheavy",
+        "weapon_id": "leviathan"
       },
       {
-        "id": "concussionmissiles"
+        "mount": "Main",
+        "weapon_id": "",
+        "sh_lock": true
+        
       },
       {
-        "id": "plasmacutter"
+        "mount": "Flex",
+        "weapon_id": "plasmacutter"
       },
       {
-        "id": "stub",
-        "mod": "nanite"
-      },
-      {
-        "id": "heavylaser"
+        "mount": "Flex",
+        "weapon_id": "stub",
+        "mods": ["nanite"]
       }
     ],
     "systems": ["aegis", "bastion", "siegestabilizers", "stable"]
@@ -29,17 +32,21 @@
     "img": "ipsn_blackbeard.png",
     "shell_id": "blackbeard",
     "status": "unavailable",
-    "weapons": [{
-        "id": "chainaxe"
+    "mounts": [{
+        "mount": "Flex",
+        "weapon_id": "chainaxe"
       },
       {
-        "id": "flechette"
+        "mount": "Auxiliary",
+        "weapon_id": "flechette"
       },
       {
-        "id": "flechette"
+        "mount": "Auxiliary",
+        "weapon_id": "flechette"
       },
       {
-        "id": "nanocarbon"
+        "mount": "Heavy",
+        "weapon_id": "nanocarbon"
       }
     ],
     "systems": ["smn", "lockkill", "sekhmet", "eva"]
@@ -51,17 +58,21 @@
     "shell_id": "raleigh",
     "status": "active",
     "notes": "pilot's notes test",
-    "weapons": [{
-        "id": "ar"
+    "mounts": [{
+        "mount": "Main",
+        "weapon_id": "ar"
       },
       {
-        "id": "handcannon"
+        "mount": "Auxiliary",
+        "weapon_id": "handcannon"
       },
       {
-        "id": "handcannon"
+        "mount": "Auxiliary",
+        "weapon_id": "handcannon"
       },
       {
-        "id": "amrifle"
+        "mount": "Heavy",
+        "weapon_id": "amrifle"
       }
     ],
     "systems": ["apple", "apple", "burst", "t1shield", "breaching"]
@@ -72,17 +83,21 @@
     "img": "",
     "shell_id": "everest",
     "status": "destroyed",
-    "weapons": [{
-        "id": "ar"
+    "mounts": [{
+        "mount": "Main",
+        "weapon_id": "ar"
       },
       {
-        "id": "tacticalknife"
+        "mount": "Flex",
+        "weapon_id": "tacticalknife"
       },
       {
-        "id": "tacticalknife"
+        "mount": "Flex",
+        "weapon_id": "tacticalknife"
       },
       {
-        "id": "amrifle"
+        "mount": "Heavy",
+        "weapon_id": "amrifle"
       }
     ],
     "systems": ["apple", "apple", "burst", "personalizations", "t1shield"]
@@ -93,17 +108,21 @@
     "img": "ssc_metalmark.png",
     "shell_id": "metalmark",
     "status": "available",
-    "weapons": [{
-        "id": "railrifle"
+    "mounts": [{
+        "mount": "Flex",
+        "weapon_id": "railrifle"
       },
       {
-        "id": "pistol"
+        "mount": "Auxiliary",
+        "weapon_id": "pistol"
       },
       {
-        "id": "tacticalknife"
+        "mount": "Auxiliary",
+        "weapon_id": "tacticalknife"
       },
       {
-        "id": "howitzer"
+        "mount": "Heavy",
+        "weapon_id": "howitzer"
       }
     ],
     "systems": ["reactiveweave", "plug", "t2shield"]
@@ -114,17 +133,17 @@
     "img": "ssc_blackwitch.png",
     "shell_id": "bwitch",
     "status": "available",
-    "weapons": [{
-        "id": "magcannon"
+    "mounts": [{
+        "mount": "Flex",
+        "weapon_id": "magcannon"
       },
       {
-        "id": "thermalpistol"
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
       },
       {
-        "id": "thermalpistol"
-      },
-      {
-        "id": "lance"
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
       }
     ],
     "systems": ["ferrous", "iceout", "magdeployer", "reactiveweave", "jericho"]
@@ -135,19 +154,47 @@
     "img": "horus_gorgon.png",
     "shell_id": "gorgon",
     "status": "available",
-    "weapons": [{
-        "id": "autopod"
+    "mounts": [{
+        "mount": "Auxiliary",
+        "weapon_id": "autopod"
       },
       {
-        "id": "thermalrifle"
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
       },
       {
-        "id": "thermalpistol"
+        "mount": "Main",
+        "weapon_id": "thermalrifle"
       },
       {
-        "id": "howitzer"
+        "mount": "Flex",
+        "weapon_id": "shotgun"
       }
     ],
     "systems": ["monitor", "pdw", "horos1", "manipulators", "metahook"]
+  },
+  {
+    "id": "7",
+    "name": "cannon fodder",
+    "img": "",
+    "shell_id": "everest",
+    "status": "available",
+    "mounts": [
+      {
+        "mount": "Flex",
+        "weapon_id": ""
+      },
+      {
+        "mount": "Main",
+        "weapon_id": "pistol"
+      },
+      {
+        "mount": "Heavy",
+        "weapon_id": ""
+      }
+    ],
+    "systems": [
+      "apple"
+    ]
   }
 ]

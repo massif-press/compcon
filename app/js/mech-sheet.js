@@ -1,4 +1,5 @@
 const $ = require('jquery');
+const fs = require('fs');
 const Handlebars = require('handlebars');
 const Stats = require('./util/stats');
 const Tags = require('./util/taghelper');
@@ -10,6 +11,11 @@ const weapons = require("../resources/data/weapons.json");
 const systems = require("../resources/data/systems.json");
 const mods = require("../resources/data/mods.json");
 //templates
+const loadoutTemplate = fs.readFileSync(__dirname + "/templates/mech-loadout.hbs", "utf8");
+const infoTemplate = fs.readFileSync(__dirname + "/templates/mech-info.hbs", "utf8");
+const statsTemplate = fs.readFileSync(__dirname + "/templates/mech-stats.hbs", "utf8");
+const shellModalTemplate = fs.readFileSync(__dirname + "/templates/mech-shell-modal.hbs", "utf8");
+
 
 function loadMech(config, pilot) {
   config.shell.ult_active = Tags.parse(config.shell.ult_active);
@@ -17,31 +23,62 @@ function loadMech(config, pilot) {
   $(".main-scroll").scrollTop(1);
   var stats = Stats.getMechStats(config, pilot)
 
-  var wp = [];
+  var mounts = [];
   var sys = [];
   
-  if (config.shell.ult_passive_weapon) wp.push(Search.byID(weapons, config.shell.ult_passive_weapon));
+  //add ult wewapon, if any
+  if (config.shell.ult_passive_weapon) {
+    var w = Search.byID(weapons, config.shell.ult_passive_weapon);
+    mounts.push({
+      mount: w.mount,
+      weapon: Tags.expand(w)
+    });
+  }
 
+  //add pilot talent weapons, if any
   if (pilot.talent_weapons) {
     for (var i = 0; i < pilot.talent_weapons.length; i++) {
-      wp.push(Search.byID(weapons, pilot.talent_weapons[i]));
+      var w = Search.byID(weapons, pilot.talent_weapons[i]);
+      mounts.push({
+        mount: w.mount,
+        weapon: Tags.expand(w)
+      });
     }
   }
 
-  for (var i = 0; i < config.weapons.length; i++) {
-    var add = Search.byID(weapons, config.weapons[i].id)
-    if (config.weapons[i].mod) {
-      add.mod = Search.byID(mods, config.weapons[i].mod);
-      add.mod.effect = Tags.parse(add.mod.effect);
+  //add weapons, per mount
+  for (var i = 0; i < config.mounts.length; i++) {
+    if (!config.mounts[i].weapon_id) {
+      mounts.push({
+        mount: config.mounts[i].mount
+      })
+    } else {
+      var w = Search.byID(weapons, config.mounts[i].weapon_id)
+      mounts.push({ mount: config.mounts[i].mount, weapon: Tags.expand(w)});
     }
-    wp.push(add);
   }
+
+  //TODO: walk through core bonuses, talents, to add add linked mods (global_mods on pilot sheet?)
+  //some mods only apply to eg. ranged or limited systems/items.
+
+  for (var i = 0; i < config.mounts.length; i++) {
+    if (config.mounts[i].mods) {
+      w.mods = [];
+      for (var j = 0; j < config.mounts[i].mods.length; i++) {
+        var m = config.mounts[i].mods[j];
+        var mod = Search.byID(mods, m);
+        mod.effect = Tags.parse(mod.effect);
+        w.sp += mod.sp;
+        w.mods.push(mod);
+      }
+    }
+  }
+
 
   for (var i = 0; i < config.systems.length; i++) {
     sys.push(Search.byID(systems, config.systems[i]));
   }
   
-  wp = Tags.expand(wp);
   sys = Tags.expand(sys);
 
   //collect all licenses required
@@ -53,7 +90,7 @@ function loadMech(config, pilot) {
     "items": `${config.shell.source} ${config.shell.name} Shell`
   }]
 
-  var items = wp.concat(sys);
+  var items = sys.concat(mounts.map(m => m.weapon).filter(x => x != null));
 
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
@@ -83,7 +120,6 @@ function loadMech(config, pilot) {
       })
     }
   }
-
 
   var aptitudes = {
     "melee": 0,
@@ -122,21 +158,24 @@ function loadMech(config, pilot) {
   if (shellIndex > 0) move(config.licenses, shellIndex, 1);
 
   //sort by mounts
-  wp.sort(function(a, b) {
+  mounts.sort(function(a, b) {
     var sortOrder = {
       "Main": 0,
-      "Auxiliary": 1,
-      "Heavy": 2,
-      "Superheavy": 3,
-      "Special": 4
+      "Core": 1,
+      "Auxiliary": 2,
+      "Flex": 3,
+      "Heavy": 4,
+      "Superheavy": 5,
+      "Special": 6,
+      "Apocalypse": 7
   }
     return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
   })
 
-  var info_template = Handlebars.compile($('#mech-info-template').html());
+  var info_template = Handlebars.compile(infoTemplate);
   $("#mech-info-output").html(info_template(config));
 
-  var stat_template = Handlebars.compile($('#mech-stats-template').html());
+  var stat_template = Handlebars.compile(statsTemplate);
   $("#mech-stats-output").html(stat_template(stats));
 
   var sp = {
@@ -144,16 +183,15 @@ function loadMech(config, pilot) {
     free: stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b, 0)
   }
 
-  var gear_template = Handlebars.compile($('#mech-gear-template').html());
+  var gear_template = Handlebars.compile(loadoutTemplate);
   $("#mech-gear-output").html(gear_template({
-    "mounts": config.shell.mounts,
-    "weapons": wp,
+    "mounts": mounts,
     "systems": sys,
     "shell": config.shell,
     "sp": sp
   }));
   
-  Charts(wp, aptitudes);
+  Charts(mounts.map(m => m.weapon).filter(x => x != null), aptitudes);
 
   //TODO: animations aren't playing well with div show/hide. Fix via canvas?
   //bad hack incoming:
@@ -179,7 +217,7 @@ function loadMech(config, pilot) {
     }
   })
 
-  var shell_info_template = Handlebars.compile($('#shell-info-modal-template').html());
+  var shell_info_template = Handlebars.compile(shellModalTemplate);
   $("#shell-info-modal-output").html(shell_info_template(config.shell));
 
   $("#shell-info-btn").click(function () {

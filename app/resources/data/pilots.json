@@ -445,7 +445,7 @@
       "core_sp": 0
     },
     "core_bonuses": [],
-    "configs": [],
+    "configs": ["7"],
     "notes": "Campaign notes, build goals, etc",
     "history": "Some background details and history",
     "text_appearance": "Some appearance text, if you don't want to include an image",

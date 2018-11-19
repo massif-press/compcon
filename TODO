@@ -1,37 +1,57 @@
-Beta:
-  ☐ Pilot editor
-  ☐ Pilot gear quick editor
-  ☐ Config creation wizard
-  ☐ Config editor
-  ☐ Config loadout quick editor
-  ☐ Pilot export tool
-  ☐ Pilot status setting tool
-  ☐ Config export tool
-  ☐ Config clone tool
-  ☐ Config delete
-  ☐ Config status setting tool
-  ☐ Config loadout saves
-  ☐ Pilot load from file
-  ☐ Pilot load from clipboard
-  ☐ Config load from file
-  ☐ Config load from clipboard
-  ☐ Options Menu
-  
-Todo:
+Final Alpha Release:
+  ☐ Config loadout editor
+  ☐ Mod field for systems (core-bonus/talent linked mods)
   ☐ Pilot Sheet: Add gear button
   ☐ Pilot sheet: Clicking gear "mount" allows edit/remove
   ☐ Mech Sheet: Add system button -> free sp / total sp display
   ☐ Mech Sheet: If free sp, add empty system slot
-  ☐ Mech Sheet: Map mount assignments to weapons
   ☐ Mech Sheet: Wire mount button to assign weapon (if occupied, display and add remove btn)
+  ☐ installing systems needs to respect unique
+
+Beta:
+  Pilot Editor:
+    ☐ Pilot editor
+    ☐ Pilot gear quick editor
+    ☐ Pilot FNF editor
+    ☐ Pilot Skill Reassignment modal
+    ☐ Pilot Talent Reassignment modal
+    ☐ Pilot License Reassignment modal
+    ☐ Pilot CORE Points Reassignment modal
+    ☐ Pilot CORE Bonus Reassignment modal
+    ☐ Pilot load from file
+    ☐ Pilot load from clipboard
+    ☐ Pilot export tool
+    ☐ Pilot status setting tool
+
+  Configuration Editor:
+    ☐ Config creation wizard
+    ☐ Config delete
+    ☐ Config editor
+    ☐ Config export tool
+    ☐ Config clone tool
+    ☐ Config status setting tool
+    ☐ Config loadout saves
+    ☐ Config load from file
+    ☐ Config load from clipboard
+  Other:
+    ☐ Options Menu
+    ☐ Help Modal
+  
+Todo:
+  ☐ Style reassignment buttons
+  ☐ Add hidden textareas to pilot sheet for editing
+  ☐ Atomize player/config creation screens for use in reassignment modals
+  ✔ Mech Sheet: Map mount assignments to weapons @done(18-11-19 13:54)
   ☐ Mech Sheet: loadout button into modal
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
-  ☐ Use Font Awesome
+  ✔ Use Fontello sheets @done(18-11-19 12:13)
+  ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ Put modal close binding into a utility
+  ✔ increase modal height @done(18-11-19 14:05)
+  ☐ correct modal-scrollrect heights
+  ☐ shorten modal button container
   ☐ Refactor modal waterfalls into visibility-bound series
   ☐ wizard lists should be sortable
-  ☐ increase modal height
-  ☐ shorten modal button container
   ☐ NPW: "select x at character creation" overrides
   ☐ refactor and atomize button jquery
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
@@ -46,7 +66,7 @@ Todo:
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
   ☐ weapon threat calc
-  ☐ flex mounts
+  ✔ flex mounts @done(18-11-19 15:51)
   ☐ CORE mounts
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
@@ -58,25 +78,35 @@ Bugs:
   ☐ new pilot wizard: open options bounce on click
   ☐ level pilot wizard: open options bounce on click
   ☐ talent <ul> not taking disabled coloring
-  ☐ Options gear icon doesn't change color on hover
+  ✔ Options gear icon doesn't change color on hover @done(18-11-19 13:54)
+  ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
   
 Reminders:
-  ☐ set config status unavailable on JSON update if pilot is missing licenses
-  ☐ add apoc rail mount for barbarossa on config creation
+  ✔ mods should be an array, so cb/special effects can stack @done(18-11-19 13:54)
+  ✔ add apoc rail mount for barbarossa on config creation @done(18-11-19 14:01)
   ☐ cb_hardpoints should be applied like a mod
   ☐ cb_burnout should be applied like a mod
+  ☐ cb_intweapon should be an added aux mount that also gets a mod
   ☐ cb_neurolinked should be applied like a mod to all equipped weapons
   ☐ cb_ammofeeds should be applied like a mod to all limited systems
   ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
+  ☐ cb_fomorian should add size
+  ☐ cb_frame should add shell hp
+  ☐ cb_plating should add shell armor
+  ☐ cb_opendoor should give edef and sensor range
+  ☐ cb_shaping needs to allow for the installation of a second ai
+  ☐ cb_stasis needs to add repair cap
+  ☐ cb_superior needs to add heat cap
   ☐ tal_techno rank 2 should add a system
-  ☐ HA Assault Launcher gets a free grenade or mine
-  ☐ technophile confers 0sp custom NHP system
-  ☐ custom background option
   ☐ personalizations adds +2 hp to mech
+  ☐ technophile confers 0sp custom NHP system
+  ☐ HA Assault Launcher gets a free grenade or mine
+  ☐ custom background option
 
 Ideas:
-  ☐ Clone Pilot >> roll on clone complications table?
-  ☐ Find a better solution for mech pics. Look stale atm.
+  ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
+  ☐ Clone Pilot >> roll on clone complications table option
+  ✘ Find a better solution for mech pics. Look stale atm. @cancelled(18-11-19 16:09)
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of manufacturer
   ☐ Custom notes/descriptions for items

@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="./resources/css/pilot.css">
     <link rel="stylesheet" href="./resources/css/balloon.css">
     <link rel="stylesheet" href="./resources/css/wizard.css">
+    <link rel="stylesheet" href="./resources/css/fontello.css">
     <link href="https://fonts.googleapis.com/css?family=K2D|Titillium+Web|Cinzel+Decorative" rel="stylesheet">
   </head>
   <body>
     <div class="wrapper">
       <div class="header">
         <b class="title">LANCER</b><i class="subtitle">&nbsp;comp/con // v.0.2.3α</i>
-        <div id="about-btn" class='btn modal-btn' data-modal="aboutModal">&nbsp;?&nbsp;</div>
-        <div id="options-btn" class='btn modal-btn' data-modal="optionsModal">&nbsp;<embed src="./resources/icons/gear.svg">&nbsp;</div>
+        <div id="about-btn" class='btn modal-btn' data-modal="aboutModal">&nbsp;<i class="icon-info-circled"></i>&nbsp;</div>
+        <div id="about-btn" class='btn modal-btn' data-modal="helpModal">&nbsp;<i class="icon-help-circled"></i>&nbsp;</div>
+        <div id="options-btn" class='btn modal-btn' data-modal="optionsModal">&nbsp;<i class="icon-cog"></i>&nbsp;</div>
         <div id="catalog-btn" class='btn menu-btn menu-border' data-modal="catalogModal">&nbsp;GEAR CATALOGUE&nbsp;</div>
       </div>
       <div class="pilot-sidebar"></div>
@@ -51,6 +53,25 @@
     </div>
   </div>
 
+  <!-- HELP modal -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close close-x" data-modal="helpModal">&times;</span>
+        <span>Help</span>
+      </div>
+      <div class="modal-body">
+        <div id="about-info">
+          <h1>HELP</h1>
+          todo
+          <br><br>
+          <span class="close pull-right menu-border btn" data-modal="helpModal">&emsp;Close&emsp;</span>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- OPTIONS modal -->
   <div id="optionsModal" class="modal">
     <div class="modal-content">
@@ -60,7 +81,9 @@
       </div>
       <div class="modal-body">
         <div id="about-info">
-          options
+          <h1>OPTIONS</h1>
+          todo
+          <div id="options-btn" class='btn modal-btn' data-modal="optionsSubModal">&nbsp;<i class="icon-cog"></i>&nbsp;</div>
           <br><br>
           <span class="close pull-right menu-border btn" data-modal="optionsModal">&emsp;Close&emsp;</span>
           <br><br>
@@ -68,6 +91,24 @@
       </div>
     </div>
   </div>
+
+    <div id="optionsSubModal" class="modal-sm">
+      <div class="modal-sm-content">
+        <div class="modal-sm-header">
+          <span class="close close-x" data-modal="optionsSubModal">&times;</span>
+          <span>test nested modal</span>
+        </div>
+        <div class="modal-body">
+          <div id="about-info">
+            <h1>yep</h1>
+            okay
+            <br><br>
+            <span class="close pull-right menu-border btn" data-modal="optionsSubModal">&emsp;Close&emsp;</span>
+            <br><br>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       require('./renderer.js')

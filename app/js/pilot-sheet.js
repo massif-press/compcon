@@ -86,6 +86,19 @@ function loadPilot(pilot) {
 
   $("#pilot-clone-btn").off();
   $("#pilot-clone-btn").click(function () { clonePilot(pilot) });
+
+  $("#edit-pilot-btn").off();
+  $("#edit-pilot-btn").click(function () { 
+    $(".edit").each(function(){$(this).toggleClass("hidden")});
+    $(".main").animate({ scrollTop: 0 }, "slow");
+  });
+
+  $("#save-pilot-btn").off();
+  $("#save-pilot-btn").click(function () {
+    //save changes to pilot
+    //write pilots to json
+    $(".edit").each(function () { $(this).toggleClass("hidden") });
+  });
 }
 
 function exportPilot(pilot){
