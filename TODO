@@ -1,12 +1,16 @@
 Final Alpha Release:
-  ☐ Config loadout editor
+  ✔ Config mount modal @done(18-11-20 15:25)
   ☐ Mod field for systems (core-bonus/talent linked mods)
   ☐ Pilot Sheet: Add gear button
-  ☐ Pilot sheet: Clicking gear "mount" allows edit/remove
-  ☐ Mech Sheet: Add system button -> free sp / total sp display
-  ☐ Mech Sheet: If free sp, add empty system slot
-  ☐ Mech Sheet: Wire mount button to assign weapon (if occupied, display and add remove btn)
-  ☐ installing systems needs to respect unique
+  ✔ Pilot sheet: Clicking gear "mount" allows edit @done(18-11-20 15:45)
+  ☐ Add remove button to mount editor
+  ✔ Mech Sheet: Add system button -> free sp / total sp display @done(18-11-20 15:45)
+  ✔ Mech Sheet: If free sp, add empty system slot @done(18-11-20 15:45)
+  ☐ Installing systems needs to respect unique
+  ☐ Mod submenu for mounts
+  ☐ Superheavy weapons claim additional mount (needs modal selection)
+  ☐ Add corebonus/pilot talent mods
+  ☐ Add corebonus/pilot talent/system stat modifications
 
 Beta:
   Pilot Editor:
@@ -33,11 +37,13 @@ Beta:
     ☐ Config loadout saves
     ☐ Config load from file
     ☐ Config load from clipboard
+
   Other:
     ☐ Options Menu
     ☐ Help Modal
   
 Todo:
+  ☐ Allow user to break license locking, but show warning & mark unavailable config
   ☐ Style reassignment buttons
   ☐ Add hidden textareas to pilot sheet for editing
   ☐ Atomize player/config creation screens for use in reassignment modals
@@ -47,6 +53,7 @@ Todo:
   ✔ Use Fontello sheets @done(18-11-19 12:13)
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ Put modal close binding into a utility
+  ✔ Sized, nesting modals @done(18-11-20 11:04)
   ✔ increase modal height @done(18-11-19 14:05)
   ☐ correct modal-scrollrect heights
   ☐ shorten modal button container
@@ -80,6 +87,7 @@ Bugs:
   ☐ talent <ul> not taking disabled coloring
   ✔ Options gear icon doesn't change color on hover @done(18-11-19 13:54)
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
+  ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Reminders:
   ✔ mods should be an array, so cb/special effects can stack @done(18-11-19 13:54)

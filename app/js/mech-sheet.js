@@ -6,16 +6,18 @@ const Tags = require('./util/taghelper');
 const Charts = require('./util/chartbuilder');
 const Expander = require('./util/expander');
 const Search = require('./util/search');
+const mechSidebar = require("./mech-sidebar");
 //data
 const weapons = require("../resources/data/weapons.json");
 const systems = require("../resources/data/systems.json");
-const mods = require("../resources/data/mods.json");
+const weapon_mods = require("../resources/data/mods.json");
 //templates
 const loadoutTemplate = fs.readFileSync(__dirname + "/templates/mech-loadout.hbs", "utf8");
 const infoTemplate = fs.readFileSync(__dirname + "/templates/mech-info.hbs", "utf8");
 const statsTemplate = fs.readFileSync(__dirname + "/templates/mech-stats.hbs", "utf8");
 const shellModalTemplate = fs.readFileSync(__dirname + "/templates/mech-shell-modal.hbs", "utf8");
-
+const equipModalTemplate = fs.readFileSync(__dirname + "/templates/editors/mount-editor.hbs", "utf8");
+const equipWeaponItemTemplate = fs.readFileSync(__dirname + "/templates/editors/mech-weapon.hbs", "utf8");
 
 function loadMech(config, pilot) {
   config.shell.ult_active = Tags.parse(config.shell.ult_active);
@@ -31,7 +33,8 @@ function loadMech(config, pilot) {
     var w = Search.byID(weapons, config.shell.ult_passive_weapon);
     mounts.push({
       mount: w.mount,
-      weapon: Tags.expand(w)
+      weapon: Tags.expand(w),
+      mods: []
     });
   }
 
@@ -41,7 +44,8 @@ function loadMech(config, pilot) {
       var w = Search.byID(weapons, pilot.talent_weapons[i]);
       mounts.push({
         mount: w.mount,
-        weapon: Tags.expand(w)
+        weapon: Tags.expand(w),
+        mods: []
       });
     }
   }
@@ -50,30 +54,36 @@ function loadMech(config, pilot) {
   for (var i = 0; i < config.mounts.length; i++) {
     if (!config.mounts[i].weapon_id) {
       mounts.push({
-        mount: config.mounts[i].mount
+        mount: config.mounts[i].mount,
       })
     } else {
       var w = Search.byID(weapons, config.mounts[i].weapon_id)
-      mounts.push({ mount: config.mounts[i].mount, weapon: Tags.expand(w)});
+      var mods = config.mounts[i].mods ? config.mounts[i].mods : []; 
+      mounts.push({ mount: config.mounts[i].mount, weapon: Tags.expand(w), mods: mods});
     }
+  }
+
+  //add indices, for preserving sort order
+  for (var i = 0; i < mounts.length; i++) {
+    mounts[i].idx = i;
   }
 
   //TODO: walk through core bonuses, talents, to add add linked mods (global_mods on pilot sheet?)
   //some mods only apply to eg. ranged or limited systems/items.
 
-  for (var i = 0; i < config.mounts.length; i++) {
-    if (config.mounts[i].mods) {
-      w.mods = [];
-      for (var j = 0; j < config.mounts[i].mods.length; i++) {
-        var m = config.mounts[i].mods[j];
-        var mod = Search.byID(mods, m);
+  for (var i = 0; i < mounts.length; i++) {
+    if (mounts[i].mods && mounts[i].mods.length) {
+      for (var j = 0; j < mounts[i].mods.length; j++) {
+        var m = mounts[i].mods[j];
+        console.log(mounts[i].mods);
+        var mod = Search.byID(weapon_mods, m);
         mod.effect = Tags.parse(mod.effect);
-        w.sp += mod.sp;
-        w.mods.push(mod);
+        mounts[i].weapon.sp += mod.sp;
+        if (mounts[i].weapon.mods == null) mounts[i].weapon.mods = [];
+        mounts[i].weapon.mods.push(mod);
       }
     }
   }
-
 
   for (var i = 0; i < config.systems.length; i++) {
     sys.push(Search.byID(systems, config.systems[i]));
@@ -158,7 +168,8 @@ function loadMech(config, pilot) {
   if (shellIndex > 0) move(config.licenses, shellIndex, 1);
 
   //sort by mounts
-  mounts.sort(function(a, b) {
+  var sortedMounts = mounts;
+  sortedMounts.sort(function(a, b) {
     var sortOrder = {
       "Main": 0,
       "Core": 1,
@@ -172,6 +183,7 @@ function loadMech(config, pilot) {
     return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
   })
 
+
   var info_template = Handlebars.compile(infoTemplate);
   $("#mech-info-output").html(info_template(config));
 
@@ -180,12 +192,15 @@ function loadMech(config, pilot) {
 
   var sp = {
     max: stats.max_sp,
-    free: stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b, 0)
+    free: stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0)
   }
+
+  console.log(items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0));
+  console.log(sp);
 
   var gear_template = Handlebars.compile(loadoutTemplate);
   $("#mech-gear-output").html(gear_template({
-    "mounts": mounts,
+    "mounts": sortedMounts,
     "systems": sys,
     "shell": config.shell,
     "sp": sp
@@ -231,6 +246,15 @@ function loadMech(config, pilot) {
   });
 
   Expander.bindEquipment();
+
+  //bind mount buttons
+  $('.mount-btn').each(function(){
+    var e = $(this);
+    e.off();
+    e.click(function() {
+      openMountModal(mounts[parseInt(e.data('mount-idx'))], e.data('mount-idx'), pilot, config);
+    })
+  })
 }
 
 function move (arr, old_index, new_index) {
@@ -242,5 +266,71 @@ function move (arr, old_index, new_index) {
   }
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
 };
+
+function openMountModal(m, m_idx, pilot, config) {
+  //apply modal template
+  var equip_template = Handlebars.compile(equipModalTemplate);
+  $("#mountEditorModal").html(equip_template(m));
+  
+  $('#mountEditorModal').css("display", "block");
+
+  $('.close').click(function () {
+    var modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
+
+  var validMounts = [m.mount];
+  if (m.mount === "Flex") validMounts = ["Auxiliary", "Main"]
+  if (m.mount === "Core") validMounts = ["Auxiliary", "Main", "Heavy"]
+  if (m.mount === "Spinal") validMounts = ["Main", "Heavy"]
+  if (m.mount === "Apocalypse") validMounts = ["Superheavy", "Heavy", "Main", "Auxiliary"]
+
+  //TODO: if there's not another empty mount AND we're not apocalypse type, filter superheavy weapons and show a warning
+
+  var availableWeapons = [];
+  for (var i = 0; i < weapons.length; i++) {
+    var w = weapons[i];
+    if (w.source !== "GMS") {
+      var licenseIdx = pilot.licenses.findIndex(l => l.name === w.license);
+      if (licenseIdx === -1) continue;
+      if (licenses[licenseIdx].level < w.license_level) continue;
+    }
+    if (validMounts.includes(w.mount)) availableWeapons.push(Tags.expand(w))
+  }
+
+  //TODO: get all mods available for that mount
+  //populate mod list
+
+  var weapon_template = Handlebars.compile(equipWeaponItemTemplate);
+  $("#available-weapons").append(weapon_template({weapons: availableWeapons}));
+  
+  $('.weapon-item').click(function() {
+    var e = $(this);
+    $('.weapon-item').each(function () {
+      $(this).parent().removeClass("skill-upgrade")
+      if ($(this).closest('.equip-expander').hasClass('open')) {
+        var parent = $(this).closest('.equip-expander');
+        $(this).removeClass('bold');
+        $(parent).removeClass('open');
+        $($(parent).find(".equip-open-info")).hide("swing");
+      }
+    });
+    e.parent().addClass("skill-upgrade");
+    $("#mount-install").removeClass("disabled").click(function(){
+      //TODO: if weapon selected is superheavy AND we're not apoc type, select associated mount to disable
+      addWeaponToMount(e.data("id"), m_idx, pilot, config);
+      $('#mountEditorModal').css("display", "none");
+    })
+  });
+
+  Expander.bindEquipment();
+  
+}
+
+function addWeaponToMount(weapon_id, mount_idx, pilot, config){
+  config.mounts[mount_idx].weapon_id = weapon_id;
+  mechSidebar.updateConfig(config);
+  loadMech(config, pilot)
+}
 
 module.exports = loadMech;

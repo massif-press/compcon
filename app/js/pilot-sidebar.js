@@ -38,7 +38,7 @@ function init(newpilot) {
     });
 
     $('.mech-sidebar').load('./html/mech-sidebar.html', function () {
-      mechSidebar(Search.byID(pilots, id));
+      mechSidebar.loadMecha(Search.byID(pilots, id));
     });
   });
 }

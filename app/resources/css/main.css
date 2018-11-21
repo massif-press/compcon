@@ -206,7 +206,9 @@ hr {
   overflow-x: hidden;
 }
 
-.mount-btn {
+.mount-btn,
+.sys-btn,
+.ult-btn {
   background-color: var(--bg-alt); 
   color:var(--highlight); 
   text-align: center;
@@ -215,7 +217,9 @@ hr {
   padding-top: 2px;
 }
 
-.mount-btn td {
+.mount-btn td,
+.sys-btn td,
+.ult-btn td {
   width: 20%;
 }
 

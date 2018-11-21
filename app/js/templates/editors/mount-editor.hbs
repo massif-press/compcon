@@ -1,0 +1,45 @@
+  <div class="modal-content xl">
+    <div class="modal-header xl">
+      <span class="close close-x" data-modal="mountEditorModal">&times;</span>
+      <span>{{mount}} Mount</span>
+    </div>
+    <div id="mount-editor-body" class="modal-body">
+      <!-- equipped header -->
+      <div>
+        <span class="subtitle" style="display:inline">EQUIPPED:</span>&nbsp;
+        {{#if weapon}}
+          <span style="display:inline; font-size:20px; letter-spacing:2px">{{weapon.name}}</span>
+          <span class="subtitle">&nbsp; // &nbsp; {{weapon.source}} {{weapon.mount}} {{weapon.type}}</span>
+          <div class="menu-border btn pull-right" style="margin-top:15px;">Add/Remove Weapon Mod</div>
+          {{#weapon.mods}}
+            {{#compare type 'bonus_effect' operator="!="}}
+              <br><i class="icon-plus-squared"></i><span>{{name}}</span><span class="subtitle">MOD INSTALLED</span>
+            {{/compare}}
+          {{/weapon.mods}}
+        {{else}}
+          <span style="display:inline">// EMPTY //</span>
+        {{/if}}
+      </div>
+      <hr>
+      <br>
+      <!-- options -->
+      <div>
+      <!--input type="checkbox" id="licenses-checkbox" checked> Filter Locked Items-->
+      </div>
+      <br>
+      <!-- scrollrect -->
+      <div class="modal-scrollrect menu-border" style="height:70%; margin-top: -5px">
+        <table id="available-weapons" width="100%"></table>
+      </div>
+
+      <!-- accept/close -->
+      <br>
+      <!--<span class="subtitle hidden" style="color: var(--warning)">// WARNING // Pilot does not have the necessary license to equip this item</span>-->
+      <br>
+      <div class="wizard-btn-container">
+        <div class="wizard-btn btn close" data-modal="mountEditorModal">Cancel</div>
+        <div class="breadcrumb-container"></div>
+        <div id="mount-install" class="wizard-btn btn disabled">Install</div>
+      </div>
+    </div>
+  </div>

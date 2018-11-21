@@ -11,17 +11,24 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-sm {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  padding-top: 15vh;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+.modal.xs {
+  padding-top: 7vh;
+}
+
+.modal.sm {
+  padding-top: 6vh;
+}
+
+.modal.md {
+  padding-top: 5vh;
+}
+
+.modal.lg {
+  padding-top: 4vh;
+}
+
+.modal.xl {
+  padding-top: 3vh;
 }
 
 /* Modal Content */
@@ -30,23 +37,35 @@
   background-color: var(--bg);
   border: 1px solid var(--highlight);
   margin: auto;
-  width: 90%;
-  height: 95%;
   animation-name: animatetop;
   animation-duration: 0.25s;
   overflow-y: auto;
 }
 
-.modal-sm-content {
-  position: relative;
-  background-color: var(--bg);
-  border: 1px solid var(--highlight);
-  margin: auto;
-  width: 80%;
+
+.modal-content.xs {
+  width: 50%;
+  height: 30%;
+}
+
+.modal-content.sm {
+  width: 60%;
   height: 50%;
-  animation-name: animatetop;
-  animation-duration: 0.25s;
-  overflow-y: auto;
+}
+
+.modal-content.md {
+  width: 70%;
+  height: 65%;
+}
+
+.modal-content.lg {
+  width: 80%;
+  height: 80%;
+}
+
+.modal-content.xl {
+  width: 90%;
+  height: 95%;
 }
 
 @keyframes animatetop {
@@ -79,7 +98,6 @@
 .modal-footer,
 .modal-header {
   position: fixed;
-  width: 89.9%;
   padding: 5px 5px;
   background-color: var(--bg-alt);
   color: var(--highlight);
@@ -87,15 +105,29 @@
   z-index: 300;
 }
 
-.modal-sm-footer,
-.modal-sm-header {
-  position: fixed;
+.modal-footer.xs,
+.modal-header.xs {
+  width: 49.8%;
+}
+
+.modal-footer.sm,
+.modal-header.sm {
+  width: 59.8%;
+}
+
+.modal-footer.md,
+.modal-header.md {
+  width: 69.8%;
+}
+
+.modal-footer.lg,
+.modal-header.lg {
   width: 79.8%;
-  padding: 5px 5px;
-  background-color: var(--bg-alt);
-  color: var(--highlight);
-  font-weight: bold;
-  z-index: 300;
+}
+
+.modal-footer.xl,
+.modal-header.xl {
+  width: 89.9%;
 }
 
 .modal-body {

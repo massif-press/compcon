@@ -5,58 +5,62 @@
     <tr>
       <td width="20%">
         <a href=#>
-          <div class="btn mount-btn">{{allCaps mount}} MOUNT</div>
+          <div class="btn mount-btn" data-mount-idx='{{idx}}'>{{allCaps mount}} MOUNT</div>
         </a>
       </td>
       <td class="menu-border equip-expander">
-        {{#if weapon}}
-            <div class="equip-expander-header sweep-btn">&nbsp;{{weapon.name}}
-              <span class="subtitle">({{weapon.source}})</span>
-              {{#if weapon.sp}}<span class="pull-right subtitle">{{weapon.sp}} SP</span>{{/if}}
-              {{#if mods}}<span class="pull-right subtitle">{{weapon.sp}} SP (MOD)</span>{{/if}}
-            </div>
-          <div class="equip-open-info hidden">
-            <div style="padding-left:5px">
-              {{#if weapon.description}}<blockquote class="desc-text">{{{weapon.description}}}</blockquote>{{/if}}
-              {{#if weapon.effect}}<span>{{{weapon.effect}}}<br></span>{{/if}}
-              {{#weapon.mods}}
-                <hr class="mg-10">
-                <div class="mg-10">
-                  <span><b>{{name}}</b><span class="subtitle">&nbsp;({{modType}})</span></span>
-                  <span class="subtitle"><br>{{mod.sp}} SP</span>
-                  {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-                  {{#if effect}}<span>{{{effect}}}</span>{{/if}}
-                </div>
-                <hr class="mg-10">
-              {{/weapon.mods}}
-              <span class="subtitle">{{weapon.mount}} {{weapon.type}}</span>
-              {{#if weapon.sp}}<span class="subtitle">{{weapon.sp}} SP </span>{{/if}}
-              <table class="gear-table">
-                <tr>
-                  <th>Range</th>
-                  <th>Damage</th>
-                <tr>
-                  <td>{{weapon.range}}</td>
-                  <td>{{{dmgFormat weapon.damage}}}<br><span class="subtitle">{{dmgRange weapon.damage}}</span></td>
-              </table>
-              <div class="tag-div">
-                {{#weapon.tags}}
-                  <div class="tag">
-                    <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a>
+        {{#if sh_lock}}
+          <div class="subtitle">&nbsp;// Mount Locked: Superheavy Weapon Support //</div>
+        {{else}}
+          {{#if weapon}}
+              <div class="equip-expander-header sweep-btn">&nbsp;{{weapon.name}}
+                <span class="subtitle">({{weapon.source}})</span>
+                {{#if weapon.sp}}<span class="pull-right subtitle">{{weapon.sp}} SP</span>{{/if}}
+                {{#if mods}}<span class="pull-right subtitle">{{weapon.sp}} SP (MOD)</span>{{/if}}
+              </div>
+            <div class="equip-open-info hidden">
+              <div style="padding-left:5px">
+                {{#if weapon.description}}<blockquote class="desc-text">{{{weapon.description}}}</blockquote>{{/if}}
+                {{#if weapon.effect}}<span>{{{weapon.effect}}}<br></span>{{/if}}
+                {{#weapon.mods}}
+                  <hr class="mg-10">
+                  <div class="mg-10">
+                    <span><b>{{name}}</b><span class="subtitle">&nbsp;({{modType}})</span></span>
+                    <span class="subtitle"><br>{{mod.sp}} SP</span>
+                    {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+                    {{#if effect}}<span>{{{effect}}}</span>{{/if}}
                   </div>
-                {{/weapon.tags}}
+                  <hr class="mg-10">
+                {{/weapon.mods}}
+                <span class="subtitle">{{weapon.mount}} {{weapon.type}}</span>
+                {{#if weapon.sp}}<span class="subtitle">{{weapon.sp}} SP </span>{{/if}}
+                <table class="gear-table">
+                  <tr>
+                    <th>Range</th>
+                    <th>Damage</th>
+                  <tr>
+                    <td>{{weapon.range}}</td>
+                    <td>{{{dmgFormat weapon.damage}}}<br><span class="subtitle">{{dmgRange weapon.damage}}</span></td>
+                </table>
+                <div class="tag-div">
+                  {{#weapon.tags}}
+                    <div class="tag">
+                      <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a>
+                    </div>
+                  {{/weapon.tags}}
+                </div>
               </div>
             </div>
-          </div>
-        {{else}}
-          <div class="subtitle">&nbsp;// EMPTY //</div>
+          {{else}}
+            <div class="subtitle">&nbsp;// EMPTY //</div>
+          {{/if}}
         {{/if}}
       </td>
     </tr>
     {{/mounts}}
     <tr>
       <td width="20%">
-        <div class="btn mount-btn warning-stripes">ULTIMATE - PASSIVE</div>
+        <div class="btn ult-btn warning-stripes">ULTIMATE - PASSIVE</div>
       </td>
       <td class="menu-border equip-expander">
         <div class="equip-expander-header sweep-btn">&nbsp;{{shell.ult_name}}</div>
@@ -72,7 +76,7 @@
     </tr>
     <tr>
       <td width="20%">
-        <div class="btn mount-btn warning-stripes">ULTIMATE - ACTIVE</div>
+        <div class="btn ult-btn warning-stripes">ULTIMATE - ACTIVE</div>
       </td>
       <td class="menu-border equip-expander">
         <div class="equip-expander-header sweep-btn">&nbsp;{{shell.ult_active_name}}</div>
@@ -88,46 +92,47 @@
       <td>&nbsp;</td>
     </tr>
     {{#systems}}
-    <tr>
-      <td width="20%">
-        <div class="btn mount-btn">SYSTEM</div>
-      </td>
-      <td class="menu-border equip-expander">
+      <tr>
+        <td width="20%">
+          <div class="btn sys-btn">SYSTEM</div>
+        </td>
+        <td class="menu-border equip-expander">
           <div class="equip-expander-header sweep-btn">&nbsp;{{name}}
             <span class="subtitle">({{source}})</span>
             {{#if sp}}<span class="pull-right subtitle">{{sp}} SP</span>{{/if}}
           </div>
-        <div class="equip-open-info hidden">
-          <div style="padding-left:5px">
-            {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
-            <span>{{type}}</span>
-            <span class="subtitle"><br>{{sp}} SP </span>
-            {{#if effect}}<span><br>{{{effect}}}</span>{{/if}}
-            <div class="tag-div">
-              {{#tags}}
-              <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}"
-                  data-balloon-pos="up">{{name}}</a></span>
-              {{/tags}}
+          <div class="equip-open-info hidden">
+            <div style="padding-left:5px">
+              {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+              <span>{{type}}</span>
+              <span class="subtitle"><br>{{sp}} SP </span>
+              {{#if effect}}<span><br>{{{effect}}}</span>{{/if}}
+              <div class="tag-div">
+                {{#tags}}
+                <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}"
+                    data-balloon-pos="up">{{name}}</a></span>
+                {{/tags}}
+              </div>
             </div>
           </div>
-        </div>
-      </td>
-    </tr>
+        </td>
+      </tr>
     {{/systems}}
+    {{#if sp.free}}
+      <tr>
+        <td width="20%">
+          <div class="btn sys-btn">SYSTEM</div>
+        </td>
+        <td class="menu-border equip-expander">
+          <div class="subtitle">&nbsp;// EMPTY //</div>
+        </td>
+      </tr>
+    {{/if}}
   </table>
   <table width="100%">
     <tr>
-      <td width="66%"></td>
-      <td>
-        {{#if sp.free}}
-        <div id="add-system-btn" class="menu-border btn" style="text-align: center">
-          Add System <span class="pull-right subtitle"><b>{{sp.free}}/{{sp.max}}SP</b></span>
-        </div>
-        {{else}}
-        <div id="add-system-btn" class="menu-border warning-stripes disabled" style="text-align: center">
-          Add System <span class="pull-right subtitle"><b>{{sp.free}}/{{sp.max}}SP</b></span>
-        </div>
-        {{/if}}
+      <td width="66%">
+        <span class="pull-right subtitle"><b>{{sp.free}}/{{sp.max}}</b>SP</span>
       </td>
     </tr>
   </table>

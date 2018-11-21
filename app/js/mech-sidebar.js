@@ -58,6 +58,19 @@ function loadMecha(pilot) {
   })
 }
 
+function updateConfig(upd_config) {
+  var matchIdx = configs.findIndex(x => x.id === upd_config.id);
+  if (matchIdx == -1) {
+    console.error("Error: bad config ID!");
+    return;
+  }
+  configs[matchIdx] = upd_config;
+  fs.writeFile(__dirname + '/../resources/data/configurations.json', JSON.stringify(configs), 'utf8', function (err) {
+    if (err) alert(`ERROR: Unable to edit configurations.json. Ensure you have write access to ${__dirname}/../resources/data/`);
+  });
+}
 
 
-module.exports = loadMecha;
+
+module.exports.loadMecha = loadMecha;
+module.exports.updateConfig = updateConfig;

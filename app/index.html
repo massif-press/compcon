@@ -29,9 +29,9 @@
     </div>
 
 <!-- ABOUT modal -->
-  <div id="aboutModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="aboutModal" class="modal xl">
+    <div class="modal-content xl">
+      <div class="modal-header xl">
         <span class="close close-x" data-modal="aboutModal">&times;</span>
         <span>About</span>
       </div>
@@ -54,9 +54,9 @@
   </div>
 
   <!-- HELP modal -->
-  <div id="helpModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="helpModal" class="modal xl">
+    <div class="modal-content xl">
+      <div class="modal-header xl">
         <span class="close close-x" data-modal="helpModal">&times;</span>
         <span>Help</span>
       </div>
@@ -73,9 +73,9 @@
   </div>
 
   <!-- OPTIONS modal -->
-  <div id="optionsModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="optionsModal" class="modal xl">
+    <div class="modal-content xl">
+      <div class="modal-header xl">
         <span class="close close-x" data-modal="optionsModal">&times;</span>
         <span>Options</span>
       </div>
@@ -83,7 +83,6 @@
         <div id="about-info">
           <h1>OPTIONS</h1>
           todo
-          <div id="options-btn" class='btn modal-btn' data-modal="optionsSubModal">&nbsp;<i class="icon-cog"></i>&nbsp;</div>
           <br><br>
           <span class="close pull-right menu-border btn" data-modal="optionsModal">&emsp;Close&emsp;</span>
           <br><br>
@@ -91,24 +90,6 @@
       </div>
     </div>
   </div>
-
-    <div id="optionsSubModal" class="modal-sm">
-      <div class="modal-sm-content">
-        <div class="modal-sm-header">
-          <span class="close close-x" data-modal="optionsSubModal">&times;</span>
-          <span>test nested modal</span>
-        </div>
-        <div class="modal-body">
-          <div id="about-info">
-            <h1>yep</h1>
-            okay
-            <br><br>
-            <span class="close pull-right menu-border btn" data-modal="optionsSubModal">&emsp;Close&emsp;</span>
-            <br><br>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <script>
       require('./renderer.js')
