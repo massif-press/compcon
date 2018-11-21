@@ -1,16 +1,35 @@
 Final Alpha Release:
   ✔ Config mount modal @done(18-11-20 15:25)
-  ☐ Mod field for systems (core-bonus/talent linked mods)
+  ✔ Mod field for systems (core-bonus/talent linked mods) @done(18-11-20 22:13)
   ☐ Pilot Sheet: Add gear button
   ✔ Pilot sheet: Clicking gear "mount" allows edit @done(18-11-20 15:45)
   ☐ Add remove button to mount editor
   ✔ Mech Sheet: Add system button -> free sp / total sp display @done(18-11-20 15:45)
   ✔ Mech Sheet: If free sp, add empty system slot @done(18-11-20 15:45)
+  ☐ Apply SP rules to mounting weapons
   ☐ Installing systems needs to respect unique
+  ☐ Can only install one AI (unless cb_shaping)
   ☐ Mod submenu for mounts
   ☐ Superheavy weapons claim additional mount (needs modal selection)
+  ☐ HA Assault Launcher gets a free grenade or mine (submenu)
   ☐ Add corebonus/pilot talent mods
+    ☐ cb_hardpoints should be applied like a mod
+    ☐ cb_burnout should be applied like a mod
+    ☐ cb_intweapon should be an added aux mount that also gets a mod
+    ☐ cb_neurolinked should be applied like a mod to all equipped weapons
+    ☐ cb_ammofeeds should be applied like a mod to all limited systems
+    ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
   ☐ Add corebonus/pilot talent/system stat modifications
+    ☐ cb_fomorian should add size
+    ☐ cb_frame should add shell hp
+    ☐ cb_plating should add shell armor
+    ☐ cb_opendoor should give edef and sensor range
+    ☐ cb_shaping needs to allow for the installation of a second ai
+    ☐ cb_stasis needs to add repair cap
+    ☐ cb_superior needs to add heat cap
+    ☐ tal_techno rank 2 should add a system
+    ☐ personalizations adds +2 hp to mech
+    ☐ technophile confers 0sp custom NHP system
 
 Beta:
   Pilot Editor:
@@ -92,23 +111,6 @@ Bugs:
 Reminders:
   ✔ mods should be an array, so cb/special effects can stack @done(18-11-19 13:54)
   ✔ add apoc rail mount for barbarossa on config creation @done(18-11-19 14:01)
-  ☐ cb_hardpoints should be applied like a mod
-  ☐ cb_burnout should be applied like a mod
-  ☐ cb_intweapon should be an added aux mount that also gets a mod
-  ☐ cb_neurolinked should be applied like a mod to all equipped weapons
-  ☐ cb_ammofeeds should be applied like a mod to all limited systems
-  ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
-  ☐ cb_fomorian should add size
-  ☐ cb_frame should add shell hp
-  ☐ cb_plating should add shell armor
-  ☐ cb_opendoor should give edef and sensor range
-  ☐ cb_shaping needs to allow for the installation of a second ai
-  ☐ cb_stasis needs to add repair cap
-  ☐ cb_superior needs to add heat cap
-  ☐ tal_techno rank 2 should add a system
-  ☐ personalizations adds +2 hp to mech
-  ☐ technophile confers 0sp custom NHP system
-  ☐ HA Assault Launcher gets a free grenade or mine
   ☐ custom background option
 
 Ideas:

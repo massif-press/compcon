@@ -94,7 +94,7 @@
     {{#systems}}
       <tr>
         <td width="20%">
-          <div class="btn sys-btn">SYSTEM</div>
+          <div class="btn system-btn" data-system-idx='{{@index}}'>SYSTEM</div>
         </td>
         <td class="menu-border equip-expander">
           <div class="equip-expander-header sweep-btn">&nbsp;{{name}}
@@ -107,6 +107,16 @@
               <span>{{type}}</span>
               <span class="subtitle"><br>{{sp}} SP </span>
               {{#if effect}}<span><br>{{{effect}}}</span>{{/if}}
+              {{#mods}}
+                <hr class="mg-10">
+                <div class="mg-10">
+                  <span><b>{{name}}</b><span class="subtitle">&nbsp;({{modType}})</span></span>
+                  <span class="subtitle"><br>{{mod.sp}} SP</span>
+                  {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+                  {{#if effect}}<span>{{{effect}}}</span>{{/if}}
+                </div>
+                <hr class="mg-10">
+              {{/mods}}
               <div class="tag-div">
                 {{#tags}}
                 <span class="tag"><a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}"
@@ -121,7 +131,7 @@
     {{#if sp.free}}
       <tr>
         <td width="20%">
-          <div class="btn sys-btn">SYSTEM</div>
+          <div class="btn system-btn">SYSTEM</div>
         </td>
         <td class="menu-border equip-expander">
           <div class="subtitle">&nbsp;// EMPTY //</div>

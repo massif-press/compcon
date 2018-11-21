@@ -14,10 +14,6 @@ const mechTemplate = fs.readFileSync(__dirname + "/templates/config-expander.hbs
 function loadMecha(pilot) {
   var configArray = [];
 
-  for (var i = 0; i < configs.length; i++) {
-    configs[i].shell = Search.byID(shells, configs[i].shell_id);
-  }
-
   for (var i = 0; i < pilot.configs.length; i++) {
     configArray.push(Search.byID(configs, pilot.configs[i]));
   }
@@ -33,7 +29,6 @@ function loadMecha(pilot) {
       var id = $(this).attr("id");
 
       $('.main').load('./html/mech-sheet.html', function () {
-        console.log(configArray, id);
         Load(Search.byID(configArray, id), pilot);
       });
     }
@@ -64,6 +59,11 @@ function updateConfig(upd_config) {
     console.error("Error: bad config ID!");
     return;
   }
+  
+  //remove expanded properties before storage. we always hydrate these anyway.
+  delete upd_config.shell;
+  delete upd_config.licenses;
+
   configs[matchIdx] = upd_config;
   fs.writeFile(__dirname + '/../resources/data/configurations.json', JSON.stringify(configs), 'utf8', function (err) {
     if (err) alert(`ERROR: Unable to edit configurations.json. Ensure you have write access to ${__dirname}/../resources/data/`);

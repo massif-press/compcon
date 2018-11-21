@@ -1,0 +1,41 @@
+  <div class="modal-content xl">
+    <div class="modal-header xl">
+      <span class="close close-x" data-modal="systemEditorModal">&times;</span>
+      <span>System</span>
+    </div>
+    <div id="system-editor-body" class="modal-body">
+      <!-- equipped header -->
+      <div>
+        <span class="subtitle" style="display:inline">INSTALLED:</span>&nbsp;
+        {{#if name}}
+          <span style="display:inline; font-size:20px; letter-spacing:2px">{{name}}</span>
+          <span class="subtitle">&nbsp; // &nbsp; {{source}} {{type}} &nbsp; //</span>
+          <span class="pull right">&nbsp; {{sp}} SP</span>
+        {{else}}
+          <span style="display:inline">// NONE //</span>
+        {{/if}}
+      </div>
+      <hr>
+      <br>
+      <!-- options -->
+      <div>
+      <!--input type="checkbox" id="licenses-checkbox" checked> Filter Locked Items-->
+      </div>
+      <!--br-->
+      <!-- scrollrect -->
+      <div class="modal-scrollrect menu-border" style="height:70%; margin-top: -5px">
+        <table id="available-systems" width="100%"></table>
+      </div>
+
+      <!-- accept/close -->
+      <br>
+      <div class="menu-border btn pull-right" style="margin-top:5px;">Uninstall System</div>
+      <!--<span class="subtitle hidden" style="color: var(--warning)">// WARNING // Pilot does not have the necessary license to equip this item</span>-->
+      <br>
+      <div class="wizard-btn-container">
+        <div class="wizard-btn btn close" data-modal="systemEditorModal">Cancel</div>
+        <div class="breadcrumb-container"></div>
+        <div id="system-install" class="wizard-btn btn disabled">Install</div>
+      </div>
+    </div>
+  </div>

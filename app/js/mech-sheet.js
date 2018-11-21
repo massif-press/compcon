@@ -8,6 +8,7 @@ const Expander = require('./util/expander');
 const Search = require('./util/search');
 const mechSidebar = require("./mech-sidebar");
 //data
+const shells = require("../resources/data/shells.json");
 const weapons = require("../resources/data/weapons.json");
 const systems = require("../resources/data/systems.json");
 const weapon_mods = require("../resources/data/mods.json");
@@ -17,9 +18,13 @@ const infoTemplate = fs.readFileSync(__dirname + "/templates/mech-info.hbs", "ut
 const statsTemplate = fs.readFileSync(__dirname + "/templates/mech-stats.hbs", "utf8");
 const shellModalTemplate = fs.readFileSync(__dirname + "/templates/mech-shell-modal.hbs", "utf8");
 const equipModalTemplate = fs.readFileSync(__dirname + "/templates/editors/mount-editor.hbs", "utf8");
+const systemModalTemplate = fs.readFileSync(__dirname + "/templates/editors/system-editor.hbs", "utf8");
 const equipWeaponItemTemplate = fs.readFileSync(__dirname + "/templates/editors/mech-weapon.hbs", "utf8");
+const systemItemTemplate = fs.readFileSync(__dirname + "/templates/editors/mech-system.hbs", "utf8");
 
 function loadMech(config, pilot) {
+  config.shell = Search.byID(shells, config.shell_id);
+
   config.shell.ult_active = Tags.parse(config.shell.ult_active);
 
   $(".main-scroll").scrollTop(1);
@@ -75,7 +80,6 @@ function loadMech(config, pilot) {
     if (mounts[i].mods && mounts[i].mods.length) {
       for (var j = 0; j < mounts[i].mods.length; j++) {
         var m = mounts[i].mods[j];
-        console.log(mounts[i].mods);
         var mod = Search.byID(weapon_mods, m);
         mod.effect = Tags.parse(mod.effect);
         mounts[i].weapon.sp += mod.sp;
@@ -86,7 +90,7 @@ function loadMech(config, pilot) {
   }
 
   for (var i = 0; i < config.systems.length; i++) {
-    sys.push(Search.byID(systems, config.systems[i]));
+    sys.push(Search.byID(systems, config.systems[i].id));
   }
   
   sys = Tags.expand(sys);
@@ -195,10 +199,7 @@ function loadMech(config, pilot) {
     free: stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0)
   }
 
-  console.log(items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0));
-  console.log(sp);
-
-  var gear_template = Handlebars.compile(loadoutTemplate);
+   var gear_template = Handlebars.compile(loadoutTemplate);
   $("#mech-gear-output").html(gear_template({
     "mounts": sortedMounts,
     "systems": sys,
@@ -253,6 +254,15 @@ function loadMech(config, pilot) {
     e.off();
     e.click(function() {
       openMountModal(mounts[parseInt(e.data('mount-idx'))], e.data('mount-idx'), pilot, config);
+    })
+  })
+
+  //bind system buttons
+  $('.system-btn').each(function () {
+    var e = $(this);
+    e.off();
+    e.click(function () {
+      openSystemModal(sys[parseInt(e.data('system-idx'))], e.data('system-idx'), pilot, config, sp);
     })
   })
 }
@@ -329,6 +339,70 @@ function openMountModal(m, m_idx, pilot, config) {
 
 function addWeaponToMount(weapon_id, mount_idx, pilot, config){
   config.mounts[mount_idx].weapon_id = weapon_id;
+  mechSidebar.updateConfig(config);
+  loadMech(config, pilot)
+}
+
+function openSystemModal(s, s_idx, pilot, config, sp) {
+  //apply modal template
+  var equip_template = Handlebars.compile(systemModalTemplate);
+  $("#systemEditorModal").html(equip_template(s));
+
+  $('#systemEditorModal').css("display", "block");
+
+  $('.close').click(function () {
+    var modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
+
+
+  var availableSystems = [];
+  var totalFreeSp = s ? sp.free + s.sp : sp.free; //include replacement sp
+  for (var i = 0; i < systems.length; i++) {
+    var s = systems[i];
+    if (s.source !== "GMS") {
+      var licenseIdx = pilot.licenses.findIndex(l => l.name === s.license);
+      if (licenseIdx === -1) continue;
+      if (licenses[licenseIdx].level < s.license_level) continue;
+    }
+    if (totalFreeSp >= s.sp) availableSystems.push(Tags.expand(s))
+  }
+
+
+  var system_template = Handlebars.compile(systemItemTemplate);
+  $("#available-systems").append(system_template({
+    systems: availableSystems
+  }));
+
+  $('.system-item').click(function () {
+    var e = $(this);
+    $('.system-item').each(function () {
+      $(this).parent().removeClass("skill-upgrade")
+      if ($(this).closest('.equip-expander').hasClass('open')) {
+        var parent = $(this).closest('.equip-expander');
+        $(this).removeClass('bold');
+        $(parent).removeClass('open');
+        $($(parent).find(".equip-open-info")).hide("swing");
+      }
+    });
+    e.parent().addClass("skill-upgrade");
+    $("#system-install").removeClass("disabled").click(function () {
+      addSystem(e.data("id"), s_idx, pilot, config);
+      $('#systemEditorModal').css("display", "none");
+    })
+  });
+
+  Expander.bindEquipment();
+
+}
+
+function addSystem(system_id, idx, pilot, config) {
+  if (idx != null) {
+    config.systems[idx].id = system_id;
+  } else {
+    config.systems.push({id: system_id})
+  }
+  
   mechSidebar.updateConfig(config);
   loadMech(config, pilot)
 }

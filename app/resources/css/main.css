@@ -207,7 +207,7 @@ hr {
 }
 
 .mount-btn,
-.sys-btn,
+.system-btn,
 .ult-btn {
   background-color: var(--bg-alt); 
   color:var(--highlight); 
@@ -218,7 +218,7 @@ hr {
 }
 
 .mount-btn td,
-.sys-btn td,
+.system-btn td,
 .ult-btn td {
   width: 20%;
 }
