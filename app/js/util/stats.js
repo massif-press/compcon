@@ -33,11 +33,54 @@ function getMechStats(config, pilot) {
     sp_shell: config.shell.sp,
     sp_core_bonus: core.sp,
     grapple: rules.base_grapple,
-    ram: rules.base_ram
+    ram: rules.base_ram,
+    size: config.shell.size,
+    sensor_range: rules.base_sensor_range + core.sys,
+    sensor_range_bonus: core.sys
   }
 
   //everest gets a +1 to any core stat, made at config creation TODO: add to config creation
   if (config.everest_bonus) output[config.everest_bonus]++;
+
+  //system personalizations adds +2 hp
+  if (config.systems.find(x => x.id === "personalizations")) {
+    output.hp += 2;
+    output.hp_core_bonus += 2;
+  }
+
+  //fomorian frame reinforcement core bonus adds size (up to 3)
+  if (pilot.core_bonuses.includes("fomorian") && config.shell.size < 3) output.size++;
+
+  //ipsn reinforced frame core bonus adds 5 hp
+  if (pilot.core_bonuses.includes("frame")) {
+    output.hp += 5;
+    output.hp_core_bonus += 5;
+  }
+
+  //ipsn sloped plating core bonus adds 1 armor, up to 4
+  if (pilot.core_bonuses.includes("plating") && config.shell.armor < 4) output.armor ++;
+
+  //horus open door adds 1 edef and 5 sensor range
+  if (pilot.core_bonuses.includes("opendoor")) {
+    output.edef ++;
+    output.edef_sys_bonus ++;
+    output.sensor_range +=5;
+    output.sensor_range_bonus += 5;
+  }
+
+  //ha stasis shielding adds 2 repcap 
+  if (pilot.core_bonuses.includes("stasis")) {
+    output.repcap += 2;
+    output.repcap_eng_bonus += 2;
+  }
+
+
+  //ha superior by design core bonus adds 2 heatcap
+  if (pilot.core_bonuses.includes("superior")) {
+    output.heatcap += 2;
+    output.heat_eng_bonus += 2;
+  }
+
 
   return output;
 }

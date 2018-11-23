@@ -186,5 +186,102 @@
     "license_level": 2,
     "effect": "The base range of this weapon increases by 5.",
     "description": "A stabilizer modification is a series of modifications to physical mounts and targeting software that ensures weapons will remain level, steady, and angled at max-optimum in order to ensure positive target engagement at range."
+  },
+  {
+    "id": "cb_hardpoints",
+    "name": "Auto-Stabilizing Hardpoint",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "weapon"
+    ],
+    "source": "GMS",
+    "license": "Core Bonus",
+    "license_level": 0,
+    "effect": "Attacks from this mount can be made with +1 Accuracy.",
+    "description": ""
+  }, {
+    "id": "cb_burnout",
+    "name": "BURNOUT Insulation",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "weapon"
+    ],
+    "source": "GMS",
+    "license": "",
+    "license_level": 0,
+    "effect": "The first time per turn you hit with an attack from this mount, deal +1d6 bonus damage.",
+    "description": ""
+  },
+  {
+    "id": "cb_intweapon",
+    "name": "Integrated Weapon",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "weapon"
+    ],
+    "source": "GMS",
+    "license": "",
+    "license_level": 0,
+    "effect": "",
+    "description": ""
+  }, 
+  {
+    "id": "cb_neurolinked",
+    "name": "Neuro-linked",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "ranged"
+    ],
+    "source": "SSC",
+    "license": "",
+    "license_level": 0,
+    "effect": "This weapon gains +3 range.",
+    "description": ""
+  },
+  {
+    "id": "cb_ammofeeds",
+    "name": "Integrated Ammo Feed",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "limited"
+    ],
+    "source": "HA",
+    "license": "",
+    "license_level": 0,
+    "effect": "This limited system gains +1 use.",
+    "description": ""
+  }, 
+  {
+    "id": "cb_fomorian",
+    "name": "FOMORIAN Reinforced Frame",
+    "sp": 1,
+    "modType": "Core Bonus",
+    "applied_to": [
+      "melee"
+    ],
+    "source": "IPS-N",
+    "license": "",
+    "license_level": 0,
+    "effect": "This weapon gains +1 threat.",
+    "description": ""
+  },
+  {
+    "id": "tal_monkey3",
+    "name": "Hidden Stash",
+    "sp": 1,
+    "modType": "Talent",
+    "applied_to": [
+      "limited"
+    ],
+    "source": "",
+    "license": "",
+    "license_level": 0,
+    "effect": "This limited system gains +1 use.",
+    "description": ""
   }
 ]

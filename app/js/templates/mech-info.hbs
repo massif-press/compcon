@@ -1,27 +1,27 @@
 <div style="padding: 5px;">
-  <span class="mech-name">{{allCaps name}}</span>
-    <span class="big-subtitle">{{allCaps shell.name}}</span>
+  <span class="mech-name">{{allCaps config.name}}</span>
+    <span class="big-subtitle">{{allCaps config.shell.name}}</span>
     <div class="btn modal-btn" style="display: inline"><i class="icon-info-circled" id="shell-info-btn" data-modal="shellInfoModal"></i></div>
 </div>
 <table width="100%">
   <td width="50%" style="vertical-align: top; padding-left: 5px;">
-    <div><span id="ips-n" class="manufacturer">{{longSource shell.source}}</span></div>
-    <div class="mech-type">{{shell.mechtype}} Mech</div>
+    <div><span id="ips-n" class="manufacturer">{{longSource config.shell.source}}</span></div>
+    <div class="mech-type">{{config.shell.mechtype}} Mech<span class="pull-right subtitle">Size {{stats.size}}</span></div>
     <div class="license-block-header">LICENSES REQUIRED:</div>
 
     {{#licenses}}
     {{#if locked}}
     <div class="license-block-locked warning-stripes " style="padding-left: 10px;">
-      <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
+      <a href="#" data-balloon-length="large" data-balloon="{{{config.items}}}" data-balloon-pos="right">
         <img src="./resources/icons/locked.svg" height=20>
-        <span>{{source}} {{allCaps name}} {{level}}</span><span class="subtitle">(LICENSE REQUIRED)</span>
+        <span>{{config.source}} {{allCaps config.name}} {{config.level}}</span><span class="subtitle">(LICENSE REQUIRED)</span>
       </a>
     </div>
     {{else}}
     <div class="license-block" style="padding-left: 10px;">
-      <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
-        <img src="./resources/icons/rank-{{ifElse level source}}.svg" height=20>
-        <span>{{source}} {{allCaps name}} {{level}}</span>
+      <a href="#" data-balloon-length="large" data-balloon="{{{config.items}}}" data-balloon-pos="right">
+        <img src="./resources/icons/rank-{{ifElse config.level config.source}}.svg" height=20>
+        <span>{{config.source}} {{allCaps config.name}} {{config.level}}</span>
       </a>
     </div>
     {{/if}}
@@ -29,8 +29,7 @@
 
     <br>
     <div class="license-block-header">PILOT'S NOTES:</div>
-    {{#if notes}}<blockquote>{{{notes}}}</blockquote>{{/if}}
+    {{#if config.notes}}<blockquote>{{{config.notes}}}</blockquote>{{/if}}
   </td>
-  {{#if img}}<td><img class="block-img" src="./resources/img/mecha/{{img}}" height=400><span class="pull-right subtitle">Size
-      {{shell.size}}</span></td>{{/if}}
+  {{#if config.img}}<td><img class="block-img" src="./resources/img/mecha/{{config.img}}" height=400></td>{{/if}}
 </table>

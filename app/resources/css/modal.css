@@ -1,7 +1,6 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
   padding-top: 3vh;
   left: 0;
   top: 0;
@@ -13,22 +12,27 @@
 
 .modal.xs {
   padding-top: 7vh;
+  z-index: 104;
 }
 
 .modal.sm {
   padding-top: 6vh;
+  z-index: 103;
 }
 
 .modal.md {
   padding-top: 5vh;
+  z-index: 102;
 }
 
 .modal.lg {
   padding-top: 4vh;
+  z-index: 101;
 }
 
 .modal.xl {
   padding-top: 3vh;
+  z-index: 100;
 }
 
 /* Modal Content */

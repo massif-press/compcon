@@ -1,15 +1,9 @@
 Final Alpha Release:
-  ✔ Config mount modal @done(18-11-20 15:25)
-  ✔ Mod field for systems (core-bonus/talent linked mods) @done(18-11-20 22:13)
+  ☐ All auto-expand selectors: change to caret expand and regular select
   ☐ Pilot Sheet: Add gear button
-  ✔ Pilot sheet: Clicking gear "mount" allows edit @done(18-11-20 15:45)
-  ☐ Add remove button to mount editor
-  ✔ Mech Sheet: Add system button -> free sp / total sp display @done(18-11-20 15:45)
-  ✔ Mech Sheet: If free sp, add empty system slot @done(18-11-20 15:45)
-  ☐ Apply SP rules to mounting weapons
-  ☐ Installing systems needs to respect unique
-  ☐ Can only install one AI (unless cb_shaping)
+  ☐ Fix broken loadout item styling
   ☐ Mod submenu for mounts
+  ☐ Mod types respect weapon selection
   ☐ Superheavy weapons claim additional mount (needs modal selection)
   ☐ HA Assault Launcher gets a free grenade or mine (submenu)
   ☐ Add corebonus/pilot talent mods
@@ -19,17 +13,12 @@ Final Alpha Release:
     ☐ cb_neurolinked should be applied like a mod to all equipped weapons
     ☐ cb_ammofeeds should be applied like a mod to all limited systems
     ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
-  ☐ Add corebonus/pilot talent/system stat modifications
-    ☐ cb_fomorian should add size
-    ☐ cb_frame should add shell hp
-    ☐ cb_plating should add shell armor
-    ☐ cb_opendoor should give edef and sensor range
-    ☐ cb_shaping needs to allow for the installation of a second ai
-    ☐ cb_stasis needs to add repair cap
-    ☐ cb_superior needs to add heat cap
-    ☐ tal_techno rank 2 should add a system
-    ☐ personalizations adds +2 hp to mech
-    ☐ technophile confers 0sp custom NHP system
+    ☐ cb_fomorian should add +1 threat mod to all melee weapons
+  ☐ cb_hardpoints mount select on core bonus selection (submodal)
+  ☐ cb_burnout mount select on core bonus selection (submodal)
+  ☐ cb_intweapon needs to be linked and applied on bonus selection (submodal)
+  ☐ cb_ammofeeds works on systems
+  ☐ everest shell gets a CORE +1, added at shell selection (submodal)
 
 Beta:
   Pilot Editor:
@@ -62,18 +51,16 @@ Beta:
     ☐ Help Modal
   
 Todo:
+  ☐ Remove extraneous jquery .each()es
   ☐ Allow user to break license locking, but show warning & mark unavailable config
+  ☐ Allow user to break SP cost locking, but show warning & mark unavailable config
   ☐ Style reassignment buttons
   ☐ Add hidden textareas to pilot sheet for editing
   ☐ Atomize player/config creation screens for use in reassignment modals
-  ✔ Mech Sheet: Map mount assignments to weapons @done(18-11-19 13:54)
   ☐ Mech Sheet: loadout button into modal
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
-  ✔ Use Fontello sheets @done(18-11-19 12:13)
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ Put modal close binding into a utility
-  ✔ Sized, nesting modals @done(18-11-20 11:04)
-  ✔ increase modal height @done(18-11-19 14:05)
   ☐ correct modal-scrollrect heights
   ☐ shorten modal button container
   ☐ Refactor modal waterfalls into visibility-bound series
@@ -92,10 +79,11 @@ Todo:
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
   ☐ weapon threat calc
-  ✔ flex mounts @done(18-11-19 15:51)
   ☐ CORE mounts
+  ☐ weapon calculations should apply mod bonus
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
+  ☐ Catalog: Unique weapon/system should be a sortable column or otherwise identifiable
   ☐ Options: export all
   ☐ Options: lancerdata exporter
   ☐ Options: lancerdata importer
@@ -104,19 +92,15 @@ Bugs:
   ☐ new pilot wizard: open options bounce on click
   ☐ level pilot wizard: open options bounce on click
   ☐ talent <ul> not taking disabled coloring
-  ✔ Options gear icon doesn't change color on hover @done(18-11-19 13:54)
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
   ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Reminders:
-  ✔ mods should be an array, so cb/special effects can stack @done(18-11-19 13:54)
-  ✔ add apoc rail mount for barbarossa on config creation @done(18-11-19 14:01)
   ☐ custom background option
 
 Ideas:
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
   ☐ Clone Pilot >> roll on clone complications table option
-  ✘ Find a better solution for mech pics. Look stale atm. @cancelled(18-11-19 16:09)
   ☐ color scheme for pilots/mechs
   ☐ color schemes based off of manufacturer
   ☐ Custom notes/descriptions for items
@@ -130,6 +114,38 @@ Ideas:
   ☐ animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ Add corebonus/pilot talent/system stat modifications @done(18-11-23 13:29) @project(Final Alpha Release)
+  ✔ cb_fomorian should add size @done(18-11-23 12:53) @project(Final Alpha Release)
+  ✔ cb_frame should add shell hp @done(18-11-23 12:57) @project(Final Alpha Release)
+  ✔ cb_plating should add shell armor @done(18-11-23 12:58) @project(Final Alpha Release)
+  ✔ cb_shaping needs to allow for the installation of a second ai @done(18-11-23 12:58) @project(Final Alpha Release)
+  ✔ cb_opendoor should give edef and sensor range @done(18-11-23 13:11) @project(Final Alpha Release)
+  ✔ cb_stasis needs to add repair cap @done(18-11-23 13:14) @project(Final Alpha Release)
+  ✔ cb_superior needs to add heat cap @done(18-11-23 13:14) @project(Final Alpha Release)
+  ✔ personalizations adds +2 hp to mech @done(18-11-23 12:46) @project(Final Alpha Release)
+  ✔ technophile confers 0sp custom NHP system' @done(18-11-23 13:29) @project(Final Alpha Release)
+  ✔ add sensor range to mech stats @done(18-11-23 13:02) @project(Final Alpha Release)
+  ✔ Config mount modal @done(18-11-20 15:25) @project(Final Alpha Release)
+  ✔ Mod field for systems (core-bonus/talent linked mods) @done(18-11-20 22:13) @project(Final Alpha Release)
+  ✔ Pilot sheet: Clicking gear "mount" allows edit @done(18-11-20 15:45) @project(Final Alpha Release)
+  ✔ Add remove button to mount editor @done(18-11-21 14:17) @project(Final Alpha Release)
+  ✔ Mech Sheet: Add system button -> free sp / total sp display @done(18-11-20 15:45) @project(Final Alpha Release)
+  ✔ Mech Sheet: If free sp, add empty system slot @done(18-11-20 15:45) @project(Final Alpha Release)
+  ✔ Apply SP rules to mounting weapons @done(18-11-22 11:21) @project(Final Alpha Release)
+  ✔ Installing systems/weapons needs to respect unique @done(18-11-21 10:42) @project(Final Alpha Release)
+  ✔ Can only install one AI (unless cb_shaping) @done(18-11-21 14:17) @project(Final Alpha Release)
+  ✔ Mounts and mount editing need to respect special weapons @done(18-11-22 11:41) @project(Final Alpha Release)
+  ✔ Mounts/systems: show (but make unavailable) unaffordable sp items @done(18-11-21 14:16) @project(Todo)
+  ✔ Mech Sheet: Map mount assignments to weapons @done(18-11-19 13:54) @project(Todo)
+  ✔ Use Fontello sheets @done(18-11-19 12:13) @project(Todo)
+  ✔ Sized, nesting modals @done(18-11-20 11:04) @project(Todo)
+  ✔ increase modal height @done(18-11-19 14:05) @project(Todo)
+  ✔ flex mounts @done(18-11-19 15:51) @project(Todo)
+  ✔ Options gear icon doesn't change color on hover @done(18-11-19 13:54) @project(Bugs)
+  ✔ broken sizing on main window @done(18-11-22 11:21) @project(Bugs)
+  ✔ mods should be an array, so cb/special effects can stack @done(18-11-19 13:54) @project(Reminders)
+  ✔ add apoc rail mount for barbarossa on config creation @done(18-11-19 14:01) @project(Reminders)
+  ✘ Find a better solution for mech pics. Look stale atm. @cancelled(18-11-19 16:09) @project(Ideas)
   ✔ Pilot level-up tool @done(18-11-16 13:56) @project(Beta)
   ✔ Pilot clone tool @done(18-11-16 15:01) @project(Beta)
   ✔ Pilot delete @done(18-11-16 15:01) @project(Beta)

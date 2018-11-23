@@ -58,11 +58,14 @@
 }
 
 .equip-open-info p,
-.equip-open-info ul {
+.equip-open-info ul,
+.caret-expand p,
+.caret-expand ul {
   padding: 10px 30px 5px 10px;
 }
 
-.equip-open-info ul {
+.equip-open-info ul,
+.caret-expand ul {
   padding-left: 40px;
 }
 

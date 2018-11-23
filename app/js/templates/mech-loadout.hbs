@@ -3,11 +3,15 @@
   <table class="equipment-table">
     {{#mounts}}
     <tr>
-      <td width="20%">
-        <a href=#>
-          <div class="btn mount-btn" data-mount-idx='{{idx}}'>{{allCaps mount}} MOUNT</div>
-        </a>
-      </td>
+      {{#if specialMount}}
+        <td width="20%">
+          <div class="ult-btn warning-stripes">{{allCaps specialMount}}</div>
+        </td>
+      {{else}}
+        <td width="20%">
+          <div class="{{#if sh_lock}}ult-btn warning-stripes{{else}}btn mount-btn{{/if}}" data-mount-idx='{{@index}}'>{{allCaps mount}} MOUNT</div>
+        </td>
+      {{/if}}
       <td class="menu-border equip-expander">
         {{#if sh_lock}}
           <div class="subtitle">&nbsp;// Mount Locked: Superheavy Weapon Support //</div>
@@ -16,13 +20,13 @@
               <div class="equip-expander-header sweep-btn">&nbsp;{{weapon.name}}
                 <span class="subtitle">({{weapon.source}})</span>
                 {{#if weapon.sp}}<span class="pull-right subtitle">{{weapon.sp}} SP</span>{{/if}}
-                {{#if mods}}<span class="pull-right subtitle">{{weapon.sp}} SP (MOD)</span>{{/if}}
+                {{#if modSP}}<span class="pull-right subtitle">{{modSP}} SP (MOD)</span>{{/if}}
               </div>
             <div class="equip-open-info hidden">
               <div style="padding-left:5px">
                 {{#if weapon.description}}<blockquote class="desc-text">{{{weapon.description}}}</blockquote>{{/if}}
                 {{#if weapon.effect}}<span>{{{weapon.effect}}}<br></span>{{/if}}
-                {{#weapon.mods}}
+                {{#mods}}
                   <hr class="mg-10">
                   <div class="mg-10">
                     <span><b>{{name}}</b><span class="subtitle">&nbsp;({{modType}})</span></span>
@@ -31,7 +35,7 @@
                     {{#if effect}}<span>{{{effect}}}</span>{{/if}}
                   </div>
                   <hr class="mg-10">
-                {{/weapon.mods}}
+                {{/mods}}
                 <span class="subtitle">{{weapon.mount}} {{weapon.type}}</span>
                 {{#if weapon.sp}}<span class="subtitle">{{weapon.sp}} SP </span>{{/if}}
                 <table class="gear-table">
@@ -60,7 +64,7 @@
     {{/mounts}}
     <tr>
       <td width="20%">
-        <div class="btn ult-btn warning-stripes">ULTIMATE - PASSIVE</div>
+        <div class="ult-btn warning-stripes">ULTIMATE - PASSIVE</div>
       </td>
       <td class="menu-border equip-expander">
         <div class="equip-expander-header sweep-btn">&nbsp;{{shell.ult_name}}</div>
@@ -76,7 +80,7 @@
     </tr>
     <tr>
       <td width="20%">
-        <div class="btn ult-btn warning-stripes">ULTIMATE - ACTIVE</div>
+        <div class="ult-btn warning-stripes">ULTIMATE - ACTIVE</div>
       </td>
       <td class="menu-border equip-expander">
         <div class="equip-expander-header sweep-btn">&nbsp;{{shell.ult_active_name}}</div>
@@ -93,9 +97,15 @@
     </tr>
     {{#systems}}
       <tr>
+        {{#if specialMount}}
         <td width="20%">
-          <div class="btn system-btn" data-system-idx='{{@index}}'>SYSTEM</div>
+            <div class="ult-btn warning-stripes">{{allCaps specialMount}}</div>
         </td>
+        {{else}}
+          <td width="20%">
+            <div class="btn system-btn" data-system-idx='{{@index}}'>SYSTEM</div>
+          </td>
+        {{/if}}
         <td class="menu-border equip-expander">
           <div class="equip-expander-header sweep-btn">&nbsp;{{name}}
             <span class="subtitle">({{source}})</span>

@@ -26,6 +26,16 @@ function bindEquipmentExpander() {
   });
 }
 
+function bindClassExpander(cl) {
+  $('.' + cl).click(function () {
+    e = $(this);
+    e.toggleClass('sweep-btn bold');
+    var parent = e.closest('.equip-expander');
+    $(parent).toggleClass('open');
+    $($(parent).find(".equip-open-info")).toggle("swing");
+  });
+}
+
 function bindIDExpander() {
   $('.equip-expander-header').click(function () {
     e = $(this);
@@ -36,6 +46,17 @@ function bindIDExpander() {
   });
 }
 
+function bindCaretExpander(caretClass) {
+  // $('.' + cl).click(function () {
+  //   e = $(this);
+  //   e.toggleClass('sweep-btn bold');
+  //   var parent = e.closest('.equip-expander');
+  //   $(parent).toggleClass('open');
+  //   $($(parent).find(".equip-open-info")).toggle("swing");
+  // });
+}
+
 module.exports.bind = bindExpander;
 module.exports.bindEquipment = bindEquipmentExpander;
 module.exports.bindEquipmentByID = bindIDExpander;
+module.exports.bindClassExpander = bindClassExpander;

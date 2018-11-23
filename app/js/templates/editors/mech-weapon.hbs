@@ -1,18 +1,18 @@
 {{#weapons}}
   <tr>
-    <td style="padding-bottom: 5px;">
-      <div class="menu-border equip-expander">
-        <div class="equip-expander-header sweep-btn weapon-item" data-id="{{id}}">&nbsp;{{name}}
+    <td class="weapon-item" data-id="{{id}}" data-name="{{name}}" data-isover="{{isOverSp}}">
+      <div class="menu-border sweep-btn {{#if isOverSp}}warning-stripes{{/if}}">
+        <div class="caret-expander caret caret-closed"></div>
+        <div style="display: inline;">&nbsp;{{name}}
           <span class="subtitle">({{source}})</span>
-          {{#if sp}}<span class="pull-right subtitle">{{sp}} SP</span>{{/if}}
-          {{#if mods}}<span class="pull-right subtitle">{{sp}} SP (MOD)</span>{{/if}}
+          {{#if sp}}<span class="pull-right subtitle {{#if isOverSp}}warning{{else}}active{{/if}}"><b>{{sp}} SP</b></span>{{/if}}
         </div>
-        <div class="equip-open-info hidden">
+        <div class="caret-expand hidden">
           <div style="padding-left:5px">
             {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
             {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
             <span class="subtitle">{{mount}} {{type}}</span>
-            {{#if sp}}<span class="subtitle">{{sp}} SP </span>{{/if}}
+            {{#if sp}}<br><span class="subtitle">{{sp}} SP </span>{{/if}}
             <table class="gear-table">
               <tr>
                 <th>Range</th>
@@ -23,9 +23,9 @@
             </table>
             <div class="tag-div">
               {{#tags}}
-              <div class="tag">
-                <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="up">{{name}}</a>
-              </div>
+                <div class="tag">
+                  <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="right">{{name}}</a>
+                </div>
               {{/tags}}
             </div>
           </div>
@@ -33,4 +33,21 @@
       </div>
     </td>
   </tr>
-{{/weapons}}
+  {{/weapons}}
+  {{#if installed}}
+  <tr>
+    <td>
+      <div style="margin-top: 10px;"></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="weapon-item" data-name="{{installed.name}}" data-remove="true">
+      <div class="menu-border sweep-btn warning-stripes">
+        <div class="caret icon-unlink" style="color:#fff"></div>
+        <div style="display: inline;">&nbsp;Unmount {{installed.name}}
+          {{#if installed.sp}}<span class="pull-right subtitle">{{installed.sp}} SP</span>{{/if}}
+        </div>
+      </div>
+    </td>
+  </tr>
+{{/if}}

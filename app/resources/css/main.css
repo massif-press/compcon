@@ -52,6 +52,7 @@
 html, body { 
   height: 100%; 
   font-family: 'Titillium Web', sans-serif;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -223,6 +224,14 @@ hr {
   width: 20%;
 }
 
+.ult-btn {
+  cursor: default!important;
+}
+
+.ult-btn:hover{
+  color: var(--text);
+}
+
 .add-pilot {
   grid-area: 3 / 1 / 3 / 1;
   background-color: var(--border)
@@ -329,7 +338,8 @@ hr {
 }
 
 .deceased,
-.unavailable {
+.unavailable 
+.alert {
   color: var(--alert);
 }
 
@@ -490,5 +500,33 @@ blockquote {
 }
 
 .equip-expander-header {
+  display: inline;
   cursor: pointer;
+}
+
+.caret {
+  display: inline;
+  font-family: "fontello";
+  padding-left: 10px;
+  padding-right: 5px;
+  color:#5F909C;
+  cursor: pointer;
+}
+
+.caret:hover {
+  color: #fff;
+}
+
+.caret-closed:before {
+  content: '\e849';
+}
+
+.caret-open:before {
+  content:'\e847';
+}
+
+#add-remove-mod-btn {
+  margin-top:10px;
+  margin-left:10px;
+  padding: 0px 10px
 }
