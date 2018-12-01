@@ -186,6 +186,7 @@ textarea {
 #skill-grid td {
   background-color: var(--bg-alt);
   font-size: 25px;
+  height: 140px;
 }
 
 #core-grid .selectable,
@@ -318,7 +319,7 @@ textarea {
 .level-gains-list li {
   text-align: center;
   display: inline-block;
-  width: 30%;
+  width: 32%;
   background-color: var(--bg-alt);
   color: var(--text);
   letter-spacing: 3px;

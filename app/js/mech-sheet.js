@@ -133,7 +133,7 @@ function loadMech(config, pilot) {
   
   //collect all licenses required
   var isEverest = config.shell.id === "everest"
-  config.licenses = [{
+  var licenses = [{
     "source": config.shell.source,
     "name": isEverest ? "" : config.shell.name,
     "level": isEverest ? "" : 2,
@@ -144,25 +144,25 @@ function loadMech(config, pilot) {
 
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
-    if (item.source == "Special") continue;
-    var lIndex = config.licenses.findIndex(l => l.name === item.license);
+    if (item.source == "Special" || item.license === "" && item.source !== "GMS") continue;
+    var lIndex = licenses.findIndex(l => l.name === item.license);
     if (lIndex > -1) {
-      if (config.licenses[lIndex].level < item.license_level) { //if our new item exceeds our current license level
-        var upperIdx = config.licenses.findIndex(l => l.level === item.license_level);
+      if (licenses[lIndex].level < item.license_level) { //if our new item exceeds our current license level
+        var upperIdx = licenses.findIndex(l => l.level === item.license_level);
         if (upperIdx < 0) { //if we don't already have this license recorded, add it
-          config.licenses.push({ 
+          licenses.push({ 
             "source": item.source,
             "name": item.license,
             "level": item.license_level,
             "items": item.name
           })
         } else {
-          config.licenses[upperIdx].items += ", " + item.name;  //otherwise, mark the system on the higher level license
+          licenses[upperIdx].items += ", " + item.name;  //otherwise, mark the system on the higher level license
         }
       }
-      config.licenses[lIndex].items += ", " + item.name;
+      licenses[lIndex].items += ", " + item.name;
     } else {
-      config.licenses.push({
+      licenses.push({
         "source": item.source,
         "name": item.license,
         "level": item.license_level,
@@ -170,6 +170,7 @@ function loadMech(config, pilot) {
       })
     }
   }
+
 
   var aptitudes = {
     "melee": 0,
@@ -187,29 +188,29 @@ function loadMech(config, pilot) {
     }
   }
 
-  for (var i = 0; i < config.licenses.length; i++) {
-    var l = config.licenses[i];
+  for (var i = 0; i < licenses.length; i++) {
+    var l = licenses[i];
     if (l.source === "GMS") {
-      config.licenses[i].locked = false;
+      licenses[i].locked = false;
     } else {
       var lockIndex = pilot.licenses.findIndex(pl => pl.name === l.name);
-      if (lockIndex == -1) config.licenses[i].locked = true;
-      else if (pilot.licenses[lockIndex].level < l.level) config.licenses[i].locked = true;
-      else config.licenses[i].locked = false;
+      if (lockIndex == -1) licenses[i].locked = true;
+      else if (pilot.licenses[lockIndex].level < l.level) licenses[i].locked = true;
+      else licenses[i].locked = false;
     }
   }
 
 
   //move gms to the front of the license block
-  var gmsIndex = config.licenses.findIndex(l => l.source === "GMS");
-  if (gmsIndex > 0) move(config.licenses, gmsIndex, 0);
+  var gmsIndex = licenses.findIndex(l => l.source === "GMS");
+  if (gmsIndex > 0) move(licenses, gmsIndex, 0);
 
   //make sure the shell is the second item
-  var shellIndex = config.licenses.findIndex(l => l.source === config.shell.source);
-  if (shellIndex > 0) move(config.licenses, shellIndex, 1);
+  var shellIndex = licenses.findIndex(l => l.source === config.shell.source);
+  if (shellIndex > 0) move(licenses, shellIndex, 1);
 
   var info_template = Handlebars.compile(infoTemplate);
-  $("#mech-info-output").html(info_template({config: config, stats: stats}));
+  $("#mech-info-output").html(info_template({config: config, stats: stats, licenses: licenses}));
 
   var stat_template = Handlebars.compile(statsTemplate);
   $("#mech-stats-output").html(stat_template(stats));

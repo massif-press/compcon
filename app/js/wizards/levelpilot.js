@@ -4,6 +4,7 @@ const Handlebars = require("handlebars");
 const Expander = require("../util/expander");
 const Licenses = require('../util/licensemanager');
 const PilotSidebar = require('../pilot-sidebar');
+const Stats = require('../util/stats');
 
 const w_talentTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-talent-upgrade.hbs", "utf8");
 const w_licenseTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-license-upgrade.hbs", "utf8");
@@ -240,7 +241,7 @@ function setCoreSkills(pilot, addedLicenseSource) {
 }
 
 function setResultsTable(pilot) {
-  var leveledPilot = getLeveledPilot(pilot);
+  var leveledPilot = getLeveledPilot(pilot); 
 
   var talHtml = newTalent.rank === 1
     ? `<span class="newval">${newTalent.name} </span><span class="subtitle">UNLOCKED</span></span>`
@@ -261,7 +262,7 @@ function setResultsTable(pilot) {
         <th width="16.6%">CORE Targeting</th>
       </tr>
       <tr>
-        <td style="text-align:center"><span class="oldval">${pilot.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.hp}</span></td>
+        <td style="text-align:center"><span class="oldval">${Stats.getPilotHP(pilot.level)}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.hp}</span></td>
         <td style="text-align:center"><span class="oldval">${pilot.skills[selectedSkill]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills[selectedSkill]}</span></td>
         <td style="text-align:center"><span class="oldval">${pilot.skills.grit}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills.grit}</span></td>
         <td style="text-align:center"><span class="oldval">${pilot.core.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core.hp}</span></td>
@@ -300,6 +301,7 @@ function setResultsTable(pilot) {
 
 function getLeveledPilot(pilot) {
   var lp = Object.assign({}, pilot);;
+  lp.hp = Stats.getPilotHP(pilot.level)
   lp.level ++;
   lp.hp ++;
   lp.skills[selectedSkill] ++;

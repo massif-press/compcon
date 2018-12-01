@@ -2342,7 +2342,7 @@
         "id": "ai"
       }
     ],
-    "source": "Talent",
+    "source": "Special",
     "license": "",
     "license_level": 0,
     "effect": "Your custom NHP can speak to you and has a personality but is not truly capable of independent thought, as a true AI would be. It is obedient to you alone. When acting alone it follows directions and defends itself but has limited initiative on its own, it cannot benefit from your talents as normal.",
@@ -2356,7 +2356,7 @@
     "tags": [{
       "id": "ai"
     }],
-    "source": "Talent",
+    "source": "Special",
     "license": "",
     "license_level": 0,
     "effect": "Your custom NHP becomes more advanced, capable of independent thought. It now has the ability to make complex decisions and judgements and act independently. Once per round, while it’s installed in your mech, you can re-roll any mech skill check (you must choose the second result), as your AI helps you or corrects your course of action.",
@@ -2370,7 +2370,7 @@
     "tags": [{
       "id": "ai"
     }],
-    "source": "Talent",
+    "source": "Special",
     "license": "",
     "license_level": 0,
     "effect": "Your custom AI no longer counts against the maximum number of AI on your mech, and now benefits from your talents when piloting your mech. Any AI system installed on your mech can no longer become unshackled unless you so choose. You can carry your custom AI with you when you leave your mech, either in your armor or body (via an implant)",

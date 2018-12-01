@@ -10,21 +10,21 @@
     <div class="license-block-header">LICENSES REQUIRED:</div>
 
     {{#licenses}}
-    {{#if locked}}
-    <div class="license-block-locked warning-stripes " style="padding-left: 10px;">
-      <a href="#" data-balloon-length="large" data-balloon="{{{config.items}}}" data-balloon-pos="right">
-        <img src="./resources/icons/locked.svg" height=20>
-        <span>{{config.source}} {{allCaps config.name}} {{config.level}}</span><span class="subtitle">(LICENSE REQUIRED)</span>
-      </a>
-    </div>
-    {{else}}
-    <div class="license-block" style="padding-left: 10px;">
-      <a href="#" data-balloon-length="large" data-balloon="{{{config.items}}}" data-balloon-pos="right">
-        <img src="./resources/icons/rank-{{ifElse config.level config.source}}.svg" height=20>
-        <span>{{config.source}} {{allCaps config.name}} {{config.level}}</span>
-      </a>
-    </div>
-    {{/if}}
+      {{#if locked}}
+      <div class="license-block-locked warning-stripes " style="padding-left: 10px;">
+        <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
+          <img src="./resources/icons/locked.svg" height=20>
+          <span>{{source}} {{allCaps name}} {{level}}</span><span class="subtitle">(LICENSE REQUIRED)</span>
+        </a>
+      </div>
+      {{else}}
+      <div class="license-block" style="padding-left: 10px;">
+        <a href="#" data-balloon-length="large" data-balloon="{{{items}}}" data-balloon-pos="right">
+          <img src="./resources/icons/rank-{{ifElse level source}}.svg" height=20>
+          <span>{{source}} {{allCaps name}} {{level}}</span>
+        </a>
+      </div>
+      {{/if}}
     {{/licenses}}
 
     <br>

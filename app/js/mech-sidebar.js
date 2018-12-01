@@ -62,7 +62,7 @@ function updateConfig(upd_config) {
   
   //remove expanded properties before storage. we always hydrate these anyway.
   delete upd_config.shell;
-  delete upd_config.licenses;
+  // delete upd_config.licenses;
 
   configs[matchIdx] = upd_config;
   fs.writeFile(__dirname + '/../resources/data/configurations.json', JSON.stringify(configs), 'utf8', function (err) {

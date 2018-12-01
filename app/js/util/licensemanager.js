@@ -26,7 +26,7 @@ function generateLicenseList() {
 
   for (let j = 0; j < items.length; j++) {
     const i = items[j];
-    if (i.source === "Special") continue;
+    if (i.source === "Special" || i.license === "") continue;
     else if (i.source === "GMS") {
       var idx = ll.findIndex(x => x.source === "GMS")
       if (idx === -1) {

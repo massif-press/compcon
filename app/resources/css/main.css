@@ -500,7 +500,7 @@ blockquote {
 }
 
 .equip-expander-header {
-  display: inline;
+  display: block;
   cursor: pointer;
 }
 

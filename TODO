@@ -1,7 +1,6 @@
 Final Alpha Release:
   ☐ All auto-expand selectors: change to caret expand and regular select
-  ☐ Pilot Sheet: Add gear button
-  ☐ Fix broken loadout item styling
+  ✔ Fix broken loadout item styling @done(18-12-01 13:17)
   ☐ Mod submenu for mounts
   ☐ Mod types respect weapon selection
   ☐ Superheavy weapons claim additional mount (needs modal selection)
@@ -18,12 +17,13 @@ Final Alpha Release:
   ☐ cb_burnout mount select on core bonus selection (submodal)
   ☐ cb_intweapon needs to be linked and applied on bonus selection (submodal)
   ☐ cb_ammofeeds works on systems
+  ☐ CORE mounts
   ☐ everest shell gets a CORE +1, added at shell selection (submodal)
 
 Beta:
   Pilot Editor:
+    ☐ Pilot gear editor
     ☐ Pilot editor
-    ☐ Pilot gear quick editor
     ☐ Pilot FNF editor
     ☐ Pilot Skill Reassignment modal
     ☐ Pilot Talent Reassignment modal
@@ -34,6 +34,7 @@ Beta:
     ☐ Pilot load from clipboard
     ☐ Pilot export tool
     ☐ Pilot status setting tool
+    ☐ custom background option
 
   Configuration Editor:
     ☐ Config creation wizard
@@ -61,8 +62,8 @@ Todo:
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ Put modal close binding into a utility
-  ☐ correct modal-scrollrect heights
-  ☐ shorten modal button container
+  ✔ correct modal-scrollrect heights @done(18-12-01 14:18)
+  ✔ shorten modal button container @done(18-12-01 14:18)
   ☐ Refactor modal waterfalls into visibility-bound series
   ☐ wizard lists should be sortable
   ☐ NPW: "select x at character creation" overrides
@@ -79,7 +80,6 @@ Todo:
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
   ☐ weapon threat calc
-  ☐ CORE mounts
   ☐ weapon calculations should apply mod bonus
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
   ☐ inaccurate/accurate etc. should modify average damage
@@ -87,8 +87,11 @@ Todo:
   ☐ Options: export all
   ☐ Options: lancerdata exporter
   ☐ Options: lancerdata importer
+  ☐ Make new upper-right tooltip box option
 
 Bugs:
+  ☐ Mount selections don't load correctly
+  ✔ Licenses Required is broken @done(18-12-01 14:26)
   ☐ new pilot wizard: open options bounce on click
   ☐ level pilot wizard: open options bounce on click
   ☐ talent <ul> not taking disabled coloring
@@ -96,7 +99,6 @@ Bugs:
   ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Reminders:
-  ☐ custom background option
 
 Ideas:
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
