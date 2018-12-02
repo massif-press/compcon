@@ -19,6 +19,7 @@ function bindExpander(expanderType, element) {
 function bindEquipmentExpander() {
   $('.equip-expander-header').click(function () {
     e = $(this);
+    // if (e.hasClass('selected')) return;
     e.toggleClass('sweep-btn bold');
     var parent = e.closest('.equip-expander');
     $(parent).toggleClass('open');

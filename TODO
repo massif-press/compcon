@@ -1,6 +1,4 @@
 Final Alpha Release:
-  ☐ All auto-expand selectors: change to caret expand and regular select
-  ✔ Fix broken loadout item styling @done(18-12-01 13:17)
   ☐ Mod submenu for mounts
   ☐ Mod types respect weapon selection
   ☐ Superheavy weapons claim additional mount (needs modal selection)
@@ -62,8 +60,6 @@ Todo:
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
   ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ Put modal close binding into a utility
-  ✔ correct modal-scrollrect heights @done(18-12-01 14:18)
-  ✔ shorten modal button container @done(18-12-01 14:18)
   ☐ Refactor modal waterfalls into visibility-bound series
   ☐ wizard lists should be sortable
   ☐ NPW: "select x at character creation" overrides
@@ -90,16 +86,13 @@ Todo:
   ☐ Make new upper-right tooltip box option
 
 Bugs:
+  ☐ Level Up talents disappear if the New Pilot wizard has been loaded first
   ☐ Mount selections don't load correctly
-  ✔ Licenses Required is broken @done(18-12-01 14:26)
-  ☐ new pilot wizard: open options bounce on click
-  ☐ level pilot wizard: open options bounce on click
+  ☐ new pilot wizard: background options bounce on click
   ☐ talent <ul> not taking disabled coloring
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
   ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
-Reminders:
-
 Ideas:
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
   ☐ Clone Pilot >> roll on clone complications table option
@@ -116,6 +109,12 @@ Ideas:
   ☐ animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ All auto-expand selectors: change to caret expand and regular select @done(18-12-01 17:47) @project(Final Alpha Release)
+  ✔ Fix broken loadout item styling @done(18-12-01 13:17) @project(Final Alpha Release)
+  ✔ correct modal-scrollrect heights @done(18-12-01 14:18) @project(Todo)
+  ✔ shorten modal button container @done(18-12-01 14:18) @project(Todo)
+  ✔ Licenses Required is broken @done(18-12-01 14:26) @project(Bugs)
+  ✔ level pilot wizard: open options bounce on click @done(18-12-01 17:47) @project(Bugs)
   ✔ Add corebonus/pilot talent/system stat modifications @done(18-11-23 13:29) @project(Final Alpha Release)
   ✔ cb_fomorian should add size @done(18-11-23 12:53) @project(Final Alpha Release)
   ✔ cb_frame should add shell hp @done(18-11-23 12:57) @project(Final Alpha Release)

@@ -1,50 +1,45 @@
 {{#items}}
 <tr>
-  <td style="padding-bottom: 5px; ">
-    <div class="menu-border equip-expander">
-      <div class="equip-expander-header sweep-btn" style="text-align:center;" data-item="{{id}}">
-        <span><b>{{name}}</b></span>
+  <td class="pilot-armor-item" data-item="{{id}}">
+    <div class="menu-border">
+      <div class="caret-expander caret caret-closed"></div>
+      <div style="display: inline;">&nbsp;{{name}}
+      {{#if source}}<span class="subtitle">({{source}})</span>{{/if}}
       </div>
-      <div class="equip-open-info hidden" style="background-color: var(--bg);">
+      <div class="caret-expand hidden">
         <div style="padding-left:5px">
-        {{#if description}}
-          <blockquote class="desc-text">{{{description}}}</blockquote>
-        {{/if}}
-        {{#if bonus}}
-          <span>{{bonus}}</span>
-          <br>
-        {{/if}}
-        {{#if effect}}
-          <span>{{effect}}</span>
-          <br>
-        {{/if}}
-        <i>Rarity <b>{{rarity}}</b></i>
-        <table class="gear-table">
-          <tr>
-            <th>Armor</th>
-            <th>Evasion/E-Defense</th>
-            <th>Speed</th>
-          </tr>
-          <tr>
-            <td>{{armor}}</td>
-            <td>{{ee}}</td>
-            <td>{{speed}}</td>
-          </tr>
-        </table>
-        <div class="tag-div">
-          {{#tags}}
+          {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+          {{#if bonus}}<span>{{{bonus}}}<br></span>{{/if}}
+          {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
+          <i>Rarity <b>{{rarity}}</b></i>
+          <table class="gear-table">
+            <tr>
+              <th>Armor</th>
+              <th>Evasion/E-Defense</th>
+              <th>Speed</th>
+            </tr>
+            <tr>
+              <td>{{armor}}</td>
+              <td>{{ee}}</td>
+              <td>{{speed}}</td>
+            </tr>
+          </table>
+          <div class="tag-div">
+            {{#tags}}
             <div class="tag">
-              <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="right">{{name}}</a>
+              <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}"
+                data-balloon-pos="right">{{name}}</a>
             </div>
-          {{/tags}}
-        </div>  
+            {{/tags}}
+          </div>
+        </div>
       </div>
     </div>
   </td>
   <td style="vertical-align: top" width="24px;">
     <div class="pilot-armor-btn" data-item="{{id}}" data-item-name="{{name}}">
       <span class="pull-right add-button">
-        <a href="#" data-balloon-length="small" data-balloon="Add Item" data-balloon-pos="left">+</a>
+        <a href="#" data-balloon-length="med" data-balloon="Add Gear: {{name}}" data-balloon-pos="left">+</a>
       </span>
       <span class="pull-right subtract-button" style="display: none;" data-item="{{id}}">
         <a href="#" data-balloon-length="medium" data-balloon="Remove Item" data-balloon-pos="left">-</a>

@@ -1,19 +1,17 @@
 {{#talents}}
 <tr>
-  <td style="padding-bottom: 5px;">
-    <div class="menu-border equip-expander">
-      <div class="equip-expander-header sweep-btn talent-upg" data-talent="{{id}}" data-talent-name="{{name}}" data-upg-rank="{{inc pilot_rank}}">
-        <span class="lb-margin">
-        {{#if pilot_rank}}
-          <img class="rankImg active" src="./resources/icons/rank-{{inc pilot_rank}}.svg">
-        {{else}}
-          <img class="rankImg active" src="./resources/icons/rank-1.svg">
-        {{/if}}
-        <b style="vertical-align : super;">&nbsp;{{name}}</b>&nbsp;
-        </span>
-      </div>
-
-      <div class="equip-open-info hidden" style="background-color: var(--bg);">
+  <td>
+    <div class="menu-border talent-upg sweep-btn" data-talent="{{id}}" data-talent-name="{{name}}" data-upg-rank="{{inc pilot_rank}}">
+      <div class="caret-expander caret caret-closed" style="vertical-align: super;"></div>
+      <span class="lb-margin">
+      {{#if pilot_rank}}
+        <img class="rankImg active" src="./resources/icons/rank-{{inc pilot_rank}}.svg">
+      {{else}}
+        <img class="rankImg active" src="./resources/icons/rank-1.svg">
+      {{/if}}
+      <b style="vertical-align : super;">&nbsp;{{name}}</b>&nbsp;
+      </span>
+      <div class="caret-expand hidden">
         <div style="padding-left:5px">
           <blockquote class="desc-text">{{{description}}}</blockquote>
           <span class="talent-rank-title">&emsp;
@@ -81,7 +79,6 @@
           <p class="disabled">{{{r3_desc}}}</p><br>
           {{/compare}}
         </div>
-        
       </div>
     </div>
   </td>

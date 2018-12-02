@@ -1,11 +1,11 @@
 {{#talents}}
 <tr>
-  <td style="padding-bottom: 5px; ">
-    <div class="menu-border equip-expander">
-        <div class="equip-expander-header sweep-btn" style="text-align:center;" data-talent="{{id}}">
-          <span><b>{{name}}</b></span>
-        </div>
-      <div class="equip-open-info hidden" style="background-color: var(--bg);">
+  <td class="pilot-talent-item" data-talent="{{id}}">
+    <div class="menu-border">
+      <div class="caret-expander caret caret-closed"></div>
+      <div style="display: inline;">&nbsp;{{name}}
+      </div>
+      <div class="caret-expand hidden">
         <div style="padding-left:5px">
           <blockquote class="desc-text">{{{description}}}</blockquote>
           <span class="talent-rank-title">&emsp;
@@ -31,7 +31,7 @@
   <td style="vertical-align: top" width="24px;">
     <div class="talent-btn" data-talent="{{id}}" data-talent-name="{{name}}">
       <span class="pull-right add-button">
-        <a href="#" data-balloon-length="small" data-balloon="Add Talent" data-balloon-pos="left">+</a>
+        <a href="#" data-balloon-length="med" data-balloon="Add Talent: {{name}}" data-balloon-pos="left">+</a>
       </span>
       <span class="pull-right subtract-button" style="display: none;" data-talent="{{id}}">
         <a href="#" data-balloon-length="medium" data-balloon="Remove Talent" data-balloon-pos="left">-</a>

@@ -1,19 +1,18 @@
 {{#licenses}}
 <tr>
-  <td style="padding-bottom: 5px;">
-    <div class="menu-border equip-expander">
-      <div class="equip-expander-header sweep-btn license-upg" data-source="{{source}}" data-name="{{name}}" data-level="{{inc pilot_rank}}">
-        <span class="lb-margin">
-        {{#if pilot_rank}}
-          <img class="rankImg active" src="./resources/icons/rank-{{inc pilot_rank}}.svg">
-        {{else}}
-          <img class="rankImg active" src="./resources/icons/rank-1.svg">
-        {{/if}}
-        <b style="vertical-align : super;">&nbsp;{{name}}</b>&nbsp;
-        </span>
-      </div>
+  <td>
+    <div class="menu-border license-upg sweep-btn" data-source="{{source}}" data-name="{{name}}" data-level="{{inc pilot_rank}}">
+      <div class="caret-expander caret caret-closed" style="vertical-align: super;"></div>
+      <span class="lb-margin">
+      {{#if pilot_rank}}
+        <img class="rankImg active" src="./resources/icons/rank-{{inc pilot_rank}}.svg">
+      {{else}}
+        <img class="rankImg active" src="./resources/icons/rank-1.svg">
+      {{/if}}
+      <b style="vertical-align : super;">&nbsp;{{name}}</b>&nbsp;
+      </span>
 
-      <div class="equip-open-info hidden" style="background-color: var(--bg);">
+      <div class="caret-expand hidden">
         <div style="padding-left:5px">
           <span class="talent-rank-title">&emsp;
             {{#compare pilot_rank 1 operator=">="}}

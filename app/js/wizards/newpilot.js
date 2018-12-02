@@ -52,19 +52,18 @@ function init() {
 
     $('.bg-selector').each(function () {
       e = $(this);
-      // e.removeClass('selected')
       if (e !== element && e.hasClass('selected')) {
-        e.toggleClass('selected');
-        e.toggleClass('sweep-btn bold');
+        e.toggleClass('selected sweep-btn bold');
         var parent = e.closest('.equip-expander');
+        parent.toggleClass('open');
         $($(parent).find(".equip-open-info")).toggle("swing");
       }
     });
 
-    $(this).addClass('selected');
-    $('#bg-selection').html(`<b>"${$(this).data("name")}"</b> Selected`);
+    element.addClass('selected');
+    $('#bg-selection').html(`<b>"${element.data("name")}"</b> Selected`);
     $(`.wizard-btn[data-step='3']`).removeClass('disabled').addClass('btn');
-    selectedBackground = backgrounds.find(x => x.id === $(this).data("id"));
+    selectedBackground = backgrounds.find(x => x.id === element.data("id"));
     setSkillsArray(selectedBackground.skills)
   });
 
@@ -402,6 +401,12 @@ function init() {
     $('#newPilotModal').css("display", "none");
     Sidebar.init(pilot);
   })
+
+  $('.caret-expander').click(function () {
+    var e = $(this);
+    e.toggleClass('caret-closed caret-open');
+    $(e.parent().find(".caret-expand")).toggle("swing");
+  });
 
 }
 

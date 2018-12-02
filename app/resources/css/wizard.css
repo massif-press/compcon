@@ -236,10 +236,10 @@ textarea {
   text-align: center;
   color: var(--success);
   font-size: 30px;
-  line-height: 26px;
+  line-height: 22px;
   border: 1px solid var(--success);
   width: 26px;
-  height: 34px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -252,10 +252,10 @@ textarea {
   text-align: center;
   color: var(--burn);
   font-size: 30px;
-  line-height: 26px;
+  line-height: 22px;
   border: 1px solid var(--burn);
   width: 26px;
-  height: 34px;
+  height: 30px;
   cursor: pointer;
 }
 
@@ -382,6 +382,3 @@ textarea {
   color: var(--success);
   font-size: 32px;
 }
-
-
-

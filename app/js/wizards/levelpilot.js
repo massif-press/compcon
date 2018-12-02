@@ -132,6 +132,12 @@ function init(pilot) {
   });
 
   Expander.bindEquipment();
+
+  $('.caret-expander').click(function () {
+    var e = $(this);
+    e.toggleClass('caret-closed caret-open');
+    $(e.parent().find(".caret-expand")).toggle("swing");
+  });
 }
 
 function setSkillboxes(pilot) {

@@ -445,6 +445,7 @@ blockquote {
 }
 
 .gear-table td {
+  background-color: var(--bg);
   text-align: center;
   font-weight: bold;
 }
