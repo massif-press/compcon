@@ -2,14 +2,14 @@ const $ = require("jquery");
 const Handlebars = require("handlebars");
 const fs = require("fs");
 const Load = require("./mech-sheet")
+const io = require("./util/io")
 const Search = require("./util/search");
 const Expander = require("./util/expander");
 //data
-var configs = require("../resources/data/configurations.json");
-const shells = require("../resources/data/shells.json");
-var pilots = require("../resources/data/pilots.json");
+var configs = require("../extraResources/data/configurations.json");
+var pilots = require("../extraResources/data/pilots.json");
 //templates
-const mechTemplate = fs.readFileSync(__dirname + "/templates/config-expander.hbs", "utf8");
+const mechTemplate = io.readTemplate('config-expander');
 
 function loadMecha(pilot) {
   var configArray = [];
@@ -36,9 +36,8 @@ function loadMecha(pilot) {
 
   $('#add-config-btn').off(); //prevent this from multiple binds
   $('#add-config-btn').click(function () {
-    var id = Math.random().toString(36).substr(2, 9);
     configs.push({
-      "id": id,
+      "id": io.newID(),
       "name": "new mech",
       "img": "",
       "shell_id": "everest",
@@ -47,30 +46,26 @@ function loadMecha(pilot) {
       "systems": []
     })
     Search.byID(pilots, pilot.id).configs.push(id);
-
-    console.log(configs, pilot.configs);
     loadMecha(pilot)
   })
 }
 
-function updateConfig(upd_config) { 
-  var matchIdx = configs.findIndex(x => x.id === upd_config.id);
-  if (matchIdx == -1) {
-    console.error("Error: bad config ID!");
-    return;
-  }
-  
-  //remove expanded properties before storage. we always hydrate these anyway.
-  delete upd_config.shell;
-  // delete upd_config.licenses;
+function updateMount(configID, newItem, itemIndex) { 
+  var matchIndex = configs.find(c => c.id === configID);
+  configs[matchIndex].mounts[itemIndex] = newItem;
+  io.writeJson('configurations', configs)
+  return matchIndex;
+}
 
-  configs[matchIdx] = upd_config;
-  fs.writeFile(__dirname + '/../resources/data/configurations.json', JSON.stringify(configs), 'utf8', function (err) {
-    if (err) alert(`ERROR: Unable to edit configurations.json. Ensure you have write access to ${__dirname}/../resources/data/`);
-  });
-
-  return matchIdx;
+function updateSystem(configID, newItem, itemIndex) {
+  var matchIndex = configs.find(c => c.id === configID);
+  if (itemIndex) configs[matchIndex].systems[itemIndex] = newItem;  //replace
+  else if (newItem == null) configs[matchIndex].systems.splice(itemIndex, 1); //remove
+  else configs[matchIndex].systems.push(newItem); //add
+  io.writeJson('configurations', configs)
+  return matchIndex;
 }
 
 module.exports.loadMecha = loadMecha;
-module.exports.updateConfig = updateConfig;
+module.exports.updateMount = updateMount;
+module.exports.updateSystem = updateSystem;

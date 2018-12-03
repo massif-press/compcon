@@ -19,8 +19,8 @@
     "relationship": "Cousin",
     "description": "Unforunately named."
   }],
-  "img_portrait": "./resources/img/pilots/portrait_cio.png",
-  "img_appearance": "./resources/img/pilots/cio_full.png",
+  "img_portrait": "./extraResources/img/pilots/portrait_cio.png",
+  "img_appearance": "./extraResources/img/pilots/cio_full.png",
   "text_appearance": "",
   "hp_bonus": 0,
   "armor": 2,
@@ -118,7 +118,7 @@
     "relationship": "Arch-rival",
     "description": "This guy sucks. Just the worst."
   }],
-  "img_portrait": "./resources/img/pilots/portrait_oda.png",
+  "img_portrait": "./extraResources/img/pilots/portrait_oda.png",
   "img_appearance": "",
   "text_appearance": "my man laughin cuz he know<br><br>(this appearance text will appear along with, or instead of, a pilot image)",
   "hp_bonus": 0,
@@ -206,8 +206,8 @@
     "relationship": "Protector",
     "description": "A peacekeeper of the Concordant Harmonies."
   }],
-  "img_portrait": "./resources/img/pilots/portrait_allison.png",
-  "img_appearance": "./resources/img/pilots/allison_full.png",
+  "img_portrait": "./extraResources/img/pilots/portrait_allison.png",
+  "img_appearance": "./extraResources/img/pilots/allison_full.png",
   "text_appearance": "",
   "hp_bonus": 0,
   "armor": 0,

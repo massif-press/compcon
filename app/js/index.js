@@ -1,6 +1,7 @@
 const $ = require("jquery");
 const Electron = require('electron')
 const Helpers = require('./util/handlebar-helpers');
+const Expander = require('./util/expander');
 
 $(document).ready(function () {
   //loads all handlebars helpers.
@@ -16,15 +17,8 @@ $(document).on('click', 'a[href^="http"]', function (event) {
 });
 
 // modal button
-$(".modal-btn").click(function () {
-  let modalID = $(this).data("modal");
-  $('#' + modalID).css("display", "block");
-});
-
-$('.close').click(function () {
-  let modalID = $(this).data("modal");
-  $('#' + modalID).css("display", "none");
-});
+Expander.bindModalOpen();
+Expander.bindModalClose();
 
 // Catalog button and window
 $("#catalog-btn").click(function () {

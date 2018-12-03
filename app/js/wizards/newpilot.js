@@ -1,23 +1,24 @@
 const { dialog } = require('electron').remote;
 const $ = require("jquery");
 const fs = require("fs");
+const io = require("../util/io")
 const Tags = require("../util/taghelper")
 const Handlebars = require("handlebars");
 const Expander = require("../util/expander");
 const Sidebar = require("../pilot-sidebar");
 //templates
-const w_backgroundTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-background.hbs", "utf8");
-const w_talentTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-talents.hbs", "utf8");
-const w_weaponTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-weapons.hbs", "utf8");
-const w_armorTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-armor.hbs", "utf8");
-const w_gearTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-gear.hbs", "utf8");
+const w_backgroundTemplate = io.readTemplate('wizards/pilot-background');
+const w_talentTemplate = io.readTemplate('wizards/pilot-talents');
+const w_weaponTemplate = io.readTemplate('wizards/pilot-weapons');
+const w_armorTemplate = io.readTemplate('wizards/pilot-armor');
+const w_gearTemplate = io.readTemplate('wizards/pilot-gear');
 //data
-const backgrounds = require("../../resources/data/backgrounds.json");
-const talents = require("../../resources/data/pilot_talents.json");
-const weapons = require("../../resources/data/pilot_gear.json").weapons.filter(x => x.rarity === 0);
+const backgrounds = require("../../extraResources/data/backgrounds.json");
+const talents = require("../../extraResources/data/pilot_talents.json");
+const weapons = require("../../extraResources/data/pilot_gear.json").weapons.filter(x => x.rarity === 0);
 Tags.expand(weapons);
-const armor = require("../../resources/data/pilot_gear.json").armor.filter(x => x.rarity === 0);
-const gear = require("../../resources/data/pilot_gear.json").gear.filter(x => x.rarity === 0);
+const armor = require("../../extraResources/data/pilot_gear.json").armor.filter(x => x.rarity === 0);
+const gear = require("../../extraResources/data/pilot_gear.json").gear.filter(x => x.rarity === 0);
 
 function init() {
 
@@ -29,10 +30,7 @@ function init() {
     $(`.np-wizard[data-step='${step}']`).show();
   });
 
-  $('.close').click(function () {
-    let modalID = $(this).data("modal");
-    $('#' + modalID).css("display", "none");
-  });
+  Expander.bindModalClose()
 
   //name
   $("line-input").off();
@@ -327,7 +325,7 @@ function init() {
   $('#portrait-select').off()
   $('#portrait-select').click(function () {
     var filepath = dialog.showOpenDialog({
-      defaultPath: __dirname + "../resources/img/pilots",
+      defaultPath: __dirname + "..img/pilots",
       title: "Select Portrait Image",
       filters: [
         { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
@@ -344,7 +342,7 @@ function init() {
   $('#appearance-select').off()
   $('#appearance-select').click(function () {
     var filepath = dialog.showOpenDialog({
-      defaultPath: __dirname + "../resources/img/pilots",
+      defaultPath: __dirname + "..img/pilots",
       title: "Select Pilot Image",
       filters: [
         { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
@@ -402,11 +400,7 @@ function init() {
     Sidebar.init(pilot);
   })
 
-  $('.caret-expander').click(function () {
-    var e = $(this);
-    e.toggleClass('caret-closed caret-open');
-    $(e.parent().find(".caret-expand")).toggle("swing");
-  });
+  Expander.bindCarets();
 
 }
 

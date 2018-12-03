@@ -1,17 +1,18 @@
 const $ = require('jquery');
 const fs = require("fs");
 const Handlebars = require("handlebars");
+const io = require("../util/io");
 const Expander = require("../util/expander");
-const Licenses = require('../util/licensemanager');
+const LicenseManager = require('../util/licensemanager');
 const PilotSidebar = require('../pilot-sidebar');
 const Stats = require('../util/stats');
 
-const w_talentTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-talent-upgrade.hbs", "utf8");
-const w_licenseTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-license-upgrade.hbs", "utf8");
-const w_coreskillTemplate = fs.readFileSync(__dirname + "/../templates/wizards/pilot-coreskills.hbs", "utf8");
+const w_talentTemplate = io.readTemplate('wizards/pilot-talent-upgrade');
+const w_licenseTemplate = io.readTemplate('wizards/pilot-license-upgrade');
+const w_coreskillTemplate = io.readTemplate('wizards/pilot-coreskills');
 
-const talents = require("../../resources/data/pilot_talents.json");
-const coreskills = require("../../resources/data/core_bonus.json");
+const talents = require("../../extraResources/data/pilot_talents.json");
+const coreskills = require("../../extraResources/data/core_bonus.json");
 
 var selectedSkill;
 var selectedHASE;
@@ -34,10 +35,7 @@ function init(pilot) {
     $(`.np-wizard[data-step='${step}']`).show();
   });
 
-  $('.close').click(function () {
-    let modalID = $(this).data("modal");
-    $('#' + modalID).css("display", "none");
-  });
+  Expander.bindModalClose()
 
   //skills
   setSkillboxes(pilot);
@@ -85,7 +83,7 @@ function init(pilot) {
   })
 
   //get license lists
-  var licenseList = Licenses();
+  var licenseList = LicenseManager.getLicenseList();
 
   //Licenses
   for (var i = 0; i < licenseList.length; i++) {
@@ -133,11 +131,8 @@ function init(pilot) {
 
   Expander.bindEquipment();
 
-  $('.caret-expander').click(function () {
-    var e = $(this);
-    e.toggleClass('caret-closed caret-open');
-    $(e.parent().find(".caret-expand")).toggle("swing");
-  });
+  Expander.bindCarets();
+
 }
 
 function setSkillboxes(pilot) {
@@ -202,7 +197,6 @@ function setCoreboxes(pilot) {
 
 
 function setCoreSkills(pilot, addedLicenseSource) {
-  //TODO: refactor
   //get array of license sources and levels
   var larr = [];
   for (let i = 0; i < pilot.licenses.length; i++) {

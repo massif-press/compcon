@@ -1,5 +1,6 @@
 const $ = require("jquery");
 const fs = require("fs");
+const io = require("./util/io");
 const Handlebars = require("handlebars");
 const mechSidebar = require("./mech-sidebar");
 const pilotSheet = require("./pilot-sheet");
@@ -7,19 +8,17 @@ const Expander = require("./util/expander");
 const Search = require("./util/search")
 const NPW = require("./wizards/newpilot")
 //mutable data
-var pilots = require("../resources/data/pilots.json");
+var pilots = require("../extraResources/data/pilots.json");
 //templates
-const pilotTemplate = fs.readFileSync(__dirname + "/templates/pilot-expander.hbs", "utf8");
-const npwTemplate = fs.readFileSync(__dirname + "/templates/wizards/new-pilot.hbs", "utf8");
+const pilotTemplate = io.readTemplate('pilot-expander');
+const npwTemplate = io.readTemplate('wizards/new-pilot');
 
 var template = Handlebars.compile(pilotTemplate);
 
 function init(newpilot) {
   if (newpilot) {
     pilots.push(newpilot);
-    fs.writeFile(__dirname + '/../resources/data/pilots.json', JSON.stringify(pilots), 'utf8', function(err) {
-      if (err) alert(`ERROR: Unable to save pilot to pilots.json. Ensure you have write access to ${__dirname}/../resources/data/`);
-    });
+    io.writeJson('pilots', pilots)
   }
 
   $("#pilot-sidebar-output").html(template({"pilots": pilots}));
@@ -50,14 +49,14 @@ function updatePilot(newpilot) {
     alert(`ERROR: Bad pilot ID!`); 
     return
   }
+  
   pilots[idx] = newpilot;
-  fs.writeFile(__dirname + '/../resources/data/pilots.json', JSON.stringify(pilots), 'utf8', function (err) {
-    if (err) alert(`ERROR: Unable to save pilot to pilots.json. Ensure you have write access to ${__dirname}/../resources/data/`);
-  });
+  io.writeJson('pilots', pilots)
   init();
   $('.main').load('./html/pilot-sheet.html', function () {
     pilotSheet(pilots[idx]);
-});}
+  });
+}
 
 function removePilot(oldpilot) {
   var idx = pilots.findIndex(p => p.id === oldpilot.id)
@@ -67,9 +66,7 @@ function removePilot(oldpilot) {
     return
   }
   pilots.splice(idx, 1) 
-  fs.writeFile(__dirname + '/../resources/data/pilots.json', JSON.stringify(pilots), 'utf8', function (err) {
-    if (err) alert(`ERROR: Unable to edit pilots.json. Ensure you have write access to ${__dirname}/../resources/data/`);
-  });
+  io.writeJson('pilots', pilots)
   init();
   $('.main').html('');
 }

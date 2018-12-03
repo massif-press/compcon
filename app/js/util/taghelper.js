@@ -1,4 +1,4 @@
-var tagData = require("../../resources/data/tags.json");
+var tagData = require("../../extraResources/data/tags.json");
 
 function expand(e) {
   return Array.isArray(e) ? expandArray(e) : expandItem(e);

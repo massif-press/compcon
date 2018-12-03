@@ -1,9 +1,9 @@
 Final Alpha Release:
   ☐ Mod submenu for mounts
   ☐ Mod types respect weapon selection
-  ☐ Superheavy weapons claim additional mount (needs modal selection)
-  ☐ HA Assault Launcher gets a free grenade or mine (submenu)
-  ☐ Add corebonus/pilot talent mods
+  ☐ Apoc rail/superweapon todo in mech-sheet
+  ☐ SH locks in config update
+  Corebonus/Talent Mods:
     ☐ cb_hardpoints should be applied like a mod
     ☐ cb_burnout should be applied like a mod
     ☐ cb_intweapon should be an added aux mount that also gets a mod
@@ -11,12 +11,15 @@ Final Alpha Release:
     ☐ cb_ammofeeds should be applied like a mod to all limited systems
     ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
     ☐ cb_fomorian should add +1 threat mod to all melee weapons
-  ☐ cb_hardpoints mount select on core bonus selection (submodal)
-  ☐ cb_burnout mount select on core bonus selection (submodal)
-  ☐ cb_intweapon needs to be linked and applied on bonus selection (submodal)
-  ☐ cb_ammofeeds works on systems
-  ☐ CORE mounts
-  ☐ everest shell gets a CORE +1, added at shell selection (submodal)
+  Submodals:
+    ☐ cb_hardpoints mount select on core bonus selection
+    ☐ cb_burnout mount select on core bonus selection
+    ☐ cb_intweapon needs to be linked and applied on bonus selection
+    ☐ cb_ammofeeds works on systems
+    ☐ CORE mounts
+    ☐ everest shell gets a CORE +1, added at shell selection
+    ☐ Superheavy weapons claim additional mount (needs modal selection)
+    ☐ HA Assault Launcher gets a free grenade or mine (submenu)
 
 Beta:
   Pilot Editor:
@@ -50,6 +53,7 @@ Beta:
     ☐ Help Modal
   
 Todo:
+  ☐ Take templates out of header?
   ☐ Remove extraneous jquery .each()es
   ☐ Allow user to break license locking, but show warning & mark unavailable config
   ☐ Allow user to break SP cost locking, but show warning & mark unavailable config
@@ -65,7 +69,7 @@ Todo:
   ☐ NPW: "select x at character creation" overrides
   ☐ refactor and atomize button jquery
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
-  ☐ Expose data folder
+  ✔ Expose data folder @done(18-12-03 11:32)
   ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
   ☐ Range into object (melee, threat, range)
   ☐ Fix catalog header position

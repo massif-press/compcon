@@ -4,22 +4,23 @@ const $ = require("jquery");
 const Handlebars = require("handlebars");
 const fs = require("fs");
 const Tags = require("./util/taghelper");
+const io = require("./util/io");
 const Search = require("./util/search");
 const Stats = require("./util/stats");
 const Expander = require("./util/expander");
 const LP = require("./wizards/levelpilot");
 const Sidebar = require("./pilot-sidebar");
 //data
-const pilotGear = require("../resources/data/pilot_gear.json");
-const talents = require("../resources/data/pilot_talents.json");
-const coreBonuses = require("../resources/data/core_bonus.json");
+const pilotGear = require("../extraResources/data/pilot_gear.json");
+const talents = require("../extraResources/data/pilot_talents.json");
+const coreBonuses = require("../extraResources/data/core_bonus.json");
 //templates
-const sheetTemplate = fs.readFileSync(__dirname + "/templates/pilot-sheet.hbs", "utf8");
-const weaponTemplate = fs.readFileSync(__dirname + "/templates/pilot-weapon.hbs", "utf8");
-const armorTemplate = fs.readFileSync(__dirname + "/templates/pilot-armor.hbs", "utf8");
-const gearTemplate = fs.readFileSync(__dirname + "/templates/pilot-gear.hbs", "utf8");
+const sheetTemplate = io.readTemplate('pilot-sheet');
+const weaponTemplate = io.readTemplate('pilot-weapon');
+const armorTemplate = io.readTemplate('pilot-armor');
+const gearTemplate = io.readTemplate('pilot-gear');
+const levelTemplate = io.readTemplate('wizards/pilot-level');
 //wizard template
-const levelTemplate = fs.readFileSync(__dirname + "/templates/wizards/pilot-level.hbs", "utf8");
 
 function loadPilot(pilot) {
   var disp = Object.assign({}, pilot)
@@ -63,7 +64,6 @@ function loadPilot(pilot) {
 
   $("#pilot-notes-output").html(pilot.notes);
 
-  Expander.bindEquipment();
 
   if (pilot.level < 12) {
     $("#plvl-btn").click(function () {
@@ -76,10 +76,7 @@ function loadPilot(pilot) {
     $("#plvl-btn").addClass("warning-stripes disabled")
   }
 
-  $('.close').click(function () {
-    let modalID = $(this).data("modal");
-    $('#' + modalID).css("display", "none");
-  });
+
 
   $("#pilot-delete-btn").off();
   $("#pilot-delete-btn").click(function(){deletePilot(pilot)});
@@ -99,6 +96,10 @@ function loadPilot(pilot) {
 //     //write pilots to json
 //     $(".edit").each(function () { $(this).toggleClass("hidden") });
 //   });
+
+  Expander.bindEquipment();
+  Expander.bindModalClose();
+
 }
 
 function exportPilot(pilot){
@@ -107,9 +108,9 @@ function exportPilot(pilot){
 
 function clonePilot(pilot) {
   var newpilot = Object.assign({}, pilot);
-  newpilot.id = Math.random().toString(36).substr(2, 9);
-  newpilot.name = pilot.name += " (CLONE)";
-  newpilot.name = pilot.callsign += "*";
+  newpilot.id = io.newID();
+  newpilot.name = `${pilot.name} (CLONE)`;
+  newpilot.callsign = `${pilot.callsign}*`;
   Sidebar.init(newpilot);
 }
 

@@ -19,7 +19,6 @@ function bindExpander(expanderType, element) {
 function bindEquipmentExpander() {
   $('.equip-expander-header').click(function () {
     e = $(this);
-    // if (e.hasClass('selected')) return;
     e.toggleClass('sweep-btn bold');
     var parent = e.closest('.equip-expander');
     $(parent).toggleClass('open');
@@ -27,37 +26,30 @@ function bindEquipmentExpander() {
   });
 }
 
-function bindClassExpander(cl) {
-  $('.' + cl).click(function () {
-    e = $(this);
-    e.toggleClass('sweep-btn bold');
-    var parent = e.closest('.equip-expander');
-    $(parent).toggleClass('open');
-    $($(parent).find(".equip-open-info")).toggle("swing");
+function bindCarets() {
+  $('.caret-expander').click(function () {
+    var e = $(this);
+    e.toggleClass('caret-closed caret-open');
+    $(e.parent().find(".caret-expand")).toggle("swing");
   });
 }
 
-function bindIDExpander() {
-  $('.equip-expander-header').click(function () {
-    e = $(this);
-    e.toggleClass('catalog-open');
-    var info = $(".equip-open-info[data-id='" + e.data("id") + "']");
-    $(info).toggleClass('open');
-    $(info).toggle();
+function bindModalOpen() {
+  $(".modal-btn").click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "block");
   });
 }
 
-function bindCaretExpander(caretClass) {
-  // $('.' + cl).click(function () {
-  //   e = $(this);
-  //   e.toggleClass('sweep-btn bold');
-  //   var parent = e.closest('.equip-expander');
-  //   $(parent).toggleClass('open');
-  //   $($(parent).find(".equip-open-info")).toggle("swing");
-  // });
+function bindModalClose() {
+  $('.close').click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
+  });
 }
 
 module.exports.bind = bindExpander;
 module.exports.bindEquipment = bindEquipmentExpander;
-module.exports.bindEquipmentByID = bindIDExpander;
-module.exports.bindClassExpander = bindClassExpander;
+module.exports.bindCarets = bindCarets;
+module.exports.bindModalOpen = bindModalOpen;
+module.exports.bindModalClose = bindModalClose;

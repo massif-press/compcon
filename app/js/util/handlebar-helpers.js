@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 const Dicemath = require('./dicemath');
 const Tags = require('./taghelper');
 
-const Manufacturers = require("../../resources/data/manufacturers.json");
+const Manufacturers = require("../../extraResources/data/manufacturers.json");
 
 function init() {
   Handlebars.registerHelper('allCaps', function (str) {

@@ -1,8 +1,8 @@
 const Handlebars = require('handlebars');
-
+const io = require('../util/io');
 
 function getSelectorModal(modalName, template, data, callback) {
-  const template = fs.readFileSync(`${__dirname}/templates/${template}.hbs`, "utf8");
+  const template = io.readTemplate(template);
   $(".main").append(template(data));
   
   $(`#${modalName}Modal`).css('display', 'block');

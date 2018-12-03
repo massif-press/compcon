@@ -22,7 +22,7 @@
   "build": {
     "extraResources": [
       {
-        "from": "./src/extraResources/",
+        "from": "./app/extraResources/",
         "to": "extraResources",
         "filter": [
           "**/*"

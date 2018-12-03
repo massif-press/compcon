@@ -1,0 +1,146 @@
+
+const Tags = require('./taghelper');
+const Stats = require('./stats');
+const Search = require('./search');
+const LicenseManager = require("./licensemanager");
+//data
+const shells = require("../../extraResources/data/shells.json");
+const weapons = require("../../extraResources/data/weapons.json");
+const systems = require("../../extraResources/data/systems.json");
+const weapon_mods = require("../../extraResources/data/mods.json");
+
+function buildMech(config, pilot) {
+  //presort config mounts
+  config.mounts.sort(function (a, b) {
+    var sortOrder = {
+      "Main": 0,
+      "Core": 1,
+      "Auxiliary": 2,
+      "Flex": 3,
+      "Heavy": 4,
+      "Superheavy": 5,
+      "Special": 6,
+      "Apocalypse": 7
+    }
+    return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
+  })
+
+  var mech = {
+    pilot_id: pilot.id,
+    stats: Stats.getMechStats(config, pilot),
+    mounts: getMountedWeapons(config, pilot),
+    systems: getInstalledSystems(config, pilot),
+    shell: getShell(config.shell_id),
+    config: Object.assign({}, config),
+  }
+
+  var items = mech.systems.concat(mech.mounts.map(m => m.weapon).filter(x => x != null));
+
+  mech.licenses = LicenseManager.getLicenseRequirements(mech.shell, items, pilot);
+
+  mech.sp = {
+    max: mech.stats.max_sp,
+    free: mech.stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0)
+  }
+
+  return mech;
+}
+
+function getShell(id) {
+  var s = Search.byID(shells, id)
+  s.ult_active = Tags.parse(s.ult_active);
+  return s;
+}
+
+function getMountedWeapons(config, pilot) {
+  var shell = Search.byID(shells, config.shell_id) 
+  var mounts = [];
+  //add ult wewapon, if any
+  if (shell.ult_passive_weapon) {
+    var w = Search.byID(weapons, shell.ult_passive_weapon);
+    w.isUnique = true;
+    mounts.push({
+      mount: w.mount,
+      weapon: Tags.expand(w),
+      mod_ids: [],
+      specialMount: "Ultimate Weapon"
+    });
+  }
+
+  //add pilot talent weapons, if any
+  if (pilot.talent_weapons) {
+    for (var i = 0; i < pilot.talent_weapons.length; i++) {
+      var w = Search.byID(weapons, pilot.talent_weapons[i]);
+      w.isUnique = true;
+      mounts.push({
+        mount: w.mount,
+        weapon: Tags.expand(w),
+        mod_ids: [],
+        specialMount: "Talent Weapon"
+      });
+    }
+  }
+
+  //add weapons, per mount
+  for (var i = 0; i < config.mounts.length; i++) {
+    if (!config.mounts[i].weapon_id) {
+      mounts.push({
+        mount: config.mounts[i].mount,
+        sh_lock: config.mounts[i].sh_lock || null
+      })
+
+    } else {
+      var w = Search.byID(weapons, config.mounts[i].weapon_id)
+      if (w.tags.findIndex(t => t.id === "unique") > -1) w.isUnique = true;
+      var mods = config.mounts[i].mods ? config.mounts[i].mods : [];
+      mounts.push({
+        mount: config.mounts[i].mount,
+        weapon: Tags.expand(w),
+        mod_ids: mods
+      });
+    }
+  }
+
+  //TODO: walk through core bonuses, talents, to add add linked mods
+  //some mods only apply to eg. ranged or limited systems/items.
+
+  for (let i = 0; i < mounts.length; i++) {
+    if (mounts[i].mod_ids == null) continue;
+    var hydratedMods = [];
+    var modSP = 0;
+    for (let j = 0; j < mounts[i].mod_ids.length; j++) {
+      var m_id = mounts[i].mod_ids[j];
+      var newMod = Search.byID(weapon_mods, m_id);
+      newMod.effect = Tags.parse(newMod.effect);
+      modSP += newMod.sp;
+      hydratedMods.push(newMod)
+    }
+    mounts[i].mods = hydratedMods;
+    mounts[i].modSP = modSP;
+  }
+
+  return mounts;
+}
+
+function getInstalledSystems(config, pilot) {
+  var sys = [];
+
+  for (var i = 0; i < config.systems.length; i++) {
+    var s = Tags.expand(Search.byID(systems, config.systems[i].id));
+    if (s.tags.findIndex(t => t.id === "unique") > -1) s.isUnique = true;
+    if (s.tags.findIndex(t => t.type === "AI") > -1) s.isAi = true;
+    sys.push(s);
+  }
+
+  var tp = pilot.talents.find(x => x.id === "techno");
+  if (tp) {
+    var ai = Tags.expand(Search.byID(systems, "techno" + tp.rank));
+    ai.specialMount = "Custom AI";
+    sys.push(ai);
+  }
+
+  return sys;
+}
+
+
+module.exports = buildMech;
