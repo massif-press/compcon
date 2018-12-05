@@ -19,8 +19,9 @@ function buildMech(config, pilot) {
       "Flex": 3,
       "Heavy": 4,
       "Superheavy": 5,
-      "Special": 6,
-      "Apocalypse": 7
+      "Apocalypse": 6,
+      "Special": 7,
+      "Talent Weapon": 8,
     }
     return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
   })
@@ -33,6 +34,8 @@ function buildMech(config, pilot) {
     shell: getShell(config.shell_id),
     config: Object.assign({}, config),
   }
+
+  console.log(mech.pilot_id);
 
   var items = mech.systems.concat(mech.mounts.map(m => m.weapon).filter(x => x != null));
 
@@ -61,7 +64,7 @@ function getMountedWeapons(config, pilot) {
     w.isUnique = true;
     mounts.push({
       mount: w.mount,
-      weapon: Tags.expand(w),
+      weapon: w,
       mod_ids: [],
       specialMount: "Ultimate Weapon"
     });
@@ -74,7 +77,7 @@ function getMountedWeapons(config, pilot) {
       w.isUnique = true;
       mounts.push({
         mount: w.mount,
-        weapon: Tags.expand(w),
+        weapon: w,
         mod_ids: [],
         specialMount: "Talent Weapon"
       });
@@ -88,23 +91,46 @@ function getMountedWeapons(config, pilot) {
         mount: config.mounts[i].mount,
         sh_lock: config.mounts[i].sh_lock || null
       })
-
     } else {
       var w = Search.byID(weapons, config.mounts[i].weapon_id)
       if (w.tags.findIndex(t => t.id === "unique") > -1) w.isUnique = true;
       var mods = config.mounts[i].mods ? config.mounts[i].mods : [];
       mounts.push({
         mount: config.mounts[i].mount,
-        weapon: Tags.expand(w),
+        weapon: w,
         mod_ids: mods
       });
     }
   }
 
-  //TODO: walk through core bonuses, talents, to add add linked mods
-  //some mods only apply to eg. ranged or limited systems/items.
+  //talent-based mods
+  if (pilot.talents.some(t => t.id === "monkey" && t.rank == 3)) {
+    for (var i = 0; i < mounts.length; i++) {
+      if (mounts[i].weapon.tags.find(t => t.id === "limited")) { //limited weapons only
+        mounts[i].mod_ids.push("tal_monkey3");
+        mounts[i].weapon.tags.find(t => t.id === "limited").val += " +1"
+      }
+    }
+  }
+
+  //core-bonus-based mods
+  for (var i = 0; i < mounts.length; i++) {
+    if (!mounts[i].weapon) continue;
+    if (pilot.core_bonuses.includes("neurolinked") && mounts[i].weapon.type !== "Melee") {
+      mounts[i].mod_ids.push("cb_neurolinked");
+    }
+    if (pilot.core_bonuses.includes("ammofeeds") && mounts[i].weapon.tags.find(t => t.id === "limited")) {
+      mounts[i].mod_ids.push("cb_ammofeeds");
+      mounts[i].weapon.tags.find(t => t.id === "limited").val += " +1"
+    }
+    if (pilot.core_bonuses.includes("fomorian") && (mounts[i].weapon.type === "Melee" || mounts[i].weapon.type == "Melee or CQB")) {
+      mounts[i].mod_ids.push("cb_fomorian");
+    }
+  }
 
   for (let i = 0; i < mounts.length; i++) {
+    mounts[i].mount_index = i;
+    if (mounts[i].weapon) Tags.expand(mounts[i].weapon);
     if (mounts[i].mod_ids == null) continue;
     var hydratedMods = [];
     var modSP = 0;
@@ -139,8 +165,17 @@ function getInstalledSystems(config, pilot) {
     sys.push(ai);
   }
 
+  if (pilot.talents.some(t => t.id === "monkey" && t.rank == 3)) {
+    for (var j = 0; j < sys.length; j++) {
+      if (sys[i].tags.find(t => t.id === "limited")) { //limited systems only
+        if(sys[i].mods == null) sys[i].mods = [];
+        sys[i].mods.push("tal_monkey3");
+        sys[i].tags.find(t => t.id === "limited").val += " +1"
+      }
+    }
+  }
+
   return sys;
 }
-
 
 module.exports = buildMech;

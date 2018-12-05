@@ -3,6 +3,7 @@ const fs = require("fs");
 const Handlebars = require("handlebars");
 const io = require("../util/io");
 const Expander = require("../util/expander");
+const Modal = require("../util/modal");
 const LicenseManager = require('../util/licensemanager');
 const PilotSidebar = require('../pilot-sidebar');
 const Stats = require('../util/stats');
@@ -292,6 +293,7 @@ function setResultsTable(pilot) {
 
     $("#confirm-level-up").off();
     $("#confirm-level-up").click(function(){
+      applyCoreBonusExtras();
       PilotSidebar.update(leveledPilot);
       $('#levelPilotModal').css("display", "none");
     })
@@ -328,6 +330,21 @@ function getLeveledPilot(pilot) {
   }
 
   return lp;
+}
+
+//TODO: open modal and return mount index and mod id
+function applyCoreBonusExtras(pilot) {
+  if (!newCoreskill || !newCoreskill.id) return;
+  var id = newCoreskill.id;
+  if (id !== "hardpoints" || id !== "burnout" || id !== "intweapon") return;
+
+  var data = {};
+  Modal.getSelectorModal("mount-selector", data, function (result) {
+    if (result) {
+      pilot.mount
+      //assign mod to mount
+    }
+  })
 }
 
 

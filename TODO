@@ -1,25 +1,22 @@
 Final Alpha Release:
+  ☐ shells (in wizard and catalog) need to display mounts
+  ☐ Aux weapons mounted in core or flex mounts grant another aux mount (and remove if unmounted or swapped)
+  ✔ Confirm mount/type selections @done(18-12-05 15:18)
   ☐ Mod submenu for mounts
   ☐ Mod types respect weapon selection
   ☐ Apoc rail/superweapon todo in mech-sheet
   ☐ SH locks in config update
-  Corebonus/Talent Mods:
-    ☐ cb_hardpoints should be applied like a mod
-    ☐ cb_burnout should be applied like a mod
-    ☐ cb_intweapon should be an added aux mount that also gets a mod
-    ☐ cb_neurolinked should be applied like a mod to all equipped weapons
-    ☐ cb_ammofeeds should be applied like a mod to all limited systems
-    ☐ tal_monkey rank 3 should be applied like a mod to all limited systems
-    ☐ cb_fomorian should add +1 threat mod to all melee weapons
+  ✔ cb_neurolinked should be applied like a mod to all equipped weapons @done(18-12-05 12:05)
+  ✔ cb_ammofeeds should be applied like a mod to all limited systems @done(18-12-05 12:29)
+  ✔ tal_monkey rank 3 should be applied like a mod to all limited systems @done(18-12-05 12:30)
+  ✔ cb_fomorian should add +1 threat mod to all melee weapons @done(18-12-05 12:35)
+  ✔ CORE mounts @done(18-12-05 15:07)
   Submodals:
-    ☐ cb_hardpoints mount select on core bonus selection
-    ☐ cb_burnout mount select on core bonus selection
-    ☐ cb_intweapon needs to be linked and applied on bonus selection
-    ☐ cb_ammofeeds works on systems
-    ☐ CORE mounts
+    ☐ Superheavy weapons claim additional mount
+    ☐ HA Assault Launcher gets a free grenade or mine
+  New Config:
+    ☐ Config creation wizard
     ☐ everest shell gets a CORE +1, added at shell selection
-    ☐ Superheavy weapons claim additional mount (needs modal selection)
-    ☐ HA Assault Launcher gets a free grenade or mine (submenu)
 
 Beta:
   Pilot Editor:
@@ -38,7 +35,6 @@ Beta:
     ☐ custom background option
 
   Configuration Editor:
-    ☐ Config creation wizard
     ☐ Config delete
     ☐ Config editor
     ☐ Config export tool
@@ -47,12 +43,20 @@ Beta:
     ☐ Config loadout saves
     ☐ Config load from file
     ☐ Config load from clipboard
+    Mount Modification:
+      ☐ Core Bonus Assignment modal, needs to check if pilot has cb AND if cb has been assigned
+        ☐ cb_hardpoints, applied as mod
+        ☐ cb_burnout, applied as mod
+        ☐ cb_intweapon, applied as mod
+        ☐ cb_retrofit, overwrite mount type. Can reassign cb_retrofit.
 
   Other:
     ☐ Options Menu
     ☐ Help Modal
   
 Todo:
+  ☐ precompile templates 
+  ☐ cb_retrofit needs to set core_mount to false if removed from pilot
   ☐ Take templates out of header?
   ☐ Remove extraneous jquery .each()es
   ☐ Allow user to break license locking, but show warning & mark unavailable config
@@ -88,10 +92,16 @@ Todo:
   ☐ Options: lancerdata exporter
   ☐ Options: lancerdata importer
   ☐ Make new upper-right tooltip box option
+  ☐ Hide frame and add in-app minimize, maximize, and close buttons
 
 Bugs:
+  ☐ Limited values aren't being set correctly
+  ✔ Core Bonuses are being hydrated and saved erroneously @done(18-12-04 12:23)
   ☐ Level Up talents disappear if the New Pilot wizard has been loaded first
-  ☐ Mount selections don't load correctly
+  ✔ Mount selections don't load correctly @done(18-12-05 15:29)
+  ☐ Mount indexing incorrect
+  ☐ Pilot selection weird
+  ☐ Mount types are being overwritten
   ☐ new pilot wizard: background options bounce on click
   ☐ talent <ul> not taking disabled coloring
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter

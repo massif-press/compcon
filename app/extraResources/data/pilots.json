@@ -94,14 +94,7 @@
   "core_bonuses": ["heldimage"],
   "notes": "Cioelle carries a book containing fan fiction, spells and her Coat of Arms. The devil-made coat apparantly provides her with extra arms.",
   "configs": ["6"],
-  "hp": 9,
-  "bonuses": [{
-    "id": "heldimage",
-    "name": "The Lesson of The Held Image",
-    "source": "HORUS",
-    "effect": "Once per round your mech can make a Lock On tech action as a reaction at the start of any ally’s turn",
-    "description": "Close your eyes. <br>Hold the image of your enemy in your mind. Imagine it in all light and from every angle. In your mind it has become a more perfect version of the thing in pale light. <br>Crush it in your mind and you kill the perfect thing. <br>Open your eyes."
-  }]
+  "hp": 9
 }, {
   "id": "oda",
   "callsign": "ODA",
@@ -182,14 +175,7 @@
   "core_bonuses": ["frame"],
   "notes": "a player would enter notes here about the campaign, builds, etc etc.",
   "configs": ["0", "1", "2", "3"],
-  "hp": 8,
-  "bonuses": [{
-    "id": "frame",
-    "name": "Reinforced Frame",
-    "source": "IPS-N",
-    "effect": "Your mech gains +5 HP",
-    "description": "The addition of redundant shock-absorption systems increases the survivability of a pilot in combat, flight, and kinetic situations."
-  }]
+  "hp": 8
 }, {
   "id": "succsssor",
   "callsign": "SUCCESSOR",
@@ -346,8 +332,8 @@
     "id": "techno",
     "rank": 2
   }, {
-    "id": "vet",
-    "rank": 1
+    "id": "monkey",
+    "rank": 3
   }],
   "talent_weapons": [],
   "core": {
@@ -360,13 +346,12 @@
     "sp": 0,
     "core_sp": 0
   },
-  "core_bonuses": ["fomorian", "frame", "plating", "opendoor", "stasis", "superior"],
+  "core_bonuses": ["fomorian", "frame", "plating", "opendoor", "stasis", "superior", "neurolinked", "ammofeeds"],
   "configs": ["7"],
   "notes": "Campaign notes, build goals, etc",
   "history": "Some background details and history",
   "text_appearance": "Some appearance text, if you don't want to include an image",
   "img_portrait": "",
   "img_appearance": "",
-  "hp": 6,
-  "bonuses": []
+  "hp": 6
 }]

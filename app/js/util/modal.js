@@ -1,10 +1,14 @@
 const Handlebars = require('handlebars');
-const io = require('../util/io');
+const io = require('./io');
 
-function getSelectorModal(modalName, template, data, callback) {
+function getSelectorModal(modalName, data, callback) {
+  var template = "" //path join with modalname
   const template = io.readTemplate(template);
-  $(".main").append(template(data));
-  
+
+  if(!$("#selector-modal").length) $(".main").append('<div id="selector-modal"></div>');
+  var sel_template = Handlebars.compile(template);
+  $("#selector-modal").html(sel_template(data));
+
   $(`#${modalName}Modal`).css('display', 'block');
 
   $(`.modal-select`).click(function() {
@@ -17,12 +21,10 @@ function getSelectorModal(modalName, template, data, callback) {
   $(`#${modalName}-close`).click(function () {
     $(`#${modalName}Modal`).css("display", "none");
     var r = $(this.data("val"));
-    if (r) callback($(this.data("retval")));
+    if (r) callback(r);
     console.error("No return value assigned from this modal")
     callback();
   });
 }
-
-
 
 module.exports.getSelectorModal = getSelectorModal;

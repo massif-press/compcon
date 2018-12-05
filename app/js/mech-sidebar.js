@@ -36,29 +36,29 @@ function loadMecha(pilot) {
 
   $('#add-config-btn').off(); //prevent this from multiple binds
   $('#add-config-btn').click(function () {
-    configs.push({
-      "id": io.newID(),
-      "name": "new mech",
-      "img": "",
-      "shell_id": "everest",
-      "status": "active",
-      "weapons": [],
-      "systems": []
-    })
-    Search.byID(pilots, pilot.id).configs.push(id);
-    loadMecha(pilot)
+    // configs.push({
+    //   "id": io.newID(),
+    //   "name": "new mech",
+    //   "img": "",
+    //   "shell_id": "everest",
+    //   "status": "active",
+    //   "weapons": [],
+    //   "systems": []
+    // })
+    // Search.byID(pilots, pilot.id).configs.push(id);
+    // loadMecha(pilot)
   })
 }
 
 function updateMount(configID, newItem, itemIndex) { 
-  var matchIndex = configs.find(c => c.id === configID);
+  var matchIndex = configs.findIndex(c => c.id === configID);
   configs[matchIndex].mounts[itemIndex] = newItem;
   io.writeJson('configurations', configs)
   return matchIndex;
 }
 
 function updateSystem(configID, newItem, itemIndex) {
-  var matchIndex = configs.find(c => c.id === configID);
+  var matchIndex = configs.findIndex(c => c.id === configID);
   if (itemIndex) configs[matchIndex].systems[itemIndex] = newItem;  //replace
   else if (newItem == null) configs[matchIndex].systems.splice(itemIndex, 1); //remove
   else configs[matchIndex].systems.push(newItem); //add

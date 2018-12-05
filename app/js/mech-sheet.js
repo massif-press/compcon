@@ -6,8 +6,10 @@ const Tags = require('./util/taghelper');
 const Expander = require('./util/expander');
 const mechSidebar = require("./mech-sidebar");
 const MechBuilder = require("./util/mechbuilder");
+const Search = require("./util/search");
 //data
 const weapons = require("../extraResources/data/weapons.json");
+const mods = require("../extraResources/data/mods.json");
 const systems = require("../extraResources/data/systems.json");
 const configurations = require("../extraResources/data/configurations.json");
 const pilots = require("../extraResources/data/pilots.json");
@@ -18,11 +20,12 @@ const statsTemplate = io.readTemplate('mech-stats');
 const shellModalTemplate = io.readTemplate('mech-shell-modal');
 const equipModalTemplate = io.readTemplate('editors/mount-editor');
 const systemModalTemplate = io.readTemplate('editors/system-editor');
-const equipWeaponItemTemplate = io.readTemplate('editors/mech-weapon');
+const equipWeaponItemTemplate = Handlebars.compile(io.readTemplate('editors/mech-weapon'));
 const systemItemTemplate = io.readTemplate('editors/mech-system');
 const modModalTemplate = io.readTemplate('editors/mod-editor');
 
 function loadMech(config, pilot) {
+  console.log(config.id, pilot.id);
   $(".main-scroll").scrollTop(1);
   
   var mech = MechBuilder(config, pilot);
@@ -101,8 +104,8 @@ function openMountModal(mech, idx) {
 
   var validMounts = [m.mount];
   if (m.mount === "Flex") validMounts = ["Auxiliary", "Main"]
-  if (m.mount === "Core") validMounts = ["Auxiliary", "Main", "Heavy"]
-  if (m.mount === "Spinal") validMounts = ["Main", "Heavy"]
+  if (m.isCoreMount) validMounts = ["Auxiliary", "Main", "Heavy"] //TODO: set cb_retrofit, mount gains new isCoreMount prop
+  if (m.mount === "Spinal") validMounts = ["Main", "Heavy", "Superheavy"]
   if (m.mount === "Apocalypse") validMounts = ["Superheavy", "Heavy", "Main", "Auxiliary"]
 
   //TODO: if there's not another empty mount AND we're not apocalypse type, filter superheavy weapons and show a warning
@@ -123,34 +126,48 @@ function openMountModal(mech, idx) {
     if (validMounts.includes(w.mount)) availableWeapons.push(Tags.expand(w))
   }
 
-  //TODO: get all mods available for that mount
-  //populate mod list
-
-  var weapon_template = Handlebars.compile(equipWeaponItemTemplate);
-  $("#available-weapons").append(weapon_template({
+  $("#available-weapons").html(equipWeaponItemTemplate({
     weapons: availableWeapons,
     installed: m.weapon
   }));
 
-
   $('.weapon-item').click(function () {
     var e = $(this);
-    if (e.data("isover") == true) return;
+    if (e.data("isover") === true) return;
     $('#add-remove-mod-btn').addClass('btn').removeClass('disabled').click(function(){
-        $('#modEditorModal').css("display", "block");
+      openModModal(getModList(m.weapon, mech.sp));
     })
-    //TODO: check mod (in installed) compatibility and SP. Remove and notify if necessary
     $('.weapon-item').removeClass("skill-upgrade")
     e.addClass("skill-upgrade");
     $("#mount-install").off();
     if(e.data("remove")) {
+      //if mount type is flex or core, and mounted weapon is not aux, remove linked mount (and show warning)
+        // mounting a ${w.mount} weapon to this mount with remove the ${otherweapon} mounted in the linked auxiliary mount
+        // removing this weapon will unmount the ${otherweapon} in the linked auxiliary mount
       $("#mount-install").text("Unmount " + e.data("name")).removeClass("disabled").addClass("alert").click(function () {
         changeMount("", idx, mech.pilot_id, mech.config.id);
         $('#mountEditorModal').css("display", "none");
       })
     } else {
       $("#mount-install").text("Mount " + e.data("name")).removeClass("disabled alert").click(function () {
-        changeMount(e.data("id"), idx, mech.pilot_id, mech.config.id);
+        //if mount type is flex or core, and mounted weapon IS aux, add linked aux mount and show message
+          // mounting an auxiliary weapon to a ${m.mount} mount grants an additional auxiliary mount
+
+        //if mount type is superheavy, show link warning
+          // mounting a superheavy weapon will occupy an additional mount
+
+        //TODO:
+          // open mount lock submodal for superheavies
+          // select locked mount
+          // call changemount
+
+        //TODO: include mods here
+        var updatedMount = {
+          mount: m.mount,
+          weapon_id: e.data("id")
+        }
+        //if (selectedMod) updatedMount.mods = [selectedmod]
+        changeMount(updatedMount, idx, mech.pilot_id, mech.config.id);
         $('#mountEditorModal').css("display", "none");
       })
     }
@@ -163,16 +180,32 @@ function openMountModal(mech, idx) {
   Expander.bindCarets();
 }
 
-function changeMount(weapon_id, mount_idx, pilot_id, config_id) {
-  var newMount = {
-    mount: configurations[configID].mounts[mount_idx].mount,
-    weapon_id: weapon_id
-    //TODO: mods and locks
-  }
-  var configID = mechSidebar.updateMount(config_id, newMount, mount_idx);
-  var pilotID = Search.byID(pilots, pilot_id);
+function getModList(weapon, sp) {
+  console.log(weapon);
+  var availableMods = mods.filter(
+    m => {
+      return (
+        m.applied_to.includes("weapon") ||
+        m.applied_to.includes("ranged") && weapon.type !== "Melee" ||
+        m.applied_to.includes("melee") && weapon.type === "Melee" ||
+        m.applied_to.includes(weapon.type.toLowerCase()) ||
+        m.applied_to.includes("limited") && weapon.tags.find(t => t.id = "limited")
+      )
+    }
+  );
+  return availableMods.filter(m => m.sp <= sp.free);
+}
 
-  loadMech(configurations[configID], pilots[pilotID])
+function openModModal(availableMods) {
+  $('#modEditorModal').css("display", "block");
+}
+
+function changeMount(updatedMount, mount_idx, pilot_id, config_id) {
+  console.log(pilot_id, config_id);
+  loadMech(
+    configurations[mechSidebar.updateMount(config_id, updatedMount, mount_idx)], 
+    pilots[pilots.findIndex(p => p.id = pilot_id)]
+  );
 }
 
 function openSystemModal(mech, idx, hasCbShaping) {
@@ -197,10 +230,11 @@ function openSystemModal(mech, idx, hasCbShaping) {
     var sys = systems[i];
     if (installedUniques.find(x => x.id === sys.id)) continue;
     if (installedais.length >= ai_limit) continue;
+    if (sys.source === "Special") continue;
     if (sys.source !== "GMS") {
-      var licenseIdx = pilot.licenses.findIndex(l => l.name === sys.license);
+      var licenseIdx = mech.licenses.findIndex(l => l.name === sys.license);
       if (licenseIdx === -1) continue;
-      if (pilot.licenses[licenseIdx].level < sys.license_level) continue;
+      if (mech.licenses[licenseIdx].level < sys.license_level) continue;
     }
     if (totalFreeSp < sys.sp) sys.isOverSp = true;
     availableSystems.push(Tags.expand(sys))
@@ -235,8 +269,10 @@ function openSystemModal(mech, idx, hasCbShaping) {
 }
 
 function changeSystem(system_id, system_idx, pilot_id, config_id) {
-  mechSidebar.updateSystem(config_id, system_id ? { id: system_id } : null, system_idx);
-  loadMech(configurations[config_id], pilots[Search.byID(pilots, pilot_id)])
+  loadMech(
+    configurations[mechSidebar.updateSystem(config_id, system_id ? { id: system_id } : null, system_idx)], 
+    pilots[Search.byID(pilots, pilot_id)]
+  );
 }
 
 module.exports = loadMech;

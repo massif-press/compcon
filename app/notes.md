@@ -83,6 +83,13 @@ Superheavy weapons take a heavy or spinal mount and one other mount of any size.
 - Same with CORE mounts
 - Barbarossa apoc rail mount can take a superheavy weapon alone.
 
+config builder:
+  1) choose avail shell (expandable list)
+  2) set name
+  3) pick image from selector
+  4) pick status from selector
+
+
 ---
 
 Wiki:

@@ -217,7 +217,7 @@
   {
     "id": "cb_intweapon",
     "name": "Integrated Weapon",
-    "sp": 1,
+    "sp": 0,
     "modType": "Core Bonus",
     "applied_to": [
       "weapon"
@@ -231,7 +231,7 @@
   {
     "id": "cb_neurolinked",
     "name": "Neuro-linked",
-    "sp": 1,
+    "sp": 0,
     "modType": "Core Bonus",
     "applied_to": [
       "ranged"
@@ -245,7 +245,7 @@
   {
     "id": "cb_ammofeeds",
     "name": "Integrated Ammo Feed",
-    "sp": 1,
+    "sp": 0,
     "modType": "Core Bonus",
     "applied_to": [
       "limited"
@@ -259,7 +259,7 @@
   {
     "id": "cb_fomorian",
     "name": "FOMORIAN Reinforced Frame",
-    "sp": 1,
+    "sp": 0,
     "modType": "Core Bonus",
     "applied_to": [
       "melee"
@@ -273,7 +273,7 @@
   {
     "id": "tal_monkey3",
     "name": "Hidden Stash",
-    "sp": 1,
+    "sp": 0,
     "modType": "Talent",
     "applied_to": [
       "limited"
