@@ -1,9 +1,9 @@
 Final Alpha Release:
-  ☐ shells (in wizard and catalog) need to display mounts
   ☐ Aux weapons mounted in core or flex mounts grant another aux mount (and remove if unmounted or swapped)
   ✔ Confirm mount/type selections @done(18-12-05 15:18)
   ☐ Mod submenu for mounts
-  ☐ Mod types respect weapon selection
+  ☐ Installing mod to existing weapon needs to override the install button to allow continue with current weapon
+  ✔ Mod types respect weapon selection @done(18-12-06 14:50)
   ☐ Apoc rail/superweapon todo in mech-sheet
   ☐ SH locks in config update
   ✔ cb_neurolinked should be applied like a mod to all equipped weapons @done(18-12-05 12:05)
@@ -95,13 +95,15 @@ Todo:
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
 
 Bugs:
+  ☐ corebonus/talent mods shouldn't appear on mod submodal
   ☐ Limited values aren't being set correctly
   ✔ Core Bonuses are being hydrated and saved erroneously @done(18-12-04 12:23)
   ☐ Level Up talents disappear if the New Pilot wizard has been loaded first
   ✔ Mount selections don't load correctly @done(18-12-05 15:29)
-  ☐ Mount indexing incorrect
-  ☐ Pilot selection weird
-  ☐ Mount types are being overwritten
+  ✔ Mount indexing incorrect @done(18-12-06 12:41)
+  ✔ Pilot selection weird @done(18-12-06 12:41)
+  ✔ Mount types are being overwritten @done(18-12-06 12:41)
+  ✔ Licensing not correct @done(18-12-06 15:20)
   ☐ new pilot wizard: background options bounce on click
   ☐ talent <ul> not taking disabled coloring
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter

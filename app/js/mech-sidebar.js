@@ -50,20 +50,21 @@ function loadMecha(pilot) {
   })
 }
 
-function updateMount(configID, newItem, itemIndex) { 
-  var matchIndex = configs.findIndex(c => c.id === configID);
-  configs[matchIndex].mounts[itemIndex] = newItem;
+function updateMount(configID, newItem, itemIndex, pilot_id) { 
+  var configIndex = configs.findIndex(c => c.id === configID);
+  var mountIndex = configs[configIndex].mounts.findIndex(m => m.mount_index == itemIndex);
+  configs[configIndex].mounts[mountIndex] = newItem;
   io.writeJson('configurations', configs)
-  return matchIndex;
+  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilot_id)])
 }
 
-function updateSystem(configID, newItem, itemIndex) {
-  var matchIndex = configs.findIndex(c => c.id === configID);
-  if (itemIndex) configs[matchIndex].systems[itemIndex] = newItem;  //replace
-  else if (newItem == null) configs[matchIndex].systems.splice(itemIndex, 1); //remove
-  else configs[matchIndex].systems.push(newItem); //add
+function updateSystem(configID, newItem, itemIndex, pilot_id) {
+  var configIndex = configs.findIndex(c => c.id === configID);
+  if (itemIndex) configs[configIndex].systems[itemIndex] = newItem;  //replace
+  else if (newItem == null) configs[configIndex].systems.splice(itemIndex, 1); //remove
+  else configs[configIndex].systems.push(newItem); //add
   io.writeJson('configurations', configs)
-  return matchIndex;
+  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilot_id)])
 }
 
 module.exports.loadMecha = loadMecha;

@@ -7,7 +7,7 @@ function readTemplate(filename) {
 
 function writeJson(filename, obj) {
   var p = path.join(__dirname, '..', '..', `extraResources/data/${filename}.json`)
-  fs.writeFile(p, JSON.stringify(obj), 'utf8', function (err) {
+  fs.writeFile(p, JSON.stringify(obj, null, 2), 'utf8', function (err) {
       if (err) alert(`ERROR: Unable to save data to ${filename}.json. Ensure you have write access to ${p}`);
   });
 }

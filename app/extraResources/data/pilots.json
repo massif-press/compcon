@@ -290,6 +290,11 @@
     "name": "BARBAROSSA",
     "source": "HA",
     "level": 1
+  },
+  {
+    "name": "VLAD",
+    "source": "IPS-N",
+    "level": 2
   }],
   "gear": [{
     "id": "sig_sidearm",

@@ -6,13 +6,13 @@ const Tags = require('./util/taghelper');
 const Expander = require('./util/expander');
 const mechSidebar = require("./mech-sidebar");
 const MechBuilder = require("./util/mechbuilder");
-const Search = require("./util/search");
+// const Search = require("./util/search");
 //data
 const weapons = require("../extraResources/data/weapons.json");
 const mods = require("../extraResources/data/mods.json");
 const systems = require("../extraResources/data/systems.json");
-const configurations = require("../extraResources/data/configurations.json");
-const pilots = require("../extraResources/data/pilots.json");
+// const configurations = require("../extraResources/data/configurations.json");
+// const pilots = require("../extraResources/data/pilots.json");
 //templates
 const loadoutTemplate = io.readTemplate('mech-loadout');
 const infoTemplate = io.readTemplate('mech-info');
@@ -24,8 +24,9 @@ const equipWeaponItemTemplate = Handlebars.compile(io.readTemplate('editors/mech
 const systemItemTemplate = io.readTemplate('editors/mech-system');
 const modModalTemplate = io.readTemplate('editors/mod-editor');
 
+var modSelection;
+
 function loadMech(config, pilot) {
-  console.log(config.id, pilot.id);
   $(".main-scroll").scrollTop(1);
   
   var mech = MechBuilder(config, pilot);
@@ -93,14 +94,21 @@ function loadMech(config, pilot) {
 // }
 
 function openMountModal(mech, idx) {
-  var m = mech.mounts[idx]
+  modSelection = "";
+  $("#new-mod-info").html("");
+
+  var m = mech.mounts.find(m => m.mount_index == idx);
+  var installedMod = m.mods ? m.mods.find(x => x.modType !== "Core Bonus" && x.modType !== "Talent") || null : null;
 
   var equip_template = Handlebars.compile(equipModalTemplate);
   $("#mountEditorModal").html(equip_template(m));
 
   $('#mountEditorModal').css("display", "block");
   
-  if (m.weapon) $('#add-remove-mod-btn').addClass('btn').removeClass('disabled');
+  $('#add-remove-mod-btn').off()
+  if (m.weapon) $('#add-remove-mod-btn').addClass('btn').removeClass('disabled').click(function () {
+    openModModal(getModList(mech.pilot_licenses, m.weapon, installedMod, mech.sp), installedMod);
+  });
 
   var validMounts = [m.mount];
   if (m.mount === "Flex") validMounts = ["Auxiliary", "Main"]
@@ -118,9 +126,9 @@ function openMountModal(mech, idx) {
     var w = weapons[i];
     if (w.source !== "GMS") {
       if (installedUniques.findIndex(x => x.id === w.id) > -1) continue;
-      var licenseIdx = mech.licenses.findIndex(l => l.name === w.license);
+      var licenseIdx = mech.pilot_licenses.findIndex(l => l.name === w.license);
       if (licenseIdx === -1) continue;
-      if (mech.licenses[licenseIdx].level < w.license_level) continue;
+      if (mech.pilot_licenses[licenseIdx].level < w.license_level) continue;
     }
     if (totalFreeSp < w.sp) w.isOverSp = true;
     if (validMounts.includes(w.mount)) availableWeapons.push(Tags.expand(w))
@@ -131,11 +139,15 @@ function openMountModal(mech, idx) {
     installed: m.weapon
   }));
 
+  getModList(mech.pilot_licenses, m.weapon, mech.sp)
+
   $('.weapon-item').click(function () {
     var e = $(this);
     if (e.data("isover") === true) return;
+    $('#add-remove-mod-btn').off()
     $('#add-remove-mod-btn').addClass('btn').removeClass('disabled').click(function(){
-      openModModal(getModList(m.weapon, mech.sp));
+      var installedMod = w.mods.find(x => x.modType !== "Core Bonus" && x.modType !== "Talent") || null;
+      openModModal(getModList(mech.pilot_licenses, m.weapon, installedMod, mech.sp), installedMod);
     })
     $('.weapon-item').removeClass("skill-upgrade")
     e.addClass("skill-upgrade");
@@ -161,27 +173,25 @@ function openMountModal(mech, idx) {
           // select locked mount
           // call changemount
 
-        //TODO: include mods here
         var updatedMount = {
           mount: m.mount,
-          weapon_id: e.data("id")
+          weapon_id: e.data("id"),
+          mount_index: m.mount_index
         }
-        //if (selectedMod) updatedMount.mods = [selectedmod]
+        if (modSelection) updatedMount.mods = [modSelection];
+        else updatedMount.mods = [];
         changeMount(updatedMount, idx, mech.pilot_id, mech.config.id);
         $('#mountEditorModal').css("display", "none");
       })
     }
   });
 
-  var mod_template = Handlebars.compile(modModalTemplate);
-  $('#modEditorModal').html(mod_template({}));
-
   Expander.bindModalClose()
   Expander.bindCarets();
 }
 
-function getModList(weapon, sp) {
-  console.log(weapon);
+function getModList(licenses, weapon, installedMod, sp) {
+  var totalEquippedModSp = installedMod ? installedMod.sp : 0;
   var availableMods = mods.filter(
     m => {
       return (
@@ -192,26 +202,63 @@ function getModList(weapon, sp) {
         m.applied_to.includes("limited") && weapon.tags.find(t => t.id = "limited")
       )
     }
+  ).filter(
+    m => {
+      return (
+        m.modType !== "Core Bonus" &&
+        m.modType !== "Talent" &&
+        licenses.some(l => l.name === m.license && l.level <= m.license_level)
+      )
+    }
   );
-  return availableMods.filter(m => m.sp <= sp.free);
+  for (var i = 0; i < availableMods.length; i++) {
+    if (availableMods[i].sp > sp.free + totalEquippedModSp) availableMods[i].isOverSp = true;
+  }
+  return availableMods;
 }
 
-function openModModal(availableMods) {
+function openModModal(availableMods, installedMod) {
+  var mod_template = Handlebars.compile(modModalTemplate);
+  $('#modEditorModal').html(mod_template({
+    mods: availableMods,
+    installed: installedMod,
+    none: availableMods.length == 0 
+  }));
+
   $('#modEditorModal').css("display", "block");
+
+  $('.mod-item').click(function () {
+    var e = $(this);
+    if (e.data("isover") === true) return;
+    $('.mod-item').removeClass("skill-upgrade")
+    e.addClass("skill-upgrade");
+    $("#mod-install").off();
+    if (e.data("remove")) {
+      $("#mod-install").text("Add " + e.data("name")).removeClass("disabled alert").click(function () {
+        modSelection = ""
+        $("#new-mod-info").html("");
+        $('#modEditorModal').css("display", "none");
+      })
+    } else {
+      $("#mod-install").text("Remove " + e.data("name")).removeClass("disabled alert").click(function () {
+        modSelection = e.data("id");
+        $("#new-mod-info").html(`<br><i class="icon-plus-squared"></i><span>${e.data("name")}</span><span class="subtitle">&nbsp;MOD INSTALLED</span>`)
+        $('#modEditorModal').css("display", "none");
+      })
+    }
+  });
+
+  Expander.bindModalClose()
+  Expander.bindCarets();
 }
 
 function changeMount(updatedMount, mount_idx, pilot_id, config_id) {
-  console.log(pilot_id, config_id);
-  loadMech(
-    configurations[mechSidebar.updateMount(config_id, updatedMount, mount_idx)], 
-    pilots[pilots.findIndex(p => p.id = pilot_id)]
-  );
+  mechSidebar.updateMount(config_id, updatedMount, mount_idx, pilot_id);
 }
 
 function openSystemModal(mech, idx, hasCbShaping) {
   var s = mech.systems[idx]
 
-  //apply modal template
   var equip_template = Handlebars.compile(systemModalTemplate);
   $("#systemEditorModal").html(equip_template(s));
 
@@ -269,10 +316,7 @@ function openSystemModal(mech, idx, hasCbShaping) {
 }
 
 function changeSystem(system_id, system_idx, pilot_id, config_id) {
-  loadMech(
-    configurations[mechSidebar.updateSystem(config_id, system_id ? { id: system_id } : null, system_idx)], 
-    pilots[Search.byID(pilots, pilot_id)]
-  );
+  mechSidebar.updateSystem(config_id, system_id ? { id: system_id } : null, system_idx, pilot_id);
 }
 
 module.exports = loadMech;

@@ -11,20 +11,7 @@ const weapon_mods = require("../../extraResources/data/mods.json");
 
 function buildMech(config, pilot) {
   //presort config mounts
-  config.mounts.sort(function (a, b) {
-    var sortOrder = {
-      "Main": 0,
-      "Core": 1,
-      "Auxiliary": 2,
-      "Flex": 3,
-      "Heavy": 4,
-      "Superheavy": 5,
-      "Apocalypse": 6,
-      "Special": 7,
-      "Talent Weapon": 8,
-    }
-    return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
-  })
+  config.mounts.sort(mountsort);
 
   var mech = {
     pilot_id: pilot.id,
@@ -33,9 +20,8 @@ function buildMech(config, pilot) {
     systems: getInstalledSystems(config, pilot),
     shell: getShell(config.shell_id),
     config: Object.assign({}, config),
+    pilot_licenses: pilot.licenses
   }
-
-  console.log(mech.pilot_id);
 
   var items = mech.systems.concat(mech.mounts.map(m => m.weapon).filter(x => x != null));
 
@@ -66,22 +52,25 @@ function getMountedWeapons(config, pilot) {
       mount: w.mount,
       weapon: w,
       mod_ids: [],
-      specialMount: "Ultimate Weapon"
+      specialMount: "Ultimate Weapon",
+      mount_index: -1
     });
   }
 
   //add pilot talent weapons, if any
-  if (pilot.talent_weapons) {
-    for (var i = 0; i < pilot.talent_weapons.length; i++) {
-      var w = Search.byID(weapons, pilot.talent_weapons[i]);
+  for (var i = 0; i < pilot.talents.length; i++) {
+    var t = pilot.talents[i];
+    if (t.id === "ncavalier" && t.rank == 3) {
+      var w = Search.byID(weapons, "fuelrod");
       w.isUnique = true;
       mounts.push({
         mount: w.mount,
         weapon: w,
         mod_ids: [],
-        specialMount: "Talent Weapon"
+        specialMount: "Talent Weapon",
+        mount_index: -1
       });
-    }
+    }    
   }
 
   //add weapons, per mount
@@ -89,7 +78,8 @@ function getMountedWeapons(config, pilot) {
     if (!config.mounts[i].weapon_id) {
       mounts.push({
         mount: config.mounts[i].mount,
-        sh_lock: config.mounts[i].sh_lock || null
+        sh_lock: config.mounts[i].sh_lock || null,
+        mount_index: config.mounts[i].mount_index
       })
     } else {
       var w = Search.byID(weapons, config.mounts[i].weapon_id)
@@ -98,7 +88,8 @@ function getMountedWeapons(config, pilot) {
       mounts.push({
         mount: config.mounts[i].mount,
         weapon: w,
-        mod_ids: mods
+        mod_ids: mods,
+        mount_index: config.mounts[i].mount_index
       });
     }
   }
@@ -106,7 +97,7 @@ function getMountedWeapons(config, pilot) {
   //talent-based mods
   if (pilot.talents.some(t => t.id === "monkey" && t.rank == 3)) {
     for (var i = 0; i < mounts.length; i++) {
-      if (mounts[i].weapon.tags.find(t => t.id === "limited")) { //limited weapons only
+      if (mounts[i].weapon && mounts[i].weapon.tags.find(t => t.id === "limited")) { //limited weapons only
         mounts[i].mod_ids.push("tal_monkey3");
         mounts[i].weapon.tags.find(t => t.id === "limited").val += " +1"
       }
@@ -129,7 +120,6 @@ function getMountedWeapons(config, pilot) {
   }
 
   for (let i = 0; i < mounts.length; i++) {
-    mounts[i].mount_index = i;
     if (mounts[i].weapon) Tags.expand(mounts[i].weapon);
     if (mounts[i].mod_ids == null) continue;
     var hydratedMods = [];
@@ -145,7 +135,7 @@ function getMountedWeapons(config, pilot) {
     mounts[i].modSP = modSP;
   }
 
-  return mounts;
+  return mounts.sort(mountsort);
 }
 
 function getInstalledSystems(config, pilot) {
@@ -177,5 +167,20 @@ function getInstalledSystems(config, pilot) {
 
   return sys;
 }
+
+var mountsort = function (a, b) {
+    var sortOrder = {
+      "Main": 0,
+      "Core": 1,
+      "Auxiliary": 2,
+      "Flex": 3,
+      "Heavy": 4,
+      "Superheavy": 5,
+      "Apocalypse": 6,
+      "Special": 7,
+      "Talent Weapon": 8,
+    }
+    return sortOrder[a.mount] < sortOrder[b.mount] ? -1 : sortOrder[a.mount] > sortOrder[b.mount] ? 1 : 0;
+  };
 
 module.exports = buildMech;

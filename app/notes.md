@@ -1,3 +1,5 @@
+# Notes
+
 bg:     #273336
 bg-a:   #314347
 sbox:   #25616E
@@ -89,7 +91,6 @@ config builder:
   3) pick image from selector
   4) pick status from selector
 
-
 ---
 
 Wiki:
@@ -105,7 +106,10 @@ add a value to a tag: `#limited(6)#`
 the capital X charater will be replaced in both name a description by whatever is passed within the brackets
 
 ---
-11/16/18
+
+## 11/16/18
+
+`cloc --exclude-dir=node_modules .`
 
 ```text
 -------------------------------------------------------------------------------
