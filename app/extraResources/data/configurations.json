@@ -303,7 +303,7 @@
     "mounts": [
       {
         "mount": "Main",
-        "weapon_id": "nailgun",
+        "weapon_id": "ar",
         "mount_index": 0,
         "mods": [
           "op"

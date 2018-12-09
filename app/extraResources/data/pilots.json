@@ -459,9 +459,9 @@
   },
   {
     "id": "kwkmydrvn",
-    "callsign": "wEEd_gOKu_420",
+    "callsign": "wEEdLorD_gOKu_420",
     "name": "Jeff Coolguy",
-    "level": 6,
+    "level": 9,
     "background": "Spec Ops",
     "fnf": [],
     "hp_bonus": 0,
@@ -484,6 +484,16 @@
         "name": "VLAD",
         "source": "IPS-N",
         "level": 2
+      },
+      {
+        "name": "METALMARK",
+        "source": "SSC",
+        "level": 2
+      },
+      {
+        "name": "NAPOLEON",
+        "source": "HA",
+        "level": 1
       }
     ],
     "gear": [
@@ -505,14 +515,14 @@
       }
     ],
     "skills": {
-      "grit": 2,
+      "grit": 3,
       "acquire": 0,
-      "brawl": 1,
+      "brawl": 2,
       "flash": 0,
       "infiltrate": 1,
       "investigate": 0,
       "persuade": 0,
-      "command": 2,
+      "command": 4,
       "swindle": 0,
       "tech": 1,
       "survive": 0,
@@ -531,20 +541,25 @@
       {
         "id": "exemplar",
         "rank": 3
+      },
+      {
+        "id": "executioner",
+        "rank": 3
       }
     ],
     "talent_weapons": [],
     "core": {
-      "hull": 6,
-      "agi": 0,
+      "hull": 7,
+      "agi": 2,
       "eng": 0,
       "sys": 0,
-      "targeting": 3,
+      "targeting": 4,
       "hp": 0,
       "sp": 0,
       "core_sp": 0
     },
     "core_bonuses": [
+      "frame",
       "frame",
       "frame"
     ],
@@ -554,6 +569,6 @@
     "text_appearance": "extremely cool as all hell",
     "img_portrait": "",
     "img_appearance": "",
-    "hp": 11
+    "hp": 14
   }
 ]

@@ -23,7 +23,6 @@ var currentFreeSp;
 
 function openMountModal(mech, idx) {
   activeIndex = idx;
-  console.log(idx);
   modSelection = "";
   ammoSelection = "";
   currentFreeSp = 0;
@@ -32,12 +31,10 @@ function openMountModal(mech, idx) {
   $("#mount-cancel-btn").text("Cancel")
 
   var m = mech.mounts.find(m => m.mount_index == idx);
-  console.log(idx, m);
+
   var installedAmmo = getInstalledAmmo(m);
   var installedMod = getInstalledMod(m);
   
-  setModDisplayBlock(m);
-
   var equip_template = Handlebars.compile(equipModalTemplate);
   $("#mountEditorModal").html(equip_template(m));
 
@@ -54,6 +51,7 @@ function openMountModal(mech, idx) {
   });
 
   setAvailableWeaponList(m, mech, installedMod ? installedMod.sp : 0);
+  setModDisplayBlock(m);
 
   Expander.bindModalClose()
 }
@@ -116,6 +114,7 @@ function setAvailableWeaponList(m, mech, extraSpCost) {
       }
       return;
     }
+    if (e.hasClass("skill-upgrade")) return;
     $('#add-remove-mod-btn').off()
     $('#add-remove-mod-btn').addClass('btn').removeClass('disabled').click(function () {
       openModModal(m, mech, e.data("id"));
@@ -133,7 +132,10 @@ function bindInstallMount(element, mech, mount) {
   var isRemoval = element.data("remove");
   var newWeaponID = element.data("id")
   var verb = isRemoval ? "Unmount" : "Mount";
-  $("#mount-install").text(`${verb} ${element.data("name")}`).removeClass("disabled alert").click(function () {
+  newWeaponID === mount.weapon.id 
+    ? $("#mount-install").text(`Update Mount`)
+    : $("#mount-install").text(`${verb} ${element.data("name")}`)
+  $("#mount-install").removeClass("disabled alert").click(function () {
     //if removal:
     //if mount type is flex or core, and mounted weapon is not aux, remove linked mount (and show warning)
     // mounting a ${w.mount} weapon to this mount with remove the ${otherweapon} mounted in the linked auxiliary mount
@@ -187,6 +189,7 @@ function getModList(licenses, weapon_id, installedMod) {
     availableMods[i].isOverSp = availableMods[i].sp > (currentFreeSp + totalEquippedSp);
     if (installedMod) availableMods[i].preSelect = availableMods[i].id === installedMod.id;
   }
+  
   return availableMods;
 }
 
@@ -207,8 +210,8 @@ function getAmmoList(licenses, weapon, installedAmmo) {
 }
 
 function openModModal(mount, mech, weapon_id) {
-  var availableMods = getModList(mech.pilot_licenses, weapon_id, installedMod);
   var installedMod = getInstalledMod(mount);
+  var availableMods = getModList(mech.pilot_licenses, weapon_id, installedMod);
   var mod_template = Handlebars.compile(modModalTemplate);
   $('#modEditorModal').html(mod_template({
     mods: availableMods,
@@ -220,26 +223,25 @@ function openModModal(mount, mech, weapon_id) {
 
   $('.mod-item').click(function () {
     var e = $(this);
-    if (e.data("isover") === true) return;
+    if (e.data("isover") === true || e.data("preselect") === true) return;
     $('.mod-item').removeClass("skill-upgrade")
     e.addClass("skill-upgrade");
     $("#mod-install").off();
     if (e.data("remove")) {
-      $("#mount-install").off().removeClass("disabled").addClass("btn").text("Update Mounted Weapon")
       $("#mod-install").text("Remove " + e.data("name")).removeClass("disabled alert").click(function () {
-        $("#mount-install").removeClass("disabled").addClass("btn").text("Update Mounted Weapon")
+        $("#mount-install").removeClass("disabled").addClass("btn").text("Update Mount")
         modSelection = "";
         $("#all-mods").html("")
         setAvailableWeaponList(mount, mech, 0);
+        bindInstallMount($("td.weapon-item.skill-upgrade"), mech, mount);
         $('#modEditorModal').css("display", "none");
       });
     } else {
       $("#mod-install").text("Install " + e.data("name")).removeClass("disabled alert").click(function () {
-        $("#mount-install").removeClass("disabled").addClass("btn").text("Update Mounted Weapon")
         modSelection = e.data("id");
-        $("#all-mods").html(`<br><i class="icon-plus-squared"></i><span>${e.data("name")}</span><span class="subtitle">&nbsp;INSTALLED</span>`);
-        setAvailableWeaponList(mount, mech, parseInt(e.data("sp")));
-        bindInstallMount($(".weapon-item"))
+        $("#all-mods").html(`<i class="icon-plus-squared"></i><span>${e.data("name")}</span><span class="subtitle">&nbsp;INSTALLED</span>`);
+        setAvailableWeaponList(mount, mech, parseInt(e.data("sp")));       
+        bindInstallMount($("td.weapon-item.skill-upgrade"), mech, mount);
         $('#modEditorModal').css("display", "none");
       })
     }
@@ -276,7 +278,7 @@ function openAmmoModal(availableAmmo, equippedAmmo) {
       $("#mod-install").text("Install " + e.data("name")).removeClass("disabled alert").click(function () {
         $("#mount-install").removeClass("disabled").addClass("btn").text("Update Mounted Weapon")
         modSelection = e.data("id");
-        $("#all-mods").html(`<br><i class="icon-plus-squared"></i><span>${e.data("name")}</span><span class="subtitle">&nbsp;MOD INSTALLED</span>`)
+        $("#all-mods").html(`<i class="icon-plus-squared"></i><span>${e.data("name")}</span><span class="subtitle">&nbsp;MOD INSTALLED</span>`)
         $('#modEditorModal').css("display", "none");
       })
     }
@@ -357,7 +359,8 @@ function changeSystem(system_id, pilot_id, config_id) {
 
 function setModDisplayBlock(mount) {
   var installedMod = getInstalledMod(mount);
-  var installedAmmo = getInstalledAmmo(mount)
+  var installedAmmo = getInstalledAmmo(mount);
+ 
   var str = "";
   if (installedMod) str += `<span><i class="icon-plus-squared"></i><span id="equipped-mod">${installedMod.name}</span><span class="subtitle">&nbsp INSTALLED</span></span>&emsp;`
   if (installedAmmo) {
@@ -369,8 +372,9 @@ function setModDisplayBlock(mount) {
 }
 
 function getInstalledMod(mount) {
+  if (!mount.mods && !modSelection) return null;
   if (modSelection) return Search.byID(mods, modSelection);
-  return mount.mods ? mount.mods.find(x => x.modType === "Modification") || null : null;
+  else return mount.mods.find(x => x.modType === "Modification") || null;
 }
 
 function getInstalledAmmo(mount) {

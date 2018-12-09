@@ -91,6 +91,10 @@ Todo:
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
 
 Bugs:
+  ✔ Currently installed mod should be unselectable in mod window @done(18-12-09 15:50)
+  ☐ Prevent core bonus double-dipping
+  ☐ HASE on mech sheet not displaying correctly
+  ☐ Don't let core bonus/talent mods appear in catalog
   ☐ Pilot level up deltas not correct
   ☐ When returning to weapon selector from mod editor, current selection is not correctly set
   ☐ New pilot talents not loaded (on second instance?)
