@@ -27,6 +27,7 @@ function bindEquipmentExpander() {
 }
 
 function bindCarets() {
+  $('.caret-expander').off();
   $('.caret-expander').click(function () {
     var e = $(this);
     e.toggleClass('caret-closed caret-open');

@@ -526,7 +526,8 @@ blockquote {
   content:'\e847';
 }
 
-#add-remove-mod-btn {
+#add-remove-mod-btn,
+#add-remove-ammo-btn {
   margin-top:10px;
   margin-left:10px;
   padding: 0px 10px

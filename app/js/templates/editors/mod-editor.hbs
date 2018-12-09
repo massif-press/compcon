@@ -14,7 +14,7 @@
         {{else}}
           {{#mods}}
             <tr>
-              <td class="mod-item" data-id="{{id}}" data-name="{{name}}" data-isover="{{isOverSp}}">
+              <td class="mod-item {{#if preSelect}}skill-upgrade{{/if}}" data-id="{{id}}" data-name="{{name}}" data-sp="{{sp}}" data-isover="{{isOverSp}}">
                 <div class="menu-border sweep-btn {{#if isOverSp}}warning-stripes{{/if}}">
                   <div class="caret-expander caret caret-closed"></div>
                   <div style="display: inline;">&nbsp;{{name}}

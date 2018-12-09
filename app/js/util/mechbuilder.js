@@ -129,6 +129,7 @@ function getMountedWeapons(config, pilot) {
       var newMod = Search.byID(weapon_mods, m_id);
       newMod.effect = Tags.parse(newMod.effect);
       modSP += newMod.sp;
+      newMod.isSpecialType = newMod.modType === "Core Bonus" || "Talent";
       hydratedMods.push(newMod)
     }
     mounts[i].mods = hydratedMods;

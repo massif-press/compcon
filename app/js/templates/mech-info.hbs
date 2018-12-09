@@ -26,10 +26,11 @@
       </div>
       {{/if}}
     {{/licenses}}
-
-    <br>
-    <div class="license-block-header">PILOT'S NOTES:</div>
-    {{#if config.notes}}<blockquote>{{{config.notes}}}</blockquote>{{/if}}
+    {{#if config.notes}}
+      <br>
+      <div class="license-block-header">PILOT'S NOTES:</div>
+      <blockquote>{{{config.notes}}}</blockquote>
+    {{/if}}
   </td>
   {{#if config.img}}<td><img class="block-img" src="./extraResources/img/mecha/{{config.img}}" height=400></td>{{/if}}
 </table>

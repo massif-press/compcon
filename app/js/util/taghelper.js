@@ -92,7 +92,7 @@ function expandItem(item) {
 function expandArray(arr) {
   for (var i = 0; i < arr.length; i++) {
     var fullTags = [];
-    if(!arr[i]) console.log(arr, i);
+    if(!arr[i]) console.warn(arr, i);
     
     for (var j = 0; j < arr[i].tags.length; j++) {
       var cTag = arr[i].tags[j];

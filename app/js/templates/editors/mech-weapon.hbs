@@ -1,14 +1,16 @@
 {{#weapons}}
   <tr>
-    <td class="weapon-item" data-id="{{id}}" data-name="{{name}}" data-isover="{{isOverSp}}">
-      <div class="menu-border sweep-btn {{#if isOverSp}}warning-stripes{{/if}}">
+    <td class="weapon-item {{#if preSelect}}skill-upgrade{{/if}}" data-id="{{id}}" data-name="{{name}}" data-isover="{{isLocked}}">
+      <div class="menu-border sweep-btn {{#if isLocked}}warning-stripes{{/if}}">
         <div class="caret-expander caret caret-closed"></div>
         <div style="display: inline;">&nbsp;{{name}}
           <span class="subtitle">({{source}})</span>
-          {{#if sp}}<span class="pull-right subtitle {{#if isOverSp}}warning{{else}}active{{/if}}"><b>{{sp}} SP</b></span>{{/if}}
+          {{#if disp_sp}}<span class="pull-right subtitle {{#if isOverSp}}warning{{else}}active{{/if}}"><b>{{disp_sp}} SP</b></span>{{/if}}
         </div>
         <div class="caret-expand hidden">
           <div style="padding-left:5px">
+            {{#if isOverSp}}<div class="mount-selection-locked">/ /&emsp;CANNOT MOUNT: EXCEEDS SP COST&emsp;/ /</div>{{/if}}
+            {{#if isIncompatibleMod}}<div class="mount-selection-locked">/ /&emsp;CANNOT MOUNT: INCOMPATIBLE MOD SELECTED&emsp;/ /</div>{{/if}}
             {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
             {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
             <span class="subtitle">{{mount}} {{type}}</span>

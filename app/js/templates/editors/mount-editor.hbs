@@ -7,22 +7,18 @@
       <!-- equipped header -->
       <div>
         <span class="subtitle" style="display:inline">MOUNTED:</span>&nbsp;
-        <div id="add-remove-mod-btn" class="menu-border btn pull-right disabled">Add/Remove Weapon Mod</div>
+        <div id="add-remove-ammo-btn" class="menu-border btn pull-right disabled">Edit Weapon Ammo</div>
+        <div id="add-remove-mod-btn" class="menu-border btn pull-right disabled">Edit Weapon Mod</div>
         {{#if weapon}}
           <span style="display:inline; font-size:20px; letter-spacing:2px">{{weapon.name}}</span>
           <span class="subtitle">&nbsp; // &nbsp; {{weapon.source}} {{weapon.mount}} {{weapon.type}}</span>
-          {{#mods}}
-            {{#compare type 'bonus_effect' operator="!="}}
-              <br><i class="icon-plus-squared"></i><span>{{name}}</span><span class="subtitle">&nbsp;MOD INSTALLED</span>
-            {{/compare}}
-          {{/mods}}
+          <div id="all-mods" style="height: 50px"></div>
         {{/if}}
-          <div id="new-mod-info"></div>
       </div>
       <hr>
       <br>
       <!-- scrollrect -->
-      <div class="modal-scrollrect menu-border" style="height:78%; margin-top: -5px">
+      <div class="modal-scrollrect menu-border" style="height:70%; margin-top: -5px">
         <table id="available-weapons" width="100%"></table>
       </div>
       <br>

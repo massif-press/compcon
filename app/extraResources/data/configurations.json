@@ -303,17 +303,20 @@
     "mounts": [
       {
         "mount": "Main",
-        "weapon_id": "ar",
-        "mount_index": 0
+        "weapon_id": "nailgun",
+        "mount_index": 0,
+        "mods": [
+          "op"
+        ]
       },
       {
         "mount": "Flex",
-        "weapon_id": "shotgun",
+        "weapon_id": "pistol",
         "mount_index": 1
       },
       {
         "mount": "Heavy",
-        "weapon_id": "hmg",
+        "weapon_id": "hcb",
         "mount_index": 2
       }
     ],
@@ -322,10 +325,13 @@
         "id": "apple"
       },
       {
-        "id": "jericho"
+        "id": "manipulators"
       },
       {
-        "id": "personalizations"
+        "id": "t1shield"
+      },
+      {
+        "id": "paint"
       }
     ]
   }

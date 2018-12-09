@@ -1,5 +1,27 @@
 # Notes
 
+---
+
+private beta:
+
+- pilot editor
+- config editor
+
+public beta:
+
+- data pass
+- style pass
+- refactor pass
+- private beta bugfixes
+
+v1.0
+
+- loadout editor
+- print formatting
+- system mods
+
+---
+
 bg:     #273336
 bg-a:   #314347
 sbox:   #25616E

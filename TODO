@@ -1,16 +1,16 @@
 Final Alpha Release:
+  ✔ Weapons in mount list take/lose sp cost based on mod/ammo applied, update accordingly and lock/unlock access @done(18-12-07 18:28)
+  ✔ Auto-select currently equipped item in mount list @done(18-12-07 17:59)
+  ☐ Distinguish between AMMO and MODS
+    ✔ Weapons can take only one mod at any time @done(18-12-09 12:35)
+    ☐ Weapons can take multiple types of ammo, but only one may be active at any time
   ☐ Aux weapons mounted in core or flex mounts grant another aux mount (and remove if unmounted or swapped)
-  ✔ Confirm mount/type selections @done(18-12-05 15:18)
-  ☐ Mod submenu for mounts
-  ☐ Installing mod to existing weapon needs to override the install button to allow continue with current weapon
-  ✔ Mod types respect weapon selection @done(18-12-06 14:50)
+  ✔ Mod submenu for mounts @done(18-12-09 12:35)
+  ☐ Ammo submenu for mounts
+  ✔ Installing mod to existing weapon needs to override the install button to allow continue with current weapon @done(18-12-09 12:35)
+  ☐ Mounts/mods/ammo with SP needs to update SP in mech sheet (and show/hide new system add)
   ☐ Apoc rail/superweapon todo in mech-sheet
   ☐ SH locks in config update
-  ✔ cb_neurolinked should be applied like a mod to all equipped weapons @done(18-12-05 12:05)
-  ✔ cb_ammofeeds should be applied like a mod to all limited systems @done(18-12-05 12:29)
-  ✔ tal_monkey rank 3 should be applied like a mod to all limited systems @done(18-12-05 12:30)
-  ✔ cb_fomorian should add +1 threat mod to all melee weapons @done(18-12-05 12:35)
-  ✔ CORE mounts @done(18-12-05 15:07)
   Submodals:
     ☐ Superheavy weapons claim additional mount
     ☐ HA Assault Launcher gets a free grenade or mine
@@ -59,10 +59,7 @@ Todo:
   ☐ cb_retrofit needs to set core_mount to false if removed from pilot
   ☐ Take templates out of header?
   ☐ Remove extraneous jquery .each()es
-  ☐ Allow user to break license locking, but show warning & mark unavailable config
-  ☐ Allow user to break SP cost locking, but show warning & mark unavailable config
-  ☐ Style reassignment buttons
-  ☐ Add hidden textareas to pilot sheet for editing
+  ☐ Allow user to break license and/or SP cost locking, but show warning & mark unavailable config
   ☐ Atomize player/config creation screens for use in reassignment modals
   ☐ Mech Sheet: loadout button into modal
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
@@ -73,14 +70,13 @@ Todo:
   ☐ NPW: "select x at character creation" overrides
   ☐ refactor and atomize button jquery
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
-  ✔ Expose data folder @done(18-12-03 11:32)
   ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
   ☐ Range into object (melee, threat, range)
   ☐ Fix catalog header position
   ☐ Catalog - write sort function to correctly sort damage/range
   ☐ Move Tags.Parse() calls into helpers
-  ☐ Organize CSS
   ☐ refactor taghelper
+  ☐ Organize CSS
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
   ☐ weapon threat calc
@@ -95,15 +91,11 @@ Todo:
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
 
 Bugs:
-  ☐ corebonus/talent mods shouldn't appear on mod submodal
+  ☐ Pilot level up deltas not correct
+  ☐ When returning to weapon selector from mod editor, current selection is not correctly set
+  ☐ New pilot talents not loaded (on second instance?)
   ☐ Limited values aren't being set correctly
-  ✔ Core Bonuses are being hydrated and saved erroneously @done(18-12-04 12:23)
   ☐ Level Up talents disappear if the New Pilot wizard has been loaded first
-  ✔ Mount selections don't load correctly @done(18-12-05 15:29)
-  ✔ Mount indexing incorrect @done(18-12-06 12:41)
-  ✔ Pilot selection weird @done(18-12-06 12:41)
-  ✔ Mount types are being overwritten @done(18-12-06 12:41)
-  ✔ Licensing not correct @done(18-12-06 15:20)
   ☐ new pilot wizard: background options bounce on click
   ☐ talent <ul> not taking disabled coloring
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
@@ -125,6 +117,22 @@ Ideas:
   ☐ animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ Confirm mount/type selections @done(18-12-05 15:18) @project(Final Alpha Release)
+  ✔ Mod types respect weapon selection @done(18-12-06 14:50) @project(Final Alpha Release)
+  ✔ cb_neurolinked should be applied like a mod to all equipped weapons @done(18-12-05 12:05) @project(Final Alpha Release)
+  ✔ cb_ammofeeds should be applied like a mod to all limited systems @done(18-12-05 12:29) @project(Final Alpha Release)
+  ✔ tal_monkey rank 3 should be applied like a mod to all limited systems @done(18-12-05 12:30) @project(Final Alpha Release)
+  ✔ cb_fomorian should add +1 threat mod to all melee weapons @done(18-12-05 12:35) @project(Final Alpha Release)
+  ✔ CORE mounts @done(18-12-05 15:07) @project(Final Alpha Release)
+  ✔ Expose data folder @done(18-12-03 11:32) @project(Todo)
+  ✔ SP is not being correctly recalculated after system removal @done(18-12-07 12:45) @project(Bugs)
+  ✔ corebonus/talent mods shouldn't appear on mod submodal @done(18-12-07 12:35) @project(Bugs)
+  ✔ Core Bonuses are being hydrated and saved erroneously @done(18-12-04 12:23) @project(Bugs)
+  ✔ Mount selections don't load correctly @done(18-12-05 15:29) @project(Bugs)
+  ✔ Mount indexing incorrect @done(18-12-06 12:41) @project(Bugs)
+  ✔ Pilot selection weird @done(18-12-06 12:41) @project(Bugs)
+  ✔ Mount types are being overwritten @done(18-12-06 12:41) @project(Bugs)
+  ✔ Licensing not correct @done(18-12-06 15:20) @project(Bugs)
   ✔ All auto-expand selectors: change to caret expand and regular select @done(18-12-01 17:47) @project(Final Alpha Release)
   ✔ Fix broken loadout item styling @done(18-12-01 13:17) @project(Final Alpha Release)
   ✔ correct modal-scrollrect heights @done(18-12-01 14:18) @project(Todo)

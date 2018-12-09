@@ -60,8 +60,8 @@ function updateMount(configID, newItem, itemIndex, pilot_id) {
 
 function updateSystem(configID, newItem, itemIndex, pilot_id) {
   var configIndex = configs.findIndex(c => c.id === configID);
-  if (itemIndex) configs[configIndex].systems[itemIndex] = newItem;  //replace
-  else if (newItem == null) configs[configIndex].systems.splice(itemIndex, 1); //remove
+  if (itemIndex && newItem) configs[configIndex].systems[itemIndex] = newItem;  //replace
+  else if (itemIndex && !newItem) configs[configIndex].systems.splice(itemIndex, 1); //remove
   else configs[configIndex].systems.push(newItem); //add
   io.writeJson('configurations', configs)
   Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilot_id)])

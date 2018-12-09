@@ -1,6 +1,6 @@
 {{#systems}}
   <tr>
-    <td class="system-item" data-id="{{id}}" data-name="{{name}}" data-isover="{{isOverSp}}">
+    <td class="system-item {{#if preSelect}}skill-upgrade{{/if}}" data-id="{{id}}" data-name="{{name}}" data-isover="{{isOverSp}}">
       <div class="menu-border sweep-btn {{#if isOverSp}}warning-stripes{{/if}}">
         <div class="caret-expander caret caret-closed"></div>
         <div style="display: inline;">&nbsp;{{name}}
