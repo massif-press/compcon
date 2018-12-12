@@ -29,7 +29,9 @@ function buildMech(config, pilot) {
 
   mech.sp = {
     max: mech.stats.max_sp,
-    free: mech.stats.max_sp - items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0)
+    free: mech.stats.max_sp 
+      - items.filter(i => i.sp != null).reduce((a, b) => a + b.sp, 0) // weapon and system sp
+      - [].concat.apply([], mech.mounts.map(x => x.modSP)).filter(x => x != null).reduce((a, b) => a + b, 0) // equipped mod and ammo sp
   }
 
   return mech;
@@ -79,7 +81,8 @@ function getMountedWeapons(config, pilot) {
       mounts.push({
         mount: config.mounts[i].mount,
         sh_lock: config.mounts[i].sh_lock || null,
-        mount_index: config.mounts[i].mount_index
+        mount_index: config.mounts[i].mount_index,
+        linked_index: config.mounts[i].linked_index || null
       })
     } else {
       var w = Search.byID(weapons, config.mounts[i].weapon_id)
@@ -89,7 +92,8 @@ function getMountedWeapons(config, pilot) {
         mount: config.mounts[i].mount,
         weapon: w,
         mod_ids: mods,
-        mount_index: config.mounts[i].mount_index
+        mount_index: config.mounts[i].mount_index,
+        linked_index: config.mounts[i].linked_index || null
       });
     }
   }

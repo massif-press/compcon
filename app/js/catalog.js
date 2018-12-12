@@ -62,7 +62,7 @@ $("#type-dropdown").change(function() {
       break;
     case "mods":
       var template = Handlebars.compile(modTemplate);
-      itemObj.items = mods;
+      itemObj.items = mods.filter(m => m.modType !== "Talent" && m.modType !== "Core Bonus");
       break;      
     case "systems":
       var template = Handlebars.compile(systemTemplate);

@@ -11,7 +11,7 @@ function getMechStats(config, pilot) {
   var output = {
     hull: v(stats.hull) + core.hull,
     agi: v(stats.agi) + core.agi,
-    sys: v(stats.hull) + core.hull,
+    sys: v(stats.hull) + core.sys,
     eng: v(stats.eng) + core.eng,
     structure: rules.base_structure,
     armor: shell.armor,

@@ -165,7 +165,7 @@ function init() {
 
   //Talents 
   var talTemp = Handlebars.compile(w_talentTemplate);
-  $("#talents-list").html(talTemp({ "talents": talents }));
+  $("#new-talents-list").html(talTemp({ "talents": talents }));
   // Expander.bindEquipment();
 
   var talent_selections = [];

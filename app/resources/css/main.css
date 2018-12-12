@@ -532,3 +532,8 @@ blockquote {
   margin-left:10px;
   padding: 0px 10px
 }
+
+.mod-block {
+  padding: 5px;
+  background-color: var(--bg-alt)
+}

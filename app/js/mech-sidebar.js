@@ -34,8 +34,7 @@ function loadMecha(pilot) {
     }
   });
 
-  $('#add-config-btn').off(); //prevent this from multiple binds
-  $('#add-config-btn').click(function () {
+  $('#add-config-btn').off().click(function () {
     // configs.push({
     //   "id": io.newID(),
     //   "name": "new mech",
@@ -50,23 +49,36 @@ function loadMecha(pilot) {
   })
 }
 
-function updateMount(configID, newItem, itemIndex, pilot_id) { 
+function updateMount(configID, newItem, itemIndex, pilotID) { 
   var configIndex = configs.findIndex(c => c.id === configID);
   var mountIndex = configs[configIndex].mounts.findIndex(m => m.mount_index == itemIndex);
   configs[configIndex].mounts[mountIndex] = newItem;
   io.writeJson('configurations', configs)
-  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilot_id)])
+  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilotID)])
 }
 
-function updateSystem(configID, newItem, itemIndex, pilot_id) {
+function addMount(configID, newItem) {
+  var configIndex = configs.findIndex(c => c.id === configID);
+  configs[configIndex].mounts.push(newItem);
+}
+
+function removeMount(configID, mountIndex) {
+  var configIndex = configs.findIndex(c => c.id === configID);
+  var spliceIndex = configs[configIndex].mounts.findIndex(m => m.mount_index === mountIndex);
+  configs[configIndex].mounts.splice(spliceIndex, 1);
+}
+
+function updateSystem(configID, newItem, itemIndex, pilotID) {
   var configIndex = configs.findIndex(c => c.id === configID);
   if (itemIndex && newItem) configs[configIndex].systems[itemIndex] = newItem;  //replace
   else if (itemIndex && !newItem) configs[configIndex].systems.splice(itemIndex, 1); //remove
   else configs[configIndex].systems.push(newItem); //add
   io.writeJson('configurations', configs)
-  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilot_id)])
+  Load(configs[configIndex], pilots[pilots.findIndex(p => p.id === pilotID)])
 }
 
 module.exports.loadMecha = loadMecha;
 module.exports.updateMount = updateMount;
+module.exports.addMount = addMount;
+module.exports.removeMount = removeMount;
 module.exports.updateSystem = updateSystem;

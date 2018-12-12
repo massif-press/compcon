@@ -311,12 +311,12 @@
       },
       {
         "mount": "Flex",
-        "weapon_id": "pistol",
+        "weapon_id": "shotgun",
         "mount_index": 1
       },
       {
         "mount": "Heavy",
-        "weapon_id": "hcb",
+        "weapon_id": "",
         "mount_index": 2
       }
     ],

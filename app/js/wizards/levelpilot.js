@@ -60,7 +60,7 @@ function init(pilot) {
   selectableTalents = selectableTalents.filter(t => t.pilot_rank < 3);
  
   var talTemp = Handlebars.compile(w_talentTemplate);
-  $("#talents-list").html(talTemp({ "talents": selectableTalents }));
+  $("#level-talents-list").html(talTemp({ "talents": selectableTalents }));
 
   $('.talent-upg').click(function () {
     var e = $(this);
@@ -222,7 +222,7 @@ function setCoreSkills(pilot, addedLicenseSource) {
     if (lls[l] >= 3) availableSources.push(l);
   }
 
-  var selectableCBs = coreskills.filter(x => availableSources.includes(x.source));
+  var selectableCBs = coreskills.filter(x => availableSources.includes(x.source) && !pilot.core_bonuses.includes(x.id));
 
   var cbTemp = Handlebars.compile(w_coreskillTemplate);
   $("#coreskills-list").html(cbTemp({"skills": selectableCBs}));
@@ -238,7 +238,6 @@ function setCoreSkills(pilot, addedLicenseSource) {
       name: e.data("name")
     };
   })
-
 }
 
 function setResultsTable(pilot) {
@@ -257,18 +256,18 @@ function setResultsTable(pilot) {
       <tr>
         <th width="16.6%">Pilot Base HP</th>
         <th width="16.6%">Pilot ${selectedSkill.toUpperCase()}</th>
-        <th width="16.6%">Pilot GRIT</th>
+        ${leveledPilot.level % 3 === 0 ? `<th width="16.6%">Pilot GRIT</th>` : ''}
         <th width="16.6%">CORE HP</th>
-        <th width="16.6%">CORE ${selectedHASE}</th>
-        <th width="16.6%">CORE Targeting</th>
+        <th width="16.6%">CORE ${selectedHASE.toUpperCase()}</th>
+        ${leveledPilot.level % 2 === 0 ? `<th width="16.6%">CORE Targeting</th>` : ''}
       </tr>
       <tr>
         <td style="text-align:center"><span class="oldval">${Stats.getPilotHP(pilot.level)}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.hp}</span></td>
-        <td style="text-align:center"><span class="oldval">${pilot.skills[selectedSkill]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills[selectedSkill]}</span></td>
-        <td style="text-align:center"><span class="oldval">${pilot.skills.grit}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.skills.grit}</span></td>
-        <td style="text-align:center"><span class="oldval">${pilot.core.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core.hp}</span></td>
-        <td style="text-align:center"><span class="oldval">${pilot.core[selectedHASE]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core[selectedHASE]}</span></td>
-        <td style="text-align:center"><span class="oldval">${pilot.core.targeting}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${leveledPilot.core.targeting}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.skills[selectedSkill]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${pilot.skills[selectedSkill] + 1}</span></td>
+        ${leveledPilot.level % 3 === 0 ? `<td style="text-align:center"><span class="oldval">${pilot.skills.grit}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${pilot.skills.grit +1}</span></td>` : ''}
+        <td style="text-align:center"><span class="oldval">${pilot.core.hp}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${pilot.core.hp + 1}</span></td>
+        <td style="text-align:center"><span class="oldval">${pilot.core[selectedHASE]}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${pilot.core[selectedHASE] + 1}</span></td>
+        ${leveledPilot.level % 2 === 0 ? `<td style="text-align:center"><span class="oldval">${pilot.core.targeting}</span><span class="subtitle" style="vertical-align: super;">>></span><span class="newval">${pilot.core.targeting + 1}</span></td>` : ''}
       </tr>
       <tr>
         <th colspan="3">Talent Upgrade</th>
@@ -309,6 +308,7 @@ function getLeveledPilot(pilot) {
   lp.skills[selectedSkill] ++;
   if (lp.level % 3 === 0) lp.skills.grit ++
   lp.core[selectedHASE] ++;
+  lp.core["hp"] ++;
   if (lp.level % 2 === 0 && lp.core.targeting < 6) lp.core.targeting ++
   var talentIndex = lp.talents.findIndex(x => x.id === newTalent.id);
   if (talentIndex === -1) {

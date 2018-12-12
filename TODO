@@ -1,21 +1,10 @@
 Final Alpha Release:
-  ✔ Weapons in mount list take/lose sp cost based on mod/ammo applied, update accordingly and lock/unlock access @done(18-12-07 18:28)
-  ✔ Auto-select currently equipped item in mount list @done(18-12-07 17:59)
-  ☐ Distinguish between AMMO and MODS
-    ✔ Weapons can take only one mod at any time @done(18-12-09 12:35)
-    ☐ Weapons can take multiple types of ammo, but only one may be active at any time
-  ☐ Aux weapons mounted in core or flex mounts grant another aux mount (and remove if unmounted or swapped)
-  ✔ Mod submenu for mounts @done(18-12-09 12:35)
-  ☐ Ammo submenu for mounts
-  ✔ Installing mod to existing weapon needs to override the install button to allow continue with current weapon @done(18-12-09 12:35)
-  ☐ Mounts/mods/ammo with SP needs to update SP in mech sheet (and show/hide new system add)
-  ☐ Apoc rail/superweapon todo in mech-sheet
-  ☐ SH locks in config update
-  Submodals:
+  ☐ Apoc rail/superweapon todo in mount-editor
     ☐ Superheavy weapons claim additional mount
-    ☐ HA Assault Launcher gets a free grenade or mine
-  New Config:
-    ☐ Config creation wizard
+    ☐ SH locks in config update
+  ☐ HA Assault Launcher gets a free grenade or mine (submodal)
+  ☐ Config creation wizard
+    ☐ disable Add Mech button until Pilot is loaded
     ☐ everest shell gets a CORE +1, added at shell selection
 
 Beta:
@@ -44,17 +33,21 @@ Beta:
     ☐ Config load from file
     ☐ Config load from clipboard
     Mount Modification:
+      ☐ Distinguish between AMMO and MODS: Weapons can take multiple types of ammo, but only one may be active at any time
+        ☐ Ammo submenu for mounts
       ☐ Core Bonus Assignment modal, needs to check if pilot has cb AND if cb has been assigned
         ☐ cb_hardpoints, applied as mod
         ☐ cb_burnout, applied as mod
         ☐ cb_intweapon, applied as mod
         ☐ cb_retrofit, overwrite mount type. Can reassign cb_retrofit.
+        ☐ everest CORE bonus, treated as a cb, reassign in CB assignment modal
 
   Other:
     ☐ Options Menu
     ☐ Help Modal
   
 Todo:
+  ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
   ☐ precompile templates 
   ☐ cb_retrofit needs to set core_mount to false if removed from pilot
   ☐ Take templates out of header?
@@ -91,36 +84,37 @@ Todo:
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
 
 Bugs:
-  ✔ Currently installed mod should be unselectable in mod window @done(18-12-09 15:50)
-  ☐ Prevent core bonus double-dipping
-  ☐ HASE on mech sheet not displaying correctly
-  ☐ Don't let core bonus/talent mods appear in catalog
-  ☐ Pilot level up deltas not correct
-  ☐ When returning to weapon selector from mod editor, current selection is not correctly set
-  ☐ New pilot talents not loaded (on second instance?)
   ☐ Limited values aren't being set correctly
-  ☐ Level Up talents disappear if the New Pilot wizard has been loaded first
   ☐ new pilot wizard: background options bounce on click
-  ☐ talent <ul> not taking disabled coloring
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
   ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Ideas:
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
   ☐ Clone Pilot >> roll on clone complications table option
-  ☐ color scheme for pilots/mechs
-  ☐ color schemes based off of manufacturer
   ☐ Custom notes/descriptions for items
-  ☐ on print: traverse pilot data structure to get all possible power cards
-  ☐ on print: update regular action cards with player/shell bonuses
   ☐ range/threat pips for weapons/systems
-  ☐ rename weapons/gear; set custom descriptions instead of notes
-  ☐ override eg. signature weapons to create custom versions at player creation
   ☐ text based quick copy for disc/roll20
-  ☐ better and more consistent animations
-  ☐ animations tied to user action classes (navigation, selection, deletion, etc)
+  ☐ better and more consistent animations, animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ Weapons in mount list take/lose sp cost based on mod/ammo applied, update accordingly and lock/unlock access @done(18-12-07 18:28) @project(Final Alpha Release)
+  ✔ Auto-select currently equipped item in mount list @done(18-12-07 17:59) @project(Final Alpha Release)
+  ✔ Weapons can take only one mod at any time @done(18-12-09 12:35) @project(Final Alpha Release)
+  ✔ Aux weapons mounted in core or flex mounts grant another aux mount (and remove if unmounted or swapped) @done(18-12-11 12:03) @project(Final Alpha Release)
+  ✔ Switching out/removing flex/core is not removing linked mount @done(18-12-11 12:02) @project(Final Alpha Release)
+  ✔ Mod submenu for mounts @done(18-12-09 12:35) @project(Final Alpha Release)
+  ✔ Installing mod to existing weapon needs to override the install button to allow continue with current weapon @done(18-12-09 12:35) @project(Final Alpha Release)
+  ✔ Mounts/mods/ammo with SP needs to update SP in mech sheet (and show/hide new system add) @done(18-12-11 12:17) @project(Final Alpha Release)
+  ✔ Currently installed mod should be unselectable in mod window @done(18-12-09 15:50) @project(Bugs)
+  ✔ Prevent core bonus double-dipping @done(18-12-10 14:13) @project(Bugs)
+  ✔ HASE on mech sheet not displaying correctly @done(18-12-10 14:28) @project(Bugs)
+  ✔ Don't let core bonus/talent mods appear in catalog @done(18-12-10 14:14) @project(Bugs)
+  ✔ Pilot level up deltas not correct @done(18-12-10 15:01) @project(Bugs)
+  ✔ When returning to weapon selector from mod editor, current selection is not correctly set @done(18-12-10 14:14) @project(Bugs)
+  ✔ New pilot talents not loaded (on second instance?) @done(18-12-10 14:17) @project(Bugs)
+  ✔ Level Up talents disappear if the New Pilot wizard has been loaded first @done(18-12-10 14:17) @project(Bugs)
+  ✔ talent <ul> not taking disabled coloring @done(18-12-10 14:24) @project(Bugs)
   ✔ Confirm mount/type selections @done(18-12-05 15:18) @project(Final Alpha Release)
   ✔ Mod types respect weapon selection @done(18-12-06 14:50) @project(Final Alpha Release)
   ✔ cb_neurolinked should be applied like a mod to all equipped weapons @done(18-12-05 12:05) @project(Final Alpha Release)

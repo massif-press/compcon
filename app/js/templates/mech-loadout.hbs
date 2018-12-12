@@ -27,14 +27,12 @@
                 {{#if weapon.description}}<blockquote class="desc-text">{{{weapon.description}}}</blockquote>{{/if}}
                 {{#if weapon.effect}}<span>{{{weapon.effect}}}<br></span>{{/if}}
                 {{#mods}}
-                  <hr class="mg-10">
-                  <div class="mg-10">
+                  <div class="mg-10 mod-block">
                     <span><b>{{name}}</b><span class="subtitle">&nbsp;({{modType}})</span></span>
                     <span class="subtitle"><br>{{sp}} SP</span>
-                    {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+                    {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{else}}<br>{{/if}}
                     {{#if effect}}<span>{{{effect}}}</span>{{/if}}
                   </div>
-                  <hr class="mg-10">
                 {{/mods}}
                 <span class="subtitle">{{weapon.mount}} {{weapon.type}}</span>
                 {{#if weapon.sp}}<span class="subtitle">{{weapon.sp}} SP </span>{{/if}}
