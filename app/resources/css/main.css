@@ -537,3 +537,14 @@ blockquote {
   padding: 5px;
   background-color: var(--bg-alt)
 }
+
+.mount-select-box {
+  margin: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.mount-select-box:hover {
+  background-color: var(--bg-alt)
+}

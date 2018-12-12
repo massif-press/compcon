@@ -299,24 +299,21 @@
     "name": "cannon fodder",
     "img": "",
     "shell_id": "everest",
+    "everest_bonus": "sys",
     "status": "available",
     "mounts": [
       {
         "mount": "Main",
         "weapon_id": "ar",
-        "mount_index": 0,
-        "mods": [
-          "op"
-        ]
+        "mount_index": 0
       },
       {
         "mount": "Flex",
-        "weapon_id": "shotgun",
         "mount_index": 1
       },
       {
         "mount": "Heavy",
-        "weapon_id": "",
+        "weapon_id": "amrifle",
         "mount_index": 2
       }
     ],
@@ -331,7 +328,10 @@
         "id": "t1shield"
       },
       {
-        "id": "paint"
+        "id": "eva"
+      },
+      {
+        "id": "filter"
       }
     ]
   }

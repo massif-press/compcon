@@ -1,10 +1,10 @@
 Final Alpha Release:
-  ☐ Apoc rail/superweapon todo in mount-editor
-    ☐ Superheavy weapons claim additional mount
-    ☐ SH locks in config update
-  ☐ HA Assault Launcher gets a free grenade or mine (submodal)
+  ✔ Apoc rail/superweapon todo in mount-editor @done(18-12-12 14:22)
+  ✔ Superheavy weapons claim additional mount @done(18-12-12 14:22)
+  ✔ SH locks in config update @done(18-12-12 14:22)
+  ✔ Can use flex mount + superheavy removal to glitch free aux mounts @done(18-12-12 14:36)
   ☐ Config creation wizard
-    ☐ disable Add Mech button until Pilot is loaded
+    ✔ disable Add Mech button until Pilot is loaded @done(18-12-12 14:40)
     ☐ everest shell gets a CORE +1, added at shell selection
 
 Beta:
@@ -33,6 +33,7 @@ Beta:
     ☐ Config load from file
     ☐ Config load from clipboard
     Mount Modification:
+      ☐ HA Assault Launcher gets a free grenade or mine (submodal)
       ☐ Distinguish between AMMO and MODS: Weapons can take multiple types of ammo, but only one may be active at any time
         ☐ Ammo submenu for mounts
       ☐ Core Bonus Assignment modal, needs to check if pilot has cb AND if cb has been assigned
@@ -41,6 +42,8 @@ Beta:
         ☐ cb_intweapon, applied as mod
         ☐ cb_retrofit, overwrite mount type. Can reassign cb_retrofit.
         ☐ everest CORE bonus, treated as a cb, reassign in CB assignment modal
+    Systems:
+      ☐ Systems should take global bonuses (eg. limited)
 
   Other:
     ☐ Options Menu
@@ -48,28 +51,20 @@ Beta:
   
 Todo:
   ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
-  ☐ precompile templates 
+  ☐ Change wizard/editor items so they highlight like loadout (no swing when opened)
   ☐ cb_retrofit needs to set core_mount to false if removed from pilot
-  ☐ Take templates out of header?
-  ☐ Remove extraneous jquery .each()es
   ☐ Allow user to break license and/or SP cost locking, but show warning & mark unavailable config
   ☐ Atomize player/config creation screens for use in reassignment modals
   ☐ Mech Sheet: loadout button into modal
   ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
   ☐ set config status unavailable on JSON update if pilot is missing licenses
-  ☐ Put modal close binding into a utility
-  ☐ Refactor modal waterfalls into visibility-bound series
   ☐ wizard lists should be sortable
   ☐ NPW: "select x at character creation" overrides
-  ☐ refactor and atomize button jquery
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
   ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
   ☐ Range into object (melee, threat, range)
   ☐ Fix catalog header position
   ☐ Catalog - write sort function to correctly sort damage/range
-  ☐ Move Tags.Parse() calls into helpers
-  ☐ refactor taghelper
-  ☐ Organize CSS
   ☐ parse effects and descriptions for damage words
   ☐ refactor chart builder
   ☐ weapon threat calc
@@ -82,6 +77,18 @@ Todo:
   ☐ Options: lancerdata importer
   ☐ Make new upper-right tooltip box option
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
+
+Refactoring:
+  ☐ mount_index should be mount_id and should be set using the io id gen
+  ☐ Mount modal and modal options should be stateful
+  ☐ Remove extraneous jquery .each()es
+  ☐ precompile templates & take templates out of header
+  ☐ Move Tags.Parse() calls into helpers
+  ☐ refactor taghelper
+  ☐ Organize CSS
+  ☐ Put modal close binding into a utility
+  ☐ Refactor modal waterfalls into visibility-bound series
+  ☐ refactor and atomize button jquery
 
 Bugs:
   ☐ Limited values aren't being set correctly

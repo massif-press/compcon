@@ -43,7 +43,7 @@ function getMechStats(config, pilot) {
     sensor_range_bonus: core.sys
   }
 
-  //everest gets a +1 to any core stat, made at config creation TODO: add to config creation
+  //everest gets a +1 to any core stat, made at config creation
   if (config.everest_bonus) output[config.everest_bonus]++;
 
   //system personalizations adds +2 hp

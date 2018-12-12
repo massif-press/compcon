@@ -15,6 +15,7 @@ const systemModalTemplate = io.readTemplate('editors/system-editor');
 const equipWeaponItemTemplate = Handlebars.compile(io.readTemplate('editors/mech-weapon'));
 const systemItemTemplate = io.readTemplate('editors/mech-system');
 const modModalTemplate = io.readTemplate('editors/mod-editor');
+const linkSelectorTemplate = io.readTemplate('editors/sh-link-selector');
 
 var activeIndex;
 var modSelection;
@@ -61,12 +62,14 @@ function setAvailableWeaponList(m, mech, extraSpCost, preselectedWeapon) {
   var validMounts = [m.mount];
   if (m.mount === "Flex") validMounts = ["Auxiliary", "Main"]
   if (m.isCoreMount) validMounts = ["Auxiliary", "Main", "Heavy"] //TODO: set cb_retrofit, mount gains new isCoreMount prop
-  if (m.mount === "Spinal") {
-    if (mech.mounts.filter(x => !x.weapon).length) //there are empty mounts, so we can equip a superheavy weapon (with a link)
-      validMounts = ["Main", "Heavy", "Superheavy"]
-    else
-      validMounts = ["Main", "Heavy"]
+  if (m.mount === "Spinal" || m.mount === "Heavy") {
+    if (mech.mounts.filter(x => !x.weapon).length > 1 || m.weapon.mount === "Superheavy") { //there are empty mounts, so we can equip a superheavy weapon (with a link)
+      validMounts = ["Heavy", "Superheavy"]
+    } else {
+      validMounts = ["Heavy"]
       $("#mount-extra-text").text(`No free support mounts available, Superheavy weapons cannot currently be mounted to this configuration.`)
+    }
+    if (m.mount === "Spinal") validMounts.push("Main")
   }
   if (m.mount === "Apocalypse") validMounts = ["Superheavy", "Heavy", "Main", "Auxiliary"]
 
@@ -144,11 +147,11 @@ function bindInstallMount(element, mech, mount) {
   var shLink;
 
   if (mount.mount === "Flex" || mount.isCoreMount) {
-    if (newWeaponObj && newWeaponObj.mount === "Auxiliary" && (mount.weapon && mount.weapon.mount !== "Auxiliary")) {
+    if (newWeaponObj && newWeaponObj.mount === "Auxiliary" && (!mount.weapon || (mount.weapon && mount.weapon.mount !== "Auxiliary"))) {
       auxLink = "add";
       $("#mount-extra-text").text(`A ${mount.mount} mount can fit two Auxiliary weapons. A linked Auxiliary mount will be added to the configuration.`)
     }
-    if (isRemoval || (newWeaponObj && newWeaponObj.mount !== "Auxiliary" && otherMount)) {
+    if ((isRemoval && otherMount) || (newWeaponObj && newWeaponObj.mount !== "Auxiliary" && otherMount)) {
       auxLink = "remove"
       var str_add = otherMount && otherMount.weapon ? `, including the mounted ${otherMount.weapon.name}` : "."
       if (isRemoval)
@@ -156,6 +159,12 @@ function bindInstallMount(element, mech, mount) {
       else
         $("#mount-extra-text").text(`Mounting a ${newWeaponObj.mount} weapon to this mount with remove the linked Auxiliary mount${str_add}`)
     }
+  }
+
+
+  if (!isRemoval && newWeaponObj.mount === "Superheavy" && mount.mount !== "Apocalypse") {
+    $("#mount-extra-text").text(`Mounting a Superheavy weapon will occupy an additional mount`)
+    shLink = true;
   }
 
   mount.weapon && newWeaponID === mount.weapon.id 
@@ -175,27 +184,50 @@ function bindInstallMount(element, mech, mount) {
       removeMount(mech.config.id, otherMount.mount_index);
     }
 
-    if (newWeaponObj.mount === "Superheavy" && mount.mount !== "Apocalypse") {
-      $("#mount-extra-text").text(`Mounting a Superheavy weapon will occupy an additional mount`)
-      shLink = true;
-    }
-
-    //TODO:
-    // open mount lock submodal for superheavies
-    // select locked mount
-    // call changemount
-
     var updatedMount = {
       mount: mount.mount,
       weapon_id: newWeaponID,
       mount_index: mount.mount_index
     }
     if (mount.linked_index) updatedMount.linked_index = mount.linked_index;
-    //if updatedMount was superheavy but no longer is (check weapon vs superheavy vs linked mounts), call changeMount on linked
     if (modSelection && !isRemoval) updatedMount.mods = [modSelection];
-    changeMount(mech.config.id, updatedMount, mech.pilot_id);
-    $('#mountEditorModal').css("display", "none");
-  })
+
+    if(isRemoval || newWeaponObj.mount !== "Superheavy") {
+      if (mech.mounts.some(x => x.sh_lock && x.linked_index == mount.mount_index)) {
+        mechSidebar.unlockMount(mech.config.id, mech.mounts.find(x => x.sh_lock && x.linked_index == mount.mount_index).mount_index);
+      }
+    }
+
+    if (shLink) {
+      if (!$('#sh-link-modal').length) {
+        $('.main').append(`<div id="lockMountModal" class="modal sm"></div>`)
+      } 
+      var shLinkTemplate = Handlebars.compile(linkSelectorTemplate);
+      var linkableMounts = mech.mounts.filter(x => !x.weapon && x.mount_index !== mount.mount_index && x.linked_index == null)
+      $("#lockMountModal").html(shLinkTemplate({
+        mounts: linkableMounts
+      }));
+      $('#lockMountModal').css("display", "block");
+      Expander.bindModalClose();
+      $('.mount-select-box').click(function() {
+        var e = $(this);
+        //find and remove any bonus aux mounts from flex or core mounts
+        var selectedMount = mech.mounts.find(x => x.mount_index === e.data("mount-index"));
+        if (selectedMount.isCoreMount || selectedMount.mount === "Flex") {
+          var auxLinkedMount = mech.mounts.find(x => x.linked_index === selectedMount.mount_index);
+          if (auxLinkedMount) removeMount(mech.config.id, auxLinkedMount.mount_index, mech.pilot_id);
+        }
+
+        mechSidebar.lockMount(mech.config.id, selectedMount.mount_index, mount.mount_index)
+        changeMount(mech.config.id, updatedMount, mech.pilot_id);
+        $('#lockMountModal').css("display", "none");
+        $('#mountEditorModal').css("display", "none");
+      });
+    } else {
+      changeMount(mech.config.id, updatedMount, mech.pilot_id);
+      $('#mountEditorModal').css("display", "none");
+    }
+  });
 }
 
 function getModList(licenses, weapon_id, installedMod) {
@@ -363,7 +395,7 @@ function openSystemModal(mech, idx, hasCbShaping) {
       if (licenseIdx === -1) continue;
       if (mech.licenses[licenseIdx].level < sys.license_level) continue;
     }
-    s.preSelect = sys.id === s.id;
+    if (s) sys.preSelect = sys.id === s.id;
     sys.isOverSp = currentFreeSp < sys.sp;
     availableSystems.push(Tags.expand(sys))
   }
@@ -389,7 +421,7 @@ function openSystemModal(mech, idx, hasCbShaping) {
       })
     } else {
       $("#system-install").text("Install " + e.data("name")).removeClass("disabled alert").click(function () {
-        changeSystem(e.data("id"), idx, mech.pilot_id, mech.config.id);
+        changeSystem(e.data("id"), mech.pilot_id, mech.config.id);
         $('#systemEditorModal').css("display", "none");
       })
     }
@@ -397,6 +429,7 @@ function openSystemModal(mech, idx, hasCbShaping) {
 }
 
 function changeSystem(system_id, pilot_id, config_id) {
+  console.log(config_id);
   mechSidebar.updateSystem(config_id, system_id ? { id: system_id } : null, activeIndex, pilot_id);
 }
 

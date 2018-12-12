@@ -1,15 +1,16 @@
 const $ = require("jquery");
 const Handlebars = require("handlebars");
-const fs = require("fs");
 const Load = require("./mech-sheet")
 const io = require("./util/io")
 const Search = require("./util/search");
 const Expander = require("./util/expander");
+const ConfigWizard = require('./wizards/newconfig');
 //data
 var configs = require("../extraResources/data/configurations.json");
 var pilots = require("../extraResources/data/pilots.json");
 //templates
 const mechTemplate = io.readTemplate('config-expander');
+const newConfigTemplate = io.readTemplate('wizards/new-config');
 
 function loadMecha(pilot) {
   var configArray = [];
@@ -35,17 +36,12 @@ function loadMecha(pilot) {
   });
 
   $('#add-config-btn').off().click(function () {
-    // configs.push({
-    //   "id": io.newID(),
-    //   "name": "new mech",
-    //   "img": "",
-    //   "shell_id": "everest",
-    //   "status": "active",
-    //   "weapons": [],
-    //   "systems": []
-    // })
-    // Search.byID(pilots, pilot.id).configs.push(id);
-    // loadMecha(pilot)
+    var ncTemplate = Handlebars.compile(newConfigTemplate);
+    $("#ncw-modal-body").html(ncTemplate());
+
+    $('#newConfigModal').css("display", "block");
+
+    ConfigWizard();
   })
 }
 
@@ -68,6 +64,26 @@ function removeMount(configID, mountIndex) {
   configs[configIndex].mounts.splice(spliceIndex, 1);
 }
 
+function unlockMount(configID, mountIndex) {
+  setMountLock(configID, mountIndex);
+}
+
+function lockMount(configID, mountIndex, linkIndex) {
+  setMountLock(configID, mountIndex, linkIndex);
+}
+
+function setMountLock(configID, mountIndex, linkIndex) {
+  var configIndex = configs.findIndex(c => c.id === configID);
+  var lockIndex = configs[configIndex].mounts.findIndex(m => m.mount_index === mountIndex);
+  if (linkIndex) { 
+    configs[configIndex].mounts[lockIndex].sh_lock = true
+    configs[configIndex].mounts[lockIndex].linked_index = linkIndex;
+  } else {
+    delete configs[configIndex].mounts[lockIndex].sh_lock;
+    delete configs[configIndex].mounts[lockIndex].linked_index;
+  }
+}
+
 function updateSystem(configID, newItem, itemIndex, pilotID) {
   var configIndex = configs.findIndex(c => c.id === configID);
   if (itemIndex && newItem) configs[configIndex].systems[itemIndex] = newItem;  //replace
@@ -82,3 +98,5 @@ module.exports.updateMount = updateMount;
 module.exports.addMount = addMount;
 module.exports.removeMount = removeMount;
 module.exports.updateSystem = updateSystem;
+module.exports.lockMount = lockMount;
+module.exports.unlockMount = unlockMount;

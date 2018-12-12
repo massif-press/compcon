@@ -32,6 +32,8 @@ function init(newpilot) {
   $(".pilot-expander, .pilot-sheet-btn").click(function() {
     var id = $(this).attr('data-id');
 
+    $('#add-config-btn').addClass("btn menu-btn").text("Add Mech");
+
     $('.main').load('./html/pilot-sheet.html', function () {
       pilotSheet(Search.byID(pilots, id));
     });
