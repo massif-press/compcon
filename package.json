@@ -1,13 +1,13 @@
 {
   "name": "compcon",
   "productName": "COMPCON",
-  "version": "v0.3.0",
+  "version": "0.3.0",
   "description": "LANCER player assistant",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
-    "package-win": "electron-packager . compcon --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.ProductName=\"COMPCON\"",
+    "package-win": "electron-packager . compcon --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds",
     "package-linux": "electron-packager . compcon --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds"
   },
   "repository": "",
