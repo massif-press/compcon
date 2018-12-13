@@ -27,7 +27,7 @@
   <div class="wizard-btn-container">
     <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
     <div class="breadcrumb-container"></div>
-    <div class="wizard-btn disabled" data-step="{{#if isEverest}}2{{else}}3{{/if}}"><span>Next</span></div>
+    <div class="wizard-btn disabled" id="shell-select-next" data-step="2"><span>Next</span></div>
   </div>
 </div>
 
@@ -36,13 +36,13 @@
   <h1>Select CORE Bonus</h1>
   <span class="subtitle">The GMS EVEREST gains a +1 bonus to any CORE attribute, as a shell feature.</span>
   <br>
-  <div id="skill-grid">
-    <table width="100%" style="border-spacing: 15px;">
-      <tr>
-        <td class="skillbox" data-skill="hull" width="25%">Hull</td>
-        <td class="skillbox" data-skill="agi" width="25%">Agility</td>
-        <td class="skillbox" data-skill="sys" width="25%">Systems</td>
-        <td class="skillbox" data-skill="eng" width="25%">Engineering</td>
+  <div id="skill-grid" height="100%">
+    <table width="100%" style="border-spacing: 15px; margin-top:15%">
+      <tr class="everest-bonus-select">
+        <td class="skillbox everest-bonus" data-skill="hull" width="25%">Hull</td>
+        <td class="skillbox everest-bonus" data-skill="sys" width="25%">Systems</td>
+        <td class="skillbox everest-bonus" data-skill="agi" width="25%">Agility</td>
+        <td class="skillbox everest-bonus" data-skill="eng" width="25%">Engineering</td>
       </tr>
     </table>
   </div>
@@ -60,13 +60,19 @@
   <span class="subtitle">IDENT PROTOCOL // Shell Identifier</span>
   <br><br>
   <span class="label">Configuration Name</span><br>
-  <input class="line-input" id="callsign-input" type="text" placeholder="Enter Mech Name...">
+  <input class="line-input" id="config-name-input" type="text" placeholder="Enter Mech Name...">
   <br><br>
-  <span class="label">Notes</span><br>
-  <textarea class="wizard-textarea" id="config-notes" name="notes" rows="7" cols="65" spellcheck="true"></textarea>
+  <span class="label">Configuration Notes</span><br>
+  <textarea class="wizard-textarea" id="config-notes" name="notes" rows="10" cols="149" spellcheck="true"></textarea>
   <div style="padding:5px">
-    <span>Image</span>
-    <div id="mech-img-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="mech-img-filename">(NONE)</span>
+    <br>
+    <hr>
+    <br>
+    <span>Image:</span> &emsp;
+    <div id="mech-img-select" class="menu-border minor-btn btn" style="display: inline">SELECT</div><span id="mech-img-filename">&nbsp;(NONE)</span>
+    <br>
+    <br>
+    <hr>
   </div>
   <div class="wizard-btn-container">
     <div class="wizard-btn btn" data-step="{{#if isEverest}}2{{else}}1{{/if}}"><span>Back</span></div>
@@ -79,8 +85,12 @@
 <div class="nc-wizard hidden" data-step="4">
   <h1>Confirm New Configuration</h1>
   <br>
-  <div id="nc-confirmation"></div>
+  <div id="confirm-name-text" style="background-color: var(--bg-alt); text-align:center; width:100%;"></div>
+  <br>
+  <div id="confirm-everest-bonus" style="background-color: var(--bg-alt); text-align:center; width:100%;"></div>
+  <br>
   <div id="confirm-new-config" class="wizard-btn btn"><span style="width: 100%">Confirm</span></div>
+  <br>
   <div class="wizard-btn-container">
     <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
   </div>

@@ -1,31 +1,20 @@
-Final Alpha Release:
-  ✔ Apoc rail/superweapon todo in mount-editor @done(18-12-12 14:22)
-  ✔ Superheavy weapons claim additional mount @done(18-12-12 14:22)
-  ✔ SH locks in config update @done(18-12-12 14:22)
-  ✔ Can use flex mount + superheavy removal to glitch free aux mounts @done(18-12-12 14:36)
-  ☐ Config creation wizard
-    ✔ disable Add Mech button until Pilot is loaded @done(18-12-12 14:40)
-    ☐ everest shell gets a CORE +1, added at shell selection
-
-Beta:
+Private Beta:
   Pilot Editor:
     ☐ Pilot gear editor
-    ☐ Pilot editor
-    ☐ Pilot FNF editor
-    ☐ Pilot Skill Reassignment modal
-    ☐ Pilot Talent Reassignment modal
-    ☐ Pilot License Reassignment modal
-    ☐ Pilot CORE Points Reassignment modal
-    ☐ Pilot CORE Bonus Reassignment modal
+    ☐ Pilot details editor
+    Pilot Reassignment modal:
+      ☐ Pilot Skill Reassignment tab
+      ☐ Pilot Talent Reassignment tab
+      ☐ Pilot License Reassignment tab
+      ☐ Pilot CORE Points Reassignment tab
+      ☐ Pilot CORE Bonus Reassignment tab
     ☐ Pilot load from file
     ☐ Pilot load from clipboard
     ☐ Pilot export tool
     ☐ Pilot status setting tool
-    ☐ custom background option
-
   Configuration Editor:
     ☐ Config delete
-    ☐ Config editor
+    ☐ Config details editor
     ☐ Config export tool
     ☐ Config clone tool
     ☐ Config status setting tool
@@ -45,12 +34,13 @@ Beta:
     Systems:
       ☐ Systems should take global bonuses (eg. limited)
     ☐ Reimplement Charts
-
   Other:
     ☐ Options Menu
     ☐ Help Modal
   
 Todo:
+  ☐ Custom Background Option
+  ☐ use Fontello to incorporate svgs into custom webfont
   ☐ "Use Default" image selector for config, checked by default
   ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
   ☐ Change wizard/editor items so they highlight like loadout (no swing when opened)
@@ -79,8 +69,11 @@ Todo:
   ☐ Options: lancerdata importer
   ☐ Make new upper-right tooltip box option
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
+  ☐ Fluff text for wizards
 
 Refactoring:
+  ☐ remove unecessary <a> anchors
+  ☐ merge and re-use similar templates, genercize others
   ☐ mount_index should be mount_id and should be set using the io id gen
   ☐ Mount modal and modal options should be stateful
   ☐ Remove extraneous jquery .each()es
@@ -107,6 +100,13 @@ Ideas:
   ☐ better and more consistent animations, animations tied to user action classes (navigation, selection, deletion, etc)
 
 Archive:
+  ✔ Apoc rail/superweapon todo in mount-editor @done(18-12-12 14:22) @project(Final Alpha Release)
+  ✔ Superheavy weapons claim additional mount @done(18-12-12 14:22) @project(Final Alpha Release)
+  ✔ SH locks in config update @done(18-12-12 14:22) @project(Final Alpha Release)
+  ✔ Can use flex mount + superheavy removal to glitch free aux mounts @done(18-12-12 14:36) @project(Final Alpha Release)
+  ✔ Config creation wizard @done(18-12-13 11:48) @project(Final Alpha Release)
+  ✔ disable Add Mech button until Pilot is loaded @done(18-12-12 14:40) @project(Final Alpha Release)
+  ✔ everest shell gets a CORE +1, added at shell selection @done(18-12-13 11:48) @project(Final Alpha Release)
   ✔ Weapons in mount list take/lose sp cost based on mod/ammo applied, update accordingly and lock/unlock access @done(18-12-07 18:28) @project(Final Alpha Release)
   ✔ Auto-select currently equipped item in mount list @done(18-12-07 17:59) @project(Final Alpha Release)
   ✔ Weapons can take only one mod at any time @done(18-12-09 12:35) @project(Final Alpha Release)

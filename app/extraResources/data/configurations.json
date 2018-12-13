@@ -296,7 +296,7 @@
   },
   {
     "id": "7",
-    "name": "cannon fodder",
+    "name": "Bravo Sierra",
     "img": "",
     "shell_id": "everest",
     "everest_bonus": "sys",
@@ -332,6 +332,41 @@
       },
       {
         "id": "filter"
+      }
+    ]
+  },
+  {
+    "id": "pzyyrsz78",
+    "name": "mlg_halo_69",
+    "shell_id": "tortuga",
+    "status": "active",
+    "mounts": [
+      {
+        "mount": "Flex",
+        "weapon_id": "autoshotgun",
+        "mount_index": 0,
+        "mods": [
+          "throughbolt"
+        ]
+      },
+      {
+        "mount": "Spinal",
+        "weapon_id": "daisy",
+        "mount_index": 1
+      }
+    ],
+    "systems": [
+      {
+        "id": "reactiveweave"
+      },
+      {
+        "id": "explosivevent"
+      },
+      {
+        "id": "pancake"
+      },
+      {
+        "id": "apple"
       }
     ]
   }

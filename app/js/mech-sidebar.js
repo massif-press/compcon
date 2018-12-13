@@ -39,6 +39,38 @@ function loadMecha(pilot) {
   })
 }
 
+function addConfig(pilotID, newConfig){
+  var pilotIndex = pilots.findIndex(p => p.id === pilotID);
+
+  var c = {
+    id: io.newID(),
+    name: newConfig.name,
+    img: newConfig.imgFilepath,
+    shell_id: newConfig.shellID,
+    status: "active",
+    mounts: newConfig.mounts,
+    systems: []
+  }
+  if (newConfig.everest_bonus) c.everest_bonus = newConfig.everest_bonus
+
+  pilots[pilotIndex].configs.push(c.id);
+  configs.push(c);
+  io.writeJson('configurations', configs);
+  io.writeJson('pilots', pilots);
+  loadMecha(pilots[pilotIndex])
+}
+
+function deleteConfig(pilotID, configID) {
+  var configIndex = configs.findIndex(c => c.id === configID);
+  var pilotIndex = pilots.findIndex(p => p.id === pilotID);
+
+  pilots[pilotIndex].configs = pilots[pilotIndex].configs.filter(x => x !== configID);
+  configs.splice(configIndex, 1);
+  io.writeJson('configurations', configs);
+  io.writeJson('pilots', pilots);
+  loadMecha(pilots[pilotIndex])
+}
+
 function updateMount(configID, newItem, itemIndex, pilotID) { 
   var configIndex = configs.findIndex(c => c.id === configID);
   var mountIndex = configs[configIndex].mounts.findIndex(m => m.mount_index == itemIndex);
@@ -88,6 +120,8 @@ function updateSystem(configID, newItem, itemIndex, pilotID) {
 }
 
 module.exports.loadMecha = loadMecha;
+module.exports.addConfig = addConfig;
+module.exports.deleteConfig = deleteConfig;
 module.exports.updateMount = updateMount;
 module.exports.addMount = addMount;
 module.exports.removeMount = removeMount;

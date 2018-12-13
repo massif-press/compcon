@@ -1,3 +1,4 @@
+const { dialog } = require('electron').remote;
 const $ = require('jquery');
 const Handlebars = require('handlebars');
 const MountEditor = require('./mount-editor');
@@ -5,6 +6,7 @@ const io = require('./util/io');
 // const Charts = require('./util/chartbuilder');
 const Expander = require('./util/expander');
 const MechBuilder = require("./util/mechbuilder");
+const Sidebar = require("./mech-sidebar");
 //templates
 const loadoutTemplate = io.readTemplate('mech-loadout');
 const infoTemplate = io.readTemplate('mech-info');
@@ -31,6 +33,21 @@ function loadMech(config, pilot) {
   $("#shell-info-btn").click(function () {
     var modalID = $(this).data("modal");
     $('#' + modalID).css("display", "block");
+  });
+
+  $("#delete-config-btn").click(function () {
+    dialog.showMessageBox({
+      type: 'question',
+      buttons: ['Yes', 'No'],
+      title: 'Delete Configuration',
+      message: `Are you sure you want to delete this configuration(${config.name})? This action cannot be undone.`
+    }, function (response) {
+      if (response === 0) { //yes
+        Sidebar.deleteConfig(pilot.id, config.id);
+      } else {
+        return;
+      }
+    });
   });
 
   //bind mount buttons

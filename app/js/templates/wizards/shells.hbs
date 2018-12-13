@@ -1,6 +1,6 @@
 {{#shells}}
-<tr>
-  <td class="shell-item" data-id="{{id}}">
+<tr style="cursor: pointer;">
+  <td class="shell-item" data-id="{{id}}" data-name="{{name}}">
     <div class="menu-border">
       <div class="caret-expander caret caret-closed"></div>
       <div style="display: inline;">&nbsp;{{name}}
@@ -12,15 +12,12 @@
             <div><span class="subtitle">MOUNT</span><br>{{@this}}</div>
           {{/mounts}}
         </div>
-
         <div class="mounts-block">
           <div><span class="subtitle">SIZE</span><br>{{size}}</div>
           <div><span class="subtitle">ARMOR</span><br>{{armor}}</div>
           <div><span class="subtitle">BASE SP</span><br>{{sp}}</div>
         </div>
-
         {{#compare id "everest" operator="=="}}
-          
           <div style="width:100%; text-align:center; margin-top:10px"><span id="everest-feature">EVEREST Shell Feature: +1 to any CORE stat</span></div>
           <br>
         {{else}}
@@ -30,7 +27,6 @@
           <div><span class="subtitle">Systems</span><br>{{#if stats.sys}}{{stats.sys}}{{else}}0{{/if}}</div>
           <div><span class="subtitle">Engineering</span><br>{{#if stats.eng}}{{stats.eng}}{{else}}0{{/if}}</div>
         </div>
-
         {{/compare}}
         <hr>
         {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}

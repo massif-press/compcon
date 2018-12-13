@@ -364,11 +364,6 @@
         "name": "BARBAROSSA",
         "source": "HA",
         "level": 1
-      },
-      {
-        "name": "VLAD",
-        "source": "IPS-N",
-        "level": 2
       }
     ],
     "gear": [
@@ -437,16 +432,7 @@
       "sp": 0,
       "core_sp": 0
     },
-    "core_bonuses": [
-      "fomorian",
-      "frame",
-      "plating",
-      "opendoor",
-      "stasis",
-      "superior",
-      "neurolinked",
-      "ammofeeds"
-    ],
+    "core_bonuses": [],
     "configs": [
       "7"
     ],
@@ -569,11 +555,11 @@
     },
     "core_bonuses": [
       "frame",
-      "frame",
-      "frame"
+      "plating",
+      "caps"
     ],
     "configs": [
-      "7"
+      "pzyyrsz78"
     ],
     "notes": "",
     "history": "",

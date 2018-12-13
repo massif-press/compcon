@@ -63,7 +63,7 @@ function setAvailableWeaponList(m, mech, extraSpCost, preselectedWeapon) {
   if (m.mount === "Flex") validMounts = ["Auxiliary", "Main"]
   if (m.isCoreMount) validMounts = ["Auxiliary", "Main", "Heavy"] //TODO: set cb_retrofit, mount gains new isCoreMount prop
   if (m.mount === "Spinal" || m.mount === "Heavy") {
-    if (mech.mounts.filter(x => !x.weapon).length > 1 || m.weapon.mount === "Superheavy") { //there are empty mounts, so we can equip a superheavy weapon (with a link)
+    if (mech.mounts.filter(x => !x.weapon).length > 1 || m.weapon && m.weapon.mount === "Superheavy") { //there are empty mounts, so we can equip a superheavy weapon (with a link)
       validMounts = ["Heavy", "Superheavy"]
     } else {
       validMounts = ["Heavy"]
@@ -391,9 +391,9 @@ function openSystemModal(mech, idx, hasCbShaping) {
     if (installedais.length >= ai_limit) continue;
     if (sys.source === "Special") continue;
     if (sys.source !== "GMS") {
-      var licenseIdx = mech.licenses.findIndex(l => l.name === sys.license);
+      var licenseIdx = mech.pilot_licenses.findIndex(l => l.name === sys.license);
       if (licenseIdx === -1) continue;
-      if (mech.licenses[licenseIdx].level < sys.license_level) continue;
+      if (mech.pilot_licenses[licenseIdx].level < sys.license_level) continue;
     }
     if (s) sys.preSelect = sys.id === s.id;
     sys.isOverSp = currentFreeSp < sys.sp;

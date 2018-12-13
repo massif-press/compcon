@@ -437,3 +437,7 @@ textarea {
   text-align: center;
   padding: 10px;
 }
+
+.everest-bonus-select td {
+  cursor: pointer;
+}
