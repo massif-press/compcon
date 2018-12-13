@@ -92,6 +92,7 @@ Bugs:
   ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Ideas:
+  ☐ Translation support
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
   ☐ Clone Pilot >> roll on clone complications table option
   ☐ Custom notes/descriptions for items
