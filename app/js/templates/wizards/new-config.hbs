@@ -14,18 +14,74 @@
   </div>
 </div>
 
-<!-- select shell-->
-<div class="nc-wizard" data-step="1">
-  <br><br>
-  <div id="register-new-config" class="wizard-btn btn" data-step="1"><span style="width: 100%">New Configuration</span></div>
+<!-- shell -->
+<div class="nc-wizard hidden" data-step="1">
+  <h1>Select Shell</h1>
+  {{!-- <span class="subtitle">bottom text</span> --}}
   <br>
-  <hr>
-  <br>
-  <div class="wizard-load-btn disabled warning-stripes"><span>Load Config Data From File</span></div>
-  <br>
-  <div class="wizard-load-btn disabled warning-stripes"><span>Load Config Data From Clipboard</span></div>
+  <div class="modal-scrollrect menu-border" style="height:74%" >
+    <table width="100%" id="shell-select" style="border-collapse: collapse;"></table>
+  </div>
+  <p id="shell-selection-text" class="subtitle pull-right"></p>
 
   <div class="wizard-btn-container">
-    <span class="close menu-border btn" data-modal="newConfigModal">&emsp;Cancel&emsp;</span>
+    <div class="wizard-btn btn" data-step="0"><span>Back</span></div>
+    <div class="breadcrumb-container"></div>
+    <div class="wizard-btn disabled" data-step="{{#if isEverest}}2{{else}}3{{/if}}"><span>Next</span></div>
+  </div>
+</div>
+
+<!-- everest bonus -->
+<div class="nc-wizard hidden" data-step="2">
+  <h1>Select CORE Bonus</h1>
+  <span class="subtitle">The GMS EVEREST gains a +1 bonus to any CORE attribute, as a shell feature.</span>
+  <br>
+  <div id="skill-grid">
+    <table width="100%" style="border-spacing: 15px;">
+      <tr>
+        <td class="skillbox" data-skill="hull" width="25%">Hull</td>
+        <td class="skillbox" data-skill="agi" width="25%">Agility</td>
+        <td class="skillbox" data-skill="sys" width="25%">Systems</td>
+        <td class="skillbox" data-skill="eng" width="25%">Engineering</td>
+      </tr>
+    </table>
+  </div>
+  <div id="everest-core-reset" class="minor-btn btn pull-right">RESET</div>
+  <div class="wizard-btn-container">
+    <div class="wizard-btn btn" data-step="1">Back</div>
+    <div class="breadcrumb-container"></div>
+    <div class="wizard-btn btn" data-step="3">Next</div>
+  </div>
+</div>
+
+<!-- name/data -->
+<div class="nc-wizard hidden" data-step="3">
+  <h1>Register New Configuration</h1>
+  <span class="subtitle">IDENT PROTOCOL // Shell Identifier</span>
+  <br><br>
+  <span class="label">Configuration Name</span><br>
+  <input class="line-input" id="callsign-input" type="text" placeholder="Enter Mech Name...">
+  <br><br>
+  <span class="label">Notes</span><br>
+  <textarea class="wizard-textarea" id="config-notes" name="notes" rows="7" cols="65" spellcheck="true"></textarea>
+  <div style="padding:5px">
+    <span>Image</span>
+    <div id="mech-img-select" class="menu-border minor-btn btn pull-right" style="display: inline">SELECT</div><span id="mech-img-filename">(NONE)</span>
+  </div>
+  <div class="wizard-btn-container">
+    <div class="wizard-btn btn" data-step="{{#if isEverest}}2{{else}}1{{/if}}"><span>Back</span></div>
+    <div class="breadcrumb-container"></div>
+    <div class="wizard-btn disabled" data-step="4"><span>Next</span></div>
+  </div>
+</div>
+
+<!-- confirm -->
+<div class="nc-wizard hidden" data-step="4">
+  <h1>Confirm New Configuration</h1>
+  <br>
+  <div id="nc-confirmation"></div>
+  <div id="confirm-new-config" class="wizard-btn btn"><span style="width: 100%">Confirm</span></div>
+  <div class="wizard-btn-container">
+    <div class="wizard-btn btn" data-step="3"><span>Back</span></div>
   </div>
 </div>

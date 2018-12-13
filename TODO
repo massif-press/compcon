@@ -44,12 +44,14 @@ Beta:
         ☐ everest CORE bonus, treated as a cb, reassign in CB assignment modal
     Systems:
       ☐ Systems should take global bonuses (eg. limited)
+    ☐ Reimplement Charts
 
   Other:
     ☐ Options Menu
     ☐ Help Modal
   
 Todo:
+  ☐ "Use Default" image selector for config, checked by default
   ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
   ☐ Change wizard/editor items so they highlight like loadout (no swing when opened)
   ☐ cb_retrofit needs to set core_mount to false if removed from pilot

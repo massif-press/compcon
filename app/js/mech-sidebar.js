@@ -10,7 +10,6 @@ var configs = require("../extraResources/data/configurations.json");
 var pilots = require("../extraResources/data/pilots.json");
 //templates
 const mechTemplate = io.readTemplate('config-expander');
-const newConfigTemplate = io.readTemplate('wizards/new-config');
 
 function loadMecha(pilot) {
   var configArray = [];
@@ -36,12 +35,7 @@ function loadMecha(pilot) {
   });
 
   $('#add-config-btn').off().click(function () {
-    var ncTemplate = Handlebars.compile(newConfigTemplate);
-    $("#ncw-modal-body").html(ncTemplate());
-
-    $('#newConfigModal').css("display", "block");
-
-    ConfigWizard();
+    ConfigWizard(pilot);
   })
 }
 

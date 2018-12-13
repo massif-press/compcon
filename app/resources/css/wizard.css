@@ -99,7 +99,8 @@ textarea {
   border-color: grey;
 }
 
-.np-wizard {
+.np-wizard,  
+.nc-wizard {
   height: 100%;
   width: 100%;
   position: relative;
@@ -285,7 +286,9 @@ textarea {
   margin: 10px;
 }
 
-#register-new-pilot, 
+#register-new-pilot,
+#register-new-config, 
+#confirm-new-config,
 #confirm-level-up {
   font-size: 28px;
   letter-spacing: 3px;
@@ -381,4 +384,56 @@ textarea {
 .newval {
   color: var(--success);
   font-size: 32px;
+}
+
+.catalog-ult {
+  margin: 5px;
+  margin-bottom: 0px;
+  padding: 5px;
+  background-color: var(--bg);
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-align: center;
+  width: 98%;
+}
+
+.catalog-ult-sub {
+  margin: 0px 5px;
+  padding: 0px 5px;
+  letter-spacing: 8px;
+  text-align: center;
+  width: 98%;
+  font-size: 13px;
+  font-weight: 100;
+  color: var(--highlight);
+}
+
+.catalog-ult-desc {
+  padding-left: 20px;
+  padding-bottom: 5px;
+}
+
+.mounts-block {
+  margin: 10px;
+  display: table;
+  border-collapse: separate;
+  table-layout: fixed;
+  width: 98.5%;
+}
+
+.mounts-block div {
+  text-align: center;
+  display: table-cell;
+  font-size: 20px;
+  background-color: var(--bg-alt);
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+#everest-feature {
+  width: 100%;
+  background-color: var(--bg-alt);
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
 }
