@@ -1,26 +1,21 @@
 Private Beta:
   Pilot Editor:
     ☐ Pilot gear editor
-    ☐ Pilot details editor
+    ☐ Pilot details editor: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
+    ☐ Clone Pilot >> roll on clone complications table option
     Pilot Reassignment modal:
       ☐ Pilot Skill Reassignment tab
       ☐ Pilot Talent Reassignment tab
       ☐ Pilot License Reassignment tab
+        ☐ Check and set config status unavailable on JSON update if pilot is missing licenses
       ☐ Pilot CORE Points Reassignment tab
       ☐ Pilot CORE Bonus Reassignment tab
-    ☐ Pilot load from file
-    ☐ Pilot load from clipboard
-    ☐ Pilot export tool
     ☐ Pilot status setting tool
   Configuration Editor:
     ☐ Config delete
     ☐ Config details editor
-    ☐ Config export tool
-    ☐ Config clone tool
     ☐ Config status setting tool
-    ☐ Config loadout saves
-    ☐ Config load from file
-    ☐ Config load from clipboard
+    ☐ Config duplicate
     Mount Modification:
       ☐ HA Assault Launcher gets a free grenade or mine (submodal)
       ☐ Distinguish between AMMO and MODS: Weapons can take multiple types of ammo, but only one may be active at any time
@@ -31,47 +26,70 @@ Private Beta:
         ☐ cb_intweapon, applied as mod
         ☐ cb_retrofit, overwrite mount type. Can reassign cb_retrofit.
         ☐ everest CORE bonus, treated as a cb, reassign in CB assignment modal
+      ☐ cb_retrofit needs to set core_mount to false if removed from pilot
     Systems:
       ☐ Systems should take global bonuses (eg. limited)
     ☐ Reimplement Charts
+    Import/Export:
+    ☐ Pilot load from file
+    ☐ Pilot load from clipboard
+    ☐ Pilot export tool
+    ☐ Config load from file
+    ☐ Config load from clipboard
+    ☐ Config export tool
   Other:
     ☐ Options Menu
     ☐ Help Modal
-  
+    ☐ Options: import/export all (overwrite or append)
+    ☐ Options: LANCERDATA import/export
+    ☐ Expose User Data folder (or saves will break on update)
+
+v1:
+  Config Loadout Storage:
+    ☐ loadouts.json
+    ☐ Loadout modal
+    ☐ Save/Delete/Rename loadouts
+    ☐ Install loadouts (check and mark unavailable SP/licenses)
+  Print:
+    ☐ Print pilot sheet
+      ☐ Pilot print should prompt to optionally print a config (default to first active config)
+    ☐ Print mech sheet
+  Translation Support:
+    ☐ Translate db into json
+    ☐ Replace strings with lookup equivalents
+    ☐ Select language from Options menu
+      ☐ Close catalog if open
+
+v2:
+  Exotic Items:
+  Custom Background Options:
+  Mod Support:
+    Editor:
+
 Todo:
-  ☐ Custom Background Option
-  ☐ use Fontello to incorporate svgs into custom webfont
-  ☐ "Use Default" image selector for config, checked by default
-  ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
+  ☐ Make new upper-right tooltip box option
+  ☐ "Use Default" image selector for configs, checked by default
   ☐ Change wizard/editor items so they highlight like loadout (no swing when opened)
-  ☐ cb_retrofit needs to set core_mount to false if removed from pilot
+  ☐ Catalog: Unique weapon/system should be a sortable column or otherwise identifiable
+  ☐ Catalog: Fix header position
+  ☐ use Fontello to incorporate svgs into custom webfont
+  ☐ For rules information (eg. mount-extra-text) replace with a link or popover to show an expanded rules detail window.
   ☐ Allow user to break license and/or SP cost locking, but show warning & mark unavailable config
-  ☐ Atomize player/config creation screens for use in reassignment modals
-  ☐ Mech Sheet: loadout button into modal
-  ☐ Mech/Pilot Sheet: tag all editable fields with an input-hide class, toggle all to switch on edit button click. Save changed data on save-click.
-  ☐ set config status unavailable on JSON update if pilot is missing licenses
   ☐ wizard lists should be sortable
   ☐ NPW: "select x at character creation" overrides
   ☐ Load X should examine json first to determine single or multiple, then give checkbox selection as to what to import
-  ☐ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json'))
+  ✔ Correctly path data on build (path.join(path.dirname(__dirname), 'foldername','data.json')) @done(18-12-13 14:33)
   ☐ Range into object (melee, threat, range)
-  ☐ Fix catalog header position
   ☐ Catalog - write sort function to correctly sort damage/range
   ☐ parse effects and descriptions for damage words
-  ☐ refactor chart builder
   ☐ weapon threat calc
-  ☐ weapon calculations should apply mod bonus
+  ☐ weapon calculations should apply mod/tag bonuses/maluses
   ☐ for damage-by-range chart, seperate out melee and threat X (break w/ NaN) at the front of the chart
-  ☐ inaccurate/accurate etc. should modify average damage
-  ☐ Catalog: Unique weapon/system should be a sortable column or otherwise identifiable
-  ☐ Options: export all
-  ☐ Options: lancerdata exporter
-  ☐ Options: lancerdata importer
-  ☐ Make new upper-right tooltip box option
   ☐ Hide frame and add in-app minimize, maximize, and close buttons
   ☐ Fluff text for wizards
 
 Refactoring:
+  ☐ Atomize player/config creation screens for use in reassignment modals
   ☐ remove unecessary <a> anchors
   ☐ merge and re-use similar templates, genercize others
   ☐ mount_index should be mount_id and should be set using the io id gen
@@ -89,13 +107,10 @@ Bugs:
   ☐ Limited values aren't being set correctly
   ☐ new pilot wizard: background options bounce on click
   ☐ Catalog: opening a new list doesn't respect applied manufacturer filter
-  ☐ editing config loadout makes charts freak out (need to destroy and rebuild canvases)
   
 Ideas:
-  ☐ Translation support
   ☐ Option to create rules-breaking characters (unlimited skill points, etc). User confirm & mark sheet.
-  ☐ Clone Pilot >> roll on clone complications table option
-  ☐ Custom notes/descriptions for items
+  ✘ Custom notes/descriptions for items @cancelled(18-12-13 14:51)
   ☐ range/threat pips for weapons/systems
   ☐ text based quick copy for disc/roll20
   ☐ better and more consistent animations, animations tied to user action classes (navigation, selection, deletion, etc)
