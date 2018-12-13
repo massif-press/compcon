@@ -1,6 +1,6 @@
 [
   {
-    "id": 0,
+    "id": "cio",
     "callsign": "CIO",
     "name": "Ciocie Cioelle",
     "level": 4,
@@ -23,9 +23,9 @@
         "description": "Unforunately named."
       }
     ],
-    "img-portrait": "./resources/img/pilots/portrait_cio.png",
-    "img-appearance": "./resources/img/pilots/cio_full.png",
-    "text-appearance": "",
+    "img_portrait": "./extraResources/img/pilots/portrait_cio.png",
+    "img_appearance": "./extraResources/img/pilots/cio_full.png",
+    "text_appearance": "",
     "hp_bonus": 0,
     "armor": 2,
     "ee": "8/8",
@@ -41,9 +41,10 @@
         "name": "GORGON",
         "source": "HORUS",
         "level": 2
-      }   
+      }
     ],
-    "gear": [{
+    "gear": [
+      {
         "id": "smartknife",
         "notes": ""
       },
@@ -83,9 +84,10 @@
       "maneuver": 1,
       "notice": 0
     },
-    "talents": [{
+    "talents": [
+      {
         "id": "arms",
-        "rank": 2
+        "rank": 1
       },
       {
         "id": "techno",
@@ -96,14 +98,16 @@
         "rank": 3
       }
     ],
-    "talent_weapons": ["fuelrod"],
+    "talent_weapons": [
+      "fuelrod"
+    ],
     "core": {
       "hull": 2,
       "agi": 2,
       "eng": 1,
       "sys": 0,
       "targeting": 1,
-      "hp": 0,
+      "hp": 4,
       "sp": 1,
       "core_sp": 1
     },
@@ -111,16 +115,20 @@
       "heldimage"
     ],
     "notes": "Cioelle carries a book containing fan fiction, spells and her Coat of Arms. The devil-made coat apparantly provides her with extra arms.",
-    "configs": [6]
+    "configs": [
+      "6"
+    ],
+    "hp": 9
   },
   {
-    "id": 1,
+    "id": "oda",
     "callsign": "ODA",
     "name": "Taro Oda",
     "level": 3,
     "background": "Colonist",
     "history": "Taro Oda grew up in the colonies. He is pretty good at gunplay, and a bad liar.",
-    "fnf": [{
+    "fnf": [
+      {
         "name": "\"Ol\" Buddy O'Pal",
         "relationship": "Comrade, Fence",
         "description": "Taro's best friend. Sells hot car stereos."
@@ -131,20 +139,23 @@
         "description": "This guy sucks. Just the worst."
       }
     ],
-    "img-portrait": "./resources/img/pilots/portrait_oda.png",
-    "img-appearance": "",
-    "text-appearance": "my man laughin cuz he know<br><br>(this appearance text will appear along with, or instead of, a pilot image)",
+    "img_portrait": "./extraResources/img/pilots/portrait_oda.png",
+    "img_appearance": "",
+    "text_appearance": "my man laughin cuz he know<br><br>(this appearance text will appear along with, or instead of, a pilot image)",
     "hp_bonus": 0,
     "armor": 1,
     "ee": "10/10",
     "speed": 4,
     "status": "ACTIVE",
-    "licenses": [{
-      "name": "RALEIGH",
-      "source": "ISP-N",
-      "level": 3
-    }],
-    "gear": [{
+    "licenses": [
+      {
+        "name": "RALEIGH",
+        "source": "ISP-N",
+        "level": 3
+      }
+    ],
+    "gear": [
+      {
         "id": "sig_combat",
         "notes": "Hunting Rifle<br>Deals Kinetic damage."
       },
@@ -176,9 +187,10 @@
       "maneuver": 2,
       "notice": 3
     },
-    "talents": [{
+    "talents": [
+      {
         "id": "shot",
-        "rank": 2
+        "rank": 1
       },
       {
         "id": "infiltrator",
@@ -195,7 +207,7 @@
       "eng": 1,
       "sys": 0,
       "targeting": 1,
-      "hp": 5,
+      "hp": 3,
       "sp": 1,
       "core_sp": 1
     },
@@ -203,16 +215,23 @@
       "frame"
     ],
     "notes": "a player would enter notes here about the campaign, builds, etc etc.",
-    "configs": [0, 1, 2, 3]
+    "configs": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "hp": 8
   },
   {
-    "id": 2,
+    "id": "succsssor",
     "callsign": "SUCCESSOR",
     "name": "Allison Wanda Ruth",
     "level": 5,
     "background": "Outlaw",
     "history": "Allison Wanda Ruth is a human and the owner of a Key of Kings. Born on Earth, Allison worked as a barista before being taken to Throne against her will. After nearly being sold into slavery and killed in the Battle of Hell 71, Allison undergoes a dramatic change of character with the help of Cio and 82. Shortly after, Zoss reveals that he orchestrated her transfer because Allison is part of an impending prophecy, one in which only she can overthrow the Seven.",
-    "fnf": [{
+    "fnf": [
+      {
         "name": "Zaid",
         "relationship": "Boyfriend",
         "description": "Currently missing."
@@ -223,9 +242,9 @@
         "description": "A peacekeeper of the Concordant Harmonies."
       }
     ],
-    "img-portrait": "./resources/img/pilots/portrait_allison.png",
-    "img-appearance": "./resources/img/pilots/allison_full.png",
-    "text-appearance": "",
+    "img_portrait": "./extraResources/img/pilots/portrait_allison.png",
+    "img_appearance": "./extraResources/img/pilots/allison_full.png",
+    "text_appearance": "",
     "hp_bonus": 0,
     "armor": 0,
     "ee": "10/10",
@@ -236,19 +255,20 @@
         "name": "BLACK WITCH",
         "source": "SSC",
         "level": 2
-      }, 
+      },
       {
         "name": "METALMARK",
         "source": "SSC",
         "level": 2
-      }, 
+      },
       {
         "name": "GENGHIS",
         "source": "HA",
         "level": 1
       }
     ],
-    "gear": [{
+    "gear": [
+      {
         "id": "arcblade",
         "notes": ""
       },
@@ -284,7 +304,8 @@
       "maneuver": 1,
       "notice": 0
     },
-    "talents": [{
+    "talents": [
+      {
         "id": "bond",
         "rank": 2
       },
@@ -307,7 +328,7 @@
       "eng": 1,
       "sys": 1,
       "targeting": 0,
-      "hp": 0,
+      "hp": 5,
       "sp": 1,
       "core_sp": 1
     },
@@ -315,6 +336,236 @@
       "sscatms"
     ],
     "notes": "killsixbilliondemons.wikia.com/wiki/Allison",
-    "configs": [4, 5]
+    "configs": [
+      "4",
+      "5"
+    ]
+  },
+  {
+    "id": "jfi0i1z6x",
+    "callsign": "FNG",
+    "name": "Nü Guie",
+    "level": 1,
+    "background": "Soldier",
+    "fnf": [
+      {
+        "name": "Robert Edward D'shurt",
+        "relationship": "Father",
+        "description": "Mysteriously killed in a bottle episode"
+      }
+    ],
+    "hp_bonus": 0,
+    "armor": 0,
+    "ee": "10/10",
+    "speed": 4,
+    "status": "ACTIVE",
+    "licenses": [
+      {
+        "name": "BARBAROSSA",
+        "source": "HA",
+        "level": 1
+      }
+    ],
+    "gear": [
+      {
+        "id": "sig_sidearm",
+        "notes": ""
+      },
+      {
+        "id": "prim_melee",
+        "notes": ""
+      },
+      {
+        "id": "hardsuit",
+        "notes": ""
+      },
+      {
+        "id": "frag",
+        "notes": ""
+      },
+      {
+        "id": "stims",
+        "notes": ""
+      },
+      {
+        "id": "survivalkit",
+        "notes": ""
+      }
+    ],
+    "skills": {
+      "grit": 0,
+      "acquire": 0,
+      "brawl": 0,
+      "flash": 0,
+      "infiltrate": -1,
+      "investigate": 0,
+      "persuade": 0,
+      "command": 1,
+      "swindle": 0,
+      "tech": -1,
+      "survive": 1,
+      "maneuver": 2,
+      "notice": 2
+    },
+    "talents": [
+      {
+        "id": "duel",
+        "rank": 1
+      },
+      {
+        "id": "techno",
+        "rank": 2
+      },
+      {
+        "id": "monkey",
+        "rank": 3
+      }
+    ],
+    "talent_weapons": [],
+    "core": {
+      "hull": 0,
+      "agi": 0,
+      "eng": 0,
+      "sys": 1,
+      "targeting": 0,
+      "hp": 1,
+      "sp": 0,
+      "core_sp": 0
+    },
+    "core_bonuses": [],
+    "configs": [
+      "7"
+    ],
+    "notes": "Campaign notes, build goals, etc",
+    "history": "Some background details and history",
+    "text_appearance": "Some appearance text, if you don't want to include an image",
+    "img_portrait": "",
+    "img_appearance": "",
+    "hp": 6
+  },
+  {
+    "id": "kwkmydrvn",
+    "callsign": "wEEdLorD_gOKu_420",
+    "name": "Jeff Coolguy",
+    "level": 10,
+    "background": "Spec Ops",
+    "fnf": [],
+    "hp_bonus": 0,
+    "armor": 0,
+    "ee": "10/10",
+    "speed": 4,
+    "status": "ACTIVE",
+    "licenses": [
+      {
+        "name": "LANCASTER",
+        "source": "IPS-N",
+        "level": 2
+      },
+      {
+        "name": "TORTUGA",
+        "source": "IPS-N",
+        "level": 2
+      },
+      {
+        "name": "VLAD",
+        "source": "IPS-N",
+        "level": 2
+      },
+      {
+        "name": "METALMARK",
+        "source": "SSC",
+        "level": 2
+      },
+      {
+        "name": "NAPOLEON",
+        "source": "HA",
+        "level": 1
+      },
+      {
+        "name": "GENGHIS",
+        "source": "HA",
+        "level": 1
+      }
+    ],
+    "gear": [
+      {
+        "id": "sig_sidearm",
+        "notes": ""
+      },
+      {
+        "id": "sig_heavy",
+        "notes": ""
+      },
+      {
+        "id": "clothes",
+        "notes": ""
+      },
+      {
+        "id": "frag",
+        "notes": ""
+      }
+    ],
+    "skills": {
+      "grit": 3,
+      "acquire": 0,
+      "brawl": 2,
+      "flash": 0,
+      "infiltrate": 1,
+      "investigate": 0,
+      "persuade": 0,
+      "command": 4,
+      "swindle": 0,
+      "tech": 1,
+      "survive": 0,
+      "maneuver": 4,
+      "notice": 1
+    },
+    "talents": [
+      {
+        "id": "ace",
+        "rank": 3
+      },
+      {
+        "id": "duel",
+        "rank": 1
+      },
+      {
+        "id": "exemplar",
+        "rank": 3
+      },
+      {
+        "id": "executioner",
+        "rank": 3
+      },
+      {
+        "id": "brutal",
+        "rank": 1
+      }
+    ],
+    "talent_weapons": [],
+    "core": {
+      "hull": 7,
+      "agi": 3,
+      "eng": 0,
+      "sys": 0,
+      "targeting": 5,
+      "hp": 10,
+      "sp": 0,
+      "core_sp": 0
+    },
+    "core_bonuses": [
+      "frame",
+      "plating",
+      "caps"
+    ],
+    "configs": [
+      "pzyyrsz78"
+    ],
+    "notes": "",
+    "history": "",
+    "text_appearance": "extremely cool as all hell",
+    "img_portrait": "",
+    "img_appearance": "",
+    "hp": 15
   }
 ]

@@ -1,18 +1,17 @@
 {{#pilots}}
-  <a href=#>
-    <div class="pilot-expander btn {{statusStripes status}}" data-id="{{id}}">
-      <span class="name {{statusStyle status}}">{{callsign}}</span>
-      <span class="pilot-sub">{{allCaps background}}//LL{{level}}</span>
-      <div class="pilot-open-info hidden">
-        <img  class="block-img"src="{{img-portrait}}">
-        <span class="name" style="display: inline-block; text-align: center;">{{name}}</span>
-        <span class="pilot-info">
-          <br>
-          {{background}}<span class="subtitle">//</span>License Level <b>{{level}}</b>
-          <br>
-          <b class="{{statusStyle status}}">{{allCaps status}}</b>
-        </span>
-      </div>
+  <div class="pilot-expander btn {{statusStripes status}}" data-id="{{id}}">
+    <span class="name {{statusStyle status}}">{{callsign}}</span>
+    <br>
+    <span class="pilot-sub">{{allCaps background}}//LL{{level}}</span>
+    <div class="pilot-open-info hidden">
+      <img  class="block-img"src="{{img_portrait}}">
+      <span class="name" style="display: inline-block; text-align: center;">{{name}}</span>
+      <span class="pilot-info">
+        <br>
+        {{background}}<span class="subtitle">//</span>License Level <b>{{level}}</b>
+        <br>
+        <b class="{{statusStyle status}}">{{allCaps status}}</b>
+      </span>
     </div>
-  </a>
+  </div>
 {{/pilots}}

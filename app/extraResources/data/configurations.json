@@ -1,0 +1,373 @@
+[
+  {
+    "id": "0",
+    "name": "ōyamatasumi",
+    "img": "ipsn_drake.png",
+    "shell_id": "drake",
+    "status": "unavailable",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Main",
+        "weapon_id": "",
+        "sh_lock": true
+      },
+      {
+        "mount_index": 1,
+        "mount": "Flex",
+        "weapon_id": "nexus_hk"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Flex",
+        "weapon_id": "stub",
+        "mods": [
+          "nanite"
+        ]
+      },
+      {
+        "mount_index": 3,
+        "mount": "Superheavy",
+        "weapon_id": "leviathan"
+      }
+    ],
+    "systems": [
+      {
+        "id": "aegis"
+      },
+      {
+        "id": "bastion"
+      }
+    ]
+  },
+  {
+    "id": "1",
+    "name": "hachiman",
+    "img": "ipsn_blackbeard.png",
+    "shell_id": "blackbeard",
+    "status": "unavailable",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Auxiliary",
+        "weapon_id": "tacticalknife"
+      },
+      {
+        "mount_index": 1,
+        "mount": "Auxiliary",
+        "weapon_id": "flechette"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Flex",
+        "weapon_id": "chainaxe"
+      },
+      {
+        "mount_index": 3,
+        "mount": "Heavy",
+        "weapon_id": "nanocarbon"
+      }
+    ],
+    "systems": [
+      {
+        "id": "smn"
+      },
+      {
+        "id": "lockkill"
+      },
+      {
+        "id": "sekhmet"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "raijin",
+    "img": "ipsn_raleigh.png",
+    "shell_id": "raleigh",
+    "status": "active",
+    "notes": "pilot's notes test",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Main",
+        "weapon_id": "ar"
+      },
+      {
+        "mount_index": 1,
+        "mount": "Auxiliary",
+        "weapon_id": "handcannon"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Auxiliary",
+        "weapon_id": "handcannon"
+      },
+      {
+        "mount_index": 3,
+        "mount": "Heavy",
+        "weapon_id": "amrifle"
+      }
+    ],
+    "systems": [
+      {
+        "id": "apple"
+      },
+      {
+        "id": "apple"
+      },
+      {
+        "id": "burst"
+      },
+      {
+        "id": "t1shield"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "raijin",
+    "img": "",
+    "shell_id": "everest",
+    "status": "destroyed",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Main",
+        "weapon_id": "ar"
+      },
+      {
+        "mount_index": 1,
+        "mount": "Flex",
+        "weapon_id": "tacticalknife"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Flex",
+        "weapon_id": "tacticalknife"
+      },
+      {
+        "mount_index": 3,
+        "mount": "Heavy",
+        "weapon_id": "amrifle"
+      }
+    ],
+    "systems": [
+      {
+        "id": "apple"
+      },
+      {
+        "id": "apple"
+      },
+      {
+        "id": "burst"
+      },
+      {
+        "id": "personalizations"
+      },
+      {
+        "id": "t1shield"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "claremont",
+    "img": "ssc_metalmark.png",
+    "shell_id": "metalmark",
+    "status": "available",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Auxiliary",
+        "weapon_id": "pistol"
+      },
+      {
+        "mount_index": 1,
+        "mount": "Auxiliary",
+        "weapon_id": "tacticalknife"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Flex",
+        "weapon_id": "railrifle"
+      },
+      {
+        "mount_index": 3,
+        "mount": "Heavy",
+        "weapon_id": "howitzer"
+      }
+    ],
+    "systems": [
+      {
+        "id": "reactiveweave"
+      },
+      {
+        "id": "plug"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "parlier",
+    "img": "ssc_blackwitch.png",
+    "shell_id": "bwitch",
+    "status": "available",
+    "mounts": [
+      {
+        "mount_index": 0,
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
+      },
+      {
+        "mount_index": 1,
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Flex",
+        "weapon_id": "magcannon"
+      }
+    ],
+    "systems": [
+      {
+        "id": "ferrous"
+      },
+      {
+        "id": "iceout"
+      },
+      {
+        "id": "magdeployer"
+      },
+      {
+        "id": "reactiveweave"
+      },
+      {
+        "id": "jericho"
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "aesma",
+    "img": "horus_gorgon.png",
+    "shell_id": "gorgon",
+    "status": "available",
+    "mounts": [
+      {
+        "mount": "Main",
+        "weapon_id": "shotgun",
+        "mount_index": 0
+      },
+      {
+        "mount_index": 1,
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
+      },
+      {
+        "mount_index": 2,
+        "mount": "Auxiliary",
+        "weapon_id": "thermalpistol"
+      },
+      {
+        "mount_index": 3,
+        "mount": "Flex",
+        "weapon_id": "shotgun"
+      }
+    ],
+    "systems": [
+      {
+        "id": "monitor"
+      },
+      {
+        "id": "pdw"
+      },
+      {
+        "id": "horos1"
+      },
+      {
+        "id": "manipulators"
+      },
+      {
+        "id": "metahook"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "name": "Bravo Sierra",
+    "img": "",
+    "shell_id": "everest",
+    "everest_bonus": "sys",
+    "status": "available",
+    "mounts": [
+      {
+        "mount": "Main",
+        "weapon_id": "ar",
+        "mount_index": 0
+      },
+      {
+        "mount": "Flex",
+        "mount_index": 1
+      },
+      {
+        "mount": "Heavy",
+        "weapon_id": "amrifle",
+        "mount_index": 2
+      }
+    ],
+    "systems": [
+      {
+        "id": "apple"
+      },
+      {
+        "id": "manipulators"
+      },
+      {
+        "id": "t1shield"
+      },
+      {
+        "id": "eva"
+      },
+      {
+        "id": "filter"
+      }
+    ]
+  },
+  {
+    "id": "pzyyrsz78",
+    "name": "mlg_halo_69",
+    "shell_id": "tortuga",
+    "status": "active",
+    "mounts": [
+      {
+        "mount": "Flex",
+        "weapon_id": "autoshotgun",
+        "mount_index": 0,
+        "mods": [
+          "throughbolt"
+        ]
+      },
+      {
+        "mount": "Spinal",
+        "weapon_id": "daisy",
+        "mount_index": 1
+      }
+    ],
+    "systems": [
+      {
+        "id": "reactiveweave"
+      },
+      {
+        "id": "explosivevent"
+      },
+      {
+        "id": "pancake"
+      },
+      {
+        "id": "apple"
+      }
+    ]
+  }
+]

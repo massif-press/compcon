@@ -1,0 +1,50 @@
+{{#items}}
+<tr>
+  <td class="pilot-armor-item" data-item="{{id}}">
+    <div class="menu-border">
+      <div class="caret-expander caret caret-closed"></div>
+      <div style="display: inline;">&nbsp;{{name}}
+      {{#if source}}<span class="subtitle">({{source}})</span>{{/if}}
+      </div>
+      <div class="caret-expand hidden">
+        <div style="padding-left:5px">
+          {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+          {{#if bonus}}<span>{{{bonus}}}<br></span>{{/if}}
+          {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
+          <i>Rarity <b>{{rarity}}</b></i>
+          <table class="gear-table">
+            <tr>
+              <th>Armor</th>
+              <th>Evasion/E-Defense</th>
+              <th>Speed</th>
+            </tr>
+            <tr>
+              <td>{{armor}}</td>
+              <td>{{ee}}</td>
+              <td>{{speed}}</td>
+            </tr>
+          </table>
+          <div class="tag-div">
+            {{#tags}}
+            <div class="tag">
+              <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}"
+                data-balloon-pos="right">{{name}}</a>
+            </div>
+            {{/tags}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </td>
+  <td style="vertical-align: top" width="24px;">
+    <div class="pilot-armor-btn" data-item="{{id}}" data-item-name="{{name}}">
+      <span class="pull-right add-button">
+        <a href="#" data-balloon-length="med" data-balloon="Add Gear: {{name}}" data-balloon-pos="left">+</a>
+      </span>
+      <span class="pull-right subtract-button" style="display: none;" data-item="{{id}}">
+        <a href="#" data-balloon-length="medium" data-balloon="Remove Item" data-balloon-pos="left">-</a>
+      </span>
+    </div>
+  </td>
+</tr>
+{{/items}}

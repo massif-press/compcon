@@ -1,0 +1,55 @@
+{{#weapons}}
+  <tr>
+    <td class="weapon-item {{#if preSelect}}skill-upgrade{{/if}}" data-id="{{id}}" data-name="{{name}}" data-isover="{{isLocked}}">
+      <div class="menu-border sweep-btn {{#if isLocked}}warning-stripes{{/if}}">
+        <div class="caret-expander caret caret-closed"></div>
+        <div style="display: inline;">&nbsp;{{name}}
+          <span class="subtitle">({{source}})</span>
+          {{#if disp_sp}}<span class="pull-right subtitle {{#if isOverSp}}warning{{else}}active{{/if}}"><b>{{disp_sp}} SP</b></span>{{/if}}
+        </div>
+        <div class="caret-expand hidden">
+          <div style="padding-left:5px">
+            {{#if isOverSp}}<div class="mount-selection-locked">/ /&emsp;CANNOT MOUNT: EXCEEDS SP COST&emsp;/ /</div>{{/if}}
+            {{#if isIncompatibleMod}}<div class="mount-selection-locked">/ /&emsp;CANNOT MOUNT: INCOMPATIBLE MOD SELECTED&emsp;/ /</div>{{/if}}
+            {{#if description}}<blockquote class="desc-text">{{{description}}}</blockquote>{{/if}}
+            {{#if effect}}<span>{{{effect}}}<br></span>{{/if}}
+            <span class="subtitle">{{mount}} {{type}}</span>
+            {{#if sp}}<br><span class="subtitle">{{sp}} SP </span>{{/if}}
+            <table class="gear-table">
+              <tr>
+                <th>Range</th>
+                <th>Damage</th>
+              <tr>
+                <td>{{range}}</td>
+                <td>{{{dmgFormat damage}}}<br><span class="subtitle">{{dmgRange damage}}</span></td>
+            </table>
+            <div class="tag-div">
+              {{#tags}}
+                <div class="tag">
+                  <a href="#" data-balloon-length="{{balloonSize description}}" data-balloon="{{description}}" data-balloon-pos="right">{{name}}</a>
+                </div>
+              {{/tags}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  {{/weapons}}
+  {{#if installed}}
+  <tr>
+    <td>
+      <div style="margin-top: 10px;"></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="weapon-item" data-name="{{installed.name}}" data-remove="true">
+      <div class="menu-border sweep-btn">
+        <div class="caret icon-unlink" style="color:#fff"></div>
+        <div style="display: inline;">&nbsp;Unmount {{installed.name}}
+          {{#if installed.sp}}<span class="pull-right subtitle">{{installed.sp}} SP</span>{{/if}}
+        </div>
+      </div>
+    </td>
+  </tr>
+{{/if}}

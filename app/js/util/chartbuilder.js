@@ -3,7 +3,23 @@
 var Chart = require('chart.js');
 var Dice = require('./dicemath');
 
-function getCharts(weapons, aptitudes) {
+function getCharts(weapons, items) {
+
+  var aptitudes = {
+    "melee": 0,
+    "ranged": 0,
+    "tech": 0,
+    "support": 0,
+    "control": 0,
+    "repair": 0
+  };
+
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    for (key in item.aptitude) {
+      aptitudes[key] += item.aptitude[key];
+    }
+  }
 
   var minDmgByType = {
     "kinetic": 0,

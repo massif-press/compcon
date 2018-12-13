@@ -11,7 +11,8 @@ function createWindow () {
     'height': 800,
     'minHeight': 720,
     'width': 1400,
-    'minWidth': 1280
+    'minWidth': 1280,
+    // 'frame': false
   })
 
 
@@ -21,7 +22,7 @@ function createWindow () {
   mainWindow.loadFile('./app/index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

@@ -26,16 +26,31 @@ function bindEquipmentExpander() {
   });
 }
 
-function bindIDExpander() {
-  $('.equip-expander-header').click(function () {
-    e = $(this);
-    e.toggleClass('catalog-open');
-    var info = $(".equip-open-info[data-id='" + e.data("id") + "']");
-    $(info).toggleClass('open');
-    $(info).toggle();
+function bindCarets() {
+  $('.caret-expander').off();
+  $('.caret-expander').click(function () {
+    var e = $(this);
+    e.toggleClass('caret-closed caret-open');
+    $(e.parent().find(".caret-expand")).toggle("swing");
+  });
+}
+
+function bindModalOpen() {
+  $(".modal-btn").click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "block");
+  });
+}
+
+function bindModalClose() {
+  $('.close').click(function () {
+    let modalID = $(this).data("modal");
+    $('#' + modalID).css("display", "none");
   });
 }
 
 module.exports.bind = bindExpander;
 module.exports.bindEquipment = bindEquipmentExpander;
-module.exports.bindEquipmentByID = bindIDExpander;
+module.exports.bindCarets = bindCarets;
+module.exports.bindModalOpen = bindModalOpen;
+module.exports.bindModalClose = bindModalClose;

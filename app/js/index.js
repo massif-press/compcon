@@ -1,18 +1,13 @@
 const $ = require("jquery");
 const Electron = require('electron')
-const Expander = require('./util/expander');
 const Helpers = require('./util/handlebar-helpers');
+const Expander = require('./util/expander');
 
 $(document).ready(function () {
+  //loads all handlebars helpers.
   Helpers.init();
 
-  $('.pilot-sidebar').load('./html/pilot-sidebar.html', function() {
-    $('.pilot-Expander').click(function () {
-      if ($(this).hasClass('btn')) {
-        Expander.bind('pilot', this);
-      }
-    });
-  });
+  $('.pilot-sidebar').load('./html/pilot-sidebar.html');
 });
 
 // force web links to open in the OS default browser
@@ -21,16 +16,9 @@ $(document).on('click', 'a[href^="http"]', function (event) {
   Electron.shell.openExternal(this.href);
 });
 
-// About modal button
-$("#about-btn").click(function () {
-  let modalID = $(this).data("modal");
-  $('#' + modalID).css("display", "block");
-});
-
-$('.close').click(function () {
-  let modalID = $(this).data("modal");
-  $('#' + modalID).css("display", "none");
-});
+// modal button
+Expander.bindModalOpen();
+Expander.bindModalClose();
 
 // Catalog button and window
 $("#catalog-btn").click(function () {
