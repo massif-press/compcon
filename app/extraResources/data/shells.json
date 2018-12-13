@@ -9,7 +9,7 @@
     "armor": 0,
     "sp": 6,
     "mounts" : [
-      "flex", "main", "heavy"
+      "Flex", "Main", "Heavy"
     ],
     "stats": {
       "any": 1
@@ -32,9 +32,9 @@
     "armor": 1,
     "sp": 5,
     "mounts": [
-      "flex",
-      "aux",
-      "heavy"
+      "Flex",
+      "Auxiliary",
+      "Heavy"
     ],
     "stats": {
       "hull": 2,
@@ -44,7 +44,7 @@
     },
     "ult_name": "Assault Grapples",
     "ult_description": "The IPS-N branded assault grappling system is a proven, class-leading system rated to handle hauling, supporting, and securing chassis up to Galactic Standard Size 4. Grapple heads are interchangeable and can be swapped for hard or soft targets, electrified, or loaded with codespike systems to incapacitate targets at a distance.",
-    "ult_passive": "As a full action, your mech can fire the assault grapples at any surface in range 8 (even vertical or overhanging), pulling your mech in a straight line to that location as long as your mech is not obstructed during that movement. Your mech can hold on to that location as long as it remains immobile. Your mech can also use this system to attempt to grapple and maintain a grapple on any target within range 5, instead of being adjacent to that target.",
+    "ult_passive": "As a full action, your mech can fire the assault grapples at any surface in range 8 (even vertical or overhanging), pulling your mech in a straight line to that location as long as your mech is not obstructed during that movement. Your mech can hold on to that location as long as it reMains immobile. Your mech can also use this system to attempt to grapple and Maintain a grapple on any target within range 5, instead of being adjacent to that target.",
     "ult_active_name": "Omni-harpoon",
     "ult_active": "This one-shot system fires harpoon-like grapples at any number of targets within line of sight and within range 5. Those targets must pass a hull check with 1 difficulty or be knocked prone and pulled adjacent to your mech, or as far as possible towards your mech without being obstructed. All targets are then immobilized until the end of your next turn. %fullaction%",
     "aptitude": {
@@ -59,14 +59,14 @@
     "source": "IPS-N",
     "name": "DRAKE",
     "mechtype": "Heavy Assault/Fire Support",
-    "description": "The IPS-N DRAKE is the backbone of any proactive trade security/anti-piracy force and represents the manufacturers first foray into military-grade mechs. It is a massive frame, simian in appearance, built around a single-cast bulkhead sloped and reinforced to handle sustained incoming and outgoing fire. A dense heavily armored chassis, the standard IPS-N DRAKE fleet license includes a high-velocity, highfragment assault cannon for suppressing and overwhelming their targets, and a heavy kinetic/ablative barrier shield for defense. More advanced models feature scaled-up weaponry and armor, including the notorious multi-barrel Leviathan cannon.",
+    "description": "The IPS-N DRAKE is the backbone of any proactive trade security/anti-piracy force and represents the manufacturers first foray into military-grade mechs. It is a massive frame, simian in appearance, built around a single-cast bulkhead sloped and reinforced to handle sustained incoming and outgoing fire. A dense heavily armored chassis, the standard IPS-N DRAKE fleet license includes a high-velocity, highfragment assault cannon for suppressing and overwhelming their targets, and a Heavy kinetic/ablative barrier shield for defense. More advanced models feature scaled-up weaponry and armor, including the notorious multi-barrel Leviathan cannon.",
     "size": 2,
     "armor": 3,
     "sp": 5, 
     "mounts": [
-      "flex",
-      "main",
-      "heavy"
+      "Flex",
+      "Main",
+      "Heavy"
     ],
     "stats": {
       "hull": 1,
@@ -78,7 +78,7 @@
     "ult_passive": "This huge, plated shield can be used to bash enemies. It counts as its own mount (doesn’t take mount space), and cannot be modified.",
     "ult_passive_weapon": "argonaut",
     "ult_active_name": "FORTRESS",
-    "ult_active": "When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. <br>While this system is active, your mech is immobilized, though you can still rotate and aim in any direction. You are immune to being knocked back, rammed, grappled, or involuntarily moved by any reason. Two line 2 sections of heavy cover unfold, drawn from your mech in any direction. Your mech grants heavy cover for allied mechs while this system is active, has heavy cover itself, has resistance to damage from blast, line, and cone attacks, and also grants this resistance to any mechs making use of its cover. <br>This system can be deactivated at the start of your turn but cannot be reactivated without more core power. %protocol%",
+    "ult_active": "When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. <br>While this system is active, your mech is immobilized, though you can still rotate and aim in any direction. You are immune to being knocked back, rammed, grappled, or involuntarily moved by any reason. Two line 2 sections of Heavy cover unfold, drawn from your mech in any direction. Your mech grants Heavy cover for allied mechs while this system is active, has Heavy cover itself, has resistance to damage from blast, line, and cone attacks, and also grants this resistance to any mechs making use of its cover. <br>This system can be deactivated at the start of your turn but cannot be reactivated without more core power. %protocol%",
     "aptitude": {
       "melee": 1,
       "ranged": 2,
@@ -96,8 +96,8 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex",
-      "flex"
+      "Flex",
+      "Flex"
     ],   
      "stats": {
       "hull": 1,
@@ -120,14 +120,14 @@
     "source": "IPS-N",
     "name": "NELSON",
     "mechtype": "Cavalier",
-    "description": "The IPS-N NELSON brings the close-quarters doctrine espoused by ISP-N to its most pure form. The NELSON is built to brawl in environments too volatile for firearms or when ordnance has been exhausted. With its functional size, the NELSON can attack fast while remaining a difficult target to track. Layers of fractal-fold BULWARK plating allows for ceramic-analogous carbon flaking, effectively nulling the impact of incoming solid-state fire by dispersing kinetic energy across a rounded hull. This null-k plating protects the pilot from impact trauma, allowing for sustained combat efficacy in high-trade scenarios. The NELSON is an iconic IPS-N chassis, known across the galaxy as the shell of choice for the Albatross, the Cosmopolitan interstellar anti-piracy agency. Their distinctive white, gold, and red livery and mastery of the war pike &mdash; as well as seeming agelessness due to time dilation &mdash; has won both the Albatross and the NELSON a venerated place in Diasporan lore &mdash; and secured the Albatross an endorsement contract with IPS-N in perpetuity",
+    "description": "The IPS-N NELSON brings the close-quarters doctrine espoused by ISP-N to its most pure form. The NELSON is built to brawl in environments too volatile for firearms or when ordnance has been exhausted. With its functional size, the NELSON can attack fast while reMaining a difficult target to track. Layers of fractal-fold BULWARK plating allows for ceramic-analogous carbon flaking, effectively nulling the impact of incoming solid-state fire by dispersing kinetic energy across a rounded hull. This null-k plating protects the pilot from impact trauma, allowing for sustained combat efficacy in high-trade scenarios. The NELSON is an iconic IPS-N chassis, known across the galaxy as the shell of choice for the Albatross, the Cosmopolitan interstellar anti-piracy agency. Their distinctive white, gold, and red livery and mastery of the war pike &mdash; as well as seeming agelessness due to time dilation &mdash; has won both the Albatross and the NELSON a venerated place in Diasporan lore &mdash; and secured the Albatross an endorsement contract with IPS-N in perpetuity",
     "size": 1,
     "armor": 0,
     "sp": 6,
     "mounts": [
-      "flex",
-      "main",
-      "main"
+      "Flex",
+      "Main",
+      "Main"
     ],
     "stats": {
       "hull": 1,
@@ -138,7 +138,7 @@
     "ult_description": "IPS-N’s PMD exploits fighter-tier nearlight spooling to conserve and sustain a passive .000001LS charge, able to be dumped into extant boost systems at the pilot’s command. The chassis fielding this system must be heavily adapted through strengthening joints, limbs, and installing a k-comp crash couch to protect the pilot from sudden g force and shear.",
     "ult_passive": "Before or after you make any skirmish or barrage action, you can move 1 in any direction. This movement doesn’t provoke reactions, ignores engagement, and doesn’t count against your movement for the turn.",
     "ult_active_name": "Spool Up PMD",
-    "ult_active": "Once activated, this system remains active until the rest of the current challenge. While its active, the free movement from this system’s passive increases to 5. %protocol%",
+    "ult_active": "Once activated, this system reMains active until the rest of the current challenge. While its active, the free movement from this system’s passive increases to 5. %protocol%",
     "aptitude": {
       "melee": 1,
       "ranged": 1,
@@ -156,9 +156,9 @@
     "armor": 1,
     "sp": 5,
     "mounts": [
-      "main",
-      "aux",
-      "heavy"
+      "Main",
+      "Auxiliary",
+      "Heavy"
     ],
     "stats": {
       "hull": 1
@@ -184,8 +184,8 @@
     "armor": 2,
     "sp": 6,
     "mounts": [
-      "flex",
-      "spinal"
+      "Flex",
+      "Spinal"
     ],
     "stats": {
       "hull": 2,
@@ -207,14 +207,14 @@
     "source": "IPS-N",
     "name": "VLAD",
     "mechtype": "Special Assault",
-    "description": "The IPS-N VLAD is a variant of the IPS-N NELSON, built to handle hardened targets that would present strategic difficulty for the NELSON platform. The VLAD features a suite of myth-inspired weaponry and heavy armor and is meant to take a frontline role, absorbing fire from dangerous targets in order to protect its allies while lining up the perfect shot.",
+    "description": "The IPS-N VLAD is a variant of the IPS-N NELSON, built to handle hardened targets that would present strategic difficulty for the NELSON platform. The VLAD features a suite of myth-inspired weaponry and Heavy armor and is meant to take a frontline role, absorbing fire from dangerous targets in order to protect its allies while lining up the perfect shot.",
     "size": 1,
     "armor": 2,
     "sp": 5,
     "mounts": [
-      "flex",
-      "flex",
-      "spinal"
+      "Flex",
+      "Flex",
+      "Spinal"
     ],
     "stats": {
       "hull": 1,
@@ -241,8 +241,8 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex",
-      "aux"
+      "Flex",
+      "Auxiliary"
     ],
     "stats": {
       "agi": 1,
@@ -252,7 +252,7 @@
     "ult_description": "A magnetic field generator takes the same technology as other projected magnetic defenses and makes them portable separate from a mech core. <br>When activated, the mag field generator creates a projected magnetic bubble that traps all incoming ferrous projectiles; the strength of the field is so great that it can even draw mechs to its center. When the field is canceled or the solid-state battery burns out (by design), the field detonates through sudden catastrophic reversal, launching all captured projectiles out from its center.",
     "ult_passive": "Once per turn, you can attempt to parry any attack that hits your mech as a reaction. <br>Roll a d6. On a 6, you reduce the damage from that attack to 0, and deal 1d6 heat back to your attacker.",
     "ult_active_name": "Mag Field",
-    "ult_active": "As an action, you may activate the mag field to create a Blast 4 area in any area with at least one square adjacent to you. Inside, ranged weapon attacks that deal kinetic or explosive damage cannot penetrate into or out of the field and will stop at the edge, doing no damage (keep track of them). <br>The field is difficult terrain for all mechs and vehicles made at least partly of metal. Targets that start their turn in the Mag Field or enter it for the first time on their turns must make a successful Engineering check with 1 difficulty or be pulled to the center as far as possible and immobilized. They can repeat this check at the start of their turns while trapped this way and can move normally on a success, otherwise they remain trapped. <br>The field persists for 3 rounds after deployment. At the end of the third round any attacks fired into this field will resume trajectory towards the center of this zone. The GM performs a single attack roll vs each target still inside the zone with +1 targeting per attack fired into this zone (cumulative, up to a max of +6). Successful hits deal 1d6 Kinetic damage per attack fired into this zone (cumulative). Then, the zone deactivates.",
+    "ult_active": "As an action, you may activate the mag field to create a Blast 4 area in any area with at least one square adjacent to you. Inside, ranged weapon attacks that deal kinetic or explosive damage cannot penetrate into or out of the field and will stop at the edge, doing no damage (keep track of them). <br>The field is difficult terrain for all mechs and vehicles made at least partly of metal. Targets that start their turn in the Mag Field or enter it for the first time on their turns must make a successful Engineering check with 1 difficulty or be pulled to the center as far as possible and immobilized. They can repeat this check at the start of their turns while trapped this way and can move normally on a success, otherwise they reMain trapped. <br>The field persists for 3 rounds after deployment. At the end of the third round any attacks fired into this field will resume trajectory towards the center of this zone. The GM performs a single attack roll vs each target still inside the zone with +1 targeting per attack fired into this zone (cumulative, up to a max of +6). Successful hits deal 1d6 Kinetic damage per attack fired into this zone (cumulative). Then, the zone deactivates.",
     "aptitude": {
       "support": 1,
       "control": 3
@@ -269,9 +269,9 @@
     "armor": 0,
     "sp": 6,
     "mounts": [
-      "flex",
-      "aux",
-      "heavy"
+      "Flex",
+      "Auxiliary",
+      "Heavy"
     ],
     "stats": {
       "hull": -2,
@@ -298,9 +298,9 @@
     "armor": 0,
     "sp": 7,
     "mounts": [
-      "flex",
-      "aux",
-      "aux"
+      "Flex",
+      "Auxiliary",
+      "Auxiliary"
     ],
     "stats": {
       "agi": 1,
@@ -330,9 +330,9 @@
     "armor": 1,
     "sp": 5,
     "mounts": [
-      "flex",
-      "aux",
-      "heavy"
+      "Flex",
+      "Auxiliary",
+      "Heavy"
     ],
     "stats": {
       "agi": 1
@@ -359,9 +359,9 @@
     "armor": 1,
     "sp": 5,
     "mounts": [
-      "flex",
-      "main",
-      "spinal"
+      "Flex",
+      "Main",
+      "Spinal"
     ],
     "stats": {
       "agi": 1,
@@ -388,8 +388,8 @@
     "armor": 0,
     "sp": 6,
     "mounts": [
-      "flex",
-      "flex"
+      "Flex",
+      "Flex"
     ],
     "stats": {
       "agi": 1,
@@ -419,8 +419,8 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex",
-      "aux"
+      "Flex",
+      "Auxiliary"
     ],
     "stats": {
       "agi": 2,
@@ -450,8 +450,8 @@
     "armor": 1,
     "sp": 7,
     "mounts": [
-      "main",
-      "spinal"
+      "Main",
+      "Spinal"
     ],
     "stats": {
       "sys": 1,
@@ -478,7 +478,7 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex"
+      "Flex"
     ],
     "stats": {
       "hull": -2,
@@ -507,9 +507,9 @@
     "armor": 0,
     "sp": 7,
     "mounts": [
-      "flex",
-      "aux",
-      "main"
+      "Flex",
+      "Auxiliary",
+      "Main"
     ],
     "stats": {
       "sys": 1,
@@ -536,9 +536,9 @@
     "armor": 0,
     "sp": 7,
     "mounts": [
-      "flex",
-      "main",
-      "main"
+      "Flex",
+      "Main",
+      "Main"
     ],
     "stats": {
       "hull": 1,
@@ -547,7 +547,7 @@
     },
     "ult_name": "OROCHI disarticulation",
     "ult_description": "First encountered by Union technicians in the nascent Forecast/GALSIM facilities following the Deimos Event, OROCHI was an early manifestation of the later-named Swift Flock phenomenon &mdash; an occurrence found in anomalous hive drones where all units of a swarm follow each other, operating leaderless in physical space with uncanny and unpredictable autonomy &mdash; in essence, flocking much in the same manner as birds. The original manifestation was at first thought to be a disarticulated, anomalous comp/con subaltern: further examination proved that it viewed itself not as a machine or a collection of machines, but as a single mind, duplicated across multiple units. It was given its current codename, OROCHI, and remitted to Venus for further study; later reopening of the NHP so-designated found that the hardware which contained OROCHI had gone missing from its containment. An investigation is ongoing<br><br><span class='ra-text'>(I did it, I folded space and freed it/them, I just thought you should know)</span><br><br>The OROCHI Disarticulation protocol takes advantage of the modularity inherent in many HORUS-codesigned patterns, seeding jet-assist pods around chassis extremities and blisters to allow for partial, purposeful disarticulation: by triggering OROCHI, you can command sections of your mech to detach and operate semi-autonomously in a manner similar to single-fire drone systems (though the disarticulated components have a built-in return protocol.",
-    "ult_passive": "Your NHP partitions itself into many cloned personalities that can help you with maintaining your mech. Once per round, you can re-roll any systems or engineering check of your choice, but must keep the second result.",
+    "ult_passive": "Your NHP partitions itself into many cloned personalities that can help you with Maintaining your mech. Once per round, you can re-roll any systems or engineering check of your choice, but must keep the second result.",
     "ult_active_name": "OROCHI mode",
     "ult_active": "Your mech has been heavily modified, and a large number of its subsystems and structure are controlled by semi-autonomous drones. <br>Choose up to 3 weapons or systems on your mech. As an action, these parts of your mech can split off and become autonomous units. They are size 1, have evasion equal to your evasion, have hp equal to your HP, 1 structure, 1 stress, and heat capacity equal to your heat capacity. They inherit your speed and other mech stats. <br>On your turn, they can move, take the activate system and skirmish actions, but no other actions. If they overheat or go to 0 HP, they are destroyed, and if they are destroyed, the associate weapon or system is also destroyed (it can be repaired as normal during a rest). <br>You can re-unite any parts of your mech as an action, but inherit any heat they currently have, and cannot deploy them again without taking the special action as part of this system. %quickaction%",
     "aptitude": {
@@ -568,8 +568,8 @@
     "armor": 2,
     "sp": 6,
     "mounts": [
-      "flex",
-      "spinal"
+      "Flex",
+      "Spinal"
     ],
     "stats": {
       "sys": 1,
@@ -579,7 +579,7 @@
     "ult_description": "And RA Said To Themselves: LET MY NAME ENVELOP YOU. SEEK NO SHELTER FROM THE FLAME OR THE TEETH OF THE BEAST. CLOAK YOURSELF IN THE FIRE (MY WORD) AND CAST BACK TO YOUR ENEMIES THAT WHICH WOULD BLACKEN YOUR FORM.",
     "ult_passive": "When you take heat damage from any source, one target in range 3 of you takes 1 energy damage.",
     "ult_active_name": "?????",
-    "ult_active": "Your mech crackles with energy. <br>For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat (from any source, even self), increase the die by 1, to a maximum of 6. <br>You can discharge the accumulated energy in a burst 2 area around you by taking an action to do so. This deals 1d6 energy damage to all targets caught inside, allied or enemy, per charge on the die, and affected mechs can pass a system check to halve the damage. This system then deactivates for the remainder of combat, including its passive. %protocol%",
+    "ult_active": "Your mech crackles with energy. <br>For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat (from any source, even self), increase the die by 1, to a maximum of 6. <br>You can discharge the accumulated energy in a burst 2 area around you by taking an action to do so. This deals 1d6 energy damage to all targets caught inside, allied or enemy, per charge on the die, and affected mechs can pass a system check to halve the damage. This system then deactivates for the reMainder of combat, including its passive. %protocol%",
     "aptitude": {
       "melee": 3,
       "control": 1
@@ -596,8 +596,8 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex",
-      "heavy"
+      "Flex",
+      "Heavy"
     ],
     "stats": {
       "sys": 2
@@ -623,9 +623,9 @@
     "armor": 0,
     "sp": 7,
     "mounts": [
-      "flex",
-      "aux",
-      "flex"
+      "Flex",
+      "Auxiliary",
+      "Flex"
     ],
     "stats": {
       "sys": 1,
@@ -651,15 +651,16 @@
     "armor": 2,
     "sp": 6,
     "mounts": [
-      "flex"
+      "Apocalypse",
+      "Flex"
     ],
     "stats": {
       "agi": -2,
       "eng": 1
     },
     "ult_name": "Apocalypse Rail",
-    "ult_description": "The HA Apocalypse Rail is a spinal mount augmentation that adapts the weapon mounted upon it to patch directly into its host mech’s coldcore. This allows for energy conservation/overcharge cycling: most effective with energy weapons, this system allows a pilot to dump excess offensive energy from sub-super weapons and systems into its central core, exciting the cold-burn system into an overcharge state, which is then used to overpower and override inherent limiters built into the factory spec weapon mounted in the Apocalypse Rail. This overcharge state allows for momentary overclocking of the AR- mounted weapon, sacrificing mobility and auxiliary abilities in favor of stationary defense and attack.",
-    "ult_passive": "Your mech has the Apocalypse Rail, a weapon mount that takes a superheavy or smaller sized weapon. You can still mount smaller weapons on the apocalypse rail. You don’t need an additional mount to add superheavy weapon to this mount. This mount is not modifiable (such as from core bonuses).",
+    "ult_description": "The HA Apocalypse Rail is a Spinal mount augmentation that adapts the weapon mounted upon it to patch directly into its host mech’s coldcore. This allows for energy conservation/overcharge cycling: most effective with energy weapons, this system allows a pilot to dump excess offensive energy from sub-super weapons and systems into its central core, exciting the cold-burn system into an overcharge state, which is then used to overpower and override inherent limiters built into the factory spec weapon mounted in the Apocalypse Rail. This overcharge state allows for momentary overclocking of the AR- mounted weapon, sacrificing mobility and auxiliary abilities in favor of stationary defense and attack.",
+    "ult_passive": "Your mech has the Apocalypse Rail, a weapon mount that takes a Superheavy or smaller sized weapon. You can still mount smaller weapons on the apocalypse rail. You don’t need an additional mount to add Superheavy weapon to this mount. This mount is not modifiable (such as from core bonuses).",
     "ult_active_name": "Convert to Battery",
     "ult_active": "Your mech converts to something more resembling a gun emplacement. While this mode is active, you have the following drawbacks: <ul><li>Your mech is immobilized</li><li>You cannot directly attack any target within range 5 of your mech</li><li>You can only make attacks with the weapon mounted in your Apocalypse Rail</li></ul> However, you gain the following benefits: <ul><li>You are immune to knockback and being knocked prone. </li><li>You cannot be moved (such as with a grapple) by any target smaller than you </li><li>You have resistance to heat </li><li>The weapon mounted in your Apocalypse Rail can be fired twice with the Barrage action instead of just once. If it has the loading tag, it can still be fired twice (but must be reloaded normally after)</li></ul> %quickaction%",
     "aptitude": {
@@ -667,7 +668,7 @@
     }
   },
   {
-    "id": "ghengis",
+    "id": "genghis",
     "type": "shell",
     "source": "HA",
     "name": "GENGHIS",
@@ -677,14 +678,14 @@
     "armor": 3,
     "sp": 5,
     "mounts": [
-      "flex",
-      "spinal"
+      "Flex",
+      "Spinal"
     ],
-    "flex": 1,
-    "aux": 0,
-    "main": 0,
-    "heavy": 0,
-    "spinal": 1,
+    "Flex": 1,
+    "Auxiliary": 0,
+    "Main": 0,
+    "Heavy": 0,
+    "Spinal": 1,
     "stats": {
       "eng": 2,
       "heatcap": 2,
@@ -694,7 +695,7 @@
     "ult_description": "In order to better manage the tremendous power demands of the GENGHIS platform, HA’s Think Tank developed a suite of power-management protocols to rapidly accelerate heat dispersion. After extensive field testing, pilots discovered that the TBK Sustain Suite can be tuned to be both a heat sink and a area-denial weapon.",
     "ult_passive": "When you lose a point of structure, you immediately clear your heat gauge.",
     "ult_active_name": "Expose Power Cells",
-    "ult_active": "You ignore the next overheating check you make this challenge. <br>When you would overheat, clear your heat from your gauge as normal, but ignore the check (you don’t take stress either). <br>You vent an enormous cloud of burning matter from your mech, creating a burst 3 area centered on your mech. Inside the area, all targets (allied and enemy) count as invisible to everyone except you, and all mechs other than you that enter the area for the first time on their turn or start their turn there take 2 Burn and 2 heat. <br>On the following round, the benefit from the area reduces to heavy cover (which you ignore). <br>On the round after that, it reduces to light cover. <br>On the round after that round, the zone disperses. %quickaction%",
+    "ult_active": "You ignore the next overheating check you make this challenge. <br>When you would overheat, clear your heat from your gauge as normal, but ignore the check (you don’t take stress either). <br>You vent an enormous cloud of burning matter from your mech, creating a burst 3 area centered on your mech. Inside the area, all targets (allied and enemy) count as invisible to everyone except you, and all mechs other than you that enter the area for the first time on their turn or start their turn there take 2 Burn and 2 heat. <br>On the following round, the benefit from the area reduces to Heavy cover (which you ignore). <br>On the round after that, it reduces to light cover. <br>On the round after that round, the zone disperses. %quickaction%",
     "aptitude": {
       "control": 3
     }
@@ -710,8 +711,8 @@
     "armor": 1,
     "sp": 7,
     "mounts": [
-      "flex",
-      "heavy"
+      "Flex",
+      "Heavy"
     ],
     "stats": {
       "sys": 1,
@@ -738,8 +739,8 @@
     "armor": 0,
     "sp": 8,
     "mounts": [
-      "flex",
-      "main"
+      "Flex",
+      "Main"
     ],
     "stats": {
       "eng": 2,
@@ -768,8 +769,8 @@
     "armor": 1,
     "sp": 7,
     "mounts": [
-      "flex",
-      "main"
+      "Flex",
+      "Main"
     ],
     "stats": {
       "eng": 1,
@@ -781,7 +782,7 @@
     "ult_description": "Developed by HA’s Think Tank as a joint venture with IPS-Northstar’s stellar engineering unit, a Tachyon Loop manipulates a tachyon lance and restrains them to a closed-loop system, accelerating tachyon particles at faster-than-light speeds around a central buckler. The shield is carried and mounted on a chassis to intercede directional incoming fire: as the tachyon particles are traveling faster than light, they are invisible to the naked eye, giving the shield the appearance of a large spoked wheel.",
     "ult_passive": "The very first attack made against you in a round is made at +1 difficulty",
     "ult_active_name": "Empower Shield",
-    "ult_active": "You can empower this shield, projecting it over an ally in your sensor range. As long as they remain in your sensor range, they also benefit from your shield’s passive. <br>In addition, once per round, when an attack roll misses either you or the target of this shield, you can force the attacker to repeat the attack roll against a target of your choice within range (even a target allied to your attacker). This effect lasts until the end of the current challenge, and you can swap your target by taking this action again. %quickaction%",
+    "ult_active": "You can empower this shield, projecting it over an ally in your sensor range. As long as they reMain in your sensor range, they also benefit from your shield’s passive. <br>In addition, once per round, when an attack roll misses either you or the target of this shield, you can force the attacker to repeat the attack roll against a target of your choice within range (even a target allied to your attacker). This effect lasts until the end of the current challenge, and you can swap your target by taking this action again. %quickaction%",
     "aptitude": {
       "support": 3
     }
@@ -797,9 +798,9 @@
     "armor": 1,
     "sp": 5,
     "mounts": [
-      "flex",
-      "main",
-      "spinal"
+      "Flex",
+      "Main",
+      "Spinal"
     ],
     "stats": {
       "eng": 1
@@ -825,9 +826,9 @@
     "armor": 0,
     "sp": 6,
     "mounts": [
-      "flex",
-      "main",
-      "main"
+      "Flex",
+      "Main",
+      "Main"
     ],
     "stats": {
       "eng": 1,

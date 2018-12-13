@@ -37,6 +37,14 @@
   font-weight: bold;
 }
 
+.mount-selection-locked {
+  text-align: center;
+  margin:5px;
+  color:var(--alert);
+  font-weight: bold;
+  background: var(--bg);
+}
+
 .license-block-locked {
   margin:5px;
   color:var(--alert);

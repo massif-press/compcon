@@ -2,7 +2,7 @@ const Handlebars = require('handlebars');
 const Dicemath = require('./dicemath');
 const Tags = require('./taghelper');
 
-const Manufacturers = require("../../resources/data/manufacturers.json");
+const Manufacturers = require("../../extraResources/data/manufacturers.json");
 
 function init() {
   Handlebars.registerHelper('allCaps', function (str) {
@@ -57,6 +57,37 @@ function init() {
     if (level >= itemRank) return retTrue;
     return retFalse
   });
+
+Handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+
+    if (arguments.length < 3)
+        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+    var operator = options.hash.operator || "==";
+
+    var operators = {
+        '==': function(l,r) { return l == r; },
+        '===': function(l,r) { return l === r; },
+        '!=': function(l,r) { return l != r; },
+        '<': function(l,r) { return l < r; },
+        '>': function(l,r) { return l > r; },
+        '<=': function(l,r) { return l <= r; },
+        '>=': function(l,r) { return l >= r; },
+        'typeof': function(l,r) { return typeof l == r; }
+    }
+
+    if (!operators[operator])
+        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+    var result = operators[operator](lvalue,rvalue);
+
+    if( result ) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+
+});
 
   Handlebars.registerHelper('trSplit', function (v1, v2, options) {
     if (v1 % v2 === 0) {
@@ -133,6 +164,29 @@ Handlebars.registerHelper('appliedString', function (app) {
 
 Handlebars.registerHelper('parseTags', function (str) {
   return Tags.parse(str);
+});
+
+Handlebars.registerHelper('listArray', function (arr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].substr(1);
+  }
+  return arr.join(", ")
+});
+
+Handlebars.registerHelper("inc", function (value) {
+  return parseInt(value) + 1;
+});
+
+Handlebars.registerHelper('modCond', function (v1, v2, options) {
+  if ((v1 + 1) % v2 == 0) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
+Handlebars.registerHelper('listJoin', function (arr) {
+  return arr.join(', ');
 });
 
 module.exports.init = init;

@@ -1,0 +1,32 @@
+  <div class="modal-content xl">
+    <div class="modal-header xl">
+      <span class="close close-x" data-modal="mountEditorModal">&times;</span>
+      <span>{{mount}} Mount</span>
+    </div>
+    <div id="mount-editor-body" class="modal-body">
+      <!-- equipped header -->
+      <div style="height: 60px;">
+        <span class="subtitle" style="display:inline">MOUNTED:</span>&nbsp;
+        <!--div id="add-remove-ammo-btn" class="menu-border btn pull-right disabled">Edit Weapon Ammo</div-->
+        <div id="add-remove-mod-btn" class="menu-border btn pull-right disabled">Edit Weapon Mod</div>
+        {{#if weapon}}
+          <span style="display:inline; font-size:20px; letter-spacing:2px">{{weapon.name}}</span>
+          <span class="subtitle">&nbsp; // &nbsp; {{weapon.source}} {{weapon.mount}} {{weapon.type}}</span>
+          <div id="all-mods" style="height: 30px"></div>
+        {{/if}}
+      </div>
+      <hr>
+      <br>
+      <!-- scrollrect -->
+      <div class="modal-scrollrect menu-border" style="height:72%; margin-top: -5px">
+        <table id="available-weapons" width="100%"></table>
+      </div>
+      <div style="text-align: center"><span id="mount-extra-text" class="subtitle"></span></div>
+      <br>
+      <div class="wizard-btn-container">
+        <div class="wizard-btn btn close" data-modal="mountEditorModal" style="width: inherit;">Cancel</div>
+        <div class="breadcrumb-container"></div>
+        <div id="mount-install" class="wizard-btn btn disabled" style="width: inherit;">/ / NO SELECTION / /</div>
+      </div>
+    </div>
+  </div>

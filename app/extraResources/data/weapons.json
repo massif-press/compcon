@@ -915,12 +915,15 @@
       "kinetic": "3d6"
     },
     "range": "Cone 7",
-    "tags": [],
+    "tags": [{
+        "id": "limited",
+        "val": 2
+      }],
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
     "effect": "Creates light cover in area for 1 round after firing.",
-    "description": "The Daisy Cutter is an effective, if outdated, weapon system for which many marine pilots still place print requisitions. The Daisy Cutter is, essentially, a massive shotgun: the pilot loads a shaped charge into the breech of the Cutter, drops a packed sabot down the barrel, aims, and fires a mixed hellfire cloud of flechette darts, bearings, and ignited magnesium strips, clearing any deck it’s been fired on. limited2",
+    "description": "The Daisy Cutter is an effective, if outdated, weapon system for which many marine pilots still place print requisitions. The Daisy Cutter is, essentially, a massive shotgun: the pilot loads a shaped charge into the breech of the Cutter, drops a packed sabot down the barrel, aims, and fires a mixed hellfire cloud of flechette darts, bearings, and ignited magnesium strips, clearing any deck it’s been fired on.",
     "aptitude": {
       "ranged": 1,
       "control": 1
@@ -1062,11 +1065,13 @@
       "explosive": "1d6"
     },
     "range": "15, Blast 1",
-    "tags": [],
+    "tags": [{
+      "id": "limited",
+      "val": 3
+    }],
     "source": "SSC",
     "license": "DEATH’S HEAD",
     "license_level": 2,
-    "effect": "Limited (3)",
     "description": "Kodandam missiles are designed as an all-theater/any-target missile platform meant to act as a backbone around which to build a mid-ranged battery. The base Kodandam warhead is a shaped HE charge, built to disable/defeat targets through a combined HE blast and traumatic pressure wave. Kodandam missiles are loaded three to a pack, warheads mixed and affixed prior to mission start.",
     "aptitude": {
       "ranged": 1
@@ -1536,7 +1541,7 @@
     }
   },
   {
-    "id": "charedblade",
+    "id": "chargedblade",
     "name": "Charged Blade",
     "mount": "Main",
     "type": "Melee",

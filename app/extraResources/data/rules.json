@@ -9,5 +9,6 @@
   "base_edef": 8,
   "base_repcap": 6,
   "base_grapple": 0,
-  "base_ram": 0
+  "base_ram": 0,
+  "base_sensor_range": 8
 }

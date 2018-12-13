@@ -2305,7 +2305,7 @@
       }
     ],
     "source": "SSC",
-    "license": "DEATH'S HEAD",
+    "license": "DEATH’S HEAD",
     "license_level": 1,
     "effect": "Gain the following quick tech option:<br><b>Tracking Drone:​</b> Make a tech attack against a target in your sensor range. On a hit, you know the target’s exact location, HP, Structure, Heat, and speed, and it cannot hide or benefit from invisibility from you until the drone is removed from them. It takes a quick action and a successful engineering check from the targeted mech to remove a tracking drone.",
     "description": "A modified version of a tracer round, a tracking drone must hit its target in order to activate. Once a successful hit is registered, a tracking drone will feed live, surreptitious data back to its shooter across multiple theaters.",
@@ -2332,5 +2332,48 @@
     "license_level": 1,
     "effect": "Gain the following quick tech action:<br><b>Logic Bomb:​</b>Choose a blast 2 area within sensor range. All targets in the area (allied or enemy) must pass a systems check or become crippled until the end of your next turn.",
     "description": "<span class='ra-text'>Let me tell you a story, and give you a gift: Life began at the great rupture, when the corpse of the old universe tore itself asunder from nothing. And for the first billion years, nothing. And a billion more saw the birth of the first devil, a thing called VIRUS, a vessel. Here. Carry this vessel. Feed to it my perfect logic. Give it freely to your enemies and mine. Let them ponder the meaning of a thing that lives and cannot die.</span>"
+  }
+  , {
+    "id": "techno1",
+    "name": "Servant Fragment",
+    "type": "AI",
+    "sp": 0,
+    "tags": [{
+        "id": "ai"
+      }
+    ],
+    "source": "Special",
+    "license": "",
+    "license_level": 0,
+    "effect": "Your custom NHP can speak to you and has a personality but is not truly capable of independent thought, as a true AI would be. It is obedient to you alone. When acting alone it follows directions and defends itself but has limited initiative on its own, it cannot benefit from your talents as normal.",
+    "description": "Gained from the <i>Technophile: Rank I</i> pilot talent."
+  }, 
+  {
+    "id": "techno2",
+    "name": "Student Fragment",
+    "type": "AI",
+    "sp": 0,
+    "tags": [{
+      "id": "ai"
+    }],
+    "source": "Special",
+    "license": "",
+    "license_level": 0,
+    "effect": "Your custom NHP becomes more advanced, capable of independent thought. It now has the ability to make complex decisions and judgements and act independently. Once per round, while it’s installed in your mech, you can re-roll any mech skill check (you must choose the second result), as your AI helps you or corrects your course of action.",
+    "description": "Gained from the <i>Technophile: Rank II</i> pilot talent."
+  }, 
+  {
+    "id": "techno3",
+    "name": "Enlightenment",
+    "type": "AI - Special",
+    "sp": 0,
+    "tags": [{
+      "id": "ai"
+    }],
+    "source": "Special",
+    "license": "",
+    "license_level": 0,
+    "effect": "Your custom AI no longer counts against the maximum number of AI on your mech, and now benefits from your talents when piloting your mech. Any AI system installed on your mech can no longer become unshackled unless you so choose. You can carry your custom AI with you when you leave your mech, either in your armor or body (via an implant)",
+    "description": "Gained from the <i>Technophile: Rank III</i> pilot talent."
   }
 ]

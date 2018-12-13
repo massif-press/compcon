@@ -1,0 +1,103 @@
+<div class="statbox">
+  <table class="mech-table">
+    <td width="10%">
+      <div class="hase-title">HULL</div>
+      <img class="hexagon" src="./resources/icons/hex.svg">
+      <span class="hase-num">{{plusMinus hull}}</span>
+
+      <div class="hase-title">AGI</div>
+      <img class="hexagon" src="./resources/icons/hex.svg">
+      <span class="hase-num">{{plusMinus agi}}</span>
+
+      <div class="hase-title">SYS</div>
+      <img class="hexagon" src="./resources/icons/hex.svg">
+      <span class="hase-num">{{plusMinus sys}}</span>
+
+      <div class="hase-title">ENG</div>
+      <img class="hexagon" src="./resources/icons/hex.svg">
+      <span class="hase-num">{{plusMinus eng}}</span>
+    </td>
+    <td width="90%" align="left">
+      <br>
+      <div style="margin-left:25px;">
+        <div>
+          <span class="subtitle">&emsp;STRUCTURE:<b>{{structure}}</b> // HP:<b>{{hp}}</b> // ARMOR:<b>{{armor}}</b></span>
+        </div>
+        {{#repeat structure}}<div class="pip-box structure"></div>{{/repeat}}
+        {{#repeat hp}}<div class="pip-box hp"></div>{{/repeat}}
+        {{#repeat armor}}<div class="pip-box armor"></div>{{/repeat}}
+        <div class="exp-text" style="margin-left: -20px;">
+          <b>10</b> (Base HP)
+          <b>{{plusMinus hp_core_bonus}}</b> (CORE Bonus)
+          <b>{{plusMinus hp_hull_bonus}}</b> (HULL Bonus)
+        </div>
+        <div style="display: inline-block">
+          <div style="padding-top: 5px">
+            <span class="subtitle">&emsp;STRESS THRESHOLD:<b>{{stress}}</b> // HEAT CAP:<b>{{heatcap}}</b></span>
+          </div>
+          {{#repeat stress}}<div class="pip-box stress"></div>{{/repeat}}
+          {{#repeat heatcap}}<div class="pip-box heatcap"></div>{{/repeat}}
+        </div>
+        <div style="display: inline-block; padding-left: 60px;">
+          <div style="padding-top: 5px"><span class="subtitle">&emsp;OVERCHARGE: <b>{{overcharge_active}}</b></span></div>
+          {{#repeat overcharge_active}}<div class="pip-box overcharge oc-on"></div>{{/repeat}}
+          {{#repeat overcharge_remaining}}<div class="pip-box overcharge"></div>{{/repeat}}
+        </div>
+        <div class="exp-text" style="margin-left: -20px;">
+          <b>6</b> (Base Heat Capacity) <b>{{heat_eng_bonus}}</b> (ENG Bonus)
+        </div>
+        <br>
+        <div>
+          <table class="mech-table">
+            <tr>
+              <th width="16.66%">SPEED</th>
+              <th width="16.66%">EVASION</th>
+              <th width="16.66%">E-DEFENSE</th>
+              <th width="16.66%">REPAIR CAP</th>
+              <th width="16.66%">TARGETING</th>
+            </tr>
+            <tr>
+              <td class="hase-num">{{speed}}</td>
+              <td class="hase-num">{{evasion}}</td>
+              <td class="hase-num">{{edef}}</td>
+              <td class="hase-num">{{repcap}}</td>
+              <td class="hase-num">{{plusMinus targeting}}</td>
+            </tr>
+            <tr>
+              <td class="exp-text"><b>3</b> (Base) <b>{{plusMinus speed_agi_bonus}}</b> (AGI Bonus)</td>
+              <td class="exp-text"><b>8</b> (Base) <b>{{plusMinus evasion_agi_bonus}}</b> (AGI Bonus)</td>
+              <td class="exp-text"><b>8</b> (Base) <b>{{plusMinus edef_sys_bonus}}</b> (SYS Bonus)</td>
+              <td class="exp-text"><b>6</b> (Base) <b>{{plusMinus repcap_eng_bonus}}</b> (ENG Bonus)</td>
+              <td class="exp-text"><b>{{plusMinus targeting_eng_bonus}}</b> (SYS Bonus)</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <th>SYSTEM POINTS</th>
+              <th>SENSOR RANGE</th>
+              <td></td>
+              <th>GRAPPLE</th>
+              <th>RAM</th>
+            </tr>
+            <tr>
+              <td class="hase-num">{{max_sp}}</td>
+              <td class="hase-num">{{sensor_range}}</td>
+              <td></td>
+              <td class="hase-num">{{plusMinus grapple}}</td>
+              <td class="hase-num">{{plusMinus ram}}</td>
+            </tr>
+    <td class="exp-text"><b>{{sp_shell}}</b> (SHELL) <b>{{plusMinus sp_core_bonus}}</b> (CORE Bonus)</td>
+    <td class="exp-text"><b>8</b> (Base) <b>{{plusMinus sensor_range_bonus}}</b> (CORE Bonus)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+  </table>
+</div>
+</td>
+</table>
+</div>

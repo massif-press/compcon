@@ -26,6 +26,7 @@
         <p>{{{history}}}</p>
         <br>
         <span class="fnf">Friends and Foes</span>
+        <div id="edit-pilot-fnf-btn" class="menu-border btn edit hidden" style="text-align: center;">Edit Friends and Foes</div>
         <div style="padding-left:20px;">
           <ul>
             {{#fnf}}
@@ -38,10 +39,10 @@
         </div>
       </td>
       <td style="text-align:center">
-        {{#if img-appearance}}
-        <img class="block-img" src="{{img-appearance}}" width=353>
+        {{#if img_appearance}}
+          <img class="block-img" src="{{img_appearance}}" width=353>
         {{/if}}
-        <span>{{{text-appearance}}}</span>
+        <span>{{{text_appearance}}}</span>
       </td>
     </tr>
   </table>
@@ -49,6 +50,9 @@
   <table class="pilot-table" width="100%">
     <tr>
       <th colspan=4>SKILLS</th>
+    </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-skills-btn" class="menu-border btn" style="text-align: center;">Reassign Skills</div></th>
     </tr>
     <tr>
       <table class="skills-table">
@@ -98,6 +102,9 @@
     <tr>
       <th colspan=4>TALENTS</th>
     </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-talents-btn" class="menu-border btn" style="text-align: center;">Reassign Talents</div></th>
+    </tr>
     {{#talents}}
     <tr>
       <td colspan=4 class="menu-border equip-expander">
@@ -125,14 +132,14 @@
                 <span class="subtitle">{{talentLock rank 3 '(ACTIVE)' '(LOCKED)'}}</span>
               </span>
             </span>
-            <p class="{{talentLock rank 2 '' 'disabled'}}">{{{r2_desc}}}</p><br>
+            <div class="{{talentLock rank 2 '' 'disabled'}}"><p>{{{r2_desc}}}</p></div><br>
             <span class="talent-rank-title {{talentLock rank 3 '' 'warning-stripes disabled'}}">&emsp;
               <img class="rankImg" src="./resources/icons/{{talentLock rank 3 'rank-3' 'locked'}}.svg">
               <span class="lb-span"><b>{{r3_name}}</b> &nbsp;
                 <span class="subtitle">{{talentLock rank 3 '(ACTIVE)' '(LOCKED)'}}</span>
               </span>
             </span>
-            <p class="{{talentLock rank 3 '' 'disabled'}}">{{{r3_desc}}}</p>
+            <div class="{{talentLock rank 3 '' 'disabled'}}"><p>{{{r3_desc}}}</p></div>
             <br>
           </div>
         </div>
@@ -142,6 +149,9 @@
 
     <tr>
       <th colspan=4>LICENSES</th>
+    </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-licenses-btn" class="menu-border btn" style="text-align: center;">Reassign Licenses</div></th>
     </tr>
     <tr>
       <td colspan=2 class="pilot-license-block">
@@ -163,6 +173,9 @@
 
     <tr>
       <th colspan=4>CORE</th>
+    </tr>
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-core-btn" class="menu-border btn" style="text-align: center;">Reassign CORE Points</div></th>
     </tr>
     <tr>
       <td class="core-hex-td">
@@ -188,7 +201,9 @@
     <tr>
       <th colspan=4>CORE BONUSES</th>
     </tr>
-
+    <tr class="edit hidden">
+      <th colspan=4><div id="edit-pilot-talents-btn" class="menu-border btn" style="text-align: center;">Reassign CORE Bonuses</div></th>
+    </tr>
     {{#bonuses}}
     <tr>
       <td colspan=4>

@@ -1,10 +1,14 @@
 {
   "name": "compcon",
-  "version": "v0.2.0",
+  "productName": "COMP/CON LANCER Assistant",
+  "version": "v0.3.0",
   "description": "LANCER player assistant",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "package-win": "electron-packager . compcon --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.ProductName=\"COMP/CON LANCER Assistant\"",
+    "package-linux": "electron-packager . compcon --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds"
   },
   "repository": "",
   "author": "J. Arena",
@@ -18,5 +22,17 @@
     "handlebars": "^4.0.12",
     "jquery": "^3.3.1",
     "tablesorter": "^2.31.0"
-  }
+  },
+  "build": {
+    "extraResources": [
+      {
+        "from": "./app/extraResources/",
+        "to": "extraResources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
+  },
+  
 }

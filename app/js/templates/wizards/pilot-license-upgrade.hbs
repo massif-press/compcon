@@ -1,0 +1,87 @@
+{{#licenses}}
+<tr>
+  <td>
+    <div class="menu-border license-upg sweep-btn" data-source="{{source}}" data-name="{{name}}" data-level="{{inc pilot_rank}}">
+      <div class="caret-expander caret caret-closed" style="vertical-align: super;"></div>
+      <span class="lb-margin">
+      {{#if pilot_rank}}
+        <img class="rankImg active" src="./resources/icons/rank-{{inc pilot_rank}}.svg">
+      {{else}}
+        <img class="rankImg active" src="./resources/icons/rank-1.svg">
+      {{/if}}
+      <b style="vertical-align : super;">&nbsp;{{name}}</b>&nbsp;
+      </span>
+
+      <div class="caret-expand hidden">
+        <div style="padding-left:5px">
+          <span class="talent-rank-title">&emsp;
+            {{#compare pilot_rank 1 operator=">="}}
+            <!-- player rank greater than or equal to 1, this should be already active-->
+            <img class="rankImg" src="./resources/icons/rank-1.svg">
+            <span class="lb-margin"><b style="vertical-align : super;">{{r1_name}}</b> &nbsp; <span class="subtitle" style="vertical-align : super;">(UNLOCKED)</span></span>
+            {{else}}
+            <!-- player is at 0, we can unlock this skill-->
+            <img class="rankImg active" src="./resources/icons/upgrade.svg">
+            <span class="lb-margin active"><b style="vertical-align : super;">{{r1_name}}</b> &nbsp; <span class="subtitle active" style="vertical-align : super;">(UPGRADE)</span></span>
+            {{/compare}}
+          </span>
+          <p>{{#compare pilot_rank 0 operator="=="}}<b>Unlocks:</b>{{/compare}} {{listJoin unlocks.[0]}}</p><br>
+
+          {{#compare pilot_rank 2 operator="=="}}
+          <!-- player rank equals to 2, this should be already active-->
+          <span class="talent-rank-title">&emsp;
+            <img class="rankImg" src="./resources/icons/rank-2.svg">
+            <span class="lb-margin"><b style="vertical-align : super;">{{r2_name}}</b> &nbsp;
+              <span class="subtitle" style="vertical-align : super;">(UNLOCKED)</span>
+            </span>
+          </span>
+          <p>{{listJoin unlocks.[1]}}</p><br>
+          {{else}}
+          <!-- player rank is 1 or 0-->
+          {{#compare pilot_rank 1 operator="==="}}
+          <!-- player rank is 1, we can unlock this-->
+          <span class="talent-rank-title">&emsp;
+            <img class="rankImg active" src="./resources/icons/upgrade.svg">
+            <span class="lb-margin active"><b style="vertical-align : super;">{{r2_name}}</b> &nbsp;
+              <span class="subtitle active" style="vertical-align : super;">(UPGRADE)</span>
+            </span>
+          </span>
+          <p><b>Unlocks:</b> {{listJoin unlocks.[1]}}</p><br>
+          {{else}}
+          <!--player rank is 0, we cannot unlock this-->
+          <span class="talent-rank-title warning-stripes disabled">&emsp;
+            <img class="rankImg" src="./resources/icons/locked.svg">
+            <span class="lb-margin"><b style="vertical-align : super;">{{r2_name}}</b> &nbsp;
+              <span class="subtitle" style="vertical-align : super;">(LOCKED)</span>
+            </span>
+          </span>
+          <p class="disabled">{{listJoin unlocks.[1]}}</p><br>
+          {{/compare}}
+          {{/compare}}
+
+          {{#compare pilot_rank 2 operator="=="}}
+          <!-- player rank equals 2, we can unlock this-->
+          <span class="talent-rank-title">&emsp;
+            <img class="rankImg active" src="./resources/icons/upgrade.svg">
+            <span class="lb-margin active"><b style="vertical-align : super;">{{r3_name}}</b> &nbsp;
+              <span class="subtitle active" style="vertical-align : super;">(UPGRADE)</span>
+            </span>
+          </span>
+          <p><b>Unlocks:</b> {{listJoin unlocks.[2]}}</p><br>
+          {{else}}
+          <!-- player rank is 1 or 0, we cannot-->
+          <span class="talent-rank-title warning-stripes disabled">&emsp;
+            <img class="rankImg" src="./resources/icons/locked.svg">
+            <span class="lb-margin"><b style="vertical-align : super;">{{r3_name}}</b> &nbsp;
+              <span class="subtitle" style="vertical-align : super;">(LOCKED)</span>
+            </span>
+          </span>
+          <p class="disabled">{{listJoin unlocks.[2]}}</p><br>
+          {{/compare}}
+        </div>
+        
+      </div>
+    </div>
+  </td>
+</tr>
+{{/licenses}}

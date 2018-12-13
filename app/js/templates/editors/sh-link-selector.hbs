@@ -1,0 +1,21 @@
+  <div class="modal-content sm">
+    <div class="modal-header sm">
+      <span class="close close-x" data-modal="lockMountModal">&times;</span>
+      <span>Select Support Mount</span>
+    </div>
+    <div id="mount-editor-body" class="modal-body">
+      <span class="subtitle">Superheavy weapons occupy two mounts. The selected mount will not be able to equip weapons unless the superheavy weapon is unmounted.</span>
+      <table style="height:55%; margin-top: -5px; table-layout:fixed" width='100%'>
+        <tr style="vertical-align: middle;">
+          {{#mounts}}
+            <td class="mount-select-box btn menu-border" data-mount-index="{{mount_index}}">{{mount}}</td>
+          {{/mounts}}
+        </tr>
+      </div>
+      <br>
+      <br>
+      <div class="wizard-btn-container">
+        <div class="wizard-btn btn close" data-modal="lockMountModal" style="width: inherit;">Cancel</div>
+      </div>
+    </div>
+  </div>
