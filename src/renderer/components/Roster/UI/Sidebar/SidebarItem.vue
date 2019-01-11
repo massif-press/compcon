@@ -1,0 +1,106 @@
+<template>
+  <div class="sidebar-item">
+      <!-- Sidebar expanded-->
+      <div v-if="parentExpanded">
+        <div class="expanded-wrapper" @click="select" >
+          <!-- Sidebar expanded, item selected -->
+          <div v-if="active">
+              <b-row>
+                <b-col cols=5>
+                  <b-img left src="https://via.placeholder.com/115" />
+                </b-col>
+                <b-col>
+                    {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
+                  <br>
+                    {{ pilot.status }} {{ pilot.id}}
+                  <br>
+                  <b-button>p link</b-button>          
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  configs:
+                  <ul>
+                    <li v-for="(config, index) in pilot.configs" :key="index">{{ config }}</li>
+                  </ul>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-button>new config</b-button>
+              </b-row>
+          </div>
+          <!-- End expanded and selected -->
+
+          <!-- Sidebar expanded, item unselected -->
+          <div v-else>
+          <b-img center src="https://via.placeholder.com/90" />
+
+            <br>
+              {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
+            <br>
+              {{ pilot.status }}
+          </div>
+          <!-- End expanded and unselected -->
+        </div>
+      </div>
+      <!-- End Sidebar expanded -->
+      <!-- Sidebar not expanded -->
+      <div v-else :class="{highlighted: active}">
+        <b-img center src="https://via.placeholder.com/50" />
+      </div>
+      <!-- End sidebar not expanded -->
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'sidebar-item',
+    props: {
+      pilot: {
+        type: Object,
+        required: true
+      },
+      parentExpanded: {
+        type: Boolean,
+        required: false
+      },
+      index: {
+        type: Number,
+        required: true
+      }
+    },
+    methods: {
+      select () {
+        this.$parent.activeIndex = this.index
+      }
+    },
+    computed: {
+      active () {
+        return this.$parent.activeIndex === this.index
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  .sidebar-item {
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .highlighted {
+    border-right: 3px solid rgb(11, 59, 131);
+    background-color: gray;
+  }
+
+  .expanded-wrapper{
+    padding: 10px;
+    cursor: pointer;
+  }
+
+ .expanded-wrapper:hover{
+   border-right: 5px solid rgb(11, 59, 131);
+   background-color: gray;
+ }
+</style>
