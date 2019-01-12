@@ -57,7 +57,9 @@
     padding: 0;
   }
 
-  body { font-family: 'Source Sans Pro', sans-serif; }
+  body { 
+    font-family: 'Source Sans Pro', sans-serif; 
+  }
 
   .wrapper {
     display: flex;
