@@ -12,7 +12,7 @@
           </span>
         </div>
       </div> <!--/wrapper-->
-      <div id='sidebar-content'>
+      <div id='sidebar-content' :class="{collapsed : !expand}">
         <div style="height: 8px"></div> <!-- spacer -->
         <sidebar-item
           v-for="(pilot, index) in Pilots"
@@ -62,7 +62,7 @@ export default {
   z-index: 999;
   position: absolute;
   height: 93vh;
-  overflow-y:scroll;
+  overflow: hidden;
   background-color: lightgrey;
   transition: all .45s cubic-bezier(.23,.73,.61,1.2);
 }
@@ -85,6 +85,10 @@ export default {
   top: 0;
   width: 100%;
   background-color: antiquewhite;
+}
+
+.collapsed {
+  overflow: hidden;
 }
 
 #sidebar-content {

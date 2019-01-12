@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
   export default {
-    name: 'mech-sheet',
+    name: 'mech-sheet'
   }
 </script>
 
