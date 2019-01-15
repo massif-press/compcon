@@ -1,29 +1,34 @@
-// const state = {
-//   Pilots: []
-// }
+const state = {
+  activePilotId: 'cio'
+}
 
-// const mutations = {
-//   CHANGE_NAME (state, payload) {
-//     state.name = payload
-//   }
-// }
+const mutations = {
+  SET_ACTIVE_PILOT (state, payload) {
+    state.activePilotId = payload
+  }
+}
 
-// const actions = {
-//   loadPilots (pilotData) {
-//     // state.Pilots = pilotData
-//   }
-// }
+const actions = {
+  loadPilot (context) {
+    console.log(context)
+    // state.activePilotId = id
+  }
+}
 
 const getters = {
-  pilot: (state, getters, rootState) => (id) => {
-    // console.log(state, getters, rootState, id)
-    return rootState.Pilots.find(p => p.id === id)
+  activePilot: (state, getters, rootState) => {
+    console.log(state.activePilotId)
+    if (state.activePilotId) {
+      return rootState.Pilots.find(p => p.id === state.activePilotId)
+    } else {
+      return {}
+    }
   }
 }
 
 export default {
-  // state,
-  // mutations,
-  // actions,
+  state,
+  mutations,
+  actions,
   getters
 }

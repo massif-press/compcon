@@ -42,7 +42,7 @@
       <b-col>s</b-col>
     </b-row>
     <b-row>
-      <b-col>tal</b-col>
+      <b-col>tals</b-col>
     </b-row>
     <hr>
     <b-row>
@@ -60,7 +60,7 @@
     </b-row>
     <hr>
     <b-row>
-      <b-col>{{pilot.notes}}</b-col>
+      <!-- <b-col>{{pilot.notes}}</b-col> -->
     </b-row>
 
     </b-container>
@@ -82,23 +82,16 @@
   export default {
     name: 'pilot-sheet',
     components: { EditableTextField },
-    props: [
-      'pilot_id'
-    ],
-    data: () => ({
-      // pilot: {}
-    }),
     methods: {
       load (id) {
-        this.pilot = this.$store.getters.pilot(id)
+        this.pilot = this.$store.dispatch('loadPilot', id)
       }
     },
     computed: {
       pilot () {
-        return this.$store.getters.pilot(this.pilot_id)
+        return this.$store.getters.activePilot
       }
     }
-
   }
 </script>
 
