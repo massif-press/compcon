@@ -72,6 +72,9 @@
     methods: {
       select () {
         this.$parent.activeIndex = this.index
+        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.$store.dispatch('pilots/loadPilot', this.pilot.id)
+        console.log(this.$store)
       }
     },
     computed: {

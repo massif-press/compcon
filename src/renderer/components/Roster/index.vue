@@ -30,10 +30,10 @@
         this.$electron.shell.openExternal(link)
       },
       loadPilot (id) {
-        // console.log(this.$store)
+        console.log(this.$store)
         // console.log(this.$store.state.Pilots, id)
         // console.log(this.$store.getters.pilot)
-        console.log(this.$store.getters.pilot('cio'))
+        console.log(this.$store.getters.pilot())
         return null // this.$store.getters.pilot(id)
       }
     },
