@@ -78,6 +78,7 @@
 
 <script>
   import EditableTextField from './ui/EditableTextField'
+  // import {mapGetters} from 'vuex'
 
   export default {
     name: 'pilot-sheet',
@@ -85,17 +86,9 @@
     props: [
       'pilot_id'
     ],
-    data: () => ({
-      // pilot: {}
-    }),
-    methods: {
-      load (id) {
-        this.pilot = this.$store.getters.pilot(id)
-      }
-    },
     computed: {
-      pilot () {
-        return this.$store.getters.pilot(this.pilot_id)
+      pilot: function () {
+        return this.$store.getters.getPilot
       }
     }
 

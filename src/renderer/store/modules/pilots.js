@@ -1,29 +1,28 @@
-// const state = {
-//   Pilots: []
-// }
+const state = {
+  selectedPilotId: ''
+}
 
-// const mutations = {
-//   CHANGE_NAME (state, payload) {
-//     state.name = payload
-//   }
-// }
+const mutations = {
+  SET_PILOT (state, payload) {
+    state.selectedPilotId = payload
+  }
+}
 
-// const actions = {
-//   loadPilots (pilotData) {
-//     // state.Pilots = pilotData
-//   }
-// }
+const actions = {
+  loadPilot (context, pilotId) {
+    context.commit('SET_PILOT', pilotId)
+  }
+}
 
 const getters = {
-  pilot: (state, getters, rootState) => (id) => {
-    // console.log(state, getters, rootState, id)
-    return rootState.Pilots.find(p => p.id === id)
+  getPilot: (state, getters, rootState) => {
+    return rootState.Pilots.find(p => p.id === state.selectedPilotId)
   }
 }
 
 export default {
-  // state,
-  // mutations,
-  // actions,
+  state,
+  mutations,
+  actions,
   getters
 }

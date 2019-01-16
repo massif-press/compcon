@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-item">
       <!-- Sidebar expanded-->
-      <div v-if="parentExpanded">
+      <div v-if="parentExpanded" style="width: 100%">
         <div class="expanded-wrapper" @click="select" >
           <!-- Sidebar expanded, item selected -->
           <div v-if="active">
@@ -72,6 +72,7 @@
     methods: {
       select () {
         this.$parent.activeIndex = this.index
+        this.$store.dispatch('loadPilot', this.pilot.id)
       }
     },
     computed: {

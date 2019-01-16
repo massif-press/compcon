@@ -42,7 +42,8 @@ export default {
   components: { SidebarItem, 'v-icon': Icon },
   data: () => ({
     expand: false,
-    activeIndex: -1
+    activeIndex: -1,
+    activeID: 'oda'
   }),
   methods: {
     toggleSidebar: function (bool) {

@@ -503,7 +503,65 @@ eval("\n__webpack_require__(/*! electron-debug */ \"./node_modules/electron-debu
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n\n\n\n\nif (false) {}\n\nvar mainWindow = void 0;\nvar winURL =  true ? 'http://localhost:9080' : undefined;\n\nfunction createWindow() {\n  mainWindow = new electron__WEBPACK_IMPORTED_MODULE_0__[\"BrowserWindow\"]({\n    height: 800,\n    minHeight: 720,\n    width: 1400,\n    minWidth: 1280\n  });\n\n  mainWindow.loadURL(winURL);\n\n  mainWindow.on('closed', function () {\n    mainWindow = null;\n  });\n}\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('ready', createWindow);\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('window-all-closed', function () {\n  if (process.platform !== 'darwin') {\n    electron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].quit();\n  }\n});\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('activate', function () {\n  if (mainWindow === null) {\n    createWindow();\n  }\n});\n\n//# sourceURL=webpack:///./src/main/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _renderer_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../renderer/store */ \"./src/renderer/store/index.js\");\n\n\n\n\n\nif (false) {}\n\nvar mainWindow = void 0;\nvar winURL =  true ? 'http://localhost:9080' : undefined;\n\nfunction createWindow() {\n  mainWindow = new electron__WEBPACK_IMPORTED_MODULE_0__[\"BrowserWindow\"]({\n    height: 800,\n    minHeight: 720,\n    width: 1400,\n    minWidth: 1280\n  });\n\n  mainWindow.loadURL(winURL);\n\n  mainWindow.on('closed', function () {\n    mainWindow = null;\n  });\n}\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('ready', createWindow);\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('window-all-closed', function () {\n  if (process.platform !== 'darwin') {\n    electron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].quit();\n  }\n});\n\nelectron__WEBPACK_IMPORTED_MODULE_0__[\"app\"].on('activate', function () {\n  if (mainWindow === null) {\n    createWindow();\n  }\n});\n\n//# sourceURL=webpack:///./src/main/index.js?");
+
+/***/ }),
+
+/***/ "./src/renderer/assets/data/pilots.json":
+/*!**********************************************!*\
+  !*** ./src/renderer/assets/data/pilots.json ***!
+  \**********************************************/
+/*! exports provided: 0, 1, 2, 3, 4, default */
+/***/ (function(module) {
+
+eval("module.exports = [{\"id\":\"cio\",\"callsign\":\"CIO\",\"name\":\"Ciocie Cioelle\",\"level\":4,\"background\":\"Hacker\",\"history\":\"Ciocie \\\"Cio\\\" Cioelle Estrella Von Maximus the Third is a blue devil and the former bookkeeper for the Gilded Cage Guild. A cigar chomping, kleptomaniac, compulsive liar, Cio is known for her overbearing personality and a tendency to speak in a confusing dialect known as the Black Speech. Cio is rather particular about storytelling. <br>Cio has a rather abrasive, overbearing personality. She is very easy to rile up, and she will be quick to cuss people out in her crankier moods. She is also notably impatient, unscrupulous, cowardly and a habitual liar, but she can be surprisingly calm and mature in serious situations. She exhibits most typical personality traits of blue devils.\",\"fnf\":[{\"name\":\"Praman Nand\",\"relationship\":\"Husband\",\"description\":\"Lord of the Gilded Cage Guild.\"},{\"name\":\"Oscar\",\"relationship\":\"Ex-boyfriend\",\"description\":\"A blue devil.\"},{\"name\":\"Effay Wygeeo\",\"relationship\":\"Cousin\",\"description\":\"Unforunately named.\"}],\"img_portrait\":\"./resources/img/pilots/portrait_cio.png\",\"img_appearance\":\"./respources/img/pilots/cio_full.png\",\"text_appearance\":\"\",\"hp_bonus\":0,\"armor\":2,\"ee\":\"8/8\",\"speed\":4,\"status\":\"INACTIVE\",\"licenses\":[{\"name\":\"GOBLIN\",\"source\":\"HORUS\",\"level\":2},{\"name\":\"GORGON\",\"source\":\"HORUS\",\"level\":2}],\"gear\":[{\"id\":\"smartknife\",\"notes\":\"\"},{\"id\":\"prim_ranged\",\"notes\":\"\"},{\"id\":\"hardsuit\",\"notes\":\"\"},{\"id\":\"camocloth\",\"notes\":\"\"},{\"id\":\"scope\",\"notes\":\"\"},{\"id\":\"prosocollar\",\"notes\":\"\"}],\"skills\":{\"acquire\":0,\"brawl\":0,\"flash\":-1,\"infiltrate\":0,\"investigate\":1,\"persuade\":0,\"command\":0,\"swindle\":1,\"tech\":3,\"survive\":1,\"maneuver\":1,\"notice\":0},\"talents\":[{\"id\":\"arms\",\"rank\":1},{\"id\":\"techno\",\"rank\":3},{\"id\":\"ncavalier\",\"rank\":3}],\"talent_weapons\":[\"fuelrod\"],\"core\":{\"hull\":2,\"agi\":2,\"eng\":1,\"sys\":0,\"targeting\":1,\"hp\":4,\"sp\":1,\"core_sp\":1},\"core_bonuses\":[\"heldimage\"],\"notes\":\"Cioelle carries a book containing fan fiction, spells and her Coat of Arms. The devil-made coat apparantly provides her with extra arms.\",\"configs\":[\"6\"],\"hp\":9},{\"id\":\"oda\",\"callsign\":\"ODA\",\"name\":\"Taro Oda\",\"level\":3,\"background\":\"Colonist\",\"history\":\"Taro Oda grew up in the colonies. He is pretty good at gunplay, and a bad liar.\",\"fnf\":[{\"name\":\"\\\"Ol\\\" Buddy O'Pal\",\"relationship\":\"Comrade, Fence\",\"description\":\"Taro's best friend. Sells hot car stereos.\"},{\"name\":\"Lee Thol\",\"relationship\":\"Arch-rival\",\"description\":\"This guy sucks. Just the worst.\"}],\"img_portrait\":\"./resources/img/pilots/portrait_oda.png\",\"img_appearance\":\"\",\"text_appearance\":\"my man laughin cuz he know<br><br>(this appearance text will appear along with, or instead of, a pilot image)\",\"hp_bonus\":0,\"armor\":1,\"ee\":\"10/10\",\"speed\":4,\"status\":\"ACTIVE\",\"licenses\":[{\"name\":\"RALEIGH\",\"source\":\"ISP-N\",\"level\":3}],\"gear\":[{\"id\":\"sig_combat\",\"notes\":\"Hunting Rifle<br>Deals Kinetic damage.\"},{\"id\":\"peacekeeper\",\"notes\":\"\"},{\"id\":\"lighthardsuit\",\"notes\":\"\"},{\"id\":\"rations\",\"notes\":\"\"}],\"skills\":{\"acquire\":-1,\"brawl\":1,\"flash\":1,\"infiltrate\":0,\"investigate\":0,\"persuade\":0,\"command\":0,\"swindle\":-1,\"tech\":0,\"survive\":1,\"maneuver\":2,\"notice\":3},\"talents\":[{\"id\":\"shot\",\"rank\":1},{\"id\":\"infiltrator\",\"rank\":1},{\"id\":\"leader\",\"rank\":3}],\"core\":{\"hull\":2,\"agi\":2,\"eng\":1,\"sys\":0,\"targeting\":1,\"hp\":3,\"sp\":1,\"core_sp\":1},\"core_bonuses\":[\"frame\"],\"notes\":\"a player would enter notes here about the campaign, builds, etc etc.\",\"configs\":[\"0\",\"1\",\"2\",\"3\"],\"hp\":8},{\"id\":\"succsssor\",\"callsign\":\"SUCCESSOR\",\"name\":\"Allison Wanda Ruth\",\"level\":5,\"background\":\"Outlaw\",\"history\":\"Allison Wanda Ruth is a human and the owner of a Key of Kings. Born on Earth, Allison worked as a barista before being taken to Throne against her will. After nearly being sold into slavery and killed in the Battle of Hell 71, Allison undergoes a dramatic change of character with the help of Cio and 82. Shortly after, Zoss reveals that he orchestrated her transfer because Allison is part of an impending prophecy, one in which only she can overthrow the Seven.\",\"fnf\":[{\"name\":\"Zaid\",\"relationship\":\"Boyfriend\",\"description\":\"Currently missing.\"},{\"name\":\"82 White Chain\",\"relationship\":\"Protector\",\"description\":\"A peacekeeper of the Concordant Harmonies.\"}],\"img_portrait\":\"./resources/img/pilots/portrait_allison.png\",\"img_appearance\":\"./resources/img/pilots/allison_full.png\",\"text_appearance\":\"\",\"hp_bonus\":0,\"armor\":0,\"ee\":\"10/10\",\"speed\":5,\"status\":\"INACTIVE\",\"licenses\":[{\"name\":\"BLACK WITCH\",\"source\":\"SSC\",\"level\":2},{\"name\":\"METALMARK\",\"source\":\"SSC\",\"level\":2},{\"name\":\"GENGHIS\",\"source\":\"HA\",\"level\":1}],\"gear\":[{\"id\":\"arcblade\",\"notes\":\"\"},{\"id\":\"eloria\",\"notes\":\"\"},{\"id\":\"spray\",\"notes\":\"\"},{\"id\":\"kcal\",\"notes\":\"\"},{\"id\":\"printer\",\"notes\":\"\"}],\"skills\":{\"acquire\":-1,\"brawl\":0,\"flash\":2,\"infiltrate\":1,\"investigate\":0,\"persuade\":0,\"command\":0,\"swindle\":0,\"tech\":-1,\"survive\":1,\"maneuver\":1,\"notice\":0},\"talents\":[{\"id\":\"bond\",\"rank\":2},{\"id\":\"exemplar\",\"rank\":3},{\"id\":\"skirmisher\",\"rank\":1},{\"id\":\"van\",\"rank\":2}],\"core\":{\"hull\":1,\"agi\":2,\"eng\":1,\"sys\":1,\"targeting\":0,\"hp\":5,\"sp\":1,\"core_sp\":1},\"core_bonuses\":[\"sscatms\"],\"notes\":\"killsixbilliondemons.wikia.com/wiki/Allison\",\"configs\":[\"4\",\"5\"]},{\"id\":\"jfi0i1z6x\",\"callsign\":\"FNG\",\"name\":\"Nü Guie\",\"level\":1,\"background\":\"Soldier\",\"fnf\":[{\"name\":\"Robert Edward D'shurt\",\"relationship\":\"Father\",\"description\":\"Mysteriously killed in a bottle episode\"}],\"hp_bonus\":0,\"armor\":0,\"ee\":\"10/10\",\"speed\":4,\"status\":\"ACTIVE\",\"licenses\":[{\"name\":\"BARBAROSSA\",\"source\":\"HA\",\"level\":1}],\"gear\":[{\"id\":\"sig_sidearm\",\"notes\":\"\"},{\"id\":\"prim_melee\",\"notes\":\"\"},{\"id\":\"hardsuit\",\"notes\":\"\"},{\"id\":\"frag\",\"notes\":\"\"},{\"id\":\"stims\",\"notes\":\"\"},{\"id\":\"survivalkit\",\"notes\":\"\"}],\"skills\":{\"acquire\":0,\"brawl\":0,\"flash\":0,\"infiltrate\":-1,\"investigate\":0,\"persuade\":0,\"command\":1,\"swindle\":0,\"tech\":-1,\"survive\":1,\"maneuver\":2,\"notice\":2},\"talents\":[{\"id\":\"duel\",\"rank\":1},{\"id\":\"techno\",\"rank\":2},{\"id\":\"monkey\",\"rank\":3}],\"talent_weapons\":[],\"core\":{\"hull\":0,\"agi\":0,\"eng\":0,\"sys\":1,\"targeting\":0,\"hp\":1,\"sp\":0,\"core_sp\":0},\"core_bonuses\":[],\"configs\":[\"7\",\"3q8w2oq32\"],\"notes\":\"Campaign notes, build goals, etc\",\"history\":\"Some background details and history\",\"text_appearance\":\"Some appearance text, if you don't want to include an image\",\"img_portrait\":\"\",\"img_appearance\":\"\",\"hp\":6},{\"id\":\"kwkmydrvn\",\"callsign\":\"wEEdLorD_gOKu_420\",\"name\":\"Jeff Coolguy\",\"level\":10,\"background\":\"Spec Ops\",\"fnf\":[],\"hp_bonus\":0,\"armor\":0,\"ee\":\"10/10\",\"speed\":4,\"status\":\"ACTIVE\",\"licenses\":[{\"name\":\"LANCASTER\",\"source\":\"IPS-N\",\"level\":2},{\"name\":\"TORTUGA\",\"source\":\"IPS-N\",\"level\":2},{\"name\":\"VLAD\",\"source\":\"IPS-N\",\"level\":2},{\"name\":\"METALMARK\",\"source\":\"SSC\",\"level\":2},{\"name\":\"NAPOLEON\",\"source\":\"HA\",\"level\":1},{\"name\":\"GENGHIS\",\"source\":\"HA\",\"level\":1}],\"gear\":[{\"id\":\"hackiron\",\"notes\":\"\"},{\"id\":\"prim_melee\",\"notes\":\"\"},{\"id\":\"webbing\",\"notes\":\"\"},{\"id\":\"dataplating\",\"notes\":\"\"},{\"id\":\"patch\",\"notes\":\"\"},{\"id\":\"printer\",\"notes\":\"\"}],\"skills\":{\"acquire\":0,\"brawl\":2,\"flash\":0,\"infiltrate\":1,\"investigate\":0,\"persuade\":0,\"command\":4,\"swindle\":0,\"tech\":1,\"survive\":0,\"maneuver\":4,\"notice\":1},\"talents\":[{\"id\":\"ace\",\"rank\":3},{\"id\":\"duel\",\"rank\":1},{\"id\":\"exemplar\",\"rank\":3},{\"id\":\"executioner\",\"rank\":3},{\"id\":\"brutal\",\"rank\":1}],\"talent_weapons\":[],\"core\":{\"hull\":7,\"agi\":3,\"eng\":0,\"sys\":0,\"targeting\":5,\"hp\":10,\"sp\":0,\"core_sp\":0},\"core_bonuses\":[\"frame\",\"plating\",\"caps\"],\"configs\":[\"pzyyrsz78\"],\"notes\":\"\",\"history\":\"\",\"text_appearance\":\"extremely cool as all hell\",\"img_portrait\":\"\",\"img_appearance\":\"\",\"hp\":15}];\n\n//# sourceURL=webpack:///./src/renderer/assets/data/pilots.json?");
+
+/***/ }),
+
+/***/ "./src/renderer/store/index.js":
+/*!*************************************!*\
+  !*** ./src/renderer/store/index.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"vue\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ \"vuex\");\n/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _assets_data_pilots_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/data/pilots.json */ \"./src/renderer/assets/data/pilots.json\");\nvar _assets_data_pilots_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../assets/data/pilots.json */ \"./src/renderer/assets/data/pilots.json\", 1);\n/* harmony import */ var vuex_electron__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex-electron */ \"vuex-electron\");\n/* harmony import */ var vuex_electron__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vuex_electron__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _modules__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules */ \"./src/renderer/store/modules/index.js\");\n\n\n\n\n\n\n\n\nvue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1___default.a);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (new vuex__WEBPACK_IMPORTED_MODULE_1___default.a.Store({\n  state: {\n    Pilots: _assets_data_pilots_json__WEBPACK_IMPORTED_MODULE_2__\n  },\n\n  modules: _modules__WEBPACK_IMPORTED_MODULE_4__[\"default\"],\n  plugins: [Object(vuex_electron__WEBPACK_IMPORTED_MODULE_3__[\"createPersistedState\"])()],\n  strict: \"development\" !== 'production'\n}));\n\n//# sourceURL=webpack:///./src/renderer/store/index.js?");
+
+/***/ }),
+
+/***/ "./src/renderer/store/modules sync \\.js$":
+/*!************************************************************!*\
+  !*** ./src/renderer/store/modules sync nonrecursive \.js$ ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var map = {\n\t\"./index.js\": \"./src/renderer/store/modules/index.js\",\n\t\"./pilots.js\": \"./src/renderer/store/modules/pilots.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tvar id = map[req];\n\tif(!(id + 1)) { // check for number or string\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn id;\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./src/renderer/store/modules sync \\\\.js$\";\n\n//# sourceURL=webpack:///./src/renderer/store/modules_sync_nonrecursive_\\.js$?");
+
+/***/ }),
+
+/***/ "./src/renderer/store/modules/index.js":
+/*!*********************************************!*\
+  !*** ./src/renderer/store/modules/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n\nvar files = __webpack_require__(\"./src/renderer/store/modules sync \\\\.js$\");\nvar modules = {};\n\nfiles.keys().forEach(function (key) {\n  if (key === './index.js') return;\n  modules[key.replace(/(\\.\\/|\\.js)/g, '')] = files(key).default;\n});\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (modules);\n\n//# sourceURL=webpack:///./src/renderer/store/modules/index.js?");
+
+/***/ }),
+
+/***/ "./src/renderer/store/modules/pilots.js":
+/*!**********************************************!*\
+  !*** ./src/renderer/store/modules/pilots.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nvar state = {\n  selectedPilotId: ''\n};\n\nvar mutations = {\n  SET_PILOT: function SET_PILOT(state, payload) {\n    state.selectedPilotId = payload;\n  }\n};\n\nvar actions = {\n  loadPilot: function loadPilot(context, pilotId) {\n    context.commit('SET_PILOT', pilotId);\n  }\n};\n\nvar getters = {\n  getPilot: function getPilot(state, getters, rootState) {\n    return rootState.Pilots.find(function (p) {\n      return p.id === state.selectedPilotId;\n    });\n  }\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  state: state,\n  mutations: mutations,\n  actions: actions,\n  getters: getters\n});\n\n//# sourceURL=webpack:///./src/renderer/store/modules/pilots.js?");
 
 /***/ }),
 
@@ -625,6 +683,39 @@ eval("module.exports = require(\"tty\");\n\n//# sourceURL=webpack:///external_%2
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"util\");\n\n//# sourceURL=webpack:///external_%22util%22?");
+
+/***/ }),
+
+/***/ "vue":
+/*!**********************!*\
+  !*** external "vue" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"vue\");\n\n//# sourceURL=webpack:///external_%22vue%22?");
+
+/***/ }),
+
+/***/ "vuex":
+/*!***********************!*\
+  !*** external "vuex" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"vuex\");\n\n//# sourceURL=webpack:///external_%22vuex%22?");
+
+/***/ }),
+
+/***/ "vuex-electron":
+/*!********************************!*\
+  !*** external "vuex-electron" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = require(\"vuex-electron\");\n\n//# sourceURL=webpack:///external_%22vuex-electron%22?");
 
 /***/ })
 
