@@ -9,8 +9,7 @@
 
     <!-- Page Content -->
     <div id="content">
-      <button :click="info()">info</button>
-        <pilot-sheet :pilot_id="activePilotId"/>
+      <pilot-sheet :pilot_id="activePilotId"/>
     </div>
 
     </div>    
@@ -32,17 +31,6 @@
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
-      },
-      loadPilot (id) {
-        // console.log(this.$store)
-        // console.log(this.$store.state.Pilots, id)
-        // console.log(this.$store.getters.pilot)
-        return null // this.$store.getters.pilot(id)
-      },
-      info () {
-        // console.log(this.$store)
-        // // this.$store.dispatch('loadPilot', 'cio')
-        // console.log(this.$store.state.pilots.selectedPilotId)
       }
     },
     computed: {

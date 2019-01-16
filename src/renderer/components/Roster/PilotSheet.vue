@@ -42,7 +42,7 @@
       <b-col>s</b-col>
     </b-row>
     <b-row>
-      <b-col>tal</b-col>
+      <b-col>tals</b-col>
     </b-row>
     <hr>
     <b-row>
@@ -60,7 +60,7 @@
     </b-row>
     <hr>
     <b-row>
-      <b-col>{{pilot.notes}}</b-col>
+      <!-- <b-col>{{pilot.notes}}</b-col> -->
     </b-row>
 
     </b-container>
@@ -91,7 +91,6 @@
         return this.$store.getters.getPilot
       }
     }
-
   }
 </script>
 
