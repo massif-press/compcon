@@ -9,7 +9,8 @@
 
     <!-- Page Content -->
     <div id="content">
-        <pilot-sheet :pilot_id="'cio'"/>
+      <button :click="info()">info</button>
+        <pilot-sheet :pilot_id="activePilotId"/>
     </div>
 
     </div>    
@@ -25,6 +26,9 @@
   export default {
     name: 'roster',
     components: { Topbar, Sidebar, PilotSheet },
+    data: () => ({
+      activePilotId: 'cio'
+    }),
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
@@ -33,8 +37,12 @@
         // console.log(this.$store)
         // console.log(this.$store.state.Pilots, id)
         // console.log(this.$store.getters.pilot)
-        console.log(this.$store.getters.pilot('cio'))
         return null // this.$store.getters.pilot(id)
+      },
+      info () {
+        // console.log(this.$store)
+        // // this.$store.dispatch('loadPilot', 'cio')
+        // console.log(this.$store.state.pilots.selectedPilotId)
       }
     },
     computed: {
