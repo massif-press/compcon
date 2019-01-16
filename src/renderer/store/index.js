@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import io from '../util/io'
 import Pilots from '../assets/data/pilots.json'
 
 import { createPersistedState } from 'vuex-electron'
@@ -12,16 +13,16 @@ export default new Vuex.Store({
   state: {
     Pilots: Pilots
   },
-  // getters: {
-  //   pilot: (state) => (id) => {
-  //     console.log(state)
-  //     return state.Pilots.find(p => p.id === id)
-  //   }
-  // },
+  mutations: {
+    UPDATE_PILOT (state, payload) {
+      var pIdx = state.Pilots.findIndex(x => x.id === payload.id)
+      state.Pilots[pIdx] = payload.pilot
+      console.log(io)
+    }
+  },
   modules,
   plugins: [
     createPersistedState()
-    // createSharedMutations()
   ],
   strict: process.env.NODE_ENV !== 'production'
 })
