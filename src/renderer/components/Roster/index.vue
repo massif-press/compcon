@@ -10,6 +10,7 @@
     <!-- Page Content -->
     <div id="content">
       <pilot-sheet :pilot_id="activePilotId"/>
+      <mech-sheet />
     </div>
 
     </div>    
@@ -21,12 +22,13 @@
   import Topbar from './UI/Topbar'
   import Sidebar from './UI/Sidebar'
   import PilotSheet from './PilotSheet'
+  import MechSheet from './MechSheet'
 
   export default {
     name: 'roster',
-    components: { Topbar, Sidebar, PilotSheet },
+    components: { Topbar, Sidebar, PilotSheet, MechSheet },
     data: () => ({
-      activePilotId: 'cio'
+      activePilotId: ''
     }),
     methods: {
       open (link) {
@@ -40,6 +42,9 @@
       ...mapGetters([
         'Pilots'
       ])
+    },
+    created: function () {
+      this.$store.dispatch('loadAllPilots')
     }
   }
 </script>

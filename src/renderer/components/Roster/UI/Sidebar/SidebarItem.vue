@@ -56,16 +56,16 @@
   export default {
     name: 'sidebar-item',
     props: {
-      pilot: {
-        type: Object,
-        required: true
-      },
       parentExpanded: {
         type: Boolean,
         required: false
       },
       index: {
         type: Number,
+        required: true
+      },
+      pilot_id: {
+        type: String,
         required: true
       }
     },
@@ -78,6 +78,9 @@
     computed: {
       active () {
         return this.$parent.activeIndex === this.index
+      },
+      pilot: function () {
+        return this.$store.getters.getPilotById(this.pilot_id)
       }
     }
   }
