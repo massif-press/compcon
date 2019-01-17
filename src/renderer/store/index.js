@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import io from '../util/io'
-import Pilots from '../assets/data/pilots.json'
+import io from './io'
 
 import { createPersistedState } from 'vuex-electron'
 
@@ -9,20 +8,21 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    Pilots: Pilots
-  },
-  mutations: {
-    UPDATE_PILOT (state, payload) {
-      var pIdx = state.Pilots.findIndex(x => x.id === payload.id)
-      state.Pilots[pIdx] = payload.pilot
-      console.log(io)
+const pilotUpdateSubscriber = store => {
+  store.subscribe((mutation, state) => {
+    if (mutation.type === 'UPDATE_PILOT') {
+      io.saveUserData(Vue.prototype.userDataPath, 'pilots.json', state.pilots.Pilots, function (err) {
+        if (err) console.error(err)
+      })
     }
-  },
+  })
+}
+
+export default new Vuex.Store({
   modules,
   plugins: [
-    createPersistedState()
+    createPersistedState(),
+    pilotUpdateSubscriber
   ],
   strict: process.env.NODE_ENV !== 'production'
 })

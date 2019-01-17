@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import 'vue-awesome/icons'
-import db from './datastore'
+import { remote } from 'electron'
+import path from 'path'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
@@ -19,6 +20,4 @@ new Vue({
   template: '<App/>'
 }).$mount('#app')
 
-Vue.prototype.$db = db
-
-console.log(Vue.$db)
+Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')

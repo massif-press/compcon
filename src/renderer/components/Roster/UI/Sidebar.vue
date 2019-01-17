@@ -18,7 +18,7 @@
           v-for="(pilot, index) in Pilots"
           :key="index"
           :index="index"
-          :pilot="pilot"
+          :pilot_id="pilot.id"
           :parentExpanded="expand"
         />
       </div> <!--/content-->
