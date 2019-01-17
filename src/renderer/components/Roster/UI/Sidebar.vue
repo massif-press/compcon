@@ -35,11 +35,10 @@
 <script>
 import SidebarItem from './Sidebar/SidebarItem'
 import {mapState} from 'vuex'
-import Icon from 'vue-awesome/components/Icon'
 
 export default {
   name: 'sidebar',
-  components: { SidebarItem, 'v-icon': Icon },
+  components: { SidebarItem },
   data: () => ({
     expand: false,
     activeIndex: -1,

@@ -1,0 +1,16 @@
+{
+  "doc1": {
+    "title": "Document One",
+    "children": {
+      "childA": {
+        "title": "Child A"
+      },
+      "childB": {
+        "title": "Child B"
+      }
+    }
+  },
+  "doc2": {
+    "title": "Document Two"
+  }
+}

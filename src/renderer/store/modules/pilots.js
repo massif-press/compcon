@@ -1,4 +1,4 @@
-import io from '../io'
+import io from '../pilot_io'
 import Vue from 'vue'
 
 const state = {

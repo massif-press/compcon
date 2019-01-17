@@ -16,7 +16,8 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix"
+    "postinstall": "npm run lint:fix",
+    "docs": "jsdoc ./src -c ./jsdoc-config.json"
   },
   "build": {
     "productName": "compcon",
@@ -59,6 +60,7 @@
     "material-icons": "^0.3.0",
     "vue": "^2.5.16",
     "vue-awesome": "^3.3.1",
+    "vue-clickaway": "^2.2.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
@@ -96,6 +98,8 @@
     "eslint-plugin-standard": "^3.1.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "jsdoc": "^3.5.5",
+    "jsdoc-vuejs": "^2.3.4",
     "mini-css-extract-plugin": "0.4.0",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",

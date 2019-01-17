@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import io from './io'
+import io from './pilot_io'
 
 import { createPersistedState } from 'vuex-electron'
 

@@ -7,6 +7,7 @@ import store from './store'
 import 'vue-awesome/icons'
 import { remote } from 'electron'
 import path from 'path'
+import Icon from 'vue-awesome/components/Icon'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
@@ -19,5 +20,5 @@ new Vue({
   store,
   template: '<App/>'
 }).$mount('#app')
-
+Vue.component('v-icon', Icon)
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
