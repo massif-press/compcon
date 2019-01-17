@@ -3,8 +3,14 @@
     <div v-if="pilot.name">
       <b-container fluid id="test">
         <b-row>
-          <b-col cols="5">{{pilot.callsign}}</b-col>
-          <b-col cols=2><editable-label>heck yeah</editable-label></b-col>
+          <b-col cols=3>{{pilot.callsign}}</b-col>
+          <b-col cols=4>
+            <editable-label 
+              :description="'Callsign'" 
+              :attr="'callsign'" 
+              :val="pilot.callsign"
+              :id="pilot.id" />
+            </b-col>
           <b-col cols="2">{{pilot.name}}</b-col>
           <b-col>{{pilot.level}} - {{pilot.background}}</b-col>
           <b-button @click="appendName">!!</b-button>
@@ -83,7 +89,7 @@
 </template>
 
 <script>
-  import EditableLabel from './ui/EditableLabel'
+  import EditableLabel from './ui/editableLabel'
   // import {mapGetters} from 'vuex'
 
   export default {
