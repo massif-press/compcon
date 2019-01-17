@@ -14,7 +14,6 @@ const mutations = {
     state.Pilots = io.loadUserData(Vue.prototype.userDataPath, 'pilots.json')
   },
   UPDATE_PILOT (state, payload) {
-    console.log('in update pilot mutator')
     var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
     if (pilotIndex > -1) {
       state.Pilots[pilotIndex][payload.attr] = payload.val

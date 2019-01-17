@@ -5,8 +5,9 @@
         <div class="expanded-wrapper" @click="select" >
           <!-- Sidebar expanded, item selected -->
           <div v-if="active">
+            <b-container>
               <b-row>
-                <b-col cols=5>
+                <b-col>
                   <b-img left src="https://via.placeholder.com/115" />
                 </b-col>
                 <b-col>
@@ -20,14 +21,15 @@
               <b-row>
                 <b-col>
                   configs:
-                  <ul>
-                    <li v-for="(config, index) in pilot.configs" :key="index">{{ config }}</li>
-                  </ul>
+                  <div v-for="(config, index) in pilot.configs" :key="index">
+                    <b-btn block>{{ config }}</b-btn>
+                  </div>
                 </b-col>
               </b-row>
               <b-row>
-                <b-button>new config</b-button>
+                <b-btn>new config</b-btn>
               </b-row>
+            </b-container>
           </div>
           <!-- End expanded and selected -->
 
