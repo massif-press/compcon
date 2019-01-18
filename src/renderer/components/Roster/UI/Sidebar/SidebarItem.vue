@@ -8,14 +8,15 @@
             <b-container>
               <b-row>
                 <b-col>
-                  <b-img left src="https://via.placeholder.com/115" />
+                  <div @click="hideMechSheet()">
+                    <b-img left src="https://via.placeholder.com/115" />
+                  </div>
                 </b-col>
                 <b-col>
                     {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
                   <br>
                     {{ pilot.status }} {{ pilot.id}}
                   <br>
-                  <b-button>p link</b-button>          
                 </b-col>
               </b-row>
               <b-row>
@@ -26,8 +27,10 @@
                   </div>
                 </b-col>
               </b-row>
+              <br><br>
               <b-row>
-                <b-btn>new config</b-btn>
+              <br><br>
+                <b-btn block>add new config</b-btn>
               </b-row>
             </b-container>
           </div>
@@ -75,6 +78,9 @@
       select () {
         this.$parent.activeIndex = this.index
         this.$store.dispatch('loadPilot', this.pilot.id)
+      },
+      hideMechSheet () {
+        console.log('keep it real its the next episode~')
       }
     },
     computed: {
