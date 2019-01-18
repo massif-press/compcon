@@ -20,5 +20,6 @@ new Vue({
   store,
   template: '<App/>'
 }).$mount('#app')
+
 Vue.component('v-icon', Icon)
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')

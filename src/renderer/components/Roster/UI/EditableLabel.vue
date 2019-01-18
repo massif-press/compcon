@@ -33,19 +33,6 @@
 </template>
 
 <script>
-  /**
-  * @file EditableLabel.vue - Pilot attribute-bound editable label
-  * @author J. Arena
-  *
-  * @vue-prop {String} attr - Pilot data attribute
-  * @vue-prop {Any} val - Pilot data attribute value
-  * @vue-prop {String} description - On click form group description
-  * @vue-prop {String} invalidText - Incorrect entry warning text
-  * @vue-prop {String} validText - Valid entry notification text
-  * @vue-data {Bool} [isEditing=false] - Component is in edit mode (showing form-input)
-  * @vue-data {String} [newVal=''] - Form-input value
-  * @vue-computed {String} message
-  */
   import { mixin as clickaway } from 'vue-clickaway'
 
   export default {
