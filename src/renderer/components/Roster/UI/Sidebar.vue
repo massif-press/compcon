@@ -15,7 +15,7 @@
       <div id='sidebar-content' :class="{collapsed : !expand}">
         <div style="height: 8px"></div> <!-- spacer -->
         <sidebar-item
-          v-for="(pilot, index) in Pilots"
+          v-for="(pilot, index) in pilots"
           :key="index"
           :index="index"
           :pilot_id="pilot.id"
@@ -34,7 +34,6 @@
 
 <script>
 import SidebarItem from './Sidebar/SidebarItem'
-import {mapState} from 'vuex'
 
 export default {
   name: 'sidebar',
@@ -42,17 +41,20 @@ export default {
   data: () => ({
     expand: false,
     activeIndex: -1,
-    activeID: 'oda'
+    activeID: ''
   }),
   methods: {
     toggleSidebar: function (bool) {
       this.expand = bool
+    },
+    toggleConfigSheet: function (bool) {
+      this.$parent.toggleConfigSheet(bool)
     }
   },
   computed: {
-    ...mapState([
-      'Pilots'
-    ])
+    pilots: function () {
+      return this.$store.getters.getAllPilots
+    }
   }
 }
 </script>

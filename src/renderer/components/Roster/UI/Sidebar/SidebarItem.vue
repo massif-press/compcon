@@ -8,7 +8,7 @@
             <b-container>
               <b-row>
                 <b-col>
-                  <div @click="hideMechSheet()">
+                  <div @click="hideConfigSheet()">
                     <b-img left src="https://via.placeholder.com/115" />
                   </div>
                 </b-col>
@@ -23,7 +23,7 @@
                 <b-col>
                   configs:
                   <div v-for="(config, index) in pilot.configs" :key="index">
-                    <b-btn block>{{ config }}</b-btn>
+                    <b-btn block @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
                   </div>
                 </b-col>
               </b-row>
@@ -79,8 +79,11 @@
         this.$parent.activeIndex = this.index
         this.$store.dispatch('loadPilot', this.pilot.id)
       },
-      hideMechSheet () {
-        console.log('keep it real its the next episode~')
+      hideConfigSheet () {
+        this.$parent.toggleConfigSheet(false)
+      },
+      showConfigSheet (configId) {
+        this.$parent.toggleConfigSheet(true)
       }
     },
     computed: {

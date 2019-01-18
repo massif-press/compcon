@@ -3,7 +3,7 @@
     <!-- Image and text -->
     <b-navbar type="light" variant="fade">
       <b-navbar-brand href="#">
-        BootstrapVuex
+        BootstrapVue
       </b-navbar-brand>
       <div class="ml-group">
         <b-button href=#>Long Link</b-button>
@@ -25,4 +25,3 @@
 
 <style>
 </style>
-

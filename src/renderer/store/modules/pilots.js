@@ -37,10 +37,13 @@ const actions = {
 
 const getters = {
   getPilot: (state) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId)
+    return state.Pilots.find(p => p.id === state.selectedPilotId) || {}
+  },
+  getAllPilots: (state) => {
+    return state.Pilots || []
   },
   getPilotById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === id)
+    return state.Pilots.find(p => p.id === id) || {}
   }
 }
 
