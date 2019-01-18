@@ -10,7 +10,7 @@
     <!-- Page Content -->
     <div id="content">
       <pilot-sheet :pilot_id="activePilotId"/>
-      <mech-sheet />
+      <config-sheet />
     </div>
 
     </div>    
@@ -18,30 +18,25 @@
 </template>
 
 <script>
-  import {mapState, mapGetters} from 'vuex'
   import Topbar from './UI/Topbar'
   import Sidebar from './UI/Sidebar'
   import PilotSheet from './PilotSheet'
-  import MechSheet from './MechSheet'
+  import ConfigSheet from './ConfigSheet'
 
   export default {
     name: 'roster',
-    components: { Topbar, Sidebar, PilotSheet, MechSheet },
+    components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
     data: () => ({
-      activePilotId: ''
+      activePilotId: '',
+      configOpen: false
     }),
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      toggleConfigSheet (bool) {
+        this.configOpen = bool
       }
-    },
-    computed: {
-      ...mapState([
-        'Pilots'
-      ]),
-      ...mapGetters([
-        'Pilots'
-      ])
     },
     created: function () {
       this.$store.dispatch('loadAllPilots')

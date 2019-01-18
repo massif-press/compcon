@@ -6,6 +6,7 @@ export default {
     return Math.random().toString(36).substr(2, 12)
   },
   loadUserData (userDataPath, filePath) {
+    console.log(userDataPath)
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {
         return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath)))
