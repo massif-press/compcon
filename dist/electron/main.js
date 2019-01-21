@@ -94,7 +94,7 @@ module.exports =
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("/* WEBPACK VAR INJECTION */(function(__dirname) {var resolve = __webpack_require__(/*! path */ \"path\").resolve\nvar bin = __webpack_require__(/*! ./package */ \"./node_modules/7zip/package.json\").bin\n\nmodule.exports = map_obj(bin, function(v){\n  return resolve(__dirname, v)\n})\n\nfunction map_obj(obj, fn){\n  return Object.keys(obj).reduce(function(m, k){\n    m[k] = fn(obj[k])\n    return m\n  }, {})\n}\n\n/* WEBPACK VAR INJECTION */}.call(this, \"node_modules\\\\7zip\"))\n\n//# sourceURL=webpack:///./node_modules/7zip/index.js?");
+eval("/* WEBPACK VAR INJECTION */(function(__dirname) {var resolve = __webpack_require__(/*! path */ \"path\").resolve\nvar bin = __webpack_require__(/*! ./package */ \"./node_modules/7zip/package.json\").bin\n\nmodule.exports = map_obj(bin, function(v){\n  return resolve(__dirname, v)\n})\n\nfunction map_obj(obj, fn){\n  return Object.keys(obj).reduce(function(m, k){\n    m[k] = fn(obj[k])\n    return m\n  }, {})\n}\n\n/* WEBPACK VAR INJECTION */}.call(this, \"node_modules/7zip\"))\n\n//# sourceURL=webpack:///./node_modules/7zip/index.js?");
 
 /***/ }),
 
@@ -105,7 +105,7 @@ eval("/* WEBPACK VAR INJECTION */(function(__dirname) {var resolve = __webpack_r
 /*! exports provided: _args, _development, _from, _id, _inBundle, _integrity, _location, _phantomChildren, _requested, _requiredBy, _resolved, _spec, _where, bin, bugs, description, homepage, keywords, license, main, name, repository, scripts, version, default */
 /***/ (function(module) {
 
-eval("module.exports = {\"_args\":[[\"7zip@0.0.6\",\"F:\\\\Projects\\\\compcon\"]],\"_development\":true,\"_from\":\"7zip@0.0.6\",\"_id\":\"7zip@0.0.6\",\"_inBundle\":false,\"_integrity\":\"sha1-nK+xca+CMpSQNTtIFvAzR6oVCjA=\",\"_location\":\"/7zip\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"7zip@0.0.6\",\"name\":\"7zip\",\"escapedName\":\"7zip\",\"rawSpec\":\"0.0.6\",\"saveSpec\":null,\"fetchSpec\":\"0.0.6\"},\"_requiredBy\":[\"/electron-devtools-installer\"],\"_resolved\":\"https://registry.npmjs.org/7zip/-/7zip-0.0.6.tgz\",\"_spec\":\"0.0.6\",\"_where\":\"F:\\\\Projects\\\\compcon\",\"bin\":{\"7z\":\"7zip-lite/7z.exe\"},\"bugs\":{\"url\":\"https://github.com/fritx/win-7zip/issues\"},\"description\":\"7zip Windows Package via Node.js\",\"homepage\":\"https://github.com/fritx/win-7zip#readme\",\"keywords\":[\"7z\",\"7zip\",\"7-zip\",\"windows\",\"install\"],\"license\":\"GNU LGPL\",\"main\":\"index.js\",\"name\":\"7zip\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/fritx/win-7zip.git\"},\"scripts\":{\"test\":\"mocha\"},\"version\":\"0.0.6\"};\n\n//# sourceURL=webpack:///./node_modules/7zip/package.json?");
+eval("module.exports = {\"_args\":[[\"7zip@0.0.6\",\"/Users/jarena/Projects/compcon\"]],\"_development\":true,\"_from\":\"7zip@0.0.6\",\"_id\":\"7zip@0.0.6\",\"_inBundle\":false,\"_integrity\":\"sha1-nK+xca+CMpSQNTtIFvAzR6oVCjA=\",\"_location\":\"/7zip\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"version\",\"registry\":true,\"raw\":\"7zip@0.0.6\",\"name\":\"7zip\",\"escapedName\":\"7zip\",\"rawSpec\":\"0.0.6\",\"saveSpec\":null,\"fetchSpec\":\"0.0.6\"},\"_requiredBy\":[\"/electron-devtools-installer\"],\"_resolved\":\"https://registry.npmjs.org/7zip/-/7zip-0.0.6.tgz\",\"_spec\":\"0.0.6\",\"_where\":\"/Users/jarena/Projects/compcon\",\"bin\":{\"7z\":\"7zip-lite/7z.exe\"},\"bugs\":{\"url\":\"https://github.com/fritx/win-7zip/issues\"},\"description\":\"7zip Windows Package via Node.js\",\"homepage\":\"https://github.com/fritx/win-7zip#readme\",\"keywords\":[\"7z\",\"7zip\",\"7-zip\",\"windows\",\"install\"],\"license\":\"GNU LGPL\",\"main\":\"index.js\",\"name\":\"7zip\",\"repository\":{\"type\":\"git\",\"url\":\"git+ssh://git@github.com/fritx/win-7zip.git\"},\"scripts\":{\"test\":\"mocha\"},\"version\":\"0.0.6\"};\n\n//# sourceURL=webpack:///./node_modules/7zip/package.json?");
 
 /***/ }),
 
@@ -606,7 +606,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var babe
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! F:\\Projects\\compcon\\src\\main\\index.dev.js */\"./src/main/index.dev.js\");\nmodule.exports = __webpack_require__(/*! F:\\Projects\\compcon\\src\\main\\index.js */\"./src/main/index.js\");\n\n\n//# sourceURL=webpack:///multi_./src/main/index.dev.js_./src/main/index.js?");
+eval("__webpack_require__(/*! /Users/jarena/Projects/compcon/src/main/index.dev.js */\"./src/main/index.dev.js\");\nmodule.exports = __webpack_require__(/*! /Users/jarena/Projects/compcon/src/main/index.js */\"./src/main/index.js\");\n\n\n//# sourceURL=webpack:///multi_./src/main/index.dev.js_./src/main/index.js?");
 
 /***/ }),
 

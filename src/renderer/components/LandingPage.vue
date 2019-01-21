@@ -1,23 +1,70 @@
 <template>
   <div id="wrapper">
-    <h1>title</h1>
-    <h3>subtitle</h3>
-    <b-container>
+    <b-container fluid>
       <b-row>
-        <b-col><router-link to="/roster" tag="b-button">users</router-link></b-col>
-        <b-col><router-link to="/mods" tag="b-button" disabled>editor</router-link></b-col>
-        <b-col><router-link to="/gm" tag="b-button" disabled>tools</router-link></b-col>
+        <b-col>
+          <h1 class="display-1">title</h1>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <h3>subtitle</h3>
+        </b-col>
       </b-row>
     </b-container>
-    <footer>
-      version -- links -- etc
-    </footer>
+
+    <div style="padding-top:10vh;" />
+
+    <b-container>
+      <b-row style="height: 100%" align-v="center">
+        <b-col><b-btn block size="lg" :to="'/roster'">users</b-btn></b-col>
+        <b-col><b-btn block size="lg" :to="'/mods'" disabled>editor</b-btn></b-col>
+        <b-col><b-btn block size="lg" :to="'/gm'" disabled>tools</b-btn></b-col>
+      </b-row>
+
+      <b-row style="padding-top:10vh">
+        <b-col>
+            <b-card header="Update" title="MM/DD/YYYY" sub-title="v.x.x.x">
+              <b-card-body>notes, links, etc</b-card-body>
+            </b-card>
+          </b-col>
+      </b-row>
+
+      <br>
+
+      <b-row>
+        <b-col>
+          <b-card no-body class="text-center">
+            <span class="text-muted">loading log</span>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
+
+
+    <b-navbar toggleable="md" fixed="bottom">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-collapse is-nav id="nav_collapse">
+        <b-navbar-nav>
+          <b-nav-text href="#">ver. {{version}}</b-nav-text>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item right>About</b-nav-item>
+          <b-nav-item right>Help</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'landing-page'
+    name: 'landing-page',
+    computed: {
+      version: function () {
+        return this.versionNumber
+      }
+    }
   }
 </script>
 
@@ -41,7 +88,7 @@ body {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  /* width: 10px; */
 }
 
 /* Track */

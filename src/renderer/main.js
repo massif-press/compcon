@@ -23,3 +23,4 @@ new Vue({
 
 Vue.component('v-icon', Icon)
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
+Vue.prototype.versionNumber = '0.2.1'

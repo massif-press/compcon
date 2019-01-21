@@ -3,7 +3,7 @@
     <!-- Image and text -->
     <b-navbar type="light" variant="fade">
       <b-navbar-brand href="#">
-        BootstrapVue
+        BootstrapVue {{ versionNumber }}
       </b-navbar-brand>
       <div class="ml-group">
         <b-button href=#>Long Link</b-button>
@@ -19,7 +19,12 @@
 
 <script>
   export default {
-    name: 'topbar'
+    name: 'topbar',
+    computed: {
+      version: function () {
+        return this.versionNumber
+      }
+    }
   }
 </script>
 
