@@ -6,7 +6,7 @@
           <!-- Sidebar expanded, item selected -->
           <div v-if="active">
             <b-container>
-              <b-row>
+              <b-row :class="{highlighted: active}">
                 <b-col>
                   <div @click="hideConfigSheet()">
                     <b-img left src="https://via.placeholder.com/115" />
@@ -23,13 +23,17 @@
                 <b-col>
                   configs:
                   <div v-for="(config, index) in pilot.configs" :key="index">
-                    <b-btn block @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
+                    <b-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
+                      <b-popover boundary="viewport" v-bind:target="config.id + 'btn'" triggers="hover" placement="right" style="z-index:90!important">
+                        <template slot="title">{{config.frame_id}}</template>
+                        <span class="text-danger">{{config.status}}</span>
+                        <em>greater <strong>control.</strong></em>
+                      </b-popover>
                   </div>
                 </b-col>
               </b-row>
-              <br><br>
+              <hr>
               <b-row>
-              <br><br>
                 <b-btn block>add new config</b-btn>
               </b-row>
             </b-container>

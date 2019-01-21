@@ -1,0 +1,8 @@
+✔ config info popover needs to occur outside of sidebar DOM @done(19-01-21 12:27)
+☐ background field on pilot sheet should pop open a background selecto
+☐ expand imgs on click
+☐ technobabble filler text used as decoration, randomly generated, look at microfiction
+  ☐ should change at random intervals
+☐ Sidebar force close on config selection
+☐ for editables, take path string, split on "/", compose into json heirarchy
+  ☐ x/y/z => x[y][z]

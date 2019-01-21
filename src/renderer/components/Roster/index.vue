@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='roster-index'>
     <topbar />
     
     <div class="wrapper">
@@ -38,6 +38,11 @@
         this.configOpen = bool
       }
     },
+    computed: {
+      pilots: function () {
+        return this.$store.getters.getAllPilots
+      }
+    },
     created: function () {
       this.$store.dispatch('loadAllPilots')
     }
@@ -64,7 +69,7 @@
 
 #content {
   margin-left: 6vw;
-  margin-right: 1vw;
+  margin-right: 0.5vw;
   width: 100%;
   height: 92.7vh;
   overflow-y: scroll;

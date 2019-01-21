@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "author": "J. Arena",
   "description": "An electron-vue project",
-  "license": "GPL",
+  "private": true,
+  "license": "GPL-3.0-or-later",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "npm run docs && node .electron-vue/build.js && electron-builder",
@@ -54,9 +55,10 @@
     }
   },
   "dependencies": {
+    "@vue/cli-service": "^3.3.0",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
-    "gsap": "^2.0.2",
+    "jquery": "^3.3.1",
     "material-icons": "^0.3.0",
     "vue": "^2.5.22",
     "vue-awesome": "^3.3.1",
