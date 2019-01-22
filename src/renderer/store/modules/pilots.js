@@ -1,5 +1,6 @@
 import io from '../pilot_io'
 import Vue from 'vue'
+import _ from 'lodash'
 
 const state = {
   Pilots: [],
@@ -16,7 +17,17 @@ const mutations = {
   UPDATE_PILOT (state, payload) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
     if (pilotIndex > -1) {
-      state.Pilots[pilotIndex][payload.attr] = payload.val
+      _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
+  },
+  SPLICE_PILOT (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    if (pilotIndex > -1) {
+      var arr = _.get(state.Pilots[pilotIndex], payload.attr)
+      arr.splice(payload.start_index, payload.delete_count)
+      _.set(state.Pilots[pilotIndex], payload.attr, arr)
     } else {
       throw console.error('Pilot not loaded!')
     }
@@ -32,6 +43,9 @@ const actions = {
   },
   editPilot (context, payload) {
     context.commit('UPDATE_PILOT', payload)
+  },
+  splicePilot (context, payload) {
+    context.commit('SPLICE_PILOT', payload)
   }
 }
 

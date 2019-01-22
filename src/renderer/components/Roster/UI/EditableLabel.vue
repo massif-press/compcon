@@ -24,9 +24,9 @@
     </div>
 
     <div v-else>
-      <div class='highlight' @click="edit(true)">
+      <span class='highlight' @click="edit(true)">
         {{ val }}
-      </div>
+      </span>
     </div>
 
   </div>
@@ -67,7 +67,7 @@
     },
     computed: {
       state () {
-        return this.newVal.length > 0
+        return /\S/.test(this.newVal)
       },
       invalidFeedback () {
         if (this.newVal.length) {
