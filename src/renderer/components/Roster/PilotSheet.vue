@@ -30,15 +30,14 @@
             <b-row>
               <b-col>
                 <b-row><span class="header">fnf-header</span></b-row>
-                <div v-for="(fnf, index) in pilot.fnf" :key="index" class="border rounded" style="padding: 10px; margin:10px">
-                  <b-button class="float-right" href="#" variant="danger" size="sm" v-b-tooltip.hover title="Remove Contact"><v-icon name="minus" /></b-button>
-                  <h5><editable-label :description="'Contact Name'" :attr="'fnf.name'" :val="fnf.name" :id="pilot.id"/></h5>
-                  <em><editable-label :description="'Contact Relationship'" :attr="'fnf.relationship'" :val="fnf.relationship" :id="pilot.id"/></em>
-                  <p class="card-text"><editable-label :description="'Contact Description'" :attr="'fnf.description'" :val="fnf.description" :id="pilot.id"/></p>
+                <div v-for="(fnf, index) in pilot.fnf" :key="index">
+                  <contact-item :index="index" :fnf="fnf" :pilot_id="pilot.id" class="border rounded" style="padding: 10px; margin:10px" />
                 </div>
                 <b-row>
                   <b-col>
-                    <b-btn class="float-right" variant="success" style="margin:0px 10px" v-b-tooltip.hover title="Add Contact"><v-icon name="plus" /></b-btn>
+                    <b-btn @click="addContact()" class="float-right" variant="success" style="margin:0px 10px" v-b-tooltip.hover title="Add Contact">
+                      <v-icon name="plus" />
+                    </b-btn>
                   </b-col>
                 </b-row>
               </b-col>
@@ -48,7 +47,9 @@
             <b-row><span class="header">appearance-header</span></b-row>
             <b-row>
               <b-col>
-                <b-img src="https://via.placeholder.com/400x500" fluid-grow />
+                <image-selector-modal :title="'Select Appearance Image'" ref="appearanceImg">
+                  <b-img class="overlay" src="https://via.placeholder.com/400x500" fluid-grow @click="selectAppearanceImg()"/>
+                </image-selector-modal>
               </b-col>
             </b-row>
             <b-row>
@@ -112,23 +113,31 @@
 </template>
 
 <script>
-  import EditableLabel from './ui/EditableLabel'
-  import EditableTextfield from './ui/EditableTextfield'
-  // import {mapGetters} from 'vuex'
+  import EditableLabel from './UI/EditableLabel'
+  import EditableTextfield from './UI/EditableTextfield'
+  import Contact from './PilotSheet/Contact'
+  import ImageSelector from './UI/ImageSelector'
 
   export default {
     name: 'pilot-sheet',
-    components: { EditableLabel, EditableTextfield },
+    components: { EditableLabel, EditableTextfield, 'image-selector-modal': ImageSelector, 'contact-item': Contact },
     props: [
       'pilot_id'
     ],
+    data: () => ({
+      contactKey: 0
+    }),
     methods: {
-      appendName: function () {
+      addContact: function () {
         this.$store.dispatch('editPilot', {
           id: this.pilot.id,
-          attr: 'name',
-          val: this.pilot.name + '!'
+          attr: `fnf[${this.pilot.fnf.length}]`,
+          val: {name: 'New Contact', relationship: 'Add Relationship', description: 'Add Description'}
         })
+        this.$forceUpdate()
+      },
+      selectAppearanceImg: function () {
+        this.$refs.appearanceImg.showModal()
       }
     },
     computed: {
@@ -188,6 +197,25 @@ button {
       var(--notchSize) 100%, 
       0% calc(100% - var(--notchSize))
     );
+}
+
+.overlay {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  content:"";
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  background-color: red;
+}
+
+.overlay:hover:after  {
+  opacity: .5;
 }
 
 </style>

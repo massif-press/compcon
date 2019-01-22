@@ -4,5 +4,5 @@
 ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
   ☐ should change at random intervals
 ☐ Sidebar force close on config selection
-☐ for editables, take path string, split on "/", compose into json heirarchy
-  ☐ x/y/z => x[y][z]
+✔ for editables, take path string, split on "/", compose into json heirarchy @done(19-01-22 11:01)
+  ✔ x/y/z => x[y][z] @done(19-01-22 11:01)

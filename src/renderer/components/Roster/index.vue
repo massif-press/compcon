@@ -18,8 +18,8 @@
 </template>
 
 <script>
-  import Topbar from './UI/Topbar'
-  import Sidebar from './UI/Sidebar'
+  import Topbar from './Topbar'
+  import Sidebar from './Sidebar'
   import PilotSheet from './PilotSheet'
   import ConfigSheet from './ConfigSheet'
 
