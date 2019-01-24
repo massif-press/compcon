@@ -1,12 +1,13 @@
 <template>
   <div class="sidebar-item">
       <!-- Sidebar expanded-->
-      <div v-if="parentExpanded" style="width: 100%">
+      <transition name="fade">
+      <div v-if="parentExpanded" style="width: 100%" :class="{highlighted: active}">
         <div class="expanded-wrapper" @click="select" >
           <!-- Sidebar expanded, item selected -->
           <div v-if="active">
             <b-container>
-              <b-row :class="{highlighted: active}">
+              <b-row>
                 <b-col>
                   <div @click="hideConfigSheet()">
                     <b-img left src="https://via.placeholder.com/115" />
@@ -52,11 +53,14 @@
           <!-- End expanded and unselected -->
         </div>
       </div>
+      </transition>
       <!-- End Sidebar expanded -->
       <!-- Sidebar not expanded -->
-      <div v-else :class="{highlighted: active}">
-        <b-img center src="https://via.placeholder.com/50" />
-      </div>
+      <transition name="fade">
+        <div v-if="!parentExpanded">
+          <b-img right src="https://via.placeholder.com/60" :class="{imgselected: active}" />
+        </div>
+      </transition>
       <!-- End sidebar not expanded -->
   </div>
 </template>
@@ -64,20 +68,11 @@
 <script>
   export default {
     name: 'sidebar-item',
-    props: {
-      parentExpanded: {
-        type: Boolean,
-        required: false
-      },
-      index: {
-        type: Number,
-        required: true
-      },
-      pilot_id: {
-        type: String,
-        required: true
-      }
-    },
+    props: [
+      'parentExpanded',
+      'index',
+      'pilot_id'
+    ],
     methods: {
       select () {
         this.$parent.activeIndex = this.index
@@ -87,7 +82,9 @@
         this.$parent.toggleConfigSheet(false)
       },
       showConfigSheet (configId) {
+        this.$parent.$parent.activeConfigId = configId
         this.$parent.toggleConfigSheet(true)
+        this.$parent.toggleSidebar(false, true)
       }
     },
     computed: {
@@ -113,13 +110,29 @@
     background-color: gray;
   }
 
+  .imgselected {
+    border: 2px solid blue;
+  }
+
   .expanded-wrapper{
     padding: 10px;
     cursor: pointer;
   }
 
  .expanded-wrapper:hover{
-   border-right: 5px solid rgb(11, 59, 131);
+   border-right: 3px solid rgb(11, 59, 131);
    background-color: gray;
  }
+
+  .fade-enter-active {
+    transition: all .45s
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    position: absolute;
+    left: 300px;
+    opacity: 0
+  }
+
 </style>

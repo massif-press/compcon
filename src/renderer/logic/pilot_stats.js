@@ -13,15 +13,13 @@ export default {
       armor: 9,
       ee: 9,
       speed: 9,
-      grit: Math.ceil(pilot.level / 2)
-    }
-  },
-  mechskills (pilot) {
-    return {
-      h: 2,
-      a: 2,
-      s: 2,
-      e: 2
+      grit: Math.ceil(pilot.level / 2),
+      mech: {
+        h: 2,
+        a: 2,
+        s: 2,
+        e: 2
+      }
     }
   }
 }

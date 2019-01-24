@@ -29,8 +29,7 @@
             <b-row>
               <b-col>
                 <b-row><span class="header">hist-header</span></b-row>
-                <b-row><b-col cols=12 style="text-align:center"><b>{{pilot.background}}</b></b-col></b-row>
-                <b-card no-body>{{pilot.background}} description</b-card>
+                <b-row><b-col cols=12 style="text-align:center"><b> {{ item('Backgrounds', 'ai').name }} </b></b-col></b-row>
                 <editable-textfield :description="'History'" :attr="'history'" :val="pilot.history" :id="pilot.id"/>
               </b-col>
             </b-row>
@@ -69,38 +68,36 @@
             </b-row>
           </b-col>      
         </b-row>
-      <b-row><span class="header">licenses-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
-      <div v-for="(license, index) in pilot.licenses" :key="index">
-        <b-row>
-          <license-item :license="license" />
-        </b-row>
-      </div>
       <b-row>
         <b-col cols=1>
           <b-row><span class="header">grit</span></b-row>
-          <b-row>{{stats.grit}}</b-row>
+          <b-row>+{{stats.grit}}</b-row>
         </b-col>
         <b-col>
           <b-row><span class="header">skill triggers<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
           <div v-for="skill in pilot.skills" :key="skill.id">
-            <skill-item :skill="skill" />
+            <skill-item :skill="item('Skills', skill.id)" :bonus="skill.bonus" />
           </div>
         </b-col>
       </b-row>
+      <b-row><span class="header">licenses-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <div v-for="(license, index) in pilot.licenses" :key="index">
+        <license-item :license="license" :licenseData="getLicense(license.name)" />
+      </div>
       <b-row><span class="header">talents-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
         <div v-for="talent in pilot.talents" :key="talent.id">
-          <talent-item :talent="talent" />
+          <talent-item :talent="talent" :talentData="item('Talents', talent.id)"/>
         </div>
       <b-row><span class="header">mech-skills-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <b-row>
-        <statblock-item :attr="'HULL'" :val="mech.h"/>
-        <statblock-item :attr="'AGI'" :val="mech.a"/>
-        <statblock-item :attr="'SPD'" :val="mech.s"/>
-        <statblock-item :attr="'ENG'" :val="mech.e"/>
+        <statblock-item :attr="'HULL'" :val="stats.mech.h"/>
+        <statblock-item :attr="'AGI'" :val="stats.mech.a"/>
+        <statblock-item :attr="'SPD'" :val="stats.mech.s"/>
+        <statblock-item :attr="'ENG'" :val="stats.mech.e"/>
       </b-row>
       <b-row><span class="header">core-bonus-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <div v-for="cb in pilot.core_bonuses" :key="cb">
-        <cb-item :cb="cb" />
+        <cb-item :cb="item('CoreBonuses', cb)" />
       </div>
       <b-row><span class="header">gear-header</span></b-row>
       <b-row>
@@ -180,6 +177,12 @@
       },
       selectAppearanceImg: function () {
         this.$refs.appearanceImg.showModal()
+      },
+      item: function (type, id) {
+        return this.$store.getters.getItemById(type, id)
+      },
+      getLicense: function (name) {
+        return this.$store.getters.getLicenseByName(name.toLowerCase())
       }
     },
     computed: {
@@ -188,9 +191,6 @@
       },
       stats: function () {
         return PilotStats.statblock(this.pilot)
-      },
-      mech: function () {
-        return PilotStats.mechskills(this.pilot)
       }
     }
   }

@@ -1,0 +1,14 @@
+{
+  "base_pilot_hp": 5,
+  "base_structure": 4,
+  "base_hp": 10,
+  "base_stress": 4,
+  "base_heatcap": 6,
+  "base_speed": 4,
+  "base_evasion": 8,
+  "base_edef": 8,
+  "base_repcap": 6,
+  "base_grapple": 0,
+  "base_ram": 0,
+  "base_sensor_range": 8
+}
