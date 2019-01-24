@@ -1,41 +1,9 @@
-move config creation button into pilot expander
-pilot sheet should persist under config sheet
-config sheet, when selected, should slide in from right
-  button to slide back out
-
 tabbed loadouts
   loadout tab has new/duplicate/rename/delete
 
 new data structure -- load everything from pilots folder, concat.
-./Pilots >
-*.json = `
-  [
-    {
-      id: pilot,
-      configs:[
-        {
-          id: config,
-          loadouts: [
-            {
-              id: loadout,
-              mounts: [
-                mount: {
-                  id: mount
-                  item: item
-                  mod: mod
-                  ammo: [
-                    ammo_1,
-                    ammo_2
-                  ]
-                }
-              ]
-              systems: [
-                system_1
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-`
+
+rough app structure:
+presentation: components
+logic: logic
+data: store

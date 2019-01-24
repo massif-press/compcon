@@ -31,6 +31,26 @@ const mutations = {
     } else {
       throw console.error('Pilot not loaded!')
     }
+  },
+  CLONE_PILOT (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    if (pilotIndex > -1) {
+      var newPilot = Object.assign({}, state.Pilots[pilotIndex])
+      state.Pilots.push(newPilot)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
+  },
+  ADD_PILOT (state, payload) {
+    state.Pilots.push(payload.pilot)
+  },
+  DELETE_PILOT (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    if (pilotIndex > -1) {
+      state.Pilots.splice(pilotIndex, 1)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
   }
 }
 
@@ -46,6 +66,15 @@ const actions = {
   },
   splicePilot (context, payload) {
     context.commit('SPLICE_PILOT', payload)
+  },
+  clonePilot (context, payload) {
+    context.commit('CLONE_PILOT', payload)
+  },
+  addPilot (context, payload) {
+    context.commit('ADD_PILOT', payload)
+  },
+  deletePilot (context, payload) {
+    context.commit('DELETE_PILOT', payload)
   }
 }
 
