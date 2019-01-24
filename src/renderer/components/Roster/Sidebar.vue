@@ -7,7 +7,7 @@
       <div id='sidebar-header'>
         <div v-if="expand">users:</div>
         <div v-else>
-          <span class="center"> 
+          <span class="float-right"> 
             <v-icon name="angle-double-right" scale='2'/> 
           </span>
         </div>
@@ -24,8 +24,8 @@
       </div> <!--/content-->
       <div id='sidebar-footer'>
         <div> 
-          <b-button block v-if="expand">add new user</b-button>
-          <b-button block v-else right> + </b-button>
+          <b-button block v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
+          <b-button block v-else><span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
         </div>
       </div> <!--/footer-->
     </div>
@@ -40,12 +40,21 @@ export default {
   components: { SidebarItem },
   data: () => ({
     expand: false,
+    lockExpand: false,
     activeIndex: -1,
     activeID: ''
   }),
   methods: {
-    toggleSidebar: function (bool) {
-      this.expand = bool
+    toggleSidebar: function (bool, lock) {
+      if (!this.lockExpand) {
+        this.expand = bool
+        if (lock) {
+          this.lockExpand = true
+          setTimeout(() => {
+            this.lockExpand = false
+          }, 450)
+        }
+      }
     },
     toggleConfigSheet: function (bool) {
       this.$parent.toggleConfigSheet(bool)
@@ -66,15 +75,18 @@ export default {
   height: 93vh;
   overflow: hidden;
   background-color: lightgrey;
-  transition: all .45s cubic-bezier(.23,.73,.61,1.2);
-}
-
-#sidebar.expanded {
+  transition: all .45s cubic-bezier(.23,.73,.61,1);
   width: 300px;
 }
 
+#sidebar.expanded {
+  left: 0;
+}
+
 #sidebar.collapsed {
-  width: 75px;
+  left: -225px;
+  overflow: hidden;
+
 }
 
 #sidebar-wrapper {
@@ -87,10 +99,6 @@ export default {
   top: 0;
   width: 100%;
   background-color: antiquewhite;
-}
-
-.collapsed {
-  overflow: hidden;
 }
 
 #sidebar-content {

@@ -87,9 +87,6 @@ const getters = {
   },
   getPilotById: (state) => (id) => {
     return state.Pilots.find(p => p.id === id) || {}
-  },
-  getConfigById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.find(p => p.id === id) || {}
   }
 }
 

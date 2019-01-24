@@ -2,7 +2,14 @@
   <b-row>
     <b-col>
       <b-card no-body>
-        {{cb}}
+        <b-card-header header-tag="header">
+          {{cb.name}}
+        </b-card-header>
+          <b-card-body>
+            <p class="card-text">
+              {{ cb }}
+            </p>
+          </b-card-body>
       </b-card>
     </b-col>
   </b-row>

@@ -26,7 +26,12 @@
     <div v-else>
       <b-row>
         <b-col class='highlight' @click="edit(true)">
-          <span style="white-space: pre-wrap;">{{ val }}</span>
+          <div v-if="val">
+            <span style="white-space: pre-wrap;">{{ val }}</span>
+          </div>
+          <div v-else>
+            <span class="text-muted" style="white-space: pre-wrap;">Click to add {{description}}</span>
+          </div>
         </b-col>
       </b-row>
     </div>

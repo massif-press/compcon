@@ -14,10 +14,10 @@
               <b-col>
                 <div class="float-left" style="padding:10px">
                   <b-btn size="sm">
-                    Rename {{loadout.name}}
+                    Rename Loadout
                   </b-btn>
                   <b-btn size="sm">
-                    Clone {{loadout.name}}
+                    Duplicate Loadout
                   </b-btn>
                 </div>
                 <div class="float-right" style="padding:10px">
@@ -99,7 +99,6 @@ export default {
       return this.$store.getters.getPilotById(this.pilot_id).loadouts
     },
     loadoutCount () {
-      console.log(this.loadouts.length)
       return this.loadouts.length
     }
   }

@@ -7,9 +7,9 @@
       </b-navbar-brand>
       <div class="ml-group">
         <b-button href=#>Long Link</b-button>
-        <b-button>B</b-button>
-        <b-button>C</b-button>
-        <b-button>D</b-button>
+        <b-button>about</b-button>
+        <b-button>options</b-button>
+        <b-button>help</b-button>
         <router-link to="/" tag="b-button">back</router-link>
 
       </div>

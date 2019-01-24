@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import Topbar from './Topbar'
+  import Topbar from './UI/Topbar'
   import Sidebar from './Sidebar'
   import PilotSheet from './PilotSheet'
   import ConfigSheet from './ConfigSheet'
@@ -28,6 +28,7 @@
     components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
     data: () => ({
       activePilotId: '',
+      activeConfigId: '',
       configOpen: false
     }),
     methods: {
@@ -45,6 +46,7 @@
     },
     created: function () {
       this.$store.dispatch('loadAllPilots')
+      this.$store.dispatch('loadData')
     }
   }
 </script>
