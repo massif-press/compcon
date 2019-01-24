@@ -6,10 +6,12 @@
     <div v-if="isEditing">
       <b-form-group 
         id="fieldset" 
-        :description="description" 
         :invalid-feedback="invalidFeedback"
         :valid-feedback="validFeedback"
         :state="state" >
+         <b-form-text>
+          {{description}}
+        </b-form-text>
         <b-input-group>
           <b-form-input
           :placeholder="val"

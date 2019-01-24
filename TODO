@@ -1,8 +1,16 @@
 ✔ config info popover needs to occur outside of sidebar DOM @done(19-01-21 12:27)
-☐ background field on pilot sheet should pop open a background selecto
-☐ expand imgs on click
+☐ background field on pilot sheet should pop open a background selector
 ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
   ☐ should change at random intervals
 ☐ Sidebar force close on config selection
 ✔ for editables, take path string, split on "/", compose into json heirarchy @done(19-01-22 11:01)
   ✔ x/y/z => x[y][z] @done(19-01-22 11:01)
+✔ Pilot should have HP/Armor pips like config, e/e and speed can be numbers @done(19-01-23 12:16)
+
+☐ background selector component
+
+☐ change editable label to same behavior as exitable textfield -- autofill old value
+  ☐ save on click away if valid for both
+
+☐ pilot images need to have the same filename in the icon subfolder eg. images>pilots>cio.jpg && images>pilots>icons>cio.jpg
+  ☐ concat stock pilot icons with data folder pilot icons
