@@ -3,11 +3,12 @@
     <b-col>
       <b-card no-body>
         <b-card-header header-tag="header">
-          {{cb.name}}
+          {{cb.name}} ({{cb.source}})
         </b-card-header>
           <b-card-body>
             <p class="card-text">
-              {{ cb }}
+              <em>{{ cb.description }}</em>
+              {{cb.effect}}
             </p>
           </b-card-body>
       </b-card>

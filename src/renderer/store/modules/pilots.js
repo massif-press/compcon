@@ -82,6 +82,15 @@ const getters = {
   getPilot: (state) => {
     return state.Pilots.find(p => p.id === state.selectedPilotId) || {}
   },
+  getLoadouts: (state) => () => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts || {}
+  },
+  getLoadoutById: (state) => (id) => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts.find(l => l.id === id) || {}
+  },
+  getLoadoutByIndex: (state) => (idx) => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts[idx] || {}
+  },
   getAllPilots: (state) => {
     return state.Pilots || []
   },

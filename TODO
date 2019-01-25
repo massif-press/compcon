@@ -6,6 +6,9 @@
 ✔ for editables, take path string, split on "/", compose into json heirarchy @done(19-01-22 11:01)
 ✔ Pilot should have HP/Armor pips like config, e/e and speed can be numbers @done(19-01-23 12:16)
 
+☐ Pilot gear selector
+
+
 ☐ background selector component
 ☐ skill editor
 ☐ license editor

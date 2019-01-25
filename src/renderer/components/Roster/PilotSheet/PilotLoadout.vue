@@ -5,10 +5,29 @@
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
           <b-container fluid>
-            <div v-for="gear in loadout.gear" :key="gear.id">
-              <gear-item :item="gear" />
+            <div v-for="(item, index) in loadout.gear" :key="item.id + index">
+                <b-card no-body>
+                  <b-row>
+                    <b-col cols=2><b-btn block>ITEM_TYPE</b-btn></b-col>
+                    <b-col>
+                      <b-btn block v-b-toggle="item.id + 'collapse'">item name ({{item.id}}) & quick data</b-btn>
+                      <b-collapse :id="item.id + 'collapse'" class="mt-2">
+                        <b-card>
+                          <p class="card-text">Collapse contents Here</p>
+                        </b-card>
+                      </b-collapse>
+                    </b-col>
+                  </b-row>
+                </b-card>
             </div>
-            <gear-item :newitem="true" />
+              <b-card no-body>
+                <b-row>
+                  <b-col cols=2><b-btn block @click="openAddItemMenu(index, loadout.gear.length)">ADD ITEM</b-btn></b-col>
+                  <b-col>
+                    <span>/////</span>
+                  </b-col>
+                </b-row>
+              </b-card>
             <hr>
             <b-row>
               <b-col>
@@ -49,6 +68,7 @@
 <script>
 import GearItem from './GearItem'
 import io from '@/store/pilot_io'
+import { mapGetters } from 'vuex'
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
@@ -92,14 +112,32 @@ export default {
       })
       this.add++
       this.$forceUpdate()
+    },
+    openAddItemMenu (index, gearLength) {
+      console.log('this should happen from modal, pass in loadout and pilot id')
+      this.$store.dispatch('editPilot', {
+        id: this.pilot_id,
+        attr: `loadouts[${index}].gear[${gearLength}]`,
+        val: {
+          id: Math.random().toString()
+        }
+      })
+      this.$forceUpdate()
     }
   },
   computed: {
-    loadouts () {
-      return this.$store.getters.getPilotById(this.pilot_id).loadouts
-    },
+    ...mapGetters([
+      'getLoadouts',
+      'getLoadoutById'
+    ]),
     loadoutCount () {
-      return this.loadouts.length
+      return this.getLoadouts().length
+    },
+    loadouts () {
+      return this.getLoadouts()
+    },
+    loadout (id) {
+      return this.getLoadoutsById(id)
     }
   }
 }
