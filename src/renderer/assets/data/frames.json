@@ -19,6 +19,7 @@
     "ult_passive": "If you roll a ‘20' on your d20 for the first roll of any kind on your turn (the actual number 20 on the physical die, before modifiers, sometimes called a ‘natural' 20) you can make any quick action as a free action at any point before the end of your turn. This passive can only take effect once per turn, and only on your turn.",
     "ult_active_name": "Power Up",
     "ult_active": "This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions. %protocol%",
+    "data_type": "frame",
     "aptitude": {}
   },
   {
@@ -47,6 +48,7 @@
     "ult_passive": "As a full action, your mech can fire the assault grapples at any surface in range 8 (even vertical or overhanging), pulling your mech in a straight line to that location as long as your mech is not obstructed during that movement. Your mech can hold on to that location as long as it reMains immobile. Your mech can also use this system to attempt to grapple and Maintain a grapple on any target within range 5, instead of being adjacent to that target.",
     "ult_active_name": "Omni-harpoon",
     "ult_active": "This one-shot system fires harpoon-like grapples at any number of targets within line of sight and within range 5. Those targets must pass a hull check with 1 difficulty or be knocked prone and pulled adjacent to your mech, or as far as possible towards your mech without being obstructed. All targets are then immobilized until the end of your next turn. %fullaction%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 3,
       "control": 1
@@ -79,6 +81,7 @@
     "ult_passive_weapon": "argonaut",
     "ult_active_name": "FORTRESS",
     "ult_active": "When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. <br>While this system is active, your mech is immobilized, though you can still rotate and aim in any direction. You are immune to being knocked back, rammed, grappled, or involuntarily moved by any reason. Two line 2 sections of Heavy cover unfold, drawn from your mech in any direction. Your mech grants Heavy cover for allied mechs while this system is active, has Heavy cover itself, has resistance to damage from blast, line, and cone attacks, and also grants this resistance to any mechs making use of its cover. <br>This system can be deactivated at the start of your turn but cannot be reactivated without more core power. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "ranged": 2,
@@ -109,6 +112,7 @@
     "ult_passive_weapon": "latchdrone",
     "ult_active_name": "Supercharger",
     "ult_active": "You fire your drone at a friendly mech in range, where it clamps onto the target. <br>For the rest of this combat, you take 1 heat at the start of your turn, but the targeted mech gains +1 Accuracy on all attacks and checks, and is immune to the impaired, jammed, crippled, and immobilized conditions. This effect ends if you or the targeted mech is stunned or shut down. <br>While this system is active, you cannot fire your drone as a weapon using the passive ability of this system. %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "support": 2,
       "repair": 3
@@ -139,6 +143,7 @@
     "ult_passive": "Before or after you make any skirmish or barrage action, you can move 1 in any direction. This movement doesn't provoke reactions, ignores engagement, and doesn't count against your movement for the turn.",
     "ult_active_name": "Spool Up PMD",
     "ult_active": "Once activated, this system reMains active until the rest of the current challenge. While its active, the free movement from this system's passive increases to 5. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "ranged": 1,
@@ -169,6 +174,7 @@
     "ult_passive_weapon": "m35",
     "ult_active_name": "Thunder God",
     "ult_active": "Until the end of the current challenge, if you didn't fire your M35 on your turn, it gains 1 more round in the chamber at the end your turn (you can use a d6 to track this). <br>It starts with 1 round in the chamber. When you next fire the weapon, it fires all chambers, for 3 damage per chamber, then loads 1 round. The M35 has six chambers, for a maximum of 18 damage. <br><br>If 3 or more chambers are fired at once, this weapon gains the #ap# tag and any target struck must pass a hull check or be knocked prone.",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -196,6 +202,7 @@
     "ult_passive": "Gain +1 Accuracy to all overwatch attacks",
     "ult_active_name": "Hyper-reflex mode",
     "ult_active": "For the rest of this combat, your threat with ranged weapons increases to 5 if it was less than 5. You can make one additional overwatch attack between turns, and any target struck by your overwatch attacks is immediately immobilized until the start of its next turn. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3,
       "support": 1
@@ -225,6 +232,7 @@
     "ult_passive": "When you are attacked by a non-grunt target within range 3, your attacker takes 1 AP kinetic damage before they attack",
     "ult_active_name": "Tormentor spines",
     "ult_active": "Until the end of the current challenge, you gain resistance to all damage from within range 3, and your damage from this armor's passive increases to 3 AP kinetic damage. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 3,
       "control": 1
@@ -253,6 +261,7 @@
     "ult_passive": "Once per turn, you can attempt to parry any attack that hits your mech as a reaction. <br>Roll a d6. On a 6, you reduce the damage from that attack to 0, and deal 1d6 heat back to your attacker.",
     "ult_active_name": "Mag Field",
     "ult_active": "As an action, you may activate the mag field to create a Blast 4 area in any area with at least one square adjacent to you. Inside, ranged weapon attacks that deal kinetic or explosive damage cannot penetrate into or out of the field and will stop at the edge, doing no damage (keep track of them). <br>The field is difficult terrain for all mechs and vehicles made at least partly of metal. Targets that start their turn in the Mag Field or enter it for the first time on their turns must make a successful Engineering check with 1 difficulty or be pulled to the center as far as possible and immobilized. They can repeat this check at the start of their turns while trapped this way and can move normally on a success, otherwise they reMain trapped. <br>The field persists for 3 rounds after deployment. At the end of the third round any attacks fired into this field will resume trajectory towards the center of this zone. The GM performs a single attack roll vs each target still inside the zone with +1 targeting per attack fired into this zone (cumulative, up to a max of +6). Successful hits deal 1d6 Kinetic damage per attack fired into this zone (cumulative). Then, the zone deactivates.",
+    "data_type": "frame",
     "aptitude": {
       "support": 1,
       "control": 3
@@ -283,6 +292,7 @@
     "ult_passive": "You can re-roll the very first attack roll you make in a round, but must keep the second result.",
     "ult_active_name": "Activate Neural Shunt",
     "ult_active": "Integrated combat routines make your next weapon attack gain the seeking tag, its maximum range increases by +10, and it automatically hits, no matter how difficult the shot. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -313,6 +323,7 @@
     "ult_passive": "When your mech moves or boosts, it can Fly",
     "ult_active_name": "Engage Flicker Drives",
     "ult_active": "For the rest of this challenge, your mech can Hover when it moves or boosts (it can fly, doesn't need to move, it can move without going in a straight line, and doesn't need to land). During your turn, your mech is covering in coruscating patterns of distorting energy and counts as Invisible. <br>Electronic systems such as sensors/cameras, etc have a hard time picking up the outline of your mech at all. When your turn finishes, you lose this invisibility until the start of your next turn. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "ranged": 1,
@@ -342,6 +353,7 @@
     "ult_passive": "You are invisible while moving (regular move, boosting, moves from talents, etc), but reappear after you finish your movement.",
     "ult_active_name": "Cloaking Protocol",
     "ult_active": "Until the end of the current challenge, or when you deactivate this module at the start of your turn, you become invisible. If you take damage or roll an overheating roll, you lose the benefit of this module until the start of your next turn. No other action will deactivate it.",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "ranged": 1,
@@ -373,6 +385,7 @@
     "ult_passive": "When you score a critical hit with a launcher weapon, a target different to your first target in range and line of sight takes 2 explosive damage (no roll required).",
     "ult_active_name": "Divine Punishment",
     "ult_active": "You unload your Avenger silos. <br>All targets of your choice on the battlefield (or a burst 50 area from your mech) must pass an agility check with 1 difficulty or take 1d6+3 explosive damage, and half on a successful save. You do not need line of sight to any targets, and the self-guiding missiles can perfectly seek any target as long as they can trace a path. <br>Once used, you cannot benefit from the passive of this system until you take a full repair.",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -402,6 +415,7 @@
     "ult_passive": "This dangerous and experimental module is a miniaturized starship nearlight drive. You can use it instead of moving or taking the boost action. <br>When you use it, roll 3d6. You can teleport to a point within that range around you as long as there is space for your mech. You don't have to be able to see this point, but if you attempt to teleport to an already occupied space (by terrain, another mech, etc), the teleport fails and you take 2d6 kinetic damage. If you roll triples for this system, your mech disappears and does not re-appear, either indefinitely or until your party rests (up to you).",
     "ult_active_name": "Stabilize singularity",
     "ult_active": "Until the end of this challenge, when you move or boost, you instead teleport up to the same distance. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 2,
       "ranged": 1,
@@ -433,6 +447,7 @@
     "ult_passive": "Gain +1 Accuracy to all agility checks against effects you can see or are aware of. If you can't see a target when it attacks you (it's invisible or hiding, for example), you don't gain this benefit.",
     "ult_active_name": "Prophetic Interjection",
     "ult_active": "Until the end of the current challenge, once per round, as a reaction when an allied target you can see is damaged by another target you can see, you can make a systems check. On success, the attack hitting was actually a simulation that your mech predicted. Your ally gains resistance to all the damage from that attack, and your ally can move 3 in any direction to where they ‘actually' were. This movement does not provoke reactions and ignores engagement.",
+    "data_type": "frame",
     "aptitude": {
       "melee": 2,
       "ranged": 2,
@@ -462,6 +477,7 @@
     "ult_passive": "Any target grappled by your mech or that starts their turn adjacent to your mech takes 2 kinetic damage at the start of your turn",
     "ult_active_name": "Hive Frenzy",
     "ult_active": "Your swarm goes into a hyper-active mode. <br>You can set your swarm to one of three modes, and swap at the start of your turn as a free action: <ul><li>Hive Shield: once per round as a reaction, you can gain resistance to all the damage from any one attack that just hit you.</li><li>Hive Repulse: While this mode is active, you have resistance to all damage from Smart, Nexus, and Drone weapons and systems and hostile tech actions are made at +1 difficulty against you</li><li>Hive Scour: While this mode is active, the damage from your passive increases to 3 AP kinetic damage</li></ul> %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 3,
       "control": 1
@@ -491,6 +507,7 @@
     "ult_passive": "Get +1 Accuracy on all tech attacks",
     "ult_active_name": "Devour",
     "ult_active": "Your mech targets another adjacent NPC mech the same size or larger that is shut down or destroyed. The targeted mech cannot have the Ultra or Elite tags. Your mech clamps on to that mech and retracts its core systems, becoming like a vestigial blister on that mech. <br>The mech immediately heals to full HP, clears 1 point of stress and structure damage, and clears all heat, though it retains any other damage it has already taken. Your mech's systems completely consume the other mech's core systems for a time, granting you total control of your target, even if the other mech's pilot is still alive. <br>While you control your target, you take action as that NPC would, counting as a friendly NPC that has already acted in the turn you take control. While controlling your target, your GOBLIN can be targeted and damaged separate from the mech it's controlling. It benefits from light cover while attached. <br>If you take 1 point of structure damage, your mech detaches and control is immediately lost. Otherwise you can control the target up to a maximum of a ten minutes, when your target is destroyed, or when you deactivate this system. You can even control your target if the other pilot is missing or dead. %fullaction%",
+    "data_type": "frame",
     "aptitude": {
       "tech": 3,
       "control": 1
@@ -520,6 +537,7 @@
     "ult_passive": "Any attacker that rolls a 1 or 2 on their d20 roll to attack you is automatically stunned until the end of their next turn (their attack also automatically misses).",
     "ult_active_name": "Meta-state paralysis",
     "ult_active": "Your mech projects a horrifying Basilisk pattern, incredibly harmful to NHPs, software, and hard to look at even for humans (typically causes 3-5 hours of headaches and intense subdermal bleeding, can often cause blood vessels to pop in the eye). <br>Until the end of the current combat, any target (mech, human, or biological) that attacks either you or any ally within range 5 of you must first pass a systems (or GRIT) check or be stunned until the end of their next turn. <br>A target can only be stunned once by this effect per combat. %fullaction%",
+    "data_type": "frame",
     "aptitude": {
       "support": 2,
       "control": 3
@@ -550,6 +568,7 @@
     "ult_passive": "Your NHP partitions itself into many cloned personalities that can help you with Maintaining your mech. Once per round, you can re-roll any systems or engineering check of your choice, but must keep the second result.",
     "ult_active_name": "OROCHI mode",
     "ult_active": "Your mech has been heavily modified, and a large number of its subsystems and structure are controlled by semi-autonomous drones. <br>Choose up to 3 weapons or systems on your mech. As an action, these parts of your mech can split off and become autonomous units. They are size 1, have evasion equal to your evasion, have hp equal to your HP, 1 structure, 1 stress, and heat capacity equal to your heat capacity. They inherit your speed and other mech stats. <br>On your turn, they can move, take the activate system and skirmish actions, but no other actions. If they overheat or go to 0 HP, they are destroyed, and if they are destroyed, the associate weapon or system is also destroyed (it can be repaired as normal during a rest). <br>You can re-unite any parts of your mech as an action, but inherit any heat they currently have, and cannot deploy them again without taking the special action as part of this system. %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "ranged": 1,
@@ -580,6 +599,7 @@
     "ult_passive": "When you take heat damage from any source, one target in range 3 of you takes 1 energy damage.",
     "ult_active_name": "?????",
     "ult_active": "Your mech crackles with energy. <br>For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat (from any source, even self), increase the die by 1, to a maximum of 6. <br>You can discharge the accumulated energy in a burst 2 area around you by taking an action to do so. This deals 1d6 energy damage to all targets caught inside, allied or enemy, per charge on the die, and affected mechs can pass a system check to halve the damage. This system then deactivates for the reMainder of combat, including its passive. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 3,
       "control": 1
@@ -607,6 +627,7 @@
     "ult_passive": "You can spend quick action after any successful hostile tech action to cripple your target until the start of your next turn. If your target is already crippled, they become immobilized. If they are already immobilized, they are stunned until the end of your next turn. This passive can only stun the same target once per combat, but cripple or immobilize them any number of times.",
     "ult_active_name": "Maze",
     "ult_active": "You hurl an opposing mech's systems into a metaphysical information trap so tangled that it can do nothing but try and escape it. <br>Choose a target of your choice that can be affected by tech actions within your sensor range. That target must pass a systems check with 4 difficulty or become stunned as its systems start to figure out the trap you have thrown it in. At the start of its next turn (and on subsequent turns), it can repeat this check, this time with only 3 difficulty, ending the stun on itself on a success. It gains +1 accuracy on its check each time it repeats this check until it is successful. Otherwise it remains stunned.",
+    "data_type": "frame",
     "aptitude": {
       "tech": 2,
       "control": 3
@@ -636,6 +657,7 @@
     "ult_passive": "Your mech mounts an omnigun, a weapon and piece of experimental hardware so advanced that it does not classify as any weapon weight or type (so it cannot be modified or benefit from talents). It also doesn't take a mount. Once, at any point during your turn, you can hit a valid target in line of sight at range 30 with the omnigun as a Free Action, dealing 1 AP kinetic damage. This does not count as an attack, cannot miss, ignores cover, and this damage cannot be reduced by any means. It can even kill grunts.",
     "ult_active_name": "Unshackle Ushabti",
     "ult_active": "For the rest of this combat, you can fire your omnigun up to 3 times per turn instead of just once.",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -663,6 +685,7 @@
     "ult_passive": "Your mech has the Apocalypse Rail, a weapon mount that takes a Superheavy or smaller sized weapon. You can still mount smaller weapons on the apocalypse rail. You don't need an additional mount to add Superheavy weapon to this mount. This mount is not modifiable (such as from core bonuses).",
     "ult_active_name": "Convert to Battery",
     "ult_active": "Your mech converts to something more resembling a gun emplacement. While this mode is active, you have the following drawbacks: <ul><li>Your mech is immobilized</li><li>You cannot directly attack any target within range 5 of your mech</li><li>You can only make attacks with the weapon mounted in your Apocalypse Rail</li></ul> However, you gain the following benefits: <ul><li>You are immune to knockback and being knocked prone. </li><li>You cannot be moved (such as with a grapple) by any target smaller than you </li><li>You have resistance to heat </li><li>The weapon mounted in your Apocalypse Rail can be fired twice with the Barrage action instead of just once. If it has the loading tag, it can still be fired twice (but must be reloaded normally after)</li></ul> %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -696,6 +719,7 @@
     "ult_passive": "When you lose a point of structure, you immediately clear your heat gauge.",
     "ult_active_name": "Expose Power Cells",
     "ult_active": "You ignore the next overheating check you make this challenge. <br>When you would overheat, clear your heat from your gauge as normal, but ignore the check (you don't take stress either). <br>You vent an enormous cloud of burning matter from your mech, creating a burst 3 area centered on your mech. Inside the area, all targets (allied and enemy) count as invisible to everyone except you, and all mechs other than you that enter the area for the first time on their turn or start their turn there take 2 Burn and 2 heat. <br>On the following round, the benefit from the area reduces to Heavy cover (which you ignore). <br>On the round after that, it reduces to light cover. <br>On the round after that round, the zone disperses. %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "control": 3
     }
@@ -723,6 +747,7 @@
     "ult_passive": "When your mech uses a quick action to plant a mine, it can plant up to 2 other mines in free adjacent spaces as a free action.",
     "ult_active_name": "Death Cloud",
     "ult_active": "As an action, your mech fires an enormous expanding cloud of micro-mines across the whole battlefield. Any mech of your choice on the whole battlefield (or a roughly 50x50x50 area), that voluntarily moves more than 1 space takes 3 AP explosive damage. If a mech boosts, it takes 3 AP explosive damage immediately. Characters are aware of the presence of the mines. They last until the end of 3 rounds, counting this one, then deactivate. You do not activate mines from this system. %fullaction%",
+    "data_type": "frame",
     "aptitude": {
       "support": 1,
       "control": 3
@@ -752,6 +777,7 @@
     "ult_passive": "If you would take half damage from an effect (weapon, system, explosion, etc) on a successful check of any kind, you instead take 0 damage.",
     "ult_active_name": "Activate Aegis",
     "ult_active": "A shimmering, utterly black field envelops your mech, covering it like a second skin, and taking only a few moments to activate. <br>While this field is active, your mech reduces all damage from any source to 1 (after armor as normal), though it can still be grabbed, knocked back, pinned, thrown, and affected by other mechs. <br>While this shield is active, your mech can only move and make the grapple, improvised attack, ram, and boost actions. It cannot take free actions, reactions, or overcharge, and cannot use any systems or benefit from Flight (if it's already flying, it falls). It cannot make or be the target of any tech actions (including lock on, etc), cannot benefit from beneficial tech actions (such as lock on, bolster, etc) and cannot communicate or receive communications with or from anyone except the GM (though hand signals are still possible). It can still be affected by statuses, grappled, and take heat. It can otherwise interact normally with the world, such as picking up or dragging items, etc. <br>The shield lasts until the end of the current challenge, or about ten minutes otherwise. Damage that goes through reduction (such as paracausal ammo) can still harm the Napoleon while its aegis is up. %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 1,
       "support": 1,
@@ -783,6 +809,7 @@
     "ult_passive": "The very first attack made against you in a round is made at +1 difficulty",
     "ult_active_name": "Empower Shield",
     "ult_active": "You can empower this shield, projecting it over an ally in your sensor range. As long as they reMain in your sensor range, they also benefit from your shield's passive. <br>In addition, once per round, when an attack roll misses either you or the target of this shield, you can force the attacker to repeat the attack roll against a target of your choice within range (even a target allied to your attacker). This effect lasts until the end of the current challenge, and you can swap your target by taking this action again. %quickaction%",
+    "data_type": "frame",
     "aptitude": {
       "support": 3
     }
@@ -811,6 +838,7 @@
     "ult_passive_weapon": "solidcore",
     "ult_active_name": "COREBURN Beam",
     "ult_active": "As a full action, your mech begins to charge this weapon but cannot move or take any other action this turn. Your mech stops charging this weapon if it becomes stunned, shut down, jammed, knocked prone, or any effect that would cause it to be unable to attack (if it is unable to fire, don't spend the core power). <br>The turn after you start charging this weapon, you may fire it by taking a Full Action again. Choose a line 30 area originating from your mech. All mechs caught in the area must pass an agility check or take 12d6 energy damage, and half on a successful check. Any obstacles or deployables in the way are hit automatically. After firing this weapon, your mech takes 1d6 heat. %fullaction%",
+    "data_type": "frame",
     "aptitude": {
       "ranged": 3
     }
@@ -839,6 +867,7 @@
     "ult_passive": "While your mech is in the Danger Zone you deal +2 Burn on the first hit with any attack on your turn.",
     "ult_active_name": "Radiance",
     "ult_active": "Choose 1 energy weapon your mech is wielding. If it is a ranged weapon, its range increases by 5, if it is a melee weapon, its threat increases by +1. <br>For the rest of this combat, this weapon also deals +1d6 Burn damage (roll on each attack). However, each time you fire this weapon, you gain +3 heat. %protocol%",
+    "data_type": "frame",
     "aptitude": {
       "melee": 2,
       "ranged": 2

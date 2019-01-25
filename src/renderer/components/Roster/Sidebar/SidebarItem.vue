@@ -28,7 +28,6 @@
                       <b-popover boundary="viewport" v-bind:target="config.id + 'btn'" triggers="hover" placement="right" style="z-index:90!important">
                         <template slot="title">{{config.frame_id}}</template>
                         <span class="text-danger">{{config.status}}</span>
-                        <em>greater <strong>control.</strong></em>
                       </b-popover>
                   </div>
                 </b-col>
@@ -120,7 +119,6 @@
   }
 
  .expanded-wrapper:hover{
-   border-right: 3px solid rgb(11, 59, 131);
    background-color: gray;
  }
 
