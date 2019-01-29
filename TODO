@@ -1,3 +1,45 @@
+Vue Parity:
+  Pilot Sheet:
+    ☐ New Pilot Modal
+    ☐ Background Selector
+    ☐ Skill Selector
+    ☐ License Selector
+    ☐ Talent Selector
+    ☐ Mech Skills Editor
+    ☐ Core Bonus Selector
+    ☐ Level Up Modal
+    ☐ Pilot gear selector
+    ☐ Export
+    ☐ Clone
+    ☐ Delete
+  Mech Sheet:
+    ☐ New Config Modal
+    ☐ Basic Info
+    ✔ Frame Info Modal @done(19-01-28 13:43)
+    ☐ Stats Block
+    ☐ Mech Loadout Manager
+    ☐ Export
+    ☐ Clone
+    ☐ Delete
+  Gear Catalog:
+    ☐ Start
+
+Bugs:
+ ☐ Opening sidebar while modal is open. Move modals into index?
+
+1.0:
+  Pilot Sheet:
+    ☐ Custom Background (store on PS)
+    ☐ Image Selector
+    ☐ Print
+  Mech Sheet:
+    ☐ Image Selector
+    ☐ Charts
+    ☐ Print
+
+
+
+
 ✔ config info popover needs to occur outside of sidebar DOM @done(19-01-21 12:27)
 ☐ background field on pilot sheet should pop open a background selector
 ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
@@ -6,16 +48,6 @@
 ✔ for editables, take path string, split on "/", compose into json heirarchy @done(19-01-22 11:01)
 ✔ Pilot should have HP/Armor pips like config, e/e and speed can be numbers @done(19-01-23 12:16)
 
-☐ Pilot gear selector
-
-
-☐ background selector component
-☐ skill editor
-☐ license editor
-☐ talent editor
-☐ mech skills editor
-☐ core bonus editor
-^^ all of the above require "points", but these should just be calculated based off level. don't let proceed/save without spending all points
 
 ☐ change editable label to same behavior as exitable textfield -- autofill old value
   ☐ save on click away if valid for both

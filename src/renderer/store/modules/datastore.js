@@ -76,6 +76,7 @@ function collectLicenses (state) {
 
 const getters = {
   getItemById: state => (itemType, id) => {
+    console.log(itemType, id)
     return state[itemType].find(x => x.id === id) || {}
   },
   getLicenseByName: state => license => {
