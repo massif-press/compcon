@@ -12,12 +12,12 @@
       "evasion": 10,
       "speed": 4,
       "heatcap": 6,
-      "sensor_range": 10,
+      "sensors": 10,
       "armor": 0,
       "edef": 8,
       "size": 1,
       "repcap": 4,
-      "tech_attack": 0,
+      "tech": 0,
       "sp": 6
     },
     "traits": [

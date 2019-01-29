@@ -1,9 +1,9 @@
-tabbed loadouts
-  loadout tab has new/duplicate/rename/delete
-
-new data structure -- load everything from pilots folder, concat.
-
 rough app structure:
 presentation: components
 logic: logic
 data: store
+
+more armor properties:
+evasion_bonus
+edef_bonus
+hp_bonus

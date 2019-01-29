@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card no-body>
-      <b-tabs>
+      <b-tabs v-model="tabIndex">
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
           <b-container fluid>
@@ -67,7 +67,7 @@
 
 <script>
 import GearItem from './GearItem'
-import io from '@/store/pilot_io'
+import io from '@/store/data_io'
 import { mapGetters } from 'vuex'
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
@@ -87,6 +87,7 @@ export default {
     'pilot_id'
   ],
   data: () => ({
+    tabIndex: 0,
     add: 0
   }),
   methods: {
@@ -138,6 +139,11 @@ export default {
     },
     loadout (id) {
       return this.getLoadoutsById(id)
+    }
+  },
+  watch: {
+    tabIndex: function (val) {
+      this.$parent.activeLoadoutIdx = this.tabIndex
     }
   }
 }
