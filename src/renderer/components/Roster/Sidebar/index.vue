@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import SidebarItem from './Sidebar/SidebarItem'
+import SidebarItem from './SidebarItem'
 
 export default {
   name: 'sidebar',

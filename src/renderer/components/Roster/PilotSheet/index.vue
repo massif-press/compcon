@@ -20,8 +20,8 @@
               <span v-for="n in stats.armor" :key="`armor+${n}`">[]</span>
             </div>
           </b-col>
-          <statblock-item :attr="'E-DEF'" :val="stats.ee"/>
-          <statblock-item :attr="'EVASION'" :val="stats.ee"/>
+          <statblock-item :attr="'E-DEF'" :val="stats.edef"/>
+          <statblock-item :attr="'EVASION'" :val="stats.evasion"/>
           <statblock-item :attr="'SPEED'" :val="stats.speed"/>
         </b-row>
         <b-row>
@@ -90,10 +90,10 @@
         </div>
       <b-row><span class="header">mech-skills-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <b-row>
-        <statblock-item :attr="'HULL'" :val="stats.mech.h"/>
-        <statblock-item :attr="'AGI'" :val="stats.mech.a"/>
-        <statblock-item :attr="'SPD'" :val="stats.mech.s"/>
-        <statblock-item :attr="'ENG'" :val="stats.mech.e"/>
+        <statblock-item :attr="'HULL'" :val="stats.mech.hull"/>
+        <statblock-item :attr="'AGI'" :val="stats.mech.agi"/>
+        <statblock-item :attr="'SYS'" :val="stats.mech.sys"/>
+        <statblock-item :attr="'ENG'" :val="stats.mech.eng"/>
       </b-row>
       <b-row><span class="header">core-bonus-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <div v-for="cb in pilot.core_bonuses" :key="cb">
@@ -118,6 +118,12 @@
       <div class="spacer" />
       <b-container>
         <b-row>
+          <b-col>
+            <b-btn block>Level Up</b-btn>
+          </b-col>
+        </b-row>
+        <hr>
+        <b-row>
           <b-col><b-button block>print</b-button></b-col>
           <b-col><b-button block>export</b-button></b-col>
           <b-col><b-button block>clone</b-button></b-col>
@@ -134,17 +140,17 @@
 </template>
 
 <script>
-  import EditableLabel from './UI/EditableLabel'
-  import EditableTextfield from './UI/EditableTextfield'
-  import Contact from './PilotSheet/Contact'
-  import LicenseItem from './PilotSheet/LicenseItem'
-  import ImageSelector from './UI/ImageSelector'
-  import StatblockItem from './PilotSheet/StatblockItem'
-  import PilotStats from '@/logic/pilot_stats'
-  import SkillItem from './PilotSheet/SkillItem'
-  import TalentItem from './PilotSheet/TalentItem'
-  import CoreBonusItem from './PilotSheet/CoreBonusItem'
-  import PilotLoadout from './PilotSheet/PilotLoadout'
+  import Stats from '@/logic/stats'
+  import EditableLabel from '../UI/EditableLabel'
+  import EditableTextfield from '../UI/EditableTextfield'
+  import ImageSelector from '../UI/ImageSelector'
+  import Contact from './Contact'
+  import LicenseItem from './LicenseItem'
+  import StatblockItem from './StatblockItem'
+  import SkillItem from './SkillItem'
+  import TalentItem from './TalentItem'
+  import CoreBonusItem from './CoreBonusItem'
+  import PilotLoadout from './PilotLoadout'
 
   export default {
     name: 'pilot-sheet',
@@ -164,14 +170,15 @@
       'pilot_id'
     ],
     data: () => ({
-      contactKey: 0
+      contactKey: 0,
+      activeLoadoutIdx: 0
     }),
     methods: {
       addContact: function () {
         this.$store.dispatch('editPilot', {
           id: this.pilot.id,
           attr: `fnf[${this.pilot.fnf.length}]`,
-          val: {name: 'New Contact', relationship: 'Add Relationship', description: 'Add Description'}
+          val: {name: 'New Contact (click to edit)', relationship: 'Edit Relationship', description: 'Edit Description'}
         })
         this.$forceUpdate()
       },
@@ -190,7 +197,7 @@
         return this.$store.getters.getPilot
       },
       stats: function () {
-        return PilotStats.statblock(this.pilot)
+        return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx])
       }
     }
   }

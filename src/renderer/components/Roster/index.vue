@@ -19,9 +19,9 @@
 
 <script>
   import Topbar from './UI/Topbar'
-  import Sidebar from './Sidebar'
-  import PilotSheet from './PilotSheet'
-  import ConfigSheet from './ConfigSheet'
+  import Sidebar from './Sidebar/'
+  import PilotSheet from './PilotSheet/'
+  import ConfigSheet from './ConfigSheet/'
 
   export default {
     name: 'roster',

@@ -15,7 +15,6 @@ const state = {
   PilotArmor: [],
   PilotGear: [],
   Tags: [],
-  Rules: {},
   Licenses: []
 }
 
@@ -37,7 +36,6 @@ const mutations = {
     state.PilotArmor = allPilotItems.armor
     state.PilotGear = allPilotItems.gear
     state.Tags = io.loadData('tags')
-    state.Rules = io.loadData('rules')
     state.Licenses = collectLicenses(state)
 
     console.log(state)
@@ -76,7 +74,6 @@ function collectLicenses (state) {
 
 const getters = {
   getItemById: state => (itemType, id) => {
-    console.log(itemType, id)
     return state[itemType].find(x => x.id === id) || {}
   },
   getLicenseByName: state => license => {

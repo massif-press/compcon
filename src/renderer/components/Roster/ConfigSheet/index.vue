@@ -26,7 +26,7 @@
           </b-row>
           <b-row><span class="header">notes-header</span></b-row>
             <b-row>
-            <b-col>pilot's notes</b-col>
+            <b-col><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" :id="config.pilot_id"/></b-col>
           </b-row>
         </b-col>
         <b-col cols=6><b-img src="https://via.placeholder.com/800x500" fluid-grow /></b-col>
@@ -97,17 +97,17 @@
 </template>
 
 <script>
-  import EditableLabel from './UI/EditableLabel'
+  import EditableLabel from '../UI/EditableLabel'
+  import EditableTextfield from '../UI/EditableTextfield'
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel },
+    components: { EditableLabel, EditableTextfield },
     methods: {
       close: function () {
         this.$parent.toggleConfigSheet(false)
       },
       item: function (itemType, id) {
-        console.log(itemType, id)
         return this.$store.getters.getItemById(itemType, id)
       }
     },

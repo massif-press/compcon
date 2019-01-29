@@ -1,4 +1,4 @@
-import io from '../pilot_io'
+import io from '../data_io'
 import Vue from 'vue'
 import _ from 'lodash'
 
