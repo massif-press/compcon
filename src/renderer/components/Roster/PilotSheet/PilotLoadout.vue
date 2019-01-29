@@ -20,7 +20,7 @@
                   </b-row>
                 </b-card>
             </div>
-              <b-card no-body>
+              <b-card no-body v-if="loadout.gear.length < 6">
                 <b-row>
                   <b-col cols=2><b-btn block @click="openAddItemMenu(index, loadout.gear.length)">ADD ITEM</b-btn></b-col>
                   <b-col>

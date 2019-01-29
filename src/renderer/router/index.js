@@ -23,6 +23,11 @@ export default new Router({
       component: require('@/components/Roster/index').default
     },
     {
+      path: '/newpilot',
+      name: 'new-pilot',
+      component: require('@/components/NewPilot/index').default
+    },
+    {
       path: '/mods',
       name: 'mod-editor',
       component: require('@/components/Roster/index').default

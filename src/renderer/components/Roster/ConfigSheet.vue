@@ -4,15 +4,21 @@
    <div v-if="config.name">
     <b-container fluid>
       <b-row>
-        <b-col>{{config.name}}</b-col>
-        <b-col>frame</b-col>
-        <b-btn>frame-info</b-btn>
+        <b-col><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" :id="config.pilot_id"/></b-col>
+        <b-col>{{ item('Frames', config.frame_id).name }}</b-col>
+        <b-btn v-b-modal.frameInfoModal>frame info</b-btn>
+          <b-modal id="frameInfoModal" size="lg" :title="item('Frames', config.frame_id).name">
+            <p v-html="item('Frames', config.frame_id).description" />
+          </b-modal>
       </b-row>
       <b-row>
         <b-col cols=6>
           <b-row>
-            <b-col>manufacturer</b-col>
-            <b-col>mech type</b-col>
+            <b-btn v-b-modal.manuInfoModal>{{ item('Manufacturers', item('Frames', config.frame_id).source).name }}</b-btn>
+              <b-modal id="manuInfoModal" size="xl" :title="item('Manufacturers', item('Frames', config.frame_id).source).name">
+              <p v-html="item('Manufacturers', item('Frames', config.frame_id).source).description" />
+              </b-modal>
+            <b-col>{{ item('Frames', config.frame_id).mechtype }} Mech</b-col>
           </b-row>
           <b-row><span class="header">licenses-header</span></b-row>
           <b-row>
@@ -91,11 +97,18 @@
 </template>
 
 <script>
+  import EditableLabel from './UI/EditableLabel'
+
   export default {
     name: 'config-sheet',
+    components: { EditableLabel },
     methods: {
       close: function () {
         this.$parent.toggleConfigSheet(false)
+      },
+      item: function (itemType, id) {
+        console.log(itemType, id)
+        return this.$store.getters.getItemById(itemType, id)
       }
     },
     computed: {
@@ -104,6 +117,11 @@
       },
       config: function () {
         return this.$store.getters.getConfigById(this.$parent.activeConfigId)
+      },
+
+      configPath: function () {
+        var idx = this.$store.getters.getConfigIndex(this.$parent.activeConfigId)
+        return `configs[${idx}]`
       }
     }
   }

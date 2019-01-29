@@ -24,8 +24,8 @@
       </div> <!--/content-->
       <div id='sidebar-footer'>
         <div> 
-          <b-button block v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
-          <b-button block v-else><span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
+          <b-button :to="'/newpilot'" block v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
+          <b-button :to="'/newpilot'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
         </div>
       </div> <!--/footer-->
     </div>
@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 #sidebar {
-  z-index: 999;
+  z-index: 50;
   position: absolute;
   height: 93vh;
   overflow: hidden;
