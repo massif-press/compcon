@@ -11,8 +11,6 @@ const state = {
   WeaponMods: [],
   WeaponAmmo: [],
   MechSystems: [],
-  PilotWeapons: [],
-  PilotArmor: [],
   PilotGear: [],
   Tags: [],
   Licenses: []
@@ -31,10 +29,7 @@ const mutations = {
     state.WeaponMods = allMods.filter(x => x.ModType === 'Modification')
     state.WeaponAmmo = allMods.filter(x => x.ModType === 'Ammunition')
     state.MechSystems = io.loadData('systems')
-    var allPilotItems = io.loadData('pilot_gear')
-    state.PilotWeapons = allPilotItems.weapons
-    state.PilotArmor = allPilotItems.armor
-    state.PilotGear = allPilotItems.gear
+    state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
     state.Licenses = collectLicenses(state)
 

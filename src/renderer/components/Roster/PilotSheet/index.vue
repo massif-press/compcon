@@ -3,39 +3,47 @@
     <div v-if="pilot.name">
       <b-container fluid id="test">
         <b-row>
-          <b-col cols="auto">
-            <editable-label :description="'Callsign'" :attr="'callsign'" :val="pilot.callsign" :id="pilot.id"/>
+          <b-col cols=10>
+            <b-row>
+              <b-col cols="auto">
+                <editable-label :description="'Callsign'" :attr="'callsign'" :val="pilot.callsign" :id="pilot.id"/>
+              </b-col>
+              <b-col cols="auto">
+                <editable-label :description="'Name'" :attr="'name'" :val="pilot.name" :id="pilot.id"/>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col cols=auto>
+                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.hp, stats.armor]" :colors="['cyan', 'white']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
+              </b-col>
+                <b-col cols=auto>
+                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.edef]" :colors="['green']" :label="`e-defense: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                </b-col>
+                <b-col cols=auto>
+                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.evasion]" :colors="['green']" :label="`evasion: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                </b-col>
+                <b-col cols=auto>
+                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.speed]" :colors="['orange']" :label="`speed: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                </b-col>
+            </b-row>
           </b-col>
-          <b-col cols="auto">
-            <editable-label :description="'Name'" :attr="'name'" :val="pilot.name" :id="pilot.id"/>
+          <b-col>
+            <span>License Level {{pilot.level}}</span>
+            <b-btn block :disabled="pilot.level > 11" variant="success">Level Up</b-btn>
           </b-col>
-          <b-col cols="auto">
-            <span>//&emsp; Level {{pilot.level}}</span>
-          </b-col>
-        </b-row>
-        <b-row class="justify-content-md-center">
-          <b-col cols=6 class="d-flex justify-content-center">
-            <div v-b-popover.hover="`hp: ${stats.hp} // armor: ${stats.armor}`" :placement="'bottom'">
-              <span v-for="n in stats.hp" :key="`hp+${n}`">0</span>
-              <span v-for="n in stats.armor" :key="`armor+${n}`">[]</span>
-            </div>
-          </b-col>
-          <statblock-item :attr="'E-DEF'" :val="stats.edef"/>
-          <statblock-item :attr="'EVASION'" :val="stats.evasion"/>
-          <statblock-item :attr="'SPEED'" :val="stats.speed"/>
         </b-row>
         <b-row>
           <b-col cols=8>
             <b-row>
               <b-col>
-                <b-row><span class="header">hist-header</span></b-row>
+                <b-row><span class="header">Biography</span></b-row>
                 <b-row><b-col cols=12 style="text-align:center"><b> {{ item('Backgrounds', 'ai').name }} </b></b-col></b-row>
                 <editable-textfield :description="'History'" :attr="'history'" :val="pilot.history" :id="pilot.id"/>
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-                <b-row><span class="header">fnf-header</span></b-row>
+                <b-row><span class="header">Contacts</span></b-row>
                 <div v-for="(fnf, index) in pilot.fnf" :key="index">
                   <contact-item :index="index" :fnf="fnf" :pilot_id="pilot.id" class="border rounded" style="padding: 10px; margin:10px" />
                 </div>
@@ -50,7 +58,7 @@
             </b-row>            
           </b-col>
           <b-col cols=4>
-            <b-row><span class="header">appearance-header</span></b-row>
+            <b-row><span class="header">Appearance</span></b-row>
             <b-row>
               <b-col>
                 <image-selector-modal :title="'Select Pilot Image'" ref="appearanceImg">
@@ -70,32 +78,40 @@
         </b-row>
       <b-row>
         <b-col cols=1>
-          <b-row><span class="header">grit</span></b-row>
+          <b-row><span class="header">Grit</span></b-row>
           <b-row>+{{stats.grit}}</b-row>
         </b-col>
         <b-col>
-          <b-row><span class="header">skill triggers<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+          <b-row><span class="header">Skill Triggers<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
           <div v-for="skill in pilot.skills" :key="skill.id">
             <skill-item :skill="item('Skills', skill.id)" :bonus="skill.bonus" />
           </div>
         </b-col>
       </b-row>
-      <b-row><span class="header">licenses-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">Licenses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <div v-for="(license, index) in pilot.licenses" :key="index">
         <license-item :license="license" :licenseData="getLicense(license.name)" />
       </div>
-      <b-row><span class="header">talents-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">Talents<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
         <div v-for="talent in pilot.talents" :key="talent.id">
           <talent-item :talent="talent" :talentData="item('Talents', talent.id)"/>
         </div>
-      <b-row><span class="header">mech-skills-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
-      <b-row>
-        <statblock-item :attr="'HULL'" :val="stats.mech.hull"/>
-        <statblock-item :attr="'AGI'" :val="stats.mech.agi"/>
-        <statblock-item :attr="'SYS'" :val="stats.mech.sys"/>
-        <statblock-item :attr="'ENG'" :val="stats.mech.eng"/>
+      <b-row><span class="header">Mech Skills<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row align-content="center">
+        <b-col cols=3>
+          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :colors="['blue', 'gray']" :label="`HULL: ${stats.mech.hull}`"/>
+        </b-col>
+        <b-col cols=3>
+          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :colors="['blue', 'gray']" :label="`AGILITY: ${stats.mech.agi}`"/>
+        </b-col>
+        <b-col cols=3>
+          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :colors="['blue', 'gray']" :label="`SYSTEMS: ${stats.mech.sys}`"/>
+        </b-col>
+        <b-col cols=3>
+          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :colors="['blue', 'gray']" :label="`ENGINEERING: ${stats.mech.eng}`"/>
+        </b-col>
       </b-row>
-      <b-row><span class="header">core-bonus-header<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">CORE Bonuses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <div v-for="cb in pilot.core_bonuses" :key="cb">
         <cb-item :cb="item('CoreBonuses', cb)" />
       </div>
@@ -105,10 +121,7 @@
           <pilot-loadout :pilot_id="pilot.id" />
         </b-col>
       </b-row>
-      <b-row>
-        <b-col><div class="float-right">weapons x/x armor x/x gear x/x</div></b-col>
-      </b-row>
-      <b-row><span class="header">pilot's notes-header</span></b-row>      
+      <b-row><span class="header">Notes</span></b-row>      
       <b-row>
         <b-col><editable-textfield :description="'Pilot Notes'" :attr="'notes'" :val="pilot.notes" :id="pilot.id"/></b-col>
       </b-row>
@@ -117,12 +130,6 @@
 
       <div class="spacer" />
       <b-container>
-        <b-row>
-          <b-col>
-            <b-btn block>Level Up</b-btn>
-          </b-col>
-        </b-row>
-        <hr>
         <b-row>
           <b-col><b-button block>print</b-button></b-col>
           <b-col><b-button block>export</b-button></b-col>
@@ -143,10 +150,10 @@
   import Stats from '@/logic/stats'
   import EditableLabel from '../UI/EditableLabel'
   import EditableTextfield from '../UI/EditableTextfield'
+  import PipBar from '../UI/PipBar'
   import ImageSelector from '../UI/ImageSelector'
   import Contact from './Contact'
   import LicenseItem from './LicenseItem'
-  import StatblockItem from './StatblockItem'
   import SkillItem from './SkillItem'
   import TalentItem from './TalentItem'
   import CoreBonusItem from './CoreBonusItem'
@@ -157,8 +164,8 @@
     components: {
       EditableLabel,
       EditableTextfield,
+      PipBar,
       LicenseItem,
-      StatblockItem,
       SkillItem,
       TalentItem,
       PilotLoadout,
@@ -202,7 +209,6 @@
     }
   }
 </script>
-
 <style scoped>
 #test {
   background-color:lightskyblue;
@@ -233,6 +239,10 @@
   fill-opacity: 1;
   transition: 0.3s all;
 }
+</style>
+
+<style>
+
 
 .notch20 {
   --notchSize: 20px;
