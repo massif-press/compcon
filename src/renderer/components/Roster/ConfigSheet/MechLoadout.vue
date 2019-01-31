@@ -5,18 +5,13 @@
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
           <b-container fluid>
-            <div v-for="(item, index) in loadout.gear" :key="item.id + index">
-                <gear-item :item="item" />
+            <div v-for="(item, index) in loadout.weapons" :key="item.id + '_' + index">
+              <mech-weapon-item :weapon="item" />
             </div>
-              <b-card no-body v-if="loadout.gear.length < 6">
-                <b-row>
-                  <b-col cols=2><b-btn block @click="openAddItemMenu(index, loadout.gear.length)">ADD ITEM</b-btn></b-col>
-                  <b-col>
-                    <span>/////</span>
-                  </b-col>
-                </b-row>
-              </b-card>
             <hr>
+            <div v-for="(item, index) in loadout.systems" :key="item.id + '_' + index">
+              <mech-system-item :system="item" />
+            </div>
             <b-row>
               <b-col>
                 <div class="float-left" style="padding:10px">
@@ -54,8 +49,9 @@
 </template>
 
 <script>
-import GearItem from './GearItem'
-import io from '@/store/data_io'
+import MechWeapon from './MechWeapon'
+import MechSystem from './MechSystem'
+// import io from '@/store/data_io'
 import { mapGetters } from 'vuex'
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
@@ -69,10 +65,10 @@ function newLoadoutName (count) {
 }
 
 export default {
-  name: 'pilot-loadout',
-  components: { GearItem },
+  name: 'mech-loadout',
+  components: { 'mech-weapon-item': MechWeapon, 'mech-system-item': MechSystem },
   props: [
-    'pilot_id'
+    'config_id'
   ],
   data: () => ({
     tabIndex: 0,
@@ -80,53 +76,55 @@ export default {
   }),
   methods: {
     deleteLoadout (index) {
-      this.$store.dispatch('splicePilot', {
-        id: this.pilot_id,
-        attr: 'loadouts',
-        start_index: index,
-        delete_count: 1
-      })
-      this.add--
+      // this.$store.dispatch('splicePilot', {
+      //   id: this.pilot_id,
+      //   attr: 'loadouts',
+      //   start_index: index,
+      //   delete_count: 1
+      // })
+      // this.add--
     },
     addLoadout () {
-      var newIdx = this.loadoutCount + this.add
-      this.$store.dispatch('editPilot', {
-        id: this.pilot_id,
-        attr: `loadouts[${newIdx}]`,
-        val: {
-          id: io.newID(),
-          name: newLoadoutName(newIdx),
-          gear: []
-        }
-      })
-      this.add++
-      this.$forceUpdate()
+      console.log(newLoadoutName(1))
+      // var newIdx = this.loadoutCount + this.add
+      // this.$store.dispatch('editPilot', {
+      //   id: this.pilot_id,
+      //   attr: `loadouts[${newIdx}]`,
+      //   val: {
+      //     id: io.newID(),
+      //     name: newLoadoutName(newIdx),
+      //     gear: []
+      //   }
+      // })
+      // this.add++
+      // this.$forceUpdate()
     },
     openAddItemMenu (index, gearLength) {
-      console.log('this should happen from modal, pass in loadout and pilot id')
-      this.$store.dispatch('editPilot', {
-        id: this.pilot_id,
-        attr: `loadouts[${index}].gear[${gearLength}]`,
-        val: {
-          id: Math.random().toString()
-        }
-      })
-      this.$forceUpdate()
+    //   console.log('this should happen from modal, pass in loadout and pilot id')
+    //   this.$store.dispatch('editPilot', {
+    //     id: this.pilot_id,
+    //     attr: `loadouts[${index}].gear[${gearLength}]`,
+    //     val: {
+    //       id: Math.random().toString()
+    //     }
+    //   })
+    //   this.$forceUpdate()
     }
   },
   computed: {
     ...mapGetters([
-      'getPilotLoadouts',
-      'getPilotLoadoutById'
+      'getConfigLoadouts',
+      'getConfigLoadoutById'
     ]),
     loadoutCount () {
       return this.getLoadouts().length
     },
     loadouts () {
-      return this.getPilotLoadouts()
+      console.log(this.getConfigLoadouts(this.config_id))
+      return this.getConfigLoadouts(this.config_id)
     },
     loadout (id) {
-      return this.getPilotLoadoutsById(id)
+      return this.getConfigLoadoutsById(id)
     }
   },
   watch: {

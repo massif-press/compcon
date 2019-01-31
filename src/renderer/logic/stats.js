@@ -14,7 +14,7 @@ export default {
    * export default doc examples
    * @alias module:mechStats
    */
-  mechStats (pilot, config) {
+  mechStats (pilot, config, loadout) {
     var frame = frames.find(x => x.id === config.frame_id)
 
     var grit = Math.floor(pilot.level / 2)
@@ -43,7 +43,7 @@ export default {
     }
 
     // system personalizations adds +2 hp
-    if (config.systems.find(x => x.id === 'personalizations')) output.hp += 2
+    if (loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian') && frame.size < 3) output.size++
