@@ -12,7 +12,6 @@
 export default {
   name: 'statblock-item',
   props: [
-    'pips',
     'attr',
     'val'
   ]

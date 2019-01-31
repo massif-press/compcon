@@ -5,90 +5,116 @@
     <b-container fluid>
       <b-row>
         <b-col><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" :id="config.pilot_id"/></b-col>
-        <b-col>{{ item('Frames', config.frame_id).name }}</b-col>
+        <b-col>{{ frame.name }}</b-col>
         <b-btn v-b-modal.frameInfoModal>frame info</b-btn>
-          <b-modal id="frameInfoModal" size="lg" :title="item('Frames', config.frame_id).name">
-            <p v-html="item('Frames', config.frame_id).description" />
+          <b-modal id="frameInfoModal" size="lg" :title="frame.name">
+            <p v-html="frame.description" />
           </b-modal>
       </b-row>
       <b-row>
         <b-col cols=6>
           <b-row>
-            <b-btn v-b-modal.manuInfoModal>{{ item('Manufacturers', item('Frames', config.frame_id).source).name }}</b-btn>
-              <b-modal id="manuInfoModal" size="xl" :title="item('Manufacturers', item('Frames', config.frame_id).source).name">
-              <p v-html="item('Manufacturers', item('Frames', config.frame_id).source).description" />
+            <b-btn v-b-modal.manuInfoModal>{{ item('Manufacturers', frame.source).name }}</b-btn>
+              <b-modal id="manuInfoModal" size="xl" :title="item('Manufacturers', frame.source).name">
+              <p v-html="item('Manufacturers', frame.source).description" />
               </b-modal>
-            <b-col>{{ item('Frames', config.frame_id).mechtype }} Mech</b-col>
+            <b-col>{{ frame.mechtype }} Mech</b-col>
           </b-row>
-          <b-row><span class="header">licenses-header</span></b-row>
+          <b-row><span class="header">Licenses Required</span></b-row>
           <b-row>
             <b-col>licenses required</b-col>
           </b-row>
-          <b-row><span class="header">notes-header</span></b-row>
+          <b-row><span class="header">Configuration Notes</span></b-row>
             <b-row>
             <b-col><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" :id="config.pilot_id"/></b-col>
           </b-row>
         </b-col>
-        <b-col cols=6><b-img src="https://via.placeholder.com/800x500" fluid-grow /></b-col>
-        </b-row>
+        
+        <b-col cols=6>
+          <image-selector-modal :title="'Select Mech Image'" ref="mechImg">
+            <div class="hovereffect" @click="selectMechImg()">
+              <b-img src="https://via.placeholder.com/800x500" fluid-grow />
+              <div class="overlay">
+                <p style="height:100%;"><a style="position: abosulte; right:25px; bottom: 20px">SELECT MECH IMAGE</a></p>
+              </div>
+            </div>
+          </image-selector-modal>
+        </b-col>
+      </b-row>
 
-        <b-row><span class="header">stats-header</span></b-row>
+        <b-row><span class="header">TODO: name/organize block</span></b-row>
         <b-row>
           <b-col cols=1>
-            <b-row>h</b-row>
-            <b-row>a</b-row>
-            <b-row>s</b-row>
-            <b-row>e</b-row>
+            <b-row>HULL: {{stats.hull}}</b-row>
+            <b-row>AGI: {{stats.agi}}</b-row>
+            <b-row>SYS: {{stats.sys}}</b-row>
+            <b-row>ENG: {{stats.eng}}</b-row>
           </b-col>
           <b-col>
             <b-row>
-              <b-col>structure</b-col>
+              <b-col>
+                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.structure, stats.hp, stats.armor]" :colors="['darkblue', 'cyan', 'white']" :label="`structure: ${stats.structure} // hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
+              </b-col>
             </b-row>
             <b-row>
-              <b-col>heat</b-col>
-              <b-col>core power</b-col>
+              <b-col>
+                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.heatstress, stats.heatcap]" :colors="['red', 'orange']" :label="`heat stress: ${stats.heatstress} // heat capacity: ${stats.heatcap}`" :hover="'todo: list of item contributions'"/>
+              </b-col>
+              <b-col>
+                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.repcap]" :colors="['darkred']" :label="`Repair Capacity: ${stats.repcap}`" :hover="'todo: list of item contributions'"/>
+              </b-col>
+              <b-col>
+                <pip-bar :pip_width="8" :pip_height="20" :pips="[1]" :colors="['green']" :label="`CORE power: 1`" :hover="'todo: list of item contributions'"/>
+              </b-col>
             </b-row>
-            <b-row><span class="header">stats-sub-header</span></b-row>
+            <b-row><span class="header">TODO: name/organize block</span></b-row>
             <b-row>
-              <b-col>spd</b-col>
-              <b-col>eva</b-col>
-              <b-col>edef</b-col>
-              <b-col>repcap</b-col>
+              <statblock-item :attr="'Speed'" :val="stats.speed" />
+              <statblock-item :attr="'Evasion'" :val="stats.evasion" />
+              <statblock-item :attr="'E-Defense'" :val="stats.edef" />
+              <statblock-item :attr="'System Points'" :val="stats.sp" />
             </b-row>
             <b-row>
-              <b-col>tgt</b-col>
-              <b-col>sp</b-col>
-              <b-col>sensor</b-col>
-              <b-col></b-col>
-              <b-col>grapple</b-col>
-              <b-col>ram</b-col>
+              <statblock-item :attr="'Sensor Range'" :val="stats.sensor_range" />
+              <statblock-item :attr="'Tech Attack'" :val="'+' + stats.tech_attack" />
+              <statblock-item :attr="'Attack Bonus'" :val="'+' + stats.attack_bonus" />
+              <statblock-item :attr="'Grapple'" :val="'+' + stats.grapple" />
+              <statblock-item :attr="'Ram'" :val="'+' + stats.ram" />
             </b-row>
           </b-col>
         </b-row>
 
-        <b-row><span class="header">loadout-header</span></b-row>
-      <b-row>
-        <b-col>loadout frame</b-col>
-      </b-row>
+        <b-row><span class="header">Frame Traits</span></b-row>
+          <trait-item v-for="trait in frame.traits" :key="trait.name" :trait="trait" />
 
-      <b-row><span class="header">charts-header</span></b-row>
-      <b-row>
-        <b-col>vue-chartjs</b-col>
-      </b-row>
+        <b-row><span class="header">CORE Ability</span></b-row>
+        <b-row>
+          <b-col>core ability</b-col>
+        </b-row>
+
+        <b-row><span class="header">Loadouts</span></b-row>
+        <b-row>
+          <b-col>loadout</b-col>
+        </b-row>        
+
+        <b-row><span class="header">Combat Data</span></b-row>
+        <b-row>
+          <b-col>vue-chartjs</b-col>
+        </b-row>
 
         <div class="spacer" />
-    </b-container>
+      </b-container>
 
-        <div class="spacer" />
-        <b-container>
-          <b-row>
-            <b-col><b-button block>print</b-button></b-col>
-            <b-col><b-button block>export</b-button></b-col>
-            <b-col><b-button block>clone</b-button></b-col>
-            <b-col><b-button block>delete</b-button></b-col>
-          </b-row>
-        <div class="spacer" />
-        </b-container>
+      <div class="spacer" />
+      <b-container>
+        <b-row>
+          <b-col><b-button block>print</b-button></b-col>
+          <b-col><b-button block>export</b-button></b-col>
+          <b-col><b-button block>clone</b-button></b-col>
+          <b-col><b-button block>delete</b-button></b-col>
+        </b-row>
+      <div class="spacer" />
+      </b-container>
    </div>
    <div v-else>
      No configuration loaded
@@ -97,18 +123,26 @@
 </template>
 
 <script>
+  import Stats from '@/logic/stats'
   import EditableLabel from '../UI/EditableLabel'
   import EditableTextfield from '../UI/EditableTextfield'
+  import ImageSelector from '../UI/ImageSelector'
+  import PipBar from '../UI/PipBar'
+  import StatblockItem from './StatblockItem'
+  import TraitItem from './TraitItem'
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield },
+    components: { EditableLabel, EditableTextfield, 'image-selector-modal': ImageSelector, PipBar, Stats, StatblockItem, TraitItem },
     methods: {
       close: function () {
         this.$parent.toggleConfigSheet(false)
       },
       item: function (itemType, id) {
         return this.$store.getters.getItemById(itemType, id)
+      },
+      selectMechImg: function () {
+        this.$refs.mechImg.showModal()
       }
     },
     computed: {
@@ -118,10 +152,19 @@
       config: function () {
         return this.$store.getters.getConfigById(this.$parent.activeConfigId)
       },
-
+      pilot: function () {
+        return this.$store.getters.getPilot
+      },
       configPath: function () {
         var idx = this.$store.getters.getConfigIndex(this.$parent.activeConfigId)
         return `configs[${idx}]`
+      },
+      stats: function () {
+        return this.$store.getters.getMechStats(this.$parent.activeConfigId)
+      },
+      frame: function () {
+        console.log(this.config)
+        return this.item('Frames', this.config.frame_id)
       }
     }
   }

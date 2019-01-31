@@ -1,4 +1,5 @@
 import io from '../data_io'
+import Stats from '../../logic/stats'
 import Vue from 'vue'
 import _ from 'lodash'
 
@@ -98,10 +99,14 @@ const getters = {
     return state.Pilots.find(p => p.id === id) || {}
   },
   getConfigById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.find(p => p.id === id) || {}
+    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.find(c => c.id === id) || {}
   },
   getConfigIndex: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.findIndex(p => p.id === id)
+    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.findIndex(c => c.id === id)
+  },
+  getMechStats: (state) => id => {
+    var pilot = state.Pilots.find(p => p.id === state.selectedPilotId)
+    return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id))
   }
 }
 

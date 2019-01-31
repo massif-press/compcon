@@ -7,7 +7,7 @@ import io from '../store/data_io'
 
 var rules = io.loadData('rules')
 var frames = io.loadData('frames')
-var armor = io.loadData('pilot_gear').armor
+var armor = io.loadData('pilot_gear').filter(x => x.type === 'armor')
 
 export default {
   /**
@@ -17,25 +17,27 @@ export default {
   mechStats (pilot, config) {
     var frame = frames.find(x => x.id === config.frame_id)
 
+    var grit = Math.floor(pilot.level / 2)
+
     var output = {
       structure: rules.base_structure,
-      hull: pilot.core.mech.hull,
-      agi: pilot.core.mech.agi,
-      sys: pilot.core.mech.sys,
-      eng: pilot.core.mech.eng,
-      hp: (pilot.core.mech.hull * 2) + frame.stats.hp + pilot.core.grit,
-      sp: frame.stats.sp + pilot.core.grit,
+      hull: pilot.core.hull,
+      agi: pilot.core.agi,
+      sys: pilot.core.sys,
+      eng: pilot.core.eng,
+      hp: (pilot.core.hull * 2) + frame.stats.hp + grit,
+      sp: frame.stats.sp + grit,
       armor: frame.stats.armor,
-      repcap: frame.stats.repcap + Math.floor(pilot.core.mech.hull / 2),
-      evasion: frame.stats.evasion + pilot.core.mech.agi,
-      speed: frame.stats.evasion + Math.floor(pilot.core.mech.agi / 2),
-      sensor_range: frame.stats.sensor_range + pilot.core.mech.sys,
-      edef: frame.stats.edef + pilot.core.mech.sys,
-      heatcap: frame.stats.heatcap + pilot.core.mech.eng,
+      repcap: frame.stats.repcap + Math.floor(pilot.core.hull / 2),
+      evasion: frame.stats.evasion + pilot.core.agi,
+      speed: frame.stats.evasion + Math.floor(pilot.core.agi / 2),
+      sensor_range: frame.stats.sensor_range + pilot.core.sys,
+      edef: frame.stats.edef + pilot.core.sys,
+      heatcap: frame.stats.heatcap + pilot.core.eng,
       heatstress: rules.base_stress,
-      limited_bonus: Math.floor(pilot.core.mech.sys / 2),
-      attack_bonus: pilot.core.grit,
-      tech_attack: frame.stats.tech_attack + pilot.core.mech.sys,
+      limited_bonus: Math.floor(pilot.core.sys / 2),
+      attack_bonus: grit,
+      tech_attack: frame.stats.tech_attack + pilot.core.sys,
       grapple: rules.base_grapple,
       ram: rules.base_ram
     }
@@ -67,6 +69,8 @@ export default {
     // ha ammofeeds adds a +1 bonus to limited items
     if (pilot.core_bonuses.includes('ammofeeds')) output.limited_bonus += 1
 
+    console.log(output)
+
     return output
   },
   /**
@@ -90,7 +94,8 @@ export default {
     }
 
     for (var i = 0; i < loadout.gear.length; i++) {
-      var e = armor.find(x => x.id === loadout.gear[i])
+      var e = armor.find(x => x.id === loadout.gear[i].id)
+
       if (e) {
         if (e.armor) output.armor += e.armor
         if (e.edef) output.edef = e.edef
