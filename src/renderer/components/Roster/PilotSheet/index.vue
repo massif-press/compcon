@@ -14,16 +14,16 @@
             </b-row>
             <b-row>
               <b-col cols=auto>
-                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.hp, stats.armor]" :colors="['cyan', 'white']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
+                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.hp, stats.armor]" :fills="['cyan', 'white']" :borders="['blue', 'gray']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
               </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.edef]" :colors="['green']" :label="`e-defense: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.edef]" :fills="['green']" :borders="['lime']" :label="`e-defense: ${stats.edef}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.evasion]" :colors="['green']" :label="`evasion: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.evasion]" :fills="['green']" :borders="['lime']" :label="`evasion: ${stats.evasion}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.speed]" :colors="['orange']" :label="`speed: ${stats.hp}`" :hover="'todo: list of item contributions'"/>
+                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.speed]" :fills="['orange']" :borders="['darkred']" :label="`speed: ${stats.speed}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
             </b-row>
           </b-col>
@@ -99,16 +99,16 @@
       <b-row><span class="header">Mech Skills<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <b-row align-content="center">
         <b-col cols=3>
-          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :colors="['blue', 'gray']" :label="`HULL: ${stats.mech.hull}`"/>
+          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`HULL: ${stats.mech.hull}`" :endcap="true" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :colors="['blue', 'gray']" :label="`AGILITY: ${stats.mech.agi}`"/>
+          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`AGILITY: ${stats.mech.agi}`" :endcap="true" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :colors="['blue', 'gray']" :label="`SYSTEMS: ${stats.mech.sys}`"/>
+          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`SYSTEMS: ${stats.mech.sys}`" :endcap="true" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="15" :pip_height="30" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :colors="['blue', 'gray']" :label="`ENGINEERING: ${stats.mech.eng}`"/>
+          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`ENGINEERING: ${stats.mech.eng}`" :endcap="true" />
         </b-col>
       </b-row>
       <b-row><span class="header">CORE Bonuses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>

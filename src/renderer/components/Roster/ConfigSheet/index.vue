@@ -42,7 +42,7 @@
         </b-col>
       </b-row>
 
-        <b-row><span class="header">TODO: name/organize block</span></b-row>
+        <b-row><span class="header">Mech Attributes</span></b-row>
         <b-row>
           <b-col cols=1>
             <b-row>HULL: {{stats.hull}}</b-row>
@@ -53,33 +53,27 @@
           <b-col>
             <b-row>
               <b-col>
-                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.structure, stats.hp, stats.armor]" :colors="['darkblue', 'cyan', 'white']" :label="`structure: ${stats.structure} // hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.structure, stats.hp, stats.armor]" :fills="['darkblue', 'cyan', 'white']" :borders="['cyan', 'blue', 'gray']" :label="`structure: ${stats.structure} // hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.heatstress, stats.heatcap]" :colors="['red', 'orange']" :label="`heat stress: ${stats.heatstress} // heat capacity: ${stats.heatcap}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.heatstress, stats.heatcap]" :fills="['red', 'orange']" :borders="['pink', 'yellow']" :label="`heat stress: ${stats.heatstress} // heat capacity: ${stats.heatcap}`" :hover="'todo: list of item contributions'"/>
               </b-col>
               <b-col>
-                <pip-bar :pip_width="8" :pip_height="20" :pips="[stats.repcap]" :colors="['darkred']" :label="`Repair Capacity: ${stats.repcap}`" :hover="'todo: list of item contributions'"/>
-              </b-col>
-              <b-col>
-                <pip-bar :pip_width="8" :pip_height="20" :pips="[1]" :colors="['green']" :label="`CORE power: 1`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.repcap]" :fills="['darkred']" :borders="['red']" :label="`Repair Capacity: ${stats.repcap}`" :hover="'todo: list of item contributions'"/>
               </b-col>
             </b-row>
-            <b-row><span class="header">TODO: name/organize block</span></b-row>
+            <hr>
             <b-row>
               <statblock-item :attr="'Speed'" :val="stats.speed" />
-              <statblock-item :attr="'Evasion'" :val="stats.evasion" />
-              <statblock-item :attr="'E-Defense'" :val="stats.edef" />
-              <statblock-item :attr="'System Points'" :val="stats.sp" />
+              <statblock-item :attr="'Attack Bonus'" :val="'+' + stats.attack_bonus" />
+              <statblock-item :attr="'Tech Attack'" :val="'+' + stats.tech_attack" />
             </b-row>
             <b-row>
+              <statblock-item :attr="'Evasion'" :val="stats.evasion" />
+              <statblock-item :attr="'E-Defense'" :val="stats.edef" />
               <statblock-item :attr="'Sensor Range'" :val="stats.sensor_range" />
-              <statblock-item :attr="'Tech Attack'" :val="'+' + stats.tech_attack" />
-              <statblock-item :attr="'Attack Bonus'" :val="'+' + stats.attack_bonus" />
-              <statblock-item :attr="'Grapple'" :val="'+' + stats.grapple" />
-              <statblock-item :attr="'Ram'" :val="'+' + stats.ram" />
             </b-row>
           </b-col>
         </b-row>
@@ -93,6 +87,7 @@
         </b-row>
 
         <b-row><span class="header">Loadouts</span></b-row>
+          <statblock-item :attr="'System Points'" :val="stats.sp" />
         <b-row>
           <b-col>loadout</b-col>
         </b-row>        
@@ -160,10 +155,10 @@
         return `configs[${idx}]`
       },
       stats: function () {
+        console.log(this.$store.getters.getMechStats(this.$parent.activeConfigId))
         return this.$store.getters.getMechStats(this.$parent.activeConfigId)
       },
       frame: function () {
-        console.log(this.config)
         return this.item('Frames', this.config.frame_id)
       }
     }
