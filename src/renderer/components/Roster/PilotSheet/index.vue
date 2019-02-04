@@ -44,8 +44,8 @@
             <b-row>
               <b-col>
                 <b-row><span class="header">Contacts</span></b-row>
-                <div v-for="(fnf, index) in pilot.fnf" :key="index">
-                  <contact-item :index="index" :fnf="fnf" :pilot_id="pilot.id" class="border rounded" style="padding: 10px; margin:10px" />
+                <div v-for="(contact, index) in pilot.contacts" :key="index">
+                  <contact-item :index="index" :contact="contact" :pilot_id="pilot.id" class="border rounded" style="padding: 10px; margin:10px" />
                 </div>
                 <b-row>
                   <b-col>
@@ -99,16 +99,16 @@
       <b-row><span class="header">Mech Skills<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
       <b-row align-content="center">
         <b-col cols=3>
-          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`HULL: ${stats.mech.hull}`" :endcap="true" />
+          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`HULL: ${stats.mech.hull}`" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`AGILITY: ${stats.mech.agi}`" :endcap="true" />
+          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`AGILITY: ${stats.mech.agi}`" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`SYSTEMS: ${stats.mech.sys}`" :endcap="true" />
+          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`SYSTEMS: ${stats.mech.sys}`" />
         </b-col>
         <b-col cols=3>
-          <pip-bar :pip_width="13" :pip_height="30" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`ENGINEERING: ${stats.mech.eng}`" :endcap="true" />
+          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`ENGINEERING: ${stats.mech.eng}`" />
         </b-col>
       </b-row>
       <b-row><span class="header">CORE Bonuses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
@@ -184,7 +184,7 @@
       addContact: function () {
         this.$store.dispatch('editPilot', {
           id: this.pilot.id,
-          attr: `fnf[${this.pilot.fnf.length}]`,
+          attr: `contact[${this.pilot.contact.length}]`,
           val: {name: 'New Contact (click to edit)', relationship: 'Edit Relationship', description: 'Edit Description'}
         })
         this.$forceUpdate()

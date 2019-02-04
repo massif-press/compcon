@@ -83,14 +83,28 @@ const getters = {
   getPilot: (state) => {
     return state.Pilots.find(p => p.id === state.selectedPilotId) || {}
   },
-  getLoadouts: (state) => () => {
+  getPilotLoadouts: (state) => () => {
     return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts || {}
   },
-  getLoadoutById: (state) => (id) => {
+  getConfigLoadouts: (state) => (configId) => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId)
+      .configs.find(c => c.id === configId).loadouts || {}
+  },
+  getPilotLoadoutById: (state) => (id) => {
     return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts.find(l => l.id === id) || {}
   },
-  getLoadoutByIndex: (state) => (idx) => {
+  getConfigLoadoutById: (state) => (configId, loadoutId) => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId)
+      .configs.find(c => c.id === configId)
+      .loadouts.find(l => l.id === loadoutId) || {}
+  },
+  getPilotLoadoutByIndex: (state) => (idx) => {
     return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts[idx] || {}
+  },
+  getConfigLoadoutByIndex: (state) => (configId, loadoutIdx) => {
+    return state.Pilots.find(p => p.id === state.selectedPilotId)
+      .configs.find(c => c.id === configId)
+      .loadouts[loadoutIdx] || {}
   },
   getAllPilots: (state) => {
     return state.Pilots || []
@@ -104,9 +118,9 @@ const getters = {
   getConfigIndex: (state) => (id) => {
     return state.Pilots.find(p => p.id === state.selectedPilotId).configs.findIndex(c => c.id === id)
   },
-  getMechStats: (state) => id => {
+  getMechStats: (state) => (id, loadout) => {
     var pilot = state.Pilots.find(p => p.id === state.selectedPilotId)
-    return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id))
+    return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id), loadout)
   }
 }
 
