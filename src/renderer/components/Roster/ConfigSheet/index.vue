@@ -81,9 +81,17 @@
         <b-row><span class="header">Frame Traits</span></b-row>
           <trait-item v-for="trait in frame.traits" :key="trait.name" :trait="trait" />
 
-        <b-row><span class="header">CORE Ability</span></b-row>
+        <b-row><span class="header">CORE System</span></b-row>
         <b-row>
-          <b-col>core ability</b-col>
+          <b-col>
+            <b-card>
+              <div slot="title">{{ this.item('Frames', this.config.frame_id).name }}</div>
+              <p class="card-text">{{this.item('Frames', this.config.frame_id).description}}</p>
+              <h4>{{this.item('Frames', this.config.frame_id).active_name}}</h4>
+              <p class="card-text">{{this.item('Frames', this.config.frame_id).effect}}</p>
+              <b-badge>tags here</b-badge>
+            </b-card>
+          </b-col>
         </b-row>
 
         <b-row><span class="header">Loadouts</span></b-row>
@@ -155,10 +163,10 @@
         return `configs[${idx}]`
       },
       stats: function () {
-        console.log(this.$store.getters.getMechStats(this.$parent.activeConfigId))
         return this.$store.getters.getMechStats(this.$parent.activeConfigId)
       },
       frame: function () {
+        console.log(this.item('Frames', this.config.frame_id))
         return this.item('Frames', this.config.frame_id)
       }
     }

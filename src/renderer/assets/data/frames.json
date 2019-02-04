@@ -29,8 +29,9 @@
     "core_system": {
       "name": "Hyperspec Fuel Injector",
       "description": "",
+      "active_name": "Power Up",
       "effect": "This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions.",
-      "tags": "protocol"
+      "tags": ["protocol"]
     },
     "data_type": "frame",
     "aptitude": {}
