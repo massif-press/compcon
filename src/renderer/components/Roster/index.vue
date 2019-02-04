@@ -10,7 +10,7 @@
     <!-- Page Content -->
     <div id="content">
       <pilot-sheet :pilot_id="activePilotId"/>
-      <config-sheet />
+      <config-sheet :config_id="activeConfigId"/>
     </div>
 
     </div>    

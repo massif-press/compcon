@@ -1,6 +1,6 @@
 <template>
   <div id="config-sheet" :class="{expanded: open, collapsed : !open}">
-   <span class="float-right"><div @click="close()"><v-icon name='window-close' scale='2'/></div></span>
+   <span class="float-right"><b-btn size="sm" variant="link" @click="close()"><v-icon name='window-close'  scale="1.5"/></b-btn></span>
    <div v-if="config.name">
     <b-container fluid>
       <b-row>
@@ -45,10 +45,12 @@
         <b-row><span class="header">Mech Attributes</span></b-row>
         <b-row>
           <b-col cols=1>
-            <b-row>HULL: {{stats.hull}}</b-row>
-            <b-row>AGI: {{stats.agi}}</b-row>
-            <b-row>SYS: {{stats.sys}}</b-row>
-            <b-row>ENG: {{stats.eng}}</b-row>
+            <statblock-item :attr="'HULL'" :val="stats.hull" />
+            <statblock-item :attr="'AGI'" :val="stats.agi" />
+            <statblock-item :attr="'SYS'" :val="stats.sys" />
+            <statblock-item :attr="'ENG'" :val="stats.eng" />
+            <br>
+            <statblock-item :attr="'SP'" :val="stats.sp" />
           </b-col>
           <b-col>
             <b-row>
@@ -84,20 +86,20 @@
         <b-row><span class="header">CORE System</span></b-row>
         <b-row>
           <b-col>
-            <b-card>
-              <div slot="title">{{ this.item('Frames', this.config.frame_id).name }}</div>
-              <p class="card-text">{{this.item('Frames', this.config.frame_id).description}}</p>
-              <h4>{{this.item('Frames', this.config.frame_id).active_name}}</h4>
-              <p class="card-text">{{this.item('Frames', this.config.frame_id).effect}}</p>
-              <b-badge>tags here</b-badge>
+            <b-card :title="frame.core_system.name">
+              <p class="card-text" v-html="frame.core_system.description" />
+              <h5>ACTIVE: {{frame.core_system.active_name}} </h5>
+              <p class="card-text" v-html="frame.core_system.effect" />
+              <p>todo: tags</p>
             </b-card>
           </b-col>
         </b-row>
 
         <b-row><span class="header">Loadouts</span></b-row>
-          <statblock-item :attr="'System Points'" :val="stats.sp" />
         <b-row>
-          <b-col>loadout</b-col>
+          <b-col>
+            <mech-loadout :config_id="config.id" />
+          </b-col>
         </b-row>        
 
         <b-row><span class="header">Combat Data</span></b-row>
@@ -133,10 +135,14 @@
   import PipBar from '../UI/PipBar'
   import StatblockItem from './StatblockItem'
   import TraitItem from './TraitItem'
+  import MechLoadout from './MechLoadout'
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, 'image-selector-modal': ImageSelector, PipBar, Stats, StatblockItem, TraitItem },
+    components: { EditableLabel, EditableTextfield, 'image-selector-modal': ImageSelector, PipBar, Stats, StatblockItem, TraitItem, MechLoadout },
+    data: () => ({
+      activeLoadoutIdx: 0
+    }),
     methods: {
       close: function () {
         this.$parent.toggleConfigSheet(false)
@@ -163,7 +169,7 @@
         return `configs[${idx}]`
       },
       stats: function () {
-        return this.$store.getters.getMechStats(this.$parent.activeConfigId)
+        return this.$store.getters.getMechStats(this.$parent.activeConfigId, this.config.loadouts[this.activeLoadoutIdx])
       },
       frame: function () {
         console.log(this.item('Frames', this.config.frame_id))
