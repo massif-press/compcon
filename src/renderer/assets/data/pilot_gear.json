@@ -621,10 +621,10 @@
   {
     "id": "uv",
     "type": "armor",
-    "name": "UNAVOIDABLE_ VOID",
+    "name": "UNAVOIDABLE_VOID",
     "bonus": "Completely undetectable by electronic systems",
     "armor": 1,
-    "edef": 999,
+    "edef": "N/A",
     "evasion": 10,
     "source": "HORUS",
     "rarity": 3,
@@ -807,7 +807,7 @@
     "bonus": "",
     "edef": 10,
     "evasion": 10,
-    "source": "",
+    "source": "GMS",
     "rarity": 0,
     "other": "",
     "description": ""

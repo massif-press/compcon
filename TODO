@@ -27,21 +27,46 @@ Vue Parity:
   Gear Catalog:
     ☐ Start
 
+Data:
+  ✔ Tag arrays for mods @done(19-02-04 11:40)
+
+
 Bugs:
- ☐ Opening sidebar while modal is open. Move modals into index?
+  ☐ Opening sidebar while modal is open. Move modals into index?
 
 1.0:
   Pilot Sheet:
     ☐ Custom Background (store on PS)
     ☐ Image Selector
     ☐ Print
+      Print options:
+        ☐ Include active mech
+        ☐ Print image
+        ☐ Print empty apparance frame (for drawing)
+        ☐ Print History
+        ☐ Print Apparance Notes
+        ☐ Print Pilot Notes
+        ☐ Print background fluff text
+        ☐ Add space for notes
+        ☐ Add space for sketches
   Mech Sheet:
     ☐ Image Selector
     ☐ Charts
     ☐ Print
+          Print options:
+        ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
+        ☐ Print image
+        ☐ Print empty apparance frame (for drawing)
+        ☐ Print Notes
+        ☐ Add space for notes (lined)
+        ☐ Add space for sketches (unlined)
 
-☐ mech attack bonus
+☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
 
+✔ remove most pilot_id calls, use only active pilot id @done(19-02-05 11:53)
+☐ add active config id
+
+✔ mech attack bonus @done(19-02-04 11:53)
 
 ✔ config info popover needs to occur outside of sidebar DOM @done(19-01-21 12:27)
 ☐ background field on pilot sheet should pop open a background selector

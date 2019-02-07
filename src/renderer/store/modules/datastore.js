@@ -73,6 +73,9 @@ const getters = {
   },
   getLicenseByName: state => license => {
     return state.Licenses.find(x => x.license === license)
+  },
+  getItemCollection: state => itemType => {
+    return state[itemType]
   }
 }
 

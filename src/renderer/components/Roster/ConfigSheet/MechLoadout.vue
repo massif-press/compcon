@@ -6,12 +6,20 @@
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
           <b-container fluid>
             <div v-for="(item, index) in loadout.weapons" :key="item.id + '_' + index">
-              <mech-weapon-item :weapon="item" />
+              <mech-weapon-item :mount="item" />
             </div>
             <hr>
             <div v-for="(item, index) in loadout.systems" :key="item.id + '_' + index">
-              <mech-system-item :system="item" />
+              <mech-system-item :mount="item" />
             </div>
+            <div v-if="freeSp">
+              <b-row>
+                <b-col cols=2 offset=10 >
+                  <b-btn block variant="info">Add System (x/ySP)</b-btn>
+                </b-col>
+              </b-row>
+            </div>
+            <br>
             <b-row>
               <b-col>
                 <div class="float-left" style="padding:10px">
@@ -68,7 +76,8 @@ export default {
   name: 'mech-loadout',
   components: { 'mech-weapon-item': MechWeapon, 'mech-system-item': MechSystem },
   props: [
-    'config_id'
+    'config_id',
+    'max_sp'
   ],
   data: () => ({
     tabIndex: 0,
@@ -76,39 +85,12 @@ export default {
   }),
   methods: {
     deleteLoadout (index) {
-      // this.$store.dispatch('splicePilot', {
-      //   id: this.pilot_id,
-      //   attr: 'loadouts',
-      //   start_index: index,
-      //   delete_count: 1
-      // })
-      // this.add--
     },
     addLoadout () {
       console.log(newLoadoutName(1))
-      // var newIdx = this.loadoutCount + this.add
-      // this.$store.dispatch('editPilot', {
-      //   id: this.pilot_id,
-      //   attr: `loadouts[${newIdx}]`,
-      //   val: {
-      //     id: io.newID(),
-      //     name: newLoadoutName(newIdx),
-      //     gear: []
-      //   }
-      // })
-      // this.add++
-      // this.$forceUpdate()
     },
     openAddItemMenu (index, gearLength) {
-    //   console.log('this should happen from modal, pass in loadout and pilot id')
-    //   this.$store.dispatch('editPilot', {
-    //     id: this.pilot_id,
-    //     attr: `loadouts[${index}].gear[${gearLength}]`,
-    //     val: {
-    //       id: Math.random().toString()
-    //     }
-    //   })
-    //   this.$forceUpdate()
+
     }
   },
   computed: {
@@ -125,6 +107,10 @@ export default {
     },
     loadout (id) {
       return this.getConfigLoadoutsById(id)
+    },
+    freeSp () {
+      var currentSpCost = 1 // TODO: calc this per loadout
+      return this.max_sp > currentSpCost
     }
   },
   watch: {

@@ -4,13 +4,13 @@
       <v-icon name="minus"/>
     </b-btn>
     <h5>
-      <editable-label :description="'Contact Name'" :attr="`contact[${index}].name`" :val="contact.name" :id="pilot_id"/>
+      <editable-label :description="'Contact Name'" :attr="`contacts[${index}].name`" :val="contact.name" />
     </h5>
     <em>
-      <editable-label :description="'Contact Relationship'" :attr="`contact[${index}].relationship`" :val="contact.relationship" :id="pilot_id"/>
+      <editable-label :description="'Contact Relationship'" :attr="`contacts[${index}].relationship`" :val="contact.relationship" />
     </em>
     <p class="card-text">
-      <editable-label :description="'Contact Description'" :attr="`contact[${index}].description`" :val="contact.description" :id="pilot_id"/>
+      <editable-label :description="'Contact Description'" :attr="`contacts[${index}].description`" :val="contact.description" />
     </p>
   </div>
 </template>
@@ -23,14 +23,12 @@
     components: { EditableLabel },
     props: [
       'index',
-      'contact',
-      'pilot_id'
+      'contact'
     ],
     methods: {
       deleteContact: function () {
         this.$store.dispatch('splicePilot', {
-          id: this.pilot_id,
-          attr: 'contact',
+          attr: 'contacts',
           start_index: this.index,
           delete_count: 1
         })

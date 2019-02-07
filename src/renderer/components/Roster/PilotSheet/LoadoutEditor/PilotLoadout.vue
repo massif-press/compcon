@@ -5,18 +5,25 @@
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
           <b-container fluid>
-            <div v-for="(item, index) in loadout.gear" :key="item.id + index">
-                <gear-item :item="item" />
+            <!-- <p>Armor:</p> -->
+            <br>
+            <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
+              <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
+              <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
             </div>
-              <b-card no-body v-if="loadout.gear.length < 6">
-                <b-row>
-                  <b-col cols=2><b-btn block @click="openAddItemMenu(index, loadout.gear.length)">ADD ITEM</b-btn></b-col>
-                  <b-col>
-                    <span>/////</span>
-                  </b-col>
-                </b-row>
-              </b-card>
+            <!-- <p>Weapons:</p> -->
             <hr>
+            <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
+              <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
+              <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
+            </div>
+            <!-- <p>Gear:</p> -->
+            <hr>
+            <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
+              <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
+              <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
+            </div>
+            <br>
             <b-row>
               <b-col>
                 <div class="float-left" style="padding:10px">
@@ -49,14 +56,16 @@
         </div>
       </b-tabs>
     </b-card>
-
+    <selector-modal ref="gearSelectorModal" :loadoutIndex="tabIndex" :itemIndex="itemIndex" :itemType="itemType" />
   </div>
 </template>
 
 <script>
 import GearItem from './GearItem'
+import GearSelector from './PilotGearSelector'
 import io from '@/store/data_io'
-import { mapGetters } from 'vuex'
+
+var rules = io.loadData('rules')
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
@@ -70,63 +79,57 @@ function newLoadoutName (count) {
 
 export default {
   name: 'pilot-loadout',
-  components: { GearItem },
-  props: [
-    'pilot_id'
-  ],
+  components: { GearItem, 'selector-modal': GearSelector },
   data: () => ({
     tabIndex: 0,
-    add: 0
+    itemIndex: 0,
+    itemType: null
   }),
   methods: {
     deleteLoadout (index) {
       this.$store.dispatch('splicePilot', {
-        id: this.pilot_id,
         attr: 'loadouts',
         start_index: index,
         delete_count: 1
       })
-      this.add--
+      this.tabIndex = index - 1
     },
     addLoadout () {
-      var newIdx = this.loadoutCount + this.add
+      var newIdx = this.$store.getters.getPilot.loadouts.length
       this.$store.dispatch('editPilot', {
-        id: this.pilot_id,
         attr: `loadouts[${newIdx}]`,
         val: {
           id: io.newID(),
           name: newLoadoutName(newIdx),
-          gear: []
+          items: {
+            'armor': new Array(rules.max_pilot_armor),
+            'weapon': new Array(rules.max_pilot_weapons),
+            'gear': new Array(rules.max_pilot_gear)
+          }
         }
       })
-      this.add++
-      this.$forceUpdate()
+      this.refresh()
     },
-    openAddItemMenu (index, gearLength) {
-      console.log('this should happen from modal, pass in loadout and pilot id')
-      this.$store.dispatch('editPilot', {
-        id: this.pilot_id,
-        attr: `loadouts[${index}].gear[${gearLength}]`,
-        val: {
-          id: Math.random().toString()
-        }
-      })
+    openSelector (index, itemType) {
+      this.itemIndex = index
+      this.itemType = itemType
+      this.$refs.gearSelectorModal.show()
+    },
+    refresh () {
       this.$forceUpdate()
+      this.$parent.$forceUpdate()
     }
   },
   computed: {
-    ...mapGetters([
-      'getPilotLoadouts',
-      'getPilotLoadoutById'
-    ]),
-    loadoutCount () {
-      return this.getLoadouts().length
-    },
     loadouts () {
-      return this.getPilotLoadouts()
+      return this.$store.getters.getPilot.loadouts
     },
-    loadout (id) {
-      return this.getPilotLoadoutsById(id)
+    max () {
+      return {
+        armor: rules.max_pilot_armor,
+        weapons: rules.max_pilot_weapons,
+        gear: rules.max_pilot_gear
+      }
     }
   },
   watch: {

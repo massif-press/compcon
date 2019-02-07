@@ -1,14 +1,10 @@
 <template>
   <b-card no-body>
-    <b-row>
-      <b-col cols=8><span :id="skill.id">{{skill.trigger}}</span></b-col>
-      <b-col cols=3><span class="float-right">{{bonus}}</span></b-col>
-    </b-row>
-    
-    <b-popover :target="skill.id"
-      placement="righttop"
-      triggers="hover focus"
-      :content="skill.description" />
+    <b-form-row>
+      <b-col cols=3 align-self="center">&emsp;<span :id="skill.id"><strong>{{skill.trigger}}</strong></span></b-col>
+      <b-col cols align-self="center"><p class="card-text">{{skill.description}}</p></b-col>
+      <b-col cols=1 align-self="center"><h3>+{{bonus}}</h3></b-col>
+    </b-form-row>
   </b-card>
 </template>
 

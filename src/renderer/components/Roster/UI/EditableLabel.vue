@@ -56,7 +56,6 @@
       save: function () {
         if (this.state) {
           this.$store.dispatch('editPilot', {
-            id: this.id,
             attr: this.attr,
             val: this.newVal
           })

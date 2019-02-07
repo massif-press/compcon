@@ -6,5 +6,8 @@
   "base_pilot_hp": 6,
   "base_pilot_evasion": 10,
   "base_pilot_edef": 10,
-  "base_pilot_speed": 4
+  "base_pilot_speed": 4,
+  "max_pilot_weapons": 2,
+  "max_pilot_armor": 1,
+  "max_pilot_gear": 3
 }

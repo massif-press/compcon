@@ -1,7 +1,87 @@
 [
   {
-    "id": "a",
-    "trigger": "test skill a",
-    "description": "this is a description for test skill a"
+    "id": "fists",
+    "trigger": "Apply Fists to Faces",
+    "description": "Get a bonus when you’re applying fists to faces"
+  },{
+    "id": "assault",
+    "trigger": "Assault",
+    "description": "Get a bonus when you’re assaulting a position, person, or group of people (in battle or otherwise), hard, fast, and up close"
+  },{
+    "id": "blowup",
+    "trigger": "Blow Something Up",
+    "description": "Get a bonus when you want to blow something up"
+  },{
+    "id": "threaten",
+    "trigger": "Threaten",
+    "description": "Get a bonus when you’re forcing someone’s hand by threatening them"
+  },{
+    "id": "control",
+    "trigger": "Take Control",
+    "description": "Get a bonus when you want to take control of something (an object, a captive, the situation)"
+  },{
+    "id": "survive",
+    "trigger": "Survive",
+    "description": "Get a bonus when you want to survive through harsh or unforgiving conditions"
+  },{
+    "id": "cool",
+    "trigger": "Cool and Collected",
+    "description": "Get a bonus when you want to stay cool and collected while performing an action that takes skill or precision"
+  },{
+    "id": "takeout",
+    "trigger": "Take Someone Out",
+    "description": "Get a bonus when want to take someone out, cleanly"
+  },{
+    "id": "flash",
+    "trigger": "Flash",
+    "description": "Get a bonus when you want to perform some flashy action, like shooting an apple off someone’s head"
+  },{
+    "id": "fast",
+    "trigger": "Get Somewhere Fast",
+    "description": "Get a bonus when you want to get somewhere fast, on foot or in a vehicle"
+  },{
+    "id": "unseen",
+    "trigger": "Unseen and Unheard",
+    "description": "Get a bonus when you want to act unseen and unheard"
+  },{
+    "id": "fhw",
+    "trigger": "Fix, Hack, Wreck",
+    "description": "Get a bonus when you want to fix, hack, or wreck a system or device or patch a bleeding wound"
+  },{
+    "id": "invent",
+    "trigger": "Invent or Create",
+    "description": "Get a bonus when you want to invent or create something with tools and supplies"
+  },{
+    "id": "readsituation",
+    "trigger": "Read a Situation",
+    "description": "Get a bonus when you want to read a situation for subtext, motive, or threat"
+  },{
+    "id": "spot",
+    "trigger": "Spot",
+    "description": "Get a bonus when you want to spot hidden details, track a target, make out distant objects, or observe with an eagle eye"
+  },{
+    "id": "investigate",
+    "trigger": "Investigate",
+    "description": "Get a bonus when you want to investigate, research a subject, or look at something in great detail"
+  },{
+    "id": "charm",
+    "trigger": "Charm",
+    "description": "Get a bonus when you want to charm an audience with your words or actions"
+  },{
+    "id": "rank",
+    "trigger": "Pull Rank",
+    "description": "Get a bonus when you want to pull rank on someone"
+  },{
+    "id": "streets",
+    "trigger": "Word on the Streets",
+    "description": "Get a bonus when you want to get the word on the streets"
+  },{
+    "id": "gethold",
+    "trigger": "Get a Hold Of",
+    "description": "Get a bonus when you want to get a hold of useful allies, assets, or connections"
+  },{
+    "id": "lead",
+    "trigger": "Lead or Inspire",
+    "description": "Get a bonus when you want to lead or inspire allies, troops, or a whole organization"
   }
 ]

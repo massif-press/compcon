@@ -14,16 +14,16 @@
             </b-row>
             <b-row>
               <b-col cols=auto>
-                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.hp, stats.armor]" :fills="['cyan', 'white']" :borders="['blue', 'gray']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.hp, stats.armor]" :fills="['cyan', 'white']" :borders="['blue', 'gray']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'" />
               </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.edef]" :fills="['green']" :borders="['lime']" :label="`e-defense: ${stats.edef}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.edef]" :fills="['green']" :borders="['lime']" :label="`e-defense: ${stats.edef}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.evasion]" :fills="['green']" :borders="['lime']" :label="`evasion: ${stats.evasion}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.evasion]" :fills="['green']" :borders="['lime']" :label="`evasion: ${stats.evasion}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
                 <b-col cols=auto>
-                  <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.speed]" :fills="['orange']" :borders="['darkred']" :label="`speed: ${stats.speed}`" :hover="'todo: list of item contributions'"/>
+                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.speed]" :fills="['orange']" :borders="['darkred']" :label="`speed: ${stats.speed}`" :hover="'todo: list of item contributions'"/>
                 </b-col>
             </b-row>
           </b-col>
@@ -44,8 +44,8 @@
             <b-row>
               <b-col>
                 <b-row><span class="header">Contacts</span></b-row>
-                <div v-for="(contact, index) in pilot.contacts" :key="index">
-                  <contact-item :index="index" :contact="contact" :pilot_id="pilot.id" class="border rounded" style="padding: 10px; margin:10px" />
+                <div v-for="(contact, index) in pilot.contacts" :key="index + pilot.contacts.length">
+                  <contact-item :index="index" :contact="contact" class="border rounded" style="padding: 10px; margin:10px" />
                 </div>
                 <b-row>
                   <b-col>
@@ -79,7 +79,9 @@
       <b-row>
         <b-col cols=1>
           <b-row><span class="header">Grit</span></b-row>
-          <b-row>+{{stats.grit}}</b-row>
+          <b-row align-h="center">
+            <b-col align-self="center"><h1>+{{stats.grit}}</h1></b-col>
+          </b-row>
         </b-col>
         <b-col>
           <b-row><span class="header">Skill Triggers<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
@@ -118,7 +120,7 @@
       <b-row><span class="header">gear-header</span></b-row>
       <b-row>
         <b-col>
-          <pilot-loadout :pilot_id="pilot.id" />
+          <pilot-loadout />
         </b-col>
       </b-row>
       <b-row><span class="header">Notes</span></b-row>      
@@ -157,7 +159,7 @@
   import SkillItem from './SkillItem'
   import TalentItem from './TalentItem'
   import CoreBonusItem from './CoreBonusItem'
-  import PilotLoadout from './PilotLoadout'
+  import PilotLoadout from './LoadoutEditor/PilotLoadout'
 
   export default {
     name: 'pilot-sheet',
@@ -173,9 +175,6 @@
       'image-selector-modal': ImageSelector,
       'contact-item': Contact
     },
-    props: [
-      'pilot_id'
-    ],
     data: () => ({
       contactKey: 0,
       activeLoadoutIdx: 0
@@ -183,8 +182,7 @@
     methods: {
       addContact: function () {
         this.$store.dispatch('editPilot', {
-          id: this.pilot.id,
-          attr: `contact[${this.pilot.contact.length}]`,
+          attr: `contacts[${this.pilot.contacts.length}]`,
           val: {name: 'New Contact (click to edit)', relationship: 'Edit Relationship', description: 'Edit Description'}
         })
         this.$forceUpdate()
@@ -204,6 +202,7 @@
         return this.$store.getters.getPilot
       },
       stats: function () {
+        console.log('calculating stats')
         return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx])
       }
     }

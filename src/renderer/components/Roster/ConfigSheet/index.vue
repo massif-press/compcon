@@ -4,7 +4,7 @@
    <div v-if="config.name">
     <b-container fluid>
       <b-row>
-        <b-col><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" :id="config.pilot_id"/></b-col>
+        <b-col><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" /></b-col>
         <b-col>{{ frame.name }}</b-col>
         <b-btn v-b-modal.frameInfoModal>frame info</b-btn>
           <b-modal id="frameInfoModal" size="lg" :title="frame.name">
@@ -26,7 +26,7 @@
           </b-row>
           <b-row><span class="header">Configuration Notes</span></b-row>
             <b-row>
-            <b-col><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" :id="config.pilot_id"/></b-col>
+            <b-col><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" /></b-col>
           </b-row>
         </b-col>
         
@@ -98,7 +98,7 @@
         <b-row><span class="header">Loadouts</span></b-row>
         <b-row>
           <b-col>
-            <mech-loadout :config_id="config.id" />
+            <mech-loadout :config_id="config.id" :max_sp="stats.sp" />
           </b-col>
         </b-row>        
 
@@ -159,6 +159,7 @@
         return this.$parent.configOpen
       },
       config: function () {
+        if (!this.$parent.activeConfigId) return {}
         return this.$store.getters.getConfigById(this.$parent.activeConfigId)
       },
       pilot: function () {
@@ -172,7 +173,6 @@
         return this.$store.getters.getMechStats(this.$parent.activeConfigId, this.config.loadouts[this.activeLoadoutIdx])
       },
       frame: function () {
-        console.log(this.item('Frames', this.config.frame_id))
         return this.item('Frames', this.config.frame_id)
       }
     }
