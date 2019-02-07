@@ -70,9 +70,13 @@
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 2,
-    "effect": "This weapon fires a swarm of nanobots instead of regular Ammunition. The weapon gains the Smart and Seeking properties. %smart seeking%",
+    "effect": "This weapon fires a swarm of nanobots instead of regular Ammunition. The weapon gains the Smart and Seeking properties",
     "data_type": "mod",
-    "description": "Nanite ammunition takes the principal of aggressive drone swarms and condenses it to a single round. Five maniples of autonomous nanites are packed into a shaped CONSUME/HIVE round that shatters on positive target impact. On impact (or airburst/ penetration detonation) the maniples are released and begin to eat away at surrounding tissue or superstructure. They proceed until maniple burnout or total target consumption, whichever occurs first. In flight, the maniples are able to hive-link and adjust their round's flight somewhat to ensure positive impact."
+    "description": "Nanite ammunition takes the principal of aggressive drone swarms and condenses it to a single round. Five maniples of autonomous nanites are packed into a shaped CONSUME/HIVE round that shatters on positive target impact. On impact (or airburst/ penetration detonation) the maniples are released and begin to eat away at surrounding tissue or superstructure. They proceed until maniple burnout or total target consumption, whichever occurs first. In flight, the maniples are able to hive-link and adjust their round's flight somewhat to ensure positive impact.",
+    "tags": [
+      {"id": "smart"},
+      {"id": "seeking"}
+    ]
   },
   {
     "id": "smart",
@@ -85,9 +89,14 @@
     "source": "HORUS",
     "license": "PEGASUS",
     "license_level": 3,
-    "effect": "This weapon gains the Smart property, as advanced sub-sentient AI routines and targeting guide its attacks. %smart%",
+    "effect": "This weapon gains the Smart property, as advanced sub-sentient AI routines and targeting guide its attacks.",
     "data_type": "mod",
-    "description": "A smart weapon modification package, applied to a compatible weapon system, makes an inert weapon into one capable of communicating with host NHPs and pilots."
+    "description": "A smart weapon modification package, applied to a compatible weapon system, makes an inert weapon into one capable of communicating with host NHPs and pilots.",
+    "tags": [
+      {
+        "id": "smart"
+      }
+    ]
   },
   {
     "id": "op",
@@ -133,9 +142,15 @@
     "source": "IPS-N",
     "license": "NELSON",
     "license_level": 2,
-    "effect": "As a free action, you may activate the shaped charge on your weapon to do +2d6 explosive damage on a successful hit. %limited(1)%",
+    "effect": "As a free action, you may activate the shaped charge on your weapon to do +2d6 explosive damage on a successful hit.",
     "data_type": "mod",
-    "description": "Pilots have long made this popular modification to their pikes. Now, IPS-N is offering these pilots' modifications as a licensed and quality-tested suite for pan-galactic printing. A pike modified with a charge -- often colloquially called a “Fire Pike”-- is a simple plasma projector integrated into war pike, tuned to project a plasma sheath over the pike's head. "
+    "description": "Pilots have long made this popular modification to their pikes. Now, IPS-N is offering these pilots' modifications as a licensed and quality-tested suite for pan-galactic printing. A pike modified with a charge -- often colloquially called a “Fire Pike”-- is a simple plasma projector integrated into war pike, tuned to project a plasma sheath over the pike's head.",
+    "tags": [
+      {
+        "id": "limited",
+        "val": 1
+      }
+    ]
   },
   {
     "id": "throughbolt",
@@ -165,9 +180,14 @@
     "source": "SSC",
     "license": "METALMARK",
     "license_level": 2,
-    "effect": "This weapon gains the AP tag. %ap%",
+    "effect": "This weapon gains the AP tag.",
     "data_type": "mod",
-    "description": "Armor Piercing Modifications describe any of a host of modifications that can be applied to ranged and melee kinetic and/or energy weapon, from hardening the tips and edges of melee weapons, to stocking hardnose depleted uranium frames instead of stock frames, to nudging the aperture of a beam weapon, or creating a more volatile mix of explosive chemicals to pack into a missile."
+    "description": "Armor Piercing Modifications describe any of a host of modifications that can be applied to ranged and melee kinetic and/or energy weapon, from hardening the tips and edges of melee weapons, to stocking hardnose depleted uranium frames instead of stock frames, to nudging the aperture of a beam weapon, or creating a more volatile mix of explosive chemicals to pack into a missile.",
+    "tags": [
+      {
+        "id": "ap"
+      }
+    ]
   },
   {
     "id": "wreathe",

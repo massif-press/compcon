@@ -93,17 +93,21 @@ export default {
       }
     }
 
-    for (var i = 0; i < loadout.gear.length; i++) {
-      var e = armor.find(x => x.id === loadout.gear[i].id)
+    if (loadout && loadout.items) {
+      for (var i = 0; i < loadout.items.armor.length; i++) {
+        if (!loadout.items.armor[i]) continue
 
-      if (e) {
-        if (e.armor) output.armor += e.armor
-        if (e.edef) output.edef = e.edef
-        if (e.evasion) output.evasion = e.evasion
-        if (e.evasion_bonus) output.evasion += e.evasion_bonus
-        if (e.speed) output.speed = e.speed
-        if (e.speed_bonus) output.speed += e.speed_bonus
-        if (e.hp_bonus) output.hp += e.hp_bonus
+        var e = armor.find(x => x.id === loadout.items.armor[i].id)
+
+        if (e) {
+          if (e.armor) output.armor += e.armor
+          if (e.edef) output.edef = e.edef
+          if (e.evasion) output.evasion = e.evasion
+          if (e.evasion_bonus) output.evasion += e.evasion_bonus
+          if (e.speed) output.speed = e.speed
+          if (e.speed_bonus) output.speed += e.speed_bonus
+          if (e.hp_bonus) output.hp += e.hp_bonus
+        }
       }
     }
 

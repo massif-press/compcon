@@ -45,7 +45,7 @@
   export default {
     name: 'editable-textfield',
     mixins: [ clickaway ],
-    props: ['attr', 'val', 'id', 'description'],
+    props: ['attr', 'val', 'description'],
     data: () => ({
       isEditing: false,
       newVal: ''
@@ -60,7 +60,6 @@
       },
       save: function () {
         this.$store.dispatch('editPilot', {
-          id: this.id,
           attr: this.attr,
           val: this.newVal
         })

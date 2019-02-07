@@ -5,18 +5,19 @@ import _ from 'lodash'
 
 const state = {
   Pilots: [],
-  selectedPilotId: ''
+  activePilotID: '',
+  activeConfigID: ''
 }
 
 const mutations = {
   SET_PILOT (state, payload) {
-    state.selectedPilotId = payload
+    state.activePilotID = payload
   },
   LOAD_ALL_PILOTS (state) {
     state.Pilots = io.loadUserData(Vue.prototype.userDataPath, 'pilots.json')
   },
   UPDATE_PILOT (state, payload) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
     } else {
@@ -24,7 +25,7 @@ const mutations = {
     }
   },
   SPLICE_PILOT (state, payload) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       var arr = _.get(state.Pilots[pilotIndex], payload.attr)
       arr.splice(payload.start_index, payload.delete_count)
@@ -34,7 +35,7 @@ const mutations = {
     }
   },
   CLONE_PILOT (state, payload) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       var newPilot = Object.assign({}, state.Pilots[pilotIndex])
       state.Pilots.push(newPilot)
@@ -81,28 +82,18 @@ const actions = {
 
 const getters = {
   getPilot: (state) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId) || {}
-  },
-  getPilotLoadouts: (state) => () => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts || {}
+    return state.Pilots.find(p => p.id === state.activePilotID) || {}
   },
   getConfigLoadouts: (state) => (configId) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId)
-      .configs.find(c => c.id === configId).loadouts || {}
-  },
-  getPilotLoadoutById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts.find(l => l.id === id) || {}
+    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === configId).loadouts || {}
   },
   getConfigLoadoutById: (state) => (configId, loadoutId) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId)
+    return state.Pilots.find(p => p.id === state.activePilotID)
       .configs.find(c => c.id === configId)
       .loadouts.find(l => l.id === loadoutId) || {}
   },
-  getPilotLoadoutByIndex: (state) => (idx) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).loadouts[idx] || {}
-  },
   getConfigLoadoutByIndex: (state) => (configId, loadoutIdx) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId)
+    return state.Pilots.find(p => p.id === state.activePilotID)
       .configs.find(c => c.id === configId)
       .loadouts[loadoutIdx] || {}
   },
@@ -113,13 +104,13 @@ const getters = {
     return state.Pilots.find(p => p.id === id) || {}
   },
   getConfigById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.find(c => c.id === id) || {}
+    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === id) || {}
   },
   getConfigIndex: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.selectedPilotId).configs.findIndex(c => c.id === id)
+    return state.Pilots.find(p => p.id === state.activePilotID).configs.findIndex(c => c.id === id)
   },
   getMechStats: (state) => (id, loadout) => {
-    var pilot = state.Pilots.find(p => p.id === state.selectedPilotId)
+    var pilot = state.Pilots.find(p => p.id === state.activePilotID)
     return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id), loadout)
   }
 }
