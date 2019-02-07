@@ -21,7 +21,7 @@
 
 <script>
   import GearCard from './GearCard'
-  import ItemTable from '../../UI/ItemTable'
+  import ItemTable from './ItemTable'
 
   export default {
     name: 'selector-modal',
@@ -41,8 +41,6 @@
           }
         })
         this.modalShow = false
-        console.log(this.$parent)
-        console.log(this.$parent.$parent)
         this.$parent.refresh()
       },
       show () {

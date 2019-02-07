@@ -1,26 +1,26 @@
 <template>
   <div class="wrapper">
-    <b-container id="content">
-      <transition>
+    <b-container id="content" fluid>
         page 1: create or import
-        page 2: name and callsign, image selector
-        page 3: background and history
-        page 4: skills
-        page 5: talents
-        page 6: gear
-        page 7: confirm
-      </transition>
+        <br>page 2: name and callsign, image selector
+        <br>page 3: background and history
+        <br>page 4: skills
+        <br>page 5: talents
+        <br>page 6: gear
+        <br>page 7: confirm
     </b-container>
 
     <b-container fluid id="footer">
-      <div style="padding=5px;">
-        <b-progress :value="value" :max="max" ></b-progress>
-      </div>
-      <div id="cancel-container">
-       <b-btn :to="'/roster'" size="sm" variant="danger">Cancel</b-btn>
-      </div>
-      <b-row align-v="end" align-h="center">
-        <div>
+      <b-row class="pad5">
+        <b-col>
+          <b-progress :value="value" :max="max" ></b-progress>
+        </b-col>
+      </b-row>
+      <b-form-row align-v="end" align-h="center" class="pad5">
+        <b-col cols=1>
+        <b-btn :to="'/pilot'" variant="warning">Cancel</b-btn>
+        </b-col>
+        <b-col offset=2>
           <b-button-toolbar>
             <b-button-group>
               <b-btn>&laquo; Back</b-btn>
@@ -39,8 +39,8 @@
               <b-btn>Next &raquo;</b-btn>
             </b-button-group>
           </b-button-toolbar>
-        </div>
-      </b-row>
+        </b-col>
+      </b-form-row>
     </b-container>
   </div>
 </template>
@@ -62,21 +62,21 @@
     font-family: 'Source Sans Pro', sans-serif; 
   }
 
+  .pad5 {
+    padding: 5px
+  }
+
 #content {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 90vh;
+  background-color: lightgray;
   overflow-y: scroll;
 }
 
 #footer {
   position: absolute;
+  background-color: cyan;
   bottom: 0;
-  width: 100%;
-}
-
-#cancel-container{
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  width: 100vw;
 }
 </style>

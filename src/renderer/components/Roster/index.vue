@@ -5,12 +5,11 @@
     <div class="wrapper">
 
     <!-- Sidebar -->
-    <sidebar />
+    <sidebar ref="sidebar" />
 
     <!-- Page Content -->
     <div id="content">
-      <pilot-sheet />
-      <config-sheet :config_id="activeConfigId"/>
+      <router-view></router-view>
     </div>
 
     </div>    
@@ -28,15 +27,11 @@
     components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
     data: () => ({
       activePilotId: '',
-      activeConfigId: '',
-      configOpen: false
+      activeConfigId: ''
     }),
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
-      },
-      toggleConfigSheet (bool) {
-        this.configOpen = bool
       }
     },
     computed: {
@@ -47,6 +42,11 @@
     created: function () {
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
+    },
+    watch: {
+      $route (to, from) {
+        this.$refs.sidebar.hideSidebar(to.path === '/level' || to.path === '/new')
+      }
     }
   }
 </script>
@@ -68,12 +68,14 @@
     display: flex;
     width: 100%;
 }
+</style>
 
-#content {
-  margin-left: 6vw;
-  margin-right: 0.5vw;
-  width: 100%;
-  height: 92.7vh;
-  overflow-y: scroll;
-}
+<style>
+  .roster-content {
+    margin-left: 6vw;
+    margin-right: 0.5vw;
+    width: 100%;
+    height: 92.7vh;
+    overflow-y: scroll;
+  }
 </style>

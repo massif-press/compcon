@@ -1,43 +1,51 @@
 Vue Parity:
   Pilot Sheet:
-    ☐ New Pilot Modal
+    ☐ New Pilot
     ☐ Background Selector
     ☐ Skill Selector
     ☐ License Selector
     ☐ Talent Selector
     ☐ Mech Skills Editor
     ☐ Core Bonus Selector
-    ☐ Level Up Modal
+    ☐ Level Up
     ☐ Pilot gear selector
+      ☐ gear cards
+    ☐ Avatar and portrait images
+    ☐ Pilot Stat Contributions
+    ☐ Mini Item Cards for Licenses
     ☐ Export
     ☐ Clone
     ☐ Delete
   Mech Sheet:
-    ☐ New Config Modal
-    ☐ Basic Info
+    ☐ New Config
+    ✔ Basic Info @done(19-02-07 15:08)
     ✔ Frame Info Modal @done(19-01-28 13:43)
+    ☐ Licenses Required
+    ☐ Image selection and default images
+    ☐ Attribute source popovers
     ☐ Stats Block
-      ☐ Add: Attack Bonus
-      ☐ Add: Tech Attack Bonus
+      ✔ Add: Attack Bonus @done(19-02-07 11:22)
+      ✔ Add: Tech Attack Bonus @done(19-02-07 11:22)
       ☐ Add: Limited Item Bonus 
     ☐ Mech Loadout Manager
+    ☐ Charts
     ☐ Export
     ☐ Clone
     ☐ Delete
   Gear Catalog:
-    ☐ Start
+    ☐ Licenses
+    ☐ Items
 
 Data:
   ✔ Tag arrays for mods @done(19-02-04 11:40)
 
-
 Bugs:
   ☐ Opening sidebar while modal is open. Move modals into index?
+  ✔ Pilot loadout tab doesn't refresh when gear is changed @done(19-02-07 15:07)
 
 1.0:
   Pilot Sheet:
     ☐ Custom Background (store on PS)
-    ☐ Image Selector
     ☐ Print
       Print options:
         ☐ Include active mech
@@ -51,7 +59,6 @@ Bugs:
         ☐ Add space for sketches
   Mech Sheet:
     ☐ Image Selector
-    ☐ Charts
     ☐ Print
           Print options:
         ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
@@ -65,6 +72,8 @@ Bugs:
 
 ✔ remove most pilot_id calls, use only active pilot id @done(19-02-05 11:53)
 ☐ add active config id
+
+☐ per-item notes
 
 ✔ mech attack bonus @done(19-02-04 11:53)
 

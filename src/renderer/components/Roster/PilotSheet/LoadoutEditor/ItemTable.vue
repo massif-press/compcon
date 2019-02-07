@@ -67,14 +67,20 @@
     computed: {
       items: function () {
         var cmp = this
+        // filter by rarity
+        var rarities = this.$store.getters.getRarities
+        var i = cmp.$store.getters.getItemCollection('PilotGear').filter(
+          x => rarities[x.source] >= x.rarity
+        )
 
-        var i = cmp.$store.getters.getItemCollection('PilotGear')
-          .filter(
-            x => cmp.itemType === x.type &&
-            cmp.selectedFilters.includes(x.source) &&
-            x.name.toLowerCase().includes(cmp.filterText.toLowerCase())
-          )
+        // filter UI options
+        i = i.filter(
+          x => cmp.itemType === x.type &&
+          cmp.selectedFilters.includes(x.source) &&
+          x.name.toLowerCase().includes(cmp.filterText.toLowerCase())
+        )
 
+        // sort UI options
         if (cmp.sortRule) {
           i.sort(function (a, b) {
             var field = cmp.sortRule.field

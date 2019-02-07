@@ -20,12 +20,29 @@ export default new Router({
     {
       path: '/roster',
       name: 'roster',
-      component: require('@/components/Roster/index').default
-    },
-    {
-      path: '/newpilot',
-      name: 'new-pilot',
-      component: require('@/components/NewPilot/index').default
+      component: require('@/components/Roster/index').default,
+      children: [
+        {
+          path: '',
+          component: require('@/components/Roster/PilotSheet/index').default
+        },
+        {
+          path: '/pilot',
+          component: require('@/components/Roster/PilotSheet/index').default
+        },
+        {
+          path: '/config',
+          component: require('@/components/Roster/ConfigSheet/index').default
+        },
+        {
+          path: '/new',
+          component: require('@/components/Roster/PilotSheet/New/index').default
+        },
+        {
+          path: '/level',
+          component: require('@/components/Roster/PilotSheet/Level/index').default
+        }
+      ]
     },
     {
       path: '/mods',

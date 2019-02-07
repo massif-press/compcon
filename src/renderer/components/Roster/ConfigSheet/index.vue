@@ -1,6 +1,6 @@
 <template>
-  <div id="config-sheet" :class="{expanded: open, collapsed : !open}">
-   <span class="float-right"><b-btn size="sm" variant="link" @click="close()"><v-icon name='window-close'  scale="1.5"/></b-btn></span>
+  <div id="config-sheet" class="roster-content">
+   <span class="float-right"><b-btn size="sm" variant="link" to="/pilot"><v-icon name='window-close'  scale="1.5"/></b-btn></span>
    <div v-if="config.name">
     <b-container fluid>
       <b-row>
@@ -144,9 +144,6 @@
       activeLoadoutIdx: 0
     }),
     methods: {
-      close: function () {
-        this.$parent.toggleConfigSheet(false)
-      },
       item: function (itemType, id) {
         return this.$store.getters.getItemById(itemType, id)
       },
@@ -155,9 +152,6 @@
       }
     },
     computed: {
-      open: function () {
-        return this.$parent.configOpen
-      },
       config: function () {
         if (!this.$parent.activeConfigId) return {}
         return this.$store.getters.getConfigById(this.$parent.activeConfigId)
@@ -189,14 +183,6 @@
   z-index: 2;
   transition: all .6s cubic-bezier(.13,.31,0,1.02);
   overflow-y: scroll;
-}
-
-#config-sheet.expanded {
-  right: 0;
-}
-
-#config-sheet.collapsed {
-  right: -95vw;
 }
 
 .header {

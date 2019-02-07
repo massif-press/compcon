@@ -27,21 +27,26 @@
             <b-row>
               <b-col>
                 <div class="float-left" style="padding:10px">
-                  <b-btn size="sm">
+                  <b-btn size="sm" v-b-modal.renameDialog>
                     Rename Loadout
                   </b-btn>
-                  <b-btn size="sm">
+                  <b-btn size="sm" @click="duplicateLoadout(index)">
                     Duplicate Loadout
                   </b-btn>
                 </div>
                 <div class="float-right" style="padding:10px">
-                  <b-btn size="sm" variant="danger" @click="()=>deleteLoadout(index)">
+                  <b-btn size="sm" variant="danger" v-b-modal.deleteDialog>
                     Delete {{loadout.name}}
                   </b-btn>
                 </div>
               </b-col>
             </b-row>
           </b-container>
+
+          <b-modal centered id="renameDialog" :title="`Rename Loadout: ${loadout.name}`" @ok="renameLoadout(index)" no-close-on-backdrop>
+            <b-form-input v-model="newLoadoutName" type="text" placeholder="New Loadout Name"></b-form-input>
+          </b-modal>
+
         </b-tab>
 
         <!-- New Tab Button (Using tabs slot) -->
@@ -54,9 +59,16 @@
           There are no saved gear loadouts for this pilot.
           <br> Create a new loadout by clicking the + button.
         </div>
+        
       </b-tabs>
     </b-card>
+
+    <b-modal centered id="deleteDialog" hide-header body-text-variant="danger" @ok="deleteLoadout()" ok-variant="danger">
+      <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
+    </b-modal>
+
     <selector-modal ref="gearSelectorModal" :loadoutIndex="tabIndex" :itemIndex="itemIndex" :itemType="itemType" />
+
   </div>
 </template>
 
@@ -83,16 +95,18 @@ export default {
   data: () => ({
     tabIndex: 0,
     itemIndex: 0,
-    itemType: null
+    itemType: null,
+    reloadTrigger: 0,
+    newLoadoutName: ''
   }),
   methods: {
-    deleteLoadout (index) {
+    deleteLoadout () {
       this.$store.dispatch('splicePilot', {
         attr: 'loadouts',
-        start_index: index,
+        start_index: this.tabIndex,
         delete_count: 1
       })
-      this.tabIndex = index - 1
+      this.tabIndex--
     },
     addLoadout () {
       var newIdx = this.$store.getters.getPilot.loadouts.length
@@ -109,6 +123,9 @@ export default {
         }
       })
       this.refresh()
+      setTimeout(() => {
+        this.tabIndex = newIdx
+      }, 10)
     },
     openSelector (index, itemType) {
       this.itemIndex = index
@@ -117,7 +134,30 @@ export default {
     },
     refresh () {
       this.$forceUpdate()
+      this.reloadTrigger = Math.random()
       this.$parent.$forceUpdate()
+    },
+    renameLoadout (index) {
+      if (this.newLoadoutName === '') alert('Loadout names cannot be blank') // TODO: replace w/ snackbar
+      else {
+        this.$store.dispatch('editPilot', {
+          attr: `loadouts[${index}].name`,
+          val: this.newLoadoutName
+        })
+        this.newLoadoutName = ''
+      }
+    },
+    duplicateLoadout (index) {
+      var newIdx = this.$store.getters.getPilot.loadouts.length
+      this.$store.dispatch('editPilot', {
+        attr: `loadouts[${newIdx}]`,
+        val: {
+          id: io.newID(),
+          name: `${this.loadouts[index].name} (Copy)`,
+          items: this.loadouts[index].items
+        }
+      })
+      this.refresh()
     }
   },
   computed: {
@@ -135,6 +175,9 @@ export default {
   watch: {
     tabIndex: function (val) {
       this.$parent.activeLoadoutIdx = this.tabIndex
+    },
+    reloadTrigger: function (val) {
+      this.$parent.loadoutForceReloadTrigger = this.reloadTrigger
     }
   }
 }
