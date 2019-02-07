@@ -2,7 +2,8 @@
   <div id="sidebar" 
     @mouseover="toggleSidebar(true)" 
     @mouseleave="toggleSidebar(false)" 
-    :class="{expanded: expand, collapsed : !expand}">
+    :class="{expanded: expand, collapsed : !expand}"
+    :hidden="hidden">
     <div id='sidebar-wrapper'>
       <div id='sidebar-header'>
         <div v-if="expand">users:</div>
@@ -24,8 +25,8 @@
       </div> <!--/content-->
       <div id='sidebar-footer'>
         <div> 
-          <b-button :to="'/newpilot'" block v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
-          <b-button :to="'/newpilot'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
+          <b-button :to="'/new'" block  v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
+          <b-button :to="'/new'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
         </div>
       </div> <!--/footer-->
     </div>
@@ -42,7 +43,8 @@ export default {
     expand: false,
     lockExpand: false,
     activeIndex: -1,
-    activeID: ''
+    activeID: '',
+    hidden: false
   }),
   methods: {
     toggleSidebar: function (bool, lock) {
@@ -56,8 +58,8 @@ export default {
         }
       }
     },
-    toggleConfigSheet: function (bool) {
-      this.$parent.toggleConfigSheet(bool)
+    hideSidebar: function (bool) {
+      this.hidden = bool
     }
   },
   computed: {

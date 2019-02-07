@@ -15,6 +15,11 @@
 <script>
   export default {
     name: 'gear-card',
-    props: ['itemData']
+    props: ['itemData'],
+    computed: {
+      pilot: function () {
+        return this.$store.getters.getPilot
+      }
+    }
   }
 </script>

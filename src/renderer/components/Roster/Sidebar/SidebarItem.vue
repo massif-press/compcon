@@ -9,9 +9,9 @@
             <b-container>
               <b-row>
                 <b-col>
-                  <div @click="hideConfigSheet()">
+                  <router-link to="/pilot">
                     <b-img left src="https://via.placeholder.com/115" />
-                  </div>
+                  </router-link>
                 </b-col>
                 <b-col>
                     {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
@@ -24,7 +24,7 @@
                 <b-col>
                   configs:
                   <div v-for="(config, index) in pilot.configs" :key="index">
-                    <b-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
+                    <b-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" :to="'/config'" @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
                       <b-popover boundary="viewport" v-bind:target="config.id + 'btn'" triggers="hover" placement="right" style="z-index:90!important">
                         <template slot="title">{{config.frame_id}}</template>
                         <span class="text-danger">{{config.status}}</span>

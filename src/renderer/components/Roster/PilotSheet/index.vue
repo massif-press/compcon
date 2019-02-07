@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="roster-content">
     <div v-if="pilot.name">
       <b-container fluid id="test">
         <b-row>
@@ -117,7 +117,7 @@
       <div v-for="cb in pilot.core_bonuses" :key="cb">
         <cb-item :cb="item('CoreBonuses', cb)" />
       </div>
-      <b-row><span class="header">gear-header</span></b-row>
+      <b-row><span class="header">Pilot Gear Loadout</span></b-row>
       <b-row>
         <b-col>
           <pilot-loadout />
@@ -177,7 +177,8 @@
     },
     data: () => ({
       contactKey: 0,
-      activeLoadoutIdx: 0
+      activeLoadoutIdx: 0,
+      loadoutForceReloadTrigger: 0
     }),
     methods: {
       addContact: function () {
@@ -202,7 +203,8 @@
         return this.$store.getters.getPilot
       },
       stats: function () {
-        console.log('calculating stats')
+        if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating pilot stats...')
+        else console.info('Loadout changed: recalculating pilot stats...')
         return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx])
       }
     }

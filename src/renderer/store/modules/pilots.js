@@ -112,6 +112,15 @@ const getters = {
   getMechStats: (state) => (id, loadout) => {
     var pilot = state.Pilots.find(p => p.id === state.activePilotID)
     return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id), loadout)
+  },
+  getRarities: (state) => {
+    var pilot = state.Pilots.find(p => p.id === state.activePilotID)
+    var manufacturers = io.loadData('manufacturers')
+    var rarities = {}
+    for (var m in manufacturers) {
+      rarities[manufacturers[m].id] = pilot.licenses.filter(x => x.source === manufacturers[m].id).length
+    }
+    return rarities
   }
 }
 

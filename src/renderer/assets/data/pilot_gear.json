@@ -150,7 +150,7 @@
       }
     ],
     "damage": "1 Explosive",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 3,
     "effect": "Though deceptively simple in appearance, this javelin-like weapon contains a hardened suite of intelligent hardware and a miniaturized pressure wave generator in the tip. It can be thrown very accurately up to range 5, recalled to hand as an action, and guides itself around cover and effect obstacles.",
     "description": "Developed following the suppression of anti-Armory elements in the initial wave of recolonization in the Dawline Shore, the Atlatl is a neo-primitivist weapon indigenous to New Madrassa, a voluntary Arcadian world set in a blended Neo-Bronze/Information Age idyll."
@@ -168,7 +168,7 @@
       "val": 1
     }],
     "damage": "2 Energy",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 4,
     "effect": "These rare and powerful weapons project a sheathed Energy field that ignites targets on impact.",
     "description": "One of a limited supply scavenged from Boundary Garden, this hardlight blade has been patched by independent Ecumenical contractors to a serviceable, minimum-milspec functionality. These are exotic weapons, and their wielders must be coached in their use by trained handlers."
@@ -185,10 +185,10 @@
       "val": 8
     }],
     "damage": "1d3 Kinetic",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 1,
     "effect": "This heavy anti-armor rifle fired superheated bullets used to punch through infantry-scale hardsuits and light mechs. It requires mounting on a tripod before use, though some models come with a built-in stand. The enormous kick from this weapon is infamous for dislocating rookie pilots' shoulders.",
-    "description": "Harrison Armory's KOTTOS distance-denial anti-armor system was ordered following repeated instances of HAAT legionnaires encountering hostile local chassis armed with sufficient anti-Kinetic/ablative armor; KOTTOS, developed in conjunction with GMS's Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable Kinetic anti-armor Kinetics."
+    "description": "Harrison Armory's KOTTOS distance-denial anti-armor system was ordered following repeated instances of HA legionnaires encountering hostile local chassis armed with sufficient anti-Kinetic/ablative armor; KOTTOS, developed in conjunction with GMS's Distant Venture campus, the KOTTOS represents the pinnacle of infantry-portable Kinetic anti-armor Kinetics."
   },
   {
     "id": "microcore",
@@ -207,7 +207,7 @@
       "val": 5
     }],
     "damage": "1 Energy",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 2,
     "effect": "An infantry-scale model of the larger, mech mounted lasers, this weapon requires heavy cooling after each use. Standard squad-support weapon for Armory legionnaires.",
     "description": "A Think-Tank product, the MicroCore is a miniaturized, infantry-portable version of the popular SolidCore laser cannon mounted atop HA's Sherman Chassis. The MicroCore has been tuned to not require windup on firing, but as a result must be “reloaded” after each shot with a new power core."
@@ -553,7 +553,7 @@
     "armor": 1,
     "edef": 10,
     "evasion": 10,
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 2,
     "other": "If you didn't move on your turn, at the end of your turn, until the start of your next turn, gain a protective shield that grants all ranged weapon attacks against you +1 difficulty.",
     "description": "Another combat-posture hardsuit, the STAMBHA employs a beefed-up buckler/flickershield system that protects its wearer from hostile fire. Resting somewhere between the Armory's DJED and ASHOKA lines, the STAMBHA is a favorite of the officer class who are willing to trade mobility for protection."
@@ -566,10 +566,10 @@
     "armor": 2,
     "edef": 8,
     "evasion": 8,
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 3,
     "other": "When you go Down and Out, instead of rolling a check, you can activate this armor's stasis system. Until the end of the current challenge, you are put into a stasis state where you cannot take damage, but also cannot move or take any actions (or be revived from this state). Once the challenge ends, roll for Down and Out as normal.",
-    "description": "The DJED Overarmor is a medium weight, combat-posture hardsuit designed to preserve its user in case of sudden traumatic/catastrophic injury. Favored by legionnaires on patrol-and-liaise missions, the DJED is an Armory favorite and the most commonly requisitioned hardsuit among HAAT personnel."
+    "description": "The DJED Overarmor is a medium weight, combat-posture hardsuit designed to preserve its user in case of sudden traumatic/catastrophic injury. Favored by legionnaires on patrol-and-liaise missions, the DJED is an Armory favorite and the most commonly requisitioned hardsuit among HA personnel."
   },
   {
     "id": "ashoka",
@@ -580,17 +580,17 @@
     "edef": 8,
     "evasion": 8,
     "speed": 3,
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 4,
     "other": "This heavy armor disperses shock and heat from overwhelming damage, reducing it to manageable levels. While wearing this armor, if you would take more than 1⁄2 your maximum HP in damage, reduce the damage instead to 1⁄2 your maximum HP.",
-    "description": "The Ashoka Overarmor Hardsuit is favored by frontline HAAT legionnaires in hostile colonies. Large and heavily armored, the ASHOKA is built to appear imposing: when it is needed, soft power has failed, and the Armory does not discount the memetic power of an intimidating appearance."
+    "description": "The Ashoka Overarmor Hardsuit is favored by frontline HA legionnaires in hostile colonies. Large and heavily armored, the ASHOKA is built to appear imposing: when it is needed, soft power has failed, and the Armory does not discount the memetic power of an intimidating appearance."
   },
   {
     "id": "icepack",
     "type": "armor",
     "name": "ICEPACK",
     "bonus": "Gain the ability to overcharge",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 4,
     "other": "This miniaturized reactor is integrated into armor and cannot be used without it. While wearing armor with this enhancement, each time you take a full repair, gain 5 charges. You can spend a charge as a pilot to take an extra pilot action on your turn.",
     "description": "A stabilized sliver of coldcore, the ICEPACK is a near-perpetual power system that allows for momentary overclocking of powered hardsuit components."
@@ -600,7 +600,7 @@
     "type": "armor",
     "name": "Buckler",
     "bonus": "Provides protection in plain clothes",
-    "source": "H.A.",
+    "source": "HA",
     "rarity": 1,
     "other": "While wearing plain clothes (not armor or a hardsuit), as a reaction to taking damage from a single source, you can activate this shield to reduce that damage to 0. This shield must recharge and can be used once every full repair.",
     "description": "This personal energy shield fits snugly under clothing and is standard issue to protect the Armory's colonial bureaucrats and collaborators while venturing outside of green zones."
@@ -664,7 +664,7 @@
     "source": "HORUS",
     "rarity": 1,
     "other": "This pattern prints a sheet of nanites that rapidly absorb and integrate into any piece of clothing. While wearing this clothing, any space adjacent to your pilot counts as your mech's sensor range for the purposes of making tech actions only.",
-    "description": "A rather benign code &emsp; as HORUS decrypts go &emsp; WILD_AND_CRAZY(WITH ALL MY FRIENDS) is a simple program, one that neuters their greywash nanites, rendering them docile. It then uses their massed processing power and semi-autonomous atmospheric movement capabilities to channel systemic and sensor processes, effectively acting as a cloud-projector around its host."
+    "description": "A rather benign code &emsp; as HORUS decrypts go &emsp; WILD_AND_CRAZY(WITHAL MY FRIENDS) is a simple program, one that neuters their greywash nanites, rendering them docile. It then uses their massed processing power and semi-autonomous atmospheric movement capabilities to channel systemic and sensor processes, effectively acting as a cloud-projector around its host."
   },
   {
     "id": "wayland",

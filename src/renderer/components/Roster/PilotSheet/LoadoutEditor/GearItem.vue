@@ -15,7 +15,7 @@
             <span class="float-right">{{itemData.source}}</span>
           </b-btn>
             <b-collapse :id="item.id + 'collapse'" class="mt-2">
-              <gear-card :itemData="itemData" />
+              <gear-card :itemData="itemData"/>
             </b-collapse>
         </div>
       </b-col>

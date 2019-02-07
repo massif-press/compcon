@@ -7,3 +7,10 @@ more armor properties:
 evasion_bonus
 edef_bonus
 hp_bonus
+
+
+on license page:
+*rank I* ------ *rank II* ----- Xrank IIIX
+-r1 item        -r2 item       -r3 item
+-r1 item                       -r3 item
+
