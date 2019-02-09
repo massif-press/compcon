@@ -1,6 +1,15 @@
 <template>
   <div class="wrapper">
     <b-container id="content" fluid>
+      <b-row>
+        <b-col>
+          1 - 2 - 3 - 4 - 5 - 6 - 7
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols=auto><b-btn style="height:100%"><v-icon name="angle-double-left" /></b-btn></b-col>
+        <b-col class="scroll">
+      <background-selector @selected="itemSelect" />
         page 1: create or import
         <br>page 2: name and callsign, image selector
         <br>page 3: background and history
@@ -8,37 +17,15 @@
         <br>page 5: talents
         <br>page 6: gear
         <br>page 7: confirm
+        </b-col>
+        <b-col cols=auto><b-btn style="height:100%"><v-icon name="angle-double-right" /></b-btn></b-col>
+      </b-row>
     </b-container>
 
     <b-container fluid id="footer">
-      <b-row class="pad5">
-        <b-col>
-          <b-progress :value="value" :max="max" ></b-progress>
-        </b-col>
-      </b-row>
       <b-form-row align-v="end" align-h="center" class="pad5">
         <b-col cols=1>
         <b-btn :to="'/pilot'" variant="warning">Cancel</b-btn>
-        </b-col>
-        <b-col offset=2>
-          <b-button-toolbar>
-            <b-button-group>
-              <b-btn>&laquo; Back</b-btn>
-            </b-button-group>
-            &emsp;
-            <b-button-group>
-              <b-btn>Callsign</b-btn>
-              <b-btn>Background</b-btn>
-              <b-btn>Skills</b-btn>
-              <b-btn>Talents</b-btn>
-              <b-btn>Gear</b-btn>
-              <b-btn>Finalize</b-btn>
-            </b-button-group>
-            &emsp;
-            <b-button-group>
-              <b-btn>Next &raquo;</b-btn>
-            </b-button-group>
-          </b-button-toolbar>
         </b-col>
       </b-form-row>
     </b-container>
@@ -46,12 +33,19 @@
 </template>
 
 <script>
+  import BackgroundSelector from './BackgroundSelector'
   export default {
     name: 'new-pilot',
+    components: { BackgroundSelector },
     data: () => ({
       value: 1,
       max: 6
-    })
+    }),
+    methods: {
+      itemSelect: function (payload) {
+        console.log(payload)
+      }
+    }
   }
 </script>
 
@@ -67,15 +61,17 @@
   }
 
 #content {
-  width: 100vw;
-  height: 90vh;
   background-color: lightgray;
+}
+
+.scroll {
+  height: 92.5vh;
   overflow-y: scroll;
 }
 
 #footer {
   position: absolute;
-  background-color: cyan;
+  background-color: transparent;
   bottom: 0;
   width: 100vw;
 }

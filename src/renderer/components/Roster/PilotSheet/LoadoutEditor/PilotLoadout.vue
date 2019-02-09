@@ -23,6 +23,12 @@
               <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
               <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
             </div>
+            <!-- if player has combat webbing equipped -->
+            <div v-if="hasWebbing(loadout.items)">
+              <hr>
+              <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
+              <gear-item v-else itemType="Gear or Weapon" empty @clicked="openSelector(null, 'webbing')"/>
+            </div>
             <br>
             <b-row>
               <b-col>
@@ -158,6 +164,10 @@ export default {
         }
       })
       this.refresh()
+    },
+    hasWebbing (items) {
+      console.log(items)
+      return items.armor.find(x => x && x.id === 'webbing')
     }
   },
   computed: {

@@ -175,13 +175,8 @@
 
 <style scoped>
 #config-sheet {
-  height: 93vh;
-  width: 94vw;
   background-color: lightgray;
-  position: absolute;
-  top:7.25vh;
   z-index: 2;
-  transition: all .6s cubic-bezier(.13,.31,0,1.02);
   overflow-y: scroll;
 }
 

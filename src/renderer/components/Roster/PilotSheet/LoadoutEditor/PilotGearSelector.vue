@@ -34,8 +34,11 @@
     }),
     methods: {
       equipItem () {
+        var attr = this.itemType === 'webbing'
+          ? [ 'loadouts', this.loadoutIndex, 'items', 'webbing' ]
+          : [ 'loadouts', this.loadoutIndex, 'items', this.itemType, this.itemIndex ]
         this.$store.dispatch('editPilot', {
-          attr: ['loadouts', this.loadoutIndex, 'items', this.itemType, this.itemIndex],
+          attr: attr,
           val: {
             id: this.stagedItem.id
           }

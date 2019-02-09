@@ -8,8 +8,8 @@ Vue Parity:
     ☐ Mech Skills Editor
     ☐ Core Bonus Selector
     ☐ Level Up
-    ☐ Pilot gear selector
-      ☐ gear cards
+    ✔ Pilot gear selector @done(19-02-09 13:41)
+      ✔ gear cards @done(19-02-09 13:41)
     ☐ Avatar and portrait images
     ☐ Pilot Stat Contributions
     ☐ Mini Item Cards for Licenses
@@ -74,6 +74,10 @@ Bugs:
 ☐ add active config id
 
 ☐ per-item notes
+
+☐ generisize combat webbing to a generic extra equip bonus
+
+✔ combat webbing armor gives +1 weapon / gear @done(19-02-09 13:13)
 
 ✔ mech attack bonus @done(19-02-04 11:53)
 
