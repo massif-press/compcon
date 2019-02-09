@@ -77,12 +77,8 @@
         this.$parent.activeIndex = this.index
         this.$store.dispatch('loadPilot', this.pilot.id)
       },
-      hideConfigSheet () {
-        this.$parent.toggleConfigSheet(false)
-      },
       showConfigSheet (configId) {
         this.$parent.$parent.activeConfigId = configId
-        this.$parent.toggleConfigSheet(true)
         this.$parent.toggleSidebar(false, true)
       }
     },

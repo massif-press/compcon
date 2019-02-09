@@ -26,9 +26,9 @@
       <!-- Content -->
         <b-row>
           <b-col cols=auto>&nbsp;</b-col>
-          <b-col><b-btn block @click="updateSort('name')">name</b-btn></b-col>
-          <b-col>slotted quick data headers</b-col>
+          <b-col ><b-btn block @click="updateSort('name')">name</b-btn></b-col>
           <b-col cols=auto><b-btn block @click="updateSort('source')">source</b-btn></b-col>
+          <b-col cols=auto><b-btn block @click="updateSort('rarity')">rarity</b-btn></b-col>
         </b-row>
         <hr>
         <div class="scrollcontainer">
@@ -40,12 +40,14 @@
               <span class="float-left">{{item.name}}</span>
             </b-btn>
           </b-col>
-          <b-col>slotted quick data</b-col>
           <b-col cols=1>{{item.source}}</b-col>
+          <b-col cols=1><span v-for="n in item.rarity" :key="n + item.id" v-html="'*'" /></b-col>
         </b-form-row>
         <b-collapse :id="`collapse_${item.id}`">
           <b-row>
-            <b-col>expander</b-col>
+            <b-col>
+              <gear-card :itemData="item"/>
+            </b-col>
           </b-row>
         </b-collapse>
       </div>
@@ -55,8 +57,11 @@
 </template>
 
 <script>
+  import GearCard from './GearCard'
+
   export default {
     name: 'item-table',
+    components: { GearCard },
     props: [ 'itemType' ],
     data: () => ({
       selectedIndex: -1,
@@ -73,10 +78,13 @@
           x => rarities[x.source] >= x.rarity
         )
 
+        // filter by type
+        i = cmp.itemType === 'webbing'
+          ? i.filter(x => x.type === 'gear' || x.type === 'weapon')
+          : i.filter(x => cmp.itemType === x.type)
+
         // filter UI options
-        i = i.filter(
-          x => cmp.itemType === x.type &&
-          cmp.selectedFilters.includes(x.source) &&
+        i = i.filter(x => cmp.selectedFilters.includes(x.source) &&
           x.name.toLowerCase().includes(cmp.filterText.toLowerCase())
         )
 
@@ -84,11 +92,17 @@
         if (cmp.sortRule) {
           i.sort(function (a, b) {
             var field = cmp.sortRule.field
-            var fA = a[field].toLowerCase()
-            var fB = b[field].toLowerCase()
-            return cmp.sortRule.dir === 'asc'
-              ? (fA < fB) ? -1 : (fA > fB) ? 1 : 0
-              : (fA > fB) ? -1 : (fA < fB) ? 1 : 0
+            if (Number.isInteger(a[field])) {
+              return cmp.sortRule.dir === 'asc'
+                ? a[field] - b[field]
+                : b[field] - a[field]
+            } else {
+              var fA = a[field].toLowerCase()
+              var fB = b[field].toLowerCase()
+              return cmp.sortRule.dir === 'asc'
+                ? (fA < fB) ? -1 : (fA > fB) ? 1 : 0
+                : (fA > fB) ? -1 : (fA < fB) ? 1 : 0
+            }
           })
         }
 
