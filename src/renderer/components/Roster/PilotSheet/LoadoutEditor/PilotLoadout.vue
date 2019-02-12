@@ -27,7 +27,7 @@
             <div v-if="hasWebbing(loadout.items)">
               <hr>
               <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
-              <gear-item v-else itemType="Gear or Weapon" empty @clicked="openSelector(null, 'webbing')"/>
+              <gear-item v-else itemType="Combat Webbing" empty @clicked="openSelector(null, 'webbing')"/>
             </div>
             <br>
             <b-row>
@@ -63,7 +63,7 @@
         <!-- Render this if no tabs -->
         <div slot="empty" class="text-center text-muted">
           There are no saved gear loadouts for this pilot.
-          <br> Create a new loadout by clicking the + button.
+          <br> Create a new loadout by clicking the <v-icon name="plus-circle" scale="0.75"/> button.
         </div>
         
       </b-tabs>
@@ -166,7 +166,6 @@ export default {
       this.refresh()
     },
     hasWebbing (items) {
-      console.log(items)
       return items.armor.find(x => x && x.id === 'webbing')
     }
   },

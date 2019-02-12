@@ -37,7 +37,19 @@
             <b-row>
               <b-col>
                 <b-row><span class="header">Biography</span></b-row>
-                <b-row><b-col cols=12 style="text-align:center"><b> {{ item('Backgrounds', 'ai').name }} </b></b-col></b-row>
+                <b-row>
+                  <b-col cols=12 style="text-align:center">
+                    <b> {{ item('Backgrounds', pilot.background).name }} </b>
+                    <b-btn size="sm" variant="link" class="edit-btn" v-b-modal.PSbackgroundModal><v-icon name="edit" /></b-btn>
+                  </b-col>
+                  <!-- Background Selector Modal -->
+                  <b-modal ref="PSbackgroundModal" id="PSbackgroundModal" size="xl" centered hide-footer
+                  title="Change Pilot Background" >
+                  <h5 style="text-align: center">Current Background: {{item('Backgrounds', pilot.background).name }}</h5>
+                  <hr>
+                    <background-selector @selected="backgroundSelect" />
+                  </b-modal>
+                </b-row>
                 <editable-textfield :description="'History'" :attr="'history'" :val="pilot.history" :id="pilot.id"/>
               </b-col>
             </b-row>
@@ -84,21 +96,27 @@
           </b-row>
         </b-col>
         <b-col>
-          <b-row><span class="header">Skill Triggers<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+          <b-row><span class="header">Skill Triggers<b-btn size="sm" variant="link" class="edit-btn" v-b-modal.PSskillsModal><v-icon name="edit" /></b-btn></span>
+            <!-- Skill Selector Modal -->
+            <b-modal ref="PSskillsModal" id="PSskillsModal" size="xl" centered hide-footer title="Pilot Skills" >
+              <skill-selector :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills"/>
+            </b-modal>          
+          
+          </b-row>
           <div v-for="skill in pilot.skills" :key="skill.id">
-            <skill-item :skill="item('Skills', skill.id)" :bonus="skill.bonus" />
+            <skill-item :skillData="item('Skills', skill.id)" :skill="skill" />
           </div>
         </b-col>
       </b-row>
-      <b-row><span class="header">Licenses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">Licenses<b-btn size="sm" variant="link" class="edit-btn"><v-icon name="edit" /></b-btn></span></b-row>
       <div v-for="(license, index) in pilot.licenses" :key="index">
         <license-item :license="license" :licenseData="getLicense(license.name)" />
       </div>
-      <b-row><span class="header">Talents<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">Talents<b-btn size="sm" variant="link" class="edit-btn"><v-icon name="edit" /></b-btn></span></b-row>
         <div v-for="talent in pilot.talents" :key="talent.id">
           <talent-item :talent="talent" :talentData="item('Talents', talent.id)"/>
         </div>
-      <b-row><span class="header">Mech Skills<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">Mech Skills<b-btn size="sm" variant="link" class="edit-btn"><v-icon name="edit" /></b-btn></span></b-row>
       <b-row align-content="center">
         <b-col cols=3>
           <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`HULL: ${stats.mech.hull}`" />
@@ -113,7 +131,7 @@
           <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :fills="['blue', 'gray']" :borders="['cyan', 'black']" :label="`ENGINEERING: ${stats.mech.eng}`" />
         </b-col>
       </b-row>
-      <b-row><span class="header">CORE Bonuses<span class="edit-btn"><v-icon name="edit" /></span></span></b-row>
+      <b-row><span class="header">CORE Bonuses<b-btn size="sm" variant="link" class="edit-btn"><v-icon name="edit" /></b-btn></span></b-row>
       <div v-for="cb in pilot.core_bonuses" :key="cb">
         <cb-item :cb="item('CoreBonuses', cb)" />
       </div>
@@ -160,6 +178,8 @@
   import TalentItem from './TalentItem'
   import CoreBonusItem from './CoreBonusItem'
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
+  import BackgroundSelector from './Selectors/BackgroundSelector'
+  import SkillSelector from './Selectors/SkillSelector'
 
   export default {
     name: 'pilot-sheet',
@@ -173,7 +193,9 @@
       PilotLoadout,
       'cb-item': CoreBonusItem,
       'image-selector-modal': ImageSelector,
-      'contact-item': Contact
+      'contact-item': Contact,
+      BackgroundSelector,
+      SkillSelector
     },
     data: () => ({
       contactKey: 0,
@@ -196,6 +218,21 @@
       },
       getLicense: function (name) {
         return this.$store.getters.getLicenseByName(name.toLowerCase())
+      },
+      backgroundSelect: function (bgReturn) {
+        this.$refs.PSbackgroundModal.hide()
+        this.$store.dispatch('editPilot', {
+          attr: `background`,
+          val: bgReturn.value
+        })
+      },
+      setPilotSkills: function (skillArray) {
+        this.$refs.PSskillsModal.hide()
+        this.$store.dispatch('editPilot', {
+          attr: `skills`,
+          val: skillArray
+        })
+        this.$forceUpdate()
       }
     },
     computed: {
@@ -210,6 +247,7 @@
     }
   }
 </script>
+
 <style scoped>
 #test {
   background-color:lightskyblue;
@@ -230,7 +268,8 @@
 }
 
 .edit-btn {
-  margin-left: 10px;
+  position: relative;
+  margin-left: -10px;
   fill-opacity: 0.5;
   cursor: pointer;
   transition: 0.3s all;
