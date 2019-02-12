@@ -1,40 +1,40 @@
 <template>
   <div>
-    <b-row>
-      <b-col cols=12>
-        <b-btn block @click="showModal()">
+    <v-layout>
+      <v-flex xs12>
+        <v-btn block @click="showModal()">
           {{license.source}} {{license.name}} - {{license.level}}
-        </b-btn>
-      </b-col>
-    </b-row>
+        </v-btn>
+      </v-flex>
+    </v-layout>
     <div>
       <b-modal ref="licenseModal" size="xl" centered hide-header>
         <h5 centered>{{licenseData.source}}</h5>
         <h1 centered>{{licenseData.license}}</h1>
         <b-card no-body>Rank I</b-card>
-        <b-row>
-          <b-col cols=auto v-for="item in licenseData.unlocks[0]" :key="item.id">
+        <v-layout>
+          <v-flex shrink v-for="item in licenseData.unlocks[0]" :key="item.id">
             <item-badge :item="item" :locked="false"/>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <br>
         <b-card no-body :class="{locked: isLocked(2)}">Rank II</b-card>
-        <b-row>
-          <b-col cols=auto v-for="item in licenseData.unlocks[1]" :key="item.id">
+        <v-layout>
+          <v-flex shrink v-for="item in licenseData.unlocks[1]" :key="item.id">
             <item-badge :item="item" :locked="isLocked(2)" />
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <br>
         <b-card no-body :class="{locked: isLocked(2)}">Rank III</b-card>
-        <b-row>
-          <b-col cols=auto v-for="item in licenseData.unlocks[2]" :key="item.id">
+        <v-layout>
+          <v-flex shrink v-for="item in licenseData.unlocks[2]" :key="item.id">
             <item-badge :item="item" :locked="isLocked(3)"/>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <div slot="modal-footer" class="w-100">
-          <b-btn size="sm" class="float-right" variant="primary" @click="hideModal()">
+          <v-btn size="sm" class="float-right" variant="primary" @click="hideModal()">
             Close
-          </b-btn>
+          </v-btn>
         </div>    
       </b-modal>
     </div>

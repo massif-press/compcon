@@ -1,19 +1,16 @@
 <template>
   <div>
-    <!-- Image and text -->
-    <b-navbar type="light" variant="fade">
-      <b-navbar-brand href="#">
-        BootstrapVue {{ versionNumber }}
-      </b-navbar-brand>
-      <div class="ml-group">
-        <b-button href=#>Long Link</b-button>
-        <b-button>about</b-button>
-        <b-button>options</b-button>
-        <b-button>help</b-button>
-        <router-link to="/" tag="b-button">back</router-link>
-
-      </div>
-    </b-navbar>
+    <v-toolbar>
+      <v-toolbar-title>BootstrapVue {{ versionNumber }}</v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn flat>Gear Catalog</v-btn>
+        <v-btn flat>About</v-btn>
+        <v-btn flat>Options</v-btn>
+        <v-btn flat>Help</v-btn>
+        <v-btn to="/" flat>Back</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
   </div>
 </template>
 
@@ -27,6 +24,3 @@
     }
   }
 </script>
-
-<style>
-</style>

@@ -2,29 +2,29 @@
   <div>
     <slot></slot>
     <b-modal ref="myModalRef" size="xl" :title="title" centered>
-      <b-container id="gallery">
-        <b-row class="vert-pad">
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-        </b-row>
-        <b-row class="vert-pad">
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-        </b-row>
-        <b-row class="vert-pad">
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
-          <b-col cols=3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </b-col>
+      <v-container id="gallery">
+        <v-layout class="vert-pad">
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+        </v-layout>
+        <v-layout class="vert-pad">
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+        </v-layout>
+        <v-layout class="vert-pad">
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
+          <v-flex xs3> <b-img center blank width="225" height="225" blank-color="#777" thumbnail/> </v-flex>
 
-        </b-row>
-      </b-container>
+        </v-layout>
+      </v-container>
       <div slot="modal-footer" class="w-100">
-        <b-btn size="sm" class="float-right" variant="primary" @click="hideModal()">
+        <v-btn size="sm" class="float-right" variant="primary" @click="hideModal()">
           Close
-        </b-btn>
+        </v-btn>
       </div>    
     </b-modal>
   </div>

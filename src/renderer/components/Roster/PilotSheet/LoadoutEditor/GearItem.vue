@@ -1,25 +1,25 @@
 <template>
   <b-card no-body>
-    <b-row>
-      <b-col cols=2>
-        <b-btn v-if="empty" block @click="clicked"> Equip {{ itemType }}</b-btn>
-        <b-btn v-else block @click="clicked">{{ itemType }}</b-btn>
-      </b-col>
-      <b-col>
+    <v-layout>
+      <v-flex xs2>
+        <v-btn v-if="empty" block @click="clicked"> Equip {{ itemType }}</v-btn>
+        <v-btn v-else block @click="clicked">{{ itemType }}</v-btn>
+      </v-flex>
+      <v-flex>
         <div v-if="empty">
           ////
         </div>
         <div v-else>
-          <b-btn block v-b-toggle="item.id + 'collapse'" :key="item.id">
+          <v-btn block v-b-toggle="item.id + 'collapse'" :key="item.id">
             <span class="float-left">{{itemData.name}} </span> 
             <span class="float-right">{{itemData.source}}</span>
-          </b-btn>
+          </v-btn>
             <b-collapse :id="item.id + 'collapse'" class="mt-2">
               <gear-card :itemData="itemData"/>
             </b-collapse>
         </div>
-      </b-col>
-    </b-row>
+      </v-flex>
+    </v-layout>
   </b-card>
 </template>
 

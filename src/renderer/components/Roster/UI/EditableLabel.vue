@@ -1,8 +1,5 @@
 <template>
-  <div id="label-container"
-    v-on-clickaway="away"
-    :attr = "attr">
-
+  <div id="label-container" v-on-clickaway="away" :attr = "attr">
     <div v-if="isEditing">
       <b-form-group 
         id="fieldset" 
@@ -18,8 +15,8 @@
           v-model="newVal"
           :state="state" ></b-form-input>
             <b-input-group-append>
-              <b-btn @click="save()"><v-icon name="save"/> </b-btn>
-              <b-btn @click="cancel()"><v-icon name="ban"/> </b-btn>
+              <v-btn small flat icon @click="save()"><v-icon>save</v-icon></v-btn>
+              <v-btn small flat icon @click="cancel()"><v-icon>cancel</v-icon></v-btn>
             </b-input-group-append>
           </b-input-group>
       </b-form-group>    

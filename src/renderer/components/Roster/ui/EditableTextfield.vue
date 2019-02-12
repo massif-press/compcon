@@ -6,34 +6,34 @@
     <div v-if="isEditing">
       <span>{{description}}</span>
       <b-form-group>
-          <b-row>
+          <v-layout>
             <b-form-textarea
               :value="val"
               v-model="newVal"
               rows=5 
               no-resize
               style="margin:0 15px 0 15px" />
-          </b-row>
-          <b-row>
-            <b-col>
-              <b-btn size="sm" class="float-right" @click="save()"><v-icon name="save"/> </b-btn>
-              <b-btn size="sm" class="float-right" @click="cancel()"><v-icon name="ban"/> </b-btn>
-            </b-col>
-          </b-row>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <v-btn size="sm" class="float-right" @click="save()"><b-icon name="save"/> </v-btn>
+              <v-btn size="sm" class="float-right" @click="cancel()"><b-icon name="ban"/> </v-btn>
+            </v-flex>
+          </v-layout>
       </b-form-group>    
     </div>
 
     <div v-else>
-      <b-row>
-        <b-col class='highlight' @click="edit(true)">
+      <v-layout>
+        <v-flex class='highlight' @click="edit(true)">
           <div v-if="val">
             <span style="white-space: pre-wrap;">{{ val }}</span>
           </div>
           <div v-else>
             <span class="text-muted" style="white-space: pre-wrap;">Click to add {{description}}</span>
           </div>
-        </b-col>
-      </b-row>
+        </v-flex>
+      </v-layout>
     </div>
 
   </div>

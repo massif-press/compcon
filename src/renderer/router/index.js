@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
-Vue.component('v-icon', Icon)
+Vue.component('b-icon', Icon)
 Vue.use(Router)
 
 export default new Router({
