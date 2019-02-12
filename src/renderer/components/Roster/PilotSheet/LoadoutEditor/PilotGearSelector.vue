@@ -4,16 +4,16 @@
     <item-table :itemType="itemType" v-on:select-item="stageEquip($event)" />
     <hr>
     <div>
-      <b-container fluid>
-        <b-row>
-          <b-col cols=10>
-            <b-btn size="lg" block :disabled="!itemSelected" @click="()=>equipItem()">Equip</b-btn>
-          </b-col>
-          <b-col>
-            <b-btn size="sm" block class="float-right" variant="primary" @click="modalShow = false">Cancel</b-btn>
-          </b-col>
-        </b-row>
-      </b-container>
+      <v-container fluid>
+        <v-layout>
+          <v-flex xs10>
+            <v-btn size="lg" block :disabled="!itemSelected" @click="()=>equipItem()">Equip</v-btn>
+          </v-flex>
+          <v-flex>
+            <v-btn size="sm" block class="float-right" variant="primary" @click="modalShow = false">Cancel</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </div>
     </b-modal>
   </div>

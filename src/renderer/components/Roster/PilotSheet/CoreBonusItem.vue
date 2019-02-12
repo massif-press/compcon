@@ -1,6 +1,6 @@
 <template>
-  <b-row>
-    <b-col>
+  <v-layout>
+    <v-flex>
       <b-card no-body>
         <b-card-header header-tag="header">
           {{cb.name}} ({{cb.source}})
@@ -12,8 +12,8 @@
             </p>
           </b-card-body>
       </b-card>
-    </b-col>
-  </b-row>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

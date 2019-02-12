@@ -1,11 +1,11 @@
 <template>
-  <b-col class="d-flex justify-content-center">
+  <v-flex class="d-flex justify-content-center">
     {{attr}}: <span class="val" :id="attr + val">&nbsp;{{val}}</span>
     <b-popover :target="attr + val"
       placement="bottom"
       triggers="hover focus"
       :content="`todo: breakdown of contributing factors to this value`" />
-  </b-col>
+  </v-flex>
 </template>
 
 <script>

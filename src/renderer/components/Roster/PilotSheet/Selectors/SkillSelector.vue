@@ -1,89 +1,89 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-col cols=3  style="border: 1px solid slategray">
-        <b-row>
-          <b-col style="text-align: center">
+  <v-container fluid>
+    <v-layout>
+      <v-flex xs3 style="border: 1px solid slategray">
+        <v-layout>
+          <v-flex style="text-align: center">
             <br>
           <h3>Pilot Skills</h3>
           <hr>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex>
             <div v-for="skill in skills" :key="`summary_${skill.id}`">
-                <b-row>
-                  <b-col cols=1><b>+{{skill.bonus}}</b></b-col>
-                  <b-col>{{skillById(skill.id).trigger}} &nbsp;
+                <v-layout>
+                  <v-flex xs1><b>+{{skill.bonus}}</b></v-flex>
+                  <v-flex>{{skillById(skill.id).trigger}} &nbsp;
                     <b-badge v-if="skill.specialty" variant="success" v-b-tooltip title="+1 Accuracy">Speciality</b-badge> 
                     <b-badge v-else-if="skill.flaw" variant="danger" v-b-tooltip title="-1 Accuracy">Flaw</b-badge> 
-                  </b-col>
-                </b-row>
+                  </v-flex>
+                </v-layout>
             </div>
-          </b-col> 
-        </b-row>
-        <b-row><b-col><hr></b-col></b-row>
-        <b-row>
-          <b-col>
-            <b-alert variant="success" :show="selectionComplete" fade>
+          </v-flex> 
+        </v-layout>
+        <v-layout><v-flex><hr></v-flex></v-layout>
+        <v-layout>
+          <v-flex>
+            <v-alert outline color="success" :value="selectionComplete" fade>
               Skill Selection Complete
-            </b-alert>
-            <b-alert :show="points.pointsMax > points.pointsCurrent" fade>
+            </v-alert>
+            <v-alert outline :value="points.pointsMax > points.pointsCurrent" fade>
               {{points.pointsMax  - points.pointsCurrent}} Skill Points remaining
-            </b-alert>
-            <b-alert :show="points.specialtyCurrent < points.specialtyMax" fade>
+            </v-alert>
+            <v-alert outline :value="points.specialtyCurrent < points.specialtyMax" fade>
               {{points.specialtyCurrent}}/{{points.specialtyMax}} Specialties selected
-            </b-alert>
-            <b-alert variant="danger" :show="points.flawCurrent < points.flawMax" fade>
+            </v-alert>
+            <v-alert outline color="danger" :value="points.flawCurrent < points.flawMax" fade>
               {{points.flawCurrent}}/{{points.flawMax}} Flaws selected
-            </b-alert>
-            <b-alert variant="danger" :show="points.selectedCurrent < points.selectedMin" fade>
+            </v-alert>
+            <v-alert outline color="danger" :value="points.selectedCurrent < points.selectedMin" fade>
               Must select a minimum of {{points.selectedMin}} skills
-            </b-alert>
-          </b-col>
-        </b-row>
-        <b-row style="position:absolute; bottom: 5px; width:100%">
-          <b-col cols=12>
-            <b-btn block :disabled="!selectionComplete" @click="saveSkills">Save</b-btn>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col id="scroll-area">
-        <b-row>
-          <b-col class="skill-header">
+            </v-alert>
+          </v-flex>
+        </v-layout>
+        <v-layout align-end>
+          <v-flex xs12>
+            <v-btn block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex id="scroll-area">
+        <v-layout>
+          <v-flex class="skill-header">
             <h6>&emsp;Your pilot’s ability to use, resist, and apply direct force, physical or otherwise</h6>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.str" :key="skill.id" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
         <br>
-        <b-row>
-          <b-col class="skill-header">
+        <v-layout>
+          <v-flex class="skill-header">
             <h6>&emsp;Your pilot’s ability to perform skillfully and accurately under pressure</h6>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skill.id" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
-        <b-row>
-          <b-col class="skill-header">
+        <v-layout>
+          <v-flex class="skill-header">
             <h6>&emsp;Your pilot’s ability to notice details, think creatively, and prepare</h6>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.int" :key="skill.id" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
-        <b-row>
-          <b-col class="skill-header">
+        <v-layout>
+          <v-flex class="skill-header">
             <h6>&emsp;Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources</h6>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skill.id" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
-      </b-col>
-    </b-row>
+      </v-flex>
+    </v-layout>
 
-  </b-container>
+  </v-container>
 </template>
 
 <script>
@@ -216,7 +216,7 @@
 <style scoped>
  #scroll-area {
    overflow-y: scroll;
-   height: 80vh;
+   height: 88vh;
  }
 
  .skill-header {

@@ -9,7 +9,7 @@
         <div v-if="expand">users:</div>
         <div v-else>
           <span class="float-right"> 
-            <v-icon name="angle-double-right" scale='2'/> 
+            <b-icon name="angle-double-right" scale='2'/> 
           </span>
         </div>
       </div> <!--/wrapper-->
@@ -25,8 +25,8 @@
       </div> <!--/content-->
       <div id='sidebar-footer'>
         <div> 
-          <b-button :to="'/new'" block  v-if="expand"><span style="padding-bottom:3px;"><v-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></b-button>
-          <b-button :to="'/new'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><v-icon name="plus-circle" /></span></b-button>
+          <v-btn :to="'/new'" block  v-if="expand"><span style="padding-bottom:3px;"><b-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></v-btn>
+          <v-btn :to="'/new'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><b-icon name="plus-circle" /></span></v-btn>
         </div>
       </div> <!--/footer-->
     </div>

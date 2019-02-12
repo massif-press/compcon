@@ -1,36 +1,36 @@
 <template>
   <div id="config-sheet" class="roster-content">
-   <span class="float-right"><b-btn size="sm" variant="link" to="/pilot"><v-icon name='window-close'  scale="1.5"/></b-btn></span>
+   <span class="float-right"><v-btn size="sm" variant="link" to="/pilot"><b-icon name='window-close'  scale="1.5"/></v-btn></span>
    <div v-if="config.name">
-    <b-container fluid>
-      <b-row>
-        <b-col><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" /></b-col>
-        <b-col>{{ frame.name }}</b-col>
-        <b-btn v-b-modal.frameInfoModal>frame info</b-btn>
+    <v-container fluid>
+      <v-layout>
+        <v-flex><editable-label :description="'Configuration Name'" :attr="`${configPath}.name`" :val="config.name" /></v-flex>
+        <v-flex>{{ frame.name }}</v-flex>
+        <v-btn v-b-modal.frameInfoModal>frame info</v-btn>
           <b-modal id="frameInfoModal" size="lg" :title="frame.name">
             <p v-html="frame.description" />
           </b-modal>
-      </b-row>
-      <b-row>
-        <b-col cols=6>
-          <b-row>
-            <b-btn v-b-modal.manuInfoModal>{{ item('Manufacturers', frame.source).name }}</b-btn>
+      </v-layout>
+      <v-layout>
+        <v-flex xs6>
+          <v-layout>
+            <v-btn v-b-modal.manuInfoModal>{{ item('Manufacturers', frame.source).name }}</v-btn>
               <b-modal id="manuInfoModal" size="xl" :title="item('Manufacturers', frame.source).name">
               <p v-html="item('Manufacturers', frame.source).description" />
               </b-modal>
-            <b-col>{{ frame.mechtype }} Mech</b-col>
-          </b-row>
-          <b-row><span class="header">Licenses Required</span></b-row>
-          <b-row>
-            <b-col>licenses required</b-col>
-          </b-row>
-          <b-row><span class="header">Configuration Notes</span></b-row>
-            <b-row>
-            <b-col><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" /></b-col>
-          </b-row>
-        </b-col>
+            <v-flex>{{ frame.mechtype }} Mech</v-flex>
+          </v-layout>
+          <v-layout><span class="header">Licenses Required</span></v-layout>
+          <v-layout>
+            <v-flex>licenses required</v-flex>
+          </v-layout>
+          <v-layout><span class="header">Configuration Notes</span></v-layout>
+            <v-layout>
+            <v-flex><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" /></v-flex>
+          </v-layout>
+        </v-flex>
         
-        <b-col cols=6>
+        <v-flex xs6>
           <image-selector-modal :title="'Select Mech Image'" ref="mechImg">
             <div class="hovereffect" @click="selectMechImg()">
               <b-img src="https://via.placeholder.com/800x500" fluid-grow />
@@ -39,87 +39,87 @@
               </div>
             </div>
           </image-selector-modal>
-        </b-col>
-      </b-row>
+        </v-flex>
+      </v-layout>
 
-        <b-row><span class="header">Mech Attributes</span></b-row>
-        <b-row>
-          <b-col cols=1>
+        <v-layout><span class="header">Mech Attributes</span></v-layout>
+        <v-layout>
+          <v-flex xs1>
             <statblock-item :attr="'HULL'" :val="stats.hull" />
             <statblock-item :attr="'AGI'" :val="stats.agi" />
             <statblock-item :attr="'SYS'" :val="stats.sys" />
             <statblock-item :attr="'ENG'" :val="stats.eng" />
             <br>
             <statblock-item :attr="'SP'" :val="stats.sp" />
-          </b-col>
-          <b-col>
-            <b-row>
-              <b-col>
+          </v-flex>
+          <v-flex>
+            <v-layout>
+              <v-flex>
                 <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.structure, stats.hp, stats.armor]" :fills="['darkblue', 'cyan', 'white']" :borders="['cyan', 'blue', 'gray']" :label="`structure: ${stats.structure} // hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'"/>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
+              </v-flex>
+            </v-layout>
+            <v-layout>
+              <v-flex>
                 <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.heatstress, stats.heatcap]" :fills="['red', 'orange']" :borders="['pink', 'yellow']" :label="`heat stress: ${stats.heatstress} // heat capacity: ${stats.heatcap}`" :hover="'todo: list of item contributions'"/>
-              </b-col>
-              <b-col>
+              </v-flex>
+              <v-flex>
                 <pip-bar :pip_width="15" :pip_height="35" :pips="[stats.repcap]" :fills="['darkred']" :borders="['red']" :label="`Repair Capacity: ${stats.repcap}`" :hover="'todo: list of item contributions'"/>
-              </b-col>
-            </b-row>
+              </v-flex>
+            </v-layout>
             <hr>
-            <b-row>
+            <v-layout>
               <statblock-item :attr="'Speed'" :val="stats.speed" />
               <statblock-item :attr="'Attack Bonus'" :val="'+' + stats.attack_bonus" />
               <statblock-item :attr="'Tech Attack'" :val="'+' + stats.tech_attack" />
-            </b-row>
-            <b-row>
+            </v-layout>
+            <v-layout>
               <statblock-item :attr="'Evasion'" :val="stats.evasion" />
               <statblock-item :attr="'E-Defense'" :val="stats.edef" />
               <statblock-item :attr="'Sensor Range'" :val="stats.sensor_range" />
-            </b-row>
-          </b-col>
-        </b-row>
+            </v-layout>
+          </v-flex>
+        </v-layout>
 
-        <b-row><span class="header">Frame Traits</span></b-row>
+        <v-layout><span class="header">Frame Traits</span></v-layout>
           <trait-item v-for="trait in frame.traits" :key="trait.name" :trait="trait" />
 
-        <b-row><span class="header">CORE System</span></b-row>
-        <b-row>
-          <b-col>
+        <v-layout><span class="header">CORE System</span></v-layout>
+        <v-layout>
+          <v-flex>
             <b-card :title="frame.core_system.name">
               <p class="card-text" v-html="frame.core_system.description" />
               <h5>ACTIVE: {{frame.core_system.active_name}} </h5>
               <p class="card-text" v-html="frame.core_system.effect" />
               <p>todo: tags</p>
             </b-card>
-          </b-col>
-        </b-row>
+          </v-flex>
+        </v-layout>
 
-        <b-row><span class="header">Loadouts</span></b-row>
-        <b-row>
-          <b-col>
+        <v-layout><span class="header">Loadouts</span></v-layout>
+        <v-layout>
+          <v-flex>
             <mech-loadout :config_id="config.id" :max_sp="stats.sp" />
-          </b-col>
-        </b-row>        
+          </v-flex>
+        </v-layout>        
 
-        <b-row><span class="header">Combat Data</span></b-row>
-        <b-row>
-          <b-col>vue-chartjs</b-col>
-        </b-row>
+        <v-layout><span class="header">Combat Data</span></v-layout>
+        <v-layout>
+          <v-flex>vue-chartjs</v-flex>
+        </v-layout>
 
         <div class="spacer" />
-      </b-container>
+      </v-container>
 
       <div class="spacer" />
-      <b-container>
-        <b-row>
-          <b-col><b-button block>print</b-button></b-col>
-          <b-col><b-button block>export</b-button></b-col>
-          <b-col><b-button block>clone</b-button></b-col>
-          <b-col><b-button block>delete</b-button></b-col>
-        </b-row>
+      <v-container>
+        <v-layout>
+          <v-flex><v-btn block>print</v-btn></v-flex>
+          <v-flex><v-btn block>export</v-btn></v-flex>
+          <v-flex><v-btn block>clone</v-btn></v-flex>
+          <v-flex><v-btn block>delete</v-btn></v-flex>
+        </v-layout>
       <div class="spacer" />
-      </b-container>
+      </v-container>
    </div>
    <div v-else>
      No configuration loaded

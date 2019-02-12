@@ -1,60 +1,54 @@
 <template>
-  <div id="wrapper">
-    <b-container fluid>
-      <b-row>
-        <b-col>
-          <h1 class="display-1">title</h1>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <h3>subtitle</h3>
-        </b-col>
-      </b-row>
-    </b-container>
+    <div id="wrapper">
+    <v-container fluid>
+      <v-layout>
+        <v-flex>
+          <h1 class="display-4">title</h1>
+        </v-flex>
+      </v-layout>
+      <v-layout>
+        <v-flex>
+          <h3 class="display-2">subtitle</h3>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
-    <div style="padding-top:10vh;" />
+    <div style="padding-top:1vh;" />
 
-    <b-container>
-      <b-row style="height: 100%" align-v="center">
-        <b-col><b-btn block size="lg" :to="'/roster'">users</b-btn></b-col>
-        <b-col><b-btn block size="lg" :to="'/mods'" disabled>editor</b-btn></b-col>
-        <b-col><b-btn block size="lg" :to="'/gm'" disabled>tools</b-btn></b-col>
-      </b-row>
+    <v-container>
+      <v-layout style="height: 100%" align-v="center">
+        <v-flex><v-btn block large to="/roster">users</v-btn></v-flex>
+        <v-flex><v-btn block large :to="'/mods'" disabled>editor</v-btn></v-flex>
+        <v-flex><v-btn block large :to="'/gm'" disabled>tools</v-btn></v-flex>
+      </v-layout>
 
-      <b-row style="padding-top:10vh">
-        <b-col>
+      <v-layout style="padding-top:10vh">
+        <v-flex>
             <b-card header="Update" title="MM/DD/YYYY" sub-title="v.x.x.x">
               <b-card-body>notes, links, etc</b-card-body>
             </b-card>
-          </b-col>
-      </b-row>
+          </v-flex>
+      </v-layout>
 
       <br>
 
-      <b-row>
-        <b-col>
+      <v-layout>
+        <v-flex>
           <b-card no-body class="text-center">
             <span class="text-muted">loading log</span>
           </b-card>
-        </b-col>
-      </b-row>
-    </b-container>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
 
-    <b-navbar toggleable="md" fixed="bottom">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <b-nav-text href="#">ver. {{version}}</b-nav-text>
-        </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item right>About</b-nav-item>
-          <b-nav-item right>Help</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-  </div>
+    <v-footer fixed>
+      <span href="#">ver. {{version}}</span>
+      <v-spacer />
+      <v-btn flat small>About</v-btn>
+      <v-btn flat small>Help</v-btn>
+    </v-footer>
+    </div>
 </template>
 
 <script>
