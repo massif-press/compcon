@@ -1,8 +1,8 @@
 Vue Parity:
   Pilot Sheet:
     ☐ New Pilot
-    ☐ Background Selector
-    ☐ Skill Selector
+    ✔ Background Selector @done(19-02-11 11:17)
+    ✔ Skill Selector @done(19-02-12 10:56)
     ☐ License Selector
     ☐ Talent Selector
     ☐ Mech Skills Editor
@@ -12,7 +12,7 @@ Vue Parity:
       ✔ gear cards @done(19-02-09 13:41)
     ☐ Avatar and portrait images
     ☐ Pilot Stat Contributions
-    ☐ Mini Item Cards for Licenses
+    ☐ License Modal
     ☐ Export
     ☐ Clone
     ☐ Delete
@@ -42,6 +42,7 @@ Data:
 Bugs:
   ☐ Opening sidebar while modal is open. Move modals into index?
   ✔ Pilot loadout tab doesn't refresh when gear is changed @done(19-02-07 15:07)
+  ☐ On skill selector: if a button click renders a button disabled, the tooltip will never fade (tooltip on wrapping div?)
 
 1.0:
   Pilot Sheet:
@@ -67,6 +68,8 @@ Bugs:
         ☐ Print Notes
         ☐ Add space for notes (lined)
         ☐ Add space for sketches (unlined)
+
+☐ Vuetify
 
 ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
 

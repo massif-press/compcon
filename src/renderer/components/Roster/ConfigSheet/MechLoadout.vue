@@ -4,7 +4,7 @@
       <b-tabs v-model="tabIndex">
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
-          <b-container fluid>
+          <v-container fluid>
             <div v-for="(item, index) in loadout.weapons" :key="item.id + '_' + index">
               <mech-weapon-item :mount="item" />
             </div>
@@ -13,36 +13,36 @@
               <mech-system-item :mount="item" />
             </div>
             <div v-if="freeSp">
-              <b-row>
-                <b-col cols=2 offset=10 >
-                  <b-btn block variant="info">Add System (x/ySP)</b-btn>
-                </b-col>
-              </b-row>
+              <v-layout>
+                <v-flex xs2 offset=10 >
+                  <v-btn block variant="info">Add System (x/ySP)</v-btn>
+                </v-flex>
+              </v-layout>
             </div>
             <br>
-            <b-row>
-              <b-col>
+            <v-layout>
+              <v-flex>
                 <div class="float-left" style="padding:10px">
-                  <b-btn size="sm">
+                  <v-btn size="sm">
                     Rename Loadout
-                  </b-btn>
-                  <b-btn size="sm">
+                  </v-btn>
+                  <v-btn size="sm">
                     Duplicate Loadout
-                  </b-btn>
+                  </v-btn>
                 </div>
                 <div class="float-right" style="padding:10px">
-                  <b-btn size="sm" variant="danger" @click="()=>deleteLoadout(index)">
+                  <v-btn size="sm" variant="danger" @click="()=>deleteLoadout(index)">
                     Delete {{loadout.name}}
-                  </b-btn>
+                  </v-btn>
                 </div>
-              </b-col>
-            </b-row>
-          </b-container>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </b-tab>
 
         <!-- New Tab Button (Using tabs slot) -->
         <b-nav-item slot="tabs" @click="()=>addLoadout()" v-b-tooltip.hover title="Add New Loadout">
-          <v-icon name="plus-circle" scale="1.25"/>
+          <b-icon name="plus-circle" scale="1.25"/>
         </b-nav-item>
 
         <!-- Render this if no tabs -->

@@ -4,7 +4,7 @@
       <b-tabs v-model="tabIndex">
         <!-- Render Tabs -->
         <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
-          <b-container fluid>
+          <v-container fluid>
             <!-- <p>Armor:</p> -->
             <br>
             <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
@@ -27,27 +27,27 @@
             <div v-if="hasWebbing(loadout.items)">
               <hr>
               <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
-              <gear-item v-else itemType="Gear or Weapon" empty @clicked="openSelector(null, 'webbing')"/>
+              <gear-item v-else itemType="Combat Webbing" empty @clicked="openSelector(null, 'webbing')"/>
             </div>
             <br>
-            <b-row>
-              <b-col>
+            <v-layout>
+              <v-flex>
                 <div class="float-left" style="padding:10px">
-                  <b-btn size="sm" v-b-modal.renameDialog>
+                  <v-btn size="sm" v-b-modal.renameDialog>
                     Rename Loadout
-                  </b-btn>
-                  <b-btn size="sm" @click="duplicateLoadout(index)">
+                  </v-btn>
+                  <v-btn size="sm" @click="duplicateLoadout(index)">
                     Duplicate Loadout
-                  </b-btn>
+                  </v-btn>
                 </div>
                 <div class="float-right" style="padding:10px">
-                  <b-btn size="sm" variant="danger" v-b-modal.deleteDialog>
+                  <v-btn size="sm" variant="danger" v-b-modal.deleteDialog>
                     Delete {{loadout.name}}
-                  </b-btn>
+                  </v-btn>
                 </div>
-              </b-col>
-            </b-row>
-          </b-container>
+              </v-flex>
+            </v-layout>
+          </v-container>
 
           <b-modal centered id="renameDialog" :title="`Rename Loadout: ${loadout.name}`" @ok="renameLoadout(index)" no-close-on-backdrop>
             <b-form-input v-model="newLoadoutName" type="text" placeholder="New Loadout Name"></b-form-input>
@@ -57,13 +57,13 @@
 
         <!-- New Tab Button (Using tabs slot) -->
         <b-nav-item slot="tabs" @click="()=>addLoadout()" v-b-tooltip.hover title="Add New Loadout">
-          <v-icon name="plus-circle" scale="1.25"/>
+          <b-icon name="plus-circle" scale="1.25"/>
         </b-nav-item>
 
         <!-- Render this if no tabs -->
         <div slot="empty" class="text-center text-muted">
           There are no saved gear loadouts for this pilot.
-          <br> Create a new loadout by clicking the + button.
+          <br> Create a new loadout by clicking the <b-icon name="plus-circle" scale="0.75"/> button.
         </div>
         
       </b-tabs>
@@ -166,7 +166,6 @@ export default {
       this.refresh()
     },
     hasWebbing (items) {
-      console.log(items)
       return items.armor.find(x => x && x.id === 'webbing')
     }
   },
