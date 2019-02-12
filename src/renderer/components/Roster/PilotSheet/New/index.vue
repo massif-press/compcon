@@ -9,7 +9,8 @@
       <b-row>
         <b-col cols=auto><b-btn style="height:100%"><v-icon name="angle-double-left" /></b-btn></b-col>
         <b-col class="scroll">
-      <background-selector @selected="itemSelect" />
+          <!-- <background-selector @selected="itemSelect" /> -->
+          <skill-selector :pilotSkills="newPilot.skills" />
         page 1: create or import
         <br>page 2: name and callsign, image selector
         <br>page 3: background and history
@@ -33,11 +34,16 @@
 </template>
 
 <script>
-  import BackgroundSelector from './BackgroundSelector'
+  import BackgroundSelector from '../Selectors/BackgroundSelector'
+  import SkillSelector from '../Selectors/SkillSelector'
   export default {
     name: 'new-pilot',
-    components: { BackgroundSelector },
+    components: { BackgroundSelector, SkillSelector },
     data: () => ({
+      newPilot: {
+        background: '',
+        skills: []
+      },
       value: 1,
       max: 6
     }),

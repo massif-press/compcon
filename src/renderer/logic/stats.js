@@ -69,8 +69,6 @@ export default {
     // ha ammofeeds adds a +1 bonus to limited items
     if (pilot.core_bonuses.includes('ammofeeds')) output.limited_bonus += 1
 
-    console.log(output)
-
     return output
   },
   /**
