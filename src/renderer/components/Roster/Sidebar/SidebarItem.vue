@@ -6,37 +6,37 @@
         <div class="expanded-wrapper" @click="select" >
           <!-- Sidebar expanded, item selected -->
           <div v-if="active">
-            <b-container>
-              <b-row>
-                <b-col>
+            <v-container>
+              <v-layout>
+                <v-flex>
                   <router-link to="/pilot">
                     <b-img left src="https://via.placeholder.com/115" />
                   </router-link>
-                </b-col>
-                <b-col>
+                </v-flex>
+                <v-flex>
                     {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
                   <br>
                     {{ pilot.status }} {{ pilot.id}}
                   <br>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col>
+                </v-flex>
+              </v-layout>
+              <v-layout>
+                <v-flex>
                   configs:
                   <div v-for="(config, index) in pilot.configs" :key="index">
-                    <b-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" :to="'/config'" @click="showConfigSheet(config.id)">{{ config.name }}</b-btn>
+                    <v-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" :to="'/config'" @click="showConfigSheet(config.id)">{{ config.name }}</v-btn>
                       <b-popover boundary="viewport" v-bind:target="config.id + 'btn'" triggers="hover" placement="right" style="z-index:90!important">
                         <template slot="title">{{config.frame_id}}</template>
                         <span class="text-danger">{{config.status}}</span>
                       </b-popover>
                   </div>
-                </b-col>
-              </b-row>
+                </v-flex>
+              </v-layout>
               <hr>
-              <b-row>
-                <b-btn block>add new config</b-btn>
-              </b-row>
-            </b-container>
+              <v-layout>
+                <v-btn block>add new config</v-btn>
+              </v-layout>
+            </v-container>
           </div>
           <!-- End expanded and selected -->
 

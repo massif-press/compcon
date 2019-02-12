@@ -1,58 +1,58 @@
 <template>
   <div>
-    <b-container fluid>
+    <v-container fluid>
       <!-- Filters -->
-      <b-form-row>
-        <b-col v-for="filter in filters" :key="filter">
-          <b-btn block 
+      <v-layout>
+        <v-flex v-for="filter in filters" :key="filter">
+          <v-btn block 
             :variant="selectedFilters.includes(filter) ? 'primary' : ''" 
             @click="toggleFilter(filter)">{{filter}}
-          </b-btn>
-        </b-col>
-        <b-col cols=4>
+          </v-btn>
+        </v-flex>
+        <v-flex xs4>
           <b-input-group>
             <b-input-group-text slot="prepend">
-              <v-icon name="search" />
+              <b-icon name="search" />
             </b-input-group-text>
             <b-form-input v-model="filterText"></b-form-input>
             <b-input-group-append>
-              <b-btn @click="filterText = ''"><v-icon name="times" /></b-btn>
+              <v-btn @click="filterText = ''"><b-icon name="times" /></v-btn>
             </b-input-group-append>
           </b-input-group>
-        </b-col>
-      </b-form-row>
+        </v-flex>
+      </v-layout>
 
       <hr>
       <!-- Content -->
-        <b-row>
-          <b-col cols=auto>&nbsp;</b-col>
-          <b-col ><b-btn block @click="updateSort('name')">name</b-btn></b-col>
-          <b-col cols=auto><b-btn block @click="updateSort('source')">source</b-btn></b-col>
-          <b-col cols=auto><b-btn block @click="updateSort('rarity')">rarity</b-btn></b-col>
-        </b-row>
+        <v-layout>
+          <v-flex shrink>&nbsp;</v-flex>
+          <v-flex ><v-btn block @click="updateSort('name')">name</v-btn></v-flex>
+          <v-flex shrink><v-btn block @click="updateSort('source')">source</v-btn></v-flex>
+          <v-flex shrink><v-btn block @click="updateSort('rarity')">rarity</v-btn></v-flex>
+        </v-layout>
         <hr>
         <div class="scrollcontainer">
       <div v-for="(item, index) in items" :key="item.id" >
-        <b-form-row>
-          <b-col cols=auto><b-btn v-b-toggle="`collapse_${item.id}`"><v-icon name="caret-right" /></b-btn></b-col>
-          <b-col>
-            <b-btn block :variant="index === selectedIndex ? 'primary' : ''" @click="select(index, item)">
+        <v-layout>
+          <v-flex shrink><v-btn v-b-toggle="`collapse_${item.id}`"><b-icon name="caret-right" /></v-btn></v-flex>
+          <v-flex>
+            <v-btn block :variant="index === selectedIndex ? 'primary' : ''" @click="select(index, item)">
               <span class="float-left">{{item.name}}</span>
-            </b-btn>
-          </b-col>
-          <b-col cols=1>{{item.source}}</b-col>
-          <b-col cols=1><span v-for="n in item.rarity" :key="n + item.id" v-html="'*'" /></b-col>
-        </b-form-row>
+            </v-btn>
+          </v-flex>
+          <v-flex xs1>{{item.source}}</v-flex>
+          <v-flex xs1><span v-for="n in item.rarity" :key="n + item.id" v-html="'*'" /></v-flex>
+        </v-layout>
         <b-collapse :id="`collapse_${item.id}`">
-          <b-row>
-            <b-col>
+          <v-layout>
+            <v-flex>
               <gear-card :itemData="item"/>
-            </b-col>
-          </b-row>
+            </v-flex>
+          </v-layout>
         </b-collapse>
       </div>
         </div>
-    </b-container>
+    </v-container>
   </div>   
 </template>
 

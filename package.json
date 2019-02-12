@@ -66,6 +66,7 @@
     "vue-clickaway": "^2.2.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.5.1",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.0"
   },

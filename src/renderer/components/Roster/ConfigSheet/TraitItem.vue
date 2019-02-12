@@ -1,11 +1,11 @@
 <template>
-  <b-row>
-    <b-col>
+  <v-layout>
+    <v-flex>
       <b-card :title="trait.name">
         <p class="card-text">{{ trait.description }}</p>
       </b-card>
-    </b-col>
-  </b-row>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

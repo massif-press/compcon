@@ -1,9 +1,9 @@
 <template>
   <div>
     <div @click="showCatalogEntry(item)" :id="`itemBadge_${item.id}`">
-      <div v-if="item.data_type === 'frame'"><b-btn variant="success" :class="{lockFade: locked}">{{item.name}}</b-btn></div>
-      <div v-else-if="item.data_type === 'weapon'"><b-btn variant="warning" :class="{lockFade: locked}">{{item.name}}</b-btn></div>
-      <div v-else><b-btn variant="primary" :class="{lockFade: locked}">{{item.name}}</b-btn></div>
+      <div v-if="item.data_type === 'frame'"><v-btn variant="success" :class="{lockFade: locked}">{{item.name}}</v-btn></div>
+      <div v-else-if="item.data_type === 'weapon'"><v-btn variant="warning" :class="{lockFade: locked}">{{item.name}}</v-btn></div>
+      <div v-else><v-btn variant="primary" :class="{lockFade: locked}">{{item.name}}</v-btn></div>
     </div>
     <item-detail-popover :target="`itemBadge_${item.id}`" :item="item" />
   </div>
