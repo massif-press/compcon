@@ -133,9 +133,22 @@
       </div>
       <v-layout>
         <span class="header">Talents
-          <v-btn class="edit-btn" small flat icon color="blue darken-2">
-            <v-icon small>edit</v-icon>
-          </v-btn>
+          <v-dialog v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-card>
+              <v-toolbar fixed dense>
+                <v-toolbar-title>Edit Pilot Talents</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-btn icon large @click="talentModal = false"> <v-icon large>close</v-icon> </v-btn>
+                </v-toolbar-items>
+              </v-toolbar>
+              <v-spacer></v-spacer>
+              <talent-selector :pilotTalents="pilot.talents" :pilotLevel="pilot.level" />
+            </v-card>
+          </v-dialog>
         </span>
       </v-layout>
       <v-expansion-panel>
@@ -216,6 +229,7 @@
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
   import BackgroundSelector from './Selectors/BackgroundSelector'
   import SkillSelector from './Selectors/SkillSelector'
+  import TalentSelector from './Selectors/TalentSelector'
 
   export default {
     name: 'pilot-sheet',
@@ -231,15 +245,16 @@
       'image-selector-modal': ImageSelector,
       ContactsList,
       BackgroundSelector,
-      SkillSelector
+      SkillSelector,
+      TalentSelector
     },
     data: () => ({
       backgroundModal: false,
       appearanceModal: false,
       skillModal: false,
-      licensesModal: false,
-      talentsModal: false,
-      mechSkillsModal: false,
+      licenseModal: false,
+      talentModal: false,
+      mechSkillModal: false,
       pilotGearModal: false,
       contactKey: 0,
       activeLoadoutIdx: 0,
@@ -267,7 +282,7 @@
         })
       },
       setPilotSkills: function (skillArray) {
-        this.$refs.PSskillsModal.hide()
+        this.skillModal = false
         this.$store.dispatch('editPilot', {
           attr: `skills`,
           val: skillArray

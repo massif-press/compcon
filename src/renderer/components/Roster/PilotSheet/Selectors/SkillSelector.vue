@@ -1,84 +1,96 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <v-flex xs3 style="border: 1px solid slategray">
+      <v-flex xs3>
+        <div id="skills-area">
         <v-layout>
           <v-flex style="text-align: center">
-            <br>
+          <br>
           <h3>Pilot Skills</h3>
           <hr>
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-flex>
+          <v-flex xs12>
             <div v-for="skill in skills" :key="`summary_${skill.id}`">
                 <v-layout>
-                  <v-flex xs1><b>+{{skill.bonus}}</b></v-flex>
-                  <v-flex>{{skillById(skill.id).trigger}} &nbsp;
-                    <b-badge v-if="skill.specialty" variant="success" v-b-tooltip title="+1 Accuracy">Speciality</b-badge> 
-                    <b-badge v-else-if="skill.flaw" variant="danger" v-b-tooltip title="-1 Accuracy">Flaw</b-badge> 
+                  <v-flex xs12>
+                    <strong>{{skillById(skill.id).trigger}}</strong>
+                    <v-tooltip :disabled="!skill.specialty && !skill.flaw" right>
+                      <v-chip slot="activator"
+                        :dark="!skill.specialty || !skill.flaw" 
+                        :color="chipColor(skill)"
+                        small>
+                        <v-avatar v-if="skill.specialty && skill.flaw"><v-icon small>trending_flat</v-icon></v-avatar>
+                        <v-avatar v-else-if="skill.specialty"><v-icon small>star</v-icon></v-avatar>
+                        <v-avatar v-else-if="skill.flaw"><v-icon small>thumb_down</v-icon></v-avatar>
+                        +<b>{{skill.bonus}}</b>
+                      </v-chip>
+                      <span v-if="skill.specialty && skill.flaw">+0 Accuracy</span>
+                      <span v-else-if="skill.specialty">+1 Accuracy</span>
+                      <span v-else-if="skill.flaw">-1 Accuracy</span>
+                    </v-tooltip>
                   </v-flex>
                 </v-layout>
             </div>
           </v-flex> 
         </v-layout>
-        <v-layout><v-flex><hr></v-flex></v-layout>
+        <v-layout><v-flex xs12><hr></v-flex></v-layout>
         <v-layout>
-          <v-flex>
-            <v-alert outline color="success" :value="selectionComplete" fade>
+          <v-flex xs12>
+            <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
               Skill Selection Complete
             </v-alert>
-            <v-alert outline :value="points.pointsMax > points.pointsCurrent" fade>
+            <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
               {{points.pointsMax  - points.pointsCurrent}} Skill Points remaining
             </v-alert>
-            <v-alert outline :value="points.specialtyCurrent < points.specialtyMax" fade>
+            <v-alert outline color="warning" icon="priority_high" :value="points.specialtyCurrent < points.specialtyMax">
               {{points.specialtyCurrent}}/{{points.specialtyMax}} Specialties selected
             </v-alert>
-            <v-alert outline color="danger" :value="points.flawCurrent < points.flawMax" fade>
+            <v-alert outline color="warning" icon="priority_high" :value="points.flawCurrent < points.flawMax">
               {{points.flawCurrent}}/{{points.flawMax}} Flaws selected
             </v-alert>
-            <v-alert outline color="danger" :value="points.selectedCurrent < points.selectedMin" fade>
+            <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} skills
             </v-alert>
-          </v-flex>
-        </v-layout>
-        <v-layout align-end>
-          <v-flex xs12>
             <v-btn block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+            <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
           </v-flex>
         </v-layout>
+        </div>
       </v-flex>
+
       <v-flex id="scroll-area">
         <v-layout>
           <v-flex class="skill-header">
-            <h6>&emsp;Your pilot’s ability to use, resist, and apply direct force, physical or otherwise</h6>
+            <h5>&emsp;Your pilot’s ability to use, resist, and apply direct force, physical or otherwise</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.str" :key="skill.id" 
+        <skill-selector-item v-for="skill in arrangedSkills.str" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
         <br>
         <v-layout>
           <v-flex class="skill-header">
-            <h6>&emsp;Your pilot’s ability to perform skillfully and accurately under pressure</h6>
+            <h5>&emsp;Your pilot’s ability to perform skillfully and accurately under pressure</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skill.id" 
+        <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
         <v-layout>
           <v-flex class="skill-header">
-            <h6>&emsp;Your pilot’s ability to notice details, think creatively, and prepare</h6>
+            <h5>&emsp;Your pilot’s ability to notice details, think creatively, and prepare</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.int" :key="skill.id" 
+        <skill-selector-item v-for="skill in arrangedSkills.int" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
         <v-layout>
           <v-flex class="skill-header">
-            <h6>&emsp;Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources</h6>
+            <h5>&emsp;Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skill.id" 
+        <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
       </v-flex>
     </v-layout>
@@ -88,13 +100,6 @@
 
 <script>
   import SkillSelectorItem from './SkillSelectorItem'
-  // minimum of 4 skills selected
-  // 2 background skills get +1 accuracy (specialty)
-  // 2 other skills get -1 accuracy (flawed)
-  // minimum bonus is +2
-  // every 3 levels you gain a specialty
-  // taking a specialty in a flaw cancels it out
-  // maximum skill bonus is +6
 
   function initialData () {
     return {
@@ -103,6 +108,16 @@
       specializeLimit: false,
       flawLimit: false
     }
+  }
+
+  function skillSort (skills) {
+    return skills.sort(function (a, b) {
+      if (a.specialty && !b.specialty) return -1
+      else if (!a.specialty && b.specialty) return 1
+      else if (a.flaw && !b.flaw) return 1
+      else if (!a.flaw && b.flaw) return -1
+      else return 0
+    })
   }
 
   export default {
@@ -135,7 +150,7 @@
           specialtyMax: 2 + Math.floor(this.pilotLevel / 3),
           flawCurrent: this.skills.filter(x => x.flaw).length,
           flawMax: 2,
-          selectedCurrent: this.skills.filter(x => !x.flaw).length,
+          selectedCurrent: this.skills.filter(x => x.bonus).length,
           selectedMin: 4
         }
       },
@@ -193,19 +208,34 @@
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
         this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
         this.flawLimit = this.points.flawCurrent >= this.points.flawMax
+        this.skills = skillSort(this.skills)
       },
       saveSkills () {
         this.$emit('set-skills', this.skills)
       },
+      resetSkills () {
+        this.skills.splice(0, this.skills.length)
+        this.$forceUpdate()
+        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+        this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
+        this.flawLimit = this.points.flawCurrent >= this.points.flawMax
+        this.skills = skillSort(this.skills)
+      },
       skillById: function (id) {
         return this.skillData.find(x => x.id === id)
+      },
+      chipColor: function (skill) {
+        if ((skill.specialty && skill.flaw)) return ''
+        if (skill.specialty) return 'green'
+        else if (skill.flaw) return 'red'
+        else return 'blue'
       },
       initialize: function () {
         this.data = initialData()
       }
     },
     mounted () {
-      this.skills = JSON.parse(JSON.stringify(this.pilotSkills))
+      this.skills = skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
       this.flawLimit = this.points.flawCurrent >= this.points.flawMax
@@ -214,14 +244,25 @@
 </script>
 
 <style scoped>
+
+#skills-area {
+  margin: -20px auto 0;
+  position: fixed;
+}
+
  #scroll-area {
    overflow-y: scroll;
-   height: 88vh;
  }
 
  .skill-header {
    text-align: center;
    padding-top: 5px;
  }
+
+ strong {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+  }
 </style>
 

@@ -109,6 +109,9 @@
       },
       item: function (type, id) {
         return this.$store.getters.getItemById(type, id)
+      },
+      setSkills: function (skills) {
+        this.itemSelect({field: 'skills', value: skills})
       }
     }
   }

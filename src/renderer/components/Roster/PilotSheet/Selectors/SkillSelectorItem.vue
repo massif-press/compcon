@@ -1,40 +1,50 @@
 <template>
-  <b-card no-body>
+  <v-card class="m-2">
+    <v-card-text class="p-1">
     <v-layout>
-      <v-flex xs3 align-self="center">
-        <strong>&emsp;{{skillData.trigger}}</strong>
+      <v-flex xs3 align-self="center" >
+        <strong class="center-align">&emsp;{{skillData.trigger}}</strong>
       </v-flex>
       <v-flex xs6 align-self="center">
-        <p class="card-text">{{skillData.description}}</p>
+        <span class="center-align">{{skillData.description}}</span>
       </v-flex>
-      <v-flex xs3>
-        <v-btn-toggle class="v-block">
-          <v-tooltip>
-            <v-btn slot="activator" :disabled="!canAdd"  @click="clicked('addBonus')"><b-icon name="arrow-up" /></v-btn>
+      <v-flex>
+          <v-tooltip top>
+            <v-btn icon slot="activator" :disabled="!canAdd" @click="clicked('addBonus')">
+              <v-icon v-if="isNewPilot">check</v-icon>
+              <v-icon v-else>arrow_upward</v-icon>
+            </v-btn>
             <span>Increase Skill Bonus</span>
           </v-tooltip>
-          <v-tooltip>
-            <v-btn slot="activator" :disabled="!canSubtract" @click="clicked('subtractBonus')"><b-icon name="arrow-down" /></v-btn>
+          <v-tooltip top>
+            <v-btn icon slot="activator" :disabled="!canSubtract" @click="clicked('subtractBonus')">
+              <v-icon v-if="isNewPilot">cancel</v-icon>
+              <v-icon v-else>arrow_downward</v-icon>
+            </v-btn>
             <span>Decrease Skill Bonus</span>
           </v-tooltip>
-          <v-tooltip>
-            <v-btn slot="activator" :disabled="!canToggleSpecialize" :variant="isSpecialized ? 'success' : ''" @click="clicked('toggleSpecialty')"><b-icon name="star" /></v-btn>
+          <v-tooltip top>
+            <v-btn icon slot="activator" :disabled="!canToggleSpecialize" @click="clicked('toggleSpecialty')">
+              <v-icon :color="isSpecialized ? 'cyan darken-2' : ''">star</v-icon>
+            </v-btn>
             <span>Toggle Specialty</span>
           </v-tooltip>
-          <v-tooltip>
-            <v-btn slot="activator" :disabled="!canToggleFlaw" :variant="isFlawed ? 'danger' : ''" @click="clicked('toggleFlaw')"><b-icon name="skull-crossbones" /></v-btn>
+          <v-tooltip top>
+            <v-btn icon slot="activator" :disabled="!canToggleFlaw"  @click="clicked('toggleFlaw')">
+              <v-icon :color="isFlawed ? 'red darken-2' : ''">thumb_down</v-icon>
+            </v-btn>
             <span>Toggle Flaw</span>
           </v-tooltip>
-        </v-btn-toggle>
       </v-flex>
     </v-layout>
-  </b-card>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
   export default {
     name: 'skill-selector-item',
-    props: ['skillData', 'skills'],
+    props: ['skillData', 'skills', 'isNewPilot'],
     methods: {
       clicked: function (action) {
         this.$emit('skill-click', {id: this.skillData.id, action: action})
@@ -43,6 +53,7 @@
     computed: {
       canAdd: function () {
         var s = this.skills.find(x => x.id === this.skillData.id)
+        if (this.isNewPilot) return (!this.$parent.pointLimit && s == null)
         return !this.$parent.pointLimit && (s == null || (s && s.bonus < 6))
       },
       canSubtract: function () {
@@ -51,7 +62,7 @@
       },
       canToggleSpecialize: function () {
         var s = this.skills.find(x => x.id === this.skillData.id)
-        return (!this.$parent.specializeLimit) || (s != null && s.specialty)
+        return (!this.$parent.specializeLimit && s && s.bonus) || (s && s.specialty)
       },
       canToggleFlaw: function () {
         var s = this.skills.find(x => x.id === this.skillData.id)
@@ -73,6 +84,12 @@
   .v-block {
     height: 100%;
     float: right;
+  }
+
+  .center-align {
+    min-height: 55px;
+    display: inline-flex;
+    align-items: center;
   }
 </style>
 
