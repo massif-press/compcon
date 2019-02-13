@@ -78,7 +78,7 @@
 
 <style>
 body {
-      overflow: hidden;
+  overflow: hidden;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -95,8 +95,5 @@ body {
   background: #888; 
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
+
 </style>
