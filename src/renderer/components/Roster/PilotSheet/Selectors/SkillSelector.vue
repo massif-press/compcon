@@ -53,7 +53,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} skills
             </v-alert>
-            <v-btn block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+            <v-btn v-if="pilotLevel > 0" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
             <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -235,7 +235,7 @@
       }
     },
     mounted () {
-      this.skills = skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
+      this.skills = this.pilotLevel === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
       this.flawLimit = this.points.flawCurrent >= this.points.flawMax

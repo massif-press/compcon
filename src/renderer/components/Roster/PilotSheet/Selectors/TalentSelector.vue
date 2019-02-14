@@ -2,74 +2,54 @@
   <v-container fluid>
     <v-layout>
       <v-flex xs3>
-        sidebar with: <br>
-        skills list w/ ranks <br>
-        remaining skill points <br>
-        save/reset buttons
+        <div id="talents-area">
+        <v-layout>
+          <v-flex style="text-align: center">
+          <br>
+          <h3>Pilot Talents</h3>
+          <hr>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex xs12>
+            <div v-for="talent in talents" :key="`summary_${talent.id}`">
+                <v-layout>
+                  <v-flex xs12>
+                    <strong>{{ talentById(talent.id).name }}</strong>
+                    <v-icon v-for="n in talent.rank" :key="talent.rank + n" small>star</v-icon>
+                  </v-flex>
+                </v-layout>
+            </div>
+          </v-flex> 
+        </v-layout>
+        <v-layout><v-flex xs12><hr></v-flex></v-layout>
+        <v-layout>
+          <v-flex xs12>
+            <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
+              Talent Selection Complete
+            </v-alert>
+            <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
+              {{points.pointsMax  - points.pointsCurrent}} Talent Points remaining
+            </v-alert>
+            <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
+              Must select a minimum of {{points.selectedMin}} talents
+            </v-alert>
+            <v-btn v-if="this.pilotLevel > 0" block :disabled="!selectionComplete" @click="saveTalents">Save</v-btn>
+            <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
+          </v-flex>
+        </v-layout>
+        </div>
       </v-flex>
-      <v-flex xs1>&emsp;</v-flex>
-      <v-flex>
+
+
+      <v-flex id="list-area">
   <v-expansion-panel expand focusable>
     <v-expansion-panel-content v-for="talent in talentData" :key="talent.id" >
       <v-toolbar-title slot="header">
       <span>{{talent.name}}</span>
       <span v-for="n in playerRank(talent.id)" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
       </v-toolbar-title>
-       <v-card>
-        <v-card-text>
-          <blockquote class="blockquote m-0" v-html="talent.description" />
-          <v-card hover>
-            <v-card-title>
-              <v-layout justify-space-between fill-height>
-                <v-flex xs10>
-                  <span class="title"><v-icon>star</v-icon>&nbsp;{{talent.r1_name}}</span>
-                  <sub class="ml-2 grey--text"> (RANK I) </sub>
-                  <v-card-text><span v-html="talent.r1_desc" /></v-card-text>
-                </v-flex>
-                <v-flex xs1>
-                  <v-btn disabled v-if="playerRank(talent.id)" fab right><v-icon>check</v-icon></v-btn>
-                  <v-btn v-else fab right @click="addTalent(talent.id)"><v-icon>add</v-icon></v-btn>
-                </v-flex>
-              </v-layout>
-            </v-card-title>
-          </v-card>
-
-          <v-card hover :color="!playerRank(talent.id) ? 'grey lighten-5' : ''">
-            <v-card-title>
-              <v-layout justify-space-between fill-height>
-                <v-flex xs10>
-                  <span class="title"><v-icon>star</v-icon><v-icon>star</v-icon>&nbsp;{{talent.r2_name}}</span>
-                  <sub class="ml-2 grey--text"> (RANK II) </sub>
-                  <v-card-text><span v-html="talent.r2_desc" /></v-card-text>
-                </v-flex>
-                <v-flex xs1>
-                  <v-btn disabled v-if="!playerRank(talent.id)" fab right><v-icon>lock</v-icon></v-btn>
-                  <v-btn disabled v-else-if="playerRank(talent.id) > 1" fab right><v-icon>check</v-icon></v-btn>
-                  <v-btn v-else fab right @click="addTalent(talent.id)"><v-icon>arrow_upward</v-icon></v-btn>
-                </v-flex>
-              </v-layout>
-            </v-card-title>
-          </v-card>
-
-          <v-card hover :color="playerRank(talent.id) < 2 ? 'grey lighten-5' : ''">
-            <v-card-title>
-              <v-layout justify-space-between fill-height>
-                <v-flex xs10>
-                  <span class="title"><v-icon>star</v-icon><v-icon>star</v-icon><v-icon>star</v-icon>&nbsp;{{talent.r3_name}}</span>
-                  <sub class="ml-2 grey--text"> (RANK III) </sub>
-                  <v-card-text><span v-html="talent.r3_desc" /></v-card-text>
-                </v-flex>
-                <v-flex xs1>
-                  <v-btn disabled v-if="!playerRank(talent.id) || playerRank(talent.id) === 1" fab right><v-icon>lock</v-icon></v-btn>
-                  <v-btn disabled v-else-if="playerRank(talent.id) > 2" fab right><v-icon>check</v-icon></v-btn>
-                  <v-btn v-else fab right @click="addTalent(talent.id)"><v-icon>arrow_upward</v-icon></v-btn>
-                </v-flex>
-              </v-layout>
-            </v-card-title>
-          </v-card>
-
-        </v-card-text>
-      </v-card>
+      <talent-selector-item :talent="talent" :playerRank="playerRank(talent.id)" @add-talent="addTalent" @remove-talent="removeTalent" :pointLimit="pointLimit" :newPilot="pilotLevel === 0"/>
     </v-expansion-panel-content>
   </v-expansion-panel>
       </v-flex></v-layout>
@@ -77,15 +57,18 @@
 </template>
 
 <script>
+  import TalentSelectorItem from './TalentSelectorItem'
+
   function talentSort (talents) {
     return talents.sort(function (a, b) {
-      return a.rank === b.rank ? 0 : a.rank > b.rank ? 1 : -1
+      return a.rank === b.rank ? 0 : a.rank > b.rank ? -1 : 1
     })
   }
 
   export default {
     name: 'talent-selector',
     props: ['pilotTalents', 'pilotLevel'],
+    components: { TalentSelectorItem },
     data: () => ({
       talents: [],
       pointLimit: false
@@ -93,6 +76,18 @@
     computed: {
       talentData: function () {
         return this.$store.getters.getItemCollection('Talents')
+      },
+      points: function () {
+        return {
+          pointsCurrent: (this.talents.reduce((a, b) => +a + +b.rank, 0)),
+          pointsMax: 3 + this.pilotLevel,
+          selectedCurrent: this.talents.length,
+          selectedMin: 3
+        }
+      },
+      selectionComplete: function () {
+        return this.points.pointsCurrent === this.points.pointsMax &&
+          this.points.selectedCurrent >= this.points.selectedMin
       }
     },
     methods: {
@@ -110,11 +105,46 @@
         } else {
           this.talents[idx].rank++
         }
+        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+        this.talents = talentSort(this.talents)
+      },
+      removeTalent: function (id) {
+        var idx = this.talents.findIndex(x => x.id === id)
+        if (idx !== -1) {
+          this.talents[idx].rank--
+          if (this.talents[idx].rank === 0) this.talents.splice(idx, 1)
+        }
+        this.pointLimit = false
+        this.talents = talentSort(this.talents)
+      },
+      saveTalents () {
+        this.$emit('set-talents', this.talents)
+      },
+      resetTalents () {
+        this.talents.splice(0, this.talents.length)
+        this.$forceUpdate()
+        this.pointLimit = false
+      },
+      talentById: function (id) {
+        return this.$store.getters.getItemById('Talents', id)
       }
     },
     mounted () {
-      this.talents = talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
+      this.talents = this.pilotLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
     }
   }
 </script>
+
+<style>
+  #talents-area {
+    width: 18vw!important;
+    margin: -20px auto 0;
+    position: fixed;
+  }
+
+  #list-area {
+    width: 80vw!important;
+  }
+</style>
+
 
