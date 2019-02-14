@@ -146,12 +146,12 @@
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer></v-spacer>
-              <talent-selector :pilotTalents="pilot.talents" :pilotLevel="pilot.level" />
+              <talent-selector :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
             </v-card>
           </v-dialog>
         </span>
       </v-layout>
-      <v-expansion-panel>
+      <v-expansion-panel focusable>
         <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="item('Talents', talent.id)"/>
       </v-expansion-panel>
       <v-layout>
@@ -286,6 +286,14 @@
         this.$store.dispatch('editPilot', {
           attr: `skills`,
           val: skillArray
+        })
+        this.$forceUpdate()
+      },
+      setPilotTalents: function (talentArray) {
+        this.talentModal = false
+        this.$store.dispatch('editPilot', {
+          attr: `talents`,
+          val: talentArray
         })
         this.$forceUpdate()
       }
