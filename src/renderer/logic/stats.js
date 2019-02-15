@@ -21,23 +21,23 @@ export default {
 
     var output = {
       structure: rules.base_structure,
-      hull: pilot.core.hull,
-      agi: pilot.core.agi,
-      sys: pilot.core.sys,
-      eng: pilot.core.eng,
-      hp: (pilot.core.hull * 2) + frame.stats.hp + grit,
+      hull: pilot.mechSkills.hull,
+      agi: pilot.mechSkills.agi,
+      sys: pilot.mechSkills.sys,
+      eng: pilot.mechSkills.eng,
+      hp: (pilot.mechSkills.hull * 2) + frame.stats.hp + grit,
       sp: frame.stats.sp + grit,
       armor: frame.stats.armor,
-      repcap: frame.stats.repcap + Math.floor(pilot.core.hull / 2),
-      evasion: frame.stats.evasion + pilot.core.agi,
-      speed: frame.stats.evasion + Math.floor(pilot.core.agi / 2),
-      sensor_range: frame.stats.sensor_range + pilot.core.sys,
-      edef: frame.stats.edef + pilot.core.sys,
-      heatcap: frame.stats.heatcap + pilot.core.eng,
+      repcap: frame.stats.repcap + Math.floor(pilot.mechSkills.hull / 2),
+      evasion: frame.stats.evasion + pilot.mechSkills.agi,
+      speed: frame.stats.evasion + Math.floor(pilot.mechSkills.agi / 2),
+      sensor_range: frame.stats.sensor_range + pilot.mechSkills.sys,
+      edef: frame.stats.edef + pilot.mechSkills.sys,
+      heatcap: frame.stats.heatcap + pilot.mechSkills.eng,
       heatstress: rules.base_stress,
-      limited_bonus: Math.floor(pilot.core.sys / 2),
+      limited_bonus: Math.floor(pilot.mechSkills.sys / 2),
       attack_bonus: grit,
-      tech_attack: frame.stats.tech_attack + pilot.core.sys,
+      tech_attack: frame.stats.tech_attack + pilot.mechSkills.sys,
       grapple: rules.base_grapple,
       ram: rules.base_ram
     }
@@ -84,10 +84,10 @@ export default {
       speed: rules.base_pilot_speed,
       grit: Math.ceil(pilot.level / 2),
       mech: {
-        hull: pilot.core.hull,
-        agi: pilot.core.agi,
-        sys: pilot.core.sys,
-        eng: pilot.core.eng
+        hull: pilot.mechSkills.hull,
+        agi: pilot.mechSkills.agi,
+        sys: pilot.mechSkills.sys,
+        eng: pilot.mechSkills.eng
       }
     }
 

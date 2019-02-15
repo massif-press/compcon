@@ -8,7 +8,7 @@
         <v-btn flat>About</v-btn>
         <v-btn flat>Options</v-btn>
         <v-btn flat>Help</v-btn>
-        <v-btn to="/" flat>Back</v-btn>
+        <v-btn @click="goBack" flat>Back</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -20,6 +20,11 @@
     computed: {
       version: function () {
         return this.versionNumber
+      }
+    },
+    methods: {
+      goBack: function () {
+        this.$router.push('/')
       }
     }
   }

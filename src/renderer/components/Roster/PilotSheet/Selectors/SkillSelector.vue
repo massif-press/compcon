@@ -127,21 +127,12 @@
       skills: [],
       pointLimit: false,
       specializeLimit: false,
-      flawLimit: false
+      flawLimit: false,
+      skillData: [],
+      arrangedSkills: []
     }),
     components: { SkillSelectorItem },
     computed: {
-      skillData: function () {
-        return this.$store.getters.getItemCollection('Skills')
-      },
-      arrangedSkills: function () {
-        return {
-          str: this.skillData.filter(x => x.family === 'str'),
-          dex: this.skillData.filter(x => x.family === 'dex'),
-          int: this.skillData.filter(x => x.family === 'int'),
-          cha: this.skillData.filter(x => x.family === 'cha')
-        }
-      },
       points: function () {
         return {
           pointsCurrent: (this.skills.reduce((a, b) => +a + +b.bonus, 0)) / 2,
@@ -239,6 +230,13 @@
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
       this.flawLimit = this.points.flawCurrent >= this.points.flawMax
+      this.skillData = this.$store.getters.getItemCollection('Skills')
+      this.arrangedSkills = {
+        str: this.skillData.filter(x => x.family === 'str'),
+        dex: this.skillData.filter(x => x.family === 'dex'),
+        int: this.skillData.filter(x => x.family === 'int'),
+        cha: this.skillData.filter(x => x.family === 'cha')
+      }
     }
   }
 </script>

@@ -29,11 +29,9 @@
   export default {
     name: 'background-selecor',
     props: [ 'preSelected' ],
-    computed: {
-      backgrounds: function () {
-        return this.$store.getters.getItemCollection('Backgrounds')
-      }
-    },
+    data: () => ({
+      backgrounds: []
+    }),
     methods: {
       split: function (arr) {
         var o = ''
@@ -46,6 +44,9 @@
       onSelect (id) {
         this.$emit('selected', {field: 'background', value: id})
       }
+    },
+    mounted: function () {
+      this.backgrounds = this.$store.getters.getItemCollection('Backgrounds')
     }
   }
 </script>

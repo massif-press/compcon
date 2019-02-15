@@ -44,7 +44,7 @@ const mutations = {
     }
   },
   ADD_PILOT (state, payload) {
-    state.Pilots.push(payload.pilot)
+    state.Pilots.push(payload)
   },
   DELETE_PILOT (state, payload) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
@@ -73,7 +73,29 @@ const actions = {
     context.commit('CLONE_PILOT', payload)
   },
   addPilot (context, payload) {
-    context.commit('ADD_PILOT', payload)
+    console.log(payload)
+    var newPilot = {
+      id: io.newID(),
+      callsign: payload.callsign,
+      name: payload.name,
+      level: 0,
+      background: payload.background,
+      notes: '',
+      history: payload.history,
+      text_appearance: payload.text_appearance,
+      img_portrait: '',
+      img_appearance: '',
+      contacts: [],
+      licenses: [],
+      loadouts: [],
+      skills: payload.skills,
+      talents: payload.talents,
+      mechSkills: payload.mechSkills,
+      core_bonuses: [],
+      configs: []
+    }
+    console.log(newPilot)
+    context.commit('ADD_PILOT', newPilot)
   },
   deletePilot (context, payload) {
     context.commit('DELETE_PILOT', payload)
