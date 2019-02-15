@@ -1,15 +1,26 @@
 <template>
-  <b-card no-body>
-    <v-layout>
-      <v-flex xs2 align-self="center">&emsp;<span :id="skill.id"><strong>{{skillData.trigger}}</strong></span></v-flex>
-      <v-flex cols align-self="center"><p class="card-text">{{skillData.description}}</p></v-flex>
-      <v-flex xs1 align-self="center"><h3 v-html="'+' + skill.bonus" /></v-flex>
-      <v-flex xs1 align-self="center">
-        <b-badge v-if="skill.specialty" variant="success" v-b-tooltip title="+1 Accuracy">Speciality</b-badge> 
-        <b-badge v-else-if="skill.flaw" variant="danger" v-b-tooltip title="-1 Accuracy">Flaw</b-badge> 
-      </v-flex>
+  <v-card>
+    <v-layout justify-space-between>
+      <v-flex xs3>&emsp;
+        <v-tooltip top :disabled="!skill.flaw && !skill.specialty">
+          <v-chip slot="activator"
+            :dark="!skill.specialty || !skill.flaw" 
+            :color="chipColor(skill)" 
+            small >
+            <v-avatar v-if="skill.specialty && skill.flaw"><v-icon small>trending_flat</v-icon></v-avatar>
+            <v-avatar v-else-if="skill.specialty"><v-icon small>star</v-icon></v-avatar>
+            <v-avatar v-else-if="skill.flaw"><v-icon small>thumb_down</v-icon></v-avatar>
+            +<b>{{skill.bonus}}</b>
+          </v-chip>
+          <span v-if="skill.specialty && skill.flaw">+0 Accuracy</span>
+          <span v-else-if="skill.specialty">+1 Accuracy</span>
+          <span v-else-if="skill.flaw">-1 Accuracy</span>
+        </v-tooltip>
+        <h5 class="center-align">&nbsp;{{skillData.trigger}}</h5>
+        </v-flex>
+      <v-flex>&emsp;<span class="center-align">{{skillData.description}}</span></v-flex>
     </v-layout>
-  </b-card>
+  </v-card>
 </template>
 
 <script>
@@ -18,6 +29,23 @@ export default {
   props: [
     'skill',
     'skillData'
-  ]
+  ],
+  methods: {
+    chipColor: function (skill) {
+      if ((skill.specialty && skill.flaw)) return ''
+      if (skill.specialty) return 'green'
+      else if (skill.flaw) return 'red'
+      else return 'blue'
+    }
+  }
 }
 </script>
+
+<style scoped>
+  .center-align {
+    min-height: 55px;
+    display: inline-flex;
+    align-items: center;
+  }
+</style>
+

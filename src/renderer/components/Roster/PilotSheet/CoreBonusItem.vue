@@ -1,17 +1,19 @@
 <template>
   <v-layout>
     <v-flex>
-      <b-card no-body>
-        <b-card-header header-tag="header">
-          {{cb.name}} ({{cb.source}})
-        </b-card-header>
-          <b-card-body>
-            <p class="card-text">
-              <em>{{ cb.description }}</em>
-              {{cb.effect}}
-            </p>
-          </b-card-body>
-      </b-card>
+      <v-flex>
+        <v-toolbar>
+          <v-toolbar-title>{{cb.name}}&nbsp;<span class="caption">{{cb.source}}</span></v-toolbar-title>
+        </v-toolbar>
+        <v-card>
+          <v-card-title class="pb-0">
+            <em v-html="cb.description" />
+          </v-card-title>
+          <v-card-text>
+            <p v-html="cb.effect" />
+          </v-card-text>
+        </v-card>
+      </v-flex>
     </v-flex>
   </v-layout>
 </template>

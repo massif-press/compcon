@@ -14,16 +14,20 @@
             </v-layout>
             <v-layout>
               <v-flex>
-                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.hp, stats.armor]" :fills="['darkblue', 'gray']" :borders="['black', 'black']" :label="`hp: ${stats.hp} // armor: ${stats.armor}`" :hover="'todo: list of item contributions'" />
+                  <span class="caption">HP {{stats.hp}} // ARMOR {{stats.armor}}</span>
+                  <v-rating v-model="stats.hp" hover x-large :length="stats.hp + stats.armor" readonly small dense empty-icon="brightness_7" full-icon="brightness_1"/>
               </v-flex>
                 <v-flex>
-                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.edef]" :fills="['darkblue']" :borders="['black']" :label="`e-defense: ${stats.edef}`" :hover="'todo: list of item contributions'"/>
+                  <span class="caption">E-DEFENSE {{stats.edef}}</span>
+                  <v-rating v-model="stats.edef" hover x-large :length="stats.edef" readonly small dense empty-icon="brightness_7" full-icon="brightness_1"/>
                 </v-flex>
                 <v-flex>
-                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.evasion]" :fills="['darkblue']" :borders="['black']" :label="`evasion: ${stats.evasion}`" :hover="'todo: list of item contributions'"/>
+                  <span class="caption">EVASION {{stats.evasion}}</span>
+                  <v-rating v-model="stats.evasion" hover x-large :length="stats.evasion" readonly small dense empty-icon="brightness_7" full-icon="brightness_1"/>
                 </v-flex>
                 <v-flex>
-                <pip-bar :pip_width="12" :pip_height="20" :pips="[stats.speed]" :fills="['darkblue']" :borders="['black']" :label="`speed: ${stats.speed}`" :hover="'todo: list of item contributions'"/>
+                  <span class="caption">SPEED {{stats.speed}}</span>
+                  <v-rating v-model="stats.speed" hover x-large :length="stats.speed" readonly small dense empty-icon="brightness_7" full-icon="brightness_1"/>
                 </v-flex>
             </v-layout>
           </v-flex>
@@ -40,7 +44,7 @@
                 <v-layout>
                   <v-flex xs12 style="text-align:center">
                     <b> {{ item('Backgrounds', pilot.background).name }} </b>
-                    <v-dialog v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+                    <v-dialog lazy v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                       <v-btn slot="activator" class="edit-btn" small flat icon color="blue">
                         <v-icon small>edit</v-icon>
                       </v-btn>
@@ -90,15 +94,15 @@
       <v-layout>
         <v-flex xs1>
           <v-layout><span class="header no-icon">Grit</span></v-layout>
-          <v-layout align-h="center">
-            <v-flex align-self="center"><h1>+{{stats.grit}}</h1></v-flex>
+          <v-layout align-center justify-center column fill-height>
+            <v-flex><span class="display-3 font-weight-black text-xs-center">+{{stats.grit}}</span></v-flex>
           </v-layout>
         </v-flex>
         <v-flex>
           <v-layout>
             <span class="header">
               Skill Triggers
-              <v-dialog v-model="skillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+              <v-dialog lazy v-model="skillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
                   <v-icon small>edit</v-icon>
                 </v-btn>
@@ -133,7 +137,7 @@
       </div>
       <v-layout>
         <span class="header">Talents
-          <v-dialog v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <v-dialog lazy v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
             <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
               <v-icon small>edit</v-icon>
             </v-btn>
@@ -156,32 +160,67 @@
       </v-expansion-panel>
       <v-layout>
         <span class="header">Mech Skills
-          <v-btn class="edit-btn" small flat icon color="blue darken-2">
-            <v-icon small>edit</v-icon>
-          </v-btn>
+          <v-dialog lazy v-model="mechSkillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-card>
+              <v-toolbar fixed dense>
+                <v-toolbar-title>Edit Mech Skills</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-btn icon large @click="mechSkillModal = false"> <v-icon large>close</v-icon> </v-btn>
+                </v-toolbar-items>
+              </v-toolbar>
+              <v-spacer></v-spacer>
+              <mech-skills-selector :mechSkills="pilot.mechSkills" :pilotLevel="pilot.level" :isActivePilot="true" />
+              <v-layout justify-space-between>
+                <v-flex xs1> &emsp; </v-flex>
+                <v-flex xs1><v-btn color="primary" flat @click="mechSkillModal = false">Confirm</v-btn></v-flex>
+              </v-layout>
+            </v-card>
+          </v-dialog>
         </span>
       </v-layout>
-      <v-layout>
-        <v-flex xs3>
-          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.hull, (12 - stats.mech.hull)]" :fills="['darkblue', 'lightgray']" :borders="['black', 'gray']" :label="`HULL: ${stats.mech.hull}`" />
+      <v-layout center justify-space-around class="pl-5">
+        <v-flex>
+          HULL <span class="grey--text">({{pilot.mechSkills.hull}})</span>
+          <v-rating v-model="pilot.mechSkills.hull" hover x-large length=6 readonly dense empty-icon="radio_button_unchecked" full-icon="brightness_1"/>
         </v-flex>
         <v-flex xs3>
-          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.agi, (12 - stats.mech.agi)]" :fills="['darkblue', 'lightgray']" :borders="['black', 'gray']" :label="`AGILITY: ${stats.mech.agi}`" />
+          AGILITY <span class="grey--text">({{pilot.mechSkills.agi}})</span>
+          <v-rating v-model="pilot.mechSkills.agi" hover x-large length=6 readonly dense empty-icon="radio_button_unchecked" full-icon="brightness_1"/>
         </v-flex>
         <v-flex xs3>
-          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.sys, (12 - stats.mech.sys)]" :fills="['darkblue', 'lightgray']" :borders="['black', 'gray']" :label="`SYSTEMS: ${stats.mech.sys}`" />
+          SYSTEMS <span class="grey--text">({{pilot.mechSkills.sys}})</span>
+          <v-rating v-model="pilot.mechSkills.sys" hover x-large length=6 readonly dense empty-icon="radio_button_unchecked" full-icon="brightness_1"/>
         </v-flex>
         <v-flex xs3>
-          <pip-bar :pip_width="16" :pip_height="35" :pips="[stats.mech.eng, (12 - stats.mech.eng)]" :fills="['darkblue', 'lightgray']" :borders="['black', 'gray']" :label="`ENGINEERING: ${stats.mech.eng}`" />
+          ENGINEERING <span class="grey--text">({{pilot.mechSkills.eng}})</span>
+          <v-rating v-model="pilot.mechSkills.eng" hover x-large length=6 readonly dense empty-icon="radio_button_unchecked" full-icon="brightness_1"/>
         </v-flex>
       </v-layout>
       <v-layout>
         <span class="header">CORE Bonuses
-          <v-btn class="edit-btn" small flat icon color="blue darken-2">
-            <v-icon small>edit</v-icon>
-          </v-btn>
+          <v-dialog lazy v-model="bonusModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-card>
+              <v-toolbar fixed dense>
+                <v-toolbar-title>Edit CORE Bonuses</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-btn icon large @click="bonusModal = false"> <v-icon large>close</v-icon> </v-btn>
+                </v-toolbar-items>
+              </v-toolbar>
+              <v-spacer></v-spacer>
+              <core-bonus-selector :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses"/>
+            </v-card>
+          </v-dialog>
         </span>
-      </v-layout>      <div v-for="cb in pilot.core_bonuses" :key="cb">
+      </v-layout>      
+      <div v-for="cb in pilot.core_bonuses" :key="cb">
         <cb-item :cb="item('CoreBonuses', cb)" />
       </div>
       <v-layout><span class="header no-icon">Pilot Gear</span></v-layout>
@@ -230,6 +269,8 @@
   import BackgroundSelector from './Selectors/BackgroundSelector'
   import SkillSelector from './Selectors/SkillSelector'
   import TalentSelector from './Selectors/TalentSelector'
+  import MechSkillsSelector from './Selectors/MechSkillsSelector'
+  import CoreBonusSelector from './Selectors/CoreBonusSelector'
 
   export default {
     name: 'pilot-sheet',
@@ -246,7 +287,9 @@
       ContactsList,
       BackgroundSelector,
       SkillSelector,
-      TalentSelector
+      TalentSelector,
+      MechSkillsSelector,
+      CoreBonusSelector
     },
     data: () => ({
       backgroundModal: false,
@@ -255,6 +298,7 @@
       licenseModal: false,
       talentModal: false,
       mechSkillModal: false,
+      bonusModal: false,
       pilotGearModal: false,
       contactKey: 0,
       activeLoadoutIdx: 0,
@@ -294,6 +338,14 @@
         this.$store.dispatch('editPilot', {
           attr: `talents`,
           val: talentArray
+        })
+        this.$forceUpdate()
+      },
+      setPilotBonuses: function (bonusArray) {
+        this.bonusModal = false
+        this.$store.dispatch('editPilot', {
+          attr: `core_bonuses`,
+          val: bonusArray
         })
         this.$forceUpdate()
       }

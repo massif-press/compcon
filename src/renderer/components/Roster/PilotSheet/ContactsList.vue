@@ -13,7 +13,7 @@
         <v-btn @click="deleteContact" flat color="error">Delete Contact</v-btn>
       </v-card-actions>
       </v-card>
-        <v-btn color="blue darken-3" dark absolute bottom right fab @click="addNew"><v-icon>add</v-icon></v-btn>
+        <v-btn absolute bottom right fab @click="addNew"><v-icon>add</v-icon></v-btn>
     </v-card>
     <br><br>
   </div>
