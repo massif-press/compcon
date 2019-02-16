@@ -30,7 +30,7 @@
             <span style="white-space: pre-wrap;">{{ val }}</span>
           </div>
           <div v-else>
-            <span class="text-muted" style="white-space: pre-wrap;">Click to add {{description}}</span>
+            <span class="text-muted" style="white-space: pre-wrap;">Click to add</span>
           </div>
         </v-flex>
       </v-layout>

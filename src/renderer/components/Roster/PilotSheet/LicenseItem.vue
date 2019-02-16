@@ -1,43 +1,68 @@
 <template>
   <div>
     <v-layout>
-      <v-flex xs12>
-        <v-btn block @click="showModal()">
-          {{license.source}} {{license.name}} - {{license.level}}
-        </v-btn>
-      </v-flex>
+      <v-toolbar dense>
+        <v-toolbar-title>
+          <span class="caption">{{license.source}}</span> &emsp;
+          {{license.name}}
+          <v-rating class="d-inline" :value="license.level" :length="3" readonly dense></v-rating>
+        </v-toolbar-title>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-dialog lazy v-model="modal" transition="dialog-bottom-transition">
+            <v-btn slot="activator" icon>
+              <v-icon>launch</v-icon>
+            </v-btn>
+            <v-toolbar>
+              <v-toolbar-title> {{license.source}} &mdash; {{license.name}} </v-toolbar-title>
+              <v-spacer />
+              <v-toolbar-items>
+                <v-btn icon large @click="modal = false"> <v-icon large>close</v-icon> </v-btn>
+              </v-toolbar-items>
+            </v-toolbar>
+            <v-card>
+              <v-container fluid grid-list-xs>
+                <v-card hover class="pb-2">
+                  <v-card-title class="pb-0"><span class="headline font-weight-bold">Rank I</span>&emsp;<sub class="grey--text">UNLOCKED</sub></v-card-title>
+                  <hr>
+                  <v-layout row>
+                    <v-flex shrink v-for="item in licenseData.unlocks[0]" :key="item.id">
+                      <item-badge :item="item" :locked="false"/>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+                <br>
+               <v-card :hover="!isLocked(2)" :color="isLocked(2) ? 'grey lighten-2' : ''" class="pb-2">
+                  <v-card-title class="pb-0"><span :class="`headline ${isLocked(2) ? 'grey--text' : 'font-weight-bold'}`">Rank II</span>&emsp;
+                    <sub v-if="isLocked(2)">LOCKED</sub>
+                    <sub v-else class="grey--text">UNLOCKED</sub>
+                  </v-card-title>
+                  <hr>
+                  <v-layout row>
+                    <v-flex shrink v-for="item in licenseData.unlocks[1]" :key="item.id">
+                      <item-badge :item="item" :locked="false"/>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
+                <br>
+               <v-card :hover="!isLocked(3)" :color="isLocked(3) ? 'grey lighten-2' : ''" class="pb-2">
+                  <v-card-title class="pb-0"><span :class="`headline ${isLocked(2) ? 'grey--text' : 'font-weight-bold'}`">Rank III</span>&emsp;
+                    <sub v-if="isLocked(3)">LOCKED</sub>
+                    <sub v-else class="grey--text">UNLOCKED</sub>
+                  </v-card-title>
+                  <hr>
+                  <v-layout row>
+                    <v-flex shrink v-for="item in licenseData.unlocks[2]" :key="item.id">
+                      <item-badge :item="item" :locked="false"/>
+                    </v-flex>
+                  </v-layout>
+                </v-card>                                
+              </v-container>
+            </v-card>                        
+          </v-dialog>
+        </v-toolbar-items>
+      </v-toolbar>
     </v-layout>
-    <div>
-      <b-modal ref="licenseModal" size="xl" centered hide-header>
-        <h5 centered>{{licenseData.source}}</h5>
-        <h1 centered>{{licenseData.license}}</h1>
-        <b-card no-body>Rank I</b-card>
-        <v-layout>
-          <v-flex shrink v-for="item in licenseData.unlocks[0]" :key="item.id">
-            <item-badge :item="item" :locked="false"/>
-          </v-flex>
-        </v-layout>
-        <br>
-        <b-card no-body :class="{locked: isLocked(2)}">Rank II</b-card>
-        <v-layout>
-          <v-flex shrink v-for="item in licenseData.unlocks[1]" :key="item.id">
-            <item-badge :item="item" :locked="isLocked(2)" />
-          </v-flex>
-        </v-layout>
-        <br>
-        <b-card no-body :class="{locked: isLocked(2)}">Rank III</b-card>
-        <v-layout>
-          <v-flex shrink v-for="item in licenseData.unlocks[2]" :key="item.id">
-            <item-badge :item="item" :locked="isLocked(3)"/>
-          </v-flex>
-        </v-layout>
-        <div slot="modal-footer" class="w-100">
-          <v-btn size="sm" class="float-right" variant="primary" @click="hideModal()">
-            Close
-          </v-btn>
-        </div>    
-      </b-modal>
-    </div>
   </div>
 </template>
 
@@ -51,23 +76,13 @@
       'license',
       'licenseData'
     ],
+    data: () => ({
+      modal: false
+    }),
     methods: {
-      showModal () {
-        this.$refs.licenseModal.show()
-      },
-      hideModal () {
-        this.$refs.licenseModal.hide()
-      },
       isLocked (target) {
         return !(this.license.level >= target)
       }
     }
   }
 </script>
-
-<style scoped>
-  .locked {
-    background-color: lightgray;
-    cursor: not-allowed;
-  }
-</style>
