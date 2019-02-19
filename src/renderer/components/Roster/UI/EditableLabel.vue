@@ -1,89 +1,39 @@
 <template>
-  <div id="label-container" v-on-clickaway="away" :attr = "attr">
-    <div v-if="isEditing">
-      <b-form-group 
-        id="fieldset" 
-        :invalid-feedback="invalidFeedback"
-        :valid-feedback="validFeedback"
-        :state="state" >
-         <b-form-text>
-          {{description}}
-        </b-form-text>
-        <b-input-group>
-          <b-form-input
-          :placeholder="val"
-          v-model="newVal"
-          :state="state" ></b-form-input>
-            <b-input-group-append>
-              <v-btn small flat icon @click="save()"><v-icon>save</v-icon></v-btn>
-              <v-btn small flat icon @click="cancel()"><v-icon>cancel</v-icon></v-btn>
-            </b-input-group-append>
-          </b-input-group>
-      </b-form-group>    
-    </div>
-
-    <div v-else>
-      <span class='highlight' @click="edit(true)">
-        {{ val }}
-      </span>
-    </div>
-
+  <div>
+    <slot name="label"></slot>
+    <v-dialog width="600" v-model="dialog">
+      <v-btn slot="activator" class="edit-btn" right small flat icon color="blue"><v-icon small>edit</v-icon></v-btn>
+      <v-card>
+        <v-card-title class="headline" primary-title>Edit {{description}}</v-card-title>
+        <v-card-text>
+          <v-text-field v-model="newLabel" :label="description" :placeholder="placeholder" type="text" clearable></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn flat @click="dialog = false"> Cancel </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="!newLabel || !newLabel.length || newLabel === ''" color="primary" flat @click="save(attr)">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-  import { mixin as clickaway } from 'vue-clickaway'
-
   export default {
     name: 'editable-label',
-    mixins: [ clickaway ],
-    props: ['attr', 'val', 'id', 'description', 'invalidText', 'validText'],
+    props: ['attr', 'description', 'placeholder'],
     data: () => ({
-      isEditing: false,
-      newVal: ''
+      dialog: false,
+      newLabel: ''
     }),
     methods: {
-      edit: function (isEdit) {
-        this.isEditing = isEdit
-      },
-      cancel: function () {
-        this.isEditing = false
-        this.newVal = ''
-      },
-      save: function () {
-        if (this.state) {
-          this.$store.dispatch('editPilot', {
-            attr: this.attr,
-            val: this.newVal
-          })
-        }
-        this.cancel()
-      },
-      away: function () {
-        this.cancel()
-      }
-    },
-    computed: {
-      state () {
-        return /\S/.test(this.newVal)
-      },
-      invalidFeedback () {
-        if (this.newVal.length) {
-          return ''
-        } else {
-          return this.invalidText || ''
-        }
-      },
-      validFeedback () {
-        return this.state === true ? this.validText : ''
+      save: function (attr) {
+        this.$store.dispatch('editPilot', {
+          attr: attr,
+          val: this.newLabel
+        })
+        this.dialog = false
       }
     }
   }
 </script>
-
-<style scoped>
-  .highlight:hover {
-    background-color: aqua;
-    cursor: pointer;
-  }
-</style>

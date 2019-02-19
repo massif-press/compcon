@@ -53,7 +53,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} skills
             </v-alert>
-            <v-btn v-if="pilotLevel > 0" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
             <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -66,7 +66,7 @@
             <h5>&emsp;Your pilot’s ability to use, resist, and apply direct force, physical or otherwise</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.str" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
+        <skill-selector-item v-for="skill in arrangedSkills.str" :key="skills.length + skill.id" :isNewPilot="newPilot" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
         <br>
         <v-layout>
@@ -74,7 +74,7 @@
             <h5>&emsp;Your pilot’s ability to perform skillfully and accurately under pressure</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
+        <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skills.length + skill.id" :isNewPilot="newPilot" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
         <v-layout>
@@ -82,7 +82,7 @@
             <h5>&emsp;Your pilot’s ability to notice details, think creatively, and prepare</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.int" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
+        <skill-selector-item v-for="skill in arrangedSkills.int" :key="skills.length + skill.id" :isNewPilot="newPilot" 
           :skillData="skill" :skills="skills" @skill-click="setSkill"  />
         <br>
         <v-layout>
@@ -90,7 +90,7 @@
             <h5>&emsp;Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources</h5>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skills.length + skill.id" :isNewPilot="pilotLevel === 0" 
+        <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skills.length + skill.id" :isNewPilot="newPilot" 
           :skillData="skill" :skills="skills" @skill-click="setSkill" />
       </v-flex>
     </v-layout>
@@ -122,23 +122,34 @@
 
   export default {
     name: 'skill-selector',
-    props: ['pilotSkills', 'pilotLevel'],
+    props: {
+      pilotSkills: {
+        type: Array
+      },
+      pilotLevel: {
+        type: Number
+      },
+      newPilot: {
+        type: Boolean
+      }
+    },
     data: () => ({
       skills: [],
       pointLimit: false,
       specializeLimit: false,
       flawLimit: false,
       skillData: [],
-      arrangedSkills: []
+      arrangedSkills: [],
+      pLevel: 0
     }),
     components: { SkillSelectorItem },
     computed: {
       points: function () {
         return {
           pointsCurrent: (this.skills.reduce((a, b) => +a + +b.bonus, 0)) / 2,
-          pointsMax: 4 + this.pilotLevel,
+          pointsMax: 4 + this.pLevel,
           specialtyCurrent: this.skills.filter(x => x.specialty).length,
-          specialtyMax: 2 + Math.floor(this.pilotLevel / 3),
+          specialtyMax: 2 + Math.floor(this.pLevel / 3),
           flawCurrent: this.skills.filter(x => x.flaw).length,
           flawMax: 2,
           selectedCurrent: this.skills.filter(x => x.bonus).length,
@@ -200,6 +211,10 @@
         this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
         this.flawLimit = this.points.flawCurrent >= this.points.flawMax
         this.skills = skillSort(this.skills)
+
+        if (this.newPilot && this.selectionComplete) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
       },
       saveSkills () {
         this.$emit('set-skills', this.skills)
@@ -226,7 +241,9 @@
       }
     },
     mounted () {
-      this.skills = this.pilotLevel === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
+      if (this.newPilot) this.pLevel = 0
+      else this.pLevel = this.pilotLevel
+      this.skills = this.pLevel === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
       this.flawLimit = this.points.flawCurrent >= this.points.flawMax

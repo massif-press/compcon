@@ -1,86 +1,113 @@
 <template>
   <div>
-    <b-card no-body>
-      <b-tabs v-model="tabIndex">
+      <v-tabs v-model="tabIndex" dark color="blue" show-arrows slider-color="yellow" mandatory>
         <!-- Render Tabs -->
-        <b-tab :title="loadout.name" v-for="(loadout, index) in loadouts" :key="loadout.id">
-          <v-container fluid>
-            <!-- <p>Armor:</p> -->
-            <br>
-            <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
-              <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
-            </div>
-            <!-- <p>Weapons:</p> -->
-            <hr>
-            <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
-              <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
-            </div>
-            <!-- <p>Gear:</p> -->
-            <hr>
-            <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
-              <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
-            </div>
-            <!-- if player has combat webbing equipped -->
-            <div v-if="hasWebbing(loadout.items)">
-              <hr>
-              <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
-              <gear-item v-else itemType="Combat Webbing" empty @clicked="openSelector(null, 'webbing')"/>
-            </div>
-            <br>
-            <v-layout>
-              <v-flex>
-                <div class="float-left" style="padding:10px">
-                  <v-btn size="sm" v-b-modal.renameDialog>
-                    Rename Loadout
-                  </v-btn>
-                  <v-btn size="sm" @click="duplicateLoadout(index)">
-                    Duplicate Loadout
-                  </v-btn>
+        <v-tab v-for="loadout in loadouts" :key="loadout.id">
+          {{loadout.name}}
+        </v-tab>
+          <span>
+            <v-tooltip top>
+              <v-btn icon slot="activator" @click="addLoadout"><v-icon>add</v-icon></v-btn>
+              <span>Add New Loadout</span>
+            </v-tooltip>
+          </span>
+          <v-tabs-items mandatory touchless>
+            <v-tab-item v-for="(loadout, index) in loadouts" :key="loadout.id + index" lazy>
+              <v-card>
+                <v-card-text>
+                <!-- Armor: -->
+                <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
+                  <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
+                  <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
                 </div>
-                <div class="float-right" style="padding:10px">
-                  <v-btn size="sm" variant="danger" v-b-modal.deleteDialog>
-                    Delete {{loadout.name}}
-                  </v-btn>
+
+                <!-- Weapons: -->
+                <br>
+                <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
+                  <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
+                  <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
                 </div>
-              </v-flex>
-            </v-layout>
-          </v-container>
 
-          <b-modal centered id="renameDialog" :title="`Rename Loadout: ${loadout.name}`" @ok="renameLoadout(index)" no-close-on-backdrop>
-            <b-form-input v-model="newLoadoutName" type="text" placeholder="New Loadout Name"></b-form-input>
-          </b-modal>
+                <!-- Gear: -->
+                <br>
+                <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
+                  <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
+                  <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
+                </div>
 
-        </b-tab>
+                <!-- if player has combat webbing equipped -->
+                <div v-if="hasWebbing(loadout.items)">
+                  <br>
+                  <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
+                  <gear-item v-else itemType="Combat Webbing" empty @clicked="openSelector(null, 'webbing')"/>
+                </div>
 
-        <!-- New Tab Button (Using tabs slot) -->
-        <b-nav-item slot="tabs" @click="()=>addLoadout()" v-b-tooltip.hover title="Add New Loadout">
-          <b-icon name="plus-circle" scale="1.25"/>
-        </b-nav-item>
+                <v-card-actions>
+                  <v-dialog v-model="renameDialog" width="600">
+                    <v-btn slot="activator" flat><v-icon small left>edit</v-icon> Rename Loadout</v-btn>
+                      <v-card>
+                        <v-card-title class="headline" primary-title>Rename Loadout: {{loadouts[index].name}}</v-card-title>
+                        <v-card-text>
+                          <v-text-field v-model="newLoadoutName" label="Loadout Name" type="text"></v-text-field>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn flat @click="renameDialog = false"> Cancel </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn color="primary" flat @click="renameLoadout(index)"> Rename </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                  </v-dialog>
+                  <v-btn flat @click="duplicateLoadout(index)"><v-icon small left>file_copy</v-icon> Duplicate Loadout</v-btn>
+                  <v-spacer/>
+                  <v-dialog v-model="deleteDialog" width="600">
+                    <v-btn slot="activator" flat variant="danger" color="error"><v-icon small left>delete</v-icon> Delete {{loadout.name}}</v-btn>
+                      <v-card>
+                        <v-card-title class="headline" primary-title>Delete Loadout: {{loadouts[index].name}}</v-card-title>
+                        <v-card-text>
+                          <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn flat @click="deleteDialog = false"> Cancel </v-btn>
+                          <v-spacer></v-spacer>
+                          <v-btn color="error" @click="deleteLoadout(index)"> Delete </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                  </v-dialog>                    
+                </v-card-actions>
+                </v-card-text>
+              </v-card>
+            </v-tab-item>
+          </v-tabs-items>        
+      </v-tabs>
 
-        <!-- Render this if no tabs -->
-        <div slot="empty" class="text-center text-muted">
-          There are no saved gear loadouts for this pilot.
-          <br> Create a new loadout by clicking the <b-icon name="plus-circle" scale="0.75"/> button.
-        </div>
-        
-      </b-tabs>
-    </b-card>
+      <!-- Delete notification -->
+      <v-snackbar v-model="deleteNotification" :timeout="5000" >
+        <span> Loadout Deleted </span>
+        <v-btn color="pink" flat @click="deleteNotification = false" > Close </v-btn>
+      </v-snackbar>
 
-    <b-modal centered id="deleteDialog" hide-header body-text-variant="danger" @ok="deleteLoadout()" ok-variant="danger">
-      <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
-    </b-modal>
+      <!-- Invalid name notification -->
+      <v-snackbar v-model="invalidNameNotification" color="error" :timeout="5000" >
+        <b> Loadout names cannot be blank </b>
+        <v-btn dark flat @click="invalidNameNotification = false" > Close </v-btn>
+      </v-snackbar>
 
-    <selector-modal ref="gearSelectorModal" :loadoutIndex="tabIndex" :itemIndex="itemIndex" :itemType="itemType" />
-
+      <v-dialog v-model="selectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
+        <v-toolbar fixed dense>
+          <v-toolbar-title><span class="text-capitalize">Select {{itemType}}</span></v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn icon large @click="selectorModal = false"> <v-icon large>close</v-icon> </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <item-table :itemType="itemType" v-on:select-item="equipItem" />
+      </v-dialog>
   </div>
 </template>
 
 <script>
 import GearItem from './GearItem'
-import GearSelector from './PilotGearSelector'
+import ItemTable from './ItemTable'
 import io from '@/store/data_io'
 
 var rules = io.loadData('rules')
@@ -97,13 +124,19 @@ function newLoadoutName (count) {
 
 export default {
   name: 'pilot-loadout',
-  components: { GearItem, 'selector-modal': GearSelector },
+  components: { GearItem, ItemTable },
   data: () => ({
-    tabIndex: 0,
+    tabIndex: null,
     itemIndex: 0,
     itemType: null,
     reloadTrigger: 0,
-    newLoadoutName: ''
+    newLoadoutName: '',
+    max: {},
+    selectorModal: false,
+    renameDialog: false,
+    deleteDialog: false,
+    deleteNotification: false,
+    invalidNameNotification: false
   }),
   methods: {
     deleteLoadout () {
@@ -113,6 +146,8 @@ export default {
         delete_count: 1
       })
       this.tabIndex--
+      this.deleteDialog = false
+      this.deleteNotification = true
     },
     addLoadout () {
       var newIdx = this.$store.getters.getPilot.loadouts.length
@@ -136,7 +171,7 @@ export default {
     openSelector (index, itemType) {
       this.itemIndex = index
       this.itemType = itemType
-      this.$refs.gearSelectorModal.show()
+      this.selectorModal = true
     },
     refresh () {
       this.$forceUpdate()
@@ -144,13 +179,15 @@ export default {
       this.$parent.$forceUpdate()
     },
     renameLoadout (index) {
-      if (this.newLoadoutName === '') alert('Loadout names cannot be blank') // TODO: replace w/ snackbar
+      if (this.newLoadoutName === '') this.invalidNameNotification = true
       else {
         this.$store.dispatch('editPilot', {
           attr: `loadouts[${index}].name`,
           val: this.newLoadoutName
         })
         this.newLoadoutName = ''
+        this.renameDialog = false
+        this.refresh()
       }
     },
     duplicateLoadout (index) {
@@ -165,6 +202,17 @@ export default {
       })
       this.refresh()
     },
+    equipItem (item) {
+      var attr = this.itemIndex === null
+        ? ['loadouts', this.tabIndex, 'items', 'webbing']
+        : ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
+      this.$store.dispatch('editPilot', {
+        attr: attr,
+        val: {id: item.id}
+      })
+      this.selectorModal = false
+      this.refresh()
+    },
     hasWebbing (items) {
       return items.armor.find(x => x && x.id === 'webbing')
     }
@@ -172,13 +220,6 @@ export default {
   computed: {
     loadouts () {
       return this.$store.getters.getPilot.loadouts
-    },
-    max () {
-      return {
-        armor: rules.max_pilot_armor,
-        weapons: rules.max_pilot_weapons,
-        gear: rules.max_pilot_gear
-      }
     }
   },
   watch: {
@@ -187,6 +228,13 @@ export default {
     },
     reloadTrigger: function (val) {
       this.$parent.loadoutForceReloadTrigger = this.reloadTrigger
+    }
+  },
+  mounted: function () {
+    this.max = {
+      armor: rules.max_pilot_armor,
+      weapons: rules.max_pilot_weapons,
+      gear: rules.max_pilot_gear
     }
   }
 }

@@ -34,7 +34,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} talents
             </v-alert>
-            <v-btn v-if="this.pilotLevel > 0" block :disabled="!selectionComplete" @click="saveTalents">Save</v-btn>
+            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveTalents">Save</v-btn>
             <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -43,13 +43,13 @@
 
 
       <v-flex id="list-area">
-  <v-expansion-panel expand focusable>
+  <v-expansion-panel expand focusable v-model="panels">
     <v-expansion-panel-content v-for="talent in talentData" :key="talent.id" >
       <v-toolbar-title slot="header">
       <span>{{talent.name}}</span>
       <span v-for="n in playerRank(talent.id)" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
       </v-toolbar-title>
-      <talent-selector-item :talent="talent" :playerRank="playerRank(talent.id)" @add-talent="addTalent" @remove-talent="removeTalent" :pointLimit="pointLimit" :newPilot="pilotLevel === 0"/>
+      <talent-selector-item :talent="talent" :playerRank="playerRank(talent.id)" @add-talent="addTalent" @remove-talent="removeTalent" :pointLimit="pointLimit" :newPilot="newPilot"/>
     </v-expansion-panel-content>
   </v-expansion-panel>
       </v-flex></v-layout>
@@ -67,11 +67,23 @@
 
   export default {
     name: 'talent-selector',
-    props: ['pilotTalents', 'pilotLevel'],
+    props: {
+      pilotTalents: {
+        type: Array
+      },
+      pilotLevel: {
+        type: Number
+      },
+      newPilot: {
+        type: Boolean
+      }
+    },
     components: { TalentSelectorItem },
     data: () => ({
       talents: [],
-      pointLimit: false
+      pointLimit: false,
+      pLevel: 0,
+      panels: []
     }),
     computed: {
       talentData: function () {
@@ -80,7 +92,7 @@
       points: function () {
         return {
           pointsCurrent: (this.talents.reduce((a, b) => +a + +b.rank, 0)),
-          pointsMax: 3 + this.pilotLevel,
+          pointsMax: 3 + this.pLevel,
           selectedCurrent: this.talents.length,
           selectedMin: 3
         }
@@ -107,6 +119,12 @@
         }
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
         this.talents = talentSort(this.talents)
+
+        if (this.newPilot) this.panels = []
+
+        if (this.newPilot && this.pointLimit) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
       },
       removeTalent: function (id) {
         var idx = this.talents.findIndex(x => x.id === id)
@@ -124,13 +142,16 @@
         this.talents.splice(0, this.talents.length)
         this.$forceUpdate()
         this.pointLimit = false
+        this.panels = []
       },
       talentById: function (id) {
         return this.$store.getters.getItemById('Talents', id)
       }
     },
     mounted () {
-      this.talents = this.pilotLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
+      if (this.newPilot) this.pLevel = 0
+      else this.pLevel = this.pilotLevel
+      this.talents = this.pLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
     }
   }
 </script>
