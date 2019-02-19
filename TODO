@@ -1,7 +1,7 @@
 Vue Parity:
   ☐ Damage component
   ☐ Range component
-  ☐ Tags
+  ✔ Tags @done(19-02-19 15:20)
   Pilot Sheet:
     ✔ Rewrite text field/area editors @done(19-02-19 11:46)
     ☐ Avatar and portrait selector
@@ -13,6 +13,9 @@ Vue Parity:
         ☐ Frame Popover
     ☐ Level Up
     ✔ Pilot gear selector @done(19-02-18 14:32)
+    ☐ Format GearItem components
+    ☐ Quick info in GearItem expandables
+    ☐ Rewrite Pilot Sidebar
     ☐ Export
     ☐ Clone
     ☐ Delete

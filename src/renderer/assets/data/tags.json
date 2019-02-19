@@ -1,22 +1,22 @@
 [{
     "id": "blast",
-    "name": "Blast (X)",
-    "description": "This weapon or system affects an area with radius of X from a target point within line of sight and the specified range. Trace cover and line of sight from its origin point. Make separate attack rolls for each target caught in the area."
+    "name": "Blast ({VAL})",
+    "description": "This weapon or system affects an area with radius of {VAL} from a target point within line of sight and the specified range. Trace cover and line of sight from its origin point. Make separate attack rolls for each target caught in the area."
   },
   {
     "id": "burst",
-    "name": "Burst (X)",
-    "description": "This weapon or system affects an area of up to X spaces around the target making the action or attack, including the target. Trace cover from its origin point. Make separate attack rolls for each target caught in the area."
+    "name": "Burst ({VAL})",
+    "description": "This weapon or system affects an area of up to {VAL} spaces around the target making the action or attack, including the target. Trace cover from its origin point. Make separate attack rolls for each target caught in the area."
   },
   {
     "id": "cone",
-    "name": "Cone (X)",
-    "description": "This weapon or system affects a cone X squares wide at its longest end, and X squares long, with its short end adjacent to the attacker. Ignores cover. Make separate attack rolls for each target caught in the area."
+    "name": "Cone ({VAL})",
+    "description": "This weapon or system affects a cone {VAL} squares wide at its longest end, and {VAL} squares long, with its short end adjacent to the attacker. Ignores cover. Make separate attack rolls for each target caught in the area."
   },
   {
     "id": "line",
-    "name": "Line (X)",
-    "description": "This weapon or system affects a straight line X squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
+    "name": "Line ({VAL})",
+    "description": "This weapon or system affects a straight line {VAL} squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
   },
   {
     "id": "ap",
@@ -35,18 +35,18 @@
   },
   {
     "id": "burn",
-    "name": "Burn X",
-    "description": "On hit, this weapon applies X burn to a target, stacking with any other source of burn. A target takes energy damage equal to their current burn the start of each of its turns, ignoring armor but taking resistance into account as normal. An affected target can pass an engineering skill check at the end of its turn to clear all burn on it, otherwise this effect persists."
+    "name": "Burn {VAL}",
+    "description": "On hit, this weapon applies {VAL} burn to a target, stacking with any other source of burn. A target takes energy damage equal to their current burn the start of each of its turns, ignoring armor but taking resistance into account as normal. An affected target can pass an engineering skill check at the end of its turn to clear all burn on it, otherwise this effect persists."
   },
   {
     "id": "heatother",
-    "name": "Heat X (target)",
-    "description": "this weapon or system deals an additional X Heat on hit to its target."
+    "name": "Heat {VAL} (target)",
+    "description": "this weapon or system deals an additional {VAL} Heat on hit to its target."
   },
   {
     "id": "heatself",
-    "name": "Heat X (self)",
-    "description": "this weapon or system deals X Heat to its user, applied immediately upon activation"
+    "name": "Heat {VAL} (self)",
+    "description": "this weapon or system deals {VAL} Heat to its user, applied immediately upon activation"
   },
   {
     "id": "inaccurate",
@@ -60,13 +60,13 @@
   },
   {
     "id": "reliable",
-    "name": "Reliable X",
-    "description": "This weapon always does X damage, even if it misses its target or rolls lower damage. It has some degree or self-correction or is simply powerful enough that even a glancing blow will cause damage."
+    "name": "Reliable {VAL}",
+    "description": "This weapon always does {VAL} damage, even if it misses its target or rolls lower damage. It has some degree or self-correction or is simply powerful enough that even a glancing blow will cause damage."
   },
   {
     "id": "unreliable",
     "name": "Unreliable",
-    "description": "When attacking with this weapon, roll a d6 before you make your attack roll. If it comes up as a ‘1', the weapon jams immediately. Lose the attack, and it cannot be used until the start of your neXt turn."
+    "description": "When attacking with this weapon, roll a d6 before you make your attack roll. If it comes up as a ‘1', the weapon jams immediately. Lose the attack, and it cannot be used until the start of your next turn."
   },
   {
     "id": "ordnance",
@@ -85,13 +85,13 @@
   },
   {
     "id": "threat",
-    "name": "Threat X",
-    "description": "This weapon can be used to make overwatch attacks at range X. A melee weapon's range is its threat."
+    "name": "Threat {VAL}",
+    "description": "This weapon can be used to make overwatch attacks at range {VAL}. A melee weapon's range is its threat."
   },
   {
     "id": "thrown",
-    "name": "Thrown X",
-    "description": "This melee weapon can be thrown up to range X. A thrown melee weapon makes an attack against a target as if it was a ranged attack (it takes cover and line of sight into account as normal) and disarms you of that weapon. A thrown melee weapon can be retrieved as a free action by moving adjacent to it."
+    "name": "Thrown {VAL}",
+    "description": "This melee weapon can be thrown up to range {VAL}. A thrown melee weapon makes an attack against a target as if it was a ranged attack (it takes cover and line of sight into account as normal) and disarms you of that weapon. A thrown melee weapon can be retrieved as a free action by moving adjacent to it."
   },
   {
     "id": "ammo",
@@ -116,17 +116,17 @@
   {
     "id": "grenade",
     "name": "Grenade",
-    "description": "This eXplosive or other device can be thrown at a point in range and line of sight as a quick action"
+    "description": "This explosive or other device can be thrown at a point in range and line of sight as a quick action"
   },
   {
     "id": "limited",
-    "name": "Limited (X)",
-    "description": "This weapon or system can only be used X times before a full repair"
+    "name": "Limited ({VAL})",
+    "description": "This weapon or system can only be used {VAL} times before a full repair"
   },
   {
     "id": "mine",
     "name": "Mine",
-    "description": "Indicates an eXplosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine eXplodes normally)."
+    "description": "Indicates an explosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine e{VAL}plodes normally)."
   },
   {
     "id": "mod",
@@ -190,7 +190,7 @@
   },
   {
     "id": "range",
-    "name": "Range (X)",
-    "description": "This system can be activated at a range of X spaces."
+    "name": "Range ({VAL})",
+    "description": "This system can be activated at a range of {VAL} spaces."
   }
 ]
