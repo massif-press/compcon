@@ -21,6 +21,7 @@
       <p v-if="itemData.effect" v-html="itemData.effect" />
       <p v-if="itemData.other" v-html="itemData.other" />
       <p v-html="`Rarity ${itemData.rarity}`" />
+      <tag v-for="tag in itemData.tags" :key="tag.id" :id="tag.id" :val="tag.val"/>
   </b-card>
   </div>
 </template>
@@ -28,11 +29,12 @@
 <script>
   import DamageElement from '../../UI/DamageElement'
   import RangeElement from '../../UI/RangeElement'
+  import Tag from '../../UI/Tag'
 
   export default {
     name: 'gear-card',
     props: ['itemData'],
-    components: { DamageElement, RangeElement },
+    components: { DamageElement, RangeElement, Tag },
     computed: {
       pilot: function () {
         return this.$store.getters.getPilot
