@@ -4,12 +4,16 @@
       <v-container fluid>
         <v-layout>
           <v-flex xs10>
-            <v-layout>
-              <v-flex>
-                <editable-label :description="'Callsign'" :attr="'callsign'" :val="pilot.callsign" :id="pilot.id"/>
+            <v-layout align-end>
+              <v-flex shrink>
+                <editable-label attr="callsign" description="Callsign" :placeholder="pilot.callsign">
+                  <span slot="label" class="display-2">{{pilot.callsign}}</span>
+                </editable-label>
               </v-flex>
               <v-flex>
-                <editable-label :description="'Name'" :attr="'name'" :val="pilot.name" :id="pilot.id"/>
+               <editable-label attr="name" description="Name" :placeholder="pilot.name">
+                  <span slot="label">{{pilot.name}}</span>
+                </editable-label>           
               </v-flex>
             </v-layout>
             <v-layout>
@@ -31,9 +35,17 @@
                 </v-flex>
             </v-layout>
           </v-flex>
+          <v-flex shrink>
+            <span class="caption" style="float:right; text-align: right">LICENSE LEVEL</span><br>
+          </v-flex>
+            <span style="font-size: 120px; line-height: 90px" class="font-weight-thin">{{pilot.level}}</span>
           <v-flex>
-            <span>License Level {{pilot.level}}</span>
-            <v-btn block :disabled="pilot.level > 11" variant="success">Level Up</v-btn>
+            <v-tooltip bottom nudge-right="15px">
+              <v-btn slot="activator" bottom right fab small :disabled="pilot.level > 11" color="primary" style="float:right; margin-left:30px">
+                <v-icon large >arrow_upward</v-icon>
+              </v-btn>
+              <span>Level Up</span>
+            </v-tooltip>
           </v-flex>
         </v-layout>
         <v-layout>
@@ -62,7 +74,7 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
-                <editable-textfield :description="'History'" :attr="'history'" :val="pilot.history" :id="pilot.id"/>
+                <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" />
               </v-flex>
             </v-layout>
             <v-layout>
@@ -75,19 +87,43 @@
           <v-flex xs4>
             <v-layout><span class="header no-icon">Appearance</span></v-layout>
             <v-layout>
-              <v-flex class="pl-2">
-                <image-selector-modal :title="'Select Pilot Image'" ref="appearanceImg">
-                  <div class="hovereffect" @click="selectAppearanceImg()">
-                    <b-img src="https://via.placeholder.com/400x500" fluid-grow />
-                    <div class="overlay">
-                      <p style="height:100%;"><a style="position: abosulte; right:25px; bottom: 20px">SELECT PILOT IMAGE</a></p>
-                    </div>
+              <v-flex class="pl-2"  @click="appearanceModal = true">
+                  <v-hover>
+                    <v-card slot-scope="{ hover }" class="mx-auto" color="grey lighten-4" max-width="400" >
+                  <div>
+                    <v-img src="https://via.placeholder.com/400x500" fluid-grow>
+                      <v-expand-transition>
+                        <div v-if="hover" class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-1 white--text" style="height: 100%;">
+                          Set Pilot Image &nbsp;
+                        </div>
+                      </v-expand-transition>
+                    </v-img>
                   </div>
-                </image-selector-modal>
+                  </v-card>
+                  </v-hover>
+                <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+                  <v-card>
+                    <v-toolbar fixed dense>
+                      <v-toolbar-title>Set Pilot Images</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn icon large @click="appearanceModal = false"> <v-icon large>close</v-icon> </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
+                    <v-spacer></v-spacer>
+                    selector goes here
+                    <v-layout justify-space-between>
+                      <v-flex xs1> &emsp; </v-flex>
+                      <v-flex xs1><v-btn color="primary" flat @click="appearanceModal = false">Confirm</v-btn></v-flex>
+                    </v-layout>
+                  </v-card>
+                </v-dialog>
               </v-flex>
             </v-layout>
             <v-layout>
-              <v-flex class="pl-2"><editable-textfield :description="'Appearance Notes'" :attr="'text_appearance'" :val="pilot.text_appearance" :id="pilot.id"/></v-flex>
+              <v-flex class="pl-2">
+                <editable-textfield :description="'Appearance'" :attr="'text_appearance'" :initial="pilot.text_appearance" />
+              </v-flex>
             </v-layout>
           </v-flex>
         </v-layout>
@@ -115,7 +151,7 @@
                     </v-toolbar-items>
                   </v-toolbar>
                   <v-spacer></v-spacer>
-                  <skill-selector :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills"/>
+                  <skill-selector :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </v-card>
               </v-dialog>
             </span>
@@ -219,19 +255,23 @@
             </v-card>
           </v-dialog>
         </span>
-      </v-layout>      
-      <div v-for="cb in pilot.core_bonuses" :key="cb">
+      </v-layout>
+      <v-container>      
+      <v-layout row v-for="cb in pilot.core_bonuses" :key="cb">
         <cb-item :cb="item('CoreBonuses', cb)" />
-      </div>
+      </v-layout>
+      </v-container>
       <v-layout><span class="header no-icon">Pilot Gear</span></v-layout>
       <v-layout>
-        <v-flex>
+        <v-flex xs12>
           <pilot-loadout />
         </v-flex>
       </v-layout>
       <v-layout><span class="header no-icon">Notes</span></v-layout>
       <v-layout>
-        <v-flex><editable-textfield :description="'Pilot Notes'" :attr="'notes'" :val="pilot.notes" :id="pilot.id"/></v-flex>
+        <v-flex>
+          <editable-textfield :description="'Pilot Notes'" :attr="'notes'" :initial="pilot.notes" />
+          </v-flex>
       </v-layout>
       <div class="spacer" />
     </v-container>
@@ -292,6 +332,10 @@
       CoreBonusSelector
     },
     data: () => ({
+      callsignDialog: false,
+      newCallsign: '',
+      renameDialog: false,
+      newName: '',
       backgroundModal: false,
       appearanceModal: false,
       skillModal: false,
@@ -309,8 +353,12 @@
         console.log('refreshing')
         this.$forceUpdate()
       },
-      selectAppearanceImg: function () {
-        this.$refs.appearanceImg.showModal()
+      setField: function (attr, val, close) {
+        this[close] = false
+        this.$store.dispatch('editPilot', {
+          attr: attr,
+          val: val
+        })
       },
       item: function (type, id) {
         return this.$store.getters.getItemById(type, id)
@@ -395,6 +443,17 @@
   fill-opacity: 1;
   transition: 0.3s all;
 }
+
+.v-card--reveal {
+  background: rgba(30,87,153,1);
+  align-items:flex-end;
+  bottom: 0px;
+  justify-content:flex-end;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+  cursor: pointer;
+}
 </style>
 
 <style>
@@ -429,77 +488,5 @@
       0% calc(100% - var(--notchSize))
     );
 }
-
-.hovereffect {
-  width: 100%;
-  height: 100%;
-  float: left;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-  cursor: pointer;
-  background: linear-gradient(45deg, #ff89e9 0%,#05abe0 100%);
-}
-
-.hovereffect .overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  padding: 3em;
-  text-align: left;
-}
-
-.hovereffect img {
-  display: block;
-  position: relative;
-  max-width: none;
-  width: calc(100% + 60px);
-  transition: opacity 0.35s, transform 0.45s;
-}
-
-.hovereffect h2 {
-  text-transform: uppercase;
-  color: #fff;
-  position: relative;
-  font-size: 17px;
-  background-color: transparent;
-  padding: 15% 0 10px 0;
-  text-align: left;
-}
-
-.hovereffect .overlay:before {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  bottom: 20px;
-  left: 20px;
-  border: 1px solid #fff;
-  content: '';
-  opacity: 0;
-  filter: alpha(opacity=0);
-  transition: opacity 0.35s, transform 0.45s;
-}
-
-.hovereffect a, .hovereffect p {
-  color: #FFF;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  transition: opacity 0.35s, transform 0.45s;
-}
-
-.hovereffect:hover img {
-  opacity: 0.6;
-  filter: alpha(opacity=60);
-}
-
-.hovereffect:hover .overlay:before,
-.hovereffect:hover a, .hovereffect:hover p {
-  opacity: 1;
-  filter: alpha(opacity=100);
-}
-
 
 </style>

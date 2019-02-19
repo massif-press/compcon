@@ -1,59 +1,53 @@
 <template>
-  <div>
+  <v-card flat>
+    <v-toolbar color="white" class="mt-5 pt-1" dense>
+        <v-btn-toggle v-model="selectedFilters" multiple>
+          <div v-for="f in filters" :key="f">
+            <v-btn flat large :value="f">&emsp;{{f}}&emsp;</v-btn>
+          </div>
+        </v-btn-toggle>
+      <v-spacer></v-spacer>
+        <v-autocomplete flat dense v-model="search" :items="gearItems" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
+    </v-toolbar>
+    <!-- Armor -->
     <v-container fluid>
-      <!-- Filters -->
-      <v-layout>
-        <v-flex v-for="filter in filters" :key="filter">
-          <v-btn block 
-            :variant="selectedFilters.includes(filter) ? 'primary' : ''" 
-            @click="toggleFilter(filter)">{{filter}}
-          </v-btn>
-        </v-flex>
-        <v-flex xs4>
-          <b-input-group>
-            <b-input-group-text slot="prepend">
-              <b-icon name="search" />
-            </b-input-group-text>
-            <b-form-input v-model="filterText"></b-form-input>
-            <b-input-group-append>
-              <v-btn @click="filterText = ''"><b-icon name="times" /></v-btn>
-            </b-input-group-append>
-          </b-input-group>
-        </v-flex>
-      </v-layout>
-
-      <hr>
-      <!-- Content -->
-        <v-layout>
-          <v-flex shrink>&nbsp;</v-flex>
-          <v-flex ><v-btn block @click="updateSort('name')">name</v-btn></v-flex>
-          <v-flex shrink><v-btn block @click="updateSort('source')">source</v-btn></v-flex>
-          <v-flex shrink><v-btn block @click="updateSort('rarity')">rarity</v-btn></v-flex>
-        </v-layout>
-        <hr>
-        <div class="scrollcontainer">
-      <div v-for="(item, index) in items" :key="item.id" >
-        <v-layout>
-          <v-flex shrink><v-btn v-b-toggle="`collapse_${item.id}`"><b-icon name="caret-right" /></v-btn></v-flex>
-          <v-flex>
-            <v-btn block :variant="index === selectedIndex ? 'primary' : ''" @click="select(index, item)">
-              <span class="float-left">{{item.name}}</span>
-            </v-btn>
-          </v-flex>
-          <v-flex xs1>{{item.source}}</v-flex>
-          <v-flex xs1><span v-for="n in item.rarity" :key="n + item.id" v-html="'*'" /></v-flex>
-        </v-layout>
-        <b-collapse :id="`collapse_${item.id}`">
-          <v-layout>
-            <v-flex>
-              <gear-card :itemData="item"/>
-            </v-flex>
-          </v-layout>
-        </b-collapse>
-      </div>
-        </div>
+      <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
+        :items="gearItems" :expand="expand" item-key="id" hide-actions>
+        <template slot="items" slot-scope="props">
+          <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
+            <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
+            <td><span class="subheading">{{ props.item.name }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.armor }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.edef }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.evasion }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.speed }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.source }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.rarity }}</span></td>
+          </tr>
+          <tr v-else-if="props.item.type === 'weapon'">
+            <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
+            <td><span class="subheading">{{ props.item.name }}</span></td>
+            <td><span class="subheading">{{ props.item.damage }}</span></td>
+            <td><span class="subheading">{{ props.item.range }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.source }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.rarity }}</span></td>
+          </tr>
+          <tr v-else>
+            <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
+            <td><span class="subheading">{{ props.item.name }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.uses }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.source }}</span></td>
+            <td class="text-xs-center"><span class="subheading">{{ props.item.rarity }}</span></td>
+          </tr>
+        </template>
+        <template slot="expand" slot-scope="props">
+          <v-card flat>
+            <v-card-text><gear-card :itemData="props.item" /></v-card-text>
+          </v-card>
+        </template>
+      </v-data-table>
     </v-container>
-  </div>   
+  </v-card>
 </template>
 
 <script>
@@ -67,10 +61,39 @@
       selectedIndex: -1,
       filterText: '',
       sortRule: null,
-      selectedFilters: []
+      search: null,
+      searchFilter: null,
+      filters: [],
+      selectedFilters: [],
+      expand: false,
+      armor_headers: [
+        {align: 'left', sortable: false, width: '5vw'},
+        {text: 'Item', align: 'left', value: 'name'},
+        {text: 'Armor', align: 'center', value: 'armor'},
+        {text: 'E-Defense', align: 'center', value: 'edef'},
+        {text: 'Evasion', align: 'center', value: 'evasion'},
+        {text: 'Speed', align: 'center', value: 'speed'},
+        {text: 'Source', align: 'center', value: 'source'},
+        {text: 'Rarity', align: 'center', value: 'rarity'}
+      ],
+      weapon_headers: [
+        {align: 'left', sortable: false, width: '5vw'},
+        {text: 'Item', align: 'left', value: 'name'},
+        {text: 'Damage', align: 'left', value: 'damage'},
+        {text: 'Range', align: 'left', value: 'range'},
+        {text: 'Source', align: 'center', value: 'source'},
+        {text: 'Rarity', align: 'center', value: 'rarity'}
+      ],
+      gear_headers: [
+        {align: 'left', sortable: false, width: '5vw'},
+        {text: 'Item', align: 'left', value: 'name'},
+        {text: 'Uses', align: 'left', value: 'uses'},
+        {text: 'Source', align: 'center', value: 'source'},
+        {text: 'Rarity', align: 'center', value: 'rarity'}
+      ]
     }),
     computed: {
-      items: function () {
+      gearItems: function () {
         var cmp = this
         // filter by rarity
         var rarities = this.$store.getters.getRarities
@@ -87,6 +110,8 @@
         i = i.filter(x => cmp.selectedFilters.includes(x.source) &&
           x.name.toLowerCase().includes(cmp.filterText.toLowerCase())
         )
+
+        if (cmp.search) i = i.filter(x => x.name.toLowerCase().includes(cmp.search.toLowerCase()))
 
         // sort UI options
         if (cmp.sortRule) {
@@ -107,44 +132,16 @@
         }
 
         return i
-      },
-      filters: function () {
-        return this.$store.getters.getItemCollection('Manufacturers').map(x => x.id)
       }
     },
     methods: {
-      select: function (index, item) {
-        this.selectedIndex = index
+      select: function (item) {
         this.$emit('select-item', item)
-      },
-      updateSort (field) {
-        if (!this.sortRule) {
-          this.sortRule = {dir: 'asc', field: field}
-        } else {
-          if (this.sortRule.dir === 'asc' && this.sortRule.field === field) this.sortRule.dir = 'desc'
-          else this.sortRule.dir = 'asc'
-          this.sortRule.field = field
-        }
-      },
-      toggleFilter (filter) {
-        var idx = this.selectedFilters.indexOf(filter)
-        if (idx > -1) {
-          this.selectedFilters.splice(idx, 1)
-        } else {
-          this.selectedFilters.push(filter)
-        }
       }
     },
     mounted () {
+      this.filters = this.$store.getters.getItemCollection('Manufacturers').map(x => x.id)
       this.selectedFilters = JSON.parse(JSON.stringify(this.filters))
     }
   }
 </script>
-
-<style scoped>
- .scrollcontainer {
-   height: 61.5vh;
-   overflow-y: scroll;
-   overflow-x: hidden;
- }
-</style>

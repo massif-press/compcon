@@ -11,3 +11,10 @@ export default {
   components: { }
 }
 </script>
+
+<style>
+ html {
+   scroll-behavior: smooth;
+ }
+</style>
+

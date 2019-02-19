@@ -59,7 +59,7 @@
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs2>
-                <v-btn large :disabled="!newPilot.name || !newPilot.callsign" color="primary" @click="np_step++">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large :disabled="!newPilot.name || !newPilot.callsign" color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -71,46 +71,46 @@
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs1>
-                <v-btn color="primary" flat @click="np_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
+                <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <skill-selector :pilotSkills="newPilot.skills" :pilotLevel="0" @set-skills="setSkills"/>
+            <skill-selector :pilotSkills="newPilot.skills" new-pilot @set-skills="setSkills"/>
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs3>
-                <v-btn color="primary" flat @click="np_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="np_step++">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
+                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
             <v-stepper-content step="4">
-            <talent-selector :pilotTalents="newPilot.talents" :pilotLevel="0" @set-talents="setTalents"/>
+            <talent-selector :pilotTalents="newPilot.talents" new-pilot @set-talents="setTalents"/>
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs3>
-                <v-btn color="primary" flat @click="np_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="np_step++">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
+                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
             <v-stepper-content step="5">
-              <mech-skills-selector :mechSkills="newPilot.mechSkills" :pilotLevel="0" />
+              <mech-skills-selector :mechSkills="newPilot.mechSkills" new-pilot />
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs3>
-                <v-btn color="primary" flat @click="np_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="np_step++">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
+                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -173,9 +173,9 @@
                     <v-divider class="m-0 p-0" />
                     <v-card-text>
                     <li class="title" v-if="newPilot.mechSkills.hull">Hull +{{newPilot.mechSkills.hull}}</li>
-                    <li class="title" v-if="newPilot.mechSkills.agi">Hull +{{newPilot.mechSkills.agi}}</li>
-                    <li class="title" v-if="newPilot.mechSkills.sys">Hull +{{newPilot.mechSkills.sys}}</li>
-                    <li class="title" v-if="newPilot.mechSkills.eng">Hull +{{newPilot.mechSkills.eng}}</li>
+                    <li class="title" v-if="newPilot.mechSkills.agi">Agility +{{newPilot.mechSkills.agi}}</li>
+                    <li class="title" v-if="newPilot.mechSkills.sys">Systems +{{newPilot.mechSkills.sys}}</li>
+                    <li class="title" v-if="newPilot.mechSkills.eng">Engineering +{{newPilot.mechSkills.eng}}</li>
                     </v-card-text>
                   </v-card>
                 </v-flex>
@@ -192,7 +192,7 @@
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs3>
-                <v-btn color="primary" flat @click="np_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
+                <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
                 <v-btn large color="success" @click="savePilot" :disabled="!canSavePilot">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
               </v-flex>
             </v-layout>
@@ -233,7 +233,7 @@
     }),
     methods: {
       itemSelect: function (payload) {
-        this.np_step++
+        this.stepForward()
         this.newPilot[payload.field] = payload.value
       },
       item: function (type, id) {
@@ -257,6 +257,14 @@
       savePilot: function () {
         this.$store.dispatch('addPilot', this.newPilot)
         this.$router.push('./roster')
+      },
+      stepBack: function () {
+        this.np_step--
+        window.scrollTo(0, 0)
+      },
+      stepForward: function () {
+        this.np_step++
+        window.scrollTo(0, 0)
       }
     },
     computed: {

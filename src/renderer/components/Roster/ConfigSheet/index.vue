@@ -26,7 +26,7 @@
           </v-layout>
           <v-layout><span class="header">Configuration Notes</span></v-layout>
             <v-layout>
-            <v-flex><editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :val="config.notes" /></v-flex>
+              <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" />
           </v-layout>
         </v-flex>
         

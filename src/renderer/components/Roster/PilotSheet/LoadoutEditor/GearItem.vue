@@ -1,26 +1,31 @@
 <template>
-  <b-card no-body>
-    <v-layout>
+    <v-layout fill-height>
       <v-flex xs2>
-        <v-btn v-if="empty" block @click="clicked"> Equip {{ itemType }}</v-btn>
-        <v-btn v-else block @click="clicked">{{ itemType }}</v-btn>
+        <v-tooltip top>
+          <v-btn slot="activator" v-if="empty" block @click="clicked" class="m-0 p-0" style="height:100%"> Equip {{ itemType }}</v-btn>
+          <v-btn slot="activator" v-else block @click="clicked" class="m-0 p-0" style="height:100%">{{ itemType }}</v-btn>
+          <span v-if="empty">Add {{itemType}}</span>
+          <span v-else>Change {{itemType}}</span>
+        </v-tooltip>
       </v-flex>
-      <v-flex>
+      <v-flex xs10>
         <div v-if="empty">
-          ////
+          <v-expansion-panel class="m-0">
+            <v-expansion-panel-content disabled>
+              <span slot="header" class="subheading"> EMPTY </span> 
+            </v-expansion-panel-content>
+          </v-expansion-panel>
         </div>
         <div v-else>
-          <v-btn block v-b-toggle="item.id + 'collapse'" :key="item.id">
-            <span class="float-left">{{itemData.name}} </span> 
-            <span class="float-right">{{itemData.source}}</span>
-          </v-btn>
-            <b-collapse :id="item.id + 'collapse'" class="mt-2">
-              <gear-card :itemData="itemData"/>
-            </b-collapse>
+          <v-expansion-panel class="m-0">
+              <v-expansion-panel-content>
+            <span slot="header" class="subheading font-weight-bold">{{itemData.name}} <span class="caption">({{ itemData.source }})</span></span> 
+                <gear-card :itemData="itemData"/>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
         </div>
       </v-flex>
     </v-layout>
-  </b-card>
 </template>
 
 <script>

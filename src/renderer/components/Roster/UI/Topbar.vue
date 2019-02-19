@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-toolbar>
-      <v-toolbar-title>BootstrapVue {{ versionNumber }}</v-toolbar-title>
+    <v-toolbar dense>
+      <v-toolbar-title>COMP/CON {{ versionNumber }}</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
         <v-btn flat>Gear Catalog</v-btn>
@@ -17,11 +17,6 @@
 <script>
   export default {
     name: 'topbar',
-    computed: {
-      version: function () {
-        return this.versionNumber
-      }
-    },
     methods: {
       goBack: function () {
         this.$router.push('/')

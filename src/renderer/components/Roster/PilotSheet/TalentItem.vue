@@ -4,11 +4,11 @@
       <span>{{talentData.name}}</span>
       <span v-for="n in talent.rank" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
     </v-toolbar-title>
-    <v-card>
-      <v-card-title><blockquote class="blockquote m-0" v-html="talentData.description" /></v-card-title>
+    <v-card >
+      <v-card-title><blockquote class="blockquote m-0 pb-0 pt-0" v-html="talentData.description" /></v-card-title>
     </v-card>
     <v-card>
-      <v-card-title primary-title>
+      <v-card-title primary-title class="pb-0 pt-0 mb-0">
         <div>
           <div class="title"><v-icon class="mb-1">star</v-icon> {{talentData.r1_name}}</div>
           <p class="pl-4" v-html="talentData.r1_desc" />
@@ -16,7 +16,7 @@
       </v-card-title>
     </v-card>
     <v-card :color="isLocked(2) ? 'grey lighten-5' : ''">
-      <v-card-title primary-title>
+      <v-card-title primary-title class="pb-0 pt-0 mb-0">
         <div>
           <div class="title">
             <span v-if="isLocked(2)">
@@ -31,7 +31,7 @@
       </v-card-title>
     </v-card>
     <v-card :color="isLocked(3) ? 'grey lighten-5' : ''">
-      <v-card-title primary-title>
+      <v-card-title primary-title class="pb-0 pt-0 mb-0">
         <div>
           <div class="title">
             <span v-if="isLocked(3)">

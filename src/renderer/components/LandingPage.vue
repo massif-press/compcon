@@ -24,9 +24,10 @@
 
       <v-layout style="padding-top:10vh">
         <v-flex>
-            <b-card header="Update" title="MM/DD/YYYY" sub-title="v.x.x.x">
-              <b-card-body>notes, links, etc</b-card-body>
-            </b-card>
+            <v-card>
+              <v-card-title>Update MM/DD/YYYY (v.x.x.x)</v-card-title>
+              <v-card-text>notes, links, etc</v-card-text>
+            </v-card>
           </v-flex>
       </v-layout>
 
@@ -34,16 +35,16 @@
 
       <v-layout>
         <v-flex>
-          <b-card no-body class="text-center">
-            <span class="text-muted">loading log</span>
-          </b-card>
+          <v-card class="text-xs-center">
+            <span>loading log</span>
+          </v-card>
         </v-flex>
       </v-layout>
     </v-container>
 
 
     <v-footer fixed>
-      <span href="#">ver. {{version}}</span>
+      <span href="#">&emsp;v. {{ ver }}</span>
       <v-spacer />
       <v-btn flat small>About</v-btn>
       <v-btn flat small>Help</v-btn>
@@ -54,10 +55,11 @@
 <script>
   export default {
     name: 'landing-page',
-    computed: {
-      version: function () {
-        return this.versionNumber
-      }
+    data: () => ({
+      ver: 0
+    }),
+    mounted: function () {
+      this.ver = this.versionNumber
     }
   }
 </script>

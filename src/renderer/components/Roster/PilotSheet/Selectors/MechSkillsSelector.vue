@@ -57,7 +57,20 @@
 <script>
 export default {
   name: 'mech-skills-selector',
-  props: ['mechSkills', 'pilotLevel', 'isActivePilot'],
+  props: {
+    mechSkills: {
+      type: Object
+    },
+    pilotLevel: {
+      type: Number
+    },
+    isActivePilot: {
+      type: Boolean
+    },
+    newPilot: {
+      type: Boolean
+    }
+  },
   methods: {
     changeSkill: function (field, operator) {
       if (this.isActivePilot) {
@@ -80,6 +93,9 @@ export default {
     pointLimit: function () {
       return this.currentPoints >= this.maxPoints
     }
+  },
+  mounted: function () {
+    if (this.newPilot) this.pilotLevel = 0
   }
 }
 </script>
