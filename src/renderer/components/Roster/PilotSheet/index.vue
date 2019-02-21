@@ -85,22 +85,19 @@
             </v-layout>
           </v-flex>
           <v-flex xs4>
-            <v-layout><span class="header no-icon">Appearance</span></v-layout>
+            <v-layout>
+              <span class="header">Appearance
+                <v-btn class="edit-btn" small flat icon color="blue" @click="appearanceModal = true"><v-icon small>edit</v-icon></v-btn>
+              </span>
+            </v-layout>
             <v-layout>
               <v-flex class="pl-2"  @click="appearanceModal = true">
-                  <v-hover>
-                    <v-card slot-scope="{ hover }" class="mx-auto" color="grey lighten-4" max-width="400" >
-                  <div>
-                    <v-img src="https://via.placeholder.com/400x500" fluid-grow>
-                      <v-expand-transition>
-                        <div v-if="hover" class="d-flex transition-fast-in-fast-out darken-2 v-card--reveal display-1 white--text" style="height: 100%;">
-                          Set Pilot Image &nbsp;
-                        </div>
-                      </v-expand-transition>
-                    </v-img>
-                  </div>
-                  </v-card>
-                  </v-hover>
+                <div v-if="!pilot.img_appearance">
+                  <v-btn block small flat color="blue lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
+                </div>
+                <div v-else>
+                  <v-img :src="pilot.img_appearance" fluid-grow />
+                </div>
                 <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-card>
                     <v-toolbar fixed dense>
@@ -163,9 +160,26 @@
       </v-layout>
       <v-layout>
         <span class="header">Licenses
-          <v-btn class="edit-btn" small flat icon color="blue darken-2">
-            <v-icon small>edit</v-icon>
-          </v-btn>
+          <v-dialog lazy v-model="licenseModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+              <v-icon small>edit</v-icon>
+            </v-btn>
+            <v-card>
+              <v-toolbar fixed dense>
+                <v-toolbar-title>Edit Pilot Licenses</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-btn icon large @click="licenseModal = false"> <v-icon large>close</v-icon> </v-btn>
+                </v-toolbar-items>
+              </v-toolbar>
+              <v-spacer></v-spacer>
+              <license-selector :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
+              <v-layout justify-space-between>
+                <v-flex xs1> &emsp; </v-flex>
+                <v-flex xs1><v-btn color="primary" flat @click="licenseModal = false">Confirm</v-btn></v-flex>
+              </v-layout>
+            </v-card>
+          </v-dialog>
         </span>
       </v-layout>
       <div v-for="(license, index) in pilot.licenses" :key="index">
@@ -279,10 +293,27 @@
       <div class="spacer" />
       <v-container>
         <v-layout>
-          <v-flex><v-btn block>print</v-btn></v-flex>
-          <v-flex><v-btn block>export</v-btn></v-flex>
-          <v-flex><v-btn block>clone</v-btn></v-flex>
-          <v-flex><v-btn block>delete</v-btn></v-flex>
+          <v-flex xs4><v-btn block>print</v-btn></v-flex>
+          <v-flex xs4><v-btn block>export</v-btn></v-flex>
+          <v-flex xs4>
+            <v-btn slot="activator" color="primary" flat block @click="clonePilot"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
+          </v-flex>
+          <v-flex xs4>
+            <v-dialog v-model="deleteDialog" width="500" >
+                <v-btn slot="activator" color="error" flat block><v-icon>delete</v-icon> &nbsp; DELETE</v-btn>
+                <v-card>
+                  <v-card-text>
+                    Are you sure you want to delete {{pilot.callsign}}? This action cannot be undone
+                  </v-card-text>
+                  <v-divider />
+                  <v-card-actions>
+                    <v-btn color="primary" flat @click="deleteDialog = false" > Cancel </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="error" @click="deletePilot" > Delete Pilot </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+          </v-flex>
         </v-layout>
       <div class="spacer" />
 
@@ -309,6 +340,7 @@
   import BackgroundSelector from './Selectors/BackgroundSelector'
   import SkillSelector from './Selectors/SkillSelector'
   import TalentSelector from './Selectors/TalentSelector'
+  import LicenseSelector from './Selectors/LicenseSelector'
   import MechSkillsSelector from './Selectors/MechSkillsSelector'
   import CoreBonusSelector from './Selectors/CoreBonusSelector'
 
@@ -328,6 +360,7 @@
       BackgroundSelector,
       SkillSelector,
       TalentSelector,
+      LicenseSelector,
       MechSkillsSelector,
       CoreBonusSelector
     },
@@ -344,6 +377,7 @@
       mechSkillModal: false,
       bonusModal: false,
       pilotGearModal: false,
+      deleteDialog: false,
       contactKey: 0,
       activeLoadoutIdx: 0,
       loadoutForceReloadTrigger: 0
@@ -396,6 +430,21 @@
           val: bonusArray
         })
         this.$forceUpdate()
+      },
+      setLicenses: function (licenseArray) {
+        this.licenseModal = false
+        this.$store.dispatch('editPilot', {
+          attr: `licenses`,
+          val: licenseArray
+        })
+        this.$forceUpdate()
+      },
+      deletePilot: function () {
+        this.deleteDialog = false
+        this.$store.dispatch('deletePilot', this.pilot.id)
+      },
+      clonePilot: function () {
+        this.$store.dispatch('clonePilot', this.pilot.id)
       }
     },
     computed: {
@@ -412,51 +461,40 @@
 </script>
 
 <style scoped>
-.spacer {
-  padding-bottom: 5vh;
-}
+  .header {
+    background-color: lightgray;
+    font-weight: bold;
+    letter-spacing: 3px;
+    width: 100%;
+    padding-left: 10px;
+    margin-top:10px;
+    margin-bottom: 3px;
+  }
 
-.header {
-  background-color: lightgray;
-  font-weight: bold;
-  letter-spacing: 3px;
-  width: 100%;
-  padding-left: 10px;
-  margin-top:10px;
-  margin-bottom: 3px;
-}
+  .no-icon {
+    height:40px;
+    padding-top:8px
+  }
 
-.edit-btn {
-  position: relative;
-  margin-left: -10px;
-  fill-opacity: 0.5;
-  cursor: pointer;
-  transition: 0.3s all;
-}
-
-.no-icon {
-  height:40px;
-  padding-top:8px
-}
-
-.edit-btn:hover {
-  fill-opacity: 1;
-  transition: 0.3s all;
-}
-
-.v-card--reveal {
-  background: rgba(30,87,153,1);
-  align-items:flex-end;
-  bottom: 0px;
-  justify-content:flex-end;
-  opacity: .5;
-  position: absolute;
-  width: 100%;
-  cursor: pointer;
-}
+  .v-dialog__activator {
+    margin-left: -18px;
+  }
 </style>
 
 <style>
+.edit-btn {
+  position: relative;
+  margin-left: -10px;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.edit-btn:hover {
+  opacity: 1;
+  transition: 0.3s all;
+}
+
 .notch20 {
   --notchSize: 20px;
 

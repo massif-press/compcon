@@ -23,7 +23,7 @@
             <v-card>
               <v-container fluid grid-list-xs>
                 <v-card hover class="pb-2">
-                  <v-card-title class="pb-0"><span class="headline font-weight-bold">Rank I</span>&emsp;<sub class="grey--text">UNLOCKED</sub></v-card-title>
+                  <v-card-title class="pb-0"><span class="headline font-weight-bold">Rank I</span>&emsp;<span class="grey--text"><v-icon color="success">lock_open</v-icon></span></v-card-title>
                   <hr>
                   <v-layout row>
                     <v-flex shrink v-for="item in licenseData.unlocks[0]" :key="item.id">
@@ -34,8 +34,8 @@
                 <br>
                <v-card :hover="!isLocked(2)" :color="isLocked(2) ? 'grey lighten-2' : ''" class="pb-2">
                   <v-card-title class="pb-0"><span :class="`headline ${isLocked(2) ? 'grey--text' : 'font-weight-bold'}`">Rank II</span>&emsp;
-                    <sub v-if="isLocked(2)">LOCKED</sub>
-                    <sub v-else class="grey--text">UNLOCKED</sub>
+                    <span v-if="isLocked(2)"><v-icon color="grey">lock</v-icon></span>
+                    <span v-else class="grey--text"><v-icon color="success">lock_open</v-icon></span>
                   </v-card-title>
                   <hr>
                   <v-layout row>
@@ -47,8 +47,8 @@
                 <br>
                <v-card :hover="!isLocked(3)" :color="isLocked(3) ? 'grey lighten-2' : ''" class="pb-2">
                   <v-card-title class="pb-0"><span :class="`headline ${isLocked(2) ? 'grey--text' : 'font-weight-bold'}`">Rank III</span>&emsp;
-                    <sub v-if="isLocked(3)">LOCKED</sub>
-                    <sub v-else class="grey--text">UNLOCKED</sub>
+                    <span v-if="isLocked(3)"><v-icon color="grey">lock</v-icon></span>
+                    <span v-else class="grey--text"><v-icon color="success">lock_open</v-icon></span>
                   </v-card-title>
                   <hr>
                   <v-layout row>
