@@ -22,9 +22,9 @@
         </div>
         <!-- frame -->
         <div v-else>
-          <p v-if="itemData.uses" v-html="`${itemData.uses} Uses`" />
-          <p v-if="itemData.effect" v-html="itemData.effect" />
-          <p v-if="itemData.other" v-html="itemData.other" />
+          <p>{{itemData.source}} {{itemData.mechtype}} Frame</p>
+          <p>{{itemData.description}}</p>
+          <frame-statblock :frame="itemData" />
         </div>
         <v-layout>
           <tag v-for="tag in itemData.tags" :key="tag.id" :id="tag.id" :val="tag.val"/>
@@ -37,12 +37,13 @@
 <script>
   import DamageElement from './DamageElement'
   import RangeElement from './RangeElement'
+  import FrameStatblock from './FrameStatblock'
   import Tag from './Tag'
 
   export default {
     name: 'item-card',
     props: ['itemData'],
-    components: { DamageElement, RangeElement, Tag },
+    components: { DamageElement, RangeElement, FrameStatblock, Tag },
     computed: {
       pilot: function () {
         return this.$store.getters.getPilot

@@ -136,7 +136,7 @@
             <span class="header">
               Skill Triggers
               <v-dialog lazy v-model="skillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+                <v-btn slot="activator" @click="reInit('skillSelector')" class="edit-btn" small flat icon color="blue darken-2">
                   <v-icon small>edit</v-icon>
                 </v-btn>
                 <v-card>
@@ -148,7 +148,7 @@
                     </v-toolbar-items>
                   </v-toolbar>
                   <v-spacer></v-spacer>
-                  <skill-selector :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
+                  <skill-selector ref="SkillSelector" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </v-card>
               </v-dialog>
             </span>
@@ -161,7 +161,7 @@
       <v-layout>
         <span class="header">Licenses
           <v-dialog lazy v-model="licenseModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" @click="reInit('licenseSelector')" class="edit-btn" small flat icon color="blue darken-2">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -173,7 +173,7 @@
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer></v-spacer>
-              <license-selector :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
+              <license-selector ref="licenseSelector" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
               <v-layout justify-space-between>
                 <v-flex xs1> &emsp; </v-flex>
                 <v-flex xs1><v-btn color="primary" flat @click="licenseModal = false">Confirm</v-btn></v-flex>
@@ -188,7 +188,7 @@
       <v-layout>
         <span class="header">Talents
           <v-dialog lazy v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" @click="reInit('talentSelector')" class="edit-btn" small flat icon color="blue darken-2">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -200,7 +200,7 @@
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer></v-spacer>
-              <talent-selector :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
+              <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
             </v-card>
           </v-dialog>
         </span>
@@ -253,7 +253,7 @@
       <v-layout>
         <span class="header">CORE Bonuses
           <v-dialog lazy v-model="bonusModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" @click="reInit('cbSelector')" class="edit-btn" small flat icon color="blue darken-2">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -265,7 +265,7 @@
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer></v-spacer>
-              <core-bonus-selector :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses"/>
+              <core-bonus-selector ref="cbSelector" :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses"/>
             </v-card>
           </v-dialog>
         </span>
@@ -399,6 +399,9 @@
       },
       getLicense: function (name) {
         return this.$store.getters.getLicenseByName(name.toLowerCase())
+      },
+      reInit: function (ref) {
+        this.$refs[ref].init()
       },
       backgroundSelect: function (bgReturn) {
         this.backgroundModal = false
