@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import GearCard from './GearCard'
+import GearCard from '../../UI/GearCard'
 
 export default {
   name: 'gear-item',

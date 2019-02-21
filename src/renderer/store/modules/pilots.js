@@ -34,11 +34,18 @@ const mutations = {
       throw console.error('Pilot not loaded!')
     }
   },
-  CLONE_PILOT (state, payload) {
+  CLONE_PILOT (state) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       var newPilot = Object.assign({}, state.Pilots[pilotIndex])
+      newPilot.id = io.newID()
+      newPilot.name += ' (CLONE)'
+      newPilot.callsign += '*'
+      for (var i = 0; i < newPilot.configs.length; i++) {
+        newPilot.configs[i].id = io.newID()
+      }
       state.Pilots.push(newPilot)
+      this.SET_PILOT(state, newPilot.id)
     } else {
       throw console.error('Pilot not loaded!')
     }
@@ -47,7 +54,7 @@ const mutations = {
     state.Pilots.push(payload)
   },
   DELETE_PILOT (state, payload) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+    var pilotIndex = state.Pilots.findIndex(x => x.id === payload)
     if (pilotIndex > -1) {
       state.Pilots.splice(pilotIndex, 1)
     } else {

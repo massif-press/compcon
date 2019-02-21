@@ -5,11 +5,11 @@ Vue Parity:
   Pilot Sheet:
     ✔ Rewrite text field/area editors @done(19-02-19 11:46)
     ☐ Avatar and portrait selector
-    ☐ License Selector
+    ✔ License Selector @done(19-02-20 14:48)
     ✔ License Modal @done(19-02-16 14:53)
       ✔ Rewrite ItemBadge @done(19-02-18 10:49)
-        ☐ Weapon Popover
-        ☐ System Popover
+        ✔ Weapon Popover @done(19-02-20 14:48)
+        ✔ System Popover @done(19-02-20 14:48)
         ☐ Frame Popover
     ☐ Level Up
     ✔ Pilot gear selector @done(19-02-18 14:32)
@@ -17,8 +17,8 @@ Vue Parity:
     ☐ Quick info in GearItem expandables
     ☐ Rewrite Pilot Sidebar
     ☐ Export
-    ☐ Clone
-    ☐ Delete
+    ✔ Clone @done(19-02-20 15:33)
+    ✔ Delete @done(19-02-20 15:25)
   Mech Sheet:
     ☐ New Config
     ☐ Licenses Required
@@ -38,7 +38,7 @@ Vue Parity:
     ☐ Items
 
 Other:
-  ☐ per-item notes
+  ☐ better no pilot loaded page
   ✔ newPilot needs a better check than pilotLevel = 0 (should be anything coming from new pilot interface) @done(19-02-18 14:54)
   ✔ new pilot continue button should scroll to top @done(19-02-18 14:59)
   ✔ new pilot skill adds should collapse expander @done(19-02-18 15:22)
@@ -53,11 +53,13 @@ Post-1.0:
   ☐ Pilot Stat Contributions
   ☐ Actions Panel
   ☐ Tutorial popups
+  ☐ Per-item notes
 
 Bugs:
   ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55)
   ☐ From-pilot selectors must re-init every modal open
   ☐ Loadout rename/delete is bugged
+  ☐ Contact editing not working
 
 Refactoring:
   ☐ move static assets out of computed @critical
@@ -67,6 +69,8 @@ Refactoring:
   ☐ Core bonus selector item and core bonus sheet item should be the same
   ☐ new pilot should use router to lazy-load pages
   ☐ better behavior for back button
+  ☐ License/Talent/Skill selectors can share a common framework
+  ☐ make license data uppercase, remove the license editor uppercase confirms
 
 1.0:
   Pilot Sheet:
