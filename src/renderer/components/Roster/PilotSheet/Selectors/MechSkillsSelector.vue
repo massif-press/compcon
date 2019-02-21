@@ -43,7 +43,7 @@
     <v-layout align-center justify-center column fill-height>
       <v-flex><span class="headline">ENGINEERING</span></v-flex>
       <v-flex>
-        <span class="font-weight-light">Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support mechSkills.systems </span>
+        <span class="font-weight-light">Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems </span>
       </v-flex>
       <v-flex>
         <v-btn :disabled="mechSkills.eng <= 0" icon left bottom @click="changeSkill('eng', '-')"><v-icon>remove</v-icon></v-btn>
@@ -71,6 +71,9 @@ export default {
       type: Boolean
     }
   },
+  data: () => ({
+    pLvl: 0
+  }),
   methods: {
     changeSkill: function (field, operator) {
       if (this.isActivePilot) {
@@ -85,7 +88,7 @@ export default {
   },
   computed: {
     maxPoints: function () {
-      return this.pilotLevel + 2
+      return this.pLvl + 2
     },
     currentPoints: function () {
       return this.mechSkills.hull + this.mechSkills.agi + this.mechSkills.sys + this.mechSkills.eng
@@ -95,7 +98,8 @@ export default {
     }
   },
   mounted: function () {
-    if (this.newPilot) this.pilotLevel = 0
+    if (this.newPilot) this.pLvl = 0
+    else this.pLvl = this.pilotLevel
   }
 }
 </script>

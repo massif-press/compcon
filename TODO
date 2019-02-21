@@ -1,6 +1,8 @@
 Vue Parity:
   ☐ Damage component
   ☐ Range component
+  ☐ Frame statblock component
+  ☐ Format GearItem components
   ✔ Tags @done(19-02-19 15:20)
   Pilot Sheet:
     ✔ Rewrite text field/area editors @done(19-02-19 11:46)
@@ -10,10 +12,9 @@ Vue Parity:
       ✔ Rewrite ItemBadge @done(19-02-18 10:49)
         ✔ Weapon Popover @done(19-02-20 14:48)
         ✔ System Popover @done(19-02-20 14:48)
-        ☐ Frame Popover
+        ✔ Frame Popover @done(19-02-21 12:35)
     ☐ Level Up
     ✔ Pilot gear selector @done(19-02-18 14:32)
-    ☐ Format GearItem components
     ☐ Quick info in GearItem expandables
     ☐ Rewrite Pilot Sidebar
     ☐ Export
@@ -57,9 +58,11 @@ Post-1.0:
 
 Bugs:
   ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55)
-  ☐ From-pilot selectors must re-init every modal open
+  ✔ From-pilot selectors must re-init every modal open @done(19-02-21 11:51)
   ☐ Loadout rename/delete is bugged
   ☐ Contact editing not working
+  ☐ Combat webbing item selector rows
+  ☐ Gear selector expanders not working within modal
 
 Refactoring:
   ☐ move static assets out of computed @critical
@@ -67,7 +70,6 @@ Refactoring:
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same
-  ☐ new pilot should use router to lazy-load pages
   ☐ better behavior for back button
   ☐ License/Talent/Skill selectors can share a common framework
   ☐ make license data uppercase, remove the license editor uppercase confirms

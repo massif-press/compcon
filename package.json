@@ -63,7 +63,6 @@
     "material-icons": "^0.3.0",
     "vue": "^2.6.6",
     "vue-awesome": "^3.3.1",
-    "vue-clickaway": "^2.2.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.1",

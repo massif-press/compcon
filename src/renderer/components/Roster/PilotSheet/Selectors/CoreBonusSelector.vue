@@ -116,10 +116,13 @@
       },
       bonusById: function (id) {
         return this.$store.getters.getItemById('CoreBonuses', id)
+      },
+      init () {
+        this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
       }
     },
     mounted () {
-      this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
+      this.init()
       var allData = this.$store.getters.getItemCollection('CoreBonuses')
       var licenses = {'GMS': 999}
       for (var i = 0; i < this.pilotLicenses.length; i++) {

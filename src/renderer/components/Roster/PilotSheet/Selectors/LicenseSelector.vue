@@ -103,7 +103,6 @@
         return t ? t.level : 0
       },
       addLicense: function (l) {
-        console.log(l)
         var idx = this.licenses.findIndex(x => x.name.toUpperCase() === l.name.toUpperCase())
         if (idx === -1) {
           this.licenses.push({
@@ -133,13 +132,15 @@
         this.licenses.splice(0, this.licenses.length)
         this.$forceUpdate()
         this.pointLimit = false
-        this.panels = []
+      },
+      init () {
+        this.licenses = licenseSort(JSON.parse(JSON.stringify(this.pilotLicenses)))
       }
     },
     mounted () {
       this.pLevel = this.pilotLevel
-      this.licenses = this.pLevel === 0 ? licenseSort(this.pilotLicenses) : licenseSort(JSON.parse(JSON.stringify(this.pilotLicenses)))
       this.licenseData = this.$store.getters.getItemCollection('Licenses')
+      this.init()
     }
   }
 </script>
