@@ -12,7 +12,7 @@
     <!-- Armor -->
     <v-container fluid>
       <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
-        :items="gearItems" :expand="expand" item-key="id" hide-actions>
+        :items="gearItems" expand item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
           <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
@@ -65,7 +65,6 @@
       searchFilter: null,
       filters: [],
       selectedFilters: [],
-      expand: false,
       armor_headers: [
         {align: 'left', sortable: false, width: '5vw'},
         {text: 'Item', align: 'left', value: 'name'},

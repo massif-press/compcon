@@ -3,7 +3,7 @@
     <br><br>
     <v-layout>
       <v-flex xs3>
-        <div id="licenses-area">
+        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
           <br>
@@ -83,7 +83,8 @@
       licenses: [],
       pointLimit: false,
       pLevel: 0,
-      licenseData: []
+      licenseData: [],
+      scrollPosition: null
     }),
     computed: {
       points: function () {
@@ -133,23 +134,31 @@
         this.$forceUpdate()
         this.pointLimit = false
       },
-      init () {
+      initialize () {
         this.licenses = licenseSort(JSON.parse(JSON.stringify(this.pilotLicenses)))
       }
     },
     mounted () {
       this.pLevel = this.pilotLevel
       this.licenseData = this.$store.getters.getItemCollection('Licenses')
-      this.init()
+      this.initialize()
+
+      var vm = this
+      window.addEventListener('scroll', function (e) {
+        vm.scrollPosition = window.scrollY
+      })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
 <style>
-  #licenses-area {
-    width: 18vw!important;
-    margin: -20px auto 0;
+  .scroll-fix{
+    margin: -25vh 0px;
     position: fixed;
+    width: 20vw;
   }
 
   #list-area {
