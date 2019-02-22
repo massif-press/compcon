@@ -31,14 +31,7 @@
         </v-flex>
         
         <v-flex xs6>
-          <image-selector-modal :title="'Select Mech Image'" ref="mechImg">
-            <div class="hovereffect" @click="selectMechImg()">
-              <b-img src="https://via.placeholder.com/800x500" fluid-grow />
-              <div class="overlay">
-                <p style="height:100%;"><a style="position: abosulte; right:25px; bottom: 20px">SELECT MECH IMAGE</a></p>
-              </div>
-            </div>
-          </image-selector-modal>
+          <b-img src="https://via.placeholder.com/800x500" fluid-grow />
         </v-flex>
       </v-layout>
 
@@ -131,7 +124,7 @@
   import Stats from '@/logic/stats'
   import EditableLabel from '../UI/EditableLabel'
   import EditableTextfield from '../UI/EditableTextfield'
-  import ImageSelector from '../UI/ImageSelector'
+  // import ImageSelector from '../UI/ImageSelector'
   import PipBar from '../UI/PipBar'
   import StatblockItem from './StatblockItem'
   import TraitItem from './TraitItem'
@@ -139,7 +132,7 @@
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, 'image-selector-modal': ImageSelector, PipBar, Stats, StatblockItem, TraitItem, MechLoadout },
+    components: { EditableLabel, EditableTextfield, PipBar, Stats, StatblockItem, TraitItem, MechLoadout },
     data: () => ({
       activeLoadoutIdx: 0
     }),

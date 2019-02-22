@@ -41,8 +41,8 @@
             <span style="font-size: 120px; line-height: 90px" class="font-weight-thin">{{pilot.level}}</span>
           <v-flex>
             <v-tooltip bottom nudge-right="15px">
-              <v-btn slot="activator" bottom right fab small :disabled="pilot.level > 11" color="primary" style="float:right; margin-left:30px">
-                <v-icon large >arrow_upward</v-icon>
+              <v-btn :to="'/level'" slot="activator" bottom right fab small :disabled="pilot.level > 11" color="primary" style="float:right; margin-left:30px">
+                <v-icon large>arrow_upward</v-icon>
               </v-btn>
               <span>Level Up</span>
             </v-tooltip>
@@ -147,8 +147,8 @@
                       <v-btn icon large @click="skillModal = false"> <v-icon large>close</v-icon> </v-btn>
                     </v-toolbar-items>
                   </v-toolbar>
-                  <v-spacer></v-spacer>
-                  <skill-selector ref="SkillSelector" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
+                <v-spacer class="mb-4 pb-2"/>
+                  <skill-selector ref="skillSelector" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </v-card>
               </v-dialog>
             </span>
@@ -172,7 +172,7 @@
                   <v-btn icon large @click="licenseModal = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer></v-spacer>
+              <v-spacer class="mb-4 pb-2"/>
               <license-selector ref="licenseSelector" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
               <v-layout justify-space-between>
                 <v-flex xs1> &emsp; </v-flex>
@@ -199,7 +199,7 @@
                   <v-btn icon large @click="talentModal = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer></v-spacer>
+              <v-spacer class="mb-4 pb-2"/>
               <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
             </v-card>
           </v-dialog>
@@ -222,7 +222,7 @@
                   <v-btn icon large @click="mechSkillModal = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer></v-spacer>
+              <v-spacer class="mb-4 pb-2"/>
               <mech-skills-selector :mechSkills="pilot.mechSkills" :pilotLevel="pilot.level" :isActivePilot="true" />
               <v-layout justify-space-between>
                 <v-flex xs1> &emsp; </v-flex>
@@ -327,29 +327,20 @@
 
 <script>
   import Stats from '@/logic/stats'
-  import EditableLabel from '../UI/EditableLabel'
-  import EditableTextfield from '../UI/EditableTextfield'
-  import PipBar from '../UI/PipBar'
-  import ImageSelector from '../UI/ImageSelector'
+  import { EditableLabel, EditableTextfield } from '../UI'
+  import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector } from './Selectors'
   import ContactsList from './ContactsList'
   import LicenseItem from './LicenseItem'
   import SkillItem from './SkillItem'
   import TalentItem from './TalentItem'
   import CoreBonusItem from './CoreBonusItem'
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
-  import BackgroundSelector from './Selectors/BackgroundSelector'
-  import SkillSelector from './Selectors/SkillSelector'
-  import TalentSelector from './Selectors/TalentSelector'
-  import LicenseSelector from './Selectors/LicenseSelector'
-  import MechSkillsSelector from './Selectors/MechSkillsSelector'
-  import CoreBonusSelector from './Selectors/CoreBonusSelector'
 
   export default {
     name: 'pilot-sheet',
     components: {
       EditableLabel,
       EditableTextfield,
-      PipBar,
       LicenseItem,
       SkillItem,
       TalentItem,
@@ -401,7 +392,7 @@
         return this.$store.getters.getLicenseByName(name.toLowerCase())
       },
       reInit: function (ref) {
-        this.$refs[ref].init()
+        this.$refs[ref].initialize()
       },
       backgroundSelect: function (bgReturn) {
         this.backgroundModal = false

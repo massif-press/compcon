@@ -59,7 +59,7 @@
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs2>
-                <v-btn large :disabled="!newPilot.name || !newPilot.callsign" color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -206,10 +206,7 @@
 </template>
 
 <script>
-  import BackgroundSelector from '../Selectors/BackgroundSelector'
-  import SkillSelector from '../Selectors/SkillSelector'
-  import TalentSelector from '../Selectors/TalentSelector'
-  import MechSkillsSelector from '../Selectors/MechSkillsSelector'
+  import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector} from '../Selectors'
 
   export default {
     name: 'new-pilot',
@@ -227,9 +224,7 @@
           sys: 0,
           eng: 0
         }
-      },
-      value: 1,
-      max: 6
+      }
     }),
     methods: {
       itemSelect: function (payload) {

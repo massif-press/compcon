@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout>
       <v-flex xs3>
-        <div id="bonuses-area">
+        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
           <br>
@@ -77,7 +77,8 @@
       bonuses: [],
       pointLimit: true,
       licenses: {},
-      bonusData: []
+      bonusData: [],
+      scrollPosition: null
     }),
     computed: {
       points: function () {
@@ -117,12 +118,12 @@
       bonusById: function (id) {
         return this.$store.getters.getItemById('CoreBonuses', id)
       },
-      init () {
+      initialize () {
         this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
       }
     },
     mounted () {
-      this.init()
+      this.initialize()
       var allData = this.$store.getters.getItemCollection('CoreBonuses')
       var licenses = {'GMS': 999}
       for (var i = 0; i < this.pilotLicenses.length; i++) {
@@ -138,15 +139,23 @@
       }
       this.licenses = licenses
       this.bonusData = allData.filter(x => licenses[x.source])
+
+      var vm = this
+      window.addEventListener('scroll', function (e) {
+        vm.scrollPosition = window.scrollY
+      })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
 <style>
-  #bonuses-area {
-    width: 20vw;
-    margin: -20px auto 0;
+  .scroll-fix{
+    margin: -25vh 0px;
     position: fixed;
+    width: 20vw;
   }
 
   #list-area {

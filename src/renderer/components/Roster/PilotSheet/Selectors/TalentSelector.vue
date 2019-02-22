@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout>
       <v-flex xs3>
-        <div id="talents-area">
+        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
           <br>
@@ -83,7 +83,8 @@
       talents: [],
       pointLimit: false,
       pLevel: 0,
-      panels: []
+      panels: [],
+      scrollPosition: null
     }),
     computed: {
       talentData: function () {
@@ -146,21 +147,32 @@
       },
       talentById: function (id) {
         return this.$store.getters.getItemById('Talents', id)
+      },
+      initialize () {
+        this.talents = talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
       }
     },
     mounted () {
       if (this.newPilot) this.pLevel = 0
       else this.pLevel = this.pilotLevel
       this.talents = this.pLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
+
+      var vm = this
+      window.addEventListener('scroll', function (e) {
+        vm.scrollPosition = window.scrollY
+      })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
 <style>
-  #talents-area {
-    width: 18vw!important;
-    margin: -20px auto 0;
+  .scroll-fix{
+    margin: -25vh 0px;
     position: fixed;
+    width: 20vw;
   }
 
   #list-area {

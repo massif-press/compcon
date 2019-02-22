@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout>
       <v-flex xs3>
-        <div id="skills-area">
+        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
           <br>
@@ -53,7 +53,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} skills
             </v-alert>
-            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+            <v-btn v-if="!newPilot || !this.levelUp" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
             <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -101,15 +101,6 @@
 <script>
   import SkillSelectorItem from './SkillSelectorItem'
 
-  function initialData () {
-    return {
-      skills: [],
-      pointLimit: false,
-      specializeLimit: false,
-      flawLimit: false
-    }
-  }
-
   function skillSort (skills) {
     return skills.sort(function (a, b) {
       if (a.specialty && !b.specialty) return -1
@@ -131,6 +122,9 @@
       },
       newPilot: {
         type: Boolean
+      },
+      levelUp: {
+        type: Boolean
       }
     },
     data: () => ({
@@ -140,7 +134,8 @@
       flawLimit: false,
       skillData: [],
       arrangedSkills: [],
-      pLevel: 0
+      pLevel: 0,
+      scrollPosition: null
     }),
     components: { SkillSelectorItem },
     computed: {
@@ -212,7 +207,7 @@
         this.flawLimit = this.points.flawCurrent >= this.points.flawMax
         this.skills = skillSort(this.skills)
 
-        if (this.newPilot && this.selectionComplete) {
+        if ((this.newPilot || this.levelUp) && this.selectionComplete) {
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
@@ -237,13 +232,17 @@
         else return 'blue'
       },
       initialize: function () {
-        this.data = initialData()
+        this.pLevel = this.pilotLevel
+        this.skills = skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
+        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+        this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
+        this.flawLimit = this.points.flawCurrent >= this.points.flawMax
       }
     },
     mounted () {
       if (this.newPilot) this.pLevel = 0
       else this.pLevel = this.pilotLevel
-      this.skills = this.pLevel === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
+      this.skills = (this.pLevel || this.newPilot) === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
       this.flawLimit = this.points.flawCurrent >= this.points.flawMax
@@ -254,15 +253,24 @@
         int: this.skillData.filter(x => x.family === 'int'),
         cha: this.skillData.filter(x => x.family === 'cha')
       }
+
+      var vm = this
+      window.addEventListener('scroll', function (e) {
+        vm.scrollPosition = window.scrollY
+      })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
 <style scoped>
 
-#skills-area {
-  margin: -20px auto 0;
+.scroll-fix{
+  margin: -25vh 0px;
   position: fixed;
+  width: 20vw;
 }
 
  #scroll-area {
