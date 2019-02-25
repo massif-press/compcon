@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense>
+    <v-toolbar dense style="z-index:10">
       <v-toolbar-title>COMP/CON {{ versionNumber }}</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>

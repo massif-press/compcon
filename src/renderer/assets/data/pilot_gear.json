@@ -9,7 +9,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "Once per round you can re-roll any attack with a light weapon, but must keep the second result.",
@@ -24,7 +24,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "2 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "2"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -41,7 +41,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "4 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "4"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -58,7 +58,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -72,10 +72,10 @@
       "id": "unreliable"
     }],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 5
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "",
@@ -87,10 +87,10 @@
     "name": "Signature Sidearm",
     "tags": [],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 3
     }],
-    "damage": 1,
+    "damage": [  {"type": "variable", "val": "1"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "Player selects damage type at item creation.\nOnce per round you can re-roll any attack with a sidearm, but must keep the second result.",
@@ -102,10 +102,10 @@
     "name": "Signature Combat Weapon",
     "tags": [],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 5
     }],
-    "damage": 2,
+    "damage": [  {"type": "variable", "val": "2"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "Player selects damage type at item creation",
@@ -124,10 +124,10 @@
       }
     ],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 10
     }],
-    "damage": 4,
+    "damage": [  {"type": "variable", "val": "4"}],
     "source": "GMS",
     "rarity": 0,
     "effect": "Player selects damage type at item creation",
@@ -149,7 +149,7 @@
         "val": 5
       }
     ],
-    "damage": "1 Explosive",
+    "damage": [  {"type": "explosive", "val": "1"}],
     "source": "HA",
     "rarity": 3,
     "effect": "Though deceptively simple in appearance, this javelin-like weapon contains a hardened suite of intelligent hardware and a miniaturized pressure wave generator in the tip. It can be thrown very accurately up to range 5, recalled to hand as an action, and guides itself around cover and effect obstacles.",
@@ -167,7 +167,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "2 Energy",
+    "damage": [  {"type": "energy", "val": "2"}],
     "source": "HA",
     "rarity": 4,
     "effect": "These rare and powerful weapons project a sheathed Energy field that ignites targets on impact.",
@@ -181,10 +181,10 @@
       "id": "ordnance"
     }],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 8
     }],
-    "damage": "1d3 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1d3"}],
     "source": "HA",
     "rarity": 1,
     "effect": "This heavy anti-armor rifle fired superheated bullets used to punch through infantry-scale hardsuits and light mechs. It requires mounting on a tripod before use, though some models come with a built-in stand. The enormous kick from this weapon is infamous for dislocating rookie pilots' shoulders.",
@@ -203,10 +203,10 @@
       }
     ],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 5
     }],
-    "damage": "1 Energy",
+    "damage": [  {"type": "energy", "val": "1"}],
     "source": "HA",
     "rarity": 2,
     "effect": "An infantry-scale model of the larger, mech mounted lasers, this weapon requires heavy cooling after each use. Standard squad-support weapon for Armory legionnaires.",
@@ -221,7 +221,7 @@
       "type": "threat",
       "val": "+1"
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "HORUS",
     "rarity": 3,
     "effect": "This whip is made up of linked microbots that flow in ring-like arcs around the body when not in use, defending against drone and nanorobotic threats. If you don't attack with this weapon, until the end of your next turn, weapons or systems with the Smart, Nexus, or Drone tags cannot target you.",
@@ -236,7 +236,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "*",
+    "damage": [  {"override": "true", "val": "*"}],
     "source": "HORUS",
     "rarity": 3,
     "effect": "Has no effect against non-organic targets, but on a successful hit, any human target is stunned until the start of your next turn. A target develops a short term resistance to this weapon and can only be affected by it once per challenge.",
@@ -253,7 +253,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "HORUS",
     "rarity": 2,
     "effect": "The tip of the knife is semi-solid and re-moldable and can be inserted into most electronic ports and used as a point of insertion for hacking rigs.",
@@ -272,10 +272,10 @@
       }
     ],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 2
     }],
-    "damage": "3 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "3"}],
     "source": "HORUS",
     "rarity": 4,
     "effect": "This weapon doesn't count against your maximum weapons wielded.",
@@ -293,10 +293,10 @@
       }
     ],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 5
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "HORUS",
     "rarity": 2,
     "effect": "This shoulder mounted drone hive is usually integrated into armor and releases a neurally linked, short ranged hunter-killer drone swarm. Designed to expire within moments of release, the aerosolized greywash swarm sweeps over the target, devouring organic and inorganic material with equal rapidity.",
@@ -311,10 +311,10 @@
       "val": 1
     }],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 3
     }],
-    "damage": "1 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "1"}],
     "source": "HORUS",
     "rarity": 2,
     "effect": "This HORUS-marked SMG has a companion/concierge unit built into it which provides aim assist in real time. It also has helpful and frequent tips for improving your combat skills and organizes your calendar, sometimes without you asking it.",
@@ -336,7 +336,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "3 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "3"}],
     "source": "IPS-N",
     "rarity": 2,
     "effect": "A pilot must be wearing a hard suit worth at least 1 armor to even wield a hackiron.",
@@ -356,7 +356,7 @@
         "val": 4
       }
     ],
-    "damage": "2 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "2"}],
     "source": "IPS-N",
     "rarity": 3,
     "effect": "The ripjack can be used as a Thrown 4 weapon against a human sized, non-mech target in range, immobilizing them on hit instead of dealing damage until the start of your next turn. It can also be used as a regular grappling hook.",
@@ -377,7 +377,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "5 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "5"}],
     "source": "IPS-N",
     "rarity": 3,
     "effect": "While wielding this weapon, you can take the dash action.",
@@ -392,10 +392,10 @@
       "val": 6
     }],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 3
     }],
-    "damage": "3 Explosive",
+    "damage": [  {"type": "explosive", "val": "3"}],
     "source": "IPS-N",
     "rarity": 1,
     "effect": "",
@@ -412,7 +412,7 @@
       "type": "cone",
       "val": 3
     }],
-    "damage": "2 Energy",
+    "damage": [  {"type": "energy", "val": "2"}],
     "source": "IPS-N",
     "rarity": 4,
     "effect": "",
@@ -430,7 +430,7 @@
       "type": "threat",
       "val": 1
     }],
-    "damage": "2 Energy",
+    "damage": [  {"type": "energy", "val": "2"}],
     "source": "SSC",
     "rarity": 2,
     "effect": "",
@@ -452,7 +452,7 @@
       "type": "threat",
       "val": "+1"
     }],
-    "damage": "3 Kinetic",
+    "damage": [  {"type": "kinetic", "val": "3"}],
     "source": "SSC",
     "rarity": 4,
     "effect": "",
@@ -473,10 +473,10 @@
       }
     ],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 15
     }],
-    "damage": "3 Energy",
+    "damage": [  {"type": "energy", "val": "3"}],
     "source": "SSC",
     "rarity": 3,
     "effect": "",
@@ -488,10 +488,10 @@
     "name": "Implanted Gun",
     "tags": [],
     "range": [{
-      "type": "ranged",
+      "type": "range",
       "val": 2
     }],
-    "damage": "1 Energy",
+    "damage": [  {"type": "energy", "val": "1"}],
     "source": "SSC",
     "rarity": 1,
     "effect": "Whenever you fire a weapon, you can fire this gun at the same or a different target.",
@@ -505,7 +505,7 @@
       "id": "loading"
     }],
     "range": [{
-        "type": "ranged",
+        "type": "range",
         "val": 5
       },
       {
@@ -513,7 +513,7 @@
         "val": 1
       }
     ],
-    "damage": "2 Explosive",
+    "damage": [  {"type": "explosive", "val": "2"}],
     "source": "SSC",
     "rarity": 3,
     "effect": "",

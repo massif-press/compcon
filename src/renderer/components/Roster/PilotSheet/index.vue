@@ -316,11 +316,17 @@
           </v-flex>
         </v-layout>
       <div class="spacer" />
-
       </v-container>
     </div>
-    <div v-else>
-      no pilot loaded
+
+    <div v-else style="height: 100%">
+      <v-container style="height: 100%">
+        <v-layout align-center justify-center row fill-height>
+          <v-flex height="100%">
+            <p class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </div>
   </div>
 </template>

@@ -1,36 +1,90 @@
 <template>
-  <div id="sidebar" 
-    @mouseover="toggleSidebar(true)" 
-    @mouseleave="toggleSidebar(false)" 
-    :class="{expanded: expand, collapsed : !expand}"
-    :hidden="hidden">
-    <div id='sidebar-wrapper'>
-      <div id='sidebar-header'>
-        <div v-if="expand">users:</div>
-        <div v-else>
-          <span class="float-right"> 
-            <b-icon name="angle-double-right" scale='2'/> 
-          </span>
+  <v-navigation-drawer :mini-variant.sync="mini" height="93.7vh" :visible="isVisible">
+
+    <v-toolbar flat class="transparent">
+      <v-list class="pt-0">
+
+        <v-list-tile v-if="!mini">
+          <v-list-tile-content class="pt-2">
+            <v-list-tile-title class="title">Pilots</v-list-tile-title>
+          </v-list-tile-content>
+
+          <v-list-tile-action class="pt-2">
+            <v-btn icon @click.stop="mini = !mini" >
+              <v-icon>chevron_left</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+        </v-list-tile>
+        <div v-else class="pa-2"></div>
+
+    
+
+    <v-list class="pt-0">
+    <div v-for="pilot in pilots" :key="pilot.title" >
+      <v-list-group value="true" >
+        <v-list-tile slot="activator">
+        <v-tooltip right :disabled="!mini">
+          <v-list-tile-action slot="activator">
+            <v-avatar size=40 color="blue darken-3">
+              <img v-if="pilot.avatar" :src="pilot.avatar" alt="avatar">
+              <b v-else class="white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</b>
+            </v-avatar>
+          </v-list-tile-action>
+          <span>{{pilot.callsign}}</span>
+        </v-tooltip>
+          <v-list-tile-title v-if="!mini">{{ pilot.callsign}}</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="select(pilot.id)">
+        <v-tooltip right :disabled="!mini">
+          <v-list-tile-action slot="activator" >
+            <v-icon large color="blue">pageview</v-icon>
+          </v-list-tile-action>
+          <span>View Pilot Sheet</span>
+        </v-tooltip>
+          <v-list-tile-content>
+              <v-list-tile-title class="font-weight-bold">Pilot Sheet</v-list-tile-title>
+              <v-list-tile-sub-title class="text-capitalize">level {{pilot.level}} {{item('Backgrounds', pilot.background).name}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-subheader style="height:20px; border-bottom: lightgrey 1px solid" class="mt-2 mb-2 ml-3 mr-3">Configurations</v-subheader>
+          <div v-for="config in pilot.configs" :key="config.id">
+          <v-list-tile @click="''">
+          <v-tooltip right :disabled="!mini">
+            <v-list-tile-action slot="activator" >
+              <v-icon large color="blue">open_in_browser</v-icon>
+            </v-list-tile-action>
+            <span>View Configuration</span>
+          </v-tooltip>
+            <v-list-tile-content>
+                <v-list-tile-title class="font-weight-bold">{{config.name}}</v-list-tile-title>
+                <v-list-tile-sub-title class="text-capitalize">{{item('Frames', config.frame_id).name}}</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </div>
-      </div> <!--/wrapper-->
-      <div id='sidebar-content' :class="{collapsed : !expand}">
-        <div style="height: 8px"></div> <!-- spacer -->
-        <sidebar-item
-          v-for="(pilot, index) in pilots"
-          :key="index"
-          :index="index"
-          :pilot_id="pilot.id"
-          :parentExpanded="expand"
-        />
-      </div> <!--/content-->
-      <div id='sidebar-footer'>
-        <div> 
-          <v-btn :to="'/new'" block  v-if="expand"><span style="padding-bottom:3px;"><b-icon name="plus-circle" style="padding-bottom:3px;" /> add new user</span></v-btn>
-          <v-btn :to="'/new'" block v-else>back<span class="float-right" style="padding-right:18px; padding-bottom:3px;"><b-icon name="plus-circle" /></span></v-btn>
-        </div>
-      </div> <!--/footer-->
+
+      </v-list-group>
+
+
     </div>
-  </div>
+    </v-list>
+
+
+
+  <v-spacer />
+
+          <v-list-tile @click="goToNew()">
+            <v-list-tile-action>
+              <v-icon color="indigo">add</v-icon>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-list-tile-title>Add New Pilot</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+      </v-list>
+    </v-toolbar>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -44,80 +98,26 @@ export default {
     lockExpand: false,
     activeIndex: -1,
     activeID: '',
-    hidden: false
+    isVisible: true,
+    mini: true,
+    drawer: true
   }),
-  methods: {
-    toggleSidebar: function (bool, lock) {
-      if (!this.lockExpand) {
-        this.expand = bool
-        if (lock) {
-          this.lockExpand = true
-          setTimeout(() => {
-            this.lockExpand = false
-          }, 450)
-        }
-      }
-    },
-    hideSidebar: function (bool) {
-      this.hidden = bool
-    }
-  },
   computed: {
     pilots: function () {
       return this.$store.getters.getAllPilots
     }
+  },
+  methods: {
+    select (pilotID) {
+      this.activeID = pilotID
+      this.$store.dispatch('loadPilot', pilotID)
+    },
+    item: function (type, id) {
+      return this.$store.getters.getItemById(type, id)
+    },
+    goToNew () {
+      if (!this.mini) this.$router.push('/new')
+    }
   }
 }
 </script>
-
-<style scoped>
-#sidebar {
-  z-index: 50;
-  position: absolute;
-  height: 93vh;
-  overflow: hidden;
-  background-color: lightgrey;
-  transition: all .45s cubic-bezier(.23,.73,.61,1);
-  width: 300px;
-}
-
-#sidebar.expanded {
-  left: 0;
-}
-
-#sidebar.collapsed {
-  left: -225px;
-  overflow: hidden;
-
-}
-
-#sidebar-wrapper {
-  height: 100%;
-  position: relative;
-}
-
-#sidebar-header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  background-color: antiquewhite;
-}
-
-#sidebar-content {
-  padding-top: 30px;
-  height: 88.25vh;
-  overflow-y: scroll;
-}
-
-#sidebar-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.center {
-  width: 100%;
-  text-align: center;
-}
-
-</style>

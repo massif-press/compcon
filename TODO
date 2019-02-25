@@ -1,8 +1,8 @@
 Vue Parity:
-  ☐ Damage component
-  ☐ Range component
+  ✔ Damage component @done(19-02-25 12:56)
+  ✔ Range component @done(19-02-25 12:56)
   ☐ Frame statblock component
-  ☐ Format GearItem components
+  ✔ Format GearItem components @done(19-02-25 12:56)
   ✔ Tags @done(19-02-19 15:20)
   Pilot Sheet:
     ✔ Rewrite text field/area editors @done(19-02-19 11:46)
@@ -15,7 +15,7 @@ Vue Parity:
         ✔ Frame Popover @done(19-02-21 12:35)
     ☐ Level Up
     ✔ Pilot gear selector @done(19-02-18 14:32)
-    ☐ Quick info in GearItem expandables
+    ✔ Quick info in GearItem expandables @done(19-02-25 12:56)
     ☐ Rewrite Pilot Sidebar
     ☐ Export
     ✔ Clone @done(19-02-20 15:33)
@@ -48,7 +48,6 @@ Other:
   ✔ Vuetify @done(19-02-18 14:55)
   ☐ Totally remove Bootstrap
   ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
-  ☐ generisize combat webbing to a generic extra equip bonus
   ✔ Remove clickaway @done(19-02-22 14:13)
 
 Post-1.0:
@@ -56,6 +55,7 @@ Post-1.0:
   ☐ Actions Panel
   ☐ Tutorial popups
   ☐ Per-item notes
+  ☐ Generisize combat webbing to a generic extra equip bonus
 
 Bugs:
   ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55)
