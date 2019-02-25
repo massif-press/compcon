@@ -23,7 +23,7 @@ export default new Router({
       component: require('@/components/Roster/index').default,
       children: [
         {
-          path: '/pilot',
+          path: '',
           component: require('@/components/Roster/PilotSheet/index').default
         },
         {

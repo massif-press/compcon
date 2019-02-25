@@ -22,11 +22,15 @@
             <v-layout slot="header"> 
               <span class="subheading font-weight-bold">{{itemData.name}} <span class="caption">({{ itemData.source }})</span></span> 
               <v-spacer />
-              <span v-if="itemData.type === 'armor'" class="mr-5"> 
+              <span v-if="itemData.type === 'armor'" class="mr-5" style="display: inline-flex;"> 
                 ARMOR: {{itemData.armor || 0}} // EDEF: {{itemData.edef || 0}} // EVASION: {{itemData.evasion || 0}} // SPEED: {{itemData.speed || 0}} 
               </span>
-              <span v-else-if="itemData.type === 'weapon'" class="mr-5"><range-element :range="itemData.range" /><damage-element :dmg="itemData.damage" /></span>
-              <span v-else class="mr-5"> {{itemData.uses ? `${itemData.uses} Uses` : '' }} </span>
+              <span v-else-if="itemData.type === 'weapon'" class="mr-5" style="display: inline-flex;">
+                <range-element small :range="itemData.range" />
+                &emsp;&mdash;&emsp;
+                <damage-element small size="16" :dmg="itemData.damage" />
+              </span>
+              <span v-else class="mr-5" style="display: inline-flex;"> {{itemData.uses ? `${itemData.uses} Uses` : '' }} </span>
             </v-layout>
                 <gear-card :itemData="itemData"/>
               </v-expansion-panel-content>

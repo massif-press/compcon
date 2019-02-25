@@ -42,7 +42,8 @@
     },
     watch: {
       $route (to, from) {
-        this.$refs.sidebar.hideSidebar(to.path === '/level' || to.path === '/new')
+        console.log(to)
+        this.$refs.sidebar.isVisible = (to.path === '/level' || to.path === '/new')
       }
     }
   }
@@ -70,7 +71,7 @@
 
 <style>
   .roster-content {
-    margin-left: 5.5%;
+    /* margin-left: 2.5%; */
     /* margin-right: 5.5vw; */
     width: 100%!important;
     height: 92.7vh;

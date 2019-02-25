@@ -12,9 +12,9 @@
     <!-- Armor -->
     <v-container fluid>
       <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
-        :items="gearItems" expand item-key="id" hide-actions>
+        :items="gearItems" :expand="true" item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
-          <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
+          <tr v-if="props.item.type === 'armor' && itemType !== 'webbing'" @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
             <td><span class="subheading">{{ props.item.name }}</span></td>
             <td class="text-xs-center"><span class="subheading">{{ props.item.armor }}</span></td>
@@ -24,15 +24,15 @@
             <td class="text-xs-center"><span class="subheading">{{ props.item.source }}</span></td>
             <td class="text-xs-center"><span class="subheading">{{ props.item.rarity }}</span></td>
           </tr>
-          <tr v-else-if="props.item.type === 'weapon'">
+          <tr v-else-if="props.item.type === 'weapon' && itemType !== 'webbing'" @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
             <td><span class="subheading">{{ props.item.name }}</span></td>
-            <td><span class="subheading">{{ props.item.damage }}</span></td>
-            <td><span class="subheading">{{ props.item.range }}</span></td>
+            <td><span class="subheading"><damage-element small :dmg="props.item.damage" /></span></td>
+            <td><span class="subheading"><range-element small :range="props.item.range" /></span></td>
             <td class="text-xs-center"><span class="subheading">{{ props.item.source }}</span></td>
             <td class="text-xs-center"><span class="subheading">{{ props.item.rarity }}</span></td>
           </tr>
-          <tr v-else>
+          <tr v-else @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
             <td><span class="subheading">{{ props.item.name }}</span></td>
             <td class="text-xs-center"><span class="subheading">{{ props.item.uses }}</span></td>
@@ -52,10 +52,12 @@
 
 <script>
   import GearCard from '../../UI/GearCard'
+  import RangeElement from '../../UI/RangeElement'
+  import DamageElement from '../../UI/DamageElement'
 
   export default {
     name: 'item-table',
-    components: { GearCard },
+    components: { GearCard, RangeElement, DamageElement },
     props: [ 'itemType' ],
     data: () => ({
       selectedIndex: -1,
@@ -86,7 +88,7 @@
       gear_headers: [
         {align: 'left', sortable: false, width: '5vw'},
         {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Uses', align: 'left', value: 'uses'},
+        {text: 'Uses', align: 'center', value: 'uses'},
         {text: 'Source', align: 'center', value: 'source'},
         {text: 'Rarity', align: 'center', value: 'rarity'}
       ]
