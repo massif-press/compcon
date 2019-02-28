@@ -57,7 +57,7 @@
                   <v-flex xs12 style="text-align:center">
                     <b> {{ item('Backgrounds', pilot.background).name }} </b>
                     <v-dialog lazy v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-                      <v-btn slot="activator" class="edit-btn" small flat icon color="blue">
+                      <v-btn slot="activator" class="edit-btn" small flat icon color="primary">
                         <v-icon small>edit</v-icon>
                       </v-btn>
                       <v-card>
@@ -69,6 +69,7 @@
                           </v-toolbar-items>
                         </v-toolbar>
                         <v-spacer></v-spacer>
+                        <br><br>
                         <background-selector @selected="backgroundSelect" :preSelected="pilot.background"/>
                       </v-card>
                     </v-dialog>
@@ -87,13 +88,13 @@
           <v-flex xs4>
             <v-layout>
               <span class="header">Appearance
-                <v-btn class="edit-btn" small flat icon color="blue" @click="appearanceModal = true"><v-icon small>edit</v-icon></v-btn>
+                <v-btn class="edit-btn" small flat icon color="primary" @click="appearanceModal = true"><v-icon small>edit</v-icon></v-btn>
               </span>
             </v-layout>
             <v-layout>
               <v-flex class="pl-2"  @click="appearanceModal = true">
                 <div v-if="!pilot.img_appearance">
-                  <v-btn block small flat color="blue lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
+                  <v-btn block small flat color="primary lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
                 </div>
                 <div v-else>
                   <v-img :src="pilot.img_appearance" fluid-grow />
@@ -136,7 +137,7 @@
             <span class="header">
               Skill Triggers
               <v-dialog lazy v-model="skillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <v-btn slot="activator" @click="reInit('skillSelector')" class="edit-btn" small flat icon color="blue darken-2">
+                <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="skillLoader = true">
                   <v-icon small>edit</v-icon>
                 </v-btn>
                 <v-card>
@@ -144,11 +145,13 @@
                     <v-toolbar-title>Edit Pilot Skills</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
-                      <v-btn icon large @click="skillModal = false"> <v-icon large>close</v-icon> </v-btn>
+                      <v-btn icon large @click="skillModal = false; skillLoader = false"> <v-icon large>close</v-icon> </v-btn>
                     </v-toolbar-items>
                   </v-toolbar>
                 <v-spacer class="mb-4 pb-2"/>
-                  <skill-selector ref="skillSelector" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
+                  <div v-if="skillLoader">
+                    <skill-selector ref="skillSelector" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
+                  </div>
                 </v-card>
               </v-dialog>
             </span>
@@ -161,7 +164,7 @@
       <v-layout>
         <span class="header">Licenses
           <v-dialog lazy v-model="licenseModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" @click="reInit('licenseSelector')" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="licenseLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -173,10 +176,12 @@
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer class="mb-4 pb-2"/>
-              <license-selector ref="licenseSelector" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
+              <div v-if="licenseLoader">
+                <license-selector ref="licenseSelector" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
+              </div>
               <v-layout justify-space-between>
                 <v-flex xs1> &emsp; </v-flex>
-                <v-flex xs1><v-btn color="primary" flat @click="licenseModal = false">Confirm</v-btn></v-flex>
+                <v-flex xs1><v-btn color="primary" flat @click="licenseModal = false; licenseLoader = false">Confirm</v-btn></v-flex>
               </v-layout>
             </v-card>
           </v-dialog>
@@ -188,7 +193,7 @@
       <v-layout>
         <span class="header">Talents
           <v-dialog lazy v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" @click="reInit('talentSelector')" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="talentLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -196,11 +201,13 @@
                 <v-toolbar-title>Edit Pilot Talents</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                  <v-btn icon large @click="talentModal = false"> <v-icon large>close</v-icon> </v-btn>
+                  <v-btn icon large @click="talentModal = false; talentLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer class="mb-4 pb-2"/>
-              <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
+              <div v-if="talentLoader">
+                <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
+              </div>
             </v-card>
           </v-dialog>
         </span>
@@ -211,7 +218,7 @@
       <v-layout>
         <span class="header">Mech Skills
           <v-dialog lazy v-model="mechSkillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="mechSkillLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -219,14 +226,16 @@
                 <v-toolbar-title>Edit Mech Skills</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                  <v-btn icon large @click="mechSkillModal = false"> <v-icon large>close</v-icon> </v-btn>
+                  <v-btn icon large @click="mechSkillModal = false; mechSkillLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
               <v-spacer class="mb-4 pb-2"/>
-              <mech-skills-selector :mechSkills="pilot.mechSkills" :pilotLevel="pilot.level" :isActivePilot="true" />
+              <div v-if="mechSkillLoader">
+                <mech-skills-selector :mechSkills="pilot.mechSkills" :pilotLevel="pilot.level" :isActivePilot="true" />
+              </div>
               <v-layout justify-space-between>
                 <v-flex xs1> &emsp; </v-flex>
-                <v-flex xs1><v-btn color="primary" flat @click="mechSkillModal = false">Confirm</v-btn></v-flex>
+                <v-flex xs1><v-btn color="primary" flat @click="mechSkillModal = false; mechSkillLoader = false">Confirm</v-btn></v-flex>
               </v-layout>
             </v-card>
           </v-dialog>
@@ -253,7 +262,7 @@
       <v-layout>
         <span class="header">CORE Bonuses
           <v-dialog lazy v-model="bonusModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" @click="reInit('cbSelector')" class="edit-btn" small flat icon color="blue darken-2">
+            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="cbLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -261,11 +270,14 @@
                 <v-toolbar-title>Edit CORE Bonuses</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                  <v-btn icon large @click="bonusModal = false"> <v-icon large>close</v-icon> </v-btn>
+                  <v-btn icon large @click="bonusModal = false; cbLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
+              <br><br>
               <v-spacer></v-spacer>
-              <core-bonus-selector ref="cbSelector" :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses"/>
+              <div v-if="cbLoader">
+                <core-bonus-selector ref="cbSelector" :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses"/>
+              </div>
             </v-card>
           </v-dialog>
         </span>
@@ -292,22 +304,22 @@
 
       <div class="spacer" />
       <v-container>
-        <v-layout>
-          <v-flex xs4><v-btn block>print</v-btn></v-flex>
-          <v-flex xs4><v-btn block>export</v-btn></v-flex>
-          <v-flex xs4>
-            <v-btn slot="activator" color="primary" flat block @click="clonePilot"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
+        <v-layout justify-space-around>
+          <v-flex xs3><v-btn large>print</v-btn></v-flex>
+          <v-flex xs3><v-btn large>export</v-btn></v-flex>
+          <v-flex xs3>
+            <v-btn slot="activator" color="primary" large flat @click="clonePilot"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
           </v-flex>
-          <v-flex xs4>
+          <v-flex xs3>
             <v-dialog v-model="deleteDialog" width="500" >
-                <v-btn slot="activator" color="error" flat block><v-icon>delete</v-icon> &nbsp; DELETE</v-btn>
+                <v-btn slot="activator" color="error" large flat><v-icon>delete</v-icon> &nbsp; DELETE</v-btn>
                 <v-card>
                   <v-card-text>
                     Are you sure you want to delete {{pilot.callsign}}? This action cannot be undone
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
-                    <v-btn color="primary" flat @click="deleteDialog = false" > Cancel </v-btn>
+                    <v-btn color="primary"  flat @click="deleteDialog = false" > Cancel </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn color="error" @click="deletePilot" > Delete Pilot </v-btn>
                   </v-card-actions>
@@ -375,6 +387,12 @@
       bonusModal: false,
       pilotGearModal: false,
       deleteDialog: false,
+      // loaders manage deletion and lazy loading of selectors
+      skillLoader: false,
+      licenseLoader: false,
+      talentLoader: false,
+      mechSkillLoader: false,
+      cbLoader: false,
       contactKey: 0,
       activeLoadoutIdx: 0,
       loadoutForceReloadTrigger: 0
@@ -397,9 +415,6 @@
       getLicense: function (name) {
         return this.$store.getters.getLicenseByName(name.toLowerCase())
       },
-      reInit: function (ref) {
-        this.$refs[ref].initialize()
-      },
       backgroundSelect: function (bgReturn) {
         this.backgroundModal = false
         this.$store.dispatch('editPilot', {
@@ -409,6 +424,7 @@
       },
       setPilotSkills: function (skillArray) {
         this.skillModal = false
+        this.skillLoader = false
         this.$store.dispatch('editPilot', {
           attr: `skills`,
           val: skillArray

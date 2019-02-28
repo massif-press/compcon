@@ -4,10 +4,10 @@
       <v-toolbar-title>COMP/CON {{ versionNumber }}</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn flat>Gear Catalog</v-btn>
-        <v-btn flat>About</v-btn>
-        <v-btn flat>Options</v-btn>
-        <v-btn flat>Help</v-btn>
+        <v-btn flat disabled>Gear Catalog</v-btn>
+        <v-btn flat disabled>About</v-btn>
+        <v-btn flat disabled>Options</v-btn>
+        <v-btn flat disabled>Help</v-btn>
         <v-btn @click="goBack" flat>Back</v-btn>
       </v-toolbar-items>
     </v-toolbar>

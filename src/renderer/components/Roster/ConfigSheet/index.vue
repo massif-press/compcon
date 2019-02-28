@@ -146,20 +146,20 @@
     },
     computed: {
       config: function () {
-        if (!this.$parent.activeConfigId) return {}
-        return this.$store.getters.getConfigById(this.$parent.activeConfigId)
+        return this.$store.getters.getConfig
       },
       pilot: function () {
         return this.$store.getters.getPilot
       },
       configPath: function () {
-        var idx = this.$store.getters.getConfigIndex(this.$parent.activeConfigId)
+        var idx = this.$store.getters.getConfigIndex(this.config.id)
         return `configs[${idx}]`
       },
       stats: function () {
-        return this.$store.getters.getMechStats(this.$parent.activeConfigId, this.config.loadouts[this.activeLoadoutIdx])
+        return {} // this.$store.getters.getMechStats(this.$parent.activeConfigId, this.config.loadouts[this.activeLoadoutIdx])
       },
       frame: function () {
+        console.log(this.config)
         return this.item('Frames', this.config.frame_id)
       }
     }

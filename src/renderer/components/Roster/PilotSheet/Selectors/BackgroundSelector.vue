@@ -3,7 +3,7 @@
     <v-layout v-for="background in backgrounds" :key="background.id">
       <v-flex>
         <v-card>
-          <v-toolbar :color="preSelected === background.id ? 'blue darken-3': ''">
+          <v-toolbar :color="preSelected === background.id ? 'primary darken-3': ''">
           <v-btn fab large bottom right absolute @click="onSelect(background.id)" :color="preSelected === background.id ? 'cyan highlight-2': ''">
             <v-icon v-if="preSelected === background.id">check</v-icon>
             <v-icon v-else>add</v-icon>

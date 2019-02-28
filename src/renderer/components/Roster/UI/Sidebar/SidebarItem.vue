@@ -1,66 +1,52 @@
 <template>
-  <div class="sidebar-item">
-      <!-- Sidebar expanded-->
-      <transition name="fade">
-      <div v-if="parentExpanded" style="width: 100%" :class="{highlighted: active}">
-        <div class="expanded-wrapper" @click="select" >
-          <!-- Sidebar expanded, item selected -->
-          <div v-if="active">
-            <v-container>
-              <v-layout>
-                <v-flex>
-                  <router-link to="/pilot">
-                    <b-img left src="https://via.placeholder.com/115" />
-                  </router-link>
-                </v-flex>
-                <v-flex>
-                    {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
-                  <br>
-                    {{ pilot.status }} {{ pilot.id}}
-                  <br>
-                </v-flex>
-              </v-layout>
-              <v-layout>
-                <v-flex>
-                  configs:
-                  <div v-for="(config, index) in pilot.configs" :key="index">
-                    <v-btn block v-bind:id="config.id + 'btn'" style="margin: 5px;" :to="'/config'" @click="showConfigSheet(config.id)">{{ config.name }}</v-btn>
-                      <b-popover boundary="viewport" v-bind:target="config.id + 'btn'" triggers="hover" placement="right" style="z-index:90!important">
-                        <template slot="title">{{config.frame_id}}</template>
-                        <span class="text-danger">{{config.status}}</span>
-                      </b-popover>
-                  </div>
-                </v-flex>
-              </v-layout>
-              <hr>
-              <v-layout>
-                <v-btn block>add new config</v-btn>
-              </v-layout>
-            </v-container>
-          </div>
-          <!-- End expanded and selected -->
+<div>
+      <v-list-group v-model="group" :class="group ? 'grey darken-2' : ''" append-icon="">
+     
+      <v-list-tile id="pilot-tile" slot="activator" @click="select(pilot.id)" avatar>
+      <v-tooltip right :disabled="!isMini">
+        <v-list-tile-avatar slot="activator">
+          <v-avatar size=40>
+            <img v-if="pilot.avatar" :src="pilot.avatar" alt="avatar">
+            <b v-else class="white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</b>
+          </v-avatar>
+        </v-list-tile-avatar>
+        <span>{{pilot.callsign}}<br>({{pilot.name}})</span>
 
-          <!-- Sidebar expanded, item unselected -->
-          <div v-else>
-          <b-img center src="https://via.placeholder.com/90" />
+      </v-tooltip>
+        <v-list-tile-content>
+          <v-list-tile-title class="font-weight-bold">{{ pilot.callsign}}</v-list-tile-title>
+          <v-list-tile-sub-title class="text-capitalize">level {{pilot.level}} {{item('Backgrounds', pilot.background).name}}</v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
-            <br>
-              {{ pilot.name }}, {{ pilot.background }} // LL: {{ pilot.level }}
-            <br>
-              {{ pilot.status }}
-          </div>
-          <!-- End expanded and unselected -->
+      <div v-if="!isMini">
+      <v-subheader style="height:20px; border-bottom: lightgrey 1px solid" class="mt-2 mb-2 ml-4 mr-5">Configurations</v-subheader>
+        <div v-for="config in pilot.configs" :key="config.id">
+        <v-tooltip right>
+          <v-list-tile @click="selectConfig(config)" class="ml-2 mr-2" slot="activator">
+
+          <v-list-tile-content>
+              <v-list-tile-title class="font-weight-bold">{{config.name}}</v-list-tile-title>
+              <v-list-tile-sub-title class="text-capitalize">{{frameName(config.frame_id)}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+
+        </v-list-tile>
+            <span>View Configuration</span>
+          </v-tooltip>
         </div>
+       
+        <v-list-tile @click="''" class="ml-2 mr-4 mb-3" >
+          <v-list-tile-action  >
+            <v-icon large dark>add</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title><em>Add New Configuration</em></v-list-tile-title>
+          </v-list-tile-content>
+
+          </v-list-tile>
       </div>
-      </transition>
-      <!-- End Sidebar expanded -->
-      <!-- Sidebar not expanded -->
-      <transition name="fade">
-        <div v-if="!parentExpanded">
-          <b-img right src="https://via.placeholder.com/60" :class="{imgselected: active}" />
-        </div>
-      </transition>
-      <!-- End sidebar not expanded -->
+    </v-list-group>
   </div>
 </template>
 
@@ -68,65 +54,25 @@
   export default {
     name: 'sidebar-item',
     props: [
-      'parentExpanded',
-      'index',
-      'pilot_id'
+      'isMini',
+      'pilot'
     ],
+    data: () => ({
+      group: null
+    }),
     methods: {
       select () {
-        this.$parent.activeIndex = this.index
-        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.$emit('set-active')
       },
-      showConfigSheet (configId) {
-        this.$parent.$parent.activeConfigId = configId
-        this.$parent.toggleSidebar(false, true)
-      }
-    },
-    computed: {
-      active () {
-        return this.$parent.activeIndex === this.index
+      selectConfig (config) {
+        this.$emit('set-config', config)
       },
-      pilot: function () {
-        return this.$store.getters.getPilotById(this.pilot_id)
+      item: function (type, id) {
+        return this.$store.getters.getItemById(type, id)
+      },
+      frameName: function (id) {
+        return this.item('Frames', id).name
       }
     }
   }
 </script>
-
-<style scoped>
-  .sidebar-item {
-    display: block;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .highlighted {
-    border-right: 3px solid rgb(11, 59, 131);
-    background-color: gray;
-  }
-
-  .imgselected {
-    border: 2px solid blue;
-  }
-
-  .expanded-wrapper{
-    padding: 10px;
-    cursor: pointer;
-  }
-
- .expanded-wrapper:hover{
-   background-color: gray;
- }
-
-  .fade-enter-active {
-    transition: all .45s
-  }
-
-  .fade-enter,
-  .fade-leave-active {
-    position: absolute;
-    left: 300px;
-    opacity: 0
-  }
-
-</style>

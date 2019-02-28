@@ -2,7 +2,7 @@
   <div>
     <slot name="label"></slot>
     <v-dialog width="600" v-model="dialog">
-      <v-btn slot="activator" class="edit-btn" right small flat icon color="blue"><v-icon small>edit</v-icon></v-btn>
+      <v-btn slot="activator" class="edit-btn" right small flat icon color="primary"><v-icon small>edit</v-icon></v-btn>
       <v-card>
         <v-card-title class="headline" primary-title>Edit {{description}}</v-card-title>
         <v-card-text>
@@ -33,6 +33,7 @@
           val: this.newLabel
         })
         this.dialog = false
+        this.$emit('on-save')
       }
     }
   }

@@ -1,25 +1,10 @@
 Vue Parity:
-  ✔ Damage component @done(19-02-25 12:56)
-  ✔ Range component @done(19-02-25 12:56)
-  ☐ Frame statblock component
-  ✔ Format GearItem components @done(19-02-25 12:56)
-  ✔ Tags @done(19-02-19 15:20)
+  ☐ 1.8.5 Frame data
+    ☐ Frame statblock component
   Pilot Sheet:
-    ✔ Rewrite text field/area editors @done(19-02-19 11:46)
-    ☐ Avatar and portrait selector
-    ✔ License Selector @done(19-02-20 14:48)
-    ✔ License Modal @done(19-02-16 14:53)
-      ✔ Rewrite ItemBadge @done(19-02-18 10:49)
-        ✔ Weapon Popover @done(19-02-20 14:48)
-        ✔ System Popover @done(19-02-20 14:48)
-        ✔ Frame Popover @done(19-02-21 12:35)
     ☐ Level Up
-    ✔ Pilot gear selector @done(19-02-18 14:32)
-    ✔ Quick info in GearItem expandables @done(19-02-25 12:56)
-    ☐ Rewrite Pilot Sidebar
+    ☐ Avatar and portrait selector
     ☐ Export
-    ✔ Clone @done(19-02-20 15:33)
-    ✔ Delete @done(19-02-20 15:25)
   Mech Sheet:
     ☐ New Config
     ☐ Licenses Required
@@ -38,33 +23,26 @@ Vue Parity:
     ☐ Licenses
     ☐ Items
 
+1.8.5:
+  ☐ Frame Data
+  ☐ Skill Detail expansions
+
 Other:
-  ☐ better no pilot loaded page
-  ✔ Selector summary panels should stick only after scroll @done(19-02-22 14:13)
-  ✔ newPilot needs a better check than pilotLevel = 0 (should be anything coming from new pilot interface) @done(19-02-18 14:54)
-  ✔ new pilot continue button should scroll to top @done(19-02-18 14:59)
-  ✔ new pilot skill adds should collapse expander @done(19-02-18 15:22)
-  ✔ completed talents/skills should scroll to next button @done(19-02-18 15:22)
-  ✔ Vuetify @done(19-02-18 14:55)
   ☐ Totally remove Bootstrap
   ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
-  ✔ Remove clickaway @done(19-02-22 14:13)
+  ☐ Name/Callsign/Config Name generators
 
 Post-1.0:
   ☐ Pilot Stat Contributions
+    ☐ Furnish systems/weapons/talents/cb/etc with "actions" array
   ☐ Actions Panel
   ☐ Tutorial popups
   ☐ Per-item notes
   ☐ Generisize combat webbing to a generic extra equip bonus
 
 Bugs:
-  ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55)
-  ✔ From-pilot selectors must re-init every modal open @done(19-02-21 11:51)
+  ☐ Talent selctor mutating vuex store
   ☐ Loadout rename/delete is bugged
-  ☐ Contact editing not working
-  ☐ Combat webbing item selector rows
-  ✔ Gear selector expanders not working within modal @done(19-02-22 14:20)
-  ☐ re-init not working on selectors
 
 Refactoring:
   ☐ move static assets out of computed @critical
@@ -75,6 +53,7 @@ Refactoring:
   ☐ better behavior for back button
   ☐ License/Talent/Skill selectors can share a common framework
   ☐ make license data uppercase, remove the license editor uppercase confirms
+  ☐ Make loader/modal selector combo into component wrapper
 
 1.0:
   Pilot Sheet:
@@ -106,6 +85,40 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Damage component @done(19-02-25 12:56) @project(Vue Parity)
+  ✔ Range component @done(19-02-25 12:56) @project(Vue Parity)
+  ✔ Format GearItem components @done(19-02-25 12:56) @project(Vue Parity)
+  ✔ Tags @done(19-02-19 15:20) @project(Vue Parity)
+  ✔ Rewrite text field/area editors @done(19-02-19 11:46) @project(Vue Parity.Pilot Sheet)
+  ✔ License Selector @done(19-02-20 14:48) @project(Vue Parity.Pilot Sheet)
+  ✔ License Modal @done(19-02-16 14:53) @project(Vue Parity.Pilot Sheet)
+  ✔ Rewrite ItemBadge @done(19-02-18 10:49) @project(Vue Parity.Pilot Sheet)
+  ✔ Weapon Popover @done(19-02-20 14:48) @project(Vue Parity.Pilot Sheet)
+  ✔ System Popover @done(19-02-20 14:48) @project(Vue Parity.Pilot Sheet)
+  ✔ Frame Popover @done(19-02-21 12:35) @project(Vue Parity.Pilot Sheet)
+  ✔ Pilot gear selector @done(19-02-18 14:32) @project(Vue Parity.Pilot Sheet)
+  ✔ Quick info in GearItem expandables @done(19-02-25 12:56) @project(Vue Parity.Pilot Sheet)
+  ✔ Message when pilot has no loadouts @done(19-02-28 15:16) @project(Vue Parity.Pilot Sheet)
+  ✔ Loadout selector remove items @done(19-02-28 15:29) @project(Vue Parity.Pilot Sheet)
+  ✔ Rewrite Pilot Sidebar @done(19-02-28 14:43) @project(Vue Parity.Pilot Sheet)
+  ✔ Clone @done(19-02-20 15:33) @project(Vue Parity.Pilot Sheet)
+  ✔ Delete @done(19-02-20 15:25) @project(Vue Parity.Pilot Sheet)
+  ✔ better no pilot loaded page @done(19-02-28 12:23) @project(Other)
+  ✔ Selector summary panels should stick only after scroll @done(19-02-22 14:13) @project(Other)
+  ✔ newPilot needs a better check than pilotLevel = 0 (should be anything coming from new pilot interface) @done(19-02-18 14:54) @project(Other)
+  ✔ new pilot continue button should scroll to top @done(19-02-18 14:59) @project(Other)
+  ✔ new pilot skill adds should collapse expander @done(19-02-18 15:22) @project(Other)
+  ✔ completed talents/skills should scroll to next button @done(19-02-18 15:22) @project(Other)
+  ✔ Vuetify @done(19-02-18 14:55) @project(Other)
+  ✔ Remove clickaway @done(19-02-22 14:13) @project(Other)
+  ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55) @project(Bugs)
+  ✔ From-pilot selectors must re-init every modal open @done(19-02-21 11:51) @project(Bugs)
+  ✔ Contact editing not working @done(19-02-28 15:43) @project(Bugs)
+  ✔ Combat webbing item selector rows @done(19-02-28 15:36) @project(Bugs)
+  ✔ Gear selector expanders not working within modal @done(19-02-22 14:20) @project(Bugs)
+  ✔ New pilot -> skills must validate on 4 skills @done(19-02-28 16:57) @project(Bugs)
+  ✔ re-init not working on selectors @done(19-02-28 17:34) @project(Bugs)
+  ✔ Licenses and talents incorrectly adding extra point to LL0 pilot @done(19-02-28 17:34) @project(Bugs)
   ✔ Background Selector @done(19-02-11 11:17) @project(Vue Parity.Pilot Sheet)
   ✔ Skill Selector @done(19-02-12 10:56) @project(Vue Parity.Pilot Sheet)
   ✔ Talent Selector @done(19-02-14 14:54) @project(Vue Parity.Pilot Sheet)

@@ -23,8 +23,7 @@
     name: 'roster',
     components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
     data: () => ({
-      activePilotId: '',
-      activeConfigId: ''
+      activePilotId: ''
     }),
     methods: {
       open (link) {
@@ -42,8 +41,8 @@
     },
     watch: {
       $route (to, from) {
-        console.log(to)
-        this.$refs.sidebar.isVisible = (to.path === '/level' || to.path === '/new')
+        this.$refs.sidebar.mini = true
+        this.$refs.sidebar.isVisible = !(to.path === '/level' || to.path === '/new')
       }
     }
   }
@@ -71,7 +70,7 @@
 
 <style>
   .roster-content {
-    /* margin-left: 2.5%; */
+    margin-left: 5.5%;
     /* margin-right: 5.5vw; */
     width: 100%!important;
     height: 92.7vh;

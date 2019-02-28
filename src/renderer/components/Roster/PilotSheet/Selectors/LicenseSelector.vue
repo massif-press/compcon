@@ -32,7 +32,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
               {{points.pointsMax  - points.pointsCurrent}} License Points remaining
             </v-alert>
-            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveLicenses">Save</v-btn>
+            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!licenses.length" @click="resetLicenses">Reset</v-btn>
           </v-flex>
         </v-layout>

@@ -13,6 +13,9 @@ const mutations = {
   SET_PILOT (state, payload) {
     state.activePilotID = payload
   },
+  SET_CONFIG (state, payload) {
+    state.activeConfigID = payload
+  },
   LOAD_ALL_PILOTS (state) {
     state.Pilots = io.loadUserData(Vue.prototype.userDataPath, 'pilots.json')
   },
@@ -70,6 +73,9 @@ const actions = {
   loadPilot (context, pilotId) {
     context.commit('SET_PILOT', pilotId)
   },
+  loadConfig (context, configID) {
+    context.commit('SET_CONFIG', configID)
+  },
   editPilot (context, payload) {
     context.commit('UPDATE_PILOT', payload)
   },
@@ -80,7 +86,6 @@ const actions = {
     context.commit('CLONE_PILOT', payload)
   },
   addPilot (context, payload) {
-    console.log(payload)
     var newPilot = {
       id: io.newID(),
       callsign: payload.callsign,
@@ -132,8 +137,8 @@ const getters = {
   getPilotById: (state) => (id) => {
     return state.Pilots.find(p => p.id === id) || {}
   },
-  getConfigById: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === id) || {}
+  getConfig: state => {
+    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === state.activeConfigID) || {}
   },
   getConfigIndex: (state) => (id) => {
     return state.Pilots.find(p => p.id === state.activePilotID).configs.findIndex(c => c.id === id)
