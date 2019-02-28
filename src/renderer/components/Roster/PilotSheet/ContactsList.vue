@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-card>
-      <v-card v-for="(contact, index) in contacts" :key="index + contacts.length">
+      <v-card v-for="(contact, index) in contacts" :key="index + contact.name">
         <v-card-text class="pt-0 pb-0 mt-0 mb-0">
-          <editable-label :attr="`contacts[${index}].name`" description="Contact Name" :placeholder="contact.name">
+          <editable-label :attr="`contacts[${index}].name`" description="Contact Name" :placeholder="contact.name" @on-save="update">
             <span slot="label" class="title">{{contact.name}}</span>
           </editable-label>
-          <editable-label :attr="`contacts[${index}].relationship`" description="Contact Relationship" :placeholder="contact.relationship">
+          <editable-label :attr="`contacts[${index}].relationship`" description="Contact Relationship" :placeholder="contact.relationship" @on-save="update">
             <em slot="label">{{contact.relationship}}</em>
           </editable-label>
-          <editable-label :attr="`contacts[${index}].description`" description="Contact Description" :placeholder="contact.description">
+          <editable-label :attr="`contacts[${index}].description`" description="Contact Description" :placeholder="contact.description" @on-save="update">
             <span slot="label">{{contact.description}}</span>
           </editable-label>
         </v-card-text>
@@ -29,9 +29,11 @@
   export default {
     name: 'contacts-list',
     components: { EditableLabel },
-    props: [
-      'contacts'
-    ],
+    computed: {
+      contacts: function () {
+        return this.$store.getters.getPilot.contacts
+      }
+    },
     methods: {
       deleteContact: function () {
         this.$store.dispatch('splicePilot', {
@@ -43,9 +45,12 @@
       addNew: function () {
         this.$store.dispatch('editPilot', {
           attr: `contacts[${this.contacts.length}]`,
-          val: {name: 'New Contact (click to edit)', relationship: 'Edit Relationship', description: 'Edit Description'}
+          val: {name: 'New Contact', relationship: 'Edit Relationship', description: 'Edit Description'}
         })
         this.$emit('add-contact')
+      },
+      update: function () {
+        this.$forceUpdate()
       }
     }
   }

@@ -1,6 +1,13 @@
 <template>
   <div>
-      <v-tabs v-model="tabIndex" dark color="blue" show-arrows slider-color="yellow" mandatory>
+    <v-card v-if="!loadouts.length">
+      <v-card-text>
+        <p class="text-sm-center">
+          <v-btn large @click="addLoadout" color="primary"><v-icon>add</v-icon>Add New Loadout</v-btn>
+        </p>
+      </v-card-text>
+    </v-card>
+      <v-tabs v-else v-model="tabIndex" dark color="primary" show-arrows slider-color="yellow" mandatory>
         <!-- Render Tabs -->
         <v-tab v-for="loadout in loadouts" :key="loadout.id">
           {{loadout.name}}
@@ -100,7 +107,7 @@
             <v-btn icon large @click="selectorModal = false"> <v-icon large>close</v-icon> </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <item-table :itemType="itemType" v-on:select-item="equipItem" />
+        <item-table :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
       </v-dialog>
   </div>
 </template>
@@ -209,6 +216,18 @@ export default {
       this.$store.dispatch('editPilot', {
         attr: attr,
         val: {id: item.id}
+      })
+      this.selectorModal = false
+      this.refresh()
+    },
+    removeItem (removalType) {
+      var attr = this.itemIndex === null
+        ? ['loadouts', this.tabIndex, 'items', 'webbing']
+        : ['loadouts', this.tabIndex, 'items', removalType, this.itemIndex]
+
+      this.$store.dispatch('editPilot', {
+        attr: attr,
+        val: null
       })
       this.selectorModal = false
       this.refresh()

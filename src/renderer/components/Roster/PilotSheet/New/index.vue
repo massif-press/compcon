@@ -8,9 +8,9 @@
           <v-divider></v-divider>
           <v-stepper-step editable :complete="newPilot.background !== ''" step="2">Background<small v-if="newPilot.background">{{item('Backgrounds', newPilot.background).name}}</small></v-stepper-step>
           <v-divider></v-divider>
-          <v-stepper-step editable :complete="newPilot.skills.length > 0" step="3">Skills<small v-if="newPilot.skills.length">Skills Selected</small></v-stepper-step>
+          <v-stepper-step editable :complete="newPilot.skills.length === 4" step="3">Skills<small v-if="newPilot.skills.length">{{newPilot.skills.length}}/{{4}} Skills Selected</small></v-stepper-step>
           <v-divider></v-divider>
-          <v-stepper-step editable :complete="newPilot.talents.length > 0" step="4">Talents<small v-if="newPilot.talents.length">Talents Selected</small></v-stepper-step>
+          <v-stepper-step editable :complete="newPilot.talents.length === 3" step="4">Talents<small v-if="newPilot.talents.length">{{newPilot.talents.length}}/{{3}}  Talents Selected</small></v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step editable :complete="hasMechSkills === true" step="5">Mech Skills<small v-if="hasMechSkills === true">Mech Skills Selected</small></v-stepper-step>
           <v-divider></v-divider>
@@ -247,7 +247,7 @@
         if ((skill.specialty && skill.flaw)) return ''
         if (skill.specialty) return 'green'
         else if (skill.flaw) return 'red'
-        else return 'blue'
+        else return 'primary'
       },
       savePilot: function () {
         this.$store.dispatch('addPilot', this.newPilot)
@@ -271,8 +271,8 @@
       },
       canSavePilot: function () {
         return this.hasMechSkills &&
-          this.newPilot.talents.length &&
-          this.newPilot.skills.length &&
+          this.newPilot.talents.length === 3 &&
+          this.newPilot.skills.length === 4 &&
           this.newPilot.callsign &&
           this.newPilot.name
       }

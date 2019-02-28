@@ -17,18 +17,9 @@
                   <v-flex xs12>
                     <strong>{{skillById(skill.id).trigger}}</strong>
                     <v-tooltip :disabled="!skill.specialty && !skill.flaw" right>
-                      <v-chip slot="activator"
-                        :dark="!skill.specialty || !skill.flaw" 
-                        :color="chipColor(skill)"
-                        small>
-                        <v-avatar v-if="skill.specialty && skill.flaw"><v-icon small>trending_flat</v-icon></v-avatar>
-                        <v-avatar v-else-if="skill.specialty"><v-icon small>star</v-icon></v-avatar>
-                        <v-avatar v-else-if="skill.flaw"><v-icon small>thumb_down</v-icon></v-avatar>
+                      <v-chip slot="activator" dark color="primary" small>
                         +<b>{{skill.bonus}}</b>
                       </v-chip>
-                      <span v-if="skill.specialty && skill.flaw">+0 Accuracy</span>
-                      <span v-else-if="skill.specialty">+1 Accuracy</span>
-                      <span v-else-if="skill.flaw">-1 Accuracy</span>
                     </v-tooltip>
                   </v-flex>
                 </v-layout>
@@ -44,16 +35,10 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
               {{points.pointsMax  - points.pointsCurrent}} Skill Points remaining
             </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="points.specialtyCurrent < points.specialtyMax">
-              {{points.specialtyCurrent}}/{{points.specialtyMax}} Specialties selected
-            </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="points.flawCurrent < points.flawMax">
-              {{points.flawCurrent}}/{{points.flawMax}} Flaws selected
-            </v-alert>
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} skills
             </v-alert>
-            <v-btn v-if="!newPilot || !this.levelUp" block :disabled="!selectionComplete" @click="saveSkills">Save</v-btn>
+            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveSkills" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -67,7 +52,7 @@
           </v-flex>
         </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.str" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :skills="skills" @skill-click="setSkill" />
+          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill" />
         <br>
         <v-layout>
           <v-flex class="skill-header">
@@ -75,7 +60,7 @@
           </v-flex>
         </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :skills="skills" @skill-click="setSkill"  />
+          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill"  />
         <br>
         <v-layout>
           <v-flex class="skill-header">
@@ -83,7 +68,7 @@
           </v-flex>
         </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.int" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :skills="skills" @skill-click="setSkill"  />
+          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill"  />
         <br>
         <v-layout>
           <v-flex class="skill-header">
@@ -91,7 +76,7 @@
           </v-flex>
         </v-layout>
         <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :skills="skills" @skill-click="setSkill" />
+          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill" />
       </v-flex>
     </v-layout>
 
@@ -130,8 +115,6 @@
     data: () => ({
       skills: [],
       pointLimit: false,
-      specializeLimit: false,
-      flawLimit: false,
       skillData: [],
       arrangedSkills: [],
       pLevel: 0,
@@ -143,18 +126,12 @@
         return {
           pointsCurrent: (this.skills.reduce((a, b) => +a + +b.bonus, 0)) / 2,
           pointsMax: 4 + this.pLevel,
-          specialtyCurrent: this.skills.filter(x => x.specialty).length,
-          specialtyMax: 2 + Math.floor(this.pLevel / 3),
-          flawCurrent: this.skills.filter(x => x.flaw).length,
-          flawMax: 2,
           selectedCurrent: this.skills.filter(x => x.bonus).length,
           selectedMin: 4
         }
       },
       selectionComplete: function () {
         return this.points.pointsCurrent === this.points.pointsMax &&
-          this.points.specialtyCurrent === this.points.specialtyMax &&
-          this.points.flawCurrent === this.points.flawMax &&
           this.points.selectedCurrent >= this.points.selectedMin
       }
     },
@@ -165,12 +142,6 @@
           switch (selectionEvent.action) {
             case ('addBonus'):
               this.skills.push({id: selectionEvent.id, bonus: 2})
-              break
-            case ('toggleSpecialty'):
-              this.skills.push({id: selectionEvent.id, bonus: 0, specialty: true})
-              break
-            case ('toggleFlaw'):
-              this.skills.push({id: selectionEvent.id, bonus: 0, flaw: true})
               break
             default:
               break
@@ -187,27 +158,16 @@
               if (s.bonus === 0 && !(s.specialty || s.flaw)) this.skills.splice(selectedIndex, 1)
               else this.$set(this.skills, selectedIndex, s)
               break
-            case ('toggleSpecialty'):
-              s.specialty = !s.specialty
-              if (s.bonus === 0 && !(s.specialty || s.flaw)) this.skills.splice(selectedIndex, 1)
-              else this.$set(this.skills, selectedIndex, s)
-              break
-            case ('toggleFlaw'):
-              s.flaw = !s.flaw
-              if (s.bonus === 0 && !(s.specialty || s.flaw)) this.skills.splice(selectedIndex, 1)
-              else this.$set(this.skills, selectedIndex, s)
-              break
             default:
               break
           }
         }
         this.$forceUpdate()
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-        this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
-        this.flawLimit = this.points.flawCurrent >= this.points.flawMax
         this.skills = skillSort(this.skills)
 
         if ((this.newPilot || this.levelUp) && this.selectionComplete) {
+          console.log('!!')
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
@@ -217,35 +177,34 @@
       resetSkills () {
         this.skills.splice(0, this.skills.length)
         this.$forceUpdate()
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-        this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
-        this.flawLimit = this.points.flawCurrent >= this.points.flawMax
+        this.pointLimit = false
         this.skills = skillSort(this.skills)
       },
       skillById: function (id) {
         return this.skillData.find(x => x.id === id)
       },
-      chipColor: function (skill) {
-        if ((skill.specialty && skill.flaw)) return ''
-        if (skill.specialty) return 'green'
-        else if (skill.flaw) return 'red'
-        else return 'blue'
-      },
       initialize: function () {
         this.pLevel = this.pilotLevel
         this.skills = skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-        this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
-        this.flawLimit = this.points.flawCurrent >= this.points.flawMax
+      },
+      canAdd: function (skill) {
+        if (this.newPilot) {
+          return this.skills.length < 4
+        } else {
+          var s = this.skills.find(x => x.id === skill.id)
+          var underLimit = this.points.pointsCurrent < this.points.pointsMax
+          return s ? underLimit && s.bonus < 6 : underLimit
+        }
+      },
+      canSubtract: function (skill) {
+        return this.skills.some(x => x.id === skill.id)
       }
     },
     mounted () {
-      if (this.newPilot) this.pLevel = 0
-      else this.pLevel = this.pilotLevel
-      this.skills = (this.pLevel || this.newPilot) === 0 ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
+      this.pLevel = this.pilotLevel ? this.pilotLevel : 0
+      this.skills = this.newPilot ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-      this.specializeLimit = this.points.specialtyCurrent >= this.points.specialtyMax
-      this.flawLimit = this.points.flawCurrent >= this.points.flawMax
       this.skillData = this.$store.getters.getItemCollection('Skills')
       this.arrangedSkills = {
         str: this.skillData.filter(x => x.family === 'str'),
@@ -258,9 +217,6 @@
       window.addEventListener('scroll', function (e) {
         vm.scrollPosition = window.scrollY
       })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>

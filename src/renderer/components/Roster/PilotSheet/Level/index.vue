@@ -34,7 +34,7 @@
                   <span class="display-3 grey--text">{{pilot.level - 1}}</span>
                 </v-flex>
                 <v-flex shrink class="ml-4">
-                  <v-icon size="70px" class="ml-5" color="black">arrow_forwards</v-icon>
+                  <v-icon size="70px" class="ml-5">arrow_forwards</v-icon>
                 </v-flex>
                 <v-flex shrink>
                   <span>LICENSE<br>LEVEL</span>

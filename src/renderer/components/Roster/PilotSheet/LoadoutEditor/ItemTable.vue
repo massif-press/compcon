@@ -3,7 +3,7 @@
     <v-toolbar color="white" class="mt-5 pt-1" dense>
         <v-btn-toggle v-model="selectedFilters" multiple>
           <div v-for="f in filters" :key="f">
-            <v-btn flat large :value="f">&emsp;{{f}}&emsp;</v-btn>
+            <v-btn round outline color="primary" flat large :value="f">&emsp;{{f}}&emsp;</v-btn>
           </div>
         </v-btn-toggle>
       <v-spacer></v-spacer>
@@ -46,6 +46,12 @@
           </v-card>
         </template>
       </v-data-table>
+      <v-layout justify-space-between class="pt-4">
+        <v-flex xs1></v-flex>
+        <v-flex shrink>
+          <v-btn color="error" flat @click="remove()">Remove Equipment</v-btn>
+        </v-flex>
+      </v-layout>
     </v-container>
   </v-card>
 </template>
@@ -138,6 +144,9 @@
     methods: {
       select: function (item) {
         this.$emit('select-item', item)
+      },
+      remove: function () {
+        this.$emit('remove-item', this.itemType)
       }
     },
     mounted () {

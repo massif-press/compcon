@@ -30,7 +30,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="!pointLimit">
               {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
             </v-alert>
-            <v-btn block :disabled="!selectionComplete" @click="saveBonuses">Save</v-btn>
+            <v-btn block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -95,7 +95,6 @@
       addBonus: function (id, source) {
         this.bonuses.push(id)
         this.licenses[source] -= 3
-        console.log(this.licenses)
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       },
       removeBonus: function (id, source) {
@@ -104,7 +103,6 @@
           this.bonuses.splice(idx, 1)
           this.licenses[source] += 3
         }
-        console.log(this.licenses)
         this.pointLimit = false
       },
       saveBonuses () {
@@ -144,10 +142,11 @@
       window.addEventListener('scroll', function (e) {
         vm.scrollPosition = window.scrollY
       })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
     }
+    // },
+    // destroy () {
+    //   window.removeEventListener('scroll', this.updateScroll)
+    // }
   }
 </script>
 
@@ -155,7 +154,7 @@
   .scroll-fix{
     margin: -25vh 0px;
     position: fixed;
-    width: 20vw;
+    width: 18vw;
   }
 
   #list-area {

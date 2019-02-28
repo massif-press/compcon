@@ -34,7 +34,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} talents
             </v-alert>
-            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveTalents">Save</v-btn>
+            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveTalents" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
           </v-flex>
         </v-layout>
