@@ -88,16 +88,16 @@
           <v-flex xs4>
             <v-layout>
               <span class="header">Appearance
-                <v-btn class="edit-btn" small flat icon color="primary" @click="appearanceModal = true"><v-icon small>edit</v-icon></v-btn>
+                <v-btn class="edit-btn" small flat icon color="primary" @click="appearanceModal = true; appearanceLoader = true;"><v-icon small>edit</v-icon></v-btn>
               </span>
             </v-layout>
             <v-layout>
               <v-flex class="pl-2"  @click="appearanceModal = true">
-                <div v-if="!pilot.img_appearance">
-                  <v-btn block small flat color="primary lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
+                <div v-if="pilot.portrait">
+                  <v-img :src="require(`@/assets/img/portraits/${pilot.portrait}`)" />
                 </div>
                 <div v-else>
-                  <v-img :src="pilot.img_appearance" fluid-grow />
+                  <v-btn block small flat color="primary lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
                 </div>
                 <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-card>
@@ -105,14 +105,16 @@
                       <v-toolbar-title>Set Pilot Images</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-toolbar-items>
-                        <v-btn icon large @click="appearanceModal = false"> <v-icon large>close</v-icon> </v-btn>
+                        <v-btn icon large @click="appearanceModal = false; appearanceLoader = false"> <v-icon large>close</v-icon> </v-btn>
                       </v-toolbar-items>
                     </v-toolbar>
-                    <v-spacer></v-spacer>
-                    selector goes here
+                    <v-spacer class="mt-5" />
+                    <div v-if="appearanceLoader">
+                      <image-selector :preselectPortrait="pilot.portrait" :preselectAvatar="pilot.avatar" @assign-portrait="setPortrait" @assign-avatar="setAvatar"/>
+                    </div>
                     <v-layout justify-space-between>
                       <v-flex xs1> &emsp; </v-flex>
-                      <v-flex xs1><v-btn color="primary" flat @click="appearanceModal = false">Confirm</v-btn></v-flex>
+                      <v-flex xs1><v-btn color="primary" flat @click="appearanceModal = false; appearanceLoader = false">Confirm</v-btn></v-flex>
                     </v-layout>
                   </v-card>
                 </v-dialog>
@@ -306,7 +308,28 @@
       <v-container>
         <v-layout justify-space-around>
           <v-flex xs3><v-btn large>print</v-btn></v-flex>
-          <v-flex xs3><v-btn large>export</v-btn></v-flex>
+          <v-flex xs3>
+            <v-dialog v-model="exportDialog" width="500" >
+                <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
+                <v-card>
+                  <v-card-title class="title">Export Pilot &mdash; {{pilot.callsign}}</v-card-title>
+                  <v-card-text>
+                    <v-btn large block flat color="primary" @click="exportPilot">Save to File</v-btn>
+                    <br>
+                    <v-btn large block flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn>
+                  </v-card-text>
+                  <v-divider />
+                  <v-card-actions>
+                    <v-btn color="primary"  flat @click="exportDialog = false" > Cancel </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <!-- Copy Success notification -->
+              <v-snackbar v-model="snackbar" :timeout="5000" >
+                <span v-html="notification" />
+                <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
+              </v-snackbar>
+          </v-flex>          
           <v-flex xs3>
             <v-btn slot="activator" color="primary" large flat @click="clonePilot"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
           </v-flex>
@@ -344,6 +367,7 @@
 </template>
 
 <script>
+  import io from '@/store/data_io'
   import Stats from '@/logic/stats'
   import { EditableLabel, EditableTextfield } from '../UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector } from './Selectors'
@@ -364,7 +388,7 @@
       TalentItem,
       PilotLoadout,
       'cb-item': CoreBonusItem,
-      'image-selector-modal': ImageSelector,
+      ImageSelector,
       ContactsList,
       BackgroundSelector,
       SkillSelector,
@@ -387,7 +411,11 @@
       bonusModal: false,
       pilotGearModal: false,
       deleteDialog: false,
+      exportDialog: false,
+      snackbar: false,
+      notification: '',
       // loaders manage deletion and lazy loading of selectors
+      appearanceLoader: false,
       skillLoader: false,
       licenseLoader: false,
       talentLoader: false,
@@ -455,12 +483,53 @@
         })
         this.$forceUpdate()
       },
+      setPortrait: function (src) {
+        this.$store.dispatch('editPilot', {
+          attr: `portrait`,
+          val: src
+        })
+        this.notification = 'Pilot Portrait Saved'
+        this.snackbar = true
+      },
+      setAvatar: function (src) {
+        this.$store.dispatch('editPilot', {
+          attr: `avatar`,
+          val: src
+        })
+        this.notification = 'Pilot Avatar Saved'
+        this.snackbar = true
+        this.appearanceModal = false
+      },
       deletePilot: function () {
         this.deleteDialog = false
         this.$store.dispatch('deletePilot', this.pilot.id)
       },
       clonePilot: function () {
         this.$store.dispatch('clonePilot', this.pilot.id)
+      },
+      exportPilot: function () {
+        const { dialog } = require('electron').remote
+        var path = dialog.showSaveDialog({
+          title: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
+          buttonLabel: 'Save Pilot'
+        })
+        io.saveFile(path + '.json', JSON.stringify(this.pilot), function (err) {
+          if (err) {
+            alert(`Error: COMP/CON could not save a file to ${path}`)
+          } else {
+            this.exportDialog = false
+            this.notification = 'Pilot Saved'
+            this.snackbar = true
+          }
+        })
+      },
+      copyPilot: function () {
+        const {clipboard} = require('electron')
+        clipboard.writeText(JSON.stringify(this.pilot))
+        // console.log(clipboard.readText())
+        this.exportDialog = false
+        this.notification = 'Pilot Copied to Clipboard'
+        this.snackbar = true
       }
     },
     computed: {

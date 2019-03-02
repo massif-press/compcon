@@ -106,8 +106,11 @@ const actions = {
       core_bonuses: [],
       configs: []
     }
-    console.log(newPilot)
     context.commit('ADD_PILOT', newPilot)
+  },
+  importPilot (context, payload) {
+    payload.id = io.newID()
+    context.commit('ADD_PILOT', payload)
   },
   deletePilot (context, payload) {
     context.commit('DELETE_PILOT', payload)

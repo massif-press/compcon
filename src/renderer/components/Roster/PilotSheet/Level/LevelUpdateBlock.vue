@@ -47,13 +47,13 @@
             <b>Grit:</b>
             <br>
               <span class="display-2 grey--text pr-2">
-                {{ Math.floor((lvl - 1)/2)}}
+                {{ Math.ceil((lvl - 1)/2)}}
               </span>
               <span>
                 <v-icon size="40px" class="pl-4">arrow_forwards</v-icon>
               </span>
               <span class="display-2">
-                {{ Math.floor((lvl)/2)}}
+                {{ Math.ceil((lvl)/2)}}
               </span>
               </v-card-text>
         </v-card>

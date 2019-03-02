@@ -27,17 +27,37 @@
         <v-spacer />
 
         <v-divider />
+        <v-dialog v-model="addDialog" width="500" >
+          <v-list-tile slot="activator">
+            <v-list-tile-action>
+              <v-icon large dark>add</v-icon>
+            </v-list-tile-action>
 
-        <v-list-tile @click="goToNew()">
-          <v-list-tile-action>
-            <v-icon large dark>add</v-icon>
-          </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="title">Add Pilot</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
 
-          <v-list-tile-content>
-            <v-list-tile-title class="title">Add New Pilot</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title >
+              Add New Pilot
+            </v-card-title>
 
+            <v-card-text>
+              <v-btn block large color="primary" @click="goToNew">Create New Pilot</v-btn>
+              <v-divider />
+              <v-btn block flat color="primary" @click="importFile">Import from File</v-btn>
+              <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="addDialog = false" >Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-list>
     </v-toolbar>
   </v-navigation-drawer>
@@ -45,6 +65,8 @@
 
 <script>
 import SidebarItem from './SidebarItem'
+import io from '@/store/data_io'
+import validator from '@/logic/validator'
 
 export default {
   name: 'sidebar',
@@ -52,7 +74,8 @@ export default {
   data: () => ({
     mini: true,
     isVisible: true,
-    activeIndex: null
+    activeIndex: null,
+    addDialog: false
   }),
   computed: {
     pilots: function () {
@@ -77,7 +100,45 @@ export default {
       return this.$store.getters.getItemById(type, id)
     },
     goToNew () {
-      if (!this.mini) this.$router.push('/new')
+      this.$router.push('/new')
+    },
+    importFile () {
+      const { dialog } = require('electron').remote
+      var path = dialog.showOpenDialog({
+        title: 'Load Pilot Data',
+        buttonLabel: 'Load',
+        properties: [
+          'openFile'
+        ],
+        filters: [
+          { name: 'Pilot Data', extensions: ['json'] }
+        ]
+      })
+      var pilotData = io.importFile(path[0])
+      if (validator.pilot(pilotData)) {
+        this.$store.dispatch('importPilot', pilotData)
+        this.$store.dispatch('loadPilot', pilotData.id)
+        this.activeIndex = this.pilots.length - 1
+        this.addDialog = false
+      } else {
+        alert('Pilot data validation failed')
+        this.addDialog = false
+      }
+    },
+    importClipboard () {
+      var vm = this
+      const {clipboard} = require('electron')
+      validator.clipboardPilot(clipboard.readText(), function (err, result) {
+        if (err) {
+          alert(err)
+        } else {
+          console.log(err, result)
+          vm.$store.dispatch('importPilot', result)
+          vm.$store.dispatch('loadPilot', result.id)
+          vm.activeIndex = vm.pilots.length - 1
+        }
+      })
+      this.addDialog = false
     }
   }
 }

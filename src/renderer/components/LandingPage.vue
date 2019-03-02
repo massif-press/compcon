@@ -48,6 +48,7 @@
       <v-spacer />
       <v-btn flat small>About</v-btn>
       <v-btn flat small>Help</v-btn>
+      <v-btn color="warning" small>Support This Project</v-btn>
     </v-footer>
     </div>
 </template>
