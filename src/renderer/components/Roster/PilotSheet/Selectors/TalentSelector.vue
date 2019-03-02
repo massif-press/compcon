@@ -34,7 +34,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} talents
             </v-alert>
-            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveTalents" color="primary">Save</v-btn>
+            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveTalents" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -75,6 +75,9 @@
         type: Number
       },
       newPilot: {
+        type: Boolean
+      },
+      levelUp: {
         type: Boolean
       }
     },
@@ -121,9 +124,8 @@
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
         this.talents = talentSort(this.talents)
 
-        if (this.newPilot) this.panels = []
-
-        if (this.newPilot && this.pointLimit) {
+        if ((this.newPilot || this.levelUp) && this.pointLimit) {
+          if (this.levelUp) this.$emit('set-talents', this.talents)
           window.scrollTo(0, document.body.scrollHeight)
         }
       },

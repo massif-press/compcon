@@ -76,11 +76,9 @@
     components: { ItemBadge },
     methods: {
       addLicense: function () {
-        console.log(this.license)
         this.$emit('add-license', {name: this.license.license, source: this.license.source})
       },
       removeLicense: function () {
-        console.log(this.license)
         this.$emit('remove-license', this.license.license)
       },
       isLocked: function (val) {

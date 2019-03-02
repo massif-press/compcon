@@ -69,6 +69,9 @@ export default {
     },
     newPilot: {
       type: Boolean
+    },
+    levelUp: {
+      type: Boolean
     }
   },
   data: () => ({
@@ -84,6 +87,8 @@ export default {
       } else {
         operator === '+' ? this.mechSkills[field]++ : this.mechSkills[field]--
       }
+
+      if (this.levelUp) this.$emit('new-mech-skills', this.mechSkills)
     }
   },
   computed: {

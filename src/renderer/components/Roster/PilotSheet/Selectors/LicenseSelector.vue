@@ -32,7 +32,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
               {{points.pointsMax  - points.pointsCurrent}} License Points remaining
             </v-alert>
-            <v-btn v-if="!newPilot" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
+            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!licenses.length" @click="resetLicenses">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -76,6 +76,9 @@
       },
       newPilot: {
         type: Boolean
+      },
+      levelUp: {
+        type: Boolean
       }
     },
     components: { LicenseSelectorItem },
@@ -116,6 +119,11 @@
         }
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
         this.licenses = licenseSort(this.licenses)
+
+        if (this.levelUp && this.selectionComplete) {
+          this.$emit('set-licenses', this.licenses)
+          window.scrollTo(0, document.body.scrollHeight)
+        }
       },
       removeLicense: function (name) {
         var idx = this.licenses.findIndex(x => x.name === name.toUpperCase())

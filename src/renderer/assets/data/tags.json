@@ -192,5 +192,15 @@
     "id": "range",
     "name": "Range ({VAL})",
     "description": "This system can be activated at a range of {VAL} spaces."
+  }, 
+  {
+    "id": "archaic",
+    "name": "Archaic",
+    "description": "This weapon is too old fashioned to harm mechs"
+  }, 
+  {
+    "id": "sidearm",
+    "name": "Sidearm",
+    "description": "This weapon can be fired with a Quick Action"
   }
 ]

@@ -3,7 +3,6 @@
     <v-card flat>
       <v-card-text class="pb-0 pt-0">
         <p v-if="itemData.description" v-html="itemData.description" />
-        <p v-if="itemData.bonus" v-html="itemData.bonus" />
         <div v-if="itemData.type === 'armor'">
           <p v-html="`+ ${itemData.armor || 0} Armor // E-Defense: ${itemData.edef || 'N/A'} // Evasion: ${itemData.evasion || 'N/A'}`" />
           <p v-if="itemData.hp_bonus" v-html="`HP Bonus: +${itemData.hp_bonus}`" />
@@ -20,8 +19,6 @@
           <p v-if="itemData.uses" v-html="`${itemData.uses} Uses`" />
         </div>
         <p v-if="itemData.effect" v-html="itemData.effect" />
-        <p v-if="itemData.other" v-html="itemData.other" />
-        <p v-html="`Rarity ${itemData.rarity}`" />
         <v-layout>
           <tag v-for="tag in itemData.tags" :key="tag.id" :id="tag.id" :val="tag.val"/>
         </v-layout>
