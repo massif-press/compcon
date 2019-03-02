@@ -1,11 +1,12 @@
 Vue Parity:
     ☐ Frame statblock component
   Pilot Sheet:
-    ☐ Level Up
+    ✔ Level Up @done(19-03-02 14:12)
     ☐ Background Invoke (2 acc 2 diff)
     ✔ Avatar and portrait selector @done(19-03-01 15:43)
     ✔ Export @done(19-03-01 10:43)
     ✔ Import @done(19-03-01 12:11)
+    ☐ Incorporate skill trigger detail
   Mech Sheet:
     ☐ New Config
     ☐ Licenses Required
@@ -27,9 +28,8 @@ Vue Parity:
 
 1.8.5:
   ☐ Frame Data
-  ☐ Skill Detail expansions
-  ☐ Pilot Gear
-    ☐ Remove advanced gear, rarity concept
+  ✔ Pilot Gear @done(19-03-02 11:24)
+    ✔ Remove advanced gear, rarity concept @done(19-03-02 11:24)
   ☐ Backgrounds
   ☐ Core Bonuses
   ☐ Mods
@@ -56,6 +56,11 @@ Vue Parity:
   ☐ License/Talent/Skill selectors can share a common framework
   ☐ make license data lowercase, remove the license editor uppercase confirms
   ☐ Make loader/modal selector combo into component wrapper
+  ☐ wrap new/level selectors in conditional renderers to make lazy
+  ☐ For level up confirmation block:
+    ☐ license id (dupe name field, lowercase)
+    ☐ skill rank -> level
+    ☐ trigger bonus -> level
 
   1.0:
   Pilot Sheet:
@@ -93,7 +98,6 @@ Post-1.0:
   ☐ Actions Panel
   ☐ Tutorial popups
   ☐ Per-item notes
-  ☐ Generisize combat webbing to a generic extra equip bonus
   ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
   ☐ Custom Background (store as mod data)
   ☐ Custom Triggers (mod data)

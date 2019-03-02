@@ -92,7 +92,7 @@
               </span>
             </v-layout>
             <v-layout>
-              <v-flex class="pl-2"  @click="appearanceModal = true">
+              <v-flex class="pl-2"  @click="appearanceModal = true; appearanceLoader = true">
                 <div v-if="pilot.portrait">
                   <v-img :src="require(`@/assets/img/portraits/${pilot.portrait}`)" />
                 </div>

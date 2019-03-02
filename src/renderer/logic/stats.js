@@ -39,7 +39,8 @@ export default {
       attack_bonus: grit,
       tech_attack: frame.stats.tech_attack + pilot.mechSkills.sys,
       grapple: rules.base_grapple,
-      ram: rules.base_ram
+      ram: rules.base_ram,
+      save_bonus: grit
     }
 
     // system personalizations adds +2 hp

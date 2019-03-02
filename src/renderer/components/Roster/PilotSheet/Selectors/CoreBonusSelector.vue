@@ -6,13 +6,13 @@
         <v-layout>
           <v-flex style="text-align: center">
           <br>
-          <h3>CORE Bonus</h3>
+          <h3>CORE Bonus</h3>{{points.pointsCurrent}} {{points.pointsMax}} {{licenses}} {{pointLimit}}
           <hr>
           </v-flex>
         </v-layout>
         <v-layout>
           <v-flex xs12>
-            <div v-for="pb in bonuses" :key="`summary_${pb.id}`">
+            <div v-for="pb in bonuses" :key="`summary_${pb}`">
               <v-layout>
                 <v-flex xs12>
                   <strong>{{ bonusById(pb).name }}</strong>&nbsp;<span class="caption">({{ bonusById(pb).source }})</span>
@@ -30,7 +30,7 @@
             <v-alert outline color="warning" icon="priority_high" :value="!pointLimit">
               {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
             </v-alert>
-            <v-btn block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
+            <v-btn v-if="!levelUp" block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -72,10 +72,23 @@
 
   export default {
     name: 'core-bonus-selector',
-    props: ['pilotBonuses', 'pilotLicenses', 'pilotLevel'],
+    props: {
+      pilotBonuses: {
+        type: Array
+      },
+      pilotLicenses: {
+        type: Array
+      },
+      pilotLevel: {
+        type: Number
+      },
+      levelUp: {
+        type: Boolean
+      }
+    },
     data: () => ({
       bonuses: [],
-      pointLimit: true,
+      pointLimit: false,
       licenses: {},
       bonusData: [],
       scrollPosition: null
@@ -96,6 +109,11 @@
         this.bonuses.push(id)
         this.licenses[source] -= 3
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+
+        if (this.levelUp && this.selectionComplete) {
+          this.$emit('set-bonuses', this.bonuses)
+          window.scrollTo(0, document.body.scrollHeight)
+        }
       },
       removeBonus: function (id, source) {
         var idx = this.bonuses.findIndex(x => x === id)
@@ -136,17 +154,16 @@
         licenses[this.$store.getters.getItemById('CoreBonuses', this.pilotBonuses[j]).source] -= 3
       }
       this.licenses = licenses
-      this.bonusData = allData.filter(x => licenses[x.source])
+      this.bonusData = allData.filter(x => licenses[x.source] >= 3)
 
       var vm = this
       window.addEventListener('scroll', function (e) {
         vm.scrollPosition = window.scrollY
       })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
-    // },
-    // destroy () {
-    //   window.removeEventListener('scroll', this.updateScroll)
-    // }
   }
 </script>
 

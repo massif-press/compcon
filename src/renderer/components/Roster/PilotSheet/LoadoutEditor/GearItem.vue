@@ -20,7 +20,7 @@
           <v-expansion-panel class="m-0">
               <v-expansion-panel-content>
             <v-layout slot="header"> 
-              <span class="subheading font-weight-bold">{{itemData.name}} <span class="caption">({{ itemData.source }})</span></span> 
+              <span class="subheading font-weight-bold">{{itemData.name}}</span> 
               <v-spacer />
               <span v-if="itemData.type === 'armor'" class="mr-5" style="display: inline-flex;"> 
                 ARMOR: {{itemData.armor || 0}} // EDEF: {{itemData.edef || 0}} // EVASION: {{itemData.evasion || 0}} // SPEED: {{itemData.speed || 0}} 

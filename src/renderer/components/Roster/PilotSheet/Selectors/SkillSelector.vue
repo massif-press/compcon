@@ -167,7 +167,7 @@
         this.skills = skillSort(this.skills)
 
         if ((this.newPilot || this.levelUp) && this.selectionComplete) {
-          console.log('!!')
+          if (this.levelUp) this.$emit('set-skills', this.skills)
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
@@ -217,6 +217,9 @@
       window.addEventListener('scroll', function (e) {
         vm.scrollPosition = window.scrollY
       })
+    },
+    destroy () {
+      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>

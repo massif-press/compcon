@@ -42,13 +42,6 @@
                   <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
                 </div>
 
-                <!-- if player has combat webbing equipped -->
-                <div v-if="hasWebbing(loadout.items)">
-                  <br>
-                  <gear-item v-if="loadout.items.webbing" itemType="Combat Webbing" :item="loadout.items.webbing" @clicked="openSelector(null, 'webbing')"/>
-                  <gear-item v-else itemType="Combat Webbing" empty @clicked="openSelector(null, 'webbing')"/>
-                </div>
-
                 <v-card-actions>
                   <v-dialog v-model="renameDialog" width="600">
                     <v-btn slot="activator" flat><v-icon small left>edit</v-icon> Rename Loadout</v-btn>
@@ -210,9 +203,7 @@ export default {
       this.refresh()
     },
     equipItem (item) {
-      var attr = this.itemIndex === null
-        ? ['loadouts', this.tabIndex, 'items', 'webbing']
-        : ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
+      var attr = ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
       this.$store.dispatch('editPilot', {
         attr: attr,
         val: {id: item.id}
@@ -221,9 +212,7 @@ export default {
       this.refresh()
     },
     removeItem (removalType) {
-      var attr = this.itemIndex === null
-        ? ['loadouts', this.tabIndex, 'items', 'webbing']
-        : ['loadouts', this.tabIndex, 'items', removalType, this.itemIndex]
+      var attr = ['loadouts', this.tabIndex, 'items', removalType, this.itemIndex]
 
       this.$store.dispatch('editPilot', {
         attr: attr,
@@ -231,9 +220,6 @@ export default {
       })
       this.selectorModal = false
       this.refresh()
-    },
-    hasWebbing (items) {
-      return items.armor.find(x => x && x.id === 'webbing')
     }
   },
   computed: {
