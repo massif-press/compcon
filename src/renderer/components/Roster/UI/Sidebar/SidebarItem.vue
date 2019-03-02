@@ -6,7 +6,7 @@
       <v-tooltip right :disabled="!isMini">
         <v-list-tile-avatar slot="activator">
           <v-avatar size=40>
-            <img v-if="pilot.avatar" :src="pilot.avatar" alt="avatar">
+            <v-img v-if="pilot.avatar" :src="require(`@/assets/img/avatars/${pilot.avatar}`)" />
             <b v-else class="white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</b>
           </v-avatar>
         </v-list-tile-avatar>

@@ -17,7 +17,7 @@ export default {
   mechStats (pilot, config, loadout) {
     var frame = frames.find(x => x.id === config.frame_id)
 
-    var grit = Math.floor(pilot.level / 2)
+    var grit = Math.ceil(pilot.level / 2)
 
     var output = {
       structure: rules.base_structure,
@@ -26,7 +26,7 @@ export default {
       sys: pilot.mechSkills.sys,
       eng: pilot.mechSkills.eng,
       hp: (pilot.mechSkills.hull * 2) + frame.stats.hp + grit,
-      sp: frame.stats.sp + grit,
+      sp: frame.stats.sp + grit + Math.floor(pilot.mechSkills.sys / 2),
       armor: frame.stats.armor,
       repcap: frame.stats.repcap + Math.floor(pilot.mechSkills.hull / 2),
       evasion: frame.stats.evasion + pilot.mechSkills.agi,

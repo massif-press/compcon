@@ -41,10 +41,39 @@
               <v-flex xs4>
                 <v-layout justify-center align-center column>
                 <v-flex>
-                  <v-img class="center" aspect-ratio="0.8" width="350" src="https://via.placeholder.com/400x500"></v-img>
-                  <div style="position:absolute; right:7vw; bottom:7vw; border:1px solid black">
-                    <v-img class="center" aspect-ratio="1" width="120" src="https://via.placeholder.com/120"></v-img>
+                  <v-img class="center" aspect-ratio="0.8" width="350" :src="newPilot.portrait ? require(`@/assets/img/portraits/${newPilot.portrait}`) : '' " style="background-color: lightgrey" >
+                  <v-fade-transition>
+                    <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
+                      <span class="text-xs-center display-1 grey--text">No Pilot Portrait</span>
+                    </div>
+                  </v-fade-transition>
+                  </v-img>
+
+                  <div style="position:absolute; right:6vw; bottom:9vw; border:1px solid darkgrey">
+                    <v-img class="center" aspect-ratio="1" width="120" :src="newPilot.avatar ? require(`@/assets/img/avatars/${newPilot.avatar}`) : '' " style="background-color: lightgrey">
+                    <v-fade-transition>
+                      <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
+                        <span class="text-xs-center grey--text">No Pilot Avatar</span>
+                      </div>
+                    </v-fade-transition>
+                    </v-img>
                   </div>
+
+                  <v-btn color="primary" class="ml-5" @click="appearanceModal = true">&emsp;Set Pilot Images&emsp;</v-btn>
+                  <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+                  <v-card>
+                    <v-toolbar fixed dense>
+                      <v-toolbar-title>Set Pilot Images</v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn icon large @click="appearanceModal = false"> <v-icon large>close</v-icon> </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
+                    <v-spacer class="mt-5" />
+                    <image-selector @assign-portrait="setPortrait" @assign-avatar="setAvatar"/>
+                  </v-card>
+                </v-dialog>
+
                 </v-flex>
                 <br>
                 <v-flex>
@@ -206,13 +235,14 @@
 </template>
 
 <script>
-  import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector} from '../Selectors'
+  import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector, ImageSelector} from '../Selectors'
 
   export default {
     name: 'new-pilot',
-    components: { BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector },
+    components: { BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector, ImageSelector },
     data: () => ({
       np_step: 0,
+      appearanceModal: false,
       newPilot: {
         background: '',
         history: '',
@@ -260,6 +290,13 @@
       stepForward: function () {
         this.np_step++
         window.scrollTo(0, 0)
+      },
+      setPortrait: function (src) {
+        this.newPilot.portrait = src
+      },
+      setAvatar: function (src) {
+        this.newPilot.avatar = src
+        this.appearanceModal = false
       }
     },
     computed: {
