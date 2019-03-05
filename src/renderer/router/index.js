@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BootstrapVue from 'bootstrap-vue'
-import Icon from 'vue-awesome/icons'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.use(BootstrapVue)
-Vue.component('b-icon', Icon)
 Vue.use(Router)
 
 export default new Router({

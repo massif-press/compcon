@@ -8,7 +8,7 @@
     <sidebar ref="sidebar" />
 
     <!-- Page Content -->
-    <router-view></router-view>
+    <router-view class="pt-5"></router-view>
 
     </div>    
   </div>
@@ -70,10 +70,9 @@
 
 <style>
   .roster-content {
-    margin-left: 5.5%;
-    /* margin-right: 5.5vw; */
-    width: 100%!important;
-    height: 92.7vh;
+    margin-left: 80px;
+    margin-right: 0;
+    width: 100vw;
     overflow-y: scroll;
   }
 </style>

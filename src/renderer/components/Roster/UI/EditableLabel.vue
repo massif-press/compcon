@@ -2,7 +2,7 @@
   <div>
     <slot name="label"></slot>
     <v-dialog width="600" v-model="dialog">
-      <v-btn slot="activator" class="edit-btn" right small flat icon color="primary"><v-icon small>edit</v-icon></v-btn>
+      <v-btn slot="activator" class="edit-btn mr-0 pr-0" right small flat icon :color="dark ? 'amber accent-3' : 'primary'"><v-icon small>edit</v-icon></v-btn>
       <v-card>
         <v-card-title class="headline" primary-title>Edit {{description}}</v-card-title>
         <v-card-text>
@@ -21,7 +21,12 @@
 <script>
   export default {
     name: 'editable-label',
-    props: ['attr', 'description', 'placeholder'],
+    props: {
+      attr: String,
+      description: String,
+      placeholder: String,
+      dark: Boolean
+    },
     data: () => ({
       dialog: false,
       newLabel: ''

@@ -3,45 +3,34 @@
     <v-container fluid>
       <v-layout>
         <v-flex>
-          <h1 class="display-4">title</h1>
+          <h1 class="display-4">COMP/CON</h1>
         </v-flex>
       </v-layout>
       <v-layout>
         <v-flex>
-          <h3 class="display-2">subtitle</h3>
+          <h3 class="display-1 grey--text">&emsp; A digital toolset for the LANCER TTRPG</h3>
         </v-flex>
       </v-layout>
     </v-container>
 
-    <div style="padding-top:1vh;" />
-
     <v-container>
-      <v-layout style="height: 100%" align-v="center">
-        <v-flex><v-btn block large to="/roster">users</v-btn></v-flex>
-        <v-flex><v-btn block large :to="'/mods'" disabled>editor</v-btn></v-flex>
-        <v-flex><v-btn block large :to="'/gm'" disabled>tools</v-btn></v-flex>
+      <v-layout style="height: 100%" align-v="center" class="mt-5">
+        <v-flex><v-btn block color="primary" large to="/roster">Pilot Roster</v-btn></v-flex>
+        <v-flex><v-btn block large :to="'/mods'" disabled>Mod Editor</v-btn></v-flex>
+        <v-flex><v-btn block large :to="'/gm'" disabled>GM Toolkit</v-btn></v-flex>
       </v-layout>
 
-      <v-layout style="padding-top:10vh">
+      <v-divider />
+      <v-layout>
         <v-flex>
             <v-card>
-              <v-card-title>Update MM/DD/YYYY (v.x.x.x)</v-card-title>
+              <v-card-title class="title">Update MM/DD/YYYY<span class="caption">(v0.2.1)</span></v-card-title>
               <v-card-text>notes, links, etc</v-card-text>
             </v-card>
           </v-flex>
       </v-layout>
 
-      <br>
-
-      <v-layout>
-        <v-flex>
-          <v-card class="text-xs-center">
-            <span>loading log</span>
-          </v-card>
-        </v-flex>
-      </v-layout>
     </v-container>
-
 
     <v-footer fixed>
       <span href="#">&emsp;v. {{ ver }}</span>

@@ -1,6 +1,13 @@
 <template>
-  <v-flex class="d-flex justify-content-center">
-    {{attr}}: <span class="val" :id="attr + val">&nbsp;{{val}}</span>
+  <v-flex class="mb-1 text-xs-center">
+    <v-card flat dark>
+      <v-card-text class="header">
+        <span> {{attr}}</span>      
+      </v-card-text>
+      <v-card-text class="p-0">
+        <span class="value">{{val}}</span>
+      </v-card-text>
+    </v-card>
   </v-flex>
 </template>
 
@@ -13,9 +20,20 @@ export default {
   ]
 }
 </script>
-<style scoped>
-  .val {
-    font-weight: bold;
-    font-size: 16px;
+
+<style>
+  .header {
+    background-color: #757575;
+    color: #EEEEEE;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 3px;
+  }
+
+  .value {
+    color: #ffffff;
+    font-size: 4.5em;
+    font-weight: 300
   }
 </style>
+

@@ -76,14 +76,14 @@
                   </v-flex>
                 </v-layout>
                 <span class="ml-3 caption grey--text">Invocations</span>
-                <v-layout wrap>
+                <v-layout wrap class="ml-3 mr-3">
                   <v-flex shrink v-for="(invoke, index) in pilot.invocations" :key="invoke.trigger">
                     <invocation-item :invoke="invoke" :index="index" @remove-invoke="removeInvocation"/>
                   </v-flex>
                   <v-flex>
                     <v-dialog v-model="invokeDialog" width="600" >
-                        <v-btn slot="activator" flat small icon color="primary" :disabled="pilot.invocations.length >= 4">
-                          <v-tooltip top :disabled="pilot.invocations.length >= 4">
+                        <v-btn slot="activator" flat small icon color="primary" :disabled="pilot.invocations && pilot.invocations.length >= 4">
+                          <v-tooltip top :disabled="pilot.invocations && pilot.invocations.length >= 4">
                             <v-icon slot="activator">add_circle</v-icon>
                             <span>Add New Invocation</span>
                           </v-tooltip>
@@ -227,7 +227,7 @@
           </v-dialog>
         </span>
       </v-layout>
-      <div v-for="(license, index) in pilot.licenses" :key="index">
+      <div v-for="(license, index) in pilot.licenses" :key="index" class="ml-3 mr-3">
         <license-item :license="license" :licenseData="getLicense(license.name)" />
       </div>
       <v-layout>
@@ -244,7 +244,7 @@
                   <v-btn icon large @click="talentModal = false; talentLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer class="mb-4 pb-2"/>
+              <v-spacer class="mb-4 pb-5"/>
               <div v-if="talentLoader">
                 <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
               </div>
@@ -252,9 +252,11 @@
           </v-dialog>
         </span>
       </v-layout>
-      <v-expansion-panel focusable>
-        <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="item('Talents', talent.id)"/>
-      </v-expansion-panel>
+      <div class="ml-3 mr-3">
+        <v-expansion-panel focusable>
+          <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="item('Talents', talent.id)"/>
+        </v-expansion-panel>
+      </div>
       <v-layout>
         <span class="header">Mech Skills
           <v-dialog lazy v-model="mechSkillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -324,7 +326,7 @@
       </v-layout>
       <v-container>      
       <v-layout row v-for="cb in pilot.core_bonuses" :key="cb">
-        <cb-item :cb="item('CoreBonuses', cb)" />
+        <core-bonus-item :cb="item('CoreBonuses', cb)" />
       </v-layout>
       </v-container>
       <v-layout><span class="header no-icon">Pilot Gear</span></v-layout>
@@ -339,13 +341,11 @@
           <editable-textfield :description="'Pilot Notes'" :attr="'notes'" :initial="pilot.notes" />
           </v-flex>
       </v-layout>
-      <div class="spacer" />
     </v-container>
-
-      <div class="spacer" />
-      <v-container>
-        <v-layout justify-space-around>
+      <v-divider />
+        <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
           <v-flex xs3><v-btn large flat disabled>print</v-btn></v-flex>
+
           <v-flex xs3>
             <v-dialog v-model="exportDialog" width="500" >
                 <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
@@ -367,10 +367,12 @@
                 <span v-html="notification" />
                 <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
               </v-snackbar>
-          </v-flex>          
+          </v-flex>    
+                
           <v-flex xs3>
             <v-btn slot="activator" color="primary" large flat @click="clonePilot"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
           </v-flex>
+
           <v-flex xs3>
             <v-dialog v-model="deleteDialog" width="500" >
                 <v-btn slot="activator" color="error" large flat><v-icon>delete</v-icon> &nbsp; DELETE</v-btn>
@@ -388,8 +390,7 @@
               </v-dialog>
           </v-flex>
         </v-layout>
-      <div class="spacer" />
-      </v-container>
+      
     </div>
 
     <div v-else style="height: 100%">
@@ -419,23 +420,7 @@
 
   export default {
     name: 'pilot-sheet',
-    components: {
-      EditableLabel,
-      EditableTextfield,
-      LicenseItem,
-      SkillItem,
-      TalentItem,
-      PilotLoadout,
-      'cb-item': CoreBonusItem,
-      ImageSelector,
-      ContactsList,
-      BackgroundSelector,
-      SkillSelector,
-      TalentSelector,
-      LicenseSelector,
-      MechSkillsSelector,
-      CoreBonusSelector,
-      InvocationItem
+    components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem
     },
     data: () => ({
       callsignDialog: false,
@@ -549,11 +534,17 @@
           : { difficulty: true }
         inv.trigger = this.invoke_trigger
 
+        var idx = this.pilot.invocations
+          ? this.pilot.invocations.length
+          : 0
+
         this.$store.dispatch('editPilot', {
-          attr: `invocations[${this.pilot.invocations.length}]`,
+          attr: `invocations[${idx}]`,
           val: inv
         })
         this.invokeDialog = false
+        this.invoke_trigger = ''
+        this.invoke_attribute = null
       },
       removeInvocation: function (tIndex) {
         this.$store.dispatch('splicePilot', {
@@ -609,6 +600,7 @@
 <style scoped>
   .header {
     background-color: lightgray;
+    color: black;
     font-weight: bold;
     letter-spacing: 3px;
     width: 100%;
@@ -625,10 +617,10 @@
   .v-dialog__activator {
     margin-left: -18px;
   }
-</style>
+  </style>
 
 <style>
-.edit-btn {
+  .edit-btn {
   position: relative;
   /* margin-left: -10px!important; */
   opacity: 0.15;
@@ -636,45 +628,12 @@
   transition: 0.3s all;
 }
 
-.mlneg {
-  margin-left: -10px!important;
-}
+  .mlneg {
+    margin-left: -10px!important;
+  }
 
-.edit-btn:hover {
-  opacity: 1;
-  transition: 0.3s all;
-}
-
-.notch20 {
-  --notchSize: 20px;
-
-  clip-path:
-    polygon(
-      0% 0%,
-      0% 0%,
-      calc(100% - var(--notchSize)) 0%,
-      100% var(--notchSize),
-      100% 100%,
-      calc(100% - var(--notchSize)) 100%,
-      var(--notchSize) 100%,
-      0% calc(100% - var(--notchSize))
-    );
-}
-
-.notch8 {
-  --notchSize: 8px;
-
-  clip-path:
-    polygon(
-      0% 0%,
-      0% 0%,
-      calc(100% - var(--notchSize)) 0%,
-      100% var(--notchSize),
-      100% 100%,
-      calc(100% - var(--notchSize)) 100%,
-      var(--notchSize) 100%,
-      0% calc(100% - var(--notchSize))
-    );
-}
-
+  .edit-btn:hover {
+    opacity: 1;
+    transition: 0.3s all;
+  }
 </style>

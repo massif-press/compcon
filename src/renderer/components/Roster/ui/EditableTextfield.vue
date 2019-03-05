@@ -1,6 +1,6 @@
 <template>
 <div class="pt-1 pb-1 pl-3 pr-3">
-  <v-textarea v-model="newVal" v-on:blur="save" auto-grow rows=1 :label="description" placeholder="Click to Edit" clearable></v-textarea>
+  <v-textarea :dark="dark" :color="dark ? 'warning' : 'primary'" box v-model="newVal" v-on:blur="save" auto-grow rows=1 :label="description" placeholder="Click to Edit" clearable></v-textarea>
 </div>
 
 </template>
@@ -8,7 +8,12 @@
 <script>
   export default {
     name: 'editable-textfield',
-    props: ['attr', 'description', 'initial'],
+    props: {
+      attr: String,
+      description: String,
+      initial: String,
+      dark: Boolean
+    },
     data: () => ({
       newVal: ''
     }),
