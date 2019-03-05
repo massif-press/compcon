@@ -23,12 +23,20 @@
             <v-layout justify-space-between align-center row fill-height>
               <v-flex xs7>
                 <v-text-field v-model="newPilot.callsign" clearable>
+                  <v-tooltip top slot="prepend-inner">
+                    <v-btn slot="activator" icon flat @click="randomCallsign"><v-icon>shuffle</v-icon></v-btn>
+                    <span>Generate Random Callsign</span>
+                  </v-tooltip>
                   <span slot="label">Callsign <b v-if="!newPilot.callsign" class="red--text">*</b></span>
                   <span slot="append-outer">
                       <v-icon v-if="newPilot.callsign" color="green">check_circle</v-icon>
                     </span>
                   </v-text-field>
                 <v-text-field v-model="newPilot.name" clearable>
+                  <v-tooltip top slot="prepend-inner">
+                    <v-btn slot="activator" icon flat @click="randomName"><v-icon>shuffle</v-icon></v-btn>
+                    <span>Generate Random Name</span>
+                  </v-tooltip>
                   <span slot="label">Name <b v-if="!newPilot.name" class="red--text">*</b></span>
                   <span slot="append-outer">
                     <v-icon v-if="newPilot.name" color="green">check_circle</v-icon>
@@ -236,6 +244,7 @@
 
 <script>
   import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector, ImageSelector} from '../Selectors'
+  import io from '@/store/data_io'
 
   export default {
     name: 'new-pilot',
@@ -297,6 +306,14 @@
       setAvatar: function (src) {
         this.newPilot.avatar = src
         this.appearanceModal = false
+      },
+      randomCallsign: function () {
+        this.newPilot.callsign = `${io.randomName('callsigns.txt')}`
+        this.$forceUpdate()
+      },
+      randomName: function () {
+        this.newPilot.name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
+        this.$forceUpdate()
       }
     },
     computed: {

@@ -14,6 +14,7 @@
             </v-flex>
           </v-layout>
         </v-container>   
+        <v-btn large flat color="error" @click="assignPortrait('')"><v-icon>remove_circle_outline</v-icon>&emsp;Remove Portrait</v-btn> 
     </v-card>
   </v-tab-item>
     <v-tab-item>
@@ -26,7 +27,8 @@
               </div>
             </v-flex>
           </v-layout>
-        </v-container>   
+        </v-container>
+        <v-btn large flat color="error"  @click="assignAvatar('')"><v-icon>remove_circle_outline</v-icon>&emsp;Remove Avatar</v-btn> 
     </v-card>
   </v-tab-item>
   </v-tabs>
@@ -51,17 +53,22 @@
       assignPortrait: function (src) {
         this.$emit('assign-portrait', src)
         this.tabController = 1
+        window.scrollTo(0, document.body.scrollHeight)
       },
       assignAvatar: function (src) {
         this.$emit('assign-avatar', src)
-        window.scrollTo(0, document.body.scrollHeight)
+        this.tabController = 0
       }
     },
     mounted: function () {
-      this.portraits = io.getImages('portraits')
-      this.avatars = io.getImages('avatars')
+      var vm = this
+      vm.portraits = io.getImages('portraits').sort(function (a, b) {
+        return a === vm.preselectPortrait ? 0 : 1
+      })
+      vm.avatars = io.getImages('avatars').sort(function (a, b) {
+        return a === vm.preselectAvatar ? 0 : 1
+      })
     }
-
   }
 </script>
 
@@ -74,5 +81,6 @@
   }
   .preselected {
     background-color: #81D4FA;
+    border: solid 2px #0D47A1;
   }
 </style>

@@ -5,9 +5,10 @@
         <strong class="title">{{itemData.name}}</strong>
       </v-card-title>
       <v-card-text class="pb-0 pt-0">
-        <p v-if="itemData.type" v-html="itemData.type" />
-        <p v-if="itemData.description" v-html="itemData.description" />
+
         <div v-if="itemData.type === 'weapon'">
+          <p v-if="itemData.type" v-html="itemData.type" />
+          <p v-if="itemData.description" v-html="itemData.description" />
           <p>{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
           <p>{{itemData.mount}} {{itemData.type}}</p>
           <p v-if="itemData.sp" v-html="`${itemData.sp} SP`" />
@@ -15,15 +16,18 @@
           <range-element :range="itemData.range" />
           <p v-if="itemData.effect" v-html="itemData.effect" />
         </div>
+
         <div v-else-if="itemData.type === 'system'">
+          <p v-if="itemData.type" v-html="itemData.type" />
+          <p v-if="itemData.description" v-html="itemData.description" />
           <p>{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
           <p v-if="itemData.sp" v-html="`${itemData.sp} SP`" />
           <p v-if="itemData.effect" v-html="`${itemData.effect}`" />
         </div>
+
         <!-- frame -->
         <div v-else>
-          <p>{{itemData.source}} {{itemData.mechtype}} Frame</p>
-          <p>{{itemData.description}}</p>
+          <b class="ml-3">{{itemData.source}} {{itemData.mechtype}} Frame</b>
           <frame-statblock :frame="itemData" />
         </div>
         <v-layout>

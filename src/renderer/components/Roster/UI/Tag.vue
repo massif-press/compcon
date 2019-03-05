@@ -1,7 +1,7 @@
 <template>
     <v-flex shrink>
       <v-menu open-on-hover top offset-y>
-        <v-chip slot="activator" color="primary" dark>
+        <v-chip slot="activator" color="primary" dark small>
           <v-avatar>
             <v-icon>label</v-icon>
           </v-avatar>

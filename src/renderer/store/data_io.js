@@ -31,6 +31,11 @@ export default {
   newID () {
     return Math.random().toString(36).substr(2, 12)
   },
+  randomName (filename) {
+    var p = path.join(__static, '..', 'src', 'renderer', 'assets', 'generators', filename)
+    var array = fs.readFileSync(p).toString().split('\n')
+    return array[Math.floor(Math.random() * array.length)]
+  },
   loadUserData (userDataPath, filePath) {
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {

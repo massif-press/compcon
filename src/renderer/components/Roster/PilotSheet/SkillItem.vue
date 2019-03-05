@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-layout justify-space-between>
+    <v-layout>
       <v-flex xs3>&emsp;
           <v-chip dark color="primary" small >
             +<b>{{skill.bonus}}</b>
@@ -8,7 +8,18 @@
 
         <h5 class="center-align">&nbsp;{{skillData.trigger}}</h5>
         </v-flex>
-      <v-flex>&emsp;<span class="center-align">{{skillData.description}}</span></v-flex>
+      <v-flex xs9>
+        <v-expansion-panel class="pa-0 ma-0">
+          <v-expansion-panel-content expand-icon="search">
+            <template v-slot:header>
+              <div><span class="center-align subheading font-weight-bold">{{skillData.description}}</span></div>
+            </template>
+            <v-card flat class="ma-0 pa-0" width="60vw">
+              <v-card-text class="mt-0 mb-0 pt-0 pb-2 blockquote">{{skillData.detail}}</v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-flex>
     </v-layout>
   </v-card>
 </template>

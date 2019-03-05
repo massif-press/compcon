@@ -57,7 +57,7 @@
                   <v-flex xs12 style="text-align:center">
                     <b> {{ item('Backgrounds', pilot.background).name }} </b>
                     <v-dialog lazy v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-                      <v-btn slot="activator" class="edit-btn" small flat icon color="primary">
+                      <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
                         <v-icon small>edit</v-icon>
                       </v-btn>
                       <v-card>
@@ -75,6 +75,44 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
+                <span class="ml-3 caption grey--text">Invocations</span>
+                <v-layout wrap>
+                  <v-flex shrink v-for="(invoke, index) in pilot.invocations" :key="invoke.trigger">
+                    <invocation-item :invoke="invoke" :index="index" @remove-invoke="removeInvocation"/>
+                  </v-flex>
+                  <v-flex>
+                    <v-dialog v-model="invokeDialog" width="600" >
+                        <v-btn slot="activator" flat small icon color="primary" :disabled="pilot.invocations.length >= 4">
+                          <v-tooltip top :disabled="pilot.invocations.length >= 4">
+                            <v-icon slot="activator">add_circle</v-icon>
+                            <span>Add New Invocation</span>
+                          </v-tooltip>
+                        </v-btn>     
+                      <v-card>
+                        <v-card-title class="title">Add Background Invocation</v-card-title>
+                        <v-card-text>
+                          <v-text-field v-model="invoke_trigger" label="Outline" placeholder="Invocation Trigger" outline />
+                          <v-flex class="text-xs-center">
+                          <v-btn-toggle v-model="invoke_attribute" dark>
+                            <v-btn large color="primary">
+                              <v-icon small>thumb_up</v-icon>&emsp;<span>Accuracy</span>
+                            </v-btn>
+                            <v-btn large color="error">
+                              <v-icon small>thumb_down</v-icon>&emsp;<span>Difficulty</span>
+                            </v-btn>
+                          </v-btn-toggle>
+                          </v-flex>
+                        </v-card-text>
+                        <v-divider />
+                        <v-card-actions>
+                          <v-btn color="primary" flat @click="invokeDialog = false"> Cancel </v-btn>
+                          <v-spacer />
+                          <v-btn color="primary" :disabled="invoke_trigger === '' || (!invoke_attribute && invoke_attribute !== 0)" @click="addInvocation">Add New Invocation</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+                  </v-flex>
+                </v-layout>
                 <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" />
               </v-flex>
             </v-layout>
@@ -88,7 +126,7 @@
           <v-flex xs4>
             <v-layout>
               <span class="header">Appearance
-                <v-btn class="edit-btn" small flat icon color="primary" @click="appearanceModal = true; appearanceLoader = true;"><v-icon small>edit</v-icon></v-btn>
+                <v-btn class="edit-btn mlneg" small flat icon color="primary" @click="appearanceModal = true; appearanceLoader = true;"><v-icon small>edit</v-icon></v-btn>
               </span>
             </v-layout>
             <v-layout>
@@ -139,7 +177,7 @@
             <span class="header">
               Skill Triggers
               <v-dialog lazy v-model="skillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="skillLoader = true">
+                <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary darken-2" @click="skillLoader = true">
                   <v-icon small>edit</v-icon>
                 </v-btn>
                 <v-card>
@@ -166,7 +204,7 @@
       <v-layout>
         <span class="header">Licenses
           <v-dialog lazy v-model="licenseModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="licenseLoader = true">
+            <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary darken-2" @click="licenseLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -195,7 +233,7 @@
       <v-layout>
         <span class="header">Talents
           <v-dialog lazy v-model="talentModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="talentLoader = true">
+            <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary darken-2" @click="talentLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -220,7 +258,7 @@
       <v-layout>
         <span class="header">Mech Skills
           <v-dialog lazy v-model="mechSkillModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="mechSkillLoader = true">
+            <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary darken-2" @click="mechSkillLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -264,7 +302,7 @@
       <v-layout>
         <span class="header">CORE Bonuses
           <v-dialog lazy v-model="bonusModal" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-btn slot="activator" class="edit-btn" small flat icon color="primary darken-2" @click="cbLoader = true">
+            <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary darken-2" @click="cbLoader = true">
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
@@ -307,7 +345,7 @@
       <div class="spacer" />
       <v-container>
         <v-layout justify-space-around>
-          <v-flex xs3><v-btn large>print</v-btn></v-flex>
+          <v-flex xs3><v-btn large flat disabled>print</v-btn></v-flex>
           <v-flex xs3>
             <v-dialog v-model="exportDialog" width="500" >
                 <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
@@ -376,6 +414,7 @@
   import SkillItem from './SkillItem'
   import TalentItem from './TalentItem'
   import CoreBonusItem from './CoreBonusItem'
+  import InvocationItem from './InvocationItem'
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
 
   export default {
@@ -395,13 +434,16 @@
       TalentSelector,
       LicenseSelector,
       MechSkillsSelector,
-      CoreBonusSelector
+      CoreBonusSelector,
+      InvocationItem
     },
     data: () => ({
       callsignDialog: false,
       newCallsign: '',
       renameDialog: false,
       newName: '',
+      invoke_trigger: '',
+      invoke_attribute: null,
       backgroundModal: false,
       appearanceModal: false,
       skillModal: false,
@@ -410,6 +452,7 @@
       mechSkillModal: false,
       bonusModal: false,
       pilotGearModal: false,
+      invokeDialog: false,
       deleteDialog: false,
       exportDialog: false,
       snackbar: false,
@@ -500,6 +543,25 @@
         this.snackbar = true
         this.appearanceModal = false
       },
+      addInvocation: function () {
+        var inv = this.invoke_attribute === 0
+          ? { accuracy: true }
+          : { difficulty: true }
+        inv.trigger = this.invoke_trigger
+
+        this.$store.dispatch('editPilot', {
+          attr: `invocations[${this.pilot.invocations.length}]`,
+          val: inv
+        })
+        this.invokeDialog = false
+      },
+      removeInvocation: function (tIndex) {
+        this.$store.dispatch('splicePilot', {
+          attr: 'invocations',
+          start_index: tIndex,
+          delete_count: 1
+        })
+      },
       deletePilot: function () {
         this.deleteDialog = false
         this.$store.dispatch('deletePilot', this.pilot.id)
@@ -526,7 +588,6 @@
       copyPilot: function () {
         const {clipboard} = require('electron')
         clipboard.writeText(JSON.stringify(this.pilot))
-        // console.log(clipboard.readText())
         this.exportDialog = false
         this.notification = 'Pilot Copied to Clipboard'
         this.snackbar = true
@@ -569,10 +630,14 @@
 <style>
 .edit-btn {
   position: relative;
-  margin-left: -10px;
-  opacity: 0.3;
+  /* margin-left: -10px!important; */
+  opacity: 0.15;
   cursor: pointer;
   transition: 0.3s all;
+}
+
+.mlneg {
+  margin-left: -10px!important;
 }
 
 .edit-btn:hover {
