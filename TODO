@@ -1,24 +1,17 @@
 Vue Parity:
-    ☐ Frame statblock component
-  Pilot Sheet:
-    ✔ Level Up @done(19-03-02 14:12)
-    ☐ Background Invoke (2 acc 2 diff)
-    ✔ Avatar and portrait selector @done(19-03-01 15:43)
-    ✔ Export @done(19-03-01 10:43)
-    ✔ Import @done(19-03-01 12:11)
-    ☐ Incorporate skill trigger detail
   Mech Sheet:
     ☐ New Config
     ☐ Licenses Required
     ☐ Default images
-    ☐ Image selector
+      ☐ Missing Data for mechs without image
     ☐ Attribute source popovers
     ☐ Stats Block
       ☐ Add: Limited Item Bonus 
+    ☐ Traits
     ☐ Mech Loadout Manager
       ☐ Integrated mount
-    ☐ Actions Panel
-    ☐ Charts
+      ☐ Main/Aux
+      ☐ Aux/Aux
     ☐ Export
     ☐ Clone
     ☐ Delete
@@ -28,24 +21,17 @@ Vue Parity:
 
 1.8.5:
   ☐ Frame Data
-  ✔ Pilot Gear @done(19-03-02 11:24)
-    ✔ Remove advanced gear, rarity concept @done(19-03-02 11:24)
-  ☐ Backgrounds
   ☐ Core Bonuses
   ☐ Mods
-  ☐ Update Rules
-  ☐ Skills
-    ☐ In-depth Skill Descriptions
   ☐ Weapons
   ☐ Systems
   ☐ Tags
   ☐ Talents
 
- Bugs:
-  ✔ Talent selctor mutating vuex store @done(19-03-01 10:03)
+Bugs:
   ☐ Loadout rename/delete is bugged 
 
-  Refactoring:
+Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of simple assign
@@ -62,7 +48,7 @@ Vue Parity:
     ☐ skill rank -> level
     ☐ trigger bonus -> level
 
-  1.0:
+Version 1:
   Pilot Sheet:
     ☐ Custom Pilot Images
     ☐ Print
@@ -78,7 +64,7 @@ Vue Parity:
         ☐ Add space for sketches
         ☐ Add space for additonal equipment
   Mech Sheet:
-    ☐ Image Selector
+    ☐ Image Selector / Custom Mech Images
     ☐ Print
       Print options:
         ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
@@ -90,7 +76,8 @@ Vue Parity:
 
 Other:
   ☐ Totally remove Bootstrap
-  ☐ Name/Callsign/Config Name generators
+  ☐ Reduce size of firstname/lastname txts
+  ☐ Better Callsign list
 
 Post-1.0:
   ☐ Pilot Stat Contributions
@@ -101,12 +88,34 @@ Post-1.0:
   ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
   ☐ Custom Background (store as mod data)
   ☐ Custom Triggers (mod data)
+  ☐ Charts
 
-      
 Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Frame statblock component @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Stat block @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Mount List @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Integrated mount, if any @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Traits @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Core System @done(19-03-04 15:19) @project(Vue Parity)
+  ✔ Level Up @done(19-03-02 14:12) @project(Vue Parity.Pilot Sheet)
+  ✔ Background Invoke (2 acc 2 diff) @done(19-03-04 11:16) @project(Vue Parity.Pilot Sheet)
+  ✔ Avatar and portrait selector @done(19-03-01 15:43) @project(Vue Parity.Pilot Sheet)
+  ✔ Image remove option @done(19-03-04 11:29) @project(Vue Parity.Pilot Sheet)
+  ✔ Move preselected to front of list @done(19-03-04 11:29) @project(Vue Parity.Pilot Sheet)
+  ✔ Export @done(19-03-01 10:43) @project(Vue Parity.Pilot Sheet)
+  ✔ Import @done(19-03-01 12:11) @project(Vue Parity.Pilot Sheet)
+  ✔ Incorporate skill trigger detail @done(19-03-04 12:11) @project(Vue Parity.Pilot Sheet)
+  ✔ Pilot Gear @done(19-03-02 11:24) @project(1.8.5)
+  ✔ Remove advanced gear, rarity concept @done(19-03-02 11:24) @project(1.8.5)
+  ✔ Backgrounds @done(19-03-04 15:39) @project(1.8.5)
+  ✔ Update Rules @done(19-03-04 15:39) @project(1.8.5)
+  ✔ Skills @done(19-03-04 12:11) @project(1.8.5)
+  ✔ In-depth Skill Descriptions @done(19-03-04 12:11) @project(1.8.5)
+  ✔ Talent selctor mutating vuex store @done(19-03-01 10:03) @project(Bugs)
+  ✔ Name/Callsign/Config Name generators @done(19-03-04 13:55) @project(Other)
   ✔ Damage component @done(19-02-25 12:56) @project(Vue Parity)
   ✔ Range component @done(19-02-25 12:56) @project(Vue Parity)
   ✔ Format GearItem components @done(19-02-25 12:56) @project(Vue Parity)

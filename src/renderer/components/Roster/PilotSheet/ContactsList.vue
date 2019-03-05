@@ -4,10 +4,10 @@
       <v-card v-for="(contact, index) in contacts" :key="index + contact.name">
         <v-card-text class="pt-0 pb-0 mt-0 mb-0">
           <editable-label :attr="`contacts[${index}].name`" description="Contact Name" :placeholder="contact.name" @on-save="update">
-            <span slot="label" class="title">{{contact.name}}</span>
+            <span slot="label" class="title pb-0 mb-0">{{contact.name}}</span>
           </editable-label>
           <editable-label :attr="`contacts[${index}].relationship`" description="Contact Relationship" :placeholder="contact.relationship" @on-save="update">
-            <em slot="label">{{contact.relationship}}</em>
+            <em slot="label" >{{contact.relationship}}</em>
           </editable-label>
           <editable-label :attr="`contacts[${index}].description`" description="Contact Description" :placeholder="contact.description" @on-save="update">
             <span slot="label">{{contact.description}}</span>
