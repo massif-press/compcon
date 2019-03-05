@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :mini-variant.sync="mini" stateless :value="isVisible" dark fixed style="top:5vh" height="95vh">
+  <v-navigation-drawer :mini-variant.sync="mini" stateless :value="isVisible" dark fixed class="pt-5">
     <v-toolbar flat class="transparent pt-2">
       <v-list>
         <v-list-tile v-if="!mini">

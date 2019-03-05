@@ -57,6 +57,7 @@
       <v-card-title class="title mt-0 pt-2 mb-0 pb-0">CORE System</v-card-title>
       <v-card-text>
         <span><b>{{frame.core_system.name}}:</b> {{frame.core_system.effect}}</span>
+        <span v-if="frame.core_sytem.passive"><br>{{frame.core_system.passive}}</span>
         <br>
         <tag v-for="tag in frame.core_system.tags" :key="tag" :id="tag" />
       </v-card-text>

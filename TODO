@@ -2,16 +2,22 @@ Vue Parity:
   Mech Sheet:
     ☐ New Config
     ☐ Licenses Required
-    ☐ Default images
-      ☐ Missing Data for mechs without image
-    ☐ Attribute source popovers
-    ☐ Stats Block
-      ☐ Add: Limited Item Bonus 
-    ☐ Traits
+    ✔ Default images @done(19-03-05 12:30)
+      ✔ Missing Data for mechs without image @done(19-03-05 11:05)
+    ✔ Stats Block @done(19-03-05 13:04)
+      ✔ Add: Limited Item Bonus @done(19-03-05 11:29)
+      ✔ Add: Frame Save @done(19-03-05 12:58)
+    ✔ Traits @done(19-03-05 12:12)
+    ✔ CORE System @done(19-03-05 16:25)
+      ✔ CORE System Passive @done(19-03-05 16:25)
     ☐ Mech Loadout Manager
       ☐ Integrated mount
       ☐ Main/Aux
       ☐ Aux/Aux
+      ☐ Superheavy linking
+      ☐ Rename
+      ☐ Duplicate
+      ☐ Delete
     ☐ Export
     ☐ Clone
     ☐ Delete
@@ -21,6 +27,11 @@ Vue Parity:
 
 1.8.5:
   ☐ Frame Data
+    ✔ GMS @done(19-03-05 16:05)
+    ✔ IPS-N @done(19-03-05 16:05)
+    ✔ SSC @done(19-03-05 16:22)
+    ☐ HA
+    ☐ HORUS
   ☐ Core Bonuses
   ☐ Mods
   ☐ Weapons
@@ -30,11 +41,16 @@ Vue Parity:
 
 Bugs:
   ☐ Loadout rename/delete is bugged 
+  ☐ Selector left panels starting too high
+  ☐ Pilot loadout selector weird height issues
+  ☐ Sidebar does not minimize on route switch
+  ☐ Skill trigger item triggers need to be resized
 
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of simple assign
+  ☐ props array to object
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same
@@ -68,6 +84,7 @@ Version 1:
     ☐ Print
       Print options:
         ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
+        ☐ Core Power pip
         ☐ Print image
         ☐ Print empty apparance frame (for drawing)
         ☐ Print Notes
@@ -75,9 +92,11 @@ Version 1:
         ☐ Add space for sketches (unlined)
 
 Other:
-  ☐ Totally remove Bootstrap
+  ✔ Totally remove Bootstrap @done(19-03-05 12:40)
   ☐ Reduce size of firstname/lastname txts
   ☐ Better Callsign list
+  ☐ More mech names
+  ☐ Official Art images
 
 Post-1.0:
   ☐ Pilot Stat Contributions
@@ -89,6 +108,8 @@ Post-1.0:
   ☐ Custom Background (store as mod data)
   ☐ Custom Triggers (mod data)
   ☐ Charts
+  ☐ Export-import loadouts
+  ☐ Mech stats attribute source popovers
 
 Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction

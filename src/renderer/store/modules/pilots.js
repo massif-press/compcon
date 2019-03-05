@@ -1,5 +1,4 @@
 import io from '../data_io'
-import Stats from '../../logic/stats'
 import Vue from 'vue'
 import _ from 'lodash'
 
@@ -12,9 +11,6 @@ const state = {
 const mutations = {
   SET_PILOT (state, payload) {
     state.activePilotID = payload
-  },
-  SET_CONFIG (state, payload) {
-    state.activeConfigID = payload
   },
   LOAD_ALL_PILOTS (state) {
     state.Pilots = io.loadUserData(Vue.prototype.userDataPath, 'pilots.json')
@@ -73,9 +69,6 @@ const actions = {
   loadPilot (context, pilotId) {
     context.commit('SET_PILOT', pilotId)
   },
-  loadConfig (context, configID) {
-    context.commit('SET_CONFIG', configID)
-  },
   editPilot (context, payload) {
     context.commit('UPDATE_PILOT', payload)
   },
@@ -121,34 +114,11 @@ const getters = {
   getPilot: (state) => {
     return state.Pilots.find(p => p.id === state.activePilotID) || {}
   },
-  getConfigLoadouts: (state) => (configId) => {
-    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === configId).loadouts || {}
-  },
-  getConfigLoadoutById: (state) => (configId, loadoutId) => {
-    return state.Pilots.find(p => p.id === state.activePilotID)
-      .configs.find(c => c.id === configId)
-      .loadouts.find(l => l.id === loadoutId) || {}
-  },
-  getConfigLoadoutByIndex: (state) => (configId, loadoutIdx) => {
-    return state.Pilots.find(p => p.id === state.activePilotID)
-      .configs.find(c => c.id === configId)
-      .loadouts[loadoutIdx] || {}
-  },
   getAllPilots: (state) => {
     return state.Pilots || []
   },
   getPilotById: (state) => (id) => {
     return state.Pilots.find(p => p.id === id) || {}
-  },
-  getConfig: state => {
-    return state.Pilots.find(p => p.id === state.activePilotID).configs.find(c => c.id === state.activeConfigID) || {}
-  },
-  getConfigIndex: (state) => (id) => {
-    return state.Pilots.find(p => p.id === state.activePilotID).configs.findIndex(c => c.id === id)
-  },
-  getMechStats: (state) => (id, loadout) => {
-    var pilot = state.Pilots.find(p => p.id === state.activePilotID)
-    return Stats.mechStats(pilot, pilot.configs.find(c => c.id === id), loadout)
   },
   getRarities: (state) => {
     var pilot = state.Pilots.find(p => p.id === state.activePilotID)

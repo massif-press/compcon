@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <br>
     <v-layout align-center justify-center column fill-height>
       <v-alert value="true" :type="!pointLimit? 'info' : 'success'" outline>{{currentPoints}}/{{maxPoints}} Mech Skills selected</v-alert>
@@ -51,7 +51,7 @@
         <v-btn :disabled="mechSkills.eng >= 6 || pointLimit" icon right bottom @click="changeSkill('eng', '+')"><v-icon>add</v-icon></v-btn>
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>
