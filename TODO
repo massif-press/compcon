@@ -93,6 +93,8 @@ Version 1:
 
 Other:
   ✔ Totally remove Bootstrap @done(19-03-05 12:40)
+  ☐ Better datatable formatting
+  ☐ Level up icon closer to LL
   ☐ Reduce size of firstname/lastname txts
   ☐ Better Callsign list
   ☐ More mech names
