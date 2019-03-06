@@ -91,7 +91,7 @@
                       <v-card>
                         <v-card-title class="title">Add Background Invocation</v-card-title>
                         <v-card-text>
-                          <v-text-field v-model="invoke_trigger" label="Outline" placeholder="Invocation Trigger" outline />
+                          <v-text-field v-model="invoke_trigger" label="Invocation Trigger" outline />
                           <v-flex class="text-xs-center">
                           <v-btn-toggle v-model="invoke_attribute" dark>
                             <v-btn large color="primary">
