@@ -31,22 +31,27 @@
   {
     "id": "arcing",
     "name": "Arcing",
-    "description": "This weapon ignores line of sight as long as it can trace a path to its target. Arcing weapons typically lob projectiles in an arc."
+    "description": "This weapon ignores line of sight as long as it can trace a path to its target, but still takes cover into account. Arcing weapons typically lob projectiles in an arc."
   },
   {
     "id": "burn",
     "name": "Burn {VAL}",
-    "description": "On hit, this weapon applies {VAL} burn to a target, stacking with any other source of burn. A target takes energy damage equal to their current burn the start of each of its turns, ignoring armor but taking resistance into account as normal. An affected target can pass an engineering skill check at the end of its turn to clear all burn on it, otherwise this effect persists."
+    "description": "On hit, this weapon applies {VAL} burn to a target, stacking with any other source of burn. A target takes damage equal to the burn applied immediately, ignoring armor. At the end of its turn, an affected target can pass an engineering skill check at the end of its turn to clear all burn on it, otherwise it takes damage equal to its total current burn."
+  },
+  {
+    "id": "knockback",
+    "name": "Knockback {VAL}",
+    "description": "On hit, you may knock back a target {VAL} spaces in a straight line directly away from the point of origin (unless specified, this is your mech). Knockback is additive, so an attack that gains Knockback 1 from a weapon and Knockback 1 from a talent would knock a target back 2 spaces."
   },
   {
     "id": "heatother",
-    "name": "Heat {VAL} (target)",
-    "description": "this weapon or system deals an additional {VAL} Heat on hit to its target."
+    "name": "Heat {VAL} (Target)",
+    "description": "this weapon or system inflicts an additional {VAL} Heat on hit to its target."
   },
   {
     "id": "heatself",
-    "name": "Heat {VAL} (self)",
-    "description": "this weapon or system deals {VAL} Heat to its user, applied immediately upon activation"
+    "name": "Heat {VAL} (Self)",
+    "description": "this weapon or system inflicts {VAL} Heat on its wielder immediately after firing"
   },
   {
     "id": "inaccurate",
@@ -73,6 +78,11 @@
     "name": "Ordnance",
     "description": "Ordnance weapons must be fired before taking any other action or movement on a turn (you can still act and move normally afterwards). In addition, ordnance weapons are too cumbersome to be used against targets in engagement with your mech, and cannot be used for overwatch."
   },
+  {
+    "id": "overcharged",
+    "name": "Overcharged",
+    "description": "When attacking with this weapon, if any dice come up as ‘1’, take 1 heat, pick them up, and re-roll them. This process can repeat if you keep rolling ‘1’s."
+  },  
   {
     "id": "seeking",
     "name": "Seeking",
@@ -127,6 +137,11 @@
     "id": "mine",
     "name": "Mine",
     "description": "Indicates an explosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine explodes normally)."
+  },
+  {
+    "id": "immunity",
+    "name": "Immunity",
+    "description": "If a character or object is immune to something (damage, burn, conditions), whatever it is immune to has no effect on it. For example, a character that is immune to burn doesn’t take any burn, or count as taking burn, when something attempts to deal burn to it. A character that is immune to engagement never counts as engaged, etc."
   },
   {
     "id": "mod",
