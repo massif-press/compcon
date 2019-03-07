@@ -12,9 +12,9 @@ Vue Parity:
       ✔ CORE System Passive @done(19-03-05 16:25)
     ☐ Mech Loadout Manager
       ☐ Integrated mount
+        ☐ Engineer Prototype Weapon
       ☐ Main/Aux
       ☐ Aux/Aux
-      ☐ Superheavy linking
       ☐ Rename
       ☐ Duplicate
       ☐ Delete
@@ -26,18 +26,18 @@ Vue Parity:
     ☐ Items
 
 1.8.5:
-  ☐ Frame Data
-    ✔ GMS @done(19-03-05 16:05)
-    ✔ IPS-N @done(19-03-05 16:05)
-    ✔ SSC @done(19-03-05 16:22)
-    ☐ HA
-    ☐ HORUS
+  ✔ Frame Data @done(19-03-06 12:52)
   ☐ Core Bonuses
-  ☐ Mods
+  ✔ Mods @done(19-03-06 15:16)
   ☐ Weapons
   ☐ Systems
-  ☐ Tags
-  ☐ Talents
+  ✔ Tags @done(19-03-06 13:03)
+  ✔ Talents @done(19-03-06 15:56)
+  ☐ Armament R1 Ammo Case
+  ☐ Armament R2 Ammo Case
+  ☐ Engineer R1/R2/R3 Prototype Weapon
+  ☐ Nuclear Cavalier R3 Weapon
+  ☐ Technophile R1/R2/R3 System
 
 Bugs:
   ☐ Loadout rename/delete is bugged 
@@ -45,6 +45,16 @@ Bugs:
   ☐ Pilot loadout selector weird height issues
   ☐ Sidebar does not minimize on route switch
   ☐ Skill trigger item triggers need to be resized
+
+Other:
+  ✔ Totally remove Bootstrap @done(19-03-05 12:40)
+  ☐ Better datatable formatting
+  ☐ Level up icon closer to LL
+  ☐ Reduce size of firstname/lastname txts
+  ✔ Better Callsign list @done(19-03-06 15:57)
+  ✔ More mech names @done(19-03-06 15:57)
+  ☐ Official Art images
+
 
 Refactor:
   ☐ move static assets out of computed @critical
@@ -70,6 +80,7 @@ Version 1:
     ☐ Print
       Print options:
         ☐ Include active mech
+        ☐ Print HP as numbers (current/max) or as pips ([] [] [])
         ☐ Print image
         ☐ Print empty apparance frame (for drawing)
         ☐ Print History
@@ -90,15 +101,7 @@ Version 1:
         ☐ Print Notes
         ☐ Add space for notes (lined)
         ☐ Add space for sketches (unlined)
-
-Other:
-  ✔ Totally remove Bootstrap @done(19-03-05 12:40)
-  ☐ Better datatable formatting
-  ☐ Level up icon closer to LL
-  ☐ Reduce size of firstname/lastname txts
-  ☐ Better Callsign list
-  ☐ More mech names
-  ☐ Official Art images
+        ☐ Mark danger zone heat
 
 Post-1.0:
   ☐ Pilot Stat Contributions
@@ -112,6 +115,7 @@ Post-1.0:
   ☐ Charts
   ☐ Export-import loadouts
   ☐ Mech stats attribute source popovers
+  ☐ Gear Catalog comparison view
 
 Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction

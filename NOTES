@@ -1,36 +1,20 @@
-rough app structure:
-presentation: components
-logic: logic
-data: store
-
-more armor properties:
-evasion_bonus
-edef_bonus
-hp_bonus
-
-
-on license page:
-*rank I* ------ *rank II* ----- Xrank IIIX
--r1 item        -r2 item       -r3 item
--r1 item                       -r3 item
-
-
 search for:
 “   ”
 ‘   ’
+1/round
 
 http://nift.firedrake.org
-
+https://twitter.com/cultureshipname
 
 
 Hello, everyone!
-Sorry I dipped out for a hot minute. Too much stuff on my plate to get everything done and hang around the discord. 
+Sorry I dipped out for a minute. Too much stuff on my plate to get everything done and still hang around the discord. 
 But work on my little app has continued apace, and I'm happy to announce I have something that can actually be useful.
 After 1.8 dropped I decided to rewrite the entire thing in a modern framework (vue.js). I had most of the heavy lifing and hard thinking out of the way already so it only took a fraction of the time to get back to where I was. The upshot of all this is that it's much, much easier to write for, debug, invite collaborators to work on, and if/when the time comes, port to a mobile app or hosted site (more on that later). For now, it's feature complete *EXCEPT FOR* pilot/mech sheet printing and user-uploaded pilot and mech images. Once those are hammered out it'll have everything I wanted to include in 1.0. Beyond that, you can find the roadmap at XXXXXX.
 
 The app (still electron) can be downloaded here: XXXXXXXXXXXX
 
-I'd like to ask, if you like the tool and are using it, to please keep an eye out for bugs. I've produced an automated reporting form here: XXXXXXXX which will automatically throw tickets into github that I can work with. If there's a feature you think might be good to add (or you would like me to readress an already-existing feature) I've got a seperate form for that here: XXXXXXXXXXX
+I'd like to ask, if you decide to use the tool, to please keep an eye out for bugs. I've produced an automated reporting form here: XXXXXXXX which will automatically throw tickets into github, which I can then track (and you can see the progress). If there's a feature you think might be good to add (or you would like me to readress an already-existing feature) I've got a seperate form for that here: XXXXXXXXXXX
 
 Once I've got the print functionality complete, I'll release the ~official beta~ and start cleaning things up in preparation for mod and GM tools.
 
