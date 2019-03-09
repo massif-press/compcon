@@ -48,7 +48,10 @@ export default {
     if (loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
-    if (pilot.core_bonuses.includes('fomorian') && frame.size < 3) output.size++
+    if (pilot.core_bonuses.includes('fomorian')) {
+      if (frame.size === 0.5) output.size = 1
+      else if (frame.size < 3) output.size++
+    }
 
     // ipsn reinforced frame core bonus adds 5 hp
     if (pilot.core_bonuses.includes('frame')) output.hp += 5
@@ -56,20 +59,20 @@ export default {
     // ipsn sloped plating core bonus adds 1 armor, up to 4
     if (pilot.core_bonuses.includes('plating') && frame.armor < 4) output.armor += 1
 
-    // horus open door adds 1 edef and 5 sensor range
-    if (pilot.core_bonuses.includes('opendoor')) {
-      output.edef += 1
-      output.sensor_range += 5
-    }
+    // ssc full subjectivity sync adds 2 evasion
+    if (pilot.core_bonuses.includes('fssync')) output.evasion += 2
 
-    // ha stasis shielding adds 2 repcap
-    if (pilot.core_bonuses.includes('stasis')) output.repcap += 2
+    // horus open door adds +2 save
+    if (pilot.core_bonuses.includes('opendoor')) output.save_target += 2
+
+    // horus open door adds +2 edef
+    if (pilot.core_bonuses.includes('disbelief')) output.edef += 2
 
     // ha superior by design core bonus adds 2 heatcap
     if (pilot.core_bonuses.includes('superior')) output.heatcap += 2
 
     // ha ammofeeds adds a +1 bonus to limited items
-    if (pilot.core_bonuses.includes('ammofeeds')) output.limited_bonus += 1
+    if (pilot.core_bonuses.includes('ammofeeds')) output.limited_bonus += 2
 
     return output
   },

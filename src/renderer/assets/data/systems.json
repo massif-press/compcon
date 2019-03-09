@@ -112,7 +112,7 @@
   },
   {
     "id": "plug",
-    "name": "Companion/ Concierge-class Dummy Plug",
+    "name": "Companion/Concierge-class Dummy Plug",
     "type": "AI",
     "sp": 2,
     "tags": [{
@@ -125,8 +125,8 @@
     "source": "GMS",
     "license": "",
     "license_level": "",
-    "effect": "Your mech has a basic companion/concierge unit installed in it, gaining the AI tag. It can speak to you and has a personality but is not truly capable of independent thought, as a true AI would be. It is obedient to you alone. When you hand over the controls, it can take actions and move on its own prerogative when not piloted, using its stats, but has no independent initiative (it must take and follow commands from you, or else takes no action other than to defend itself). Dummy Plugs are not true AIs and thus cannot be unshackled.",
-    "description": "The Companion/Concierge Class Dummy Plug conforms to galaxy wide standards for comp/con units. A Com/Con DP will pass even the most rigid Turing-Null classifications and is cleared for operations even when the pilot is not present. ",
+    "effect": "Your mech has a basic companion/concierge unit installed in it, gaining the AI tag. It can speak to you and has a personality but is not truly capable of independent thought, as a true AI would be. It is obedient to you alone. When you hand over the controls, it can take actions and move on its own prerogative when not piloted, using its stats, but has no independent initiative (it must take and follow commands from you, or else takes no action other than to defend itself).",
+    "description": "The Companion/Concierge Class Dummy Plug conforms to galaxy wide standards for comp/con units. A Com/Con DP will pass even the most rigid Turing-Null classifications and is cleared for operations even when the pilot is not present.",
     "data_type": "system",
     "aptitude": {
       "repair": 0
@@ -282,7 +282,7 @@
     "source": "GMS",
     "license": "",
     "license_level": "",
-    "effect": "When you take this mod, your mech gains +2 HP and you may establish with your GM 1 minor effect or modification you have made to your mech. This mod cannot grant any statistical or combat benefit to your mech other than the hp benefit, but could provide other useful effects. If your GM agrees that this mod would help you with a particular skill check, they can give you +1 Accuracy on the check.",
+    "effect": "When you take this mod, your mech gains +2 HP and you may establish with your GM 1 minor effect or modification you have made to your mech. This mod cannot grant any statistical or combat benefit to your mech other than the hp benefit, but could provide other useful effects. If your GM agrees that this mod would help you with a particular pilot or mech skill check, they can give you +1 Accuracy on the check.",
     "description": "",
     "data_type": "system",
     "aptitude": {
@@ -293,14 +293,14 @@
     "id": "stable",
     "name": "Stable Structure",
     "type": "System",
-    "sp": 1,
+    "sp": 2,
     "tags": [{
       "id": "unique"
     }],
     "source": "GMS",
     "license": "",
     "license_level": "",
-    "effect": "Attempts to knock you prone are made with +1 Difficulty, and you make rolls to resist getting knocked prone with +1 Accuracy.",
+    "effect": "Your mech makes saves to resist getting knocked prone or knocked back with +1 Accuracy.",
     "description": "",
     "data_type": "system",
     "aptitude": {
