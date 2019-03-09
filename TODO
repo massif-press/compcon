@@ -27,17 +27,29 @@ Vue Parity:
 
 1.8.5:
   ✔ Frame Data @done(19-03-06 12:52)
-  ☐ Core Bonuses
+  ✔ Core Bonuses @done(19-03-08 15:32)
   ✔ Mods @done(19-03-06 15:16)
   ☐ Weapons
   ☐ Systems
   ✔ Tags @done(19-03-06 13:03)
   ✔ Talents @done(19-03-06 15:56)
-  ☐ Armament R1 Ammo Case
-  ☐ Armament R2 Ammo Case
-  ☐ Engineer R1/R2/R3 Prototype Weapon
-  ☐ Nuclear Cavalier R3 Weapon
-  ☐ Technophile R1/R2/R3 System
+  Systems:
+    ☐ Armament R1 Ammo Case
+    ☐ Armament R2 Ammo Case
+    ☐ Engineer R1/R2/R3 Prototype Weapon
+    ☐ Nuclear Cavalier R3 Weapon
+    ☐ Technophile R1/R2/R3 System
+  Core Bonuses:
+    ☐ Auto Stabilizing Hardpoints (+1 Acc on a mount)
+    ☐ Burnout Insulation (+1d6 damage on a mount)
+    ☐ Improved Armament (+Flex mount if mech has <3 mounts)
+    ☐ Integrated weapon (1 mount gets additional AUX slot)
+    ✔ Full Subjectivity Sync (+2 evasion) @done(19-03-08 15:38)
+    ☐ Neuro-linked Targeting (all mounted weapons gain +2 range)
+    ✔ The Lesson of Disbelief (+2 edef) @done(19-03-08 15:37)
+    ✔ The Lesson of The Open Door (+2 save) @done(19-03-08 15:36)
+    ☐ The Lesson of Shaping (+1 AI cap)
+    ✔ Integrated Ammo Feeds (+2 Limited) @done(19-03-08 15:35)
 
 Bugs:
   ☐ Loadout rename/delete is bugged 
