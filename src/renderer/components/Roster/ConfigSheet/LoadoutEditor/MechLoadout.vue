@@ -92,7 +92,7 @@
       </v-snackbar>
 
       <v-dialog v-model="selectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
-        <v-toolbar fixed dense>
+        <v-toolbar fixed dense flat>
           <v-toolbar-title><span class="text-capitalize">Select {{itemType}}</span></v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>

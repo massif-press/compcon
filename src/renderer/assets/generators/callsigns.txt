@@ -80,7 +80,7 @@ Cheakamus
 Cheetah
 Cherrystone
 Chicago
-Chilliwack 
+Chilliwack
 Chimera
 Chinook
 Chivano
@@ -258,7 +258,7 @@ Jasmine
 Jasper
 Javelin
 Jayhawk
-Jelly Bean 
+Jelly Bean
 Jiro
 Junior
 Jupiter

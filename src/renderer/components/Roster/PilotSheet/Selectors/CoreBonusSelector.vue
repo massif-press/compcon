@@ -6,7 +6,7 @@
         <v-layout>
           <v-flex style="text-align: center">
           <br>
-          <h3>CORE Bonus</h3>{{points.pointsCurrent}} {{points.pointsMax}} {{licenses}} {{pointLimit}}
+          <h3>CORE Bonus</h3>
           <hr>
           </v-flex>
         </v-layout>
@@ -155,19 +155,12 @@
       }
       this.licenses = licenses
       this.bonusData = allData.filter(x => licenses[x.source] >= 3)
-
-      var vm = this
-      window.addEventListener('scroll', function (e) {
-        vm.scrollPosition = window.scrollY
-      })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
+      this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
     }
   }
 </script>
 
-<style>
+<style scoped>
   .scroll-fix{
     margin: -25vh 0px;
     position: fixed;

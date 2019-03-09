@@ -1,0 +1,182 @@
+<template>
+
+  <v-container fluid>
+    <v-layout justify-center>
+    <v-flex>
+
+  <v-stepper v-model="nc_step" vertical>
+    <v-stepper-step :complete="nc_step > 1" step="1">
+      Frame Selection
+      <small>Unauthorized Frames <em :class="`font-weight-bold ${showLocked ? 'red--text' : ''}`">{{showLocked ? 'SHOWN' : 'HIDDEN'}}</em></small>
+    </v-stepper-step>
+
+    <v-stepper-content step="1">
+      <v-toolbar color="primary" nudge-left="200px">
+        <v-tooltip top>
+          <div class="pt-3" slot="activator">
+          <v-switch color="yellow" v-model="showLocked">
+            <v-icon v-if="showLocked" dark slot="append" color="yellow">lock_open</v-icon>
+            <v-icon v-else dark slot="append">lock</v-icon>
+          </v-switch>
+          </div>
+          <span v-if="!showLocked">Show unauthorized Frames</span>
+          <span v-else>Hide unauthorized Frames</span>
+        </v-tooltip>
+        <v-spacer />
+        <v-autocomplete flat v-model="search" :items="frames" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
+      </v-toolbar>
+      <v-card>
+        <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
+          <template slot="items" slot-scope="props">
+            <tr @click="props.expanded = !props.expanded" :class="{ locked: isLocked(props.item.name) }">
+              <td style="padding: 0!important;"><v-btn color="primary" icon @click="select(props.item)" class="p-0 m-0"><v-icon>save_alt</v-icon></v-btn></td>
+              <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
+              <td class="text-xs-left"><span class="subheading font-weight-bold">{{ props.item.name }} 
+                <v-tooltip v-if="isLocked(props.item.name)" top>
+                  <v-icon small color="warning" slot="activator">warning</v-icon>
+                  <span>{{pilot.callsign}} does not have the license necessary to print this frame ({{props.item.name}} II)</span>
+                </v-tooltip>
+              </span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.size === 0.5 ? '½' : props.item.stats.size }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.armor }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.hp }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.evasion }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{props.item.stats.edef}}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.heatcap }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.repcap }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sensor_range }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.tech_attack }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{props.item.stats.save}}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.speed }}</span></td>
+              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sp }}</span></td>
+            </tr>
+          </template>
+          <template slot="expand" slot-scope="props">
+              <frame-statblock :frame="props.item" hide-statblock />
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-stepper-content>
+
+    <v-stepper-step step="2">Designation</v-stepper-step>
+
+    <v-stepper-content step="2">
+      <v-card flat>
+        <v-text-field v-model="newConfigName" clearable>
+        <v-tooltip top slot="prepend-inner">
+          <v-btn slot="activator" icon flat @click="randomMechname"><v-icon>shuffle</v-icon></v-btn>
+          <span>Generate Random Designation</span>
+        </v-tooltip>
+        <span slot="label">Configuration Name <b v-if="!newConfigName" class="red--text">*</b></span>
+        <span slot="append-outer">
+            <v-icon v-if="newConfigName" color="green">check_circle</v-icon>
+          </span>
+        </v-text-field>
+      </v-card>
+      <v-layout justify-space-between>
+        <v-flex xs1>
+          
+        </v-flex>
+        <v-flex shrink>
+          <v-btn color="primary" flat @click="nc_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
+          <v-btn color="success" large class="pl-4" @click="addNewConfig" :disabled="!newFrameId || !newConfigName">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
+        </v-flex>
+      </v-layout>
+    </v-stepper-content>
+
+
+      </v-stepper>
+    </v-flex>
+    </v-layout>
+  </v-container>
+</template>
+
+<script>
+  import io from '@/store/data_io'
+  import { FrameStatblock } from '../UI'
+
+  export default {
+    name: 'new-config',
+    props: {
+      pilot: Object
+    },
+    components: { FrameStatblock },
+    data: () => ({
+      nc_step: 0,
+      newFrameId: null,
+      newFrameName: null,
+      newConfigName: null,
+      showLocked: false,
+      search: null,
+      headers: [
+        {align: 'left', sortable: false},
+        {text: 'Source', align: 'left', value: 'source'},
+        {text: 'Frame', align: 'left', value: 'name'},
+        {text: 'Size', align: 'right', value: 'stats.size'},
+        {text: 'Armor', align: 'right', value: 'stats.armor'},
+        {text: 'HP', align: 'right', value: 'stats.hp'},
+        {text: 'Evasion', align: 'right', value: 'stats.evasion'},
+        {text: 'E-Defense', align: 'right', value: 'stats.edef'},
+        {text: 'Heat Capacity', align: 'right', value: 'stats.heatcap'},
+        {text: 'Repair Capacity', align: 'right', value: 'stats.repcap'},
+        {text: 'Sensor Range', align: 'right', value: 'stats.sensor_range'},
+        {text: 'Tech Attack', align: 'right', value: 'stats.tech_attack'},
+        {text: 'Save', align: 'right', value: 'stats.save'},
+        {text: 'Speed', align: 'right', value: 'stats.speed'},
+        {text: 'SP', align: 'right', value: 'stats.sp'}
+      ],
+      licenses: []
+    }),
+    computed: {
+      frames: function () {
+        var vm = this
+        // filter by type
+        var i = vm.$store.getters.getItemCollection('Frames')
+        if (!vm.showLocked) i = i.filter(x => vm.licenses.includes(x.name))
+
+        if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
+
+        return i
+      }
+    },
+    methods: {
+      randomMechname: function () {
+        this.newConfigName = `${io.randomName('mechnames.txt')}`
+        this.$forceUpdate()
+      },
+      select: function (frame) {
+        this.newFrameId = frame.id
+        this.newFrameName = frame.name
+        this.nc_step++
+      },
+      isLocked: function (name) {
+        return !this.licenses.includes(name)
+      },
+      addNewConfig: function () {
+        this.$store.dispatch('addConfig', {
+          pilot_id: this.pilot.id,
+          name: this.newConfigName,
+          frame_id: this.newFrameId
+        })
+        this.$emit('close')
+      }
+    },
+    mounted: function () {
+      var licenses = ['EVEREST']
+      for (let i = 0; i < this.pilot.licenses.length; i++) {
+        var l = this.pilot.licenses[i]
+        if (l.level > 1) licenses.push(l.name)
+      }
+      this.licenses = licenses
+    }
+  }
+</script>
+
+<style scoped>
+  .locked {
+    background-color: #F5F5F5;
+  }
+
+</style>
+
+

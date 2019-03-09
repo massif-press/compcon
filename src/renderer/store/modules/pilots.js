@@ -81,15 +81,15 @@ const actions = {
   addPilot (context, payload) {
     var newPilot = {
       id: io.newID(),
-      callsign: payload.callsign,
-      name: payload.name,
+      callsign: payload.callsign.replace('/r', ''),
+      name: payload.name.replace('/r', ''),
       level: 0,
       background: payload.background,
       notes: '',
       history: payload.history,
       text_appearance: payload.text_appearance,
-      img_portrait: '',
-      img_appearance: '',
+      avatar: payload.avatar,
+      portrait: payload.portrait,
       contacts: [],
       licenses: [],
       loadouts: [],
@@ -100,6 +100,14 @@ const actions = {
       configs: []
     }
     context.commit('ADD_PILOT', newPilot)
+  },
+  addConfigToPilot (context, payload) {
+    context.state.activePilotID = payload.pilot_id
+    console.log(context.state.Pilots.find(p => p.id === state.activePilotID))
+    context.commit('UPDATE_PILOT', {
+      attr: `configs[${context.state.Pilots.find(p => p.id === context.state.activePilotID).configs.length}]`,
+      val: payload
+    })
   },
   importPilot (context, payload) {
     payload.id = io.newID()

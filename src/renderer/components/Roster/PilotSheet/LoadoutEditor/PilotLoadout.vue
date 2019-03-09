@@ -9,7 +9,7 @@
     </v-card>
       <v-tabs v-else v-model="tabIndex" dark color="primary" show-arrows slider-color="yellow" mandatory>
         <!-- Render Tabs -->
-        <v-tab v-for="loadout in loadouts" :key="loadout.id">
+        <v-tab v-for="(loadout, i) in loadouts" :key="i">
           {{loadout.name}}
         </v-tab>
           <span>
@@ -46,30 +46,31 @@
                   <v-dialog v-model="renameDialog" width="600">
                     <v-btn slot="activator" flat><v-icon small left>edit</v-icon> Rename Loadout</v-btn>
                       <v-card>
-                        <v-card-title class="headline" primary-title>Rename Loadout: {{loadouts[index].name}}</v-card-title>
+                        {{loadout.name}} {{index}} {{tabIndex}}
+                        <v-card-title class="headline" primary-title>Rename Loadout: {{loadouts[tabIndex].name}}</v-card-title>
                         <v-card-text>
                           <v-text-field v-model="newLoadoutName" label="Loadout Name" type="text"></v-text-field>
                         </v-card-text>
                         <v-card-actions>
                           <v-btn flat @click="renameDialog = false"> Cancel </v-btn>
                           <v-spacer></v-spacer>
-                          <v-btn color="primary" flat @click="renameLoadout(index)"> Rename </v-btn>
+                          <v-btn color="primary" flat @click="renameLoadout(tabIndex)"> Rename </v-btn>
                         </v-card-actions>
                       </v-card>
                   </v-dialog>
-                  <v-btn flat @click="duplicateLoadout(index)"><v-icon small left>file_copy</v-icon> Duplicate Loadout</v-btn>
+                  <v-btn flat @click="duplicateLoadout(tabIndex)"><v-icon small left>file_copy</v-icon> Duplicate Loadout</v-btn>
                   <v-spacer/>
                   <v-dialog v-model="deleteDialog" width="600">
                     <v-btn slot="activator" flat variant="danger" color="error"><v-icon small left>delete</v-icon> Delete {{loadout.name}}</v-btn>
                       <v-card>
-                        <v-card-title class="headline" primary-title>Delete Loadout: {{loadouts[index].name}}</v-card-title>
+                        <v-card-title class="headline" primary-title>Delete Loadout: {{loadouts[tabIndex].name}}</v-card-title>
                         <v-card-text>
                           <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
                         </v-card-text>
                         <v-card-actions>
                           <v-btn flat @click="deleteDialog = false"> Cancel </v-btn>
                           <v-spacer></v-spacer>
-                          <v-btn color="error" @click="deleteLoadout(index)"> Delete </v-btn>
+                          <v-btn color="error" @click="deleteLoadout()"> Delete </v-btn>
                         </v-card-actions>
                       </v-card>
                   </v-dialog>                    
@@ -126,7 +127,7 @@ export default {
   name: 'pilot-loadout',
   components: { GearItem, ItemTable },
   data: () => ({
-    tabIndex: null,
+    tabIndex: 0,
     itemIndex: 0,
     itemType: null,
     reloadTrigger: 0,
@@ -145,9 +146,10 @@ export default {
         start_index: this.tabIndex,
         delete_count: 1
       })
-      this.tabIndex--
+      this.tabIndex = 0
       this.deleteDialog = false
       this.deleteNotification = true
+      this.refresh()
     },
     addLoadout () {
       var newIdx = this.$store.getters.getPilot.loadouts.length

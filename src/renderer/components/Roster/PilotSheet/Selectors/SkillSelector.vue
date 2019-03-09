@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <v-flex xs3>
+      <v-flex xs3 class="pr-3">
         <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
@@ -212,14 +212,6 @@
         int: this.skillData.filter(x => x.family === 'int'),
         cha: this.skillData.filter(x => x.family === 'cha')
       }
-
-      var vm = this
-      window.addEventListener('scroll', function (e) {
-        vm.scrollPosition = window.scrollY
-      })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>

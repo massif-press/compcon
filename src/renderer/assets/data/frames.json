@@ -504,7 +504,7 @@
       "Aux/Aux", "Flex"
     ],
     "stats": {
-      "size": "½",
+      "size": 0.5,
       "armor": 0,
       "hp": 6,
       "evasion": 12,
@@ -788,7 +788,7 @@
       "Flex"
     ],
     "stats": {
-      "size": "½",
+      "size": 0.5,
       "armor": 0,
       "hp": 6,
       "evasion": 11,
@@ -1243,7 +1243,7 @@
       "Main/Aux"
     ],
     "stats": {
-      "size": "½",
+      "size": 0.5,
       "armor": 2,
       "hp": 6,
       "evasion": 8,

@@ -47,10 +47,6 @@ const mutations = {
     //   throw console.error('Pilot not loaded!')
     // }
   },
-  ADD_CONFIG (state, payload) {
-    console.log(state, payload)
-    // state.Pilots.push(payload)
-  },
   DELETE_CONFIG (state, payload) {
     console.log(state, payload)
   //   var pilotIndex = state.Pilots.findIndex(x => x.id === payload)
@@ -78,11 +74,14 @@ const actions = {
   },
   addConfig (context, payload) {
     console.log(context, payload)
-    // var newConfig = {
-    //   id: io.newID(),
-
-    // }
-    // context.commit('ADD_CONFIG', newConfig)
+    var newConfig = {
+      id: io.newID(),
+      pilot_id: payload.pilot_id,
+      name: payload.name,
+      frame_id: payload.frame_id,
+      loadouts: []
+    }
+    context.dispatch('addConfigToPilot', newConfig, { root: true })
   },
   importConfig (context, payload) {
     payload.id = io.newID()

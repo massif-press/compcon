@@ -38,7 +38,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .small-label {
     font-size: 10px;
     position: relative;
