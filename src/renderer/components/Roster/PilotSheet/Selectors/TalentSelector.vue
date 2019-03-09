@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <v-flex xs3>
+      <v-flex xs3 class="pr-3">
         <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
@@ -124,6 +124,8 @@
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
         this.talents = talentSort(this.talents)
 
+        if (this.newPilot) this.panels = []
+
         if ((this.newPilot || this.levelUp) && this.pointLimit) {
           if (this.levelUp) this.$emit('set-talents', this.talents)
           window.scrollTo(0, document.body.scrollHeight)
@@ -158,19 +160,11 @@
       if (this.newPilot) this.pLevel = 0
       else this.pLevel = this.pilotLevel
       this.talents = this.pLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
-
-      var vm = this
-      window.addEventListener('scroll', function (e) {
-        vm.scrollPosition = window.scrollY
-      })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
-<style>
+<style scoped>
   .scroll-fix{
     margin: -25vh 0px;
     position: fixed;

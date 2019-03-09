@@ -1,8 +1,7 @@
 <template>
   <v-container fluid>
-    <br><br>
     <v-layout>
-      <v-flex xs3>
+      <v-flex xs3 class="pr-3">
         <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
         <v-layout>
           <v-flex style="text-align: center">
@@ -150,19 +149,11 @@
       this.pLevel = this.pilotLevel
       this.licenseData = this.$store.getters.getItemCollection('Licenses')
       this.initialize()
-
-      var vm = this
-      window.addEventListener('scroll', function (e) {
-        vm.scrollPosition = window.scrollY
-      })
-    },
-    destroy () {
-      window.removeEventListener('scroll', this.updateScroll)
     }
   }
 </script>
 
-<style>
+<style scoped>
   .scroll-fix{
     margin: -25vh 0px;
     position: fixed;

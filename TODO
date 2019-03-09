@@ -1,6 +1,6 @@
 Vue Parity:
   Mech Sheet:
-    ☐ New Config
+    ✔ New Config @done(19-03-07 16:39)
     ☐ Licenses Required
     ✔ Default images @done(19-03-05 12:30)
       ✔ Missing Data for mechs without image @done(19-03-05 11:05)
@@ -40,20 +40,23 @@ Vue Parity:
   ☐ Technophile R1/R2/R3 System
 
 Bugs:
-  ☐ Loadout rename/delete is bugged 
-  ☐ Selector left panels starting too high
-  ☐ Pilot loadout selector weird height issues
-  ☐ Sidebar does not minimize on route switch
-  ☐ Skill trigger item triggers need to be resized
+  ✔ multiple new pilots -> confirm is bugged @done(19-03-07 13:27)
+  ✔ multiple new pilots -> name/callsign not blocking correctly @done(19-03-07 13:27)
+  ✔ Loadout delete is bugged @done(19-03-07 12:58)
+  ✔ Selector left panels starting too high @done(19-03-07 11:40)
+  ✔ Pilot loadout selector weird height issues @done(19-03-07 11:44)
+  ✔ Sidebar does not minimize on route switch @done(19-03-07 12:37)
+  ✔ Skill trigger item triggers need to be resized @done(19-03-07 11:14)
 
 Other:
   ✔ Totally remove Bootstrap @done(19-03-05 12:40)
-  ☐ Better datatable formatting
-  ☐ Level up icon closer to LL
+  ✔ Better datatable formatting @done(19-03-07 13:41)
+  ✔ Level up icon closer to LL @done(19-03-07 10:58)
   ☐ Reduce size of firstname/lastname txts
   ✔ Better Callsign list @done(19-03-06 15:57)
   ✔ More mech names @done(19-03-06 15:57)
   ☐ Official Art images
+  ✔ Clickaway for sidebar @done(19-03-07 16:39)
 
 
 Refactor:
@@ -73,6 +76,8 @@ Refactor:
     ☐ license id (dupe name field, lowercase)
     ☐ skill rank -> level
     ☐ trigger bonus -> level
+  ☐ globalize multi-use css
+  ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
 
 Version 1:
   Pilot Sheet:
@@ -116,8 +121,23 @@ Post-1.0:
   ☐ Export-import loadouts
   ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
+  ☐ Selector side panels should be fixed
 
 Styling:
+  ☐ Glyphs:
+    ☐ Ranged attack
+    ☐ Threat
+    ☐ Melee attack
+    ☐ Line
+    ☐ Cone
+    ☐ Burst
+    ☐ Area
+    ☐ GMS
+    ☐ IPS-N
+    ☐ HA
+    ☐ SSC
+    ☐ HORUS
+    ☐ Several mech badge icons for sidebar avatars, user-set
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:

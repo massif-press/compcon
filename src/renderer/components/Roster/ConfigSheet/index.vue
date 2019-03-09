@@ -179,10 +179,10 @@
 
         </v-layout>
    </div>
-   <div v-else style="height: 100%">
+    <div v-else style="height: 95vh">
       <v-container style="height: 100%">
         <v-layout align-center justify-center row fill-height>
-          <v-flex height="100%">
+          <v-flex>
             <p class="grey--text text-xs-center display-2">NO CONFIGURATION LOADED</p>
           </v-flex>
         </v-layout>

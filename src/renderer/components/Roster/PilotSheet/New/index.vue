@@ -70,7 +70,7 @@
                   <v-btn color="primary" class="ml-5" @click="appearanceModal = true">&emsp;Set Pilot Images&emsp;</v-btn>
                   <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-card>
-                    <v-toolbar fixed dense>
+                    <v-toolbar fixed dense flat>
                       <v-toolbar-title>Set Pilot Images</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-toolbar-items>
@@ -96,7 +96,7 @@
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
               <v-flex xs2>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" @click="stepForward" :disabled="!newPilot.callsign && !newPilot.name">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -253,6 +253,8 @@
       np_step: 0,
       appearanceModal: false,
       newPilot: {
+        callsign: '',
+        name: '',
         background: '',
         history: '',
         skills: [],
@@ -327,8 +329,8 @@
         return this.hasMechSkills &&
           this.newPilot.talents.length === 3 &&
           this.newPilot.skills.length === 4 &&
-          this.newPilot.callsign &&
-          this.newPilot.name
+          this.newPilot.callsign !== '' &&
+          this.newPilot.name !== ''
       }
     }
   }

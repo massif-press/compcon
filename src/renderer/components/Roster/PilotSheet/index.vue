@@ -38,8 +38,8 @@
           <v-flex shrink>
             <span class="caption" style="float:right; text-align: right">LICENSE LEVEL</span><br>
           </v-flex>
-            <span style="font-size: 120px; line-height: 90px" class="font-weight-thin">{{pilot.level}}</span>
-          <v-flex>
+            <span style="font-size: 120px; line-height: 90px; float:right; font-weight:100">{{pilot.level}}</span>
+          <v-flex shrink>
             <v-tooltip bottom nudge-right="15px">
               <v-btn :to="'/level'" slot="activator" bottom right fab small :disabled="pilot.level > 11" color="primary" style="float:right; margin-left:30px">
                 <v-icon large>arrow_upward</v-icon>
@@ -61,7 +61,7 @@
                         <v-icon small>edit</v-icon>
                       </v-btn>
                       <v-card>
-                        <v-toolbar fixed dense>
+                        <v-toolbar fixed dense flat>
                           <v-toolbar-title>Select Pilot Background</v-toolbar-title>
                           <v-spacer></v-spacer>
                           <v-toolbar-items>
@@ -139,7 +139,7 @@
                 </div>
                 <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-card>
-                    <v-toolbar fixed dense>
+                    <v-toolbar fixed dense flat>
                       <v-toolbar-title>Set Pilot Images</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-toolbar-items>
@@ -181,7 +181,7 @@
                   <v-icon small>edit</v-icon>
                 </v-btn>
                 <v-card>
-                  <v-toolbar fixed dense>
+                  <v-toolbar fixed dense flat>
                     <v-toolbar-title>Edit Pilot Skills</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
@@ -208,15 +208,15 @@
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
-              <v-toolbar fixed dense>
+              <v-toolbar fixed dense flat>
                 <v-toolbar-title>Edit Pilot Licenses</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                   <v-btn icon large @click="licenseModal = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer class="mb-4 pb-2"/>
-              <div v-if="licenseLoader">
+              <v-spacer/>
+              <div v-if="licenseLoader" class="mt-5">
                 <license-selector ref="licenseSelector" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses"/>
               </div>
               <v-layout justify-space-between>
@@ -237,14 +237,14 @@
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
-              <v-toolbar fixed dense>
+              <v-toolbar fixed dense flat>
                 <v-toolbar-title>Edit Pilot Talents</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                   <v-btn icon large @click="talentModal = false; talentLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-spacer class="mb-4 pb-5"/>
+              <v-spacer class="pb-5"/>
               <div v-if="talentLoader">
                 <talent-selector ref="talentSelector" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents"/>
               </div>
@@ -264,7 +264,7 @@
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
-              <v-toolbar fixed dense>
+              <v-toolbar fixed dense flat>
                 <v-toolbar-title>Edit Mech Skills</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
@@ -308,7 +308,7 @@
               <v-icon small>edit</v-icon>
             </v-btn>
             <v-card>
-              <v-toolbar fixed dense>
+              <v-toolbar fixed dense flat>
                 <v-toolbar-title>Edit CORE Bonuses</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
@@ -393,10 +393,10 @@
       
     </div>
 
-    <div v-else style="height: 100%">
+    <div v-else style="height: 90vh">
       <v-container style="height: 100%">
         <v-layout align-center justify-center row fill-height>
-          <v-flex height="100%">
+          <v-flex>
             <p class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
           </v-flex>
         </v-layout>

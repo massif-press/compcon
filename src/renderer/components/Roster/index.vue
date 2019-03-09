@@ -41,7 +41,6 @@
     },
     watch: {
       $route (to, from) {
-        this.$refs.sidebar.mini = true
         this.$refs.sidebar.isVisible = !(to.path === '/level' || to.path === '/new')
       }
     }

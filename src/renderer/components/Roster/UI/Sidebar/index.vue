@@ -1,31 +1,17 @@
 <template>
-  <v-navigation-drawer :mini-variant.sync="mini" stateless :value="isVisible" dark fixed class="pt-5">
+  <v-navigation-drawer :mini-variant.sync="mini" stateless touchless :value="isVisible" dark fixed class="pt-5" disable-route-watcher v-click-outside="minimize">
     <v-toolbar flat class="transparent pt-2">
       <v-list>
-        <v-list-tile v-if="!mini">
-          <v-list-tile-action class="pt-2">
-            <v-btn icon @click.stop="mini = !mini" class="mr-3">
-              <v-icon large>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-          <v-list-tile-content class="pt-2">
-            <v-list-tile-title class="title">Pilots</v-list-tile-title>
-          </v-list-tile-content>
+
+        <v-list-tile v-if="!mini" class="ma-0 pa-0">
+          <v-list-tile-title class="title ">Pilots</v-list-tile-title>
         </v-list-tile>
-        <div v-else>
-          <v-toolbar-side-icon large class="ml-3 pl-1"></v-toolbar-side-icon>
-        </div>
 
-        <v-divider />
-    
-        <v-list>
-          <div v-for="(pilot, index) in pilots" :key="pilot.title" >
-            <sidebar-item :isMini="mini" :pilot="pilot" @set-active="setActivePilot(pilot, index)" @set-config="setActiveConfig" />
-          </div>
-        </v-list>
+        <!-- <v-list class="mt-0 pt-0"> -->
+            <sidebar-item v-for="(pilot, index) in pilots" :key="pilot.title" @click.stop="mini = !mini" :isMini="mini" :pilot="pilot" @set-active="setActivePilot(pilot, index)" @set-config="setActiveConfig" />
+        <!-- </v-list> -->
 
-        <v-spacer />
-
+        <div>
         <v-divider />
         <v-dialog v-model="addDialog" width="500" >
           <v-list-tile slot="activator">
@@ -58,6 +44,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        </div>
       </v-list>
     </v-toolbar>
   </v-navigation-drawer>
@@ -85,13 +72,11 @@ export default {
   methods: {
     setActivePilot (pilot, index) {
       this.activeIndex = index
-      this.mini = true
       // TODO: async load with overlay
       this.$store.dispatch('loadPilot', pilot.id)
       this.$router.push('/roster')
     },
     setActiveConfig (config) {
-      this.mini = true
       // TODO: async load with overlay
       this.$store.dispatch('loadConfig', config.id)
       this.$router.push('/config')
@@ -132,13 +117,20 @@ export default {
         if (err) {
           alert(err)
         } else {
-          console.log(err, result)
           vm.$store.dispatch('importPilot', result)
           vm.$store.dispatch('loadPilot', result.id)
           vm.activeIndex = vm.pilots.length - 1
         }
       })
       this.addDialog = false
+    },
+    minimize () {
+      setTimeout(() => {
+        this.mini = true
+      }, 5)
+    },
+    toggle () {
+      this.mini = !this.mini
     }
   }
 }
