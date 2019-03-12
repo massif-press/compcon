@@ -95,7 +95,7 @@
       },
       points: function () {
         return {
-          pointsCurrent: (this.talents.reduce((a, b) => +a + +b.rank, 0)),
+          pointsCurrent: this.talents.reduce((a, b) => +a + +b.rank, 0),
           pointsMax: 3 + this.pLevel,
           selectedCurrent: this.talents.length,
           selectedMin: 3
@@ -160,6 +160,7 @@
       if (this.newPilot) this.pLevel = 0
       else this.pLevel = this.pilotLevel
       this.talents = this.pLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
+      this.pointLimit = this.newPilot ? false : this.talents.reduce((a, b) => +a + +b.rank, 0) >= this.points.pointsMax
     }
   }
 </script>

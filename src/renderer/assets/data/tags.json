@@ -134,6 +134,11 @@
     "description": "This weapon or system can only be used {VAL} times before a full repair"
   },
   {
+    "id": "limited_roll",
+    "name": "Limited ({VAL})",
+    "description": "This weapon or system can only be used {VAL} times before a full repair"
+  },
+  {
     "id": "mine",
     "name": "Mine",
     "description": "Indicates an explosive that can be planted as a quick action in a free adjacent space. Mines cannot be placed adjacent to any other mines and arm as an end of round action. They activate as soon as any target enters an adjacent space. Mines create a burst attack starting from the space in which they were placed. A mine can be detected with a quick action and a successful systems check and disarmed by moving adjacent to the mine and making a successful engineering check as a quick action (on a failure, the mine explodes normally)."

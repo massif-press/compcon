@@ -58,7 +58,7 @@ function collectLicenses (state) {
   })
   state.MechWeapons
     .concat(state.WeaponMods, state.WeaponAmmo, state.MechSystems)
-    .filter(x => x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== 'special')
+    .filter(x => x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
     .forEach((item) => {
       var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
       if (idx === -1) console.log(item.id, item.license)

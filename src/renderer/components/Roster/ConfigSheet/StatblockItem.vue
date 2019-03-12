@@ -32,7 +32,8 @@ export default {
 
   .value {
     color: #ffffff;
-    font-size: 4.5em;
+    font-size: 4em;
+    line-height: 1em;
     font-weight: 300
   }
 </style>

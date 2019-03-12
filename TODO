@@ -1,23 +1,16 @@
 Vue Parity:
   Mech Sheet:
-    ✔ New Config @done(19-03-07 16:39)
     ☐ Licenses Required
-    ✔ Default images @done(19-03-05 12:30)
-      ✔ Missing Data for mechs without image @done(19-03-05 11:05)
-    ✔ Stats Block @done(19-03-05 13:04)
-      ✔ Add: Limited Item Bonus @done(19-03-05 11:29)
-      ✔ Add: Frame Save @done(19-03-05 12:58)
-    ✔ Traits @done(19-03-05 12:12)
-    ✔ CORE System @done(19-03-05 16:25)
-      ✔ CORE System Passive @done(19-03-05 16:25)
     ☐ Mech Loadout Manager
-      ☐ Integrated mount
-        ☐ Engineer Prototype Weapon
+      ☐ CORE Integrated mounts
+      ☐ Talent Integrated mounts
       ☐ Main/Aux
       ☐ Aux/Aux
-      ☐ Rename
-      ☐ Duplicate
-      ☐ Delete
+      ☐ Flex (Main OR aux/aux)
+      ☐ Superheavy locking
+      ✔ Rename @done(19-03-11 19:18)
+      ✔ Duplicate @done(19-03-11 19:18)
+      ✔ Delete @done(19-03-11 19:18)
     ☐ Export
     ☐ Clone
     ☐ Delete
@@ -26,50 +19,24 @@ Vue Parity:
     ☐ Items
 
 1.8.5:
-  ✔ Frame Data @done(19-03-06 12:52)
-  ✔ Core Bonuses @done(19-03-08 15:32)
-  ✔ Mods @done(19-03-06 15:16)
-  ☐ Weapons
-  ☐ Systems
-  ✔ Tags @done(19-03-06 13:03)
-  ✔ Talents @done(19-03-06 15:56)
   Systems:
-    ☐ Armament R1 Ammo Case
-    ☐ Armament R2 Ammo Case
+    ☐ Armament R1/R2/R3 Ammo Case
     ☐ Engineer R1/R2/R3 Prototype Weapon
     ☐ Nuclear Cavalier R3 Weapon
     ☐ Technophile R1/R2/R3 System
+    ☐ UNCLE weapon mod
   Core Bonuses:
     ☐ Auto Stabilizing Hardpoints (+1 Acc on a mount)
     ☐ Burnout Insulation (+1d6 damage on a mount)
     ☐ Improved Armament (+Flex mount if mech has <3 mounts)
     ☐ Integrated weapon (1 mount gets additional AUX slot)
-    ✔ Full Subjectivity Sync (+2 evasion) @done(19-03-08 15:38)
     ☐ Neuro-linked Targeting (all mounted weapons gain +2 range)
-    ✔ The Lesson of Disbelief (+2 edef) @done(19-03-08 15:37)
-    ✔ The Lesson of The Open Door (+2 save) @done(19-03-08 15:36)
     ☐ The Lesson of Shaping (+1 AI cap)
-    ✔ Integrated Ammo Feeds (+2 Limited) @done(19-03-08 15:35)
-
-Bugs:
-  ✔ multiple new pilots -> confirm is bugged @done(19-03-07 13:27)
-  ✔ multiple new pilots -> name/callsign not blocking correctly @done(19-03-07 13:27)
-  ✔ Loadout delete is bugged @done(19-03-07 12:58)
-  ✔ Selector left panels starting too high @done(19-03-07 11:40)
-  ✔ Pilot loadout selector weird height issues @done(19-03-07 11:44)
-  ✔ Sidebar does not minimize on route switch @done(19-03-07 12:37)
-  ✔ Skill trigger item triggers need to be resized @done(19-03-07 11:14)
 
 Other:
-  ✔ Totally remove Bootstrap @done(19-03-05 12:40)
-  ✔ Better datatable formatting @done(19-03-07 13:41)
-  ✔ Level up icon closer to LL @done(19-03-07 10:58)
   ☐ Reduce size of firstname/lastname txts
-  ✔ Better Callsign list @done(19-03-06 15:57)
-  ✔ More mech names @done(19-03-06 15:57)
   ☐ Official Art images
-  ✔ Clickaway for sidebar @done(19-03-07 16:39)
-
+  ☐ Add navigation-back button
 
 Refactor:
   ☐ move static assets out of computed @critical
@@ -79,7 +46,6 @@ Refactor:
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same
-  ☐ better behavior for back button
   ☐ License/Talent/Skill selectors can share a common framework
   ☐ make license data lowercase, remove the license editor uppercase confirms
   ☐ Make loader/modal selector combo into component wrapper
@@ -92,6 +58,7 @@ Refactor:
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
 
 Version 1:
+  ☐ Data verification pass
   Pilot Sheet:
     ☐ Custom Pilot Images
     ☐ Print
@@ -110,6 +77,7 @@ Version 1:
   Mech Sheet:
     ☐ Image Selector / Custom Mech Images
     ☐ Print
+    ☐ Warn about unassigned core bonus benefits before printing
       Print options:
         ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
         ☐ Core Power pip
@@ -134,6 +102,7 @@ Post-1.0:
   ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
   ☐ Selector side panels should be fixed
+  ☐ Hardsuit and Pilot Weapon rollables
 
 Styling:
   ☐ Glyphs:
@@ -153,6 +122,50 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ New Config @done(19-03-07 16:39) @project(Vue Parity.Mech Sheet)
+  ✔ Default images @done(19-03-05 12:30) @project(Vue Parity.Mech Sheet)
+  ✔ Missing Data for mechs without image @done(19-03-05 11:05) @project(Vue Parity.Mech Sheet)
+  ✔ Stats Block @done(19-03-05 13:04) @project(Vue Parity.Mech Sheet)
+  ✔ Add: Limited Item Bonus @done(19-03-05 11:29) @project(Vue Parity.Mech Sheet)
+  ✔ Add: Frame Save @done(19-03-05 12:58) @project(Vue Parity.Mech Sheet)
+  ✔ Traits @done(19-03-05 12:12) @project(Vue Parity.Mech Sheet)
+  ✔ CORE System @done(19-03-05 16:25) @project(Vue Parity.Mech Sheet)
+  ✔ CORE System Passive @done(19-03-05 16:25) @project(Vue Parity.Mech Sheet)
+  ✔ Frame Data @done(19-03-06 12:52) @project(1.8.5)
+  ✔ Core Bonuses @done(19-03-08 15:32) @project(1.8.5)
+  ✔ Mods @done(19-03-06 15:16) @project(1.8.5)
+  ✔ Weapons @done(19-03-10 20:45) @project(1.8.5)
+  ✔ GMS @done(19-03-10 19:18) @project(1.8.5)
+  ✔ IPS-N @done(19-03-10 19:39) @project(1.8.5)
+  ✔ SSC @done(19-03-10 20:04) @project(1.8.5)
+  ✔ HORUS @done(19-03-10 20:45) @project(1.8.5)
+  ✔ HA @done(19-03-10 20:45) @project(1.8.5)
+  ✔ Systems @done(19-03-10 20:46) @project(1.8.5)
+  ✔ GMS @done(19-03-09 12:14) @project(1.8.5)
+  ✔ IPS-N @done(19-03-09 12:36) @project(1.8.5)
+  ✔ SSC @done(19-03-09 17:31) @project(1.8.5)
+  ✔ HORUS @done(19-03-10 18:49) @project(1.8.5)
+  ✔ HA @done(19-03-10 18:49) @project(1.8.5)
+  ✔ Tags @done(19-03-06 13:03) @project(1.8.5)
+  ✔ Talents @done(19-03-06 15:56) @project(1.8.5)
+  ✔ Full Subjectivity Sync (+2 evasion) @done(19-03-08 15:38) @project(1.8.5.Core Bonuses)
+  ✔ The Lesson of Disbelief (+2 edef) @done(19-03-08 15:37) @project(1.8.5.Core Bonuses)
+  ✔ The Lesson of The Open Door (+2 save) @done(19-03-08 15:36) @project(1.8.5.Core Bonuses)
+  ✔ Integrated Ammo Feeds (+2 Limited) @done(19-03-08 15:35) @project(1.8.5.Core Bonuses)
+  ✔ multiple new pilots -> confirm is bugged @done(19-03-07 13:27) @project(Bugs)
+  ✔ multiple new pilots -> name/callsign not blocking correctly @done(19-03-07 13:27) @project(Bugs)
+  ✔ Loadout delete is bugged @done(19-03-07 12:58) @project(Bugs)
+  ✔ Selector left panels starting too high @done(19-03-07 11:40) @project(Bugs)
+  ✔ Pilot loadout selector weird height issues @done(19-03-07 11:44) @project(Bugs)
+  ✔ Sidebar does not minimize on route switch @done(19-03-07 12:37) @project(Bugs)
+  ✔ Skill trigger item triggers need to be resized @done(19-03-07 11:14) @project(Bugs)
+  ✔ Totally remove Bootstrap @done(19-03-05 12:40) @project(Other)
+  ✔ Better datatable formatting @done(19-03-07 13:41) @project(Other)
+  ✔ Level up icon closer to LL @done(19-03-07 10:58) @project(Other)
+  ✔ Better Callsign list @done(19-03-06 15:57) @project(Other)
+  ✔ More mech names @done(19-03-06 15:57) @project(Other)
+  ✔ Clickaway for sidebar @done(19-03-07 16:39) @project(Other)
+  ✔ better behavior for back button @done(19-03-10 18:51) @project(Refactor)
   ✔ Frame statblock component @done(19-03-04 15:19) @project(Vue Parity)
   ✔ Stat block @done(19-03-04 15:19) @project(Vue Parity)
   ✔ Mount List @done(19-03-04 15:19) @project(Vue Parity)

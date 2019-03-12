@@ -6,6 +6,7 @@
         <v-layout>
           <v-flex style="text-align: center">
           <br>
+          {{pointLimit}}
           <h3>Pilot Licenses</h3>
           <hr>
           </v-flex>
@@ -148,6 +149,7 @@
     mounted () {
       this.pLevel = this.pilotLevel
       this.licenseData = this.$store.getters.getItemCollection('Licenses')
+      this.pointLimit = this.pilotLicenses.reduce((a, b) => +a + +b.level, 0) >= this.points.pointsMax
       this.initialize()
     }
   }

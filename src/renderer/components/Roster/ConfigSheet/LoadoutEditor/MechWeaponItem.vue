@@ -2,15 +2,15 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" v-if="empty" block @click="clicked" class="m-0 p-0" style="height:100%"> Equip {{ itemType }}</v-btn>
-          <v-btn slot="activator" v-else block @click="clicked" class="m-0 p-0" style="height:100%">{{ itemType }}</v-btn>
-          <span v-if="empty">Add {{itemType}}</span>
-          <span v-else>Change {{itemType}}</span>
+          <v-btn slot="activator" color="indigo" v-if="empty" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemType }} Weapon</v-btn>
+          <v-btn slot="activator" color="indigo" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemType }}</v-btn>
+          <span v-if="empty">Equip {{itemType}} Mech Weapon</span>
+          <span v-else>Change Equipped {{itemType}} Mech Weapon</span>
         </v-tooltip>
       </v-flex>
       <v-flex xs10>
         <div v-if="empty">
-          <v-expansion-panel class="m-0">
+          <v-expansion-panel class="ma-0">
             <v-expansion-panel-content disabled>
               <span slot="header" class="subheading"> EMPTY </span> 
             </v-expansion-panel-content>
@@ -46,7 +46,7 @@ import RangeElement from '../../UI/RangeElement'
 import DamageElement from '../../UI/DamageElement'
 
 export default {
-  name: 'gear-item',
+  name: 'mech-weapon-item',
   components: { GearCard, RangeElement, DamageElement },
   props: {
     'item': Object,

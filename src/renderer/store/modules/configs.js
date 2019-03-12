@@ -1,61 +1,18 @@
 import io from '../data_io'
 import Stats from '../../logic/stats'
-import _ from 'lodash'
+// import _ from 'lodash'
 
 const state = {
   activeConfigID: ''
 }
 
+// NB: As  config actions have to ultimately modify pilot store, most actions here dispatch actions
+// in pilots.js, which then commit pilot mutations. Eventually this will be suffled around into a
+// feature tree, so for now it's a little clunky. Sorry.
+
 const mutations = {
   SET_CONFIG (state, payload) {
     state.activeConfigID = payload
-  },
-  UPDATE_CONFIG (state, payload) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
-    var configIndex = state.Pilots[pilotIndex].configs.findIndex(x => x.id === payload.id)
-    if (configIndex > -1) {
-      _.set(state.Pilots[pilotIndex].configs[configIndex], payload.attr, payload.val)
-    } else {
-      throw console.error('Config not loaded!')
-    }
-  },
-  SPLICE_CONFIG (state, payload) {
-    console.log(state, payload)
-    // var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
-    // if (pilotIndex > -1) {
-    //   var arr = _.get(state.Pilots[pilotIndex], payload.attr)
-    //   arr.splice(payload.start_index, payload.delete_count)
-    //   _.set(state.Pilots[pilotIndex], payload.attr, arr)
-    // } else {
-    //   throw console.error('Pilot not loaded!')
-    // }
-  },
-  CLONE_CONFIG (state) {
-    console.log(state)
-    // var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
-    // if (pilotIndex > -1) {
-    //   var newPilot = Object.assign({}, state.Pilots[pilotIndex])
-    //   newPilot.id = io.newID()
-    //   newPilot.name += ' (CLONE)'
-    //   newPilot.callsign += '*'
-    //   for (var i = 0; i < newPilot.configs.length; i++) {
-    //     newPilot.configs[i].id = io.newID()
-    //   }
-    //   state.Pilots.push(newPilot)
-    //   this.SET_PILOT(state, newPilot.id)
-    // } else {
-    //   throw console.error('Pilot not loaded!')
-    // }
-  },
-  DELETE_CONFIG (state, payload) {
-    console.log(state, payload)
-  //   var pilotIndex = state.Pilots.findIndex(x => x.id === payload)
-  //   if (pilotIndex > -1) {
-  //     state.Pilots.splice(pilotIndex, 1)
-  //   } else {
-  //     throw console.error('Pilot not loaded!')
-  //   }
-  // }
   }
 }
 
@@ -64,16 +21,15 @@ const actions = {
     context.commit('SET_CONFIG', configID)
   },
   editConfig (context, payload) {
-    context.commit('UPDATE_CONFIG', payload)
+    context.dispatch('updatePilotConfig', payload, { root: true })
   },
   spliceConfig (context, payload) {
-    context.commit('SPLICE_CONFIG', payload)
+    context.dispatch('splicePilotConfig', payload, { root: true })
   },
   cloneConfig (context, payload) {
     context.commit('CLONE_CONFIG', payload)
   },
   addConfig (context, payload) {
-    console.log(context, payload)
     var newConfig = {
       id: io.newID(),
       pilot_id: payload.pilot_id,

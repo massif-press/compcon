@@ -45,7 +45,7 @@ export default {
     }
 
     // system personalizations adds +2 hp
-    if (loadout && loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2
+    if (loadout && loadout.systems && loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian')) {

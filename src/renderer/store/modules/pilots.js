@@ -23,12 +23,40 @@ const mutations = {
       throw console.error('Pilot not loaded!')
     }
   },
+  UPDATE_PILOT_CONFIG (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    if (pilotIndex > -1) {
+      var configIndex = state.Pilots[pilotIndex].configs.findIndex(x => x.id === payload.id)
+      if (configIndex > -1) {
+        _.set(state.Pilots[pilotIndex].configs[configIndex], payload.attr, payload.val)
+      } else {
+        throw console.error('Config not loaded!')
+      }
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
+  },
   SPLICE_PILOT (state, payload) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       var arr = _.get(state.Pilots[pilotIndex], payload.attr)
       arr.splice(payload.start_index, payload.delete_count)
       _.set(state.Pilots[pilotIndex], payload.attr, arr)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
+  },
+  SPLICE_PILOT_CONFIG (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    if (pilotIndex > -1) {
+      var configIndex = state.Pilots[pilotIndex].configs.findIndex(x => x.id === payload.id)
+      if (configIndex > -1) {
+        var arr = _.get(state.Pilots[pilotIndex].configs[configIndex], payload.attr)
+        arr.splice(payload.start_index, payload.delete_count)
+        _.set(state.Pilots[pilotIndex].configs[configIndex], payload.attr, arr)
+      } else {
+        throw console.error('Config not loaded!')
+      }
     } else {
       throw console.error('Pilot not loaded!')
     }
@@ -75,6 +103,9 @@ const actions = {
   splicePilot (context, payload) {
     context.commit('SPLICE_PILOT', payload)
   },
+  splicePilotConfig (context, payload) {
+    context.commit('SPLICE_PILOT_CONFIG', payload)
+  },
   clonePilot (context, payload) {
     context.commit('CLONE_PILOT', payload)
   },
@@ -103,11 +134,13 @@ const actions = {
   },
   addConfigToPilot (context, payload) {
     context.state.activePilotID = payload.pilot_id
-    console.log(context.state.Pilots.find(p => p.id === state.activePilotID))
     context.commit('UPDATE_PILOT', {
       attr: `configs[${context.state.Pilots.find(p => p.id === context.state.activePilotID).configs.length}]`,
       val: payload
     })
+  },
+  updatePilotConfig (context, payload) {
+    context.commit('UPDATE_PILOT_CONFIG', payload)
   },
   importPilot (context, payload) {
     payload.id = io.newID()
