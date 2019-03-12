@@ -10,7 +10,7 @@ Vue.use(Vuex)
 
 const pilotUpdateSubscriber = store => {
   store.subscribe((mutation, state) => {
-    if (mutation.type === 'UPDATE_PILOT' || 'SPLICE_PILOT' || 'CLONE_PILOT' || 'ADD_PILOT' || 'DELETE_PILOT') {
+    if (mutation.type === 'UPDATE_PILOT' || 'SPLICE_PILOT' || 'CLONE_PILOT' || 'ADD_PILOT' || 'DELETE_PILOT' || 'UPDATE_PILOT_CONFIG') {
       io.saveUserData(Vue.prototype.userDataPath, 'pilots.json', state.pilots.Pilots, function (err) {
         if (err) console.error(err)
       })

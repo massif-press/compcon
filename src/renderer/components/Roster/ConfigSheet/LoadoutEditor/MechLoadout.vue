@@ -6,7 +6,7 @@
           <v-btn large @click="addLoadout" color="primary"><v-icon>add</v-icon>Add New Loadout</v-btn>
         </p>
       </v-card-text>
-    </v-card>
+    </v-card >
       <v-tabs v-else v-model="tabIndex" dark color="grey darken-2" show-arrows slider-color="pink" mandatory>
         <!-- Render Tabs -->
         <v-tab v-for="loadout in loadouts" :key="loadout.id">
@@ -22,25 +22,9 @@
             <v-tab-item v-for="(loadout, index) in loadouts" :key="loadout.id + index" lazy>
               <v-card>
                 <v-card-text>
-                  <div v-for="(mount, index) in loadout.mounts" :key="index">{{mount.mount_type}}</div>
-                <!-- Armor:
-                <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
-                  <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
-                  <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
-                </div>
-
-                <br>
-                <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
-                  <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
-                  <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
-                </div>
-
-                <br>
-                <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
-                  <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
-                  <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
-                </div> -->
-
+                  <mount-block v-for="(mount, index) in loadout.mounts" :key="index" :mount="mount" />
+                  <v-divider dark class="mb-3 mt-3"/>
+                  <systems-block />
                 <v-card-actions>
                   <v-dialog v-model="renameDialog" width="600">
                     <v-btn slot="activator" flat><v-icon small left>edit</v-icon> Rename Loadout</v-btn>
@@ -105,7 +89,8 @@
 </template>
 
 <script>
-import GearItem from './GearItem'
+import MountBlock from './MountBlock'
+import SystemsBlock from './SystemsBlock'
 import ItemTable from './ItemTable'
 import io from '@/store/data_io'
 
@@ -123,7 +108,7 @@ function newLoadoutName (count) {
 
 export default {
   name: 'mech-loadout',
-  components: { GearItem, ItemTable },
+  components: { ItemTable, MountBlock, SystemsBlock },
   props: {
     config_id: String,
     frame_id: String
@@ -145,18 +130,18 @@ export default {
       return this.$store.getters.getItemById(type, id)
     },
     deleteLoadout () {
-      // this.$store.dispatch('splicePilot', {
-      //   attr: 'loadouts',
-      //   start_index: this.tabIndex,
-      //   delete_count: 1
-      // })
-      // this.tabIndex--
+      this.$store.dispatch('spliceConfig', {
+        id: this.config_id,
+        attr: 'loadouts',
+        start_index: this.tabIndex,
+        delete_count: 1
+      })
+      this.tabIndex--
       this.deleteDialog = false
       this.deleteNotification = true
     },
     addLoadout () {
       var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x}))
-      console.log(mounts)
       var newIdx = this.loadouts.length
 
       this.$store.dispatch('editConfig', {
@@ -184,28 +169,30 @@ export default {
       this.$parent.$forceUpdate()
     },
     renameLoadout (index) {
-      // if (this.newLoadoutName === '') this.invalidNameNotification = true
-      // else {
-      //   this.$store.dispatch('editPilot', {
-      //     attr: `loadouts[${index}].name`,
-      //     val: this.newLoadoutName
-      //   })
-      //   this.newLoadoutName = ''
-      //   this.renameDialog = false
-      //   this.refresh()
-      // }
+      if (this.newLoadoutName === '') this.invalidNameNotification = true
+      else {
+        this.$store.dispatch('editConfig', {
+          id: this.config_id,
+          attr: `loadouts[${index}].name`,
+          val: this.newLoadoutName
+        })
+        this.newLoadoutName = ''
+        this.renameDialog = false
+        this.refresh()
+      }
     },
     duplicateLoadout (index) {
-      // var newIdx = this.$store.getters.getPilot.loadouts.length
-      // this.$store.dispatch('editPilot', {
-      //   attr: `loadouts[${newIdx}]`,
-      //   val: {
-      //     id: io.newID(),
-      //     name: `${this.loadouts[index].name} (Copy)`,
-      //     items: this.loadouts[index].items
-      //   }
-      // })
-      // this.refresh()
+      var newIdx = this.loadouts.length
+      this.$store.dispatch('editConfig', {
+        id: this.config_id,
+        attr: `loadouts[${newIdx}]`,
+        val: {
+          id: io.newID(),
+          name: `${this.loadouts[index].name} (Copy)`,
+          mounts: this.loadouts[index].mounts
+        }
+      })
+      this.refresh()
     },
     equipItem (item) {
       // var attr = ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
