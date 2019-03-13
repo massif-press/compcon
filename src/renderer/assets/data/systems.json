@@ -94,7 +94,7 @@
   {
     "id": "burst",
     "name": "GMS \"Burst\" Jump Jet System",
-    "type": "Flight",
+    "type": "Flight System",
     "sp": 2,
     "tags": [{
       "id": "unique"
@@ -112,7 +112,7 @@
   {
     "id": "eva",
     "name": "GMS EVA Module",
-    "type": "Flight",
+    "type": "Flight System",
     "sp": 1,
     "tags": [{
       "id": "unique"
@@ -130,7 +130,7 @@
   {
     "id": "t1flight",
     "name": "GMS Type I Flight System",
-    "type": "Flight",
+    "type": "Flight System",
     "sp": 3,
     "tags": [{
       "id": "unique"
@@ -449,7 +449,7 @@
     "source": "IPS-N",
     "license": "LANCASTER",
     "license_level": 2,
-    "effect": "This system can be used on any character or free space within range 5 and line of sight. It has different effects depending on what it is used on<br><b>Hostile character</b>: Your target must make an agility save.On hit, they are Slowed until the start of your next turn but immediately ends any Burn affecting them.<br><b>Empty space/b>: This creates a blast 1 area centered on the targeted space.The area becomes difficult terrain for the rest of this scene and this puts out any fires in the area.<br><b>Allied character</b>: Your target is Slowed until the start of your next turn but can immediately end any Burn effecting them.",
+    "effect": "This system can be used on any character or free space within range 5 and line of sight. It has different effects depending on what it is used on<br><b>Hostile character</b>: Your target must make an agility save. On hit, they are Slowed until the start of your next turn but immediately ends any Burn affecting them.<br><b>Empty space</b>: This creates a blast 1 area centered on the targeted space.The area becomes difficult terrain for the rest of this scene and this puts out any fires in the area.<br><b>Allied character</b>: Your target is Slowed until the start of your next turn but can immediately end any Burn effecting them.",
     "description": "A simple formula of single-use, single objective nanites &mdash; \"whitewash\" &mdash; commonly used to suppress fires and provide fast, temporary seals in punctured starship bulkheads. Can be used to restrain noncompliant actors when applicator is affixed with the correct spray heads and catalytic formulations.",
     "data_type": "system",
     "aptitude": {
@@ -583,7 +583,7 @@
   {
     "id": "roland",
     "name": "ROLAND Chamber",
-    "type": "Deployable",
+    "type": "System",
     "sp": 2,
     "tags": [{
       "id": "unique"

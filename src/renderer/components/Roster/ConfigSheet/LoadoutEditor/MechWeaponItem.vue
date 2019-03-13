@@ -2,14 +2,14 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="indigo" v-if="empty" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemType }} Weapon</v-btn>
-          <v-btn slot="activator" color="indigo" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemType }}</v-btn>
-          <span v-if="empty">Equip {{itemType}} Mech Weapon</span>
-          <span v-else>Change Equipped {{itemType}} Mech Weapon</span>
+          <v-btn slot="activator" color="blue-grey darken-1" v-if="!item" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
+          <span v-if="!item">Equip {{fittingType}} Mech Weapon</span>
+          <span v-else>Change Equipped {{fittingType}} Mech Weapon</span>
         </v-tooltip>
       </v-flex>
       <v-flex xs10>
-        <div v-if="empty">
+        <div v-if="!item">
           <v-expansion-panel class="ma-0">
             <v-expansion-panel-content disabled>
               <span slot="header" class="subheading"> EMPTY </span> 
@@ -22,17 +22,13 @@
             <v-layout slot="header"> 
               <span class="subheading font-weight-bold">{{itemData.name}}</span> 
               <v-spacer />
-              <span v-if="itemData.type === 'armor'" class="mr-5" style="display: inline-flex;"> 
-                ARMOR: {{itemData.armor || 0}} // EDEF: {{itemData.edef || 0}} // EVASION: {{itemData.evasion || 0}} // SPEED: {{itemData.speed || 0}} 
-              </span>
-              <span v-else-if="itemData.type === 'weapon'" class="mr-5" style="display: inline-flex;">
-                <range-element small :range="itemData.range" />
+              <span class="mr-5" style="display: inline-flex;">
+                <range-element dark small :range="itemData.range" />
                 &emsp;&mdash;&emsp;
-                <damage-element small size="16" :dmg="itemData.damage" />
+                <damage-element dark small size="16" :dmg="itemData.damage" />
               </span>
-              <span v-else class="mr-5" style="display: inline-flex;"> {{itemData.uses ? `${itemData.uses} Uses` : '' }} </span>
             </v-layout>
-                <gear-card :itemData="itemData"/>
+                <weapon-card :itemData="itemData"/>
               </v-expansion-panel-content>
             </v-expansion-panel>
         </div>
@@ -41,22 +37,22 @@
 </template>
 
 <script>
-import GearCard from '../../UI/GearCard'
+import WeaponCard from '../../UI/WeaponCard'
 import RangeElement from '../../UI/RangeElement'
 import DamageElement from '../../UI/DamageElement'
 
 export default {
   name: 'mech-weapon-item',
-  components: { GearCard, RangeElement, DamageElement },
+  components: { WeaponCard, RangeElement, DamageElement },
   props: {
-    'item': Object,
-    'empty': Boolean,
-    'itemType': String
+    item: Object,
+    fittingType: String,
+    index: Number
   },
   computed: {
     itemData () {
-      if (this.empty) return {}
-      return this.$store.getters.getItemById('PilotGear', this.item.id)
+      if (!this.item) return {}
+      return this.$store.getters.getItemById('MechWeapons', this.item.id)
     }
   },
   methods: {

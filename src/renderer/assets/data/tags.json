@@ -51,7 +51,7 @@
   {
     "id": "heatself",
     "name": "Heat {VAL} (Self)",
-    "description": "this weapon or system inflicts {VAL} Heat on its wielder immediately after firing"
+    "description": "this weapon or system inflicts {VAL} Heat on its wielder immediately after firing or activation"
   },
   {
     "id": "inaccurate",

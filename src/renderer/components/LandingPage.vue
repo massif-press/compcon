@@ -16,8 +16,9 @@
     <v-container>
       <v-layout style="height: 100%" align-v="center" class="mt-5">
         <v-flex><v-btn block color="primary" large to="/roster">Pilot Roster</v-btn></v-flex>
-        <v-flex><v-btn block large :to="'/mods'" disabled>Mod Editor</v-btn></v-flex>
-        <v-flex><v-btn block large :to="'/gm'" disabled>GM Toolkit</v-btn></v-flex>
+        <v-flex><v-tooltip bottom><v-btn slot="activator" block color="primary" large to="/roster" disabled>Gear Catalogue</v-btn><span>WIP</span></v-tooltip></v-flex>
+        <v-flex><v-tooltip bottom><v-btn slot="activator" block large :to="'/mods'" disabled>Mod Editor</v-btn><span>WIP</span></v-tooltip></v-flex>
+        <v-flex><v-tooltip bottom><v-btn slot="activator" block large :to="'/gm'" disabled>GM Toolkit</v-btn><span>WIP</span></v-tooltip></v-flex>
       </v-layout>
 
       <v-divider />
@@ -35,9 +36,9 @@
     <v-footer fixed>
       <span href="#">&emsp;v. {{ ver }}</span>
       <v-spacer />
-      <v-btn flat small>About</v-btn>
-      <v-btn flat small>Help</v-btn>
-      <v-btn color="warning" small>Support This Project</v-btn>
+      <v-btn flat small disabled>About</v-btn>
+      <v-btn flat small disabled>Help</v-btn>
+      <v-btn color="warning" small disabled>Support This Project</v-btn>
     </v-footer>
     </div>
 </template>
