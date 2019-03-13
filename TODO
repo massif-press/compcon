@@ -1,30 +1,20 @@
-Vue Parity:
+Beta:
   Mech Sheet:
     ☐ Licenses Required
     ☐ Mech Loadout Manager
-      ☐ CORE Integrated mounts
-      ☐ Talent Integrated mounts
-      ☐ Main/Aux
-      ☐ Aux/Aux
-      ☐ Flex (Main OR aux/aux)
-      ☐ Superheavy locking
-      ✔ Rename @done(19-03-11 19:18)
-      ✔ Duplicate @done(19-03-11 19:18)
-      ✔ Delete @done(19-03-11 19:18)
+      Mounts:
+        ☐ Filter duplicate uniques
+      Systems:
+        ☐ Limit AI
+      Mods:
+        ☐ Mod Selector
+      Core Bonuses:
+        ☐ CB Benefit Selector
     ☐ Export
     ☐ Clone
     ☐ Delete
-  Gear Catalog:
-    ☐ Licenses
-    ☐ Items
 
 1.8.5:
-  Systems:
-    ☐ Armament R1/R2/R3 Ammo Case
-    ☐ Engineer R1/R2/R3 Prototype Weapon
-    ☐ Nuclear Cavalier R3 Weapon
-    ☐ Technophile R1/R2/R3 System
-    ☐ UNCLE weapon mod
   Core Bonuses:
     ☐ Auto Stabilizing Hardpoints (+1 Acc on a mount)
     ☐ Burnout Insulation (+1d6 damage on a mount)
@@ -37,11 +27,12 @@ Other:
   ☐ Reduce size of firstname/lastname txts
   ☐ Official Art images
   ☐ Add navigation-back button
+  ☐ Better item card formatting
 
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
-  ☐ Vue set instead of simple assign
+  ☐ Vue set instead of direct assign
   ☐ props array to object
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
@@ -58,7 +49,11 @@ Refactor:
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
 
 Version 1:
+  Gear Catalog:
+    ☐ Licenses
+    ☐ Items
   ☐ Data verification pass
+  ☐ Data formatting pass
   Pilot Sheet:
     ☐ Custom Pilot Images
     ☐ Print
@@ -78,6 +73,9 @@ Version 1:
     ☐ Image Selector / Custom Mech Images
     ☐ Print
     ☐ Warn about unassigned core bonus benefits before printing
+    ☐ Warn about free SP before printing
+    ☐ Warn about empty weapon mounts before printing
+    ☐ Warn about exceeds SP/Unlicensed technology before printing
       Print options:
         ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
         ☐ Core Power pip
@@ -103,6 +101,9 @@ Post-1.0:
   ☐ Gear Catalog comparison view
   ☐ Selector side panels should be fixed
   ☐ Hardsuit and Pilot Weapon rollables
+  ☐ UNCLE as weapon mod
+  ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
+  ☐ Dice math parser
 
 Styling:
   ☐ Glyphs:
@@ -122,6 +123,25 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ SP cost exceeds warning @done(19-03-12 18:03) @project(Beta.Mech Sheet)
+  ✔ CORE Integrated mounts @done(19-03-13 13:05) @project(Beta.Mech Sheet.Mounts)
+  ✔ Talent Integrated mounts @done(19-03-13 13:29) @project(Beta.Mech Sheet.Mounts)
+  ✔ Main/Aux @done(19-03-13 11:55) @project(Beta.Mech Sheet.Mounts)
+  ✔ Aux/Aux @done(19-03-13 11:55) @project(Beta.Mech Sheet.Mounts)
+  ✔ Flex (Main OR aux/aux) @done(19-03-13 12:40) @project(Beta.Mech Sheet.Mounts)
+  ✔ Superheavy locking @done(19-03-13 16:07) @project(Beta.Mech Sheet.Mounts)
+  ✔ Filter by Type @done(19-03-13 12:28) @project(Beta.Mech Sheet.Mounts)
+  ✔ Filter by SP @done(19-03-13 12:07) @project(Beta.Mech Sheet.Mounts)
+  ✔ Rename @done(19-03-11 19:18) @project(Beta.Mech Sheet)
+  ✔ Duplicate @done(19-03-11 19:18) @project(Beta.Mech Sheet)
+  ✔ Delete @done(19-03-11 19:18) @project(Beta.Mech Sheet)
+  ✔ Disable "Exceeds SP Cost" filter @done(19-03-12 17:55) @project(Beta.Mech Sheet.Systems)
+  ✔ Warnings for over-SP cost @done(19-03-12 17:29) @project(Beta.Mech Sheet.Systems)
+  ✔ Hide already-selected Uniques @done(19-03-12 16:45) @project(Beta.Mech Sheet.Systems)
+  ✔ Armament R1/R2/R3 Ammo Case @done(19-03-13 13:29) @project(1.8.5.Systems)
+  ✔ Engineer R1/R2/R3 Prototype Weapon @done(19-03-13 13:24) @project(1.8.5.Systems)
+  ✔ Nuclear Cavalier R3 Weapon @done(19-03-13 13:24) @project(1.8.5.Systems)
+  ✔ Technophile R1/R2/R3 System @done(19-03-13 13:29) @project(1.8.5.Systems)
   ✔ New Config @done(19-03-07 16:39) @project(Vue Parity.Mech Sheet)
   ✔ Default images @done(19-03-05 12:30) @project(Vue Parity.Mech Sheet)
   ✔ Missing Data for mechs without image @done(19-03-05 11:05) @project(Vue Parity.Mech Sheet)

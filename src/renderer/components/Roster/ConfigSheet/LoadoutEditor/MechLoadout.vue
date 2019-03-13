@@ -22,9 +22,15 @@
             <v-tab-item v-for="(loadout, index) in loadouts" :key="loadout.id + index" lazy>
               <v-card>
                 <v-card-text>
-                  <mount-block v-for="(mount, index) in loadout.mounts" :key="index" :mount="mount" />
+                  <div v-if="item('Frames', frame_id).core_system.integrated">
+                    <integrated-block :item="item('Frames', frame_id).core_system.integrated" :source="`${item('Frames', frame_id).source} ${item('Frames', frame_id).name}`" />
+                  </div>
+                  <div v-for="m in stats.integrated_mounts" :key="m">
+                    <integrated-block :item="item('MechWeapons', m)" :source="'Talent Weapon'" />
+                  </div>
+                  <mount-block v-for="(mount, idx) in loadout.mounts" :key="idx" :config_id="config_id" :mount="mount" :loadout="loadout" :free_sp="stats.sp - stats.used_sp" :loadout-index="index" :mount-index="idx" @refresh="refresh" />
                   <v-divider dark class="mb-3 mt-3"/>
-                  <systems-block />
+                  <systems-block :max_sp="stats.sp" :free_sp="stats.sp - stats.used_sp" :systems="loadout.systems" :integrated="stats.integrated_systems" @clicked="openSystemSelector" :key="'sb'+reloadTrigger"/>
                 <v-card-actions>
                   <v-dialog v-model="renameDialog" width="600">
                     <v-btn slot="activator" flat><v-icon small left>edit</v-icon> Rename Loadout</v-btn>
@@ -59,6 +65,17 @@
                 </v-card-actions>
                 </v-card-text>
               </v-card>
+                <!-- System Selector Modal -->
+                <v-dialog v-model="systemSelectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
+                  <v-toolbar fixed dense flat dark>
+                    <v-toolbar-title><span class="text-capitalize">Select System</span></v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn icon large @click="systemSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <system-table :installed_systems="loadout.systems" :free_sp="stats.sp - stats.used_sp" :current_equip="loadout.systems ? loadout.systems[itemIndex] : null" :loadout_index="index" @select-item="equipSystem" @remove-item="removeSystem"/>
+                </v-dialog>             
             </v-tab-item>
           </v-tabs-items>        
       </v-tabs>
@@ -74,27 +91,16 @@
         <b> Loadout names cannot be blank </b>
         <v-btn dark flat @click="invalidNameNotification = false" > Close </v-btn>
       </v-snackbar>
-
-      <v-dialog v-model="selectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
-        <v-toolbar fixed dense flat>
-          <v-toolbar-title><span class="text-capitalize">Select {{itemType}}</span></v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn icon large @click="selectorModal = false"> <v-icon large>close</v-icon> </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <item-table :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
-      </v-dialog>
+      
   </div>
 </template>
 
 <script>
 import MountBlock from './MountBlock'
+import IntegratedBlock from './IntegratedBlock'
 import SystemsBlock from './SystemsBlock'
-import ItemTable from './ItemTable'
+import SystemTable from './SystemTable'
 import io from '@/store/data_io'
-
-// var rules = io.loadData('rules')
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
@@ -108,18 +114,21 @@ function newLoadoutName (count) {
 
 export default {
   name: 'mech-loadout',
-  components: { ItemTable, MountBlock, SystemsBlock },
+  components: { MountBlock, SystemsBlock, SystemTable, IntegratedBlock },
   props: {
     config_id: String,
-    frame_id: String
+    frame_id: String,
+    stats: Object,
+    talents: Array,
+    core_bonuses: Array
   },
   data: () => ({
     tabIndex: null,
-    itemIndex: 0,
+    itemIndex: null,
     itemType: null,
     reloadTrigger: 0,
     newLoadoutName: '',
-    selectorModal: false,
+    systemSelectorModal: false,
     renameDialog: false,
     deleteDialog: false,
     deleteNotification: false,
@@ -141,7 +150,7 @@ export default {
       this.deleteNotification = true
     },
     addLoadout () {
-      var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x}))
+      var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x, weapons: []}))
       var newIdx = this.loadouts.length
 
       this.$store.dispatch('editConfig', {
@@ -150,7 +159,8 @@ export default {
         val: {
           id: io.newID(),
           name: newLoadoutName(newIdx),
-          mounts: mounts
+          mounts: mounts,
+          systems: []
         }
       })
       this.refresh()
@@ -158,10 +168,9 @@ export default {
         this.tabIndex = newIdx
       }, 10)
     },
-    openSelector (index, itemType) {
+    openSystemSelector (index) {
       this.itemIndex = index
-      this.itemType = itemType
-      this.selectorModal = true
+      this.systemSelectorModal = true
     },
     refresh () {
       this.$forceUpdate()
@@ -194,25 +203,25 @@ export default {
       })
       this.refresh()
     },
-    equipItem (item) {
-      // var attr = ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
-      // this.$store.dispatch('editPilot', {
-      //   attr: attr,
-      //   val: {id: item.id}
-      // })
-      // this.selectorModal = false
-      // this.refresh()
-    },
-    removeItem (removalType) {
-    //   var attr = ['loadouts', this.tabIndex, 'items', removalType, this.itemIndex]
+    equipSystem (item, loadoutIndex) {
+      this.$store.dispatch('editConfig', {
+        id: this.config_id,
+        attr: `loadouts[${loadoutIndex}].systems[${this.itemIndex}]`,
+        val: { id: item.id }
+      })
 
-    //   this.$store.dispatch('editPilot', {
-    //     attr: attr,
-    //     val: null
-    //   })
-    //   this.selectorModal = false
-    //   this.refresh()
-    // }
+      this.systemSelectorModal = false
+      this.refresh()
+    },
+    removeSystem (loadoutIndex) {
+      this.$store.dispatch('spliceConfig', {
+        id: this.config_id,
+        attr: `loadouts[${loadoutIndex}].systems`,
+        start_index: this.itemIndex,
+        delete_count: 1
+      })
+      this.systemSelectorModal = false
+      this.refresh()
     }
   },
   computed: {
@@ -227,9 +236,6 @@ export default {
     reloadTrigger: function (val) {
       this.$parent.loadoutForceReloadTrigger = this.reloadTrigger
     }
-  },
-  mounted: function () {
-
   }
 }
 </script>

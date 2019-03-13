@@ -1471,10 +1471,6 @@
       {
         "type": "blast",
         "val": 2
-      },
-      {
-        "type": "blast",
-        "val": 2
       }
     ],
     "tags": [{
@@ -2410,7 +2406,7 @@
         "val": 8
       },
       {
-        "type": "range",
+        "type": "threat",
         "val": 3
       }
     ],
