@@ -9,5 +9,24 @@
   "base_pilot_speed": 4,
   "max_pilot_weapons": 2,
   "max_pilot_armor": 1,
-  "max_pilot_gear": 3
+  "max_pilot_gear": 3,
+  "mount_fittings": {
+    "auxiliary": [
+      "Auxiliary"
+    ],
+    "main": [
+      "Main",
+      "Auxiliary"
+    ],
+    "flex": [
+      "Main",
+      "Auxiliary"
+    ],
+    "heavy": [
+      "Superheavy",
+      "Heavy",
+      "Main",
+      "Auxiliary"
+    ]
+  }
 }

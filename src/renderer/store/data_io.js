@@ -34,7 +34,7 @@ export default {
   randomName (filename) {
     var p = path.join(__static, '..', 'src', 'renderer', 'assets', 'generators', filename)
     var array = fs.readFileSync(p).toString().split('\n')
-    return array[Math.floor(Math.random() * array.length)]
+    return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
   loadUserData (userDataPath, filePath) {
     if (fs.existsSync(userDataPath)) {

@@ -6,10 +6,10 @@
       </v-card-title>
       <v-card-text class="pb-0 pt-0">
 
-        <div v-if="itemData.type === 'weapon'">
+        <div v-if="itemData.data_type === 'weapon'">
+          <em v-if="!popup">{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</em>
           <p v-if="itemData.type" v-html="itemData.type" />
-          <p v-if="itemData.description" v-html="itemData.description" />
-          <p>{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
+          <p v-if="itemData.description && !popup" class="blockquote" v-html="itemData.description" />
           <p>{{itemData.mount}} {{itemData.type}}</p>
           <p v-if="itemData.sp" v-html="`${itemData.sp} SP`" />
           <damage-element :dmg="itemData.damage" />
@@ -17,10 +17,10 @@
           <p v-if="itemData.effect" v-html="itemData.effect" />
         </div>
 
-        <div v-else-if="itemData.type === 'system'">
+        <div v-else-if="itemData.data_type === 'system'">
+          <p v-if="!popup">{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
           <p v-if="itemData.type" v-html="itemData.type" />
-          <p v-if="itemData.description" v-html="itemData.description" />
-          <p>{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
+          <p v-if="itemData.description && !popup" class="blockquote" v-html="itemData.description" />
           <p v-if="itemData.sp" v-html="`${itemData.sp} SP`" />
           <p v-if="itemData.effect" v-html="`${itemData.effect}`" />
         </div>
@@ -30,6 +30,7 @@
           <b class="ml-3">{{itemData.source}} {{itemData.mechtype}} Frame</b>
           <frame-statblock :frame="itemData" />
         </div>
+
         <v-layout>
           <tag v-for="tag in itemData.tags" :key="tag.id" :id="tag.id" :val="tag.val"/>
         </v-layout>
@@ -46,7 +47,10 @@
 
   export default {
     name: 'item-card',
-    props: ['itemData'],
+    props: {
+      itemData: Object,
+      popup: Boolean
+    },
     components: { DamageElement, RangeElement, FrameStatblock, Tag },
     computed: {
       pilot: function () {

@@ -27,6 +27,8 @@ function createWindow () {
     minWidth: 1280
   })
 
+  mainWindow.maximize()
+
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {
