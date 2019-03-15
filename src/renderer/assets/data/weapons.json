@@ -409,7 +409,7 @@
     "license": "",
     "license_level": "",
     "effect": "",
-    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.<br>The Type III line is intended for specialized or siege warfare. It includes weapons like the widely feared GMS Type III AMR, a mech-scale sniper weapon infamous for its extremely high kill eﬃciency, and the Type III “Cyclone” superheavy pulse riﬂe, a weapon known for its enormous rate of ﬁre. The Cyclone is so large that its spare magazines have been reported in some incidents to have been used as eﬀective anti-infantry blunt weapons in close combat.",
+    "description": "GMS weapons, much like their premier mech line, are reliable, galactic standards, made from interchangeable parts and built to withstand almost any conditions imaginable.<br>The Type III line is intended for specialized or siege warfare. It includes weapons like the widely feared GMS Type III AMR, a mech-scale sniper weapon infamous for its extremely high kill eﬃciency, and the Type III “Cyclone” superheavy pulse rifle, a weapon known for its enormous rate of fire. The Cyclone is so large that its spare magazines have been reported in some incidents to have been used as effective anti-infantry blunt weapons in close combat.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -753,7 +753,7 @@
     "license": "DRAKE",
     "license_level": 2,
     "effect": "Targets struck by these missiles must pass a hull save or become impaired until the end of their next turn.",
-    "description": "Isolate submunitions typically seeded inside of larger warheads, concussion missiles are pressure-ﬁrst charges with low shatter and low incandescence -- they are meant to stun, deter, push back, and disorient, usually as part of or in preparation for a larger, more lethal attack.",
+    "description": "Isolate submunitions typically seeded inside of larger warheads, concussion missiles are pressure-first charges with low shatter and low incandescence -- they are meant to stun, deter, push back, and disorient, usually as part of or in preparation for a larger, more lethal attack.",
     "data_type": "weapon",
     "aptitude": {
       "melee": 1,
@@ -790,8 +790,8 @@
     "source": "IPS-N",
     "license": "DRAKE",
     "license_level": 3,
-    "effect": "Unlike other superheavies, this weapon can be ﬁred as part of a skirmish action with its listed proﬁle.<br>As a quick action, you can spin up this weapon’s barrels. While this weapon’ s barrels are spinning, your mech is Slowed, but this weapon’s damage increases to 4d6+4 kinetic, it must be ﬁred with a barrage action like a regular superheavy, and it gains Reliable 4 and 2 heat (self). You can stop the spin-up as a free action at the start of your turn.",
-    "description": "The Leviathan AC is a massive rotary autocannon, an enclosed multi-barrel automatic weapon fed by an external reservoir, usually dorsally mounted on the chassis carrying it. At its current chambering, the Leviathan should only be ﬁred on automatic when absolutely necessary; IPS-N is currently working on a solution to meet the cannon’s needs remotely. IPS-N recommends outﬁtting willing squadmates with extra reservoirs, should their chassis have room to support it.",
+    "effect": "Unlike other superheavies, this weapon can be fired as part of a skirmish action with its listed profile.<br>As a quick action, you can spin up this weapon’s barrels. While this weapon’ s barrels are spinning, your mech is Slowed, but this weapon’s damage increases to 4d6+4 kinetic, it must be fired with a barrage action like a regular superheavy, and it gains Reliable 4 and 2 heat (self). You can stop the spin-up as a free action at the start of your turn.",
+    "description": "The Leviathan AC is a massive rotary autocannon, an enclosed multi-barrel automatic weapon fed by an external reservoir, usually dorsally mounted on the chassis carrying it. At its current chambering, the Leviathan should only be fired on automatic when absolutely necessary; IPS-N is currently working on a solution to meet the cannon’s needs remotely. IPS-N recommends outfitting willing squadmates with extra reservoirs, should their chassis have room to support it.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 2
@@ -1043,7 +1043,7 @@
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
-    "effect": "The blast cloud from ﬁring this weapon lingers until the end of your next turn, providing soft cover to any actor in the aﬀected area.",
+    "effect": "The blast cloud from firing this weapon lingers until the end of your next turn, providing soft cover to any actor in the affected area.",
     "description": "The Daisy Cutter is an effective, if outdated, weapon system for which many marine pilots still place print requisitions. The Daisy Cutter is, essentially, a massive shotgun: the pilot loads a shaped charge into the breech of the Cutter, drops a packed sabot down the barrel, aims, and fires a mixed hellfire cloud of flechette darts, bearings, and ignited magnesium strips, clearing any deck it's been fired on.",
     "data_type": "weapon",
     "aptitude": {
@@ -1102,7 +1102,7 @@
     "source": "IPS-N",
     "license": "VLAD",
     "license_level": 1,
-    "effect": "This weapon attacks in a line drawn between its target and your mech, attacking all other actors in between, but deals +1 heat to your mech for each target hit past the ﬁrst.",
+    "effect": "This weapon attacks in a line drawn between its target and your mech, attacking all other actors in between, but deals +1 heat to your mech for each target hit past the first.",
     "description": "The Impact Lance is a milspec variant of a common mining tool: the single-use, proximal-distance chemical survey laser. IPS-N’s military variant mounts a series of Impact Lances on a brachial or thoracic carriages, leaving a chassis’ manipulators free to field other weapons and systems; the Lance can be wired directly into a chassis’ core, or charged with single-use chemical batteries.<br>The lances fire for a microsecond, burning through their stored charge in a milisolar burst of light that stabs out in a tight, pulsed beam capable of searing through multiple meters of hardened bulkhead.",
     "data_type": "weapon",
     "aptitude": {
@@ -1136,7 +1136,7 @@
     "license": "VLAD",
     "license_level": 2,
     "effect": "On hit, the target of this attack must pass a hull save or be immobilized until the end of its next turn",
-    "description": "The milspec Nailgun utilizes non-combustible, sabot-jacketed two-stage macroﬂechettes to pierce even the most substantial of armor. First catapulted from its launcher, the macroﬂechette’s sabot disengages on approach to its target, triggering a second stage where internal propulsion drives the macroﬂechette forward with incredible velocity. Against soft targets, over-penetration is certain: IPS-N advises pilots employ this weapon platform only when the area behind the target is clear of allies and/or noncombatants.",
+    "description": "The milspec Nailgun utilizes non-combustible, sabot-jacketed two-stage macroflechettes to pierce even the most substantial of armor. First catapulted from its launcher, the macroflechette’s sabot disengages on approach to its target, triggering a second stage where internal propulsion drives the macroflechette forward with incredible velocity. Against soft targets, over-penetration is certain: IPS-N advises pilots employ this weapon platform only when the area behind the target is clear of allies and/or noncombatants.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1,
@@ -1171,7 +1171,7 @@
     "source": "IPS-N",
     "license": "VLAD",
     "license_level": 3,
-    "effect": "Against characters that are prone, immobilized, shut down, or stunned, the drill gets further penetration. When attacking a character suﬀering from any of these conditions, each time the overcharged tag on this drill activates, it does an extra +1d6 bonus damage. This can activate indeﬁnitely (if the new bonus die triggers overcharged by also rolling a ‘1’)",
+    "effect": "Against characters that are prone, immobilized, shut down, or stunned, the drill gets further penetration. When attacking a character suffering from any of these conditions, each time the overcharged tag on this drill activates, it does an extra +1d6 bonus damage. This can activate indefinitely (if the new bonus die triggers overcharged by also rolling a ‘1’)",
     "description": "The IPS-N combat drill is a brutal close combat weapon, powered by a massive catalyst pack mounted externally on a mech core. The drill is tipped with micro-plasmatic projectors designed to pre-treat the target to ensure bit purchase and facilitate drill penetration.",
     "data_type": "weapon",
     "aptitude": {
@@ -1232,7 +1232,7 @@
     "license": "DEATH'S HEAD",
     "license_level": 2,
     "effect": "",
-    "description": "The SSC VULTURE-BR is Smith-Shimano’s core line battle riﬂe, chambered for 12.7x108mm HTI rounds. Field performance reports of the VULTURE report low TTK rates and satisfactory all-theater capability, though some pilots have reported fouled-ﬁre incidents as a result of the high burst rate.",
+    "description": "The SSC VULTURE-BR is Smith-Shimano’s core line battle rifle, chambered for 12.7x108mm HTI rounds. Field performance reports of the VULTURE report low TTK rates and satisfactory all-theater capability, though some pilots have reported fouled-fire incidents as a result of the high burst rate.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -1262,7 +1262,7 @@
     "license": "DEATH'S HEAD",
     "license_level": 3,
     "effect": "",
-    "description": "A railgun is a simple, elegant weapon. With no moving parts and a magnetically-accelerated projectile, a railgun can be used at peak eﬃcacy in any combat theater and is entirely self-contained in a disposable unit. However, power draw is massive, and it is necessary for mechs mounting a railgun to be ﬁtted with a core-charged auxiliary power pack.",
+    "description": "A railgun is a simple, elegant weapon. With no moving parts and a magnetically-accelerated projectile, a railgun can be used at peak eﬃcacy in any combat theater and is entirely self-contained in a disposable unit. However, power draw is massive, and it is necessary for mechs mounting a railgun to be fitted with a core-charged auxiliary power pack.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -1287,8 +1287,8 @@
     "source": "SSC",
     "license": "DUSK WING",
     "license_level": 1,
-    "effect": "Allies caught in the area of this riﬂe are not attacked, but are instead are covered in coruscating energy that throws oﬀ targeting systems and count as in soft cover until the start of your next turn.",
-    "description": "“Ten hours into our breach we made ﬁrst contact. I remember nothing of it. I am told many of my squad were killed outright. All I remember is light. Brilliant. And a lightness of my own being.<br>I do believe that I died in that moment, and yet I am here, and I cannot square these two realities.Something has gone wrong, something has gone wrong, something has gone.”<br>(LOGGED AS: debrief, errata, nonessential comment on VEIL[RIFLE_NEXT] development)",
+    "effect": "Allies caught in the area of this rifle are not attacked, but are instead are covered in coruscating energy that throws off targeting systems and count as in soft cover until the start of your next turn.",
+    "description": "“Ten hours into our breach we made first contact. I remember nothing of it. I am told many of my squad were killed outright. All I remember is light. Brilliant. And a lightness of my own being.<br>I do believe that I died in that moment, and yet I am here, and I cannot square these two realities.Something has gone wrong, something has gone wrong, something has gone.”<br>(LOGGED AS: debrief, errata, nonessential comment on VEIL[RIFLE_NEXT] development)",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1,
@@ -1409,7 +1409,7 @@
     "source": "SSC",
     "license": "MONARCH",
     "license_level": 1,
-    "effect": "When you ﬁre this weapon, you can choose one or two targets in range and line of sight, making attack rolls for each.",
+    "effect": "When you fire this weapon, you can choose one or two targets in range and line of sight, making attack rolls for each.",
     "description": "“It was a duel -- this is why they were made. To duel, and in that combat, shake the pillars of the universe.”<br> -- From the ministrations of Master Teacher, “Notes for Young John”",
     "data_type": "weapon",
     "aptitude": {
@@ -1488,7 +1488,7 @@
     "source": "SSC",
     "license": "MONARCH",
     "license_level": 3,
-    "effect": "When this weapon is ﬁred, it chooses one or two Blast 1 areas within range to attack. The areas cannot overlap.<br>When you ﬁre this weapon you can choose to delay the weapon’s impact.If you do, this weapon gains the ordnance tag.The areas targeted become visible to all characters, and the rockets land at the end of the next round (after all characters have acted) instead of impacting immediately, but increase their damage to 3d6.",
+    "effect": "When this weapon is fired, it chooses one or two Blast 1 areas within range to attack. The areas cannot overlap.<br>When you fire this weapon you can choose to delay the weapon’s impact.If you do, this weapon gains the ordnance tag.The areas targeted become visible to all characters, and the rockets land at the end of the next round (after all characters have acted) instead of impacting immediately, but increase their damage to 3d6.",
     "description": "Pinaka missiles are massive, two-stage missiles mounted along the spine of a mech core or carried disassembled, to be affixed and launched from a brachial mount. Pinaka missiles are adapted from ship-to ship missiles, their second stage intended to be able to re-orient in flight through jet-assisted repositioning.",
     "data_type": "weapon",
     "aptitude": {
@@ -1598,7 +1598,7 @@
     "license": "SWALLOWTAIL",
     "license_level": 1,
     "effect": "",
-    "description": "The “Oracle” indirect light machine gun (O/LMG-I designate) packs a subsentient, high-volume DOWNPOUR static quad-barrel system into a single cylinder typically installed on the dorsal panel of a chassis. Paired with a ﬁring system, the Oracle is capable of directing persistent deﬁlade-ignorant kinetic ﬁre at a pilot’s target.",
+    "description": "The “Oracle” indirect light machine gun (O/LMG-I designate) packs a subsentient, high-volume DOWNPOUR static quad-barrel system into a single cylinder typically installed on the dorsal panel of a chassis. Paired with a firing system, the Oracle is capable of directing persistent defilade-ignorant kinetic fire at a pilot’s target.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -1693,8 +1693,8 @@
     "source": "HORUS",
     "license": "GOBLIN",
     "license_level": 2,
-    "effect": "This integrated weapon system cannot be ﬁred normally. Instead, it detects and picks up on target locks, ﬁring a spinning, razor sharp disc that seeks its targets. 1/round, when lock on is consumed in range (by you or anyone else), you can use a reaction to automatically hit the locked on character.",
-    "description": "A spur of INSTINCT’s protomind, the Goblin Autopod is a small anti-personnel weapon apparently devised by HORUS communicyphers to make a system capable of continuing oﬀensive action, even in the event of its operator’s death.<br>Though no new versions have been encountered since Dhiyed, all extant versions of the Autopod are to be considered extremely dangerous, as their onboard protominds have surely cascaded since their inception.",
+    "effect": "This integrated weapon system cannot be fired normally. Instead, it detects and picks up on target locks, firing a spinning, razor sharp disc that seeks its targets. Once per round, when lock on is consumed in range (by you or anyone else), you can use a reaction to automatically hit the locked on character.",
+    "description": "A spur of INSTINCT’s protomind, the Goblin Autopod is a small anti-personnel weapon apparently devised by HORUS communicyphers to make a system capable of continuing offensive action, even in the event of its operator’s death.<br>Though no new versions have been encountered since Dhiyed, all extant versions of the Autopod are to be considered extremely dangerous, as their onboard protominds have surely cascaded since their inception.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -1719,7 +1719,7 @@
     "source": "HORUS",
     "license": "GORGON",
     "license_level": 3,
-    "effect": "This weapon can only be ﬁred 1/round as a reaction to any ally taking damage from an actor in its range.",
+    "effect": "This weapon can only be fired Once per round as a reaction to any ally taking damage from an actor in its range.",
     "description": "DO NOT STARE DIRECTLY INTO THE APERTURE.",
     "data_type": "weapon",
     "aptitude": {
@@ -1772,7 +1772,7 @@
     "source": "HORUS",
     "license": "HYDRA",
     "license_level": 2,
-    "effect": "A Ghast drone can also be deployed as a quick action to a point in sensor range, where it hovers in place, counting as a drone (Size 1/2, 10 HP, 10 Evasion/E-defense) with 2 armor for the duration. It can be ﬁred normally as though it were still a weapon (with skirmish or barrage), but traces line of sight from its location.",
+    "effect": "A Ghast drone can also be deployed as a quick action to a point in sensor range, where it hovers in place, counting as a drone (Size 1/2, 10 HP, 10 Evasion/E-defense) with 2 armor for the duration. It can be fired normally as though it were still a weapon (with skirmish or barrage), but traces line of sight from its location.",
     "description": "The GHAST is an upgraded form of the ghoul drone. A GHAST boasts an upgraded flight system capable of wielding mech-tier weapons within optimum parameters.",
     "data_type": "weapon",
     "aptitude": {
@@ -1831,8 +1831,8 @@
     "source": "HORUS",
     "license": "MANTICORE",
     "license_level": 2,
-    "effect": "If a target is successfully hit by this weapon, you can repeat this attack against another character within range 3 of the ﬁrst target (generating heat each time). This eﬀect can chain as long as there are valid targets in range, but can only choose the same target once.",
-    "description": "Fire be upon thee, APEP! Thy ﬂesh is seared from thy bones; The Lord of the Duat will never enable thy shade to rise again!",
+    "effect": "If a target is successfully hit by this weapon, you can repeat this attack against another character within range 3 of the first target (generating heat each time). This effect can chain as long as there are valid targets in range, but can only choose the same target once.",
+    "description": "Fire be upon thee, APEP! Thy flesh is seared from thy bones; The Lord of the Duat will never enable thy shade to rise again!",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -1891,7 +1891,7 @@
     "source": "HORUS",
     "license": "PEGASUS",
     "license_level": 2,
-    "effect": "This horrifying weapon has no basic form, but instead constantly contorts itself into diﬀerent forms, mimicking the weaponry of other combatants. This weapon cannot be modiﬁed, but counts as all ranged weapon types (CQB, Riﬂe, Cannon, Nexus, Launcher).<br>At the start of combat, roll 3 d20s and write the numbers down. The gun cycles through each number, starting with the ﬁrst one on your ﬁrst turn, and returning to the ﬁrst number after it’ s gone through all three. It has a range equal to the number written down, and deals ﬂat damage equal to half the number written down, rounded up, +1.<br>As a full action, you can provoke the mimic gun, re-rolling these numbers.",
+    "effect": "This horrifying weapon has no basic form, but instead constantly contorts itself into different forms, mimicking the weaponry of other combatants. This weapon cannot be modified, but counts as all ranged weapon types (CQB, Rifle, Cannon, Nexus, Launcher).<br>At the start of combat, roll 3 d20s and write the numbers down. The gun cycles through each number, starting with the first one on your first turn, and returning to the first number after it’ s gone through all three. It has a range equal to the number written down, and deals flat damage equal to half the number written down, rounded up, +1.<br>As a full action, you can provoke the mimic gun, re-rolling these numbers.",
     "description": "This is not a gun.",
     "data_type": "weapon",
     "aptitude": {
@@ -1918,7 +1918,7 @@
     "source": "HORUS",
     "license": "PEGASUS",
     "license_level": 1,
-    "effect": "This weapon cannot be ﬁred normally, but you may only ﬁre this weapon as a free action at the end of your turn, using your mech’s attack bonuses. It does not beneﬁt from your talents.",
+    "effect": "This weapon cannot be fired normally, but you may only fire this weapon as a free action at the end of your turn, using your mech’s attack bonuses. It does not benefit from your talents.",
     "description": "An autogun is, as its name implies, an automated weapon. Similar to a point-defense system, an autogun is chambered to provide effective fire against armored targets instead. Typically mounted on a stabilized, secondary arm, a reliably-tuned autogun can be trusted to track and eliminate designated enemy units while a pilot concentrates on more specialized weapons or processes.",
     "data_type": "weapon",
     "aptitude": {
@@ -1974,7 +1974,7 @@
     "license": "BARBAROSSA",
     "license_level": 3,
     "effect": "The siege cannon can be fired with two profiles:<br><b>Superheavy Cannon</b> (Siege Mode)<br>4 heat (self), Arcing, Ordnance, Loading<br>Range 30, Blast 2<br>3d6 explosive damage<br><br><b>Superheavy Cannon</b> (Direct Fire)<br>2 heat (self), Knockback 2<br>Range 20<br>3d6 explosive damage",
-    "description": "Siege Cannons are the Armory‘s core-squadron level artillery, a shoulder-mounted gun fed by a selfcontained loading system. Commonly mounted on rear-line mechs deployed in an artillery/ squad support role, the Siege Cannon is capable of direct ﬁre should the necessities of dynamic combat call for it.",
+    "description": "Siege Cannons are the Armory‘s core-squadron level artillery, a shoulder-mounted gun fed by a selfcontained loading system. Commonly mounted on rear-line mechs deployed in an artillery/ squad support role, the Siege Cannon is capable of direct fire should the necessities of dynamic combat call for it.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 2
@@ -2041,7 +2041,7 @@
     "source": "HA",
     "license": "GENGHIS",
     "license_level": 3,
-    "effect": "Can be fired as Cone 7 <i>or</i> Line 10<br>Choose 3 empty spaces in the targeted area after ﬁring this weapon. White hot ﬂames burn in these spaces. The ﬁrst time on its turn a character moves into these spaces or starts its turn there it takes 1d6 energy damage. These ﬂames last until the end of the current scene.",
+    "effect": "Can be fired as Cone 7 <i>or</i> Line 10<br>Choose 3 empty spaces in the targeted area after firing this weapon. White hot flames burn in these spaces. The first time on its turn a character moves into these spaces or starts its turn there it takes 1d6 energy damage. These flames last until the end of the current scene.",
     "description": "The plasma thrower arrived late in the Hercynian Crisis, too late to see widespread battlefield application. Some MEF squadrons were able to mount the superheavy system, and what little data there is to see from its use suggests that this system would have had a tremendous impact during the major battles that raged in the deep jungles during the middle of the Crisis.",
     "data_type": "weapon",
     "aptitude": {
@@ -2105,7 +2105,7 @@
     "source": "HA",
     "license": "ISKANDER",
     "license_level": 2,
-    "effect": "When you attack with this riﬂe, all targets caught in the area must pass a hull save or take 1d6 energy damage and be pulled as close to the center of the blast as possible.",
+    "effect": "When you attack with this rifle, all targets caught in the area must pass a hull save or take 1d6 energy damage and be pulled as close to the center of the blast as possible.",
     "description": "The complex negotiations of gravity and time, shattered in an instant by a machine that can pluck a waves like a player strums a guitar string.<br>We’ve weaponized the thing that holds all things in its embrace. What could go wrong?",
     "data_type": "weapon",
     "aptitude": {
@@ -2175,8 +2175,8 @@
     "source": "HA",
     "license": "SALADIN",
     "license_level": 1,
-    "effect": "The attack roll for this weapon cannot be any worse than a regular roll (it can’t suﬀer any diﬃculty on the ﬁnal roll)",
-    "description": "Developed by the Armory following costly urban and naval boarding engagements in the Interest War, the Shatterhead Colony missile is now a mainstay of Armory Interdiction teams. At an optimal distance from its target(s), the Shatterhead breaks open in a burst of high-catalyst fuel, revealing a cluster of small thermobaric pellets that spread out and ignite, choking the aﬀected area with ﬂame. The eﬀect overloads energy shielding and saturates cover, though only a small percent of the projectiles actually reach their target.",
+    "effect": "The attack roll for this weapon cannot be any worse than a regular roll (it can’t suffer any diﬃculty on the final roll)",
+    "description": "Developed by the Armory following costly urban and naval boarding engagements in the Interest War, the Shatterhead Colony missile is now a mainstay of Armory Interdiction teams. At an optimal distance from its target(s), the Shatterhead breaks open in a burst of high-catalyst fuel, revealing a cluster of small thermobaric pellets that spread out and ignite, choking the affected area with flame. The effect overloads energy shielding and saturates cover, though only a small percent of the projectiles actually reach their target.",
     "data_type": "weapon",
     "aptitude": {
       "ranged": 1
@@ -2275,7 +2275,7 @@
     "source": "HA",
     "license": "SHERMAN",
     "license_level": 3,
-    "effect": "Firing this weapon while in the danger zone creates a back blast of burning plasma in a cone 3 area drawn from the opposite direction of ﬁring. Characters in the area when it’s created must pass an engineering save or take 4 burn and 2 heat. This zone then becomes soft cover until the start of your next turn.",
+    "effect": "Firing this weapon while in the danger zone creates a back blast of burning plasma in a cone 3 area drawn from the opposite direction of firing. Characters in the area when it’s created must pass an engineering save or take 4 burn and 2 heat. This zone then becomes soft cover until the start of your next turn.",
     "description": "The Tachyon Lance is the weaponized result of early Harrison Armory experiments into faster-than-light travel. Rendered obsolete by developments in blinkspace travel and the difficulty of ensuring corporeal passenger survival, HA‘s tachyon accelerators were mothballed until Think Tank engineers realized their potential application as weapons. A tachyon accelerator projects tachyon particles -- essentially a subatomic localized object -- faster than light towards its target. These particles are impossible to see through optical/visible means: as they travel faster than light, they cannot be seen or avoided intentionally. Though the size of the particle is tiny, the sheer speed and energy of travel is titanic, and the damage a tachyon lance imparts on its target -- should it connect -- is unparalleled.",
     "data_type": "weapon",
     "aptitude": {
@@ -2348,7 +2348,7 @@
     "source": "HA",
     "license": "TOKUGAWA",
     "license_level": 2,
-    "effect": "This weapon can be used with either proﬁle, but not both in the same round.",
+    "effect": "This weapon can be used with either profile, but not both in the same round.",
     "description": "A threat at multiple ranges, the Lash was designed following the Armory's review of data collected from the Hercynian Crisis. After-action reports noted the efficacy of thermal and thermobaric weapons against hardened targets, but made constant reference to the limitations placed upon conventional thermal weapons: the need for atmosphere-specific fuel, the impact of prevailing weather conditions, the necessity of atmosphere.<br>Enter the Plasma Lash, an early development into plasma weaponry. Firing an excited toroid of plasma, the Lash can be used as a ranged weapon with a delayed-detonation, or, essentially, a point-blank melee weapon; if used at point blank range, the toroid is detonated inside of its launcher, directing an intense thermal blast directly at its target.",
     "data_type": "weapon",
     "aptitude": {
@@ -2425,7 +2425,7 @@
     "source": "",
     "license": "",
     "license_level": "",
-    "effect": "When you ﬁre this weapon, hit or miss, cool 1d3+2 heat.",
+    "effect": "When you fire this weapon, hit or miss, cool 1d3+2 heat.",
     "description": "Gained from the \"Nuclear Cavalier\" Rank 3 Talent",
     "data_type": "weapon",
     "aptitude": {
@@ -2455,7 +2455,7 @@
     "source": "",
     "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the proﬁle of this weapon each time you full repair.",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the profile of this weapon each time you full repair.",
     "description": "Gained from the \"Engineer\" Rank 1 Talent",
     "data_type": "weapon",
     "aptitude": {
@@ -2486,7 +2486,7 @@
     "source": "",
     "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the proﬁle of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the eﬀectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always ﬁre your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can ﬁre as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you ﬁre), but costs 2 heat to ﬁre.</li></ul>",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the profile of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you fire), but costs 2 heat to fire.</li></ul>",
     "description": "Gained from the \"Engineer\" Rank 2 Talent",
     "data_type": "weapon",
     "aptitude": {
@@ -2517,7 +2517,7 @@
     "source": "",
     "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the proﬁle of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the eﬀectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always ﬁre your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can ﬁre as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you ﬁre), but costs 2 heat to ﬁre.</li></ul>",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the profile of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you fire), but costs 2 heat to fire.</li></ul>",
     "description": "Gained from the \"Engineer\" Rank 3 Talent",
     "data_type": "weapon",
     "aptitude": {

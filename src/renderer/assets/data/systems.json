@@ -300,7 +300,7 @@
     "source": "IPS-N",
     "license": "DRAKE",
     "license_level": 1,
-    "effect": "As a quick action, this heavy over-arm shield can be used to protect an adjacent character from incoming ﬁre, giving them resistance to all damage as long as they stay adjacent to you. However, your mech takes the damage that was resisted by your target (so 50% of damage goes to them, and 50% to you), before armor and reduction. The eﬀect breaks if they break adjacency, and you must repeat this action to regain the eﬀect.",
+    "effect": "As a quick action, this heavy over-arm shield can be used to protect an adjacent character from incoming fire, giving them resistance to all damage as long as they stay adjacent to you. However, your mech takes the damage that was resisted by your target (so 50% of damage goes to them, and 50% to you), before armor and reduction. The effect breaks if they break adjacency, and you must repeat this action to regain the effect.",
     "description": "The Argonaut is an old-pattern physical shield crafted from layered ablatives and nonferrous anti-kinetic alloys. Popular among line chassis orders and Trunk Security oﬃcers, the Argonaut alone is a phalanx; in formation, it is the impenetrable wall.",
     "data_type": "system",
     "aptitude": {
@@ -1078,7 +1078,7 @@
     "source": "SSC",
     "license": "MONARCH",
     "license_level": 1,
-    "effect": "Choose 3 free spaces in range 15 and line of sight. These spaces are visible to all characters. The next time a character passes through this space or any of the spaces over it vertically up to range 10, or starts its turn in one of those spaces, it takes 3 kinetic damage as a rocket hits them, then this eﬀect ends in that area. It also ends on all targeted spaces at the start of your next turn..",
+    "effect": "Choose 3 free spaces in range 15 and line of sight. These spaces are visible to all characters. The next time a character passes through this space or any of the spaces over it vertically up to range 10, or starts its turn in one of those spaces, it takes 3 kinetic damage as a rocket hits them, then this effect ends in that area. It also ends on all targeted spaces at the start of your next turn..",
     "description": "“Pralaya was the name of your mother. She who would see the dawn-at-the-end. Her beauty was terrible, and her wrath, and I see it in all of you. My sons, when you hear the sound of thunder, that is your mother’s voice, and the rain of missiles her gift.”<br> -- Continued ministrations of Master Teacher, “Notes For Young John”",
     "data_type": "system",
     "aptitude": {
@@ -1235,8 +1235,8 @@
     "source": "SSC",
     "license": "SWALLOWTAIL",
     "license_level": 2,
-    "effect": "Your mech can retract its major systems to reduce its proﬁle. You can activate this protocol at the start of your turn. While active:<br><ul><li>Rolls to ﬁnd your mech while hidden are made at + 1 Diﬃculty</li><li>All ranged and tech attacks against you are made at + 1 Diﬃculty</li><li>Your mech is Slowed and cannot make ranged, melee, or tech attacks</li><li>Your mech can still take other actions as normal (hiding, activating systems, etc) can end this eﬀect as a quick action.",
-    "description": "A hallmark of a well thought out mech platform is the ability for pilots to work with their technicians to adapt their stock model to the speciﬁcations of the environments they operate in. Lowering a mech’s proﬁle removes extraneous protrusions, tunes any broadcast software, and masks heat signatures — all an eﬀort to reduce optical and scanner signatures",
+    "effect": "Your mech can retract its major systems to reduce its profile. You can activate this protocol at the start of your turn. While active:<br><ul><li>Rolls to find your mech while hidden are made at + 1 Diﬃculty</li><li>All ranged and tech attacks against you are made at + 1 Diﬃculty</li><li>Your mech is Slowed and cannot make ranged, melee, or tech attacks</li><li>Your mech can still take other actions as normal (hiding, activating systems, etc) can end this effect as a quick action.",
+    "description": "A hallmark of a well thought out mech platform is the ability for pilots to work with their technicians to adapt their stock model to the specifications of the environments they operate in. Lowering a mech’s profile removes extraneous protrusions, tunes any broadcast software, and masks heat signatures — all an effort to reduce optical and scanner signatures",
     "data_type": "system",
     "aptitude": {
       "support": 1,

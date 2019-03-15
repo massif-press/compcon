@@ -39,3 +39,5 @@ new Vue({
 
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
 Vue.prototype.versionNumber = '0.2.1'
+
+router.replace('/roster')
