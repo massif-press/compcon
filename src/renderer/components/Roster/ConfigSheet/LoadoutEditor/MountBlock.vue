@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div v-if="!mount.imparm || (mount.imparm && hasImparm)">
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase">{{mount.mount_type}} Mount</span>
+      <span class="mount-title pl-3 pr-3 text-uppercase">{{mountName()}}
+        <v-icon v-if="allMountBonuses.length" small class="mt-0 pt-0 pb-1" @click="coreBonusSelectorModal = true; cbsLoader = true">build</v-icon></span>
       <v-card-text v-if="mount.sh_lock" class="bordered ml-3 pt-4">
         <v-card color="grey darken-1">
           <v-card-text class="blockquote text-xs-center">
@@ -12,7 +13,7 @@
         </v-card>
         </v-card-text>
       <v-card-text v-else class="bordered ml-3 pt-4">
-        <div v-if="mount.mount_type === 'Main/Aux'">
+        <div v-if="mount.mount_type === 'Main/Aux' || mount.bonuses.includes('retrofit')">
           <mech-weapon-item :item="mount.weapons[0] || null" fitting-type="Main" @clicked="openWeaponSelector('main', 0)" />
           <mech-weapon-item :item="mount.weapons[1] || null" empty fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)" />
         </div>
@@ -24,10 +25,10 @@
           <div v-if="!mount.weapons[0]">
             <mech-weapon-item :item="null" fitting-type="Main / Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && item(mount.weapons[0].id).mount === 'Main'">
+          <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Main'">
             <mech-weapon-item :item="mount.weapons[0]" fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && item(mount.weapons[0].id).mount === 'Auxiliary'">
+          <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Auxiliary'">
             <mech-weapon-item :item="mount.weapons[0]" fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)" />  
             <mech-weapon-item :item="mount.weapons[1] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)" />  
           </div>
@@ -35,6 +36,15 @@
         <div v-else>
           <mech-weapon-item :item="mount.weapons[0] || null" :fitting-type="mount.mount_type" @clicked="openWeaponSelector(mount.mount_type.toLowerCase(), 0)" />
         </div>
+        <div v-if="mount.bonuses.includes('intweapon')">
+          <mech-weapon-item :item="mount.weapons[intweaponLength] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
+        </div>
+          <v-card v-for="m in mountBonuses" :key="`mb_${m}`" color="grey darken-1" class="ma-2">
+          <v-card-text class="text-xs-center">
+            <b>{{item('CoreBonuses', m).name}}</b><br>
+            <i class="caption">{{item('CoreBonuses', m).mounted_effect}}</i>
+          </v-card-text>
+        </v-card>
       </v-card-text>
     </v-card>
     
@@ -70,15 +80,22 @@
             <v-btn color="primary" @click="equipSuperheavy" > Confirm </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog> 
+      </v-dialog>
 
-
+      <!-- CB Benefit -->
+      <v-dialog v-model="coreBonusSelectorModal" width="70vw" lazy hide-overlay>
+        <v-card dark>
+          <core-benefit-selector v-if="cbsLoader" :loadout="loadout" :mount="mount" @cancel="cancelCBSM" @confirm="confirmCBSM" />
+        </v-card>
+      </v-dialog>
   </div>
 </template>
 
 <script>
 import MechWeaponItem from './MechWeaponItem'
 import WeaponTable from './WeaponTable'
+import CoreBenefitSelector from './CoreBenefitSelector'
+import _ from 'lodash'
 
 export default {
   name: 'mount-block',
@@ -93,14 +110,36 @@ export default {
   data: () => ({
     weaponSelectorModal: false,
     shLockModal: false,
+    coreBonusSelectorModal: false,
+    cbsLoader: false,
     weaponIndex: 0,
     size: '',
     current_equip: Object,
     pendingSuperheavy: Object,
     shLockModel: 0
   }),
-  components: { MechWeaponItem, WeaponTable },
+  components: { MechWeaponItem, WeaponTable, CoreBenefitSelector },
+  computed: {
+    hasImparm: function () {
+      return this.$store.getters.getPilot.core_bonuses.includes('imparm')
+    },
+    allMountBonuses: function () {
+      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.$store.getters.getPilot.core_bonuses)
+    },
+    mountBonuses: function () {
+      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
+    },
+    intweaponLength: function () {
+      return this.mount.mount_type.includes('/') ? 2 : 1
+    }
+  },
   methods: {
+    mountName: function () {
+      console.log(this.mount)
+      if (this.mount.bonuses.includes('retrofit')) return 'Main/Aux Mount (Retrofitted)'
+      if (this.mount.imparm) return 'Flex Mount (Improved Armament)'
+      return `${this.mount.mount_type} Mount`
+    },
     equipWeapon (item) {
       this.$store.dispatch('editConfig', {
         id: this.config_id,
@@ -158,8 +197,22 @@ export default {
       if (this.loadout.mounts[this.mountIndex].weapons) this.current_equip = this.loadout.mounts[this.mountIndex].weapons[this.weaponIndex] || null
       this.weaponSelectorModal = true
     },
-    item: function (id) {
-      return this.$store.getters.getItemById('MechWeapons', id)
+    item: function (itemType, id) {
+      return this.$store.getters.getItemById(itemType, id)
+    },
+    confirmCBSM: function (bonusArray) {
+      this.$store.dispatch('editConfig', {
+        id: this.config_id,
+        attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].bonuses`,
+        val: bonusArray
+      })
+      this.coreBonusSelectorModal = false
+      this.cbsLoader = false
+      this.$emit('refresh')
+    },
+    cancelCBSM: function () {
+      this.coreBonusSelectorModal = false
+      this.cbsLoader = false
     }
   }
 }

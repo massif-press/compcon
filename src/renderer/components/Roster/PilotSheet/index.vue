@@ -559,11 +559,13 @@
       },
       clonePilot: function () {
         this.$store.dispatch('clonePilot', this.pilot.id)
+        this.notification = 'Pilot Duplicated'
+        this.snackbar = true
       },
       exportPilot: function () {
         const { dialog } = require('electron').remote
         var path = dialog.showSaveDialog({
-          title: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
+          defaultPath: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
           buttonLabel: 'Save Pilot'
         })
         io.saveFile(path + '.json', JSON.stringify(this.pilot), function (err) {
@@ -571,7 +573,7 @@
             alert(`Error: COMP/CON could not save a file to ${path}`)
           } else {
             this.exportDialog = false
-            this.notification = 'Pilot Saved'
+            this.notification = 'Pilot Export Successful'
             this.snackbar = true
           }
         })
@@ -580,7 +582,7 @@
         const {clipboard} = require('electron')
         clipboard.writeText(JSON.stringify(this.pilot))
         this.exportDialog = false
-        this.notification = 'Pilot Copied to Clipboard'
+        this.notification = 'Pilot Data Copied to Clipboard'
         this.snackbar = true
       }
     },

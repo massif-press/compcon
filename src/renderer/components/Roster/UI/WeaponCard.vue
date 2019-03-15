@@ -8,7 +8,7 @@
         <b>{{itemData.mount}} {{itemData.type}} <span v-if="itemData.sp">({{itemData.sp}} SP)</span></b>
         <br>
         <damage-element dark :dmg="itemData.damage" />
-        <range-element :range="itemData.range" />
+        <range-element :range="itemData.range" :neurolinked="hasNeurolinked" />
         <p v-if="itemData.effect" v-html="itemData.effect" class="pl-2"/>
         <v-layout class="mt-2">
           <tag v-for="(tag, index) in itemData.tags" :key="tag.id + index" :id="tag.id" :val="tag.val"/>
@@ -26,7 +26,12 @@
   export default {
     name: 'system-card',
     props: ['itemData'],
-    components: { Tag, RangeElement, DamageElement }
+    components: { Tag, RangeElement, DamageElement },
+    computed: {
+      hasNeurolinked: function () {
+        return this.$store.getters.getPilot.core_bonuses.includes('neurolinked')
+      }
+    }
   }
 </script>
 

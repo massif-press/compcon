@@ -106,10 +106,17 @@
         }
 
         if (!vm.showOverSp) {
-          console.log(vm.showOverSp)
           // if an item is currently equipped to this slot, look it up to find sp value for exchange
           var totalFreeSp = this.current_equip ? this.free_sp + allSystems.find(x => x.id === this.current_equip.id).sp || 0 : this.free_sp
           i = i.filter(x => x.sp <= totalFreeSp)
+        }
+
+        // filter ais
+        var installedAIs = i.filter(x => x.type === 'AI')
+        if (installedAIs.length) {
+          if (!this.hasShaping || (this.hasShaping && installedAIs.length > 1)) {
+            i = i.filter(x => !installedAIs.map(y => y.id).includes(x.id))
+          }
         }
 
         // filter dupe uniques
@@ -140,6 +147,9 @@
       isOverSp: function (sp) {
         var totalFreeSp = this.current_equip ? this.free_sp + this.$store.getters.getItemCollection('MechSystems').find(x => x.id === this.current_equip.id).sp || 0 : this.free_sp
         return sp > totalFreeSp
+      },
+      hasShaping: function () {
+        return this.pilot.talents.findIndex(x => x.id === 'techno' && x.rank === 3) > -1
       }
     }
   }

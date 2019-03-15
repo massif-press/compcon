@@ -157,9 +157,32 @@
 
           <v-flex xs3><v-btn large flat dark disabled>print</v-btn></v-flex>   
 
-          <v-flex xs3><v-btn large flat dark>export</v-btn></v-flex>
-
-          <v-flex xs3><v-btn large flat dark>clone</v-btn></v-flex>
+          <v-flex xs3>
+            <v-dialog v-model="exportDialog" width="500" >
+                <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
+                <v-card>
+                  <v-card-title class="title">Export Configuration &mdash; {{pilot.callsign}}</v-card-title>
+                  <v-card-text>
+                    <v-btn large block flat color="primary" @click="exportConfig">Save to File</v-btn>
+                    <br>
+                    <v-btn large block flat color="primary" @click="copyConfig">Copy Configuration Data to Clipboard</v-btn>
+                  </v-card-text>
+                  <v-divider />
+                  <v-card-actions>
+                    <v-btn color="primary"  flat @click="exportDialog = false" > Cancel </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <!-- Copy Success notification -->
+              <v-snackbar v-model="snackbar" :timeout="5000" >
+                <span v-html="notification" />
+                <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
+              </v-snackbar>
+          </v-flex>    
+                
+          <v-flex xs3>
+            <v-btn slot="activator" color="primary" large flat @click="cloneConfig"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
+          </v-flex>
 
           <v-flex xs3>
             <v-dialog v-model="deleteDialog" width="500" >
@@ -172,7 +195,7 @@
                   <v-card-actions>
                     <v-btn color="primary"  flat @click="deleteDialog = false" > Cancel </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="error" @click="''" > Delete Configuration </v-btn>
+                    <v-btn color="error" @click="deleteConfig" > Delete Configuration </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -194,6 +217,8 @@
 
 <script>
   import Stats from '@/logic/stats'
+  import io from '@/store/data_io'
+
   import {EditableLabel, EditableTextfield, Tag} from '../UI'
   import StatblockItem from './StatblockItem'
   import TraitItem from './TraitItem'
@@ -207,6 +232,9 @@
       frameInfoModal: false,
       manufacturerModal: false,
       deleteDialog: false,
+      exportDialog: false,
+      snackbar: false,
+      notification: '',
       loadoutForceReloadTrigger: 0
     }),
     methods: {
@@ -215,6 +243,38 @@
       },
       selectMechImg: function () {
         this.$refs.mechImg.showModal()
+      },
+      deleteConfig: function () {
+        this.deleteDialog = false
+        this.$store.dispatch('deleteConfig', this.config.id)
+      },
+      cloneConfig: function () {
+        this.$store.dispatch('cloneConfig', JSON.parse(JSON.stringify(this.config)))
+        this.notification = 'Configuration Duplicated'
+        this.snackbar = true
+      },
+      exportConfig: function () {
+        const { dialog } = require('electron').remote
+        var path = dialog.showSaveDialog({
+          defaultPath: this.config.name.toLowerCase().replace(/\W/g, ''),
+          buttonLabel: 'Export Configuration'
+        })
+        io.saveFile(path + '.json', JSON.stringify(this.config), function (err) {
+          if (err) {
+            alert(`Error: COMP/CON could not save a file to ${path}`)
+          } else {
+            this.exportDialog = false
+            this.notification = 'Configuration Exported Successfully'
+            this.snackbar = true
+          }
+        })
+      },
+      copyConfig: function () {
+        const {clipboard} = require('electron')
+        clipboard.writeText(JSON.stringify(this.config))
+        this.exportDialog = false
+        this.notification = 'Configuration Copied to Clipboard'
+        this.snackbar = true
       }
     },
     computed: {

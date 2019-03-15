@@ -2,31 +2,14 @@ Beta:
   Mech Sheet:
     ☐ Licenses Required
     ☐ Mech Loadout Manager
-      Mounts:
-        ☐ Filter duplicate uniques
-      Systems:
-        ☐ Limit AI
+      ☐ Filter duplicate unique weapons
       Mods:
         ☐ Mod Selector
-      Core Bonuses:
-        ☐ CB Benefit Selector
-    ☐ Export
-    ☐ Clone
-    ☐ Delete
-
-1.8.5:
-  Core Bonuses:
-    ☐ Auto Stabilizing Hardpoints (+1 Acc on a mount)
-    ☐ Burnout Insulation (+1d6 damage on a mount)
-    ☐ Improved Armament (+Flex mount if mech has <3 mounts)
-    ☐ Integrated weapon (1 mount gets additional AUX slot)
-    ☐ Neuro-linked Targeting (all mounted weapons gain +2 range)
-    ☐ The Lesson of Shaping (+1 AI cap)
+    ☐ Import
 
 Other:
   ☐ Reduce size of firstname/lastname txts
-  ☐ Official Art images
-  ☐ Add navigation-back button
+  ☐ Official art images
   ☐ Better item card formatting
 
 Refactor:
@@ -47,6 +30,7 @@ Refactor:
     ☐ trigger bonus -> level
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
+  ☐ Move all calculation, checking, filtering out of template
 
 Version 1:
   Gear Catalog:
@@ -123,6 +107,20 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Clone @done(19-03-15 15:50) @project(Beta.Mech Sheet)
+  ✔ Delete @done(19-03-15 15:46) @project(Beta.Mech Sheet)
+  ✔ Limit AI @done(19-03-15 15:07) @project(Beta.Mech Sheet.Systems)
+  ✔ CB Benefit Selector @done(19-03-15 12:52) @project(Beta.Mech Sheet.Core Bonuses)
+  ✔ When Core Bonuses changes, all applied CBs no longer present should be cleared. @done(19-03-15 15:30) @project(Beta.Mech Sheet.Core Bonuses)
+  ✔ Export @done(19-03-15 15:41) @project(Beta.Mech Sheet)
+  ✔ Auto Stabilizing Hardpoints (+1 Acc on a mount) @done(19-03-15 13:08) @project(1.8.5.Core Bonuses)
+  ✔ Burnout Insulation (+1d6 damage on a mount) @done(19-03-15 13:08) @project(1.8.5.Core Bonuses)
+  ✔ Integrated weapon (1 mount gets additional AUX slot) @done(19-03-15 13:38) @project(1.8.5.Core Bonuses)
+  ✔ Mount retrofitting (replace weapon slot with main/aux) @done(19-03-15 13:44) @project(1.8.5.Core Bonuses)
+  ✔ Improved Armament (+Flex mount if mech has < 3 mounts) @done(19-03-15 14:23) @project(1.8.5.Core Bonuses)
+  ✔ Neuro-linked Targeting (all mounted weapons gain +2 range) @done(19-03-15 14:42) @project(1.8.5.Core Bonuses)
+  ✔ The Lesson of Shaping (+1 AI cap) @done(19-03-15 15:07) @project(1.8.5.Core Bonuses)
+  ✔ Add navigation-back button @done(19-03-15 13:08) @project(Other)
   ✔ SP cost exceeds warning @done(19-03-12 18:03) @project(Beta.Mech Sheet)
   ✔ CORE Integrated mounts @done(19-03-13 13:05) @project(Beta.Mech Sheet.Mounts)
   ✔ Talent Integrated mounts @done(19-03-13 13:29) @project(Beta.Mech Sheet.Mounts)
