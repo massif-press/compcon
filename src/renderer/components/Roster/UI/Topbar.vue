@@ -8,7 +8,8 @@
         <v-btn flat disabled>About</v-btn>
         <v-btn flat disabled>Options</v-btn>
         <v-btn flat disabled>Help</v-btn>
-        <v-btn @click="goBack" flat>Main Menu</v-btn>
+        <v-btn @click="goBack" flat>Back</v-btn>
+        <!-- <v-btn @click="goBack" flat>Main Menu</v-btn> -->
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -19,7 +20,7 @@
     name: 'topbar',
     methods: {
       goBack: function () {
-        this.$router.push('/')
+        this.$router.push('/roster')
       }
     }
   }

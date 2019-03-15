@@ -1,3 +1,21 @@
+3/14
+cloc src --exclude-dir=data --ignore-whitespace
+      69 text files.
+      69 unique files.                              
+       6 files ignored.
+
+github.com/AlDanial/cloc v 1.80  T=0.12 s (538.0 files/s, 52457.8 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Vuejs Component                 50            292             62           5121
+JavaScript                      14             76             65            697
+EJS                              1              1              3             21
+-------------------------------------------------------------------------------
+SUM:                            65            369            130           5839
+-------------------------------------------------------------------------------
+
+
 search for:
 “   ”
 ‘   ’
@@ -6,18 +24,8 @@ search for:
 ﬀ
 ﬂ
 ﬁ
-ﬁ
 
 [^\x00-\x7F]
-
-http://nift.firedrake.org
-https://twitter.com/cultureshipname
-
-Main mount: This mount takes 1 main or smaller weapon
-Heavy mount: This mount takes 1 heavy or smaller weapon
-Aux/Aux mount: This mount takes up to 2 auxiliary weapons
-Main/Aux mount: This mount takes 1 main or smaller weapon and 1 auxiliary weapon
-Flexible mount: This mount takes either 1 main weapon or up to 2 auxiliary weapons
 
 >//[WARNING: Pilot lacks print authorization for one or more licensed technologies]
 
@@ -27,13 +35,18 @@ Flexible mount: This mount takes either 1 main weapon or up to 2 auxiliary weapo
 Hello, everyone!
 Sorry I dipped out for a minute. Too much stuff on my plate to get everything done and still hang around the discord. 
 But work on my little app has continued apace, and I'm happy to announce I have something that can actually be useful.
-After 1.8 dropped I decided to rewrite the entire thing in a modern framework (vue.js). I had most of the heavy lifing and hard thinking out of the way already so it only took a fraction of the time to get back to where I was. The upshot of all this is that it's much, much easier to write for, debug, invite collaborators to work on, and if/when the time comes, port to a mobile app or hosted site (more on that later). For now, it's feature complete *EXCEPT FOR* pilot/mech sheet printing and user-uploaded pilot and mech images. Once those are hammered out it'll have everything I wanted to include in 1.0. Beyond that, you can find the roadmap at XXXXXX.
+After 1.8 dropped I decided to rewrite the entire thing in a modern framework (vue.js). I had most of the heavy lifing and hard thinking out of the way already so it only took a fraction of the time to get back to where I was. The upshot of all this is that it's much, much easier to write for, debug, invite collaborators to work on, and if/when the time comes, port to a mobile app or hosted site (more on that later). For now, it's feature complete *EXCEPT FOR* pilot/mech sheet printing and user-uploaded pilot and mech images. Once those are hammered out it'll have everything I wanted to include in 1.0. Beyond that, you can find the roadmap at 
+https://github.com/jarena3/compcon/wiki/Roadmap.
 
-The app can be downloaded here: XXXXXXXXXXXX
+The app is on itch.io now and can be downloaded here: XXXXXXXXXXXX
+This is a private link for now.
 
-I'd like to ask, if you decide to use the tool, to please keep an eye out for bugs. I've produced an automated reporting form here: XXXXXXXX which will automatically throw tickets into github, which I can then track (and you can see the progress). If there's a feature you think might be good to add (or you would like me to readress an already-existing feature) I've got a seperate form for that here: XXXXXXXXXXX
+I'd like to ask, if you decide to use the tool, to please keep an eye out for bugs. I've produced an automated reporting form here: 
+https://goo.gl/forms/PCHR8AJWOBLdMgE32 
+which will automatically throw tickets into github, which I can then track (and you can see the progress). If there's a feature you think might be good to add (or you would like me to readress an already-existing feature) I've got a seperate form for that here: 
+https://goo.gl/forms/uBTHEwWpwO6NtSbh1
 
-Once I've got the print functionality complete, I'll release the ~official beta~ and start cleaning things up in preparation for mod and GM tools. My goal is to get to this stage prior to the Kickstarter launch.
+Once I've got the print functionality complete, I'll release the ~official beta~ and start cleaning things up in preparation for mod and GM tools. My goal is to get to the roadmap's v.1.0 stage prior to the Kickstarter launch.
 
 Thanks in advance!
 yr pal beef
