@@ -2,10 +2,10 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="indigo" v-if="empty" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
-          <v-btn slot="activator" color="indigo" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemType }}</v-btn>
-          <span v-if="empty">Equip {{itemType}} Mech Weapon</span>
-          <span v-else>Change Equipped {{itemType}} Mech Weapon</span>
+          <v-btn slot="activator" color="blue-grey darken-1" v-if="empty" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemData.type }}</v-btn>
+          <span v-if="empty">Install System</span>
+          <span v-else>Change or Remove Installed System</span>
         </v-tooltip>
       </v-flex>
       <v-flex xs10>
@@ -22,17 +22,12 @@
             <v-layout slot="header"> 
               <span class="subheading font-weight-bold">{{itemData.name}}</span> 
               <v-spacer />
-              <span v-if="itemData.type === 'armor'" class="mr-5" style="display: inline-flex;"> 
-                ARMOR: {{itemData.armor || 0}} // EDEF: {{itemData.edef || 0}} // EVASION: {{itemData.evasion || 0}} // SPEED: {{itemData.speed || 0}} 
+              <span class="mr-5" style="display: inline-flex;"> 
+                {{itemData.sp}} SP
               </span>
-              <span v-else-if="itemData.type === 'weapon'" class="mr-5" style="display: inline-flex;">
-                <range-element small :range="itemData.range" />
-                &emsp;&mdash;&emsp;
-                <damage-element small size="16" :dmg="itemData.damage" />
-              </span>
-              <span v-else class="mr-5" style="display: inline-flex;"> {{itemData.uses ? `${itemData.uses} Uses` : '' }} </span>
+
             </v-layout>
-                <gear-card :itemData="itemData"/>
+                <system-card :itemData="itemData"/>
               </v-expansion-panel-content>
             </v-expansion-panel>
         </div>
@@ -41,22 +36,20 @@
 </template>
 
 <script>
-import GearCard from '../../UI/GearCard'
-import RangeElement from '../../UI/RangeElement'
-import DamageElement from '../../UI/DamageElement'
+import SystemCard from '../../UI/SystemCard'
 
 export default {
   name: 'mech-system-item',
-  components: { GearCard, RangeElement, DamageElement },
+  components: { SystemCard },
   props: {
-    'item': Object,
+    'system': Object,
     'empty': Boolean,
     'itemType': String
   },
   computed: {
     itemData () {
       if (this.empty) return {}
-      return this.$store.getters.getItemById('PilotGear', this.item.id)
+      return this.$store.getters.getItemById('MechSystems', this.system.id)
     }
   },
   methods: {

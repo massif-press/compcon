@@ -42,8 +42,9 @@
               <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark />
           <v-layout class="mt-0"><span class="config-header mt-0">Licenses Required</span></v-layout>
           <v-layout>
-            <v-flex>TODO</v-flex>
+          <v-alert type="warning" :value="stats.used_sp > stats.sp" outline><b>WARNING</b><br>Configuration loadout exceeds system capacity (<b>{{stats.used_sp}}</b>/{{stats.sp}} SP)</v-alert>
           </v-layout>
+
         </v-flex>
         
         <v-flex xs6>
@@ -140,7 +141,7 @@
         <v-layout><span class="config-header">Mech Equipment</span></v-layout>
         <v-layout>
           <v-flex>
-            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :max_sp="stats.sp" />
+            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" />
           </v-flex>
         </v-layout>        
 
@@ -205,7 +206,8 @@
       activeLoadoutIdx: 0,
       frameInfoModal: false,
       manufacturerModal: false,
-      deleteDialog: false
+      deleteDialog: false,
+      loadoutForceReloadTrigger: 0
     }),
     methods: {
       item: function (itemType, id) {
@@ -227,6 +229,8 @@
         return `configs[${idx}]`
       },
       stats: function () {
+        if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating config stats...')
+        else console.info('Loadout changed: recalculating config stats...')
         return this.$store.getters.getMechStats(this.config.id, this.config.loadouts[this.activeLoadoutIdx])
       },
       frame: function () {

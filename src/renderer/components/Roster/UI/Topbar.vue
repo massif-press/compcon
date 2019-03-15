@@ -4,7 +4,6 @@
       <v-toolbar-title>COMP/CON {{ versionNumber }}</v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn flat disabled>Gear Catalog</v-btn>
         <v-btn flat disabled>About</v-btn>
         <v-btn flat disabled>Options</v-btn>
         <v-btn flat disabled>Help</v-btn>

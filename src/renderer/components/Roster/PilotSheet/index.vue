@@ -160,7 +160,7 @@
             </v-layout>
             <v-layout>
               <v-flex class="pl-2">
-                <editable-textfield :description="'Appearance'" :attr="'text_appearance'" :initial="pilot.text_appearance" />
+                <editable-textfield :description="'Description'" :attr="'text_appearance'" :initial="pilot.text_appearance" />
               </v-flex>
             </v-layout>
           </v-flex>
