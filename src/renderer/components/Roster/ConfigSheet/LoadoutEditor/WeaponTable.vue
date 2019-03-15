@@ -124,9 +124,6 @@
           i = i.filter(x => !x.sp || x.sp <= totalFreeSp)
         }
 
-        // filter dupe uniques
-        // i = i.filter(x => (x.tags && !x.tags.map(t => t.id).includes('unique')) || (x.tags && x.tags.map(t => t.id).includes('unique') && !this.installed_systems.map(y => y.id).includes(x.id)))
-
         if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
 
         return i

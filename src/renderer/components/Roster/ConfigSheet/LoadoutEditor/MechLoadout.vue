@@ -150,7 +150,11 @@ export default {
       this.deleteNotification = true
     },
     addLoadout () {
-      var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x, weapons: []}))
+      var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x, weapons: [], bonuses: []}))
+      if (mounts.length < 3) {
+        mounts.push({mount_type: 'Flex', weapons: [], bonuses: [], imparm: true})
+      }
+      mounts.push()
       var newIdx = this.loadouts.length
 
       this.$store.dispatch('editConfig', {
@@ -227,6 +231,10 @@ export default {
   computed: {
     loadouts () {
       return this.$store.getters.getConfigLoadouts(this.config_id)
+    },
+    hasImparm: function () {
+      console.log(this.$store.getters.getPilot.core_bonuses.includes('imparm'))
+      return this.$store.getters.getPilot.core_bonuses.includes('imparm')
     }
   },
   watch: {

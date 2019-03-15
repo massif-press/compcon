@@ -23,7 +23,7 @@
               <span class="subheading font-weight-bold">{{itemData.name}}</span> 
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element dark small :range="itemData.range" />
+                <range-element dark small :range="itemData.range" :neurolinked="hasNeurolinked" />
                 &emsp;&mdash;&emsp;
                 <damage-element dark small size="16" :dmg="itemData.damage" />
               </span>
@@ -53,6 +53,9 @@ export default {
     itemData () {
       if (!this.item) return {}
       return this.$store.getters.getItemById('MechWeapons', this.item.id)
+    },
+    hasNeurolinked: function () {
+      return this.$store.getters.getPilot.core_bonuses.includes('neurolinked')
     }
   },
   methods: {

@@ -27,7 +27,9 @@ const actions = {
     context.dispatch('splicePilotConfig', payload, { root: true })
   },
   cloneConfig (context, payload) {
-    context.commit('CLONE_CONFIG', payload)
+    payload.id = io.newID()
+    payload.name += ' (Copy)'
+    context.dispatch('addConfigToPilot', payload, { root: true })
   },
   addConfig (context, payload) {
     var newConfig = {
@@ -44,7 +46,12 @@ const actions = {
     context.commit('ADD_CONFIG', payload)
   },
   deleteConfig (context, payload) {
-    context.commit('DELETE_CONFIG', payload)
+    var cIndex = context.getters.getConfigIndex(payload)
+    context.dispatch('addConfigToPilot', {
+      attr: 'configs',
+      start_index: cIndex,
+      delete_count: 1
+    }, { root: true })
   }
 }
 

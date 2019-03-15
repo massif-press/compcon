@@ -4,6 +4,7 @@
     "name": "Auto-Stabilizing Hardpoints",
     "source": "GMS",
     "effect": "Choose 1 mount on your mech. Attacks made with weapons from this mount can be made with +1 Accuracy.",
+    "mounted_effect": "Attacks made with weapons from this mount can be made with +1 Accuracy.",
     "description": ""
   },
   {
@@ -11,6 +12,7 @@
     "name": "BURNOUT Insulation",
     "source": "GMS",
     "effect": "Choose 1 weapon on your mech. It deals +1d6 bonus damage on hit.",
+    "mounted_effect": "One weapon equipped to this mount deals +1d6 bonus damage on hit.",
     "description": ""
   },
   {
@@ -25,6 +27,7 @@
     "name": "Integrated Weapon",
     "source": "GMS",
     "effect": "Choose 1 mount on your mech. It gains capacity for an additional auxiliary weapon.",
+    "mounted_effect": "This mount gains capacity for an additional auxiliary weapon.",
     "description": ""
   },
   {
@@ -32,6 +35,7 @@
     "name": "Mount Retrofitting",
     "source": "GMS",
     "effect": "Replace one of your mech’s mounts with a Main/Aux Mount.",
+    "mounted_effect": "This mount has been replaced with a Main/Aux.",
     "description": ""
   },
   {

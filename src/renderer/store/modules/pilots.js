@@ -98,6 +98,25 @@ const actions = {
     context.commit('SET_PILOT', pilotId)
   },
   editPilot (context, payload) {
+    // remove mount-based core bonuses on cb change
+    // also: fuckin' gross
+    if (payload.attr === 'core_bonuses') {
+      var missingCb = ['hardpoints', 'burnout', 'intweapon', 'retrofit'].filter(x => !payload.val.includes(x))
+      var pilotIndex = context.state.Pilots.findIndex(x => x.id === context.state.activePilotID)
+      for (var i = 0; i < context.state.Pilots[pilotIndex].configs.length; i++) {
+        for (var j = 0; j < context.state.Pilots[pilotIndex].configs[i].loadouts.length; j++) {
+          for (var k = 0; k < context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts.length; k++) {
+            var m = context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts[k]
+            if (m.bonuses && _.intersection(missingCb, m.bonuses)) {
+              context.commit('UPDATE_PILOT', {
+                attr: ['configs', i, 'loadouts', j, 'mounts', k, 'bonuses'],
+                val: []
+              })
+            }
+          }
+        }
+      }
+    }
     context.commit('UPDATE_PILOT', payload)
   },
   splicePilot (context, payload) {
