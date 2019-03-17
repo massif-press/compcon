@@ -60,7 +60,6 @@ const getters = {
     return getters.getPilot.configs.find(c => c.id === configId).loadouts || {}
   },
   getConfig: (state, getters, rootState) => {
-    console.log(getters.getPilot)
     return getters.getPilot.configs.find(c => c.id === state.activeConfigID) || {}
   },
   getConfigIndex: (state, getters, rootState) => (id) => {

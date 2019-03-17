@@ -54,6 +54,9 @@
             <v-card-text>
               <p v-if="props.item.description" v-html="props.item.description" class="description-text" />
               <p v-if="props.item.effect" v-html="props.item.effect" class="pl-2"/>
+              <v-layout class="mt-2">
+                <tag v-for="(tag, index) in props.item.tags" :key="tag.id + index" :id="tag.id" :val="tag.val"/>
+              </v-layout>
             </v-card-text>
           </v-card>
         </template>
@@ -69,8 +72,11 @@
 </template>
 
 <script>
+  import Tag from '../../UI/Tag'
+
   export default {
     name: 'mod-table',
+    components: { Tag },
     props: {
       current_equip: Object,
       free_sp: Number,

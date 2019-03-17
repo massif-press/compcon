@@ -123,7 +123,6 @@
         return diff
       },
       differences: function (field) {
-        console.log('diff')
         return _.difference(this.changes[field], this.pilot[field])
       },
       item: function (type, id) {
