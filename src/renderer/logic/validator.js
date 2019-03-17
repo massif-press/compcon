@@ -20,7 +20,6 @@ export default {
       err = 'Clipboard contents are not valid Pilot data'
     } else {
       var p = JSON.parse(data)
-      console.log(p)
       if (this.pilot(p)) {
         result = p
       } else {
@@ -40,7 +39,6 @@ export default {
       err = 'Clipboard contents are not valid Config data'
     } else {
       var p = JSON.parse(data)
-      console.log(p)
       if (this.config(p)) {
         result = p
       } else {

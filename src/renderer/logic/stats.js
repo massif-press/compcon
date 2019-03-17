@@ -12,6 +12,25 @@ var systems = io.loadData('systems')
 var weapons = io.loadData('weapons')
 var mods = io.loadData('mods')
 
+function addLicenseRequirement (item, reqArray) {
+  if (item.source === 'GMS') {
+    var gmsIdx = reqArray.findIndex(x => x.name === 'GMS')
+    if (gmsIdx > -1) {
+      reqArray[gmsIdx].items.push(item.name)
+    } else {
+      reqArray.push({ name: 'GMS', rank: 0, items: [item.name] })
+    }
+  } else {
+    var licenseIndex = reqArray.findIndex(x => x.name === `${item.source} ${item.license}` && x.rank === item.license_level)
+    if (licenseIndex > -1) {
+      reqArray[licenseIndex].items.push(item.name)
+    } else {
+      reqArray.push({ name: `${item.source} ${item.license}`, rank: item.license_level, items: [item.name] })
+    }
+  }
+  return reqArray
+}
+
 export default {
   /**
    * export default doc examples
@@ -47,24 +66,46 @@ export default {
       ram: rules.base_ram,
       save_bonus: grit,
       integrated_mounts: [],
-      integrated_systems: []
+      integrated_systems: [],
+      required_licenses: []
     }
+
+    // add frame to required licenses
+    output.required_licenses.push(frame.name === 'EVEREST'
+      ? {name: 'GMS', rank: 0, items: ['EVEREST Frame']}
+      : {name: `${frame.source} ${frame.name}`, rank: 2, items: [`${frame.name.toUpperCase()} Frame`]}
+    )
 
     if (loadout) {
       for (let i = 0; i < loadout.systems.length; i++) {
-        output.used_sp += systems.find(x => x.id === loadout.systems[i].id).sp || 0
+        var sys = systems.find(x => x.id === loadout.systems[i].id)
+        output.used_sp += sys.sp || 0
+        output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
       }
       for (let i = 0; i < loadout.mounts.length; i++) {
         for (let j = 0; j < loadout.mounts[i].weapons.length; j++) {
           var w = weapons.find(x => x.id === loadout.mounts[i].weapons[j].id)
           output.used_sp += w && w.sp ? w.sp : 0
+          if (w) output.required_licenses = addLicenseRequirement(w, output.required_licenses)
           if (loadout.mounts[i].weapons[j].mod) {
             var m = mods.find(x => x.id === loadout.mounts[i].weapons[j].mod)
             output.used_sp += m.sp
+            output.required_licenses = addLicenseRequirement(m, output.required_licenses)
           }
         }
       }
     }
+
+    // mark licenses missing on pilot
+    for (var i = 0; i < output.required_licenses.length; i++) {
+      if (output.required_licenses[i].name === 'GMS') continue
+      output.required_licenses[i].missing = !pilot.licenses.find(x => `${x.source} ${x.name}` === output.required_licenses[i].name && x.level < output.required_licenses[i].rank)
+    }
+    output.required_licenses.sort(
+      function (a, b) {
+        return (a.rank < b.rank) ? -1 : (a.rank > b.rank) ? 1 : 0
+      }
+    )
 
     // system personalizations adds +2 hp
     if (loadout && loadout.systems && loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2

@@ -42,7 +42,23 @@
               <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark />
           <v-layout class="mt-0"><span class="config-header mt-0">Licenses Required</span></v-layout>
           <v-layout>
-          <v-alert type="warning" :value="stats.used_sp > stats.sp" outline><b>WARNING</b><br>Configuration loadout exceeds system capacity (<b>{{stats.used_sp}}</b>/{{stats.sp}} SP)</v-alert>
+            <v-flex>
+              <v-tooltip top v-for="(l, index) in stats.required_licenses" :key="'req_' + index">
+                <v-chip slot="activator" :color="l.missing ? 'deep-orange darken-4' : 'grey darken-1'" class="white--text" >
+                  <v-avatar v-if="l.rank" :class="`${l.missing ? 'amber darken-3' : 'blue-grey darken-2'} font-weight-black title`"><span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">I</span></v-avatar >
+                  {{l.name}}</v-chip>
+                <span><span v-if="l.missing" class="font-weight-bold yellow--text">WARNING: MISSING LICENSE<br></span><b>{{l.name}} RANK {{l.rank}}</b><br><i>Required for:&nbsp;</i> {{l.items.join(', ')}}</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex class="mr-3 ml-3 mt-1 mb-0">
+          <v-alert type="warning" :value="stats.required_licenses.filter(x => x.missing).length" outline><b>WARNING: UNLICENSED COMPONENTS</b><br>Pilot is missing one or more licenses required for this configuration</v-alert>
+            </v-flex>
+          </v-layout><v-layout>
+            <v-flex class="mr-3 ml-3 mt-0">
+          <v-alert type="warning" :value="stats.used_sp > stats.sp" outline><b>WARNING: SYSTEM CAPACITY EXCEEDED</b><br>Configuration loadout exceeds available SP points (<b>{{stats.used_sp}} SP used</b>, {{stats.sp}} SP available)</v-alert>
+            </v-flex>
           </v-layout>
 
         </v-flex>

@@ -198,7 +198,6 @@ export default {
     },
     removeShLocks () {
       for (var i = 0; i < this.loadout.mounts.length; i++) {
-        console.log(this.loadout.mounts[i].sh_lock)
         if (this.loadout.mounts[i].sh_lock) {
           this.$store.dispatch('editConfig', {
             id: this.config_id,

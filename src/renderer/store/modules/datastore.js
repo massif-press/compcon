@@ -29,8 +29,6 @@ const mutations = {
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
     state.Licenses = collectLicenses(state)
-
-    console.log(state)
   }
 }
 
@@ -58,7 +56,6 @@ function collectLicenses (state) {
     .filter(x => x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
     .forEach((item) => {
       var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
-      if (idx === -1) console.log(item.id, item.license)
       licenses[idx].unlocks[item.license_level - 1].push(item)
     })
   return licenses

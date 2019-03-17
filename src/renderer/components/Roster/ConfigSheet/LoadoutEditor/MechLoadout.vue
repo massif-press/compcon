@@ -233,7 +233,6 @@ export default {
       return this.$store.getters.getConfigLoadouts(this.config_id)
     },
     hasImparm: function () {
-      console.log(this.$store.getters.getPilot.core_bonuses.includes('imparm'))
       return this.$store.getters.getPilot.core_bonuses.includes('imparm')
     }
   },

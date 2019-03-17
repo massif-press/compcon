@@ -1,12 +1,3 @@
-Beta:
-  ☐ Tags in item tables
-  Mech Sheet:
-    ☐ Licenses Required
-
-Other:
-  ☐ Official pilot art images
-  ☐ Better item card formatting
-
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
@@ -28,6 +19,7 @@ Refactor:
   ☐ Move all calculation, checking, filtering out of template
 
 Version 1:
+  ☐ Better item card formatting
   Gear Catalog:
     ☐ Licenses
     ☐ Items
@@ -102,6 +94,11 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Pilot portrait defaults @done(19-03-17 11:51) @project(Beta)
+  ✔ Pilot avatar defaults @done(19-03-17 11:51) @project(Beta)
+  ✔ COMP/CON icon @done(19-03-17 12:31) @project(Beta)
+  ✔ Tags in item tables @done(19-03-17 11:16) @project(Beta)
+  ✔ Licenses Required @done(19-03-17 11:14) @project(Beta.Mech Sheet)
   ✔ Mech Loadout Manager @done(19-03-16 23:05) @project(Beta.Mech Sheet)
   ✔ Filter duplicate unique weapons @done(19-03-16 13:54) @project(Beta.Mech Sheet)
   ✔ Mod Selector @done(19-03-16 23:05) @project(Beta.Mech Sheet.Mods)

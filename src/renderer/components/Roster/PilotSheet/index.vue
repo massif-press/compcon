@@ -455,7 +455,6 @@
     }),
     methods: {
       refresh: function () {
-        console.log('refreshing')
         this.$forceUpdate()
       },
       setField: function (attr, val, close) {

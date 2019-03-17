@@ -39,7 +39,6 @@
       allAppliedCbs: function () {
         var applied = []
         for (var i = 0; i < this.loadout.mounts.length; i++) {
-          console.log(this.loadout.mounts[i].bonuses)
           if (this.loadout.mounts[i].bonuses) applied = applied.concat(this.loadout.mounts[i].bonuses)
         }
         return applied
