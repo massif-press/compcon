@@ -43,7 +43,7 @@ const actions = {
   },
   importConfig (context, payload) {
     payload.id = io.newID()
-    context.commit('ADD_CONFIG', payload)
+    context.dispatch('addConfigToPilot', payload, { root: true })
   },
   deleteConfig (context, payload) {
     var cIndex = context.getters.getConfigIndex(payload)

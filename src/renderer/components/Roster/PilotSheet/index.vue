@@ -12,7 +12,7 @@
               </v-flex>
               <v-flex>
                <editable-label attr="name" description="Name" :placeholder="pilot.name">
-                  <span slot="label">{{pilot.name}}</span>
+                  <span slot="label" class="blockquote ml-1 pl-1">{{pilot.name}}</span>
                 </editable-label>           
               </v-flex>
             </v-layout>
@@ -132,7 +132,7 @@
             <v-layout>
               <v-flex class="pl-2"  @click="appearanceModal = true; appearanceLoader = true">
                 <div v-if="pilot.portrait">
-                  <v-img :src="require(`@/assets/img/portraits/${pilot.portrait}`)" />
+                  <v-img :src="require(`@/assets/img/portraits/${pilot.portrait}`)" max-height="55vh" max-width="45.1vw" contain/>
                 </div>
                 <div v-else>
                   <v-btn block small flat color="primary lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>

@@ -1,15 +1,10 @@
 Beta:
+  ☐ Tags in item tables
   Mech Sheet:
     ☐ Licenses Required
-    ☐ Mech Loadout Manager
-      ☐ Filter duplicate unique weapons
-      Mods:
-        ☐ Mod Selector
-    ☐ Import
 
 Other:
-  ☐ Reduce size of firstname/lastname txts
-  ☐ Official art images
+  ☐ Official pilot art images
   ☐ Better item card formatting
 
 Refactor:
@@ -107,6 +102,13 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Mech Loadout Manager @done(19-03-16 23:05) @project(Beta.Mech Sheet)
+  ✔ Filter duplicate unique weapons @done(19-03-16 13:54) @project(Beta.Mech Sheet)
+  ✔ Mod Selector @done(19-03-16 23:05) @project(Beta.Mech Sheet.Mods)
+  ✔ Loadout update on change @done(19-03-16 23:05) @project(Beta.Mech Sheet.Mods)
+  ✔ Loadout respects used SP @done(19-03-16 22:54) @project(Beta.Mech Sheet.Mods)
+  ✔ Import @done(19-03-16 14:41) @project(Beta.Mech Sheet)
+  ✔ Official frame art images @done(19-03-16 13:28) @project(Other)
   ✔ Clone @done(19-03-15 15:50) @project(Beta.Mech Sheet)
   ✔ Delete @done(19-03-15 15:46) @project(Beta.Mech Sheet)
   ✔ Limit AI @done(19-03-15 15:07) @project(Beta.Mech Sheet.Systems)

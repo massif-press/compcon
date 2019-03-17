@@ -47,8 +47,8 @@
 
         </v-flex>
         
-        <v-flex xs6>
-            <v-img :src="require(`@/assets/img/frames/${config.frame_id}.png`)" class="ma-2" />
+        <v-flex xs6 style="background-color: #757575" class="ma-2">
+            <v-img :src="require(`@/assets/img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
           </v-flex>
       </v-layout>
 
@@ -161,7 +161,7 @@
             <v-dialog v-model="exportDialog" width="500" >
                 <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
                 <v-card>
-                  <v-card-title class="title">Export Configuration &mdash; {{pilot.callsign}}</v-card-title>
+                  <v-card-title class="title">Export Configuration &mdash; {{config.name}}</v-card-title>
                   <v-card-text>
                     <v-btn large block flat color="primary" @click="exportConfig">Save to File</v-btn>
                     <br>
@@ -169,7 +169,7 @@
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
-                    <v-btn color="primary"  flat @click="exportDialog = false" > Cancel </v-btn>
+                    <v-btn color="primary" flat @click="exportDialog = false" > Cancel </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -262,12 +262,11 @@
         io.saveFile(path + '.json', JSON.stringify(this.config), function (err) {
           if (err) {
             alert(`Error: COMP/CON could not save a file to ${path}`)
-          } else {
-            this.exportDialog = false
-            this.notification = 'Configuration Exported Successfully'
-            this.snackbar = true
           }
         })
+        this.exportDialog = false
+        this.notification = 'Configuration Exported Successfully'
+        this.snackbar = true
       },
       copyConfig: function () {
         const {clipboard} = require('electron')

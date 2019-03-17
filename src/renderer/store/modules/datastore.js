@@ -9,7 +9,6 @@ const state = {
   Manufacturers: [],
   MechWeapons: [],
   WeaponMods: [],
-  WeaponAmmo: [],
   MechSystems: [],
   PilotGear: [],
   Tags: [],
@@ -25,9 +24,7 @@ const mutations = {
     state.Frames = io.loadData('frames')
     state.Manufacturers = io.loadData('manufacturers')
     state.MechWeapons = io.loadData('weapons')
-    var allMods = io.loadData('mods')
-    state.WeaponMods = allMods.filter(x => x.ModType === 'Modification')
-    state.WeaponAmmo = allMods.filter(x => x.ModType === 'Ammunition')
+    state.WeaponMods = io.loadData('mods')
     state.MechSystems = io.loadData('systems')
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')

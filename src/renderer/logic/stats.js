@@ -10,6 +10,7 @@ var frames = io.loadData('frames')
 var armor = io.loadData('pilot_gear').filter(x => x.type === 'armor')
 var systems = io.loadData('systems')
 var weapons = io.loadData('weapons')
+var mods = io.loadData('mods')
 
 export default {
   /**
@@ -57,6 +58,10 @@ export default {
         for (let j = 0; j < loadout.mounts[i].weapons.length; j++) {
           var w = weapons.find(x => x.id === loadout.mounts[i].weapons[j].id)
           output.used_sp += w && w.sp ? w.sp : 0
+          if (loadout.mounts[i].weapons[j].mod) {
+            var m = mods.find(x => x.id === loadout.mounts[i].weapons[j].mod)
+            output.used_sp += m.sp
+          }
         }
       }
     }

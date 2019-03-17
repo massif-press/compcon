@@ -28,5 +28,25 @@ export default {
       }
     }
     callback(err, result)
+  },
+  config (data) {
+    // see above
+    return data.frame_id
+  },
+  clipboardConfig (data, callback) {
+    var err = null
+    var result = null
+    if (!isValidJSON(data)) {
+      err = 'Clipboard contents are not valid Config data'
+    } else {
+      var p = JSON.parse(data)
+      console.log(p)
+      if (this.config(p)) {
+        result = p
+      } else {
+        err = 'Invalid config data'
+      }
+    }
+    callback(err, result)
   }
 }
