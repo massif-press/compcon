@@ -152,7 +152,7 @@ const actions = {
     context.commit('ADD_PILOT', newPilot)
   },
   addConfigToPilot (context, payload) {
-    context.state.activePilotID = payload.pilot_id
+    payload.pilot_id = context.state.activePilotID
     context.commit('UPDATE_PILOT', {
       attr: `configs[${context.state.Pilots.find(p => p.id === context.state.activePilotID).configs.length}]`,
       val: payload

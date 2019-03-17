@@ -6,11 +6,31 @@
 
   <v-stepper v-model="nc_step" vertical>
     <v-stepper-step :complete="nc_step > 1" step="1">
+      Editor Mode
+    <small v-if="nc_step > 1">Create New</small>
+    </v-stepper-step>
+    <v-stepper-content step="1">
+      <v-card flat>
+        <v-card-text>
+          <div class="ml-5 mr-5">
+            <v-btn large color="primary" block @click="nc_step = 2">Create New</v-btn>
+
+            <v-divider class="ma-4"/>
+
+            <v-btn flat color="primary" block @click="importFile">Import from File</v-btn>
+
+            <v-btn flat color="primary" block @click="importClipboard">Import from Clipboard</v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-stepper-content>
+
+
+    <v-stepper-step :complete="nc_step > 2" step="2">
       Frame Selection
       <small>Unauthorized Frames <em :class="`font-weight-bold ${showLocked ? 'red--text' : ''}`">{{showLocked ? 'SHOWN' : 'HIDDEN'}}</em></small>
     </v-stepper-step>
-
-    <v-stepper-content step="1">
+    <v-stepper-content step="2">
       <v-toolbar color="primary" nudge-left="200px">
         <v-tooltip top>
           <div class="pt-3" slot="activator">
@@ -55,12 +75,15 @@
               <frame-statblock :frame="props.item" hide-statblock />
           </template>
         </v-data-table>
+        <v-card-actions>
+          <v-btn color="primary" flat @click="nc_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
+        </v-card-actions>
       </v-card>
     </v-stepper-content>
 
-    <v-stepper-step step="2">Designation</v-stepper-step>
+    <v-stepper-step step="3">Designation</v-stepper-step>
 
-    <v-stepper-content step="2">
+    <v-stepper-content step="3">
       <v-card flat>
         <v-text-field v-model="newConfigName" clearable>
         <v-tooltip top slot="prepend-inner">
@@ -94,6 +117,7 @@
 <script>
   import io from '@/store/data_io'
   import { FrameStatblock } from '../UI'
+  import validator from '@/logic/validator'
 
   export default {
     name: 'new-config',
@@ -157,6 +181,39 @@
           pilot_id: this.pilot.id,
           name: this.newConfigName,
           frame_id: this.newFrameId
+        })
+        this.$emit('close')
+      },
+      importFile () {
+        const { dialog } = require('electron').remote
+        var path = dialog.showOpenDialog({
+          title: 'Load Configuration Data',
+          buttonLabel: 'Load',
+          properties: [
+            'openFile'
+          ],
+          filters: [
+            { name: 'Configuration Data', extensions: ['json'] }
+          ]
+        })
+        var data = io.importFile(path[0])
+        if (validator.config(data)) {
+          this.$store.dispatch('importConfig', data)
+          this.addDialog = false
+        } else {
+          alert('Config data validation failed')
+          this.$emit('close')
+        }
+      },
+      importClipboard () {
+        var vm = this
+        const {clipboard} = require('electron')
+        validator.clipboardConfig(clipboard.readText(), function (err, result) {
+          if (err) {
+            alert(err)
+          } else {
+            vm.$store.dispatch('importConfig', result)
+          }
         })
         this.$emit('close')
       }

@@ -28,29 +28,3 @@ search for:
 [^\x00-\x7F]
 
 >//[WARNING: Pilot lacks print authorization for one or more licensed technologies]
-
-
-
-
-Hello, everyone!
-Sorry I dipped out for a minute. Too much stuff on my plate to get everything done and still hang around the discord. 
-But work on my little app has continued apace, and I'm happy to announce I have something that can actually be useful.
-After 1.8 dropped I decided to rewrite the entire thing in a modern framework (vue.js). I had most of the heavy lifing and hard thinking out of the way already so it only took a fraction of the time to get back to where I was. The upshot of all this is that it's much, much easier to write for, debug, invite collaborators to work on, and if/when the time comes, port to a mobile app or hosted site (more on that later). For now, it's feature complete *EXCEPT FOR* pilot/mech sheet printing and user-uploaded pilot and mech images. Once those are hammered out it'll have everything I wanted to include in 1.0. Beyond that, you can find the roadmap at 
-https://github.com/jarena3/compcon/wiki/Roadmap.
-
-The app is on itch.io now and can be downloaded here: XXXXXXXXXXXX
-This is a private link for now.
-
-I'd like to ask, if you decide to use the tool, to please keep an eye out for bugs. I've produced an automated reporting form here: 
-https://goo.gl/forms/PCHR8AJWOBLdMgE32 
-which will automatically throw tickets into github, which I can then track (and you can see the progress). If there's a feature you think might be good to add (or you would like me to readress an already-existing feature) I've got a seperate form for that here: 
-https://goo.gl/forms/uBTHEwWpwO6NtSbh1
-
-Once I've got the print functionality complete, I'll release the ~official beta~ and start cleaning things up in preparation for mod and GM tools. My goal is to get to the roadmap's v.1.0 stage prior to the Kickstarter launch.
-
-Thanks in advance!
-yr pal beef
-
-* I am currently looking at hosting this online somewhere. There's going to be some tricky stuff with userland data (namely: pilots, configs, images and, later, mods and campaigns). It's high on my priority list but I'm still doing research. If you're familliar with nodejs based SPAs and small-scale user data wrangling, let me know.
-
-Also one thing you'll notice is that the styling has been dropped completely and replaced with vuetify's material design defaults. This, I felt, at least produced a working, nice-looking (if a little ~web 2.0~) app that the community can use while I think about changing it up, some time down the line.

@@ -4,8 +4,9 @@
     "name": "Nanocomposites",
     "sp": 2,
     "applied_to": [
-      "ranged", "melee"
+      "rifle", "cannon", "launcher", "cqb", "nexus", "melee"
     ],
+    "applied_string": "Any",
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 2,
@@ -18,8 +19,9 @@
     "name": "Paracausal Mod",
     "sp": 4,
     "applied_to": [
-      "weapon"
+      "rifle", "cannon", "launcher", "cqb", "nexus", "melee"
     ],
+    "applied_string": "Any",
     "source": "HA",
     "license": "SALADIN",
     "license_level": 2,
@@ -32,8 +34,9 @@
     "name": "Phasing Mod",
     "sp": 2,
     "applied_to": [
-      "ranged"
+      "rifle", "cannon", "launcher", "cqb", "nexus"
     ],
+    "applied_string": "Any Ranged",
     "source": "HA",
     "license": "NAPOLEON",
     "license_level": 1,
@@ -50,6 +53,7 @@
       "cannon",
       "rifle"
     ],
+    "applied_string": "CQB, Cannon, or Rifle",
     "source": "IPS-N",
     "license": "TORTUGA",
     "license_level": 2,
@@ -64,6 +68,7 @@
     "applied_to": [
       "melee"
     ],
+    "applied_string": "Melee",
     "source": "SSC",
     "license": "METALMARK",
     "license_level": 1,
@@ -79,6 +84,7 @@
       "launcher",
       "cannon"
     ],
+    "applied_string": "Launcher or Cannon",
     "source": "SSC",
     "license": "MONARCH",
     "license_level": 2,
@@ -95,6 +101,7 @@
     "applied_to": [
       "melee"
     ],
+    "applied_string": "Melee",
     "source": "IPS-N",
     "license": "NELSON",
     "license_level": 2,

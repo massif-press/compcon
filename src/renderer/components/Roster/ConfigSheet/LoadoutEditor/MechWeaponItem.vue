@@ -20,14 +20,28 @@
           <v-expansion-panel class="m-0">
               <v-expansion-panel-content>
             <v-layout slot="header"> 
-              <span class="subheading font-weight-bold">{{itemData.name}}</span> 
+              <span class="subheading font-weight-bold">{{itemData.name}}
+                <span class="subheading font-weight-bold" v-if="item.mod">
+                  <span class="grey--text font-weight-regular">//</span> 
+                  <span class="blue-grey--text text--lighten-3">{{modData.name}}</span> 
+                  <span class="caption">({{modData.sp}} SP)</span>
+                </span>
+              </span> 
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
                 <range-element dark small :range="itemData.range" :neurolinked="hasNeurolinked" />
                 &emsp;&mdash;&emsp;
                 <damage-element dark small size="16" :dmg="itemData.damage" />
+                <v-spacer class="mr-3"/>
+                <v-tooltip top>
+                  <div slot="activator">
+                    <v-btn @click.stop="openMod" flat icon small absolute class="ma-0 pa-0" style="top: 10px"><v-icon small>build</v-icon></v-btn>
+                  </div>
+                  <span>Add/Change Weapon Mods</span>
+                </v-tooltip>
               </span>
             </v-layout>
+                <mod-card v-if="item.mod" :modData="modData"/>
                 <weapon-card :itemData="itemData"/>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -38,12 +52,13 @@
 
 <script>
 import WeaponCard from '../../UI/WeaponCard'
+import ModCard from '../../UI/ModCard'
 import RangeElement from '../../UI/RangeElement'
 import DamageElement from '../../UI/DamageElement'
 
 export default {
   name: 'mech-weapon-item',
-  components: { WeaponCard, RangeElement, DamageElement },
+  components: { WeaponCard, ModCard, RangeElement, DamageElement },
   props: {
     item: Object,
     fittingType: String,
@@ -54,6 +69,10 @@ export default {
       if (!this.item) return {}
       return this.$store.getters.getItemById('MechWeapons', this.item.id)
     },
+    modData () {
+      if (!this.item.mod) return {}
+      return this.$store.getters.getItemById('WeaponMods', this.item.mod)
+    },
     hasNeurolinked: function () {
       return this.$store.getters.getPilot.core_bonuses.includes('neurolinked')
     }
@@ -61,6 +80,9 @@ export default {
   methods: {
     clicked () {
       this.$emit('clicked')
+    },
+    openMod: function () {
+      this.$emit('open-mod')
     }
   }
 }
