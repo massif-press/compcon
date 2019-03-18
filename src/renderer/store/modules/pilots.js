@@ -87,6 +87,14 @@ const mutations = {
     } else {
       throw console.error('Pilot not loaded!')
     }
+  },
+  DELETE_CONFIG (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    if (pilotIndex > -1) {
+      state.Pilots[pilotIndex].configs.splice(payload, 1)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
   }
 }
 
@@ -168,6 +176,9 @@ const actions = {
   },
   deletePilot (context, payload) {
     context.commit('DELETE_PILOT', payload)
+  },
+  deleteConfigFromPilot (context, payload) {
+    context.commit('DELETE_CONFIG', payload)
   }
 }
 
