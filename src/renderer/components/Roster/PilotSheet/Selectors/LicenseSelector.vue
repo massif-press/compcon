@@ -6,13 +6,16 @@
         <v-layout>
           <v-flex style="text-align: center">
           <br>
-          {{pointLimit}}
           <h3>Pilot Licenses</h3>
           <hr>
           </v-flex>
         </v-layout>
         <v-layout>
           <v-flex xs12>
+            {{pLevel}}
+            {{licenseData}}
+            {{licenses}}
+            {{pilotLicenses}}
             <div v-for="license in licenses" :key="`summary_${license.name}`">
                 <v-layout>
                   <v-flex xs12>
@@ -146,7 +149,7 @@
         this.licenses = licenseSort(JSON.parse(JSON.stringify(this.pilotLicenses)))
       }
     },
-    mounted () {
+    created: function () {
       this.pLevel = this.pilotLevel
       this.licenseData = this.$store.getters.getItemCollection('Licenses')
       this.pointLimit = this.pilotLicenses.reduce((a, b) => +a + +b.level, 0) >= this.points.pointsMax

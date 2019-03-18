@@ -31,7 +31,7 @@
       <v-data-table :headers="headers" :items="systems" :expand="true" item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
+            <td style="padding: 0!important;"><v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
             <td><span class="subheading">{{ props.item.name }}
                 <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>

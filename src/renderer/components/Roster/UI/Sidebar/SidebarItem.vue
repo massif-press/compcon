@@ -42,7 +42,7 @@
        
 
           <v-dialog lazy v-model="newConfigModal" fullscreen hide-overlay transition="fade-transition">
-            <v-list-tile @click="newConfigLoader = true" class="ml-2 mr-4 mb-3" slot="activator">
+            <v-list-tile @click="openConfigModal" class="ml-2 mr-4 mb-3" slot="activator">
               <v-list-tile-action  >
                 <v-icon large dark>add</v-icon>
               </v-list-tile-action>
@@ -63,7 +63,7 @@
               </v-toolbar>
               <v-spacer class="ma-5" />
               <div v-if="newConfigLoader">
-                <new-config :pilot="pilot" @close="newConfigModal = false; newConfigLoader = false"/>
+                <new-config :pilot="pilot" @close="goToConfig"/>
               </div>
             </v-card>
         </v-dialog>
@@ -88,11 +88,20 @@
       newConfigLoader: false
     }),
     methods: {
+      openConfigModal () {
+        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.newConfigLoader = true
+      },
+      goToConfig () {
+        this.newConfigModal = false
+        this.newConfigLoader = false
+        this.$emit('set-config', this.pilot.configs[this.pilot.configs.length - 1].id)
+      },
       select () {
         this.$emit('set-active')
       },
       selectConfig (config) {
-        this.$emit('set-config', config)
+        this.$emit('set-config', config.id)
       },
       item: function (type, id) {
         return this.$store.getters.getItemById(type, id)

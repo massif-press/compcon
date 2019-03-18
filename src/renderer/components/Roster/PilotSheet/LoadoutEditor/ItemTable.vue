@@ -11,7 +11,7 @@
           :items="gearItems" :expand="true" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
             <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
-              <td style="padding: 0!important;"><v-btn color="primary" small @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
+              <td style="padding: 0!important;"><v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.name }}</span></td>
               <td class="text-xs-center"><span class="subheading">+{{ props.item.armor }}</span></td>
               <td class="text-xs-center"><span class="subheading">+{{ props.item.hp_bonus || 0 }}</span></td>

@@ -150,6 +150,7 @@ const actions = {
       configs: []
     }
     context.commit('ADD_PILOT', newPilot)
+    context.commit('SET_PILOT', newPilot.id)
   },
   addConfigToPilot (context, payload) {
     payload.pilot_id = context.state.activePilotID
