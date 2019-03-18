@@ -38,6 +38,7 @@
     created: function () {
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
+      this.$store.dispatch('buildLicenses')
     },
     watch: {
       $route (to, from) {
