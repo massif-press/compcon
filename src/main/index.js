@@ -11,6 +11,9 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+// uncomment this to run debugger in prod
+// require('electron-debug')({ showDevTools: true, enabled: true })
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
@@ -25,7 +28,7 @@ function createWindow () {
     minHeight: 720,
     width: 1400,
     minWidth: 1280,
-    titleBarStyle: 'hidden'
+    titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default'
   })
 
   mainWindow.setMenu(null)

@@ -12,10 +12,6 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-            {{pLevel}}
-            {{licenseData}}
-            {{licenses}}
-            {{pilotLicenses}}
             <div v-for="license in licenses" :key="`summary_${license.name}`">
                 <v-layout>
                   <v-flex xs12>

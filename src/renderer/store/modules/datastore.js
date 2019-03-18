@@ -1,5 +1,4 @@
 import io from '../data_io'
-import licenses from '../licenses'
 
 const state = {
   Backgrounds: [],
@@ -29,13 +28,39 @@ const mutations = {
     state.MechSystems = io.loadData('systems')
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
-    state.Licenses = licenses.collect(state)
+  },
+  BUILD_LICENSES (state) {
+    var licenses = []
+    state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
+      console.log(frame.name)
+      licenses.push({
+        source: frame.source.toLowerCase(),
+        license: frame.name.toLowerCase(),
+        unlocks: [
+          [], // level 1
+          [frame], // level 2
+          [] // level 3
+        ]
+      })
+    })
+    state.MechWeapons
+      .concat(state.WeaponMods, state.MechSystems)
+      .filter(x => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
+      .forEach((item) => {
+        console.log(item.name)
+        var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
+        licenses[idx].unlocks[item.license_level - 1].push(item)
+      })
+    state.Licenses = licenses
   }
 }
 
 const actions = {
   loadData (context) {
     context.commit('LOAD_DATA')
+  },
+  buildLicenses (context) {
+    context.commit('BUILD_LICENSES')
   }
 }
 
