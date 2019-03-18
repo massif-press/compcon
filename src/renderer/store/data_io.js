@@ -10,18 +10,24 @@ const webImageTypes = [
   '.bmp'
 ]
 
+function getStaticPath (env) {
+  // eslint-disable-next-line no-process-env
+  const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
+  return staticPath
+}
+
 export default {
   loadData (filename) {
-    var p = path.join(__static, '..', 'src', 'renderer', 'assets', 'data', filename + '.json')
+    var p = path.join(getStaticPath(process.env.NODE_ENV), 'data', filename + '.json')
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p))
     } else {
-      console.warn(`file ${filename} does not exist at ${p}.`)
+      console.error(`file ${filename} does not exist at ${p}.`)
       return []
     }
   },
   getImages (subdir) {
-    var p = path.join(__static, '..', 'src', 'renderer', 'assets', 'img', subdir)
+    var p = path.join(getStaticPath(), 'img', subdir)
     if (fs.existsSync(p)) {
       return fs.readdirSync(p).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
     } else {
@@ -32,7 +38,7 @@ export default {
     return Math.random().toString(36).substr(2, 12)
   },
   randomName (filename) {
-    var p = path.join(__static, '..', 'src', 'renderer', 'assets', 'generators', filename)
+    var p = path.join(getStaticPath(process.env.NODE_ENV), 'generators', filename)
     var array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },

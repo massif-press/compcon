@@ -1,6 +1,6 @@
 # COMP/CON
 
-## [Comp/Con is now available at itch.io](itch_link)
+## [Comp/Con is now available at itch.io](https://beeftime.itch.io/compcon)
 
 ## Build Setup
 
@@ -28,7 +28,7 @@ npm run lint
   More information about LANCER can be found at [The official LANCER Twitter](https://twitter.com/lancer_rpg), as well as [the LANCER subreddit](https://www.reddit.com/r/LancerRPG/)</a>
 
   This is a piece of open source software under the GNU Public License — feel free to contribute via the [GitHub repository](https://github.com/jarena3/compcon) or yell at me directly on Twitter at [@jarena2](https://www.twitter.com/jarena2)</a>.
-  COMP/CON is now and will always be free, but if you want to support development of this software monetarily, please consider [paying (what you want) for it](itch_link)</a>.
+  COMP/CON is now and will always be free, but if you want to support development of this software monetarily, please consider [paying (what you want) for it](https://beeftime.itch.io/compcon)</a>.
 
 ### [Project Roadmap](https://github.com/jarena3/compcon/wiki/Roadmap)
 

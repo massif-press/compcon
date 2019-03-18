@@ -49,7 +49,7 @@
               <v-flex xs4>
                 <v-layout justify-center align-center column>
                 <v-flex>
-                  <v-img class="center" aspect-ratio="0.8" width="350" :src="newPilot.portrait ? require(`@/assets/img/portraits/${newPilot.portrait}`) : '' " style="background-color: lightgrey" >
+                  <v-img class="center" contain aspect-ratio="0.8" width="350" :src="newPilot.portrait ? getStaticPath(`img/portraits/${newPilot.portrait}`) : '' " style="background-color: lightgrey" >
                   <v-fade-transition>
                     <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
                       <span class="text-xs-center display-1 grey--text">No Pilot Portrait</span>
@@ -58,7 +58,7 @@
                   </v-img>
 
                   <div style="position:absolute; right:6vw; bottom:9vw; border:1px solid darkgrey">
-                    <v-img class="center" aspect-ratio="1" width="120" :src="newPilot.avatar ? require(`@/assets/img/avatars/${newPilot.avatar}`) : '' " style="background-color: lightgrey">
+                    <v-img class="center" contain aspect-ratio="1" width="120" :src="newPilot.avatar ? getStaticPath(`/img/avatars/${newPilot.avatar}`) : '' " style="background-color: lightgrey">
                     <v-fade-transition>
                       <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
                         <span class="text-xs-center grey--text">No Pilot Avatar</span>
@@ -316,6 +316,9 @@
       randomName: function () {
         this.newPilot.name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
         this.$forceUpdate()
+      },
+      getStaticPath: function (path) {
+        return `static/${path}`
       }
     },
     computed: {

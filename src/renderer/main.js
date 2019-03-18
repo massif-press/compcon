@@ -9,6 +9,10 @@ import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 
+if (process.env.NODE_ENV !== 'development') {
+  window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+}
+
 Vue.use(Vuetify)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
