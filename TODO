@@ -1,5 +1,12 @@
+Bugs:
+  ✔ Deleted configs persist, blank configs added @done(19-03-18 15:30)
+  ☐ License reset does not work
+
+Feature Requests:
+  ☐ Add tooltip for respeccing only on level note
+
 Blockers:
-  ☐ State not correctly loading Licenses
+  ✔ State not correctly loading Licenses @done(19-03-18 15:21)
 
 Refactor:
   ☐ move static assets out of computed @critical
