@@ -5,7 +5,7 @@
       <v-list-tile id="pilot-tile" slot="activator" @click="isMini? '' : select(pilot.id)" avatar>
         <v-list-tile-avatar>
           <v-avatar size=40>
-            <v-img v-if="pilot.avatar" :src="require(`@/assets/img/avatars/${pilot.avatar}`)" />
+            <v-img v-if="pilot.avatar" :src="getStaticPath(`img/avatars/${pilot.avatar}`)" />
             <b v-else class="white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</b>
           </v-avatar>
         </v-list-tile-avatar>
@@ -99,6 +99,9 @@
       },
       frameName: function (id) {
         return this.item('Frames', id).name
+      },
+      getStaticPath: function (path) {
+        return `static/${path}`
       }
     }
   }

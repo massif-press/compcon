@@ -64,7 +64,7 @@
         </v-flex>
         
         <v-flex xs6 style="background-color: #757575" class="ma-2">
-            <v-img :src="require(`@/assets/img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            <v-img :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
           </v-flex>
       </v-layout>
 
@@ -290,6 +290,9 @@
         this.exportDialog = false
         this.notification = 'Configuration Copied to Clipboard'
         this.snackbar = true
+      },
+      getStaticPath: function (path) {
+        return `static/${path}`
       }
     },
     computed: {

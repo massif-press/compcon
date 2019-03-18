@@ -9,7 +9,7 @@
           <v-layout row justify-space-between wrap fill-height align-center>
             <v-flex v-for="i in portraits" :key="i" xs3> 
               <div :class="`justify-center pa-1 ${i === preselectPortrait ? 'preselected' : 'clickable'}`" @click="assignPortrait(i)">
-                <v-img :src="require(`@/assets/img/portraits/${i}`)" position="top" /> 
+                <v-img :src="getStaticPath(`img/portraits/${i}`)" position="top" /> 
               </div>
             </v-flex>
           </v-layout>
@@ -23,7 +23,7 @@
           <v-layout row justify-space-between wrap fill-height align-center>
             <v-flex v-for="i in avatars" :key="i" xs3> 
               <div :class="`justify-center pa-1 ${i === preselectAvatar ? 'preselected' : 'clickable'}`" @click="assignAvatar(i)">
-                <v-img :src="require(`@/assets/img/avatars/${i}`)" position="top" /> 
+                <v-img :src="getStaticPath(`img/avatars/${i}`)" position="top" /> 
               </div>
             </v-flex>
           </v-layout>
@@ -58,6 +58,9 @@
       assignAvatar: function (src) {
         this.$emit('assign-avatar', src)
         this.tabController = 0
+      },
+      getStaticPath: function (path) {
+        return `static/${path}`
       }
     },
     mounted: function () {
