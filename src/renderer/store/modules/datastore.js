@@ -32,7 +32,6 @@ const mutations = {
   BUILD_LICENSES (state) {
     var licenses = []
     state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
-      console.log(frame.name)
       licenses.push({
         source: frame.source.toLowerCase(),
         license: frame.name.toLowerCase(),
@@ -47,7 +46,6 @@ const mutations = {
       .concat(state.WeaponMods, state.MechSystems)
       .filter(x => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
       .forEach((item) => {
-        console.log(item.name)
         var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
         licenses[idx].unlocks[item.license_level - 1].push(item)
       })
