@@ -47,11 +47,7 @@ const actions = {
   },
   deleteConfig (context, payload) {
     var cIndex = context.getters.getConfigIndex(payload)
-    context.dispatch('addConfigToPilot', {
-      attr: 'configs',
-      start_index: cIndex,
-      delete_count: 1
-    }, { root: true })
+    context.dispatch('deleteConfigFromPilot', cIndex, { root: true })
   }
 }
 
