@@ -1,6 +1,10 @@
+Blockers:
+  ☐ State not correctly loading Licenses
+
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
+  ☐ data loaders from mounted into created @high
   ☐ Vue set instead of direct assign
   ☐ props array to object
   ☐ new pilot selectors and edit pilot selectors should return the same object

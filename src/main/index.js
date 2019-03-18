@@ -28,7 +28,7 @@ function createWindow () {
     titleBarStyle: 'hidden'
   })
 
-  // mainWindow.setMenu(null)
+  mainWindow.setMenu(null)
 
   mainWindow.maximize()
 
