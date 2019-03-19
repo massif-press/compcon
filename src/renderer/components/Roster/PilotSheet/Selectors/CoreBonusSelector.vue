@@ -145,15 +145,16 @@
       for (var i = 0; i < this.pilotLicenses.length; i++) {
         var source = this.pilotLicenses[i].source
         if (licenses[source]) {
-          licenses[source]++
+          licenses[source] += this.pilotLicenses[i].level
         } else {
-          licenses[source] = 1
+          licenses[source] = this.pilotLicenses[i].level
         }
       }
       for (var j = 0; j < this.pilotBonuses.length; j++) {
         licenses[this.$store.getters.getItemById('CoreBonuses', this.pilotBonuses[j]).source] -= 3
       }
       this.licenses = licenses
+      console.log(licenses)
       this.bonusData = allData.filter(x => licenses[x.source] >= 3)
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
     }

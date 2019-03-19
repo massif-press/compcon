@@ -99,7 +99,7 @@ export default {
     // mark licenses missing on pilot
     for (var i = 0; i < output.required_licenses.length; i++) {
       if (output.required_licenses[i].name === 'GMS') continue
-      output.required_licenses[i].missing = !pilot.licenses.find(x => `${x.source} ${x.name}` === output.required_licenses[i].name && x.level < output.required_licenses[i].rank)
+      output.required_licenses[i].missing = !pilot.licenses.find(x => `${x.source} ${x.name}` === output.required_licenses[i].name || x.level < output.required_licenses[i].rank)
     }
     output.required_licenses.sort(
       function (a, b) {
