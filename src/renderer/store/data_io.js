@@ -26,15 +26,19 @@ export default {
       return []
     }
   },
-  getImages (subdir) {
-    var p = path.join(getStaticPath(process.env.NODE_ENV), 'img', subdir)
-    console.log(p)
-    if (fs.existsSync(p)) {
-      console.log(fs.readdirSync(p))
-      return fs.readdirSync(p).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
-    } else {
-      return []
+  getImages (subdir, userDataPath) {
+    var imgs = {}
+    var defaultPath = path.join(getStaticPath(process.env.NODE_ENV), 'img', subdir)
+    if (fs.existsSync(defaultPath)) {
+      imgs.defaults = fs.readdirSync(defaultPath).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
     }
+    if (userDataPath) {
+      var userPath = path.join(userDataPath, 'user_img', subdir)
+      if (fs.existsSync(userPath)) {
+        imgs.user = fs.readdirSync(userPath).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
+      }
+    }
+    return imgs
   },
   newID () {
     return Math.random().toString(36).substr(2, 12)
@@ -60,19 +64,14 @@ export default {
   saveUserData (userDataPath, filePath, data, callback) {
     if (!fs.existsSync(path.join(userDataPath))) {
       console.info(`data folder doesn't exist in userData dir, creating...`)
-      fs.mkdir(userDataPath, function (err) {
-        if (err) {
-          alert(`ERROR: Unable to create save data folder at ${userDataPath}. Ensure you have write access to this folder`)
-        } else {
-          console.info('data folder created successfully')
-        }
-      })
+      fs.mkdirSync(userDataPath)
+      console.info('data folder created successfully')
     }
 
     fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8', callback)
   },
   saveFile (dataPath, data, callback) {
-    fs.writeFile(dataPath, data, 'utf8', callback)
+    fs.writeFileSync(dataPath, data, 'utf8', callback)
   },
   importFile (path, callback) {
     try {
@@ -80,6 +79,24 @@ export default {
       if (data && typeof data === 'object') return data
     } catch (error) {
       alert('Error reading or parsing JSON data at ' + path)
+    }
+  },
+  importImage (userDataPath, subdir, imgPath) {
+    var savePath = path.join(userDataPath, 'user_img', subdir)
+    if (!fs.existsSync(path.join(userDataPath, 'user_img'))) {
+      console.info(`data/user_img folder doesn't exist in userData dir, creating...`)
+      fs.mkdirSync(path.join(userDataPath, 'user_img'))
+    }
+
+    if (!fs.existsSync(savePath)) {
+      console.info(`data/user_img/${subdir} folder doesn't exist in userData dir, creating...`)
+      fs.mkdirSync(path.join(userDataPath, 'user_img', subdir))
+    }
+
+    var data = fs.readFileSync(imgPath)
+    if (data) {
+      fs.writeFileSync(path.join(savePath, path.parse(imgPath).base), data, null)
+      return savePath
     }
   }
 }

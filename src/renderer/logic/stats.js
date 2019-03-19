@@ -1,8 +1,3 @@
-/**
- * desc here
- * @module stats
- */
-
 import io from '../store/data_io'
 
 var rules = io.loadData('rules')
@@ -32,10 +27,6 @@ function addLicenseRequirement (item, reqArray) {
 }
 
 export default {
-  /**
-   * export default doc examples
-   * @alias module:mechStats
-   */
   mechStats (pilot, config, loadout) {
     var frame = frames.find(x => x.id === config.frame_id)
 
