@@ -67,7 +67,7 @@ export default {
       })
     }
 
-    fs.writeFile(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8', callback)
+    fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8', callback)
   },
   saveFile (dataPath, data, callback) {
     fs.writeFile(dataPath, data, 'utf8', callback)

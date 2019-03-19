@@ -155,6 +155,11 @@ export default {
     }
   },
   methods: {
+    refresh: function () {
+      this.$forceUpdate()
+      this.weaponReload = Math.random()
+      this.$emit('refresh')
+    },
     openModSelector: function (index) {
       this.current_equip_mod = null
       var modID = this.mount.weapons[index].mod || null
@@ -176,8 +181,7 @@ export default {
         val: { id: item.id }
       })
       this.weaponSelectorModal = false
-      this.$emit('refresh')
-      this.$forceUpdate()
+      this.refresh()
     },
     stageSuperheavy (item) {
       this.pendingSuperheavy = item.id
@@ -196,9 +200,7 @@ export default {
       })
       this.shLockModal = false
       this.weaponSelectorModal = false
-      this.weaponReload = Math.random()
-      this.$emit('refresh')
-      this.$forceUpdate()
+      this.refresh()
     },
     removeShLocks () {
       for (var i = 0; i < this.loadout.mounts.length; i++) {
@@ -210,20 +212,19 @@ export default {
           })
         }
       }
-      this.weaponReload = Math.random()
     },
     removeWeapon (loadoutIndex) {
-      if (this.mount.mount_type === 'Heavy') {
-        console.log('in sh locks')
-        this.removeShLocks()
-      }
       this.$store.dispatch('spliceConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
         start_index: this.weaponIndex,
         delete_count: 1
       })
+      if (this.mount.mount_type === 'Heavy') {
+        this.removeShLocks()
+      }
       this.weaponSelectorModal = false
+      this.refresh()
     },
     openWeaponSelector (mountType, index) {
       this.size = mountType
@@ -257,8 +258,7 @@ export default {
       })
       this.modModal = false
       this.modLoader = false
-      this.$emit('refresh')
-      this.weaponReload = Math.random()
+      this.refresh()
     },
     removeMod: function () {
       this.$store.dispatch('editConfig', {
@@ -268,8 +268,7 @@ export default {
       })
       this.modModal = false
       this.modLoader = false
-      this.$emit('refresh')
-      this.weaponReload = Math.random()
+      this.refresh()
     }
   }
 }
