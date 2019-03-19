@@ -196,6 +196,7 @@ export default {
       })
       this.shLockModal = false
       this.weaponSelectorModal = false
+      this.weaponReload = Math.random()
       this.$emit('refresh')
       this.$forceUpdate()
     },
@@ -209,15 +210,19 @@ export default {
           })
         }
       }
+      this.weaponReload = Math.random()
     },
     removeWeapon (loadoutIndex) {
+      if (this.mount.mount_type === 'Heavy') {
+        console.log('in sh locks')
+        this.removeShLocks()
+      }
       this.$store.dispatch('spliceConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
         start_index: this.weaponIndex,
         delete_count: 1
       })
-      this.weaponSelectorModal = false
       this.weaponSelectorModal = false
     },
     openWeaponSelector (mountType, index) {
