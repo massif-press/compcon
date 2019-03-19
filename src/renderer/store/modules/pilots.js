@@ -64,12 +64,13 @@ const mutations = {
   CLONE_PILOT (state) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      var newPilot = Object.assign({}, state.Pilots[pilotIndex])
+      var newPilot = JSON.parse(JSON.stringify(state.Pilots[pilotIndex]))
       newPilot.id = io.newID()
       newPilot.name += ' (CLONE)'
       newPilot.callsign += '*'
       for (var i = 0; i < newPilot.configs.length; i++) {
         newPilot.configs[i].id = io.newID()
+        newPilot.configs[i].pilot_id = newPilot.id
       }
       state.Pilots.push(newPilot)
       this.SET_PILOT(state, newPilot.id)
