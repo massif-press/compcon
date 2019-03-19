@@ -6,6 +6,8 @@
   <v-tab-item>
     <v-card flat>
         <v-container grid-list-sm fluid>
+            <v-btn block outline large color="primary" @click="importImage('portrait')">Import Portrait Image</v-btn>
+          <v-divider />
           <v-layout row justify-space-between wrap fill-height align-center>
             <v-flex v-for="i in portraits" :key="i" xs3> 
               <div :class="`justify-center pa-1 ${i === preselectPortrait ? 'preselected' : 'clickable'}`" @click="assignPortrait(i)">
@@ -20,6 +22,7 @@
     <v-tab-item>
     <v-card flat>
         <v-container grid-list-sm fluid>
+            <v-btn block outline large color="primary" @click="importImage('avatar')">Import Avatar Image</v-btn>
           <v-layout row justify-space-between wrap fill-height align-center>
             <v-flex v-for="i in avatars" :key="i" xs3> 
               <div :class="`justify-center pa-1 ${i === preselectAvatar ? 'preselected' : 'clickable'}`" @click="assignAvatar(i)">
@@ -61,14 +64,29 @@
       },
       getStaticPath: function (path) {
         return `static/${path}`
+      },
+      importImage: function (imgType) {
+        const { dialog } = require('electron').remote
+        var path = dialog.showOpenDialog({
+          title: 'Load Image',
+          buttonLabel: 'Load',
+          properties: [
+            'openFile'
+          ],
+          filters: [
+            { name: 'Image', extensions: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'bmp'] }
+          ]
+        })
+        var savedPath = io.importImage(this.userDataPath, imgType, path[0])
+        console.log(savedPath)
       }
     },
     mounted: function () {
       var vm = this
-      vm.portraits = io.getImages('portraits').sort(function (a, b) {
+      vm.portraits = io.getImages('portraits', this.userDataPath).sort(function (a, b) {
         return a === vm.preselectPortrait ? 0 : 1
       })
-      vm.avatars = io.getImages('avatars').sort(function (a, b) {
+      vm.avatars = io.getImages('avatars', this.userDataPath).sort(function (a, b) {
         return a === vm.preselectAvatar ? 0 : 1
       })
     }
