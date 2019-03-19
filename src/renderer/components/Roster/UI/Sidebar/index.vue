@@ -78,7 +78,6 @@ export default {
     },
     setActiveConfig (config) {
       // TODO: async load with overlay
-      console.log(config)
       this.$store.dispatch('loadConfig', config)
       this.$router.push('/config')
     },

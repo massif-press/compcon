@@ -531,7 +531,7 @@ Bandit
 Chirurgeon
 Jurist
 Philosopher
-Charlatan,
+Charlatan
 Parson
 Scholar
 Beggar

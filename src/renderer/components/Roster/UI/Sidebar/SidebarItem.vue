@@ -101,7 +101,7 @@
         this.$emit('set-active')
       },
       selectConfig (config) {
-        this.$emit('set-config', config.id)
+        this.$emit('set-config', config)
       },
       item: function (type, id) {
         return this.$store.getters.getItemById(type, id)

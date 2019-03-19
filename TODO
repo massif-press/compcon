@@ -1,6 +1,7 @@
 Bugs:
   ✔ Deleted configs persist, blank configs added @done(19-03-18 15:30)
   ☐ License reset does not work
+  ☐ SH-lock does not correctly refresh mount block, requires config sheet reload
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
