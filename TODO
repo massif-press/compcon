@@ -1,6 +1,9 @@
 Bugs:
+  ✔ non-GMS core bonuses not appearing @done(19-03-19 13:20)
+  ✔ bad license warnings on outfit @done(19-03-19 13:20)
+  ☐ NPHs not showing up in system selector
+  ✔ oracle at lv1 @done(19-03-19 13:22)
   ✔ Deleted configs persist, blank configs added @done(19-03-18 15:30)
-  ☐ License reset does not work
   ✔ Async file write causing malformed JSON writes @done(19-03-19 11:21)
   ✔ SH-lock does not correctly refresh mount block, requires config sheet reload @done(19-03-19 10:50)
 

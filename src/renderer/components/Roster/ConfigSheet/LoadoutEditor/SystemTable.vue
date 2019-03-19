@@ -112,7 +112,7 @@
         }
 
         // filter ais
-        var installedAIs = i.filter(x => x.type === 'AI')
+        var installedAIs = this.installed_systems.filter(x => x.type === 'AI')
         if (installedAIs.length) {
           if (!this.hasShaping || (this.hasShaping && installedAIs.length > 1)) {
             i = i.filter(x => !installedAIs.map(y => y.id).includes(x.id))
