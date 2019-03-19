@@ -17,8 +17,9 @@ const mutations = {
 }
 
 const actions = {
-  loadConfig (context, configID) {
-    context.commit('SET_CONFIG', configID)
+  loadConfig (context, config) {
+    context.dispatch('loadPilot', config.pilot_id, { root: true })
+    context.commit('SET_CONFIG', config.id)
   },
   editConfig (context, payload) {
     context.dispatch('updatePilotConfig', payload, { root: true })
