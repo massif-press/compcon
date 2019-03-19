@@ -27,8 +27,10 @@ export default {
     }
   },
   getImages (subdir) {
-    var p = path.join(getStaticPath(), 'img', subdir)
+    var p = path.join(getStaticPath(process.env.NODE_ENV), 'img', subdir)
+    console.log(p)
     if (fs.existsSync(p)) {
+      console.log(fs.readdirSync(p))
       return fs.readdirSync(p).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
     } else {
       return []
