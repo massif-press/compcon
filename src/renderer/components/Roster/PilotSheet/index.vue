@@ -504,6 +504,7 @@
       },
       setLicenses: function (licenseArray) {
         this.licenseModal = false
+        console.log(licenseArray)
         this.$store.dispatch('editPilot', {
           attr: `licenses`,
           val: licenseArray
