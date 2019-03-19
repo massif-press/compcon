@@ -43,7 +43,7 @@
               </v-flex>
               <v-flex xs3>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="newItems.skills.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -56,7 +56,7 @@
               </v-flex>
               <v-flex xs3>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="newItems.talents.length === 0"  @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -69,7 +69,7 @@
               </v-flex>
               <v-flex xs3>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasNewMechSkills()"  @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -82,7 +82,7 @@
               </v-flex>
               <v-flex xs3>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="newItems.licenses.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -95,7 +95,7 @@
               </v-flex>
               <v-flex xs3>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="newItems.core_bonuses.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -143,7 +143,12 @@
       newItems: {
         skills: [],
         talents: [],
-        mechSkills: {},
+        mechSkills: {
+          hull: 0,
+          agi: 0,
+          sys: 0,
+          eng: 0
+        },
         licenses: [],
         core_bonuses: []
       }
@@ -186,6 +191,10 @@
       stepForward: function () {
         this.lv_step++
         window.scrollTo(0, 0)
+      },
+      hasNewMechSkills: function () {
+        var m = this.newItems.mechSkills
+        return m.hull + m.agi + m.eng + m.sys > 0
       },
       init: function () {
         this.pilot = JSON.parse(JSON.stringify(this.$store.getters.getPilot))

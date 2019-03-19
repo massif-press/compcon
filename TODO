@@ -1,14 +1,16 @@
 Bugs:
   ✔ non-GMS core bonuses not appearing @done(19-03-19 13:20)
   ✔ bad license warnings on outfit @done(19-03-19 13:20)
-  ☐ NPHs not showing up in system selector
+  ✔ NPHs not showing up in system selector @done(19-03-19 13:25)
   ✔ oracle at lv1 @done(19-03-19 13:22)
   ✔ Deleted configs persist, blank configs added @done(19-03-18 15:30)
   ✔ Async file write causing malformed JSON writes @done(19-03-19 11:21)
   ✔ SH-lock does not correctly refresh mount block, requires config sheet reload @done(19-03-19 10:50)
+  ✔ ENG should be used to calculate limited system bonus, not SYS @done(19-03-19 14:29)
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
+  ✔ Add tool to set pilot level @done(19-03-19 14:28)
 
 Blockers:
   ✔ State not correctly loading Licenses @done(19-03-18 15:21)
