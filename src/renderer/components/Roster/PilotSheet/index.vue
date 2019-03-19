@@ -46,6 +46,52 @@
               </v-btn>
               <span>Level Up</span>
             </v-tooltip>
+            <v-tooltip bottom nudge-right="15px">
+              <v-btn slot="activator" @click="levelEditor = true" outline absolute icon small :disabled="pilot.level > 11" color="grey" style="top:115px; right:59px">
+                <v-icon small>build</v-icon>
+              </v-btn>
+              <span>Set Pilot Level</span>
+            </v-tooltip>
+            <v-dialog v-model="levelEditor" width=900>
+                <v-card>
+                  <v-card-title class="title">Set Pilot Level</v-card-title>
+                  <v-card-text class="text-xs-center">
+                    <p><i>This tool skips the level up wizard. Triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated manually</i></p>
+                    <br>
+                    <v-layout justify-center>
+                      <v-flex xs3>
+                        <v-card color="grey lighten-3" elevation=10 height=100>
+                          <v-card-text>
+                            <span class="title"><b class="caption">Current Level</b><br>{{pilot.level}}</span>
+                          </v-card-text>
+                        </v-card>
+                      </v-flex>
+
+                      <v-flex xs1 class="ml-2 mr-2">
+                        <v-card flat>
+                          <v-card-text class="mt-3">
+                            <v-icon large>arrow_forward</v-icon>
+                          </v-card-text>
+                        </v-card>
+                      </v-flex>
+                      
+                      <v-flex xs3>
+                        <v-card color="grey lighten-3" elevation=10 height=100>
+                          <v-card-text>
+                              <v-text-field v-model="levelSkip" type="number" label="New Level" append-outer-icon="add" @click:append-outer="levelSkip ++" prepend-icon="remove" @click:prepend="levelSkip --" class="pb-0 mb-0"/>
+                          </v-card-text>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-card-text>
+                  <v-divider />
+                  <v-card-actions>
+                    <v-btn color="primary"  flat @click="levelEditor = false" > Cancel </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="setLevel" > Set Pilot Level</v-btn>
+                  </v-card-actions>
+                </v-card>
+            </v-dialog>
           </v-flex>
         </v-layout>
         <v-layout>
@@ -440,6 +486,8 @@
       invokeDialog: false,
       deleteDialog: false,
       exportDialog: false,
+      levelEditor: false,
+      levelSkip: null,
       snackbar: false,
       notification: '',
       // loaders manage deletion and lazy loading of selectors
@@ -528,6 +576,17 @@
         this.snackbar = true
         this.appearanceModal = false
       },
+      setLevel: function () {
+        if (this.levelSkip) {
+          this.$store.dispatch('editPilot', {
+            attr: `level`,
+            val: this.levelSkip
+          })
+        }
+        this.levelEditor = false
+        this.notification = `Pilot level changed to: ${this.levelSkip}`
+        this.snackbar = true
+      },
       addInvocation: function () {
         var inv = this.invoke_attribute === 0
           ? { accuracy: true }
@@ -597,6 +656,12 @@
         if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating pilot stats...')
         else console.info('Loadout changed: recalculating pilot stats...')
         return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx])
+      }
+    },
+    watch: {
+      levelSkip: function () {
+        if (this.levelSkip < this.pilot.level) this.levelSkip = this.pilot.level
+        if (this.levelSkip > 12) this.levelSkip = 12
       }
     }
   }

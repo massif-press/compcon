@@ -59,7 +59,7 @@ export default {
       edef: frame.stats.edef + pilot.mechSkills.sys,
       heatcap: frame.stats.heatcap + pilot.mechSkills.eng,
       heatstress: rules.base_stress,
-      limited_bonus: Math.floor(pilot.mechSkills.sys / 2),
+      limited_bonus: Math.floor(pilot.mechSkills.eng / 2),
       attack_bonus: grit,
       tech_attack: frame.stats.tech_attack + pilot.mechSkills.sys,
       grapple: rules.base_grapple,
