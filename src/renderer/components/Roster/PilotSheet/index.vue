@@ -178,7 +178,7 @@
             <v-layout>
               <v-flex class="pl-2"  @click="appearanceModal = true; appearanceLoader = true">
                 <div v-if="pilot.portrait">
-                  <v-img :src="getStaticPath(`img/portraits/${pilot.portrait}`)" max-height="55vh" max-width="45.1vw" contain/>
+                  <v-img :src="`file://${userDataPath}/img/portrait/${pilot.portrait}`" max-height="55vh" max-width="45.1vw" contain/>
                 </div>
                 <div v-else>
                   <v-btn block small flat color="primary lighten-1"><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn>
@@ -643,9 +643,6 @@
         this.exportDialog = false
         this.notification = 'Pilot Data Copied to Clipboard'
         this.snackbar = true
-      },
-      getStaticPath: function (path) {
-        return `static/${path}`
       }
     },
     computed: {
