@@ -42,6 +42,6 @@ new Vue({
 }).$mount('#app')
 
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
-Vue.prototype.versionNumber = '0.3.1'
+Vue.prototype.versionNumber = '0.3.2'
 
 router.replace('/roster')
