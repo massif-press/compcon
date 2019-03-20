@@ -83,8 +83,7 @@
             { name: 'Image', extensions: ['jpeg', 'jpg', 'png', 'gif', 'svg', 'bmp'] }
           ]
         })
-        var savedPath = io.importImage(this.userDataPath, imgType, path[0])
-        console.log(savedPath)
+        io.importImage(this.userDataPath, imgType, path[0])
         this.importAll()
       }
     },

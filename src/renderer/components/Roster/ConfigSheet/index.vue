@@ -63,9 +63,32 @@
 
         </v-flex>
         
-        <v-flex xs6 style="background-color: #757575" class="ma-2">
-            <v-img :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+        <v-flex xs6 class="ma-2">
+          <div style="background-color: #757575">
+            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/portrait/${config.custom_img}`" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            </div>
+            <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>
           </v-flex>
+          <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-card>
+              <v-toolbar fixed dense flat>
+                <v-toolbar-title>Set Custom Image</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-items>
+                  <v-btn icon large @click="appearanceModal = false; appearanceLoader = false"> <v-icon large>close</v-icon> </v-btn>
+                </v-toolbar-items>
+              </v-toolbar>
+              <v-spacer class="mt-5" />
+              <div v-if="appearanceLoader">
+                <image-selector :preselect="config.custom_img" :default_img="getStaticPath(`img/frames/${config.frame_id}.png`)" @assign-img="setCustomImg" />
+              </div>
+              <v-layout justify-space-between>
+                <v-flex xs1> &emsp; </v-flex>
+                <v-flex xs1><v-btn color="primary" flat @click="appearanceModal = false; appearanceLoader = false">Confirm</v-btn></v-flex>
+              </v-layout>
+            </v-card>
+          </v-dialog>
       </v-layout>
 
         <v-layout><span class="config-header">Mech Attributes</span></v-layout>
@@ -239,14 +262,17 @@
   import StatblockItem from './StatblockItem'
   import TraitItem from './TraitItem'
   import MechLoadout from './LoadoutEditor/MechLoadout'
+  import ImageSelector from './ImageSelector'
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, Tag, Stats, StatblockItem, TraitItem, MechLoadout },
+    components: { EditableLabel, EditableTextfield, Tag, Stats, StatblockItem, TraitItem, MechLoadout, ImageSelector },
     data: () => ({
       activeLoadoutIdx: 0,
       frameInfoModal: false,
       manufacturerModal: false,
+      appearanceModal: false,
+      appearanceLoader: false,
       deleteDialog: false,
       exportDialog: false,
       snackbar: false,
@@ -293,6 +319,15 @@
       },
       getStaticPath: function (path) {
         return `static/${path}`
+      },
+      setCustomImg: function (path) {
+        this.appearanceModal = false
+        this.appearanceLoader = false
+        this.$store.dispatch('editConfig', {
+          id: this.config.id,
+          attr: `custom_img`,
+          val: path
+        })
       }
     },
     computed: {
