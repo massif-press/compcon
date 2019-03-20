@@ -580,7 +580,7 @@
         if (this.levelSkip) {
           this.$store.dispatch('editPilot', {
             attr: `level`,
-            val: this.levelSkip
+            val: parseInt(this.levelSkip)
           })
         }
         this.levelEditor = false
