@@ -27,18 +27,13 @@ export default {
     }
   },
   getImages (subdir, userDataPath) {
-    var imgs = {}
-    var defaultPath = path.join(getStaticPath(process.env.NODE_ENV), 'img', subdir)
-    if (fs.existsSync(defaultPath)) {
-      imgs.defaults = fs.readdirSync(defaultPath).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
-    }
-    if (userDataPath) {
-      var userPath = path.join(userDataPath, 'user_img', subdir)
+    if (fs.existsSync(userDataPath)) {
+      var userPath = path.join(userDataPath, 'img', subdir)
       if (fs.existsSync(userPath)) {
-        imgs.user = fs.readdirSync(userPath).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
+        return fs.readdirSync(userPath).filter(x => webImageTypes.includes(path.extname(x).toLowerCase()))
       }
     }
-    return imgs
+    return []
   },
   newID () {
     return Math.random().toString(36).substr(2, 12)
@@ -82,15 +77,15 @@ export default {
     }
   },
   importImage (userDataPath, subdir, imgPath) {
-    var savePath = path.join(userDataPath, 'user_img', subdir)
-    if (!fs.existsSync(path.join(userDataPath, 'user_img'))) {
-      console.info(`data/user_img folder doesn't exist in userData dir, creating...`)
-      fs.mkdirSync(path.join(userDataPath, 'user_img'))
+    var savePath = path.join(userDataPath, 'img', subdir)
+    if (!fs.existsSync(path.join(userDataPath, 'img'))) {
+      console.info(`data/img folder doesn't exist in userData dir, creating...`)
+      fs.mkdirSync(path.join(userDataPath, 'img'))
     }
 
     if (!fs.existsSync(savePath)) {
-      console.info(`data/user_img/${subdir} folder doesn't exist in userData dir, creating...`)
-      fs.mkdirSync(path.join(userDataPath, 'user_img', subdir))
+      console.info(`data/img/${subdir} folder doesn't exist in userData dir, creating...`)
+      fs.mkdirSync(path.join(userDataPath, 'img', subdir))
     }
 
     var data = fs.readFileSync(imgPath)

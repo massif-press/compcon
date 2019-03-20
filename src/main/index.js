@@ -28,7 +28,10 @@ function createWindow () {
     minHeight: 720,
     width: 1400,
     minWidth: 1280,
-    titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default'
+    titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   mainWindow.setMenu(null)
