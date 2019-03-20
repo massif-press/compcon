@@ -5,7 +5,7 @@
         <span> {{attr}}</span>      
       </v-card-text>
       <v-card-text class="p-0">
-        <span class="value">{{val}}</span>
+        <span class="value"><span v-if="signed">{{val > -1 ? '+' : '-'}}</span>{{Math.abs(val)}}</span>
       </v-card-text>
     </v-card>
   </v-flex>
@@ -14,10 +14,11 @@
 <script>
 export default {
   name: 'statblock-item',
-  props: [
-    'attr',
-    'val'
-  ]
+  props: {
+    attr: String,
+    val: Number,
+    signed: Boolean
+  }
 }
 </script>
 

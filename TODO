@@ -7,6 +7,7 @@ Bugs:
   ✔ Async file write causing malformed JSON writes @done(19-03-19 11:21)
   ✔ SH-lock does not correctly refresh mount block, requires config sheet reload @done(19-03-19 10:50)
   ✔ ENG should be used to calculate limited system bonus, not SYS @done(19-03-19 14:29)
+  ☐ HASE/Stat items showing + negative
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -44,10 +45,10 @@ Version 1:
   ☐ Data verification pass
   ☐ Data formatting pass
   Pilot Sheet:
-    ☐ Custom Pilot Images
+    ✔ Custom Pilot Images @done(19-03-20 11:57)
     ☐ Print
       Print options:
-        ☐ Include active mech
+        ☐ Include a mech
         ☐ Print HP as numbers (current/max) or as pips ([] [] [])
         ☐ Print image
         ☐ Print empty apparance frame (for drawing)
@@ -59,7 +60,7 @@ Version 1:
         ☐ Add space for sketches
         ☐ Add space for additonal equipment
   Mech Sheet:
-    ☐ Image Selector / Custom Mech Images
+    ✔ Image Selector / Custom Mech Images @done(19-03-20 12:27)
     ☐ Print
     ☐ Warn about unassigned core bonus benefits before printing
     ☐ Warn about free SP before printing
@@ -81,7 +82,7 @@ Post-1.0:
   ☐ Actions Panel
   ☐ Tutorial popups
   ☐ Per-item notes
-  ☐ Multiple print layouts selectable (2x portrait, landscape --> plain, embellished)
+  ☐ Multiple print layouts selectable (portrait, landscape / plain, embellished)
   ☐ Custom Background (store as mod data)
   ☐ Custom Triggers (mod data)
   ☐ Charts
