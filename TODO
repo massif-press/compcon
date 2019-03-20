@@ -1,3 +1,6 @@
+Bugs:
+  ☐ Pilot HP not representing GRIT
+
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -36,9 +39,9 @@ Version 1:
         ☐ Include a mech
         ☐ Print HP as numbers (current/max) or as pips ([] [] [])
         ☐ Print image
-        ☐ Print empty apparance frame (for drawing)
+        ☐ Print empty appearance frame (for drawing)
         ☐ Print History
-        ☐ Print Apparance Notes
+        ☐ Print appearance Notes
         ☐ Print Pilot Notes
         ☐ Print background fluff text
         ☐ Add space for notes
