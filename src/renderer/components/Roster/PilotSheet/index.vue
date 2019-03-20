@@ -390,7 +390,7 @@
     </v-container>
       <v-divider />
         <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
-          <v-flex xs3><v-btn large flat disabled>print</v-btn></v-flex>
+          <v-flex xs3><v-btn large flat @click="openPrintOptions">print</v-btn></v-flex>
 
           <v-flex xs3>
             <v-dialog v-model="exportDialog" width="500" >
@@ -643,6 +643,10 @@
         this.exportDialog = false
         this.notification = 'Pilot Data Copied to Clipboard'
         this.snackbar = true
+      },
+      openPrintOptions: function () {
+        this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
+        this.$router.push('/print-pilot')
       }
     },
     computed: {
