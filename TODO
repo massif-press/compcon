@@ -7,6 +7,7 @@ Bugs:
   ✔ Async file write causing malformed JSON writes @done(19-03-19 11:21)
   ✔ SH-lock does not correctly refresh mount block, requires config sheet reload @done(19-03-19 10:50)
   ✔ ENG should be used to calculate limited system bonus, not SYS @done(19-03-19 14:29)
+  ☐ HASE/Stat items showing + negative
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -44,7 +45,7 @@ Version 1:
   ☐ Data verification pass
   ☐ Data formatting pass
   Pilot Sheet:
-    ☐ Custom Pilot Images
+    ✔ Custom Pilot Images @done(19-03-20 11:57)
     ☐ Print
       Print options:
         ☐ Include active mech
