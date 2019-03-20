@@ -49,7 +49,7 @@
               <v-flex xs4>
                 <v-layout justify-center align-center column>
                 <v-flex>
-                  <v-img class="center" contain aspect-ratio="0.8" width="350" :src="newPilot.portrait ? getStaticPath(`img/portraits/${newPilot.portrait}`) : '' " style="background-color: lightgrey" >
+                  <v-img class="center" contain aspect-ratio="0.8" width="350" :src="newPilot.portrait ? `file://${userDataPath}/img/portrait/${newPilot.portrait}` : '' " style="background-color: lightgrey" >
                   <v-fade-transition>
                     <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
                       <span class="text-xs-center display-1 grey--text">No Pilot Portrait</span>
@@ -58,7 +58,7 @@
                   </v-img>
 
                   <div style="position:absolute; right:6vw; bottom:9vw; border:1px solid darkgrey">
-                    <v-img class="center" contain aspect-ratio="1" width="120" :src="newPilot.avatar ? getStaticPath(`/img/avatars/${newPilot.avatar}`) : '' " style="background-color: lightgrey">
+                    <v-img class="center" contain aspect-ratio="1" width="120" :src="newPilot.avatar ? `file://${userDataPath}/img/avatar/${newPilot.avatar}` : '' " style="background-color: lightgrey">
                     <v-fade-transition>
                       <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
                         <span class="text-xs-center grey--text">No Pilot Avatar</span>
@@ -95,7 +95,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs2>
+              <v-flex shrink>
                 <v-btn large color="primary" @click="stepForward" :disabled="!newPilot.callsign && !newPilot.name">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
@@ -107,7 +107,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs1>
+              <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
               </v-flex>
             </v-layout>
@@ -119,7 +119,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs3>
+              <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
                 <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
@@ -132,7 +132,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs3>
+              <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
                 <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
@@ -145,7 +145,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs3>
+              <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
                 <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
@@ -228,7 +228,7 @@
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
               </v-flex>
-              <v-flex xs3>
+              <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
                 <v-btn large color="success" @click="savePilot" :disabled="!canSavePilot">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
               </v-flex>
@@ -316,9 +316,6 @@
       randomName: function () {
         this.newPilot.name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
         this.$forceUpdate()
-      },
-      getStaticPath: function (path) {
-        return `static/${path}`
       }
     },
     computed: {
