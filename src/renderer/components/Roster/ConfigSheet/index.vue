@@ -144,9 +144,9 @@
               </v-flex>
             </v-layout>
             <v-layout justify-space-between>
-              <statblock-item :attr="'Attack Bonus'" :val="'+' + stats.attack_bonus" />
-              <statblock-item :attr="'Tech Attack'" :val="'+' + stats.tech_attack" />
-              <statblock-item :attr="'Limited System Bonus'" :val="'+' + stats.limited_bonus" />
+              <statblock-item :attr="'Attack Bonus'" signed :val="stats.attack_bonus" />
+              <statblock-item :attr="'Tech Attack'" signed :val="stats.tech_attack" />
+              <statblock-item :attr="'Limited System Bonus'" signed :val="stats.limited_bonus" />
             </v-layout>
             <v-layout justify-space-between>
               <statblock-item :attr="'Speed'" :val="stats.speed" />
