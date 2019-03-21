@@ -1,6 +1,6 @@
 Bugs:
   ✔ Pilot HP not representing GRIT @done(19-03-21 11:26)
-  ☐ New config not loading correctly after creation
+  ✔ New config not loading correctly after creation @done(19-03-21 18:57)
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -25,6 +25,7 @@ Refactor:
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
+  ☐ Load version number from package.json
 
 Version 1:
   ☐ Better item card formatting
