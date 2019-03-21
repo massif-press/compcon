@@ -390,7 +390,7 @@
     </v-container>
       <v-divider />
         <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
-          <v-flex xs3><v-btn large flat @click="openPrintOptions">print</v-btn></v-flex>
+          <v-flex xs3><v-btn color="primary" large flat @click="openPrintOptions"><v-icon>print</v-icon>&nbsp; PRINT</v-btn ></v-flex>
 
           <v-flex xs3>
             <v-dialog v-model="exportDialog" width="500" >

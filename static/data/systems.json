@@ -14,7 +14,7 @@
     "source": "GMS",
     "license": "",
     "license_level": "",
-    "effect": "You may expend a charge from this system for one of the following effects:<br><b>Smoke Charge</b> <i>(Grenade, Range 5, Blast 2):</i> The blast area grants soft cover to all characters and objects inside.Lasts until the end of your next turn, then disperses. <b>Shroud Mine</b> <i>(Mine, Burst 3)</i>: This mine detonates when any allied character moves over or adjacent to it. The affected area becomes soft cover for all characters and objects within. Lasts until the end of the activating character's turn, then disperses.",
+    "effect": "You may expend a charge from this system for one of the following effects:<br><b>Smoke Charge</b> <i>(Grenade, Range 5, Blast 2):</i> The blast area grants soft cover to all characters and objects inside.Lasts until the end of your next turn, then disperses.<br><b>Shroud Mine</b> <i>(Mine, Burst 3)</i>: This mine detonates when any allied character moves over or adjacent to it. The affected area becomes soft cover for all characters and objects within. Lasts until the end of the activating character's turn, then disperses.",
     "description": "",
     "data_type": "system",
     "aptitude": {

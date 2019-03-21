@@ -14,27 +14,27 @@
         </v-card-text>
       <v-card-text v-else class="bordered ml-3 pt-4">
         <div v-if="mount.mount_type === 'Main/Aux' || mount.bonuses.includes('retrofit')">
-          <mech-weapon-item :key="weaponReload" :item="mount.weapons[0] || null" fitting-type="Main" @clicked="openWeaponSelector('main', 0)"  @open-mod="openModSelector(0)" />
-          <mech-weapon-item :key="weaponReload" :item="mount.weapons[1] || null" empty fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
+          <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0] || null" fitting-type="Main" @clicked="openWeaponSelector('main', 0)"  @open-mod="openModSelector(0)" />
+          <mech-weapon-item :key="mount.mount_type + '1' + weaponReload" :item="mount.weapons[1] || null" empty fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
         </div>
         <div v-else-if="mount.mount_type === 'Aux/Aux'">
-          <mech-weapon-item :key="weaponReload" :item="mount.weapons[0] || null" fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 0)"  @open-mod="openModSelector(0)" />
-          <mech-weapon-item :key="weaponReload" :item="mount.weapons[1] || null" fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
+          <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0] || null" fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 0)"  @open-mod="openModSelector(0)" />
+          <mech-weapon-item :key="mount.mount_type + '1' + weaponReload" :item="mount.weapons[1] || null" fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
         </div>
         <div v-else-if="mount.mount_type === 'Flex'">
           <div v-if="!mount.weapons[0]">
-            <mech-weapon-item :key="weaponReload" :item="null" fitting-type="Main / Aux" @clicked="openWeaponSelector('flex', 0)" />  
+            <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="null" fitting-type="Main / Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
           <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Main'">
-            <mech-weapon-item :key="weaponReload" :item="mount.weapons[0]" fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" @open-mod="openModSelector(0)" />  
+            <mech-weapon-item :key="mount.mount_type + '1' + weaponReload" :item="mount.weapons[0]" fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" @open-mod="openModSelector(0)" />  
           </div>
           <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Auxiliary'">
-            <mech-weapon-item :key="weaponReload" :item="mount.weapons[0]" fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
-            <mech-weapon-item :key="weaponReload" :item="mount.weapons[1] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />  
+            <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0]" fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
+            <mech-weapon-item :key="mount.mount_type + '1' + weaponReload" :item="mount.weapons[1] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />  
           </div>
         </div>
         <div v-else>
-          <mech-weapon-item :key="weaponReload" :item="mount.weapons[0] || null" :fitting-type="mount.mount_type" @clicked="openWeaponSelector(mount.mount_type.toLowerCase(), 0)"  @open-mod="openModSelector(0)" />
+          <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0] || null" :fitting-type="mount.mount_type" @clicked="openWeaponSelector(mount.mount_type.toLowerCase(), 0)"  @open-mod="openModSelector(0)" />
         </div>
         <div v-if="mount.bonuses.includes('intweapon')">
           <mech-weapon-item :key="weaponReload" :item="mount.weapons[intweaponLength] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
