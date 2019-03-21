@@ -194,11 +194,58 @@
       <v-divider dark />
         <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
 
-          <v-flex xs3><v-btn large flat dark disabled>print</v-btn></v-flex>   
+          <v-flex xs3>
+            <v-btn large color="cyan accent-3" flat dark @click="openPrintOptions(false)"><v-icon>print</v-icon> &nbsp; PRINT</v-btn>
+          </v-flex>
+          <v-dialog v-model="printWarningDialog" width="800">
+            <v-card>
+              <v-card-title class="title">// PRINT WARNING //</v-card-title>
+              <v-card-text>
+                <v-layout>
+                  <v-flex class="mr-3 ml-3 mt-0 mb-0">
+                    <v-alert type="error" :value="stats.required_licenses.filter(x => x.missing).length">
+                      <b>CRITICAL: UNLICENSED COMPONENTS</b><br>
+                      Pilot is missing one or more licenses required for this configuration.
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex class="mr-3 ml-3 mt-0">
+                    <v-alert type="error" :value="stats.used_sp > stats.sp">
+                      <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b><br>
+                      Configuration loadout exceeds available SP points (<b>{{stats.used_sp}} SP used</b>, {{stats.sp}} SP available)
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex class="mr-3 ml-3 mt-0">
+                    <v-alert type="warning" :value="(stats.sp - stats.used_sp) > 0">
+                      <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b><br>
+                      Configuration retains {{stats.sp - stats.used_sp}} unused System Points. Combat efficacy limited.
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex class="mr-3 ml-3 mt-0">
+                    <v-alert type="warning" :value="hasEmptyMounts()">
+                      <b>WARNING: EMPTY MOUNTS DETECTED</b><br>
+                      Configuration has mounts that do not contain an equipped weapon. Combat efficacy limited.
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-btn color="primary" flat @click="printWarningDialog = false" > Cancel </v-btn>
+                <v-spacer />
+                <v-btn color="warning" flat @click="openPrintOptions(true)" > Continue Anyway </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <v-flex xs3>
             <v-dialog v-model="exportDialog" width="500" >
-                <v-btn slot="activator" color="primary" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
+                <v-btn slot="activator" color="cyan accent-3" large flat><v-icon>call_made</v-icon> &nbsp; EXPORT</v-btn>
                 <v-card>
                   <v-card-title class="title">Export Configuration &mdash; {{config.name}}</v-card-title>
                   <v-card-text>
@@ -220,7 +267,7 @@
           </v-flex>    
                 
           <v-flex xs3>
-            <v-btn slot="activator" color="primary" large flat @click="cloneConfig"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
+            <v-btn slot="activator" color="cyan accent-3" large flat @click="cloneConfig"><v-icon>file_copy</v-icon> &nbsp; CLONE</v-btn>
           </v-flex>
 
           <v-flex xs3>
@@ -273,6 +320,7 @@
       manufacturerModal: false,
       appearanceModal: false,
       appearanceLoader: false,
+      printWarningDialog: false,
       deleteDialog: false,
       exportDialog: false,
       snackbar: false,
@@ -282,6 +330,19 @@
     methods: {
       item: function (itemType, id) {
         return this.$store.getters.getItemById(itemType, id)
+      },
+      hasEmptyMounts: function () {
+        var empty = false
+        console.log(this.config.loadouts.length)
+        if (!this.config.loadouts.length) return true
+        if (!this.config.loadouts[this.activeLoadoutIdx].mounts) return true
+        if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
+        for (let i = 0; i < this.config.loadouts[this.activeLoadoutIdx].mounts.length; i++) {
+          const m = this.config.loadouts[this.activeLoadoutIdx].mounts[i]
+          if (m.mount_type.includes('/')) empty = m.weapons.length < 2
+          else empty = !m.weapons.length
+        }
+        return empty
       },
       selectMechImg: function () {
         this.$refs.mechImg.showModal()
@@ -328,6 +389,23 @@
           attr: `custom_img`,
           val: path
         })
+      },
+      openPrintOptions: function (override) {
+        this.$store.dispatch('setPrintOptions', {
+          config_id: this.config.id,
+          loadout_index: this.activeLoadoutIdx
+        })
+        if (!override && (
+          this.hasEmptyMounts() ||
+          (this.stats.sp - this.stats.used_sp) > 0 ||
+          this.stats.used_sp > this.stats.sp ||
+          this.stats.required_licenses.filter(x => x.missing).length
+        )) {
+          console.log('warn')
+          this.printWarningDialog = true
+        } else {
+          this.$router.push('/print-config')
+        }
       }
     },
     computed: {

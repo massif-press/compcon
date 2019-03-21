@@ -1,3 +1,6 @@
+Bugs:
+  ✔ Pilot HP not representing GRIT @done(19-03-21 11:26)
+  ✔ New config not loading correctly after creation @done(19-03-21 18:57)
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -22,45 +25,50 @@ Refactor:
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
+  ☐ Load version number from package.json
 
 Version 1:
   ☐ Better item card formatting
+  ☐ Add limited bonus to tags
   Gear Catalog:
     ☐ Licenses
     ☐ Items
   ☐ Data verification pass
   ☐ Data formatting pass
   Pilot Sheet:
-    ☐ Print
-      Print options:
-        ☐ Include a mech
-        ☐ Print HP as numbers (current/max) or as pips ([] [] [])
-        ☐ Print image
-        ☐ Print empty apparance frame (for drawing)
-        ☐ Print History
-        ☐ Print Apparance Notes
-        ☐ Print Pilot Notes
-        ☐ Print background fluff text
-        ☐ Add space for notes
-        ☐ Add space for sketches
-        ☐ Add space for additonal equipment
+    ✔ Print @done(19-03-21 11:26)
   Mech Sheet:
-    ☐ Print
+    ✔ Print @done(19-03-21 18:21)
     ☐ Warn about unassigned core bonus benefits before printing
     ☐ Warn about free SP before printing
     ☐ Warn about empty weapon mounts before printing
     ☐ Warn about exceeds SP/Unlicensed technology before printing
-      Print options:
-        ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
-        ☐ Core Power pip
-        ☐ Print image
-        ☐ Print empty apparance frame (for drawing)
-        ☐ Print Notes
-        ☐ Add space for notes (lined)
-        ☐ Add space for sketches (unlined)
-        ☐ Mark danger zone heat
 
-Post-1.0:
+
+2.0:
+  General Print Options:
+    ☐ Large fonts
+    ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
+  Pilot Print Options:
+    ☐ Include a mech
+    ☐ Include contacts
+    ☐ Print image
+    ☐ Print empty appearance frame (for drawing)
+    ☐ Print History
+    ☐ Print appearance Notes
+    ☐ Print Pilot Notes
+    ☐ Print background fluff text
+    ☐ Add space for notes
+    ☐ Add space for sketches
+    ☐ Add space for additonal equipment
+    ☐ Add space for custom invocations
+  Mech Print Options: 
+    ☐ Print image
+    ☐ Print empty apparance frame (for drawing)
+    ☐ Print Notes
+    ☐ Add space for notes (lined)
+    ☐ Add space for sketches (unlined)
+    ☐ Mark danger zone heat
   ☐ Pilot Stat Contributions
     ☐ Furnish systems/weapons/talents/cb/etc with "actions" array
   ☐ Actions Panel

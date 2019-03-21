@@ -95,7 +95,7 @@
       goToConfig () {
         this.newConfigModal = false
         this.newConfigLoader = false
-        this.$emit('set-config', this.pilot.configs[this.pilot.configs.length - 1].id)
+        this.$emit('set-config', this.pilot.configs[this.pilot.configs.length - 1])
       },
       select () {
         this.$emit('set-active')

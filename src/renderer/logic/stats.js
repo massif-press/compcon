@@ -148,7 +148,7 @@ export default {
    */
   pilotStats (pilot, loadout) {
     var output = {
-      hp: rules.base_pilot_hp,
+      hp: rules.base_pilot_hp + Math.ceil(pilot.level / 2),
       armor: 0,
       evasion: rules.base_pilot_evasion,
       edef: rules.base_pilot_edef,
