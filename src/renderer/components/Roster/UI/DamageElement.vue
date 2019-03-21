@@ -16,11 +16,11 @@
         </span>
       </v-tooltip>
 
-      <span v-if="!small" :style="`font-size: ${size || 18}px`">
+      <span v-if="!small" :style="`font-size: ${size || 18}px;`">
         <b v-if="dmg[0].override" class="text-capitalize"> {{dmg[0].val}} </b>
-        <div v-else v-for="n in dmg.length" :key="n + dmg[n-1].type + dmg[n-1].val + '_damageEle'">
+        <div v-else v-for="n in dmg.length" :key="n + dmg[n-1].type + dmg[n-1].val + '_damageEle'" style="display: inline">
           <b :class="color(dmg[n - 1].type)">{{dmg[n - 1].val}} {{dmg[n - 1].type}} damage</b>
-          <span v-if="dmg.length > n" class="grey--text">//</span>
+          <i v-if="dmg.length > n" class="grey--text">//</i>
         </div>
       </span>
   </div>
