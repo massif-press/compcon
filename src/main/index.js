@@ -25,9 +25,9 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     height: 800,
-    minHeight: 720,
+    // minHeight: 720,
     width: 1400,
-    minWidth: 1280,
+    // minWidth: 1280,
     titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
     webPreferences: {
       webSecurity: false

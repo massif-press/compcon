@@ -34,6 +34,14 @@ export default new Router({
       ]
     },
     {
+      path: '/print-pilot',
+      component: require('@/components/Roster/PilotSheet/Print/PrintView').default
+    },
+    {
+      path: '/print-config',
+      component: require('@/components/Roster/ConfigSheet/Print/PrintView').default
+    },
+    {
       path: '/mods',
       name: 'mod-editor',
       component: require('@/components/Roster/index').default
