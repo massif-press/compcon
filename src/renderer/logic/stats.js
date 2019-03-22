@@ -142,10 +142,6 @@ export default {
 
     return output
   },
-  /**
-   * export default doc examples
-   * @alias module:pilot.core
-   */
   pilotStats (pilot, loadout) {
     var output = {
       hp: rules.base_pilot_hp + Math.ceil(pilot.level / 2),
@@ -181,5 +177,11 @@ export default {
     }
 
     return output
+  },
+  limitedBonus (pilot) {
+    var bonus = 0
+    if (pilot.core_bonuses.includes('ammofeeds')) bonus += 2
+    bonus += Math.floor(pilot.mechSkills.eng / 2)
+    return bonus
   }
 }
