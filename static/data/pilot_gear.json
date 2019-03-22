@@ -157,7 +157,7 @@
     "name": "Assault Hardsuit",
     "hp_bonus": 3,
     "speed": 4,
-    "armor": 2,
+    "armor": 1,
     "edef": 8,
     "evasion": 8,
     "description": "Standard hardsuits have heavier plating than light hardsuits, restricting movement but providing greater protection from damage. They are often environmentally sealed and powered, and typically have a faceplate, visor, or closed helm. Common models are the DURENDAL mobile cuirass by IPS-N, and the GMS Granite."
