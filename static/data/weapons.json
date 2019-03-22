@@ -1611,7 +1611,7 @@
     }],
     "range": [{
       "type": "threat",
-      "val": "+2"
+      "val": "3"
     }],
     "tags": [
 
