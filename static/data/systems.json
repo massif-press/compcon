@@ -1745,7 +1745,7 @@
     "id": "lightning",
     "name": "Lightning Generator",
     "type": "System",
-    "sp": 2,
+    "sp": 3,
     "tags": [{
         "id": "unique"
       },
