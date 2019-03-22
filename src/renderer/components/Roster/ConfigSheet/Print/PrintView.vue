@@ -145,31 +145,33 @@
       <v-layout row>
         <v-flex>
         <v-layout v-for="(mount, index) in loadout.mounts" :key="'mount_' + index" row>
-          <v-flex>
-          <div class="bordered mt-1 mb-1 pa-0">
-            <span class="mount-title" >{{mount.mount_type}}</span>
-            <div class="mount-interior">
-              <div v-if="mount.sh_lock" class="text-xs-center">
-                <i style="letter-spacing: 5px; color: grey;">MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
+          <div v-if="!mount.imparm || (mount.imparm && hasImparm())" style="width: 100%">
+            <v-flex>
+              <div class="bordered mt-1 mb-1 pa-0">
+                <span class="mount-title" >{{mount.mount_type}}</span>
+                <div class="mount-interior">
+                  <div v-if="mount.sh_lock" class="text-xs-center">
+                    <i style="letter-spacing: 5px; color: grey;">MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
+                  </div>
+                  <div v-else-if="!mount.weapons.length">
+                    <i style="letter-spacing: 5px; color: grey;">EMPTY</i>
+                  </div>
+                  <div v-else v-for="w in mount.weapons" :key="w.id">
+                    <v-layout>
+                      <v-flex shrink class="ml-1"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
+                      <v-flex shrink class="ml-2"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
+                      <v-flex shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
+                    </v-layout>
+                    <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
+                    <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                  </div>
+                </div>
               </div>
-              <div v-else-if="!mount.weapons.length">
-                <i style="letter-spacing: 5px; color: grey;">EMPTY</i>
-              </div>
-              <div v-else v-for="w in mount.weapons" :key="w.id">
-                <v-layout>
-                  <v-flex shrink class="ml-1"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
-                  <v-flex shrink class="ml-2"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
-                  <v-flex shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
-                </v-layout>
-                <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
-                <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
-              </div>
-            </div>
+            </v-flex>
           </div>
-          </v-flex>
         </v-layout>
-        </v-flex>
-      </v-layout>
+      </v-flex>
+    </v-layout>
 
       <span class="label" style="page-break-inside: avoid">SYSTEMS</span><br>
       <v-layout row>
@@ -227,6 +229,9 @@
       },
       fullTag: function (t, v) {
         return t.replace(/{VAL}/g, v + this.stats.limited_bonus)
+      },
+      hasImparm: function () {
+        return this.pilot.core_bonuses.includes('imparm')
       }
     },
     created: function () {
