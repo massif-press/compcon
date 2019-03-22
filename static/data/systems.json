@@ -1795,7 +1795,7 @@
     "id": "virallogic",
     "name": "Viral Logic",
     "type": "Tech",
-    "sp": 1,
+    "sp": 2,
     "tags": [{
         "id": "unique"
       },
