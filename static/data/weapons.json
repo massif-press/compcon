@@ -1611,7 +1611,7 @@
     }],
     "range": [{
       "type": "threat",
-      "val": "+2"
+      "val": "3"
     }],
     "tags": [
 
@@ -1733,7 +1733,7 @@
     }],
     "range": [{
       "type": "range",
-      "val": 15
+      "val": 10
     }],
     "tags": [{
       "id": "smart"
@@ -1762,8 +1762,12 @@
       "val": 10
     }],
     "tags": [{
-      "id": "smart"
-    }],
+        "id": "smart"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "HYDRA",
     "license_level": 2,
@@ -1777,7 +1781,7 @@
   {
     "id": "catalystpistol",
     "name": "Catalyst Pistol",
-    "mount": "Auxiliary ",
+    "mount": "Auxiliary",
     "type": "CQB",
     "damage": [{
       "type": "energy",
@@ -1912,7 +1916,7 @@
     ],
     "source": "HORUS",
     "license": "PEGASUS",
-    "license_level": 1,
+    "license_level": 3,
     "effect": "This weapon cannot be fired normally, but you may only fire this weapon as a free action at the end of your turn, using your mech’s attack bonuses. It does not benefit from your talents.",
     "description": "An autogun is, as its name implies, an automated weapon. Similar to a point-defense system, an autogun is chambered to provide effective fire against armored targets instead. Typically mounted on a stabilized, secondary arm, a reliably-tuned autogun can be trusted to track and eliminate designated enemy units while a pilot concentrates on more specialized weapons or processes.",
     "data_type": "weapon",
