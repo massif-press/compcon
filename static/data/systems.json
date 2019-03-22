@@ -1736,7 +1736,7 @@
     ],
     "source": "HORUS",
     "license": "MANTICORE",
-    "license_level": 2,
+    "license_level": 1,
     "effect": "Gain the following options for invasion:<br><b>Beckon</b>: On hit, you swap places with your target, teleporting both of you.If you' re flying when you take this option, you can only swap places with another flying character, and vice versa.<b>Summon</b>: On hit, all characters, allied or hostile, in range 3 of your target are pulled towards your target as far as possible (into adjacency if possible).",
     "description": "I am heard in the House of Stillness, I am clad in the Magick of RA: what exists is within my grasp.",
     "data_type": "system",
