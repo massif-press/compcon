@@ -558,7 +558,7 @@
   },
   {
     "id": "breaching",
-    "name": "Breaching Charge",
+    "name": "Breaching Charges",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
