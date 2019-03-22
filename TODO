@@ -1,6 +1,3 @@
-Bugs:
-  ✔ Pilot HP not representing GRIT @done(19-03-21 11:26)
-  ✔ New config not loading correctly after creation @done(19-03-21 18:57)
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -35,15 +32,6 @@ Version 1:
     ☐ Items
   ☐ Data verification pass
   ☐ Data formatting pass
-  Pilot Sheet:
-    ✔ Print @done(19-03-21 11:26)
-  Mech Sheet:
-    ✔ Print @done(19-03-21 18:21)
-    ☐ Warn about unassigned core bonus benefits before printing
-    ☐ Warn about free SP before printing
-    ☐ Warn about empty weapon mounts before printing
-    ☐ Warn about exceeds SP/Unlicensed technology before printing
-
 
 2.0:
   General Print Options:
@@ -105,6 +93,14 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Pilot HP not representing GRIT @done(19-03-21 11:26) @project(Bugs)
+  ✔ New config not loading correctly after creation @done(19-03-21 18:57) @project(Bugs)
+  ✔ Print @done(19-03-21 11:26) @project(Version 1.Pilot Sheet)
+  ✔ Print @done(19-03-21 18:21) @project(Version 1.Mech Sheet)
+  ✔ Warn about unassigned core bonus benefits before printing @done(19-03-21 19:14) @project(Version 1.Mech Sheet)
+  ✔ Warn about free SP before printing @done(19-03-21 19:14) @project(Version 1.Mech Sheet)
+  ✔ Warn about empty weapon mounts before printing @done(19-03-21 19:14) @project(Version 1.Mech Sheet)
+  ✔ Warn about exceeds SP/Unlicensed technology before printing @done(19-03-21 19:14) @project(Version 1.Mech Sheet)
   ✔ non-GMS core bonuses not appearing @done(19-03-19 13:20) @project(Bugs)
   ✔ bad license warnings on outfit @done(19-03-19 13:20) @project(Bugs)
   ✔ NPHs not showing up in system selector @done(19-03-19 13:25) @project(Bugs)
