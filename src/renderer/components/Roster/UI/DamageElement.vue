@@ -20,7 +20,7 @@
         <b v-if="dmg[0].override" class="text-capitalize"> {{dmg[0].val}} </b>
         <div v-else v-for="n in dmg.length" :key="n + dmg[n-1].type + dmg[n-1].val + '_damageEle'" style="display: inline">
           <b :class="color(dmg[n - 1].type)">{{dmg[n - 1].val}} {{dmg[n - 1].type}} damage</b>
-          <i v-if="dmg.length > n" class="grey--text">//</i>
+          <i v-if="dmg.length > n" class="grey--text">// </i>
         </div>
       </span>
   </div>
