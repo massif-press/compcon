@@ -1091,9 +1091,7 @@
       "type": "threat",
       "val": 2
     }],
-    "tags": [{
-        "id": "ap"
-      },
+    "tags": [
       {
         "id": "heatself",
         "val": 1
