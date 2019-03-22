@@ -558,7 +558,7 @@
   },
   {
     "id": "breaching",
-    "name": "Breaching Charge",
+    "name": "Breaching Charges",
     "type": "Deployable",
     "sp": 2,
     "tags": [{
@@ -677,7 +677,7 @@
     "id": "snare",
     "name": "Snare Trap",
     "type": "Deployable",
-    "sp": 3,
+    "sp": 1,
     "tags": [{
         "id": "unique"
       },

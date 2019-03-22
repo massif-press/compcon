@@ -885,7 +885,7 @@
     "source": "IPS-N",
     "license": "NELSON",
     "license_level": 3,
-    "effect": "On a 20+ to hit, a target must pass a hull save or be knocked prone",
+    "effect": "On a critical hit, your target must pass a hull save or be knocked prone",
     "description": "A simple weapon system, IPS-N's power knuckles are a popular modification for pilots of CQB mech cores. Whether as shaped studs, hyperdense knuckles, or a series of magnetically-accelerated micro-rams, power knuckles amplify the already incredible hitting power of a mech core.",
     "data_type": "weapon",
     "aptitude": {
@@ -1091,13 +1091,8 @@
       "type": "threat",
       "val": 2
     }],
-    "tags": [{
-        "id": "ap"
-      },
-      {
-        "id": "heatself",
-        "val": 1
-      }
+    "tags": [
+
     ],
     "source": "IPS-N",
     "license": "VLAD",

@@ -108,6 +108,6 @@
     "effect": "As a free action when you hit with this weapon, you may spend a charge of this system to activate the shaped charge on your weapon and deal +1d6 bonus explosive damage.",
     "data_type": "mod",
     "description": "Pilots have long made this popular modification to their pikes. Now, IPS-N is offering these pilots’ modifications as a licensed and quality-tested suite for pan-galactic printing. A pike modified with a charge -- often colloquially called a “Fire Pike”-- is a simple plasma projector integrated into war pike, tuned to project a plasma sheath over the pike’s head.",
-    "tags": [{"id":"limited", "val": 2}]
+    "tags": [{"id":"limited", "val": 3}]
   }
 ]
