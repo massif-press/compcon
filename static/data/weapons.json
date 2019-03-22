@@ -1762,8 +1762,12 @@
       "val": 10
     }],
     "tags": [{
-      "id": "smart"
-    }],
+        "id": "smart"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "HYDRA",
     "license_level": 2,
