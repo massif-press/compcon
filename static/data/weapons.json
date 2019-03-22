@@ -1092,10 +1092,7 @@
       "val": 2
     }],
     "tags": [
-      {
-        "id": "heatself",
-        "val": 1
-      }
+
     ],
     "source": "IPS-N",
     "license": "VLAD",
