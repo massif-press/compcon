@@ -1781,7 +1781,7 @@
   {
     "id": "catalystpistol",
     "name": "Catalyst Pistol",
-    "mount": "Auxiliary ",
+    "mount": "Auxiliary",
     "type": "CQB",
     "damage": [{
       "type": "energy",
