@@ -15,31 +15,21 @@
 </template>
 
 <script>
-  import {Topbar, Sidebar} from './UI'
-  import PilotSheet from './PilotSheet/'
-  import ConfigSheet from './ConfigSheet/'
+  // import {Topbar, Sidebar} from './UI'
+  // import PilotSheet from './PilotSheet/'
+  // import ConfigSheet from './ConfigSheet/'
 
   export default {
     name: 'roster',
-    components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
-    data: () => ({
-      activePilotId: ''
-    }),
-    computed: {
-      pilots: function () {
-        return this.$store.getters.getAllPilots
+    // components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
+    methods: {
+      open (link) {
+        this.$electron.shell.openExternal(link)
       }
     },
     created: function () {
-      this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
       this.$store.dispatch('buildLicenses')
-    },
-    watch: {
-      $route (to, from) {
-        window.scrollTo(0, 0)
-        this.$refs.sidebar.isVisible = !(to.path === '/level' || to.path === '/new')
-      }
     }
   }
 </script>
@@ -62,14 +52,5 @@
     display: flex;
     width: 100%;
 }
-</style>
-
-<style>
-  .roster-content {
-    margin-left: 80px;
-    margin-right: 0;
-    width: 100vw;
-    overflow-y: scroll;
-  }
 </style>
 
