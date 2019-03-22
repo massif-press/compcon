@@ -1514,12 +1514,16 @@
   },
   {
     "id": "sentineldrone",
-    "name": "Sentinel Drone Nexus",
+    "name": "Sentinel Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "quickaction"
-    }],
+        "id": "quickaction"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "GORGON",
     "license_level": 1,
