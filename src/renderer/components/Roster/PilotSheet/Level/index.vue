@@ -88,7 +88,7 @@
           </v-stepper-content>
 
           <v-stepper-content v-if="pilot.level % 3 === 0" step="6">
-            <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setBonuses"/>          
+            <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses.concat(newItems.licenses)" @set-bonuses="setBonuses"/>          
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="roster">Cancel</v-btn>
