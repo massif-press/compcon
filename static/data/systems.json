@@ -1813,7 +1813,7 @@
     "id": "mesmer",
     "name": "Mesmer Charge",
     "type": "Deployable",
-    "sp": 1,
+    "sp": 2,
     "tags": [{
         "id": "unique"
       },
