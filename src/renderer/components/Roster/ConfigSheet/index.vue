@@ -333,7 +333,6 @@
       },
       hasEmptyMounts: function () {
         var empty = false
-        console.log(this.config.loadouts.length)
         if (!this.config.loadouts.length) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
@@ -401,7 +400,6 @@
           this.stats.used_sp > this.stats.sp ||
           this.stats.required_licenses.filter(x => x.missing).length
         )) {
-          console.log('warn')
           this.printWarningDialog = true
         } else {
           this.$router.push('/print-config')
