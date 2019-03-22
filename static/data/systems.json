@@ -1713,7 +1713,7 @@
     ],
     "source": "HORUS",
     "license": "MANTICORE",
-    "license_level": 1,
+    "license_level": 3,
     "effect": "Your mech is stunned until the end of its next turn. All characters without the biological tag in a burst 1 area around your mech must pass a systems save or become stunned until the end of their next turn. Characters other than you can only be stunned once per scene by this system.",
     "description": "Crawl away, APEP! Thou hateful serpent; thou shalt not copulate! Thou art put in chains and taken to the place of execution; there thy slaying shall be carried out.",
     "data_type": "system",
