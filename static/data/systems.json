@@ -789,11 +789,15 @@
   {
     "id": "magdeployer",
     "name": "Mag Deployer",
-    "type": "System",
+    "type": "Deployable",
     "sp": 2,
     "tags": [{
-      "id": "quickaction"
-    }],
+        "id": "quickaction"
+      },
+      {
+        "id": "deployable"
+      }
+    ],
     "source": "SSC",
     "license": "BLACK WITCH",
     "license_level": 2,
