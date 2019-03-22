@@ -1465,11 +1465,11 @@
     ],
     "range": [{
         "type": "range",
-        "val": 30
+        "val": 20
       },
       {
         "type": "blast",
-        "val": 2
+        "val": 1
       }
     ],
     "tags": [{
