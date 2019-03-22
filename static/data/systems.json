@@ -1643,6 +1643,9 @@
       {
         "id": "limited",
         "val": 3
+      },
+      {
+        "id": "drone"
       }
     ],
     "source": "HORUS",
