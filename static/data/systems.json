@@ -978,7 +978,7 @@
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "fullaction"
+        "id": "quickaction"
       },
       {
         "id": "limited",
