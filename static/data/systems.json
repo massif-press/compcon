@@ -944,7 +944,7 @@
     ],
     "source": "SSC",
     "license": "DUSK WING",
-    "license_level": 2,
+    "license_level": 1,
     "effect": "Gain the following quick tech choices:<br><b>Shrike Code:</b>​ Until the end of your next turn, each time your target makes an attack roll, it first takes 2 heat.<br><b>Mirage:</b> Choose your mech or an allied character you can see. Your target's systems relay blurred, illusory images of that character over its real image that confuse your target's systems. That friendly character (or your mech) counts as invisible to your target until the end of your next turn.",
     "description": "Building off SSC's strain of dormant DHIYED viral code, the Neurospike Mk1 was the first all-theater, single-use spike system developed by the Exotic Materials group. N-Mk1 comes pre-packaged with a basic, but effective, activated DHIYED virus: when fired or otherwise implanted in a synthetic target, it pumps a cocktail of DHIYED virus into the codebase, altering crew outputs and onboard systems' battlefield perception.",
     "data_type": "system",
