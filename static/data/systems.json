@@ -743,6 +743,25 @@
     }
   },
   {
+    "id": "ferrouslash",
+    "name": "Ferrous Lash",
+    "type": "System",
+    "sp": 2,
+    "tags": [{
+      "id": "quickaction"
+    }],
+    "source": "SSC",
+    "license": "BLACK WITCH",
+    "license_level": 1,
+    "effect": "A target of your choice in range 8 must pass an agility save. On a failure, it is pulled 5 in a direction of your choice. This movement must obey obstructions, terrain, etc, but doesn't provoke reactions and ignores engagement. If it collides with an obstacle or another mech, it is additionally knocked prone.",
+    "description": "Initially developed as a non lethal crowd suppression device, the Ferrous Lash is a far more complex and dangerous device in the right pilot’s hands. Fired from a series of integrated launchers, the FL system detonates payloads of fast-congeal ferrofluids that restrain their targets; tuned to the correct frequency, these proprietary SSC ferrofluid blends form into rudimentary ambulatory segments, pulling their hosts back towards the casting unit.",
+    "data_type": "system",
+    "aptitude": {
+      "control": 2,
+      "repair": 0
+    }
+  },
+  {
     "id": "iceout",
     "name": "ICEOUT Drone",
     "type": "Drone",
