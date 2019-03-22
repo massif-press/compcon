@@ -45,14 +45,14 @@
         </v-dialog>       
 
         <!-- <v-btn flat disabled>Options</v-btn> -->
-        <v-btn @click="helpModal = true" flat>Help</v-btn>
+        <v-btn @click="helpModal = true" flat disabled>Help</v-btn>
         <v-dialog v-model="helpModal" width="75vw">
           <v-card>
             <v-card-title class="title">Help</v-card-title>
             <v-card-text>
               <h1>Overview</h1>
               <p>
-                
+
               </p>
               <h1>Pilots</h1>
               <h1>Configurations (Mechs)</h1>
