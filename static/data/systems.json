@@ -1341,8 +1341,12 @@
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "quickaction"
-    }],
+        "id": "quickaction"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 1,
@@ -1449,16 +1453,12 @@
     "type": "Tech",
     "sp": 2,
     "tags": [{
-        "id": "unique"
-      },
-      {
-        "id": "fulltech"
-      }
-    ],
+      "id": "unique"
+    }],
     "source": "HORUS",
     "license": "GOBLIN",
-    "license_level": 2,
-    "effect": "Gain the following full tech options:<br><b>Dimensional Emblems:</b>Create 1d3 size 1 data constructs in free adjacent spaces to your target. None can be placed adjacent to another. Any character (allied or enemy) that passes through these constructs takes 1d3 heat and destroys the construct. They last until the end of the current challenge. Any actor can destroy these constructs by using a quick action and passing a successful systems check, and you can destroy them as a free action.<br><b>Celestial Paradigm Shift:​</b>On hit, you create a size 4 zone shaped like a cube that must fully overlap your target. Any character that starts its turn in this area or moves there for the first time on its turn takes 1d3+1 heat. It lasts until the end of the current scene, or you can destroy it as a free action.",
+    "license_level": 3,
+    "effect": "Gain the following options for Invasion::<br><b>Dimensional Emblems:</b>Create 1d3 size 1 data constructs in free adjacent spaces to your target. None can be placed adjacent to another. Any character (allied or enemy) that passes through these constructs takes 1d3 heat and destroys the construct. They last until the end of the current challenge. Any actor can destroy these constructs by using a quick action and passing a successful systems check, and you can destroy them as a free action.<br><b>Celestial Paradigm Shift:​</b>On hit, you create a size 4 zone shaped like a cube that must fully overlap your target. Any character that starts its turn in this area or moves there for the first time on its turn takes 1d3+1 heat. It lasts until the end of the current scene, or you can destroy it as a free action.",
     "description": "This tech is as-yet unstable code, but its effects can provide massive tactical benefits if the code completes. Pilots often report strange mutations or additions in the code base that resemble liturgy and suggest self-awareness.",
     "data_type": "system",
     "aptitude": {
@@ -1514,12 +1514,16 @@
   },
   {
     "id": "sentineldrone",
-    "name": "Sentinel Drone Nexus",
+    "name": "Sentinel Drone",
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "quickaction"
-    }],
+        "id": "quickaction"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "GORGON",
     "license_level": 1,
@@ -1582,14 +1586,11 @@
         "id": "ai"
       },
       {
-        "id": "protocol"
-      },
-      {
         "id": "quickaction"
       },
       {
         "id": "heatself",
-        "val": 3
+        "val": 2
       }
     ],
     "source": "HORUS",
@@ -1642,6 +1643,9 @@
       {
         "id": "limited",
         "val": 3
+      },
+      {
+        "id": "drone"
       }
     ],
     "source": "HORUS",
@@ -1709,7 +1713,7 @@
     ],
     "source": "HORUS",
     "license": "MANTICORE",
-    "license_level": 1,
+    "license_level": 3,
     "effect": "Your mech is stunned until the end of its next turn. All characters without the biological tag in a burst 1 area around your mech must pass a systems save or become stunned until the end of their next turn. Characters other than you can only be stunned once per scene by this system.",
     "description": "Crawl away, APEP! Thou hateful serpent; thou shalt not copulate! Thou art put in chains and taken to the place of execution; there thy slaying shall be carried out.",
     "data_type": "system",
@@ -1732,7 +1736,7 @@
     ],
     "source": "HORUS",
     "license": "MANTICORE",
-    "license_level": 2,
+    "license_level": 1,
     "effect": "Gain the following options for invasion:<br><b>Beckon</b>: On hit, you swap places with your target, teleporting both of you.If you' re flying when you take this option, you can only swap places with another flying character, and vice versa.<b>Summon</b>: On hit, all characters, allied or hostile, in range 3 of your target are pulled towards your target as far as possible (into adjacency if possible).",
     "description": "I am heard in the House of Stillness, I am clad in the Magick of RA: what exists is within my grasp.",
     "data_type": "system",
@@ -1791,7 +1795,7 @@
     "id": "virallogic",
     "name": "Viral Logic",
     "type": "Tech",
-    "sp": 1,
+    "sp": 2,
     "tags": [{
         "id": "unique"
       },
@@ -1809,7 +1813,7 @@
     "id": "mesmer",
     "name": "Mesmer Charge",
     "type": "Deployable",
-    "sp": 1,
+    "sp": 2,
     "tags": [{
         "id": "unique"
       },
@@ -1916,7 +1920,7 @@
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "protocol"
+        "id": "quickaction"
       },
       {
         "id": "unique"
