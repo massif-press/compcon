@@ -1251,6 +1251,10 @@
       },
       {
         "id": "ordnance"
+      },
+      {
+        "id": "heatself",
+        "val": 2
       }
     ],
     "source": "SSC",
