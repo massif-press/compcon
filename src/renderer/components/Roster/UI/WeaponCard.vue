@@ -5,11 +5,11 @@
         <em v-if="!itemData.license">{{itemData.source}}<br></em>
         <em v-else>{{itemData.source}} {{itemData.license}}, RANK <span v-for="n in itemData.license_level" :key="n">I</span><br></em>
         <p v-if="itemData.description" v-html="itemData.description" class="description-text" />
+        <p v-if="itemData.effect" v-html="itemData.effect" class="pt-1 pl-2 pr-2 subheading font-weight-bold"/>
         <b>{{itemData.mount}} {{itemData.type}} <span v-if="itemData.sp">({{itemData.sp}} SP)</span></b>
         <br>
         <damage-element dark :dmg="itemData.damage" />
         <range-element :range="itemData.range" :neurolinked="hasNeurolinked" />
-        <p v-if="itemData.effect" v-html="itemData.effect" class="pl-2"/>
         <v-layout class="mt-2">
           <tag v-for="(tag, index) in itemData.tags" :key="tag.id + index" :id="tag.id" :val="tag.val"/>
         </v-layout>

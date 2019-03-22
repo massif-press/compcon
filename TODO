@@ -1,3 +1,13 @@
+Version 1:
+  ✔ Better item card formatting @done(19-03-22 13:26)
+  ✔ Add limited bonus to tags @done(19-03-22 13:44)
+  ☐ Help Modal
+  ☐ About Modal
+  Compendium:
+    ☐ Licenses
+    ☐ Items
+  ☐ Data verification pass
+  ☐ Data formatting pass
 
 Feature Requests:
   ☐ Add tooltip for respeccing only on level note
@@ -23,15 +33,6 @@ Refactor:
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
   ☐ Load version number from package.json
-
-Version 1:
-  ☐ Better item card formatting
-  ☐ Add limited bonus to tags
-  Gear Catalog:
-    ☐ Licenses
-    ☐ Items
-  ☐ Data verification pass
-  ☐ Data formatting pass
 
 2.0:
   General Print Options:
@@ -77,19 +78,9 @@ Version 1:
 
 Styling:
   ☐ Glyphs:
-    ☐ Ranged attack
-    ☐ Threat
-    ☐ Melee attack
-    ☐ Line
-    ☐ Cone
-    ☐ Burst
-    ☐ Area
-    ☐ GMS
-    ☐ IPS-N
-    ☐ HA
-    ☐ SSC
-    ☐ HORUS
-    ☐ Several mech badge icons for sidebar avatars, user-set
+    ☐ Attack Types
+    ☐ Damage Types
+    ☐ Manufacturers
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:

@@ -7,24 +7,33 @@
           </v-avatar>
           {{ insert(tagData.name) }}
         </v-chip>
-      <v-card>
-        <v-card-title class="subheading pb-2 mb-2 pt-2 mt-2">{{ insert(tagData.name) }}</v-card-title>
-        <v-card-text class="pb-2 mb-2 pt-0 mt-0">{{ insert(tagData.description) }}</v-card-text>
-      </v-card>
+        <v-card>
+          <v-card-title class="subheading pb-2 mb-2 pt-2 mt-2">{{ insert(tagData.name) }}</v-card-title>
+          <v-card-text v-if="id === 'limited'" class="pb-2 mb-2 pt-0 mt-0">{{ insert(tagData.description) }}<br>
+            <em>(Includes +{{bonus}} Limited Systems bonus)</em></v-card-text>
+          <v-card-text v-else class="pb-2 mb-2 pt-0 mt-0">{{ insert(tagData.description) }}</v-card-text>
+        </v-card>
       </v-menu>
     </v-flex>
 </template>
 
 <script>
+  import Stats from '@/logic/stats'
+
   export default {
     name: 'tag',
     props: ['id', 'val'],
     data: () => ({
       tagData: {}
     }),
+    computed: {
+      bonus: function () {
+        return Stats.limitedBonus(this.$store.getters.getPilot)
+      }
+    },
     methods: {
       insert: function (str) {
-        return str.replace(/{VAL}/g, this.val)
+        return str.replace(/{VAL}/g, this.val + this.bonus)
       }
     },
     created: function () {
