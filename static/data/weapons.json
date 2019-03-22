@@ -1733,7 +1733,7 @@
     }],
     "range": [{
       "type": "range",
-      "val": 15
+      "val": 10
     }],
     "tags": [{
       "id": "smart"
