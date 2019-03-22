@@ -1341,8 +1341,12 @@
     "type": "Drone",
     "sp": 2,
     "tags": [{
-      "id": "quickaction"
-    }],
+        "id": "quickaction"
+      },
+      {
+        "id": "drone"
+      }
+    ],
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 1,
