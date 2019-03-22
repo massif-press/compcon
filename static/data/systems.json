@@ -677,7 +677,7 @@
     "id": "snare",
     "name": "Snare Trap",
     "type": "Deployable",
-    "sp": 3,
+    "sp": 1,
     "tags": [{
         "id": "unique"
       },
