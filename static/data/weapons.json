@@ -1251,6 +1251,10 @@
       },
       {
         "id": "ordnance"
+      },
+      {
+        "id": "heatself",
+        "val": 2
       }
     ],
     "source": "SSC",
@@ -1301,7 +1305,7 @@
     }],
     "range": [{
       "type": "range",
-      "val": 10
+      "val": 15
     }],
     "tags": [{
         "id": "arcing"
@@ -1461,11 +1465,11 @@
     ],
     "range": [{
         "type": "range",
-        "val": 30
+        "val": 20
       },
       {
         "type": "blast",
-        "val": 2
+        "val": 1
       }
     ],
     "tags": [{
@@ -1530,7 +1534,7 @@
     }],
     "source": "SSC",
     "license": "MOURNING CLOAK",
-    "license_level": 2,
+    "license_level": 1,
     "effect": "On a critical hit with this weapon, you can teleport 2 spaces in any direction.",
     "description": "“Am I alone here?”<br>“ No. There is only an absence of you. It is very busy here, but you cannot see it.”<br> - DHIYED Fragment ",
     "data_type": "weapon",

@@ -71,7 +71,7 @@
     "applied_string": "Melee",
     "source": "SSC",
     "license": "METALMARK",
-    "license_level": 1,
+    "license_level": 3,
     "effect": "This weapon gains Burn depending on its size (Aux: Burn 1, Main: Burn 2, Heavy or larger: Burn 3). If it already has Burn, this increases the burn it deals by the same amount.",
     "data_type": "mod",
     "description": "An after-fabrication modification popular among melee-oriented pilots, the Shock Wreath applies an integrated bundle of conductive filaments to the blade, point, tip, or surface of a close combat weapon. Paired with a power source (typically in the hilt or half of a weapon, but sometimes external), the Shock Wreath adds a thermal element to the kinetic, and a distinct visual marker: their weapons are picked out in fine lines of white-hot light, shrouded in heat shimmer."
