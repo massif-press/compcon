@@ -547,7 +547,7 @@
     ],
     "source": "IPS-N",
     "license": "NELSON",
-    "license_level": 2,
+    "license_level": 3,
     "effect": "Until the start of your next turn, your mech gains +2 speed when boosting and its melee attacks (including rams, grapples, etc) gain knock back +2. However, your mech must move its maximum speed each time it moves and can only move in straight lines (it can stop if it would collide with an obstacle or enemy, and it can change direction between movements).",
     "description": "Air. Air and momentum. There's a threshold that veteran Nelson pilots know well, the Point of Endless Momentum. When you get moving fast enough, in the right atmosphere, the air itself feeds into auxiliary ports on the chassis, compressing, howling out like a demon's angry scream. The Point of Endless Momentum is a giant's hand on your chest and a god's chariot under your feet and you feel like you can outrun light itself and there's nothing else like it.",
     "data_type": "system",
