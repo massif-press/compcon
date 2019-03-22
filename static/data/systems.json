@@ -1586,14 +1586,11 @@
         "id": "ai"
       },
       {
-        "id": "protocol"
-      },
-      {
         "id": "quickaction"
       },
       {
         "id": "heatself",
-        "val": 3
+        "val": 2
       }
     ],
     "source": "HORUS",
