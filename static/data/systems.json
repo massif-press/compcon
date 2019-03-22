@@ -1920,7 +1920,7 @@
     "type": "System",
     "sp": 2,
     "tags": [{
-        "id": "protocol"
+        "id": "quickaction"
       },
       {
         "id": "unique"
