@@ -16,7 +16,7 @@
     <v-container>
       <v-layout style="height: 100%" align-v="center" class="mt-5">
         <v-flex><v-btn block color="primary" large to="/roster">Pilot Roster</v-btn></v-flex>
-        <v-flex><v-tooltip bottom><v-btn slot="activator" block color="primary" large to="/roster" disabled>Gear Catalogue</v-btn><span>WIP</span></v-tooltip></v-flex>
+        <v-flex><v-btn block color="primary" large to="/compendium">COMPENDIUM</v-btn></v-flex>
         <v-flex><v-tooltip bottom><v-btn slot="activator" block large :to="'/mods'" disabled>Mod Editor</v-btn><span>WIP</span></v-tooltip></v-flex>
         <v-flex><v-tooltip bottom><v-btn slot="activator" block large :to="'/gm'" disabled>GM Toolkit</v-btn><span>WIP</span></v-tooltip></v-flex>
       </v-layout>

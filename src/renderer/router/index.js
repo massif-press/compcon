@@ -42,6 +42,36 @@ export default new Router({
       component: require('@/components/Roster/ConfigSheet/Print/PrintView').default
     },
     {
+      path: '/compendium',
+      component: require('@/components/Compendium/index').default,
+      children: [
+        {
+          path: '/licenses',
+          component: require('@/components/Compendium/Views/Licenses').default
+        },
+        {
+          path: '/manufacturers',
+          component: require('@/components/Compendium/Views/Manufacturers').default
+        },
+        {
+          path: '/frames',
+          component: require('@/components/Compendium/Views/Frames').default
+        },
+        {
+          path: '/weapons',
+          component: require('@/components/Compendium/Views/Weapons').default
+        },
+        {
+          path: '/systems',
+          component: require('@/components/Compendium/Views/Systems').default
+        },
+        {
+          path: '/pilot_gear',
+          component: require('@/components/Compendium/Views/PilotGear').default
+        }
+      ]
+    },
+    {
       path: '/mods',
       name: 'mod-editor',
       component: require('@/components/Roster/index').default

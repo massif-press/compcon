@@ -5,6 +5,7 @@ Version 1:
   ☐ About Modal
   Compendium:
     ☐ Licenses
+      ☐ On item click, load corresponding compendium page and presearch for selected item
     ☐ Items
   ☐ Data verification pass
   ☐ Data formatting pass
