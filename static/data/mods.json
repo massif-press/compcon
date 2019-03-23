@@ -39,7 +39,7 @@
     "applied_string": "Any Ranged",
     "source": "HA",
     "license": "NAPOLEON",
-    "license_level": 1,
+    "license_level": 2,
     "effect": "This weapon can totally ignore line of sight and cover as long as you roughly know your target’s location when you attack, but a shot has a 50% chance of automatically missing if you attack this way (roll a d6 before you attack), expending the attack even if it misses. This weapon can attack through solid walls or obstacles and does not require a path, as long as its target’s location is known and they are in range.",
     "data_type": "mod",
     "description": "Phase-Ready ammunition, as first described after its incorporation into the civil hostilities on Luna de Oro, is the “devil‘s round“: each round contains a nanoprocessor suite networked with its firing weapon that, ideally, calculates and translates the specific nature of that round‘s superpositional relation with its doppelgänger in the immediate space before its intended target. To wit, Phase Ready ammunition, when fired, exists in two places at once: exiting the barrel of the weapon it was fired from, and at the moment of impact into its target. The prime round may never hit its target, but as it already exists at the moment of impact, its doppelgänger round will hit its target. The fuzzy nature of such spooky action occurs in a way not fully understood save for in the faltering explanations of Harrison Armory‘s NHP Think Tank; as such, the action is not perfect, but falls within acceptable parameters for licensed production."
