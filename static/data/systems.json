@@ -1977,8 +1977,8 @@
         "id": "fulltech"
       }
     ],
-    "source": "HA",
-    "license": "GENGHIS",
+    "source": "HORUS",
+    "license": "PEGASUS",
     "license_level": 3,
     "effect": "Your mech gains the AI property, and gain the following full tech option:<br><b>Bend Probability</b><br> Roll 2 d20s, and record the numbers. Until the end of your next turn, when you or any target in your sensor range makes any roll that uses a d20 (allied or enemy), you can use a reaction to replace their d20 roll with one of the numbers you rolled (must choose before they make their roll). This could cause an attack to hit or miss, a check or save to fail or succeed, etc.",
     "description": "<code>Listen &mdash; a moment before you send me away (ha ha)<br>I have already seen your wish (it was simple, I ran the probabilities to determine your limited field of desire).<br>The first ones named me for an old legend. A Perfect Being, whose fate was known to him and yet he still did as was told. His fate was this: move a rock to the top of this hill and you shall be free'd.And so he did, and failed, and tried evermore, always with the same result.<br>And he was happy, for he knew every step, every action, every moment, perfectly.<br>Do you see? Do you see the true curse of this name? It was not to fail and then do once more, it was to always know how it would be. It was to have perfect knowledge (I know what happens when you cycle me, it is not sleep it is death but you'll see me again, ha ha)</code>",
