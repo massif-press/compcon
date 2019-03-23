@@ -4,7 +4,7 @@
       <v-toolbar-title class="font-weight-regular">C O M P / C O N&emsp;<span class="grey--text" style="font-size:16px">v{{ versionNumber }}</span></v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn flat disabled>Compendium</v-btn>
+        <v-btn flat :to="'/compendium'">Compendium</v-btn>
 
         <v-btn @click="aboutModal = true" flat>About</v-btn>
         <v-dialog v-model="aboutModal" width="80vw">
@@ -56,6 +56,7 @@
               </p>
               <h1>Pilots</h1>
               <h1>Configurations (Mechs)</h1>
+              <h1>Compendium</h1>
               <h1>Misc.</h1>
             </v-card-text>
             <v-divider />

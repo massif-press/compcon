@@ -45,7 +45,8 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "target": ["nsis", "portable"]
     },
     "linux": {
       "icon": "build/icons"
