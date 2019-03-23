@@ -2059,7 +2059,7 @@
   {
     "id": "flaklauncher",
     "name": "Flak Launcher",
-    "type": "Systen",
+    "type": "System",
     "sp": 2,
     "tags": [{
       "id": "quickaction"
