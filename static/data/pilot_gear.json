@@ -13,7 +13,7 @@
       "type": "kinetic",
       "val": "1"
     }],
-    "description": "This category of weapons describes weaponry made by methods pre-dating modern alloy technology, and can describe anything from an industrial era steel sword to a stone axe.Though they are widely used in some worlds, most of these weapons used by pilots are relics, heirlooms, or serve ceremonial  purposes. Archaic weapons are too simple to harm mechs."
+    "description": "This category of weapons describes weaponry made by methods pre-dating modern alloy technology, and can describe anything from an industrial era steel sword to a stone axe. Though they are widely used in some worlds, most of these weapons used by pilots are relics, heirlooms, or serve ceremonial purposes. Archaic weapons are too simple to harm mechs."
   },
   {
     "id": "alloy_light",
@@ -81,7 +81,7 @@
       "val": "1"
     }],
     "effect": "",
-    "description": "\"Archaic\" describes pre-modern tech weapons such as black powder weapons, muskets, or bows, all commonly used in some societies. Archaic weapons are too simple to harm mechs and cannot deal damage to them. "
+    "description": "\"Archaic\" describes pre-modern tech weapons such as black powder weapons, muskets, or bows, all commonly used in some societies. Archaic weapons are too simple to harm mechs and cannot deal damage to them."
   },
   {
     "id": "sig_sidearm",
@@ -99,7 +99,7 @@
       "val": "1"
     }],
     "effect": "Player selects damage type at item creation",
-    "description": "Pilots carry a diverse array of weaponry with them into the battlefield, everything from heirloom weapons to custom-tooled sidearms or anonymous military - issued assault rifles. Choose the damage type when you acquire it (from explosive, energy, or kinetic). You can use this entry to represent the weapon that your pilot typically carries or uses."
+    "description": "Pilots carry a diverse array of weaponry with them into the battlefield, everything from heirloom weapons to custom-tooled sidearms or anonymous military-issued assault rifles. Choose the damage type when you acquire it (from explosive, energy, or kinetic). You can use this entry to represent the weapon that your pilot typically carries or uses."
   },
   {
     "id": "sig_combat",
@@ -125,8 +125,7 @@
         "id": "ordnance"
       },
       {
-        "id": "limited",
-        "val": 3
+        "id": "loading"
       }
     ],
     "range": [{
@@ -226,7 +225,7 @@
     "id": "rations",
     "type": "gear",
     "name": "Extra Rations",
-    "description": "Pilot rations are typically no better than their nautical antecedents - hard tack and nutritious paste. It's not uncommon for pilots to store extra food or luxuries such as chocolate, coffee, alcohol, or canned or dried goods from their home world"
+    "description": "Pilot rations are typically no better than their nautical antecedents - hardtack and nutritious paste. It's not uncommon for pilots to store extra food or luxuries such as chocolate, coffee, alcohol, or canned or dried goods from their home world"
   },
   {
     "id": "frag",
@@ -295,7 +294,7 @@
     "type": "gear",
     "name": "Stims",
     "uses": 3,
-    "description": "These chemical stimulants are sometimes administered automatically by built-in injectors in a pilot's suit, or even their body. Choose one when you take a stim:  <br>Kick: Keeps a pilot awake and alert for up to 30 hours.<br>Freeze: Keeps a pilot calm and emotionally stable, deadens fear or other strong reactions. <br>Juice: Heightens senses, alertness, dispels fatigue, and shortens reaction times. Known to occasionally provoke rage in some users.<br>Uncontrolled use of any stims can be addictive and dangerous to health in the long term and is a problem for some pilots."
+    "description": "These chemical stimulants are sometimes administered automatically by built-in injectors in a pilot's suit, or even their body. Choose one when you take a stim: <br><b>Kick</b>: Keeps a pilot awake and alert for up to 30 hours.<br><b>Freeze</b>: Keeps a pilot calm and emotionally stable, deadens fear or other strong reactions. <br><b>Juice</b>: Heightens senses, alertness, dispels fatigue, and shortens reaction times. Known to occasionally provoke rage in some users.<br>Uncontrolled use of any stims can be addictive and dangerous to health in the long term and is a problem for some pilots."
   },
   {
     "id": "arm",
