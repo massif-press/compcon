@@ -1,7 +1,6 @@
 <template>
   <v-card>
     <v-container fluid grid-list-xs>
-      {{pointLimit}}
       <v-card :hover="playerRank === 0" :class="`pb-2 ${ playerRank === 0 ?'elevation-10' : ''}`">
         <v-card-title class="pb-0"><span :class="`headline ${playerRank === 0 ? 'grey--text' : 'font-weight-bold'}`">Rank I</span>&emsp;
           <span v-if="playerRank === 0">

@@ -1,7 +1,7 @@
 Bugs:
   ✔ clipboard import does not change copied config ids @done(19-03-24 16:05)
-  ☐ reinforced grapples not showing up in system select
-  ☐ gyges cb should increase threat by 1
+  ✔ reinforced grapples not showing up in system select @done(19-03-24 16:17)
+  ✔ gyges cb should increase threat by 1 @done(19-03-24 16:39)
   ✔ export/import json fails @done(19-03-24 16:05)
 
 Version 1:
@@ -10,13 +10,11 @@ Version 1:
   ☐ Data verification pass
   ☐ Data formatting pass
 
-Feature Requests:
-  ☐ Add tooltip for respeccing only on level note
-
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ data loaders from mounted into created @high
+  ☐ item tables should use vuetify's search param, not .filter()
   ☐ Vue set instead of direct assign
   ☐ props array to object
   ☐ new pilot selectors and edit pilot selectors should return the same object
