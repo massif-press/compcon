@@ -692,7 +692,7 @@
     "mechtype": "Scout",
     "description": "The SWALLOWTAIL platform is Smith-Shimano’s primary long range/long term scouting platform, built for rapid and sustained ranging across hostile, volatile environments. Built for long term sustainability, it can operate in unstable environs for months and adjust its operating efficiency on the fly for maximum survivability. Each FRAME has an integrated cloak and a suite of predictive choral intelligences that work with its highly developed sensor systems to rapidly simulate and predict developing tactical situations - sometimes before they even occur.",
     "mounts" : [
-      "Aux/Aux", "Main/Aux"
+      "Aux/Aux", "Flex"
     ],
     "stats": {
       "size": 1,

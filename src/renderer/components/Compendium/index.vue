@@ -8,20 +8,20 @@
     <sidebar ref="sidebar" />
 
     <!-- Page Content -->
-    <router-view class="pt-5"></router-view>
+    <router-view class="pt-5 mt-3"></router-view>
 
     </div>    
   </div>
 </template>
 
 <script>
-  // import {Topbar, Sidebar} from './UI'
+  import {Topbar, Sidebar} from './UI'
   // import PilotSheet from './PilotSheet/'
   // import ConfigSheet from './ConfigSheet/'
 
   export default {
     name: 'roster',
-    // components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
+    components: { Topbar, Sidebar },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
