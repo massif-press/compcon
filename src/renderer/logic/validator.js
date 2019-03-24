@@ -11,7 +11,7 @@ export default {
   pilot (data) {
     // this is largely a stub for future work (and potetentially version-checking)
     // pilots should "work" with basically a blank object to write to
-    return data.id && data.name && data.callsign && data.level
+    return data.id && data.name && data.callsign
   },
   clipboardPilot (data, callback) {
     var err = null

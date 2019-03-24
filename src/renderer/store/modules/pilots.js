@@ -173,6 +173,9 @@ const actions = {
   },
   importPilot (context, payload) {
     payload.id = io.newID()
+    for (var i = 0; i < payload.configs.length; i++) {
+      payload.configs[i].pilot_id = payload.id
+    }
     context.commit('ADD_PILOT', payload)
   },
   deletePilot (context, payload) {
