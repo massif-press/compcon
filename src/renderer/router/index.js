@@ -46,6 +46,10 @@ export default new Router({
       component: require('@/components/Compendium/index').default,
       children: [
         {
+          path: '',
+          redirect: '/licenses'
+        },
+        {
           path: '/licenses',
           component: require('@/components/Compendium/Views/Licenses').default
         },

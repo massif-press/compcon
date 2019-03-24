@@ -74,7 +74,10 @@
         return 'teal'
       },
       openItem: function (t) {
-        console.error('not yet implemented')
+        this.$store.dispatch('setPresearch', t.name)
+        if (t.data_type === 'frame') this.$router.push('frames')
+        else if (t.data_type === 'weapon') this.$router.push('weapons')
+        else this.$router.push('systems')
       },
       manufacturer: function (id) {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())

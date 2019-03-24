@@ -1,11 +1,21 @@
+Bugs:
+  ☐ clipboard import does not change copied config ids
+  ☐ reinforced grapples not showing up in system select
+  ☐ gyges cb should increase threat by 1
+  ☐ export/import json fails 
+
 Version 1:
   ✔ Better item card formatting @done(19-03-22 13:26)
   ✔ Add limited bonus to tags @done(19-03-22 13:44)
+  ☐ Overcharge on Character Sheet
   ☐ Help Modal
   ☐ About Modal
   Compendium:
     ☐ Licenses
       ☐ On item click, load corresponding compendium page and presearch for selected item
+    ✔ Updated text for HORUS @done(19-03-24 13:06)
+    ✔ Updated text for SSC @done(19-03-24 13:06)
+    ✔ Updated text for IPS-N @done(19-03-24 13:06)
     ☐ Items
   ☐ Data verification pass
   ☐ Data formatting pass

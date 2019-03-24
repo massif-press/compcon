@@ -33,9 +33,11 @@
     <v-card>
       <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Mounts</v-card-title>
       <v-card-text class="text-xs-center">
-        <v-layout justify-space-between>
-        <v-flex v-for="(t, i) in frame.mounts" :key="t + i"><b class="pt-2 pb-2 pl-5 pr-5 subheading font-weight-black elevation-5">&emsp;{{t}}&emsp;</b></v-flex>
-        </v-layout>
+        <v-container>
+          <v-layout>
+          <v-flex v-for="(t, i) in frame.mounts" :key="t + i"><b class="pt-2 pb-2 pl-5 pr-5 subheading font-weight-black elevation-5">&emsp;{{t}}&emsp;</b></v-flex>
+          </v-layout>
+        </v-container>
       </v-card-text>
 
       <v-card v-if="frame.core_system.integrated">
