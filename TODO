@@ -1,22 +1,12 @@
 Bugs:
-  ☐ clipboard import does not change copied config ids
+  ✔ clipboard import does not change copied config ids @done(19-03-24 16:05)
   ☐ reinforced grapples not showing up in system select
   ☐ gyges cb should increase threat by 1
-  ☐ export/import json fails 
+  ✔ export/import json fails @done(19-03-24 16:05)
 
 Version 1:
-  ✔ Better item card formatting @done(19-03-22 13:26)
-  ✔ Add limited bonus to tags @done(19-03-22 13:44)
-  ☐ Overcharge on Character Sheet
+  ☐ Overcharge on Mech Sheet
   ☐ Help Modal
-  ☐ About Modal
-  Compendium:
-    ☐ Licenses
-      ☐ On item click, load corresponding compendium page and presearch for selected item
-    ✔ Updated text for HORUS @done(19-03-24 13:06)
-    ✔ Updated text for SSC @done(19-03-24 13:06)
-    ✔ Updated text for IPS-N @done(19-03-24 13:06)
-    ☐ Items
   ☐ Data verification pass
   ☐ Data formatting pass
 
@@ -95,6 +85,15 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Better item card formatting @done(19-03-22 13:26) @project(Version 1)
+  ✔ Add limited bonus to tags @done(19-03-22 13:44) @project(Version 1)
+  ✔ About Modal @done(19-03-24 15:56) @project(Version 1)
+  ✔ Licenses @done(19-03-24 15:57) @project(Version 1.Compendium)
+  ✔ On item click, load corresponding compendium page and presearch for selected item @done(19-03-24 15:57) @project(Version 1.Compendium)
+  ✔ Updated text for HORUS @done(19-03-24 13:06) @project(Version 1.Compendium)
+  ✔ Updated text for SSC @done(19-03-24 13:06) @project(Version 1.Compendium)
+  ✔ Updated text for IPS-N @done(19-03-24 13:06) @project(Version 1.Compendium)
+  ✔ Items @done(19-03-24 15:57) @project(Version 1.Compendium)
   ✔ Pilot HP not representing GRIT @done(19-03-21 11:26) @project(Bugs)
   ✔ New config not loading correctly after creation @done(19-03-21 18:57) @project(Bugs)
   ✔ Print @done(19-03-21 11:26) @project(Version 1.Pilot Sheet)
