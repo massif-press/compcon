@@ -18,7 +18,7 @@
           </template>
           <template slot="expand" slot-scope="props">
             <v-card flat>
-              <v-card-text><weapon-card :itemData="props.item" /></v-card-text>
+              <v-card-text><weapon-card :itemData="props.item" table-item/></v-card-text>
             </v-card>          
           </template>
         </v-data-table>

@@ -29,7 +29,7 @@
               </span> 
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element dark small :range="itemData.range" :neurolinked="hasNeurolinked" />
+                <range-element dark small :range="itemData.range" :bonuses="rangeBonuses" show-cb/>
                 &emsp;&mdash;&emsp;
                 <damage-element dark small size="16" :dmg="itemData.damage" />
                 <v-spacer class="mr-3"/>
@@ -73,8 +73,11 @@ export default {
       if (!this.item.mod) return {}
       return this.$store.getters.getItemById('WeaponMods', this.item.mod)
     },
-    hasNeurolinked: function () {
-      return this.$store.getters.getPilot.core_bonuses.includes('neurolinked')
+    rangeBonuses: function () {
+      return {
+        neurolinked: (this.$store.getters.getPilot.core_bonuses.includes('neurolinked') && this.itemData.type !== 'Melee'),
+        gyges: (this.$store.getters.getPilot.core_bonuses.includes('gyges') && this.itemData.type === 'Melee')
+      }
     }
   },
   methods: {
