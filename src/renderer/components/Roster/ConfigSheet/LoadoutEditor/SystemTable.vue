@@ -65,6 +65,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import SystemCard from '../../UI/SystemCard'
 
   export default {
@@ -120,7 +121,7 @@
         }
 
         // filter dupe uniques
-        i = i.filter(x => (x.tags && !x.tags.map(t => t.id).includes('unique')) || (x.tags && x.tags.map(t => t.id).includes('unique') && !this.installed_systems.map(y => y.id).includes(x.id)))
+        i = i.filter(_.negate(x => x.tags && x.tags.map(t => t.id).includes('unique') && this.installed_systems.map(y => y.id).includes(x.id)))
 
         if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
 
