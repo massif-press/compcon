@@ -46,7 +46,10 @@
     },
     "win": {
       "icon": "build/icons/icon.ico",
-      "target": ["nsis", "portable"]
+      "target": [
+        "nsis",
+        "portable"
+      ]
     },
     "linux": {
       "icon": "build/icons"
@@ -66,6 +69,7 @@
     "vuex-electron": "^1.0.3"
   },
   "devDependencies": {
+    "@mdi/font": "^3.5.95",
     "ajv": "^6.10.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -100,6 +104,7 @@
     "html-webpack-plugin": "^3.2.0",
     "jsdoc": "^3.5.5",
     "jsdoc-vuejs": "^2.4.2",
+    "material-design-icons-iconfont": "^4.0.5",
     "mini-css-extract-plugin": "0.4.0",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
