@@ -107,6 +107,7 @@
     "material-design-icons-iconfont": "^4.0.5",
     "mini-css-extract-plugin": "0.4.0",
     "multispinner": "^0.2.1",
+    "node": "^8.15.0",
     "node-loader": "^0.6.0",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
