@@ -55,7 +55,7 @@
         this.$emit('confirm', this.bonus_toggle)
       }
     },
-    mounted: function () {
+    created: function () {
       this.appliedBonuses = this.mount.bonuses || []
       this.pendingBonuses = ['hardpoints', 'burnout', 'intweapon', 'retrofit'].filter(x => this.pilot.core_bonuses.includes(x) && !this.allAppliedCbs.includes(x))
       this.bonus_toggle = this.appliedBonuses

@@ -12,9 +12,9 @@
 <script>
   export default {
     name: 'trait-item',
-    props: [
-      'trait'
-    ]
+    props: {
+      trait: Object
+    }
   }
 </script>
 

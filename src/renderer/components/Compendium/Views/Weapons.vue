@@ -47,7 +47,7 @@
         {text: 'SP Cost', align: 'left', value: 'sp'}
       ]
     }),
-    mounted: function () {
+    created: function () {
       this.weapons = this.$store.getters.getItemCollection('MechWeapons').filter(x => x.source)
       var ps = this.$store.getters.getPresearch
       if (ps) {

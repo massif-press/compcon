@@ -26,7 +26,9 @@
 <script>
   export default {
     name: 'background-selecor',
-    props: [ 'preSelected' ],
+    props: {
+      preSelected: String
+    },
     data: () => ({
       backgrounds: []
     }),
@@ -35,7 +37,7 @@
         this.$emit('selected', {field: 'background', value: id})
       }
     },
-    mounted: function () {
+    created: function () {
       this.backgrounds = this.$store.getters.getItemCollection('Backgrounds')
     }
   }

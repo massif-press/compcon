@@ -12,7 +12,7 @@
           </v-flex>
           <v-flex v-for="i in images" :key="i" xs3> 
             <div :class="`justify-center pa-1 ${i === preselect ? 'preselected' : 'clickable'}`" @click="assignImage(i)">
-              <v-img :src="`file://${userDataPath}/img/portrait/${i}`" position="top" max-height="40vh" max-width="40vw" contain/> 
+              <v-img :src="`file://${userDataPath}/img/frame/${i}`" position="top" max-height="40vh" max-width="40vw" contain/> 
             </div>
           </v-flex>
         </v-layout>
@@ -26,16 +26,15 @@
 
   export default {
     name: 'image-selector',
-    props: [
-      'preselect',
-      'default_img'
-    ],
+    props: {
+      preselect: String,
+      default_img: String
+    },
     data: () => ({
       images: []
     }),
     methods: {
       assignImage: function (src) {
-        console.log(src)
         this.$emit('assign-img', src)
       },
       importAll: function () {
@@ -58,6 +57,7 @@
         })
         io.importImage(this.userDataPath, imgType, path[0])
         this.importAll()
+        this.$forceUpdate()
       }
     },
     mounted: function () {

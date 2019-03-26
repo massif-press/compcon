@@ -62,7 +62,12 @@
 <script>
   export default {
     name: 'talent-selector-item',
-    props: ['talent', 'playerRank', 'pointLimit', 'newPilot'],
+    props: {
+      talent: Object,
+      playerRank: Number,
+      pointLimit: Boolean,
+      newPilot: Boolean
+    },
     methods: {
       addTalent: function () {
         this.$emit('add-talent', this.talent.id)

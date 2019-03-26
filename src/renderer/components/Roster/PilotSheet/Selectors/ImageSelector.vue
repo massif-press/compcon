@@ -43,9 +43,10 @@
 
   export default {
     name: 'image-selector',
-    props: [
-      'preselectPortrait', 'preselectAvatar'
-    ],
+    props: {
+      preselectPortrait: String,
+      preselectAvatar: String
+    },
     data: () => ({
       tabController: null,
       done: false,
@@ -85,6 +86,7 @@
         })
         io.importImage(this.userDataPath, imgType, path[0])
         this.importAll()
+        this.$forceUpdate()
       }
     },
     mounted: function () {

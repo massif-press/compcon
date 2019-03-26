@@ -44,7 +44,12 @@
 <script>
   export default {
     name: 'skill-selector-item',
-    props: ['skillData', 'isNewPilot', 'can-add', 'can-subtract'],
+    props: {
+      skillData: Object,
+      isNewPilot: Boolean,
+      canAdd: Boolean,
+      canSubtract: Boolean
+    },
     methods: {
       clicked: function (action) {
         this.$emit('skill-click', {id: this.skillData.id, action: action})

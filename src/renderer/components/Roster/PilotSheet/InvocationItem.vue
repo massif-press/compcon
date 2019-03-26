@@ -17,7 +17,10 @@
 <script>
   export default {
     name: 'invocation-item',
-    props: ['invoke', 'index'],
+    props: {
+      'invoke': Object,
+      'index': Number
+    },
     methods: {
       remove: function () {
         this.$emit('remove-invoke', this.index)

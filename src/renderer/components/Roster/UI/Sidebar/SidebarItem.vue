@@ -75,13 +75,14 @@
 
 <script>
   import NewConfig from '../../ConfigSheet/NewConfig'
+  
   export default {
     name: 'sidebar-item',
     components: { NewConfig },
-    props: [
-      'isMini',
-      'pilot'
-    ],
+    props: {
+      isMini: Boolean,
+      pilot: Object
+    },
     data: () => ({
       group: null,
       newConfigModal: false,

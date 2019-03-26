@@ -72,7 +72,11 @@
 
   export default {
     name: 'license-selector-item',
-    props: ['license', 'playerRank', 'pointLimit'],
+    props: {
+      license: Object,
+      playerRank: Number,
+      pointLimit: Boolean
+    },
     components: { ItemBadge },
     methods: {
       addLicense: function () {

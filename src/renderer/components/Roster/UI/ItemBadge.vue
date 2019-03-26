@@ -17,7 +17,10 @@
 
   export default {
     name: 'item-badge',
-    props: [ 'item', 'locked' ],
+    props: {
+      item: Object,
+      locked: Boolean
+    },
     components: { Tag, ItemCard }
   }
 </script>

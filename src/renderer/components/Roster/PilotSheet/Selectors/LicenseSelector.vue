@@ -12,14 +12,14 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-            <div v-for="license in licenses" :key="`summary_${license.name}`">
-                <v-layout>
-                  <v-flex xs12>
-                    <strong>{{ license.name }}</strong>
-                    <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
-                  </v-flex>
-                </v-layout>
-            </div>
+              <div v-for="license in licenses[m]" :key="`summary_${license.name}`">
+                  <v-layout>
+                    <v-flex xs12>
+                      <strong>{{ license.name }}</strong>
+                      <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
+                    </v-flex>
+                  </v-layout>
+              </div>
           </v-flex> 
         </v-layout>
         <v-layout><v-flex xs12><hr></v-flex></v-layout>
@@ -40,22 +40,36 @@
 
 
       <v-flex id="list-area">
-  <v-expansion-panel expand focusable>
-    <v-expansion-panel-content v-for="l in licenseData" :key="`${l.license}_data'`" >
-      <v-toolbar-title slot="header">
-      <span>{{l.license.toUpperCase()}}</span>
-      <span v-for="n in playerRank(l.license.toUpperCase())" :key="`${l.license}_plevel_${n}`"><v-icon>star</v-icon></span>
-      </v-toolbar-title>
-      <v-card>
-      <license-selector-item :license="l" :playerRank="playerRank(l.license.toUpperCase())" @add-license="addLicense" @remove-license="removeLicense" :pointLimit="pointLimit" />
-      </v-card>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+        <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
+          <v-layout>
+            <v-flex class="text-xs-center pa-3">
+              <span class="display-2 text-uppercase font-weight-light">{{manufacturer(m).name}}</span>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <v-expansion-panel expand focusable>
+                <v-expansion-panel-content v-for="l in licenseData[m]" :key="`${l.license}_data'`" >
+                  <v-toolbar-title slot="header">
+                  <span>{{l.license.toUpperCase()}}</span>
+                  <span v-for="n in playerRank(l.license.toUpperCase())" :key="`${l.license}_plevel_${n}`"><v-icon>star</v-icon></span>
+                  </v-toolbar-title>
+                  <v-card>
+                  <license-selector-item :license="l" :playerRank="playerRank(l.license.toUpperCase())" @add-license="addLicense" @remove-license="removeLicense" :pointLimit="pointLimit" />
+                  </v-card>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-flex>
+          </v-layout>
+          <br>
+          <v-divider />
+        </div>
       </v-flex></v-layout>
   </v-container>
 </template>
 
 <script>
+  import _ from 'lodash'
   import LicenseSelectorItem from './LicenseSelectorItem'
 
   function licenseSort (licenses) {
@@ -105,6 +119,9 @@
         var t = this.licenses.find(x => x.name.toUpperCase() === name)
         return t ? t.level : 0
       },
+      manufacturer: function (id) {
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      },
       addLicense: function (l) {
         var idx = this.licenses.findIndex(x => x.name.toUpperCase() === l.name.toUpperCase())
         if (idx === -1) {
@@ -147,7 +164,7 @@
     },
     created: function () {
       this.pLevel = this.pilotLevel
-      this.licenseData = this.$store.getters.getItemCollection('Licenses')
+      this.licenseData = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
       this.pointLimit = this.pilotLicenses.reduce((a, b) => +a + +b.level, 0) >= this.points.pointsMax
       this.initialize()
     }

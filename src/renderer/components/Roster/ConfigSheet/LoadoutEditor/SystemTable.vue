@@ -28,7 +28,7 @@
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
-      <v-data-table :headers="headers" :items="systems" :expand="true" item-key="id" hide-actions>
+      <v-data-table :headers="headers" :items="systems" :expand="true" :search="search" item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;"><v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
@@ -122,8 +122,6 @@
 
         // filter dupe uniques
         i = i.filter(_.negate(x => x.tags && x.tags.map(t => t.id).includes('unique') && this.installed_systems.map(y => y.id).includes(x.id)))
-
-        if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
 
         return i
       },

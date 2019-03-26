@@ -60,6 +60,7 @@ const getters = {
     return getters.getPilot.configs.find(c => c.id === state.activeConfigID) || {}
   },
   getConfigIndex: (state, getters, rootState) => (id) => {
+    console.log(state.activeConfigID)
     return getters.getPilot.configs.findIndex(c => c.id === id)
   },
   getMechStats: (state, getters, rootState) => (id, loadout) => {

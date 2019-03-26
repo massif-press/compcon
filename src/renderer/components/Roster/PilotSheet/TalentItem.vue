@@ -51,10 +51,10 @@
 <script>
   export default {
     name: 'talent-item',
-    props: [
-      'talent',
-      'talentData'
-    ],
+    props: {
+      talent: Object,
+      talentData: Object
+    },
     methods: {
       isLocked (target) {
         return !(this.talent.rank >= target)

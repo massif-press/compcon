@@ -46,7 +46,7 @@ export default {
       repcap: frame.stats.repcap + Math.floor(pilot.mechSkills.hull / 2),
       evasion: frame.stats.evasion + pilot.mechSkills.agi,
       speed: frame.stats.speed + Math.floor(pilot.mechSkills.agi / 2),
-      sensor_range: frame.stats.sensor_range + pilot.mechSkills.sys,
+      sensor_range: frame.stats.sensor_range,
       edef: frame.stats.edef + pilot.mechSkills.sys,
       heatcap: frame.stats.heatcap + pilot.mechSkills.eng,
       heatstress: rules.base_stress,

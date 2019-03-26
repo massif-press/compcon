@@ -237,7 +237,7 @@ export default {
       this.$parent.loadoutForceReloadTrigger = this.reloadTrigger
     }
   },
-  mounted: function () {
+  created: function () {
     this.max = {
       armor: rules.max_pilot_armor,
       weapons: rules.max_pilot_weapons,

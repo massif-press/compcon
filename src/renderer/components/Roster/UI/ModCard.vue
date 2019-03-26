@@ -19,7 +19,9 @@
 
   export default {
     name: 'mod-card',
-    props: ['modData'],
+    props: {
+      modData: Object
+    },
     components: { Tag }
   }
 </script>

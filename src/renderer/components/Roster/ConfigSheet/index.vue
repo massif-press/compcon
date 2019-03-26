@@ -65,7 +65,7 @@
         
         <v-flex xs6 class="ma-2">
           <div style="background-color: #757575">
-            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/portrait/${config.custom_img}`" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
             <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
             </div>
             <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>

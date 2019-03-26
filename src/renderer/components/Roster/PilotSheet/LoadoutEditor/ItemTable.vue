@@ -8,7 +8,7 @@
     </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
-          :items="gearItems" :expand="true" item-key="id" hide-actions>
+          :items="gearItems" :expand="true" :search="search" :item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
             <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
@@ -58,7 +58,9 @@
   export default {
     name: 'item-table',
     components: { GearCard, RangeElement, DamageElement },
-    props: [ 'itemType' ],
+    props: {
+      itemType: String
+    },
     data: () => ({
       selectedIndex: -1,
       filterText: '',
@@ -77,8 +79,8 @@
       weapon_headers: [
         {align: 'left', sortable: false, width: '5vw'},
         {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Damage', align: 'left', value: 'damage'},
-        {text: 'Range', align: 'left', value: 'range'}
+        {text: 'Damage', align: 'left', value: 'damage[0].val'},
+        {text: 'Range', align: 'left', value: 'range[0].val'}
       ],
       gear_headers: [
         {align: 'left', sortable: false, width: '5vw'},
@@ -88,31 +90,7 @@
     }),
     computed: {
       gearItems: function () {
-        var cmp = this
-        // filter by type
-        var i = cmp.$store.getters.getItemCollection('PilotGear').filter(x => cmp.itemType === x.type)
-
-        if (cmp.search) i = i.filter(x => x.name.toLowerCase().includes(cmp.search.toLowerCase()))
-
-        // sort UI options
-        if (cmp.sortRule) {
-          i.sort(function (a, b) {
-            var field = cmp.sortRule.field
-            if (Number.isInteger(a[field])) {
-              return cmp.sortRule.dir === 'asc'
-                ? a[field] - b[field]
-                : b[field] - a[field]
-            } else {
-              var fA = a[field].toLowerCase()
-              var fB = b[field].toLowerCase()
-              return cmp.sortRule.dir === 'asc'
-                ? (fA < fB) ? -1 : (fA > fB) ? 1 : 0
-                : (fA > fB) ? -1 : (fA < fB) ? 1 : 0
-            }
-          })
-        }
-
-        return i
+        return this.$store.getters.getItemCollection('PilotGear').filter(x => this.itemType === x.type)
       }
     },
     methods: {

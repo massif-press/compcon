@@ -22,7 +22,10 @@
 
   export default {
     name: 'tag',
-    props: ['id', 'val'],
+    props: {
+      id: String,
+      val: Number
+    },
     data: () => ({
       tagData: {}
     }),
