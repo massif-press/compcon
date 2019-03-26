@@ -1,23 +1,13 @@
 
 Version 1:
-  ✔ Overcharge on Mech Sheet @done(19-03-25 15:15)
   ☐ Help Modal
-  ✔ Show Manufacturer on the license selector page @done(19-03-26 13:58)
   ☐ Data verification pass
   ☐ Data formatting pass
-  ✔ Fix config art assign in build @done(19-03-26 14:39)
-  ✔ Fix Compendium: Frames v-flex @done(19-03-26 13:50)
-  ✔ Add "ADD MECH" button on pilots with no configs @done(19-03-26 11:32)
-  ✔ Correct missing text on LAW OF BLADES @done(19-03-26 14:47)
-  ✔ Remove erroneous Systems bonus to Sensor Range @done(19-03-26 14:47)
 
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
-  ✔ data loaders from mounted into created @done(19-03-25 12:20)
-  ✔ item tables should use vuetify's search param, not .filter() @done(19-03-25 12:15)
   ☐ Vue set instead of direct assign
-  ✔ props array to object @done(19-03-25 12:03)
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same
@@ -32,7 +22,6 @@ Refactor:
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
-  ✔ Load version number from package.json @done(19-03-25 11:38)
 
 2.0:
   ☐ Alternate Roster/Hangar views
@@ -85,6 +74,18 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Overcharge on Mech Sheet @done(19-03-25 15:15) @project(Version 1)
+  ✔ Show Manufacturer on the license selector page @done(19-03-26 13:58) @project(Version 1)
+  ✔ Fix dumb core bonus mistake @done(19-03-26 17:02) @project(Version 1)
+  ✔ Fix config art assign in build @done(19-03-26 14:39) @project(Version 1)
+  ✔ Fix Compendium: Frames v-flex @done(19-03-26 13:50) @project(Version 1)
+  ✔ Add "ADD MECH" button on pilots with no configs @done(19-03-26 11:32) @project(Version 1)
+  ✔ Correct missing text on LAW OF BLADES @done(19-03-26 14:47) @project(Version 1)
+  ✔ Remove erroneous Systems bonus to Sensor Range @done(19-03-26 14:47) @project(Version 1)
+  ✔ data loaders from mounted into created @done(19-03-25 12:20) @project(Refactor)
+  ✔ item tables should use vuetify's search param, not .filter() @done(19-03-25 12:15) @project(Refactor)
+  ✔ props array to object @done(19-03-25 12:03) @project(Refactor)
+  ✔ Load version number from package.json @done(19-03-25 11:38) @project(Refactor)
   ✔ clipboard import does not change copied config ids @done(19-03-24 16:05) @project(Bugs)
   ✔ reinforced grapples not showing up in system select @done(19-03-24 16:17) @project(Bugs)
   ✔ gyges cb should increase threat by 1 @done(19-03-24 16:39) @project(Bugs)

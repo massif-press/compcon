@@ -150,11 +150,7 @@
           licenses[source] = this.pilotLicenses[i].level
         }
       }
-      for (var j = 0; j < this.pilotBonuses.length; j++) {
-        licenses[this.$store.getters.getItemById('CoreBonuses', this.pilotBonuses[j]).source] -= 3
-      }
       this.licenses = licenses
-      console.log(licenses)
       this.bonusData = allData.filter(x => licenses[x.source] >= 3)
       this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
     }
