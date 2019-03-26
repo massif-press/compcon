@@ -29,7 +29,7 @@
         console.error('not yet implemented')
       }
     },
-    mounted: function () {
+    created: function () {
       this.manufacturers = this.$store.getters.getItemCollection('Manufacturers')
     }
   }

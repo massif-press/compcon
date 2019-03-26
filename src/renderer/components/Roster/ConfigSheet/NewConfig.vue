@@ -218,7 +218,7 @@
         this.$emit('close')
       }
     },
-    mounted: function () {
+    created: function () {
       var licenses = ['EVEREST']
       for (let i = 0; i < this.pilot.licenses.length; i++) {
         var l = this.pilot.licenses[i]

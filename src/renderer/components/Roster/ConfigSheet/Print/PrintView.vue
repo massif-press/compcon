@@ -100,6 +100,14 @@
         </v-flex>
         <hr vertical />
         <v-flex shrink class="ml-2">
+          <span class="p-reg">OVERCHARGE</span>
+          <br>
+          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <br>
+          <span class="p-reg">1 / 1d3 / 1d6 / 1d6+4</span>
+        </v-flex>
+        <hr vertical />
+        <v-flex shrink class="ml-2">
           <span class="p-reg">CORE POWER</span>
           <br>
           <v-icon>crop_din</v-icon>
@@ -266,7 +274,7 @@
 
   .p-title {
     font-size: 30px;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     line-height: 30px;
   }
   

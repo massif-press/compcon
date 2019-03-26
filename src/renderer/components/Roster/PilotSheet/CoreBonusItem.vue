@@ -18,8 +18,8 @@
 <script>
   export default {
     name: 'cb-item',
-    props: [
-      'cb'
-    ]
+    props: {
+      cb: Object
+    }
   }
 </script>

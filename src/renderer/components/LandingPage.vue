@@ -49,8 +49,8 @@
     data: () => ({
       ver: 0
     }),
-    mounted: function () {
-      this.ver = this.versionNumber
+    created: function () {
+      this.ver = process.env.npm_package_version
     }
   }
 </script>

@@ -72,7 +72,7 @@
         {text: 'Uses', align: 'center', value: 'uses'}
       ]
     }),
-    mounted: function () {
+    created: function () {
       this.gear[0] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'armor')
       this.gear[1] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'weapon')
       this.gear[2] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'gear')

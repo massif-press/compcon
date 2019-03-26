@@ -48,7 +48,9 @@
 
   export default {
     name: 'gear-card',
-    props: ['itemData'],
+    props: {
+      itemData: Object
+    },
     components: { DamageElement, RangeElement, Tag },
     computed: {
       pilot: function () {

@@ -102,7 +102,7 @@ export default {
       return this.currentPoints >= this.maxPoints
     }
   },
-  mounted: function () {
+  created: function () {
     if (this.newPilot) this.pLvl = 0
     else this.pLvl = this.pilotLevel
   }

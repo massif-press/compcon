@@ -97,6 +97,9 @@
 <script>
   export default {
     name: 'level-update-block',
-    props: ['lvl', 'callsign']
+    props: {
+      lvl: Number,
+      callsign: String
+    }
   }
 </script>

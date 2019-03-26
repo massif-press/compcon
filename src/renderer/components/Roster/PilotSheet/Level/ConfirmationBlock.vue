@@ -97,7 +97,10 @@
 
   export default {
     name: 'confirmation-block',
-    props: ['pilot', 'changes'],
+    props: {
+      pilot: Object,
+      changes: Object
+    },
     methods: {
       arrDiff: function (id, attr, rank) {
         var diff = []

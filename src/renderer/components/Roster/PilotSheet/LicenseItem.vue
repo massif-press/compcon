@@ -72,10 +72,10 @@
   export default {
     name: 'license-item',
     components: { ItemBadge },
-    props: [
-      'license',
-      'licenseData'
-    ],
+    props: {
+      license: Object,
+      licenseData: Object
+    },
     data: () => ({
       modal: false
     }),

@@ -203,7 +203,7 @@
         this.newItems.level = this.pilot.level
       }
     },
-    mounted: function () {
+    created: function () {
       this.init()
     }
   }

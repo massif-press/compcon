@@ -20,7 +20,9 @@
 
   export default {
     name: 'system-card',
-    props: ['itemData'],
+    props: {
+      itemData: Object
+    },
     components: { Tag }
   }
 </script>
@@ -29,6 +31,10 @@
  .description-text {
    font-weight: 300;
    font-size: 15px;
+ }
+
+ code {
+   padding: 4px 12px 4px 12px;
  }
 </style>
 

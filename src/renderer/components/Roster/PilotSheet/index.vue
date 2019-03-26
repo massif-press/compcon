@@ -387,6 +387,30 @@
           <editable-textfield :description="'Pilot Notes'" :attr="'notes'" :initial="pilot.notes" />
           </v-flex>
       </v-layout>
+        <v-layout justify-center>
+        <v-flex xs10>
+          <v-alert :value="!pilot.configs.length" color="info" icon="info" outline>
+            <b>No Associated Mech</b><br>
+            This pilot does not have any mech Configurations associated with thier profile. A new Configuration can be added by clicking "Add New Configuration" under the Pilot's entry on the sidebar, or, by &nbsp;
+            <v-btn small color="info" outline class="ma-0 pa-1" @click="newConfigModal = true; newConfigLoader = true">clicking here</v-btn>
+          </v-alert>
+              <v-dialog lazy v-model="newConfigModal" fullscreen hide-overlay transition="fade-transition">
+                <v-card>
+                  <v-toolbar fixed dense flat>
+                    <v-toolbar-title>New Configuration</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn icon large @click="newConfigModal = false; newConfigLoader = false"> <v-icon large>close</v-icon> </v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <v-spacer class="ma-5" />
+                  <div v-if="newConfigLoader">
+                    <new-config :pilot="pilot" @close="goToConfig"/>
+                  </div>
+                </v-card>
+            </v-dialog>
+          </v-flex>
+      </v-layout>
     </v-container>
       <v-divider />
         <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
@@ -463,10 +487,11 @@
   import CoreBonusItem from './CoreBonusItem'
   import InvocationItem from './InvocationItem'
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
+  import NewConfig from '../ConfigSheet/NewConfig'
 
   export default {
     name: 'pilot-sheet',
-    components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem
+    components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig
     },
     data: () => ({
       callsignDialog: false,
@@ -475,6 +500,7 @@
       newName: '',
       invoke_trigger: '',
       invoke_attribute: null,
+      newConfigModal: false,
       backgroundModal: false,
       appearanceModal: false,
       skillModal: false,
@@ -491,6 +517,7 @@
       snackbar: false,
       notification: '',
       // loaders manage deletion and lazy loading of selectors
+      newConfigLoader: false,
       appearanceLoader: false,
       skillLoader: false,
       licenseLoader: false,
@@ -552,7 +579,6 @@
       },
       setLicenses: function (licenseArray) {
         this.licenseModal = false
-        console.log(licenseArray)
         this.$store.dispatch('editPilot', {
           attr: `licenses`,
           val: licenseArray
@@ -611,6 +637,13 @@
           start_index: tIndex,
           delete_count: 1
         })
+      },
+      goToConfig: function () {
+        this.newConfigModal = false
+        this.newConfigLoader = false
+        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.$store.dispatch('loadConfig', this.pilot.configs[this.pilot.configs.length - 1])
+        this.$router.push('/config')
       },
       deletePilot: function () {
         this.deleteDialog = false

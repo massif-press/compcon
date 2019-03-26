@@ -73,7 +73,7 @@
     "r2_name": "Expose Weakness",
     "r2_desc": "When you consume Lock On as part of an attack from a drone system or nexus weapon, on hit, your target is shredded until the end of its next turn.",
     "r3_name": "Obliteration",
-    "r3_desc": "Once per round when you critical hit a character with a nexus weapon, you can force the target to pass a systems save or suffer one of the following effects until the end of their next turn. This rank effect replaces the rank I effect of this talent.<br><ul></li><b>Harrying Swarm</b> - Your target is impaired and slowed</li></li><b>Blinding Swarm</b> - Your target only has line of sight to adjacent squares</li></li><b>Virulent Swarm</b> - Your target is Shredded. Any adjacent characters of your choice must repeat this save or also become Shredded.</li></li><b>Restricting Swarm</b> - Your target takes 1 Burn each time they take an action or reaction.</ul>"
+    "r3_desc": "Once per round when you critical hit a character with a nexus weapon, you can force the target to pass a systems save or suffer one of the following effects until the end of their next turn. This rank effect replaces the rank I effect of this talent.<ul><li><strong>Harrying Swarm</strong> - Your target is impaired and slowed</li><li><strong>Blinding Swarm </strong>- Your target only has line of sight to adjacent squares</li><li><strong>Virulent Swarm </strong>- Your target is Shredded. Any adjacent characters of your choice must repeat this save or also become Shredded.</li><li><strong>Restricting Swarm </strong>- Your target takes 1 Burn each time they take an action or reaction.</li></ul>"
   },
   {
     "id": "arms",
@@ -115,7 +115,7 @@
     "r1_name": "Spark",
     "r1_desc": "On a full repair, you can, with some trial and error, install a prototype weapon system on your mech, the specifics you may choose upon installation. You can change the profile of this weapon each time you full repair. This weapon does not take a mount to add to your mech, and counts as an integrated mount.",
     "r2_name": "Updated Plans",
-    "r2_desc": "On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon. Choose 1 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon (choose when you fire), but costs 2 heat to fire</li></ul>",
+    "r2_desc": "On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon. Choose 1 of the following:<ul><li><b>Tweak Optics</b>: You always fire your prototype weapon with +1 Accuracy.</li><li><b>Tweak Computer</b>: Your prototype weapon gains the Smart property.</li><li><b>Remove Reactor Shielding</b>: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon (choose when you fire), but costs 2 heat to fire</li></ul>",
     "r3_name": "Final Draft",
     "r3_desc": "Your prototype weapon is now limited (2d6+1) and does 1d6+2 damage."
   },
@@ -181,7 +181,7 @@
     "r1_name": "Snow_Crash",
     "r1_desc": "When you consume Lock On as part of a tech attack, your attack deals +3 heat on hit.",
     "r2_name": "Safe_Cracker",
-    "r2_desc": "Gain the following options when successfully Invading a mech:<ul><li>Jam Cockpit: Your target cannot mount or dismount their mech until they take a full action and succeed on an engineering check to fix their cockpit.</li><li>Disable Life Support: Your target’s life support is disabled. They take +1 difficulty on all saves until they spend a quick action and make a successful systems check to reboot it.</li><li>Hack./Slash: Your target cannot benefit from or make Tech actions until they spend a quick action and make a successful systems check to reboot their core computer. They can also shut down their mech to gain the same effect.</ul>",
+    "r2_desc": "Gain the following options when successfully Invading a mech:<ul><li><b>Jam Cockpit</b>: Your target cannot mount or dismount their mech until they take a full action and succeed on an engineering check to fix their cockpit.</li><li><b>Disable Life Support</b>: Your target’s life support is disabled. They take +1 difficulty on all saves until they spend a quick action and make a successful systems check to reboot it.</li><li><b>Hack./Slash</b>: Your target cannot benefit from or make Tech actions until they spend a quick action and make a successful systems check to reboot their core computer. They can also shut down their mech to gain the same effect.</ul>",
     "r3_name": "Last Argument of Kings",
     "r3_desc": "Gain the following full tech option:<br><b>Last Argument of Kings (Full Tech)</b>: Make a tech attack vs your target. On a successful attack, your target is implanted with a virus that causes their core reactor to suffer a minor meltdown. They immediately take Burn equal to their current heat."
   },

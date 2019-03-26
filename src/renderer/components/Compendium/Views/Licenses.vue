@@ -83,7 +83,7 @@
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       }
     },
-    mounted: function () {
+    created: function () {
       this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
     }
   }

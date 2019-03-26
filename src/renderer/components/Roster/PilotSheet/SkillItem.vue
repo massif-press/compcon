@@ -28,10 +28,10 @@
 <script>
 export default {
   name: 'skill-item',
-  props: [
-    'skill',
-    'skillData'
-  ],
+  props: {
+    skill: Object,
+    skillData: Object
+  },
   methods: {
     chipColor: function (skill) {
       if ((skill.specialty && skill.flaw)) return ''

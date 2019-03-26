@@ -1,11 +1,14 @@
 <template>
   <v-container fluid class="ml-5 pl-5">
     <span class="display-1 text-uppercase font-weight-thin">FRAMES</span>
-      <v-layout row>
+      <v-layout>
+        <v-flex>
       <v-autocomplete flat v-model="search" :items="frames" 
         clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo class="mt-2"/>
+        </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout >
+        <v-flex>
         <v-data-table :headers="headers" :items="frames" :search="search" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
@@ -29,6 +32,7 @@
               <frame-statblock :frame="props.item" hide-statblock />
           </template>
         </v-data-table>
+      </v-flex>
   </v-layout>
   </v-container>
 </template>
@@ -59,7 +63,7 @@
         {text: 'SP', align: 'right', value: 'stats.sp'}
       ]
     }),
-    mounted: function () {
+    created: function () {
       this.frames = this.$store.getters.getItemCollection('Frames')
       var ps = this.$store.getters.getPresearch
       if (ps) {
