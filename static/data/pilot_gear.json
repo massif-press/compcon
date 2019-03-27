@@ -11,7 +11,7 @@
     }],
     "damage": [{
       "type": "kinetic",
-      "val": "1"
+      "val": 1
     }],
     "description": "This category of weapons describes weaponry made by methods pre-dating modern alloy technology, and can describe anything from an industrial era steel sword to a stone axe. Though they are widely used in some worlds, most of these weapons used by pilots are relics, heirlooms, or serve ceremonial purposes. Archaic weapons are too simple to harm mechs."
   },
@@ -28,7 +28,7 @@
     }],
     "damage": [{
       "type": "kinetic",
-      "val": "1"
+      "val": 1
     }],
     "description": "Alloy/Composite weapon is a catch-all category describing melee weapons forged with advanced and non-reactive alloys, composite materials, and/or GMS standard fabrication tech, allowing for durable and reliable weaponry in survival or close combat situations where kinetic shielding reduces the effectiveness of ballistics."
   },
@@ -43,7 +43,7 @@
     }],
     "damage": [{
       "type": "kinetic",
-      "val": "2"
+      "val": 2
     }],
     "effect": "",
     "description": "Alloy/Composite weapon is a catch-all category describing melee weapons forged with advanced and non-reactive alloys, composite materials, and/or GMS standard fabrication tech, allowing for durable and reliable weaponry in survival or close combat situations where kinetic shielding reduces the effectiveness of ballistics."
@@ -61,7 +61,7 @@
     }],
     "damage": [{
       "type": "kinetic",
-      "val": "3"
+      "val": 3
     }],
     "description": "Alloy/Composite weapon is a catch-all category describing melee weapons forged with advanced and non-reactive alloys, composite materials, and/or GMS standard fabrication tech, allowing for durable and reliable weaponry in survival or close combat situations where kinetic shielding reduces the effectiveness of ballistics."
   },
@@ -78,7 +78,7 @@
     }],
     "damage": [{
       "type": "kinetic",
-      "val": "1"
+      "val": 1
     }],
     "effect": "",
     "description": "\"Archaic\" describes pre-modern tech weapons such as black powder weapons, muskets, or bows, all commonly used in some societies. Archaic weapons are too simple to harm mechs and cannot deal damage to them."
@@ -96,7 +96,7 @@
     }],
     "damage": [{
       "type": "variable",
-      "val": "1"
+      "val": 1
     }],
     "effect": "Player selects damage type at item creation",
     "description": "Pilots carry a diverse array of weaponry with them into the battlefield, everything from heirloom weapons to custom-tooled sidearms or anonymous military-issued assault rifles. Choose the damage type when you acquire it (from explosive, energy, or kinetic). You can use this entry to represent the weapon that your pilot typically carries or uses."
@@ -112,7 +112,7 @@
     }],
     "damage": [{
       "type": "variable",
-      "val": "2"
+      "val": 2
     }],
     "effect": "Player selects damage type at item creation",
     "description": "Pilots carry a diverse array of weaponry with them into the battlefield, everything from heirloom weapons to custom-tooled sidearms or anonymous military - issued assault rifles. Choose the damage type when you acquire it (from explosive, energy, or kinetic). You can use this entry to represent the weapon that your pilot typically carries or uses."
@@ -134,7 +134,7 @@
     }],
     "damage": [{
       "type": "variable",
-      "val": "4"
+      "val": 4
     }],
     "effect": "Player selects damage type at item creation",
     "description": "Pilots carry a diverse array of weaponry with them into the battlefield, everything from heirloom weapons to custom-tooled sidearms or anonymous military - issued assault rifles. Choose the damage type when you acquire it (from explosive, energy, or kinetic). You can use this entry to represent the weapon that your pilot typically carries or uses."
