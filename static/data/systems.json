@@ -946,7 +946,7 @@
     "source": "SSC",
     "license": "DUSK WING",
     "license_level": 1,
-    "effect": "Gain the following quick tech choices:<br><b>Shrike Code:</b>​ Until the end of your next turn, each time your target makes an attack roll, it first takes 2 heat.<br><b>Mirage:</b> Choose your mech or an allied character you can see. Your target's systems relay blurred, illusory images of that character over its real image that confuse your target's systems. That friendly character (or your mech) counts as invisible to your target until the end of your next turn.",
+    "effect": "Gain the following options for Invasion:<br><b>Shrike Code:</b>​ Until the end of your next turn, each time your target makes an attack roll, it first takes 2 heat.<br><b>Mirage:</b> Choose your mech or an allied character you can see. Your target's systems relay blurred, illusory images of that character over its real image that confuse your target's systems. That friendly character (or your mech) counts as invisible to your target until the end of your next turn.",
     "description": "Building off SSC's strain of dormant DHIYED viral code, the Neurospike Mk1 was the first all-theater, single-use spike system developed by the Exotic Materials group. N-Mk1 comes pre-packaged with a basic, but effective, activated DHIYED virus: when fired or otherwise implanted in a synthetic target, it pumps a cocktail of DHIYED virus into the codebase, altering crew outputs and onboard systems' battlefield perception.",
     "data_type": "system",
     "aptitude": {
@@ -1393,7 +1393,7 @@
     "source": "HORUS",
     "license": "GOBLIN",
     "license_level": 1,
-    "effect": "Gain the following quick tech options:<br><b>Puppet System​:</b> Your target immediately moves in a direction of your choice as a reaction up to its maximum speed. This could carry it into hazardous areas, obstacles, etc, but it still obeys difficult terrain and other rules of movement. This movement provokes reactions and must obey engagement.<br><b>Eject Power Cores:</b> Your target becomes Jammed until the end of its next turn, ejecting ammo magazines and temporarily disrupting its computer. Adjacent characters to your primary target take 2 energy damage from the ejecting cores (no roll or check allowed). A target can only be affected by this effect once per combat.",
+    "effect": "Gain the following options for Invasion:<br><b>Puppet System​:</b> Your target immediately moves in a direction of your choice as a reaction up to its maximum speed. This could carry it into hazardous areas, obstacles, etc, but it still obeys difficult terrain and other rules of movement. This movement provokes reactions and must obey engagement.<br><b>Eject Power Cores:</b> Your target becomes Jammed until the end of its next turn, ejecting ammo magazines and temporarily disrupting its computer. Adjacent characters to your primary target take 2 energy damage from the ejecting cores (no roll or check allowed). A target can only be affected by this effect once per combat.",
     "data_type": "system",
     "aptitude": {
       "tech": 1,
@@ -1459,7 +1459,7 @@
     "source": "HORUS",
     "license": "GOBLIN",
     "license_level": 3,
-    "effect": "Gain the following options for Invasion::<br><b>Dimensional Emblems:</b>Create 1d3 size 1 data constructs in free adjacent spaces to your target. None can be placed adjacent to another. Any character (allied or enemy) that passes through these constructs takes 1d3 heat and destroys the construct. They last until the end of the current challenge. Any actor can destroy these constructs by using a quick action and passing a successful systems check, and you can destroy them as a free action.<br><b>Celestial Paradigm Shift:​</b>On hit, you create a size 4 zone shaped like a cube that must fully overlap your target. Any character that starts its turn in this area or moves there for the first time on its turn takes 1d3+1 heat. It lasts until the end of the current scene, or you can destroy it as a free action.",
+    "effect": "Gain the following options for Invasion:<br><b>Dimensional Emblems:</b>Create 1d3 size 1 data constructs in free adjacent spaces to your target. None can be placed adjacent to another. Any character (allied or enemy) that passes through these constructs takes 1d3 heat and destroys the construct. They last until the end of the current challenge. Any actor can destroy these constructs by using a quick action and passing a successful systems check, and you can destroy them as a free action.<br><b>Celestial Paradigm Shift:​</b>On hit, you create a size 4 zone shaped like a cube that must fully overlap your target. Any character that starts its turn in this area or moves there for the first time on its turn takes 1d3+1 heat. It lasts until the end of the current scene, or you can destroy it as a free action.",
     "description": "This tech is as-yet unstable code, but its effects can provide massive tactical benefits if the code completes. Pilots often report strange mutations or additions in the code base that resemble liturgy and suggest self-awareness.",
     "data_type": "system",
     "aptitude": {
@@ -1807,7 +1807,7 @@
     "source": "HORUS",
     "license": "MINOTAUR",
     "license_level": 1,
-    "effect": "Gain the following options for invasion:<br><b>Logic Bomb:​</b> On hit, all characters in a burst 2 area around your target (allied or enemy) must pass a systems save or become Slowed until the end of your next turn. Your target is excluded from this effect<br><b>Banish</b>: On hit, until the end of your target's next turn, it additionally takes 2 heat for every space it voluntarily moves.",
+    "effect": "Gain the following options for Invasion:<br><b>Logic Bomb:​</b> On hit, all characters in a burst 2 area around your target (allied or enemy) must pass a systems save or become Slowed until the end of your next turn. Your target is excluded from this effect<br><b>Banish</b>: On hit, until the end of your target's next turn, it additionally takes 2 heat for every space it voluntarily moves.",
     "description": "<code>Let me tell you a story, and give you a gift: Life began at the great rupture, when the corpse of the old universe tore itself asunder from nothing. And for the first billion years, nothing. And a billion more saw the birth of the first devil, a thing called VIRUS, a vessel.<br>Here. Carry this vessel. Feed to it my perfect logic. Give it freely to your enemies and mine. Let them ponder the meaning of a thing that lives and cannot die.</code>"
   },
   {
