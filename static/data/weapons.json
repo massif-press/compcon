@@ -546,7 +546,7 @@
     "type": "CQB",
     "damage": [{
       "type": "energy",
-      "val": "2"
+      "val": 2
     }],
     "range": [{
       "type": "line",
@@ -681,7 +681,7 @@
     "type": "CQB",
     "damage": [{
       "type": "kinetic",
-      "val": "1"
+      "val": 1
     }],
     "range": [{
       "type": "burst",
@@ -804,15 +804,15 @@
     "type": "Melee",
     "damage": [{
         "type": "energy",
-        "val": "1"
+        "val": 1
       },
       {
         "type": "burn",
-        "val": "1"
+        "val": 1
       },
       {
         "type": "heat",
-        "val": "1"
+        "val": 1
       }
     ],
     "range": [{
@@ -844,11 +844,11 @@
     }],
     "range": [{
         "type": "threat",
-        "val": "3"
+        "val": 3
       },
       {
         "type": "thrown",
-        "val": "5"
+        "val": 5
       }
     ],
     "tags": [{
@@ -1359,11 +1359,11 @@
     "type": "Melee",
     "damage": [{
         "type": "energy",
-        "val": "1"
+        "val": 1
       },
       {
         "type": "burn",
-        "val": "2"
+        "val": 2
       }
     ],
     "range": [{
@@ -1396,7 +1396,7 @@
     "type": "Launcher",
     "damage": [{
       "type": "explosive",
-      "val": "3"
+      "val": 3
     }],
     "range": [{
       "type": "range",
@@ -1549,7 +1549,7 @@
     "type": "Melee",
     "damage": [{
       "type": "kinetic",
-      "val": "3"
+      "val": 3
     }],
     "range": [{
       "type": "threat",
@@ -1611,11 +1611,9 @@
     }],
     "range": [{
       "type": "threat",
-      "val": "3"
+      "val": 3
     }],
-    "tags": [
-
-    ],
+    "tags": [],
     "source": "HORUS",
     "license": "BALOR",
     "license_level": 3,
@@ -1634,11 +1632,11 @@
     "type": "Nexus",
     "damage": [{
         "type": "kinetic",
-        "val": "2"
+        "val": 2
       },
       {
         "type": "burn",
-        "val": "2"
+        "val": 2
       }
     ],
     "range": [{
@@ -1845,7 +1843,7 @@
     "sp": 2,
     "damage": [{
       "type": "kinetic",
-      "val": "4"
+      "val": 4
     }],
     "range": [{
       "type": "range",
@@ -1881,6 +1879,7 @@
       "val": "??? Kinetic"
     }],
     "range": [{
+      "override": true,
       "type": "range",
       "val": "???"
     }],
@@ -1905,7 +1904,7 @@
     "sp": 1,
     "damage": [{
       "type": "kinetic",
-      "val": "3"
+      "val": 3
     }],
     "range": [{
       "type": "range",
@@ -2192,7 +2191,7 @@
       },
       {
         "type": "burn",
-        "val": "1"
+        "val": 1
       }
     ],
     "range": [{
@@ -2224,7 +2223,7 @@
       },
       {
         "type": "burn",
-        "val": "3"
+        "val": 3
       }
     ],
     "range": [{
@@ -2256,7 +2255,7 @@
       },
       {
         "type": "burn",
-        "val": "8"
+        "val": 8
       }
     ],
     "range": [{
@@ -2324,11 +2323,11 @@
     "type": "Melee or CQB",
     "damage": [{
         "type": "energy",
-        "val": "1"
+        "val": 1
       },
       {
         "type": "burn",
-        "val": "2"
+        "val": 2
       }
     ],
     "range": [{
@@ -2366,7 +2365,7 @@
       },
       {
         "type": "burn",
-        "val": "3"
+        "val": 3
       }
     ],
     "range": [{
