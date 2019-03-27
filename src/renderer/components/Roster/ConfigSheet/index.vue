@@ -39,7 +39,7 @@
               </v-dialog>
             </v-flex>
           </v-layout>
-              <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark />
+              <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark :key="config.id"/>
           <v-layout class="mt-0"><span class="config-header mt-0">Licenses Required</span></v-layout>
           <v-layout>
             <v-flex>

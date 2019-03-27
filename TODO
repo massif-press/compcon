@@ -1,9 +1,4 @@
 
-Version 1:
-  ☐ Help Modal
-  ☐ Data verification pass
-  ☐ Data formatting pass
-  
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
@@ -62,6 +57,7 @@ Refactor:
   ☐ Gear Catalog comparison view
   ☐ Selector side panels should be fixed
   ☐ Hardsuit and Pilot Weapon rollables
+    ☐ Hardsuit and Pilot Weapon generators
   ☐ UNCLE as weapon mod
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
@@ -75,6 +71,11 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Help Modal @done(19-03-27 11:04) @project(Version 1)
+  ✔ Data verification pass @done(19-03-27 11:16) @project(Version 1)
+  ✔ Data formatting pass @done(19-03-27 11:16) @project(Version 1)
+  ✔ Correct editable textfield locking between views @done(19-03-27 10:29) @project(Version 1)
+  ✔ Remove levels in level editor @done(19-03-27 11:13) @project(Version 1)
   ✔ Overcharge on Mech Sheet @done(19-03-25 15:15) @project(Version 1)
   ✔ Show Manufacturer on the license selector page @done(19-03-26 13:58) @project(Version 1)
   ✔ Fix dumb core bonus mistake @done(19-03-26 17:02) @project(Version 1)

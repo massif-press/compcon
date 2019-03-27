@@ -47,7 +47,7 @@
               <span>Level Up</span>
             </v-tooltip>
             <v-tooltip bottom nudge-right="15px">
-              <v-btn slot="activator" @click="levelEditor = true" outline absolute icon small :disabled="pilot.level > 11" color="grey" style="top:115px; right:59px">
+              <v-btn slot="activator" @click="levelEditor = true" outline absolute icon small color="grey" style="top:115px; right:59px">
                 <v-icon small>build</v-icon>
               </v-btn>
               <span>Set Pilot Level</span>
@@ -79,11 +79,19 @@
                         <v-card color="grey lighten-3" elevation=10 height=100>
                           <v-card-text>
                               <v-text-field v-model="levelSkip" type="number" label="New Level" append-outer-icon="add" @click:append-outer="levelSkip ++" prepend-icon="remove" @click:prepend="levelSkip --" class="pb-0 mb-0"/>
+         
                           </v-card-text>
                         </v-card>
                       </v-flex>
                     </v-layout>
                   </v-card-text>
+                  <v-layout>
+                    <v-flex>
+                      <v-alert :value="levelSkip && levelSkip < pilot.level" type="warning">
+                        <b>WARNING: LEVEL REMOVAL</b><br>This will reset all Pilot Skill Triggers, Talents, Licenses, Mech Skills, and CORE Bonuses. They must be re-added manually.
+                      </v-alert>
+                    </v-flex>
+                  </v-layout>
                   <v-divider />
                   <v-card-actions>
                     <v-btn color="primary"  flat @click="levelEditor = false" > Cancel </v-btn>
@@ -159,7 +167,7 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
-                <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" />
+                <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" :key="pilot.id"/>
               </v-flex>
             </v-layout>
             <v-layout>
@@ -206,7 +214,7 @@
             </v-layout>
             <v-layout>
               <v-flex class="pl-2">
-                <editable-textfield :description="'Description'" :attr="'text_appearance'" :initial="pilot.text_appearance" />
+                <editable-textfield :description="'Description'" :attr="'text_appearance'" :initial="pilot.text_appearance" :key="pilot.id" />
               </v-flex>
             </v-layout>
           </v-flex>
@@ -384,7 +392,7 @@
       <v-layout><span class="header no-icon">Notes</span></v-layout>
       <v-layout>
         <v-flex>
-          <editable-textfield :description="'Pilot Notes'" :attr="'notes'" :initial="pilot.notes" />
+          <editable-textfield :description="'Pilot Notes'" :attr="'notes'" :initial="pilot.notes" :key="pilot.id" />
           </v-flex>
       </v-layout>
         <v-layout justify-center>
@@ -603,7 +611,32 @@
         this.appearanceModal = false
       },
       setLevel: function () {
-        if (this.levelSkip) {
+        if (this.levelSkip && this.levelSkip < this.pilot.level) {
+          this.$store.dispatch('editPilot', {
+            attr: `level`,
+            val: parseInt(this.levelSkip)
+          })
+          this.$store.dispatch('editPilot', {
+            attr: `licenses`,
+            val: []
+          })
+          this.$store.dispatch('editPilot', {
+            attr: `skills`,
+            val: []
+          })
+          this.$store.dispatch('editPilot', {
+            attr: `talents`,
+            val: []
+          })
+          this.$store.dispatch('editPilot', {
+            attr: `core_bonuses`,
+            val: []
+          })
+          this.$store.dispatch('editPilot', {
+            attr: `mechSkills`,
+            val: {'hull': 0, 'agi': 0, 'sys': 0, 'eng': 0}
+          })
+        } else if (this.levelSkip) {
           this.$store.dispatch('editPilot', {
             attr: `level`,
             val: parseInt(this.levelSkip)
@@ -694,7 +727,7 @@
     },
     watch: {
       levelSkip: function () {
-        if (this.levelSkip < this.pilot.level) this.levelSkip = this.pilot.level
+        if (this.levelSkip < 0) this.levelSkip = 0
         if (this.levelSkip > 12) this.levelSkip = 12
       }
     }
