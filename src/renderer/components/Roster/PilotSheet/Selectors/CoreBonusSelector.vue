@@ -31,7 +31,7 @@
               {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
             </v-alert>
             <v-btn v-if="!levelUp" block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
-            <v-btn block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
+            <v-btn v-if="!levelUp" block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
           </v-flex>
         </v-layout>
         </div>
@@ -121,13 +121,14 @@
           this.bonuses.splice(idx, 1)
           this.licenses[source] += 3
         }
+        console.log(this.licenses)
         this.pointLimit = false
       },
       saveBonuses () {
         this.$emit('set-bonuses', this.bonuses)
       },
       resetBonuses () {
-        this.bonuses.splice(0, this.bonuses.length)
+        this.bonuses = []
         this.$forceUpdate()
         this.pointLimit = false
       },
@@ -135,24 +136,29 @@
         return this.$store.getters.getItemById('CoreBonuses', id)
       },
       initialize () {
-        this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
+        var allData = this.$store.getters.getItemCollection('CoreBonuses')
+        var licenses = {'GMS': 999}
+        for (var i = 0; i < this.pilotLicenses.length; i++) {
+          var source = this.pilotLicenses[i].source
+          if (licenses[source]) {
+            licenses[source] += this.pilotLicenses[i].level
+          } else {
+            licenses[source] = this.pilotLicenses[i].level
+          }
+        }
+        for (var j = 0; j < this.bonuses.length; j++) {
+          var s = allData.find(x => x.id === this.bonuses[j]).source
+          licenses[s] -= 3
+        }
+        this.licenses = licenses
+        console.log(licenses)
+        this.bonusData = allData.filter(x => licenses[x.source] >= 0)
+        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       }
     },
     mounted () {
+      this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
       this.initialize()
-      var allData = this.$store.getters.getItemCollection('CoreBonuses')
-      var licenses = {'GMS': 999}
-      for (var i = 0; i < this.pilotLicenses.length; i++) {
-        var source = this.pilotLicenses[i].source
-        if (licenses[source]) {
-          licenses[source] += this.pilotLicenses[i].level
-        } else {
-          licenses[source] = this.pilotLicenses[i].level
-        }
-      }
-      this.licenses = licenses
-      this.bonusData = allData.filter(x => licenses[x.source] >= 3)
-      this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
     }
   }
 </script>
