@@ -20,6 +20,8 @@ Refactor:
 
 2.0:
   ☐ Alternate Roster/Hangar views
+  ☐ Better callouts for Add New Config
+  ☐ Better callouts for unmount weapon/uninstall system
   ☐ Status effects in compendium, linked through equipment descriptions/tags
   ☐ GDrive Sheet Importer
   ☐ Github Gist API import/exporter (export and import by ID)
