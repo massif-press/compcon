@@ -12,7 +12,7 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-              <div v-for="license in licenses[m]" :key="`summary_${license.name}`">
+              <div v-for="license in licenses" :key="`summary_${license.name}`">
                   <v-layout>
                     <v-flex xs12>
                       <strong>{{ license.name }}</strong>
