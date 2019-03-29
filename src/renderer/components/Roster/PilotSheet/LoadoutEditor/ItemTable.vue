@@ -43,7 +43,7 @@
       <v-layout justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="error" flat @click="remove()">Remove Equipped Item</v-btn>
+          <v-btn color="error" @click="remove()">Remove Equipped Item</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
