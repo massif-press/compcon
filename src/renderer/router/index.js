@@ -72,6 +72,14 @@ export default new Router({
         {
           path: '/pilot_gear',
           component: require('@/components/Compendium/Views/PilotGear').default
+        },
+        {
+          path: '/statuses',
+          component: require('@/components/Compendium/Views/Statuses').default
+        },
+        {
+          path: '/tags',
+          component: require('@/components/Compendium/Views/Tags').default
         }
       ]
     },

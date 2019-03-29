@@ -1,0 +1,100 @@
+[
+  {
+    "name": "CORE BREACH",
+    "effects": [
+      "You cannot cool or lose heat",
+      "Make an overheating check each time you take heat"
+    ]
+  },
+  {
+    "name": "CRITICAL",
+    "effects": [
+      "You cannot gain HP or repair",
+      "Make a structure check each time you take damage"
+    ]
+  },
+  {
+    "name": "Engaged",
+    "effects": [
+      "While Engaged, all your ranged attacks are made with +1 Difficulty",
+      "If you become engaged with a target the same size or larger, you immediately stop moving and lose any unspent movement from that move."
+    ]
+  },
+  {
+    "name": "Hidden",
+    "effects": [
+      "You cannot be targeted by hostile attacks or actions, and enemies only know your approximate location. Performing any attack, forcing a saving throw, taking reactions, or ending your turn out of cover will lose hidden. Characters can find you by taking the search action and winning a contested check."
+    ]
+  },
+  {
+    "name": "Immobilized",
+    "effects": [
+      "Your maximum speed becomes 0. You cannot move or boost. "
+    ]
+  },
+  {
+    "name": "Impaired",
+    "effects": [
+      "+1 Difficulty on all attacks, saves, and skill checks "
+    ]
+  },
+  {
+    "name": "Invisible",
+    "effects": [
+      "All attacks against an invisible target have a 50% chance to miss outright (check before the attack roll)."
+    ]
+  },
+  {
+    "name": "Jammed",
+    "effects": [
+      "The only attacks a Jammed mech can make are improvised attacks, grapples, or rams",
+      "A Jammed mech cannot use comms to talk to other players (can only talk to GM)",
+      "A Jammed mech cannot make or benefit from Tech actions",
+      "A Jammed mech cannot take reactions"
+    ]
+  },
+  {
+    "name": "Lock On",
+    "effects": [
+      "An attacker can consume the Lock On status on a target to gain +1 Accuracy on its next attack against that target. Lock On may also activate other talents or abilities."
+    ]
+  },
+  {
+    "name": "Shut Down",
+    "effects": [
+      "Your mech is stunned, but you can still take the Boot Up action",
+      "Your mech’s evasion becomes 5",
+      "Your mech cools",
+      "You cannot be affected by tech actions or system attacks or effects",
+      "Shutting down (or being shut down) re-shackles any unshackled AI. "
+    ]
+  },
+  {
+    "name": "Shredded",
+    "effects": [
+      "A shredded mech cannot benefit from armor or resistance "
+    ]
+  },
+  {
+    "name": "Slowed",
+    "effects": [
+      "Your maximum speed becomes 2 (after all modifiers)",
+      "You cannot boost "
+    ]
+  },
+  {
+    "name": "Stunned",
+    "effects": [
+      "You cannot overcharge, take free actions, reactions, move, or take any actions with your mech. A pilot in a stunned mech can still mount or dismount their mech, eject, or take actions normally.",
+      "Attackers receive +1 Accuracy to attack you",
+      "You automatically fail all hull or agility saves "
+    ]
+  },
+  {
+    "name": "Prone",
+    "effects": [
+      "Attackers receive +1 Accuracy to attack prone targets",
+      "A mech knocked prone is Slowed while prone but can still move. A prone mech can stand up as its regular movement. A mech cannot stand up while immobilized."
+    ]
+  }
+]
