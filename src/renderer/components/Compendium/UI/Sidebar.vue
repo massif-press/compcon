@@ -58,6 +58,26 @@
           </v-list-tile-content>
         </v-list-tile>
 
+        <v-divider />
+
+        <v-list-tile @click="to('statuses')">
+          <v-list-tile-action>
+            <v-icon>mdi-gauge</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="title">Statuses</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile @click="to('tags')">
+          <v-list-tile-action>
+            <v-icon>mdi-tag-multiple</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title class="title">Tags</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>        
+
       </v-list>
     </v-toolbar>
   </v-navigation-drawer>
