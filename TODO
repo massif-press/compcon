@@ -22,7 +22,10 @@ Refactor:
   ☐ Alternate Roster/Hangar views
   ☐ Better callouts for Add New Config
   ☐ Better callouts for unmount weapon/uninstall system
-  ☐ Status effects in compendium, linked through equipment descriptions/tags
+  ✔ Status effects in compendium @done(19-03-29 14:05)
+  ✔ Tags in compendium @done(19-03-29 14:05)
+  ☐ Glossary in compendium
+  ☐ Action economy in compendium
   ☐ GDrive Sheet Importer
   ☐ Github Gist API import/exporter (export and import by ID)
   General Print Options:
@@ -70,6 +73,7 @@ Styling:
     ☐ Attack Types
     ☐ Damage Types
     ☐ Manufacturers
+    ☐ Statuses
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
