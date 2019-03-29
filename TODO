@@ -1,3 +1,6 @@
+Bugs:
+  ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
+
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
