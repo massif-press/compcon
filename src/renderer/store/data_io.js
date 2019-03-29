@@ -26,6 +26,9 @@ export default {
       return []
     }
   },
+  loadBrewData (userDataPath, subdir, filename) {
+    
+  }
   getImages (subdir, userDataPath) {
     if (fs.existsSync(userDataPath)) {
       var userPath = path.join(userDataPath, 'img', subdir)
