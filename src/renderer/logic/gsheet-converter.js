@@ -150,7 +150,7 @@ export const gsheetToObject = (wb) => {
     let id = getItemID(talentName, 'talents')
     talents.push({
       id,
-      bonus: parseInt(talentLevel)
+      rank: parseInt(talentLevel)
     })
   }
   output.talents = talents
