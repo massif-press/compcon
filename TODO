@@ -22,6 +22,11 @@ Refactor:
   ☐ KS Licenses
   ☐ Break out datafiles by brew
     ☐ Notify if id'd item is missing
+    ☐ Options Page
+      ☐ Load homebrew package (import to userdata)
+      ☐ Gather and list brew packages at launch
+      ☐ Save loaded brews list as playerprefs between launces
+      ☐ Toggle brews & reload
   ☐ Armsman ammo case print not showing up
   ☐ Alternate Roster/Hangar views
   ☐ Better callouts for Add New Config

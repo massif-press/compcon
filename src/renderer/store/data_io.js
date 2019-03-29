@@ -27,8 +27,30 @@ export default {
     }
   },
   loadBrewData (userDataPath, subdir, filename) {
-    
-  }
+    if (fs.existsSync(userDataPath)) {
+      var folder = path.join(userDataPath, subdir)
+      if (fs.existsSync(folder)) {
+        var file = path.join(folder, filename + '.json')
+        if (fs.existsSync(file)) {
+          return JSON.parse(fs.readFileSync(file))
+        } else {
+          console.error(`data file ${filename}.json does not exist at ${file}.`)
+          return []
+        }
+      } else {
+        console.error(`data folder ${subdir} does not exist at ${folder}.`)
+        return []
+      }
+    } else {
+      fs.mkdirSync(userDataPath)
+    }
+    return []
+  },
+  saveBrewData (userDataPath, origin) {
+    // get files from origin
+    // check if destination folder exists (if not, make it)
+    // write origin files to destination
+  },
   getImages (subdir, userDataPath) {
     if (fs.existsSync(userDataPath)) {
       var userPath = path.join(userDataPath, 'img', subdir)

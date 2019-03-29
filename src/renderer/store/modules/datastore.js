@@ -70,6 +70,9 @@ const actions = {
   loadData (context) {
     context.commit('LOAD_DATA')
   },
+  loadBrew (context, userDataPath, brewDataFolder) {
+    context.commit('LOAD_BREW', userDataPath, brewDataFolder)
+  },
   buildLicenses (context) {
     context.commit('BUILD_LICENSES')
   }
