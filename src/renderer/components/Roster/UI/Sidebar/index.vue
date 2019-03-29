@@ -29,11 +29,52 @@
               Add New Pilot
             </v-card-title>
 
-            <v-card-text>
+            <v-card-text class="text-xs-center">
               <v-btn block large color="primary" @click="goToNew">Create New Pilot</v-btn>
               <v-divider />
               <v-btn block flat color="primary" @click="importFile">Import from File</v-btn>
-              <v-btn block flat color="primary" @click="importSheet">Import from GSheet</v-btn>
+
+              <v-layout>
+                <v-flex>
+                  <v-btn block flat color="primary" @click="importSheet">Import from GSheet</v-btn>
+                </v-flex>
+                <v-flex shrink>
+                  <v-dialog width="600" v-model="gsheetDialog">
+                  <v-btn slot="activator" icon small right absolute style="right: 150px;"><v-icon color="grey" small>help</v-icon></v-btn>
+                  <v-card>
+                    <v-card-title class="title">
+                      LANCER Google Sheet to COMP/CON converter
+                    </v-card-title>
+                    <v-card-text>
+                      This tool imports LANCER characters from the <a @click="open('https://docs.google.com/spreadsheets/d/1Tz8rbkOq9nyuIJ6bA0636dtLeN68Z5Q0yJF8cjycXxQ/edit#gid=0')">LANCER Discord's Google Character Sheet</a> into COMP/CON.<br><br>
+                      The Google Sheet character must be downloade as a Microsoft Excel (.xlsx) file.
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer />
+                      <v-btn flat @click="gsheetDialog = false" color="primary">Close</v-btn>
+                    </v-card-actions>
+                  </v-card>
+                  </v-dialog>
+
+                  <v-dialog width="500" v-model="ignoredModsDialog">
+                    <v-card>
+                      <v-card-title class="title">
+                        Importer Warning
+                      </v-card-title>
+                      <v-card-text>
+                        The importer detected the following weapon mods: <br>
+                        <strong v-html="ignoredModsString" />. 
+                        <br>These could not be automatically assigned to their associated weapons and will have to be manually re-added.
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn flat @click="ignoredModsDialog = false" color="primary">Close</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-flex>
+              </v-layout>
+
               <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
             </v-card-text>
 
@@ -64,7 +105,10 @@ export default {
     mini: true,
     isVisible: true,
     activeIndex: null,
-    addDialog: false
+    addDialog: false,
+    gsheetDialog: false,
+    ignoredModsDialog: false,
+    ignoredModsString: ''
   }),
   computed: {
     pilots: function () {
@@ -77,6 +121,9 @@ export default {
       // TODO: async load with overlay
       this.$store.dispatch('loadPilot', pilot.id)
       this.$router.push('/roster')
+    },
+    open (link) {
+      this.$electron.shell.openExternal(link)
     },
     setActiveConfig (config) {
       // TODO: async load with overlay
@@ -124,7 +171,7 @@ export default {
           { name: 'Pilot Data', extensions: ['xlsx'] }
         ]
       })
-      const { output } = gsheetToObject(loadSheetFile(path[0]))
+      const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
       if (validator.pilot(output)) {
         this.$store.dispatch('importPilot', output)
         this.$store.dispatch('loadPilot', output.id)
@@ -133,6 +180,10 @@ export default {
       } else {
         alert('Pilot data validation failed')
         this.addDialog = false
+      }
+      if (ignoredMods.length) {
+        this.ignoredModsString = ignoredMods.join(', ')
+        this.ignoredModsDialog = true
       }
     },
     importClipboard () {
