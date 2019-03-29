@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :mini-variant.sync="mini" stateless touchless :value="isVisible" dark fixed class="pt-5" disable-route-watcher v-click-outside="minimize">
+  <v-navigation-drawer id="sidebar" :mini-variant.sync="mini" stateless :value="isVisible" dark fixed class="pt-5" disable-route-watcher v-click-outside="minimize">
     <v-toolbar flat class="transparent pt-2">
       <v-list>
 
@@ -211,3 +211,9 @@ export default {
   }
 }
 </script>
+
+<style>
+ #sidebar {
+  overflow-y: scroll; 
+ }
+</style>
