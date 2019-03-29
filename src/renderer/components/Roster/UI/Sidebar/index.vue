@@ -33,6 +33,7 @@
               <v-btn block large color="primary" @click="goToNew">Create New Pilot</v-btn>
               <v-divider />
               <v-btn block flat color="primary" @click="importFile">Import from File</v-btn>
+              <v-btn block flat color="primary" @click="importSheet">Import from GSheet</v-btn>
               <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
             </v-card-text>
 
@@ -54,6 +55,7 @@
 import SidebarItem from './SidebarItem'
 import io from '@/store/data_io'
 import validator from '@/logic/validator'
+import { loadSheetFile, gsheetToObject } from '@/logic/gsheet-converter'
 
 export default {
   name: 'sidebar',
@@ -103,6 +105,29 @@ export default {
       if (validator.pilot(pilotData)) {
         this.$store.dispatch('importPilot', pilotData)
         this.$store.dispatch('loadPilot', pilotData.id)
+        this.activeIndex = this.pilots.length - 1
+        this.addDialog = false
+      } else {
+        alert('Pilot data validation failed')
+        this.addDialog = false
+      }
+    },
+    importSheet () {
+      const { dialog } = require('electron').remote
+      var path = dialog.showOpenDialog({
+        title: 'Load Character GSheet',
+        buttonLabel: 'Load',
+        properties: [
+          'openFile'
+        ],
+        filters: [
+          { name: 'Pilot Data', extensions: ['xlsx'] }
+        ]
+      })
+      const { output } = gsheetToObject(loadSheetFile(path[0]))
+      if (validator.pilot(output)) {
+        this.$store.dispatch('importPilot', output)
+        this.$store.dispatch('loadPilot', output.id)
         this.activeIndex = this.pilots.length - 1
         this.addDialog = false
       } else {
