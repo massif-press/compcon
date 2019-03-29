@@ -29,6 +29,19 @@ const mutations = {
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
   },
+  LOAD_BREW (state, userDataPath, brewDataFolder) {
+    state.Backgrounds = state.Backgrounds.concat(io.loadBrewData(userDataPath, brewDataFolder, 'backgrounds'))
+    state.Talents = state.Talents.concat(io.loadBrewData(userDataPath, brewDataFolder, 'talents'))
+    state.Skills = state.Skills.concat(io.loadBrewData(userDataPath, brewDataFolder, 'skills'))
+    state.CoreBonuses = state.CoreBonuses.concat(io.loadBrewData(userDataPath, brewDataFolder, 'core_bonus'))
+    state.Frames = state.Frames.concat(io.loadBrewData(userDataPath, brewDataFolder, 'frames'))
+    state.Manufacturers = state.Manufacturers.concat(io.loadBrewData(userDataPath, brewDataFolder, 'manufacturers'))
+    state.MechWeapons = state.MechWeapons.concat(io.loadBrewData(userDataPath, brewDataFolder, 'weapons'))
+    state.WeaponMods = state.WeaponMods.concat(io.loadBrewData(userDataPath, brewDataFolder, 'mods'))
+    state.MechSystems = state.MechSystems.concat(io.loadBrewData(userDataPath, brewDataFolder, 'systems'))
+    state.PilotGear = state.PilotGear.concat(io.loadBrewData(userDataPath, brewDataFolder, 'pilot_gear'))
+    state.Tags = state.Tags.concat(io.loadBrewData(userDataPath, brewDataFolder, 'tags'))
+  },
   BUILD_LICENSES (state) {
     var licenses = []
     state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {

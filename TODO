@@ -19,11 +19,16 @@ Refactor:
   ☐ Move all calculation, checking, filtering out of template
 
 2.0:
+  ☐ KS Licenses
+  ☐ Break out datafiles by brew
+    ☐ Notify if id'd item is missing
+  ☐ Armsman ammo case print not showing up
   ☐ Alternate Roster/Hangar views
   ☐ Better callouts for Add New Config
   ☐ Better callouts for unmount weapon/uninstall system
   ☐ Status effects in compendium, linked through equipment descriptions/tags
   ☐ GDrive Sheet Importer
+    ☐ Add missing mods dialog
   ☐ Github Gist API import/exporter (export and import by ID)
   General Print Options:
     ☐ Large fonts
