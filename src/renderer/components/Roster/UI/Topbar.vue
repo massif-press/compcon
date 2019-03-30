@@ -6,7 +6,7 @@
       <v-toolbar-items>
         <v-btn flat :to="'/compendium'">Compendium</v-btn>
 
-        <v-btn @click="aboutModal = true" flat>Options</v-btn>
+        <v-btn @click="optionsModal = true" flat>Options</v-btn>
         <v-dialog v-model="optionsModal" width="80vw">
           <v-card>
             <v-card-title class="title">Options</v-card-title>
