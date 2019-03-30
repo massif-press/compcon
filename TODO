@@ -1,3 +1,6 @@
+Bugs:
+  ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
+
 Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
@@ -29,9 +32,12 @@ Refactor:
       ☐ Toggle brews & reload
   ☐ Armsman ammo case print not showing up
   ☐ Alternate Roster/Hangar views
-  ☐ Better callouts for Add New Config
-  ☐ Better callouts for unmount weapon/uninstall system
-  ☐ Status effects in compendium, linked through equipment descriptions/tags
+  ✔ Better callouts for Add New Config @done(19-03-29 14:56)
+  ✔ Better callouts for unmount weapon/uninstall system @done(19-03-29 14:56)
+  ✔ Status effects in compendium @done(19-03-29 14:05)
+  ✔ Tags in compendium @done(19-03-29 14:05)
+  ☐ Glossary in compendium
+  ☐ Action economy in compendium
   ☐ GDrive Sheet Importer
     ☐ Add missing mods dialog
   ☐ Github Gist API import/exporter (export and import by ID)
@@ -63,7 +69,7 @@ Refactor:
   ☐ Tutorial popups (vue-tour)
   ☐ Per-item notes
   ☐ Multiple print layouts selectable (portrait, landscape / plain, embellished)
-  ☐ Custom Background
+  ✔ Custom Background @done(19-03-29 13:27)
   ☐ Charts
   ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
@@ -80,6 +86,7 @@ Styling:
     ☐ Attack Types
     ☐ Damage Types
     ☐ Manufacturers
+    ☐ Statuses
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:

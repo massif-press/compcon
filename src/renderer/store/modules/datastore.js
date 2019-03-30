@@ -12,6 +12,7 @@ const state = {
   MechSystems: [],
   PilotGear: [],
   Tags: [],
+  Statuses: [],
   Licenses: []
 }
 
@@ -28,6 +29,7 @@ const mutations = {
     state.MechSystems = io.loadData('systems')
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
+    state.Statuses = io.loadData('statuses')
   },
   LOAD_BREW (state, userDataPath, brewDataFolder) {
     state.Backgrounds = state.Backgrounds.concat(io.loadBrewData(userDataPath, brewDataFolder, 'backgrounds'))
