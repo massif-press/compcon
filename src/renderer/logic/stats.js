@@ -111,7 +111,7 @@ export default {
     if (pilot.core_bonuses.includes('frame')) output.hp += 5
 
     // ipsn sloped plating core bonus adds 1 armor, up to 4
-    if (pilot.core_bonuses.includes('plating') && frame.armor < 4) output.armor += 1
+    if (pilot.core_bonuses.includes('plating') && output.armor < 4) output.armor += 1
 
     // ssc full subjectivity sync adds 2 evasion
     if (pilot.core_bonuses.includes('fssync')) output.evasion += 2
