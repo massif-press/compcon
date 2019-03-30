@@ -1,6 +1,7 @@
 import io from '../data_io'
 
 const state = {
+  UserDataPath: '',
   Backgrounds: [],
   Talents: [],
   Skills: [],
@@ -13,10 +14,24 @@ const state = {
   PilotGear: [],
   Tags: [],
   Statuses: [],
+  Brews: [],
   Licenses: []
 }
 
+function stageBrewData (userDataPath, brewDataFolder, file) {
+  var info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
+  var bID = info ? `${info.name} ${info.version}` : 'Unknown Content Package'
+  var bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
+  if (bArr.length) {
+    bArr.map(x => ({...x, brew: bID}))
+  }
+  return bArr || []
+}
+
 const mutations = {
+  SET_DATA_PATH (state, userDataPath) {
+    state.UserDataPath = userDataPath
+  },
   LOAD_DATA (state) {
     state.Backgrounds = io.loadData('backgrounds')
     state.Talents = io.loadData('talents')
@@ -30,22 +45,31 @@ const mutations = {
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
     state.Statuses = io.loadData('statuses')
+    state.Brews = io.findBrewData(state.UserDataPath)
   },
-  LOAD_BREW (state, userDataPath, brewDataFolder) {
-    state.Backgrounds = state.Backgrounds.concat(io.loadBrewData(userDataPath, brewDataFolder, 'backgrounds'))
-    state.Talents = state.Talents.concat(io.loadBrewData(userDataPath, brewDataFolder, 'talents'))
-    state.Skills = state.Skills.concat(io.loadBrewData(userDataPath, brewDataFolder, 'skills'))
-    state.CoreBonuses = state.CoreBonuses.concat(io.loadBrewData(userDataPath, brewDataFolder, 'core_bonus'))
-    state.Frames = state.Frames.concat(io.loadBrewData(userDataPath, brewDataFolder, 'frames'))
-    state.Manufacturers = state.Manufacturers.concat(io.loadBrewData(userDataPath, brewDataFolder, 'manufacturers'))
-    state.MechWeapons = state.MechWeapons.concat(io.loadBrewData(userDataPath, brewDataFolder, 'weapons'))
-    state.WeaponMods = state.WeaponMods.concat(io.loadBrewData(userDataPath, brewDataFolder, 'mods'))
-    state.MechSystems = state.MechSystems.concat(io.loadBrewData(userDataPath, brewDataFolder, 'systems'))
-    state.PilotGear = state.PilotGear.concat(io.loadBrewData(userDataPath, brewDataFolder, 'pilot_gear'))
-    state.Tags = state.Tags.concat(io.loadBrewData(userDataPath, brewDataFolder, 'tags'))
+  LOAD_BREWS (state, brewDataFolders) {
+    for (var i = 0; i < brewDataFolders.length; i++) {
+      var dir = brewDataFolders[i]
+      state.Backgrounds = state.Backgrounds.concat(stageBrewData(state.UserDataPath, dir, 'backgrounds'))
+      state.Talents = state.Talents.concat(stageBrewData(state.UserDataPath, dir, 'talents'))
+      state.Skills = state.Skills.concat(stageBrewData(state.UserDataPath, dir, 'skills'))
+      state.CoreBonuses = state.CoreBonuses.concat(stageBrewData(state.UserDataPath, dir, 'core_bonus'))
+      state.Frames = state.Frames.concat(stageBrewData(state.UserDataPath, dir, 'frames'))
+      state.Manufacturers = state.Manufacturers.concat(stageBrewData(state.UserDataPath, dir, 'manufacturers'))
+      state.MechWeapons = state.MechWeapons.concat(stageBrewData(state.UserDataPath, dir, 'weapons'))
+      state.WeaponMods = state.WeaponMods.concat(stageBrewData(state.UserDataPath, dir, 'mods'))
+      state.MechSystems = state.MechSystems.concat(stageBrewData(state.UserDataPath, dir, 'systems'))
+      state.PilotGear = state.PilotGear.concat(stageBrewData(state.UserDataPath, dir, 'pilot_gear'))
+      state.Tags = state.Tags.concat(stageBrewData(state.UserDataPath, dir, 'tags'))
+      state.Statuses = state.Statuses.concat(stageBrewData(state.UserDataPath, dir, 'statuses'))
+    }
+  },
+  SET_BREW_ACTIVE (state, payload) {
+    io.setBrewActive(state.UserDataPath, payload.dir, payload.active)
   },
   BUILD_LICENSES (state) {
     var licenses = []
+    console.log(state.Frames)
     state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
       licenses.push({
         source: frame.source.toLowerCase(),
@@ -69,11 +93,20 @@ const mutations = {
 }
 
 const actions = {
+  setDatapath (context, userDataPath) {
+    context.commit('SET_DATA_PATH', userDataPath)
+  },
+  setBrewActive (context, payload) {
+    console.log(payload)
+    context.commit('SET_BREW_ACTIVE', payload)
+    context.commit('LOAD_DATA')
+    context.commit('BUILD_LICENSES')
+  },
   loadData (context) {
     context.commit('LOAD_DATA')
-  },
-  loadBrew (context, userDataPath, brewDataFolder) {
-    context.commit('LOAD_BREW', userDataPath, brewDataFolder)
+    var activeBrews = context.state.Brews.filter(x => x.info.active).map(x => x.dir)
+    context.commit('LOAD_BREWS', activeBrews)
+    context.commit('BUILD_LICENSES')
   },
   buildLicenses (context) {
     context.commit('BUILD_LICENSES')

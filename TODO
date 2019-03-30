@@ -23,13 +23,29 @@ Refactor:
 
 2.0:
   ☐ KS Licenses
-  ☐ Break out datafiles by brew
-    ☐ Notify if id'd item is missing
+  ✔ Break out datafiles by brew @done(19-03-30 13:30)
     ☐ Options Page
-      ☐ Load homebrew package (import to userdata)
-      ☐ Gather and list brew packages at launch
-      ☐ Save loaded brews list as playerprefs between launces
-      ☐ Toggle brews & reload
+      ☐ Homebrew Loader
+        ✔ Load homebrew package (import to userdata) @done(19-03-30 13:30)
+        ✔ Gather and list brew packages @done(19-03-30 13:30)
+        ✔ Save brew active status @done(19-03-30 13:30)
+        ✔ Toggle brews & reload @done(19-03-30 13:29)
+        ☐ Catch missing content by ID
+          ☐ Backgrounds
+          ☐ Core Bonuses
+          ☐ Frames
+          ☐ Manufacturers
+          ☐ Mods
+          ☐ Pilot Gear
+          ☐ Skills
+          ☐ Statuses
+          ☐ Systems
+          ☐ Tags
+          ☐ Talents
+          ☐ Weapons
+        ✔ Load active brew content as part of data loader @done(19-03-30 16:13)
+      ☐ Other
+        ☐ Force Data Reload button
   ☐ Armsman ammo case print not showing up
   ☐ Alternate Roster/Hangar views
   ✔ Better callouts for Add New Config @done(19-03-29 14:56)
