@@ -109,7 +109,8 @@
                 <v-layout><span class="header no-icon">Biography</span></v-layout>
                 <v-layout>
                   <v-flex xs12 style="text-align:center">
-                    <b> {{ item('Backgrounds', pilot.background).name }} </b>
+                    <b v-if="pilot.custom_background"> {{ pilot.custom_background }} </b>
+                    <b v-else> {{ item('Backgrounds', pilot.background).name }} </b>
                     <v-dialog lazy v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                       <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
                         <v-icon small>edit</v-icon>
@@ -556,7 +557,7 @@
       backgroundSelect: function (bgReturn) {
         this.backgroundModal = false
         this.$store.dispatch('editPilot', {
-          attr: `background`,
+          attr: bgReturn.field,
           val: bgReturn.value
         })
       },

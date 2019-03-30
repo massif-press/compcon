@@ -42,15 +42,8 @@
        
 
           <v-dialog lazy v-model="newConfigModal" fullscreen hide-overlay transition="fade-transition">
-            <v-list-tile @click="openConfigModal" class="ml-2 mr-4 mb-3" slot="activator">
-              <v-list-tile-action  >
-                <v-icon large dark>add</v-icon>
-              </v-list-tile-action>
-
-              <v-list-tile-content>
-                <v-list-tile-title><em>Add New Configuration</em></v-list-tile-title>
-              </v-list-tile-content>
-
+            <v-list-tile slot="activator" class="mr-4 mb-2 mt-2" >
+              <v-btn @click="openConfigModal" color="indigo darken-1"><v-icon>add</v-icon> Add New Configuration&emsp;</v-btn>
             </v-list-tile>
 
             <v-card>
@@ -113,3 +106,9 @@
     }
   }
 </script>
+
+<style>
+ .nc-btn {
+   background-color: #546E7A;
+ }
+</style>
