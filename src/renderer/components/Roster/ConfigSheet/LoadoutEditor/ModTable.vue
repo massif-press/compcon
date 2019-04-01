@@ -64,7 +64,7 @@
       <v-layout v-if="current_equip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="warning" flat @click="remove">Uninstall {{item(current_equip.id).name}}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">Uninstall {{item(current_equip.id).name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
