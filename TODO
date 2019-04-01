@@ -31,7 +31,7 @@ Refactor:
         ✔ Gather and list brew packages @done(19-03-30 13:30)
         ✔ Save brew active status @done(19-03-30 13:30)
         ✔ Toggle brews & reload @done(19-03-30 13:29)
-        ☐ Catch missing content by ID
+        ✔ Catch missing content by ID @done(19-04-01 17:53)
           ✔ Backgrounds @done(19-03-31 08:15)
           ✔ Core Bonuses @done(19-03-31 09:31)
           ✔ Frames @done(19-03-31 09:38)
@@ -43,8 +43,8 @@ Refactor:
           ✔ Tags @done(19-03-31 10:14)
           ✔ Talents @done(19-03-31 09:32)
           ✔ Weapons @done(19-03-31 14:50)
-          ☐ Pilot Sheet Print
-          ☐ Config Sheet Print
+          ✔ Pilot Sheet Print @done(19-04-01 17:53)
+          ✔ Config Sheet Print @done(19-04-01 17:53)
         ✔ Load active brew content as part of data loader @done(19-03-30 16:13)
         ☐ Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
       ☐ Other

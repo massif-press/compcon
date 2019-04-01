@@ -17,11 +17,8 @@ function getStaticPath (env) {
 }
 
 function copyRecursive (origin, destination) {
-  console.log(origin, destination)
   var exists = fs.existsSync(origin)
   var stats = exists && fs.statSync(origin)
-  console.log(exists)
-  console.log(stats)
   var isDirectory = exists && stats.isDirectory()
   if (exists && isDirectory) {
     fs.mkdirSync(destination)
@@ -59,6 +56,7 @@ export default {
       return brews
     } else {
       console.info(`no brew data found`)
+      return []
     }
   },
   loadBrewData (userDataPath, subdir, filename) {

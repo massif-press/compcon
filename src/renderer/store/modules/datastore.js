@@ -47,7 +47,8 @@ const mutations = {
     state.Statuses = io.loadData('statuses')
     state.Brews = io.findBrewData(state.UserDataPath)
   },
-  LOAD_BREWS (state, brewDataFolders) {
+  LOAD_BREWS (state) {
+    var brewDataFolders = state.Brews.filter(x => x.info.active).map(x => x.dir)
     for (var i = 0; i < brewDataFolders.length; i++) {
       var dir = brewDataFolders[i]
       state.Backgrounds = state.Backgrounds.concat(stageBrewData(state.UserDataPath, dir, 'backgrounds'))
@@ -98,13 +99,12 @@ const actions = {
   },
   setBrewActive (context, payload) {
     context.commit('SET_BREW_ACTIVE', payload)
-    context.dispatch('loadData')
   },
   loadData (context) {
     context.commit('LOAD_DATA')
-    var activeBrews = context.state.Brews.filter(x => x.info.active).map(x => x.dir)
-    context.commit('LOAD_BREWS', activeBrews)
-    context.commit('BUILD_LICENSES')
+  },
+  loadBrews (context) {
+    context.commit('LOAD_BREWS')
   },
   buildLicenses (context) {
     context.commit('BUILD_LICENSES')

@@ -137,7 +137,6 @@
       },
       addLicense: function (l) {
         var idx = this.licenses.findIndex(x => x.name.toUpperCase() === l.name.toUpperCase())
-        console.log(l)
         if (idx === -1) {
           this.licenses.push({
             name: l.name.toUpperCase(),
