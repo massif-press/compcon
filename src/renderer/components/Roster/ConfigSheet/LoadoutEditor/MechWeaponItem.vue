@@ -2,7 +2,7 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="blue-grey darken-1" v-if="!item" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-1" v-if="!item || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
           <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
           <span v-if="!item">Equip {{fittingType}} Mech Weapon</span>
           <span v-else>Change Equipped {{fittingType}} Mech Weapon</span>
@@ -16,12 +16,22 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </div>
+        <div v-else-if="itemData.err">
+          <v-expansion-panel class="ma-0">
+            <v-expansion-panel-content disabled>
+              <span slot="header" class="subheading grey--text">// MISSING WEAPON DATA //&emsp;<span v-if="item.brew" class="caption grey--text">({{item.brew}})</span></span>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </div>
         <div v-else>
           <v-expansion-panel class="m-0">
               <v-expansion-panel-content>
             <v-layout slot="header"> 
               <span class="subheading font-weight-bold">{{itemData.name}}
-                <span class="subheading font-weight-bold" v-if="item.mod">
+                <span class="subheading font-weight-bold" v-if="item.mod && modData.err">
+                  <span class="subheading grey--text">// MISSING MOD DATA //</span>
+                </span>
+                <span class="subheading font-weight-bold" v-if="item.mod && !modData.err">
                   <span class="grey--text font-weight-regular">//</span> 
                   <span class="blue-grey--text text--lighten-3">{{modData.name}}</span> 
                   <span class="caption">({{modData.sp}} SP)</span>
@@ -41,7 +51,8 @@
                 </v-tooltip>
               </span>
             </v-layout>
-                <mod-card v-if="item.mod" :modData="modData"/>
+                <mod-card v-if="item.mod && modData.err" missing/>
+                <mod-card v-if="item.mod && !modData.err" :modData="modData"/>
                 <weapon-card :itemData="itemData"/>
               </v-expansion-panel-content>
             </v-expansion-panel>

@@ -109,7 +109,13 @@
                 <v-layout><span class="header no-icon">Biography</span></v-layout>
                 <v-layout>
                   <v-flex xs12 style="text-align:center">
-                    <b> {{ item('Backgrounds', pilot.background).name }} </b>
+                    <b v-if="pilot.custom_background"> {{ pilot.custom_background }} </b>
+                    <div v-else style="display: inline">
+                      <span v-if="item('Backgrounds', pilot.background).err" class="grey--text">
+                        // MISSING BACKGROUND DATA //
+                      </span>
+                      <b v-else> {{ item('Backgrounds', pilot.background).name }} </b>
+                    </div>
                     <v-dialog lazy v-model="backgroundModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                       <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
                         <v-icon small>edit</v-icon>
@@ -556,7 +562,7 @@
       backgroundSelect: function (bgReturn) {
         this.backgroundModal = false
         this.$store.dispatch('editPilot', {
-          attr: `background`,
+          attr: bgReturn.field,
           val: bgReturn.value
         })
       },
@@ -722,7 +728,7 @@
       stats: function () {
         if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating pilot stats...')
         else console.info('Loadout changed: recalculating pilot stats...')
-        return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx])
+        return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState)
       }
     },
     watch: {

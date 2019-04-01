@@ -64,7 +64,12 @@ const getters = {
     return getters.getPilot.configs.findIndex(c => c.id === id)
   },
   getMechStats: (state, getters, rootState) => (id, loadout) => {
-    return Stats.mechStats(getters.getPilot, getters.getPilot.configs.find(c => c.id === id), loadout)
+    return Stats.mechStats(
+      getters.getPilot,
+      getters.getPilot.configs.find(c => c.id === id),
+      loadout,
+      getters.getState
+    )
   }
 }
 

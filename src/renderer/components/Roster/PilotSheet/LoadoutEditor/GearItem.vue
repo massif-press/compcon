@@ -2,7 +2,7 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" v-if="empty" block @click="clicked" style="height:100%; margin:0"> Equip {{ itemType }}</v-btn>
+          <v-btn slot="activator" v-if="empty || itemData.err" block @click="clicked" style="height:100%; margin:0"> Equip {{ itemType }}</v-btn>
           <v-btn slot="activator" v-else block @click="clicked" style="height:100%; margin:0">{{ itemType }}</v-btn>
           <span v-if="empty">Add {{itemType}}</span>
           <span v-else>Change {{itemType}}</span>
@@ -16,6 +16,13 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </div>
+        <div v-else-if="itemData.err">
+          <v-expansion-panel>
+            <v-expansion-panel-content disabled>
+              <span slot="header" class="subheading grey--text">// MISSING ITEM DATA //&emsp;<span v-if="item.brew" class="caption grey--text">({{item.brew}})</span></span>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </div>        
         <div v-else>
           <v-expansion-panel>
               <v-expansion-panel-content>

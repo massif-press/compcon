@@ -178,7 +178,10 @@ export default {
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons[${this.weaponIndex}]`,
-        val: { id: item.id }
+        val: {
+          id: item.id,
+          brew: item.brew || null
+        }
       })
       this.weaponSelectorModal = false
       this.refresh()

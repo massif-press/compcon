@@ -32,6 +32,7 @@
         "Superior By Design": "superior"
     },
     "frames": {
+        "Everest": "everest",
         "IPS-N Drake": "drake",
         "IPS-N Blackbeard": "blackbeard",
         "IPS-N Tortuga": "tortuga",
@@ -250,6 +251,7 @@
         "Stasis Bolt": "stasisbolt",
         "Stasis Barrier": "stasisbarrier",
         "Phasing Mod": "MOD_IGNORE",
+        "Nanocomposites": "MOD_IGNORE",
         "Harrison Armory Blackshield": "blackshield",
         "Support Shield": "supportshield",
         "Flash Anchor": "flashanchor",

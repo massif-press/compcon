@@ -1,6 +1,11 @@
 <template>
   <v-card>
-    <v-layout>
+    <v-layout v-if="skillData.err">
+      <v-card-text class="text-xs-center pa-1">
+      <span class="subheading grey--text">// MISSING DATA //</span><br><span v-if="skill.brew" class="caption grey--text">({{skill.brew}})</span>
+      </v-card-text>
+    </v-layout>
+    <v-layout v-else>
       <v-flex xs3>
         <div class="centered text-xs-left pl-3">
           <v-chip dark color="primary" small >
