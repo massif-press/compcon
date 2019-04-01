@@ -2,7 +2,7 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="blue-grey darken-1" v-if="empty" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-1" v-if="empty || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
           <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemData.type }}</v-btn>
           <span v-if="empty">Install System</span>
           <span v-else>Change or Remove Installed System</span>
@@ -13,6 +13,13 @@
           <v-expansion-panel class="ma-0">
             <v-expansion-panel-content disabled>
               <span slot="header" class="subheading"> EMPTY </span> 
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </div>
+        <div v-else-if="itemData.err">
+          <v-expansion-panel class="ma-0">
+            <v-expansion-panel-content disabled>
+              <span slot="header" class="subheading grey--text">// MISSING SYSTEM DATA //&emsp;<span v-if="system.brew" class="caption grey--text">({{system.brew}})</span></span>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </div>
