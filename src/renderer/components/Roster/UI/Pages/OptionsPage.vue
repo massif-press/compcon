@@ -46,7 +46,7 @@
       <v-tab-item>        
         <v-card flat>
           <v-card-text>
-            <v-btn block>Force Data Reload</v-btn>
+            <v-btn block @click="forceReload()">Force Data Reload</v-btn>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -76,20 +76,33 @@
             'openDirectory'
           ]
         })
-        io.saveBrewData(path[0], this.userDataPath)
+        if (path && path[0]) {
+          io.saveBrewData(path[0], this.userDataPath)
+          this.$store.dispatch('loadData')
+          this.$store.dispatch('loadBrews')
+          this.$store.dispatch('buildLicenses')
+          this.detectBrews()
+        }
       },
       detectBrews: function () {
+        this.brews = []
         // base game
         this.brews.push({info: io.loadData('info')})
         // find all brews
         this.brews = this.brews.concat(this.$store.getters.getItemCollection('Brews'))
-        console.log(this.brews)
       },
       toggleBrew: function (brew) {
         this.$store.dispatch('setBrewActive', { dir: brew.dir, active: !brew.info.active })
-        // this.$store.dispatch('loadData')
-        // this.$store.dispatch('buildLicenses')
-        // this.detectBrews()
+        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadBrews')
+        this.$store.dispatch('buildLicenses')
+        this.detectBrews()
+      },
+      forceReload: function () {
+        this.$store.dispatch('loadData')
+        this.$store.dispatch('loadBrews')
+        this.$store.dispatch('buildLicenses')
+        this.detectBrews()
       }
     },
     created: function () {

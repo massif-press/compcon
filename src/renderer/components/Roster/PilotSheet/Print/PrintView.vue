@@ -167,20 +167,22 @@
           <v-flex xs4>
           <div v-if="loadout.items.armor" class="ma-1 ml-2">
             <span class="label">ARMOR</span><br>
-            <div v-for="(i, idx) in loadout.items.armor" :key="idx + i.id" >
-              <div v-if="i.err">
-                // MISSING DATA //
-              </div>
-              <div v-else>
-                <v-layout class="mr-2"><span class="p-large">{{gear(i.id).name}}</span></v-layout>
-                <v-layout class="ml-2">
-                <v-flex shrink class="p-reg" v-html="`+ ${gear(i.id).armor || 0} Armor / E-Def: ${gear(i.id).edef || 'N/A'} / Evasion: ${gear(i.id).evasion || 'N/A'}`" />
-                <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).hp_bonus" v-html="`HP Bonus: +${gear(i.id).hp_bonus}`" />
-                <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).speed" v-html="`Speed: ${gear(i.id).speed}`" />
-                <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).speed_bonus" v-html="`Speed Bonus: +${gear(i.id).speed_bonus}`" />
-                <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).evasion_bonus" v-html="`Evasion Bonus: +${gear(i.id).evasion_bonus}`" />
-                <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).hp" v-html="`HP: ${gear(i.id).hp}`" />
-                </v-layout>
+            <div v-for="(i, idx) in loadout.items.armor" :key="'armor_' + idx" >
+              <div v-if="i">
+                <div v-if="gear(i.id).err">
+                  // MISSING DATA //
+                </div>
+                <div v-else>
+                  <v-layout class="mr-2"><span class="p-large">{{gear(i.id).name}}</span></v-layout>
+                  <v-layout class="ml-2">
+                  <v-flex shrink class="p-reg" v-html="`+ ${gear(i.id).armor || 0} Armor / E-Def: ${gear(i.id).edef || 'N/A'} / Evasion: ${gear(i.id).evasion || 'N/A'}`" />
+                  <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).hp_bonus" v-html="`HP Bonus: +${gear(i.id).hp_bonus}`" />
+                  <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).speed" v-html="`Speed: ${gear(i.id).speed}`" />
+                  <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).speed_bonus" v-html="`Speed Bonus: +${gear(i.id).speed_bonus}`" />
+                  <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).evasion_bonus" v-html="`Evasion Bonus: +${gear(i.id).evasion_bonus}`" />
+                  <v-flex shrink class="p-reg ml-2" v-if="gear(i.id).hp" v-html="`HP: ${gear(i.id).hp}`" />
+                  </v-layout>
+                </div>
               </div>
             </div>
           </div>
@@ -188,16 +190,19 @@
 
           <div v-if="loadout.items.weapon" class="ma-1 ml-2">
             <span class="label">WEAPONS</span><br>
-            <div v-for="(i, idx) in loadout.items.weapon" :key="idx + i">
-              <div v-if="i.err"></div>
-                // MISSING DATA //
-              <div v-else>
-                <v-layout shrink class="mr-2"><span class="p-large">{{gear(i.id).name}}</span></v-layout>
-                <v-layout class="mb-1 ml-2">
-                  <v-flex shrink class="mr-3"><range-element size="12" :range="gear(i.id).range" /></v-flex>
-                  <v-flex shrink><damage-element size="12" :dmg="gear(i.id).damage" /></v-flex>
-                  <v-flex shrink><span v-for="t in i.tags" :key="t+idx" class="ml-1 mr-1">{{item('Tags', t).name}}</span></v-flex>
-                </v-layout>
+            <div v-for="(i, idx) in loadout.items.weapon" :key="'weapon_' + idx">
+              <div v-if="i">
+                <div v-if="gear(i.id).err">
+                  // MISSING DATA //
+                </div>
+                <div v-else>
+                  <v-layout shrink class="mr-2"><span class="p-large">{{gear(i.id).name}}</span></v-layout>
+                  <v-layout class="mb-1 ml-2">
+                    <v-flex shrink class="mr-3"><range-element size="12" :range="gear(i.id).range" /></v-flex>
+                    <v-flex shrink><damage-element size="12" :dmg="gear(i.id).damage" /></v-flex>
+                    <v-flex shrink><span v-for="t in i.tags" :key="t+idx" class="ml-1 mr-1">{{item('Tags', t).name}}</span></v-flex>
+                  </v-layout>
+                </div>
               </div>
             </div>
           </div>
@@ -208,14 +213,16 @@
           <v-flex xs8>
           <div v-if="loadout.items.gear" class="ma-1 ml-2">
             <span class="label">GEAR</span><br>
-            <v-layout v-for="(i, idx) in loadout.items.gear" :key="idx + i">
-              <div v-if="i.err">
-                // MISSING DATA //
-              </div>
-              <div v-else>
-                <v-flex shrink class="mr-2"><span class="p-large">{{gear(i.id).name}}</span>
-                <br>
-                <p class="ml-2 mb-0 pb-0 p-reg">{{gear(i.id).description}}</p></v-flex>
+            <v-layout v-for="(i, idx) in loadout.items.gear" :key="'gear_' + idx">
+              <div v-if="i">
+                <div v-if="gear(i.id).err">
+                  // MISSING DATA //
+                </div>
+                <div v-else>
+                  <v-flex shrink class="mr-2"><span class="p-large">{{gear(i.id).name}}</span>
+                  <br>
+                  <p class="ml-2 mb-0 pb-0 p-reg">{{gear(i.id).description}}</p></v-flex>
+                </div>
               </div>
             </v-layout>
           </div>
@@ -262,10 +269,10 @@
       this.stats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
     },
     mounted: function () {
-      // window.print()
-      // setTimeout(() => {
-      //   this.$router.push('/roster')
-      // }, 10)
+      window.print()
+      setTimeout(() => {
+        this.$router.push('/roster')
+      }, 10)
     }
   }
 </script>
