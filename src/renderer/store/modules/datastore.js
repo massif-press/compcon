@@ -20,10 +20,10 @@ const state = {
 
 function stageBrewData (userDataPath, brewDataFolder, file) {
   var info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
-  var bID = info ? `${info.name} ${info.version}` : 'Unknown Content Package'
+  var bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
   var bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
   if (bArr.length) {
-    bArr.map(x => ({...x, brew: bID}))
+    bArr = bArr.map(x => ({...x, brew: bID}))
   }
   return bArr || []
 }
@@ -69,7 +69,6 @@ const mutations = {
   },
   BUILD_LICENSES (state) {
     var licenses = []
-    console.log(state.Frames)
     state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
       licenses.push({
         source: frame.source.toLowerCase(),
@@ -78,7 +77,8 @@ const mutations = {
           [], // level 1
           [frame], // level 2
           [] // level 3
-        ]
+        ],
+        brew: frame.brew || null
       })
     })
     state.MechWeapons
@@ -97,10 +97,8 @@ const actions = {
     context.commit('SET_DATA_PATH', userDataPath)
   },
   setBrewActive (context, payload) {
-    console.log(payload)
     context.commit('SET_BREW_ACTIVE', payload)
-    context.commit('LOAD_DATA')
-    context.commit('BUILD_LICENSES')
+    context.dispatch('loadData')
   },
   loadData (context) {
     context.commit('LOAD_DATA')
@@ -115,13 +113,16 @@ const actions = {
 
 const getters = {
   getItemById: state => (itemType, id) => {
-    return state[itemType].find(x => x.id === id) || {}
+    return state[itemType].find(x => x.id === id) || {err: 'ID not found'}
   },
   getLicenseByName: state => license => {
-    return state.Licenses.find(x => x.license === license)
+    return state.Licenses.find(x => x.license === license) || {err: 'License not found'}
   },
   getItemCollection: state => itemType => {
     return state[itemType]
+  },
+  getState: state => {
+    return state
   }
 }
 

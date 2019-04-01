@@ -1,6 +1,19 @@
 <template>
   <div id="config-sheet" class="roster-content">
-   <div v-if="config.name">
+    
+    <div v-if="frame.err" style="height: 95vh">
+      <v-container style="height: 100%">
+        <v-layout align-center justify-center row fill-height>
+          <v-flex>
+            <p class="grey--text text-xs-center display-2">// MISSING FRAME DATA //</p>
+            <br>
+            <span v-if="config.brew" class="caption grey--text">({{config.brew}})</span>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
+
+   <div v-else-if="config.name">
     <v-container fluid>
       <v-layout align-end>
         <v-flex shrink>
@@ -289,6 +302,7 @@
 
         </v-layout>
    </div>
+
     <div v-else style="height: 95vh">
       <v-container style="height: 100%">
         <v-layout align-center justify-center row fill-height>

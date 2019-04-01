@@ -8,7 +8,7 @@
     </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
-          :items="gearItems" :expand="true" :search="search" :item-key="id" hide-actions>
+          :items="gearItems" :expand="true" :search="search" hide-actions>
           <template slot="items" slot-scope="props">
             <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>

@@ -13,7 +13,15 @@
         <v-layout>
           <v-flex xs12>
             <div v-for="skill in skills" :key="`summary_${skill.id}`">
-                <v-layout>
+                <v-layout v-if="skillById(skill.id).err">
+                  <v-flex shrink>
+                  <span class="grey--text">// MISSING DATA //</span><br><span v-if="skill.brew" class="caption grey--text">({{skill.brew}})</span>
+                  </v-flex>
+                  <v-flex shrink>
+                    <v-btn icon flat color="error" @click="setSkill({id: skill.id, action: 'remove'})"><v-icon>delete</v-icon></v-btn>
+                  </v-flex>
+                </v-layout>
+                <v-layout v-else>
                   <v-flex xs12>
                     <strong>{{skillById(skill.id).trigger}}</strong>
                     <v-tooltip :disabled="!skill.specialty && !skill.flaw" right>
@@ -141,7 +149,9 @@
         if (selectedIndex === -1) {
           switch (selectionEvent.action) {
             case ('addBonus'):
-              this.skills.push({id: selectionEvent.id, bonus: 2})
+              var newSkill = {id: selectionEvent.id, bonus: 2}
+              if (selectionEvent.brew) newSkill.brew = selectionEvent.brew
+              this.skills.push(newSkill)
               break
             default:
               break
@@ -157,6 +167,9 @@
               s.bonus -= 2
               if (s.bonus === 0 && !(s.specialty || s.flaw)) this.skills.splice(selectedIndex, 1)
               else this.$set(this.skills, selectedIndex, s)
+              break
+            case ('remove'):
+              this.skills.splice(selectedIndex, 1)
               break
             default:
               break
@@ -181,7 +194,7 @@
         this.skills = skillSort(this.skills)
       },
       skillById: function (id) {
-        return this.skillData.find(x => x.id === id)
+        return this.skillData.find(x => x.id === id) || {err: true}
       },
       initialize: function () {
         this.pLevel = this.pilotLevel

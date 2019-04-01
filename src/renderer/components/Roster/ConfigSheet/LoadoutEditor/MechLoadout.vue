@@ -211,7 +211,10 @@ export default {
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${loadoutIndex}].systems[${this.itemIndex}]`,
-        val: { id: item.id }
+        val: {
+          id: item.id,
+          brew: item.brew || null
+        }
       })
 
       this.systemSelectorModal = false
