@@ -67,8 +67,12 @@
             <v-flex class="p-reg">
               <b>LTD SYS BONUS</b>
               <br><span class="p-title font-weight-regular">{{signed(stats.limited_bonus)}}</span>
-            </v-flex>             
-          </v-layout>
+            </v-flex>    
+            <v-flex class="p-reg">
+              <b>SIZE</b>
+              <br><span class="p-title font-weight-regular">{{frame.stats.size}}</span>
+            </v-flex>            
+            </v-layout>
         </v-flex>
       </v-layout>
 
@@ -252,10 +256,10 @@
       this.frame = this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     mounted: function () {
-      window.print()
-      setTimeout(() => {
-        this.$router.push('/config')
-      }, 10)
+      // window.print()
+      // setTimeout(() => {
+      //   this.$router.push('/config')
+      // }, 10)
     }
   }
 </script>
