@@ -52,7 +52,7 @@
     },
     methods: {
       clicked: function (action) {
-        this.$emit('skill-click', {id: this.skillData.id, action: action})
+        this.$emit('skill-click', {id: this.skillData.id, action: action, brew: this.skillData.brew || null})
       }
     }
   }

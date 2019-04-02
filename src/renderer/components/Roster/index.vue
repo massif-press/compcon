@@ -31,8 +31,10 @@
       }
     },
     created: function () {
+      this.$store.dispatch('setDatapath', this.userDataPath)
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
+      this.$store.dispatch('loadBrews')
       this.$store.dispatch('buildLicenses')
     },
     watch: {

@@ -121,7 +121,6 @@
           this.bonuses.splice(idx, 1)
           this.licenses[source] += 3
         }
-        console.log(this.licenses)
         this.pointLimit = false
       },
       saveBonuses () {
@@ -151,7 +150,6 @@
           licenses[s] -= 3
         }
         this.licenses = licenses
-        console.log(licenses)
         this.bonusData = allData.filter(x => licenses[x.source] >= 0)
         this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
       }

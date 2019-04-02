@@ -22,6 +22,34 @@ Refactor:
   ☐ Move all calculation, checking, filtering out of template
 
 2.0:
+  ☐ Mods in Compendium systems
+  ☐ KS Licenses
+  ✔ Break out datafiles by brew @done(19-03-30 13:30)
+    ☐ Options Page
+      ☐ Homebrew Loader
+        ✔ Load homebrew package (import to userdata) @done(19-03-30 13:30)
+        ✔ Gather and list brew packages @done(19-03-30 13:30)
+        ✔ Save brew active status @done(19-03-30 13:30)
+        ✔ Toggle brews & reload @done(19-03-30 13:29)
+        ✔ Catch missing content by ID @done(19-04-01 17:53)
+          ✔ Backgrounds @done(19-03-31 08:15)
+          ✔ Core Bonuses @done(19-03-31 09:31)
+          ✔ Frames @done(19-03-31 09:38)
+          ✔ Manufacturers @done(19-03-31 10:14)
+          ✔ Mods @done(19-03-31 15:03)
+          ✔ Pilot Gear @done(19-03-31 09:31)
+          ✔ Skills @done(19-03-31 08:15)
+          ✔ Systems @done(19-03-31 14:50)
+          ✔ Tags @done(19-03-31 10:14)
+          ✔ Talents @done(19-03-31 09:32)
+          ✔ Weapons @done(19-03-31 14:50)
+          ✔ Pilot Sheet Print @done(19-04-01 17:53)
+          ✔ Config Sheet Print @done(19-04-01 17:53)
+        ✔ Load active brew content as part of data loader @done(19-03-30 16:13)
+        ☐ Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
+      ☐ Other
+        ☐ Force Data Reload button
+  ☐ Armsman ammo case print not showing up
   ☐ Alternate Roster/Hangar views
   ✔ Better callouts for Add New Config @done(19-03-29 14:56)
   ✔ Better callouts for unmount weapon/uninstall system @done(19-03-29 14:56)
@@ -30,6 +58,7 @@ Refactor:
   ☐ Glossary in compendium
   ☐ Action economy in compendium
   ☐ GDrive Sheet Importer
+    ☐ Add missing mods dialog
   ☐ Github Gist API import/exporter (export and import by ID)
   General Print Options:
     ☐ Large fonts
