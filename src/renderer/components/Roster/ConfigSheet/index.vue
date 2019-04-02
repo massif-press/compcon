@@ -91,7 +91,7 @@
           </v-dialog>
       </v-layout>
 
-        <v-layout><span class="config-header">Mech Attributes</span></v-layout>
+        <v-layout><span class="config-header">Mech Attributes<span style="float: right">SIZE {{frame.stats.size}} &emsp;</span></span></v-layout>
         <v-layout>
           <v-flex xs1 class="mr-3">
             <v-layout column justify-center class="text-xs-center">
