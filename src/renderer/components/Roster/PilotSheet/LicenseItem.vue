@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-layout>
+    <v-layout v-if="licenseData.err">
+      <v-toolbar dense>
+        <v-toolbar-title>
+          <span class="subheading grey--text">// MISSING LICENSE DATA //</span>&emsp;<span v-if="license.brew" class="caption grey--text">({{license.brew}})</span>
+        </v-toolbar-title>
+      </v-toolbar>
+    </v-layout>
+    <v-layout v-else>
       <v-toolbar dense>
         <v-toolbar-title>
           <span class="caption">{{license.source}}</span> &emsp;

@@ -208,7 +208,10 @@ export default {
       var attr = ['loadouts', this.tabIndex, 'items', item.type, this.itemIndex]
       this.$store.dispatch('editPilot', {
         attr: attr,
-        val: {id: item.id}
+        val: {
+          id: item.id,
+          brew: item.brew || null
+        }
       })
       this.selectorModal = false
       this.refresh()

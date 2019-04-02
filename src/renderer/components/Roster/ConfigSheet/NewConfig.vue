@@ -180,7 +180,8 @@
         this.$store.dispatch('addConfig', {
           pilot_id: this.pilot.id,
           name: this.newConfigName,
-          frame_id: this.newFrameId
+          frame_id: this.newFrameId,
+          brew: this.$store.getters.getItemById('Frames', this.newFrameId).brew || null
         })
         this.$emit('close')
       },

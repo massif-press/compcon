@@ -6,6 +6,21 @@
       <v-toolbar-items>
         <v-btn flat :to="'/compendium'">Compendium</v-btn>
 
+        <v-btn @click="optionsModal = true" flat>Options</v-btn>
+        <v-dialog v-model="optionsModal" width="80vw">
+          <v-card>
+            <v-card-title class="title">Options</v-card-title>
+            <v-card-text>
+              <options-page />
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" flat @click="optionsModal = false"> Close </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>       
+
         <v-btn @click="aboutModal = true" flat>About</v-btn>
         <v-dialog v-model="aboutModal" width="80vw">
           <v-card>
@@ -46,13 +61,15 @@
 <script>
   import HelpPage from './Pages/HelpPage'
   import AboutPage from './Pages/AboutPage'
+  import OptionsPage from './Pages/OptionsPage'
 
 export default {
     name: 'topbar',
-    components: { HelpPage, AboutPage },
+    components: { HelpPage, AboutPage, OptionsPage },
     data: () => ({
       aboutModal: false,
       helpModal: false,
+      optionsModal: false,
       ver: 0
     }),
     methods: {
