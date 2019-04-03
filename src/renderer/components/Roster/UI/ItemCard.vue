@@ -17,7 +17,7 @@
           <p v-if="itemData.effect" v-html="itemData.effect" />
         </div>
 
-        <div v-else-if="itemData.data_type === 'system'">
+        <div v-else-if="itemData.data_type === 'system' || itemData.data_type === 'mod'">
           <p v-if="!popup">{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
           <p v-if="itemData.type" v-html="itemData.type" />
           <p v-if="itemData.description && !popup" class="blockquote" v-html="itemData.description" />
