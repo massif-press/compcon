@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 // uncomment this to run debugger in prod
-// require('electron-debug')({ showDevTools: true, enabled: true })
+require('electron-debug')({ showDevTools: true, enabled: true })
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
