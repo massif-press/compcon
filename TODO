@@ -1,5 +1,8 @@
 Bugs:
   ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
+  ✔ Systems marked as frames in license viewer @done(19-04-02 14:56)
+  ☐ SH mount does not update automatically
+  ☐ Filter SH weapons in loadouts that do not have a free lockable mount
 
 Refactor:
   ☐ move static assets out of computed @critical

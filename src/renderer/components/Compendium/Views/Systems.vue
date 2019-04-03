@@ -38,7 +38,9 @@
       ]
     }),
     created: function () {
-      this.systems = this.$store.getters.getItemCollection('MechSystems').filter(x => x.source)
+      this.systems = this.$store.getters.getItemCollection('MechSystems')
+        .concat(this.$store.getters.getItemCollection('WeaponMods'))
+        .filter(x => x.source)
       var ps = this.$store.getters.getPresearch
       if (ps) {
         this.search = ps
