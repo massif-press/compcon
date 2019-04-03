@@ -71,7 +71,7 @@
   },
   {
     "id": "plug",
-    "name": "Companion/Concierge-class Dummy Plug",
+    "name": "Companion/Concierge-Class Dummy Plug",
     "type": "AI",
     "sp": 2,
     "tags": [{
@@ -602,7 +602,7 @@
   },
   {
     "id": "uncle",
-    "name": "UNCLE-class NHP",
+    "name": "UNCLE-Class NHP",
     "type": "AI",
     "sp": 3,
     "tags": [{
@@ -1113,7 +1113,7 @@
   },
   {
     "id": "tlaloc",
-    "name": "TLALOC-class NHP",
+    "name": "TLALOC-Class NHP",
     "type": "AI",
     "sp": 3,
     "tags": [{
@@ -1577,7 +1577,7 @@
   },
   {
     "id": "scylla",
-    "name": "SCYLLA Class NHP",
+    "name": "SCYLLA-Class NHP",
     "type": "AI",
     "sp": 3,
     "tags": [{
@@ -2165,7 +2165,7 @@
   },
   {
     "id": "agni",
-    "name": "AGNI-class NHP",
+    "name": "AGNI-Class NHP",
     "type": "AI",
     "sp": 3,
     "tags": [{
@@ -2630,7 +2630,7 @@
   },
   {
     "id": "amaterasu",
-    "name": "AMATERASU-class NHP",
+    "name": "AMATERASU-Class NHP",
     "type": "AI",
     "sp": 3,
     "tags": [{
