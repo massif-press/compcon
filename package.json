@@ -42,12 +42,14 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/icon.icns",
+      "target": [
+        "zip"
+      ]
     },
     "win": {
       "icon": "build/icons/icon.ico",
       "target": [
-        "nsis",
         "portable"
       ]
     },
