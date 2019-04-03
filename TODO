@@ -1,11 +1,3 @@
-Bugs:
-  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02)
-  ✔ Fix config print @done(19-04-03 11:02)
-  ✔ Config print int weapon @done(19-04-03 10:36)
-  ✔ Talent weapons not printing @done(19-04-03 11:02)
-  ✔ Integrated systems not printing @done(19-04-03 11:02)
-  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04)
-  ✔ Config Armor not printing @done(19-04-03 10:26)
 
 Refactor:
   ☐ remove Roboto CDN
@@ -29,80 +21,44 @@ Refactor:
   ☐ Move all calculation, checking, filtering out of template
 
 2.0:
-  ☐ Mods in Compendium systems
-  ☐ KS Licenses
-  ✔ Break out datafiles by brew @done(19-03-30 13:30)
-    ☐ Options Page
-      ☐ Homebrew Loader
-        ✔ Load homebrew package (import to userdata) @done(19-03-30 13:30)
-        ✔ Gather and list brew packages @done(19-03-30 13:30)
-        ✔ Save brew active status @done(19-03-30 13:30)
-        ✔ Toggle brews & reload @done(19-03-30 13:29)
-        ✔ Catch missing content by ID @done(19-04-01 17:53)
-          ✔ Backgrounds @done(19-03-31 08:15)
-          ✔ Core Bonuses @done(19-03-31 09:31)
-          ✔ Frames @done(19-03-31 09:38)
-          ✔ Manufacturers @done(19-03-31 10:14)
-          ✔ Mods @done(19-03-31 15:03)
-          ✔ Pilot Gear @done(19-03-31 09:31)
-          ✔ Skills @done(19-03-31 08:15)
-          ✔ Systems @done(19-03-31 14:50)
-          ✔ Tags @done(19-03-31 10:14)
-          ✔ Talents @done(19-03-31 09:32)
-          ✔ Weapons @done(19-03-31 14:50)
-          ✔ Pilot Sheet Print @done(19-04-01 17:53)
-          ✔ Config Sheet Print @done(19-04-01 17:53)
-        ✔ Load active brew content as part of data loader @done(19-03-30 16:13)
-        ☐ Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
-      ☐ Other
-        ☐ Force Data Reload button
-  ☐ Armsman ammo case print not showing up
+  ☐ Options: Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
   ☐ Alternate Roster/Hangar views
-  ✔ Better callouts for Add New Config @done(19-03-29 14:56)
-  ✔ Better callouts for unmount weapon/uninstall system @done(19-03-29 14:56)
-  ✔ Status effects in compendium @done(19-03-29 14:05)
-  ✔ Tags in compendium @done(19-03-29 14:05)
   ☐ Glossary in compendium
   ☐ Action economy in compendium
-  ☐ GDrive Sheet Importer
-    ☐ Add missing mods dialog
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
-  General Print Options:
-    ☐ Large fonts
-    ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
-  Pilot Print Options:
-    ☐ Include contacts
-    ☐ Print image
-    ☐ Print empty appearance frame (for drawing)
-    ☐ Print History
-    ☐ Print appearance Notes
-    ☐ Print Pilot Notes
-    ☐ Print background fluff text
-    ☐ Add space for notes
-    ☐ Add space for sketches
-    ☐ Add space for additonal equipment
-    ☐ Add space for custom invocations
-  Mech Print Options: 
-    ☐ Print image
-    ☐ Print empty apparance frame (for drawing)
-    ☐ Print Notes
-    ☐ Add space for notes (lined)
-    ☐ Add space for sketches (unlined)
-    ☐ Mark danger zone heat
-  ☐ Pilot Stat Contributions
-    ☐ Furnish systems/weapons/talents/cb/etc with "actions" array
+  Printing:
+    General Print Options:
+      ☐ Large fonts
+      ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
+    Pilot Print Options:
+      ☐ Include contacts
+      ☐ Print image
+      ☐ Print empty appearance frame (for drawing)
+      ☐ Print History
+      ☐ Print appearance Notes
+      ☐ Print Pilot Notes
+      ☐ Print background fluff text
+      ☐ Add space for notes
+      ☐ Add space for sketches
+      ☐ Add space for additonal equipment
+      ☐ Add space for custom invocations
+    Mech Print Options: 
+      ☐ Print image
+      ☐ Print empty apparance frame (for drawing)
+      ☐ Print Notes
+      ☐ Add space for notes (lined)
+      ☐ Add space for sketches (unlined)
+      ☐ Mark danger zone heat
+  ☐ Stat Contributions
   ☐ Actions Panel
   ☐ Tutorial popups (vue-tour)
   ☐ Per-item notes
-  ☐ Multiple print layouts selectable (portrait, landscape / plain, embellished)
-  ✔ Custom Background @done(19-03-29 13:27)
   ☐ Charts
   ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
   ☐ Selector side panels should be fixed
-  ☐ Hardsuit and Pilot Weapon rollables
-    ☐ Hardsuit and Pilot Weapon generators
+  ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ UNCLE as weapon mod
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
@@ -117,6 +73,47 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Mods in Compendium systems @done(19-04-03 11:42) @project(2.0)
+  ✔ KS Licenses @done(19-04-03 11:29) @project(2.0)
+  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02) @project(Bugs)
+  ✔ Fix config print @done(19-04-03 11:02) @project(Bugs)
+  ✔ Config print int weapon @done(19-04-03 10:36) @project(Bugs)
+  ✔ Talent weapons not printing @done(19-04-03 11:02) @project(Bugs)
+  ✔ Integrated systems not printing @done(19-04-03 11:02) @project(Bugs)
+  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04) @project(Bugs)
+  ✔ Config Armor not printing @done(19-04-03 10:26) @project(Bugs)
+  ✔ Break out datafiles by brew @done(19-03-30 13:30) @project(2.0)
+  ✔ Options Page @done(19-04-03 11:29) @project(2.0)
+  ✔ Homebrew Loader @done(19-04-03 11:29) @project(2.0)
+  ✔ Load homebrew package (import to userdata) @done(19-03-30 13:30) @project(2.0)
+  ✔ Gather and list brew packages @done(19-03-30 13:30) @project(2.0)
+  ✔ Save brew active status @done(19-03-30 13:30) @project(2.0)
+  ✔ Toggle brews & reload @done(19-03-30 13:29) @project(2.0)
+  ✔ Catch missing content by ID @done(19-04-01 17:53) @project(2.0)
+  ✔ Backgrounds @done(19-03-31 08:15) @project(2.0)
+  ✔ Core Bonuses @done(19-03-31 09:31) @project(2.0)
+  ✔ Frames @done(19-03-31 09:38) @project(2.0)
+  ✔ Manufacturers @done(19-03-31 10:14) @project(2.0)
+  ✔ Mods @done(19-03-31 15:03) @project(2.0)
+  ✔ Pilot Gear @done(19-03-31 09:31) @project(2.0)
+  ✔ Skills @done(19-03-31 08:15) @project(2.0)
+  ✔ Systems @done(19-03-31 14:50) @project(2.0)
+  ✔ Tags @done(19-03-31 10:14) @project(2.0)
+  ✔ Talents @done(19-03-31 09:32) @project(2.0)
+  ✔ Weapons @done(19-03-31 14:50) @project(2.0)
+  ✔ Pilot Sheet Print @done(19-04-01 17:53) @project(2.0)
+  ✔ Config Sheet Print @done(19-04-01 17:53) @project(2.0)
+  ✔ Load active brew content as part of data loader @done(19-03-30 16:13) @project(2.0)
+  ✔ Other @done(19-04-03 11:29) @project(2.0)
+  ✔ Force Data Reload button @done(19-04-03 11:29) @project(2.0)
+  ✔ Armsman ammo case print not showing up @done(19-04-03 11:29) @project(2.0)
+  ✔ Better callouts for Add New Config @done(19-03-29 14:56) @project(2.0)
+  ✔ Better callouts for unmount weapon/uninstall system @done(19-03-29 14:56) @project(2.0)
+  ✔ Status effects in compendium @done(19-03-29 14:05) @project(2.0)
+  ✔ Tags in compendium @done(19-03-29 14:05) @project(2.0)
+  ✔ GDrive Sheet Importer @done(19-04-03 11:29) @project(2.0)
+  ✔ Add missing mods dialog @done(19-04-03 11:29) @project(2.0)
+  ✔ Custom Background @done(19-03-29 13:27) @project(2.0)
   ✔ Help Modal @done(19-03-27 11:04) @project(Version 1)
   ✔ Data verification pass @done(19-03-27 11:16) @project(Version 1)
   ✔ Data formatting pass @done(19-03-27 11:16) @project(Version 1)
