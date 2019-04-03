@@ -1,10 +1,21 @@
 Bugs:
+<<<<<<< HEAD
   ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
   ✔ Systems marked as frames in license viewer @done(19-04-02 14:56)
   ☐ SH mount does not update automatically
   ☐ Filter SH weapons in loadouts that do not have a free lockable mount
+=======
+  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02)
+  ✔ Fix config print @done(19-04-03 11:02)
+  ✔ Config print int weapon @done(19-04-03 10:36)
+  ✔ Talent weapons not printing @done(19-04-03 11:02)
+  ✔ Integrated systems not printing @done(19-04-03 11:02)
+  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04)
+  ✔ Config Armor not printing @done(19-04-03 10:26)
+>>>>>>> f25f1f09aeea658c0e1b1f0f77622a71e6e735aa
 
 Refactor:
+  ☐ remove Roboto CDN
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
@@ -31,6 +42,7 @@ Refactor:
   ☐ Status effects in compendium, linked through equipment descriptions/tags
   ☐ GDrive Sheet Importer
   ☐ Github Gist API import/exporter (export and import by ID)
+  ☐ Imgur image hosting
   General Print Options:
     ☐ Large fonts
     ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
