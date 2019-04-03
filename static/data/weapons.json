@@ -2447,7 +2447,7 @@
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "1d6+2"
     },
     {
@@ -2481,7 +2481,7 @@
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "1d6+2"
     },
     {
@@ -2515,7 +2515,7 @@
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "2d6"
     }, {
       "id": "overcharged"
