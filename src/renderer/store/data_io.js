@@ -1,5 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import {
+  copySync
+} from 'fs-extra'
 
 const webImageTypes = [
   '.jpeg',
@@ -14,21 +17,6 @@ function getStaticPath (env) {
   // eslint-disable-next-line no-process-env
   const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
   return staticPath
-}
-
-function copyRecursive (origin, destination) {
-  var exists = fs.existsSync(origin)
-  var stats = exists && fs.statSync(origin)
-  var isDirectory = exists && stats.isDirectory()
-  if (exists && isDirectory) {
-    fs.mkdirSync(destination)
-    fs.readdirSync(origin).forEach(function (childItemName) {
-      copyRecursive(path.join(origin, childItemName),
-        path.join(destination, childItemName))
-    })
-  } else {
-    fs.linkSync(origin, destination)
-  }
 }
 
 export default {
@@ -50,7 +38,10 @@ export default {
         var infoPath = path.join(contentPath, dirs[i], 'info.json')
         if (fs.existsSync(infoPath)) {
           var info = JSON.parse(fs.readFileSync(infoPath))
-          brews.push({info: info, dir: dirs[i]})
+          brews.push({
+            info: info,
+            dir: dirs[i]
+          })
         }
       }
       return brews
@@ -83,7 +74,7 @@ export default {
       fs.mkdirSync(contentPath)
     }
     var destination = path.join(userDataPath, 'content', path.basename(origin))
-    copyRecursive(origin, destination)
+    copySync(origin, destination)
   },
   setBrewActive (userDataPath, subdir, isActive) {
     var infopath = path.join(userDataPath, 'content', subdir, 'info.json')
