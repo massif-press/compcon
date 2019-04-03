@@ -80,7 +80,7 @@
       <v-layout justify-space-around class="text-xs-center">
         <v-flex shrink>
           <span class="p-reg">STRUCTURE</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.structure" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HP</span>
@@ -91,7 +91,7 @@
         <hr vertical />
         <v-flex shrink>
           <span class="p-reg">REACTOR STRESS</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.heatstress" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HEAT</span>
