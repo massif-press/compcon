@@ -1,18 +1,6 @@
 Bugs:
-<<<<<<< HEAD
-  ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
-  ✔ Systems marked as frames in license viewer @done(19-04-02 14:56)
   ☐ SH mount does not update automatically
   ☐ Filter SH weapons in loadouts that do not have a free lockable mount
-=======
-  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02)
-  ✔ Fix config print @done(19-04-03 11:02)
-  ✔ Config print int weapon @done(19-04-03 10:36)
-  ✔ Talent weapons not printing @done(19-04-03 11:02)
-  ✔ Integrated systems not printing @done(19-04-03 11:02)
-  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04)
-  ✔ Config Armor not printing @done(19-04-03 10:26)
->>>>>>> f25f1f09aeea658c0e1b1f0f77622a71e6e735aa
 
 Refactor:
   ☐ remove Roboto CDN
@@ -91,6 +79,14 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
+  ✔ Systems marked as frames in license viewer @done(19-04-02 14:56) @project(Bugs)
+  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02) @project(Bugs)
+  ✔ Fix config print @done(19-04-03 11:02) @project(Bugs)
+  ✔ Config print int weapon @done(19-04-03 10:36) @project(Bugs)
+  ✔ Talent weapons not printing @done(19-04-03 11:02) @project(Bugs)
+  ✔ Integrated systems not printing @done(19-04-03 11:02) @project(Bugs)
+  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04) @project(Bugs)
+  ✔ Config Armor not printing @done(19-04-03 10:26) @project(Bugs)
   ✔ Help Modal @done(19-03-27 11:04) @project(Version 1)
   ✔ Data verification pass @done(19-03-27 11:16) @project(Version 1)
   ✔ Data formatting pass @done(19-03-27 11:16) @project(Version 1)
