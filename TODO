@@ -1,7 +1,14 @@
 Bugs:
-  ☐ Engineering prototype weapon limited bonus doesn't work well with limited system bonus
+  ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02)
+  ✔ Fix config print @done(19-04-03 11:02)
+  ✔ Config print int weapon @done(19-04-03 10:36)
+  ✔ Talent weapons not printing @done(19-04-03 11:02)
+  ✔ Integrated systems not printing @done(19-04-03 11:02)
+  ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04)
+  ✔ Config Armor not printing @done(19-04-03 10:26)
 
 Refactor:
+  ☐ remove Roboto CDN
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
@@ -28,6 +35,7 @@ Refactor:
   ☐ Status effects in compendium, linked through equipment descriptions/tags
   ☐ GDrive Sheet Importer
   ☐ Github Gist API import/exporter (export and import by ID)
+  ☐ Imgur image hosting
   General Print Options:
     ☐ Large fonts
     ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
