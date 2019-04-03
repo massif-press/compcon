@@ -156,7 +156,7 @@
       <span class="label" style="page-break-inside: avoid">MOUNTS</span><br>
       <v-layout row>
         <v-flex>
-        <v-layout v-if="1 === 1" row>
+        <v-layout v-if="frame.core_system.integrated" row>
           <div style="width: 100%">
             <v-flex>
               <div class="bordered mt-1 mb-1 pa-0">
