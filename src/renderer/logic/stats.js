@@ -33,7 +33,7 @@ export default {
     var grit = Math.ceil(pilot.level / 2)
 
     var output = {
-      structure: rules.base_structure,
+      structure: rules.base_structure + frame.stats.structuremod || 0,
       hull: pilot.mechSkills.hull,
       agi: pilot.mechSkills.agi,
       sys: pilot.mechSkills.sys,
@@ -49,7 +49,7 @@ export default {
       sensor_range: frame.stats.sensor_range,
       edef: frame.stats.edef + pilot.mechSkills.sys,
       heatcap: frame.stats.heatcap + pilot.mechSkills.eng,
-      heatstress: rules.base_stress,
+      heatstress: rules.base_stress + frame.stats.stressmod || 0,
       limited_bonus: Math.floor(pilot.mechSkills.eng / 2),
       attack_bonus: grit,
       tech_attack: frame.stats.tech_attack + pilot.mechSkills.sys,
