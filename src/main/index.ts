@@ -1,25 +1,29 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
-import '../renderer/store'
+import {
+  app,
+  BrowserWindow
+} from 'electron'
+import '../renderer/store/index.ts'
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
+const globalAny: any = global;
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
 // uncomment this to run debugger in prod
 // require('electron-debug')({ showDevTools: true, enabled: true })
 
-let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+let mainWindow: BrowserWindow | null;
+const winURL = process.env.NODE_ENV === 'development' ?
+  `http://localhost:9080` :
+  `file://${__dirname}/index.html`
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
