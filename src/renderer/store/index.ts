@@ -10,7 +10,7 @@ const modules = require('./modules/index.js')
 Vue.use(Vuex)
 
 // this shit is a fuckin nightmare, hopefully typescript is worth it, look into making this make sense later if possible?
-const pilotUpdateSubscriber = (store: { subscribe: (arg0: (mutation: any, state: { pilots: { Pilots: object } }) => void) => void; }): void => {
+const pilotUpdateSubscriber = (store: any): void => {
   store.subscribe((mutation: { type: string; }, state: { pilots: { Pilots: object } }): void => {
     if (mutation.type === 'UPDATE_PILOT' || 'SPLICE_PILOT' || 'CLONE_PILOT' || 'ADD_PILOT' || 'DELETE_PILOT' || 'UPDATE_PILOT_CONFIG') {
       io.saveUserData(Vue.prototype.userDataPath, 'pilots.json', state.pilots.Pilots)
