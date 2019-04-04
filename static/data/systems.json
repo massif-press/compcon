@@ -693,8 +693,8 @@
     "source": "IPS-N",
     "license": "VLAD",
     "license_level": 1,
-    "effect": "Once on your turn, you can take 1d3+2 heat to reload any weapon with the Loading tag as a free action.",
-    "description": "You may deploy this trap in a free adjacent space as a quick action. It arms at the end of your turn. This trap triggers when any character passes directly over it. The target must pass a hull check or take 1d6 AP kinetic damage and become immobilized. Once triggered, the trap becomes an object with 10 HP and 5 evasion, and immobilizes its target as long as it is not destroyed.",
+    "effect": "You may deploy this trap in a free adjacent space as a quick action. It arms at the end of your turn. This trap triggers when any character passes directly over it. The target must pass a hull check or take 1d6 AP kinetic damage and become immobilized. Once triggered, the trap becomes an object with 10 HP and 5 evasion, and immobilizes its target as long as it is not destroyed.",
+    "description": "The IPS-N WEBJAW Explosively-Accelerated Filament system is a deployable all-theater perimeter defense system designed to arrest hostile movement in pre-determined kill-corridors. Deployable by hand or launch tube, the WEBJAW EAF system consists of a cluster of filament anchors scattered across an area. When triggered remotely or by a series of programmable physical, electronic, or chemical triggers, the anchors target and fire at the triggering foe, embedding hard-tip barbs deep inside both hard and soft targets. The barbs, anchored to their bases by arachnosilk-analog filament, immobilize and entangle the target.",
     "data_type": "system",
     "aptitude": {
       "ranged": 1,
