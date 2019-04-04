@@ -1,4 +1,4 @@
-function isValidJSON (text) {
+function isValidJSON(text: string) {
   try {
     JSON.parse(text)
     return true
@@ -8,12 +8,12 @@ function isValidJSON (text) {
 }
 
 export default {
-  pilot (data) {
+  pilot(data: Pilot) {
     // this is largely a stub for future work (and potetentially version-checking)
     // pilots should "work" with basically a blank object to write to
     return data.id && data.name && data.callsign
   },
-  clipboardPilot (data, callback) {
+  clipboardPilot(data: string, callback: Function) {
     var err = null
     var result = null
     if (!isValidJSON(data)) {
@@ -28,11 +28,11 @@ export default {
     }
     callback(err, result)
   },
-  config (data) {
+  config(data: MechConfig) {
     // see above
     return data.frame_id
   },
-  clipboardConfig (data, callback) {
+  clipboardConfig(data: string, callback: Function) {
     var err = null
     var result = null
     if (!isValidJSON(data)) {
