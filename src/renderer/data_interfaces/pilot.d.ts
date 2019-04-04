@@ -7,9 +7,9 @@ type ItemID = { id: string }
 declare interface PilotLoadout {
     id: string,
     items: {
-        armor: ItemID[],
+        armor: (ItemID | null)[],
         gear: (ItemID | null)[],
-        weapon: ItemID[]
+        weapon: (ItemID | null)[]
     },
     name: string
 }
