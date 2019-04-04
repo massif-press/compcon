@@ -3,31 +3,32 @@ import XLSX from 'xlsx'
 
 import io from '../store/data_io'
 
-import translationTable from '../../../static/data/translationTable.json'
-import frames from '../../../static/data/frames.json'
+
+const translationTable: { [key: string]: { [key: string]: string } } = require('@/../static/data/translationTable.json')
+const frames = require('@/../static/data/frames.json')
 
 // return a cell code from a cell code and an offset
-const offsetCell = (cell, offset) => {
+const offsetCell = (cell: string, offset: number[]): string => {
   const [offsetC, offsetR] = offset
   const decodedCell = XLSX.utils.decode_cell(cell)
   const [origC, origR] = [decodedCell.c, decodedCell.r]
-  const newCell = {c: origC + offsetC, r: origR + offsetR}
+  const newCell = { c: origC + offsetC, r: origR + offsetR }
   return XLSX.utils.encode_cell(newCell)
 }
 
 // converts sheet range to 2D array
-const sheetToArray = (sheet, rng) => {
+const sheetToArray = (sheet: XLSX.WorkSheet, rng: string): (string | undefined)[][] => {
   let result = []
   let row
   let rowNum
   let colNum
-  let range = XLSX.utils.decode_range(rng || sheet['!ref'])
+  let range = XLSX.utils.decode_range(rng)
   for (rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
     row = []
     for (colNum = range.s.c; colNum <= range.e.c; colNum++) {
-      let nextCell = sheet[XLSX.utils.encode_cell({r: rowNum, c: colNum})]
+      let nextCell: XLSX.CellObject = sheet[XLSX.utils.encode_cell({ r: rowNum, c: colNum })]
       if (typeof nextCell === 'undefined') {
-        row.push(null)
+        row.push(nextCell)
       } else row.push(nextCell.w)
     }
     result.push(row)
@@ -37,7 +38,7 @@ const sheetToArray = (sheet, rng) => {
 
 // function that looks up a gsheet item name in the translationTable for a given collection
 // returns c/c item ID
-const getItemID = (name, collection) => {
+const getItemID = (name: string, collection: string): string => {
   let result = translationTable[collection][name]
   if (!result) throw new Error(`'${name}' not found in '${collection}'`)
   if (result === 'KS_ONLY') throw new Error('Sorry, we don\'t support Kickstarter content yet!')
@@ -46,9 +47,9 @@ const getItemID = (name, collection) => {
 }
 
 // load sheet file from path
-export const loadSheetFile = path => {
+export const loadSheetFile = (path: 'string') => {
   const file = readFileSync(path)
-  return XLSX.read(file, {type: 'buffer'})
+  return XLSX.read(file, { type: 'buffer' })
 }
 
 // Main function
@@ -56,77 +57,53 @@ export const loadSheetFile = path => {
 // https://docs.google.com/spreadsheets/d/1Tz8rbkOq9nyuIJ6bA0636dtLeN68Z5Q0yJF8cjycXxQ/edit?usp=sharing
 // as of March 28th, 2019
 // keep it up to date!
-export const gsheetToObject = (wb) => {
+export const gsheetToObject = (wb: XLSX.WorkBook) => {
   const pilotSheet = wb.Sheets.Pilot
   const mechSheet = wb.Sheets.Mech
   const weaponsSheet = wb.Sheets.Weapons
 
-  // lay out the skeleton of a pilot, with the basic easy to parse data
-  let output = {
-    id: io.newID(),
-    callsign: pilotSheet.F2.w,
-    name: pilotSheet.C2.w,
-    level: parseInt(pilotSheet.C3.w),
-    background: '',
-    notes: pilotSheet.B89.w,
-    history: pilotSheet.B79.w,
-    contacts: [],
-    licenses: [],
-    loadouts: [],
-    skills: [],
-    invocations: [],
-    talents: [],
-    mechSkills: {
-      hull: parseInt(mechSheet.F14.w),
-      agi: parseInt(mechSheet.G14.w),
-      sys: parseInt(mechSheet.H14.w),
-      eng: parseInt(mechSheet.I14.w)
-    },
-    bonuses: [],
-    configs: []
-  }
+  // generate our pilot's ID
+  const pilotID = io.newID()
 
   // get licenses
   let licenseRange = sheetToArray(mechSheet, 'B82:D93')
-  let licenses = []
-  for (let rown in licenseRange) {
-    let licenseFullName = licenseRange[rown][0]
-    let level = licenseRange[rown][2] && parseInt(licenseRange[rown][2])
+  const pilotLicenses: PilotLicense[] = []
+  for (let row of licenseRange) {
+    let licenseFullName = row[0]
+    let level = parseInt(row[2] || '0')
     if (licenseFullName && licenseFullName !== '-' && level && level > 0) {
       let frameID = getItemID(licenseFullName, 'frames')
-      let { name, source } = frames.find(f => f.id === frameID)
-      licenses.push({name, source, level})
+      let { name, source } = frames.find((f: { [key: string]: string }) => f.id === frameID)
+      pilotLicenses.push({ name, source, level })
     }
   }
-  output.licenses = licenses
 
   // get pilot skills
   const skillRange = sheetToArray(pilotSheet, 'B33:E48')
-  let skills = []
-  for (let rown in skillRange) {
-    let [skillName, , , skillLevel] = skillRange[rown]
+  const pilotSkills: PilotSkill[] = []
+  for (let row of skillRange) {
+    let [skillName, , , skillLevel] = row
+    if (!skillName || !skillLevel) continue;
     if (skillName === '-') continue
     let id = getItemID(skillName, 'skills')
     if (parseInt(skillLevel) > 0) {
-      skills.push({
+      pilotSkills.push({
         id,
         bonus: parseInt(skillLevel)
       })
     }
   }
-  output.skills = skills
 
   // get invocations
   const invocRange = sheetToArray(pilotSheet, 'B27:E30')
-  let invocations = []
+  const pilotInvocations: PilotInvocation[] = []
   for (let rown in invocRange) {
     let [trigger, , , mode] = invocRange[rown]
     if (!trigger || mode === '-') continue
-    let invoc = {trigger}
+    let invoc: PilotInvocation = { trigger }
     if (mode === 'Accuracy+') { invoc.accuracy = true } else if (mode === 'Difficulty+') { invoc.difficulty = true } else continue
-    invocations.push(invoc)
+    pilotInvocations.push(invoc)
   }
-  output.invocations = invocations
 
   // get talents
   // talent data is strewn about and not in a neat range, so make an array of the cells containing it
@@ -140,71 +117,53 @@ export const gsheetToObject = (wb) => {
     [pilotSheet.M88, pilotSheet.R88],
     [pilotSheet.M102, pilotSheet.R102]
   ]
-  let talents = []
-  for (let rown in talentData) {
-    let [talentName, talentLevel] = talentData[rown]
+  const pilotTalents = []
+  for (let row of talentData) {
+    let [talentName, talentLevel] = row
     if (!(talentName && talentLevel)) continue
     talentName = talentName.w
     talentLevel = talentLevel.w
     if (talentName === 'Pilot Talent' || talentLevel === 0) continue
     let id = getItemID(talentName, 'talents')
-    talents.push({
+    pilotTalents.push({
       id,
       rank: parseInt(talentLevel)
     })
   }
-  output.talents = talents
 
   // get core bonuses
   const sheetCoreBonuses = [mechSheet.B32.w, mechSheet.B38.w, mechSheet.B44.w, mechSheet.B50.w]
-  let coreBonuses = []
+  const pilotCoreBonuses: string[] = []
   sheetCoreBonuses.forEach(bonusName => {
     if (bonusName === 'No Bonus') return
-    let coreBonusID = getItemID(bonusName, 'core_bonus')
-    coreBonuses.push(coreBonusID)
+    let coreBonusID: string = getItemID(bonusName, 'core_bonus')
+    pilotCoreBonuses.push(coreBonusID)
   })
-  output.core_bonuses = coreBonuses
 
   // pilot gear
-  // helper function that returns {id: getItemID(gearname)} or null if unsuccessful
-  const safeGear = (name) => {
+  // make a helper function that returns {id: getItemID(gearname)} or null if unsuccessful
+  function safeGear(name: string): ({ id: string } | null) {
     try {
-      return {id: getItemID(name, 'pilot_gear')}
+      return { id: getItemID(name, 'pilot_gear') }
     } catch (e) {
       return null
     }
   }
   // make a loadout
-  let pilotLoadout = {
+  const pilotLoadout = {
     id: io.newID(),
     items: {
       armor: [safeGear(pilotSheet.C6.w)],
       gear: [safeGear(pilotSheet.H26.w),
-        safeGear(pilotSheet.H38.w),
-        safeGear(pilotSheet.H50.w)],
+      safeGear(pilotSheet.H38.w),
+      safeGear(pilotSheet.H50.w)],
       weapon: [safeGear(pilotSheet.C18.w),
-        safeGear(pilotSheet.H18.w)]
+      safeGear(pilotSheet.H18.w)]
     },
     name: 'Loadout'
   }
-  // make it the pilot's only loadout
-  output.loadouts = [pilotLoadout]
 
-  //
-  // create mech & fill out basic data
-  let mechData = {
-    id: io.newID(),
-    pilot_id: output.id,
-    name: mechSheet.J4.w,
-    frame_id: getItemID(mechSheet.J5.w, 'frames'),
-    loadouts: []
-  }
-  // create its loadout
-  let mechLoadout = {
-    id: io.newID(),
-    name: 'Loadout',
-    systems: []
-  }
+  // systems
   // cells with system names
   const sheetSystems = [
     mechSheet.G18,
@@ -219,8 +178,8 @@ export const gsheetToObject = (wb) => {
     mechSheet.N79,
     mechSheet.N63
   ]
-  let ignoredMods = []
-  const parsedSystems = sheetSystems
+  const ignoredMods: string[] = []
+  const mechSystems: ItemID[] = sheetSystems
     .filter(s => s && s.w && s.w !== 'Empty') // filter out empty systems
     .map(s => { // get the system IDs and convert them to the correct format
       const systemName = s.w
@@ -229,11 +188,9 @@ export const gsheetToObject = (wb) => {
         ignoredMods.push(systemName)
         return false
       }
-      return {id: systemID}
+      return { id: systemID }
     })
-    .filter(Boolean) // delete ignored mods
-  // assign systems to loadout
-  mechLoadout.systems = parsedSystems
+    .filter(i => i === false) as ItemID[] // delete ignored mods
 
   // cells with mount names
   const sheetMountCells = ['B2', 'B18', 'B34', 'B50']
@@ -243,10 +200,10 @@ export const gsheetToObject = (wb) => {
   // if that's not the case the mech will probably fail to render
 
   let imparmAdded = false
-  let mechMounts = []
+  const mechMounts: MechMount[] = []
   sheetMountCells.forEach(cell => {
     // inititalize a mount object
-    let mnt = {bonuses: []}
+    let mnt: MechMount = { mount_type: '', weapons: [], bonuses: [] }
     // get its type
     const mountType = weaponsSheet[cell].w
     // ignore integrated mounts
@@ -267,17 +224,53 @@ export const gsheetToObject = (wb) => {
     mnt.weapons = [[1, 2], [7, 2]] // offsets for each of the mount's weapon slots
       .map(offset => weaponsSheet[offsetCell(cell, offset)]) // turn the offsets into cells
       .filter(wepcell => wepcell && wepcell.w !== 'Empty') // filter out empty weapon slots
-      .map(wepcell => ({id: getItemID(wepcell.w, 'weapons')})) // turn the cells into weapon names
+      .map(wepcell => ({ id: getItemID(wepcell.w, 'weapons') })) // turn the cells into weapon names
     mechMounts.push(mnt) // finally push the mount into the mounts list
   })
 
   // if the mech has less than 3 mounts and we haven't added an imparm mount, add one now
-  if (mechMounts.length < 3 && !imparmAdded) mechMounts.push({mount_type: 'Flex', weapons: [], bonuses: [], imparm: true})
+  if (mechMounts.length < 3 && !imparmAdded) mechMounts.push({ mount_type: 'Flex', weapons: [], bonuses: [], imparm: true })
 
-  mechLoadout.mounts = mechMounts
+  // create its loadout
+  let mechLoadout: MechLoadout = {
+    id: io.newID(),
+    name: 'Loadout',
+    systems: mechSystems,
+    mounts: mechMounts
+  }
 
-  mechData.loadouts = [mechLoadout]
-  output.configs = [mechData]
+  // create mech & fill out basic data
+  let mechConfig: MechConfig = {
+    id: io.newID(),
+    pilot_id: pilotID,
+    name: mechSheet.J4.w,
+    frame_id: getItemID(mechSheet.J5.w, 'frames'),
+    loadouts: [mechLoadout]
+  }
+
+  const output: Pilot = {
+    id: pilotID,
+    callsign: pilotSheet.F2.w,
+    name: pilotSheet.C2.w,
+    level: parseInt(pilotSheet.C3.w),
+    background: '',
+    notes: pilotSheet.B89.w,
+    history: pilotSheet.B79.w,
+    contacts: [],
+    licenses: pilotLicenses,
+    loadouts: [pilotLoadout],
+    skills: pilotSkills,
+    invocations: pilotInvocations,
+    talents: pilotTalents,
+    mechSkills: {
+      hull: parseInt(mechSheet.F14.w),
+      agi: parseInt(mechSheet.G14.w),
+      sys: parseInt(mechSheet.H14.w),
+      eng: parseInt(mechSheet.I14.w)
+    },
+    core_bonuses: pilotCoreBonuses,
+    configs: [mechConfig],
+  }
 
   return {
     output,
