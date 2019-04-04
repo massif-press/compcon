@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env",
+      "node",
+      "fs-extra",
+      "electron"
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx", "src/renderer/main.js", "src/main/index.js", "src/main/index.dev.js", "src/renderer/store/modules/print.js", "src/renderer/store/modules/pilots.js", "src/renderer/store/modules/index.js", "src/renderer/store/modules/datastore.js", "src/renderer/store/modules/configs.js", "src/renderer/store/modules/compendium.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
