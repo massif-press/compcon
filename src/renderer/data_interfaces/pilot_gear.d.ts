@@ -1,17 +1,19 @@
-declare interface PilotWeapon {
+declare interface PilotItem {
     id: string,
-    type: "weapon",
+    type: string,
     name: string,
+    description: string
+}
+
+declare interface PilotWeapon extends PilotItem {
     tags: TagList,
     range: WeaponRange[],
     damage: Damage[],
-    description: string,
+    type: "weapon",
     effect?: string
 }
-declare interface PilotArmor {
-    id: string,
-    type: "armor",
-    name: string,
+
+declare interface PilotArmor extends PilotItem {
     hp_bonus?: number,
     speed: number,
     speed_bonus?: number,
@@ -19,12 +21,10 @@ declare interface PilotArmor {
     edef: number,
     evasion: number,
     evasion_bonus?: number,
-    description: string
+    type: "armor",
 }
-declare interface PilotGear {
-    id: string,
-    type: "gear",
+
+declare interface PilotGear extends PilotItem {
     uses?: number,
-    name: string,
-    description: string
+    type: "gear",
 }
