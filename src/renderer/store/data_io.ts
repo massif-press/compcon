@@ -4,6 +4,8 @@ import {
   copySync
 } from 'fs-extra'
 
+declare const __static: string;
+
 const webImageTypes = [
   '.jpeg',
   '.jpg',
@@ -13,23 +15,23 @@ const webImageTypes = [
   '.bmp'
 ]
 
-function getStaticPath (env) {
+function getStaticPath(env: string): string {
   // eslint-disable-next-line no-process-env
   const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
   return staticPath
 }
 
 export default {
-  loadData (filename) {
-    var p = path.join(getStaticPath(process.env.NODE_ENV), 'data', filename + '.json')
+  loadData(filename: string): object[] {
+    var p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
     if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p))
+      return JSON.parse(fs.readFileSync(p, 'utf-8'))
     } else {
       console.error(`file ${filename} does not exist at ${p}.`)
       return []
     }
   },
-  findBrewData (userDataPath) {
+  findBrewData(userDataPath: string) {
     var brews = []
     var contentPath = path.join(userDataPath, 'content')
     if (fs.existsSync(contentPath)) {
@@ -37,7 +39,7 @@ export default {
       for (var i = 0; i < dirs.length; i++) {
         var infoPath = path.join(contentPath, dirs[i], 'info.json')
         if (fs.existsSync(infoPath)) {
-          var info = JSON.parse(fs.readFileSync(infoPath))
+          var info = JSON.parse(fs.readFileSync(infoPath, 'utf-8'))
           brews.push({
             info: info,
             dir: dirs[i]
@@ -50,13 +52,13 @@ export default {
       return []
     }
   },
-  loadBrewData (userDataPath, subdir, filename) {
+  loadBrewData(userDataPath: string, subdir: string, filename: string) {
     if (fs.existsSync(userDataPath)) {
       var folder = path.join(userDataPath, 'content', subdir)
       if (fs.existsSync(folder)) {
         var file = path.join(folder, filename + '.json')
         if (fs.existsSync(file)) {
-          return JSON.parse(fs.readFileSync(file))
+          return JSON.parse(fs.readFileSync(file, 'utf-8'))
         } else {
           return []
         }
@@ -68,7 +70,7 @@ export default {
     }
     return []
   },
-  saveBrewData (origin, userDataPath) {
+  saveBrewData(origin: string, userDataPath: string) {
     var contentPath = path.join(userDataPath, 'content')
     if (!fs.existsSync(contentPath)) {
       fs.mkdirSync(contentPath)
@@ -76,17 +78,17 @@ export default {
     var destination = path.join(userDataPath, 'content', path.basename(origin))
     copySync(origin, destination)
   },
-  setBrewActive (userDataPath, subdir, isActive) {
+  setBrewActive(userDataPath: string, subdir: string, isActive: string): void {
     var infopath = path.join(userDataPath, 'content', subdir, 'info.json')
     if (fs.existsSync(infopath)) {
-      var info = JSON.parse(fs.readFileSync(infopath))
+      var info = JSON.parse(fs.readFileSync(infopath, 'utf-8'))
       info.active = isActive
       fs.writeFileSync(infopath, JSON.stringify(info, null, 2), 'utf8')
     } else {
       console.error(`brew at ${infopath} does not exists OR is missing info.json!`)
     }
   },
-  getImages (subdir, userDataPath) {
+  getImages(subdir: string, userDataPath: string): string[] {
     if (fs.existsSync(userDataPath)) {
       var userPath = path.join(userDataPath, 'img', subdir)
       if (fs.existsSync(userPath)) {
@@ -95,18 +97,18 @@ export default {
     }
     return []
   },
-  newID () {
+  newID(): string {
     return Math.random().toString(36).substr(2, 12)
   },
-  randomName (filename) {
-    var p = path.join(getStaticPath(process.env.NODE_ENV), 'generators', filename)
+  randomName(filename: string): string {
+    var p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'generators', filename)
     var array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
-  loadUserData (userDataPath, filePath) {
+  loadUserData(userDataPath: string, filePath: string): object[] {
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {
-        return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath)))
+        return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8'))
       } else {
         console.warn(`file ${filePath} does not exist in folder ${userDataPath}. (if this is a new installation, ignore this message)`)
         return []
@@ -116,27 +118,27 @@ export default {
       return []
     }
   },
-  saveUserData (userDataPath, filePath, data, callback) {
+  saveUserData(userDataPath: string, filePath: string, data: object) {
     if (!fs.existsSync(path.join(userDataPath))) {
       console.info(`data folder doesn't exist in userData dir, creating...`)
       fs.mkdirSync(userDataPath)
       console.info('data folder created successfully')
     }
 
-    fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8', callback)
+    fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
   },
-  saveFile (dataPath, data, callback) {
-    fs.writeFileSync(dataPath, data, 'utf8', callback)
+  saveFile(dataPath: string, data: object) {
+    fs.writeFileSync(dataPath, data, 'utf8')
   },
-  importFile (path, callback) {
+  importFile(path: string) {
     try {
-      var data = JSON.parse(fs.readFileSync(path), callback)
+      var data = JSON.parse(fs.readFileSync(path, 'utf-8'))
       if (data && typeof data === 'object') return data
     } catch (error) {
       alert('Error reading or parsing JSON data at ' + path)
     }
   },
-  importImage (userDataPath, subdir, imgPath) {
+  importImage(userDataPath: string, subdir: string, imgPath: string) {
     var savePath = path.join(userDataPath, 'img', subdir)
     if (!fs.existsSync(path.join(userDataPath, 'img'))) {
       console.info(`data/img folder doesn't exist in userData dir, creating...`)
