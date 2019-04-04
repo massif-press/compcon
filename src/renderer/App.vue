@@ -1,20 +1,21 @@
 <template>
-  <v-app id="app">
-    <router-view></router-view>
-  </v-app>
+    <v-app id="app">
+        <router-view></router-view>
+    </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
 
-export default {
-  name: 'compcon',
-  components: { }
-}
+Vue.extend({
+    name: "compcon",
+    components: {}
+});
 </script>
 
 <style>
- html {
-   scroll-behavior: smooth;
- }
+html {
+    scroll-behavior: smooth;
+}
 </style>
 
