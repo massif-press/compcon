@@ -17,6 +17,10 @@ export default new Router({
       children: [
         {
           path: '',
+          component: require('@/components/Roster/RosterView/index').default
+        },
+        {
+          path: '/pilot',
           component: require('@/components/Roster/PilotSheet/index').default
         },
         {

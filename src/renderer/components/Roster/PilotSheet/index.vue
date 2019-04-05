@@ -173,6 +173,16 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
+                <v-layout v-if="pilot.quirk">
+                  <v-flex class="text-xs-center">
+                    <v-alert :value="true" color="amber darken-4" class="ma-2">
+                      <b style="letter-spacing: 3px; text-transform: uppercase">Clone Quirk</b>
+                      <editable-label  :description="'Clone Quirk'" :attr="'quirk'" :placeholder="pilot.quirk" >
+                        <span slot="label" class="p">{{pilot.quirk}}</span>
+                      </editable-label>
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
                 <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" :key="pilot.id"/>
               </v-flex>
             </v-layout>
@@ -689,7 +699,7 @@
         this.$store.dispatch('deletePilot', this.pilot.id)
       },
       clonePilot: function () {
-        this.$store.dispatch('clonePilot', this.pilot.id)
+        this.$store.dispatch('clonePilot', {id: this.pilot.id})
         this.notification = 'Pilot Duplicated'
         this.snackbar = true
       },

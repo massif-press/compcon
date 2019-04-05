@@ -1,10 +1,14 @@
 <template>
   <div>
     <v-toolbar dense style="z-index:10" fixed>
-      <v-toolbar-title class="font-weight-regular">C O M P / C O N&emsp;<span class="grey--text" style="font-size:16px">v{{ ver || '1.2.2' }}</span></v-toolbar-title>
+      <v-toolbar-title class="font-weight-regular">C O M P / C O N&emsp;<span class="grey--text" style="font-size:16px">{{ ver }}</span></v-toolbar-title>
       <v-spacer />
       <v-toolbar-items>
-        <v-btn flat :to="'/compendium'">Compendium</v-btn>
+        <v-btn flat to="roster">Pilot Roster</v-btn>
+        <v-btn flat to="hangar" :disabled="!hangarActive" >Mech Hangar</v-btn>
+        <v-btn flat to="compendium">Compendium</v-btn>
+
+        <v-divider vertical class="ml-2 mr-2"/>
 
         <v-btn @click="optionsModal = true" flat>Options</v-btn>
         <v-dialog v-model="optionsModal" width="80vw">
@@ -50,7 +54,9 @@
               <v-btn color="primary" flat @click="helpModal = false"> Close </v-btn>
             </v-card-actions>
           </v-card>
-        </v-dialog>        
+        </v-dialog>
+
+        <v-divider vertical class="ml-2 mr-2"/>
 
         <v-btn @click="goBack" flat>Back</v-btn>
       </v-toolbar-items>
@@ -70,7 +76,8 @@ export default {
       aboutModal: false,
       helpModal: false,
       optionsModal: false,
-      ver: 0
+      ver: 0,
+      hangarActive: false
     }),
     methods: {
       open (link) {
@@ -81,7 +88,13 @@ export default {
       }
     },
     created: function () {
-      this.ver = process.env.npm_package_version
+      this.ver = process.env.npm_package_version ? `v${process.env.npm_package_version}` : ''
+    },
+    watch: {
+      $route (to, from) {
+        window.scrollTo(0, 0)
+        this.hangarActive = !(to.path === '/roster' || to.path === '/new')
+      }
     }
   }
 </script>
@@ -91,4 +104,3 @@ export default {
     margin-left: 8px;
   }
 </style>
-
