@@ -61,8 +61,8 @@ const mutations = {
       throw console.error('Pilot not loaded!')
     }
   },
-  CLONE_PILOT (state) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+  CLONE_PILOT (state, payload) {
+    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
     if (pilotIndex > -1) {
       var newPilot = JSON.parse(JSON.stringify(state.Pilots[pilotIndex]))
       newPilot.id = io.newID()
@@ -72,8 +72,8 @@ const mutations = {
         newPilot.configs[i].id = io.newID()
         newPilot.configs[i].pilot_id = newPilot.id
       }
+      if (payload.quirk) newPilot.quirk = payload.quirk
       state.Pilots.push(newPilot)
-      this.SET_PILOT(state, newPilot.id)
     } else {
       throw console.error('Pilot not loaded!')
     }

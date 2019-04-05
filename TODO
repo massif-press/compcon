@@ -22,10 +22,16 @@ Refactor:
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
+  ☐ Item() etc to mixins
 
 2.0:
   ☐ Options: Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
   ☐ Alternate Roster/Hangar views
+    ☐ Check New Pilot
+    ☐ Check Pilot Import
+    ☐ Remove Sidebar
+    ☐ Mech Hangar
+  ☐ Default selectable pilot symbols
   ☐ Glossary in compendium
   ☐ Action economy in compendium
   ☐ Github Gist API import/exporter (export and import by ID)
