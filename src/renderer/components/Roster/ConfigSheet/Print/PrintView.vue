@@ -80,17 +80,18 @@
       <v-layout justify-space-around class="text-xs-center">
         <v-flex shrink>
           <span class="p-reg">STRUCTURE</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.structure" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HP</span>
           <br>
           <h1 class="p-large font-weight-bold"><span style="text-decoration: underline; white-space: pre; font-size:16px">____</span> / {{stats.hp}}</h1>
+          <span class="p-large">{{stats.armor}} ARMOR</span><br>
         </v-flex>
         <hr vertical />
         <v-flex shrink>
           <span class="p-reg">REACTOR STRESS</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.heatstress" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HEAT</span>
@@ -151,11 +152,46 @@
       </v-layout>
 
       <hr class="mt-2 ml-2 mr-2">
-
       <div v-if="loadout">
       <span class="label" style="page-break-inside: avoid">MOUNTS</span><br>
       <v-layout row>
         <v-flex>
+        <v-layout v-if="frame.core_system.integrated" row>
+          <div style="width: 100%">
+            <v-flex>
+              <div class="bordered mt-1 mb-1 pa-0">
+                <span class="mount-title" >CORE Integrated Weapon</span>
+                <div class="mount-interior">
+                  <v-layout>
+                    <v-flex shrink class="ml-1"><span class="p-large">{{frame.core_system.integrated.name}}</span></v-flex>
+                    <v-flex v-if="frame.core_system.integrated.range" shrink class="ml-2"><range-element size="9" :range="frame.core_system.integrated.range" /></v-flex>
+                    <v-flex v-if="frame.core_system.integrated.damage" shrink class="ml-2"><span><damage-element size="9" :dmg="frame.core_system.integrated.damage" /></span></v-flex>
+                  </v-layout>
+                  <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.integrated.effect}}</p>
+                  <span v-for="t in frame.core_system.integrated.tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                </div>
+              </div>
+            </v-flex>
+          </div>
+        </v-layout>        
+        <v-layout v-for="(mount, index) in stats.integrated_mounts" :key="'intmount_' + index" row>
+          <div v-if="mount" style="width: 100%">
+            <v-flex>
+              <div class="bordered mt-1 mb-1 pa-0">
+                <span class="mount-title" >Integrated Weapon</span>
+                <div class="mount-interior">
+                  <v-layout>
+                    <v-flex shrink class="ml-1"><span class="p-large">{{weapon(mount).name}}</span></v-flex>
+                    <v-flex v-if="weapon(mount).range" shrink class="ml-2"><range-element size="9" :range="weapon(mount).range" /></v-flex>
+                    <v-flex v-if="weapon(mount).damage" shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(mount).damage" /></span></v-flex>
+                  </v-layout>
+                  <p class="p-reg ml-2 mt-0 mb-0">{{mount.effect}}</p>
+                  <span v-for="t in weapon(mount).tags" :key="t.id + mount" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                </div>
+              </div>
+            </v-flex>
+          </div>
+        </v-layout>
         <v-layout v-for="(mount, index) in loadout.mounts" :key="'mount_' + index" row>
           <div v-if="!mount.imparm || (mount.imparm && hasImparm())" style="width: 100%">
             <v-flex>
@@ -188,6 +224,13 @@
       <span class="label" style="page-break-inside: avoid">SYSTEMS</span><br>
       <v-layout row>
         <v-flex>
+        <v-layout v-for="(sys, index) in stats.integrated_systems" :key="'system_' + index" row>
+          <v-flex>
+          <span class ="p-large">{{system(sys).name}}</span><br>
+          <p class="p-reg ml-2 mt-0 mb-0" v-html="system(sys).effect" />
+          <span v-for="t in system(sys).tags" :key="t.id + sys" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+          </v-flex>
+        </v-layout>
         <v-layout v-for="(sys, index) in loadout.systems" :key="'system_' + index" row>
           <v-flex>
           <span class ="p-large">{{system(sys.id).name}}</span><br>
@@ -232,7 +275,7 @@
         return this.$store.getters.getItemById('MechWeapons', id)
       },
       signed: function (val) {
-        return val > -1 ? `+${val}` : `-${val}`
+        return val > -1 ? `+${val}` : `${val}`
       },
       calcSize: function (str) {
         if (str.length < 12) return 30
@@ -240,7 +283,11 @@
         else return 20
       },
       fullTag: function (t, v) {
-        return t && v ? t.replace(/{VAL}/g, v + this.stats.limited_bonus) : '// MISSING TAG //'
+        if (!t) return '// MISSING TAG //'
+        if (typeof v === 'string' && this.stats.limited_bonus > 0) {
+          return t.replace(/{VAL}/g, `${v}+${this.stats.limited_bonus}`)
+        }
+        return t.replace(/{VAL}/g, v + this.stats.limited_bonus)
       },
       hasImparm: function () {
         return this.pilot.core_bonuses.includes('imparm')
@@ -256,10 +303,10 @@
       this.frame = this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     mounted: function () {
-      // window.print()
-      // setTimeout(() => {
-      //   this.$router.push('/config')
-      // }, 10)
+      window.print()
+      setTimeout(() => {
+        this.$router.push('/config')
+      }, 10)
     }
   }
 </script>

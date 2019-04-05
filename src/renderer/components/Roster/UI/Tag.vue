@@ -31,19 +31,30 @@
     name: 'tag',
     props: {
       id: String,
-      val: Number
+      val: [Number, String]
     },
     data: () => ({
       tagData: {}
     }),
     computed: {
       bonus: function () {
-        return Stats.limitedBonus(this.$store.getters.getPilot)
+        return this.id === 'limited' ? Stats.limitedBonus(this.$store.getters.getPilot) : 0
       }
     },
     methods: {
       insert: function (str) {
-        return str.replace(/{VAL}/g, this.val + this.bonus)
+        if (!this.val) return str
+        if (typeof this.val === 'number') {
+          return str.replace(/{VAL}/g, this.val + this.bonus)
+        } else {
+          if (this.val.includes('+')) {
+            var split = this.val.split('+')
+            var newVal = `${split[0]}+${parseInt(split[1]) + this.bonus}`
+            return str.replace(/{VAL}/g, newVal)
+          } else {
+            return this.bonus > 0 ? str.replace(/{VAL}/g, `${this.val}+${this.bonus}`) : str.replace(/{VAL}/g, this.val)
+          }
+        }
       }
     },
     created: function () {
