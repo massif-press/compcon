@@ -139,15 +139,19 @@ export default {
       return this.$store.getters.getItemById(type, id)
     },
     deleteLoadout () {
+      var delIndex = this.tabIndex
       this.$store.dispatch('spliceConfig', {
         id: this.config_id,
         attr: 'loadouts',
-        start_index: this.tabIndex,
+        start_index: delIndex,
         delete_count: 1
       })
-      this.tabIndex--
       this.deleteDialog = false
       this.deleteNotification = true
+      this.refresh()
+      setTimeout(() => {
+        if (this.tabIndex > 0) this.tabIndex--
+      }, 10)
     },
     addLoadout () {
       var mounts = this.item('Frames', this.frame_id).mounts.map(x => ({mount_type: x, weapons: [], bonuses: []}))
@@ -241,7 +245,8 @@ export default {
   },
   watch: {
     tabIndex: function (val) {
-      this.$parent.activeLoadoutIdx = this.tabIndex
+      this.$emit('set-index', this.tabIndex)
+      this.refresh()
     },
     reloadTrigger: function (val) {
       this.$parent.loadoutForceReloadTrigger = this.reloadTrigger
