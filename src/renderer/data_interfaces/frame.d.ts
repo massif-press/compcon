@@ -21,9 +21,11 @@ declare interface Frame {
     stats: {
         size: 0.5 | 1 | 2 | 3 | 4,
         armor: number,
+        structuremod?: number,
         hp: number,
         evasion: number,
         edef: number,
+        stressmod?: number,
         heatcap: number,
         repcap: number,
         sensor_range: number,
