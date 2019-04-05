@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "J. Arena",
   "description": "A digital toolkit for the LANCER TTRPG",
   "private": true,
@@ -66,7 +66,7 @@
     "vue": "^2.6.8",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.5.4",
+    "vuetify": "^1.5.9",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3"
   },

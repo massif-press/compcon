@@ -180,7 +180,7 @@
         <v-layout><span class="config-header">Mech Equipment</span></v-layout>
         <v-layout>
           <v-flex>
-            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" />
+            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" @set-index="setActiveIndex" @deleted="fullReload"/>
           </v-flex>
         </v-layout>        
 
@@ -331,9 +331,16 @@
       item: function (itemType, id) {
         return this.$store.getters.getItemById(itemType, id)
       },
+      setActiveIndex (idx) {
+        this.activeLoadoutIdx = idx
+      },
+      fullReload () {
+        this.$router.push('/config')
+      },
       hasEmptyMounts: function () {
         var empty = false
         if (!this.config.loadouts.length) return true
+        if (!this.config.loadouts[this.activeLoadoutIdx]) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
         for (let i = 0; i < this.config.loadouts[this.activeLoadoutIdx].mounts.length; i++) {
