@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "/",
     "types": [
       "webpack-env",
       "node",
@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "src/renderer/*"
       ]
     },
     "lib": [
