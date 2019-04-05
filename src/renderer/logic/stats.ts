@@ -57,6 +57,7 @@ export default {
 
     var grit = Math.ceil(pilot.level / 2)
 
+    var output: { [key: string]: any, required_licenses: LicenseReq[] } = {
       structure: rules.base_structure + (frame.stats.structuremod || 0),
       hull: pilot.mechSkills.hull,
       agi: pilot.mechSkills.agi,
@@ -87,8 +88,8 @@ export default {
 
     // add frame to required licenses
     output.required_licenses.push(frame.name === 'EVEREST'
-      ? {name: 'GMS', rank: 0, items: ['EVEREST Frame']}
-      : {name: `${frame.source} ${frame.name}`, rank: 2, items: [`${frame.name.toUpperCase()} Frame`]}
+      ? { name: 'GMS', rank: 0, items: ['EVEREST Frame'] }
+      : { name: `${frame.source} ${frame.name}`, rank: 2, items: [`${frame.name.toUpperCase()} Frame`] }
     )
 
     if (loadout) {
