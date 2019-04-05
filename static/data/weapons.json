@@ -293,7 +293,7 @@
     "id": "mortar",
     "name": "Mortar",
     "mount": "Main",
-    "type": "Launcher",
+    "type": "Cannon",
     "damage": [{
       "type": "explosive",
       "val": "1d6+1"
@@ -2447,7 +2447,7 @@
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "1d6+2"
     },
     {
@@ -2481,7 +2481,7 @@
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "1d6+2"
     },
     {
@@ -2508,14 +2508,14 @@
     "talent_rank": 3,
     "damage": [{
       "type": "variable",
-      "val": "2d6+4"
+      "val": "1d6+4"
     }],
     "range": [{
       "type": "range",
       "val": 10
     }],
     "tags": [{
-      "id": "limited_roll",
+      "id": "limited",
       "val": "2d6"
     }, {
       "id": "overcharged"
@@ -2523,7 +2523,7 @@
     "source": "",
     "license": " ",
     "license_level": "",
-    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 8</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the profile of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you fire), but costs 2 heat to fire.</li></ul>",
+    "effect": "Choose between the following attributes upon installation:<br><ul><li><b>Type:</b>Melee, Rifle, Cannon, Launcher or CQB</li><li>Range: Reach (melee) or Range 10</li><li><b>Damage:</b> 1d6 Kinetic, Explosive, or Energy</li></ul><br>Roll this weapon's Limited property each full repair. You can change the profile of this weapon each time you full repair.<br>On a full repair, you can remove and tweak essential components of your system in order to increase the effectiveness of your prototype weapon.<br>Choose 2 of the following:<ul><li>Tweak Optics: You always fire your prototype weapon with +1 Accuracy.</li><li>Tweak Computer: Your prototype weapon gains the Smart property.</li><li>Remove Reactor Shielding: Your prototype weapon can fire as a cone 3 weapon, a line 5 weapon, or a blast 1 weapon(choose when you fire), but costs 2 heat to fire.</li></ul>",
     "description": "Gained from the \"Engineer\" Rank 3 Talent",
     "data_type": "weapon",
     "aptitude": {
