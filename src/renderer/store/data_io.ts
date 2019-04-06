@@ -22,7 +22,7 @@ function getStaticPath(env: string): string {
 }
 
 export default {
-  loadData(filename: string): object[] {
+  loadData<T=object>(filename: string): T[] {
     var p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -105,7 +105,7 @@ export default {
     var array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
-  loadUserData(userDataPath: string, filePath: string): object[] {
+  loadUserData(userDataPath: string, filePath: string): Pilot[] {
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {
         return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8'))
