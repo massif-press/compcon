@@ -4,13 +4,18 @@
     </v-app>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from "vue";
 
-Vue.extend({
+console.log("hell2");
+
+export default {
     name: "compcon",
-    components: {}
-});
+    components: {},
+    created() {
+        console.log("hell");
+    }
+};
 </script>
 
 <style>

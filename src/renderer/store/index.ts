@@ -7,8 +7,6 @@ import { createPersistedState } from 'vuex-electron'
 
 import modules from './modules'
 
-console.log(modules)
-
 Vue.use(Vuex)
 
 // this shit is a fuckin nightmare, hopefully typescript is worth it, look into making this make sense later if possible?
@@ -19,8 +17,6 @@ const pilotUpdateSubscriber = (store: any): void => {
     }
   })
 }
-
-console.log('modules', modules)
 
 export default new Vuex.Store({
   modules,

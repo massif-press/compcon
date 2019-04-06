@@ -1,3 +1,5 @@
+<!--
+
 <template>
   <div class="roster-content">
     <div v-if="pilot.name">
@@ -488,295 +490,341 @@
     </div>
   </div>
 </template>
+ -- !>
+
+<template>
+    <div>{{ pilot }}</div>
+</template>
+
 
 <script>
-  import io from '@/store/data_io'
-  import Stats from '@/logic/stats'
-  import { EditableLabel, EditableTextfield } from '../UI'
-  import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector } from './Selectors'
-  import ContactsList from './ContactsList'
-  import LicenseItem from './LicenseItem'
-  import SkillItem from './SkillItem'
-  import TalentItem from './TalentItem'
-  import CoreBonusItem from './CoreBonusItem'
-  import InvocationItem from './InvocationItem'
-  import PilotLoadout from './LoadoutEditor/PilotLoadout'
-  import NewConfig from '../ConfigSheet/NewConfig'
+import io from "@/store/data_io";
+import Stats from "@/logic/stats";
+import { EditableLabel, EditableTextfield } from "../UI";
+import {
+    ImageSelector,
+    BackgroundSelector,
+    SkillSelector,
+    TalentSelector,
+    LicenseSelector,
+    MechSkillsSelector,
+    CoreBonusSelector
+} from "./Selectors";
+import ContactsList from "./ContactsList.vue";
+import LicenseItem from "./LicenseItem.vue";
+import SkillItem from "./SkillItem.vue";
+import TalentItem from "./TalentItem.vue";
+import CoreBonusItem from "./CoreBonusItem.vue";
+import InvocationItem from "./InvocationItem.vue";
+import PilotLoadout from "./LoadoutEditor/PilotLoadout.vue";
+import NewConfig from "../ConfigSheet/NewConfig.vue";
 
-  export default {
-    name: 'pilot-sheet',
-    components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig
+export default {
+    name: "pilot-sheet",
+    components: {
+        EditableLabel,
+        EditableTextfield,
+        LicenseItem,
+        SkillItem,
+        TalentItem,
+        PilotLoadout,
+        CoreBonusItem,
+        ImageSelector,
+        ContactsList,
+        BackgroundSelector,
+        SkillSelector,
+        TalentSelector,
+        LicenseSelector,
+        MechSkillsSelector,
+        CoreBonusSelector,
+        InvocationItem,
+        NewConfig
     },
     data: () => ({
-      callsignDialog: false,
-      newCallsign: '',
-      renameDialog: false,
-      newName: '',
-      invoke_trigger: '',
-      invoke_attribute: null,
-      newConfigModal: false,
-      backgroundModal: false,
-      appearanceModal: false,
-      skillModal: false,
-      licenseModal: false,
-      talentModal: false,
-      mechSkillModal: false,
-      bonusModal: false,
-      pilotGearModal: false,
-      invokeDialog: false,
-      deleteDialog: false,
-      exportDialog: false,
-      levelEditor: false,
-      levelSkip: null,
-      snackbar: false,
-      notification: '',
-      // loaders manage deletion and lazy loading of selectors
-      newConfigLoader: false,
-      appearanceLoader: false,
-      skillLoader: false,
-      licenseLoader: false,
-      talentLoader: false,
-      mechSkillLoader: false,
-      cbLoader: false,
-      contactKey: 0,
-      activeLoadoutIdx: 0,
-      loadoutForceReloadTrigger: 0
+        callsignDialog: false,
+        newCallsign: "",
+        renameDialog: false,
+        newName: "",
+        invoke_trigger: "",
+        invoke_attribute: null,
+        newConfigModal: false,
+        backgroundModal: false,
+        appearanceModal: false,
+        skillModal: false,
+        licenseModal: false,
+        talentModal: false,
+        mechSkillModal: false,
+        bonusModal: false,
+        pilotGearModal: false,
+        invokeDialog: false,
+        deleteDialog: false,
+        exportDialog: false,
+        levelEditor: false,
+        levelSkip: null,
+        snackbar: false,
+        notification: "",
+        // loaders manage deletion and lazy loading of selectors
+        newConfigLoader: false,
+        appearanceLoader: false,
+        skillLoader: false,
+        licenseLoader: false,
+        talentLoader: false,
+        mechSkillLoader: false,
+        cbLoader: false,
+        contactKey: 0,
+        activeLoadoutIdx: 0,
+        loadoutForceReloadTrigger: 0
     }),
     methods: {
-      refresh: function () {
-        this.$forceUpdate()
-      },
-      setField: function (attr, val, close) {
-        this[close] = false
-        this.$store.dispatch('editPilot', {
-          attr: attr,
-          val: val
-        })
-      },
-      item: function (type, id) {
-        return this.$store.getters.getItemById(type, id)
-      },
-      getLicense: function (name) {
-        return this.$store.getters.getLicenseByName(name.toLowerCase())
-      },
-      backgroundSelect: function (bgReturn) {
-        this.backgroundModal = false
-        this.$store.dispatch('editPilot', {
-          attr: bgReturn.field,
-          val: bgReturn.value
-        })
-      },
-      setPilotSkills: function (skillArray) {
-        this.skillModal = false
-        this.skillLoader = false
-        this.$store.dispatch('editPilot', {
-          attr: `skills`,
-          val: skillArray
-        })
-        this.$forceUpdate()
-      },
-      setPilotTalents: function (talentArray) {
-        this.talentModal = false
-        this.$store.dispatch('editPilot', {
-          attr: `talents`,
-          val: talentArray
-        })
-        this.$forceUpdate()
-      },
-      setPilotBonuses: function (bonusArray) {
-        this.bonusModal = false
-        this.$store.dispatch('editPilot', {
-          attr: `core_bonuses`,
-          val: bonusArray
-        })
-        this.$forceUpdate()
-      },
-      setLicenses: function (licenseArray) {
-        this.licenseModal = false
-        this.$store.dispatch('editPilot', {
-          attr: `licenses`,
-          val: licenseArray
-        })
-        this.$forceUpdate()
-      },
-      setPortrait: function (src) {
-        this.$store.dispatch('editPilot', {
-          attr: `portrait`,
-          val: src
-        })
-        this.notification = 'Pilot Portrait Saved'
-        this.snackbar = true
-      },
-      setAvatar: function (src) {
-        this.$store.dispatch('editPilot', {
-          attr: `avatar`,
-          val: src
-        })
-        this.notification = 'Pilot Avatar Saved'
-        this.snackbar = true
-        this.appearanceModal = false
-      },
-      setLevel: function () {
-        if (this.levelSkip && this.levelSkip < this.pilot.level) {
-          this.$store.dispatch('editPilot', {
-            attr: `level`,
-            val: parseInt(this.levelSkip)
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `licenses`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `skills`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `talents`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `core_bonuses`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `mechSkills`,
-            val: {'hull': 0, 'agi': 0, 'sys': 0, 'eng': 0}
-          })
-        } else if (this.levelSkip) {
-          this.$store.dispatch('editPilot', {
-            attr: `level`,
-            val: parseInt(this.levelSkip)
-          })
+        refresh: function() {
+            this.$forceUpdate();
+        },
+        setField: function(attr, val, close) {
+            this[close] = false;
+            this.$store.dispatch("editPilot", {
+                attr: attr,
+                val: val
+            });
+        },
+        item: function(type, id) {
+            return this.$store.getters.getItemById(type, id);
+        },
+        getLicense: function(name) {
+            return this.$store.getters.getLicenseByName(name.toLowerCase());
+        },
+        backgroundSelect: function(bgReturn) {
+            this.backgroundModal = false;
+            this.$store.dispatch("editPilot", {
+                attr: bgReturn.field,
+                val: bgReturn.value
+            });
+        },
+        setPilotSkills: function(skillArray) {
+            this.skillModal = false;
+            this.skillLoader = false;
+            this.$store.dispatch("editPilot", {
+                attr: `skills`,
+                val: skillArray
+            });
+            this.$forceUpdate();
+        },
+        setPilotTalents: function(talentArray) {
+            this.talentModal = false;
+            this.$store.dispatch("editPilot", {
+                attr: `talents`,
+                val: talentArray
+            });
+            this.$forceUpdate();
+        },
+        setPilotBonuses: function(bonusArray) {
+            this.bonusModal = false;
+            this.$store.dispatch("editPilot", {
+                attr: `core_bonuses`,
+                val: bonusArray
+            });
+            this.$forceUpdate();
+        },
+        setLicenses: function(licenseArray) {
+            this.licenseModal = false;
+            this.$store.dispatch("editPilot", {
+                attr: `licenses`,
+                val: licenseArray
+            });
+            this.$forceUpdate();
+        },
+        setPortrait: function(src) {
+            this.$store.dispatch("editPilot", {
+                attr: `portrait`,
+                val: src
+            });
+            this.notification = "Pilot Portrait Saved";
+            this.snackbar = true;
+        },
+        setAvatar: function(src) {
+            this.$store.dispatch("editPilot", {
+                attr: `avatar`,
+                val: src
+            });
+            this.notification = "Pilot Avatar Saved";
+            this.snackbar = true;
+            this.appearanceModal = false;
+        },
+        setLevel: function() {
+            if (this.levelSkip && this.levelSkip < this.pilot.level) {
+                this.$store.dispatch("editPilot", {
+                    attr: `level`,
+                    val: parseInt(this.levelSkip)
+                });
+                this.$store.dispatch("editPilot", {
+                    attr: `licenses`,
+                    val: []
+                });
+                this.$store.dispatch("editPilot", {
+                    attr: `skills`,
+                    val: []
+                });
+                this.$store.dispatch("editPilot", {
+                    attr: `talents`,
+                    val: []
+                });
+                this.$store.dispatch("editPilot", {
+                    attr: `core_bonuses`,
+                    val: []
+                });
+                this.$store.dispatch("editPilot", {
+                    attr: `mechSkills`,
+                    val: { hull: 0, agi: 0, sys: 0, eng: 0 }
+                });
+            } else if (this.levelSkip) {
+                this.$store.dispatch("editPilot", {
+                    attr: `level`,
+                    val: parseInt(this.levelSkip)
+                });
+            }
+            this.levelEditor = false;
+            this.notification = `Pilot level changed to: ${this.levelSkip}`;
+            this.snackbar = true;
+        },
+        addInvocation: function() {
+            var inv =
+                this.invoke_attribute === 0
+                    ? { accuracy: true }
+                    : { difficulty: true };
+            inv.trigger = this.invoke_trigger;
+
+            var idx = this.pilot.invocations
+                ? this.pilot.invocations.length
+                : 0;
+
+            this.$store.dispatch("editPilot", {
+                attr: `invocations[${idx}]`,
+                val: inv
+            });
+            this.invokeDialog = false;
+            this.invoke_trigger = "";
+            this.invoke_attribute = null;
+        },
+        removeInvocation: function(tIndex) {
+            this.$store.dispatch("splicePilot", {
+                attr: "invocations",
+                start_index: tIndex,
+                delete_count: 1
+            });
+        },
+        goToConfig: function() {
+            this.newConfigModal = false;
+            this.newConfigLoader = false;
+            this.$store.dispatch("loadPilot", this.pilot.id);
+            this.$store.dispatch(
+                "loadConfig",
+                this.pilot.configs[this.pilot.configs.length - 1]
+            );
+            this.$router.push("/config");
+        },
+        deletePilot: function() {
+            this.deleteDialog = false;
+            this.$store.dispatch("deletePilot", this.pilot.id);
+        },
+        clonePilot: function() {
+            this.$store.dispatch("clonePilot", this.pilot.id);
+            this.notification = "Pilot Duplicated";
+            this.snackbar = true;
+        },
+        exportPilot: function() {
+            const { dialog } = require("electron").remote;
+            var path = dialog.showSaveDialog({
+                defaultPath: this.pilot.callsign
+                    .toLowerCase()
+                    .replace(/\W/g, ""),
+                buttonLabel: "Save Pilot"
+            });
+            io.saveFile(path + ".json", JSON.stringify(this.pilot), function(
+                err
+            ) {
+                if (err) {
+                    alert(`Error: COMP/CON could not save a file to ${path}`);
+                } else {
+                    this.exportDialog = false;
+                    this.notification = "Pilot Export Successful";
+                    this.snackbar = true;
+                }
+            });
+        },
+        copyPilot: function() {
+            const { clipboard } = require("electron");
+            clipboard.writeText(JSON.stringify(this.pilot));
+            this.exportDialog = false;
+            this.notification = "Pilot Data Copied to Clipboard";
+            this.snackbar = true;
+        },
+        openPrintOptions: function() {
+            this.$store.dispatch("setPrintOptions", {
+                loadout_index: this.activeLoadoutIdx
+            });
+            this.$router.push("/print-pilot");
         }
-        this.levelEditor = false
-        this.notification = `Pilot level changed to: ${this.levelSkip}`
-        this.snackbar = true
-      },
-      addInvocation: function () {
-        var inv = this.invoke_attribute === 0
-          ? { accuracy: true }
-          : { difficulty: true }
-        inv.trigger = this.invoke_trigger
-
-        var idx = this.pilot.invocations
-          ? this.pilot.invocations.length
-          : 0
-
-        this.$store.dispatch('editPilot', {
-          attr: `invocations[${idx}]`,
-          val: inv
-        })
-        this.invokeDialog = false
-        this.invoke_trigger = ''
-        this.invoke_attribute = null
-      },
-      removeInvocation: function (tIndex) {
-        this.$store.dispatch('splicePilot', {
-          attr: 'invocations',
-          start_index: tIndex,
-          delete_count: 1
-        })
-      },
-      goToConfig: function () {
-        this.newConfigModal = false
-        this.newConfigLoader = false
-        this.$store.dispatch('loadPilot', this.pilot.id)
-        this.$store.dispatch('loadConfig', this.pilot.configs[this.pilot.configs.length - 1])
-        this.$router.push('/config')
-      },
-      deletePilot: function () {
-        this.deleteDialog = false
-        this.$store.dispatch('deletePilot', this.pilot.id)
-      },
-      clonePilot: function () {
-        this.$store.dispatch('clonePilot', this.pilot.id)
-        this.notification = 'Pilot Duplicated'
-        this.snackbar = true
-      },
-      exportPilot: function () {
-        const { dialog } = require('electron').remote
-        var path = dialog.showSaveDialog({
-          defaultPath: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
-          buttonLabel: 'Save Pilot'
-        })
-        io.saveFile(path + '.json', JSON.stringify(this.pilot), function (err) {
-          if (err) {
-            alert(`Error: COMP/CON could not save a file to ${path}`)
-          } else {
-            this.exportDialog = false
-            this.notification = 'Pilot Export Successful'
-            this.snackbar = true
-          }
-        })
-      },
-      copyPilot: function () {
-        const {clipboard} = require('electron')
-        clipboard.writeText(JSON.stringify(this.pilot))
-        this.exportDialog = false
-        this.notification = 'Pilot Data Copied to Clipboard'
-        this.snackbar = true
-      },
-      openPrintOptions: function () {
-        this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
-        this.$router.push('/print-pilot')
-      }
     },
     computed: {
-      pilot: function () {
-        return this.$store.getters.getPilot
-      },
-      stats: function () {
-        if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating pilot stats...')
-        else console.info('Loadout changed: recalculating pilot stats...')
-        return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState)
-      }
+        pilot: function() {
+            return {};
+        },
+        stats: function() {
+            if (this.loadoutForceReloadTrigger)
+                console.info("Equipment changed: recalculating pilot stats...");
+            else console.info("Loadout changed: recalculating pilot stats...");
+            return Stats.pilotStats(
+                this.pilot,
+                this.pilot.loadouts[this.activeLoadoutIdx],
+                this.$store.getters.getState
+            );
+        }
     },
     watch: {
-      levelSkip: function () {
-        if (this.levelSkip < 0) this.levelSkip = 0
-        if (this.levelSkip > 12) this.levelSkip = 12
-      }
+        levelSkip: function() {
+            if (this.levelSkip < 0) this.levelSkip = 0;
+            if (this.levelSkip > 12) this.levelSkip = 12;
+        }
     }
-  }
+};
 </script>
 
 <style scoped>
-  .header {
+.header {
     background-color: lightgray;
     color: black;
     font-weight: bold;
     letter-spacing: 3px;
     width: 100%;
     padding-left: 10px;
-    margin-top:10px;
+    margin-top: 10px;
     margin-bottom: 3px;
-  }
-
-  .no-icon {
-    height:40px;
-    padding-top:8px
-  }
-
-  .v-dialog__activator {
-    margin-left: -18px;
-  }
-  </style>
-
-<style>
-  .edit-btn {
-  position: relative;
-  /* margin-left: -10px!important; */
-  opacity: 0.15;
-  cursor: pointer;
-  transition: 0.3s all;
 }
 
-  .mlneg {
-    margin-left: -10px!important;
-  }
+.no-icon {
+    height: 40px;
+    padding-top: 8px;
+}
 
-  .edit-btn:hover {
+.v-dialog__activator {
+    margin-left: -18px;
+}
+</style>
+
+<style>
+.edit-btn {
+    position: relative;
+    /* margin-left: -10px!important; */
+    opacity: 0.15;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+.mlneg {
+    margin-left: -10px !important;
+}
+
+.edit-btn:hover {
     opacity: 1;
     transition: 0.3s all;
-  }
+}
 </style>
