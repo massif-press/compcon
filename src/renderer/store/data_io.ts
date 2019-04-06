@@ -22,7 +22,7 @@ function getStaticPath(env: string): string {
 }
 
 export default {
-  loadData<T=object>(filename: string): T[] {
+  loadData<T = object>(filename: string): T[] {
     var p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p, 'utf-8'))
@@ -78,7 +78,7 @@ export default {
     var destination = path.join(userDataPath, 'content', path.basename(origin))
     copySync(origin, destination)
   },
-  setBrewActive(userDataPath: string, subdir: string, isActive: string): void {
+  setBrewActive(userDataPath: string, subdir: string, isActive: boolean): void {
     var infopath = path.join(userDataPath, 'content', subdir, 'info.json')
     if (fs.existsSync(infopath)) {
       var info = JSON.parse(fs.readFileSync(infopath, 'utf-8'))

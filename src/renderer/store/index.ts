@@ -4,8 +4,10 @@ import io from './data_io'
 
 
 import { createPersistedState } from 'vuex-electron'
-const modules = require('./modules/index.js')
 
+import modules from './modules'
+
+console.log(modules)
 
 Vue.use(Vuex)
 
@@ -17,6 +19,8 @@ const pilotUpdateSubscriber = (store: any): void => {
     }
   })
 }
+
+console.log('modules', modules)
 
 export default new Vuex.Store({
   modules,
