@@ -13,22 +13,22 @@ const mutations = {
     }
 };
 const actions = {
-    loadConfig(context: any, config: MechConfig) {
+    loadConfig(context: AppContext, config: MechConfig) {
         context.dispatch('loadPilot', config.pilot_id, { root: true });
         context.commit('SET_CONFIG', config.id);
     },
-    editConfig(context: any, payload: any) {
+    editConfig(context: AppContext, payload: any) {
         context.dispatch('updatePilotConfig', payload, { root: true });
     },
-    spliceConfig(context: any, payload: any) {
+    spliceConfig(context: AppContext, payload: any) {
         context.dispatch('splicePilotConfig', payload, { root: true });
     },
-    cloneConfig(context: any, payload: any) {
+    cloneConfig(context: AppContext, payload: any) {
         payload.id = io.newID();
         payload.name += ' (Copy)';
         context.dispatch('addConfigToPilot', payload, { root: true });
     },
-    addConfig(context: any, payload: any) {
+    addConfig(context: AppContext, payload: any) {
         var newConfig = {
             id: io.newID(),
             pilot_id: payload.pilot_id,
@@ -38,11 +38,11 @@ const actions = {
         };
         context.dispatch('addConfigToPilot', newConfig, { root: true });
     },
-    importConfig(context: any, payload: any) {
+    importConfig(context: AppContext, payload: any) {
         payload.id = io.newID();
         context.dispatch('addConfigToPilot', payload, { root: true });
     },
-    deleteConfig(context: any, payload: any) {
+    deleteConfig(context: AppContext, payload: any) {
         var cIndex = context.getters.getConfigIndex(payload);
         context.dispatch('deleteConfigFromPilot', cIndex, { root: true });
     }

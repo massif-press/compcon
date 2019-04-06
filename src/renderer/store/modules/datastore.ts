@@ -1,4 +1,5 @@
 import io from '../data_io'
+import _ from 'lodash'
 
 const state = {
   UserDataPath: '',
@@ -18,21 +19,21 @@ const state = {
   Licenses: []
 }
 
-function stageBrewData (userDataPath, brewDataFolder, file) {
+function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
   var info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
   var bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
   var bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
   if (bArr.length) {
-    bArr = bArr.map(x => ({...x, brew: bID}))
+    bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
   }
   return bArr || []
 }
 
 const mutations = {
-  SET_DATA_PATH (state, userDataPath) {
+  SET_DATA_PATH(state: AppState, userDataPath: string) {
     state.UserDataPath = userDataPath
   },
-  LOAD_DATA (state) {
+  LOAD_DATA(state: AppState) {
     state.Backgrounds = io.loadData('backgrounds')
     state.Talents = io.loadData('talents')
     state.Skills = io.loadData('skills')
@@ -47,8 +48,8 @@ const mutations = {
     state.Statuses = io.loadData('statuses')
     state.Brews = io.findBrewData(state.UserDataPath)
   },
-  LOAD_BREWS (state) {
-    var brewDataFolders = state.Brews.filter(x => x.info.active).map(x => x.dir)
+  LOAD_BREWS(state: AppState) {
+    var brewDataFolders = state.Brews.filter((x: any) => x.info.active).map(x => x.dir)
     for (var i = 0; i < brewDataFolders.length; i++) {
       var dir = brewDataFolders[i]
       state.Backgrounds = state.Backgrounds.concat(stageBrewData(state.UserDataPath, dir, 'backgrounds'))
@@ -65,11 +66,11 @@ const mutations = {
       state.Statuses = state.Statuses.concat(stageBrewData(state.UserDataPath, dir, 'statuses'))
     }
   },
-  SET_BREW_ACTIVE (state, payload) {
+  SET_BREW_ACTIVE(state: AppState, payload: any) {
     io.setBrewActive(state.UserDataPath, payload.dir, payload.active)
   },
-  BUILD_LICENSES (state) {
-    var licenses = []
+  BUILD_LICENSES(state: AppState) {
+    var licenses: CCLicense[] = []
     state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
       licenses.push({
         source: frame.source.toLowerCase(),
@@ -82,9 +83,9 @@ const mutations = {
         brew: frame.brew || null
       })
     })
-    state.MechWeapons
-      .concat(state.WeaponMods, state.MechSystems)
-      .filter(x => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
+    let items: CCItem[] = _.clone(state.MechWeapons)
+    items = items.concat(state.WeaponMods, state.MechSystems)
+    items.filter((x) => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
       .forEach((item) => {
         var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
         licenses[idx].unlocks[item.license_level - 1].push(item)
@@ -94,34 +95,34 @@ const mutations = {
 }
 
 const actions = {
-  setDatapath (context, userDataPath) {
+  setDatapath(context: AppContext, userDataPath: string) {
     context.commit('SET_DATA_PATH', userDataPath)
   },
-  setBrewActive (context, payload) {
+  setBrewActive(context: AppContext, payload: any) {
     context.commit('SET_BREW_ACTIVE', payload)
   },
-  loadData (context) {
+  loadData(context: AppContext) {
     context.commit('LOAD_DATA')
   },
-  loadBrews (context) {
+  loadBrews(context: AppContext) {
     context.commit('LOAD_BREWS')
   },
-  buildLicenses (context) {
+  buildLicenses(context: AppContext) {
     context.commit('BUILD_LICENSES')
   }
 }
 
 const getters = {
-  getItemById: state => (itemType, id) => {
-    return state[itemType].find(x => x.id === id) || {err: 'ID not found'}
+  getItemById: (state: any) => (itemType: string, id: string) => {
+    return state[itemType].find((x: CCItem) => x.id === id) || { err: 'ID not found' }
   },
-  getLicenseByName: state => license => {
-    return state.Licenses.find(x => x.license === license) || {err: 'License not found'}
+  getLicenseByName: (state: AppState) => (license: string) => {
+    return state.Licenses.find(x => x.license === license) || { err: 'License not found' }
   },
-  getItemCollection: state => itemType => {
+  getItemCollection: (state: any) => (itemType: string) => {
     return state[itemType]
   },
-  getState: state => {
+  getState: (state: AppState) => {
     return state
   }
 }

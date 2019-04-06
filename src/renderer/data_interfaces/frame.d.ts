@@ -45,5 +45,6 @@ declare interface Frame {
         tags: string[]
     },
     data_type: "frame",
-    aptitude: {}
+    aptitude: {},
+    brew?: any
 }
