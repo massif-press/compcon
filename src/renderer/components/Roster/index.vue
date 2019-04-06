@@ -12,13 +12,12 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import { Topbar, Sidebar } from "./UI";
 import PilotSheet from "./PilotSheet/index.vue";
 import ConfigSheet from "./ConfigSheet/index.vue";
 
-export default Vue.extend({
+export default {
     name: "roster",
     components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
     data: () => ({
@@ -44,7 +43,7 @@ export default Vue.extend({
             );
         }
     }
-});
+};
 </script>
 
 <style scoped>
