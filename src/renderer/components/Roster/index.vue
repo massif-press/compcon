@@ -1,77 +1,72 @@
 <template>
-    <div id="roster-index">
-        <topbar/>
+  <div id='roster-index'>
+    <topbar />
+    
+    <div class="wrapper">
 
-        <div class="wrapper">
-            <!-- Sidebar -->
-            <sidebar ref="sidebar"/>
+    <!-- Sidebar -->
+    <!-- <sidebar ref="sidebar" /> -->
 
-            <!-- Page Content -->
-            <router-view class="pt-5"></router-view>
-        </div>
-    </div>
+    <!-- Page Content -->
+    <router-view class="pt-5"></router-view>
+
+    </div>    
+  </div>
 </template>
 
 <script>
-import { Topbar, Sidebar } from "./UI";
-import PilotSheet from "./PilotSheet/index.vue";
-import ConfigSheet from "./ConfigSheet/index.vue";
+  import {Topbar} from './UI'
+  import RosterView from './RosterView/'
+  import PilotSheet from './PilotSheet/'
+  import ConfigSheet from './ConfigSheet/'
 
-export default {
-    name: "roster",
-    components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
+  export default {
+    name: 'roster',
+    components: { Topbar, RosterView, PilotSheet, ConfigSheet },
     data: () => ({
-        activePilotId: ""
+      activePilotId: ''
     }),
     computed: {
-        pilots: function() {
-            return this.$store.getters.getAllPilots;
-        }
+      pilots: function () {
+        return this.$store.getters.getAllPilots
+      }
     },
-    created: function() {
-        this.$store.dispatch("setDatapath", this.$store.state.userDataPath);
-        this.$store.dispatch("loadAllPilots");
-        this.$store.dispatch("loadData");
-        this.$store.dispatch("loadBrews");
-        this.$store.dispatch("buildLicenses");
-    },
-    watch: {
-        $route(to, from) {
-            window.scrollTo(0, 0);
-            this.$refs.sidebar.isVisible = !(
-                to.path === "/level" || to.path === "/new"
-            );
-        }
+    created: function () {
+      this.$store.dispatch('setDatapath', this.userDataPath)
+      this.$store.dispatch('loadAllPilots')
+      this.$store.dispatch('loadData')
+      this.$store.dispatch('loadBrews')
+      this.$store.dispatch('buildLicenses')
     }
-};
+  }
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
-* {
+  * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
+  }
 
-body {
-    font-family: "Source Sans Pro", sans-serif;
+  body { 
+    font-family: 'Source Sans Pro', sans-serif; 
     overflow: hidden;
-}
+  }
 
-.wrapper {
+  .wrapper {
     display: flex;
     width: 100%;
 }
 </style>
 
 <style>
-.roster-content {
-    margin-left: 80px;
+  .roster-content {
+    margin-left: 0;
     margin-right: 0;
     width: 100vw;
     overflow-y: scroll;
-}
+  }
 </style>
 
