@@ -2,7 +2,6 @@
 <v-container>
 <v-tabs v-model="tabController">
   <v-tab>Pilot Portrait</v-tab>
-  <v-tab>Pilot Avatar</v-tab>
   <v-tab-item>
     <v-card flat>
         <v-container grid-list-sm fluid>
@@ -19,21 +18,6 @@
         <v-btn large flat color="error" @click="assignPortrait('')"><v-icon>remove_circle_outline</v-icon>&emsp;Remove Portrait</v-btn> 
     </v-card>
   </v-tab-item>
-    <v-tab-item>
-    <v-card flat>
-        <v-container grid-list-sm fluid>
-            <v-btn block outline large color="primary" @click="importImage('avatar')">Import Avatar Image</v-btn>
-          <v-layout row justify-space-between wrap fill-height align-center>
-            <v-flex v-for="i in avatars" :key="i" xs3> 
-              <div :class="`justify-center pa-1 ${i === preselectAvatar ? 'preselected' : 'clickable'}`" @click="assignAvatar(i)">
-                <v-img :src="`file://${userDataPath}/img/avatar/${i}`" position="top" max-height="35vh" max-width="35vw"/> 
-              </div>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-btn large flat color="error"  @click="assignAvatar('')"><v-icon>remove_circle_outline</v-icon>&emsp;Remove Avatar</v-btn> 
-    </v-card>
-  </v-tab-item>
   </v-tabs>
   </v-container>
 </template>
@@ -44,32 +28,22 @@
   export default {
     name: 'image-selector',
     props: {
-      preselectPortrait: String,
-      preselectAvatar: String
+      preselectPortrait: String
     },
     data: () => ({
       tabController: null,
       done: false,
-      portraits: [],
-      avatars: []
+      portraits: []
     }),
     methods: {
       assignPortrait: function (src) {
         this.$emit('assign-portrait', src)
         this.tabController = 1
-        window.scrollTo(0, document.body.scrollHeight)
-      },
-      assignAvatar: function (src) {
-        this.$emit('assign-avatar', src)
-        this.tabController = 0
       },
       importAll: function () {
         var vm = this
         vm.portraits = io.getImages('portrait', this.userDataPath).sort(function (a, b) {
           return a === vm.preselectPortrait ? 0 : 1
-        })
-        vm.avatars = io.getImages('avatar', this.userDataPath).sort(function (a, b) {
-          return a === vm.preselectAvatar ? 0 : 1
         })
       },
       importImage: function (imgType) {

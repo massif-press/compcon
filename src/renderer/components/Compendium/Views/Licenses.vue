@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <span class="display-1 text-uppercase font-weight-thin">LICENSES</span>
     <v-layout v-for="m in Object.keys(licenses)" :key="m">
       <v-flex class="text-xs-center pa-3">

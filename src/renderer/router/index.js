@@ -24,6 +24,10 @@ export default new Router({
           component: require('@/components/Roster/PilotSheet/index').default
         },
         {
+          path: '/hangar',
+          component: require('@/components/Roster/HangarView/index').default
+        },
+        {
           path: '/config',
           component: require('@/components/Roster/ConfigSheet/index').default
         },
@@ -34,6 +38,48 @@ export default new Router({
         {
           path: '/level',
           component: require('@/components/Roster/PilotSheet/Level/index').default
+        },
+        {
+          path: '/compendium',
+          component: require('@/components/Compendium/index').default,
+          children: [
+            {
+              path: '',
+              redirect: '/licenses'
+            },
+            {
+              path: '/licenses',
+              component: require('@/components/Compendium/Views/Licenses').default
+            },
+            {
+              path: '/manufacturers',
+              component: require('@/components/Compendium/Views/Manufacturers').default
+            },
+            {
+              path: '/frames',
+              component: require('@/components/Compendium/Views/Frames').default
+            },
+            {
+              path: '/weapons',
+              component: require('@/components/Compendium/Views/Weapons').default
+            },
+            {
+              path: '/systems',
+              component: require('@/components/Compendium/Views/Systems').default
+            },
+            {
+              path: '/pilot_gear',
+              component: require('@/components/Compendium/Views/PilotGear').default
+            },
+            {
+              path: '/statuses',
+              component: require('@/components/Compendium/Views/Statuses').default
+            },
+            {
+              path: '/tags',
+              component: require('@/components/Compendium/Views/Tags').default
+            }
+          ]
         }
       ]
     },
@@ -44,48 +90,6 @@ export default new Router({
     {
       path: '/print-config',
       component: require('@/components/Roster/ConfigSheet/Print/PrintView').default
-    },
-    {
-      path: '/compendium',
-      component: require('@/components/Compendium/index').default,
-      children: [
-        {
-          path: '',
-          redirect: '/licenses'
-        },
-        {
-          path: '/licenses',
-          component: require('@/components/Compendium/Views/Licenses').default
-        },
-        {
-          path: '/manufacturers',
-          component: require('@/components/Compendium/Views/Manufacturers').default
-        },
-        {
-          path: '/frames',
-          component: require('@/components/Compendium/Views/Frames').default
-        },
-        {
-          path: '/weapons',
-          component: require('@/components/Compendium/Views/Weapons').default
-        },
-        {
-          path: '/systems',
-          component: require('@/components/Compendium/Views/Systems').default
-        },
-        {
-          path: '/pilot_gear',
-          component: require('@/components/Compendium/Views/PilotGear').default
-        },
-        {
-          path: '/statuses',
-          component: require('@/components/Compendium/Views/Statuses').default
-        },
-        {
-          path: '/tags',
-          component: require('@/components/Compendium/Views/Tags').default
-        }
-      ]
     },
     {
       path: '/mods',

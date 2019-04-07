@@ -1,9 +1,9 @@
 <template>
 <v-hover>
-  <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 0} pb-0`" style="cursor: pointer; background: linear-gradient(rgba(117, 117, 117, 0.5), rgba(0,0,0,0) 90%);" @click="addMenu = true">
+  <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true">
     <v-layout row>
       <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
-        <div style="height: 300px; display:table; width:100%">
+        <div style="height: 300px; display:table; width:100%; cursor: pointer;">
           <span class="pilot-letter white--text">+</span>
         </div>
       </v-flex>
@@ -36,12 +36,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
  .pilot-letter {
    display:table-cell; 
    vertical-align:middle; 
    text-align:center;
    font-size: 20vw;
    line-height: 0;
+ }
+
+ .inactive {
+   background: linear-gradient(#616161, #424242 80%);
+   background-color: #424242;
+ }
+
+  .inactive:hover {
+   background: linear-gradient(#546E7A, #616161 80%);
+   border: 0px
  }
 </style>
