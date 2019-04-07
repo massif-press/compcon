@@ -18,18 +18,18 @@ let mainConfig = {
     ...Object.keys(dependencies || {})
   ],
   module: {
-    rules: [
-      // {
-      //   test: /\.(js)$/,
-      //   enforce: 'pre',
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'eslint-loader',
-      //     options: {
-      //       formatter: require('eslint-friendly-formatter')
-      //     }
-      //   }
-      // },
+    rules: [{
+        test: /\.(js$|ts$)/,
+        enforce: 'pre',
+        exclude: [/node_modules/, /\.json$/, /\.vue$/],
+        use: {
+          loader: 'tslint-loader',
+          options: {
+            formatter: 'tslint-formatter-beauty',
+            configFile: './tslint.json',
+          }
+        }
+      },
       {
         test: /\.ts$/,
         use: 'ts-loader',

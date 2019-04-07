@@ -1,6 +1,6 @@
 import io from '../store/data_io'
 
-var rules: any = io.loadData('rules')
+const rules: any = io.loadData('rules')
 
 
 interface AppState {
@@ -28,14 +28,14 @@ function isPilotArmor(x: any): x is PilotArmor {
 
 function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq[] {
   if (item.source === 'GMS') {
-    var gmsIdx = reqArray.findIndex(x => x.name === 'GMS')
+    const gmsIdx = reqArray.findIndex((x) => x.name === 'GMS')
     if (gmsIdx > -1) {
       reqArray[gmsIdx].items.push(item.name)
     } else {
       reqArray.push({ name: 'GMS', rank: 0, items: [item.name] })
     }
   } else {
-    var licenseIndex = reqArray.findIndex(x => x.name === `${item.source} ${item.license}` && x.rank === item.license_level)
+    const licenseIndex = reqArray.findIndex((x) => x.name === `${item.source} ${item.license}` && x.rank === item.license_level)
     if (licenseIndex > -1) {
       reqArray[licenseIndex].items.push(item.name)
     } else {
@@ -47,17 +47,17 @@ function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq
 
 export default {
   mechStats(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState) {
-    var frames = state.Frames
-    var systems = state.MechSystems
-    var weapons = state.MechWeapons
-    var mods = state.WeaponMods
+    const frames = state.Frames
+    const systems = state.MechSystems
+    const weapons = state.MechWeapons
+    const mods = state.WeaponMods
 
-    var frame = frames.find(x => x.id === config.frame_id)
-    if (!frame) throw new Error('frame not found!');
+    const frame = frames.find((x) => x.id === config.frame_id)
+    if (!frame) { throw new Error('frame not found!') }
 
-    var grit = Math.ceil(pilot.level / 2)
+    const grit = Math.ceil(pilot.level / 2)
 
-    var output: { [key: string]: any, required_licenses: LicenseReq[] } = {
+    const output: { [key: string]: any, required_licenses: LicenseReq[] } = {
       structure: rules.base_structure + (frame.stats.structuremod || 0),
       hull: pilot.mechSkills.hull,
       agi: pilot.mechSkills.agi,
@@ -83,31 +83,31 @@ export default {
       save_bonus: grit,
       integrated_mounts: [],
       integrated_systems: [],
-      required_licenses: []
+      required_licenses: [],
     }
 
     // add frame to required licenses
     output.required_licenses.push(frame.name === 'EVEREST'
       ? { name: 'GMS', rank: 0, items: ['EVEREST Frame'] }
-      : { name: `${frame.source} ${frame.name}`, rank: 2, items: [`${frame.name.toUpperCase()} Frame`] }
+      : { name: `${frame.source} ${frame.name}`, rank: 2, items: [`${frame.name.toUpperCase()} Frame`] },
     )
 
     if (loadout) {
-      for (let i = 0; i < loadout.systems.length; i++) {
-        var sys = systems.find(x => x.id === loadout.systems[i].id)
+      for (const loadoutSys of loadout.systems) {
+        const sys = systems.find((x) => x.id === loadoutSys.id)
         if (sys) {
           output.used_sp += sys.sp || 0
           output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
         }
       }
-      for (let i = 0; i < loadout.mounts.length; i++) {
-        for (let j = 0; j < loadout.mounts[i].weapons.length; j++) {
-          var w = weapons.find(x => x.id === loadout.mounts[i].weapons[j].id)
+      for (const mount of loadout.mounts) {
+        for (const weapon of mount.weapons) {
+          const w = weapons.find((x) => x.id === weapon.id)
           if (w) {
             output.used_sp += w && w.sp ? w.sp : 0
-            if (w) output.required_licenses = addLicenseRequirement(w, output.required_licenses)
-            if (loadout.mounts[i].weapons[j].mod) {
-              var m = mods.find(x => x.id === loadout.mounts[i].weapons[j].mod)
+            if (w) { output.required_licenses = addLicenseRequirement(w, output.required_licenses) }
+            if (weapon.mod) {
+              const m = mods.find((x) => x.id === weapon.mod)
               if (m) {
                 output.used_sp += m.sp
                 output.required_licenses = addLicenseRequirement(m, output.required_licenses)
@@ -119,68 +119,68 @@ export default {
     }
 
     // mark licenses missing on pilot
-    for (var i = 0; i < output.required_licenses.length; i++) {
-      if (output.required_licenses[i].name === 'GMS') continue
-      output.required_licenses[i].missing = !pilot.licenses.find(x => `${x.source} ${x.name}` === output.required_licenses[i].name || x.level < output.required_licenses[i].rank)
+    for (const licenseReq of output.required_licenses) {
+      if (licenseReq.name === 'GMS') { continue }
+      licenseReq.missing = !pilot.licenses.find((x) => `${x.source} ${x.name}` === licenseReq.name || x.level < licenseReq.rank)
     }
     output.required_licenses.sort(
-      function (a, b) {
+      (a, b) => {
         return (a.rank < b.rank) ? -1 : (a.rank > b.rank) ? 1 : 0
-      }
+      },
     )
 
     // system personalizations adds +2 hp
-    if (loadout && loadout.systems && loadout.systems.find(x => x.id === 'personalizations')) output.hp += 2
+    if (loadout && loadout.systems && loadout.systems.find((x) => x.id === 'personalizations')) { output.hp += 2 }
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian')) {
-      if (frame.stats.size === 0.5) output.size = 1
-      else if (frame.stats.size < 3) output.size++
+      if (frame.stats.size === 0.5) { output.size = 1 }
+      else if (frame.stats.size < 3) { output.size++ }
     }
 
     // ipsn reinforced frame core bonus adds 5 hp
-    if (pilot.core_bonuses.includes('frame')) output.hp += 5
+    if (pilot.core_bonuses.includes('frame')) { output.hp += 5 }
 
     // ipsn sloped plating core bonus adds 1 armor, up to 4
-    if (pilot.core_bonuses.includes('plating') && output.armor < 4) output.armor += 1
+    if (pilot.core_bonuses.includes('plating') && output.armor < 4) { output.armor += 1 }
 
     // ssc full subjectivity sync adds 2 evasion
-    if (pilot.core_bonuses.includes('fssync')) output.evasion += 2
+    if (pilot.core_bonuses.includes('fssync')) { output.evasion += 2 }
 
     // horus open door adds +2 save
-    if (pilot.core_bonuses.includes('opendoor')) output.save_target += 2
+    if (pilot.core_bonuses.includes('opendoor')) { output.save_target += 2 }
 
     // horus open door adds +2 edef
-    if (pilot.core_bonuses.includes('disbelief')) output.edef += 2
+    if (pilot.core_bonuses.includes('disbelief')) { output.edef += 2 }
 
     // ha superior by design core bonus adds 2 heatcap
-    if (pilot.core_bonuses.includes('superior')) output.heatcap += 2
+    if (pilot.core_bonuses.includes('superior')) { output.heatcap += 2 }
 
     // ha ammofeeds adds a +1 bonus to limited items
-    if (pilot.core_bonuses.includes('ammofeeds')) output.limited_bonus += 2
+    if (pilot.core_bonuses.includes('ammofeeds')) { output.limited_bonus += 2 }
 
     // talent:armsman adds ammo case item
-    const pilotArmsmanTalent = pilot.talents.find(x => x.id === 'armsman')
-    if (pilotArmsmanTalent) output.integrated_systems.push(`armsman${pilotArmsmanTalent.rank}`)
+    const pilotArmsmanTalent = pilot.talents.find((x) => x.id === 'armsman')
+    if (pilotArmsmanTalent) { output.integrated_systems.push(`armsman${pilotArmsmanTalent.rank}`) }
 
     // talent:technophile adds custom ai item
-    const pilotTechnophileTalent = pilot.talents.find(x => x.id === 'techno')
-    if (pilotTechnophileTalent) output.integrated_systems.push(`techno${pilotTechnophileTalent.rank}`)
+    const pilotTechnophileTalent = pilot.talents.find((x) => x.id === 'techno')
+    if (pilotTechnophileTalent) { output.integrated_systems.push(`techno${pilotTechnophileTalent.rank}`) }
 
     // talent:engineer adds prototype weapon
-    const pilotEngineerTalent = pilot.talents.find(x => x.id === 'eng')
-    if (pilotEngineerTalent) output.integrated_mounts.push(`prototype${pilotEngineerTalent.rank}`)
+    const pilotEngineerTalent = pilot.talents.find((x) => x.id === 'eng')
+    if (pilotEngineerTalent) { output.integrated_mounts.push(`prototype${pilotEngineerTalent.rank}`) }
 
     // talent:nuclear cavalier rank 3 adds fuel rod gun
-    const pilotNCavalierTalent = pilot.talents.find(x => x.id === 'ncavalier')
-    if (pilotNCavalierTalent && pilotNCavalierTalent.rank === 3) output.integrated_mounts.push('fuelrod')
+    const pilotNCavalierTalent = pilot.talents.find((x) => x.id === 'ncavalier')
+    if (pilotNCavalierTalent && pilotNCavalierTalent.rank === 3) { output.integrated_mounts.push('fuelrod') }
 
     return output
   },
   pilotStats(pilot: Pilot, loadout: PilotLoadout, state: AppState) {
-    var armor = state.PilotGear.filter(isPilotArmor)
+    const armor = state.PilotGear.filter(isPilotArmor)
 
-    var output = {
+    const output = {
       hp: rules.base_pilot_hp + Math.ceil(pilot.level / 2),
       armor: 0,
       evasion: rules.base_pilot_evasion,
@@ -191,27 +191,27 @@ export default {
         hull: pilot.mechSkills.hull,
         agi: pilot.mechSkills.agi,
         sys: pilot.mechSkills.sys,
-        eng: pilot.mechSkills.eng
-      }
+        eng: pilot.mechSkills.eng,
+      },
     }
 
     if (loadout && loadout.items) {
-      for (var i = 0; i < loadout.items.armor.length; i++) {
-        if (!loadout.items.armor[i]) continue
+      for (const myArmor of loadout.items.armor) {
+        if (!myArmor) { continue }
 
-        var e = armor.find(x => {
-          const curArmor = loadout.items.armor[i];
+        const e = armor.find((x) => {
+          const curArmor = myArmor
           return (curArmor !== null) && x.id === curArmor.id
         })
 
         if (e) {
-          if (e.armor) output.armor += e.armor
-          if (e.edef) output.edef = e.edef
-          if (e.evasion) output.evasion = e.evasion
-          if (e.evasion_bonus) output.evasion += e.evasion_bonus
-          if (e.speed) output.speed = e.speed
-          if (e.speed_bonus) output.speed += e.speed_bonus
-          if (e.hp_bonus) output.hp += e.hp_bonus
+          if (e.armor) { output.armor += e.armor }
+          if (e.edef) { output.edef = e.edef }
+          if (e.evasion) { output.evasion = e.evasion }
+          if (e.evasion_bonus) { output.evasion += e.evasion_bonus }
+          if (e.speed) { output.speed = e.speed }
+          if (e.speed_bonus) { output.speed += e.speed_bonus }
+          if (e.hp_bonus) { output.hp += e.hp_bonus }
         }
       }
     }
@@ -219,9 +219,9 @@ export default {
     return output
   },
   limitedBonus(pilot: Pilot) {
-    var bonus = 0
-    if (pilot.core_bonuses.includes('ammofeeds')) bonus += 2
+    let bonus = 0
+    if (pilot.core_bonuses.includes('ammofeeds')) { bonus += 2 }
     bonus += Math.floor(pilot.mechSkills.eng / 2)
     return bonus
-  }
+  },
 }

@@ -22,5 +22,5 @@ export default {
   configs,
   datastore,
   pilots,
-  print
+  print,
 }

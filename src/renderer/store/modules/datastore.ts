@@ -1,7 +1,7 @@
-import io from '../data_io'
 import _ from 'lodash'
+import io from '../data_io'
 
-const state = {
+const moduleState = {
   UserDataPath: '',
   Backgrounds: [],
   Talents: [],
@@ -17,13 +17,13 @@ const state = {
   Statuses: [],
   Quirks: [],
   Brews: [],
-  Licenses: []
+  Licenses: [],
 }
 
 function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
-  var info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
-  var bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
-  var bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
+  const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
+  const bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
+  let bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
   if (bArr.length) {
     bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
   }
@@ -51,9 +51,8 @@ const mutations = {
     state.Brews = io.findBrewData(state.UserDataPath)
   },
   LOAD_BREWS(state: AppState) {
-    var brewDataFolders = state.Brews.filter((x: any) => x.info.active).map(x => x.dir)
-    for (var i = 0; i < brewDataFolders.length; i++) {
-      var dir = brewDataFolders[i]
+    const brewDataFolders = state.Brews.filter((x: any) => x.info.active).map((x) => x.dir)
+    for (const dir of brewDataFolders) {
       state.Backgrounds = state.Backgrounds.concat(stageBrewData(state.UserDataPath, dir, 'backgrounds'))
       state.Talents = state.Talents.concat(stageBrewData(state.UserDataPath, dir, 'talents'))
       state.Skills = state.Skills.concat(stageBrewData(state.UserDataPath, dir, 'skills'))
@@ -73,28 +72,28 @@ const mutations = {
     io.setBrewActive(state.UserDataPath, payload.dir, payload.active)
   },
   BUILD_LICENSES(state: AppState) {
-    var licenses: CCLicense[] = []
-    state.Frames.filter(x => x.source.toLowerCase() !== 'gms').forEach((frame) => {
+    const licenses: CCLicense[] = []
+    state.Frames.filter((x) => x.source.toLowerCase() !== 'gms').forEach((frame) => {
       licenses.push({
         source: frame.source.toLowerCase(),
         license: frame.name.toLowerCase(),
         unlocks: [
           [], // level 1
           [frame], // level 2
-          [] // level 3
+          [], // level 3
         ],
-        brew: frame.brew || null
+        brew: frame.brew || null,
       })
     })
     let items: CCItem[] = _.clone(state.MechWeapons)
     items = items.concat(state.WeaponMods, state.MechSystems)
     items.filter((x) => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
       .forEach((item) => {
-        var idx = licenses.findIndex(x => x.license === item.license.toLowerCase())
+        const idx = licenses.findIndex((x) => x.license === item.license.toLowerCase())
         licenses[idx].unlocks[item.license_level - 1].push(item)
       })
     state.Licenses = licenses
-  }
+  },
 }
 
 const actions = {
@@ -112,7 +111,7 @@ const actions = {
   },
   buildLicenses(context: AppContext) {
     context.commit('BUILD_LICENSES')
-  }
+  },
 }
 
 const getters = {
@@ -120,19 +119,19 @@ const getters = {
     return state[itemType].find((x: CCItem) => x.id === id) || { err: 'ID not found' }
   },
   getLicenseByName: (state: AppState) => (license: string) => {
-    return state.Licenses.find(x => x.license === license) || { err: 'License not found' }
+    return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }
   },
   getItemCollection: (state: any) => (itemType: string) => {
     return state[itemType]
   },
   getState: (state: AppState) => {
     return state
-  }
+  },
 }
 
 export default {
-  state,
+  state: moduleState,
   mutations,
   actions,
-  getters
+  getters,
 }

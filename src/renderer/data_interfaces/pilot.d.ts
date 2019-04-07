@@ -74,5 +74,6 @@ declare interface Pilot {
     core_bonuses: String[],
     configs: MechConfig[],
     portrait?: string,
-    avatar?: string
+    avatar?: string,
+    quirk?: any
 }
