@@ -22,7 +22,7 @@ export default new Vuex.Store({
   modules,
   plugins: [
     createPersistedState(),
-    pilotUpdateSubscriber
+    pilotUpdateSubscriber,
   ],
-  strict: process.env.NODE_ENV !== 'production'
+  strict: process.env.NODE_ENV !== 'production',
 })

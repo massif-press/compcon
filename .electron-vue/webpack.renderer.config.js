@@ -34,15 +34,18 @@ let rendererConfig = {
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
   module: {
-    rules: [
-      // {
-      //   test: /\.(js|vue)$/,
-      //   enforce: 'pre',
-      //   exclude: /(node_modules|tslint\.json)/,
-      //   use: {
-      //     loader: 'tslint-loader',
-      //   }
-      // },
+    rules: [{
+        enforce: 'pre',
+        test: /\.ts$/,
+        exclude: [/node_modules/, /vue/],
+        use: {
+          loader: 'tslint-loader',
+          options: {
+            formatter: 'tslint-formatter-beauty',
+            configFile: './tslint.json',
+          }
+        }
+      },
       {
         test: /\.less$/,
         use: ['vue-style-loader', 'css-loader', 'less-loader']
@@ -58,10 +61,7 @@ let rendererConfig = {
       {
         test: /\.ts$/,
         use: [{
-          loader: 'ts-loader',
-          options: {
-            appendTsSuffixTo: [/\.vue$/]
-          }
+          loader: 'ts-loader'
         }],
         exclude: /node_modules/,
       },
@@ -83,7 +83,8 @@ let rendererConfig = {
             loaders: {
               sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
               scss: 'vue-style-loader!css-loader!sass-loader',
-              less: 'vue-style-loader!css-loader!less-loader'
+              less: 'vue-style-loader!css-loader!less-loader',
+              ts: 'ts-loader'
             }
           }
         }

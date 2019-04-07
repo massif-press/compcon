@@ -13,5 +13,5 @@ export {
   LicenseSelector,
   MechSkillsSelector,
   SkillSelector,
-  TalentSelector
+  TalentSelector,
 }

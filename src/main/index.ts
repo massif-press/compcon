@@ -2,7 +2,7 @@
 
 import {
   app,
-  BrowserWindow
+  BrowserWindow,
 } from 'electron'
 import '../renderer/store/index.ts'
 
@@ -10,7 +10,7 @@ import '../renderer/store/index.ts'
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
-const globalAny: any = global;
+const globalAny: any = global
 if (process.env.NODE_ENV !== 'development') {
   globalAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
@@ -18,9 +18,9 @@ if (process.env.NODE_ENV !== 'development') {
 // uncomment this to run debugger in prod
 // require('electron-debug')({ showDevTools: true, enabled: true })
 
-let mainWindow: BrowserWindow | null;
+let mainWindow: BrowserWindow | null
 const winURL = process.env.NODE_ENV === 'development' ?
-  `http://localhost:9080` :
+  'http://localhost:9080' :
   `file://${__dirname}/index.html`
 
 function createWindow() {
@@ -34,8 +34,8 @@ function createWindow() {
     // minWidth: 1280,
     titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
     webPreferences: {
-      webSecurity: false
-    }
+      webSecurity: false,
+    },
   })
 
   mainWindow.setMenu(null)

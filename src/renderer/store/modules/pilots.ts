@@ -1,11 +1,11 @@
-import io from '../data_io'
-import Vue from 'vue'
 import _ from 'lodash'
+import Vue from 'vue'
+import io from '../data_io'
 
-const state = {
+const moduleState = {
   Pilots: [],
   activePilotID: '',
-  activeConfigID: ''
+  activeConfigID: '',
 }
 
 const mutations = {
@@ -16,18 +16,18 @@ const mutations = {
     state.Pilots = io.loadUserData(Vue.prototype.userDataPath, 'pilots.json')
   },
   UPDATE_PILOT(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      var pilot = _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
+      const pilot = _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
       Vue.set(state.Pilots, pilotIndex, pilot)
     } else {
       throw console.error('Pilot not loaded!')
     }
   },
   UPDATE_PILOT_CONFIG(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      var configIndex = state.Pilots[pilotIndex].configs.findIndex(x => x.id === payload.id)
+      const configIndex = state.Pilots[pilotIndex].configs.findIndex((x) => x.id === payload.id)
       if (configIndex > -1) {
         _.set(state.Pilots[pilotIndex].configs[configIndex], payload.attr, payload.val)
       } else {
@@ -38,9 +38,9 @@ const mutations = {
     }
   },
   SPLICE_PILOT(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      var arr = _.get(state.Pilots[pilotIndex], payload.attr)
+      const arr = _.get(state.Pilots[pilotIndex], payload.attr)
       arr.splice(payload.start_index, payload.delete_count)
       _.set(state.Pilots[pilotIndex], payload.attr, arr)
     } else {
@@ -48,11 +48,11 @@ const mutations = {
     }
   },
   SPLICE_PILOT_CONFIG(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      var configIndex = state.Pilots[pilotIndex].configs.findIndex(x => x.id === payload.id)
+      const configIndex = state.Pilots[pilotIndex].configs.findIndex((x) => x.id === payload.id)
       if (configIndex > -1) {
-        var arr = _.get(state.Pilots[pilotIndex].configs[configIndex], payload.attr)
+        const arr = _.get(state.Pilots[pilotIndex].configs[configIndex], payload.attr)
         arr.splice(payload.start_index, payload.delete_count)
         _.set(state.Pilots[pilotIndex].configs[configIndex], payload.attr, arr)
       } else {
@@ -62,18 +62,18 @@ const mutations = {
       throw console.error('Pilot not loaded!')
     }
   },
-  CLONE_PILOT (state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload.id)
+  CLONE_PILOT(state: AppState, payload: any) {
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === payload.id)
     if (pilotIndex > -1) {
-      var newPilot = JSON.parse(JSON.stringify(state.Pilots[pilotIndex]))
+      const newPilot: Pilot = JSON.parse(JSON.stringify(state.Pilots[pilotIndex]))
       newPilot.id = io.newID()
       newPilot.name += ' (CLONE)'
       newPilot.callsign += '*'
-      for (var i = 0; i < newPilot.configs.length; i++) {
-        newPilot.configs[i].id = io.newID()
-        newPilot.configs[i].pilot_id = newPilot.id
+      for (const config of newPilot.configs) {
+        config.id = io.newID()
+        config.pilot_id = newPilot.id
       }
-      if (payload.quirk) newPilot.quirk = payload.quirk
+      if (payload.quirk) { newPilot.quirk = payload.quirk }
       state.Pilots.push(newPilot)
     } else {
       throw console.error('Pilot not loaded!')
@@ -83,7 +83,7 @@ const mutations = {
     state.Pilots.push(payload)
   },
   DELETE_PILOT(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === payload)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === payload)
     if (pilotIndex > -1) {
       state.Pilots.splice(pilotIndex, 1)
     } else {
@@ -91,13 +91,13 @@ const mutations = {
     }
   },
   DELETE_CONFIG(state: AppState, payload: any) {
-    var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
+    const pilotIndex = state.Pilots.findIndex((x) => x.id === state.activePilotID)
     if (pilotIndex > -1) {
       state.Pilots[pilotIndex].configs.splice(payload, 1)
     } else {
       throw console.error('Pilot not loaded!')
     }
-  }
+  },
 }
 
 const actions = {
@@ -111,16 +111,16 @@ const actions = {
     // remove mount-based core bonuses on cb change
     // also: fuckin' gross
     if (payload.attr === 'core_bonuses') {
-      var missingCb = ['hardpoints', 'burnout', 'intweapon', 'retrofit'].filter(x => !payload.val.includes(x))
-      var pilotIndex = context.state.Pilots.findIndex(x => x.id === context.state.activePilotID)
-      for (var i = 0; i < context.state.Pilots[pilotIndex].configs.length; i++) {
-        for (var j = 0; j < context.state.Pilots[pilotIndex].configs[i].loadouts.length; j++) {
-          for (var k = 0; k < context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts.length; k++) {
-            var m = context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts[k]
+      const missingCb = ['hardpoints', 'burnout', 'intweapon', 'retrofit'].filter((x) => !payload.val.includes(x))
+      const pilotIndex = context.state.Pilots.findIndex((x) => x.id === context.state.activePilotID)
+      for (let i = 0; i < context.state.Pilots[pilotIndex].configs.length; i++) {
+        for (let j = 0; j < context.state.Pilots[pilotIndex].configs[i].loadouts.length; j++) {
+          for (let k = 0; k < context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts.length; k++) {
+            const m = context.state.Pilots[pilotIndex].configs[i].loadouts[j].mounts[k]
             if (m.bonuses && _.intersection(missingCb, m.bonuses)) {
               context.commit('UPDATE_PILOT', {
                 attr: ['configs', i, 'loadouts', j, 'mounts', k, 'bonuses'],
-                val: []
+                val: [],
               })
             }
           }
@@ -139,7 +139,7 @@ const actions = {
     context.commit('CLONE_PILOT', payload)
   },
   addPilot(context: AppContext, payload: any) {
-    var newPilot: Pilot = {
+    const newPilot: Pilot = {
       id: io.newID(),
       callsign: payload.callsign.replace('/r', ''),
       name: payload.name.replace('/r', ''),
@@ -157,27 +157,27 @@ const actions = {
       talents: payload.talents,
       mechSkills: payload.mechSkills,
       core_bonuses: [],
-      configs: []
+      configs: [],
     }
     context.commit('ADD_PILOT', newPilot)
     context.commit('SET_PILOT', newPilot.id)
   },
   addConfigToPilot(context: AppContext, payload: any) {
     payload.pilot_id = context.state.activePilotID
-    const pilot = context.state.Pilots.find(p => p.id === context.state.activePilotID);
-    if (!pilot) throw new Error('pilot not found!')
+    const pilot = context.state.Pilots.find((p) => p.id === context.state.activePilotID)
+    if (!pilot) { throw new Error('pilot not found!') }
     context.commit('UPDATE_PILOT', {
       attr: `configs[${pilot.configs.length}]`,
-      val: payload
+      val: payload,
     })
   },
   updatePilotConfig(context: AppContext, payload: any) {
     context.commit('UPDATE_PILOT_CONFIG', payload)
   },
-  importPilot(context: AppContext, payload: any) {
+  importPilot(context: AppContext, payload: Pilot) {
     payload.id = io.newID()
-    for (var i = 0; i < payload.configs.length; i++) {
-      payload.configs[i].pilot_id = payload.id
+    for (const config of payload.configs) {
+      config.pilot_id = payload.id
     }
     context.commit('ADD_PILOT', payload)
   },
@@ -186,24 +186,24 @@ const actions = {
   },
   deleteConfigFromPilot(context: AppContext, payload: any) {
     context.commit('DELETE_CONFIG', payload)
-  }
+  },
 }
 
 const getters = {
   getPilot: (state: AppState) => {
-    return state.Pilots.find(p => p.id === state.activePilotID) || {}
+    return state.Pilots.find((p) => p.id === state.activePilotID) || {}
   },
   getAllPilots: (state: AppState) => {
     return state.Pilots || []
   },
   getPilotById: (state: AppState) => (id: string) => {
-    return state.Pilots.find(p => p.id === id) || {}
-  }
+    return state.Pilots.find((p) => p.id === id) || {}
+  },
 }
 
 export default {
-  state,
+  state: moduleState,
   mutations,
   actions,
-  getters
+  getters,
 }
