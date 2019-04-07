@@ -4,6 +4,7 @@ Bugs:
 
 Refactor:
   ☐ remove Roboto CDN
+  ☐ remove workarounds from new (correct) vue.set in pilots.js @critical
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
@@ -22,12 +23,29 @@ Refactor:
   ☐ globalize multi-use css
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
+  ☐ Item() etc to mixins
 
-2.0:
-  ☐ Options: Hard reload button (const remote = require('electron').remote; remote.app.relaunch(); remote.app.exit(0);)
-  ☐ Alternate Roster/Hangar views
+1.5:
+  ☐ Add remaining mech art (master merge)
+    ☐ New NO DATA image
+  ✔ Options: Hard reload button @done(19-04-06 19:08)
+  ✔ Alternate Roster/Hangar views @done(19-04-06 19:08)
+    ✔ Check New Pilot @done(19-04-06 12:27)
+    ✔ Check Pilot Import @done(19-04-06 14:27)
+    ✔ Remove Sidebar @done(19-04-06 14:42)
+    ✔ Remove Pilot Avatars @done(19-04-06 14:42)
+    ✔ Mech Hangar @done(19-04-06 14:27)
+    ✔ Sort Hangar @done(19-04-06 19:05)
+    ✔ Sort Roster @done(19-04-06 19:05)
+  ✔ Ability to easily flip between pilot/active mech @done(19-04-06 14:46)
+  ☐ Pilot Talent/CB expandables on Mech Sheet
   ☐ Glossary in compendium
   ☐ Action economy in compendium
+  ☐ Rebuild loadout selector UI
+  ☐ Default Images copy
+    ☐ Homebrew can take default images folder
+
+2.0:
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
   Printing:
@@ -66,6 +84,8 @@ Refactor:
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
   ☐ Loadout Import/Export
+  ☐ Default selectable pilot glyphs and portraits
+      ☐ Detect and install on first startup
 
 Styling:
   ☐ Glyphs:
@@ -76,12 +96,9 @@ Styling:
   ☐ technobabble filler text used as decoration, randomly generated, look at microfiction
 
 Archive:
-<<<<<<< HEAD
   ✔ Mods in Compendium systems @done(19-04-03 11:42) @project(2.0)
   ✔ KS Licenses @done(19-04-03 11:29) @project(2.0)
-=======
   ✔ Systems marked as frames in license viewer @done(19-04-02 14:56) @project(Bugs)
->>>>>>> master
   ✔ Engineering prototype weapon limited bonus doesn't work well with limited system bonus @done(19-04-03 11:02) @project(Bugs)
   ✔ Fix config print @done(19-04-03 11:02) @project(Bugs)
   ✔ Config print int weapon @done(19-04-03 10:36) @project(Bugs)
@@ -89,7 +106,6 @@ Archive:
   ✔ Integrated systems not printing @done(19-04-03 11:02) @project(Bugs)
   ✔ Limited bonus applying to all tag valued @done(19-04-03 10:04) @project(Bugs)
   ✔ Config Armor not printing @done(19-04-03 10:26) @project(Bugs)
-<<<<<<< HEAD
   ✔ Break out datafiles by brew @done(19-03-30 13:30) @project(2.0)
   ✔ Options Page @done(19-04-03 11:29) @project(2.0)
   ✔ Homebrew Loader @done(19-04-03 11:29) @project(2.0)
@@ -122,8 +138,6 @@ Archive:
   ✔ GDrive Sheet Importer @done(19-04-03 11:29) @project(2.0)
   ✔ Add missing mods dialog @done(19-04-03 11:29) @project(2.0)
   ✔ Custom Background @done(19-03-29 13:27) @project(2.0)
-=======
->>>>>>> master
   ✔ Help Modal @done(19-03-27 11:04) @project(Version 1)
   ✔ Data verification pass @done(19-03-27 11:16) @project(Version 1)
   ✔ Data formatting pass @done(19-03-27 11:16) @project(Version 1)

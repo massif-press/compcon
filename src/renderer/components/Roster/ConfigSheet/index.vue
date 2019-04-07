@@ -20,6 +20,7 @@
           <editable-label dark :attr="`${configPath}.name`" description="Configuration Name" :placeholder="config.name">
             <span slot="label" class="display-2 white--text">{{config.name}}</span>
           </editable-label>
+          <v-btn absolute top right style="margin-top: 90px" outline color="grey lighten-1" to="/pilot"><v-icon>mdi-arrow-left</v-icon>&emsp;Return to Pilot Sheet</v-btn>
         </v-flex>
         <v-flex>
             <v-dialog lazy v-model="frameInfoModal" width="900">
@@ -36,7 +37,7 @@
         </v-flex>
       </v-layout>
       <v-layout>
-        <v-flex xs6>
+        <v-flex >
           <v-layout>
             <v-flex>
               <v-dialog lazy v-model="manufacturerModal">
@@ -76,10 +77,10 @@
 
         </v-flex>
         
-        <v-flex xs6 class="ma-2">
+        <v-flex class="ma-2">
           <div style="background-color: #757575">
-            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
-            <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
+            <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" contain/>
             </div>
             <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>
           </v-flex>
@@ -193,7 +194,7 @@
         <v-layout><span class="config-header">Mech Equipment</span></v-layout>
         <v-layout>
           <v-flex>
-            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" />
+            <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" @set-index="setActiveIndex" @deleted="fullReload"/>
           </v-flex>
         </v-layout>        
 
@@ -345,9 +346,16 @@
       item: function (itemType, id) {
         return this.$store.getters.getItemById(itemType, id)
       },
+      setActiveIndex (idx) {
+        this.activeLoadoutIdx = idx
+      },
+      fullReload () {
+        this.$router.push('/config')
+      },
       hasEmptyMounts: function () {
         var empty = false
         if (!this.config.loadouts.length) return true
+        if (!this.config.loadouts[this.activeLoadoutIdx]) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts) return true
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
         for (let i = 0; i < this.config.loadouts[this.activeLoadoutIdx].mounts.length; i++) {

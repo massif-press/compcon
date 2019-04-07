@@ -15,6 +15,7 @@ const state = {
   PilotGear: [],
   Tags: [],
   Statuses: [],
+  Quirks: [],
   Brews: [],
   Licenses: []
 }
@@ -46,6 +47,7 @@ const mutations = {
     state.PilotGear = io.loadData('pilot_gear')
     state.Tags = io.loadData('tags')
     state.Statuses = io.loadData('statuses')
+    state.Quirks = io.loadData('quirks')
     state.Brews = io.findBrewData(state.UserDataPath)
   },
   LOAD_BREWS(state: AppState) {
@@ -64,6 +66,7 @@ const mutations = {
       state.PilotGear = state.PilotGear.concat(stageBrewData(state.UserDataPath, dir, 'pilot_gear'))
       state.Tags = state.Tags.concat(stageBrewData(state.UserDataPath, dir, 'tags'))
       state.Statuses = state.Statuses.concat(stageBrewData(state.UserDataPath, dir, 'statuses'))
+      state.Quirks = state.Quirks.concat(stageBrewData(state.UserDataPath, dir, 'quirks'))
     }
   },
   SET_BREW_ACTIVE(state: AppState, payload: any) {
