@@ -15,12 +15,12 @@
       <v-flex>
         <v-card color="rgba(0, 0, 0, .55)" dark flat>
           <v-layout>
-            <v-flex class="ma-2">
+            <v-flex xs8 class="ma-2">
               <span class="title">{{pilot.callsign}}</span>
               <br>
               <span class="caption">{{pilot.name}}<br>{{background(pilot)}}, LL{{pilot.level}}</span>
             </v-flex>
-            <v-flex xs4 class="ma-2">
+            <v-flex xs4 class="mt-2 mb-2">
               <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
                 <span>Activate Pilot<br>(feature in development)</span>
@@ -142,7 +142,6 @@ export default {
       if (isFlashclone) {
         var quirks = this.$store.getters.getItemCollection('Quirks')
         var quirk = quirks[Math.floor(Math.random() * quirks.length)]
-        console.log(quirk)
         this.$store.dispatch('clonePilot', {id: this.pilot.id, quirk: quirk})
         this.notification = 'Pilot Cloned'
       } else {
@@ -179,7 +178,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
  .pilot-letter {
    display:table-cell; 
    vertical-align:middle; 
@@ -196,5 +195,10 @@ export default {
   .inactive {
    background: linear-gradient(#616161, #424242 80%);
    background-color: #424242;
+ }
+
+  .inactive:hover {
+   background: linear-gradient(#546E7A, #616161 80%);
+   border: 0px
  }
 </style>

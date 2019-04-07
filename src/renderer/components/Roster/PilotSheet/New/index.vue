@@ -57,28 +57,18 @@
                   </v-fade-transition>
                   </v-img>
 
-                  <div style="position:absolute; right:6vw; bottom:9vw; border:1px solid darkgrey">
-                    <v-img class="center" contain aspect-ratio="1" width="120" :src="newPilot.avatar ? `file://${userDataPath}/img/avatar/${newPilot.avatar}` : '' " style="background-color: lightgrey">
-                    <v-fade-transition>
-                      <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
-                        <span class="text-xs-center grey--text">No Pilot Avatar</span>
-                      </div>
-                    </v-fade-transition>
-                    </v-img>
-                  </div>
-
-                  <v-btn color="primary" class="ml-5" @click="appearanceModal = true">&emsp;Set Pilot Images&emsp;</v-btn>
+                  <v-btn color="primary" block @click="appearanceModal = true">&emsp;Set Pilot Images&emsp;</v-btn>
                   <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-card>
                     <v-toolbar fixed dense flat>
-                      <v-toolbar-title>Set Pilot Images</v-toolbar-title>
+                      <v-toolbar-title>Set Pilot Portrait</v-toolbar-title>
                       <v-spacer></v-spacer>
                       <v-toolbar-items>
                         <v-btn icon large @click="appearanceModal = false"> <v-icon large>close</v-icon> </v-btn>
                       </v-toolbar-items>
                     </v-toolbar>
                     <v-spacer class="mt-5" />
-                    <image-selector @assign-portrait="setPortrait" @assign-avatar="setAvatar"/>
+                    <image-selector @assign-portrait="setPortrait" />
                   </v-card>
                 </v-dialog>
 
@@ -304,9 +294,6 @@
       },
       setPortrait: function (src) {
         this.newPilot.portrait = src
-      },
-      setAvatar: function (src) {
-        this.newPilot.avatar = src
         this.appearanceModal = false
       },
       randomCallsign: function () {
