@@ -102,6 +102,14 @@
             </v-dialog>
           </v-flex>
         </v-layout>
+        <v-layout v-if="!pilot.configs.length">
+          <v-flex>
+          <v-alert :value="!pilot.configs.length" color="info" icon="info" outline class="ma-2 ml-5 mr-5">
+          <b>No Associated Mech</b><br>
+          This pilot does not have any mech Configurations associated with their profile.A new Configuration can be added by navigating to the <b>MECH HANGAR</b> from the menu bar
+        </v-alert>
+          </v-flex>
+        </v-layout>
         <v-layout>
           <v-flex xs8>
             <v-layout>
@@ -173,6 +181,16 @@
                     </v-dialog>
                   </v-flex>
                 </v-layout>
+                <v-layout v-if="pilot.quirk">
+                  <v-flex class="text-xs-center">
+                    <v-alert :value="true" color="amber darken-4" class="ma-2">
+                      <b style="letter-spacing: 3px; text-transform: uppercase">Clone Quirk</b>
+                      <editable-label  :description="'Clone Quirk'" :attr="'quirk'" :placeholder="pilot.quirk" >
+                        <span slot="label" class="p">{{pilot.quirk}}</span>
+                      </editable-label>
+                    </v-alert>
+                  </v-flex>
+                </v-layout>
                 <editable-textfield :description="'History'" :attr="'history'" :initial="pilot.history" :key="pilot.id"/>
               </v-flex>
             </v-layout>
@@ -208,7 +226,7 @@
                     </v-toolbar>
                     <v-spacer class="mt-5" />
                     <div v-if="appearanceLoader">
-                      <image-selector :preselectPortrait="pilot.portrait" :preselectAvatar="pilot.avatar" @assign-portrait="setPortrait" @assign-avatar="setAvatar"/>
+                      <image-selector :preselectPortrait="pilot.portrait" @assign-portrait="setPortrait" />
                     </div>
                     <v-layout justify-space-between>
                       <v-flex xs1> &emsp; </v-flex>
@@ -403,11 +421,6 @@
       </v-layout>
         <v-layout justify-center>
         <v-flex xs10>
-          <v-alert :value="!pilot.configs.length" color="info" icon="info" outline>
-            <b>No Associated Mech</b><br>
-            This pilot does not have any mech Configurations associated with thier profile. A new Configuration can be added by clicking "Add New Configuration" under the Pilot's entry on the sidebar, or, by &nbsp;
-            <v-btn small color="info" outline class="ma-0 pa-1" @click="newConfigModal = true; newConfigLoader = true">clicking here</v-btn>
-          </v-alert>
               <v-dialog lazy v-model="newConfigModal" fullscreen hide-overlay transition="fade-transition">
                 <v-card>
                   <v-toolbar fixed dense flat>
@@ -501,7 +514,7 @@
   import CoreBonusItem from './CoreBonusItem'
   import InvocationItem from './InvocationItem'
   import PilotLoadout from './LoadoutEditor/PilotLoadout'
-  import NewConfig from '../ConfigSheet/NewConfig'
+  import NewConfig from '../HangarView/AddConfigMenu'
 
   export default {
     name: 'pilot-sheet',
@@ -604,17 +617,10 @@
           attr: `portrait`,
           val: src
         })
+        this.appearanceModal = false
+        this.appearanceLoader = false
         this.notification = 'Pilot Portrait Saved'
         this.snackbar = true
-      },
-      setAvatar: function (src) {
-        this.$store.dispatch('editPilot', {
-          attr: `avatar`,
-          val: src
-        })
-        this.notification = 'Pilot Avatar Saved'
-        this.snackbar = true
-        this.appearanceModal = false
       },
       setLevel: function () {
         if (this.levelSkip && this.levelSkip < this.pilot.level) {
@@ -689,7 +695,7 @@
         this.$store.dispatch('deletePilot', this.pilot.id)
       },
       clonePilot: function () {
-        this.$store.dispatch('clonePilot', this.pilot.id)
+        this.$store.dispatch('clonePilot', {id: this.pilot.id})
         this.notification = 'Pilot Duplicated'
         this.snackbar = true
       },
