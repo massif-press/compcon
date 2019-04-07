@@ -26,10 +26,10 @@
     </v-container>
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2" fill-height>
-        <v-flex v-for="(c, i) in configs" :key="c.id" class="mb-4" xs3>
-          <config-card :config="c" :c-idx="i"/>
+        <v-flex v-for="(c, i) in configs" :key="c.id + i" class="mb-4" xs3>
+          <config-card :config="c" :c-idx="i" />
         </v-flex>
-        <v-flex xs3><add-config-card @added="scrolldown()" /></v-flex>
+        <v-flex xs3><add-config-card @added="update" /></v-flex>
       </v-layout>
     </v-container>
   </div>
@@ -57,7 +57,7 @@ export default {
       return this.$store.getters.getPilot
     },
     configs: function () {
-      var allConfigs = this.$store.getters.getPilot.configs
+      var allConfigs = this.pilot.configs
       if (this.currentSort && this.currentSort.field !== '') {
         allConfigs = this.currentSort.field === 'level'
           ? _.sortBy(allConfigs, this.currentSort.field)
@@ -70,9 +70,9 @@ export default {
     }
   },
   methods: {
-    scrolldown: function () {
+    update: function () {
       this.$forceUpdate()
-      window.scrollTo(0, document.body.scrollHeight)
+      this.$router.push('/hangar')
     },
     sortBy: function (sort, isAscending) {
       this.currentSort = sort

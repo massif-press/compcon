@@ -18,7 +18,8 @@ const mutations = {
   UPDATE_PILOT (state, payload) {
     var pilotIndex = state.Pilots.findIndex(x => x.id === state.activePilotID)
     if (pilotIndex > -1) {
-      _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
+      var pilot = _.set(state.Pilots[pilotIndex], payload.attr, payload.val)
+      Vue.set(state.Pilots, pilotIndex, pilot)
     } else {
       throw console.error('Pilot not loaded!')
     }

@@ -4,6 +4,7 @@ Bugs:
 
 Refactor:
   ☐ remove Roboto CDN
+  ☐ remove workarounds from new (correct) vue.set in pilots.js @critical
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
