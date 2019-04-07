@@ -45,8 +45,9 @@
       </v-tab-item>
       <v-tab-item>        
         <v-card flat>
-          <v-card-text>
-            <v-btn block @click="forceReload()">Force Data Reload</v-btn>
+          <v-card-text class="text-xs-center">
+            <v-btn large @click="forceReload()" color="primary">Force Data Reload</v-btn>
+            <v-btn large @click="forceHardReload()" color="primary">Force Restart</v-btn>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -103,6 +104,11 @@
         this.$store.dispatch('loadBrews')
         this.$store.dispatch('buildLicenses')
         this.detectBrews()
+      },
+      forceHardReload: function () {
+        const remote = require('electron').remote
+        remote.app.relaunch()
+        remote.app.exit(0)
       }
     },
     created: function () {

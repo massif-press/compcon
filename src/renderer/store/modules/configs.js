@@ -13,13 +13,14 @@ const state = {
 const mutations = {
   SET_CONFIG (state, payload) {
     state.activeConfigID = payload
+    console.log(state.activeConfigID)
   }
 }
 
 const actions = {
-  loadConfig (context, config) {
-    context.dispatch('loadPilot', config.pilot_id, { root: true })
-    context.commit('SET_CONFIG', config.id)
+  loadConfig (context, configID) {
+    // context.dispatch('loadPilot', config.pilot_id, { root: true })
+    context.commit('SET_CONFIG', configID)
   },
   editConfig (context, payload) {
     context.dispatch('updatePilotConfig', payload, { root: true })
