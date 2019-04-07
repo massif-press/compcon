@@ -4,8 +4,8 @@ import XLSX from 'xlsx'
 import io from '../store/data_io'
 
 
-const translationTable: { [key: string]: { [key: string]: string } } = require('@/../static/data/translationTable.json')
-const frames = require('@/../static/data/frames.json')
+const translationTable: { [key: string]: { [key: string]: string } } = require('../../../static/data/translationTable.json')
+const frames: Frame[] = require('../../../static/data/frames.json')
 
 // return a cell code from a cell code and an offset
 const offsetCell = (cell: string, offset: number[]): string => {
@@ -73,7 +73,9 @@ export const gsheetToObject = (wb: XLSX.WorkBook) => {
     let level = parseInt(row[2] || '0')
     if (licenseFullName && licenseFullName !== '-' && level && level > 0) {
       let frameID = getItemID(licenseFullName, 'frames')
-      let { name, source } = frames.find((f: { [key: string]: string }) => f.id === frameID)
+      const frm = frames.find(((f: Frame) => f.id === frameID))
+      if (!frm) throw new Error('frame not found!')
+      let { name, source } = frm
       pilotLicenses.push({ name, source, level })
     }
   }

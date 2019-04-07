@@ -57,12 +57,17 @@ let rendererConfig = {
       },
       {
         test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        use: [{
+          loader: 'ts-loader',
+          options: {
+            appendTsSuffixTo: [/\.vue$/]
+          }
+        }],
+        exclude: /node_modules/,
       },
       {
         test: /\.js$/,
-        use: 'ts-loader',
+        use: 'babel-loader',
         exclude: /node_modules/
       },
       {

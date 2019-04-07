@@ -9,7 +9,7 @@ import ItemCard from './ItemCard.vue'
 import PipBar from './PipBar.vue'
 import Tag from './Tag.vue'
 import Topbar from './Topbar.vue'
-import Sidebar from './Sidebar.vue'
+import Sidebar from './Sidebar/index.vue'
 
 export {
   DamageElement,

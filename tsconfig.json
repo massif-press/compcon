@@ -11,11 +11,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": "/",
     "types": [
       "node",
       "electron"
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/renderer/*"
