@@ -13,13 +13,14 @@ const state = {
 const mutations = {
   SET_CONFIG (state, payload) {
     state.activeConfigID = payload
+    console.log(state.activeConfigID)
   }
 }
 
 const actions = {
-  loadConfig (context, config) {
-    context.dispatch('loadPilot', config.pilot_id, { root: true })
-    context.commit('SET_CONFIG', config.id)
+  loadConfig (context, configID) {
+    // context.dispatch('loadPilot', config.pilot_id, { root: true })
+    context.commit('SET_CONFIG', configID)
   },
   editConfig (context, payload) {
     context.dispatch('updatePilotConfig', payload, { root: true })
@@ -64,7 +65,12 @@ const getters = {
     return getters.getPilot.configs.findIndex(c => c.id === id)
   },
   getMechStats: (state, getters, rootState) => (id, loadout) => {
-    return Stats.mechStats(getters.getPilot, getters.getPilot.configs.find(c => c.id === id), loadout)
+    return Stats.mechStats(
+      getters.getPilot,
+      getters.getPilot.configs.find(c => c.id === id),
+      loadout,
+      getters.getState
+    )
   }
 }
 

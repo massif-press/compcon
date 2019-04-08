@@ -1,12 +1,26 @@
 <template>
   <div id="config-sheet" class="roster-content">
-   <div v-if="config.name">
+    
+    <div v-if="frame.err" style="height: 95vh">
+      <v-container style="height: 100%">
+        <v-layout align-center justify-center row fill-height>
+          <v-flex>
+            <p class="grey--text text-xs-center display-2">// MISSING FRAME DATA //</p>
+            <br>
+            <span v-if="config.brew" class="caption grey--text">({{config.brew}})</span>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </div>
+
+   <div v-else-if="config.name">
     <v-container fluid>
       <v-layout align-end>
         <v-flex shrink>
           <editable-label dark :attr="`${configPath}.name`" description="Configuration Name" :placeholder="config.name">
             <span slot="label" class="display-2 white--text">{{config.name}}</span>
           </editable-label>
+          <v-btn absolute top right style="margin-top: 90px" outline color="grey lighten-1" to="/pilot"><v-icon>mdi-arrow-left</v-icon>&emsp;Return to Pilot Sheet</v-btn>
         </v-flex>
         <v-flex>
             <v-dialog lazy v-model="frameInfoModal" width="900">
@@ -23,7 +37,7 @@
         </v-flex>
       </v-layout>
       <v-layout>
-        <v-flex xs6>
+        <v-flex >
           <v-layout>
             <v-flex>
               <v-dialog lazy v-model="manufacturerModal">
@@ -63,10 +77,10 @@
 
         </v-flex>
         
-        <v-flex xs6 class="ma-2">
+        <v-flex class="ma-2">
           <div style="background-color: #757575">
-            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
-            <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" max-width="45.1vw" contain/>
+            <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
+            <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" contain/>
             </div>
             <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>
           </v-flex>
@@ -289,6 +303,7 @@
 
         </v-layout>
    </div>
+
     <div v-else style="height: 95vh">
       <v-container style="height: 100%">
         <v-layout align-center justify-center row fill-height>

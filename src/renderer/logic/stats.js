@@ -1,11 +1,6 @@
 import io from '../store/data_io'
 
 var rules = io.loadData('rules')
-var frames = io.loadData('frames')
-var armor = io.loadData('pilot_gear').filter(x => x.type === 'armor')
-var systems = io.loadData('systems')
-var weapons = io.loadData('weapons')
-var mods = io.loadData('mods')
 
 function addLicenseRequirement (item, reqArray) {
   if (item.source === 'GMS') {
@@ -27,7 +22,12 @@ function addLicenseRequirement (item, reqArray) {
 }
 
 export default {
-  mechStats (pilot, config, loadout) {
+  mechStats (pilot, config, loadout, state) {
+    var frames = state.Frames
+    var systems = state.MechSystems
+    var weapons = state.MechWeapons
+    var mods = state.WeaponMods
+
     var frame = frames.find(x => x.id === config.frame_id)
 
     var grit = Math.ceil(pilot.level / 2)
@@ -70,18 +70,24 @@ export default {
     if (loadout) {
       for (let i = 0; i < loadout.systems.length; i++) {
         var sys = systems.find(x => x.id === loadout.systems[i].id)
-        output.used_sp += sys.sp || 0
-        output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+        if (sys) {
+          output.used_sp += sys.sp || 0
+          output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+        }
       }
       for (let i = 0; i < loadout.mounts.length; i++) {
         for (let j = 0; j < loadout.mounts[i].weapons.length; j++) {
           var w = weapons.find(x => x.id === loadout.mounts[i].weapons[j].id)
-          output.used_sp += w && w.sp ? w.sp : 0
-          if (w) output.required_licenses = addLicenseRequirement(w, output.required_licenses)
-          if (loadout.mounts[i].weapons[j].mod) {
-            var m = mods.find(x => x.id === loadout.mounts[i].weapons[j].mod)
-            output.used_sp += m.sp
-            output.required_licenses = addLicenseRequirement(m, output.required_licenses)
+          if (w) {
+            output.used_sp += w && w.sp ? w.sp : 0
+            if (w) output.required_licenses = addLicenseRequirement(w, output.required_licenses)
+            if (loadout.mounts[i].weapons[j].mod) {
+              var m = mods.find(x => x.id === loadout.mounts[i].weapons[j].mod)
+              if (m) {
+                output.used_sp += m.sp
+                output.required_licenses = addLicenseRequirement(m, output.required_licenses)
+              }
+            }
           }
         }
       }
@@ -142,7 +148,9 @@ export default {
 
     return output
   },
-  pilotStats (pilot, loadout) {
+  pilotStats (pilot, loadout, state) {
+    var armor = state.PilotGear.filter(x => x.type === 'armor')
+
     var output = {
       hp: rules.base_pilot_hp + Math.ceil(pilot.level / 2),
       armor: 0,

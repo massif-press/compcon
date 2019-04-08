@@ -80,7 +80,7 @@
     components: { ItemBadge },
     methods: {
       addLicense: function () {
-        this.$emit('add-license', {name: this.license.license, source: this.license.source})
+        this.$emit('add-license', {name: this.license.license, source: this.license.source, brew: this.license.brew || null})
       },
       removeLicense: function () {
         this.$emit('remove-license', this.license.license)
