@@ -12,14 +12,22 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-              <div v-for="license in licenses" :key="`summary_${license.name}`">
-                  <v-layout>
-                    <v-flex xs12>
-                      <strong>{{ license.name }}</strong>
-                      <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
-                    </v-flex>
-                  </v-layout>
-              </div>
+            <div v-for="license in licenses" :key="`summary_${license.name}`">
+              <v-layout v-if="!licenseExists(license.source, license.name)">
+                <v-flex shrink>
+                  <span class="grey--text">// MISSING DATA //</span><br><span v-if="license.brew" class="caption grey--text">({{license.brew}})</span>
+                </v-flex>
+                <v-flex shrink>
+                  <v-btn icon flat color="error" @click="deleteLicense(license.name)"><v-icon>delete</v-icon></v-btn>
+                </v-flex>
+              </v-layout>
+              <v-layout v-else>
+                <v-flex xs12>
+                  <strong>{{ license.name }}</strong>
+                  <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
+                </v-flex>
+              </v-layout>
+            </div>
           </v-flex> 
         </v-layout>
         <v-layout><v-flex xs12><hr></v-flex></v-layout>
@@ -122,13 +130,19 @@
       manufacturer: function (id) {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
+      licenseExists: function (source, name) {
+        if (!this.licenseData[source.toLowerCase()]) return false
+        if (!this.licenseData[source.toLowerCase()].find(x => x.license === name.toLowerCase())) return false
+        return true
+      },
       addLicense: function (l) {
         var idx = this.licenses.findIndex(x => x.name.toUpperCase() === l.name.toUpperCase())
         if (idx === -1) {
           this.licenses.push({
             name: l.name.toUpperCase(),
             source: l.source.toUpperCase(),
-            level: 1
+            level: 1,
+            brew: l.brew || null
           })
         } else {
           this.licenses[idx].level++
@@ -146,6 +160,14 @@
         if (idx !== -1) {
           this.licenses[idx].level--
           if (this.licenses[idx].level === 0) this.licenses.splice(idx, 1)
+        }
+        this.pointLimit = false
+        this.licenses = licenseSort(this.licenses)
+      },
+      deleteLicense: function (name) {
+        var idx = this.licenses.findIndex(x => x.name === name.toUpperCase())
+        if (idx !== -1) {
+          this.licenses.splice(idx, 1)
         }
         this.pointLimit = false
         this.licenses = licenseSort(this.licenses)

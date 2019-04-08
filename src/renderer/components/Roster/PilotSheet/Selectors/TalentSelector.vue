@@ -13,7 +13,15 @@
         <v-layout>
           <v-flex xs12>
             <div v-for="talent in talents" :key="`summary_${talent.id}`">
-                <v-layout>
+                <v-layout v-if="talentById(talent.id).err">
+                  <v-flex shrink>
+                  <span class="grey--text">// MISSING DATA //</span><span v-if="talent.brew" class="caption grey--text"><br>({{talent.brew}})</span>
+                  </v-flex>
+                  <v-flex shrink>
+                    <v-btn icon flat color="error" @click="deleteTalent(talent.id)"><v-icon>delete</v-icon></v-btn>
+                  </v-flex>
+                </v-layout>
+                <v-layout v-else>
                   <v-flex xs12>
                     <strong>{{ talentById(talent.id).name }}</strong>
                     <v-icon v-for="n in talent.rank" :key="talent.rank + n" small>star</v-icon>
@@ -116,7 +124,8 @@
         if (idx === -1) {
           this.talents.push({
             id: id,
-            rank: 1
+            rank: 1,
+            brew: this.talentById(id).brew || null
           })
         } else {
           this.talents[idx].rank++
@@ -140,6 +149,14 @@
         this.pointLimit = false
         this.talents = talentSort(this.talents)
       },
+      deleteTalent: function (id) {
+        var idx = this.talents.findIndex(x => x.id === id)
+        if (idx !== -1) {
+          this.talents.splice(idx, 1)
+        }
+        this.pointLimit = false
+        this.talents = talentSort(this.talents)
+      },
       saveTalents () {
         this.$emit('set-talents', this.talents)
       },
@@ -159,7 +176,7 @@
     mounted () {
       if (this.newPilot) this.pLevel = 0
       else this.pLevel = this.pilotLevel
-      this.talents = this.pLevel === 0 ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
+      this.talents = this.newPilot ? talentSort(this.pilotTalents) : talentSort(JSON.parse(JSON.stringify(this.pilotTalents)))
       this.pointLimit = this.newPilot ? false : this.talents.reduce((a, b) => +a + +b.rank, 0) >= this.points.pointsMax
     }
   }

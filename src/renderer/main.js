@@ -1,6 +1,5 @@
 import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
-import axios from 'axios'
 
 import App from './App'
 import router from './router'
@@ -16,24 +15,6 @@ if (process.env.NODE_ENV !== 'development') {
 
 Vue.use(Vuetify, {
   iconfont: 'mdi'
-})
-
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-Vue.http = Vue.prototype.$http = axios
-Vue.config.productionTip = false
-
-Vue.directive('click-outside', {
-  bind: function (el, binding, vnode) {
-    el.clickOutsideEvent = function (event) {
-      if (!(el === event.target || el.contains(event.target))) {
-        vnode.context[binding.expression](event)
-      }
-    }
-    document.body.addEventListener('click', el.clickOutsideEvent)
-  },
-  unbind: function (el) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
-  }
 })
 
 /* eslint-disable no-new */

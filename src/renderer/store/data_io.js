@@ -1,5 +1,8 @@
 import fs from 'fs'
 import path from 'path'
+import {
+  copySync
+} from 'fs-extra'
 
 const webImageTypes = [
   '.jpeg',
@@ -24,6 +27,63 @@ export default {
     } else {
       console.error(`file ${filename} does not exist at ${p}.`)
       return []
+    }
+  },
+  findBrewData (userDataPath) {
+    var brews = []
+    var contentPath = path.join(userDataPath, 'content')
+    if (fs.existsSync(contentPath)) {
+      var dirs = fs.readdirSync(contentPath).filter(f => fs.statSync(path.join(contentPath, f)).isDirectory())
+      for (var i = 0; i < dirs.length; i++) {
+        var infoPath = path.join(contentPath, dirs[i], 'info.json')
+        if (fs.existsSync(infoPath)) {
+          var info = JSON.parse(fs.readFileSync(infoPath))
+          brews.push({
+            info: info,
+            dir: dirs[i]
+          })
+        }
+      }
+      return brews
+    } else {
+      console.info(`no brew data found`)
+      return []
+    }
+  },
+  loadBrewData (userDataPath, subdir, filename) {
+    if (fs.existsSync(userDataPath)) {
+      var folder = path.join(userDataPath, 'content', subdir)
+      if (fs.existsSync(folder)) {
+        var file = path.join(folder, filename + '.json')
+        if (fs.existsSync(file)) {
+          return JSON.parse(fs.readFileSync(file))
+        } else {
+          return []
+        }
+      } else {
+        return []
+      }
+    } else {
+      fs.mkdirSync(userDataPath)
+    }
+    return []
+  },
+  saveBrewData (origin, userDataPath) {
+    var contentPath = path.join(userDataPath, 'content')
+    if (!fs.existsSync(contentPath)) {
+      fs.mkdirSync(contentPath)
+    }
+    var destination = path.join(userDataPath, 'content', path.basename(origin))
+    copySync(origin, destination)
+  },
+  setBrewActive (userDataPath, subdir, isActive) {
+    var infopath = path.join(userDataPath, 'content', subdir, 'info.json')
+    if (fs.existsSync(infopath)) {
+      var info = JSON.parse(fs.readFileSync(infopath))
+      info.active = isActive
+      fs.writeFileSync(infopath, JSON.stringify(info, null, 2), 'utf8')
+    } else {
+      console.error(`brew at ${infopath} does not exists OR is missing info.json!`)
     }
   },
   getImages (subdir, userDataPath) {

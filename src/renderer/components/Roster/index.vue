@@ -5,7 +5,7 @@
     <div class="wrapper">
 
     <!-- Sidebar -->
-    <sidebar ref="sidebar" />
+    <!-- <sidebar ref="sidebar" /> -->
 
     <!-- Page Content -->
     <router-view class="pt-5"></router-view>
@@ -15,13 +15,14 @@
 </template>
 
 <script>
-  import {Topbar, Sidebar} from './UI'
+  import {Topbar} from './UI'
+  import RosterView from './RosterView/'
   import PilotSheet from './PilotSheet/'
   import ConfigSheet from './ConfigSheet/'
 
   export default {
     name: 'roster',
-    components: { Topbar, Sidebar, PilotSheet, ConfigSheet },
+    components: { Topbar, RosterView, PilotSheet, ConfigSheet },
     data: () => ({
       activePilotId: ''
     }),
@@ -31,15 +32,11 @@
       }
     },
     created: function () {
+      this.$store.dispatch('setDatapath', this.userDataPath)
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
+      this.$store.dispatch('loadBrews')
       this.$store.dispatch('buildLicenses')
-    },
-    watch: {
-      $route (to, from) {
-        window.scrollTo(0, 0)
-        this.$refs.sidebar.isVisible = !(to.path === '/level' || to.path === '/new')
-      }
     }
   }
 </script>
@@ -66,7 +63,7 @@
 
 <style>
   .roster-content {
-    margin-left: 80px;
+    margin-left: 0;
     margin-right: 0;
     width: 100vw;
     overflow-y: scroll;

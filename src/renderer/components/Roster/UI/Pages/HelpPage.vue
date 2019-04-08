@@ -5,21 +5,14 @@
       The COMP/CON Pilot Roster is a repository for LANCER Player Characters ("Pilots") and their mechs.<br>
       Their mechs -- the combination of Frame and weapon/system loadout is referred to, in COMP/CON as a "Configuration".
     </p><p>
-      <v-card class="elevation-3"><v-card-text>
-      The sidebar lists all saved pilots. Clicking anywhere on the sidebar will expand it. 
-      <br> 
-      Clicking on a Pilot will load the Pilot Sheet, and expand the list of saved Configurations.
-      <br> To add a new Configuration, click the <v-btn small depressed color="grey lighten-3" :ripple="false"><v-icon small color="black">add</v-icon>Add New Configuration</v-btn> button to be taken to the New Configuration Wizard.
-      </v-card-text></v-card>
-    </p><p>              
-      You can add a new Pilot by clicking the <v-btn small depressed color="grey lighten-3" :ripple="false"><v-icon small color="black">add</v-icon>Add Pilot</v-btn> button, which will open the Add New Pilot wizard.
+      You can add a new Pilot by clicking the <v-btn small depressed color="grey darken-3" dark :ripple="false">Add Pilot</v-btn> card on the Pilot Roster page, which will open the Add New Pilot wizard.
     </p>
     <hr class="ma-3"/>
     <h1>Pilots</h1>
     <p>
-      COMP/CON allows you to create, edit, save, export, and import Pilots for LANCER games.
+      COMP/CON allows you to create, edit, save, export, and import Pilots, and their Mechs, for LANCER games.
       <br>
-      This section details the Pilot Sheet, accessible by clicking the Pilot's Callsign or Avatar from the sidebar. Details on Pilot-specific game mechanics, or more information about how Pilot skills and attributes are referenced during gameplay, can be found in the <a flat color="primary" class="ma-0 pa-1" @click="open('https://massif-press.itch.io/lancer-core-book')">LANCER Core Book</a>
+      This section details the Pilot Sheet, accessible by clicking Pilot card from the Pilot Roster page. Details on Pilot-specific game mechanics, or more information about how Pilot skills and attributes are referenced during gameplay, can be found in the <a flat color="primary" class="ma-0 pa-1" @click="open('https://massif-press.itch.io/lancer-core-book')">LANCER Core Book</a>
     </p>
     <h2>Pilot Sheet</h2>
       <v-expansion-panel class="ma-3">
@@ -103,11 +96,11 @@
         </v-expansion-panel-content>                  
     </v-expansion-panel>
     <h2>Add New Pilot</h2>
-    <p>Expanding the sidebar and clicking the <v-btn small depressed color="grey lighten-3" :ripple="false"><v-icon small color="black">add</v-icon>Add Pilot</v-btn> button will open the New Pilot Wizard.
+    <p>Returning to the Pilot Roster <v-btn small depressed color="grey darken-3" dark :ripple="false">Add Pilot</v-btn> card will open the New Pilot Wizard.
     </p><p>
     To create a new pilot from scratch, click the <v-btn small depressed color="primary" dark :ripple="false">Create New Pilot</v-btn> button.
     <br>
-    To import a saved pilot from a COMP/CON produced JSON file, click the <v-btn small depressed flat color="primary" :ripple="false">Import From File</v-btn>. To import from the clipboard, click the <v-btn small depressed flat color="primary" dark :ripple="false">Import from Clipboard</v-btn> button.
+    To import a saved pilot from a COMP/CON produced JSON file, click the <v-btn small depressed flat color="primary" :ripple="false">Import From File</v-btn>. To import from the clipboard, click the <v-btn small depressed flat color="primary" dark :ripple="false">Import from Clipboard</v-btn> button. Pilots can also be imported from the GSheet Pilot Sheet -- more information on which can be accessed by clicking the <v-icon>help</v-icon> icon next to the button.
     <br>
     Imported pilots do not need to progress through the New Pilot Wizard
     </p>
@@ -268,7 +261,7 @@
       <p>
         Configurations are the combinations of Frame, Loadout, and Pilot bonuses and abilities that constitute a printable mech. Pilots can save any number of Configurations, but they are all linked to that pilot.
         <br>
-        New Configuations can be added by clicking on the sidebar, opening the Pilot's sidebar panel, and clicking the <v-btn small depressed color="grey lighten-3" :ripple="false"><v-icon small color="black">add</v-icon>Add New Configuration</v-btn> button to be taken to the New Configuration Wizard.
+        Configurations are accessed by clicking on the <v-btn small depressed color="grey lighten-3" :ripple="false">Mech Hangar</v-btn> button on the navigation bar after loading a Pilot.
       </p>
     <h2>Configuration Sheet</h2>
           <v-expansion-panel class="ma-3">

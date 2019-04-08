@@ -45,7 +45,7 @@
         <v-spacer />
         <v-autocomplete flat v-model="search" :items="frames" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
       </v-toolbar>
-      <v-card>
+      <v-card light>
         <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded" :class="{ locked: isLocked(props.item.name) }">
@@ -121,9 +121,6 @@
 
   export default {
     name: 'new-config',
-    props: {
-      pilot: Object
-    },
     components: { FrameStatblock },
     data: () => ({
       nc_step: 0,
@@ -161,6 +158,9 @@
         if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
 
         return i
+      },
+      pilot: function () {
+        return this.$store.getters.getPilot
       }
     },
     methods: {
@@ -180,7 +180,8 @@
         this.$store.dispatch('addConfig', {
           pilot_id: this.pilot.id,
           name: this.newConfigName,
-          frame_id: this.newFrameId
+          frame_id: this.newFrameId,
+          brew: this.$store.getters.getItemById('Frames', this.newFrameId).brew || null
         })
         this.$emit('close')
       },
@@ -199,7 +200,8 @@
         var data = io.importFile(path[0])
         if (validator.config(data)) {
           this.$store.dispatch('importConfig', data)
-          this.addDialog = false
+          this.$parent.$forceUpdate()
+          this.$emit('close')
         } else {
           alert('Config data validation failed')
           this.$emit('close')
@@ -215,6 +217,7 @@
             vm.$store.dispatch('importConfig', result)
           }
         })
+        this.$parent.$forceUpdate()
         this.$emit('close')
       }
     },

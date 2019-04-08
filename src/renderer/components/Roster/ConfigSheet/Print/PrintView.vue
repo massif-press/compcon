@@ -80,7 +80,7 @@
       <v-layout justify-space-around class="text-xs-center">
         <v-flex shrink>
           <span class="p-reg">STRUCTURE</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.structure" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HP</span>
@@ -91,7 +91,7 @@
         <hr vertical />
         <v-flex shrink>
           <span class="p-reg">REACTOR STRESS</span><br>
-          <v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon><v-icon>crop_din</v-icon>
+          <v-icon v-for="n in stats.heatstress" :key="'structure_' + n">crop_din</v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HEAT</span>
@@ -206,9 +206,9 @@
                   </div>
                   <div v-else v-for="w in mount.weapons" :key="w.id">
                     <v-layout>
-                      <v-flex shrink class="ml-1"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
-                      <v-flex shrink class="ml-2"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
-                      <v-flex shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
+                      <v-flex shrink class="ml-1" v-if="!weapon(w.id).err"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
+                      <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
+                      <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
                     </v-layout>
                     <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
                     <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
@@ -283,6 +283,7 @@
         else return 20
       },
       fullTag: function (t, v) {
+        if (!t) return '// MISSING TAG //'
         if (typeof v === 'string' && this.stats.limited_bonus > 0) {
           return t.replace(/{VAL}/g, `${v}+${this.stats.limited_bonus}`)
         }
@@ -297,7 +298,7 @@
       this.printOptions = this.$store.getters.getPrintOptions
       this.config = this.pilot.configs.find(x => x.id === this.printOptions.config_id)
       this.loadout = this.config.loadouts[this.printOptions.loadout_index] || null
-      this.pilotStats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index])
+      this.pilotStats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
       this.stats = this.$store.getters.getMechStats(this.config.id, this.config.loadouts[this.activeLoadoutIdx])
       this.frame = this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
