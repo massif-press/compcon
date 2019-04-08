@@ -1,6 +1,21 @@
+1.5:
+  ✔ Add remaining mech art (master merge) @done(19-04-07 09:16)
+    ✔ New NO DATA image @done(19-04-07 09:16)
+  ✔ Options: Hard reload button @done(19-04-06 19:08)
+  ✔ Alternate Roster/Hangar views @done(19-04-06 19:08)
+    ✔ Check New Pilot @done(19-04-06 12:27)
+    ✔ Check Pilot Import @done(19-04-06 14:27)
+    ✔ Remove Sidebar @done(19-04-06 14:42)
+    ✔ Remove Pilot Avatars @done(19-04-06 14:42)
+    ✔ Mech Hangar @done(19-04-06 14:27)
+    ✔ Sort Hangar @done(19-04-06 19:05)
+    ✔ Sort Roster @done(19-04-06 19:05)
+  ✔ Ability to easily flip between pilot/active mech @done(19-04-06 14:46)
+  ☐ Update help for new UI
+
 Bugs:
-  ☐ SH mount does not update automatically
-  ☐ Filter SH weapons in loadouts that do not have a free lockable mount
+  ✔ SH mount does not update automatically @done(19-04-07 11:27)
+  ☐ Mech loadout item delete
 
 Refactor:
   ☐ remove Roboto CDN
@@ -25,27 +40,13 @@ Refactor:
   ☐ Move all calculation, checking, filtering out of template
   ☐ Item() etc to mixins
 
-1.5:
-  ☐ Add remaining mech art (master merge)
-    ☐ New NO DATA image
-  ✔ Options: Hard reload button @done(19-04-06 19:08)
-  ✔ Alternate Roster/Hangar views @done(19-04-06 19:08)
-    ✔ Check New Pilot @done(19-04-06 12:27)
-    ✔ Check Pilot Import @done(19-04-06 14:27)
-    ✔ Remove Sidebar @done(19-04-06 14:42)
-    ✔ Remove Pilot Avatars @done(19-04-06 14:42)
-    ✔ Mech Hangar @done(19-04-06 14:27)
-    ✔ Sort Hangar @done(19-04-06 19:05)
-    ✔ Sort Roster @done(19-04-06 19:05)
-  ✔ Ability to easily flip between pilot/active mech @done(19-04-06 14:46)
-  ☐ Pilot Talent/CB expandables on Mech Sheet
+2.0:
   ☐ Glossary in compendium
   ☐ Action economy in compendium
-  ☐ Rebuild loadout selector UI
+  ☐ Options -> Data Wipe (delete vuex.json)
+  ☐ Pilot Talent/CB expandables on Mech Sheet
   ☐ Default Images copy
     ☐ Homebrew can take default images folder
-
-2.0:
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
   Printing:

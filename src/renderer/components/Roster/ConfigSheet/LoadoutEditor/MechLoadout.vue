@@ -28,7 +28,7 @@
                   <div v-for="m in stats.integrated_mounts" :key="m">
                     <integrated-block :item="item('MechWeapons', m)" :source="'Talent Weapon'" />
                   </div>
-                  <mount-block v-for="(mount, idx) in loadout.mounts" :key="idx" :config_id="config_id" :mount="mount" :loadout="loadout" :free_sp="stats.sp - stats.used_sp" :loadout-index="index" :mount-index="idx" @refresh="refresh" />
+                  <mount-block v-for="(mount, idx) in loadout.mounts" :key="mount.sh_lock ? idx + mount.sh_lock.toString() : idx" :config_id="config_id" :mount="mount" :loadout="loadout" :free_sp="stats.sp - stats.used_sp" :loadout-index="index" :mount-index="idx" @refresh="refresh" />
                   <v-divider dark class="mb-3 mt-3"/>
                   <systems-block :max_sp="stats.sp" :free_sp="stats.sp - stats.used_sp" :systems="loadout.systems" :integrated="stats.integrated_systems" @clicked="openSystemSelector" :key="'sb'+reloadTrigger"/>
                 <v-card-actions>

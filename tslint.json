@@ -17,6 +17,7 @@
         "no-var-requires": false,
         "no-console": false,
         "max-line-length": false,
-        "one-line": false
+        "one-line": false,
+        "ordered-imports": false
     }
 }
