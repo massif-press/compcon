@@ -102,7 +102,7 @@ export default {
         window.scrollTo(0, 0)
         this.hangarActive = !(to.path === '/roster' || to.path === '/new')
         var activePilot = this.$store.getters.getPilot
-        this.zeroConfigs = activePilot && activePilot.configs.length === 0
+        this.zeroConfigs = activePilot && activePilot.configs && activePilot.configs.length === 0
       }
     }
   }

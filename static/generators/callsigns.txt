@@ -23,6 +23,7 @@ Blackjack
 Bluebird
 Bluedog
 Bo
+Boot
 Bon Echo
 Bongo
 Bordeaux
@@ -387,6 +388,7 @@ Sabre
 Sapphire
 Sarge
 Sawtooth
+Salt
 Scimitar
 Scorpion
 Seawolf
