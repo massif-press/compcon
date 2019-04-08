@@ -118,7 +118,7 @@ export default {
       return []
     }
   },
-  saveUserData(userDataPath: string, filePath: string, data: object) {
+  saveUserData(userDataPath: string, filePath: string, data: object, callback: () => void) {
     if (!fs.existsSync(path.join(userDataPath))) {
       console.info("data folder doesn't exist in userData dir, creating...")
       fs.mkdirSync(userDataPath)
