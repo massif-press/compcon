@@ -11,6 +11,7 @@ const webpack = require('webpack')
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
 
 let mainConfig = {
+  devtool: 'inline-source-map',
   entry: {
     main: path.join(__dirname, '../src/main/index.ts')
   },
@@ -80,7 +81,7 @@ if (process.env.NODE_ENV !== 'production') {
  */
 if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
-    new BabiliWebpackPlugin(),
+    // new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })
