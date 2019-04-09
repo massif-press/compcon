@@ -25,12 +25,13 @@
   </v-container>
 </template>
 
-<script>
-  import WeaponCard from '../../Roster/UI/WeaponCard'
-  import RangeElement from '../../Roster/UI/RangeElement'
-  import DamageElement from '../../Roster/UI/DamageElement'
+<script lang="ts">
+import Vue from 'vue'
+import WeaponCard from '@/components/Roster/UI/WeaponCard.vue'
+import RangeElement from '@/components/Roster/UI/RangeElement.vue'
+import DamageElement from '@/components/Roster/UI/DamageElement.vue'
 
-  export default {
+export default Vue.extend({
     name: 'weapons',
     components: { WeaponCard, RangeElement, DamageElement },
     data: () => ({
@@ -44,16 +45,16 @@
         {text: 'Type', align: 'left', value: 'type'},
         {text: 'Range', align: 'left', value: 'range[0].val'},
         {text: 'Damage', align: 'left', value: 'damage[0].val'},
-        {text: 'SP Cost', align: 'left', value: 'sp'}
-      ]
+        {text: 'SP Cost', align: 'left', value: 'sp'},
+      ],
     }),
-    created: function () {
-      this.weapons = this.$store.getters.getItemCollection('MechWeapons').filter(x => x.source)
-      var ps = this.$store.getters.getPresearch
+    created() {
+      this.weapons = this.$store.getters.getItemCollection('MechWeapons').filter((x: Weapon) => x.source)
+      const ps = this.$store.getters.getPresearch
       if (ps) {
         this.search = ps
         this.$store.dispatch('clearPresearch')
       }
-    }
-  }
+    },
+  })
 </script>

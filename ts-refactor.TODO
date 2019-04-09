@@ -1,17 +1,17 @@
 ✔ ../App.vue @done(19-04-07 23:57)
 ✔ LandingPage.vue @done(19-04-07 23:57)
 Compendium:
-  ☐ Compendium/index.vue
-  ☐ Compendium/UI/Sidebar.vue
+  ✔ Compendium/index.vue @done(19-04-09 16:10)
+  ✔ Compendium/UI/Sidebar.vue @done(19-04-09 16:10)
   Views:
-    ☐ Compendium/Views/Frames.vue
-    ☐ Compendium/Views/Licenses.vue
-    ☐ Compendium/Views/Manufacturers.vue
-    ☐ Compendium/Views/PilotGear.vue
-    ☐ Compendium/Views/Statuses.vue
-    ☐ Compendium/Views/Systems.vue
-    ☐ Compendium/Views/Tags.vue
-    ☐ Compendium/Views/Weapons.vue
+    ✔ Compendium/Views/Frames.vue @done(19-04-09 16:10)
+    ✔ Compendium/Views/Licenses.vue @done(19-04-09 16:10)
+    ✔ Compendium/Views/Manufacturers.vue @done(19-04-09 16:11)
+    ✔ Compendium/Views/PilotGear.vue @done(19-04-09 16:12)
+    ✔ Compendium/Views/Statuses.vue @done(19-04-09 16:12)
+    ✔ Compendium/Views/Systems.vue @done(19-04-09 16:13)
+    ✔ Compendium/Views/Tags.vue @done(19-04-09 16:13)
+    ✔ Compendium/Views/Weapons.vue @done(19-04-09 16:14)
 Roster:
   ☐ Roster/index.vue
   ConfigSheet:
