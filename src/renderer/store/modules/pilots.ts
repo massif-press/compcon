@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Vue from 'vue'
 import io from '../data_io'
+import uid from '../../logic/uid'
 
 const moduleState = {
   Pilots: [],
@@ -66,11 +67,11 @@ const mutations = {
     const pilotIndex = state.Pilots.findIndex((x) => x.id === payload.id)
     if (pilotIndex > -1) {
       const newPilot: Pilot = JSON.parse(JSON.stringify(state.Pilots[pilotIndex]))
-      newPilot.id = io.newID()
+      newPilot.id = uid.generate()
       newPilot.name += ' (CLONE)'
       newPilot.callsign += '*'
       for (const config of newPilot.configs) {
-        config.id = io.newID()
+        config.id = uid.generate()
         config.pilot_id = newPilot.id
       }
       if (payload.quirk) { newPilot.quirk = payload.quirk }
@@ -140,7 +141,7 @@ const actions = {
   },
   addPilot(context: AppContext, payload: any) {
     const newPilot: Pilot = {
-      id: io.newID(),
+      id: uid.generate(),
       callsign: payload.callsign.replace('/r', ''),
       name: payload.name.replace('/r', ''),
       level: 0,
@@ -175,7 +176,7 @@ const actions = {
     context.commit('UPDATE_PILOT_CONFIG', payload)
   },
   importPilot(context: AppContext, payload: Pilot) {
-    payload.id = io.newID()
+    payload.id = uid.generate()
     for (const config of payload.configs) {
       config.pilot_id = payload.id
     }
@@ -195,9 +196,6 @@ const getters = {
   },
   getAllPilots: (state: AppState) => {
     return state.Pilots || []
-  },
-  getPilotById: (state: AppState) => (id: string) => {
-    return state.Pilots.find((p) => p.id === id) || {}
   },
 }
 

@@ -101,6 +101,7 @@ import IntegratedBlock from './IntegratedBlock'
 import SystemsBlock from './SystemsBlock'
 import SystemTable from './SystemTable'
 import io from '@/store/data_io'
+import uid from '@/logic/uid'
 
 const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
@@ -165,7 +166,7 @@ export default {
         id: this.config_id,
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: io.newID(),
+          id: uid.generate(),
           name: newLoadoutName(newIdx),
           mounts: mounts,
           systems: []
@@ -204,7 +205,7 @@ export default {
         id: this.config_id,
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: io.newID(),
+          id: uid.generate(),
           name: `${this.loadouts[index].name} (Copy)`,
           mounts: this.loadouts[index].mounts
         }
