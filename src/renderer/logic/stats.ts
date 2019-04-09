@@ -1,4 +1,5 @@
 import io from '../store/data_io'
+import { thisPilotGear } from '../data_interfaces/type_guards'
 
 const rules: any = io.loadData('rules')
 
@@ -20,10 +21,6 @@ interface AppState {
   Licenses: PilotLicense[]
 }
 interface LicenseReq { name: string, rank: number, items: string[], missing?: any }
-
-function isPilotArmor(x: any): x is PilotArmor {
-  return x.type === 'armor'
-}
 
 function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq[] {
   if (item.source === 'GMS') {
@@ -179,7 +176,7 @@ export default {
     return output
   },
   pilotStats(pilot: Pilot, loadout: PilotLoadout, state: AppState): PilotStats {
-    const armor = state.PilotGear.filter(isPilotArmor)
+    const armor = state.PilotGear.filter(thisPilotGear.isPilotArmor)
 
     const output = {
       hp: rules.base_pilot_hp + Math.ceil(pilot.level / 2),
