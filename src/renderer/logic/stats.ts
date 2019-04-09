@@ -134,7 +134,9 @@ export default {
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian')) {
       if (frame.stats.size === 0.5) { output.size = 1 }
-      else if (frame.stats.size < 3) { output.size++ }
+      else if (frame.stats.size < 3) { output.size = frame.stats.size + 1 }
+    } else {
+      output.size = frame.stats.size
     }
 
     // ipsn reinforced frame core bonus adds 5 hp

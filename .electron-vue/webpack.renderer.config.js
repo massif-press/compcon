@@ -26,7 +26,7 @@ const {
 let whiteListedModules = ['vue', 'vuetify', 'vue-router', 'axios', 'vuex', 'vue-electron']
 
 let rendererConfig = {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.ts')
   },
@@ -178,7 +178,7 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = ''
 
   rendererConfig.plugins.push(
-    new BabiliWebpackPlugin(),
+    // new BabiliWebpackPlugin(),
     new CopyWebpackPlugin([{
       from: path.join(__dirname, '../static'),
       to: path.join(__dirname, '../dist/electron/static'),

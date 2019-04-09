@@ -12,7 +12,7 @@ require('electron-debug')({ showDevTools: true })
 
 // Install `vue-devtools`
 require('electron').app.on('ready', () => {
-  require('vue-devtools').install()
+  require('@aricchi/electron-vue-devtools').install()
 })
 
 // Require `main` process to boot app
