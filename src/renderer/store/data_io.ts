@@ -97,9 +97,6 @@ export default {
     }
     return []
   },
-  newID(): string {
-    return Math.random().toString(36).substr(2, 12)
-  },
   randomName(filename: string): string {
     const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'generators', filename)
     const array = fs.readFileSync(p).toString().split('\n')
@@ -127,7 +124,7 @@ export default {
 
     fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
   },
-  saveFile(dataPath: string, data: object) {
+  saveFile(dataPath: string, data: any) {
     fs.writeFileSync(dataPath, data, 'utf8')
   },
   importFile(filePath: string) {

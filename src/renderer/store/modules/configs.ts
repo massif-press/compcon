@@ -1,6 +1,5 @@
 import Stats from '../../logic/stats'
-import io from '../data_io'
-// import _ from 'lodash'
+import uid from '../../logic/uid'
 
 const moduleState = {
   activeConfigID: '',
@@ -13,13 +12,11 @@ const moduleState = {
 const mutations = {
   SET_CONFIG(state: AppState, payload: string) {
     state.activeConfigID = payload
-    console.log(state.activeConfigID)
   },
 }
 
 const actions = {
   loadConfig(context: AppContext, configID: string) {
-    // context.dispatch('loadPilot', config.pilot_id, { root: true })
     context.commit('SET_CONFIG', configID)
   },
   editConfig(context: AppContext, payload: any) {
@@ -29,13 +26,13 @@ const actions = {
     context.dispatch('splicePilotConfig', payload, { root: true })
   },
   cloneConfig(context: AppContext, payload: any) {
-    payload.id = io.newID()
+    payload.id = uid.generate()
     payload.name += ' (Copy)'
     context.dispatch('addConfigToPilot', payload, { root: true })
   },
   addConfig(context: AppContext, payload: any) {
     const newConfig = {
-      id: io.newID(),
+      id: uid.generate(),
       pilot_id: payload.pilot_id,
       name: payload.name,
       frame_id: payload.frame_id,
@@ -44,7 +41,7 @@ const actions = {
     context.dispatch('addConfigToPilot', newConfig, { root: true })
   },
   importConfig(context: AppContext, payload: any) {
-    payload.id = io.newID()
+    payload.id = uid.generate()
     context.dispatch('addConfigToPilot', payload, { root: true })
   },
   deleteConfig(context: AppContext, payload: any) {

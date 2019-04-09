@@ -2,6 +2,7 @@ import { readFileSync } from 'fs'
 import XLSX from 'xlsx'
 
 import io from '../store/data_io'
+import uid from './uid'
 
 const translationTable: {
     [key: string]: { [key: string]: string };
@@ -78,7 +79,7 @@ export const gsheetToObject = (wb: XLSX.WorkBook) => {
     const weaponsSheet = wb.Sheets.Weapons
 
     // generate our pilot's ID
-    const pilotID = io.newID()
+    const pilotID = uid.generate()
 
     // get licenses
     const licenseRange = sheetToArray(mechSheet, 'B82:D93')
@@ -193,7 +194,7 @@ export const gsheetToObject = (wb: XLSX.WorkBook) => {
     }
     // make a loadout
     const pilotLoadout = {
-        id: io.newID(),
+        id: uid.generate(),
         items: {
             armor: [safeGear(pilotSheet.C6.w)],
             gear: [
@@ -292,7 +293,7 @@ export const gsheetToObject = (wb: XLSX.WorkBook) => {
 
     // create its loadout
     const mechLoadout: MechLoadout = {
-        id: io.newID(),
+        id: uid.generate(),
         name: 'Loadout',
         systems: mechSystems,
         mounts: mechMounts,
@@ -300,7 +301,7 @@ export const gsheetToObject = (wb: XLSX.WorkBook) => {
 
     // create mech & fill out basic data
     const mechConfig: MechConfig = {
-        id: io.newID(),
+        id: uid.generate(),
         pilot_id: pilotID,
         name: mechSheet.J4.w,
         frame_id: getItemID(mechSheet.J5.w, 'frames'),
