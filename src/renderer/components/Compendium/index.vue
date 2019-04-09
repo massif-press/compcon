@@ -5,11 +5,12 @@
     </div>    
 </template>
 
-<script>
-  import {Sidebar} from './UI'
+<script lang="ts">
+import Vue from 'vue'
+import {Sidebar} from './UI'
 
-export default {
+export default Vue.extend({
     name: 'compendium',
     components: { Sidebar },
-  }
+  })
 </script>
