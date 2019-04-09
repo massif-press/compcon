@@ -502,21 +502,22 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
+  import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
   import { EditableLabel, EditableTextfield } from '../UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector } from './Selectors'
-  import ContactsList from './ContactsList'
-  import LicenseItem from './LicenseItem'
-  import SkillItem from './SkillItem'
-  import TalentItem from './TalentItem'
-  import CoreBonusItem from './CoreBonusItem'
-  import InvocationItem from './InvocationItem'
-  import PilotLoadout from './LoadoutEditor/PilotLoadout'
-  import NewConfig from '../HangarView/AddConfigMenu'
+  import ContactsList from './ContactsList.vue'
+  import LicenseItem from './LicenseItem.vue'
+  import SkillItem from './SkillItem.vue'
+  import TalentItem from './TalentItem.vue'
+  import CoreBonusItem from './CoreBonusItem.vue'
+  import InvocationItem from './InvocationItem.vue'
+  import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
+  import NewConfig from '../HangarView/AddConfigMenu.vue'
 
-  export default {
+  export default Vue.extend({
     name: 'pilot-sheet',
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig
     },
@@ -526,7 +527,7 @@
       renameDialog: false,
       newName: '',
       invoke_trigger: '',
-      invoke_attribute: null,
+      invoke_attribute: 0,
       newConfigModal: false,
       backgroundModal: false,
       appearanceModal: false,
@@ -540,7 +541,7 @@
       deleteDialog: false,
       exportDialog: false,
       levelEditor: false,
-      levelSkip: null,
+      levelSkip: null as any,
       snackbar: false,
       notification: '',
       // loaders manage deletion and lazy loading of selectors
@@ -559,27 +560,24 @@
       refresh: function () {
         this.$forceUpdate()
       },
-      setField: function (attr, val, close) {
-        this[close] = false
-        this.$store.dispatch('editPilot', {
-          attr: attr,
-          val: val
-        })
+      notify: function (contents: string) {
+        this.notification = contents
+        this.snackbar = true
       },
-      item: function (type, id) {
+      item: function (type: string, id: string) {
         return this.$store.getters.getItemById(type, id)
       },
-      getLicense: function (name) {
+      getLicense: function (name: string) {
         return this.$store.getters.getLicenseByName(name.toLowerCase())
       },
-      backgroundSelect: function (bgReturn) {
+      backgroundSelect: function (bgReturn: any) {
         this.backgroundModal = false
         this.$store.dispatch('editPilot', {
           attr: bgReturn.field,
           val: bgReturn.value
         })
       },
-      setPilotSkills: function (skillArray) {
+      setPilotSkills: function (skillArray: any) {
         this.skillModal = false
         this.skillLoader = false
         this.$store.dispatch('editPilot', {
@@ -588,7 +586,7 @@
         })
         this.$forceUpdate()
       },
-      setPilotTalents: function (talentArray) {
+      setPilotTalents: function (talentArray: any) {
         this.talentModal = false
         this.$store.dispatch('editPilot', {
           attr: `talents`,
@@ -596,7 +594,7 @@
         })
         this.$forceUpdate()
       },
-      setPilotBonuses: function (bonusArray) {
+      setPilotBonuses: function (bonusArray: any) {
         this.bonusModal = false
         this.$store.dispatch('editPilot', {
           attr: `core_bonuses`,
@@ -604,7 +602,7 @@
         })
         this.$forceUpdate()
       },
-      setLicenses: function (licenseArray) {
+      setLicenses: function (licenseArray: any) {
         this.licenseModal = false
         this.$store.dispatch('editPilot', {
           attr: `licenses`,
@@ -612,7 +610,7 @@
         })
         this.$forceUpdate()
       },
-      setPortrait: function (src) {
+      setPortrait: function (src: string) {
         this.$store.dispatch('editPilot', {
           attr: `portrait`,
           val: src
@@ -623,10 +621,10 @@
         this.snackbar = true
       },
       setLevel: function () {
-        if (this.levelSkip && this.levelSkip < this.pilot.level) {
+        if (this.levelSkip && this.levelSkip! < this.pilot.level) {
           this.$store.dispatch('editPilot', {
             attr: `level`,
-            val: parseInt(this.levelSkip)
+            val: parseInt(this.levelSkip!)
           })
           this.$store.dispatch('editPilot', {
             attr: `licenses`,
@@ -651,7 +649,7 @@
         } else if (this.levelSkip) {
           this.$store.dispatch('editPilot', {
             attr: `level`,
-            val: parseInt(this.levelSkip)
+            val: parseInt(this.levelSkip!)
           })
         }
         this.levelEditor = false
@@ -659,27 +657,28 @@
         this.snackbar = true
       },
       addInvocation: function () {
-        var inv = this.invoke_attribute === 0
-          ? { accuracy: true }
-          : { difficulty: true }
-        inv.trigger = this.invoke_trigger
+        var vm = this
 
-        var idx = this.pilot.invocations
-          ? this.pilot.invocations.length
-          : 0
+        var newInvoke: PilotInvocation = {
+          trigger: vm.invoke_trigger,
+          accuracy: vm.invoke_attribute === 0,
+          difficulty: vm.invoke_attribute !== 0,
+        }
+
+        var idx = this.pilot.invocations!.length || 0
 
         this.$store.dispatch('editPilot', {
           attr: `invocations[${idx}]`,
-          val: inv
+          val: newInvoke
         })
+
         this.invokeDialog = false
         this.invoke_trigger = ''
-        this.invoke_attribute = null
       },
-      removeInvocation: function (tIndex) {
+      removeInvocation: function (index: number) {
         this.$store.dispatch('splicePilot', {
           attr: 'invocations',
-          start_index: tIndex,
+          start_index: index,
           delete_count: 1
         })
       },
@@ -705,22 +704,15 @@
           defaultPath: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
           buttonLabel: 'Save Pilot'
         })
-        io.saveFile(path + '.json', JSON.stringify(this.pilot), function (err) {
-          if (err) {
-            alert(`Error: COMP/CON could not save a file to ${path}`)
-          } else {
-            this.exportDialog = false
-            this.notification = 'Pilot Export Successful'
-            this.snackbar = true
-          }
-        })
+        io.saveFile(path + '.json', JSON.stringify(this.pilot))
+        this.exportDialog = false
+        this.notify('Pilot Export Successful')
       },
       copyPilot: function () {
         const {clipboard} = require('electron')
         clipboard.writeText(JSON.stringify(this.pilot))
         this.exportDialog = false
-        this.notification = 'Pilot Data Copied to Clipboard'
-        this.snackbar = true
+        this.notify('Pilot Data Copied to Clipboard')
       },
       openPrintOptions: function () {
         this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
@@ -728,10 +720,10 @@
       }
     },
     computed: {
-      pilot: function () {
+      pilot (): Pilot {
         return this.$store.getters.getPilot
       },
-      stats: function () {
+      stats (): PilotStats {
         if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating pilot stats...')
         else console.info('Loadout changed: recalculating pilot stats...')
         return Stats.pilotStats(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState)
@@ -739,11 +731,12 @@
     },
     watch: {
       levelSkip: function () {
-        if (this.levelSkip < 0) this.levelSkip = 0
-        if (this.levelSkip > 12) this.levelSkip = 12
+        if (!this.levelSkip) return 0
+        else if (this.levelSkip! < 0) this.levelSkip = 0
+        else if (this.levelSkip! > 12) this.levelSkip = 12
       }
     }
-  }
+  })
 </script>
 
 <style scoped>
@@ -763,15 +756,11 @@
     padding-top:8px
   }
 
-  .v-dialog__activator {
-    margin-left: -18px;
-  }
   </style>
 
 <style>
   .edit-btn {
   position: relative;
-  /* margin-left: -10px!important; */
   opacity: 0.15;
   cursor: pointer;
   transition: 0.3s all;

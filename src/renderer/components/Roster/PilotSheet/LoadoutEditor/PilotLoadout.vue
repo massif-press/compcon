@@ -110,6 +110,7 @@
 import GearItem from './GearItem'
 import ItemTable from './ItemTable'
 import io from '@/store/data_io'
+import uid from '@/logic/uid'
 
 var rules = io.loadData('rules')
 
@@ -156,7 +157,7 @@ export default {
       this.$store.dispatch('editPilot', {
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: io.newID(),
+          id: uid.generate(),
           name: newLoadoutName(newIdx),
           items: {
             'armor': new Array(rules.max_pilot_armor),
@@ -197,7 +198,7 @@ export default {
       this.$store.dispatch('editPilot', {
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: io.newID(),
+          id: uid.generate(),
           name: `${this.loadouts[index].name} (Copy)`,
           items: this.loadouts[index].items
         }

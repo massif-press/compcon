@@ -76,7 +76,7 @@
   import OptionsPage from './Pages/OptionsPage'
 
 export default {
-    name: 'topbar',
+    name: 'top-bar',
     components: { HelpPage, AboutPage, OptionsPage },
     data: () => ({
       aboutModal: false,

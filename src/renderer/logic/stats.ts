@@ -2,7 +2,6 @@ import io from '../store/data_io'
 
 const rules: any = io.loadData('rules')
 
-
 interface AppState {
   UserDataPath: '',
   Backgrounds: object[],
@@ -179,7 +178,7 @@ export default {
 
     return output
   },
-  pilotStats(pilot: Pilot, loadout: PilotLoadout, state: AppState) {
+  pilotStats(pilot: Pilot, loadout: PilotLoadout, state: AppState): PilotStats {
     const armor = state.PilotGear.filter(isPilotArmor)
 
     const output = {

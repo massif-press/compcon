@@ -9,7 +9,7 @@ import mdColors from './mdColors'
 import PipBar from './PipBar.vue'
 import RangeElement from './RangeElement.vue'
 import Tag from './Tag.vue'
-import Topbar from './Topbar.vue'
+import TopBar from './TopBar.vue'
 
 export {
   DamageElement,
@@ -22,6 +22,6 @@ export {
   ItemCard,
   PipBar,
   Tag,
-  Topbar,
+  TopBar,
   mdColors,
 }
