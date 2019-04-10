@@ -89,3 +89,9 @@ declare interface PilotStats {
   grit: number
   mech: MechSkills,
 }
+
+declare interface PilotContact {
+  name: string,
+  relationship: string,
+  description: string,
+}

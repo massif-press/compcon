@@ -1,6 +1,8 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
 import 'material-icons/iconfont/material-icons.css'
+import './assets/css/global.css'
+import './assets/css/typography.css'
 
 import Vue from 'vue'
 
