@@ -50,41 +50,43 @@
   </v-container>
 </template>
 
-<script>
-  import _ from 'lodash'
+<script lang="ts">
+import Vue from 'vue'
+import _ from 'lodash'
+import { thisItem } from '@/data_interfaces/type_guards'
 
-  export default {
+export default Vue.extend({
     name: 'licenses',
     data: () => ({
-      licenses: {}
+      licenses: {},
     }),
     methods: {
-      tooltip: function (item) {
-        if (item.data_type === 'frame') {
+      tooltip(item: CCItem) {
+        if (thisItem.isFrame(item)) {
           return `<b>FRAME</b><br>${item.mechtype}`
-        } else if (item.data_type === 'weapon') {
+        } else if (thisItem.isWeapon(item)) {
           return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
         } else {
           return `<b>MECH SYSTEM</b><br>${item.type}`
         }
       },
-      itemColor: function (t) {
-        if (t === 'frame') return 'deep-purple'
-        else if (t === 'weapon') return 'primary'
+      itemColor(t: string) {
+        if (t === 'frame') { return 'deep-purple' }
+        else if (t === 'weapon') { return 'primary' }
         return 'teal'
       },
-      openItem: function (t) {
+      openItem(t: CCItem) {
         this.$store.dispatch('setPresearch', t.name)
-        if (t.data_type === 'frame') this.$router.push('frames')
-        else if (t.data_type === 'weapon') this.$router.push('weapons')
-        else this.$router.push('systems')
+        if (t.data_type === 'frame') { this.$router.push('frames') }
+        else if (t.data_type === 'weapon') { this.$router.push('weapons') }
+        else { this.$router.push('systems') }
       },
-      manufacturer: function (id) {
+      manufacturer(id: string) {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
-      }
+      },
     },
-    created: function () {
+    created() {
       this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
-    }
-  }
+    },
+  })
 </script>
