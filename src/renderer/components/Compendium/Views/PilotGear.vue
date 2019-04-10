@@ -41,18 +41,19 @@
   </v-container>
 </template>
 
-<script>
-  import GearCard from '../../Roster/UI/GearCard'
-  import RangeElement from '../../Roster/UI/RangeElement'
-  import DamageElement from '../../Roster/UI/DamageElement'
+<script lang="ts">
+import Vue from 'vue'
+import GearCard from '@/components/Roster/UI/GearCard.vue'
+import RangeElement from '@/components/Roster/UI/RangeElement.vue'
+import DamageElement from '@/components/Roster/UI/DamageElement.vue'
 
-  export default {
+export default Vue.extend({
     name: 'pilot-gear',
     components: { GearCard, RangeElement, DamageElement },
     data: () => ({
       tabModel: 0,
       titles: ['Pilot Armor', 'Pilot Weapons', 'Pilot Equipment'],
-      gear: [],
+      gear: [[], [], []],
       search: null,
       armor_headers: [
         {text: 'Item', align: 'left', value: 'name'},
@@ -60,22 +61,22 @@
         {text: 'HP Bonus', align: 'center', value: 'hp_bonus'},
         {text: 'E-Defense', align: 'center', value: 'edef'},
         {text: 'Evasion', align: 'center', value: 'evasion'},
-        {text: 'Speed', align: 'center', value: 'speed'}
+        {text: 'Speed', align: 'center', value: 'speed'},
       ],
       weapon_headers: [
         {text: 'Item', align: 'left', value: 'name'},
         {text: 'Damage', align: 'left', value: 'damage'},
-        {text: 'Range', align: 'left', value: 'range'}
+        {text: 'Range', align: 'left', value: 'range'},
       ],
       gear_headers: [
         {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Uses', align: 'center', value: 'uses'}
-      ]
+        {text: 'Uses', align: 'center', value: 'uses'},
+      ],
     }),
-    created: function () {
-      this.gear[0] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'armor')
-      this.gear[1] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'weapon')
-      this.gear[2] = this.$store.getters.getItemCollection('PilotGear').filter(x => x.type === 'gear')
-    }
-  }
+    created() {
+      this.gear[0] = this.$store.getters.getItemCollection('PilotGear').filter((x: CCItem) => x.type === 'armor')
+      this.gear[1] = this.$store.getters.getItemCollection('PilotGear').filter((x: CCItem) => x.type === 'weapon')
+      this.gear[2] = this.$store.getters.getItemCollection('PilotGear').filter((x: CCItem) => x.type === 'gear')
+    },
+  })
 </script>
