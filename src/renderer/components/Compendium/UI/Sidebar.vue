@@ -6,7 +6,7 @@
         :value="true"
         dark
         fixed
-        class="pt-5"
+        class="pt-5 ndrawer"
         disable-route-watcher
         v-click-outside="minimize"
     >
@@ -93,22 +93,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 export default Vue.extend({
-    name: "sidebar",
+    name: 'sidebar',
     data: () => ({
-        mini: true
+        mini: true,
     }),
     methods: {
-        to: function(loc: string) {
-            this.$router.push(loc);
+        to(loc: string) {
+            this.$router.push(loc)
         },
         minimize() {
             setTimeout(() => {
-                this.mini = true;
-            }, 5);
-        }
-    }
-});
+                this.mini = true
+            }, 5)
+        },
+    },
+})
 </script>
