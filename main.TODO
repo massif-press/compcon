@@ -7,7 +7,7 @@ Refactor:
   ☐ move static assets out of computed @critical
   ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
-  ☐ More robust damage/range number parsing
+  ✔ More robust damage/range number parsing @done(19-04-10 16:32)
   ☐ new pilot selectors and edit pilot selectors should return the same object
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same

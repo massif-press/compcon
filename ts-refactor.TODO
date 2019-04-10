@@ -37,13 +37,13 @@ Roster:
     ☐ Roster/HangarView/ConfigCard.vue
     ☐ Roster/HangarView/index.vue
   PilotSheet:
-    ☐ Roster/PilotSheet/ContactsList.vue
-    ☐ Roster/PilotSheet/CoreBonusItem.vue
-    ☐ Roster/PilotSheet/index.vue
-    ☐ Roster/PilotSheet/InvocationItem.vue
-    ☐ Roster/PilotSheet/LicenseItem.vue
-    ☐ Roster/PilotSheet/SkillItem.vue
-    ☐ Roster/PilotSheet/TalentItem.vue
+    ✔ Roster/PilotSheet/ContactsList.vue @done(19-04-10 15:15)
+    ✔ Roster/PilotSheet/CoreBonusItem.vue @done(19-04-10 15:29)
+    ✔ Roster/PilotSheet/index.vue @done(19-04-10 14:53)
+    ✔ Roster/PilotSheet/InvocationItem.vue @done(19-04-10 15:32)
+    ✔ Roster/PilotSheet/LicenseItem.vue @done(19-04-10 16:10)
+    ✔ Roster/PilotSheet/SkillItem.vue @done(19-04-10 16:22)
+    ✔ Roster/PilotSheet/TalentItem.vue @done(19-04-10 16:30)
     ☐ Roster/PilotSheet/New/index.vue
     ☐ Roster/PilotSheet/Print/PrintView.vue
     Level:

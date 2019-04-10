@@ -5,6 +5,7 @@ import LicenseSelector from './LicenseSelector.vue'
 import MechSkillsSelector from './MechSkillsSelector.vue'
 import SkillSelector from './SkillSelector.vue'
 import TalentSelector from './TalentSelector.vue'
+import LevelSelector from './LevelSelector.vue'
 
 export {
   BackgroundSelector,
@@ -14,4 +15,5 @@ export {
   MechSkillsSelector,
   SkillSelector,
   TalentSelector,
+  LevelSelector,
 }

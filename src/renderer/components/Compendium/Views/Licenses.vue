@@ -9,39 +9,7 @@
         <template v-slot:header>
           <div class="text-uppercase title">{{l.license}}</div>
         </template>
-        <v-card color="grey lighten-5">
-          <v-card-text>
-            <v-layout row>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK I</p>
-                <div v-for="i in l.unlocks[0]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK II</p>
-                <div v-for="i in l.unlocks[1]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>                
-                </div>              
-              </v-flex>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK III</p>
-                <div v-for="i in l.unlocks[2]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>                
-                </div>              
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-        </v-card>
+        <license-card :license="l" />
        </v-expansion-panel-content>
      </v-expansion-panel>
       <v-divider class="mt-5 mb-0" />
@@ -54,9 +22,11 @@
 import Vue from 'vue'
 import _ from 'lodash'
 import { thisItem } from '@/data_interfaces/type_guards'
+import { LicenseCard } from '@/components/UI'
 
 export default Vue.extend({
     name: 'licenses',
+    components: {LicenseCard},
     data: () => ({
       licenses: {},
     }),
