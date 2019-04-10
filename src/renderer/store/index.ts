@@ -7,7 +7,7 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-// the following mutations trigger fs operations on pilots.json
+// the following mutations trigger an fs write on pilots.json
 const pilotUpdateMutations = [
   'UPDATE_PILOT',
   'SPLICE_PILOT',

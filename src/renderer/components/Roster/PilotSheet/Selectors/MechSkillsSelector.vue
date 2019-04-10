@@ -2,7 +2,7 @@
   <v-container>
     <br>
     <v-layout align-center justify-center column fill-height>
-      <v-alert value="true" :type="!pointLimit? 'info' : 'success'" outline>{{currentPoints}}/{{maxPoints}} Mech Skills selected</v-alert>
+      <v-alert value="true" :type="!pointLimit ? 'info' : 'success'" outline>{{currentPoints}}/{{maxPoints}} Mech Skills selected</v-alert>
     </v-layout>
     <v-layout align-center justify-center column fill-height>
       <v-flex><span class="headline">HULL</span></v-flex>
@@ -51,6 +51,12 @@
         <v-btn :disabled="mechSkills.eng >= 6 || pointLimit" icon right bottom @click="changeSkill('eng', '+')"><v-icon>add</v-icon></v-btn>
       </v-flex>
     </v-layout>
+    <div v-if="isActivePilot">
+      <v-divider class="ma-2" />
+      <v-layout class="ml-5 mr-5">
+        <v-btn large color="primary" block :disabled="!pointLimit" @click="close">Save Mech Skills</v-btn>
+      </v-layout>
+    </div>
   </v-container>
 </template>
 
@@ -89,6 +95,9 @@ export default {
       }
 
       if (this.levelUp) this.$emit('new-mech-skills', this.mechSkills)
+    },
+    close () {
+      this.$emit('close')
     }
   },
   computed: {

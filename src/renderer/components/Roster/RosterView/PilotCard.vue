@@ -34,6 +34,10 @@
                 <span>Export Pilot</span>
               </v-tooltip>
               <v-tooltip top>
+              <v-btn slot="activator" icon class="ma-0" @click="printDialog = true"><v-icon>print</v-icon></v-btn>
+                <span>Print Pilot Sheet</span>
+              </v-tooltip>
+              <v-tooltip top>
               <v-btn slot="activator" icon class="ma-0" @click="deleteDialog = true"><v-icon>delete</v-icon></v-btn>
                 <span>Delete Pilot</span>
               </v-tooltip>
@@ -111,6 +115,7 @@ export default {
   },
   data: () => ({
     deleteDialog: false,
+    printDialog: false,
     exportDialog: false,
     copyDialog: false,
     notification: '',

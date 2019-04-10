@@ -1,0 +1,15 @@
+.edit-btn {
+  position: relative;
+  opacity: 0.15;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+.edit-btn:hover {
+  opacity: 1;
+  transition: 0.3s all;
+}
+
+.mlneg {
+  margin-left: -10px!important;
+}
+

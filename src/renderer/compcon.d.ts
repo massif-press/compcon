@@ -3,6 +3,19 @@ declare interface Brew {
   dir: string
 }
 
+declare interface Manufacturer {
+  id: string,
+  name: string,
+  description: string
+}
+
+declare interface Background {
+  id: string,
+  name: string,
+  description: string,
+  triggers: string
+}
+
 declare interface CCLicense {
   source: string
   license: string
@@ -13,12 +26,12 @@ declare interface CCLicense {
 declare interface AppState {
   presearch: string
   UserDataPath: string
-  Backgrounds: object[]
+  Backgrounds: Background[]
   Talents: PilotTalent[]
   Skills: PilotSkill[]
   CoreBonuses: CoreBonus[]
   Frames: Frame[]
-  Manufacturers: object[]
+  Manufacturers: Manufacturer[]
   MechWeapons: Weapon[]
   WeaponMods: WeaponMod[]
   MechSystems: System[]
@@ -29,7 +42,7 @@ declare interface AppState {
   Licenses: CCLicense[]
   activeConfigID: string
   Pilots: Pilot[]
-  Quirks: any[]
+  Quirks: string[]
   activePilotID: string
   printOptions: object
 }
