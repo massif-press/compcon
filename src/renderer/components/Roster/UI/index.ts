@@ -10,6 +10,8 @@ import PipBar from './PipBar.vue'
 import RangeElement from './RangeElement.vue'
 import Tag from './Tag.vue'
 import TopBar from './Topbar.vue'
+import PilotEditModal from './PilotEditModal.vue'
+import HasePips from './HasePips.vue'
 
 export {
   DamageElement,
@@ -24,4 +26,6 @@ export {
   Tag,
   TopBar,
   mdColors,
+  PilotEditModal,
+  HasePips,
 }

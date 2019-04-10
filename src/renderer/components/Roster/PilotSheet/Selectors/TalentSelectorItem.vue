@@ -1,14 +1,14 @@
 <template>
     <v-card>
         <v-card-text>
-          <blockquote class="blockquote m-0 pb-0 pt-0" v-html="talent.description" />
+          <blockquote class="fluff-text mb-0 pb-0 pt-0" v-html="talent.description" />
           <v-card>
             <v-card-title class="pb-0 pt-2 mb-0 mt-1">
               <v-layout justify-space-between fill-height>
                 <v-flex xs10>
                   <span class="title"><v-icon>star</v-icon>&nbsp;{{talent.r1_name}}</span>
                   <sub class="ml-2 grey--text"> (RANK I) </sub>
-                  <v-card-text><span v-html="talent.r1_desc" /></v-card-text>
+                  <v-card-text><span class="effect-text" v-html="talent.r1_desc" /></v-card-text>
                   <v-card-actions v-if="playerRank === 1"><v-btn @click="removeTalent" color="warning" small flat>Unlearn</v-btn></v-card-actions>
                 </v-flex>
                 <v-flex xs1>
@@ -25,7 +25,7 @@
                 <v-flex xs10>
                   <span class="title"><v-icon>star</v-icon><v-icon>star</v-icon>&nbsp;{{talent.r2_name}}</span>
                   <sub class="ml-2 grey--text"> (RANK II) </sub>
-                  <v-card-text><span v-html="talent.r2_desc" /></v-card-text>
+                  <v-card-text><span class="effect-text" v-html="talent.r2_desc" /></v-card-text>
                   <v-card-actions v-if="playerRank === 2"><v-btn @click="removeTalent" color="warning" small flat>Downgrade</v-btn></v-card-actions>
                 </v-flex>
                 <v-flex xs1>
@@ -43,7 +43,7 @@
                 <v-flex xs10>
                   <span class="title"><v-icon>star</v-icon><v-icon>star</v-icon><v-icon>star</v-icon>&nbsp;{{talent.r3_name}}</span>
                   <sub class="ml-2 grey--text"> (RANK III) </sub>
-                  <v-card-text><span v-html="talent.r3_desc" /></v-card-text>
+                  <v-card-text><span class="effect-text" v-html="talent.r3_desc" /></v-card-text>
                   <v-card-actions v-if="playerRank === 3"><v-btn @click="removeTalent" color="warning" small flat>Downgrade</v-btn></v-card-actions>
                 </v-flex>
                 <v-flex xs1>
