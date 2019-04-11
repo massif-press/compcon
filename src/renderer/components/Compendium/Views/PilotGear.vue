@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="ml-5 pl-5">
+  <v-container fluid>
     <span class="display-1 text-uppercase font-weight-thin">PILOT GEAR</span>
     <div class="mt-3">
       <v-tabs v-model="tabModel" color="blue-grey" dark  slider-color="warning" grow>

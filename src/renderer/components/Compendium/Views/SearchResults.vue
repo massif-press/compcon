@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap mt-5 px-5>
-    <v-flex xs12>
+    <v-flex xs12 px-2>
         <v-text-field
         ref="input"
         class="search-field"
@@ -13,17 +13,17 @@
         placeholder="Search"
         />
     </v-flex>
-    <v-flex px-4>
+    <v-flex>
         <v-subheader>
             {{searchResults.length}} result{{searchResults.length === 1 ? '' : 's'}}
         </v-subheader>
-        <v-slide-y-reverse-transition leave-absolute>
+        <v-slide-y-reverse-transition mode="out-in">
         <v-layout row wrap :key="searchText">
           <v-flex grow xs12 md6 lg4 xl3 px-2 py-2 :key="index" v-for="(item, index) in searchResults">
-            <v-card v-ripple :key="`${index}--${item.id}`">
-              <v-card-title primary-title :class="{ [colorByType(item.data_type)]: true, 'full-title': !item.description}" class="white--text">
+            <v-card v-ripple :to="`/compendium/item/${item.data_type}/${item.id}`">
+              <v-card-title primary-title :style="{ backgroundColor: colors[item.data_type].light }" :class="{ 'full-title': !item.description }" class="white--text">
                 <div class="headline">{{ item.data_type === 'frame' ? `${item.source} ` : '' }}{{ item.name }}</div>
-                <v-chip outline label color="white" class="text-uppercase ml-auto">
+                <v-chip disabled outline label color="white" class="text-uppercase ml-auto">
                       {{item.data_type}}
                 </v-chip>
               </v-card-title>
@@ -42,12 +42,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import colors from '@/components/UI/CCColors.ts'
 
 export default Vue.extend({
     name: 'search-results',
     data: () => ({
         searchText: '',
         loaded: false,
+        colors: colors.colors,
     }),
     mounted() {
         this.searchText = this.$route.query.search as string
@@ -72,7 +74,7 @@ export default Vue.extend({
       setSearch(value: string) {
         if (value === this.searchText) { return }
         this.searchText = value
-        this.$router.replace(`/compendiumsearch?search=${value}`)
+        this.$router.replace(`/compendium/search?search=${value}`)
       },
       debounceInput: _.debounce(function(this: any, e: string) {
         this.setSearch(e)
