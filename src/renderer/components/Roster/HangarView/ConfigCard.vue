@@ -51,7 +51,7 @@
           <v-divider />
           <v-card-actions>
             <v-btn color="primary" flat @click="deleteDialog = false"> Cancel </v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn color="error" @click="deleteConfig"> Delete Configuration </v-btn>
           </v-card-actions>
         </v-card>

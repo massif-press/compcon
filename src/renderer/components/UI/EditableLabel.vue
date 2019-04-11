@@ -12,16 +12,17 @@
         </v-card-text>
         <v-card-actions>
           <v-btn flat @click="dialog = false"> Cancel </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn :disabled="!newLabel || !newLabel.length || newLabel === ''" color="primary" flat @click="save(attr)">Save</v-btn>
+          <v-spacer />
+          <v-btn :disabled="!canSave" color="primary" flat @click="save(attr)">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
-<script>
-  export default {
+<script lang="ts">
+  import Vue from 'vue'
+  export default Vue.extend({
     name: 'editable-label',
     props: {
       attr: String,
@@ -31,10 +32,15 @@
     },
     data: () => ({
       dialog: false,
-      newLabel: ''
+      newLabel: '' as string
     }),
+    computed: {
+      canSave(): boolean {
+        return (this.newLabel && this.newLabel.length && this.newLabel !== '') as boolean
+      }
+    },
     methods: {
-      save: function (attr) {
+      save (attr: string) {
         this.$store.dispatch('editPilot', {
           attr: attr,
           val: this.newLabel
@@ -42,6 +48,6 @@
         this.dialog = false
         this.$emit('on-save')
       }
-    }
-  }
+    }    
+  })
 </script>

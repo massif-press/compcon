@@ -334,8 +334,9 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'help-page'
-  }
+<script lang="ts">
+  import Vue from 'vue'
+  export default Vue.extend({
+    name: 'help-page'  
+  })
 </script>

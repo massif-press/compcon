@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Sidebar} from './UI'
+import Sidebar from './Sidebar.vue'
 
 export default Vue.extend({
     name: 'compendium',

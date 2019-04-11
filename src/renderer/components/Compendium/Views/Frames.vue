@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {FrameStatblock} from '../../Roster/UI'
+import {FrameStatblock} from '@/components/UI'
 
 export default Vue.extend({
     name: 'frames',

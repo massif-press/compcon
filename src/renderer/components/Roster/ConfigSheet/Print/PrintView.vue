@@ -248,7 +248,7 @@
 
 <script>
   import Stats from '@/logic/stats'
-  import { RangeElement, DamageElement } from '@/components/Roster/UI'
+import {RangeElement, DamageElement} from '@/components/UI'
 
   export default {
     name: 'mech-print-view',

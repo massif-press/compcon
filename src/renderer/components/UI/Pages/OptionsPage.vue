@@ -12,7 +12,7 @@
           <v-card-text>
             <h4>Importing Content</h4>
             <p>
-              Compcon can load personal and community created content ("homebrew" content), as well as additional official LANCER modules, by using the button below and selecting the data folder (this must be extracted first -- no .zip files). For additonal information regarding the structure and contents of these packages, where to find more, and how to make your own, please see <a @click="open('https://github.com/jarena3/compcon/wiki/Homebrew-Content')">the official COMP/CON wiki page on the subject</a>
+              Compcon can load personal and community created content ("homebrew" content), as well as additional official LANCER modules, by using the button below and selecting the data folder (this must be extracted first -- no .zip files). For additonal information regarding the structure and contents of these packages, where to find more, and how to make your own, please see <a @click="open('https://github.com/jarena3/compcon/wiki/Homebrew-Content')">the  COMP/CON wiki page on the subject</a>
             </p>
             <v-alert icon="error" outline type="warning" :value="true">
               <span class="black--text">Pilots and Configurations that are saved with items from content packages will only work correctly when those packages are activated. If a content package is deactivated or deleted, equipment, attributes, and items from those packages will be shown as "missing content" in COMP/CON until those packages are reactivated, or the items removed.</span> 
@@ -55,20 +55,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import io from '@/store/data_io'
 
-  export default {
+  export default Vue.extend({
     name: 'options-page',
     data: () => ({
       tabModel: 0,
-      brews: []
+      brews: [] as Brew[]
     }),
     methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
+      open (link: string) {
+        (this as any).$electron.shell.openExternal(link)
       },
-      importBrew: function () {
+      importBrew () {
         const { dialog } = require('electron').remote
         var path = dialog.showOpenDialog({
           title: 'Load Homebrew Folder',
@@ -78,41 +79,42 @@
           ]
         })
         if (path && path[0]) {
-          io.saveBrewData(path[0], this.userDataPath)
+          io.saveBrewData(path[0], (this as any).userDataPath)
           this.$store.dispatch('loadData')
           this.$store.dispatch('loadBrews')
           this.$store.dispatch('buildLicenses')
           this.detectBrews()
         }
       },
-      detectBrews: function () {
-        this.brews = []
+      detectBrews () {
+        this.brews = [] as Brew[]
         // base game
-        this.brews.push({info: io.loadData('info')})
+        var coreData = {info: io.loadData('info')}
+        this.brews.push(coreData as Brew)
         // find all brews
         this.brews = this.brews.concat(this.$store.getters.getItemCollection('Brews'))
       },
-      toggleBrew: function (brew) {
+      toggleBrew (brew: Brew) {
         this.$store.dispatch('setBrewActive', { dir: brew.dir, active: !brew.info.active })
         this.$store.dispatch('loadData')
         this.$store.dispatch('loadBrews')
         this.$store.dispatch('buildLicenses')
         this.detectBrews()
       },
-      forceReload: function () {
+      forceReload () {
         this.$store.dispatch('loadData')
         this.$store.dispatch('loadBrews')
         this.$store.dispatch('buildLicenses')
         this.detectBrews()
       },
-      forceHardReload: function () {
+      forceHardReload () {
         const remote = require('electron').remote
         remote.app.relaunch()
         remote.app.exit(0)
       }
     },
-    created: function () {
+    created () {
       this.detectBrews()
     }
-  }
+  })
 </script>

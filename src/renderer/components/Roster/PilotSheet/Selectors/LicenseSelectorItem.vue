@@ -68,7 +68,7 @@
 </template>
 
 <script>
-  import ItemBadge from '../../UI/ItemBadge'
+  import ItemBadge from '../SheetComponents/ItemBadge'
 
   export default {
     name: 'license-selector-item',

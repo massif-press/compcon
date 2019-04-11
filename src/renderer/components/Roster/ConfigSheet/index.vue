@@ -88,7 +88,7 @@
             <v-card>
               <v-toolbar fixed dense flat>
                 <v-toolbar-title>Set Custom Image</v-toolbar-title>
-                <v-spacer></v-spacer>
+                <v-spacer />
                 <v-toolbar-items>
                   <v-btn icon large @click="appearanceModal = false; appearanceLoader = false"> <v-icon large>close</v-icon> </v-btn>
                 </v-toolbar-items>
@@ -186,7 +186,8 @@
                 <v-card-text class="mt-0 pt-0 mb-0 pb-1"><p class="mb-1" v-html="frame.core_system.passive" /></v-card-text>
               </div>
               <v-card-title class="title">{{frame.core_system.active_name}}<span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span></v-card-title>
-              <v-card-text class="mt-0 pt-0 mb-0 pb-1"><p class="mb-1" v-html="frame.core_system.effect" /><tag v-for="t in frame.core_system.tags" :key="t" :id="t" :val="0" /></v-card-text>
+              <v-card-text class="mt-0 pt-0 mb-0 pb-1"><p class="mb-1" v-html="frame.core_system.effect" />
+              <item-tag v-for="t in frame.core_system.tags" :key="t.id" :tag-obj="t" /></v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -294,7 +295,7 @@
                   <v-divider />
                   <v-card-actions>
                     <v-btn color="primary"  flat @click="deleteDialog = false" > Cancel </v-btn>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
                     <v-btn color="error" @click="deleteConfig" > Delete Configuration </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -320,7 +321,7 @@
   import Stats from '@/logic/stats'
   import io from '@/store/data_io'
 
-  import {EditableLabel, EditableTextfield, Tag} from '../UI'
+  import {EditableLabel, EditableTextfield, ItemTag} from '@/components/UI'
   import StatblockItem from './StatblockItem'
   import TraitItem from './TraitItem'
   import MechLoadout from './LoadoutEditor/MechLoadout'
@@ -328,7 +329,7 @@
 
   export default {
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, Tag, Stats, StatblockItem, TraitItem, MechLoadout, ImageSelector },
+    components: { EditableLabel, EditableTextfield, ItemTag, Stats, StatblockItem, TraitItem, MechLoadout, ImageSelector },
     data: () => ({
       activeLoadoutIdx: 0,
       frameInfoModal: false,

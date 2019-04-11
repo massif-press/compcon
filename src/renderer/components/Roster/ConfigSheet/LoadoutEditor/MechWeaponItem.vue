@@ -2,8 +2,8 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="blue-grey darken-1" v-if="!item || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
-          <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-if="!item || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
           <span v-if="!item">Equip {{fittingType}} Mech Weapon</span>
           <span v-else>Change Equipped {{fittingType}} Mech Weapon</span>
         </v-tooltip>
@@ -62,10 +62,7 @@
 </template>
 
 <script>
-import WeaponCard from '../../UI/WeaponCard'
-import ModCard from '../../UI/ModCard'
-import RangeElement from '../../UI/RangeElement'
-import DamageElement from '../../UI/DamageElement'
+import {RangeElement, DamageElement, WeaponCard, ModCard} from '@/components/UI'
 
 export default {
   name: 'mech-weapon-item',

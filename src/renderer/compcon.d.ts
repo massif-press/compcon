@@ -1,6 +1,11 @@
 declare interface Brew {
-  info: { active: boolean }
+  info: any
   dir: string
+}
+
+declare interface PrintOptions {
+  config_id: string,
+  loadout_index: number
 }
 
 declare interface Manufacturer {

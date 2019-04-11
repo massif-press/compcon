@@ -27,9 +27,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import WeaponCard from '@/components/Roster/UI/WeaponCard.vue'
-import RangeElement from '@/components/Roster/UI/RangeElement.vue'
-import DamageElement from '@/components/Roster/UI/DamageElement.vue'
+import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
 export default Vue.extend({
     name: 'weapons',
