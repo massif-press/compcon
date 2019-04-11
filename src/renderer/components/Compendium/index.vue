@@ -1,19 +1,17 @@
 <template>
   <div>
-    <sidebar />
-    <div style="margin-left: 80px; width:96vw">
-      <search-bar />
-      <router-view></router-view>
-    </div>
+    <!-- <sidebar /> -->
+      <!-- <router-view style="margin-left: 80px; width:96vw"></router-view> -->
+      <router-view style="width: 100vw;"></router-view>
   </div>    
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Sidebar, SearchBar } from './UI'
+import { Sidebar } from './UI'
 
 export default Vue.extend({
     name: 'compendium',
-    components: { Sidebar, SearchBar },
+    components: { Sidebar },
   })
 </script>
