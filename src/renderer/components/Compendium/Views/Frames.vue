@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="ml-5 pl-5">
+  <v-container fluid>
     <span class="display-1 text-uppercase font-weight-thin">FRAMES</span>
       <v-layout>
         <v-flex>

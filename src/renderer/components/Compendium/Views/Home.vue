@@ -113,7 +113,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { SearchBar } from '../UI'
+import SearchBar from '../SearchBar.vue'
 
 export default Vue.extend({
     name: 'compendium-home',

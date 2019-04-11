@@ -48,8 +48,12 @@ export default new Router({
               component: require('@/components/Compendium/Views/Home').default,
             },
             {
-              path: '/compendiumsearch',
+              path: '/compendium/search',
               component: require('@/components/Compendium/Views/SearchResults').default,
+            },
+            {
+              path: '/compendium/item/:type/:id',
+              component: require('@/components/Compendium/Views/CompendiumItem').default,
             },
             {
               path: '/licenses',
