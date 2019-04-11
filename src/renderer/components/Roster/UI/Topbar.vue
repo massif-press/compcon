@@ -13,9 +13,9 @@
       <v-toolbar-title class="font-weight-light" style="font-size:26px">C O M P / C O N&emsp;<span class="grey--text" style="font-size:16px">{{ ver }}</span></v-toolbar-title>
         <v-divider class="ml-4 mr-4"/>
       <v-toolbar-items>
-        <v-btn flat to="roster">Pilot Roster</v-btn>
-        <v-btn flat :color="zeroConfigs ? 'info' : ''" to="hangar" :disabled="!hangarActive">Mech Hangar</v-btn>
-        <v-btn flat to="compendium">Compendium</v-btn>
+        <v-btn flat to="/roster">Pilot Roster</v-btn>
+        <v-btn flat :color="zeroConfigs ? 'info' : ''" to="/hangar" :disabled="!hangarActive">Mech Hangar</v-btn>
+        <v-btn flat to="/compendium">Compendium</v-btn>
 
         <v-divider vertical class="ml-2 mr-2"/>
 

@@ -48,7 +48,7 @@ export default new Router({
               component: require('@/components/Compendium/Views/Home').default,
             },
             {
-              path: '/compendiumsearch/:query',
+              path: '/compendiumsearch',
               component: require('@/components/Compendium/Views/SearchResults').default,
             },
             {

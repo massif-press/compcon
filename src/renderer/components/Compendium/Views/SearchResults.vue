@@ -5,36 +5,36 @@
         ref="input"
         class="search-field"
         prepend-icon="search"
-        v-model="searchText"
+        @input="debounceInput"
+        :value="this.searchText"
         solo
         hide-details
         single-line
-        placeholder="Search the Compendium"
+        placeholder="Search"
         />
     </v-flex>
     <v-flex px-4>
         <v-subheader>
-            Results
+            {{searchResults.length}} result{{searchResults.length === 1 ? '' : 's'}}
         </v-subheader>
-        <v-list three-line>
-          <template v-for="(item, index) in searchResults">
-            <v-divider :key="index" v-if="index !== 0" />
-
-            <v-list-tile
-              :key="`${item.data_type}--${item.id}`"
-            >
-              <v-list-tile-content>
-                  <v-chip outline label :color="colorByType(item.data_type)" class="text-uppercase">
-                    {{item.data_type}}
-                  </v-chip>
-                  <span>{{item.name}}</span>
-                <!-- <v-list-tile-sub-title default v-if="item.description">
-                  {{item.description}}
-                </v-list-tile-sub-title> -->
-              </v-list-tile-content>
-            </v-list-tile>
-          </template>
-        </v-list>
+        <v-slide-y-reverse-transition leave-absolute>
+        <v-layout row wrap :key="searchText">
+          <v-flex grow xs12 md6 lg4 xl3 px-2 py-2 :key="index" v-for="(item, index) in searchResults">
+            <v-card v-ripple :key="`${index}--${item.id}`">
+              <v-card-title primary-title :class="{ [colorByType(item.data_type)]: true, 'full-title': !item.description}" class="white--text">
+                <div class="headline">{{ item.data_type === 'frame' ? `${item.source} ` : '' }}{{ item.name }}</div>
+                <v-chip outline label color="white" class="text-uppercase ml-auto">
+                      {{item.data_type}}
+                </v-chip>
+              </v-card-title>
+              <v-card-text v-if="item.description"><span v-html="item.description" class="item-description"></span></v-card-text>
+              <!-- <v-card-actions>
+                <v-btn flat>More</v-btn>
+              </v-card-actions> -->
+            </v-card>
+          </v-flex>
+        </v-layout>
+        </v-slide-y-reverse-transition>
     </v-flex>
   </v-layout>
 </template>
@@ -49,10 +49,8 @@ export default Vue.extend({
         searchText: '',
         loaded: false,
     }),
-    created() {
-        this.searchText = this.$route.params.query
-    },
     mounted() {
+        this.searchText = this.$route.query.search as string
         const input = this.$refs.input as HTMLInputElement
         input.focus()
     },
@@ -71,12 +69,53 @@ export default Vue.extend({
         },
     },
     methods: {
+      setSearch(value: string) {
+        if (value === this.searchText) { return }
+        this.searchText = value
+        this.$router.replace(`/compendiumsearch?search=${value}`)
+      },
+      debounceInput: _.debounce(function(this: any, e: string) {
+        this.setSearch(e)
+      }, 500),
+      forceInput() {
+        this.setSearch((this.$refs.input as HTMLInputElement).value)
+      },
       colorByType(type: string) {
         if (type === 'frame') {return 'purple'}
         else if (type === 'weapon') {return 'pink darken-2'}
         else if (type === 'system') {return 'teal'}
         else {return 'primary'}
       },
+      onClick(item: CCItem) {
+        alert(item.name)
+      },
     },
 })
 </script>
+
+<style scoped>
+.v-card {
+  cursor: pointer;
+  user-select: none;
+  height: 100%;
+}
+.v-card__title > .headline
+{
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.full-title {
+  height: 100%;
+}
+.item-description {
+    display: block;
+    max-height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-style: italic;
+    color: gray;
+}
+</style>

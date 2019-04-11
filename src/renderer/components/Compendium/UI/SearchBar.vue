@@ -24,7 +24,7 @@ export default Vue.extend({
     }),
     methods: {
       doSearch() {
-        this.$router.push(`/compendiumsearch/${this.searchText}`)
+        this.$router.push(`/compendiumsearch?search=${this.searchText}`)
       },
     },
     mounted() {
