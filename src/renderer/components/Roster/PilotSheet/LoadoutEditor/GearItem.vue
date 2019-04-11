@@ -48,9 +48,7 @@
 </template>
 
 <script>
-import GearCard from '../../UI/GearCard'
-import RangeElement from '../../UI/RangeElement'
-import DamageElement from '../../UI/DamageElement'
+import {RangeElement, DamageElement, GearCard} from '@/components/UI'
 
 export default {
   name: 'gear-item',

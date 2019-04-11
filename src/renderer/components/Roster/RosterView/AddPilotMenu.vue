@@ -54,10 +54,10 @@
         <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn color="primary" flat @click="close" >Cancel</v-btn>
       </v-card-actions>
     </v-card>

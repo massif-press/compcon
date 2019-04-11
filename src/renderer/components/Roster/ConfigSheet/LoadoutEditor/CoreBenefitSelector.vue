@@ -14,7 +14,7 @@
   </v-card-text>
   <v-card-actions>
     <v-btn flat @click="cancel" > Cancel </v-btn>
-    <v-spacer></v-spacer>
+    <v-spacer />
     <v-btn color="primary" @click="confirm" > Confirm </v-btn>
   </v-card-actions>
 </div> 

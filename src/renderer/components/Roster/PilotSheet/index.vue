@@ -15,7 +15,7 @@
               <!-- Name -->
               <v-flex>
                <editable-label attr="name" description="Name" :placeholder="pilot.name">
-                  <span slot="label" class="blockquote ml-1 pl-0">{{pilot.name}}</span>
+                  <span slot="label" class="blockquote ml-1 pl-0">{{pilot.name}}&nbsp;</span>
                 </editable-label>           
               </v-flex>
             </v-layout>
@@ -44,7 +44,7 @@
             <lazy-dialog :model="levelEditor" title="Set Pilot Level" acceptString="Set Pilot Level" hide-confirm
               @activate="levelEditor = true" @cancel="levelEditor = false">
                 <v-tooltip slot="activator" bottom nudge-right="15px">
-                  <v-btn slot="activator" @click="levelEditor = true" outline absolute icon small color="grey" style="top:115px; right:59px">
+                  <v-btn slot="activator" @click="levelEditor = true" outline relative icon small color="grey" style="left: 10px; bottom: 20px">
                     <v-icon small>build</v-icon>
                   </v-btn>
                   <span>Set Pilot Level</span>
@@ -298,10 +298,9 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
-  import LazyDialog from '@/components/UI/LazyDialog.vue'
-  import { EditableLabel, EditableTextfield, PipBar, PilotEditModal, HasePips } from '../UI'
+  import { LazyDialog, EditableLabel, EditableTextfield, PipBar } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
-  import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem } from './SheetComponents'
+  import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
   import NewConfig from '../HangarView/AddConfigMenu.vue'
 

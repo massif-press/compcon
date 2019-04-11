@@ -6,7 +6,7 @@
     <v-card>
       <v-toolbar fixed dense flat>
         <v-toolbar-title>{{title}}</v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="cancel"><v-icon large>close</v-icon></v-btn>
         </v-toolbar-items>

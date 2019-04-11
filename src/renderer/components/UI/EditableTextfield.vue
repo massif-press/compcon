@@ -1,14 +1,15 @@
 <template>
 <div class="pt-1 pb-1 pl-3 pr-3">
-  <v-textarea :dark="dark" :color="dark ? 'warning' : 'primary'"  v-model="newVal" v-on:blur="save" auto-grow rows=1 :label="description" :clearable="clearable">
+  <v-textarea :dark="dark" :color="dark ? 'warning' : 'primary'"  v-model="newVal" 
+    v-on:blur="save" auto-grow rows=1 :label="description" :clearable="clearable">
     {{newVal}}
   </v-textarea>
 </div>
-
 </template>
 
-<script>
-  export default {
+<script lang="ts">
+  import Vue from 'vue'
+  export default Vue.extend({
     name: 'editable-textfield',
     props: {
       attr: String,
@@ -21,7 +22,7 @@
       newVal: ''
     }),
     methods: {
-      save: function () {
+      save () {
         this.$store.dispatch('editPilot', {
           attr: this.attr,
           val: this.newVal
@@ -31,12 +32,5 @@
     mounted: function () {
       this.newVal = this.initial
     }
-  }
+  })
 </script>
-
-<style scoped>
-  .highlight:hover {
-    background-color: aqua;
-    cursor: pointer;
-  }
-</style>

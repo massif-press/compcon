@@ -20,18 +20,18 @@
               <br>
               <span class="caption">{{pilot.name}}<br>{{background(pilot)}}, LL{{pilot.level}}</span>
             </v-flex>
-            <v-flex xs4 class="mt-2 mb-2">
+            <v-spacer />
+            <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
               <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
                 <span>Activate Pilot<br>(feature in development)</span>
               </v-tooltip>
               <v-tooltip top>
-                <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true"><v-icon>mdi-content-duplicate</v-icon></v-btn>
-                <span>Clone Pilot</span>
-              </v-tooltip>
-              <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true"><v-icon>mdi-export-variant</v-icon></v-btn>
                 <span>Export Pilot</span>
+              </v-tooltip>              <v-tooltip top>
+                <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true"><v-icon>mdi-content-duplicate</v-icon></v-btn>
+                <span>Clone Pilot</span>
               </v-tooltip>
               <v-tooltip top>
               <v-btn slot="activator" icon class="ma-0" @click="printDialog = true"><v-icon>print</v-icon></v-btn>
@@ -59,7 +59,7 @@
           <v-divider />
           <v-card-actions>
             <v-btn color="primary" flat @click="deleteDialog = false"> Cancel </v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn color="error" @click="deletePilot"> Delete Pilot </v-btn>
           </v-card-actions>
         </v-card>

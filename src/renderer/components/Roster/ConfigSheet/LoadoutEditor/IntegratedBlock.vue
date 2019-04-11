@@ -5,7 +5,7 @@
       <v-card-text class="bordered ml-3 pt-4">
             <v-layout fill-height>
       <v-flex xs2>
-          <v-btn :ripple="false" color="blue-grey darken-1" block class="ma-0 pa-0" style="height:100%">Integrated Weapon</v-btn>
+          <v-btn :ripple="false" color="blue-grey darken-2" block class="ma-0 pa-0" style="height:100%">Integrated Weapon</v-btn>
       </v-flex>
       <v-flex xs10>
          <v-expansion-panel class="m-0">
@@ -29,7 +29,7 @@
                         <range-element v-if="item.range" :range="item.range" />
                         <p v-if="item.effect" v-html="item.effect" class="pl-2"/>
                         <v-layout class="mt-2">
-                          <tag v-for="(tag, index) in item.tags" :key="tag.id + index" :id="tag.id" :val="tag.val"/>
+                          <item-tag v-for="(tag, index) in item.tags" :key="tag.id + index" :tag-obj="tag"/>
                         </v-layout>
                       </v-card-text>
                     </v-card>
@@ -44,9 +44,7 @@
 </template>
 
 <script>
-import Tag from '../../UI/Tag'
-import DamageElement from '../../UI/DamageElement'
-import RangeElement from '../../UI/RangeElement'
+import {RangeElement, DamageElement, ItemTag} from '@/components/UI'
 
 export default {
   name: 'integrated-block',
@@ -54,7 +52,7 @@ export default {
     item: Object,
     source: String
   },
-  components: { Tag, RangeElement, DamageElement }
+  components: { ItemTag, RangeElement, DamageElement }
 }
 </script>
 

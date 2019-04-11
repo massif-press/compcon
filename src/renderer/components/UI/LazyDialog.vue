@@ -8,7 +8,7 @@
         <v-divider />
         <v-card-actions>
           <v-btn color="primary" flat @click="cancel">Cancel</v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn v-if="!hideConfirm" color="primary" @click="accept" :disabled="disableCondition">{{acceptString || 'Confirm'}}</v-btn>
         </v-card-actions>
       </v-card>

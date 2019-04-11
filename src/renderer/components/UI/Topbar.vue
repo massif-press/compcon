@@ -1,17 +1,19 @@
 <template>
   <div>
     <v-toolbar dense style="z-index:10" fixed>
-        <v-tooltip bottom>
+      <v-tooltip bottom>
         <v-btn slot="activator" icon @click="historyNav(-1)" flat><v-icon>mdi-arrow-left</v-icon></v-btn>
         <span>Click to go back</span>
-        </v-tooltip>
-        <v-tooltip bottom>
+      </v-tooltip>
+      <v-tooltip bottom>
         <v-btn slot="activator" icon @click="historyNav(1)" flat><v-icon>mdi-arrow-right</v-icon></v-btn>
         <span>Click to go forward</span>
-        </v-tooltip>
-        <v-divider vertical class="ml-2"/>
-      <v-toolbar-title class="font-weight-light" style="font-size:26px">C O M P / C O N&emsp;<span class="grey--text" style="font-size:16px">{{ ver }}</span></v-toolbar-title>
-        <v-divider class="ml-4 mr-4"/>
+      </v-tooltip>
+      <v-divider vertical class="ml-2"/>
+      <v-toolbar-title class="font-weight-light" style="font-size:26px">C O M P / C O N&emsp;
+        <span class="grey--text" style="font-size:16px">{{ ver }}</span>
+      </v-toolbar-title>
+      <v-divider class="ml-4 mr-4"/>
       <v-toolbar-items>
         <v-btn flat to="roster">Pilot Roster</v-btn>
         <v-btn flat :color="zeroConfigs ? 'info' : ''" to="hangar" :disabled="!hangarActive">Mech Hangar</v-btn>
@@ -28,7 +30,7 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn color="primary" flat @click="optionsModal = false"> Close </v-btn>
             </v-card-actions>
           </v-card>
@@ -43,13 +45,12 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn color="primary" flat @click="aboutModal = false"> Close </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>       
 
-        <!-- <v-btn flat disabled>Options</v-btn> -->
         <v-btn @click="helpModal = true" flat >Help</v-btn>
         <v-dialog v-model="helpModal" width="85vw">
           <v-card>
@@ -59,7 +60,7 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn color="primary" flat @click="helpModal = false"> Close </v-btn>
             </v-card-actions>
           </v-card>
@@ -70,12 +71,13 @@
   </div>
 </template>
 
-<script>
-  import HelpPage from './Pages/HelpPage'
-  import AboutPage from './Pages/AboutPage'
-  import OptionsPage from './Pages/OptionsPage'
+<script lang="ts">
+  import Vue from 'vue'
+  import HelpPage from './Pages/HelpPage.vue'
+  import AboutPage from './Pages/AboutPage.vue'
+  import OptionsPage from './Pages/OptionsPage.vue'
 
-export default {
+  export default Vue.extend({
     name: 'top-bar',
     components: { HelpPage, AboutPage, OptionsPage },
     data: () => ({
@@ -87,15 +89,17 @@ export default {
       zeroConfigs: false
     }),
     methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
+      open (link: string) {
+        var vm = this as any
+        vm.$electron.shell.openExternal(link)
       },
-      historyNav: function (dir) {
+      historyNav: function (dir: number) {
         this.$router.go(dir)
       }
     },
-    created: function () {
-      this.ver = process.env.npm_package_version ? `v${process.env.npm_package_version}` : ''
+    created () {
+      var vm = this as any
+      vm.ver = process.env.npm_package_version ? `v${process.env.npm_package_version}` : `v${vm.version}`
     },
     watch: {
       $route (to, from) {
@@ -105,12 +109,11 @@ export default {
         this.zeroConfigs = activePilot && activePilot.configs && activePilot.configs.length === 0
       }
     }
-  }
-</script>
+  })
+  </script>
 
 <style scoped>
   p {
     margin-left: 8px;
   }
-
 </style>

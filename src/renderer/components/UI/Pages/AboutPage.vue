@@ -27,8 +27,9 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'about-page'
-  }
+<script lang="ts">
+  import Vue from 'vue'
+  export default Vue.extend({
+    name: 'about-page'  
+  })
 </script>

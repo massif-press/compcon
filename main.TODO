@@ -2,10 +2,10 @@ Bugs:
   ☐ Mech loadout item delete
 
 Refactor:
+  ✔ All tag linking with tag objects @done(19-04-11 13:20)
   ✔ remove Roboto CDN @done(19-04-08 11:32)
   ☐ remove workarounds from new (correct) vue.set in pilots.js @critical
   ☐ move static assets out of computed @critical
-  ☐ selector loaders for new and level @high 
   ☐ Vue set instead of direct assign
   ✔ More robust damage/range number parsing @done(19-04-10 16:32)
   ☐ new pilot selectors and edit pilot selectors should return the same object
@@ -13,8 +13,7 @@ Refactor:
   ☐ Core bonus selector item and core bonus sheet item should be the same
   ☐ License/Talent/Skill selectors can share a common framework
   ☐ make license data lowercase, remove the license editor uppercase confirms
-  ☐ Make loader/modal selector combo into component wrapper
-  ☐ wrap new/level selectors in conditional renderers to make lazy
+  ✔ Make loader/modal selector combo into component wrapper @done(19-04-11 15:26)
   ☐ For level up confirmation block:
     ☐ license id (dupe name field, lowercase)
     ☐ skill rank -> level
@@ -23,6 +22,10 @@ Refactor:
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
   ☐ Item() etc to mixins
+
+Other: 
+  ☐ Remove ItemBadge/ItemCard -- make new view for license browsing
+  ☐ Print at Roster View
 
 2.0:
   ☐ Glossary in compendium

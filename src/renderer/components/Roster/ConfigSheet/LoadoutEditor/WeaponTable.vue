@@ -69,9 +69,7 @@
 </template>
 
 <script>
-  import WeaponCard from '../../UI/WeaponCard'
-  import RangeElement from '../../UI/RangeElement'
-  import DamageElement from '../../UI/DamageElement'
+  import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
   import io from '@/store/data_io'
 

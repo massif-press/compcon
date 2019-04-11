@@ -2,8 +2,8 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="blue-grey darken-1" v-if="empty || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
-          <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemData.type }}</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-if="empty || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">Add System</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ itemData.type }}</v-btn>
           <span v-if="empty">Install System</span>
           <span v-else>Change or Remove Installed System</span>
         </v-tooltip>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import SystemCard from '../../UI/SystemCard'
+import {SystemCard} from '@/components/UI'
 
 export default {
   name: 'mech-system-item',
