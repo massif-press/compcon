@@ -2,14 +2,14 @@
   <div>
     <top-bar />
     <div class="wrapper">
-      <router-view class="pt-5"></router-view>
+      <router-view class="pt-5 mt-2"></router-view>
     </div>    
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import { TopBar } from './UI'
+  import { TopBar } from '@/components/UI'
 
   export default Vue.extend({
     name: 'roster',
@@ -30,7 +30,6 @@
 </script>
 
 <style scoped>
-
   * {
     box-sizing: border-box;
     margin: 0;
@@ -44,16 +43,6 @@
   .wrapper {
     display: flex;
     width: 100%;
-}
-</style>
-
-<style>
-/* TODO: global css */
-  .roster-content {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100vw;
-    overflow-y: scroll;
   }
 </style>
 

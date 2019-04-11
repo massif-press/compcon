@@ -66,7 +66,7 @@
 
 <script>
   import _ from 'lodash'
-  import SystemCard from '../../UI/SystemCard'
+  import {SystemCard} from '@/components/UI'
 
   export default {
     name: 'system-table',

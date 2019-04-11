@@ -42,7 +42,7 @@
           <v-flex>
             <v-toolbar>
               <v-toolbar-title>{{bonus.name}}&nbsp;<span class="caption">{{bonus.source}}</span></v-toolbar-title>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-tooltip top :disabled="licenses[bonus.source] > 3 || pointLimit || bonuses.includes(bonus.id)">
                 <div slot="activator">
                   <v-btn v-if="bonuses.includes(bonus.id)" fab small @click="removeBonus(bonus.id, bonus.source)"><v-icon>remove</v-icon></v-btn>

@@ -72,7 +72,6 @@
         return 'teal'
       },
       openItem(t: CCItem) {
-        console.log(this.$router)
         this.$store.dispatch('setPresearch', t.name)
         if (t.data_type === 'frame') { this.$router.push('frames') }
         else if (t.data_type === 'weapon') { this.$router.push('weapons') }

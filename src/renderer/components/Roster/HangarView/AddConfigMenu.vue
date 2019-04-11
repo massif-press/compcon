@@ -116,7 +116,7 @@
 
 <script>
   import io from '@/store/data_io'
-  import { FrameStatblock } from '../UI'
+  import { FrameStatblock } from '@/components/UI'
   import validator from '@/logic/validator'
 
   export default {

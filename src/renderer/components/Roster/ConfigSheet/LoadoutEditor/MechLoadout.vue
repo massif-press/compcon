@@ -41,7 +41,7 @@
                         </v-card-text>
                         <v-card-actions>
                           <v-btn flat @click="renameDialog = false"> Cancel </v-btn>
-                          <v-spacer></v-spacer>
+                          <v-spacer />
                           <v-btn color="primary" flat @click="renameLoadout(index)"> Rename </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -57,7 +57,7 @@
                         </v-card-text>
                         <v-card-actions>
                           <v-btn flat @click="deleteDialog = false"> Cancel </v-btn>
-                          <v-spacer></v-spacer>
+                          <v-spacer />
                           <v-btn color="error" @click="deleteLoadout(index)"> Delete </v-btn>
                         </v-card-actions>
                       </v-card>
@@ -69,7 +69,7 @@
                 <v-dialog v-model="systemSelectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
                   <v-toolbar fixed dense flat dark>
                     <v-toolbar-title><span class="text-capitalize">Select System</span></v-toolbar-title>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
                     <v-toolbar-items>
                       <v-btn icon large @click="systemSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
                     </v-toolbar-items>

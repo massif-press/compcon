@@ -43,9 +43,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import GearCard from '@/components/Roster/UI/GearCard.vue'
-import RangeElement from '@/components/Roster/UI/RangeElement.vue'
-import DamageElement from '@/components/Roster/UI/DamageElement.vue'
+import {RangeElement, DamageElement, GearCard} from '@/components/UI'
 
 export default Vue.extend({
     name: 'pilot-gear',

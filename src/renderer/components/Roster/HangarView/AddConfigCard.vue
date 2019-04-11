@@ -23,7 +23,7 @@
         <v-card>
           <v-toolbar fixed dense flat>
             <v-toolbar-title>New Configuration</v-toolbar-title>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-toolbar-items>
               <v-btn icon large @click="newConfigModal = false; newConfigLoader = false"> <v-icon large>close</v-icon> </v-btn>
             </v-toolbar-items>

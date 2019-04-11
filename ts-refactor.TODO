@@ -13,7 +13,7 @@ Compendium:
     ✔ Compendium/Views/Tags.vue @done(19-04-09 16:13)
     ✔ Compendium/Views/Weapons.vue @done(19-04-09 16:14)
 Roster:
-  ☐ Roster/index.vue
+  ✔ Roster/index.vue @done(19-04-11 14:57)
   ConfigSheet:
     ☐ Roster/ConfigSheet/ImageSelector.vue
     ☐ Roster/ConfigSheet/index.vue
@@ -45,7 +45,7 @@ Roster:
     ✔ Roster/PilotSheet/SkillItem.vue @done(19-04-10 16:22)
     ✔ Roster/PilotSheet/TalentItem.vue @done(19-04-10 16:30)
     ☐ Roster/PilotSheet/New/index.vue
-    ☐ Roster/PilotSheet/Print/PrintView.vue
+    ✔ Roster/PilotSheet/Print/PrintView.vue @done(19-04-11 15:31)
     Level:
       ☐ Roster/PilotSheet/Level/ConfirmationBlock.vue
       ☐ Roster/PilotSheet/Level/index.vue
@@ -66,27 +66,26 @@ Roster:
       ☐ Roster/PilotSheet/Selectors/TalentSelectorItem.vue
       ☐ Roster/PilotSheet/Selectors/TalentSelector.vue
   RosterView:
-    ☐ Roster/RosterView/AddPilotCard.vue
+    ✔ Roster/RosterView/AddPilotCard.vue @done(19-04-11 16:22)
     ☐ Roster/RosterView/AddPilotMenu.vue
     ☐ Roster/RosterView/index.vue
     ☐ Roster/RosterView/PilotCard.vue
   UI:
-    ☐ Roster/UI/DamageElement.vue
-    ☐ Roster/UI/EditableLabel.vue
-    ☐ Roster/UI/EditableTextfield.vue
-    ☐ Roster/UI/FrameStatblock.vue
-    ☐ Roster/UI/GearCard.vue
-    ☐ Roster/UI/ItemBadge.vue
-    ☐ Roster/UI/ItemCard.vue
-    ☐ Roster/UI/LazyModal.vue
-    ☐ Roster/UI/ModCard.vue
-    ☐ Roster/UI/PipBar.vue
-    ☐ Roster/UI/RangeElement.vue
-    ☐ Roster/UI/SystemCard.vue
-    ☐ Roster/UI/Tag.vue
-    ☐ Roster/UI/Topbar.vue
-    ☐ Roster/UI/WeaponCard.vue
+    ✔ Roster/UI/DamageElement.vue @done(19-04-11 10:53)
+    ✔ Roster/UI/EditableLabel.vue @done(19-04-11 11:47)
+    ✔ Roster/UI/EditableTextfield.vue @done(19-04-11 12:01)
+    ✔ Roster/UI/FrameStatblock.vue @done(19-04-11 12:01)
+    ✔ Roster/UI/GearCard.vue @done(19-04-11 12:33)
+    ✔ Roster/UI/ItemBadge.vue @done(19-04-11 13:19)
+    ✔ Roster/UI/ItemCard.vue @done(19-04-11 14:20)
+    ✔ Roster/UI/ModCard.vue @done(19-04-11 14:21)
+    ✔ Roster/UI/PipBar.vue @done(19-04-11 10:58)
+    ✔ Roster/UI/RangeElement.vue @done(19-04-11 14:27)
+    ✔ Roster/UI/SystemCard.vue @done(19-04-11 14:38)
+    ✔ Roster/UI/Tag.vue @done(19-04-11 12:19)
+    ✔ Roster/UI/Topbar.vue @done(19-04-11 14:44)
+    ✔ Roster/UI/WeaponCard.vue @done(19-04-11 14:38)
     Pages:
-      ☐ Roster/UI/Pages/AboutPage.vue
-      ☐ Roster/UI/Pages/HelpPage.vue
-      ☐ Roster/UI/Pages/OptionsPage.vue
+      ✔ Roster/UI/Pages/AboutPage.vue @done(19-04-11 14:52)
+      ✔ Roster/UI/Pages/HelpPage.vue @done(19-04-11 14:52)
+      ✔ Roster/UI/Pages/OptionsPage.vue @done(19-04-11 14:52)
