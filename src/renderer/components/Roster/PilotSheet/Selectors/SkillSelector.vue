@@ -203,7 +203,7 @@
       },
       canAdd: function (skill) {
         if (this.newPilot) {
-          return this.skills.length < 4
+          return this.skills.length < 4 && !this.skills.find(x => x.id === skill.id)
         } else {
           var s = this.skills.find(x => x.id === skill.id)
           var underLimit = this.points.pointsCurrent < this.points.pointsMax

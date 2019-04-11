@@ -5,7 +5,7 @@
         <strong class="title">{{itemData.name}}</strong>
       </v-card-title>
       <v-card-text class="pb-0 pt-0">
-
+        <!-- Weapon -->
         <div v-if="itemData.data_type === 'weapon'">
           <em v-if="!popup">{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</em>
           <p v-if="itemData.type" v-html="itemData.type" />
@@ -16,7 +16,7 @@
           <range-element :range="itemData.range" />
           <p v-if="itemData.effect" v-html="itemData.effect" />
         </div>
-
+        <!-- Armor -->
         <div v-else-if="itemData.data_type === 'system' || itemData.data_type === 'mod'">
           <p v-if="!popup">{{itemData.source}} {{itemData.license}} &mdash; RANK {{itemData.license_level}}</p>
           <p v-if="itemData.type" v-html="itemData.type" />
@@ -24,38 +24,34 @@
           <p v-if="itemData.sp" v-html="`${itemData.sp} SP`" />
           <p v-if="itemData.effect" v-html="`${itemData.effect}`" />
         </div>
-
-        <!-- frame -->
+        <!-- Frame -->
         <div v-else>
           <b class="ml-3">{{itemData.source}} {{itemData.mechtype}} Frame</b>
           <frame-statblock :frame="itemData" />
         </div>
-
         <v-layout>
-          <tag v-for="tag in itemData.tags" :key="tag.id" :id="tag.id" :val="tag.val"/>
+          <item-tag v-for="t in itemData.tags" :key="t.id" :tag-obj="t"/>
         </v-layout>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
-<script>
-  import DamageElement from './DamageElement'
-  import RangeElement from './RangeElement'
-  import FrameStatblock from './FrameStatblock'
-  import Tag from './Tag'
+<script lang="ts">
+  import Vue from 'vue'
+  import {RangeElement, DamageElement, FrameStatblock, ItemTag} from './'
 
-  export default {
+  export default Vue.extend({
     name: 'item-card',
     props: {
       itemData: Object,
       popup: Boolean
     },
-    components: { DamageElement, RangeElement, FrameStatblock, Tag },
+    components: { DamageElement, RangeElement, FrameStatblock, ItemTag },
     computed: {
       pilot: function () {
         return this.$store.getters.getPilot
       }
     }
-  }
+  })
 </script>

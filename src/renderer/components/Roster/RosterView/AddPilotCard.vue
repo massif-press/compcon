@@ -1,21 +1,19 @@
 <template>
-<v-hover>
-  <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true">
+<v-hover style="cursor: pointer">
+  <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true" style="height: 100%">
     <v-layout row>
       <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
-        <div style="height: 300px; display:table; width:100%; cursor: pointer;">
+        <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
           <span class="pilot-letter white--text">+</span>
         </div>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex class="pb-0">
-        <v-card color="rgba(0, 0, 0, .55)" dark flat height="112px">
-          <v-layout fill-height>
-            <v-flex class="ma-2 text-xs-center" align-center align-content-center>
-              <span class="font-weight-light" style="line-height:76px; letter-spacing:3px; font-size:28px">Add New Pilot</span>
-            </v-flex>
-          </v-layout>
+    <v-layout row fill-height>
+      <v-flex>
+        <v-card color="transparent" flat>
+          <v-card-text class="text-xs-center white--text">
+            <span class="font-weight-light center-align add-letter">Add New Pilot</span>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -24,16 +22,20 @@
 </v-hover>
 </template>
 
-<script>
-import AddPilotMenu from './AddPilotMenu'
+<script lang="ts">
+  import Vue from 'vue'
+  import AddPilotMenu from './AddPilotMenu.vue'
 
-export default {
-  name: 'add-pilot-card',
-  components: {AddPilotMenu},
-  data: () => ({
-    addMenu: false
+  export default Vue.extend({
+    name: 'add-pilot-card',
+    components: {AddPilotMenu},
+    props: {
+      cardHeight: Number
+    },
+    data: () => ({
+      addMenu: false
+    })
   })
-}
 </script>
 
 <style scoped>
@@ -45,13 +47,18 @@ export default {
    line-height: 0;
  }
 
+ .add-letter {
+    letter-spacing:3px; 
+    font-size:35px
+ }
+
  .inactive {
-   background: linear-gradient(#616161, #424242 80%);
+   background: linear-gradient(#424242, #616161 80%);
    background-color: #424242;
  }
 
   .inactive:hover {
-   background: linear-gradient(#546E7A, #616161 80%);
+   background: linear-gradient(#424242, #757575  80%);
    border: 0px
  }
 </style>

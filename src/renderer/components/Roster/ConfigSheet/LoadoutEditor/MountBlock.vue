@@ -52,7 +52,7 @@
     <v-dialog v-model="weaponSelectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-toolbar fixed dense flat dark>
         <v-toolbar-title><span class="text-capitalize">Select Weapon</span></v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="weaponSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
         </v-toolbar-items>
@@ -76,7 +76,7 @@
           <v-divider />
           <v-card-actions>
             <v-btn flat @click="shLockModal = false" > Cancel </v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn color="primary" @click="equipSuperheavy" > Confirm </v-btn>
           </v-card-actions>
         </v-card>
@@ -93,7 +93,7 @@
       <v-dialog v-model="modModal" width="70vw" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
         <v-toolbar fixed dense flat dark>
           <v-toolbar-title><span class="text-capitalize">Select Weapon Modification</span></v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-toolbar-items>
             <v-btn icon large @click="modModal = false; modLoader = false"> <v-icon large>close</v-icon> </v-btn>
           </v-toolbar-items>

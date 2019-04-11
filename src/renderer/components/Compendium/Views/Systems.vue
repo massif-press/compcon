@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import SystemCard from '@/components/Roster/UI/SystemCard.vue'
+import {SystemCard} from '@/components/UI'
 
 export default Vue.extend({
     name: 'systems',

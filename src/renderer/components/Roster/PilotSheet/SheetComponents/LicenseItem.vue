@@ -38,7 +38,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {ItemBadge} from '../../UI'
+  import ItemBadge from './ItemBadge.vue'
   import {LicenseCard} from '@/components/UI'
 
   export default Vue.extend({
