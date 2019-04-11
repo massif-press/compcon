@@ -45,7 +45,11 @@ export default new Router({
           children: [
             {
               path: '',
-              redirect: '/licenses',
+              component: require('@/components/Compendium/Views/Home').default,
+            },
+            {
+              path: '/compendiumsearch/:query',
+              component: require('@/components/Compendium/Views/SearchResults').default,
             },
             {
               path: '/licenses',
