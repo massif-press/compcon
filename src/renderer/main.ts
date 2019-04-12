@@ -13,7 +13,7 @@ import { remote } from 'electron'
 import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
-
+import VueMousetrap from 'vue-mousetrap'
 import ClickOutside from './directives/click-outside'
 
 const windowAny: any = window
@@ -25,6 +25,8 @@ if (process.env.NODE_ENV !== 'development') {
 Vue.use(Vuetify, {
   iconfont: 'mdi',
 })
+Vue.use(VueMousetrap)
+
 
 Vue.directive('click-outside', ClickOutside)
 
