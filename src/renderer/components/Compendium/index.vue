@@ -2,9 +2,9 @@
   <div>
     <!-- <sidebar /> -->
       <!-- <router-view style="margin-left: 80px; width:96vw"></router-view> -->
-      <v-slide-x-transition mode="out-in">
+      <v-slide-y-reverse-transition mode="out-in">
         <router-view style="width: 100vw;" />
-      </v-slide-x-transition>
+      </v-slide-y-reverse-transition>
   </div>    
 </template>
 
