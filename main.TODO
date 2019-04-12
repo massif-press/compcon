@@ -1,5 +1,7 @@
 Bugs:
   ☐ Mech loadout item delete
+  ☐ Disable remove item/gear button if nothing is currently equipped
+  ☐ Loadout auto-name should consider if name already exists
 
 Refactor:
   ✔ All tag linking with tag objects @done(19-04-11 13:20)
@@ -22,11 +24,12 @@ Refactor:
   ☐ Redo class style bindings with `:class="{ active: isActive }"` pattern
   ☐ Move all calculation, checking, filtering out of template
   ☐ Item() etc to mixins
+  ☐ Hangar and Roster CSS
 
-Other: 
+Styling:
+  ☐ Pilot Cards shouldn't deviate in size
   ☐ Remove ItemBadge/ItemCard -- make new view for license browsing
-  ☐ Print at Roster View
-  ✔ Rename Main/Aux slot on the flex mount to `Main or Aux` @done(19-04-11 20:48)
+  ☐ Better list/table for Frame selection
 
 2.0:
   ☐ Glossary in compendium

@@ -63,7 +63,7 @@ const getItemID = (name: string, collection: string): string => {
 }
 
 // load sheet file from path
-export const loadSheetFile = (path: 'string') => {
+export const loadSheetFile = (path: string) => {
     const file = readFileSync(path)
     return XLSX.read(file, { type: 'buffer' })
 }

@@ -70,9 +70,6 @@
 </script>
 
 <style scoped>
-  .clickable {
-    cursor: pointer!important;
-  }
   .clickable:hover {
     background-color: #0D47A1;
   }

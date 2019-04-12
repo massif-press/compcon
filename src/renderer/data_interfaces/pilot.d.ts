@@ -2,8 +2,6 @@ declare interface PilotLicense {
   name: string, source: string, level: number
 }
 
-type ItemID = { id: string }
-
 declare interface PilotLoadout {
   id: string,
   items: {
@@ -26,28 +24,6 @@ declare interface PilotInvocation {
 
 declare interface PilotTalent {
   id: string, rank: number
-}
-
-declare interface MechMount {
-  mount_type: string,
-  weapons: { id: string, mod?: string }[],
-  bonuses: string[],
-  imparm?: boolean
-}
-
-declare interface MechLoadout {
-  id: string,
-  name: string,
-  systems: ItemID[],
-  mounts: MechMount[]
-}
-
-declare interface MechConfig {
-  id: string,
-  pilot_id: string,
-  name: string,
-  frame_id: string,
-  loadouts: MechLoadout[]
 }
 
 declare interface MechSkills {
