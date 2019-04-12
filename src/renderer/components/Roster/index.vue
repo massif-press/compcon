@@ -3,7 +3,7 @@
     <top-bar />
     <div class="wrapper">
       <v-fade-transition leave-absolute>
-          <router-view class="pt-5 mt-2" />
+          <router-view />
       </v-fade-transition>
     </div>    
   </div>
