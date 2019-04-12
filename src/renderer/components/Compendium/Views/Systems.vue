@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH SYSTEMS</span>
       <v-card>
          <v-autocomplete flat v-model="search" :items="systems" 
