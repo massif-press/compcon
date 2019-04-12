@@ -28,14 +28,16 @@
                 <v-divider />
                 <v-card-text class="pt-0">
                     <v-subheader class="mb-0">Weapon</v-subheader>
-                    <v-layout pb-2 align-center justify-space-between>
-                        <div class="pl-2">{{ item.mount }} {{ item.type }}</div>
-                        <range-element :range="item.range" />
-                        <damage-element :dmg="item.damage" />
-                    </v-layout>
+                        <v-layout mb-2 py-2 px-1 align-center>
+                            <div class="pl-2 subheading">{{ item.mount }} {{ item.type }}</div>
+                            <v-divider vertical class="mx-3" />
+                            <range-element :range="item.range" />
+                            <v-divider vertical class="mx-3" />
+                            <damage-element :dmg="item.damage" />
+                        </v-layout>
                 </v-card-text>
             </template>
-            <template v-if="item.tags">
+            <template v-if="item.tags && item.tags.length">
                 <v-divider />
                 <v-card-text class="pt-0">
                     <v-subheader class="mb-0">Tags</v-subheader>
