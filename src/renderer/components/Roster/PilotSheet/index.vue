@@ -282,15 +282,10 @@
     </div>
 
     <!-- Missing/No Pilot Display -->
-    <div v-else style="height: 90vh">
-      <v-container style="height: 100%">
-        <v-layout align-center justify-center row fill-height>
-          <v-flex>
-            <p class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </div>
+    <empty-view v-else>
+      <p slot="contents" class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
+    </empty-view>
+
   </div>
 </template>
 
@@ -298,7 +293,7 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
-  import { LazyDialog, EditableLabel, EditableTextfield, PipBar } from '@/components/UI'
+  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
@@ -309,7 +304,7 @@
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, 
     PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, 
     TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig, 
-    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips
+    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView
     },
     data: () => ({
       callsignDialog: false,
@@ -468,5 +463,4 @@
     height:40px;
     padding-top:8px
   }
-
   </style>

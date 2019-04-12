@@ -1,12 +1,6 @@
 <template>
   <div style="line-height: 1.2">
     <v-container fluid>
-    <!-- config header -->
-      <!-- <v-layout>
-        <v-flex xs1 class="pt-0"><hr/></v-flex>
-        <v-flex shrink class="pt-0 mt-0"><span class="pilot-header">&emsp;MECH&emsp;</span></v-flex>
-        <v-flex class="pt-0"><hr/></v-flex>
-      </v-layout> -->
 
     <!-- callsign/name/level block -->
       <v-layout fill-height justify-space-between >
@@ -246,11 +240,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import Stats from '@/logic/stats'
-import {RangeElement, DamageElement} from '@/components/UI'
+  import {RangeElement, DamageElement} from '@/components/UI'
 
-  export default {
+  export default Vue.extend({
     name: 'mech-print-view',
     components: { RangeElement, DamageElement },
     data: () => ({
@@ -262,53 +257,56 @@ import {RangeElement, DamageElement} from '@/components/UI'
       printOptions: {}
     }),
     methods: {
-      item: function (type, id) {
+      item (type: string, id: string) {
         return this.$store.getters.getItemById(type, id)
       },
-      tag: function (id) {
+      tag (id: string) {
         return this.$store.getters.getItemById('Tags', id)
       },
-      system: function (id) {
+      system (id: string) {
         return this.$store.getters.getItemById('MechSystems', id)
       },
-      weapon: function (id) {
+      weapon (id: string) {
         return this.$store.getters.getItemById('MechWeapons', id)
       },
-      signed: function (val) {
+      signed (val: number) {
         return val > -1 ? `+${val}` : `${val}`
       },
-      calcSize: function (str) {
+      calcSize (str: string) {
         if (str.length < 12) return 30
         else if (str.length < 30) return 25
         else return 20
       },
-      fullTag: function (t, v) {
+      fullTag (t: string, v: string | number) {
+        var vm = this as any
         if (!t) return '// MISSING TAG //'
-        if (typeof v === 'string' && this.stats.limited_bonus > 0) {
-          return t.replace(/{VAL}/g, `${v}+${this.stats.limited_bonus}`)
+        if (typeof v === 'string' && vm.stats.limited_bonus > 0) {
+          return t.replace(/{VAL}/g, `${v}+${vm.stats.limited_bonus}`)
         }
-        return t.replace(/{VAL}/g, v + this.stats.limited_bonus)
+        return t.replace(/{VAL}/g, v + vm.stats.limited_bonus)
       },
-      hasImparm: function () {
-        return this.pilot.core_bonuses.includes('imparm')
+      hasImparm (): boolean {
+        var vm = this as any
+        return vm.pilot.core_bonuses.includes('imparm')
       }
     },
-    created: function () {
-      this.pilot = this.$store.getters.getPilot
-      this.printOptions = this.$store.getters.getPrintOptions
-      this.config = this.pilot.configs.find(x => x.id === this.printOptions.config_id)
-      this.loadout = this.config.loadouts[this.printOptions.loadout_index] || null
-      this.pilotStats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
-      this.stats = this.$store.getters.getMechStats(this.config.id, this.config.loadouts[this.activeLoadoutIdx])
-      this.frame = this.$store.getters.getItemById('Frames', this.config.frame_id)
+    created () {
+      var vm = this as any
+      vm.pilot = vm.$store.getters.getPilot
+      vm.printOptions = vm.$store.getters.getPrintOptions
+      vm.config = vm.pilot.configs.find((x: any ) => x.id === vm.printOptions.config_id)
+      vm.loadout = vm.config.loadouts[vm.printOptions.loadout_index] || null
+      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.loadout_index], vm.$store.getters.getState)
+      vm.stats = vm.$store.getters.getMechStats(vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
+      vm.frame = vm.$store.getters.getItemById('Frames', vm.config.frame_id)
     },
-    mounted: function () {
+    mounted () {
       window.print()
       setTimeout(() => {
         this.$router.push('/config')
       }, 10)
     }
-  }
+  })
 </script>
 
 <style scoped>

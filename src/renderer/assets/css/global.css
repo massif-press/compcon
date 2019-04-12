@@ -1,3 +1,7 @@
+  .clickable {
+    cursor: pointer!important;
+  }
+  
 .edit-btn {
   position: relative;
   opacity: 0.15;

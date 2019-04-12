@@ -3,12 +3,14 @@
     <v-container fluid class="pa-0 pt-3">
       <v-layout>
         <v-flex><hr style="border-color: grey" dark class="mt-2 ml-5 mr-4"/></v-flex>
-        <v-flex shrink class="text-xs-center active-pilot-title"><span>{{pilot.callsign}}</span></v-flex>
+        <v-flex shrink class="text-xs-center active-pilot-title">
+          <span>{{pilot.callsign}}</span>
+        </v-flex>
         <v-flex><hr style="border-color: grey" dark class="mt-2 ml-4 mr-5"/></v-flex>
         <v-tooltip left>
           <v-menu offset-y slot="activator">
             <template v-slot:activator="{ on }">
-              <v-btn  icon dark absolute top right style="margin-top: 80px;" v-on="on"><v-icon>mdi-sort</v-icon></v-btn>
+              <v-btn icon dark absolute top right style="margin-top: 80px;" v-on="on"><v-icon>mdi-sort</v-icon></v-btn>
             </template>
             <v-list dark dense>
               <v-list-tile v-for="s in sorts" :key="s.name">
@@ -27,59 +29,63 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2" fill-height>
         <v-flex v-for="(c, i) in configs" :key="c.id + i" class="mb-4" xs3>
-          <config-card :config="c" :c-idx="i" />
+          <config-card :config="c" :c-idx="i" :card-height="cardHeight"/>
         </v-flex>
-        <v-flex xs3><add-config-card @added="update" /></v-flex>
+        <v-flex xs3>
+          <add-config-card @added="update" :card-height="cardHeight" />
+        </v-flex>
       </v-layout>
     </v-container>
   </div>
 </template>
 
-<script>
-import _ from 'lodash'
-import ConfigCard from './ConfigCard'
-import AddConfigCard from './AddConfigCard'
+<script lang="ts">
+  import Vue from 'vue'
+  import _ from 'lodash'
+  import ConfigCard from './ConfigCard.vue'
+  import AddConfigCard from './AddConfigCard.vue'
 
-export default {
-  name: 'hangar-view',
-  components: { ConfigCard, AddConfigCard },
-  data: () => ({
-    sorts: [
-      { name: 'Created', field: '' },
-      { name: 'Designation', field: 'name' },
-      { name: 'Frame', field: 'frame_id' }
-    ],
-    currentSort: { name: 'Created', field: '' },
-    ascending: false
-  }),
-  computed: {
-    pilot: function () {
-      return this.$store.getters.getPilot
-    },
-    configs: function () {
-      var allConfigs = this.pilot.configs
-      if (this.currentSort && this.currentSort.field !== '') {
-        allConfigs = this.currentSort.field === 'level'
-          ? _.sortBy(allConfigs, this.currentSort.field)
-          : _.sortBy(allConfigs, p => p[this.currentSort.field].toLowerCase())
+  export default Vue.extend({
+    name: 'hangar-view',
+    components: { ConfigCard, AddConfigCard },
+    data: () => ({
+      sorts: [
+        { name: 'Created', field: '' },
+        { name: 'Designation', field: 'name' },
+        { name: 'Frame', field: 'frame_id' }
+      ],
+      currentSort: { name: 'Created', field: '' },
+      ascending: false,
+      cardHeight: 300
+    }),
+    computed: {
+      pilot(): Pilot {
+        return this.$store.getters.getPilot
+      },
+      configs(): MechConfig[] {
+        var allConfigs = this.pilot.configs as any
+        if (this.currentSort && this.currentSort.field !== '') {
+          allConfigs = this.currentSort.field === 'level'
+            ? _.sortBy(allConfigs, this.currentSort.field)
+            : _.sortBy(allConfigs, p => (p as any)[this.currentSort.field].toLowerCase())
+        }
+        if (!this.ascending) {
+          return _.reverse(_.clone(allConfigs))
+        }
+        return allConfigs
       }
-      if (!this.ascending) {
-        return _.reverse(_.clone(allConfigs))
-      }
-      return allConfigs
-    }
-  },
-  methods: {
-    update: function () {
-      this.$forceUpdate()
-      this.$router.push('/hangar')
     },
-    sortBy: function (sort, isAscending) {
-      this.currentSort = sort
-      this.ascending = isAscending
+    methods: {
+      update() {
+        this.$forceUpdate()
+        this.$router.push('/hangar')
+      },
+      sortBy(sort: {name: string, field: string}, isAscending: boolean) {
+        this.currentSort = sort
+        this.ascending = isAscending
+      }
     }
-  }
-}
+  })
 </script>
 
 <style scoped>

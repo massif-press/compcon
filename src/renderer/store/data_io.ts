@@ -31,6 +31,15 @@ export default {
       return []
     }
   },
+  loadSingle<T = object>(filename: string): T {
+    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
+    if (fs.existsSync(p)) {
+      return JSON.parse(fs.readFileSync(p, 'utf-8'))
+    } else {
+      console.error(`file ${filename} does not exist at ${p}.`)
+      return {} as T
+    }
+  },  
   findBrewData(userDataPath: string) {
     const brews = []
     const contentPath = path.join(userDataPath, 'content')

@@ -15,11 +15,11 @@ Compendium:
 Roster:
   ✔ Roster/index.vue @done(19-04-11 14:57)
   ConfigSheet:
-    ☐ Roster/ConfigSheet/ImageSelector.vue
-    ☐ Roster/ConfigSheet/index.vue
-    ☐ Roster/ConfigSheet/StatblockItem.vue
-    ☐ Roster/ConfigSheet/TraitItem.vue
-    ☐ Roster/ConfigSheet/Print/PrintView.vue
+    ✔ Roster/ConfigSheet/ImageSelector.vue @done(19-04-12 13:24)
+    ✔ Roster/ConfigSheet/index.vue @done(19-04-12 13:20)
+    ✔ Roster/ConfigSheet/StatblockItem.vue @done(19-04-12 13:25)
+    ✔ Roster/ConfigSheet/TraitItem.vue @done(19-04-12 13:25)
+    ✔ Roster/ConfigSheet/Print/PrintView.vue @done(19-04-12 13:30)
     LoadoutEditor:
       ☐ Roster/ConfigSheet/LoadoutEditor/CoreBenefitSelector.vue
       ☐ Roster/ConfigSheet/LoadoutEditor/IntegratedBlock.vue
@@ -32,10 +32,10 @@ Roster:
       ☐ Roster/ConfigSheet/LoadoutEditor/SystemTable.vue
       ☐ Roster/ConfigSheet/LoadoutEditor/WeaponTable.vue
   HangarView:
-    ☐ Roster/HangarView/AddConfigCard.vue
-    ☐ Roster/HangarView/AddConfigMenu.vue
-    ☐ Roster/HangarView/ConfigCard.vue
-    ☐ Roster/HangarView/index.vue
+    ✔ Roster/HangarView/AddConfigCard.vue @done(19-04-12 14:08)
+    ✔ Roster/HangarView/AddConfigMenu.vue @done(19-04-12 14:18)
+    ✔ Roster/HangarView/ConfigCard.vue @done(19-04-12 14:01)
+    ✔ Roster/HangarView/index.vue @done(19-04-12 13:44)
   PilotSheet:
     ✔ Roster/PilotSheet/ContactsList.vue @done(19-04-10 15:15)
     ✔ Roster/PilotSheet/CoreBonusItem.vue @done(19-04-10 15:29)
@@ -44,16 +44,16 @@ Roster:
     ✔ Roster/PilotSheet/LicenseItem.vue @done(19-04-10 16:10)
     ✔ Roster/PilotSheet/SkillItem.vue @done(19-04-10 16:22)
     ✔ Roster/PilotSheet/TalentItem.vue @done(19-04-10 16:30)
-    ☐ Roster/PilotSheet/New/index.vue
+    ✔ Roster/PilotSheet/New/index.vue @done(19-04-12 14:43)
     ✔ Roster/PilotSheet/Print/PrintView.vue @done(19-04-11 15:31)
     Level:
-      ☐ Roster/PilotSheet/Level/ConfirmationBlock.vue
-      ☐ Roster/PilotSheet/Level/index.vue
-      ☐ Roster/PilotSheet/Level/LevelUpdateBlock.vue
+      ✔ Roster/PilotSheet/Level/ConfirmationBlock.vue @done(19-04-12 14:31)
+      ✔ Roster/PilotSheet/Level/index.vue @done(19-04-12 14:43)
+      ✔ Roster/PilotSheet/Level/LevelUpdateBlock.vue @done(19-04-12 14:28)
     LoadoutEditor:
-      ☐ Roster/PilotSheet/LoadoutEditor/GearItem.vue
-      ☐ Roster/PilotSheet/LoadoutEditor/ItemTable.vue
-      ☐ Roster/PilotSheet/LoadoutEditor/PilotLoadout.vue
+      ✔ Roster/PilotSheet/LoadoutEditor/GearItem.vue @done(19-04-12 14:48)
+      ✔ Roster/PilotSheet/LoadoutEditor/ItemTable.vue @done(19-04-12 14:52)
+      ✔ Roster/PilotSheet/LoadoutEditor/PilotLoadout.vue @done(19-04-12 15:24)
     Selectors:
       ☐ Roster/PilotSheet/Selectors/BackgroundSelector.vue
       ☐ Roster/PilotSheet/Selectors/CoreBonusSelector.vue
@@ -67,9 +67,9 @@ Roster:
       ☐ Roster/PilotSheet/Selectors/TalentSelector.vue
   RosterView:
     ✔ Roster/RosterView/AddPilotCard.vue @done(19-04-11 16:22)
-    ☐ Roster/RosterView/AddPilotMenu.vue
+    ✔ Roster/RosterView/AddPilotMenu.vue @done(19-04-12 11:10)
     ✔ Roster/RosterView/index.vue @done(19-04-11 20:49)
-    ☐ Roster/RosterView/PilotCard.vue
+    ✔ Roster/RosterView/PilotCard.vue @done(19-04-12 11:02)
   UI:
     ✔ Roster/UI/DamageElement.vue @done(19-04-11 10:53)
     ✔ Roster/UI/EditableLabel.vue @done(19-04-11 11:47)

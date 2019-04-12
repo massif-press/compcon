@@ -20,7 +20,6 @@ interface AppState {
   Brews: object[],
   Licenses: PilotLicense[]
 }
-interface LicenseReq { name: string, rank: number, items: string[], missing?: any }
 
 function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq[] {
   if (item.source === 'GMS') {
@@ -42,7 +41,7 @@ function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq
 }
 
 export default {
-  mechStats(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState) {
+  mechStats(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState): MechStats {
     const frames = state.Frames
     const systems = state.MechSystems
     const weapons = state.MechWeapons
@@ -53,7 +52,8 @@ export default {
 
     const grit = Math.ceil(pilot.level / 2)
 
-    const output: { [key: string]: any, required_licenses: LicenseReq[] } = {
+    const output: MechStats = {
+      size: frame.stats.size,
       structure: rules.base_structure + (frame.stats.structuremod || 0),
       hull: pilot.mechSkills.hull,
       agi: pilot.mechSkills.agi,

@@ -41,12 +41,7 @@
   import _ from 'lodash'
   import PilotCard from './PilotCard.vue'
   import AddPilotCard from './AddPilotCard.vue'
-  
-  declare interface Sort {
-    name: string,
-    field: string
-  }
-  
+
   export default Vue.extend({
     name: 'roster-view',
     components: { PilotCard, AddPilotCard },
@@ -58,7 +53,7 @@
         { name: 'Background', field: 'background' },
         { name: 'License Level', field: 'level' }
       ],
-      currentSort: { name: 'Created', field: '' } as Sort,
+      currentSort: { name: 'Created', field: '' },
       ascending: false,
       cardHeight: 300
     }),
@@ -77,7 +72,7 @@
       }
     },
     methods: {
-      sortBy (sort: Sort, isAscending: boolean) {
+      sortBy (sort: {name: string, field: string}, isAscending: boolean) {
         this.currentSort = sort
         this.ascending = isAscending
       }

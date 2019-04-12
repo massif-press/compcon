@@ -37,6 +37,30 @@ const colors = {
     light: '#AA00FF',
     dark: '#D500F9',
   },
+  structure: {
+    light: '#B50057',
+    dark: '#F50057'
+  },
+  hp: {
+    light: '#0284FF',
+    dark: '#FFFFFF',
+  },
+  armor: {
+    light: '#0181FF',
+    dark: '#82B1FF',
+  },
+  stress: {
+    light: '#B83D00',
+    dark: '#FF3D00',
+  },
+  heatcap: {
+    light: '#A38D6D',
+    dark: '#FFCC80',
+  },
+  repcap: {
+    light: '#8E8E8E',
+    dark: '#E0E0E0',
+  },
 }
 
 export default {
