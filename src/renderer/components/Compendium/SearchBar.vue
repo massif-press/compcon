@@ -28,17 +28,10 @@ export default Vue.extend({
       },
     },
     mounted() {
-      // window.addEventListener('keydown',
-      //   debounce((e) => {
-      //     if (!this.active) {
-      //       if (e.keyCode === 70 && e.ctrlKey) {
-      //         this.active = true
-      //         const input = this.$refs.input as HTMLInputElement
-      //         input.focus()
-      //       }
-      //     }
-      //   }),
-      // )
+      const thisAny: any = this
+      thisAny.$mousetrap.bind(['ctrl+f', '/'], () => {
+        (this.$refs.input as HTMLElement).focus()
+      })
     },
   })
 </script>
