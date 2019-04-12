@@ -23,7 +23,7 @@
         </div>
         <div v-else-if="mount.mount_type === 'Flex'">
           <div v-if="!mount.weapons[0]">
-            <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="null" fitting-type="Main / Aux" @clicked="openWeaponSelector('flex', 0)" />  
+            <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="null" fitting-type="Main or Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
           <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Main'">
             <mech-weapon-item :key="mount.mount_type + '1' + weaponReload" :item="mount.weapons[0]" fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" @open-mod="openModSelector(0)" />  

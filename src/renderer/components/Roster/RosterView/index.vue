@@ -25,8 +25,8 @@
     </v-container>
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2" fill-height>
-        <v-flex v-for="(p, i) in pilots" :key="p.id" :card-height="cardHeight" class="mb-4" xs3>
-          <pilot-card :pilot="p" :p-idx="i"/>
+        <v-flex v-for="(p, i) in pilots" :key="p.id" class="mb-4" xs3>
+          <pilot-card :pilot="p" :p-idx="i" :card-height="cardHeight"/>
         </v-flex>
         <v-flex xs3>
           <add-pilot-card :card-height="cardHeight" />

@@ -3,17 +3,17 @@
   <v-card slot-scope="{ hover }" :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`">
     <v-layout row style="cursor: pointer;" @click="toPilotSheet()">
       <v-flex v-if="pilot.portrait" class="ma-0 pb-0 pt-0">
-        <v-img :src="`file://${userDataPath}/img/portrait/${pilot.portrait}`" position="top" height="300px"/>
+        <v-img :src="`file://${userDataPath}/img/portrait/${pilot.portrait}`" position="top" :height="`${cardHeight}px`"/>
       </v-flex>
       <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
-        <div style="height: 300px; display:table; width:100%">
+        <div :style="`height: ${cardHeight}px; display:table; width:100%`">
           <span class="pilot-letter white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</span>
         </div>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex>
-        <v-card color="rgba(0, 0, 0, .55)" dark flat>
+        <v-card :color="`rgba(0, 0, 0, ${overlayOpacity})`" dark flat>
           <v-layout>
             <v-flex xs8 class="ma-2">
               <span class="title">{{pilot.callsign}}</span>
@@ -104,16 +104,19 @@
 </v-hover>
 </template>
 
-<script>
-import io from '@/store/data_io'
+<script lang="ts">
+  import Vue from 'vue'
+  import io from '@/store/data_io'
 
-export default {
+  export default Vue.extend({
   name: 'pilot-card',
   props: {
     pilot: Object,
-    pIdx: Number
+    pIdx: Number,
+    cardHeight: Number,
   },
   data: () => ({
+    overlayOpacity: 0.55,
     deleteDialog: false,
     printDialog: false,
     exportDialog: false,
@@ -122,28 +125,28 @@ export default {
     snackbar: false
   }),
   methods: {
-    background: function () {
+    background () {
       if (this.pilot.custom_background) return this.pilot.custom_background
       else return this.$store.getters.getItemById('Backgrounds', this.pilot.background).name
     },
-    toggleActive: function () {
+    toggleActive () {
       this.$store.dispatch('loadPilot', this.pilot.id)
       this.$store.dispatch('editPilot', {
         attr: `active`,
         val: !this.pilot.active
       })
     },
-    toPilotSheet: function () {
+    toPilotSheet () {
       this.$store.dispatch('loadPilot', this.pilot.id)
       this.$router.push('./pilot')
     },
-    deletePilot: function () {
+    deletePilot () {
       this.deleteDialog = false
       this.$store.dispatch('deletePilot', this.pilot.id)
       this.notification = 'Pilot Deleted'
       this.snackbar = true
     },
-    clonePilot: function (isFlashclone) {
+    clonePilot (isFlashclone: boolean) {
       if (isFlashclone) {
         var quirks = this.$store.getters.getItemCollection('Quirks')
         var quirk = quirks[Math.floor(Math.random() * quirks.length)]
@@ -156,23 +159,18 @@ export default {
       this.snackbar = true
       this.copyDialog = false
     },
-    exportPilot: function () {
+    exportPilot () {
       const { dialog } = require('electron').remote
       var path = dialog.showSaveDialog({
         defaultPath: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
         buttonLabel: 'Save Pilot'
       })
-      io.saveFile(path + '.json', JSON.stringify(this.pilot), function (err) {
-        if (err) {
-          alert(`Error: COMP/CON could not save a file to ${path}`)
-        } else {
-          this.exportDialog = false
-          this.notification = 'Pilot Export Successful'
-          this.snackbar = true
-        }
-      })
-    },
-    copyPilot: function () {
+      io.saveFile(path + '.json', JSON.stringify(this.pilot))
+        this.exportDialog = false
+        this.notification = 'Pilot Export Successful'
+        this.snackbar = true
+      },
+    copyPilot () {
       const {clipboard} = require('electron')
       clipboard.writeText(JSON.stringify(this.pilot))
       this.exportDialog = false
@@ -180,7 +178,7 @@ export default {
       this.snackbar = true
     }
   }
-}
+})
 </script>
 
 <style scoped>
