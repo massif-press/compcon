@@ -26,6 +26,7 @@ Refactor:
 Other: 
   ☐ Remove ItemBadge/ItemCard -- make new view for license browsing
   ☐ Print at Roster View
+  ✔ Rename Main/Aux slot on the flex mount to `Main or Aux` @done(19-04-11 20:48)
 
 2.0:
   ☐ Glossary in compendium
@@ -63,11 +64,11 @@ Other:
   ☐ Actions Panel
   ☐ Tutorial popups (vue-tour)
   ☐ Per-item notes
+  ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
   ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
-  ☐ Selector side panels should be fixed
-  ☐ Hardsuit and Pilot Weapon rollables and generators
+  ☐ Fixed selector side panels
   ☐ UNCLE as weapon mod
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser

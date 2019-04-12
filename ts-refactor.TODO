@@ -68,7 +68,7 @@ Roster:
   RosterView:
     ✔ Roster/RosterView/AddPilotCard.vue @done(19-04-11 16:22)
     ☐ Roster/RosterView/AddPilotMenu.vue
-    ☐ Roster/RosterView/index.vue
+    ✔ Roster/RosterView/index.vue @done(19-04-11 20:49)
     ☐ Roster/RosterView/PilotCard.vue
   UI:
     ✔ Roster/UI/DamageElement.vue @done(19-04-11 10:53)
