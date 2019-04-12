@@ -9,17 +9,41 @@
                 <div class="headline">{{ item.name }}</div>
                 <v-chip disabled outline label color="white" class="text-uppercase ml-4">
                       {{item.data_type}}
+                      <span v-if="item.data_type === 'mod'">&nbsp;– {{item.applied_string}}</span>
                 </v-chip>
-                <v-chip disabled outline label color="white" class="text-uppercase ml-2">
+                <v-chip v-if="item.source === 'GMS'" disabled outline label color="white" class="text-uppercase ml-2">
                       {{item.source}}
+                </v-chip>
+                <v-chip v-else disabled outline label color="white" class="text-uppercase ml-2">
+                      {{item.source}} {{item.license}}
                       <span v-if="item.license_level">&nbsp;RANK {{item.license_level}}</span>
-                      <span v-if="item.data_type === 'frame' && item.id !== 'everest'">&nbsp;RANK 2</span>
+                      <span v-if="item.data_type === 'frame'">&nbsp;RANK 2</span>
                 </v-chip>
             </v-card-title>
             <v-card-text>
                 <p class="fluff-text grey--text" v-if="item.description" v-html="item.description"></p>
                 <p v-if="item.effect" v-html="item.effect"></p>
             </v-card-text>
+            <template v-if="item.data_type === 'weapon'">
+                <v-divider />
+                <v-card-text class="pt-0">
+                    <v-subheader class="mb-0">Weapon</v-subheader>
+                    <v-layout pb-2 align-center justify-space-between>
+                        <div class="pl-2">{{ item.mount }} {{ item.type }}</div>
+                        <range-element :range="item.range" />
+                        <damage-element :dmg="item.damage" />
+                    </v-layout>
+                </v-card-text>
+            </template>
+            <template v-if="item.tags">
+                <v-divider />
+                <v-card-text class="pt-0">
+                    <v-subheader class="mb-0">Tags</v-subheader>
+                    <v-layout class="pb-2">
+                      <item-tag v-for="(t, index) in item.tags" :key="t.id + index" :tag-obj="t"/>
+                    </v-layout>
+                </v-card-text>
+            </template>
         </v-card>
     </v-container>
 </template>
@@ -27,10 +51,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import ItemTag from '@/components/UI/ItemTag.vue'
+import RangeElement from '@/components/UI/RangeElement.vue'
+import DamageElement from '@/components/UI/DamageElement.vue'
 import colors from '@/components/UI/CCColors.ts'
 
 export default Vue.extend({
     name: 'compendium-item',
+    components: { ItemTag, RangeElement, DamageElement },
     data: () => ({
         colors: colors.colors,
     }),
