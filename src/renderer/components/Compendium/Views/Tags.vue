@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">TAGS</span>
     <v-layout v-for="t in tags" :key="t.id">
       <v-flex class="text-xs-center pa-3">
