@@ -24,6 +24,13 @@
                 <p class="fluff-text grey--text" v-if="item.description" v-html="item.description"></p>
                 <p v-if="item.effect" v-html="item.effect"></p>
             </v-card-text>
+            <template v-if="item.data_type === 'frame'">
+                <v-divider />
+                <v-card-text>
+                    <v-subheader class="mb-0">Frame</v-subheader>
+                    <frame-statblock :frame="item" />
+                </v-card-text>
+            </template>
             <template v-if="item.data_type === 'weapon'">
                 <v-divider />
                 <v-card-text class="pt-0">
@@ -56,11 +63,12 @@ import _ from 'lodash'
 import ItemTag from '@/components/UI/ItemTag.vue'
 import RangeElement from '@/components/UI/RangeElement.vue'
 import DamageElement from '@/components/UI/DamageElement.vue'
+import FrameStatblock from '@/components/UI/FrameStatblock.vue'
 import colors from '@/components/UI/CCColors.ts'
 
 export default Vue.extend({
     name: 'compendium-item',
-    components: { ItemTag, RangeElement, DamageElement },
+    components: { ItemTag, RangeElement, DamageElement, FrameStatblock },
     data: () => ({
         colors: colors.colors,
     }),
