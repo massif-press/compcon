@@ -1,36 +1,28 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs3 class="pr-3">
-        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
-        <v-layout>
-          <v-flex style="text-align: center">
-          <br>
-          <h3>Pilot Talents</h3>
-          <hr>
-          </v-flex>
-        </v-layout>
-        <v-layout>
+  <selector title="Pilot Talents">
+    <template v-slot:left-column>
+       <v-layout>
           <v-flex xs12>
             <div v-for="talent in talents" :key="`summary_${talent.id}`">
-                <v-layout v-if="talentById(talent.id).err">
-                  <v-flex shrink>
-                  <span class="grey--text">// MISSING DATA //</span><span v-if="talent.brew" class="caption grey--text"><br>({{talent.brew}})</span>
-                  </v-flex>
-                  <v-flex shrink>
-                    <v-btn icon flat color="error" @click="deleteTalent(talent.id)"><v-icon>delete</v-icon></v-btn>
-                  </v-flex>
-                </v-layout>
-                <v-layout v-else>
-                  <v-flex xs12>
-                    <strong>{{ talentById(talent.id).name }}</strong>
-                    <v-icon v-for="n in talent.rank" :key="talent.rank + n" small>star</v-icon>
-                  </v-flex>
-                </v-layout>
+              <v-layout v-if="talentById(talent.id).err">
+                <v-flex shrink>
+                 <span class="grey--text">// MISSING DATA //</span>
+                 <span v-if="talent.brew" class="caption grey--text"><br>({{talent.brew}})</span>
+                </v-flex>
+                <v-flex shrink>
+                  <v-btn icon flat color="error" @click="deleteTalent(talent.id)"><v-icon>delete</v-icon></v-btn>
+                </v-flex>
+              </v-layout>
+              <v-layout v-else>
+                <v-flex xs12>
+                  <strong>{{ talentById(talent.id).name }}</strong>
+                  <v-icon v-for="n in talent.rank" :key="talent.rank + n" small>star</v-icon>
+                </v-flex>
+              </v-layout>
             </div>
           </v-flex> 
         </v-layout>
-        <v-layout><v-flex xs12><hr></v-flex></v-layout>
+        <v-divider class="ma-2 ml-4 mr-4" />
         <v-layout>
           <v-flex xs12>
             <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
@@ -46,26 +38,25 @@
             <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
           </v-flex>
         </v-layout>
-        </div>
-      </v-flex>
-
-
-      <v-flex id="list-area">
-  <v-expansion-panel expand focusable v-model="panels">
-    <v-expansion-panel-content v-for="talent in talentData" :key="talent.id" >
-      <v-toolbar-title slot="header">
-      <span>{{talent.name}}</span>
-      <span v-for="n in playerRank(talent.id)" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
-      </v-toolbar-title>
-      <talent-selector-item :talent="talent" :playerRank="playerRank(talent.id)" @add-talent="addTalent" @remove-talent="removeTalent" :pointLimit="pointLimit" :newPilot="newPilot"/>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
-      </v-flex></v-layout>
-  </v-container>
+    </template>
+    
+    <template v-slot:right-column>
+        <v-expansion-panel expand focusable v-model="panels">
+          <v-expansion-panel-content v-for="talent in talentData" :key="talent.id" >
+            <v-toolbar-title slot="header" dense>
+              <span>{{talent.name}}</span>
+              <span v-for="n in playerRank(talent.id)" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
+            </v-toolbar-title>
+            <talent-selector-item :talent="talent" :playerRank="playerRank(talent.id)" @add-talent="addTalent" @remove-talent="removeTalent" :pointLimit="pointLimit" :newPilot="newPilot"/>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+    </template>
+  </selector>
 </template>
 
 <script>
   import TalentSelectorItem from './TalentSelectorItem'
+  import Selector from './Selector'
 
   function talentSort (talents) {
     return talents.sort(function (a, b) {
@@ -89,7 +80,7 @@
         type: Boolean
       }
     },
-    components: { TalentSelectorItem },
+    components: { TalentSelectorItem, Selector },
     data: () => ({
       talents: [],
       pointLimit: false,

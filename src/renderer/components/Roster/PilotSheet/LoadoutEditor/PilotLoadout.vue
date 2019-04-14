@@ -9,14 +9,14 @@
     </v-card>
     <v-tabs v-else v-model="tabIndex" dark color="primary" show-arrows slider-color="yellow" mandatory>
       <!-- Render Tabs -->
-      <v-tab v-for="(loadout, i) in loadouts" :key="i" v-html="loadout.name" />
+      <v-tab v-for="(loadout, i) in loadouts" :key="i">{{loadout.name}}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="addLoadout"><v-icon>add</v-icon></v-btn>
           <span>Add New Loadout</span>
         </v-tooltip>
       </span>
-      <v-tabs-items mandatory touchless>
+      <v-tabs-items mandatory >
         <v-tab-item v-for="(loadout, index) in loadouts" :key="loadout.id + index" lazy>
           <v-card>
             <v-card-text>
@@ -73,10 +73,11 @@
       <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
     </v-snackbar>
 
-    <pilot-edit-modal :model="selectorModal" :title="`Select ${itemType}`">
-      <item-table slot="modal-content" :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
+    <pilot-edit-modal no-activator :modelRef="selectorModal" :title="`Select ${itemType}`">
+      <template v-slot:modal-content>
+        <item-table slot="modal-content" :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
+      </template>
     </pilot-edit-modal>
-
   </div>
 </template>
 
@@ -90,7 +91,7 @@
   import GearItem from './GearItem.vue'
   import ItemTable from './ItemTable.vue'
 
-  var rules = io.loadSingle<IRules>('rules')
+  const rules = io.loadSingle<IRules>('rules')
 
   const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 

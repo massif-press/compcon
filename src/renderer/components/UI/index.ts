@@ -35,5 +35,5 @@ export {
   SystemCard,
   ModCard,
   EmptyView,
-  CCColors
+  CCColors,
 }

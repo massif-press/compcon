@@ -15,7 +15,7 @@
         <v-flex>
           <v-card :color="`rgba(0, 0, 0, ${overlayOpacity})`" dark flat>
             <v-layout>
-              <v-flex xs8 class="ma-2">
+              <v-flex xs9 class="ma-2">
                 <span class="title">{{pilot.callsign}}</span>
                 <br>
                 <span class="caption">{{pilot.name}}<br>{{background(pilot)}}, LL{{pilot.level}}</span>

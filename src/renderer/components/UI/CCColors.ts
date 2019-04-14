@@ -39,7 +39,7 @@ const colors = {
   },
   structure: {
     light: '#B50057',
-    dark: '#F50057'
+    dark: '#F50057',
   },
   hp: {
     light: '#0284FF',
