@@ -27,7 +27,7 @@
 
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
@@ -39,7 +39,7 @@
             <skill-selector v-if="lv_step === 2" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" level-up @set-skills="setSkills"/>
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -52,7 +52,7 @@
             <talent-selector v-if="lv_step === 3" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" level-up @set-talents="setTalents"/>
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -65,7 +65,7 @@
             <mech-skills-selector v-if="lv_step === 4" :mechSkills="mSkills" level-up :pilotLevel="pilot.level" @new-mech-skills="setMechSkills"/>        
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -78,7 +78,7 @@
             <license-selector v-if="lv_step === 5" :pilotLicenses="pilot.licenses" level-up :pilotLevel="pilot.level" @set-licenses="setLicenses"/>    
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -89,10 +89,10 @@
 
           <v-stepper-content v-if="pilot.level % 3 === 0" step="6">
             <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" 
-              :pilotLicenses="pilot.licenses.concat(newItems.licenses)" @set-bonuses="setBonuses"/>          
+              :pilotLicenses="getBonusLicenses()" @set-bonuses="setBonuses"/>          
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -113,7 +113,7 @@
             </v-layout> 
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -131,6 +131,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import _ from 'lodash'
   import { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector } from '../Selectors'
   import LevelUpdateBlock from './LevelUpdateBlock.vue'
   import ConfirmationBlock from './ConfirmationBlock.vue'
@@ -175,6 +176,10 @@
       setLicenses (licenses: any) {
         this.itemSelect({field: 'licenses', value: licenses})
       },
+      getBonusLicenses (): any {
+        var vm = this as any
+        return _.clone(vm.newItems.licenses)
+      },
       setBonuses (cbs: any) {
         this.itemSelect({field: 'core_bonuses', value: cbs})
       },
@@ -186,7 +191,7 @@
             val: saveItems[key]
           })
         }
-        this.$router.push('./roster')
+        this.$router.push('./pilot')
       },
       stepBack () {
         this.lv_step--

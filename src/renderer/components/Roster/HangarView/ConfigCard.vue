@@ -11,7 +11,7 @@
       <v-flex>
         <v-card color="rgba(0, 0, 0, .55)" dark flat>
           <v-layout>
-            <v-flex xs8 class="ma-2">
+            <v-flex xs9 class="ma-2">
               <span class="title">{{config.name}}</span>
               <br>
               <span class="caption">{{frame().source}} {{frame().name}}</span>

@@ -39,7 +39,7 @@ export default {
       console.error(`file ${filename} does not exist at ${p}.`)
       return {} as T
     }
-  },  
+  },
   findBrewData(userDataPath: string) {
     const brews = []
     const contentPath = path.join(userDataPath, 'content')

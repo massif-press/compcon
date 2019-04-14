@@ -178,10 +178,6 @@
       {
         "name": "Combat Repair",
         "description": "The Lancaster can spend a full action and 4 repairs in combat to repair a destroyed mech, returning it to 1 structure and 1 HP"
-      },
-      {
-        "name": "Insulated",
-        "description": "Adjacent allies can use the Drake for Hard Cover"
       }
     ],
     "core_system": {

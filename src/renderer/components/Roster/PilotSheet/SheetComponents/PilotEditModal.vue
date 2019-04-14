@@ -1,6 +1,6 @@
 <template>
-  <v-dialog lazy v-model="model" fullscreen hide-overlay transition="dialog-bottom-transition">
-    <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
+  <v-dialog v-model="model" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-btn v-if="!noActivator" slot="activator" class="edit-btn mlneg" small flat icon color="primary">
       <v-icon small>edit</v-icon>
     </v-btn>
     <v-card>
@@ -12,7 +12,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-spacer class="mb-5" />
-        <slot name="modal-content"></slot>
+        <slot v-if="loader" name="modal-content"></slot>
     </v-card>
   </v-dialog>
 </template>
@@ -22,21 +22,28 @@
   export default Vue.extend({
     name: 'pilot-edit-modal',
     data: () => ({
-      model: false
+      model: false,
+      loader: false
     }),
     props: {
       title: String,
-      modelRef: Boolean
+      modelRef: Boolean,
+      noActivator: Boolean
     },
     methods: {
       cancel () {
         this.model = false
+        this.loader = false
       }
     },
     watch: {
-      modelRef: function (val) {
-        this.model = val
-      },
-    }
+      model: {
+        immediate: true, 
+        handler (val: boolean) {
+          this.model = val
+          this.loader = val
+        }
+      }
+    },
   })
 </script>

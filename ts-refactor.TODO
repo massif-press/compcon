@@ -55,14 +55,14 @@ Roster:
       ✔ Roster/PilotSheet/LoadoutEditor/ItemTable.vue @done(19-04-12 14:52)
       ✔ Roster/PilotSheet/LoadoutEditor/PilotLoadout.vue @done(19-04-12 15:24)
     Selectors:
-      ☐ Roster/PilotSheet/Selectors/BackgroundSelector.vue
-      ☐ Roster/PilotSheet/Selectors/CoreBonusSelector.vue
-      ☐ Roster/PilotSheet/Selectors/ImageSelector.vue
+      ✔ Roster/PilotSheet/Selectors/BackgroundSelector.vue @done(19-04-13 18:11)
+      ✔ Roster/PilotSheet/Selectors/CoreBonusSelector.vue @done(19-04-14 17:43)
+      ✔ Roster/PilotSheet/Selectors/ImageSelector.vue @done(19-04-13 18:31)
       ☐ Roster/PilotSheet/Selectors/LicenseSelectorItem.vue
       ☐ Roster/PilotSheet/Selectors/LicenseSelector.vue
-      ☐ Roster/PilotSheet/Selectors/MechSkillsSelector.vue
-      ☐ Roster/PilotSheet/Selectors/SkillSelectorItem.vue
-      ☐ Roster/PilotSheet/Selectors/SkillSelector.vue
+      ✔ Roster/PilotSheet/Selectors/MechSkillsSelector.vue @done(19-04-13 17:53)
+      ✔ Roster/PilotSheet/Selectors/SkillSelectorItem.vue @done(19-04-13 12:55)
+      ✔ Roster/PilotSheet/Selectors/SkillSelector.vue @done(19-04-13 17:32)
       ☐ Roster/PilotSheet/Selectors/TalentSelectorItem.vue
       ☐ Roster/PilotSheet/Selectors/TalentSelector.vue
   RosterView:

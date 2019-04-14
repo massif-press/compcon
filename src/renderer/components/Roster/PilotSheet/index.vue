@@ -19,6 +19,7 @@
                 </editable-label>           
               </v-flex>
             </v-layout>
+            <v-divider class="ma-2"/>
             <!-- Pilot Statblock -->
             <v-layout>
               <pip-bar small :model="stats.hp" :items="[stats.hp, stats.armor]" :caption="`HP ${stats.hp} // ARMOR ${stats.armor}`" />
@@ -50,7 +51,7 @@
                   <span>Set Pilot Level</span>
                 </v-tooltip>
                 <template v-slot:modal-content>
-                  <level-selector @changed="levelEditor = false; notify($event)" />
+                  <level-selector @changed="levelEditor = false; notify(`Pilot Level set to ${$event}`)" />
                 </template>
             </lazy-dialog>
           </v-flex>
@@ -62,7 +63,7 @@
           <v-flex>
             <v-alert :value="!pilot.configs.length" color="info" icon="info" outline class="ma-2 ml-5 mr-5">
             <b>No Associated Mech</b><br>
-            This pilot does not have any mech Configurations associated with their profile.A new Configuration can be added by navigating to the <b>MECH HANGAR</b> from the menu bar
+            This pilot does not have any mech Configurations associated with their profile. A new Configuration can be added by navigating to the <b>MECH HANGAR</b> from the menu bar
             </v-alert>
           </v-flex>
         </v-layout>
@@ -152,7 +153,7 @@
             <!-- Appearance -->
             <v-layout>
               <span class="header">Appearance
-                <pilot-edit-modal title="Set Pilot Images" :modelRef="appearanceModal" ref="appearanceSelector">
+                <pilot-edit-modal title="Set Pilot Portrait" :modelRef="appearanceModal" ref="appearanceSelector">
                   <image-selector slot="modal-content" :preselectPortrait="pilot.portrait" @assign-portrait="setPortrait" />
                 </pilot-edit-modal>
               </span>
@@ -185,17 +186,21 @@
               <v-flex><span class="display-3 font-weight-black text-xs-center">+{{stats.grit}}</span></v-flex>
             </v-layout>
           </v-flex>
-          <v-flex>
+          <v-flex xs11>
             <!-- Triggers -->
             <v-layout>
               <span class="header">
                 Skill Triggers
-                <pilot-edit-modal title="Edit Pilot Skills" :modelRef="skillModal" ref="skillSelector">
+                <pilot-edit-modal title="Edit Pilot Skill Triggers" :modelRef="skillModal" ref="skillSelector">
                   <skill-selector slot="modal-content" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </pilot-edit-modal>
               </span>
             </v-layout>
-            <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="item('Skills', skill.id)" :skill="skill" />
+            <v-layout>
+              <v-flex class="mr-3">
+                <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="item('Skills', skill.id)" :skill="skill" />
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
 
@@ -271,8 +276,10 @@
       <v-divider />
 
       <!-- Print Block -->
-      <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
-        <v-flex xs3><v-btn color="primary" large flat block @click="openPrintOptions"><v-icon>print</v-icon>&nbsp; PRINT PILOT SHEET</v-btn ></v-flex>
+      <v-layout class="ma-5">
+        <v-flex>
+          <v-btn color="primary" large outline block @click="openPrintOptions"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+        </v-flex>
       </v-layout>
 
       <v-snackbar v-model="snackbar" :timeout="5000" >

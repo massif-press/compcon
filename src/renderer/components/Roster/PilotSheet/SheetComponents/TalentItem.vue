@@ -1,11 +1,11 @@
 <template>
   <v-expansion-panel-content>
-    <v-toolbar-title slot="header" v-if="talentData.err">
+    <v-toolbar-title slot="header" v-if="talentData.err" dense>
       <span class="subheading grey--text">// MISSING DATA //</span>&emsp;
       <span v-if="talent.brew" class="caption grey--text">({{talent.brew}})</span>
     </v-toolbar-title>
 
-    <v-toolbar-title slot="header" v-else>
+    <v-toolbar-title slot="header" v-else dense>
       <span>{{talentData.name}}</span>
       <span v-for="n in talent.rank" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
     </v-toolbar-title>

@@ -1,232 +1,207 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs3 class="pr-3">
-        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
-        <v-layout>
-          <v-flex style="text-align: center">
-          <br>
-          <h3>Pilot Skills</h3>
-          <hr>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <div v-for="skill in skills" :key="`summary_${skill.id}`">
-                <v-layout v-if="skillById(skill.id).err">
-                  <v-flex shrink>
-                  <span class="grey--text">// MISSING DATA //</span><br><span v-if="skill.brew" class="caption grey--text">({{skill.brew}})</span>
-                  </v-flex>
-                  <v-flex shrink>
-                    <v-btn icon flat color="error" @click="setSkill({id: skill.id, action: 'remove'})"><v-icon>delete</v-icon></v-btn>
-                  </v-flex>
-                </v-layout>
-                <v-layout v-else>
-                  <v-flex xs12>
-                    <strong>{{skillById(skill.id).trigger}}</strong>
-                    <v-tooltip :disabled="!skill.specialty && !skill.flaw" right>
-                      <v-chip slot="activator" dark color="primary" small>
-                        +<b>{{skill.bonus}}</b>
-                      </v-chip>
-                    </v-tooltip>
-                  </v-flex>
-                </v-layout>
-            </div>
-          </v-flex> 
-        </v-layout>
-        <v-layout><v-flex xs12><hr></v-flex></v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
-              Skill Selection Complete
-            </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
-              {{points.pointsMax  - points.pointsCurrent}} Skill Points remaining
-            </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
-              Must select a minimum of {{points.selectedMin}} skills
-            </v-alert>
-            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveSkills" color="primary">Save</v-btn>
-            <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
-          </v-flex>
-        </v-layout>
-        </div>
-      </v-flex>
+  <selector title="Pilot Skill Triggers">
+    <template v-slot:left-column>
+      <v-layout>
+        <v-flex xs12>
+          <div v-for="skill in skills" :key="`summary_${skill.id}`">
+            <v-layout v-if="skillById(skill.id).err">
+              <v-flex shrink>
+              <span class="grey--text">// MISSING DATA //</span><br>
+              <span v-if="skill.brew" class="caption grey--text">({{skill.brew}})</span>
+              </v-flex>
+              <v-flex shrink>
+                <v-btn icon flat color="error" @click="setSkill({id: skill.id, action: 'remove'})"><v-icon>delete</v-icon></v-btn>
+              </v-flex>
+            </v-layout>
+            <v-layout v-else>
+              <v-flex xs12>
+                <v-chip dark color="primary" outline small>+<b>{{skill.bonus}}</b></v-chip>
+                <strong>{{skillById(skill.id).trigger}}</strong>
+              </v-flex>
+            </v-layout>
+          </div>
+        </v-flex> 
+      </v-layout>
+      <v-divider class="ma-2 ml-4 mr-4" />
+      <v-layout>
+        <v-flex xs12>
+          <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
+            Skill Selection Complete
+          </v-alert>
+          <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
+            {{points.pointsMax  - points.pointsCurrent}} Skill Points remaining
+          </v-alert>
+          <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
+            Must select a minimum of {{points.selectedMin}} skills
+          </v-alert>
+          <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveSkills" color="primary">Save</v-btn>
+          <v-btn block flat small :disabled="!skills.length" @click="resetSkills">Reset</v-btn>
+        </v-flex>
+      </v-layout>  
+    </template>
 
-      <v-flex id="scroll-area">
-        <v-layout>
-          <v-flex class="skill-header">
-            <h5>&emsp;Your pilot’s ability to use, resist, and apply direct force, physical or otherwise</h5>
+    <template v-slot:right-column>
+      <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
+        <v-flex class="skill-header minor-title" v-html="h.description" />
+        <v-layout v-for="skill in arrangedSkills[h.attr]" :key="skills.length + skill.id">
+          <v-flex xs11><skill-item :skillData="skill"/></v-flex>
+          <v-flex>
+            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+              <div class="centered">
+                <v-tooltip top>
+                  <v-btn class="ma-0" color="primary" icon flat slot="activator" :disabled="!canAdd(skill)" @click="add(skill)">
+                    <v-icon v-html="newPilot ? 'check' : 'arrow_upward'" />
+                  </v-btn>
+                  <span>Increase Skill Bonus</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <v-btn class="ma-0" icon flat slot="activator" :disabled="!canSubtract(skill)" @click="subtract(skill)">
+                    <v-icon v-html="newPilot ? 'cancel' : 'arrow_downward'" />
+                  </v-btn>
+                  <span v-html="newPilot ? 'Remove Skill Trigger' : 'Decrease Skill Bonus'" />
+                </v-tooltip>
+              </div>
+            </v-card>
           </v-flex>
         </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.str" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill" />
-        <br>
-        <v-layout>
-          <v-flex class="skill-header">
-            <h5>&emsp;Your pilot’s ability to perform skillfully and accurately under pressure</h5>
-          </v-flex>
-        </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.dex" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill"  />
-        <br>
-        <v-layout>
-          <v-flex class="skill-header">
-            <h5>&emsp;Your pilot’s ability to notice details, think creatively, and prepare</h5>
-          </v-flex>
-        </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.int" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill"  />
-        <br>
-        <v-layout>
-          <v-flex class="skill-header">
-            <h5>&emsp;Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources</h5>
-          </v-flex>
-        </v-layout>
-        <skill-selector-item v-for="skill in arrangedSkills.cha" :key="skills.length + skill.id" :isNewPilot="newPilot" 
-          :skillData="skill" :can-add="canAdd(skill)" :can-subtract="canSubtract(skill)" @skill-click="setSkill" />
-      </v-flex>
-    </v-layout>
-
-  </v-container>
+      </div>
+    </template>
+  </selector>
 </template>
 
-<script>
-  import SkillSelectorItem from './SkillSelectorItem'
+<script lang="ts">
+  import Vue from 'vue'
+  import io from '@/store/data_io'
+  import {SkillItem} from '../SheetComponents'
+  import Selector from './Selector.vue'
 
-  function skillSort (skills) {
-    return skills.sort(function (a, b) {
-      if (a.specialty && !b.specialty) return -1
-      else if (!a.specialty && b.specialty) return 1
-      else if (a.flaw && !b.flaw) return 1
-      else if (!a.flaw && b.flaw) return -1
-      else return 0
-    })
-  }
+  const rules = io.loadSingle<IRules>('rules')
 
-  export default {
+  export default Vue.extend({
     name: 'skill-selector',
     props: {
-      pilotSkills: {
-        type: Array
-      },
-      pilotLevel: {
-        type: Number
-      },
-      newPilot: {
-        type: Boolean
-      },
-      levelUp: {
-        type: Boolean
-      }
+      pilotSkills:  Array,
+      pilotLevel: Number,
+      newPilot: Boolean,
+      levelUp:  Boolean,
     },
     data: () => ({
       skills: [],
-      pointLimit: false,
+      headers: [{
+          attr: 'str',
+          description: 'Your pilot’s ability to use, resist, and apply direct force, physical or otherwise'
+        },{
+          attr: 'dex',
+          description: 'Your pilot’s ability to perform skillfully and accurately under pressure'
+        },{
+          attr: 'int',
+          description: 'Your pilot’s ability to notice details, think creatively, and prepare'
+        },{
+          attr: 'cha',
+          description: 'Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources'
+        },
+      ],
       skillData: [],
       arrangedSkills: [],
       pLevel: 0,
       scrollPosition: null
     }),
-    components: { SkillSelectorItem },
+    components: { Selector, SkillItem },
     computed: {
-      points: function () {
+      points () {
+        var vm = this as any
         return {
-          pointsCurrent: (this.skills.reduce((a, b) => +a + +b.bonus, 0)) / 2,
-          pointsMax: 4 + this.pLevel,
-          selectedCurrent: this.skills.filter(x => x.bonus).length,
-          selectedMin: 4
+          pointsCurrent: (vm.skills.reduce((a: any, b: any) => +a + +b.bonus, 0)) / 2,
+          pointsMax: rules.minimum_pilot_skills + vm.pLevel,
+          selectedCurrent: vm.skills.filter((x: any) => x.bonus).length,
+          selectedMin: rules.minimum_pilot_skills
         }
       },
-      selectionComplete: function () {
-        return this.points.pointsCurrent === this.points.pointsMax &&
-          this.points.selectedCurrent >= this.points.selectedMin
+      selectionComplete (): boolean {
+        var vm = this as any
+        return vm.points.pointsCurrent === vm.points.pointsMax &&
+          vm.points.selectedCurrent >= vm.points.selectedMin
       }
     },
     methods: {
-      setSkill (selectionEvent) {
-        var selectedIndex = this.skills.findIndex(x => x.id === selectionEvent.id)
+      add (skill) {
+        var vm = this as any
+        var selectedIndex = vm.skills.findIndex((x: any) => x.id === skill.id)
         if (selectedIndex === -1) {
-          switch (selectionEvent.action) {
-            case ('addBonus'):
-              var newSkill = {id: selectionEvent.id, bonus: 2}
-              if (selectionEvent.brew) newSkill.brew = selectionEvent.brew
-              this.skills.push(newSkill)
-              break
-            default:
-              break
-          }
+          vm.skills.push({
+            id: skill.id,
+            bonus: 2,
+            brew: skill.brew || null
+          })
         } else {
-          var s = JSON.parse(JSON.stringify(this.skills[selectedIndex]))
-          switch (selectionEvent.action) {
-            case ('addBonus'):
-              s.bonus += 2
-              this.$set(this.skills, selectedIndex, s)
-              break
-            case ('subtractBonus'):
-              s.bonus -= 2
-              if (s.bonus === 0 && !(s.specialty || s.flaw)) this.skills.splice(selectedIndex, 1)
-              else this.$set(this.skills, selectedIndex, s)
-              break
-            case ('remove'):
-              this.skills.splice(selectedIndex, 1)
-              break
-            default:
-              break
-          }
+          var s = JSON.parse(JSON.stringify(vm.skills[selectedIndex])) // to maintain Vue reactivity
+          s.bonus += 2
+          Vue.set(vm.skills, selectedIndex, s)
         }
-        this.$forceUpdate()
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-        this.skills = skillSort(this.skills)
 
-        if ((this.newPilot || this.levelUp) && this.selectionComplete) {
-          if (this.levelUp) this.$emit('set-skills', this.skills)
+        if ((vm.newPilot || vm.levelUp) && vm.selectionComplete) {
+          if (vm.levelUp) vm.$emit('set-skills', vm.skills)
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
+      subtract (skill) {
+        var vm = this as any
+        var selectedIndex = vm.skills.findIndex((x: any) => x.id === skill.id)
+        if (selectedIndex === -1) return
+        var s = JSON.parse(JSON.stringify(vm.skills[selectedIndex])) // "
+        if (s.bonus === 2) {
+          vm.skills.splice(selectedIndex, 1) 
+        } else {
+          var s = JSON.parse(JSON.stringify(vm.skills[selectedIndex])) // "
+          s.bonus -= 2
+          Vue.set(vm.skills, selectedIndex, s)
+        }
+      },
       saveSkills () {
-        this.$emit('set-skills', this.skills)
+        var vm = this as any
+        vm.$emit('set-skills', vm.skills)
       },
       resetSkills () {
-        this.skills.splice(0, this.skills.length)
-        this.$forceUpdate()
-        this.pointLimit = false
-        this.skills = skillSort(this.skills)
+        var vm = this as any
+        vm.skills.splice(0, vm.skills.length)
+        vm.$forceUpdate()
       },
-      skillById: function (id) {
-        return this.skillData.find(x => x.id === id) || {err: true}
+      skillById (id) {
+        var vm = this as any
+        return vm.skillData.find((x: any) => x.id === id) || {err: true}
       },
-      initialize: function () {
-        this.pLevel = this.pilotLevel
-        this.skills = skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-      },
-      canAdd: function (skill) {
-        if (this.newPilot) {
-          return this.skills.length < 4 && !this.skills.find(x => x.id === skill.id)
+      canAdd (skill) {
+        var vm = this as any
+        if (vm.newPilot) {
+          return vm.skills.length < 4 && !vm.skills.find((x: any) => x.id === skill.id)
         } else {
-          var s = this.skills.find(x => x.id === skill.id)
-          var underLimit = this.points.pointsCurrent < this.points.pointsMax
+          var s = vm.skills.find((x: any) => x.id === skill.id)
+          var underLimit = vm.points.pointsCurrent < vm.points.pointsMax
           return s ? underLimit && s.bonus < 6 : underLimit
         }
       },
-      canSubtract: function (skill) {
-        return this.skills.some(x => x.id === skill.id)
+      canSubtract (skill) {
+        var vm = this as any
+        return vm.skills.some((x: any) => x.id === skill.id)
+      }
+    },
+    created () {
+      var vm = this as any
+      vm.skillData = vm.$store.getters.getItemCollection('Skills')
+      vm.arrangedSkills = {
+        str: vm.skillData.filter((x: any) => x.family === 'str'),
+        dex: vm.skillData.filter((x: any) => x.family === 'dex'),
+        int: vm.skillData.filter((x: any) => x.family === 'int'),
+        cha: vm.skillData.filter((x: any) => x.family === 'cha')
       }
     },
     mounted () {
-      this.pLevel = this.pilotLevel ? this.pilotLevel : 0
-      this.skills = this.newPilot ? skillSort(this.pilotSkills) : skillSort(JSON.parse(JSON.stringify(this.pilotSkills)))
-      this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-      this.skillData = this.$store.getters.getItemCollection('Skills')
-      this.arrangedSkills = {
-        str: this.skillData.filter(x => x.family === 'str'),
-        dex: this.skillData.filter(x => x.family === 'dex'),
-        int: this.skillData.filter(x => x.family === 'int'),
-        cha: this.skillData.filter(x => x.family === 'cha')
-      }
+      var vm = this as any
+      vm.pLevel = vm.pilotLevel ? vm.pilotLevel : 0
+      console.log(vm.newPilot)
+      vm.skills = vm.newPilot ? vm.pilotSkills : JSON.parse(JSON.stringify(vm.pilotSkills))
     }
-  }
+  })
 </script>
 
 <style scoped>
@@ -243,7 +218,7 @@
 
  .skill-header {
    text-align: center;
-   padding-top: 5px;
+   padding: 5px
  }
 
  strong {
