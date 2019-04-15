@@ -15,7 +15,7 @@ Refactor:
   ☐ talent selector items and pilot sheet talent items should be the same component (minus buttons)
   ☐ Core bonus selector item and core bonus sheet item should be the same
   ☐ License/Talent/Skill selectors can share a common framework
-  ☐ make license data lowercase, remove the license editor uppercase confirms
+  ✔ make license data uppercase, remove the license editor uppercase confirms @done(19-04-15 13:13)
   ✔ Make loader/modal selector combo into component wrapper @done(19-04-11 15:26)
   ☐ For level up confirmation block:
     ☐ license id (dupe name field, lowercase)
@@ -27,10 +27,12 @@ Refactor:
   ☐ Item() etc to mixins
   ☐ Hangar and Roster CSS
   ☐ Harden linting
+  ☐ Replace all rank star loops with v-rating
 
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
   ☐ Remove ItemBadge/ItemCard -- make new view for license browsing
+  ☐ Correct item card bg colors
   ☐ Better list/table for Frame selection
   ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
 

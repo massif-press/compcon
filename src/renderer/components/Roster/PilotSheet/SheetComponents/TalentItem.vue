@@ -7,7 +7,7 @@
 
     <v-toolbar-title slot="header" v-else dense>
       <span>{{talentData.name}}</span>
-      <span v-for="n in talent.rank" :key="`${talentData.id}_prank_${n}`"><v-icon>star</v-icon></span>
+      <v-rating class="d-inline" :value="talent.rank" :length="3" readonly dense/>
     </v-toolbar-title>
 
     <div v-if="!talentData.err">

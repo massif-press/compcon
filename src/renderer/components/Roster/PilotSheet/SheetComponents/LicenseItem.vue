@@ -1,6 +1,27 @@
 <template>
-  <div>
-    <v-layout v-if="licenseData.err">
+  <v-expansion-panel-content>
+    <v-toolbar-title slot="header" v-if="licenseData.err" dense>
+      <span class="subheading grey--text">// MISSING DATA //</span>&emsp;
+    </v-toolbar-title>
+
+    <v-toolbar-title slot="header" v-else dense>
+      <span class="caption">{{licenseData.source}}</span> &emsp;
+      <span class="title">{{licenseData.license}}</span>
+      <v-rating class="d-inline" :value="pilotRank" :length="3" readonly dense />
+    </v-toolbar-title>
+
+    <!-- <div >
+
+      <div>
+        <span class="caption">{{licenseData.source}}</span> &emsp;
+        <span class="title">{{licenseData.license}}</span>
+        <v-rating class="d-inline" :value="pilotRank" :length="3" readonly dense />
+      </div> -->
+
+    <license-card v-if="!licenseData.err" :license="licenseData" :rank="pilotRank"/>
+  </v-expansion-panel-content>
+
+    <!-- <v-layout v-if="licenseData.err">
       <v-toolbar dense>
         <v-toolbar-title>
           <span class="subheading grey--text">// MISSING LICENSE DATA //</span>&emsp;
@@ -32,8 +53,7 @@
           </v-dialog>
         </v-toolbar-items>
       </v-toolbar>
-    </v-layout>
-  </div>
+    </v-layout> -->
 </template>
 
 <script lang="ts">
@@ -45,7 +65,7 @@
     name: 'license-item',
     components: { ItemBadge, LicenseCard },
     props: {
-      license: Object,
+      pilotRank: Number,
       licenseData: Object
     },
     data: () => ({

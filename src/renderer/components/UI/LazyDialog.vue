@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="activator" @click="activate"></slot>
-    <v-dialog v-model="model">
+    <v-dialog v-model="model" persistent>
       <v-card>
         <v-card-title class="title">{{title}}</v-card-title>
         <slot name="modal-content"></slot>

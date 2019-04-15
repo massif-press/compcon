@@ -34,7 +34,7 @@
           </div>
         </div>
         <div v-else>
-          <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0] || null" :fitting-type="mount.mount_type" @clicked="openWeaponSelector(mount.mount_type.toLowerCase(), 0)"  @open-mod="openModSelector(0)" />
+          <mech-weapon-item :key="mount.mount_type + '0' + weaponReload" :item="mount.weapons[0] || null" :fitting-type="mount.mount_type" @clicked="openWeaponSelector(mount.mount_type.toUpperCase(), 0)"  @open-mod="openModSelector(0)" />
         </div>
         <div v-if="mount.bonuses.includes('intweapon')">
           <mech-weapon-item :key="weaponReload" :item="mount.weapons[intweaponLength] || null" fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
@@ -164,7 +164,7 @@ export default {
       this.current_equip_mod = null
       var modID = this.mount.weapons[index].mod || null
       if (modID) this.current_equip_mod = this.$store.getters.getItemById('WeaponMods', modID)
-      this.modWeaponType = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id).type.toLowerCase()
+      this.modWeaponType = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id).type.toUpperCase()
       this.weaponIndex = index
       this.modLoader = true
       this.modModal = true

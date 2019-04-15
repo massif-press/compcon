@@ -145,7 +145,7 @@
         var i = vm.$store.getters.getItemCollection('Frames')
         if (!vm.showLocked) i = i.filter((x: Frame) => vm.licenses.includes(x.name))
 
-        if (vm.search) i = i.filter((x: Frame) => x.name.toLowerCase().includes(vm.search.toLowerCase()))
+        if (vm.search) i = i.filter((x: Frame) => x.name.toUpperCase().includes(vm.search.toUpperCase()))
 
         return i
       },
