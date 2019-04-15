@@ -212,10 +212,13 @@
             </pilot-edit-modal>
           </span>
         </v-layout>
-        <div class="ml-3 mr-3">
-          <license-item v-for="(license, index) in pilot.licenses" :key="index" :license="license" :licenseData="getLicense(license.name)" />
-        </div>
-
+        <v-layout class="ml-3 mr-3">
+          <v-flex>
+            <v-expansion-panel focusable>
+              <license-item v-for="(license, index) in pilot.licenses" :key="index" :pilotRank="license.level" :licenseData="getLicense(license.name)" />
+            </v-expansion-panel>
+          </v-flex>
+        </v-layout>
         <!-- Talent Block -->
         <v-layout>
           <span class="header">Talents
@@ -348,7 +351,7 @@
         return this.$store.getters.getItemById(type, id)
       },
       getLicense: function (name: string) {
-        return this.$store.getters.getLicenseByName(name.toLowerCase())
+        return this.$store.getters.getLicenseByName(name.toUpperCase())
       },
       backgroundSelect: function (bgReturn: any) {
         (this.$refs['backgroundSelector'] as any).cancel()

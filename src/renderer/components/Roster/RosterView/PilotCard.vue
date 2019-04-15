@@ -142,7 +142,7 @@
     exportPilot () {
       const { dialog } = require('electron').remote
       var path = dialog.showSaveDialog({
-        defaultPath: this.pilot.callsign.toLowerCase().replace(/\W/g, ''),
+        defaultPath: this.pilot.callsign.toUpperCase().replace(/\W/g, ''),
         buttonLabel: 'Save Pilot'
       })
       io.saveFile(path + '.json', JSON.stringify(this.pilot))

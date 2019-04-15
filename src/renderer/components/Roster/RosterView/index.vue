@@ -63,7 +63,7 @@
         if (this.currentSort && this.currentSort.field !== '') {
           allPilots = this.currentSort.field === 'level'
             ? _.sortBy(allPilots, this.currentSort.field)
-            : _.sortBy(allPilots, p => p[this.currentSort.field].toLowerCase())
+            : _.sortBy(allPilots, p => p[this.currentSort.field].toUpperCase())
         }
         if (!this.ascending) {
           return _.reverse(_.clone(allPilots))

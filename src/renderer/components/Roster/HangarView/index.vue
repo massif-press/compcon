@@ -67,7 +67,7 @@
         if (this.currentSort && this.currentSort.field !== '') {
           allConfigs = this.currentSort.field === 'level'
             ? _.sortBy(allConfigs, this.currentSort.field)
-            : _.sortBy(allConfigs, p => (p as any)[this.currentSort.field].toLowerCase())
+            : _.sortBy(allConfigs, p => (p as any)[this.currentSort.field].toUpperCase())
         }
         if (!this.ascending) {
           return _.reverse(_.clone(allConfigs))

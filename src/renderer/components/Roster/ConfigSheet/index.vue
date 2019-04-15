@@ -22,7 +22,9 @@
           </v-flex>
           <v-flex>
             <lazy-dialog :model="frameInfoModal" :title="`${frame.source} ${frame.name}`" hide-confirm @cancel="frameInfoModal = false">
-              <v-btn slot="activator" large flat dark class="ml-0 pl-0 pb-0 mb-0">{{ frame.source }} {{ frame.name }}</v-btn>
+              <v-btn slot="activator" @click="frameInfoModal = true" large flat dark class="ml-0 pl-1 pr-1 pt-4 pb-0">
+                {{ frame.source }} {{ frame.name }}
+              </v-btn>
               <v-card-text slot="modal-content" v-html="frame.description" />
             </lazy-dialog>
           </v-flex>
@@ -31,7 +33,7 @@
           <v-flex>
             <v-layout>
               <v-flex>
-                <span>{{ item('Manufacturers', frame.source).name }} {{ frame.mechtype }} Mech</span>
+                <span class="white--text fluff-text ml-2">{{ item('Manufacturers', frame.source).name }} {{ frame.mechtype }} Mech</span>
               </v-flex>
             </v-layout>
             <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark :key="config.id"/>

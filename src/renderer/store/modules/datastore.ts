@@ -73,10 +73,10 @@ const mutations = {
   },
   BUILD_LICENSES(state: AppState) {
     const licenses: CCLicense[] = []
-    state.Frames.filter((x) => x.source.toLowerCase() !== 'gms').forEach((frame) => {
+    state.Frames.filter((x) => x.source.toUpperCase() !== 'GMS').forEach((frame) => {
       licenses.push({
-        source: frame.source.toLowerCase(),
-        license: frame.name.toLowerCase(),
+        source: frame.source.toUpperCase(),
+        license: frame.name.toUpperCase(),
         unlocks: [
           [], // level 1
           [frame], // level 2
@@ -87,9 +87,9 @@ const mutations = {
     })
     let items: CCItem[] = _.clone(state.MechWeapons)
     items = items.concat(state.WeaponMods, state.MechSystems)
-    items.filter((x) => x.source && x.source.toLowerCase() !== 'gms' && x.source.toLowerCase() !== '')
+    items.filter((x) => x.source && x.source.toUpperCase() !== 'GMS' && x.source.toUpperCase() !== '')
       .forEach((item) => {
-        const idx = licenses.findIndex((x) => x.license === item.license.toLowerCase())
+        const idx = licenses.findIndex((x) => x.license === item.license.toUpperCase())
         licenses[idx].unlocks[item.license_level - 1].push(item)
       })
     state.Licenses = licenses

@@ -124,7 +124,7 @@
         // filter by applied_to
         i = i.filter(x => x.applied_to.includes(this.weapon_type))
 
-        if (vm.search) i = i.filter(x => x.name.toLowerCase().includes(vm.search.toLowerCase()))
+        if (vm.search) i = i.filter(x => x.name.toUpperCase().includes(vm.search.toUpperCase()))
 
         return i
       },
