@@ -45,21 +45,10 @@
         </v-layout>
         <v-layout>
           <v-flex>
-                <v-expansion-panel focusable>
-
-            <license-item v-for="l in licenseData[m]" :key="`${l.license}_data'`" :license="l" :licenseData="l" />
-                </v-expansion-panel>
-            <!-- <v-expansion-panel expand focusable>
-              <v-expansion-panel-content v-for="l in licenseData[m]" :key="`${l.license}_data'`" >
-                <v-toolbar-title slot="header">
-                <span>{{l.license.toUpperCase()}}</span>
-                <span v-for="n in playerRank(l.license.toUpperCase())" :key="`${l.license}_plevel_${n}`"><v-icon>star</v-icon></span>
-                </v-toolbar-title>
-                <v-card>
-                <license-selector-item :license="l" :playerRank="playerRank(l.license.toUpperCase())" @add-license="addLicense" @remove-license="removeLicense" :pointLimit="pointLimit" />
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel> -->
+            <v-expansion-panel focusable>
+              <license-item v-for="l in licenseData[m]" :key="`${l.license}_data'`" :pilotRank="pilotRank(l.license)" :licenseData="l" 
+                selectable :available="!selectionComplete" @add="addLicense(l)" @remove="removeLicense(l)" />
+            </v-expansion-panel>
           </v-flex>
         </v-layout>
         <br>
@@ -71,7 +60,6 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
-  import LicenseSelectorItem from './LicenseSelectorItem.vue'
   import {LicenseItem} from '../SheetComponents'
   import Selector from './Selector.vue'
 
@@ -89,15 +77,14 @@
       newPilot: Boolean,
       levelUp: Boolean
     },
-    components: { LicenseSelectorItem, LicenseItem, Selector },
+    components: { LicenseItem, Selector },
     data: () => ({
       licenses: [],
-      pointLimit: false,
       pLevel: 0,
       licenseData: [],
     }),
     computed: {
-      points () {
+      points (): {pointsCurrent: number, pointsMax: number, selectedCurrent: number} {
         var vm = this as any
         return {
           pointsCurrent: (vm.licenses.reduce((a: any, b: any) => +a + +b.level, 0)),
@@ -105,40 +92,39 @@
           selectedCurrent: vm.licenses.length
         }
       },
-      selectionComplete () {
+      selectionComplete (): boolean {
         var vm = this as any
         return vm.points.pointsCurrent === vm.points.pointsMax
       }
     },
     methods: {
-      playerRank (name: string): number {
+      pilotRank (name: string): number {
         var vm = this as any
         var t = vm.licenses.find((x: any) => x.name.toUpperCase() === name)
         return t ? t.level : 0
       },
-      manufacturer (id) {
+      manufacturer (id): Manufacturer {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
-      licenseExists (source, name) {
+      licenseExists (source: string, name: string): boolean {
         var vm = this as any
         if (!vm.licenseData[source.toUpperCase()]) return false
         if (!vm.licenseData[source.toUpperCase()].find((x: any) => x.license === name.toUpperCase())) return false
         return true
       },
-      addLicense (l) {
+      addLicense (license: any) {
         var vm = this as any
-        var idx = vm.licenses.findIndex((x: any) => x.name.toUpperCase() === l.name.toUpperCase())
+        var idx = vm.licenses.findIndex((x: any) => x.name.toUpperCase() === license.license.toUpperCase())
         if (idx === -1) {
           vm.licenses.push({
-            name: l.name.toUpperCase(),
-            source: l.source.toUpperCase(),
+            name: license.license.toUpperCase(),
+            source: license.source.toUpperCase(),
             level: 1,
-            brew: l.brew || null
+            brew: license.brew || null
           })
         } else {
           vm.licenses[idx].level++
         }
-        vm.pointLimit = vm.points.pointsCurrent >= vm.points.pointsMax
         vm.licenses = licenseSort(vm.licenses)
 
         if (vm.levelUp && vm.selectionComplete) {
@@ -146,23 +132,13 @@
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
-      removeLicense (name) {
+      removeLicense (license: any) {
         var vm = this as any
-        var idx = vm.licenses.findIndex((x: any) => x.name === name.toUpperCase())
+        var idx = vm.licenses.findIndex((x: any) => x.name === license.license.toUpperCase())
         if (idx !== -1) {
           vm.licenses[idx].level--
           if (vm.licenses[idx].level === 0) vm.licenses.splice(idx, 1)
         }
-        vm.pointLimit = false
-        vm.licenses = licenseSort(vm.licenses)
-      },
-      deleteLicense (name) {
-        var vm = this as any
-        var idx = vm.licenses.findIndex((x: any) => x.name === name.toUpperCase())
-        if (idx !== -1) {
-          vm.licenses.splice(idx, 1)
-        }
-        vm.pointLimit = false
         vm.licenses = licenseSort(vm.licenses)
       },
       saveLicenses () {
@@ -173,14 +149,12 @@
         var vm = this as any
         vm.licenses.splice(0, vm.licenses.length)
         vm.$forceUpdate()
-        vm.pointLimit = false
       }
     },
     created () {
       var vm = this as any
       vm.pLevel = vm.pilotLevel
       vm.licenseData = _.groupBy(vm.$store.getters.getItemCollection('Licenses'), 'source')
-      vm.pointLimit = vm.pilotLicenses.reduce((a: any, b: any) => +a + +b.level, 0) >= vm.points.pointsMax
       vm.licenses = licenseSort(JSON.parse(JSON.stringify(vm.pilotLicenses)))
     }
   })

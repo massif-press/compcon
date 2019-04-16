@@ -256,6 +256,7 @@
         background: '',
         history: '',
         portrait: '',
+        level: 0,
         skills: [],
         talents: [],
         mechSkills: {
