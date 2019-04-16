@@ -1,5 +1,8 @@
 declare interface PilotLicense {
-  name: string, source: string, level: number
+  name: string, 
+  source: string, 
+  level: number,
+  brew?: string,
 }
 
 declare interface PilotLoadout {
@@ -23,7 +26,9 @@ declare interface PilotInvocation {
 }
 
 declare interface PilotTalent {
-  id: string, rank: number
+  id: string, 
+  rank: number,
+  brew?: string,
 }
 
 declare interface MechSkills {

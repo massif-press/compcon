@@ -1,6 +1,6 @@
 <template>
-  <v-card color="grey lighten-5">
-    <v-card-text>
+  <v-card flat class="pt-0">
+    <v-card-text class="pt-0">
       <v-layout row>
         <v-flex xs4 :class="{locked : (rank && rank < 1)}">
           <p class="text-xs-center pt-2 subheading font-weight-bold">
@@ -9,10 +9,7 @@
             <span v-else>RANK I</span>
           </p>
           <div v-for="i in license.unlocks[0]" :key="i.id" class="mr-4 ml-4">
-            <v-tooltip top>
-              <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-              <span v-html="tooltip(i)" />
-            </v-tooltip>
+            <item-badge :item="i" />
           </div>
         </v-flex>
         <v-flex xs4 :class="{locked : (rank && rank < 2)}">
@@ -22,10 +19,7 @@
             <span v-else>RANK II</span>
           </p>
           <div v-for="i in license.unlocks[1]" :key="i.id" class="mr-4 ml-4">
-            <v-tooltip top>
-              <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-              <span v-html="tooltip(i)" />
-            </v-tooltip>                
+            <item-badge :item="i" />
           </div>              
         </v-flex>
         <v-flex xs4 :class="{locked : (rank && rank < 3)}">
@@ -35,10 +29,7 @@
             <span v-else>RANK III</span>            
           </p>
           <div v-for="i in license.unlocks[2]" :key="i.id" class="mr-4 ml-4">
-            <v-tooltip top>
-              <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-              <span v-html="tooltip(i)" />
-            </v-tooltip>                
+            <item-badge :item="i" />
           </div>              
         </v-flex>
       </v-layout>
@@ -49,6 +40,8 @@
 <script lang="ts">
   import Vue from 'vue'
   import { thisItem } from '@/data_interfaces/type_guards'
+  import ItemBadge from './ItemBadge.vue'
+
 
   export default Vue.extend({
     name: 'license-card',
@@ -56,6 +49,7 @@
       license: Object,
       rank: Number
     },
+    components: { 'item-badge': ItemBadge },
     methods: {
       tooltip(item: CCItem) {
         if (thisItem.isFrame(item)) {
