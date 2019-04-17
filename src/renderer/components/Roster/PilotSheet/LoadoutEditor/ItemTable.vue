@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-container fluid>
-      <v-toolbar color="white" class="mt-5 pt-1" >
+      <v-toolbar color="white" class="pt-1" >
         <v-autocomplete flat v-model="search" :items="gearItems" clearable hide-details 
           hide-selected item-text="name" item-value="name" label="Search..." solo />
       </v-toolbar>

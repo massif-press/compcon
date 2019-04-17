@@ -43,6 +43,13 @@
           this.model = val
           this.loader = val
         }
+      },
+      modelRef: {
+        immediate: true, 
+        handler (val: boolean) {
+          this.model = val
+          this.loader = val
+        }
       }
     },
   })

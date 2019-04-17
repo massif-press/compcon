@@ -71,7 +71,8 @@
       <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
     </v-snackbar>
 
-    <pilot-edit-modal no-activator :modelRef="selectorModal" :title="`Select ${itemType}`">
+    <pilot-edit-modal no-activator :modelRef="selectorModal" 
+      :title="`Select Pilot ${itemType.charAt(0).toUpperCase() + itemType.substring(1)}`">
       <template v-slot:modal-content>
         <item-table slot="modal-content" :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
       </template>
