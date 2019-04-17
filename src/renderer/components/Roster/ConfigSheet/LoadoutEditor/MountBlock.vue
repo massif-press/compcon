@@ -2,7 +2,15 @@
   <div v-if="!mount.imparm || (mount.imparm && hasImpArm)">
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">{{mountName()}}
-        <v-icon v-if="allMountBonuses.length" small class="mt-0 pt-0 pb-1" @click="coreBonusSelectorModal = true; cbsLoader = true">build</v-icon></span>
+        <v-tooltip top>
+          <v-btn v-if="isCbVisible()" slot="activator" icon class="ma-0"
+            @click="coreBonusSelectorModal = true; cbsLoader = true">
+            <v-icon :color="freeMountBonuses ? 'yellow' : 'grey lighten-1'"
+             v-html="freeMountBonuses ? 'mdi-progress-alert' : 'mdi-progress-download'" />
+          </v-btn>
+          <span>Apply CORE Bonus Effects</span>
+        </v-tooltip>
+      </span>
       <v-card-text v-if="mount.sh_lock" class="bordered ml-3 pt-4">
         <v-card color="grey darken-1">
           <v-card-text class="blockquote text-xs-center">
@@ -29,15 +37,15 @@
             <mech-weapon-item :key="'fl0_' + weaponReload" :item="null" 
               fitting-type="Main or Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && getWeapon( mount.weapons[0].id).mount === 'Main'">
+          <div v-else-if="mount.weapons[0] && getWeapon(mount.weapons[0].id).mount === 'Main'">
             <mech-weapon-item :key="'fl1_' + weaponReload" :item="mount.weapons[0]" 
               fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" @open-mod="openModSelector(0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && getWeapon( mount.weapons[0].id).mount === 'Auxiliary'">
+          <div v-else-if="mount.weapons[0] && getWeapon(mount.weapons[0].id).mount === 'Auxiliary'">
             <mech-weapon-item :key="'fl2_' + weaponReload" :item="mount.weapons[0]" 
               fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
             <mech-weapon-item :key="'fl3_' + weaponReload" :item="mount.weapons[1] || null" 
-              fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />  
+              fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" /> 
           </div>
         </div>
         <div v-else>
@@ -153,6 +161,11 @@
     allMountBonuses (): string[] {
       return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.$store.getters.getPilot.core_bonuses)
     },
+    freeMountBonuses (): number {
+      var vm = this as any
+      var appliedBonuses = _.flatten(vm.loadout.mounts.map((x: MechMount) => x.bonuses))
+      return vm.allMountBonuses.length - appliedBonuses.length
+    },
     mountBonuses (): string[] {
       return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
     },
@@ -242,6 +255,10 @@
       this.current_equip = null
       if (this.loadout.mounts[this.mountIndex].weapons) this.current_equip = this.loadout.mounts[this.mountIndex].weapons[this.weaponIndex] || null
       this.weaponSelectorModal = true
+    },
+    isCbVisible (): boolean {
+      var vm = this as any
+      return vm.freeMountBonuses > 0 || vm.mount.bonuses.length
     },
     confirmCBSM (bonusArray: string[]) {
       this.$store.dispatch('editConfig', {
