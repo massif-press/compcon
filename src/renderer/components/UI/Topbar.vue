@@ -89,10 +89,6 @@
       zeroConfigs: false
     }),
     methods: {
-      open (link: string) {
-        var vm = this as any
-        vm.$electron.shell.openExternal(link)
-      },
       historyNav: function (dir: number) {
         this.$router.go(dir)
       }

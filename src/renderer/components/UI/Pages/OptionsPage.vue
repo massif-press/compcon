@@ -57,6 +57,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { remote } from 'electron'
   import io from '@/store/data_io'
 
   export default Vue.extend({
@@ -67,7 +68,7 @@
     }),
     methods: {
       open (link: string) {
-        (this as any).$electron.shell.openExternal(link)
+        remote.shell.openExternal(link)
       },
       importBrew () {
         const { dialog } = require('electron').remote

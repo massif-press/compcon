@@ -29,7 +29,13 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { remote } from 'electron'
   export default Vue.extend({
-    name: 'about-page'  
+    name: 'about-page',
+    methods: {
+      open (link: string) {
+        remote.shell.openExternal(link)
+      },
+    } 
   })
 </script>
