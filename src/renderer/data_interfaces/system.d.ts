@@ -8,5 +8,6 @@ declare interface System extends CCItem {
     aptitude: Aptitude,
     talent_item?: true,
     talent_id?: string,
-    talent_rank?: number
+    talent_rank?: number,
+    brew?: string
 }

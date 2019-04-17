@@ -153,8 +153,8 @@
         <v-layout v-if="frame.core_system.integrated" row>
           <div style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >CORE Integrated Weapon</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >CORE Integrated Weapon</span>
                 <div class="mount-interior">
                   <v-layout>
                     <v-flex shrink class="ml-1"><span class="p-large">{{frame.core_system.integrated.name}}</span></v-flex>
@@ -171,8 +171,8 @@
         <v-layout v-for="(mount, index) in stats.integrated_mounts" :key="'intmount_' + index" row>
           <div v-if="mount" style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >Integrated Weapon</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >Integrated Weapon</span>
                 <div class="mount-interior">
                   <v-layout>
                     <v-flex shrink class="ml-1"><span class="p-large">{{weapon(mount).name}}</span></v-flex>
@@ -189,8 +189,8 @@
         <v-layout v-for="(mount, index) in loadout.mounts" :key="'mount_' + index" row>
           <div v-if="!mount.imparm || (mount.imparm && hasImparm())" style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >{{mount.mount_type}}</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >{{mount.mount_type}}</span>
                 <div class="mount-interior">
                   <div v-if="mount.sh_lock" class="text-xs-center">
                     <i style="letter-spacing: 5px; color: grey;">MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
@@ -375,7 +375,7 @@
     color: #757575;    
   }
 
-  .mount-title {
+  .p-mount-title {
     position: relative;
     top: -10px;
     left: 30px;
@@ -386,7 +386,7 @@
     padding: 0px 5px 0px 5px;
     margin: 0;
   }
-  .bordered {
+  .p-bordered {
     border: solid 1px grey; 
     border-radius: 3px;
   }

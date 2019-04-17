@@ -4,6 +4,10 @@ Bugs:
   ☐ Loadout auto-name should consider if name already exists
   ✔ Lancaster has Drake trait @done(19-04-12 19:05)
   ☐ Swallowtail save incorrect
+  ☐ Disable nav back/forward when no target
+  ☐ Weapons with SP flag as over sp even though they're selectable
+  ☐ fix longrim core bonus tags
+  ✔ core bonus benefit selection not refreshing immediately @done(19-04-16 22:32)
 
 Refactor:
   ✔ All tag linking with tag objects @done(19-04-11 13:20)
@@ -29,11 +33,14 @@ Refactor:
   ☐ Hangar and Roster CSS
   ☐ Harden linting
   ☐ Replace all rank star loops/v-rating with component
+  ☐ Loadout naming scheme should move
+  ☐ CB benefit selector needs tooltip
+  ☐ Unapplied CB Benefit notification
 
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
   ✔ Remove ItemBadge/ItemCard -- make new view for license browsing @done(19-04-15 18:34)
-  ☐ Correct item card bg colors
+  ✔ Correct item card bg colors @done(19-04-16 23:59)
   ☐ Better list/table for Frame selection
   ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
   ☐ Fixed selector left columns
