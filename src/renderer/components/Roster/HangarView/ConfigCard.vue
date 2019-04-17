@@ -3,20 +3,20 @@
   <v-card slot-scope="{ hover }" :class="`${config.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`">
     <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
       <v-flex class="ma-0 pb-0 pt-0">
-        <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" position="top" height="300px"/>
-        <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" position="top" height="300px"/>
+        <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" position="top" :height="`${cardHeight}px`"/>
+        <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" position="top" :height="`${cardHeight}px`"/>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex>
         <v-card color="rgba(0, 0, 0, .55)" dark flat>
           <v-layout>
-            <v-flex xs8 class="ma-2">
+            <v-flex xs9 class="ma-2">
               <span class="title">{{config.name}}</span>
               <br>
               <span class="caption">{{frame().source}} {{frame().name}}</span>
             </v-flex>
-            <v-flex xs4 class="mt-2 mb-2">
+            <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
               <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
                 <span>Activate Mech<br>(feature in development)</span>
@@ -43,61 +43,46 @@
         <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
       </v-snackbar>
 
-      <v-dialog v-model="deleteDialog" width="500" >
-        <v-card>
-          <v-card-text>
-            Are you sure you want to delete {{config.name}}? This action cannot be undone
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn color="primary" flat @click="deleteDialog = false"> Cancel </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="error" @click="deleteConfig"> Delete Configuration </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <lazy-dialog :model="deleteDialog" title="Delete Mech Configuration" acceptString="Delete"
+        acceptColor="warning" @accept="deleteConfig" @cancel="deleteDialog = false">
+        <template v-slot:modal-content>
+          <v-card-text>Are you sure you want to delete {{config.name}}? This action cannot be undone</v-card-text>
+        </template>
+      </lazy-dialog>
 
-      <v-dialog v-model="exportDialog" width="500" >
-        <v-card>
-          <v-card-title class="title">Export Configuration &mdash; {{config.name}}</v-card-title>
-          <v-card-text>
-            <v-btn large block flat color="primary" @click="exportConfig">Save to File</v-btn>
-            <br>
-            <v-btn large block flat color="primary" @click="copyConfig">Copy Configuration Data to Clipboard</v-btn>
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn color="primary" flat @click="exportDialog = false"> Cancel </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <lazy-dialog :model="exportDialog" title="Export Mech Configuration" hide-confirm @cancel="exportDialog = false">
+        <template v-slot:modal-content>
+          <v-btn large block flat color="primary" @click="exportConfig">Save to File</v-btn><br>
+          <v-btn large block flat color="primary" @click="copyConfig">Copy Configuration Data to Clipboard</v-btn>   
+        </template>
+      </lazy-dialog>
 
-      <v-dialog v-model="copyDialog" width="650" >
-        <v-card>
-          <v-card-title class="title">Duplicate Configuration &mdash; {{config.name}}</v-card-title>
-          <v-card-text class="text-xs-center">
-              <v-btn large block color="indigo" @click="cloneConfig" dark>Duplicate Configuration</v-btn>
+      <lazy-dialog :model="copyDialog" title="Duplicate Mech Configuration" hide-confirm @cancel="copyDialog = false">
+        <template v-slot:modal-content>
+          <v-card-text slot="modal-content" class="text-xs-center">
+            <v-btn large block color="indigo" @click="cloneConfig" dark>Duplicate Configuration</v-btn>
           </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-btn color="primary" flat @click="copyDialog = false"> Cancel </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </template>
+      </lazy-dialog>
 
     </v-layout>
   </v-card>
 </v-hover>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import io from '@/store/data_io'
+import {LazyDialog} from '@/components/UI'
+import { ExecFileOptionsWithStringEncoding } from 'child_process';
 
-export default {
+export default Vue.extend({
   name: 'config-card',
+  components: {LazyDialog},
   props: {
     config: Object,
-    cIdx: Number
+    cIdx: Number,
+    cardHeight: Number,
   },
   data: () => ({
     deleteDialog: false,
@@ -107,58 +92,49 @@ export default {
     snackbar: false
   }),
   methods: {
-    frame: function () {
+    notify (alert: string) {
+      this.notification = alert
+      this.snackbar = true
+    },
+    frame (): Frame {
       return this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
-    getStaticPath: function (path) {
+    getStaticPath (path: string): string {
       return `static/${path}`
     },
-    toggleActive: function () {
-      // this.$store.dispatch('loadPilot', this.pilot.id)
-      // this.$store.dispatch('editPilot', {
-      //   attr: `active`,
-      //   val: !this.pilot.active
-      // })
-    },
-    toConfigSheet: function () {
+    toConfigSheet () {
       this.$store.dispatch('loadConfig', this.config.id)
       this.$router.push('./config')
     },
-    deleteConfig: function () {
+    deleteConfig () {
       this.deleteDialog = false
       this.$store.dispatch('deleteConfig', this.config.id)
+      this.notify('Configuration Deleted')
     },
-    cloneConfig: function () {
+    cloneConfig () {
       this.$store.dispatch('cloneConfig', JSON.parse(JSON.stringify(this.config)))
       this.copyDialog = false
       this.$parent.$forceUpdate()
-      this.notification = 'Configuration Duplicated'
-      this.snackbar = true
+      this.notify('Configuration Duplicated')
     },
-    exportConfig: function () {
+    exportConfig () {
       const { dialog } = require('electron').remote
       var path = dialog.showSaveDialog({
         defaultPath: this.config.name.toLowerCase().replace(/\W/g, ''),
         buttonLabel: 'Export Configuration'
       })
-      io.saveFile(path + '.json', JSON.stringify(this.config), function (err) {
-        if (err) {
-          alert(`Error: COMP/CON could not save a file to ${path}`)
-        }
-      })
+      io.saveFile(path + '.json', JSON.stringify(this.config))
       this.exportDialog = false
-      this.notification = 'Configuration Exported Successfully'
-      this.snackbar = true
+      this.notify('Configuration Exported Successfully')
     },
-    copyConfig: function () {
+    copyConfig () {
       const {clipboard} = require('electron')
       clipboard.writeText(JSON.stringify(this.config))
       this.exportDialog = false
-      this.notification = 'Configuration Copied to Clipboard'
-      this.snackbar = true
+      this.notify('Configuration Copied to Clipboard')
     }
   }
-}
+})
 </script>
 
 <style scoped>

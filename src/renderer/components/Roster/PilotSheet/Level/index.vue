@@ -27,7 +27,7 @@
 
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
@@ -39,7 +39,7 @@
             <skill-selector v-if="lv_step === 2" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" level-up @set-skills="setSkills"/>
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -52,7 +52,7 @@
             <talent-selector v-if="lv_step === 3" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" level-up @set-talents="setTalents"/>
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -65,7 +65,7 @@
             <mech-skills-selector v-if="lv_step === 4" :mechSkills="mSkills" level-up :pilotLevel="pilot.level" @new-mech-skills="setMechSkills"/>        
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -78,7 +78,7 @@
             <license-selector v-if="lv_step === 5" :pilotLicenses="pilot.licenses" level-up :pilotLevel="pilot.level" @set-licenses="setLicenses"/>    
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -88,10 +88,11 @@
           </v-stepper-content>
 
           <v-stepper-content v-if="pilot.level % 3 === 0" step="6">
-            <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses.concat(newItems.licenses)" @set-bonuses="setBonuses"/>          
+            <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" 
+              :pilotLicenses="getBonusLicenses()" @set-bonuses="setBonuses"/>          
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -112,7 +113,7 @@
             </v-layout> 
             <v-layout justify-space-between>
               <v-flex xs1>
-                <v-btn flat to="roster">Cancel</v-btn>
+                <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
@@ -128,19 +129,22 @@
 </v-container>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
+  import _ from 'lodash'
   import { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector } from '../Selectors'
-  import LevelUpdateBlock from './LevelUpdateBlock'
-  import ConfirmationBlock from './ConfirmationBlock'
+  import LevelUpdateBlock from './LevelUpdateBlock.vue'
+  import ConfirmationBlock from './ConfirmationBlock.vue'
 
-  export default {
+  export default Vue.extend({
     name: 'new-pilot',
     components: { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector, LevelUpdateBlock, ConfirmationBlock },
     data: () => ({
       lv_step: 0,
-      pilot: {},
-      mSkills: {},
+      pilot: {} as Pilot,
+      mSkills: {} as MechSkills,
       newItems: {
+        level: 0,
         skills: [],
         talents: [],
         mechSkills: {
@@ -154,57 +158,62 @@
       }
     }),
     methods: {
-      itemSelect: function (payload) {
-        this.newItems[payload.field] = payload.value
+      itemSelect (payload: {field: string, value: any}) {
+        (this as any).newItems[payload.field] = payload.value
       },
-      item: function (type, id) {
+      item (type: string, id: string) {
         return this.$store.getters.getItemById(type, id)
       },
-      setSkills: function (skills) {
+      setSkills (skills: any) {
         this.itemSelect({field: 'skills', value: skills})
       },
-      setTalents: function (talents) {
+      setTalents (talents: any) {
         this.itemSelect({field: 'talents', value: talents})
       },
-      setMechSkills: function (mskills) {
+      setMechSkills (mskills: any) {
         this.itemSelect({field: 'mechSkills', value: mskills})
       },
-      setLicenses: function (licenses) {
+      setLicenses (licenses: any) {
         this.itemSelect({field: 'licenses', value: licenses})
       },
-      setBonuses: function (cbs) {
+      getBonusLicenses (): any {
+        var vm = this as any
+        return _.clone(vm.newItems.licenses)
+      },
+      setBonuses (cbs: any) {
         this.itemSelect({field: 'core_bonuses', value: cbs})
       },
-      savePilot: function () {
-        for (const k in this.newItems) {
+      savePilot () {
+        var saveItems = this.newItems as any
+        for (const key in saveItems) {
           this.$store.dispatch('editPilot', {
-            attr: k,
-            val: this.newItems[k]
+            attr: key,
+            val: saveItems[key]
           })
         }
-        this.$router.push('./roster')
+        this.$router.push('./pilot')
       },
-      stepBack: function () {
+      stepBack () {
         this.lv_step--
         window.scrollTo(0, 0)
       },
-      stepForward: function () {
+      stepForward () {
         this.lv_step++
         window.scrollTo(0, 0)
       },
-      hasNewMechSkills: function () {
+      hasNewMechSkills () {
         var m = this.newItems.mechSkills
         return m.hull + m.agi + m.eng + m.sys > 0
       },
-      init: function () {
+      init () {
         this.pilot = JSON.parse(JSON.stringify(this.$store.getters.getPilot))
         this.mSkills = JSON.parse(JSON.stringify(this.pilot.mechSkills))
         this.pilot.level++
         this.newItems.level = this.pilot.level
       }
     },
-    created: function () {
+    created () {
       this.init()
     }
-  }
+  })
 </script>
