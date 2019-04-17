@@ -37,10 +37,11 @@
   </v-container>
 </template>
 
-<script>
-  import {FrameStatblock} from '../../Roster/UI'
-  
-  export default {
+<script lang="ts">
+import Vue from 'vue'
+import {FrameStatblock} from '@/components/UI'
+
+export default Vue.extend({
     name: 'frames',
     components: { FrameStatblock },
     data: () => ({
@@ -60,16 +61,16 @@
         {text: 'Tech Attack', align: 'right', value: 'stats.tech_attack'},
         {text: 'Save', align: 'right', value: 'stats.save'},
         {text: 'Speed', align: 'right', value: 'stats.speed'},
-        {text: 'SP', align: 'right', value: 'stats.sp'}
-      ]
+        {text: 'SP', align: 'right', value: 'stats.sp'},
+      ],
     }),
-    created: function () {
+    created() {
       this.frames = this.$store.getters.getItemCollection('Frames')
-      var ps = this.$store.getters.getPresearch
+      const ps = this.$store.getters.getPresearch
       if (ps) {
         this.search = ps
         this.$store.dispatch('clearPresearch')
       }
-    }
-  }
+    },
+  })
 </script>

@@ -36,7 +36,7 @@
       "description": "",
       "active_name": "Power Up",
       "effect": "This turn only, you can make an additional Full Action as a free action or 2 Quick actions as free actions.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {}
@@ -83,7 +83,7 @@
       "description": "The IPS-N branded assault grappling system is a proven, class-leading system rated to handle hauling, supporting, and securing chassis up to Galactic Standard Size 4. Grapple heads are interchangeable and can be swapped for hard or soft targets, electrified, or loaded with codespike systems to incapacitate targets at a distance.",
       "active_name": "Omni-harpoon",
       "effect": "This one-shot system fires harpoon-like grapples at any number of targets within line of sight and within range 5. Those targets must pass a hull save or take 2d6 kinetic damage, and half on a successful save. On a failed save, they are additionally knocked prone and pulled adjacent to your mech, or as far as possible towards your mech without being obstructed. They are then immobilized until the end of your next turn.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -138,7 +138,7 @@
       "description": "",
       "active_name": "Fortress Protocol",
       "effect": "When you activate this protocol, you plant your shield and deploy stabilizers, becoming more like a fortified emplacement than a mech. While this system is active, your mech is immobilized. Two line 2 sections of hard cover unfold, drawn from your mech in any direction. These hard cover sections are immune to all damage. Your mech gains hard cover while deployed this way, even in the open. Any character that gains hard cover from the Drake, and the drake itself also gains immunity to knockback, prone, and resistance to blast, line, and cone attacks. This system can be deactivated at the start of your turn as a protocol.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -178,10 +178,6 @@
       {
         "name": "Combat Repair",
         "description": "The Lancaster can spend a full action and 4 repairs in combat to repair a destroyed mech, returning it to 1 structure and 1 HP"
-      },
-      {
-        "name": "Insulated",
-        "description": "Adjacent allies can use the Drake for Hard Cover"
       }
     ],
     "core_system": {
@@ -198,7 +194,7 @@
       },
       "active_name": "Supercharger",
       "effect": "You fire your drone at a friendly mech in range, where it clamps onto the target. For the rest of this scene, you take 1 heat at the start of your turn, but the targeted mech gains +1 Accuracy on all attacks, checks, and saves, and is immune to the impaired, jammed, slowed, shredded, and immobilized conditions. This effect ends if you or the targeted mech is stunned or shut down. While this system is active, you cannot fire your drone as a weapon (using the passive of this system).",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -244,7 +240,7 @@
       "description": "IPS-N’s PMD exploits fighter-tier nearlight spooling to conserve and sustain a passive .000001LS charge, able to be dumped into extant boost systems at the pilot’s command. The chassis fielding this system must be heavily adapted through strengthening joints, limbs, and installing a k-comp crash couch to protect the pilot from sudden g force and shear",
       "active_name": "Spool up PMD",
       "effect": "Once activated, this system remains active until the rest of the current scene. While its active, the free movement from the Nelson’s Skirmisher passive increases to 4",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -304,7 +300,7 @@
       },
       "active_name": "Thunder God",
       "effect": "You empty your M35 out and spin it up. Until the end of the current challenge, if you didn’t fire your M35 on your turn, it gains 2 more rounds in the chamber at the end your turn (you can use a d6 to track this). It starts with 0 rounds in the chamber. When you next fire the weapon, it fires all chambers, for 4 damage per chamber. The M35 has six chambers, for a maximum of 24 damage. If 4 or more chambers are fired at once, this weapon gains the AP tag and your target is Shredded on hit until the end of its next turn.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -347,9 +343,9 @@
     "core_system": {
       "name": "SENTINEL",
       "description": "IPS-N security teams are no strangers to the danger of ship-to-ship or ship-to-station boarding actions. Tight corridors, unstable gravity, dark environments, hard vacuum, and the dual threat of organic and inorganic opposition forces make boarding actions some of the most deadly engagements (by percentage) that one could participate in &mdash; the winning side, according to IPS-N’s internal metrics, should expect at least 30% casualties on average.<br>To lessen the cognitive burden of pilots and any NHPs or comp/cons they have installed in their chassis, IPS-N developed the SENTINEL co-pilot subsentient partition. The Sentinel is a simple subsentient: a flash-homunculus of an aggregate-intelligence compiled through thousands of after-action reports from boarding actions, debriefings, and volunteer donors. Not a true AI, nor an NHP, the SENTINEL is a robust tactical program similar to a smart weapon, though without the need to cycle it presents certain tactical advantages &mdash; namely, the ability for limited learning and best-guess predictive capabilities alongside its pilot. SENTINELs are largely plain in their personalities, such that they develop, and are a favorite of pilots for their no-nonsense attitude and crisp, efficient counsel.<br>The SENTINEL is currently under review by a joint USB/UDoJ-HR committee, but no formal stay on production has yet been issued.",
-      "active_name": "Hyper-Reflex Mode ",
+      "active_name": "Hyper-Reflex Mode",
       "effect": "For the rest of this combat, your threat with ranged weapons increases to 5 if it was less than 5. You can make one additional overwatch attack between your turns, and any target struck by your overwatch attacks is immediately immobilized until the start of its next turn.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -395,7 +391,7 @@
       "description": "A nod to the pre-Fall namesake of the VLAD, Shrike armor plating bristles with shaped spikes, hardened with chromium/tungsten alloy tips. Strategic studding places Shrike tips in high-likelihood kinetic encounter areas: gauntlet covers, manipulator joint covers, shoulder plating, and so on. Primarily a defensive modification, Shrike armor is uncommon among Coreside pilots, and seen as a mark of underdeveloped &mdash; if terrifying &mdash; tactics.",
       "active_name": "Tormentor Spines",
       "effect": "Until the end of the current challenge, you gain resistance to all damage from within range 3, and your damage from the Vlad’s Shrike Armor trait increases to 3 AP kinetic damage.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -441,7 +437,7 @@
       "description": "A magnetic field generator takes the same technology as other projected magnetic defenses and makes them portable separate from a mech core. When activated, the mag field generator creates a projected magnetic bubble that traps all incoming ferrous projectiles; the strength of the field is so great that it can even draw mechs to its center. When the field is canceled or the solid-state battery burns out (by design), the field detonates through sudden catastrophic reversal, launching all captured projectiles out from its center.",
       "active_name": "Mag Field",
       "effect": "As a full action, you may activate the mag field to create a Blast 4 area with at least one square adjacent to you. Inside, ranged weapon attacks that deal kinetic or explosive damage cannot penetrate into or out of the field and will stop at the edge, doing no damage (keep track of them). The field is difficult terrain for all mechs and vehicles. Mech and Vehicle characters that start their turn in the Mag Field or enter it for the first time on their turns must make a successful hull save or be pulled to the center as far as possible and immobilized. The field lasts until the end of your next turn. At the end of your next turn, any kinetic or explosive weapons fired into this field will resume trajectory towards the center of this zone. The GM performs a single attack roll vs each target still inside the zone with +1 targeting per attack fired into this zone (cumulative, up to a max of +6). Successful hits deal 1d6 Kinetic damage per attack fired into this zone (cumulative, to a maximum of 6d6). Then, the zone deactivates.",
-      "tags": ["fullaction"]
+      "tags": [{"id": "fullaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -487,7 +483,7 @@
       "description": "Precognition is the next step in human/AI interaction. By allowing AI data-dump and REM learning via a neural bridge, a pilot can learn to read situations before they begin to develop. The nature of precognition is as-yet unknown, so SSC recommends limited, monitored use of this protocol.",
       "active_name": "Activate Neural Shunt",
       "effect": "For the rest of this scene, you can take the following action:<br><br>Mark for Death<br>Choose a target in range 30 but further away from range 5 of the Death’ s head.You concentrate on thattarget.While concentrating, your mech is immobilized and cannot take reactions.You can stopconcentrating at the start of any of your turns as a free action, and can only concentrate on one targetat once.<br>While concentrating on a target, as long as that target is not in cover from you or within range 5 of you, your ranged attacks against the target deal +3d6 bonus damage on Critical Hit.",
-      "tags": ["fullaction"]
+      "tags": [{"id": "fullaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -536,7 +532,7 @@
       "description": "“Belief in what we could see. What we could touch. In what our comp/cons assured us was there, in our own subjectivity and memory. Belief in reality became a weapon. We approached the metavault knowing that we would face an enemy whose capabilities were unknown to us, but we approached in numbers and machine strength.<br>Dhiyed taught us as it killed us. In the confused comm chatter, in the screams of the dying. In the cackling of our mirror-selves killing ourselves. Every spoofed signature, every atemporal skip, every memetic, every non-Euclid &mdash; all of these horrors were lessons. Do you understand?<br>Dhiyed the Teacher. Dhiyed the Monster. In killing it, Dhiyed taught us what to fear, and how to face it.<br>What do I fear now? That's a good question. What does the pilot who cracked Dhiyed’s casket fear?<br>I don’t think we killed it. I think it wants us to believe we killed it — and I cannot imagine what it has done while we think ourselves safe.”",
       "active_name": "Hall of Mirrors",
       "effect": "For the rest of the scene, gain the following effect:<br><br>Each time your mech takes the boost action or its regular move on its turn, it leaves a holographic imprint of itself behind in the space where it started. This hologram is an illusory projected object the same size as your mech (it can be moved through and doesn’t actually take up any space). The holograms detonate if any non-allied character starts their turn or moves through or adjacent to their space, dealing 1d6 energy damage (an actor can pass an agility save to halve this damage). In addition, any time as a quick action, you can instantly teleport to one of the hologram’s locations as long as it is in range 50. Doing so detonates all holograms for a burst 1 attack against all characters centered on their areas for the same effect and prevents you from generating new holograms until the start of your next turn.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -583,7 +579,7 @@
       "description": "A tight-knit, tight-bind weave of reactive fabric, tactical cloaks are high-license tech, restricted to pilots of METALMARK classification II or higher. The weave covers roughly 80% of a chassis, giving it an overall dull quality when viewed through optics or with the naked eye. It is difficult to target, and when activated it bends light in such a way that makes it nearly impossible to see. ",
       "active_name": "Cloak",
       "effect": "Until the end of the current scene, your mech is invisible.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -630,7 +626,7 @@
       "description": "The SSC 30 High-pen missile system is a FRAME mounted micro missile system capable of tremendous output in combat. The MONARCH is fitted to hold upwards of 60 of these deadly miniaturized warheads at once.",
       "active_name": "Divine Punishment",
       "effect": "You unload your Avenger silos. All targets of your choice on the battlefield (or a burst 50 area from your mech) must pass an agility save with 1 difficulty or take 1d6+4 explosive damage, and half on a successful save. You do not need line of sight to any targets, and the self-guiding missiles can perfectly seek any target as long as they can trace a path.",
-      "tags": ["fullaction"]
+      "tags": [{"id": "fullaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -676,7 +672,7 @@
       "passive": "This dangerous and experimental module is a miniaturized starship nearlight drive. You can use it as a full action. When you use it, roll 3d6. You can teleport to a point within that range around you as long as there is space for your mech. You don’t have to be able to see this point, but if you attempt to teleport to an already occupied space (by terrain, another mech, etc), the teleport fails and you take 5 AP kinetic damage.<br>If you roll triples for this system, your mech disappears and does not re-appear, either indefinitely or until your party rests (up to you).",
       "active_name": "Stabilize Singularity",
       "effect": "Until the end of this scene, when you move or boost, you instead teleport up to the same distance.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -704,7 +700,7 @@
       "repcap": 5,
       "sensor_range": 20,
       "tech_attack": 1,
-      "save": 20,
+      "save": 10,
       "speed": 6,
       "sp": 6
     },
@@ -723,7 +719,7 @@
       "description": "Cloudscout TACSIM Swarms are packets of networked microsensors, launched in nonlethal mortar canisters that detonate high above the battlefield. Once seeded in such a way, the TACSIM program the cloudscouts create begin to run brevity cycles: tight, contained simulations of tactical possibility. Probability results are then fed to the swallowtail’s choir processors, who in turn feeds it to the pilot and their networked squad members, ensuring high-probability successful outcomes.",
       "active_name": "Prophetic Interjection ",
       "effect": "Until the end of the current challenge, once per round, as a reaction when an allied character you can see is damaged by another character you can see, you can roll a d6. On a 4+, the attack hitting was actually a simulation that your mech predicted. Your ally gains resistance to all the damage from that attack, and your ally can teleport 3 in any direction to where they ‘actually’ were. On a 1-3, there’s a glitch - your ally doesn’t gain resistance and takes damage normally, but can teleport 5 spaces in any direction.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -770,7 +766,7 @@
       "description": "As one, without any command but desire, you control a cloak of millions of miniscule, quick-print drones: a hellswarm cloak, a living shield, a fluid-dynamic knife &mdash; you cut and guard in one shimmering wave. You are Hivemaster, and your will is followed by millions.",
       "active_name": "Hive Frenzy",
       "effect": "Your swarm nanites go into a hyper-active mode. For the rest of this scene, gain the following benefits:<br>- Your Scouring Swarm passive provides soft cover to you and adjacent allies<br>- Your Scouring Swarm’s damage increases to 4<br>- Your Regeneration passive doubles in effectiveness to 1/2 your HP<br>- If your mech would lose structure, roll a d6. On a 6, it hellishly pulls itself together, does not lose structure and returns to 1 HP and whatever structure it had before taking damage. It reduces all further damage it takes this turn to 0.<br>However, your mech is Shredded while this system is active (it cannot benefit from resistance or armor). It cannot lose this condition in any way while this system is active.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -820,7 +816,7 @@
       "description": "The GOBLIN invasion rig was one of the first systems GMS technicians were able to crack. Its protocols, once installed on a mech core, manifest a sub-sentient intelligence designated as INSTINCT that assists its pilot in invasion attempts. Invasions attempted while the protocol is active are not perceived by the pilot as code and script, but as an attack on organic matter. INSTINCT often acts before the pilot, but in the pilot’s best interest; this preemptive ability is unnerving to many, and it is recommended that pilots cycle their mech cores at least once a month to prevent enlightenment",
       "active_name": "Devour",
       "effect": "Your mech targets another adjacent NPC mech or vehicle the same size or larger that is destroyed or shut down. Your mech clamps on to that character and retracts its core systems, becoming like a vestigial blister on that mech, sharing its space and moving with it. The mech immediately heals to full HP, clears 1 point of stress and structure damage, and clears all heat, though it retains any other damage it has already taken. It cannot be healed past 1 stress and structure while controlled in this state. Your target cannot have the Ultra tag. If it has the Elite tag, it loses its bonus activations.<br>Your mech’s systems completely consume the other mech’s core systems for a time, granting you total control of your target, even if the other pilot is still alive. While you control your target, your Goblin cannot take actions other than to detach as a quick action. Instead, you take action as that NPC would, counting as a friendly NPC that has already acted in the turn you take control.<br>While controlling your target, your Goblin can be targeted and damaged separate from the mech it’s controlling. It benefits from soft cover while attached. If your Goblin rolls an overheating or structure damage check, or is destroyed, stunned, or shut down, it detaches and control is immediately lost. Otherwise you can control your target until your target is destroyed, the end of the next combat scene, the end of the mission, until you rest or full repair, or when you deactivate this system by detaching.",
-      "tags": ["fullaction"]
+      "tags": [{"id": "fullaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -870,7 +866,7 @@
       "description": "The BASILISK Directed Anticognition Hyperfractal is a Horus-script-derived liturgicode translated for chassis-tier engagement. Typically point-broadcasted from a communications laser, the BASILISK liturgicode is a memetic weapon that affects any who can see it, unless they have had the proper tempering. Survivors often exhibit momentary paralysis, corporeal alienation, and consciousness destabilization. Anticognition Hyperfractals are classified as paracausal weapons &mdash; as of yet, there is no effective defense against them.",
       "active_name": "Extrude Basilisk",
       "effect": "Your mech projects a horrifying Basilisk pattern, incredibly harmful to NHPs, software, and hard to look at even for humans (typically causes 3-5 hours of headaches and intense subdermal bleeding, can often cause blood vessels to pop in the eye). Until the end of the current scene, any character (mech, human, or biological) that attacks either you or any allied character within range 3 of you must first pass a systems save or be stunned until the end of their next turn. A target can only be stunned once by this effect per combat.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -917,7 +913,7 @@
       "passive": "Your mech has powerful built in drone companions. Each time you rest or repair, you can choose one of these drones to accompany you. Each is size 1/2 and has 10 base HP (15 including your passive) and gains additional HP equal to your grit. They have evasion equal to your evasion, e-defense equal to your e-defense, speed equal to your speed, and 0 armor. They are destroyed when they reach 0 HP.<br>The drones are separate entities that act on your turn and can only move, obeying normal restrictions. Any drones in sensor range can be recalled as a quick action, uniting them with your mech and making them un-targetable, and re-deployed any time as a quick action to a point in sensor range.<br>You can change the drone accompanying you each time you take a rest or full repair. All drones are automatically repaired to full HP and repaired from destroyed when taking a rest or full repair.<br><br><b>Guardian Drone</b>: This drone projects a shield around it that causes ranged attacks against any adjacent allies to have +1 difficulty<br><b>Snare Drone</b>: If any character starts its turn adjacent to this drone or moves adjacent to it for the first time on your turn, as a reaction you can force it to pass an agility save or become immobilized. An immobilized character can only end this condition by successfully repeating this save as a quick action, if the drone is destroyed, or if the drone moves.<br><b>Shredder Drone</b>: If any character starts its turn adjacent to this drone or moves adjacent to it for the first time on your turn, as a reaction you can force it to pass an hull save or take 1d3 kinetic damage and become shredded until the end of its next turn.<br><b>Hunter Drone</b>: Characters adjacent to this drone cannot benefit from invisibility. In addition, on its turn, the Drone can make a Lock On attack using your systems score at a character adjacent to it.",
       "active_name": "OROCHI Mode",
       "effect": "You deploy all four OROCHI drones to points in sensor range and may have all four active for the rest of this scene. When you recall or re-deploy them, you can recall and re-deploy any number of them.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -970,7 +966,7 @@
       "passive": "Once per round, when you take heat from any source, one target in range 3 of you takes 1d3 AP energy damage.",
       "active_name": "Destruction of the Temple of the Enemies of RA",
       "effect": "Your mech crackles with energy. For the rest of this combat your mech has resistance to heat from any source (round up). Set aside a charge die, starting at 1. When you take heat or energy damage (from any source, even self), increase the die by 1, to a maximum of 6. When the die hits 6, the energy discharges in a burst 2 area around you. This deals 6d6 energy damage to all characters and objects caught inside. Affected characters can pass an engineering save to halve this damage. This system then deactivates for the remainder of this challenge (you also lose resistance to heat).",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1021,7 +1017,7 @@
       "passive": "You can spend quick action after any successful tech attack to slow your target until the end of your next turn. If your target is already Slowed, they become immobilized until the end of your next turn. If they are already immobilized, they are stunned until the end of your next turn. This passive can only stun the same target once per combat, but Slow or immobilize them any number of times.",
       "active_name": "Maze",
       "effect": "You hurl an opposing mech’s systems into a metaphysical information trap so tangled that it can do nothing but try and escape it. Choose a target of your choice in your sensor range. That target is stunned as its systems start to figure out the trap you have thrown it in. At the end of its next turn it can pass a system save with 3 difficulty, ending the stun on itself on a success. It can repeat this check on subsequent turns, gaining +1 accuracy on its save each time it repeats this check until it is successful. Otherwise it remains stunned.",
-      "tags": ["fullaction"]
+      "tags": [{"id": "fullaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1072,7 +1068,7 @@
       "passive": "Your mech mounts an omnigun, a weapon and piece of experimental hardware so advanced that it does not classify as any weapon weight or type (so it cannot be modified or benefit from talents). It also doesn’t take a mount.<br>Once, at any point during your turn, you can hit a valid target in line of sight at range 15 with the omnigun as a Free Action, dealing 1 AP kinetic damage. This does not count as an attack, cannot miss, ignores cover, and this damage cannot be reduced by any means. No rule in this book supersedes this.",
       "active_name": "Unshackle Ushabti",
       "effect": "For the rest of this combat, you can fire your omnigun up to 3 times on your turn instead of just once.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1131,7 +1127,7 @@
       },
       "active_name": "Charge Rail",
       "effect": "The Barbarossa starts charging the Apocalypse Rail, an incredibly powerful ship-to-ship long-spool weapon system that requires target calibration. The rail is too large and unique to work with talents, take ammunition, or be modified in any way.<br>To start charging the rail is a quick action. Set out a d6, starting at 4. At the start of each of your turns while this weapon system is charging, tick the d6 down by 1, to a minimum of 1, like a countdown. If your mech moves, even involuntarily, is stunned, jammed, or is shut down, reset the charge to 4 (this doesn't stop the charge, however - it continues to tick down at the start of your turns)<br>You can fire the rail only on your turn. If you fire the rail, it’s the only thing you can do on your turn (no other actions, no regular move, etc, not even overcharge!). Make a ranged attack against characters and objects caught in the area. The rail cannot be fired in any other way than taking this action to fire it, and it cannot be fired at any character within range 5.<br>After firing the rail, the charge resets to 4. If you end a scene without actually firing the rail, core power is not expended.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1176,7 +1172,7 @@
       "description": "In order to better manage the tremendous power demands of the GENGHIS platform, HA’s Think Tank developed a suite of power-management protocols to rapidly accelerate heat dispersion. After extensive field testing, pilots discovered that the TBK Sustain Suite can be tuned to be both a heat sink and a area-denial weapon.",
       "active_name": "Expose Power Cells",
       "effect": "You ignore the next overheating check you make this challenge. When you would overheat, clear your heat from your gauge as normal, but ignore the check (you don’t take stress either). You vent an enormous cloud of burning matter from your mech, creating a burst 3 area centered on your mech. Inside the area, all targets (allied and enemy) count as invisible to everyone except you, and all mechs other than you that enter the area for the first time on their turn or start their turn there take 2 Burn and 2 heat.<br>On the following round, the benefit from the area reduces to soft cover (which you ignore). On the round after that round, the zone disperses.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1225,7 +1221,7 @@
       "description": "The ISKANDER’s broad-sweep area-denial/countermeasure Seeder is a HA proprietary system developed during the Orrugi Occupation, where HA Acquisition Legionnaires encountered an embittered, recalcitrant local guerilla movement. IEDs, VBEDs, and D/SABEDs were common weapons employed by the local resistance: to counter this threat, the Armory developed a triple-use system to scan, ID, and eliminate explosive threats in proximity to stationary units. This system proved successful and, with minor adaptation, was tuned for use on Armory chassis.<br>The Broad-Sweep Seeder projects a hivecone of excited LIDAR that flags potential targets: mag- accelerated, dull-coat flechettes then disable that target. This system may also load explosive-backed hivemines.",
       "active_name": "Death Cloud",
       "effect": "As a quick action, your mech fires an enormous expanding cloud of micro-mines across the whole battlefield. They affect all hostile characters on the whole battlefield (or a roughly 50x50x50 area). For the rest of the current scene, the first time in any round a hostile character boosts, is knocked back, or makes any other voluntary or involuntary movement other than their regular move takes 3 AP explosive damage after they move.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1271,7 +1267,7 @@
       "description": "The Armory’s Trueblack AEGIS system is a breakthrough in personal shielding developed by HA’s Think Tank. In line with other NHP-derived technologies, the Trueblack is a so-called “black-box” technology; pilots with requisition power to obtain a Trueblack system are typically of high rank or standing within HA, and the inner workings of the system are not known to the public at large. On outward appearance, the Trueblack system has been described by Cosmopolitan pilots as similar to the void/blindness one has when looking out at blinkspace; it is safe to assume that the system utilizes unstable blinkfield technology to manifest a thin blinkspace bubble within defined parameters around the system &mdash; the blinkfield can only sustain for a brief moment, but can be flickered to create an essential-total blinkspace dome.",
       "active_name": "Activate Aegis",
       "effect": "A shimmering, utterly black field envelops your mech, covering it like a second skin, and taking only a few moments to activate. While this field is active, your mech reduces all damage from any source to 1 (after armor as normal).<br>While this shield is active, your mech can only move and make the grapple, improvised attack, ram, and boost actions. It cannot use any systems except those with the shield tag. It cannot take free actions, reactions, or overcharge, and cannot benefit from Flight (if it’s already flying, it falls). It cannot make or be the target of any tech actions (including lock on, etc), cannot benefit from beneficial tech actions (such as lock on, bolster, etc) and cannot communicate or receive communications with or from anyone except the GM (though hand signals are still possible).<br>It can still be affected by statuses, grappled, and take heat. It can otherwise interact normally with the world, such as picking up or dragging items, etc.<br>The shield lasts until the end of the current scene, or about ten minutes otherwise. Damage that goes through reduction can still harm the Napoleon while its aegis is up.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1322,7 +1318,7 @@
       "description": "Developed by HA’s Think Tank as a joint venture with IPS-Northstar’s stellar engineering unit, a Tachyon Loop manipulates a tachyon lance and restrains them to a closed-loop system, accelerating tachyon particles at faster-than-light speeds around a central buckler. The shield is carried and mounted on a chassis to intercede directional incoming fire: as the tachyon particles are traveling faster than light, they are invisible to the naked eye, giving the shield the appearance of a large spoked wheel.",
       "active_name": "Empower Shield",
       "effect": "You can empower this shield, projecting it over an ally in your sensor range. As long as they remain in your sensor range, once per round, when an attack roll misses either you or the target of this shield, you can force the attacker to repeat the attack roll against a target of your choice within range (even a target allied to your attacker). This effect lasts until the end of the current scene, and you can swap your target by taking this action again.",
-      "tags": ["quickaction"]
+      "tags": [{"id": "quickaction"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1383,7 +1379,7 @@
       },
       "active_name": "COREBURN Protocols",
       "effect": "Your solid core immediately gains 4 charges. In addition, for the rest of this scene, taking the stabilize action grants 2 charges instead of 1, and all cover, objects, or deployable hit by this beam are dealt 10 AP damage/charge instead of normal damage.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {
@@ -1428,7 +1424,7 @@
       "description": "A certain breed of pilot rides the very edge of catastrophe, swinging between an equal chance of success and failure each moment. Tokugawa pilots are familiar with the howl of their chassis’s heat warning, the warbling siren a song of destruction: with a superheated reactor feed, Toku pilots ramp their heat debt to the max in order to supercharge their energy weapons. This allows them to churn out damage and make no friends in the engineering bay, should they not melt into a ball of slag before they make it back from the line.",
       "active_name": "Radiance",
       "effect": "Choose 1 energy weapon your mech is wielding. If it is a ranged weapon, its range increases by 5, if it is a melee weapon, its threat increases by +1. For the rest of this combat, this weapon also deals +1d6 Burn as bonus damage (roll on each attack). However, each time you attack with this weapon, you gain +3 heat.",
-      "tags": ["protocol"]
+      "tags": [{"id": "protocol"}]
     },
     "data_type": "frame",
     "aptitude": {

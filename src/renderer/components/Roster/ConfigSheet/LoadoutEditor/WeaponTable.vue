@@ -8,8 +8,7 @@
           <v-icon v-else dark slot="append">lock</v-icon>
         </v-switch>
         </div>
-        <span v-if="!showLocked">Show unauthorized systems</span>
-        <span v-else>Hide unauthorized systems</span>
+        <span v-html="showLocked ? 'Hide unauthorized weapons' : 'Show unauthorized weapons'" />
       </v-tooltip>
 
       <v-tooltip top class="ml-5" nudge-bottom="20px">
@@ -19,20 +18,23 @@
           <v-icon v-else dark slot="append">flash_on</v-icon>
         </v-switch>
         </div>
-        <span v-if="!showOverSp">Show systems above SP capacity</span>
-        <span v-else>Hide systems above SP capacity</span>
+        <span v-html="showOverSP ? 'Hide weapons above SP capacity' : 'Show weapons above SP capacity'" />
       </v-tooltip>
 
       <v-spacer />
-      <v-autocomplete flat dense v-model="search" :items="weapons" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-autocomplete flat dense v-model="search" :items="weapons" clearable hide-details 
+        hide-selected item-text="name" item-value="name" label="Search..." solo />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
       <v-data-table :headers="headers" :items="weapons" :expand="true" item-key="id" :search="search" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td style="padding: 0!important;"><v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
-            <td><span class="subheading">{{ props.item.name }}
+            <td style="padding: 0!important;">
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
+            </td>
+            <td>
+              <span class="subheading">{{ props.item.name }}
                 <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>{{pilot.callsign}} does not have the license for this system ({{props.item.license}} {{props.item.license_level}})</span>
@@ -43,18 +45,34 @@
                 </v-tooltip>
               </span>
             </td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.mount }}</span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.type }}</span></td>
-            <td class="text-xs-left"><span class="subheading"><range-element small :range="props.item.range" /></span></td>
-            <td class="text-xs-left"><span class="subheading"><damage-element small dark size="16" :dmg="props.item.damage" /></span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.sp }}</span></td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.source }}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.mount }}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.type }}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading"><range-element small :range="props.item.range" /></span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading"><damage-element small dark size="16" :dmg="props.item.damage" /></span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.sp }}</span>
+            </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
-            <v-card-text><weapon-card :itemData="props.item" table-item/></v-card-text>
+            <v-card-text>
+              <weapon-card :itemData="props.item" table-item/>
+            </v-card-text>
           </v-card>
         </template>
       </v-data-table>
@@ -68,14 +86,13 @@
   </v-card>
 </template>
 
-<script>
-  import WeaponCard from '../../UI/WeaponCard'
-  import RangeElement from '../../UI/RangeElement'
-  import DamageElement from '../../UI/DamageElement'
+<script lang="ts">
+  import Vue from 'vue'
+  import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
   import io from '@/store/data_io'
 
-  export default {
+  export default Vue.extend({
     name: 'weapon-table',
     components: { WeaponCard, RangeElement, DamageElement },
     props: {
@@ -107,38 +124,46 @@
       ]
     }),
     computed: {
-      weapons: function () {
-        var vm = this
-
+      weapons () {
+        var vm = this as any
         var allWeapons = vm.$store.getters.getItemCollection('MechWeapons')
-        var fittings = io.loadData('rules').mount_fittings[this.size]
-        var i = allWeapons.filter(x => x.source && fittings.includes(x.mount))
-
+        var fittings = (io.loadSingle('rules') as IRules).mount_fittings[vm.size]
+        var i = allWeapons.filter((x: Weapon) => x.source && fittings.includes(x.mount))
         if (!vm.showLocked) {
-          i = i.filter(x => x.source === 'GMS' || (this.pilot.licenses.find(y => y.name === x.license) &&
-            this.pilot.licenses.find(y => y.name === x.license).level >= x.license_level))
+          i = i.filter((x: Weapon) => x.source === 'GMS' 
+            || (
+              vm.pilot.licenses.find((y: any) => y.name === x.license) 
+              && vm.pilot.licenses.find((y: any) => y.name === x.license).level >= x.license_level
+            )
+          )
         }
-
         if (!vm.showOverSp) {
           // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = this.current_equip ? this.free_sp + (allWeapons.find(x => x.id === this.current_equip.id).sp || 0) : this.free_sp
-          i = i.filter(x => !x.sp || x.sp <= totalFreeSp)
+          var totalFreeSp = vm.current_equip 
+            ? vm.free_sp + (allWeapons.find((x: Weapon) => x.id === vm.current_equip.id).sp || 0) 
+            : vm.free_sp
+          i = i.filter((x: Weapon) => !x.sp || x.sp <= totalFreeSp)
         }
-
         // filter dupe uniques
-        var configIndex = this.pilot.configs.findIndex(x => x.id === this.config_id)
-        var installedWeapons = this.pilot.configs[configIndex].loadouts[this.loadout_index].mounts.map(x => x.weapons.map(y => y.id))
-        i = i.filter(x => (x.tags && !x.tags.map(t => t.id).includes('unique')) || (x.tags && x.tags.map(t => t.id).includes('unique') && !installedWeapons.map(y => y.id).includes(x.id)))
-
+        var configIndex = vm.pilot.configs.findIndex((x: Weapon) => x.id === vm.config_id)
+        var installedWeapons = vm.pilot.configs[configIndex].loadouts[vm.loadout_index].mounts.map(
+          (x: any) => x.weapons.map((y: Weapon) => y.id)
+        )
+        i = i.filter(
+          (x: Weapon) => (x.tags && !x.tags.map(t => t.id).includes('unique')) 
+          || (x.tags && x.tags.map(t => t.id).includes('unique') 
+            && !installedWeapons.map((y: Weapon) => y.id).includes(x.id)
+          )
+        )
         return i
       },
-      pilot: function () {
-        return this.$store.getters.getPilot
+      pilot (): Pilot {
+        return (this as any).$store.getters.getPilot
       }
-    },
+    }, 
     methods: {
-      select: function (item) {
-        if (this.size === 'heavy') {
+      select (item) {
+        if ((this as any).size === 'heavy') {
           if (item.mount === 'Superheavy') {
             this.$emit('unlock-sh')
             this.$emit('select-superheavy', item)
@@ -150,20 +175,28 @@
           this.$emit('select-item', item)
         }
       },
-      remove: function () {
+      remove () {
         this.$emit('remove-item')
       },
-      item: function (id) {
+      item (id: string): Weapon {
         return this.$store.getters.getItemById('MechWeapons', id)
       },
-      isLocked: function (name, level) {
+      isLocked (name: string, level: number): boolean {
         if (!name) return false
-        return !((this.pilot.licenses.find(y => y.name === name) && this.pilot.licenses.find(y => y.name === name).level >= level))
+        var vm = this as any
+        return !(
+          (vm.pilot.licenses.find((y: any) => y.name === name) 
+            && vm.pilot.licenses.find((y: any) => y.name === name).level >= level))
       },
-      isOverSp: function (sp) {
-        var totalFreeSp = this.current_equip ? this.free_sp + this.$store.getters.getItemCollection('MechWeapons').find(x => x.id === this.current_equip.id).sp || 0 : this.free_sp
+      isOverSp (sp: number): boolean {
+        var vm = this as any
+        var totalFreeSp = vm.current_equip 
+        ? vm.free_sp + vm.$store.getters.getItemCollection('MechWeapons').find(
+          (x: Weapon) => x.id === vm.current_equip.id
+          ).sp || 0 
+        : vm.free_sp
         return sp > totalFreeSp
       }
     }
-  }
+  })
 </script>

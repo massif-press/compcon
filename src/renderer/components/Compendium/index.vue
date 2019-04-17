@@ -1,24 +1,16 @@
 <template>
   <div>   
-    <!-- Sidebar -->
     <sidebar />
-
-    <!-- Page Content -->
     <router-view style="margin-left: 80px; width:96vw"></router-view>
-
     </div>    
 </template>
 
-<script>
-  import {Sidebar} from './UI'
+<script lang="ts">
+import Vue from 'vue'
+import Sidebar from './Sidebar.vue'
 
-export default {
+export default Vue.extend({
     name: 'compendium',
     components: { Sidebar },
-    methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
-      }
-    }
-  }
+  })
 </script>

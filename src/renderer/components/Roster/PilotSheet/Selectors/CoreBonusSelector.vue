@@ -1,180 +1,163 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs3>
-        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
-        <v-layout>
-          <v-flex style="text-align: center">
-          <br>
-          <h3>CORE Bonus</h3>
-          <hr>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <div v-for="pb in bonuses" :key="`summary_${pb}`">
-              <v-layout>
-                <v-flex xs12>
-                  <strong>{{ bonusById(pb).name }}</strong>&nbsp;<span class="caption">({{ bonusById(pb).source }})</span>
-                </v-flex>
-              </v-layout>
-            </div>
-          </v-flex> 
-        </v-layout>
-        <v-layout><v-flex xs12><hr></v-flex></v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
-              CORE Bonus Selection Complete
-            </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="!pointLimit">
-              {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
-            </v-alert>
-            <v-btn v-if="!levelUp" block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
-            <v-btn v-if="!levelUp" block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
-          </v-flex>
-        </v-layout>
-        </div>
-      </v-flex>
+  <selector title="Pilot CORE Bonuses">
+    <template v-slot:left-column>
+      <v-layout>
+        <v-flex xs12>
+          <div v-for="b in bonuses" :key="`summary_${b.id}`">
+            <v-layout>
+              <v-flex>
+                <strong>{{ b.name }}</strong>&nbsp;
+                <span class="caption">({{ b.source }})</span>
+              </v-flex>
+            </v-layout>
+          </div>
+        </v-flex> 
+      </v-layout>
+      <v-divider class="ma-2 ml-4 mr-4" />
+      <v-layout>
+        <v-flex xs12>
+          <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
+            CORE Bonus Selection Complete
+          </v-alert>
+          <v-alert outline color="warning" icon="priority_high" :value="points.pointsCurrent !== points.pointsMax">
+            {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
+          </v-alert>
+          <v-btn v-if="!levelUp" block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
+          <v-btn v-if="!levelUp" block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
+        </v-flex>
+      </v-layout>
+    </template>
 
-      <v-flex xs10 id="list-area">
-        <v-layout v-for="bonus in bonusData" :key="bonus.id" >
-          <v-flex>
-            <v-toolbar>
-              <v-toolbar-title>{{bonus.name}}&nbsp;<span class="caption">{{bonus.source}}</span></v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-tooltip top :disabled="licenses[bonus.source] > 3 || pointLimit || bonuses.includes(bonus.id)">
-                <div slot="activator">
-                  <v-btn v-if="bonuses.includes(bonus.id)" fab small @click="removeBonus(bonus.id, bonus.source)"><v-icon>remove</v-icon></v-btn>
-                  <v-btn v-else :disabled="pointLimit || licenses[bonus.source] < 3" fab small @click="addBonus(bonus.id, bonus.source)"><v-icon>add</v-icon></v-btn>
-                </div>
-                <span>{{3 - licenses[bonus.source]}} additional {{bonus.source}} license points required to activate this CORE bonus</span>
-              </v-tooltip>
-            </v-toolbar>
-            <v-card>
-              <v-card-title class="pb-0">
-                <em v-html="bonus.description" />
-              </v-card-title>
-              <v-card-text>
-                <p v-html="bonus.effect" />
-              </v-card-text>
-            </v-card>
+    <template v-slot:right-column>
+      <div v-for="m in Object.keys(bonusData)" :key="`summary_block_m${m}`">
+        <v-layout>
+          <v-flex class="text-xs-center pa-3">
+            <span class="display-2 text-uppercase font-weight-light">{{manufacturer(m).name}}</span>
             <br>
+            <span class="caption grey--text" v-html="requirement(m)" />
           </v-flex>
         </v-layout>
-      </v-flex>
-    </v-layout>
-  </v-container>
+        <v-layout>
+          <v-flex>
+            <v-expansion-panel expand focusable>
+              <v-expansion-panel-content v-for="cb in bonusData[m]" :key="`${cb.id}_data'`" >
+                <v-toolbar-title slot="header" dense>
+                <v-icon v-if="!getAvailableCount(m) && !getSelectedCount(m)">mdi-lock</v-icon>
+                <v-icon v-else-if="getSelectedStatus(cb)">check</v-icon>
+                <span v-else class="mr-3" v-html="'&nbsp;'"/>
+                &nbsp;<span>{{cb.name.toUpperCase()}}</span>
+                </v-toolbar-title>
+                <v-card>
+                  <core-bonus-item :cb="cb" :key="cb.id" :selectable="getSelectableStatus(cb)" :isSelected="getSelectedStatus(cb)" 
+                    select-item @added="addBonus(cb)" @removed="removeBonus(cb)" />
+                </v-card>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-flex>
+        </v-layout>
+        <br>
+      </div>
+    </template>
+  </selector>
 </template>
 
-<script>
-  // to take a CORE bonus in a manufacturer takes 3 license points, per bonus
+<script lang="ts">
+  import Vue from 'vue'
+  import _ from 'lodash'
+  import Selector from './Selector.vue'
+  import {CoreBonusItem} from '../SheetComponents'
 
-  export default {
+  export default Vue.extend({
     name: 'core-bonus-selector',
+    components: {Selector, CoreBonusItem},
     props: {
-      pilotBonuses: {
-        type: Array
-      },
-      pilotLicenses: {
-        type: Array
-      },
-      pilotLevel: {
-        type: Number
-      },
-      levelUp: {
-        type: Boolean
-      }
+      pilotBonuses: Array,
+      pilotLicenses: Array,
+      pilotLevel: Number,
+      levelUp: Boolean,
     },
     data: () => ({
       bonuses: [],
-      pointLimit: false,
       licenses: {},
       bonusData: [],
-      scrollPosition: null
     }),
     computed: {
-      points: function () {
+      points () {
+        var vm = this as any
         return {
-          pointsCurrent: this.bonuses.length,
-          pointsMax: Math.floor(this.pilotLevel / 3)
+          pointsCurrent: vm.bonuses.length,
+          pointsMax: Math.floor(vm.pilotLevel / 3)
         }
       },
-      selectionComplete: function () {
-        return this.points.pointsCurrent === this.points.pointsMax
+      selectionComplete () {
+        var vm = this as any
+        return vm.points.pointsCurrent === vm.points.pointsMax
       }
     },
     methods: {
-      addBonus: function (id, source) {
-        this.bonuses.push(id)
-        this.licenses[source] -= 3
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+      manufacturer (id: string): Manufacturer {
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      },
+      requirement(m: string): string {
+        var vm = this as any
+        if (m === 'GMS') return `${vm.getSelectedCount(m)} ${m} CORE Bonuses Selected<br>GMS CORE Bonuses do not have a license requirement`
+        var lvl = vm.getLevelCount(m)
+        var output = `${lvl} ${m} Licenses Acquired &emsp;//&emsp; `
+        output += `${vm.getAvailableCount(m)} ${m} CORE Bonuses Available &emsp;//&emsp; `
+        output += `${vm.getSelectedCount(m)} ${m} CORE Bonuses Selected`
+        if (vm.pilotLevel < 12) output += `<br>${lvl < 3 ? 'First' : 'Next'} ${m} CORE Bonus available in ${3 % lvl || 3} License Level${3 % lvl === 1 ? '' : 's'}`
+        return output
+      },
+      getLevelCount(m: string): number {
+        var vm = this as any
+        return vm.pilotLicenses.filter((x: any) => x.source === m).reduce((a: any, b: any) => +a + +b.level, 0)
+      },
+      getSelectedCount(m: string): number {
+        var vm = this as any
+        return vm.bonuses.filter((x: any) => x.source === m).length
+      },
+      getAvailableCount(m: string): number {
+        var vm = this as any
+        if (m === "GMS") return Infinity
+        return Math.floor(vm.getLevelCount(m) / 3) - vm.getSelectedCount(m)
+      },
+      getSelectedStatus(cb: CoreBonus): boolean {
+        var vm = this as any
+        return vm.bonuses.filter((x: any) => x.id === cb.id).length > 0
+      },
+      getSelectableStatus(cb: CoreBonus): boolean {
+        var vm = this as any
+        return vm.getAvailableCount(cb.source) > 0 && !vm.selectionComplete
+      },
+      addBonus (cb: CoreBonus) {
+        var vm = this as any
+        vm.bonuses.push(cb)
 
-        if (this.levelUp && this.selectionComplete) {
-          this.$emit('set-bonuses', this.bonuses)
+        if (vm.levelUp && vm.selectionComplete) {
+          vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
-      removeBonus: function (id, source) {
-        var idx = this.bonuses.findIndex(x => x === id)
+      removeBonus (cb: CoreBonus) {
+        var vm = this as any
+        var idx = vm.bonuses.findIndex((x: CoreBonus) => x.id === cb.id)
         if (idx !== -1) {
-          this.bonuses.splice(idx, 1)
-          this.licenses[source] += 3
+          vm.bonuses.splice(idx, 1)
         }
-        this.pointLimit = false
       },
       saveBonuses () {
-        this.$emit('set-bonuses', this.bonuses)
+        var vm = this as any
+        vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
       },
       resetBonuses () {
-        this.bonuses = []
-        this.$forceUpdate()
-        this.pointLimit = false
-      },
-      bonusById: function (id) {
-        return this.$store.getters.getItemById('CoreBonuses', id)
-      },
-      initialize () {
-        var allData = this.$store.getters.getItemCollection('CoreBonuses')
-        var licenses = {'GMS': 999}
-        for (var i = 0; i < this.pilotLicenses.length; i++) {
-          var source = this.pilotLicenses[i].source
-          if (licenses[source]) {
-            licenses[source] += this.pilotLicenses[i].level
-          } else {
-            licenses[source] = this.pilotLicenses[i].level
-          }
-        }
-        for (var j = 0; j < this.bonuses.length; j++) {
-          var s = allData.find(x => x.id === this.bonuses[j]).source
-          licenses[s] -= 3
-        }
-        this.licenses = licenses
-        this.bonusData = allData.filter(x => licenses[x.source] >= 0)
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
+        var vm = this as any
+        vm.bonuses = []
       }
     },
-    mounted () {
-      this.bonuses = JSON.parse(JSON.stringify(this.pilotBonuses))
-      this.initialize()
+    created () {
+      var vm = this as any
+      vm.bonusData = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
+      vm.bonuses = vm.pilotBonuses.map((x: string) => vm.$store.getters.getItemById('CoreBonuses', x))
     }
-  }
+  })
 </script>
-
-<style scoped>
-  .scroll-fix{
-    margin: -25vh 0px;
-    position: fixed;
-    width: 18vw;
-  }
-
-  #list-area {
-    width: 80vw!important;
-  }
-
-  .center-align {
-    min-height: 55px;
-    display: inline-flex;
-    align-items: center;
-  }
-</style>
