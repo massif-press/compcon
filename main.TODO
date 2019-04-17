@@ -5,7 +5,7 @@ Bugs:
   ☐ Disable nav back/forward when no target
   ☐ Weapons with SP flag as over sp even though they're selectable
   ☐ fix longrim core bonus tags
-  ☐ nav menu links don't open
+  ✔ nav menu links don't open @done(19-04-17 15:52)
 
 Refactor:
   ☐ Vue set instead of direct assign

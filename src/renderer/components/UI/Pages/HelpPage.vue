@@ -336,7 +336,13 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { remote } from 'electron'
   export default Vue.extend({
-    name: 'help-page'  
+    name: 'help-page',
+    methods: {
+      open (link: string) {
+        remote.shell.openExternal(link)
+      },
+    }  
   })
 </script>
