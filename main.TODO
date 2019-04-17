@@ -29,8 +29,8 @@ Refactor:
   ☐ Hangar and Roster CSS
   ☐ Replace all rank star loops/v-rating with component
   ☐ Loadout naming scheme should move
-  ☐ CB benefit selector needs tooltip
-  ☐ Unapplied CB Benefit notification
+  ✔ CB benefit selector needs tooltip @done(19-04-17 14:43)
+  ✔ Unapplied CB Benefit notification @done(19-04-17 15:08)
 
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
