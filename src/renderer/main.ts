@@ -16,6 +16,8 @@ import Vuetify from 'vuetify'
 
 import ClickOutside from './directives/click-outside'
 
+import * as items from './mixins/data'
+
 const windowAny: any = window
 
 if (process.env.NODE_ENV !== 'development') {
@@ -27,6 +29,13 @@ Vue.use(Vuetify, {
 })
 
 Vue.directive('click-outside', ClickOutside)
+
+const mixins = items as any
+for (const m in mixins) {
+  if (mixins.hasOwnProperty(m)) {
+    Vue.mixin(mixins[m])
+  }
+}
 
 /* eslint-disable no-new */
 new Vue({

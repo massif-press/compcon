@@ -16,7 +16,7 @@
         <v-flex v-for="diff in arrDiff('id', 'skills', 'bonus')" :key="diff.id">
           <v-card color="grey lighten-3" elevation=10>
             <v-card-text class="bigtext">
-              <b>{{item('Skills', diff.id).trigger}} <span class="primary--text">+{{diff.bonus}}</span></b>
+              <b>{{getSkill(diff.id).trigger}} <span class="primary--text">+{{diff.bonus}}</span></b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -27,7 +27,7 @@
         <v-flex v-for="diff in arrDiff('id','talents', 'rank')" :key="diff.id">
           <v-card color="grey lighten-3" elevation=10>
             <v-card-text class="bigtext">
-              <b>{{item('Talents', diff.id).name}} <span class="primary--text"> Rank {{diff.rank}}</span></b>
+              <b>{{getTalent(diff.id).name}} <span class="primary--text"> Rank {{diff.rank}}</span></b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -82,7 +82,7 @@
           <v-flex v-for="diff in differences('core_bonuses')" :key="diff">
             <v-card color="grey lighten-3" elevation=10>
               <v-card-text class="bigtext">
-                <b>{{item('CoreBonuses', diff).name}}</b>
+                <b>{{getCoreBonus(diff).name}}</b>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -128,9 +128,6 @@
       },
       differences (field: string) {
         return _.difference(this.changes[field], this.pilot[field])
-      },
-      item (type: string, id: string) {
-        return this.$store.getters.getItemById(type, id)
       }
     }
   })

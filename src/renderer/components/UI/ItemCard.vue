@@ -3,7 +3,7 @@
     <v-card-title v-if="!popup">
       <strong class="title">{{itemData.name}}</strong>
     </v-card-title>
-    <v-card-text :class="popup? '' : 'pb-0 pt-0'">
+    <v-card-text :class="{'pb-0 pt-0' : popup}">
       <!-- Weapon -->
       <div v-if="itemData.data_type === 'weapon'">
         <p v-html="'Weapon'" class="pa-0 ma-0 mb-2 title"/>

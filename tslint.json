@@ -18,6 +18,7 @@
         "no-console": false,
         "max-line-length": false,
         "one-line": false,
-        "ordered-imports": false
+        "ordered-imports": false,
+        "arrow-return-shorthand": true
     }
 }

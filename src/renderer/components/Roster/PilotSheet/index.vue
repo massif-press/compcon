@@ -79,10 +79,10 @@
                   <v-flex xs12 class="text-xs-center">
                     <b v-if="pilot.custom_background" class="minor-title"> {{ pilot.custom_background }} </b>
                     <div v-else style="display: inline">
-                      <span v-if="item('Backgrounds', pilot.background).err" class="grey--text">
+                      <span v-if="getBackground(pilot.background).err" class="grey--text">
                         // MISSING BACKGROUND DATA //
                       </span>
-                      <b v-else  class="minor-title"> {{ item('Backgrounds', pilot.background).name }} </b>
+                      <b v-else  class="minor-title"> {{ getBackground(pilot.background).name }} </b>
                     </div>
                     <pilot-edit-modal title="Select Pilot Background" ref="backgroundSelector">
                       <background-selector slot="modal-content" @selected="backgroundSelect" :preSelected="pilot.background"/>
@@ -198,7 +198,7 @@
             </v-layout>
             <v-layout>
               <v-flex class="mr-3">
-                <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="item('Skills', skill.id)" :skill="skill" />
+                <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="getSkill( skill.id)" :skill="skill" />
               </v-flex>
             </v-layout>
           </v-flex>
@@ -230,7 +230,7 @@
         <v-layout class="ml-3 mr-3">
           <v-flex>
             <v-expansion-panel focusable>
-              <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="item('Talents', talent.id)"/>
+              <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="getTalent(talent.id)"/>
             </v-expansion-panel>
           </v-flex>
         </v-layout>
@@ -260,7 +260,7 @@
           </span>
         </v-layout>
         <v-layout row v-for="cb in pilot.core_bonuses" :key="cb" class="ml-5 mr-5">
-          <core-bonus-item :cb="item('CoreBonuses', cb)" />
+          <core-bonus-item :cb="getCoreBonus(cb)" />
         </v-layout>
 
         <!-- Pilot Loadout -->
@@ -346,9 +346,6 @@
       notify: function (contents: string) {
         this.notification = contents
         this.snackbar = true
-      },
-      item: function (type: string, id: string) {
-        return this.$store.getters.getItemById(type, id)
       },
       getLicense: function (name: string) {
         return this.$store.getters.getLicenseByName(name.toUpperCase())

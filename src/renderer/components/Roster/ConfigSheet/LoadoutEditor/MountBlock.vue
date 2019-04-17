@@ -29,11 +29,11 @@
             <mech-weapon-item :key="'fl0_' + weaponReload" :item="null" 
               fitting-type="Main or Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Main'">
+          <div v-else-if="mount.weapons[0] && getWeapon( mount.weapons[0].id).mount === 'Main'">
             <mech-weapon-item :key="'fl1_' + weaponReload" :item="mount.weapons[0]" 
               fitting-type="Main" @clicked="openWeaponSelector('flex', 0)" @open-mod="openModSelector(0)" />  
           </div>
-          <div v-else-if="mount.weapons[0] && item('MechWeapons', mount.weapons[0].id).mount === 'Auxiliary'">
+          <div v-else-if="mount.weapons[0] && getWeapon( mount.weapons[0].id).mount === 'Auxiliary'">
             <mech-weapon-item :key="'fl2_' + weaponReload" :item="mount.weapons[0]" 
               fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
             <mech-weapon-item :key="'fl3_' + weaponReload" :item="mount.weapons[1] || null" 
@@ -51,8 +51,8 @@
         </div>
           <v-card v-for="m in mountBonuses" :key="`mb_${m}`" color="grey darken-1" class="ma-2">
           <v-card-text class="text-xs-center">
-            <b>{{item('CoreBonuses', m).name}}</b><br>
-            <i class="caption">{{item('CoreBonuses', m).mounted_effect}}</i>
+            <b>{{getCoreBonus( m).name}}</b><br>
+            <i class="caption">{{getCoreBonus( m).mounted_effect}}</i>
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -242,9 +242,6 @@
       this.current_equip = null
       if (this.loadout.mounts[this.mountIndex].weapons) this.current_equip = this.loadout.mounts[this.mountIndex].weapons[this.weaponIndex] || null
       this.weaponSelectorModal = true
-    },
-    item (itemType: string, id: string) {
-      return this.$store.getters.getItemById(itemType, id)
     },
     confirmCBSM (bonusArray: string[]) {
       this.$store.dispatch('editConfig', {
