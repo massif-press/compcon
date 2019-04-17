@@ -21,12 +21,12 @@
             <v-card-text>
             <!-- Mounts -->
               <!-- CORE System Integrated -->
-              <integrated-block v-if="item('Frames', frame_id).core_system.integrated" 
-                :item="item('Frames', frame_id).core_system.integrated" 
-                :source="`${item('Frames', frame_id).source} ${item('Frames', frame_id).name}`" />
+              <integrated-block v-if="getFrame(frame_id).core_system.integrated" 
+                :item="getFrame(frame_id).core_system.integrated" 
+                :source="`${getFrame(frame_id).source} ${getFrame(frame_id).name}`" />
               <!-- Talent Integrated -->
               <integrated-block v-for="m in stats.integrated_mounts" :key="m" 
-                :item="item('MechWeapons', m)" :source="'Talent Weapon'" />
+                :item="getWeapon(m)" :source="'Talent Weapon'" />
               <!-- Regular Frame mounts -->
               <mount-block v-for="(mount, mIndex) in loadout.mounts" :key="mount.sh_lock ? mIndex + mount.sh_lock.toString() : mIndex"     
                 :config_id="config_id" :mount="mount" :loadout="loadout" :free_sp="stats.sp - stats.used_sp" 
@@ -133,9 +133,6 @@
       vm.notification = alert
       vm.snackbar = true
     },
-    item (type: string, id: string): CCItem {
-      return this.$store.getters.getItemById(type, id)
-    },
     deleteLoadout () {
       var vm = this as any
       vm.$store.dispatch('spliceConfig', {
@@ -151,7 +148,7 @@
     },
     addLoadout () {
       var vm = this as any
-      var mounts = vm.item('Frames', vm.frame_id).mounts.map((x: any) => ({mount_type: x, weapons: [], bonuses: []}))
+      var mounts = vm.getFrame(vm.frame_id).mounts.map((x: any) => ({mount_type: x, weapons: [], bonuses: []}))
       if (mounts.length < 3) {
         mounts.push({mount_type: 'Flex', weapons: [], bonuses: [], imparm: true})
       }

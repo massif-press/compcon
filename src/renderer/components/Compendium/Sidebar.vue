@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from "vue"
 
 export default Vue.extend({
     name: "sidebar",
@@ -102,13 +102,13 @@ export default Vue.extend({
     }),
     methods: {
         to: function(loc: string) {
-            this.$router.push(loc);
+            this.$router.push(loc)
         },
         minimize() {
             setTimeout(() => {
-                this.mini = true;
-            }, 5);
+                this.mini = true
+            }, 5)
         }
     }
-});
+})
 </script>

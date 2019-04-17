@@ -57,9 +57,9 @@
     name: 'gear-item',
     components: { GearCard, RangeElement, DamageElement },
     props: {
-      'item': Object,
-      'empty': Boolean,
-      'itemType': String
+      item: Object,
+      empty: Boolean,
+      itemType: String
     },
     computed: {
       itemData (): CCItem {

@@ -33,7 +33,7 @@
           <v-flex>
             <v-layout>
               <v-flex>
-                <span class="white--text fluff-text ml-2">{{ item('Manufacturers', frame.source).name }} {{ frame.mechtype }} Mech</span>
+                <span class="white--text fluff-text ml-2">{{ getManufacturer(frame.source).name }} {{ frame.mechtype }} Mech</span>
               </v-flex>
             </v-layout>
             <editable-textfield :description="'Configuration Notes'" :attr="`${configPath}.notes`" :initial="config.notes" dark :key="config.id"/>
@@ -265,9 +265,6 @@
       loadoutForceReloadTrigger: 0
     }),
     methods: {
-      item (itemType: string, id: string): CCItem {
-        return this.$store.getters.getItemById(itemType, id)
-      },
       setActiveIndex (index: number) {
         this.activeLoadoutIdx = index
       },

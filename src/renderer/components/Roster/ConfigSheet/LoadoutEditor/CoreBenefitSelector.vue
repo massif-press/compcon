@@ -3,14 +3,14 @@
     <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
     <v-card-text class="text-xs-center">
       <v-btn-toggle v-model="bonus_toggle" multiple class="mb-2">
-        <v-btn v-for="b in pendingBonuses" :key="b" :value="b">&nbsp;{{item(b).name}}&nbsp;</v-btn>
-        <v-btn v-for="b in appliedBonuses" :key="b" :value="b">&nbsp;{{item(b).name}}&nbsp;</v-btn>
+        <v-btn v-for="b in pendingBonuses" :key="b" :value="b">&nbsp;{{getCoreBonus(b).name}}&nbsp;</v-btn>
+        <v-btn v-for="b in appliedBonuses" :key="b" :value="b">&nbsp;{{getCoreBonus(b).name}}&nbsp;</v-btn>
       </v-btn-toggle>
       <v-divider class="ma-3"/>
       <i>Applied Bonuses:</i>
       <v-card v-for="b in bonus_toggle" :key="'bt_' + b" 
         class="mb-2 mt-1 ml-5 mr-5" color="blue-grey darken-4">
-        <v-card-text>{{item(b).effect}}</v-card-text>
+        <v-card-text>{{getCoreBonus(b).effect}}</v-card-text>
       </v-card>
     </v-card-text>
     <v-card-actions>
@@ -48,9 +48,6 @@
       }
     },
     methods: {
-      item (id: string) {
-        return this.$store.getters.getItemById('CoreBonuses', id)
-      },
       cancel () {
         this.$emit('cancel')
       },
