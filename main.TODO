@@ -1,17 +1,12 @@
 Bugs:
   ☐ Mech loadout item delete
-  ☐ Disable remove item/gear button if nothing is currently equipped
-  ✔ Swallowtail save incorrect @done(19-04-17 15:20)
-  ☐ Disable nav back/forward when no target
   ☐ Weapons with SP flag as over sp even though they're selectable
-  ☐ fix longrim core bonus tags
-  ✔ nav menu links don't open @done(19-04-17 15:52)
 
-Refactor:
-  ☐ Vue set instead of direct assign
-  ✔ new pilot selectors and edit pilot selectors should return the same object @done(19-04-17 15:20)
+Improvements:
   ☐ Replace all rank star loops/v-rating with component
-
+  ☐ Disable remove item/gear button if nothing is currently equipped
+  ☐ Disable nav back/forward when no target exists
+  
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
   ☐ Better list/table for Frame selection
@@ -65,6 +60,11 @@ Styling:
     ☐ Detect and install on first startup
 
 Archive:
+  ✔ Swallowtail save incorrect @done(19-04-17 15:20) @project(Bugs)
+  ✔ fix longrim core bonus tags @done(19-04-17 15:55) @project(Bugs)
+  ✔ nav menu links don't open @done(19-04-17 15:52) @project(Bugs)
+  ✔ Vue set instead of direct assign @done(19-04-17 15:58) @project(Improvements)
+  ✔ new pilot selectors and edit pilot selectors should return the same object @done(19-04-17 15:20) @project(Improvements)
   ✔ Lancaster has Drake trait @done(19-04-12 19:05) @project(Bugs)
   ✔ core bonus benefit selection not refreshing immediately @done(19-04-16 22:32) @project(Bugs)
   ✔ All tag linking with tag objects @done(19-04-11 13:20) @project(Refactor)
