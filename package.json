@@ -42,19 +42,19 @@
       ]
     },
     "mac": {
-      "icon": "src/assets/icons/icon.icns",
+      "icon": "icons/icon.icns",
       "target": [
         "zip"
       ]
     },
     "win": {
-      "icon": "src/assets/icons/icon.ico",
+      "icon": "icons/icon.ico",
       "target": [
         "portable"
       ]
     },
     "linux": {
-      "icon": "src/assets/icons/"
+      "icon": "icons"
     }
   },
   "dependencies": {
