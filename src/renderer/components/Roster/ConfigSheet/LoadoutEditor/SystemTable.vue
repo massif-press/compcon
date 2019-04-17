@@ -8,8 +8,7 @@
           <v-icon v-else dark slot="append">lock</v-icon>
         </v-switch>
         </div>
-        <span v-if="!showLocked">Show unauthorized systems</span>
-        <span v-else>Hide unauthorized systems</span>
+        <span v-html="showLocked ? 'Hide unauthorized systems' : 'Show unauthorized systems'" />
       </v-tooltip>
 
       <v-tooltip top class="ml-5" nudge-bottom="20px">
@@ -19,20 +18,23 @@
           <v-icon v-else dark slot="append">flash_on</v-icon>
         </v-switch>
         </div>
-        <span v-if="!showOverSp">Show systems above SP capacity</span>
-        <span v-else>Hide systems above SP capacity</span>
+        <span v-html="showOverSP ? 'Hide systems above SP capacity' : 'Show systems above SP capacity'" />
       </v-tooltip>
 
       <v-spacer />
-      <v-autocomplete flat dense v-model="search" :items="systems" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-autocomplete flat dense v-model="search" :items="systems" clearable hide-details 
+        hide-selected item-text="name" item-value="name" label="Search..." solo />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
       <v-data-table :headers="headers" :items="systems" :expand="true" :search="search" item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td style="padding: 0!important;"><v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
-            <td><span class="subheading">{{ props.item.name }}
+            <td style="padding: 0!important;">
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
+            </td>
+            <td>
+              <span class="subheading">{{ props.item.name }}
                 <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>{{pilot.callsign}} does not have the license for this system ({{props.item.license}} {{props.item.license_level}})</span>
@@ -43,14 +45,22 @@
                 </v-tooltip>
               </span>
             </td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span></td>
-            <td class="text-xs-left"><span class="subheading">{{ props.item.sp }}</span></td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.source }}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
+            </td>
+            <td class="text-xs-left">
+              <span class="subheading">{{ props.item.sp }}</span>
+            </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
-            <v-card-text><system-card :itemData="props.item" /></v-card-text>
+            <v-card-text>
+              <system-card :itemData="props.item" table-item/>
+            </v-card-text>
           </v-card>
         </template>
       </v-data-table>
@@ -64,11 +74,12 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import _ from 'lodash'
-  import SystemCard from '../../UI/SystemCard'
+  import {SystemCard} from '@/components/UI'
 
-  export default {
+  export default Vue.extend({
     name: 'system-table',
     components: { SystemCard },
     props: {
@@ -94,62 +105,79 @@
       ]
     }),
     computed: {
-      systems: function () {
-        var vm = this
-
+      systems (): System[] {
+        var vm = this as any
         var allSystems = vm.$store.getters.getItemCollection('MechSystems')
-
-        var i = allSystems.filter(x => x.source)
-
+        var i = allSystems.filter((x: System) => x.source)
         if (!vm.showLocked) {
-          i = i.filter(x => x.source === 'GMS' || (this.pilot.licenses.find(y => y.name === x.license) &&
-            this.pilot.licenses.find(y => y.name === x.license).level >= x.license_level))
+          i = i.filter(
+            (x: System) => x.source === 'GMS' 
+            || (
+              vm.pilot.licenses.find((y: any) => y.name === x.license) 
+              && vm.pilot.licenses.find((y: any) => y.name === x.license).level >= x.license_level
+            )
+          )
         }
-
         if (!vm.showOverSp) {
           // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = this.current_equip ? this.free_sp + allSystems.find(x => x.id === this.current_equip.id).sp || 0 : this.free_sp
-          i = i.filter(x => x.sp <= totalFreeSp)
+          var totalFreeSp = vm.current_equip 
+            ? vm.free_sp + allSystems.find((x: System) => x.id === vm.current_equip.id).sp || 0 
+            : vm.free_sp
+          i = i.filter((x: System) => x.sp <= totalFreeSp)
         }
-
         // filter ais
-        var installedAIs = this.installed_systems.filter(x => x.type === 'AI')
+        var installedAIs = vm.installed_systems.filter((x: System) => x.type === 'AI')
         if (installedAIs.length) {
-          if (!this.hasShaping || (this.hasShaping && installedAIs.length > 1)) {
-            i = i.filter(x => !installedAIs.map(y => y.id).includes(x.id))
+          if (!vm.hasShaping || (vm.hasShaping && installedAIs.length > 1)) {
+            i = i.filter((x: System) => !installedAIs.map((y: System) => y.id).includes(x.id))
           }
         }
-
         // filter dupe uniques
-        i = i.filter(_.negate(x => x.tags && x.tags.map(t => t.id).includes('unique') && this.installed_systems.map(y => y.id).includes(x.id)))
-
+        i = i.filter(
+          _.negate(
+            (x: System) => x.tags && x.tags.map(t => t.id).includes('unique') 
+            && vm.installed_systems.map((y: System) => y.id).includes(x.id)
+          )
+        )
         return i
       },
-      pilot: function () {
-        return this.$store.getters.getPilot
+      pilot (): Pilot {
+        return (this as any).$store.getters.getPilot
       }
     },
     methods: {
-      select: function (item) {
-        this.$emit('select-item', item, this.loadout_index)
+      select (item: System) {
+        var vm = this as any
+        vm.$emit('select-item', item, vm.loadout_index)
       },
-      remove: function () {
-        this.$emit('remove-item', this.loadout_index)
+      remove () {
+        var vm = this as any
+        vm.$emit('remove-item', vm.loadout_index)
       },
-      item: function (id) {
+      item (id: string): System {
         return this.$store.getters.getItemById('MechSystems', id)
       },
-      isLocked: function (name, level) {
+      isLocked (name: string, level: number): boolean {
         if (!name) return false
-        return !((this.pilot.licenses.find(y => y.name === name) && this.pilot.licenses.find(y => y.name === name).level >= level))
+        var vm = this as any
+        return !(
+          (vm.pilot.licenses.find((y: any) => y.name === name) 
+          && vm.pilot.licenses.find((y: any) => y.name === name).level >= level)
+        )
       },
-      isOverSp: function (sp) {
-        var totalFreeSp = this.current_equip ? this.free_sp + this.$store.getters.getItemCollection('MechSystems').find(x => x.id === this.current_equip.id).sp || 0 : this.free_sp
+      isOverSp (sp): boolean {
+        var vm = this as any
+        var totalFreeSp = vm.current_equip 
+        ? vm.free_sp + vm.$store.getters.getItemCollection('MechSystems').find(
+          (x: System) => x.id === vm.current_equip.id
+          ).sp || 0 
+        : vm.free_sp
         return sp > totalFreeSp
       },
-      hasShaping: function () {
-        return this.pilot.talents.findIndex(x => x.id === 'techno' && x.rank === 3) > -1
+      hasShaping (): boolean {
+        var vm = this as any
+        return vm.pilot.talents.findIndex((x: any) => x.id === 'techno' && x.rank === 3) > -1
       }
     }
-  }
+  })
 </script>

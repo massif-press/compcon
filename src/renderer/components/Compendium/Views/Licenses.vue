@@ -9,39 +9,7 @@
         <template v-slot:header>
           <div class="text-uppercase title">{{l.license}}</div>
         </template>
-        <v-card color="grey lighten-5">
-          <v-card-text>
-            <v-layout row>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK I</p>
-                <div v-for="i in l.unlocks[0]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK II</p>
-                <div v-for="i in l.unlocks[1]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>                
-                </div>              
-              </v-flex>
-              <v-flex xs4>
-                <p class="text-xs-center pt-2 subheading font-weight-bold">RANK III</p>
-                <div v-for="i in l.unlocks[2]" :key="i.id" class="mr-4 ml-4">
-                  <v-tooltip top>
-                    <v-btn outline large flat block :color="itemColor(i.data_type)" slot="activator" @click="openItem(i)">{{i.name}}</v-btn>
-                    <span v-html="tooltip(i)" />
-                  </v-tooltip>                
-                </div>              
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-        </v-card>
+        <license-card :license="l" />
        </v-expansion-panel-content>
      </v-expansion-panel>
       <v-divider class="mt-5 mb-0" />
@@ -50,41 +18,45 @@
   </v-container>
 </template>
 
-<script>
-  import _ from 'lodash'
+<script lang="ts">
+import Vue from 'vue'
+import _ from 'lodash'
+import { thisItem } from '@/data_interfaces/type_guards'
+import { LicenseCard } from '@/components/UI'
 
-  export default {
+export default Vue.extend({
     name: 'licenses',
+    components: {LicenseCard},
     data: () => ({
-      licenses: {}
+      licenses: {},
     }),
     methods: {
-      tooltip: function (item) {
-        if (item.data_type === 'frame') {
+      tooltip(item: CCItem) {
+        if (thisItem.isFrame(item)) {
           return `<b>FRAME</b><br>${item.mechtype}`
-        } else if (item.data_type === 'weapon') {
+        } else if (thisItem.isWeapon(item)) {
           return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
         } else {
           return `<b>MECH SYSTEM</b><br>${item.type}`
         }
       },
-      itemColor: function (t) {
-        if (t === 'frame') return 'deep-purple'
-        else if (t === 'weapon') return 'primary'
+      itemColor(t: string) {
+        if (t === 'frame') { return 'deep-purple' }
+        else if (t === 'weapon') { return 'primary' }
         return 'teal'
       },
-      openItem: function (t) {
+      openItem(t: CCItem) {
         this.$store.dispatch('setPresearch', t.name)
-        if (t.data_type === 'frame') this.$router.push('frames')
-        else if (t.data_type === 'weapon') this.$router.push('weapons')
-        else this.$router.push('systems')
+        if (t.data_type === 'frame') { this.$router.push('frames') }
+        else if (t.data_type === 'weapon') { this.$router.push('weapons') }
+        else { this.$router.push('systems') }
       },
-      manufacturer: function (id) {
+      manufacturer(id: string) {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
-      }
+      },
     },
-    created: function () {
+    created() {
       this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
-    }
-  }
+    },
+  })
 </script>

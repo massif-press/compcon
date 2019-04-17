@@ -17,20 +17,21 @@
   </v-container>
 </template>
 
-<script>
-  export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
     name: 'manufacturers',
     data: () => ({
       tabModel: 0,
-      manufacturers: {}
+      manufacturers: {},
     }),
     methods: {
-      openItem: function (t) {
+      openItem(t: any) {
         console.error('not yet implemented')
-      }
+      },
     },
-    created: function () {
+    created() {
       this.manufacturers = this.$store.getters.getItemCollection('Manufacturers')
-    }
-  }
+    },
+  })
 </script>

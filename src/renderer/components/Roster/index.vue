@@ -1,49 +1,35 @@
 <template>
-  <div id='roster-index'>
-    <topbar />
-    
+  <div>
+    <top-bar />
     <div class="wrapper">
-
-    <!-- Sidebar -->
-    <!-- <sidebar ref="sidebar" /> -->
-
-    <!-- Page Content -->
-    <router-view class="pt-5"></router-view>
-
+      <router-view class="pt-5 mt-2"></router-view>
     </div>    
   </div>
 </template>
 
-<script>
-  import {Topbar} from './UI'
-  import RosterView from './RosterView/'
-  import PilotSheet from './PilotSheet/'
-  import ConfigSheet from './ConfigSheet/'
+<script lang="ts">
+  import Vue from 'vue'
+  import { TopBar } from '@/components/UI'
 
-  export default {
+  export default Vue.extend({
     name: 'roster',
-    components: { Topbar, RosterView, PilotSheet, ConfigSheet },
-    data: () => ({
-      activePilotId: ''
-    }),
+    components: { TopBar },
     computed: {
       pilots: function () {
         return this.$store.getters.getAllPilots
       }
     },
     created: function () {
-      this.$store.dispatch('setDatapath', this.userDataPath)
+      this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
       this.$store.dispatch('loadBrews')
       this.$store.dispatch('buildLicenses')
     }
-  }
+  })
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
   * {
     box-sizing: border-box;
     margin: 0;
@@ -51,22 +37,12 @@
   }
 
   body { 
-    font-family: 'Source Sans Pro', sans-serif; 
     overflow: hidden;
   }
 
   .wrapper {
     display: flex;
     width: 100%;
-}
-</style>
-
-<style>
-  .roster-content {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100vw;
-    overflow-y: scroll;
   }
 </style>
 

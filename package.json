@@ -8,10 +8,10 @@
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
+    "lint": "tslint --project ./tsconfig.json -c ./tslint.json -t tslint-formatter-beauty",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "dev": "node .electron-vue/dev-runner.js",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
+    "lint:fix": "tslint --project ./tsconfig.json -c ./tslint.json -t tslint-formatter-beauty --fix",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
@@ -42,30 +42,34 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns",
+      "icon": "src/assets/icons/icon.icns",
       "target": [
         "zip"
       ]
     },
     "win": {
-      "icon": "build/icons/icon.ico",
+      "icon": "src/assets/icons/icon.ico",
       "target": [
         "portable"
       ]
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "src/assets/icons/"
     }
   },
   "dependencies": {
+    "@vue/cli-plugin-eslint": "^3.5.1",
     "@vue/cli-service": "^3.4.1",
     "axios": "^0.18.0",
     "fs-extra": "^7.0.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
-    "material-icons": "^0.3.0",
+    "material-icons": "^0.3.1",
+    "typeface-roboto": "0.0.54",
     "vue": "^2.6.8",
+    "vue-class-component": "^6.0.0",
     "vue-electron": "^1.0.6",
+    "vue-property-decorator": "^7.3.0",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.9",
     "vuex": "^3.1.0",
@@ -73,10 +77,15 @@
     "xlsx": "^0.14.1"
   },
   "devDependencies": {
+    "@aricchi/electron-vue-devtools": "^5.0.8-1",
     "@mdi/font": "^3.5.95",
+    "@types/fs-extra": "^5.0.5",
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^11.13.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
     "ajv": "^6.10.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^8.2.6",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
@@ -114,7 +123,14 @@
     "node": "^8.15.0",
     "node-loader": "^0.6.0",
     "style-loader": "^0.21.0",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.15.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-formatter-beauty": "^3.0.0",
+    "tslint-loader": "^3.5.4",
+    "typescript": "^3.4.2",
     "url-loader": "^1.0.1",
+    "vue-cli-plugin-typescript": "0.0.1",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.8",
