@@ -3,8 +3,8 @@
     <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
       <v-icon small>edit</v-icon>
     </v-btn>
-    <v-container>
-      <v-card flat>
+    <v-card flat>
+      <v-container>
         <v-toolbar fixed dense flat>
           <v-toolbar-title>Set Custom Image</v-toolbar-title>
           <v-spacer />
@@ -28,8 +28,8 @@
             </v-flex>
           </v-layout>
         </v-container>   
-      </v-card>
-    </v-container>
+      </v-container>
+    </v-card>
   </v-dialog>
 </template>
 
