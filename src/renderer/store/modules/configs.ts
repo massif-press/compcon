@@ -65,7 +65,6 @@ const moduleGetters = {
     )
   },
   getConfigIndex: (state: AppState, getters: any) => (id: string) => {
-    console.log(state.activeConfigID)
     return getters.getPilot.configs.findIndex((c: MechConfig) => c.id === id)
   },
   getMechStats: (state: AppState, getters: any) => (

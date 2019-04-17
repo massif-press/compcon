@@ -21,16 +21,16 @@ Roster:
     ✔ Roster/ConfigSheet/TraitItem.vue @done(19-04-12 13:25)
     ✔ Roster/ConfigSheet/Print/PrintView.vue @done(19-04-12 13:30)
     LoadoutEditor:
-      ☐ Roster/ConfigSheet/LoadoutEditor/CoreBenefitSelector.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/IntegratedBlock.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/MechLoadout.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/MechSystemItem.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/MechWeaponItem.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/ModTable.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/MountBlock.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/SystemsBlock.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/SystemTable.vue
-      ☐ Roster/ConfigSheet/LoadoutEditor/WeaponTable.vue
+      ✔ Roster/ConfigSheet/LoadoutEditor/CoreBenefitSelector.vue @done(19-04-16 22:50)
+      ✔ Roster/ConfigSheet/LoadoutEditor/IntegratedBlock.vue @done(19-04-16 22:59)
+      ✔ Roster/ConfigSheet/LoadoutEditor/MechLoadout.vue @done(19-04-16 19:17)
+      ✔ Roster/ConfigSheet/LoadoutEditor/MechSystemItem.vue @done(19-04-16 23:03)
+      ✔ Roster/ConfigSheet/LoadoutEditor/MechWeaponItem.vue @done(19-04-16 23:07)
+      ✔ Roster/ConfigSheet/LoadoutEditor/ModTable.vue @done(19-04-16 23:24)
+      ✔ Roster/ConfigSheet/LoadoutEditor/MountBlock.vue @done(19-04-16 22:33)
+      ✔ Roster/ConfigSheet/LoadoutEditor/SystemsBlock.vue @done(19-04-16 23:59)
+      ✔ Roster/ConfigSheet/LoadoutEditor/SystemTable.vue @done(19-04-16 23:59)
+      ✔ Roster/ConfigSheet/LoadoutEditor/WeaponTable.vue @done(19-04-16 23:59)
   HangarView:
     ✔ Roster/HangarView/AddConfigCard.vue @done(19-04-12 14:08)
     ✔ Roster/HangarView/AddConfigMenu.vue @done(19-04-12 14:18)

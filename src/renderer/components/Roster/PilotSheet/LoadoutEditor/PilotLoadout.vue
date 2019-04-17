@@ -8,7 +8,6 @@
       </v-card-text>
     </v-card>
     <v-tabs v-else v-model="tabIndex" dark color="primary" show-arrows slider-color="yellow" mandatory>
-      <!-- Render Tabs -->
       <v-tab v-for="(loadout, i) in loadouts" :key="i">{{loadout.name}}</v-tab>
       <span>
         <v-tooltip top>
@@ -16,29 +15,30 @@
           <span>Add New Loadout</span>
         </v-tooltip>
       </span>
-      <v-tabs-items mandatory >
+      <v-tabs-items mandatory>
         <v-tab-item v-for="(loadout, index) in loadouts" :key="loadout.id + index" lazy>
           <v-card>
             <v-card-text>
-            <!-- Armor: -->
-            <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
-              <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
-            </div>
+              <!-- Armor: -->
+              <div v-for="n in max.armor" :key="`armor-iterator-${n-1}`">
+                <gear-item v-if="loadout.items.armor[n-1]" itemType="Armor" :item="loadout.items.armor[n-1]" @clicked="openSelector(n - 1, 'armor')"/>
+                <gear-item v-else itemType="Armor" empty @clicked="openSelector(n-1, 'armor')"/>
+              </div>
 
-            <!-- Weapons: -->
-            <br>
-            <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
-              <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
-            </div>
+              <!-- Weapons: -->
+              <br>
+              <div v-for="n in max.weapons" :key="`weapon-iterator-${n-1}`">
+                <gear-item v-if="loadout.items.weapon[n-1]" itemType="Weapon" :item="loadout.items.weapon[n-1]" @clicked="openSelector(n - 1, 'weapon')"/>
+                <gear-item v-else itemType="Weapon" empty @clicked="openSelector(n-1, 'weapon')"/>
+              </div>
 
-            <!-- Gear: -->
-            <br>
-            <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
-              <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
-              <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
-            </div>
+              <!-- Gear: -->
+              <br>
+              <div v-for="n in max.gear" :key="`gear-iterator-${n-1}`">
+                <gear-item v-if="loadout.items.gear[n-1]" itemType="Gear" :item="loadout.items.gear[n-1]" @clicked="openSelector(n - 1, 'gear')"/>
+                <gear-item v-else itemType="Gear" empty @clicked="openSelector(n-1, 'gear')"/>
+              </div>
+            </v-card-text>
 
             <v-card-actions>
               <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" 
@@ -51,7 +51,7 @@
 
               <v-btn flat @click="duplicateLoadout(tabIndex)"><v-icon small left>file_copy</v-icon> Duplicate Loadout</v-btn>
               
-              <v-spacer/>
+              <v-spacer />
 
               <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning"
                 @accept="deleteLoadout()" @cancel="deleteDialog = false">
@@ -60,9 +60,7 @@
                   <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
                 </v-card-text>                
               </lazy-dialog>              
-               
             </v-card-actions>
-            </v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs-items>        
@@ -120,10 +118,10 @@
       snackbar: false
     }),
     methods: {
-    notify (alert: string) {
-      this.notification = alert
-      this.snackbar = true
-    },
+      notify (alert: string) {
+        this.notification = alert
+        this.snackbar = true
+      },
       deleteLoadout () {
         this.$store.dispatch('splicePilot', {
           attr: 'loadouts',

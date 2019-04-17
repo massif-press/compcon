@@ -3,9 +3,9 @@ type ItemID = { id: string }
 declare interface LicenseReq { name: string, rank: number, items: string[], missing?: any }
 
 declare interface IColor {
+  [key: string]: string
   light: string
   dark: string
-  [key: string]: string
 }
 
 declare interface IRules {
@@ -21,9 +21,11 @@ declare interface IRules {
   max_pilot_weapons: number
   max_pilot_armor: number
   max_pilot_gear: number
-  mount_fitting: number
-  auxiliary: string[]
-  main: string[]
-  flex: string[]
-  heavy: string[]
+  mount_fittings: {
+    [key: string]: string[]
+    auxiliary: string[]
+    main: string[]
+    flex: string[]
+    heavy: string[]
+  }
 }

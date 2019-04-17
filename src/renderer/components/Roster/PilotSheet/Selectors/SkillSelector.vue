@@ -198,7 +198,6 @@
     mounted () {
       var vm = this as any
       vm.pLevel = vm.pilotLevel ? vm.pilotLevel : 0
-      console.log(vm.newPilot)
       vm.skills = vm.newPilot ? vm.pilotSkills : JSON.parse(JSON.stringify(vm.pilotSkills))
     }
   })
