@@ -14,14 +14,15 @@
   </v-container>
 </template>
 
-<script>
-  export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
     name: 'tags',
     data: () => ({
-      tags: []
+      tags: [],
     }),
-    created: function () {
+    created() {
       this.tags = this.$store.getters.getItemCollection('Tags')
-    }
-  }
+    },
+  })
 </script>
