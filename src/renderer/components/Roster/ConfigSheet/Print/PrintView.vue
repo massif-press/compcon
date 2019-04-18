@@ -140,7 +140,7 @@
             <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.effect}}</p>
           </v-flex>
           <v-flex>     
-            <span v-for="t in frame.core_system.tags" :key="t" small class="print-tag">{{tag(t).name}}</span>
+            <span v-for="t in frame.core_system.tags" :key="t.id" small class="print-tag">{{fullTag(tag(t.id).name, t.val)}}</span>
           </v-flex>
         </v-flex>
       </v-layout>
@@ -162,7 +162,7 @@
                     <v-flex v-if="frame.core_system.integrated.damage" shrink class="ml-2"><span><damage-element size="9" :dmg="frame.core_system.integrated.damage" /></span></v-flex>
                   </v-layout>
                   <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.integrated.effect}}</p>
-                  <span v-for="t in frame.core_system.integrated.tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                  <span v-for="t in frame.core_system.integrated.tags" :key="t.id + 'intweapon'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
             </v-flex>
@@ -180,7 +180,7 @@
                     <v-flex v-if="weapon(mount).damage" shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(mount).damage" /></span></v-flex>
                   </v-layout>
                   <p class="p-reg ml-2 mt-0 mb-0">{{mount.effect}}</p>
-                  <span v-for="t in weapon(mount).tags" :key="t.id + mount" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                  <span v-for="t in weapon(mount).tags" :key="t.id + 'intmount'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
             </v-flex>
@@ -196,7 +196,7 @@
                     <i style="letter-spacing: 5px; color: grey;">MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
                   </div>
                   <div v-else-if="!mount.weapons.length">
-                    <i style="letter-spacing: 5px; color: grey;">EMPTY</i>
+                    <i style="letter-spacing: 5px; color: grey;">&emsp;EMPTY</i>
                   </div>
                   <div v-else v-for="w in mount.weapons" :key="w.id">
                     <v-layout>

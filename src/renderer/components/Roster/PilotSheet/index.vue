@@ -416,7 +416,7 @@
           accuracy: vm.invoke_attribute === 0,
           difficulty: vm.invoke_attribute !== 0,
         }
-        var idx = this.pilot.invocations!.length || 0
+        var idx = this.pilot.invocations ? this.pilot.invocations.length : 0
         this.$store.dispatch('editPilot', {
           attr: `invocations[${idx}]`,
           val: newInvoke
@@ -430,6 +430,7 @@
           start_index: index,
           delete_count: 1
         })
+        this.refresh()
       },
       openPrintOptions: function () {
         this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})

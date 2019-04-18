@@ -258,7 +258,7 @@ export default Vue.extend({
     mounted () {
       window.print()
       setTimeout(() => {
-        this.$router.push('/roster')
+        this.$router.push('/pilot')
       }, 10)
     }
   })

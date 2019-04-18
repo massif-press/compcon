@@ -18,7 +18,7 @@
           <v-icon v-else dark slot="append">flash_on</v-icon>
         </v-switch>
         </div>
-        <span v-html="showOverSP ? 'Hide systems above SP capacity' : 'Show systems above SP capacity'" />
+        <span v-html="showOverSp ? 'Hide systems above SP capacity' : 'Show systems above SP capacity'" />
       </v-tooltip>
 
       <v-spacer />

@@ -18,7 +18,7 @@
           <v-icon v-else dark slot="append">flash_on</v-icon>
         </v-switch>
         </div>
-        <span v-html="showOverSP ? 'Hide weapons above SP capacity' : 'Show weapons above SP capacity'" />
+        <span v-html="showOverSp ? 'Hide weapons above SP capacity' : 'Show weapons above SP capacity'" />
       </v-tooltip>
 
       <v-spacer />
@@ -88,6 +88,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import _ from 'lodash'
   import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
   import io from '@/store/data_io'
@@ -144,17 +145,15 @@
             : vm.free_sp
           i = i.filter((x: Weapon) => !x.sp || x.sp <= totalFreeSp)
         }
-        // filter dupe uniques
-        var configIndex = vm.pilot.configs.findIndex((x: Weapon) => x.id === vm.config_id)
-        var installedWeapons = vm.pilot.configs[configIndex].loadouts[vm.loadout_index].mounts.map(
-          (x: any) => x.weapons.map((y: Weapon) => y.id)
-        )
-        i = i.filter(
-          (x: Weapon) => (x.tags && !x.tags.map(t => t.id).includes('unique')) 
-          || (x.tags && x.tags.map(t => t.id).includes('unique') 
-            && !installedWeapons.map((y: Weapon) => y.id).includes(x.id)
-          )
-        )
+        // filter dupe uniques (in the grossest way possible)
+        var configIndex = vm.pilot.configs.findIndex((x: any) => x.id === vm.config_id)
+        var installedUniques = vm.pilot.configs[configIndex].loadouts[vm.loadout_index]
+        installedUniques = _.compact(_.flatten(installedUniques.mounts.map((x: any) => x.weapons)))
+        installedUniques = installedUniques.map((x: any) => vm.getWeapon(x.id)).filter(
+          (x: Weapon) => x.tags.map((y: any) => y.id).includes('unique')
+        ).map((x: Weapon) => x.id)
+        i = i.filter((x: Weapon) => !installedUniques.includes(x.id))
+
         return i
       },
       pilot (): Pilot {
