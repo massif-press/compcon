@@ -22,7 +22,7 @@
           <v-divider class="ma-4" />
           <h2 class="mb-2">Installed Content</h2>
           <v-card v-for="b in brews" :key="b.name" class="pl-2 pr-2">
-            <v-layout row wrap>
+            <v-layout row>
               <v-flex shrink>
                 <v-switch :value="b.info.active" :input-value="b.info.active" :disabled="b.info.name === 'LANCER Core'" @change="toggleBrew(b)"/>
               </v-flex>
@@ -32,7 +32,7 @@
                  <span class="caption">ver.{{b.info.version}}</span>&nbsp; //&nbsp;<i>{{b.info.author}}</i>
               </v-flex>
               <v-divider vertical class="mr-2 ml-2" />
-              <v-flex grow class="mt-2 pt-1">{{b.info.description}}</v-flex>
+              <v-flex xs9 class="mt-2 pt-1"><p>{{b.info.description}}</p></v-flex>
               <v-flex shrink class="mt-2 pt-1">
                 <v-tooltip top>
                   <v-btn slot="activator" icon color="primary" @click="open(b.info.website)"><v-icon>mdi-open-in-new</v-icon></v-btn>

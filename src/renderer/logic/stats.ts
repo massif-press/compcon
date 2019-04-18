@@ -89,15 +89,18 @@ export default {
     )
 
     if (loadout) {
-      for (const loadoutSys of loadout.systems) {
-        const sys = systems.find((x) => x.id === loadoutSys.id)
-        if (sys) {
-          output.used_sp += sys.sp || 0
-          output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+      if (loadout.systems && loadout.systems.length) {
+        for (const loadoutSys of loadout.systems) {
+          const sys = systems.find((x) => x.id === loadoutSys.id)
+          if (sys) {
+            output.used_sp += sys.sp || 0
+            output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+          }
         }
       }
       for (const mount of loadout.mounts) {
         for (const weapon of mount.weapons) {
+          if (!weapon) { continue }
           const w = weapons.find((x) => x.id === weapon.id)
           if (w) {
             output.used_sp += w && w.sp ? w.sp : 0
@@ -126,7 +129,7 @@ export default {
     )
 
     // system personalizations adds +2 hp
-    if (loadout && loadout.systems && loadout.systems.find((x) => x.id === 'personalizations')) { output.hp += 2 }
+    if (loadout && loadout.systems && loadout.systems.length && loadout.systems.find((x) => x.id === 'personalizations')) { output.hp += 2 }
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian')) {

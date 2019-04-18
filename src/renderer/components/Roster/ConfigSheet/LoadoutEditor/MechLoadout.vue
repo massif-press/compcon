@@ -181,13 +181,13 @@
       vm.reloadTrigger = Math.random()
       vm.$parent.$forceUpdate()
     },
-    renameLoadout (index: number) {
+    renameLoadout () {
       var vm = this as any
       if (vm.newLoadoutName === '') vm.notify('Loadout names cannot be blank')
       else {
         vm.$store.dispatch('editConfig', {
           id: vm.config_id,
-          attr: `loadouts[${index}].name`,
+          attr: `loadouts[${vm.tabIndex}].name`,
           val: vm.newLoadoutName
         })
         vm.newLoadoutName = ''
@@ -195,16 +195,18 @@
         vm.refresh()
       }
     },
-    duplicateLoadout (index: number) {
+    duplicateLoadout () {
       var vm = this as any
       var newIdx = vm.loadouts.length
+      var current = vm.loadouts[vm.tabIndex]
+      console.log(current)
       vm.$store.dispatch('editConfig', {
         id: vm.config_id,
         attr: `loadouts[${newIdx}]`,
         val: {
           id: uid.generate(),
-          name: `${vm.loadouts[index].name} (Copy)`,
-          mounts: vm.loadouts[index].mounts
+          name: `${current.name} (Copy)`,
+          mounts: current.mounts
         }
       })
       vm.refresh()

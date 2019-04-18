@@ -11,8 +11,8 @@
     <br>
     <p>This is a piece of open source software under the GNU Public License — feel free to contribute via the GitHub repository or yell at me directly on Twitter at <a flat color="primary" class="ma-0 pa-1" @click="open('https://twitter.com/jarena2')">@jarena2</a>. COMP/CON is now and will always be free, but if you want to support development of this software monetarily, please consider paying (what you want) for it.</p>
     <br>
-    <p class="text-xs-center"><v-btn flat outline color="primary" @click="open('https://twitter.com/jarena2')">Project Roadmap</v-btn> &emsp;&mdash;&emsp;
-    <v-btn flat color="primary" outline @click="open('https://twitter.com/jarena2')">Contributor's Guide</v-btn> &emsp;&mdash;&emsp;
+    <p class="text-xs-center"><v-btn flat outline color="primary" @click="open('https://github.com/jarena3/compcon/wiki/Roadmap')">Project Roadmap</v-btn> &emsp;&mdash;&emsp;
+    <v-btn flat color="primary" outline @click="open('https://github.com/jarena3/compcon/wiki/Getting-Started')">Contributor's Guide</v-btn> &emsp;&mdash;&emsp;
     <v-btn flat color="primary" outline @click="open('https://beeftime.itch.io/compcon')">itch.io page</v-btn>
     </p>
     <br>

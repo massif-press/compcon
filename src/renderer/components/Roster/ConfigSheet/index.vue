@@ -188,11 +188,9 @@
         </v-container>
 
         <v-divider dark />
-        <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
-
-
-          <v-flex xs3>
-            <v-btn large color="cyan accent-3" flat dark @click="openPrintOptions(false)"><v-icon>print</v-icon> &nbsp; PRINT</v-btn>
+        <v-layout justify-space-around fill-height class="ma-5">
+          <v-flex xs>
+            <v-btn large color="warning" outline block dark @click="openPrintOptions(false)"><v-icon>print</v-icon> &nbsp; PRINT</v-btn>
           </v-flex>
           <lazy-dialog :model="printWarningDialog" title="// PRINT WARNING //" acceptString="Continue Anyway"
             acceptColor="warning" @accept="openPrintOptions(true)" @cancel="printWarningDialog = false">

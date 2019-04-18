@@ -1,6 +1,6 @@
 Bugs:
   ☐ Mech loadout item delete
-  ☐ Weapons with SP flag as over sp even though they're selectable
+  ☐ Weapons with SP flag as over sp even though they're selectable (?)
 
 Improvements:
   ☐ Replace all rank star loops/v-rating with component
@@ -60,6 +60,7 @@ Styling:
     ☐ Detect and install on first startup
 
 Archive:
+  ✔ Invocation broken @done(19-04-17 22:29) @project(1.2.5)
   ✔ Swallowtail save incorrect @done(19-04-17 15:20) @project(Bugs)
   ✔ fix longrim core bonus tags @done(19-04-17 15:55) @project(Bugs)
   ✔ nav menu links don't open @done(19-04-17 15:52) @project(Bugs)
