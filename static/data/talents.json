@@ -315,6 +315,6 @@
     "r2_name": "See-Through Seeker",
     "r2_desc": "You’ve modified your sensors and ammo to punch through, disregard, or otherwise ignore cover up close. You can ignore cover (even hard cover) for attacks you make with CQB weapons when your target is within 3 range of you as long as you still have line of sight to your target.",
     "r3_name": "Semper Vigilo",
-    "r3_desc": "Your overwatch attacks with CQB weapons are now triggered by anyone entering, leaving, or exiting your threat regardless of whether a target started their turn there. "
+    "r3_desc": "Your overwatch attacks with CQB weapons are now triggered by anyone entering, leaving, or exiting your threat regardless of whether a target started their turn there."
   }
 ]
