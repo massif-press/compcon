@@ -2,7 +2,7 @@
   <v-layout fill-height>
     <v-flex xs2>
       <v-tooltip top>
-        <v-btn slot="activator" block @click="clicked" style="height:100%; margin:0">
+        <v-btn slot="activator" block @click="clicked" color="grey lighten-3" style="height:100%; margin:0">
             {{empty || itemData.err ? 'Equip' : ''}} {{ itemType }}
         </v-btn>
         <span>{{empty ? 'Add' : 'Change'}} {{itemType}}</span>
@@ -41,7 +41,7 @@
               </span>
               <span v-else class="mr-5" style="display: inline-flex;"> {{itemData.uses ? `${itemData.uses} Uses` : '' }} </span>
             </v-layout>
-            <gear-card :itemData="itemData"/>
+            <gear-card :itemData="itemData" table-item/>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -62,9 +62,10 @@
       itemType: String
     },
     computed: {
-      itemData (): CCItem {
-        if (this.empty) return ({} as CCItem)
-        return this.$store.getters.getItemById('PilotGear', this.item.id)
+      itemData (): any {
+        var vm = this as any
+        if (vm.empty) return ({} as any)
+        return vm.getPilotGear(vm.item.id)
       }
     },
     methods: {

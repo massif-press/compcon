@@ -1,6 +1,5 @@
 <template>
-    <v-card flat :color="tableItem ? '' : 'blue-grey darken-2'" 
-      :style="tableItem ? '' : 'border-left: 5px solid #546E7A!important'">
+    <v-card flat :color="tableItem ? '' : '#373737'">
       <v-card-text class="pb-0 pt-0">
         <div class="pt-2">
           <em v-if="!itemData.license">{{itemData.source}}<br></em>
