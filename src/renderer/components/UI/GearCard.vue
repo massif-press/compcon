@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card flat color="grey lighten-4">
+    <v-card flat :color="tableItem ? 'grey lighten-4' : ''">
       <v-card-text class="pa-0 pb-2 pl-2">
         <p class="pa-0 pt-2 ml-3 mr-3 mt-1 mb-2 fluff-text" v-if="itemData.description" v-html="itemData.description" />
         <!-- Armor -->
@@ -57,7 +57,8 @@
     name: 'gear-card',
     components: { DamageElement, RangeElement, ItemTag },
     props: {
-      itemData: Object
+      itemData: Object,
+      tableItem: Boolean
     },
     computed: {
       pilot (): Pilot {
