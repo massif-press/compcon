@@ -17,6 +17,7 @@ import TopBar from './Topbar.vue'
 import ModCard from './ModCard.vue'
 import EmptyView from './EmptyView.vue'
 import CCColors from './CCColors'
+import TickBar from './TickBar.vue'
 
 export {
   LazyDialog,
@@ -38,4 +39,5 @@ export {
   ModCard,
   EmptyView,
   CCColors,
+  TickBar,
 }
