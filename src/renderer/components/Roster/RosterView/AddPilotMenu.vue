@@ -54,104 +54,106 @@
         <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
       </v-card-text>
 
-      <v-divider></v-divider>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn color="primary" flat @click="close" >Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
-<script>
-import io from '@/store/data_io'
-import validator from '@/logic/validator'
-import { loadSheetFile, gsheetToObject } from '@/logic/gsheet-converter'
+<script lang="ts">
+  import Vue from 'vue'
+  import io from '@/store/data_io'
+  import validator from '@/logic/validator'
+  import { loadSheetFile, gsheetToObject } from '@/logic/gsheet-converter'
 
-export default {
-  name: 'add-pilot-menu',
-  props: ['dialogModel'],
-  data: () => ({
-    gsheetDialog: false,
-    ignoredModsDialog: false,
-    ignoredModsString: ''
-  }),
-  methods: {
-    close () {
-      this.$emit('close')
-    },
-    goToNew () {
-      this.$router.push('/new')
-    },
-    importFile () {
-      const { dialog } = require('electron').remote
-      var path = dialog.showOpenDialog({
-        title: 'Load Pilot Data',
-        buttonLabel: 'Load',
-        properties: [
-          'openFile'
-        ],
-        filters: [
-          { name: 'Pilot Data', extensions: ['json'] }
-        ]
-      })
-      var pilotData = io.importFile(path[0])
-      if (validator.pilot(pilotData)) {
-        this.$store.dispatch('importPilot', pilotData)
-        this.$store.dispatch('loadPilot', pilotData.id)
-        this.activeIndex = this.pilots.length - 1
-        this.addDialog = false
-        this.close()
-      } else {
-        alert('Pilot data validation failed')
-        this.addDialog = false
-      }
-    },
-    importSheet () {
-      const { dialog } = require('electron').remote
-      var path = dialog.showOpenDialog({
-        title: 'Load Character GSheet',
-        buttonLabel: 'Load',
-        properties: [
-          'openFile'
-        ],
-        filters: [
-          { name: 'Pilot Data', extensions: ['xlsx'] }
-        ]
-      })
-      const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
-      if (validator.pilot(output)) {
-        this.$store.dispatch('importPilot', output)
-        this.$store.dispatch('loadPilot', output.id)
-        this.activeIndex = this.pilots.length - 1
-        this.addDialog = false
-      } else {
-        alert('Pilot data validation failed')
-        this.addDialog = false
-        this.close()
-      }
-      if (ignoredMods.length) {
-        this.ignoredModsString = ignoredMods.join(', ')
-        this.ignoredModsDialog = true
-      }
-    },
-    importClipboard () {
-      var vm = this
-      const {clipboard} = require('electron')
-      validator.clipboardPilot(clipboard.readText(), function (err, result) {
-        if (err) {
-          alert(err)
-        } else {
-          vm.$store.dispatch('importPilot', result)
-          vm.$store.dispatch('loadPilot', result.id)
+  export default Vue.extend({
+    name: 'add-pilot-menu',
+    props: ['dialogModel'],
+    data: () => ({
+      gsheetDialog: false,
+      ignoredModsDialog: false,
+      ignoredModsString: ''
+    }),
+    methods: {
+      close () {
+        this.$emit('close')
+      },
+      goToNew () {
+        this.$router.push('/new')
+      },
+      importFile () {
+        var vm = this as any
+        const { dialog } = require('electron').remote
+        var path = dialog.showOpenDialog({
+          title: 'Load Pilot Data',
+          buttonLabel: 'Load',
+          properties: [
+            'openFile'
+          ],
+          filters: [
+            { name: 'Pilot Data', extensions: ['json'] }
+          ]
+        })
+        var pilotData = io.importFile(path[0])
+        if (validator.pilot(pilotData)) {
+          vm.$store.dispatch('importPilot', pilotData)
+          vm.$store.dispatch('loadPilot', pilotData.id)
           vm.activeIndex = vm.pilots.length - 1
+          vm.addDialog = false
+          vm.close()
+        } else {
+          alert('Pilot data validation failed')
+          vm.addDialog = false
         }
-      })
-      this.addDialog = false
-      this.close()
+      },
+      importSheet () {
+        var vm = this as any
+        const { dialog } = require('electron').remote
+        var path = dialog.showOpenDialog({
+          title: 'Load Character GSheet',
+          buttonLabel: 'Load',
+          properties: [
+            'openFile'
+          ],
+          filters: [
+            { name: 'Pilot Data', extensions: ['xlsx'] }
+          ]
+        })
+        const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
+        if (validator.pilot(output)) {
+          vm.$store.dispatch('importPilot', output)
+          vm.$store.dispatch('loadPilot', output.id)
+          vm.activeIndex = vm.pilots.length - 1
+          vm.addDialog = false
+        } else {
+          alert('Pilot data validation failed')
+          vm.addDialog = false
+          vm.close()
+        }
+        if (ignoredMods.length) {
+          vm.ignoredModsString = ignoredMods.join(', ')
+          vm.ignoredModsDialog = true
+        }
+      },
+      importClipboard () {
+        var vm = this as any
+        const {clipboard} = require('electron')
+        validator.clipboardPilot(clipboard.readText(), function (err, result) {
+          if (err) {
+            alert(err)
+          } else {
+            vm.$store.dispatch('importPilot', result)
+            vm.$store.dispatch('loadPilot', result.id)
+            vm.activeIndex = vm.pilots.length - 1
+          }
+        })
+        vm.addDialog = false
+        vm.close()
+      }
     }
-  }
-}
+  })
 </script>
-

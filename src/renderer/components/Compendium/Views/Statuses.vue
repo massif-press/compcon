@@ -106,14 +106,15 @@
   </v-container>
 </template>
 
-<script>
-  export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
     name: 'statuses',
     data: () => ({
-      statuses: []
+      statuses: [],
     }),
-    created: function () {
+    created() {
       this.statuses = this.$store.getters.getItemCollection('Statuses')
-    }
-  }
+    },
+  })
 </script>

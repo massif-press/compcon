@@ -9,28 +9,34 @@ const webpack = require('webpack')
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
 
 let mainConfig = {
+  devtool: 'inline-source-map',
   entry: {
-    main: path.join(__dirname, '../src/main/index.js')
+    main: path.join(__dirname, '../src/main/index.ts')
   },
   externals: [
     ...Object.keys(dependencies || {})
   ],
   module: {
-    rules: [
-      {
-        test: /\.(js)$/,
+    rules: [{
+        test: /\.(js$|ts$)/,
         enforce: 'pre',
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /\.json$/, /\.vue$/],
         use: {
-          loader: 'eslint-loader',
+          loader: 'tslint-loader',
           options: {
-            formatter: require('eslint-friendly-formatter')
+            formatter: 'tslint-formatter-beauty',
+            configFile: './tslint.json',
           }
         }
       },
       {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.js$/,
-        use: 'babel-loader',
+        use: 'ts-loader',
         exclude: /node_modules/
       },
       {
@@ -52,7 +58,7 @@ let mainConfig = {
     new webpack.NoEmitOnErrorsPlugin()
   ],
   resolve: {
-    extensions: ['.js', '.json', '.node']
+    extensions: ['.ts', '.js', '.json', '.node']
   },
   target: 'electron-main'
 }
@@ -73,7 +79,7 @@ if (process.env.NODE_ENV !== 'production') {
  */
 if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
-    new BabiliWebpackPlugin(),
+    // new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })

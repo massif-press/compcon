@@ -1,209 +1,161 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs3 class="pr-3">
-        <div :class="scrollPosition > 200 ? 'scroll-fix' : ''">
+  <selector title="Pilot Licenses">
+    <template v-slot:left-column>
+      <v-layout>
+        <v-flex xs12>
+          <div v-for="license in licenses" :key="`summary_${license.name}`">
+            <v-layout v-if="!licenseExists(license.source, license.name)">
+              <v-flex shrink>
+                <span class="grey--text">// MISSING DATA //</span><br>
+                <span v-if="license.brew" class="caption grey--text">({{license.brew}})</span>
+              </v-flex>
+              <v-flex shrink>
+                <v-btn icon flat color="error" @click="deleteLicense(license.name)"><v-icon>delete</v-icon></v-btn>
+              </v-flex>
+            </v-layout>
+            <v-layout v-else>
+              <v-flex xs12>
+                <strong>{{ license.name }}</strong>
+                <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
+              </v-flex>
+            </v-layout>
+          </div>
+        </v-flex> 
+      </v-layout>
+      <v-divider class="ma-2 ml-4 mr-4" />
+      <v-layout>
+        <v-flex xs12>
+          <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
+            License Selection Complete
+          </v-alert>
+          <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
+            {{points.pointsMax  - points.pointsCurrent}} License Points remaining
+          </v-alert>
+          <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
+          <v-btn block flat small :disabled="!licenses.length" @click="resetLicenses">Reset</v-btn>
+        </v-flex>
+      </v-layout>
+    </template>
+    <template v-slot:right-column>
+      <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
         <v-layout>
-          <v-flex style="text-align: center">
-          <br>
-          <h3>Pilot Licenses</h3>
-          <hr>
+          <v-flex class="text-xs-center pa-3">
+            <span class="display-2 text-uppercase font-weight-light">{{manufacturer(m).name}}</span>
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-flex xs12>
-            <div v-for="license in licenses" :key="`summary_${license.name}`">
-              <v-layout v-if="!licenseExists(license.source, license.name)">
-                <v-flex shrink>
-                  <span class="grey--text">// MISSING DATA //</span><br><span v-if="license.brew" class="caption grey--text">({{license.brew}})</span>
-                </v-flex>
-                <v-flex shrink>
-                  <v-btn icon flat color="error" @click="deleteLicense(license.name)"><v-icon>delete</v-icon></v-btn>
-                </v-flex>
-              </v-layout>
-              <v-layout v-else>
-                <v-flex xs12>
-                  <strong>{{ license.name }}</strong>
-                  <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
-                </v-flex>
-              </v-layout>
-            </div>
-          </v-flex> 
-        </v-layout>
-        <v-layout><v-flex xs12><hr></v-flex></v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <v-alert outline color="success" icon="check_circle" :value="selectionComplete">
-              License Selection Complete
-            </v-alert>
-            <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
-              {{points.pointsMax  - points.pointsCurrent}} License Points remaining
-            </v-alert>
-            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
-            <v-btn block flat small :disabled="!licenses.length" @click="resetLicenses">Reset</v-btn>
+          <v-flex>
+            <v-expansion-panel focusable>
+              <license-item v-for="l in licenseData[m]" :key="`${l.license}_data'`" :pilotRank="pilotRank(l.license)" :licenseData="l" 
+                selectable :available="!selectionComplete" @add="addLicense(l)" @remove="removeLicense(l)" />
+            </v-expansion-panel>
           </v-flex>
         </v-layout>
-        </div>
-      </v-flex>
-
-
-      <v-flex id="list-area">
-        <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
-          <v-layout>
-            <v-flex class="text-xs-center pa-3">
-              <span class="display-2 text-uppercase font-weight-light">{{manufacturer(m).name}}</span>
-            </v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex>
-              <v-expansion-panel expand focusable>
-                <v-expansion-panel-content v-for="l in licenseData[m]" :key="`${l.license}_data'`" >
-                  <v-toolbar-title slot="header">
-                  <span>{{l.license.toUpperCase()}}</span>
-                  <span v-for="n in playerRank(l.license.toUpperCase())" :key="`${l.license}_plevel_${n}`"><v-icon>star</v-icon></span>
-                  </v-toolbar-title>
-                  <v-card>
-                  <license-selector-item :license="l" :playerRank="playerRank(l.license.toUpperCase())" @add-license="addLicense" @remove-license="removeLicense" :pointLimit="pointLimit" />
-                  </v-card>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-flex>
-          </v-layout>
-          <br>
-          <v-divider />
-        </div>
-      </v-flex></v-layout>
-  </v-container>
+        <br>
+      </div>
+    </template>    
+  </selector>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import _ from 'lodash'
-  import LicenseSelectorItem from './LicenseSelectorItem'
+  import {LicenseItem} from '../SheetComponents'
+  import Selector from './Selector.vue'
 
-  function licenseSort (licenses) {
+  function licenseSort (licenses: PilotLicense[]) {
     return licenses.sort(function (a, b) {
       return a.level === b.level ? 0 : a.level > b.level ? -1 : 1
     })
   }
 
-  export default {
+  export default Vue.extend({
     name: 'license-selector',
     props: {
-      pilotLicenses: {
-        type: Array
-      },
-      pilotLevel: {
-        type: Number
-      },
-      newPilot: {
-        type: Boolean
-      },
-      levelUp: {
-        type: Boolean
-      }
+      pilotLicenses: Array,
+      pilotLevel: Number,
+      newPilot: Boolean,
+      levelUp: Boolean
     },
-    components: { LicenseSelectorItem },
+    components: { LicenseItem, Selector },
     data: () => ({
       licenses: [],
-      pointLimit: false,
       pLevel: 0,
       licenseData: [],
-      scrollPosition: null
     }),
     computed: {
-      points: function () {
+      points (): {pointsCurrent: number, pointsMax: number, selectedCurrent: number} {
+        var vm = this as any
         return {
-          pointsCurrent: (this.licenses.reduce((a, b) => +a + +b.level, 0)),
-          pointsMax: this.pLevel,
-          selectedCurrent: this.licenses.length
+          pointsCurrent: (vm.licenses.reduce((a: any, b: any) => +a + +b.level, 0)),
+          pointsMax: vm.pLevel,
+          selectedCurrent: vm.licenses.length
         }
       },
-      selectionComplete: function () {
-        return this.points.pointsCurrent === this.points.pointsMax
+      selectionComplete (): boolean {
+        var vm = this as any
+        return vm.points.pointsCurrent === vm.points.pointsMax
       }
     },
     methods: {
-      playerRank: function (name) {
-        var t = this.licenses.find(x => x.name.toUpperCase() === name)
+      pilotRank (name: string): number {
+        var vm = this as any
+        var t = vm.licenses.find((x: any) => x.name.toUpperCase() === name)
         return t ? t.level : 0
       },
-      manufacturer: function (id) {
+      manufacturer (id): Manufacturer {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
-      licenseExists: function (source, name) {
-        if (!this.licenseData[source.toLowerCase()]) return false
-        if (!this.licenseData[source.toLowerCase()].find(x => x.license === name.toLowerCase())) return false
+      licenseExists (source: string, name: string): boolean {
+        var vm = this as any
+        if (!vm.licenseData[source.toUpperCase()]) return false
+        if (!vm.licenseData[source.toUpperCase()].find((x: any) => x.license === name.toUpperCase())) return false
         return true
       },
-      addLicense: function (l) {
-        var idx = this.licenses.findIndex(x => x.name.toUpperCase() === l.name.toUpperCase())
+      addLicense (license: any) {
+        var vm = this as any
+        var idx = vm.licenses.findIndex((x: any) => x.name.toUpperCase() === license.license.toUpperCase())
         if (idx === -1) {
-          this.licenses.push({
-            name: l.name.toUpperCase(),
-            source: l.source.toUpperCase(),
+          vm.licenses.push({
+            name: license.license.toUpperCase(),
+            source: license.source.toUpperCase(),
             level: 1,
-            brew: l.brew || null
+            brew: license.brew || null
           })
         } else {
-          this.licenses[idx].level++
+          vm.licenses[idx].level++
         }
-        this.pointLimit = this.points.pointsCurrent >= this.points.pointsMax
-        this.licenses = licenseSort(this.licenses)
+        vm.licenses = licenseSort(vm.licenses)
 
-        if (this.levelUp && this.selectionComplete) {
-          this.$emit('set-licenses', this.licenses)
+        if (vm.levelUp && vm.selectionComplete) {
+          vm.$emit('set-licenses', vm.licenses)
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
-      removeLicense: function (name) {
-        var idx = this.licenses.findIndex(x => x.name === name.toUpperCase())
+      removeLicense (license: any) {
+        var vm = this as any
+        var idx = vm.licenses.findIndex((x: any) => x.name === license.license.toUpperCase())
         if (idx !== -1) {
-          this.licenses[idx].level--
-          if (this.licenses[idx].level === 0) this.licenses.splice(idx, 1)
+          vm.licenses[idx].level--
+          if (vm.licenses[idx].level === 0) vm.licenses.splice(idx, 1)
         }
-        this.pointLimit = false
-        this.licenses = licenseSort(this.licenses)
-      },
-      deleteLicense: function (name) {
-        var idx = this.licenses.findIndex(x => x.name === name.toUpperCase())
-        if (idx !== -1) {
-          this.licenses.splice(idx, 1)
-        }
-        this.pointLimit = false
-        this.licenses = licenseSort(this.licenses)
+        vm.licenses = licenseSort(vm.licenses)
       },
       saveLicenses () {
-        this.$emit('set-licenses', this.licenses)
+        var vm = this as any
+        vm.$emit('set-licenses', vm.licenses)
       },
       resetLicenses () {
-        this.licenses.splice(0, this.licenses.length)
-        this.$forceUpdate()
-        this.pointLimit = false
-      },
-      initialize () {
-        this.licenses = licenseSort(JSON.parse(JSON.stringify(this.pilotLicenses)))
+        var vm = this as any
+        vm.licenses.splice(0, vm.licenses.length)
+        vm.$forceUpdate()
       }
     },
-    created: function () {
-      this.pLevel = this.pilotLevel
-      this.licenseData = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
-      this.pointLimit = this.pilotLicenses.reduce((a, b) => +a + +b.level, 0) >= this.points.pointsMax
-      this.initialize()
+    created () {
+      var vm = this as any
+      vm.pLevel = vm.pilotLevel
+      vm.licenseData = _.groupBy(vm.$store.getters.getItemCollection('Licenses'), 'source')
+      vm.licenses = licenseSort(JSON.parse(JSON.stringify(vm.pilotLicenses)))
     }
-  }
+  })
 </script>
-
-<style scoped>
-  .scroll-fix{
-    margin: -25vh 0px;
-    position: fixed;
-    width: 20vw;
-  }
-
-  #list-area {
-    width: 80vw!important;
-    overflow-y: scroll;
-  }
-</style>
-
-

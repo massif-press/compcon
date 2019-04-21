@@ -1,13 +1,6 @@
 <template>
   <div>
     <v-container fluid>
-    <!-- Pilot header -->
-      <!-- <v-layout>
-        <v-flex xs1 class="pt-0"><hr/></v-flex>
-        <v-flex shrink class="pt-0 mt-0"><span class="pilot-header">&emsp;PILOT&emsp;</span></v-flex>
-        <v-flex class="pt-0"><hr/></v-flex>
-      </v-layout> -->
-
     <!-- callsign/name/level block -->
       <v-layout fill-height justify-space-between align-end>
         <v-flex shrink>
@@ -229,52 +222,46 @@
           </v-flex>
         </v-layout>
       </div>
-
-      <!-- <v-layout class="pt-2">
-        <v-flex class="pt-0"><hr/></v-flex>
-        <v-flex shrink><span class="pilot-header">&emsp;PILOT&emsp;</span></v-flex>
-        <v-flex xs1 class="pt-0"><hr/></v-flex>
-      </v-layout> -->
-
     </v-container>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import Stats from '@/logic/stats'
-  import { RangeElement, DamageElement } from '@/components/Roster/UI'
+  import {RangeElement, DamageElement} from '@/components/UI'
 
-  export default {
+export default Vue.extend({
     name: 'pilot-print-view',
     components: { RangeElement, DamageElement },
     data: () => ({
-      pilot: {},
+      pilot: {} as Pilot,
       loadout: {},
       stats: {},
-      printOptions: {}
+      printOptions: {} as PrintOptions
     }),
     methods: {
-      item: function (type, id, field) {
+      item (type: string, id: string, field: string) {
         var i = this.$store.getters.getItemById(type, id)
         return i.err ? '// MISSING DATA //' : i[field]
       },
-      gear: function (id) {
+      gear (id: string) {
         return this.$store.getters.getItemById('PilotGear', id)
       }
     },
-    created: function () {
+    created () {
       this.pilot = this.$store.getters.getPilot
-      this.printOptions = this.$store.getters.getPrintOptions
+      this.printOptions = this.$store.getters.getPrintOptions as PrintOptions
       this.loadout = this.pilot.loadouts[this.printOptions.loadout_index] || null
       this.stats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
     },
-    mounted: function () {
+    mounted () {
       window.print()
       setTimeout(() => {
-        this.$router.push('/roster')
+        this.$router.push('/pilot')
       }, 10)
     }
-  }
+  })
 </script>
 
 <style scoped>
