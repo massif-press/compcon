@@ -22,7 +22,13 @@
             <v-divider class="ma-2"/>
             <!-- Pilot Statblock -->
             <v-layout>
-              <pip-bar small :model="stats.hp" :items="[stats.hp, stats.armor]" :caption="`HP ${stats.hp} // ARMOR ${stats.armor}`" />
+              <v-flex>
+                <span class="caption" v-html="`HP ${pilot.current_hp}/${stats.hp}`" />
+                <tick-bar 
+                  :current="pilot.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" small no-clear
+                  color="primary" bg-color="blue lighten-3" empty-icon="radio_button_unchecked" full-icon="brightness_1" pilot />
+              </v-flex>
+              <pip-bar small :model="stats.armor" :items="[stats.armor]" :caption="`ARMOR ${stats.armor}`" />
               <pip-bar small :model="stats.edef" :items="[stats.edef]" :caption="`E-DEFENSE ${stats.edef}`" />
               <pip-bar small :model="stats.evasion" :items="[stats.evasion]" :caption="`EVASION ${stats.evasion}`" />
               <pip-bar small :model="stats.speed" :items="[stats.speed]" :caption="`SPEED ${stats.speed}`" />
@@ -303,7 +309,7 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
-  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView } from '@/components/UI'
+  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
@@ -314,7 +320,7 @@
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, 
     PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, 
     TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig, 
-    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView
+    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView, TickBar
     },
     data: () => ({
       callsignDialog: false,

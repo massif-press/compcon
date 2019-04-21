@@ -109,16 +109,23 @@
                   <v-layout>
                     <v-flex shrink>
                       <span class="grey--text">STRUCTURE 
-                        <b :style="`color: ${color.structure.dark}`">{{stats.structure}}</b>
+                        <b :style="`color: ${color.structure.dark}`">{{config.current_structure || 0}}/{{stats.structure}}</b>
                       </span>
-                      <v-rating v-model="stats.structure" :length="stats.structure" readonly large dense full-icon="blur_circular" color="pink accent-3"/>
+                      <tick-bar :config_id="config.id" :current="config.current_structure || stats.structure" :max="stats.structure" :attr="`current_structure`" large
+                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6" config />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text"> 
-                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{stats.hp}}</b> 
+                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{config.current_hp || 0}}/{{stats.hp}}</b> 
                         &emsp; ARMOR <b :style="`color: ${color.armor.dark}`">{{stats.armor}}</b>
                       </span>
-                      <v-rating v-model="stats.hp" :length="stats.hp + stats.armor" readonly large dense empty-icon="brightness_7" full-icon="brightness_1" color="white"/>
+                      <v-layout>
+                        <tick-bar :config_id="config.id" :current="config.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" large
+                          :color="color.hp.dark" bg-color="grey darken-1" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon" config />
+                        <v-flex shrink>
+                          <v-rating class="d-inline-flex" v-model="stats.armor" :length="stats.armor" readonly large dense full-icon="mdi-shield" :color="color.armor.dark"/>
+                        </v-flex>
+                      </v-layout>
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -128,17 +135,22 @@
                 <v-flex>
                   <v-layout>
                     <v-flex shrink>
-                      <span class="grey--text">REACTOR STRESS <b :style="`color: ${color.stress.dark}`">{{stats.heatstress}}</b></span>
-                      <v-rating v-model="stats.heatstress" :length="stats.heatstress" readonly large dense full-icon="blur_circular" color="deep-orange accent-3"/>
+                      <span class="grey--text">REACTOR STRESS 
+                        <b :style="`color: ${color.stress.dark}`">{{config.current_stress || 0}}/{{stats.heatstress}}</b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_stress || stats.heatstress" :max="stats.heatstress" :attr="`current_stress`" large
+                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle-slice-8" config />
                     </v-flex>
                     <v-flex>
-                      <span class="grey--text"> &nbsp;HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
-                      <v-rating v-model="stats.heatcap" :length="stats.heatcap" readonly large dense full-icon="brightness_1" color="orange lighten-3"/>
+                      <span class="grey--text">&nbsp;HEAT: <b :style="`color: ${color.heatcap.dark}`">{{config.current_heat || 0}}</b> &emsp; &nbsp;HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_heat || 0" :max="stats.heatcap" :attr="`current_heat`" large
+                        :color="color.heatcap.dark" bg-color="red darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle" config />
                     </v-flex>
                     <v-spacer />
                       <v-flex>
-                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{stats.repcap}}</b></span>
-                      <v-rating v-model="stats.repcap" :length="stats.repcap" readonly large dense full-icon="control_point" color="grey lighten-2"/>
+                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{config.current_repairs}}/{{stats.repcap}}</b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_repairs || stats.repcap" :max="stats.repcap" :attr="`current_repairs`" large
+                        :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config />
+                      <!-- <v-rating v-model="stats.repcap" :length="stats.repcap" readonly large dense full-icon="control_point" color="grey lighten-2"/> -->
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -245,14 +257,14 @@
   import Stats from '@/logic/stats'
   import io from '@/store/data_io'
 
-  import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar} from '@/components/UI'
+  import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
   import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
   import { Config } from 'electron';
 
   export default Vue.extend({
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar },
+    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar, TickBar },
     data: () => ({
       activeLoadoutIdx: 0,
       frameInfoModal: false,
