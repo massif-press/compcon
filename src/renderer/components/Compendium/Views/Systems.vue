@@ -14,17 +14,18 @@
           </template>
           <template slot="expand" slot-scope="props">
             <v-card flat>
-              <v-card-text><system-card :itemData="props.item" /></v-card-text>
+              <v-card-text><system-card :itemData="props.item" table-item /></v-card-text>
             </v-card>          
           </template>
         </v-data-table>
   </v-container>
 </template>
 
-<script>
-  import SystemCard from '../../Roster/UI/SystemCard'
+<script lang="ts">
+import Vue from 'vue'
+import {SystemCard} from '@/components/UI'
 
-  export default {
+export default Vue.extend({
     name: 'systems',
     components: { SystemCard },
     data: () => ({
@@ -34,18 +35,18 @@
         {text: 'Source', align: 'left', value: 'source'},
         {text: 'System', align: 'left', value: 'name'},
         {text: 'License', align: 'left', value: 'license'},
-        {text: 'SP Cost', align: 'left', value: 'sp'}
-      ]
+        {text: 'SP Cost', align: 'left', value: 'sp'},
+      ],
     }),
-    created: function () {
+    created() {
       this.systems = this.$store.getters.getItemCollection('MechSystems')
         .concat(this.$store.getters.getItemCollection('WeaponMods'))
-        .filter(x => x.source)
-      var ps = this.$store.getters.getPresearch
+        .filter((x: WeaponMod) => x.source)
+      const ps = this.$store.getters.getPresearch
       if (ps) {
         this.search = ps
         this.$store.dispatch('clearPresearch')
       }
-    }
-  }
+    },
+  })
 </script>

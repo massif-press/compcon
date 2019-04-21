@@ -2,8 +2,8 @@
     <v-layout fill-height>
       <v-flex xs2>
         <v-tooltip top>
-          <v-btn slot="activator" color="blue-grey darken-1" v-if="!item || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
-          <v-btn slot="activator" color="blue-grey darken-1" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-if="!item || itemData.err" block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }} Weapon</v-btn>
+          <v-btn slot="activator" color="blue-grey darken-2" v-else block @click="clicked" class="ma-0 pa-0" style="height:100%">{{ fittingType }}</v-btn>
           <span v-if="!item">Equip {{fittingType}} Mech Weapon</span>
           <span v-else>Change Equipped {{fittingType}} Mech Weapon</span>
         </v-tooltip>
@@ -61,13 +61,11 @@
     </v-layout>
 </template>
 
-<script>
-import WeaponCard from '../../UI/WeaponCard'
-import ModCard from '../../UI/ModCard'
-import RangeElement from '../../UI/RangeElement'
-import DamageElement from '../../UI/DamageElement'
+<script lang="ts">
+import Vue from 'vue'
+import {RangeElement, DamageElement, WeaponCard, ModCard} from '@/components/UI'
 
-export default {
+export default Vue.extend({
   name: 'mech-weapon-item',
   components: { WeaponCard, ModCard, RangeElement, DamageElement },
   props: {
@@ -76,18 +74,24 @@ export default {
     index: Number
   },
   computed: {
-    itemData () {
-      if (!this.item) return {}
+    itemData (): Weapon {
+      if (!this.item) return {} as Weapon
       return this.$store.getters.getItemById('MechWeapons', this.item.id)
     },
-    modData () {
-      if (!this.item.mod) return {}
+    modData (): WeaponMod {
+      if (!this.item.mod) return {} as WeaponMod
       return this.$store.getters.getItemById('WeaponMods', this.item.mod)
     },
-    rangeBonuses: function () {
+    rangeBonuses (): {neurolinked: boolean, gyges: boolean} {
       return {
-        neurolinked: (this.$store.getters.getPilot.core_bonuses.includes('neurolinked') && this.itemData.type !== 'Melee'),
-        gyges: (this.$store.getters.getPilot.core_bonuses.includes('gyges') && this.itemData.type === 'Melee')
+        neurolinked: (
+          this.$store.getters.getPilot.core_bonuses.includes('neurolinked') && 
+          this.itemData.type !== 'Melee'
+        ),
+        gyges: (
+          this.$store.getters.getPilot.core_bonuses.includes('gyges') && 
+          this.itemData.type === 'Melee'
+        )
       }
     }
   },
@@ -99,5 +103,5 @@ export default {
       this.$emit('open-mod')
     }
   }
-}
+})
 </script>

@@ -1,0 +1,36 @@
+.callsign-text {
+  font-weight: 300;
+  font-size: 3.5em;
+  letter-spacing: 2px;
+  line-height: 0;
+  text-transform: uppercase;
+}
+
+.fluff-text {
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.15em;
+}
+
+.effect-text {
+  font-weight: 400;
+  font-size: 1.15em;
+}
+
+.xl-text {
+  font-size: 120px; 
+  line-height: 90px; 
+  float:right; 
+  font-weight:100;
+}
+
+.minor-title {
+  font-weight: 500;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+  text-transform: uppercase;  
+}
+
+ code {
+   padding: 4px 12px 4px 12px;
+ }

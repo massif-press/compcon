@@ -4,17 +4,17 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from "vue"
 
-export default {
-  name: 'compcon',
-  components: { }
-}
-</script>
+  export default Vue.extend({
+    name: "compcon"
+  })
+  </script>
 
 <style>
- html {
-   scroll-behavior: smooth;
- }
+  html {
+    scroll-behavior: smooth;
+  }
 </style>
 
