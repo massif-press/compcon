@@ -55,7 +55,7 @@ const colors = {
   },
   heatcap: {
     light: '#A38D6D',
-    dark: '#FFCC80',
+    dark: '#EF5350',
   },
   repcap: {
     light: '#8E8E8E',
