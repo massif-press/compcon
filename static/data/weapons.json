@@ -468,10 +468,7 @@
         "val": 3
       }
     ],
-    "tags": [{
-      "id": "reliable",
-      "val": 1
-    }],
+    "tags": [],
     "source": "GMS",
     "license": "",
     "license_level": "",
