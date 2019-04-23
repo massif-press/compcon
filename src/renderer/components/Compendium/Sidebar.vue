@@ -101,8 +101,13 @@ export default Vue.extend({
         mini: true
     }),
     methods: {
-        to: function(loc: string) {
-            this.$router.push(loc)
+        to (loc: string) {
+            if (this.mini) {
+                this.mini = false
+            } else {
+                this.$router.push(loc)
+                this.minimize()
+            }
         },
         minimize() {
             setTimeout(() => {

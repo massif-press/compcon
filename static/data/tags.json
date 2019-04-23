@@ -16,7 +16,7 @@
   {
     "id": "line",
     "name": "Line ({VAL})",
-    "description": "This weapon or system affects a straight line {VAL} squares long. Attacks all targets in the area, and ignores cover. Make separate attack rolls for each target caught in the area."
+    "description": "This weapon or system affects a straight line {VAL} squares long. Attacks all targets in the area. Make separate attacks for each target caught in the area, but one damage roll."
   },
   {
     "id": "ap",

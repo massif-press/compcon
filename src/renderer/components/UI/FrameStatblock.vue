@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="!hideStatblock">
-      <v-card color="grey lighten-3 mt-1 pt-1 pb-1 mb-3">
-        <v-layout class="font-weight-bold text-xs-center">
+      <v-card color="grey lighten-3 mt-1 pt-1" flat>
+        <v-layout class="font-weight-bold text-xs-center effect-text">
           <v-flex xs2>Size</v-flex>
           <v-flex xs2>Armor</v-flex>
           <v-flex xs2>HP</v-flex>
@@ -15,7 +15,7 @@
           <v-flex xs2>Speed</v-flex>
         </v-layout>
       </v-card>
-      <v-layout class="text-xs-center mt-1">
+      <v-layout class="text-xs-center effect-text">
         <v-flex xs2>{{frame.stats.size}}</v-flex>
         <v-flex xs2>{{frame.stats.armor}}</v-flex>
         <v-flex xs2>{{frame.stats.hp}}</v-flex>
@@ -29,59 +29,67 @@
       </v-layout>
     </div>
     <v-card color="grey lighten-4"> 
-      <v-card-text>
-        <v-card>
-          <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Mounts</v-card-title>
-          <v-card-text class="text-xs-center">
-            <v-container>
-              <v-layout>
-                <v-flex v-for="(t, i) in frame.mounts" :key="t + i">
-                  <b class="pt-2 pb-2 pl-5 pr-5 subheading font-weight-black elevation-5">&emsp;{{t}}&emsp;</b>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
+      <v-layout>
+        <v-flex xs8>
+          <v-card-text>
 
-          <v-card v-if="frame.core_system.integrated">
-            <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Integrated Mount</v-card-title>
-            <v-card-text class="ml-4">
-              <span class="subheading">
-                <b>{{frame.core_system.integrated.name}} ({{frame.core_system.integrated.mount}} {{frame.core_system.integrated.type}}):</b>
-              </span> 
-              <range-element v-if="frame.core_system.integrated.range" small :range="frame.core_system.integrated.range" />
-              <damage-element v-if="frame.core_system.integrated.damage" small size="16" :dmg="frame.core_system.integrated.damage" />
-              <br>
-              <span v-html="frame.core_system.integrated.effect" />
-              <br>
-              <item-tag v-for="tag in frame.core_system.tags" :key="tag.id" :tag-obj="tag" />
-            </v-card-text>
-          </v-card>
-        </v-card>
-        <v-card class="m-1">
-          <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Traits</v-card-title>
-          <v-card-text class="ml-4">
-            <span v-for="t in frame.traits" :key="t.name">
-              <b class="subheading font-weight-bold">{{t.name}}:</b> {{t.description}}
-              <br>
-            </span>
-          </v-card-text>
-        </v-card>
-        <v-card class="m-1">
-          <v-card-title class="title mt-0 pt-2 mb-0 pb-0">CORE System</v-card-title>
-          <v-card-text class="ml-4">
-            <span>
-              <b class="subheading font-weight-bold">{{frame.core_system.name}}:</b> 
-              <span v-html="frame.core_system.effect" />
-            </span>
-            <span v-if="frame.core_system.passive">
-              <br>
-              <span v-html="frame.core_system.passive" />
-            </span>
-            <br>
-            <item-tag v-for="tag in frame.core_system.tags" :key="tag.id" :tag-obj="tag" />
-          </v-card-text>
-        </v-card>
-    </v-card-text>
+            <v-card flat color="transparent">
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Mounts</v-card-title>
+              <v-card-text>
+                <b v-for="(t, i) in frame.mounts" :key="t + i" class="title font-weight-black ">
+                  &emsp;{{t}}&emsp;
+                  <span v-if="i < frame.mounts.length - 1" class="fluff-text grey--text">//</span>
+                </b>
+              </v-card-text>
+            </v-card>
+
+            <v-card v-if="frame.core_system.integrated" flat color="transparent">
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Integrated Mount</v-card-title>
+              <v-card-text class="ml-4">
+                <span class="subheading">
+                  <b>{{frame.core_system.integrated.name}} ({{frame.core_system.integrated.mount}} {{frame.core_system.integrated.type}}):</b>
+                </span> 
+                <range-element v-if="frame.core_system.integrated.range" :range="frame.core_system.integrated.range" />
+                <damage-element v-if="frame.core_system.integrated.damage" size="16" :dmg="frame.core_system.integrated.damage" />
+                <br>
+                <span v-html="frame.core_system.integrated.effect" class="effect-text" />
+                <br>
+                <item-tag v-for="tag in frame.core_system.tags" :key="tag.id" :tag-obj="tag" />
+              </v-card-text>
+            </v-card>
+
+            <v-card class="m-1" flat color="transparent">
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Traits</v-card-title>
+              <v-card-text class="ml-4">
+                <span v-for="t in frame.traits" :key="t.name">
+                  <b class="subheading font-weight-bold">{{t.name}}:</b>&nbsp;<span class="effect-text">{{t.description}}</span>
+                  <br>
+                </span>
+              </v-card-text>
+            </v-card>
+
+            <v-card class="m-1" flat color="transparent">
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">CORE System</v-card-title>
+              <v-card-text class="ml-4">
+                <span>
+                  <b class="subheading font-weight-bold">{{frame.core_system.name}}:</b> 
+                  <span v-html="frame.core_system.effect" class="effect-text"/>
+                </span>
+                <span v-if="frame.core_system.passive">
+                  <br>
+                  <span v-html="frame.core_system.passive" class="effect-text"/>
+                </span>
+                <br>
+                <item-tag v-for="tag in frame.core_system.tags" :key="tag.id" :tag-obj="tag" />
+              </v-card-text>
+            </v-card>
+        </v-card-text>
+        </v-flex>
+        <v-flex>
+           <v-img :src="getStaticPath(`img/frames/${frame.id}.png`)" class="ma-2" contain/>
+        </v-flex>
+      </v-layout>
+
     </v-card>
   </div>
 </template>
@@ -97,6 +105,11 @@
       frame: Object,
       hideStatblock: Boolean
     },
-    components: { ItemTag, DamageElement, RangeElement }
+    components: { ItemTag, DamageElement, RangeElement },
+    methods: {
+      getStaticPath (path: string) {
+        return `static/${path}`
+      },
+    }
   })
 </script>

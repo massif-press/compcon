@@ -462,7 +462,7 @@
   {
     "id": "aceso",
     "name": "Aceso Stabilizer",
-    "type": "Drone",
+    "type": "System",
     "sp": 3,
     "tags": [{
         "id": "unique"
