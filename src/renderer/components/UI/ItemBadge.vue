@@ -15,12 +15,16 @@
       </v-tooltip>
     </div>
     <v-dialog lazy v-model="model" :width="item.data_type === 'frame' ? '95vw' : '50vw'">
-      <v-toolbar dense :color="itemColor(item.data_type)" dark>
-        <v-toolbar-title class="title">{{item.name}}
+      <v-toolbar :color="itemColor(item.data_type)" dark>
+        <v-toolbar-title>{{item.name}}
           <span class="caption">({{ item.source }}<span v-if="item.data_type !== 'frame'"> {{item.license}} {{item.license_level}}</span>)</span>
         </v-toolbar-title>
       </v-toolbar>
-      <item-card :itemData="item" popup />
+      <v-card>
+        <v-card-text>
+          <item-card :itemData="item" popup />
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </div>
 </template>
