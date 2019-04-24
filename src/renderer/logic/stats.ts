@@ -5,9 +5,9 @@ const rules: any = io.loadData('rules')
 
 interface AppState {
   UserDataPath: '',
-  Backgrounds: object[],
+  Backgrounds: Background[],
   Talents: Talent[],
-  Skills: PilotSkill[],
+  Skills: any[],
   CoreBonuses: CoreBonus[],
   Frames: Frame[],
   Manufacturers: object[],
@@ -225,4 +225,40 @@ export default {
     bonus += Math.floor(pilot.mechSkills.eng / 2)
     return bonus
   },
+  pilotStatblock(pilot: Pilot, loadout: PilotLoadout, state: AppState): string {
+    var pStats = this.pilotStats(pilot, loadout, state)
+    let pOutput = `${pilot.name} // "${pilot.callsign}"\n`
+    pOutput += `${state.Backgrounds.find((x: Background) => x.id === pilot.background)!.name}, LL${pilot.level}\n`
+    pOutput += `GRIT: ${pStats.grit} // H:${pStats.mech.hull} A:${pStats.mech.agi} S:${pStats.mech.sys} E:${pStats.mech.eng}\n`
+    pOutput += `[ SKILL TRIGGERS ]:\n  `
+    for (var i = 0; i < pilot.skills.length; i++) {
+      var s = state.Skills.find((x: any) => x.id === pilot.skills[i].id)
+      if (s) pOutput += `${s.trigger} (+${pilot.skills[i].bonus})`
+      if (i + 1 < pilot.skills.length) pOutput += " | "
+      else pOutput += "\n"
+    }
+    pOutput += `[ TALENTS ]:\n  `
+    for (var i = 0; i < pilot.talents.length; i++) {
+      var t = state.Talents.find((x: any) => x.id === pilot.talents[i].id)
+      if (t) pOutput += `${t.name} ${pilot.talents[i].rank}`
+      if (i + 1 < pilot.talents.length) pOutput += " | "
+      else pOutput += "\n"
+    }    
+    if (pilot.licenses.length) pOutput += `[ LICENSES ]:\n  `
+    for (var i = 0; i < pilot.licenses.length; i++) {
+      var l = pilot.licenses[i]
+      pOutput += `${l.source} ${l.name} ${l.level}`
+      if (i + 1 < pilot.licenses.length) pOutput += " | "
+      else pOutput += "\n"
+    }
+    if (pilot.core_bonuses.length) pOutput += `[ CORE BONUSES ]:\n  `
+    for (var i = 0; i < pilot.core_bonuses.length; i++) {
+      var cb = state.CoreBonuses.find((x: any) => x.id === pilot.core_bonuses[i])
+      if (cb) pOutput += `${cb.name}`
+      if (i + 1 < pilot.core_bonuses.length) pOutput += " | "
+      else pOutput += "\n"
+    }
+    if (loadout) pOutput += `[ GEAR ]:\n  `
+    return pOutput
+  }
 }
