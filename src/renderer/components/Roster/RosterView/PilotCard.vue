@@ -23,8 +23,8 @@
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
-                  <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
-                  <span>Activate Pilot<br>(feature in development)</span>
+                  <v-btn slot="activator" icon class="ma-0" @click="activateDialog = true"><v-icon>mdi-power</v-icon></v-btn>
+                  <span>Activate Pilot</span>
                 </v-tooltip>
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true"><v-icon>mdi-export-variant</v-icon></v-btn>
@@ -46,6 +46,18 @@
           <span v-html="notification" />
           <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
         </v-snackbar>
+
+        <lazy-dialog :model="activateDialog" :title="`Activate ${pilot.callsign}`" acceptString="Activate"
+          acceptColor="success" @accept="activatePilot" @cancel="activateDialog = false">
+          <template v-slot:modal-content>
+            <v-card-text class="text-xs-center">
+              <span>This will enable Active Mode for {{pilot.callsign}}. While in Active Mode, stat tracking is enabled, but 
+              pilot attributes cannot be freely edited or reallocated, except on level up.</span>
+              <v-divider />
+              
+            </v-card-text>
+          </template>
+        </lazy-dialog>
 
         <lazy-dialog :model="deleteDialog" title="Delete Pilot" acceptString="Delete"
           acceptColor="warning" @accept="deletePilot" @cancel="deleteDialog = false">
@@ -95,6 +107,7 @@
   },
   data: () => ({
     overlayOpacity: 0.55,
+    activateDialog: false,
     deleteDialog: false,
     printDialog: false,
     exportDialog: false,
