@@ -58,9 +58,7 @@
           <template v-slot:modal-content>
             <v-card-text class="text-xs-center">
             <v-btn large flat color="primary" @click="exportPilot">Save to File</v-btn><br>
-            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn><br>
-            </v-btn>
-            
+            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn><br>           
             </v-card-text>
           </template>
         </lazy-dialog>
