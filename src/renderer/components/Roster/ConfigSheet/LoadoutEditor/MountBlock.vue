@@ -57,11 +57,11 @@
           <mech-weapon-item :key="'int0_' + weaponReload" :item="mount.weapons[intweaponLength] || null" 
           fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
         </div>
-          <v-card v-for="m in mountBonuses" :key="`mb_${m}`" color="grey darken-1" class="ma-2">
-          <v-card-text class="text-xs-center">
-            <b>{{getCoreBonus( m).name}}</b><br>
-            <i class="caption">{{getCoreBonus( m).mounted_effect}}</i>
-          </v-card-text>
+          <v-card v-for="(m, mbIdx) in mountBonuses()" :key="`mb_${m}_${mbIdx}`" color="grey darken-1" class="ma-2">
+            <v-card-text class="text-xs-center">
+              <b>{{getCoreBonus(m).name}}</b><br>
+              <i class="caption">{{getCoreBonus(m).mounted_effect}}</i>
+            </v-card-text>
         </v-card>
       </v-card-text>
     </v-card>
@@ -166,9 +166,6 @@
       var appliedBonuses = _.flatten(vm.loadout.mounts.map((x: MechMount) => x.bonuses))
       return vm.allMountBonuses.length - appliedBonuses.length
     },
-    mountBonuses (): string[] {
-      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
-    },
     intweaponLength (): number {
       return this.mount.mount_type.includes('/') ? 2 : 1
     }
@@ -179,6 +176,9 @@
       this.$forceUpdate()
       this.$parent.$forceUpdate()
       this.$emit('refresh')
+    },
+    mountBonuses (): string[] {
+      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
     },
     openModSelector (index: number) {
       (this as any).current_equip_mod = null
