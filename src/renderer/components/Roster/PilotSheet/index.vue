@@ -288,6 +288,14 @@
       <v-layout class="ma-5">
         <v-flex>
           <v-btn color="primary" large outline block @click="openPrintOptions"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+          <v-btn color="primary" small flat block @click="copyPilotStatblock()">copy pilot statblock &nbsp;
+            <v-tooltip top>
+              <v-icon slot="activator" small color="grey">help</v-icon>
+              <span>
+                This produces a small raw text overview of the current Pilot and copies it to the clipboard.
+              </span>
+            </v-tooltip>
+          </v-btn>
         </v-flex>
       </v-layout>
 
@@ -309,6 +317,7 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
+  import {clipboard} from 'electron'
   import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
@@ -441,6 +450,11 @@
       openPrintOptions: function () {
         this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
         this.$router.push('/print-pilot')
+      },
+      copyPilotStatblock () {
+        console.log(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        this.notify('Pilot Statblock Copied to Clipboard')
       }
     },
     computed: {
