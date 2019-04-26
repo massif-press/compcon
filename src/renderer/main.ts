@@ -16,6 +16,8 @@ import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
 import ClickOutside from './directives/click-outside'
 
+import * as items from './mixins/data'
+
 const windowAny: any = window
 
 if (process.env.NODE_ENV !== 'development') {
@@ -30,6 +32,13 @@ Vue.use(VueMousetrap)
 
 Vue.directive('click-outside', ClickOutside)
 
+const mixins = items as any
+for (const m in mixins) {
+  if (mixins.hasOwnProperty(m)) {
+    Vue.mixin(mixins[m])
+  }
+}
+
 /* eslint-disable no-new */
 new Vue({
   components: { App },
@@ -39,6 +48,6 @@ new Vue({
 }).$mount('#app')
 
 Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
-Vue.prototype.version = '1.2.4'
+Vue.prototype.version = '1.2.6'
 
 router.replace('/roster')

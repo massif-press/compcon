@@ -40,29 +40,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .mount-title {
-    position: relative;
-    top: 13px;
-    left: 30px;
-    background-color: #616161;
-    font-size: 16px;
-    letter-spacing: 3px;
-    padding: 0;
-  }
-
-  .bottom-title {
-    position: absolute;
-    bottom: 12px;
-    right: 45px;
-    background-color: #616161;
-    font-size: 16px;
-    letter-spacing: 3px;
-    padding: 0;
-  }
-
-  .bordered {
-    border: solid 2px #424242; 
-  }
-</style>

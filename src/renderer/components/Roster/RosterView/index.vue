@@ -25,8 +25,8 @@
     </v-container>
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2" fill-height>
-        <v-flex v-for="(p, i) in pilots" :key="p.id" :card-height="cardHeight" class="mb-4" xs3>
-          <pilot-card :pilot="p" :p-idx="i"/>
+        <v-flex v-for="(p, i) in pilots" :key="p.id" class="mb-4" xs3>
+          <pilot-card :pilot="p" :p-idx="i" :card-height="cardHeight"/>
         </v-flex>
         <v-flex xs3>
           <add-pilot-card :card-height="cardHeight" />
@@ -41,12 +41,7 @@
   import _ from 'lodash'
   import PilotCard from './PilotCard.vue'
   import AddPilotCard from './AddPilotCard.vue'
-  
-  declare interface Sort {
-    name: string,
-    field: string
-  }
-  
+
   export default Vue.extend({
     name: 'roster-view',
     components: { PilotCard, AddPilotCard },
@@ -58,7 +53,7 @@
         { name: 'Background', field: 'background' },
         { name: 'License Level', field: 'level' }
       ],
-      currentSort: { name: 'Created', field: '' } as Sort,
+      currentSort: { name: 'Created', field: '' },
       ascending: false,
       cardHeight: 300
     }),
@@ -68,7 +63,7 @@
         if (this.currentSort && this.currentSort.field !== '') {
           allPilots = this.currentSort.field === 'level'
             ? _.sortBy(allPilots, this.currentSort.field)
-            : _.sortBy(allPilots, p => p[this.currentSort.field].toLowerCase())
+            : _.sortBy(allPilots, p => p[this.currentSort.field].toUpperCase())
         }
         if (!this.ascending) {
           return _.reverse(_.clone(allPilots))
@@ -77,7 +72,7 @@
       }
     },
     methods: {
-      sortBy (sort: Sort, isAscending: boolean) {
+      sortBy (sort: {name: string, field: string}, isAscending: boolean) {
         this.currentSort = sort
         this.ascending = isAscending
       }

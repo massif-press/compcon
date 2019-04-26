@@ -1,2 +1,2 @@
-declare module 'vuex-electron';
-declare module 'modules';
+declare module 'vuex-electron'
+declare module 'modules'
