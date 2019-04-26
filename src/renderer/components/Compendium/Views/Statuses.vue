@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">STATUSES</span>
     <v-layout v-for="s in statuses" :key="s.name">
       <v-flex class="text-xs-center pa-3">

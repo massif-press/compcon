@@ -103,7 +103,7 @@
     name: 'frame-statblock',
     props: {
       frame: Object,
-      hideStatblock: Boolean
+      hideStatblock: Boolean,
     },
     components: { ItemTag, DamageElement, RangeElement },
     methods: {
