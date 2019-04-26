@@ -1,7 +1,0 @@
-{
-  "eslint.enable": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.provideLintTask": true,
-  "editor.minimap.renderCharacters": false,
-  "tslint.configFile": "tsconfig.json"
-}
