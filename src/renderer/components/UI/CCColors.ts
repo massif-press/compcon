@@ -6,12 +6,16 @@ const colors = {
     dark: '#7E57C2',
   },
   weapon: {
-    light: '#0D47A1',
-    dark: '#1E88E5',
+    light: '#C2185B',
+    dark: '#D81B60',
   },
   system: {
     light: '#009688',
     dark: '#4DB6AC',
+  },
+  mod: {
+    light: '#00ACC1',
+    dark: '#00BCD4',
   },
   kinetic: {
     light: '#757575',
