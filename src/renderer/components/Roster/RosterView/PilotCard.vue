@@ -13,7 +13,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-card :color="`rgba(0, 0, 0, ${overlayOpacity})`" dark flat>
+          <v-card :color="panelColor(pilot.active)" dark flat>
             <v-layout>
               <v-flex xs9 class="ma-2">
                 <span class="title">{{pilot.callsign}}</span>
@@ -23,8 +23,13 @@
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
-                  <v-btn slot="activator" icon class="ma-0" @click="activateDialog = true"><v-icon>mdi-power</v-icon></v-btn>
-                  <span>Activate Pilot</span>
+                  <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
+                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey lighten-1'">mdi-power</v-icon>
+                  </v-btn>
+                  <div class="text-xs-center">
+                    <span><b :class="activeColorClass(pilot.active)"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
+                      <br><i>Click to {{pilot.active ? 'deactivate' : 'activate'}} Pilot</i></span>
+                  </div>
                 </v-tooltip>
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true"><v-icon>mdi-export-variant</v-icon></v-btn>
@@ -46,18 +51,6 @@
           <span v-html="notification" />
           <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
         </v-snackbar>
-
-        <lazy-dialog :model="activateDialog" :title="`Activate ${pilot.callsign}`" acceptString="Activate"
-          acceptColor="success" @accept="activatePilot" @cancel="activateDialog = false">
-          <template v-slot:modal-content>
-            <v-card-text class="text-xs-center">
-              <span>This will enable Active Mode for {{pilot.callsign}}. While in Active Mode, stat tracking is enabled, but 
-              pilot attributes cannot be freely edited or reallocated, except on level up.</span>
-              <v-divider />
-              
-            </v-card-text>
-          </template>
-        </lazy-dialog>
 
         <lazy-dialog :model="deleteDialog" title="Delete Pilot" acceptString="Delete"
           acceptColor="warning" @accept="deletePilot" @cancel="deleteDialog = false">
@@ -123,20 +116,29 @@
       this.notification = alert
       this.snackbar = true
     },
+    activeColorClass (isActive: boolean): string {
+      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    },
+    panelColor (isActive: boolean): string {
+      return isActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
+    },
     background () {
       if (this.pilot.custom_background) return this.pilot.custom_background
       else return this.$store.getters.getItemById('Backgrounds', this.pilot.background).name
     },
-    toggleActive () {
+    toPilotSheet () {
+      this.$store.dispatch('loadPilot', this.pilot.id)
+      this.$router.push('./pilot')
+    },
+    activatePilot () {
       this.$store.dispatch('loadPilot', this.pilot.id)
       this.$store.dispatch('editPilot', {
         attr: `active`,
         val: !this.pilot.active
-      })
-    },
-    toPilotSheet () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
-      this.$router.push('./pilot')
+      })   
+      this.$forceUpdate() 
+      this.$parent.$forceUpdate() 
+      this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot () {
       this.deleteDialog = false
