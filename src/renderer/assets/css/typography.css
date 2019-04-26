@@ -34,3 +34,43 @@
  code {
    padding: 4px 12px 4px 12px;
  }
+
+ code.horus {
+   background-color: black !important;
+   box-shadow: none;
+   color: white;
+   font-style: normal;
+   border-radius: 0;
+ }
+ code.horus:hover {
+   animation: distort 0.3s infinite;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+ }
+ @keyframes distort {
+   0% {
+       text-shadow: 5px 4px #f44336, -5px -6px #2196f3;
+       transform: translate(-2px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+       cursor: not-allowed;
+  }
+   25% {
+       text-shadow: -5px -6px #f44336, 5px 4px #2196f3;
+       transform: translate(3px, 2px)  translate3D(-30px, 0px, 0) rotate(-0.1deg);
+       cursor: wait;
+   }
+   50% {
+       text-shadow: 5px -4px #f44336, -8px 4px #2196f3;
+       transform: translate(-3px, 2px)  translate3D(-30px, 0px, 0) rotate(-0.1deg);
+       cursor: cell;
+   }
+   75% {
+       text-shadow: -8px -4px #f44336, -5px -4px #2196f3;
+       transform: translate(6px, 2px)  translate3D(-30px, 0px, 0)  rotate(-0.1deg);
+       cursor: move;
+   }
+   100% {
+       text-shadow: -5px 0 #f44336, 5px -4px #2196f3;
+       transform: translate(-3px, 0)  translate3D(-30px, 0px, 0)  rotate(-0.1deg);
+       cursor: zoom-out;
+   }
+ }

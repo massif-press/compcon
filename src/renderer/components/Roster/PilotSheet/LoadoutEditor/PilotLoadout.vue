@@ -180,10 +180,11 @@
       duplicateLoadout (index: number) {
         var vm = this as any
         var newIdx = this.$store.getters.getPilot.loadouts.length
+        var newUid = uid.generate()
         vm.$store.dispatch('editPilot', {
           attr: `loadouts[${newIdx}]`,
           val: {
-            id: uid.generate(),
+            id: newUid,
             name: `${vm.loadouts[index].name} (Copy)`,
             items: vm.loadouts[index].items
           }

@@ -2,7 +2,9 @@
   <div>
     <top-bar />
     <div class="wrapper">
-      <router-view class="pt-5 mt-2"></router-view>
+      <v-fade-transition leave-absolute>
+          <router-view />
+      </v-fade-transition>
     </div>    
   </div>
 </template>
@@ -10,22 +12,21 @@
 <script lang="ts">
   import Vue from 'vue'
   import { TopBar } from '@/components/UI'
+  import { mapGetters } from 'vuex'
 
   export default Vue.extend({
     name: 'roster',
     components: { TopBar },
     computed: {
-      pilots: function () {
-        return this.$store.getters.getAllPilots
-      }
+      ...mapGetters({ pilots: 'getAllPilots' }),
     },
-    created: function () {
+    created() {
       this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
       this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
       this.$store.dispatch('loadBrews')
       this.$store.dispatch('buildLicenses')
-    }
+    },
   })
 </script>
 

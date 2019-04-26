@@ -56,8 +56,10 @@
 
         <lazy-dialog :model="exportDialog" title="Export Pilot" hide-confirm @cancel="exportDialog = false">
           <template v-slot:modal-content>
-            <v-btn large block flat color="primary" @click="exportPilot">Save to File</v-btn><br>
-            <v-btn large block flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn>          
+            <v-card-text class="text-xs-center">
+            <v-btn large flat color="primary" @click="exportPilot">Save to File</v-btn><br>
+            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn><br>           
+            </v-card-text>
           </template>
         </lazy-dialog>
 
@@ -84,6 +86,7 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import {LazyDialog} from '@/components/UI'
+  import {clipboard} from 'electron'
 
   export default Vue.extend({
   name: 'pilot-card',
@@ -150,11 +153,10 @@
         this.notify('Pilot Export Successful')
       },
     copyPilot () {
-      const {clipboard} = require('electron')
       clipboard.writeText(JSON.stringify(this.pilot))
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
-    }
+    },
   }
 })
 </script>

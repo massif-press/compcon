@@ -203,6 +203,14 @@
         <v-layout justify-space-around fill-height class="ma-5">
           <v-flex xs>
             <v-btn large color="warning" outline block dark @click="openPrintOptions(false)"><v-icon>print</v-icon> &nbsp; PRINT</v-btn>
+            <v-btn color="warning" small flat block @click="copyConfigStatblock()">copy config statblock &nbsp;
+              <v-tooltip top>
+                <v-icon slot="activator" small color="grey">help</v-icon>
+                <span>
+                  This produces a small raw text overview of the current Configuration and copies it to the clipboard.
+                </span>
+              </v-tooltip>
+            </v-btn>
           </v-flex>
           <lazy-dialog :model="printWarningDialog" title="// PRINT WARNING //" acceptString="Continue Anyway"
             acceptColor="warning" @accept="openPrintOptions(true)" @cancel="printWarningDialog = false">
@@ -260,7 +268,7 @@
   import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
   import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
-  import { Config } from 'electron';
+  import { clipboard } from 'electron';
 
   export default Vue.extend({
     name: 'config-sheet',
@@ -281,6 +289,10 @@
       fullReload () {
         this.$router.push('/config')
       },
+      notify: function (contents: string) {
+        this.notification = contents
+        this.snackbar = true
+      },      
       hasEmptyMounts (): boolean {
         var empty = false
         if (!this.config.loadouts.length) return true
@@ -324,6 +336,11 @@
         } else {
           this.$router.push('/print-config')
         }
+      },
+      copyConfigStatblock () {
+        console.log(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        clipboard.writeText(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        this.notify('Pilot Statblock Copied to Clipboard')
       }
     },
     computed: {
