@@ -30,7 +30,7 @@
           <template slot="expand" slot-scope="props">
             <v-card flat color="grey lighten-4">
               <v-card-text class="pa-1 pl-3 pr-3">
-                <gear-card :itemData="props.item" />
+                <gear-card :itemData="props.item" table-item/>
               </v-card-text>
             </v-card>
           </template>

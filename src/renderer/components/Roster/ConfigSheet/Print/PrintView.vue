@@ -1,12 +1,6 @@
 <template>
   <div style="line-height: 1.2">
     <v-container fluid>
-    <!-- config header -->
-      <!-- <v-layout>
-        <v-flex xs1 class="pt-0"><hr/></v-flex>
-        <v-flex shrink class="pt-0 mt-0"><span class="pilot-header">&emsp;MECH&emsp;</span></v-flex>
-        <v-flex class="pt-0"><hr/></v-flex>
-      </v-layout> -->
 
     <!-- callsign/name/level block -->
       <v-layout fill-height justify-space-between >
@@ -146,7 +140,7 @@
             <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.effect}}</p>
           </v-flex>
           <v-flex>     
-            <span v-for="t in frame.core_system.tags" :key="t" small class="print-tag">{{tag(t).name}}</span>
+            <span v-for="t in frame.core_system.tags" :key="t.id" small class="print-tag">{{fullTag(tag(t.id).name, t.val)}}</span>
           </v-flex>
         </v-flex>
       </v-layout>
@@ -159,8 +153,8 @@
         <v-layout v-if="frame.core_system.integrated" row>
           <div style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >CORE Integrated Weapon</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >CORE Integrated Weapon</span>
                 <div class="mount-interior">
                   <v-layout>
                     <v-flex shrink class="ml-1"><span class="p-large">{{frame.core_system.integrated.name}}</span></v-flex>
@@ -168,7 +162,7 @@
                     <v-flex v-if="frame.core_system.integrated.damage" shrink class="ml-2"><span><damage-element size="9" :dmg="frame.core_system.integrated.damage" /></span></v-flex>
                   </v-layout>
                   <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.integrated.effect}}</p>
-                  <span v-for="t in frame.core_system.integrated.tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                  <span v-for="t in frame.core_system.integrated.tags" :key="t.id + 'intweapon'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
             </v-flex>
@@ -177,8 +171,8 @@
         <v-layout v-for="(mount, index) in stats.integrated_mounts" :key="'intmount_' + index" row>
           <div v-if="mount" style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >Integrated Weapon</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >Integrated Weapon</span>
                 <div class="mount-interior">
                   <v-layout>
                     <v-flex shrink class="ml-1"><span class="p-large">{{weapon(mount).name}}</span></v-flex>
@@ -186,7 +180,7 @@
                     <v-flex v-if="weapon(mount).damage" shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(mount).damage" /></span></v-flex>
                   </v-layout>
                   <p class="p-reg ml-2 mt-0 mb-0">{{mount.effect}}</p>
-                  <span v-for="t in weapon(mount).tags" :key="t.id + mount" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
+                  <span v-for="t in weapon(mount).tags" :key="t.id + 'intmount'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
             </v-flex>
@@ -195,14 +189,14 @@
         <v-layout v-for="(mount, index) in loadout.mounts" :key="'mount_' + index" row>
           <div v-if="!mount.imparm || (mount.imparm && hasImparm())" style="width: 100%">
             <v-flex>
-              <div class="bordered mt-1 mb-1 pa-0">
-                <span class="mount-title" >{{mount.mount_type}}</span>
+              <div class="p-bordered mt-1 mb-1 pa-0">
+                <span class="p-mount-title" >{{mount.mount_type}}</span>
                 <div class="mount-interior">
                   <div v-if="mount.sh_lock" class="text-xs-center">
                     <i style="letter-spacing: 5px; color: grey;">MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
                   </div>
                   <div v-else-if="!mount.weapons.length">
-                    <i style="letter-spacing: 5px; color: grey;">EMPTY</i>
+                    <i style="letter-spacing: 5px; color: grey;">&emsp;EMPTY</i>
                   </div>
                   <div v-else v-for="w in mount.weapons" :key="w.id">
                     <v-layout>
@@ -246,11 +240,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import Stats from '@/logic/stats'
-import {RangeElement, DamageElement} from '@/components/UI'
+  import {RangeElement, DamageElement} from '@/components/UI'
 
-  export default {
+  export default Vue.extend({
     name: 'mech-print-view',
     components: { RangeElement, DamageElement },
     data: () => ({
@@ -262,53 +257,56 @@ import {RangeElement, DamageElement} from '@/components/UI'
       printOptions: {}
     }),
     methods: {
-      item: function (type, id) {
+      item (type: string, id: string) {
         return this.$store.getters.getItemById(type, id)
       },
-      tag: function (id) {
+      tag (id: string) {
         return this.$store.getters.getItemById('Tags', id)
       },
-      system: function (id) {
+      system (id: string) {
         return this.$store.getters.getItemById('MechSystems', id)
       },
-      weapon: function (id) {
+      weapon (id: string) {
         return this.$store.getters.getItemById('MechWeapons', id)
       },
-      signed: function (val) {
+      signed (val: number) {
         return val > -1 ? `+${val}` : `${val}`
       },
-      calcSize: function (str) {
+      calcSize (str: string) {
         if (str.length < 12) return 30
         else if (str.length < 30) return 25
         else return 20
       },
-      fullTag: function (t, v) {
+      fullTag (t: string, v: string | number) {
+        var vm = this as any
         if (!t) return '// MISSING TAG //'
-        if (typeof v === 'string' && this.stats.limited_bonus > 0) {
-          return t.replace(/{VAL}/g, `${v}+${this.stats.limited_bonus}`)
+        if (typeof v === 'string' && vm.stats.limited_bonus > 0) {
+          return t.replace(/{VAL}/g, `${v}+${vm.stats.limited_bonus}`)
         }
-        return t.replace(/{VAL}/g, v + this.stats.limited_bonus)
+        return t.replace(/{VAL}/g, v + vm.stats.limited_bonus)
       },
-      hasImparm: function () {
-        return this.pilot.core_bonuses.includes('imparm')
+      hasImparm (): boolean {
+        var vm = this as any
+        return vm.pilot.core_bonuses.includes('imparm')
       }
     },
-    created: function () {
-      this.pilot = this.$store.getters.getPilot
-      this.printOptions = this.$store.getters.getPrintOptions
-      this.config = this.pilot.configs.find(x => x.id === this.printOptions.config_id)
-      this.loadout = this.config.loadouts[this.printOptions.loadout_index] || null
-      this.pilotStats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
-      this.stats = this.$store.getters.getMechStats(this.config.id, this.config.loadouts[this.activeLoadoutIdx])
-      this.frame = this.$store.getters.getItemById('Frames', this.config.frame_id)
+    created () {
+      var vm = this as any
+      vm.pilot = vm.$store.getters.getPilot
+      vm.printOptions = vm.$store.getters.getPrintOptions
+      vm.config = vm.pilot.configs.find((x: any ) => x.id === vm.printOptions.config_id)
+      vm.loadout = vm.config.loadouts[vm.printOptions.loadout_index] || null
+      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.loadout_index], vm.$store.getters.getState)
+      vm.stats = vm.$store.getters.getMechStats(vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
+      vm.frame = vm.$store.getters.getItemById('Frames', vm.config.frame_id)
     },
-    mounted: function () {
+    mounted () {
       window.print()
       setTimeout(() => {
         this.$router.push('/config')
       }, 10)
     }
-  }
+  })
 </script>
 
 <style scoped>
@@ -377,7 +375,7 @@ import {RangeElement, DamageElement} from '@/components/UI'
     color: #757575;    
   }
 
-  .mount-title {
+  .p-mount-title {
     position: relative;
     top: -10px;
     left: 30px;
@@ -388,7 +386,7 @@ import {RangeElement, DamageElement} from '@/components/UI'
     padding: 0px 5px 0px 5px;
     margin: 0;
   }
-  .bordered {
+  .p-bordered {
     border: solid 1px grey; 
     border-radius: 3px;
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="activator" @click="activate"></slot>
-    <v-dialog v-model="model">
+    <v-dialog v-model="model" persistent width="80vw">
       <v-card>
         <v-card-title class="title">{{title}}</v-card-title>
         <slot name="modal-content"></slot>
@@ -9,7 +9,7 @@
         <v-card-actions>
           <v-btn color="primary" flat @click="cancel">Cancel</v-btn>
           <v-spacer />
-          <v-btn v-if="!hideConfirm" color="primary" @click="accept" :disabled="disableCondition">{{acceptString || 'Confirm'}}</v-btn>
+          <v-btn v-if="!hideConfirm" :color="acceptColor? acceptColor : 'primary'" @click="accept" :disabled="disableCondition">{{acceptString || 'Confirm'}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -24,6 +24,7 @@
       model: Boolean,
       title: String,
       acceptString: String,
+      acceptColor: String,
       hideConfirm: Boolean,
       disableCondition: Boolean
     },

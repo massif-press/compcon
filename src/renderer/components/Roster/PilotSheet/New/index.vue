@@ -11,7 +11,7 @@
             <v-divider />
             <v-stepper-step editable :complete="newPilot.background !== ''" step="2">
               <span>Background</span>
-              <small v-if="newPilot.background">{{item('Backgrounds', newPilot.background).name}}</small>
+              <small v-if="newPilot.background">{{getBackground(newPilot.background).name}}</small>
             </v-stepper-step>
             <v-divider />
             <v-stepper-step editable :complete="newPilot.skills.length === 4" step="3">
@@ -163,7 +163,7 @@
               <v-container>
                 <v-layout column>
                   <v-flex><span class="display-3">{{newPilot.callsign}}</span> // <span class="title">{{newPilot.name}}</span></v-flex>
-                  <v-flex>{{item('Backgrounds', newPilot.background).name}}</v-flex>
+                  <v-flex>{{getBackground(newPilot.background).name}}</v-flex>
                   <v-flex v-if="newPilot.history"><blockquote class="blockquote">{{newPilot.history}}</blockquote></v-flex>
                   <v-layout row justify-space-around>
                   <v-flex xs4>
@@ -178,7 +178,7 @@
                                   +<b>{{skill.bonus}}</b>
                                 </v-chip>
 
-                              <strong>{{item('Skills', skill.id).trigger}}</strong>
+                              <strong>{{getSkill(skill.id).trigger}}</strong>
                             </v-flex>
                           </v-layout>
                       </div>
@@ -194,7 +194,7 @@
                           <v-layout>
                             <v-flex xs12>
                               <v-icon v-for="n in talent.rank" :key="n + talent.id">star</v-icon>
-                              <strong>{{item('Talents', talent.id).name}}</strong>
+                              <strong>{{getTalent(talent.id).name}}</strong>
                             </v-flex>
                           </v-layout>
                       </div>
@@ -256,6 +256,7 @@
         background: '',
         history: '',
         portrait: '',
+        level: 0,
         skills: [],
         talents: [],
         mechSkills: {
@@ -271,9 +272,9 @@
         this.stepForward()
         Vue.set(this.newPilot, payload.field, payload.value)
       },
-      item (type: string, id: string): CCItem {
-        return this.$store.getters.getItemById(type, id)
-      },
+      // item (type: string, id: string): CCItem {
+      //   return this.$store.getters.getItemById(type, id)
+      // },
       setSkills (skills: any) {
         this.itemSelect({field: 'skills', value: skills})
       },

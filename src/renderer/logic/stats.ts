@@ -1,13 +1,14 @@
 import io from '../store/data_io'
 import { thisPilotGear } from '../data_interfaces/type_guards'
+import { Config } from 'electron';
 
 const rules: any = io.loadData('rules')
 
 interface AppState {
   UserDataPath: '',
-  Backgrounds: object[],
+  Backgrounds: Background[],
   Talents: Talent[],
-  Skills: PilotSkill[],
+  Skills: any[],
   CoreBonuses: CoreBonus[],
   Frames: Frame[],
   Manufacturers: object[],
@@ -20,7 +21,6 @@ interface AppState {
   Brews: object[],
   Licenses: PilotLicense[]
 }
-interface LicenseReq { name: string, rank: number, items: string[], missing?: any }
 
 function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq[] {
   if (item.source === 'GMS') {
@@ -42,7 +42,7 @@ function addLicenseRequirement(item: CCItem, reqArray: LicenseReq[]): LicenseReq
 }
 
 export default {
-  mechStats(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState) {
+  mechStats(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState): MechStats {
     const frames = state.Frames
     const systems = state.MechSystems
     const weapons = state.MechWeapons
@@ -53,7 +53,8 @@ export default {
 
     const grit = Math.ceil(pilot.level / 2)
 
-    const output: { [key: string]: any, required_licenses: LicenseReq[] } = {
+    const output: MechStats = {
+      size: frame.stats.size,
       structure: rules.base_structure + (frame.stats.structuremod || 0),
       hull: pilot.mechSkills.hull,
       agi: pilot.mechSkills.agi,
@@ -89,15 +90,18 @@ export default {
     )
 
     if (loadout) {
-      for (const loadoutSys of loadout.systems) {
-        const sys = systems.find((x) => x.id === loadoutSys.id)
-        if (sys) {
-          output.used_sp += sys.sp || 0
-          output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+      if (loadout.systems && loadout.systems.length) {
+        for (const loadoutSys of loadout.systems) {
+          const sys = systems.find((x) => x.id === loadoutSys.id)
+          if (sys) {
+            output.used_sp += sys.sp || 0
+            output.required_licenses = addLicenseRequirement(sys, output.required_licenses)
+          }
         }
       }
       for (const mount of loadout.mounts) {
         for (const weapon of mount.weapons) {
+          if (!weapon) { continue }
           const w = weapons.find((x) => x.id === weapon.id)
           if (w) {
             output.used_sp += w && w.sp ? w.sp : 0
@@ -126,7 +130,7 @@ export default {
     )
 
     // system personalizations adds +2 hp
-    if (loadout && loadout.systems && loadout.systems.find((x) => x.id === 'personalizations')) { output.hp += 2 }
+    if (loadout && loadout.systems && loadout.systems.length && loadout.systems.find((x) => x.id === 'personalizations')) { output.hp += 2 }
 
     // fomorian frame reinforcement core bonus adds size (up to 3)
     if (pilot.core_bonuses.includes('fomorian')) {
@@ -222,4 +226,128 @@ export default {
     bonus += Math.floor(pilot.mechSkills.eng / 2)
     return bonus
   },
+  // TODO: refactor these statblocks
+  pilotStatblock(pilot: Pilot, loadout: PilotLoadout, state: AppState): string {
+    var pStats = this.pilotStats(pilot, loadout, state)
+    let pOutput = `>> ${pilot.callsign.toUpperCase()} <<\n  ${pilot.name}\n  `
+    pOutput += `${state.Backgrounds.find((x: Background) => x.id === pilot.background)!.name}, LL${pilot.level}\n  `
+    pOutput += `GRIT:${pStats.grit} // H:${pStats.mech.hull} A:${pStats.mech.agi} S:${pStats.mech.sys} E:${pStats.mech.eng}\n`
+    pOutput += `[ SKILL TRIGGERS ]\n  `
+    for (var i = 0; i < pilot.skills.length; i++) {
+      var s = state.Skills.find((x: any) => x.id === pilot.skills[i].id)
+      pOutput += `${s.trigger} (+${pilot.skills[i].bonus})`
+      if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.skills.length) pOutput += '\n  '
+      else if (i + 1 < pilot.skills.length) pOutput += ", "
+      else pOutput += "\n"
+    }
+    pOutput += `[ INVOCATIONS ]\n  `
+    for (var i = 0; i < pilot.invocations!.length; i++) {
+      var pi = pilot.invocations![i]
+      var tr = pi.trigger
+      if (tr.length > 15) tr = tr.substring(0, 15) + '…' 
+      pOutput += `${tr} (${pi.accuracy ? '+' : '-'})`
+      if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.invocations!.length) pOutput += '\n  '
+      else if (i + 1 < pilot.invocations!.length) pOutput += ", "
+      else pOutput += "\n"
+    }    
+    pOutput += `[ TALENTS ]\n  `
+    for (var i = 0; i < pilot.talents.length; i++) {
+      var t = state.Talents.find((x: any) => x.id === pilot.talents[i].id)
+      pOutput += `${t!.name} ${pilot.talents[i].rank}`
+      if (i > 0 && i % 3 === 0 && i + 1 !== pilot.talents.length) pOutput += '\n  '
+      else if (i + 1 < pilot.talents.length) pOutput += ", "
+      else pOutput += "\n"
+    }    
+    if (pilot.licenses.length) pOutput += `[ LICENSES ]\n  `
+    for (var i = 0; i < pilot.licenses.length; i++) {
+      var l = pilot.licenses[i]
+      pOutput += `${l.source} ${l.name} ${l.level}`
+      if (i > 0 && i % (i + 1) % 2 === 0 && i + 1 !== pilot.licenses.length) pOutput += '\n  '
+      else if (i + 1 < pilot.licenses.length) pOutput += ", "
+      else pOutput += "\n"
+    }
+    if (pilot.core_bonuses.length) pOutput += `[ CORE BONUSES ]\n  `
+    for (var i = 0; i < pilot.core_bonuses.length; i++) {
+      var cb = state.CoreBonuses.find((x: any) => x.id === pilot.core_bonuses[i])
+      pOutput += `${cb!.name}`
+      if (i > 0 && i % 3 === 0 && i + 1 !== pilot.core_bonuses.length) pOutput += '\n  '
+      else if (i + 1 < pilot.core_bonuses.length) pOutput += ", "
+      else pOutput += "\n"
+    }
+    if (loadout) pOutput += `[ GEAR ]\n  `
+    var allgear = loadout.items.armor.concat(loadout.items.weapon).concat(loadout.items.gear)
+    for (var i = 0; i < allgear.length; i++) {
+      if (allgear[i]) {
+        var pg = state.PilotGear.find((x: any) => x.id === allgear[i]!.id)!.name
+        pOutput += `${pg}`
+        if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== allgear.length) pOutput += '\n  '
+        else if (i + 1 < allgear.length) pOutput += ", "      
+      }
+    }    
+    return pOutput
+  },
+  mechStatblock(pilot: Pilot, config: MechConfig, loadout: MechLoadout, state: AppState): string {
+    var mStats = this.mechStats(pilot, config, loadout, state)
+    var frame = state.Frames.find((x) => x.id === config.frame_id)
+
+    let mOutput = `>> ${config.name.toUpperCase()} <<\n  ${frame!.source} ${frame!.name}\n  `
+    mOutput += `H:${mStats.hull} A:${mStats.agi} S:${mStats.sys} E:${mStats.eng} SIZE:${frame!.stats.size}\n  `
+    mOutput += `STRUCTURE:${config.current_structure || mStats.structure}/${mStats.structure} HP:${config.current_hp || mStats.hp}/${mStats.hp} ARMOR:${mStats.armor}\n  `
+    mOutput += `STRESS:${config.current_stress || mStats.heatstress}/${mStats.heatstress} HEAT:${config.current_heat || mStats.heatcap}/${mStats.heatcap} REPAIR:${config.current_repairs || mStats.repcap}/${mStats.repcap}\n  `
+    mOutput += `ATK BONUS:${mStats.attack_bonus} TECH ATK:${mStats.tech_attack} LTD BONUS:${mStats.limited_bonus}\n  `
+    mOutput += `SPD:${mStats.speed} EVA:${mStats.evasion} EDEF:${mStats.edef} SENS:${mStats.sensor_range} SAVE:${mStats.save_target}\n`
+    mOutput += `[ TALENTS ]\n  `
+    for (var i = 0; i < pilot.talents.length; i++) {
+      var t = state.Talents.find((x: any) => x.id === pilot.talents[i].id)
+      mOutput += `${t!.name} ${pilot.talents[i].rank}`
+      if (i > 0 && i % 3 === 0 && i + 1 !== pilot.talents.length) mOutput += '\n  '
+      else if (i + 1 < pilot.talents.length) mOutput += ", "
+      else mOutput += "\n"
+    }
+    if (pilot.core_bonuses.length) mOutput += `[ CORE BONUSES ]\n  `
+    for (var i = 0; i < pilot.core_bonuses.length; i++) {
+      var cb = state.CoreBonuses.find((x: any) => x.id === pilot.core_bonuses[i])
+      mOutput += `${cb!.name}`
+      if (i > 0 && i % 3 === 0 && i + 1 !== pilot.core_bonuses.length) mOutput += '\n  '
+      else if (i + 1 < pilot.core_bonuses.length) mOutput += ", "
+      else mOutput += "\n"
+    }
+    if (!loadout) return mOutput
+    
+    mOutput += '[ WEAPONS ]\n'
+
+    if (frame!.core_system.integrated) {
+      mOutput += `  CORE INTEGRATED MOUNT: ${frame!.core_system.integrated.name}\n`
+    }
+    for (var i = 0; i < mStats.integrated_mounts.length; i++) {
+      var w = state.MechWeapons.find((x: any) => x.id === mStats.integrated_mounts[i])
+      mOutput += `  INTEGRATED MOUNT: ${w!.name}\n`
+    }
+
+    for (var i = 0; i < loadout.mounts.length; i++) {
+      var mount = loadout.mounts[i]
+      mOutput += `  ${mount.mount_type.toUpperCase()} MOUNT: `
+      if (mount.sh_lock) {
+        mOutput += 'SUPERHEAVY WEAPON BRACING'
+      } else {
+        for (var j = 0; j < mount.weapons.length; j++) {
+          var w = state.MechWeapons.find((x: any) => x.id === mount.weapons[j].id)
+          mOutput += `${w!.name}`
+          if (j + 1 < mount.weapons.length) mOutput += " / "
+          else mOutput += '\n'
+        }
+      }
+    }
+
+    mOutput += '[ SYSTEMS ]\n  '
+    var allsys = mStats.integrated_systems.concat(loadout.systems.map((x: any) => x.id))
+    for (var i = 0; i < allsys.length; i++) {
+      var sys = state.MechSystems.find((x: any) => x.id === allsys[i])
+      mOutput += `${sys!.name}`
+      if (i > 0 && i % 3 === 0 && i + 1 !== allsys.length) mOutput += '\n  '
+      else if (i + 1 < allsys.length) mOutput += ", "
+    }  
+  
+    return mOutput
+  }
 }

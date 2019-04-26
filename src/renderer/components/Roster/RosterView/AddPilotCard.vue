@@ -1,25 +1,25 @@
 <template>
-<v-hover style="cursor: pointer">
-  <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true" style="height: 100%">
-    <v-layout row>
-      <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
-        <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
-          <span class="pilot-letter white--text">+</span>
-        </div>
-      </v-flex>
-    </v-layout>
-    <v-layout row fill-height>
-      <v-flex>
-        <v-card color="transparent" flat>
-          <v-card-text class="text-xs-center white--text">
-            <span class="font-weight-light center-align add-letter">Add New Pilot</span>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  <add-pilot-menu :dialogModel="addMenu" @close="addMenu = false"/>
-  </v-card>
-</v-hover>
+  <v-hover class="clickable">
+    <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true" style="height: 100%">
+      <v-layout row>
+        <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
+          <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
+            <span class="pilot-letter white--text">+</span>
+          </div>
+        </v-flex>
+      </v-layout>
+      <v-layout row fill-height>
+        <v-flex>
+          <v-card color="transparent" flat>
+            <v-card-text class="text-xs-center white--text">
+              <span class="font-weight-light center-align add-letter">Add New Pilot</span>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    <add-pilot-menu :dialogModel="addMenu" @close="addMenu = false"/>
+    </v-card>
+  </v-hover>
 </template>
 
 <script lang="ts">

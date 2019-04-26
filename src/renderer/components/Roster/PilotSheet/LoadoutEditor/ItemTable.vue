@@ -1,15 +1,15 @@
 <template>
   <v-card flat>
-
-    <!-- Armor -->
     <v-container fluid>
-          <v-toolbar color="white" class="mt-5 pt-1" >
-        <v-autocomplete flat v-model="search" :items="gearItems" clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo />
-    </v-toolbar>
+      <v-toolbar color="white" class="pt-1" >
+        <v-autocomplete flat v-model="search" :items="gearItems" clearable hide-details 
+          hide-selected item-text="name" item-value="name" label="Search..." solo />
+      </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
           :items="gearItems" :expand="true" :search="search" hide-actions>
           <template slot="items" slot-scope="props">
+            <!-- Armor -->
             <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.name }}</span></td>
@@ -19,12 +19,14 @@
               <td class="text-xs-center"><span class="subheading">{{ props.item.evasion }}</span></td>
               <td class="text-xs-center"><span class="subheading">{{ props.item.speed }}</span></td>
             </tr>
+            <!-- Weapon -->
             <tr v-else-if="props.item.type === 'weapon'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.name }}</span></td>
               <td><span class="subheading"><damage-element small :dmg="props.item.damage" /></span></td>
               <td><span class="subheading"><range-element small :range="props.item.range" /></span></td>
             </tr>
+            <!-- Gear -->
             <tr v-else @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.name }}</span></td>
@@ -50,10 +52,11 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from 'vue'
   import {RangeElement, DamageElement, GearCard} from '@/components/UI'
 
-  export default {
+export default Vue.extend({
     name: 'item-table',
     components: { GearCard, RangeElement, DamageElement },
     props: {
@@ -87,17 +90,17 @@
       ]
     }),
     computed: {
-      gearItems: function () {
-        return this.$store.getters.getItemCollection('PilotGear').filter(x => this.itemType === x.type)
+      gearItems (): PilotItem {
+        return this.$store.getters.getItemCollection('PilotGear').filter((x: any) => this.itemType === x.type)
       }
     },
     methods: {
-      select: function (item) {
+      select (item: any) {
         this.$emit('select-item', item)
       },
-      remove: function () {
+      remove () {
         this.$emit('remove-item', this.itemType)
       }
     }
-  }
+  })
 </script>

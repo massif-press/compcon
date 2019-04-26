@@ -6,4 +6,5 @@ declare interface CCItem {
     license: string,
     license_level: number,
     data_type?: string,
+    brew?: string,
 }

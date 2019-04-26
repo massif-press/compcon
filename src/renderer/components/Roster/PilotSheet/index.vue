@@ -19,9 +19,16 @@
                 </editable-label>           
               </v-flex>
             </v-layout>
+            <v-divider class="ma-2"/>
             <!-- Pilot Statblock -->
             <v-layout>
-              <pip-bar small :model="stats.hp" :items="[stats.hp, stats.armor]" :caption="`HP ${stats.hp} // ARMOR ${stats.armor}`" />
+              <v-flex>
+                <span class="caption" v-html="`HP ${pilot.current_hp}/${stats.hp}`" />
+                <tick-bar 
+                  :current="pilot.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" small no-clear
+                  color="primary" bg-color="blue lighten-3" empty-icon="radio_button_unchecked" full-icon="brightness_1" pilot />
+              </v-flex>
+              <pip-bar small :model="stats.armor" :items="[stats.armor]" :caption="`ARMOR ${stats.armor}`" />
               <pip-bar small :model="stats.edef" :items="[stats.edef]" :caption="`E-DEFENSE ${stats.edef}`" />
               <pip-bar small :model="stats.evasion" :items="[stats.evasion]" :caption="`EVASION ${stats.evasion}`" />
               <pip-bar small :model="stats.speed" :items="[stats.speed]" :caption="`SPEED ${stats.speed}`" />
@@ -50,7 +57,7 @@
                   <span>Set Pilot Level</span>
                 </v-tooltip>
                 <template v-slot:modal-content>
-                  <level-selector @changed="levelEditor = false; notify($event)" />
+                  <level-selector @changed="levelEditor = false; notify(`Pilot Level set to ${$event}`)" />
                 </template>
             </lazy-dialog>
           </v-flex>
@@ -62,7 +69,7 @@
           <v-flex>
             <v-alert :value="!pilot.configs.length" color="info" icon="info" outline class="ma-2 ml-5 mr-5">
             <b>No Associated Mech</b><br>
-            This pilot does not have any mech Configurations associated with their profile.A new Configuration can be added by navigating to the <b>MECH HANGAR</b> from the menu bar
+            This pilot does not have any mech Configurations associated with their profile. A new Configuration can be added by navigating to the <b>MECH HANGAR</b> from the menu bar
             </v-alert>
           </v-flex>
         </v-layout>
@@ -78,10 +85,10 @@
                   <v-flex xs12 class="text-xs-center">
                     <b v-if="pilot.custom_background" class="minor-title"> {{ pilot.custom_background }} </b>
                     <div v-else style="display: inline">
-                      <span v-if="item('Backgrounds', pilot.background).err" class="grey--text">
+                      <span v-if="getBackground(pilot.background).err" class="grey--text">
                         // MISSING BACKGROUND DATA //
                       </span>
-                      <b v-else  class="minor-title"> {{ item('Backgrounds', pilot.background).name }} </b>
+                      <b v-else  class="minor-title"> {{ getBackground(pilot.background).name }} </b>
                     </div>
                     <pilot-edit-modal title="Select Pilot Background" ref="backgroundSelector">
                       <background-selector slot="modal-content" @selected="backgroundSelect" :preSelected="pilot.background"/>
@@ -152,7 +159,7 @@
             <!-- Appearance -->
             <v-layout>
               <span class="header">Appearance
-                <pilot-edit-modal title="Set Pilot Images" :modelRef="appearanceModal" ref="appearanceSelector">
+                <pilot-edit-modal title="Set Pilot Portrait" :modelRef="appearanceModal" ref="appearanceSelector">
                   <image-selector slot="modal-content" :preselectPortrait="pilot.portrait" @assign-portrait="setPortrait" />
                 </pilot-edit-modal>
               </span>
@@ -185,17 +192,21 @@
               <v-flex><span class="display-3 font-weight-black text-xs-center">+{{stats.grit}}</span></v-flex>
             </v-layout>
           </v-flex>
-          <v-flex>
+          <v-flex xs11>
             <!-- Triggers -->
             <v-layout>
               <span class="header">
                 Skill Triggers
-                <pilot-edit-modal title="Edit Pilot Skills" :modelRef="skillModal" ref="skillSelector">
+                <pilot-edit-modal title="Edit Pilot Skill Triggers" :modelRef="skillModal" ref="skillSelector">
                   <skill-selector slot="modal-content" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </pilot-edit-modal>
               </span>
             </v-layout>
-            <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="item('Skills', skill.id)" :skill="skill" />
+            <v-layout>
+              <v-flex class="mr-3">
+                <skill-item v-for="skill in pilot.skills" :key="skill.id" :skillData="getSkill( skill.id)" :skill="skill" />
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
 
@@ -207,10 +218,13 @@
             </pilot-edit-modal>
           </span>
         </v-layout>
-        <div class="ml-3 mr-3">
-          <license-item v-for="(license, index) in pilot.licenses" :key="index" :license="license" :licenseData="getLicense(license.name)" />
-        </div>
-
+        <v-layout class="ml-3 mr-3">
+          <v-flex>
+            <v-expansion-panel focusable>
+              <license-item v-for="(license, index) in pilot.licenses" :key="index" :pilotRank="license.level" :licenseData="getLicense(license.name)" />
+            </v-expansion-panel>
+          </v-flex>
+        </v-layout>
         <!-- Talent Block -->
         <v-layout>
           <span class="header">Talents
@@ -222,7 +236,7 @@
         <v-layout class="ml-3 mr-3">
           <v-flex>
             <v-expansion-panel focusable>
-              <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="item('Talents', talent.id)"/>
+              <talent-item v-for="talent in pilot.talents" :key="talent.id" :talent="talent" :talentData="getTalent(talent.id)"/>
             </v-expansion-panel>
           </v-flex>
         </v-layout>
@@ -252,7 +266,7 @@
           </span>
         </v-layout>
         <v-layout row v-for="cb in pilot.core_bonuses" :key="cb" class="ml-5 mr-5">
-          <core-bonus-item :cb="item('CoreBonuses', cb)" />
+          <core-bonus-item :cb="getCoreBonus(cb)" />
         </v-layout>
 
         <!-- Pilot Loadout -->
@@ -271,8 +285,18 @@
       <v-divider />
 
       <!-- Print Block -->
-      <v-layout justify-space-around fill-height class="ml-5 pl-5 mt-4 mb-4">
-        <v-flex xs3><v-btn color="primary" large flat block @click="openPrintOptions"><v-icon>print</v-icon>&nbsp; PRINT PILOT SHEET</v-btn ></v-flex>
+      <v-layout class="ma-5">
+        <v-flex>
+          <v-btn color="primary" large outline block @click="openPrintOptions"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+          <v-btn color="primary" small flat block @click="copyPilotStatblock()">copy pilot statblock &nbsp;
+            <v-tooltip top>
+              <v-icon slot="activator" small color="grey">help</v-icon>
+              <span>
+                This produces a small raw text overview of the current Pilot and copies it to the clipboard.
+              </span>
+            </v-tooltip>
+          </v-btn>
+        </v-flex>
       </v-layout>
 
       <v-snackbar v-model="snackbar" :timeout="5000" >
@@ -282,15 +306,10 @@
     </div>
 
     <!-- Missing/No Pilot Display -->
-    <div v-else style="height: 90vh">
-      <v-container style="height: 100%">
-        <v-layout align-center justify-center row fill-height>
-          <v-flex>
-            <p class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </div>
+    <empty-view v-else>
+      <p slot="contents" class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
+    </empty-view>
+
   </div>
 </template>
 
@@ -298,7 +317,8 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import Stats from '@/logic/stats'
-  import { LazyDialog, EditableLabel, EditableTextfield, PipBar } from '@/components/UI'
+  import {clipboard} from 'electron'
+  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
@@ -309,7 +329,7 @@
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, 
     PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, 
     TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig, 
-    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips
+    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView, TickBar
     },
     data: () => ({
       callsignDialog: false,
@@ -342,11 +362,8 @@
         this.notification = contents
         this.snackbar = true
       },
-      item: function (type: string, id: string) {
-        return this.$store.getters.getItemById(type, id)
-      },
       getLicense: function (name: string) {
-        return this.$store.getters.getLicenseByName(name.toLowerCase())
+        return this.$store.getters.getLicenseByName(name.toUpperCase())
       },
       backgroundSelect: function (bgReturn: any) {
         (this.$refs['backgroundSelector'] as any).cancel()
@@ -414,7 +431,7 @@
           accuracy: vm.invoke_attribute === 0,
           difficulty: vm.invoke_attribute !== 0,
         }
-        var idx = this.pilot.invocations!.length || 0
+        var idx = this.pilot.invocations ? this.pilot.invocations.length : 0
         this.$store.dispatch('editPilot', {
           attr: `invocations[${idx}]`,
           val: newInvoke
@@ -428,10 +445,16 @@
           start_index: index,
           delete_count: 1
         })
+        this.refresh()
       },
       openPrintOptions: function () {
         this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
         this.$router.push('/print-pilot')
+      },
+      copyPilotStatblock () {
+        console.log(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        this.notify('Pilot Statblock Copied to Clipboard')
       }
     },
     computed: {
@@ -468,5 +491,4 @@
     height:40px;
     padding-top:8px
   }
-
   </style>

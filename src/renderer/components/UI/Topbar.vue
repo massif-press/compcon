@@ -96,11 +96,7 @@
       zeroConfigs: false,
     }),
     methods: {
-      open(link: string) {
-        const vm = this as any
-        vm.$electron.shell.openExternal(link)
-      },
-      historyNav(dir: number) {
+      historyNav: function (dir: number) {
         this.$router.go(dir)
       },
     },
