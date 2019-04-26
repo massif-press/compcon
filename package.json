@@ -72,7 +72,7 @@
     "vue-mousetrap": "^1.0.1",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.6",
-    "vuetify": "^1.5.12",
+    "vuetify": "^1.5.13",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
     "xlsx": "^0.14.2"
@@ -96,7 +96,7 @@
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^2.4.2",
     "chalk": "^2.4.2",
-    "copy-webpack-plugin": "^5.0.2",
+    "copy-webpack-plugin": "^5.0.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "del": "^4.1.0",
@@ -128,17 +128,18 @@
     "tslint-eslint-rules": "^5.4.0",
     "tslint-formatter-beauty": "^3.0.0",
     "tslint-loader": "^3.5.4",
-    "typescript": "^3.4.4",
+    "typescript": "^3.4.5",
     "typescript-tslint-plugin": "^0.3.1",
     "url-loader": "^1.1.2",
     "vue-cli-plugin-typescript": "0.0.1",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.7.0",
+    "vue-mousetrap": "^1.0.1",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
     "webpack-dev-server": "^3.3.1",
-    "webpack-hot-middleware": "^2.24.3",
+    "webpack-hot-middleware": "^2.24.4",
     "webpack-merge": "^4.2.1"
   }
 }
