@@ -99,6 +99,10 @@
           attr: `active`,
           val: payload.toggle
         })
+        this.$store.dispatch('editPilot', {
+          attr: 'active_config',
+          val: payload.id
+        })
       }
     }
   })

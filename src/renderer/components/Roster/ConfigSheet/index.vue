@@ -338,7 +338,7 @@
       openPrintOptions (override: boolean) {
         this.$store.dispatch('setPrintOptions', {
           config_id: this.config.id,
-          loadout_index: this.activeLoadoutIdx
+          config_loadout_index: this.activeLoadoutIdx
         })
         if (!override && (
           this.hasEmptyMounts() ||
@@ -352,7 +352,6 @@
         }
       },
       copyConfigStatblock () {
-        console.log(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         clipboard.writeText(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         this.notify('Pilot Statblock Copied to Clipboard')
       }
