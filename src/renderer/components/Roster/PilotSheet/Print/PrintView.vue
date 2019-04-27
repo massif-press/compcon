@@ -109,9 +109,11 @@
 
       <hr class="mt-2 mb-2"/>
 
+      <div style="page-break-inside: avoid">
+
       <!-- license/mechskills/corebonus block -->
       <!-- licenses -->
-      <v-layout align-space-around justify-space-between fill-height >
+      <v-layout align-space-around justify-space-between fill-height>
       <v-flex>
         <span class="label">LICENSES</span><br>
         <div v-for="l in pilot.licenses" :key="l.id">
@@ -152,7 +154,7 @@
       
       </v-layout>
 
-      <hr class="mt-2 mb-2" style="page-break-after: auto"/>
+      <hr class="mt-2 mb-2"/>
 
       <!-- loadout -->
       <div v-if="loadout && loadout.items">
@@ -214,13 +216,14 @@
                 <div v-else>
                   <v-flex shrink class="mr-2"><span class="p-large">{{gear(i.id).name}}</span>
                   <br>
-                  <p class="ml-2 mb-0 pb-0 p-reg">{{gear(i.id).description}}</p></v-flex>
+                  <p class="ml-2 mb-0 pb-0 p-small" v-html="gear(i.id).description" /></v-flex>
                 </div>
               </div>
             </v-layout>
           </div>
           </v-flex>
         </v-layout>
+      </div>
       </div>
     </v-container>
   </div>
@@ -238,7 +241,8 @@ export default Vue.extend({
       pilot: {} as Pilot,
       loadout: {},
       stats: {},
-      printOptions: {} as PrintOptions
+      printOptions: {} as PrintOptions,
+      blockPrint: false
     }),
     methods: {
       item (type: string, id: string, field: string) {
@@ -254,12 +258,15 @@ export default Vue.extend({
       this.printOptions = this.$store.getters.getPrintOptions as PrintOptions
       this.loadout = this.pilot.loadouts[this.printOptions.loadout_index] || null
       this.stats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters.getState)
+      if (this.printOptions.combo) this.blockPrint = true
     },
     mounted () {
-      window.print()
-      setTimeout(() => {
-        this.$router.push('/pilot')
-      }, 10)
+      if (!this.blockPrint) {
+        window.print()
+        setTimeout(() => {
+          this.$router.push('/pilot')
+        }, 10)
+      }
     }
   })
 </script>

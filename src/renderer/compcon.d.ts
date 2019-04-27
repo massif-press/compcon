@@ -5,7 +5,8 @@ declare interface Brew {
 
 declare interface PrintOptions {
   config_id: string,
-  loadout_index: number
+  loadout_index: number,
+  combo: boolean
 }
 
 declare interface Manufacturer {
