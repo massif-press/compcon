@@ -82,3 +82,22 @@
        cursor: zoom-out;
    }
  }
+
+ .keyboard-shortcut {
+   font-family: monospace;
+   font-weight: bold;
+   font-size: 0.9em;
+   padding: 3px 5px;
+   background-color: #727272;
+   border: 1px solid black;
+   color: #f6f6f6;
+   box-shadow: inset 0 -4px 0 rgba(0,0,0,.4);
+   min-height: 14px;
+   min-width: 14px;
+   padding: 3px 6px 5px 6px;
+   text-align: center;
+   display: inline-block;
+   border-radius: 2px;
+   margin: 0 2px;
+   text-transform: uppercase;
+ }
