@@ -96,6 +96,10 @@ export default new Router({
       component: require('@/components/Roster/PilotSheet/Print/PrintView').default,
     },
     {
+      path: '/print-all',
+      component: require('@/components/Roster/PilotSheet/Print/CombinedPrintView').default,
+    },
+    {
       path: '/print-config',
       component: require('@/components/Roster/ConfigSheet/Print/PrintView').default,
     },
