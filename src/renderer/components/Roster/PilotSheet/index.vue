@@ -43,7 +43,7 @@
               <v-flex>
                 <span class="caption" v-html="`HP ${pilot.current_hp}/${stats.hp}`" />
                 <tick-bar 
-                  :current="pilot.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" small no-clear
+                  :current="pilot.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" small
                   color="primary" bg-color="blue lighten-3" empty-icon="radio_button_unchecked" full-icon="brightness_1" pilot
                   :readonly="!pilot.active" />
               </v-flex>

@@ -1,6 +1,6 @@
 <template>
   <v-hover class="clickable">
-    <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true" style="height: 100%">
+    <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="addMenu = true">
       <v-layout row>
         <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
