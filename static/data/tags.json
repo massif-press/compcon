@@ -76,7 +76,7 @@
   {
     "id": "ordnance",
     "name": "Ordnance",
-    "description": "Ordnance weapons must be fired before taking any other action or movement on a turn (you can still act and move normally afterwards). In addition, ordnance weapons are too cumbersome to be used against targets in engagement with your mech, and cannot be used for overwatch."
+    "description": "Ordnance weapons must be fired before taking any other action or movement on a turn other than protocols (you can still act and move normally afterwards). In addition, ordnance weapons are too cumbersome to be used against targets in engagement with your mech, and cannot be used for overwatch."
   },
   {
     "id": "overcharged",
