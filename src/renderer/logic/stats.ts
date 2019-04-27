@@ -240,15 +240,17 @@ export default {
       else if (i + 1 < pilot.skills.length) { pOutput += ', ' }
       else { pOutput += '\n' }
     }
-    pOutput += '[ INVOCATIONS ]\n  '
-    for (let i = 0; i < pilot.invocations!.length; i++) {
-      let pi = pilot.invocations![i]
-      let tr = pi.trigger
-      if (tr.length > 15) { tr = tr.substring(0, 15) + '…' }
-      pOutput += `${tr} (${pi.accuracy ? '+' : '-'})`
-      if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.invocations!.length) { pOutput += '\n  ' }
-      else if (i + 1 < pilot.invocations!.length) { pOutput += ', ' }
-      else { pOutput += '\n' }
+    if (pilot.invocations) {
+      pOutput += '[ INVOCATIONS ]\n  '
+      for (let i = 0; i < pilot.invocations!.length; i++) {
+        let pi = pilot.invocations![i]
+        let tr = pi.trigger
+        if (tr.length > 15) { tr = tr.substring(0, 15) + '…' }
+        pOutput += `${tr} (${pi.accuracy ? '+' : '-'})`
+        if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.invocations!.length) { pOutput += '\n  ' }
+        else if (i + 1 < pilot.invocations!.length) { pOutput += ', ' }
+        else { pOutput += '\n' }
+      }
     }
     pOutput += '[ TALENTS ]\n  '
     for (let i = 0; i < pilot.talents.length; i++) {
