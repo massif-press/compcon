@@ -256,7 +256,6 @@
       vm.current_equip = null
       if (vm.loadout.mounts[vm.mountIndex].weapons) {
         var w = vm.loadout.mounts[vm.mountIndex].weapons[vm.weaponIndex]
-        console.log(vm.getWeapon(w.id))
         if (w && !vm.getWeapon(w.id).err) this.current_equip = w
       }
       this.weaponSelectorModal = true
