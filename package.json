@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "author": "J. Arena",
   "description": "A digital toolkit for the LANCER TTRPG",
   "private": true,
@@ -134,7 +134,6 @@
     "vue-cli-plugin-typescript": "0.0.1",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^15.7.0",
-    "vue-mousetrap": "^1.0.1",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",

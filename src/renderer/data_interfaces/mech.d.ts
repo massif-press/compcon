@@ -23,7 +23,8 @@ declare interface MechConfig {
   current_hp?: number,
   current_stress?: number,
   current_heat?: number,
-  current_repairs?: number
+  current_repairs?: number,
+  active?: boolean
 }
 
 declare interface MechStats {
