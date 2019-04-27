@@ -9,14 +9,29 @@
     </empty-view>
 
     <div v-else-if="config.name">
-      <v-container fluid>
+      <v-tooltip bottom v-if="config.active">
+        <v-toolbar slot="activator" dense color="warning" class="ml-1">
+            <v-divider/>
+          <v-toolbar-title class="text-uppercase font-weight-light grey--text text--darken-3">
+            <span style="letter-spacing: 15px; font-size: 1.75em"> Mech Active </span>
+          </v-toolbar-title>
+            <v-divider/>
+        </v-toolbar>
+        <div class="text-xs-center">
+          <span><b>Active Mech</b><br>
+          Active Mechs can track Structure, HP, Reactor Stress, Heat, and<br>
+          Repair Capacity. A pilot may have only one mech activated at a time.</span>
+        </div>
+      </v-tooltip>
+
+      <v-container fluid class="pt-0">
         <!-- ID Block -->
         <v-layout align-end>
           <v-flex shrink>
             <editable-label dark :attr="`${configPath}.name`" description="Configuration Name" :placeholder="config.name">
               <span slot="label" class="display-2 white--text">{{config.name}}</span>
             </editable-label>
-            <v-btn absolute top right style="margin-top: 90px" outline color="grey lighten-1" to="/pilot">
+            <v-btn absolute top right :style="`margin-top: ${config.active ? '145' : '90'}px`" outline color="grey lighten-1" to="/pilot">
               <v-icon>mdi-arrow-left</v-icon>&emsp;Return to Pilot Sheet
             </v-btn>
           </v-flex>
@@ -112,7 +127,7 @@
                         <b :style="`color: ${color.structure.dark}`">{{config.current_structure || 0}}/{{stats.structure}}</b>
                       </span>
                       <tick-bar :config_id="config.id" :current="config.current_structure || stats.structure" :max="stats.structure" :attr="`current_structure`" large
-                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6" config />
+                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6" config :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text"> 
@@ -121,7 +136,7 @@
                       </span>
                       <v-layout>
                         <tick-bar :config_id="config.id" :current="config.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" large
-                          :color="color.hp.dark" bg-color="grey darken-1" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon" config />
+                          :color="color.hp.dark" bg-color="grey darken-1" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon" config  :readonly="!config.active" />
                         <v-flex shrink>
                           <v-rating class="d-inline-flex" v-model="stats.armor" :length="stats.armor" readonly large dense full-icon="mdi-shield" :color="color.armor.dark"/>
                         </v-flex>
@@ -138,19 +153,18 @@
                       <span class="grey--text">REACTOR STRESS 
                         <b :style="`color: ${color.stress.dark}`">{{config.current_stress || 0}}/{{stats.heatstress}}</b></span>
                       <tick-bar :config_id="config.id" :current="config.current_stress || stats.heatstress" :max="stats.heatstress" :attr="`current_stress`" large
-                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle-slice-8" config />
+                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle-slice-8" config  :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text">&nbsp;HEAT: <b :style="`color: ${color.heatcap.dark}`">{{config.current_heat || 0}}</b> &emsp; &nbsp;HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
                       <tick-bar :config_id="config.id" :current="config.current_heat || 0" :max="stats.heatcap" :attr="`current_heat`" large
-                        :color="color.heatcap.dark" bg-color="red darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle" config />
+                        :color="color.heatcap.dark" bg-color="red darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle" config  :readonly="!config.active" />
                     </v-flex>
                     <v-spacer />
                       <v-flex>
                       <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{config.current_repairs}}/{{stats.repcap}}</b></span>
                       <tick-bar :config_id="config.id" :current="config.current_repairs || stats.repcap" :max="stats.repcap" :attr="`current_repairs`" large
-                        :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config />
-                      <!-- <v-rating v-model="stats.repcap" :length="stats.repcap" readonly large dense full-icon="control_point" color="grey lighten-2"/> -->
+                        :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config  :readonly="!config.active" />
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -324,7 +338,7 @@
       openPrintOptions (override: boolean) {
         this.$store.dispatch('setPrintOptions', {
           config_id: this.config.id,
-          loadout_index: this.activeLoadoutIdx
+          config_loadout_index: this.activeLoadoutIdx
         })
         if (!override && (
           this.hasEmptyMounts() ||
@@ -338,7 +352,6 @@
         }
       },
       copyConfigStatblock () {
-        console.log(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         clipboard.writeText(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         this.notify('Pilot Statblock Copied to Clipboard')
       }

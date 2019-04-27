@@ -254,7 +254,8 @@
       frame: {},
       loadout: {},
       stats: {},
-      printOptions: {}
+      printOptions: {} as PrintOptions,
+      blockPrint: false
     }),
     methods: {
       item (type: string, id: string) {
@@ -295,16 +296,19 @@
       vm.pilot = vm.$store.getters.getPilot
       vm.printOptions = vm.$store.getters.getPrintOptions
       vm.config = vm.pilot.configs.find((x: any ) => x.id === vm.printOptions.config_id)
-      vm.loadout = vm.config.loadouts[vm.printOptions.loadout_index] || null
-      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.loadout_index], vm.$store.getters.getState)
+      vm.loadout = vm.config.loadouts[vm.printOptions.config_loadout_index] || null
+      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.config_loadout_index], vm.$store.getters.getState)
       vm.stats = vm.$store.getters.getMechStats(vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
       vm.frame = vm.$store.getters.getItemById('Frames', vm.config.frame_id)
+      if (this.printOptions.combo) this.blockPrint = true
     },
     mounted () {
-      window.print()
-      setTimeout(() => {
-        this.$router.push('/config')
-      }, 10)
+      if (!this.blockPrint) {
+        window.print()
+        setTimeout(() => {
+          this.$router.push('/config')
+        }, 10)
+      }
     }
   })
 </script>

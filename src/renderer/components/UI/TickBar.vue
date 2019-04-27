@@ -5,8 +5,9 @@
       :empty-icon="emptyIcon" 
       :full-icon="fullIcon"
       :color="color" 
-      :background-color="bgColor" />
-    <v-tooltip top v-if="!noClear">
+      :background-color="bgColor" 
+      :readonly="readonly" />
+    <v-tooltip top v-if="!readonly">
       <v-btn slot="activator" small flat icon class="ma-0 pt-0" dark relative style="top:-5px; left: -5px" :color="color" @click="clear">
         <v-icon small>cancel</v-icon>
       </v-btn>
@@ -32,7 +33,7 @@
       bgColor: String,
       config: Boolean,
       pilot: Boolean,
-      noClear: Boolean,
+      readonly: Boolean,
     },
     data: () => ({
       model: 0,

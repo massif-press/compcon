@@ -22,6 +22,7 @@
   margin-right: 0;
   width: 100vw;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .centered {

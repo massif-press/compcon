@@ -59,6 +59,7 @@ declare interface Pilot {
   portrait?: string,
   avatar?: string,
   quirk?: any
+  active_config?: string,
 }
 
 declare interface PilotStats {

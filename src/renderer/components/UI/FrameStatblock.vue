@@ -1,5 +1,10 @@
 <template>
   <div>
+    <v-card flat color="transparent" class="mb-0 pb-0">
+      <v-card-text class="mb-0 pb-0">
+        <p class="fluff-text" v-html="frame.description"/>
+      </v-card-text>
+    </v-card>
     <div v-if="!hideStatblock">
       <v-card color="grey lighten-3 mt-1 pt-1" flat>
         <v-layout class="font-weight-bold text-xs-center effect-text">
@@ -29,7 +34,7 @@
       </v-layout>
     </div>
     <v-card color="grey lighten-4"> 
-      <v-layout>
+      <v-layout align-space-between justify-space-around row fill-height>
         <v-flex xs8>
           <v-card-text>
 
@@ -86,7 +91,8 @@
         </v-card-text>
         </v-flex>
         <v-flex>
-           <v-img :src="getStaticPath(`img/frames/${frame.id}.png`)" class="ma-2" contain/>
+           <v-img :src="getStaticPath(`img/frames/${frame.id}.png`)" class="ma-2" contain
+            style="top: 50%; left: 50%; transform: translate(-50%,-50%);"/>
         </v-flex>
       </v-layout>
 
@@ -96,8 +102,9 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {RangeElement, DamageElement} from './'
   import ItemTag from './ItemTag.vue'
+  import RangeElement from './RangeElement.vue'
+  import DamageElement from './DamageElement.vue'
 
   export default Vue.extend({
     name: 'frame-statblock',
