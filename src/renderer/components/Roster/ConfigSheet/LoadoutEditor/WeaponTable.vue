@@ -149,6 +149,7 @@
         var configIndex = vm.pilot.configs.findIndex((x: any) => x.id === vm.config_id)
         var installedUniques = vm.pilot.configs[configIndex].loadouts[vm.loadout_index]
         installedUniques = _.compact(_.flatten(installedUniques.mounts.map((x: any) => x.weapons)))
+        installedUniques = installedUniques.filter((x: any) => !vm.getWeapon(x.id).err)
         installedUniques = installedUniques.map((x: any) => vm.getWeapon(x.id)).filter(
           (x: Weapon) => x.tags.map((y: any) => y.id).includes('unique')
         ).map((x: Weapon) => x.id)

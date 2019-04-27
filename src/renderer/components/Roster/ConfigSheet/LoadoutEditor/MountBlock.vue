@@ -250,10 +250,15 @@
       this.refresh()
     },
     openWeaponSelector (mountType: string, index: number) {
-      this.size = mountType
-      this.weaponIndex = index
-      this.current_equip = null
-      if (this.loadout.mounts[this.mountIndex].weapons) this.current_equip = this.loadout.mounts[this.mountIndex].weapons[this.weaponIndex] || null
+      var vm = this as any
+      vm.size = mountType
+      vm.weaponIndex = index
+      vm.current_equip = null
+      if (vm.loadout.mounts[vm.mountIndex].weapons) {
+        var w = vm.loadout.mounts[vm.mountIndex].weapons[vm.weaponIndex]
+        console.log(vm.getWeapon(w.id))
+        if (w && !vm.getWeapon(w.id).err) this.current_equip = w
+      }
       this.weaponSelectorModal = true
     },
     isCbVisible (): boolean {
