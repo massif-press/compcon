@@ -1,21 +1,21 @@
 <template>
   <div>
-  <h1>Overview</h1>
+  <h1 class="display-1">Overview</h1>
     <p>
       The COMP/CON Pilot Roster is a repository for LANCER Player Characters ("Pilots") and their mechs.<br>
       Their mechs -- the combination of Frame and weapon/system loadout is referred to, in COMP/CON as a "Configuration".
     </p><p>
       You can add a new Pilot by clicking the <v-btn small depressed color="grey darken-3" dark :ripple="false">Add Pilot</v-btn> card on the Pilot Roster page, which will open the Add New Pilot wizard.
     </p>
-    <hr class="ma-3"/>
-    <h1>Pilots</h1>
+    <v-divider class="my-3"/>
+    <h1 class="display-1">Pilots</h1>
     <p>
       COMP/CON allows you to create, edit, save, export, and import Pilots, and their Mechs, for LANCER games.
       <br>
-      This section details the Pilot Sheet, accessible by clicking Pilot card from the Pilot Roster page. Details on Pilot-specific game mechanics, or more information about how Pilot skills and attributes are referenced during gameplay, can be found in the <a flat color="primary" class="ma-0 pa-1" @click="open('https://massif-press.itch.io/lancer-core-book')">LANCER Core Book</a>
+      This section details the Pilot Sheet, accessible by clicking Pilot card from the Pilot Roster page. Details on Pilot-specific game mechanics, or more information about how Pilot skills and attributes are referenced during gameplay, can be found in the <a flat color="primary" class="my-0 pa-1" @click="open('https://massif-press.itch.io/lancer-core-book')">LANCER Core Book</a>
     </p>
-    <h2>Pilot Sheet</h2>
-      <v-expansion-panel class="ma-3">
+    <h2 class="headline">Pilot Sheet</h2>
+      <v-expansion-panel class="my-3">
         <v-expansion-panel-content>
           <template v-slot:header><h4>Identity and Stats</h4></template>
           <v-card class="pa-2 pl-4">
@@ -95,20 +95,20 @@
           </v-card>
         </v-expansion-panel-content>                  
     </v-expansion-panel>
-    <h2>Add New Pilot</h2>
+    <h2 class="headline">Add New Pilot</h2>
     <p>Returning to the Pilot Roster <v-btn small depressed color="grey darken-3" dark :ripple="false">Add Pilot</v-btn> card will open the New Pilot Wizard.
-    </p><p>
-    To create a new pilot from scratch, click the <v-btn small depressed color="primary" dark :ripple="false">Create New Pilot</v-btn> button.
-    <br>
-    To import a saved pilot from a COMP/CON produced JSON file, click the <v-btn small depressed flat color="primary" :ripple="false">Import From File</v-btn>. To import from the clipboard, click the <v-btn small depressed flat color="primary" dark :ripple="false">Import from Clipboard</v-btn> button. Pilots can also be imported from the GSheet Pilot Sheet -- more information on which can be accessed by clicking the <v-icon>help</v-icon> icon next to the button.
-    <br>
-    Imported pilots do not need to progress through the New Pilot Wizard
-    </p>
-    <h3>New Pilot Wizard</h3>
+    <ul>
+      <li>To create a new pilot from scratch, click the <v-btn small depressed color="primary" dark :ripple="false">Create New Pilot</v-btn> button.</li>
+      <li>To import a saved pilot from a COMP/CON produced JSON file, click the <v-btn small depressed flat color="primary" :ripple="false">Import From File</v-btn>. To import from the clipboard, click the <v-btn small depressed flat color="primary" dark :ripple="false">Import from Clipboard</v-btn> button.</li>
+      <li>Pilots can also be imported from the GSheet Pilot Sheet -- more information on which can be accessed by clicking the <v-icon>help</v-icon> icon next to the button.</li>
+    </ul>
+    <br />
+    Imported pilots do not need to progress through the New Pilot Wizard.</p>
+    <h3 class="title">New Pilot Wizard</h3>
     <p>
     This wizard will guide you through LANCER pilot creation, handling the calculation and organization for you. The steps don't need to be completed in order (and can be re-done any time throughout the process) but COMP/CON will not let you save a new pilot until every step has been completed.
     </p>
-      <v-expansion-panel class="ma-3">
+      <v-expansion-panel class="my-3">
         <v-expansion-panel-content>
           <template v-slot:header><h4>1 - Identification</h4></template>
           <v-card class="pa-2 pl-4">
@@ -120,7 +120,7 @@
           </v-card>
       </v-expansion-panel-content>
         <v-expansion-panel-content>
-          <template v-slot:header><h4>2 - Background</h4></template>
+          <template v-slot:header><h4 class="body-2">2 - Background</h4></template>
           <v-card class="pa-2 pl-4">
             <p>
               Select your Pilot's background by clicking the large round <v-icon small>add</v-icon> button on the right side of the panels. The background does not provide a mechanical effect, but is narritively important. It, too, can be changed at any time.
@@ -128,7 +128,7 @@
           </v-card>
       </v-expansion-panel-content>
         <v-expansion-panel-content>
-          <template v-slot:header><h4>3 - Pilot Skill Triggers</h4></template>
+          <template v-slot:header><h4 class="body-2">3 - Pilot Skill Triggers</h4></template>
           <v-card class="pa-2 pl-4">
             <p>
               Select exactly 4 triggers. These can be expanded and upgraded as the Pilot levels up, but a single trigger cannot be upgraded past +2 at character creation. 
@@ -164,19 +164,19 @@
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    <h2>Level Up</h2>
+    <h2 class="headline">Level Up</h2>
     <p>
       The upper-right side of the Pilot Sheet shows the Pilot's License Level. Clicking the <v-btn color="primary" icon small dark><v-icon class="pl-4">arrow_upwards</v-icon></v-btn> button will open the Pilot Level Wizard, which will walk you through the level-up process and automatically determine which bonuses the Pilot is eligible for. 
       <br>
       Clicking the <v-icon small>build</v-icon> icon below will open up the Level Edit tool, allowing you to set the Pilot's level anywhere from the current level to the maximum level (12). This tool shouldn't necessarily be used for Pilots currently being played in a LANCER game, but is very useful for build experimentation. Be aware that the Level Edit tool cannot be used to subtract Pilot levels. 
     </p>
-    <h3>Pilot Level Wizard</h3>
+     <h3 class="title">Pilot Level Wizard</h3>
     <p>
     This wizard will guide you through leveling up your LANCER Pilot, and will automatically determine what level bonuses your Pilot is eligible for.
     <br>
     Please note that added levels cannot be removed. If you're uncertain, make a backup of your Pilot, or clone them for theorycrafting and experimentation.
     </p>
-      <v-expansion-panel class="ma-3">
+      <v-expansion-panel class="my-3">
         <v-expansion-panel-content>
           <template v-slot:header><h4>1 - Overview</h4></template>
           <v-card class="pa-2 pl-4">
@@ -256,15 +256,15 @@
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    <hr class="ma-3"/>
-    <h1>Configurations (Mechs)</h1>
+    <v-divider class="my-3"/>
+    <h1 class="display-1">Configurations (Mechs)</h1>
       <p>
         Configurations are the combinations of Frame, Loadout, and Pilot bonuses and abilities that constitute a printable mech. Pilots can save any number of Configurations, but they are all linked to that pilot.
         <br>
         Configurations are accessed by clicking on the <v-btn small depressed color="grey lighten-3" :ripple="false">Mech Hangar</v-btn> button on the navigation bar after loading a Pilot.
       </p>
-    <h2>Configuration Sheet</h2>
-          <v-expansion-panel class="ma-3">
+    <h2 class="headline">Configuration Sheet</h2>
+          <v-expansion-panel class="my-3">
         <v-expansion-panel-content>
           <template v-slot:header><h4>Designation and Requirements</h4></template>
           <v-card class="pa-2 pl-4">
@@ -326,8 +326,8 @@
           </v-card>
         </v-expansion-panel-content>                  
     </v-expansion-panel>
-    <hr class="ma-3"/>
-    <h1>Compendium</h1>
+    <v-divider class="my-3"/>
+    <h1 class="display-1">Compendium</h1>
       <p>
         The LANCER Equipment Compendium can be accessed at any time by clicking the <v-btn flat small>Compendium</v-btn> icon on the toolbar. The Compedium lists all available Licenses, Manufacturers, Frames, Mech Weapons, Mech Systems, and Pilot Gear along with all relevant stats, information, and lore. 
       </p>

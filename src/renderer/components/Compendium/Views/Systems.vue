@@ -1,7 +1,8 @@
 <template>
-  <v-container fluid class="ml-5 pl-5">
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH SYSTEMS</span>
-      <v-autocomplete flat v-model="search" :items="systems" 
+      <v-card>
+         <v-autocomplete flat v-model="search" :items="systems" 
         clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo class="mt-2"/>
         <v-data-table :headers="headers" :items="systems" :search="search" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
@@ -18,6 +19,7 @@
             </v-card>          
           </template>
         </v-data-table>
+      </v-card>
   </v-container>
 </template>
 
