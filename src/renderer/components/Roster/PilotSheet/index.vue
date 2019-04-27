@@ -306,7 +306,7 @@
       <!-- Print Block -->
       <v-layout class="ma-5">
         <v-flex>
-          <v-btn color="primary" large outline block @click="openPrintOptions"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+          <v-btn color="primary" large outline block @click="openPrintOptions()"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
           <v-btn color="primary" small flat block @click="copyPilotStatblock()">copy pilot statblock &nbsp;
             <v-tooltip top>
               <v-icon slot="activator" small color="grey">help</v-icon>
@@ -322,6 +322,22 @@
         <span v-html="notification" />
         <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
       </v-snackbar>
+
+      <v-dialog v-model="printDialog" persistent width="50vw">
+        <v-card>
+          <v-card-title class="title">Active Mech Detected</v-card-title>
+          <v-card-text>
+            Include {{pilot.callsign}}'s currently active mech?
+          </v-card-text><slot name="modal-content"></slot>
+          <v-divider />
+          <v-card-actions>
+            <v-btn color="primary" @click="print(false)">No</v-btn>
+            <v-spacer />
+            <v-btn color="primary" @click="print(true)">Yes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </div>
 
     <!-- Missing/No Pilot Display -->
@@ -367,6 +383,7 @@
       bonusModal: false,
       pilotGearModal: false,
       invokeDialog: false,
+      printDialog: false,
       levelEditor: false,
       snackbar: false,
       notification: '',
@@ -467,11 +484,31 @@
         this.refresh()
       },
       openPrintOptions: function () {
-        this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
-        this.$router.push('/print-pilot')
+        console.log('in opo')
+        console.log(this.pilot.active_config)
+        if (this.pilot.active_config) {
+          this.printDialog = true
+        } else {
+          this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
+          this.$router.push('/print-pilot')
+        }
+      },
+      print: function (includeMech: boolean) {
+        this.printDialog = false
+        if (includeMech) {
+          this.$store.dispatch('setPrintOptions', {
+            loadout_index: this.activeLoadoutIdx,
+            config_id: this.pilot.active_config,
+            config_loadout_index: 0,
+            combo: true
+            })
+          this.$router.push('/print-all')
+        } else {
+          this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
+          this.$router.push('/print-pilot')
+        }
       },
       copyPilotStatblock () {
-        console.log(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         this.notify('Pilot Statblock Copied to Clipboard')
       }
