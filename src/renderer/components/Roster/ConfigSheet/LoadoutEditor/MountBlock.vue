@@ -111,7 +111,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card dark>
-        <mod-table v-if="modLoader" :free_sp="free_sp" :current_equip="current_equip_mod" :weapon_type="modWeaponType" 
+        <mod-table v-if="modLoader" :free_sp="free_sp" :current_equip="current_equip_mod" :weapon="modWeapon" 
           @remove="removeMod" @select="applyMod" />
       </v-card>
     </v-dialog>
@@ -150,7 +150,7 @@
     shLockModel: 0,
     modModal: false,
     modLoader: false,
-    modWeaponType: '',
+    modWeapon: {},
     weaponReload: 0
   }),
   components: { MechWeaponItem, WeaponTable, CoreBenefitSelector, ModTable, LazyDialog },
@@ -184,7 +184,7 @@
       (this as any).current_equip_mod = null
       var modID = this.mount.weapons[index].mod || null
       if (modID) this.current_equip_mod = this.$store.getters.getItemById('WeaponMods', modID)
-      this.modWeaponType = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id).type.toLowerCase()
+      this.modWeapon = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id)
       this.weaponIndex = index
       this.modLoader = true
       this.modModal = true
