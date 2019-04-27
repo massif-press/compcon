@@ -240,15 +240,15 @@ export default {
       else if (i + 1 < pilot.skills.length) { pOutput += ', ' }
       else { pOutput += '\n' }
     }
-    if (pilot.invocations) {
+    if (pilot.invocations && pilot.invocations.length) {
       pOutput += '[ INVOCATIONS ]\n  '
-      for (let i = 0; i < pilot.invocations!.length; i++) {
-        let pi = pilot.invocations![i]
+      for (let i = 0; i < pilot.invocations.length; i++) {
+        let pi = pilot.invocations[i]
         let tr = pi.trigger
         if (tr.length > 15) { tr = tr.substring(0, 15) + '…' }
         pOutput += `${tr} (${pi.accuracy ? '+' : '-'})`
-        if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.invocations!.length) { pOutput += '\n  ' }
-        else if (i + 1 < pilot.invocations!.length) { pOutput += ', ' }
+        if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== pilot.invocations.length) { pOutput += '\n  ' }
+        else if (i + 1 < pilot.invocations.length) { pOutput += ', ' }
         else { pOutput += '\n' }
       }
     }
@@ -276,14 +276,16 @@ export default {
       else if (i + 1 < pilot.core_bonuses.length) { pOutput += ', ' }
       else { pOutput += '\n' }
     }
-    if (loadout) { pOutput += '[ GEAR ]\n  ' }
-    let allgear = loadout.items.armor.concat(loadout.items.weapon).concat(loadout.items.gear)
-    for (let i = 0; i < allgear.length; i++) {
-      if (allgear[i]) {
-        const pg = state.PilotGear.find((x: any) => x.id === allgear[i]!.id)!.name
-        pOutput += `${pg}`
-        if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== allgear.length) { pOutput += '\n  ' }
-        else if (i + 1 < allgear.length) { pOutput += ', ' }
+    if (loadout && loadout.items) {
+      pOutput += '[ GEAR ]\n  '
+      let allgear = loadout.items.armor.concat(loadout.items.weapon).concat(loadout.items.gear)
+      for (let i = 0; i < allgear.length; i++) {
+        if (allgear[i]) {
+          const pg = state.PilotGear.find((x: any) => x.id === allgear[i]!.id)!.name
+          pOutput += `${pg}`
+          if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== allgear.length) { pOutput += '\n  ' }
+          else if (i + 1 < allgear.length) { pOutput += ', ' }
+        }
       }
     }
     return pOutput
@@ -328,6 +330,9 @@ export default {
     }
 
     for (const mount of loadout.mounts) {
+      if (mount.imparm || (mount.imparm && pilot.core_bonuses.includes('imparm'))) {
+        continue
+      }
       mOutput += `  ${mount.mount_type.toUpperCase()} MOUNT: `
       if (mount.sh_lock) {
         mOutput += 'SUPERHEAVY WEAPON BRACING'
@@ -336,9 +341,9 @@ export default {
           const w = state.MechWeapons.find((x: any) => x.id === mount.weapons[j].id)
           mOutput += `${w!.name}`
           if (j + 1 < mount.weapons.length) { mOutput += ' / ' }
-          else { mOutput += '\n' }
         }
       }
+      mOutput += '\n'
     }
 
     mOutput += '[ SYSTEMS ]\n  '

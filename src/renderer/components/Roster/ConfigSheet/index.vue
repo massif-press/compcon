@@ -315,6 +315,7 @@
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
         for (let i = 0; i < this.config.loadouts[this.activeLoadoutIdx].mounts.length; i++) {
           const m = this.config.loadouts[this.activeLoadoutIdx].mounts[i]
+          if (m.imparm || (m.imparm && this.pilot.core_bonuses.includes('imparm'))) continue
           if (m.mount_type.includes('/')) empty = m.weapons.length < 2
           else empty = !m.weapons.length
         }
