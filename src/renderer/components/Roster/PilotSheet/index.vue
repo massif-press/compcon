@@ -484,8 +484,6 @@
         this.refresh()
       },
       openPrintOptions: function () {
-        console.log('in opo')
-        console.log(this.pilot.active_config)
         if (this.pilot.active_config) {
           this.printDialog = true
         } else {
