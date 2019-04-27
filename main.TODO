@@ -1,15 +1,9 @@
-Bugs:
-  ☐ Mech loadout item delete
-  ☐ Weapons with SP flag as over sp even though they're selectable (?)
-
 Improvements:
-  ☐ Replace all rank star loops/v-rating with component
   ☐ Disable remove item/gear button if nothing is currently equipped
   ☐ Disable nav back/forward when no target exists
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ☐ Better list/table for Frame selection
   ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
   ☐ Fixed selector left columns
 
@@ -51,15 +45,18 @@ Styling:
   ☐ Per-item notes
   ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
-  ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
-  ☐ UNCLE as weapon mod
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
 
 Archive:
+  ✔ Mech loadout item delete @done(19-04-27 13:43) @project(Bugs)
+  ✔ Weapons with SP flag as over sp even though they're selectable (?) @done(19-04-27 13:43) @project(Bugs)
+  ✔ Replace all rank star loops/v-rating with component @done(19-04-27 13:42) @project(Improvements)
+  ✔ Better list/table for Frame selection @done(19-04-27 13:42) @project(Styling)
+  ✔ UNCLE as weapon mod @done(19-04-27 13:42) @project(2.0)
   ✔ Invocation broken @done(19-04-17 22:29) @project(1.2.5)
   ✔ Swallowtail save incorrect @done(19-04-17 15:20) @project(Bugs)
   ✔ fix longrim core bonus tags @done(19-04-17 15:55) @project(Bugs)
