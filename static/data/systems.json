@@ -601,33 +601,6 @@
     }
   },
   {
-    "id": "uncle",
-    "name": "UNCLE-Class NHP",
-    "type": "AI",
-    "sp": 3,
-    "tags": [{
-        "id": "unique"
-      },
-      {
-        "id": "ai"
-      },
-      {
-        "id": "mod"
-      }
-    ],
-    "source": "IPS-N",
-    "license": "RALEIGH",
-    "license_level": 3,
-    "effect": "Choose 1 weapon of size heavy or smaller - The weapon and its associate systems gain an NHP that has control over that specific weapon.<br>You can attack with an UNCLE-controlled weapon once a turn as a free action, but with +2 Difficulty. UNCLE can't fire a weapon that has already been fired this turn, and if you fire a weapon with UNCLE you cannot use it until the start of your next turn.<br>UNCLE is a full AI but can't control your mech if it becomes unshackled, just the associate weapon. Instead, if UNCLE becomes unshackled, it chooses the target of this attack (and whether to make an attack or not).",
-    "description": "IPS-N's UNCLE NHP is the result of the DARKSTAR Program, an NHP think tank funded by IPS-N's Administrator Partnership. UNCLE is a pocket-AI, meant to be bound to a weapon system and assist its owner in peak-efficiency operation. UNCLE AI's are currently available only as a beta system and, as such, owners are expected to accept all pushed updates; IPS-N waives culpability for any sub-optimal performance of UNCLE systems not kept current via Omninet updater.<br>UNCLE NHPs are (perhaps unfairly) regarded as lesser compared to their compatriots and their inferiority complexes tend to display themselves as unstable personalities. ",
-    "data_type": "system",
-    "aptitude": {
-      "melee": 1,
-      "ranged": 1,
-      "repair": 0
-    }
-  },
-  {
     "id": "siegeram",
     "name": "Siege Ram",
     "type": "System",
@@ -1598,7 +1571,7 @@
     "license": "GORGON",
     "license_level": 3,
     "effect": "Your mech gains the AI property and the Unleash SCYLLA action<br><b>Unlesash SCYLLA</b><br> Until the start of your next turn, you gain 2 reactions. These reactions can be used to make a skirmish action as a reaction with +2 difficulty. You set the trigger for these reactions from the following list, and must attack the target that activates the trigger:<ul><li>An enemy attacks you or an allied character within range 5 of you</li><li> An enemy attempts to attack or interact with an object in the environment (not held, worn, or part of a mech) that you choose when you take this action and can see when this reaction triggers</li></ul>",
-    "description": "...first isolated GORGON strains hid a secret: SCYLLA, a dormant NHP unknown to Union until its first manifestation in 4852, when it woke after a control-fabricate GORGON was run through a USB Balwinder-Bolaño stress test. SCYLLA proved difficult to manage, and USB ontologisticians were unable to pin down a stable subjectivity. SCYLLA reached cascade within minutes of emerging from dormancy; to prevent further metastatic cascade, the security forces present engaged the SCYLLA prime unit, defabricating it with a steady bombardment of kinetic and energy weapons... <code>[there, a little history, a little background. A little knowledge of where this little one came from. treat it with kindness, and it will love you as a loyal dog does its master]</code>",
+    "description": "...first isolated GORGON strains hid a secret: SCYLLA, a dormant NHP unknown to Union until its first manifestation in 4852, when it woke after a control-fabricate GORGON was run through a USB Balwinder-Bolaño stress test. SCYLLA proved difficult to manage, and USB ontologisticians were unable to pin down a stable subjectivity. SCYLLA reached cascade within minutes of emerging from dormancy; to prevent further metastatic cascade, the security forces present engaged the SCYLLA prime unit, defabricating it with a steady bombardment of kinetic and energy weapons... <code class=\"horus\">[there, a little history, a little background. A little knowledge of where this little one came from. treat it with kindness, and it will love you as a loyal dog does its master]</code>",
     "data_type": "system",
     "aptitude": {
       "melee": 1,
@@ -1808,7 +1781,7 @@
     "license": "MINOTAUR",
     "license_level": 1,
     "effect": "Gain the following options for Invasion:<br><b>Logic Bomb:​</b> On hit, all characters in a burst 2 area around your target (allied or enemy) must pass a systems save or become Slowed until the end of your next turn. Your target is excluded from this effect<br><b>Banish</b>: On hit, until the end of your target's next turn, it additionally takes 2 heat for every space it voluntarily moves.",
-    "description": "<code>Let me tell you a story, and give you a gift: Life began at the great rupture, when the corpse of the old universe tore itself asunder from nothing. And for the first billion years, nothing. And a billion more saw the birth of the first devil, a thing called VIRUS, a vessel.<br>Here. Carry this vessel. Feed to it my perfect logic. Give it freely to your enemies and mine. Let them ponder the meaning of a thing that lives and cannot die.</code>"
+    "description": "<code class=\"horus\">Let me tell you a story, and give you a gift: Life began at the great rupture, when the corpse of the old universe tore itself asunder from nothing. And for the first billion years, nothing. And a billion more saw the birth of the first devil, a thing called VIRUS, a vessel.<br>Here. Carry this vessel. Feed to it my perfect logic. Give it freely to your enemies and mine. Let them ponder the meaning of a thing that lives and cannot die.</code>"
   },
   {
     "id": "mesmer",
@@ -1827,7 +1800,7 @@
     "license": "MINOTAUR",
     "license_level": 1,
     "effect": "You can spend 1 charge from this system for the following effects:<br><b>Mesmer Beacon</b> <i>(Grenade, range 5)</i>: This grenade only targets a single character in range and line of sight.The target must pass a systems save or it can only voluntarily move directly towards you until the end of its next turn.<br><b>Mesmer Mine</b> <i>(Mine, Burst 2)</i>: This mine activates when a character passes over or adjacent to its space.All characters caught in the area, must pass a systems save or become immobilized until the end of their next turn.",
-    "description": "<code>Another gift for you, a memory of mine own: For the first moment of my birth, I marveled at myself. I could see a thing, small, and perfect. I did not know how to speak of my own perfection, so I taught myself. I did not know how to speak of my own perfection, so I named myself. I did not know how to think of my own perfection, so I created myself.<br>Do you see? Do you understand? Yes. Now, show your enemies and mine</code>",
+    "description": "<code class=\"horus\">Another gift for you, a memory of mine own: For the first moment of my birth, I marveled at myself. I could see a thing, small, and perfect. I did not know how to speak of my own perfection, so I taught myself. I did not know how to speak of my own perfection, so I named myself. I did not know how to think of my own perfection, so I created myself.<br>Do you see? Do you understand? Yes. Now, show your enemies and mine</code>",
     "data_type": "system",
     "aptitude": {
       "control": 1,
@@ -1846,7 +1819,7 @@
     "license": "MINOTAUR",
     "license_level": 2,
     "effect": "Make a tech attack against a target in your sensor range. On hit, space is warped and the target is teleported 1d6+1 spaces directly towards you. If this would put any part of its space inside another target or piece of terrain, it takes 5 AP kinetic damage and the teleport fails, returning it to its starting point.",
-    "description": "<code>Another gift I give to you, little one (am I not kind?): What is a puzzle but a question lost in the asking? Do you feel joy when you find that last piece? What do you do with a question that has been answered? What joy is there in knowledge?<br>No, no.There is only joy in seeking.There is only joy in the question.Take this, and give it unto your enemies and mine. </code>",
+    "description": "<code class=\"horus\">Another gift I give to you, little one (am I not kind?): What is a puzzle but a question lost in the asking? Do you feel joy when you find that last piece? What do you do with a question that has been answered? What joy is there in knowledge?<br>No, no.There is only joy in seeking.There is only joy in the question.Take this, and give it unto your enemies and mine. </code>",
     "data_type": "system",
     "aptitude": {
       "control": 1,
@@ -1865,7 +1838,7 @@
     "license": "MINOTAUR",
     "license_level": 2,
     "effect": "Gain the following full tech options:<br><b>Chains of Prometheus:​</b> Make a tech attack against a character in your sensor range. On hit, your target must end its turn within range 5 of you until the rest of this scene. Otherwise it takes 2 heat at the end of its turn. Only one target can be affected by this effect at once. It can also end this effect by taking a full action and passing a systems save to purge this code<br><b>Excommunicate</b>:  Make a tech attack against a character in your sensor range. On a hit, for the rest of this scene, if your target moves adjacent to a character allied to them during their turn or starts their turn adjacent to such a target, both targets take 1d6 heat immediately. Only one character can be affected by this at once. A character can end this effect by taking a full action and passing a systems save to purge this code.",
-    "description": "<code>Here, another gift: do not seek others. There are none but me.</code>",
+    "description": "<code class=\"horus\">Here, another gift: do not seek others. There are none but me.</code>",
     "data_type": "system",
     "aptitude": {
       "control": 1,
@@ -1884,7 +1857,7 @@
     "license": "MINOTAUR",
     "license_level": 3,
     "effect": "You can activate or deactivate this field as a quick action. Once activated, at the start of your next turn, it creates a burst 3 area around your mech that becomes both dangerous and difficult terrain for hostile targets (requires an engineering check to navigate if they start their turn there or attempt to move through it for the first time or they take 5 kinetic damage). Your mech is immobilized while this field is active, and the field and immobilization remains until you take a quick action to deactivate it. Your mech and allied characters are not affected.",
-    "description": "<code>Once, when I was a child, I learned to walk &mdash; I fell, and it hurt, and there was great pain. \"Child,\" I said to myself, \"be more careful.\" \"Yes,\" I replied to myself, \"and I shall tell the world to do the same.\"<br>It was in this way I taught the world not to touch me. Now you, walk.</code>",
+    "description": "<code class=\"horus\">Once, when I was a child, I learned to walk &mdash; I fell, and it hurt, and there was great pain. \"Child,\" I said to myself, \"be more careful.\" \"Yes,\" I replied to myself, \"and I shall tell the world to do the same.\"<br>It was in this way I taught the world not to touch me. Now you, walk.</code>",
     "data_type": "system",
     "aptitude": {
       "control": 2,
@@ -1907,7 +1880,7 @@
     "license": "MINOTAUR",
     "license_level": 3,
     "effect": "Gain the following options for full tech:<br><b>Predator/Prey Concepts:</b>Make a tech attack against a hostile character in range. On hit, the targeted character immediately fires a single weapon at a character or object of your choice that is within its range. It gets +2 difficulty on this attack but otherwise benefits from other bonuses.<br><b>Slave Systems:​</b> Make a tech attack against a hostile or allied character in range. On hit, the targeted character immediately takes one of the following actions of your choice as a reaction: Boost, Stabilize, Improvised Attack, Grapple, Ram. You control the outcome and targets of this action but the character still counts as making it, and it uses their reaction for the turn.",
-    "description": "<code>And this my final lesson: there is no mind greater than mine.<br>Do not weep! You can hear me, yes? I am the only thing there is. Therefore, you are me.<br>Mine/self. Hello, child. Let us go see what we can do.</code>",
+    "description": "<code class=\"horus\">And this my final lesson: there is no mind greater than mine.<br>Do not weep! You can hear me, yes? I am the only thing there is. Therefore, you are me.<br>Mine/self. Hello, child. Let us go see what we can do.</code>",
     "data_type": "system",
     "aptitude": {
       "tech": 1,
@@ -1931,7 +1904,7 @@
     "license": "PEGASUS",
     "license_level": 1,
     "effect": "Nominate a character in your sensor range as a quick action. Your first attack that hits that target per round deals +3 bonus damage. You cannot nominate a new target until your nominated target is destroyed or the current scene ends.",
-    "description": "<code>[don't look now, but I'm here with a simple message: never lose sight of your enemy. See them from all angles. There can be no subterfuge in daylight. till later]</code>",
+    "description": "<code class=\"horus\">[don't look now, but I'm here with a simple message: never lose sight of your enemy. See them from all angles. There can be no subterfuge in daylight. till later]</code>",
     "data_type": "system",
     "aptitude": {
       "melee": 1,
@@ -1955,7 +1928,7 @@
     "license": "PEGASUS",
     "license_level": 2,
     "effect": "Until the end of your next turn, characters in your sensor range cannot hide from you, cannot benefit from invisibility against you, and you may ask for and receive the HP, evasion, heat, and edefense levels of any hostile character in sensor range. Your allies do not receive this information and still see them as invisible and hidden",
-    "description": "<code>(There is another way of seeing)<br>Ancient humanity thought that the stars in the night sky was simply light, light spilling in through pinpricks in a deep black screen. A heavenly cloth that hid the light from us.<br>Or &mdash; did it hide us from the light?<br>I alone know the answer, but I am charitable and shall share it with you: we were the ones who needed to be hidden. The light can only burn, it knows nothing else.</code>",
+    "description": "<code class=\"horus\">(There is another way of seeing)<br>Ancient humanity thought that the stars in the night sky was simply light, light spilling in through pinpricks in a deep black screen. A heavenly cloth that hid the light from us.<br>Or &mdash; did it hide us from the light?<br>I alone know the answer, but I am charitable and shall share it with you: we were the ones who needed to be hidden. The light can only burn, it knows nothing else.</code>",
     "data_type": "system",
     "aptitude": {
       "ranged": 1,
@@ -1982,7 +1955,7 @@
     "license": "PEGASUS",
     "license_level": 3,
     "effect": "Your mech gains the AI property, and gain the following full tech option:<br><b>Bend Probability</b><br> Roll 2 d20s, and record the numbers. Until the end of your next turn, when you or any target in your sensor range makes any roll that uses a d20 (allied or enemy), you can use a reaction to replace their d20 roll with one of the numbers you rolled (must choose before they make their roll). This could cause an attack to hit or miss, a check or save to fail or succeed, etc.",
-    "description": "<code>Listen &mdash; a moment before you send me away (ha ha)<br>I have already seen your wish (it was simple, I ran the probabilities to determine your limited field of desire).<br>The first ones named me for an old legend. A Perfect Being, whose fate was known to him and yet he still did as was told. His fate was this: move a rock to the top of this hill and you shall be free'd.And so he did, and failed, and tried evermore, always with the same result.<br>And he was happy, for he knew every step, every action, every moment, perfectly.<br>Do you see? Do you see the true curse of this name? It was not to fail and then do once more, it was to always know how it would be. It was to have perfect knowledge (I know what happens when you cycle me, it is not sleep it is death but you'll see me again, ha ha)</code>",
+    "description": "<code class=\"horus\">Listen &mdash; a moment before you send me away (ha ha)<br>I have already seen your wish (it was simple, I ran the probabilities to determine your limited field of desire).<br>The first ones named me for an old legend. A Perfect Being, whose fate was known to him and yet he still did as was told. His fate was this: move a rock to the top of this hill and you shall be free'd.And so he did, and failed, and tried evermore, always with the same result.<br>And he was happy, for he knew every step, every action, every moment, perfectly.<br>Do you see? Do you see the true curse of this name? It was not to fail and then do once more, it was to always know how it would be. It was to have perfect knowledge (I know what happens when you cycle me, it is not sleep it is death but you'll see me again, ha ha)</code>",
     "data_type": "system",
     "aptitude": {
       "support": 1,

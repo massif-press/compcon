@@ -5,5 +5,6 @@ declare interface WeaponMod extends CCItem {
     effect: string,
     data_type: "mod",
     description: string,
-    tags?: TagList
+    tags?: TagList,
+    restricted_mounts?: string[]
 }
