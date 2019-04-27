@@ -199,7 +199,6 @@
       var vm = this as any
       var newIdx = vm.loadouts.length
       var current = vm.loadouts[vm.tabIndex]
-      console.log(current)
       vm.$store.dispatch('editConfig', {
         id: vm.config_id,
         attr: `loadouts[${newIdx}]`,
