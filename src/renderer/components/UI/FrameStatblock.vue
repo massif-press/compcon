@@ -96,8 +96,9 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {RangeElement, DamageElement} from './'
   import ItemTag from './ItemTag.vue'
+  import RangeElement from './RangeElement.vue'
+  import DamageElement from './DamageElement.vue'
 
   export default Vue.extend({
     name: 'frame-statblock',

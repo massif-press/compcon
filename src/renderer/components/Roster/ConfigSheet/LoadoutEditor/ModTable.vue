@@ -94,7 +94,7 @@
     props: {
       current_equip: Object,
       free_sp: Number,
-      weapon_type: String
+      weapon: Object,
     },
     data: () => ({
       selectedIndex: -1,
@@ -133,7 +133,9 @@
         // filter already equipped
         if (vm.current_equip) i = i.filter((x: WeaponMod) => x.id !== vm.current_equip.id)
         // filter by applied_to
-        i = i.filter((x: WeaponMod) => x.applied_to.includes(vm.weapon_type))
+        i = i.filter((x: WeaponMod) => x.applied_to.includes(vm.weapon.type.toLowerCase()))
+        // filter out any mount restrictions
+        i = i.filter((x: WeaponMod) => !x.restricted_mounts || !x.restricted_mounts.includes(vm.weapon.mount.toLowerCase()))
         // search input
         if (vm.search) i = i.filter((x: WeaponMod) => x.name.toUpperCase().includes(vm.search.toUpperCase()))
 
