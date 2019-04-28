@@ -64,6 +64,7 @@
           </v-card>
         </template>
       </v-data-table>
+      <span class="red--text">{{current_equip}}</span>
       <v-layout v-if="current_equip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
@@ -107,6 +108,9 @@
     computed: {
       systems (): System[] {
         var vm = this as any
+        console.log('ok')
+        console.log(vm)
+        console.log(vm.current_equip)
         var allSystems = vm.$store.getters.getItemCollection('MechSystems')
         var i = allSystems.filter((x: System) => x.source)
         if (!vm.showLocked) {

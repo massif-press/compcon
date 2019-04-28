@@ -277,7 +277,6 @@
 <script lang="ts">
   import Vue from 'vue'
   import Stats from '@/logic/stats'
-  import io from '@/store/data_io'
 
   import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
   import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
@@ -326,7 +325,7 @@
         vm.$refs.mechImg.showModal()
       },
       getStaticPath (path: string) {
-        return `static/${path}`
+        return `${__static}/${path}`
       },
       setCustomImg (path: string) {
         this.appearanceModal = false

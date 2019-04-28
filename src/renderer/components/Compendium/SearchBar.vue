@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { debounce } from 'lodash'
 
 export default Vue.extend({
     name: 'compendium-search-bar',

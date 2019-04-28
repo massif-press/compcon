@@ -1,7 +1,6 @@
 import { readFileSync } from 'fs'
 import XLSX from 'xlsx'
 
-import io from '../store/data_io'
 import uid from './uid'
 
 const translationTable: {

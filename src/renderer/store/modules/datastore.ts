@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import io from '../data_io'
+import lancerData from 'lancer-data'
 
 const moduleState = {
   UserDataPath: '',
@@ -35,19 +36,19 @@ const mutations = {
     state.UserDataPath = userDataPath
   },
   LOAD_DATA(state: AppState) {
-    state.Backgrounds = io.loadData('backgrounds')
-    state.Talents = io.loadData('talents')
-    state.Skills = io.loadData('skills')
-    state.CoreBonuses = io.loadData('core_bonus')
-    state.Frames = io.loadData('frames')
-    state.Manufacturers = io.loadData('manufacturers')
-    state.MechWeapons = io.loadData('weapons')
-    state.WeaponMods = io.loadData('mods')
-    state.MechSystems = io.loadData('systems')
-    state.PilotGear = io.loadData('pilot_gear')
-    state.Tags = io.loadData('tags')
-    state.Statuses = io.loadData('statuses')
-    state.Quirks = io.loadData('quirks')
+    state.Backgrounds = lancerData.backgrounds
+    state.Talents = lancerData.talents
+    state.Skills = lancerData.skills
+    state.CoreBonuses = lancerData.core_bonuses
+    state.Frames = lancerData.frames
+    state.Manufacturers = lancerData.manufacturers
+    state.MechWeapons = lancerData.weapons
+    state.WeaponMods = lancerData.mods
+    state.MechSystems = lancerData.systems
+    state.PilotGear = lancerData.pilot_gear
+    state.Tags = lancerData.tags
+    state.Statuses = lancerData.statuses
+    state.Quirks = lancerData.quirks
     state.Brews = io.findBrewData(state.UserDataPath)
   },
   LOAD_BREWS(state: AppState) {

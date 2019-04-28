@@ -1,6 +1,5 @@
 import io from '../store/data_io'
 import { thisPilotGear } from '../data_interfaces/type_guards'
-import { Config } from 'electron'
 
 const rules: any = io.loadData('rules')
 
