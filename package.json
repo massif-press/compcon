@@ -6,6 +6,7 @@
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
+    "lint": "eslint **/*.ts --ignore-pattern node_modules/",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "electronWebpack": {
@@ -53,7 +54,6 @@
       ]
     }
   },
-
   "dependencies": {
     "@mdi/font": "^3.6.95",
     "@types/fs-extra": "^5.0.5",
