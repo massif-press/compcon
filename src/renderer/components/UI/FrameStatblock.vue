@@ -115,7 +115,7 @@
     components: { ItemTag, DamageElement, RangeElement },
     methods: {
       getStaticPath (path: string) {
-        return `static/${path}`
+        return `${__static}/${path}`
       },
     }
   })

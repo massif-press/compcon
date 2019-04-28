@@ -64,7 +64,7 @@ import ItemTag from '@/components/UI/ItemTag.vue'
 import RangeElement from '@/components/UI/RangeElement.vue'
 import DamageElement from '@/components/UI/DamageElement.vue'
 import FrameStatblock from '@/components/UI/FrameStatblock.vue'
-import colors from '@/components/UI/CCColors.ts'
+import colors from '@/components/UI/CCColors'
 
 export default Vue.extend({
     name: 'compendium-item',
@@ -87,7 +87,7 @@ export default Vue.extend({
     },
     methods: {
         getStaticPath(path: string) {
-            return `static/${path}`
+            return `${__static}/${path}`
         },
     },
 })

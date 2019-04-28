@@ -79,7 +79,6 @@
 import Vue from 'vue'
 import io from '@/store/data_io'
 import {LazyDialog} from '@/components/UI'
-import { ExecFileOptionsWithStringEncoding } from 'child_process';
 
 export default Vue.extend({
   name: 'config-card',
@@ -111,7 +110,7 @@ export default Vue.extend({
       return this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     getStaticPath (path: string): string {
-      return `static/${path}`
+      return `${__static}/${path}`
     },
     toConfigSheet () {
       this.$store.dispatch('loadConfig', this.config.id)

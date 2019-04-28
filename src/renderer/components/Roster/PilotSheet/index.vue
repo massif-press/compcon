@@ -350,7 +350,6 @@
 
 <script lang='ts'>
   import Vue from 'vue'
-  import io from '@/store/data_io'
   import Stats from '@/logic/stats'
   import {clipboard} from 'electron'
   import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '@/components/UI'

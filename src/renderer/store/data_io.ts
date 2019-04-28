@@ -17,8 +17,9 @@ const webImageTypes = [
 
 function getStaticPath(env: string): string {
   // eslint-disable-next-line no-process-env
-  const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
-  return staticPath
+  // const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
+  // return staticPath
+  return __static
 }
 
 export default {
@@ -161,5 +162,6 @@ export default {
       fs.writeFileSync(path.join(savePath, path.parse(imgPath).base), data, null)
       return savePath
     }
+    return 'no data to save!'
   },
 }
