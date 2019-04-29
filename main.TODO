@@ -1,7 +1,7 @@
 Improvements:
   ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17)
   ☐ Activate/Deactivate pilot/mech on sheets
-  ☐ in inactive mode, show max stat only
+  ✔ in inactive mode, show max stat only @done(19-04-29 12:25)
   ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17)
   ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52)
   ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02)
@@ -14,7 +14,6 @@ Styling:
 2.0:
   ☐ Glossary in compendium
   ☐ Action economy in compendium
-  ☐ Options -> Data Wipe (delete vuex.json)
   ☐ Pilot Talent/CB expandables on Mech Sheet
   ☐ Default Images copy
     ☐ Homebrew can take default images folder

@@ -21,7 +21,7 @@
                   </span>
                 </v-layout>
                 <div class="ma-1">
-                  <v-card flat>
+                  <v-card flat color="#373737">
                     <v-card-text class="pb-0 pt-0">
                       <p v-if="item.description" v-html="item.description" class="fluff-text" />
                       <b>{{item.mount}} {{item.type}}</b>
