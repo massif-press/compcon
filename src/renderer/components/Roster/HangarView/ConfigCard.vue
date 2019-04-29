@@ -4,7 +4,7 @@
     <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
       <v-flex class="ma-0 pb-0 pt-0">
         <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" position="top" :height="`${cardHeight}px`"/>
-        <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" position="top" :height="`${cardHeight}px`"/>
+        <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" position="top" :height="`${cardHeight}px`"/>
       </v-flex>
     </v-layout>
     <v-layout row>

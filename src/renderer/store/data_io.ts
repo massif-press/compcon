@@ -38,8 +38,20 @@ export default {
       check(dataPath)
       check(path.join(userDataPath, 'content'))
       check(path.join(userDataPath, 'img'))
-      check(path.join(userDataPath, 'img', 'frame'))
+      check(path.join(userDataPath, 'img', 'frame'));
+      check(path.join(userDataPath, 'img', 'default_frames'))
+      // check(path.join(userDataPath, 'img', 'default_frames'))
       check(path.join(userDataPath, 'img', 'portrait'))
+      var allDefaultImages = this.getImages('frames', getStaticPath());
+      for (let i = 0; i < allDefaultImages.length; i++) {
+        var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        if (!fs.existsSync(imagePath)) {
+          console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
+          const origin = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
+          const destination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+          copySync(origin, destination)
+        }
+      }
     }
   },
   loadData<T = object>(filename: string): T[] {
@@ -106,6 +118,22 @@ export default {
     }
     const destination = path.join(userDataPath, 'content', path.basename(origin))
     copySync(origin, destination)
+
+    // collect and copy default frame images into global default frame folder
+    // var frameImagePath = path.join(destination, 'img', 'default_frames')
+    console.log("destination:", destination)
+    var allDefaultImages = this.getImages("default_frames", destination);
+    console.log("all default images:", allDefaultImages);
+    for (let i = 0; i < allDefaultImages.length; i++) {
+      var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+      console.log("image path:", imagePath);
+      if (!fs.existsSync(imagePath)) {
+        console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
+        const imgOrigin = path.join(destination, 'img', 'default_frames', allDefaultImages[i])
+        const imgDestination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        copySync(imgOrigin, imgDestination);
+      }
+    }
   },
   setBrewActive(userDataPath: string, subdir: string, isActive: boolean): void {
     const infopath = path.join(userDataPath, 'content', subdir, 'info.json')
@@ -118,8 +146,10 @@ export default {
     }
   },
   getImages(subdir: string, userDataPath: string): string[] {
+    console.log(userDataPath)
     if (fs.existsSync(userDataPath)) {
       const userPath = path.join(userDataPath, 'img', subdir)
+      console.log(userPath)
       if (fs.existsSync(userPath)) {
         return fs.readdirSync(userPath).filter((x) => webImageTypes.includes(path.extname(x).toLowerCase()))
       }
