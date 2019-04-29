@@ -91,7 +91,7 @@
         </v-card-text>
         </v-flex>
         <v-flex>
-           <v-img :src="getStaticPath(`img/frames/${frame.id}.png`)" class="ma-2" contain
+           <v-img :src="`file://${userDataPath}/img/default_frames/${frame.id}.png`" class="ma-2" contain
             style="top: 50%; left: 50%; transform: translate(-50%,-50%);"/>
         </v-flex>
       </v-layout>
