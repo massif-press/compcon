@@ -16,9 +16,6 @@ const webImageTypes = [
 ]
 
 function getStaticPath (): string {
-  // eslint-disable-next-line no-process-env
-  // const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
-  // return staticPath
   return __static
 }
 
@@ -52,24 +49,6 @@ export default {
           copySync(origin, destination)
         }
       }
-    }
-  },
-  loadData<T = object>(filename: string): T[] {
-    const p = path.join(getStaticPath(), 'data', filename + '.json')
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, 'utf-8'))
-    } else {
-      console.error(`file ${filename} does not exist at ${p}.`)
-      return []
-    }
-  },
-  loadSingle<T = object>(filename: string): T {
-    const p = path.join(getStaticPath(), 'data', filename + '.json')
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, 'utf-8'))
-    } else {
-      console.error(`file ${filename} does not exist at ${p}.`)
-      return {} as T
     }
   },
   findBrewData(userDataPath: string) {
@@ -120,13 +99,9 @@ export default {
     copySync(origin, destination)
 
     // collect and copy default frame images into global default frame folder
-    // var frameImagePath = path.join(destination, 'img', 'default_frames')
-    console.log("destination:", destination)
     var allDefaultImages = this.getImages("default_frames", destination);
-    console.log("all default images:", allDefaultImages);
     for (let i = 0; i < allDefaultImages.length; i++) {
       var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
-      console.log("image path:", imagePath);
       if (!fs.existsSync(imagePath)) {
         console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
         const imgOrigin = path.join(destination, 'img', 'default_frames', allDefaultImages[i])
@@ -146,10 +121,8 @@ export default {
     }
   },
   getImages(subdir: string, userDataPath: string): string[] {
-    console.log(userDataPath)
     if (fs.existsSync(userDataPath)) {
       const userPath = path.join(userDataPath, 'img', subdir)
-      console.log(userPath)
       if (fs.existsSync(userPath)) {
         return fs.readdirSync(userPath).filter((x) => webImageTypes.includes(path.extname(x).toLowerCase()))
       }
