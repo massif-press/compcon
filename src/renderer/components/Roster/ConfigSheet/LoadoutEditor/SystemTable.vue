@@ -64,11 +64,11 @@
           </v-card>
         </template>
       </v-data-table>
-      <span class="red--text">{{current_equip}}</span>
       <v-layout v-if="current_equip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{item(current_equip.id).name}}</v-btn>
+          <v-btn v-if="current_equip.err" color="amber darken-4" @click="remove">Uninstall Missing System</v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{current_equip.name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -108,9 +108,6 @@
     computed: {
       systems (): System[] {
         var vm = this as any
-        console.log('ok')
-        console.log(vm)
-        console.log(vm.current_equip)
         var allSystems = vm.$store.getters.getItemCollection('MechSystems')
         var i = allSystems.filter((x: System) => x.source)
         if (!vm.showLocked) {
@@ -124,7 +121,7 @@
         }
         if (!vm.showOverSp) {
           // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = vm.current_equip 
+          var totalFreeSp = vm.current_equip && !vm.current_equip.err
             ? vm.free_sp + allSystems.find((x: System) => x.id === vm.current_equip.id).sp || 0 
             : vm.free_sp
           i = i.filter((x: System) => x.sp <= totalFreeSp)
@@ -158,9 +155,6 @@
         var vm = this as any
         vm.$emit('remove-item', vm.loadout_index)
       },
-      item (id: string): System {
-        return this.$store.getters.getItemById('MechSystems', id)
-      },
       isLocked (name: string, level: number): boolean {
         if (!name) return false
         var vm = this as any
@@ -171,7 +165,7 @@
       },
       isOverSp (sp): boolean {
         var vm = this as any
-        var totalFreeSp = vm.current_equip 
+        var totalFreeSp = vm.current_equip && !vm.current_equip.err
         ? vm.free_sp + vm.$store.getters.getItemCollection('MechSystems').find(
           (x: System) => x.id === vm.current_equip.id
           ).sp || 0 

@@ -76,7 +76,8 @@
       },
     },
     created () {
-      if (this.current) this.model = this.current
+      if (this.current && !this.readonly) this.model = this.current
+      else if (this.readonly) this.model = this.max
       else this.model = 0  
     }
   })

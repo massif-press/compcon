@@ -14,4 +14,5 @@ declare module 'lancer-data' {
   const talents: any
   const translation_table: any
   const weapons: any
+  const rules: any
 }

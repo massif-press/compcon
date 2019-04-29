@@ -103,6 +103,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import ItemTag from './ItemTag.vue'
+  import {getStatic} from '@/mixins/static'
   import RangeElement from './RangeElement.vue'
   import DamageElement from './DamageElement.vue'
 
@@ -115,7 +116,7 @@
     components: { ItemTag, DamageElement, RangeElement },
     methods: {
       getStaticPath (path: string) {
-        return `${__static}/${path}`
+        return getStatic(path)
       },
     }
   })

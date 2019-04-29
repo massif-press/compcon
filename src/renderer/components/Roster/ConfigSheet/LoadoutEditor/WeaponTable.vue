@@ -89,6 +89,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
+  import {rules} from 'lancer-data'
   import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
   import io from '@/store/data_io'
@@ -128,7 +129,7 @@
       weapons () {
         var vm = this as any
         var allWeapons = vm.$store.getters.getItemCollection('MechWeapons')
-        var fittings = (io.loadSingle('rules') as IRules).mount_fittings[vm.size]
+        var fittings = rules.mount_fittings[vm.size]
         var i = allWeapons.filter((x: Weapon) => x.source && fittings.includes(x.mount))
         if (!vm.showLocked) {
           i = i.filter((x: Weapon) => x.source === 'GMS' 
