@@ -1,7 +1,9 @@
 {
   "name": "electron-webpack-quick-start",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "1.2.8",
+  "author": "Massif Press",
+  "description": "A digital toolkit for the LANCER TTRPG",  
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
