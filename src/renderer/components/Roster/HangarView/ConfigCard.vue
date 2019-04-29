@@ -78,6 +78,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import io from '@/store/data_io'
+import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '@/components/UI'
 
 export default Vue.extend({
@@ -110,7 +111,7 @@ export default Vue.extend({
       return this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     getStaticPath (path: string): string {
-      return `${__static}/${path}`
+      return getStatic(path)
     },
     toConfigSheet () {
       this.$store.dispatch('loadConfig', this.config.id)

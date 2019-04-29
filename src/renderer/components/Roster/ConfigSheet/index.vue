@@ -124,14 +124,18 @@
                   <v-layout>
                     <v-flex shrink>
                       <span class="grey--text">STRUCTURE 
-                        <b :style="`color: ${color.structure.dark}`">{{config.current_structure || 0}}/{{stats.structure}}</b>
+                        <b :style="`color: ${color.structure.dark}`">{{config.current_structure || 0}}
+                          <span v-if="config.active">/{{stats.structure}}</span>
+                        </b>
                       </span>
                       <tick-bar :config_id="config.id" :current="config.current_structure || stats.structure" :max="stats.structure" :attr="`current_structure`" large
                         :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6" config :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text"> 
-                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{config.current_hp || 0}}/{{stats.hp}}</b> 
+                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{config.current_hp || 0}}
+                          <span v-if="config.active">/{{stats.hp}}</span>
+                        </b> 
                         &emsp; ARMOR <b :style="`color: ${color.armor.dark}`">{{stats.armor}}</b>
                       </span>
                       <v-layout>
@@ -151,18 +155,24 @@
                   <v-layout>
                     <v-flex shrink>
                       <span class="grey--text">REACTOR STRESS 
-                        <b :style="`color: ${color.stress.dark}`">{{config.current_stress || 0}}/{{stats.heatstress}}</b></span>
+                        <b :style="`color: ${color.stress.dark}`">{{config.current_stress || 0}}
+                          <span v-if="config.active">/{{stats.heatstress}}</span>
+                        </b></span>
                       <tick-bar :config_id="config.id" :current="config.current_stress || stats.heatstress" :max="stats.heatstress" :attr="`current_stress`" large
                         :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle-slice-8" config  :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
-                      <span class="grey--text">&nbsp;HEAT: <b :style="`color: ${color.heatcap.dark}`">{{config.current_heat || 0}}</b> &emsp; &nbsp;HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
+                      <span class="grey--text">
+                        <span v-if="config.active">&nbsp;HEAT: <b :style="`color: ${color.heatcap.dark}`">{{config.current_heat || 0}}</b> &emsp; &nbsp;</span>
+                        HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
                       <tick-bar :config_id="config.id" :current="config.current_heat || 0" :max="stats.heatcap" :attr="`current_heat`" large
                         :color="color.heatcap.dark" bg-color="red darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle" config  :readonly="!config.active" />
                     </v-flex>
                     <v-spacer />
                       <v-flex>
-                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{config.current_repairs}}/{{stats.repcap}}</b></span>
+                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{config.current_repairs}}
+                        <span v-if="config.active">/{{stats.repcap}}</span>
+                      </b></span>
                       <tick-bar :config_id="config.id" :current="config.current_repairs || stats.repcap" :max="stats.repcap" :attr="`current_repairs`" large
                         :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config  :readonly="!config.active" />
                     </v-flex>
@@ -277,7 +287,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import Stats from '@/logic/stats'
-
+  import {getStatic} from '@/mixins/static'
   import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
   import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
@@ -325,7 +335,7 @@
         vm.$refs.mechImg.showModal()
       },
       getStaticPath (path: string) {
-        return `${__static}/${path}`
+        return getStatic(path)
       },
       setCustomImg (path: string) {
         this.appearanceModal = false

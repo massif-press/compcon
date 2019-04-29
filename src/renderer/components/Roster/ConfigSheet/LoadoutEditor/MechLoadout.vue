@@ -134,8 +134,9 @@
       vm.snackbar = true
     },
     equippedSystem (loadout: MechLoadout, itemIndex: number): any {
-      if (loadout && loadout.systems && loadout.systems[itemIndex]) {
-        return (this as any).getSystem(loadout.systems[itemIndex]).err ? null : loadout.systems[itemIndex]
+      if (loadout.systems && loadout.systems[itemIndex]) {
+        var sys = (this as any).getSystem(loadout.systems[itemIndex].id)
+        return sys
       }
       return null
     },

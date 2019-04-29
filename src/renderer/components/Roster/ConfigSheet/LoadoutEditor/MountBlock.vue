@@ -33,7 +33,7 @@
             fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
         </div>
         <div v-else-if="mount.mount_type === 'Flex'">
-          <div v-if="!mount.weapons[0]">
+          <div v-if="!mount.weapons[0] || getWeapon(mount.weapons[0].id).err">
             <mech-weapon-item :key="'fl0_' + weaponReload" :item="null" 
               fitting-type="Main or Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
@@ -43,9 +43,9 @@
           </div>
           <div v-else-if="mount.weapons[0] && getWeapon(mount.weapons[0].id).mount === 'Auxiliary'">
             <mech-weapon-item :key="'fl2_' + weaponReload" :item="mount.weapons[0]" 
-              fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
+              fitting-type="Auxiliary" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
             <mech-weapon-item :key="'fl3_' + weaponReload" :item="mount.weapons[1] || null" 
-              fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" /> 
+              fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" /> 
           </div>
         </div>
         <div v-else>
@@ -55,7 +55,7 @@
         </div>
         <div v-if="mount.bonuses.includes('intweapon')">
           <mech-weapon-item :key="'int0_' + weaponReload" :item="mount.weapons[intweaponLength] || null" 
-          fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
+          fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
         </div>
           <v-card v-for="(m, mbIdx) in mountBonuses()" :key="`mb_${m}_${mbIdx}`" color="grey darken-1" class="ma-2">
             <v-card-text class="text-xs-center">
@@ -167,7 +167,7 @@
       return vm.allMountBonuses.length - appliedBonuses.length
     },
     intweaponLength (): number {
-      return this.mount.mount_type.includes('/') ? 2 : 1
+      return (this.mount.mount_type.includes('/') || this.mount.mount_type === 'Flex') ? 2 : 1
     }
   },
   methods: {
@@ -265,6 +265,27 @@
       return vm.freeMountBonuses > 0 || vm.mount.bonuses.length
     },
     confirmCBSM (bonusArray: string[]) {
+      //if removing retrofitting
+      if (this.mount.bonuses.includes('retrofit') && !bonusArray.includes('retrofit')) {
+        //remove all weapons and mods on this mount
+        this.$store.dispatch('spliceConfig', {
+          id: this.config_id,
+          attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
+          start_index: 0,
+          delete_count: this.mount.weapons.length
+        })
+      }
+      //if removing intweapon
+      if (this.mount.bonuses.includes('intweapon') && !bonusArray.includes('intweapon')) {
+        //remove all weapons and mods from bonus aux mount
+        this.$store.dispatch('spliceConfig', {
+          id: this.config_id,
+          attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
+          start_index: this.mount.weapons.length - 1,
+          delete_count: 1
+        })
+      }
+
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].bonuses`,

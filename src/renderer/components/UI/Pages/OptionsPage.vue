@@ -59,6 +59,7 @@
   import Vue from 'vue'
   import { remote } from 'electron'
   import io from '@/store/data_io'
+  import lancerData from 'lancer-data'
 
   export default Vue.extend({
     name: 'options-page',
@@ -90,7 +91,7 @@
       detectBrews () {
         this.brews = [] as Brew[]
         // base game
-        var coreData = {info: io.loadData('info')}
+        var coreData = {info: lancerData.info}
         this.brews.push(coreData as Brew)
         // find all brews
         this.brews = this.brews.concat(this.$store.getters.getItemCollection('Brews'))

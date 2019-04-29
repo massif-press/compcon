@@ -1,7 +1,5 @@
-import io from '../store/data_io'
 import { thisPilotGear } from '../data_interfaces/type_guards'
-
-const rules: any = io.loadData('rules')
+import { rules } from "lancer-data";
 
 interface AppState {
   UserDataPath: '',

@@ -42,10 +42,10 @@
           </template>
         </v-data-table>
       </v-card>
-      <v-layout justify-space-between class="pt-4">
+      <v-layout v-if="equippedItem" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="error" @click="remove()">Remove Equipped Item</v-btn>
+          <v-btn color="error" @click="remove()">Remove {{equipped.name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -60,7 +60,8 @@ export default Vue.extend({
     name: 'item-table',
     components: { GearCard, RangeElement, DamageElement },
     props: {
-      itemType: String
+      itemType: String,
+      equippedItem: Object
     },
     data: () => ({
       selectedIndex: -1,
@@ -92,6 +93,10 @@ export default Vue.extend({
     computed: {
       gearItems (): PilotItem {
         return this.$store.getters.getItemCollection('PilotGear').filter((x: any) => this.itemType === x.type)
+      },
+      equipped (): PilotItem {
+        var vm = this as any
+        return vm.equippedItem ? vm.getPilotGear(this.equippedItem.id) : {}
       }
     },
     methods: {

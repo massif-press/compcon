@@ -1,6 +1,10 @@
 Improvements:
-  ☐ Disable remove item/gear button if nothing is currently equipped
-  ☐ Disable nav back/forward when no target exists
+  ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17)
+  ☐ Activate/Deactivate pilot/mech on sheets
+  ☐ in inactive mode, show max stat only
+  ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17)
+  ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52)
+  ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02)
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
@@ -14,8 +18,10 @@ Styling:
   ☐ Pilot Talent/CB expandables on Mech Sheet
   ☐ Default Images copy
     ☐ Homebrew can take default images folder
+  ☐ Preload Long Rim
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
+  ☐ Help Menu
   Printing:
     General Print Options:
       ☐ Large fonts
@@ -50,6 +56,9 @@ Styling:
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
+
+Homebrew:
+  ☐ serve content packs as archives `.lcp`
 
 Archive:
   ✔ Mech loadout item delete @done(19-04-27 13:43) @project(Bugs)

@@ -74,8 +74,7 @@
   import io from '@/store/data_io'
   import {SkillItem} from '../SheetComponents'
   import Selector from './Selector.vue'
-
-  const rules = io.loadSingle<IRules>('rules')
+  import {rules} from 'lancer-data'
 
   export default Vue.extend({
     name: 'skill-selector',

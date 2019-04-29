@@ -76,11 +76,11 @@ export default Vue.extend({
   computed: {
     itemData (): Weapon {
       if (!this.item) return {} as Weapon
-      return this.$store.getters.getItemById('MechWeapons', this.item.id)
+      return (this as any).getWeapon(this.item.id)
     },
     modData (): WeaponMod {
       if (!this.item.mod) return {} as WeaponMod
-      return this.$store.getters.getItemById('WeaponMods', this.item.mod)
+      return (this as any).getMod(this.item.mod)
     },
     rangeBonuses (): {neurolinked: boolean, gyges: boolean} {
       return {

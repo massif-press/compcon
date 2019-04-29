@@ -60,6 +60,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import {getStatic} from '@/mixins/static'
 import ItemTag from '@/components/UI/ItemTag.vue'
 import RangeElement from '@/components/UI/RangeElement.vue'
 import DamageElement from '@/components/UI/DamageElement.vue'
@@ -87,7 +88,7 @@ export default Vue.extend({
     },
     methods: {
         getStaticPath(path: string) {
-            return `${__static}/${path}`
+            return getStatic(path)
         },
     },
 })

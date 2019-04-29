@@ -74,7 +74,7 @@
     <pilot-edit-modal no-activator :modelRef="selectorModal" 
       :title="`Select Pilot ${itemType.charAt(0).toUpperCase() + itemType.substring(1)}`">
       <template v-slot:modal-content>
-        <item-table slot="modal-content" :itemType="itemType" @select-item="equipItem" @remove-item="removeItem"/>
+        <item-table slot="modal-content" :item-type="itemType" :equipped-item="equippedItem" @select-item="equipItem" @remove-item="removeItem"/>
       </template>
     </pilot-edit-modal>
   </div>
@@ -84,13 +84,12 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import uid from '@/logic/uid'
+  import {rules} from 'lancer-data'
 
   import {LazyDialog} from '@/components/UI'
   import {PilotEditModal} from '../SheetComponents'
   import GearItem from './GearItem.vue'
   import ItemTable from './ItemTable.vue'
-
-  const rules = io.loadSingle<IRules>('rules')
 
   const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
@@ -109,6 +108,7 @@
       tabIndex: 0,
       itemIndex: 0,
       itemType: '',
+      equippedItem: null,
       reloadTrigger: 0,
       newLoadoutName: '',
       max: {},
@@ -154,9 +154,13 @@
         }, 10)
       },
       openSelector (index: number, itemType: string) {
-        this.itemIndex = index
-        this.itemType = itemType
-        this.selectorModal = true
+        var vm = this as any
+        vm.itemIndex = index
+        vm.itemType = itemType
+        if (vm.loadouts[vm.tabIndex] && vm.loadouts[vm.tabIndex].items) {
+          vm.equippedItem = vm.loadouts[vm.tabIndex].items[itemType][index]
+        }
+        vm.selectorModal = true
       },
       refresh () {
         this.$forceUpdate()
