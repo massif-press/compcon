@@ -194,6 +194,14 @@
             </v-flex>
           </v-layout>
 
+          <v-layout><span class="config-header">Pilot Traits</span></v-layout>
+
+          <v-layout class="ml-3 mr-3">
+            <v-flex>
+              <pilot-traits :pilot="pilot" />
+            </v-flex>
+          </v-layout>
+
           <v-layout><span class="config-header">Frame Traits</span></v-layout>
           <trait-item v-for="trait in frame.traits" :key="trait.name" :trait="trait" />
 
@@ -289,13 +297,13 @@
   import Stats from '@/logic/stats'
   import {getStatic} from '@/mixins/static'
   import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
-  import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
+  import {StatblockItem, TraitItem, ImageSelector, PilotTraits} from './SheetComponents'
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
   import { clipboard } from 'electron';
 
   export default Vue.extend({
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar, TickBar },
+    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar, TickBar, PilotTraits},
     data: () => ({
       activeLoadoutIdx: 0,
       frameInfoModal: false,
