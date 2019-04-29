@@ -1,5 +1,5 @@
 <template>
-<v-hover>
+<v-hover style="background-color: rgba(0,0,0,0)">
   <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`">
     <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
       <v-flex class="ma-0 pb-0 pt-0">

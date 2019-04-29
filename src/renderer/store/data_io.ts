@@ -15,16 +15,35 @@ const webImageTypes = [
   '.bmp',
 ]
 
-function getStaticPath(env: string): string {
+function getStaticPath (): string {
   // eslint-disable-next-line no-process-env
   // const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
   // return staticPath
   return __static
 }
 
+function check (path: string) {
+  if (!fs.existsSync(path)) {
+    console.info(`necessary dir does not exist: ${path}, creating...`)
+    fs.mkdirSync(path)
+  }   
+}
+
 export default {
+  checkFolders (userDataPath: string) {
+    const dataPath = path.join(userDataPath)
+    if (!dataPath) {
+      console.error('CRITICAL: User Data Path does not exist!')
+    } else {
+      check(dataPath)
+      check(path.join(userDataPath, 'content'))
+      check(path.join(userDataPath, 'img'))
+      check(path.join(userDataPath, 'img', 'frame'))
+      check(path.join(userDataPath, 'img', 'portrait'))
+    }
+  },
   loadData<T = object>(filename: string): T[] {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
+    const p = path.join(getStaticPath(), 'data', filename + '.json')
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p, 'utf-8'))
     } else {
@@ -33,7 +52,7 @@ export default {
     }
   },
   loadSingle<T = object>(filename: string): T {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
+    const p = path.join(getStaticPath(), 'data', filename + '.json')
     if (fs.existsSync(p)) {
       return JSON.parse(fs.readFileSync(p, 'utf-8'))
     } else {
@@ -108,7 +127,7 @@ export default {
     return []
   },
   randomName(filename: string): string {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'generators', filename)
+    const p = path.join(getStaticPath(), 'generators', filename)
     const array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },

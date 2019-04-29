@@ -1,5 +1,5 @@
 <template>
-  <v-hover class="clickable">
+  <v-hover class="clickable" style="background-color: rgba(0,0,0,0)">
     <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`" @click="openConfigModal" style="height: 100%">
       <v-layout row>
         <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
