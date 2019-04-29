@@ -9,7 +9,7 @@ module.exports = {
   },
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    "@typescript-eslint/indent": [true, "spaces", 2],
-    "@typescript-eslint/variable-name": [false, "ban-keywords", "allow-pascal-case", "allow-snake-case"]
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/camelcase": ["error", {properties: "never"}]
   },
 };

@@ -34,6 +34,7 @@ function stageBrewData(userDataPath: string, brewDataFolder: string, file: strin
 const mutations = {
   SET_DATA_PATH(state: AppState, userDataPath: string) {
     state.UserDataPath = userDataPath
+    io.checkFolders(userDataPath)
   },
   LOAD_DATA(state: AppState) {
     state.Backgrounds = lancerData.backgrounds
