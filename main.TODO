@@ -5,6 +5,7 @@ Improvements:
   ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17)
   ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52)
   ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02)
+  ☐ tal hold and lock btn not taking full block format
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
@@ -17,7 +18,7 @@ Styling:
   ✔ Pilot Talent/CB expandables on Mech Sheet @done(19-04-29 13:43)
   ✔ Default Images copy @done(19-04-29 14:19)
     ✔ Homebrew can take default images folder @done(19-04-29 15:13)
-  ☐ Delete Homebrew content packs
+  ☐ Delete Homebrew content packsp
   ☐ Preload Long Rim
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
