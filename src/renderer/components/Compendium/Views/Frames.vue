@@ -2,10 +2,10 @@
   <v-container fluid>
     <span class="display-1 text-uppercase font-weight-thin">FRAMES</span>
     <v-card>
-      <v-layout>
-        <v-flex>
-      <v-autocomplete flat v-model="search" :items="frames" 
-        clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo class="mt-2"/>
+      <v-layout justify-center>
+        <v-flex xs10>
+          <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+            v-model="search" flat hide-details single-line placeholder="Search" clearable />
         </v-flex>
       </v-layout>
       <v-layout >
