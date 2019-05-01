@@ -107,8 +107,8 @@
     watch: {
       $route(to: Route, from: Route) {
         window.scrollTo(0, 0)
-        this.hangarActive = !(to.path === '/roster' || to.path === '/new')
         const activePilot = this.$store.getters.getPilot
+        this.hangarActive = !(to.path === '/roster' || to.path === '/new') || !activePilot
         this.zeroConfigs = activePilot && activePilot.configs && activePilot.configs.length === 0
       },
     },
