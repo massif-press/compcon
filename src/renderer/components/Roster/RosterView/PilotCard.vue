@@ -24,7 +24,7 @@
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
-                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey lighten-1'">mdi-power</v-icon>
+                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
                   </v-btn>
                   <div class="text-xs-center">
                     <span><b :class="activeColorClass(pilot.active)"> {{pilot.active ? 'Active' : 'Inactive'}}</b>

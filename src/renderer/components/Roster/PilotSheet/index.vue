@@ -1,21 +1,30 @@
 <template>
   <div class="roster-content">
     <div v-if="pilot.name">
-      <v-tooltip bottom v-if="pilot.active">
-        <v-toolbar  slot="activator" dense color="success" dark class="ml-1">
+      <v-tooltip bottom>
+        <v-toolbar slot="activator" dense :color="pilot.active? 'info' : 'grey lighten-3'" class="ml-1">
             <v-divider/>
           <v-toolbar-title class="text-uppercase font-weight-light">
-            <span style="letter-spacing: 15px; font-size: 1.75em"> Pilot Active </span>
+            <span style="letter-spacing: 15px; font-size: 1.75em"> Pilot {{pilot.active? 'Active' : 'Inactive'}}</span>
           </v-toolbar-title>
             <v-divider/>
+              <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn large icon class="ma-0 ml-2" @click="activatePilot">
+                  <v-icon large :color="pilot.active ? 'teal accent-2' : 'grey darken-1'">mdi-power</v-icon>
+                </v-btn>              
+              </v-toolbar-items>
         </v-toolbar>
         <div class="text-xs-center">
-          <span><b>Active Pilot</b><br>
+          <span v-if="pilot.active"><b>Active Pilot</b><br>
           Active Pilots cannot edit or reallocate attributes or bonuses<br>
           (except when leveling up) and are able to record current HP.<br><br>
-          You can set this pilot's Active Mech in the Mech Hangar.</span>
+          You can click the toggle to deactivate {{pilot.callsign}}.</span>
+          <span v-else><b>Inctive Pilot</b><br>
+          Inactive Pilots are able to edit and reallocate attributes and bonuses<br>
+          but are unable to record current HP or select active Mechs.<br><br>
+          You can click the toggle to activate {{pilot.callsign}}</span>
         </div>
-      </v-tooltip>
+      </v-tooltip>      
       <v-container fluid :class="pilot.active ? 'mt-2' : ''">
         <!-- Pilot Info Block -->
         <v-layout>
@@ -508,7 +517,17 @@
       copyPilotStatblock () {
         clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         this.notify('Pilot Statblock Copied to Clipboard')
-      }
+      },
+      activatePilot () {
+        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.$store.dispatch('editPilot', {
+          attr: `active`,
+          val: !this.pilot.active
+        })   
+        this.$forceUpdate() 
+        this.$parent.$forceUpdate() 
+        this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
+      },
     },
     computed: {
       pilot (): Pilot {
