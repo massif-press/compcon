@@ -27,12 +27,14 @@
     name: 'system-card',
     props: {
       itemData: Object,
-      tableItem: Boolean
+      tableItem: Boolean,
+      mod: String
     },
     components: { ItemTag, RangeElement, DamageElement },
     computed: {
       rangeBonuses (): any {
         return {
+          stabilizer: this.mod && this.mod === 'stabilizer',
           neurolinked: (this.$store.getters.getPilot.core_bonuses.includes('neurolinked') && this.itemData.type !== 'Melee'),
           gyges: (this.$store.getters.getPilot.core_bonuses.includes('gyges') && this.itemData.type === 'Melee')
         }
