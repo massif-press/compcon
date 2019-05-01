@@ -9,20 +9,33 @@
     </empty-view>
 
     <div v-else-if="config.name">
-      <v-tooltip bottom v-if="config.active">
-        <v-toolbar slot="activator" dense color="warning" class="ml-1">
+
+      <v-tooltip bottom>
+        <v-toolbar slot="activator" dense :color="config.active? 'warning' : 'grey darken-2'" class="ml-1">
             <v-divider/>
-          <v-toolbar-title class="text-uppercase font-weight-light grey--text text--darken-3">
-            <span style="letter-spacing: 15px; font-size: 1.75em"> Mech Active </span>
+          <v-toolbar-title class="text-uppercase font-weight-light">
+            <span style="letter-spacing: 15px; font-size: 1.75em"> Mech {{config.active? 'Active' : 'Inactive'}}</span>
           </v-toolbar-title>
             <v-divider/>
+              <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn large icon class="ma-0 ml-2" @click="activateConfig">
+                  <v-icon large :color="config.active ? 'yellow accent-2' : 'grey darken-3'">mdi-power</v-icon>
+                </v-btn>
+              </v-toolbar-items>
         </v-toolbar>
         <div class="text-xs-center">
-          <span><b>Active Mech</b><br>
-          Active Mechs can track Structure, HP, Reactor Stress, Heat, Overcharge status<br>
-          and Repair Capacity. A pilot may have only one mech activated at a time.</span>
+          <span v-if="config.active"><b>Active Mech</b><br>
+          Active Mechs can track Structure, HP, Reactor Stress, Heat, <br>
+          Overcharge, and Repair Capacity.<br>
+          A pilot may have only one mech activated at a time.<br><br>
+          You can click the toggle to deactivate {{config.name}}</span>
+          <span v-else><b>Inctive Mech</b><br>
+          Inactive Mechs are unable to track any stats, but Pilots may<br>
+          have only one active Mech at any time. Making this Mech active<br>
+          will deactivate any currently active Mechs<br><br>
+          You can click the toggle to activate {{config.name}}</span>
         </div>
-      </v-tooltip>
+      </v-tooltip> 
 
       <v-container fluid class="pt-0">
         <!-- ID Block -->
@@ -379,6 +392,28 @@
       copyConfigStatblock () {
         clipboard.writeText(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
         this.notify('Pilot Statblock Copied to Clipboard')
+      },
+      activateConfig() {
+        if (!this.config.active) {
+          for (let i = 0; i < this.pilot.configs.length; i++) {
+            if (this.pilot.configs[i].active) {
+                this.$store.dispatch('editConfig', {
+                id: this.pilot.configs[i].id,
+                attr: `active`,
+                val: false
+              })
+            }
+          }
+        }
+        this.$store.dispatch('editConfig', {
+          id: this.config.id,
+          attr: `active`,
+          val: !this.config.active
+        })
+        this.$store.dispatch('editPilot', {
+          attr: 'active_config',
+          val: this.config.id
+        })
       }
     },
     computed: {

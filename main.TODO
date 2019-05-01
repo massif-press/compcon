@@ -5,8 +5,8 @@ Improvements:
   ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52)
   ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02)
   ✔ tal hold and lock btn not taking full block format @done(19-05-01 14:22)
-  ☐ add overcharge to active mechs
-  ☐ Activate/Deactivate pilot/mech on sheets
+  ✔ add overcharge to active mechs @done(19-05-01 15:07)
+  ✔ Activate/Deactivate pilot/mech on sheets @done(19-05-01 15:07)
   ☐ move config overcharge into rules.json
   
 Styling:
