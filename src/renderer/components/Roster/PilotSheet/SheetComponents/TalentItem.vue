@@ -16,7 +16,7 @@
       </v-card>
       <v-card>
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
+          <div style="width:100%">
             <div class="title"><v-icon class="mb-1">star</v-icon> {{talentData.r1_name}}</div>
             <p class="pl-4 effect-text" v-html="talentData.r1_desc" />
             <div class="ma-2 mr-5 ml-5" v-if="selectable">
@@ -32,7 +32,7 @@
       </v-card>
       <v-card :color="isLocked(2) ? 'grey lighten-5' : ''">
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
+          <div style="width:100%">
             <div class="title">
               <span v-if="isLocked(2)">
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r2_name}}
@@ -55,7 +55,7 @@
       </v-card>
       <v-card :color="isLocked(3) ? 'grey lighten-5' : ''">
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
+          <div style="width:100%">
             <div class="title">
               <span v-if="isLocked(3)">
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r3_name}}
