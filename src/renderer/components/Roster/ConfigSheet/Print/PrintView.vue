@@ -200,11 +200,15 @@
                   </div>
                   <div v-else v-for="w in mount.weapons" :key="w.id">
                     <v-layout>
-                      <v-flex shrink class="ml-1" v-if="!weapon(w.id).err"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
+                      <v-flex shrink class="ml-1" v-if="!weapon(w.id).err">
+                        <span class="p-large">{{weapon(w.id).name}}</span>
+                        <span v-if="w.mod" class="p-reg">&nbsp;//&nbsp;{{mod(w.mod).name}}</span>
+                        </v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
                     </v-layout>
                     <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
+                    <p v-if="w.mod" class="p-reg ml-2 mt-0 mb-0"><span class="p-large">{{mod(w.mod).name}}:</span> {{mod(w.mod).effect}}</p>
                     <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                   </div>
                 </div>
@@ -269,6 +273,9 @@
       },
       weapon (id: string) {
         return this.$store.getters.getItemById('MechWeapons', id)
+      },
+      mod (id: string) {
+        return this.$store.getters.getItemById('WeaponMods', id)
       },
       signed (val: number) {
         return val > -1 ? `+${val}` : `${val}`

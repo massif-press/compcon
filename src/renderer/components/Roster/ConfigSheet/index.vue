@@ -45,7 +45,7 @@
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-flex>
+          <v-flex xs7>
             <v-layout>
               <v-flex>
                 <span class="white--text fluff-text ml-2">{{ getManufacturer(frame.source).name }} {{ frame.mechtype }} Mech</span>
@@ -88,7 +88,7 @@
           </v-flex>
           <!-- Appearance -->
           <v-flex class="ma-2">
-            <div style="background-color: #757575">
+            <div style="border: solid 1px #757575; border-radius: 3px">
               <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
               <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" class="ml-2" max-height="55vh" contain/>
             </div>
