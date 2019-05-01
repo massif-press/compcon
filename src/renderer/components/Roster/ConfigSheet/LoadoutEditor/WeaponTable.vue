@@ -22,8 +22,8 @@
       </v-tooltip>
 
       <v-spacer />
-      <v-autocomplete flat dense v-model="search" :items="weapons" clearable hide-details 
-        hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+        v-model="search" flat hide-details single-line placeholder="Search" clearable />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">

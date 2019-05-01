@@ -2,8 +2,8 @@
   <v-card flat>
     <v-container fluid>
       <v-toolbar color="white" class="pt-1" >
-        <v-autocomplete flat v-model="search" :items="gearItems" clearable hide-details 
-          hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+        v-model="search" flat hide-details single-line placeholder="Search" clearable />
       </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
