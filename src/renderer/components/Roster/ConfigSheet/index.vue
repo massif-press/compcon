@@ -19,8 +19,8 @@
         </v-toolbar>
         <div class="text-xs-center">
           <span><b>Active Mech</b><br>
-          Active Mechs can track Structure, HP, Reactor Stress, Heat, and<br>
-          Repair Capacity. A pilot may have only one mech activated at a time.</span>
+          Active Mechs can track Structure, HP, Reactor Stress, Heat, Overcharge status<br>
+          and Repair Capacity. A pilot may have only one mech activated at a time.</span>
         </div>
       </v-tooltip>
 
@@ -31,9 +31,6 @@
             <editable-label dark :attr="`${configPath}.name`" description="Configuration Name" :placeholder="config.name">
               <span slot="label" class="display-2 white--text">{{config.name}}</span>
             </editable-label>
-            <v-btn absolute top right :style="`margin-top: ${config.active ? '145' : '90'}px`" outline color="grey lighten-1" to="/pilot">
-              <v-icon>mdi-arrow-left</v-icon>&emsp;Return to Pilot Sheet
-            </v-btn>
           </v-flex>
           <v-flex>
             <lazy-dialog :model="frameInfoModal" :title="`${frame.source} ${frame.name}`" hide-confirm @cancel="frameInfoModal = false">
@@ -176,6 +173,15 @@
                       <tick-bar :config_id="config.id" :current="config.current_repairs || stats.repcap" :max="stats.repcap" :attr="`current_repairs`" large
                         :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config  :readonly="!config.active" />
                     </v-flex>
+                    <v-spacer />
+                    <v-flex v-if="config.active">
+                      <span class="grey--text"> &nbsp;OVERCHARGE 
+                        <b :style="`color: ${color.overcharge.dark}`">
+                          {{overcharge[config.overcharge || 0]}}
+                      </b></span>
+                      <tick-bar :config_id="config.id" :current="config.overcharge" :max="4" attr="overcharge" large
+                        :color="color.overcharge.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="mdi-alert-decagram" config />
+                    </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -311,7 +317,8 @@
       printWarningDialog: false,
       snackbar: false,
       notification: '',
-      loadoutForceReloadTrigger: 0
+      loadoutForceReloadTrigger: 0,
+      overcharge: [ "+1", "+1d3", "+1d6", "+1d6+4", "MAX"]
     }),
     methods: {
       setActiveIndex (index: number) {
