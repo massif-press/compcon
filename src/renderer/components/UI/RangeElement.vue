@@ -4,15 +4,9 @@
     <v-tooltip top v-if="small">
       <span slot="activator" :style="`font-size: ${size || 16}px; display: inline-flex;`">
         <span v-if="range[0].override"><v-icon>more_horiz</v-icon></span>
-        <div v-else v-for="n in range.length" :key="n + range[n-1].type + parseInt(range[n - 1].val) + '_activator'">
-          <span v-if="bonuses && bonuses.neurolinked && range[n-1].type === 'range'" class="text-capitalize">
-            {{range[n - 1].type}} {{parseInt(range[n - 1].val) + 3}}*
-          </span>
-          <span v-if="bonuses && bonuses.gyges && range[n-1].type === 'threat'" class="text-capitalize">
-            {{range[n - 1].type}} {{parseInt(range[n - 1].val) + 1}}*
-          </span>
-          <span v-else class="text-capitalize">{{range[n - 1].type}} {{parseInt(range[n - 1].val)}}</span>
-          <span v-if="range.length > n" class="grey--text">//</span>
+        <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_activator'">
+          <span class="text-capitalize">{{getRange(range[n - 1], true)}}</span>
+          <span v-if="range.length > n" class="grey--text">//&nbsp;</span>
         </div>    
       </span>
       <span>
@@ -24,15 +18,9 @@
     <div v-if="!small">
     <span :style="`font-size: ${size || 16}px; display: inline-flex;`">
       <b v-if="range[0].override" class="text-capitalize"> {{range[0].val}} </b>
-      <div v-else v-for="n in range.length" :key="n + range[n-1].type + parseInt(range[n - 1].val) + '_range'">
-        <b v-if="bonuses && bonuses.neurolinked && range[n-1].type === 'range'" class="text-capitalize">
-          {{range[n - 1].type}} {{parseInt(range[n - 1].val) + 3}} ({{parseInt(range[n - 1].val)}} +3 )
-        </b>
-        <b v-if="bonuses && bonuses.gyges && range[n-1].type === 'threat'" class="text-capitalize">
-          {{range[n - 1].type}} {{parseInt(range[n - 1].val) + 1}} ({{parseInt(range[n - 1].val)}} +1 )
-        </b>
-        <b v-else class="text-capitalize">{{range[n - 1].type}} {{parseInt(range[n - 1].val)}}</b>
-        <span v-if="range.length > n" class="grey--text">//</span>
+      <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_range'">
+        <b class="text-capitalize"> {{getRange(range[n - 1], false)}} </b>
+        <span v-if="range.length > n" class="grey--text">//&nbsp;</span>
       </div>
     </span>
       <div v-if="showCb">
@@ -63,6 +51,27 @@
       size: String,
       bonuses: Object,
       showCb: Boolean
+    },
+    methods: {
+      getRange(range: {type: string, val: any}, small: boolean): string {
+        var vm = this as any
+        var rType = range.type
+        var rVal = parseInt(range.val)
+        var rBonusArr = []
+
+        if (vm.bonuses) {
+          if (range.type === 'range') {
+            if (vm.bonuses.stabilizer) rBonusArr.push(5)
+            if (vm.bonuses.neurolinked) rBonusArr.push(3)
+          } else if (range.type === 'threat') {
+            if (vm.bonuses.gyges) rBonusArr.push(1)   
+          }
+        }
+
+        var sum = rBonusArr.reduce(function(a: number, b: number) { return a + b; }, 0);
+        if (small) return rBonusArr.length ? `${rType} ${rVal + sum}*` : `${rType} ${rVal}`
+        return rBonusArr.length ? `${rType} ${rVal + sum} (${rVal} + ${rBonusArr.join(' + ')})` : `${rType} ${rVal}`
+      }
     }
   })
 </script>
