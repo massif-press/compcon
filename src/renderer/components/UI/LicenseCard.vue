@@ -49,29 +49,7 @@
       license: Object,
       rank: Number
     },
-    components: { 'item-badge': ItemBadge },
-    methods: {
-      tooltip(item: CCItem) {
-        if (thisItem.isFrame(item)) {
-          return `<b>FRAME</b><br>${item.mechtype}`
-        } else if (thisItem.isWeapon(item)) {
-          return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
-        } else {
-          return `<b>MECH SYSTEM</b><br>${item.type}`
-        }
-      },
-      itemColor(t: string) {
-        if (t === 'frame') { return 'deep-purple' }
-        else if (t === 'weapon') { return 'primary' }
-        return 'teal'
-      },
-      openItem(t: CCItem) {
-        this.$store.dispatch('setPresearch', t.name)
-        if (t.data_type === 'frame') { this.$router.push('frames') }
-        else if (t.data_type === 'weapon') { this.$router.push('weapons') }
-        else { this.$router.push('systems') }
-      },
-    }
+    components: { 'item-badge': ItemBadge }
   })
 </script>
 

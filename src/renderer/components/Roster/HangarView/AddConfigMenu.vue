@@ -35,7 +35,7 @@
                 <span v-else>Hide unauthorized Frames</span>
               </v-tooltip>
               <v-spacer />
-              <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+              <v-text-field class="search-field ma-2" prepend-icon="search"
                 v-model="search" flat hide-details single-line placeholder="Search" clearable />
             </v-toolbar>
             <v-card light>

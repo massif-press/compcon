@@ -17,4 +17,10 @@ export const thisItem = {
     isWeapon(x: any): x is Weapon {
         return x.data_type === 'weapon'
     },
+    isSystem(x: any): x is System {
+        return x.data_type === 'system'
+    },
+    isMod(x: any): x is WeaponMod {
+        return x.data_type === 'mod'
+    },
 }
