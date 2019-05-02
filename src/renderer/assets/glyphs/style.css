@@ -1,0 +1,184 @@
+@font-face {
+  font-family: 'compcon';
+  src:  url('fonts/compcon.eot?aanadr');
+  src:  url('fonts/compcon.eot?aanadr#iefix') format('embedded-opentype'),
+    url('fonts/compcon.ttf?aanadr') format('truetype'),
+    url('fonts/compcon.woff?aanadr') format('woff'),
+    url('fonts/compcon.svg?aanadr#compcon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="cc-"], [class*=" cc-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'compcon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cc-frame .path1:before {
+  content: "\e901";
+  color: rgb(0, 0, 0);
+}
+.cc-frame .path2:before {
+  content: "\e902";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.cc-frame .path3:before {
+  content: "\e903";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.cc-frame .path4:before {
+  content: "\e904";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.cc-frame .path5:before {
+  content: "\e905";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.cc-frame .path6:before {
+  content: "\e906";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.cc-frame-outline:before {
+  content: "\e900";
+}
+.cc-advantage:before {
+  content: "\41";
+}
+.cc-aoe-blast:before {
+  content: "\42";
+}
+.cc-aoe-burst:before {
+  content: "\43";
+}
+.cc-aoe-cone:before {
+  content: "\44";
+}
+.cc-aoe-line:before {
+  content: "\45";
+}
+.cc-energy-damage:before {
+  content: "\46";
+}
+.cc-burn-damage:before {
+  content: "\47";
+}
+.cc-explosive-damage:before {
+  content: "\48";
+}
+.cc-heat-damage:before {
+  content: "\49";
+}
+.cc-kinetic-damage:before {
+  content: "\4a";
+}
+.cc-difficulty:before {
+  content: "\4b";
+}
+.cc-melee:before {
+  content: "\4c";
+}
+.cc-pilot:before {
+  content: "\4d";
+}
+.cc-range:before {
+  content: "\4e";
+}
+.cc-reactor-stress:before {
+  content: "\4f";
+}
+.cc-structure:before {
+  content: "\50";
+}
+.cc-threat:before {
+  content: "\51";
+}
+.cc-thrown:before {
+  content: "\52";
+}
+.cc-difficulty1:before {
+  content: "\40";
+}
+.cc-difficulty-outline:before {
+  content: "\60";
+}
+.cc-accuracy-outline:before {
+  content: "\61";
+}
+.cc-aoe-blast-outline:before {
+  content: "\62";
+}
+.cc-aoe-burst-outline:before {
+  content: "\63";
+}
+.cc-aoe-cone-outline:before {
+  content: "\64";
+}
+.cc-aoe-line-outline:before {
+  content: "\65";
+}
+.cc-energy-damage-outline:before {
+  content: "\66";
+}
+.cc-burn-damage-outline:before {
+  content: "\67";
+}
+.cc-explosive-damage-outline:before {
+  content: "\68";
+}
+.cc-heat-damage-outline:before {
+  content: "\69";
+}
+.cc-kinetic-damage-outline:before {
+  content: "\6a";
+}
+.cc-difficulty-outline1:before {
+  content: "\6b";
+}
+.cc-melee-outline:before {
+  content: "\6c";
+}
+.cc-pilot-outline:before {
+  content: "\6d";
+}
+.cc-range-outline:before {
+  content: "\6e";
+}
+.cc-reactor-stress-outline:before {
+  content: "\6f";
+}
+.cc-structure-outline:before {
+  content: "\70";
+}
+.cc-threat-outline:before {
+  content: "\71";
+}
+.cc-thrown-outline:before {
+  content: "\72";
+}
+.cc-interdiction:before {
+  content: "\30";
+}
+.cc-rank-1:before {
+  content: "\31";
+}
+.cc-rank-2:before {
+  content: "\32";
+}
+.cc-rank-3:before {
+  content: "\33";
+}

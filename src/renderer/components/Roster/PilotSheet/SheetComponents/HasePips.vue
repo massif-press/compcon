@@ -1,7 +1,7 @@
 <template>
   <v-flex>
     <span class="text-uppercase">{{title}}</span> <span class="grey--text">({{attr || 0}})</span>
-    <v-rating v-model="attr" hover x-large length=6 readonly dense empty-icon="radio_button_unchecked" full-icon="brightness_1"/>
+    <v-rating v-model="attr" hover x-large length=6 readonly dense empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6"/>
   </v-flex>
 </template>
 

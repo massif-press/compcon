@@ -6,8 +6,8 @@
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
+      <v-icon color="primary" v-html="`cc-rank-${talent.rank}`" />
       <span>{{talentData.name}}</span>
-      <v-rating class="d-inline" :value="talent.rank" :length="3" readonly dense/>
     </v-toolbar-title>
 
     <div v-if="!talentData.err">
