@@ -148,10 +148,10 @@
                               <v-flex class="text-xs-center">
                               <v-btn-toggle v-model="invoke_attribute" dark>
                                 <v-btn large color="primary">
-                                  <v-icon>mdi-transfer-up</v-icon>&emsp;<span>Accuracy</span>
+                                  <v-icon large>cc-accuracy-outline</v-icon>&emsp;<span>Accuracy</span>
                                 </v-btn>
                                 <v-btn large color="error">
-                                  <v-icon>mdi-transfer-down</v-icon>&emsp;<span>Difficulty</span>
+                                  <v-icon large>cc-difficulty-outline</v-icon>&emsp;<span>Difficulty</span>
                                 </v-btn>
                               </v-btn-toggle>
                               </v-flex>

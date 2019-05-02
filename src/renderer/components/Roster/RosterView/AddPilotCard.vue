@@ -4,7 +4,7 @@
       <v-layout row>
         <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
-            <span class="pilot-letter white--text">+</span>
+            <span class="pilot-letter white--text"><v-icon dark size="20vw">cc-pilot-outline</v-icon></span>
           </div>
         </v-flex>
       </v-layout>

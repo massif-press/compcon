@@ -4,7 +4,7 @@
     <v-card>
       <v-layout justify-center>
         <v-flex xs10>
-          <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+          <v-text-field class="search-field ma-2" prepend-icon="search"
             v-model="search" flat hide-details single-line placeholder="Search" clearable />
         </v-flex>
       </v-layout>
