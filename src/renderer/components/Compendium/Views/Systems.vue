@@ -2,7 +2,7 @@
   <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH SYSTEMS</span>
       <v-card>
-          <v-text-field class="search-field mt-2 mb-2" prepend-icon="search"
+          <v-text-field class="search-field ma-2" prepend-icon="search"
             v-model="search" flat hide-details single-line placeholder="Search" clearable />
         <v-data-table :headers="headers" :items="systems" :search="search" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">

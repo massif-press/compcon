@@ -272,9 +272,6 @@
         this.stepForward()
         Vue.set(this.newPilot, payload.field, payload.value)
       },
-      // item (type: string, id: string): CCItem {
-      //   return this.$store.getters.getItemById(type, id)
-      // },
       setSkills (skills: any) {
         this.itemSelect({field: 'skills', value: skills})
       },

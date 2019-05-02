@@ -2,7 +2,7 @@
   "name": "compcon",
   "version": "1.2.9",
   "author": "Massif Press",
-  "description": "A digital toolkit for the LANCER TTRPG",  
+  "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
