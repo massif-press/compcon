@@ -2,7 +2,7 @@
   <div class="roster-content">
     <div v-if="pilot.name">
       <v-tooltip bottom>
-        <v-toolbar slot="activator" dense :color="pilot.active? 'info' : 'grey lighten-3'" class="ml-1">
+        <v-toolbar slot="activator" dense :color="pilot.active? 'info' : 'grey lighten-3'" :dark="pilot.active" class="ml-1">
             <v-divider/>
           <v-toolbar-title class="text-uppercase font-weight-light">
             <span style="letter-spacing: 15px; font-size: 1.75em"> Pilot {{pilot.active? 'Active' : 'Inactive'}}</span>
@@ -148,10 +148,10 @@
                               <v-flex class="text-xs-center">
                               <v-btn-toggle v-model="invoke_attribute" dark>
                                 <v-btn large color="primary">
-                                  <v-icon large>cc-accuracy-outline</v-icon>&emsp;<span>Accuracy</span>
+                                  <v-icon large>cc-accuracy</v-icon>&emsp;<span>Accuracy</span>
                                 </v-btn>
                                 <v-btn large color="error">
-                                  <v-icon large>cc-difficulty-outline</v-icon>&emsp;<span>Difficulty</span>
+                                  <v-icon large>cc-difficulty</v-icon>&emsp;<span>Difficulty</span>
                                 </v-btn>
                               </v-btn-toggle>
                               </v-flex>

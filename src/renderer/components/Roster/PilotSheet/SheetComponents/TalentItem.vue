@@ -17,7 +17,7 @@
       <v-card>
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
           <div style="width:100%">
-            <div class="title"><v-icon class="mb-1">star</v-icon> {{talentData.r1_name}}</div>
+            <div class="title"><v-icon class="mt-2" color="primary">cc-rank-1</v-icon> {{talentData.r1_name}}</div>
             <p class="pl-4 effect-text" v-html="talentData.r1_desc" />
             <div class="ma-2 mr-5 ml-5" v-if="selectable">
               <v-btn v-if="available && talent.rank === 0" block color="primary" @click="addTalent()">
@@ -38,7 +38,7 @@
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r2_name}}
               </span>
               <span v-else>
-                <v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon> {{talentData.r2_name}}
+                <v-icon class="mt-2" color="primary">cc-rank-2</v-icon> {{talentData.r2_name}}
               </span>
             </div>
             <p class="pl-4 effect-text" v-html="talentData.r2_desc" />
@@ -61,7 +61,7 @@
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r3_name}}
               </span>
               <span v-else>
-                <v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon> {{talentData.r3_name}}
+                <v-icon class="mt-2" color="primary">cc-rank-3</v-icon> {{talentData.r3_name}}
               </span>
             </div>
             <p class="pl-4 effect-text" v-html="talentData.r3_desc" />
