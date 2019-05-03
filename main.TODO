@@ -1,12 +1,4 @@
 Improvements:
-  ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17)
-  ✔ in inactive mode, show max stat only @done(19-04-29 12:25)
-  ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17)
-  ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52)
-  ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02)
-  ✔ tal hold and lock btn not taking full block format @done(19-05-01 14:22)
-  ✔ add overcharge to active mechs @done(19-05-01 15:07)
-  ✔ Activate/Deactivate pilot/mech on sheets @done(19-05-01 15:07)
   ☐ move config overcharge into rules.json
   
 Styling:
@@ -17,9 +9,6 @@ Styling:
 2.0:
   ☐ Glossary in compendium
   ☐ Action economy in compendium
-  ✔ Pilot Talent/CB expandables on Mech Sheet @done(19-04-29 13:43)
-  ✔ Default Images copy @done(19-04-29 14:19)
-    ✔ Homebrew can take default images folder @done(19-04-29 15:13)
   ☐ Delete Homebrew content packsp
   ☐ Preload Long Rim
   ☐ Github Gist API import/exporter (export and import by ID)
@@ -64,6 +53,17 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17) @project(Improvements)
+  ✔ in inactive mode, show max stat only @done(19-04-29 12:25) @project(Improvements)
+  ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17) @project(Improvements)
+  ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52) @project(Improvements)
+  ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02) @project(Improvements)
+  ✔ tal hold and lock btn not taking full block format @done(19-05-01 14:22) @project(Improvements)
+  ✔ add overcharge to active mechs @done(19-05-01 15:07) @project(Improvements)
+  ✔ Activate/Deactivate pilot/mech on sheets @done(19-05-01 15:07) @project(Improvements)
+  ✔ Pilot Talent/CB expandables on Mech Sheet @done(19-04-29 13:43) @project(2.0)
+  ✔ Default Images copy @done(19-04-29 14:19) @project(2.0)
+  ✔ Homebrew can take default images folder @done(19-04-29 15:13) @project(2.0)
   ✔ Mech loadout item delete @done(19-04-27 13:43) @project(Bugs)
   ✔ Weapons with SP flag as over sp even though they're selectable (?) @done(19-04-27 13:43) @project(Bugs)
   ✔ Replace all rank star loops/v-rating with component @done(19-04-27 13:42) @project(Improvements)
