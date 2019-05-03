@@ -2,8 +2,8 @@
   <v-tooltip top>
     <v-chip close @input="remove" outline :color="invoke.accuracy ? 'primary' : 'error'" slot="activator">
       <v-avatar>
-        <v-icon v-if="invoke.accuracy">cc-accuracy-outline</v-icon>
-        <v-icon v-else>cc-difficulty-outline</v-icon>
+        <v-icon v-if="invoke.accuracy">cc-accuracy</v-icon>
+        <v-icon v-else>cc-difficulty</v-icon>
       </v-avatar>
       {{invoke.trigger}}
     </v-chip>

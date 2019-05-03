@@ -1,18 +1,25 @@
 <template>
   <div>
     <!-- Small Element -->
-    <v-tooltip top v-if="small">
-      <span slot="activator" :style="`font-size: ${size || 16}px; display: inline-flex;`">
-        <span v-if="range[0].override"><v-icon>more_horiz</v-icon></span>
-        <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_activator'">
-          <span class="text-capitalize">{{getRange(range[n - 1], true)}}</span>
-          <span v-if="range.length > n" class="grey--text">//&nbsp;</span>
-        </div>    
-      </span>
-      <span>
-        Range  
-      </span>
-    </v-tooltip>
+    <div top v-if="small">
+      <v-tooltip top v-if="range[0].override">
+        <span slot="activator"><v-icon>more_horiz</v-icon></span>
+        <span class="text-capitalize"> {{range[0].val}}</span>
+      </v-tooltip>
+
+      <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_activator'" style="display:inline">
+        <v-tooltip top v-if="small">      
+          <span slot="activator" :style="`font-size: ${size || 16}px; display: inline-flex;`">
+            <span class="text-capitalize">{{getRange(range[n - 1], true)}}</span>
+            <v-icon >cc-{{range[n-1].type}}</v-icon>&nbsp;
+          </span>
+          <span class="text-capitalize">
+            {{range[n-1].type}} {{getRange(range[n - 1], true)}}
+          </span>
+        </v-tooltip>
+      </div> 
+    </div>
+
 
   <!-- Regular Element -->
     <div v-if="!small">
@@ -69,7 +76,7 @@
         }
 
         var sum = rBonusArr.reduce(function(a: number, b: number) { return a + b; }, 0);
-        if (small) return rBonusArr.length ? `${rType} ${rVal + sum}*` : `${rType} ${rVal}`
+        if (small) return rBonusArr.length ? `${rVal + sum}*` : `${rVal}`
         return rBonusArr.length ? `${rType} ${rVal + sum} (${rVal} + ${rBonusArr.join(' + ')})` : `${rType} ${rVal}`
       }
     }

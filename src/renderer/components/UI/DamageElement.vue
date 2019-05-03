@@ -7,7 +7,8 @@
           <b v-if="dmg[0].override"><v-icon>more_horiz</v-icon></b>
           <div v-else v-for="n in dmg.length" :key="n + dmg[n-1].type + dmg[n-1].val + '_activator'">
             <b class="text-capitalize" :style="'color: ' + color(dmg[n - 1].type)">{{dmg[n - 1].val}} 
-              <v-icon :size="size">mdi-flare</v-icon>
+              <v-icon v-if="dmg[n-1].type === 'variable'" :size="size" v-html="'mdi-flare'" :color="color(dmg[n - 1].type)" />
+              <v-icon v-else size="20px" v-html="`cc-${dmg[n-1].type.toLowerCase()}`" :color="color(dmg[n - 1].type)" />
             </b>
             <span v-if="dmg.length > n" class="grey--text">//</span>
           </div>    

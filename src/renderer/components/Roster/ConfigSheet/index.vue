@@ -139,7 +139,7 @@
                         </b>
                       </span>
                       <tick-bar :config_id="config.id" :current="config.current_structure || stats.structure" :max="stats.structure" :attr="`current_structure`" large
-                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon-slice-6" config :readonly="!config.active" />
+                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="cc-structure" config :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text"> 
@@ -169,7 +169,7 @@
                           <span v-if="config.active">/{{stats.heatstress}}</span>
                         </b></span>
                       <tick-bar :config_id="config.id" :current="config.current_stress || stats.heatstress" :max="stats.heatstress" :attr="`current_stress`" large
-                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle-slice-8" config  :readonly="!config.active" />
+                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="cc-reactor-stress" config  :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text">

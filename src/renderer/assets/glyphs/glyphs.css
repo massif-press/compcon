@@ -24,150 +24,165 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.cc-frame .path1:before {
+.cc-frame .path1-filled:before {
   content: "\e901";
   color: rgb(0, 0, 0);
 }
-.cc-frame .path2:before {
+.cc-frame .path2-filled:before {
   content: "\e902";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.cc-frame .path3:before {
+.cc-frame .path3-filled:before {
   content: "\e903";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.cc-frame .path4:before {
+.cc-frame .path4-filled:before {
   content: "\e904";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.cc-frame .path5:before {
+.cc-frame .path5-filled:before {
   content: "\e905";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.cc-frame .path6:before {
+.cc-frame .path6-filled:before {
   content: "\e906";
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.cc-frame-outline:before {
+.cc-frame:before {
   content: "\e900";
 }
-.cc-advantage:before {
+.cc-advantage-filled:before {
   content: "\41";
 }
-.cc-aoe-blast:before {
+.cc-aoe-blast-filled:before {
   content: "\42";
 }
-.cc-aoe-burst:before {
+.cc-aoe-burst-filled:before {
   content: "\43";
 }
-.cc-aoe-cone:before {
+.cc-aoe-cone-filled:before {
   content: "\44";
 }
-.cc-aoe-line:before {
+.cc-aoe-line-filled:before {
   content: "\45";
 }
-.cc-energy-damage:before {
+.cc-energy-damage-filled:before {
   content: "\46";
 }
-.cc-burn-damage:before {
+.cc-burn-damage-filled:before {
   content: "\47";
 }
-.cc-explosive-damage:before {
+.cc-explosive-damage-filled:before {
   content: "\48";
 }
-.cc-heat-damage:before {
+.cc-heat-damage-filled:before {
   content: "\49";
 }
-.cc-kinetic-damage:before {
+.cc-kinetic-damage-filled:before {
   content: "\4a";
 }
-.cc-difficulty:before {
+.cc-difficulty-filled:before {
   content: "\4b";
 }
-.cc-melee:before {
+.cc-melee-filled:before {
   content: "\4c";
 }
-.cc-pilot:before {
+.cc-pilot-filled:before {
   content: "\4d";
 }
-.cc-range:before {
+.cc-range-filled:before {
   content: "\4e";
 }
-.cc-reactor-stress:before {
+.cc-reactor-stress-filled:before {
   content: "\4f";
 }
-.cc-structure:before {
+.cc-structure-filled:before {
   content: "\50";
 }
-.cc-threat:before {
+.cc-threat-filled:before {
   content: "\51";
 }
-.cc-thrown:before {
+.cc-thrown-filled:before {
   content: "\52";
 }
-.cc-difficulty1:before {
+.cc-difficulty1-filled:before {
   content: "\40";
 }
-.cc-difficulty-outline:before {
+.cc-difficulty:before {
   content: "\60";
 }
-.cc-accuracy-outline:before {
+.cc-accuracy:before {
   content: "\61";
 }
-.cc-aoe-blast-outline:before {
+.cc-blast:before {
   content: "\62";
 }
-.cc-aoe-burst-outline:before {
+.cc-burst:before {
   content: "\63";
 }
-.cc-aoe-cone-outline:before {
+.cc-cone:before {
   content: "\64";
 }
-.cc-aoe-line-outline:before {
+.cc-line:before {
   content: "\65";
 }
-.cc-energy-damage-outline:before {
+.cc-energy:before {
   content: "\66";
 }
-.cc-burn-damage-outline:before {
+.cc-burn:before {
   content: "\67";
 }
-.cc-explosive-damage-outline:before {
+.cc-explosive:before {
   content: "\68";
 }
-.cc-heat-damage-outline:before {
+.cc-heat:before {
   content: "\69";
 }
-.cc-kinetic-damage-outline:before {
+.cc-kinetic:before {
   content: "\6a";
 }
-.cc-difficulty-outline1:before {
+.cc-energy-damage:before {
+  content: "\66";
+}
+.cc-burn-damage:before {
+  content: "\67";
+}
+.cc-explosive-damage:before {
+  content: "\68";
+}
+.cc-heat-damage:before {
+  content: "\69";
+}
+.cc-kinetic-damage:before {
+  content: "\6a";
+}
+.cc-difficulty:before {
   content: "\6b";
 }
-.cc-melee-outline:before {
+.cc-melee:before {
   content: "\6c";
 }
-.cc-pilot-outline:before {
+.cc-pilot:before {
   content: "\6d";
 }
-.cc-range-outline:before {
+.cc-range:before {
   content: "\6e";
 }
-.cc-reactor-stress-outline:before {
+.cc-reactor-stress:before {
   content: "\6f";
 }
-.cc-structure-outline:before {
+.cc-structure:before {
   content: "\70";
 }
-.cc-threat-outline:before {
+.cc-threat:before {
   content: "\71";
 }
-.cc-thrown-outline:before {
+.cc-thrown:before {
   content: "\72";
 }
 .cc-interdiction:before {
