@@ -4,7 +4,7 @@
       <v-flex xs2>
         <div class="sidebar">
           <ul class="menu" v-scroll-spy-active="{class: 'customActive'}" v-scroll-spy-link>
-            <li v-for="s in statuses" :key="'key_' + s.id" class="effect-text text-uppercase pt-1 pb-1">
+            <li v-for="s in statuses" :key="'key_' + s.name" class="effect-text text-uppercase pt-1 pb-1">
               <a>{{s.name}}</a>
             </li>
           </ul>
@@ -16,7 +16,7 @@
       <v-flex xs9>   
         <span class="display-1 text-uppercase font-weight-thin">STATUSES</span>
         <div v-scroll-spy="{offset: 60, time:0}">
-          <div v-for="s in statuses" :key="s.id" class="text-xs-center pa-1">
+          <div v-for="s in statuses" :key="s.name" class="text-xs-center pa-1">
             <v-card flat>
               <v-card-title primary-title class="title text-uppercase font-weight-light">{{s.name}}</v-card-title>
               <v-card-text class="text-xs-left pt-0"><ul><li v-for="e in s.effects" :key="e" class="blockquote ma-0 pa-0">{{e}}</li></ul></v-card-text>
