@@ -15,51 +15,29 @@
   <div class="ml-5 mr-5">
     <v-container fluid grid-list-lg class="mt-0 pt-0">
       <v-layout row wrap justify-center>
+        <category-card color="green" icon="mdi-factory" loc="manufacturers" name="Manufacturers" />
         <category-card color="green" icon="mdi-view-week" loc="licenses" name="Licenses" />
-        <category-card color="green" icon="mdi-hexagon-multiple" loc="frames" name="CORE Bonuses" />
+        <category-card color="green" icon="mdi-hexagon-multiple" loc="corebonuses" name="CORE Bonuses" />
+      </v-layout>
+      <v-layout row wrap justify-center>
         <category-card color="purple" icon="cc-frame" loc="frames" name="Frames" />
-        <category-card color="pink darken-2" icon="cc-melee" loc="weapons" name="Mech Weapons" />
+        <category-card color="red" icon="cc-melee" loc="weapons" name="Mech Weapons" />
         <category-card color="teal" icon="mdi-chip" loc="systems" name="Mech Systems" />
       </v-layout>
       <v-layout row wrap justify-center>
+        <category-card color="primary" icon="cc-pilot" loc="pilot_gear" name="Pilot Equipment" />
         <category-card color="indigo" icon="public" loc="backgrounds" name="Pilot Backgrounds" />
         <category-card color="indigo" icon="cc-accuracy" loc="skills" name="Pilot Skill Triggers" />
         <category-card color="indigo" icon="cc-rank-3" loc="talents" name="Pilot Talents" />
-        <category-card color="primary" icon="cc-pilot" loc="pilotgear" name="Pilot Equipment" />
       </v-layout>
       <v-layout row wrap justify-center>
-        <category-card color="green" icon="mdi-factory" loc="manufacturers" name="Manufacturers" />
-        <category-card color="indigo" icon="label" loc="tags" name="Equipment Tags" />
+        <category-card color="secondary" icon="label" loc="tags" name="Equipment Tags" />
         <category-card color="secondary" icon="mdi-gauge" loc="statuses" name="Statuses" />
-        <category-card color="secondary" icon="mdi-map" loc="" name="Combat Reference" />
-        <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" />
+        <category-card color="secondary" icon="mdi-map" loc="reference" name="Combat Reference" />
+        <!-- <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" /> -->
       </v-layout>
     </v-container>
   </div>
-      <!-- <v-flex xs6 px-2>
-        <v-btn to="licenses" outline flat block color="green" text-uppercase>licenses</v-btn>
-      </v-flex>
-      <v-flex xs6 px-2>
-        <v-btn to="manufacturers" outline flat block color="green" text-uppercase>manufacturers</v-btn>
-      </v-flex>
-      <v-flex xs3 px-2>
-        <v-btn to="frames" large outline flat block color="purple" text-uppercase>frames</v-btn>
-      </v-flex>
-      <v-flex xs3 px-2>
-        <v-btn to="weapons" large outline flat block color="pink darken-2" text-uppercase>weapons</v-btn>
-      </v-flex>
-      <v-flex xs3 px-2>
-        <v-btn to="systems" large outline flat block color="teal" text-uppercase>systems</v-btn>
-      </v-flex>
-      <v-flex xs3 px-2>
-        <v-btn to="pilot_gear" large outline flat block color="primary" text-uppercase>pilot gear</v-btn>
-      </v-flex>
-      <v-flex xs6 px-2>
-        <v-btn to="statuses" outline small flat block color="secondary" text-uppercase>statuses</v-btn>
-      </v-flex>
-      <v-flex xs6 px-2>
-        <v-btn to="tags" outline small flat block color="secondary" text-uppercase>tags</v-btn>
-      </v-flex> -->
 </div>
 </template>
 

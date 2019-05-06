@@ -16,7 +16,7 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
 import ClickOutside from './directives/click-outside'
-
+import ScrollSpy, { Easing } from "vue2-scrollspy";
 import * as items from './mixins/data'
 
 const windowAny: any = window
@@ -29,7 +29,9 @@ Vue.use(Vuetify, {
   iconfont: 'mdi',
 })
 Vue.use(VueMousetrap)
-
+Vue.use(ScrollSpy, {
+  easing: Easing.Cubic.In
+});
 
 Vue.directive('click-outside', ClickOutside)
 

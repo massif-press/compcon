@@ -53,7 +53,7 @@ export default new Router({
             },
             {
               path: '/compendium/item/:type/:id',
-              component: require('@/components/Compendium/Views/CompendiumItem').default,
+              component: require('@/components/Compendium/UI/CompendiumItem').default,
             },
             {
               path: '/licenses',
@@ -86,6 +86,26 @@ export default new Router({
             {
               path: '/tags',
               component: require('@/components/Compendium/Views/Tags').default,
+            },
+            {
+              path: '/reference',
+              component: require('@/components/Compendium/Views/Reference').default,
+            },
+            {
+              path: '/corebonuses',
+              component: require('@/components/Compendium/Views/CoreBonuses').default,
+            },
+            {
+              path: '/talents',
+              component: require('@/components/Compendium/Views/Talents').default,
+            },
+            {
+              path: '/backgrounds',
+              component: require('@/components/Compendium/Views/Backgrounds').default,
+            },
+            {
+              path: '/skills',
+              component: require('@/components/Compendium/Views/Skills').default,
             },
           ],
         },

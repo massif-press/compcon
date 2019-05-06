@@ -71,6 +71,7 @@
     "typeface-roboto": "^0.0.54",
     "vue-mousetrap": "^1.0.1",
     "vue-router": "^3.0.6",
+    "vue2-scrollspy": "^2.3.1",
     "vuetify": "^1.5.13",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
