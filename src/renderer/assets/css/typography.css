@@ -31,6 +31,13 @@
   text-transform: uppercase;  
 }
 
+.major-title {
+  font-weight: 500;
+  font-size: 1.8em;
+  letter-spacing: 2px;
+  text-transform: uppercase;  
+}
+
 .active-text {
   font-size: 3em;
   letter-spacing: 5px;
