@@ -3,14 +3,14 @@
     <span class="display-1 text-uppercase font-weight-thin">COMBAT REFERENCE</span>
       <v-card class="mt-3" flat color="grey lighten-4">
         <v-card-text class="fluff-text">
-          On a turn, players and NPCs can perform a move, and either two quick actions or one full action, with no duplicate actions allowed. Players can overcharge their mechs to gain an extra quick action at the cost of heat, and all characters can also take any number of Free Actions on their turn, and any number of reactions per round, even outside their turn.
+          On a turn, players can perform a move, and either two quick actions or one full action, with no duplicate actions allowed. Players can overcharge their mechs to gain an extra quick action at the cost of heat, and all characters can also take any number of Free Actions on their turn, and any number of reactions per round, even outside their turn.
         </v-card-text>
       </v-card>
 
       <v-container fluid>
       <v-layout justify-center row>
         <v-flex shrink>
-          <v-card flat>
+          <v-card flat color="transparent">
             <v-card-text class="ma-0 pa-0 text-xs-center">
               <span class="display-1 text-uppercase font-weight-light">ACTION ECONOMY</span><br>
               <span class="fluff-text">Per Turn</span>   
@@ -44,14 +44,14 @@
               <v-layout>
                 <v-flex>
                   <v-card color="primary">
-                    <v-icon size="5em" class="pt-2 pb-3" dark>mdi-hexagon-slice-3</v-icon>
+                    <v-icon size="5.1em" class="pt-2 pb-3" dark>mdi-hexagon-slice-3</v-icon>
                   </v-card>
                 </v-flex>
               </v-layout>
               <v-layout>
                 <v-flex>
                   <v-card color="primary">
-                    <v-icon size="5em" class="pt-3 pb-1" dark>mdi-hexagon-slice-3</v-icon>
+                    <v-icon size="5.1em" class="pt-3 pb-1" dark>mdi-hexagon-slice-3</v-icon>
                   </v-card>
                 </v-flex>
               </v-layout>
