@@ -188,6 +188,15 @@
                     </v-flex>
                     <v-spacer />
                     <v-flex v-if="config.active">
+                      <span class="grey--text"> &nbsp;CORE POWER 
+                        <b :style="`color: ${color.corepower.dark}`">
+                          {{config.corepower || 1}}
+                      </b></span>
+                      <tick-bar :config_id="config.id" :current="config.corepower || 1" :max="1" attr="corepower" large
+                        :color="color.corepower.dark" bg-color="grey darken-2" empty-icon="mdi-battery-10" full-icon="mdi-battery" config />
+                    </v-flex>
+                    <v-spacer />
+                    <v-flex v-if="config.active">
                       <span class="grey--text"> &nbsp;OVERCHARGE 
                         <b :style="`color: ${color.overcharge.dark}`">
                           {{overcharge[config.overcharge || 0]}}
