@@ -45,7 +45,15 @@ export default new Router({
           children: [
             {
               path: '',
-              redirect: '/licenses',
+              component: require('@/components/Compendium/Views/Home').default,
+            },
+            {
+              path: '/compendium/search',
+              component: require('@/components/Compendium/Views/SearchResults').default,
+            },
+            {
+              path: '/compendium/item/:type/:id',
+              component: require('@/components/Compendium/UI/CompendiumItem').default,
             },
             {
               path: '/licenses',
@@ -79,6 +87,26 @@ export default new Router({
               path: '/tags',
               component: require('@/components/Compendium/Views/Tags').default,
             },
+            {
+              path: '/reference',
+              component: require('@/components/Compendium/Views/Reference').default,
+            },
+            {
+              path: '/corebonuses',
+              component: require('@/components/Compendium/Views/CoreBonuses').default,
+            },
+            {
+              path: '/talents',
+              component: require('@/components/Compendium/Views/Talents').default,
+            },
+            {
+              path: '/backgrounds',
+              component: require('@/components/Compendium/Views/Backgrounds').default,
+            },
+            {
+              path: '/skills',
+              component: require('@/components/Compendium/Views/Skills').default,
+            },
           ],
         },
       ],
@@ -86,6 +114,10 @@ export default new Router({
     {
       path: '/print-pilot',
       component: require('@/components/Roster/PilotSheet/Print/PrintView').default,
+    },
+    {
+      path: '/print-all',
+      component: require('@/components/Roster/PilotSheet/Print/CombinedPrintView').default,
     },
     {
       path: '/print-config',

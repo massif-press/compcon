@@ -2,8 +2,8 @@
   <v-card flat>
     <v-container fluid>
       <v-toolbar color="white" class="pt-1" >
-        <v-autocomplete flat v-model="search" :items="gearItems" clearable hide-details 
-          hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-text-field class="search-field ma-2" prepend-icon="search"
+        v-model="search" flat hide-details single-line placeholder="Search" clearable />
       </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'armor' ? armor_headers : itemType === 'weapon' ? weapon_headers : gear_headers" 
@@ -42,10 +42,10 @@
           </template>
         </v-data-table>
       </v-card>
-      <v-layout justify-space-between class="pt-4">
+      <v-layout v-if="equippedItem" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="error" @click="remove()">Remove Equipped Item</v-btn>
+          <v-btn color="error" @click="remove()">Remove {{equipped.name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -60,7 +60,8 @@ export default Vue.extend({
     name: 'item-table',
     components: { GearCard, RangeElement, DamageElement },
     props: {
-      itemType: String
+      itemType: String,
+      equippedItem: Object
     },
     data: () => ({
       selectedIndex: -1,
@@ -92,6 +93,10 @@ export default Vue.extend({
     computed: {
       gearItems (): PilotItem {
         return this.$store.getters.getItemCollection('PilotGear').filter((x: any) => this.itemType === x.type)
+      },
+      equipped (): PilotItem {
+        var vm = this as any
+        return vm.equippedItem ? vm.getPilotGear(this.equippedItem.id) : {}
       }
     },
     methods: {

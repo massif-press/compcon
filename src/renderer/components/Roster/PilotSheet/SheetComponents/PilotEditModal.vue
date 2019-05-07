@@ -32,6 +32,7 @@
     },
     methods: {
       cancel () {
+        this.$emit('close')
         this.model = false
         this.loader = false
       }

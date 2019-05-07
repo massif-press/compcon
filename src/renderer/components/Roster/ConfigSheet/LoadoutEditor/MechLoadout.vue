@@ -70,7 +70,7 @@
                 </v-toolbar-items>
               </v-toolbar>
               <system-table :installed_systems="loadout.systems" :free_sp="stats.sp - stats.used_sp" 
-                :current_equip="loadout.systems ? loadout.systems[itemIndex] : null" :loadout_index="lIndex" 
+                :current_equip="equippedSystem(loadout, itemIndex)" :loadout_index="lIndex" 
                 @select-item="equipSystem" @remove-item="removeSystem"/>
             </v-dialog>             
         </v-tab-item>
@@ -132,6 +132,13 @@
       var vm = this as any
       vm.notification = alert
       vm.snackbar = true
+    },
+    equippedSystem (loadout: MechLoadout, itemIndex: number): any {
+      if (loadout.systems && loadout.systems[itemIndex]) {
+        var sys = (this as any).getSystem(loadout.systems[itemIndex].id)
+        return sys
+      }
+      return null
     },
     deleteLoadout () {
       var vm = this as any
@@ -199,7 +206,6 @@
       var vm = this as any
       var newIdx = vm.loadouts.length
       var current = vm.loadouts[vm.tabIndex]
-      console.log(current)
       vm.$store.dispatch('editConfig', {
         id: vm.config_id,
         attr: `loadouts[${newIdx}]`,

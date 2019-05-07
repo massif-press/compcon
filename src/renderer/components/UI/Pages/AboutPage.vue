@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>COMP/CON</h2>
+    <h2 class="headline">COMP/CON</h2>
     <p>A digital toolkit for 
       <a flat color="primary" class="ma-0 pa-1" @click="open('https://massif-press.itch.io/lancer-core-book')">Massif Press' LANCER Tabletop RPG.</a>
     </p>
@@ -16,10 +16,10 @@
     <v-btn flat color="primary" outline @click="open('https://beeftime.itch.io/compcon')">itch.io page</v-btn>
     </p>
     <br>
-    <h2>Thanks</h2>
+    <h2 class="headline">Thanks</h2>
     <p><a flat color="primary" class="ma-0 pa-1" @click="open('https://twitter.com/hellwife0')">Ari</a> for contributing the time and code to help track down bugs and bad compendium data<br>
     As well as everyone who helped by submitting a bug report or alerting me of an issue on the Discord.</p>
-    <h2>Attributions</h2>
+    <h2 class="headline">Attributions</h2>
 
     <p>The frame name generator contains many names lifted from the <a flat color="primary" class="ma-0 pa-1" @click="open('https://twitter.com/cultureshipname')">Culture Ship Name Twitter account</a><br>
 

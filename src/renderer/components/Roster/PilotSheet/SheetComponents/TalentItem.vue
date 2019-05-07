@@ -6,8 +6,8 @@
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
+      <v-icon color="primary" v-html="`cc-rank-${talent.rank}`" />
       <span>{{talentData.name}}</span>
-      <v-rating class="d-inline" :value="talent.rank" :length="3" readonly dense/>
     </v-toolbar-title>
 
     <div v-if="!talentData.err">
@@ -16,8 +16,8 @@
       </v-card>
       <v-card>
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
-            <div class="title"><v-icon class="mb-1">star</v-icon> {{talentData.r1_name}}</div>
+          <div style="width:100%">
+            <div class="title"><v-icon class="mt-2" color="primary">cc-rank-1</v-icon> {{talentData.r1_name}}</div>
             <p class="pl-4 effect-text" v-html="talentData.r1_desc" />
             <div class="ma-2 mr-5 ml-5" v-if="selectable">
               <v-btn v-if="available && talent.rank === 0" block color="primary" @click="addTalent()">
@@ -32,13 +32,13 @@
       </v-card>
       <v-card :color="isLocked(2) ? 'grey lighten-5' : ''">
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
+          <div style="width:100%">
             <div class="title">
               <span v-if="isLocked(2)">
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r2_name}}
               </span>
               <span v-else>
-                <v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon> {{talentData.r2_name}}
+                <v-icon class="mt-2" color="primary">cc-rank-2</v-icon> {{talentData.r2_name}}
               </span>
             </div>
             <p class="pl-4 effect-text" v-html="talentData.r2_desc" />
@@ -55,13 +55,13 @@
       </v-card>
       <v-card :color="isLocked(3) ? 'grey lighten-5' : ''">
         <v-card-title primary-title class="pb-0 pt-0 mb-0">
-          <div>
+          <div style="width:100%">
             <div class="title">
               <span v-if="isLocked(3)">
                 <v-icon class="mb-1">lock</v-icon> {{talentData.r3_name}}
               </span>
               <span v-else>
-                <v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon><v-icon class="mb-1">star</v-icon> {{talentData.r3_name}}
+                <v-icon class="mt-2" color="primary">cc-rank-3</v-icon> {{talentData.r3_name}}
               </span>
             </div>
             <p class="pl-4 effect-text" v-html="talentData.r3_desc" />

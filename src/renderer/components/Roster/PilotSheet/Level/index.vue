@@ -96,7 +96,7 @@
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" :disabled="newItems.core_bonuses.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -153,8 +153,7 @@
           sys: 0,
           eng: 0
         },
-        licenses: [],
-        core_bonuses: []
+        licenses: []
       }
     }),
     methods: {

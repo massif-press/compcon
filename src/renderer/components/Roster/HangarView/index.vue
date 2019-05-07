@@ -29,7 +29,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2" fill-height>
         <v-flex v-for="(c, i) in configs" :key="c.id + i" class="mb-4" xs3>
-          <config-card :config="c" :c-idx="i" :card-height="cardHeight"/>
+          <config-card :config="c" :c-idx="i" :card-height="cardHeight" @activate="activateConfig" />
         </v-flex>
         <v-flex xs3>
           <add-config-card @added="update" :card-height="cardHeight" />
@@ -83,6 +83,26 @@
       sortBy(sort: {name: string, field: string}, isAscending: boolean) {
         this.currentSort = sort
         this.ascending = isAscending
+      },
+      activateConfig(payload: {id: string, toggle: boolean}) {
+        for (let i = 0; i < this.configs.length; i++) {
+          if (this.configs[i].active) {
+              this.$store.dispatch('editConfig', {
+              id: this.configs[i].id,
+              attr: `active`,
+              val: false
+            })
+          }
+        }
+        this.$store.dispatch('editConfig', {
+          id: payload.id,
+          attr: `active`,
+          val: payload.toggle
+        })
+        this.$store.dispatch('editPilot', {
+          attr: 'active_config',
+          val: payload.id
+        })
       }
     }
   })

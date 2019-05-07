@@ -1,26 +1,16 @@
 module.exports = {
-  root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
-  },
-  env: {
-    browser: true,
-    node: true
-  },
-  extends: 'standard',
-  globals: {
-    __static: true
-  },
-  plugins: [
-    'html'
+  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  extends: [
+    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
   ],
-  'rules': {
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
-  }
-}
+  parserOptions: {
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module', // Allows for the use of imports
+  },
+  rules: {
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    "@typescript-eslint/indent": ["error", 2],
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": ["error", {properties: "never"}]
+  },
+};

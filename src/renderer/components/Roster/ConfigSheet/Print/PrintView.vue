@@ -122,7 +122,7 @@
           <span class="label">TRAITS</span><br>
           <v-flex v-for="trait in frame.traits" :key="trait.name">
             <span class="p-large">{{trait.name}}</span><br>
-            <p class="p-reg ml-2 mt-0 mb-0">{{trait.description}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="trait.description" />
           </v-flex>
         </v-flex>
 
@@ -133,11 +133,11 @@
           </v-flex>  
           <v-flex v-if="frame.core_system.passive">     
             <span class="p-reg font-weight-bold">Passive: </span>
-            <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.passive}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="frame.core_system.passive" />
           </v-flex> 
           <v-flex>     
             <span class="p-reg font-weight-bold">{{frame.core_system.active_name}} (Requires 1 CORE Power): </span>
-            <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.effect}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="frame.core_system.effect" />
           </v-flex>
           <v-flex>     
             <span v-for="t in frame.core_system.tags" :key="t.id" small class="print-tag">{{fullTag(tag(t.id).name, t.val)}}</span>
@@ -179,7 +179,7 @@
                     <v-flex v-if="weapon(mount).range" shrink class="ml-2"><range-element size="9" :range="weapon(mount).range" /></v-flex>
                     <v-flex v-if="weapon(mount).damage" shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(mount).damage" /></span></v-flex>
                   </v-layout>
-                  <p class="p-reg ml-2 mt-0 mb-0">{{mount.effect}}</p>
+                  <p class="p-reg ml-2 mt-0 mb-0" v-html="mount.effect" />
                   <span v-for="t in weapon(mount).tags" :key="t.id + 'intmount'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
@@ -200,11 +200,15 @@
                   </div>
                   <div v-else v-for="w in mount.weapons" :key="w.id">
                     <v-layout>
-                      <v-flex shrink class="ml-1" v-if="!weapon(w.id).err"><span class="p-large">{{weapon(w.id).name}}</span></v-flex>
+                      <v-flex shrink class="ml-1" v-if="!weapon(w.id).err">
+                        <span class="p-large">{{weapon(w.id).name}}</span>
+                        <span v-if="w.mod" class="p-reg">&nbsp;//&nbsp;{{mod(w.mod).name}}</span>
+                        </v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
                     </v-layout>
-                    <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
+                    <p class="p-reg ml-2 mt-0 mb-0" v-html="weapon(w.id).effect" />
+                    <p v-if="w.mod" class="p-reg ml-2 mt-0 mb-0"><span class="p-large">{{mod(w.mod).name}}:</span> {{mod(w.mod).effect}}</p>
                     <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                   </div>
                 </div>
@@ -254,7 +258,8 @@
       frame: {},
       loadout: {},
       stats: {},
-      printOptions: {}
+      printOptions: {} as PrintOptions,
+      blockPrint: false
     }),
     methods: {
       item (type: string, id: string) {
@@ -268,6 +273,9 @@
       },
       weapon (id: string) {
         return this.$store.getters.getItemById('MechWeapons', id)
+      },
+      mod (id: string) {
+        return this.$store.getters.getItemById('WeaponMods', id)
       },
       signed (val: number) {
         return val > -1 ? `+${val}` : `${val}`
@@ -295,16 +303,19 @@
       vm.pilot = vm.$store.getters.getPilot
       vm.printOptions = vm.$store.getters.getPrintOptions
       vm.config = vm.pilot.configs.find((x: any ) => x.id === vm.printOptions.config_id)
-      vm.loadout = vm.config.loadouts[vm.printOptions.loadout_index] || null
-      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.loadout_index], vm.$store.getters.getState)
+      vm.loadout = vm.config.loadouts[vm.printOptions.config_loadout_index] || null
+      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.config_loadout_index], vm.$store.getters.getState)
       vm.stats = vm.$store.getters.getMechStats(vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
       vm.frame = vm.$store.getters.getItemById('Frames', vm.config.frame_id)
+      if (this.printOptions.combo) this.blockPrint = true
     },
     mounted () {
-      window.print()
-      setTimeout(() => {
-        this.$router.push('/config')
-      }, 10)
+      if (!this.blockPrint) {
+        window.print()
+        setTimeout(() => {
+          this.$router.push('/config')
+        }, 10)
+      }
     }
   })
 </script>

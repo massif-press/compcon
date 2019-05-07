@@ -15,29 +15,40 @@ const webImageTypes = [
   '.bmp',
 ]
 
-function getStaticPath(env: string): string {
-  // eslint-disable-next-line no-process-env
-  const staticPath = env === 'development' ? __static : path.join(__dirname, 'static')
-  return staticPath
+function getStaticPath (): string {
+  return __static
+}
+
+function check (path: string) {
+  if (!fs.existsSync(path)) {
+    console.info(`necessary dir does not exist: ${path}, creating...`)
+    fs.mkdirSync(path)
+  }   
 }
 
 export default {
-  loadData<T = object>(filename: string): T[] {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, 'utf-8'))
+  checkFolders (userDataPath: string) {
+    const dataPath = path.join(userDataPath)
+    if (!dataPath) {
+      console.error('CRITICAL: User Data Path does not exist!')
     } else {
-      console.error(`file ${filename} does not exist at ${p}.`)
-      return []
-    }
-  },
-  loadSingle<T = object>(filename: string): T {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'data', filename + '.json')
-    if (fs.existsSync(p)) {
-      return JSON.parse(fs.readFileSync(p, 'utf-8'))
-    } else {
-      console.error(`file ${filename} does not exist at ${p}.`)
-      return {} as T
+      check(dataPath)
+      check(path.join(userDataPath, 'content'))
+      check(path.join(userDataPath, 'img'))
+      check(path.join(userDataPath, 'img', 'frame'));
+      check(path.join(userDataPath, 'img', 'default_frames'))
+      // check(path.join(userDataPath, 'img', 'default_frames'))
+      check(path.join(userDataPath, 'img', 'portrait'))
+      var allDefaultImages = this.getImages('frames', getStaticPath());
+      for (let i = 0; i < allDefaultImages.length; i++) {
+        var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        if (!fs.existsSync(imagePath)) {
+          console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
+          const origin = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
+          const destination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+          copySync(origin, destination)
+        }
+      }
     }
   },
   findBrewData(userDataPath: string) {
@@ -86,6 +97,18 @@ export default {
     }
     const destination = path.join(userDataPath, 'content', path.basename(origin))
     copySync(origin, destination)
+
+    // collect and copy default frame images into global default frame folder
+    var allDefaultImages = this.getImages("default_frames", destination);
+    for (let i = 0; i < allDefaultImages.length; i++) {
+      var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+      if (!fs.existsSync(imagePath)) {
+        console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
+        const imgOrigin = path.join(destination, 'img', 'default_frames', allDefaultImages[i])
+        const imgDestination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        copySync(imgOrigin, imgDestination);
+      }
+    }
   },
   setBrewActive(userDataPath: string, subdir: string, isActive: boolean): void {
     const infopath = path.join(userDataPath, 'content', subdir, 'info.json')
@@ -107,7 +130,7 @@ export default {
     return []
   },
   randomName(filename: string): string {
-    const p = path.join(getStaticPath(process.env.NODE_ENV || ''), 'generators', filename)
+    const p = path.join(getStaticPath(), 'generators', filename)
     const array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
@@ -161,5 +184,6 @@ export default {
       fs.writeFileSync(path.join(savePath, path.parse(imgPath).base), data, null)
       return savePath
     }
+    return 'no data to save!'
   },
 }

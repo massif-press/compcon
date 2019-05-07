@@ -1,27 +1,19 @@
-Bugs:
-  ☐ Mech loadout item delete
-  ☐ Weapons with SP flag as over sp even though they're selectable (?)
-
 Improvements:
-  ☐ Replace all rank star loops/v-rating with component
-  ☐ Disable remove item/gear button if nothing is currently equipped
-  ☐ Disable nav back/forward when no target exists
+  ☐ move config overcharge into rules.json
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ☐ Better list/table for Frame selection
   ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
   ☐ Fixed selector left columns
 
 2.0:
   ☐ Glossary in compendium
   ☐ Action economy in compendium
-  ☐ Options -> Data Wipe (delete vuex.json)
-  ☐ Pilot Talent/CB expandables on Mech Sheet
-  ☐ Default Images copy
-    ☐ Homebrew can take default images folder
+  ☐ Delete Homebrew content packsp
+  ☐ Preload Long Rim
   ☐ Github Gist API import/exporter (export and import by ID)
   ☐ Imgur image hosting
+  ☐ Help Menu
   Printing:
     General Print Options:
       ☐ Large fonts
@@ -51,15 +43,32 @@ Styling:
   ☐ Per-item notes
   ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
-  ☐ Mech stats attribute source popovers
   ☐ Gear Catalog comparison view
-  ☐ UNCLE as weapon mod
   ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
 
+Homebrew:
+  ☐ serve content packs as archives `.lcp`
+
 Archive:
+  ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17) @project(Improvements)
+  ✔ in inactive mode, show max stat only @done(19-04-29 12:25) @project(Improvements)
+  ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17) @project(Improvements)
+  ✔ Systems doesn't allow a removal of an equipped item @done(19-04-29 11:52) @project(Improvements)
+  ✔ Retrofit main aux aux weirdness @done(19-04-29 12:02) @project(Improvements)
+  ✔ tal hold and lock btn not taking full block format @done(19-05-01 14:22) @project(Improvements)
+  ✔ add overcharge to active mechs @done(19-05-01 15:07) @project(Improvements)
+  ✔ Activate/Deactivate pilot/mech on sheets @done(19-05-01 15:07) @project(Improvements)
+  ✔ Pilot Talent/CB expandables on Mech Sheet @done(19-04-29 13:43) @project(2.0)
+  ✔ Default Images copy @done(19-04-29 14:19) @project(2.0)
+  ✔ Homebrew can take default images folder @done(19-04-29 15:13) @project(2.0)
+  ✔ Mech loadout item delete @done(19-04-27 13:43) @project(Bugs)
+  ✔ Weapons with SP flag as over sp even though they're selectable (?) @done(19-04-27 13:43) @project(Bugs)
+  ✔ Replace all rank star loops/v-rating with component @done(19-04-27 13:42) @project(Improvements)
+  ✔ Better list/table for Frame selection @done(19-04-27 13:42) @project(Styling)
+  ✔ UNCLE as weapon mod @done(19-04-27 13:42) @project(2.0)
   ✔ Invocation broken @done(19-04-17 22:29) @project(1.2.5)
   ✔ Swallowtail save incorrect @done(19-04-17 15:20) @project(Bugs)
   ✔ fix longrim core bonus tags @done(19-04-17 15:55) @project(Bugs)

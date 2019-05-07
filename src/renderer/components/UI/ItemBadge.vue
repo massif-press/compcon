@@ -50,6 +50,8 @@
           return `<b>FRAME</b><br>${item.mechtype}`
         } else if (thisItem.isWeapon(item)) {
           return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
+        } else if (thisItem.isMod(item)) {
+          return `<b>WEAPON MOD</b><br>${item.applied_string}`
         } else {
           return `<b>MECH SYSTEM</b><br>${item.type}`
         }
