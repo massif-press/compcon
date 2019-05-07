@@ -12,7 +12,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.3.0",
+    "title": "COMP/CON v1.3.0b",
     "whiteListedModules": [
       "vue",
       "vuetify"
