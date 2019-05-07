@@ -68,6 +68,10 @@ const colors = {
   overcharge: {
     light: "#B50057",
     dark: "#F50057"
+  },
+  corepower: {
+    light: "#00BFA5",
+    dark: "#1DE9B6"
   }
 };
 

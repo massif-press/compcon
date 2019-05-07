@@ -4975,9 +4975,9 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
 lancer-data@^1.8.52:
-  version "1.8.54"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.8.54.tgz#04bf99f28c10f8492c1f6dcc081a4d2ea6e12ce7"
-  integrity sha512-QI/9d+V434LdyoS5ubevguj68Z6X+wlqK8xC5E3GulS46w4EnD3lzkgoXf+D22TFLJNjqA2cALf/Jt31IrbC6w==
+  version "1.8.55"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.8.55.tgz#744f4fc89055e3e44ea19f7cfc87aa339db66e89"
+  integrity sha512-uB8qYVJxKfPDQhDZN1armxf4tDwBHYi1eWJxeCbuVFbRfDCjCJClFqJNdZDndnRb+SX0wVRUpqDTwYFXnYtFvA==
 
 latest-version@^3.0.0:
   version "3.1.0"

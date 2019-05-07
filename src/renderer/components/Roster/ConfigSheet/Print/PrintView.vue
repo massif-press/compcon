@@ -122,7 +122,7 @@
           <span class="label">TRAITS</span><br>
           <v-flex v-for="trait in frame.traits" :key="trait.name">
             <span class="p-large">{{trait.name}}</span><br>
-            <p class="p-reg ml-2 mt-0 mb-0">{{trait.description}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="trait.description" />
           </v-flex>
         </v-flex>
 
@@ -133,11 +133,11 @@
           </v-flex>  
           <v-flex v-if="frame.core_system.passive">     
             <span class="p-reg font-weight-bold">Passive: </span>
-            <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.passive}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="frame.core_system.passive" />
           </v-flex> 
           <v-flex>     
             <span class="p-reg font-weight-bold">{{frame.core_system.active_name}} (Requires 1 CORE Power): </span>
-            <p class="p-reg ml-2 mt-0 mb-0">{{frame.core_system.effect}}</p>
+            <p class="p-reg ml-2 mt-0 mb-0" v-html="frame.core_system.effect" />
           </v-flex>
           <v-flex>     
             <span v-for="t in frame.core_system.tags" :key="t.id" small class="print-tag">{{fullTag(tag(t.id).name, t.val)}}</span>
@@ -179,7 +179,7 @@
                     <v-flex v-if="weapon(mount).range" shrink class="ml-2"><range-element size="9" :range="weapon(mount).range" /></v-flex>
                     <v-flex v-if="weapon(mount).damage" shrink class="ml-2"><span><damage-element size="9" :dmg="weapon(mount).damage" /></span></v-flex>
                   </v-layout>
-                  <p class="p-reg ml-2 mt-0 mb-0">{{mount.effect}}</p>
+                  <p class="p-reg ml-2 mt-0 mb-0" v-html="mount.effect" />
                   <span v-for="t in weapon(mount).tags" :key="t.id + 'intmount'" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                 </div>
               </div>
@@ -207,7 +207,7 @@
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><range-element size="9" :range="weapon(w.id).range" /></v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><span><damage-element size="9" :dmg="weapon(w.id).damage" /></span></v-flex>
                     </v-layout>
-                    <p class="p-reg ml-2 mt-0 mb-0">{{weapon(w.id).effect}}</p>
+                    <p class="p-reg ml-2 mt-0 mb-0" v-html="weapon(w.id).effect" />
                     <p v-if="w.mod" class="p-reg ml-2 mt-0 mb-0"><span class="p-large">{{mod(w.mod).name}}:</span> {{mod(w.mod).effect}}</p>
                     <span v-for="t in weapon(w.id).tags" :key="t.id + w.id" small class="print-tag ml-2">{{fullTag(tag(t.id).name, t.val)}}</span>
                   </div>
