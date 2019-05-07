@@ -53,7 +53,7 @@
             </v-layout>
                 <mod-card v-if="item.mod && modData.err" missing/>
                 <mod-card v-if="item.mod && !modData.err" :modData="modData"/>
-                <weapon-card :itemData="itemData"/>
+                <weapon-card :itemData="itemData" :mod="item.mod" />
               </v-expansion-panel-content>
             </v-expansion-panel>
         </div>
@@ -76,14 +76,17 @@ export default Vue.extend({
   computed: {
     itemData (): Weapon {
       if (!this.item) return {} as Weapon
-      return this.$store.getters.getItemById('MechWeapons', this.item.id)
+      return (this as any).getWeapon(this.item.id)
     },
     modData (): WeaponMod {
       if (!this.item.mod) return {} as WeaponMod
-      return this.$store.getters.getItemById('WeaponMods', this.item.mod)
+      return (this as any).getMod(this.item.mod)
     },
-    rangeBonuses (): {neurolinked: boolean, gyges: boolean} {
+    rangeBonuses (): {stabilizer: boolean, neurolinked: boolean, gyges: boolean} {
       return {
+        stabilizer: (
+          this.item.mod && this.item.mod === 'stabilizer'
+        ),
         neurolinked: (
           this.$store.getters.getPilot.core_bonuses.includes('neurolinked') && 
           this.itemData.type !== 'Melee'

@@ -1,5 +1,5 @@
 <template>
-  <v-hover>
+  <v-hover style="background-color: rgba(0,0,0,0)">
     <v-card slot-scope="{ hover }" :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`">
       <v-layout row style="cursor: pointer;" @click="toPilotSheet()">
         <v-flex v-if="pilot.portrait" class="ma-0 pb-0 pt-0">
@@ -13,7 +13,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-card :color="`rgba(0, 0, 0, ${overlayOpacity})`" dark flat>
+          <v-card :color="panelColor(pilot.active)" dark flat>
             <v-layout>
               <v-flex xs9 class="ma-2">
                 <span class="title">{{pilot.callsign}}</span>
@@ -23,8 +23,13 @@
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
-                  <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
-                  <span>Activate Pilot<br>(feature in development)</span>
+                  <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
+                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
+                  </v-btn>
+                  <div class="text-xs-center">
+                    <span><b :class="activeColorClass(pilot.active)"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
+                      <br><i>Click to {{pilot.active ? 'deactivate' : 'activate'}} Pilot</i></span>
+                  </div>
                 </v-tooltip>
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true"><v-icon>mdi-export-variant</v-icon></v-btn>
@@ -56,8 +61,10 @@
 
         <lazy-dialog :model="exportDialog" title="Export Pilot" hide-confirm @cancel="exportDialog = false">
           <template v-slot:modal-content>
-            <v-btn large block flat color="primary" @click="exportPilot">Save to File</v-btn><br>
-            <v-btn large block flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn>          
+            <v-card-text class="text-xs-center">
+            <v-btn large flat color="primary" @click="exportPilot">Save to File</v-btn><br>
+            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn><br>           
+            </v-card-text>
           </template>
         </lazy-dialog>
 
@@ -84,6 +91,7 @@
   import Vue from 'vue'
   import io from '@/store/data_io'
   import {LazyDialog} from '@/components/UI'
+  import {clipboard} from 'electron'
 
   export default Vue.extend({
   name: 'pilot-card',
@@ -95,6 +103,7 @@
   },
   data: () => ({
     overlayOpacity: 0.55,
+    activateDialog: false,
     deleteDialog: false,
     printDialog: false,
     exportDialog: false,
@@ -107,20 +116,29 @@
       this.notification = alert
       this.snackbar = true
     },
+    activeColorClass (isActive: boolean): string {
+      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    },
+    panelColor (isActive: boolean): string {
+      return isActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
+    },
     background () {
       if (this.pilot.custom_background) return this.pilot.custom_background
       else return this.$store.getters.getItemById('Backgrounds', this.pilot.background).name
     },
-    toggleActive () {
+    toPilotSheet () {
+      this.$store.dispatch('loadPilot', this.pilot.id)
+      this.$router.push('./pilot')
+    },
+    activatePilot () {
       this.$store.dispatch('loadPilot', this.pilot.id)
       this.$store.dispatch('editPilot', {
         attr: `active`,
         val: !this.pilot.active
-      })
-    },
-    toPilotSheet () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
-      this.$router.push('./pilot')
+      })   
+      this.$forceUpdate() 
+      this.$parent.$forceUpdate() 
+      this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot () {
       this.deleteDialog = false
@@ -150,11 +168,10 @@
         this.notify('Pilot Export Successful')
       },
     copyPilot () {
-      const {clipboard} = require('electron')
       clipboard.writeText(JSON.stringify(this.pilot))
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
-    }
+    },
   }
 })
 </script>

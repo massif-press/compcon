@@ -1,39 +1,41 @@
 <template>
-  <v-container fluid class="ml-5 pl-5">
+  <v-container fluid>
     <span class="display-1 text-uppercase font-weight-thin">FRAMES</span>
-      <v-layout>
-        <v-flex>
-      <v-autocomplete flat v-model="search" :items="frames" 
-        clearable hide-details hide-selected item-text="name" item-value="name" label="Search..." solo class="mt-2"/>
+    <v-card>
+      <v-layout justify-center>
+        <v-flex xs10>
+          <v-text-field class="search-field ma-2" prepend-icon="search"
+            v-model="search" flat hide-details single-line placeholder="Search" clearable />
         </v-flex>
       </v-layout>
       <v-layout >
         <v-flex>
-        <v-data-table :headers="headers" :items="frames" :search="search" item-key="id" hide-actions>
-          <template slot="items" slot-scope="props">
-            <tr @click="props.expanded = !props.expanded">
-              <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
-              <td class="text-xs-left"><span class="subheading font-weight-bold">{{ props.item.name }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.size === 0.5 ? '½' : props.item.stats.size }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.armor }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.hp }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.evasion }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{props.item.stats.edef}}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.heatcap }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.repcap }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sensor_range }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.tech_attack }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{props.item.stats.save}}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.speed }}</span></td>
-              <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sp }}</span></td>
-            </tr>
-          </template>
-          <template slot="expand" slot-scope="props">
-              <frame-statblock :frame="props.item" hide-statblock />
-          </template>
-        </v-data-table>
+          <v-data-table :headers="headers" :items="frames" :search="search" item-key="id" hide-actions>
+            <template slot="items" slot-scope="props">
+              <tr @click="props.expanded = !props.expanded">
+                <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
+                <td class="text-xs-left"><span class="subheading font-weight-bold">{{ props.item.name }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.size === 0.5 ? '½' : props.item.stats.size }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.armor }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.hp }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.evasion }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{props.item.stats.edef}}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.heatcap }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.repcap }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sensor_range }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.tech_attack }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{props.item.stats.save}}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.speed }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sp }}</span></td>
+              </tr>
+            </template>
+            <template slot="expand" slot-scope="props">
+                <frame-statblock :frame="props.item" hide-statblock />
+            </template>
+          </v-data-table>
       </v-flex>
   </v-layout>
+  </v-card>
   </v-container>
 </template>
 

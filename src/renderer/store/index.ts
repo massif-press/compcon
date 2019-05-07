@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import Vuex from 'vuex'
 import { createPersistedState } from 'vuex-electron'
 import _ from 'lodash'
 import io from './data_io'

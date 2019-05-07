@@ -58,7 +58,9 @@ declare interface Pilot {
   configs: MechConfig[],
   portrait?: string,
   avatar?: string,
-  quirk?: any
+  quirk?: any,
+  active?: boolean,
+  active_config?: string,
 }
 
 declare interface PilotStats {

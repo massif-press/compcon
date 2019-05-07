@@ -1,7 +1,31 @@
 <template>
   <div class="roster-content">
     <div v-if="pilot.name">
-      <v-container fluid>
+      <v-tooltip bottom>
+        <v-toolbar slot="activator" dense :color="pilot.active? 'info' : 'grey lighten-3'" :dark="pilot.active" class="ml-1">
+            <v-divider/>
+          <v-toolbar-title class="text-uppercase font-weight-light">
+            <span style="letter-spacing: 15px; font-size: 1.75em"> Pilot {{pilot.active? 'Active' : 'Inactive'}}</span>
+          </v-toolbar-title>
+            <v-divider/>
+              <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn large icon class="ma-0 ml-2" @click="activatePilot">
+                  <v-icon large :color="pilot.active ? 'teal accent-2' : 'grey darken-1'">mdi-power</v-icon>
+                </v-btn>              
+              </v-toolbar-items>
+        </v-toolbar>
+        <div class="text-xs-center">
+          <span v-if="pilot.active"><b>Active Pilot</b><br>
+          Active Pilots cannot edit or reallocate attributes or bonuses<br>
+          (except when leveling up) and are able to record current HP.<br><br>
+          You can click the toggle to deactivate {{pilot.callsign}}.</span>
+          <span v-else><b>Inctive Pilot</b><br>
+          Inactive Pilots are able to edit and reallocate attributes and bonuses<br>
+          but are unable to record current HP or select active Mechs.<br><br>
+          You can click the toggle to activate {{pilot.callsign}}</span>
+        </div>
+      </v-tooltip>      
+      <v-container fluid :class="pilot.active ? 'mt-2' : ''">
         <!-- Pilot Info Block -->
         <v-layout>
           <v-flex xs10>
@@ -18,11 +42,21 @@
                   <span slot="label" class="blockquote ml-1 pl-0">{{pilot.name}}&nbsp;</span>
                 </editable-label>           
               </v-flex>
+              <v-spacer />
+              <v-flex class="text-xs-right mr-2" v-if="pilot.active">
+              </v-flex>
             </v-layout>
             <v-divider class="ma-2"/>
             <!-- Pilot Statblock -->
             <v-layout>
-              <pip-bar small :model="stats.hp" :items="[stats.hp, stats.armor]" :caption="`HP ${stats.hp} // ARMOR ${stats.armor}`" />
+              <v-flex>
+                <span class="caption" v-html="`HP ${pilot.current_hp}/${stats.hp}`" />
+                <tick-bar 
+                  :current="pilot.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" small
+                  color="primary" bg-color="blue lighten-3" empty-icon="radio_button_unchecked" full-icon="brightness_1" pilot
+                  :readonly="!pilot.active" />
+              </v-flex>
+              <pip-bar small :model="stats.armor" :items="[stats.armor]" :caption="`ARMOR ${stats.armor}`" />
               <pip-bar small :model="stats.edef" :items="[stats.edef]" :caption="`E-DEFENSE ${stats.edef}`" />
               <pip-bar small :model="stats.evasion" :items="[stats.evasion]" :caption="`EVASION ${stats.evasion}`" />
               <pip-bar small :model="stats.speed" :items="[stats.speed]" :caption="`SPEED ${stats.speed}`" />
@@ -82,9 +116,9 @@
                       <span v-if="getBackground(pilot.background).err" class="grey--text">
                         // MISSING BACKGROUND DATA //
                       </span>
-                      <b v-else  class="minor-title"> {{ getBackground(pilot.background).name }} </b>
+                      <b v-else class="minor-title"> {{ getBackground(pilot.background).name }} </b>
                     </div>
-                    <pilot-edit-modal title="Select Pilot Background" ref="backgroundSelector">
+                    <pilot-edit-modal v-if="!pilot.active" title="Select Pilot Background" ref="backgroundSelector">
                       <background-selector slot="modal-content" @selected="backgroundSelect" :preSelected="pilot.background"/>
                     </pilot-edit-modal>
                   </v-flex>
@@ -114,10 +148,10 @@
                               <v-flex class="text-xs-center">
                               <v-btn-toggle v-model="invoke_attribute" dark>
                                 <v-btn large color="primary">
-                                  <v-icon>mdi-transfer-up</v-icon>&emsp;<span>Accuracy</span>
+                                  <v-icon large>cc-accuracy</v-icon>&emsp;<span>Accuracy</span>
                                 </v-btn>
                                 <v-btn large color="error">
-                                  <v-icon>mdi-transfer-down</v-icon>&emsp;<span>Difficulty</span>
+                                  <v-icon large>cc-difficulty</v-icon>&emsp;<span>Difficulty</span>
                                 </v-btn>
                               </v-btn-toggle>
                               </v-flex>
@@ -152,7 +186,7 @@
           <v-flex xs4>
             <!-- Appearance -->
             <v-layout>
-              <span class="header">Appearance
+              <span :class="`header ${pilot.active ? 'no-icon' : ''}`">Appearance
                 <pilot-edit-modal title="Set Pilot Portrait" :modelRef="appearanceModal" ref="appearanceSelector">
                   <image-selector slot="modal-content" :preselectPortrait="pilot.portrait" @assign-portrait="setPortrait" />
                 </pilot-edit-modal>
@@ -189,9 +223,9 @@
           <v-flex xs11>
             <!-- Triggers -->
             <v-layout>
-              <span class="header">
+              <span :class="`header ${pilot.active ? 'no-icon' : ''}`">
                 Skill Triggers
-                <pilot-edit-modal title="Edit Pilot Skill Triggers" :modelRef="skillModal" ref="skillSelector">
+                <pilot-edit-modal v-if="!pilot.active" title="Edit Pilot Skill Triggers" :modelRef="skillModal" ref="skillSelector">
                   <skill-selector slot="modal-content" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" @set-skills="setPilotSkills" />
                 </pilot-edit-modal>
               </span>
@@ -206,8 +240,8 @@
 
         <!-- License Block -->
         <v-layout>
-          <span class="header">Licenses
-            <pilot-edit-modal title="Edit Pilot Licenses" :modelRef="licenseModal" ref="licenseSelector">
+          <span :class="`header ${pilot.active ? 'no-icon' : ''}`">Licenses
+            <pilot-edit-modal v-if="!pilot.active" title="Edit Pilot Licenses" :modelRef="licenseModal" ref="licenseSelector">
               <license-selector slot="modal-content" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses" />
             </pilot-edit-modal>
           </span>
@@ -221,8 +255,8 @@
         </v-layout>
         <!-- Talent Block -->
         <v-layout>
-          <span class="header">Talents
-            <pilot-edit-modal title="Edit Pilot Talents" :modelRef="talentModal" ref="talentSelector">
+          <span :class="`header ${pilot.active ? 'no-icon' : ''}`">Talents
+            <pilot-edit-modal v-if="!pilot.active" title="Edit Pilot Talents" :modelRef="talentModal" ref="talentSelector">
               <talent-selector slot="modal-content" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" @set-talents="setPilotTalents" />
             </pilot-edit-modal>
           </span>
@@ -237,8 +271,8 @@
 
         <!-- Mech Skills Block -->
         <v-layout>
-          <span class="header">Mech Skills
-            <pilot-edit-modal title="Edit Mech Skills" :modelRef="mechSkillModal" ref="mechSkillSelector">
+          <span :class="`header ${pilot.active ? 'no-icon' : ''}`">Mech Skills
+            <pilot-edit-modal v-if="!pilot.active" title="Edit Mech Skills" :modelRef="mechSkillModal" ref="mechSkillSelector">
               <mech-skills-selector slot="modal-content" :mechSkills="pilot.mechSkills" :pilotLevel="pilot.level" 
                 :isActivePilot="true" @close="setMechSkills" />
             </pilot-edit-modal>
@@ -253,8 +287,8 @@
 
         <!-- CORE Bonuses -->
         <v-layout>
-          <span class="header">CORE Bonuses
-            <pilot-edit-modal title="Edit CORE Bonuses" :modelRef="bonusModal" ref="bonusSelector">
+          <span :class="`header ${pilot.active ? 'no-icon' : ''}`">CORE Bonuses
+            <pilot-edit-modal v-if="!pilot.active" title="Edit CORE Bonuses" :modelRef="bonusModal" ref="bonusSelector">
               <core-bonus-selector slot="modal-content" :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses" />
             </pilot-edit-modal>
           </span>
@@ -281,7 +315,15 @@
       <!-- Print Block -->
       <v-layout class="ma-5">
         <v-flex>
-          <v-btn color="primary" large outline block @click="openPrintOptions"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+          <v-btn color="primary" large outline block @click="openPrintOptions()"><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn>
+          <v-btn color="primary" small flat block @click="copyPilotStatblock()">copy pilot statblock &nbsp;
+            <v-tooltip top>
+              <v-icon slot="activator" small color="grey">help</v-icon>
+              <span>
+                This produces a small raw text overview of the current Pilot and copies it to the clipboard.
+              </span>
+            </v-tooltip>
+          </v-btn>
         </v-flex>
       </v-layout>
 
@@ -289,6 +331,22 @@
         <span v-html="notification" />
         <v-btn color="pink" flat @click="snackbar = false" > Close </v-btn>
       </v-snackbar>
+
+      <v-dialog v-model="printDialog" persistent width="50vw">
+        <v-card>
+          <v-card-title class="title">Active Mech Detected</v-card-title>
+          <v-card-text>
+            Include {{pilot.callsign}}'s currently active mech?
+          </v-card-text><slot name="modal-content"></slot>
+          <v-divider />
+          <v-card-actions>
+            <v-btn color="primary" @click="print(false)">No</v-btn>
+            <v-spacer />
+            <v-btn color="primary" @click="print(true)">Yes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </div>
 
     <!-- Missing/No Pilot Display -->
@@ -301,9 +359,9 @@
 
 <script lang='ts'>
   import Vue from 'vue'
-  import io from '@/store/data_io'
   import Stats from '@/logic/stats'
-  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView } from '@/components/UI'
+  import {clipboard} from 'electron'
+  import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '@/components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
@@ -314,7 +372,7 @@
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, 
     PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, 
     TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig, 
-    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView
+    LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView, TickBar
     },
     data: () => ({
       callsignDialog: false,
@@ -333,6 +391,7 @@
       bonusModal: false,
       pilotGearModal: false,
       invokeDialog: false,
+      printDialog: false,
       levelEditor: false,
       snackbar: false,
       notification: '',
@@ -433,9 +492,42 @@
         this.refresh()
       },
       openPrintOptions: function () {
-        this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
-        this.$router.push('/print-pilot')
-      }
+        if (this.pilot.active_config) {
+          this.printDialog = true
+        } else {
+          this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
+          this.$router.push('/print-pilot')
+        }
+      },
+      print: function (includeMech: boolean) {
+        this.printDialog = false
+        if (includeMech) {
+          this.$store.dispatch('setPrintOptions', {
+            loadout_index: this.activeLoadoutIdx,
+            config_id: this.pilot.active_config,
+            config_loadout_index: 0,
+            combo: true
+            })
+          this.$router.push('/print-all')
+        } else {
+          this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
+          this.$router.push('/print-pilot')
+        }
+      },
+      copyPilotStatblock () {
+        clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        this.notify('Pilot Statblock Copied to Clipboard')
+      },
+      activatePilot () {
+        this.$store.dispatch('loadPilot', this.pilot.id)
+        this.$store.dispatch('editPilot', {
+          attr: `active`,
+          val: !this.pilot.active
+        })   
+        this.$forceUpdate() 
+        this.$parent.$forceUpdate() 
+        this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
+      },
     },
     computed: {
       pilot (): Pilot {

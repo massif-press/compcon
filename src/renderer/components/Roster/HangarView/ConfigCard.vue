@@ -1,15 +1,15 @@
 <template>
-<v-hover>
-  <v-card slot-scope="{ hover }" :class="`${config.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`">
+<v-hover style="background-color: rgba(0,0,0,0)">
+  <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`">
     <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
       <v-flex class="ma-0 pb-0 pt-0">
         <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" position="top" :height="`${cardHeight}px`"/>
-        <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" position="top" :height="`${cardHeight}px`"/>
+        <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" position="top" :height="`${cardHeight}px`"/>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex>
-        <v-card color="rgba(0, 0, 0, .55)" dark flat>
+        <v-card :color="panelColor(config.active)" dark flat>
           <v-layout>
             <v-flex xs9 class="ma-2">
               <span class="title">{{config.name}}</span>
@@ -17,10 +17,15 @@
               <span class="caption">{{frame().source}} {{frame().name}}</span>
             </v-flex>
             <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
-              <v-tooltip top>
-                <v-btn slot="activator" icon class="ma-0" disabled @click="toggleActive()"><v-icon>mdi-power</v-icon></v-btn>
-                <span>Activate Mech<br>(feature in development)</span>
-              </v-tooltip>
+                <v-tooltip top>
+                  <v-btn slot="activator" icon class="ma-0" @click="activateConfig()">
+                    <v-icon :color="config.active ? 'teal accent-3' : 'grey lighten-1'">mdi-power</v-icon>
+                  </v-btn>
+                  <div class="text-xs-center">
+                    <span><b :class="activeColorClass(config.active)"> {{config.active ? 'Active' : 'Inactive'}}</b>
+                      <br><i>Click to {{config.active ? 'deactivate' : 'activate'}} Mech</i></span>
+                  </div>
+                </v-tooltip>
               <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true"><v-icon>mdi-content-duplicate</v-icon></v-btn>
                 <span>Duplicate Configuration</span>
@@ -73,8 +78,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import io from '@/store/data_io'
+import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '@/components/UI'
-import { ExecFileOptionsWithStringEncoding } from 'child_process';
 
 export default Vue.extend({
   name: 'config-card',
@@ -96,16 +101,28 @@ export default Vue.extend({
       this.notification = alert
       this.snackbar = true
     },
+    activeColorClass (isActive: boolean): string {
+      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    },
+    panelColor (isActive: boolean): string {
+      return isActive ? `rgba(4, 48, 114, 0.55)` : `rgba(0, 0, 0, 0.55)`
+    },
     frame (): Frame {
       return this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     getStaticPath (path: string): string {
-      return `static/${path}`
+      return getStatic(path)
     },
     toConfigSheet () {
       this.$store.dispatch('loadConfig', this.config.id)
       this.$router.push('./config')
     },
+    activateConfig () {
+      this.$emit('activate', {id: this.config.id, toggle: !this.config.active}) 
+      this.$forceUpdate() 
+      this.$parent.$forceUpdate() 
+      this.notify(`${this.config.name} ${this.config.active ? 'Activated' : 'Deactivated'}`)
+    },    
     deleteConfig () {
       this.deleteDialog = false
       this.$store.dispatch('deleteConfig', this.config.id)
@@ -138,11 +155,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
- .active {
-   background: linear-gradient(#283593, #424242 80%);
-   background-color: #424242;
- }
-
   .inactive {
    background: linear-gradient(#616161, #424242 80%);
    background-color: #424242;

@@ -9,16 +9,41 @@
     </empty-view>
 
     <div v-else-if="config.name">
-      <v-container fluid>
+
+      <v-tooltip bottom>
+        <v-toolbar slot="activator" dense :color="config.active? 'warning' : 'grey darken-2'" class="ml-1">
+            <v-divider/>
+          <v-toolbar-title class="text-uppercase font-weight-light">
+            <span style="letter-spacing: 15px; font-size: 1.75em"> Mech {{config.active? 'Active' : 'Inactive'}}</span>
+          </v-toolbar-title>
+            <v-divider/>
+              <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn large icon class="ma-0 ml-2" @click="activateConfig">
+                  <v-icon large :color="config.active ? 'yellow accent-2' : 'grey darken-3'">mdi-power</v-icon>
+                </v-btn>
+              </v-toolbar-items>
+        </v-toolbar>
+        <div class="text-xs-center">
+          <span v-if="config.active"><b>Active Mech</b><br>
+          Active Mechs can track Structure, HP, Reactor Stress, Heat, <br>
+          Overcharge, and Repair Capacity.<br>
+          A pilot may have only one mech activated at a time.<br><br>
+          You can click the toggle to deactivate {{config.name}}</span>
+          <span v-else><b>Inctive Mech</b><br>
+          Inactive Mechs are unable to track any stats, but Pilots may<br>
+          have only one active Mech at any time. Making this Mech active<br>
+          will deactivate any currently active Mechs<br><br>
+          You can click the toggle to activate {{config.name}}</span>
+        </div>
+      </v-tooltip> 
+
+      <v-container fluid class="pt-0">
         <!-- ID Block -->
         <v-layout align-end>
           <v-flex shrink>
             <editable-label dark :attr="`${configPath}.name`" description="Configuration Name" :placeholder="config.name">
               <span slot="label" class="display-2 white--text">{{config.name}}</span>
             </editable-label>
-            <v-btn absolute top right style="margin-top: 90px" outline color="grey lighten-1" to="/pilot">
-              <v-icon>mdi-arrow-left</v-icon>&emsp;Return to Pilot Sheet
-            </v-btn>
           </v-flex>
           <v-flex>
             <lazy-dialog :model="frameInfoModal" :title="`${frame.source} ${frame.name}`" hide-confirm @cancel="frameInfoModal = false">
@@ -30,7 +55,7 @@
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-flex>
+          <v-flex xs7>
             <v-layout>
               <v-flex>
                 <span class="white--text fluff-text ml-2">{{ getManufacturer(frame.source).name }} {{ frame.mechtype }} Mech</span>
@@ -73,13 +98,13 @@
           </v-flex>
           <!-- Appearance -->
           <v-flex class="ma-2">
-            <div style="background-color: #757575">
+            <div style="border: solid 1px #757575; border-radius: 3px">
               <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
-              <v-img v-else :src="getStaticPath(`img/frames/${config.frame_id}.png`)" class="ml-2" max-height="55vh" contain/>
+              <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" class="ml-2" max-height="55vh" contain/>
             </div>
             <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>
           </v-flex>
-           <image-selector :model="appearanceModal" :preselect="config.custom_img" :default_img="getStaticPath(`img/frames/${config.frame_id}.png`)" @assign-img="setCustomImg" />
+           <image-selector :model="appearanceModal" :preselect="config.custom_img" :default_img="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" @assign-img="setCustomImg" />
         </v-layout>
         <!-- Attribute Block -->
         <v-layout>
@@ -109,16 +134,27 @@
                   <v-layout>
                     <v-flex shrink>
                       <span class="grey--text">STRUCTURE 
-                        <b :style="`color: ${color.structure.dark}`">{{stats.structure}}</b>
+                        <b :style="`color: ${color.structure.dark}`">{{config.current_structure || 0}}
+                          <span v-if="config.active">/{{stats.structure}}</span>
+                        </b>
                       </span>
-                      <v-rating v-model="stats.structure" :length="stats.structure" readonly large dense full-icon="blur_circular" color="pink accent-3"/>
+                      <tick-bar :config_id="config.id" :current="config.current_structure || stats.structure" :max="stats.structure" :attr="`current_structure`" large
+                        :color="color.structure.dark" bg-color="pink darken-4" empty-icon="mdi-hexagon-outline" full-icon="cc-structure" config :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
                       <span class="grey--text"> 
-                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{stats.hp}}</b> 
+                        &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{config.current_hp || 0}}
+                          <span v-if="config.active">/{{stats.hp}}</span>
+                        </b> 
                         &emsp; ARMOR <b :style="`color: ${color.armor.dark}`">{{stats.armor}}</b>
                       </span>
-                      <v-rating v-model="stats.hp" :length="stats.hp + stats.armor" readonly large dense empty-icon="brightness_7" full-icon="brightness_1" color="white"/>
+                      <v-layout>
+                        <tick-bar :config_id="config.id" :current="config.current_hp || stats.hp" :max="stats.hp" :attr="`current_hp`" large
+                          :color="color.hp.dark" bg-color="grey darken-1" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon" config  :readonly="!config.active" />
+                        <v-flex shrink>
+                          <v-rating class="d-inline-flex" v-model="stats.armor" :length="stats.armor" readonly large dense full-icon="mdi-shield" :color="color.armor.dark"/>
+                        </v-flex>
+                      </v-layout>
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -128,17 +164,45 @@
                 <v-flex>
                   <v-layout>
                     <v-flex shrink>
-                      <span class="grey--text">REACTOR STRESS <b :style="`color: ${color.stress.dark}`">{{stats.heatstress}}</b></span>
-                      <v-rating v-model="stats.heatstress" :length="stats.heatstress" readonly large dense full-icon="blur_circular" color="deep-orange accent-3"/>
+                      <span class="grey--text">REACTOR STRESS 
+                        <b :style="`color: ${color.stress.dark}`">{{config.current_stress || 0}}
+                          <span v-if="config.active">/{{stats.heatstress}}</span>
+                        </b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_stress || stats.heatstress" :max="stats.heatstress" :attr="`current_stress`" large
+                        :color="color.stress.dark" bg-color="deep-orange darken-4" empty-icon="mdi-circle-outline" full-icon="cc-reactor-stress" config  :readonly="!config.active" />
                     </v-flex>
                     <v-flex>
-                      <span class="grey--text"> &nbsp;HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
-                      <v-rating v-model="stats.heatcap" :length="stats.heatcap" readonly large dense full-icon="brightness_1" color="orange lighten-3"/>
+                      <span class="grey--text">
+                        <span v-if="config.active">&nbsp;HEAT: <b :style="`color: ${color.heatcap.dark}`">{{config.current_heat || 0}}</b> &emsp; &nbsp;</span>
+                        HEAT CAPACITY <b :style="`color: ${color.heatcap.dark}`">{{stats.heatcap}}</b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_heat || 0" :max="stats.heatcap" :attr="`current_heat`" large
+                        :color="color.heatcap.dark" bg-color="red darken-4" empty-icon="mdi-circle-outline" full-icon="mdi-circle" config  :readonly="!config.active" />
                     </v-flex>
                     <v-spacer />
                       <v-flex>
-                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{stats.repcap}}</b></span>
-                      <v-rating v-model="stats.repcap" :length="stats.repcap" readonly large dense full-icon="control_point" color="grey lighten-2"/>
+                      <span class="grey--text"> &nbsp;REPAIR CAPACITY <b :style="`color: ${color.repcap.dark}`">{{config.current_repairs}}
+                        <span v-if="config.active">/{{stats.repcap}}</span>
+                      </b></span>
+                      <tick-bar :config_id="config.id" :current="config.current_repairs || stats.repcap" :max="stats.repcap" :attr="`current_repairs`" large
+                        :color="color.repcap.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="control_point" config  :readonly="!config.active" />
+                    </v-flex>
+                    <v-spacer />
+                    <v-flex v-if="config.active">
+                      <span class="grey--text"> &nbsp;CORE POWER 
+                        <b :style="`color: ${color.corepower.dark}`">
+                          {{config.corepower || 1}}
+                      </b></span>
+                      <tick-bar :config_id="config.id" :current="config.corepower || 1" :max="1" attr="corepower" large
+                        :color="color.corepower.dark" bg-color="grey darken-2" empty-icon="mdi-battery-10" full-icon="mdi-battery" config />
+                    </v-flex>
+                    <v-spacer />
+                    <v-flex v-if="config.active">
+                      <span class="grey--text"> &nbsp;OVERCHARGE 
+                        <b :style="`color: ${color.overcharge.dark}`">
+                          {{overcharge[config.overcharge || 0]}}
+                      </b></span>
+                      <tick-bar :config_id="config.id" :current="config.overcharge" :max="4" attr="overcharge" large
+                        :color="color.overcharge.dark" bg-color="grey darken-2" empty-icon="mdi-circle-outline" full-icon="mdi-alert-decagram" config />
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -155,6 +219,14 @@
                 <statblock-item :attr="'Sensor Range'" :val="stats.sensor_range" />
                 <statblock-item :attr="'Save Target'" :val="stats.save_target" />
               </v-layout>
+            </v-flex>
+          </v-layout>
+
+          <v-layout><span class="config-header">Pilot Traits</span></v-layout>
+
+          <v-layout class="ml-3 mr-3">
+            <v-flex>
+              <pilot-traits :pilot="pilot" />
             </v-flex>
           </v-layout>
 
@@ -191,6 +263,14 @@
         <v-layout justify-space-around fill-height class="ma-5">
           <v-flex xs>
             <v-btn large color="warning" outline block dark @click="openPrintOptions(false)"><v-icon>print</v-icon> &nbsp; PRINT</v-btn>
+            <v-btn color="warning" small flat block @click="copyConfigStatblock()">copy config statblock &nbsp;
+              <v-tooltip top>
+                <v-icon slot="activator" small color="grey">help</v-icon>
+                <span>
+                  This produces a small raw text overview of the current Configuration and copies it to the clipboard.
+                </span>
+              </v-tooltip>
+            </v-btn>
           </v-flex>
           <lazy-dialog :model="printWarningDialog" title="// PRINT WARNING //" acceptString="Continue Anyway"
             acceptColor="warning" @accept="openPrintOptions(true)" @cancel="printWarningDialog = false">
@@ -243,16 +323,15 @@
 <script lang="ts">
   import Vue from 'vue'
   import Stats from '@/logic/stats'
-  import io from '@/store/data_io'
-
-  import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar} from '@/components/UI'
-  import {StatblockItem, TraitItem, ImageSelector} from './SheetComponents'
+  import {getStatic} from '@/mixins/static'
+  import {EditableLabel, EditableTextfield, ItemTag, EmptyView, CCColors, LazyDialog, PipBar, TickBar} from '@/components/UI'
+  import {StatblockItem, TraitItem, ImageSelector, PilotTraits} from './SheetComponents'
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
-  import { Config } from 'electron';
+  import { clipboard } from 'electron';
 
   export default Vue.extend({
     name: 'config-sheet',
-    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar },
+    components: { EditableLabel, EditableTextfield, ItemTag, StatblockItem, TraitItem, MechLoadout, ImageSelector, EmptyView, LazyDialog, PipBar, TickBar, PilotTraits},
     data: () => ({
       activeLoadoutIdx: 0,
       frameInfoModal: false,
@@ -260,7 +339,8 @@
       printWarningDialog: false,
       snackbar: false,
       notification: '',
-      loadoutForceReloadTrigger: 0
+      loadoutForceReloadTrigger: 0,
+      overcharge: [ "+1", "+1d3", "+1d6", "+1d6+4", "MAX"]
     }),
     methods: {
       setActiveIndex (index: number) {
@@ -269,6 +349,10 @@
       fullReload () {
         this.$router.push('/config')
       },
+      notify: function (contents: string) {
+        this.notification = contents
+        this.snackbar = true
+      },      
       hasEmptyMounts (): boolean {
         var empty = false
         if (!this.config.loadouts.length) return true
@@ -277,6 +361,7 @@
         if (!this.config.loadouts[this.activeLoadoutIdx].mounts.length) return true
         for (let i = 0; i < this.config.loadouts[this.activeLoadoutIdx].mounts.length; i++) {
           const m = this.config.loadouts[this.activeLoadoutIdx].mounts[i]
+          if (m.imparm || (m.imparm && this.pilot.core_bonuses.includes('imparm'))) continue
           if (m.mount_type.includes('/')) empty = m.weapons.length < 2
           else empty = !m.weapons.length
         }
@@ -287,7 +372,7 @@
         vm.$refs.mechImg.showModal()
       },
       getStaticPath (path: string) {
-        return `static/${path}`
+        return getStatic(path)
       },
       setCustomImg (path: string) {
         this.appearanceModal = false
@@ -300,7 +385,7 @@
       openPrintOptions (override: boolean) {
         this.$store.dispatch('setPrintOptions', {
           config_id: this.config.id,
-          loadout_index: this.activeLoadoutIdx
+          config_loadout_index: this.activeLoadoutIdx
         })
         if (!override && (
           this.hasEmptyMounts() ||
@@ -312,6 +397,32 @@
         } else {
           this.$router.push('/print-config')
         }
+      },
+      copyConfigStatblock () {
+        clipboard.writeText(Stats.mechStatblock(this.pilot, this.config, this.config.loadouts[this.activeLoadoutIdx], this.$store.getters.getState))
+        this.notify('Pilot Statblock Copied to Clipboard')
+      },
+      activateConfig() {
+        if (!this.config.active) {
+          for (let i = 0; i < this.pilot.configs.length; i++) {
+            if (this.pilot.configs[i].active) {
+                this.$store.dispatch('editConfig', {
+                id: this.pilot.configs[i].id,
+                attr: `active`,
+                val: false
+              })
+            }
+          }
+        }
+        this.$store.dispatch('editConfig', {
+          id: this.config.id,
+          attr: `active`,
+          val: !this.config.active
+        })
+        this.$store.dispatch('editPilot', {
+          attr: 'active_config',
+          val: this.config.id
+        })
       }
     },
     computed: {

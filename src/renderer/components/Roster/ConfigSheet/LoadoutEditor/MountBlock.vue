@@ -33,7 +33,7 @@
             fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" />
         </div>
         <div v-else-if="mount.mount_type === 'Flex'">
-          <div v-if="!mount.weapons[0]">
+          <div v-if="!mount.weapons[0] || getWeapon(mount.weapons[0].id).err">
             <mech-weapon-item :key="'fl0_' + weaponReload" :item="null" 
               fitting-type="Main or Aux" @clicked="openWeaponSelector('flex', 0)" />  
           </div>
@@ -43,9 +43,9 @@
           </div>
           <div v-else-if="mount.weapons[0] && getWeapon(mount.weapons[0].id).mount === 'Auxiliary'">
             <mech-weapon-item :key="'fl2_' + weaponReload" :item="mount.weapons[0]" 
-              fitting-type="Aux" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
+              fitting-type="Auxiliary" @clicked="openWeaponSelector('flex', 0)"  @open-mod="openModSelector(0)" />  
             <mech-weapon-item :key="'fl3_' + weaponReload" :item="mount.weapons[1] || null" 
-              fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" /> 
+              fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', 1)"  @open-mod="openModSelector(1)" /> 
           </div>
         </div>
         <div v-else>
@@ -55,13 +55,13 @@
         </div>
         <div v-if="mount.bonuses.includes('intweapon')">
           <mech-weapon-item :key="'int0_' + weaponReload" :item="mount.weapons[intweaponLength] || null" 
-          fitting-type="Aux" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
+          fitting-type="Auxiliary" @clicked="openWeaponSelector('auxiliary', intweaponLength)" />
         </div>
-          <v-card v-for="m in mountBonuses" :key="`mb_${m}`" color="grey darken-1" class="ma-2">
-          <v-card-text class="text-xs-center">
-            <b>{{getCoreBonus( m).name}}</b><br>
-            <i class="caption">{{getCoreBonus( m).mounted_effect}}</i>
-          </v-card-text>
+          <v-card v-for="(m, mbIdx) in mountBonuses()" :key="`mb_${m}_${mbIdx}`" color="grey darken-1" class="ma-2">
+            <v-card-text class="text-xs-center">
+              <b>{{getCoreBonus(m).name}}</b><br>
+              <i class="caption">{{getCoreBonus(m).mounted_effect}}</i>
+            </v-card-text>
         </v-card>
       </v-card-text>
     </v-card>
@@ -111,7 +111,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card dark>
-        <mod-table v-if="modLoader" :free_sp="free_sp" :current_equip="current_equip_mod" :weapon_type="modWeaponType" 
+        <mod-table v-if="modLoader" :free_sp="free_sp" :current_equip="current_equip_mod" :weapon="modWeapon" 
           @remove="removeMod" @select="applyMod" />
       </v-card>
     </v-dialog>
@@ -150,7 +150,7 @@
     shLockModel: 0,
     modModal: false,
     modLoader: false,
-    modWeaponType: '',
+    modWeapon: {},
     weaponReload: 0
   }),
   components: { MechWeaponItem, WeaponTable, CoreBenefitSelector, ModTable, LazyDialog },
@@ -166,11 +166,8 @@
       var appliedBonuses = _.flatten(vm.loadout.mounts.map((x: MechMount) => x.bonuses))
       return vm.allMountBonuses.length - appliedBonuses.length
     },
-    mountBonuses (): string[] {
-      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
-    },
     intweaponLength (): number {
-      return this.mount.mount_type.includes('/') ? 2 : 1
+      return (this.mount.mount_type.includes('/') || this.mount.mount_type === 'Flex') ? 2 : 1
     }
   },
   methods: {
@@ -180,11 +177,14 @@
       this.$parent.$forceUpdate()
       this.$emit('refresh')
     },
+    mountBonuses (): string[] {
+      return _.intersection(['hardpoints', 'burnout', 'intweapon', 'retrofit'], this.mount.bonuses)
+    },
     openModSelector (index: number) {
       (this as any).current_equip_mod = null
       var modID = this.mount.weapons[index].mod || null
       if (modID) this.current_equip_mod = this.$store.getters.getItemById('WeaponMods', modID)
-      this.modWeaponType = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id).type.toLowerCase()
+      this.modWeapon = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id)
       this.weaponIndex = index
       this.modLoader = true
       this.modModal = true
@@ -250,10 +250,14 @@
       this.refresh()
     },
     openWeaponSelector (mountType: string, index: number) {
-      this.size = mountType
-      this.weaponIndex = index
-      this.current_equip = null
-      if (this.loadout.mounts[this.mountIndex].weapons) this.current_equip = this.loadout.mounts[this.mountIndex].weapons[this.weaponIndex] || null
+      var vm = this as any
+      vm.size = mountType
+      vm.weaponIndex = index
+      vm.current_equip = null
+      if (vm.loadout.mounts[vm.mountIndex].weapons) {
+        var w = vm.loadout.mounts[vm.mountIndex].weapons[vm.weaponIndex]
+        if (w && !vm.getWeapon(w.id).err) this.current_equip = w
+      }
       this.weaponSelectorModal = true
     },
     isCbVisible (): boolean {
@@ -261,6 +265,27 @@
       return vm.freeMountBonuses > 0 || vm.mount.bonuses.length
     },
     confirmCBSM (bonusArray: string[]) {
+      //if removing retrofitting
+      if (this.mount.bonuses.includes('retrofit') && !bonusArray.includes('retrofit')) {
+        //remove all weapons and mods on this mount
+        this.$store.dispatch('spliceConfig', {
+          id: this.config_id,
+          attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
+          start_index: 0,
+          delete_count: this.mount.weapons.length
+        })
+      }
+      //if removing intweapon
+      if (this.mount.bonuses.includes('intweapon') && !bonusArray.includes('intweapon')) {
+        //remove all weapons and mods from bonus aux mount
+        this.$store.dispatch('spliceConfig', {
+          id: this.config_id,
+          attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons`,
+          start_index: this.mount.weapons.length - 1,
+          delete_count: 1
+        })
+      }
+
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].bonuses`,

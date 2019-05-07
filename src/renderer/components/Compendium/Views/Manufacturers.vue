@@ -1,19 +1,19 @@
 <template>
-  <v-container fluid class="ml-5 pl-5">
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MANUFACTURERS</span>
-    <div class="mt-3">
-      <v-tabs v-model="tabModel" color="blue-grey" dark  slider-color="warning" grow>
+    <v-card class="mt-3">
+      <v-tabs v-model="tabModel" color="green" dark  slider-color="secondary" grow>
         <v-tab v-for="m in manufacturers" :key="m.id" ripple >
          {{ m.id }}
         </v-tab>
         <v-tab-item v-for="m in manufacturers" :key="m.id + 'desc'">
-          <v-card flat>
+          <v-card flat class="px-3 py-3">
             <v-card-title class="display-2 text-uppercase font-weight-light pb-0 mb-0">{{m.name}}</v-card-title>
             <v-card-text class="mt-1 ml-2 pr-4 pt-0"><p v-html="m.description" /></v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs>
-    </div>
+    </v-card>
   </v-container>
 </template>
 

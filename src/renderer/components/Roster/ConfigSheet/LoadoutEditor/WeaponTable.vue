@@ -22,8 +22,8 @@
       </v-tooltip>
 
       <v-spacer />
-      <v-autocomplete flat dense v-model="search" :items="weapons" clearable hide-details 
-        hide-selected item-text="name" item-value="name" label="Search..." solo />
+      <v-text-field class="search-field ma-2" prepend-icon="search"
+        v-model="search" flat hide-details single-line placeholder="Search" clearable />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -89,6 +89,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
+  import {rules} from 'lancer-data'
   import {RangeElement, DamageElement, WeaponCard} from '@/components/UI'
 
   import io from '@/store/data_io'
@@ -128,7 +129,7 @@
       weapons () {
         var vm = this as any
         var allWeapons = vm.$store.getters.getItemCollection('MechWeapons')
-        var fittings = (io.loadSingle('rules') as IRules).mount_fittings[vm.size]
+        var fittings = rules.mount_fittings[vm.size]
         var i = allWeapons.filter((x: Weapon) => x.source && fittings.includes(x.mount))
         if (!vm.showLocked) {
           i = i.filter((x: Weapon) => x.source === 'GMS' 
@@ -149,6 +150,7 @@
         var configIndex = vm.pilot.configs.findIndex((x: any) => x.id === vm.config_id)
         var installedUniques = vm.pilot.configs[configIndex].loadouts[vm.loadout_index]
         installedUniques = _.compact(_.flatten(installedUniques.mounts.map((x: any) => x.weapons)))
+        installedUniques = installedUniques.filter((x: any) => !vm.getWeapon(x.id).err)
         installedUniques = installedUniques.map((x: any) => vm.getWeapon(x.id)).filter(
           (x: Weapon) => x.tags.map((y: any) => y.id).includes('unique')
         ).map((x: Weapon) => x.id)

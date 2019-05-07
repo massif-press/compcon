@@ -105,7 +105,7 @@
     },
     watch: {
       newLevel: function () {
-        if (!this.newLevel) return 0
+        if (!this.newLevel) this.newLevel = 0
         else if (this.newLevel < 0) this.newLevel = 0
         else if (this.newLevel > 12) this.newLevel = 12
       }

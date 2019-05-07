@@ -1,13 +1,13 @@
 import { readFileSync } from 'fs'
+import lancerData from 'lancer-data'
 import XLSX from 'xlsx'
 
-import io from '../store/data_io'
 import uid from './uid'
 
 const translationTable: {
     [key: string]: { [key: string]: string };
-} = require('../../../static/data/translationTable.json')
-const frames: Frame[] = require('../../../static/data/frames.json')
+} = lancerData.translation_table
+const frames: Frame[] = lancerData.frames
 
 // return a cell code from a cell code and an offset
 const offsetCell = (cell: string, offset: number[]): string => {
@@ -18,7 +18,7 @@ const offsetCell = (cell: string, offset: number[]): string => {
     return XLSX.utils.encode_cell(newCell)
 }
 
-// converts sheet range to 2D array
+// converts sheet range to 2D array F
 const sheetToArray = (
     sheet: XLSX.WorkSheet,
     rng: string,

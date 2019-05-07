@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">LICENSES</span>
     <v-layout v-for="m in Object.keys(licenses)" :key="m">
       <v-flex class="text-xs-center pa-3">
@@ -31,26 +31,6 @@ export default Vue.extend({
       licenses: {},
     }),
     methods: {
-      tooltip(item: CCItem) {
-        if (thisItem.isFrame(item)) {
-          return `<b>FRAME</b><br>${item.mechtype}`
-        } else if (thisItem.isWeapon(item)) {
-          return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
-        } else {
-          return `<b>MECH SYSTEM</b><br>${item.type}`
-        }
-      },
-      itemColor(t: string) {
-        if (t === 'frame') { return 'deep-purple' }
-        else if (t === 'weapon') { return 'primary' }
-        return 'teal'
-      },
-      openItem(t: CCItem) {
-        this.$store.dispatch('setPresearch', t.name)
-        if (t.data_type === 'frame') { this.$router.push('frames') }
-        else if (t.data_type === 'weapon') { this.$router.push('weapons') }
-        else { this.$router.push('systems') }
-      },
       manufacturer(id: string) {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },

@@ -1,5 +1,6 @@
-node_modules
-.vscode
-release-builds
-dist
-build
+.DS_Store
+.vscode/
+dist/
+build/
+node_modules/
+thumbs.db

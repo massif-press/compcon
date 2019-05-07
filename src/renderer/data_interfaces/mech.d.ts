@@ -2,7 +2,8 @@ declare interface MechMount {
   mount_type: string,
   weapons: { id: string, mod?: string }[],
   bonuses: string[],
-  imparm?: boolean
+  imparm?: boolean,
+  sh_lock?: boolean
 }
 
 declare interface MechLoadout {
@@ -17,7 +18,13 @@ declare interface MechConfig {
   pilot_id: string,
   name: string,
   frame_id: string,
-  loadouts: MechLoadout[]
+  loadouts: MechLoadout[],
+  current_structure?: number,
+  current_hp?: number,
+  current_stress?: number,
+  current_heat?: number,
+  current_repairs?: number,
+  active?: boolean
 }
 
 declare interface MechStats {

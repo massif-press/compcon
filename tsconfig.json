@@ -11,8 +11,8 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "noEmit": false,
     "types": [
-      "node",
       "electron"
     ],
     "baseUrl": ".",
@@ -38,9 +38,4 @@
   "exclude": [
     "node_modules"
   ],
-  "plugins": [
-    {
-      "name": "typescript-tslint-plugin"
-    }
-  ]
 }
