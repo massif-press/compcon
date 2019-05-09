@@ -62,9 +62,27 @@
         <lazy-dialog :model="exportDialog" title="Export Pilot" hide-confirm @cancel="exportDialog = false">
           <template v-slot:modal-content>
             <v-card-text class="text-xs-center">
-            <v-btn large flat color="primary" @click="exportPilot">Save to File</v-btn><br>
-            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard</v-btn><br>           
+            <v-btn large flat color="primary" @click="exportPilot">Save to File <v-icon right dark>save</v-icon></v-btn><br>
+            <v-btn large flat color="primary" @click="copyPilot">Copy Pilot Data to Clipboard <v-icon right dark>mdi-clipboard-text</v-icon></v-btn><br>
+            <div v-if="pilot.gistID && !uploadFailed">
+              <v-btn large flat color="success" :loading="cloudLoading" :disabled="cloudLoading" 
+                @click="cloudLoading = true; cloudUpdatePilot()">Update Cloud Save <v-icon right dark>mdi-cloud-sync</v-icon></v-btn><br>
+            </div>
+            <div v-if="!pilot.gistID || uploadFailed">
+              <v-btn large flat color="primary" :loading="cloudLoading" :disabled="cloudLoading" 
+              @click="cloudLoading = true; cloudSavePilot()">Save Pilot to Cloud <v-icon right dark>cloud_upload</v-icon></v-btn>
+            </div>
             </v-card-text>
+            <div v-if="pilot.gistID">
+              <v-divider />
+              <v-card-text class="text-xs-center">
+              <span class="effect-text" style="vertical-align: middle">Share ID:&emsp;</span><code>{{pilot.gistID}}</code>
+              <v-tooltip top>
+                <v-btn small icon slot="activator" color="grey lighten-3" @click="copyShareID"><v-icon small>mdi-clipboard-text</v-icon></v-btn>
+                <span>Copy Share ID to Clipboard</span>
+              </v-tooltip>
+              </v-card-text>
+            </div>
           </template>
         </lazy-dialog>
 
@@ -92,6 +110,7 @@
   import io from '@/store/data_io'
   import {LazyDialog} from '@/components/UI'
   import {clipboard} from 'electron'
+  import apis from '@/logic/apis'
 
   export default Vue.extend({
   name: 'pilot-card',
@@ -109,7 +128,9 @@
     exportDialog: false,
     copyDialog: false,
     notification: '',
-    snackbar: false
+    snackbar: false,
+    cloudLoading: false,
+    uploadFailed: false,
   }),
   methods: {
     notify (alert: string) {
@@ -172,7 +193,47 @@
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
     },
-  }
+    cloudSavePilot () {
+      var vm = this as any
+      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.cloudLoading = true
+      apis.createPilotGist(this.pilot).then((newGist: any) => {
+        var gistID = newGist.id
+        vm.$store.dispatch('editPilot', {
+          attr: `gistID`,
+          val: gistID
+        })
+        clipboard.writeText(gistID)
+        vm.notify('Pilot Uploaded Successfully!<br>Share ID copied to Clipboard')
+        vm.uploadFailed = false
+        vm.cloudLoading = false
+        vm.exportDialog = false
+      }).catch(function (err: any) {
+        vm.notify('Pilot Upload Failed')
+        vm.cloudLoading = false
+        vm.exportDialog = false
+      })
+    },
+    cloudUpdatePilot () {
+      var vm = this as any
+      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.cloudLoading = true
+      apis.updatePilotGist(this.pilot).then((newGist: any) => {
+        clipboard.writeText(newGist.id)
+        vm.notify('Pilot Updated Successfully!<br>Share ID copied to Clipboard')
+        vm.uploadFailed = false
+        vm.cloudLoading = false
+      }).catch(function (err: any) {
+        vm.notify('Pilot Upload Failed!<br>Try re-uploading.')
+        vm.uploadFailed = true
+        vm.cloudLoading = false
+      })
+    },
+    copyShareID () {
+      clipboard.writeText(this.pilot.gistID)
+      this.notify('Share ID copied to Clipboard')
+    }
+  },
 })
 </script>
 

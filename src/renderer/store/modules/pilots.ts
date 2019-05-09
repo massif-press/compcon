@@ -98,7 +98,7 @@ const mutations = {
     } else {
       throw console.error('Pilot not loaded!')
     }
-  },
+  }
 }
 
 const actions = {
@@ -176,7 +176,9 @@ const actions = {
     context.commit('UPDATE_PILOT_CONFIG', payload)
   },
   importPilot(context: AppContext, payload: Pilot) {
+    console.log(payload)
     payload.id = uid.generate()
+    payload.gistID = ''
     for (const config of payload.configs) {
       config.pilot_id = payload.id
     }
