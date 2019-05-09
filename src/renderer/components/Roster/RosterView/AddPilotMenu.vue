@@ -10,6 +10,46 @@
         <v-divider />
         <v-btn block flat color="primary" @click="importFile">Import from File</v-btn>
 
+        <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
+
+        <v-layout>
+          <v-flex>
+            <v-dialog width="600" v-model="cloudDialog">
+              <v-btn slot="activator" block flat color="primary">Import from Cloud</v-btn>
+              <v-card>
+                <v-card-title class="title">Enter Share ID</v-card-title>
+                <v-card-text>
+                  <v-text-field v-model="shareIDText" label="Share ID" outline clearable />
+                  <span class="effect-text red--text">{{errorText}}</span>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions>
+                  <v-btn flat @click="closeCloudDialog" color="primary">Close</v-btn>
+                  <v-spacer />
+                  <v-btn large color="success" :disabled="!shareIDText" :loading="cloudLoading" @click="importCloud">Import</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-flex>
+          <v-flex shrink>
+            <v-dialog width="600" v-model="cloudInfoDialog">
+            <v-btn slot="activator" icon small right absolute style="right: 150px;"><v-icon color="grey" small>help</v-icon></v-btn>
+            <v-card>
+              <v-card-title class="title">
+                Cloud Save Importer
+              </v-card-title>
+              <v-card-text>
+                This tool imports LANCER pilots saved to the cloud via the "Save to Cloud" export button. Imported characters generate new Share IDs, so any changes will be uploaded to a <strong>new</strong> cloud save.
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn flat @click="cloudInfoDialog = false" color="primary">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+            </v-dialog>
+          </v-flex>
+        </v-layout>
+
         <v-layout>
           <v-flex>
             <v-btn block flat color="primary" @click="importSheet">Import from GSheet</v-btn>
@@ -51,7 +91,6 @@
           </v-flex>
         </v-layout>
 
-        <v-btn block flat color="primary" @click="importClipboard">Import from Clipboard</v-btn>
       </v-card-text>
 
       <v-divider />
@@ -69,17 +108,25 @@
   import io from '@/store/data_io'
   import validator from '@/logic/validator'
   import { loadSheetFile, gsheetToObject } from '@/logic/gsheet-converter'
+  import apis from '@/logic/apis'
 
   export default Vue.extend({
     name: 'add-pilot-menu',
     props: ['dialogModel'],
     data: () => ({
       gsheetDialog: false,
+      cloudDialog: false,
+      cloudInfoDialog: false,
+      cloudLoading: false,
       ignoredModsDialog: false,
-      ignoredModsString: ''
+      ignoredModsString: '',
+      shareIDText: '',
+      errorText: '',
     }),
     methods: {
       close () {
+        this.errorText = ''
+        this.shareIDText = ''
         this.$emit('close')
       },
       goToNew () {
@@ -153,6 +200,25 @@
         })
         vm.addDialog = false
         vm.close()
+      },
+      importCloud () {
+        var vm = this as any
+        vm.cloudLoading = true
+        apis.importPilotGist(vm.shareIDText).then((gist: any) => {
+          var newPilot = gist.files['pilot.txt'].content
+          vm.$store.dispatch('importPilot', JSON.parse(newPilot))
+          vm.cloudDialog = false
+          vm.cloudLoading = false
+          vm.close()
+        }).catch(function (err: any) {
+          vm.errorText = 'Pilot Import Failed! Cannot resolve this Share ID'
+          vm.cloudLoading = false
+        })
+      },
+      closeCloudDialog () {
+        this.cloudDialog = false
+        this.errorText = ''
+        this.shareIDText = ''
       }
     }
   })

@@ -61,6 +61,7 @@ declare interface Pilot {
   quirk?: any,
   active?: boolean,
   active_config?: string,
+  gistID?: string,
 }
 
 declare interface PilotStats {
