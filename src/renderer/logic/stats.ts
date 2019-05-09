@@ -293,9 +293,18 @@ export default {
 
     let mOutput = `>> ${config.name.toUpperCase()} <<\n  ${frame!.source} ${frame!.name}\n  `
     mOutput += `H:${mStats.hull} A:${mStats.agi} S:${mStats.sys} E:${mStats.eng} SIZE:${frame!.stats.size}\n  `
-    mOutput += `STRUCTURE:${config.current_structure || mStats.structure}/${mStats.structure} HP:${config.current_hp || mStats.hp}/${mStats.hp} ARMOR:${mStats.armor}\n  `
-    mOutput += `STRESS:${config.current_stress || mStats.heatstress}/${mStats.heatstress} HEAT:${config.current_heat || mStats.heatcap}/${mStats.heatcap} REPAIR:${config.current_repairs || mStats.repcap}/${mStats.repcap}\n  `
-    mOutput += `ATK BONUS:${mStats.attack_bonus} TECH ATK:${mStats.tech_attack} LTD BONUS:${mStats.limited_bonus}\n  `
+    mOutput += `STRUCTURE:${config.current_structure || mStats.structure}`
+    if (config.active) mOutput += `/${mStats.structure}`
+    mOutput += ` HP:${config.current_hp || mStats.hp}`
+    if (config.active) mOutput += `/${mStats.hp}`
+    mOutput += ` ARMOR:${mStats.armor}\n  `
+    mOutput += `STRESS:${config.current_stress || mStats.heatstress}`
+    if (config.active) mOutput += `/${mStats.heatstress}`
+    mOutput += ` HEAT:${config.current_heat || mStats.heatcap}`
+    if (config.active) mOutput += `/${mStats.heatcap}`
+    mOutput += ` REPAIR:${config.current_repairs || mStats.repcap}`
+    if (config.active) mOutput += `/${mStats.repcap}`
+    mOutput += `\n  ATK BONUS:${mStats.attack_bonus} TECH ATK:${mStats.tech_attack} LTD BONUS:${mStats.limited_bonus}\n  `
     mOutput += `SPD:${mStats.speed} EVA:${mStats.evasion} EDEF:${mStats.edef} SENS:${mStats.sensor_range} SAVE:${mStats.save_target}\n`
     mOutput += '[ TALENTS ]\n  '
     for (let i = 0; i < pilot.talents.length; i++) {
