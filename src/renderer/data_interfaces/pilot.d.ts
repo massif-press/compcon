@@ -62,6 +62,7 @@ declare interface Pilot {
   active?: boolean,
   active_config?: string,
   gistID?: string,
+  cloud_portrait?: string,
 }
 
 declare interface PilotStats {

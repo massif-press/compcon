@@ -27,13 +27,13 @@
                   </div>
                 </v-tooltip>
               <v-tooltip top>
-                <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true"><v-icon>mdi-content-duplicate</v-icon></v-btn>
-                <span>Duplicate Configuration</span>
-              </v-tooltip>
-              <v-tooltip top>
                 <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true"><v-icon>mdi-export-variant</v-icon></v-btn>
                 <span>Export Configuration</span>
               </v-tooltip>
+              <v-tooltip top>
+                <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true"><v-icon>mdi-content-duplicate</v-icon></v-btn>
+                <span>Duplicate Configuration</span>
+              </v-tooltip>              
               <v-tooltip top>
               <v-btn slot="activator" icon class="ma-0" @click="deleteDialog = true"><v-icon>delete</v-icon></v-btn>
                 <span>Delete Configuration</span>

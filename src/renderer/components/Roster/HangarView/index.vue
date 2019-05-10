@@ -27,7 +27,7 @@
       <v-layout><v-flex class="text-xs-center hangar-title"><span>mech hangar</span></v-flex></v-layout>
     </v-container>
     <v-container grid-list-xl fluid>
-      <v-layout row wrap class="ml-2 mr-2" fill-height>
+      <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(c, i) in configs" :key="c.id + i" class="mb-4" xs3>
           <config-card :config="c" :c-idx="i" :card-height="cardHeight" @activate="activateConfig" />
         </v-flex>
@@ -113,6 +113,7 @@
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
+    overflow-x: hidden;
     background-color: #424242;
   }
 

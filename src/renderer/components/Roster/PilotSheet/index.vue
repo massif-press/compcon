@@ -186,15 +186,19 @@
           <v-flex xs4>
             <!-- Appearance -->
             <v-layout>
-              <span :class="`header ${pilot.active ? 'no-icon' : ''}`">Appearance
+              <span class="header">Appearance
                 <pilot-edit-modal title="Set Pilot Portrait" :modelRef="appearanceModal" ref="appearanceSelector">
-                  <image-selector slot="modal-content" :preselectPortrait="pilot.portrait" @assign-portrait="setPortrait" />
+                  <image-selector slot="modal-content" :preselectPortrait="pilot.portrait" :cloudPortrait="pilot.cloud_portrait"  
+                    @notify="notify" @close="closePortrait" />
                 </pilot-edit-modal>
               </span>
             </v-layout>
             <v-layout>
               <v-flex class="pl-2" @click="appearanceModal = true">
-                <div v-if="pilot.portrait">
+                <div v-if="pilot.cloud_portrait">
+                  <v-img :src="pilot.cloud_portrait" max-height="55vh" max-width="45.1vw" contain/>
+                </div>
+                <div v-else-if="pilot.portrait">
                   <v-img :src="`file://${userDataPath}/img/portrait/${pilot.portrait}`" max-height="55vh" max-width="45.1vw" contain/>
                 </div>
                 <div v-else>
@@ -458,15 +462,9 @@
       setMechSkills: function () {
         (this.$refs['mechSkillSelector'] as any).cancel()  
       },
-      setPortrait: function (src: string) {
+      closePortrait: function (src: string) {
         (this.$refs['appearanceSelector'] as any).cancel()
-        this.$store.dispatch('editPilot', {
-          attr: `portrait`,
-          val: src
-        })
         this.appearanceModal = false
-        this.notification = 'Pilot Portrait Saved'
-        this.snackbar = true
       },
       addInvocation: function () {
         var vm = this

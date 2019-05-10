@@ -1,9 +1,15 @@
 import GistClient from 'gist-client'
+import imgur from 'imgur'
+import path from 'path'
+import fs from 'fs'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
 const token = '15e5d2bf3aaaedb2ba9d8d05731146e466b45e59'
 const gistClient = new GistClient()
+
+imgur.setClientId('36f102b737b2f5f');
+imgur.setAPIUrl('https://api.imgur.com/3/')
 
 const createPilotGist = async function (pilot: Pilot): Promise<any> {
   return gistClient.setToken(token).create({
@@ -32,8 +38,13 @@ const importPilotGist = function (id: string) {
   return gistClient.setToken(token).getOneById(id)
 }
 
+const uploadImage = function (userPath: string, subPath: string, imgPath: string) {
+  return imgur.uploadFile(path.join(userPath, 'img', subPath, imgPath))
+}
+
 export default {
   createPilotGist,
   updatePilotGist,
   importPilotGist,
+  uploadImage,
 }
