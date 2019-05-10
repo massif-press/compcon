@@ -5,7 +5,7 @@ import fs from 'fs'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
-const token = '15e5d2bf3aaaedb2ba9d8d05731146e466b45e59'
+const token = btoa("{ß6Ù§µã~¶×�xëÖ½uíÝÓmuáÿ9w��ÛM6");
 const gistClient = new GistClient()
 
 imgur.setClientId('36f102b737b2f5f');
