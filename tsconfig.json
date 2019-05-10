@@ -38,4 +38,6 @@
   "exclude": [
     "node_modules"
   ],
+  "allowJs": true,
+  "declaration": false
 }
