@@ -24,7 +24,7 @@
       </v-tooltip>
     </v-container>
     <v-container grid-list-xl fluid>
-      <v-layout row wrap class="ml-2 mr-2" fill-height>
+      <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(p, i) in pilots" :key="p.id" class="mb-4" xs3>
           <pilot-card :pilot="p" :p-idx="i" :card-height="cardHeight"/>
         </v-flex>
@@ -85,6 +85,7 @@
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
+    overflow-x: hidden;
     background-color: #424242;
   }
 

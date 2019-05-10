@@ -99,12 +99,13 @@
           <!-- Appearance -->
           <v-flex class="ma-2">
             <div style="border: solid 1px #757575; border-radius: 3px">
-              <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
+              <v-img v-if="config.cloud_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
+              <v-img v-else-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" class="ml-2" max-height="55vh" contain/>
               <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" class="ml-2" max-height="55vh" contain/>
             </div>
             <v-btn block outline small color="grey" @click="appearanceLoader = true; appearanceModal = true">Set Custom Image</v-btn>
           </v-flex>
-           <image-selector :model="appearanceModal" :preselect="config.custom_img" :default_img="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" @assign-img="setCustomImg" />
+           <image-selector :model="appearanceModal" :config="config" @close="appearanceModal = false" @notify="notify($event)" />
         </v-layout>
         <!-- Attribute Block -->
         <v-layout>
@@ -373,14 +374,6 @@
       },
       getStaticPath (path: string) {
         return getStatic(path)
-      },
-      setCustomImg (path: string) {
-        this.appearanceModal = false
-        this.$store.dispatch('editConfig', {
-          id: this.config.id,
-          attr: `custom_img`,
-          val: path
-        })
       },
       openPrintOptions (override: boolean) {
         this.$store.dispatch('setPrintOptions', {
