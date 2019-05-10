@@ -202,6 +202,7 @@
                     <v-layout>
                       <v-flex shrink class="ml-1" v-if="!weapon(w.id).err">
                         <span class="p-large">{{weapon(w.id).name}}</span>
+                        <span class="p-reg"> ({{weapon(w.id).mount}} {{weapon(w.id).type}})</span>
                         <span v-if="w.mod" class="p-reg">&nbsp;//&nbsp;{{mod(w.mod).name}}</span>
                         </v-flex>
                       <v-flex shrink class="ml-2" v-if="!weapon(w.id).err"><range-element size="9" :range="weapon(w.id).range" /></v-flex>

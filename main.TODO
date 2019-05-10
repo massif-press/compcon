@@ -4,17 +4,10 @@ Improvements:
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ✔ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to @done(19-05-10 14:16)
   ☐ Fixed selector left columns
 
 2.0:
-  ☐ Glossary in compendium
-  ☐ Action economy in compendium
-  ☐ Delete Homebrew content packsp
-  ☐ Preload Long Rim
-  ☐ Github Gist API import/exporter (export and import by ID)
-  ☐ Imgur image hosting
-  ☐ Help Menu
+  ☐ Delete Homebrew content packs
   Printing:
     General Print Options:
       ☐ Large fonts
@@ -45,7 +38,6 @@ Styling:
   ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
   ☐ Gear Catalog comparison view
-  ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
@@ -54,6 +46,13 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to @done(19-05-10 14:16) @project(Styling)
+  ✔ Glossary in compendium @done(19-05-10 14:32) @project(2.0)
+  ✔ Action economy in compendium @done(19-05-10 14:32) @project(2.0)
+  ✔ Preload Long Rim @done(19-05-10 14:32) @project(2.0)
+  ✔ Github Gist API import/exporter (export and import by ID) @done(19-05-10 14:32) @project(2.0)
+  ✔ Imgur image hosting @done(19-05-10 14:32) @project(2.0)
+  ✔ Help Menu @done(19-05-10 14:33) @project(2.0)
   ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17) @project(Improvements)
   ✔ in inactive mode, show max stat only @done(19-04-29 12:25) @project(Improvements)
   ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17) @project(Improvements)
