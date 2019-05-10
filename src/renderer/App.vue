@@ -12,7 +12,7 @@
     mounted() {
       const thisAny: any = this
       thisAny.$mousetrap.bind('g r', () => {
-        this.$router.push('/roster')
+        this.$router.push('/pilot_management')
       })
       thisAny.$mousetrap.bind('g h', () => {
         this.$router.push('/hangar')

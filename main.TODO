@@ -1,9 +1,10 @@
 Improvements:
+  ☐ cloud save image to new pilot select
   ☐ move config overcharge into rules.json
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
+  ✔ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to @done(19-05-10 14:16)
   ☐ Fixed selector left columns
 
 2.0:
