@@ -1,7 +1,6 @@
 import GistClient from 'gist-client'
 import imgur from 'imgur'
 import path from 'path'
-import fs from 'fs'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
