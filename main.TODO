@@ -1,6 +1,7 @@
 Improvements:
   ☐ cloud save image to new pilot select
   ☐ move config overcharge into rules.json
+  ☐ draggable pilot/config cards
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size

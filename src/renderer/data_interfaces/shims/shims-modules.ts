@@ -11,6 +11,8 @@ declare module 'gist-client'
 
 declare module 'imgur'
 
+declare module 'vuedraggable'
+
 declare module 'lancer-data' {
   const backgrounds: any
   const skills: any

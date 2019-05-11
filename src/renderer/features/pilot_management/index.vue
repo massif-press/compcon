@@ -11,6 +11,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import Pilot from './classes/pilot'
   import store from '../../store';
   import { mapGetters } from 'vuex'
   import { TopBar } from '@/features/_shared/topbar'
@@ -24,6 +25,9 @@
       this.$store.dispatch('loadData')
       this.$store.dispatch('loadBrews')
       this.$store.dispatch('buildLicenses')
+
+      var p = new Pilot()
+      console.log(p.ID)
     },
   })
 </script>
