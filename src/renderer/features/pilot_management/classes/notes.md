@@ -1,0 +1,11 @@
+pilot
+  - contacts
+  - skills
+  - talents
+  - licenses
+  - mech skills
+  - pilot loadout
+    - pilot equipment
+      - armor
+      - weapons
+      - gear
