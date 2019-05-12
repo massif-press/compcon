@@ -126,6 +126,7 @@
   import CoreBenefitSelector from './CoreBenefitSelector.vue'
   import ModTable from './ModTable.vue'
   import {LazyDialog} from '../../components/UI'
+import { Mount, MechWeapon, WeaponMod } from '@/features/_shared/classes'
 
   export default Vue.extend({
   name: 'mount-block',
@@ -163,8 +164,9 @@
     },
     freeMountBonuses (): number {
       var vm = this as any
-      var appliedBonuses = _.flatten(vm.loadout.mounts.map((x: MechMount) => x.bonuses))
-      return vm.allMountBonuses.length - appliedBonuses.length
+      // var appliedBonuses = _.flatten(vm.loadout.mounts.map((x: Mount) => x.bonuses))
+      // return vm.allMountBonuses.length - appliedBonuses.length
+      return 1
     },
     intweaponLength (): number {
       return (this.mount.mount_type.includes('/') || this.mount.mount_type === 'Flex') ? 2 : 1
@@ -194,20 +196,20 @@
       if (this.mount.imparm) return 'Flex Mount (Improved Armament)'
       return `${this.mount.mount_type} Mount`
     },
-    equipWeapon (item: Weapon) {
+    equipWeapon (item: MechWeapon) {
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons[${this.weaponIndex}]`,
         val: {
-          id: item.id,
-          brew: item.brew || null
+          id: item.ID,
+          brew: item.Brew || null
         }
       })
       this.weaponSelectorModal = false
       this.refresh()
     },
-    stageSuperheavy (item: Weapon) {
-      this.pendingSuperheavy = item.id
+    stageSuperheavy (item: MechWeapon) {
+      this.pendingSuperheavy = item.ID
       this.shLockDialog = true
     },
     equipSuperheavy () {
@@ -303,7 +305,7 @@
       this.$store.dispatch('editConfig', {
         id: this.config_id,
         attr: `loadouts[${this.loadoutIndex}].mounts[${this.mountIndex}].weapons[${this.weaponIndex}].mod`,
-        val: mod.id
+        val: mod.ID
       })
       this.modModal = false
       this.modLoader = false

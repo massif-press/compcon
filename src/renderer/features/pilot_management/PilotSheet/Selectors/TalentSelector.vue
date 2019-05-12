@@ -51,12 +51,13 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Talent } from '@/features/_shared/classes'
   import {TalentItem} from '../SheetComponents'
   import Selector from './Selector.vue'
 
-  function talentSort (talents: PilotTalent[]) {
+  function talentSort (talents: Talent[]) {
     return talents.sort(function (a, b) {
-      return a.rank === b.rank ? 0 : a.rank > b.rank ? -1 : 1
+      return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     })
   }
 
@@ -105,14 +106,14 @@
         var vm = this as any
         return vm.talents.find((x: any) => x.id === id) || {rank: 0}
       },
-      addTalent (talent: PilotTalent) {
+      addTalent (talent: Talent) {
         var vm = this as any
-        var idx = vm.talents.findIndex((x: any) => x.id === talent.id)
+        var idx = vm.talents.findIndex((x: any) => x.id === talent.ID)
         if (idx === -1) {
           vm.talents.push({
-            id: talent.id,
+            id: talent.ID,
             rank: 1,
-            brew: talent.brew || null
+            brew: talent.Brew
           })
         } else {
           vm.talents[idx].rank++
@@ -125,9 +126,9 @@
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
-      removeTalent (talent: PilotTalent) {
+      removeTalent (talent: Talent) {
         var vm = this as any
-        var idx = vm.talents.findIndex((x: any) => x.id === talent.id)
+        var idx = vm.talents.findIndex((x: any) => x.id === talent.ID)
         if (idx !== -1) {
           vm.talents[idx].rank--
           if (vm.talents[idx].rank === 0) vm.talents.splice(idx, 1)
@@ -144,7 +145,7 @@
         vm.$forceUpdate()
         vm.panels = []
       },
-      talentById (id: string): PilotTalent {
+      talentById (id: string): Talent {
         var vm = this as any
         return vm.$store.getters['getItemById']('Talents', id)
       }

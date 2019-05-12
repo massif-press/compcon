@@ -1,4 +1,4 @@
-declare interface Status {
-    name: string,
-    effects: string[]
-}
+// declare interface Status {
+//     name: string,
+//     effects: string[]
+// }

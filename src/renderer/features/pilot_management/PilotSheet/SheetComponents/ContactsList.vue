@@ -29,6 +29,7 @@
 </template>
 
 <script lang="ts">
+  import { Contact } from '@/features/_shared/classes'
   import {EditableLabel, EditableTextfield} from '../../components/UI'
 
   import Vue from 'vue'
@@ -36,7 +37,7 @@
     name: 'contacts-list',
     components: { EditableLabel, EditableTextfield },
     computed: {
-      contacts (): PilotContact[] {
+      contacts (): Contact[] {
         return this.$store.getters['getPilot'].contacts
       }
     },

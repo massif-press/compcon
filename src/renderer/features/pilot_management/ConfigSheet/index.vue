@@ -331,7 +331,7 @@
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
   import { clipboard } from 'electron';
   import ccc from '@/features/_shared/UI/CCColors'
-
+import { Mech, Frame } from '@/features/_shared/classes'
 
   export default Vue.extend({
     name: 'config-sheet',
@@ -381,24 +381,24 @@
       },
       openPrintOptions (override: boolean) {
         var vm = this as any
-        this.$store.dispatch('setPrintOptions', {
-          config_id: vm.config.id,
-          config_loadout_index: this.activeLoadoutIdx
-        })
-        if (!override && (
-          this.hasEmptyMounts() ||
-          (this.stats.sp - this.stats.used_sp) > 0 ||
-          this.stats.used_sp > this.stats.sp ||
-          this.stats.required_licenses.filter(x => x.missing).length
-        )) {
-          this.printWarningDialog = true
-        } else {
-          this.$router.push('/print-config')
-        }
+        // this.$store.dispatch('setPrintOptions', {
+        //   config_id: vm.config.id,
+        //   config_loadout_index: this.activeLoadoutIdx
+        // })
+        // if (!override && (
+        //   this.hasEmptyMounts() ||
+        //   (this.stats.sp - this.stats.used_sp) > 0 ||
+        //   this.stats.used_sp > this.stats.sp ||
+        //   this.stats.required_licenses.filter(x => x.missing).length
+        // )) {
+        //   this.printWarningDialog = true
+        // } else {
+        //   this.$router.push('/print-config')
+        // }
       },
       copyConfigStatblock () {
         var vm = this as any
-        clipboard.writeText(Stats.mechStatblock(vm.pilot, vm.config, vm.config.loadouts[vm.activeLoadoutIdx], vm.$store.getters['getState']))
+        // clipboard.writeText(Stats.mechStatblock(vm.pilot, vm.config, vm.config.loadouts[vm.activeLoadoutIdx], vm.$store.getters['getState']))
         this.notify('Pilot Statblock Copied to Clipboard')
       },
       activateConfig() {
@@ -435,12 +435,12 @@
         var vm = this as any
         return `configs[${vm.configIndex(vm.config.id)}]`
       },
-      stats (): MechStats {
-        var vm = this as any
-        if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating config stats...')
-        else console.info('Loadout changed: recalculating config stats...')
-        return this.$store.getters['getMechStats'](vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
-      },
+      // stats (): MechStats {
+      //   var vm = this as any
+      //   if (this.loadoutForceReloadTrigger) console.info('Equipment changed: recalculating config stats...')
+      //   else console.info('Loadout changed: recalculating config stats...')
+      //   return this.$store.getters['getMechStats'](vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
+      // },
       frame (): Frame {
         var vm = this as any
         return this.$store.getters['getItemById']('Frames', vm.config.frame_id)

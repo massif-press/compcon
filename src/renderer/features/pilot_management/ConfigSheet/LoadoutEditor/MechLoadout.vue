@@ -88,13 +88,12 @@
 <script lang="ts">
   import Vue from 'vue'
   import io from '@/features/_shared/data_io'
-  import uid from '../../logic/uid'
   import MountBlock from './MountBlock.vue'
   import IntegratedBlock from './IntegratedBlock.vue'
   import SystemsBlock from './SystemsBlock.vue'
   import SystemTable from './SystemTable.vue'
   import {LazyDialog} from '../../components/UI'
-
+import { MechLoadout, MechSystem } from '@/features/_shared/classes'
   const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
   function newLoadoutName (count: number): string {
@@ -134,8 +133,8 @@
       vm.snackbar = true
     },
     equippedSystem (loadout: MechLoadout, itemIndex: number): any {
-      if (loadout.systems && loadout.systems[itemIndex]) {
-        var sys = (this as any).getSystem(loadout.systems[itemIndex].id)
+      if (loadout.Systems && loadout.Systems[itemIndex]) {
+        var sys = (this as any).getSystem(loadout.Systems[itemIndex].ID)
         return sys
       }
       return null
@@ -166,7 +165,7 @@
         id: vm.config_id,
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: uid.generate(),
+          // id: uid.generate(),
           name: newLoadoutName(newIdx),
           mounts: mounts,
           systems: []
@@ -210,21 +209,21 @@
         id: vm.config_id,
         attr: `loadouts[${newIdx}]`,
         val: {
-          id: uid.generate(),
+          // id: uid.generate(),
           name: `${current.name} (Copy)`,
           mounts: current.mounts
         }
       })
       vm.refresh()
     },
-    equipSystem (item: System, loadoutIndex: number) {
+    equipSystem (item: MechSystem, loadoutIndex: number) {
       var vm = this as any
       vm.$store.dispatch('editConfig', {
         id: vm.config_id,
         attr: `loadouts[${loadoutIndex}].systems[${vm.itemIndex}]`,
         val: {
-          id: item.id,
-          brew: item.brew || null
+          id: item.ID,
+          brew: item.Brew
         }
       })
       vm.systemSelectorModal = false

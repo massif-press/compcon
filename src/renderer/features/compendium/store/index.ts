@@ -1,3 +1,5 @@
+import { AppState } from '@/features/_shared/classes'
+
 const moduleState = {
     presearch: '',
 }

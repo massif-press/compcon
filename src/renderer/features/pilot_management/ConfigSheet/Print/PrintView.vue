@@ -249,7 +249,7 @@
   import Vue from 'vue'
   import Stats from '../../logic/stats'
   import {RangeElement, DamageElement} from '../../components/UI'
-
+import { PrintOptions } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'mech-print-view',
     components: { RangeElement, DamageElement },
@@ -305,7 +305,7 @@
       vm.printOptions = vm.$store.getters['getPrintOptions']
       vm.config = vm.pilot.configs.find((x: any ) => x.id === vm.printOptions.config_id)
       vm.loadout = vm.config.loadouts[vm.printOptions.config_loadout_index] || null
-      vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.config_loadout_index], vm.$store.getters['getState'])
+      // vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.config_loadout_index], vm.$store.getters['getState'])
       vm.stats = vm.$store.getters['getMechStats'](vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
       vm.frame = vm.$store.getters['getItemById']('Frames', vm.config.frame_id)
       if (this.printOptions.combo) this.blockPrint = true

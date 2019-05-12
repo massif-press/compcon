@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import io from '../data_io'
 import lancerData from 'lancer-data'
+import {AppContext, AppState, License, CompendiumItem} from '../classes'
 
 const moduleState = {
   UserDataPath: '',
@@ -74,26 +75,10 @@ const mutations = {
     io.setBrewActive(state.UserDataPath, payload.dir, payload.active)
   },
   BUILD_LICENSES(state: AppState) {
-    const licenses: CCLicense[] = []
-    state.Frames.filter((x) => x.source.toUpperCase() !== 'GMS').forEach((frame) => {
-      licenses.push({
-        source: frame.source.toUpperCase(),
-        license: frame.name.toUpperCase(),
-        unlocks: [
-          [], // level 1
-          [frame], // level 2
-          [], // level 3
-        ],
-        brew: frame.brew || null,
-      })
+    const licenses: License[] = []
+    state.Frames.filter((x) => x.Source.toUpperCase() !== 'GMS').forEach((frame) => {
+      new License(frame.ID)
     })
-    let items: CCItem[] = _.clone(state.MechWeapons)
-    items = items.concat(state.WeaponMods, state.MechSystems)
-    items.filter((x) => x.source && x.source.toUpperCase() !== 'GMS' && x.source.toUpperCase() !== '')
-      .forEach((item) => {
-        const idx = licenses.findIndex((x) => x.license === item.license.toUpperCase())
-        licenses[idx].unlocks[item.license_level - 1].push(item)
-      })
     state.Licenses = licenses
   },
 }
@@ -118,11 +103,11 @@ const actions = {
 
 const getters = {
   getItemById: (state: any) => (itemType: string, id: string) => {
-    return state[itemType].find((x: CCItem) => x.id === id) || { err: 'ID not found' }
+    return state[itemType].find((x: CompendiumItem) => x.ID === id) || { err: 'ID not found' }
   },
-  getLicenseByName: (state: AppState) => (license: string) => {
-    return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }
-  },
+  // getLicenseByName: (state: AppState) => (license: string) => {
+  //   return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }
+  // },
   getItemCollection: (state: any) => (itemType: string) => {
     return state[itemType]
   },

@@ -3,6 +3,7 @@ import {
   copySync,
 } from 'fs-extra'
 import path from 'path'
+import { Pilot } from './classes'
 
 declare const __static: string
 
@@ -37,7 +38,6 @@ export default {
       check(path.join(userDataPath, 'img'))
       check(path.join(userDataPath, 'img', 'frame'));
       check(path.join(userDataPath, 'img', 'default_frames'))
-      // check(path.join(userDataPath, 'img', 'default_frames'))
       check(path.join(userDataPath, 'img', 'portrait'))
       var allDefaultImages = this.getImages('frames', getStaticPath());
       for (let i = 0; i < allDefaultImages.length; i++) {

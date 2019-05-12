@@ -52,7 +52,7 @@
   import Vue from 'vue'
   import {RangeElement, DamageElement} from './'
   import ItemTag from './ItemTag.vue'
- 
+ import { Pilot } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'gear-card',
     components: { DamageElement, RangeElement, ItemTag },

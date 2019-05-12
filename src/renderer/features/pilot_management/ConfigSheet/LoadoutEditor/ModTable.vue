@@ -49,7 +49,7 @@
               </span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.source }}</span>
+              <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
@@ -87,7 +87,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import {ItemTag} from '../../components/UI'
-
+import { WeaponMod, Pilot } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'mod-table',
     components: { ItemTag },
@@ -107,7 +107,7 @@
       headers: [
         {align: 'left', sortable: false, width: '5vw'},
         {text: 'Mod', align: 'left', value: 'name'},
-        {text: 'Source', align: 'left', value: 'source'},
+        {text: 'Source', align: 'left', value: 'Source'},
         {text: 'License', align: 'left', value: 'license'},
         {text: 'SP Cost', align: 'left', value: 'sp'},
         {text: 'Applied To', align: 'left', value: 'sp'}
@@ -117,27 +117,27 @@
       mods() : WeaponMod[]{
         var vm = this as any
         var allMods = vm.$store.getters['getItemCollection']('WeaponMods')
-        var i = allMods.filter((x: WeaponMod) => x.source)
+        var i = allMods.filter((x: WeaponMod) => x.Source)
         if (!vm.showLocked) {
           i = i.filter(
-            (x: WeaponMod) => x.source === 'GMS' || (
-              vm.pilot.licenses.find((y: any) => y.name === x.license) 
-              && vm.pilot.licenses.find((y: any) => y.name === x.license).level >= x.license_level)
+            (x: WeaponMod) => x.Source === 'GMS' || (
+              vm.pilot.licenses.find((y: any) => y.name === x.License) 
+              && vm.pilot.licenses.find((y: any) => y.name === x.License).level >= x.LicenseLevel)
             )
         }
         if (!vm.showOverSp) {
           // if an item is currently equipped to this slot, look it up to find sp value for exchange
           var totalFreeSp = vm.current_equip ? vm.free_sp + vm.current_equip.sp || 0 : vm.free_sp
-          i = i.filter((x: WeaponMod) => x.sp <= totalFreeSp)
+          i = i.filter((x: WeaponMod) => x.SP <= totalFreeSp)
         }
         // filter already equipped
-        if (vm.current_equip) i = i.filter((x: WeaponMod) => x.id !== vm.current_equip.id)
+        if (vm.current_equip) i = i.filter((x: WeaponMod) => x.ID !== vm.current_equip.id)
         // filter by applied_to
-        i = i.filter((x: WeaponMod) => x.applied_to.includes(vm.weapon.type.toLowerCase()))
+        i = i.filter((x: WeaponMod) => x.AppliedTo.includes(vm.weapon.type.toLowerCase()))
         // filter out any mount restrictions
-        i = i.filter((x: WeaponMod) => !x.restricted_mounts || !x.restricted_mounts.includes(vm.weapon.mount.toLowerCase()))
+        i = i.filter((x: WeaponMod) => !x.Restricted || !x.Restricted.includes(vm.weapon.mount.toLowerCase()))
         // search input
-        if (vm.search) i = i.filter((x: WeaponMod) => x.name.toUpperCase().includes(vm.search.toUpperCase()))
+        if (vm.search) i = i.filter((x: WeaponMod) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
         return i
       },

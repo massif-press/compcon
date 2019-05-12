@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import Pilot from './classes/pilot'
+  import {Pilot} from '@/features/_shared/classes'
   import store from '../../store';
   import { mapGetters } from 'vuex'
   import { TopBar } from '@/features/_shared/topbar'
@@ -20,11 +20,11 @@
     name: 'pilot_management',
     components: { TopBar },
     created() {
-      this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
-      this.$store.dispatch('loadAllPilots')
-      this.$store.dispatch('loadData')
-      this.$store.dispatch('loadBrews')
-      this.$store.dispatch('buildLicenses')
+      // this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
+      // this.$store.dispatch('loadAllPilots')
+      // this.$store.dispatch('loadData')
+      // this.$store.dispatch('loadBrews')
+      // this.$store.dispatch('buildLicenses')
 
       var p = new Pilot()
       console.log(p.ID)

@@ -31,10 +31,10 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { thisItem } from '@/data_interfaces/type_guards'
+  // import { thisItem } from '@/data_interfaces/type_guards'
   import ItemCard from './ItemCard.vue'
   import colors from '@/features/_shared/UI/CCColors'
-
+import { CompendiumItem } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'item-badge',
     data: () => ({
@@ -45,16 +45,16 @@
     },
     components: { ItemCard },
     methods: {
-      tooltip(item: CCItem) {
-        if (thisItem.isFrame(item)) {
-          return `<b>FRAME</b><br>${item.mechtype}`
-        } else if (thisItem.isWeapon(item)) {
-          return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
-        } else if (thisItem.isMod(item)) {
-          return `<b>WEAPON MOD</b><br>${item.applied_string}`
-        } else {
-          return `<b>MECH SYSTEM</b><br>${item.type}`
-        }
+      tooltip(item: CompendiumItem) {
+        // if (thisItem.isFrame(item)) {
+        //   return `<b>FRAME</b><br>${item.mechtype}`
+        // } else if (thisItem.isWeapon(item)) {
+        //   return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
+        // } else if (thisItem.isMod(item)) {
+        //   return `<b>WEAPON MOD</b><br>${item.applied_string}`
+        // } else {
+        //   return `<b>MECH SYSTEM</b><br>${item.type}`
+        // }
       },
       itemColor(t: string) {
         var c: any = colors.colors
