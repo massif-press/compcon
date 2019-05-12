@@ -60,12 +60,13 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
+  import { PilotLicense, Manufacturer } from '@/features/_shared/classes'
   import {LicenseItem} from '../SheetComponents'
   import Selector from './Selector.vue'
 
   function licenseSort (licenses: PilotLicense[]) {
     return licenses.sort(function (a, b) {
-      return a.level === b.level ? 0 : a.level > b.level ? -1 : 1
+      return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     })
   }
 

@@ -42,9 +42,10 @@
     }),
     computed: {
       bonus(): number {
-        return this.tagObj.id === 'limited'
-          ? Stats.limitedBonus(this.$store.getters['getPilot'])
-          : 0
+        return 0
+        // this.tagObj.id === 'limited'
+        //   ? Stats.limitedBonus(this.$store.getters['getPilot'])
+        //   : 0
       }
     },
     methods: {

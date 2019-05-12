@@ -80,7 +80,7 @@ import Vue from 'vue'
 import io from '@/features/_shared/data_io'
 import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '../components/UI'
-
+import { Frame } from '@/features/_shared/classes'
 export default Vue.extend({
   name: 'config-card',
   components: {LazyDialog},

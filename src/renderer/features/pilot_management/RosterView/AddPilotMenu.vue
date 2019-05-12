@@ -107,7 +107,7 @@
   import Vue from 'vue'
   import io from '@/features/_shared/data_io'
   import validator from '../logic/validator'
-  import { loadSheetFile, gsheetToObject } from '../logic/gsheet-converter'
+  // import { loadSheetFile, gsheetToObject } from '../logic/gsheet-converter'
   import apis from '../logic/apis'
 
   export default Vue.extend({
@@ -158,33 +158,33 @@
         }
       },
       importSheet () {
-        var vm = this as any
-        const { dialog } = require('electron').remote
-        var path = dialog.showOpenDialog({
-          title: 'Load Character GSheet',
-          buttonLabel: 'Load',
-          properties: [
-            'openFile'
-          ],
-          filters: [
-            { name: 'Pilot Data', extensions: ['xlsx'] }
-          ]
-        })
-        const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
-        if (validator.pilot(output)) {
-          vm.$store.dispatch('importPilot', output)
-          vm.$store.dispatch('loadPilot', output.id)
-          vm.activeIndex = vm.pilots.length - 1
-          vm.addDialog = false
-        } else {
-          alert('Pilot data validation failed')
-          vm.addDialog = false
-          vm.close()
-        }
-        if (ignoredMods.length) {
-          vm.ignoredModsString = ignoredMods.join(', ')
-          vm.ignoredModsDialog = true
-        }
+        // var vm = this as any
+        // const { dialog } = require('electron').remote
+        // var path = dialog.showOpenDialog({
+        //   title: 'Load Character GSheet',
+        //   buttonLabel: 'Load',
+        //   properties: [
+        //     'openFile'
+        //   ],
+        //   filters: [
+        //     { name: 'Pilot Data', extensions: ['xlsx'] }
+        //   ]
+        // })
+        // const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
+        // if (validator.pilot(output)) {
+        //   vm.$store.dispatch('importPilot', output)
+        //   vm.$store.dispatch('loadPilot', output.id)
+        //   vm.activeIndex = vm.pilots.length - 1
+        //   vm.addDialog = false
+        // } else {
+        //   alert('Pilot data validation failed')
+        //   vm.addDialog = false
+        //   vm.close()
+        // }
+        // if (ignoredMods.length) {
+        //   vm.ignoredModsString = ignoredMods.join(', ')
+        //   vm.ignoredModsDialog = true
+        // }
       },
       importClipboard () {
         var vm = this as any

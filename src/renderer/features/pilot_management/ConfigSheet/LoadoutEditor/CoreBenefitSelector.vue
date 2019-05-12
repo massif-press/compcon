@@ -23,6 +23,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+import { Pilot } from '@/features/_shared/classes'
 
   export default Vue.extend({
     name: 'core-benefit-selector',

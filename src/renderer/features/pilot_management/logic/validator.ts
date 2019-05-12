@@ -1,3 +1,4 @@
+import { Pilot, Mech } from '@/features/_shared/classes'
 function isValidJSON(text: string) {
   try {
     JSON.parse(text)
@@ -11,7 +12,7 @@ export default {
   pilot(data: Pilot) {
     // this is largely a stub for future work (and potetentially version-checking)
     // pilots should "work" with basically a blank object to write to
-    return data.id && data.name && data.callsign
+    return data.ID && data.Name && data.Callsign
   },
   clipboardPilot(data: string, callback: (err: any, result: any) => void) {
     let err = null
@@ -28,9 +29,9 @@ export default {
     }
     callback(err, result)
   },
-  config(data: MechConfig) {
+  config(data: Mech) {
     // see above
-    return data.frame_id
+    return data.Frame.ID
   },
   clipboardConfig(data: string, callback: (err: any, result: any) => void) {
     let err = null

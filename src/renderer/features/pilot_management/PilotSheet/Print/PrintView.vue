@@ -233,6 +233,7 @@
   import Vue from 'vue'
   import Stats from '../../logic/stats'
   import {RangeElement, DamageElement} from '../../components/UI'
+  import { Pilot, PrintOptions } from '@/features/_shared/classes'
 
 export default Vue.extend({
     name: 'pilot-print-view',
@@ -256,8 +257,8 @@ export default Vue.extend({
     created () {
       this.pilot = this.$store.getters['getPilot']
       this.printOptions = this.$store.getters['getPrintOptions'] as PrintOptions
-      this.loadout = this.pilot.loadouts[this.printOptions.loadout_index] || null
-      this.stats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters['getState'])
+      this.loadout = this.pilot.Loadouts[this.printOptions.loadout_index] || null
+      // this.stats = Stats.pilotStats(this.pilot, this.pilot.loadouts[this.printOptions.loadout_index], this.$store.getters['getState'])
       if (this.printOptions.combo) this.blockPrint = true
     },
     mounted () {

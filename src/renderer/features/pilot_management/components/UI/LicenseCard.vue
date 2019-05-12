@@ -39,7 +39,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { thisItem } from '@/data_interfaces/type_guards'
+  // import { thisItem } from '@/data_interfaces/type_guards'
   import ItemBadge from './ItemBadge.vue'
 
 

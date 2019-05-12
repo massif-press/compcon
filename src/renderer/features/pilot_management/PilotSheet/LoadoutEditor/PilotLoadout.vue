@@ -83,8 +83,9 @@
 <script lang="ts">
   import Vue from 'vue'
   import io from '@/features/_shared/data_io'
-  import uid from '../../logic/uid'
+  // import uid from '../../logic/uid'
   import {rules} from 'lancer-data'
+  import { PilotLoadout } from '@/features/_shared/classes'
 
   import {LazyDialog} from '../../components/UI'
   import {PilotEditModal} from '../SheetComponents'
@@ -139,7 +140,7 @@
         this.$store.dispatch('editPilot', {
           attr: `loadouts[${newIdx}]`,
           val: {
-            id: uid.generate(),
+            // id: uid.generate(),
             name: newLoadoutName(newIdx),
             items: {
               'armor': new Array(rules.max_pilot_armor),
@@ -184,11 +185,11 @@
       duplicateLoadout (index: number) {
         var vm = this as any
         var newIdx = this.$store.getters['getPilot'].loadouts.length
-        var newUid = uid.generate()
+        // var newUid = uid.generate()
         vm.$store.dispatch('editPilot', {
           attr: `loadouts[${newIdx}]`,
           val: {
-            id: newUid,
+            // id: newUid,
             name: `${vm.loadouts[index].name} (Copy)`,
             items: vm.loadouts[index].items
           }

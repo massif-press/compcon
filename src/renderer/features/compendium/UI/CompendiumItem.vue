@@ -63,6 +63,7 @@ import _ from 'lodash'
 import {getStatic} from '@/mixins/static'
 import {ItemTag, RangeElement, DamageElement, FrameStatblock} from '@/features/pilot_management/components/UI'
 import colors from '@/features/_shared/UI/CCColors'
+import {CompendiumItem} from  '@/features/_shared/classes'
 
 export default Vue.extend({
     name: 'compendium-item',
@@ -71,16 +72,16 @@ export default Vue.extend({
         colors: colors.colors,
     }),
     computed: {
-        validResults(): CCItem[] {
+        validResults(): CompendiumItem[] {
           return _.flatten(
               _.values(
             _.pick(this.$store.state.datastore as object, ['Frames', 'MechSystems', 'MechWeapons', 'WeaponMods']),
               ),
           )
         },
-        item(): CCItem | undefined {
+        item(): CompendiumItem | undefined {
             const { type, id } = this.$route.params
-            return this.validResults.find((i) => (i.data_type === type && i.id === id))
+            return this.validResults.find((i) => (i.ItemType === type && i.ID === id))
         },
     },
     methods: {

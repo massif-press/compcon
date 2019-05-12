@@ -1,0 +1,77 @@
+
+// items that are stored as compendium data, refernced by ID and contain
+// at minimum a name, itemtype, and brew
+abstract class CompendiumItem {
+  private id: string;
+  protected name: string;
+  protected description: string;
+  protected item_type: ItemType;
+  private brew: string;
+  private err?: string;
+
+  constructor(itemData?: any) {
+    if (itemData) {
+      this.id = itemData.id;
+      this.name = itemData.name;
+      this.description = itemData.description;
+      this.item_type = ItemType.None;
+      this.brew = itemData.brew || "Core";
+    } else {
+      this.id = this.name = this.description = this.brew =''
+      this.item_type = ItemType.None
+      this.err = "Item data not found!"
+    }
+  }
+
+  public get ID(): string {
+    return this.id;
+  }
+
+  public get Name(): string {
+    return this.name;
+  }
+
+  public get Description(): string {
+    return this.description;
+  }
+
+  public get ItemType(): ItemType {
+    return this.item_type;
+  }
+
+  public get Brew(): string {
+    return this.brew;
+  }
+
+  public get Err(): string {
+    return this.err || ''
+  }
+}
+
+// these items are unlocked via pilots ranking up in a specific frame license
+abstract class LicensedItem extends CompendiumItem {
+  private source: string;
+  private license: string;
+  private license_level: number;
+
+  constructor(itemData?: any) {
+    super(itemData);
+    this.source = itemData.source || "";
+    this.license = itemData.license || "";
+    this.license_level = itemData.license_level || 0;
+  }
+
+  public get Source(): string {
+    return this.source;
+  }
+  public get License(): string {
+    return this.license;
+  }
+  public get LicenseLevel(): number {
+    return this.license_level;
+  }
+}
+
+export {
+  CompendiumItem, LicensedItem
+}

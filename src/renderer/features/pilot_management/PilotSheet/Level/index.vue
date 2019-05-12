@@ -131,6 +131,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot, MechSkills } from '@/features/_shared/classes'
   import _ from 'lodash'
   import { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector } from '../Selectors'
   import LevelUpdateBlock from './LevelUpdateBlock.vue'
@@ -206,9 +207,9 @@
       },
       init () {
         this.pilot = JSON.parse(JSON.stringify(this.$store.getters['getPilot']))
-        this.mSkills = JSON.parse(JSON.stringify(this.pilot.mechSkills))
-        this.pilot.level++
-        this.newItems.level = this.pilot.level
+        this.mSkills = JSON.parse(JSON.stringify(this.pilot.MechSkills))
+        // this.pilot.level++
+        // this.newItems.level = this.pilot.level
       }
     },
     created () {

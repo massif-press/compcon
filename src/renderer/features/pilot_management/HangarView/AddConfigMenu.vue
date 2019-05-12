@@ -109,7 +109,7 @@
   import io from '@/features/_shared/data_io'
   import { FrameStatblock } from '../components/UI'
   import validator from '../logic/validator'
-
+import { Pilot, Frame } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'new-config',
     components: { FrameStatblock },
@@ -144,9 +144,9 @@
         var vm = this as any
         // filter by type
         var i = vm.$store.getters['getItemCollection']('Frames')
-        if (!vm.showLocked) i = i.filter((x: Frame) => vm.licenses.includes(x.name))
+        if (!vm.showLocked) i = i.filter((x: Frame) => vm.licenses.includes(x.Name))
 
-        if (vm.search) i = i.filter((x: Frame) => x.name.toUpperCase().includes(vm.search.toUpperCase()))
+        if (vm.search) i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
         return i
       },
@@ -162,8 +162,8 @@
       },
       select (frame: Frame) {
         var vm = this as any
-        vm.newFrameId = frame.id
-        vm.newFrameName = frame.name
+        vm.newFrameId = frame.ID
+        vm.newFrameName = frame.Name
         vm.nc_step++
       },
       isLocked (name: string): boolean {
@@ -171,7 +171,7 @@
       },
       addNewConfig () {
         this.$store.dispatch('addConfig', {
-          pilot_id: this.pilot.id,
+          pilot_id: this.pilot.ID,
           name: this.newConfigName,
           frame_id: this.newFrameId,
           brew: this.$store.getters['getItemById']('Frames', this.newFrameId).brew || null
@@ -216,9 +216,9 @@
     },
     created () {
       var licenses = ['EVEREST']
-      for (let i = 0; i < this.pilot.licenses.length; i++) {
-        var l = this.pilot.licenses[i]
-        if (l.level > 1) licenses.push(l.name)
+      for (let i = 0; i < this.pilot.Licenses.length; i++) {
+        var l = this.pilot.Licenses[i]
+        if (l.Rank > 1) licenses.push(l.Name)
       }
       this.licenses = licenses
     }

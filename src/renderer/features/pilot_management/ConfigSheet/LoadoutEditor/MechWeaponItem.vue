@@ -64,7 +64,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {RangeElement, DamageElement, WeaponCard, ModCard} from '../../components/UI'
-
+import { MechWeapon, WeaponMod } from '@/features/_shared/classes'
 export default Vue.extend({
   name: 'mech-weapon-item',
   components: { WeaponCard, ModCard, RangeElement, DamageElement },
@@ -74,8 +74,8 @@ export default Vue.extend({
     index: Number
   },
   computed: {
-    itemData (): Weapon {
-      if (!this.item) return {} as Weapon
+    itemData (): MechWeapon {
+      if (!this.item) return {} as MechWeapon
       return (this as any).getWeapon(this.item.id)
     },
     modData (): WeaponMod {
@@ -89,11 +89,11 @@ export default Vue.extend({
         ),
         neurolinked: (
           this.$store.getters['getPilot'].core_bonuses.includes('neurolinked') && 
-          this.itemData.type !== 'Melee'
+          this.itemData.Type !== 'Melee'
         ),
         gyges: (
           this.$store.getters['getPilot'].core_bonuses.includes('gyges') && 
-          this.itemData.type === 'Melee'
+          this.itemData.Type === 'Melee'
         )
       }
     }

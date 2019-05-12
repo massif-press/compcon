@@ -1,3 +1,4 @@
+import { Pilot } from '@/features/_shared/classes'
 import GistClient from 'gist-client'
 import imgur from 'imgur'
 import path from 'path'
@@ -17,19 +18,19 @@ const createPilotGist = async function (pilot: Pilot): Promise<any> {
         "content": JSON.stringify(pilot)
       }
     },
-    "description": `${pilot.callsign} - ${pilot.name} (LL:${pilot.level})`,
+    "description": `${pilot.Callsign} - ${pilot.Name} (LL:${pilot.Level})`,
     "public": true
   })
 }
 
 const updatePilotGist = function (pilot: Pilot) {
-  return gistClient.setToken(token).update(pilot.gistID, {
+  return gistClient.setToken(token).update(pilot.GistID, {
     files: {
       "pilot.txt": {
         "content": JSON.stringify(pilot)
       }
     },
-    "description": `${pilot.callsign} - ${pilot.name} (LL:${pilot.level})`,
+    "description": `${pilot.Callsign} - ${pilot.Name} (LL:${pilot.Level})`,
   })
 }
 

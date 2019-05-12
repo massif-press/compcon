@@ -44,7 +44,7 @@
   import _ from 'lodash'
   import ConfigCard from './ConfigCard.vue'
   import AddConfigCard from './AddConfigCard.vue'
-
+import { Pilot, Mech } from '@/features/_shared/classes'
   export default Vue.extend({
     name: 'hangar-view',
     components: { ConfigCard, AddConfigCard },
@@ -62,8 +62,8 @@
       pilot(): Pilot {
         return this.$store.getters['getPilot']
       },
-      configs(): MechConfig[] {
-        var allConfigs = this.pilot.configs as any
+      configs(): Mech[] {
+        var allConfigs = this.pilot.Configs as any
         if (this.currentSort && this.currentSort.field !== '') {
           allConfigs = this.currentSort.field === 'level'
             ? _.sortBy(allConfigs, this.currentSort.field)
@@ -86,9 +86,9 @@
       },
       activateConfig(payload: {id: string, toggle: boolean}) {
         for (let i = 0; i < this.configs.length; i++) {
-          if (this.configs[i].active) {
+          if (this.configs[i].Active) {
               this.$store.dispatch('editConfig', {
-              id: this.configs[i].id,
+              id: this.configs[i].ID,
               attr: `active`,
               val: false
             })
