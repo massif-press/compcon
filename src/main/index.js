@@ -18,6 +18,7 @@ function createMainWindow() {
     titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
     webPreferences: {
       webSecurity: false,
+      nodeIntegration: true,
     },
   })
 
