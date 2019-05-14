@@ -38,6 +38,11 @@ function createMainWindow() {
     }))
   }
 
+  // we don't want to show a menu except on OSX
+  if (process.platform !== 'darwin') {
+    window.setMenu(null)
+  }
+
   window.on('closed', () => {
     mainWindow = null
   })
@@ -72,155 +77,57 @@ app.on('ready', () => {
   mainWindow = createMainWindow()
 })
 
-// Create the Application's main menu
-var template = [{
-  label: "Comp/Con",
-  submenu: [{
-    label: "About Comp/Con",
-    selector: "orderFrontStandardAboutPanel:"
-  },
-  {
-    type: "separator"
-  },
-  {
-    label: "Quit",
-    accelerator: "CmdOrCtrl+Q",
-    click: function () {
-      app.quit();
+// Create menu items for OSX - copy/paste and some other stuff won't work
+// without them
+if (process.platform === 'darwin') {
+  var template = [{
+    label: "Comp/Con",
+    submenu: [{
+      label: "About Comp/Con",
+      selector: "orderFrontStandardAboutPanel:"
+    },
+    {
+      type: "separator"
+    },
+    {
+      label: "Quit",
+      accelerator: "CmdOrCtrl+Q",
+      click: function () {
+        app.quit();
+      }
     }
-  }
-  ]
-}, {
-  label: "Edit",
-  submenu: [{
-    label: "Cut",
-    accelerator: "CmdOrCtrl+X",
-    role: "cut"
-  },
-  {
-    label: "Copy",
-    accelerator: "CmdOrCtrl+C",
-    role: "copy"
-  },
-  {
-    label: "Paste",
-    accelerator: "CmdOrCtrl+V",
-    role: "paste"
-  },
-  {
-    label: "Select All",
-    accelerator: "CmdOrCtrl+A",
-    role: "selectAll"
-  }
-  ]
-}, {
-  label: 'View',
-  submenu: [{
-    label: "Toggle Dev Tools",
-    accelerator: "Alt+CmdOrCtrl+I",
-    role: "toggleDevTools"
+    ]
+  }, {
+    label: "Edit",
+    submenu: [{
+      label: "Cut",
+      accelerator: "CmdOrCtrl+X",
+      role: "cut"
+    },
+    {
+      label: "Copy",
+      accelerator: "CmdOrCtrl+C",
+      role: "copy"
+    },
+    {
+      label: "Paste",
+      accelerator: "CmdOrCtrl+V",
+      role: "paste"
+    },
+    {
+      label: "Select All",
+      accelerator: "CmdOrCtrl+A",
+      role: "selectAll"
+    }
+    ]
+  }, {
+    label: 'View',
+    submenu: [{
+      label: "Toggle Dev Tools",
+      accelerator: "Alt+CmdOrCtrl+I",
+      role: "toggleDevTools"
+    }]
   }]
-}]
 
-Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
-
-// const template = [{
-//     label: 'File',
-//     submenu: [{
-//       role: 'about'
-//     }, {
-//       role: 'quit'
-//     }],
-//   },
-//   {
-//     label: 'Edit',
-//     submenu: [{
-//         role: 'undo'
-//       },
-//       {
-//         role: 'redo'
-//       },
-//       {
-//         type: 'separator'
-//       },
-//       {
-//         role: 'cut'
-//       },
-//       {
-//         role: 'copy'
-//       },
-//       {
-//         role: 'paste'
-//       },
-//       {
-//         role: 'pasteandmatchstyle'
-//       },
-//       {
-//         role: 'delete'
-//       },
-//       {
-//         role: 'selectall'
-//       },
-//     ],
-//   },
-//   {
-//     label: 'View',
-//     submenu: [{
-//         role: 'reload'
-//       },
-//       {
-//         role: 'forcereload'
-//       },
-//       {
-//         role: 'toggledevtools'
-//       },
-//       {
-//         type: 'separator'
-//       },
-//       {
-//         role: 'resetzoom'
-//       },
-//       {
-//         role: 'zoomin'
-//       },
-//       {
-//         role: 'zoomout'
-//       },
-//       {
-//         type: 'separator'
-//       },
-//       {
-//         role: 'togglefullscreen'
-//       },
-//     ],
-//   },
-//   {
-//     role: 'window',
-//     submenu: [{
-//       role: 'minimize'
-//     }, {
-//       role: 'close'
-//     }],
-//   },
-//   {
-//     role: 'help',
-//     submenu: [{
-//         click() {
-//           require('electron').shell.openExternal(
-//             'https://getstream.io/winds',
-//           );
-//         },
-//         label: 'Learn More',
-//       },
-//       {
-//         click() {
-//           require('electron').shell.openExternal(
-//             'https://github.com/GetStream/Winds/issues',
-//           );
-//         },
-//         label: 'File Issue on GitHub',
-//       },
-//     ],
-//   },
-// ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
