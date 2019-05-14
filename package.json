@@ -54,6 +54,13 @@
       "target": [
         "portable"
       ]
+    },
+    "linux": {
+      "icon": "icons",
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game"
     }
   },
   "dependencies": {
