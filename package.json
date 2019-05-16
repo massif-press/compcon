@@ -52,14 +52,20 @@
     "win": {
       "icon": "icons/icon.ico",
       "target": [
-        "portable"
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
       ]
     },
     "linux": {
       "icon": "icons",
-      "target": [
-        "AppImage"
-      ],
+      "target": [{
+        "target": "AppImage"
+      }],
       "category": "Game"
     }
   },
