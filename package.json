@@ -9,7 +9,9 @@
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
     "lint": "eslint **/*.ts --ignore-pattern node_modules/",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "unit-test": "jest unit",
+    "int-test": "jest int"
   },
   "electronWebpack": {
     "title": "COMP/CON v1.3.1",
@@ -98,6 +100,7 @@
     "electron-webpack-ts": "^3.1.1",
     "electron-webpack-vue": "^2.2.3",
     "eslint-plugin-html": "^5.0.3",
+    "jest": "^24.8.0",
     "typescript": "^3.4.5",
     "vue": "^2.6.10",
     "webpack": "4.28.4"
