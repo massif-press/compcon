@@ -4,3 +4,6 @@ dist/
 build/
 node_modules/
 thumbs.db
+7z.so
+butler*
+libc7zip.dylib
