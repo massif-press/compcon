@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
-    "dist": "yarn compile && electron-builder",
+    "dist": "yarn compile && BUILD_OS=local TRAVIS_BRANCH=build electron-builder",
+    "dist-travis": "yarn compile && electron-builder",
     "lint": "eslint **/*.ts --ignore-pattern node_modules/",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "unit-test": "jest unit",
@@ -24,27 +25,12 @@
     "productName": "compcon",
     "appId": "com.jarena.compcon",
     "directories": {
-      "output": "build"
+      "output": "build/${env.BUILD_OS}-${env.TRAVIS_BRANCH}"
     },
     "files": [
       "dist/main/**/*",
       "dist/renderer/**/*"
     ],
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
-    },
     "mac": {
       "icon": "icons/icon.icns",
       "target": [
