@@ -4,8 +4,8 @@
       <v-flex xs2>
         <div class="sidebar">
           <ul class="menu" v-scroll-spy-active="{class: 'customActive'}" v-scroll-spy-link>
-            <li v-for="b in backgrounds" :key="'key_' + b.id" class="minor-title pt-1 pb-1">
-              <a>{{b.name}}</a>
+            <li v-for="b in backgrounds" :key="'key_' + b.ID" class="minor-title pt-1 pb-1">
+              <a>{{b.Name}}</a>
             </li>
           </ul>
         </div>
@@ -16,10 +16,10 @@
       <v-flex xs9>
         <span class="display-1 text-uppercase font-weight-thin">PILOT BACKGROUNDS</span>
         <div v-scroll-spy="{offset: 60, time:0}">
-          <div v-for="b in backgrounds" :key="`summary_block_m${b.id}`" class="mt-3" >
+          <div v-for="b in backgrounds" :key="`summary_block_m${b.ID}`" class="mt-3" >
             <v-card flat>
               <v-toolbar-title dense flat color="grey lighten-3">
-                <span class="title text-uppercase font-weight-light">{{b.name.toUpperCase()}}</span>
+                <span class="title text-uppercase font-weight-light">{{b.Name.toUpperCase()}}</span>
               </v-toolbar-title>
               <v-card-text class="pb-1 mt-0 pt-0">
                 <p class="effect-text pb-0" v-html="b.description" />
@@ -35,6 +35,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import {Background} from '@/features/_shared/classes'
 
 export default Vue.extend({
   name:'backgrounds',
@@ -44,7 +45,8 @@ export default Vue.extend({
   }),
   created () {
     var vm = this as any
-    vm.backgrounds = vm.$store.getters['getItemCollection']('Backgrounds')
+    vm.backgrounds = vm.$store.getters['getItemCollection']('Backgrounds').map((x: any) => new Background(x.id))
+    // console.log(vm.backgrounds)
   }
 })
 </script>

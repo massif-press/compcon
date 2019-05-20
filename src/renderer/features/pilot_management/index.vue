@@ -20,14 +20,15 @@
     name: 'pilot_management',
     components: { TopBar },
     created() {
-      // this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
+      this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
       // this.$store.dispatch('loadAllPilots')
-      // this.$store.dispatch('loadData')
+      this.$store.dispatch('loadData')
+      console.log(this.$store)
       // this.$store.dispatch('loadBrews')
       // this.$store.dispatch('buildLicenses')
 
       var p = new Pilot()
-      console.log(p.ID)
+      console.log(p)
     },
   })
 </script>
