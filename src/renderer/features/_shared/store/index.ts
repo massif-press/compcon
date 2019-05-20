@@ -103,7 +103,8 @@ const actions = {
 
 const getters = {
   getItemById: (state: any) => (itemType: string, id: string) => {
-    return state[itemType].find((x: CompendiumItem) => x.ID === id) || { err: 'ID not found' }
+    console.log(itemType, id)
+    return state[itemType].find((x: any) => x.id === id) || { err: 'ID not found' }
   },
   // getLicenseByName: (state: AppState) => (license: string) => {
   //   return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }

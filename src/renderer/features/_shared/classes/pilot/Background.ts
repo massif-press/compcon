@@ -7,8 +7,11 @@ class Background {
   private triggers: string;
 
   constructor(id?: string, name?: string) {
+    console.log(id)
     if (id) {
       const backgroundData = store.getters.getItemById("Backgrounds", id);
+      console.log(store)
+      console.log(backgroundData)
       this.id = backgroundData.id;
       this.name = backgroundData.name;
       this.description = backgroundData.description;
