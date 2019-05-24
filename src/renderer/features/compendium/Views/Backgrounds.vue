@@ -35,7 +35,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
-import {Background} from '@/features/_shared/classes'
+import {Background} from '@/class'
 
 export default Vue.extend({
   name:'backgrounds',
@@ -45,8 +45,7 @@ export default Vue.extend({
   }),
   created () {
     var vm = this as any
-    vm.backgrounds = vm.$store.getters['getItemCollection']('Backgrounds').map((x: any) => new Background(x.id))
-    // console.log(vm.backgrounds)
+    vm.backgrounds = vm.$store.getters.getItemCollection('Backgrounds')
   }
 })
 </script>

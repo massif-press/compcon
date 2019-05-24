@@ -1,6 +1,5 @@
-import store from "@/store";
 import { rules } from "lancer-data";
-import {LicensedItem, MechWeapon, Tag} from '..'
+import {LicensedItem, MechWeapon, Tag, MountType, ItemType} from '@/class'
 
 class Frame extends LicensedItem {
   private mechtype: string;
@@ -22,9 +21,8 @@ class Frame extends LicensedItem {
   private traits: Trait[];
   private core_system: CoreSystem;
 
-  constructor(id: string) {
-    const frameData = store.getters.getItemById("Talents", id);
-    super(frameData)
+  constructor(frameData: any) {
+    super(frameData);
     this.mechtype = frameData.mechtype;
     this.mounts = frameData.mounts;
     this.size = frameData.stats.size;
@@ -42,8 +40,8 @@ class Frame extends LicensedItem {
     this.speed = frameData.stats.speed;
     this.sp = frameData.stats.sp;
     this.traits = frameData.traits;
-    this.core_system = new CoreSystem(frameData.id);
-    this.item_type = ItemType.Frame
+    this.core_system = new CoreSystem(frameData.core_system);
+    this.item_type = ItemType.Frame;
   }
 
   public get Mechtype(): string {
@@ -74,7 +72,7 @@ class Frame extends LicensedItem {
     return this.evasion;
   }
 
-  public get Edef(): number {
+  public get EDefense(): number {
     return this.edef;
   }
 
@@ -117,7 +115,6 @@ class Frame extends LicensedItem {
   public get CoreSystem(): CoreSystem {
     return this.core_system;
   }
-
 }
 
 type Trait = {
@@ -134,15 +131,14 @@ class CoreSystem {
   private effect: string;
   private tags: Tag[];
 
-  constructor(id: string) {
-    const CoreData = store.getters.getItemById("Frames", id).core_system;
-    this.name = CoreData.name;
-    this.description = CoreData.description;
-    this.integrated = CoreData.integrated ? new MechWeapon(CoreData.integrated) : null;
-    this.passive = CoreData.passive;
-    this.active_name = CoreData.active_name;
-    this.effect = CoreData.effect;
-    this.tags = CoreData.tags;
+  constructor(coreData: any) {
+    this.name = coreData.name;
+    this.description = coreData.description;
+    this.integrated = coreData.integrated ? new MechWeapon(coreData.integrated) : null;
+    this.passive = coreData.passive;
+    this.active_name = coreData.active_name;
+    this.effect = coreData.effect;
+    this.tags = coreData.tags;
   }
 
   public get Name(): string {

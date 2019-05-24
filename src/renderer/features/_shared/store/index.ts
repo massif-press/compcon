@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import io from '../data_io'
 import lancerData from 'lancer-data'
-import {AppContext, AppState, License, CompendiumItem} from '../classes'
+import {AppContext, AppState, License, CoreBonus, Background, Skill, Frame, MechWeapon, WeaponMod, MechSystem, Tag, PilotWeapon, PilotArmor, PilotGear, CompendiumItem, Talent} from '@/class'
 
 const moduleState = {
   UserDataPath: '',
@@ -38,17 +38,22 @@ const mutations = {
     io.checkFolders(userDataPath)
   },
   LOAD_DATA(state: AppState) {
-    state.Backgrounds = lancerData.backgrounds
-    state.Talents = lancerData.talents
-    state.Skills = lancerData.skills
-    state.CoreBonuses = lancerData.core_bonuses
-    state.Frames = lancerData.frames
+    state.Backgrounds = lancerData.backgrounds.map((x: any) => new Background(x))
+    state.CoreBonuses = lancerData.core_bonuses.map((x: any) => new CoreBonus(x))
+    state.Talents = lancerData.talents.map((x: any) => new Talent(x));
+    state.Skills = lancerData.skills.map((x: any) => new Skill(x));
+    state.Frames = lancerData.frames.map((x: any) => new Frame(x));
+    state.MechWeapons = lancerData.weapons.map((x: any) => new MechWeapon(x))
+    state.WeaponMods = lancerData.mods.map((x: any) => new WeaponMod(x));
+    state.MechSystems = lancerData.systems.map((x: any) => new MechSystem(x))
+    state.Tags = lancerData.tags.map((x: any) => new Tag(x));
+    state.PilotGear = lancerData.pilot_gear.map(function (x: any) {
+        if (x.type === 'weapon') return new PilotWeapon(x)
+        else if (x.type === 'armor') return new PilotArmor(x)
+        return new PilotGear(x)
+      }
+    )
     state.Manufacturers = lancerData.manufacturers
-    state.MechWeapons = lancerData.weapons
-    state.WeaponMods = lancerData.mods
-    state.MechSystems = lancerData.systems
-    state.PilotGear = lancerData.pilot_gear
-    state.Tags = lancerData.tags
     state.Statuses = lancerData.statuses
     state.Quirks = lancerData.quirks
     state.Brews = io.findBrewData(state.UserDataPath)
@@ -76,8 +81,8 @@ const mutations = {
   },
   BUILD_LICENSES(state: AppState) {
     const licenses: License[] = []
-    state.Frames.filter((x) => x.Source.toUpperCase() !== 'GMS').forEach((frame) => {
-      new License(frame.ID)
+    state.Frames.filter((x) => x.Source !== 'GMS').forEach((frame) => {
+      licenses.push(new License(frame))
     })
     state.Licenses = licenses
   },
@@ -103,19 +108,26 @@ const actions = {
 
 const getters = {
   getItemById: (state: any) => (itemType: string, id: string) => {
-    console.log(itemType, id)
-    return state[itemType].find((x: any) => x.id === id) || { err: 'ID not found' }
+    return (
+      state[itemType].find((x: any) => x.id === id) || {
+        err: "ID not found"
+      }
+    );
   },
   // getLicenseByName: (state: AppState) => (license: string) => {
   //   return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }
   // },
   getItemCollection: (state: any) => (itemType: string) => {
-    return state[itemType]
+    return state[itemType];
   },
   getState: (state: AppState) => {
-    return state
+    return state;
   },
-}
+  getUserPath: (state: AppState) => {
+    console.log(state)
+    return state.UserDataPath;
+  }
+};
 
 export default {
   state: moduleState,

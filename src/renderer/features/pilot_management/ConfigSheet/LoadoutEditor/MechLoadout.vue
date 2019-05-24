@@ -93,7 +93,7 @@
   import SystemsBlock from './SystemsBlock.vue'
   import SystemTable from './SystemTable.vue'
   import {LazyDialog} from '../../components/UI'
-import { MechLoadout, MechSystem } from '@/features/_shared/classes'
+import { MechLoadout, MechSystem } from '@/class'
   const ordArr = ['Primary', 'Secondary', 'Tertiary', 'Quaternary', 'Quinary', 'Senary', 'Septenary', 'Octonary', 'Nonary', 'Denary']
 
   function newLoadoutName (count: number): string {

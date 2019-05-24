@@ -1,6 +1,6 @@
 import store from '@/store';
 import _ from 'lodash'
-import { LicensedItem } from './Item';
+import { LicensedItem, Frame } from '@/class';
 
 class License {
   private frame_id: string;
@@ -9,12 +9,11 @@ class License {
   private unlocks: LicensedItem[][];
   private brew: string;
 
-  constructor(frameID: string) {
-    this.frame_id = frameID;
-    const frame = store.getters.getItemByID('Frames', frameID);
-    this.source = frame.source;
-    this.name = frame.name;
-    this.brew = frame.brew || 'Core';
+  constructor(frame: Frame) {
+    this.frame_id = frame.ID;
+    this.source = frame.Source;
+    this.name = frame.Name;
+    this.brew = frame.Brew || 'Core';
 
     let items: LicensedItem[] = _.clone(
       store.getters.getItemCollection('MechWeapons')
@@ -61,10 +60,14 @@ class License {
     return this.unlocks[rank - 1]
   }
 
-  public ToString(rank?: number): string {
-    return rank
-      ? `${this.source} ${this.name}, Rank ${rank}`
-      : `${this.source} ${this.name}`;
+  public ToString(): string {
+    return `${this.source} ${this.name}`;
+  }
+
+  public static Deserialize(frame_id: string): License {
+    return new License(
+      store.getters.getItemById("Frames", frame_id)
+    );
   }
   
 }

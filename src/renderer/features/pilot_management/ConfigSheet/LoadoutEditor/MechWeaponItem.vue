@@ -53,7 +53,7 @@
             </v-layout>
                 <mod-card v-if="item.mod && modData.err" missing/>
                 <mod-card v-if="item.mod && !modData.err" :modData="modData"/>
-                <weapon-card :itemData="itemData" :mod="item.mod" />
+                <weapon-card :item="itemData" :mod="item.mod" />
               </v-expansion-panel-content>
             </v-expansion-panel>
         </div>
@@ -64,7 +64,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {RangeElement, DamageElement, WeaponCard, ModCard} from '../../components/UI'
-import { MechWeapon, WeaponMod } from '@/features/_shared/classes'
+import { MechWeapon, WeaponMod } from '@/class'
 export default Vue.extend({
   name: 'mech-weapon-item',
   components: { WeaponCard, ModCard, RangeElement, DamageElement },

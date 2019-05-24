@@ -72,7 +72,7 @@
       },
     },
     created() {
-      this.tagData = this.$store.getters['getItemById']('Tags', this.tagObj.id)
+      this.tagData = this.$store.getters.getItemById('Tags', this.tagObj.id)
     },
   })
 </script>

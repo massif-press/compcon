@@ -5,7 +5,7 @@
         <div class="sidebar">
           <ul class="menu" v-scroll-spy-active="{class: 'customActive'}" v-scroll-spy-link>
             <li v-for="s in skills" :key="'key_' + s.id" class="effect-text pt-1 pb-1">
-              <a>{{s.trigger}}</a>
+              <a>{{s.Trigger}}</a>
             </li>
           </ul>
         </div>
@@ -19,10 +19,10 @@
           <div v-for="s in skills" :key="`summary_block_m${s.id}`" class="mt-3">
             <v-card flat>
               <v-toolbar-title dense flat color="grey lighten-3">
-                <span class="title text-uppercase font-weight-light">{{s.trigger.toUpperCase()}}</span>
+                <span class="title text-uppercase font-weight-light">{{s.Trigger.toUpperCase()}}</span>
               </v-toolbar-title>
               <v-card-text class="pb-1 mt-0 pt-0">
-                <p class="effect-text pb-0" v-html="s.detail" />
+                <p class="effect-text pb-0" v-html="s.Detail" />
               </v-card-text>
             </v-card>
           </div>
@@ -44,7 +44,8 @@ export default Vue.extend({
   }),
   created () {
     var vm = this as any
-    vm.skills = vm.$store.getters['getItemCollection']('Skills')
+    vm.skills = vm.$store.getters.getItemCollection('Skills')
+    console.log(vm.skills)
   }
 })
 </script>

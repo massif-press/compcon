@@ -61,7 +61,7 @@
     computed: {
       itemData (): System {
         if (this.empty) return {} as System
-        return this.$store.getters['getItemById']('MechSystems', this.system.id)
+        return this.$store.getters.getItemById('MechSystems', this.system.id)
       }
     },
     methods: {

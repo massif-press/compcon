@@ -1,23 +1,31 @@
 import store from "@/store";
-import { CompendiumItem, Range, Damage, Tag } from '..'
+import { CompendiumItem, Range, Damage, Tag, ItemType } from '@/class'
 
-class PilotEquipment extends CompendiumItem {
+abstract class PilotEquipment extends CompendiumItem {
   private tags: Tag[];
+  private notes: string[];
 
-  constructor(id?: string) {
-    if (id) {
-      const equipmentData = store.getters.getItemById("PilotGear", id);
-      super(equipmentData)
-      this.tags = equipmentData.tags || [];
-    } else {
-      super ({
-        id: '',
-        name: '// EMPTY //',
-        description: '',
-        item_type: ItemType.None,
-        brew: ''
-      })
-      this.tags = []
+  constructor(equipmentData: any) {
+    super(equipmentData);
+    this.tags = equipmentData.tags || [];
+    this.notes = [];
+  }
+
+  public get Notes(): string[] {
+    return this.notes;
+  }
+
+  public set Notes(notes: string[]) {
+    this.notes = notes;
+  }
+
+  public AddNote(note: string) {
+    this.notes.push(note);
+  }
+
+  public DeleteNote(index: number) {
+    if (this.notes.length >= index) {
+      this.notes.splice(index, 1);
     }
   }
 
@@ -25,6 +33,20 @@ class PilotEquipment extends CompendiumItem {
     return this.tags;
   }
 
+  public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
+    if (!item) return null
+    return {
+      id: item.ID,
+      notes: item.Notes
+    };
+  }
+
+  public static Deserialize(itemData: IEquipmentData | null): PilotEquipment | null {
+    if (!itemData) return null
+    const item = store.getters.getItemById('PilotGear', itemData.id)
+    item.Notes = itemData.notes
+    return item
+  }
 }
 
 class PilotArmor extends PilotEquipment {
@@ -37,9 +59,8 @@ class PilotArmor extends PilotEquipment {
   private evasion: number;
   private evasion_bonus: number;
 
-  constructor(id?: string) {
-    super(id);
-    const armorData = store.getters.getItemById("PilotGear", id);
+  constructor(armorData: any) {
+    super(armorData);
     this.hp_bonus = armorData.hp_bonus || 0;
     this.speed = armorData.speed || 0;
     this.speed_bonus = armorData.speed_bonus || 0;
@@ -48,6 +69,7 @@ class PilotArmor extends PilotEquipment {
     this.edef_bonus = armorData.edef || 0;
     this.evasion = armorData.evasion || 0;
     this.evasion_bonus = armorData.evasion_bonus || 0;
+    this.item_type = ItemType.PilotArmor;
   }
 
   public get HPBonus(): number {
@@ -81,7 +103,6 @@ class PilotArmor extends PilotEquipment {
   public get EvasionBonus(): number {
     return this.evasion_bonus;
   }
-  
 }
 
 class PilotWeapon extends PilotEquipment {
@@ -89,39 +110,38 @@ class PilotWeapon extends PilotEquipment {
   private damage: Damage;
   private effect: string;
 
-  constructor(id?: string) {
-    super(id);
-    const weaponData = store.getters.getItemById("PilotGear", id);
-    this.range = new Range(weaponData.range);
-    this.damage = new Damage(weaponData.damage);
-    this.effect = weaponData.effect || ''
+  constructor(weaponData: any) {
+    super(weaponData);
+    this.range = weaponData.range.map((x: any) => new Range(x));
+    this.damage = weaponData.damage.map((x: any) => new Damage(x));
+    this.effect = weaponData.effect || "";
+    this.item_type = ItemType.PilotWeapon
   }
 
   public get Range(): Range {
-    return this.range
+    return this.range;
   }
 
   public get Damage(): Damage {
-    return this.damage
+    return this.damage;
   }
 
   public get Effect(): string {
-    return this.effect
+    return this.effect;
   }
-
 }
 
 class PilotGear extends PilotEquipment {
   private uses?: number;
 
-  constructor(id?: string) {
-    super(id);
-    const gearData = store.getters.getItemById("PilotGear", id);
-    this.uses = gearData.range || null;
+  constructor(gearData: any) {
+    super(gearData);
+    this.uses = gearData.uses || null;
+    this.item_type = ItemType.PilotGear;
   }
 
   public get Uses(): number | null {
-    return this.uses || null
+    return this.uses || null;
   }
 }
 

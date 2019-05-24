@@ -92,7 +92,7 @@ export default Vue.extend({
     }),
     computed: {
       gearItems (): PilotItem {
-        return this.$store.getters['getItemCollection']('PilotGear').filter((x: any) => this.itemType === x.type)
+        return this.$store.getters.getItemCollection('PilotGear').filter((x: any) => this.itemType === x.type)
       },
       equipped (): PilotItem {
         var vm = this as any

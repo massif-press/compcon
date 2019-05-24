@@ -2,14 +2,14 @@
     <v-card flat :color="tableItem ? '' : '#373737'">
       <v-card-text class="pb-0 pt-0">
         <div class="pt-2">
-          <em v-if="!itemData.license">{{itemData.source}}<br></em>
-          <em v-else>{{itemData.source}} {{itemData.license}}, RANK <span v-for="n in itemData.license_level" :key="n">I</span><br></em>
+          <em v-if="!itemData.License">{{itemData.Source}}<br></em>
+          <em v-else>{{itemData.Source}} {{itemData.License}}, RANK <span v-for="n in itemData.LicenseLevel" :key="n">I</span><br></em>
         </div>
-        <p v-if="itemData.description" v-html="itemData.description" class="fluff-text" />
-        <p class="effect-text font-weight-bold">{{itemData.type}} ({{itemData.sp}} SP)</p>
-        <p v-if="itemData.effect" v-html="itemData.effect" class="pl-2 effect-text"/>
+        <p v-if="itemData.Description" v-html="itemData.Description" class="fluff-text" />
+        <p class="effect-text font-weight-bold">{{itemData.Type}} ({{itemData.sp}} SP)</p>
+        <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text"/>
         <v-layout class="pb-2">
-          <item-tag v-for="t in itemData.tags" :key="t.id" :tag-obj="t"/>
+          <item-tag v-for="t in itemData.Tags" :key="t.id" :tag-obj="t"/>
         </v-layout>
       </v-card-text>
     </v-card>

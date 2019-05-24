@@ -109,7 +109,7 @@
   import io from '@/features/_shared/data_io'
   import { FrameStatblock } from '../components/UI'
   import validator from '../logic/validator'
-import { Pilot, Frame } from '@/features/_shared/classes'
+import { Pilot, Frame } from '@/class'
   export default Vue.extend({
     name: 'new-config',
     components: { FrameStatblock },
@@ -143,7 +143,7 @@ import { Pilot, Frame } from '@/features/_shared/classes'
       frames () {
         var vm = this as any
         // filter by type
-        var i = vm.$store.getters['getItemCollection']('Frames')
+        var i = vm.$store.getters.getItemCollection('Frames')
         if (!vm.showLocked) i = i.filter((x: Frame) => vm.licenses.includes(x.Name))
 
         if (vm.search) i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
@@ -174,7 +174,7 @@ import { Pilot, Frame } from '@/features/_shared/classes'
           pilot_id: this.pilot.ID,
           name: this.newConfigName,
           frame_id: this.newFrameId,
-          brew: this.$store.getters['getItemById']('Frames', this.newFrameId).brew || null
+          brew: this.$store.getters.getItemById('Frames', this.newFrameId).brew || null
         })
         this.$emit('close')
       },

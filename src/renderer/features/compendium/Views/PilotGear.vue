@@ -9,22 +9,22 @@
         <v-tab-item v-for="(n, i) in gear" :key="n + 'arr'">
           <v-data-table :headers="i === 0 ? armor_headers : i === 1 ? weapon_headers : gear_headers" :items="n" :expand="true" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
-            <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
-              <td><span class="subheading">{{ props.item.name }}</span></td>
-              <td class="text-xs-center"><span class="subheading">+{{ props.item.armor }}</span></td>
-              <td class="text-xs-center"><span class="subheading">+{{ props.item.hp_bonus || 0 }}</span></td>
-              <td class="text-xs-center"><span class="subheading">{{ props.item.edef }}</span></td>
-              <td class="text-xs-center"><span class="subheading">{{ props.item.evasion }}</span></td>
-              <td class="text-xs-center"><span class="subheading">{{ props.item.speed }}</span></td>
+            <tr v-if="props.item.ItemType === 'PilotArmor'" @click="props.expanded = !props.expanded">
+              <td><span class="subheading">{{ props.item.Name }}</span></td>
+              <td class="text-xs-center"><span class="subheading">+{{ props.item.Armor }}</span></td>
+              <td class="text-xs-center"><span class="subheading">+{{ props.item.HPBonus || 0 }}</span></td>
+              <td class="text-xs-center"><span class="subheading">{{ props.item.EDefense }}</span></td>
+              <td class="text-xs-center"><span class="subheading">{{ props.item.Evasion }}</span></td>
+              <td class="text-xs-center"><span class="subheading">{{ props.item.Speed }}</span></td>
             </tr>
-            <tr v-else-if="props.item.type === 'weapon'" @click="props.expanded = !props.expanded">
-              <td><span class="subheading">{{ props.item.name }}</span></td>
-              <td><span class="subheading"><damage-element small :dmg="props.item.damage" /></span></td>
-              <td><span class="subheading"><range-element small :range="props.item.range" /></span></td>
+            <tr v-else-if="props.item.ItemType === 'PilotWeapon'" @click="props.expanded = !props.expanded">
+              <td><span class="subheading">{{ props.item.Name }}</span></td>
+              <td><span class="subheading"><range-element small :range="props.item.Range" /></span></td>
+              <td><span class="subheading"><damage-element small :dmg="props.item.Damage" /></span></td>
             </tr>
             <tr v-else @click="props.expanded = !props.expanded">
-              <td><span class="subheading">{{ props.item.name }}</span></td>
-              <td class="text-xs-center"><span class="subheading">{{ props.item.uses }}</span></td>
+              <td><span class="subheading">{{ props.item.Name }}</span></td>
+              <td class="text-xs-center"><span class="subheading">{{ props.item.Uses }}</span></td>
             </tr>
           </template>
           <template slot="expand" slot-scope="props">
@@ -44,6 +44,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {RangeElement, DamageElement, GearCard} from '@/features/pilot_management/components/UI'
+import { PilotEquipment, CompendiumItem, ItemType } from '@/class';
 
 export default Vue.extend({
     name: 'pilot-gear',
@@ -54,27 +55,27 @@ export default Vue.extend({
       gear: [[], [], []],
       search: null,
       armor_headers: [
-        {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Armor', align: 'center', value: 'armor'},
-        {text: 'HP Bonus', align: 'center', value: 'hp_bonus'},
-        {text: 'E-Defense', align: 'center', value: 'edef'},
-        {text: 'Evasion', align: 'center', value: 'evasion'},
-        {text: 'Speed', align: 'center', value: 'speed'},
+        {text: 'Item', align: 'left', value: 'Name'},
+        {text: 'Armor', align: 'center', value: 'Armor'},
+        {text: 'HP Bonus', align: 'center', value: 'HPBonus'},
+        {text: 'E-Defense', align: 'center', value: 'EDefense'},
+        {text: 'Evasion', align: 'center', value: 'Evasion'},
+        {text: 'Speed', align: 'center', value: 'Speed'},
       ],
       weapon_headers: [
-        {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Damage', align: 'left', value: 'damage'},
-        {text: 'Range', align: 'left', value: 'range'},
+        {text: 'Item', align: 'left', value: 'Name'},
+        {text: 'Damage', align: 'left', value: 'Damage'},
+        {text: 'Range', align: 'left', value: 'Range'},
       ],
       gear_headers: [
-        {text: 'Item', align: 'left', value: 'name'},
-        {text: 'Uses', align: 'center', value: 'uses'},
+        {text: 'Item', align: 'left', value: 'Name'},
+        {text: 'Uses', align: 'center', value: 'Uses'},
       ],
     }),
     created() {
-      this.gear[0] = this.$store.getters['getItemCollection']('PilotGear').filter((x: CCItem) => x.type === 'armor')
-      this.gear[1] = this.$store.getters['getItemCollection']('PilotGear').filter((x: CCItem) => x.type === 'weapon')
-      this.gear[2] = this.$store.getters['getItemCollection']('PilotGear').filter((x: CCItem) => x.type === 'gear')
+      this.gear[0] = this.$store.getters.getItemCollection('PilotGear').filter((x: CompendiumItem) => x.ItemType === ItemType.PilotArmor)
+      this.gear[1] = this.$store.getters.getItemCollection('PilotGear').filter((x: CompendiumItem) => x.ItemType === ItemType.PilotWeapon)
+      this.gear[2] = this.$store.getters.getItemCollection('PilotGear').filter((x: CompendiumItem) => x.ItemType === ItemType.PilotGear)
     },
   })
 </script>

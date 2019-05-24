@@ -66,6 +66,7 @@
   import _ from 'lodash'
   import Selector from './Selector.vue'
   import {CoreBonusItem} from '../SheetComponents'
+  import {Pilot, License, PilotLicense, CoreBonus, Manufacturer} from '@/class'
 
   export default Vue.extend({
     name: 'core-bonus-selector',
@@ -96,7 +97,7 @@
     },
     methods: {
       manufacturer (id: string): Manufacturer {
-        return this.$store.getters['getItemById']('Manufacturers', id.toUpperCase())
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
       requirement(m: string): string {
         var vm = this as any
@@ -123,7 +124,7 @@
       },
       getSelectedStatus(cb: CoreBonus): boolean {
         var vm = this as any
-        return vm.bonuses.filter((x: any) => x.id === cb.id).length > 0
+        return vm.bonuses.filter((x: any) => x.id === cb.ID).length > 0
       },
       getSelectableStatus(cb: CoreBonus): boolean {
         var vm = this as any
@@ -134,20 +135,20 @@
         vm.bonuses.push(cb)
 
         if (vm.levelUp && vm.selectionComplete) {
-          vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
+          vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.ID))
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
       removeBonus (cb: CoreBonus) {
         var vm = this as any
-        var idx = vm.bonuses.findIndex((x: CoreBonus) => x.id === cb.id)
-        if (idx !== -1) {
-          vm.bonuses.splice(idx, 1)
+        var index = vm.bonuses.findIndex((x: CoreBonus) => x.ID === cb.ID)
+        if (index !== -1) {
+          vm.bonuses.splice(index, 1)
         }
       },
       saveBonuses () {
         var vm = this as any
-        vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
+        vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.ID))
       },
       resetBonuses () {
         var vm = this as any
@@ -156,8 +157,8 @@
     },
     created () {
       var vm = this as any
-      vm.bonusData = _.groupBy(vm.$store.getters['getItemCollection']('CoreBonuses'), 'source')
-      vm.bonuses = vm.pilotBonuses.map((x: string) => vm.$store.getters['getItemById']('CoreBonuses', x))
+      vm.bonusData = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
+      vm.bonuses = vm.pilotBonuses.map((x: string) => vm.$store.getters.getItemById('CoreBonuses', x))
     }
   })
 </script>

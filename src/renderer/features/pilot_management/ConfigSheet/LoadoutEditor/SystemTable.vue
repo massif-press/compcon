@@ -108,7 +108,7 @@
     computed: {
       systems (): System[] {
         var vm = this as any
-        var allSystems = vm.$store.getters['getItemCollection']('MechSystems')
+        var allSystems = vm.$store.getters.getItemCollection('MechSystems')
         var i = allSystems.filter((x: System) => x.source)
         if (!vm.showLocked) {
           i = i.filter(
@@ -166,7 +166,7 @@
       isOverSp (sp): boolean {
         var vm = this as any
         var totalFreeSp = vm.current_equip && !vm.current_equip.err
-        ? vm.free_sp + vm.$store.getters['getItemCollection']('MechSystems').find(
+        ? vm.free_sp + vm.$store.getters.getItemCollection('MechSystems').find(
           (x: System) => x.id === vm.current_equip.id
           ).sp || 0 
         : vm.free_sp

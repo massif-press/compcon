@@ -11,7 +11,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import {Pilot} from '@/features/_shared/classes'
+  import {Pilot} from '@/class'
   import store from '../../store';
   import { mapGetters } from 'vuex'
   import { TopBar } from '@/features/_shared/topbar'
@@ -23,12 +23,13 @@
       this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
       // this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
-      console.log(this.$store)
-      // this.$store.dispatch('loadBrews')
-      // this.$store.dispatch('buildLicenses')
-
-      var p = new Pilot()
+      this.$store.dispatch('buildLicenses')
+      var p = this.$store.getters.getAllPilots
       console.log(p)
+      var sp = p.map((x: Pilot) => Pilot.Serialize(x))
+      console.log(sp)
+      var dsp = p.map((x: any) => Pilot.Deserialize(x))
+      console.log(dsp)
     },
   })
 </script>

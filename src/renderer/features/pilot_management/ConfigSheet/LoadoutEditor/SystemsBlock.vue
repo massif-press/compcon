@@ -35,7 +35,7 @@ export default {
       this.$emit('clicked', index)
     },
     item: function (id) {
-      return this.$store.getters['getItemById']('MechSystems', id)
+      return this.$store.getters.getItemById('MechSystems', id)
     }
   }
 }
