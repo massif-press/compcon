@@ -3,20 +3,19 @@
     <template v-slot:left-column>
        <v-layout>
           <v-flex xs12>
-            <div v-for="talent in talents" :key="`summary_${talent.id}`">
-              <v-layout v-if="talentById(talent.id).err">
+            <div v-for="pTalent in pilot.Talents" :key="`summary_${pTalent.talent.id}`">
+              <v-layout v-if="pTalent.Talent.err">
                 <v-flex shrink>
                  <span class="grey--text">// MISSING DATA //</span>
-                 <span v-if="talent.brew" class="caption grey--text"><br>({{talent.brew}})</span>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn icon flat color="error" @click="deleteTalent(talent.id)"><v-icon>delete</v-icon></v-btn>
+                  <v-btn icon flat color="error" @click="remove(pTalent)"><v-icon>delete</v-icon></v-btn>
                 </v-flex>
               </v-layout>
               <v-layout v-else>
                 <v-flex xs12>
-                  <strong>{{ talentById(talent.id).name }}</strong>
-                  <v-icon v-for="n in talent.rank" :key="talent.rank + n" small>star</v-icon>
+                  <v-icon small color="primary">cc-rank-{{pTalent.Rank}}</v-icon>
+                  <strong >{{ pTalent.Talent.Name }}</strong>
                 </v-flex>
               </v-layout>
             </div>
@@ -42,8 +41,7 @@
     
     <template v-slot:right-column>
         <v-expansion-panel expand focusable v-model="panels">
-          <talent-item v-for="talent in talentData" :key="talent.id" selectable :available="points.pointsMax > points.pointsCurrent"
-            :talentData="talent" :talent="pilotTalent(talent.id)" @add="addTalent(talent)" @remove="removeTalent(talent)" :new-pilot="newPilot"/>
+          <talent-item v-for="talent in talents" :key="talent.ID" selectable :available="points.pointsMax > points.pointsCurrent" :talent="talent" :pilotTalent="pilotTalent(talent)" @add="addTalent(talent)" @remove="removeTalent(talent)" :new-pilot="newPilot"/>
         </v-expansion-panel>
     </template>
   </selector>
@@ -51,39 +49,31 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Talent } from '@/features/_shared/classes'
+  import { Talent, PilotTalent, Pilot } from '@/class'
   import {TalentItem} from '../SheetComponents'
   import Selector from './Selector.vue'
-
-  function talentSort (talents: Talent[]) {
-    return talents.sort(function (a, b) {
-      return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
-    })
-  }
+  import { rules } from 'lancer-data'
 
   export default Vue.extend({
     name: 'talent-selector',
     props: {
-      pilotTalents: Array,
-      pilotLevel: Number,
+      pilot: Pilot,
       newPilot: Boolean,
       levelUp: Boolean,
     },
     components: { Selector, TalentItem },
     data: () => ({
       talents: [],
-      talentData: [],
-      pLevel: 0,
       panels: [],
     }),
     computed: {
       points () {
         var vm = this as any
         return {
-          pointsCurrent: vm.talents.reduce((a: any, b: any) => +a + +b.rank, 0),
-          pointsMax: 3 + vm.pLevel,
+          pointsCurrent: vm.pilot.Talents.reduce((a: any, b: any) => +a + +b.Rank, 0),
+          pointsMax: rules.minimum_pilot_talents + vm.pilot.Level,
           selectedCurrent: vm.talents.length,
-          selectedMin: 3
+          selectedMin: rules.minimum_pilot_talents
         }
       },
       selectionComplete () {
@@ -93,68 +83,33 @@
       },
       pointLimit (): boolean {
         var vm = this as any
-        return vm.talents.reduce((a: any, b: any) => +a + +b.rank, 0) >= vm.points.pointsMax
+        return vm.pilot.Talents.reduce((a: any, b: any) => +a + +b.rank, 0) >= vm.points.pointsMax
       }
     },
     methods: {
-      playerRank (id: string): number {
-        var vm = this as any
-        var t = vm.talents.find((x: any) => x.id === id)
-        return t ? t.rank : 0
-      },
-      pilotTalent (id: string): any {
-        var vm = this as any
-        return vm.talents.find((x: any) => x.id === id) || {rank: 0}
+      pilotTalent (talent: Talent): PilotTalent | null {
+        const pt = this.pilot.Talents.find(x => x.Talent.ID === talent.ID)
+        return pt ? pt : null
       },
       addTalent (talent: Talent) {
-        var vm = this as any
-        var idx = vm.talents.findIndex((x: any) => x.id === talent.ID)
-        if (idx === -1) {
-          vm.talents.push({
-            id: talent.ID,
-            rank: 1,
-            brew: talent.Brew
-          })
-        } else {
-          vm.talents[idx].rank++
-        }
-        vm.talents = talentSort(vm.talents)
-        if (vm.newPilot) vm.panels = []
+        this.pilot.AddTalent(talent)
 
-        if ((vm.newPilot || vm.levelUp) && vm.pointLimit) {
-          if (vm.levelUp) vm.$emit('set-talents', vm.talents)
+        if (this.newPilot) this.panels = []
+
+        if ((this.newPilot || this.levelUp) && this.pointLimit) {
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
       removeTalent (talent: Talent) {
-        var vm = this as any
-        var idx = vm.talents.findIndex((x: any) => x.id === talent.ID)
-        if (idx !== -1) {
-          vm.talents[idx].rank--
-          if (vm.talents[idx].rank === 0) vm.talents.splice(idx, 1)
-        }
-        vm.talents = talentSort(vm.talents)
-      },
-      saveTalents () {
-        var vm = this as any
-        vm.$emit('set-talents', vm.talents)
+        this.pilot.RemoveTalent(talent)
       },
       resetTalents () {
-        var vm = this as any
-        vm.talents.splice(0, vm.talents.length)
-        vm.$forceUpdate()
-        vm.panels = []
+        this.pilot.ClearTalents()
+        this.panels = []
       },
-      talentById (id: string): Talent {
-        var vm = this as any
-        return vm.$store.getters['getItemById']('Talents', id)
-      }
     },
     created () {
-      var vm = this as any
-      vm.pLevel = vm.newPilot ? 0 : vm.pilotLevel
-      vm.talentData = vm.$store.getters['getItemCollection']('Talents')
-      vm.talents = vm.newPilot ? talentSort(vm.pilotTalents) : talentSort(JSON.parse(JSON.stringify(vm.pilotTalents)))
+      this.talents = this.$store.getters.getItemCollection('Talents')
     }
   })
 </script>

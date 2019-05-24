@@ -1,4 +1,4 @@
-import { Background, PilotTalent, Pilot, PilotSkill, CoreBonus, Frame, MechWeapon, WeaponMod, MechSystem, PilotEquipment, Tag, License } from '.'
+import { Background, PilotTalent, Pilot, PilotSkill, CoreBonus, Frame, MechWeapon, WeaponMod, MechSystem, PilotEquipment, Tag, License, Mech } from '@/class'
 
 type Brew = {
   info: any
@@ -23,8 +23,10 @@ type Status = {
 }
 
 type AppState = {
-  presearch: string
   UserDataPath: string
+  // ActiveMech: Mech
+  ActivePilot: Pilot
+  printOptions: object
   Backgrounds: Background[]
   Talents: PilotTalent[]
   Skills: PilotSkill[]
@@ -39,11 +41,8 @@ type AppState = {
   Statuses: Status[]
   Brews: Brew[]
   Licenses: License[]
-  activeConfigID: string
   Pilots: Pilot[]
   Quirks: string[]
-  activePilotID: string
-  printOptions: object
 }
 
 type AppContext = {

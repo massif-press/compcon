@@ -1,5 +1,5 @@
-import store from "@/store";
-import { LicensedItem, Tag } from '..'
+import store from '@/store'
+import { LicensedItem, Tag, WeaponType, WeaponSize, ItemType } from '@/class'
 
 class WeaponMod extends LicensedItem {
   private sp: number;
@@ -9,8 +9,7 @@ class WeaponMod extends LicensedItem {
   private restricted_sizes: WeaponSize[];
   private tags: Tag[];
 
-  constructor(id: string) {
-    const weaponModData = store.getters.getItemById("WeaponMods", id);
+  constructor(weaponModData: any) {
     super(weaponModData);
     this.sp = weaponModData.sp;
     this.applied_to = weaponModData.applied_to;
@@ -19,7 +18,7 @@ class WeaponMod extends LicensedItem {
     this.description = weaponModData.description;
     this.restricted_sizes = weaponModData.restricted_sizes;
     this.tags = weaponModData.tags;
-    this.item_type = ItemType.Mod;
+    this.item_type = ItemType.WeaponMod;
   }
 
   public get SP(): number {
@@ -46,6 +45,9 @@ class WeaponMod extends LicensedItem {
     return this.tags;
   }
 
+  public static Deserialize(id: string): WeaponMod {
+    return store.getters.getItemById("WeaponMods", id);
+  }
 }
 
 export default WeaponMod

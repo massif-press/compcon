@@ -233,7 +233,7 @@
   import Vue from 'vue'
   import Stats from '../../logic/stats'
   import {RangeElement, DamageElement} from '../../components/UI'
-  import { Pilot, PrintOptions } from '@/features/_shared/classes'
+  import { Pilot, PrintOptions } from '@/class'
 
 export default Vue.extend({
     name: 'pilot-print-view',
@@ -247,11 +247,11 @@ export default Vue.extend({
     }),
     methods: {
       item (type: string, id: string, field: string) {
-        var i = this.$store.getters['getItemById'](type, id)
+        var i = this.$store.getters.getItemById(type, id)
         return i.err ? '// MISSING DATA //' : i[field]
       },
       gear (id: string) {
-        return this.$store.getters['getItemById']('PilotGear', id)
+        return this.$store.getters.getItemById('PilotGear', id)
       }
     },
     created () {

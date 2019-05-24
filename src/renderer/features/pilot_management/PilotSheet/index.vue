@@ -370,7 +370,7 @@
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
   import NewConfig from '../HangarView/AddConfigMenu.vue'
-  import { Pilot, Invocation } from '@/features/_shared/classes'
+  import { Pilot, Invocation, PilotSkill, Background } from '@/class'
 
   export default Vue.extend({
     name: 'pilot-sheet',
@@ -414,27 +414,14 @@
       getLicense: function (name: string) {
         return this.$store.getters['getLicenseByName'](name.toUpperCase())
       },
-      backgroundSelect: function (bgReturn: any) {
+      backgroundSelect: function (bg: Background) {
         (this.$refs['backgroundSelector'] as any).cancel()
-        // Remove custom bg if we're changing to a regular one (custom overrides)
-        if (bgReturn.field !== 'custom_background') {
-          this.$store.dispatch('editPilot', {
-            attr: 'custom_background',
-            val: ''
-          })
-        }
-        this.$store.dispatch('editPilot', {
-          attr: bgReturn.field,
-          val: bgReturn.value
-        })
+        this.pilot.Background = bg
       },
-      setPilotSkills: function (skillArray: any) {
+      setPilotSkills: function (skillArray: PilotSkill[]) {
         (this.$refs['skillSelector'] as any).cancel()
         this.skillModal = false
-        this.$store.dispatch('editPilot', {
-          attr: `skills`,
-          val: skillArray
-        })
+        this.pilot.Skills = skillArray
       },
       setPilotTalents: function (talentArray: any) {
         (this.$refs['talentSelector'] as any).cancel()

@@ -85,7 +85,7 @@
   import io from '@/features/_shared/data_io'
   // import uid from '../../logic/uid'
   import {rules} from 'lancer-data'
-  import { PilotLoadout } from '@/features/_shared/classes'
+  import { PilotLoadout } from '@/class'
 
   import {LazyDialog} from '../../components/UI'
   import {PilotEditModal} from '../SheetComponents'

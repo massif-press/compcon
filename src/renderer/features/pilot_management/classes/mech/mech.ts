@@ -1,14 +1,14 @@
 import _ from "lodash";
 import uid from "@/features/_shared/uid";
 import { rules } from 'lancer-data';
-import { LicenseRequirement, Pilot, Frame, MechLoadout, Mount, MechWeapon, MechSystem } from '..'
+import { LicenseRequirement, Pilot, Frame, MechLoadout, Mount, MechWeapon, MechSystem, MountType, IntegratedMount } from '@/class'
 
 class Mech {
   private id: string;
   private name: string;
   private frame: Frame;
   private loadouts: MechLoadout[];
-  private active_loadout?: MechLoadout | null;
+  private active_loadout: string | null;
   private current_structure: number;
   private current_hp: number;
   private current_stress: number;
@@ -31,6 +31,7 @@ class Mech {
     this.current_heat = this.HeatCapacity;
     this.current_repairs = this.RepairCapacity;
     this.current_core_energy = 1;
+    this.active_loadout = null;
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ class Mech {
   public get Frame(): Frame {
     return this.frame;
   }
-  
+
   public get IsActive() {
     return this.active;
   }
@@ -131,7 +132,7 @@ class Mech {
   public get EDefense(): number {
     let bonus = this.Sys;
     if (this.pilot.has("CoreBonus", "disbelief")) bonus += 2;
-    return this.frame.Edef + bonus;
+    return this.frame.EDefense + bonus;
   }
 
   public get LimitedBonus(): number {
@@ -281,15 +282,15 @@ class Mech {
     let intg = [];
     if (this.frame.CoreSystem.Integrated) {
       intg.push(
-        new Mount(MountType.Integrated, this.frame.CoreSystem.Integrated)
+        new IntegratedMount(this.frame.CoreSystem.Integrated)
       );
     }
     if (this.pilot.has("Talent", "ncavalier", 3)) {
-      intg.push(new Mount(MountType.Integrated, new MechWeapon("fuelrod")));
+      intg.push(new IntegratedMount(new MechWeapon("fuelrod")));
     }
     if (this.pilot.has("Talent", "eng")) {
       const id = `prototype${this.pilot.getTalentRank("eng")}`;
-      intg.push(new Mount(MountType.Integrated, new MechWeapon(id)));
+      intg.push(new IntegratedMount(new MechWeapon(id)));
     }
     return intg;
   }
@@ -344,11 +345,55 @@ class Mech {
   }
 
   public get ActiveLoadout(): MechLoadout | null {
-    return this.active_loadout || null;
+    return this.loadouts.find(x => x.ID === this.active_loadout) || null;
   }
 
   public set ActiveLoadout(loadout: MechLoadout | null) {
-    this.active_loadout = loadout;
+    this.active_loadout = (loadout && loadout.ID) || "";
+  }
+
+  // -- I/O ---------------------------------------------------------------------------------------
+  public Serialize(): string {
+    let mechData = {
+
+    };
+
+    return JSON.stringify(mechData);
+  }
+
+  public static Serialize(m: Mech): IMechData {
+    return {
+      id: m.ID,
+      name: m.Name,
+      frame: m.Frame.ID,
+      active: m.active,
+      current_structure: m.current_structure,
+      current_hp: m.current_hp,
+      current_stress: m.current_stress,
+      current_heat: m.current_heat,
+      current_repairs: m.current_repairs,
+      loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
+      active_loadout: m.active_loadout
+
+    };
+
+  }
+
+  public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
+    let m = new Mech(mechData.frame, pilot)
+    m.id = mechData.id
+    m.name = mechData.name
+    m.active = mechData.active
+    m.current_structure = mechData.current_structure
+    m.current_hp = mechData.current_hp
+    m.current_stress = mechData.current_stress
+    m.current_heat = mechData.current_heat
+    m.current_repairs = mechData.current_repairs
+    m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) =>
+      MechLoadout.Deserialize(x, m)
+    );
+    m.active_loadout = m.active_loadout
+    return m
   }
 }
 

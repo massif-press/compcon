@@ -39,7 +39,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
-  import { Pilot } from '@/features/_shared/classes'
+  import { Pilot } from '@/class'
   import PilotCard from './PilotCard.vue'
   import AddPilotCard from './AddPilotCard.vue'
 

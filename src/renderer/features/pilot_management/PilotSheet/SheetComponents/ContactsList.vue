@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-  import { Contact } from '@/features/_shared/classes'
+  import { Contact } from '@/class'
   import {EditableLabel, EditableTextfield} from '../../components/UI'
 
   import Vue from 'vue'

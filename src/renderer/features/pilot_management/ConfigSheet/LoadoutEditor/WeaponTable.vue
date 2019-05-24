@@ -71,7 +71,7 @@
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <weapon-card :itemData="props.item" table-item/>
+              <weapon-card :item="props.item" table-item/>
             </v-card-text>
           </v-card>
         </template>
@@ -128,7 +128,7 @@
     computed: {
       weapons () {
         var vm = this as any
-        var allWeapons = vm.$store.getters['getItemCollection']('MechWeapons')
+        var allWeapons = vm.$store.getters.getItemCollection('MechWeapons')
         var fittings = rules.mount_fittings[vm.size]
         var i = allWeapons.filter((x: Weapon) => x.source && fittings.includes(x.mount))
         if (!vm.showLocked) {
@@ -180,7 +180,7 @@
         this.$emit('remove-item')
       },
       item (id: string): Weapon {
-        return this.$store.getters['getItemById']('MechWeapons', id)
+        return this.$store.getters.getItemById('MechWeapons', id)
       },
       isLocked (name: string, level: number): boolean {
         if (!name) return false
@@ -192,7 +192,7 @@
       isOverSp (sp: number): boolean {
         var vm = this as any
         var totalFreeSp = vm.current_equip 
-        ? vm.free_sp + vm.$store.getters['getItemCollection']('MechWeapons').find(
+        ? vm.free_sp + vm.$store.getters.getItemCollection('MechWeapons').find(
           (x: Weapon) => x.id === vm.current_equip.id
           ).sp || 0 
         : vm.free_sp

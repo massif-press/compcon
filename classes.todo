@@ -1,13 +1,18 @@
 Classes:
 
+  ☐ Damage
+    ☐ Bonuses
+  ☐ Range
+    ☐ Bonuses
+
+  ☐ Mech
+  ☐ Pilot
+  ☐ Printing
 
   ☐ Breaking
-    ☐ Convert cb array into actual CoreBonus object
     ☐ Redo item ids
-    ✔ Remove item talent/talent ranks @done(19-05-17 14:31)
 
 Vuex:
-  ☐ use vue set on ever pilot modification (rewrite the whole thing)
 
  pilots need to collect all passive modifiers that can then be accessed by getters
 
@@ -15,3 +20,4 @@ Vuex:
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
   ☐ External Batteries
+  ☐ Downtime Resources in glossary

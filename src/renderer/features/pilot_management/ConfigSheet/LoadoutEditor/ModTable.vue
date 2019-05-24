@@ -87,7 +87,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import {ItemTag} from '../../components/UI'
-import { WeaponMod, Pilot } from '@/features/_shared/classes'
+import { WeaponMod, Pilot } from '@/class'
   export default Vue.extend({
     name: 'mod-table',
     components: { ItemTag },
@@ -116,7 +116,7 @@ import { WeaponMod, Pilot } from '@/features/_shared/classes'
     computed: {
       mods() : WeaponMod[]{
         var vm = this as any
-        var allMods = vm.$store.getters['getItemCollection']('WeaponMods')
+        var allMods = vm.$store.getters.getItemCollection('WeaponMods')
         var i = allMods.filter((x: WeaponMod) => x.Source)
         if (!vm.showLocked) {
           i = i.filter(
@@ -147,7 +147,7 @@ import { WeaponMod, Pilot } from '@/features/_shared/classes'
     },
     methods: {
       item(id: string): WeaponMod {
-        return this.$store.getters['getItemById']('WeaponMods', id)
+        return this.$store.getters.getItemById('WeaponMods', id)
       },
       remove() {
         this.$emit('remove')

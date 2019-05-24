@@ -1,11 +1,5 @@
 import { rules } from 'lancer-data';
-
-enum HASE {
-  H = 'hull',
-  A = 'agi',
-  S = 'sys',
-  E = 'eng'
-}
+import {HASE} from '@/class'
 
 class MechSkills {
   private hull: number
@@ -24,6 +18,10 @@ class MechSkills {
   public get Agi(): number { return this.agi }
   public get Sys(): number { return this.sys }
   public get Eng(): number { return this.eng }
+  public set Hull(val: number) { this.hull = val }
+  public set Agi(val: number) { this.agi = val }
+  public set Sys(val: number) { this.sys = val }
+  public set Eng(val: number) { this.eng = val }  
 
   public Increment(field: HASE) {
     if (this[field] < rules.max_hase)
@@ -33,6 +31,18 @@ class MechSkills {
   public Decrement(field: HASE) {
     if (this[field] > 0)
     this[field] -= 1
+  }
+
+  public get Sum(): number {
+    return this.hull + this.agi + this.sys + this.eng
+  }
+
+  public static Serialize(item: MechSkills): number[] {
+    return [item.Hull, item.Agi, item.Sys, item.Eng]
+  }
+
+  public static Deserialize(itemData: number[]) {
+    return new MechSkills(itemData[0], itemData[1], itemData[2], itemData[3])
   }
 }
 

@@ -3,7 +3,7 @@ import {
   copySync,
 } from 'fs-extra'
 import path from 'path'
-import { Pilot } from './classes'
+import { Pilot } from '@/class'
 
 declare const __static: string
 

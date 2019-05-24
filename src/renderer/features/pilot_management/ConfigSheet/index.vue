@@ -331,7 +331,7 @@
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
   import { clipboard } from 'electron';
   import ccc from '@/features/_shared/UI/CCColors'
-import { Mech, Frame } from '@/features/_shared/classes'
+import { Mech, Frame } from '@/class'
 
   export default Vue.extend({
     name: 'config-sheet',
@@ -443,10 +443,10 @@ import { Mech, Frame } from '@/features/_shared/classes'
       // },
       frame (): Frame {
         var vm = this as any
-        return this.$store.getters['getItemById']('Frames', vm.config.frame_id)
+        return this.$store.getters.getItemById('Frames', vm.config.frame_id)
       },
       color (): any {
-        return ccc.colors
+        return ccc
       }
     }
   })

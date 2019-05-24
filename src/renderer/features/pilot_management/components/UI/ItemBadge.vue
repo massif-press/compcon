@@ -1,23 +1,23 @@
 <template>
   <div>
     <div>
-      <v-tooltip top v-if="item.data_type === 'frame'">
-        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.data_type)" >"{{item.name}}" Frame</v-btn>
+      <v-tooltip top v-if="item.ItemType === 'Frame'">
+        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.ItemType)" >"{{item.Name}}" Frame</v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
-      <v-tooltip top v-else-if="item.data_type === 'weapon'">
-        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.data_type)" >{{item.name}}</v-btn>
+      <v-tooltip top v-else-if="item.ItemType === 'MechWeapon'">
+        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.ItemType)" >{{item.Name}}</v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
       <v-tooltip top v-else>
-        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.data_type)">{{item.name}}</v-btn>
+        <v-btn slot="activator" @click="model = true" block outline :color="itemColor(item.ItemType)">{{item.Name}}</v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
     </div>
-    <v-dialog lazy v-model="model" :width="item.data_type === 'frame' ? '95vw' : '50vw'">
-      <v-toolbar :color="itemColor(item.data_type)" dark>
-        <v-toolbar-title>{{item.name}}
-          <span class="caption">({{ item.source }}<span v-if="item.data_type !== 'frame'"> {{item.license}} {{item.license_level}}</span>)</span>
+    <v-dialog lazy v-model="model" :width="item.ItemType === 'Frame' ? '95vw' : '50vw'">
+      <v-toolbar :color="itemColor(item.ItemType)" dark>
+        <v-toolbar-title>{{item.Name}}
+          <span class="caption">({{ item.Source }}<span v-if="item.ItemType !== 'Frame'"> {{item.License}} {{item.LicenseLevel}}</span>)</span>
         </v-toolbar-title>
       </v-toolbar>
       <v-card>
@@ -31,10 +31,9 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  // import { thisItem } from '@/data_interfaces/type_guards'
   import ItemCard from './ItemCard.vue'
   import colors from '@/features/_shared/UI/CCColors'
-import { CompendiumItem } from '@/features/_shared/classes'
+import { CompendiumItem, ItemType, Frame, MechWeapon, MechSystem, WeaponMod } from '@/class'
   export default Vue.extend({
     name: 'item-badge',
     data: () => ({
@@ -46,21 +45,24 @@ import { CompendiumItem } from '@/features/_shared/classes'
     components: { ItemCard },
     methods: {
       tooltip(item: CompendiumItem) {
-        // if (thisItem.isFrame(item)) {
-        //   return `<b>FRAME</b><br>${item.mechtype}`
-        // } else if (thisItem.isWeapon(item)) {
-        //   return `<b>MECH WEAPON</b><br>${item.mount} ${item.type}`
-        // } else if (thisItem.isMod(item)) {
-        //   return `<b>WEAPON MOD</b><br>${item.applied_string}`
-        // } else {
-        //   return `<b>MECH SYSTEM</b><br>${item.type}`
-        // }
+        if (item.ItemType === ItemType.Frame) {
+          const f = item as Frame
+          return `<b>FRAME</b><br>${f.Mechtype}`
+        } else if (item.ItemType === ItemType.MechWeapon) {
+          const w = item as MechWeapon
+          return `<b>MECH WEAPON</b><br>${w.Size} ${w.Type}`
+        } else if (item.ItemType === ItemType.WeaponMod) {
+          const m = item as WeaponMod
+          return `<b>WEAPON MOD</b><br>${m.AppliedString}`
+        } else {
+          const s = item as MechSystem
+          return `<b>MECH SYSTEM</b><br>${s.Type}`
+        }
       },
       itemColor(t: string) {
-        var c: any = colors.colors
-        if (t === 'frame') { return c.frame.light }
-        else if (t === 'weapon') { return c.weapon.light }
-        return c.system.light
+        if (t === 'Frame') { return colors.frame.light }
+        else if (t === 'MechWeapon') { return colors.weapon.light }
+        return colors.system.light
       },
     }
   })

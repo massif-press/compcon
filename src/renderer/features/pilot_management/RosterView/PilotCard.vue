@@ -16,7 +16,7 @@
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-card :color="panelColor(pilot.active)" dark flat>
+          <v-card :color="panelColor()" dark flat>
             <v-layout>
               <v-flex xs9 class="ma-2">
                 <span class="title">{{pilot.callsign}}</span>
@@ -30,7 +30,7 @@
                     <v-icon :color="pilot.active ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
                   </v-btn>
                   <div class="text-xs-center">
-                    <span><b :class="activeColorClass(pilot.active)"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
+                    <span><b :class="activeColorClass()"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
                       <br><i>Click to {{pilot.active ? 'deactivate' : 'activate'}} Pilot</i></span>
                   </div>
                 </v-tooltip>
@@ -140,38 +140,39 @@
       this.notification = alert
       this.snackbar = true
     },
-    activeColorClass (isActive: boolean): string {
-      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    activeColorClass (): string {
+      return this.pilot.IsActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
     },
-    panelColor (isActive: boolean): string {
-      return isActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
+    panelColor (): string {
+      return this.pilot.IsActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
     },
     background () {
       if (this.pilot.custom_background) return this.pilot.custom_background
-      else return this.$store.getters['getItemById']('Backgrounds', this.pilot.background).name
+      else return this.$store.getters.getItemById('Backgrounds', this.pilot.background).name
     },
     toPilotSheet () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
+      this.$store.dispatch('loadPilot', this.pilot)
       this.$router.push('./pilot')
     },
     activatePilot () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
-      this.$store.dispatch('editPilot', {
-        attr: `active`,
-        val: !this.pilot.active
-      })   
-      this.$forceUpdate() 
-      this.$parent.$forceUpdate() 
-      this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
+      // this.$store.dispatch('loadPilot', this.pilot.id)
+      // this.$store.dispatch('editPilot', {
+      //   attr: `active`,
+      //   val: !this.pilot.active
+      // })   
+      // this.$forceUpdate() 
+      // this.$parent.$forceUpdate()
+      this.pilot.Active = !this.pilot.IsActive;
+      this.notify(`${this.pilot.callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot () {
       this.deleteDialog = false
-      this.$store.dispatch('deletePilot', this.pilot.id)
+      this.$store.dispatch('deletePilot', this.pilot)
       this.notify('Pilot Deleted')
     },
     clonePilot (isFlashclone: boolean) {
       if (isFlashclone) {
-        var quirks = this.$store.getters['getItemCollection']('Quirks')
+        var quirks = this.$store.getters.getItemCollection('Quirks')
         var quirk = quirks[Math.floor(Math.random() * quirks.length)]
         this.$store.dispatch('clonePilot', {id: this.pilot.id, quirk: quirk})
         this.notify('Pilot Cloned')

@@ -1,29 +1,34 @@
 import _ from 'lodash'
-import { LicensedItem, LicenseRequirement, MechSystem, Mount, Mech, Loadout } from '..';
+import { LicensedItem, LicenseRequirement, MechSystem, Mount, Mech, Loadout, MountType, IntegratedMount, EquippableMount } from '@/class';
 import store from "@/store";
 
 class MechLoadout extends Loadout {
-  private mounts: Mount[];
-  private improvedArmament: Mount;
+  private integratedMounts: IntegratedMount[];
+  private equippableMounts: EquippableMount[];
+  private improvedArmament: EquippableMount;
   private systems: MechSystem[];
 
   constructor(mech: Mech) {
     super(mech.Loadouts.length);
-    this.mounts = mech.IntegratedMounts.concat(
-      mech.Frame.Mounts.map(x => new Mount(x))
-    );
+    this.integratedMounts = mech.IntegratedMounts
+    this.equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this.systems = mech.IntegratedSystems;
-    this.improvedArmament = new Mount(MountType.Flex);
+    this.improvedArmament = new EquippableMount(MountType.Flex);
   }
 
   public get Mounts(): Mount[] {
+    const allMounts = this.integratedMounts.concat(this.equippableMounts)
     if (store.getters.getPilot.has("CoreBonus", "imparm"))
-      return this.mounts.concat([this.improvedArmament]);
-    else return this.mounts;
+      return allMounts.concat([this.improvedArmament]);
+    else return allMounts;
   }
 
   public get Systems(): MechSystem[] {
     return this.systems;
+  }
+
+  public set Systems(systems: MechSystem[]) {
+    this.systems = systems;
   }
 
   public HasSystem(system_id: string): boolean {
@@ -31,18 +36,18 @@ class MechLoadout extends Loadout {
   }
 
   public AddSystem(system_id: string) {
-    this.systems.push(new MechSystem(system_id))
+    this.systems.push(new MechSystem(system_id));
   }
 
   public RemoveSystem(system: MechSystem) {
-    const index = this.systems.findIndex(x => _.isEqual(x, system))
-    if (index > -1) this.systems.splice(index, 1)
+    const index = this.systems.findIndex(x => _.isEqual(x, system));
+    if (index > -1) this.systems.splice(index, 1);
   }
 
   public get RequiredLicenses() {
     let requirements = [] as LicenseRequirement[];
     const equippedWeapons = _.flatten(
-      this.mounts.map(x => x.Weapons)
+      this.equippableMounts.map(x => x.Weapons)
     ) as LicensedItem[];
     const equippedSystems = this.systems as LicensedItem[];
 
@@ -79,7 +84,7 @@ class MechLoadout extends Loadout {
   }
 
   public get TotalSP(): number {
-    const mountSP = this.mounts
+    const mountSP = this.equippableMounts
       .flatMap(x => x.Weapons)
       .reduce(function(a, b) {
         return a + (b ? b.SP : 0);
@@ -88,6 +93,26 @@ class MechLoadout extends Loadout {
       return a + b.SP;
     }, 0);
     return mountSP + systemSP;
+  }
+
+  public static Serialize(ml: MechLoadout): IMechLoadoutData {
+    return {
+      id: ml.ID,
+      name: ml.Name,
+      systems: ml.Systems.map(x => MechSystem.Serialize(x)),
+      mounts: ml.equippableMounts.map(x => EquippableMount.Serialize(x)),
+      improved_armament: EquippableMount.Serialize(ml.improvedArmament)
+    };
+  }
+
+  public static Deserialize(loadoutData: IMechLoadoutData, mech: Mech): MechLoadout {
+    let ml = new MechLoadout(mech);
+    ml.ID = loadoutData.id;
+    ml.Name = loadoutData.name;
+    ml.systems = loadoutData.systems.map(x => MechSystem.Deserialize(x));
+    ml.equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
+    ml.improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
+    return ml;
   }
 }
 

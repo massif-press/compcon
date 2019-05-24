@@ -80,7 +80,7 @@ import Vue from 'vue'
 import io from '@/features/_shared/data_io'
 import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '../components/UI'
-import { Frame } from '@/features/_shared/classes'
+import { Frame } from '@/class'
 export default Vue.extend({
   name: 'config-card',
   components: {LazyDialog},
@@ -108,7 +108,7 @@ export default Vue.extend({
       return isActive ? `rgba(4, 48, 114, 0.55)` : `rgba(0, 0, 0, 0.55)`
     },
     frame (): Frame {
-      return this.$store.getters['getItemById']('Frames', this.config.frame_id)
+      return this.$store.getters.getItemById('Frames', this.config.frame_id)
     },
     getStaticPath (path: string): string {
       return getStatic(path)

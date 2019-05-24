@@ -1,38 +1,37 @@
-import store from "@/store";
+import { ItemType } from '@/class'
 
 class Tag {
   private id: string;
   private name: string;
   private description: string;
-  private val: number | string
+  private val: number | string;
   private item_type: ItemType;
   private brew: string;
 
-  constructor(id: string) {
-    const tagData = store.getters.getItemById("MechSystems", id);
+  constructor(tagData: any) {
     this.id = tagData.id;
     this.name = tagData.name;
     this.description = tagData.description;
     this.item_type = ItemType.None;
     this.brew = tagData.brew || "Core";
-    this.val = tagData.val || ''
-    this.item_type = ItemType.Tag
+    this.val = tagData.val || "";
+    this.item_type = ItemType.Tag;
   }
 
   public Description(bonus: number): string {
-    if (!this.val) return this.description
-    if (typeof this.val === 'number') {
-      return this.description.replace(/{VAL}/g, (this.val + bonus).toString())
-    } else  {
-      var str = this.val as string
-      if (str.includes('+')) {
-        const split = str.split('+')
-        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
-        return this.description.replace(/{VAL}/g, newVal)
+    if (!this.val) return this.description;
+    if (typeof this.val === "number") {
+      return this.description.replace(/{VAL}/g, (this.val + bonus).toString());
+    } else {
+      var str = this.val as string;
+      if (str.includes("+")) {
+        const split = str.split("+");
+        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
+        return this.description.replace(/{VAL}/g, newVal);
       } else {
         return bonus > 0
           ? this.description.replace(/{VAL}/g, `${this.val}+${bonus}`)
-          : this.description.replace(/{VAL}/g, this.val)
+          : this.description.replace(/{VAL}/g, this.val);
       }
     }
   }
@@ -52,7 +51,6 @@ class Tag {
   public get Brew(): string {
     return this.brew;
   }
-
 }
 
 export default Tag;

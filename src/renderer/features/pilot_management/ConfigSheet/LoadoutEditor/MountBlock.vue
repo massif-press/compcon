@@ -126,7 +126,7 @@
   import CoreBenefitSelector from './CoreBenefitSelector.vue'
   import ModTable from './ModTable.vue'
   import {LazyDialog} from '../../components/UI'
-import { Mount, MechWeapon, WeaponMod } from '@/features/_shared/classes'
+import { Mount, MechWeapon, WeaponMod } from '@/class'
 
   export default Vue.extend({
   name: 'mount-block',
@@ -185,8 +185,8 @@ import { Mount, MechWeapon, WeaponMod } from '@/features/_shared/classes'
     openModSelector (index: number) {
       (this as any).current_equip_mod = null
       var modID = this.mount.weapons[index].mod || null
-      if (modID) this.current_equip_mod = this.$store.getters['getItemById']('WeaponMods', modID)
-      this.modWeapon = this.$store.getters['getItemById']('MechWeapons', this.mount.weapons[index].id)
+      if (modID) this.current_equip_mod = this.$store.getters.getItemById('WeaponMods', modID)
+      this.modWeapon = this.$store.getters.getItemById('MechWeapons', this.mount.weapons[index].id)
       this.weaponIndex = index
       this.modLoader = true
       this.modModal = true

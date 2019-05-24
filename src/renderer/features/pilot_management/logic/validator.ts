@@ -1,4 +1,4 @@
-import { Pilot, Mech } from '@/features/_shared/classes'
+import { Pilot, Mech } from '@/class'
 function isValidJSON(text: string) {
   try {
     JSON.parse(text)

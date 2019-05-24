@@ -75,13 +75,13 @@ import {
   FrameStatblock
 } from "@/features/pilot_management/components/UI";
 import colors from "@/features/_shared/UI/CCColors";
-import { CompendiumItem } from "@/features/_shared/classes";
+import { CompendiumItem } from "@/class";
 
 export default Vue.extend({
   name: "compendium-item",
   components: { ItemTag, RangeElement, DamageElement, FrameStatblock },
   data: () => ({
-    colors: colors.colors
+    colors: colors
   }),
   computed: {
     validResults(): CompendiumItem[] {

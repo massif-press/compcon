@@ -4,7 +4,7 @@
       <v-flex>
         <v-card>
           <v-toolbar :color="isSelected(bg.id) ? 'primary' : ''" dense :dark="isSelected(bg.id)" flat>
-          <v-btn v-if="!isSelected(bg.id)" fab bottom right absolute @click="onSelect(bg.id)" style="right: 50px" color="primary">
+          <v-btn v-if="!isSelected(bg.id)" fab bottom right absolute @click="onSelect(bg)" style="right: 50px" color="primary">
             <v-icon>add</v-icon>
           </v-btn>
           <v-toolbar-title class="headline" dense>{{bg.name}}</v-toolbar-title>
@@ -53,11 +53,12 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Background } from '@/class';
 
   export default Vue.extend({
-    name: 'background-selecor',
+    name: 'background-selector',
     props: {
-      preSelected: String
+      pilot: Object
     },
     data: () => ({
       backgrounds: [],
@@ -66,18 +67,26 @@
     }),
     methods: {
       isSelected (bgID: string): boolean {
-        return this.preSelected === bgID
+        return this.pilot.Background && this.pilot.Background.id === bgID
       },
-      onSelect (id: string) {
-        this.$emit('selected', {field: 'background', value: id})
+      onSelect (bg: Background) {
+        this.pilot.Background = bg
+        this.$emit('close')
       },
       onCustom () {
         this.customBgDialog = false
-        this.$emit('selected', {field: 'custom_background', value: this.customBg})
+        const newBg = new Background({
+          id: 'custom_bg',
+          name: this.customBg,
+          description: '',
+          triggers: ''
+        })
+        this.pilot.Background= new Background(newBg)        
+        this.$emit('close')
       }
     },
     created () {
-      this.backgrounds = this.$store.getters['getItemCollection']('Backgrounds')
+      this.backgrounds = this.$store.getters.getItemCollection('Backgrounds')
     }
   })
 </script>

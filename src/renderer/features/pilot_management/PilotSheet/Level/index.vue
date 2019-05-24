@@ -131,7 +131,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Pilot, MechSkills } from '@/features/_shared/classes'
+  import { Pilot, MechSkills } from '@/class'
   import _ from 'lodash'
   import { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector } from '../Selectors'
   import LevelUpdateBlock from './LevelUpdateBlock.vue'
@@ -162,7 +162,7 @@
         (this as any).newItems[payload.field] = payload.value
       },
       item (type: string, id: string) {
-        return this.$store.getters['getItemById'](type, id)
+        return this.$store.getters.getItemById(type, id)
       },
       setSkills (skills: any) {
         this.itemSelect({field: 'skills', value: skills})

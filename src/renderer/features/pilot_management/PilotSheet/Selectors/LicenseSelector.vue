@@ -60,7 +60,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
-  import { PilotLicense, Manufacturer } from '@/features/_shared/classes'
+  import { PilotLicense, Manufacturer } from '@/class'
   import {LicenseItem} from '../SheetComponents'
   import Selector from './Selector.vue'
 
@@ -105,7 +105,7 @@
         return t ? t.level : 0
       },
       manufacturer (id): Manufacturer {
-        return this.$store.getters['getItemById']('Manufacturers', id.toUpperCase())
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
       licenseExists (source: string, name: string): boolean {
         var vm = this as any
@@ -155,7 +155,7 @@
     created () {
       var vm = this as any
       vm.pLevel = vm.pilotLevel
-      vm.licenseData = _.groupBy(vm.$store.getters['getItemCollection']('Licenses'), 'source')
+      vm.licenseData = _.groupBy(vm.$store.getters.getItemCollection('Licenses'), 'source')
       vm.licenses = licenseSort(JSON.parse(JSON.stringify(vm.pilotLicenses)))
     }
   })

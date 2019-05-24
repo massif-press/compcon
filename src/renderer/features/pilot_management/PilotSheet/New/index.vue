@@ -11,7 +11,7 @@
             <v-divider />
             <v-stepper-step editable :complete="newPilot.background !== ''" step="2">
               <span>Background</span>
-              <small v-if="newPilot.background">{{getBackground(newPilot.background).name}}</small>
+              <small v-if="newPilot.Background">{{newPilot.Background.name}}</small>
             </v-stepper-step>
             <v-divider />
             <v-stepper-step editable :complete="newPilot.skills.length === 4" step="3">
@@ -103,13 +103,13 @@
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn large color="primary" @click="stepForward" :disabled="!newPilot.callsign && !newPilot.name">Continue<v-icon>chevron_right</v-icon></v-btn>
+                  <v-btn large color="primary" @click="stepForward" :disabled="(!newPilot.callsign || !newPilot.name)">Continue<v-icon>chevron_right</v-icon></v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <background-selector @selected="itemSelect" :preSelected="newPilot.background" />
+              <background-selector @close="stepForward" :pilot="newPilot" />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -121,7 +121,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="3">
-              <skill-selector :pilotSkills="newPilot.skills" new-pilot @set-skills="setSkills"/>
+              <skill-selector :pilot="newPilot" new-pilot @close="stepForward" />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -134,7 +134,7 @@
             </v-stepper-content>
 
               <v-stepper-content step="4">
-              <talent-selector :pilotTalents="newPilot.talents" new-pilot @set-talents="setTalents"/>
+              <talent-selector :pilot="newPilot" new-pilot @close="stepForward"/>
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -147,7 +147,7 @@
             </v-stepper-content>
 
               <v-stepper-content step="5">
-                <mech-skills-selector :mechSkills="newPilot.mechSkills" new-pilot />
+                <mech-skills-selector :pilot="newPilot" new-pilot />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -171,14 +171,14 @@
                       <v-card-title class="mb-0 pb-2"><h3 class="headline mb-0">Pilot Skills</h3></v-card-title>
                       <v-divider class="m-0 p-0" />
                       <v-card-text>
-                      <div class="pl-2" v-for="skill in newPilot.skills" :key="`confirm_${skill.id}`">
+                      <div class="pl-2" v-for="skill in newPilot.Skills" :key="`confirm_${skill.Skill.ID}`">
                           <v-layout>
                             <v-flex xs12>
                                 <v-chip slot="activator" dark color="primary" small>
-                                  +<b>{{skill.bonus}}</b>
+                                  +<b>{{skill.Bonus}}</b>
                                 </v-chip>
 
-                              <strong>{{getSkill(skill.id).trigger}}</strong>
+                              <strong>{{skill.Skill.Trigger}}</strong>
                             </v-flex>
                           </v-layout>
                       </div>
@@ -190,11 +190,11 @@
                       <v-card-title class="mb-0 pb-2"><h3 class="headline mb-0">Talents</h3></v-card-title>
                       <v-divider class="m-0 p-0" />
                       <v-card-text>
-                      <div class="pl-2" v-for="talent in newPilot.talents" :key="`confirm_${talent.id}`">
+                      <div class="pl-2" v-for="talent in newPilot.talents" :key="`confirm_${talent.Talent.ID}`">
                           <v-layout>
                             <v-flex xs12>
-                              <v-icon v-for="n in talent.rank" :key="n + talent.id">star</v-icon>
-                              <strong>{{getTalent(talent.id).name}}</strong>
+                              <v-icon color="primary">cc-rank-{{talent.Rank}}</v-icon>
+                              <strong class="effect-text font-weight-bold">{{talent.Talent.Name}}</strong>
                             </v-flex>
                           </v-layout>
                       </div>
@@ -206,10 +206,10 @@
                       <v-card-title class="mb-0 pb-2"><h3 class="headline mb-0">Mech Skills</h3></v-card-title>
                       <v-divider class="m-0 p-0" />
                       <v-card-text>
-                      <li class="title" v-if="newPilot.mechSkills.hull">Hull +{{newPilot.mechSkills.hull}}</li>
-                      <li class="title" v-if="newPilot.mechSkills.agi">Agility +{{newPilot.mechSkills.agi}}</li>
-                      <li class="title" v-if="newPilot.mechSkills.sys">Systems +{{newPilot.mechSkills.sys}}</li>
-                      <li class="title" v-if="newPilot.mechSkills.eng">Engineering +{{newPilot.mechSkills.eng}}</li>
+                      <li class="title">Hull +{{newPilot.MechSkills.Hull}}</li>
+                      <li class="title">Agility +{{newPilot.MechSkills.Agi}}</li>
+                      <li class="title">Systems +{{newPilot.MechSkills.Sys}}</li>
+                      <li class="title">Engineering +{{newPilot.MechSkills.Eng}}</li>
                       </v-card-text>
                     </v-card>
                   </v-flex>
@@ -244,6 +244,7 @@
   import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector} from '../Selectors'
   import ImageSelector from './ImageSelector.vue'
   import io from '@/features/_shared/data_io'
+  import { Pilot, Background } from '@/class'
 
   export default Vue.extend({
     name: 'new-pilot',
@@ -251,39 +252,17 @@
     data: () => ({
       np_step: 0,
       appearanceModal: false,
-      newPilot: {
-        callsign: '',
-        name: '',
-        background: '',
-        history: '',
-        portrait: '',
-        level: 0,
-        skills: [],
-        talents: [],
-        mechSkills: {
-          hull: 0,
-          agi: 0,
-          sys: 0,
-          eng: 0
-        }
-      }
+      newPilot: new Pilot()
     }),
     methods: {
-      itemSelect (payload: any) {
-        this.stepForward()
-        Vue.set(this.newPilot, payload.field, payload.value)
-      },
-      setSkills (skills: any) {
-        this.itemSelect({field: 'skills', value: skills})
-      },
-      setTalents (talents: any) {
-        this.itemSelect({field: 'talents', value: talents})
-      },
-      setMechSkills (mskills: any) {
-        this.itemSelect({field: 'mechSkills', value: mskills})
-      },
       savePilot () {
         this.$store.dispatch('addPilot', this.newPilot)
+              var p = this.$store.getters.getAllPilots
+      console.log(p)
+      var sp = p.map((x: Pilot) => Pilot.Serialize(x))
+      console.log(sp)
+      var dsp = p.map((x: any) => Pilot.Deserialize(x))
+      console.log(dsp)
         this.$router.push('./pilot_management')
       },
       stepBack () {
@@ -295,32 +274,29 @@
         window.scrollTo(0, 0)
       },
       setPortrait (src: string) {
-        this.newPilot.portrait = src
+        this.newPilot.SetLocalPortrait(src)
         this.appearanceModal = false
       },
       randomCallsign () {
-        this.newPilot.callsign = `${io.randomName('callsigns.txt')}`
+        this.newPilot.Callsign = `${io.randomName('callsigns.txt')}`
         this.$forceUpdate()
       },
       randomName () {
-        this.newPilot.name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
+        this.newPilot.Name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
         this.$forceUpdate()
       }
     },
     computed: {
       hasMechSkills (): boolean {
-        return this.newPilot.mechSkills.hull +
-          this.newPilot.mechSkills.agi +
-          this.newPilot.mechSkills.sys +
-          this.newPilot.mechSkills.eng === 2
+        return this.newPilot.MechSkills.Sum === 2
       },
       canSavePilot (): boolean {
         return this.hasMechSkills &&
-          this.newPilot.talents.length === 3 &&
-          this.newPilot.skills.length === 4 &&
-          this.newPilot.callsign !== '' &&
-          this.newPilot.name !== ''
+          this.newPilot.Talents.length === 3 &&
+          this.newPilot.Skills.length === 4 &&
+          this.newPilot.Callsign !== '' &&
+          this.newPilot.Name !== ''
       }
-    }
+    },
   })
 </script>

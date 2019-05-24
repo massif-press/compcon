@@ -1,4 +1,4 @@
-import { Pilot } from '@/features/_shared/classes'
+import { Pilot } from '@/class'
 import GistClient from 'gist-client'
 import imgur from 'imgur'
 import path from 'path'

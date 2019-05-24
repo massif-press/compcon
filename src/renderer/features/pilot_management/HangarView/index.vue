@@ -44,7 +44,7 @@
   import _ from 'lodash'
   import ConfigCard from './ConfigCard.vue'
   import AddConfigCard from './AddConfigCard.vue'
-import { Pilot, Mech } from '@/features/_shared/classes'
+import { Pilot, Mech } from '@/class'
   export default Vue.extend({
     name: 'hangar-view',
     components: { ConfigCard, AddConfigCard },

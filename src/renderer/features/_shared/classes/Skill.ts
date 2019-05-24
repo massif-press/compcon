@@ -1,23 +1,33 @@
-import store from '@/store';
-import { CompendiumItem } from "./Item";
+import store from '@/store'
+import { CompendiumItem, SkillFamily, ItemType } from "@/class";
 
 class Skill extends CompendiumItem {
-  private detail: string
-  private family: SkillFamily
+  private detail: string;
+  private trigger: string;
+  private family: SkillFamily;
 
-  constructor(id: string) {
-    const skillData = store.getters.getItemById('Skills', id)
-    super(skillData)
+  constructor(skillData: any) {
+    super(skillData);
     this.detail = skillData.detail,
-    this.family = SkillFamily[skillData.family] as SkillFamily
+    this.trigger = skillData.trigger,
+    this.family = SkillFamily[skillData.family] as SkillFamily;
+    this.item_type = ItemType.Skill
   }
 
   public get Detail(): string {
-    return this.detail
+    return this.detail;
+  }
+
+  public get Trigger(): string {
+    return this.trigger
   }
 
   public get Family(): string {
-    return this.family
+    return this.family;
+  }
+
+  public static Deserialize(id: string): Skill {
+    return store.getters.getItemById("Skills", id);
   }
 }
 

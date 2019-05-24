@@ -249,7 +249,7 @@
   import Vue from 'vue'
   import Stats from '../../logic/stats'
   import {RangeElement, DamageElement} from '../../components/UI'
-import { PrintOptions } from '@/features/_shared/classes'
+import { PrintOptions } from '@/class'
   export default Vue.extend({
     name: 'mech-print-view',
     components: { RangeElement, DamageElement },
@@ -264,19 +264,19 @@ import { PrintOptions } from '@/features/_shared/classes'
     }),
     methods: {
       item (type: string, id: string) {
-        return this.$store.getters['getItemById'](type, id)
+        return this.$store.getters.getItemById(type, id)
       },
       tag (id: string) {
-        return this.$store.getters['getItemById']('Tags', id)
+        return this.$store.getters.getItemById('Tags', id)
       },
       system (id: string) {
-        return this.$store.getters['getItemById']('MechSystems', id)
+        return this.$store.getters.getItemById('MechSystems', id)
       },
       weapon (id: string) {
-        return this.$store.getters['getItemById']('MechWeapons', id)
+        return this.$store.getters.getItemById('MechWeapons', id)
       },
       mod (id: string) {
-        return this.$store.getters['getItemById']('WeaponMods', id)
+        return this.$store.getters.getItemById('WeaponMods', id)
       },
       signed (val: number) {
         return val > -1 ? `+${val}` : `${val}`
@@ -307,7 +307,7 @@ import { PrintOptions } from '@/features/_shared/classes'
       vm.loadout = vm.config.loadouts[vm.printOptions.config_loadout_index] || null
       // vm.pilotStats = Stats.pilotStats(vm.pilot, vm.pilot.loadouts[vm.printOptions.config_loadout_index], vm.$store.getters['getState'])
       vm.stats = vm.$store.getters['getMechStats'](vm.config.id, vm.config.loadouts[vm.activeLoadoutIdx])
-      vm.frame = vm.$store.getters['getItemById']('Frames', vm.config.frame_id)
+      vm.frame = vm.$store.getters.getItemById('Frames', vm.config.frame_id)
       if (this.printOptions.combo) this.blockPrint = true
     },
     mounted () {

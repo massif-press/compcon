@@ -1,6 +1,6 @@
 // import { thisPilotGear } from '@/data_interfaces/type_guards'
 // import { rules } from "lancer-data";
-import {Pilot, Mech, MechLoadout} from '@/features/_shared/classes'
+import {Pilot, Mech, MechLoadout} from '@/class'
 
 // interface AppState {
 //   UserDataPath: '',

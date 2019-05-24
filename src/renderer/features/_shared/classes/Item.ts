@@ -1,4 +1,4 @@
-
+import {ItemType} from '@/class'
 // items that are stored as compendium data, refernced by ID and contain
 // at minimum a name, itemtype, and brew
 abstract class CompendiumItem {
@@ -62,13 +62,17 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get Source(): string {
-    return this.source;
+    return this.source.toUpperCase();
   }
   public get License(): string {
     return this.license;
   }
   public get LicenseLevel(): number {
     return this.license_level;
+  }
+  public get LicenseString(): string {
+    if (this.license) return `${this.license} ${this.license_level}`
+    return this.source
   }
 }
 

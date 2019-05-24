@@ -61,7 +61,7 @@
   import {mapGetters} from 'vuex'
   import io from '@/features/_shared/data_io'
   import lancerData from 'lancer-data'
-  import {Brew} from  '@/features/_shared/classes'
+  import {Brew} from  '@/class'
 
   export default Vue.extend({
     name: 'options-page',
