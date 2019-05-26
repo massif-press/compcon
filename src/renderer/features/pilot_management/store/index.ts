@@ -11,34 +11,28 @@ const moduleState = {
   printOptions: {}
 };
 
-function savePilot(p: Pilot) {
-
+function savePilots(pilots: Pilot[]) {
+  const serialized = pilots.map(x => Pilot.Serialize(x))
+  console.log(serialized)
+  io.saveUserData(
+    Vue.prototype.userDataPath,
+    "pilots.json",
+    serialized,
+    () => {
+      console.info("Data Saved");
+    }
+  );
 }
 
 const mutations = {
   SET_PILOT(state: AppState, payload: Pilot) {
     state.ActivePilot = payload;
   },
-  // SET_MECH(state: AppState, payload: Mech) {
-  //   state.ActiveMech = payload;
-  // },
-  // LOAD_ALL_PILOTS(state: AppState) {
-  //   state.Pilots = io
-  //     .loadUserData(Vue.prototype.userDataPath, "pilots.json")
-  //     .map(x => new Pilot(x));
-  //   state.ActivePilot = {} as Pilot
-  // },
-  // UPDATE_PILOT(state: AppState, payload: any) {
-  //   const pilotIndex = state.Pilots.findIndex(
-  //     x => x.ID === state.activePilotID
-  //   );
-  //   if (pilotIndex > -1) {
-  //     const pilot = _.set(state.Pilots[pilotIndex], payload.attr, payload.val);
-  //     Vue.set(state.Pilots, pilotIndex, pilot);
-  //   } else {
-  //     throw console.error("Pilot not loaded!");
-  //   }
-  // },
+  LOAD_PILOTS(state: AppState) {
+    state.Pilots = io
+      .loadUserData(Vue.prototype.userDataPath, "pilots.json")
+      .map(x => Pilot.Deserialize(x));
+  },
   // UPDATE_PILOT_CONFIG(state: AppState, payload: any) {
   //   const pilotIndex = state.Pilots.findIndex(
   //     x => x.ID === state.activePilotID
@@ -95,9 +89,9 @@ const mutations = {
   //   }
   // },
   ADD_PILOT(state: AppState, payload: Pilot) {
+    console.log('in add pilot')
     state.Pilots.push(payload);
-    console.log(state.Pilots)
-    console.log(JSON.stringify(state.Pilots))
+    savePilots(state.Pilots);
   },
   // CLONE_PILOT(state: AppState, payload: { pilot: Pilot; quirk: string }) {
   //   let pilotData = JSON.parse(JSON.stringify(payload.pilot));
@@ -120,6 +114,7 @@ const mutations = {
     } else {
       throw console.error("Pilot not loaded!");
     }
+    savePilots(state.Pilots);
   },
   // DELETE_CONFIG(state: AppState, payload: any) {
   //   const pilotIndex = state.Pilots.findIndex(
@@ -137,8 +132,8 @@ const mutations = {
 };
 
 const actions = {
-  loadAllPilots(context: AppContext) {
-    context.commit("LOAD_ALL_PILOTS");
+  loadPilots(context: AppContext) {
+    context.commit("LOAD_PILOTS");
   },
   loadPilot(context: AppContext, pilotId: string) {
     context.commit("SET_PILOT", pilotId);

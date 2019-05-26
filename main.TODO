@@ -2,9 +2,13 @@
 
 
 Improvements:
-  ☐ cloud save image to new pilot select
+  ☐ Fix pilot background scrollspy
+  ☐ pass selected pilot as prop, not computed
   ☐ move config overcharge into rules.json
   ☐ draggable pilot/config cards
+  ☐ add lancer version to cc version number
+  ☐ new editable label
+  ☐ different cloud save ui
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size

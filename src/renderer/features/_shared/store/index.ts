@@ -124,7 +124,6 @@ const getters = {
     return state;
   },
   getUserPath: (state: AppState) => {
-    console.log(state)
     return state.UserDataPath;
   }
 };

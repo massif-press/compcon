@@ -2,6 +2,7 @@ import _ from 'lodash'
 import uid from "@/features/_shared/uid";
 import { Contact, Background, Invocation, MechSkills, PilotLicense, PilotLoadout, PilotSkill, PilotTalent, Skill, License, Talent, CoreBonus, Mech } from '@/class'
 import { rules } from "lancer-data";
+import store from '@/store';
 
 class Pilot {
   private gistID: string;
@@ -171,13 +172,22 @@ class Pilot {
     this.cloud_portrait = src;
   }
 
+  public get CloudPortrait(): string {
+    return this.cloud_portrait;
+  }
+
   public SetLocalPortrait(src: string) {
     this.portrait = src;
   }
 
+  public get LocalPortrait(): string {
+    return this.portrait;
+  }
+
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait;
-    else return this.portrait;
+    else if (this.portrait) return `file://${store.getters.getUserPath}/img/portrait/${this.portrait}`;
+    else return ''
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -249,7 +259,7 @@ class Pilot {
   //TODO: collect passives, eg:
   public get LimitedBonus(): number {
     let bonus = Math.floor(this.MechSkills.Eng / 2);
-    if (this.core_bonuses.find(x => x.ID === 'ammofeeds')) {
+    if (this.core_bonuses.find(x => x.ID === "ammofeeds")) {
       bonus += 2;
     }
     return bonus;
@@ -305,9 +315,8 @@ class Pilot {
     this.invocations.push(invocation);
   }
 
-  public RemoveInvocation(invocation: Invocation) {
-    const index = this.invocations.findIndex(x => _.isEqual(x, invocation));
-    if (index > -1) {
+  public RemoveInvocation(index: number) {
+    if (index > -1 && index <= this.Invocations.length) {
       this.invocations.splice(index, 1);
     }
   }
@@ -378,7 +387,9 @@ class Pilot {
     const index = this.core_bonuses.findIndex(x => _.isEqual(coreBonus, x));
     if (index === -1) {
       console.error(
-        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`
+        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${
+          this.callsign
+        }`
       );
     } else {
       this.core_bonuses.splice(index, 1);
@@ -447,7 +458,7 @@ class Pilot {
   }
 
   public get ActiveLoadout(): PilotLoadout | null {
-    if (!this.active_loadout) return null
+    if (!this.active_loadout) return null;
     return this.loadouts.find(x => x.ID === this.active_loadout) || null;
   }
 
@@ -466,6 +477,7 @@ class Pilot {
         `Loadout"${loadout.Name}" does not exist on Pilot ${this.callsign}`
       );
     } else {
+      if (loadout.ID === this.active_loadout) this.active_loadout = null
       this.loadouts.splice(index, 1);
     }
   }
@@ -477,10 +489,12 @@ class Pilot {
         `Loadout "${loadout.Name}" does not exist on Pilot ${this.callsign}`
       );
     } else {
+      let newLoadout = new PilotLoadout(this.loadouts.length);
+      newLoadout.Name = loadout.Name + ' (Copy)';
       this.loadouts.splice(
         index + 1,
         0,
-        new PilotLoadout(this.loadouts.length)
+        newLoadout
       );
     }
   }
@@ -523,9 +537,9 @@ class Pilot {
       current_hp: p.CurrentHP,
       active: p.IsActive,
       // contacts: p.contacts,
-      // invocations: p.invocations,
       background: Background.Serialize(p.Background),
       mechSkills: MechSkills.Serialize(p.MechSkills),
+      invocations: p.invocations.map(x => Invocation.Serialize(x)),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
@@ -534,7 +548,7 @@ class Pilot {
       active_loadout: p.ActiveLoadout ? p.ActiveLoadout.ID : null,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
-      cc_ver: process.env.npm_package_version || ''
+      cc_ver: process.env.npm_package_version || ""
     };
   }
 
@@ -554,7 +568,9 @@ class Pilot {
     p.current_hp = pilotData.current_hp;
     p.active = pilotData.active;
     // p.contacts = pilotData.contacts
-    // p.invocations = pilotData.invocations
+    p.invocations = pilotData.invocations.map((x: IRankedData) => 
+      Invocation.Deserialize(x)
+    );
     p.background = Background.Deserialize(pilotData.background);
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills);
     p.licenses = pilotData.licenses.map((x: IRankedData) =>
@@ -573,9 +589,11 @@ class Pilot {
       PilotLoadout.Deserialize(x)
     );
     p.active_loadout = pilotData.active_loadout;
-    p.mechs = pilotData.mechs.length ? pilotData.mechs.map((x: IMechData) => Mech.Deserialize(x, p)) : [];
+    p.mechs = pilotData.mechs.length
+      ? pilotData.mechs.map((x: IMechData) => Mech.Deserialize(x, p))
+      : [];
     p.active_mech = pilotData.active_mech;
-    return p
+    return p;
   }
 }
 

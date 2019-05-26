@@ -5,7 +5,7 @@
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
-      <v-icon color="primary" v-html="`cc-pilotTalent-${pilotTalent}`" />
+      <v-icon v-if="pilotTalent" color="primary" v-html="`cc-rank-${pilotTalent.Rank}`" />
       <span>{{talent.name}}</span>
     </v-toolbar-title>
 
@@ -23,7 +23,7 @@
               {{r.name}}
             </div>
             <p class="pl-4 effect-text" v-html="r.description"/>
-            <div v-if="(newPilot && index === 0) || (!newPilot && index < 0)">
+            <div v-if="(newPilot && index === 0) || (!newPilot)">
               <div class="ma-2 mr-5 ml-5" v-if="selectable">
                 <v-btn v-if="available && rank() === index" block color="primary" @click="addTalent()">
                   Unlock {{talent.name}} Rank I: {{r.name}}

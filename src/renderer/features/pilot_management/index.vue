@@ -21,15 +21,9 @@
     components: { TopBar },
     created() {
       this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
-      // this.$store.dispatch('loadAllPilots')
       this.$store.dispatch('loadData')
       this.$store.dispatch('buildLicenses')
-      var p = this.$store.getters.getAllPilots
-      console.log(p)
-      var sp = p.map((x: Pilot) => Pilot.Serialize(x))
-      console.log(sp)
-      var dsp = p.map((x: any) => Pilot.Deserialize(x))
-      console.log(dsp)
+      this.$store.dispatch('loadPilots')
     },
   })
 </script>

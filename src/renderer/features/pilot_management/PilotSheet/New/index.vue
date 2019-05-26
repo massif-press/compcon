@@ -63,18 +63,18 @@
                   <v-textarea label="Appearance" v-model="newPilot.text_appearance" hint="This is not required and can be edited later" auto-grow rows="5" />
                 </v-flex>
                 <v-spacer />
-                <v-flex xs4>
+                <v-flex class="ml-4">
                   <v-layout justify-center align-center column>
                   <v-flex>
-                    <v-img class="center" contain aspect-ratio="0.8" width="350" :src="newPilot.portrait ? `file://${userDataPath}/img/portrait/${newPilot.portrait}` : '' " style="background-color: lightgrey" >
+                    <v-img class="center" contain aspect-ratio="0.8" width="350" :src="newPilot.Portrait" style="background-color: lightgrey" >
                     <v-fade-transition>
-                      <div v-if="!newPilot.portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
+                      <div v-if="!newPilot.Portrait" class="d-flex grey lighten-2" style="height: 100%; align-items:center" >
                         <span class="text-xs-center display-1 grey--text">No Pilot Portrait</span>
                       </div>
                     </v-fade-transition>
                     </v-img>
 
-                    <v-btn color="primary" block @click="appearanceModal = true">&emsp;Set Pilot Images&emsp;</v-btn>
+                    <v-btn color="primary" block @click="appearanceModal = true">&emsp;Set Pilot Portrait&emsp;</v-btn>
                     <v-dialog lazy v-model="appearanceModal" fullscreen hide-overlay transition="dialog-bottom-transition">
                     <v-card>
                       <v-toolbar fixed dense flat>
@@ -85,7 +85,7 @@
                         </v-toolbar-items>
                       </v-toolbar>
                       <v-spacer class="mt-5" />
-                      <image-selector @assign-portrait="setPortrait" />
+                      <image-selector :pilot="newPilot" @close="appearanceModal = false" />
                     </v-card>
                   </v-dialog>
 
@@ -242,7 +242,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import {BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector} from '../Selectors'
-  import ImageSelector from './ImageSelector.vue'
+  import ImageSelector from '../Selectors/ImageSelector.vue'
   import io from '@/features/_shared/data_io'
   import { Pilot, Background } from '@/class'
 
@@ -257,12 +257,6 @@
     methods: {
       savePilot () {
         this.$store.dispatch('addPilot', this.newPilot)
-              var p = this.$store.getters.getAllPilots
-      console.log(p)
-      var sp = p.map((x: Pilot) => Pilot.Serialize(x))
-      console.log(sp)
-      var dsp = p.map((x: any) => Pilot.Deserialize(x))
-      console.log(dsp)
         this.$router.push('./pilot_management')
       },
       stepBack () {
@@ -272,10 +266,6 @@
       stepForward () {
         this.np_step++
         window.scrollTo(0, 0)
-      },
-      setPortrait (src: string) {
-        this.newPilot.SetLocalPortrait(src)
-        this.appearanceModal = false
       },
       randomCallsign () {
         this.newPilot.Callsign = `${io.randomName('callsigns.txt')}`

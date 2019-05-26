@@ -9,9 +9,9 @@ class PilotLoadout extends Loadout {
 
   constructor(count: number, id?: string) {
     super(count, id);
-    (this.armor = Array(rules.max_pilot_armor).fill(null)),
-      (this.gear = Array(rules.max_pilot_gear).fill(null)),
-      (this.weapons = Array(rules.max_pilot_weapons).fill(null));
+    this.armor = Array(rules.max_pilot_armor).fill(null),
+    this.gear = Array(rules.max_pilot_gear).fill(null),
+    this.weapons = Array(rules.max_pilot_weapons).fill(null);
   }
 
   public get Armor(): (PilotArmor | null)[] {

@@ -58,10 +58,12 @@
     components: { GearCard, RangeElement, DamageElement },
     props: {
       item: Object,
-      empty: Boolean,
       itemType: String
     },
     computed: {
+      empty (): boolean {
+        return this.item === null || this.item === undefined
+      },
       itemData (): any {
         var vm = this as any
         if (vm.empty) return ({} as any)

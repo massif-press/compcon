@@ -33,7 +33,6 @@
             <v-alert outline color="warning" icon="priority_high" :value="points.selectedCurrent < points.selectedMin">
               Must select a minimum of {{points.selectedMin}} talents
             </v-alert>
-            <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveTalents" color="primary">Save</v-btn>
             <v-btn block flat small :disabled="!talents.length" @click="resetTalents">Reset</v-btn>
           </v-flex>
         </v-layout>
@@ -72,7 +71,7 @@
         return {
           pointsCurrent: vm.pilot.Talents.reduce((a: any, b: any) => +a + +b.Rank, 0),
           pointsMax: rules.minimum_pilot_talents + vm.pilot.Level,
-          selectedCurrent: vm.talents.length,
+          selectedCurrent: vm.pilot.Talents.length,
           selectedMin: rules.minimum_pilot_talents
         }
       },
