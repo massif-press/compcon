@@ -42,7 +42,7 @@
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
         <v-flex class="skill-header minor-title" v-html="h.description" />
         <v-layout v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
-          <v-flex xs11><skill-item :skillData="skill"/></v-flex>
+          <v-flex xs11><skill-item :skill="skill"/></v-flex>
           <v-flex>
             <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
               <div class="centered">

@@ -22,9 +22,12 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot } from '@/class';
+
   export default Vue.extend({
     name: 'editable-label',
     props: {
+      pilot: Pilot,
       attr: String,
       description: String,
       placeholder: String,
@@ -41,10 +44,7 @@
     },
     methods: {
       save (attr: string) {
-        this.$store.dispatch('editPilot', {
-          attr: attr,
-          val: this.newLabel
-        })
+        this.$set(this.pilot, this.attr, this.newLabel)
         this.dialog = false
         this.$emit('on-save')
       }

@@ -1,23 +1,25 @@
 <template>
   <v-tooltip top>
-    <v-chip close @input="remove" outline :color="invoke.accuracy ? 'primary' : 'error'" slot="activator">
+    <v-chip close @input="remove" outline :color="invoke.IsAdvantage ? 'primary' : 'error'" slot="activator">
       <v-avatar>
-        <v-icon v-if="invoke.accuracy">cc-accuracy</v-icon>
+        <v-icon v-if="invoke.IsAdvantage">cc-accuracy</v-icon>
         <v-icon v-else>cc-difficulty</v-icon>
       </v-avatar>
-      {{invoke.trigger}}
+      {{invoke.Trigger}}
     </v-chip>
-    <span v-if="invoke.accuracy">+1 Accuracy</span>
+    <span v-if="invoke.IsAdvantage">+1 Accuracy</span>
     <span v-else>+1 Difficulty</span>
   </v-tooltip>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Invocation } from '@/class';
+
   export default Vue.extend({
     name: 'invocation-item',
     props: {
-      invoke: Object,
+      invoke: Invocation,
       index: Number
     },
     methods: {
