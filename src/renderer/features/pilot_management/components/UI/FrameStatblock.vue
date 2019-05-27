@@ -102,7 +102,7 @@
         </v-flex>
         <v-flex>
           <v-img
-            :src="`file://${userDataPath}/img/default_frames/${frame.id}.png`" 
+            :src="frame.DefaultImage" 
             class="ma-2"
             contain
             style="top: 50%; left: 50%; transform: translate(-50%,-50%);"

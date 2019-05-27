@@ -28,6 +28,13 @@ const mutations = {
   SET_PILOT(state: AppState, payload: Pilot) {
     state.ActivePilot = payload;
   },
+  UPDATE_PILOT(state: AppState, payload: Pilot) {
+    const index = state.Pilots.findIndex(x => x.ID === state.ActivePilot.ID)
+    if (index > -1 ) {
+      Vue.set(state.Pilots, index, payload)
+      state.ActivePilot = payload;
+    }
+  },
   LOAD_PILOTS(state: AppState) {
     state.Pilots = io
       .loadUserData(Vue.prototype.userDataPath, "pilots.json")
@@ -93,22 +100,21 @@ const mutations = {
     state.Pilots.push(payload);
     savePilots(state.Pilots);
   },
-  // CLONE_PILOT(state: AppState, payload: { pilot: Pilot; quirk: string }) {
-  //   let pilotData = JSON.parse(JSON.stringify(payload.pilot));
-  //   pilotData.id = uid.generate();
-  //   pilotData.name += " (CLONE)";
-  //   pilotData.callsign += "*";
-  //   for (const config of pilotData.configs) {
-  //     config.id = uid.generate();
-  //     config.pilot_id = pilotData.id;
-  //   }
-  //   if (payload.quirk) {
-  //     pilotData.quirk = payload.quirk;
-  //   }
-  //   state.Pilots.push(new Pilot(pilotData));
-  // },
-  DELETE_PILOT(state: AppState, payload: string) {
-    const pilotIndex = state.Pilots.findIndex(x => x.ID === payload);
+  CLONE_PILOT(state: AppState, payload: { pilot: Pilot; quirk: boolean }) {
+    let pilotData = Pilot.Serialize(payload.pilot);
+    let newPilot = Pilot.Deserialize(pilotData);
+    newPilot.RenewID()
+    newPilot.Name += " (CLONE)";
+    newPilot.Callsign += "*";
+    if (payload.quirk) newPilot.RollQuirk()
+    for (const mech of newPilot.Mechs) {
+      mech.RenewID();
+    }
+    state.Pilots.push(newPilot);
+    savePilots(state.Pilots);
+  },
+  DELETE_PILOT(state: AppState, payload: Pilot) {
+    const pilotIndex = state.Pilots.findIndex(x => x.ID === payload.ID);
     if (pilotIndex > -1) {
       state.Pilots.splice(pilotIndex, 1);
     } else {
@@ -137,6 +143,9 @@ const actions = {
   },
   loadPilot(context: AppContext, pilotId: string) {
     context.commit("SET_PILOT", pilotId);
+  },
+  updatePilot(context: AppContext, payload: Pilot) {
+    context.commit("UPDATE_PILOT", payload);
   },
   editPilot(context: AppContext, payload: any) {
     console.error("TODO");
@@ -184,9 +193,9 @@ const actions = {
     // }
     // context.commit("UPDATE_PILOT", payload);
   },
-  splicePilot(context: AppContext, payload: any) {
-    context.commit("SPLICE_PILOT", payload);
-  },
+  // splicePilot(context: AppContext, payload: any) {
+  //   context.commit("SPLICE_PILOT", payload);
+  // },
   // splicePilotConfig(context: AppContext, payload: any) {
   //   context.commit("SPLICE_PILOT_CONFIG", payload);
   // },
@@ -194,9 +203,7 @@ const actions = {
     context.commit("CLONE_PILOT", payload);
   },
   addPilot(context: AppContext, payload: Pilot) {
-    // const newPilot: Pilot = new Pilot();
     context.commit("ADD_PILOT", payload);
-    // context.commit("SET_PILOT", newPilot);
   },
   // addConfigToPilot(context: AppContext, payload: any) {
   //   payload.pilot_id = context.state.activePilotID;
@@ -221,7 +228,7 @@ const actions = {
   //   }
   //   context.commit("ADD_PILOT", new Pilot(payload));
   // },
-  deletePilot(context: AppContext, payload: string) {
+  deletePilot(context: AppContext, payload: Pilot) {
     context.commit("DELETE_PILOT", payload);
   },
   // deleteConfigFromPilot(context: AppContext, payload: any) {

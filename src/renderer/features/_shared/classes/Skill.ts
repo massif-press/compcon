@@ -3,13 +3,11 @@ import { CompendiumItem, SkillFamily, ItemType } from "@/class";
 
 class Skill extends CompendiumItem {
   private detail: string;
-  private trigger: string;
   private family: SkillFamily;
 
   constructor(skillData: any) {
     super(skillData);
     this.detail = skillData.detail,
-    this.trigger = skillData.trigger,
     this.family = SkillFamily[skillData.family] as SkillFamily;
     this.item_type = ItemType.Skill
   }
@@ -19,7 +17,7 @@ class Skill extends CompendiumItem {
   }
 
   public get Trigger(): string {
-    return this.trigger
+    return this.name
   }
 
   public get Family(): string {

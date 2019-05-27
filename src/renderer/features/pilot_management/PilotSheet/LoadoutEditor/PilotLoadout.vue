@@ -25,22 +25,31 @@
           <v-card>
             <v-card-text>
               <div v-for="(a, index) in loadout.Armor" :key="`p-armor-${index}`">
-                <gear-item itemtype="Armor" :item="a" @clicked="openSelector(a, 'armor')"/>
+                <gear-item item-type="Armor" :item="a" @clicked="openSelector(a, index, 'PilotArmor')"/>
               </div>
 
               <br>
               <div v-for="(w, index) in loadout.Weapons" :key="`p-weapon-${index}`">
-                <gear-item itemtype="Weapon" :item="w" @clicked="openSelector(w, 'weapon')"/>
+                <gear-item item-type="Weapon" :item="w" @clicked="openSelector(w, index, 'PilotWeapon')"/>
               </div>
 
               <br>
               <div v-for="(g, index) in loadout.Gear" :key="`p-gear-${index}`">
-                <gear-item itemtype="Gear" :item="g" @clicked="openSelector(g, 'gear')"/>
+                <gear-item item-type="Gear" :item="g" @clicked="openSelector(g, index, 'PilotGear')"/>
               </div>
             </v-card-text>
 
+            <pilot-edit-modal no-activator :modelRef="selectorModal" @close="selectorModal = false" 
+              title="Select Pilot Equipment">
+              <template v-slot:modal-content>
+                <item-table slot="modal-content" :item-type="itemType" :equipped-item="equippedItem" 
+                  @select-item="equipItem(loadout, $event)" @remove-item="removeItem(loadout, $event)"/>
+              </template>
+            </pilot-edit-modal>
+
             <v-card-actions>
-              <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" @accept="renameLoadout(loadout)" @cancel="renameDialog = false">
+              <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" 
+                @accept="renameLoadout(loadout)" @cancel="renameDialog = false">
                 <v-btn slot="activator" flat @click="renameDialog = true">
                   <v-icon small left>edit</v-icon>Rename Loadout
                 </v-btn>
@@ -55,7 +64,8 @@
 
               <v-spacer/>
 
-              <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning" @accept="deleteLoadout(loadout)" @cancel="deleteDialog = false">
+              <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning" 
+                @accept="deleteLoadout(loadout)" @cancel="deleteDialog = false">
                 <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
                   <v-icon small left>edit</v-icon>Delete Loadout
                 </v-btn>
@@ -73,12 +83,6 @@
       <span v-html="notification"/>
       <v-btn color="pink" flat @click="snackbar = false">Close</v-btn>
     </v-snackbar>
-
-    <pilot-edit-modal no-activator :modelRef="selectorModal" @close="selectorModal = false" :title="`Select Pilot ${itemType.charAt(0).toUpperCase() + itemType.substring(1)}`">
-      <template v-slot:modal-content>
-        <item-table slot="modal-content" :item-type="itemType" :equipped-item="equippedItem" @select-item="equipItem" @remove-item="removeItem"/>
-      </template>
-    </pilot-edit-modal>
   </div>
 </template>
 
@@ -87,33 +91,11 @@ import Vue from "vue";
 import io from "@/features/_shared/data_io";
 // import uid from '../../logic/uid'
 import { rules } from "lancer-data";
-import { PilotLoadout, Pilot } from "@/class";
-
+import { PilotLoadout, Pilot, PilotEquipment, PilotArmor, PilotGear, PilotWeapon, ItemType } from "@/class";
 import { LazyDialog } from "../../components/UI";
 import { PilotEditModal } from "../SheetComponents";
 import GearItem from "./GearItem.vue";
 import ItemTable from "./ItemTable.vue";
-
-const ordArr = [
-  "Primary",
-  "Secondary",
-  "Tertiary",
-  "Quaternary",
-  "Quinary",
-  "Senary",
-  "Septenary",
-  "Octonary",
-  "Nonary",
-  "Denary"
-];
-
-function newLoadoutName(count: number) {
-  if (count < 10) {
-    return `${ordArr[count]} Loadout`;
-  } else {
-    return `Loadout ${count + 1}`;
-  }
-}
 
 export default Vue.extend({
   name: "pilot-loadout",
@@ -144,13 +126,11 @@ export default Vue.extend({
       this.deleteDialog = false;
       this.notify("Loadout Deleted");
     },
-    openSelector(index: number, itemType: string) {
+    openSelector(item: PilotEquipment, index: number, itemType: ItemType) {
       var vm = this as any;
       vm.itemIndex = index;
       vm.itemType = itemType;
-      if (vm.loadouts[vm.tabIndex] && vm.loadouts[vm.tabIndex].items) {
-        vm.equippedItem = vm.loadouts[vm.tabIndex].items[itemType][index];
-      }
+      vm.equippedItem = item;
       vm.selectorModal = true;
     },
     renameLoadout(loadout: PilotLoadout) {
@@ -162,40 +142,17 @@ export default Vue.extend({
         this.renameDialog = false;
       }
     },
-    equipItem(item: { id: string; brew: string; type: string }) {
-      var attr = [
-        "loadouts",
-        this.tabIndex,
-        "items",
-        item.type,
-        this.itemIndex
-      ];
-      this.$store.dispatch("editPilot", {
-        attr: attr,
-        val: {
-          id: item.id,
-          brew: item.brew || null
-        }
-      });
+    equipItem(loadout: PilotLoadout, item: PilotEquipment) {
+      loadout.Add(item, this.itemIndex)
       this.selectorModal = false;
     },
-    removeItem(removalType: any) {
-      var attr = [
-        "loadouts",
-        this.tabIndex,
-        "items",
-        removalType,
-        this.itemIndex
-      ];
-      this.$store.dispatch("editPilot", {
-        attr: attr,
-        val: null
-      });
+    removeItem(loadout: PilotLoadout, item: PilotEquipment) {
+      loadout.Remove(item.ItemType, this.itemIndex)
       this.selectorModal = false;
     }
   },
   watch: {
-    tabIndex(val) {
+    tabIndex(val: number) {
       this.pilot.ActiveLoadout = this.pilot.Loadouts[val];
     }
   }

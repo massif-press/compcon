@@ -54,21 +54,8 @@
 
       <hr class="mt-2 mb-2"/>
 
-      <!-- invocation/skill block -->
+      <!-- skill block -->
       <v-layout justify-space-between fill-height >
-        <!-- invocations -->
-        <v-flex xs5>
-        <v-layout><span class="label">INVOCATIONS</span></v-layout>
-          <v-layout wrap>
-            <div v-for="i in pilot.invocations" :key="i.trigger" class="ml-2">
-              <v-flex class="ma-1">
-                <span class="p-large">{{i.trigger}}</span><br>
-                <i v-if="i.accuracy" class="p-reg ml-2 black--text">+1 Accuracy</i>
-                <i v-else class="p-reg ml-2 red--text">+1 Difficulty</i>
-              </v-flex>
-            </div>
-          </v-layout>
-        </v-flex>
         <!-- skills -->
         <v-flex>
         <v-layout><span class="label">TRIGGERS</span></v-layout>

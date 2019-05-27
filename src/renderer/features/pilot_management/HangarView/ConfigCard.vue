@@ -3,18 +3,17 @@
   <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`">
     <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
       <v-flex class="ma-0 pb-0 pt-0">
-        <v-img v-if="config.custom_img" :src="`file://${userDataPath}/img/frame/${config.custom_img}`" position="top" :height="`${cardHeight}px`"/>
-        <v-img v-else :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" position="top" :height="`${cardHeight}px`"/>
+        <v-img :src="config.Portrait" position="top" :height="`${cardHeight}px`"/>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex>
-        <v-card :color="panelColor(config.active)" dark flat>
+        <v-card :color="panelColor(config.IsActive)" dark flat>
           <v-layout>
             <v-flex xs9 class="ma-2">
-              <span class="title">{{config.name}}</span>
+              <span class="title">{{config.Name}}</span>
               <br>
-              <span class="caption">{{frame().source}} {{frame().name}}</span>
+              <span class="caption">{{config.Frame.Source}} {{config.Frame.Name}}</span>
             </v-flex>
             <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
@@ -80,12 +79,13 @@ import Vue from 'vue'
 import io from '@/features/_shared/data_io'
 import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '../components/UI'
-import { Frame } from '@/class'
+import { Frame, Mech } from '@/class'
+
 export default Vue.extend({
   name: 'config-card',
   components: {LazyDialog},
   props: {
-    config: Object,
+    config: Mech,
     cIdx: Number,
     cardHeight: Number,
   },

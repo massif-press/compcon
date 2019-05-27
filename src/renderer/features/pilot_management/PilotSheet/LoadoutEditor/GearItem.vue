@@ -67,7 +67,7 @@
       itemData (): any {
         var vm = this as any
         if (vm.empty) return ({} as any)
-        return vm.getPilotGear(vm.item.id)
+        return vm.item
       }
     },
     methods: {

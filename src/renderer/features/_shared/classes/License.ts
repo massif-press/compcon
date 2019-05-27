@@ -23,7 +23,7 @@ class License {
         store.getters.getItemCollection('MechSystems')
       )
       .filter(
-        (x: LicensedItem) => x.License.toUpperCase() === this.name.toUpperCase()
+        (x: LicensedItem) => x.License.toUpperCase() === this.Name.toUpperCase()
       );
 
     this.unlocks = [

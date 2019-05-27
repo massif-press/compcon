@@ -33,7 +33,8 @@
   import Vue from 'vue'
   import ItemCard from './ItemCard.vue'
   import colors from '@/features/_shared/UI/CCColors'
-import { CompendiumItem, ItemType, Frame, MechWeapon, MechSystem, WeaponMod } from '@/class'
+  import { CompendiumItem, ItemType, Frame, MechWeapon, MechSystem, WeaponMod } from '@/class'
+  
   export default Vue.extend({
     name: 'item-badge',
     data: () => ({
