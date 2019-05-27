@@ -50,7 +50,7 @@ new Vue({
   template: '<App/>',
 }).$mount('#app')
 
-Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
+Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
 Vue.prototype.version = '1.3.1'
 
 router.replace('/pilot_management')

@@ -1,3 +1,4 @@
+import store from '@/store'
 import _ from "lodash";
 import uid from "@/features/_shared/uid";
 import { rules } from 'lancer-data';
@@ -6,6 +7,8 @@ import { LicenseRequirement, Pilot, Frame, MechLoadout, Mount, MechWeapon, MechS
 class Mech {
   private id: string;
   private name: string;
+  private portrait: string;
+  private cloud_portrait: string;
   private frame: Frame;
   private loadouts: MechLoadout[];
   private active_loadout: string | null;
@@ -18,10 +21,12 @@ class Mech {
   private active: boolean;
   private pilot: Pilot;
 
-  constructor(frame_id: string, pilot: Pilot) {
+  constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate();
     this.name = "";
-    this.frame = new Frame(frame_id);
+    this.portrait = "";
+    this.cloud_portrait = "";
+    this.frame = frame;
     this.pilot = pilot;
     this.loadouts = [];
     this.active = false;
@@ -88,6 +93,28 @@ class Mech {
 
   public get Active(): boolean {
     return this.active;
+  }
+
+  public SetCloudPortrait(src: string) {
+    this.cloud_portrait = src;
+  }
+
+  public get CloudPortrait(): string {
+    return this.cloud_portrait;
+  }
+
+  public SetLocalPortrait(src: string) {
+    this.portrait = src;
+  }
+
+  public get LocalPortrait(): string {
+    return this.portrait;
+  }
+
+  public get Portrait(): string {
+    if (this.cloud_portrait) return this.cloud_portrait;
+    else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`;
+    else return `file://${store.getters.getUserPath}/img/default_frames/${this.frame.ID}.png`
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -380,7 +407,7 @@ class Mech {
   }
 
   public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
-    let m = new Mech(mechData.frame, pilot)
+    let m = new Mech(new Frame(mechData.frame), pilot)
     m.id = mechData.id
     m.name = mechData.name
     m.active = mechData.active

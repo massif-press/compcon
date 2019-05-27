@@ -7,7 +7,7 @@
         </v-flex>
         <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
-            <span class="pilot-letter white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</span>
+            <span class="pilot-letter white--text">{{pilot.Callsign.substring(0, 1).toUpperCase()}}</span>
           </div>
         </v-flex>
       </v-layout>
@@ -16,19 +16,19 @@
           <v-card :color="panelColor()" dark flat>
             <v-layout>
               <v-flex xs9 class="ma-2">
-                <span class="title">{{pilot.callsign}}</span>
+                <span class="title">{{pilot.Callsign}}</span>
                 <br>
-                <span class="caption">{{pilot.name}}<br>{{background(pilot)}}, LL{{pilot.level}}</span>
+                <span class="caption">{{pilot.Name}}<br>{{background(pilot)}}, LL{{pilot.Level}}</span>
               </v-flex>
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
-                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
+                    <v-icon :color="pilot.IsActive ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
                   </v-btn>
                   <div class="text-xs-center">
                     <span><b :class="activeColorClass()"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
-                      <br><i>Click to {{pilot.active ? 'deactivate' : 'activate'}} Pilot</i></span>
+                      <br><i>Click to {{pilot.IsActive ? 'deactivate' : 'activate'}} Pilot</i></span>
                   </div>
                 </v-tooltip>
                 <v-tooltip top>
@@ -55,7 +55,7 @@
         <lazy-dialog :model="deleteDialog" title="Delete Pilot" acceptString="Delete"
           acceptColor="warning" @accept="deletePilot" @cancel="deleteDialog = false">
           <template v-slot:modal-content>
-            <v-card-text>Are you sure you want to delete {{pilot.callsign}}? This action cannot be undone</v-card-text>
+            <v-card-text>Are you sure you want to delete {{pilot.Callsign}}? This action cannot be undone</v-card-text>
           </template>
         </lazy-dialog>
 
@@ -145,20 +145,13 @@
     },
     background () {
       if (this.pilot.custom_background) return this.pilot.custom_background
-      else return this.$store.getters.getItemById('Backgrounds', this.pilot.background).name
+      else return this.pilot.Background.Name
     },
     toPilotSheet () {
       this.$store.dispatch('loadPilot', this.pilot)
       this.$router.push('./pilot')
     },
     activatePilot () {
-      // this.$store.dispatch('loadPilot', this.pilot.id)
-      // this.$store.dispatch('editPilot', {
-      //   attr: `active`,
-      //   val: !this.pilot.active
-      // })   
-      // this.$forceUpdate() 
-      // this.$parent.$forceUpdate()
       this.pilot.Active = !this.pilot.IsActive;
       this.notify(`${this.pilot.callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
     },
@@ -169,12 +162,10 @@
     },
     clonePilot (isFlashclone: boolean) {
       if (isFlashclone) {
-        var quirks = this.$store.getters.getItemCollection('Quirks')
-        var quirk = quirks[Math.floor(Math.random() * quirks.length)]
-        this.$store.dispatch('clonePilot', {id: this.pilot.id, quirk: quirk})
+        this.$store.dispatch('clonePilot', {pilot: this.pilot, quirk: true})
         this.notify('Pilot Cloned')
       } else {
-        this.$store.dispatch('clonePilot', {id: this.pilot.id})
+        this.$store.dispatch('clonePilot', {pilot: this.pilot})
         this.notify('Pilot Duplicated')
       }
       this.copyDialog = false

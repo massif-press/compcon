@@ -3,20 +3,19 @@
     <template v-slot:left-column>
       <v-layout>
         <v-flex xs12>
-          <div v-for="license in licenses" :key="`summary_${license.name}`">
-            <v-layout v-if="!licenseExists(license.source, license.name)">
+          <div v-for="plicense in pilot.Licenses" :key="`summary_${plicense.License.Name}`">
+            <v-layout v-if="!licenseExists(plicense.License)">
               <v-flex shrink>
                 <span class="grey--text">// MISSING DATA //</span><br>
-                <span v-if="license.brew" class="caption grey--text">({{license.brew}})</span>
               </v-flex>
               <v-flex shrink>
-                <v-btn icon flat color="error" @click="deleteLicense(license.name)"><v-icon>delete</v-icon></v-btn>
+                <v-btn icon flat color="error" @click="this.pilot.RemoveLicense(plicense.License)"><v-icon>delete</v-icon></v-btn>
               </v-flex>
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <strong>{{ license.name }}</strong>
-                <v-icon v-for="n in license.level" :key="license.level + n" small>star</v-icon>
+                <v-icon color="primary" small>cc-rank-{{plicense.Rank}}</v-icon>
+                <strong>{{ plicense.License.name }}</strong>
               </v-flex>
             </v-layout>
           </div>
@@ -31,8 +30,7 @@
           <v-alert outline color="warning" icon="priority_high" :value="points.pointsMax > points.pointsCurrent">
             {{points.pointsMax  - points.pointsCurrent}} License Points remaining
           </v-alert>
-          <v-btn v-if="!newPilot && !levelUp" block :disabled="!selectionComplete" @click="saveLicenses" color="primary">Save</v-btn>
-          <v-btn block flat small :disabled="!licenses.length" @click="resetLicenses">Reset</v-btn>
+          <v-btn block flat small :disabled="!pilot.Licenses.length" @click="resetLicenses">Reset</v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -46,8 +44,8 @@
         <v-layout>
           <v-flex>
             <v-expansion-panel focusable>
-              <license-item v-for="l in licenseData[m]" :key="`${l.license}_data'`" :pilotRank="pilotRank(l.license)" :licenseData="l" 
-                selectable :available="!selectionComplete" @add="addLicense(l)" @remove="removeLicense(l)" />
+              <license-item v-for="l in licenseData[m]" :key="`${l.Name}_data'`" :pilotRank="pilotRank(l)" :licenseData="l" 
+                selectable :available="!selectionComplete" @add="addLicense(l)" @remove="pilot.RemoveLicense(l)" />
             </v-expansion-panel>
           </v-flex>
         </v-layout>
@@ -60,37 +58,28 @@
 <script lang="ts">
   import Vue from 'vue'
   import _ from 'lodash'
-  import { PilotLicense, Manufacturer } from '@/class'
+  import { PilotLicense, License, Manufacturer, Pilot } from '@/class'
   import {LicenseItem} from '../SheetComponents'
   import Selector from './Selector.vue'
-
-  function licenseSort (licenses: PilotLicense[]) {
-    return licenses.sort(function (a, b) {
-      return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
-    })
-  }
 
   export default Vue.extend({
     name: 'license-selector',
     props: {
-      pilotLicenses: Array,
-      pilotLevel: Number,
-      newPilot: Boolean,
+      pilot: Pilot,
       levelUp: Boolean
     },
     components: { LicenseItem, Selector },
     data: () => ({
       licenses: [],
-      pLevel: 0,
-      licenseData: [],
+      licenseData: [] as any,
     }),
     computed: {
       points (): {pointsCurrent: number, pointsMax: number, selectedCurrent: number} {
         var vm = this as any
         return {
-          pointsCurrent: (vm.licenses.reduce((a: any, b: any) => +a + +b.level, 0)),
-          pointsMax: vm.pLevel,
-          selectedCurrent: vm.licenses.length
+          pointsCurrent: (vm.pilot.Licenses.reduce((a: any, b: any) => +a + +b.Rank, 0)),
+          pointsMax: vm.pilot.Level,
+          selectedCurrent: vm.pilot.Licenses.length
         }
       },
       selectionComplete (): boolean {
@@ -99,34 +88,20 @@
       }
     },
     methods: {
-      pilotRank (name: string): number {
-        var vm = this as any
-        var t = vm.licenses.find((x: any) => x.name.toUpperCase() === name)
-        return t ? t.level : 0
+      pilotRank (license: License): number {
+        const l = this.pilot.Licenses.find(x => x.License.FrameID === license.FrameID)
+        return l ? l.Rank : 0
       },
-      manufacturer (id): Manufacturer {
+      manufacturer (id: string): Manufacturer {
         return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
-      licenseExists (source: string, name: string): boolean {
-        var vm = this as any
-        if (!vm.licenseData[source.toUpperCase()]) return false
-        if (!vm.licenseData[source.toUpperCase()].find((x: any) => x.license === name.toUpperCase())) return false
-        return true
+      licenseExists (license: License): boolean {
+        if (!this.licenseData[license.Source]) return false
+        return this.licenseData[license.Source].some((x: License) => x.ToString === license.ToString)
       },
       addLicense (license: any) {
         var vm = this as any
-        var idx = vm.licenses.findIndex((x: any) => x.name.toUpperCase() === license.license.toUpperCase())
-        if (idx === -1) {
-          vm.licenses.push({
-            name: license.license.toUpperCase(),
-            source: license.source.toUpperCase(),
-            level: 1,
-            brew: license.brew || null
-          })
-        } else {
-          vm.licenses[idx].level++
-        }
-        vm.licenses = licenseSort(vm.licenses)
+        vm.pilot.AddLicense(license)
 
         if (vm.levelUp && vm.selectionComplete) {
           vm.$emit('set-licenses', vm.licenses)
@@ -134,29 +109,15 @@
         }
       },
       removeLicense (license: any) {
-        var vm = this as any
-        var idx = vm.licenses.findIndex((x: any) => x.name === license.license.toUpperCase())
-        if (idx !== -1) {
-          vm.licenses[idx].level--
-          if (vm.licenses[idx].level === 0) vm.licenses.splice(idx, 1)
-        }
-        vm.licenses = licenseSort(vm.licenses)
-      },
-      saveLicenses () {
-        var vm = this as any
-        vm.$emit('set-licenses', vm.licenses)
+        this.pilot.RemoveLicense(license)
       },
       resetLicenses () {
-        var vm = this as any
-        vm.licenses.splice(0, vm.licenses.length)
-        vm.$forceUpdate()
+        this.pilot.ClearLicenses();
       }
     },
     created () {
-      var vm = this as any
-      vm.pLevel = vm.pilotLevel
-      vm.licenseData = _.groupBy(vm.$store.getters.getItemCollection('Licenses'), 'source')
-      vm.licenses = licenseSort(JSON.parse(JSON.stringify(vm.pilotLicenses)))
+      console.log(this.pilot)
+      this.licenseData = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
     }
   })
 </script>

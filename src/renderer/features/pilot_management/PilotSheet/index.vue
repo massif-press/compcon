@@ -86,7 +86,7 @@
                   <span>Set Pilot Level</span>
                 </v-tooltip>
                 <template v-slot:modal-content>
-                  <level-selector @changed="levelEditor = false; notify(`Pilot Level set to ${$event}`)" />
+                  <level-selector :pilot="pilot" @changed="levelEditor = false; notify(`Pilot Level set to ${$event}`)" />
                 </template>
             </lazy-dialog>
           </v-flex>
@@ -124,51 +124,21 @@
                     </pilot-edit-modal>
                   </v-flex>
                 </v-layout>
-                <!-- Invocations -->
-                <span class="ml-3 caption grey--text">INVOCATIONS</span>
-                <v-layout wrap class="ml-3 mr-3">
-                  <v-flex shrink v-for="(invoke, index) in pilot.Invocations" :key="invoke.Trigger">
-                    <invocation-item :invoke="invoke" :index="index" @remove-invoke="removeInvocation"/>
-                  </v-flex>
-                  <v-flex>
-                    <lazy-dialog :model="invokeDialog" title="Add Background Invocation" acceptString="Add New Invocation"
-                      @activate="invokeDialog = true" @cancel="invokeDialog = false" @accept="addInvocation"
-                      :disable-condition="invoke_trigger === '' || (!invoke_attribute && invoke_attribute !== 0)">
-                      <template v-slot:activator>
-                          <v-tooltip top :disabled="pilot.Invocations && pilot.Invocations.length >= 4">
-                            <v-btn slot="activator" @click="invokeDialog = true" flat small icon color="primary" 
-                              :disabled="pilot.Invocations && pilot.Invocations.length >= 4">
-                              <v-icon>add_circle</v-icon>
-                            </v-btn>
-                            <span>Add New Invocation</span>
-                          </v-tooltip>
-                        </template>
-                        <template v-slot:modal-content>
-                            <v-card-text>
-                              <v-text-field v-model="invoke_trigger" label="Invocation Trigger" outline />
-                              <v-flex class="text-xs-center">
-                              <v-btn-toggle v-model="invoke_attribute" dark required>
-                                <v-btn large color="primary">
-                                  <v-icon large>cc-accuracy</v-icon>&emsp;<span>Accuracy</span>
-                                </v-btn>
-                                <v-btn large color="error">
-                                  <v-icon large>cc-difficulty</v-icon>&emsp;<span>Difficulty</span>
-                                </v-btn>
-                              </v-btn-toggle>
-                              </v-flex>
-                            </v-card-text>
-                        </template>
-                    </lazy-dialog>
-                  </v-flex>
-                </v-layout>
                 <!-- Clone Quirk -->
-                <v-layout v-if="pilot.Quirk">
+                <v-layout v-if="pilot.quirk">
                   <v-flex class="text-xs-center">
                     <v-alert :value="true" color="amber darken-4" class="ma-2">
-                      <b class="minor-title">Clone Quirk</b>
-                      <editable-label :description="'Clone Quirk'" :attr="'quirk'" :placeholder="pilot.Quirk" :pilot="pilot">
-                        <span slot="label" class="p fluff-text">{{pilot.Quirk}}&emsp;</span>
+                      <b class="minor-title">Clone Quirk </b>
+                      <editable-label :description="'Clone Quirk'" :attr="'quirk'" :placeholder="pilot.quirk" :pilot="pilot">
+                        <span slot="label" class="p fluff-text">{{pilot.quirk}}&emsp;</span>
                       </editable-label>
+                      <v-tooltip top>
+                        <v-btn absolute top right slot="activator" icon class="mt-4"
+                          @click="pilot.quirk = ''">
+                          <v-icon color="white">close</v-icon>
+                        </v-btn>
+                        <span>Remove Quirk</span>
+                        </v-tooltip>
                     </v-alert>
                   </v-flex>
                 </v-layout>
@@ -243,14 +213,14 @@
         <v-layout>
           <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">Licenses
             <pilot-edit-modal v-if="!pilot.IsActive" title="Edit Pilot Licenses" :modelRef="licenseModal" ref="licenseSelector">
-              <license-selector slot="modal-content" :pilotLicenses="pilot.licenses" :pilotLevel="pilot.level" @set-licenses="setLicenses" />
+              <license-selector slot="modal-content" :pilot="pilot" />
             </pilot-edit-modal>
           </span>
         </v-layout>
         <v-layout class="ml-3 mr-3">
           <v-flex>
             <v-expansion-panel focusable>
-              <license-item v-for="(license, index) in pilot.licenses" :key="index" :pilotRank="license.level" :licenseData="getLicense(license.name)" />
+              <license-item v-for="pLicense in pilot.Licenses" :key="pLicense.License.Name" :pilotRank="pLicense.Rank" :licenseData="pLicense.License" />
             </v-expansion-panel>
           </v-flex>
         </v-layout>
@@ -290,12 +260,12 @@
         <v-layout>
           <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">CORE Bonuses
             <pilot-edit-modal v-if="!pilot.IsActive" title="Edit CORE Bonuses" :modelRef="bonusModal" ref="bonusSelector">
-              <core-bonus-selector slot="modal-content" :pilotBonuses="pilot.core_bonuses" :pilotLevel="pilot.level" :pilotLicenses="pilot.licenses" @set-bonuses="setPilotBonuses" />
+              <core-bonus-selector slot="modal-content" :pilot="pilot" />
             </pilot-edit-modal>
           </span>
         </v-layout>
-        <v-layout row v-for="cb in pilot.core_bonuses" :key="cb" class="ml-5 mr-5">
-          <core-bonus-item :cb="getCoreBonus(cb)" />
+        <v-layout row v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
+          <core-bonus-item :cb="cb" />
         </v-layout>
 
         <!-- Pilot Loadout -->
@@ -366,16 +336,16 @@
   import {clipboard} from 'electron'
   import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '../components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
-  import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, InvocationItem, PilotEditModal, HasePips } from './SheetComponents'
+  import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
   import NewConfig from '../HangarView/AddConfigMenu.vue'
-  import { Pilot, Invocation, PilotSkill, Background } from '@/class'
+  import { Pilot, PilotSkill, Background } from '@/class'
 
   export default Vue.extend({
     name: 'pilot-sheet',
     components: { EditableLabel, EditableTextfield, LicenseItem, SkillItem, TalentItem, 
     PilotLoadout, CoreBonusItem, ImageSelector, ContactsList, BackgroundSelector, SkillSelector, 
-    TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, InvocationItem, NewConfig, 
+    TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, NewConfig, 
     LazyDialog, PilotEditModal, LevelSelector, PipBar, HasePips, EmptyView, TickBar
     },
     data: () => ({
@@ -383,8 +353,6 @@
       newCallsign: '',
       renameDialog: false,
       newName: '',
-      invoke_trigger: '',
-      invoke_attribute: 0,
       newConfigModal: false,
       backgroundModal: false,
       appearanceModal: false,
@@ -394,7 +362,6 @@
       mechSkillModal: false,
       bonusModal: false,
       pilotGearModal: false,
-      invokeDialog: false,
       printDialog: false,
       levelEditor: false,
       snackbar: false,
@@ -409,9 +376,6 @@
       notify: function (contents: string) {
         this.notification = contents
         this.snackbar = true
-      },
-      getLicense: function (name: string) {
-        return this.$store.getters['getLicenseByName'](name.toUpperCase())
       },
       close(ref: string) {
         (this.$refs[ref] as any).cancel()
@@ -433,16 +397,6 @@
       closePortrait: function (src: string) {
         (this.$refs['appearanceSelector'] as any).cancel()
         this.appearanceModal = false
-      },
-      addInvocation: function () {
-        this.pilot.AddInvocation(
-          new Invocation(this.invoke_trigger, this.invoke_attribute === 0 ? 1 : -1)
-        )
-        this.invokeDialog = false
-        this.invoke_trigger = ''
-      },
-      removeInvocation: function (index: number) {
-        this.pilot.RemoveInvocation(index)
       },
       openPrintOptions: function () {
         if (this.pilot.ActiveConfig) {

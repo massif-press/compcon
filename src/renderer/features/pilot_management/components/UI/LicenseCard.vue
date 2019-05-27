@@ -8,7 +8,7 @@
             <span v-else-if="rank && rank >= 1">RANK I &nbsp; <v-icon>mdi-lock-open-outline</v-icon></span>
             <span v-else>RANK I</span>
           </p>
-          <div v-for="i in license.unlocks[0]" :key="i.id" class="mr-4 ml-4">
+          <div v-for="i in license.Unlocks[0]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>
         </v-flex>
@@ -18,7 +18,7 @@
             <span v-else-if="rank && rank >= 2">RANK II &nbsp; <v-icon>mdi-lock-open-outline</v-icon></span>
             <span v-else>RANK II</span>
           </p>
-          <div v-for="i in license.unlocks[1]" :key="i.id" class="mr-4 ml-4">
+          <div v-for="i in license.Unlocks[1]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>              
         </v-flex>
@@ -28,7 +28,7 @@
             <span v-else-if="rank && rank >= 3">RANK III &nbsp; <v-icon>mdi-lock-open-outline</v-icon></span>
             <span v-else>RANK III</span>            
           </p>
-          <div v-for="i in license.unlocks[2]" :key="i.id" class="mr-4 ml-4">
+          <div v-for="i in license.Unlocks[2]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>              
         </v-flex>

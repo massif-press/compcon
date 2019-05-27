@@ -119,7 +119,7 @@ export default Vue.extend({
 
 <style scoped>
 .sidebar {
-  position: fixed;
+  /* position: fixed; */
   top: 60px;
   left: 15px;
   width: 16.6vw;

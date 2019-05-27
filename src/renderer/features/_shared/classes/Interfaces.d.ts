@@ -28,7 +28,6 @@ declare interface IPilotData {
   active: boolean;
   //TODO:
   // contacts: object[];
-  invocations: IRankedData[];
   background: string;
   mechSkills: number[];
   licenses: IRankedData[];

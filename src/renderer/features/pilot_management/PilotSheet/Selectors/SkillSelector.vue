@@ -142,9 +142,10 @@
         if (vm.newPilot) {
           return vm.pilot.Skills.length < 4 && !vm.pilot.has('Skill', skill.ID)
         } else {
-          var s = vm.pilot.has('Skill', skill.ID)
-          var underLimit = vm.points.pointsCurrent < vm.points.pointsMax
-          return s ? underLimit && s.bonus < 6 : underLimit
+          const underLimit = vm.points.pointsCurrent < vm.points.pointsMax
+          if (!vm.pilot.has('Skill', skill.ID) && underLimit) return true
+          const pSkill = this.pilot.Skills.find(x => x.Skill.ID === skill.ID)
+          return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
         }
       },
       canSubtract (skill: Skill) {

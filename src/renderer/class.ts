@@ -26,7 +26,6 @@ import Tag from "./features/_shared/classes/Tag";
 import Talent from "./features/_shared/classes/Talent";
 import License from "./features/_shared/classes/License";
 import Contact from "./features/pilot_management/classes/Contact";
-import Invocation from "./features/pilot_management/classes/Invocation";
 import MechSkills from "./features/pilot_management/classes/MechSkills";
 import {
   PilotEquipment,
@@ -85,7 +84,6 @@ export {
   Tag,
   Talent,
   Contact,
-  Invocation,
   MechSkills,
   Pilot,
   PilotEquipment,

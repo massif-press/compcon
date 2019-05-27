@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import uid from "@/features/_shared/uid";
-import { Contact, Background, Invocation, MechSkills, PilotLicense, PilotLoadout, PilotSkill, PilotTalent, Skill, License, Talent, CoreBonus, Mech } from '@/class'
+import { Contact, Background, MechSkills, PilotLicense, PilotLoadout, PilotSkill, PilotTalent, Skill, License, Talent, CoreBonus, Mech } from '@/class'
 import { rules } from "lancer-data";
 import store from '@/store';
 
@@ -24,7 +24,6 @@ class Pilot {
   private contacts: Contact[];
   private licenses: PilotLicense[];
   private skills: PilotSkill[];
-  private invocations: Invocation[];
   private talents: PilotTalent[];
   private core_bonuses: CoreBonus[];
   private mechSkills: MechSkills;
@@ -49,7 +48,6 @@ class Pilot {
     this.quirk = "";
     this.current_hp = this.MaxHP;
     this.contacts = [];
-    this.invocations = [];
     this.background = new Background();
     this.licenses = [];
     this.skills = [];
@@ -108,6 +106,10 @@ class Pilot {
     return this.level;
   }
 
+  public set Level(level: number) {
+    this.level = level;
+  }
+
   public get Background(): Background {
     return this.background;
   }
@@ -161,7 +163,8 @@ class Pilot {
   }
 
   public RollQuirk() {
-    //TODO:
+    const quirks = store.getters.getItemCollection('Quirks')
+    this.quirk = quirks[Math.floor(Math.random() * quirks.length)]
   }
 
   public get History(): string {
@@ -300,29 +303,6 @@ class Pilot {
 
   public ClearSkills() {
     this.skills.splice(0, this.skills.length);
-  }
-
-  //  --Invocations -------------------------------------------------------------------------------
-  public get Invocations(): Invocation[] {
-    return this.invocations;
-  }
-
-  public set Invocations(invocations: Invocation[]) {
-    this.invocations = invocations;
-  }
-
-  public AddInvocation(invocation: Invocation) {
-    this.invocations.push(invocation);
-  }
-
-  public RemoveInvocation(index: number) {
-    if (index > -1 && index <= this.Invocations.length) {
-      this.invocations.splice(index, 1);
-    }
-  }
-
-  public ClearInvocations() {
-    this.invocations.splice(0, this.invocations.length);
   }
 
   // -- Talents -----------------------------------------------------------------------------------
@@ -504,6 +484,21 @@ class Pilot {
     return this.mechs;
   }
 
+  public AddMech(mech: Mech) {
+    this.mechs.push(mech)
+  }
+
+  public RemoveMech(mech: Mech) {
+    const index = this.mechs.findIndex(x => _.isEqual(x, mech));
+    if (index === -1) {
+      console.error(
+        `Loadout "${mech.Name}" does not exist on Pilot ${this.callsign}`
+      );
+    } else {
+      this.mechs.splice(index, 1)
+    }
+  }
+
   public get ActiveMech(): Mech | null {
     return this.mechs.find(x => x.ID === this.active_mech) || null;
   }
@@ -539,7 +534,6 @@ class Pilot {
       // contacts: p.contacts,
       background: Background.Serialize(p.Background),
       mechSkills: MechSkills.Serialize(p.MechSkills),
-      invocations: p.invocations.map(x => Invocation.Serialize(x)),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
@@ -568,9 +562,6 @@ class Pilot {
     p.current_hp = pilotData.current_hp;
     p.active = pilotData.active;
     // p.contacts = pilotData.contacts
-    p.invocations = pilotData.invocations.map((x: IRankedData) => 
-      Invocation.Deserialize(x)
-    );
     p.background = Background.Deserialize(pilotData.background);
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills);
     p.licenses = pilotData.licenses.map((x: IRankedData) =>

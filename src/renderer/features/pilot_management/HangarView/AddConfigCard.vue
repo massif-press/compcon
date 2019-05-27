@@ -18,8 +18,8 @@
         </v-flex>
       </v-layout>
 
-      <lazy-dialog :model="newConfigModal" title="Delete Mech Configuration" @cancel="newConfigModal = false">
-        <template v-slot:modal-content><add-config-menu @close="goToConfig"/></template>
+      <lazy-dialog :model="newConfigModal" title="Add New Mech Configuration" @cancel="newConfigModal = false">
+        <template v-slot:modal-content><add-config-menu :pilot="pilot" @close="goToConfig"/></template>
       </lazy-dialog>
 
     </v-card>
@@ -30,12 +30,14 @@
 import Vue from 'vue'
 import AddConfigMenu from './AddConfigMenu.vue'
 import {LazyDialog} from '../components/UI'
+import Pilot from '../classes/Pilot';
 
 export default Vue.extend({
   name: 'add-config-card',
   components: {AddConfigMenu, LazyDialog},
   props: {
     cardHeight: Number,
+    pilot: Pilot
   },
   data: () => ({
     newConfigModal: false,

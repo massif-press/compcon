@@ -1,3 +1,4 @@
+import store from '@/store'
 import { rules } from "lancer-data";
 import {LicensedItem, MechWeapon, Tag, MountType, ItemType} from '@/class'
 
@@ -114,6 +115,10 @@ class Frame extends LicensedItem {
 
   public get CoreSystem(): CoreSystem {
     return this.core_system;
+  }
+
+  public get DefaultImage(): string {
+    return `file://${store.getters.getUserPath}/img/default_frames/${this.ID}.png`
   }
 }
 
