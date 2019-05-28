@@ -18,6 +18,7 @@ class Mech {
   private current_heat: number;
   private current_repairs: number;
   private current_core_energy: number;
+  private current_overcharge: number;
   private active: boolean;
   private pilot: Pilot;
 
@@ -36,6 +37,7 @@ class Mech {
     this.current_heat = this.HeatCapacity;
     this.current_repairs = this.RepairCapacity;
     this.current_core_energy = 1;
+    this.current_overcharge = 0;
     this.active_loadout = null;
   }
 
@@ -50,6 +52,10 @@ class Mech {
 
   public get Name(): string {
     return this.name;
+  }
+
+  public set Name(name: string) {
+    this.name = name
   }
 
   public get Frame(): Frame {
@@ -114,7 +120,7 @@ class Mech {
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait;
     else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`;
-    else return `file://${store.getters.getUserPath}/img/default_frames/${this.frame.ID}.png`
+    else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -303,6 +309,14 @@ class Mech {
     this.current_core_energy = energy < 1 ? 0 : 1;
   }
 
+  public get CurrentOvercharge(): number {
+    return this.active ? this.current_overcharge : 0;
+  }
+
+  public set CurrentOvercharge(overcharge: number) {
+    this.current_overcharge = overcharge;
+  }
+
   // -- Integrated/Talents ------------------------------------------------------------------------
   //TODO: find better way to collect these
   public get IntegratedMounts(): Mount[] {
@@ -407,7 +421,8 @@ class Mech {
   }
 
   public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
-    let m = new Mech(new Frame(mechData.frame), pilot)
+    const f = store.getters.getItemById("Frames", mechData.frame)
+    let m = new Mech(f, pilot)
     m.id = mechData.id
     m.name = mechData.name
     m.active = mechData.active

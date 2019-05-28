@@ -29,7 +29,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" xs3>
-          <config-card :config="c" :card-height="cardHeight" />
+          <config-card :config="c" :pilot="pilot" :card-height="cardHeight" />
         </v-flex>
         <v-flex xs3>
           <add-config-card :pilot="pilot" :card-height="cardHeight" />
@@ -63,32 +63,12 @@
       pilot(): Pilot {
         return this.$store.getters['getPilot']
       },
-      // configs(): Mech[] {
-      //   let allMechs = this.pilot.Mechs as Mech[]
-      //   if (this.currentSort && this.currentSort.field !== '') {
-      //     if (this.currentSort.field === 'level')
-      //       allMechs = _.sortBy(allMechs, this.currentSort.field)
-      //     else 
-      //       allMechs = _.sortBy(allMechs, p => p[this.currentSort.field].toUpperCase())
-      //   }
-      //   if (!this.ascending) {
-      //     return _.reverse(_.clone(allMechs))
-      //   }
-      //   return allMechs
-      // }
     },
     methods: {
       sortBy(sort: {name: string, field: string}, isAscending: boolean) {
         this.currentSort = sort
         this.ascending = isAscending
       },
-      activateConfig(mech: Mech) {
-        if (!mech.IsActive) {
-          this.pilot.Mechs.forEach(m => m.Active = false)
-        }
-        mech.Active = !mech.IsActive;
-        this.pilot.ActiveMech = mech;
-      }
     }
   })
 </script>

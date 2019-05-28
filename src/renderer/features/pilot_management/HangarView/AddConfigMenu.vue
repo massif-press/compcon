@@ -102,7 +102,7 @@
               <v-spacer />
               <v-flex shrink>
                 <v-btn color="primary" flat @click="nc_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn color="success" large class="pl-4" @click="addNewConfig" :disabled="!(newFrame && newConfigName)">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
+                <v-btn color="success" large class="pl-4" @click="addNewConfig" :disabled="!(selectedFrame && newConfigName)">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -128,7 +128,6 @@
     },
     data: () => ({
       nc_step: 0,
-      newFrame: {} as Frame,
       newConfigName: null,
       showLocked: false,
       search: null,
@@ -163,55 +162,57 @@
         vm.$forceUpdate()
       },
       select (frame: Frame) {
-        var vm = this as any
-        vm.newFrame = Frame;
-        vm.nc_step++
+        this.selectedFrame = frame;
+        this.nc_step++
       },
       isLocked (frame: Frame): boolean {
         if (frame.Source === "GMS") return false;
         return !this.pilot.has("License", frame.Name, 2);
       },
       addNewConfig () {
-        this.pilot.AddMech(new Mech(
-          this.newFrame,
+        console.log(this.selectedFrame)
+        let newMech = new Mech(
+          this.selectedFrame,
           this.pilot
-        ))
+        )
+        newMech.Name = this.newConfigName || 'New Config'
+        this.pilot.AddMech(newMech);
         this.$emit('close')
       },
       importFile () {
-        const { dialog } = require('electron').remote
-        var path = dialog.showOpenDialog({
-          title: 'Load Configuration Data',
-          buttonLabel: 'Load',
-          properties: [
-            'openFile'
-          ],
-          filters: [
-            { name: 'Configuration Data', extensions: ['json'] }
-          ]
-        })
-        var data = io.importFile(path[0])
-        if (validator.config(data)) {
-          this.$store.dispatch('importConfig', data)
-          this.$parent.$forceUpdate()
-          this.$emit('close')
-        } else {
-          alert('Config data validation failed')
-          this.$emit('close')
-        }
+        // const { dialog } = require('electron').remote
+        // var path = dialog.showOpenDialog({
+        //   title: 'Load Configuration Data',
+        //   buttonLabel: 'Load',
+        //   properties: [
+        //     'openFile'
+        //   ],
+        //   filters: [
+        //     { name: 'Configuration Data', extensions: ['json'] }
+        //   ]
+        // })
+        // var data = io.importFile(path[0])
+        // if (validator.config(data)) {
+        //   this.$store.dispatch('importConfig', data)
+        //   this.$parent.$forceUpdate()
+        //   this.$emit('close')
+        // } else {
+        //   alert('Config data validation failed')
+        //   this.$emit('close')
+        // }
       },
       importClipboard () {
-        var vm = this
-        const {clipboard} = require('electron')
-        validator.clipboardConfig(clipboard.readText(), function (err, result) {
-          if (err) {
-            alert(err)
-          } else {
-            vm.$store.dispatch('importConfig', result)
-          }
-        })
-        this.$parent.$forceUpdate()
-        this.$emit('close')
+      //   var vm = this
+      //   const {clipboard} = require('electron')
+      //   validator.clipboardConfig(clipboard.readText(), function (err, result) {
+      //     if (err) {
+      //       alert(err)
+      //     } else {
+      //       vm.$store.dispatch('importConfig', result)
+      //     }
+      //   })
+      //   this.$parent.$forceUpdate()
+      //   this.$emit('close')
       }
     },
   })

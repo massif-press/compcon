@@ -30,7 +30,7 @@
 import Vue from 'vue'
 import AddConfigMenu from './AddConfigMenu.vue'
 import {LazyDialog} from '../components/UI'
-import Pilot from '../classes/Pilot';
+import {Pilot} from '@/class';
 
 export default Vue.extend({
   name: 'add-config-card',

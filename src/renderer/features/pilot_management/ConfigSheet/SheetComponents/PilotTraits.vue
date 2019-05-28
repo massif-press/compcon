@@ -6,29 +6,25 @@
           <div class="text-uppercase title">talents</div>
         </template>
         <v-card>
-          <v-card-text v-for="(talent, index) in pilot.talents" :key="talent.id" class="pb-0 pt-0">
-            <span class="minor-title">{{getTalent(talent.id).r1_name}}:</span>
-            <span class="effect-text" v-html="getTalent(talent.id).r1_desc" />
-            <div v-if="talent.rank >= 2">
-              <span class="minor-title">{{getTalent(talent.id).r2_name}}:</span>
-              <span class="effect-text" v-html="getTalent(talent.id).r2_desc" />
-            </div>
-            <div v-if="talent.rank === 3">
-              <span class="minor-title">{{getTalent(talent.id).r3_name}}:</span>
-              <span class="effect-text" v-html="getTalent(talent.id).r3_desc" />
-            </div>          
+          <v-card-text v-for="(ptalent, index) in pilot.Talents" :key="ptalent.Talent.ID" class="pb-0 pt-0">
+            <div v-for="n in 3" :key="'talent_'+n">
+              <div v-if="ptalent.Rank >= n">
+                <span class="minor-title">{{ptalent.Talent.Rank(n - 1).name}}:</span>
+                <span class="effect-text" v-html="ptalent.Talent.Rank(n - 1).description" />
+              </div>
+            </div>      
             <v-divider v-if="index + 1 < pilot.talents.length" class="ma-2"/>
           </v-card-text>
         </v-card>
        </v-expansion-panel-content>
-      <v-expansion-panel-content>
+      <v-expansion-panel-content v-if="pilot.CoreBonuses.length">
         <template v-slot:header dense>
           <div class="text-uppercase title">core bonuses</div>
         </template>
         <v-card>
-          <v-card-text v-for="cb in pilot.core_bonuses" :key="cb" class="pb-0 pt-0">
-            <span class="minor-title">{{getCoreBonus(cb).name}}:</span>
-            <span class="effect-text" v-html="getCoreBonus(cb).effect" />
+          <v-card-text v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="pb-0 pt-0">
+            <span class="minor-title">{{cb.Name}}:</span>
+            <span class="effect-text" v-html="cb.Effect" />
           </v-card-text>
         </v-card>
        </v-expansion-panel-content>       
@@ -38,10 +34,12 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot } from '@/class';
+
   export default Vue.extend({
     name: 'pilot-trait-item',
     props: {
-      pilot: Object
+      pilot: Pilot
     }
   })
 </script>
