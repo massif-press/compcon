@@ -499,6 +499,13 @@ class Pilot {
     }
   }
 
+  public CloneMech(mech: Mech) {
+    const mechData = Mech.Serialize(mech)
+    const clone = Mech.Deserialize(mechData, this)
+    clone.RenewID()
+    this.mechs.push(clone)
+  }
+
   public get ActiveMech(): Mech | null {
     return this.mechs.find(x => x.ID === this.active_mech) || null;
   }
@@ -508,7 +515,12 @@ class Pilot {
   }
 
   public set ActiveMech(config: Mech | null) {
-    this.active_mech = config ? config.ID : null;
+    if (!config) return;
+    this.mechs.forEach(m => {
+      m.Active = false;
+    })
+    config.Active = true;
+    this.active_mech = config.ID;
   }
 
   public set ActiveConfig(config: Mech | null) {

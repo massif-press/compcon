@@ -18,11 +18,11 @@
             <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activateConfig()">
-                    <v-icon :color="config.active ? 'teal accent-3' : 'grey lighten-1'">mdi-power</v-icon>
+                    <v-icon :color="config.IsActive ? 'teal accent-3' : 'grey lighten-1'">mdi-power</v-icon>
                   </v-btn>
                   <div class="text-xs-center">
-                    <span><b :class="activeColorClass(config.active)"> {{config.active ? 'Active' : 'Inactive'}}</b>
-                      <br><i>Click to {{config.active ? 'deactivate' : 'activate'}} Mech</i></span>
+                    <span><b :class="activeColorClass()"> {{config.IsActive ? 'Active' : 'Inactive'}}</b>
+                      <br><i>Click to {{config.IsActive ? 'deactivate' : 'activate'}} Mech</i></span>
                   </div>
                 </v-tooltip>
               <v-tooltip top>
@@ -79,14 +79,14 @@ import Vue from 'vue'
 import io from '@/features/_shared/data_io'
 import {getStatic} from '@/mixins/static'
 import {LazyDialog} from '../components/UI'
-import { Frame, Mech } from '@/class'
+import { Frame, Mech, Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'config-card',
   components: {LazyDialog},
   props: {
     config: Mech,
-    cIdx: Number,
+    pilot: Pilot,
     cardHeight: Number,
   },
   data: () => ({
@@ -101,56 +101,46 @@ export default Vue.extend({
       this.notification = alert
       this.snackbar = true
     },
-    activeColorClass (isActive: boolean): string {
-      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    activeColorClass (): string {
+      return this.config.IsActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
     },
-    panelColor (isActive: boolean): string {
-      return isActive ? `rgba(4, 48, 114, 0.55)` : `rgba(0, 0, 0, 0.55)`
-    },
-    frame (): Frame {
-      return this.$store.getters.getItemById('Frames', this.config.frame_id)
-    },
-    getStaticPath (path: string): string {
-      return getStatic(path)
+    panelColor (): string {
+      return this.config.IsActive ? `rgba(4, 48, 114, 0.55)` : `rgba(0, 0, 0, 0.55)`
     },
     toConfigSheet () {
-      this.$store.dispatch('loadConfig', this.config.id)
+      this.pilot.ActiveMech = this.config
       this.$router.push('./config')
     },
     activateConfig () {
-      this.$emit('activate', {id: this.config.id, toggle: !this.config.active}) 
-      this.$forceUpdate() 
-      this.$parent.$forceUpdate() 
-      this.notify(`${this.config.name} ${this.config.active ? 'Activated' : 'Deactivated'}`)
+      this.config.Active = !this.config.IsActive;
+      this.notify(`${this.config.Name} ${this.config.IsActive ? 'Activated' : 'Deactivated'}`)
     },    
     deleteConfig () {
-      this.deleteDialog = false
-      this.$store.dispatch('deleteConfig', this.config.id)
+      this.pilot.RemoveMech(this.config)
       this.notify('Configuration Deleted')
     },
     cloneConfig () {
-      this.$store.dispatch('cloneConfig', JSON.parse(JSON.stringify(this.config)))
+      this.pilot.CloneMech(this.config)
       this.copyDialog = false
-      this.$parent.$forceUpdate()
       this.notify('Configuration Duplicated')
     },
     exportConfig () {
-      const { dialog } = require('electron').remote
-      var path = dialog.showSaveDialog({
-        defaultPath: this.config.name.toLowerCase().replace(/\W/g, ''),
-        buttonLabel: 'Export Configuration'
-      })
-      io.saveFile(path + '.json', JSON.stringify(this.config))
-      this.exportDialog = false
-      this.notify('Configuration Exported Successfully')
+      // const { dialog } = require('electron').remote
+      // var path = dialog.showSaveDialog({
+      //   defaultPath: this.config.Name.toLowerCase().replace(/\W/g, ''),
+      //   buttonLabel: 'Export Configuration'
+      // })
+      // io.saveFile(path + '.json', JSON.stringify(this.config))
+      // this.exportDialog = false
+      // this.notify('Configuration Exported Successfully')
     },
     copyConfig () {
-      const {clipboard} = require('electron')
-      clipboard.writeText(JSON.stringify(this.config))
-      this.exportDialog = false
-      this.notify('Configuration Copied to Clipboard')
+      // const {clipboard} = require('electron')
+      // clipboard.writeText(JSON.stringify(this.config))
+      // this.exportDialog = false
+      // this.notify('Configuration Copied to Clipboard')
     }
-  }
+  },
 })
 </script>
 
