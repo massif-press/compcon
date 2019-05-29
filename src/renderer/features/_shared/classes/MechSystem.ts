@@ -14,6 +14,10 @@ class MechSystem extends MechEquipment {
     return this.system_type;
   }
 
+  public get IsUnique(): boolean {
+    return this.Tags.some(x => x.IsUnique)
+  }
+
   public static Serialize(item: MechSystem): IEquipmentData {
     return { id: item.ID, notes: item.Notes };
   }

@@ -15,28 +15,34 @@
       </v-tooltip>
       <span v-else class="bottom-title pl-3 pr-3">{{free_sp}}/{{max_sp}} SP</span>
     </v-card>
+
+    <!-- System Selector Modal -->
+    <v-dialog v-model="systemSelectorModal" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
+      <v-toolbar fixed dense flat dark>
+        <v-toolbar-title><span class="text-capitalize">Select System</span></v-toolbar-title>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-btn icon large @click="systemSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <system-table :installed_systems="loadout.systems" :free_sp="stats.sp - stats.used_sp" 
+        :current_equip="equippedSystem(loadout, itemIndex)" :loadout_index="lIndex" 
+        @select-item="equipSystem" @remove-item="removeSystem"/>
+    </v-dialog>  
   </div>
 </template>
 
 <script>
 import MechSystemItem from './MechSystemItem'
+import { MechLoadout } from '@/class';
+import SystemTable from "./SystemTable.vue";
 
 export default {
   name: 'systems-block',
   props: {
-    systems: Array,
-    integrated: Array,
-    max_sp: Number,
-    free_sp: Number
+    loadout: MechLoadout,
+    systemSelectorModal: false,
   },
-  components: { MechSystemItem },
-  methods: {
-    clicked: function (index) {
-      this.$emit('clicked', index)
-    },
-    item: function (id) {
-      return this.$store.getters.getItemById('MechSystems', id)
-    }
-  }
+  components: { MechSystemItem, SystemTable }
 }
 </script>

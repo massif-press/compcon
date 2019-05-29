@@ -1,17 +1,19 @@
 import _ from 'lodash'
 import {MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize} from "@/class";
+import { WeaponSize } from '@/features/_shared/classes/enums';
 
 abstract class Mount {
   private mount_type: MountType;
   protected lock: boolean;
   protected slots: WeaponSlot[];
+  protected extra: WeaponSlot[];
 
   constructor(mtype: MountType) {
     this.mount_type = mtype;
     this.lock = false;
+    this.extra = [];
     if (mtype === MountType.Integrated) {
-      this.lock = true;
-      this.slots = [new WeaponSlot(FittingSize.Integrated, true)];
+      this.slots = [new WeaponSlot(FittingSize.Integrated)];
     } else {
       if (mtype === MountType.AuxAux) {
         this.slots = [
@@ -25,6 +27,7 @@ abstract class Mount {
         ];
       } else if (mtype === MountType.Flex) {
         this.slots = [new WeaponSlot(FittingSize.Flex)];
+        this.extra = [new WeaponSlot(FittingSize.Auxiliary)];
       } else if (mtype === MountType.Main) {
         this.slots = [new WeaponSlot(FittingSize.Main)];
       } else {
@@ -38,6 +41,10 @@ abstract class Mount {
   }
 
   public get Slots(): WeaponSlot[] {
+    if (this.Type == MountType.Flex
+      && this.slots[0].Weapon
+      && this.slots[0].Weapon.Size === WeaponSize.Aux)
+      return this.slots.concat(this.extra)
     return this.slots;
   }
 
@@ -57,9 +64,20 @@ abstract class Mount {
 }
 
 class IntegratedMount extends Mount {
-  constructor(intWeapon: MechWeapon) {
+  private item_source: string
+
+  constructor(intWeapon: MechWeapon, itemSource: string) {
     super(MountType.Integrated)
     this.slots[0].EquipWeapon(intWeapon)
+    this.item_source = itemSource;
+  }
+
+  public get Weapon(): MechWeapon | null {
+    return this.slots[0].Weapon;
+  }
+
+  public get ItemSource(): string {
+    return this.item_source;
   }
 }
 

@@ -1,7 +1,7 @@
 import { LicensedItem, Tag } from "@/class";
 
 abstract class MechEquipment extends LicensedItem {
-  private sp: number;
+  protected sp: number;
   private tags: Tag[];
   private effect: string;
   private integrated: boolean;

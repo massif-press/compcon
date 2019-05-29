@@ -80,6 +80,5 @@ declare interface IMountData {
 
 declare interface IWeaponSlotData {
   size: string,
-  locked: boolean,
   weapon_id: string | null,
 }
