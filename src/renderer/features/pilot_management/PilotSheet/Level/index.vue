@@ -158,8 +158,7 @@
           }, 0) === (rules.minimum_pilot_talents + this.pilot.Level);
       },
       hasMechSkills (): boolean {
-        //TODO: minimum_mech_skills
-        return this.pilot.MechSkills.Sum >= (2 + this.pilot.Level);
+        return this.pilot.MechSkills.Sum >= (rules.minimum_mech_skills + this.pilot.Level);
       },
       hasLicenses (): boolean {
         return this.pilot.Licenses.reduce((a, b) => {

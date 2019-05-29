@@ -32,6 +32,15 @@ class MechWeapon extends MechEquipment {
     return this.weapon_type;
   }
 
+  public get SP(): number {
+    if (!this.Mod) return this.sp
+    return this.Mod.SP + this.sp
+  }
+
+  public get IsUnique(): boolean {
+    return this.Tags.some(x => x.IsUnique);
+  }
+
   public get Damage(): Damage[] {
     return this.damage || [];
   }

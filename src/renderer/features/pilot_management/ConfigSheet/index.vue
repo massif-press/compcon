@@ -244,7 +244,7 @@
           <v-layout><span class="config-header">Mech Equipment</span></v-layout>
           <v-layout>
             <v-flex>
-              <!-- <mech-loadout :config_id="config.id" :frame_id="config.frame_id" :stats="stats" @set-index="setActiveIndex" @deleted="fullReload"/> -->
+              <mech-loadout :config="config"/>
             </v-flex>
           </v-layout>
 

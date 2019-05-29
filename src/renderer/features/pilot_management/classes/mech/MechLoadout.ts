@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { LicensedItem, LicenseRequirement, MechSystem, Mount, Mech, Loadout, MountType, IntegratedMount, EquippableMount } from '@/class';
 import store from "@/store";
+import MechWeapon from '@/features/_shared/classes/MechWeapon';
 
 class MechLoadout extends Loadout {
   private integratedMounts: IntegratedMount[];
@@ -16,11 +17,23 @@ class MechLoadout extends Loadout {
     this.improvedArmament = new EquippableMount(MountType.Flex);
   }
 
+  public get IntegratedMounts(): IntegratedMount[] {
+    return this.integratedMounts;
+  }
+
+  public get EquippableMounts(): EquippableMount[] {
+    return this.equippableMounts;
+  }
+
   public get Mounts(): Mount[] {
-    const allMounts = this.integratedMounts.concat(this.equippableMounts)
+    const allMounts = (this.integratedMounts as Mount[]).concat(this.equippableMounts)
     if (store.getters.getPilot.has("CoreBonus", "imparm"))
       return allMounts.concat([this.improvedArmament]);
     else return allMounts;
+  }
+
+  public get Weapons(): MechWeapon[] {
+    return this.EquippableMounts.flatMap(x => x.Weapons);
   }
 
   public get Systems(): MechSystem[] {
@@ -93,6 +106,14 @@ class MechLoadout extends Loadout {
       return a + b.SP;
     }, 0);
     return mountSP + systemSP;
+  }
+
+  public get UniqueWeapons(): MechWeapon[] {
+    return this.Weapons.filter(x => x.IsUnique);
+  }
+
+  public get UniqueSystems(): MechSystem[] {
+    return this.Systems.filter(x => x.IsUnique);
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {

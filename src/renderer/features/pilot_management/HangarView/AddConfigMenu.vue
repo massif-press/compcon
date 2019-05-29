@@ -170,7 +170,6 @@
         return !this.pilot.has("License", frame.Name, 2);
       },
       addNewConfig () {
-        console.log(this.selectedFrame)
         let newMech = new Mech(
           this.selectedFrame,
           this.pilot

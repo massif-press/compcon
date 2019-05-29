@@ -51,6 +51,10 @@ class Tag {
   public get Brew(): string {
     return this.brew;
   }
+
+  public get IsUnique(): boolean {
+    return this.id === 'unique'
+  }
 }
 
 export default Tag;

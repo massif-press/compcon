@@ -319,19 +319,19 @@ class Mech {
 
   // -- Integrated/Talents ------------------------------------------------------------------------
   //TODO: find better way to collect these
-  public get IntegratedMounts(): Mount[] {
+  public get IntegratedMounts(): IntegratedMount[] {
     let intg = [];
     if (this.frame.CoreSystem.Integrated) {
       intg.push(
-        new IntegratedMount(this.frame.CoreSystem.Integrated)
+        new IntegratedMount(this.frame.CoreSystem.Integrated, "CORE System")
       );
     }
     if (this.pilot.has("Talent", "ncavalier", 3)) {
-      intg.push(new IntegratedMount(new MechWeapon("fuelrod")));
+      intg.push(new IntegratedMount(new MechWeapon("fuelrod"), "Nuclear Cavalier"));
     }
     if (this.pilot.has("Talent", "eng")) {
       const id = `prototype${this.pilot.getTalentRank("eng")}`;
-      intg.push(new IntegratedMount(new MechWeapon(id)));
+      intg.push(new IntegratedMount(new MechWeapon(id), "Engineer"));
     }
     return intg;
   }
@@ -376,7 +376,9 @@ class Mech {
         `Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`
       );
     } else {
-      this.loadouts.splice(index + 1, 0, new MechLoadout(this));
+      var newLoadout = new MechLoadout(this);
+      newLoadout.Name = loadout.Name + " (Copy)";
+      this.loadouts.splice(index + 1, 0, newLoadout);
     }
   }
 

@@ -56,6 +56,7 @@
   import Vue from 'vue'
   import { Pilot } from '@/class';
   import MechSkills from '../../classes/MechSkills';
+  import { rules } from 'lancer-data';
 
   export default Vue.extend({
     name: 'level-selector',
@@ -84,10 +85,9 @@
     },
     watch: {
       newLevel: function () {
-        //TODO: rules.pilot_max_level
         if (!this.newLevel) this.newLevel = 0
         else if (this.newLevel < 0) this.newLevel = 0
-        else if (this.newLevel > 12) this.newLevel = 12
+        else if (this.newLevel > rules.max_pilot_level) this.newLevel = rules.max_pilot_level
       }
     }
   })

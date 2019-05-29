@@ -71,7 +71,7 @@
           <v-flex shrink>
             <!-- Level Up Button -->
             <v-tooltip bottom nudge-right="15px">
-              <v-btn :to="'/level'" slot="activator" bottom right fab small :disabled="pilot.Level > 11" color="primary" style="float:right; margin-left:30px">
+              <v-btn :to="'/level'" slot="activator" bottom right fab small :disabled="pilot.Level === maxLevel" color="primary" style="float:right; margin-left:30px">
                 <v-icon large>arrow_upward</v-icon>
               </v-btn>
               <span>Level Up</span>
@@ -208,7 +208,6 @@
             </v-layout>
           </v-flex>
         </v-layout>
-        <!-- TODO: -->
         <!-- License Block -->
         <v-layout>
           <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">Licenses
@@ -340,6 +339,7 @@
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
   import NewConfig from '../HangarView/AddConfigMenu.vue'
   import { Pilot, PilotSkill, Background } from '@/class'
+import { rules } from 'lancer-data';
 
   export default Vue.extend({
     name: 'pilot-sheet',
@@ -369,6 +369,14 @@
       activeLoadoutIdx: 0,
       loadoutForceReloadTrigger: 0
     }),
+    computed: {
+      pilot (): Pilot {
+        return this.$store.getters['getPilot']
+      },
+      maxLevel(): number {
+        return rules.max_pilot_level
+      }
+    },
     methods: {
       refresh: function () {
         this.$forceUpdate()
@@ -428,11 +436,6 @@
       activatePilot () {
         this.pilot.Active = !this.pilot.IsActive
         this.notify(`${this.pilot.Callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
-      },
-    },
-    computed: {
-      pilot (): Pilot {
-        return this.$store.getters['getPilot']
       },
     }
   })

@@ -108,7 +108,6 @@ export default Vue.extend({
     itemIndex: 0,
     itemType: "",
     equippedItem: null,
-    reloadTrigger: 0,
     newLoadoutName: "",
     selectorModal: false,
     renameDialog: false,
