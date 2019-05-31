@@ -33,6 +33,7 @@ class Pilot {
 
   private mechs: Mech[];
   private active_mech: string | null;
+  private loaded_mech: Mech | null; 
 
   constructor() {
     this.id = uid.generate();
@@ -59,6 +60,7 @@ class Pilot {
     this.active_loadout = null;
     this.loadouts = [];
     this.mechs = [];
+    this.loaded_mech = null;
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -322,6 +324,7 @@ class Pilot {
       this.talents[index].Increment();
     }
     this.talentSort();
+    this.resetIntegratedTalents();
   }
 
   public RemoveTalent(talent: Talent) {
@@ -338,16 +341,27 @@ class Pilot {
       }
     }
     this.talentSort();
+    this.resetIntegratedTalents();
   }
 
   public ClearTalents() {
-    this.talents.splice(0, this.talents.length);
+    this.talents.forEach(t => {
+      this.RemoveTalent(t.Talent);
+    });
   }
 
   private talentSort() {
     this.talents = this.talents.sort(function(a, b) {
       return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1;
     });
+  }
+
+  private resetIntegratedTalents() {
+    this.mechs.forEach(mech => {
+      mech.Loadouts.forEach(loadout => {
+        loadout.ResetIntegratedMounts(mech)
+      })
+    })
   }
 
   // -- Core Bonuses ------------------------------------------------------------------------------
@@ -359,8 +373,8 @@ class Pilot {
     this.core_bonuses = coreBonuses;
   }
 
-  public AddCoreBonus(core_bonus: CoreBonus) {
-    this.core_bonuses.push(core_bonus);
+  public AddCoreBonus(coreBonus: CoreBonus) {
+    this.core_bonuses.push(coreBonus);
   }
 
   public RemoveCoreBonus(coreBonus: CoreBonus) {
@@ -373,11 +387,23 @@ class Pilot {
       );
     } else {
       this.core_bonuses.splice(index, 1);
+      this.removeCoreBonusEffects(coreBonus);
     }
   }
 
   public ClearCoreBonuses() {
-    this.core_bonuses.splice(0, this.core_bonuses.length);
+    this.CoreBonuses.forEach(x => this.RemoveCoreBonus(x))
+  }
+
+  private removeCoreBonusEffects(coreBonus: CoreBonus) {
+    this.mechs.forEach(mech => {
+      mech.Loadouts.forEach(loadout => {
+        if (coreBonus.ID === "retrofit") loadout.RemoveRetrofitting();
+        loadout.AllEquippableMounts(true).forEach(mount => {
+          mount.RemoveCoreBonus(coreBonus);
+        })
+      })
+    });
   }
 
   // -- Licenses ----------------------------------------------------------------------------------
@@ -515,16 +541,24 @@ class Pilot {
   }
 
   public set ActiveMech(config: Mech | null) {
-    if (!config) return;
     this.mechs.forEach(m => {
       m.Active = false;
     })
+    if (!config) return;
     config.Active = true;
     this.active_mech = config.ID;
   }
 
   public set ActiveConfig(config: Mech | null) {
     this.active_mech = config ? config.ID : null;
+  }
+
+  public get LoadedMech(): Mech | null {
+    return this.loaded_mech
+  }
+
+  public set LoadedMech(mech: Mech | null) {
+    this.loaded_mech = mech
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

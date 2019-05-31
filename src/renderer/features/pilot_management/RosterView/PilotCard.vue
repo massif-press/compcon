@@ -18,7 +18,7 @@
               <v-flex xs9 class="ma-2">
                 <span class="title">{{pilot.Callsign}}</span>
                 <br>
-                <span class="caption">{{pilot.Name}}<br>{{background(pilot)}}, LL{{pilot.Level}}</span>
+                <span class="caption">{{pilot.Name}}<br>{{pilot.Background.Name}}, LL{{pilot.Level}}</span>
               </v-flex>
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
@@ -111,12 +111,13 @@
   import {LazyDialog} from '../components/UI'
   import {clipboard} from 'electron'
   import apis from '../logic/apis'
+  import {Pilot} from '@/class'
 
   export default Vue.extend({
   name: 'pilot-card',
   components: {LazyDialog},
   props: {
-    pilot: Object,
+    pilot: Pilot,
     pIdx: Number,
     cardHeight: Number,
   },
@@ -143,17 +144,13 @@
     panelColor (): string {
       return this.pilot.IsActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
     },
-    background () {
-      if (this.pilot.custom_background) return this.pilot.custom_background
-      else return this.pilot.Background.Name
-    },
     toPilotSheet () {
       this.$store.dispatch('loadPilot', this.pilot)
       this.$router.push('./pilot')
     },
     activatePilot () {
       this.pilot.Active = !this.pilot.IsActive;
-      this.notify(`${this.pilot.callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
+      this.notify(`${this.pilot.Callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot () {
       this.deleteDialog = false
@@ -173,21 +170,21 @@
     exportPilot () {
       const { dialog } = require('electron').remote
       var path = dialog.showSaveDialog({
-        defaultPath: this.pilot.callsign.toUpperCase().replace(/\W/g, ''),
+        defaultPath: this.pilot.Callsign.toUpperCase().replace(/\W/g, ''),
         buttonLabel: 'Save Pilot'
       })
-      io.saveFile(path + '.json', JSON.stringify(this.pilot))
+      io.saveFile(path + '.json', JSON.stringify(Pilot.Serialize(this.pilot)))
         this.exportDialog = false
         this.notify('Pilot Export Successful')
       },
     copyPilot () {
-      clipboard.writeText(JSON.stringify(this.pilot))
+      clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
     },
     cloudSavePilot () {
       var vm = this as any
-      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.$store.dispatch('loadPilot', this.pilot.ID)
       vm.cloudLoading = true
       apis.createPilotGist(this.pilot).then((newGist: any) => {
         var gistID = newGist.id
@@ -208,7 +205,7 @@
     },
     cloudUpdatePilot () {
       var vm = this as any
-      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.$store.dispatch('loadPilot', this.pilot.ID)
       vm.cloudLoading = true
       apis.updatePilotGist(this.pilot).then((newGist: any) => {
         clipboard.writeText(newGist.id)
@@ -222,7 +219,7 @@
       })
     },
     copyShareID () {
-      clipboard.writeText(this.pilot.gistID)
+      clipboard.writeText(this.pilot.GistID)
       this.notify('Share ID copied to Clipboard')
     }
   },

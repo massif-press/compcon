@@ -7,11 +7,13 @@ abstract class Mount {
   protected lock: boolean;
   protected slots: WeaponSlot[];
   protected extra: WeaponSlot[];
+  private name_override: string;
 
   constructor(mtype: MountType) {
     this.mount_type = mtype;
     this.lock = false;
     this.extra = [];
+    this.name_override = '';
     if (mtype === MountType.Integrated) {
       this.slots = [new WeaponSlot(FittingSize.Integrated)];
     } else {
@@ -20,6 +22,11 @@ abstract class Mount {
           new WeaponSlot(FittingSize.Auxiliary),
           new WeaponSlot(FittingSize.Auxiliary)
         ];
+      } else if (mtype === MountType.Aux) {
+        this.slots = [
+          new WeaponSlot(FittingSize.Auxiliary)
+        ];
+        this.name_override = "Integrated Weapon"
       } else if (mtype === MountType.MainAux) {
         this.slots = [
           new WeaponSlot(FittingSize.Main),
@@ -38,6 +45,10 @@ abstract class Mount {
 
   public get Type(): MountType {
     return this.mount_type;
+  }
+
+  public get MountName() {
+    return this.name_override ? this.name_override : `${this.Type} Mount` 
   }
 
   public get Slots(): WeaponSlot[] {
@@ -97,8 +108,8 @@ class EquippableMount extends Mount {
     this.lock = false;
   }
 
-  public AddCoreBonus(id: string) {
-    this.bonus_effects.push(new CoreBonus(id));
+  public AddCoreBonus(cb: CoreBonus) {
+    this.bonus_effects.push(cb);
   }
 
   public RemoveCoreBonus(cb: CoreBonus) {
@@ -115,6 +126,7 @@ class EquippableMount extends Mount {
       mount_type: m.Type,
       lock: m.IsLocked,
       slots: m.Slots.map(x => WeaponSlot.Serialize(x)),
+      extra: m.extra.map(x => WeaponSlot.Serialize(x)),
       bonus_effects: m.BonusEffects.map(x => x.ID)
     };
   }
@@ -122,6 +134,7 @@ class EquippableMount extends Mount {
   public static Deserialize(mountData: IMountData): EquippableMount {
     let m = new EquippableMount(mountData.mount_type as MountType);
     m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
+    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
     return m;
   }
 }

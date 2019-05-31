@@ -34,25 +34,25 @@
               <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
             </td>
             <td>
-              <span class="subheading">{{ props.item.name }}
-                <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
+              <span class="subheading">{{ props.item.Name }}
+                <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
-                  <span>{{pilot.callsign}} does not have the license for this system ({{props.item.license}} {{props.item.license_level}})</span>
+                  <span>{{pilot.callsign}} does not have the license for this system ({{props.item.License}} {{props.item.LicenseLevel}})</span>
                 </v-tooltip>
-                <v-tooltip v-if="isOverSp(props.item.sp)" top>
+                <v-tooltip v-if="isOverSp(props.item.SP)" top>
                   <v-icon color="yellow" slot="activator">warning</v-icon>
                   <span>Insufficient free SP to install this system</span>
                 </v-tooltip>
               </span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.source }}</span>
+              <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">{{ props.item.License }} {{props.item.LicenseLevel}}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.sp }}</span>
+              <span class="subheading">{{ props.item.SP }}</span>
             </td>
           </tr>
         </template>
@@ -64,11 +64,11 @@
           </v-card>
         </template>
       </v-data-table>
-      <v-layout v-if="current_equip" justify-space-between class="pt-4">
+      <v-layout v-if="currentEquip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn v-if="current_equip.err" color="amber darken-4" @click="remove">Uninstall Missing System</v-btn>
-          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{current_equip.name}}</v-btn>
+          <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">Uninstall Missing System</v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{currentEquip.Name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -79,15 +79,16 @@
   import Vue from 'vue'
   import _ from 'lodash'
   import {SystemCard} from '../../components/UI'
+  import {MechLoadout, MechSystem, SystemType, Pilot} from '@/class';
+  import {rules} from 'lancer-data'
 
   export default Vue.extend({
     name: 'system-table',
     components: { SystemCard },
     props: {
-      installed_systems: Array,
-      free_sp: Number,
-      loadout_index: Number,
-      current_equip: Object
+      loadout: MechLoadout,
+      maxSP: Number,
+      currentEquip: MechSystem
     },
     data: () => ({
       selectedIndex: -1,
@@ -99,47 +100,43 @@
       showOverSp: false,
       headers: [
         {align: 'left', sortable: false, width: '5vw'},
-        {text: 'System', align: 'left', value: 'name'},
-        {text: 'Source', align: 'left', value: 'source'},
-        {text: 'License', align: 'left', value: 'license'},
-        {text: 'SP Cost', align: 'left', value: 'sp'}
+        {text: 'System', align: 'left', value: 'Name'},
+        {text: 'Source', align: 'left', value: 'Source'},
+        {text: 'License', align: 'left', value: 'License'},
+        {text: 'SP Cost', align: 'left', value: 'Sp'}
       ]
     }),
     computed: {
-      systems (): System[] {
-        var vm = this as any
-        var allSystems = vm.$store.getters.getItemCollection('MechSystems')
-        var i = allSystems.filter((x: System) => x.source)
+      freeSP (): number {
+        const remaining = this.maxSP - this.loadout.TotalSP
+        return this.currentEquip 
+          ? remaining - this.currentEquip.SP 
+          : remaining
+      },
+      systems (): MechSystem[] {
+        const vm = this as any
+        const allSystems = vm.$store.getters.getItemCollection('MechSystems') as MechSystem[]
+        let i = allSystems.filter(x => x.Source)
         if (!vm.showLocked) {
-          i = i.filter(
-            (x: System) => x.source === 'GMS' 
-            || (
-              vm.pilot.licenses.find((y: any) => y.name === x.license) 
-              && vm.pilot.licenses.find((y: any) => y.name === x.license).level >= x.license_level
-            )
+          i = i.filter(x => x.Source === 'GMS' 
+            || vm.pilot.has('License', x.License, x.LicenseLevel) 
           )
         }
         if (!vm.showOverSp) {
-          // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = vm.current_equip && !vm.current_equip.err
-            ? vm.free_sp + allSystems.find((x: System) => x.id === vm.current_equip.id).sp || 0 
-            : vm.free_sp
-          i = i.filter((x: System) => x.sp <= totalFreeSp)
+          i = i.filter(x => x.SP <= vm.freeSP)
         }
-        // filter ais
-        var installedAIs = vm.installed_systems.filter((x: System) => x.type === 'AI')
-        if (installedAIs.length) {
-          if (!vm.hasShaping || (vm.hasShaping && installedAIs.length > 1)) {
-            i = i.filter((x: System) => !installedAIs.map((y: System) => y.id).includes(x.id))
-          }
-        }
-        // filter dupe uniques
-        i = i.filter(
-          _.negate(
-            (x: System) => x.tags && x.tags.map(t => t.id).includes('unique') 
-            && vm.installed_systems.map((y: System) => y.id).includes(x.id)
-          )
-        )
+        // filter already equipped
+        if (vm.currentEquip) i = i.filter(x => x !== vm.currentEquip)
+
+        if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+
+        i = i.filter(x => !vm.loadout.UniqueSystems.includes(x))
+
+        // AI limit
+        const aiLimit = this.pilot.has('Talent', 'techno', 3) ? 2 : 1
+        const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI).length
+        if (aiTotal >= aiLimit) i = i.filter(x => x.Type !== SystemType.AI)
+
         return i
       },
       pilot (): Pilot {
@@ -147,34 +144,20 @@
       }
     },
     methods: {
-      select (item: System) {
-        var vm = this as any
-        vm.$emit('select-item', item, vm.loadout_index)
+      select (item: MechSystem) {
+        this.loadout.AddSystem(item)
+        this.$emit('close')
       },
       remove () {
-        var vm = this as any
-        vm.$emit('remove-item', vm.loadout_index)
+        this.loadout.RemoveSystem(this.currentEquip)
+        this.$emit('close')
       },
-      isLocked (name: string, level: number): boolean {
-        if (!name) return false
-        var vm = this as any
-        return !(
-          (vm.pilot.licenses.find((y: any) => y.name === name) 
-          && vm.pilot.licenses.find((y: any) => y.name === name).level >= level)
-        )
+      isLocked (item: MechSystem): boolean {
+        if (item.Source === "GMS") return false
+        return !(this.pilot.has('License', item.License, item.LicenseLevel) )
       },
-      isOverSp (sp): boolean {
-        var vm = this as any
-        var totalFreeSp = vm.current_equip && !vm.current_equip.err
-        ? vm.free_sp + vm.$store.getters.getItemCollection('MechSystems').find(
-          (x: System) => x.id === vm.current_equip.id
-          ).sp || 0 
-        : vm.free_sp
-        return sp > totalFreeSp
-      },
-      hasShaping (): boolean {
-        var vm = this as any
-        return vm.pilot.talents.findIndex((x: any) => x.id === 'techno' && x.rank === 3) > -1
+      isOverSp (sp: number): boolean {
+        return sp > this.freeSP
       }
     }
   })

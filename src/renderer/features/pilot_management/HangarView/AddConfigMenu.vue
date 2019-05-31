@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout justify-center>
-      <v-flex>
+      <v-flex class="mt-5">
         <v-stepper v-model="nc_step" vertical>
           <v-stepper-step :complete="nc_step > 1" step="1">
             Editor Mode<small v-if="nc_step > 1">Create New</small>
@@ -176,6 +176,8 @@
         )
         newMech.Name = this.newConfigName || 'New Config'
         this.pilot.AddMech(newMech);
+        this.newConfigName = null;
+        this.nc_step = 1;
         this.$emit('close')
       },
       importFile () {

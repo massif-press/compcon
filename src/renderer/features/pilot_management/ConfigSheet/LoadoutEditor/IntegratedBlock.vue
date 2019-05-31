@@ -15,7 +15,7 @@
                   <span class="subheading font-weight-bold">{{mount.Weapon.Name}}</span> 
                   <v-spacer />
                   <span class="mr-5" style="display: inline-flex;">
-                    <range-element v-if="mount.Weapon.Range" dark small :range="mount.Weapon.Range" />
+                    <range-element v-if="mount.Weapon.Range" dark small :range="getRange()" />
                     <span v-if="mount.Weapon.Range && mount.Weapon.Damage">&emsp;&mdash;&emsp;</span>
                     <damage-element v-if="mount.Weapon.Damage" dark small size="16" :dmg="mount.Weapon.Damage" />
                   </span>
@@ -30,7 +30,7 @@
                       <range-element v-if="mount.Weapon.Range" :range="mount.Weapon.Range" />
                       <p v-if="mount.Weapon.effect" v-html="mount.Weapon.effect" class="pl-2 effect-text"/>
                       <v-layout class="mt-2">
-                        <mount.Weapon-tag v-for="(tag, index) in mount.Weapon.Tags" :key="tag.id + index" :tag-obj="tag"/>
+                        <item-tag v-for="(tag, index) in mount.Weapon.Tags" :key="tag.id + index" :tag-obj="tag"/>
                       </v-layout>
                     </v-card-text>
                   </v-card>
@@ -47,13 +47,40 @@
 <script lang="ts">
   import Vue from 'vue'
   import {RangeElement, DamageElement, ItemTag} from '../../components/UI'
-  import { IntegratedMount } from '@/class';
+  import { IntegratedMount, RangeType, DamageType, Range, MechLoadout } from '@/class';
 
   export default Vue.extend({  
     name: 'integrated-block',
     props: {
-      mount: IntegratedMount
+      mount: IntegratedMount,
+      loadout: MechLoadout
     },
-    components: { ItemTag, RangeElement, DamageElement }
+    components: { ItemTag, RangeElement, DamageElement },
+    methods: {
+      //TODO: should not be hardcoded
+      getRange(): Range[] {
+        const w = this.mount.Weapon
+        if (!w) return [];
+        let bonuses = [] as {type: RangeType, val: number}[]
+        if (w.Mod && w.Mod.AddedRange) bonuses.push({
+          type: RangeType.Range, 
+          val: w.Mod.AddedRange
+        });
+        const pilot = this.$store.getters.getPilot
+        if (pilot.has('CoreBonus', 'neurolinked')) bonuses.push({
+          type: RangeType.Range, 
+          val: 3
+        });
+        if (pilot.has('CoreBonus', 'gyges')) bonuses.push({
+          type: RangeType.Threat, 
+          val: 1
+        });
+        if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy) bonuses.push({
+          type: RangeType.Range, 
+          val: 5
+        });
+        return Range.AddBonuses(w.Range, bonuses);
+      },
+    }
   })
 </script>

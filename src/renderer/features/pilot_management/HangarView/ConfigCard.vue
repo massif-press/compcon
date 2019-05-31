@@ -108,11 +108,11 @@ export default Vue.extend({
       return this.config.IsActive ? `rgba(4, 48, 114, 0.55)` : `rgba(0, 0, 0, 0.55)`
     },
     toConfigSheet () {
-      this.pilot.ActiveMech = this.config
+      this.pilot.LoadedMech = this.config
       this.$router.push('./config')
     },
     activateConfig () {
-      this.config.Active = !this.config.IsActive;
+      this.pilot.ActiveMech = this.config;
       this.notify(`${this.config.Name} ${this.config.IsActive ? 'Activated' : 'Deactivated'}`)
     },    
     deleteConfig () {
@@ -125,20 +125,20 @@ export default Vue.extend({
       this.notify('Configuration Duplicated')
     },
     exportConfig () {
-      // const { dialog } = require('electron').remote
-      // var path = dialog.showSaveDialog({
-      //   defaultPath: this.config.Name.toLowerCase().replace(/\W/g, ''),
-      //   buttonLabel: 'Export Configuration'
-      // })
-      // io.saveFile(path + '.json', JSON.stringify(this.config))
-      // this.exportDialog = false
-      // this.notify('Configuration Exported Successfully')
+      const { dialog } = require('electron').remote
+      var path = dialog.showSaveDialog({
+        defaultPath: this.config.Name.toLowerCase().replace(/\W/g, ''),
+        buttonLabel: 'Export Configuration'
+      })
+      io.saveFile(path + '.json', JSON.stringify(Mech.Serialize(this.config)))
+      this.exportDialog = false
+      this.notify('Configuration Exported Successfully')
     },
     copyConfig () {
-      // const {clipboard} = require('electron')
-      // clipboard.writeText(JSON.stringify(this.config))
-      // this.exportDialog = false
-      // this.notify('Configuration Copied to Clipboard')
+      const {clipboard} = require('electron')
+      clipboard.writeText(JSON.stringify(Mech.Serialize(this.config)))
+      this.exportDialog = false
+      this.notify('Configuration Copied to Clipboard')
     }
   },
 })

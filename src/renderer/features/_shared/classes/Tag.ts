@@ -53,6 +53,7 @@ class Tag {
   }
 
   public get IsUnique(): boolean {
+    console.log(this.id)
     return this.id === 'unique'
   }
 }

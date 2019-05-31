@@ -1,7 +1,5 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
-- set activemech vs mech that is activated
-- flex -> aux aux
-
+- mod addedranges should be range bonus objects
 
 Improvements:
   ☐ Fix pilot background scrollspy
@@ -10,7 +8,11 @@ Improvements:
   ☐ add lancer version to cc version number
   ☐ new editable label
   ☐ different cloud save ui
-  ☐ Add New Config should be full page
+  ✔ Add New Config should be full page @done(19-05-30 22:50)
+  ☐ Weapon Ammo Class
+  ☐ Set Ammo (with armament)
+  ✔ External Batteries @done(19-05-30 22:50)
+  ☐ Downtime Resources in glossary
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size

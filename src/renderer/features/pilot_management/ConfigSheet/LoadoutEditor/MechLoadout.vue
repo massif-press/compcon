@@ -3,7 +3,7 @@
     <v-card v-if="!config.Loadouts.length" dark>
       <v-card-text>
         <p class="text-sm-center">
-          <v-btn large @click="config.AddLoadout()" color="primary">
+          <v-btn large @click="newLoadout()" color="primary">
             <v-icon>add</v-icon>Add New Loadout
           </v-btn>
         </p>
@@ -13,7 +13,7 @@
       <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">{{loadout.name}}</v-tab>
       <span>
         <v-tooltip top>
-          <v-btn icon slot="activator" @click="config.AddLoadout()">
+          <v-btn icon slot="activator" @click="newLoadout()">
             <v-icon>add</v-icon>
           </v-btn>
           <span>Add New Loadout</span>
@@ -23,14 +23,15 @@
         <v-tab-item v-for="(loadout, i) in config.Loadouts" :key="loadout.id + i" lazy>
           <v-card>
             <v-card-text>
-              <integrated-block v-for="(im, j) in loadout.IntegratedMounts" :key="`int_${i}_${j}`" :mount="im" />
+              <integrated-block v-for="(im, j) in loadout.IntegratedMounts" :key="`int_${i}_${j}`" :mount="im" :loadout="loadout" />
 
-              {{loadout.EquippableMounts}}
-              <mount-block v-for="(m, k) in loadout.EquippableMounts" :key="`m_${i}_${k}`" :mount="m"  :loadout="loadout" />
+              <mount-block v-if="hasIntWeapon()" :mount="loadout.IntegratedWeaponMount" :loadout="loadout" :maxSP="config.MaxSP" integrated-weapon/>
+
+              <mount-block v-for="(m, k) in loadout.AllEquippableMounts(hasImpArm())" :key="`m_${i}_${k}`" :mount="m" :loadout="loadout" :maxSP="config.MaxSP"/>
 
               <v-divider dark class="mb-3 mt-3"/>
 
-              <!-- <systems-block :loadout="loadout"/> -->
+              <systems-block :loadout="loadout" :mech="config"/>
 
               <v-card-actions>
                 <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" @accept="renameLoadout()" @cancel="renameDialog = false" >
@@ -42,13 +43,13 @@
                   </v-card-text>
                 </lazy-dialog>
 
-                <v-btn flat @click="config.CloneLoadout(loadout)">
+                <v-btn flat @click="copyLoadout(loadout)">
                   <v-icon small left>file_copy</v-icon>Duplicate Loadout
                 </v-btn>
 
                 <v-spacer/>
 
-                <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning" @accept="config.RemoveLoadout(loadout)"     @cancel="deleteDialog = false" >
+                <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning" @accept="deleteLoadout(loadout)"     @cancel="deleteDialog = false" >
                   <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
                     <v-icon small left>edit</v-icon>Delete Loadout
                   </v-btn>
@@ -78,7 +79,7 @@
   import IntegratedBlock from "./IntegratedBlock.vue";
   import SystemsBlock from "./SystemsBlock.vue";
   import { LazyDialog } from "../../components/UI";
-  import { MechLoadout, MechSystem, Mech } from "@/class";
+  import { MechLoadout, MechSystem, Mech, Pilot } from "@/class";
 
   export default Vue.extend({
     name: "mech-loadout",
@@ -89,7 +90,8 @@
       LazyDialog
     },
     props: {
-      config: Mech
+      config: Mech,
+      pilot: Pilot
     },
     data: () => ({
       tabIndex: 0,
@@ -100,6 +102,24 @@
       snackbar: false,
     }),
     methods: {
+      newLoadout() {
+        this.config.AddLoadout()
+        this.tabIndex = this.config.Loadouts.length - 1
+      },
+      deleteLoadout(loadout: MechLoadout) {
+        this.config.RemoveLoadout(loadout)
+        this.tabIndex = this.config.Loadouts.length - 1
+      },
+      copyLoadout(loadout: MechLoadout) {
+        this.config.CloneLoadout(loadout)
+        this.tabIndex = this.config.Loadouts.length - 1
+      },
+      hasImpArm() {
+        return this.pilot.has('CoreBonus', 'imparm');
+      },
+      hasIntWeapon() {
+        return this.pilot.has('CoreBonus', 'intweapon');
+      },      
       renameLoadout(loadout: MechLoadout) {
         if (this.newLoadoutName === "") {
           this.notification = "Loadout names cannot be blank";

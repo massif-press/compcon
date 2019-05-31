@@ -7,26 +7,14 @@
         </div>
         <b>{{item.Size}} {{item.Type}} <span v-if="item.SP">({{item.SP}} SP)</span></b>
         <p v-if="item.Description" v-html="item.Description" class="fluff-text" />
-        <damage-element dark :dmg="item.damage" />
-        <range-element :range="item.range" :show-cb="!tableItem"/>
+        <damage-element dark :dmg="getDamage()" />
+        <range-element :range="getRange()" />
         <p v-if="item.Effect" v-html="item.Effect" class="pl-1 ml-1 pb-1 mb-1 effect-text"/>
-
-        <!-- <div v-if="item.actions">
-          <div v-for="a in item.actions" :key="a.name" class="ma-1 pl-3 effect-text">
-            <span class="font-weight-bold">{{a.name}}</span> 
-            <span class="font-weight-light text-capitalize">&nbsp; // &nbsp; {{a.action}} Action </span>
-            <br>
-            <span v-if="a.effect">{{a.effect}}<br></span>
-            <damage-element :dmg="a.damage" />
-            <range-element :range="a.range" :bonuses="rangeBonuses" :show-cb="!tableItem"/>
-            <v-layout class="pb-2">
-              <item-tag v-for="at in a.tags" :key="at.id" :tag-obj="at" />
-            </v-layout>
-          </div>
-        </div> -->
-
-          <v-layout class="pb-2">
+           <v-layout class="pb-2">
             <item-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tag-obj="t"/>
+            <div v-if="mod && mod.AddedTags" style="display: inline-flex;">
+              <item-tag v-for="t in mod.AddedTags" :key="t.id" :tag-obj="t"/>
+            </div>
           </v-layout>
 
       </v-card-text>
@@ -37,13 +25,15 @@
   import Vue from 'vue'
   import {RangeElement, DamageElement} from './'
   import ItemTag from './ItemTag.vue'
+  import {MechWeapon, WeaponMod, Range, Damage, RangeType, DamageType, MechLoadout} from '@/class'
 
   export default Vue.extend({
-    name: 'system-card',
+    name: 'weapon-card',
     props: {
-      item: Object,
+      item: MechWeapon,
       tableItem: Boolean,
-      mod: String
+      mod: WeaponMod,
+      loadout: MechLoadout
     },
     components: { ItemTag, RangeElement, DamageElement },
     computed: {
@@ -54,6 +44,38 @@
       //     gyges: (this.$store.getters['getPilot'].core_bonuses.includes('gyges') && this.item.type === 'Melee')
       //   }
       // }
+    },
+    methods: {
+    //TODO: should not be hardcoded
+    getRange(): Range[] {
+      if (this.tableItem) return this.item.Range
+      const w = this.item
+      let bonuses = [] as {type: RangeType, val: number}[]
+      if (w.Mod && w.Mod.AddedRange) bonuses.push({
+        type: RangeType.Range, 
+        val: w.Mod.AddedRange
+      });
+      const pilot = this.$store.getters.getPilot
+      if (pilot.has('CoreBonus', 'neurolinked')) bonuses.push({
+        type: RangeType.Range, 
+        val: 3
+      });
+      if (pilot.has('CoreBonus', 'gyges')) bonuses.push({
+        type: RangeType.Threat, 
+        val: 1
+      });
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy) bonuses.push({
+        type: RangeType.Range, 
+        val: 5
+      });
+      return Range.AddBonuses(w.Range, bonuses);
+    },
+      getDamage() {
+        if (this.tableItem) return this.item.Damage
+        if (this.item.Damage && this.mod && this.mod.AddedDamage)
+          return this.item.Damage.concat(this.mod.AddedDamage)
+        return this.item.Damage || null
+      }
     }
   })
 </script>

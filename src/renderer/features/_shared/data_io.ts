@@ -153,8 +153,6 @@ export default {
       fs.mkdirSync(userDataPath)
       console.info('data folder created successfully')
     }
-    console.log(data)
-    console.log(JSON.stringify(data))
     fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
   },
   saveFile(dataPath: string, data: any) {

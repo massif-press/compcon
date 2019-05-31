@@ -71,20 +71,22 @@ class Mech {
   }
 
   public get RequiredLicenses(): LicenseRequirement[] {
-    let requirements = [] as LicenseRequirement[];
-    const frameRequirement =
-      this.frame.Name.toUpperCase() === "EVEREST"
-        ? { name: "GMS", rank: 0, items: ["EVEREST Frame"], missing: false }
-        : {
-            name: `${this.frame.Source} ${this.frame.Name}`,
-            rank: 2,
-            items: [`${this.frame.Name.toUpperCase()} Frame`]
-          };
-
-    requirements.push(frameRequirement);
-
-    if (this.ActiveLoadout) {
-      requirements.concat(this.ActiveLoadout.RequiredLicenses);
+    let requirements = this.ActiveLoadout 
+      ? this.ActiveLoadout.RequiredLicenses 
+      : [] as LicenseRequirement[];
+    
+    if (this.frame.Name.toUpperCase() === "EVEREST") {
+      const gmsIdx = requirements.findIndex(x => x.name === "GMS")
+      if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame")
+      else requirements.push({ name: "GMS", rank: 0, items: ["EVEREST Frame"], missing: false })
+    } else {
+      const reqIdx = requirements.findIndex(x => x.name === `${this.frame.Source} ${this.frame.Name}` && x.rank === 2)
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this.frame.Name.toUpperCase()} Frame`)
+      else requirements.push({
+        name: `${this.frame.Source} ${this.frame.Name}`,
+        rank: 2,
+        items: [`${this.frame.Name.toUpperCase()} Frame`]
+      })
     }
 
     for (const l of requirements) {
@@ -318,7 +320,6 @@ class Mech {
   }
 
   // -- Integrated/Talents ------------------------------------------------------------------------
-  //TODO: find better way to collect these
   public get IntegratedMounts(): IntegratedMount[] {
     let intg = [];
     if (this.frame.CoreSystem.Integrated) {
@@ -327,11 +328,13 @@ class Mech {
       );
     }
     if (this.pilot.has("Talent", "ncavalier", 3)) {
-      intg.push(new IntegratedMount(new MechWeapon("fuelrod"), "Nuclear Cavalier"));
+      const fr_weapon = store.getters.getItemById("MechWeapons", "fuelrod")
+      intg.push(new IntegratedMount(fr_weapon, "Nuclear Cavalier"));
     }
     if (this.pilot.has("Talent", "eng")) {
       const id = `prototype${this.pilot.getTalentRank("eng")}`;
-      intg.push(new IntegratedMount(new MechWeapon(id), "Engineer"));
+      const eng_weapon = store.getters.getItemById("MechWeapons", id)
+      intg.push(new IntegratedMount(eng_weapon, "Engineer"));
     }
     return intg;
   }
@@ -356,6 +359,7 @@ class Mech {
 
   public AddLoadout() {
     this.loadouts.push(new MechLoadout(this));
+    this.ActiveLoadout = this.loadouts[this.loadouts.length - 1]
   }
 
   public RemoveLoadout(loadout: MechLoadout) {
@@ -366,6 +370,7 @@ class Mech {
       );
     } else {
       this.loadouts.splice(index, 1);
+      this.ActiveLoadout = this.loadouts[this.loadouts.length - 1]
     }
   }
 

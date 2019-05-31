@@ -116,7 +116,6 @@
       }
     },
     created () {
-      console.log(this.pilot)
       this.licenseData = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
     }
   })

@@ -1,5 +1,5 @@
 import store from '@/store'
-import { LicensedItem, Tag, WeaponType, WeaponSize, ItemType } from '@/class'
+import { LicensedItem, Tag, WeaponType, WeaponSize, ItemType, Damage } from '@/class'
 
 class WeaponMod extends LicensedItem {
   private sp: number;
@@ -8,6 +8,9 @@ class WeaponMod extends LicensedItem {
   private effect: string;
   private restricted_sizes: WeaponSize[];
   private tags: Tag[];
+  private added_tags: Tag[]
+  private added_damage?: Damage;
+  private added_range: number;
 
   constructor(weaponModData: any) {
     super(weaponModData);
@@ -18,6 +21,9 @@ class WeaponMod extends LicensedItem {
     this.description = weaponModData.description;
     this.restricted_sizes = weaponModData.restricted_sizes;
     this.tags = weaponModData.tags;
+    this.added_tags = weaponModData.added_tags || [];
+    if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage);
+    this.added_range = weaponModData.added_range || 0;
     this.item_type = ItemType.WeaponMod;
   }
 
@@ -43,6 +49,18 @@ class WeaponMod extends LicensedItem {
 
   public get Tags(): Tag[] {
     return this.tags;
+  }
+
+  public get AddedTags(): Tag[] {
+    return this.added_tags;
+  }
+
+  public get AddedDamage(): Damage | null {
+    return this.added_damage || null;
+  }
+
+  public get AddedRange(): number {
+    return this.added_range;
   }
 
   public static Deserialize(id: string): WeaponMod {

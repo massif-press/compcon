@@ -1,5 +1,6 @@
 import {MechWeapon, FittingSize} from '@/class'
 import store from '@/store';
+import WeaponMod from '@/features/_shared/classes/WeaponMod';
 
 class WeaponSlot {
   private size: FittingSize;
@@ -16,6 +17,10 @@ class WeaponSlot {
 
   public get Weapon(): MechWeapon | null {
     return this.weapon || null;
+  }
+
+  public get Mod(): WeaponMod | null {
+    return this.Weapon && this.Weapon.Mod
   }
 
   public EquipWeapon(weapon: MechWeapon) {

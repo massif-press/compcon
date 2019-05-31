@@ -56,7 +56,6 @@ export default Vue.extend({
   created() {
     var vm = this as any;
     vm.talents = vm.$store.getters["getItemCollection"]("Talents");
-    console.log(vm.talents)
   }
 });
 </script>

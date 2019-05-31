@@ -1,22 +1,11 @@
 Classes:
+  ☐ unique systems/weapons
+    ☐ need to instantitize tags
 
-  ☐ Damage
-    ☐ Bonuses
-  ☐ Range
-    ☐ Bonuses
 
-  ☐ Mech
+  ☐ saving
   ☐ Printing
-
-  ☐ Breaking
-    ☐ Redo item ids
-
-Vuex:
-
- pilots need to collect all passive modifiers that can then be accessed by getters
-
- Later:
-  ☐ Weapon Ammo Class
-  ☐ Set Ammo (with armament)
-  ☐ External Batteries
-  ☐ Downtime Resources in glossary
+  ☐ Statblocks
+  ☐ import
+    ☐ converter
+ 

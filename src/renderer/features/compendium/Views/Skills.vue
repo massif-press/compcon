@@ -45,7 +45,6 @@ export default Vue.extend({
   created () {
     var vm = this as any
     vm.skills = vm.$store.getters.getItemCollection('Skills')
-    console.log(vm.skills)
   }
 })
 </script>

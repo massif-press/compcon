@@ -89,8 +89,8 @@
             </v-layout>
             <v-layout>
               <v-flex class="mr-3 ml-3 mt-0">
-                <v-alert type="warning" :value="config.CurrentSP > config.SP" outline><b>WARNING: SYSTEM CAPACITY EXCEEDED</b><br>
-                  Configuration loadout exceeds available SP points (<b>{{config.CurrentSP}} SP used</b>, {{config.SP}} SP available)
+                <v-alert type="warning" :value="config.CurrentSP > config.MaxSP" outline><b>WARNING: SYSTEM CAPACITY EXCEEDED</b><br>
+                  Configuration loadout exceeds available SP points (<b>{{config.CurrentSP}} SP used</b>, {{config.MaxSP}} SP available)
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -244,7 +244,7 @@
           <v-layout><span class="config-header">Mech Equipment</span></v-layout>
           <v-layout>
             <v-flex>
-              <mech-loadout :config="config"/>
+              <mech-loadout :config="config" :pilot="pilot"/>
             </v-flex>
           </v-layout>
 
@@ -337,12 +337,6 @@
       overcharge: [ "+1", "+1d3", "+1d6", "+1d6+4"]
     }),
     methods: {
-      setActiveIndex (index: number) {
-        // this.IsActiveLoadoutIdx = index
-      },
-      fullReload () {
-        this.$router.push('/config')
-      },
       notify: function (contents: string) {
         this.notification = contents
         this.snackbar = true
@@ -392,17 +386,18 @@
         this.notify('Pilot Statblock Copied to Clipboard')
       },
       activateConfig() {
-        this.pilot.ActiveMech = this.config;
+        if (this.config && this.config.IsActive) this.pilot.ActiveMech = null;
+        else this.pilot.ActiveMech = this.config;
       }
     },
     computed: {
-      pilot (): Pilot {
+      pilot(): Pilot {
         return (this.$store.getters.getPilot as Pilot)
       },
-      config (): Mech | null {
-        return this.pilot.ActiveConfig
+      config(): Mech | null {
+        return this.pilot.LoadedMech
       },
-      color (): any {
+      color(): any {
         return ccc
       }
     }
