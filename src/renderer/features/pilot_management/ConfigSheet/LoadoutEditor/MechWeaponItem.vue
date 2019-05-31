@@ -4,8 +4,8 @@
         <v-tooltip top>
           <v-btn slot="activator" color="blue-grey darken-2" block @click="weaponSelectorModal = true" class="ma-0 pa-0" style="height:100%" v-html="weaponSlot.Size + (!weaponSlot.Weapon || weaponSlot.Weapon.err ? ' Weapon' : '')">
           </v-btn>
-          <span v-if="!weaponSlot.Weapon">Equip {{weaponSlot.Size}} Mech Weapon</span>
-          <span v-else>Change Equipped {{weaponSlot.Size}} Mech Weapon</span>
+          <span v-if="!weaponSlot.Weapon">Equip {{weaponSlot.Size}} Weapon</span>
+          <span v-else>Change Equipped {{weaponSlot.Size}} Weapon</span>
         </v-tooltip>
       </v-flex>
       <v-flex xs10>
@@ -39,21 +39,21 @@
               </span> 
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element dark small :range="weaponSlot.Weapon.range" show-cb/>
+                <range-element dark small :range="getRange()"/>
                 &emsp;&mdash;&emsp;
-                <damage-element dark small size="16" :dmg="weaponSlot.Weapon.damage" />
+                <damage-element dark small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3"/>
-                <v-tooltip top>
+                <v-tooltip top v-if="!noMod">
                   <div slot="activator">
-                    <v-btn @click.stop="openMod" flat icon small absolute class="ma-0 pa-0" style="top: 10px"><v-icon small>build</v-icon></v-btn>
+                    <v-btn @click.stop="toggleModModal(true)" flat icon small absolute class="ma-0 pa-0" style="top: 10px"><v-icon small>build</v-icon></v-btn>
                   </div>
                   <span>Add/Change Weapon Mods</span>
                 </v-tooltip>
               </span>
             </v-layout>
-                <mod-card v-if="weaponSlot.Weapon.Mod && weaponSlot.Weapon.Mod.err" missing/>
                 <mod-card v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err" :modData="weaponSlot.Weapon.Mod"/>
-                <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" />
+                <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb"/>
+                <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout"/>
               </v-expansion-panel-content>
             </v-expansion-panel>
         </div>
@@ -68,7 +68,7 @@
           <v-btn icon large @click="weaponSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <weapon-table :weapon-slot="weaponSlot" :mount="mount" :loadout="loadout" @select-item="selectItem" @remove-item="removeItem"/>
+      <weapon-table :weapon-slot="weaponSlot" :mount="mount" :loadout="loadout" :maxSP="maxSP" @select-item="selectItem" @remove-item="removeItem"/>
     </v-dialog>
 
     <!-- Superheavy Lock Modal -->
@@ -97,7 +97,7 @@
     </v-dialog> 
 
     <!-- Mod selector dialog -->
-    <v-dialog v-model="modModal" width="70vw" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-if="modLoader" v-model="modModal" width="70vw" lazy fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-toolbar fixed dense flat dark>
         <v-toolbar-title><span class="text-capitalize">Select Weapon Modification</span></v-toolbar-title>
         <v-spacer />
@@ -106,7 +106,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card dark>
-        <mod-table :weapon-slot="weaponSlot" :mount="mount" :loadout="loadout" />
+        <mod-table :weapon-slot="weaponSlot" :mount="mount" :loadout="loadout" :maxSP="maxSP" @close="toggleModModal(false)"/>
       </v-card>
     </v-dialog>
 
@@ -115,45 +115,63 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {RangeElement, DamageElement, WeaponCard, ModCard, LazyDialog} from '../../components/UI'
+import {RangeElement, DamageElement, WeaponCard, ModCard, CoreBonusCard, LazyDialog} from '../../components/UI'
 import WeaponTable from './WeaponTable.vue'
-import { MechWeapon, WeaponMod, WeaponSlot, EquippableMount, MechLoadout, WeaponSize } from '@/class'
+import ModTable from './ModTable.vue'
+import { MechWeapon, WeaponMod, WeaponSlot, EquippableMount, MechLoadout, WeaponSize, Range, Damage, RangeType, DamageType } from '@/class'
 
 export default Vue.extend({
   name: 'mech-weapon-item',
-  components: { WeaponCard, ModCard, RangeElement, DamageElement, WeaponTable, LazyDialog },
+  components: { WeaponCard, ModCard, RangeElement, DamageElement, WeaponTable, LazyDialog, ModTable, CoreBonusCard },
   props: {
     weaponSlot: WeaponSlot,
     mount: EquippableMount,
-    loadout: MechLoadout
+    loadout: MechLoadout,
+    maxSP: Number,
+    noMod: Boolean,
   },
   data: () => ({
     weaponSelectorModal: false,
     lockDialog: false,
     stagedSuperheavy: {} as MechWeapon,
+    modLoader: false,
     modModal: false,
   }),
-  computed: {
-    rangeBonuses() {
-      return 0
-    }
-    // rangeBonuses (): {stabilizer: boolean, neurolinked: boolean, gyges: boolean} {
-    //   return {
-    //     stabilizer: (
-    //       this.weaponSlot.Weapon.mod && this.weaponSlot.Weapon.mod === 'stabilizer'
-    //     ),
-    //     neurolinked: (
-    //       this.$store.getters['getPilot'].core_bonuses.includes('neurolinked') && 
-    //       this.weaponSlot.Weapon.Type !== 'Melee'
-    //     ),
-    //     gyges: (
-    //       this.$store.getters['getPilot'].core_bonuses.includes('gyges') && 
-    //       this.weaponSlot.Weapon.Type === 'Melee'
-    //     )
-    //   }
-    // }
-  },
   methods: {
+    //TODO: should not be hardcoded
+    getRange(): Range[] {
+      const w = this.weaponSlot.Weapon
+      if (!w) return [];
+      let bonuses = [] as {type: RangeType, val: number}[]
+      if (w.Mod && w.Mod.AddedRange) bonuses.push({
+        type: RangeType.Range, 
+        val: w.Mod.AddedRange
+      });
+      const pilot = this.$store.getters.getPilot
+      if (pilot.has('CoreBonus', 'neurolinked')) bonuses.push({
+        type: RangeType.Range, 
+        val: 3
+      });
+      if (pilot.has('CoreBonus', 'gyges')) bonuses.push({
+        type: RangeType.Threat, 
+        val: 1
+      });
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy) bonuses.push({
+        type: RangeType.Range, 
+        val: 5
+      });
+      return Range.AddBonuses(w.Range, bonuses);
+    },
+    getDamage(): Damage[] {
+      const w = this.weaponSlot.Weapon
+      if (!w) return [];
+      if (!w.Mod || !w.Mod.AddedDamage) return w.Damage;
+      return w.Damage.concat(w.Mod.AddedDamage);
+    },
+    toggleModModal(toggle: boolean) {
+      this.modLoader = toggle;
+      this.modModal = toggle;
+    },
     selectItem(item: MechWeapon) {
       const currentWeapon = this.weaponSlot.Weapon;
       if (currentWeapon && currentWeapon.Size === WeaponSize.Superheavy) {

@@ -49,7 +49,7 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.License }} {{props.item.LicenseLevel}}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">{{ props.item.License }} {{props.item.LicenseLevel}}</span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.Size }}</span>
@@ -101,6 +101,7 @@
       weaponSlot: WeaponSlot,
       Size: EquippableMount,
       loadout: MechLoadout,
+      maxSP: Number,
     },
     data: () => ({
       selectedIndex: -1,
@@ -124,9 +125,10 @@
     }),
     computed: {
       freeSP (): number {
+        const remaining = this.maxSP - this.loadout.TotalSP
         return this.weaponSlot.Weapon 
-          ? this.loadout.TotalSP + this.weaponSlot.Weapon.SP 
-          : this.loadout.TotalSP
+          ? remaining - this.weaponSlot.Weapon.SP 
+          : remaining
       },
       weapons (): MechWeapon[] {
         const vm = this as any
@@ -141,7 +143,11 @@
         if (!vm.showOverSp) {
           i = i.filter(x => x.SP <= vm.freeSP)
         }
-        // filter dupe uniques (in the grossest way possible)
+        // filter already equipped
+        if (vm.weaponSlot.Weapon) i = i.filter(x => x !== vm.weaponSlot.Weapon)
+
+        if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+        console.log(vm.loadout.UniqueWeapons)
         i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
 
         return i

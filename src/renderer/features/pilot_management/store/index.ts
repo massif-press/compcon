@@ -13,7 +13,6 @@ const moduleState = {
 
 function savePilots(pilots: Pilot[]) {
   const serialized = pilots.map(x => Pilot.Serialize(x))
-  console.log(serialized)
   io.saveUserData(
     Vue.prototype.userDataPath,
     "pilots.json",
@@ -96,7 +95,6 @@ const mutations = {
   //   }
   // },
   ADD_PILOT(state: AppState, payload: Pilot) {
-    console.log('in add pilot')
     state.Pilots.push(payload);
     savePilots(state.Pilots);
   },

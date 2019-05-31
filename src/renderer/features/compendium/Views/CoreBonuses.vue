@@ -46,7 +46,6 @@ export default Vue.extend({
   created () {
     var vm = this as any
     vm.bonuses = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
-    console.log(vm.$store.getters.getItemCollection('Manufacturers'))
   }
 })
 </script>

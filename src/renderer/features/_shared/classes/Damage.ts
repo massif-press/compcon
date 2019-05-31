@@ -57,6 +57,7 @@ class Damage {
       return dark ? "#FFF" : "#000";
     return dark ? c[dt].dark : c[dt].light;
   }
+
 }
 
 

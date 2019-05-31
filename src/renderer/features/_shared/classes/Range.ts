@@ -4,29 +4,20 @@ import { RangeType } from "@/class";
 
 class Range {
   private range_type: RangeType;
-  private value: string;
+  private value: string | number;
   private override: boolean;
+  private bonus: number
 
   constructor(range: {
     type: string;
     val: string | number;
     override: boolean;
+    bonus?: number;
   }) {
-    this.range_type = this.getRangeType(range.type);
-    this.value = (typeof range.val === "number") ? range.val.toString() : range.val;
+    this.range_type = range.type as RangeType
+    this.value = range.val;
     this.override = range.override || false;
-  }
-
-  private getRangeType(str: string): RangeType {
-    switch (str) {
-      case "blast": return RangeType.Blast;
-      case "burst": return RangeType.Burst;
-      case "cone": return RangeType.Cone;
-      case "line": return RangeType.Line;
-      case "threat": return RangeType.Threat;
-      case "thrown": return RangeType.Thrown;
-    }
-    return RangeType.Range
+    this.bonus = range.bonus || 0;
   }
 
   public get Override(): boolean {
@@ -38,7 +29,9 @@ class Range {
   }
 
   public get Value(): string {
-    return this.value;
+    if (this.bonus && typeof this.value === 'number') 
+      return (this.value + this.bonus).toString() 
+    return this.value.toString();
   }
 
   public get Icon(): string {
@@ -46,14 +39,44 @@ class Range {
   }
 
   public get ToString(): string {
-    if (this.override) return this.value;
-    return `${this.range_type} ${this.value}`;
+    if (this.override) return this.Value.toString();
+    if (this.bonus) return `${this.range_type} ${this.Value} (+${this.bonus})`
+    return `${this.range_type} ${this.Value}`;
   }
 
-  // public get ToBadge(): string {
-  //   if (this.override) return "<v-icon>more_horiz</v-icon>";
-  //   return `${this.value} ${this.Icon}`;
+  // public static Bonus(ranges: Range[], bonus: string | number): Range[] {
+  //   let output = [] as Range[]
+  //   ranges.forEach(x => {
+  //     if (!x.Override) {
+  //       const newVal = typeof x.Value === "number" && typeof bonus === "number" && x.Type === RangeType.Range
+  //         ? x.Value + bonus + ` (+${bonus})`
+  //         : x.Value
+  //       output.push(
+  //         new Range({
+  //           type: x.Type, val: newVal, override: false
+  //         })
+  //       )
+  //     }
+  //   })
+  //   return output;
   // }
+
+  public static AddBonuses(ranges: Range[], bonuses: {type: RangeType, val: number}[]): Range[] {
+    var output = [] as Range[]
+    ranges.forEach(range => {
+      let bonus = bonuses.filter(x => x.type === range.Type).map(x => x.val).reduce((sum, bonus) => sum + bonus, 0)
+      output.push(
+        new Range({
+          type: range.Type,
+          val: range.value,
+          override: range.override,
+          bonus: bonus,
+        })
+      )
+    });
+    return output;
+  }
+
 }
 
 export default Range;

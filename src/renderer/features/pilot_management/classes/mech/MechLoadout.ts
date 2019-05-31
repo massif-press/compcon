@@ -1,39 +1,77 @@
 import _ from 'lodash'
 import { LicensedItem, LicenseRequirement, MechSystem, Mount, Mech, Loadout, MountType, IntegratedMount, EquippableMount } from '@/class';
-import store from "@/store";
 import MechWeapon from '@/features/_shared/classes/MechWeapon';
 
 class MechLoadout extends Loadout {
   private integratedMounts: IntegratedMount[];
   private equippableMounts: EquippableMount[];
   private improvedArmament: EquippableMount;
+  private integratedWeapon: EquippableMount | null;
+  private retrofitIndex: number | null;
+  private retrofitOriginalType: MountType | null;
   private systems: MechSystem[];
 
   constructor(mech: Mech) {
     super(mech.Loadouts.length);
     this.integratedMounts = mech.IntegratedMounts
     this.equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
-    this.systems = mech.IntegratedSystems;
+    this.systems = [];
     this.improvedArmament = new EquippableMount(MountType.Flex);
+    this.integratedWeapon = new EquippableMount(MountType.Aux);
+    this.retrofitIndex = null;
+    this.retrofitOriginalType = null;
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
     return this.integratedMounts;
   }
 
-  public get EquippableMounts(): EquippableMount[] {
+  public ResetIntegratedMounts(mech: Mech) {
+    this.integratedMounts = mech.IntegratedMounts;
+  }
+
+  public EquippableMounts(): EquippableMount[] {
     return this.equippableMounts;
   }
 
+  public get IntegratedWeaponMount() {
+    return this.integratedWeapon;
+  }
+
+  public AllEquippableMounts(improved?: boolean): EquippableMount[] {
+    if (improved && this.equippableMounts.length < 3) return this.equippableMounts.concat([this.improvedArmament]);
+    return this.equippableMounts;
+  }
+
+  public RetrofitMount(mountIndex: number) {
+    this.retrofitIndex = mountIndex;
+    this.retrofitOriginalType = this.equippableMounts[mountIndex].Type;
+    this.equippableMounts.splice(mountIndex, 1, new EquippableMount(MountType.MainAux))
+  }
+
+  public get RetrofittedMount(): EquippableMount | null {
+    return !this.retrofitIndex
+      ? null
+      : this.equippableMounts[this.retrofitIndex]
+  }
+
+  public RemoveRetrofitting() {
+    if (this.retrofitIndex === null || this.retrofitOriginalType === null) return;
+    this.equippableMounts.splice(this.retrofitIndex, 1, new EquippableMount(this.retrofitOriginalType));
+    this.retrofitIndex = null;
+    this.retrofitOriginalType = null;
+  }
+
+  public get IsRetrofitted(): boolean {
+    return this.retrofitIndex !== null;
+  }
+
   public get Mounts(): Mount[] {
-    const allMounts = (this.integratedMounts as Mount[]).concat(this.equippableMounts)
-    if (store.getters.getPilot.has("CoreBonus", "imparm"))
-      return allMounts.concat([this.improvedArmament]);
-    else return allMounts;
+    return (this.integratedMounts as Mount[]).concat(this.equippableMounts)
   }
 
   public get Weapons(): MechWeapon[] {
-    return this.EquippableMounts.flatMap(x => x.Weapons);
+    return this.AllEquippableMounts(true).flatMap(x => x.Weapons);
   }
 
   public get Systems(): MechSystem[] {
@@ -48,8 +86,8 @@ class MechLoadout extends Loadout {
     return !!this.Systems.find(x => x.ID === system_id);
   }
 
-  public AddSystem(system_id: string) {
-    this.systems.push(new MechSystem(system_id));
+  public AddSystem(system: MechSystem) {
+    this.systems.push(system);
   }
 
   public RemoveSystem(system: MechSystem) {
@@ -59,9 +97,7 @@ class MechLoadout extends Loadout {
 
   public get RequiredLicenses() {
     let requirements = [] as LicenseRequirement[];
-    const equippedWeapons = _.flatten(
-      this.equippableMounts.map(x => x.Weapons)
-    ) as LicensedItem[];
+    const equippedWeapons = this.Weapons as LicensedItem[];
     const equippedSystems = this.systems as LicensedItem[];
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
@@ -122,7 +158,9 @@ class MechLoadout extends Loadout {
       name: ml.Name,
       systems: ml.Systems.map(x => MechSystem.Serialize(x)),
       mounts: ml.equippableMounts.map(x => EquippableMount.Serialize(x)),
-      improved_armament: EquippableMount.Serialize(ml.improvedArmament)
+      improved_armament: EquippableMount.Serialize(ml.improvedArmament),
+      retrofitIndex: ml.retrofitIndex,
+      retrofitOriginalType: ml.retrofitOriginalType,
     };
   }
 
@@ -133,6 +171,8 @@ class MechLoadout extends Loadout {
     ml.systems = loadoutData.systems.map(x => MechSystem.Deserialize(x));
     ml.equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
     ml.improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
+    ml.retrofitIndex = loadoutData.retrofitIndex;
+    ml.retrofitOriginalType = ml.retrofitOriginalType ? loadoutData.retrofitOriginalType as MountType : null;
     return ml;
   }
 }

@@ -3,6 +3,7 @@
     Main = "Main",
     Heavy = "Heavy",
     AuxAux = "Aux/Aux",
+    Aux = "Aux",
     MainAux = "Main/Aux",
     Flex = "Flex",
     Integrated = "Integrated"

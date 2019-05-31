@@ -69,12 +69,15 @@ declare interface IMechLoadoutData {
   systems: IEquipmentData[];
   mounts: IMountData[];
   improved_armament: IMountData;
+  retrofitIndex: number | null;
+  retrofitOriginalType: string | null;
 }
 
 declare interface IMountData {
   mount_type: string;
   lock: boolean;
   slots: IWeaponSlotData[];
+  extra: IWeaponSlotData[];
   bonus_effects: string[];
 }
 

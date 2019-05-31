@@ -18,9 +18,23 @@
         </v-flex>
       </v-layout>
 
-      <lazy-dialog :model="newConfigModal" title="Add New Mech Configuration" @cancel="newConfigModal = false">
-        <template v-slot:modal-content><add-config-menu :pilot="pilot" @close="goToConfig"/></template>
-      </lazy-dialog>
+    <v-dialog v-model="newConfigModal" fullscreen>
+      <v-card>
+      <v-toolbar fixed dense flat>
+        <v-toolbar-title>Add New Mech Configuration</v-toolbar-title>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-btn icon large @click="newConfigModal = false"><v-icon large>close</v-icon></v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+        <add-config-menu :pilot="pilot" @close="goToConfig"/>
+        <v-divider />
+        <v-card-actions style="position: fixed; bottom: 0px">
+          <v-btn color="primary" @click="newConfigModal = false">Cancel</v-btn>
+          <v-spacer />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     </v-card>
   </v-hover>

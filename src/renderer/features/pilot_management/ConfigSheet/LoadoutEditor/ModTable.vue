@@ -25,6 +25,7 @@
       
       <v-text-field class="search-field ma-2" prepend-icon="search"
         v-model="search" flat hide-details single-line placeholder="Search" clearable />
+
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -38,11 +39,11 @@
             <td>
               <span class="subheading">
                 {{ props.item.name }}
-                <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
+                <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
-                  <span>{{pilot.callsign}} does not have the license for this weapon modification ({{props.item.license}} {{props.item.license_level}})</span>
+                  <span>{{pilot.callsign}} does not have the license for this weapon modification ({{props.item.License}} {{props.item.LicenseLevel}})</span>
                 </v-tooltip>
-                <v-tooltip v-if="isOverSp(props.item.sp)" top>
+                <v-tooltip v-if="isOverSp(props.item)" top>
                   <v-icon color="yellow" slot="activator">warning</v-icon>
                   <span>Insufficient free SP to install this weapon modification</span>
                 </v-tooltip>
@@ -52,32 +53,32 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
+              <span class="subheading">{{ props.item.License }} {{props.item.LicenseLevel}}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.sp }}</span>
+              <span class="subheading">{{ props.item.SP }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.applied_string }}</span>
+              <span class="subheading">{{ props.item.AppliedString }}</span>
             </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <p v-if="props.item.description" v-html="props.item.description" class="fluff-text" />
-              <p v-if="props.item.effect" v-html="props.item.effect" class="pl-2 effect-text"/>
+              <p v-if="props.item.Description" v-html="props.item.Description" class="fluff-text" />
+              <p v-if="props.item.Effect" v-html="props.item.Effect" class="pl-2 effect-text"/>
               <v-layout class="mt-2">
-                <item-tag v-for="(tag, index) in props.item.tags" :key="tag.id + index" :tag-obj="tag"/>
+                <item-tag v-for="(tag, index) in props.item.Tags" :key="tag.id + index" :tag-obj="tag"/>
               </v-layout>
             </v-card-text>
           </v-card>
         </template>
       </v-data-table>
-      <v-layout v-if="current_equip" justify-space-between class="pt-4">
+      <v-layout v-if="weaponSlot.Weapon && weaponSlot.Weapon.Mod" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{item(current_equip.id).name}}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">Uninstall {{weaponSlot.Weapon.Mod.Name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -87,14 +88,16 @@
 <script lang="ts">
   import Vue from 'vue'
   import {ItemTag} from '../../components/UI'
-import { WeaponMod, Pilot } from '@/class'
+  import { WeaponMod, Pilot, WeaponSlot, EquippableMount, MechLoadout } from '@/class'
+  
   export default Vue.extend({
     name: 'mod-table',
     components: { ItemTag },
     props: {
-      current_equip: Object,
-      free_sp: Number,
-      weapon: Object,
+      weaponSlot: WeaponSlot,
+      mount: EquippableMount,
+      loadout: MechLoadout,
+      maxSP: Number,
     },
     data: () => ({
       selectedIndex: -1,
@@ -106,38 +109,40 @@ import { WeaponMod, Pilot } from '@/class'
       showOverSp: false,
       headers: [
         {align: 'left', sortable: false, width: '5vw'},
-        {text: 'Mod', align: 'left', value: 'name'},
+        {text: 'Mod', align: 'left', value: 'Name'},
         {text: 'Source', align: 'left', value: 'Source'},
-        {text: 'License', align: 'left', value: 'license'},
-        {text: 'SP Cost', align: 'left', value: 'sp'},
-        {text: 'Applied To', align: 'left', value: 'sp'}
+        {text: 'License', align: 'left', value: 'License'},
+        {text: 'SP Cost', align: 'left', value: 'SP'},
+        {text: 'Applied To', align: 'left', value: 'AppliedString'}
       ]
     }),
     computed: {
+      freeSP (): number {
+        const remaining = this.maxSP - this.loadout.TotalSP
+        return this.weaponSlot.Weapon 
+          ? remaining - this.weaponSlot.Weapon.SP 
+          : remaining
+      },
       mods() : WeaponMod[]{
-        var vm = this as any
-        var allMods = vm.$store.getters.getItemCollection('WeaponMods')
-        var i = allMods.filter((x: WeaponMod) => x.Source)
+        const vm = this as any
+        const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
+        let i = allMods.filter(x => x.Source)
         if (!vm.showLocked) {
-          i = i.filter(
-            (x: WeaponMod) => x.Source === 'GMS' || (
-              vm.pilot.licenses.find((y: any) => y.name === x.License) 
-              && vm.pilot.licenses.find((y: any) => y.name === x.License).level >= x.LicenseLevel)
-            )
+          i = i.filter(x => x.Source === 'GMS' 
+            || vm.pilot.has('License', x.License, x.LicenseLevel) 
+          )
         }
         if (!vm.showOverSp) {
-          // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = vm.current_equip ? vm.free_sp + vm.current_equip.sp || 0 : vm.free_sp
-          i = i.filter((x: WeaponMod) => x.SP <= totalFreeSp)
+          i = i.filter(x => x.SP <= vm.freeSP)
         }
-        // filter already equipped
-        if (vm.current_equip) i = i.filter((x: WeaponMod) => x.ID !== vm.current_equip.id)
-        // filter by applied_to
-        i = i.filter((x: WeaponMod) => x.AppliedTo.includes(vm.weapon.type.toLowerCase()))
-        // filter out any mount restrictions
-        i = i.filter((x: WeaponMod) => !x.Restricted || !x.Restricted.includes(vm.weapon.mount.toLowerCase()))
-        // search input
-        if (vm.search) i = i.filter((x: WeaponMod) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
+        // // filter already equipped
+        if (vm.weaponSlot.Mod) i = i.filter(x => x !== vm.weaponSlot.Mod)
+        // // filter by applied_to
+        i = i.filter(x => x.AppliedTo.includes(vm.weaponSlot.Weapon.Type))
+        // // filter out any mount restrictions
+        i = i.filter(x => !x.Restricted || !x.Restricted.includes(vm.Weapon.Size))
+        // // search input
+        if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
         return i
       },
@@ -146,26 +151,20 @@ import { WeaponMod, Pilot } from '@/class'
       }
     },
     methods: {
-      item(id: string): WeaponMod {
-        return this.$store.getters.getItemById('WeaponMods', id)
-      },
       remove() {
-        this.$emit('remove')
+        if (this.weaponSlot.Weapon) this.weaponSlot.Weapon.Mod = null
+        this.$emit('close')
       },
       select(item: WeaponMod) {
-        this.$emit('select', item)
+        if (this.weaponSlot.Weapon) this.weaponSlot.Weapon.Mod = item
+        this.$emit('close')
       },
-      isLocked(name: string, level: number): boolean {
-        if (!name) return false
-        var vm = this as any
-        return !((vm.pilot.licenses.find((y: any) => y.name === name) 
-          && vm.pilot.licenses.find((y: any) => y.name === name).level >= level))
+      isLocked(item: WeaponMod): boolean {
+        if (item.Source === "GMS") return false
+        return !(this.pilot.has('License', item.License, item.LicenseLevel))
       },
-      isOverSp(sp: number): boolean {
-        var totalFreeSp = this.current_equip 
-          ? this.free_sp + this.current_equip.sp || 0 
-          : this.free_sp
-        return sp > totalFreeSp
+      isOverSp(item: WeaponMod): boolean {
+        return item.SP > this.freeSP
       }
     }
   })
