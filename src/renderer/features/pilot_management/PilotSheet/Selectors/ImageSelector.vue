@@ -60,6 +60,7 @@
     methods: {
       assignPortrait (src: string) {
         if (this.cloud) this.cloudSave(src)
+        else this.pilot.SetLocalPortrait(src)
         this.$emit('notify', 'Pilot Portrait Saved')
         this.$emit('close')
       },

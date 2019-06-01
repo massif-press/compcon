@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import store from '@/store'
 import {MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize} from "@/class";
 import { WeaponSize } from '@/features/_shared/classes/enums';
 
@@ -100,8 +101,13 @@ class EquippableMount extends Mount {
     this.bonus_effects = [];
   }
 
+  private save() {
+    store.dispatch("saveData");
+  }
+
   public Lock() {
     this.lock = true;
+    this.save();
   }
 
   public Unlock() {
@@ -110,11 +116,13 @@ class EquippableMount extends Mount {
 
   public AddCoreBonus(cb: CoreBonus) {
     this.bonus_effects.push(cb);
+    this.save();
   }
 
   public RemoveCoreBonus(cb: CoreBonus) {
     const index = this.bonus_effects.findIndex(x => _.isEqual(x, cb));
     if (index > -1) this.bonus_effects.splice(index, 1);
+    this.save();
   }
 
   public get BonusEffects() {
@@ -133,8 +141,8 @@ class EquippableMount extends Mount {
 
   public static Deserialize(mountData: IMountData): EquippableMount {
     let m = new EquippableMount(mountData.mount_type as MountType);
-    m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
-    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
+    m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x));
+    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x));
     return m;
   }
 }

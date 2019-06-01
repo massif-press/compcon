@@ -3,7 +3,7 @@ import {
   copySync,
 } from 'fs-extra'
 import path from 'path'
-import { Pilot } from '@/class'
+import validator from '@/features/pilot_management/logic/validator'
 
 declare const __static: string
 
@@ -137,7 +137,7 @@ export default {
   loadUserData(userDataPath: string, filePath: string): IPilotData[] {
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {
-        return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8'))
+        return validator.checkVersion(JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8')))
       } else {
         console.warn(`file ${filePath} does not exist in folder ${userDataPath}. (if this is a new installation, ignore this message)`)
         return []

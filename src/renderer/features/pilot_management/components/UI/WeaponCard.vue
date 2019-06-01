@@ -11,9 +11,9 @@
         <range-element :range="getRange()" />
         <p v-if="item.Effect" v-html="item.Effect" class="pl-1 ml-1 pb-1 mb-1 effect-text"/>
            <v-layout class="pb-2">
-            <item-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tag-obj="t"/>
+            <item-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
             <div v-if="mod && mod.AddedTags" style="display: inline-flex;">
-              <item-tag v-for="t in mod.AddedTags" :key="t.id" :tag-obj="t"/>
+              <item-tag v-for="t in item.Tags" :key="t.id" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
             </div>
           </v-layout>
 
@@ -25,7 +25,7 @@
   import Vue from 'vue'
   import {RangeElement, DamageElement} from './'
   import ItemTag from './ItemTag.vue'
-  import {MechWeapon, WeaponMod, Range, Damage, RangeType, DamageType, MechLoadout} from '@/class'
+  import {MechWeapon, WeaponMod, Range, Damage, RangeType, DamageType, MechLoadout, Tag, Pilot} from '@/class'
 
   export default Vue.extend({
     name: 'weapon-card',
@@ -37,45 +37,40 @@
     },
     components: { ItemTag, RangeElement, DamageElement },
     computed: {
-      // rangeBonuses (): any {
-      //   return {
-      //     stabilizer: this.mod && this.mod === 'stabilizer',
-      //     neurolinked: (this.$store.getters['getPilot'].core_bonuses.includes('neurolinked') && this.item.type !== 'Melee'),
-      //     gyges: (this.$store.getters['getPilot'].core_bonuses.includes('gyges') && this.item.type === 'Melee')
-      //   }
-      // }
+      pilot(): Pilot {
+        return this.$store.getters.getPilot;
+      }
     },
     methods: {
-    //TODO: should not be hardcoded
-    getRange(): Range[] {
-      if (this.tableItem) return this.item.Range
-      const w = this.item
-      let bonuses = [] as {type: RangeType, val: number}[]
-      if (w.Mod && w.Mod.AddedRange) bonuses.push({
-        type: RangeType.Range, 
-        val: w.Mod.AddedRange
-      });
-      const pilot = this.$store.getters.getPilot
-      if (pilot.has('CoreBonus', 'neurolinked')) bonuses.push({
-        type: RangeType.Range, 
-        val: 3
-      });
-      if (pilot.has('CoreBonus', 'gyges')) bonuses.push({
-        type: RangeType.Threat, 
-        val: 1
-      });
-      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy) bonuses.push({
-        type: RangeType.Range, 
-        val: 5
-      });
-      return Range.AddBonuses(w.Range, bonuses);
-    },
+      //TODO: should not be hardcoded
+      getRange(): Range[] {
+        if (this.tableItem) return this.item.Range
+        const w = this.item
+        let bonuses = [] as {type: RangeType, val: number}[]
+        if (w.Mod && w.Mod.AddedRange) bonuses.push({
+          type: RangeType.Range, 
+          val: w.Mod.AddedRange
+        });
+        if (this.pilot.has('CoreBonus', 'neurolinked')) bonuses.push({
+          type: RangeType.Range, 
+          val: 3
+        });
+        if (this.pilot.has('CoreBonus', 'gyges')) bonuses.push({
+          type: RangeType.Threat, 
+          val: 1
+        });
+        if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy) bonuses.push({
+          type: RangeType.Range, 
+          val: 5
+        });
+        return Range.AddBonuses(w.Range, bonuses);
+      },
       getDamage() {
         if (this.tableItem) return this.item.Damage
         if (this.item.Damage && this.mod && this.mod.AddedDamage)
           return this.item.Damage.concat(this.mod.AddedDamage)
         return this.item.Damage || null
-      }
+      },
     }
   })
 </script>

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import store from '@/store'
 import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear, Loadout, ItemType } from "@/class";
 import { rules } from 'lancer-data'
 
@@ -12,6 +13,10 @@ class PilotLoadout extends Loadout {
     this.armor = Array(rules.max_pilot_armor).fill(null),
     this.gear = Array(rules.max_pilot_gear).fill(null),
     this.weapons = Array(rules.max_pilot_weapons).fill(null);
+  }
+
+  private save() {
+    store.dispatch("saveData");
   }
 
   public get Armor(): (PilotArmor | null)[] {
@@ -38,6 +43,12 @@ class PilotLoadout extends Loadout {
     this.gear = items;
   }
 
+  public get Items(): PilotEquipment[] {
+    return (this.armor as PilotEquipment[])
+      .concat(this.weapons as PilotEquipment[])
+      .concat(this.gear as PilotEquipment[])
+  }
+
   public Add(item: PilotEquipment, slot: number) {
     switch (item.ItemType) {
       case ItemType.PilotArmor:
@@ -52,10 +63,11 @@ class PilotLoadout extends Loadout {
       default:
         break;
     }
+    this.save()
   }
 
-  public Remove(itemType: ItemType, slot: number) {
-    switch (itemType) {
+  public Remove(item: PilotEquipment, slot: number) {
+    switch (item.ItemType) {
       case ItemType.PilotArmor:
         if (this.armor[slot]) this.armor[slot] = null;
         break;
@@ -68,6 +80,7 @@ class PilotLoadout extends Loadout {
       default:
         break;
     }
+    this.save();
   }
 
   public static Serialize(pl: PilotLoadout): IPilotLoadoutData {

@@ -4,13 +4,13 @@ import { RangeType } from "@/class";
 
 class Range {
   private range_type: RangeType;
-  private value: string | number;
+  private value: number;
   private override: boolean;
   private bonus: number
 
   constructor(range: {
     type: string;
-    val: string | number;
+    val: number;
     override: boolean;
     bonus?: number;
   }) {
@@ -29,7 +29,7 @@ class Range {
   }
 
   public get Value(): string {
-    if (this.bonus && typeof this.value === 'number') 
+    if (this.bonus) 
       return (this.value + this.bonus).toString() 
     return this.value.toString();
   }
@@ -43,23 +43,6 @@ class Range {
     if (this.bonus) return `${this.range_type} ${this.Value} (+${this.bonus})`
     return `${this.range_type} ${this.Value}`;
   }
-
-  // public static Bonus(ranges: Range[], bonus: string | number): Range[] {
-  //   let output = [] as Range[]
-  //   ranges.forEach(x => {
-  //     if (!x.Override) {
-  //       const newVal = typeof x.Value === "number" && typeof bonus === "number" && x.Type === RangeType.Range
-  //         ? x.Value + bonus + ` (+${bonus})`
-  //         : x.Value
-  //       output.push(
-  //         new Range({
-  //           type: x.Type, val: newVal, override: false
-  //         })
-  //       )
-  //     }
-  //   })
-  //   return output;
-  // }
 
   public static AddBonuses(ranges: Range[], bonuses: {type: RangeType, val: number}[]): Range[] {
     var output = [] as Range[]

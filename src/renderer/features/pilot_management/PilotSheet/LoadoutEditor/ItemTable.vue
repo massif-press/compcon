@@ -45,7 +45,7 @@
       <v-layout v-if="equippedItem" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="error" @click="remove()">Remove {{equipped.name}}</v-btn>
+          <v-btn color="error" @click="remove(equippedItem)">Remove {{equippedItem.Name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -96,11 +96,11 @@ export default Vue.extend({
       this.gearItems = this.$store.getters.getItemCollection('PilotGear').filter((x: PilotEquipment) => x.ItemType === this.itemType)
     },
     methods: {
-      select (item: any) {
+      select (item: PilotEquipment) {
         this.$emit('select-item', item)
       },
-      remove () {
-        this.$emit('remove-item', this.itemType)
+      remove (item: PilotEquipment) {
+        this.$emit('remove-item', item)
       }
     }
   })

@@ -1,3 +1,4 @@
+import store from '@/store'
 import { rules } from 'lancer-data';
 import {HASE} from '@/class'
 
@@ -23,14 +24,20 @@ class MechSkills {
   public set Sys(val: number) { this.sys = val }
   public set Eng(val: number) { this.eng = val }  
 
+  private save() {
+    store.dispatch("saveData");
+  }
+
   public Increment(field: HASE) {
     if (this[field] < rules.max_hase)
     this[field] += 1
+    this.save();
   }
 
   public Decrement(field: HASE) {
     if (this[field] > 0)
     this[field] -= 1
+    this.save();
   }
 
   public get Sum(): number {

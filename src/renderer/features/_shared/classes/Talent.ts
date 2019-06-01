@@ -19,7 +19,7 @@ class Talent extends CompendiumItem {
   }
 
   public Rank(rank: number): ITalentRank {
-    if (this.ranks[rank]) return this.ranks[rank];
+    if (this.ranks[rank - 1]) return this.ranks[rank - 1];
     console.error(
       `Talent ${this.ID}/${this.Name} does not contain rank ${rank} data`
     );

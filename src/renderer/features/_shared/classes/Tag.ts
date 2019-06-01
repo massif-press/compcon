@@ -1,4 +1,5 @@
-import { ItemType } from '@/class'
+import { ItemType, Pilot } from '@/class'
+import store from '@/store';
 
 class Tag {
   private id: string;
@@ -12,22 +13,30 @@ class Tag {
     this.id = tagData.id;
     this.name = tagData.name;
     this.description = tagData.description;
-    this.item_type = ItemType.None;
     this.brew = tagData.brew || "Core";
-    this.val = tagData.val || "";
+    this.val = "";
     this.item_type = ItemType.Tag;
   }
 
-  public Description(bonus: number): string {
+  public set Value(val: number | string) {
+    this.val = val;
+  }
+
+  public Description(add_bonus?: number): string {
+    const bonus = add_bonus || 0;
     if (!this.val) return this.description;
     if (typeof this.val === "number") {
-      return this.description.replace(/{VAL}/g, (this.val + bonus).toString());
+      return this.description.replace(
+        /{VAL}/g,
+        (this.val + bonus).toString()
+      );
     } else {
       var str = this.val as string;
       if (str.includes("+")) {
         const split = str.split("+");
-        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
-        return this.description.replace(/{VAL}/g, newVal);
+        let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
+        let newDesc = this.description.replace(/{VAL}/g, newVal);
+        return bonus ? `${newDesc} (+${bonus})` : newDesc;
       } else {
         return bonus > 0
           ? this.description.replace(/{VAL}/g, `${this.val}+${bonus}`)
@@ -40,8 +49,27 @@ class Tag {
     return this.id;
   }
 
-  public get Name(): string {
-    return this.name;
+  public Name(add_bonus?: number): string {
+    const bonus = add_bonus || 0;
+    if (!this.val) return this.name;
+    if (typeof this.val === "number") {
+      return this.name.replace(
+        /{VAL}/g,
+        (this.val + bonus).toString()
+      );
+    } else {
+      var str = this.val as string;
+      if (str.includes("+")) {
+        const split = str.split("+");
+        let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
+        let newName = this.name.replace(/{VAL}/g, newVal);
+        return bonus ? `${newName} (+${bonus})` : newName;
+      } else {
+        return bonus > 0
+          ? this.name.replace(/{VAL}/g, `${this.val}+${bonus}`)
+          : this.name.replace(/{VAL}/g, this.val);
+      }
+    }
   }
 
   public get ItemType(): ItemType {
@@ -53,8 +81,17 @@ class Tag {
   }
 
   public get IsUnique(): boolean {
-    console.log(this.id)
-    return this.id === 'unique'
+    return this.id === "unique";
+  }
+
+  public static Deserialize(data: ITagData[]): Tag[] {
+    let output = [] as Tag[];
+    data.forEach(x => {
+      let t = new Tag(store.getters.getItemById("Tags", x.id));
+      if (x.val) t.Value = x.val;
+      output.push(t);
+    });
+    return output;
   }
 }
 

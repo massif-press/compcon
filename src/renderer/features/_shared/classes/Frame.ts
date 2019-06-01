@@ -134,7 +134,7 @@ class CoreSystem {
   private passive?: string;
   private active_name: string;
   private effect: string;
-  private tags: Tag[];
+  private tags: ITagData[];
 
   constructor(coreData: any) {
     this.name = coreData.name;
@@ -171,7 +171,7 @@ class CoreSystem {
   }
 
   public get Tags(): Tag[] {
-    return this.tags;
+    return Tag.Deserialize(this.tags);
   }
 }
 

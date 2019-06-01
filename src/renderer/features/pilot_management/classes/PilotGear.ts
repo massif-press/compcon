@@ -2,7 +2,7 @@ import store from "@/store";
 import { CompendiumItem, Range, Damage, Tag, ItemType } from '@/class'
 
 abstract class PilotEquipment extends CompendiumItem {
-  private tags: Tag[];
+  private tags: ITagData[];
   private notes: string[];
 
   constructor(equipmentData: any) {
@@ -30,22 +30,24 @@ abstract class PilotEquipment extends CompendiumItem {
   }
 
   public get Tags(): Tag[] {
-    return this.tags;
+    return Tag.Deserialize(this.tags);
   }
 
   public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
-    if (!item) return null
+    if (!item) return null;
     return {
       id: item.ID,
       notes: item.Notes
     };
   }
 
-  public static Deserialize(itemData: IEquipmentData | null): PilotEquipment | null {
-    if (!itemData) return null
-    const item = store.getters.getItemById('PilotGear', itemData.id)
-    item.Notes = itemData.notes
-    return item
+  public static Deserialize(
+    itemData: IEquipmentData | null
+  ): PilotEquipment | null {
+    if (!itemData) return null;
+    const item = store.getters.getItemById("PilotGear", itemData.id);
+    item.Notes = itemData.notes;
+    return item;
   }
 }
 
@@ -66,7 +68,7 @@ class PilotArmor extends PilotEquipment {
     this.speed_bonus = armorData.speed_bonus || 0;
     this.armor = armorData.armor || 0;
     this.edef = armorData.edef || 0;
-    this.edef_bonus = armorData.edef || 0;
+    this.edef_bonus = armorData.edef_bonus || 0;
     this.evasion = armorData.evasion || 0;
     this.evasion_bonus = armorData.evasion_bonus || 0;
     this.item_type = ItemType.PilotArmor;

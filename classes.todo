@@ -1,11 +1,6 @@
 Classes:
-  ☐ unique systems/weapons
-    ☐ need to instantitize tags
-
-
-  ☐ saving
-  ☐ Printing
-  ☐ Statblocks
-  ☐ import
-    ☐ converter
- 
+  ☐ set correct active loadout tab on load
+  ☐ serialize weapon mod
+    
+known issues:
+- loadouts might bug out or not apply correctly, especially on delete

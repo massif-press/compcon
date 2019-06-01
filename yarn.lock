@@ -5019,10 +5019,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
-lancer-data@^1.8.52:
-  version "1.8.57"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.8.57.tgz#8477a7612d00a01f92c717b2ec3ec8d7c65b26c6"
-  integrity sha512-iptFH/lwwkGXTYsniCukHDQNCVJbNcRR8lNweGeFl6mGDUwrSFJk7a8ZEdzGUcVj9fOlEFWSTsimK13PtdpAwg==
+lancer-data@1.8.6:
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.8.6.tgz#3be0c8dfccc34921bf788a212ae526f1d79b4ee1"
+  integrity sha512-fhX4obw2Gn+E21XfssCUUYzFv4Q37RQq7wzFWO33nEwoBSMgRJOAlAcxizanp09S/cnvCObRmHre+p1GEzHygg==
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -8510,10 +8510,10 @@ vuedraggable@^2.20.0:
   dependencies:
     sortablejs "^1.8.4"
 
-vuetify@^1.5.13:
-  version "1.5.13"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.13.tgz#b2e406ebdc59723c5ecbd2d0595d3d2ae0cac812"
-  integrity sha512-mUOs9znDmMO/A2I117B/ZHyFlwSqkKplhSL8G2EnS+m0rvZv2Uqjo9idOBbdhaJ3A9sJWT6wDUFywEYuuIcu+g==
+vuetify@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.14.tgz#ff67d0b8a398be5297da159b6cd1b31f4d2898b8"
+  integrity sha512-7iM+TfghR/wu/Gl+k37lKr0N8Ddr6SxzqHtoK1dIyHgCH6SJRkpaXPw2MC5/FsAg9aUDJbYNWrzSeu5eHw+Q/w==
 
 vuex-electron@^1.0.3:
   version "1.0.3"
