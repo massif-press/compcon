@@ -3,6 +3,7 @@ import {
   copySync,
 } from 'fs-extra'
 import path from 'path'
+import validator from '@/features/pilot_management/logic/validator'
 
 declare const __static: string
 
@@ -37,7 +38,6 @@ export default {
       check(path.join(userDataPath, 'img'))
       check(path.join(userDataPath, 'img', 'frame'));
       check(path.join(userDataPath, 'img', 'default_frames'))
-      // check(path.join(userDataPath, 'img', 'default_frames'))
       check(path.join(userDataPath, 'img', 'portrait'))
       var allDefaultImages = this.getImages('frames', getStaticPath());
       for (let i = 0; i < allDefaultImages.length; i++) {
@@ -134,10 +134,10 @@ export default {
     const array = fs.readFileSync(p).toString().split('\n')
     return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
-  loadUserData(userDataPath: string, filePath: string): Pilot[] {
+  loadUserData(userDataPath: string, filePath: string): IPilotData[] {
     if (fs.existsSync(userDataPath)) {
       if (fs.existsSync(path.join(userDataPath, filePath))) {
-        return JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8'))
+        return validator.checkVersion(JSON.parse(fs.readFileSync(path.join(userDataPath, filePath), 'utf-8')))
       } else {
         console.warn(`file ${filePath} does not exist in folder ${userDataPath}. (if this is a new installation, ignore this message)`)
         return []
@@ -147,13 +147,12 @@ export default {
       return []
     }
   },
-  saveUserData(userDataPath: string, filePath: string, data: object, callback: () => void) {
+  saveUserData(userDataPath: string, filePath: string, data: any, callback: () => void) {
     if (!fs.existsSync(path.join(userDataPath))) {
       console.info("data folder doesn't exist in userData dir, creating...")
       fs.mkdirSync(userDataPath)
       console.info('data folder created successfully')
     }
-
     fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
   },
   saveFile(dataPath: string, data: any) {

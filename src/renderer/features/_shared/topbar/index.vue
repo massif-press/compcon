@@ -92,7 +92,7 @@
       helpModal: false,
       optionsModal: false,
       ver: 0,
-      hangarActive: true,
+      hangarActive: false,
       zeroConfigs: false,
     }),
     methods: {
@@ -103,13 +103,15 @@
     created() {
       const vm = this as any
       vm.ver = process.env.npm_package_version ? `v${process.env.npm_package_version}` : `v${vm.version}`
+      this.hangarActive = !!this.$store.getters.getPilot.Name
     },
     watch: {
       $route(to: Route, from: Route) {
         window.scrollTo(0, 0)
-        const activePilot = this.$store.getters['getPilot']
-        this.hangarActive = !(to.path === '/pilot_management' || to.path === '/new') || !activePilot
-        this.zeroConfigs = activePilot && activePilot.configs && activePilot.configs.length === 0
+        const activePilot = this.$store.getters.getPilot
+        this.hangarActive = !(to.path === '/pilot_management' || to.path === '/new')
+        if (!this.$store.getters.getPilot.Name) this.hangarActive = false;
+        this.zeroConfigs = activePilot && activePilot.Configs && activePilot.Configs.length === 0
       },
     },
   })

@@ -13,20 +13,20 @@
           <v-data-table :headers="headers" :items="frames" :search="search" item-key="id" hide-actions>
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
-                <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
-                <td class="text-xs-left"><span class="subheading font-weight-bold">{{ props.item.name }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.size === 0.5 ? '½' : props.item.stats.size }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.armor }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.hp }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.evasion }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{props.item.stats.edef}}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.heatcap }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.repcap }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sensor_range }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.tech_attack }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{props.item.stats.save}}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.speed }}</span></td>
-                <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sp }}</span></td>
+                <td class="text-xs-left"><span class="subheading">{{ props.item.Source }}</span></td>
+                <td class="text-xs-left"><span class="subheading font-weight-bold">{{ props.item.Name }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.Size === 0.5 ? '½' : props.item.Size }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.Armor }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.HP }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.Evasion }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.EDefense }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.HeatCap }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.RepCap }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.SensorRange }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.TechAttack }}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{props.item.Save}}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.Speed}}</span></td>
+                <td class="text-xs-right"><span class="subheading">{{ props.item.SP}}</span></td>
               </tr>
             </template>
             <template slot="expand" slot-scope="props">
@@ -50,29 +50,24 @@ export default Vue.extend({
       frames: [],
       search: null,
       headers: [
-        {text: 'Source', align: 'left', value: 'source'},
-        {text: 'Frame', align: 'left', value: 'name'},
-        {text: 'Size', align: 'right', value: 'stats.size'},
-        {text: 'Armor', align: 'right', value: 'stats.armor'},
-        {text: 'HP', align: 'right', value: 'stats.hp'},
-        {text: 'Evasion', align: 'right', value: 'stats.evasion'},
-        {text: 'E-Def.', align: 'right', value: 'stats.edef'},
-        {text: 'Heat Cap.', align: 'right', value: 'stats.heatcap'},
-        {text: 'Rep. Cap.', align: 'right', value: 'stats.repcap'},
-        {text: 'Sensors', align: 'right', value: 'stats.sensor_range'},
-        {text: 'Tech Atk', align: 'right', value: 'stats.tech_attack'},
-        {text: 'Save', align: 'right', value: 'stats.save'},
-        {text: 'Speed', align: 'right', value: 'stats.speed'},
-        {text: 'SP', align: 'right', value: 'stats.sp'},
+        {text: 'Source', align: 'left', value: 'Source'},
+        {text: 'Frame', align: 'left', value: 'Name'},
+        {text: 'Size', align: 'right', value: 'Size'},
+        {text: 'Armor', align: 'right', value: 'Armor'},
+        {text: 'HP', align: 'right', value: 'HP'},
+        {text: 'Evasion', align: 'right', value: 'Evasion'},
+        {text: 'E-Def.', align: 'right', value: 'EDef'},
+        {text: 'Heat Cap.', align: 'right', value: 'Heatcap'},
+        {text: 'Rep. Cap.', align: 'right', value: 'Repcap'},
+        {text: 'Sensors', align: 'right', value: 'SensorRange'},
+        {text: 'Tech Atk', align: 'right', value: 'TechAttack'},
+        {text: 'Save', align: 'right', value: 'Save'},
+        {text: 'Speed', align: 'right', value: 'Speed'},
+        {text: 'SP', align: 'right', value: 'SP'},
       ],
     }),
     created() {
-      this.frames = this.$store.getters['getItemCollection']('Frames')
-      const ps = this.$store.getters['getPresearch']
-      if (ps) {
-        this.search = ps
-        this.$store.dispatch('clearPresearch')
-      }
+      this.frames = this.$store.getters.getItemCollection('Frames')
     },
   })
 </script>

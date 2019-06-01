@@ -2,64 +2,95 @@
   <div>
     <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
     <v-card-text class="text-xs-center">
-      <v-btn-toggle v-model="bonus_toggle" multiple class="mb-2">
-        <v-btn v-for="b in pendingBonuses" :key="b" :value="b">&nbsp;{{getCoreBonus(b).name}}&nbsp;</v-btn>
-        <v-btn v-for="b in appliedBonuses" :key="b" :value="b">&nbsp;{{getCoreBonus(b).name}}&nbsp;</v-btn>
-      </v-btn-toggle>
+      <v-layout justify-center wrap>
+        <v-flex xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
+          <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">Uninstall Auto-Stabilizing Hardpoints</v-btn>
+          <v-btn large block v-else-if="unappliedHardpoints()" @click="addHardpoints()">Install Auto-Stabilizing Hardpoints</v-btn>
+        </v-flex>
+        <v-flex xs12 v-if="pilot.has('CoreBonus', 'burnout')">
+          <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">Uninstall BURNOUT Insulation</v-btn>
+          <v-btn large block v-else-if="unappliedBurnout()" @click="addBurnout()">Install BURNOUT Insulation</v-btn>
+        </v-flex>
+        <v-flex xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
+          <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">Restore Original Mount</v-btn>
+          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">Retrofit Mount</v-btn>
+        </v-flex>        
+      </v-layout>
       <v-divider class="ma-3"/>
-      <i>Applied Bonuses:</i>
-      <v-card v-for="b in bonus_toggle" :key="'bt_' + b" 
-        class="mb-2 mt-1 ml-5 mr-5" color="blue-grey darken-4">
-        <v-card-text>{{getCoreBonus(b).effect}}</v-card-text>
-      </v-card>
     </v-card-text>
     <v-card-actions>
-      <v-btn flat @click="cancel" > Cancel </v-btn>
-      <v-spacer />
-      <v-btn color="primary" @click="confirm" > Confirm </v-btn>
+      <v-btn flat @click="close" > Cancel </v-btn>
     </v-card-actions>
   </div> 
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import _ from 'lodash'
+  import { Pilot, MechLoadout, EquippableMount, CoreBonus } from '@/class'
 
   export default Vue.extend({
     name: 'core-benefit-selector',
     props: {
-      loadout: Object,
-      mount: Object
+      loadout: MechLoadout,
+      mount: EquippableMount
     },
     data: () => ({
       bonus_toggle: [],
-      appliedBonuses: [],
-      pendingBonuses: []
     }),
     computed: {
       pilot (): Pilot {
-        return this.$store.getters['getPilot']
+        return this.$store.getters.getPilot
       },
-      allAppliedCbs () {
-        var applied = [] as any[]
-        for (var i = 0; i < this.loadout.mounts.length; i++) {
-          if (this.loadout.mounts[i].bonuses) applied = applied.concat(this.loadout.mounts[i].bonuses)
-        }
-        return applied
-      }
     },
     methods: {
-      cancel () {
-        this.$emit('cancel')
+      unappliedHardpoints(): boolean {
+        return !this.loadout.AllEquippableMounts(true).flatMap(x => x.BonusEffects).some(y => y.ID === "hardpoints")
       },
-      confirm () {
-        this.$emit('confirm', this.bonus_toggle)
-      }
+      appliedHardpoints(): boolean {
+        return this.mount.BonusEffects.some(x => x.ID === "hardpoints")
+      },
+      addHardpoints() {
+        this.mount.AddCoreBonus(this.$store.getters.getItemById("CoreBonuses", 'hardpoints'))
+        this.$emit('close')
+      },
+      removeHardpoints() {
+        this.mount.RemoveCoreBonus(this.$store.getters.getItemById("CoreBonuses", 'hardpoints'))
+        this.$emit('close')
+      },
+      unappliedBurnout(): boolean {
+        return !this.loadout.AllEquippableMounts(true).flatMap(x => x.BonusEffects).some(y => y.ID === "burnout")
+      },
+      appliedBurnout(): boolean {
+        return this.mount.BonusEffects.some(x => x.ID === "burnout")
+      },
+      addBurnout() {
+        this.mount.AddCoreBonus(this.$store.getters.getItemById("CoreBonuses", 'burnout'))
+        this.$emit('close')
+      },
+      removeBurnout() {
+        this.mount.RemoveCoreBonus(this.$store.getters.getItemById("CoreBonuses", 'burnout'))
+        this.$emit('close')
+      },
+      unappliedRetrofit(): boolean {
+        return this.pilot.has("CoreBonus", "retrofit") && !this.loadout.IsRetrofitted
+      },
+      appliedRetrofit(): boolean {
+        return this.loadout.IsRetrofitted && _.isEqual(this.mount, this.loadout.RetrofittedMount)
+      },
+      addRetrofit() {
+        this.loadout.RetrofitMount(
+          this.loadout.AllEquippableMounts(true).findIndex(x => _.isEqual(x, this.mount))
+        )
+        this.$emit('close')
+      },
+      removeRetrofit() {
+        this.loadout.RemoveRetrofitting();
+        this.$emit('close')
+      },
+      close () {
+        this.$emit('close')
+      },
     },
-    created () {
-      var vm = this as any
-      vm.appliedBonuses = vm.mount.bonuses || []
-      vm.pendingBonuses = ['hardpoints', 'burnout', 'intweapon', 'retrofit'].filter(x => vm.pilot.core_bonuses.includes(x) && !vm.allAppliedCbs.includes(x))
-      vm.bonus_toggle = this.appliedBonuses
-    }
   })
 </script>

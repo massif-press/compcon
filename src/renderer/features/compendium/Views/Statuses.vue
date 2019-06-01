@@ -37,7 +37,7 @@ export default Vue.extend({
       section: 0,
     }),
     created() {
-      this.statuses = this.$store.getters['getItemCollection']('Statuses')
+      this.statuses = this.$store.getters.getItemCollection('Statuses')
     },
   })
 </script>
