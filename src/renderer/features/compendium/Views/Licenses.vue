@@ -3,11 +3,11 @@
     <span class="display-1 text-uppercase font-weight-thin">LICENSES</span>
     <v-layout v-for="m in Object.keys(licenses)" :key="m">
       <v-flex class="text-xs-center pa-3">
-        <span class="display-2 text-uppercase font-weight-light">{{manufacturer(m).name}}</span>
+        <span class="display-2 text-uppercase font-weight-light">{{getManufacturer(m).name}}</span>
      <v-expansion-panel class="mt-2">      
-       <v-expansion-panel-content v-for="l in licenses[m]" :key="l.license">
+       <v-expansion-panel-content v-for="l in licenses[m]" :key="l.FrameID">
         <template v-slot:header>
-          <div class="text-uppercase title">{{l.license}}</div>
+          <div class="text-uppercase title">{{l.Name}}</div>
         </template>
         <license-card :license="l" />
        </v-expansion-panel-content>
@@ -21,7 +21,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
-import { thisItem } from '@/data_interfaces/type_guards'
 import { LicenseCard } from '@/features/pilot_management/components/UI'
 
 export default Vue.extend({
@@ -32,11 +31,11 @@ export default Vue.extend({
     }),
     methods: {
       manufacturer(id: string) {
-        return this.$store.getters['getItemById']('Manufacturers', id.toUpperCase())
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
     },
     created() {
-      this.licenses = _.groupBy(this.$store.getters['getItemCollection']('Licenses'), 'source')
+      this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
     },
   })
 </script>

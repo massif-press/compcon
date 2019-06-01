@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "Massif Press",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
@@ -12,7 +12,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.3.0b",
+    "title": "COMP/CON v1.3.1",
     "whiteListedModules": [
       "vue",
       "vuetify"
@@ -67,7 +67,7 @@
     "fs-extra": "^7.0.1",
     "gist-client": "^1.1.0",
     "imgur": "^0.3.1",
-    "lancer-data": "^1.8.52",
+    "lancer-data": "1.8.6",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
     "source-map-support": "^0.5.10",
@@ -75,7 +75,8 @@
     "vue-mousetrap": "^1.0.1",
     "vue-router": "^3.0.6",
     "vue2-scrollspy": "^2.3.1",
-    "vuetify": "^1.5.13",
+    "vuedraggable": "^2.20.0",
+    "vuetify": "^1.5.14",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
     "xlsx": "^0.14.2"
@@ -83,6 +84,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
+    "circular-dependency-plugin": "^5.0.2",
     "electron": "4.0.1",
     "electron-builder": "20.38.4",
     "electron-webpack": "^2.6.2",

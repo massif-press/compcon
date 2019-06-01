@@ -13,7 +13,7 @@
         <v-card-actions>
           <v-btn flat @click="dialog = false"> Cancel </v-btn>
           <v-spacer />
-          <v-btn :disabled="!canSave" color="primary" flat @click="save(attr)">Save</v-btn>
+          <v-btn :disabled="!canSave" color="primary" flat @click="save()">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -22,9 +22,13 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot, Mech } from '@/class';
+
   export default Vue.extend({
     name: 'editable-label',
     props: {
+      pilot: Pilot,
+      mech: Mech,
       attr: String,
       description: String,
       placeholder: String,
@@ -41,10 +45,9 @@
     },
     methods: {
       save (attr: string) {
-        this.$store.dispatch('editPilot', {
-          attr: attr,
-          val: this.newLabel
-        })
+        if (this.pilot) this.$set(this.pilot, this.attr, this.newLabel)
+        else this.$set(this.mech, this.attr, this.newLabel)
+        this.$store.dispatch("saveData");
         this.dialog = false
         this.$emit('on-save')
       }

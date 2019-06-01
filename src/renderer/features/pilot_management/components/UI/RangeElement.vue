@@ -2,20 +2,20 @@
   <div>
     <!-- Small Element -->
     <div top v-if="small">
-      <v-tooltip top v-if="range[0].override">
-        <span slot="activator"><v-icon>more_horiz</v-icon></span>
-        <span class="text-capitalize"> {{range[0].val}}</span>
-      </v-tooltip>
 
-      <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_activator'" style="display:inline">
-        <v-tooltip top v-if="small">      
+      <div v-for="(r, index) in range" :key="`range_${index}_activator`" style="display:inline">
+      <!-- <v-tooltip top v-if="r.override">
+        <span slot="activator"><v-icon>more_horiz</v-icon></span>
+        <span class="text-capitalize"> {{r.Value}}</span>
+      </v-tooltip> -->
+        <v-tooltip top>      
           <span slot="activator" :style="`font-size: ${size || 16}px; display: inline-flex;`">
-            <span class="text-capitalize">{{getRange(range[n - 1], true)}}</span>
-            <v-icon >cc-{{range[n-1].type}}</v-icon>&nbsp;
+            <b v-if="r.Override"><v-icon>more_horiz</v-icon></b>
+            <span v-else class="text-capitalize">{{r.Value}}
+            <v-icon >{{r.Icon}}</v-icon>
+            <span v-if="range.length - 1 > index" class="grey--text"> //&nbsp;</span> </span>           
           </span>
-          <span class="text-capitalize">
-            {{range[n-1].type}} {{getRange(range[n - 1], true)}}
-          </span>
+          <span>{{ r.ToString }}</span>
         </v-tooltip>
       </div> 
     </div>
@@ -24,13 +24,12 @@
   <!-- Regular Element -->
     <div v-if="!small">
     <span :style="`font-size: ${size || 16}px; display: inline-flex;`">
-      <b v-if="range[0].override" class="text-capitalize"> {{range[0].val}} </b>
-      <div v-else v-for="n in range.length" :key="n + range[n-1].type + range[n - 1].val + '_range'">
-        <b class="text-capitalize"> {{getRange(range[n - 1], false)}} </b>
-        <span v-if="range.length > n" class="grey--text">//&nbsp;</span>
+      <!-- <b v-if="range[0].override" class="text-capitalize"> {{range[0].val}} </b> -->
+      <div v-for="(r, index) in range" :key="`range_${index}_element`">
+        <b>{{ r.ToString }}</b><span v-if="range.length - 1 > index" class="grey--text"> //&nbsp;</span>
       </div>
     </span>
-      <div v-if="showCb">
+      <!-- <div v-if="showCb">
         <v-card v-if="bonuses && bonuses.gyges" color="grey darken-1" class="ml-5 mr-5 mt-3 mb-3">
           <v-card-text class="text-xs-center ma-0 pa-2">
             <span class="blockquote">GYGES Frame Reinforcement</span><br>
@@ -43,7 +42,7 @@
             <span>+3 Range</span>
           </v-card-text>
         </v-card>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

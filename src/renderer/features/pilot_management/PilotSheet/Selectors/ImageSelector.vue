@@ -22,9 +22,9 @@
       </v-layout>
       <v-divider class="mb-2" />
       <v-layout row justify-space-between wrap fill-height align-center>
-        <v-flex v-if="cloudPortrait" xs3> 
+        <v-flex v-if="pilot.CloudPortrait" xs3> 
           <div :class="`justify-center pa-1 cloud`">
-            <v-img :src="cloudPortrait" position="top" max-height="40vh" max-width="40vw" contain style="opacity: 1!important"/>
+            <v-img :src="pilot.CloudPortrait" position="top" max-height="40vh" max-width="40vw" contain style="opacity: 1!important"/>
             <v-tooltip top>
               <v-icon slot="activator" x-large style="z-index:20; position: absolute; left: 80%; top: 85%;">cloud</v-icon>
               <span>Saved to Cloud</span>
@@ -32,7 +32,7 @@
           </div>
         </v-flex>
         <v-flex v-for="i in portraits" :key="i" xs3> 
-          <div :class="`justify-center pa-1 ${i === preselectPortrait && !cloudPortrait ? 'preselected' : 'fadeSelect'} clickable`" @click="assignPortrait(i)">
+          <div :class="`justify-center pa-1 ${i === pilot.LocalPortrait && !pilot.CloudPortrait ? 'preselected' : 'fadeSelect'} clickable`" @click="assignPortrait(i)">
             <v-img :src="`file://${userDataPath}/img/portrait/${i}`" position="top" max-height="40vh" max-width="40vw" contain style="opacity: 1!important"/> 
           </div>
         </v-flex>
@@ -46,12 +46,12 @@
   import Vue from 'vue'
   import io from '@/features/_shared/data_io'
   import apis from '../../logic/apis'
+  import { Pilot } from '@/class';
 
   export default Vue.extend({
     name: 'image-selector',
     props: {
-      preselectPortrait: String,
-      cloudPortrait: String,
+      pilot: Pilot,
     },
     data: () => ({
       cloud: false,
@@ -60,17 +60,14 @@
     methods: {
       assignPortrait (src: string) {
         if (this.cloud) this.cloudSave(src)
-        this.$store.dispatch('editPilot', {
-          attr: `portrait`,
-          val: src
-        })
+        else this.pilot.SetLocalPortrait(src)
         this.$emit('notify', 'Pilot Portrait Saved')
         this.$emit('close')
       },
       importAll () {
         var vm = this as any
         vm.portraits = io.getImages('portrait', vm.userDataPath).sort(function (a, b) {
-          return a === vm.preselectPortrait ? 0 : 1
+          return a === vm.pilot.portrait ? 0 : 1
         })
       },
       importImage (imgType: string) {
@@ -92,22 +89,16 @@
       },
       checkCloudSave (toggle: boolean) {
         if (toggle) {
-          if (this.preselectPortrait) this.cloudSave(this.preselectPortrait)
+          if (this.pilot.LocalPortrait) this.cloudSave(this.pilot.LocalPortrait)
         }
         else {
-          this.$store.dispatch('editPilot', {
-            attr: 'cloud_portrait',
-            val: ''
-          })        
+          this.pilot.SetCloudPortrait('')
         }
       },
       cloudSave(src: string) {
         var vm = this as any
         apis.uploadImage(vm.userDataPath, 'portrait', src).then(function (json: any) {
-          vm.$store.dispatch('editPilot', {
-            attr: 'cloud_portrait',
-            val: json.data.link
-          })
+          vm.pilot.SetCloudPortrait(json.data.link)
           vm.$emit('notify', 'Cloud Upload Successful')
         })
         .catch(function (err: any) {
@@ -119,7 +110,7 @@
       this.importAll()
     },
     created () {
-      if (this.cloudPortrait && this.cloudPortrait.length) this.cloud = true
+      if (this.pilot.CloudPortrait) this.cloud = true
     }
   })
 </script>

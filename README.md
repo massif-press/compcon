@@ -14,12 +14,6 @@ yarn dev
 # build electron application for production
 yarn dist
 
-# lint all JS/Vue component files in `src/`
-npm lint
-
-# fix whatever's fixable
-npm lint:fix
-
 ```
 
 ---
