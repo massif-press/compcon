@@ -54,60 +54,40 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot } from '@/class';
+  import MechSkills from '../../classes/MechSkills';
+  import { rules } from 'lancer-data';
+
   export default Vue.extend({
     name: 'level-selector',
-    data: () => ({
-      newLevel: null as any
-    }),
-    computed: {
-      pilot (): Pilot {
-        return this.$store.getters['getPilot']
-      }
+    props: {
+      pilot: Pilot
     },
+    data: () => ({
+      newLevel: 0
+    }),
     methods: {
       setLevel () {
-        if (this.newLevel && this.newLevel! < this.pilot.level) {
-          this.$store.dispatch('editPilot', {
-            attr: `level`,
-            val: parseInt(this.newLevel!)
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `licenses`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `skills`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `talents`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `core_bonuses`,
-            val: []
-          })
-          this.$store.dispatch('editPilot', {
-            attr: `mechSkills`,
-            val: {'hull': 0, 'agi': 0, 'sys': 0, 'eng': 0}
-          })
-        } else if (this.newLevel) {
-          this.$store.dispatch('editPilot', {
-            attr: `level`,
-            val: parseInt(this.newLevel!)
-          })
-        }
+        if (this.newLevel < this.pilot.Level) {
+          this.pilot.ClearLicenses()
+          this.pilot.ClearSkills()
+          this.pilot.ClearTalents()
+          this.pilot.ClearCoreBonuses()
+          this.pilot.MechSkills = new MechSkills()
+        } 
+        this.pilot.Level = this.newLevel;
+
         this.$emit('changed', this.newLevel)
       },
     },
     created () {
-      this.newLevel = this.pilot.level
+      this.newLevel = this.pilot.Level
     },
     watch: {
       newLevel: function () {
         if (!this.newLevel) this.newLevel = 0
         else if (this.newLevel < 0) this.newLevel = 0
-        else if (this.newLevel > 12) this.newLevel = 12
+        else if (this.newLevel > rules.max_pilot_level) this.newLevel = parseInt(rules.max_pilot_level)
       }
     }
   })

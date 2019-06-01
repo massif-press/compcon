@@ -284,6 +284,7 @@
       actions: [],
     }),
     methods: {
+      //TODO: external definitions
       getColor(action: string, hover: boolean): string {
         if (action === 'move') return hover ? 'red' : 'red darken-3'
         else if (action === 'full') return hover ? 'indigo' : 'indigo darken-3'

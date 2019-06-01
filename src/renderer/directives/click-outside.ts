@@ -2,7 +2,7 @@ import { DirectiveOptions, VNode } from 'vue'
 import { DirectiveBinding } from 'vue/types/options'
 
 interface IHTMLElement extends HTMLElement{
-  clickOutsideEvent ?: any
+  clickOutsideEvent?: any;
 }
 
 const directive: DirectiveOptions = {
