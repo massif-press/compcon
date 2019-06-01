@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
 
@@ -18,6 +18,7 @@ function createMainWindow() {
     titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
     webPreferences: {
       webSecurity: false,
+      nodeIntegration: true,
     },
   })
 
@@ -29,6 +30,9 @@ function createMainWindow() {
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
+    window.webContents.once('dom-ready', () => {
+      window.webContents.openDevTools()
+    })
   }
   else {
     window.loadURL(formatUrl({
@@ -36,6 +40,11 @@ function createMainWindow() {
       protocol: 'file',
       slashes: true
     }))
+  }
+
+  // we don't want to show a menu except on OSX
+  if (process.platform !== 'darwin') {
+    window.setMenu(null)
   }
 
   window.on('closed', () => {
@@ -71,3 +80,58 @@ app.on('activate', () => {
 app.on('ready', () => {
   mainWindow = createMainWindow()
 })
+
+// Create menu items for OSX - copy/paste and some other stuff won't work
+// without them
+if (process.platform === 'darwin') {
+  var template = [{
+    label: "Comp/Con",
+    submenu: [{
+      label: "About Comp/Con",
+      selector: "orderFrontStandardAboutPanel:"
+    },
+    {
+      type: "separator"
+    },
+    {
+      label: "Quit",
+      accelerator: "CmdOrCtrl+Q",
+      click: function () {
+        app.quit();
+      }
+    }
+    ]
+  }, {
+    label: "Edit",
+    submenu: [{
+      label: "Cut",
+      accelerator: "CmdOrCtrl+X",
+      role: "cut"
+    },
+    {
+      label: "Copy",
+      accelerator: "CmdOrCtrl+C",
+      role: "copy"
+    },
+    {
+      label: "Paste",
+      accelerator: "CmdOrCtrl+V",
+      role: "paste"
+    },
+    {
+      label: "Select All",
+      accelerator: "CmdOrCtrl+A",
+      role: "selectAll"
+    }
+    ]
+  }, {
+    label: 'View',
+    submenu: [{
+      label: "Toggle Dev Tools",
+      accelerator: "Alt+CmdOrCtrl+I",
+      role: "toggleDevTools"
+    }]
+  }]
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}

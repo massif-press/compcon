@@ -1,0 +1,42 @@
+language: node_js
+node_js: "10"
+cache: yarn
+install:
+  - yarn
+sudo: false
+
+# We go through some contortions in here and the package.json
+# calls because a) we have to hardwire a build location
+# into packages's build.directories.output and b) we need to match
+# a number of specific folder names for itch.io's outputs.
+# The last is because, at the time of automation, there was already
+# a pipeline with subscribers on itch that we had to not disrupt.
+# That said, I'm sure a refactor could improve all this.
+matrix:
+  include:
+  - name: osx_build
+    os: osx
+    osx_image: xcode10.2
+    script: BUILD_OS=osx ./build_scripts/build.sh
+  - name: linux_build
+    os: linux
+    dist: xenial
+    script: BUILD_OS=linux ./build_scripts/build.sh
+  - name: win_build
+    os: osx
+    osx_image: xcode10.2
+    script: BUILD_OS=win ./build_scripts/build.sh
+
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+
+branches:
+  only:
+    - stable
+    - beta
+    - tso_ci_pipeline
