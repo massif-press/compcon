@@ -14,15 +14,15 @@
           <v-divider />
           <v-stepper-step :complete="lv_step > 5" step="5">Select New License</v-stepper-step>
           <v-divider />
-          <v-stepper-step v-if="pilot.level % 3 === 0" :complete="lv_step > 6" step="6">Select New Core Bonus</v-stepper-step>
+          <v-stepper-step v-if="pilot.Level % 3 === 0" :complete="lv_step > 6" step="6">Select New Core Bonus</v-stepper-step>
           <v-divider />
-          <v-stepper-step :step="pilot.level % 3 === 0 ? '7' : '6'">Confirm</v-stepper-step>
+          <v-stepper-step :step="pilot.Level % 3 === 0 ? '7' : '6'">Confirm</v-stepper-step>
         </v-stepper-header>
 
         <v-stepper-items>
           <v-stepper-content step="1">
             <v-container>
-                <level-update-block :lvl="pilot.level" :callsign="pilot.callsign" />        
+                <level-update-block :lvl="pilot.Level" :callsign="pilot.Callsign" />        
             </v-container>
 
             <v-layout justify-space-between>
@@ -36,74 +36,73 @@
           </v-stepper-content>
 
           <v-stepper-content step="2">
-            <skill-selector v-if="lv_step === 2" :pilotSkills="pilot.skills" :pilotLevel="pilot.level" level-up @set-skills="setSkills"/>
+            <skill-selector v-if="lv_step === 2" :pilot="pilot" level-up/>
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" :disabled="newItems.skills.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasSkills" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
           <v-stepper-content step="3">
-            <talent-selector v-if="lv_step === 3" :pilotTalents="pilot.talents" :pilotLevel="pilot.level" level-up @set-talents="setTalents"/>
+            <talent-selector v-if="lv_step === 3" :pilot="pilot" level-up/>
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" :disabled="newItems.talents.length === 0"  @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasTalents"  @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
             <v-stepper-content step="4">
-            <mech-skills-selector v-if="lv_step === 4" :mechSkills="mSkills" level-up :pilotLevel="pilot.level" @new-mech-skills="setMechSkills"/>        
+            <mech-skills-selector v-if="lv_step === 4" :pilot="pilot" level-up/>        
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" :disabled="!hasNewMechSkills()"  @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasMechSkills" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
             <v-stepper-content step="5">
-            <license-selector v-if="lv_step === 5" :pilotLicenses="pilot.licenses" level-up :pilotLevel="pilot.level" @set-licenses="setLicenses"/>    
+            <license-selector v-if="lv_step === 5" :pilot="pilot" level-up/>    
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" :disabled="newItems.licenses.length === 0" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasLicenses" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
-          <v-stepper-content v-if="pilot.level % 3 === 0" step="6">
-            <core-bonus-selector v-if="lv_step === 6" :pilotBonuses="pilot.core_bonuses" level-up :pilotLevel="pilot.level" 
-              :pilotLicenses="getBonusLicenses()" @set-bonuses="setBonuses"/>          
+          <v-stepper-content v-if="pilot.Level % 3 === 0" step="6">
+            <core-bonus-selector v-if="lv_step === 6" :pilot="pilot" level-up/>          
             <v-layout justify-space-between>
               <v-flex xs1>
                 <v-btn flat to="pilot">Cancel</v-btn>
               </v-flex>
               <v-flex shrink>
                 <v-btn color="primary" flat @click="stepBack"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn large color="primary" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
+                <v-btn large color="primary" :disabled="!hasBonuses" @click="stepForward">Continue<v-icon>chevron_right</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
 
-          <v-stepper-content :step="pilot.level % 3 === 0 ? '7' : '6'">
+          <v-stepper-content :step="pilot.Level % 3 === 0 ? '7' : '6'">
             <v-container>
-              <confirmation-block :pilot="pilot" :changes="newItems" />
+              <confirmation-block :pilot="pilot" />
             </v-container>
 
             <v-layout>
@@ -131,10 +130,12 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import { Pilot, MechSkills } from '@/class'
   import _ from 'lodash'
   import { SkillSelector, TalentSelector, MechSkillsSelector, LicenseSelector, CoreBonusSelector } from '../Selectors'
   import LevelUpdateBlock from './LevelUpdateBlock.vue'
   import ConfirmationBlock from './ConfirmationBlock.vue'
+  import { rules } from 'lancer-data';
 
   export default Vue.extend({
     name: 'new-pilot',
@@ -142,54 +143,35 @@
     data: () => ({
       lv_step: 0,
       pilot: {} as Pilot,
-      mSkills: {} as MechSkills,
-      newItems: {
-        level: 0,
-        skills: [],
-        talents: [],
-        mechSkills: {
-          hull: 0,
-          agi: 0,
-          sys: 0,
-          eng: 0
-        },
-        licenses: []
-      }
     }),
+    computed: {
+      hasSkills (): boolean {
+        return this.pilot.Skills.length >= rules.minimum_pilot_skills &&
+          this.pilot.Skills.reduce((a, b) => {
+            return a + (b ? b.Rank : 0);
+          }, 0) === (rules.minimum_pilot_skills + this.pilot.Level);
+      },
+      hasTalents (): boolean {
+        return this.pilot.Skills.length >= rules.minimum_pilot_talents &&
+          this.pilot.Talents.reduce((a, b) => {
+            return a + (b ? b.Rank : 0);
+          }, 0) === (rules.minimum_pilot_talents + this.pilot.Level);
+      },
+      hasMechSkills (): boolean {
+        return this.pilot.MechSkills.Sum >= (rules.minimum_mech_skills + this.pilot.Level);
+      },
+      hasLicenses (): boolean {
+        return this.pilot.Licenses.reduce((a, b) => {
+            return a + (b ? b.Rank : 0);
+          }, 0) === this.pilot.Level;
+      },
+      hasBonuses (): boolean {
+        return this.pilot.CoreBonuses.length === Math.floor(this.pilot.Level/3)
+      }
+    },
     methods: {
-      itemSelect (payload: {field: string, value: any}) {
-        (this as any).newItems[payload.field] = payload.value
-      },
-      item (type: string, id: string) {
-        return this.$store.getters['getItemById'](type, id)
-      },
-      setSkills (skills: any) {
-        this.itemSelect({field: 'skills', value: skills})
-      },
-      setTalents (talents: any) {
-        this.itemSelect({field: 'talents', value: talents})
-      },
-      setMechSkills (mskills: any) {
-        this.itemSelect({field: 'mechSkills', value: mskills})
-      },
-      setLicenses (licenses: any) {
-        this.itemSelect({field: 'licenses', value: licenses})
-      },
-      getBonusLicenses (): any {
-        var vm = this as any
-        return _.clone(vm.newItems.licenses)
-      },
-      setBonuses (cbs: any) {
-        this.itemSelect({field: 'core_bonuses', value: cbs})
-      },
       savePilot () {
-        var saveItems = this.newItems as any
-        for (const key in saveItems) {
-          this.$store.dispatch('editPilot', {
-            attr: key,
-            val: saveItems[key]
-          })
-        }
+        this.$store.dispatch('updatePilot', this.pilot)
         this.$router.push('./pilot')
       },
       stepBack () {
@@ -200,15 +182,10 @@
         this.lv_step++
         window.scrollTo(0, 0)
       },
-      hasNewMechSkills () {
-        var m = this.newItems.mechSkills
-        return m.hull + m.agi + m.eng + m.sys > 0
-      },
       init () {
-        this.pilot = JSON.parse(JSON.stringify(this.$store.getters['getPilot']))
-        this.mSkills = JSON.parse(JSON.stringify(this.pilot.mechSkills))
-        this.pilot.level++
-        this.newItems.level = this.pilot.level
+        const pilotData = Pilot.Serialize(this.$store.getters.getPilot)
+        this.pilot = Pilot.Deserialize(pilotData)
+        this.pilot.Level += 1
       }
     },
     created () {

@@ -50,47 +50,6 @@
           </v-flex>
         </v-layout>
 
-        <v-layout>
-          <v-flex>
-            <v-btn block flat color="primary" @click="importSheet">Import from GSheet</v-btn>
-          </v-flex>
-          <v-flex shrink>
-            <v-dialog width="600" v-model="gsheetDialog">
-            <v-btn slot="activator" icon small right absolute style="right: 150px;"><v-icon color="grey" small>help</v-icon></v-btn>
-            <v-card>
-              <v-card-title class="title">
-                LANCER Google Sheet to COMP/CON converter
-              </v-card-title>
-              <v-card-text>
-                This tool imports LANCER characters from the <a @click="open('https://docs.google.com/spreadsheets/d/1Tz8rbkOq9nyuIJ6bA0636dtLeN68Z5Q0yJF8cjycXxQ/edit#gid=0')">LANCER Discord's Google Character Sheet</a> into COMP/CON.<br><br>
-                The Google Sheet character must be downloaded as a Microsoft Excel (.xlsx) file.
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn flat @click="gsheetDialog = false" color="primary">Close</v-btn>
-              </v-card-actions>
-            </v-card>
-            </v-dialog>
-
-            <v-dialog width="500" v-model="ignoredModsDialog">
-              <v-card>
-                <v-card-title class="title">
-                  Importer Warning
-                </v-card-title>
-                <v-card-text>
-                  The importer detected the following weapon mods: <br>
-                  <strong v-html="ignoredModsString" />. 
-                  <br>These could not be automatically assigned to their associated weapons and will have to be manually re-added.
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn flat @click="ignoredModsDialog = false" color="primary">Close</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-flex>
-        </v-layout>
-
       </v-card-text>
 
       <v-divider />
@@ -107,19 +66,15 @@
   import Vue from 'vue'
   import io from '@/features/_shared/data_io'
   import validator from '../logic/validator'
-  import { loadSheetFile, gsheetToObject } from '../logic/gsheet-converter'
   import apis from '../logic/apis'
 
   export default Vue.extend({
     name: 'add-pilot-menu',
     props: ['dialogModel'],
     data: () => ({
-      gsheetDialog: false,
       cloudDialog: false,
       cloudInfoDialog: false,
       cloudLoading: false,
-      ignoredModsDialog: false,
-      ignoredModsString: '',
       shareIDText: '',
       errorText: '',
     }),
@@ -155,35 +110,6 @@
         } else {
           alert('Pilot data validation failed')
           vm.addDialog = false
-        }
-      },
-      importSheet () {
-        var vm = this as any
-        const { dialog } = require('electron').remote
-        var path = dialog.showOpenDialog({
-          title: 'Load Character GSheet',
-          buttonLabel: 'Load',
-          properties: [
-            'openFile'
-          ],
-          filters: [
-            { name: 'Pilot Data', extensions: ['xlsx'] }
-          ]
-        })
-        const { output, ignoredMods } = gsheetToObject(loadSheetFile(path[0]))
-        if (validator.pilot(output)) {
-          vm.$store.dispatch('importPilot', output)
-          vm.$store.dispatch('loadPilot', output.id)
-          vm.activeIndex = vm.pilots.length - 1
-          vm.addDialog = false
-        } else {
-          alert('Pilot data validation failed')
-          vm.addDialog = false
-          vm.close()
-        }
-        if (ignoredMods.length) {
-          vm.ignoredModsString = ignoredMods.join(', ')
-          vm.ignoredModsDialog = true
         }
       },
       importClipboard () {

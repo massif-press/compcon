@@ -34,52 +34,52 @@
               <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
             </td>
             <td>
-              <span class="subheading">{{ props.item.name }}
-                <v-tooltip v-if="isLocked(props.item.license, props.item.license_level)" top>
+              <span class="subheading">{{ props.item.Name }}
+                <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
-                  <span>{{pilot.callsign}} does not have the license for this system ({{props.item.license}} {{props.item.license_level}})</span>
+                  <span>{{pilot.Callsign}} does not have the license for this system ({{props.item.License}} {{props.item.LicenseLevel}})</span>
                 </v-tooltip>
-                <v-tooltip v-if="isOverSp(props.item.sp)" top>
+                <v-tooltip v-if="isOverSp(props.item.SP)" top>
                   <v-icon color="yellow" slot="activator">warning</v-icon>
                   <span>Insufficient free SP to install this system</span>
                 </v-tooltip>
               </span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.source }}</span>
+              <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.license }} {{props.item.license_level}}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">{{ props.item.License }} {{props.item.LicenseLevel}}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.mount }}</span>
+              <span class="subheading">{{ props.item.Size }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.type }}</span>
+              <span class="subheading">{{ props.item.Type }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading"><range-element small :range="props.item.range" /></span>
+              <span class="subheading"><range-element small :range="props.item.Range" /></span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading"><damage-element small dark size="16" :dmg="props.item.damage" /></span>
+              <span class="subheading"><damage-element small dark size="16" :dmg="props.item.Damage" /></span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.sp }}</span>
+              <span class="subheading">{{ props.item.SP }}</span>
             </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <weapon-card :itemData="props.item" table-item/>
+              <weapon-card :item="props.item" table-item/>
             </v-card-text>
           </v-card>
         </template>
       </v-data-table>
-      <v-layout v-if="current_equip" justify-space-between class="pt-4">
+      <v-layout v-if="weaponSlot.Weapon" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{item(current_equip.id).name}}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">Uninstall {{weaponSlot.Weapon.Name}}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -91,19 +91,17 @@
   import _ from 'lodash'
   import {rules} from 'lancer-data'
   import {RangeElement, DamageElement, WeaponCard} from '../../components/UI'
-
   import io from '@/features/_shared/data_io'
+  import { WeaponSlot, MechLoadout, EquippableMount, MechWeapon, Pilot } from '@/class';
 
   export default Vue.extend({
     name: 'weapon-table',
     components: { WeaponCard, RangeElement, DamageElement },
     props: {
-      installed_systems: Array,
-      free_sp: Number,
-      loadout_index: Number,
-      current_equip: Object,
-      size: String,
-      config_id: String
+      weaponSlot: WeaponSlot,
+      Size: EquippableMount,
+      loadout: MechLoadout,
+      maxSP: Number,
     },
     data: () => ({
       selectedIndex: -1,
@@ -115,46 +113,41 @@
       showOverSp: false,
       headers: [
         {align: 'left', sortable: false, width: '5vw'},
-        {text: 'Weapon', align: 'left', value: 'name'},
-        {text: 'Source', align: 'left', value: 'source'},
-        {text: 'License', align: 'left', value: 'license'},
-        {text: 'Size', align: 'left', value: 'mount'},
-        {text: 'Type', align: 'left', value: 'type'},
-        {text: 'Range', align: 'left', value: 'range[0].val'},
-        {text: 'Damage', align: 'left', value: 'damage[0].val'},
-        {text: 'SP Cost', align: 'left', value: 'sp'}
+        {text: 'Weapon', align: 'left', value: 'Name'},
+        {text: 'Source', align: 'left', value: 'Source'},
+        {text: 'License', align: 'left', value: 'License'},
+        {text: 'Size', align: 'left', value: 'Size'},
+        {text: 'Type', align: 'left', value: 'Type'},
+        {text: 'Range', align: 'left', value: 'Range[0].val'},
+        {text: 'Damage', align: 'left', value: 'Damage[0].val'},
+        {text: 'SP Cost', align: 'left', value: 'SP'}
       ]
     }),
     computed: {
-      weapons () {
-        var vm = this as any
-        var allWeapons = vm.$store.getters['getItemCollection']('MechWeapons')
-        var fittings = rules.mount_fittings[vm.size]
-        var i = allWeapons.filter((x: Weapon) => x.source && fittings.includes(x.mount))
+      freeSP (): number {
+        const remaining = this.maxSP - this.loadout.TotalSP
+        return this.weaponSlot.Weapon 
+          ? remaining - this.weaponSlot.Weapon.SP 
+          : remaining
+      },
+      weapons (): MechWeapon[] {
+        const vm = this as any
+        const allWeapons = vm.$store.getters.getItemCollection('MechWeapons') as MechWeapon[]
+        const fittings = rules.mount_fittings[vm.weaponSlot.Size]
+        let i = allWeapons.filter(x => x.Source && fittings.includes(x.Size))
         if (!vm.showLocked) {
-          i = i.filter((x: Weapon) => x.source === 'GMS' 
-            || (
-              vm.pilot.licenses.find((y: any) => y.name === x.license) 
-              && vm.pilot.licenses.find((y: any) => y.name === x.license).level >= x.license_level
-            )
+          i = i.filter(x => x.Source === 'GMS' 
+            || vm.pilot.has('License', x.License, x.LicenseLevel) 
           )
         }
         if (!vm.showOverSp) {
-          // if an item is currently equipped to this slot, look it up to find sp value for exchange
-          var totalFreeSp = vm.current_equip 
-            ? vm.free_sp + (allWeapons.find((x: Weapon) => x.id === vm.current_equip.id).sp || 0) 
-            : vm.free_sp
-          i = i.filter((x: Weapon) => !x.sp || x.sp <= totalFreeSp)
+          i = i.filter(x => x.SP <= vm.freeSP)
         }
-        // filter dupe uniques (in the grossest way possible)
-        var configIndex = vm.pilot.configs.findIndex((x: any) => x.id === vm.config_id)
-        var installedUniques = vm.pilot.configs[configIndex].loadouts[vm.loadout_index]
-        installedUniques = _.compact(_.flatten(installedUniques.mounts.map((x: any) => x.weapons)))
-        installedUniques = installedUniques.filter((x: any) => !vm.getWeapon(x.id).err)
-        installedUniques = installedUniques.map((x: any) => vm.getWeapon(x.id)).filter(
-          (x: Weapon) => x.tags.map((y: any) => y.id).includes('unique')
-        ).map((x: Weapon) => x.id)
-        i = i.filter((x: Weapon) => !installedUniques.includes(x.id))
+        // filter already equipped
+        if (vm.weaponSlot.Weapon) i = i.filter(x => x !== vm.weaponSlot.Weapon)
+
+        if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+        i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
 
         return i
       },
@@ -163,40 +156,18 @@
       }
     }, 
     methods: {
-      select (item) {
-        if ((this as any).size === 'heavy') {
-          if (item.mount === 'Superheavy') {
-            this.$emit('unlock-sh')
-            this.$emit('select-superheavy', item)
-          } else {
-            this.$emit('unlock-sh')
-            this.$emit('select-item', item)
-          }
-        } else {
-          this.$emit('select-item', item)
-        }
+      select (item: MechWeapon) {
+        this.$emit('select-item', item)
       },
       remove () {
-        this.$emit('remove-item')
+        this.$emit('remove-item', this.weaponSlot.Weapon)
       },
-      item (id: string): Weapon {
-        return this.$store.getters['getItemById']('MechWeapons', id)
-      },
-      isLocked (name: string, level: number): boolean {
-        if (!name) return false
-        var vm = this as any
-        return !(
-          (vm.pilot.licenses.find((y: any) => y.name === name) 
-            && vm.pilot.licenses.find((y: any) => y.name === name).level >= level))
+      isLocked (item: MechWeapon): boolean {
+        if (item.Source === "GMS") return false
+        return !(this.pilot.has('License', item.License, item.LicenseLevel) )
       },
       isOverSp (sp: number): boolean {
-        var vm = this as any
-        var totalFreeSp = vm.current_equip 
-        ? vm.free_sp + vm.$store.getters['getItemCollection']('MechWeapons').find(
-          (x: Weapon) => x.id === vm.current_equip.id
-          ).sp || 0 
-        : vm.free_sp
-        return sp > totalFreeSp
+        return sp > this.freeSP
       }
     }
   })

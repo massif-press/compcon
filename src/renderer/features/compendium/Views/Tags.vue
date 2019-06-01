@@ -36,7 +36,7 @@ export default Vue.extend({
       tags: [],
     }),
     created() {
-      this.tags = this.$store.getters['getItemCollection']('Tags')
+      this.tags = this.$store.getters.getItemCollection('Tags')
     },
   })
 </script>

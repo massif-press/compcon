@@ -21,18 +21,14 @@
   export default Vue.extend({
     name: 'tick-bar',
     props: {
-      config_id: String,
       current: Number,
       max: Number,
-      attr: String,
       small: Boolean,
       large: Boolean,
       emptyIcon: String,
       fullIcon: String,
       color: String,
       bgColor: String,
-      config: Boolean,
-      pilot: Boolean,
       readonly: Boolean,
     },
     data: () => ({
@@ -41,37 +37,13 @@
     methods: {
       clear () {
         this.model = 0
-        if (this.config) {
-          this.$store.dispatch('editConfig', {
-            id: this.config_id,
-            attr: this.attr,
-            val: 0
-          })
-        } else if (this.pilot) {
-          this.$store.dispatch('editPilot', {
-            attr: this.attr,
-            val: 0
-          })        
-        }
-        this.$parent.$forceUpdate()
+        this.$emit('update', 0)
       }
     },
     watch: {
       model (val: number) {
         if (val && !isNaN(val)) {
-          if (this.config) {
-            this.$store.dispatch('editConfig', {
-              id: this.config_id,
-              attr: this.attr,
-              val: val
-            })
-          } else if (this.pilot) {
-            this.$store.dispatch('editPilot', {
-              attr: this.attr,
-              val: val
-            })           
-          }
-          this.$parent.$forceUpdate()
+        this.$emit('update', val)
         }
       },
     },
