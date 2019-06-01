@@ -2,7 +2,6 @@
 - mod addedranges should be range bonus objects
 
 Improvements:
-  ☐ Fix pilot background scrollspy
   ✔ move config overcharge into rules.json @done(19-05-28 15:18)
   ☐ draggable pilot/config cards
   ☐ add lancer version to cc version number

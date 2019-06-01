@@ -58,7 +58,7 @@
                   :readonly="!pilot.IsActive" />
               </v-flex>
               <pip-bar small :model="pilot.Armor" :items="[pilot.Armor]" :caption="`ARMOR ${pilot.Armor}`" />
-              <pip-bar small :model="pilot.EDef" :items="[pilot.EDef]" :caption="`E-DEFENSE ${pilot.EDef}`" />
+              <pip-bar small :model="pilot.EDefense" :items="[pilot.EDefense]" :caption="`E-DEFENSE ${pilot.EDefense}`" />
               <pip-bar small :model="pilot.Evasion" :items="[pilot.Evasion]" :caption="`EVASION ${pilot.Evasion}`" />
               <pip-bar small :model="pilot.Speed" :items="[pilot.Speed]" :caption="`SPEED ${pilot.Speed}`" />
             </v-layout>
@@ -143,7 +143,7 @@
                   </v-flex>
                 </v-layout>
                 <!-- Pilot History -->
-                <v-textarea color="primary" v-model="pilot.history" auto-grow rows=1 label="History" clearable />
+                <v-textarea color="primary" v-model="pilot.History" auto-grow rows=1 label="History" clearable />
               </v-flex>
             </v-layout>
             <v-layout>
@@ -276,7 +276,7 @@
         <v-layout>
           <v-flex>
             <div class="pt-1 pb-1 pl-3 pr-3">
-              <v-textarea color="primary" v-model="pilot.notes" auto-grow rows=1 label="Pilot Notes" clearable />
+              <v-textarea color="primary" v-model="pilot.Notes" auto-grow rows=1 label="Pilot Notes" clearable />
             </div>
           </v-flex>
         </v-layout>
@@ -338,8 +338,8 @@
   import { ContactsList, LicenseItem, SkillItem, TalentItem, CoreBonusItem, PilotEditModal, HasePips } from './SheetComponents'
   import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
   import NewConfig from '../HangarView/AddConfigMenu.vue'
-  import { Pilot, PilotSkill, Background } from '@/class'
-import { rules } from 'lancer-data';
+  import { Pilot, PilotSkill, Background, Statblock } from '@/class'
+  import { rules } from 'lancer-data';
 
   export default Vue.extend({
     name: 'pilot-sheet',
@@ -407,6 +407,7 @@ import { rules } from 'lancer-data';
         this.appearanceModal = false
       },
       openPrintOptions: function () {
+        console.log(this.pilot.ActiveMech)
         if (this.pilot.ActiveConfig) {
           this.printDialog = true
         } else {
@@ -416,21 +417,17 @@ import { rules } from 'lancer-data';
       },
       print: function (includeMech: boolean) {
         this.printDialog = false
+        this.$store.dispatch('setPrintOptions', {
+          combo: includeMech
+        })
         if (includeMech) {
-          this.$store.dispatch('setPrintOptions', {
-            loadout_index: this.activeLoadoutIdx,
-            config_id: this.pilot.ActiveConfig,
-            config_loadout_index: 0,
-            combo: true
-            })
           this.$router.push('/print-all')
         } else {
-          this.$store.dispatch('setPrintOptions', {loadout_index: this.activeLoadoutIdx})
           this.$router.push('/print-pilot')
         }
       },
       copyPilotStatblock () {
-        // clipboard.writeText(Stats.pilotStatblock(this.pilot, this.pilot.loadouts[this.activeLoadoutIdx], this.$store.getters['getState']))
+        clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
         this.notify('Pilot Statblock Copied to Clipboard')
       },
       activatePilot () {

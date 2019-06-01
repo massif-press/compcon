@@ -49,10 +49,6 @@ class MechWeapon extends MechEquipment {
     return this.range || [];
   }
 
-  public get Tags(): Tag[]{
-    return this.tags
-  }
-
   public set Mod(mod: WeaponMod | null) {
     this.mod = mod;
   }

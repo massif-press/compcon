@@ -87,7 +87,7 @@
       newLevel: function () {
         if (!this.newLevel) this.newLevel = 0
         else if (this.newLevel < 0) this.newLevel = 0
-        else if (this.newLevel > rules.max_pilot_level) this.newLevel = rules.max_pilot_level
+        else if (this.newLevel > rules.max_pilot_level) this.newLevel = parseInt(rules.max_pilot_level)
       }
     }
   })

@@ -61,6 +61,7 @@ import {
   Status,
   LicenseRequirement
 } from "./features/_shared/classes/Types";
+import Statblock from "./features/pilot_management/classes/Statblock"
 
 export {
   MountType,
@@ -112,5 +113,6 @@ export {
   PrintOptions,
   Manufacturer,
   Status,
-  LicenseRequirement
+  LicenseRequirement,
+  Statblock
 };

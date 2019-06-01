@@ -9,7 +9,7 @@
         <p class="effect-text font-weight-bold">{{itemData.Type}} ({{itemData.sp}} SP)</p>
         <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text"/>
         <v-layout class="pb-2">
-          <item-tag v-for="t in itemData.Tags" :key="t.id" :tag-obj="t"/>
+          <item-tag v-for="t in itemData.Tags" :key="t.id" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -18,6 +18,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import ItemTag from './ItemTag.vue'
+  import { Pilot } from '@/class';
 
   export default Vue.extend({
     name: 'system-card',
@@ -25,6 +26,11 @@
       itemData: Object,
       tableItem: Boolean
     },
-    components: { ItemTag }
+    components: { ItemTag },
+    computed: {
+      pilot(): Pilot {
+        return this.$store.getters.getPilot;
+      }
+    },
   })
 </script>

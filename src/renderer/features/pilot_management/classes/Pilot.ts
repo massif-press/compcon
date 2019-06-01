@@ -33,7 +33,7 @@ class Pilot {
 
   private mechs: Mech[];
   private active_mech: string | null;
-  private loaded_mech: Mech | null; 
+  private loaded_mech: Mech | null;
 
   constructor() {
     this.id = uid.generate();
@@ -64,6 +64,10 @@ class Pilot {
   }
 
   // -- Utility -----------------------------------------------------------------------------------
+  private save() {
+    store.dispatch("saveData");
+  }
+
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === "skill") {
       return this.skills.findIndex(x => x.Skill.ID === id) > -1;
@@ -94,6 +98,7 @@ class Pilot {
   public RenewID() {
     this.id = uid.generate();
     this.gistID = "";
+    this.save();
   }
 
   public get IsActive() {
@@ -102,6 +107,7 @@ class Pilot {
 
   public set Active(toggle: boolean) {
     this.active = toggle;
+    this.save();
   }
 
   public get Level(): number {
@@ -110,6 +116,7 @@ class Pilot {
 
   public set Level(level: number) {
     this.level = level;
+    this.save();
   }
 
   public get Background(): Background {
@@ -118,10 +125,16 @@ class Pilot {
 
   public set Background(bg: Background) {
     this.background = bg;
+    this.save();
   }
 
   public get GistID(): string {
     return this.gistID;
+  }
+
+  public set GistID(id: string) {
+    this.gistID = id;
+    this.save();
   }
 
   public get Callsign(): string {
@@ -130,6 +143,7 @@ class Pilot {
 
   public set Callsign(newVal: string) {
     this.callsign = newVal;
+    this.save();
   }
 
   public get Name(): string {
@@ -138,6 +152,7 @@ class Pilot {
 
   public set Name(newVal: string) {
     this.name = newVal;
+    this.save();
   }
 
   public get TextAppearance(): string {
@@ -146,6 +161,7 @@ class Pilot {
 
   public set TextAppearance(newVal: string) {
     this.text_appearance = newVal;
+    this.save();
   }
 
   public get Notes(): string {
@@ -154,6 +170,7 @@ class Pilot {
 
   public set Notes(newVal: string) {
     this.notes = newVal;
+    this.save();
   }
 
   public get Qirk(): string {
@@ -162,19 +179,27 @@ class Pilot {
 
   public set Qirk(newVal: string) {
     this.quirk = newVal;
+    this.save();
   }
 
   public RollQuirk() {
-    const quirks = store.getters.getItemCollection('Quirks')
-    this.quirk = quirks[Math.floor(Math.random() * quirks.length)]
+    const quirks = store.getters.getItemCollection("Quirks");
+    this.quirk = quirks[Math.floor(Math.random() * quirks.length)];
+    this.save();
   }
 
   public get History(): string {
     return this.history;
   }
 
+  public set History(history: string) {
+    this.history = history;
+    this.save();
+  }
+
   public SetCloudPortrait(src: string) {
     this.cloud_portrait = src;
+    this.save();
   }
 
   public get CloudPortrait(): string {
@@ -183,6 +208,7 @@ class Pilot {
 
   public SetLocalPortrait(src: string) {
     this.portrait = src;
+    this.save();
   }
 
   public get LocalPortrait(): string {
@@ -191,8 +217,11 @@ class Pilot {
 
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait;
-    else if (this.portrait) return `file://${store.getters.getUserPath}/img/portrait/${this.portrait}`;
-    else return ''
+    else if (this.portrait)
+      return `file://${store.getters.getUserPath}/img/portrait/${
+        this.portrait
+      }`;
+    else return "";
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -249,7 +278,7 @@ class Pilot {
     return evasion;
   }
 
-  public get EDef(): number {
+  public get EDefense(): number {
     let edef = rules.base_pilot_edef;
     if (this.ActiveLoadout) {
       this.ActiveLoadout.Armor.forEach(x => {
@@ -277,6 +306,7 @@ class Pilot {
 
   public set Skills(skills: PilotSkill[]) {
     this.skills = skills;
+    this.save();
   }
 
   public AddSkill(skill: Skill) {
@@ -286,6 +316,7 @@ class Pilot {
     } else {
       this.skills[index].Increment();
     }
+    this.save();
   }
 
   public RemoveSkill(skill: Skill) {
@@ -301,10 +332,13 @@ class Pilot {
         this.skills.splice(index, 1);
       }
     }
+    this.save();
   }
 
   public ClearSkills() {
-    this.skills.splice(0, this.skills.length);
+    for (let i = this.skills.length - 1; i >= 0; i--) {
+      this.RemoveSkill(this.skills[i].Skill);
+    }
   }
 
   // -- Talents -----------------------------------------------------------------------------------
@@ -314,6 +348,7 @@ class Pilot {
 
   public set Talents(talents: PilotTalent[]) {
     this.talents = talents;
+    this.save();
   }
 
   public AddTalent(talent: Talent) {
@@ -325,6 +360,7 @@ class Pilot {
     }
     this.talentSort();
     this.resetIntegratedTalents();
+    this.save();
   }
 
   public RemoveTalent(talent: Talent) {
@@ -342,12 +378,13 @@ class Pilot {
     }
     this.talentSort();
     this.resetIntegratedTalents();
+    this.save();
   }
 
   public ClearTalents() {
-    this.talents.forEach(t => {
-      this.RemoveTalent(t.Talent);
-    });
+    for (let i = this.talents.length - 1; i >= 0; i--) {
+      this.RemoveTalent(this.talents[i].Talent);
+    }
   }
 
   private talentSort() {
@@ -359,9 +396,9 @@ class Pilot {
   private resetIntegratedTalents() {
     this.mechs.forEach(mech => {
       mech.Loadouts.forEach(loadout => {
-        loadout.ResetIntegratedMounts(mech)
-      })
-    })
+        loadout.ResetIntegratedMounts(mech);
+      });
+    });
   }
 
   // -- Core Bonuses ------------------------------------------------------------------------------
@@ -371,10 +408,12 @@ class Pilot {
 
   public set CoreBonuses(coreBonuses: CoreBonus[]) {
     this.core_bonuses = coreBonuses;
+    this.save();
   }
 
   public AddCoreBonus(coreBonus: CoreBonus) {
     this.core_bonuses.push(coreBonus);
+    this.save();
   }
 
   public RemoveCoreBonus(coreBonus: CoreBonus) {
@@ -389,10 +428,13 @@ class Pilot {
       this.core_bonuses.splice(index, 1);
       this.removeCoreBonusEffects(coreBonus);
     }
+    this.save();
   }
 
   public ClearCoreBonuses() {
-    this.CoreBonuses.forEach(x => this.RemoveCoreBonus(x))
+    for (let i = this.core_bonuses.length - 1; i >= 0; i--) {
+      this.RemoveCoreBonus(this.core_bonuses[i]);
+    }
   }
 
   private removeCoreBonusEffects(coreBonus: CoreBonus) {
@@ -401,8 +443,8 @@ class Pilot {
         if (coreBonus.ID === "retrofit") loadout.RemoveRetrofitting();
         loadout.AllEquippableMounts(true).forEach(mount => {
           mount.RemoveCoreBonus(coreBonus);
-        })
-      })
+        });
+      });
     });
   }
 
@@ -413,6 +455,7 @@ class Pilot {
 
   public set Licenses(licenses: PilotLicense[]) {
     this.licenses = licenses;
+    this.save();
   }
 
   public AddLicense(license: License) {
@@ -422,6 +465,7 @@ class Pilot {
     } else {
       this.licenses[index].Increment();
     }
+    this.save();
   }
 
   public RemoveLicense(license: License) {
@@ -439,11 +483,13 @@ class Pilot {
         this.licenses.splice(index, 1);
       }
     }
+    this.save();
   }
 
   public ClearLicenses() {
-    this.licenses.splice(0, this.licenses.length);
-  }
+    for (let i = this.licenses.length - 1; i >= 0; i--) {
+      this.RemoveLicense(this.licenses[i].License);
+    }  }
 
   // -- Mech Skills -------------------------------------------------------------------------------
   public get MechSkills(): MechSkills {
@@ -452,6 +498,7 @@ class Pilot {
 
   public set MechSkills(mechskills: MechSkills) {
     this.mechSkills = mechskills;
+    this.save();
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
@@ -461,6 +508,7 @@ class Pilot {
 
   public set Loadouts(loadouts: PilotLoadout[]) {
     this.loadouts = loadouts;
+    this.save();
   }
 
   public get ActiveLoadout(): PilotLoadout | null {
@@ -470,10 +518,12 @@ class Pilot {
 
   public set ActiveLoadout(loadout: PilotLoadout | null) {
     this.active_loadout = (loadout && loadout.ID) || "";
+    this.save();
   }
 
   public AddLoadout() {
     this.loadouts.push(new PilotLoadout(this.loadouts.length));
+    this.save();
   }
 
   public RemoveLoadout(loadout: PilotLoadout) {
@@ -483,9 +533,10 @@ class Pilot {
         `Loadout"${loadout.Name}" does not exist on Pilot ${this.callsign}`
       );
     } else {
-      if (loadout.ID === this.active_loadout) this.active_loadout = null
+      if (loadout.ID === this.active_loadout) this.active_loadout = null;
       this.loadouts.splice(index, 1);
     }
+    this.save();
   }
 
   public CloneLoadout(loadout: PilotLoadout) {
@@ -496,13 +547,10 @@ class Pilot {
       );
     } else {
       let newLoadout = new PilotLoadout(this.loadouts.length);
-      newLoadout.Name = loadout.Name + ' (Copy)';
-      this.loadouts.splice(
-        index + 1,
-        0,
-        newLoadout
-      );
+      newLoadout.Name = loadout.Name + " (Copy)";
+      this.loadouts.splice(index + 1, 0, newLoadout);
     }
+    this.save();
   }
 
   // -- Mechs -----------------------------------------------------------------------------------
@@ -511,7 +559,8 @@ class Pilot {
   }
 
   public AddMech(mech: Mech) {
-    this.mechs.push(mech)
+    this.mechs.push(mech);
+    this.save();
   }
 
   public RemoveMech(mech: Mech) {
@@ -521,15 +570,17 @@ class Pilot {
         `Loadout "${mech.Name}" does not exist on Pilot ${this.callsign}`
       );
     } else {
-      this.mechs.splice(index, 1)
+      this.mechs.splice(index, 1);
     }
+    this.save();
   }
 
   public CloneMech(mech: Mech) {
-    const mechData = Mech.Serialize(mech)
-    const clone = Mech.Deserialize(mechData, this)
-    clone.RenewID()
-    this.mechs.push(clone)
+    const mechData = Mech.Serialize(mech);
+    const clone = Mech.Deserialize(mechData, this);
+    clone.RenewID();
+    this.mechs.push(clone);
+    this.save();
   }
 
   public get ActiveMech(): Mech | null {
@@ -543,22 +594,19 @@ class Pilot {
   public set ActiveMech(config: Mech | null) {
     this.mechs.forEach(m => {
       m.Active = false;
-    })
+    });
     if (!config) return;
     config.Active = true;
     this.active_mech = config.ID;
-  }
-
-  public set ActiveConfig(config: Mech | null) {
-    this.active_mech = config ? config.ID : null;
+    this.save();
   }
 
   public get LoadedMech(): Mech | null {
-    return this.loaded_mech
+    return this.loaded_mech;
   }
 
   public set LoadedMech(mech: Mech | null) {
-    this.loaded_mech = mech
+    this.loaded_mech = mech;
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -572,7 +620,7 @@ class Pilot {
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
-      portrait: p.Portrait,
+      portrait: p.portrait,
       cloud_portrait: p.cloud_portrait,
       quirk: p.Qirk,
       current_hp: p.CurrentHP,

@@ -7,6 +7,7 @@ import { LicenseRequirement, Pilot, Frame, MechLoadout, Mount, MechWeapon, MechS
 class Mech {
   private id: string;
   private name: string;
+  private notes: string;
   private portrait: string;
   private cloud_portrait: string;
   private frame: Frame;
@@ -25,6 +26,7 @@ class Mech {
   constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate();
     this.name = "";
+    this.notes = "";
     this.portrait = "";
     this.cloud_portrait = "";
     this.frame = frame;
@@ -39,6 +41,10 @@ class Mech {
     this.current_core_energy = 1;
     this.current_overcharge = 0;
     this.active_loadout = null;
+  }
+  // -- Utility -----------------------------------------------------------------------------------
+  private save() {
+    store.dispatch("saveData");
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -55,7 +61,17 @@ class Mech {
   }
 
   public set Name(name: string) {
-    this.name = name
+    this.name = name;
+    this.save();
+  }
+
+  public get Notes(): string {
+    return this.notes;
+  }
+
+  public set Notes(notes: string) {
+    this.name = notes;
+    this.save();
   }
 
   public get Frame(): Frame {
@@ -68,25 +84,39 @@ class Mech {
 
   public set Active(toggle: boolean) {
     this.active = toggle;
+    this.save();
   }
 
   public get RequiredLicenses(): LicenseRequirement[] {
-    let requirements = this.ActiveLoadout 
-      ? this.ActiveLoadout.RequiredLicenses 
-      : [] as LicenseRequirement[];
-    
+    let requirements = this.ActiveLoadout
+      ? this.ActiveLoadout.RequiredLicenses
+      : ([] as LicenseRequirement[]);
+
     if (this.frame.Name.toUpperCase() === "EVEREST") {
-      const gmsIdx = requirements.findIndex(x => x.name === "GMS")
-      if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame")
-      else requirements.push({ name: "GMS", rank: 0, items: ["EVEREST Frame"], missing: false })
+      const gmsIdx = requirements.findIndex(x => x.name === "GMS");
+      if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame");
+      else
+        requirements.push({
+          name: "GMS",
+          rank: 0,
+          items: ["EVEREST Frame"],
+          missing: false
+        });
     } else {
-      const reqIdx = requirements.findIndex(x => x.name === `${this.frame.Source} ${this.frame.Name}` && x.rank === 2)
-      if (reqIdx > -1) requirements[reqIdx].items.push(`${this.frame.Name.toUpperCase()} Frame`)
-      else requirements.push({
-        name: `${this.frame.Source} ${this.frame.Name}`,
-        rank: 2,
-        items: [`${this.frame.Name.toUpperCase()} Frame`]
-      })
+      const reqIdx = requirements.findIndex(
+        x =>
+          x.name === `${this.frame.Source} ${this.frame.Name}` && x.rank === 2
+      );
+      if (reqIdx > -1)
+        requirements[reqIdx].items.push(
+          `${this.frame.Name.toUpperCase()} Frame`
+        );
+      else
+        requirements.push({
+          name: `${this.frame.Source} ${this.frame.Name}`,
+          rank: 2,
+          items: [`${this.frame.Name.toUpperCase()} Frame`]
+        });
     }
 
     for (const l of requirements) {
@@ -105,6 +135,7 @@ class Mech {
 
   public SetCloudPortrait(src: string) {
     this.cloud_portrait = src;
+    this.save();
   }
 
   public get CloudPortrait(): string {
@@ -113,6 +144,7 @@ class Mech {
 
   public SetLocalPortrait(src: string) {
     this.portrait = src;
+    this.save();
   }
 
   public get LocalPortrait(): string {
@@ -121,8 +153,12 @@ class Mech {
 
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait;
-    else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`;
-    else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
+    else if (this.portrait)
+      return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`;
+    else
+      return `file://${store.getters.getUserPath}/img/default_frames/${
+        this.Frame.ID
+      }.png`;
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -224,6 +260,7 @@ class Mech {
       this.current_structure = this.MaxStructure;
     else if (structure < 0) this.current_structure = 0;
     else this.current_structure = structure;
+    this.save();
   }
 
   public get MaxStructure(): number {
@@ -238,6 +275,7 @@ class Mech {
     if (hp > this.MaxHP) this.current_hp = this.MaxHP;
     else if (hp < 0) this.current_hp = 0;
     else this.current_hp = hp;
+    this.save();
   }
 
   public get MaxHP(): number {
@@ -266,6 +304,7 @@ class Mech {
     if (heat > this.HeatCapacity) this.current_heat = this.HeatCapacity;
     else if (heat < 0) this.current_heat = 0;
     else this.current_heat = heat;
+    this.save();
   }
 
   public get HeatCapacity(): number {
@@ -282,6 +321,7 @@ class Mech {
     if (stress > this.MaxStress) this.current_stress = this.MaxStress;
     else if (stress < 0) this.current_stress = 0;
     else this.current_stress = stress;
+    this.save();
   }
 
   public get MaxStress(): number {
@@ -296,6 +336,7 @@ class Mech {
     if (rep > this.RepairCapacity) this.current_repairs = this.RepairCapacity;
     else if (rep < 0) this.current_repairs = 0;
     else this.current_repairs = rep;
+    this.save();
   }
 
   public get RepairCapacity(): number {
@@ -309,6 +350,7 @@ class Mech {
 
   public set CurrentCoreEnergy(energy: number) {
     this.current_core_energy = energy < 1 ? 0 : 1;
+    this.save();
   }
 
   public get CurrentOvercharge(): number {
@@ -317,6 +359,7 @@ class Mech {
 
   public set CurrentOvercharge(overcharge: number) {
     this.current_overcharge = overcharge;
+    this.save();
   }
 
   // -- Integrated/Talents ------------------------------------------------------------------------
@@ -328,12 +371,12 @@ class Mech {
       );
     }
     if (this.pilot.has("Talent", "ncavalier", 3)) {
-      const fr_weapon = store.getters.getItemById("MechWeapons", "fuelrod")
+      const fr_weapon = store.getters.getItemById("MechWeapons", "fuelrod");
       intg.push(new IntegratedMount(fr_weapon, "Nuclear Cavalier"));
     }
     if (this.pilot.has("Talent", "eng")) {
       const id = `prototype${this.pilot.getTalentRank("eng")}`;
-      const eng_weapon = store.getters.getItemById("MechWeapons", id)
+      const eng_weapon = store.getters.getItemById("MechWeapons", id);
       intg.push(new IntegratedMount(eng_weapon, "Engineer"));
     }
     return intg;
@@ -359,7 +402,8 @@ class Mech {
 
   public AddLoadout() {
     this.loadouts.push(new MechLoadout(this));
-    this.ActiveLoadout = this.loadouts[this.loadouts.length - 1]
+    this.ActiveLoadout = this.loadouts[this.loadouts.length - 1];
+    this.save();
   }
 
   public RemoveLoadout(loadout: MechLoadout) {
@@ -370,8 +414,9 @@ class Mech {
       );
     } else {
       this.loadouts.splice(index, 1);
-      this.ActiveLoadout = this.loadouts[this.loadouts.length - 1]
+      this.ActiveLoadout = this.loadouts[this.loadouts.length - 1];
     }
+    this.save();
   }
 
   public CloneLoadout(loadout: MechLoadout) {
@@ -385,11 +430,13 @@ class Mech {
       newLoadout.Name = loadout.Name + " (Copy)";
       this.loadouts.splice(index + 1, 0, newLoadout);
     }
+    this.save();
   }
 
   public ClearLoadouts() {
     this.loadouts = [];
     this.ActiveLoadout = null;
+    this.save();
   }
 
   public get ActiveLoadout(): MechLoadout | null {
@@ -397,22 +444,17 @@ class Mech {
   }
 
   public set ActiveLoadout(loadout: MechLoadout | null) {
+    console.log('set active mech loadout')
     this.active_loadout = (loadout && loadout.ID) || "";
+    this.save();
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
-  public Serialize(): string {
-    let mechData = {
-
-    };
-
-    return JSON.stringify(mechData);
-  }
-
   public static Serialize(m: Mech): IMechData {
     return {
       id: m.ID,
       name: m.Name,
+      notes: m.Notes,
       frame: m.Frame.ID,
       active: m.active,
       current_structure: m.current_structure,
@@ -422,27 +464,26 @@ class Mech {
       current_repairs: m.current_repairs,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
       active_loadout: m.active_loadout
-
     };
-
   }
 
   public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
-    const f = store.getters.getItemById("Frames", mechData.frame)
-    let m = new Mech(f, pilot)
-    m.id = mechData.id
-    m.name = mechData.name
-    m.active = mechData.active
-    m.current_structure = mechData.current_structure
-    m.current_hp = mechData.current_hp
-    m.current_stress = mechData.current_stress
-    m.current_heat = mechData.current_heat
-    m.current_repairs = mechData.current_repairs
+    const f = store.getters.getItemById("Frames", mechData.frame);
+    let m = new Mech(f, pilot);
+    m.id = mechData.id;
+    m.name = mechData.name;
+    m.notes = mechData.notes;
+    m.active = mechData.active;
+    m.current_structure = mechData.current_structure;
+    m.current_hp = mechData.current_hp;
+    m.current_stress = mechData.current_stress;
+    m.current_heat = mechData.current_heat;
+    m.current_repairs = mechData.current_repairs;
     m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) =>
       MechLoadout.Deserialize(x, m)
     );
-    m.active_loadout = m.active_loadout
-    return m
+    m.active_loadout = m.active_loadout;
+    return m;
   }
 }
 

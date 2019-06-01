@@ -205,7 +205,8 @@ export default Vue.extend({
       this.weaponSelectorModal = false;
     },
     unequipSuperheavy() {
-      this.loadout.EquippableMounts.forEach(mount => {
+      const improved = this.$store.getters.getPilot.has('CoreBonus', 'imparm')
+      this.loadout.AllEquippableMounts(improved).forEach(mount => {
         mount.Unlock();
       });
     }

@@ -52,6 +52,7 @@ declare interface IPilotLoadoutData {
 declare interface IMechData {
   id: string;
   name: string;
+  notes: string;
   frame: string;
   active: boolean;
   current_structure: number;
@@ -83,5 +84,10 @@ declare interface IMountData {
 
 declare interface IWeaponSlotData {
   size: string,
-  weapon_id: string | null,
+  weapon: IEquipmentData | null,
+}
+
+declare interface ITagData {
+  id: string,
+  val: string | number
 }

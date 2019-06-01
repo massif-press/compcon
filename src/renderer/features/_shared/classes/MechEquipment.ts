@@ -2,7 +2,7 @@ import { LicensedItem, Tag } from "@/class";
 
 abstract class MechEquipment extends LicensedItem {
   protected sp: number;
-  protected tags: Tag[];
+  protected tags: ITagData[];
   private effect: string;
   private integrated: boolean;
   private notes: string[];
@@ -21,7 +21,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get Tags(): Tag[] {
-    return this.tags;
+    return Tag.Deserialize(this.tags);
   }
 
   public get Effect(): string {

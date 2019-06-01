@@ -3,7 +3,7 @@
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">Systems</span>
       <v-card-text class="bordered ml-3 pt-4 pb-4">
-          <mech-system-item v-for="(is, i) in mech.integrated" :key="is + i" :maxSP="mech.MaxSP" :loadout="loadout" :system="is" integrated /> 
+          <mech-system-item v-for="(is, i) in mech.IntegratedSystems" :key="is + i" :maxSP="mech.MaxSP" :loadout="loadout" :system="is" integrated /> 
           <mech-system-item v-for="(s, j) in loadout.Systems" :key="s.id + j" :maxSP="mech.MaxSP" :loadout="loadout" :system="s"/> 
           <mech-system-item v-if="freeSP > 0" :loadout="loadout" :maxSP="mech.MaxSP" empty/> 
       </v-card-text>

@@ -9,7 +9,8 @@
         </p>
       </v-card-text>
     </v-card>
-    <v-tabs v-else v-model="tabIndex" dark color="grey darken-2" show-arrows slider-color="pink" mandatory>
+    <v-tabs v-else v-model="tabIndex" dark color="grey darken-2" 
+      show-arrows slider-color="pink" mandatory @change="changeTab()">
       <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">{{loadout.name}}</v-tab>
       <span>
         <v-tooltip top>
@@ -131,11 +132,23 @@
           this.renameDialog = false;
         }
       },
-    },
-    watch: {
-      tabIndex(val: number) {
-        this.config.ActiveLoadout = this.config.Loadouts[val];
+      changeTab() {
+        this.pilot.ActiveLoadout = this.pilot.Loadouts[this.tabIndex];
       }
-    }
+    },
+    created () {
+      if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
+        const activeIndex = this.config.Loadouts.findIndex(x => x.ID === this.config.ActiveLoadout!.ID)
+        if (activeIndex > -1) {
+          this.tabIndex = activeIndex
+        } else {
+          this.tabIndex = 0
+          this.config.ActiveLoadout = this.config.Loadouts[0]
+        }
+      } else if (this.config && this.config.Loadouts) {
+          this.tabIndex = 0
+          this.config.ActiveLoadout = this.config.Loadouts[0]
+      }
+    },
   });
 </script>

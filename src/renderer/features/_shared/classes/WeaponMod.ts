@@ -7,8 +7,8 @@ class WeaponMod extends LicensedItem {
   private applied_string: string;
   private effect: string;
   private restricted_sizes: WeaponSize[];
-  private tags: Tag[];
-  private added_tags: Tag[]
+  private tags: ITagData[];
+  private added_tags: Tag[];
   private added_damage?: Damage;
   private added_range: number;
 
@@ -22,7 +22,8 @@ class WeaponMod extends LicensedItem {
     this.restricted_sizes = weaponModData.restricted_sizes;
     this.tags = weaponModData.tags;
     this.added_tags = weaponModData.added_tags || [];
-    if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage);
+    if (weaponModData.added_damage)
+      this.added_damage = new Damage(weaponModData.added_damage);
     this.added_range = weaponModData.added_range || 0;
     this.item_type = ItemType.WeaponMod;
   }
@@ -48,7 +49,7 @@ class WeaponMod extends LicensedItem {
   }
 
   public get Tags(): Tag[] {
-    return this.tags;
+    return Tag.Deserialize(this.tags);
   }
 
   public get AddedTags(): Tag[] {

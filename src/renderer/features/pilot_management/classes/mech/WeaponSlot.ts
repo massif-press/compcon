@@ -11,6 +11,10 @@ class WeaponSlot {
     this.weapon = null;
   }
 
+  private save() {
+    store.dispatch("saveData");
+  }
+
   public get Size(): FittingSize {
     return this.size;
   }
@@ -20,29 +24,33 @@ class WeaponSlot {
   }
 
   public get Mod(): WeaponMod | null {
-    return this.Weapon && this.Weapon.Mod
+    return this.Weapon && this.Weapon.Mod;
   }
 
   public EquipWeapon(weapon: MechWeapon) {
     this.weapon = weapon;
+    this.save();
   }
 
   public UnequipWeapon() {
     this.weapon = null;
+    this.save();
   }
 
   public static Serialize(ws: WeaponSlot): IWeaponSlotData {
     return {
       size: ws.size,
-      weapon_id: ws.Weapon ? ws.Weapon.ID : null
+      weapon: ws.Weapon 
+        ? {id: ws.Weapon.ID , notes: ws.Weapon.Notes}
+        : null
     };
   }
 
   public static Deserialize(slotData: IWeaponSlotData): WeaponSlot {
     let ws = new WeaponSlot(slotData.size as FittingSize);
-    if (slotData.weapon_id)
+    if (slotData.weapon)
       ws.EquipWeapon(
-        store.getters.getItemById("MechWeapons", slotData.weapon_id)
+        store.getters.getItemById("MechWeapons", slotData.weapon.id)
       );
     return ws;
   }

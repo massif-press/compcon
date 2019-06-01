@@ -23,7 +23,7 @@ class MechSystem extends MechEquipment {
   }
 
   public static Deserialize(itemData: IEquipmentData): MechSystem {
-    let item = store.getters.getItemById("MechSystem", itemData.id);
+    let item = store.getters.getItemById("MechSystems", itemData.id);
     item.Notes = itemData.notes;
     return item;
   }

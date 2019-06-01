@@ -40,7 +40,7 @@
         <!-- ID Block -->
         <v-layout align-end>
           <v-flex shrink>
-            <editable-label dark :attr="`todo.name`" description="Configuration Name" :placeholder="config.Name">
+            <editable-label dark attr="Name" description="Configuration Name" :placeholder="config.Name" :mech="config">
               <span slot="label" class="display-2 white--text">{{config.Name}}</span>
             </editable-label>
           </v-flex>
@@ -60,7 +60,7 @@
                 <span class="white--text fluff-text ml-2">{{ getManufacturer(config.Frame.Source).Name }} {{ config.Frame.mechtype }} Mech</span>
               </v-flex>
             </v-layout>
-            <editable-textfield :description="'Configuration Notes'" :attr="`todo.notes`" :initial="config.notes" dark :key="config.id"/>
+            <v-textarea dark color="orange" v-model="config.Notes" auto-grow rows=1 label="Configuration Notes" clearable />
             <!-- Req. Licenses -->
             <v-layout class="mt-0"><span class="config-header mt-0">Licenses Required</span></v-layout>
             <v-layout>
@@ -217,7 +217,7 @@
 
           <v-layout class="ml-3 mr-3">
             <v-flex>
-              <pilot-traits :pilot="pilot" />
+              <pilot-traits :talents="config.pilot.Talents" :core-bonuses="config.pilot.CoreBonuses" />
             </v-flex>
           </v-layout>
 
@@ -276,17 +276,17 @@
               </v-layout>
               <v-layout>
                 <v-flex class="mr-3 ml-3 mt-0">
-                  <v-alert type="error" :value="config.used_sp > config.sp">
+                  <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
                     <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b><br>
-                    Configuration loadout exceeds available SP points (<b>{{config.used_sp}} SP used</b>, {{config.sp}} SP available)
+                    Configuration loadout exceeds available SP points (<b>{{config.CurrentSP}} SP used</b>, {{config.MaxSP}} SP available)
                   </v-alert>
                 </v-flex>
               </v-layout>
               <v-layout>
                 <v-flex class="mr-3 ml-3 mt-0">
-                  <v-alert type="warning" :value="(config.sp - config.used_sp) > 0">
+                  <v-alert type="warning" :value="(config.MaxSP - config.CurrentSP) > 0">
                     <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b><br>
-                    Configuration retains {{config.sp - config.used_sp}} unused System Points. Combat efficacy limited.
+                    Configuration retains {{config.MaxSP - config.CurrentSP}} unused System Points. Combat efficacy limited.
                   </v-alert>
                 </v-flex>
               </v-layout>
@@ -313,7 +313,6 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import Stats from '../logic/stats'
   import {mapGetters} from 'vuex'
   import {getStatic} from '@/mixins/static'
   import {EditableLabel, EditableTextfield, ItemTag, EmptyView, LazyDialog, PipBar, TickBar} from '../components/UI'
@@ -321,7 +320,7 @@
   import MechLoadout from './LoadoutEditor/MechLoadout.vue'
   import { clipboard } from 'electron';
   import ccc from '@/features/_shared/UI/CCColors'
-  import { Mech, Frame, Pilot } from '@/class'
+  import { Mech, Frame, Pilot, Statblock } from '@/class'
 
   export default Vue.extend({
     name: 'config-sheet',
@@ -342,19 +341,9 @@
         this.snackbar = true
       },      
       hasEmptyMounts (): boolean {
-        var empty = false
-        var vm = this as any
-        if (!vm.config.loadouts.length) return true
-        if (!vm.config.loadouts[vm.IsActiveLoadoutIdx]) return true
-        if (!vm.config.loadouts[vm.IsActiveLoadoutIdx].mounts) return true
-        if (!vm.config.loadouts[vm.IsActiveLoadoutIdx].mounts.length) return true
-        for (let i = 0; i < vm.config.loadouts[vm.IsActiveLoadoutIdx].mounts.length; i++) {
-          const m = vm.config.loadouts[vm.IsActiveLoadoutIdx].mounts[i]
-          if (m.imparm || (m.imparm && vm.pilot.core_bonuses.includes('imparm'))) continue
-          if (m.mount_type.includes('/')) empty = m.weapons.length < 2
-          else empty = !m.weapons.length
-        }
-        return empty
+        if (!this.config) return false;
+        if (!this.config.ActiveLoadout) return false;
+        return this.config.ActiveLoadout.HasEmptyMounts;
       },
       selectMechImg () {
         var vm = this as any
@@ -364,26 +353,23 @@
         return getStatic(path)
       },
       openPrintOptions (override: boolean) {
+        if (!this.config) return;
         var vm = this as any
-        // this.$store.dispatch('setPrintOptions', {
-        //   config_id: vm.config.id,
-        //   config_loadout_index: this.IsActiveLoadoutIdx
-        // })
-        // if (!override && (
-        //   this.hasEmptyMounts() ||
-        //   (this.config.sp - this.config.used_sp) > 0 ||
-        //   this.config.used_sp > this.config.sp ||
-        //   this.config.required_licenses.filter(x => x.missing).length
-        // )) {
-        //   this.printWarningDialog = true
-        // } else {
-        //   this.$router.push('/print-config')
-        // }
+        if (!override && (
+            this.hasEmptyMounts() 
+            || (this.config.MaxSP - this.config.CurrentSP) > 0 
+            || this.config.CurrentSP > this.config.MaxSP
+            || this.config.RequiredLicenses.filter(x => x.missing).length
+        )) {
+          this.printWarningDialog = true
+        } else {
+          this.$router.push('/print-config')
+        }
       },
       copyConfigStatblock () {
         var vm = this as any
-        // clipboard.writeText(config.mechStatblock(vm.pilot, vm.config, vm.config.loadouts[vm.IsActiveLoadoutIdx], vm.$store.getters['getState']))
-        this.notify('Pilot Statblock Copied to Clipboard')
+        clipboard.writeText(Statblock.Generate(null, this.config))
+        this.notify('Mech Statblock Copied to Clipboard')
       },
       activateConfig() {
         if (this.config && this.config.IsActive) this.pilot.ActiveMech = null;

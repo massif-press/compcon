@@ -64,7 +64,7 @@
         this.$emit('remove')
       },
       rank(): number {
-        return this.pilotTalent ? this.pilotTalent.Rank : 0
+        return this.pilotTalent ? this.pilotTalent.Rank - 1 : 0
       }
     }    
   })

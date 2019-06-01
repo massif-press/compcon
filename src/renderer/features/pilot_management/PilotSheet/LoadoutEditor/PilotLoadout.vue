@@ -10,8 +10,8 @@
       </v-card-text>
     </v-card>
     <v-tabs v-else v-model="tabIndex" dark color="primary" slider-color="yellow" 
-      show-arrows mandatory>
-      <v-tab v-for="(loadout, i) in pilot.Loadouts" :key="i">{{loadout.Name}}</v-tab>
+      show-arrows mandatory @change="changeTab()">
+      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">{{pilotLoadout.Name}}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="pilot.AddLoadout()">
@@ -21,20 +21,20 @@
         </v-tooltip>
       </span>
       <v-tabs-items mandatory>
-        <v-tab-item v-for="(loadout, index) in pilot.Loadouts" :key="loadout.id + index" lazy>
+        <v-tab-item v-for="(pilotLoadout, index) in pilot.Loadouts" :key="pilotLoadout.id + index">
           <v-card>
             <v-card-text>
-              <div v-for="(a, index) in loadout.Armor" :key="`p-armor-${index}`">
+              <div v-for="(a, index) in pilotLoadout.Armor" :key="`p-armor-${index}`">
                 <gear-item item-type="Armor" :item="a" @clicked="openSelector(a, index, 'PilotArmor')"/>
               </div>
 
               <br>
-              <div v-for="(w, index) in loadout.Weapons" :key="`p-weapon-${index}`">
+              <div v-for="(w, index) in pilotLoadout.Weapons" :key="`p-weapon-${index}`">
                 <gear-item item-type="Weapon" :item="w" @clicked="openSelector(w, index, 'PilotWeapon')"/>
               </div>
 
               <br>
-              <div v-for="(g, index) in loadout.Gear" :key="`p-gear-${index}`">
+              <div v-for="(g, index) in pilotLoadout.Gear" :key="`p-gear-${index}`">
                 <gear-item item-type="Gear" :item="g" @clicked="openSelector(g, index, 'PilotGear')"/>
               </div>
             </v-card-text>
@@ -43,13 +43,13 @@
               title="Select Pilot Equipment">
               <template v-slot:modal-content>
                 <item-table slot="modal-content" :item-type="itemType" :equipped-item="equippedItem" 
-                  @select-item="equipItem(loadout, $event)" @remove-item="removeItem(loadout, $event)"/>
+                  @select-item="equipItem" @remove-item="removeItem"/>
               </template>
             </pilot-edit-modal>
 
             <v-card-actions>
               <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" 
-                @accept="renameLoadout(loadout)" @cancel="renameDialog = false">
+                @accept="renameLoadout(pilotLoadout)" @cancel="renameDialog = false">
                 <v-btn slot="activator" flat @click="renameDialog = true">
                   <v-icon small left>edit</v-icon>Rename Loadout
                 </v-btn>
@@ -58,14 +58,14 @@
                 </v-card-text>
               </lazy-dialog>
 
-              <v-btn flat @click="pilot.CloneLoadout(loadout)">
+              <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
                 <v-icon small left>file_copy</v-icon>Duplicate Loadout
               </v-btn>
 
               <v-spacer/>
 
               <lazy-dialog :model="deleteDialog" title="Delete Loadout" acceptString="Delete" acceptColor="warning" 
-                @accept="deleteLoadout(loadout)" @cancel="deleteDialog = false">
+                @accept="deleteLoadout(pilotLoadout)" @cancel="deleteDialog = false">
                 <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
                   <v-icon small left>edit</v-icon>Delete Loadout
                 </v-btn>
@@ -89,7 +89,6 @@
 <script lang="ts">
 import Vue from "vue";
 import io from "@/features/_shared/data_io";
-// import uid from '../../logic/uid'
 import { rules } from "lancer-data";
 import { PilotLoadout, Pilot, PilotEquipment, PilotArmor, PilotGear, PilotWeapon, ItemType } from "@/class";
 import { LazyDialog } from "../../components/UI";
@@ -98,7 +97,7 @@ import GearItem from "./GearItem.vue";
 import ItemTable from "./ItemTable.vue";
 
 export default Vue.extend({
-  name: "pilot-loadout",
+  name: "pilot-loadout-view",
   components: { GearItem, ItemTable, LazyDialog, PilotEditModal },
   props: {
     pilot: Pilot
@@ -141,19 +140,33 @@ export default Vue.extend({
         this.renameDialog = false;
       }
     },
-    equipItem(loadout: PilotLoadout, item: PilotEquipment) {
-      loadout.Add(item, this.itemIndex)
+    equipItem(item: PilotEquipment) {
+      if (this.pilot.ActiveLoadout) 
+        this.pilot.ActiveLoadout.Add(item, this.itemIndex)
       this.selectorModal = false;
     },
-    removeItem(loadout: PilotLoadout, item: PilotEquipment) {
-      loadout.Remove(item.ItemType, this.itemIndex)
+    removeItem(item: PilotEquipment) {
+      if (this.pilot.ActiveLoadout) 
+        this.pilot.ActiveLoadout.Remove(item, this.itemIndex)      
       this.selectorModal = false;
+    },
+    changeTab() {
+      this.pilot.ActiveLoadout = this.pilot.Loadouts[this.tabIndex];
     }
   },
-  watch: {
-    tabIndex(val: number) {
-      this.pilot.ActiveLoadout = this.pilot.Loadouts[val];
-    }
-  }
+  created () {
+    if (this.pilot.Loadouts && this.pilot.ActiveLoadout) {
+      const activeIndex = this.pilot.Loadouts.findIndex(x => x.ID === this.pilot.ActiveLoadout!.ID)
+      if (activeIndex > -1) {
+        this.tabIndex = activeIndex
+      } else {
+        this.tabIndex = 0
+        this.pilot.ActiveLoadout = this.pilot.Loadouts[0]
+      }
+    } else if (this.pilot && this.pilot.Loadouts) {
+        this.tabIndex = 0
+        this.pilot.ActiveLoadout = this.pilot.Loadouts[0]
+      }
+  },
 });
 </script>
