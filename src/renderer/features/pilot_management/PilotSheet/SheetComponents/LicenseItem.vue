@@ -6,8 +6,8 @@
 
     <v-toolbar-title slot="header" v-else dense>
       <v-icon color="primary" v-html="`cc-rank-${pilotRank}`" />
-      <span class="title">{{licenseData.license}}</span>
-      <span class="caption">({{licenseData.source}})</span>
+      <span class="title">{{licenseData.Name}}</span>
+      <span class="caption">({{licenseData.Source}})</span>
     </v-toolbar-title>
     <v-card>
     <v-layout v-if="selectable && available" class="text-xs-center">

@@ -3,40 +3,43 @@
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">Systems</span>
       <v-card-text class="bordered ml-3 pt-4 pb-4">
-          <mech-system-item v-for="(is, i) in integrated" :key="is + i" :system="item(is)" /> 
-          <mech-system-item v-for="(s, j) in systems" :key="s.id + j" :system="s" @clicked="clicked(j)"/> 
-          <mech-system-item v-if="free_sp > 0" empty @clicked="clicked(systems.length)"/> 
+          <mech-system-item v-for="(is, i) in mech.IntegratedSystems" :key="is + i" :maxSP="mech.MaxSP" :loadout="loadout" :system="is" integrated /> 
+          <mech-system-item v-for="(s, j) in loadout.Systems" :key="s.id + j" :maxSP="mech.MaxSP" :loadout="loadout" :system="s"/> 
+          <mech-system-item v-if="freeSP > 0" :loadout="loadout" :maxSP="mech.MaxSP" empty/> 
       </v-card-text>
-      <v-tooltip top v-if="free_sp < 0">
+      <v-tooltip top v-if="freeSP < 0">
       <span slot="activator" class="bottom-title pl-3 pr-3 red--text font-weight-bold">
-        <v-icon color="error">warning</v-icon>&emsp;{{free_sp}}/{{max_sp}} SP&emsp;<v-icon color="error">warning</v-icon>
+        <v-icon color="error">warning</v-icon>&emsp;{{freeSP}}/{{mech.MaxSP}} SP&emsp;<v-icon color="error">warning</v-icon>
       </span>
       <span>WARNING: Loadout exceeds system capacity</span>
       </v-tooltip>
-      <span v-else class="bottom-title pl-3 pr-3">{{free_sp}}/{{max_sp}} SP</span>
+      <span v-else class="bottom-title pl-3 pr-3">{{freeSP}}/{{mech.MaxSP}} SP</span>
     </v-card>
+
+
   </div>
 </template>
 
-<script>
-import MechSystemItem from './MechSystemItem'
+<script lang="ts">
+import Vue from 'vue'
+import MechSystemItem from './MechSystemItem.vue'
+import { MechLoadout, MechSystem, Mech } from '@/class';
 
-export default {
+export default Vue.extend({
   name: 'systems-block',
+  data: () => ({
+    systemSelectorModal: false
+  }),
   props: {
-    systems: Array,
-    integrated: Array,
-    max_sp: Number,
-    free_sp: Number
+    loadout: MechLoadout,
+    mech: Mech
   },
   components: { MechSystemItem },
-  methods: {
-    clicked: function (index) {
-      this.$emit('clicked', index)
-    },
-    item: function (id) {
-      return this.$store.getters['getItemById']('MechSystems', id)
+  computed: {
+    freeSP(): number {
+      console.log(this.mech.IntegratedSystems)
+      return this.mech.MaxSP - this.loadout.TotalSP
     }
   }
-}
+})
 </script>

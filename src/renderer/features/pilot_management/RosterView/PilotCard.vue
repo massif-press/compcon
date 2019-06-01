@@ -2,36 +2,33 @@
   <v-hover style="background-color: rgba(0,0,0,0)">
     <v-card slot-scope="{ hover }" :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`">
       <v-layout row style="cursor: pointer;" @click="toPilotSheet()">
-        <v-flex v-if="pilot.cloud_portrait" class="ma-0 pb-0 pt-0">
-          <v-img :src="pilot.cloud_portrait" position="top" :height="`${cardHeight}px`"/>
-        </v-flex>
-        <v-flex v-else-if="pilot.portrait" class="ma-0 pb-0 pt-0">
-          <v-img :src="`file://${userDataPath}/img/portrait/${pilot.portrait}`" position="top" :height="`${cardHeight}px`"/>
+        <v-flex v-if="pilot.Portrait" class="ma-0 pb-0 pt-0">
+          <v-img :src="pilot.Portrait" position="top" :height="`${cardHeight}px`"/>
         </v-flex>
         <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
-            <span class="pilot-letter white--text">{{pilot.callsign.substring(0, 1).toUpperCase()}}</span>
+            <span class="pilot-letter white--text">{{pilot.Callsign.substring(0, 1).toUpperCase()}}</span>
           </div>
         </v-flex>
       </v-layout>
       <v-layout row>
         <v-flex>
-          <v-card :color="panelColor(pilot.active)" dark flat>
+          <v-card :color="panelColor()" dark flat>
             <v-layout>
               <v-flex xs9 class="ma-2">
-                <span class="title">{{pilot.callsign}}</span>
+                <span class="title">{{pilot.Callsign}}</span>
                 <br>
-                <span class="caption">{{pilot.name}}<br>{{background(pilot)}}, LL{{pilot.level}}</span>
+                <span class="caption">{{pilot.Name}}<br>{{pilot.Background.Name}}, LL{{pilot.Level}}</span>
               </v-flex>
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
-                    <v-icon :color="pilot.active ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
+                    <v-icon :color="pilot.IsActive ? 'teal accent-3' : 'grey darken-1'">mdi-power</v-icon>
                   </v-btn>
                   <div class="text-xs-center">
-                    <span><b :class="activeColorClass(pilot.active)"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
-                      <br><i>Click to {{pilot.active ? 'deactivate' : 'activate'}} Pilot</i></span>
+                    <span><b :class="activeColorClass()"> {{pilot.active ? 'Active' : 'Inactive'}}</b>
+                      <br><i>Click to {{pilot.IsActive ? 'deactivate' : 'activate'}} Pilot</i></span>
                   </div>
                 </v-tooltip>
                 <v-tooltip top>
@@ -58,7 +55,7 @@
         <lazy-dialog :model="deleteDialog" title="Delete Pilot" acceptString="Delete"
           acceptColor="warning" @accept="deletePilot" @cancel="deleteDialog = false">
           <template v-slot:modal-content>
-            <v-card-text>Are you sure you want to delete {{pilot.callsign}}? This action cannot be undone</v-card-text>
+            <v-card-text>Are you sure you want to delete {{pilot.Callsign}}? This action cannot be undone</v-card-text>
           </template>
         </lazy-dialog>
 
@@ -114,12 +111,13 @@
   import {LazyDialog} from '../components/UI'
   import {clipboard} from 'electron'
   import apis from '../logic/apis'
+  import {Pilot} from '@/class'
 
   export default Vue.extend({
   name: 'pilot-card',
   components: {LazyDialog},
   props: {
-    pilot: Object,
+    pilot: Pilot,
     pIdx: Number,
     cardHeight: Number,
   },
@@ -140,43 +138,31 @@
       this.notification = alert
       this.snackbar = true
     },
-    activeColorClass (isActive: boolean): string {
-      return isActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
+    activeColorClass (): string {
+      return this.pilot.IsActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1' 
     },
-    panelColor (isActive: boolean): string {
-      return isActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
-    },
-    background () {
-      if (this.pilot.custom_background) return this.pilot.custom_background
-      else return this.$store.getters['getItemById']('Backgrounds', this.pilot.background).name
+    panelColor (): string {
+      return this.pilot.IsActive ? `rgba(4, 48, 114, ${this.overlayOpacity})` : `rgba(0, 0, 0, ${this.overlayOpacity})`
     },
     toPilotSheet () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
+      this.$store.dispatch('loadPilot', this.pilot)
       this.$router.push('./pilot')
     },
     activatePilot () {
-      this.$store.dispatch('loadPilot', this.pilot.id)
-      this.$store.dispatch('editPilot', {
-        attr: `active`,
-        val: !this.pilot.active
-      })   
-      this.$forceUpdate() 
-      this.$parent.$forceUpdate() 
-      this.notify(`${this.pilot.callsign} ${this.pilot.active ? 'Activated' : 'Deactivated'}`)
+      this.pilot.Active = !this.pilot.IsActive;
+      this.notify(`${this.pilot.Callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot () {
       this.deleteDialog = false
-      this.$store.dispatch('deletePilot', this.pilot.id)
+      this.$store.dispatch('deletePilot', this.pilot)
       this.notify('Pilot Deleted')
     },
     clonePilot (isFlashclone: boolean) {
       if (isFlashclone) {
-        var quirks = this.$store.getters['getItemCollection']('Quirks')
-        var quirk = quirks[Math.floor(Math.random() * quirks.length)]
-        this.$store.dispatch('clonePilot', {id: this.pilot.id, quirk: quirk})
+        this.$store.dispatch('clonePilot', {pilot: this.pilot, quirk: true})
         this.notify('Pilot Cloned')
       } else {
-        this.$store.dispatch('clonePilot', {id: this.pilot.id})
+        this.$store.dispatch('clonePilot', {pilot: this.pilot})
         this.notify('Pilot Duplicated')
       }
       this.copyDialog = false
@@ -184,21 +170,21 @@
     exportPilot () {
       const { dialog } = require('electron').remote
       var path = dialog.showSaveDialog({
-        defaultPath: this.pilot.callsign.toUpperCase().replace(/\W/g, ''),
+        defaultPath: this.pilot.Callsign.toUpperCase().replace(/\W/g, ''),
         buttonLabel: 'Save Pilot'
       })
-      io.saveFile(path + '.json', JSON.stringify(this.pilot))
+      io.saveFile(path + '.json', JSON.stringify(Pilot.Serialize(this.pilot)))
         this.exportDialog = false
         this.notify('Pilot Export Successful')
       },
     copyPilot () {
-      clipboard.writeText(JSON.stringify(this.pilot))
+      clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
     },
     cloudSavePilot () {
       var vm = this as any
-      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.$store.dispatch('loadPilot', this.pilot.ID)
       vm.cloudLoading = true
       apis.createPilotGist(this.pilot).then((newGist: any) => {
         var gistID = newGist.id
@@ -219,7 +205,7 @@
     },
     cloudUpdatePilot () {
       var vm = this as any
-      vm.$store.dispatch('loadPilot', this.pilot.id)
+      vm.$store.dispatch('loadPilot', this.pilot.ID)
       vm.cloudLoading = true
       apis.updatePilotGist(this.pilot).then((newGist: any) => {
         clipboard.writeText(newGist.id)
@@ -233,7 +219,7 @@
       })
     },
     copyShareID () {
-      clipboard.writeText(this.pilot.gistID)
+      clipboard.writeText(this.pilot.GistID)
       this.notify('Share ID copied to Clipboard')
     }
   },

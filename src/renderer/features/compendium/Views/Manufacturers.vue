@@ -25,13 +25,8 @@ export default Vue.extend({
       tabModel: 0,
       manufacturers: {},
     }),
-    methods: {
-      openItem(t: any) {
-        console.error('not yet implemented')
-      },
-    },
     created() {
-      this.manufacturers = this.$store.getters['getItemCollection']('Manufacturers')
+      this.manufacturers = this.$store.getters.getItemCollection('Manufacturers')
     },
   })
 </script>
