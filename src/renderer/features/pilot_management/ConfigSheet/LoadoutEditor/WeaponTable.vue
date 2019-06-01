@@ -147,7 +147,6 @@
         if (vm.weaponSlot.Weapon) i = i.filter(x => x !== vm.weaponSlot.Weapon)
 
         if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
-        console.log(vm.loadout.UniqueWeapons)
         i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
 
         return i

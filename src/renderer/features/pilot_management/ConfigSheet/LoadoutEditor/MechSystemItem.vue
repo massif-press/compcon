@@ -76,9 +76,6 @@
       empty: Boolean,
       integrated: Boolean,
       maxSP: Number,
-    },
-    methods: {
-
     }
   })
 </script>

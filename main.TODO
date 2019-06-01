@@ -1,5 +1,7 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 - mod addedranges should be range bonus objects
+  ☐ serialize weapon mod
+
 
 Improvements:
   ✔ move config overcharge into rules.json @done(19-05-28 15:18)

@@ -256,6 +256,7 @@
     }),
     methods: {
       savePilot () {
+        this.newPilot.cc_ver = Vue.version
         this.$store.dispatch('addPilot', this.newPilot)
         this.$router.push('./pilot_management')
       },

@@ -48,10 +48,10 @@ const mutations = {
     state.MechSystems = lancerData.systems.map((x: any) => new MechSystem(x))
     state.Tags = lancerData.tags.map((x: any) => new Tag(x));
     state.PilotGear = lancerData.pilot_gear.map(function (x: any) {
-        if (x.type === 'weapon') return new PilotWeapon(x)
-        else if (x.type === 'armor') return new PilotArmor(x)
-        return new PilotGear(x)
-      }
+      if (x.type === 'weapon') return new PilotWeapon(x)
+      else if (x.type === 'armor') return new PilotArmor(x)
+      return new PilotGear(x)
+    }
     )
     state.Manufacturers = lancerData.manufacturers
     state.Statuses = lancerData.statuses

@@ -2,8 +2,8 @@ import store from '@/store'
 import { CompendiumItem } from './Item'
 
 interface ITalentRank {
-  name: string
-  description: string
+  name: string;
+  description: string;
 }
 
 class Talent extends CompendiumItem {
