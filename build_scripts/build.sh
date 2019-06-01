@@ -54,6 +54,6 @@ then
   rm -rf build/${BUILD_OS}-${TRAVIS_BRANCH}/win-ia32-unpacked build/${BUILD_OS}-${TRAVIS_BRANCH}/win-unpacked
 fi
 echo "---Pushing ${BUILD_OS} build for branch ${TRAVIS_BRANCH} to Itch.io---"
-echo "./butler push build/${BUILD_OS}-${TRAVIS_BRANCH} beeftime/compcon:${BUILD_OS}-${TRAVIS_BRANCH}  --userversion ${BUILD_VER}"
-./butler push build/${BUILD_OS}-${TRAVIS_BRANCH} beeftime/compcon:${BUILD_OS}-${TRAVIS_BRANCH}  --userversion ${BUILD_VER}
+echo "./butler push build/${BUILD_OS}-${TRAVIS_BRANCH} massif-press/compcon:${BUILD_OS}-${TRAVIS_BRANCH}  --userversion ${BUILD_VER}"
+./butler push build/${BUILD_OS}-${TRAVIS_BRANCH} massif-press/compcon:${BUILD_OS}-${TRAVIS_BRANCH}  --userversion ${BUILD_VER}
 echo "---Build and Deployment for ${BUILD_OS} platform, ${TRAVIS_BRANCH} branch complete!"
