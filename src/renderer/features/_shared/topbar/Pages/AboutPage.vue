@@ -13,7 +13,7 @@
     <br>
     <p class="text-xs-center"><v-btn flat outline color="primary" @click="open('https://github.com/jarena3/compcon/wiki/Roadmap')">Project Roadmap</v-btn> &emsp;&mdash;&emsp;
     <v-btn flat color="primary" outline @click="open('https://github.com/jarena3/compcon/wiki/Getting-Started')">Contributor's Guide</v-btn> &emsp;&mdash;&emsp;
-    <v-btn flat color="primary" outline @click="open('https://beeftime.itch.io/compcon')">itch.io page</v-btn>
+    <v-btn flat color="primary" outline @click="open('https://massif-press.itch.io/compcon')">itch.io page</v-btn>
     </p>
     <br>
     <h2 class="headline">Thanks</h2>
