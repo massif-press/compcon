@@ -3,11 +3,11 @@
     <template v-slot:left-column>
       <v-layout>
         <v-flex xs12>
-          <div v-for="b in bonuses" :key="`summary_${b.id}`">
+          <div v-for="b in pilot.CoreBonuses" :key="`summary_${b.id}`">
             <v-layout>
               <v-flex>
-                <strong>{{ b.name }}</strong>&nbsp;
-                <span class="caption">({{ b.source }})</span>
+                <strong>{{ b.Name }}</strong>&nbsp;
+                <span class="caption">({{ b.Source }})</span>
               </v-flex>
             </v-layout>
           </div>
@@ -22,8 +22,7 @@
           <v-alert outline color="warning" icon="priority_high" :value="points.pointsCurrent !== points.pointsMax">
             {{points.pointsCurrent}} / {{points.pointsMax}} CORE Bonuses selected
           </v-alert>
-          <v-btn v-if="!levelUp" block :disabled="!selectionComplete" @click="saveBonuses" color="primary">Save</v-btn>
-          <v-btn v-if="!levelUp" block flat small :disabled="!bonuses.length" @click="resetBonuses">Reset</v-btn>
+          <v-btn v-if="!levelUp" block flat small :disabled="!pilot.CoreBonuses.length" @click="pilot.ClearCoreBonuses()">Reset</v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -49,7 +48,7 @@
                 </v-toolbar-title>
                 <v-card>
                   <core-bonus-item :cb="cb" :key="cb.id" :selectable="getSelectableStatus(cb)" :isSelected="getSelectedStatus(cb)" 
-                    select-item @added="addBonus(cb)" @removed="removeBonus(cb)" />
+                    select-item @added="addBonus(cb)" @removed="pilot.RemoveCoreBonus(cb)" />
                 </v-card>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -66,27 +65,24 @@
   import _ from 'lodash'
   import Selector from './Selector.vue'
   import {CoreBonusItem} from '../SheetComponents'
+  import {Pilot, License, PilotLicense, CoreBonus, Manufacturer} from '@/class'
 
   export default Vue.extend({
     name: 'core-bonus-selector',
     components: {Selector, CoreBonusItem},
     props: {
-      pilotBonuses: Array,
-      pilotLicenses: Array,
-      pilotLevel: Number,
+      pilot: Pilot,
       levelUp: Boolean,
     },
     data: () => ({
-      bonuses: [],
-      licenses: {},
       bonusData: [],
     }),
     computed: {
       points () {
         var vm = this as any
         return {
-          pointsCurrent: vm.bonuses.length,
-          pointsMax: Math.floor(vm.pilotLevel / 3)
+          pointsCurrent: vm.pilot.CoreBonuses.length,
+          pointsMax: Math.floor(vm.pilot.Level / 3)
         }
       },
       selectionComplete () {
@@ -96,7 +92,7 @@
     },
     methods: {
       manufacturer (id: string): Manufacturer {
-        return this.$store.getters['getItemById']('Manufacturers', id.toUpperCase())
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
       },
       requirement(m: string): string {
         var vm = this as any
@@ -110,11 +106,11 @@
       },
       getLevelCount(m: string): number {
         var vm = this as any
-        return vm.pilotLicenses.filter((x: any) => x.source === m).reduce((a: any, b: any) => +a + +b.level, 0)
+        return vm.pilot.Licenses.filter((x: PilotLicense) => x.License.Source === m).reduce((a: any, b: any) => +a + +b.Rank, 0)
       },
       getSelectedCount(m: string): number {
         var vm = this as any
-        return vm.bonuses.filter((x: any) => x.source === m).length
+        return vm.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m).length
       },
       getAvailableCount(m: string): number {
         var vm = this as any
@@ -123,41 +119,24 @@
       },
       getSelectedStatus(cb: CoreBonus): boolean {
         var vm = this as any
-        return vm.bonuses.filter((x: any) => x.id === cb.id).length > 0
+        return vm.pilot.CoreBonuses.filter((x: any) => x.id === cb.ID).length > 0
       },
       getSelectableStatus(cb: CoreBonus): boolean {
         var vm = this as any
-        return vm.getAvailableCount(cb.source) > 0 && !vm.selectionComplete
+        return vm.getAvailableCount(cb.Source) > 0 && !vm.selectionComplete
       },
       addBonus (cb: CoreBonus) {
         var vm = this as any
-        vm.bonuses.push(cb)
+        vm.pilot.AddCoreBonus(cb)
 
         if (vm.levelUp && vm.selectionComplete) {
-          vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
           window.scrollTo(0, document.body.scrollHeight)
         }
       },
-      removeBonus (cb: CoreBonus) {
-        var vm = this as any
-        var idx = vm.bonuses.findIndex((x: CoreBonus) => x.id === cb.id)
-        if (idx !== -1) {
-          vm.bonuses.splice(idx, 1)
-        }
-      },
-      saveBonuses () {
-        var vm = this as any
-        vm.$emit('set-bonuses', vm.bonuses.map((x: CoreBonus) => x.id))
-      },
-      resetBonuses () {
-        var vm = this as any
-        vm.bonuses = []
-      }
     },
     created () {
       var vm = this as any
-      vm.bonusData = _.groupBy(vm.$store.getters['getItemCollection']('CoreBonuses'), 'source')
-      vm.bonuses = vm.pilotBonuses.map((x: string) => vm.$store.getters['getItemById']('CoreBonuses', x))
+      vm.bonusData = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
     }
   })
 </script>

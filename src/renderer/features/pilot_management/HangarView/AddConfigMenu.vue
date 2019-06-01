@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout justify-center>
-      <v-flex>
+      <v-flex class="mt-5">
         <v-stepper v-model="nc_step" vertical>
           <v-stepper-step :complete="nc_step > 1" step="1">
             Editor Mode<small v-if="nc_step > 1">Create New</small>
@@ -35,45 +35,53 @@
                 <span v-else>Hide unauthorized Frames</span>
               </v-tooltip>
               <v-spacer />
-              <v-text-field class="search-field ma-2" prepend-icon="search"
+              <v-text-field class="search-field ma-2" prepend-icon="search" dark
                 v-model="search" flat hide-details single-line placeholder="Search" clearable />
             </v-toolbar>
             <v-card light>
               <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
                 <template slot="items" slot-scope="props">
-                  <tr @click="props.expanded = !props.expanded" :class="{ locked: isLocked(props.item.name) }">
-                    <td style="padding: 0!important;"><v-btn color="primary" icon @click="select(props.item)" class="p-0 m-0"><v-icon>save_alt</v-icon></v-btn></td>
-                    <td class="text-xs-left"><span class="subheading">{{ props.item.source }}</span></td>
-                    <td class="text-xs-left">
-                      <span class="subheading font-weight-bold">{{ props.item.name }} 
-                        <v-tooltip v-if="isLocked(props.item.name)" top>
-                          <v-icon small color="warning" slot="activator">warning</v-icon>
-                          <span>{{pilot.callsign}} does not have the license necessary to print this frame ({{props.item.name}} II)</span>
-                        </v-tooltip>
-                    </span>
+                  <tr :class="{ locked: isLocked(props.item) }">
+                    <td style="padding: 0!important; width:50px;"><v-btn color="primary" icon @click="select(props.item)" class="p-0 m-0"><v-icon>save_alt</v-icon></v-btn></td>
+                    <td class="text-xs-left clickable" style="height:100px;" @click="spawnPopup(props.item)">
+                      <v-layout>
+                      <v-flex shrink>
+                        <span class="mt-1 middle">
+                          {{ props.item.Source }}<br>
+                          <span class="major-title font-weight-bold">
+                            {{ props.item.Name }}
+                          <v-tooltip v-if="isLocked(props.item)" top>
+                            <v-icon color="warning" slot="activator" style="display: inline;">warning</v-icon>
+                            <span>{{pilot.callsign}} does not have the license necessary to print this frame ({{props.item.Name}} II)</span>
+                          </v-tooltip>
+                          </span>
+                        </span>
+                      </v-flex>
+                      <v-flex>
+                        <v-img :src="props.item.DefaultImage" max-height="100px" position="top 30% left 150px" 
+                        style="mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0));"/>
+                      </v-flex>
+                      </v-layout>
                     </td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.size === 0.5 ? '½' : props.item.stats.size }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.armor }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.hp }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.evasion }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{props.item.stats.edef}}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.heatcap }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.repcap }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sensor_range }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.tech_attack }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{props.item.stats.save}}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.speed }}</span></td>
-                    <td class="text-xs-right"><span class="subheading">{{ props.item.stats.sp }}</span></td>
                   </tr>
-                </template>
-                <template slot="expand" slot-scope="props">
-                  <frame-statblock :frame="props.item" hide-statblock />
                 </template>
               </v-data-table>
               <v-card-actions>
                 <v-btn color="primary" flat @click="nc_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
               </v-card-actions>
             </v-card>
+            <v-dialog lazy v-model="infoDialog" width="95vw">
+              <v-toolbar color="#7E57C2" dark>
+                <v-toolbar-title>{{selectedFrame.Name}}
+                  <span class="caption">({{ selectedFrame.Source }}</span>
+                </v-toolbar-title>
+              </v-toolbar>
+              <v-card>
+                <v-card-text>
+                  <item-card :itemData="selectedFrame" popup />
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-stepper-content>
 
           <v-stepper-step step="3">Designation</v-stepper-step>
@@ -94,7 +102,7 @@
               <v-spacer />
               <v-flex shrink>
                 <v-btn color="primary" flat @click="nc_step--"><v-icon>chevron_left</v-icon>Back</v-btn>
-                <v-btn color="success" large class="pl-4" @click="addNewConfig" :disabled="!newFrameId || !newConfigName">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
+                <v-btn color="success" large class="pl-4" @click="addNewConfig" :disabled="!(selectedFrame && newConfigName)">Confirm &nbsp;<v-icon>done</v-icon></v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -106,76 +114,70 @@
 
 <script lang="ts">
   import Vue from 'vue'
+  import path from 'path'
   import io from '@/features/_shared/data_io'
-  import { FrameStatblock } from '../components/UI'
   import validator from '../logic/validator'
+  import { Pilot, Frame, Mech } from '@/class'
+  import { ItemCard } from '../components/UI'
 
   export default Vue.extend({
     name: 'new-config',
-    components: { FrameStatblock },
+    components: { ItemCard },
+    props: {
+      pilot: Pilot
+    },
     data: () => ({
       nc_step: 0,
-      newFrameId: null,
-      newFrameName: null,
       newConfigName: null,
       showLocked: false,
       search: null,
       headers: [
         {align: 'left', sortable: false},
-        {text: 'Source', align: 'left', value: 'source'},
-        {text: 'Frame', align: 'left', value: 'name'},
-        {text: 'Size', align: 'right', value: 'stats.size'},
-        {text: 'Armor', align: 'right', value: 'stats.armor'},
-        {text: 'HP', align: 'right', value: 'stats.hp'},
-        {text: 'Evasion', align: 'right', value: 'stats.evasion'},
-        {text: 'E-Defense', align: 'right', value: 'stats.edef'},
-        {text: 'Heat Capacity', align: 'right', value: 'stats.heatcap'},
-        {text: 'Repair Capacity', align: 'right', value: 'stats.repcap'},
-        {text: 'Sensor Range', align: 'right', value: 'stats.sensor_range'},
-        {text: 'Tech Attack', align: 'right', value: 'stats.tech_attack'},
-        {text: 'Save', align: 'right', value: 'stats.save'},
-        {text: 'Speed', align: 'right', value: 'stats.speed'},
-        {text: 'SP', align: 'right', value: 'stats.sp'}
+        {text: 'Frame', align: 'left', value: 'Name'},
       ],
-      licenses: [] as string[]
+      infoDialog: false,
+      selectedFrame: {} as Frame
     }),
     computed: {
       frames () {
         var vm = this as any
-        // filter by type
-        var i = vm.$store.getters['getItemCollection']('Frames')
-        if (!vm.showLocked) i = i.filter((x: Frame) => vm.licenses.includes(x.name))
+        let i = vm.$store.getters.getItemCollection('Frames')
 
-        if (vm.search) i = i.filter((x: Frame) => x.name.toUpperCase().includes(vm.search.toUpperCase()))
+        if (!vm.showLocked) 
+          i = i.filter((x: Frame) => vm.pilot.has("License", x.Name, 2) || x.Source === 'GMS')
+
+        if (vm.search) i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
         return i
       },
-      pilot (): Pilot {
-        return this.$store.getters['getPilot']
-      }
     },
     methods: {
+      spawnPopup(frame: Frame) {
+        this.selectedFrame = frame;
+        this.infoDialog = true;
+      },
       randomMechname () {
         var vm = this as any
         vm.newConfigName = `${io.randomName('mechnames.txt')}`
         vm.$forceUpdate()
       },
       select (frame: Frame) {
-        var vm = this as any
-        vm.newFrameId = frame.id
-        vm.newFrameName = frame.name
-        vm.nc_step++
+        this.selectedFrame = frame;
+        this.nc_step++
       },
-      isLocked (name: string): boolean {
-        return !this.licenses.includes(name)
+      isLocked (frame: Frame): boolean {
+        if (frame.Source === "GMS") return false;
+        return !this.pilot.has("License", frame.Name, 2);
       },
       addNewConfig () {
-        this.$store.dispatch('addConfig', {
-          pilot_id: this.pilot.id,
-          name: this.newConfigName,
-          frame_id: this.newFrameId,
-          brew: this.$store.getters['getItemById']('Frames', this.newFrameId).brew || null
-        })
+        let newMech = new Mech(
+          this.selectedFrame,
+          this.pilot
+        )
+        newMech.Name = this.newConfigName || 'New Config'
+        this.pilot.AddMech(newMech);
+        this.newConfigName = null;
+        this.nc_step = 1;
         this.$emit('close')
       },
       importFile () {
@@ -214,14 +216,6 @@
         this.$emit('close')
       }
     },
-    created () {
-      var licenses = ['EVEREST']
-      for (let i = 0; i < this.pilot.licenses.length; i++) {
-        var l = this.pilot.licenses[i]
-        if (l.level > 1) licenses.push(l.name)
-      }
-      this.licenses = licenses
-    }
   })
 </script>
 
@@ -230,6 +224,12 @@
   .locked {
     background-color: #F5F5F5;
   }
+
+  .middle {
+  position: relative;
+  top: 15%;
+  text-align: left;
+}
 
 </style>
 

@@ -1,0 +1,211 @@
+GENERAL CHANGES:
+  ☐ a slight hacking rework and 
+  ☐ the addition of the exposed (takes double damage) condition. 
+  ☐ Added tags for licenses (the same as NPC tags) to help new players pick which licenses they are interested in, as well as updated the start of compendium mech summaries
+
+Narrative Play:
+  ✔ Removed invoke concept for a simpler concept (refer to background for +acc/diff) I think it was too clunky and this accomplishes the same thing (gives the group the chance to arbitrate what a character can use their background bonuses for) @done(19-05-30 23:06)
+  ☐ Cut list of triggers (left in descriptions) to avoid it looking like a skill list)
+
+Mech Combat:
+  ☐ Removed damage for a failed teleport
+  ☐ Clarity on carrying capacity for flying (total size is 1/2)
+  ☐ Clarified falling (end of turn)
+  ☐ Jockey now deals slight more damage/heat
+
+Damage, structure, heat, and repair:
+  ☐ Removed CRITICAL and CORE BREACH states. In general, I think these were fun but rarely hit. Mechs now melt down/are destroyed when they hit 0 stress or structure.
+  ☐ System trauma is now 50% weapon, 50% system, but always defender's choice.
+  ☐ Passing a hull/engineering check at 2 stress/structure now still inflicts a bad status (stunned/exposed)
+  ☐ New exposed condition on overheat
+  ☐ Repairing a destroyed mech now brings it to 1 stress as well as 1 structure
+
+Statuses and conditions:
+  ☐ Now a differentiation between the two. Statuses are things like engaged, prone, etc that can't be cleared easily, conditions are more temporary and can be cleared
+  ☐ Slowed now grants only a regular move and prevents all other movement (no longer caps movement maximum)
+  ☐ New exposed condition (take double damage until you stabilize)
+
+Attacks:
+  ☐ Slight reword on ram and grapple
+  ☐ Reword on bonus attacks with aux weapons with skirmish and barrage to prevent confusion
+
+Hiding:
+  ☐ You can no longer hide if you're engaged and you don't cause engagement while hidden
+  ☐ You now immediately lose hidden if you lose cover (instead of at end of your next turn), which feels more naturalistic and is more clear
+  ☐ You need soft cover from a zone (soft cover granted from talents, etc is not valid) to hide
+
+Hacking rework:
+  ☐ Quick tech actions now typically deal flat (2) heat, full tech (4).
+  ☐ Lock on and Scan now automatically hit. Actions that relied on lock on have been tweaked slightly to compensate. Lock on is no longer a tech attack
+  ☐ Reword on invade to fit the new system
+  ☐ You can now invade willing allied characters. It doesn't deal heat and automatically hits.
+
+Talents:
+  ☐ Ace - Rank I now affects saves, rank III now requires you end your turn flying again
+  ☐ Armsman - Renamed rank II, reword on some effects to go with new bonus damage rules
+  ☐ Bonded - Swapped Ranks II and III, reworked how rank III works (grants  free attack)
+  ☐ Brawler - Damage up by 2 on rank II and III
+  ☐ Brutal - Removed 'on your turn' from rank III
+  ☐ Crack Shot - Swapped ranks II and III
+  ☐ Centimane - Renamed some ranks, Rank II now requires critical hit
+  ☐ Combined Arms - Swapped ranks I and II
+  ☐ Blademaster - Deflect now gives resistance to damage, heat and burn, Feint lasts longer
+  ☐ Engineer - Ranks renamed, Rank II no longer allows melee prototype weapons to fire with the cone, line, or blast profiles
+  ☐ Executioner - Rank II now only affects characters and objects other than your primary target, reduced to 3 damage
+  ☐ Exemplar - Rank III - if a character makes an attack including you, it immediately turns off the effect
+  ☐ Gunslinger - Rank III special shot now has AP
+  ☐ Grease Monkey - Ranks renamed, rank II slightly clarified
+  ☐ Hacker- Rank I now gives a choice, rank III now triggers before clearing the heat gauge if the target overheats
+  ☐ Guardian - Renamed Heavy Gunner, rank I no longer has difficulty but deals 1/2 dmg
+  ☐ Infiltrator - Reserve power mode clarified (you can still take actions, just not those that generate heat), grants immunity to certain effects, and also impairs  (since slowed is a weaker status now). Rank III now works with tech attacks and can deal heat.
+  ☐ Leader - Leadership die now reset only 1 at a time on rest
+  ☐ Nuclear Cavalier - Now deals types bonus damage (energy), grants flat heat reduction (4)
+  ☐ Siege Specialist - Rank I knock back increased, rank II triggers before attack roll, rank II size increased but damage reduced
+  ☐ Spotter - Swapped rank I and II. Rank I now only works on allies, rank II now requires a tech action (instead of being a free action if you don't move)
+  ☐ Technophile - Minor tweaks to wording
+
+Gear changes:
+  ☐ Slight reword on Ordnance (also fixed spelling as Ordinance in many cases)
+  ☐ Overcharged tag reworded to 'overkill' and now clarifies that it only works with damage dice, and only final damage dice
+  ☐ Slight clarity update on drones to specify that they do not get turns/actions unless specified
+  ☐ Some flight systems/effects now require you to land at the end of the move or immediately fall
+
+Guidance:
+  ☐ Added mech role tags to help with license selection
+
+GMS:
+  ☐ Improved armament doesn't count integrated mounts
+  ☐ Integrated weapon is now its own integrated mount that triggers 1/round
+  ☐ Howitzer and AMR damage slightly up
+  ☐ Added (sort of re-added) new Expanded Compartment and Custom Paint Job 1 sp systems
+  ☐ Turret drones are now a GMS system (moved from Hydra) to provide an ll0 drone system. Damage slightly increased, can no longer be attached to characters
+  ☐ Jump jet system now makes you fall if you don't end the movement on a surface
+
+IPS-N:
+  ☐ Briareos changed  now gives you the old CRITIICAL state effect
+  Blackbeard:
+    ☐ Synthetic muscle netting updated for clarity on group grapples
+  Drake:
+    ☐ Now has resistance to damage, heat, and burn from area attacks
+    ☐ FORTRESS is stronger (gives you a more powerful brace) and re-organized section for clarity
+    ☐ Assault cannon can now be spun up to get reliable 3
+    ☐ Argonaut shield damage resolution clarified
+    ☐ Aegis shield generator is now stronger but has a smaller area and reduced duration
+    ☐ Leviathan AC gained +1 reliable when spun up (now reliable 5)
+  Lancaster:
+    ☐ Sensors down, gained +1 tech attack
+    ☐ Core power does not remove self inflicted effects
+    ☐ Restock drone requires free space
+    ☐ You can't give immobilized targets a ride with MULE anymore
+  Raleigh:
+    ☐ ROLAND now works only with loading weapons, but now with any loading weapon
+    ☐ Bolt thrower is now a cannon
+    ☐ UNCLE is now a Comp/Con and not an NHP due to slight lore rework (still has the AI tag)
+    ☐ Kinetic hammer is now reliable 4
+  Tortuga:
+    ☐ Pneumatic hammer now renamed Catalytic Hammer
+    ☐ Throughbolt rounds reworked so the initial line no longer replicates the attack
+    ☐ Hyper Dense armor now works on all damage, heat, and burn, has no heat cost, but causes you to deal less damage, heat, and burn to everyone outside of range 5 as well
+  VLAD:
+    ☐ Impact Lance up to threat 3
+    ☐ Charged stake up to 5 AP kinetic damage
+
+Smith Shimano Corpro:
+    ☐ Ghostweave  Now breaks immediately when you take a reaction
+    ☐ All theatre movement suit   Clarified that it's only your turns where your mech takes heat (not any turn)
+  Black Witch:
+    ☐ Removed core power reference to targeting
+    ☐ Mag cannon damage increased by 1
+    ☐ Ferrous lash more explicitly works on allies but has reduced effect, requires line of sight
+    ☐ ICEOUT zone size reduced
+  Death's Head:
+    ☐ Core power now only works on characters
+  Dusk Wing:
+    ☐ Veil Rifle  Dmg up by 1
+    ☐ Neurospike  Brought in line with new hacking rules 
+    ☐ Burst Launcher  Now deals +1 heat
+    ☐ OASIS   Heat down and light constructs now last indefinitely until you take the action again
+  Metalmark:
+    ☐ Reactive weave language cleaned up (can now trigger properly)
+    ☐ Shock knife now has thrown 5
+  Monarch:
+    ☐ Avenger silos now missile range (15)
+    ☐ Seeking payload ignores reduction as well as granting seeking
+    ☐ Sharanga missiles language cleaned up
+    ☐ Javelin rockets   Can no longer place rockets adjacent to each other
+    ☐ Pinaka alternate fire now slows instead of gaining ordnance
+  Mourning Cloak:
+    ☐ Removed self damage for failed teleports
+    ☐ Small clarity rework to FADE cloak
+  Swallowtail:
+    ☐ Shredding effect on lock on is now only 1/round
+    ☐ Markerlight now deals 4 heat
+    ☐ Low profile prevents attacks of any kind (small reword)
+    ☐ Athena now inflicts lock on to any character ending its turn in the affected area
+    ☐ Cloaking Field now slows instead of immobilizes
+
+HORUS:
+    ☐ Lesson of the Open Door now only 1/round, but heat increased to 2
+    ☐ Lesson of Thinking Tomorrow's Thought   damage now cannot be reduced in any way
+  Balor:
+    ☐ Regeneration now shuts off temporarily if the Balor takes structure or stress
+    ☐ Swarm Body is now unique
+    ☐ Nanobot Whip is now smart
+  Goblin:
+    ☐ Many systems reworked to fit with new hacking changes
+    ☐ Swapped metahook and Autopod in license order
+    ☐ New Core Power  Symbiosis
+    ☐ Autopod range up
+    ☐ Meta-hook now unique
+    ☐ OSIRIS is now a quick tech action that can be performed 1/round
+  Gorgon:
+    ☐ Gained +1 tech attack
+    ☐ Mimic mesh increased to 2 SP, must always be made towards an ally, now triggers before the triggering action
+    ☐ MONITOR   Charges now end at the end of your following turn
+    ☐ Scylla  Now deal 1/2 damage, heat, or burn but no difficulty
+  Hydra:
+    ☐ OROCHI Drones now fly or teleport if you can fly and teleport
+    ☐ Swapped turret drones to GMS, now gains Annhilation Nexus at rank III (new superheavy nexus). Tempest drone to rank II
+  Manticore:
+    ☐ Invasion systems brought in line with new hacking update
+  Minotaur:
+    ☐ Invasion systems brought in line with new hacking update
+    ☐ Sensor range down, HP up to 12
+    ☐ Interdiction field now self-slows
+  Pegasus:
+    ☐ Ushabti now trumps any rule in the core book or any other
+    ☐ Slight clarity update on mimic gun
+    ☐ Small clarity update on Sisyphus (you can swap out die and save them up)
+    ☐ Slight clarity update on autogun
+
+Harrison Armory:
+  ☐ Removed reference to repair in core bonuses
+  Barbarossa:
+    ☐ Clarity update on siege stabilizers, roller charges
+  Genghis:
+    ☐ Explosive vent only triggers when heat is reduced to 0 or reset, heat and burn is now flat 2 each
+    ☐ Plasma Thrower damage up
+    ☐ Agni now requires a save
+  Iskander:
+    ☐ Reword of some passives for clarity
+    ☐ Repulsor field reworded and makes you immune to the damage of any mine triggered
+    ☐ Tesseract (spread focus) size reduced, zero-g no longer impairs, pinpoint focus can only affect a character 1/scene
+  Napoleon:
+    ☐ Added 'save' to well-shielded passive
+    ☐ Clarity on stasis bolt that it spends the charge to use it
+  Saladin:
+    ☐ Gained 1 armor
+    ☐ Tachyon loop now more versatile and can grant resistance
+    ☐ Support shield can now grant resistance
+    ☐ Impulse Colony Missiles renamed to Impulse Missiles
+    ☐ Hardlight Defense System attacks crossing the effect clarified (no attack can cross if it draws line of effect, even if it ignores LoS)
+    ☐ Vishnu reworked   now slows and can deflect attacks at the cost of heat
+  Sherman:
+    ☐ Reduced tech attack
+  Tokugawa:
+    ☐ Passives slightly reworked
+    ☐ All effects now work with any weapons that deal energy damage
+    ☐ Core active simplified but range and threat increased
+    ☐ Clarity on Annihilator
+    ☐ Torch self heat up by 1
+    ☐ Plasma lash swapped out for ERUPTING BURNING FING- uh, plasma gauntlet

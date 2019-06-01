@@ -23,7 +23,6 @@ function createMainWindow() {
 
   console.log(process.platform)
 
-
   if (isDevelopment) {
     window.webContents.openDevTools()
   }
