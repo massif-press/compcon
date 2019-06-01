@@ -29,7 +29,7 @@
     <v-container grid-list-xl fluid>
       <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" xs3>
-          <config-card :config="c" :pilot="pilot" :card-height="cardHeight" />
+          <config-card :mech="c" :pilot="pilot" :card-height="cardHeight" />
         </v-flex>
         <v-flex xs3>
           <add-config-card :pilot="pilot" :card-height="cardHeight" />

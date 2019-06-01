@@ -30,13 +30,13 @@ class MechSkills {
 
   public Increment(field: HASE) {
     if (this[field] < rules.max_hase)
-    this[field] += 1
+      this[field] += 1
     this.save();
   }
 
   public Decrement(field: HASE) {
     if (this[field] > 0)
-    this[field] -= 1
+      this[field] -= 1
     this.save();
   }
 

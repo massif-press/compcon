@@ -331,7 +331,6 @@
 
 <script lang='ts'>
   import Vue from 'vue'
-  import Stats from '../logic/stats'
   import {clipboard} from 'electron'
   import { LazyDialog, EditableLabel, EditableTextfield, PipBar, EmptyView, TickBar } from '../components/UI'
   import { ImageSelector, BackgroundSelector, SkillSelector, TalentSelector, LicenseSelector, MechSkillsSelector, CoreBonusSelector, LevelSelector } from './Selectors'
@@ -407,7 +406,6 @@
         this.appearanceModal = false
       },
       openPrintOptions: function () {
-        console.log(this.pilot.ActiveMech)
         if (this.pilot.ActiveConfig) {
           this.printDialog = true
         } else {

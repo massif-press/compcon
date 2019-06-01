@@ -32,9 +32,9 @@ function convertPilot(old: any): IPilotData {
     skills: old.skills.map((x: any) => ({id: x.id, rank: x.bonus / 2})),
     talents: old.talents.map((x: any) => ({id: x.id, rank: x.rank})),
     core_bonuses: old.core_bonuses,
-    loadouts: old.loadouts.map((x: any) => convertPilotLoadouts(x)),
+    loadouts: old.loadouts ? old.loadouts.map((x: any) => convertPilotLoadouts(x)) : [],
     active_loadout: null,
-    mechs: old.configs.map((x: any) => convertMechs(x)),
+    mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
     cc_ver: "1.3.1",
   }

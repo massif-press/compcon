@@ -44,7 +44,7 @@ class Range {
     return `${this.range_type} ${this.Value}`;
   }
 
-  public static AddBonuses(ranges: Range[], bonuses: {type: RangeType, val: number}[]): Range[] {
+  public static AddBonuses(ranges: Range[], bonuses: {type: RangeType; val: number}[]): Range[] {
     var output = [] as Range[]
     ranges.forEach(range => {
       let bonus = bonuses.filter(x => x.type === range.Type).map(x => x.val).reduce((sum, bonus) => sum + bonus, 0)

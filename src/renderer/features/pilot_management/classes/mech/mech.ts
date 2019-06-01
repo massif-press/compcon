@@ -385,12 +385,12 @@ class Mech {
   public get IntegratedSystems(): MechSystem[] {
     let intg = [];
     if (this.pilot.has("Talent", "armsman")) {
-      const id = `armsman${this.pilot.getTalentRank("armsman")}`;
-      intg.push(new MechSystem(id));
+      const arms = store.getters.getItemById("MechSystems", `armsman${this.pilot.getTalentRank("armsman")}`);
+      intg.push(new MechSystem(arms));
     }
     if (this.pilot.has("Talent", "techno")) {
-      const id = `techno${this.pilot.getTalentRank("techno")}`;
-      intg.push(new MechSystem(id));
+      const techno = store.getters.getItemById("MechSystems", `techno${this.pilot.getTalentRank("techno")}`);
+      intg.push(new MechSystem(techno));
     }
     return intg;
   }
@@ -444,7 +444,6 @@ class Mech {
   }
 
   public set ActiveLoadout(loadout: MechLoadout | null) {
-    console.log('set active mech loadout')
     this.active_loadout = (loadout && loadout.ID) || "";
     this.save();
   }

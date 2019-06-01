@@ -35,6 +35,8 @@ class Pilot {
   private active_mech: string | null;
   private loaded_mech: Mech | null;
 
+  private cc_ver: string;
+
   constructor() {
     this.id = uid.generate();
     this.gistID = "";
@@ -61,6 +63,7 @@ class Pilot {
     this.loadouts = [];
     this.mechs = [];
     this.loaded_mech = null;
+    this.cc_ver = process.env.npm_package_version || "UNKNOWN"
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -523,6 +526,7 @@ class Pilot {
 
   public AddLoadout() {
     this.loadouts.push(new PilotLoadout(this.loadouts.length));
+    this.ActiveLoadout = this.Loadouts[this.Loadouts.length - 1]
     this.save();
   }
 
@@ -636,7 +640,7 @@ class Pilot {
       active_loadout: p.ActiveLoadout ? p.ActiveLoadout.ID : null,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
-      cc_ver: process.env.npm_package_version || ""
+      cc_ver: p.cc_ver
     };
   }
 
@@ -678,6 +682,7 @@ class Pilot {
       ? pilotData.mechs.map((x: IMechData) => Mech.Deserialize(x, p))
       : [];
     p.active_mech = pilotData.active_mech;
+    p.cc_ver = pilotData.cc_ver || '';
     return p;
   }
 }

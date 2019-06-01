@@ -181,39 +181,39 @@
         this.$emit('close')
       },
       importFile () {
-        // const { dialog } = require('electron').remote
-        // var path = dialog.showOpenDialog({
-        //   title: 'Load Configuration Data',
-        //   buttonLabel: 'Load',
-        //   properties: [
-        //     'openFile'
-        //   ],
-        //   filters: [
-        //     { name: 'Configuration Data', extensions: ['json'] }
-        //   ]
-        // })
-        // var data = io.importFile(path[0])
-        // if (validator.config(data)) {
-        //   this.$store.dispatch('importConfig', data)
-        //   this.$parent.$forceUpdate()
-        //   this.$emit('close')
-        // } else {
-        //   alert('Config data validation failed')
-        //   this.$emit('close')
-        // }
+        const { dialog } = require('electron').remote
+        var path = dialog.showOpenDialog({
+          title: 'Load Configuration Data',
+          buttonLabel: 'Load',
+          properties: [
+            'openFile'
+          ],
+          filters: [
+            { name: 'Configuration Data', extensions: ['json'] }
+          ]
+        })
+        var data = io.importFile(path[0])
+        if (validator.config(data)) {
+          this.$store.dispatch('importConfig', data)
+          this.$parent.$forceUpdate()
+          this.$emit('close')
+        } else {
+          alert('Config data validation failed')
+          this.$emit('close')
+        }
       },
       importClipboard () {
-      //   var vm = this
-      //   const {clipboard} = require('electron')
-      //   validator.clipboardConfig(clipboard.readText(), function (err, result) {
-      //     if (err) {
-      //       alert(err)
-      //     } else {
-      //       vm.$store.dispatch('importConfig', result)
-      //     }
-      //   })
-      //   this.$parent.$forceUpdate()
-      //   this.$emit('close')
+        var vm = this
+        const {clipboard} = require('electron')
+        validator.clipboardConfig(clipboard.readText(), function (err, result) {
+          if (err) {
+            alert(err)
+          } else {
+            vm.$store.dispatch('importConfig', result)
+          }
+        })
+        this.$parent.$forceUpdate()
+        this.$emit('close')
       }
     },
   })

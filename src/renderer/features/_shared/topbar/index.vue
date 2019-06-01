@@ -109,7 +109,8 @@
       $route(to: Route, from: Route) {
         window.scrollTo(0, 0)
         const activePilot = this.$store.getters.getPilot
-        this.hangarActive = !(to.path === '/pilot_management' || to.path === '/new') || !activePilot
+        this.hangarActive = !(to.path === '/pilot_management' || to.path === '/new')
+        if (!this.$store.getters.getPilot.Name) this.hangarActive = false;
         this.zeroConfigs = activePilot && activePilot.Configs && activePilot.Configs.length === 0
       },
     },

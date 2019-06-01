@@ -60,7 +60,7 @@ declare interface IMechData {
   current_stress: number;
   current_heat: number;
   current_repairs: number;
-  loadouts: IMechLoadoutData[]
+  loadouts: IMechLoadoutData[];
   active_loadout: string | null;
 }
 
@@ -83,11 +83,11 @@ declare interface IMountData {
 }
 
 declare interface IWeaponSlotData {
-  size: string,
-  weapon: IEquipmentData | null,
+  size: string;
+  weapon: IEquipmentData | null;
 }
 
 declare interface ITagData {
-  id: string,
-  val: string | number
+  id: string;
+  val: string | number;
 }

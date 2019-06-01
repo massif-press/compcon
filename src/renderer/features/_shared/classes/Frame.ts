@@ -122,7 +122,7 @@ class Frame extends LicensedItem {
   }
 }
 
-type Trait = {
+interface Trait {
   name: string;
   description: string;
 }

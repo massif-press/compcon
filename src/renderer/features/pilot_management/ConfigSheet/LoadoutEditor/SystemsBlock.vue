@@ -37,6 +37,7 @@ export default Vue.extend({
   components: { MechSystemItem },
   computed: {
     freeSP(): number {
+      console.log(this.mech.IntegratedSystems)
       return this.mech.MaxSP - this.loadout.TotalSP
     }
   }
