@@ -53,6 +53,7 @@ interface AppContext {
 }
 
 interface LicenseRequirement {
+  source: string;
   name: string;
   rank: number;
   items: string[];

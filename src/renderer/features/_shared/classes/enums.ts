@@ -89,6 +89,15 @@ enum DamageType {
   Variable = "Variable"
 }
 
+enum MechType {
+  Balanced = "Balanced",
+  Artillery = "Artillery",
+  Striker = "Striker",
+  Controller = "Controller",
+  Support = "Support",
+  Defender = "Defender"
+}
+
 enum HASE {
   H = 'hull',
   A = 'agi',
@@ -107,4 +116,5 @@ export {
   RangeType,
   DamageType,
   HASE,
+  MechType,
 }

@@ -14,7 +14,8 @@ import {
   SkillFamily,
   RangeType,
   DamageType,
-  HASE
+  HASE,
+  MechType
 } from "./features/_shared/classes/enums";
 import { CompendiumItem, LicensedItem } from "./features/_shared/classes/Item";
 import CoreBonus from "./features/_shared/classes/CoreBonus";
@@ -74,6 +75,7 @@ export {
   RangeType,
   DamageType,
   HASE,
+  MechType,
   License,
   CoreBonus,
   Damage,

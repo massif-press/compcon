@@ -144,7 +144,7 @@
       <v-layout>
         <v-flex xs2><v-icon large>mdi-dice-2</v-icon><v-icon large>mdi-minus</v-icon><v-icon large>mdi-dice-4</v-icon></v-flex>
         <v-flex xs3><span class="subheading font-weight-bold text-uppercase">System Trauma</span></v-flex>
-        <v-flex xs7><span class="subheading">Parts of your mech are torn off by the damage. All the weapons on one mount or a system are destroyed. Roll a d6, on a 4+, you get to choose, on a 1-3, the attacker gets to choose. If a system is used up (it has the limited tag and no charges left) it’s not a valid target. If there’s nothing left to destroy, this result becomes DIRECT HIT instead.</span></v-flex>
+        <v-flex xs7><span class="subheading">Parts of your mech are torn off by the damage. Roll a d6. On a 1-3, all the weapons on one mount are destroyed. On a 4-6, a system is destroyed. You choose what’s destroyed, but systems or weapons with the limited tag and no charges left are not valid. If there’s nothing left of one result, it becomes the other. If there’s absolutely nothing left to destroy, this result becomes DIRECT HIT instead.</span></v-flex>
       </v-layout>
       <v-divider class="ma-2"/>
       <v-layout>
@@ -152,7 +152,7 @@
         <v-flex xs3><span class="subheading font-weight-bold text-uppercase">Direct Hit</span></v-flex>
         <v-flex xs7><span class="subheading">This result has different outcomes depending on how much structure damage your mech has remaining.<br>
         3+ - Your mech is <b>stunned</b> until the end of your next turn.<br>
-        2 - Your mech must pass a <b>hull</b> save or be <b>destroyed</b>.<br>
+        2 - Your mech must pass a <b>hull</b> save or be <b>destroyed</b>.Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.<br>
         1 or lower - Your mech is <b>destroyed</b>.</span></v-flex>
       </v-layout>   
       <v-divider class="ma-2"/>
@@ -187,7 +187,7 @@
       <v-layout>
         <v-flex xs2><v-icon large>mdi-dice-2</v-icon><v-icon large>mdi-minus</v-icon><v-icon large>mdi-dice-4</v-icon></v-flex>
         <v-flex xs3><span class="subheading font-weight-bold text-uppercase">Power Plant Destabilize</span></v-flex>
-        <v-flex xs7><span class="subheading">Your mech’s power plant becomes unstable, ejecting jets of plasma. Your mech is <b>Jammed</b> until the end of your next turn</span></v-flex>
+        <v-flex xs7><span class="subheading">Your mech’s power plant becomes unstable, ejecting jets of plasma. Your mech suffers from the <b>exposed</b> status (taking double damage) until it takes action to remove it.</span></v-flex>
       </v-layout>
       <v-divider class="ma-2"/>
       <v-layout>
@@ -195,7 +195,7 @@
         <v-flex xs3><span class="subheading font-weight-bold text-uppercase">Meltdown</span></v-flex>
         <v-flex xs7><span class="subheading">This result has different outcomes depending on how much reactor stress your mech has remaining.<br>
         3+ - Your mech is immediately <b>shut down</b><br>
-        2 - Your mech must pass a engineering save or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this save..<br>
+        2 - Your mech must pass a engineering save or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this save.<br>
         1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.</span></v-flex>
       </v-layout>   
       <v-divider class="ma-2"/>
@@ -255,7 +255,10 @@
       <p><strong>Structure</strong> - When a character with structure goes to 0 HP, it makes a structure check, then takes 1 structure damage. When a target runs out of structure, it either goes into the CRITICAL state (player mechs) or is destroyed outright.</p>
     </v-layout>
     <v-layout>
-      <p><strong>Stress</strong> - When a character that can take stress overheats, it takes 1 stress then makes an overheating check. If a character reaches maximum stress, it goes into the CORE BREACH state. Tech attack - Electronic Warfare attacks, modified by your systems</p>
+      <p><strong>Stress</strong> - When a character that can take stress overheats, it takes 1 stress then makes an overheating check.</p>
+    </v-layout>
+    <v-layout>
+      <p><strong>Tech Attack</strong> - Electronic Warfare attacks, modified by your systems</p>
     </v-layout>
     <v-layout>
       <p><strong>Threat</strong> - The range of your melee and overwatch attacks with certain weapons, measured from yourself. Base threat for all weapons is 1, but it may be greater depending on the weapon.</p>

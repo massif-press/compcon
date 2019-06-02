@@ -34,6 +34,10 @@ class Range {
     return this.value.toString();
   }
 
+  public get Max(): number {
+    return this.value + this.bonus;
+  }
+
   public get Icon(): string {
     return `cc-${this.range_type.toLowerCase()}`;
   }
