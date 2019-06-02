@@ -340,7 +340,9 @@ class Pilot {
 
   public ClearSkills() {
     for (let i = this.skills.length - 1; i >= 0; i--) {
-      this.RemoveSkill(this.skills[i].Skill);
+      while (this.skills[i]) {
+        this.RemoveSkill(this.skills[i].Skill);        
+      }
     }
   }
 
@@ -386,7 +388,9 @@ class Pilot {
 
   public ClearTalents() {
     for (let i = this.talents.length - 1; i >= 0; i--) {
-      this.RemoveTalent(this.talents[i].Talent);
+      while (this.talents[i]) {
+        this.RemoveTalent(this.talents[i].Talent);
+      }
     }
   }
 
@@ -491,8 +495,11 @@ class Pilot {
 
   public ClearLicenses() {
     for (let i = this.licenses.length - 1; i >= 0; i--) {
-      this.RemoveLicense(this.licenses[i].License);
-    }  }
+      while (this.licenses[i]) {
+        this.RemoveLicense(this.licenses[i].License);
+      }
+    }  
+  }
 
   // -- Mech Skills -------------------------------------------------------------------------------
   public get MechSkills(): MechSkills {

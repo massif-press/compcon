@@ -26,10 +26,10 @@
             <div v-if="(newPilot && index === 0) || (!newPilot)">
               <div class="ma-2 mr-5 ml-5" v-if="selectable">
                 <v-btn v-if="available && rank() === index" block color="primary" @click="addTalent()">
-                  Unlock {{talent.name}} Rank I: {{r.name}}
+                  Unlock {{talent.name}} Rank {{roman(index + 1)}}: {{r.name}}
                 </v-btn>
                 <v-btn v-else-if="rank() === index + 1" block flat color="warning" @click="removeTalent()">
-                  Unlearn {{talent.name}} Rank I: {{r.name}}
+                  Unlearn {{talent.name}} Rank {{roman(index + 1)}}: {{r.name}}
                 </v-btn>
               </div>   
             </div>
@@ -64,7 +64,10 @@
         this.$emit('remove')
       },
       rank(): number {
-        return this.pilotTalent ? this.pilotTalent.Rank - 1 : 0
+        return this.pilotTalent ? this.pilotTalent.Rank : 0
+      },
+      roman(int: number): string {
+        return "I".repeat(int)
       }
     }    
   })

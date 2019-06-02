@@ -97,7 +97,8 @@ class Mech {
       if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame");
       else
         requirements.push({
-          name: "GMS",
+          source: 'GMS',
+          name: '',
           rank: 0,
           items: ["EVEREST Frame"],
           missing: false
@@ -105,7 +106,7 @@ class Mech {
     } else {
       const reqIdx = requirements.findIndex(
         x =>
-          x.name === `${this.frame.Source} ${this.frame.Name}` && x.rank === 2
+          x.name === `${this.frame.Name}` && x.rank === 2
       );
       if (reqIdx > -1)
         requirements[reqIdx].items.push(
@@ -113,7 +114,8 @@ class Mech {
         );
       else
         requirements.push({
-          name: `${this.frame.Source} ${this.frame.Name}`,
+          source: this.frame.Source,
+          name: this.frame.Name,
           rank: 2,
           items: [`${this.frame.Name.toUpperCase()} Frame`]
         });
@@ -121,6 +123,8 @@ class Mech {
 
     for (const l of requirements) {
       if (l.name === "GMS") continue;
+      console.log(l)
+      console.log(this.pilot.Licenses)
       l.missing = !this.pilot.has("License", l.name, l.rank);
     }
 

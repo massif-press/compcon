@@ -61,10 +61,14 @@
 
  code.horus:hover {
    background-color: black !important;
-   animation: distort 0.3s infinite;
+   animation: distort 0.6s infinite;
    text-transform: uppercase;
    letter-spacing: 0.05em;
    font-weight: bold;
+ }
+
+ .ra-quiet {
+   color: azure;
  }
  
  @keyframes distort {

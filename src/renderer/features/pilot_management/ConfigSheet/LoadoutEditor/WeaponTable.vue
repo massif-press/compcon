@@ -27,7 +27,7 @@
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
-      <v-data-table :headers="headers" :items="weapons" :expand="true" item-key="id" :search="search" hide-actions>
+      <v-data-table :headers="headers" :items="weapons" :expand="true" item-key="id" :custom-sort="customSort" :search="search" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
@@ -118,8 +118,8 @@
         {text: 'License', align: 'left', value: 'License'},
         {text: 'Size', align: 'left', value: 'Size'},
         {text: 'Type', align: 'left', value: 'Type'},
-        {text: 'Range', align: 'left', value: 'Range[0].val'},
-        {text: 'Damage', align: 'left', value: 'Damage[0].val'},
+        {text: 'Range', align: 'left', value: 'Range'},
+        {text: 'Damage', align: 'left', value: 'Damage'},
         {text: 'SP Cost', align: 'left', value: 'SP'}
       ]
     }),
@@ -168,6 +168,31 @@
       },
       isOverSp (sp: number): boolean {
         return sp > this.freeSP
+      },
+      customSort(items, index, isDescending) {
+        items.sort((a, b) => {
+            if (index === 'Damage') {
+                if (isDescending) {
+                    return b.Damage[0].Max - a.Damage[0].Max;
+                } else {
+                    return a.Damage[0].Max - b.Damage[0].Max;
+                }
+            } else if (index === 'Range') {
+                if (isDescending) {
+                    return b.Range[0].Max - a.Range[0].Max;
+                } else {
+                    return a.Range[0].Max - b.Range[0].Max;
+                }            
+            } else {
+          if (!isDescending) {
+            return a[index] < b[index] ? -1 : 1;
+          } else {
+            return b[index] < a[index] ? -1 : 1;
+          }
+        }
+        });
+
+        return items;
       }
     }
   })

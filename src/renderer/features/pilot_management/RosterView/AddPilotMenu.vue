@@ -67,6 +67,7 @@
   import io from '@/features/_shared/data_io'
   import validator from '../logic/validator'
   import apis from '../logic/apis'
+  import { Pilot } from '@/class'
 
   export default Vue.extend({
     name: 'add-pilot-menu',
@@ -102,10 +103,9 @@
         })
         var pilotData = io.importFile(path[0])
         if (validator.pilot(pilotData)) {
-          vm.$store.dispatch('importPilot', pilotData)
-          vm.$store.dispatch('loadPilot', pilotData.id)
-          vm.activeIndex = vm.pilots.length - 1
-          vm.addDialog = false
+          let newPilot = Pilot.Deserialize(pilotData);
+          newPilot.RenewID()
+          vm.$store.dispatch('addPilot', newPilot)
           vm.close()
         } else {
           alert('Pilot data validation failed')
@@ -119,9 +119,9 @@
           if (err) {
             alert(err)
           } else {
-            vm.$store.dispatch('importPilot', result)
-            vm.$store.dispatch('loadPilot', result.id)
-            vm.activeIndex = vm.pilots.length - 1
+            let newPilot = Pilot.Deserialize(result);
+            newPilot.RenewID()
+            vm.$store.dispatch('addPilot', newPilot)
           }
         })
         vm.addDialog = false
@@ -131,8 +131,10 @@
         var vm = this as any
         vm.cloudLoading = true
         apis.importPilotGist(vm.shareIDText).then((gist: any) => {
-          var newPilot = gist.files['pilot.txt'].content
-          vm.$store.dispatch('importPilot', JSON.parse(newPilot))
+          let newPilotData = JSON.parse(gist.files['pilot.txt'].content)
+          let newPilot = Pilot.Deserialize(newPilotData);
+          newPilot.RenewID()
+          vm.$store.dispatch('addPilot', newPilot)
           vm.cloudDialog = false
           vm.cloudLoading = false
           vm.close()

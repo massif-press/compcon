@@ -188,16 +188,14 @@
       vm.cloudLoading = true
       apis.createPilotGist(this.pilot).then((newGist: any) => {
         var gistID = newGist.id
-        vm.$store.dispatch('editPilot', {
-          attr: `gistID`,
-          val: gistID
-        })
+        this.pilot.GistID = gistID
         clipboard.writeText(gistID)
         vm.notify('Pilot Uploaded Successfully!<br>Share ID copied to Clipboard')
         vm.uploadFailed = false
         vm.cloudLoading = false
         vm.exportDialog = false
       }).catch(function (err: any) {
+        console.error(err)
         vm.notify('Pilot Upload Failed')
         vm.cloudLoading = false
         vm.exportDialog = false
