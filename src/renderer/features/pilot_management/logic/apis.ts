@@ -15,7 +15,7 @@ const createPilotGist = async function (pilot: Pilot): Promise<any> {
   return gistClient.setToken(token).create({
     "files": {
       "pilot.txt": {
-        "content": JSON.stringify(pilot)
+        "content": JSON.stringify(Pilot.Serialize(pilot))
       }
     },
     "description": `${pilot.Callsign} - ${pilot.Name} (LL:${pilot.Level})`,
@@ -27,7 +27,7 @@ const updatePilotGist = function (pilot: Pilot) {
   return gistClient.setToken(token).update(pilot.GistID, {
     files: {
       "pilot.txt": {
-        "content": JSON.stringify(pilot)
+        "content": JSON.stringify(Pilot.Serialize(pilot))
       }
     },
     "description": `${pilot.Callsign} - ${pilot.Name} (LL:${pilot.Level})`,

@@ -1,4 +1,6 @@
 import { Pilot, Mech, MountType, EquippableMount } from '@/class'
+import io from '@/features/_shared/data_io'
+import store from '@/store'
 
 function isValidJSON(text: string) {
   try {
@@ -101,10 +103,19 @@ export default {
   },
   checkVersion(data: any): IPilotData[] {
     let output = [] as IPilotData[];
+    let copyOld = false
     data.forEach((e: any) => {
       if (e.cc_ver) output.push(e)
-      else output.push(convertPilot(e))
+      else {
+        copyOld = true
+        try {
+          output.push(convertPilot(e))          
+        } catch (err) {
+          console.error('Conversion failure: ' + err)
+        }
+      }
     });
+    if (copyOld) io.backup(store.getters.getUserPath);
     return output
   },
   clipboardPilot(data: string, callback: (err: any, result: any) => void) {

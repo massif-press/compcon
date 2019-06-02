@@ -7,24 +7,24 @@
       </v-toolbar>
       <v-card>
         <v-data-table :headers="itemType === 'PilotArmor' ? armor_headers : itemType === 'PilotWeapon' ? weapon_headers : gear_headers" 
-          :items="gearItems" :expand="true" :search="search" hide-actions>
+          :items="gearItems" :expand="true" :search="search" :custom-sort="customSort" hide-actions>
           <template slot="items" slot-scope="props">
             <!-- Armor -->
-            <tr v-if="props.item.type === 'armor'" @click="props.expanded = !props.expanded">
+            <tr v-if="props.item.ItemType === 'PilotArmor'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.Name }}</span></td>
               <td class="text-xs-center"><span class="subheading">+{{ props.item.Armor }}</span></td>
               <td class="text-xs-center"><span class="subheading">+{{ props.item.HPBonus || 0 }}</span></td>
-              <td class="text-xs-center"><span class="subheading">{{ props.item.EDdefense }}</span></td>
+              <td class="text-xs-center"><span class="subheading">{{ props.item.EDefense }}</span></td>
               <td class="text-xs-center"><span class="subheading">{{ props.item.Evasion }}</span></td>
               <td class="text-xs-center"><span class="subheading">{{ props.item.Speed }}</span></td>
             </tr>
             <!-- Weapon -->
-            <tr v-else-if="props.item.type === 'weapon'" @click="props.expanded = !props.expanded">
+            <tr v-else-if="props.item.ItemType === 'PilotWeapon'" @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;"><v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn></td>
               <td><span class="subheading">{{ props.item.Name }}</span></td>
-              <td><span class="subheading"><damage-element small :dmg="props.item.Damage" /></span></td>
               <td><span class="subheading"><range-element small :range="props.item.Range" /></span></td>
+              <td><span class="subheading"><damage-element small :dmg="props.item.Damage" /></span></td>
             </tr>
             <!-- Gear -->
             <tr v-else @click="props.expanded = !props.expanded">
@@ -83,8 +83,8 @@ export default Vue.extend({
       weapon_headers: [
         {align: 'left', sortable: false, width: '5vw'},
         {text: 'Item', align: 'left', value: 'Name'},
-        {text: 'Damage', align: 'left', value: 'damage[0].val'},
-        {text: 'Range', align: 'left', value: 'range[0].val'}
+        {text: 'Range', align: 'left', value: 'Range'},
+        {text: 'Damage', align: 'left', value: 'Damage'},
       ],
       gear_headers: [
         {align: 'left', sortable: false, width: '5vw'},
@@ -92,16 +92,41 @@ export default Vue.extend({
         {text: 'Uses', align: 'center', value: 'Uses'}
       ]
     }),
-    created () {
-      this.gearItems = this.$store.getters.getItemCollection('PilotGear').filter((x: PilotEquipment) => x.ItemType === this.itemType)
-    },
     methods: {
       select (item: PilotEquipment) {
         this.$emit('select-item', item)
       },
       remove (item: PilotEquipment) {
         this.$emit('remove-item', item)
+      },
+      customSort(items, index, isDescending) {
+        items.sort((a, b) => {
+            if (index === 'Damage') {
+                if (isDescending) {
+                    return b.Damage[0].Max - a.Damage[0].Max;
+                } else {
+                    return a.Damage[0].Max - b.Damage[0].Max;
+                }
+            } else if (index === 'Range') {
+                if (isDescending) {
+                    return b.Range[0].Max - a.Range[0].Max;
+                } else {
+                    return a.Range[0].Max - b.Range[0].Max;
+                }            
+            } else {
+          if (!isDescending) {
+            return a[index] < b[index] ? -1 : 1;
+          } else {
+            return b[index] < a[index] ? -1 : 1;
+          }
+        }
+        });
+
+        return items;
       }
-    }
+    },
+    created () {
+      this.gearItems = this.$store.getters.getItemCollection('PilotGear').filter((x: PilotEquipment) => x.ItemType === this.itemType)
+    },
   })
 </script>

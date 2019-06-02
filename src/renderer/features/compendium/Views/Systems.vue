@@ -38,7 +38,7 @@ export default Vue.extend({
         {text: 'Source', align: 'left', value: 'Source'},
         {text: 'System', align: 'left', value: 'Name'},
         {text: 'License', align: 'left', value: 'License'},
-        {text: 'SP Cost', align: 'left', value: 'Sp'},
+        {text: 'SP Cost', align: 'left', value: 'SP'},
       ],
     }),
     created() {
