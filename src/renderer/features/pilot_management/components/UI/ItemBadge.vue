@@ -48,7 +48,7 @@
       tooltip(item: CompendiumItem) {
         if (item.ItemType === ItemType.Frame) {
           const f = item as Frame
-          return `<b>FRAME</b><br>${f.Mechtype}`
+          return `<b>FRAME</b><br>${f.MechTypeString}`
         } else if (item.ItemType === ItemType.MechWeapon) {
           const w = item as MechWeapon
           return `<b>MECH WEAPON</b><br>${w.Size} ${w.Type}`

@@ -132,7 +132,8 @@ class MechLoadout extends Loadout {
           requirements[GMSIndex].items.push(item.Name);
         } else {
           requirements.push({
-            name: "GMS",
+            source: "GMS",
+            name: '',
             rank: 0,
             items: [item.Name]
           });
@@ -147,7 +148,8 @@ class MechLoadout extends Loadout {
           requirements[licenseIndex].items.push(item.Name);
         } else {
           requirements.push({
-            name: `${item.Source} ${item.License}`,
+            source: item.Source,
+            name: item.License,
             rank: item.LicenseLevel,
             items: [item.Name]
           });

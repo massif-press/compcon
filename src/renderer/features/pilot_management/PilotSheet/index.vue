@@ -19,7 +19,7 @@
           Active Pilots cannot edit or reallocate attributes or bonuses<br>
           (except when leveling up) and are able to record current HP.<br><br>
           You can click the toggle to deactivate {{pilot.Callsign}}.</span>
-          <span v-else><b>Inctive Pilot</b><br>
+          <span v-else><b>Inactive Pilot</b><br>
           Inactive Pilots are able to edit and reallocate attributes and bonuses<br>
           but are unable to record current HP or select active Mechs.<br><br>
           You can click the toggle to activate {{pilot.Callsign}}</span>

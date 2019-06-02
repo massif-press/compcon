@@ -7,7 +7,7 @@
          {{ m }}
         </v-tab>
         <v-tab-item v-for="(n, i) in gear" :key="n + 'arr'">
-          <v-data-table :headers="i === 0 ? armor_headers : i === 1 ? weapon_headers : gear_headers" :items="n" :expand="true" item-key="id" hide-actions>
+          <v-data-table :headers="i === 0 ? armor_headers : i === 1 ? weapon_headers : gear_headers" :items="n" :custom-sort="customSort" :expand="true" item-key="id" hide-actions>
           <template slot="items" slot-scope="props">
             <tr v-if="props.item.ItemType === 'PilotArmor'" @click="props.expanded = !props.expanded">
               <td><span class="subheading">{{ props.item.Name }}</span></td>
@@ -64,14 +64,41 @@ export default Vue.extend({
       ],
       weapon_headers: [
         {text: 'Item', align: 'left', value: 'Name'},
-        {text: 'Damage', align: 'left', value: 'Damage'},
         {text: 'Range', align: 'left', value: 'Range'},
+        {text: 'Damage', align: 'left', value: 'Damage'},
       ],
       gear_headers: [
         {text: 'Item', align: 'left', value: 'Name'},
         {text: 'Uses', align: 'center', value: 'Uses'},
       ],
     }),
+    methods: {
+      customSort(items, index, isDescending) {
+        items.sort((a, b) => {
+            if (index === 'Damage') {
+                if (isDescending) {
+                    return b.Damage[0].Max - a.Damage[0].Max;
+                } else {
+                    return a.Damage[0].Max - b.Damage[0].Max;
+                }
+            } else if (index === 'Range') {
+                if (isDescending) {
+                    return b.Range[0].Max - a.Range[0].Max;
+                } else {
+                    return a.Range[0].Max - b.Range[0].Max;
+                }            
+            } else {
+          if (!isDescending) {
+            return a[index] < b[index] ? -1 : 1;
+          } else {
+            return b[index] < a[index] ? -1 : 1;
+          }
+        }
+        });
+
+        return items;
+      }
+    },
     created() {
       this.gear[0] = this.$store.getters.getItemCollection('PilotGear').filter((x: CompendiumItem) => x.ItemType === ItemType.PilotArmor)
       this.gear[1] = this.$store.getters.getItemCollection('PilotGear').filter((x: CompendiumItem) => x.ItemType === ItemType.PilotWeapon)

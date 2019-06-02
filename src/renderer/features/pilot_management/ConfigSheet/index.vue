@@ -28,7 +28,7 @@
           Overcharge, and Repair Capacity.<br>
           A pilot may have only one mech activated at a time.<br><br>
           You can click the toggle to deactivate {{config.Name}}</span>
-          <span v-else><b>Inctive Mech</b><br>
+          <span v-else><b>Inactive Mech</b><br>
           Inactive Mechs are unable to track any stats, but Pilots may<br>
           have only one active Mech at any time. Making this Mech active<br>
           will deactivate any currently active Mechs<br><br>
@@ -57,7 +57,7 @@
           <v-flex xs7>
             <v-layout>
               <v-flex>
-                <span class="white--text fluff-text ml-2">{{ getManufacturer(config.Frame.Source).Name }} {{ config.Frame.mechtype }} Mech</span>
+                <span class="white--text fluff-text ml-2">{{ getManufacturer(config.Frame.Source).Name }} {{ config.Frame.MechTypeString }} Mech</span>
               </v-flex>
             </v-layout>
             <v-textarea dark color="orange" v-model="config.Notes" auto-grow rows=1 label="Configuration Notes" clearable />
@@ -70,7 +70,7 @@
                     <v-avatar v-if="l.rank" :class="`${l.missing ? 'amber darken-3' : 'blue-grey darken-2'} font-weight-black title`">
                       <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">I</span>
                     </v-avatar >
-                    {{l.name}}
+                    {{l.source}} {{l.name}}
                   </v-chip>
                   <span>
                     <span v-if="l.missing" class="font-weight-bold yellow--text">WARNING: MISSING LICENSE

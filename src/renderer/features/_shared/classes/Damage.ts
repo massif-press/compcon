@@ -6,6 +6,7 @@ import colors from '@/features/_shared/UI/CCColors'
 class Damage {
   private damage_type: DamageType;
   private value: string;
+  private raw_value: string | number;
   private override: boolean;
 
   constructor(damage: {
@@ -14,6 +15,7 @@ class Damage {
     override: boolean;
   }) {
     this.damage_type = this.getDamageType(damage.type)
+    this.raw_value = damage.val;
     this.value = (typeof damage.val === 'number') ? damage.val.toString() : damage.val;
     this.override = damage.override || false;
   }
@@ -39,6 +41,20 @@ class Damage {
 
   public get Value(): string {
     return this.value;
+  }
+
+  //TODO: replace with dicemath
+  public get Max(): number {
+    if (typeof this.raw_value === 'number') return this.raw_value
+    else {
+      let bonus = 0
+      if (this.raw_value.split('+').length === 2) bonus = parseInt(this.raw_value.split('+')[1])
+      console.log(bonus)
+      const split = this.raw_value.split('d')
+      // (qty * size) + bonus
+      console.log((parseInt(split[0]) * parseInt(split[1])) + bonus)
+      return (parseInt(split[0]) * parseInt(split[1])) + bonus
+    }
   }
 
   public get Icon(): string {
