@@ -1,9 +1,9 @@
 import store from '@/store'
 import { rules } from "lancer-data";
-import {LicensedItem, MechWeapon, Tag, MountType, ItemType} from '@/class'
+import {LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType} from '@/class'
 
 class Frame extends LicensedItem {
-  private mechtype: string;
+  private mechtype: MechType[];
   private mounts: MountType[];
   private size: number;
   private armor: number;
@@ -45,8 +45,13 @@ class Frame extends LicensedItem {
     this.item_type = ItemType.Frame;
   }
 
-  public get Mechtype(): string {
+  public get Mechtype(): MechType[] {
     return this.mechtype;
+  }
+
+  public get MechTypeString(): string {
+    if (this.mechtype.length === 1) return this.mechtype[0];
+    return `${this.mechtype[0]} / ${this.mechtype[1]}`
   }
 
   public get Mounts(): MountType[] {

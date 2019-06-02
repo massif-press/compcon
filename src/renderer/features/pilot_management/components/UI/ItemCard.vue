@@ -23,7 +23,7 @@
       </div>
       <!-- Frame -->
       <div v-else>
-        <b class="ml-3">{{itemData.Source}} {{itemData.Mechtype}} Frame</b>
+        <b class="ml-3">{{itemData.Source}} {{itemData.MechTypeString}} Frame</b>
         <frame-statblock :frame="itemData" />
       </div>
       <v-layout>

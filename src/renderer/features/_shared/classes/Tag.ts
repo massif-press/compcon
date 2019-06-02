@@ -86,6 +86,7 @@ class Tag {
 
   public static Deserialize(data: ITagData[]): Tag[] {
     let output = [] as Tag[];
+    if (!data || !data.length) return output
     data.forEach(x => {
       let t = new Tag(store.getters.getItemById("Tags", x.id));
       if (x.val) t.Value = x.val;
