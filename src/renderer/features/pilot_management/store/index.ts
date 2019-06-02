@@ -97,7 +97,7 @@ const actions = {
   },
   setPrintOptions(context: AppContext, options: object) {
     context.commit("SET_PRINT_OPTIONS", options);
-  }
+  },
 };
 
 const getters = {

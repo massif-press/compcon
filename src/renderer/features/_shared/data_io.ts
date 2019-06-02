@@ -42,7 +42,8 @@ export default {
       var allDefaultImages = this.getImages('frames', getStaticPath());
       for (let i = 0; i < allDefaultImages.length; i++) {
         var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
-        if (!fs.existsSync(imagePath)) {
+        var originalPath = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
+        if (!fs.existsSync(imagePath) || (fs.statSync(imagePath).size !== fs.statSync(originalPath).size)) {
           console.info(`Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`)
           const origin = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
           const destination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
@@ -154,6 +155,9 @@ export default {
       console.info('data folder created successfully')
     }
     fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
+  },
+  backup(userDataPath: string) {
+    fs.copyFileSync(path.join(userDataPath, "pilots.json"), path.join(userDataPath, "pilots.old"))
   },
   saveFile(dataPath: string, data: any) {
     fs.writeFileSync(dataPath, data, 'utf8')
