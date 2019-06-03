@@ -55,7 +55,7 @@
     },
     methods: {
       isLocked (target: number): boolean {
-        return !(this.rank() >= target)
+        return !(this.rank() >= target + 1)
       },
       addTalent () {
         this.$emit('add')

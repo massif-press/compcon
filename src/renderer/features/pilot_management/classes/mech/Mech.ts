@@ -87,13 +87,14 @@ class Mech {
     this.save();
   }
 
+  //TODO: refactor
   public get RequiredLicenses(): LicenseRequirement[] {
     let requirements = this.ActiveLoadout
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as LicenseRequirement[]);
 
     if (this.frame.Name.toUpperCase() === "EVEREST") {
-      const gmsIdx = requirements.findIndex(x => x.name === "GMS");
+      const gmsIdx = requirements.findIndex(x => x.source === "GMS");
       if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame");
       else
         requirements.push({
@@ -120,11 +121,9 @@ class Mech {
           items: [`${this.frame.Name.toUpperCase()} Frame`]
         });
     }
-
+    
     for (const l of requirements) {
-      if (l.name === "GMS") continue;
-      console.log(l)
-      console.log(this.pilot.Licenses)
+      if (l.source === "GMS") continue;
       l.missing = !this.pilot.has("License", l.name, l.rank);
     }
 
@@ -458,6 +457,8 @@ class Mech {
       id: m.ID,
       name: m.Name,
       notes: m.Notes,
+      portrait: m.portrait,
+      cloud_portrait: m.cloud_portrait,
       frame: m.Frame.ID,
       active: m.active,
       current_structure: m.current_structure,
@@ -476,6 +477,8 @@ class Mech {
     m.id = mechData.id;
     m.name = mechData.name;
     m.notes = mechData.notes;
+    m.portrait = mechData.portrait;
+    m.cloud_portrait = mechData.cloud_portrait;
     m.active = mechData.active;
     m.current_structure = mechData.current_structure;
     m.current_hp = mechData.current_hp;
