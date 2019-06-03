@@ -35,7 +35,7 @@
               <systems-block :loadout="loadout" :mech="config"/>
 
               <v-card-actions>
-                <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" @accept="renameLoadout()" @cancel="renameDialog = false" >
+                <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" @accept="renameLoadout(loadout)" @cancel="renameDialog = false" >
                   <v-btn slot="activator" flat @click="renameDialog = true">
                     <v-icon small left>edit</v-icon>Rename Loadout
                   </v-btn>
@@ -110,6 +110,7 @@
       deleteLoadout(loadout: MechLoadout) {
         this.config.RemoveLoadout(loadout)
         this.tabIndex = this.config.Loadouts.length - 1
+        this.deleteDialog = false;
       },
       copyLoadout(loadout: MechLoadout) {
         this.config.CloneLoadout(loadout)

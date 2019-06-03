@@ -127,7 +127,7 @@ class MechLoadout extends Loadout {
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
       if (item.Source === "GMS") {
-        const GMSIndex = requirements.findIndex(x => x.name === "GMS");
+        const GMSIndex = requirements.findIndex(x => x.source === "GMS");
         if (GMSIndex > -1) {
           requirements[GMSIndex].items.push(item.Name);
         } else {
@@ -141,7 +141,8 @@ class MechLoadout extends Loadout {
       } else {
         const licenseIndex = requirements.findIndex(
           x =>
-            x.name === `${item.Source} ${item.License}` &&
+            x.source === item.Source &&
+            x.name === item.License &&
             x.rank === item.LicenseLevel
         );
         if (licenseIndex > -1) {

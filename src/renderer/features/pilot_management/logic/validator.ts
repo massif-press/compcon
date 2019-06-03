@@ -57,6 +57,8 @@ function convertMechs(old: any): IMechData {
     id: old.id,
     name: old.name,
     notes: "",
+    portrait: old.portrait || "",
+    cloud_portrait: "",
     frame: old.frame_id,
     active: false,
     current_structure: 0,
