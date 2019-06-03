@@ -1,9 +1,11 @@
 <template>
   <div id="wrapper">
-    <v-container fluid>
+    <v-container fluid class="mb-0 pb-0">
       <v-layout>
         <v-flex>
-          <h1 class="display-3">COMP/CON</h1>
+          <span class="display-3">COMP/CON</span>
+          &emsp;
+          <span class="minor-title">v.{{ver}} // LANCER Core {{lancerVer}}</span>
         </v-flex>
       </v-layout>
       <v-layout>
@@ -14,7 +16,7 @@
     </v-container>
 
     <v-container>
-      <v-layout style="height: 100%" align-v="center" class="mt-5">
+      <v-layout style="height: 100%" align-v="center" class="mt-0 pt-0">
         <v-flex>
           <v-btn block color="primary" large to="/pilot_management">Pilot Roster</v-btn>
         </v-flex>
@@ -32,29 +34,34 @@
         </v-flex>
       </v-layout>
 
-      <v-divider/>
+      <v-divider class="ma-2"/>
+
       <v-layout>
         <v-flex>
-          <v-card>
-            <v-card-title class="title">
-              Updated June 2nd, 2019
-              <span class="caption">(v1.3.1)</span>
-            </v-card-title>
+          <v-card v-if="loading">LOADING...</v-card>
+          <v-card v-else-if="err">
             <v-card-text>
-              SECRET DISCORD RELEASE III:<br>
-              Third time's the charm?
-              Thanks for all your help. Seriously.
-              <br><br>
-              KNOWN ISSUES:<br>
-              - pilot and mech loadouts may still be buggy, especially on delete<br>
-              - the pilot data structure has changed. C/C will try to convert old pilots, but may miss some stuff. Check your loadouts before playing.<br>
-              - some of the UI is still a little janky<br>
-              - damage/range sorting only keys off of first/primary damage<br>
-              - mod SP not automatically updating in view (correctly determined when assigning other mods/systems)<br>
-              - integrated weapon's is not correctly saving it's loaded weapon<br>
-              <br><br>
-              ~ bless this mess ~
+              <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
+              <span class="title"> Check <a @click="toUpdate">https://massif-press.itch.io/compcon for updates</a></span>
             </v-card-text>
+          </v-card>
+          <v-card else height="65vh" style="overflow-y: scroll; overflow-x: hidden">
+            <v-card-title class="major-title">
+              Updated {{changelog.news.date}}&nbsp;
+              <span class="caption">(v{{changelog.news.version}})</span>
+              <v-spacer />
+                <span class="minor title">Stable: <span class="primary--text">{{changelog.stable}}</span></span>
+                &emsp;
+                <span class="minor title">Beta: <span class="primary--text">{{changelog.beta}}</span></span>
+            </v-card-title>
+            <div v-if="ver !== changelog.beta && ver !== changelog.stable" class="ma-0 ml-5 mr-5"><v-btn block large color="warning" @click="toUpdate">Update COMP/CON</v-btn></div>
+            <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
+            <v-divider class="mt-2 mb-2" />
+            <div v-for="(i, idx) in changelog.changelog" :key="idx">
+              <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{i.version}}</v-card-title>
+              <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
+              <v-divider class="mt-2 mb-2" />
+            </div>
           </v-card>
         </v-flex>
       </v-layout>
@@ -72,15 +79,40 @@
 
 <script lang="ts">
 import Vue from "vue";
+import apis from "../pilot_management/logic/apis"
+import { remote } from 'electron'
+import { info } from 'lancer-data'
 
 export default Vue.extend({
   name: "landing-page",
   data: () => ({
-    ver: "0"
+    ver: "0",
+    changelog: {},
+    err: false,
+    loading: true,
+    lancerVer: info.version
   }),
+  methods: {
+    toUpdate () {
+      remote.shell.openExternal('https://massif-press.itch.io/compcon')
+    },
+  },
   created: function() {
     const packageVersion = process.env.npm_package_version;
     if (packageVersion) this.ver = packageVersion;
+    apis.getChangelog().then((response: any) => {
+        this.loading = false
+        if (!response || !response.files) {
+          this.err = true
+        } else {
+          this.err = false
+          this.changelog = JSON.parse(response.files['changelog.json'].content)
+        }
+      }
+    )
+    this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
+    this.$store.dispatch('loadData')
+    this.$store.dispatch('buildLicenses')
   }
 });
 </script>

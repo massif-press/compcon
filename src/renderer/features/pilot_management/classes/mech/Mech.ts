@@ -184,13 +184,13 @@ class Mech {
 
   public get SaveTarget(): number {
     let bonus = this.pilot.Grit;
-    if (this.pilot.has("CoreBonus", "opendoor")) bonus += 1;
+    if (this.pilot.has("CoreBonus", "opendoor")) bonus += 2;
     return this.frame.Save + bonus;
   }
 
   public get Evasion(): number {
     let bonus = this.Agi;
-    if (this.pilot.has("CoreBonus", "fssync")) bonus += 1;
+    if (this.pilot.has("CoreBonus", "fssync")) bonus += 2;
     return this.frame.Evasion + bonus;
   }
 

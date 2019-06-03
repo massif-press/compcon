@@ -25,6 +25,11 @@ if (process.env.NODE_ENV !== 'development') {
   windowAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+Vue.prototype.userDataPath = path.normalize(
+  path.join(remote.app.getPath("userData"), "data")
+);
+Vue.prototype.version = "1.3.1";
+
 Vue.use(Vuetify, {
   iconfont: 'mdi',
 })
@@ -49,8 +54,5 @@ new Vue({
   store,
   template: '<App/>',
 }).$mount('#app')
-
-Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
-Vue.prototype.version = '1.3.1'
 
 // router.replace('/pilot_management')

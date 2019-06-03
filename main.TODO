@@ -2,40 +2,19 @@
 - mod addedranges should be range bonus objects
 
 bugs:
-  ☐ test RP's pilots
-  ☐ prerelease notes
-  ✔ serialize weapon mod @done(19-06-02 22:19)
-  ✔ strange heat (amaterasu) @done(19-06-02 22:32)
-  ✔ GMS license reqs @done(19-06-02 21:53)
-    ✔ License reqs not stacking @done(19-06-02 21:53)
-  ✔ Superheavy mounting bug @done(19-06-02 22:01)
-  ✔ incorrect talent points on man level set @done(19-06-02 21:56)
-  ✔ can't rename loadouts @done(19-06-02 21:58)
-  ✔ pilot loadouts still not assigning correctly(?) @done(19-06-02 21:58)
-  ✔ mod SP not applying @done(19-06-02 22:19)
-  ✔ mech custom image doesn't save @done(19-06-02 22:26)
-  ✔ pilot sheet talent items showing extra talent level @done(19-06-02 22:36)
-  ✔ mounted core bonuses not serializing correctly @done(19-06-02 22:41)
-
-  Issues:
-    damage/range sorting only keys of primary
-    mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
-    integrated weapon's is not correctly saving it's loaded weapon
-
-  Can't reproduce:
-    pilot creation screen doesn't close after confirming -- check
+  ☐ damage/range sorting only keys of primary
+  ☐ mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
+  ☐ integrated weapon is not correctly saving its loaded weapon
 
 Improvements:
-  ✔ move config overcharge into rules.json @done(19-05-28 15:18)
+  ☐ refresh saved pilots
   ☐ draggable pilot/config cards
-  ☐ add lancer version to cc version number
   ☐ new editable label
   ☐ different cloud save ui
-  ✔ Add New Config should be full page @done(19-05-30 22:50)
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
-  ✔ External Batteries @done(19-05-30 22:50)
   ☐ Downtime Resources in glossary
+  ☐ Mech -> new mech: set Y position
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
@@ -81,6 +60,27 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ prerelease notes @done(19-06-03 13:01) @project(bugs)
+  ✔ test RP's pilots @done(19-06-03 10:20) @project(bugs)
+  ✔ serialize weapon mod @done(19-06-02 22:19) @project(bugs)
+  ✔ strange heat (amaterasu) @done(19-06-02 22:32) @project(bugs)
+  ✔ GMS license reqs @done(19-06-02 21:53) @project(bugs)
+  ✔ License reqs not stacking @done(19-06-02 21:53) @project(bugs)
+  ✔ Superheavy mounting bug @done(19-06-02 22:01) @project(bugs)
+  ✔ incorrect talent points on man level set @done(19-06-02 21:56) @project(bugs)
+  ✔ can't rename loadouts @done(19-06-02 21:58) @project(bugs)
+  ✔ pilot loadouts still not assigning correctly(?) @done(19-06-02 21:58) @project(bugs)
+  ✔ mod SP not applying @done(19-06-02 22:19) @project(bugs)
+  ✔ mech custom image doesn't save @done(19-06-02 22:26) @project(bugs)
+  ✔ pilot sheet talent items showing extra talent level @done(19-06-02 22:36) @project(bugs)
+  ✔ mounted core bonuses not serializing correctly @done(19-06-02 22:41) @project(bugs)
+  ✔ opendoor/fss +1 bonus @done(19-06-03 10:20) @project(bugs)
+  ✔ edef in frame stats @done(19-06-03 10:20) @project(bugs)
+  ✔ tokugawa licenses @done(19-06-03 10:27) @project(bugs)
+  ✔ move config overcharge into rules.json @done(19-05-28 15:18) @project(Improvements)
+  ✔ add lancer version to cc version number @done(19-06-03 13:01) @project(Improvements)
+  ✔ Add New Config should be full page @done(19-05-30 22:50) @project(Improvements)
+  ✔ External Batteries @done(19-05-30 22:50) @project(Improvements)
   ✔ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to @done(19-05-10 14:16) @project(Styling)
   ✔ Glossary in compendium @done(19-05-10 14:32) @project(2.0)
   ✔ Action economy in compendium @done(19-05-10 14:32) @project(2.0)
