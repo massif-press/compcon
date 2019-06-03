@@ -86,7 +86,7 @@ import { info } from 'lancer-data'
 export default Vue.extend({
   name: "landing-page",
   data: () => ({
-    ver: "0",
+    ver: "1.3.1",
     changelog: {},
     err: false,
     loading: true,
@@ -98,8 +98,7 @@ export default Vue.extend({
     },
   },
   created: function() {
-    const packageVersion = process.env.npm_package_version;
-    if (packageVersion) this.ver = packageVersion;
+    if (Vue.prototype.version) this.ver = Vue.prototype.version
     apis.getChangelog().then((response: any) => {
         this.loading = false
         if (!response || !response.files) {
