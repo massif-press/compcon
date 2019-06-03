@@ -28,7 +28,7 @@
         <v-flex xs3>
           <v-card color="grey lighten-3" elevation=10 height=100>
             <v-card-text>
-              <v-text-field v-model="newLevel" type="number" label="New Level" append-outer-icon="add" 
+              <v-text-field v-model="newLevel" type="number" label="New Level" append-outer-icon="add"
                 @click:append-outer="newLevel ++" prepend-icon="remove" @click:prepend="newLevel --" class="pb-0 mb-0"/>
             </v-card-text>
           </v-card>
@@ -68,6 +68,7 @@
     }),
     methods: {
       setLevel () {
+        if (this.newLevel > parseInt(rules.max_pilot_level)) this.newLevel = parseInt(rules.max_pilot_level)
         if (this.newLevel < this.pilot.Level) {
           this.pilot.ClearLicenses()
           this.pilot.ClearSkills()
@@ -75,7 +76,7 @@
           this.pilot.ClearCoreBonuses()
           this.pilot.MechSkills = new MechSkills()
         } 
-        this.pilot.Level = this.newLevel;
+        this.pilot.Level = parseInt(this.newLevel);
 
         this.$emit('changed', this.newLevel)
       },
@@ -87,7 +88,7 @@
       newLevel: function () {
         if (!this.newLevel) this.newLevel = 0
         else if (this.newLevel < 0) this.newLevel = 0
-        else if (this.newLevel > rules.max_pilot_level) this.newLevel = parseInt(rules.max_pilot_level)
+        else if (this.newLevel > parseInt(rules.max_pilot_level)) this.newLevel = parseInt(rules.max_pilot_level)
       }
     }
   })

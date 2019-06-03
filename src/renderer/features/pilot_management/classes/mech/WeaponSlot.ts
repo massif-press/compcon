@@ -41,7 +41,7 @@ class WeaponSlot {
     return {
       size: ws.size,
       weapon: ws.Weapon 
-        ? {id: ws.Weapon.ID , notes: ws.Weapon.Notes}
+        ? MechWeapon.Serialize(ws.Weapon)
         : null
     };
   }
@@ -50,7 +50,7 @@ class WeaponSlot {
     let ws = new WeaponSlot(slotData.size as FittingSize);
     if (slotData.weapon)
       ws.EquipWeapon(
-        store.getters.getItemById("MechWeapons", slotData.weapon.id)
+        MechWeapon.Deserialize(slotData.weapon)
       );
     return ws;
   }
