@@ -143,6 +143,7 @@ class EquippableMount extends Mount {
     let m = new EquippableMount(mountData.mount_type as MountType);
     m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x));
     m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x));
+    m.bonus_effects = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
     return m;
   }
 }
