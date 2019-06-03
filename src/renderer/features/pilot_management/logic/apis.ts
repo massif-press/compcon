@@ -38,6 +38,12 @@ const importPilotGist = function (id: string) {
   return gistClient.setToken(token).getOneById(id)
 }
 
+const changelogID = "3eaedde89e606f60a6346ab190972edf";
+
+const getChangelog = function() {
+  return gistClient.setToken(token).getOneById(changelogID)
+}
+
 const uploadImage = function (userPath: string, subPath: string, imgPath: string) {
   return imgur.uploadFile(path.join(userPath, 'img', subPath, imgPath))
 }
@@ -47,4 +53,5 @@ export default {
   updatePilotGist,
   importPilotGist,
   uploadImage,
-}
+  getChangelog,
+};
