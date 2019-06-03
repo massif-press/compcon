@@ -25,7 +25,7 @@
         <v-flex xs2>{{frame.Armor}}</v-flex>
         <v-flex xs2>{{frame.HP}}</v-flex>
         <v-flex xs2>{{frame.Evasion}}</v-flex>
-        <v-flex xs2>{{frame.EDef}}</v-flex>
+        <v-flex xs2>{{frame.EDefense}}</v-flex>
         <v-flex xs2>{{frame.HeatCap}}</v-flex>
         <v-flex xs2>{{frame.SensorRange}}</v-flex>
         <v-flex xs2>{{frame.TechAttack}}</v-flex>

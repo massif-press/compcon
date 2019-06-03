@@ -1,4 +1,4 @@
-import { Pilot, Mech, MountType, EquippableMount } from '@/class'
+import { Pilot, Mech, MountType, EquippableMount, Frame } from '@/class'
 import io from '@/features/_shared/data_io'
 import store from '@/store'
 
@@ -30,7 +30,7 @@ function convertPilot(old: any): IPilotData {
     mechSkills: [
       old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng
     ],
-    licenses: old.licenses.map((x: any) => ({id: x.name.toLowerCase(), rank: x.level})),
+    licenses: old.licenses.map((x: any) => ({id: licenseNameToId(x.name), rank: x.level})),
     skills: old.skills.map((x: any) => ({id: x.id, rank: x.bonus / 2})),
     talents: old.talents.map((x: any) => ({id: x.id, rank: x.rank})),
     core_bonuses: old.core_bonuses,
@@ -40,6 +40,12 @@ function convertPilot(old: any): IPilotData {
     active_mech: null,
     cc_ver: "1.3.1",
   }
+}
+
+function licenseNameToId(name: string): string {
+  const frames = store.getters.getItemCollection("Frames") as Frame[];
+  const match = frames.find(x => x.Name === name)
+  return match ? match.ID : 'err'
 }
 
 function convertPilotLoadouts(old: any): IPilotLoadoutData {
