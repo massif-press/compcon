@@ -2,6 +2,7 @@
 - mod addedranges should be range bonus objects
 
 bugs:
+  ☐ Limited tags taking NaN in compendium
   ☐ damage/range sorting only keys of primary
   ☐ mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
   ☐ integrated weapon is not correctly saving its loaded weapon
