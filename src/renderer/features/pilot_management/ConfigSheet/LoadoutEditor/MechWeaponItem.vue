@@ -86,7 +86,7 @@
           <i>The selected mount will be locked until the superheavy weapon is removed.</i>
           <br>
             <v-layout row justify-center>
-              <div v-for="(m, i) in loadout.EquippableMounts" :key="`sh_${i}`">
+              <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
                 <v-flex v-if="m.Type !== 'Heavy'" >
                   <v-btn v-html="`&emsp;${m.Type}&emsp;`" large block @click="equipSuperheavy(m)"/>
                 </v-flex>
@@ -137,6 +137,11 @@ export default Vue.extend({
     modLoader: false,
     modModal: false,
   }),
+  computed: {
+    hasImproved(): boolean {
+      return this.$store.getters.getPilot.has('CoreBonus', 'imparm');
+    }
+  },
   methods: {
     //TODO: should not be hardcoded
     getRange(): Range[] {
@@ -205,8 +210,7 @@ export default Vue.extend({
       this.weaponSelectorModal = false;
     },
     unequipSuperheavy() {
-      const improved = this.$store.getters.getPilot.has('CoreBonus', 'imparm')
-      this.loadout.AllEquippableMounts(improved).forEach(mount => {
+      this.loadout.AllEquippableMounts(this.hasImproved).forEach(mount => {
         mount.Unlock();
       });
     }

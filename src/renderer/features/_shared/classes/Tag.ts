@@ -23,7 +23,8 @@ class Tag {
   }
 
   public Description(add_bonus?: number): string {
-    const bonus = add_bonus || 0;
+    let bonus = 0;
+    if (this.ID === 'limited') bonus = add_bonus
     if (!this.val) return this.description;
     if (typeof this.val === "number") {
       return this.description.replace(
@@ -50,7 +51,8 @@ class Tag {
   }
 
   public Name(add_bonus?: number): string {
-    const bonus = add_bonus || 0;
+    let bonus = 0;
+    if (this.ID === 'limited') bonus = add_bonus
     if (!this.val) return this.name;
     if (typeof this.val === "number") {
       return this.name.replace(
@@ -78,7 +80,7 @@ class Tag {
 
   public get Brew(): string {
     return this.brew;
-  }
+}
 
   public get IsUnique(): boolean {
     return this.id === "unique";
@@ -86,7 +88,6 @@ class Tag {
 
   public static Deserialize(data: ITagData[]): Tag[] {
     let output = [] as Tag[];
-    if (!data || !data.length) return output
     data.forEach(x => {
       let t = new Tag(store.getters.getItemById("Tags", x.id));
       if (x.val) t.Value = x.val;

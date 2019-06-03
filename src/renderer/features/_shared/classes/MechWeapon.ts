@@ -34,7 +34,7 @@ class MechWeapon extends MechEquipment {
 
   public get SP(): number {
     if (!this.Mod) return this.sp
-    return this.Mod.SP + this.sp
+    return (this.Mod.SP + this.sp)
   }
 
   public get IsUnique(): boolean {
@@ -74,9 +74,9 @@ class MechWeapon extends MechEquipment {
   }
 
   public static Deserialize(itemData: IMechWeaponData): MechWeapon {
-    let item = store.getters.getItemById("MechSystem", itemData.id);
+    let item = store.getters.getItemById("MechWeapons", itemData.id);
     item.Notes = itemData.notes;
-    item.Mod = store.getters.getItemById("WeaponMod", itemData.mod);
+    item.Mod = itemData.mod ? store.getters.getItemById("WeaponMods", itemData.mod) : null;
     return item;
   }
 }

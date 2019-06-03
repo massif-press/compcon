@@ -10,6 +10,10 @@ class MechSystem extends MechEquipment {
     this.item_type = ItemType.MechSystem;
   }
 
+  public get SP(): number {
+    return this.sp;
+  }
+
   public get Type(): SystemType {
     return this.system_type;
   }
