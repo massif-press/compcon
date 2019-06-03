@@ -37,17 +37,21 @@
         <v-flex>
           <v-card>
             <v-card-title class="title">
-              Updated June 1st, 2019
+              Updated June 2nd, 2019
               <span class="caption">(v1.3.1)</span>
             </v-card-title>
             <v-card-text>
-              SECRET DISCORD RELEASE:<br>
-              The typescript refactor has finally finished. Right now there's not a lot different for the user (it should be faster and there area a few QoL improvements), but new features are coming soon. Please let me know if anything looks wrong as I work on the prerelease 2 data.
+              SECRET DISCORD RELEASE III:<br>
+              Third time's the charm?
+              Thanks for all your help. Seriously.
               <br><br>
               KNOWN ISSUES:<br>
               - pilot and mech loadouts may still be buggy, especially on delete<br>
               - the pilot data structure has changed. C/C will try to convert old pilots, but may miss some stuff. Check your loadouts before playing.<br>
               - some of the UI is still a little janky<br>
+              - damage/range sorting only keys off of first/primary damage<br>
+              - mod SP not automatically updating in view (correctly determined when assigning other mods/systems)<br>
+              - integrated weapon's is not correctly saving it's loaded weapon<br>
               <br><br>
               ~ bless this mess ~
             </v-card-text>

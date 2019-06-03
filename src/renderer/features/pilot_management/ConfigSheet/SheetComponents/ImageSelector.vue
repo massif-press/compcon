@@ -45,7 +45,7 @@
           </v-flex>
             <v-flex xs3> 
               <div class="clickable" @click="assignDefault">
-                <v-img :src="`file://${userDataPath}/img/default_frames/${config.frame_id}.png`" position="top" max-height="40vh" max-width="40vw" contain/> 
+                <v-img :src="`file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`" position="top" max-height="40vh" max-width="40vw" contain/> 
               </div>
             </v-flex>
             <v-flex v-for="i in images" :key="i" xs3> 
@@ -77,26 +77,14 @@
     }),
     methods: {
       assignDefault () {
-        this.$store.dispatch('editConfig', {
-          id: this.config.id,
-          attr: `custom_img`,
-          val: null
-        })
-        this.$store.dispatch('editConfig', {
-          id: this.config.id,
-          attr: `cloud_img`,
-          val: null
-        })        
+        this.config.SetLocalPortrait('')
+        this.config.SetCloudPortrait('')     
         this.$emit('notify', 'Mech Image Saved')
         this.$emit('close')
       },      
       assignImage (src: string) {
         if (this.cloud) this.cloudSave(src)
-        this.$store.dispatch('editConfig', {
-          id: this.config.id,
-          attr: `custom_img`,
-          val: src
-        })
+        else this.config.SetLocalPortrait(src)
         this.$emit('notify', 'Mech Image Saved')
         this.$emit('close')
       },
@@ -157,7 +145,7 @@
       this.importAll()
     },
     created () {
-      if (this.config.cloud_img && this.config.cloud_img.length) this.cloud = true
+      if (this.config.CloudPortrait) this.cloud = true
     }
   })
 </script>

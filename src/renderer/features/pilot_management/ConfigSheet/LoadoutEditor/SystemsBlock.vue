@@ -5,15 +5,15 @@
       <v-card-text class="bordered ml-3 pt-4 pb-4">
           <mech-system-item v-for="(is, i) in mech.IntegratedSystems" :key="is + i" :maxSP="mech.MaxSP" :loadout="loadout" :system="is" integrated /> 
           <mech-system-item v-for="(s, j) in loadout.Systems" :key="s.id + j" :maxSP="mech.MaxSP" :loadout="loadout" :system="s"/> 
-          <mech-system-item v-if="freeSP > 0" :loadout="loadout" :maxSP="mech.MaxSP" empty/> 
+          <mech-system-item v-if="this.mech.MaxSP - this.loadout.TotalSP > 0" :loadout="loadout" :maxSP="mech.MaxSP" empty/> 
       </v-card-text>
-      <v-tooltip top v-if="freeSP < 0">
+      <v-tooltip top v-if="this.mech.MaxSP - this.loadout.TotalSP < 0">
       <span slot="activator" class="bottom-title pl-3 pr-3 red--text font-weight-bold">
         <v-icon color="error">warning</v-icon>&emsp;{{freeSP}}/{{mech.MaxSP}} SP&emsp;<v-icon color="error">warning</v-icon>
       </span>
       <span>WARNING: Loadout exceeds system capacity</span>
       </v-tooltip>
-      <span v-else class="bottom-title pl-3 pr-3">{{freeSP}}/{{mech.MaxSP}} SP</span>
+      <span v-else class="bottom-title pl-3 pr-3">{{this.mech.MaxSP - this.loadout.TotalSP}}/{{mech.MaxSP}} SP</span>
     </v-card>
 
 
@@ -34,12 +34,6 @@ export default Vue.extend({
     loadout: MechLoadout,
     mech: Mech
   },
-  components: { MechSystemItem },
-  computed: {
-    freeSP(): number {
-      console.log(this.mech.IntegratedSystems)
-      return this.mech.MaxSP - this.loadout.TotalSP
-    }
-  }
+  components: { MechSystemItem }
 })
 </script>

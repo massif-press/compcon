@@ -53,6 +53,8 @@ declare interface IMechData {
   id: string;
   name: string;
   notes: string;
+  portrait: string;
+  cloud_portrait: string;
   frame: string;
   active: boolean;
   current_structure: number;
@@ -84,7 +86,7 @@ declare interface IMountData {
 
 declare interface IWeaponSlotData {
   size: string;
-  weapon: IEquipmentData | null;
+  weapon: IMechWeaponData | null;
 }
 
 declare interface ITagData {

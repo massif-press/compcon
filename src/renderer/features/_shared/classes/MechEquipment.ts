@@ -16,10 +16,6 @@ abstract class MechEquipment extends LicensedItem {
     this.integrated = itemData.talent_item || itemData.frame_id || false;
   }
 
-  public get SP(): number {
-    return this.sp;
-  }
-
   public get Tags(): Tag[] {
     return Tag.Deserialize(this.tags);
   }

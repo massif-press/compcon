@@ -1,14 +1,29 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 - mod addedranges should be range bonus objects
 
+bugs:
+  ☐ test RP's pilots
+  ☐ prerelease notes
+  ✔ serialize weapon mod @done(19-06-02 22:19)
+  ✔ strange heat (amaterasu) @done(19-06-02 22:32)
+  ✔ GMS license reqs @done(19-06-02 21:53)
+    ✔ License reqs not stacking @done(19-06-02 21:53)
+  ✔ Superheavy mounting bug @done(19-06-02 22:01)
+  ✔ incorrect talent points on man level set @done(19-06-02 21:56)
+  ✔ can't rename loadouts @done(19-06-02 21:58)
+  ✔ pilot loadouts still not assigning correctly(?) @done(19-06-02 21:58)
+  ✔ mod SP not applying @done(19-06-02 22:19)
+  ✔ mech custom image doesn't save @done(19-06-02 22:26)
+  ✔ pilot sheet talent items showing extra talent level @done(19-06-02 22:36)
+  ✔ mounted core bonuses not serializing correctly @done(19-06-02 22:41)
+
   Issues:
     damage/range sorting only keys of primary
+    mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
+    integrated weapon's is not correctly saving it's loaded weapon
 
   Can't reproduce:
     pilot creation screen doesn't close after confirming -- check
-
-☐ serialize weapon mod
-☐ pilot loadouts still not assigning correctly(?)
 
 Improvements:
   ✔ move config overcharge into rules.json @done(19-05-28 15:18)
