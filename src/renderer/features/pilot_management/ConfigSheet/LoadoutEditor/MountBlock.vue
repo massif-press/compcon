@@ -19,7 +19,7 @@
         </v-card>
         </v-card-text>
       <v-card-text v-else class="bordered ml-3 pt-4">
-
+        {{mount.Slots}}
         <mech-weapon-item v-for="(ws, i) in mount.Slots" :key="`ws_${i}`" :weapon-slot="ws" 
           :mount="mount" :loadout="loadout" :maxSP="maxSP" :no-mod="integratedWeapon" />
 

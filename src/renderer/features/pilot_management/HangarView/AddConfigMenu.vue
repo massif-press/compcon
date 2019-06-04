@@ -193,14 +193,14 @@
           ]
         })
         var data = io.importFile(path[0])
-        if (validator.config(data)) {
-          this.$store.dispatch('importConfig', data)
-          this.$parent.$forceUpdate()
-          this.$emit('close')
-        } else {
+        try {
+          var mechData = validator.checkMechVersion(data)
+          this.pilot.AddMech(Mech.Deserialize(mechData, this.pilot))
+        } catch (error) {
           alert('Config data validation failed')
-          this.$emit('close')
+          console.error(error)
         }
+        this.$emit('close')
       },
       importClipboard () {
         var vm = this
@@ -209,7 +209,13 @@
           if (err) {
             alert(err)
           } else {
-            vm.$store.dispatch('importConfig', result)
+            try {
+              var mechData = validator.checkMechVersion(result)
+              vm.pilot.AddMech(Mech.Deserialize(mechData, vm.pilot))
+            } catch (error) {
+              alert('Config data validation failed')
+              console.error(error)
+            }
           }
         })
         this.$parent.$forceUpdate()
