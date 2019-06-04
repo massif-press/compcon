@@ -26,7 +26,7 @@ function convertPilot(old: any): IPilotData {
     quirk: '',
     current_hp: old.current_hp || 6,
     active: false,
-    background: old.background,
+    background: old.custom_background ? 'ai' : old.background,
     mechSkills: [
       old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng
     ],
@@ -38,7 +38,7 @@ function convertPilot(old: any): IPilotData {
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
-    cc_ver: "1.3.2",
+    cc_ver: "1.3.3",
   }
 }
 
@@ -74,7 +74,7 @@ function convertMechs(old: any): IMechData {
     current_repairs: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
-    cc_ver: "1.3.2",
+    cc_ver: "1.3.3",
   };
 }
 
@@ -85,6 +85,7 @@ function convertMechLoadouts(old: any): IMechLoadoutData {
     systems: old.systems.map((x: any) => ({id: x.id, notes: []})),
     mounts: old.mounts.map((x: any) => convertMountData(x)),
     improved_armament: EquippableMount.Serialize(new EquippableMount(MountType.Flex)),
+    integratedWeapon: null,
     retrofitIndex: null,
     retrofitOriginalType: null
   }

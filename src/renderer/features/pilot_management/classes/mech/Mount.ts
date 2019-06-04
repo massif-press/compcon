@@ -15,6 +15,11 @@ abstract class Mount {
     this.lock = false;
     this.extra = [];
     this.name_override = '';
+    this.slots = []
+    this.generateSlots(mtype)
+  }
+
+  private generateSlots(mtype: MountType) {
     if (mtype === MountType.Integrated) {
       this.slots = [new WeaponSlot(FittingSize.Integrated)];
     } else {
@@ -24,10 +29,8 @@ abstract class Mount {
           new WeaponSlot(FittingSize.Auxiliary)
         ];
       } else if (mtype === MountType.Aux) {
-        this.slots = [
-          new WeaponSlot(FittingSize.Auxiliary)
-        ];
-        this.name_override = "Integrated Weapon"
+        this.slots = [new WeaponSlot(FittingSize.Auxiliary)];
+        this.name_override = "Integrated Weapon";
       } else if (mtype === MountType.MainAux) {
         this.slots = [
           new WeaponSlot(FittingSize.Main),
@@ -53,6 +56,7 @@ abstract class Mount {
   }
 
   public get Slots(): WeaponSlot[] {
+    if (!this.slots[0]) this.generateSlots(this.Type)
     if (this.Type == MountType.Flex
       && this.slots[0].Weapon
       && this.slots[0].Weapon.Size === WeaponSize.Aux)
@@ -133,7 +137,7 @@ class EquippableMount extends Mount {
     return {
       mount_type: m.Type,
       lock: m.IsLocked,
-      slots: m.Slots.map(x => WeaponSlot.Serialize(x)),
+      slots: m.slots.map(x => WeaponSlot.Serialize(x)),
       extra: m.extra.map(x => WeaponSlot.Serialize(x)),
       bonus_effects: m.BonusEffects.map(x => x.ID)
     };
