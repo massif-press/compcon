@@ -72,7 +72,7 @@ class Mech {
   }
 
   public set Notes(notes: string) {
-    this.name = notes;
+    this.notes = notes;
     this.save();
   }
 
