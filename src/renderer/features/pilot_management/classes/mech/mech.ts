@@ -22,6 +22,7 @@ class Mech {
   private current_overcharge: number;
   private active: boolean;
   private pilot: Pilot;
+  private cc_ver: string;
 
   constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate();
@@ -41,6 +42,7 @@ class Mech {
     this.current_core_energy = 1;
     this.current_overcharge = 0;
     this.active_loadout = null;
+    this.cc_ver = process.env.npm_package_version || "UNKNOWN";
   }
   // -- Utility -----------------------------------------------------------------------------------
   private save() {
@@ -98,16 +100,15 @@ class Mech {
       if (gmsIdx > -1) requirements[gmsIdx].items.push("EVEREST Frame");
       else
         requirements.push({
-          source: 'GMS',
-          name: '',
+          source: "GMS",
+          name: "",
           rank: 0,
           items: ["EVEREST Frame"],
           missing: false
         });
     } else {
       const reqIdx = requirements.findIndex(
-        x =>
-          x.name === `${this.frame.Name}` && x.rank === 2
+        x => x.name === `${this.frame.Name}` && x.rank === 2
       );
       if (reqIdx > -1)
         requirements[reqIdx].items.push(
@@ -121,7 +122,7 @@ class Mech {
           items: [`${this.frame.Name.toUpperCase()} Frame`]
         });
     }
-    
+
     for (const l of requirements) {
       if (l.source === "GMS") continue;
       l.missing = !this.pilot.has("License", l.name, l.rank);
@@ -388,11 +389,17 @@ class Mech {
   public get IntegratedSystems(): MechSystem[] {
     let intg = [];
     if (this.pilot.has("Talent", "armsman")) {
-      const arms = store.getters.getItemById("MechSystems", `armsman${this.pilot.getTalentRank("armsman")}`);
+      const arms = store.getters.getItemById(
+        "MechSystems",
+        `armsman${this.pilot.getTalentRank("armsman")}`
+      );
       intg.push(new MechSystem(arms));
     }
     if (this.pilot.has("Talent", "techno")) {
-      const techno = store.getters.getItemById("MechSystems", `techno${this.pilot.getTalentRank("techno")}`);
+      const techno = store.getters.getItemById(
+        "MechSystems",
+        `techno${this.pilot.getTalentRank("techno")}`
+      );
       intg.push(new MechSystem(techno));
     }
     return intg;
@@ -467,7 +474,8 @@ class Mech {
       current_heat: m.current_heat,
       current_repairs: m.current_repairs,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
-      active_loadout: m.active_loadout
+      active_loadout: m.active_loadout,
+      cc_ver: m.cc_ver
     };
   }
 
@@ -485,10 +493,12 @@ class Mech {
     m.current_stress = mechData.current_stress;
     m.current_heat = mechData.current_heat;
     m.current_repairs = mechData.current_repairs;
+    m.cc_ver = mechData.cc_ver;
     m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) =>
       MechLoadout.Deserialize(x, m)
     );
     m.active_loadout = m.active_loadout;
+    m.cc_ver = mechData.cc_ver || "";
     return m;
   }
 }

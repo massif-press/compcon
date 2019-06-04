@@ -2,13 +2,26 @@
 - mod addedranges should be range bonus objects
 
 bugs:
-  ☐ Limited tags taking NaN in compendium
+  ✔ blank pilot printables (williamscarlet) @done(19-06-03 21:04)
+  ✔ import doubling aux weapons (orion) @done(19-06-03 21:18)
+  ✔ stun reduces evasion to 5 (orion) @done(19-06-03 21:05)
+  ✔ importing old export does not work (asullyvoice) @done(19-06-03 22:08)
+  ✔ Limited tags taking NaN in compendium (red phantom) @done(19-06-03 21:13)
+  ✔ mimic mesh SP (radio) @done(19-06-03 20:59)
+  ✔ system item table SP not sorting correctly (witchy) @done(19-06-03 21:13)
+  ✔ update lancer-data @done(19-06-03 22:10)
   ☐ damage/range sorting only keys of primary
   ☐ mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
   ☐ integrated weapon is not correctly saving its loaded weapon
 
+  Known:
+    - imported/old flex mounts don't work correctly.
+    - old mechs may not import correctly (still working on it)
+
 Improvements:
-  ☐ refresh saved pilots
+  ☐ Separate Statuses and Conditions
+  ☐ Y-positions for frames
+  ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label
   ☐ different cloud save ui
@@ -46,12 +59,12 @@ Styling:
       ☐ Add space for notes (lined)
       ☐ Add space for sketches (unlined)
       ☐ Mark danger zone heat
+      ☐ Per-item notes
   ☐ Stat Contributions
-  ☐ Actions Panel
-  ☐ Tutorial popups (vue-tour)
-  ☐ Per-item notes
   ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
+  ☐ Actions Panel
+  ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
