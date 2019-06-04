@@ -159,12 +159,23 @@ class DiceRoller {
     let netAccuracyDice = totalAccuracy - totalDifficulty;
     let accuracyResults = DiceRoller._rollAccuracyDice(netAccuracyDice);
 
-  //   return new SkillRollResult(
-  //     d20Result,
-  //     staticBonus,
-  //     netAccuracyDice,
-      
-  //   );
+    return new SkillRollResult(
+      d20Result,
+      staticBonus,
+      netAccuracyDice,
+      [],
+      0,
+      false,
+      false,
+      false,
+      { 
+        min: 0,
+        max: 0,
+        mean: 0,
+        median: 0,
+        mode: 0
+      }
+    );
   }
   
   public static _rollDieSet(dieQuantity: number, dieType: number) {
@@ -207,5 +218,5 @@ class DiceRoller {
 }
 
 
-
+// module.exports = DiceRoller
 export default DiceRoller
