@@ -9,7 +9,7 @@
       </v-card-text>
       <v-tooltip top v-if="this.mech.MaxSP - this.loadout.TotalSP < 0">
       <span slot="activator" class="bottom-title pl-3 pr-3 red--text font-weight-bold">
-        <v-icon color="error">warning</v-icon>&emsp;{{freeSP}}/{{mech.MaxSP}} SP&emsp;<v-icon color="error">warning</v-icon>
+        <v-icon color="error">warning</v-icon>&emsp;{{this.loadout.TotalSP}}/{{mech.MaxSP}} SP&emsp;<v-icon color="error">warning</v-icon>
       </span>
       <span>WARNING: Loadout exceeds system capacity</span>
       </v-tooltip>
