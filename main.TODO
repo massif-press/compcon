@@ -2,21 +2,8 @@
 - mod addedranges should be range bonus objects
 
 bugs:
-  ✔ blank pilot printables (williamscarlet) @done(19-06-03 21:04)
-  ✔ import doubling aux weapons (orion) @done(19-06-03 21:18)
-  ✔ stun reduces evasion to 5 (orion) @done(19-06-03 21:05)
-  ✔ importing old export does not work (asullyvoice) @done(19-06-03 22:08)
-  ✔ Limited tags taking NaN in compendium (red phantom) @done(19-06-03 21:13)
-  ✔ mimic mesh SP (radio) @done(19-06-03 20:59)
-  ✔ system item table SP not sorting correctly (witchy) @done(19-06-03 21:13)
-  ✔ update lancer-data @done(19-06-03 22:10)
   ☐ damage/range sorting only keys of primary
   ☐ mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
-  ☐ integrated weapon is not correctly saving its loaded weapon
-
-  Known:
-    - imported/old flex mounts don't work correctly.
-    - old mechs may not import correctly (still working on it)
 
 Improvements:
   ☐ Separate Statuses and Conditions
@@ -28,7 +15,6 @@ Improvements:
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
   ☐ Downtime Resources in glossary
-  ☐ Mech -> new mech: set Y position
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
@@ -74,6 +60,22 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ blank pilot printables (williamscarlet) @done(19-06-03 21:04) @project(bugs)
+  ✔ import doubling aux weapons (orion) @done(19-06-03 21:18) @project(bugs)
+  ✔ stun reduces evasion to 5 (orion) @done(19-06-03 21:05) @project(bugs)
+  ✔ importing old export does not work (asullyvoice) @done(19-06-03 22:08) @project(bugs)
+  ✔ Limited tags taking NaN in compendium (red phantom) @done(19-06-03 21:13) @project(bugs)
+  ✔ mimic mesh SP (radio) @done(19-06-03 20:59) @project(bugs)
+  ✔ system item table SP not sorting correctly (witchy) @done(19-06-03 21:13) @project(bugs)
+  ✔ siege stabilizers unique @done(19-06-04 10:06) @project(bugs)
+  ✔ Supereavy -> Superheavy @done(19-06-04 10:06) @project(bugs)
+  ✔ Config notes edit overwrites name edit @done(19-06-04 10:20) @project(bugs)
+  ✔ Integrated weapons not showing up @done(19-06-04 11:33) @project(bugs)
+  ✔ _/X SP when SP cost is over limit @done(19-06-04 11:36) @project(bugs)
+  ✔ integrated weapon mod is not correctly saving its loaded weapon @done(19-06-04 11:39) @project(bugs)
+  ✔ Fix duplicating flex mounts @done(19-06-04 12:19) @project(bugs)
+  ✔ Fix duplicating pilots/menu not closing on adding new (probably!) @done(19-06-04 12:19) @project(bugs)
+  ✔ Fix flex mount import @done(19-06-04 12:19) @project(bugs)
   ✔ prerelease notes @done(19-06-03 13:01) @project(bugs)
   ✔ test RP's pilots @done(19-06-03 10:20) @project(bugs)
   ✔ serialize weapon mod @done(19-06-02 22:19) @project(bugs)
