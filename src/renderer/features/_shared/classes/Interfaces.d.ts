@@ -64,6 +64,7 @@ declare interface IMechData {
   current_repairs: number;
   loadouts: IMechLoadoutData[];
   active_loadout: string | null;
+  cc_ver: string;
 }
 
 declare interface IMechLoadoutData {

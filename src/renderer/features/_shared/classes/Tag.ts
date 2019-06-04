@@ -24,7 +24,7 @@ class Tag {
 
   public Description(add_bonus?: number): string {
     let bonus = 0;
-    if (this.ID === 'limited') bonus = add_bonus
+    if (this.ID === 'limited') bonus = add_bonus || 0
     if (!this.val) return this.description;
     if (typeof this.val === "number") {
       return this.description.replace(
@@ -33,6 +33,7 @@ class Tag {
       );
     } else {
       var str = this.val as string;
+      console.log(str)
       if (str.includes("+")) {
         const split = str.split("+");
         let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
@@ -52,7 +53,7 @@ class Tag {
 
   public Name(add_bonus?: number): string {
     let bonus = 0;
-    if (this.ID === 'limited') bonus = add_bonus
+    if (this.ID === 'limited') bonus = add_bonus || 0
     if (!this.val) return this.name;
     if (typeof this.val === "number") {
       return this.name.replace(

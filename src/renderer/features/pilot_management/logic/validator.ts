@@ -38,7 +38,7 @@ function convertPilot(old: any): IPilotData {
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
-    cc_ver: "1.3.1",
+    cc_ver: "1.3.2",
   }
 }
 
@@ -73,7 +73,8 @@ function convertMechs(old: any): IMechData {
     current_heat: 0,
     current_repairs: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
-    active_loadout: null
+    active_loadout: null,
+    cc_ver: "1.3.2",
   };
 }
 
@@ -107,57 +108,57 @@ function convertMountData(old: any): IMountData {
 
 export default {
   pilot(data: Pilot) {
-    return this.checkVersion([data])[0]
+    return this.checkVersion([data])[0];
   },
   checkVersion(data: any): IPilotData[] {
     let output = [] as IPilotData[];
-    let copyOld = false
+    let copyOld = false;
     data.forEach((e: any) => {
-      if (e.cc_ver) output.push(e)
+      if (e.cc_ver) output.push(e);
       else {
-        copyOld = true
+        copyOld = true;
         try {
-          output.push(convertPilot(e))          
+          output.push(convertPilot(e));
         } catch (err) {
-          console.error('Conversion failure: ' + err)
+          console.error("Conversion failure: " + err);
         }
       }
     });
     if (copyOld) io.backup(store.getters.getUserPath);
-    return output
+    return output;
   },
   clipboardPilot(data: string, callback: (err: any, result: any) => void) {
-    let err = null
-    let result = null
+    let err = null;
+    let result = null;
     if (!isValidJSON(data)) {
-      err = 'Clipboard contents are not valid Pilot data'
+      err = "Clipboard contents are not valid Pilot data";
     } else {
-      const p = JSON.parse(data)
+      const p = JSON.parse(data);
       if (this.pilot(p)) {
-        result = p
+        result = p;
       } else {
-        err = 'Invalid pilot data'
+        err = "Invalid pilot data";
       }
     }
-    callback(err, result)
+    callback(err, result);
   },
-  config(data: Mech) {
-    // see above
-    return data.Frame.ID
+  checkMechVersion(data: any): IMechData {
+    if (data.cc_ver) return data;
+    else return convertMechs(data)
   },
   clipboardConfig(data: string, callback: (err: any, result: any) => void) {
-    let err = null
-    let result = null
+    let err = null;
+    let result = null;
     if (!isValidJSON(data)) {
-      err = 'Clipboard contents are not valid Config data'
+      err = "Clipboard contents are not valid Config data";
     } else {
-      const p = JSON.parse(data)
-      if (this.config(p)) {
-        result = p
+      const p = JSON.parse(data);
+      if (this.checkMechVersion(p)) {
+        result = p;
       } else {
-        err = 'Invalid config data'
+        err = "Invalid config data";
       }
     }
-    callback(err, result)
-  },
-}
+    callback(err, result);
+  }
+};

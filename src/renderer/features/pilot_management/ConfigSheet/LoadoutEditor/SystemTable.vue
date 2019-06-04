@@ -103,7 +103,7 @@
         {text: 'System', align: 'left', value: 'Name'},
         {text: 'Source', align: 'left', value: 'Source'},
         {text: 'License', align: 'left', value: 'License'},
-        {text: 'SP Cost', align: 'left', value: 'Sp'}
+        {text: 'SP Cost', align: 'left', value: 'SP'}
       ]
     }),
     computed: {
