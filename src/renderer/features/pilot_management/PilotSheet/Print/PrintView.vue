@@ -170,7 +170,7 @@
             <span class="label">WEAPONS</span><br>
             <div v-for="(i, idx) in loadout.Weapons" :key="'weapon_' + idx">
               <div v-if="i">
-                <div v-if="gear(i.id).err">
+                <div v-if="i.err">
                   // MISSING DATA //
                 </div>
                 <div v-else>
@@ -178,7 +178,7 @@
                   <v-layout class="mb-1 ml-2">
                     <v-flex shrink class="mr-3"><range-element size="12" :range="i.Range" /></v-flex>
                     <v-flex shrink><damage-element size="12" :dmg="i.Damage" /></v-flex>
-                    <v-flex shrink><span v-for="t in i.Tags" :key="t.ID + idx" class="ml-1 mr-1">{{t.Name}}</span></v-flex>
+                    <v-flex shrink><span v-for="t in i.Tags" :key="t.ID + idx" class="ml-1 mr-1">{{t.Name()}}</span></v-flex>
                   </v-layout>
                 </div>
               </div>
