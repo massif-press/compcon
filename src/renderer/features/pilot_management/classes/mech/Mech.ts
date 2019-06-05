@@ -366,6 +366,19 @@ class Mech {
     this.save();
   }
 
+  // -- Active Mode Utilities ---------------------------------------------------------------------
+
+  public FullRepair() {
+    this.CurrentStructure = this.MaxStructure;
+    this.CurrentHP = this.MaxHP;
+    this.CurrentStress = this.MaxStress;
+    this.CurrentHeat = 0;
+    this.CurrentRepairs = this.RepairCapacity;
+    this.CurrentCoreEnergy = 1;
+    this.CurrentOvercharge = 0;
+    this.save();
+  }
+
   // -- Integrated/Talents ------------------------------------------------------------------------
   public get IntegratedMounts(): IntegratedMount[] {
     let intg = [];

@@ -152,6 +152,17 @@
                         </v-flex>
                       </v-layout>
                     </v-flex>
+                    <v-flex class="text-xs-right" v-if="config.IsActive">
+                      <span class="grey--text"> 
+                        FULL REPAIR
+                      </span>
+                      <v-layout justify-end >
+                        <v-tooltip left>
+                        <v-btn slot="activator" icon dark class="ma-0" @click="config.FullRepair()"><v-icon large>mdi-restore</v-icon></v-btn>
+                        <span>Fully repair and recharge this mech.</span>
+                        </v-tooltip>
+                      </v-layout>
+                      </v-flex>
                   </v-layout>
                 </v-flex>
               </v-layout>
