@@ -29,7 +29,7 @@
       </v-toolbar>
         <add-config-menu :pilot="pilot" @close="goToConfig"/>
         <v-divider />
-        <v-card-actions style="position: fixed; bottom: 0px">
+        <v-card-actions style="position: fixed; bottom: 0px; background-color: #fff; width:100%">
           <v-btn color="primary" @click="newConfigModal = false">Cancel</v-btn>
           <v-spacer />
         </v-card-actions>

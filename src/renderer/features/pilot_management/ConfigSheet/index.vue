@@ -65,7 +65,7 @@
             <v-layout class="mt-0"><span class="config-header mt-0">Licenses Required</span></v-layout>
             <v-layout>
               <v-flex>
-                <v-tooltip top v-for="(l, index) in config.RequiredLicenses" :key="'req_' + index">
+                <v-tooltip top v-for="(l, index) in config.RequiredLicenses" :key="'req_' + index + activeLoadoutID">
                   <v-chip slot="activator" :color="l.missing ? 'deep-orange darken-4' : 'grey darken-1'" class="white--text" >
                     <v-avatar v-if="l.rank" :class="`${l.missing ? 'amber darken-3' : 'blue-grey darken-2'} font-weight-black title`">
                       <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">I</span>
@@ -143,7 +143,7 @@
                         &nbsp;HP <b :style="`color: ${color.hp.dark}`">{{config.CurrentHP || 0}}
                           <span v-if="config.IsActive">/{{config.MaxHP}}</span>
                         </b> 
-                        &emsp; ARMOR <b :style="`color: ${color.armor.dark}`">{{config.armor}}</b>
+                        &emsp; ARMOR <b :style="`color: ${color.armor.dark}`">{{config.Armor}}</b>
                       </span>
                       <v-layout>
                         <tick-bar :current="config.CurrentHP || config.MaxHP" :max="config.MaxHP" large :color="color.hp.dark" bg-color="grey darken-1" empty-icon="mdi-hexagon-outline" full-icon="mdi-hexagon" :readonly="!config.IsActive" @update="config.CurrentHP = $event"/>
@@ -385,6 +385,9 @@
       },
       color(): any {
         return ccc
+      },
+      activeLoadoutID(): string {
+        return this.config.ActiveLoadout ? this.config.ActiveLoadout.ID : 'none'
       }
     }
   })

@@ -10,7 +10,7 @@
       </v-card-text>
     </v-card>
     <v-tabs v-else v-model="tabIndex" dark color="primary" slider-color="yellow" 
-      show-arrows mandatory @change="changeTab()">
+      show-arrows mandatory @change="changeTab()" :key="pilot.Loadouts.length">
       <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">{{pilotLoadout.Name}}</v-tab>
       <span>
         <v-tooltip top>
