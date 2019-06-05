@@ -52,7 +52,7 @@
           <v-btn icon large @click="systemSelectorModal = false"> <v-icon large>close</v-icon> </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <system-table :loadout="loadout" :maxSP="maxSP" :current-equip="system" @close="systemSelectorModal = false" />
+      <system-table :loadout="loadout" :maxSP="maxSP" :current-equip="system" @close="systemSelectorModal = false" :index="index"/>
     </v-dialog>  
 
   </v-layout>
@@ -73,6 +73,7 @@
     props: {
       loadout: MechLoadout,
       system: MechSystem,
+      index: Number,
       empty: Boolean,
       integrated: Boolean,
       maxSP: Number,
