@@ -7,7 +7,7 @@ class MechLoadout extends Loadout {
   private integratedMounts: IntegratedMount[];
   private equippableMounts: EquippableMount[];
   private improvedArmament: EquippableMount;
-  private integratedWeapon: EquippableMount | null;
+  private integratedWeapon: EquippableMount;
   private retrofitIndex: number | null;
   private retrofitOriginalType: MountType | null;
   private systems: MechSystem[];
@@ -187,9 +187,7 @@ class MechLoadout extends Loadout {
       systems: ml.Systems.map(x => MechSystem.Serialize(x)),
       mounts: ml.equippableMounts.map(x => EquippableMount.Serialize(x)),
       improved_armament: EquippableMount.Serialize(ml.improvedArmament),
-      integratedWeapon: ml.integratedWeapon 
-        ? EquippableMount.Serialize(ml.integratedWeapon)
-        : null,
+      integratedWeapon: EquippableMount.Serialize(ml.integratedWeapon),
       retrofitIndex: ml.retrofitIndex,
       retrofitOriginalType: ml.retrofitOriginalType
     };
@@ -209,9 +207,9 @@ class MechLoadout extends Loadout {
     ml.improvedArmament = EquippableMount.Deserialize(
       loadoutData.improved_armament
     );
-    ml.integratedWeapon = loadoutData.integratedWeapon 
-      ? EquippableMount.Deserialize(loadoutData.integratedWeapon) 
-      : null
+    ml.integratedWeapon = !loadoutData.integratedWeapon 
+      ? new EquippableMount(MountType.Aux)
+      : EquippableMount.Deserialize(loadoutData.integratedWeapon) 
     ml.retrofitIndex = loadoutData.retrofitIndex;
     ml.retrofitOriginalType = ml.retrofitOriginalType
       ? (loadoutData.retrofitOriginalType as MountType)
