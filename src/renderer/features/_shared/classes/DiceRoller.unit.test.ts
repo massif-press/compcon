@@ -1,6 +1,6 @@
 // var DiceRoller = require("./DiceRoller");
-import { DiceRoller } from "@/class"
-import Jest from "Jest";  //included to make the linter behave
+import { DiceRoller } from "@/class";
+import 'jest';
 
 beforeEach(() => {
 });
