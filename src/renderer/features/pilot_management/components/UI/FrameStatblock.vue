@@ -88,10 +88,16 @@
               <v-card-text class="ml-4">
                 <span>
                   <b class="subheading font-weight-bold">{{frame.CoreSystem.Name}}:</b>
+                </span>
+                <span>
+                  <br>
+                  <span class="effect-text font-weight-bold">Active -</span>
                   <span v-html="frame.CoreSystem.Effect" class="effect-text"/>
                 </span>
+                <br>
                 <span v-if="frame.CoreSystem.Passive">
                   <br>
+                  <span class="effect-text font-weight-bold">Passive -</span>
                   <span v-html="frame.CoreSystem.Passive" class="effect-text"/>
                 </span>
                 <br>
