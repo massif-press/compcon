@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import gmToolkitRoutes from './features/gm_toolkit/routes'
+
 Vue.use(Router)
 
 export default new Router({
@@ -150,6 +152,11 @@ export default new Router({
       component: require("@/features/pilot_management/ConfigSheet/Print/PrintView")
         .default
     },
+    ...(gmToolkitRoutes.map(route => ( {
+      ...route,
+      path: route.path.replace(/^\//, '/gm')
+    } )
+    )),
     // {
     //   path: "/homebrew",
     //   name: "homebrew-editor",
