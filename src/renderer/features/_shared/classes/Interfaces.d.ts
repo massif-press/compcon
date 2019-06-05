@@ -73,7 +73,7 @@ declare interface IMechLoadoutData {
   systems: IEquipmentData[];
   mounts: IMountData[];
   improved_armament: IMountData;
-  integratedWeapon: IMountData | null;
+  integratedWeapon: IMountData;
   retrofitIndex: number | null;
   retrofitOriginalType: string | null;
 }

@@ -31,7 +31,7 @@ if (process.env.NODE_ENV !== 'development') {
 Vue.prototype.userDataPath = path.normalize(
   path.join(remote.app.getPath("userData"), "data")
 );
-Vue.prototype.version = "1.3.3";
+Vue.prototype.version = "1.3.4";
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
