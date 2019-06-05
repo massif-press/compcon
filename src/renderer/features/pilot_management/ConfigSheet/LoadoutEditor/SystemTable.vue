@@ -88,7 +88,8 @@
     props: {
       loadout: MechLoadout,
       maxSP: Number,
-      currentEquip: MechSystem
+      currentEquip: MechSystem,
+      index: Number
     },
     data: () => ({
       selectedIndex: -1,
@@ -110,7 +111,7 @@
       freeSP (): number {
         const remaining = this.maxSP - this.loadout.TotalSP
         return this.currentEquip 
-          ? remaining - this.currentEquip.SP 
+          ? remaining + this.currentEquip.SP 
           : remaining
       },
       systems (): MechSystem[] {
@@ -145,7 +146,11 @@
     },
     methods: {
       select (item: MechSystem) {
-        this.loadout.AddSystem(item)
+        if (this.currentEquip) {
+          this.loadout.ChangeSystem(this.index, item)
+        } else {
+          this.loadout.AddSystem(item)
+        }
         this.$emit('close')
       },
       remove () {
