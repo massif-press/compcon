@@ -4,6 +4,7 @@ import {LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType} from '@/cl
 
 class Frame extends LicensedItem {
   private mechtype: MechType[];
+  private y_pos: number;
   private mounts: MountType[];
   private size: number;
   private armor: number;
@@ -25,6 +26,7 @@ class Frame extends LicensedItem {
   constructor(frameData: any) {
     super(frameData);
     this.mechtype = frameData.mechtype;
+    this.y_pos = frameData.y_pos || 30;
     this.mounts = frameData.mounts;
     this.size = frameData.stats.size;
     this.armor = frameData.stats.armor;
@@ -47,6 +49,10 @@ class Frame extends LicensedItem {
 
   public get Mechtype(): MechType[] {
     return this.mechtype;
+  }
+
+  public get YPosition(): number {
+    return this.y_pos;
   }
 
   public get MechTypeString(): string {

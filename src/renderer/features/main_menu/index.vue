@@ -38,14 +38,13 @@
 
       <v-layout>
         <v-flex>
-          <v-card v-if="loading">LOADING...</v-card>
-          <v-card v-else-if="err">
-            <v-card-text>
-              <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
-              <span class="title"> Check <a @click="toUpdate">https://massif-press.itch.io/compcon for updates</a></span>
+          <v-card v-if="loading">
+            <v-card-text class="text-xs-center">
+              <v-progress-circular :size="120" :width="12" color="primary" indeterminate />
+              <p class="minor-title mt-3">LOADING...</p>
             </v-card-text>
           </v-card>
-          <v-card else height="65vh" style="overflow-y: scroll; overflow-x: hidden">
+          <v-card v-else-if="changelog && changelog.news" height="65vh" style="overflow-y: scroll; overflow-x: hidden">
             <v-card-title class="major-title">
               Updated {{changelog.news.date}}&nbsp;
               <span class="caption">(v{{changelog.news.version}})</span>
@@ -62,6 +61,15 @@
               <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
               <v-divider class="mt-2 mb-2" />
             </div>
+          </v-card>
+          <v-card v-else>
+            <v-card-text>
+              <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
+              <br>
+              <p class="text-xs-center">
+                <span class="title"> Check <a @click="toUpdate">https://massif-press.itch.io/compcon for updates</a></span>
+              </p>
+            </v-card-text>
           </v-card>
         </v-flex>
       </v-layout>
@@ -86,7 +94,7 @@ import { info } from 'lancer-data'
 export default Vue.extend({
   name: "landing-page",
   data: () => ({
-    ver: "1.3.3",
+    ver: "1.3.4",
     changelog: {},
     err: false,
     loading: true,
@@ -108,7 +116,10 @@ export default Vue.extend({
           this.changelog = JSON.parse(response.files['changelog.json'].content)
         }
       }
-    )
+    ).catch(() => {
+      this.loading = false;
+      this.err = true;
+    })
     this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
     this.$store.dispatch('loadData')
     this.$store.dispatch('buildLicenses')

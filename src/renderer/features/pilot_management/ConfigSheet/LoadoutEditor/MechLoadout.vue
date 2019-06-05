@@ -10,7 +10,8 @@
       </v-card-text>
     </v-card>
     <v-tabs v-else v-model="tabIndex" dark color="grey darken-2" 
-      show-arrows slider-color="pink" mandatory @change="changeTab()">
+      show-arrows slider-color="pink" mandatory @change="changeTab()"
+      :key="config.Loadouts.length">
       <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">{{loadout.name}}</v-tab>
       <span>
         <v-tooltip top>
@@ -32,7 +33,7 @@
 
               <v-divider dark class="mb-3 mt-3"/>
 
-              <systems-block :loadout="loadout" :mech="config"/>
+              <systems-block :loadout="loadout" :mech="config" :key="loadout.TotalSP"/>
 
               <v-card-actions>
                 <lazy-dialog :model="renameDialog" title="Rename Loadout" acceptString="Rename" @accept="renameLoadout(loadout)" @cancel="renameDialog = false" >
@@ -128,18 +129,18 @@
           this.snackbar = true;
         }
         else {
-          loadout.Name = this.newLoadoutName;
+          this.config.ActiveLoadout.Name = this.newLoadoutName;
           this.newLoadoutName = "";
           this.renameDialog = false;
         }
       },
       changeTab() {
-        this.pilot.ActiveLoadout = this.pilot.Loadouts[this.tabIndex];
+        this.config.ActiveLoadout = this.config.Loadouts[this.tabIndex];
       }
     },
     created () {
       if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
-        const activeIndex = this.config.Loadouts.findIndex(x => x.ID === this.config.ActiveLoadout!.ID)
+        const activeIndex = this.config.Loadouts.findIndex(x => x.ID === this.config.ActiveLoadout.ID)
         if (activeIndex > -1) {
           this.tabIndex = activeIndex
         } else {

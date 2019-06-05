@@ -533,7 +533,7 @@ class Pilot {
 
   public AddLoadout() {
     this.loadouts.push(new PilotLoadout(this.loadouts.length));
-    this.ActiveLoadout = this.Loadouts[this.Loadouts.length - 1]
+    this.ActiveLoadout = this.Loadouts[this.loadouts.length - 1]
     this.save();
   }
 
@@ -606,7 +606,11 @@ class Pilot {
     this.mechs.forEach(m => {
       m.Active = false;
     });
-    if (!config) return;
+    
+    if (!config) {
+      this.save();      
+      return;
+    }
     config.Active = true;
     this.active_mech = config.ID;
     this.save();

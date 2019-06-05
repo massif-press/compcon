@@ -20,7 +20,7 @@
           </v-stepper-content>
 
           <v-stepper-step :complete="nc_step > 2" step="2">Frame Selection
-            <small>Unauthorized Frames <em :class="`font-weight-bold ${showLocked ? 'red--text' : ''}`">{{showLocked ? 'SHOWN' : 'HIDDEN'}}</em></small>
+            <small v-if="selectedFrame">{{selectedFrame.Source}} <strong>{{selectedFrame.Name}}</strong></small>
           </v-stepper-step>
           <v-stepper-content step="2">
             <v-toolbar color="primary" nudge-left="200px">
@@ -42,8 +42,15 @@
               <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
                 <template slot="items" slot-scope="props">
                   <tr :class="{ locked: isLocked(props.item) }">
-                    <td style="padding: 0!important; width:50px;"><v-btn color="primary" icon @click="select(props.item)" class="p-0 m-0"><v-icon>save_alt</v-icon></v-btn></td>
-                    <td class="text-xs-left clickable" style="height:100px;" @click="spawnPopup(props.item)">
+                    <td style="padding: 0!important; width:50px;">
+                      <v-tooltip top>
+                        <v-btn slot="activator" color="primary" @click="select(props.item)" style="height:95px" class="pa-0 ma-0">
+                          <v-icon size="65">save_alt</v-icon>
+                        </v-btn>
+                        <span>Select {{props.item.Name}} Frame</span>
+                      </v-tooltip>
+                    </td>
+                    <td class="text-xs-left clickable mr-0 pr-0" style="height:100px;" @click="spawnPopup(props.item)">
                       <v-layout>
                       <v-flex shrink>
                         <span class="mt-1 middle">
@@ -58,8 +65,8 @@
                         </span>
                       </v-flex>
                       <v-flex>
-                        <v-img :src="props.item.DefaultImage" max-height="100px" position="top 30% left 150px" 
-                        style="mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, rgba(0,0,0,0));"/>
+                        <v-img :src="props.item.DefaultImage" max-height="100px" :position="`top ${props.item.YPosition}% left 80px`" 
+                        class="gradient" style="mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0));"/>
                       </v-flex>
                       </v-layout>
                     </td>
@@ -177,6 +184,7 @@
         newMech.Name = this.newConfigName || 'New Config'
         this.pilot.AddMech(newMech);
         this.newConfigName = null;
+        this.selectedFrame = null;
         this.nc_step = 1;
         this.$emit('close')
       },
@@ -235,6 +243,15 @@
   position: relative;
   top: 15%;
   text-align: left;
+}
+
+.gradient {
+  opacity: 0.75;
+  transition: opacity .15s ease-in-out;
+}
+
+.gradient:hover {
+  opacity: 1;
 }
 
 </style>
