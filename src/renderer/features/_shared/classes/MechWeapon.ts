@@ -10,7 +10,7 @@ class MechWeapon extends MechEquipment {
   private damage?: Damage[];
   private range?: Range[];
 
-  private mod?: WeaponMod | null;
+  private mod: WeaponMod | null;
   // private ammo?: WeaponAmmo | null;
 
   constructor(weaponData: any) {
@@ -21,6 +21,7 @@ class MechWeapon extends MechEquipment {
       this.damage = weaponData.damage.map((x: any) => new Damage(x));
     if (weaponData.range)
       this.range = weaponData.range.map((x: any) => new Range(x));
+    this.mod = null;
     this.item_type = ItemType.MechWeapon;
   }
 

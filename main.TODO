@@ -1,13 +1,17 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
-- mod addedranges should be range bonus objects
 
 bugs:
-  ☐ damage/range sorting only keys of primary
-  ☐ mod SP not automatically updating in view (correctly determined when assigning other mods/systems)
+  ✔ remaining loadout weirdness @done(19-06-05 10:29)
+  ✔ c/c not loading without an internet connection (taffer) @done(19-06-05 10:30)
+  ✔ Armor value not coming up on config sheet @done(19-06-05 10:33)
+  ✔ mod SP not automatically updating in view (correctly determined when assigning other mods/systems) @done(19-06-05 12:45)
+  ✔ prinaka missles fix @done(19-06-05 13:58)
+  ✔ renaming loadout only changes primary (CMDR treb) @done(19-06-05 13:58)
+  ✔ publish and update lancer-data @done(19-06-05 14:22)
 
 Improvements:
-  ☐ Separate Statuses and Conditions
-  ☐ Y-positions for frames
+  ✔ Separate Statuses and Conditions @done(19-06-05 14:29)
+  ✔ Y-positions for frames @done(19-06-05 14:22)
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label

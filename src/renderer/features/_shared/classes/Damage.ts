@@ -49,10 +49,8 @@ class Damage {
     else {
       let bonus = 0
       if (this.raw_value.split('+').length === 2) bonus = parseInt(this.raw_value.split('+')[1])
-      console.log(bonus)
       const split = this.raw_value.split('d')
       // (qty * size) + bonus
-      console.log((parseInt(split[0]) * parseInt(split[1])) + bonus)
       return (parseInt(split[0]) * parseInt(split[1])) + bonus
     }
   }

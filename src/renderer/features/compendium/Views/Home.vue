@@ -32,7 +32,7 @@
       </v-layout>
       <v-layout row wrap justify-center>
         <category-card color="secondary" icon="label" loc="tags" name="Equipment Tags" />
-        <category-card color="secondary" icon="mdi-gauge" loc="statuses" name="Statuses" />
+        <category-card color="secondary" icon="mdi-gauge" loc="statuses" name="Statuses and Conditions" />
         <category-card color="secondary" icon="mdi-map" loc="reference" name="Combat Reference" />
         <!-- <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" /> -->
       </v-layout>

@@ -443,18 +443,12 @@ class Mech {
     this.save();
   }
 
-  public ClearLoadouts() {
-    this.loadouts = [];
-    this.ActiveLoadout = null;
-    this.save();
-  }
-
   public get ActiveLoadout(): MechLoadout | null {
     return this.loadouts.find(x => x.ID === this.active_loadout) || null;
   }
 
   public set ActiveLoadout(loadout: MechLoadout | null) {
-    this.active_loadout = (loadout && loadout.ID) || "";
+    this.active_loadout = loadout.ID || "";
     this.save();
   }
 
