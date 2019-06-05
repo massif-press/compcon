@@ -114,6 +114,10 @@ class MechLoadout extends Loadout {
     this.save();
   }
 
+  public ChangeSystem(index: number, system: MechSystem) {
+    this.systems.splice(index, 1, system);
+  }
+
   public RemoveSystem(system: MechSystem) {
     const index = this.systems.findIndex(x => _.isEqual(x, system));
     if (index > -1) this.systems.splice(index, 1);
