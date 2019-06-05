@@ -33,7 +33,6 @@ class Tag {
       );
     } else {
       var str = this.val as string;
-      console.log(str)
       if (str.includes("+")) {
         const split = str.split("+");
         let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
