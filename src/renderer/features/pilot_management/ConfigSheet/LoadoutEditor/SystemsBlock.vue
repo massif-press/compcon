@@ -4,7 +4,7 @@
       <span class="mount-title pl-3 pr-3 text-uppercase">Systems</span>
       <v-card-text class="bordered ml-3 pt-4 pb-4">
           <mech-system-item v-for="(is, i) in mech.IntegratedSystems" :key="is + i" :maxSP="mech.MaxSP" :loadout="loadout" :system="is" integrated /> 
-          <mech-system-item v-for="(s, j) in loadout.Systems" :key="s.id + j" :maxSP="mech.MaxSP" :loadout="loadout" :system="s"/> 
+          <mech-system-item v-for="(s, j) in loadout.Systems" :key="s.id + j" :maxSP="mech.MaxSP" :loadout="loadout" :system="s" :index="j"/> 
           <mech-system-item v-if="mech.MaxSP - loadout.TotalSP > 0" :loadout="loadout" :maxSP="mech.MaxSP" empty/> 
       </v-card-text>
       <v-tooltip top v-if="mech.MaxSP - loadout.TotalSP < 0">
