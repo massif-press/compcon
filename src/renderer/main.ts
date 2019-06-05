@@ -15,6 +15,9 @@ import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
+
+import gmTheme from './features/gm_toolkit/vuetify_theme'
+
 import ClickOutside from './directives/click-outside'
 import ScrollSpy, { Easing } from "vue2-scrollspy";
 import * as items from './mixins/data'
@@ -32,6 +35,9 @@ Vue.prototype.version = "1.3.3";
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
+  theme: {
+    ...gmTheme
+  }
 })
 Vue.use(VueMousetrap)
 Vue.use(ScrollSpy, {
