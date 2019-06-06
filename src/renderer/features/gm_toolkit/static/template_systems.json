@@ -1,199 +1,184 @@
-[{
+[
+    {
         "name": "Berserker",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The Ultra gains +1 Accuracy on all melee attacks. It can attack with one melee weapon, grapple, or ram attack as a free action on its turn.",
         "base": false
     },
-
     {
         "name": "Devastator",
-
         "class": "ultra",
         "type": "trait",
-        "tags": [{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "When the ultra hits with an attack, all targets visible to the ultra take 2/4/6 kinetic, explosive, or energy damage.",
         "base": false
     },
-
     {
         "name": "Evasive",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The Ultra gains +4 evasion, up to a maximum of 20, but reduce its structure to 3.",
         "base": false
     },
-
     {
         "name": "Extra Deadly",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The first Critical Hit the Ultra deals per turn does +1d6 bonus damage/tier.",
         "base": false
     },
-
     {
         "name": "Fortress",
-
         "class": "ultra",
         "type": "trait",
         "effect": "Tech attacks against the Ultra are made at +3 difficulty and it makes all systems saves at +3 accuracy).",
         "base": false
     },
-
     {
         "name": "Legion",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The ultra gains +4 e-defense, up to a maximum of 20, and it gains +1 accuracy on all tech attacks.",
         "base": false
     },
-
     {
         "name": "Limitless",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The Ultra can use overcharge. It’s cost for overcharging is always 1d6 heat.",
         "base": false
     },
-
     {
         "name": "Unstoppable",
-
         "class": "ultra",
         "type": "trait",
         "effect": "Hostile characters cannot hide while inside the Ultra’s sensor range and it ignores invisibility.",
         "base": false
     },
-
     {
         "name": "Superior Construction",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The ultra has resistance to one of the following damage types: kinetic, energy, explosive. It cannot gain resistance to more than 2 (from this trait or any other systems). Reduce its structure to 3.",
         "base": false
     },
-
     {
         "name": "Superior Frame",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The ultra is immune to the Slowed, Shredded, and immobilized conditions",
         "base": false
     },
-
     {
         "name": "Superior Targeting",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The ultra ignores cover when making ranged attacks.",
         "base": false
     },
-
     {
         "name": "Supreme Maintenance",
-
         "class": "ultra",
         "type": "trait",
         "effect": "The ultra is immune to the Jammed condition, can reload one weapon with the loading property as a free action on its turn, and can repair a destroyed weapon or system with a quick action on its turn.",
         "base": false
     },
-
     {
         "name": "Supreme Skirmisher",
-
         "class": "ultra",
         "type": "trait",
         "effect": "Any number of times a round, the Ultra can take the boost action as a reaction to any enemy movement it can see.",
         "base": false
     },
-
     {
         "name": "ARGUS armor",
-
         "class": "ultra",
         "type": "system",
         "effect": "The ultra’s armor increases to 5. Each time it rolls a critical or overheating check, reduce its armor by 2, to a minimum of 0.",
         "base": false
     },
-
     {
         "name": "Siege Shield",
-
         "class": "ultra",
         "type": "system",
         "effect": "The ultra has resistance to all damage that originates further away than range 5 of its space.",
         "base": false
     },
-
     {
         "name": "Hellfire Projector",
-
         "class": "ultra",
         "type": "weapon",
-        "weapon_type": ["Heavy", "CQB"],
+        "weapon_type": [
+            "Heavy",
+            "CQB"
+        ],
         "weapon_roll": {
             "flat": {
                 "val": 0,
                 "pertier": false
             }
         },
-        "weapon_range": [{
-            "type": "cone",
-            "val": 5
-        }],
-        "damage": [{
-                "val": [3, 3, 3],
+        "weapon_range": [
+            {
+                "type": "cone",
+                "val": 5
+            }
+        ],
+        "damage": [
+            {
+                "val": [
+                    3,
+                    3,
+                    3
+                ],
                 "type": "energy"
             },
             {
-                "val": [4, 5, 6],
+                "val": [
+                    4,
+                    5,
+                    6
+                ],
                 "type": "burn"
             }
         ],
         "effect": "This weapon can be fired twice with the attack action, but its areas cannot overlap.",
         "base": false
     },
-
     {
         "name": "Repulsion field",
-
         "class": "ultra",
         "type": "system",
         "effect": "Hostile targets that start their turn adjacent to the Ultra or become adjacent to it for the first time on their turn take 2/4/6 energy damage, 2 heat, and must pass a systems save or become impaired until the end of their next turn.",
         "base": false
     },
-
     {
         "name": "Spool gun",
-
         "class": "ultra",
         "type": "system",
         "action": "full",
-        "tags": [{
-            "id": "ordnance"
-        }],
+        "tags": [
+            {
+                "id": "ordnance"
+            }
+        ],
         "recharge": 6,
         "effect": "Choose a direction, then draw a line 30 spaces long and 2 spaces wide in that direction. Each character inside that area must pass an agility skill save or take 1 structure damage, or be reduced to 1 HP on a successful check. Any objects smaller than size 5 in the area are completely annihilated.",
         "base": false
     },
-
     {
         "name": "Ravager Turret",
-
         "class": "ultra",
         "type": "weapon",
-        "weapon_type": ["Heavy", "Cannon"],
+        "weapon_type": [
+            "Heavy",
+            "Cannon"
+        ],
         "weapon_roll": {
             "flat": {
                 "val": 1,
@@ -204,49 +189,49 @@
                 "pertier": false
             }
         },
-        "weapon_range": [{
-            "type": "range",
-            "val": 10
-        }],
-        "damage": [{
-            "val": [4, 6, 8],
-            "type": "kinetic"
-        }],
+        "weapon_range": [
+            {
+                "type": "range",
+                "val": 10
+            }
+        ],
+        "damage": [
+            {
+                "val": [
+                    4,
+                    6,
+                    8
+                ],
+                "type": "kinetic"
+            }
+        ],
         "effect": "The Ultra fires at every hostile character in range and line of sight when this weapon is fired.",
         "base": false
     },
-
     {
         "name": "SSC Silvershielding",
-
         "class": "ultra",
         "type": "system",
         "effect": "The Ultra is permanently invisible. Reduce its structure to 2.",
         "base": false
     },
-
     {
         "name": "SSC Ex Hover Propulsion",
-
         "class": "ultra",
         "type": "system",
         "effect": "The Ultra can fly when it moves or boosts, and can hover (it can stop midair, doesn’t have to move in a straight line, and doesn’t need to land after moving).",
         "base": false
     },
-
     {
         "name": "Volley module",
-
         "class": "ultra",
         "type": "system",
         "action": "full",
         "effect": "The ultra goes into a stable stance. At the start of its next turn, it fires one weapon at each character of its choice that is in range, not in cover, and not prone as a free action. Characters are aware of this effect, and can choose to drop prone as a free action on their turn to avoid being targeted by this action. It can fire the same weapon multiple times for this special action, ignoring the loading tag during this attack.",
         "base": false
     },
-
     {
         "name": "WOLFHOUND Missile",
-
         "class": "ultra",
         "type": "system",
         "action": "quick",
@@ -254,351 +239,298 @@
         "effect": "Choose a target within range 30 and line of sight. The ultra fires a wolfhound missile at the target, which is size 1, moves speed 5, has evasion 10, 0 armor, and 10/15/20 HP. The missile primes in an adjacent space when deployed, then moves at the start of each the ultra’s turns. If its target suffers from the Locked On condition, its movement increases to 10. The missile can benefit from cover and can be targeted and shot by systems and weapons. It must move towards its target, but can maneuver skillfully around cover, fit through holes, etc. If the missile’s movement causes it to collide with a character, it detonates for a blast 1 explosion. Mechs caught inside must pass an agility skill check or take 14/20/28 energy damage, and half on a successful check. The Ultra can have only one missile fired at a time. Only check for recharge if this missile has hit its target or been destroyed.",
         "base": false
     },
-
     {
         "name": "NHP Co-pilot",
-
         "class": "veteran",
         "type": "system",
         "effect": "The veteran’s mech or vehicle gains the AI tag. The veteran’s mech or vehicle is autonomous and can function even if the veteran is not piloting it. The AI can be unshackled, with the same effects as player AI.",
         "base": false
     },
-
     {
         "name": "Acrobat",
-
         "class": "veteran",
         "type": "trait",
         "effect": "When the veteran moves or boosts, it can fly 3 after the move or boost completes. This flight does not provoke reactions and ignores engagement.",
         "base": false
     },
-
     {
         "name": "Deadly",
-
         "class": "veteran",
         "type": "trait",
         "effect": "This mech can Critical Hit, dealing +2 bonus damage/tier to its attacks on crit.",
         "base": false
     },
-
     {
         "name": "Insulated",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran is immune to Burn",
         "base": false
     },
-
     {
         "name": "Self Repair",
-
         "class": "veteran",
         "type": "trait",
-        "tags":[{
-            "id":"limited",
-            "val": 1
-        }],
+        "tags": [
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "action": "full",
         "effect": "This mech heals 1/2 HP and ends all conditions currently affecting it.",
         "base": false
     },
-
     {
         "name": "Feign Death",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The first time in a scene this enemy would be destroyed, though it appears destroyed, it is instead at 1 hp. A successful systems check or pilot skill check by an adjacent character will reveal it is still active, or this effect ends when it takes any action or moves.",
         "base": false
     },
-
     {
         "name": "Hacker",
-
         "class": "veteran",
         "type": "trait",
         "effect": "When the veteran makes a successful tech attack against a character, that character takes 2 heat.",
         "base": false
     },
-
     {
         "name": "Headshot",
-
         "class": "veteran",
         "type": "trait",
-        "tags": [{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "When the veteran scores a Critical Hit, the target of its attack must pass an hull save or only be able to draw line of sight to adjacent spaces until the end of its next turn.",
         "base": false
     },
-
     {
         "name": "Hardened Target",
-
         "class": "veteran",
         "type": "trait",
         "effect": "Tech attacks against this character are made with +1 difficulty, and it makes all systems saves with +1 accuracy.",
         "base": false
     },
-
     {
         "name": "Legendary",
-
         "class": "veteran",
         "type": "trait",
-        "effect": "The veteran can enter the CRITICAL state (like the player) instead of being destroyed when ticking off its last structure point.",
+        "effect": "The veteran makes all overheating and structure damage rolls twice and chooses either result.",
         "base": false
     },
-
     {
         "name": "Lesser Sight",
-
         "class": "veteran",
         "type": "trait",
         "effect": "Within range 3 of the Veteran, targets cannot hide from it, and cannot benefit from invisibility against it while inside that area.",
         "base": false
     },
-
     {
         "name": "Limitless",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran can use Overcharge. Its cost for overcharging is always 1d6.",
         "base": false
     },
-
     {
         "name": "Lightning Reflexes",
-
         "class": "veteran",
         "type": "trait",
         "effect": "Whenever the veteran is targeted by any weapon of size heavy or larger, roll a d6. On a 5+, the weapon automatically misses this mech.",
         "base": false
     },
-
     {
         "name": "Parting Gift",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran can use the Self Destruct action (see mech combat for details)",
         "base": false
     },
-
     {
         "name": "Rodeo Master",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran can dismount their mech as a quick action, gaining the human stat block (in this section). They can take all actions a pilot player character can, including the jockey action.",
         "base": false
     },
-
     {
         "name": "Shock Armor",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran has resistance to damage from main size weapons.",
         "base": false
     },
-
     {
         "name": "Skirmisher",
-
         "class": "veteran",
         "type": "trait",
-        "tags": [{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "The veteran can move or boost as a reaction to any enemy movement or action that it can see.",
         "base": false
     },
-
     {
         "name": "Slippery",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran does not provoke reactions and ignores engagement with its regular move (other movement still provokes reactions)",
         "base": false
     },
-
     {
         "name": "Steel Jaw",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The most damage an auxiliary weapon can do to the veteran is 1.",
         "base": false
     },
-
     {
         "name": "Viper's Speed",
-
         "class": "veteran",
         "type": "trait",
         "effect": "The veteran always takes its turn first, even over player characters. If there is a question of who acts first (in the story, or combat), it is always the veteran. If there’s multiple characters with this trait, only one of them gets to use it (decide who is actually fastest).",
         "base": false
     },
-
     {
         "name": "Bio-integrated",
-
         "class": "exotic",
         "type": "trait",
         "effect": "You may only choose this trait for a mech. The mech gains the biological tag (it loses heat capacity and cannot take or be the target of tech actions except Lock On and scans).",
         "base": false
     },
-
     {
         "name": "Blinkspace Carver",
-
         "class": "exotic",
         "type": "system",
         "effect": "When the NPC moves, it teleports.",
         "base": false
     },
-
     {
         "name": "Extrusion",
-
         "class": "exotic",
         "type": "trait",
         "effect": "The NPC is only a partial extrusion of a higher-concept entity and only partially present in physical space. It gains resistance to all damage but all its weapons also deal half damage and it can be passed through as if it wasn’t there (it doesn’t provide obstruction).",
         "base": false
     },
-
     {
         "name": "Living Weaponry",
-
         "class": "exotic",
         "type": "trait",
         "effect": "The NPC becomes immune to the Jammed condition. Its weapons have biotechnical and semiorganic components that spontaneously generate ammunition. When it reloads, it can also heal 1d6 HP.",
         "base": false
     },
-
     {
         "name": "Paracausal Weapon",
-
         "class": "exotic",
         "type": "trait",
         "effect": "Choose one of the NPC’s weapons. Damage from that weapon cannot be reduced in any way (by armor, resistance, or otherwise)",
         "base": false
     },
-
     {
         "name": "Ouroboros Brand",
-
         "class": "exotic",
         "type": "trait",
-        "tags": [{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "The NPC can force a re-roll of any 1d20 roll for themselves or any allied or hostile target it can see (but must keep the second result) by causing localized distortions in the flow of time.",
         "base": false
     },
-
     {
         "name": "Regenerator",
-
         "class": "exotic",
         "type": "trait",
         "effect": "The NPC heals 2/3/4 HP at the end of its turn. This trait does not function if the NPC took energy damage at any point during the round.",
         "base": false
     },
-
     {
         "name": "Bounty Hunter",
-
         "class": "exotic",
         "type": "trait",
         "effect": "Before combat, choose a player character that there’s a bounty out for. The mercenary gains +1 Accuracy on all attacks, checks, and saves against that character and their mech.",
         "base": false
     },
-
     {
         "name": "Efficient Killer",
-
         "class": "mercenary",
         "type": "trait",
         "effect": "The mercenary gains +1 Accuracy on attacks and all its damage becomes AP against a target with 2 or less structure remaining.",
         "base": false
     },
-
     {
         "name": "Call in Favor",
-
         "class": "mercenary",
         "type": "trait",
         "action": "quick",
-        "tags": [{
-            "id":"limited",
-            "val":1
-        }],
+        "tags": [
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "The Mercenary calls in a favor in the form of an orbital strike or artillery strike, targeting a blast 2 area within range 30 of its position and line of sight. All mechs caught in the area must pass an agility save or take 6/8/12 explosive damage, or half on a successful save.",
         "base": false
     },
-
     {
         "name": "Scout Drone",
-
         "class": "mercenary",
         "type": "system",
         "action": "quick",
-        "tags": [{
-            "id":"drone"
-        }, {
-            "id":"limited",
-            "val":1
-        }],
+        "tags": [
+            {
+                "id": "drone"
+            },
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "The Mercenary fires a scout drone to an empty space within its sensor range. The drone has evasion and e-defense 10, 10 hp, and no armor. Within a burst 2 area centered on the drone, no target can turn invisible or hide from the mercenary, and the mercenary can attack targets in the area with +1 accuracy. The mercenary can reposition the drone as a free action at the start of its turn.",
         "base": false
     },
-
     {
         "name": "Tactical Retreat",
-
         "class": "mercenary",
         "type": "trait",
         "action": "reaction",
-        "tags": [{
-            "id":"limited",
-            "val":1
-        }],
+        "tags": [
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "When the mercenary is taken below half HP, this system automatically activates. All targets within a burst 2 area around the mercenary must pass an agility save or take 2 kinetic damage and become jammed until the end of their next turns. The mercenary can then move its speed in any direction. This movement doesn't provoke reactions and ignores engagement.",
         "base": false
     },
-
     {
         "name": "Bolster Network",
-
         "class": "commander",
         "type": "trait",
         "effect": "While the commander is alive, all allies the commander can see gain the hardened target trait (+1 difficulty on all tech attacks against them and +1 accuracy on systems saves). The commander does not benefit from this trait.",
         "base": false
     },
-
     {
         "name": "Retribution",
-
         "class": "commander",
         "type": "trait",
         "action": "reaction",
-        "tags":[{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "The commander can make an attack against any character that successfully damaged an ally it can see. This attack deals half damage on hit.",
         "base": false
     },
-
     {
         "name": "Press On!",
-
         "class": "commander",
         "type": "trait",
         "action": "quick",
@@ -606,35 +538,34 @@
         "effect": "The commander ends the stunned, shut down, or jammed conditions on an allied character it can see.",
         "base": false
     },
-
     {
         "name": "Reposition",
-
         "class": "commander",
         "type": "trait",
         "action": "reaction",
-        "tags":[{
-            "id":"1/round"
-        }],
+        "tags": [
+            {
+                "id": "1/round"
+            }
+        ],
         "effect": "One ally that a commander can see can make the boost action as a reaction to the commander’s turn starting.",
         "base": false
     },
-
     {
         "name": "Rank and File",
-
         "class": "commander",
         "type": "trait",
         "effect": "Allied characters adjacent to the commander gain +1 Accuracy on all attacks, saves and checks.",
         "base": false
     },
-
     {
         "name": "Boarding Clutch",
-
         "class": "pirate",
         "type": "weapon",
-        "weapon_type": ["Heavy", "Melee"],
+        "weapon_type": [
+            "Heavy",
+            "Melee"
+        ],
         "weapon_roll": {
             "flat": {
                 "val": 1,
@@ -645,58 +576,62 @@
                 "pertier": false
             }
         },
-        "weapon_range": [{
-            "type": "thrown",
-            "val": 5
-        }],
-        "damage": [{
-            "val": [5, 7, 9],
-            "type": "kinetic"
-        }],
+        "weapon_range": [
+            {
+                "type": "thrown",
+                "val": 5
+            }
+        ],
+        "damage": [
+            {
+                "val": [
+                    5,
+                    7,
+                    9
+                ],
+                "type": "kinetic"
+            }
+        ],
         "effect": "This weapon can be used as an improvised grappling hook. It can be thrown at a character within range 5. The affected character must pass a hull save or be pulled directly to the pirate and grappled.",
         "base": false
     },
-
     {
         "name": "Splinter Rounds",
-
         "class": "pirate",
         "type": "trait",
         "effect": "Critical Hits from the pirate deal an additional +3 bonus damage",
         "base": false
     },
-
     {
         "name": "Borer Missiles",
-
         "class": "pirate",
         "type": "system",
         "action": "full",
-        "tags":[{
-            "id":"limited",
-            "val": 1
-        }],
+        "tags": [
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "The Pirate chooses a character in range 10 and line of sight. 1d3 miniature drones are attached to the target and begin boring into the mech’s interior. In 1d6+3 rounds, if there are any missiles still attached to the target, they bore inside the cockpit and savage the pilot, reducing the pilot to 0 HP, causing them to make a Down and Out check. A single drone can be removed by making a successful systems or engineering skill check as a quick action (an adjacent ally can also make this check). The drones can also be confused by shutting the affected mech down, which pauses the timer. The pilot in the affected mech is aware of how much time they have before the drones bore through.",
         "base": false
     },
-
     {
         "name": "Prying Claws",
-
         "class": "pirate",
         "type": "system",
         "action": "full",
-        "tags":[{
-            "id":"limited",
-            "val": 1
-        }],
+        "tags": [
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "An adjacent target makes a hull save. On a failed save, the targeted pilot immediately exits their mech as if they had taken the dismount action (place them adjacent to their mech).",
         "base": false
     },
-
     {
         "name": "Slaver Signal",
-
         "class": "pirate",
         "type": "system",
         "action": "full",
@@ -704,13 +639,14 @@
         "effect": "This system affects one piloted vehicle or mech within range 10. The affected target must make a systems save to shut out the signal or be affected. On failure, all the pilots in the target are affected by the signal, falling into an unresponsive stupor. While in this state, their pilot is stunned, and their mech or vehicle is also stunned unless it has the AI tag. If their mech, vehicle, or pilot takes damage, the pilots will be jolted awake, immediately ending this effect. Another adjacent character can use a full action on their turn to make a systems check to try and blot out the signal, waking the affected target up on success. If the source of the signal is destroyed, any targets affected will also wake up.",
         "base": false
     },
-
     {
         "name": "Concussion gun",
-
         "class": "spacer",
         "type": "weapon",
-        "weapon_type": ["Main", "Rifle"],
+        "weapon_type": [
+            "Main",
+            "Rifle"
+        ],
         "tags": "Knockback 3",
         "weapon_roll": {
             "flat": {
@@ -718,19 +654,22 @@
                 "pertier": true
             }
         },
-        "weapon_range": [{
-            "type": "cone",
-            "val": 3
-        }],
+        "weapon_range": [
+            {
+                "type": "cone",
+                "val": 3
+            }
+        ],
         "base": false
     },
-
     {
         "name": "Gravity Rifle",
-
         "class": "spacer",
         "type": "weapon",
-        "weapon_type": ["Main", "Rifle"],
+        "weapon_type": [
+            "Main",
+            "Rifle"
+        ],
         "weapon_roll": {
             "flat": {
                 "val": 1,
@@ -741,41 +680,45 @@
                 "pertier": false
             }
         },
-        "weapon_range": [{
-            "type": "range",
-            "val": 10
-        }],
+        "weapon_range": [
+            {
+                "type": "range",
+                "val": 10
+            }
+        ],
         "effect": "The target of this attack must pass a hull save or be pulled in a straight line towards the wielder of this weapon up to 10 spaces, or as far as it can move. If this causes it to collide with an obstacle or another mech, it is additionally knocked prone.",
         "base": false
     },
-
     {
         "name": "Sealant Trap",
-
         "class": "spacer",
         "type": "system",
-        "tags":[{
-            "id":"mine"
-        },{
-            "id":"limited",
-            "val": 1
-        }],
+        "tags": [
+            {
+                "id": "mine"
+            },
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "This self deploying trap can be placed in a vacant space. It counts as a mine and can be scanned to be detected and disabled with a successful systems check. Once any character walks over or adjacent to the trap, it explodes, creating a burst 1 area centered on it. All targets caught inside are automatically covered in thick, fast-drying hull sealant and immobilized. The only way to break out of the sealant is to do enough damage to break it (evasion 5, 5 hp/tier).",
         "base": false
     },
-
     {
         "name": "Thumper grenades",
-
         "class": "spacer",
         "type": "system",
         "action": "quick",
-        "tags":[{
-            "id":"grenade"
-        },{
-            "id":"limited",
-            "val": 1
-        }],
+        "tags": [
+            {
+                "id": "grenade"
+            },
+            {
+                "id": "limited",
+                "val": 1
+            }
+        ],
         "effect": "Once thrown to an impact point as a quick action, these grenades explode outwards with a concussive pulse in a blast 1 area around the space where they are targeted. Targets caught in the area must pass an agility check or be knocked back 3 spaces directly away from the impact point. If this causes them to collide with an obstacle or another mech, they are additionally knocked prone.",
         "base": false
     }
