@@ -306,7 +306,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import _ from 'lodash';
 // components
 import SystemButton from "../../components/NpcDesigner/SystemButton.vue";
@@ -320,96 +320,99 @@ import { Dictionary } from 'vue-router/types/router';
 import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 import { NPCTips } from '../../logic/Tips';
 
+export default Vue.extend({
+    name: 'npc-builder',
+    components: { SystemButton, TemplateButton, GoblinChan },
+    props: { preNpc: { type: NPC, required: true } },
+    data: function() { return {
+        editingName: false,
+        newName: '',
+        npc: _.clone(this.preNpc),
+        systemsUnlocked: false,
+    }},
+    computed: {
+        tips(): object[] {
+          return NPCTips(this.npc);
+        },
 
-@Component({
-    components: { SystemButton, TemplateButton, GoblinChan }
+        stats() {
+            const npcst = (this.npc as NPC).stats
+            let obj: {[key: string]: number | null} = {
+                'HP': npcst.hp,
+                'HEAT': npcst.heatcap,
+                'STRUCTURE': npcst.structure > 1 ? npcst.structure : null,
+                'STRESS': npcst.stress > 1 ? npcst.stress : null,
+                'ARMOR': npcst.armor,
+                'SPEED': npcst.speed,
+                'EVADE': npcst.evade,
+                'EDEF': npcst.edef,
+                'SENSE': npcst.sensor,
+                'SAVE': npcst.save,
+            }
+            return _.pickBy(obj, o => o !== null);
+        },
+
+        systemsAvailable(): { [key: string]: NPCSystem.Any[]} {
+          const { npc } = this;
+          const preSort = NPC.allSystems.filter((system) => {
+              return !npc.systems.includes(system)
+              && (this.systemsUnlocked ||
+                npc._templates.concat([npc.npcClass.name, 'generic']).includes(system.class)
+              )
+          });
+          const sortedAndGrouped = _.groupBy(_.orderBy(
+            preSort,
+            ['base', 'type', 'name'],
+            ['desc', 'desc', 'asc'],
+          ), 'class');
+          // forcibly sort the object to have the class's systems first, then generic, then everything else
+          return {
+              [npc.npcClass.name]: sortedAndGrouped[npc.npcClass.name],
+              'generic': sortedAndGrouped['generic'],
+              // pick sorted object removing classname and generic
+              ..._.pickBy(sortedAndGrouped,
+                (value, key) => ![npc.npcClass.name, 'generic'].includes(key)
+              )
+          }
+        },
+
+        mySystems(): NPCSystem.Any[] {
+            return _.orderBy(
+              this.npc.systems,
+              ['base', 'type', 'name'],
+              ['desc', 'desc', 'asc'],
+            )
+        },
+
+        roleColor(): string {
+            return `role--${this.npc.npcClass.role}`
+        },
+    },
+    methods: {
+        editName() {
+            this.editingName = true;
+            this.newName = (this.npc as NPC)._name || '';
+            this.$nextTick(() => {
+                (this.$refs.namefield as any).focus()
+            })
+        },
+
+        submitName() {
+            if (this.newName) {
+                (this.npc as NPC)._name = this.newName;
+            }
+            this.editingName = false;
+        },
+    },
+    watch: {
+        npc: {
+            handler: function onEditNPC(val: NPC) {
+                this.$store.commit('npcDesigner/edit', val)
+            },
+            deep: true,
+        }
+    },
 })
-export default class NpcBuilder extends Vue {
-    @Prop(Object) readonly preNpc!: NPC
-
-    editingName = false;
-    newName = '';
-    npc = _.clone(this.preNpc);
-    systemsUnlocked = false;
-
-    get tips(): object[] {
-      return NPCTips(this.npc);
-    }
-    
-    get stats() {
-        const npcst = (this.npc as NPC).stats
-        let obj: {[key: string]: number | null} = {
-            'HP': npcst.hp,
-            'HEAT': npcst.heatcap,
-            'STRUCTURE': npcst.structure > 1 ? npcst.structure : null,
-            'STRESS': npcst.stress > 1 ? npcst.stress : null,
-            'ARMOR': npcst.armor,
-            'SPEED': npcst.speed,
-            'EVADE': npcst.evade,
-            'EDEF': npcst.edef,
-            'SENSE': npcst.sensor,
-            'SAVE': npcst.save,
-        }
-        return _.pickBy(obj, o => o !== null);
-    }
-
-    get systemsAvailable(): { [key: string]: NPCSystem.Any[]} {
-      const { npc } = this;
-      const preSort = NPC.allSystems.filter((system) => {
-          return !npc.systems.includes(system)
-          && (this.systemsUnlocked ||
-            npc._templates.concat([npc.npcClass.name, 'generic']).includes(system.class)
-          )
-      });
-      const sortedAndGrouped = _.groupBy(_.orderBy(
-        preSort,
-        ['base', 'type', 'name'],
-        ['desc', 'desc', 'asc'],
-      ), 'class');
-      // forcibly sort the object to have the class's systems first, then generic, then everything else
-      return {
-          [npc.npcClass.name]: sortedAndGrouped[npc.npcClass.name],
-          'generic': sortedAndGrouped['generic'],
-          // pick sorted object removing classname and generic
-          ..._.pickBy(sortedAndGrouped,
-            (value, key) => ![npc.npcClass.name, 'generic'].includes(key)
-          )
-      }
-    }
-
-    get mySystems(): NPCSystem.Any[] {
-        return _.orderBy(
-          this.npc.systems,
-          ['base', 'type', 'name'],
-          ['desc', 'desc', 'asc'],
-        )
-    }
-
-    get roleColor(): string {
-        return `role--${this.npc.npcClass.role}`
-    }
-
-    editName() {
-        this.editingName = true;
-        this.newName = (this.npc as NPC)._name || '';
-        this.$nextTick(() => {
-            (this.$refs.namefield as any).focus()
-        })
-    }
-
-    submitName() {
-        if (this.newName) {
-            (this.npc as NPC)._name = this.newName;
-        }
-        this.editingName = false;
-    }
-
-    @Watch('npc', {deep: true})
-    onEditNPC(val: NPC) {
-        this.$store.commit('npcDesigner/edit', val)
-    }
-
-}
 </script>
 
 <style>

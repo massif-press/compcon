@@ -79,28 +79,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import {
-  State, namespace
-} from 'vuex-class'
+import Vue from 'vue';
 import EncounterBase from '../../logic/EncounterBase';
 // components
 import File from "../../components/File.vue";
 import AddButton from "../../components/AddButton.vue";
+import { mapState, mapMutations } from 'vuex';
 
 
-const encounterBuilder = namespace('encounterBuilder')
-
-@Component({
-    components: { File, AddButton }
-})
-export default class EncountersList extends Vue {
-    @encounterBuilder.State encounters!: EncounterBase[];
-    @encounterBuilder.Mutation('delete') deleteEncounter!: (id: string) => void;
-
-    deleteDialog = false;
-    deletingID: string | null = null;
-}
+export default Vue.extend({
+    // @encounterBuilder.State encounters!: EncounterBase[];
+    // @encounterBuilder.Mutation('delete') deleteEncounter!: (id: string) => void;
+    name: 'encounters-list',
+    components: { AddButton },
+    data: () => ({
+        deleteDialog: false,
+        deletingID: null as null | string,
+    }),
+    computed: mapState({ encounters: 'encounterBuilder/encounters' }),
+    methods: mapMutations({ deleteEncounter: 'encounterBuilder/delete' }),
+});
 </script>
 
 <style>

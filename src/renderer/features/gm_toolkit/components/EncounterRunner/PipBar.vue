@@ -50,76 +50,77 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 
-@Component({
+export default Vue.extend({
+    name: 'pip-bar',
+    props: {
+        label: { type: String },
+        value: { type: Number, required: true },
+        max: { type: Number, required: true },
+        rollover: { type: Boolean, default: false },
+        rolloverNegative: { type: Boolean, default: false },
+    },
+    data: () => ({
+        inputting: false,
+        myInput: '',
+    }),
+    methods: {
+        startInputting() {
+            this.inputting = true;
+            this.$nextTick(() => {
+                (this.$refs.pipinput as HTMLInputElement).focus()
+            })
+        },
+        sendInput() {
+            const thisInput = this.myInput;
+            if (!thisInput.match(/\d/)) return;
 
+            this.inputting = false;
+
+            let preResult = this.value;
+
+            if (thisInput === '') return;
+            else if (thisInput.startsWith('+')) {
+                preResult += parseInt(thisInput.substr(1))
+            } else if (thisInput.startsWith('-')) {
+                preResult -= parseInt(thisInput.substr(1))
+            } else {
+                preResult = parseInt(thisInput)
+            }
+
+            if (this.rollover && this.rolloverNegative) {
+                while (preResult >= this.max) {
+                    preResult = preResult - this.max;
+                    this.$emit('rollover')
+                }
+            }
+            else preResult = Math.min(preResult, this.max);
+
+            if (this.rollover && !this.rolloverNegative) {
+                while (preResult < 1) {
+                    preResult = this.max + preResult;
+                    this.$emit('rollover')
+                }
+            } else {
+                preResult = Math.max(0, preResult);
+            }
+
+            this.$emit('input', preResult);
+            this.myInput = '';
+        },
+        cancelInput() {
+            this.inputting = false;
+            this.myInput = '';
+        },
+
+        onInputChange(e: any) {
+            const newVal = e.target.value;
+            if (newVal.match(/^[+-\d]\d*$/) || newVal === '') this.myInput = newVal;
+            else e.target.value = this.myInput;
+        }
+    },
 })
-export default class PipBar extends Vue {
-    @Prop(String) label!: string;
-    @Prop({type: Number, required: true}) value!: number;
-    @Prop(Number) max!: number;
-    @Prop({type: Boolean, default: false}) rollover!: boolean;
-    @Prop({type: Boolean, default: false}) rolloverNegative!: boolean;
-
-    inputting = false;
-    myInput = '';
-
-    startInputting() {
-        this.inputting = true;
-        this.$nextTick(() => {
-            (this.$refs.pipinput as HTMLInputElement).focus()
-        })
-    }
-    sendInput() {
-        const thisInput = this.myInput;
-        if (!thisInput.match(/\d/)) return;
-
-        this.inputting = false;
-
-        let preResult = this.value;
-
-        if (thisInput === '') return;
-        else if (thisInput.startsWith('+')) {
-            preResult += parseInt(thisInput.substr(1))
-        } else if (thisInput.startsWith('-')) {
-            preResult -= parseInt(thisInput.substr(1))
-        } else {
-            preResult = parseInt(thisInput)
-        }
-
-        if (this.rollover && this.rolloverNegative) {
-            while (preResult >= this.max) {
-                preResult = preResult - this.max;
-                this.$emit('rollover')
-            }
-        }
-        else preResult = Math.min(preResult, this.max);
-
-        if (this.rollover && !this.rolloverNegative) {
-            while (preResult < 1) {
-                preResult = this.max + preResult;
-                this.$emit('rollover')
-            }
-        } else {
-            preResult = Math.max(0, preResult);
-        }
-
-        this.$emit('input', preResult);
-        this.myInput = '';
-    }
-    cancelInput() {
-        this.inputting = false;
-        this.myInput = '';
-    }
-
-    onInputChange(e: any) {
-        const newVal = e.target.value;
-        if (newVal.match(/^[+-\d]\d*$/) || newVal === '') this.myInput = newVal;
-        else e.target.value = this.myInput;
-    }
-
-}
 </script>
 
 <style>

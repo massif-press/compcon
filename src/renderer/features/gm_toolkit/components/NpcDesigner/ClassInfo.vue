@@ -44,30 +44,31 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import NPCClass from '../../logic/interfaces/NPCClass';
 import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 import SystemCard from '../../components/NpcDesigner/SystemButton.vue'
+import { type } from 'os';
 
 const allSystems: NPCSystem.Any[] = require('../../static/systems.json');
 
-@Component({
-    components: { SystemCard }
+export default Vue.extend({
+    name: 'class-info',
+    components: { SystemCard },
+    props: { cls: { type: Object, required: true } },
+    computed: { 
+        color() {
+            if (!this.cls) return 'primary'
+            else return `role--${this.cls.role}`
+        },
+
+        baseSystems() {
+            return allSystems.filter(s => s.class === this.cls.name && s.base)
+        },
+
+        optionalSystems() {
+            return allSystems.filter(s => s.class === this.cls.name && !s.base)
+        },
+    }
 })
-export default class ClassInfo extends Vue {
-    @Prop() cls!: NPCClass;
-    get color() {
-        if (!this.cls) return 'primary'
-        else return `role--${this.cls.role}`
-    }
-
-    get baseSystems() {
-        return allSystems.filter(s => s.class === this.cls.name && s.base)
-    }
-
-    get optionalSystems() {
-        return allSystems.filter(s => s.class === this.cls.name && !s.base)
-    }
-
-}
 </script>
