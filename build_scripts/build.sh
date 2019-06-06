@@ -40,7 +40,7 @@ then
   yarn dist-travis -w --publish never
   rm -rf build/${BUILD_OS}-${TRAVIS_BRANCH}/win-ia32-unpacked build/${BUILD_OS}-${TRAVIS_BRANCH}/win-unpacked
 fi
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]
+if [ "$TRAVIS_PULL_REQUEST" = "false" ]
 then
   echo "Installing Butler"
   if [ ${BUILD_OS} = "osx" ] || [ ${BUILD_OS} = "win" ]
