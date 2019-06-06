@@ -295,23 +295,26 @@ import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 
 export default Vue.extend({
     name: 'runner-npc-card',
+    components: { PipBar, NpcCardSystem },
     props: {
         elevated: {type: Boolean, default: false},
         npc: {type: Object, required: true},
     },
-    data: () => ({
+    data: function() {
+        return {
         npcData: this.npc.baseNPC,
         baseStatuses: ActiveNPC.baseStatuses,
         expanded: false,
         structRolledOver: false,
         stressRolledOver: false,
-    }),
+    }
+    },
     computed: {
         roleColor(): string {
             return `role--${this.npcData.npcClass.role}`
         },
         systemsSorted(): NPCSystem.Any[] {
-            const systems = this.npc.baseNPC.systems;
+            const systems: NPCSystem.Any[] = this.npc.baseNPC.systems;
             return _.sortBy(
               systems.filter(s => !s.hide_on_card),
               'type',

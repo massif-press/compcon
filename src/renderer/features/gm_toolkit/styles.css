@@ -1,0 +1,27 @@
+.v-toolbar {
+    z-index: 11;
+}
+.v-card {
+  box-shadow: none;
+  border: 1px solid !important;
+}
+.v-dialog .v-card, .v-select-list {
+    border: none !important;
+}
+.spin-enter-active, .spin-leave-active {
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+  position: absolute;
+}
+.spin-leave-to {
+  transform: rotate(-90deg);
+}
+.spin-enter {
+  transform: rotate(90deg);
+}
+.spin-enter, .spin-leave-to {
+  opacity: 0;
+}
+.grow-shrink-0 > * {
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+}

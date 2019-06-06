@@ -389,7 +389,7 @@ export default Vue.extend({
         },
     },
     methods: {
-        editName() {
+        editName(): void {
             this.editingName = true;
             this.newName = (this.npc as NPC)._name || '';
             this.$nextTick(() => {
