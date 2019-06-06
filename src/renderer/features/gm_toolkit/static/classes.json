@@ -1,51 +1,58 @@
-[{
+[
+    {
         "name": "ace",
         "role": "striker",
         "info": {
             "flavor": "A pilot more comfortable the closer they get to their roots, the Ace enemy-type employs high-speed strafing runs, agile maneuvers, and a reckless approach to piloting their mech. Cocky and self-assured, Ace-type enemies relish a good duel.",
             "tactics": "The Ace is a very fast, reactive striker with the ability to mitigate dangerous or high-damage attacks with its Evasive Maneuvers trait. Its seeking weapons can ignore cover and line of sight, making it very consistent damage. Use Evasive Maneuvers against heavy weaponry to maximize its potential. The Ace’s lower HP makes it a lot weaker against sustained damage and it is relatively easy to tech attack."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 12,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": -2,
-            "agility": 3,
-            "systems": 1,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 12,
-            "evade": 15,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": -2,
-            "agility": 4,
-            "systems": 2,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 14,
-            "evade": 18,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": -2,
-            "agility": 6,
-            "systems": 3,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 7,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 12,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": -2,
+                "agility": 3,
+                "systems": 1,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 12,
+                "evade": 15,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": -2,
+                "agility": 4,
+                "systems": 2,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 14,
+                "evade": 18,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": -2,
+                "agility": 6,
+                "systems": 3,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 7,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
     {
         "name": "assassin",
@@ -54,47 +61,54 @@
             "flavor": "Assassin style mechs trend towards agility, damage, and speed. Their pilots sacrifice comfort for a chassis efficiency — unnecessary life-support systems, pilot care systems, communications systems, and others are stripped out and replaced with systems that increase processing power, run-silent ability, and increase chassis range. <br /> Assassin pilots work alone or in small groups, piloting their small, sleek mechs into territory thought impenetrable by their targets. One of the few doctrines to employ bladed weapons, assassin-style pilots train both in the cockpit and out of it to be able to fight with any weapon, in any theater, as efficiently as possible.",
             "tactics": "The Assassin is the master of punishing a single character. Use its mark to pick a character and it’s high speed and Leap actions to close distance. You can combo the Assassin with other NPCs that inflict conditions such as stunned or prone for a nasty combination. By default the Assassin can only use melee attacks and is relatively vulnerable to sustained damage."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 12,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": 0,
-            "agility": 2,
-            "systems": 1,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 15,
-            "evade": 15,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": 1,
-            "agility": 3,
-            "systems": 1,
-            "engineering": 0,
-            "armor": 1,
-            "speed": 6,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 15,
-            "evade": 17,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": 1,
-            "agility": 4,
-            "systems": 2,
-            "engineering": 0,
-            "armor": 1,
-            "speed": 8,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [0.5, 1]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 12,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": 0,
+                "agility": 2,
+                "systems": 1,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 15,
+                "evade": 15,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": 1,
+                "agility": 3,
+                "systems": 1,
+                "engineering": 0,
+                "armor": 1,
+                "speed": 6,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 15,
+                "evade": 17,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": 1,
+                "agility": 4,
+                "systems": 2,
+                "engineering": 0,
+                "armor": 1,
+                "speed": 8,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            0.5,
+            1
+        ]
     },
     {
         "name": "assault",
@@ -103,47 +117,53 @@
             "flavor": "Assault doctrine mechs and their pilots are the most common main battle chassis found throughout the galaxy. Fitted with a localized version of a main battle rifle, sidearm, and a suite of systems to enhance movement, targeting, and defensive systems, an Assault Doctrine chassis is a straightforward, reliable, hardy combatant. <br /> Assault doctrine pilots are the cheapest to train and outfit: this does not make them any less of a threat when paired with a kit of their choice.",
             "tactics": "The Assault is a straightforward, high damage dealer. Put it in a place where it’s toughness and decent range can be put to good use, and its use Brace reaction on sources of burst damage to maximize its survivability."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": 1,
-            "systems": 1,
-            "engineering": 1,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 8,
-            "save": 10
-        }, {
-            "hp": 18,
-            "evade": 10,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": 2,
-            "agility": 2,
-            "systems": 2,
-            "engineering": 2,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 8,
-            "save": 12
-        }, {
-            "hp": 21,
-            "evade": 12,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": 3,
-            "agility": 3,
-            "systems": 3,
-            "engineering": 3,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 8,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": 1,
+                "systems": 1,
+                "engineering": 1,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 8,
+                "save": 10
+            },
+            {
+                "hp": 18,
+                "evade": 10,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": 2,
+                "agility": 2,
+                "systems": 2,
+                "engineering": 2,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 8,
+                "save": 12
+            },
+            {
+                "hp": 21,
+                "evade": 12,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": 3,
+                "agility": 3,
+                "systems": 3,
+                "engineering": 3,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 8,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
     {
         "name": "berserker",
@@ -152,47 +172,53 @@
             "flavor": "Berserker doctrine mechs build to take advantage of advanced heat cycling systems to shunt system heat tax into an offensive force, increasing their weapon output by orders of magnitude.",
             "tactics": "The Berserker is very scary up close and a great melee duelist. Get it as close as possible to enemy forces to maximize its potential. With a terrible heat cap and e-defense, it is vulnerable to tech attacks, and savvy enemies will force its aggression trait to trigger on its own allies, so keep it away from friendly forces."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 10,
-            "edef": 6,
-            "heatcap": 6,
-            "hull": 3,
-            "agility": 2,
-            "systems": -2,
-            "engineering": -1,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 20,
-            "evade": 11,
-            "edef": 6,
-            "heatcap": 6,
-            "hull": 4,
-            "agility": 4,
-            "systems": -2,
-            "engineering": -1,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 5,
-            "save": 12
-        }, {
-            "hp": 25,
-            "evade": 13,
-            "edef": 6,
-            "heatcap": 6,
-            "hull": 6,
-            "agility": 4,
-            "systems": -2,
-            "engineering": 0,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 5,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 10,
+                "edef": 6,
+                "heatcap": 6,
+                "hull": 3,
+                "agility": 2,
+                "systems": -2,
+                "engineering": -1,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 20,
+                "evade": 11,
+                "edef": 6,
+                "heatcap": 6,
+                "hull": 4,
+                "agility": 4,
+                "systems": -2,
+                "engineering": -1,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 5,
+                "save": 12
+            },
+            {
+                "hp": 25,
+                "evade": 13,
+                "edef": 6,
+                "heatcap": 6,
+                "hull": 6,
+                "agility": 4,
+                "systems": -2,
+                "engineering": 0,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 5,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
     {
         "name": "breacher",
@@ -201,47 +227,53 @@
             "flavor": "Notorious for their boarding capabilities, the Campbell Orbital Dynamics C-O MkIII chassis is a common sight among low and mid-orbit planetary defense forces and their pirate counterparts. Purpose built for policing actions, the C-O is a CQC focused platform that operates best with larger or more system-inclined support chassis, but presents a fierce threat in alpha strike scenarios. Best in <1G environments, the C-O (and like patterns) can be cumbersome outside of specific breach scenarios. While C-O in COD’s designation system stands for Combat-Orbital, most pilots refer to the MkIII as the Can Opener.",
             "tactics": "The Breacher can do very high burst damage, but is inaccurate on its own. Use other sources of Accuracy such as Lock On, or support NPCs to boost its capabilities. The BREACH ram can make short work of cover. It is relatively slow and short ranged outside of its ram action, and its ram still provokes reactions (such as overwatch)."
         },
-        "stats": [{
-            "hp": 18,
-            "evade": 9,
-            "edef": 7,
-            "heatcap": 7,
-            "hull": 2,
-            "agility": 0,
-            "systems": -1,
-            "engineering": 1,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 20,
-            "evade": 11,
-            "edef": 7,
-            "heatcap": 7,
-            "hull": 3,
-            "agility": 1,
-            "systems": -1,
-            "engineering": 2,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 22,
-            "evade": 13,
-            "edef": 7,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": 2,
-            "systems": -1,
-            "engineering": 3,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 5,
-            "save": 10
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 18,
+                "evade": 9,
+                "edef": 7,
+                "heatcap": 7,
+                "hull": 2,
+                "agility": 0,
+                "systems": -1,
+                "engineering": 1,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 20,
+                "evade": 11,
+                "edef": 7,
+                "heatcap": 7,
+                "hull": 3,
+                "agility": 1,
+                "systems": -1,
+                "engineering": 2,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 22,
+                "evade": 13,
+                "edef": 7,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": 2,
+                "systems": -1,
+                "engineering": 3,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 5,
+                "save": 10
+            }
+        ],
+        "size": [
+            1
+        ]
     },
     {
         "name": "scourer",
@@ -250,49 +282,54 @@
             "flavor": "SCOURER doctrine mechs mount massive-output recursive power plants in order to field deadly energy weapons. A common specialist-role doctrine, SCOURER chassis are found on fronts across the galaxy, supporting kinetic-focus ground troops with powerful lensing attacks that target not only corporeal enemies, but systemic threats.",
             "tactics": "The Scourer deals powerful single target damage if it keeps attacking the same target. Switching targets will greatly reduce its effectiveness, and it needs to stay still to take advantage of its weapons systems."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": 0,
-            "systems": 0,
-            "engineering": 1,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 13,
-            "evade": 9,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 2,
-            "agility": 1,
-            "systems": 0,
-            "engineering": 2,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 15,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 12,
-            "hull": 3,
-            "agility": 1,
-            "systems": 1,
-            "engineering": 4,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": 0,
+                "systems": 0,
+                "engineering": 1,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 13,
+                "evade": 9,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 2,
+                "agility": 1,
+                "systems": 0,
+                "engineering": 2,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 15,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 12,
+                "hull": 3,
+                "agility": 1,
+                "systems": 1,
+                "engineering": 4,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "bastion",
         "role": "defender",
@@ -300,49 +337,54 @@
             "flavor": "Bastion doctrine chassis trade the pure defensive edge of an Aegis doctrine chassis for one that allows more mobility. Blending area-denial offensive capability with hardened defense systems and advanced communication suites, Bastion doctrine chassis make for strong squadron commanders.",
             "tactics": "The Bastion is a hardy defender that is able to protect itself and adjacent allies very well with its bulk and size. Use its shieldwall trait to protect from enemy back-liners. Knock back and forced movement effects are very effective against the Bastion or its ward since they break many of its abilities."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 2,
-            "agility": -3,
-            "systems": 0,
-            "engineering": 2,
-            "armor": 3,
-            "speed": 4,
-            "sensor": 5,
-            "save": 8
-        }, {
-            "hp": 10,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 10,
-            "hull": 4,
-            "agility": -3,
-            "systems": 0,
-            "engineering": 3,
-            "armor": 3,
-            "speed": 4,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 10,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 12,
-            "hull": 6,
-            "agility": -2,
-            "systems": 0,
-            "engineering": 4,
-            "armor": 4,
-            "speed": 4,
-            "sensor": 5,
-            "save": 12
-        }],
-        "size": [2]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 2,
+                "agility": -3,
+                "systems": 0,
+                "engineering": 2,
+                "armor": 3,
+                "speed": 4,
+                "sensor": 5,
+                "save": 8
+            },
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 10,
+                "hull": 4,
+                "agility": -3,
+                "systems": 0,
+                "engineering": 3,
+                "armor": 3,
+                "speed": 4,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 12,
+                "hull": 6,
+                "agility": -2,
+                "systems": 0,
+                "engineering": 4,
+                "armor": 4,
+                "speed": 4,
+                "sensor": 5,
+                "save": 12
+            }
+        ],
+        "size": [
+            2
+        ]
     },
-
     {
         "name": "demolisher",
         "role": "defender",
@@ -350,49 +392,54 @@
             "flavor": "The prolonged siege of Jadigmora City saw the development of the DEMOLISHER patten. Based off the long-operational berserker doctrine, DEMOLISHER tuned the chaotic heat flow to a more sustainable, if limited system, increasing a chassis’ heavy-lift capacity to allow for supermassive kinetic weapons to be used effectively in combat. Combined with the increased pilot shielding and system hardening made necessary by the heat tuning, pilots soon discovered more aggressive applications for concussion-wave ordinance.",
             "tactics": "The Demolisher is a slow, resilient defender able to dish out high damage and stuns with impunity up close. Use its size and power in melee combat to force enemy characters to ‘kite’ it (avoid it by moving away) rather than fight it up close, and use its Entrench ability to shrug off heavy hits."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 6,
-            "edef": 7,
-            "heatcap": 8,
-            "hull": 3,
-            "agility": -2,
-            "systems": -1,
-            "engineering": 2,
-            "armor": 2,
-            "speed": 2,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 20,
-            "evade": 6,
-            "edef": 7,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": -2,
-            "systems": -1,
-            "engineering": 3,
-            "armor": 2,
-            "speed": 2,
-            "sensor": 10,
-            "save": 13
-        }, {
-            "hp": 25,
-            "evade": 6,
-            "edef": 7,
-            "heatcap": 8,
-            "hull": 6,
-            "agility": -2,
-            "systems": -1,
-            "engineering": 3,
-            "armor": 2,
-            "speed": 3,
-            "sensor": 10,
-            "save": 15
-        }],
-        "size": [2]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 6,
+                "edef": 7,
+                "heatcap": 8,
+                "hull": 3,
+                "agility": -2,
+                "systems": -1,
+                "engineering": 2,
+                "armor": 2,
+                "speed": 2,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 20,
+                "evade": 6,
+                "edef": 7,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": -2,
+                "systems": -1,
+                "engineering": 3,
+                "armor": 2,
+                "speed": 2,
+                "sensor": 10,
+                "save": 13
+            },
+            {
+                "hp": 25,
+                "evade": 6,
+                "edef": 7,
+                "heatcap": 8,
+                "hull": 6,
+                "agility": -2,
+                "systems": -1,
+                "engineering": 3,
+                "armor": 2,
+                "speed": 3,
+                "sensor": 10,
+                "save": 15
+            }
+        ],
+        "size": [
+            2
+        ]
     },
-
     {
         "name": "goliath",
         "role": "defender",
@@ -400,49 +447,54 @@
             "flavor": "Park Armored Systems’ Dangun pattern chassis is well-known across the Sierra Madre line for its toughness, trade ability, and reliable all-theater performance. The Dangun base pattern is a chassis to build strike forces around -- capable of mounting powerful magtech, it is a tough design to counter in kinetic combat. With a number of small fleet contracts in their portfolio, Park Armored Systems is a chassis designer worth keeping an eye on: indeed, Harrison Armory has taken particular notice, and rumblings in the omninet speak of a possible partnership in the near future.",
             "tactics": "The Goliath is a relatively mobile and tough defender that can force enemies to get closer to it. Use it’s Crush Targeting ability to force dangerous characters to focus fire on it. Since all it needs is line of sight, it can pick even mobile or hard-to-hit characters. The Goliath’s prodigious size can also be used for cover by multiple allies."
         },
-        "stats": [{
-            "hp": 25,
-            "evade": 6,
-            "edef": 6,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": -2,
-            "systems": 1,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 10,
-            "save": 11
-        }, {
-            "hp": 30,
-            "evade": 6,
-            "edef": 6,
-            "heatcap": 10,
-            "hull": 6,
-            "agility": -2,
-            "systems": 1,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 10,
-            "save": 13
-        }, {
-            "hp": 35,
-            "evade": 6,
-            "edef": 6,
-            "heatcap": 12,
-            "hull": 6,
-            "agility": -2,
-            "systems": 3,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 15,
-            "save": 15
-        }],
-        "size": [3]
+        "stats": [
+            {
+                "hp": 25,
+                "evade": 6,
+                "edef": 6,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": -2,
+                "systems": 1,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 10,
+                "save": 11
+            },
+            {
+                "hp": 30,
+                "evade": 6,
+                "edef": 6,
+                "heatcap": 10,
+                "hull": 6,
+                "agility": -2,
+                "systems": 1,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 10,
+                "save": 13
+            },
+            {
+                "hp": 35,
+                "evade": 6,
+                "edef": 6,
+                "heatcap": 12,
+                "hull": 6,
+                "agility": -2,
+                "systems": 3,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 15,
+                "save": 15
+            }
+        ],
+        "size": [
+            3
+        ]
     },
-
     {
         "name": "pyro",
         "role": "defender",
@@ -450,49 +502,54 @@
             "flavor": "A combat doctrine adopted following the Hercynian Crisis, the Pyro chassis-pattern is reviled across the galaxy as a terror instrument, though some states and organizations still choose to integrate them into their armies. Pyro doctrine chassis are heavily armored and insulated, built to manage incredible heat tax while projecting volatile mixes of irrepressible flame towards their enemies. Pyro chassis are sent in to root out entrenched defenders, defoliate areas rich in flora, and cause terror.",
             "tactics": "The Pyro is a slow, resilient NPC that can be especially scary against characters already suffering from Burn. Players should keep their distance from it, as its explosive vent ability can be used to dump an enormous amount of heat on adjacent characters. Position the pyro so it can use its FIREBREAK shield to protect allied characters from incoming fire. Flanking around the shield reduces its effectiveness to zero, and stuns and knock back will deactivate it."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 12,
-            "hull": 1,
-            "agility": -1,
-            "systems": -1,
-            "engineering": 3,
-            "armor": 3,
-            "speed": 2,
-            "sensor": 8,
-            "save": 10
-        }, {
-            "hp": 13,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 12,
-            "hull": 2,
-            "agility": 0,
-            "systems": -1,
-            "engineering": 4,
-            "armor": 3,
-            "speed": 2,
-            "sensor": 8,
-            "save": 12
-        }, {
-            "hp": 15,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 16,
-            "hull": 3,
-            "agility": 0,
-            "systems": 0,
-            "engineering": 5,
-            "armor": 4,
-            "speed": 2,
-            "sensor": 8,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 12,
+                "hull": 1,
+                "agility": -1,
+                "systems": -1,
+                "engineering": 3,
+                "armor": 3,
+                "speed": 2,
+                "sensor": 8,
+                "save": 10
+            },
+            {
+                "hp": 13,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 12,
+                "hull": 2,
+                "agility": 0,
+                "systems": -1,
+                "engineering": 4,
+                "armor": 3,
+                "speed": 2,
+                "sensor": 8,
+                "save": 12
+            },
+            {
+                "hp": 15,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 16,
+                "hull": 3,
+                "agility": 0,
+                "systems": 0,
+                "engineering": 5,
+                "armor": 4,
+                "speed": 2,
+                "sensor": 8,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "sentinel",
         "role": "defender",
@@ -500,49 +557,54 @@
             "flavor": "Sentinel doctrine chassis fill guard roles. Typically found in the retinues of commanders or posted in defense of batteries, Sentinel chassis employ a suite of technology that ensures their charges stay alive and operational, even if it means the Sentinel’s death.",
             "tactics": "The Sentinel is a fast defender that focuses on protecting its allies through overwatch. Relatively short range, it relies on good positioning to make the most of its kit, and isn’t as resilient as other defenders with its low armor."
         },
-        "stats": [{
-            "hp": 20,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 2,
-            "agility": 1,
-            "systems": 1,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 22,
-            "evade": 11,
-            "edef": 11,
-            "heatcap": 8,
-            "hull": 3,
-            "agility": 2,
-            "systems": 2,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 25,
-            "evade": 13,
-            "edef": 13,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": 3,
-            "systems": 3,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 20,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 2,
+                "agility": 1,
+                "systems": 1,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 22,
+                "evade": 11,
+                "edef": 11,
+                "heatcap": 8,
+                "hull": 3,
+                "agility": 2,
+                "systems": 2,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 25,
+                "evade": 13,
+                "edef": 13,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": 3,
+                "systems": 3,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "archer",
         "role": "controller",
@@ -550,49 +612,54 @@
             "flavor": "From Ursa Major’s GATEKEEPER line of chassis, the Key-II is a powerhouse capable of punching well above its weight. What it lacks in armor, it makes up for in targeting and superpositional maneuvering systems.",
             "tactics": "The Archer controls though ‘choice punishment’ - giving characters a choice between not taking certain actions or letting the Archer attack them. Use it to lock down mobile or hard hitting players and cover for more vulnerable allies. The archer needs to get somewhat close to its target to be at full effectiveness and is not that durable itself."
         },
-        "stats": [{
-            "hp": 16,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 2,
-            "systems": 2,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 15,
-            "save": 11
-        }, {
-            "hp": 20,
-            "evade": 10,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 3,
-            "systems": 3,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 15,
-            "save": 13
-        }, {
-            "hp": 20,
-            "evade": 12,
-            "edef": 12,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 4,
-            "systems": 4,
-            "engineering": -1,
-            "armor": 1,
-            "speed": 6,
-            "sensor": 15,
-            "save": 16
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 16,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 2,
+                "systems": 2,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 15,
+                "save": 11
+            },
+            {
+                "hp": 20,
+                "evade": 10,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 3,
+                "systems": 3,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 15,
+                "save": 13
+            },
+            {
+                "hp": 20,
+                "evade": 12,
+                "edef": 12,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 4,
+                "systems": 4,
+                "engineering": -1,
+                "armor": 1,
+                "speed": 6,
+                "sensor": 15,
+                "save": 16
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "barricade",
         "role": "controller",
@@ -600,49 +667,54 @@
             "flavor": "Using battlefield printing and terraforming technology, Veld Systems’ Keeper Pattern 5 is a common guard chassis, converted from frames originally designed for earth moving in the early stages of colonial development.",
             "tactics": "The Barricade is at its best when locking down fast moving targets. It can use its mobile printer to create hard cover for its allies to use, or create a blocker to prevent melee or fast-moving mechs from moving through an area."
         },
-        "stats": [{
-            "hp": 12,
-            "evade": 6,
-            "edef": 9,
-            "heatcap": 10,
-            "hull": 0,
-            "agility": -2,
-            "systems": 1,
-            "engineering": 3,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 15,
-            "save": 12
-        }, {
-            "hp": 16,
-            "evade": 7,
-            "edef": 11,
-            "heatcap": 11,
-            "hull": 1,
-            "agility": -2,
-            "systems": 1,
-            "engineering": 5,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 15,
-            "save": 15
-        }, {
-            "hp": 20,
-            "evade": 8,
-            "edef": 13,
-            "heatcap": 12,
-            "hull": 2,
-            "agility": -2,
-            "systems": 2,
-            "engineering": 6,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 15,
-            "save": 18
-        }],
-        "size": [2]
+        "stats": [
+            {
+                "hp": 12,
+                "evade": 6,
+                "edef": 9,
+                "heatcap": 10,
+                "hull": 0,
+                "agility": -2,
+                "systems": 1,
+                "engineering": 3,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 15,
+                "save": 12
+            },
+            {
+                "hp": 16,
+                "evade": 7,
+                "edef": 11,
+                "heatcap": 11,
+                "hull": 1,
+                "agility": -2,
+                "systems": 1,
+                "engineering": 5,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 15,
+                "save": 15
+            },
+            {
+                "hp": 20,
+                "evade": 8,
+                "edef": 13,
+                "heatcap": 12,
+                "hull": 2,
+                "agility": -2,
+                "systems": 2,
+                "engineering": 6,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 15,
+                "save": 18
+            }
+        ],
+        "size": [
+            2
+        ]
     },
-
     {
         "name": "witch",
         "role": "controller",
@@ -650,49 +722,54 @@
             "flavor": "Witches lean into the incredible tumult of systemic warfare, operating both in realtime and among the omnicloud tempest that descends upon a combat theater. Witches often pair with personality-clone NHPs — NHPs that structure profiles based on profiles of their pilots — to handle the chaotic swirl that results from realtime/omninet combat splitting. Many pilots of Witch-class chassis are avid experimenters with both their hacking rig and their own flesh and can mount a suite of deadly and incredibly agile software in their mechs and in their own bodies.",
             "tactics": "The Witch is a no-nonsense controller, using its Tear Down action to generate heat, and its Blind to shut down ranged attackers. Its Predatory logic should be used against characters with heavy weaponry, and can also be used on characters allied to the Witch. Targets of the witch’s attacks can mitigate its heat attacks somewhat since most of the heat is on the Witch’s next turn."
         },
-        "stats": [{
-            "hp": 12,
-            "evade": 10,
-            "edef": 13,
-            "heatcap": 8,
-            "hull": -2,
-            "agility": 1,
-            "systems": 3,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 15,
-            "save": 12
-        }, {
-            "hp": 14,
-            "evade": 12,
-            "edef": 16,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 2,
-            "systems": 5,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 15,
-            "save": 15
-        }, {
-            "hp": 14,
-            "evade": 14,
-            "edef": 20,
-            "heatcap": 8,
-            "hull": -2,
-            "agility": 3,
-            "systems": 6,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 20,
-            "save": 18
-        }],
-        "size": [0.5]
+        "stats": [
+            {
+                "hp": 12,
+                "evade": 10,
+                "edef": 13,
+                "heatcap": 8,
+                "hull": -2,
+                "agility": 1,
+                "systems": 3,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 15,
+                "save": 12
+            },
+            {
+                "hp": 14,
+                "evade": 12,
+                "edef": 16,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 2,
+                "systems": 5,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 15,
+                "save": 15
+            },
+            {
+                "hp": 14,
+                "evade": 14,
+                "edef": 20,
+                "heatcap": 8,
+                "hull": -2,
+                "agility": 3,
+                "systems": 6,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 20,
+                "save": 18
+            }
+        ],
+        "size": [
+            0.5
+        ]
     },
-
     {
         "name": "hive",
         "role": "controller",
@@ -700,49 +777,54 @@
             "flavor": "A recent development following the Deimos Contact Event, Hive doctrine chassis are, in theory, not too different than their pre-Contact cousins: they establish a local, secure omninetwork, fabricate and deploy a century or half-century of drones, and coordinate them in achieving their mission. The difference between pre-Contact and post-Contact drone controllers is ease: pilots who pursue this doctrine establish complex handler-trainer relationships with their hives, allowing them to segue between direct control and autonomous operation unimpeded by tactile interface. Hive pilots exhibit signs of psychological trauma at one month continuous drone-strain operation, and it is recommended that they practice a strict two-week format cycling with their paired hive.",
             "tactics": "The Hive controls through area denial with its Razor Swarm ability, granting soft cover to its allies and denying areas to its enemies. Place down swarms and use its Drone Barrage attack to force characters to either become locked down or let the Hive move them in range of other allies or into its razor swarms."
         },
-        "stats": [{
-            "hp": 20,
-            "evade": 8,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 0,
-            "systems": 2,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 20,
-            "evade": 8,
-            "edef": 13,
-            "heatcap": 8,
-            "hull": -1,
-            "agility": 0,
-            "systems": 4,
-            "engineering": 1,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 10,
-            "save": 14
-        }, {
-            "hp": 20,
-            "evade": 10,
-            "edef": 16,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": 0,
-            "systems": 4,
-            "engineering": 1,
-            "armor": 1,
-            "speed": 5,
-            "sensor": 10,
-            "save": 17
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 20,
+                "evade": 8,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 0,
+                "systems": 2,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 20,
+                "evade": 8,
+                "edef": 13,
+                "heatcap": 8,
+                "hull": -1,
+                "agility": 0,
+                "systems": 4,
+                "engineering": 1,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 10,
+                "save": 14
+            },
+            {
+                "hp": 20,
+                "evade": 10,
+                "edef": 16,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": 0,
+                "systems": 4,
+                "engineering": 1,
+                "armor": 1,
+                "speed": 5,
+                "sensor": 10,
+                "save": 17
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "hornet",
         "role": "controller",
@@ -750,49 +832,54 @@
             "flavor": "SatriaBarong’s ESPADA line of mechanized half-chassis is popular among civilian racers. As the chassis of choice of the SatritaBarong-ShimanoLUX chassis racing team, SatriaBarong -- with SSC’s blessing -- has moved to create a milspec variant of the Espada without the LUX branding.",
             "tactics": "The Hornet is a small, fast, very hard to hit control mech that can present an incredible annoyance. It does very low damage, but its ability to Jam and impair mechs can be useful for locking down hard hitting targets. Fortunately, the hornet is extremely vulnerable to smart weaponry and tech attacks with it’s low e-defense."
         },
-        "stats": [{
-            "hp": 8,
-            "evade": 16,
-            "edef": 6,
-            "heatcap": 5,
-            "hull": -2,
-            "agility": 2,
-            "systems": 2,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 5,
-            "save": 12
-        }, {
-            "hp": 8,
-            "evade": 18,
-            "edef": 7,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 4,
-            "systems": 3,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 5,
-            "save": 14
-        }, {
-            "hp": 8,
-            "evade": 20,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": -2,
-            "agility": 6,
-            "systems": 4,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 10,
-            "sensor": 10,
-            "save": 16
-        }],
-        "size": [0.5]
+        "stats": [
+            {
+                "hp": 8,
+                "evade": 16,
+                "edef": 6,
+                "heatcap": 5,
+                "hull": -2,
+                "agility": 2,
+                "systems": 2,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 5,
+                "save": 12
+            },
+            {
+                "hp": 8,
+                "evade": 18,
+                "edef": 7,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 4,
+                "systems": 3,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 5,
+                "save": 14
+            },
+            {
+                "hp": 8,
+                "evade": 20,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": -2,
+                "agility": 6,
+                "systems": 4,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 10,
+                "sensor": 10,
+                "save": 16
+            }
+        ],
+        "size": [
+            0.5
+        ]
     },
-
     {
         "name": "seeder",
         "role": "controller",
@@ -800,49 +887,54 @@
             "flavor": "Seeders are sapper chassis, adept at building defensive nets of mines and traps for point defense and aggressive area denial. Laden with ordinance, pilots who adopt Seeder doctrines operate in small teams to blanket the battlefield in clouds of fire and shrapnel, placing their launched grenades and explosive-tipped shells with pinpoint accuracy.",
             "tactics": "The Seeder is an area denial NPC that lays mines to control enemy movement. Since the Seeder can put down one a turn, left alone, it can often make a mess of one part of the battlefield. Its mines do not trigger on allied characters but still affect them if they are detonated. Its optional systems can be used to force characters to spread out or take additional damage."
         },
-        "stats": [{
-            "hp": 12,
-            "evade": 7,
-            "edef": 10,
-            "heatcap": 10,
-            "hull": 0,
-            "agility": 0,
-            "systems": 2,
-            "engineering": 0,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 15,
-            "save": 12
-        }, {
-            "hp": 14,
-            "evade": 8,
-            "edef": 10,
-            "heatcap": 10,
-            "hull": 1,
-            "agility": 0,
-            "systems": 3,
-            "engineering": 1,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 15,
-            "save": 15
-        }, {
-            "hp": 16,
-            "evade": 9,
-            "edef": 11,
-            "heatcap": 10,
-            "hull": 2,
-            "agility": 0,
-            "systems": 4,
-            "engineering": 0,
-            "armor": 2,
-            "speed": 4,
-            "sensor": 15,
-            "save": 18
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 12,
+                "evade": 7,
+                "edef": 10,
+                "heatcap": 10,
+                "hull": 0,
+                "agility": 0,
+                "systems": 2,
+                "engineering": 0,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 15,
+                "save": 12
+            },
+            {
+                "hp": 14,
+                "evade": 8,
+                "edef": 10,
+                "heatcap": 10,
+                "hull": 1,
+                "agility": 0,
+                "systems": 3,
+                "engineering": 1,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 15,
+                "save": 15
+            },
+            {
+                "hp": 16,
+                "evade": 9,
+                "edef": 11,
+                "heatcap": 10,
+                "hull": 2,
+                "agility": 0,
+                "systems": 4,
+                "engineering": 0,
+                "armor": 2,
+                "speed": 4,
+                "sensor": 15,
+                "save": 18
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "aegis",
         "role": "support",
@@ -850,49 +942,54 @@
             "flavor": "Aegis-style mechs are squat, defend-and-suppress chassis built to hold ground, support their allies, and suppress enemies. Higher-tier Aegis mech pilots have access to hardlight and blackwall defensive measures - technology that makes bulwarks out of even the smallest barricade.",
             "tactics": "The Aegis is a tougher, defensive support. Use its defense net to place it in a location where it will cover the most allies, since it is hard for it to redeploy. It’s regenerative shielding trait can be used to easily protect its allies from player suppression tools such as the Guardian trait or tech attacks. Stunning or moving the Aegis, or simple getting inside its shield, can nullify its effectiveness."
         },
-        "stats": [{
-            "hp": 14,
-            "evade": 7,
-            "edef": 10,
-            "heatcap": 10,
-            "hull": 0,
-            "agility": -2,
-            "systems": 2,
-            "engineering": 2,
-            "armor": 2,
-            "speed": 3,
-            "sensor": 8,
-            "save": 10
-        }, {
-            "hp": 18,
-            "evade": 8,
-            "edef": 12,
-            "heatcap": 10,
-            "hull": 0,
-            "agility": -1,
-            "systems": 3,
-            "engineering": 3,
-            "armor": 2,
-            "speed": 3,
-            "sensor": 10,
-            "save": 11
-        }, {
-            "hp": 18,
-            "evade": 8,
-            "edef": 14,
-            "heatcap": 10,
-            "hull": 0,
-            "agility": -1,
-            "systems": 4,
-            "engineering": 5,
-            "armor": 3,
-            "speed": 3,
-            "sensor": 10,
-            "save": 12
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 14,
+                "evade": 7,
+                "edef": 10,
+                "heatcap": 10,
+                "hull": 0,
+                "agility": -2,
+                "systems": 2,
+                "engineering": 2,
+                "armor": 2,
+                "speed": 3,
+                "sensor": 8,
+                "save": 10
+            },
+            {
+                "hp": 18,
+                "evade": 8,
+                "edef": 12,
+                "heatcap": 10,
+                "hull": 0,
+                "agility": -1,
+                "systems": 3,
+                "engineering": 3,
+                "armor": 2,
+                "speed": 3,
+                "sensor": 10,
+                "save": 11
+            },
+            {
+                "hp": 18,
+                "evade": 8,
+                "edef": 14,
+                "heatcap": 10,
+                "hull": 0,
+                "agility": -1,
+                "systems": 4,
+                "engineering": 5,
+                "armor": 3,
+                "speed": 3,
+                "sensor": 10,
+                "save": 12
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "priest",
         "role": "support",
@@ -900,49 +997,54 @@
             "flavor": "Priest-class chassis are usually piloted by technozealots or those dedicated heavily to harnessing the potent powers of a fully kitted out mech processor. Most of their frames are modified to be able to link and intermesh systems with another mech in legionspace, in effect creating a digital super-construct. Long term or powerful priest pilots can even perceive and share the sensory input of other pilots they are linked to, which has been linked to altered or degraded mental states and personality shifts.",
             "tactics": "The Priest is a high powered support that functions best when paired with another character it can empower with its Investiture action. Use its Dispersal Shield to protect vulnerable targets, then Investiture to empower a striker or defender. Investiture can be ‘turned off’ by moving the priest or its partner out of range 5 with each other, and both characters become vulnerable to conditions."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 10,
-            "edef": 12,
-            "heatcap": 10,
-            "hull": -1,
-            "agility": -1,
-            "systems": 2,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 11
-        }, {
-            "hp": 13,
-            "evade": 10,
-            "edef": 18,
-            "heatcap": 10,
-            "hull": -1,
-            "agility": -1,
-            "systems": 4,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 13
-        }, {
-            "hp": 16,
-            "evade": 10,
-            "edef": 18,
-            "heatcap": 10,
-            "hull": -1,
-            "agility": -1,
-            "systems": 6,
-            "engineering": 4,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 10,
-            "save": 15
-        }],
-        "size": [0.5]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 12,
+                "heatcap": 10,
+                "hull": -1,
+                "agility": -1,
+                "systems": 2,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 11
+            },
+            {
+                "hp": 13,
+                "evade": 10,
+                "edef": 18,
+                "heatcap": 10,
+                "hull": -1,
+                "agility": -1,
+                "systems": 4,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 13
+            },
+            {
+                "hp": 16,
+                "evade": 10,
+                "edef": 18,
+                "heatcap": 10,
+                "hull": -1,
+                "agility": -1,
+                "systems": 6,
+                "engineering": 4,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 10,
+                "save": 15
+            }
+        ],
+        "size": [
+            0.5
+        ]
     },
-
     {
         "name": "mirage",
         "role": "support",
@@ -950,49 +1052,54 @@
             "flavor": "Mirage-class chassis use some of the more advanced sensor-warping liturgicode available from HORUS datanodes to wrap themselves and their allies in veils of illusion and misdirection. While it’s clear that the warping effects that surround most of these chassis are from sensor distortion, they are powerful enough to effect even biological constructs such as the human brain.",
             "tactics": "The Mirage is a potent support, able to teleport its allies around at will and shut down ranged attackers with Warp Sensors. It can grant its invisibility to an ally, but becomes vulnerable while it does so. Effects that ignore cover such as the seeking tag get around Warp Sensors, and Mirage does no damage on its own."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 10,
-            "edef": 12,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 1,
-            "systems": 2,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 15,
-            "save": 11
-        }, {
-            "hp": 12,
-            "evade": 12,
-            "edef": 15,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 2,
-            "systems": 3,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 15,
-            "save": 14
-        }, {
-            "hp": 14,
-            "evade": 14,
-            "edef": 18,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 3,
-            "systems": 4,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 20,
-            "save": 17
-        }],
-        "size": [0.5]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 12,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 1,
+                "systems": 2,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 15,
+                "save": 11
+            },
+            {
+                "hp": 12,
+                "evade": 12,
+                "edef": 15,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 2,
+                "systems": 3,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 15,
+                "save": 14
+            },
+            {
+                "hp": 14,
+                "evade": 14,
+                "edef": 18,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 3,
+                "systems": 4,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 20,
+                "save": 17
+            }
+        ],
+        "size": [
+            0.5
+        ]
     },
-
     {
         "name": "scout",
         "role": "support",
@@ -1000,49 +1107,55 @@
             "flavor": "Scout doctrine calls for the active, close, and aggressive application of orbital, atmospheric, and terrestrial fire support on identified and potential enemy positions. Equipped with more-thancursory targeting systems, Scout doctrine pilots adopt an tactical/artillery commander role, operating on the ground with infantry, chassis, and other vehicles to build a map of the battlescape in order to more accurately place small arms fire, bombs, shells, missiles, beams, and kinetic kill clouds. They are not usually a threat in face-to-face combat, but the threat they represent to a combat cannot be underestimated.",
             "tactics": "The Scout is a support that can multiply allied damage output. It does no damage by itself, but with prodigious use of its Marker Rifle and Cloaking Field, it can keep allies alive and prevent enemies from hiding. It is especially adept at dealing with Invisibility, but needs to stay close to take full advantage of this. Like many other supports, the scout is not particularly resilient on its own."
         },
-        "stats": [{
-            "hp": 8,
-            "evade": 12,
-            "edef": 10,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 2,
-            "systems": 3,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 20,
-            "save": 11
-        }, {
-            "hp": 8,
-            "evade": 15,
-            "edef": 13,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 4,
-            "systems": 4,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 7,
-            "sensor": 20,
-            "save": 13
-        }, {
-            "hp": 8,
-            "evade": 18,
-            "edef": 16,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 5,
-            "systems": 5,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 20,
-            "save": 15
-        }],
-        "size": [0.5, 1]
+        "stats": [
+            {
+                "hp": 8,
+                "evade": 12,
+                "edef": 10,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 2,
+                "systems": 3,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 20,
+                "save": 11
+            },
+            {
+                "hp": 8,
+                "evade": 15,
+                "edef": 13,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 4,
+                "systems": 4,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 7,
+                "sensor": 20,
+                "save": 13
+            },
+            {
+                "hp": 8,
+                "evade": 18,
+                "edef": 16,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 5,
+                "systems": 5,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 20,
+                "save": 15
+            }
+        ],
+        "size": [
+            0.5,
+            1
+        ]
     },
-
     {
         "name": "support",
         "role": "support",
@@ -1050,49 +1163,54 @@
             "flavor": "Support doctrine chassis focus their systems towards keeping their allies combat operational. Alloy cement, nanite paste, patch plates, vacuum seals — the tools vary, but the result is the same: you may be messed up, but you’re up, and you can keep fighting because the Support kept you alive.",
             "tactics": "The Support is a bulky NPC that deals no damage but has a number of powerful healing and condition-clear effects. Despite being fairly resilient, it has no way to defend itself and must get close in order to be the most effective. Savvy players will see that the Restock Drone can be shot and destroyed before it is activated, denying the healing."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": -2,
-            "systems": 0,
-            "engineering": 2,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 18,
-            "evade": 10,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": -1,
-            "systems": 1,
-            "engineering": 4,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 22,
-            "evade": 12,
-            "edef": 12,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": -1,
-            "systems": 2,
-            "engineering": 6,
-            "armor": 1,
-            "speed": 4,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [2]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": -2,
+                "systems": 0,
+                "engineering": 2,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 18,
+                "evade": 10,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": -1,
+                "systems": 1,
+                "engineering": 4,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 22,
+                "evade": 12,
+                "edef": 12,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": -1,
+                "systems": 2,
+                "engineering": 6,
+                "armor": 1,
+                "speed": 4,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            2
+        ]
     },
-
     {
         "name": "bombard",
         "role": "artillery",
@@ -1100,49 +1218,54 @@
             "flavor": "The Bombard doctrine calls for unending salvos of punishing artillery bombardments. Chassis tuned to this style of combat are found miles behind the line in fortified positions, or otherwise removed from combat: one common strategy for prolonged area-denial bombardment is to place a battery of bombard chassis on a world’s local moon(s). From that movable satellite, the battery can rain shells down upon the world below, well removed from the dangers of combat.",
             "tactics": "The Bombard punishes characters that group up or ‘death ball’ to take advantage of adjacency bonuses and has very high range. It is relatively fragile up close, but resilient from far away, so place it far back to maximize effectiveness. Its Earthshaker shells can be used to block movement or provide cover for allies, but affect the Bombard’s allies as well."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 7,
-            "edef": 12,
-            "heatcap": 8,
-            "hull": 0,
-            "agility": -1,
-            "systems": 1,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 2,
-            "sensor": 15,
-            "save": 11
-        }, {
-            "hp": 13,
-            "evade": 8,
-            "edef": 14,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": -1,
-            "systems": 2,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 2,
-            "sensor": 15,
-            "save": 13
-        }, {
-            "hp": 16,
-            "evade": 8,
-            "edef": 16,
-            "heatcap": 8,
-            "hull": 1,
-            "agility": -1,
-            "systems": 3,
-            "engineering": 5,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 15,
-            "save": 16
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 7,
+                "edef": 12,
+                "heatcap": 8,
+                "hull": 0,
+                "agility": -1,
+                "systems": 1,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 2,
+                "sensor": 15,
+                "save": 11
+            },
+            {
+                "hp": 13,
+                "evade": 8,
+                "edef": 14,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": -1,
+                "systems": 2,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 2,
+                "sensor": 15,
+                "save": 13
+            },
+            {
+                "hp": 16,
+                "evade": 8,
+                "edef": 16,
+                "heatcap": 8,
+                "hull": 1,
+                "agility": -1,
+                "systems": 3,
+                "engineering": 5,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 15,
+                "save": 16
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "rainmaker",
         "role": "artillery",
@@ -1150,49 +1273,54 @@
             "flavor": "The tongue-in-cheek designation describes a combat doctrine that patterns chassis around the optimal use of rockets and missiles in combat. Favored by all-theater combat units, Rainmakers are mobile platforms loaded with ordinance, able to handle engagements at any range, against any target.",
             "tactics": "The Rainmaker is half-controller, half-artillery. Its Javelin rockets ability creates spaces that characters must avoid or take guaranteed damage. It can its ability to dish out delayed damage through optional systems like its HOUND missile or ATLAS missile to force characters to move or take damage. Like other artillery NPCs, it is a relatively vulnerable character on its own."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 8,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 0,
-            "agility": 0,
-            "systems": 2,
-            "engineering": 0,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 15,
-            "save": 10
-        }, {
-            "hp": 12,
-            "evade": 10,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": 0,
-            "agility": 1,
-            "systems": 3,
-            "engineering": 0,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 3,
-            "save": 12
-        }, {
-            "hp": 14,
-            "evade": 12,
-            "edef": 12,
-            "heatcap": 8,
-            "hull": 0,
-            "agility": 1,
-            "systems": 3,
-            "engineering": 1,
-            "armor": 1,
-            "speed": 3,
-            "sensor": 15,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 8,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 0,
+                "agility": 0,
+                "systems": 2,
+                "engineering": 0,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 15,
+                "save": 10
+            },
+            {
+                "hp": 12,
+                "evade": 10,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": 0,
+                "agility": 1,
+                "systems": 3,
+                "engineering": 0,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 15,
+                "save": 12
+            },
+            {
+                "hp": 14,
+                "evade": 12,
+                "edef": 12,
+                "heatcap": 8,
+                "hull": 0,
+                "agility": 1,
+                "systems": 3,
+                "engineering": 1,
+                "armor": 1,
+                "speed": 3,
+                "sensor": 15,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "operator",
         "role": "artillery",
@@ -1200,49 +1328,54 @@
             "flavor": "Operator doctrine chassis are a known-unknown. Operators typically field smaller chassis not commonly encountered on the front lines; do not mistake this for fragility. Pilots who are recruited and trained into this doctrine, regardless of culture, are dangerous, deadly, the best of their state’s armed forces or martial tradition. They operate alone or in small teams under the auspices of black-site state agencies, engaging in the most sensitive and dangerous AMNESIAC-tier missions. Their chassis — and their bodies — are loaded with some of the most advanced tech available; if they die in combat, it is not uncommon for their bodies and their chassis to self-immolate, rendering what technology and data they had into waste and ash.",
             "tactics": "The Operator is an elite, extremely mobile artillery mech. It is not particularly hardy, but can use its teleport ability to put itself in advantageous positions such as on top of obstacles, terrain, or in cover, where it can snipe at targets with its very accurate plasma rifle."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 10,
-            "edef": 10,
-            "heatcap": 8,
-            "hull": 2,
-            "agility": 2,
-            "systems": 2,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 10
-        }, {
-            "hp": 12,
-            "evade": 12,
-            "edef": 12,
-            "heatcap": 8,
-            "hull": 3,
-            "agility": 3,
-            "systems": 3,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 12
-        }, {
-            "hp": 15,
-            "evade": 14,
-            "edef": 14,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": 4,
-            "systems": 4,
-            "engineering": 4,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 10,
+                "heatcap": 8,
+                "hull": 2,
+                "agility": 2,
+                "systems": 2,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 10
+            },
+            {
+                "hp": 12,
+                "evade": 12,
+                "edef": 12,
+                "heatcap": 8,
+                "hull": 3,
+                "agility": 3,
+                "systems": 3,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 12
+            },
+            {
+                "hp": 15,
+                "evade": 14,
+                "edef": 14,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": 4,
+                "systems": 4,
+                "engineering": 4,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "sniper",
         "role": "artillery",
@@ -1250,47 +1383,53 @@
             "flavor": "Sniper pattern chassis are common throughout the galaxy’s armies. Favoring stability and targeting over mobility, Snipers operate extremely long-ranged kinetic weapons in small, selfsufficient teams well removed from any direct combat. Sniper pilots are a proud breed, who emphasize economy and elegance over destructive power. Their weapons are often as tuned and modified as much as their chassis are; the pilots themselves often exhibit unparalleled control over their targeting systems. Partnered NHPs are said to send boast-data between themselves, noting the difficulty of landed shots to allied pilots.",
             "tactics": "The rightly feared Sniper is a powerful single target damage NPC. Using its sniper’s mark ability, it can crush structure directly, making short work of even high-HP characters. Characters can avoid this effect by good use of cover, or by dropping prone. The Sniper must be relatively immobile to do its best work, since its rifle requires a full action to fire."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 1,
-            "systems": 1,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 4,
-            "sensor": 15,
-            "save": 11
-        }, {
-            "hp": 12,
-            "evade": 13,
-            "edef": 9,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 2,
-            "systems": 3,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 4,
-            "sensor": 15,
-            "save": 13
-        }, {
-            "hp": 14,
-            "evade": 16,
-            "edef": 10,
-            "heatcap": 6,
-            "hull": -2,
-            "agility": 3,
-            "systems": 4,
-            "engineering": 2,
-            "armor": 0,
-            "speed": 4,
-            "sensor": 15,
-            "save": 15
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 1,
+                "systems": 1,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 4,
+                "sensor": 15,
+                "save": 11
+            },
+            {
+                "hp": 12,
+                "evade": 13,
+                "edef": 9,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 2,
+                "systems": 3,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 4,
+                "sensor": 15,
+                "save": 13
+            },
+            {
+                "hp": 14,
+                "evade": 16,
+                "edef": 10,
+                "heatcap": 6,
+                "hull": -2,
+                "agility": 3,
+                "systems": 4,
+                "engineering": 2,
+                "armor": 0,
+                "speed": 4,
+                "sensor": 15,
+                "save": 15
+            }
+        ],
+        "size": [
+            1
+        ]
     },
     {
         "name": "cataphract",
@@ -1299,49 +1438,54 @@
             "flavor": "The Cataphract doctrine is common among rapid-strike kits that emphasize mobility, shock, and tenacity. Cataphract squadrons are feared across the galaxy for their ability to overwhelm defenses in moments: from an otherwise static line, a squadron of low and angular chassis burst overhead, heavy cannons and PDF guns carving seemingly impossible paths through a suddenly futile defense.",
             "tactics": "The Cataphract is a very mobile striker. Take advantage of its ability to move through other characters to put it in the back lines, where it can use its Impale ability to drag vulnerable targets into a disadvantageous position. Position the cataphract so it has one character close to it to take advantage of its shield. Note the cataphract still provokes reactions with its movement, so use its abilities carefully."
         },
-        "stats": [{
-            "hp": 15,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 6,
-            "hull": 1,
-            "agility": 1,
-            "systems": 0,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 5,
-            "save": 12
-        }, {
-            "hp": 17,
-            "evade": 11,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": 2,
-            "agility": 3,
-            "systems": 0,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 5,
-            "save": 14
-        }, {
-            "hp": 20,
-            "evade": 12,
-            "edef": 8,
-            "heatcap": 8,
-            "hull": 4,
-            "agility": 4,
-            "systems": 0,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 8,
-            "sensor": 5,
-            "save": 16
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 15,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 6,
+                "hull": 1,
+                "agility": 1,
+                "systems": 0,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 5,
+                "save": 12
+            },
+            {
+                "hp": 17,
+                "evade": 11,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": 2,
+                "agility": 3,
+                "systems": 0,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 5,
+                "save": 14
+            },
+            {
+                "hp": 20,
+                "evade": 12,
+                "edef": 8,
+                "heatcap": 8,
+                "hull": 4,
+                "agility": 4,
+                "systems": 0,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 8,
+                "sensor": 5,
+                "save": 16
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "engineer",
         "role": "striker",
@@ -1349,49 +1493,54 @@
             "flavor": "Engineer doctrine chassis are common throughout the galaxy, their patterns unique to the world or theater in which they operate, but their charge the same: defend, maintain, secure. Engineers operate best in the mid to rear of the line, coordinating the defense of important positions and ensuring total operational deployment of all mission assets. Remember: if your chassis can’t make it to the line, you lose.",
             "tactics": "The Engineer’s turrets are a potent force multiplier. Since it can put down one a turn, if the turrets are not dealt with, the engineer’s potential damage can skyrocket, especially with the mark it can put on enemies. Without the mark, turrets will attack the nearest target, which players can use to control who takes damage."
         },
-        "stats": [{
-            "hp": 20,
-            "evade": 7,
-            "edef": 10,
-            "heatcap": 10,
-            "hull": -1,
-            "agility": -1,
-            "systems": 1,
-            "engineering": 3,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 15,
-            "save": 10
-        }, {
-            "hp": 20,
-            "evade": 9,
-            "edef": 10,
-            "heatcap": 12,
-            "hull": -1,
-            "agility": -1,
-            "systems": 2,
-            "engineering": 4,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 15,
-            "save": 12
-        }, {
-            "hp": 20,
-            "evade": 11,
-            "edef": 12,
-            "heatcap": 14,
-            "hull": 14,
-            "agility": -1,
-            "systems": 3,
-            "engineering": 6,
-            "armor": 0,
-            "speed": 3,
-            "sensor": 15,
-            "save": 14
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 20,
+                "evade": 7,
+                "edef": 10,
+                "heatcap": 10,
+                "hull": -1,
+                "agility": -1,
+                "systems": 1,
+                "engineering": 3,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 15,
+                "save": 10
+            },
+            {
+                "hp": 20,
+                "evade": 9,
+                "edef": 10,
+                "heatcap": 12,
+                "hull": -1,
+                "agility": -1,
+                "systems": 2,
+                "engineering": 4,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 15,
+                "save": 12
+            },
+            {
+                "hp": 20,
+                "evade": 11,
+                "edef": 12,
+                "heatcap": 14,
+                "hull": 14,
+                "agility": -1,
+                "systems": 3,
+                "engineering": 6,
+                "armor": 0,
+                "speed": 3,
+                "sensor": 15,
+                "save": 14
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "spectre",
         "role": "striker",
@@ -1399,49 +1548,54 @@
             "flavor": "Spectre doctrine chassis emphasize the ability not to be hit over pure defensive shielding. Employing cutting-edge optical and systemic camouflage, Spectres vanish from the battlefield and all active/passive scans, flickering in and out of vision and shattering their image and radar signatures, confusing the eye and the sweep. Their weapons do not mark their doctrine: their power comes from the ability to operate unseen.",
             "tactics": "The Spectre is a mobile striker that shines against characters off on their own. Use its prowl ability, it’s high reach, and high speed to move through front lines to vulnerable targets off on their own, such as snipers. The Spectre can hide any time normally, since it’s permanently invisible. It relies on invisibility for its own survivability, since it is not very resilient without it."
         },
-        "stats": [{
-            "hp": 10,
-            "evade": 10,
-            "edef": 8,
-            "heatcap": 7,
-            "hull": -2,
-            "agility": 3,
-            "systems": 1,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 4,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 10,
-            "evade": 14,
-            "edef": 10,
-            "heatcap": 7,
-            "hull": -2,
-            "agility": 5,
-            "systems": 2,
-            "engineering": 0,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 5,
-            "save": 12
-        }, {
-            "hp": 10,
-            "evade": 18,
-            "edef": 12,
-            "heatcap": 7,
-            "hull": -2,
-            "agility": 6,
-            "systems": 3,
-            "engineering": 1,
-            "armor": 0,
-            "speed": 6,
-            "sensor": 5,
-            "save": 10
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 10,
+                "evade": 10,
+                "edef": 8,
+                "heatcap": 7,
+                "hull": -2,
+                "agility": 3,
+                "systems": 1,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 4,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 10,
+                "evade": 14,
+                "edef": 10,
+                "heatcap": 7,
+                "hull": -2,
+                "agility": 5,
+                "systems": 2,
+                "engineering": 0,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 5,
+                "save": 12
+            },
+            {
+                "hp": 10,
+                "evade": 18,
+                "edef": 12,
+                "heatcap": 7,
+                "hull": -2,
+                "agility": 6,
+                "systems": 3,
+                "engineering": 1,
+                "armor": 0,
+                "speed": 6,
+                "sensor": 5,
+                "save": 10
+            }
+        ],
+        "size": [
+            1
+        ]
     },
-
     {
         "name": "ronin",
         "role": "striker",
@@ -1449,46 +1603,52 @@
             "flavor": "Ronin doctrine chassis differ from Berserker and DEMOLISHER pattern chassis in that they have been purpose-built by boutique fabricators to excel in melee combat. Ronin patterns are common among martial cultures and event-combat firms both. Tactical applications for Ronin chassis are difficult in cultures where ranged weapons are preferred, but there is a certain prestige earned by pilots who adopt ancient weapons in the modern day and survive. That being said the availability of stasis and mag based defensive technology has made the Ronin doctrine marginally more viable in modern combat.",
             "tactics": "The Ronin is a no-nonsense, high damage melee attacker. It’s Perfect Parry means attacking it with ranged weapons is a dangerous proposition. The Ronin suffers against armor and relies on accuracy to deal a lot of its damage."
         },
-        "stats": [{
-            "hp": 18,
-            "evade": 10,
-            "edef": 7,
-            "heatcap": 7,
-            "hull": 1,
-            "agility": 2,
-            "systems": -1,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 5,
-            "save": 10
-        }, {
-            "hp": 20,
-            "evade": 13,
-            "edef": 7,
-            "heatcap": 7,
-            "hull": 2,
-            "agility": 4,
-            "systems": -1,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 5,
-            "sensor": 10,
-            "save": 13
-        }, {
-            "hp": 22,
-            "evade": 16,
-            "edef": 7,
-            "heatcap": 7,
-            "hull": 4,
-            "agility": 5,
-            "systems": -1,
-            "engineering": -1,
-            "armor": 0,
-            "speed": 10,
-            "sensor": 10,
-            "save": 15
-        }],
-        "size": [1]
+        "stats": [
+            {
+                "hp": 18,
+                "evade": 10,
+                "edef": 7,
+                "heatcap": 7,
+                "hull": 1,
+                "agility": 2,
+                "systems": -1,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 5,
+                "save": 10
+            },
+            {
+                "hp": 20,
+                "evade": 13,
+                "edef": 7,
+                "heatcap": 7,
+                "hull": 2,
+                "agility": 4,
+                "systems": -1,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 5,
+                "sensor": 10,
+                "save": 13
+            },
+            {
+                "hp": 22,
+                "evade": 16,
+                "edef": 7,
+                "heatcap": 7,
+                "hull": 4,
+                "agility": 5,
+                "systems": -1,
+                "engineering": -1,
+                "armor": 0,
+                "speed": 10,
+                "sensor": 10,
+                "save": 15
+            }
+        ],
+        "size": [
+            1
+        ]
     }
 ]
