@@ -31,17 +31,17 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import NPCTemplate from '../../logic/interfaces/NPCTemplate';
 
-@Component
-export default class SystemButton extends Vue {
-    @Prop(Object) readonly template!: NPCTemplate;
-    @Prop({default: false}) readonly closable!: boolean;
-    @Prop({default: false}) readonly addable!: boolean;
-    @Prop({default: false}) readonly disabled!: boolean;
-
-}
+export default Vue.extend({
+    props: {
+        template: { type: Object, required: true },
+        closable: { type: Boolean, default: false },
+        addable: { type: Boolean, default: false },
+        disabled: { type: Boolean, default: false },
+    }
+})
 </script>
 
 <style>

@@ -35,25 +35,22 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import EncounterBase from '../../logic/EncounterBase';
-import { namespace } from 'vuex-class';
 // components
 import File from "../../components/File.vue";
 import ActiveEncounter from '../../logic/ActiveEncounter';
+import { mapState, mapActions } from 'vuex';
 
-const encounterBuilder = namespace('encounterBuilder')
-const encounterRunner = namespace('encounterRunner')
-
-@Component({
-    components: { File }
+export default Vue.extend({
+    name: 'encounter-runner-new',
+    components: { File },
+    computed: mapState('encounterBuilder', ['encounters']),
+    methods: {
+        ...mapActions('encounterRunner', ['runEncounter']),
+        onRunEncounter(enc: EncounterBase) {
+            this.runEncounter(enc).then(activeEnc => this.$router.replace(`/encounter-runner/${activeEnc.id}`));
+        },
+    },
 })
-export default class EncounterRunnerList extends Vue {
-    @encounterBuilder.State encounters!: EncounterBase[];
-    @encounterRunner.Action('runEncounter') runEncounter!: (enc: EncounterBase) => Promise<ActiveEncounter>;
-
-    onRunEncounter(enc: EncounterBase) {
-        this.runEncounter(enc).then(activeEnc => this.$router.replace(`/encounter-runner/${activeEnc.id}`));
-    }
-}
 </script>

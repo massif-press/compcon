@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import NPC from '../../logic/NPC';
 import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 import renderTag from '../../logic/rendertag';
@@ -108,105 +108,101 @@ import renderTag from '../../logic/rendertag';
 import SystemDialogCard from "../SystemDialogCard.vue"; 
 import Recharge from "./Recharge.vue"; 
 
-@Component({
-    components: { SystemDialogCard, Recharge }
+export default Vue.extend({
+    name: 'npc-card-system',
+    components: { SystemDialogCard, Recharge },
+    props: {
+      system: { required: true, type: Object },
+      npc: { required: true, type: NPC },
+    },
+    data: () => ({
+      dialog: false,
+    }),
+    methods: { renderTag },
+    computed: {
+      isMultiline(): boolean {
+          return Boolean((this.system as NPCSystem.NonWeapon).action || (this.system as NPCSystem.NonWeapon).tech_roll || (this.system as NPCSystem.NonWeapon).recharge || this.system.type === 'weapon')
+      },
+      shortName(): string {
+        const maxlength = this.system.type === 'weapon' ? 12 : 20;
+        const str = this.system.name;
+        if (str.length < maxlength) {
+          return str;
+        } else {
+          return str.replace(/[aeiou]/g, '').replace(/ /gi, '.') + '';
+        }
+      },
+      actionName(): string {
+            const action = (this.system as NPCSystem.NonWeapon).action;
+            if (!action) return '';
+            const map = {
+              free: 'Free Action',
+              quick: 'Quick Action',
+              full: 'Full Action',
+              protocol: 'Protocol',
+              reaction: 'Reaction',
+              quicktech: 'Quick Tech',
+              fulltech: 'Full Tech',
+            } as any;
+            return map[action];
+      },
+      rollString(): string {
+        if (this.system.type !== 'weapon' && !this.system.tech_roll) return '';
+        const { flat, accdiff } = (this.system as NPCSystem.Weapon).weapon_roll || (this.system as NPCSystem.NonWeapon).tech_roll;
+        const { tier } = this.npc;
+        let output = '';
+        const flatTotal = flat
+          ? flat.pertier
+            ? flat.val * (tier + 1)
+            : flat.val
+          : 0;
+        if (flatTotal) {
+          if (flatTotal > -1) output += '+';
+          output += flatTotal;
+        }
+        if (accdiff) {
+          output += `${accdiff.val > -1 ? '+' : '-'}${Math.abs(accdiff.val) *
+            (accdiff.pertier ? tier + 1 : 1)}d6`;
+        }
+        output += ' vs ';
+        output += ((this.system as NPCSystem.Weapon).smart || (this.system as NPCSystem.NonWeapon).tech_roll) ? 'EDEF' : 'EV';
+        return output;
+      },
+      rangeStrings(): string[] {
+        if (this.system.type !== 'weapon') return [''];
+        const map: { [key: string]: string } = {
+          range: 'RNGE',
+          threat: 'THRT',
+          thrown: 'THWN',
+          blast: 'BLST',
+          burst: 'BRST',
+          cone: 'CONE',
+        };
+        const { weapon_range: ranges } = this.system;
+        return ranges
+          .map((range: any) => {
+            return `${map[range.type]} ${range.val}`;
+          })
+      },  
+      damageStrings(): string[] {
+        if (this.system.type !== 'weapon') return [''];
+        const map: { [key: string]: string } = {
+          kinetic: 'KIN',
+          explosive: 'EXP',
+          energy: 'NRG',
+          burn: 'BRN',
+          heat: 'HEA',
+        };
+        const { damage: damages } = this.system;
+        return damages!
+          .map((damage: any) => {
+            const damageAmount =
+              damage.val[Math.min(this.npc.tier, damage.val.length - 1)];
+            return `${damageAmount} ${map[damage.type]}`;
+          })
+      },
+    }
 })
-export default class NpcCardSystem extends Vue {
-    @Prop(Object) system!: NPCSystem.Any;
-    @Prop(Object) npc!: NPC;
-
-    renderTag = renderTag;
-
-    dialog = false;
-
-    get isMultiline(): boolean {
-        return Boolean((this.system as NPCSystem.NonWeapon).action || (this.system as NPCSystem.NonWeapon).tech_roll || (this.system as NPCSystem.NonWeapon).recharge || this.system.type === 'weapon')
-    }
-
-    get shortName(): string {
-      const maxlength = this.system.type === 'weapon' ? 12 : 20;
-      const str = this.system.name;
-      if (str.length < maxlength) {
-        return str;
-      } else {
-        return str.replace(/[aeiou]/g, '').replace(/ /gi, '.') + '';
-      }
-    }
-
-    get actionName(): string {
-          const action = (this.system as NPCSystem.NonWeapon).action;
-          if (!action) return '';
-          const map = {
-            free: 'Free Action',
-            quick: 'Quick Action',
-            full: 'Full Action',
-            protocol: 'Protocol',
-            reaction: 'Reaction',
-            quicktech: 'Quick Tech',
-            fulltech: 'Full Tech',
-          } as any;
-          return map[action];
-    }
-
-    get rollString(): string {
-      if (this.system.type !== 'weapon' && !this.system.tech_roll) return '';
-      const { flat, accdiff } = (this.system as NPCSystem.Weapon).weapon_roll || (this.system as NPCSystem.NonWeapon).tech_roll;
-      const { tier } = this.npc;
-      let output = '';
-      const flatTotal = flat
-        ? flat.pertier
-          ? flat.val * (tier + 1)
-          : flat.val
-        : 0;
-      if (flatTotal) {
-        if (flatTotal > -1) output += '+';
-        output += flatTotal;
-      }
-      if (accdiff) {
-        output += `${accdiff.val > -1 ? '+' : '-'}${Math.abs(accdiff.val) *
-          (accdiff.pertier ? tier + 1 : 1)}d6`;
-      }
-      output += ' vs ';
-      output += ((this.system as NPCSystem.Weapon).smart || (this.system as NPCSystem.NonWeapon).tech_roll) ? 'EDEF' : 'EV';
-      return output;
-    }
-    
-    get rangeStrings(): string[] {
-      if (this.system.type !== 'weapon') return [''];
-      const map: { [key: string]: string } = {
-        range: 'RNGE',
-        threat: 'THRT',
-        thrown: 'THWN',
-        blast: 'BLST',
-        burst: 'BRST',
-        cone: 'CONE',
-      };
-      const { weapon_range: ranges } = this.system;
-      return ranges
-        .map((range: any) => {
-          return `${map[range.type]} ${range.val}`;
-        })
-    }
-    
-    get damageStrings(): string[] {
-      if (this.system.type !== 'weapon') return [''];
-      const map: { [key: string]: string } = {
-        kinetic: 'KIN',
-        explosive: 'EXP',
-        energy: 'NRG',
-        burn: 'BRN',
-        heat: 'HEA',
-      };
-      const { damage: damages } = this.system;
-      return damages!
-        .map((damage: any) => {
-          const damageAmount =
-            damage.val[Math.min(this.npc.tier, damage.val.length - 1)];
-          return `${damageAmount} ${map[damage.type]}`;
-        })
-    }
-
-}
 </script>
 
 <style>

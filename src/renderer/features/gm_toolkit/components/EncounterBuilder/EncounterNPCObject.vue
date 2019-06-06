@@ -29,22 +29,24 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import { EncounterBaseNPC } from '../../logic/EncounterBase';
 import _ from 'lodash';
 
-@Component({
-
-})
-export default class EncounterNPCObject extends Vue {
-    @Prop(Object) npc!: EncounterBaseNPC;
-    encounterNPC = _.clone(this.npc);
-
-    get roleColor() {
-        return `role--${this.npc.npc.npcClass.role}`
+export default Vue.extend({
+    name: 'encounter-npc-object',
+    props: {npc: { type: Object, required: true }},
+    data: function() { 
+        return {
+            encounterNPC: _.clone(this.npc),
+        }
+    },
+    computed: {
+        roleColor() {
+            return `role--${this.npc.npc.npcClass.role}`
+        }
     }
-
-}
+});
 </script>
 
 <style>

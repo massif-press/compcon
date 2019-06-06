@@ -118,7 +118,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .v-toolbar {
     z-index: 11;
 }

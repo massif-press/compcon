@@ -285,7 +285,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import _ from 'lodash';
 import { ActiveNPC } from '../../logic/ActiveEncounter';
 
@@ -293,69 +293,68 @@ import PipBar from './PipBar.vue'
 import NpcCardSystem from './NpcCardSystem.vue'
 import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 
-@Component({
-    components: {PipBar, NpcCardSystem}
-})
-export default class RunnerNpcCard extends Vue {
-    @Prop({type: Boolean, default: false}) elevated!: boolean;
-    @Prop({type: Object, required: true}) npc!: ActiveNPC;
-    npcData = this.npc.baseNPC;
-    baseStatuses = ActiveNPC.baseStatuses;
-
-    expanded = false;
-
-    get roleColor(): string {
-        return `role--${this.npcData.npcClass.role}`
-    }
-
-    removeStatus(statusName: string) {
-        this.npc.statuses = _.without(this.npc.statuses, statusName)
-    }
-
-    get systemsSorted(): NPCSystem.Any[] {
-        const systems = this.npc.baseNPC.systems;
-        return _.sortBy(
-          systems.filter(s => !s.hide_on_card),
-          'type',
-        ).reverse();
-    }
-
-    get isUltra(): boolean {
-        return this.npcData._templates.includes('ultra')
-    }
-
-    structRolledOver = false;
-    stressRolledOver = false;
-
-    onHpRollover() {
-        if (this.npc.structure <= 1) {
-            this.$nextTick(() => {this.npc.hp = 0})
+export default Vue.extend({
+    name: 'runner-npc-card',
+    props: {
+        elevated: {type: Boolean, default: false},
+        npc: {type: Object, required: true},
+    },
+    data: () => ({
+        npcData: this.npc.baseNPC,
+        baseStatuses: ActiveNPC.baseStatuses,
+        expanded: false,
+        structRolledOver: false,
+        stressRolledOver: false,
+    }),
+    computed: {
+        roleColor(): string {
+            return `role--${this.npcData.npcClass.role}`
+        },
+        systemsSorted(): NPCSystem.Any[] {
+            const systems = this.npc.baseNPC.systems;
+            return _.sortBy(
+              systems.filter(s => !s.hide_on_card),
+              'type',
+            ).reverse();
+        },
+        isUltra(): boolean {
+            return this.npcData._templates.includes('ultra')
+        },
+    },
+    methods: {
+        onHpRollover() {
+            if (this.npc.structure <= 1) {
+                this.$nextTick(() => {this.npc.hp = 0})
+            }
+            this.npc.structure = this.npc.structure - 1;
+            if (this.npc.structure < 0) this.npc.structure = 0;
+            else {
+                this.structRolledOver = true;
+                setTimeout(() => {
+                    this.structRolledOver = false;            
+                }, 500);
+            }
+        },
+        onHeatRollover() {
+            const max = this.npcData.stats.stress
+            if (this.npc.stress >= this.npcData.stats.stress - 1) {
+                this.$nextTick(() => {this.npc.heat = this.npcData.stats.heatcap})
+            }
+            this.npc.stress = this.npc.stress + 1;
+            if (this.npc.stress > max) this.npc.stress = max;
+            else {
+                this.stressRolledOver = true;
+                setTimeout(() => {
+                    this.stressRolledOver = false;            
+                }, 500);
+            }
+        },
+        removeStatus(statusName: string) {
+            this.npc.statuses = _.without(this.npc.statuses, statusName)
         }
-        this.npc.structure = this.npc.structure - 1;
-        if (this.npc.structure < 0) this.npc.structure = 0;
-        else {
-            this.structRolledOver = true;
-            setTimeout(() => {
-                this.structRolledOver = false;            
-            }, 500);
-        }
-    }
-    onHeatRollover() {
-        const max = this.npcData.stats.stress
-        if (this.npc.stress >= this.npcData.stats.stress - 1) {
-            this.$nextTick(() => {this.npc.heat = this.npcData.stats.heatcap})
-        }
-        this.npc.stress = this.npc.stress + 1;
-        if (this.npc.stress > max) this.npc.stress = max;
-        else {
-            this.stressRolledOver = true;
-            setTimeout(() => {
-                this.stressRolledOver = false;            
-            }, 500);
-        }
     }
 
-}
+});
 </script>
 
 <style>

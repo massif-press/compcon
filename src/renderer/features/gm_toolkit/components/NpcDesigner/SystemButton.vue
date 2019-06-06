@@ -36,39 +36,41 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import { NPCSystem } from '../../logic/interfaces/NPCSystem';
 import NPC from '../../logic/NPC';
 
 import SystemDialogCard from '../SystemDialogCard.vue'
 
 
-@Component({
-    components: {SystemDialogCard}
-})
-export default class SystemButton extends Vue {
-    @Prop(Object) readonly system!: NPCSystem.Any;
-    @Prop(Object) readonly npc!: NPC;
-    @Prop({default: false}) readonly closable!: boolean;
-    @Prop({default: false}) readonly addable!: boolean;
-    dialog = false;
-
-    get icon(): string {
-        switch (this.system.type) {
-            case 'system':
-                return 'mdi-settings'
-                break;
-            case 'trait':
-                return 'mdi-account-circle'
-                break;
-            case 'weapon':
-                return 'mdi-sword-cross'
-                break;
+export default Vue.extend({
+    name: 'system-button',
+    components: { SystemDialogCard },
+    props: {
+        system: { type: Object, required: true },
+        npc: { type: NPC },
+        closable: { type: Boolean, default: false },
+        addable: { type: Boolean, default: false },
+    },
+    data: () => ({
+        dialog: false,
+    }),
+    computed: {
+        icon(): string {
+            switch (this.system.type) {
+                case 'system':
+                    return 'mdi-settings'
+                    break;
+                case 'trait':
+                    return 'mdi-account-circle'
+                    break;
+                case 'weapon':
+                    return 'mdi-sword-cross'
+                    break;
+            }
         }
     }
-
-
-}
+})
 </script>
 
 <style>

@@ -10,6 +10,11 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
+"@aricchi/electron-vue-devtools@^5.0.8-1":
+  version "5.0.8-1"
+  resolved "https://registry.yarnpkg.com/@aricchi/electron-vue-devtools/-/electron-vue-devtools-5.0.8-1.tgz#14d16043f92505e9978fcf33a65a1e9506e334d8"
+  integrity sha512-fVC2PlaFeMOj3hCk2B23o/nQhr/O84DOytZhSQ3YV2D+FDxojiiGx+q7Oo5FFudoJaMrVGjKOglj/YuzJmwLpw==
+
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -8007,6 +8012,7 @@ typeface-roboto@^0.0.54:
 typescript@^3.4.5:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
+  integrity sha512-64HkdiRv1yYZsSe4xC1WVgamNigVYjlssIoaH2HcZF0+ijsk5YK2g0G34w9wJkze8+5ow4STd22AynfO6ZYYLw==
 
 uglify-js@2.6.x:
   version "2.6.4"
@@ -8255,7 +8261,7 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-class-component@^7.0.1, vue-class-component@^7.1.0:
+vue-class-component@^7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.1.0.tgz#b33efcb10e17236d684f70b1e96f1946ec793e87"
 
@@ -8288,12 +8294,6 @@ vue-mousetrap@^1.0.1:
   resolved "https://registry.yarnpkg.com/vue-mousetrap/-/vue-mousetrap-1.0.1.tgz#e31e8973c52da35fe4676d43c4923cf95ab76f49"
   dependencies:
     mousetrap "^1.6.1"
-
-vue-property-decorator@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.1.1.tgz#80dadbe5ffa0e7eb6a0ba0a07036365471a7d5ee"
-  dependencies:
-    vue-class-component "^7.0.1"
 
 vue-router@^3.0.6:
   version "3.0.6"
@@ -8337,10 +8337,6 @@ vuedraggable@^2.20.0:
 vuetify@^1.5.14:
   version "1.5.14"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.14.tgz#ff67d0b8a398be5297da159b6cd1b31f4d2898b8"
-
-vuex-class@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.3.2.tgz#c7e96a076c1682137d4d23a8dcfdc63f220e17a8"
 
 vuex-electron@^1.0.3:
   version "1.0.3"
