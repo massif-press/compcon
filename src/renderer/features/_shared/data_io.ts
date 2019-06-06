@@ -189,4 +189,10 @@ export default {
     }
     return 'no data to save!'
   },
-}
+    deleteImage(subdir: string, userDataPath: string, src: string){
+      var imgPath = path.join(userDataPath, 'img', subdir, src)
+      if (fs.existsSync(imgPath)) {
+        fs.unlinkSync(imgPath);
+      }
+    }
+  }
