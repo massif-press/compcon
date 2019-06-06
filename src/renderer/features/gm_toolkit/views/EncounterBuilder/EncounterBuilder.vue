@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import EncounterBase from '../../logic/EncounterBase';
 import _ from 'lodash';
 import { State, namespace } from 'vuex-class';
@@ -78,45 +78,51 @@ import File from "../../components/File.vue";
 import EncounterNPCObject from "../../components/EncounterBuilder/EncounterNPCObject.vue";
 
 import newId from '../../logic/newId';
+import { mapState } from 'vuex';
 
 
 const npcDesigner = namespace('npcDesigner');
 
-@Component({
-    components: { File, EncounterNPCObject }
+export default Vue.extend({
+    name: 'encounter-builder',
+    components: { File, EncounterNPCObject },
+    props: { 
+        preEnc: { type: Object, required: true },
+    },
+    data: function() {
+        return {
+            encounter: _.clone(this.preEnc),
+        }
+    },
+    computed: {
+        ...mapState(['npcDesigner/npcs']),
+        encounterNPCs() {
+            return this.encounter.npcs.map(npc => npc.npc)
+        }
+    },
+    methods: {
+        addNPC(npc: NPC) {
+            const count = this.encounter.npcs.filter(n => n.npc.id === npc.id).length + 1;
+            this.encounter.npcs.push({
+                id: newId(),
+                name: `${npc.name} #${count}`,
+                count: 1,
+                npc,
+            })
+        },
+        deleteNPC(i: number) {
+            this.encounter.npcs.splice(i, 1)
+        }
+    },
+    watch: {
+        encounter: {
+            handler: function onEditNPC(val: EncounterBase) {
+                this.$store.commit('encounterBuilder/edit', val)
+            },
+            deep: true,
+        },
+    }
 })
-export default class EncounterBuilder extends Vue {
-    @Prop(Object) preEnc!: EncounterBase;
-    encounter = _.clone(this.preEnc);
-
-    @npcDesigner.State npcs!: NPC[];
-    test() {
-        alert('wew')
-    }
-
-    addNPC(npc: NPC) {
-        const count = this.encounter.npcs.filter(n => n.npc.id === npc.id).length + 1;
-        this.encounter.npcs.push({
-            id: newId(),
-            name: `${npc.name} #${count}`,
-            count: 1,
-            npc,
-        })
-    }
-
-    deleteNPC(i: number) {
-        this.encounter.npcs.splice(i, 1)
-    }
-
-    get encounterNPCs() {
-        return this.encounter.npcs.map(npc => npc.npc)
-    }
-
-    @Watch('encounter', {deep: true})
-    onEditNPC(val: EncounterBase) {
-        this.$store.commit('encounterBuilder/edit', val)
-    }
-}
 </script>
 
 <style>
