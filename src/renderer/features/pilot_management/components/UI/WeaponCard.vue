@@ -13,7 +13,7 @@
            <v-layout class="pb-2">
             <item-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
             <div v-if="mod && mod.AddedTags" style="display: inline-flex;">
-              <item-tag v-for="t in item.Tags" :key="t.id" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
+              <item-tag v-for="t in mod.AddedTags" :key="t.id" :tagObj="t" :pilot="!tableItem ? pilot : null"/>
             </div>
           </v-layout>
 
