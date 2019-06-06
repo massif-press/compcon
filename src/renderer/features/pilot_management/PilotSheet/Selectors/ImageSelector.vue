@@ -32,7 +32,13 @@
           </div>
         </v-flex>
         <v-flex v-for="i in portraits" :key="i" xs3> 
-          <div :class="`justify-center pa-1 ${i === pilot.LocalPortrait && !pilot.CloudPortrait ? 'preselected' : 'fadeSelect'} clickable`" @click="assignPortrait(i)">
+          <div :class="`text-xs-right justify-center pa-1 ${i === pilot.LocalPortrait && !pilot.CloudPortrait ? 'preselected' : 'fadeSelect'} clickable`" @click="assignPortrait(i)">
+            <v-tooltip top>
+              <v-btn slot="activator" small icon color="error" relative style="top: 25px; z-index: 100" class="delete" @click.stop="deleteImage(i)">
+                <v-icon >mdi-delete</v-icon>
+              </v-btn>
+              <span>Delete Image</span>
+            </v-tooltip>
             <v-img :src="`file://${userDataPath}/img/portrait/${i}`" position="top" max-height="40vh" max-width="40vw" contain style="opacity: 1!important"/> 
           </div>
         </v-flex>
@@ -63,6 +69,14 @@
         else this.pilot.SetLocalPortrait(src)
         this.$emit('notify', 'Pilot Portrait Saved')
         this.$emit('close')
+      },
+      deleteImage(src: string) {
+        if (src === this.pilot.LocalPortrait) {
+          this.pilot.SetLocalPortrait('')
+        }
+        io.deleteImage('portrait', this.userDataPath, src);
+        this.importAll();
+        this.$forceUpdate()
       },
       importAll () {
         var vm = this as any
@@ -116,9 +130,26 @@
 </script>
 
 <style scoped>
+  .delete {
+    opacity: 0.25;
+    transition: opacity 0.25s
+  }
+
+  .delete:hover {
+    opacity: 1;
+  }
+
+  .clickable {
+    opacity: 0.55;
+    transition: opacity 0.15s
+  }
+  
+  .clickable:hover {
+    opacity: 1;
+  }
+
   .preselected {
-    border: 3px solid #81D4FA;
-    border-radius: 5px;
+    background-color: 3px solid #81D4FA;
   }
 
   .cloud {
