@@ -79,57 +79,65 @@
 
 <script lang="ts">
 import draggable from 'vuedraggable'
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import _ from 'lodash';
 import ActiveEncounter, { ActiveNPC } from '../../logic/ActiveEncounter';
 // components
 import RunnerNpcCard from '../../components/EncounterRunner/RunnerNpcCard.vue'
 
-@Component({
-    components: { RunnerNpcCard, draggable }
+export default Vue.extend({
+    components: { RunnerNpcCard, draggable },
+    props: { 
+        preEnc: { type: Object, required: true },
+    },
+    data: function() {
+        return {
+            encounter: _.clone(this.preEnc),
+            draggedIndex: null as number | null,
+        }
+    },
+    computed: {
+        allNpcs() {
+            return this.encounter.npcs
+        },
+
+        aliveNpcs() {
+            return this.allNpcs.filter(n => !n.destroyed)
+        },
+
+        destroyedNpcs() {
+            return this.allNpcs.filter(n => n.destroyed)
+        },
+    },
+    methods: {
+        calcSize({ baseNPC: npc }: ActiveNPC) {
+            if (npc._templates.includes('ultra')) return 'md12';
+            if (npc._templates.includes('elite')) return 'md6';
+            return 'md3';
+        },
+
+        onStartDrag({ oldIndex }: { oldIndex: number }) {
+            this.draggedIndex = oldIndex;
+        },
+
+        onChange({newIndex, oldIndex}: any) {
+            this.draggedIndex = null;
+            const arr = _.clone(this.encounter.npcs)
+            arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+            console.log(arr.map(a => a.baseNPC.name))
+            this.encounter.npcs = [...arr];
+        }
+    },
+    watch: {
+        encounter: {
+            handler: function onEncounterChange(val: ActiveEncounter) {
+                this.$store.commit('encounterRunner/edit', val)
+            },
+            deep: true
+        }
+    }
+
 })
-export default class EncounterRunner extends Vue {
-    @Prop(Object) preEnc!: ActiveEncounter;
-    encounter = _.clone(this.preEnc);
-
-    get allNpcs() {
-        return this.encounter.npcs
-    }
-
-    get aliveNpcs() {
-        return this.allNpcs.filter(n => !n.destroyed)
-    }
-
-    get destroyedNpcs() {
-        return this.allNpcs.filter(n => n.destroyed)
-    }
-
-    @Watch('encounter', {deep: true})
-    onEncounterChange(val: ActiveEncounter) {
-        this.$store.commit('encounterRunner/edit', val)
-    }
-
-
-    calcSize({ baseNPC: npc }: ActiveNPC) {
-        if (npc._templates.includes('ultra')) return 'md12';
-        if (npc._templates.includes('elite')) return 'md6';
-        return 'md3';
-    }
-
-    draggedIndex: number | null = null;
-    onStartDrag({ oldIndex }: { oldIndex: number }) {
-        this.draggedIndex = oldIndex;
-    }
-
-    onChange({newIndex, oldIndex}: any) {
-        this.draggedIndex = null;
-        const arr = _.clone(this.encounter.npcs)
-        arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
-        console.log(arr.map(a => a.baseNPC.name))
-        this.encounter.npcs = [...arr];
-    }
-
-}
 </script>
 
 <style>

@@ -65,94 +65,95 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
 import { NPCSystem } from '../logic/interfaces/NPCSystem';
 import NPC from '../logic/NPC';
 import renderTag from '../logic/rendertag';
 import _ from 'lodash';
 
-@Component({
+export default Vue.extend({
+    name: 'system-dialog-card',
+    props: { 
+        system: { type: Object, required: true }, 
+        npc: { type: NPC, required: true }, 
+    },
+    computed: {
+        icon(): string {
+            switch (this.system.type) {
+                case 'system':
+                    return 'mdi-settings'
+                    break;
+                case 'trait':
+                    return 'mdi-account-circle'
+                    break;
+                case 'weapon':
+                    return 'mdi-sword-cross'
+                    break;
+            }
+        }
+    },
+    methods: {
+        renderTag,
+        
+        actionName(s: string): string {
+          const map = {
+            free: 'Free Action',
+            quick: 'Quick Action',
+            full: 'Full Action',
+            protocol: 'Protocol',
+            reaction: 'Reaction',
+            quicktech: 'Quick Tech',
+            fulltech: 'Full Tech',
+          } as any;
+          return map[s];
+        },
 
+        printRoll(rollObj: NPCSystem.Roll, tech: boolean) {
+          const npc = this.npc;
+          const { flat, accdiff } = rollObj;
+          let output = '';
+          if (flat) {
+            if (flat.val > -1) output += '+';
+            let flatNum: number;
+            if (npc && flat.pertier) flatNum = Math.abs(flat.val) * (npc.tier + 1)
+            else flatNum = Math.abs(flat.val)
+            output += flatNum;
+          } else {
+            output += '0';
+          }
+          output += tech ? ' vs e-defense' : ' vs evasion';
+          if (flat && !npc && flat.pertier) {
+            output += '/tier';
+          }
+          if (accdiff) {
+            const word = accdiff.val > -1 ? 'Accuracy' : 'Difficulty';
+            let accdifNum: number;
+            if (npc && accdiff.pertier) accdifNum = Math.abs(accdiff.val) * (npc.tier + 1)
+            else accdifNum = Math.abs(accdiff.val)
+            output += ` with +${accdifNum} ${word}`;
+            if (!npc && accdiff.pertier) {
+              output += '/tier';
+            }
+          }
+          return output;
+          console.log(output, npc)
+        },
+
+        printDamage(damageAry: 
+            { val: [number, number, number]; type: string }[]
+        ) {
+          if (this.npc) {
+            return damageAry.map(damageObj => `${damageObj.val[this.npc.tier]} ${_.capitalize(damageObj.type)}`).join(', ')
+          } else {
+              return damageAry
+            .map(damageObj => `${damageObj.val.join('/')} ${damageObj.type}`)
+            .join(' + ');
+          }
+        },
+
+        printRange(rangeAry: { val: number; type: string }[]) {
+          return rangeAry.map(r => `${_.capitalize(r.type)} ${r.val}`).join(' ');
+        },
+    },
 })
-export default class SystemDialogCard extends Vue {
-    @Prop(Object) readonly system!: NPCSystem.Any;
-    @Prop(Object) readonly npc!: NPC;
-
-    renderTag = renderTag
-
-    get icon(): string {
-        switch (this.system.type) {
-            case 'system':
-                return 'mdi-settings'
-                break;
-            case 'trait':
-                return 'mdi-account-circle'
-                break;
-            case 'weapon':
-                return 'mdi-sword-cross'
-                break;
-        }
-    }
-
-    actionName(s: string): string {
-      const map = {
-        free: 'Free Action',
-        quick: 'Quick Action',
-        full: 'Full Action',
-        protocol: 'Protocol',
-        reaction: 'Reaction',
-        quicktech: 'Quick Tech',
-        fulltech: 'Full Tech',
-      } as any;
-      return map[s];
-    }
-    
-    printRoll(rollObj: NPCSystem.Roll, tech: boolean) {
-      const npc = this.npc;
-      const { flat, accdiff } = rollObj;
-      let output = '';
-      if (flat) {
-        if (flat.val > -1) output += '+';
-        let flatNum: number;
-        if (npc && flat.pertier) flatNum = Math.abs(flat.val) * (npc.tier + 1)
-        else flatNum = Math.abs(flat.val)
-        output += flatNum;
-      } else {
-        output += '0';
-      }
-      output += tech ? ' vs e-defense' : ' vs evasion';
-      if (flat && !npc && flat.pertier) {
-        output += '/tier';
-      }
-      if (accdiff) {
-        const word = accdiff.val > -1 ? 'Accuracy' : 'Difficulty';
-        let accdifNum: number;
-        if (npc && accdiff.pertier) accdifNum = Math.abs(accdiff.val) * (npc.tier + 1)
-        else accdifNum = Math.abs(accdiff.val)
-        output += ` with +${accdifNum} ${word}`;
-        if (!npc && accdiff.pertier) {
-          output += '/tier';
-        }
-      }
-      return output;
-      console.log(output, npc)
-    }
-
-    printDamage(damageAry: 
-        { val: [number, number, number]; type: string }[]
-    ) {
-      if (this.npc) {
-        return damageAry.map(damageObj => `${damageObj.val[this.npc.tier]} ${_.capitalize(damageObj.type)}`).join(', ')
-      } else {
-          return damageAry
-        .map(damageObj => `${damageObj.val.join('/')} ${damageObj.type}`)
-        .join(' + ');
-      }
-    }
-
-    printRange(rangeAry: { val: number; type: string }[]) {
-      return rangeAry.map(r => `${_.capitalize(r.type)} ${r.val}`).join(' ');
-    }
-
-}
 </script>

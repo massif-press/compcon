@@ -82,23 +82,21 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
-import { namespace } from 'vuex-class';
+import Vue from 'vue';
 import ActiveEncounter from '../../logic/ActiveEncounter'
 // components
 import File from "../../components/File.vue";
 import AddButton from "../../components/AddButton.vue";
+import { mapState, mapMutations } from 'vuex';
 
-const encounterRunner = namespace('encounterRunner')
-
-@Component({
-    components: { File, AddButton }
+export default Vue.extend({
+    name: 'encounter-runner-list',
+    components: { File, AddButton },
+    data: () => ({
+        deleteDialog: false,
+        deletingID: null as string | null,
+    }),
+    computed: mapState('encounterRunner', ['activeEncounters']),
+    methods: mapMutations('encounterRunner', { 'delete': 'deleteEncounter' }),
 })
-export default class EncounterRunnerList extends Vue {
-    @encounterRunner.State activeEncounters!: ActiveEncounter[];
-    @encounterRunner.Mutation('delete') deleteEncounter!: (id: string) => void;
-
-    deleteDialog = false;
-    deletingID: string | null = null;
-}
 </script>
