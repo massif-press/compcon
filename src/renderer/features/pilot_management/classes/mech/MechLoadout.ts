@@ -110,12 +110,12 @@ class MechLoadout extends Loadout {
   }
 
   public AddSystem(system: MechSystem) {
-    this.systems.push(system);
+    this.systems.push(_.clone(system));
     this.save();
   }
 
   public ChangeSystem(index: number, system: MechSystem) {
-    this.systems.splice(index, 1, system);
+    this.systems.splice(index, 1, _.clone(system));
   }
 
   public RemoveSystem(system: MechSystem) {
