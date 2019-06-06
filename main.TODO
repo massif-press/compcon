@@ -9,6 +9,11 @@ bugs:
   ✔ renaming loadout only changes primary (CMDR treb) @done(19-06-05 13:58)
   ✔ publish and update lancer-data @done(19-06-05 14:22)
 
+  ✔ incorrect weapon references @done(19-06-06 11:59)
+  ✔ bad mod tags (gibbay) @done(19-06-06 11:59)
+  ✔ remove custom image (tso) @done(19-06-06 12:23)
+  ✔ orochi drones (eranziel) @done(19-06-06 12:27)
+
 Improvements:
   ✔ Separate Statuses and Conditions @done(19-06-05 14:29)
   ✔ Y-positions for frames @done(19-06-05 14:22)

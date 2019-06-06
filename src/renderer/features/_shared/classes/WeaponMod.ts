@@ -8,7 +8,7 @@ class WeaponMod extends LicensedItem {
   private effect: string;
   private restricted_sizes: WeaponSize[];
   private tags: ITagData[];
-  private added_tags: Tag[];
+  private added_tags: ITagData[];
   private added_damage?: Damage;
   private added_range: number;
 
@@ -53,7 +53,7 @@ class WeaponMod extends LicensedItem {
   }
 
   public get AddedTags(): Tag[] {
-    return this.added_tags;
+    return Tag.Deserialize(this.added_tags);
   }
 
   public get AddedDamage(): Damage | null {

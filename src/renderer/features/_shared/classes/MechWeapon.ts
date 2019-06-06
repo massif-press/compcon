@@ -1,4 +1,5 @@
 import store from '@/store'
+import _ from 'lodash'
 import {  Damage, Range, WeaponMod, Tag, WeaponSize, WeaponType, ItemType, MechEquipment } from "@/class";
 
 // TODO:
@@ -51,7 +52,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public set Mod(mod: WeaponMod | null) {
-    this.mod = mod;
+    this.mod = _.clone(mod);
   }
 
   public get Mod(): WeaponMod | null {

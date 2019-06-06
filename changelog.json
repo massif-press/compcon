@@ -1,12 +1,16 @@
 {
   "stable": "1.3.0b",
-  "beta": "1.3.4",
+  "beta": "1.3.5",
   "news": {
-    "date": "June 5th, 2019",
-    "version": "1.3.4",
+    "date": "June 6th, 2019",
+    "version": "1.3.5",
     "body": "<p>Hello Everyone,<br> Thanks to the tireless work of the Discord testing crew, 1.3x/PR2 is quickly stabilizing. Soon, I’ll be merging everything into <em>Stable</em> and <em>Beta</em> will start to see some new features.</p><br><p><strong>KNOWN ISSUES</strong></p> <ul> <li>Weapon datatables only sort by the first damage or range element on weapons with multiple damage or range types</li><li>There might be some remaining weirdness when importing old pilots or mechs – especially in relation to flex mounts and the old style Integrated Weapon CORE Bonus. If you notice this, deleting and remaking the offending loadout usually solves the problem</li></ul>"
   },
   "changelog": [
+    {
+      "version": "1.3.5",
+      "changes": "<ul> <li>Fixes a problem with incorrect weapon object references -- cloning pilots and assigning mods to multiple copies of the same item should now work correctly.</li> <li>Fixes an issue where modding an item would duplicate the weapon's tags, instead of adding appropriate tags from the mod</li> <li>Fixes an error that prevented the OROCHI Disarticulation passive from showing all of the drone types</li> <li>Added a button to delete custom images imported into COMP/CON</li> </ul>"
+    },
     {
       "version": "1.3.4",
       "changes": "<ul> <li>Fixes bugs related to deleting loadouts</li> <li>Fixes a bug where trying to rename any mech loadout would only rename the first one</li> <li>Fixes a bug that was preventing the app from loading without an internet connection</li> <li>A mech’s Armor value will correctly appear in all cases in the stablock</li> <li>Fixes an issue where weapon mod SP was not immediately appearing on the loadout view</li> <li>Fixes the Pinaka missile alt fire damage</li> <li>Separates “Statuses” and “Conditions” in the Compendium, per PR2</li> <li>Better frame art in the Add New Mech menu</li> </ul>"

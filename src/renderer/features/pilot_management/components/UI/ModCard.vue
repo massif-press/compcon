@@ -11,7 +11,7 @@
         <p v-if="modData.description" v-html="modData.description" class="fluff-text" />
         <p v-if="modData.effect" v-html="modData.effect" class="pl-2 effect-text"/>
         <v-layout class="mt-2">
-          <item-tag v-for="(t, index) in modData.tags" :key="t.id + index" :tag-obj="t"/>
+          <item-tag v-for="(t, index) in modData.Tags" :key="t.id + index" :tag-obj="t" :pilot="pilot"/>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -21,6 +21,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import ItemTag from './ItemTag.vue'
+  import { Pilot } from '@/class'
   
   export default Vue.extend({
     name: 'mod-card',
@@ -28,6 +29,11 @@
       modData: Object,
       missing: Boolean
     },
-    components: { ItemTag }
+    components: { ItemTag },
+    computed: {
+      pilot(): Pilot {
+        return this.$store.getters.getPilot;
+      }
+    },
   })
 </script>
