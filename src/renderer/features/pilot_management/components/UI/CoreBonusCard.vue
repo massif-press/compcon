@@ -17,7 +17,7 @@
   import { CoreBonus } from '@/class';
   
   export default Vue.extend({
-    name: 'mod-card',
+    name: 'core-bonus-card',
     props: {
       cb: CoreBonus,
     }

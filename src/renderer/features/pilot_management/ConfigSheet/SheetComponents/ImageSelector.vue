@@ -49,7 +49,13 @@
               </div>
             </v-flex>
             <v-flex v-for="i in images" :key="i" xs3> 
-              <div :class="`justify-center pa-1 ${i === config.custom_img ? 'preselected' : 'clickable'}`" @click="assignImage(i)">
+              <div :class="`text-xs-right justify-center pa-1 ${i === config.LocalPortrait ? 'preselected' : 'clickable'}`" @click="assignImage(i)">
+                <v-tooltip top>
+                  <v-btn slot="activator" small icon color="error" relative style="top: 25px; z-index: 100" class="delete" @click.stop="deleteImage(i)">
+                    <v-icon >mdi-delete</v-icon>
+                  </v-btn>
+                  <span>Delete Image</span>
+                </v-tooltip>
                 <v-img :src="`file://${userDataPath}/img/frame/${i}`" position="top" max-height="40vh" max-width="40vw" contain/> 
               </div>
             </v-flex>
@@ -87,6 +93,14 @@
         else this.config.SetLocalPortrait(src)
         this.$emit('notify', 'Mech Image Saved')
         this.$emit('close')
+      },
+      deleteImage(src: string) {
+        if (src === this.config.LocalPortrait) {
+          this.config.SetLocalPortrait('')
+        }
+        io.deleteImage('frame', this.userDataPath, src);
+        this.importAll();
+        this.$forceUpdate()
       },
       importAll () {
         var vm = this as any
@@ -151,9 +165,24 @@
 </script>
 
 <style scoped>
-  .clickable:hover {
-    background-color: #0D47A1;
+  .delete {
+    opacity: 0.25;
+    transition: opacity 0.25s
   }
+
+  .delete:hover {
+    opacity: 1;
+  }
+
+  .clickable {
+    opacity: 0.55;
+    transition: opacity 0.15s
+  }
+  
+  .clickable:hover {
+    opacity: 1;
+  }
+
   .preselected {
     background-color: 3px solid #81D4FA;
   }

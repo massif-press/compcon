@@ -37,6 +37,6 @@
     props: {
       tagObj: Object,
       pilot: Pilot
-    },
+    }
   })
 </script>
