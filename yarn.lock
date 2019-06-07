@@ -5832,9 +5832,9 @@ kleur@^3.0.2:
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
 lancer-data@^1.9.2:
-  version "1.9.6"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.6.tgz#8852ea949a5a1e0721c432ba2314b61f68585ce5"
-  integrity sha512-ZANhUNv7hWEsVWmo51fxmeqhoLZFMvL8hm+0VOYsGLyXT79mrpcmHrzN2BkgWSQTvRLeaNgkqzX8oquWtP/j+A==
+  version "1.9.8"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.8.tgz#7ab896cf69902a4b9c300ffc602f6dcb1e681bd5"
+  integrity sha512-58Ft/iGGHN0Gb37787K8O1JHR1xr5l8UJd6F19EiTtb1Q+XnjJLSlyF/ML2Q2SCBSNrKLBebZ/s8ZhkPvoEB6A==
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -7473,6 +7473,11 @@ prettier@1.16.3:
   version "1.16.3"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.3.tgz#8c62168453badef702f34b45b6ee899574a6a65d"
   integrity sha512-kn/GU6SMRYPxUakNXhpP0EedT/KmaPzr0H5lIsDogrykbaxOpOfAFfk5XA7DZrJyMAv1wlMV3CPcZruGXVVUZw==
+
+prettier@^1.18.0:
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.0.tgz#d1701ca9b2941864b52f3262b35946d2c9cd88f0"
+  integrity sha512-YsdAD29M0+WY2xXZk3i0PA16olY9qZss+AuODxglXcJ+2ZBwFv+6k5tE8GS8/HKAthaajlS/WqhdgcjumOrPlg==
 
 pretty-bytes@^1.0.2:
   version "1.0.4"

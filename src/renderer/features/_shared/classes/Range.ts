@@ -1,23 +1,23 @@
-import { RangeType } from "@/class";
+import { RangeType } from '@/class'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
 class Range {
-  private range_type: RangeType;
-  private value: number;
-  private override: boolean;
+  private range_type: RangeType
+  private value: number
+  private override: boolean
   private bonus: number
 
   constructor(range: {
-    type: string;
-    val: number;
-    override: boolean;
-    bonus?: number;
+    type: string
+    val: number
+    override: boolean
+    bonus?: number
   }) {
     this.range_type = range.type as RangeType
-    this.value = range.val;
-    this.override = range.override || false;
-    this.bonus = range.bonus || 0;
+    this.value = range.val
+    this.override = range.override || false
+    this.bonus = range.bonus || 0
   }
 
   public get Override(): boolean {
@@ -25,33 +25,38 @@ class Range {
   }
 
   public get Type(): RangeType {
-    return this.range_type;
+    return this.range_type
   }
 
   public get Value(): string {
-    if (this.bonus) 
-      return (this.value + this.bonus).toString() 
-    return this.value.toString();
+    if (this.bonus) return (this.value + this.bonus).toString()
+    return this.value.toString()
   }
 
   public get Max(): number {
-    return this.value + this.bonus;
+    return this.value + this.bonus
   }
 
   public get Icon(): string {
-    return `cc-${this.range_type.toLowerCase()}`;
+    return `cc-${this.range_type.toLowerCase()}`
   }
 
   public get ToString(): string {
-    if (this.override) return this.Value.toString();
+    if (this.override) return this.Value.toString()
     if (this.bonus) return `${this.range_type} ${this.Value} (+${this.bonus})`
-    return `${this.range_type} ${this.Value}`;
+    return `${this.range_type} ${this.Value}`
   }
 
-  public static AddBonuses(ranges: Range[], bonuses: {type: RangeType; val: number}[]): Range[] {
+  public static AddBonuses(
+    ranges: Range[],
+    bonuses: { type: RangeType; val: number }[]
+  ): Range[] {
     var output = [] as Range[]
     ranges.forEach(range => {
-      let bonus = bonuses.filter(x => x.type === range.Type).map(x => x.val).reduce((sum, bonus) => sum + bonus, 0)
+      let bonus = bonuses
+        .filter(x => x.type === range.Type)
+        .map(x => x.val)
+        .reduce((sum, bonus) => sum + bonus, 0)
       output.push(
         new Range({
           type: range.Type,
@@ -60,10 +65,9 @@ class Range {
           bonus: bonus,
         })
       )
-    });
-    return output;
+    })
+    return output
   }
-
 }
 
-export default Range;
+export default Range

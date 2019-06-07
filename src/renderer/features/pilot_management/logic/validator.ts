@@ -28,22 +28,30 @@ function convertPilot(old: any): IPilotData {
     active: false,
     background: old.custom_background ? 'ai' : old.background,
     mechSkills: [
-      old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng
+      old.mechSkills.hull,
+      old.mechSkills.agi,
+      old.mechSkills.sys,
+      old.mechSkills.eng,
     ],
-    licenses: old.licenses.map((x: any) => ({id: licenseNameToId(x.name), rank: x.level})),
-    skills: old.skills.map((x: any) => ({id: x.id, rank: x.bonus / 2})),
-    talents: old.talents.map((x: any) => ({id: x.id, rank: x.rank})),
+    licenses: old.licenses.map((x: any) => ({
+      id: licenseNameToId(x.name),
+      rank: x.level,
+    })),
+    skills: old.skills.map((x: any) => ({ id: x.id, rank: x.bonus / 2 })),
+    talents: old.talents.map((x: any) => ({ id: x.id, rank: x.rank })),
     core_bonuses: old.core_bonuses,
-    loadouts: old.loadouts ? old.loadouts.map((x: any) => convertPilotLoadouts(x)) : [],
+    loadouts: old.loadouts
+      ? old.loadouts.map((x: any) => convertPilotLoadouts(x))
+      : [],
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
-    cc_ver: "1.3.5",
+    cc_ver: '1.3.6',
   }
 }
 
 function licenseNameToId(name: string): string {
-  const frames = store.getters.getItemCollection("Frames") as Frame[];
+  const frames = store.getters.getItemCollection('Frames') as Frame[]
   const match = frames.find(x => x.Name === name)
   return match ? match.ID : 'err'
 }
@@ -52,9 +60,13 @@ function convertPilotLoadouts(old: any): IPilotLoadoutData {
   return {
     id: old.id,
     name: old.name,
-    armor: old.items.armor.map((x: any) => x ? ({id: x.id, notes: []}) : null),
-    weapons: old.items.weapon.map((x: any) => x ? ({id: x.id, notes: []}) : null),
-    gear: old.items.gear.map((x: any) => x ? ({id: x.id, notes: []}) : null),
+    armor: old.items.armor.map((x: any) =>
+      x ? { id: x.id, notes: [] } : null
+    ),
+    weapons: old.items.weapon.map((x: any) =>
+      x ? { id: x.id, notes: [] } : null
+    ),
+    gear: old.items.gear.map((x: any) => (x ? { id: x.id, notes: [] } : null)),
   }
 }
 
@@ -62,9 +74,9 @@ function convertMechs(old: any): IMechData {
   return {
     id: old.id,
     name: old.name,
-    notes: "",
-    portrait: old.portrait || "",
-    cloud_portrait: "",
+    notes: '',
+    portrait: old.portrait || '',
+    cloud_portrait: '',
     frame: old.frame_id,
     active: false,
     current_structure: 0,
@@ -74,20 +86,24 @@ function convertMechs(old: any): IMechData {
     current_repairs: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
-    cc_ver: "1.3.5",
-  };
+    cc_ver: '1.3.6',
+  }
 }
 
 function convertMechLoadouts(old: any): IMechLoadoutData {
   return {
     id: old.id,
     name: old.name,
-    systems: old.systems.map((x: any) => ({id: x.id, notes: []})),
+    systems: old.systems.map((x: any) => ({ id: x.id, notes: [] })),
     mounts: old.mounts.map((x: any) => convertMountData(x)),
-    improved_armament: EquippableMount.Serialize(new EquippableMount(MountType.Flex)),
-    integratedWeapon: EquippableMount.Serialize(new EquippableMount(MountType.Aux)),
+    improved_armament: EquippableMount.Serialize(
+      new EquippableMount(MountType.Flex)
+    ),
+    integratedWeapon: EquippableMount.Serialize(
+      new EquippableMount(MountType.Aux)
+    ),
     retrofitIndex: null,
-    retrofitOriginalType: null
+    retrofitOriginalType: null,
   }
 }
 
@@ -95,71 +111,71 @@ function convertMountData(old: any): IMountData {
   return {
     mount_type: old.mount_type,
     lock: old.sh_lock || false,
-    slots: old.weapons.map((x: any) => ({ 
-      size: old.mount_type, 
+    slots: old.weapons.map((x: any) => ({
+      size: old.mount_type,
       weapon: {
         id: x.id,
-        notes: []
-      } 
+        notes: [],
+      },
     })),
     extra: [],
-    bonus_effects: []
-  };
+    bonus_effects: [],
+  }
 }
 
 export default {
   pilot(data: Pilot) {
-    return this.checkVersion([data])[0];
+    return this.checkVersion([data])[0]
   },
   checkVersion(data: any): IPilotData[] {
-    let output = [] as IPilotData[];
-    let copyOld = false;
+    let output = [] as IPilotData[]
+    let copyOld = false
     data.forEach((e: any) => {
-      if (e.cc_ver) output.push(e);
+      if (e.cc_ver) output.push(e)
       else {
-        copyOld = true;
+        copyOld = true
         try {
-          output.push(convertPilot(e));
+          output.push(convertPilot(e))
         } catch (err) {
-          console.error("Conversion failure: " + err);
+          console.error('Conversion failure: ' + err)
         }
       }
-    });
-    if (copyOld) io.backup(store.getters.getUserPath);
-    return output;
+    })
+    if (copyOld) io.backup(store.getters.getUserPath)
+    return output
   },
   clipboardPilot(data: string, callback: (err: any, result: any) => void) {
-    let err = null;
-    let result = null;
+    let err = null
+    let result = null
     if (!isValidJSON(data)) {
-      err = "Clipboard contents are not valid Pilot data";
+      err = 'Clipboard contents are not valid Pilot data'
     } else {
-      const p = JSON.parse(data);
+      const p = JSON.parse(data)
       if (this.pilot(p)) {
-        result = p;
+        result = p
       } else {
-        err = "Invalid pilot data";
+        err = 'Invalid pilot data'
       }
     }
-    callback(err, result);
+    callback(err, result)
   },
   checkMechVersion(data: any): IMechData {
-    if (data.cc_ver) return data;
+    if (data.cc_ver) return data
     else return convertMechs(data)
   },
   clipboardConfig(data: string, callback: (err: any, result: any) => void) {
-    let err = null;
-    let result = null;
+    let err = null
+    let result = null
     if (!isValidJSON(data)) {
-      err = "Clipboard contents are not valid Config data";
+      err = 'Clipboard contents are not valid Config data'
     } else {
-      const p = JSON.parse(data);
+      const p = JSON.parse(data)
       if (this.checkMechVersion(p)) {
-        result = p;
+        result = p
       } else {
-        err = "Invalid config data";
+        err = 'Invalid config data'
       }
     }
-    callback(err, result);
-  }
-};
+    callback(err, result)
+  },
+}
