@@ -73,6 +73,7 @@
     "lancer-data": "^1.9.2",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
+    "prettier": "^1.18.0",
     "source-map-support": "^0.5.10",
     "typeface-roboto": "^0.0.54",
     "vue-mousetrap": "^1.0.1",
