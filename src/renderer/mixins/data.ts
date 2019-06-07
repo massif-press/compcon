@@ -1,4 +1,20 @@
-import {CompendiumItem, Background, Talent, Skill, CoreBonus, Frame, Manufacturer, MechWeapon, MechSystem, WeaponMod, PilotEquipment, Tag, Status, Brew, PilotLicense} from '@/class'
+import {
+  CompendiumItem,
+  Background,
+  Talent,
+  Skill,
+  CoreBonus,
+  Frame,
+  Manufacturer,
+  MechWeapon,
+  MechSystem,
+  WeaponMod,
+  PilotEquipment,
+  Tag,
+  Status,
+  Brew,
+  PilotLicense,
+} from '@/class'
 // These mixins provide access to the datastore.ts getters without having to re-write a method for every component
 
 // specific getters should be preferred over item, if possible

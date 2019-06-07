@@ -1,113 +1,112 @@
-
 enum MountType {
-  Main = "Main",
-  Heavy = "Heavy",
-  AuxAux = "Aux/Aux",
-  Aux = "Aux",
-  MainAux = "Main/Aux",
-  Flex = "Flex",
-  Integrated = "Integrated"
+  Main = 'Main',
+  Heavy = 'Heavy',
+  AuxAux = 'Aux/Aux',
+  Aux = 'Aux',
+  MainAux = 'Main/Aux',
+  Flex = 'Flex',
+  Integrated = 'Integrated',
 }
 
 // governs what can be added to a mount (weapon slot)
 enum FittingSize {
-  Auxiliary = "Auxiliary",
-  Main = "Main",
-  Flex = "Flex",
-  Heavy = "Heavy",
-  Integrated = "Integrated"
+  Auxiliary = 'Auxiliary',
+  Main = 'Main',
+  Flex = 'Flex',
+  Heavy = 'Heavy',
+  Integrated = 'Integrated',
 }
 
 enum WeaponSize {
-  Aux = "Auxiliary",
-  Main = "Main",
-  Heavy = "Heavy",
-  Superheavy = "Superheavy"
+  Aux = 'Auxiliary',
+  Main = 'Main',
+  Heavy = 'Heavy',
+  Superheavy = 'Superheavy',
 }
 
 enum WeaponType {
-  Rifle = "Rifle",
-  Cannon = "Cannon",
-  Launcher = "Launcher",
-  CQB = "CQB",
-  Nexus = "Nexus",
-  Melee = "Melee"
+  Rifle = 'Rifle',
+  Cannon = 'Cannon',
+  Launcher = 'Launcher',
+  CQB = 'CQB',
+  Nexus = 'Nexus',
+  Melee = 'Melee',
 }
 
 enum ItemType {
-  None = "",
-  Action = "Action",
-  Background = "Background",
-  CoreBonus = "CoreBonus",
-  Frame = "Frame",
-  PilotArmor = "PilotArmor",
-  PilotWeapon = "PilotWeapon",
-  PilotGear = "PilotGear",
-  Skill = "Skill",
-  Talent = "Talent",
-  Tag = "Tag",
-  MechWeapon = "MechWeapon",
-  MechSystem = "MechSystem",
-  WeaponMod = "WeaponMod"
+  None = '',
+  Action = 'Action',
+  Background = 'Background',
+  CoreBonus = 'CoreBonus',
+  Frame = 'Frame',
+  PilotArmor = 'PilotArmor',
+  PilotWeapon = 'PilotWeapon',
+  PilotGear = 'PilotGear',
+  Skill = 'Skill',
+  Talent = 'Talent',
+  Tag = 'Tag',
+  MechWeapon = 'MechWeapon',
+  MechSystem = 'MechSystem',
+  WeaponMod = 'WeaponMod',
 }
 
 enum SystemType {
-  System = "System",
-  AI = "AI",
-  Shield = "Shield",
-  Deployable = "Deployable",
-  Drone = "Drone",
-  Tech = "Tech",
-  Armor = "Armor",
-  FlightSystem = "Flight System",
-  Integrated = "Integrated"
+  System = 'System',
+  AI = 'AI',
+  Shield = 'Shield',
+  Deployable = 'Deployable',
+  Drone = 'Drone',
+  Tech = 'Tech',
+  Armor = 'Armor',
+  FlightSystem = 'Flight System',
+  Integrated = 'Integrated',
 }
 
 enum SkillFamily {
-  str = "str",
-  dex = "dex",
-  int = "int",
-  cha = "cha"
+  str = 'str',
+  dex = 'dex',
+  int = 'int',
+  cha = 'cha',
 }
 
 enum RangeType {
-  Range = "Range",
-  Threat = "Threat",
-  Thrown = "Thrown",
-  Line = "Line",
-  Cone = "Cone",
-  Blast = "Blast",
-  Burst = "Burst"
+  Range = 'Range',
+  Threat = 'Threat',
+  Thrown = 'Thrown',
+  Line = 'Line',
+  Cone = 'Cone',
+  Blast = 'Blast',
+  Burst = 'Burst',
 }
 
 enum DamageType {
-  Kinetic = "Kinetic",
-  Energy = "Energy",
-  Explosive = "Explosive",
-  Heat = "Heat",
-  Burn = "Burn",
-  Variable = "Variable"
+  Kinetic = 'Kinetic',
+  Energy = 'Energy',
+  Explosive = 'Explosive',
+  Heat = 'Heat',
+  Burn = 'Burn',
+  Variable = 'Variable',
 }
 
 enum MechType {
-  Balanced = "Balanced",
-  Artillery = "Artillery",
-  Striker = "Striker",
-  Controller = "Controller",
-  Support = "Support",
-  Defender = "Defender"
+  Balanced = 'Balanced',
+  Artillery = 'Artillery',
+  Striker = 'Striker',
+  Controller = 'Controller',
+  Support = 'Support',
+  Defender = 'Defender',
 }
 
 enum HASE {
   H = 'hull',
   A = 'agi',
   S = 'sys',
-  E = 'eng'
+  E = 'eng',
 }
 
 export {
   MountType,
-  FittingSize, 
+  FittingSize,
   WeaponSize,
   WeaponType,
   ItemType,
