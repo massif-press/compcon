@@ -1,12 +1,16 @@
 {
   "stable": "1.3.0b",
-  "beta": "1.3.5",
+  "beta": "1.3.6",
   "news": {
-    "date": "June 6th, 2019",
-    "version": "1.3.5",
+    "date": "June 7th, 2019",
+    "version": "1.3.6",
     "body": "<p>Hello Everyone,<br> Thanks to the tireless work of the Discord testing crew, 1.3x/PR2 is quickly stabilizing. Soon, I’ll be merging everything into <em>Stable</em> and <em>Beta</em> will start to see some new features.</p><br><p><strong>KNOWN ISSUES</strong></p> <ul> <li>Weapon datatables only sort by the first damage or range element on weapons with multiple damage or range types</li><li>There might be some remaining weirdness when importing old pilots or mechs – especially in relation to flex mounts and the old style Integrated Weapon CORE Bonus. If you notice this, deleting and remaking the offending loadout usually solves the problem</li></ul>"
   },
   "changelog": [
+    {
+      "version": "1.3.6",
+      "changes": "<ul> <li>Corrects HORUS Meta-hook SP from 1 to 2</li> <li>Corrects IPS-N TORTUGA licenses</li> <li>Switches the Unlicensed and Over SP table item warning colors to be more consistent</li> <li>GMS CORE Bonus mounts that equip weapons that cost SP are now correctly included against total loadout SP cost</li> <li>Pilot Talent/Trigger/License/and CORE Bonus selectors now have fixed position overviews, so you don't have to scroll back and forth to see what you've selected</li> </ul>"
+    },
     {
       "version": "1.3.5",
       "changes": "<ul> <li>Fixes a problem with incorrect weapon object references -- cloning pilots and assigning mods to multiple copies of the same item should now work correctly.</li> <li>Fixes an issue where modding an item would duplicate the weapon's tags, instead of adding appropriate tags from the mod</li> <li>Fixes an error that prevented the OROCHI Disarticulation passive from showing all of the drone types</li> <li>Added a button to delete custom images imported into COMP/CON</li> </ul>"

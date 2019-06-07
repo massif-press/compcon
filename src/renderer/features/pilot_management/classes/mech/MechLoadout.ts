@@ -54,6 +54,10 @@ class MechLoadout extends Loadout {
     return this.integratedWeapon
   }
 
+  public get ImprovedArmamentMount(): EquippableMount {
+    return this.improvedArmament
+  }
+
   public AllEquippableMounts(improved?: boolean): EquippableMount[] {
     if (improved && this.equippableMounts.length < 3)
       return this.equippableMounts.concat([this.improvedArmament])

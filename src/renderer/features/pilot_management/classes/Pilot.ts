@@ -436,7 +436,9 @@ class Pilot {
     const index = this.core_bonuses.findIndex(x => _.isEqual(coreBonus, x))
     if (index === -1) {
       console.error(
-        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`
+        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${
+          this.callsign
+        }`
       )
     } else {
       this.core_bonuses.splice(index, 1)
@@ -455,6 +457,8 @@ class Pilot {
     this.mechs.forEach(mech => {
       mech.Loadouts.forEach(loadout => {
         if (coreBonus.ID === 'retrofit') loadout.RemoveRetrofitting()
+        if (coreBonus.ID === 'imparm') loadout.ImprovedArmamentMount.Clear()
+        if (coreBonus.ID === 'intweapon') loadout.IntegratedWeaponMount.Clear()
         loadout.AllEquippableMounts(true).forEach(mount => {
           mount.RemoveCoreBonus(coreBonus)
         })
