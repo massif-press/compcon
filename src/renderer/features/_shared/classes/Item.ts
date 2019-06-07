@@ -1,46 +1,46 @@
-import {ItemType} from '@/class'
+import { ItemType } from '@/class'
 // items that are stored as compendium data, refernced by ID and contain
 // at minimum a name, itemtype, and brew
 abstract class CompendiumItem {
-  private id: string;
-  protected name: string;
-  protected description: string;
-  protected item_type: ItemType;
-  private brew: string;
-  private err?: string;
+  private id: string
+  protected name: string
+  protected description: string
+  protected item_type: ItemType
+  private brew: string
+  private err?: string
 
   constructor(itemData?: any) {
     if (itemData) {
-      this.id = itemData.id;
-      this.name = itemData.name;
-      this.description = itemData.description;
-      this.item_type = ItemType.None;
-      this.brew = itemData.brew || "Core";
-    } else {
-      this.id = this.name = this.description = this.brew =''
+      this.id = itemData.id
+      this.name = itemData.name
+      this.description = itemData.description
       this.item_type = ItemType.None
-      this.err = "Item data not found!"
+      this.brew = itemData.brew || 'Core'
+    } else {
+      this.id = this.name = this.description = this.brew = ''
+      this.item_type = ItemType.None
+      this.err = 'Item data not found!'
     }
   }
 
   public get ID(): string {
-    return this.id;
+    return this.id
   }
 
   public get Name(): string {
-    return this.name;
+    return this.name
   }
 
   public get Description(): string {
-    return this.description;
+    return this.description
   }
 
   public get ItemType(): ItemType {
-    return this.item_type;
+    return this.item_type
   }
 
   public get Brew(): string {
-    return this.brew;
+    return this.brew
   }
 
   public get Err(): string {
@@ -50,25 +50,25 @@ abstract class CompendiumItem {
 
 // these items are unlocked via pilots ranking up in a specific frame license
 abstract class LicensedItem extends CompendiumItem {
-  private source: string;
-  private license: string;
-  private license_level: number;
+  private source: string
+  private license: string
+  private license_level: number
 
   constructor(itemData?: any) {
-    super(itemData);
-    this.source = itemData.source || "";
-    this.license = itemData.license || "";
-    this.license_level = itemData.license_level || 0;
+    super(itemData)
+    this.source = itemData.source || ''
+    this.license = itemData.license || ''
+    this.license_level = itemData.license_level || 0
   }
 
   public get Source(): string {
-    return this.source.toUpperCase();
+    return this.source.toUpperCase()
   }
   public get License(): string {
-    return this.license;
+    return this.license
   }
   public get LicenseLevel(): number {
-    return this.license_level;
+    return this.license_level
   }
   public get LicenseString(): string {
     if (this.license) return `${this.license} ${this.license_level}`
@@ -76,6 +76,4 @@ abstract class LicensedItem extends CompendiumItem {
   }
 }
 
-export {
-  CompendiumItem, LicensedItem
-}
+export { CompendiumItem, LicensedItem }

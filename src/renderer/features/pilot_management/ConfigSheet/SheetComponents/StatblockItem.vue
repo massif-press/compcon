@@ -2,12 +2,12 @@
   <v-flex class="mb-1 text-xs-center">
     <v-card flat dark>
       <v-card-text class="header">
-        <span>{{attr}}</span>      
+        <span>{{ attr }}</span>
       </v-card-text>
       <v-card-text class="p-0">
         <span class="value">
-          <span v-if="signed">{{val > -1 ? '+' : '-'}}</span>
-          {{Math.abs(val)}}
+          <span v-if="signed">{{ val > -1 ? '+' : '-' }}</span>
+          {{ Math.abs(val) }}
         </span>
       </v-card-text>
     </v-card>
@@ -15,32 +15,31 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+import Vue from 'vue'
 
-  export default Vue.extend({
+export default Vue.extend({
   name: 'statblock-item',
   props: {
     attr: String,
     val: Number,
-    signed: Boolean
-  }
+    signed: Boolean,
+  },
 })
 </script>
 
 <style scoped>
-  .header {
-    background-color: #757575;
-    color: #EEEEEE;
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 3px;
-  }
+.header {
+  background-color: #757575;
+  color: #eeeeee;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 3px;
+}
 
-  .value {
-    color: #ffffff;
-    font-size: 4em;
-    line-height: 1em;
-    font-weight: 300
-  }
+.value {
+  color: #ffffff;
+  font-size: 4em;
+  line-height: 1em;
+  font-weight: 300;
+}
 </style>
-
