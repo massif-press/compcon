@@ -2,13 +2,15 @@
   <v-flex>
     <v-card>
       <div v-if="!selectItem">
-        <v-toolbar v-if="cb.err" class="mb-2" dense flat >
-          <span class="subheading grey--text">// MISSING CORE BONUS DATA //</span>
-        </v-toolbar>    
+        <v-toolbar v-if="cb.err" class="mb-2" dense flat>
+          <span class="subheading grey--text"
+            >// MISSING CORE BONUS DATA //</span
+          >
+        </v-toolbar>
         <v-toolbar dense flat color="grey lighten-2">
           <v-toolbar-title>
-            <span>{{cb.name}}&nbsp;</span>
-            <span class="caption">{{cb.source}}</span>
+            <span>{{ cb.name }}&nbsp;</span>
+            <span class="caption">{{ cb.source }}</span>
           </v-toolbar-title>
         </v-toolbar>
       </div>
@@ -20,12 +22,25 @@
           <p class="effect-text pb-0" v-html="cb.effect" />
         </v-card-text>
         <v-card-actions v-if="selectItem" class="ml-5 mr-5">
-          <v-btn v-if="selectable && !isSelected" large block outline @click="add" color="primary">
+          <v-btn
+            v-if="selectable && !isSelected"
+            large
+            block
+            outline
+            @click="add"
+            color="primary"
+          >
             <v-icon>add</v-icon><span v-html="`Add ${cb.name}`" />
           </v-btn>
-          <v-btn v-else-if="isSelected" large block @click="remove" color="white">
+          <v-btn
+            v-else-if="isSelected"
+            large
+            block
+            @click="remove"
+            color="white"
+          >
             <span v-html="`Remove ${cb.name}`" />
-          </v-btn>          
+          </v-btn>
         </v-card-actions>
       </div>
     </v-card>
@@ -33,24 +48,24 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+import Vue from 'vue'
 
-  export default Vue.extend({
-    name: 'cb-item',
-    props: {
-      cb: Object,
-      selectable: Boolean,
-      isSelected: Boolean,
-      selectItem: Boolean,
-      darken: Boolean
+export default Vue.extend({
+  name: 'cb-item',
+  props: {
+    cb: Object,
+    selectable: Boolean,
+    isSelected: Boolean,
+    selectItem: Boolean,
+    darken: Boolean,
+  },
+  methods: {
+    add() {
+      this.$emit('added', this.cb)
     },
-    methods: {
-      add () {
-        this.$emit('added', this.cb)
-      },
-      remove () {
-        this.$emit('removed', this.cb)
-      }
-    }
-  })
+    remove() {
+      this.$emit('removed', this.cb)
+    },
+  },
+})
 </script>
