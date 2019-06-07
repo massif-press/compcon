@@ -124,6 +124,13 @@ class EquippableMount extends Mount {
     this.lock = false
   }
 
+  public Clear() {
+    this.Slots.forEach(s => {
+      console.log(s)
+      s.UnequipWeapon()
+    })
+  }
+
   public AddCoreBonus(cb: CoreBonus) {
     this.bonus_effects.push(cb)
     this.save()
