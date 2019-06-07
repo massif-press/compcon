@@ -1,7 +1,7 @@
 interface Contact {
-  name: string;
-  relationship: string;
-  description: string;
+  name: string
+  relationship: string
+  description: string
 }
 
-export default Contact;
+export default Contact
