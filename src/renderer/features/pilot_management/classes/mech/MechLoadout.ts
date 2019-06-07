@@ -175,7 +175,7 @@ class MechLoadout extends Loadout {
   }
 
   public get TotalSP(): number {
-    const mountSP = this.equippableMounts
+    const mountSP = [...this.equippableMounts, this.improvedArmament, this.integratedWeapon]
       .flatMap(x => x.Weapons)
       .reduce(function(a, b) {
         return a + (b ? b.SP : 0)
