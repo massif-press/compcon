@@ -1,8 +1,8 @@
 import { DirectiveOptions, VNode } from 'vue'
 import { DirectiveBinding } from 'vue/types/options'
 
-interface IHTMLElement extends HTMLElement{
-  clickOutsideEvent?: any;
+interface IHTMLElement extends HTMLElement {
+  clickOutsideEvent?: any
 }
 
 const directive: DirectiveOptions = {
@@ -10,7 +10,7 @@ const directive: DirectiveOptions = {
     el.clickOutsideEvent = (event: any) => {
       if (!(el === event.target || el.contains(event.target))) {
         if (vnode.context) {
-          (vnode as any).context[binding.expression](event)
+          ;(vnode as any).context[binding.expression](event)
         }
       }
     }
