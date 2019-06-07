@@ -50,7 +50,7 @@ class MechLoadout extends Loadout {
     return this.equippableMounts
   }
 
-  public get IntegratedWeaponMount() {
+  public get IntegratedWeaponMount(): EquippableMount {
     return this.integratedWeapon
   }
 
@@ -136,7 +136,9 @@ class MechLoadout extends Loadout {
 
   public get RequiredLicenses() {
     let requirements = [] as LicenseRequirement[]
-    const equippedWeapons = this.Weapons as LicensedItem[]
+    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
+      this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
+    )
     const equippedSystems = this.systems as LicensedItem[]
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
@@ -175,11 +177,16 @@ class MechLoadout extends Loadout {
   }
 
   public get TotalSP(): number {
-    const mountSP = [...this.equippableMounts, this.improvedArmament, this.integratedWeapon]
+    const mountSP = [
+      ...this.equippableMounts,
+      this.improvedArmament,
+      this.integratedWeapon,
+    ]
       .flatMap(x => x.Weapons)
       .reduce(function(a, b) {
         return a + (b ? b.SP : 0)
       }, 0)
+
     const systemSP = this.systems.reduce(function(a, b) {
       return a + b.SP
     }, 0)
