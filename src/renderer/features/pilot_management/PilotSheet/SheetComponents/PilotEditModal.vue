@@ -4,6 +4,8 @@
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
+    :scrollable="true"
+    style="oveflow-y: hidden!important"
   >
     <v-btn
       v-if="!noActivator"
@@ -21,7 +23,9 @@
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
-          <v-btn icon large @click="cancel"><v-icon large>close</v-icon></v-btn>
+          <v-btn icon large @click="cancel">
+            <v-icon large>close</v-icon>
+          </v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-spacer class="mb-5" />

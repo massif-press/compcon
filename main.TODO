@@ -1,33 +1,24 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
-bugs:
-  ✔ remaining loadout weirdness @done(19-06-05 10:29)
-  ✔ c/c not loading without an internet connection (taffer) @done(19-06-05 10:30)
-  ✔ Armor value not coming up on config sheet @done(19-06-05 10:33)
-  ✔ mod SP not automatically updating in view (correctly determined when assigning other mods/systems) @done(19-06-05 12:45)
-  ✔ prinaka missles fix @done(19-06-05 13:58)
-  ✔ renaming loadout only changes primary (CMDR treb) @done(19-06-05 13:58)
-  ✔ publish and update lancer-data @done(19-06-05 14:22)
-
-  ✔ incorrect weapon references @done(19-06-06 11:59)
-  ✔ bad mod tags (gibbay) @done(19-06-06 11:59)
-  ✔ remove custom image (tso) @done(19-06-06 12:23)
-  ✔ orochi drones (eranziel) @done(19-06-06 12:27)
+✔ Update lancer-data @done(19-06-07 13:07)
+✔ Fix unlicensed/over-sp colors (dawn-giant-dragon#0995) @done(19-06-07 11:21)
+✔ weapon mods not included in license requirements @done(19-06-07 11:29)
+✔ SP costed items on intweapon don't take SP (ari) @done(19-06-07 12:21)
+✔ Fixed selector left columns (watch scroll) @done(19-06-07 13:05)
 
 Improvements:
-  ✔ Separate Statuses and Conditions @done(19-06-05 14:29)
-  ✔ Y-positions for frames @done(19-06-05 14:22)
+  ☐ Move RequiredLicense logic into LicensedItem abstract
+    ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label
-  ☐ different cloud save ui
+  ☐ different cloud save ui 
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
   ☐ Downtime Resources in glossary
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ☐ Fixed selector left columns (watch scroll)
 
 2.0:
   ☐ Delete Homebrew content packs
@@ -69,6 +60,19 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ remaining loadout weirdness @done(19-06-05 10:29) @project(bugs)
+  ✔ c/c not loading without an internet connection (taffer) @done(19-06-05 10:30) @project(bugs)
+  ✔ Armor value not coming up on config sheet @done(19-06-05 10:33) @project(bugs)
+  ✔ mod SP not automatically updating in view (correctly determined when assigning other mods/systems) @done(19-06-05 12:45) @project(bugs)
+  ✔ prinaka missles fix @done(19-06-05 13:58) @project(bugs)
+  ✔ renaming loadout only changes primary (CMDR treb) @done(19-06-05 13:58) @project(bugs)
+  ✔ publish and update lancer-data @done(19-06-05 14:22) @project(bugs)
+  ✔ incorrect weapon references @done(19-06-06 11:59) @project(bugs)
+  ✔ bad mod tags (gibbay) @done(19-06-06 11:59) @project(bugs)
+  ✔ remove custom image (tso) @done(19-06-06 12:23) @project(bugs)
+  ✔ orochi drones (eranziel) @done(19-06-06 12:27) @project(bugs)
+  ✔ Separate Statuses and Conditions @done(19-06-05 14:29) @project(Improvements)
+  ✔ Y-positions for frames @done(19-06-05 14:22) @project(Improvements)
   ✔ blank pilot printables (williamscarlet) @done(19-06-03 21:04) @project(bugs)
   ✔ import doubling aux weapons (orion) @done(19-06-03 21:18) @project(bugs)
   ✔ stun reduces evasion to 5 (orion) @done(19-06-03 21:05) @project(bugs)

@@ -1,11 +1,11 @@
 <template>
-  <v-container>
-    <v-layout align-center justify-center column fill-height>
+  <v-container style="overflow-y: scroll">
+    <v-layout align-center justify-center column>
       <v-alert value="true" :type="!pointLimit ? 'info' : 'success'" outline
         >{{ currentPoints }}/{{ maxPoints }} Mech Skills selected</v-alert
       >
     </v-layout>
-    <v-layout align-center justify-center column fill-height>
+    <v-layout align-center justify-center column>
       <v-flex><span class="headline">HULL</span></v-flex>
       <v-flex>
         <span class="font-weight-light"
@@ -33,7 +33,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column fill-height>
+    <v-layout align-center justify-center column>
       <v-flex><span class="headline">AGILITY</span></v-flex>
       <v-flex>
         <span class="font-weight-light"
@@ -61,7 +61,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column fill-height>
+    <v-layout align-center justify-center column>
       <v-flex><span class="headline">SYSTEMS</span></v-flex>
       <v-flex>
         <span class="font-weight-light"
@@ -89,7 +89,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column fill-height>
+    <v-layout align-center justify-center column>
       <v-flex><span class="headline">ENGINEERING</span></v-flex>
       <v-flex>
         <span class="font-weight-light">
