@@ -1,16 +1,13 @@
 // var DiceRoller = require("./DiceRoller");
-import { DiceRoller } from "@/class";
-import 'jest';
+import { DiceRoller } from '@/class'
+import 'jest'
 
-beforeEach(() => {
-});
+beforeEach(() => {})
 
-afterEach(() => {
-});
+afterEach(() => {})
 
 test('_rollDie', () => {
-  Math.random = () => .5000;
+  Math.random = () => 0.5
 
-  expect(DiceRoller._rollDie(6)).toBe(4);
-
+  expect(DiceRoller._rollDie(6)).toBe(4)
 })
