@@ -1,21 +1,21 @@
-import store from "@/store";
-import { MechEquipment, SystemType, ItemType } from "@/class";
+import store from '@/store'
+import { MechEquipment, SystemType, ItemType } from '@/class'
 
 class MechSystem extends MechEquipment {
-  private system_type: SystemType;
+  private system_type: SystemType
 
   constructor(systemData: any) {
-    super(systemData);
-    this.system_type = systemData.type;
-    this.item_type = ItemType.MechSystem;
+    super(systemData)
+    this.system_type = systemData.type
+    this.item_type = ItemType.MechSystem
   }
 
   public get SP(): number {
-    return this.sp;
+    return this.sp
   }
 
   public get Type(): SystemType {
-    return this.system_type;
+    return this.system_type
   }
 
   public get IsUnique(): boolean {
@@ -23,13 +23,13 @@ class MechSystem extends MechEquipment {
   }
 
   public static Serialize(item: MechSystem): IEquipmentData {
-    return { id: item.ID, notes: item.Notes };
+    return { id: item.ID, notes: item.Notes }
   }
 
   public static Deserialize(itemData: IEquipmentData): MechSystem {
-    let item = store.getters.getItemById("MechSystems", itemData.id);
-    item.Notes = itemData.notes;
-    return item;
+    let item = store.getters.getItemById('MechSystems', itemData.id)
+    item.Notes = itemData.notes
+    return item
   }
 }
 

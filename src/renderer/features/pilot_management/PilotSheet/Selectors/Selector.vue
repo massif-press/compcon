@@ -1,16 +1,16 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="overflow: hidden">
     <v-layout>
       <v-flex xs3 class="pr-4">
         <v-layout>
           <v-flex class="text-xs-center">
-            <span class="minor-title">{{title}}</span>
-            <v-divider class="ma-2 ml-4 mr-4" />
+            <span class="minor-title">{{ title }}</span>
+            <v-divider class="ma-2 ml-4 mr-4"/>
           </v-flex>
         </v-layout>
         <slot name="left-column"></slot>
       </v-flex>
-      <v-flex xs9>
+      <v-flex xs9 style="height: 90vh; overflow-y: scroll">
         <slot name="right-column"></slot>
       </v-flex>
     </v-layout>
@@ -18,12 +18,12 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  
-  export default Vue.extend({
-    name: 'selector',
-    props: {
-      title: String
-    }
-  })
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'selector',
+  props: {
+    title: String,
+  },
+})
 </script>
