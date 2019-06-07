@@ -77,7 +77,7 @@ abstract class Mount {
   }
 
   public get Weapons(): MechWeapon[] {
-    return this.slots.concat(this.extra).map(x => x.Weapon).filter(y => y !== null) as MechWeapon[]
+    return this.Slots.map(x => x.Weapon).filter(y => y !== null) as MechWeapon[]
   }
 
   public get IsLocked(): boolean {
