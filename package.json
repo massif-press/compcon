@@ -25,7 +25,7 @@
     "productName": "compcon",
     "appId": "com.jarena.compcon",
     "directories": {
-      "output": "build/${env.BUILD_OS}-${env.TRAVIS_BRANCH}"
+      "output": "build/"
     },
     "files": [
       "dist/main/**/*",
