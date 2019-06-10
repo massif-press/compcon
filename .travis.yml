@@ -1,42 +1,77 @@
 language: node_js
 node_js: "10"
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 install:
   - yarn
-sudo: false
-
-# We go through some contortions in here and the package.json
-# calls because a) we have to hardwire a build location
-# into packages's build.directories.output and b) we need to match
-# a number of specific folder names for itch.io's outputs.
-# The last is because, at the time of automation, there was already
-# a pipeline with subscribers on itch that we had to not disrupt.
-# That said, I'm sure a refactor could improve all this.
-matrix:
-  include:
-  - name: osx_build
-    os: osx
-    osx_image: xcode10.2
-    script: BUILD_OS=osx ./build_scripts/build.sh
-  - name: linux_build
-    os: linux
-    dist: xenial
-    script: BUILD_OS=linux ./build_scripts/build.sh
-  - name: win_build
-    os: osx
-    osx_image: xcode10.2
-    script: BUILD_OS=win ./build_scripts/build.sh
-
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
-branches:
-  only:
-    - stable
-    - beta
-    - tso_ci_pipeline
+
+stages:
+  - name: test
+  - name: build
+    if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
+  - name: deploy
+    if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
+
+jobs:
+  include:
+    - stage: test
+      name: "test"
+      os: linux
+      dist: xenial
+      script:
+        - yarn unit-test
+        - yarn int-test
+    - stage: build  
+      name: "mac"
+      os: osx
+      osx_image: xcode10.2
+      script: 
+        - ./build_scripts/install_aws.sh
+        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
+        - yarn dist-travis --mac --publish never
+        - cat build/latest-mac.yml
+        - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac
+    - stage: build
+      name: "windows"
+      os: osx
+      osx_image: xcode10.2
+      script:
+        - ./build_scripts/install_aws.sh
+        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/win
+        - yarn dist-travis --win --publish never
+        - aws s3 cp build/compcon*.exe s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/win
+    - stage: build
+      name: "linux"
+      os: linux
+      dist: xenial
+      script: 
+        - ./build_scripts/install_aws.sh
+        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/linux
+        - yarn dist-travis --linux --publish never
+        - cat build/latest-linux.yml
+        - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux
+    - stage: deploy
+      name: "deploy" 
+      script:
+        - ./build_scripts/install_aws.sh
+        - source ./build_scripts/set_deploy_vars.sh
+        - mkdir ~/$TRAVIS_BUILD_NUMBER
+        - aws s3 cp --recursive s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER ./$TRAVIS_BUILD_NUMBER
+        - curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+        - unzip butler.zip
+        - chmod +x butler
+        - ./butler -V
+        - echo ./butler push ./${TRAVIS_BUILD_NUMBER}/mac ${MAC_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
+        - echo ./butler push ./${TRAVIS_BUILD_NUMBER}/win ${WIN_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
+        - echo ./butler push ./${TRAVIS_BUILD_NUMBER}/linux ${LINUX_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
