@@ -1,12 +1,16 @@
 {
   "stable": "1.3.0b",
-  "beta": "1.3.6",
+  "beta": "1.3.7",
   "news": {
-    "date": "June 7th, 2019",
-    "version": "1.3.6",
-    "body": "<p>Hello Everyone,<br> Thanks to the tireless work of the Discord testing crew, 1.3x/PR2 is quickly stabilizing. Soon, I’ll be merging everything into <em>Stable</em> and <em>Beta</em> will start to see some new features.</p><br><p><strong>KNOWN ISSUES</strong></p> <ul> <li>Weapon datatables only sort by the first damage or range element on weapons with multiple damage or range types</li><li>There might be some remaining weirdness when importing old pilots or mechs – especially in relation to flex mounts and the old style Integrated Weapon CORE Bonus. If you notice this, deleting and remaking the offending loadout usually solves the problem</li></ul>"
+    "date": "June 11th, 2019",
+    "version": "1.3.7",
+    "body": "<p>Hello all,<br />We're getting closer to a stable release and new beta features. Please bear with the final bug-fixing passes. A special thanks to @witchy this week, who found a ton of Compendium issues that I had missed.</p> <p>&nbsp;</p> <p><strong>KNOWN ISSUES</strong></p> <ul> <li>Weapon datatables only sort by the first damage or range element on weapons with multiple damage or range types</li> <li>There might be some remaining weirdness when importing old pilots or mechs &ndash; especially in relation to flex mounts and the old style Integrated Weapon CORE Bonus. If you notice this, deleting and remaking the offending loadout usually solves the problem</li> <li>The GMS \"Personalizations\" system is causing some issues with Active Mechs <strong>saving at full HP</strong> -- they won't save the extra 2 HP between reloads. This is currently being worked on.</li> </ul>"
   },
   "changelog": [
+    {
+      "version": "1.3.7",
+      "changes": "<ul> <li>Corrects IPS-N RALEIGH's E-Defense and Repair Capacity</li> <li>Adds SP to the Frame Overview accessed through the License UI</li> <li>Corrects typos in the SSC SWALLOWTAIL trait descriptions</li> <li>Corrects a typo in the SSC BLACK WITCH's Mag Parry effect</li> <li>Custom Background should now save and load correctly</li> <li>Corrects the Prototype Weapon II effect</li> <li>Corrects a typo in Spotter I (Particularize)</li> <li>Corrects a typo in the Armsman description</li> <li>Corrects HORUS GORGON's Sensors (8)</li> <li>Corrects HA ISKANDER Tech Attack (+1).</li> <li>Corrects HA NAPOLEON Save Target (11).</li> <li>Corrects HA TOKUGAWA Save Target (11).</li> <li>Fixes an issue where the Mount Retrofitting effect couldn't be removed from the first Mount in the loadout list</li> <li>Fixes the persistent delete prompt when deleting/adding loadouts</li> </ul>"
+    },
     {
       "version": "1.3.6",
       "changes": "<ul> <li>Corrects HORUS Meta-hook SP from 1 to 2</li> <li>Corrects IPS-N TORTUGA licenses</li> <li>Switches the Unlicensed and Over SP table item warning colors to be more consistent</li> <li>GMS CORE Bonus mounts that equip weapons that cost SP are now correctly included against total loadout SP cost</li> <li>Pilot Talent/Trigger/License/and CORE Bonus selectors now have fixed position overviews, so you don't have to scroll back and forth to see what you've selected</li> </ul>"

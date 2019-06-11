@@ -1,6 +1,7 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
 ☐ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations
+
 ✔ Raleigh E-Defense @done(19-06-11 12:17)
 ✔ Raleigh repcap @done(19-06-11 12:17)
 ✔ SP missing in frame card @done(19-06-11 13:07)
@@ -18,14 +19,7 @@
 ✔ Cannot remove mount retrofitting bonus on first mount @done(19-06-11 14:42)
 ✔ Delete prompt on creating new loadouts @done(19-06-11 14:45)
 
-Can't reproduce:
-✔ Terashima Blade not appearing @done(19-06-11 13:10)
-✔ War Pike should not be 2sp @done(19-06-11 13:06)
-✔ Breaking on open Options page @done(19-06-11 14:28)
-
-
 tso - fri evening 8:30?
-
 
 Improvements:
   ☐ Frame tags and sort by tag
