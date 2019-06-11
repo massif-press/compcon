@@ -6,9 +6,9 @@
           // MISSING FRAME DATA //
         </p>
         <br />
-        <span v-if="config.brew" class="caption grey--text"
-          >({{ config.brew }})</span
-        >
+        <span v-if="config.brew" class="caption grey--text">
+          ({{ config.brew }})
+        </span>
       </div>
     </empty-view>
 
@@ -23,8 +23,8 @@
           <v-divider />
           <v-toolbar-title class="text-uppercase font-weight-light">
             <span style="letter-spacing: 15px; font-size: 1.75em">
-              Mech {{ config.IsActive ? 'Active' : 'Inactive' }}</span
-            >
+              Mech {{ config.IsActive ? 'Active' : 'Inactive' }}
+            </span>
           </v-toolbar-title>
           <v-divider />
           <v-toolbar-items class="hidden-sm-and-down">
@@ -32,26 +32,37 @@
               <v-icon
                 large
                 :color="config.IsActive ? 'yellow accent-2' : 'grey darken-3'"
-                >mdi-power</v-icon
               >
+                mdi-power
+              </v-icon>
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <div class="text-xs-center">
-          <span v-if="config.IsActive"
-            ><b>Active Mech</b><br />
-            Active Mechs can track Structure, HP, Reactor Stress, Heat, <br />
-            Overcharge, and Repair Capacity.<br />
-            A pilot may have only one mech activated at a time.<br /><br />
-            You can click the toggle to deactivate {{ config.Name }}</span
-          >
-          <span v-else
-            ><b>Inactive Mech</b><br />
-            Inactive Mechs are unable to track any stats, but Pilots may<br />
-            have only one active Mech at any time. Making this Mech active<br />
-            will deactivate any currently active Mechs<br /><br />
-            You can click the toggle to activate {{ config.Name }}</span
-          >
+          <span v-if="config.IsActive">
+            <b>Active Mech</b>
+            <br />
+            Active Mechs can track Structure, HP, Reactor Stress, Heat,
+            <br />
+            Overcharge, and Repair Capacity.
+            <br />
+            A pilot may have only one mech activated at a time.
+            <br />
+            <br />
+            You can click the toggle to deactivate {{ config.Name }}
+          </span>
+          <span v-else>
+            <b>Inactive Mech</b>
+            <br />
+            Inactive Mechs are unable to track any stats, but Pilots may
+            <br />
+            have only one active Mech at any time. Making this Mech active
+            <br />
+            will deactivate any currently active Mechs
+            <br />
+            <br />
+            You can click the toggle to activate {{ config.Name }}
+          </span>
         </div>
       </v-tooltip>
 
@@ -66,9 +77,9 @@
               :placeholder="config.Name"
               :mech="config"
             >
-              <span slot="label" class="display-2 white--text">{{
-                config.Name
-              }}</span>
+              <span slot="label" class="display-2 white--text">
+                {{ config.Name }}
+              </span>
             </editable-label>
           </v-flex>
           <v-flex>
@@ -99,10 +110,10 @@
           <v-flex xs7>
             <v-layout>
               <v-flex>
-                <span class="white--text fluff-text ml-2"
-                  >{{ getManufacturer(config.Frame.Source).Name }}
-                  {{ config.Frame.MechTypeString }} Mech</span
-                >
+                <span class="white--text fluff-text ml-2">
+                  {{ getManufacturer(config.Frame.Source).Name }}
+                  {{ config.Frame.MechTypeString }} Mech
+                </span>
               </v-flex>
             </v-layout>
             <v-textarea
@@ -115,11 +126,9 @@
               clearable
             />
             <!-- Req. Licenses -->
-            <v-layout class="mt-0"
-              ><span class="config-header mt-0"
-                >Licenses Required</span
-              ></v-layout
-            >
+            <v-layout class="mt-0">
+              <span class="config-header mt-0">Licenses Required</span>
+            </v-layout>
             <v-layout>
               <v-flex>
                 <v-tooltip
@@ -142,18 +151,24 @@
                         } font-weight-black title`
                       "
                     >
-                      <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n"
-                        >I</span
-                      >
+                      <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">
+                        I
+                      </span>
                     </v-avatar>
                     {{ l.source }} {{ l.name }}
                   </v-chip>
                   <span>
-                    <span v-if="l.missing" class="font-weight-bold yellow--text"
-                      >WARNING: MISSING LICENSE <br /></span
-                    ><b>{{ l.name }} RANK {{ l.rank }}</b
-                    ><br />
-                    <i>Required for:&nbsp;</i> {{ l.items.join(', ') }}
+                    <span
+                      v-if="l.missing"
+                      class="font-weight-bold yellow--text"
+                    >
+                      WARNING: MISSING LICENSE
+                      <br />
+                    </span>
+                    <b>{{ l.name }} RANK {{ l.rank }}</b>
+                    <br />
+                    <i>Required for:&nbsp;</i>
+                    {{ l.items.join(', ') }}
                   </span>
                 </v-tooltip>
               </v-flex>
@@ -164,7 +179,9 @@
                   type="warning"
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                   outline
-                  ><b>WARNING: UNLICENSED COMPONENTS</b><br />
+                >
+                  <b>WARNING: UNLICENSED COMPONENTS</b>
+                  <br />
                   Pilot is missing one or more licenses required for this
                   configuration
                 </v-alert>
@@ -176,10 +193,12 @@
                   type="warning"
                   :value="config.CurrentSP > config.MaxSP"
                   outline
-                  ><b>WARNING: SYSTEM CAPACITY EXCEEDED</b><br />
-                  Configuration loadout exceeds available SP points (<b
-                    >{{ config.CurrentSP }} SP used</b
-                  >, {{ config.MaxSP }} SP available)
+                >
+                  <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
+                  <br />
+                  Configuration loadout exceeds available SP points (
+                  <b>{{ config.CurrentSP }} SP used</b>
+                  , {{ config.MaxSP }} SP available)
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -203,8 +222,9 @@
                 appearanceLoader = true
                 appearanceModal = true
               "
-              >Set Custom Image</v-btn
             >
+              Set Custom Image
+            </v-btn>
           </v-flex>
           <image-selector
             :model="appearanceModal"
@@ -215,45 +235,45 @@
         </v-layout>
         <!-- Attribute Block -->
         <v-layout>
-          <span class="config-header"
-            >Mech Attributes
+          <span class="config-header">
+            Mech Attributes
             <span style="float: right">SIZE {{ config.Size }} &emsp;</span>
           </span>
         </v-layout>
         <v-layout>
           <v-flex xs1 class="mr-3">
             <v-layout column justify-center class="text-xs-center">
-              <v-flex class="subheader"
-                ><span class="caption">HULL</span></v-flex
-              >
-              <v-flex class="hase"
-                ><span>{{ pilot.MechSkills.Hull }}</span></v-flex
-              >
-              <v-flex class="subheader"
-                ><span class="caption">AGILITY</span></v-flex
-              >
-              <v-flex class="hase"
-                ><span>{{ pilot.MechSkills.Agi }}</span></v-flex
-              >
-              <v-flex class="subheader"
-                ><span class="caption">SYSTEMS</span></v-flex
-              >
-              <v-flex class="hase"
-                ><span>{{ pilot.MechSkills.Sys }}</span></v-flex
-              >
-              <v-flex class="subheader"
-                ><span class="caption">ENGINEERING</span></v-flex
-              >
-              <v-flex class="hase"
-                ><span>{{ pilot.MechSkills.Eng }}</span></v-flex
-              >
+              <v-flex class="subheader">
+                <span class="caption">HULL</span>
+              </v-flex>
+              <v-flex class="hase">
+                <span>{{ pilot.MechSkills.Hull }}</span>
+              </v-flex>
+              <v-flex class="subheader">
+                <span class="caption">AGILITY</span>
+              </v-flex>
+              <v-flex class="hase">
+                <span>{{ pilot.MechSkills.Agi }}</span>
+              </v-flex>
+              <v-flex class="subheader">
+                <span class="caption">SYSTEMS</span>
+              </v-flex>
+              <v-flex class="hase">
+                <span>{{ pilot.MechSkills.Sys }}</span>
+              </v-flex>
+              <v-flex class="subheader">
+                <span class="caption">ENGINEERING</span>
+              </v-flex>
+              <v-flex class="hase">
+                <span>{{ pilot.MechSkills.Eng }}</span>
+              </v-flex>
               <v-divider dark class="pt-0 mt-0" />
-              <v-flex class="subheader"
-                ><span class="caption">SYSTEM POINTS</span></v-flex
-              >
-              <v-flex class="hase"
-                ><span>{{ config.SP }}</span></v-flex
-              >
+              <v-flex class="subheader">
+                <span class="caption">SYSTEM POINTS</span>
+              </v-flex>
+              <v-flex class="hase">
+                <span>{{ config.SP }}</span>
+              </v-flex>
             </v-layout>
           </v-flex>
           <v-flex>
@@ -261,13 +281,13 @@
               <v-flex>
                 <v-layout>
                   <v-flex shrink>
-                    <span class="grey--text"
-                      >STRUCTURE
-                      <b :style="`color: ${color.structure.dark}`"
-                        >{{ config.CurrentStructure || 0 }}
-                        <span v-if="config.IsActive"
-                          >/{{ config.MaxStructure }}</span
-                        >
+                    <span class="grey--text">
+                      STRUCTURE
+                      <b :style="`color: ${color.structure.dark}`">
+                        {{ config.CurrentStructure || 0 }}
+                        <span v-if="config.IsActive">
+                          /{{ config.MaxStructure }}
+                        </span>
                       </b>
                     </span>
                     <tick-bar
@@ -286,14 +306,14 @@
                   <v-flex>
                     <span class="grey--text">
                       &nbsp;HP
-                      <b :style="`color: ${color.hp.dark}`"
-                        >{{ config.CurrentHP || 0 }}
+                      <b :style="`color: ${color.hp.dark}`">
+                        {{ config.CurrentHP || 0 }}
                         <span v-if="config.IsActive">/{{ config.MaxHP }}</span>
                       </b>
                       &emsp; ARMOR
-                      <b :style="`color: ${color.armor.dark}`">{{
-                        config.Armor
-                      }}</b>
+                      <b :style="`color: ${color.armor.dark}`">
+                        {{ config.Armor }}
+                      </b>
                     </span>
                     <v-layout>
                       <tick-bar
@@ -329,15 +349,15 @@
               <v-flex>
                 <v-layout>
                   <v-flex shrink>
-                    <span class="grey--text"
-                      >REACTOR STRESS
-                      <b :style="`color: ${color.stress.dark}`"
-                        >{{ config.CurrentStress || 0 }}
-                        <span v-if="config.IsActive"
-                          >/{{ config.MaxStress }}</span
-                        >
-                      </b></span
-                    >
+                    <span class="grey--text">
+                      REACTOR STRESS
+                      <b :style="`color: ${color.stress.dark}`">
+                        {{ config.CurrentStress || 0 }}
+                        <span v-if="config.IsActive">
+                          /{{ config.MaxStress }}
+                        </span>
+                      </b>
+                    </span>
                     <tick-bar
                       :current="config.CurrentStress || config.MaxStress"
                       :max="config.MaxStress"
@@ -352,18 +372,18 @@
                   </v-flex>
                   <v-flex>
                     <span class="grey--text">
-                      <span v-if="config.IsActive"
-                        >&nbsp;HEAT:
-                        <b :style="`color: ${color.heatcap.dark}`">{{
-                          config.CurrentHeat || 0
-                        }}</b>
-                        &emsp; &nbsp;</span
-                      >
+                      <span v-if="config.IsActive">
+                        &nbsp;HEAT:
+                        <b :style="`color: ${color.heatcap.dark}`">
+                          {{ config.CurrentHeat || 0 }}
+                        </b>
+                        &emsp; &nbsp;
+                      </span>
                       HEAT CAPACITY
-                      <b :style="`color: ${color.heatcap.dark}`">{{
-                        config.HeatCapacity
-                      }}</b></span
-                    >
+                      <b :style="`color: ${color.heatcap.dark}`">
+                        {{ config.HeatCapacity }}
+                      </b>
+                    </span>
                     <tick-bar
                       :current="config.CurrentHeat || 0"
                       :max="config.HeatCapacity"
@@ -380,13 +400,13 @@
                   <v-flex>
                     <span class="grey--text">
                       &nbsp;REPAIR CAPACITY
-                      <b :style="`color: ${color.repcap.dark}`"
-                        >{{ config.CurrentRepairs }}
-                        <span v-if="config.IsActive"
-                          >/{{ config.RepairCapacity }}</span
-                        >
-                      </b></span
-                    >
+                      <b :style="`color: ${color.repcap.dark}`">
+                        {{ config.CurrentRepairs }}
+                        <span v-if="config.IsActive">
+                          /{{ config.RepairCapacity }}
+                        </span>
+                      </b>
+                    </span>
                     <tick-bar
                       :current="config.CurrentRepairs || config.RepairCapacity"
                       :max="config.RepairCapacity"
@@ -405,8 +425,8 @@
                       &nbsp;CORE POWER
                       <b :style="`color: ${color.corepower.dark}`">
                         {{ config.CurrentCoreEnergy || 1 }}
-                      </b></span
-                    >
+                      </b>
+                    </span>
                     <tick-bar
                       :config_id="config.id"
                       :current="config.CurrentCoreEnergy || 1"
@@ -425,8 +445,8 @@
                       &nbsp;OVERCHARGE
                       <b :style="`color: ${color.overcharge.dark}`">
                         {{ overcharge[config.CurrentOvercharge || 0] }}
-                      </b></span
-                    >
+                      </b>
+                    </span>
                     <tick-bar
                       :config_id="config.id"
                       :current="config.CurrentOvercharge"
@@ -493,11 +513,11 @@
         <v-layout><span class="config-header">CORE System</span></v-layout>
         <v-layout>
           <v-flex class="m-2">
-            <v-toolbar color="grey darken-2"
-              ><v-toolbar-title class="white--text">{{
-                config.Frame.CoreSystem.Name
-              }}</v-toolbar-title></v-toolbar
-            >
+            <v-toolbar color="grey darken-2">
+              <v-toolbar-title class="white--text">
+                {{ config.Frame.CoreSystem.Name }}
+              </v-toolbar-title>
+            </v-toolbar>
             <v-card dark>
               <v-card-text
                 v-if="config.Frame.CoreSystem.Ddescription"
@@ -505,23 +525,22 @@
               />
               <div v-if="config.Frame.CoreSystem.Passive">
                 <v-card-title class="subheading">Passive</v-card-title>
-                <v-card-text class="mt-0 pt-0 mb-0 pb-1"
-                  ><p class="mb-1" v-html="config.Frame.CoreSystem.Passive"
-                /></v-card-text>
+                <v-card-text class="mt-0 pt-0 mb-0 pb-1">
+                  <p class="mb-1" v-html="config.Frame.CoreSystem.Passive" />
+                </v-card-text>
               </div>
-              <v-card-title class="title"
-                >{{ config.Frame.CoreSystem.Active
-                }}<span class="pt-2 ml-2 caption grey--text"
-                  >(ACTIVE)</span
-                ></v-card-title
-              >
-              <v-card-text class="mt-0 pt-0 mb-0 pb-1"
-                ><p class="mb-1" v-html="config.Frame.CoreSystem.Effect"/>
+              <v-card-title class="title">
+                {{ config.Frame.CoreSystem.Active }}
+                <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
+              </v-card-title>
+              <v-card-text class="mt-0 pt-0 mb-0 pb-1">
+                <p class="mb-1" v-html="config.Frame.CoreSystem.Effect" />
                 <item-tag
                   v-for="t in config.Frame.CoreSystem.Tags"
                   :key="t.id"
                   :tag-obj="t"
-              /></v-card-text>
+                />
+              </v-card-text>
             </v-card>
           </v-flex>
         </v-layout>
@@ -544,10 +563,18 @@
             block
             dark
             @click="openPrintOptions(false)"
-            ><v-icon>print</v-icon> &nbsp; PRINT</v-btn
           >
-          <v-btn color="warning" small flat block @click="copyConfigStatblock()"
-            >copy config statblock &nbsp;
+            <v-icon>print</v-icon>
+            &nbsp; PRINT
+          </v-btn>
+          <v-btn
+            color="warning"
+            small
+            flat
+            block
+            @click="copyConfigStatblock()"
+          >
+            copy config statblock &nbsp;
             <v-tooltip top>
               <v-icon slot="activator" small color="grey">help</v-icon>
               <span>
@@ -572,7 +599,8 @@
                   type="error"
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
-                  <b>CRITICAL: UNLICENSED COMPONENTS</b><br />
+                  <b>CRITICAL: UNLICENSED COMPONENTS</b>
+                  <br />
                   Pilot is missing one or more licenses required for this
                   configuration.
                 </v-alert>
@@ -581,10 +609,11 @@
             <v-layout>
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
-                  <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b><br />
-                  Configuration loadout exceeds available SP points (<b
-                    >{{ config.CurrentSP }} SP used</b
-                  >, {{ config.MaxSP }} SP available)
+                  <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b>
+                  <br />
+                  Configuration loadout exceeds available SP points (
+                  <b>{{ config.CurrentSP }} SP used</b>
+                  , {{ config.MaxSP }} SP available)
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -594,7 +623,8 @@
                   type="warning"
                   :value="config.MaxSP - config.CurrentSP > 0"
                 >
-                  <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b><br />
+                  <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b>
+                  <br />
                   Configuration retains
                   {{ config.MaxSP - config.CurrentSP }} unused System Points.
                   Combat efficacy limited.
@@ -604,7 +634,8 @@
             <v-layout>
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="hasEmptyMounts()">
-                  <b>WARNING: EMPTY MOUNTS DETECTED</b><br />
+                  <b>WARNING: EMPTY MOUNTS DETECTED</b>
+                  <br />
                   Configuration has mounts that do not contain an equipped
                   weapon. Combat efficacy limited.
                 </v-alert>

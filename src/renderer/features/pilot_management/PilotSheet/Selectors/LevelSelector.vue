@@ -2,10 +2,10 @@
   <div>
     <v-card-text class="text-xs-center">
       <p>
-        <i
-          >This tool skips the level up wizard. Triggers, licenses, talents,
-          mech skills, and CORE bonuses will have to be updated manually</i
-        >
+        <i>
+          This tool skips the level up wizard. Triggers, licenses, talents, mech
+          skills, and CORE bonuses will have to be updated manually
+        </i>
       </p>
       <v-layout justify-center>
         <v-flex xs3>
@@ -51,10 +51,10 @@
         <v-alert :value="newLevel && newLevel < pilot.level" type="warning">
           <b>WARNING: LEVEL REMOVAL</b>
           <br />
-          <span
-            >This will reset all Pilot Skill Triggers, Talents, Licenses, Mech
-            Skills, and CORE Bonuses. They must be re-added manually.</span
-          >
+          <span>
+            This will reset all Pilot Skill Triggers, Talents, Licenses, Mech
+            Skills, and CORE Bonuses. They must be re-added manually.
+          </span>
         </v-alert>
       </v-flex>
     </v-layout>
@@ -66,8 +66,9 @@
           large
           @click="setLevel"
           :disabled="newLevel === pilot.levels"
-          >Set Pilot Level</v-btn
         >
+          Set Pilot Level
+        </v-btn>
       </v-flex>
     </v-layout>
   </div>

@@ -13,9 +13,9 @@
           <v-icon small v-else>label</v-icon>
         </v-avatar>
         <span v-if="tagObj.err">MISSING DATA</span>
-        <span v-else>{{
-          pilot ? tagObj.Name(pilot.LimitedBonus) : tagObj.Name()
-        }}</span>
+        <span v-else>
+          {{ pilot ? tagObj.Name(pilot.LimitedBonus) : tagObj.Name() }}
+        </span>
       </v-chip>
       <v-card-text v-if="tagObj.err">
         Tag data not found. This is likely due to a missing content pack, or
@@ -28,11 +28,12 @@
         <v-card-text
           v-if="tagObj.ID === 'limited' && pilot && pilot.LimitedBonus"
           class="pb-2 mb-2 pt-0 mt-0"
-          >{{ tagObj.Description(pilot.LimitedBonus) }}
+        >
+          {{ tagObj.Description(pilot.LimitedBonus) }}
           <br />
-          <em v-if="pilot.LimitedBonus"
-            >(Includes +{{ pilot.LimitedBonus }} Limited Systems bonus)</em
-          >
+          <em v-if="pilot.LimitedBonus">
+            (Includes +{{ pilot.LimitedBonus }} Limited Systems bonus)
+          </em>
         </v-card-text>
         <v-card-text v-else class="pb-2 mb-2 pt-0 mt-0">
           {{ tagObj.Description() }}

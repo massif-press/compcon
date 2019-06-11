@@ -21,9 +21,9 @@
             >
               <v-icon>add</v-icon>
             </v-btn>
-            <v-toolbar-title class="headline" dense>{{
-              bg.name
-            }}</v-toolbar-title>
+            <v-toolbar-title class="headline" dense>
+              {{ bg.name }}
+            </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="pl-3 pr-3 pt-3 pb-2 m-0">
             <span class="subheading grey--text ml-3 mr-3">
@@ -62,22 +62,23 @@
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
-                  <v-btn flat color="primary" @click="customBgDialog = false"
-                    >Cancel</v-btn
-                  >
+                  <v-btn flat color="primary" @click="customBgDialog = false">
+                    Cancel
+                  </v-btn>
                   <v-spacer />
                   <v-btn
                     color="success"
                     :disabled="!customBg.length"
                     @click="onCustom"
-                    >Confirm</v-btn
                   >
+                    Confirm
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-toolbar-title class="headline"
-              >Custom Pilot Background</v-toolbar-title
-            >
+            <v-toolbar-title class="headline">
+              Custom Pilot Background
+            </v-toolbar-title>
           </v-toolbar>
           <v-card-text class="pl-3 pr-3 pt-0 pb-2 m-0">
             <p>&emsp;</p>

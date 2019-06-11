@@ -12,16 +12,16 @@
                 <span class="grey--text">// MISSING DATA //</span>
               </v-flex>
               <v-flex shrink>
-                <v-btn icon flat color="error" @click="remove(pTalent)"
-                  ><v-icon>delete</v-icon></v-btn
-                >
+                <v-btn icon flat color="error" @click="remove(pTalent)">
+                  <v-icon>delete</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-icon small color="primary"
-                  >cc-rank-{{ pTalent.Rank }}</v-icon
-                >
+                <v-icon small color="primary">
+                  cc-rank-{{ pTalent.Rank }}
+                </v-icon>
                 <strong>{{ pTalent.Talent.Name }}</strong>
               </v-flex>
             </v-layout>
@@ -62,8 +62,9 @@
             small
             :disabled="!talents.length"
             @click="resetTalents"
-            >Reset</v-btn
           >
+            Reset
+          </v-btn>
         </v-flex>
       </v-layout>
     </template>

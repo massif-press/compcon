@@ -2,11 +2,15 @@
   <v-card flat :color="tableItem ? '' : '#373737'">
     <v-card-text class="pb-0 pt-0">
       <div class="pt-2">
-        <em v-if="!itemData.License">{{ itemData.Source }}<br /></em>
-        <em v-else
-          >{{ itemData.Source }} {{ itemData.License }}, RANK
-          <span v-for="n in itemData.LicenseLevel" :key="n">I</span><br
-        /></em>
+        <em v-if="!itemData.License">
+          {{ itemData.Source }}
+          <br />
+        </em>
+        <em v-else>
+          {{ itemData.Source }} {{ itemData.License }}, RANK
+          <span v-for="n in itemData.LicenseLevel" :key="n">I</span>
+          <br />
+        </em>
       </div>
       <p
         v-if="itemData.Description"

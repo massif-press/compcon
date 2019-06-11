@@ -13,11 +13,10 @@
             weaponSlot.Size +
               (!weaponSlot.Weapon || weaponSlot.Weapon.err ? ' Weapon' : '')
           "
-        >
-        </v-btn>
-        <span v-if="!weaponSlot.Weapon"
-          >Equip {{ weaponSlot.Size }} Weapon</span
-        >
+        ></v-btn>
+        <span v-if="!weaponSlot.Weapon">
+          Equip {{ weaponSlot.Size }} Weapon
+        </span>
         <span v-else>Change Equipped {{ weaponSlot.Size }} Weapon</span>
       </v-tooltip>
     </v-flex>
@@ -25,16 +24,16 @@
       <div v-if="!weaponSlot.Weapon">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading"> EMPTY </span>
+            <span slot="header" class="subheading">EMPTY</span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
       <div v-else-if="weaponSlot.Weapon.err">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading grey--text"
-              >// MISSING WEAPON DATA //</span
-            >
+            <span slot="header" class="subheading grey--text">
+              // MISSING WEAPON DATA //
+            </span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -42,27 +41,27 @@
         <v-expansion-panel class="m-0">
           <v-expansion-panel-content>
             <v-layout slot="header">
-              <span class="subheading font-weight-bold"
-                >{{ weaponSlot.Weapon.name }}
+              <span class="subheading font-weight-bold">
+                {{ weaponSlot.Weapon.name }}
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && weaponSlot.Weapon.Mod.err"
                 >
-                  <span class="subheading grey--text"
-                    >// MISSING MOD DATA //</span
-                  >
+                  <span class="subheading grey--text">
+                    // MISSING MOD DATA //
+                  </span>
                 </span>
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
                 >
                   <span class="grey--text font-weight-regular">//</span>
-                  <span class="blue-grey--text text--lighten-3">{{
-                    weaponSlot.Weapon.Mod.Name
-                  }}</span>
-                  <span class="caption"
-                    >({{ weaponSlot.Weapon.Mod.SP }} SP)</span
-                  >
+                  <span class="blue-grey--text text--lighten-3">
+                    {{ weaponSlot.Weapon.Mod.Name }}
+                  </span>
+                  <span class="caption">
+                    ({{ weaponSlot.Weapon.Mod.SP }} SP)
+                  </span>
                 </span>
               </span>
               <v-spacer />
@@ -81,8 +80,9 @@
                       absolute
                       class="ma-0 pa-0"
                       style="top: 10px"
-                      ><v-icon small>build</v-icon></v-btn
                     >
+                      <v-icon small>build</v-icon>
+                    </v-btn>
                   </div>
                   <span>Add/Change Weapon Mods</span>
                 </v-tooltip>
@@ -116,9 +116,9 @@
       transition="dialog-bottom-transition"
     >
       <v-toolbar fixed dense flat dark>
-        <v-toolbar-title
-          ><span class="text-capitalize">Select Weapon</span></v-toolbar-title
-        >
+        <v-toolbar-title>
+          <span class="text-capitalize">Select Weapon</span>
+        </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="weaponSelectorModal = false">
@@ -139,11 +139,9 @@
     <!-- Superheavy Lock Modal -->
     <v-dialog v-model="lockDialog">
       <v-toolbar fixed dense flat dark>
-        <v-toolbar-title
-          ><span class="text-capitalize"
-            >Select Bracing Mount</span
-          ></v-toolbar-title
-        >
+        <v-toolbar-title>
+          <span class="text-capitalize">Select Bracing Mount</span>
+        </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="lockDialog = false">
@@ -154,11 +152,12 @@
       <v-card>
         <v-card-text class="text-xs-center">
           Superheavy-class weaponry requires an additional mount. Select the
-          bracing mount below.<br />
-          <i
-            >The selected mount will be locked until the superheavy weapon is
-            removed.</i
-          >
+          bracing mount below.
+          <br />
+          <i>
+            The selected mount will be locked until the superheavy weapon is
+            removed.
+          </i>
           <br />
           <v-layout row justify-center>
             <div
@@ -190,11 +189,9 @@
       transition="dialog-bottom-transition"
     >
       <v-toolbar fixed dense flat dark>
-        <v-toolbar-title
-          ><span class="text-capitalize"
-            >Select Weapon Modification</span
-          ></v-toolbar-title
-        >
+        <v-toolbar-title>
+          <span class="text-capitalize">Select Weapon Modification</span>
+        </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="modModal = false">

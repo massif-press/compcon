@@ -14,7 +14,7 @@
               {{ d.Value }}
               <v-icon :size="size" v-html="d.Icon" :color="d.Color(dark)" />
             </b>
-            <i v-if="dmg.length - 1 > index" class="grey--text"> //&nbsp;</i>
+            <i v-if="dmg.length - 1 > index" class="grey--text">//&nbsp;</i>
           </div>
         </span>
         <span>
@@ -34,7 +34,7 @@
           class="inline"
         >
           <b :style="'color: ' + d.Color(dark)">{{ d.ToString }}</b>
-          <i v-if="dmg.length - 1 > index" class="grey--text"> //&nbsp;</i>
+          <i v-if="dmg.length - 1 > index" class="grey--text">//&nbsp;</i>
         </div>
       </span>
     </div>

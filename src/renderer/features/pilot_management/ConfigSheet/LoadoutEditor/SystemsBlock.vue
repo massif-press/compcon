@@ -31,16 +31,15 @@
           slot="activator"
           class="bottom-title pl-3 pr-3 red--text font-weight-bold"
         >
-          <v-icon color="error">warning</v-icon>&emsp;{{ loadout.TotalSP }}/{{
-            mech.MaxSP
-          }}
-          SP&emsp;<v-icon color="error">warning</v-icon>
+          <v-icon color="error">warning</v-icon>
+          &emsp;{{ loadout.TotalSP }}/{{ mech.MaxSP }} SP&emsp;
+          <v-icon color="error">warning</v-icon>
         </span>
         <span>WARNING: Loadout exceeds system capacity</span>
       </v-tooltip>
-      <span v-else class="bottom-title pl-3 pr-3"
-        >{{ usedSP() }}/{{ mech.MaxSP }} SP</span
-      >
+      <span v-else class="bottom-title pl-3 pr-3">
+        {{ usedSP() }}/{{ mech.MaxSP }} SP
+      </span>
     </v-card>
   </div>
 </template>

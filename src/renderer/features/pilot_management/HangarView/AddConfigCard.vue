@@ -13,9 +13,9 @@
               `height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`
             "
           >
-            <span class="pilot-letter white--text"
-              ><v-icon dark size="20vw">cc-frame</v-icon></span
-            >
+            <span class="pilot-letter white--text">
+              <v-icon dark size="20vw">cc-frame</v-icon>
+            </span>
           </div>
         </v-flex>
       </v-layout>
@@ -23,9 +23,9 @@
         <v-flex class="pb-0">
           <v-card color="transparent" flat>
             <v-card-text class="text-xs-center white--text">
-              <span class="font-weight-light center-align add-letter"
-                >Add New Mech</span
-              >
+              <span class="font-weight-light center-align add-letter">
+                Add New Mech
+              </span>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -37,9 +37,9 @@
             <v-toolbar-title>Add New Mech Configuration</v-toolbar-title>
             <v-spacer />
             <v-toolbar-items>
-              <v-btn icon large @click="newConfigModal = false"
-                ><v-icon large>close</v-icon></v-btn
-              >
+              <v-btn icon large @click="newConfigModal = false">
+                <v-icon large>close</v-icon>
+              </v-btn>
             </v-toolbar-items>
           </v-toolbar>
           <add-config-menu :pilot="pilot" @close="goToConfig" />
@@ -47,9 +47,9 @@
           <v-card-actions
             style="position: fixed; bottom: 0px; background-color: #fff; width:100%"
           >
-            <v-btn color="primary" @click="newConfigModal = false"
-              >Cancel</v-btn
-            >
+            <v-btn color="primary" @click="newConfigModal = false">
+              Cancel
+            </v-btn>
             <v-spacer />
           </v-card-actions>
         </v-card>

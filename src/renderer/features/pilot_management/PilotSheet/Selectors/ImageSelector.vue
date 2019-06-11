@@ -9,26 +9,28 @@
             large
             color="primary"
             @click="importImage('portrait')"
-            >Import Portrait Image</v-btn
           >
+            Import Portrait Image
+          </v-btn>
         </v-flex>
         <v-divider vertical class="ml-2 mr-2" />
         <v-flex xs2>
           <v-switch v-model="cloud" @change="checkCloudSave">
-            <span slot="label"
-              >Save to Cloud
+            <span slot="label">
+              Save to Cloud
               <v-tooltip top>
-                <v-icon small slot="activator" color="grey" class="mb-1"
-                  >help</v-icon
-                >
-                <span
-                  >This pilot's portrait will be stored in the cloud, and<br />
-                  the image URL will be appended to this pilot's COMP/CON
-                  data.<br />
-                  When exporting this pilot, other users will see their
-                  custom<br />
-                  portrait, provided they are connected to the internet.</span
-                >
+                <v-icon small slot="activator" color="grey" class="mb-1">
+                  help
+                </v-icon>
+                <span>
+                  This pilot's portrait will be stored in the cloud, and
+                  <br />
+                  the image URL will be appended to this pilot's COMP/CON data.
+                  <br />
+                  When exporting this pilot, other users will see their custom
+                  <br />
+                  portrait, provided they are connected to the internet.
+                </span>
               </v-tooltip>
             </span>
           </v-switch>
@@ -51,8 +53,9 @@
                 slot="activator"
                 x-large
                 style="z-index:20; position: absolute; left: 80%; top: 85%;"
-                >cloud</v-icon
               >
+                cloud
+              </v-icon>
               <span>Saved to Cloud</span>
             </v-tooltip>
           </div>
@@ -95,9 +98,10 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-btn large flat color="error" @click="assignPortrait('')"
-      ><v-icon>remove_circle_outline</v-icon>&emsp;Remove Portrait</v-btn
-    >
+    <v-btn large flat color="error" @click="assignPortrait('')">
+      <v-icon>remove_circle_outline</v-icon>
+      &emsp;Remove Portrait
+    </v-btn>
   </v-container>
 </template>
 

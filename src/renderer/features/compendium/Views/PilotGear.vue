@@ -55,14 +55,14 @@
                   <span class="subheading">{{ props.item.Name }}</span>
                 </td>
                 <td>
-                  <span class="subheading"
-                    ><range-element small :range="props.item.Range"
-                  /></span>
+                  <span class="subheading">
+                    <range-element small :range="props.item.Range" />
+                  </span>
                 </td>
                 <td>
-                  <span class="subheading"
-                    ><damage-element small :dmg="props.item.Damage"
-                  /></span>
+                  <span class="subheading">
+                    <damage-element small :dmg="props.item.Damage" />
+                  </span>
                 </td>
               </tr>
               <tr v-else @click="props.expanded = !props.expanded">

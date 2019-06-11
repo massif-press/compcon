@@ -6,8 +6,8 @@
           <div v-for="b in pilot.CoreBonuses" :key="`summary_${b.id}`">
             <v-layout>
               <v-flex>
-                <strong>{{ b.Name }}</strong
-                >&nbsp;
+                <strong>{{ b.Name }}</strong>
+                &nbsp;
                 <span class="caption">({{ b.Source }})</span>
               </v-flex>
             </v-layout>
@@ -41,8 +41,9 @@
             small
             :disabled="!pilot.CoreBonuses.length"
             @click="pilot.ClearCoreBonuses()"
-            >Reset</v-btn
           >
+            Reset
+          </v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -51,9 +52,9 @@
       <div v-for="m in Object.keys(bonusData)" :key="`summary_block_m${m}`">
         <v-layout>
           <v-flex class="text-xs-center pa-3">
-            <span class="display-2 text-uppercase font-weight-light">{{
-              manufacturer(m).name
-            }}</span>
+            <span class="display-2 text-uppercase font-weight-light">
+              {{ manufacturer(m).name }}
+            </span>
             <br />
             <span class="caption grey--text" v-html="requirement(m)" />
           </v-flex>
@@ -66,12 +67,13 @@
                 :key="`${cb.id}_data'`"
               >
                 <v-toolbar-title slot="header" dense>
-                  <v-icon v-if="!getAvailableCount(m) && !getSelectedCount(m)"
-                    >mdi-lock</v-icon
-                  >
+                  <v-icon v-if="!getAvailableCount(m) && !getSelectedCount(m)">
+                    mdi-lock
+                  </v-icon>
                   <v-icon v-else-if="getSelectedStatus(cb)">check</v-icon>
                   <span v-else class="mr-3" v-html="'&nbsp;'" />
-                  &nbsp;<span>{{ cb.name.toUpperCase() }}</span>
+                  &nbsp;
+                  <span>{{ cb.name.toUpperCase() }}</span>
                 </v-toolbar-title>
                 <v-card>
                   <core-bonus-item

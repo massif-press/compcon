@@ -5,7 +5,7 @@
         <v-layout>
           <v-flex class="text-xs-center">
             <span class="minor-title">{{ title }}</span>
-            <v-divider class="ma-2 ml-4 mr-4"/>
+            <v-divider class="ma-2 ml-4 mr-4" />
           </v-flex>
         </v-layout>
         <slot name="left-column"></slot>

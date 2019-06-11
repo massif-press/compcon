@@ -15,9 +15,9 @@
           class="text-uppercase ml-4"
         >
           {{ item.ItemType }}
-          <span v-if="item.ItemType === 'WeaponMod'"
-            >&nbsp;– {{ item.applied_string }}</span
-          >
+          <span v-if="item.ItemType === 'WeaponMod'">
+            &nbsp;– {{ item.applied_string }}
+          </span>
         </v-chip>
         <v-chip
           v-if="item.source === 'GMS'"
@@ -26,8 +26,9 @@
           label
           color="white"
           class="text-uppercase ml-2"
-          >{{ item.source }}</v-chip
         >
+          {{ item.source }}
+        </v-chip>
         <v-chip
           v-else
           disabled
@@ -37,9 +38,9 @@
           class="text-uppercase ml-2"
         >
           {{ item.source }} {{ item.license }}
-          <span v-if="item.license_level"
-            >&nbsp;RANK {{ item.license_level }}</span
-          >
+          <span v-if="item.license_level">
+            &nbsp;RANK {{ item.license_level }}
+          </span>
           <span v-if="item.ItemType === 'Frame'">&nbsp;RANK 2</span>
         </v-chip>
       </v-card-title>

@@ -1,7 +1,8 @@
 <template>
   <v-expansion-panel-content>
     <v-toolbar-title slot="header" v-if="talent.err" dense>
-      <span class="subheading grey--text">// MISSING DATA //</span>&emsp;
+      <span class="subheading grey--text">// MISSING DATA //</span>
+      &emsp;
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
@@ -15,9 +16,9 @@
 
     <div v-if="!talent.err">
       <v-card>
-        <v-card-title
-          ><p class="fluff-text mb-0 pb-0 pt-0" v-html="talent.description"
-        /></v-card-title>
+        <v-card-title>
+          <p class="fluff-text mb-0 pb-0 pt-0" v-html="talent.description" />
+        </v-card-title>
       </v-card>
       <v-card
         v-for="(r, index) in talent.Ranks"

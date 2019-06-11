@@ -3,9 +3,9 @@
     <span class="display-1 text-uppercase font-weight-thin">LICENSES</span>
     <v-layout v-for="m in Object.keys(licenses)" :key="m">
       <v-flex class="text-xs-center pa-3">
-        <span class="display-2 text-uppercase font-weight-light">{{
-          getManufacturer(m).name
-        }}</span>
+        <span class="display-2 text-uppercase font-weight-light">
+          {{ getManufacturer(m).name }}
+        </span>
         <v-expansion-panel class="mt-2">
           <v-expansion-panel-content v-for="l in licenses[m]" :key="l.FrameID">
             <template v-slot:header>

@@ -10,8 +10,9 @@
           @click="systemSelectorModal = true"
           class="ma-0 pa-0"
           style="height:100%"
-          >Add System</v-btn
         >
+          Add System
+        </v-btn>
         <v-btn
           slot="activator"
           color="blue-grey darken-2"
@@ -21,8 +22,9 @@
           @click="systemSelectorModal = true"
           class="ma-0 pa-0"
           style="height:100%"
-          >{{ system.Type }}</v-btn
         >
+          {{ system.Type }}
+        </v-btn>
         <span v-if="empty">Install System</span>
         <span v-else>Change or Remove Installed System</span>
       </v-tooltip>
@@ -31,7 +33,7 @@
       <div v-if="empty">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading"> EMPTY </span>
+            <span slot="header" class="subheading">EMPTY</span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -69,9 +71,9 @@
       transition="dialog-bottom-transition"
     >
       <v-toolbar fixed dense flat dark>
-        <v-toolbar-title
-          ><span class="text-capitalize">Select System</span></v-toolbar-title
-        >
+        <v-toolbar-title>
+          <span class="text-capitalize">Select System</span>
+        </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="systemSelectorModal = false">

@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase"
-        >{{ mount.ItemSource }} Integrated Mount</span
-      >
+      <span class="mount-title pl-3 pr-3 text-uppercase">
+        {{ mount.ItemSource }} Integrated Mount
+      </span>
       <v-card-text class="bordered ml-3 pt-4">
         <v-layout fill-height>
           <v-flex xs2>
@@ -13,16 +13,17 @@
               block
               class="ma-0 pa-0"
               style="height:100%"
-              >Integrated Weapon</v-btn
             >
+              Integrated Weapon
+            </v-btn>
           </v-flex>
           <v-flex xs10>
             <v-expansion-panel class="m-0">
               <v-expansion-panel-content>
                 <v-layout slot="header">
-                  <span class="subheading font-weight-bold">{{
-                    mount.Weapon.Name
-                  }}</span>
+                  <span class="subheading font-weight-bold">
+                    {{ mount.Weapon.Name }}
+                  </span>
                   <v-spacer />
                   <span class="mr-5" style="display: inline-flex;">
                     <range-element
@@ -31,9 +32,9 @@
                       small
                       :range="getRange()"
                     />
-                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage"
-                      >&emsp;&mdash;&emsp;</span
-                    >
+                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage">
+                      &emsp;&mdash;&emsp;
+                    </span>
                     <damage-element
                       v-if="mount.Weapon.Damage"
                       dark

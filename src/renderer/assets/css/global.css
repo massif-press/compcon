@@ -1,7 +1,7 @@
-  .clickable {
-    cursor: pointer!important;
-  }
-  
+.clickable {
+  cursor: pointer !important;
+}
+
 .edit-btn {
   position: relative;
   opacity: 0.15;
@@ -14,7 +14,7 @@
 }
 
 .mlneg {
-  margin-left: -10px!important;
+  margin-left: -10px !important;
 }
 
 .roster-content {
@@ -39,7 +39,7 @@
 
 .fadeSelect:hover {
   opacity: 1;
-  transition: all 0.25s
+  transition: all 0.25s;
 }
 
 .mount-title {
@@ -63,5 +63,5 @@
 }
 
 .bordered {
-  border: solid 2px #424242; 
+  border: solid 2px #424242;
 }

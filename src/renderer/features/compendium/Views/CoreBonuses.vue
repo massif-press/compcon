@@ -4,9 +4,9 @@
     <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
       <v-layout>
         <v-flex class="text-xs-center pa-3">
-          <span class="major-title text-uppercase font-weight-regular">{{
-            getManufacturer(m).name
-          }}</span>
+          <span class="major-title text-uppercase font-weight-regular">
+            {{ getManufacturer(m).name }}
+          </span>
         </v-flex>
       </v-layout>
       <v-layout>
@@ -17,9 +17,9 @@
               :key="`${cb.id}_data'`"
             >
               <v-toolbar-title slot="header" dense flat>
-                <span class="title text-uppercase font-weight-light">{{
-                  cb.Name.toUpperCase()
-                }}</span>
+                <span class="title text-uppercase font-weight-light">
+                  {{ cb.Name.toUpperCase() }}
+                </span>
               </v-toolbar-title>
               <v-card>
                 <div class="mb-2" v-if="!cb.err">

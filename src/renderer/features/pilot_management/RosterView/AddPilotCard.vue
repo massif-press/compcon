@@ -12,9 +12,9 @@
               `height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`
             "
           >
-            <span class="pilot-letter white--text"
-              ><v-icon dark size="20vw">cc-pilot</v-icon></span
-            >
+            <span class="pilot-letter white--text">
+              <v-icon dark size="20vw">cc-pilot</v-icon>
+            </span>
           </div>
         </v-flex>
       </v-layout>
@@ -22,9 +22,9 @@
         <v-flex>
           <v-card color="transparent" flat>
             <v-card-text class="text-xs-center white--text">
-              <span class="font-weight-light center-align add-letter"
-                >Add New Pilot</span
-              >
+              <span class="font-weight-light center-align add-letter">
+                Add New Pilot
+              </span>
             </v-card-text>
           </v-card>
         </v-flex>

@@ -22,9 +22,9 @@
           <v-toolbar-title>Set Custom Image</v-toolbar-title>
           <v-spacer />
           <v-toolbar-items>
-            <v-btn icon large @click="close"
-              ><v-icon large>close</v-icon></v-btn
-            >
+            <v-btn icon large @click="close">
+              <v-icon large>close</v-icon>
+            </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-container grid-list-sm fluid>
@@ -36,27 +36,31 @@
                 large
                 color="primary"
                 @click="importImage('frame')"
-                >Import Custom Frame Image</v-btn
               >
+                Import Custom Frame Image
+              </v-btn>
             </v-flex>
             <v-divider vertical class="ml-2 mr-2" />
             <v-flex xs2>
               <v-switch v-model="cloud" @change="checkCloudSave">
-                <span slot="label"
-                  >Save to Cloud
+                <span slot="label">
+                  Save to Cloud
                   <v-tooltip top>
-                    <v-icon small slot="activator" color="grey" class="mb-1"
-                      >help</v-icon
-                    >
-                    <span
-                      >This custom frame image will be stored in the cloud, and
-                      the<br />
+                    <v-icon small slot="activator" color="grey" class="mb-1">
+                      help
+                    </v-icon>
+                    <span>
+                      This custom frame image will be stored in the cloud, and
+                      the
+                      <br />
                       image URL will be appended to its configuration's COMP/CON
-                      data.<br />
+                      data.
+                      <br />
                       When exporting this configuration, other users will see
-                      this<br />
-                      image, provided they are connected to the internet.</span
-                    >
+                      this
+                      <br />
+                      image, provided they are connected to the internet.
+                    </span>
                   </v-tooltip>
                 </span>
               </v-switch>
@@ -78,8 +82,9 @@
                     slot="activator"
                     x-large
                     style="z-index:20; position: absolute; left: 80%; top: 85%;"
-                    >cloud</v-icon
                   >
+                    cloud
+                  </v-icon>
                   <span>Saved to Cloud</span>
                 </v-tooltip>
               </div>

@@ -6,24 +6,24 @@
       </v-card-title>
 
       <v-card-text class="text-xs-center">
-        <v-btn block large color="primary" @click="goToNew"
-          >Create New Pilot</v-btn
-        >
+        <v-btn block large color="primary" @click="goToNew">
+          Create New Pilot
+        </v-btn>
         <v-divider />
-        <v-btn block flat color="primary" @click="importFile"
-          >Import from File</v-btn
-        >
+        <v-btn block flat color="primary" @click="importFile">
+          Import from File
+        </v-btn>
 
-        <v-btn block flat color="primary" @click="importClipboard"
-          >Import from Clipboard</v-btn
-        >
+        <v-btn block flat color="primary" @click="importClipboard">
+          Import from Clipboard
+        </v-btn>
 
         <v-layout>
           <v-flex>
             <v-dialog width="600" v-model="cloudDialog">
-              <v-btn slot="activator" block flat color="primary"
-                >Import from Cloud</v-btn
-              >
+              <v-btn slot="activator" block flat color="primary">
+                Import from Cloud
+              </v-btn>
               <v-card>
                 <v-card-title class="title">Enter Share ID</v-card-title>
                 <v-card-text>
@@ -37,9 +37,9 @@
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
-                  <v-btn flat @click="closeCloudDialog" color="primary"
-                    >Close</v-btn
-                  >
+                  <v-btn flat @click="closeCloudDialog" color="primary">
+                    Close
+                  </v-btn>
                   <v-spacer />
                   <v-btn
                     large
@@ -47,8 +47,9 @@
                     :disabled="!shareIDText"
                     :loading="cloudLoading"
                     @click="importCloud"
-                    >Import</v-btn
                   >
+                    Import
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -62,8 +63,9 @@
                 right
                 absolute
                 style="right: 150px;"
-                ><v-icon color="grey" small>help</v-icon></v-btn
               >
+                <v-icon color="grey" small>help</v-icon>
+              </v-btn>
               <v-card>
                 <v-card-title class="title">
                   Cloud Save Importer
@@ -72,13 +74,14 @@
                   This tool imports LANCER pilots saved to the cloud via the
                   "Save to Cloud" export button. Imported characters generate
                   new Share IDs, so any changes will be uploaded to a
-                  <strong>new</strong> cloud save.
+                  <strong>new</strong>
+                  cloud save.
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn flat @click="cloudInfoDialog = false" color="primary"
-                    >Close</v-btn
-                  >
+                  <v-btn flat @click="cloudInfoDialog = false" color="primary">
+                    Close
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>

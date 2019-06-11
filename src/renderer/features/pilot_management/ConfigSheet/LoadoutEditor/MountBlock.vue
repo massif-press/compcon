@@ -2,8 +2,8 @@
   <!-- <div v-if="!mount.imparm || (mount.imparm && hasImpArm)"> -->
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase"
-        >{{ mount.MountName }}
+      <span class="mount-title pl-3 pr-3 text-uppercase">
+        {{ mount.MountName }}
         <v-tooltip top>
           <v-btn
             v-if="isCbVisible()"
@@ -23,8 +23,10 @@
       <v-card-text v-if="mount.IsLocked" class="bordered ml-3 pt-4">
         <v-card color="grey darken-1">
           <v-card-text class="blockquote text-xs-center">
-            LOCKED<br /><span class="caption">SUPERHEAVY WEAPON BRACING</span
-            ><br />
+            LOCKED
+            <br />
+            <span class="caption">SUPERHEAVY WEAPON BRACING</span>
+            <br />
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -46,8 +48,8 @@
           class="ma-2"
         >
           <v-card-text class="text-xs-center">
-            <b>{{ cb.Name }}</b
-            ><br />
+            <b>{{ cb.Name }}</b>
+            <br />
             <i class="caption">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>
