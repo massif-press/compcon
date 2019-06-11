@@ -18,6 +18,7 @@
           <v-flex xs2>Tech Attack</v-flex>
           <v-flex xs2>Save</v-flex>
           <v-flex xs2>Speed</v-flex>
+          <v-flex xs2>SP</v-flex>
         </v-layout>
       </v-card>
       <v-layout class="text-xs-center effect-text">
@@ -31,6 +32,7 @@
         <v-flex xs2>{{ frame.TechAttack }}</v-flex>
         <v-flex xs2>{{ frame.Save }}</v-flex>
         <v-flex xs2>{{ frame.Speed }}</v-flex>
+        <v-flex xs2>{{ frame.SP }}</v-flex>
       </v-layout>
     </div>
     <v-card color="grey lighten-4">
@@ -46,7 +48,7 @@
                   v-for="(t, i) in frame.mounts"
                   :key="t + i"
                   class="title font-weight-black"
-                >
+                  >
                   &emsp;{{ t }}&emsp;
                   <span
                     v-if="i < frame.mounts.length - 1"

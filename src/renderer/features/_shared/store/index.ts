@@ -168,9 +168,6 @@ const getters = {
       }
     )
   },
-  // getLicenseByName: (state: AppState) => (license: string) => {
-  //   return state.Licenses.find((x) => x.license === license) || { err: 'License not found' }
-  // },
   getItemCollection: (state: any) => (itemType: string) => {
     return state[itemType]
   },

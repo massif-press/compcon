@@ -199,8 +199,8 @@ export default Vue.extend({
       this.snackbar = true
     },
     deleteLoadout(loadout: PilotLoadout) {
-      this.pilot.RemoveLoadout(loadout)
       this.deleteDialog = false
+      this.pilot.RemoveLoadout(loadout)
       this.notify('Loadout Deleted')
     },
     openSelector(item: PilotEquipment, index: number, itemType: ItemType) {

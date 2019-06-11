@@ -695,7 +695,6 @@ export default Vue.extend({
     PilotTraits,
   },
   data: () => ({
-    activeLoadoutIdx: 0,
     frameInfoModal: false,
     appearanceModal: false,
     printWarningDialog: false,

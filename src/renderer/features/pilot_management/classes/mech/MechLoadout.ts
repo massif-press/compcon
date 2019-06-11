@@ -76,7 +76,7 @@ class MechLoadout extends Loadout {
   }
 
   public get RetrofittedMount(): EquippableMount | null {
-    return !this.retrofitIndex
+    return this.retrofitIndex === null
       ? null
       : this.equippableMounts[this.retrofitIndex]
   }

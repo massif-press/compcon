@@ -264,7 +264,7 @@ export default Vue.extend({
       newMech.Name = this.newConfigName || 'New Config'
       this.pilot.AddMech(newMech)
       this.newConfigName = null
-      this.selectedFrame = null
+      this.selectedFrame = {} as Frame,
       this.nc_step = 1
       this.$emit('close')
     },

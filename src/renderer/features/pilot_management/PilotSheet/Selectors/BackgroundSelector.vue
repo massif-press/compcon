@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="background-color: white">
     <v-layout v-for="bg in backgrounds" :key="bg.id">
       <v-flex>
         <v-card>
