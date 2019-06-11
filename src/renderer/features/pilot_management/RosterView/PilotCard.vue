@@ -16,9 +16,9 @@
         </v-flex>
         <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
-            <span class="pilot-letter white--text">{{
-              pilot.Callsign.substring(0, 1).toUpperCase()
-            }}</span>
+            <span class="pilot-letter white--text">
+              {{ pilot.Callsign.substring(0, 1).toUpperCase() }}
+            </span>
           </div>
         </v-flex>
       </v-layout>
@@ -29,11 +29,11 @@
               <v-flex xs9 class="ma-2">
                 <span class="title">{{ pilot.Callsign }}</span>
                 <br />
-                <span class="caption"
-                  >{{ pilot.Name }}<br />{{ pilot.Background.Name }}, LL{{
-                    pilot.Level
-                  }}</span
-                >
+                <span class="caption">
+                  {{ pilot.Name }}
+                  <br />
+                  {{ pilot.Background.Name }}, LL{{ pilot.Level }}
+                </span>
               </v-flex>
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
@@ -48,22 +48,22 @@
                       :color="
                         pilot.IsActive ? 'teal accent-3' : 'grey darken-1'
                       "
-                      >mdi-power</v-icon
                     >
+                      mdi-power
+                    </v-icon>
                   </v-btn>
                   <div class="text-xs-center">
-                    <span
-                      ><b :class="activeColorClass()">
-                        {{ pilot.active ? 'Active' : 'Inactive' }}</b
-                      >
-                      <br /><i
-                        >Click to
-                        {{
-                          pilot.IsActive ? 'deactivate' : 'activate'
-                        }}
-                        Pilot</i
-                      ></span
-                    >
+                    <span>
+                      <b :class="activeColorClass()">
+                        {{ pilot.active ? 'Active' : 'Inactive' }}
+                      </b>
+                      <br />
+                      <i>
+                        Click to
+                        {{ pilot.IsActive ? 'deactivate' : 'activate' }}
+                        Pilot
+                      </i>
+                    </span>
                   </div>
                 </v-tooltip>
                 <v-tooltip top>
@@ -72,8 +72,9 @@
                     icon
                     class="ma-0"
                     @click="exportDialog = true"
-                    ><v-icon>mdi-export-variant</v-icon></v-btn
                   >
+                    <v-icon>mdi-export-variant</v-icon>
+                  </v-btn>
                   <span>Export Pilot</span>
                 </v-tooltip>
                 <v-tooltip top>
@@ -82,8 +83,9 @@
                     icon
                     class="ma-0"
                     @click="copyDialog = true"
-                    ><v-icon>mdi-content-duplicate</v-icon></v-btn
                   >
+                    <v-icon>mdi-content-duplicate</v-icon>
+                  </v-btn>
                   <span>Clone Pilot</span>
                 </v-tooltip>
                 <v-tooltip top>
@@ -92,8 +94,9 @@
                     icon
                     class="ma-0"
                     @click="deleteDialog = true"
-                    ><v-icon>delete</v-icon></v-btn
                   >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
                   <span>Delete Pilot</span>
                 </v-tooltip>
               </v-flex>
@@ -103,7 +106,7 @@
 
         <v-snackbar v-model="snackbar" :timeout="5000">
           <span v-html="notification" />
-          <v-btn color="pink" flat @click="snackbar = false"> Close </v-btn>
+          <v-btn color="pink" flat @click="snackbar = false">Close</v-btn>
         </v-snackbar>
 
         <lazy-dialog
@@ -115,10 +118,10 @@
           @cancel="deleteDialog = false"
         >
           <template v-slot:modal-content>
-            <v-card-text
-              >Are you sure you want to delete {{ pilot.Callsign }}? This action
-              cannot be undone</v-card-text
-            >
+            <v-card-text>
+              Are you sure you want to delete {{ pilot.Callsign }}? This action
+              cannot be undone
+            </v-card-text>
           </template>
         </lazy-dialog>
 
@@ -130,13 +133,16 @@
         >
           <template v-slot:modal-content>
             <v-card-text class="text-xs-center">
-              <v-btn large flat color="primary" @click="exportPilot"
-                >Save to File <v-icon right dark>save</v-icon></v-btn
-              ><br />
-              <v-btn large flat color="primary" @click="copyPilot"
-                >Copy Pilot Data to Clipboard
-                <v-icon right dark>mdi-clipboard-text</v-icon></v-btn
-              ><br />
+              <v-btn large flat color="primary" @click="exportPilot">
+                Save to File
+                <v-icon right dark>save</v-icon>
+              </v-btn>
+              <br />
+              <v-btn large flat color="primary" @click="copyPilot">
+                Copy Pilot Data to Clipboard
+                <v-icon right dark>mdi-clipboard-text</v-icon>
+              </v-btn>
+              <br />
               <div v-if="pilot.gistID && !uploadFailed">
                 <v-btn
                   large
@@ -148,9 +154,11 @@
                     cloudLoading = true
                     cloudUpdatePilot()
                   "
-                  >Update Cloud Save
-                  <v-icon right dark>mdi-cloud-sync</v-icon></v-btn
-                ><br />
+                >
+                  Update Cloud Save
+                  <v-icon right dark>mdi-cloud-sync</v-icon>
+                </v-btn>
+                <br />
               </div>
               <div v-if="!pilot.gistID || uploadFailed">
                 <v-btn
@@ -163,17 +171,19 @@
                     cloudLoading = true
                     cloudSavePilot()
                   "
-                  >Save Pilot to Cloud
-                  <v-icon right dark>cloud_upload</v-icon></v-btn
                 >
+                  Save Pilot to Cloud
+                  <v-icon right dark>cloud_upload</v-icon>
+                </v-btn>
               </div>
             </v-card-text>
             <div v-if="pilot.gistID">
               <v-divider />
               <v-card-text class="text-xs-center">
-                <span class="effect-text" style="vertical-align: middle"
-                  >Share ID:&emsp;</span
-                ><code>{{ pilot.gistID }}</code>
+                <span class="effect-text" style="vertical-align: middle">
+                  Share ID:&emsp;
+                </span>
+                <code>{{ pilot.gistID }}</code>
                 <v-tooltip top>
                   <v-btn
                     small
@@ -181,8 +191,9 @@
                     slot="activator"
                     color="grey lighten-3"
                     @click="copyShareID"
-                    ><v-icon small>mdi-clipboard-text</v-icon></v-btn
                   >
+                    <v-icon small>mdi-clipboard-text</v-icon>
+                  </v-btn>
                   <span>Copy Share ID to Clipboard</span>
                 </v-tooltip>
               </v-card-text>
@@ -198,25 +209,24 @@
         >
           <template v-slot:modal-content>
             <v-card-text class="text-xs-center">
-              <v-btn large block color="indigo" @click="clonePilot()" dark
-                >Duplicate Pilot</v-btn
-              >
-              <span
-                >Copy Pilot data into a new Pilot, without generating a
-                <b>Quirk</b></span
-              >
+              <v-btn large block color="indigo" @click="clonePilot()" dark>
+                Duplicate Pilot
+              </v-btn>
+              <span>
+                Copy Pilot data into a new Pilot, without generating a
+                <b>Quirk</b>
+              </span>
               <v-divider class="ma-4" />
-              <v-btn large block color="indigo" dark @click="clonePilot(true)"
-                >Flash Clone Pilot</v-btn
-              >
-              <span
-                >Flash Clones this Pilot, and generates a <b>Quirk</b> &mdash; a
-                complication resulting from the cloning process
+              <v-btn large block color="indigo" dark @click="clonePilot(true)">
+                Flash Clone Pilot
+              </v-btn>
+              <span>
+                Flash Clones this Pilot, and generates a
+                <b>Quirk</b>
+                &mdash; a complication resulting from the cloning process
                 <br />
-                <i
-                  >(Quirks can be edited or removed on the Pilot Sheet)</i
-                ></span
-              >
+                <i>(Quirks can be edited or removed on the Pilot Sheet)</i>
+              </span>
             </v-card-text>
           </template>
         </lazy-dialog>

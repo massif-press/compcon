@@ -4,7 +4,9 @@
       <v-tooltip top nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="warning" v-model="showLocked">
-            <v-icon v-if="showLocked" dark slot="append" color="warning">lock_open</v-icon>
+            <v-icon v-if="showLocked" dark slot="append" color="warning">
+              lock_open
+            </v-icon>
             <v-icon v-else dark slot="append">lock</v-icon>
           </v-switch>
         </div>
@@ -20,7 +22,9 @@
       <v-tooltip top class="ml-5" nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="yellow" v-model="showOverSp">
-            <v-icon v-if="showOverSp" dark slot="append" color="yellow">flash_off</v-icon>
+            <v-icon v-if="showOverSp" dark slot="append" color="yellow">
+              flash_off
+            </v-icon>
             <v-icon v-else dark slot="append">flash_on</v-icon>
           </v-switch>
         </div>
@@ -33,7 +37,7 @@
         />
       </v-tooltip>
 
-      <v-spacer/>
+      <v-spacer />
 
       <v-text-field
         class="search-field ma-2"
@@ -59,7 +63,13 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
-              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
+              <v-btn
+                color="primary"
+                @click.stop="select(props.item)"
+                class="p-0 m-0"
+              >
+                equip
+              </v-btn>
             </td>
             <td>
               <span class="subheading">
@@ -75,8 +85,7 @@
                 <v-tooltip v-if="isOverSp(props.item)" top>
                   <v-icon color="yellow" slot="activator">warning</v-icon>
                   <span>
-                    Insufficient free SP to install this weapon
-                    modification
+                    Insufficient free SP to install this weapon modification
                   </span>
                 </v-tooltip>
               </span>
@@ -85,7 +94,9 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
+              <span class="subheading">
+                {{ props.item.License }} {{ props.item.LicenseLevel }}
+              </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -98,8 +109,16 @@
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <p v-if="props.item.Description" v-html="props.item.Description" class="fluff-text"/>
-              <p v-if="props.item.Effect" v-html="props.item.Effect" class="pl-2 effect-text"/>
+              <p
+                v-if="props.item.Description"
+                v-html="props.item.Description"
+                class="fluff-text"
+              />
+              <p
+                v-if="props.item.Effect"
+                v-html="props.item.Effect"
+                class="pl-2 effect-text"
+              />
               <v-layout class="mt-2">
                 <item-tag
                   v-for="(tag, index) in props.item.Tags"
@@ -118,7 +137,9 @@
       >
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{ weaponSlot.Weapon.Mod.Name }}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">
+            Uninstall {{ weaponSlot.Weapon.Mod.Name }}
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>

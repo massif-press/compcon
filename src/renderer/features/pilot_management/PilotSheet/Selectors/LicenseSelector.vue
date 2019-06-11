@@ -9,7 +9,8 @@
           >
             <v-layout v-if="!licenseExists(plicense.License)">
               <v-flex shrink>
-                <span class="grey--text">// MISSING DATA //</span><br />
+                <span class="grey--text">// MISSING DATA //</span>
+                <br />
               </v-flex>
               <v-flex shrink>
                 <v-btn
@@ -17,15 +18,16 @@
                   flat
                   color="error"
                   @click="this.pilot.RemoveLicense(plicense.License)"
-                  ><v-icon>delete</v-icon></v-btn
                 >
+                  <v-icon>delete</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-icon color="primary" small
-                  >cc-rank-{{ plicense.Rank }}</v-icon
-                >
+                <v-icon color="primary" small>
+                  cc-rank-{{ plicense.Rank }}
+                </v-icon>
                 <strong>{{ plicense.License.name }}</strong>
               </v-flex>
             </v-layout>
@@ -58,8 +60,9 @@
             small
             :disabled="!pilot.Licenses.length"
             @click="resetLicenses"
-            >Reset</v-btn
           >
+            Reset
+          </v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -67,9 +70,9 @@
       <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
         <v-layout>
           <v-flex class="text-xs-center pa-3">
-            <span class="display-2 text-uppercase font-weight-light">{{
-              manufacturer(m).name
-            }}</span>
+            <span class="display-2 text-uppercase font-weight-light">
+              {{ manufacturer(m).name }}
+            </span>
           </v-flex>
         </v-layout>
         <v-layout>

@@ -16,11 +16,12 @@
           <v-card flat class="px-3 py-3">
             <v-card-title
               class="display-2 text-uppercase font-weight-light pb-0 mb-0"
-              >{{ m.name }}</v-card-title
             >
-            <v-card-text class="mt-1 ml-2 pr-4 pt-0"
-              ><p v-html="m.description"
-            /></v-card-text>
+              {{ m.name }}
+            </v-card-title>
+            <v-card-text class="mt-1 ml-2 pr-4 pt-0">
+              <p v-html="m.description" />
+            </v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs>

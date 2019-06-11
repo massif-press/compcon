@@ -22,9 +22,9 @@
         <v-divider class="ml-0 mr-5" vertical />
       </v-flex>
       <v-flex xs9>
-        <span class="display-1 text-uppercase font-weight-thin"
-          >PILOT BACKGROUNDS</span
-        >
+        <span class="display-1 text-uppercase font-weight-thin">
+          PILOT BACKGROUNDS
+        </span>
         <div v-scroll-spy="{ offset: 60, time: 0 }">
           <div
             v-for="b in backgrounds"
@@ -33,9 +33,9 @@
           >
             <v-card flat>
               <v-toolbar-title dense flat color="grey lighten-3">
-                <span class="title text-uppercase font-weight-light">{{
-                  b.Name.toUpperCase()
-                }}</span>
+                <span class="title text-uppercase font-weight-light">
+                  {{ b.Name.toUpperCase() }}
+                </span>
               </v-toolbar-title>
               <v-card-text class="pb-1 mt-0 pt-0">
                 <p class="effect-text pb-0" v-html="b.description" />

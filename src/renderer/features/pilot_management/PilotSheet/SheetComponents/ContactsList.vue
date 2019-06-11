@@ -10,9 +10,9 @@
               :placeholder="contact.name"
               @on-save="update"
             >
-              <span slot="label" class="title pb-0 mb-0"
-                >{{ contact.name }} &nbsp;</span
-              >
+              <span slot="label" class="title pb-0 mb-0">
+                {{ contact.name }} &nbsp;
+              </span>
             </editable-label>
           </v-flex>
           <v-flex>
@@ -37,14 +37,14 @@
         </v-layout>
       </div>
       <v-card-actions class="pt-0 mt-0">
-        <v-btn @click="deleteContact(index)" flat color="error"
-          >Delete Contact</v-btn
-        >
+        <v-btn @click="deleteContact(index)" flat color="error">
+          Delete Contact
+        </v-btn>
       </v-card-actions>
     </v-card>
-    <v-btn absolute bottom right fab @click="addNew"
-      ><v-icon>add</v-icon></v-btn
-    >
+    <v-btn absolute bottom right fab @click="addNew">
+      <v-icon>add</v-icon>
+    </v-btn>
   </v-card>
 </template>
 

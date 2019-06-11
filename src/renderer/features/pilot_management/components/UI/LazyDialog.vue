@@ -14,8 +14,9 @@
             :color="acceptColor ? acceptColor : 'primary'"
             @click="accept"
             :disabled="disableCondition"
-            >{{ acceptString || 'Confirm' }}</v-btn
           >
+            {{ acceptString || 'Confirm' }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -17,12 +17,12 @@
             :style="`font-size: ${size || 16}px; display: inline-flex;`"
           >
             <b v-if="r.Override"><v-icon>more_horiz</v-icon></b>
-            <span v-else class="text-capitalize"
-              >{{ r.Value }}
+            <span v-else class="text-capitalize">
+              {{ r.Value }}
               <v-icon>{{ r.Icon }}</v-icon>
               <span v-if="range.length - 1 > index" class="grey--text">
-                //&nbsp;</span
-              >
+                //&nbsp;
+              </span>
             </span>
           </span>
           <span>{{ r.ToString }}</span>
@@ -35,10 +35,10 @@
       <span :style="`font-size: ${size || 16}px; display: inline-flex;`">
         <!-- <b v-if="range[0].override" class="text-capitalize"> {{range[0].val}} </b> -->
         <div v-for="(r, index) in range" :key="`range_${index}_element`">
-          <b>{{ r.ToString }}</b
-          ><span v-if="range.length - 1 > index" class="grey--text">
-            //&nbsp;</span
-          >
+          <b>{{ r.ToString }}</b>
+          <span v-if="range.length - 1 > index" class="grey--text">
+            //&nbsp;
+          </span>
         </div>
       </span>
       <!-- <div v-if="showCb">

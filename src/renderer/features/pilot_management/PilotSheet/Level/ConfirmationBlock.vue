@@ -17,10 +17,10 @@
           <v-flex v-for="pskill in pilot.Skills" :key="pskill.Skill.ID">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b
-                  >{{ pskill.Skill.Trigger }}
-                  <span class="primary--text">+{{ pskill.Bonus }}</span></b
-                >
+                <b>
+                  {{ pskill.Skill.Trigger }}
+                  <span class="primary--text">+{{ pskill.Bonus }}</span>
+                </b>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -33,10 +33,10 @@
           <v-flex v-for="ptalent in pilot.Talents" :key="ptalent.Talent.ID">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b
-                  >{{ ptalent.Talent.Name }}
-                  <span class="primary--text"> Rank {{ ptalent.Rank }}</span></b
-                >
+                <b>
+                  {{ ptalent.Talent.Name }}
+                  <span class="primary--text">Rank {{ ptalent.Rank }}</span>
+                </b>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -49,7 +49,7 @@
           <v-flex>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b>Hull </b>
+                <b>Hull</b>
                 <b class="primary--text">{{ pilot.MechSkills.Hull }}</b>
               </v-card-text>
             </v-card>
@@ -57,7 +57,7 @@
           <v-flex>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b>Agility </b>
+                <b>Agility</b>
                 <b class="primary--text">{{ pilot.MechSkills.Agi }}</b>
               </v-card-text>
             </v-card>
@@ -65,7 +65,7 @@
           <v-flex>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b>Systems </b>
+                <b>Systems</b>
                 <b class="primary--text">{{ pilot.MechSkills.Sys }}</b>
               </v-card-text>
             </v-card>
@@ -73,7 +73,7 @@
           <v-flex>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b>Engineering </b>
+                <b>Engineering</b>
                 <b class="primary--text">{{ pilot.MechSkills.Eng }}</b>
               </v-card-text>
             </v-card>
@@ -90,10 +90,10 @@
           >
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
-                <b
-                  >{{ plicense.License.Source }} {{ plicense.License.Name }}
-                  <span class="primary--text">Rank {{ plicense.Rank }}</span></b
-                >
+                <b>
+                  {{ plicense.License.Source }} {{ plicense.License.Name }}
+                  <span class="primary--text">Rank {{ plicense.Rank }}</span>
+                </b>
               </v-card-text>
             </v-card>
           </v-flex>

@@ -4,36 +4,37 @@
       <v-flex>
         <v-stepper id="np-stepper" v-model="lv_step">
           <v-stepper-header>
-            <v-stepper-step :complete="lv_step > 1" step="1"
-              >Overview</v-stepper-step
-            >
+            <v-stepper-step :complete="lv_step > 1" step="1">
+              Overview
+            </v-stepper-step>
             <v-divider />
-            <v-stepper-step :complete="lv_step > 2" step="2"
-              >Assign Skill Points</v-stepper-step
-            >
+            <v-stepper-step :complete="lv_step > 2" step="2">
+              Assign Skill Points
+            </v-stepper-step>
             <v-divider />
-            <v-stepper-step :complete="lv_step > 3" step="3"
-              >Assign Talent Point</v-stepper-step
-            >
+            <v-stepper-step :complete="lv_step > 3" step="3">
+              Assign Talent Point
+            </v-stepper-step>
             <v-divider />
-            <v-stepper-step :complete="lv_step > 4" step="4"
-              >Assign Mech Skill Point</v-stepper-step
-            >
+            <v-stepper-step :complete="lv_step > 4" step="4">
+              Assign Mech Skill Point
+            </v-stepper-step>
             <v-divider />
-            <v-stepper-step :complete="lv_step > 5" step="5"
-              >Select New License</v-stepper-step
-            >
+            <v-stepper-step :complete="lv_step > 5" step="5">
+              Select New License
+            </v-stepper-step>
             <v-divider />
             <v-stepper-step
               v-if="pilot.Level % 3 === 0"
               :complete="lv_step > 6"
               step="6"
-              >Select New Core Bonus</v-stepper-step
             >
+              Select New Core Bonus
+            </v-stepper-step>
             <v-divider />
-            <v-stepper-step :step="pilot.Level % 3 === 0 ? '7' : '6'"
-              >Confirm</v-stepper-step
-            >
+            <v-stepper-step :step="pilot.Level % 3 === 0 ? '7' : '6'">
+              Confirm
+            </v-stepper-step>
           </v-stepper-header>
 
           <v-stepper-items>
@@ -50,9 +51,10 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn large color="primary" @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
-                  >
+                  <v-btn large color="primary" @click="stepForward">
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -64,16 +66,19 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
                   <v-btn
                     large
                     color="primary"
                     :disabled="!hasSkills"
                     @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
                   >
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -85,16 +90,19 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
                   <v-btn
                     large
                     color="primary"
                     :disabled="!hasTalents"
                     @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
                   >
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -110,16 +118,19 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
                   <v-btn
                     large
                     color="primary"
                     :disabled="!hasMechSkills"
                     @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
                   >
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -131,16 +142,19 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
                   <v-btn
                     large
                     color="primary"
                     :disabled="!hasLicenses"
                     @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
                   >
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -156,16 +170,19 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
                   <v-btn
                     large
                     color="primary"
                     :disabled="!hasBonuses"
                     @click="stepForward"
-                    >Continue<v-icon>chevron_right</v-icon></v-btn
                   >
+                    Continue
+                    <v-icon>chevron_right</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>
@@ -185,12 +202,14 @@
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-flex>
                 <v-flex shrink>
-                  <v-btn color="primary" flat @click="stepBack"
-                    ><v-icon>chevron_left</v-icon>Back</v-btn
-                  >
-                  <v-btn large color="success" @click="savePilot"
-                    >Confirm &nbsp;<v-icon>done</v-icon></v-btn
-                  >
+                  <v-btn color="primary" flat @click="stepBack">
+                    <v-icon>chevron_left</v-icon>
+                    Back
+                  </v-btn>
+                  <v-btn large color="success" @click="savePilot">
+                    Confirm &nbsp;
+                    <v-icon>done</v-icon>
+                  </v-btn>
                 </v-flex>
               </v-layout>
             </v-stepper-content>

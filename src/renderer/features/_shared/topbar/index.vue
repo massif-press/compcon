@@ -2,26 +2,26 @@
   <v-container fluid>
     <v-toolbar dense style="z-index:10" fixed>
       <v-tooltip bottom>
-        <v-btn slot="activator" icon @click="historyNav(-1)" flat
-          ><v-icon>mdi-arrow-left</v-icon></v-btn
-        >
+        <v-btn slot="activator" icon @click="historyNav(-1)" flat>
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
         <span>Click to go back</span>
       </v-tooltip>
       <v-tooltip bottom>
-        <v-btn slot="activator" icon @click="historyNav(1)" flat
-          ><v-icon>mdi-arrow-right</v-icon></v-btn
-        >
+        <v-btn slot="activator" icon @click="historyNav(1)" flat>
+          <v-icon>mdi-arrow-right</v-icon>
+        </v-btn>
         <span>Click to go forward</span>
       </v-tooltip>
       <v-tooltip bottom>
-        <v-btn slot="activator" icon @click="home()" flat
-          ><v-icon>mdi-home</v-icon></v-btn
-        >
+        <v-btn slot="activator" icon @click="home()" flat>
+          <v-icon>mdi-home</v-icon>
+        </v-btn>
         <span>Return to the Main Menu</span>
       </v-tooltip>
       <v-divider vertical class="ml-2" />
-      <v-toolbar-title class="font-weight-light" style="font-size:26px"
-        >C O M P / C O N&emsp;
+      <v-toolbar-title class="font-weight-light" style="font-size:26px">
+        C O M P / C O N&emsp;
         <span class="grey--text" style="font-size:16px">{{ ver }}</span>
       </v-toolbar-title>
       <v-divider class="ml-4 mr-4" />
@@ -32,8 +32,9 @@
           :color="zeroConfigs ? 'info' : ''"
           to="/hangar"
           :disabled="!hangarActive"
-          >Mech Hangar</v-btn
         >
+          Mech Hangar
+        </v-btn>
         <v-btn flat to="/compendium">Compendium</v-btn>
 
         <v-divider vertical class="ml-2 mr-2" />

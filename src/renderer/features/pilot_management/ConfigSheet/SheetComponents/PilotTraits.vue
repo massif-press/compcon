@@ -13,9 +13,9 @@
           >
             <div v-for="n in 3" :key="'talent_' + n">
               <div v-if="talent.Rank >= n">
-                <span class="minor-title"
-                  >{{ talent.Talent.Ranks[n - 1].name }}:</span
-                >
+                <span class="minor-title">
+                  {{ talent.Talent.Ranks[n - 1].name }}:
+                </span>
                 <span
                   class="effect-text"
                   v-html="talent.Talent.Ranks[n - 1].description"

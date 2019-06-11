@@ -31,14 +31,14 @@
                   <span class="subheading">{{ props.item.Source }}</span>
                 </td>
                 <td class="text-xs-left">
-                  <span class="subheading font-weight-bold">{{
-                    props.item.Name
-                  }}</span>
+                  <span class="subheading font-weight-bold">
+                    {{ props.item.Name }}
+                  </span>
                 </td>
                 <td class="text-xs-right">
-                  <span class="subheading">{{
-                    props.item.Size === 0.5 ? '½' : props.item.Size
-                  }}</span>
+                  <span class="subheading">
+                    {{ props.item.Size === 0.5 ? '½' : props.item.Size }}
+                  </span>
                 </td>
                 <td class="text-xs-right">
                   <span class="subheading">{{ props.item.Armor }}</span>

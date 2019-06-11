@@ -8,8 +8,9 @@
           block
           outline
           :color="itemColor(item.ItemType)"
-          >"{{ item.Name }}" Frame</v-btn
         >
+          "{{ item.Name }}" Frame
+        </v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
       <v-tooltip top v-else-if="item.ItemType === 'MechWeapon'">
@@ -19,8 +20,9 @@
           block
           outline
           :color="itemColor(item.ItemType)"
-          >{{ item.Name }}</v-btn
         >
+          {{ item.Name }}
+        </v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
       <v-tooltip top v-else>
@@ -30,8 +32,9 @@
           block
           outline
           :color="itemColor(item.ItemType)"
-          >{{ item.Name }}</v-btn
         >
+          {{ item.Name }}
+        </v-btn>
         <span v-html="tooltip(item)" />
       </v-tooltip>
     </div>
@@ -41,14 +44,15 @@
       :width="item.ItemType === 'Frame' ? '95vw' : '50vw'"
     >
       <v-toolbar :color="itemColor(item.ItemType)" dark>
-        <v-toolbar-title
-          >{{ item.Name }}
-          <span class="caption"
-            >({{ item.Source
-            }}<span v-if="item.ItemType !== 'Frame'">
-              {{ item.License }} {{ item.LicenseLevel }}</span
-            >)</span
-          >
+        <v-toolbar-title>
+          {{ item.Name }}
+          <span class="caption">
+            ({{ item.Source }}
+            <span v-if="item.ItemType !== 'Frame'">
+              {{ item.License }} {{ item.LicenseLevel }}
+            </span>
+            )
+          </span>
         </v-toolbar-title>
       </v-toolbar>
       <v-card>

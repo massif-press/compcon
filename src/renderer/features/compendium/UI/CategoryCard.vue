@@ -14,7 +14,7 @@
         <v-card-actions style="background-color: rgba(255,255,255,0.6)">
           &nbsp;
           <v-spacer />
-          <span class="title font-weight-light pt-4 pb-4"> {{ name }} </span>
+          <span class="title font-weight-light pt-4 pb-4">{{ name }}</span>
           <v-spacer />
           &nbsp;
         </v-card-actions>

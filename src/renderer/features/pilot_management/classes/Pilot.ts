@@ -436,9 +436,7 @@ class Pilot {
     const index = this.core_bonuses.findIndex(x => _.isEqual(coreBonus, x))
     if (index === -1) {
       console.error(
-        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${
-          this.callsign
-        }`
+        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`
       )
     } else {
       this.core_bonuses.splice(index, 1)

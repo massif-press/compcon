@@ -20,9 +20,9 @@
               <v-flex xs9 class="ma-2">
                 <span class="title">{{ mech.Name }}</span>
                 <br />
-                <span class="caption"
-                  >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span
-                >
+                <span class="caption">
+                  {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+                </span>
               </v-flex>
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
@@ -36,19 +36,21 @@
                       :color="
                         mech.IsActive ? 'teal accent-3' : 'grey lighten-1'
                       "
-                      >mdi-power</v-icon
                     >
+                      mdi-power
+                    </v-icon>
                   </v-btn>
                   <div class="text-xs-center">
-                    <span
-                      ><b :class="activeColorClass()">
-                        {{ mech.IsActive ? 'Active' : 'Inactive' }}</b
-                      >
-                      <br /><i
-                        >Click to
-                        {{ mech.IsActive ? 'deactivate' : 'activate' }} Mech</i
-                      ></span
-                    >
+                    <span>
+                      <b :class="activeColorClass()">
+                        {{ mech.IsActive ? 'Active' : 'Inactive' }}
+                      </b>
+                      <br />
+                      <i>
+                        Click to
+                        {{ mech.IsActive ? 'deactivate' : 'activate' }} Mech
+                      </i>
+                    </span>
                   </div>
                 </v-tooltip>
                 <v-tooltip top>
@@ -57,8 +59,9 @@
                     icon
                     class="ma-0"
                     @click="exportDialog = true"
-                    ><v-icon>mdi-export-variant</v-icon></v-btn
                   >
+                    <v-icon>mdi-export-variant</v-icon>
+                  </v-btn>
                   <span>Export Configuration</span>
                 </v-tooltip>
                 <v-tooltip top>
@@ -67,8 +70,9 @@
                     icon
                     class="ma-0"
                     @click="copyDialog = true"
-                    ><v-icon>mdi-content-duplicate</v-icon></v-btn
                   >
+                    <v-icon>mdi-content-duplicate</v-icon>
+                  </v-btn>
                   <span>Duplicate Configuration</span>
                 </v-tooltip>
                 <v-tooltip top>
@@ -77,8 +81,9 @@
                     icon
                     class="ma-0"
                     @click="deleteDialog = true"
-                    ><v-icon>delete</v-icon></v-btn
                   >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
                   <span>Delete Configuration</span>
                 </v-tooltip>
               </v-flex>
@@ -88,7 +93,7 @@
 
         <v-snackbar v-model="snackbar" :timeout="5000">
           <span v-html="notification" />
-          <v-btn color="pink" flat @click="snackbar = false"> Close </v-btn>
+          <v-btn color="pink" flat @click="snackbar = false">Close</v-btn>
         </v-snackbar>
 
         <lazy-dialog
@@ -100,10 +105,10 @@
           @cancel="deleteDialog = false"
         >
           <template v-slot:modal-content>
-            <v-card-text
-              >Are you sure you want to delete {{ mech.name }}? This action
-              cannot be undone</v-card-text
-            >
+            <v-card-text>
+              Are you sure you want to delete {{ mech.name }}? This action
+              cannot be undone
+            </v-card-text>
           </template>
         </lazy-dialog>
 
@@ -114,12 +119,13 @@
           @cancel="exportDialog = false"
         >
           <template v-slot:modal-content>
-            <v-btn large block flat color="primary" @click="exportConfig"
-              >Save to File</v-btn
-            ><br />
-            <v-btn large block flat color="primary" @click="copyConfig"
-              >Copy Configuration Data to Clipboard</v-btn
-            >
+            <v-btn large block flat color="primary" @click="exportConfig">
+              Save to File
+            </v-btn>
+            <br />
+            <v-btn large block flat color="primary" @click="copyConfig">
+              Copy Configuration Data to Clipboard
+            </v-btn>
           </template>
         </lazy-dialog>
 
@@ -131,9 +137,9 @@
         >
           <template v-slot:modal-content>
             <v-card-text slot="modal-content" class="text-xs-center">
-              <v-btn large block color="indigo" @click="cloneConfig" dark
-                >Duplicate Configuration</v-btn
-              >
+              <v-btn large block color="indigo" @click="cloneConfig" dark>
+                Duplicate Configuration
+              </v-btn>
             </v-card-text>
           </template>
         </lazy-dialog>

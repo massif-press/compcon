@@ -22,20 +22,21 @@
         <v-divider class="ml-0 mr-5" vertical />
       </v-flex>
       <v-flex xs9>
-        <span class="display-1 text-uppercase font-weight-thin"
-          >EQUIPMENT TAGS</span
-        >
+        <span class="display-1 text-uppercase font-weight-thin">
+          EQUIPMENT TAGS
+        </span>
         <div v-scroll-spy="{ offset: 60, time: 0 }">
           <div v-for="t in tags" :key="t.id" class="text-xs-center pa-1">
             <v-card flat>
-              <v-card-title primary-title class="title">{{
-                t.name.replace(/{VAL}/g, 'X')
-              }}</v-card-title>
-              <v-card-text class="text-xs-left pt-0"
-                ><p
+              <v-card-title primary-title class="title">
+                {{ t.name.replace(/{VAL}/g, 'X') }}
+              </v-card-title>
+              <v-card-text class="text-xs-left pt-0">
+                <p
                   class="blockquote ma-0 pa-0"
                   v-html="t.description.replace(/{VAL}/g, '<b>X</b>')"
-              /></v-card-text>
+                />
+              </v-card-text>
             </v-card>
           </div>
         </div>

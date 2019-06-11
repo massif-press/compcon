@@ -12,8 +12,8 @@
           <v-divider />
           <v-toolbar-title class="text-uppercase font-weight-light">
             <span style="letter-spacing: 15px; font-size: 1.75em">
-              Pilot {{ pilot.IsActive ? 'Active' : 'Inactive' }}</span
-            >
+              Pilot {{ pilot.IsActive ? 'Active' : 'Inactive' }}
+            </span>
           </v-toolbar-title>
           <v-divider />
           <v-toolbar-items class="hidden-sm-and-down">
@@ -21,25 +21,34 @@
               <v-icon
                 large
                 :color="pilot.IsActive ? 'teal accent-2' : 'grey darken-1'"
-                >mdi-power</v-icon
               >
+                mdi-power
+              </v-icon>
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <div class="text-xs-center">
-          <span v-if="pilot.IsActive"
-            ><b>Active Pilot</b><br />
-            Active Pilots cannot edit or reallocate attributes or bonuses<br />
-            (except when leveling up) and are able to record current HP.<br /><br />
-            You can click the toggle to deactivate {{ pilot.Callsign }}.</span
-          >
-          <span v-else
-            ><b>Inactive Pilot</b><br />
+          <span v-if="pilot.IsActive">
+            <b>Active Pilot</b>
+            <br />
+            Active Pilots cannot edit or reallocate attributes or bonuses
+            <br />
+            (except when leveling up) and are able to record current HP.
+            <br />
+            <br />
+            You can click the toggle to deactivate {{ pilot.Callsign }}.
+          </span>
+          <span v-else>
+            <b>Inactive Pilot</b>
+            <br />
             Inactive Pilots are able to edit and reallocate attributes and
-            bonuses<br />
-            but are unable to record current HP or select active Mechs.<br /><br />
-            You can click the toggle to activate {{ pilot.Callsign }}</span
-          >
+            bonuses
+            <br />
+            but are unable to record current HP or select active Mechs.
+            <br />
+            <br />
+            You can click the toggle to activate {{ pilot.Callsign }}
+          </span>
         </div>
       </v-tooltip>
       <v-container fluid :class="pilot.IsActive ? 'mt-2' : ''">
@@ -55,9 +64,9 @@
                   :pilot="pilot"
                   :placeholder="pilot.Callsign"
                 >
-                  <span slot="label" class="callsign-text">{{
-                    pilot.Callsign
-                  }}</span>
+                  <span slot="label" class="callsign-text">
+                    {{ pilot.Callsign }}
+                  </span>
                 </editable-label>
               </v-flex>
               <!-- Name -->
@@ -68,14 +77,13 @@
                   :placeholder="pilot.Name"
                   :pilot="pilot"
                 >
-                  <span slot="label" class="blockquote ml-1 pl-0"
-                    >{{ pilot.Name }}&nbsp;</span
-                  >
+                  <span slot="label" class="blockquote ml-1 pl-0">
+                    {{ pilot.Name }}&nbsp;
+                  </span>
                 </editable-label>
               </v-flex>
               <v-spacer />
-              <v-flex class="text-xs-right mr-2" v-if="pilot.IsActive">
-              </v-flex>
+              <v-flex class="text-xs-right mr-2" v-if="pilot.IsActive"></v-flex>
             </v-layout>
             <v-divider class="ma-2" />
             <!-- Pilot Statblock -->
@@ -130,7 +138,8 @@
           </v-flex>
           <!-- License Level -->
           <v-flex shrink>
-            <span class="caption float-right">LICENSE LEVEL</span><br />
+            <span class="caption float-right">LICENSE LEVEL</span>
+            <br />
           </v-flex>
           <span class="xl-text">{{ pilot.Level }}</span>
           <v-flex shrink>
@@ -199,10 +208,13 @@
               outline
               class="ma-2 ml-5 mr-5"
             >
-              <b>No Associated Mech</b><br />
+              <b>No Associated Mech</b>
+              <br />
               This pilot does not have any mech Configurations associated with
               their profile. A new Configuration can be added by navigating to
-              the <b>MECH HANGAR</b> from the menu bar
+              the
+              <b>MECH HANGAR</b>
+              from the menu bar
             </v-alert>
           </v-flex>
         </v-layout>
@@ -213,9 +225,9 @@
             <v-layout>
               <v-flex>
                 <!-- Biograpgy -->
-                <v-layout
-                  ><span class="header no-icon">Biography</span></v-layout
-                >
+                <v-layout>
+                  <span class="header no-icon">Biography</span>
+                </v-layout>
                 <v-layout>
                   <v-flex xs12 class="text-xs-center">
                     <b v-if="pilot.custom_background" class="minor-title">
@@ -246,16 +258,16 @@
                 <v-layout v-if="pilot.quirk">
                   <v-flex class="text-xs-center">
                     <v-alert :value="true" color="amber darken-4" class="ma-2">
-                      <b class="minor-title">Clone Quirk </b>
+                      <b class="minor-title">Clone Quirk</b>
                       <editable-label
                         :description="'Clone Quirk'"
                         :attr="'quirk'"
                         :placeholder="pilot.quirk"
                         :pilot="pilot"
                       >
-                        <span slot="label" class="p fluff-text"
-                          >{{ pilot.quirk }}&emsp;</span
-                        >
+                        <span slot="label" class="p fluff-text">
+                          {{ pilot.quirk }}&emsp;
+                        </span>
                       </editable-label>
                       <v-tooltip top>
                         <v-btn
@@ -296,8 +308,8 @@
           <v-flex xs4>
             <!-- Appearance -->
             <v-layout>
-              <span class="header"
-                >Appearance
+              <span class="header">
+                Appearance
                 <pilot-edit-modal
                   title="Set Pilot Portrait"
                   :modelRef="appearanceModal"
@@ -323,9 +335,10 @@
                   />
                 </div>
                 <div v-else>
-                  <v-btn block small flat color="primary lighten-1"
-                    ><v-icon small>add</v-icon>&nbsp;Add Pilot Image</v-btn
-                  >
+                  <v-btn block small flat color="primary lighten-1">
+                    <v-icon small>add</v-icon>
+                    &nbsp;Add Pilot Image
+                  </v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -351,11 +364,11 @@
             <!-- Grit -->
             <v-layout><span class="header no-icon">Grit</span></v-layout>
             <v-layout align-center justify-center column fill-height>
-              <v-flex
-                ><span class="display-3 font-weight-black text-xs-center"
-                  >+{{ pilot.Grit }}</span
-                ></v-flex
-              >
+              <v-flex>
+                <span class="display-3 font-weight-black text-xs-center">
+                  +{{ pilot.Grit }}
+                </span>
+              </v-flex>
             </v-layout>
           </v-flex>
           <v-flex xs11>
@@ -390,8 +403,8 @@
         </v-layout>
         <!-- License Block -->
         <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`"
-            >Licenses
+          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
+            Licenses
             <pilot-edit-modal
               v-if="!pilot.IsActive"
               title="Edit Pilot Licenses"
@@ -417,8 +430,8 @@
 
         <!-- Talent Block -->
         <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`"
-            >Talents
+          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
+            Talents
             <pilot-edit-modal
               v-if="!pilot.IsActive"
               title="Edit Pilot Talents"
@@ -448,8 +461,8 @@
 
         <!-- Mech Skills Block -->
         <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`"
-            >Mech Skills
+          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
+            Mech Skills
             <pilot-edit-modal
               v-if="!pilot.IsActive"
               title="Edit Mech Skills"
@@ -473,8 +486,8 @@
 
         <!-- CORE Bonuses -->
         <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`"
-            >CORE Bonuses
+          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
+            CORE Bonuses
             <pilot-edit-modal
               v-if="!pilot.IsActive"
               title="Edit CORE Bonuses"
@@ -496,9 +509,9 @@
 
         <!-- Pilot Loadout -->
         <v-layout><span class="header no-icon">Pilot Gear</span></v-layout>
-        <v-layout
-          ><v-flex xs12><pilot-loadout :pilot="pilot"/></v-flex
-        ></v-layout>
+        <v-layout>
+          <v-flex xs12><pilot-loadout :pilot="pilot" /></v-flex>
+        </v-layout>
 
         <!-- Pilot Notes -->
         <v-layout><span class="header no-icon">Notes</span></v-layout>
@@ -523,11 +536,18 @@
       <!-- Print Block -->
       <v-layout class="ma-5">
         <v-flex>
-          <v-btn color="primary" large outline block @click="openPrintOptions()"
-            ><v-icon>print</v-icon>&emsp; PRINT PILOT SHEET</v-btn
+          <v-btn
+            color="primary"
+            large
+            outline
+            block
+            @click="openPrintOptions()"
           >
-          <v-btn color="primary" small flat block @click="copyPilotStatblock()"
-            >copy pilot statblock &nbsp;
+            <v-icon>print</v-icon>
+            &emsp; PRINT PILOT SHEET
+          </v-btn>
+          <v-btn color="primary" small flat block @click="copyPilotStatblock()">
+            copy pilot statblock &nbsp;
             <v-tooltip top>
               <v-icon slot="activator" small color="grey">help</v-icon>
               <span>
@@ -541,15 +561,16 @@
 
       <v-snackbar v-model="snackbar" :timeout="5000">
         <span v-html="notification" />
-        <v-btn color="pink" flat @click="snackbar = false"> Close </v-btn>
+        <v-btn color="pink" flat @click="snackbar = false">Close</v-btn>
       </v-snackbar>
 
       <v-dialog v-model="printDialog" persistent width="50vw">
         <v-card>
           <v-card-title class="title">Active Mech Detected</v-card-title>
           <v-card-text>
-            Include {{ pilot.Callsign }}'s currently active mech? </v-card-text
-          ><slot name="modal-content"></slot>
+            Include {{ pilot.Callsign }}'s currently active mech?
+          </v-card-text>
+          <slot name="modal-content"></slot>
           <v-divider />
           <v-card-actions>
             <v-btn color="primary" @click="print(false)">No</v-btn>

@@ -4,7 +4,8 @@
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="pilot.AddLoadout()" color="primary">
-            <v-icon>add</v-icon>Add New Loadout
+            <v-icon>add</v-icon>
+            Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -20,9 +21,9 @@
       @change="changeTab()"
       :key="pilot.Loadouts.length"
     >
-      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">{{
-        pilotLoadout.Name
-      }}</v-tab>
+      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">
+        {{ pilotLoadout.Name }}
+      </v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="pilot.AddLoadout()">
@@ -100,7 +101,8 @@
                 @cancel="renameDialog = false"
               >
                 <v-btn slot="activator" flat @click="renameDialog = true">
-                  <v-icon small left>edit</v-icon>Rename Loadout
+                  <v-icon small left>edit</v-icon>
+                  Rename Loadout
                 </v-btn>
                 <v-card-text slot="modal-content">
                   <v-text-field
@@ -112,7 +114,8 @@
               </lazy-dialog>
 
               <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
-                <v-icon small left>file_copy</v-icon>Duplicate Loadout
+                <v-icon small left>file_copy</v-icon>
+                Duplicate Loadout
               </v-btn>
 
               <v-spacer />
@@ -131,7 +134,8 @@
                   color="error"
                   @click="deleteDialog = true"
                 >
-                  <v-icon small left>edit</v-icon>Delete Loadout
+                  <v-icon small left>edit</v-icon>
+                  Delete Loadout
                 </v-btn>
                 <v-card-text slot="modal-content">
                   <p>

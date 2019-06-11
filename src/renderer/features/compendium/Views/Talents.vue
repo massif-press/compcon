@@ -22,9 +22,9 @@
         <v-divider class="ml-0 mr-5" vertical />
       </v-flex>
       <v-flex xs9>
-        <span class="display-1 text-uppercase font-weight-thin"
-          >PILOT TALENTS</span
-        >
+        <span class="display-1 text-uppercase font-weight-thin">
+          PILOT TALENTS
+        </span>
         <div v-scroll-spy="{ offset: 60, time: 0 }" class="mt-3">
           <div v-for="t in talents" :key="`${t.id}_data'`">
             <v-toolbar-title class="mt-2" dense>
@@ -44,9 +44,9 @@
               >
                 <div style="width:100%">
                   <div class="title">
-                    <v-icon class="mt-2" color="primary"
-                      >cc-rank-{{ index + 1 }}</v-icon
-                    >
+                    <v-icon class="mt-2" color="primary">
+                      cc-rank-{{ index + 1 }}
+                    </v-icon>
                     {{ r.name }}
                   </div>
                   <p class="pl-4 effect-text" v-html="r.description" />

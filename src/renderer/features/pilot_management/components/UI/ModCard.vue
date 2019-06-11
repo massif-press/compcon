@@ -10,10 +10,11 @@
         <span class="caption">WEAPON MODIFICATION</span>
       </v-card-text>
       <v-card-text v-if="!missing" class="pb-0 pt-0">
-        <em
-          >{{ modData.source }} {{ modData.license }}, RANK
-          <span v-for="n in modData.license_level" :key="n">I</span><br
-        /></em>
+        <em>
+          {{ modData.source }} {{ modData.license }}, RANK
+          <span v-for="n in modData.license_level" :key="n">I</span>
+          <br />
+        </em>
         <p
           v-if="modData.description"
           v-html="modData.description"

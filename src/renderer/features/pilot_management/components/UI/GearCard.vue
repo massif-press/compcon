@@ -24,9 +24,9 @@
             <v-flex v-if="itemData.HPBonus">+{{ itemData.hp_bonus }}</v-flex>
             <v-flex>+{{ itemData.Armor || 0 }}</v-flex>
             <v-flex>{{ itemData.Evasion || 'N/A' }}</v-flex>
-            <v-flex v-if="itemData.EvasionBonus"
-              >+{{ itemData.EvasionBonus }}</v-flex
-            >
+            <v-flex v-if="itemData.EvasionBonus">
+              +{{ itemData.EvasionBonus }}
+            </v-flex>
             <v-flex>{{ itemData.Edefense || 'N/A' }}</v-flex>
             <v-flex>{{ itemData.Speed }}</v-flex>
             <v-flex v-if="itemData.SpeedBonus">{itemData.SpeedBonus}}</v-flex>

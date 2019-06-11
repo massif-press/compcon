@@ -9,19 +9,21 @@
           >
             <v-layout v-if="pSkill.err">
               <v-flex shrink>
-                <span class="grey--text">// MISSING DATA //</span><br />
+                <span class="grey--text">// MISSING DATA //</span>
+                <br />
               </v-flex>
               <v-flex shrink>
-                <v-btn icon flat color="error" @click="subtract(pSkill)"
-                  ><v-icon>delete</v-icon></v-btn
-                >
+                <v-btn icon flat color="error" @click="subtract(pSkill)">
+                  <v-icon>delete</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-chip dark color="primary" outline small
-                  >+<b>{{ pSkill.Bonus }}</b></v-chip
-                >
+                <v-chip dark color="primary" outline small>
+                  +
+                  <b>{{ pSkill.Bonus }}</b>
+                </v-chip>
                 <strong>{{ pSkill.Skill.Trigger }}</strong>
               </v-flex>
             </v-layout>
@@ -61,8 +63,9 @@
             small
             :disabled="!pilot.Skills.length"
             @click="resetSkills"
-            >Reset</v-btn
           >
+            Reset
+          </v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -74,7 +77,7 @@
           v-for="skill in skills[h.attr]"
           :key="skills.length + skill.ID"
         >
-          <v-flex xs11><skill-item :skill="skill"/></v-flex>
+          <v-flex xs11><skill-item :skill="skill" /></v-flex>
           <v-flex>
             <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
               <div class="centered">

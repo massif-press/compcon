@@ -38,22 +38,22 @@
               <span class="subheading">{{ props.item.Type }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading"
-                ><range-element small :range="props.item.Range"
-              /></span>
+              <span class="subheading">
+                <range-element small :range="props.item.Range" />
+              </span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading"
-                ><damage-element small dark size="16" :dmg="props.item.Damage"
-              /></span>
+              <span class="subheading">
+                <damage-element small dark size="16" :dmg="props.item.Damage" />
+              </span>
             </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
-            <v-card-text
-              ><weapon-card :item="props.item" table-item
-            /></v-card-text>
+            <v-card-text>
+              <weapon-card :item="props.item" table-item />
+            </v-card-text>
           </v-card>
         </template>
       </v-data-table>

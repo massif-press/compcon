@@ -29,10 +29,11 @@
         <v-divider class="ml-0 mr-5" vertical />
       </v-flex>
       <v-flex xs9>
-        <span class="display-1 text-uppercase font-weight-thin"
-          >STATUSES AND CONDITIONS</span
-        >
-        <br /><br />
+        <span class="display-1 text-uppercase font-weight-thin">
+          STATUSES AND CONDITIONS
+        </span>
+        <br />
+        <br />
         <div v-scroll-spy="{ offset: 60, time: 0 }">
           <span class="major-title">Statuses</span>
           <div
@@ -44,10 +45,11 @@
               <v-card-title
                 primary-title
                 class="title text-uppercase font-weight-light"
-                >{{ s.name }}</v-card-title
               >
-              <v-card-text class="text-xs-left pt-0"
-                ><ul>
+                {{ s.name }}
+              </v-card-title>
+              <v-card-text class="text-xs-left pt-0">
+                <ul>
                   <li
                     v-for="e in s.effects"
                     :key="e"
@@ -55,8 +57,8 @@
                   >
                     {{ e }}
                   </li>
-                </ul></v-card-text
-              >
+                </ul>
+              </v-card-text>
             </v-card>
           </div>
           <v-divider class="ma-3" />
@@ -70,10 +72,11 @@
               <v-card-title
                 primary-title
                 class="title text-uppercase font-weight-light"
-                >{{ s.name }}</v-card-title
               >
-              <v-card-text class="text-xs-left pt-0"
-                ><ul>
+                {{ s.name }}
+              </v-card-title>
+              <v-card-text class="text-xs-left pt-0">
+                <ul>
                   <li
                     v-for="e in s.effects"
                     :key="e"
@@ -81,8 +84,8 @@
                   >
                     {{ e }}
                   </li>
-                </ul></v-card-text
-              >
+                </ul>
+              </v-card-text>
             </v-card>
           </div>
         </div>

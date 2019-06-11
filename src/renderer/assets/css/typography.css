@@ -18,24 +18,24 @@
 }
 
 .xl-text {
-  font-size: 120px; 
-  line-height: 90px; 
-  float:right; 
-  font-weight:100;
+  font-size: 120px;
+  line-height: 90px;
+  float: right;
+  font-weight: 100;
 }
 
 .minor-title {
   font-weight: 500;
   font-size: 1.2em;
   letter-spacing: 2px;
-  text-transform: uppercase;  
+  text-transform: uppercase;
 }
 
 .major-title {
   font-weight: 500;
   font-size: 1.8em;
   letter-spacing: 2px;
-  text-transform: uppercase;  
+  text-transform: uppercase;
 }
 
 .active-text {
@@ -46,74 +46,74 @@
   text-align: right;
 }
 
- code {
-   padding: 4px 12px 4px 12px;
- }
+code {
+  padding: 4px 12px 4px 12px;
+}
 
- code.horus {
-   font-size: 1.1em;
-   background-color: rgba(0,0,0,0.7) !important;
-   box-shadow: none;
-   color: white;
-   font-style: normal;
-   border-radius: 0;
- }
+code.horus {
+  font-size: 1.1em;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: none;
+  color: white;
+  font-style: normal;
+  border-radius: 0;
+}
 
- code.horus:hover {
-   background-color: black !important;
-   animation: distort 0.6s infinite;
-   text-transform: uppercase;
-   letter-spacing: 0.05em;
-   font-weight: bold;
- }
+code.horus:hover {
+  background-color: black !important;
+  animation: distort 0.6s infinite;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
 
- .ra-quiet {
-   color: azure;
- }
- 
- @keyframes distort {
-   0% {
-       text-shadow: 2px 1px #ff00ff, -2px -3px #00ffff;
-       transform: translate(-1px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
-       cursor: crosshair;
+.ra-quiet {
+  color: azure;
+}
+
+@keyframes distort {
+  0% {
+    text-shadow: 2px 1px #ff00ff, -2px -3px #00ffff;
+    transform: translate(-1px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+    cursor: crosshair;
   }
-   25% {
-       text-shadow: -2px -3px #ff00ff, 2px 1px #00ffff;
-       transform: translate(2px, 1px)  translate3D(-30px, 0px, 0) rotate(-0.1deg);
-       cursor: cell;
-   }
-   50% {
-       text-shadow: 2px -1px #ff00ff, -4px 1px #00ffff;
-       transform: translate(-2px, 1px)  translate3D(-30px, 0px, 0) rotate(-0.1deg);
-       cursor: col-resize;
-   }
-   75% {
-       text-shadow: -4px -1px #ff00ff, -2px -1px #00ffff;
-       transform: translate(3px, 1px)  translate3D(-30px, 0px, 0)  rotate(-0.1deg);
-       cursor: move;
-   }
-   100% {
-       text-shadow: -2px 0 #ff00ff, 2px -1px #00ffff;
-       transform: translate(-2px, 0)  translate3D(-30px, 0px, 0)  rotate(-0.1deg);
-       cursor: all-scroll;
-   }
- }
+  25% {
+    text-shadow: -2px -3px #ff00ff, 2px 1px #00ffff;
+    transform: translate(2px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+    cursor: cell;
+  }
+  50% {
+    text-shadow: 2px -1px #ff00ff, -4px 1px #00ffff;
+    transform: translate(-2px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+    cursor: col-resize;
+  }
+  75% {
+    text-shadow: -4px -1px #ff00ff, -2px -1px #00ffff;
+    transform: translate(3px, 1px) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+    cursor: move;
+  }
+  100% {
+    text-shadow: -2px 0 #ff00ff, 2px -1px #00ffff;
+    transform: translate(-2px, 0) translate3D(-30px, 0px, 0) rotate(-0.1deg);
+    cursor: all-scroll;
+  }
+}
 
- .keyboard-shortcut {
-   font-family: monospace;
-   font-weight: bold;
-   font-size: 0.9em;
-   padding: 3px 5px;
-   background-color: #727272;
-   border: 1px solid black;
-   color: #f6f6f6;
-   box-shadow: inset 0 -4px 0 rgba(0,0,0,.4);
-   min-height: 14px;
-   min-width: 14px;
-   padding: 3px 6px 5px 6px;
-   text-align: center;
-   display: inline-block;
-   border-radius: 2px;
-   margin: 0 2px;
-   text-transform: uppercase;
- }
+.keyboard-shortcut {
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.9em;
+  padding: 3px 5px;
+  background-color: #727272;
+  border: 1px solid black;
+  color: #f6f6f6;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.4);
+  min-height: 14px;
+  min-width: 14px;
+  padding: 3px 6px 5px 6px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 2px;
+  margin: 0 2px;
+  text-transform: uppercase;
+}

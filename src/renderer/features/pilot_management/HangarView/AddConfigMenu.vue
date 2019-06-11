@@ -4,42 +4,43 @@
       <v-flex class="mt-5">
         <v-stepper v-model="nc_step" vertical>
           <v-stepper-step :complete="nc_step > 1" step="1">
-            Editor Mode<small v-if="nc_step > 1">Create New</small>
+            Editor Mode
+            <small v-if="nc_step > 1">Create New</small>
           </v-stepper-step>
           <v-stepper-content step="1">
             <v-card flat>
               <v-card-text>
                 <div class="ml-5 mr-5">
-                  <v-btn large color="primary" block @click="nc_step = 2"
-                    >Create New</v-btn
-                  >
+                  <v-btn large color="primary" block @click="nc_step = 2">
+                    Create New
+                  </v-btn>
                   <v-divider class="ma-4" />
-                  <v-btn flat color="primary" block @click="importFile"
-                    >Import from File</v-btn
-                  >
-                  <v-btn flat color="primary" block @click="importClipboard"
-                    >Import from Clipboard</v-btn
-                  >
+                  <v-btn flat color="primary" block @click="importFile">
+                    Import from File
+                  </v-btn>
+                  <v-btn flat color="primary" block @click="importClipboard">
+                    Import from Clipboard
+                  </v-btn>
                 </div>
               </v-card-text>
             </v-card>
           </v-stepper-content>
 
-          <v-stepper-step :complete="nc_step > 2" step="2"
-            >Frame Selection
-            <small v-if="selectedFrame"
-              >{{ selectedFrame.Source }}
-              <strong>{{ selectedFrame.Name }}</strong></small
-            >
+          <v-stepper-step :complete="nc_step > 2" step="2">
+            Frame Selection
+            <small v-if="selectedFrame">
+              {{ selectedFrame.Source }}
+              <strong>{{ selectedFrame.Name }}</strong>
+            </small>
           </v-stepper-step>
           <v-stepper-content step="2">
             <v-toolbar color="primary" nudge-left="200px">
               <v-tooltip top>
                 <div class="pt-3" slot="activator">
                   <v-switch color="yellow" v-model="showLocked">
-                    <v-icon v-if="showLocked" dark slot="append" color="yellow"
-                      >lock_open</v-icon
-                    >
+                    <v-icon v-if="showLocked" dark slot="append" color="yellow">
+                      lock_open
+                    </v-icon>
                     <v-icon v-else dark slot="append">lock</v-icon>
                   </v-switch>
                 </div>
@@ -90,7 +91,8 @@
                       <v-layout>
                         <v-flex shrink>
                           <span class="mt-1 middle">
-                            {{ props.item.Source }}<br />
+                            {{ props.item.Source }}
+                            <br />
                             <span class="major-title font-weight-bold">
                               {{ props.item.Name }}
                               <v-tooltip v-if="isLocked(props.item)" top>
@@ -98,15 +100,16 @@
                                   color="warning"
                                   slot="activator"
                                   style="display: inline;"
-                                  >warning</v-icon
                                 >
-                                <span
-                                  >{{ pilot.callsign }} does not have the
-                                  license necessary to print this frame ({{
+                                  warning
+                                </v-icon>
+                                <span>
+                                  {{ pilot.callsign }} does not have the license
+                                  necessary to print this frame ({{
                                     props.item.Name
                                   }}
-                                  II)</span
-                                >
+                                  II)
+                                </span>
                               </v-tooltip>
                             </span>
                           </span>
@@ -126,15 +129,16 @@
                 </template>
               </v-data-table>
               <v-card-actions>
-                <v-btn color="primary" flat @click="nc_step--"
-                  ><v-icon>chevron_left</v-icon>Back</v-btn
-                >
+                <v-btn color="primary" flat @click="nc_step--">
+                  <v-icon>chevron_left</v-icon>
+                  Back
+                </v-btn>
               </v-card-actions>
             </v-card>
             <v-dialog lazy v-model="infoDialog" width="95vw">
               <v-toolbar color="#7E57C2" dark>
-                <v-toolbar-title
-                  >{{ selectedFrame.Name }}
+                <v-toolbar-title>
+                  {{ selectedFrame.Name }}
                   <span class="caption">({{ selectedFrame.Source }}</span>
                 </v-toolbar-title>
               </v-toolbar>
@@ -151,36 +155,39 @@
             <v-card flat>
               <v-text-field v-model="newConfigName" clearable>
                 <v-tooltip top slot="prepend-inner">
-                  <v-btn slot="activator" icon flat @click="randomMechname"
-                    ><v-icon>shuffle</v-icon></v-btn
-                  >
+                  <v-btn slot="activator" icon flat @click="randomMechname">
+                    <v-icon>shuffle</v-icon>
+                  </v-btn>
                   <span>Generate Random Designation</span>
                 </v-tooltip>
-                <span slot="label"
-                  >Configuration Name
-                  <b v-if="!newConfigName" class="red--text">*</b></span
-                >
+                <span slot="label">
+                  Configuration Name
+                  <b v-if="!newConfigName" class="red--text">*</b>
+                </span>
                 <span slot="append-outer">
-                  <v-icon v-if="newConfigName" color="green"
-                    >check_circle</v-icon
-                  >
+                  <v-icon v-if="newConfigName" color="green">
+                    check_circle
+                  </v-icon>
                 </span>
               </v-text-field>
             </v-card>
             <v-layout justify-space-between>
               <v-spacer />
               <v-flex shrink>
-                <v-btn color="primary" flat @click="nc_step--"
-                  ><v-icon>chevron_left</v-icon>Back</v-btn
-                >
+                <v-btn color="primary" flat @click="nc_step--">
+                  <v-icon>chevron_left</v-icon>
+                  Back
+                </v-btn>
                 <v-btn
                   color="success"
                   large
                   class="pl-4"
                   @click="addNewConfig"
                   :disabled="!(selectedFrame && newConfigName)"
-                  >Confirm &nbsp;<v-icon>done</v-icon></v-btn
                 >
+                  Confirm &nbsp;
+                  <v-icon>done</v-icon>
+                </v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>

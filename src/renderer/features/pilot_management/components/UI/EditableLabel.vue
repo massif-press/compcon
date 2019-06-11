@@ -14,9 +14,9 @@
         <v-icon small>edit</v-icon>
       </v-btn>
       <v-card>
-        <v-card-title class="headline" primary-title
-          >Edit {{ description }}</v-card-title
-        >
+        <v-card-title class="headline" primary-title>
+          Edit {{ description }}
+        </v-card-title>
         <v-card-text>
           <v-text-field
             v-model="newLabel"
@@ -27,11 +27,11 @@
           ></v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn flat @click="dialog = false"> Cancel </v-btn>
+          <v-btn flat @click="dialog = false">Cancel</v-btn>
           <v-spacer />
-          <v-btn :disabled="!canSave" color="primary" flat @click="save()"
-            >Save</v-btn
-          >
+          <v-btn :disabled="!canSave" color="primary" flat @click="save()">
+            Save
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

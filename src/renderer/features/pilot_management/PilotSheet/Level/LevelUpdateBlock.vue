@@ -6,7 +6,11 @@
     <v-divider />
     <v-layout row align-center justify-center>
       <v-flex shrink>
-        <span class="grey--text">LICENSE<br />LEVEL</span>
+        <span class="grey--text">
+          LICENSE
+          <br />
+          LEVEL
+        </span>
       </v-flex>
       <v-flex shrink>
         <span class="display-3 grey--text">{{ lvl - 1 }}</span>
@@ -15,7 +19,11 @@
         <v-icon size="70px" class="ml-5">arrow_forwards</v-icon>
       </v-flex>
       <v-flex shrink>
-        <span>LICENSE<br />LEVEL</span>
+        <span>
+          LICENSE
+          <br />
+          LEVEL
+        </span>
       </v-flex>
       <v-flex shrink>
         <span class="display-3">{{ lvl }}</span>
@@ -31,7 +39,9 @@
         <v-flex xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
-              <span class="display-2">+2</span> &emsp; <b>Pilot Skill Points</b>
+              <span class="display-2">+2</span>
+              &emsp;
+              <b>Pilot Skill Points</b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -39,7 +49,9 @@
         <v-flex xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
-              <span class="display-2">+1</span> &emsp; <b>Mech Skill Point</b>
+              <span class="display-2">+1</span>
+              &emsp;
+              <b>Mech Skill Point</b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -47,7 +59,9 @@
         <v-flex xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
-              <span class="display-2">+1</span> &emsp; <b>Talent Point</b>
+              <span class="display-2">+1</span>
+              &emsp;
+              <b>Talent Point</b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -55,7 +69,9 @@
         <v-flex xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
-              <span class="display-2">+1</span> &emsp; <b>License Point</b>
+              <span class="display-2">+1</span>
+              &emsp;
+              <b>License Point</b>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -85,7 +101,8 @@
         <v-flex xs12>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
-              <span class="display-2">+1</span><br />
+              <span class="display-2">+1</span>
+              <br />
               <b>Core Bonus</b>
             </v-card-text>
           </v-card>

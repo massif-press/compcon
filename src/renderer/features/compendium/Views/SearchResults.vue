@@ -14,11 +14,11 @@
       />
     </v-flex>
     <v-flex>
-      <v-subheader
-        >{{ searchResults.length }} result{{
+      <v-subheader>
+        {{ searchResults.length }} result{{
           searchResults.length === 1 ? '' : 's'
-        }}</v-subheader
-      >
+        }}
+      </v-subheader>
       <v-slide-y-reverse-transition mode="out-in">
         <v-layout row wrap :key="searchText">
           <v-flex
@@ -52,8 +52,9 @@
                   label
                   color="white"
                   class="text-uppercase ml-auto"
-                  >{{ item.data_type }}</v-chip
                 >
+                  {{ item.data_type }}
+                </v-chip>
               </v-card-title>
               <v-card-text v-if="item.description">
                 <span v-html="item.description" class="item-description"></span>

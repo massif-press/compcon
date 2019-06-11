@@ -5,9 +5,9 @@
         <v-flex>
           <span class="display-3">COMP/CON</span>
           &emsp;
-          <span class="minor-title"
-            >v.{{ ver }} // LANCER Core {{ lancerVer }}</span
-          >
+          <span class="minor-title">
+            v.{{ ver }} // LANCER Core {{ lancerVer }}
+          </span>
         </v-flex>
       </v-layout>
       <v-layout>
@@ -22,25 +22,25 @@
     <v-container>
       <v-layout style="height: 100%" align-v="center" class="mt-0 pt-0">
         <v-flex>
-          <v-btn block color="primary" large to="/pilot_management"
-            >Pilot Roster</v-btn
-          >
+          <v-btn block color="primary" large to="/pilot_management">
+            Pilot Roster
+          </v-btn>
         </v-flex>
         <v-flex>
           <v-btn block color="primary" large to="/compendium">COMPENDIUM</v-btn>
         </v-flex>
         <v-flex>
           <v-tooltip bottom>
-            <v-btn slot="activator" block large :to="'/gm'" disabled
-              >GM Toolkit</v-btn
-            >
+            <v-btn slot="activator" block large :to="'/gm'" disabled>
+              GM Toolkit
+            </v-btn>
             <span>WIP</span>
           </v-tooltip>
         </v-flex>
         <v-flex>
-          <v-btn slot="activator" block large :to="'/mods'" disabled
-            >Homebrew Editor</v-btn
-          >
+          <v-btn slot="activator" block large :to="'/mods'" disabled>
+            Homebrew Editor
+          </v-btn>
         </v-flex>
       </v-layout>
 
@@ -68,23 +68,23 @@
               Updated {{ changelog.news.date }}&nbsp;
               <span class="caption">(v{{ changelog.news.version }})</span>
               <v-spacer />
-              <span class="minor title"
-                >Stable:
-                <span class="primary--text">{{ changelog.stable }}</span></span
-              >
+              <span class="minor title">
+                Stable:
+                <span class="primary--text">{{ changelog.stable }}</span>
+              </span>
               &emsp;
-              <span class="minor title"
-                >Beta:
-                <span class="primary--text">{{ changelog.beta }}</span></span
-              >
+              <span class="minor title">
+                Beta:
+                <span class="primary--text">{{ changelog.beta }}</span>
+              </span>
             </v-card-title>
             <div
               v-if="ver !== changelog.beta && ver !== changelog.stable"
               class="ma-0 ml-5 mr-5"
             >
-              <v-btn block large color="warning" @click="toUpdate"
-                >Update COMP/CON</v-btn
-              >
+              <v-btn block large color="warning" @click="toUpdate">
+                Update COMP/CON
+              </v-btn>
             </div>
             <v-card-text
               class="mt-1 pt-1 ml-3 pr-5"
@@ -92,26 +92,26 @@
             />
             <v-divider class="mt-2 mb-2" />
             <div v-for="(i, idx) in changelog.changelog" :key="idx">
-              <v-card-title class="minor-title mb-1 pb-1"
-                >Changelog for: {{ i.version }}</v-card-title
-              >
+              <v-card-title class="minor-title mb-1 pb-1">
+                Changelog for: {{ i.version }}
+              </v-card-title>
               <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
               <v-divider class="mt-2 mb-2" />
             </div>
           </v-card>
           <v-card v-else>
             <v-card-text>
-              <v-alert :value="true" type="error"
-                >Error: Could not communicate with server</v-alert
-              >
+              <v-alert :value="true" type="error">
+                Error: Could not communicate with server
+              </v-alert>
               <br />
               <p class="text-xs-center">
                 <span class="title">
                   Check
-                  <a @click="toUpdate"
-                    >https://massif-press.itch.io/compcon for updates</a
-                  ></span
-                >
+                  <a @click="toUpdate">
+                    https://massif-press.itch.io/compcon for updates
+                  </a>
+                </span>
               </p>
             </v-card-text>
           </v-card>
