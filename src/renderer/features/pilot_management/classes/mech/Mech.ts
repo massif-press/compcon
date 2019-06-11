@@ -47,7 +47,7 @@ class Mech {
     this.current_structure = this.MaxStructure
     this.current_hp = this.MaxHP
     this.current_stress = this.MaxStress
-    this.current_heat = this.HeatCapacity
+    this.current_heat = 0
     this.current_repairs = this.RepairCapacity
     this.current_core_energy = 1
     this.current_overcharge = 0

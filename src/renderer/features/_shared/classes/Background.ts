@@ -1,12 +1,5 @@
 import store from '@/store'
 
-interface IBackgroundData {
-  id: string
-  name: string
-  description: string
-  triggers: string
-}
-
 class Background {
   private id: string
   private name: string
@@ -40,13 +33,22 @@ class Background {
     return this.triggers
   }
 
-  public static Serialize(bg?: Background): string {
-    return bg ? bg.id : ''
+  public static Serialize(bg: Background): IBackgroundData | string {
+    const core = store.getters.getItemById('Backgrounds', bg.ID)
+    if (core && !core.err) return bg.ID
+    return {
+      id: bg.id,
+      name: bg.name,
+      description: bg.description,
+      triggers: bg.triggers,
+    }
   }
 
-  public static Deserialize(id?: string): Background {
-    if (!id) return new Background()
-    return store.getters.getItemById('Backgrounds', id)
+  public static Deserialize(bgData?: IBackgroundData | string): Background {
+    if (typeof bgData === 'string')
+      return store.getters.getItemById('Backgrounds', bgData)
+    if (typeof bgData === 'object') return new Background(bgData)
+    return new Background()
   }
 }
 

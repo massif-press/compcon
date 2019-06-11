@@ -1,12 +1,34 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
-✔ Update lancer-data @done(19-06-07 13:07)
-✔ Fix unlicensed/over-sp colors (dawn-giant-dragon#0995) @done(19-06-07 11:21)
-✔ weapon mods not included in license requirements @done(19-06-07 11:29)
-✔ SP costed items on intweapon don't take SP (ari) @done(19-06-07 12:21)
-✔ Fixed selector left columns (watch scroll) @done(19-06-07 13:05)
+☐ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations
+✔ Raleigh E-Defense @done(19-06-11 12:17)
+✔ Raleigh repcap @done(19-06-11 12:17)
+✔ SP missing in frame card @done(19-06-11 13:07)
+✔ Swallowtail - "once per round" not "once per" @done(19-06-11 12:18)
+✔ Mag Parry - "once per round" not "once per" @done(19-06-11 12:18)
+✔ Custom Background not serializing/deserializing correctly @done(19-06-11 14:27)
+✔ Engineer 2 description @done(19-06-11 12:23)
+✔ Typo in Spotter I ("they can roll twice") @done(19-06-11 12:24)
+✔ Armsman TThe @done(19-06-11 12:24)
+✔ Horus Gorgon Sensors is 10, should be 8. @done(19-06-11 12:18)
+✔ HA Iskander Tech Atk. is 0, should be +1. @done(19-06-11 12:19)
+✔ HA Napoleon Save Target is 10, should be 11. @done(19-06-11 12:19)
+✔ HA Tokugawa Save Target is 10, should be 11. @done(19-06-11 12:19)
+✔ SSC FSS still has the fluff blurb when the book only lists the evasion. This is super minor and i like the control panel fluff so hecc it. @done(19-06-11 12:48)
+✔ Cannot remove mount retrofitting bonus on first mount @done(19-06-11 14:42)
+✔ Delete prompt on creating new loadouts @done(19-06-11 14:45)
+
+Can't reproduce:
+✔ Terashima Blade not appearing @done(19-06-11 13:10)
+✔ War Pike should not be 2sp @done(19-06-11 13:06)
+✔ Breaking on open Options page @done(19-06-11 14:28)
+
+
+tso - fri evening 8:30?
+
 
 Improvements:
+  ☐ Frame tags and sort by tag
   ☐ Move RequiredLicense logic into LicensedItem abstract
     ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
   ☐ refresh cloud-saved pilots
@@ -60,6 +82,11 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Update lancer-data @done(19-06-07 13:07)
+  ✔ Fix unlicensed/over-sp colors (dawn-giant-dragon#0995) @done(19-06-07 11:21)
+  ✔ weapon mods not included in license requirements @done(19-06-07 11:29)
+  ✔ SP costed items on intweapon don't take SP (ari) @done(19-06-07 12:21)
+  ✔ Fixed selector left columns (watch scroll) @done(19-06-07 13:05)
   ✔ remaining loadout weirdness @done(19-06-05 10:29) @project(bugs)
   ✔ c/c not loading without an internet connection (taffer) @done(19-06-05 10:30) @project(bugs)
   ✔ Armor value not coming up on config sheet @done(19-06-05 10:33) @project(bugs)

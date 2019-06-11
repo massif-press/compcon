@@ -172,9 +172,9 @@ export default Vue.extend({
       this.tabIndex = this.config.Loadouts.length - 1
     },
     deleteLoadout(loadout: MechLoadout) {
-      this.config.RemoveLoadout(loadout)
       this.tabIndex = this.config.Loadouts.length - 1
       this.deleteDialog = false
+      this.config.RemoveLoadout(loadout)
     },
     copyLoadout(loadout: MechLoadout) {
       this.config.CloneLoadout(loadout)
@@ -213,7 +213,8 @@ export default Vue.extend({
       }
     } else if (this.config && this.config.Loadouts) {
       this.tabIndex = 0
-      this.config.ActiveLoadout = this.config.Loadouts[0]
+      if (this.config.Loadouts.length)
+        this.config.ActiveLoadout = this.config.Loadouts[0]
     }
   },
 })

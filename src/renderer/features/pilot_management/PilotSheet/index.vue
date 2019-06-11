@@ -245,10 +245,11 @@
                       v-if="!pilot.IsActive"
                       title="Select Pilot Background"
                       :modelRef="backgroundModal"
+                      ref="backgroundSelector"
                     >
                       <background-selector
                         slot="modal-content"
-                        @close="backgroundModal = false"
+                        @close="setBackground()"
                         :pilot="pilot"
                       />
                     </pilot-edit-modal>
@@ -690,27 +691,23 @@ export default Vue.extend({
       this.snackbar = true
     },
     close(ref: string) {
-      ;(this.$refs[ref] as any).cancel()
+      (this.$refs[ref] as any).cancel()
     },
-    setPilotTalents: function(talentArray: any) {
+    setBackground() {
+      (this.$refs['backgroundSelector'] as any).cancel()
+      this.backgroundModal = false
+    },
+    setPilotTalents() {
       this.talentModal = false
     },
-    setPilotBonuses: function(bonusArray: any) {
-      ;(this.$refs['bonusSelector'] as any).cancel()
-      this.bonusModal = false
+    setMechSkills(){
+      (this.$refs['mechSkillSelector'] as any).cancel()
     },
-    setLicenses: function(licenseArray: any) {
-      ;(this.$refs['licenseSelector'] as any).cancel()
-      this.licenseModal = false
-    },
-    setMechSkills: function() {
-      ;(this.$refs['mechSkillSelector'] as any).cancel()
-    },
-    closePortrait: function(src: string) {
-      ;(this.$refs['appearanceSelector'] as any).cancel()
+    closePortrait(){
+      (this.$refs['appearanceSelector'] as any).cancel()
       this.appearanceModal = false
     },
-    openPrintOptions: function() {
+    openPrintOptions() {
       if (this.pilot.ActiveConfig) {
         this.printDialog = true
       } else {

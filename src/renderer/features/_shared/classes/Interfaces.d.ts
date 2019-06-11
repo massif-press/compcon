@@ -28,7 +28,7 @@ declare interface IPilotData {
   active: boolean
   //TODO:
   // contacts: object[];
-  background: string
+  background: IBackgroundData
   mechSkills: number[]
   licenses: IRankedData[]
   skills: IRankedData[]
@@ -94,4 +94,11 @@ declare interface IWeaponSlotData {
 declare interface ITagData {
   id: string
   val: string | number
+}
+
+declare interface IBackgroundData {
+  id: string
+  name: string
+  description: string
+  triggers: string
 }
