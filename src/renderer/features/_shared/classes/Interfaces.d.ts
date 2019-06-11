@@ -28,7 +28,7 @@ declare interface IPilotData {
   active: boolean
   //TODO:
   // contacts: object[];
-  background: IBackgroundData
+  background: IBackgroundData | string
   mechSkills: number[]
   licenses: IRankedData[]
   skills: IRankedData[]
