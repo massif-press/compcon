@@ -2,7 +2,11 @@
   <v-flex class="mb-1 text-xs-center">
     <v-card flat dark>
       <v-card-text class="header">
-        <span>{{ attr }}</span>
+        <contributor
+          :label="attr"
+          :value="signed ? (val > -1 ? '+' : '-') + val : val"
+          :contributors="contributors"
+        />
       </v-card-text>
       <v-card-text class="p-0">
         <span class="value">
@@ -15,31 +19,34 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+  import Vue from 'vue'
+  import { Contributor } from '../../components/UI'
 
-export default Vue.extend({
-  name: 'statblock-item',
-  props: {
-    attr: String,
-    val: Number,
-    signed: Boolean,
-  },
-})
+  export default Vue.extend({
+    name: 'statblock-item',
+    components: { Contributor },
+    props: {
+      attr: String,
+      val: Number,
+      signed: Boolean,
+      contributors: Array,
+    },
+  })
 </script>
 
 <style scoped>
-.header {
-  background-color: #757575;
-  color: #eeeeee;
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: 3px;
-}
+  .header {
+    background-color: #757575;
+    color: #eeeeee;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 3px;
+  }
 
-.value {
-  color: #ffffff;
-  font-size: 4em;
-  line-height: 1em;
-  font-weight: 300;
-}
+  .value {
+    color: #ffffff;
+    font-size: 4em;
+    line-height: 1em;
+    font-weight: 300;
+  }
 </style>

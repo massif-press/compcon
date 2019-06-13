@@ -61,6 +61,10 @@ const colors = {
     light: '#A38D6D',
     dark: '#EF5350',
   },
+  dangerzone: {
+    light: '#FF1744',
+    dark: '#FF1744',
+  },
   repcap: {
     light: '#8E8E8E',
     dark: '#E0E0E0',

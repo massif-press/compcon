@@ -11,16 +11,16 @@ let mainWindow
 
 function createMainWindow() {
   const window = new BrowserWindow({
-    height: 800,
-    // minHeight: 720,
-    width: 1400,
-    // minWidth: 1280,
+    minWidth: 1280,
+    minHeight: 720,
     titleBarStyle: process.platform === 'win32' ? 'hidden' : 'default',
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true,
     },
   })
+
+  window.maximize()
 
   console.log(process.platform)
 
