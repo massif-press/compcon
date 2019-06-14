@@ -73,6 +73,7 @@
                           v-for="(tag, index) in mount.Weapon.Tags"
                           :key="tag.id + index"
                           :tag-obj="tag"
+                          :pilot="pilot"
                         />
                       </v-layout>
                     </v-card-text>
@@ -97,6 +98,7 @@ import {
   Range,
   MechLoadout,
 } from '@/class'
+import { Pilot } from '@/class';
 
 export default Vue.extend({
   name: 'integrated-block',
@@ -138,5 +140,10 @@ export default Vue.extend({
       return Range.AddBonuses(w.Range, bonuses)
     },
   },
+  computed: {
+    pilot(): Pilot {
+      return this.$store.getters.getPilot
+    },
+  }
 })
 </script>
