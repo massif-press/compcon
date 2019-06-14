@@ -11,7 +11,7 @@
     name: 'contributor',
     props: {
       label: String,
-      value: String,
+      value: [Number, String],
       contributors: Array,
       reverse: Boolean,
     },
@@ -22,7 +22,7 @@
           ? `${vm.label} ${vm.value}`
           : `${vm.value} ${vm.label}`
         return `<h2 style="text-align:center">${title}
-            </h2><hr>${vm.contributors.join('<br>')}`
+              </h2><hr>${vm.contributors.join('<br>')}`
       },
     },
   })
