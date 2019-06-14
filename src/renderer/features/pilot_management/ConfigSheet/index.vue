@@ -306,6 +306,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentStructure"
                       :current="config.CurrentStructure || config.MaxStructure"
                       :max="config.MaxStructure"
                       large
@@ -342,6 +343,7 @@
                     </span>
                     <v-layout>
                       <tick-bar
+                        :key="config.CurrentHP"
                         :current="config.CurrentHP || config.MaxHP"
                         :max="config.MaxHP"
                         large
@@ -366,6 +368,19 @@
                       </v-flex>
                     </v-layout>
                   </v-flex>
+                    <v-flex class="text-xs-right" v-if="config.IsActive">
+                        <span class="grey--text"> 
+                          FULL REPAIR&nbsp;
+                        </span>
+                        <v-layout justify-end >
+                          <v-tooltip left>
+                            <v-btn slot="activator" color="green darken-3" dark class="ma-0" @click="config.FullRepair()">
+                              <v-icon large>mdi-restore</v-icon>
+                            </v-btn>
+                            <span>Fully repair and recharge this mech.</span>
+                          </v-tooltip>
+                        </v-layout>
+                      </v-flex>
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -388,6 +403,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentStress"
                       :current="config.CurrentStress || config.MaxStress"
                       :max="config.MaxStress"
                       large
@@ -433,6 +449,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentHeat"
                       :current="config.CurrentHeat || 0"
                       :max="config.HeatCapacity"
                       large
@@ -467,6 +484,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentRepairs"
                       :current="config.CurrentRepairs || config.RepairCapacity"
                       :max="config.RepairCapacity"
                       large
@@ -487,6 +505,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentCoreEnergy"
                       :config_id="config.id"
                       :current="config.CurrentCoreEnergy || 1"
                       :max="1"
@@ -507,6 +526,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="config.CurrentOvercharge"
                       :config_id="config.id"
                       :current="config.CurrentOvercharge"
                       :max="3"
@@ -554,6 +574,7 @@
             </v-layout>
           </v-flex>
         </v-layout>
+
 
         <v-layout><span class="config-header">Pilot Traits</span></v-layout>
 

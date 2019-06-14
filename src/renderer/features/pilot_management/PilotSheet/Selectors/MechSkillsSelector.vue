@@ -32,7 +32,24 @@
         </v-btn>
       </v-flex>
     </v-layout>
-    <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
+    <v-layout class="bonus-text" justify-center row>
+      <v-flex shrink>
+        <span class="minor-title">MECH HP</span>
+        <span class="minor-title primary--text">
+          +{{ pilot.MechSkills.Hull * 2 }}
+        </span>
+      </v-flex>
+      <v-flex shrink class="ml-2 mr-2">
+        <span class="fluff-text grey--text">//</span>
+      </v-flex>
+      <v-flex shrink>
+        <span class="minor-title">REPAIR CAPACITY</span>
+        <span class="minor-title primary--text">
+          +{{ Math.floor(pilot.MechSkills.Hull / 2) }}
+        </span>
+      </v-flex>
+    </v-layout>
+    <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
     <v-layout align-center justify-center column>
       <v-flex><span class="headline">AGILITY</span></v-flex>
       <v-flex>
@@ -59,8 +76,25 @@
           <v-icon>add</v-icon>
         </v-btn>
       </v-flex>
+      <v-layout class="bonus-text" justify-center row>
+        <v-flex shrink>
+          <span class="minor-title">EVASION</span>
+          <span class="minor-title primary--text">
+            +{{ pilot.MechSkills.Agi }}
+          </span>
+        </v-flex>
+        <v-flex shrink class="ml-2 mr-2">
+          <span class="fluff-text grey--text">//</span>
+        </v-flex>
+        <v-flex shrink>
+          <span class="minor-title">SPEED</span>
+          <span class="minor-title primary--text">
+            +{{ Math.floor(pilot.MechSkills.Agi / 2) }}
+          </span>
+        </v-flex>
+      </v-layout>
     </v-layout>
-    <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
+    <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
     <v-layout align-center justify-center column>
       <v-flex><span class="headline">SYSTEMS</span></v-flex>
       <v-flex>
@@ -88,7 +122,33 @@
         </v-btn>
       </v-flex>
     </v-layout>
-    <v-divider class="ml-4 mr-4 mt-0 pt-0 mb-3" />
+    <v-layout class="bonus-text" justify-center row>
+      <v-flex shrink>
+        <span class="minor-title">ELECTRONIC DEFENSE</span>
+        <span class="minor-title primary--text">
+          +{{ pilot.MechSkills.Sys }}
+        </span>
+      </v-flex>
+      <v-flex shrink class="ml-2 mr-2">
+        <span class="fluff-text grey--text">//</span>
+      </v-flex>
+      <v-flex shrink>
+        <span class="minor-title">TECH ATTACK</span>
+        <span class="minor-title primary--text">
+          +{{ pilot.MechSkills.Sys }}
+        </span>
+      </v-flex>
+      <v-flex shrink class="ml-2 mr-2">
+        <span class="fluff-text grey--text">//</span>
+      </v-flex>
+      <v-flex shrink>
+        <span class="minor-title">SP</span>
+        <span class="minor-title primary--text">
+          +{{ Math.floor(pilot.MechSkills.Sys / 2) }}
+        </span>
+      </v-flex>
+    </v-layout>
+    <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
     <v-layout align-center justify-center column>
       <v-flex><span class="headline">ENGINEERING</span></v-flex>
       <v-flex>
@@ -116,39 +176,64 @@
         </v-btn>
       </v-flex>
     </v-layout>
+    <v-layout class="bonus-text" justify-center row>
+      <v-flex shrink>
+        <span class="minor-title">HEAT CAPACITY</span>
+        <span class="minor-title primary--text">
+          +{{ pilot.MechSkills.Eng }}
+        </span>
+      </v-flex>
+      <v-flex shrink class="ml-2 mr-2">
+        <span class="fluff-text grey--text">//</span>
+      </v-flex>
+      <v-flex shrink>
+        <span class="minor-title">LIMITED SYSTEMS BONUS</span>
+        <span class="minor-title primary--text">
+          +{{ Math.floor(pilot.MechSkills.Eng / 2) }}
+        </span>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Pilot, HASE } from '@/class'
+  import Vue from 'vue'
+  import { Pilot, HASE } from '@/class'
 
-export default Vue.extend({
-  name: 'mech-skills-selector',
-  props: {
-    pilot: Pilot,
-  },
-  methods: {
-    add(field: HASE) {
-      this.pilot.MechSkills.Increment(field)
+  export default Vue.extend({
+    name: 'mech-skills-selector',
+    props: {
+      pilot: Pilot,
     },
-    remove(field: HASE) {
-      this.pilot.MechSkills.Decrement(field)
+    methods: {
+      add(field: HASE) {
+        this.pilot.MechSkills.Increment(field)
+      },
+      remove(field: HASE) {
+        this.pilot.MechSkills.Decrement(field)
+      },
+      close() {
+        this.$emit('close')
+      },
     },
-    close() {
-      this.$emit('close')
+    computed: {
+      maxPoints(): number {
+        return this.pilot.Level + 2
+      },
+      currentPoints(): number {
+        return this.pilot.MechSkills.Sum
+      },
+      pointLimit(): boolean {
+        return this.currentPoints >= this.maxPoints
+      },
     },
-  },
-  computed: {
-    maxPoints(): number {
-      return this.pilot.Level + 2
-    },
-    currentPoints(): number {
-      return this.pilot.MechSkills.Sum
-    },
-    pointLimit(): boolean {
-      return this.currentPoints >= this.maxPoints
-    },
-  },
-})
+  })
 </script>
+
+<style scoped>
+  .bonus-text {
+    position: relative;
+    bottom: 20px;
+  }
+</style>
+

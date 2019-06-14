@@ -6,13 +6,13 @@
         flat
         icon
         class="ma-0 pt-0"
-        style="bottom: 12px; left: 5px"
+        :style="large ? 'bottom: 12px; left: 5px' : 'left:10px'"
         dark
         relative
         :color="color"
         @click="clear"
       >
-        <v-icon large>clear</v-icon>
+        <v-icon :large="large" :small="small">clear</v-icon>
       </v-btn>
       <span>Clear</span>
     </v-tooltip>

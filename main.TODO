@@ -6,31 +6,11 @@
 tso - fri evening 8:30?
 
 On Deck:
-  ☐ Stat Contributors
-    ☐ Pilot Sheet
-      ☐ Pilot HP
-      ☐ Pilot Armor
-      ☐ Pilot E-Defense
-      ☐ Pilot Evasion
-      ☐ Pilot Speed
-      ☐ Pilot Grit
-      ☐ Pilot Mech Skills
-    ☐ Mech Sheet
-      ☐ HP
-      ☐ Armor
-      ☐ Heat Capacity
-      ☐ Repair Capacity
-      ☐ Attack Bonus
-      ☐ Tech Attack
-      ☐ Limited System Bonus
-      ☐ Speed
-      ☐ Evasion
-      ☐ E-Defense
-      ☐ Sensor Range
-      ☐ Save Target
-      ☐ System Points
-    ☐ Selectors
-      ☐ Mech Skills
+  ✔ Stat Contributors @done(19-06-13 20:31)
+
+  ☐ Item Notes
+    ☐ Signature Weapon type selection
+    ☐ Hardsuit detail rollable
 
     ☐ Filtering
       ☐ Frames
@@ -54,31 +34,37 @@ On Deck:
         ☐ By Source
         ☐ By License
 
-    ☐ Active Mode
-      ☐ Full Repair button
-      ☐ Tooltip pip number on hover
-      ☐ DANGER ZONE designation
-      ☐ Keyboard entry: Structure
-      ☐ Keyboard entry: HP
-      ☐ Keyboard entry: Stress
-      ☐ Keyboard entry: Heat
-      ☐ Keyboard entry: Repair
-      ☐ Structure Table popup on 0HP
-      ☐ Stress Table popup on full heat
-      ☐ DESTROYED status
-      ☐ Active Mode Loadout View
-        ☐ Weapon Cards
-          ☐ Name, Range, Damage, Effect, Tags
-          ☐ Limited Pips
-          ☐ Click to apply self heat
-          ☐ "Loaded" toggle
-          ☐ Ammo block
+  ☐ Downtime Resources
 
+  ☐ Active Mode
+    ☐ Set Status(es)
+    ☐ Set Condition(s)
+    ✔ Full Repair button @done(19-06-13 19:49)
+    ☐ Tooltip pip number on hover
+    ✔ DANGER ZONE on heat display @done(19-06-13 16:12)
+    ☐ Keyboard entry: Structure
+    ☐ Keyboard entry: HP
+    ☐ Keyboard entry: Stress
+    ☐ Keyboard entry: Heat
+    ☐ Keyboard entry: Repair
+    ☐ Structure Table popup on 0HP
+    ☐ Stress Table popup on full heat
+    ☐ DESTROYED status
+    ☐ Active Mode Loadout View
+      ☐ Weapon Cards
+        ☐ Name, Range, Damage, Effect, Tags
+        ☐ Limited Pips
+        ☐ Click to apply self heat
+        ☐ "Loaded" toggle
+        ☐ Ammo block
+
+  Refactor:
+    ☐ Contributor/Bonus rules logic should go into seperate class(es)
+    ☐ Move RequiredLicense logic into LicensedItem abstract
+      ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
 
 Improvements:
   ☐ Frame tags and sort by tag
-  ☐ Move RequiredLicense logic into LicensedItem abstract
-    ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label
@@ -86,6 +72,7 @@ Improvements:
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
   ☐ Downtime Resources in glossary
+  ☐ Undo
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
