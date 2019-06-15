@@ -123,7 +123,6 @@
               auto-grow
               rows="1"
               label="Configuration Notes"
-              clearable
             />
             <!-- Req. Licenses -->
             <v-layout class="mt-0">
