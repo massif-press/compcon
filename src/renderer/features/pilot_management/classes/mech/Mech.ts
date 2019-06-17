@@ -475,6 +475,7 @@ class Mech {
       current_stress: m.current_stress,
       current_heat: m.current_heat,
       current_repairs: m.current_repairs,
+      current_overcharge: m.current_overcharge,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
       active_loadout: m.active_loadout,
       cc_ver: m.cc_ver,
@@ -495,6 +496,7 @@ class Mech {
     m.current_stress = mechData.current_stress
     m.current_heat = mechData.current_heat
     m.current_repairs = mechData.current_repairs
+    m.current_overcharge = mechData.current_overcharge || 0
     m.cc_ver = mechData.cc_ver
     m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) =>
       MechLoadout.Deserialize(x, m)

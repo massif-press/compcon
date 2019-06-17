@@ -34,7 +34,6 @@ class Pilot {
   private current_hp: number
 
   private background: Background
-  private contacts: Contact[]
   private licenses: PilotLicense[]
   private skills: PilotSkill[]
   private talents: PilotTalent[]
@@ -63,7 +62,6 @@ class Pilot {
     this.cloud_portrait = ''
     this.quirk = ''
     this.current_hp = this.MaxHP
-    this.contacts = []
     this.background = new Background()
     this.licenses = []
     this.skills = []
