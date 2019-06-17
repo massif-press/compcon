@@ -1,8 +1,13 @@
 <template>
   <v-container style="overflow-y: scroll">
     <v-layout align-center justify-center column>
-      <v-alert value="true" :type="!pointLimit ? 'info' : 'success'" outline>
-        {{ currentPoints }}/{{ maxPoints }} Mech Skills selected
+      <v-alert
+        value="true"
+        :type="pilot.IsMissingHASE ? 'info' : 'success'"
+        outline
+      >
+        {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }} Mech Skills
+        selected
       </v-alert>
     </v-layout>
     <v-layout align-center justify-center column>
@@ -27,7 +32,13 @@
           empty-icon="mdi-hexagon-outline"
           full-icon="mdi-hexagon-slice-6"
         />
-        <v-btn :disabled="pointLimit" icon right bottom @click="add('Hull')">
+        <v-btn
+          :disabled="!pilot.IsMissingHASE"
+          icon
+          right
+          bottom
+          @click="add('Hull')"
+        >
           <v-icon>add</v-icon>
         </v-btn>
       </v-flex>
@@ -72,7 +83,13 @@
           empty-icon="mdi-hexagon-outline"
           full-icon="mdi-hexagon-slice-6"
         />
-        <v-btn :disabled="pointLimit" icon right bottom @click="add('Agi')">
+        <v-btn
+          :disabled="!pilot.IsMissingHASE"
+          icon
+          right
+          bottom
+          @click="add('Agi')"
+        >
           <v-icon>add</v-icon>
         </v-btn>
       </v-flex>
@@ -117,7 +134,13 @@
           empty-icon="mdi-hexagon-outline"
           full-icon="mdi-hexagon-slice-6"
         />
-        <v-btn :disabled="pointLimit" icon right bottom @click="add('Sys')">
+        <v-btn
+          :disabled="!pilot.IsMissingHASE"
+          icon
+          right
+          bottom
+          @click="add('Sys')"
+        >
           <v-icon>add</v-icon>
         </v-btn>
       </v-flex>
@@ -171,7 +194,13 @@
           empty-icon="mdi-hexagon-outline"
           full-icon="mdi-hexagon-slice-6"
         />
-        <v-btn :disabled="pointLimit" icon right bottom @click="add('Eng')">
+        <v-btn
+          :disabled="!pilot.IsMissingHASE"
+          icon
+          right
+          bottom
+          @click="add('Eng')"
+        >
           <v-icon>add</v-icon>
         </v-btn>
       </v-flex>
@@ -214,17 +243,6 @@
       },
       close() {
         this.$emit('close')
-      },
-    },
-    computed: {
-      maxPoints(): number {
-        return this.pilot.Level + 2
-      },
-      currentPoints(): number {
-        return this.pilot.MechSkills.Sum
-      },
-      pointLimit(): boolean {
-        return this.currentPoints >= this.maxPoints
       },
     },
   })

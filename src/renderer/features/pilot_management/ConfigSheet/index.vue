@@ -125,7 +125,6 @@
               auto-grow
               rows="1"
               label="Configuration Notes"
-              clearable
             />
             <!-- Req. Licenses -->
             <v-layout class="mt-0">
@@ -291,7 +290,7 @@
             <v-layout>
               <v-flex>
                 <v-layout>
-                  <v-flex shrink class="mr-4">
+                  <v-flex grow class="mr-2">
                     <span class="grey--text">
                       <contributor
                         label="STRUCTURE"
@@ -306,8 +305,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentStructure"
-                      :current="config.CurrentStructure || config.MaxStructure"
+                      :key="'tb' + config.CurrentStructure"
+                      :current="config.CurrentStructure"
                       :max="config.MaxStructure"
                       large
                       :color="color.structure.dark"
@@ -319,7 +318,7 @@
                       @update="config.CurrentStructure = $event"
                     />
                   </v-flex>
-                  <v-flex>
+                  <v-flex shrink>
                     <span class="grey--text">
                       &nbsp;
                       <contributor
@@ -328,7 +327,7 @@
                         :contributors="config.HPContributors"
                       />
                       <b :style="`color: ${color.hp.dark}`">
-                        {{ config.CurrentHP || 0 }}
+                        {{ config.CurrentHP }}
                         <span v-if="config.IsActive">/{{ config.MaxHP }}</span>
                       </b>
                       &emsp; 
@@ -343,8 +342,8 @@
                     </span>
                     <v-layout>
                       <tick-bar
-                        :key="config.CurrentHP"
-                        :current="config.CurrentHP || config.MaxHP"
+                        :key="'tb' + config.CurrentHP"
+                        :current="config.CurrentHP"
                         :max="config.MaxHP"
                         large
                         :color="color.hp.dark"
@@ -368,7 +367,7 @@
                       </v-flex>
                     </v-layout>
                   </v-flex>
-                    <v-flex class="text-xs-right" v-if="config.IsActive">
+                    <v-flex class="text-xs-right ml-4" v-if="config.IsActive">
                         <span class="grey--text"> 
                           FULL REPAIR&nbsp;
                         </span>
@@ -388,7 +387,7 @@
             <v-layout class="mb-4">
               <v-flex>
                 <v-layout>
-                  <v-flex shrink class="mr-4">
+                  <v-flex grow class="mr-2">
                     <span class="grey--text">
                       <contributor
                         label="REACTOR STRESS"
@@ -403,8 +402,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentStress"
-                      :current="config.CurrentStress || config.MaxStress"
+                      :key="'tb' + config.CurrentStress"
+                      :current="config.CurrentStress"
                       :max="config.MaxStress"
                       large
                       :color="color.stress.dark"
@@ -415,7 +414,7 @@
                       @update="config.CurrentStress = $event"
                     />
                   </v-flex>
-                  <v-flex>
+                  <v-flex >
                     <span class="grey--text">
                       <span v-if="config.IsActive">
                         &nbsp;HEAT:
@@ -433,7 +432,7 @@
                         <v-fade-transition>
                           <span v-if="config.IsInDangerZone">
                             <b :style="`color: ${color.dangerzone.dark}`">
-                              &emsp; // DANGER ZONE //
+                              &nbsp; // DANGER ZONE //
                             </b>
                           </span>
                         </v-fade-transition>
@@ -449,8 +448,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentHeat"
-                      :current="config.CurrentHeat || 0"
+                      :key="'tb' + config.CurrentHeat"
+                      :current="config.CurrentHeat"
                       :max="config.HeatCapacity"
                       large
                       :color="
@@ -484,8 +483,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentRepairs"
-                      :current="config.CurrentRepairs || config.RepairCapacity"
+                      :key="'tb' + config.CurrentRepairs"
+                      :current="config.CurrentRepairs"
                       :max="config.RepairCapacity"
                       large
                       :color="color.repcap.dark"
@@ -505,9 +504,9 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentCoreEnergy"
+                      :key="'tb' + config.CurrentCoreEnergy"
                       :config_id="config.id"
-                      :current="config.CurrentCoreEnergy || 1"
+                      :current="config.CurrentCoreEnergy"
                       :max="1"
                       large
                       :color="color.corepower.dark"
@@ -526,7 +525,7 @@
                       </b>
                     </span>
                     <tick-bar
-                      :key="config.CurrentOvercharge"
+                      :key="'tb' + config.CurrentOvercharge"
                       :config_id="config.id"
                       :current="config.CurrentOvercharge"
                       :max="3"

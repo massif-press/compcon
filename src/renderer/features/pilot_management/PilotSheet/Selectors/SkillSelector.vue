@@ -37,7 +37,10 @@
             outline
             color="success"
             icon="check_circle"
-            :value="selectionComplete"
+            :value="
+              !pilot.IsMissingSkills &&
+                !(points.selectedCurrent < points.selectedMin)
+            "
           >
             Skill Selection Complete
           </v-alert>
@@ -45,9 +48,10 @@
             outline
             color="warning"
             icon="priority_high"
-            :value="points.pointsMax > points.pointsCurrent"
+            :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
           >
-            {{ points.pointsMax - points.pointsCurrent }} Skill Points remaining
+            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points
+            remaining
           </v-alert>
           <v-alert
             outline
@@ -122,133 +126,121 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import io from '@/features/_shared/data_io'
-import _ from 'lodash'
-import { SkillItem } from '../SheetComponents'
-import Selector from './Selector.vue'
-import { rules } from 'lancer-data'
-import { Pilot, Skill, PilotSkill } from '@/class'
+  import Vue from 'vue'
+  import io from '@/features/_shared/data_io'
+  import _ from 'lodash'
+  import { SkillItem } from '../SheetComponents'
+  import Selector from './Selector.vue'
+  import { rules } from 'lancer-data'
+  import { Pilot, Skill, PilotSkill } from '@/class'
 
-export default Vue.extend({
-  name: 'skill-selector',
-  props: {
-    pilot: Pilot,
-    newPilot: Boolean,
-    levelUp: Boolean,
-  },
-  data: () => ({
-    skills: [],
-    headers: [
-      {
-        attr: 'str',
-        description:
-          'Your pilot’s ability to use, resist, and apply direct force, physical or otherwise',
-      },
-      {
-        attr: 'dex',
-        description:
-          'Your pilot’s ability to perform skillfully and accurately under pressure',
-      },
-      {
-        attr: 'int',
-        description:
-          'Your pilot’s ability to notice details, think creatively, and prepare',
-      },
-      {
-        attr: 'cha',
-        description:
-          'Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources',
-      },
-    ],
-    pLevel: 0,
-    scrollPosition: null,
-  }),
-  components: { Selector, SkillItem },
-  computed: {
-    points() {
-      var vm = this as any
-      return {
-        pointsCurrent: vm.pilot.Skills.reduce(
-          (a: number, b: PilotSkill) => +a + +b.Rank,
-          0
-        ),
-        pointsMax: rules.minimum_pilot_skills + vm.pilot.Level,
-        selectedCurrent: vm.pilot.Skills.length,
-        selectedMin: rules.minimum_pilot_skills,
-      }
+  export default Vue.extend({
+    name: 'skill-selector',
+    props: {
+      pilot: Pilot,
+      newPilot: Boolean,
+      levelUp: Boolean,
     },
-    selectionComplete(): boolean {
+    data: () => ({
+      skills: [],
+      headers: [
+        {
+          attr: 'str',
+          description:
+            'Your pilot’s ability to use, resist, and apply direct force, physical or otherwise',
+        },
+        {
+          attr: 'dex',
+          description:
+            'Your pilot’s ability to perform skillfully and accurately under pressure',
+        },
+        {
+          attr: 'int',
+          description:
+            'Your pilot’s ability to notice details, think creatively, and prepare',
+        },
+        {
+          attr: 'cha',
+          description:
+            'Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources',
+        },
+      ],
+      pLevel: 0,
+      scrollPosition: null,
+    }),
+    components: { Selector, SkillItem },
+    computed: {
+      points() {
+        var vm = this as any
+        return {
+          selectedCurrent: vm.pilot.Skills.length,
+          selectedMin: rules.minimum_pilot_skills,
+        }
+      },
+    },
+    methods: {
+      add(skill: Skill) {
+        var vm = this as any
+        vm.pilot.AddSkill(skill)
+
+        if ((vm.newPilot || vm.levelUp) && !vm.pilot.IsMissingSkills) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      },
+      subtract(skill: Skill) {
+        this.pilot.RemoveSkill(skill)
+      },
+      close() {
+        this.$emit('close')
+      },
+      resetSkills() {
+        this.pilot.ClearSkills()
+      },
+      canAdd(skill: Skill) {
+        var vm = this as any
+        if (vm.newPilot) {
+          return vm.pilot.Skills.length < 4 && !vm.pilot.has('Skill', skill.ID)
+        } else {
+          const underLimit = vm.pilot.CurrentSkillPoints < vm.pilot.MaxSkillPoints
+          if (!vm.pilot.has('Skill', skill.ID) && underLimit) return true
+          const pSkill = this.pilot.Skills.find(x => x.Skill.ID === skill.ID)
+          return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
+        }
+      },
+      canSubtract(skill: Skill) {
+        var vm = this as any
+        return vm.pilot.has('Skill', skill.ID)
+      },
+    },
+    created() {
       var vm = this as any
-      return (
-        vm.points.pointsCurrent === vm.points.pointsMax &&
-        vm.points.selectedCurrent >= vm.points.selectedMin
+      vm.skills = _.groupBy(
+        vm.$store.getters.getItemCollection('Skills'),
+        'Family'
       )
     },
-  },
-  methods: {
-    add(skill: Skill) {
-      var vm = this as any
-      vm.pilot.AddSkill(skill)
-
-      if ((vm.newPilot || vm.levelUp) && vm.selectionComplete) {
-        window.scrollTo(0, document.body.scrollHeight)
-      }
-    },
-    subtract(skill: Skill) {
-      this.pilot.RemoveSkill(skill)
-    },
-    close() {
-      this.$emit('close')
-    },
-    resetSkills() {
-      this.pilot.ClearSkills()
-    },
-    canAdd(skill: Skill) {
-      var vm = this as any
-      if (vm.newPilot) {
-        return vm.pilot.Skills.length < 4 && !vm.pilot.has('Skill', skill.ID)
-      } else {
-        const underLimit = vm.points.pointsCurrent < vm.points.pointsMax
-        if (!vm.pilot.has('Skill', skill.ID) && underLimit) return true
-        const pSkill = this.pilot.Skills.find(x => x.Skill.ID === skill.ID)
-        return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
-      }
-    },
-    canSubtract(skill: Skill) {
-      var vm = this as any
-      return vm.pilot.has('Skill', skill.ID)
-    },
-  },
-  created() {
-    var vm = this as any
-    vm.skills = _.groupBy(
-      vm.$store.getters.getItemCollection('Skills'),
-      'Family'
-    )
-  },
-})
+  })
 </script>
 
 <style scoped>
-.scroll-fix {
-  margin: -25vh 0px;
-  position: fixed;
-  width: 20vw;
-}
+  .scroll-fix {
+    margin: -25vh 0px;
+    position: fixed;
+    width: 20vw;
+  }
 
-#scroll-area {
-  overflow-y: scroll;
-}
+  #scroll-area {
+    overflow-y: scroll;
+  }
 
-.skill-header {
-  text-align: center;
-  padding: 5px;
-}
+  .skill-header {
+    text-align: center;
+    padding: 5px;
+  }
 
-strong {
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-}
+  strong {
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+  }
 </style>

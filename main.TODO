@@ -1,14 +1,16 @@
-- downtime bonus/resources section (extra gear, contacts, etc etc)
-
 ☐ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations
-☐ Cloned pilots getting referenced items
 
 On Deck:
   ✔ Stat Contributors @done(19-06-13 20:31)
+  ✔ X/Y stat/attribute points @done(19-06-17 14:13)
+  ✔ Show Frame tags on select @done(19-06-17 14:24)
 
-  ☐ Mark Equipment Destroyed
-
-  ☐ Limited Pips
+  ☐ Active Mode Loadout
+    ☐ Item Cards
+    ☐ Read-only
+    ☐ Mark Equipment Destroyed
+      ☐ Spend rep to repair
+    ☐ Limited Pips
 
   ☐ Item Notes
     ☐ Signature Weapon type selection
@@ -66,7 +68,6 @@ On Deck:
       ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
 
 Improvements:
-  ☐ Frame tags and sort by tag
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label

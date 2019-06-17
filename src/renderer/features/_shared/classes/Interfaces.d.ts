@@ -26,8 +26,6 @@ declare interface IPilotData {
   quirk: string
   current_hp: number
   active: boolean
-  //TODO:
-  // contacts: object[];
   background: IBackgroundData | string
   mechSkills: number[]
   licenses: IRankedData[]
@@ -62,6 +60,7 @@ declare interface IMechData {
   current_stress: number
   current_heat: number
   current_repairs: number
+  current_overcharge: number
   loadouts: IMechLoadoutData[]
   active_loadout: string | null
   cc_ver: string

@@ -1,35 +1,41 @@
 <template>
   <v-flex shrink>
-    <v-tooltip left v-if="!readonly">
-      <v-btn
-        slot="activator"
-        flat
-        icon
-        class="ma-0 pt-0"
-        :style="large ? 'bottom: 12px; left: 5px' : 'left:10px'"
-        dark
-        relative
-        :color="color"
-        @click="clear"
-      >
-        <v-icon :large="large" :small="small">clear</v-icon>
-      </v-btn>
-      <span>Clear</span>
-    </v-tooltip>
-    <v-rating
-      class="d-inline-block"
-      dense
-      hover
-      v-model="model"
-      :length="max"
-      :readonly="readonly"
-      :small="small"
-      :large="large"
-      :empty-icon="emptyIcon"
-      :full-icon="fullIcon"
-      :color="color"
-      :background-color="bgColor"
-    />
+    <v-layout row>
+      <v-flex shrink v-if="!readonly">
+        <v-tooltip left>
+          <v-btn
+            slot="activator"
+            flat
+            icon
+            class="ma-0 pt-0"
+            dark
+            relative
+            :color="color"
+            @click="clear"
+          >
+            <v-icon :large="large" :small="small">clear</v-icon>
+          </v-btn>
+          <span>Clear</span>
+        </v-tooltip>
+      </v-flex>
+      <v-flex>
+        <v-rating
+          :key="current"
+          class="d-inline-block"
+          dense
+          hover
+          v-model="model"
+          :length="max"
+          :readonly="readonly"
+          :small="small"
+          :large="large"
+          :empty-icon="emptyIcon"
+          :full-icon="fullIcon"
+          :color="color"
+          :background-color="bgColor"
+        />
+      </v-flex>
+    </v-layout>
   </v-flex>
 </template>
 
@@ -50,6 +56,7 @@
     },
     data: () => ({
       model: 0,
+      lock: true,
     }),
     methods: {
       clear() {
@@ -57,18 +64,19 @@
         this.$emit('update', 0)
       },
     },
+    created() {
+      this.lock = true
+      if (!this.readonly) {
+        this.model = this.current > this.max ? this.max : this.current
+      } else this.model = this.max
+      this.lock = false
+    },
     watch: {
       model(val: number) {
-        if (val && !isNaN(val)) {
+        if (!this.lock && !isNaN(val)) {
           this.$emit('update', val)
         }
       },
-    },
-    created() {
-      if (this.current && !this.readonly) {
-        this.model = this.current > this.max ? this.max : this.current
-      } else if (this.readonly) this.model = this.max
-      else this.model = 0
     },
   })
 </script>
