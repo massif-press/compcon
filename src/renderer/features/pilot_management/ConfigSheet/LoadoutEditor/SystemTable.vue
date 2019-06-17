@@ -124,100 +124,101 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { SystemCard } from '../../components/UI'
-import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
-import { rules } from 'lancer-data'
+  import Vue from 'vue'
+  import _ from 'lodash'
+  import { SystemCard } from '../../components/UI'
+  import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
+  import { rules } from 'lancer-data'
 
-export default Vue.extend({
-  name: 'system-table',
-  components: { SystemCard },
-  props: {
-    loadout: MechLoadout,
-    maxSP: Number,
-    currentEquip: MechSystem,
-    index: Number,
-  },
-  data: () => ({
-    selectedIndex: -1,
-    filterText: '',
-    sortRule: null,
-    search: null,
-    searchFilter: null,
-    showLocked: false,
-    showOverSp: false,
-    headers: [
-      { align: 'left', sortable: false, width: '5vw' },
-      { text: 'System', align: 'left', value: 'Name' },
-      { text: 'Source', align: 'left', value: 'Source' },
-      { text: 'License', align: 'left', value: 'License' },
-      { text: 'SP Cost', align: 'left', value: 'SP' },
-    ],
-  }),
-  computed: {
-    freeSP(): number {
-      const remaining = this.maxSP - this.loadout.TotalSP
-      return this.currentEquip ? remaining + this.currentEquip.SP : remaining
+  export default Vue.extend({
+    name: 'system-table',
+    components: { SystemCard },
+    props: {
+      loadout: MechLoadout,
+      maxSP: Number,
+      currentEquip: MechSystem,
+      index: Number,
     },
-    systems(): MechSystem[] {
-      const vm = this as any
-      const allSystems = vm.$store.getters.getItemCollection(
-        'MechSystems'
-      ) as MechSystem[]
-      let i = allSystems.filter(x => x.Source)
-      if (!vm.showLocked) {
-        i = i.filter(
-          x =>
-            x.Source === 'GMS' ||
-            vm.pilot.has('License', x.License, x.LicenseLevel)
-        )
-      }
-      if (!vm.showOverSp) {
-        i = i.filter(x => x.SP <= vm.freeSP)
-      }
-      // filter already equipped
-      if (vm.currentEquip) i = i.filter(x => x !== vm.currentEquip)
+    data: () => ({
+      selectedIndex: -1,
+      filterText: '',
+      sortRule: null,
+      search: null,
+      searchFilter: null,
+      showLocked: false,
+      showOverSp: false,
+      headers: [
+        { align: 'left', sortable: false, width: '5vw' },
+        { text: 'System', align: 'left', value: 'Name' },
+        { text: 'Source', align: 'left', value: 'Source' },
+        { text: 'License', align: 'left', value: 'License' },
+        { text: 'SP Cost', align: 'left', value: 'SP' },
+      ],
+    }),
+    computed: {
+      freeSP(): number {
+        const remaining = this.maxSP - this.loadout.TotalSP
+        return this.currentEquip ? remaining + this.currentEquip.SP : remaining
+      },
+      systems(): MechSystem[] {
+        const vm = this as any
+        const allSystems = vm.$store.getters.getItemCollection(
+          'MechSystems'
+        ) as MechSystem[]
+        let i = allSystems.filter(x => x.Source)
+        if (!vm.showLocked) {
+          i = i.filter(
+            x =>
+              x.Source === 'GMS' ||
+              vm.pilot.has('License', x.License, x.LicenseLevel)
+          )
+        }
+        if (!vm.showOverSp) {
+          i = i.filter(x => x.SP <= vm.freeSP)
+        }
+        // filter already equipped
+        if (vm.currentEquip) i = i.filter(x => x !== vm.currentEquip)
 
-      if (vm.search)
-        i = i.filter(x =>
-          x.Name.toLowerCase().includes(vm.search.toLowerCase())
-        )
+        if (vm.search)
+          i = i.filter(x =>
+            x.Name.toLowerCase().includes(vm.search.toLowerCase())
+          )
 
-      i = i.filter(x => !vm.loadout.UniqueSystems.includes(x))
+        i = i.filter(x => !vm.loadout.UniqueSystems.includes(x))
 
-      // AI limit
-      const aiLimit = this.pilot.has('Talent', 'techno', 3) ? 2 : 1
-      const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI)
-        .length
-      if (aiTotal >= aiLimit) i = i.filter(x => x.Type !== SystemType.AI)
+        // AI limit
+        let aiLimit = 1
+        if (this.pilot.has('CoreBonus', 'shaping')) aiLimit += 1
+        const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI)
+          .length
+        if (aiTotal >= aiLimit) i = i.filter(x => x.Type !== SystemType.AI)
 
-      return i
+        return i
+      },
+      pilot(): Pilot {
+        return (this as any).$store.getters['getPilot']
+      },
     },
-    pilot(): Pilot {
-      return (this as any).$store.getters['getPilot']
+    methods: {
+      select(item: MechSystem) {
+        if (this.currentEquip) {
+          this.loadout.ChangeSystem(this.index, item)
+        } else {
+          this.loadout.AddSystem(item)
+        }
+        this.$emit('close')
+      },
+      remove() {
+        this.loadout.RemoveSystem(this.currentEquip)
+        this.$emit('close')
+      },
+      isLocked(item: MechSystem): boolean {
+        if (item.Source === 'GMS') return false
+        return !this.pilot.has('License', item.License, item.LicenseLevel)
+      },
+      isOverSp(sp: number): boolean {
+        return sp > this.freeSP
+      },
     },
-  },
-  methods: {
-    select(item: MechSystem) {
-      if (this.currentEquip) {
-        this.loadout.ChangeSystem(this.index, item)
-      } else {
-        this.loadout.AddSystem(item)
-      }
-      this.$emit('close')
-    },
-    remove() {
-      this.loadout.RemoveSystem(this.currentEquip)
-      this.$emit('close')
-    },
-    isLocked(item: MechSystem): boolean {
-      if (item.Source === 'GMS') return false
-      return !this.pilot.has('License', item.License, item.LicenseLevel)
-    },
-    isOverSp(sp: number): boolean {
-      return sp > this.freeSP
-    },
-  },
-})
+  })
 </script>

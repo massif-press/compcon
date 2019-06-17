@@ -84,6 +84,7 @@ function convertMechs(old: any): IMechData {
     current_stress: 0,
     current_heat: 0,
     current_repairs: 0,
+    current_overcharge: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
     cc_ver: '1.3.7',
