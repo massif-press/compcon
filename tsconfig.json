@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "resolveJsonModule": true,
-    "strict": true,
+    "strict": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -13,7 +13,8 @@
     "sourceMap": true,
     "noEmit": false,
     "types": [
-      "electron"
+      "electron",
+      "jest"
     ],
     "baseUrl": ".",
     "paths": {
@@ -30,6 +31,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
@@ -38,4 +40,6 @@
   "exclude": [
     "node_modules"
   ],
+  "allowJs": true,
+  "declaration": false
 }

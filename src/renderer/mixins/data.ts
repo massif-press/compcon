@@ -1,9 +1,26 @@
+import {
+  CompendiumItem,
+  Background,
+  Talent,
+  Skill,
+  CoreBonus,
+  Frame,
+  Manufacturer,
+  MechWeapon,
+  MechSystem,
+  WeaponMod,
+  PilotEquipment,
+  Tag,
+  Status,
+  Brew,
+  PilotLicense,
+} from '@/class'
 // These mixins provide access to the datastore.ts getters without having to re-write a method for every component
 
 // specific getters should be preferred over item, if possible
 const item = {
   methods: {
-    getItem(category: string, id: string): CCItem {
+    getItem(category: string, id: string): CompendiumItem {
       return (this as any).$store.getters.getItemById(category, id)
     },
   },
@@ -59,7 +76,7 @@ const manufacturer = {
 
 const weapon = {
   methods: {
-    getWeapon(id: string): Weapon {
+    getWeapon(id: string): MechWeapon {
       return (this as any).$store.getters.getItemById('MechWeapons', id)
     },
   },
@@ -75,7 +92,7 @@ const mod = {
 
 const system = {
   methods: {
-    getSystem(id: string): System {
+    getSystem(id: string): MechSystem {
       return (this as any).$store.getters.getItemById('MechSystems', id)
     },
   },
@@ -83,7 +100,7 @@ const system = {
 
 const pilotgear = {
   methods: {
-    getPilotGear(id: string): PilotGear {
+    getPilotGear(id: string): PilotEquipment {
       return (this as any).$store.getters.getItemById('PilotGear', id)
     },
   },
@@ -124,7 +141,7 @@ const brew = {
 const license = {
   methods: {
     getLicense(name: string): PilotLicense {
-      return (this as any).$store.getters.getLicenseByName(name)
+      return (this as any).$store.getters['getLicenseByName'](name)
     },
   },
 }

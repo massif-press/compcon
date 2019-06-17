@@ -1,19 +1,28 @@
+- downtime bonus/resources section (extra gear, contacts, etc etc)
+
+☐ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations
+
+✔ Not serializing/deserializing overcharge @done(19-06-17 12:09)
+✔ CB shaping not working @done(19-06-17 12:18)
+
 Improvements:
-  ☐ move config overcharge into rules.json
+  ☐ Frame tags and sort by tag
+  ☐ Move RequiredLicense logic into LicensedItem abstract
+    ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
+  ☐ refresh cloud-saved pilots
+  ☐ draggable pilot/config cards
+  ☐ new editable label
+  ☐ different cloud save ui 
+  ☐ Weapon Ammo Class
+  ☐ Set Ammo (with armament)
+  ☐ Downtime Resources in glossary
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
-  ☐ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to
-  ☐ Fixed selector left columns
 
 2.0:
-  ☐ Glossary in compendium
-  ☐ Action economy in compendium
-  ☐ Delete Homebrew content packsp
-  ☐ Preload Long Rim
-  ☐ Github Gist API import/exporter (export and import by ID)
-  ☐ Imgur image hosting
-  ☐ Help Menu
+  ☐ Delete Homebrew content packs
+  ☐ Default Long Rim content pack
   Printing:
     General Print Options:
       ☐ Large fonts
@@ -29,7 +38,6 @@ Styling:
       ☐ Add space for notes
       ☐ Add space for sketches
       ☐ Add space for additonal equipment
-      ☐ Add space for custom invocations
     Mech Print Options: 
       ☐ Print image
       ☐ Print empty apparance frame (for drawing)
@@ -37,14 +45,13 @@ Styling:
       ☐ Add space for notes (lined)
       ☐ Add space for sketches (unlined)
       ☐ Mark danger zone heat
+      ☐ Per-item notes
   ☐ Stat Contributions
-  ☐ Actions Panel
-  ☐ Tutorial popups (vue-tour)
-  ☐ Per-item notes
   ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
+  ☐ Actions Panel
+  ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
-  ☐ Add button to change superheavy bracing mount without having to re-add SH weapon
   ☐ Dice math parser
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
@@ -53,6 +60,84 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Raleigh E-Defense @done(19-06-11 12:17)
+  ✔ Raleigh repcap @done(19-06-11 12:17)
+  ✔ SP missing in frame card @done(19-06-11 13:07)
+  ✔ Swallowtail - "once per round" not "once per" @done(19-06-11 12:18)
+  ✔ Mag Parry - "once per round" not "once per" @done(19-06-11 12:18)
+  ✔ Custom Background not serializing/deserializing correctly @done(19-06-11 14:27)
+  ✔ Engineer 2 description @done(19-06-11 12:23)
+  ✔ Typo in Spotter I ("they can roll twice") @done(19-06-11 12:24)
+  ✔ Armsman TThe @done(19-06-11 12:24)
+  ✔ Horus Gorgon Sensors is 10, should be 8. @done(19-06-11 12:18)
+  ✔ HA Iskander Tech Atk. is 0, should be +1. @done(19-06-11 12:19)
+  ✔ HA Napoleon Save Target is 10, should be 11. @done(19-06-11 12:19)
+  ✔ HA Tokugawa Save Target is 10, should be 11. @done(19-06-11 12:19)
+  ✔ SSC FSS still has the fluff blurb when the book only lists the evasion. This is super minor and i like the control panel fluff so hecc it. @done(19-06-11 12:48)
+  ✔ Cannot remove mount retrofitting bonus on first mount @done(19-06-11 14:42)
+  ✔ Delete prompt on creating new loadouts @done(19-06-11 14:45)
+  ✔ Update lancer-data @done(19-06-07 13:07)
+  ✔ Fix unlicensed/over-sp colors (dawn-giant-dragon#0995) @done(19-06-07 11:21)
+  ✔ weapon mods not included in license requirements @done(19-06-07 11:29)
+  ✔ SP costed items on intweapon don't take SP (ari) @done(19-06-07 12:21)
+  ✔ Fixed selector left columns (watch scroll) @done(19-06-07 13:05)
+  ✔ remaining loadout weirdness @done(19-06-05 10:29) @project(bugs)
+  ✔ c/c not loading without an internet connection (taffer) @done(19-06-05 10:30) @project(bugs)
+  ✔ Armor value not coming up on config sheet @done(19-06-05 10:33) @project(bugs)
+  ✔ mod SP not automatically updating in view (correctly determined when assigning other mods/systems) @done(19-06-05 12:45) @project(bugs)
+  ✔ prinaka missles fix @done(19-06-05 13:58) @project(bugs)
+  ✔ renaming loadout only changes primary (CMDR treb) @done(19-06-05 13:58) @project(bugs)
+  ✔ publish and update lancer-data @done(19-06-05 14:22) @project(bugs)
+  ✔ incorrect weapon references @done(19-06-06 11:59) @project(bugs)
+  ✔ bad mod tags (gibbay) @done(19-06-06 11:59) @project(bugs)
+  ✔ remove custom image (tso) @done(19-06-06 12:23) @project(bugs)
+  ✔ orochi drones (eranziel) @done(19-06-06 12:27) @project(bugs)
+  ✔ Separate Statuses and Conditions @done(19-06-05 14:29) @project(Improvements)
+  ✔ Y-positions for frames @done(19-06-05 14:22) @project(Improvements)
+  ✔ blank pilot printables (williamscarlet) @done(19-06-03 21:04) @project(bugs)
+  ✔ import doubling aux weapons (orion) @done(19-06-03 21:18) @project(bugs)
+  ✔ stun reduces evasion to 5 (orion) @done(19-06-03 21:05) @project(bugs)
+  ✔ importing old export does not work (asullyvoice) @done(19-06-03 22:08) @project(bugs)
+  ✔ Limited tags taking NaN in compendium (red phantom) @done(19-06-03 21:13) @project(bugs)
+  ✔ mimic mesh SP (radio) @done(19-06-03 20:59) @project(bugs)
+  ✔ system item table SP not sorting correctly (witchy) @done(19-06-03 21:13) @project(bugs)
+  ✔ siege stabilizers unique @done(19-06-04 10:06) @project(bugs)
+  ✔ Supereavy -> Superheavy @done(19-06-04 10:06) @project(bugs)
+  ✔ Config notes edit overwrites name edit @done(19-06-04 10:20) @project(bugs)
+  ✔ Integrated weapons not showing up @done(19-06-04 11:33) @project(bugs)
+  ✔ _/X SP when SP cost is over limit @done(19-06-04 11:36) @project(bugs)
+  ✔ integrated weapon mod is not correctly saving its loaded weapon @done(19-06-04 11:39) @project(bugs)
+  ✔ Fix duplicating flex mounts @done(19-06-04 12:19) @project(bugs)
+  ✔ Fix duplicating pilots/menu not closing on adding new (probably!) @done(19-06-04 12:19) @project(bugs)
+  ✔ Fix flex mount import @done(19-06-04 12:19) @project(bugs)
+  ✔ prerelease notes @done(19-06-03 13:01) @project(bugs)
+  ✔ test RP's pilots @done(19-06-03 10:20) @project(bugs)
+  ✔ serialize weapon mod @done(19-06-02 22:19) @project(bugs)
+  ✔ strange heat (amaterasu) @done(19-06-02 22:32) @project(bugs)
+  ✔ GMS license reqs @done(19-06-02 21:53) @project(bugs)
+  ✔ License reqs not stacking @done(19-06-02 21:53) @project(bugs)
+  ✔ Superheavy mounting bug @done(19-06-02 22:01) @project(bugs)
+  ✔ incorrect talent points on man level set @done(19-06-02 21:56) @project(bugs)
+  ✔ can't rename loadouts @done(19-06-02 21:58) @project(bugs)
+  ✔ pilot loadouts still not assigning correctly(?) @done(19-06-02 21:58) @project(bugs)
+  ✔ mod SP not applying @done(19-06-02 22:19) @project(bugs)
+  ✔ mech custom image doesn't save @done(19-06-02 22:26) @project(bugs)
+  ✔ pilot sheet talent items showing extra talent level @done(19-06-02 22:36) @project(bugs)
+  ✔ mounted core bonuses not serializing correctly @done(19-06-02 22:41) @project(bugs)
+  ✔ opendoor/fss +1 bonus @done(19-06-03 10:20) @project(bugs)
+  ✔ edef in frame stats @done(19-06-03 10:20) @project(bugs)
+  ✔ tokugawa licenses @done(19-06-03 10:27) @project(bugs)
+  ✔ move config overcharge into rules.json @done(19-05-28 15:18) @project(Improvements)
+  ✔ add lancer version to cc version number @done(19-06-03 13:01) @project(Improvements)
+  ✔ Add New Config should be full page @done(19-05-30 22:50) @project(Improvements)
+  ✔ External Batteries @done(19-05-30 22:50) @project(Improvements)
+  ✔ Background selector: left column lists all backgrounds, archor scroll & highlight when scrolled to @done(19-05-10 14:16) @project(Styling)
+  ✔ Glossary in compendium @done(19-05-10 14:32) @project(2.0)
+  ✔ Action economy in compendium @done(19-05-10 14:32) @project(2.0)
+  ✔ Preload Long Rim @done(19-05-10 14:32) @project(2.0)
+  ✔ Github Gist API import/exporter (export and import by ID) @done(19-05-10 14:32) @project(2.0)
+  ✔ Imgur image hosting @done(19-05-10 14:32) @project(2.0)
+  ✔ Help Menu @done(19-05-10 14:33) @project(2.0)
   ✔ Disable remove item/gear button if nothing is currently equipped @done(19-04-29 12:17) @project(Improvements)
   ✔ in inactive mode, show max stat only @done(19-04-29 12:25) @project(Improvements)
   ✔ Retrofitting > mod > remove retrofitting -- SP persists @done(19-04-29 12:17) @project(Improvements)
@@ -69,7 +154,6 @@ Archive:
   ✔ Replace all rank star loops/v-rating with component @done(19-04-27 13:42) @project(Improvements)
   ✔ Better list/table for Frame selection @done(19-04-27 13:42) @project(Styling)
   ✔ UNCLE as weapon mod @done(19-04-27 13:42) @project(2.0)
-  ✔ Invocation broken @done(19-04-17 22:29) @project(1.2.5)
   ✔ Swallowtail save incorrect @done(19-04-17 15:20) @project(Bugs)
   ✔ fix longrim core bonus tags @done(19-04-17 15:55) @project(Bugs)
   ✔ nav menu links don't open @done(19-04-17 15:52) @project(Bugs)
@@ -297,7 +381,6 @@ Archive:
   ✔ Traits @done(19-03-04 15:19) @project(Vue Parity)
   ✔ Core System @done(19-03-04 15:19) @project(Vue Parity)
   ✔ Level Up @done(19-03-02 14:12) @project(Vue Parity.Pilot Sheet)
-  ✔ Background Invoke (2 acc 2 diff) @done(19-03-04 11:16) @project(Vue Parity.Pilot Sheet)
   ✔ Avatar and portrait selector @done(19-03-01 15:43) @project(Vue Parity.Pilot Sheet)
   ✔ Image remove option @done(19-03-04 11:29) @project(Vue Parity.Pilot Sheet)
   ✔ Move preselected to front of list @done(19-03-04 11:29) @project(Vue Parity.Pilot Sheet)
