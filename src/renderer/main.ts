@@ -16,22 +16,29 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
 import ClickOutside from './directives/click-outside'
-import ScrollSpy, { Easing } from "vue2-scrollspy";
+import ScrollSpy, { Easing } from 'vue2-scrollspy'
 import * as items from './mixins/data'
 
 const windowAny: any = window
 
 if (process.env.NODE_ENV !== 'development') {
-  windowAny.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  windowAny.__static = require('path')
+    .join(__dirname, '/static')
+    .replace(/\\/g, '\\\\')
 }
+
+Vue.prototype.userDataPath = path.normalize(
+  path.join(remote.app.getPath('userData'), 'data')
+)
+Vue.prototype.version = '1.3.8'
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
 })
 Vue.use(VueMousetrap)
 Vue.use(ScrollSpy, {
-  easing: Easing.Cubic.In
-});
+  easing: Easing.Cubic.In,
+})
 
 Vue.directive('click-outside', ClickOutside)
 
@@ -42,7 +49,6 @@ for (const m in mixins) {
   }
 }
 
-/* eslint-disable no-new */
 new Vue({
   components: { App },
   router,
@@ -50,7 +56,4 @@ new Vue({
   template: '<App/>',
 }).$mount('#app')
 
-Vue.prototype.userDataPath = path.join(remote.app.getPath('userData'), 'data')
-Vue.prototype.version = '1.3.0b'
-
-router.replace('/roster')
+// router.replace('/pilot_management')

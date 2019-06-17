@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'compcon';
-  src:  url('fonts/compcon.eot?aanadr');
-  src:  url('fonts/compcon.eot?aanadr#iefix') format('embedded-opentype'),
+  src: url('fonts/compcon.eot?aanadr');
+  src: url('fonts/compcon.eot?aanadr#iefix') format('embedded-opentype'),
     url('fonts/compcon.ttf?aanadr') format('truetype'),
     url('fonts/compcon.woff?aanadr') format('woff'),
     url('fonts/compcon.svg?aanadr#compcon') format('svg');
@@ -9,7 +9,8 @@
   font-style: normal;
 }
 
-[class^="cc-"], [class*=" cc-"] {
+[class^='cc-'],
+[class*=' cc-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'compcon' !important;
   speak: none;
@@ -25,175 +26,175 @@
 }
 
 .cc-frame .path1-filled:before {
-  content: "\e901";
+  content: '\e901';
   color: rgb(0, 0, 0);
 }
 .cc-frame .path2-filled:before {
-  content: "\e902";
+  content: '\e902';
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
 .cc-frame .path3-filled:before {
-  content: "\e903";
+  content: '\e903';
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
 .cc-frame .path4-filled:before {
-  content: "\e904";
+  content: '\e904';
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
 .cc-frame .path5-filled:before {
-  content: "\e905";
+  content: '\e905';
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
 .cc-frame .path6-filled:before {
-  content: "\e906";
+  content: '\e906';
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
 .cc-frame:before {
-  content: "\e900";
+  content: '\e900';
 }
 .cc-advantage-filled:before {
-  content: "\41";
+  content: '\41';
 }
 .cc-aoe-blast-filled:before {
-  content: "\42";
+  content: '\42';
 }
 .cc-aoe-burst-filled:before {
-  content: "\43";
+  content: '\43';
 }
 .cc-aoe-cone-filled:before {
-  content: "\44";
+  content: '\44';
 }
 .cc-aoe-line-filled:before {
-  content: "\45";
+  content: '\45';
 }
 .cc-energy-damage-filled:before {
-  content: "\46";
+  content: '\46';
 }
 .cc-burn-damage-filled:before {
-  content: "\47";
+  content: '\47';
 }
 .cc-explosive-damage-filled:before {
-  content: "\48";
+  content: '\48';
 }
 .cc-heat-damage-filled:before {
-  content: "\49";
+  content: '\49';
 }
 .cc-kinetic-damage-filled:before {
-  content: "\4a";
+  content: '\4a';
 }
 .cc-difficulty-filled:before {
-  content: "\4b";
+  content: '\4b';
 }
 .cc-melee-filled:before {
-  content: "\4c";
+  content: '\4c';
 }
 .cc-pilot-filled:before {
-  content: "\4d";
+  content: '\4d';
 }
 .cc-range-filled:before {
-  content: "\4e";
+  content: '\4e';
 }
 .cc-reactor-stress-filled:before {
-  content: "\4f";
+  content: '\4f';
 }
 .cc-structure-filled:before {
-  content: "\50";
+  content: '\50';
 }
 .cc-threat-filled:before {
-  content: "\51";
+  content: '\51';
 }
 .cc-thrown-filled:before {
-  content: "\52";
+  content: '\52';
 }
 .cc-difficulty1-filled:before {
-  content: "\40";
+  content: '\40';
 }
 .cc-difficulty:before {
-  content: "\60";
+  content: '\60';
 }
 .cc-accuracy:before {
-  content: "\61";
+  content: '\61';
 }
 .cc-blast:before {
-  content: "\62";
+  content: '\62';
 }
 .cc-burst:before {
-  content: "\63";
+  content: '\63';
 }
 .cc-cone:before {
-  content: "\64";
+  content: '\64';
 }
 .cc-line:before {
-  content: "\65";
+  content: '\65';
 }
 .cc-energy:before {
-  content: "\66";
+  content: '\66';
 }
 .cc-burn:before {
-  content: "\67";
+  content: '\67';
 }
 .cc-explosive:before {
-  content: "\68";
+  content: '\68';
 }
 .cc-heat:before {
-  content: "\69";
+  content: '\69';
 }
 .cc-kinetic:before {
-  content: "\6a";
+  content: '\6a';
 }
 .cc-energy-damage:before {
-  content: "\66";
+  content: '\66';
 }
 .cc-burn-damage:before {
-  content: "\67";
+  content: '\67';
 }
 .cc-explosive-damage:before {
-  content: "\68";
+  content: '\68';
 }
 .cc-heat-damage:before {
-  content: "\69";
+  content: '\69';
 }
 .cc-kinetic-damage:before {
-  content: "\6a";
+  content: '\6a';
 }
 .cc-difficulty:before {
-  content: "\6b";
+  content: '\6b';
 }
 .cc-melee:before {
-  content: "\6c";
+  content: '\6c';
 }
 .cc-pilot:before {
-  content: "\6d";
+  content: '\6d';
 }
 .cc-range:before {
-  content: "\6e";
+  content: '\6e';
 }
 .cc-reactor-stress:before {
-  content: "\6f";
+  content: '\6f';
 }
 .cc-structure:before {
-  content: "\70";
+  content: '\70';
 }
 .cc-threat:before {
-  content: "\71";
+  content: '\71';
 }
 .cc-thrown:before {
-  content: "\72";
+  content: '\72';
 }
 .cc-interdiction:before {
-  content: "\30";
+  content: '\30';
 }
 .cc-rank-1:before {
-  content: "\31";
+  content: '\31';
 }
 .cc-rank-2:before {
-  content: "\32";
+  content: '\32';
 }
 .cc-rank-3:before {
-  content: "\33";
+  content: '\33';
 }

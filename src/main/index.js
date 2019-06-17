@@ -25,17 +25,27 @@ function createMainWindow() {
   console.log(process.platform)
 
   if (isDevelopment) {
+    window.webContents.openDevTools()
+  }
+
+  if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
     window.webContents.once('dom-ready', () => {
       window.webContents.openDevTools()
     })
+  } else {
+    window.loadURL(
+      formatUrl({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file',
+        slashes: true,
+      })
+    )
   }
-  else {
-    window.loadURL(formatUrl({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file',
-      slashes: true
-    }))
+
+  // we don't want to show a menu except on OSX
+  if (process.platform !== 'darwin') {
+    window.setMenu(null)
   }
 
   // we don't want to show a menu except on OSX
@@ -80,54 +90,65 @@ app.on('ready', () => {
 // Create menu items for OSX - copy/paste and some other stuff won't work
 // without them
 if (process.platform === 'darwin') {
-  var template = [{
-    label: "Comp/Con",
-    submenu: [{
-      label: "About Comp/Con",
-      selector: "orderFrontStandardAboutPanel:"
+  var template = [
+    {
+      label: 'Comp/Con',
+      submenu: [
+        {
+          label: 'About Comp/Con',
+          selector: 'orderFrontStandardAboutPanel:',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Quit',
+          accelerator: 'CmdOrCtrl+Q',
+          click: function () {
+            app.quit()
+          },
+        },
+      ],
     },
     {
-      type: "separator"
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        {
+          label: 'Cut',
+          accelerator: 'CmdOrCtrl+X',
+          role: 'cut',
+        },
+        {
+          label: 'Copy',
+          accelerator: 'CmdOrCtrl+C',
+          role: 'copy',
+        },
+        {
+          label: 'Paste',
+          accelerator: 'CmdOrCtrl+V',
+          role: 'paste',
+        },
+        {
+          label: 'Select All',
+          accelerator: 'CmdOrCtrl+A',
+          role: 'selectAll',
+        },
+      ],
     },
     {
-      label: "Quit",
-      accelerator: "CmdOrCtrl+Q",
-      click: function () {
-        app.quit();
-      }
-    }
-    ]
-  }, {
-    label: "Edit",
-    submenu: [{
-      label: "Cut",
-      accelerator: "CmdOrCtrl+X",
-      role: "cut"
+      label: 'View',
+      submenu: [
+        {
+          label: 'Toggle Dev Tools',
+          accelerator: 'Alt+CmdOrCtrl+I',
+          role: 'toggleDevTools',
+        },
+      ],
     },
-    {
-      label: "Copy",
-      accelerator: "CmdOrCtrl+C",
-      role: "copy"
-    },
-    {
-      label: "Paste",
-      accelerator: "CmdOrCtrl+V",
-      role: "paste"
-    },
-    {
-      label: "Select All",
-      accelerator: "CmdOrCtrl+A",
-      role: "selectAll"
-    }
-    ]
-  }, {
-    label: 'View',
-    submenu: [{
-      label: "Toggle Dev Tools",
-      accelerator: "Alt+CmdOrCtrl+I",
-      role: "toggleDevTools"
-    }]
-  }]
+  ]
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
