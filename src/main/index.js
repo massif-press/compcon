@@ -99,7 +99,7 @@ if (process.platform === 'darwin') {
         {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
-          click: function() {
+          click: function () {
             app.quit()
           },
         },
@@ -108,6 +108,9 @@ if (process.platform === 'darwin') {
     {
       label: 'Edit',
       submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
         {
           label: 'Cut',
           accelerator: 'CmdOrCtrl+X',

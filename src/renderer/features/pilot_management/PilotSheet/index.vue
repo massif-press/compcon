@@ -294,7 +294,6 @@
                   auto-grow
                   rows="1"
                   label="History"
-                  clearable
                 />
               </v-flex>
             </v-layout>
@@ -351,7 +350,6 @@
                   auto-grow
                   rows="1"
                   label="Description"
-                  clearable
                 />
               </v-flex>
             </v-layout>
@@ -525,7 +523,6 @@
                 auto-grow
                 rows="1"
                 label="Pilot Notes"
-                clearable
               />
             </div>
           </v-flex>
