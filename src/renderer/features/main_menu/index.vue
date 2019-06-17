@@ -138,7 +138,7 @@
   export default Vue.extend({
     name: 'landing-page',
     data: () => ({
-      ver: '1.3.8',
+      ver: '1.4.0',
       changelog: {},
       err: false,
       loading: true,
