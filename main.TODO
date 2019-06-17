@@ -1,14 +1,73 @@
-- downtime bonus/resources section (extra gear, contacts, etc etc)
+✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
 
-☐ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations
+On Deck:
+  ✔ Stat Contributors @done(19-06-13 20:31)
+  ✔ X/Y stat/attribute points @done(19-06-17 14:13)
+  ✔ Show Frame tags on select @done(19-06-17 14:24)
 
-✔ Not serializing/deserializing overcharge @done(19-06-17 12:09)
-✔ CB shaping not working @done(19-06-17 12:18)
+  ☐ Active Mode Loadout
+    ☐ Item Cards
+    ☐ Read-only
+    ☐ Mark Equipment Destroyed
+      ☐ Spend rep to repair
+    ☐ Limited Pips
+
+  ☐ Item Notes
+    ☐ Signature Weapon type selection
+    ☐ Hardsuit detail rollable
+
+    ☐ Filtering
+      ☐ Frames
+        ☐ Compendium
+          ☐ By Mech Type
+          ☐ By Source
+        ☐ New Frame
+          ☐ By Mech Type
+          ☐ By Source
+      ☐ Weapons
+        ☐ By Tag
+        ☐ By Attack Type
+        ☐ By Damage Type
+        ☐ By Size
+        ☐ By Weapon Type
+        ☐ By Source
+        ☐ By License
+      ☐ Systems
+        ☐ By Tag
+        ☐ By System Type
+        ☐ By Source
+        ☐ By License
+
+  ☐ Downtime Resources
+
+  ☐ Active Mode
+    ☐ Set Status(es)
+    ☐ Set Condition(s)
+    ✔ Full Repair button @done(19-06-13 19:49)
+    ☐ Tooltip pip number on hover
+    ✔ DANGER ZONE on heat display @done(19-06-13 16:12)
+    ☐ Keyboard entry: Structure
+    ☐ Keyboard entry: HP
+    ☐ Keyboard entry: Stress
+    ☐ Keyboard entry: Heat
+    ☐ Keyboard entry: Repair
+    ☐ Structure Table popup on 0HP
+    ☐ Stress Table popup on full heat
+    ☐ DESTROYED status
+    ☐ Active Mode Loadout View
+      ☐ Weapon Cards
+        ☐ Name, Range, Damage, Effect, Tags
+        ☐ Limited Pips
+        ☐ Click to apply self heat
+        ☐ "Loaded" toggle
+        ☐ Ammo block
+
+  Refactor:
+    ☐ Contributor/Bonus rules logic should go into seperate class(es)
+    ☐ Move RequiredLicense logic into LicensedItem abstract
+      ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
 
 Improvements:
-  ☐ Frame tags and sort by tag
-  ☐ Move RequiredLicense logic into LicensedItem abstract
-    ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ new editable label
@@ -16,6 +75,7 @@ Improvements:
   ☐ Weapon Ammo Class
   ☐ Set Ammo (with armament)
   ☐ Downtime Resources in glossary
+  ☐ Undo
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size

@@ -17,6 +17,7 @@ import ModCard from './ModCard.vue'
 import CoreBonusCard from './CoreBonusCard.vue'
 import EmptyView from './EmptyView.vue'
 import TickBar from './TickBar.vue'
+import Contributor from './Contributor.vue'
 
 export {
   LazyDialog,
@@ -38,4 +39,5 @@ export {
   EmptyView,
   TickBar,
   CoreBonusCard,
+  Contributor,
 }

@@ -35,7 +35,10 @@
             outline
             color="success"
             icon="check_circle"
-            :value="selectionComplete"
+            :value="
+              !pilot.IsMissingTalents &&
+                !(points.selectedCurrent < points.selectedMin)
+            "
           >
             Talent Selection Complete
           </v-alert>
@@ -43,10 +46,10 @@
             outline
             color="warning"
             icon="priority_high"
-            :value="points.pointsMax > points.pointsCurrent"
+            :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
           >
-            {{ points.pointsMax - points.pointsCurrent }} Talent Points
-            remaining
+            {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent
+            Points remaining
           </v-alert>
           <v-alert
             outline
@@ -75,7 +78,7 @@
           v-for="talent in talents"
           :key="talent.ID"
           selectable
-          :available="points.pointsMax > points.pointsCurrent"
+          :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
           :talent="talent"
           :pilotTalent="pilotTalent(talent)"
           @add="addTalent(talent)"
@@ -88,76 +91,57 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Talent, PilotTalent, Pilot } from '@/class'
-import { TalentItem } from '../SheetComponents'
-import Selector from './Selector.vue'
-import { rules } from 'lancer-data'
+  import Vue from 'vue'
+  import { Talent, PilotTalent, Pilot } from '@/class'
+  import { TalentItem } from '../SheetComponents'
+  import Selector from './Selector.vue'
+  import { rules } from 'lancer-data'
 
-export default Vue.extend({
-  name: 'talent-selector',
-  props: {
-    pilot: Pilot,
-    newPilot: Boolean,
-    levelUp: Boolean,
-  },
-  components: { Selector, TalentItem },
-  data: () => ({
-    talents: [],
-    panels: [],
-  }),
-  computed: {
-    points() {
-      var vm = this as any
-      return {
-        pointsCurrent: vm.pilot.Talents.reduce(
-          (a: any, b: any) => +a + +b.Rank,
-          0
-        ),
-        pointsMax: rules.minimum_pilot_talents + vm.pilot.Level,
-        selectedCurrent: vm.pilot.Talents.length,
-        selectedMin: rules.minimum_pilot_talents,
-      }
+  export default Vue.extend({
+    name: 'talent-selector',
+    props: {
+      pilot: Pilot,
+      newPilot: Boolean,
+      levelUp: Boolean,
     },
-    selectionComplete() {
-      var vm = this as any
-      return (
-        vm.points.pointsCurrent === vm.points.pointsMax &&
-        vm.points.selectedCurrent >= vm.points.selectedMin
-      )
+    components: { Selector, TalentItem },
+    data: () => ({
+      talents: [],
+      panels: [],
+    }),
+    computed: {
+      points() {
+        var vm = this as any
+        return {
+          selectedCurrent: vm.pilot.Talents.length,
+          selectedMin: rules.minimum_pilot_talents,
+        }
+      },
     },
-    pointLimit(): boolean {
-      var vm = this as any
-      return (
-        vm.pilot.Talents.reduce((a: any, b: any) => +a + +b.rank, 0) >=
-        vm.points.pointsMax
-      )
-    },
-  },
-  methods: {
-    pilotTalent(talent: Talent): PilotTalent | null {
-      const pt = this.pilot.Talents.find(x => x.Talent.ID === talent.ID)
-      return pt ? pt : null
-    },
-    addTalent(talent: Talent) {
-      this.pilot.AddTalent(talent)
+    methods: {
+      pilotTalent(talent: Talent): PilotTalent | null {
+        const pt = this.pilot.Talents.find(x => x.Talent.ID === talent.ID)
+        return pt ? pt : null
+      },
+      addTalent(talent: Talent) {
+        this.pilot.AddTalent(talent)
 
-      if (this.newPilot) this.panels = []
+        if (this.newPilot) this.panels = []
 
-      if ((this.newPilot || this.levelUp) && this.pointLimit) {
-        window.scrollTo(0, document.body.scrollHeight)
-      }
+        if ((this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      },
+      removeTalent(talent: Talent) {
+        this.pilot.RemoveTalent(talent)
+      },
+      resetTalents() {
+        this.pilot.ClearTalents()
+        this.panels = []
+      },
     },
-    removeTalent(talent: Talent) {
-      this.pilot.RemoveTalent(talent)
+    created() {
+      this.talents = this.$store.getters.getItemCollection('Talents')
     },
-    resetTalents() {
-      this.pilot.ClearTalents()
-      this.panels = []
-    },
-  },
-  created() {
-    this.talents = this.$store.getters.getItemCollection('Talents')
-  },
-})
+  })
 </script>

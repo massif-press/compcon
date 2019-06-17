@@ -41,7 +41,7 @@
             outline
             color="success"
             icon="check_circle"
-            :value="selectionComplete"
+            :value="!pilot.IsMissingLicenses"
           >
             License Selection Complete
           </v-alert>
@@ -49,10 +49,10 @@
             outline
             color="warning"
             icon="priority_high"
-            :value="points.pointsMax > points.pointsCurrent"
+            :value="pilot.IsMissingLicenses"
           >
-            {{ points.pointsMax - points.pointsCurrent }} License Points
-            remaining
+            {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }} License
+            Points remaining
           </v-alert>
           <v-btn
             block
@@ -84,7 +84,7 @@
                 :pilotRank="pilotRank(l)"
                 :licenseData="l"
                 selectable
-                :available="!selectionComplete"
+                :available="pilot.IsMissingLicenses"
                 @add="addLicense(l)"
                 @remove="pilot.RemoveLicense(l)"
               />
@@ -98,81 +98,60 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { PilotLicense, License, Manufacturer, Pilot } from '@/class'
-import { LicenseItem } from '../SheetComponents'
-import Selector from './Selector.vue'
+  import Vue from 'vue'
+  import _ from 'lodash'
+  import { PilotLicense, License, Manufacturer, Pilot } from '@/class'
+  import { LicenseItem } from '../SheetComponents'
+  import Selector from './Selector.vue'
 
-export default Vue.extend({
-  name: 'license-selector',
-  props: {
-    pilot: Pilot,
-    levelUp: Boolean,
-  },
-  components: { LicenseItem, Selector },
-  data: () => ({
-    licenses: [],
-    licenseData: [] as any,
-  }),
-  computed: {
-    points(): {
-      pointsCurrent: number
-      pointsMax: number
-      selectedCurrent: number
-    } {
-      var vm = this as any
-      return {
-        pointsCurrent: vm.pilot.Licenses.reduce(
-          (a: any, b: any) => +a + +b.Rank,
-          0
-        ),
-        pointsMax: vm.pilot.Level,
-        selectedCurrent: vm.pilot.Licenses.length,
-      }
+  export default Vue.extend({
+    name: 'license-selector',
+    props: {
+      pilot: Pilot,
+      levelUp: Boolean,
     },
-    selectionComplete(): boolean {
-      var vm = this as any
-      return vm.points.pointsCurrent === vm.points.pointsMax
-    },
-  },
-  methods: {
-    pilotRank(license: License): number {
-      const l = this.pilot.Licenses.find(
-        x => x.License.FrameID === license.FrameID
-      )
-      return l ? l.Rank : 0
-    },
-    manufacturer(id: string): Manufacturer {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
-    },
-    licenseExists(license: License): boolean {
-      if (!this.licenseData[license.Source]) return false
-      return this.licenseData[license.Source].some(
-        (x: License) => x.ToString === license.ToString
-      )
-    },
-    addLicense(license: any) {
-      var vm = this as any
-      vm.pilot.AddLicense(license)
+    components: { LicenseItem, Selector },
+    data: () => ({
+      licenses: [],
+      licenseData: [] as any,
+    }),
+    methods: {
+      pilotRank(license: License): number {
+        const l = this.pilot.Licenses.find(
+          x => x.License.FrameID === license.FrameID
+        )
+        return l ? l.Rank : 0
+      },
+      manufacturer(id: string): Manufacturer {
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      },
+      licenseExists(license: License): boolean {
+        if (!this.licenseData[license.Source]) return false
+        return this.licenseData[license.Source].some(
+          (x: License) => x.ToString === license.ToString
+        )
+      },
+      addLicense(license: any) {
+        var vm = this as any
+        vm.pilot.AddLicense(license)
 
-      if (vm.levelUp && vm.selectionComplete) {
-        vm.$emit('set-licenses', vm.licenses)
-        window.scrollTo(0, document.body.scrollHeight)
-      }
+        if (vm.levelUp && !vm.pilot.IsMissingLicenses) {
+          vm.$emit('set-licenses', vm.licenses)
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      },
+      removeLicense(license: any) {
+        this.pilot.RemoveLicense(license)
+      },
+      resetLicenses() {
+        this.pilot.ClearLicenses()
+      },
     },
-    removeLicense(license: any) {
-      this.pilot.RemoveLicense(license)
+    created() {
+      this.licenseData = _.groupBy(
+        this.$store.getters.getItemCollection('Licenses'),
+        'source'
+      )
     },
-    resetLicenses() {
-      this.pilot.ClearLicenses()
-    },
-  },
-  created() {
-    this.licenseData = _.groupBy(
-      this.$store.getters.getItemCollection('Licenses'),
-      'source'
-    )
-  },
-})
+  })
 </script>
