@@ -8,9 +8,8 @@
     style="oveflow-y: hidden!important"
   >
     <v-btn
-      v-if="!noActivator"
       slot="activator"
-      class="edit-btn mlneg"
+      :class="highlight ? 'highlight' : 'edit-btn'"
       small
       flat
       icon
@@ -45,7 +44,7 @@
     props: {
       title: String,
       modelRef: Boolean,
-      noActivator: Boolean,
+      highlight: Boolean,
     },
     methods: {
       cancel() {
