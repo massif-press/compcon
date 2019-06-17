@@ -182,6 +182,13 @@ class Mech {
     } else return this.frame.Size
   }
 
+  public get SizeContributors(): string[] {
+    let output = [`FRAME Base Size: ${this.Frame.Size}`]
+    if (this.pilot.has('CoreBonus', 'fomorian'))
+      output.push(`Fomorian Frame Reinforcement (IPS-N CORE Bonus): +1`)
+    return output
+  }
+
   public get Armor(): number {
     let bonus =
       this.pilot.has('CoreBonus', 'plating') &&
@@ -191,10 +198,27 @@ class Mech {
     return this.frame.Armor + bonus
   }
 
+  public get ArmorContributors(): string[] {
+    let output = [`FRAME Base Armor: ${this.Frame.Armor}`]
+    if (this.pilot.has('CoreBonus', 'plating'))
+      output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
+    return output
+  }
+
   public get SaveTarget(): number {
     let bonus = this.pilot.Grit
     if (this.pilot.has('CoreBonus', 'opendoor')) bonus += 2
     return this.frame.Save + bonus
+  }
+
+  public get SaveTargetContributors(): string[] {
+    let output = [
+      `FRAME Base Save Target: ${this.Frame.Save}`,
+      `Pilot GRIT Bonus: +${this.pilot.Grit}`,
+    ]
+    if (this.pilot.has('CoreBonus', 'opendoor'))
+      output.push(`The Lesson of the Open Door (HORUS CORE Bonus): +2`)
+    return output
   }
 
   public get Evasion(): number {
@@ -203,13 +227,34 @@ class Mech {
     return this.frame.Evasion + bonus
   }
 
+  public get EvasionContributors(): string[] {
+    let output = [
+      `FRAME Base Evasion: ${this.Frame.Evasion}`,
+      `Pilot AGILITY Bonus: +${this.Agi}`,
+    ]
+    if (this.pilot.has('CoreBonus', 'fssync'))
+      output.push(`Full Subjectivity Sync (SSC CORE Bonus): +2`)
+    return output
+  }
+
   public get Speed(): number {
     let bonus = Math.floor(this.Agi / 2)
     return this.frame.Speed + bonus
   }
 
+  public get SpeedContributors(): string[] {
+    return [
+      `FRAME Base Speed: ${this.Frame.SensorRange}`,
+      `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
+    ]
+  }
+
   public get SensorRange(): number {
     return this.frame.SensorRange
+  }
+
+  public get SensorRangeContributors(): string[] {
+    return [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
   }
 
   public get EDefense(): number {
@@ -218,19 +263,47 @@ class Mech {
     return this.frame.EDefense + bonus
   }
 
+  public get EDefenseContributors(): string[] {
+    let output = [
+      `FRAME Base E-Defense: ${this.Frame.EDefense}`,
+      `Pilot SYSTEMS Bonus: +${this.Sys}`,
+    ]
+    if (this.pilot.has('CoreBonus', 'disbelief'))
+      output.push(`The Lesson of Disbelief (HORUS CORE Bonus): +2`)
+    return output
+  }
+
   public get LimitedBonus(): number {
     let bonus = 0
     if (this.pilot.has('CoreBonus', 'ammofeeds')) bonus += 2
     return Math.floor(this.Eng / 2) + bonus
   }
 
+  public get LimitedContributors(): string[] {
+    let output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
+    if (this.pilot.has('CoreBonus', 'ammofeeds'))
+      output.push(`Integrated Ammo Feeds (HA CORE Bonus): +5`)
+    return output
+  }
+
   public get AttackBonus(): number {
     return this.pilot.Grit
+  }
+
+  public get AttackBonusContributors(): string[] {
+    return [`Pilot GRIT Bonus: ${this.pilot.Grit}`]
   }
 
   public get TechAttack(): number {
     let bonus = this.Sys
     return this.frame.TechAttack + bonus
+  }
+
+  public get TechAttackContributors(): string[] {
+    return [
+      `FRAME Base Tech Attack: ${this.Frame.TechAttack}`,
+      `Pilot SYSTEMS Bonus: +${this.Sys}`,
+    ]
   }
 
   public get Grapple(): number {
@@ -243,6 +316,10 @@ class Mech {
 
   public get SaveBonus(): number {
     return this.pilot.Grit
+  }
+
+  public get SaveBonusContributors(): string[] {
+    return [`Pilot GRIT Bonus: ${this.pilot.Grit}`]
   }
 
   // -- HASE --------------------------------------------------------------------------------------
@@ -279,6 +356,10 @@ class Mech {
     return this.frame.Structure
   }
 
+  public get StructureContributors(): string[] {
+    return [`FRAME Base Structure: ${this.Frame.Structure}`]
+  }
+
   public get CurrentHP(): number {
     return this.active ? this.current_hp : this.MaxHP
   }
@@ -298,6 +379,19 @@ class Mech {
     return this.frame.HP + bonus
   }
 
+  public get HPContributors(): string[] {
+    let output = [
+      `FRAME Base HP: ${this.Frame.HP}`,
+      `Pilot GRIT Bonus: +${this.pilot.Grit}`,
+      `Pilot HULL Bonus: +${this.Hull * 2}`,
+    ]
+    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
+      output.push(`Personalizations (GMS System): +2`)
+    if (this.pilot.has('CoreBonus', 'frame'))
+      output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
+    return output
+  }
+
   public get CurrentSP(): number {
     if (!this.ActiveLoadout) return this.MaxSP
     return this.ActiveLoadout.TotalSP
@@ -306,6 +400,14 @@ class Mech {
   public get MaxSP(): number {
     let bonus = this.pilot.Grit + Math.floor(this.Sys / 2)
     return this.Frame.SP + bonus
+  }
+
+  public get SPContributors(): string[] {
+    return [
+      `FRAME Base SP: ${this.Frame.SP}`,
+      `Pilot GRIT Bonus: +${this.pilot.Grit}`,
+      `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
+    ]
   }
 
   public get CurrentHeat(): number {
@@ -319,10 +421,26 @@ class Mech {
     this.save()
   }
 
+  public get IsInDangerZone(): boolean {
+    return (
+      this.IsActive && this.current_heat >= Math.floor(this.HeatCapacity / 2)
+    )
+  }
+
   public get HeatCapacity(): number {
     var bonus = this.Eng
     if (this.pilot.has('CoreBonus', 'superior')) bonus += 2
     return this.frame.HeatCap + bonus
+  }
+
+  public get HeatCapContributors(): string[] {
+    let output = [
+      `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
+      `Pilot ENGINEERING Bonus: +${this.Eng}`,
+    ]
+    if (this.pilot.has('CoreBonus', 'superior'))
+      output.push(`Superior By Design (HA CORE Bonus): +2`)
+    return output
   }
 
   public get CurrentStress(): number {
@@ -338,6 +456,10 @@ class Mech {
 
   public get MaxStress(): number {
     return this.frame.HeatStress
+  }
+
+  public get StressContributors(): string[] {
+    return [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
   }
 
   public get CurrentRepairs(): number {
@@ -356,6 +478,13 @@ class Mech {
     return this.frame.RepCap + bonus
   }
 
+  public get RepCapContributors(): string[] {
+    return [
+      `FRAME Base Repair Capacity: ${this.Frame.RepCap}`,
+      `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
+    ]
+  }
+
   public get CurrentCoreEnergy(): number {
     return this.active ? this.current_core_energy : 1
   }
@@ -371,6 +500,19 @@ class Mech {
 
   public set CurrentOvercharge(overcharge: number) {
     this.current_overcharge = overcharge
+    this.save()
+  }
+
+  // -- Active Mode Utilities ---------------------------------------------------------------------
+
+  public FullRepair() {
+    this.CurrentStructure = this.MaxStructure
+    this.CurrentHP = this.MaxHP
+    this.CurrentStress = this.MaxStress
+    this.CurrentHeat = 0
+    this.CurrentRepairs = this.RepairCapacity
+    this.CurrentCoreEnergy = 1
+    this.CurrentOvercharge = 0
     this.save()
   }
 

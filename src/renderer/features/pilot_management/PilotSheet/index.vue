@@ -225,8 +225,8 @@
             <v-layout>
               <v-flex>
                 <!-- Biograpgy -->
-                <v-layout>
-                  <span class="header no-icon">Biography</span>
+                <v-layout class="header" align-content-space-around>
+                  <span>Biography</span>
                 </v-layout>
                 <v-layout>
                   <v-flex xs12 class="text-xs-center">
@@ -241,18 +241,23 @@
                         {{ pilot.Background.Name }}
                       </b>
                     </div>
-                    <pilot-edit-modal
-                      v-if="!pilot.IsActive"
-                      title="Select Pilot Background"
-                      :modelRef="backgroundModal"
-                      ref="backgroundSelector"
-                    >
-                      <background-selector
-                        slot="modal-content"
-                        @close="setBackground()"
-                        :pilot="pilot"
-                      />
-                    </pilot-edit-modal>
+                    <v-tooltip right class="mlneg">
+                      <span slot="activator">
+                        <pilot-edit-modal
+                          v-if="!pilot.IsActive"
+                          title="Select Pilot Background"
+                          :modelRef="backgroundModal"
+                          ref="backgroundSelector"
+                        >
+                          <background-selector
+                            slot="modal-content"
+                            @close="setBackground()"
+                            :pilot="pilot"
+                          />
+                        </pilot-edit-modal>
+                      </span>
+                      <span>Change Pilot Background</span>
+                    </v-tooltip>
                   </v-flex>
                 </v-layout>
                 <!-- Clone Quirk -->
@@ -307,22 +312,31 @@
           </v-flex>
           <v-flex xs4>
             <!-- Appearance -->
-            <v-layout>
-              <span class="header">
-                Appearance
-                <pilot-edit-modal
-                  title="Set Pilot Portrait"
-                  :modelRef="appearanceModal"
-                  ref="appearanceSelector"
-                >
-                  <image-selector
-                    slot="modal-content"
-                    :pilot="pilot"
-                    @notify="notify"
-                    @close="closePortrait"
-                  />
-                </pilot-edit-modal>
-              </span>
+            <v-layout class="header" align-content-space-around>
+              <v-flex>
+                <span>
+                  Appearance
+                </span>
+              </v-flex>
+              <v-flex shrink>
+                <v-tooltip left>
+                  <span slot="activator">
+                    <pilot-edit-modal
+                      title="Set Pilot Portrait"
+                      :modelRef="appearanceModal"
+                      ref="appearanceSelector"
+                    >
+                      <image-selector
+                        slot="modal-content"
+                        :pilot="pilot"
+                        @notify="notify"
+                        @close="closePortrait"
+                      />
+                    </pilot-edit-modal>
+                  </span>
+                  <span>Change Pilot Portrait</span>
+                </v-tooltip>
+              </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="pl-2" @click="appearanceModal = true">
@@ -361,7 +375,9 @@
         <v-layout>
           <v-flex xs1>
             <!-- Grit -->
-            <v-layout><span class="header no-icon">Grit</span></v-layout>
+            <v-layout class="header" justify-space-around>
+              <span>Grit</span>
+            </v-layout>
             <v-layout align-center justify-center column fill-height>
               <v-flex>
                 <span class="display-3 font-weight-black text-xs-center">
@@ -372,21 +388,47 @@
           </v-flex>
           <v-flex xs11>
             <!-- Triggers -->
-            <v-layout>
-              <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
-                Skill Triggers
-                <pilot-edit-modal
-                  v-if="!pilot.IsActive"
-                  title="Edit Pilot Skill Triggers"
-                  :modelRef="skillModal"
-                >
-                  <skill-selector
-                    slot="modal-content"
-                    :pilot="pilot"
-                    @close="skillModal = false"
-                  />
-                </pilot-edit-modal>
-              </span>
+            <v-layout class="header" justify-space-around>
+              <v-flex>
+                <span>
+                  Skill Triggers
+                </span>
+              </v-flex>
+              <v-flex shrink>
+                <v-tooltip left>
+                  <v-chip
+                    :outline="!pilot.IsMissingSkills"
+                    small
+                    slot="activator"
+                    :color="pilot.IsMissingSkills ? 'warning' : ''"
+                  >
+                    {{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}
+                  </v-chip>
+                  <div>
+                    <span>
+                      {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }}
+                      Skill Trigger bonuses remaining
+                    </span>
+                  </div>
+                </v-tooltip>
+                <v-tooltip left>
+                  <span slot="activator">
+                    <pilot-edit-modal
+                      v-if="!pilot.IsActive"
+                      title="Edit Pilot Skill Triggers"
+                      :modelRef="skillModal"
+                      :highlight="pilot.IsMissingSkills"
+                    >
+                      <skill-selector
+                        slot="modal-content"
+                        :pilot="pilot"
+                        @close="skillModal = false"
+                      />
+                    </pilot-edit-modal>
+                  </span>
+                  <span>Edit Pilot Skill Triggers</span>
+                </v-tooltip>
+              </v-flex>
             </v-layout>
             <v-layout>
               <v-flex class="mr-3">
@@ -401,18 +443,44 @@
           </v-flex>
         </v-layout>
         <!-- License Block -->
-        <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
-            Licenses
-            <pilot-edit-modal
-              v-if="!pilot.IsActive"
-              title="Edit Pilot Licenses"
-              :modelRef="licenseModal"
-              ref="licenseSelector"
-            >
-              <license-selector slot="modal-content" :pilot="pilot" />
-            </pilot-edit-modal>
-          </span>
+        <v-layout class="header" justify-space-around>
+          <v-flex>
+            <span>
+              Licenses
+            </span>
+          </v-flex>
+          <v-flex shrink>
+            <v-tooltip left>
+              <v-chip
+                :outline="!pilot.IsMissingLicenses"
+                small
+                slot="activator"
+                :color="pilot.IsMissingLicenses ? 'warning' : ''"
+              >
+                {{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}
+              </v-chip>
+              <div>
+                <span>
+                  {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }}
+                  License levels remaining
+                </span>
+              </div>
+            </v-tooltip>
+            <v-tooltip left>
+              <span slot="activator">
+                <pilot-edit-modal
+                  v-if="!pilot.IsActive"
+                  title="Edit Pilot Licenses"
+                  :modelRef="licenseModal"
+                  ref="licenseSelector"
+                  :highlight="pilot.IsMissingLicenses"
+                >
+                  <license-selector slot="modal-content" :pilot="pilot" />
+                </pilot-edit-modal>
+              </span>
+              <span>Edit Pilot Licenses</span>
+            </v-tooltip>
+          </v-flex>
         </v-layout>
         <v-layout class="ml-3 mr-3">
           <v-flex>
@@ -428,22 +496,48 @@
         </v-layout>
 
         <!-- Talent Block -->
-        <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
-            Talents
-            <pilot-edit-modal
-              v-if="!pilot.IsActive"
-              title="Edit Pilot Talents"
-              :modelRef="talentModal"
-              ref="talentSelector"
-            >
-              <talent-selector
-                slot="modal-content"
-                :pilot="pilot"
-                @close="setPilotTalents"
-              />
-            </pilot-edit-modal>
-          </span>
+        <v-layout class="header" justify-space-around>
+          <v-flex>
+            <span>
+              Talents
+            </span>
+          </v-flex>
+          <v-flex shrink>
+            <v-tooltip left>
+              <v-chip
+                :outline="!pilot.IsMissingTalents"
+                small
+                slot="activator"
+                :color="pilot.IsMissingTalents ? 'warning' : ''"
+              >
+                {{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}
+              </v-chip>
+              <div>
+                <span>
+                  {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }}
+                  Talent ranks remaining
+                </span>
+              </div>
+            </v-tooltip>
+            <v-tooltip left>
+              <span slot="activator">
+                <pilot-edit-modal
+                  v-if="!pilot.IsActive"
+                  title="Edit Pilot Talents"
+                  :modelRef="talentModal"
+                  ref="talentSelector"
+                  :highlight="pilot.IsMissingTalents"
+                >
+                  <talent-selector
+                    slot="modal-content"
+                    :pilot="pilot"
+                    @close="setPilotTalents"
+                  />
+                </pilot-edit-modal>
+              </span>
+              <span>Edit Pilot Talents</span>
+            </v-tooltip>
+          </v-flex>
         </v-layout>
         <v-layout class="ml-3 mr-3">
           <v-flex>
@@ -459,22 +553,48 @@
         </v-layout>
 
         <!-- Mech Skills Block -->
-        <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
-            Mech Skills
-            <pilot-edit-modal
-              v-if="!pilot.IsActive"
-              title="Edit Mech Skills"
-              :modelRef="mechSkillModal"
-              ref="mechSkillSelector"
-            >
-              <mech-skills-selector
-                slot="modal-content"
-                :pilot="pilot"
-                @close="setMechSkills"
-              />
-            </pilot-edit-modal>
-          </span>
+        <v-layout class="header" justify-space-around>
+          <v-flex>
+            <span>
+              Mech Skills
+            </span>
+          </v-flex>
+          <v-flex shrink>
+            <v-tooltip left>
+              <v-chip
+                :outline="!pilot.IsMissingHASE"
+                small
+                slot="activator"
+                :color="pilot.IsMissingHASE ? 'warning' : ''"
+              >
+                {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}
+              </v-chip>
+              <div>
+                <span>
+                  {{ pilot.MaxHASEPoints - pilot.CurrentHASEPoints }}
+                  Mech Skill points remaining
+                </span>
+              </div>
+            </v-tooltip>
+            <v-tooltip left>
+              <span slot="activator">
+                <pilot-edit-modal
+                  v-if="!pilot.IsActive"
+                  title="Edit Mech Skills"
+                  :modelRef="mechSkillModal"
+                  ref="mechSkillSelector"
+                  :highlight="pilot.IsMissingHASE"
+                >
+                  <mech-skills-selector
+                    slot="modal-content"
+                    :pilot="pilot"
+                    @close="setMechSkills"
+                  />
+                </pilot-edit-modal>
+              </span>
+              <span>Edit Pilot Mech Skills</span>
+            </v-tooltip>
+          </v-flex>
         </v-layout>
         <v-layout center justify-space-around class="pl-5">
           <hase-pips title="hull" attribute="hull" />
@@ -484,18 +604,44 @@
         </v-layout>
 
         <!-- CORE Bonuses -->
-        <v-layout>
-          <span :class="`header ${pilot.IsActive ? 'no-icon' : ''}`">
-            CORE Bonuses
+        <v-layout class="header" justify-space-around>
+          <v-flex>
+            <span>
+              CORE Bonuses
+            </span>
+          </v-flex>
+          <v-flex shrink>
+            <v-tooltip left>
+              <v-chip
+                :outline="!pilot.IsMissingCBs"
+                small
+                slot="activator"
+                :color="pilot.IsMissingCBs ? 'warning' : ''"
+              >
+                {{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}
+              </v-chip>
+              <div>
+                <span>
+                  {{ pilot.MaxCBPoints - pilot.CurrentCBPoints }}
+                  CORE Bonuses remaining
+                </span>
+              </div>
+            </v-tooltip>
+            <v-tooltip left>
+              <span slot="activator">
             <pilot-edit-modal
               v-if="!pilot.IsActive"
               title="Edit CORE Bonuses"
               :modelRef="bonusModal"
               ref="bonusSelector"
+                  :highlight="pilot.IsMissingCBs"
             >
               <core-bonus-selector slot="modal-content" :pilot="pilot" />
             </pilot-edit-modal>
-          </span>
+              </span>
+              <span>Edit Pilot CORE Bonuses</span>
+            </v-tooltip>
+          </v-flex>
         </v-layout>
         <v-layout
           row
@@ -589,177 +735,179 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { clipboard } from 'electron'
-import {
-  LazyDialog,
-  EditableLabel,
-  EditableTextfield,
-  PipBar,
-  EmptyView,
-  TickBar,
-} from '../components/UI'
-import {
-  ImageSelector,
-  BackgroundSelector,
-  SkillSelector,
-  TalentSelector,
-  LicenseSelector,
-  MechSkillsSelector,
-  CoreBonusSelector,
-  LevelSelector,
-} from './Selectors'
-import {
-  ContactsList,
-  LicenseItem,
-  SkillItem,
-  TalentItem,
-  CoreBonusItem,
-  PilotEditModal,
-  HasePips,
-} from './SheetComponents'
-import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
-import NewConfig from '../HangarView/AddConfigMenu.vue'
-import { Pilot, PilotSkill, Background, Statblock } from '@/class'
-import { rules } from 'lancer-data'
-
-export default Vue.extend({
-  name: 'pilot-sheet',
-  components: {
+  import Vue from 'vue'
+  import { clipboard } from 'electron'
+  import {
+    LazyDialog,
     EditableLabel,
     EditableTextfield,
-    LicenseItem,
-    SkillItem,
-    TalentItem,
-    PilotLoadout,
-    CoreBonusItem,
+    PipBar,
+    EmptyView,
+    TickBar,
+  } from '../components/UI'
+  import {
     ImageSelector,
-    ContactsList,
     BackgroundSelector,
     SkillSelector,
     TalentSelector,
     LicenseSelector,
     MechSkillsSelector,
     CoreBonusSelector,
-    NewConfig,
-    LazyDialog,
-    PilotEditModal,
     LevelSelector,
-    PipBar,
+  } from './Selectors'
+  import {
+    ContactsList,
+    LicenseItem,
+    SkillItem,
+    TalentItem,
+    CoreBonusItem,
+    PilotEditModal,
     HasePips,
-    EmptyView,
-    TickBar,
-  },
-  data: () => ({
-    CallsignDialog: false,
-    newCallsign: '',
-    renameDialog: false,
-    newName: '',
-    newConfigModal: false,
-    backgroundModal: false,
-    appearanceModal: false,
-    skillModal: false,
-    licenseModal: false,
-    talentModal: false,
-    mechSkillModal: false,
-    bonusModal: false,
-    pilotGearModal: false,
-    printDialog: false,
-    levelEditor: false,
-    snackbar: false,
-    notification: '',
-    activeLoadoutIdx: 0,
-    loadoutForceReloadTrigger: 0,
-  }),
-  computed: {
-    pilot(): Pilot {
-      return this.$store.getters['getPilot']
+  } from './SheetComponents'
+  import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
+  import NewConfig from '../HangarView/AddConfigMenu.vue'
+  import { Pilot, PilotSkill, Background, Statblock } from '@/class'
+  import { rules } from 'lancer-data'
+
+  export default Vue.extend({
+    name: 'pilot-sheet',
+    components: {
+      EditableLabel,
+      EditableTextfield,
+      LicenseItem,
+      SkillItem,
+      TalentItem,
+      PilotLoadout,
+      CoreBonusItem,
+      ImageSelector,
+      ContactsList,
+      BackgroundSelector,
+      SkillSelector,
+      TalentSelector,
+      LicenseSelector,
+      MechSkillsSelector,
+      CoreBonusSelector,
+      NewConfig,
+      LazyDialog,
+      PilotEditModal,
+      LevelSelector,
+      PipBar,
+      HasePips,
+      EmptyView,
+      TickBar,
     },
-    maxLevel(): number {
-      return rules.max_pilot_level
+    data: () => ({
+      CallsignDialog: false,
+      newCallsign: '',
+      renameDialog: false,
+      newName: '',
+      newConfigModal: false,
+      backgroundModal: false,
+      appearanceModal: false,
+      skillModal: false,
+      licenseModal: false,
+      talentModal: false,
+      mechSkillModal: false,
+      bonusModal: false,
+      pilotGearModal: false,
+      printDialog: false,
+      levelEditor: false,
+      snackbar: false,
+      notification: '',
+      activeLoadoutIdx: 0,
+      loadoutForceReloadTrigger: 0,
+    }),
+    computed: {
+      pilot(): Pilot {
+        return this.$store.getters['getPilot']
+      },
+      maxLevel(): number {
+        return rules.max_pilot_level
+      },
     },
-  },
-  methods: {
-    refresh: function() {
-      this.$forceUpdate()
-    },
-    notify: function(contents: string) {
-      this.notification = contents
-      this.snackbar = true
-    },
-    close(ref: string) {
-      (this.$refs[ref] as any).cancel()
-    },
-    setBackground() {
-      (this.$refs['backgroundSelector'] as any).cancel()
-      this.backgroundModal = false
-    },
-    setPilotTalents() {
-      this.talentModal = false
-    },
-    setMechSkills(){
-      (this.$refs['mechSkillSelector'] as any).cancel()
-    },
-    closePortrait(){
-      (this.$refs['appearanceSelector'] as any).cancel()
-      this.appearanceModal = false
-    },
-    openPrintOptions() {
-      if (this.pilot.ActiveConfig) {
-        this.printDialog = true
-      } else {
+    methods: {
+      refresh: function() {
+        this.$forceUpdate()
+      },
+      notify: function(contents: string) {
+        this.notification = contents
+        this.snackbar = true
+      },
+      close(ref: string) {
+        ;(this.$refs[ref] as any).cancel()
+      },
+      setBackground() {
+        ;(this.$refs['backgroundSelector'] as any).cancel()
+        this.backgroundModal = false
+      },
+      setPilotTalents() {
+        this.talentModal = false
+      },
+      setMechSkills() {
+        ;(this.$refs['mechSkillSelector'] as any).cancel()
+      },
+      closePortrait() {
+        ;(this.$refs['appearanceSelector'] as any).cancel()
+        this.appearanceModal = false
+      },
+      openPrintOptions() {
+        if (this.pilot.ActiveConfig) {
+          this.printDialog = true
+        } else {
+          this.$store.dispatch('setPrintOptions', {
+            loadout_index: this.activeLoadoutIdx,
+          })
+          this.$router.push('/print-pilot')
+        }
+      },
+      print: function(includeMech: boolean) {
+        this.printDialog = false
         this.$store.dispatch('setPrintOptions', {
-          loadout_index: this.activeLoadoutIdx,
+          combo: includeMech,
         })
-        this.$router.push('/print-pilot')
-      }
+        if (includeMech) {
+          this.$router.push('/print-all')
+        } else {
+          this.$router.push('/print-pilot')
+        }
+      },
+      copyPilotStatblock() {
+        clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
+        this.notify('Pilot Statblock Copied to Clipboard')
+      },
+      activatePilot() {
+        this.pilot.Active = !this.pilot.IsActive
+        this.notify(
+          `${this.pilot.Callsign} ${
+            this.pilot.IsActive ? 'Activated' : 'Deactivated'
+          }`
+        )
+      },
     },
-    print: function(includeMech: boolean) {
-      this.printDialog = false
-      this.$store.dispatch('setPrintOptions', {
-        combo: includeMech,
-      })
-      if (includeMech) {
-        this.$router.push('/print-all')
-      } else {
-        this.$router.push('/print-pilot')
-      }
-    },
-    copyPilotStatblock() {
-      clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
-      this.notify('Pilot Statblock Copied to Clipboard')
-    },
-    activatePilot() {
-      this.pilot.Active = !this.pilot.IsActive
-      this.notify(
-        `${this.pilot.Callsign} ${
-          this.pilot.IsActive ? 'Activated' : 'Deactivated'
-        }`
-      )
-    },
-  },
-})
+  })
 </script>
 
 <style scoped>
-.header {
-  background-color: lightgray;
-  color: black;
-  font-weight: bold;
-  letter-spacing: 3px;
-  width: 100%;
-  padding-left: 10px;
-  margin-top: 10px;
-  margin-bottom: 3px;
-}
+  .header {
+    background-color: lightgray;
+    color: black;
+    font-weight: bold;
+    letter-spacing: 3px;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 3px;
+  }
 
-.float-right {
-  float: right;
-  text-align: right;
-}
+  .float-right {
+    float: right;
+    text-align: right;
+  }
 
-.no-icon {
-  height: 40px;
-  padding-top: 8px;
-}
+  .no-icon {
+    height: 40px;
+    padding-top: 8px;
+  }
 </style>

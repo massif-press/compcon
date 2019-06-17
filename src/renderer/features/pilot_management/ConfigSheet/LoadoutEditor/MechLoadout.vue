@@ -138,84 +138,84 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import io from '@/features/_shared/data_io'
-import MountBlock from './MountBlock.vue'
-import IntegratedBlock from './IntegratedBlock.vue'
-import SystemsBlock from './SystemsBlock.vue'
-import { LazyDialog } from '../../components/UI'
-import { MechLoadout, MechSystem, Mech, Pilot } from '@/class'
+  import Vue from 'vue'
+  import io from '@/features/_shared/data_io'
+  import MountBlock from './MountBlock.vue'
+  import IntegratedBlock from './IntegratedBlock.vue'
+  import SystemsBlock from './SystemsBlock.vue'
+  import { LazyDialog } from '../../components/UI'
+  import { MechLoadout, MechSystem, Mech, Pilot } from '@/class'
 
-export default Vue.extend({
-  name: 'mech-loadout',
-  components: {
-    MountBlock,
-    SystemsBlock,
-    IntegratedBlock,
-    LazyDialog,
-  },
-  props: {
-    config: Mech,
-    pilot: Pilot,
-  },
-  data: () => ({
-    tabIndex: 0,
-    newLoadoutName: '',
-    renameDialog: false,
-    deleteDialog: false,
-    notification: '',
-    snackbar: false,
-  }),
-  methods: {
-    newLoadout() {
-      this.config.AddLoadout()
-      this.tabIndex = this.config.Loadouts.length - 1
+  export default Vue.extend({
+    name: 'mech-loadout',
+    components: {
+      MountBlock,
+      SystemsBlock,
+      IntegratedBlock,
+      LazyDialog,
     },
-    deleteLoadout(loadout: MechLoadout) {
-      this.tabIndex = this.config.Loadouts.length - 1
-      this.deleteDialog = false
-      this.config.RemoveLoadout(loadout)
+    props: {
+      config: Mech,
+      pilot: Pilot,
     },
-    copyLoadout(loadout: MechLoadout) {
-      this.config.CloneLoadout(loadout)
-      this.tabIndex = this.config.Loadouts.length - 1
+    data: () => ({
+      tabIndex: 0,
+      newLoadoutName: '',
+      renameDialog: false,
+      deleteDialog: false,
+      notification: '',
+      snackbar: false,
+    }),
+    methods: {
+      newLoadout() {
+        this.config.AddLoadout()
+        this.tabIndex = this.config.Loadouts.length - 1
+      },
+      deleteLoadout(loadout: MechLoadout) {
+        this.tabIndex = this.config.Loadouts.length - 1
+        this.deleteDialog = false
+        this.config.RemoveLoadout(loadout)
+      },
+      copyLoadout(loadout: MechLoadout) {
+        this.config.CloneLoadout(loadout)
+        this.tabIndex = this.config.Loadouts.length - 1
+      },
+      hasImpArm() {
+        return this.pilot.has('CoreBonus', 'imparm')
+      },
+      hasIntWeapon() {
+        return this.pilot.has('CoreBonus', 'intweapon')
+      },
+      renameLoadout(loadout: MechLoadout) {
+        if (this.newLoadoutName === '') {
+          this.notification = 'Loadout names cannot be blank'
+          this.snackbar = true
+        } else {
+          this.config.ActiveLoadout.Name = this.newLoadoutName
+          this.newLoadoutName = ''
+          this.renameDialog = false
+        }
+      },
+      changeTab() {
+        this.config.ActiveLoadout = this.config.Loadouts[this.tabIndex]
+      },
     },
-    hasImpArm() {
-      return this.pilot.has('CoreBonus', 'imparm')
-    },
-    hasIntWeapon() {
-      return this.pilot.has('CoreBonus', 'intweapon')
-    },
-    renameLoadout(loadout: MechLoadout) {
-      if (this.newLoadoutName === '') {
-        this.notification = 'Loadout names cannot be blank'
-        this.snackbar = true
-      } else {
-        this.config.ActiveLoadout.Name = this.newLoadoutName
-        this.newLoadoutName = ''
-        this.renameDialog = false
-      }
-    },
-    changeTab() {
-      this.config.ActiveLoadout = this.config.Loadouts[this.tabIndex]
-    },
-  },
-  created() {
-    if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
-      const activeIndex = this.config.Loadouts.findIndex(
-        x => x.ID === this.config.ActiveLoadout.ID
-      )
-      if (activeIndex > -1) {
-        this.tabIndex = activeIndex
-      } else {
+    created() {
+      if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
+        const activeIndex = this.config.Loadouts.findIndex(
+          x => x.ID === this.config.ActiveLoadout.ID
+        )
+        if (activeIndex > -1) {
+          this.tabIndex = activeIndex
+        } else {
+          this.tabIndex = 0
+          this.config.ActiveLoadout = this.config.Loadouts[0]
+        }
+      } else if (this.config && this.config.Loadouts) {
         this.tabIndex = 0
-        this.config.ActiveLoadout = this.config.Loadouts[0]
+        if (this.config.Loadouts.length)
+          this.config.ActiveLoadout = this.config.Loadouts[0]
       }
-    } else if (this.config && this.config.Loadouts) {
-      this.tabIndex = 0
-      if (this.config.Loadouts.length)
-        this.config.ActiveLoadout = this.config.Loadouts[0]
-    }
-  },
-})
+    },
+  })
 </script>

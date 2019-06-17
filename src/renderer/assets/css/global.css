@@ -3,18 +3,18 @@
 }
 
 .edit-btn {
-  position: relative;
-  opacity: 0.15;
+  opacity: 0.25;
   cursor: pointer;
   transition: 0.3s all;
 }
+
 .edit-btn:hover {
   opacity: 1;
   transition: 0.3s all;
 }
 
 .mlneg {
-  margin-left: -10px !important;
+  margin-left: -20px !important;
 }
 
 .roster-content {

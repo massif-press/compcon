@@ -21,7 +21,7 @@
             outline
             color="success"
             icon="check_circle"
-            :value="selectionComplete"
+            :value="!pilot.IsMissingCBs"
           >
             CORE Bonus Selection Complete
           </v-alert>
@@ -29,9 +29,9 @@
             outline
             color="warning"
             icon="priority_high"
-            :value="points.pointsCurrent !== points.pointsMax"
+            :value="pilot.IsMissingCBs"
           >
-            {{ points.pointsCurrent }} / {{ points.pointsMax }} CORE Bonuses
+            {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses
             selected
           </v-alert>
           <v-btn
@@ -97,98 +97,85 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import Selector from './Selector.vue'
-import { CoreBonusItem } from '../SheetComponents'
-import { Pilot, License, PilotLicense, CoreBonus, Manufacturer } from '@/class'
+  import Vue from 'vue'
+  import _ from 'lodash'
+  import Selector from './Selector.vue'
+  import { CoreBonusItem } from '../SheetComponents'
+  import { Pilot, License, PilotLicense, CoreBonus, Manufacturer } from '@/class'
 
-export default Vue.extend({
-  name: 'core-bonus-selector',
-  components: { Selector, CoreBonusItem },
-  props: {
-    pilot: Pilot,
-    levelUp: Boolean,
-  },
-  data: () => ({
-    bonusData: [],
-  }),
-  computed: {
-    points() {
-      var vm = this as any
-      return {
-        pointsCurrent: vm.pilot.CoreBonuses.length,
-        pointsMax: Math.floor(vm.pilot.Level / 3),
-      }
+  export default Vue.extend({
+    name: 'core-bonus-selector',
+    components: { Selector, CoreBonusItem },
+    props: {
+      pilot: Pilot,
+      levelUp: Boolean,
     },
-    selectionComplete() {
-      var vm = this as any
-      return vm.points.pointsCurrent === vm.points.pointsMax
-    },
-  },
-  methods: {
-    manufacturer(id: string): Manufacturer {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
-    },
-    requirement(m: string): string {
-      var vm = this as any
-      if (m === 'GMS')
-        return `${vm.getSelectedCount(
+    data: () => ({
+      bonusData: [],
+    }),
+    methods: {
+      manufacturer(id: string): Manufacturer {
+        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      },
+      requirement(m: string): string {
+        var vm = this as any
+        if (m === 'GMS')
+          return `${vm.getSelectedCount(
+            m
+          )} ${m} CORE Bonuses Selected<br>GMS CORE Bonuses do not have a license requirement`
+        var lvl = vm.getLevelCount(m)
+        var output = `${lvl} ${m} Licenses Acquired &emsp;//&emsp; `
+        output += `${vm.getAvailableCount(
           m
-        )} ${m} CORE Bonuses Selected<br>GMS CORE Bonuses do not have a license requirement`
-      var lvl = vm.getLevelCount(m)
-      var output = `${lvl} ${m} Licenses Acquired &emsp;//&emsp; `
-      output += `${vm.getAvailableCount(
-        m
-      )} ${m} CORE Bonuses Available &emsp;//&emsp; `
-      output += `${vm.getSelectedCount(m)} ${m} CORE Bonuses Selected`
-      if (vm.pilotLevel < 12)
-        output += `<br>${
-          lvl < 3 ? 'First' : 'Next'
-        } ${m} CORE Bonus available in ${3 % lvl || 3} License Level${
-          3 % lvl === 1 ? '' : 's'
-        }`
-      return output
-    },
-    getLevelCount(m: string): number {
-      var vm = this as any
-      return vm.pilot.Licenses.filter(
-        (x: PilotLicense) => x.License.Source === m
-      ).reduce((a: any, b: any) => +a + +b.Rank, 0)
-    },
-    getSelectedCount(m: string): number {
-      var vm = this as any
-      return vm.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
-        .length
-    },
-    getAvailableCount(m: string): number {
-      var vm = this as any
-      if (m === 'GMS') return Infinity
-      return Math.floor(vm.getLevelCount(m) / 3) - vm.getSelectedCount(m)
-    },
-    getSelectedStatus(cb: CoreBonus): boolean {
-      var vm = this as any
-      return vm.pilot.CoreBonuses.filter((x: any) => x.id === cb.ID).length > 0
-    },
-    getSelectableStatus(cb: CoreBonus): boolean {
-      var vm = this as any
-      return vm.getAvailableCount(cb.Source) > 0 && !vm.selectionComplete
-    },
-    addBonus(cb: CoreBonus) {
-      var vm = this as any
-      vm.pilot.AddCoreBonus(cb)
+        )} ${m} CORE Bonuses Available &emsp;//&emsp; `
+        output += `${vm.getSelectedCount(m)} ${m} CORE Bonuses Selected`
+        if (vm.pilotLevel < 12)
+          output += `<br>${
+            lvl < 3 ? 'First' : 'Next'
+          } ${m} CORE Bonus available in ${3 % lvl || 3} License Level${
+            3 % lvl === 1 ? '' : 's'
+          }`
+        return output
+      },
+      getLevelCount(m: string): number {
+        var vm = this as any
+        return vm.pilot.Licenses.filter(
+          (x: PilotLicense) => x.License.Source === m
+        ).reduce((a: any, b: any) => +a + +b.Rank, 0)
+      },
+      getSelectedCount(m: string): number {
+        var vm = this as any
+        return vm.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
+          .length
+      },
+      getAvailableCount(m: string): number {
+        var vm = this as any
+        if (m === 'GMS') return Infinity
+        return Math.floor(vm.getLevelCount(m) / 3) - vm.getSelectedCount(m)
+      },
+      getSelectedStatus(cb: CoreBonus): boolean {
+        var vm = this as any
+        return vm.pilot.CoreBonuses.filter((x: any) => x.id === cb.ID).length > 0
+      },
+      getSelectableStatus(cb: CoreBonus): boolean {
+        var vm = this as any
+        return vm.getAvailableCount(cb.Source) > 0 && vm.pilot.IsMissingCBs
+      },
+      addBonus(cb: CoreBonus) {
+        var vm = this as any
+        vm.pilot.AddCoreBonus(cb)
 
-      if (vm.levelUp && vm.selectionComplete) {
-        window.scrollTo(0, document.body.scrollHeight)
-      }
+        if (vm.levelUp && !vm.pilot.IsMissingCBs) {
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      },
     },
-  },
-  created() {
-    var vm = this as any
-    vm.bonusData = _.groupBy(
-      vm.$store.getters.getItemCollection('CoreBonuses'),
-      'source'
-    )
-  },
-})
+    created() {
+      var vm = this as any
+      vm.bonusData = _.groupBy(
+        vm.$store.getters.getItemCollection('CoreBonuses'),
+        'source'
+      )
+    },
+  })
 </script>

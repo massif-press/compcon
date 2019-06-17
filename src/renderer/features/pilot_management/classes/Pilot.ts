@@ -314,6 +314,18 @@ class Pilot {
     return this.skills
   }
 
+  public get CurrentSkillPoints(): number {
+    return this.skills.reduce((sum, skill) => sum + skill.Rank, 0)
+  }
+
+  public get MaxSkillPoints(): number {
+    return rules.minimum_pilot_skills + this.level
+  }
+
+  public get IsMissingSkills(): boolean {
+    return this.CurrentSkillPoints < this.MaxSkillPoints
+  }
+
   public set Skills(skills: PilotSkill[]) {
     this.skills = skills
     this.save()
@@ -356,6 +368,18 @@ class Pilot {
   // -- Talents -----------------------------------------------------------------------------------
   public get Talents(): PilotTalent[] {
     return this.talents
+  }
+
+  public get CurrentTalentPoints(): number {
+    return this.talents.reduce((sum, talent) => sum + talent.Rank, 0)
+  }
+
+  public get MaxTalentPoints(): number {
+    return rules.minimum_pilot_talents + this.level
+  }
+
+  public get IsMissingTalents(): boolean {
+    return this.CurrentTalentPoints < this.MaxTalentPoints
   }
 
   public set Talents(talents: PilotTalent[]) {
@@ -420,6 +444,18 @@ class Pilot {
     return this.core_bonuses
   }
 
+  public get CurrentCBPoints(): number {
+    return this.core_bonuses.length
+  }
+
+  public get MaxCBPoints(): number {
+    return Math.floor(this.level / 3)
+  }
+
+  public get IsMissingCBs(): boolean {
+    return this.CurrentCBPoints < this.MaxCBPoints
+  }
+
   public set CoreBonuses(coreBonuses: CoreBonus[]) {
     this.core_bonuses = coreBonuses
     this.save()
@@ -467,6 +503,18 @@ class Pilot {
     return this.licenses
   }
 
+  public get CurrentLicensePoints(): number {
+    return this.licenses.reduce((sum, license) => sum + license.Rank, 0)
+  }
+
+  public get MaxLicensePoints(): number {
+    return this.level
+  }
+
+  public get IsMissingLicenses(): boolean {
+    return this.CurrentLicensePoints < this.MaxLicensePoints
+  }
+
   public set Licenses(licenses: PilotLicense[]) {
     this.licenses = licenses
     this.save()
@@ -511,6 +559,18 @@ class Pilot {
   // -- Mech Skills -------------------------------------------------------------------------------
   public get MechSkills(): MechSkills {
     return this.mechSkills
+  }
+
+  public get CurrentHASEPoints(): number {
+    return this.mechSkills.Sum
+  }
+
+  public get MaxHASEPoints(): number {
+    return rules.minimum_mech_skills + this.level
+  }
+
+  public get IsMissingHASE(): boolean {
+    return this.CurrentHASEPoints < this.MaxHASEPoints
   }
 
   public set MechSkills(mechskills: MechSkills) {

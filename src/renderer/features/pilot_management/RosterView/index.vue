@@ -2,9 +2,11 @@
   <div class="roster-view">
     <v-container fluid class="pa-0 pt-3">
       <v-layout>
-        <v-flex class="text-xs-center roster-title">
+        <v-flex><hr class="mr-2 ml-2 mt-4"></v-flex>
+        <v-flex shrink class="ml-2 mr-2 text-xs-center roster-title">
           <span>pilot roster</span>
         </v-flex>
+        <v-flex><hr class="mr-2 ml-2 mt-4"></v-flex>
       </v-layout>
       <v-tooltip left>
         <v-menu offset-y slot="activator">
@@ -42,7 +44,7 @@
         <v-flex v-for="(p, i) in pilots" :key="p.id" class="mb-4" xs3>
           <pilot-card :pilot="p" :p-idx="i" :card-height="cardHeight" />
         </v-flex>
-        <v-flex xs3>
+        <v-flex xs3 class="mb-4">
           <add-pilot-card :card-height="cardHeight" />
         </v-flex>
       </v-layout>

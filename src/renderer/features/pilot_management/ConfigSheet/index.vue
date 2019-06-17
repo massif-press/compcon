@@ -112,7 +112,9 @@
               <v-flex>
                 <span class="white--text fluff-text ml-2">
                   {{ getManufacturer(config.Frame.Source).Name }}
-                  {{ config.Frame.MechTypeString }} Mech
+                  <v-chip small outline pill color="white">
+                    {{ config.Frame.MechTypeString }} Mech
+                  </v-chip>
                 </span>
               </v-flex>
             </v-layout>
@@ -236,12 +238,15 @@
         <v-layout>
           <span class="config-header">
             Mech Attributes
-            <span style="float: right">SIZE {{ config.Size }} &emsp;</span>
+            <span style="float: right">
+              <contributor label="SIZE" :value="config.Size" :contributors="config.SizeContributors" reverse/>
+              {{ config.Size }} &emsp;
+            </span>
           </span>
         </v-layout>
         <v-layout>
           <v-flex xs1 class="mr-3">
-            <v-layout column justify-center class="text-xs-center">
+            <v-layout column justify-center fill-height class="text-xs-center">
               <v-flex class="subheader">
                 <span class="caption">HULL</span>
               </v-flex>
@@ -268,10 +273,16 @@
               </v-flex>
               <v-divider dark class="pt-0 mt-0" />
               <v-flex class="subheader">
-                <span class="caption">SYSTEM POINTS</span>
+                <span class="caption">
+                  <contributor
+                    label="SYSTEM POINTS"
+                    :value="config.MaxSP"
+                    :contributors="config.SPContributors"
+                  />                
+                </span>
               </v-flex>
               <v-flex class="hase">
-                <span>{{ config.SP }}</span>
+                <span>{{ config.MaxSP }}</span>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -279,9 +290,13 @@
             <v-layout>
               <v-flex>
                 <v-layout>
-                  <v-flex shrink>
+                  <v-flex grow class="mr-2">
                     <span class="grey--text">
-                      STRUCTURE
+                      <contributor
+                        label="STRUCTURE"
+                        :value="config.MaxStructure"
+                        :contributors="config.StructureContributors"
+                      />
                       <b :style="`color: ${color.structure.dark}`">
                         {{ config.CurrentStructure || 0 }}
                         <span v-if="config.IsActive">
@@ -290,7 +305,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :current="config.CurrentStructure || config.MaxStructure"
+                      :key="'tb' + config.CurrentStructure"
+                      :current="config.CurrentStructure"
                       :max="config.MaxStructure"
                       large
                       :color="color.structure.dark"
@@ -302,21 +318,32 @@
                       @update="config.CurrentStructure = $event"
                     />
                   </v-flex>
-                  <v-flex>
+                  <v-flex shrink>
                     <span class="grey--text">
-                      &nbsp;HP
+                      &nbsp;
+                      <contributor
+                        label="HP"
+                        :value="config.MaxHP"
+                        :contributors="config.HPContributors"
+                      />
                       <b :style="`color: ${color.hp.dark}`">
-                        {{ config.CurrentHP || 0 }}
+                        {{ config.CurrentHP }}
                         <span v-if="config.IsActive">/{{ config.MaxHP }}</span>
                       </b>
-                      &emsp; ARMOR
+                      &emsp; 
+                      <contributor
+                        label="ARMOR"
+                        :value="config.Armor"
+                        :contributors="config.ArmorContributors"
+                      />
                       <b :style="`color: ${color.armor.dark}`">
                         {{ config.Armor }}
                       </b>
                     </span>
                     <v-layout>
                       <tick-bar
-                        :current="config.CurrentHP || config.MaxHP"
+                        :key="'tb' + config.CurrentHP"
+                        :current="config.CurrentHP"
                         :max="config.MaxHP"
                         large
                         :color="color.hp.dark"
@@ -340,6 +367,19 @@
                       </v-flex>
                     </v-layout>
                   </v-flex>
+                    <v-flex class="text-xs-right ml-4" v-if="config.IsActive">
+                        <span class="grey--text"> 
+                          FULL REPAIR&nbsp;
+                        </span>
+                        <v-layout justify-end >
+                          <v-tooltip left>
+                            <v-btn slot="activator" color="green darken-3" dark class="ma-0" @click="config.FullRepair()">
+                              <v-icon large>mdi-restore</v-icon>
+                            </v-btn>
+                            <span>Fully repair and recharge this mech.</span>
+                          </v-tooltip>
+                        </v-layout>
+                      </v-flex>
                 </v-layout>
               </v-flex>
             </v-layout>
@@ -347,9 +387,13 @@
             <v-layout class="mb-4">
               <v-flex>
                 <v-layout>
-                  <v-flex shrink>
+                  <v-flex grow class="mr-2">
                     <span class="grey--text">
-                      REACTOR STRESS
+                      <contributor
+                        label="REACTOR STRESS"
+                        :value="config.MaxStress"
+                        :contributors="config.StressContributors"
+                      />
                       <b :style="`color: ${color.stress.dark}`">
                         {{ config.CurrentStress || 0 }}
                         <span v-if="config.IsActive">
@@ -358,7 +402,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :current="config.CurrentStress || config.MaxStress"
+                      :key="'tb' + config.CurrentStress"
+                      :current="config.CurrentStress"
                       :max="config.MaxStress"
                       large
                       :color="color.stress.dark"
@@ -369,28 +414,54 @@
                       @update="config.CurrentStress = $event"
                     />
                   </v-flex>
-                  <v-flex>
+                  <v-flex >
                     <span class="grey--text">
                       <span v-if="config.IsActive">
                         &nbsp;HEAT:
-                        <b :style="`color: ${color.heatcap.dark}`">
+                        <b
+                          :style="
+                            `color: ${
+                              config.IsInDangerZone
+                                ? color.dangerzone.dark
+                                : color.heatcap.dark
+                            }`
+                          "
+                        >
                           {{ config.CurrentHeat || 0 }}
                         </b>
+                        <v-fade-transition>
+                          <span v-if="config.IsInDangerZone">
+                            <b :style="`color: ${color.dangerzone.dark}`">
+                              &nbsp; // DANGER ZONE //
+                            </b>
+                          </span>
+                        </v-fade-transition>
                         &emsp; &nbsp;
                       </span>
-                      HEAT CAPACITY
+                      <contributor
+                        label="HEAT CAPACITY"
+                        :value="config.HeatCapacity"
+                        :contributors="config.HeatCapContributors"
+                      />
                       <b :style="`color: ${color.heatcap.dark}`">
                         {{ config.HeatCapacity }}
                       </b>
                     </span>
                     <tick-bar
-                      :current="config.CurrentHeat || 0"
+                      :key="'tb' + config.CurrentHeat"
+                      :current="config.CurrentHeat"
                       :max="config.HeatCapacity"
                       large
-                      :color="color.heatcap.dark"
+                      :color="
+                        config.IsInDangerZone
+                          ? color.dangerzone.dark
+                          : color.heatcap.dark
+                      "
                       bg-color="red darken-4"
                       empty-icon="mdi-circle-outline"
-                      full-icon="mdi-circle"
+                      :full-icon="
+                        config.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'
+                      "
                       :readonly="!config.IsActive"
                       @update="config.CurrentHeat = $event"
                     />
@@ -398,7 +469,12 @@
                   <v-spacer />
                   <v-flex>
                     <span class="grey--text">
-                      &nbsp;REPAIR CAPACITY
+                      &nbsp;
+                      <contributor
+                        label="REPAIR CAPACITY"
+                        :value="config.RepairCapacity"
+                        :contributors="config.RepCapContributors"
+                      />
                       <b :style="`color: ${color.repcap.dark}`">
                         {{ config.CurrentRepairs }}
                         <span v-if="config.IsActive">
@@ -407,7 +483,8 @@
                       </b>
                     </span>
                     <tick-bar
-                      :current="config.CurrentRepairs || config.RepairCapacity"
+                      :key="'tb' + config.CurrentRepairs"
+                      :current="config.CurrentRepairs"
                       :max="config.RepairCapacity"
                       large
                       :color="color.repcap.dark"
@@ -427,8 +504,9 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="'tb' + config.CurrentCoreEnergy"
                       :config_id="config.id"
-                      :current="config.CurrentCoreEnergy || 1"
+                      :current="config.CurrentCoreEnergy"
                       :max="1"
                       large
                       :color="color.corepower.dark"
@@ -447,6 +525,7 @@
                       </b>
                     </span>
                     <tick-bar
+                      :key="'tb' + config.CurrentOvercharge"
                       :config_id="config.id"
                       :current="config.CurrentOvercharge"
                       :max="3"
@@ -466,30 +545,35 @@
                 :attr="'Attack Bonus'"
                 signed
                 :val="config.AttackBonus"
+                :contributors="config.AttackBonusContributors"
               />
               <statblock-item
                 :attr="'Tech Attack'"
                 signed
                 :val="config.TechAttack"
+                :contributors="config.TechAttackContributors"
               />
               <statblock-item
                 :attr="'Limited System Bonus'"
                 signed
                 :val="config.LimitedBonus"
+                :contributors="config.LimitedContributors"
               />
             </v-layout>
             <v-layout justify-space-between>
-              <statblock-item :attr="'Speed'" :val="config.Speed" />
-              <statblock-item :attr="'Evasion'" :val="config.Evasion" />
-              <statblock-item :attr="'E-Defense'" :val="config.EDefense" />
+              <statblock-item :attr="'Speed'" :val="config.Speed" :contributors="config.SpeedContributors"/>
+              <statblock-item :attr="'Evasion'" :val="config.Evasion" :contributors="config.EvasionContributors"/>
+              <statblock-item :attr="'E-Defense'" :val="config.EDefense" :contributors="config.EDefenseContributors"/>
               <statblock-item
                 :attr="'Sensor Range'"
                 :val="config.SensorRange"
+                :contributors="config.SensorRangeContributors"
               />
-              <statblock-item :attr="'Save Target'" :val="config.SaveTarget" />
+              <statblock-item :attr="'Save Target'" :val="config.SaveTarget" :contributors="config.SaveTargetContributors" />
             </v-layout>
           </v-flex>
         </v-layout>
+
 
         <v-layout><span class="config-header">Pilot Traits</span></v-layout>
 
@@ -654,141 +738,149 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
-import { getStatic } from '@/mixins/static'
-import {
-  EditableLabel,
-  EditableTextfield,
-  ItemTag,
-  EmptyView,
-  LazyDialog,
-  PipBar,
-  TickBar,
-} from '../components/UI'
-import {
-  StatblockItem,
-  TraitItem,
-  ImageSelector,
-  PilotTraits,
-} from './SheetComponents'
-import MechLoadout from './LoadoutEditor/MechLoadout.vue'
-import { clipboard } from 'electron'
-import ccc from '@/features/_shared/UI/CCColors'
-import { Mech, Frame, Pilot, Statblock } from '@/class'
-
-export default Vue.extend({
-  name: 'config-sheet',
-  components: {
+  import Vue from 'vue'
+  import { mapGetters } from 'vuex'
+  import { getStatic } from '@/mixins/static'
+  import {
     EditableLabel,
     EditableTextfield,
     ItemTag,
-    StatblockItem,
-    TraitItem,
-    MechLoadout,
-    ImageSelector,
     EmptyView,
     LazyDialog,
     PipBar,
     TickBar,
+    Contributor,
+  } from '../components/UI'
+  import {
+    StatblockItem,
+    TraitItem,
+    ImageSelector,
     PilotTraits,
-  },
-  data: () => ({
-    frameInfoModal: false,
-    appearanceModal: false,
-    printWarningDialog: false,
-    snackbar: false,
-    notification: '',
-    loadoutForceReloadTrigger: 0,
-    overcharge: ['+1', '+1d3', '+1d6', '+1d6+4'],
-  }),
-  methods: {
-    notify: function(contents: string) {
-      this.notification = contents
-      this.snackbar = true
+  } from './SheetComponents'
+  import MechLoadout from './LoadoutEditor/MechLoadout.vue'
+  import { clipboard } from 'electron'
+  import ccc from '@/features/_shared/UI/CCColors'
+  import { Mech, Frame, Pilot, Statblock } from '@/class'
+
+  export default Vue.extend({
+    name: 'config-sheet',
+    components: {
+      EditableLabel,
+      EditableTextfield,
+      ItemTag,
+      StatblockItem,
+      TraitItem,
+      MechLoadout,
+      ImageSelector,
+      EmptyView,
+      LazyDialog,
+      PipBar,
+      TickBar,
+      PilotTraits,
+      Contributor,
     },
-    hasEmptyMounts(): boolean {
-      if (!this.config) return false
-      if (!this.config.ActiveLoadout) return false
-      return this.config.ActiveLoadout.HasEmptyMounts
+    data: () => ({
+      frameInfoModal: false,
+      appearanceModal: false,
+      printWarningDialog: false,
+      snackbar: false,
+      notification: '',
+      loadoutForceReloadTrigger: 0,
+      overcharge: ['+1', '+1d3', '+1d6', '+1d6+4'],
+    }),
+    methods: {
+      notify: function(contents: string) {
+        this.notification = contents
+        this.snackbar = true
+      },
+      hasEmptyMounts(): boolean {
+        if (!this.config) return false
+        if (!this.config.ActiveLoadout) return false
+        return this.config.ActiveLoadout.HasEmptyMounts
+      },
+      selectMechImg() {
+        var vm = this as any
+        vm.$refs.mechImg.showModal()
+      },
+      getStaticPath(path: string) {
+        return getStatic(path)
+      },
+      openPrintOptions(override: boolean) {
+        if (!this.config) return
+        var vm = this as any
+        if (
+          !override &&
+          (this.hasEmptyMounts() ||
+            this.config.MaxSP - this.config.CurrentSP > 0 ||
+            this.config.CurrentSP > this.config.MaxSP ||
+            this.config.RequiredLicenses.filter(x => x.missing).length)
+        ) {
+          this.printWarningDialog = true
+        } else {
+          this.$router.push('/print-config')
+        }
+      },
+      copyConfigStatblock() {
+        var vm = this as any
+        clipboard.writeText(Statblock.Generate(null, this.config))
+        this.notify('Mech Statblock Copied to Clipboard')
+      },
+      activateConfig() {
+        if (this.config && this.config.IsActive) this.pilot.ActiveMech = null
+        else this.pilot.ActiveMech = this.config
+      },
     },
-    selectMechImg() {
-      var vm = this as any
-      vm.$refs.mechImg.showModal()
+    computed: {
+      pilot(): Pilot {
+        return this.$store.getters.getPilot as Pilot
+      },
+      config(): Mech | null {
+        return this.pilot.LoadedMech
+      },
+      color(): any {
+        return ccc
+      },
+      activeLoadoutID(): string {
+        return this.config.ActiveLoadout ? this.config.ActiveLoadout.ID : 'none'
+      },
     },
-    getStaticPath(path: string) {
-      return getStatic(path)
-    },
-    openPrintOptions(override: boolean) {
-      if (!this.config) return
-      var vm = this as any
-      if (
-        !override &&
-        (this.hasEmptyMounts() ||
-          this.config.MaxSP - this.config.CurrentSP > 0 ||
-          this.config.CurrentSP > this.config.MaxSP ||
-          this.config.RequiredLicenses.filter(x => x.missing).length)
-      ) {
-        this.printWarningDialog = true
-      } else {
-        this.$router.push('/print-config')
-      }
-    },
-    copyConfigStatblock() {
-      var vm = this as any
-      clipboard.writeText(Statblock.Generate(null, this.config))
-      this.notify('Mech Statblock Copied to Clipboard')
-    },
-    activateConfig() {
-      if (this.config && this.config.IsActive) this.pilot.ActiveMech = null
-      else this.pilot.ActiveMech = this.config
-    },
-  },
-  computed: {
-    pilot(): Pilot {
-      return this.$store.getters.getPilot as Pilot
-    },
-    config(): Mech | null {
-      return this.pilot.LoadedMech
-    },
-    color(): any {
-      return ccc
-    },
-    activeLoadoutID(): string {
-      return this.config.ActiveLoadout ? this.config.ActiveLoadout.ID : 'none'
-    },
-  },
-})
+  })
 </script>
 
 <style scoped>
-#config-sheet {
-  background-color: #424242;
-}
+  #config-sheet {
+    background-color: #424242;
+  }
 
-.config-header {
-  background-color: #757575;
-  color: #eeeeee;
-  font-weight: bold;
-  letter-spacing: 3px;
-  width: 100%;
-  padding-left: 10px;
-  margin-top: 10px;
-  margin-bottom: 3px;
-  height: 40px;
-  padding-top: 8px;
-}
+  .config-header {
+    background-color: #757575;
+    color: #eeeeee;
+    font-weight: bold;
+    letter-spacing: 3px;
+    width: 100%;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 3px;
+    height: 40px;
+    padding-top: 8px;
+  }
 
-.subheader {
-  background-color: #757575;
-  color: #eeeeee;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
+  .subheader {
+    background-color: #757575;
+    color: #eeeeee;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 2px;
+    margin-bottom: 0px;
+  }
 
-.hase {
-  color: #ffffff;
-  font-size: 3em;
-  font-weight: 300;
-}
+  .hase {
+    color: #ffffff;
+    font-size: 3em;
+    font-weight: 300;
+    margin-top: 0;
+    padding-top: 0;
+  }
 </style>
