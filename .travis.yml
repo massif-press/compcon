@@ -32,6 +32,8 @@ jobs:
       script:
         - yarn unit-test
         - yarn int-test
+        - yarn dist-travis --linux --publish never
+        - cat build/latest-linux.yml
     - stage: build  
       name: "mac"
       os: osx
