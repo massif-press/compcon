@@ -43,7 +43,7 @@ jobs:
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
         - yarn dist-travis --mac --publish never
         - cat build/latest-mac.yml
-        - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac
+        - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac/
     - stage: build
       name: "windows"
       os: osx
@@ -52,7 +52,7 @@ jobs:
         - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/win
         - yarn dist-travis --win --publish never
-        - aws s3 cp build/compcon*.exe s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/win
+        - aws s3 cp build/compcon*.exe s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/win/
     - stage: build
       name: "linux"
       os: linux
@@ -62,7 +62,7 @@ jobs:
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/linux
         - yarn dist-travis --linux --publish never
         - cat build/latest-linux.yml
-        - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux
+        - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux/
     - stage: deploy
       name: "deploy" 
       script:
