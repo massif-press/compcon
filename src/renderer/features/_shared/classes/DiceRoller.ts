@@ -179,7 +179,7 @@ class DiceRoller {
   }
 
   public static _rollDieSet(dieQuantity: number, dieType: number) {
-    if (dieQuantity <= 0) return { total: 0, rolls: [] }
+    if (dieQuantity <= 0 || dieType <= 0) return { result: 0, rolls: [] }
 
     let total: number = 0
     let rolls: number[] = []
@@ -191,12 +191,14 @@ class DiceRoller {
     }
 
     return {
-      total: total,
+      result: total,
       rolls: rolls,
     }
   }
 
   public static _rollAccuracyDice(numberOfDice: number): object {
+    if (numberOfDice === 0) return { result: 0, rolls: [] }
+    
     // needs to handle both positive and negative accuracy (aka difficulty)
     let rawResults = DiceRoller._rollDieSet(Math.abs(numberOfDice), 6)
 
@@ -204,12 +206,14 @@ class DiceRoller {
     if (numberOfDice < 0) total = -total
 
     return {
-      result: [total],
-      rolls: [rawResults.rolls],
+      result: total,
+      rolls: rawResults.rolls,
     }
   }
 
   public static _rollDie(dieType: number) {
+    if (dieType <= 0) return 0
+
     return Math.floor(Math.random() * Math.floor(dieType)) + 1
   }
 }
