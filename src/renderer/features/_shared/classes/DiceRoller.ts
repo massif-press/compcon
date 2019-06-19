@@ -1,25 +1,3 @@
-// TODO LIST
-// - move to interfaces file
-// create validator for dice (separate from parser) for unit testing the data
-
-declare interface ISkillRollResult {
-  rawDieRoll: number
-  staticBonus: number
-  accuracyDiceCount: number // net accuracy dice total - negative if at disadvantage
-  rawAccuracyRolls: number[] // results of each accuracy/disadvantage die
-  accuracyResult: number
-  isRisky: boolean
-  isHeroic: boolean
-  isSuccessful: boolean
-  stats: {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
-}
-
 class SkillRollResult implements ISkillRollResult {
   private _rawDieRoll: number
   private _staticBonus: number
@@ -106,42 +84,6 @@ class SkillRollResult implements ISkillRollResult {
   public get stats() {
     return this._stats
   }
-}
-
-declare interface IHitRollResult {
-  getStaticBonus(): number
-  isCritical(): boolean
-  getAccuracyDiceCount(): number // net accuracy dice total - negative if at disadvantage
-  getRawAccuracyRolls(): number[] // results of each accuracy/disadvantage die
-  getAccuracyResult(): number
-  getRawMainRolls(): number[] // raw rolls for the "main" dice
-  getKeptMainRolls(): number[] // kept dice from crits
-  getStats(): {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
-}
-
-declare interface IDamageRollResult {
-  getDiceString(): string
-  getStaticBonus(): number
-  isAP(): boolean
-  getDamage(): Object[]
-  getStats(): {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
-}
-
-declare interface IBareRollResult {
-  getDiceString(): string
-  getStaticBonus(): number
 }
 
 class DiceRoller {
