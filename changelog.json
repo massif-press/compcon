@@ -1,12 +1,19 @@
 {
-  "stable": "1.3.0b",
-  "beta": "1.3.7",
+  "stable": "1.3.8",
+  "beta": "1.4.0",
   "news": {
-    "date": "June 11th, 2019",
-    "version": "1.3.7",
-    "body": "<p>Hello all,<br />We're getting closer to a stable release and new beta features. Please bear with the final bug-fixing passes. A special thanks to @witchy this week, who found a ton of Compendium issues that I had missed.</p> <p>&nbsp;</p> <p><strong>KNOWN ISSUES</strong></p> <ul> <li>Weapon datatables only sort by the first damage or range element on weapons with multiple damage or range types</li> <li>There might be some remaining weirdness when importing old pilots or mechs &ndash; especially in relation to flex mounts and the old style Integrated Weapon CORE Bonus. If you notice this, deleting and remaking the offending loadout usually solves the problem</li> <li>The GMS \"Personalizations\" system is causing some issues with Active Mechs <strong>saving at full HP</strong> -- they won't save the extra 2 HP between reloads. This is currently being worked on.</li> </ul>"
+    "date": "June 17th, 2019",
+    "version": "1.4.0",
+    "body": "<p>Hello, Pilots,</p> <p>If you're updating from s<strong>table</strong>, this will be a pretty massive update: you've been moved to a very clean, relatively bug-free version of the LANCER prerelease v2. You'll also see a new main menu (and this changelog), cloud saves, and tons of bugfixes and quality-of-life improvements.&nbsp;</p> <p><strong>PLEASE NOTE:</strong> COMP/CON will attempt to convert your 1.3.0x pilots to 1.3.8+. This is successful in the vast majority of cases, but in certain situations C/C gets some mech loadouts wrong. If you find a mech has an incomplete or weird loadout, deleting the offending loadout and remaking it will solve any issues.</p> <p>On&nbsp;<strong>beta</strong>, you'll start to see more Active Mode features pop up.&nbsp;</p>"
   },
-  "changelog": [
+  "changelog": [{
+      "version": "1.4.0",
+      "changes": "<ul> <li>Mech stat contribution panels <ul> <li>Hover over a stat (eg. the \"HP\" text above the mech HP pips) to see the calculation panel</li> </ul> </li> <li>The Pilot Attribute Editor buttons have been moved a bit, and now alert you if you have any unspent trigger, talent, license, CORE bonus, or mech skill points left unspent</li> <li>Frame tags are now on the Frame select page</li> <li>There's a&nbsp;<strong>Full Repair</strong> button on active mechs, next to the HP/Armor display. This will repair and recharge your mech fully</li> <li>The heat indicator will change when the mech is in the&nbsp;<strong>danger zone</strong></li> <li>An issue that was causing a full-HP mech to \"lose\" the two HP from GMS Personalizations has been fixed</li> </ul>"
+    },
+    {
+      "version": "1.3.8",
+      "changes": "<ul> <li>Corrects Infiltrator/Steel Assassin text</li> <li>Removes the \"clear\" button from textblock inputs</li> <li>Fixes OSX Undo/Redo</li> <li>Fixes Integrated mount weapon tags</li> <li>Fixes a bug where a mech's Overcharge status would not save correctly</li> <li>HORUS CORE Bonus \"The Lesson of Shaping\" now works correctly</li> </ul>"
+    },
     {
       "version": "1.3.7",
       "changes": "<ul> <li>Corrects IPS-N RALEIGH's E-Defense and Repair Capacity</li> <li>Adds SP to the Frame Overview accessed through the License UI</li> <li>Corrects typos in the SSC SWALLOWTAIL trait descriptions</li> <li>Corrects a typo in the SSC BLACK WITCH's Mag Parry effect</li> <li>Custom Background should now save and load correctly</li> <li>Corrects the Prototype Weapon II effect</li> <li>Corrects a typo in Spotter I (Particularize)</li> <li>Corrects a typo in the Armsman description</li> <li>Corrects HORUS GORGON's Sensors (8)</li> <li>Corrects HA ISKANDER Tech Attack (+1).</li> <li>Corrects HA NAPOLEON Save Target (11).</li> <li>Corrects HA TOKUGAWA Save Target (11).</li> <li>Fixes an issue where the Mount Retrofitting effect couldn't be removed from the first Mount in the loadout list</li> <li>Fixes the persistent delete prompt when deleting/adding loadouts</li> </ul>"
