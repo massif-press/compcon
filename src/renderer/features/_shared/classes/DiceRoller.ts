@@ -1,12 +1,10 @@
 class SkillRollResult implements ISkillRollResult {
+  private _total: number
   private _rawDieRoll: number
   private _staticBonus: number
   private _accuracyDiceCount: number
   private _rawAccuracyRolls: number[]
   private _accuracyResult: number
-  private _risky: boolean
-  private _heroic: boolean
-  private _successful: boolean
   private _stats: {
     min: number
     max: number
@@ -16,14 +14,12 @@ class SkillRollResult implements ISkillRollResult {
   }
 
   constructor(
+    total: number,
     rawDieRoll: number,
     staticBonus: number,
     accuracyDiceCount: number,
     rawAccuracyRolls: number[],
     accuracyResult: number,
-    risky: boolean,
-    heroic: boolean,
-    successful: boolean,
     stats: {
       min: number
       max: number
@@ -32,14 +28,12 @@ class SkillRollResult implements ISkillRollResult {
       mode: number
     }
   ) {
+    this._total = total || 0
     this._rawDieRoll = rawDieRoll || 0
     this._staticBonus = staticBonus || 0
     this._accuracyDiceCount = accuracyDiceCount || 0
     this._rawAccuracyRolls = rawAccuracyRolls || []
     this._accuracyResult = accuracyResult || 0
-    this._risky = risky || false
-    this._heroic = heroic || false
-    this._successful = successful || false
     this._stats = stats || {
       min: 0,
       max: 0,
@@ -47,6 +41,10 @@ class SkillRollResult implements ISkillRollResult {
       median: 0,
       mode: 0,
     }
+  }
+  
+  public get total(): number {
+    return this._total
   }
 
   public get rawDieRoll(): number {
@@ -69,47 +67,32 @@ class SkillRollResult implements ISkillRollResult {
     return this._accuracyResult
   }
 
-  public get isRisky(): boolean {
-    return this._risky
-  }
-
-  public get isHeroic(): boolean {
-    return this._heroic
-  }
-
-  public get isSuccessful(): boolean {
-    return this._successful
-  }
-
   public get stats() {
     return this._stats
   }
 }
 
 class DiceRoller {
-  // note that a skill roll being difficult should be handled
-  // by incrementing totalDifficulty
+  // this class will make rolls, given all the inputs
+  // it makes no evaluation re their success or failure
   public static rollSkillCheck(
     staticBonus: number = 0,
     totalAccuracy: number = 0,
-    totalDifficulty: number = 0,
-    risky: boolean = false,
-    heroic: boolean = false
+    totalDifficulty: number = 0
   ): SkillRollResult {
-    let d20Result = DiceRoller._rollDie(20)
+    let d20Result: number = DiceRoller._rollDie(20)
 
-    let netAccuracyDice = totalAccuracy - totalDifficulty
+    let netAccuracyDice: number = totalAccuracy - totalDifficulty
     let accuracyResults = DiceRoller._rollAccuracyDice(netAccuracyDice)
+    let total = staticBonus + accuracyResults.result
 
     return new SkillRollResult(
+      total,
       d20Result,
       staticBonus,
       netAccuracyDice,
-      [],
-      0,
-      false,
-      false,
-      false,
+      accuracyResults.rolls,
+      accuracyResults.result,
       {
         min: 0,
         max: 0,
@@ -138,7 +121,8 @@ class DiceRoller {
     }
   }
 
-  public static _rollAccuracyDice(numberOfDice: number): object {
+  // parseRange = (text: string): { lower: number; upper: number; } => {
+  public static _rollAccuracyDice(numberOfDice: number): {result: number, rolls: number[] } {
     if (numberOfDice === 0) return { result: 0, rolls: [] }
     
     // needs to handle both positive and negative accuracy (aka difficulty)

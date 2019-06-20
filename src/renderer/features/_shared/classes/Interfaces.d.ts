@@ -1,12 +1,10 @@
 declare interface ISkillRollResult {
+  total: number
   rawDieRoll: number
   staticBonus: number
   accuracyDiceCount: number // net accuracy dice total - negative if at disadvantage
   rawAccuracyRolls: number[] // results of each accuracy/disadvantage die
   accuracyResult: number
-  isRisky: boolean
-  isHeroic: boolean
-  isSuccessful: boolean
   stats: {
     min: number
     max: number
