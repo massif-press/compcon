@@ -423,7 +423,7 @@ class Mech {
 
   public get IsInDangerZone(): boolean {
     return (
-      this.IsActive && this.current_heat >= Math.floor(this.HeatCapacity / 2)
+      this.IsActive && this.current_heat >= Math.ceil(this.HeatCapacity / 2)
     )
   }
 
