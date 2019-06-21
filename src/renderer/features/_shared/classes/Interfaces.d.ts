@@ -1,3 +1,11 @@
+declare interface IDiceStats {
+  min: number
+  max: number
+  mean: number
+  median: number
+  mode: number
+}
+
 declare interface ISkillRollResult {
   total: number
   rawDieRoll: number
@@ -5,13 +13,6 @@ declare interface ISkillRollResult {
   accuracyDiceCount: number // net accuracy dice total - negative if at disadvantage
   rawAccuracyRolls: number[] // results of each accuracy/disadvantage die
   accuracyResult: number
-  stats: {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
 }
 
 declare interface IHitRollResult {
