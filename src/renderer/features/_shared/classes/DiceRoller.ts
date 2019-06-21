@@ -81,10 +81,10 @@ class DiceRoller {
     totalAccuracy: number = 0,
     totalDifficulty: number = 0
   ): SkillRollResult {
-    let d20Result: number = DiceRoller._rollDie(20)
+    let d20Result: number = DiceRoller.rollDie(20)
 
     let netAccuracyDice: number = totalAccuracy - totalDifficulty
-    let accuracyResults = DiceRoller._rollAccuracyDice(netAccuracyDice)
+    let accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
     let total = d20Result + staticBonus + accuracyResults.result
 
     return new SkillRollResult(
@@ -97,14 +97,14 @@ class DiceRoller {
     )
   }
 
-  public static _rollDieSet(dieQuantity: number, dieType: number) {
+  public static rollDieSet(dieQuantity: number, dieType: number) {
     if (dieQuantity <= 0 || dieType <= 0) return { result: 0, rolls: [] }
 
     let total: number = 0
     let rolls: number[] = []
 
     for (let x = 0; x < dieQuantity; x++) {
-      let result = DiceRoller._rollDie(dieType)
+      let result = DiceRoller.rollDie(dieType)
       total += result
       rolls.push(result)
     }
@@ -116,11 +116,11 @@ class DiceRoller {
   }
 
   // parseRange = (text: string): { lower: number; upper: number; } => {
-  public static _rollAccuracyDice(numberOfDice: number): {result: number, rolls: number[] } {
+  public static rollAccuracyDice(numberOfDice: number): {result: number, rolls: number[] } {
     if (numberOfDice === 0) return { result: 0, rolls: [] }
     
     // needs to handle both positive and negative accuracy (aka difficulty)
-    let rawResults = DiceRoller._rollDieSet(Math.abs(numberOfDice), 6)
+    let rawResults = DiceRoller.rollDieSet(Math.abs(numberOfDice), 6)
 
     let total: number = Math.max(...rawResults.rolls)
     if (numberOfDice < 0) total = -total
@@ -131,7 +131,7 @@ class DiceRoller {
     }
   }
 
-  public static _rollDie(dieType: number) {
+  public static rollDie(dieType: number) {
     if (dieType <= 0) return 0
 
     return Math.floor(Math.random() * Math.floor(dieType)) + 1
