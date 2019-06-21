@@ -1,3 +1,28 @@
+// stats: {
+//   min: number
+//   max: number
+//   mean: number
+//   median: number
+//   mode: number
+// }
+
+// private _stats: {
+//   min: number
+//   max: number
+//   mean: number
+//   median: number
+//   mode: number
+// }
+
+// this._stats = stats || {
+//   min: 0,
+//   max: 0,
+//   mean: 0,
+//   median: 0,
+//   mode: 0,
+// }
+
+
 class SkillRollResult implements ISkillRollResult {
   private _total: number
   private _rawDieRoll: number
@@ -5,28 +30,14 @@ class SkillRollResult implements ISkillRollResult {
   private _accuracyDiceCount: number
   private _rawAccuracyRolls: number[]
   private _accuracyResult: number
-  private _stats: {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
 
   constructor(
     total: number,
     rawDieRoll: number,
-    staticBonus: number,
-    accuracyDiceCount: number,
-    rawAccuracyRolls: number[],
-    accuracyResult: number,
-    stats: {
-      min: number
-      max: number
-      mean: number
-      median: number
-      mode: number
-    }
+    staticBonus?: number,
+    accuracyDiceCount?: number,
+    rawAccuracyRolls?: number[],
+    accuracyResult?: number,
   ) {
     this._total = total || 0
     this._rawDieRoll = rawDieRoll || 0
@@ -34,13 +45,6 @@ class SkillRollResult implements ISkillRollResult {
     this._accuracyDiceCount = accuracyDiceCount || 0
     this._rawAccuracyRolls = rawAccuracyRolls || []
     this._accuracyResult = accuracyResult || 0
-    this._stats = stats || {
-      min: 0,
-      max: 0,
-      mean: 0,
-      median: 0,
-      mode: 0,
-    }
   }
   
   public get total(): number {
@@ -66,15 +70,12 @@ class SkillRollResult implements ISkillRollResult {
   public get accuracyResult(): number {
     return this._accuracyResult
   }
-
-  public get stats() {
-    return this._stats
-  }
 }
 
 class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
+  
   public static rollSkillCheck(
     staticBonus: number = 0,
     totalAccuracy: number = 0,
@@ -84,7 +85,7 @@ class DiceRoller {
 
     let netAccuracyDice: number = totalAccuracy - totalDifficulty
     let accuracyResults = DiceRoller._rollAccuracyDice(netAccuracyDice)
-    let total = staticBonus + accuracyResults.result
+    let total = d20Result + staticBonus + accuracyResults.result
 
     return new SkillRollResult(
       total,
@@ -92,14 +93,7 @@ class DiceRoller {
       staticBonus,
       netAccuracyDice,
       accuracyResults.rolls,
-      accuracyResults.result,
-      {
-        min: 0,
-        max: 0,
-        mean: 0,
-        median: 0,
-        mode: 0,
-      }
+      accuracyResults.result
     )
   }
 
@@ -145,4 +139,4 @@ class DiceRoller {
 }
 
 // module.exports = DiceRoller
-export default DiceRoller
+export { DiceRoller, SkillRollResult }
