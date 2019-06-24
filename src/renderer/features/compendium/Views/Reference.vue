@@ -241,7 +241,7 @@
                 <v-flex xs7>
                   <span class="subheading">
                     This result has different outcomes depending on how much
-                    structure damage your mech has remaining.
+                    structure your mech has remaining.
                     <br />
                     3+ - Your mech is
                     <b>stunned</b>
@@ -364,13 +364,17 @@
                     This result has different outcomes depending on how much
                     reactor stress your mech has remaining.
                     <br />
-                    3+ - Your mech is immediately
-                    <b>shut down</b>
+                    3+ - Your mech immediately suffers from the
+                    <b>exposed</b>
+                    condition until it takes action to remove it.
                     <br />
-                    2 - Your mech must pass a engineering save or suffer a
+                    2 - Your mech must pass a engineering check or suffer a
                     reactor meltdown at the end of 1d6 turns after this one
                     (rolled by the GM). You can reverse it by taking a full
-                    action and repeating this save.
+                    action and repeating this check. Even on a successful check,
+                    your mech suffers from the
+                    <b>exposed</b>
+                    condition until it takes action to remove it.
                     <br />
                     1 or lower - Your mech suffers a reactor meltdown at the end
                     of your next turn.
@@ -391,19 +395,22 @@
                 <v-flex xs7>
                   <span class="subheading">
                     Your reactor goes critical. Your mech will suffer a reactor
-                    meltdown at the end of your next turn..
+                    meltdown at the end of your next turn.
                   </span>
                 </v-flex>
               </v-layout>
               <v-divider class="ma-2" />
               <p class="ma-3">
                 <i>
-                  When a mech suffers a reactor meltdown, any pilot inside
-                  immediately dies, the mech is immediately vaporized in a
-                  catastrophic eruption, annihilating the wreck, and any
-                  characters inside a burst 2 area centered on the mech must
-                  pass an agility save or take 4d6 explosive damage, and half on
-                  a successful save.
+                  Certain overheating results can cause a reactor meltdown. This
+                  can be immediate, or involve a countdown (in which case update
+                  the countdown at the start of your turn. The meltdown triggers
+                  when specified). When a mech suffers a reactor meltdown, any
+                  pilot inside immediately dies, the mech is immediately
+                  vaporized in a catastrophic eruption, annihilating the wreck,
+                  and any characters inside a burst 2 area centered on the mech
+                  must pass an agility save or take 4d6 explosive damage, and
+                  half on a successful save
                 </i>
               </p>
             </v-card-text>
@@ -549,41 +556,41 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { actions } from 'lancer-data'
+  import Vue from 'vue'
+  import { actions } from 'lancer-data'
 
-export default Vue.extend({
-  name: 'reference',
-  data: () => ({
-    actions: [],
-  }),
-  methods: {
-    //TODO: external definitions
-    getColor(action: string, hover: boolean): string {
-      if (action === 'move') return hover ? 'red' : 'red darken-3'
-      else if (action === 'full') return hover ? 'indigo' : 'indigo darken-3'
-      else if (action === 'quick')
-        return hover ? 'primary lighten-3' : 'primary'
-      else if (action === 'overcharge')
-        return hover ? 'orange lighten-1' : 'orange darken-2'
-      else if (action === 'reaction')
-        return hover ? 'purple lighten-1' : 'purple darken-2'
-      else if (action === 'free')
-        return hover ? 'green lighten-1' : 'green darken-2'
-      else return 'grey'
+  export default Vue.extend({
+    name: 'reference',
+    data: () => ({
+      actions: [],
+    }),
+    methods: {
+      //TODO: external definitions
+      getColor(action: string, hover: boolean): string {
+        if (action === 'move') return hover ? 'red' : 'red darken-3'
+        else if (action === 'full') return hover ? 'indigo' : 'indigo darken-3'
+        else if (action === 'quick')
+          return hover ? 'primary lighten-3' : 'primary'
+        else if (action === 'overcharge')
+          return hover ? 'orange lighten-1' : 'orange darken-2'
+        else if (action === 'reaction')
+          return hover ? 'purple lighten-1' : 'purple darken-2'
+        else if (action === 'free')
+          return hover ? 'green lighten-1' : 'green darken-2'
+        else return 'grey'
+      },
+      getIcon(action: string): string {
+        if (action === 'move') return 'mdi-arrow-right-bold-hexagon-outline'
+        else if (action === 'full') return 'mdi-hexagon-slice-6'
+        else if (action === 'quick') return 'mdi-hexagon-slice-3'
+        else if (action === 'reaction') return 'mdi-redo-variant'
+        else if (action === 'overcharge') return 'mdi-alert-octagram'
+        else if (action === 'free') return 'mdi-axis-arrow'
+        else return '?'
+      },
     },
-    getIcon(action: string): string {
-      if (action === 'move') return 'mdi-arrow-right-bold-hexagon-outline'
-      else if (action === 'full') return 'mdi-hexagon-slice-6'
-      else if (action === 'quick') return 'mdi-hexagon-slice-3'
-      else if (action === 'reaction') return 'mdi-redo-variant'
-      else if (action === 'overcharge') return 'mdi-alert-octagram'
-      else if (action === 'free') return 'mdi-axis-arrow'
-      else return '?'
+    created() {
+      this.actions = actions
     },
-  },
-  created() {
-    this.actions = actions
-  },
-})
+  })
 </script>

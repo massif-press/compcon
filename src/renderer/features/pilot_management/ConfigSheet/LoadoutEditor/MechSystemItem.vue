@@ -48,15 +48,31 @@
       </div>
       <div v-else>
         <v-expansion-panel class="m-0">
-          <v-expansion-panel-content>
+          <v-expansion-panel-content
+            :class="system.IsDestroyed ? 'destroyed-bg' : ''"
+          >
             <v-layout slot="header">
-              <span class="subheading font-weight-bold">{{ system.Name }}</span>
+              <span
+                class="subheading font-weight-bold"
+                :style="
+                  system.IsDestroyed ? 'text-decoration: line-through;' : ''
+                "
+              >
+                {{ system.Name }}
+              </span>
+              <small v-if="system.IsLimited" class="warning--text">
+                &nbsp; ({{ system.Uses }} /
+                {{ system.MaxUses + pilot.LimitedBonus }})
+              </small>
+              <b v-if="system.IsDestroyed" class="red--text">
+                &emsp; // DESTROYED //
+              </b>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
                 {{ system.SP }} SP
               </span>
             </v-layout>
-            <system-card :itemData="system" />
+            <system-card :itemData="system" :integrated="integrated" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -93,24 +109,42 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { SystemCard } from '../../components/UI'
-import SystemTable from './SystemTable.vue'
-import { MechSystem, MechLoadout } from '@/class'
+  import Vue from 'vue'
+  import { SystemCard } from '../../components/UI'
+  import SystemTable from './SystemTable.vue'
+  import { MechSystem, MechLoadout } from '@/class'
 
-export default Vue.extend({
-  name: 'mech-system-item',
-  components: { SystemCard, SystemTable },
-  data: () => ({
-    systemSelectorModal: false,
-  }),
-  props: {
-    loadout: MechLoadout,
-    system: MechSystem,
-    index: Number,
-    empty: Boolean,
-    integrated: Boolean,
-    maxSP: Number,
-  },
-})
+  export default Vue.extend({
+    name: 'mech-system-item',
+    components: { SystemCard, SystemTable },
+    data: () => ({
+      systemSelectorModal: false,
+    }),
+    computed: {
+      pilot() {
+        return this.$store.getters.getPilot
+      },
+    },
+    props: {
+      loadout: MechLoadout,
+      system: MechSystem,
+      index: Number,
+      empty: Boolean,
+      integrated: Boolean,
+      maxSP: Number,
+    },
+  })
 </script>
+
+<style>
+  .destroyed-bg {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 196, 0, 0.1),
+      rgba(255, 196, 0, 0.1) 20px,
+      rgba(0, 0, 0, 0.1) 20px,
+      rgba(0, 0, 0, 0.1) 40px
+    );
+  }
+</style>
+

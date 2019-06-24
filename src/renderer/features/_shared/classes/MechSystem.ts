@@ -18,17 +18,20 @@ class MechSystem extends MechEquipment {
     return this.system_type
   }
 
-  public get IsUnique(): boolean {
-    return this.Tags.some(x => x.IsUnique)
-  }
-
   public static Serialize(item: MechSystem): IEquipmentData {
-    return { id: item.ID, notes: item.Notes }
+    return {
+      id: item.ID,
+      notes: item.Notes,
+      uses: item.Uses || 0,
+      destroyed: item.IsDestroyed || false,
+    }
   }
 
   public static Deserialize(itemData: IEquipmentData): MechSystem {
     let item = store.getters.getItemById('MechSystems', itemData.id)
     item.Notes = itemData.notes
+    item.Uses = itemData.uses || 0
+    item.destroyed = itemData.destroyed || false
     return item
   }
 }

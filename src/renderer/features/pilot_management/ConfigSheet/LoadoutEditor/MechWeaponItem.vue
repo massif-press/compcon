@@ -39,9 +39,18 @@
       </div>
       <div v-else>
         <v-expansion-panel class="m-0">
-          <v-expansion-panel-content>
+          <v-expansion-panel-content
+            :class="weaponSlot.Weapon.IsDestroyed ? 'destroyed-bg' : ''"
+          >
             <v-layout slot="header">
-              <span class="subheading font-weight-bold">
+              <span
+                class="subheading font-weight-bold"
+                :style="
+                  weaponSlot.Weapon.IsDestroyed
+                    ? 'text-decoration: line-through;'
+                    : ''
+                "
+              >
                 {{ weaponSlot.Weapon.name }}
                 <span
                   class="subheading font-weight-bold"
@@ -64,6 +73,13 @@
                   </span>
                 </span>
               </span>
+              <small v-if="weaponSlot.Weapon.IsLimited" class="warning--text">
+                &nbsp; ({{ weaponSlot.Weapon.Uses }} /
+                {{ weaponSlot.Weapon.MaxUses + pilot.LimitedBonus }})
+              </small>
+              <b v-if="weaponSlot.Weapon.IsDestroyed" class="red--text">
+                &emsp; // DESTROYED //
+              </b>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
                 <range-element dark small :range="getRange()" />
@@ -213,140 +229,143 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import {
-  RangeElement,
-  DamageElement,
-  WeaponCard,
-  ModCard,
-  CoreBonusCard,
-  LazyDialog,
-} from '../../components/UI'
-import WeaponTable from './WeaponTable.vue'
-import ModTable from './ModTable.vue'
-import {
-  MechWeapon,
-  WeaponMod,
-  WeaponSlot,
-  EquippableMount,
-  MechLoadout,
-  WeaponSize,
-  Range,
-  Damage,
-  RangeType,
-  DamageType,
-} from '@/class'
-
-export default Vue.extend({
-  name: 'mech-weapon-item',
-  components: {
-    WeaponCard,
-    ModCard,
+  import Vue from 'vue'
+  import {
     RangeElement,
     DamageElement,
-    WeaponTable,
-    LazyDialog,
-    ModTable,
+    WeaponCard,
+    ModCard,
     CoreBonusCard,
-  },
-  props: {
-    weaponSlot: WeaponSlot,
-    mount: EquippableMount,
-    loadout: MechLoadout,
-    maxSP: Number,
-    noMod: Boolean,
-  },
-  data: () => ({
-    weaponSelectorModal: false,
-    lockDialog: false,
-    stagedSuperheavy: {} as MechWeapon,
-    modLoader: false,
-    modModal: false,
-  }),
-  computed: {
-    hasImproved(): boolean {
-      return this.$store.getters.getPilot.has('CoreBonus', 'imparm')
+    LazyDialog,
+  } from '../../components/UI'
+  import WeaponTable from './WeaponTable.vue'
+  import ModTable from './ModTable.vue'
+  import {
+    MechWeapon,
+    WeaponMod,
+    WeaponSlot,
+    EquippableMount,
+    MechLoadout,
+    WeaponSize,
+    Range,
+    Damage,
+    RangeType,
+    DamageType,
+  } from '@/class'
+
+  export default Vue.extend({
+    name: 'mech-weapon-item',
+    components: {
+      WeaponCard,
+      ModCard,
+      RangeElement,
+      DamageElement,
+      WeaponTable,
+      LazyDialog,
+      ModTable,
+      CoreBonusCard,
     },
-  },
-  methods: {
-    //TODO: should not be hardcoded
-    getRange(): Range[] {
-      const w = this.weaponSlot.Weapon
-      if (!w) return []
-      let bonuses = [] as { type: RangeType; val: number }[]
-      if (w.Mod && w.Mod.AddedRange)
-        bonuses.push({
-          type: RangeType.Range,
-          val: w.Mod.AddedRange,
-        })
-      const pilot = this.$store.getters.getPilot
-      if (pilot.has('CoreBonus', 'neurolinked'))
-        bonuses.push({
-          type: RangeType.Range,
-          val: 3,
-        })
-      if (pilot.has('CoreBonus', 'gyges'))
-        bonuses.push({
-          type: RangeType.Threat,
-          val: 1,
-        })
-      if (
-        this.loadout.HasSystem('externalbatteries') &&
-        w.Damage[0].Type === DamageType.Energy
-      )
-        bonuses.push({
-          type: RangeType.Range,
-          val: 5,
-        })
-      return Range.AddBonuses(w.Range, bonuses)
+    props: {
+      weaponSlot: WeaponSlot,
+      mount: EquippableMount,
+      loadout: MechLoadout,
+      maxSP: Number,
+      noMod: Boolean,
     },
-    getDamage(): Damage[] {
-      const w = this.weaponSlot.Weapon
-      if (!w) return []
-      if (!w.Mod || !w.Mod.AddedDamage) return w.Damage
-      return w.Damage.concat(w.Mod.AddedDamage)
+    data: () => ({
+      weaponSelectorModal: false,
+      lockDialog: false,
+      stagedSuperheavy: {} as MechWeapon,
+      modLoader: false,
+      modModal: false,
+    }),
+    computed: {
+      pilot() {
+        return this.$store.getters.getPilot
+      },
+      hasImproved(): boolean {
+        return this.pilot.has('CoreBonus', 'imparm')
+      },
     },
-    toggleModModal(toggle: boolean) {
-      this.modLoader = toggle
-      this.modModal = toggle
-    },
-    selectItem(item: MechWeapon) {
-      const currentWeapon = this.weaponSlot.Weapon
-      if (currentWeapon && currentWeapon.Size === WeaponSize.Superheavy) {
-        if (item.Size === WeaponSize.Superheavy) {
-          this.equipWeapon(item)
+    methods: {
+      //TODO: should not be hardcoded
+      getRange(): Range[] {
+        const w = this.weaponSlot.Weapon
+        if (!w) return []
+        let bonuses = [] as { type: RangeType; val: number }[]
+        if (w.Mod && w.Mod.AddedRange)
+          bonuses.push({
+            type: RangeType.Range,
+            val: w.Mod.AddedRange,
+          })
+        const pilot = this.$store.getters.getPilot
+        if (pilot.has('CoreBonus', 'neurolinked'))
+          bonuses.push({
+            type: RangeType.Range,
+            val: 3,
+          })
+        if (pilot.has('CoreBonus', 'gyges'))
+          bonuses.push({
+            type: RangeType.Threat,
+            val: 1,
+          })
+        if (
+          this.loadout.HasSystem('externalbatteries') &&
+          w.Damage[0].Type === DamageType.Energy
+        )
+          bonuses.push({
+            type: RangeType.Range,
+            val: 5,
+          })
+        return Range.AddBonuses(w.Range, bonuses)
+      },
+      getDamage(): Damage[] {
+        const w = this.weaponSlot.Weapon
+        if (!w) return []
+        if (!w.Mod || !w.Mod.AddedDamage) return w.Damage
+        return w.Damage.concat(w.Mod.AddedDamage)
+      },
+      toggleModModal(toggle: boolean) {
+        this.modLoader = toggle
+        this.modModal = toggle
+      },
+      selectItem(item: MechWeapon) {
+        const currentWeapon = this.weaponSlot.Weapon
+        if (currentWeapon && currentWeapon.Size === WeaponSize.Superheavy) {
+          if (item.Size === WeaponSize.Superheavy) {
+            this.equipWeapon(item)
+          } else {
+            this.unequipSuperheavy()
+            this.equipWeapon(item)
+          }
+        } else if (item.Size === WeaponSize.Superheavy) {
+          this.stagedSuperheavy = item
+          this.lockDialog = true
         } else {
-          this.unequipSuperheavy()
           this.equipWeapon(item)
         }
-      } else if (item.Size === WeaponSize.Superheavy) {
-        this.stagedSuperheavy = item
-        this.lockDialog = true
-      } else {
-        this.equipWeapon(item)
-      }
+      },
+      equipWeapon(item: MechWeapon) {
+        this.weaponSlot.EquipWeapon(item)
+        this.weaponSelectorModal = false
+      },
+      equipSuperheavy(lockMount: EquippableMount) {
+        lockMount.Lock()
+        this.equipWeapon(this.stagedSuperheavy)
+        this.lockDialog = false
+      },
+      removeItem(item: MechWeapon) {
+        if (item.Size === WeaponSize.Superheavy) {
+          this.unequipSuperheavy()
+        }
+        this.weaponSlot.UnequipWeapon()
+        this.weaponSelectorModal = false
+      },
+      unequipSuperheavy() {
+        this.loadout.AllEquippableMounts(this.hasImproved).forEach(mount => {
+          mount.Unlock()
+        })
+      },
     },
-    equipWeapon(item: MechWeapon) {
-      this.weaponSlot.EquipWeapon(item)
-      this.weaponSelectorModal = false
-    },
-    equipSuperheavy(lockMount: EquippableMount) {
-      lockMount.Lock()
-      this.equipWeapon(this.stagedSuperheavy)
-      this.lockDialog = false
-    },
-    removeItem(item: MechWeapon) {
-      if (item.Size === WeaponSize.Superheavy) {
-        this.unequipSuperheavy()
-      }
-      this.weaponSlot.UnequipWeapon()
-      this.weaponSelectorModal = false
-    },
-    unequipSuperheavy() {
-      this.loadout.AllEquippableMounts(this.hasImproved).forEach(mount => {
-        mount.Unlock()
-      })
-    },
-  },
-})
+  })
 </script>

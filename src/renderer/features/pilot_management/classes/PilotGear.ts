@@ -38,6 +38,7 @@ abstract class PilotEquipment extends CompendiumItem {
     return {
       id: item.ID,
       notes: item.Notes,
+      destroyed: false,
     }
   }
 

@@ -6,6 +6,8 @@ declare interface IRankedData {
 declare interface IEquipmentData {
   id: string
   notes: string[]
+  destroyed: boolean
+  uses?: number
 }
 
 declare interface IMechWeaponData extends IEquipmentData {

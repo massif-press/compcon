@@ -653,13 +653,17 @@
         </v-layout>
 
         <!-- Pilot Loadout -->
-        <v-layout><span class="header no-icon">Pilot Gear</span></v-layout>
+        <v-layout class="header">
+          <span>Pilot Gear</span>
+        </v-layout>
         <v-layout>
           <v-flex xs12><pilot-loadout :pilot="pilot" /></v-flex>
         </v-layout>
 
         <!-- Pilot Notes -->
-        <v-layout><span class="header no-icon">Notes</span></v-layout>
+        <v-layout class="header">
+          <span>Notes</span>
+        </v-layout>
         <v-layout>
           <v-flex>
             <div class="pt-1 pb-1 pl-3 pr-3">
@@ -667,6 +671,7 @@
                 color="primary"
                 v-model="pilot.Notes"
                 auto-grow
+                outline
                 rows="1"
                 label="Pilot Notes"
               />

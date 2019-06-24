@@ -1,18 +1,29 @@
 ✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
+☐ Personalization issue occuring while saving currently-active mechs
+✔ Hangar toggle will not deactivate mechs @done(19-06-21 12:43)
+✔ Heat cap maxed on activation @done(19-06-21 12:45)
+✔ Check stress/structure tables @done(19-06-21 14:11)
+☐ usage items initialized without pilot limited bonus
 
 On Deck:
   ✔ Stat Contributors @done(19-06-13 20:31)
   ✔ X/Y stat/attribute points @done(19-06-17 14:13)
   ✔ Show Frame tags on select @done(19-06-17 14:24)
+  ✔ Mech Hangar -> Pilot Menu @done(19-06-21 12:40)
 
-  ☐ Active Mode Loadout
-    ☐ Item Cards
-    ☐ Read-only
-    ☐ Mark Equipment Destroyed
-      ☐ Spend rep to repair
-    ☐ Limited Pips
+  ☐ Active Mode
 
-  ☐ Item Notes
+
+  ✔ Mark Equipment Destroyed @done(19-06-20 20:53)
+  ✔ Limited Pips @done(19-06-20 15:19)
+    
+  ☐ Spend rep to repair
+  ☐ Spend rep to heal
+  ☐ 2 rep for str/stress
+  ☐ 4 rep for repair from DESTROYED
+
+  ✔ Item Notes @done(19-06-20 15:01)
+    ☐ Item notes on Pilot Gear
     ☐ Signature Weapon type selection
     ☐ Hardsuit detail rollable
 
@@ -41,6 +52,7 @@ On Deck:
   ☐ Downtime Resources
 
   ☐ Active Mode
+    ☐ Active Mode Sheet
     ☐ Set Status(es)
     ☐ Set Condition(s)
     ✔ Full Repair button @done(19-06-13 19:49)
