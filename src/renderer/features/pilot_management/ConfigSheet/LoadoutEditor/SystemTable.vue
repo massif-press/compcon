@@ -48,6 +48,7 @@
         placeholder="Search"
         clearable
       />
+      <filter-panel />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -127,12 +128,13 @@
   import Vue from 'vue'
   import _ from 'lodash'
   import { SystemCard } from '../../components/UI'
+  import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
   import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
   import { rules } from 'lancer-data'
 
   export default Vue.extend({
     name: 'system-table',
-    components: { SystemCard },
+    components: { SystemCard, FilterPanel },
     props: {
       loadout: MechLoadout,
       maxSP: Number,

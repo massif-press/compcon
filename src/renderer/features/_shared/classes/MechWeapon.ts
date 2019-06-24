@@ -48,10 +48,6 @@ class MechWeapon extends MechEquipment {
     return this.Mod.SP + this.sp
   }
 
-  public get IsUnique(): boolean {
-    return this.Tags.some(x => x.IsUnique)
-  }
-
   public get Damage(): Damage[] {
     return this.damage || []
   }
@@ -80,6 +76,8 @@ class MechWeapon extends MechEquipment {
     return {
       id: item.ID,
       notes: item.Notes,
+      uses: item.Uses || 0,
+      destroyed: item.IsDestroyed || false,
       mod: item.Mod ? item.Mod.ID : null,
     }
   }
@@ -87,6 +85,8 @@ class MechWeapon extends MechEquipment {
   public static Deserialize(itemData: IMechWeaponData): MechWeapon {
     let item = store.getters.getItemById('MechWeapons', itemData.id)
     item.Notes = itemData.notes
+    item.uses = itemData.uses || 0
+    item.destroyed = itemData.destroyed || false
     item.Mod = itemData.mod
       ? store.getters.getItemById('WeaponMods', itemData.mod)
       : null

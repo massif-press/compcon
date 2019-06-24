@@ -149,88 +149,93 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import io from '@/features/_shared/data_io'
-import { LazyDialog } from '../components/UI'
-import { Frame, Mech, Pilot } from '@/class'
+  import Vue from 'vue'
+  import io from '@/features/_shared/data_io'
+  import { LazyDialog } from '../components/UI'
+  import { Frame, Mech, Pilot } from '@/class'
 
-export default Vue.extend({
-  name: 'config-card',
-  components: { LazyDialog },
-  props: {
-    pilot: Pilot,
-    mech: Mech,
-    cardHeight: Number,
-  },
-  data: () => ({
-    deleteDialog: false,
-    exportDialog: false,
-    copyDialog: false,
-    notification: '',
-    snackbar: false,
-  }),
-  methods: {
-    notify(alert: string) {
-      this.notification = alert
-      this.snackbar = true
+  export default Vue.extend({
+    name: 'config-card',
+    components: { LazyDialog },
+    props: {
+      pilot: Pilot,
+      mech: Mech,
+      cardHeight: Number,
     },
-    activeColorClass(): string {
-      return this.mech.IsActive
-        ? 'success--text text--lighten-2'
-        : 'grey--text text--lighten-1'
+    data: () => ({
+      deleteDialog: false,
+      exportDialog: false,
+      copyDialog: false,
+      notification: '',
+      snackbar: false,
+    }),
+    methods: {
+      notify(alert: string) {
+        this.notification = alert
+        this.snackbar = true
+      },
+      activeColorClass(): string {
+        return this.mech.IsActive
+          ? 'success--text text--lighten-2'
+          : 'grey--text text--lighten-1'
+      },
+      panelColor(): string {
+        return this.mech.IsActive
+          ? `rgba(4, 48, 114, 0.55)`
+          : `rgba(0, 0, 0, 0.55)`
+      },
+      toConfigSheet() {
+        this.pilot.LoadedMech = this.mech
+        this.$router.push('./config')
+      },
+      activateConfig() {
+        if (this.mech.IsActive) {
+          this.pilot.ActiveMech = null
+          this.mech.Active = false
+        } else {
+          this.pilot.ActiveMech = this.mech
+        }
+        this.notify(
+          `${this.mech.Name} ${this.mech.IsActive ? 'Activated' : 'Deactivated'}`
+        )
+      },
+      deleteConfig() {
+        this.pilot.RemoveMech(this.mech)
+        this.notify('Configuration Deleted')
+      },
+      cloneConfig() {
+        this.pilot.CloneMech(this.mech)
+        this.copyDialog = false
+        this.notify('Configuration Duplicated')
+      },
+      exportConfig() {
+        const { dialog } = require('electron').remote
+        var path = dialog.showSaveDialog({
+          defaultPath: this.mech.Name.toLowerCase().replace(/\W/g, ''),
+          buttonLabel: 'Export Configuration',
+        })
+        io.saveFile(path + '.json', JSON.stringify(Mech.Serialize(this.mech)))
+        this.exportDialog = false
+        this.notify('Configuration Exported Successfully')
+      },
+      copyConfig() {
+        const { clipboard } = require('electron')
+        clipboard.writeText(JSON.stringify(Mech.Serialize(this.mech)))
+        this.exportDialog = false
+        this.notify('Configuration Copied to Clipboard')
+      },
     },
-    panelColor(): string {
-      return this.mech.IsActive
-        ? `rgba(4, 48, 114, 0.55)`
-        : `rgba(0, 0, 0, 0.55)`
-    },
-    toConfigSheet() {
-      this.pilot.LoadedMech = this.mech
-      this.$router.push('./config')
-    },
-    activateConfig() {
-      this.pilot.ActiveMech = this.mech
-      this.notify(
-        `${this.mech.Name} ${this.mech.IsActive ? 'Activated' : 'Deactivated'}`
-      )
-    },
-    deleteConfig() {
-      this.pilot.RemoveMech(this.mech)
-      this.notify('Configuration Deleted')
-    },
-    cloneConfig() {
-      this.pilot.CloneMech(this.mech)
-      this.copyDialog = false
-      this.notify('Configuration Duplicated')
-    },
-    exportConfig() {
-      const { dialog } = require('electron').remote
-      var path = dialog.showSaveDialog({
-        defaultPath: this.mech.Name.toLowerCase().replace(/\W/g, ''),
-        buttonLabel: 'Export Configuration',
-      })
-      io.saveFile(path + '.json', JSON.stringify(Mech.Serialize(this.mech)))
-      this.exportDialog = false
-      this.notify('Configuration Exported Successfully')
-    },
-    copyConfig() {
-      const { clipboard } = require('electron')
-      clipboard.writeText(JSON.stringify(Mech.Serialize(this.mech)))
-      this.exportDialog = false
-      this.notify('Configuration Copied to Clipboard')
-    },
-  },
-})
+  })
 </script>
 
 <style scoped>
-.inactive {
-  background: linear-gradient(#616161, #424242 80%);
-  background-color: #424242;
-}
+  .inactive {
+    background: linear-gradient(#616161, #424242 80%);
+    background-color: #424242;
+  }
 
-.inactive:hover {
-  background: linear-gradient(#546e7a, #616161 80%);
-  border: 0px;
-}
+  .inactive:hover {
+    background: linear-gradient(#546e7a, #616161 80%);
+    border: 0px;
+  }
 </style>

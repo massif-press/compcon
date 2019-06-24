@@ -288,9 +288,7 @@
           </v-flex>
           <v-flex>
             <v-layout>
-              <v-flex>
-                <v-layout>
-                  <v-flex grow class="mr-2">
+                  <v-flex shrink class="mr-2">
                     <span class="grey--text">
                       <contributor
                         label="STRUCTURE"
@@ -318,7 +316,7 @@
                       @update="config.CurrentStructure = $event"
                     />
                   </v-flex>
-                  <v-flex shrink>
+                  <v-flex>
                     <span class="grey--text">
                       &nbsp;
                       <contributor
@@ -380,14 +378,10 @@
                           </v-tooltip>
                         </v-layout>
                       </v-flex>
-                </v-layout>
-              </v-flex>
             </v-layout>
             <v-divider dark />
             <v-layout class="mb-4">
-              <v-flex>
-                <v-layout>
-                  <v-flex grow class="mr-2">
+                  <v-flex shrink class="mr-2">
                     <span class="grey--text">
                       <contributor
                         label="REACTOR STRESS"
@@ -466,7 +460,6 @@
                       @update="config.CurrentHeat = $event"
                     />
                   </v-flex>
-                  <v-spacer />
                   <v-flex>
                     <span class="grey--text">
                       &nbsp;
@@ -495,8 +488,7 @@
                       @update="config.CurrentRepairs = $event"
                     />
                   </v-flex>
-                  <v-spacer />
-                  <v-flex v-if="config.IsActive">
+                  <v-flex grow v-if="config.IsActive">
                     <span class="grey--text">
                       &nbsp;CORE POWER
                       <b :style="`color: ${color.corepower.dark}`">
@@ -516,8 +508,7 @@
                       @update="config.CurrentCoreEnergy = $event"
                     />
                   </v-flex>
-                  <v-spacer />
-                  <v-flex v-if="config.IsActive">
+                  <v-flex grow v-if="config.IsActive" class="ml-2">
                     <span class="grey--text">
                       &nbsp;OVERCHARGE
                       <b :style="`color: ${color.overcharge.dark}`">
@@ -537,8 +528,6 @@
                       @update="config.CurrentOvercharge = $event"
                     />
                   </v-flex>
-                </v-layout>
-              </v-flex>
             </v-layout>
             <v-layout justify-space-between>
               <statblock-item

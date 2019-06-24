@@ -96,6 +96,7 @@ class Mech {
 
   public set Active(toggle: boolean) {
     this.active = toggle
+    if (this.IsActive) this.FullRepair()
     this.save()
   }
 
@@ -244,7 +245,7 @@ class Mech {
 
   public get SpeedContributors(): string[] {
     return [
-      `FRAME Base Speed: ${this.Frame.SensorRange}`,
+      `FRAME Base Speed: ${this.Frame.Speed}`,
       `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
     ]
   }
@@ -513,6 +514,11 @@ class Mech {
     this.CurrentRepairs = this.RepairCapacity
     this.CurrentCoreEnergy = 1
     this.CurrentOvercharge = 0
+    this.loadouts.forEach(x => {
+      x.Equipment.forEach(y => {
+        if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
+      })
+    })
     this.save()
   }
 

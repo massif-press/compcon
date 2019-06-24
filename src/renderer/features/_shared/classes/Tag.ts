@@ -18,6 +18,10 @@ class Tag {
     this.item_type = ItemType.Tag
   }
 
+  public get Value(): number | string {
+    return this.val
+  }
+
   public set Value(val: number | string) {
     this.val = val
   }
@@ -78,6 +82,10 @@ class Tag {
 
   public get IsUnique(): boolean {
     return this.id === 'unique'
+  }
+
+  public get IsLimited(): boolean {
+    return this.id === 'limited'
   }
 
   public static Deserialize(data: ITagData[]): Tag[] {

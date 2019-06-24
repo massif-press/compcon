@@ -13,10 +13,12 @@ import mdColors from './mdColors'
 import PipBar from './PipBar.vue'
 import ItemTag from './ItemTag.vue'
 import ItemBadge from './ItemBadge.vue'
+import ItemNote from './ItemNote.vue'
 import ModCard from './ModCard.vue'
 import CoreBonusCard from './CoreBonusCard.vue'
 import EmptyView from './EmptyView.vue'
 import TickBar from './TickBar.vue'
+import LimitedBar from './LimitedBar.vue'
 import Contributor from './Contributor.vue'
 
 export {
@@ -40,4 +42,6 @@ export {
   TickBar,
   CoreBonusCard,
   Contributor,
+  ItemNote,
+  LimitedBar,
 }

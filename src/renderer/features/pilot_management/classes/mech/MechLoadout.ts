@@ -10,8 +10,9 @@ import {
   MountType,
   IntegratedMount,
   EquippableMount,
+  MechEquipment,
+  MechWeapon,
 } from '@/class'
-import MechWeapon from '@/features/_shared/classes/MechWeapon'
 
 class MechLoadout extends Loadout {
   private integratedMounts: IntegratedMount[]
@@ -104,6 +105,11 @@ class MechLoadout extends Loadout {
 
   public get HasEmptyMounts(): boolean {
     return this.equippableMounts.some(x => x === null)
+  }
+
+  public get Equipment(): MechEquipment[] {
+    return (this.Weapons as MechEquipment[]).concat(this
+      .Systems as MechEquipment[])
   }
 
   public get Weapons(): MechWeapon[] {

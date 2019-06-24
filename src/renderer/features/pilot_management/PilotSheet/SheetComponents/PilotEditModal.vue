@@ -8,6 +8,7 @@
     style="oveflow-y: hidden!important"
   >
     <v-btn
+      v-if="!noActivator"
       slot="activator"
       :class="highlight ? 'highlight' : 'edit-btn'"
       small
@@ -45,6 +46,7 @@
       title: String,
       modelRef: Boolean,
       highlight: Boolean,
+      noActivator: Boolean,
     },
     methods: {
       cancel() {
