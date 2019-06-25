@@ -34,16 +34,19 @@
           >
             <v-card
               v-ripple
-              :to="`/compendium/item/${item.data_type}/${item.id}`"
+              :to="`/compendium/item/${item.ItemType}/${item.id}`"
             >
+              <!-- -->
               <v-card-title
                 primary-title
-                :style="{ backgroundColor: colors[item.data_type].light }"
+                :style="{
+                  backgroundColor: colors[item.ItemType.toLowerCase()].light,
+                }"
                 :class="{ 'full-title': !item.description }"
                 class="white--text"
               >
                 <div class="headline">
-                  {{ item.data_type === 'frame' ? `${item.source} ` : ''
+                  {{ item.ItemType === 'frame' ? `${item.source} ` : ''
                   }}{{ item.name }}
                 </div>
                 <v-chip
@@ -53,7 +56,7 @@
                   color="white"
                   class="text-uppercase ml-auto"
                 >
-                  {{ item.data_type }}
+                  {{ item.ItemType }}
                 </v-chip>
               </v-card-title>
               <v-card-text v-if="item.description">
@@ -74,7 +77,7 @@
 import Vue from 'vue'
 import _ from 'lodash'
 import colors from '@/features/_shared/UI/CCColors'
-import { CompendiumItem } from '@/class'
+import { CompendiumItem, ItemType } from '@/class'
 
 export default Vue.extend({
   name: 'search-results',
@@ -125,17 +128,7 @@ export default Vue.extend({
     forceInput() {
       this.setSearch((this.$refs.input as HTMLInputElement).value)
     },
-    colorByType(type: string) {
-      if (type === 'frame') {
-        return 'purple'
-      } else if (type === 'weapon') {
-        return 'pink darken-2'
-      } else if (type === 'system') {
-        return 'teal'
-      } else {
-        return 'primary'
-      }
-    },
+
     onClick(item: CompendiumItem) {
       alert(item.Name)
     },

@@ -564,8 +564,9 @@ class Pilot {
         `Loadout "${loadout.Name}" does not exist on Pilot ${this.callsign}`
       )
     } else {
-      let newLoadout = new PilotLoadout(this.loadouts.length)
-      newLoadout.Name = loadout.Name + ' (Copy)'
+      let newLoadout = PilotLoadout.Deserialize(PilotLoadout.Serialize(loadout))
+      newLoadout.RenewID()
+      newLoadout.Name += ' (Copy)'
       this.loadouts.splice(index + 1, 0, newLoadout)
     }
     this.save()

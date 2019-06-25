@@ -68,10 +68,10 @@
           </v-layout>
           <v-divider />
           <v-layout row justify-center wrap fill-height align-center>
-            <v-flex v-if="config.cloud_img" xs3>
+            <v-flex v-if="config.CloudPortrait" xs3>
               <div :class="`justify-center pa-1 cloud`">
                 <v-img
-                  :src="config.cloud_img"
+                  :src="config.CloudPortrait"
                   position="top"
                   max-height="40vh"
                   max-width="40vw"
@@ -204,13 +204,9 @@ export default Vue.extend({
     },
     checkCloudSave(toggle: boolean) {
       if (toggle) {
-        if (this.config.custom_img) this.cloudSave(this.config.custom_img)
+        if (this.config.LocalPortrait) this.cloudSave(this.config.LocalPortrait)
       } else {
-        this.$store.dispatch('editConfig', {
-          id: this.config.id,
-          attr: 'cloud_img',
-          val: '',
-        })
+        this.config.SetCloudPortrait('')
       }
     },
     cloudSave(src: string) {
@@ -218,11 +214,7 @@ export default Vue.extend({
       apis
         .uploadImage(vm.userDataPath, 'frame', src)
         .then(function(json: any) {
-          vm.$store.dispatch('editConfig', {
-            id: vm.config.id,
-            attr: 'cloud_img',
-            val: json.data.link,
-          })
+          vm.config.SetCloudPortrait(json.data.link)
           vm.$emit('notify', 'Cloud Upload Successful')
         })
         .catch(function(err: any) {
