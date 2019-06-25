@@ -104,7 +104,9 @@ class Statblock {
       }
 
       if (mech.ActiveLoadout) {
-        for (const mount of mech.ActiveLoadout.AllEquippableMounts(true)) {
+        for (const mount of mech.ActiveLoadout.AllEquippableMounts(
+          pilot && pilot.has('CoreBonus', 'imparm')
+        )) {
           output += `  ${mount.MountName}: `
           if (mount.IsLocked) {
             output += 'SUPERHEAVY WEAPON BRACING'

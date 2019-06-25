@@ -30,6 +30,10 @@ abstract class Loadout {
     this.id = id
   }
 
+  public RenewID() {
+    this.id = uid.generate()
+  }
+
   public get Name(): string {
     return this.name
   }
