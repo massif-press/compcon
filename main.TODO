@@ -1,4 +1,5 @@
 ✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
+☐ usage items initialized without pilot limited bonus
 
 On Deck:
   ✔ Stat Contributors @done(19-06-13 20:31)
@@ -67,6 +68,18 @@ On Deck:
     ☐ Move RequiredLicense logic into LicensedItem abstract
       ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
 
+  ✔ fix compendium search @done(19-06-25 10:27)
+  ✔ fix pilot sort filters @done(19-06-25 10:29)
+  ✔ pilot loadout delete crashes app on multiple loadouts @done(19-06-25 10:35)
+  ✔ pilot loadout delete does not delete correct loadout @done(19-06-25 10:35)
+  ✔ dupe loadout does not also dupe items @done(19-06-24 16:25)
+  ✔ custom mech image does not save to cloud @done(19-06-25 10:40)
+  ✔ cannot change mech image after toggling save to cloud @done(19-06-25 10:40)
+  ✔ save to cloud toggle keeps resetting to false @done(19-06-25 10:40)
+  ✔ extra flex on statblock output @done(19-06-25 10:41)
+  ✔ H0R_OS SYS Upgrade II @done(19-06-25 12:22)
+
+
 Improvements:
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
@@ -120,6 +133,8 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Not serializing/deserializing overcharge @done(19-06-17 12:09)
+  ✔ CB shaping not working @done(19-06-17 12:18)
   ✔ Raleigh E-Defense @done(19-06-11 12:17)
   ✔ Raleigh repcap @done(19-06-11 12:17)
   ✔ SP missing in frame card @done(19-06-11 13:07)
