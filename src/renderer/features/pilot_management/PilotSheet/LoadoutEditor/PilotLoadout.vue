@@ -75,43 +75,11 @@
               </div>
             </v-card-text>
 
-            <pilot-edit-modal
-              no-activator
-              :modelRef="selectorModal"
-              @close="selectorModal = false"
-              title="Select Pilot Equipment"
-            >
-              <template v-slot:modal-content>
-                <item-table
-                  slot="modal-content"
-                  :item-type="itemType"
-                  :equipped-item="equippedItem"
-                  @select-item="equipItem"
-                  @remove-item="removeItem"
-                />
-              </template>
-            </pilot-edit-modal>
-
             <v-card-actions>
-              <lazy-dialog
-                :model="renameDialog"
-                title="Rename Loadout"
-                acceptString="Rename"
-                @accept="renameLoadout(pilotLoadout)"
-                @cancel="renameDialog = false"
-              >
-                <v-btn slot="activator" flat @click="renameDialog = true">
-                  <v-icon small left>edit</v-icon>
-                  Rename Loadout
-                </v-btn>
-                <v-card-text slot="modal-content">
-                  <v-text-field
-                    v-model="newLoadoutName"
-                    label="Loadout Name"
-                    type="text"
-                  ></v-text-field>
-                </v-card-text>
-              </lazy-dialog>
+              <v-btn slot="activator" flat @click="renameDialog = true">
+                <v-icon small left>edit</v-icon>
+                Rename Loadout
+              </v-btn>
 
               <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
                 <v-icon small left>file_copy</v-icon>
@@ -134,6 +102,39 @@
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
+
+    <pilot-edit-modal
+      no-activator
+      :modelRef="selectorModal"
+      @close="selectorModal = false"
+      title="Select Pilot Equipment"
+    >
+      <template v-slot:modal-content>
+        <item-table
+          slot="modal-content"
+          :item-type="itemType"
+          :equipped-item="equippedItem"
+          @select-item="equipItem"
+          @remove-item="removeItem"
+        />
+      </template>
+    </pilot-edit-modal>
+
+    <lazy-dialog
+      :model="renameDialog"
+      title="Rename Loadout"
+      acceptString="Rename"
+      @accept="renameLoadout()"
+      @cancel="renameDialog = false"
+    >
+      <v-card-text slot="modal-content">
+        <v-text-field
+          v-model="newLoadoutName"
+          label="Loadout Name"
+          type="text"
+        ></v-text-field>
+      </v-card-text>
+    </lazy-dialog>
 
     <lazy-dialog
       :model="deleteDialog"
@@ -211,11 +212,11 @@ export default Vue.extend({
       vm.equippedItem = item
       vm.selectorModal = true
     },
-    renameLoadout(loadout: PilotLoadout) {
+    renameLoadout() {
       if (this.newLoadoutName === '') {
         this.notify('Loadout names cannot be blank')
       } else {
-        loadout.Name = this.newLoadoutName
+        this.pilot.ActiveLoadout.Name = this.newLoadoutName
         this.newLoadoutName = ''
         this.renameDialog = false
       }
