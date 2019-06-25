@@ -64,7 +64,7 @@ import {
 import Statblock from './features/pilot_management/classes/Statblock'
 import { 
   DiceRoller,
-  SkillRollResult
+  d20RollResult
 } from './features/_shared/classes/DiceRoller'
 
 export {
@@ -120,5 +120,5 @@ export {
   Status,
   Statblock,
   DiceRoller,
-  SkillRollResult,
+  d20RollResult,
 }

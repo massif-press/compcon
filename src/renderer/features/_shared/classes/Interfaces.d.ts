@@ -6,7 +6,7 @@ declare interface IDiceStats {
   mode: number
 }
 
-declare interface ISkillRollResult {
+declare interface ISkillOrHitRollResult {
   total: number
   rawDieRoll: number
   staticBonus: number
