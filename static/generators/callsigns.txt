@@ -16,7 +16,6 @@ Biltmore
 Bimini
 Birch
 Bismillah
-Blackbeard
 Blackbird
 Blackcomb
 Blackjack
@@ -65,11 +64,8 @@ Cedega
 Century
 Ceylon
 Chablis
-Cheetah
-Cherrystone
 Chicago
 Chimera
-Chinook
 Chivano
 Chrichton
 Chrysalis
@@ -96,7 +92,6 @@ Crane
 Crescendo
 Crestline
 Crusader
-Crusoe
 Crypto
 Crystal
 Cuba

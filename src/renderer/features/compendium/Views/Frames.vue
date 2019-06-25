@@ -3,7 +3,7 @@
     <span class="display-1 text-uppercase font-weight-thin">FRAMES</span>
     <v-card>
       <v-layout justify-center>
-        <v-flex xs10>
+        <v-flex xs5>
           <v-text-field
             class="search-field ma-2"
             prepend-icon="search"
@@ -15,13 +15,29 @@
             clearable
           />
         </v-flex>
+        <v-flex xs5>
+          <v-select
+            class="search-field ma-2"
+            flat
+            single-line
+            hide-details
+            v-model="filter"
+            prepend-icon="mdi-filter-variant"
+            chips
+            deletable-chips
+            dense
+            label="Frame Type"
+            :items="frameTypes"
+            multiple
+            small-chips
+          />
+        </v-flex>
       </v-layout>
       <v-layout>
         <v-flex>
           <v-data-table
             :headers="headers"
             :items="frames"
-            :search="search"
             item-key="id"
             hide-actions
           >
@@ -88,13 +104,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { FrameStatblock } from '@/features/pilot_management/components/UI'
+import { MechType, Frame } from '@/class'
 
 export default Vue.extend({
   name: 'frames',
   components: { FrameStatblock },
   data: () => ({
-    frames: [],
     search: null,
+    filter: [],
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'Frame', align: 'left', value: 'Name' },
@@ -112,8 +129,25 @@ export default Vue.extend({
       { text: 'SP', align: 'right', value: 'SP' },
     ],
   }),
+  computed: {
+    frames() {
+      var vm = this as any
+      let i = vm.$store.getters.getItemCollection('Frames')
+
+      if (vm.search)
+        i = i.filter((x: Frame) =>
+          x.Name.toUpperCase().includes(vm.search.toUpperCase())
+        )
+
+      if (vm.filter.length) {
+        i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
+      }
+
+      return i
+    },
+  },
   created() {
-    this.frames = this.$store.getters.getItemCollection('Frames')
+    this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
 })
 </script>

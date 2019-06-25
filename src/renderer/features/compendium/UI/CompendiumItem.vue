@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title
         primary-title
-        :style="{ backgroundColor: colors[item.ItemType].light }"
+        :style="{ backgroundColor: colors[item.ItemType.toLowerCase()].light }"
         class="white--text"
       >
         <div class="headline">{{ item.name }}</div>
@@ -46,11 +46,11 @@
       </v-card-title>
       <v-card-text>
         <p
-          class="fluff-text grey--text"
+          class="fluff-text"
           v-if="item.description"
           v-html="item.description"
         ></p>
-        <p v-if="item.effect" v-html="item.effect"></p>
+        <p v-if="item.effect" class="effect-text" v-html="item.effect"></p>
       </v-card-text>
       <template v-if="item.ItemType === 'Frame'">
         <v-divider />

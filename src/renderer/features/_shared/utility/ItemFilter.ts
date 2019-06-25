@@ -6,8 +6,9 @@ import {
   RangeType,
   DamageType,
   MechEquipment,
+  MechSystem,
+  ItemType,
 } from '@/class'
-import MechSystem from '../classes/MechSystem'
 
 declare interface IEquipmentFilter {
   license: string[]
@@ -24,7 +25,7 @@ declare interface IWeaponFilter extends IEquipmentFilter {
 }
 
 declare interface ISystemFilter extends IEquipmentFilter {
-  systemType: SystemType[]
+  systemType: (SystemType | string)[]
 }
 
 class ItemFilter {
@@ -83,6 +84,26 @@ class ItemFilter {
     items = this.FilterEquipment(items, filter) as MechSystem[]
     if (filter.systemType && filter.systemType.length) {
       items = items.filter(x => filter.systemType.includes(x.Type))
+    }
+    return items
+  }
+
+  //includes weapon mods
+  public static FilterSystemsCompendium(
+    items: MechEquipment[],
+    filter: ISystemFilter
+  ): MechEquipment[] {
+    items = this.FilterEquipment(items, filter)
+    if (filter.systemType && filter.systemType.length) {
+      console.log(filter.systemType)
+      items = items.filter(function(item) {
+        if (item.ItemType === ItemType.MechSystem)
+          return filter.systemType.includes((item as MechSystem).Type)
+        else if (item.ItemType === ItemType.WeaponMod) {
+          return filter.systemType.includes(SystemType.Mod)
+        }
+        return false
+      })
     }
     return items
   }

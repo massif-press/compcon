@@ -5,7 +5,7 @@
     :class="itemData.IsDestroyed ? 'destroyed-bg' : ''"
   >
     <v-card-text class="pb-0 pt-0">
-      <div v-if="!integrated">
+      <div v-if="!integrated && !tableItem">
         <v-tooltip left v-if="itemData.IsDestroyed">
           <v-btn
             slot="activator"
@@ -163,50 +163,50 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import ItemTag from './ItemTag.vue'
-  import ItemNote from './ItemNote.vue'
-  import LimitedBar from './LimitedBar.vue'
-  import { Pilot, MechSystem } from '@/class'
+import Vue from 'vue'
+import ItemTag from './ItemTag.vue'
+import ItemNote from './ItemNote.vue'
+import LimitedBar from './LimitedBar.vue'
+import { Pilot, MechSystem } from '@/class'
 
-  export default Vue.extend({
-    name: 'system-card',
-    props: {
-      itemData: MechSystem,
-      tableItem: Boolean,
-      integrated: Boolean,
+export default Vue.extend({
+  name: 'system-card',
+  props: {
+    itemData: MechSystem,
+    tableItem: Boolean,
+    integrated: Boolean,
+  },
+  components: { ItemTag, ItemNote, LimitedBar },
+  computed: {
+    pilot(): Pilot {
+      return this.$store.getters.getPilot
     },
-    components: { ItemTag, ItemNote, LimitedBar },
-    computed: {
-      pilot(): Pilot {
-        return this.$store.getters.getPilot
-      },
+  },
+  methods: {
+    addNote() {
+      this.itemData.AddNote('')
     },
-    methods: {
-      addNote() {
-        this.itemData.AddNote('')
-      },
-      updateNote(index: number, note: string) {
-        this.itemData.UpdateNote(index, note)
-      },
-      removeNote(index: number) {
-        this.itemData.DeleteNote(index)
-      },
-      ToggleDestroy() {
-        if (this.itemData.IsDestroyed) this.itemData.Repair()
-        else this.itemData.Destroy()
-      },
+    updateNote(index: number, note: string) {
+      this.itemData.UpdateNote(index, note)
     },
-  })
+    removeNote(index: number) {
+      this.itemData.DeleteNote(index)
+    },
+    ToggleDestroy() {
+      if (this.itemData.IsDestroyed) this.itemData.Repair()
+      else this.itemData.Destroy()
+    },
+  },
+})
 </script>
 
 <style scoped>
-  .hover-opacity {
-    opacity: 0.5;
-    transition: opacity 0.3s;
-  }
-  .hover-opacity:hover {
-    opacity: 1;
-  }
+.hover-opacity {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.hover-opacity:hover {
+  opacity: 1;
+}
 </style>
 

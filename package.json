@@ -39,19 +39,23 @@
     },
     "win": {
       "icon": "icons/icon.ico",
-      "target": [{
-        "target": "portable",
-        "arch": [
-          "x64",
-          "ia32"
-        ]
-      }]
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
     "linux": {
       "icon": "icons",
-      "target": [{
-        "target": "AppImage"
-      }],
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ],
       "category": "Game"
     }
   },
