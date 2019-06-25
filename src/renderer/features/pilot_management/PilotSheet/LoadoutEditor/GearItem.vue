@@ -64,7 +64,7 @@
                 {{ itemData.uses ? `${itemData.uses} Uses` : '' }}
               </span>
             </v-layout>
-            <gear-card :itemData="itemData" table-item />
+            <gear-card :itemData="itemData" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>

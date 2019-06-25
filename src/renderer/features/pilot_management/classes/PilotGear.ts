@@ -11,6 +11,10 @@ abstract class PilotEquipment extends CompendiumItem {
     this.notes = []
   }
 
+  private save() {
+    store.dispatch('saveData')
+  }
+
   public get Notes(): string[] {
     return this.notes
   }
@@ -21,11 +25,20 @@ abstract class PilotEquipment extends CompendiumItem {
 
   public AddNote(note: string) {
     this.notes.push(note)
+    this.save()
+  }
+
+  public UpdateNote(index: number, note: string) {
+    if (this.notes.length >= index) {
+      this.notes.splice(index, 1, note)
+      this.save()
+    }
   }
 
   public DeleteNote(index: number) {
     if (this.notes.length >= index) {
       this.notes.splice(index, 1)
+      this.save()
     }
   }
 

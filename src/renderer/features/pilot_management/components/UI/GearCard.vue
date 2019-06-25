@@ -57,6 +57,63 @@
         <v-layout class="ml-2">
           <item-tag v-for="t in itemData.Tags" :key="t.id" :tag-obj="t" />
         </v-layout>
+        <div v-if="!tableItem" class="pb-4">
+          <v-layout>
+            <v-flex xs1>
+              <v-divider class="mt-2 mr-3" />
+            </v-flex>
+            <v-flex shrink>
+              <span class="caption grey--text">ITEM NOTES</span>
+            </v-flex>
+            <v-flex grow>
+              <v-divider class="mt-2 ml-3" />
+            </v-flex>
+            <v-flex xs1></v-flex>
+          </v-layout>
+          <v-layout
+            v-for="(n, idx) in itemData.Notes"
+            :key="`${itemData.Name}_note_${idx}`"
+            class="mt-1"
+          >
+            <v-flex xs11>
+              <item-note :content="n" light @update="updateNote(idx, $event)" />
+            </v-flex>
+            <v-flex xs1>
+              <v-tooltip top>
+                <v-btn
+                  slot="activator"
+                  outline
+                  color="error"
+                  icon
+                  dark
+                  small
+                  @click="removeNote(idx)"
+                >
+                  <v-icon>close</v-icon>
+                </v-btn>
+                <span>Delete Note</span>
+              </v-tooltip>
+            </v-flex>
+          </v-layout>
+          <v-tooltip top>
+            <v-btn
+              slot="activator"
+              outline
+              color="warning"
+              icon
+              dark
+              small
+              absolute
+              bottom
+              right
+              style="bottom: 10px"
+              @click="addNote"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+            <span>Add Note</span>
+          </v-tooltip>
+        </div>
       </v-card-text>
     </v-card>
   </div>
@@ -66,13 +123,25 @@
 import Vue from 'vue'
 import { RangeElement, DamageElement } from './'
 import ItemTag from './ItemTag.vue'
+import ItemNote from './ItemNote.vue'
 import { Pilot } from '@/class'
 export default Vue.extend({
   name: 'gear-card',
-  components: { DamageElement, RangeElement, ItemTag },
+  components: { DamageElement, RangeElement, ItemTag, ItemNote },
   props: {
     itemData: Object,
     tableItem: Boolean,
+  },
+  methods: {
+    addNote() {
+      this.itemData.AddNote('')
+    },
+    updateNote(index: number, note: string) {
+      this.itemData.UpdateNote(index, note)
+    },
+    removeNote(index: number) {
+      this.itemData.DeleteNote(index)
+    },
   },
 })
 </script>
