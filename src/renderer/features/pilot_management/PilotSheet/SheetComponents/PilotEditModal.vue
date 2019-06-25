@@ -28,7 +28,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-spacer class="mb-5" />
+      <div class="mb-5" />
       <slot v-if="loader" name="modal-content"></slot>
     </v-card>
   </v-dialog>
