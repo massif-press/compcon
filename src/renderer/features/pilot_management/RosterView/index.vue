@@ -63,10 +63,9 @@ export default Vue.extend({
   data: () => ({
     sorts: [
       { name: 'Created', field: '' },
-      { name: 'Callsign', field: 'callsign' },
-      { name: 'Name', field: 'name' },
-      { name: 'Background', field: 'background' },
-      { name: 'License Level', field: 'level' },
+      { name: 'Callsign', field: 'Callsign' },
+      { name: 'Name', field: 'Name' },
+      { name: 'License Level', field: 'Level' },
     ],
     currentSort: { name: 'Created', field: '' },
     ascending: false,
@@ -77,7 +76,7 @@ export default Vue.extend({
       var allPilots = this.$store.getters['getAllPilots']
       if (this.currentSort && this.currentSort.field !== '') {
         allPilots =
-          this.currentSort.field === 'level'
+          this.currentSort.field === 'Level'
             ? _.sortBy(allPilots, this.currentSort.field)
             : _.sortBy(allPilots, p => p[this.currentSort.field].toUpperCase())
       }

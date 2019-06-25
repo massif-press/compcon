@@ -130,78 +130,78 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import apis from '../pilot_management/logic/apis'
-  import { remote } from 'electron'
-  import { info } from 'lancer-data'
+import Vue from 'vue'
+import apis from '../pilot_management/logic/apis'
+import { remote } from 'electron'
+import { info } from 'lancer-data'
 
-  export default Vue.extend({
-    name: 'landing-page',
-    data: () => ({
-      ver: '1.3.8',
-      changelog: {},
-      err: false,
-      loading: true,
-      lancerVer: info.version,
-    }),
-    methods: {
-      toUpdate() {
-        remote.shell.openExternal('https://massif-press.itch.io/compcon')
-      },
+export default Vue.extend({
+  name: 'landing-page',
+  data: () => ({
+    ver: '1.3.9',
+    changelog: {},
+    err: false,
+    loading: true,
+    lancerVer: info.version,
+  }),
+  methods: {
+    toUpdate() {
+      remote.shell.openExternal('https://massif-press.itch.io/compcon')
     },
-    created: function() {
-      if (Vue.prototype.version) this.ver = Vue.prototype.version
-      apis
-        .getChangelog()
-        .then((response: any) => {
-          this.loading = false
-          if (!response || !response.files) {
-            this.err = true
-          } else {
-            this.err = false
-            this.changelog = JSON.parse(response.files['changelog.json'].content)
-          }
-        })
-        .catch(() => {
-          this.loading = false
+  },
+  created: function() {
+    if (Vue.prototype.version) this.ver = Vue.prototype.version
+    apis
+      .getChangelog()
+      .then((response: any) => {
+        this.loading = false
+        if (!response || !response.files) {
           this.err = true
-        })
-      this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
-      this.$store.dispatch('loadData')
-      this.$store.dispatch('buildLicenses')
-    },
-  })
+        } else {
+          this.err = false
+          this.changelog = JSON.parse(response.files['changelog.json'].content)
+        }
+      })
+      .catch(() => {
+        this.loading = false
+        this.err = true
+      })
+    this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
+    this.$store.dispatch('loadData')
+    this.$store.dispatch('buildLicenses')
+  },
+})
 </script>
 
 <style scoped>
-  #wrapper {
-    width: 100%;
-    height: 100vh;
+#wrapper {
+  width: 100%;
+  height: 100vh;
 
-    background: radial-gradient(
-      ellipse at top left,
-      rgba(255, 255, 255, 1) 40%,
-      rgba(229, 229, 229, 0.9) 100%
-    );
-  }
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(255, 255, 255, 1) 40%,
+    rgba(229, 229, 229, 0.9) 100%
+  );
+}
 </style>
 
 <style>
-  body {
-    overflow: hidden;
-  }
-  /* width */
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
+body {
+  overflow: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
 
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0);
-  }
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
 
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
 </style>
