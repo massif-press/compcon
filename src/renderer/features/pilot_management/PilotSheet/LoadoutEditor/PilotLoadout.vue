@@ -120,35 +120,36 @@
 
               <v-spacer />
 
-              <lazy-dialog
-                :model="deleteDialog"
-                title="Delete Loadout"
-                acceptString="Delete"
-                acceptColor="warning"
-                @accept="deleteLoadout(pilotLoadout)"
-                @cancel="deleteDialog = false"
+              <v-btn
+                slot="activator"
+                flat
+                color="error"
+                @click="deleteDialog = true"
               >
-                <v-btn
-                  slot="activator"
-                  flat
-                  color="error"
-                  @click="deleteDialog = true"
-                >
-                  <v-icon small left>edit</v-icon>
-                  Delete Loadout
-                </v-btn>
-                <v-card-text slot="modal-content">
-                  <p>
-                    Are you sure you want to delete this loadout? This action
-                    cannot be undone.
-                  </p>
-                </v-card-text>
-              </lazy-dialog>
+                <v-icon small left>edit</v-icon>
+                Delete Loadout
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
     </v-tabs>
+
+    <lazy-dialog
+      :model="deleteDialog"
+      title="Delete Loadout"
+      acceptString="Delete"
+      acceptColor="warning"
+      @accept="deleteLoadout()"
+      @cancel="deleteDialog = false"
+    >
+      <v-card-text slot="modal-content">
+        <p>
+          Are you sure you want to delete this loadout? This action cannot be
+          undone.
+        </p>
+      </v-card-text>
+    </lazy-dialog>
 
     <v-snackbar v-model="snackbar" :timeout="5000">
       <span v-html="notification" />
@@ -198,9 +199,9 @@ export default Vue.extend({
       this.notification = alert
       this.snackbar = true
     },
-    deleteLoadout(loadout: PilotLoadout) {
+    deleteLoadout() {
       this.deleteDialog = false
-      this.pilot.RemoveLoadout(loadout)
+      this.pilot.RemoveLoadout(this.pilot.ActiveLoadout)
       this.notify('Loadout Deleted')
     },
     openSelector(item: PilotEquipment, index: number, itemType: ItemType) {

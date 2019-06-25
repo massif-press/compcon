@@ -9,11 +9,23 @@ const colors = {
     light: '#C2185B',
     dark: '#D81B60',
   },
+  mechweapon: {
+    light: '#C2185B',
+    dark: '#D81B60',
+  },
   system: {
     light: '#009688',
     dark: '#4DB6AC',
   },
+  mechsystem: {
+    light: '#009688',
+    dark: '#4DB6AC',
+  },
   mod: {
+    light: '#00ACC1',
+    dark: '#00BCD4',
+  },
+  weaponmod: {
     light: '#00ACC1',
     dark: '#00BCD4',
   },

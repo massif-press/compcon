@@ -586,8 +586,12 @@ class Mech {
         `Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`
       )
     } else {
-      var newLoadout = new MechLoadout(this)
-      newLoadout.Name = loadout.Name + ' (Copy)'
+      var newLoadout = MechLoadout.Deserialize(
+        MechLoadout.Serialize(loadout),
+        this
+      )
+      newLoadout.RenewID()
+      newLoadout.Name += ' (Copy)'
       this.loadouts.splice(index + 1, 0, newLoadout)
     }
     this.save()
