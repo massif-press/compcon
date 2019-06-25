@@ -5832,9 +5832,9 @@ kleur@^3.0.2:
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
 lancer-data@^1.9.2:
-  version "1.9.11"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.11.tgz#7e168c78051b6b240f8457588c66c80f2c8ab2d5"
-  integrity sha512-AtMQ8R0sCxVhwTLQUDHf6xbM/E7w9iI0mIqrCZKAmOBxfpJRSzCAD6X+lpPh7nttOuJR/JYuOfaRM/WSH5FOrw==
+  version "1.9.13"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.13.tgz#f2a2245ce1eeaa7ebe0c0f6d22591e453ac8f502"
+  integrity sha512-mitE8rUcpnpBKJ/5H/psiyPPArc9h5vLTT7szs7rEsCCwZ48/iTMpUEkJlaNXtipKD2qiMxznm0fl5WhXJ0n1A==
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -9239,9 +9239,9 @@ uglify-js@3.4.x:
     source-map "~0.6.1"
 
 uglify-js@^3.1.4:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.0.tgz#704681345c53a8b2079fb6cec294b05ead242ff5"
-  integrity sha512-W+jrUHJr3DXKhrsS7NUVxn3zqMOFn0hL/Ei6v0anCIMoKC93TjcflTagwIHLW7SfMFfiQuktQyFVCFHGUE0+yg==
+  version "3.5.12"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.5.12.tgz#6b759cabc08c3e91fe82323d6387019f0c5864cd"
+  integrity sha512-KeQesOpPiZNgVwJj8Ge3P4JYbQHUdZzpx6Fahy6eKAYRSV4zhVmLXoC+JtOeYxcHCHTve8RG1ZGdTvpeOUM26Q==
   dependencies:
     commander "~2.20.0"
     source-map "~0.6.1"

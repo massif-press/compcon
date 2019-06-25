@@ -1,14 +1,27 @@
 {
-  "stable": "1.3.8",
+  "stable": "1.3.9",
   "beta": "1.4.0",
   "news": {
-    "date": "June 17th, 2019",
+    "date": "June 25th, 2019",
     "version": "1.4.0",
-    "body": "<p>Hello, Pilots,</p> <p>If you're updating from s<strong>table</strong>, this will be a pretty massive update: you've been moved to a very clean, relatively bug-free version of the LANCER prerelease v2. You'll also see a new main menu (and this changelog), cloud saves, and tons of bugfixes and quality-of-life improvements.&nbsp;</p> <p><strong>PLEASE NOTE:</strong> COMP/CON will attempt to convert your 1.3.0x pilots to 1.3.8+. This is successful in the vast majority of cases, but in certain situations C/C gets some mech loadouts wrong. If you find a mech has an incomplete or weird loadout, deleting the offending loadout and remaking it will solve any issues.</p> <p>On&nbsp;<strong>beta</strong>, you'll start to see more Active Mode features pop up.&nbsp;</p>"
+    "body": "<p>Hello, Pilots,</p> <p>If you're updating from <strong>stable</strong>, this will be a pretty massive update: you've been moved to a very clean, relatively bug-free version of the LANCER prerelease v2. You'll also see a new main menu (and this changelog), cloud saves, and tons of bugfixes and quality-of-life improvements.&nbsp;</p> <p><strong>PLEASE NOTE:</strong> COMP/CON will attempt to convert your 1.3.0x pilots to 1.3.8+. This is successful in the vast majority of cases, but in certain situations C/C gets some mech loadouts wrong. If you find a mech has an incomplete or weird loadout, deleting the offending loadout and remaking it will solve any issues.</p> <p>On&nbsp;<strong>beta</strong>, you'll start to see more Active Mode features pop up.&nbsp;</p>"
   },
-  "changelog": [{
+  "changelog": [
+    {
       "version": "1.4.0",
       "changes": "<ul> <li>Mech stat contribution panels <ul> <li>Hover over a stat (eg. the \"HP\" text above the mech HP pips) to see the calculation panel</li> </ul> </li> <li>The Pilot Attribute Editor buttons have been moved a bit, and now alert you if you have any unspent trigger, talent, license, CORE bonus, or mech skill points left unspent</li> <li>Frame tags are now on the Frame select page</li> <li>There's a&nbsp;<strong>Full Repair</strong> button on active mechs, next to the HP/Armor display. This will repair and recharge your mech fully</li> <li>The heat indicator will change when the mech is in the&nbsp;<strong>danger zone</strong></li> <li>An issue that was causing a full-HP mech to \"lose\" the two HP from GMS Personalizations has been fixed</li> </ul>"
+    },
+    {
+      "version": "1.3.8",
+      "changes": "<ul> <li>Corrects Infiltrator/Steel Assassin text</li> <li>Removes the \"clear\" button from textblock inputs</li> <li>Fixes OSX Undo/Redo</li> <li>Fixes Integrated mount weapon tags</li> <li>Fixes a bug where a mech's Overcharge status would not save correctly</li> <li>HORUS CORE Bonus \"The Lesson of Shaping\" now works correctly</li> </ul>"
+    },
+    {
+      "version": "1.4.0",
+      "changes": "<ul> <li>Mech stat contribution panels <ul> <li>Hover over a stat (eg. the \"HP\" text above the mech HP pips) to see the calculation panel</li> </ul> </li> <li>The Pilot Attribute Editor buttons have been moved a bit, and now alert you if you have any unspent trigger, talent, license, CORE bonus, or mech skill points left unspent</li> <li>Frame tags are now on the Frame select page</li> <li>There's a&nbsp;<strong>Full Repair</strong> button on active mechs, next to the HP/Armor display.</li> <li>The heat indicator will change when the mech is in the&nbsp;<strong>danger zone</strong></li> <li>An issue that was causing a full-HP mech to \"lose\" the two HP from GMS Personalizations has been fixed</li> </ul>"
+    },
+    {
+      "version": "1.3.9",
+      "changes": "<ul> <li>Fixes the Compendium search bar</li> <li>Fixes Pilot sorting filters</li> <li>Fixes a host of Pilot Loadout issues</li> <li>Fixes Pilot and Mech Loadout copying</li> <li>Fixes Mech images not correctly saving to cloud</li> <li>Corrects an extra Flex mount from showing up on Mech Statblock output</li> <li>Various data fixes</li> </ul>"
     },
     {
       "version": "1.3.8",

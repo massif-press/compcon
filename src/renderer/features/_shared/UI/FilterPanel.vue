@@ -189,6 +189,7 @@ export default Vue.extend({
   name: 'filter-panel',
   props: {
     system: Boolean,
+    includeMods: Boolean,
     weapon: Boolean,
     size: String,
   },
@@ -250,7 +251,9 @@ export default Vue.extend({
       return Object.keys(WeaponType).sort() as WeaponType[]
     },
     weaponSizes(): WeaponSize[] {
-      return rules.mount_fittings[this.size].sort() as WeaponSize[]
+      if (this.size)
+        return rules.mount_fittings[this.size].sort() as WeaponSize[]
+      return Object.keys(WeaponSize).sort() as WeaponSize[]
     },
   },
   methods: {

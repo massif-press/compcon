@@ -2,20 +2,26 @@
   <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH SYSTEMS</span>
     <v-card>
-      <v-text-field
-        class="search-field ma-2"
-        prepend-icon="search"
-        v-model="search"
-        flat
-        hide-details
-        single-line
-        placeholder="Search"
-        clearable
-      />
+      <v-layout row class="pa-3">
+        <v-flex>
+          <v-text-field
+            class="search-field ma-2"
+            prepend-icon="search"
+            v-model="search"
+            flat
+            hide-details
+            single-line
+            placeholder="Search"
+            clearable
+          />
+        </v-flex>
+        <v-flex shrink>
+          <filter-panel system include-mods @update="updateFilter" />
+        </v-flex>
+      </v-layout>
       <v-data-table
         :headers="headers"
         :items="systems"
-        :search="search"
         item-key="id"
         hide-actions
       >
@@ -50,14 +56,16 @@
 <script lang="ts">
 import Vue from 'vue'
 import { SystemCard } from '@/features/pilot_management/components/UI'
-import { WeaponMod } from '@/class'
+import { WeaponMod, MechSystem } from '@/class'
+import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
+import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
 export default Vue.extend({
   name: 'systems',
-  components: { SystemCard },
+  components: { SystemCard, FilterPanel },
   data: () => ({
-    systems: [],
     search: null,
+    detailFilter: {},
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'System', align: 'left', value: 'Name' },
@@ -65,11 +73,29 @@ export default Vue.extend({
       { text: 'SP Cost', align: 'left', value: 'SP' },
     ],
   }),
-  created() {
-    this.systems = this.$store.getters
-      .getItemCollection('MechSystems')
-      .concat(this.$store.getters.getItemCollection('WeaponMods'))
-      .filter((x: WeaponMod) => x.Source)
+  computed: {
+    systems(): MechSystem[] {
+      const vm = this as any
+      let items = vm.$store.getters
+        .getItemCollection('MechSystems')
+        .concat(this.$store.getters.getItemCollection('WeaponMods'))
+        .filter((x: WeaponMod) => x.Source)
+
+      if (vm.search)
+        items = items.filter(x =>
+          x.Name.toLowerCase().includes(vm.search.toLowerCase())
+        )
+
+      items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
+
+      return items
+    },
+  },
+  methods: {
+    updateFilter(filter) {
+      this.detailFilter = filter
+      this.$forceUpdate()
+    },
   },
 })
 </script>

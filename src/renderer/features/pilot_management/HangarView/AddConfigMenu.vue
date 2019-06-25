@@ -59,6 +59,21 @@
                 placeholder="Search"
                 clearable
               />
+              <v-select
+                dark
+                flat
+                single-line
+                hide-details
+                v-model="filter"
+                prepend-icon="mdi-filter-variant"
+                chips
+                deletable-chips
+                dense
+                label="Frame Type"
+                :items="frameTypes"
+                multiple
+                small-chips
+              />
             </v-toolbar>
             <v-card light>
               <v-data-table
@@ -210,140 +225,148 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import path from 'path'
-  import io from '@/features/_shared/data_io'
-  import validator from '../logic/validator'
-  import { Pilot, Frame, Mech } from '@/class'
-  import { ItemCard } from '../components/UI'
+import Vue from 'vue'
+import path from 'path'
+import io from '@/features/_shared/data_io'
+import validator from '../logic/validator'
+import { Pilot, Frame, Mech, MechType } from '@/class'
+import { ItemCard } from '../components/UI'
 
-  export default Vue.extend({
-    name: 'new-config',
-    components: { ItemCard },
-    props: {
-      pilot: Pilot,
+export default Vue.extend({
+  name: 'new-config',
+  components: { ItemCard },
+  props: {
+    pilot: Pilot,
+  },
+  data: () => ({
+    nc_step: 0,
+    newConfigName: null,
+    showLocked: false,
+    search: null,
+    filter: [],
+    headers: [
+      { align: 'left', sortable: false },
+      { text: 'Frame', align: 'left', value: 'Name' },
+    ],
+    infoDialog: false,
+    selectedFrame: {} as Frame,
+  }),
+  computed: {
+    frames() {
+      var vm = this as any
+      let i = vm.$store.getters.getItemCollection('Frames')
+
+      if (!vm.showLocked)
+        i = i.filter(
+          (x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS'
+        )
+
+      if (vm.search)
+        i = i.filter((x: Frame) =>
+          x.Name.toUpperCase().includes(vm.search.toUpperCase())
+        )
+
+      if (vm.filter.length) {
+        i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
+      }
+
+      return i
     },
-    data: () => ({
-      nc_step: 0,
-      newConfigName: null,
-      showLocked: false,
-      search: null,
-      headers: [
-        { align: 'left', sortable: false },
-        { text: 'Frame', align: 'left', value: 'Name' },
-      ],
-      infoDialog: false,
-      selectedFrame: {} as Frame,
-    }),
-    computed: {
-      frames() {
-        var vm = this as any
-        let i = vm.$store.getters.getItemCollection('Frames')
-
-        if (!vm.showLocked)
-          i = i.filter(
-            (x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS'
-          )
-
-        if (vm.search)
-          i = i.filter((x: Frame) =>
-            x.Name.toUpperCase().includes(vm.search.toUpperCase())
-          )
-
-        return i
-      },
+    frameTypes() {
+      return Object.keys(MechType).sort() as MechType[]
     },
-    methods: {
-      spawnPopup(frame: Frame) {
-        this.selectedFrame = frame
-        this.infoDialog = true
-      },
-      randomMechname() {
-        var vm = this as any
-        vm.newConfigName = `${io.randomName('mechnames.txt')}`
-        vm.$forceUpdate()
-      },
-      select(frame: Frame) {
-        this.selectedFrame = frame
-        this.nc_step++
-      },
-      isLocked(frame: Frame): boolean {
-        if (frame.Source === 'GMS') return false
-        return !this.pilot.has('License', frame.Name, 2)
-      },
-      addNewConfig() {
-        let newMech = new Mech(this.selectedFrame, this.pilot)
-        newMech.Name = this.newConfigName || 'New Config'
-        this.pilot.AddMech(newMech)
-        this.newConfigName = null
-        ;(this.selectedFrame = {} as Frame), (this.nc_step = 1)
-        this.$emit('close')
-      },
-      importFile() {
-        const { dialog } = require('electron').remote
-        var path = dialog.showOpenDialog({
-          title: 'Load Configuration Data',
-          buttonLabel: 'Load',
-          properties: ['openFile'],
-          filters: [{ name: 'Configuration Data', extensions: ['json'] }],
-        })
-        var data = io.importFile(path[0])
-        try {
-          var mechData = validator.checkMechVersion(data)
-          this.pilot.AddMech(Mech.Deserialize(mechData, this.pilot))
-        } catch (error) {
-          alert('Config data validation failed')
-          console.error(error)
-        }
-        this.$emit('close')
-      },
-      importClipboard() {
-        var vm = this
-        const { clipboard } = require('electron')
-        validator.clipboardConfig(clipboard.readText(), function(err, result) {
-          if (err) {
-            alert(err)
-          } else {
-            try {
-              var mechData = validator.checkMechVersion(result)
-              vm.pilot.AddMech(Mech.Deserialize(mechData, vm.pilot))
-            } catch (error) {
-              alert('Config data validation failed')
-              console.error(error)
-            }
+  },
+  methods: {
+    spawnPopup(frame: Frame) {
+      this.selectedFrame = frame
+      this.infoDialog = true
+    },
+    randomMechname() {
+      var vm = this as any
+      vm.newConfigName = `${io.randomName('mechnames.txt')}`
+      vm.$forceUpdate()
+    },
+    select(frame: Frame) {
+      this.selectedFrame = frame
+      this.nc_step++
+    },
+    isLocked(frame: Frame): boolean {
+      if (frame.Source === 'GMS') return false
+      return !this.pilot.has('License', frame.Name, 2)
+    },
+    addNewConfig() {
+      let newMech = new Mech(this.selectedFrame, this.pilot)
+      newMech.Name = this.newConfigName || 'New Config'
+      this.pilot.AddMech(newMech)
+      this.newConfigName = null
+      ;(this.selectedFrame = {} as Frame), (this.nc_step = 1)
+      this.$emit('close')
+    },
+    importFile() {
+      const { dialog } = require('electron').remote
+      var path = dialog.showOpenDialog({
+        title: 'Load Configuration Data',
+        buttonLabel: 'Load',
+        properties: ['openFile'],
+        filters: [{ name: 'Configuration Data', extensions: ['json'] }],
+      })
+      var data = io.importFile(path[0])
+      try {
+        var mechData = validator.checkMechVersion(data)
+        this.pilot.AddMech(Mech.Deserialize(mechData, this.pilot))
+      } catch (error) {
+        alert('Config data validation failed')
+        console.error(error)
+      }
+      this.$emit('close')
+    },
+    importClipboard() {
+      var vm = this
+      const { clipboard } = require('electron')
+      validator.clipboardConfig(clipboard.readText(), function(err, result) {
+        if (err) {
+          alert(err)
+        } else {
+          try {
+            var mechData = validator.checkMechVersion(result)
+            vm.pilot.AddMech(Mech.Deserialize(mechData, vm.pilot))
+          } catch (error) {
+            alert('Config data validation failed')
+            console.error(error)
           }
-        })
-        this.$parent.$forceUpdate()
-        this.$emit('close')
-      },
+        }
+      })
+      this.$parent.$forceUpdate()
+      this.$emit('close')
     },
-  })
+  },
+})
 </script>
 
 <style scoped>
-  .locked {
-    background-color: #f5f5f5;
-  }
+.locked {
+  background-color: #f5f5f5;
+}
 
-  .middle {
-    position: relative;
-    top: 15%;
-    text-align: left;
-  }
+.middle {
+  position: relative;
+  top: 15%;
+  text-align: left;
+}
 
-  .gradient {
-    opacity: 0.75;
-    transition: opacity 0.15s ease-in-out;
-  }
+.gradient {
+  opacity: 0.75;
+  transition: opacity 0.15s ease-in-out;
+}
 
-  .gradient:hover {
-    opacity: 1;
-  }
+.gradient:hover {
+  opacity: 1;
+}
 
-  .badge-block {
-    display: flex;
-    position: relative;
-    left: -5px;
-    top: -5px;
-  }
+.badge-block {
+  display: flex;
+  position: relative;
+  left: -5px;
+  top: -5px;
+}
 </style>

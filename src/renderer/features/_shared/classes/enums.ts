@@ -58,8 +58,9 @@ enum SystemType {
   Drone = 'Drone',
   Tech = 'Tech',
   Armor = 'Armor',
-  FlightSystem = 'Flight System',
+  FlightSystem = 'FlightSystem',
   Integrated = 'Integrated',
+  Mod = 'Mod',
 }
 
 enum SkillFamily {

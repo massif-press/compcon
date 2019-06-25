@@ -2,16 +2,23 @@
   <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH WEAPONS</span>
     <v-card>
-      <v-text-field
-        class="search-field ma-2"
-        prepend-icon="search"
-        v-model="search"
-        flat
-        hide-details
-        single-line
-        placeholder="Search"
-        clearable
-      />
+      <v-layout row class="pa-3">
+        <v-flex>
+          <v-text-field
+            class="search-field ma-2"
+            prepend-icon="search"
+            v-model="search"
+            flat
+            hide-details
+            single-line
+            placeholder="Search"
+            clearable
+          />
+        </v-flex>
+        <v-flex shrink>
+          <filter-panel weapon @update="updateFilter" />
+        </v-flex>
+      </v-layout>
       <v-data-table
         :headers="headers"
         :items="weapons"
@@ -68,14 +75,16 @@ import {
   DamageElement,
   WeaponCard,
 } from '@/features/pilot_management/components/UI'
+import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
+import ItemFilter from '@/features/_shared/utility/ItemFilter'
 import { MechWeapon } from '@/class'
 
 export default Vue.extend({
   name: 'weapons',
-  components: { WeaponCard, RangeElement, DamageElement },
+  components: { WeaponCard, RangeElement, DamageElement, FilterPanel },
   data: () => ({
-    weapons: [],
     search: null,
+    detailFilter: {},
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'Weapon', align: 'left', value: 'Name' },
@@ -86,6 +95,23 @@ export default Vue.extend({
       { text: 'Damage', align: 'left', value: 'Damage' },
     ],
   }),
+  computed: {
+    weapons(): MechWeapon[] {
+      const vm = this as any
+      let items = vm.$store.getters
+        .getItemCollection('MechWeapons')
+        .filter((x: MechWeapon) => x.Source) as MechWeapon[]
+
+      if (vm.search)
+        items = items.filter(x =>
+          x.Name.toLowerCase().includes(vm.search.toLowerCase())
+        )
+
+      items = ItemFilter.FilterWeapons(items, this.detailFilter)
+
+      return items
+    },
+  },
   methods: {
     customSort(items, index, isDescending) {
       items.sort((a, b) => {
@@ -112,11 +138,10 @@ export default Vue.extend({
 
       return items
     },
-  },
-  created() {
-    this.weapons = this.$store.getters
-      .getItemCollection('MechWeapons')
-      .filter((x: MechWeapon) => x.Source)
+    updateFilter(filter) {
+      this.detailFilter = filter
+      this.$forceUpdate()
+    },
   },
 })
 </script>
