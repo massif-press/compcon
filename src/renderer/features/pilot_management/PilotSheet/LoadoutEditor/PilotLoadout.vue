@@ -200,8 +200,9 @@ export default Vue.extend({
     },
     deleteLoadout(loadout: PilotLoadout) {
       this.deleteDialog = false
+      // this.tabIndex = this.pilot.Loadouts.length - 1
       this.pilot.RemoveLoadout(loadout)
-      this.notify('Loadout Deleted')
+      // this.notify('Loadout Deleted')
     },
     openSelector(item: PilotEquipment, index: number, itemType: ItemType) {
       var vm = this as any

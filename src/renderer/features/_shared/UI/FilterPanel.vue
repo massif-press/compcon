@@ -1,42 +1,163 @@
 <template>
   <div class="text-xs-center">
     <v-bottom-sheet>
-      <v-btn slot="activator" color="purple" dark>
-        Click me
-      </v-btn>
+      <v-badge overlap slot="activator" dark @click="">
+        <template v-if="filterCount" v-slot:badge>
+          <span>{{ filterCount }}</span>
+        </template>
+        <v-tooltip left>
+          <v-avatar slot="activator" color="purple darken-3 orange--after">
+            <v-icon dark>mdi-filter-variant</v-icon>
+          </v-avatar>
+          <span>Filter Items</span>
+        </v-tooltip>
+      </v-badge>
+      <v-toolbar dense color="purple darken-3" dark>
+        <v-toolbar-title>
+          Filter {{ system ? 'Mech Systems' : 'Mech Weapons' }}
+        </v-toolbar-title>
+        <v-spacer />
+        <v-btn color="error" @click="reset()">Clear Selected Filters</v-btn>
+      </v-toolbar>
       <v-card flat>
         <v-card-text>
           <v-layout row>
-            <v-flex>
-              <v-layout row wrap>
-                source
+            <v-flex xs4 class="ml-2 mr-2">
+              <v-layout row>
+                <v-select
+                  v-model="filters.source"
+                  prepend-icon="mdi-factory"
+                  chips
+                  deletable-chips
+                  dense
+                  label="From Manufacturer"
+                  :items="manufacturers"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
               <v-layout>
-                license
+                <v-select
+                  v-model="filters.license"
+                  prepend-icon="cc-frame"
+                  chips
+                  deletable-chips
+                  dense
+                  label="In License"
+                  :items="licenses"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
             </v-flex>
-            <v-flex>
+            <v-flex xs4 class="ml-2 mr-2">
               <v-layout row wrap>
-                includes tag
+                <v-select
+                  v-model="filters.include"
+                  prepend-icon="mdi-tag"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Includes Tag"
+                  :items="includeTags"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
               <v-layout>
-                excludes tag
+                <v-select
+                  v-model="filters.exclude"
+                  prepend-icon="block"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Excludes Tag"
+                  color="error"
+                  :items="excludeTags"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
             </v-flex>
-            <v-flex>
-              for systems
-              <v-layout row wrap>
-                system type
+            <v-flex v-if="system" xs4 class="ml-2 mr-2">
+              <v-layout row>
+                <v-select
+                  v-model="filters.systemType"
+                  prepend-icon="mdi-chip"
+                  chips
+                  deletable-chips
+                  dense
+                  label="System Type"
+                  :items="systemTypes"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
             </v-flex>
-            <v-flex>
-              for weapons
-              <v-layout row wrap>
-                attack type
+            <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
+              <v-layout row>
+                <v-select
+                  v-model="filters.weaponType"
+                  prepend-icon="mdi-sword"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Weapon Type"
+                  :items="weaponTypes"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
               </v-layout>
-              <v-layout row wrap>damage type</v-layout>
-              <v-layout row wrap>weapon type</v-layout>
-              <v-layout row wrap>size</v-layout>
+              <v-layout row>
+                <v-select
+                  v-model="filters.weaponSize"
+                  prepend-icon="mdi-relative-scale"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Weapon Size"
+                  :items="weaponSizes"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
+              </v-layout>
+            </v-flex>
+            <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
+              <v-layout row>
+                <v-select
+                  v-model="filters.attackType"
+                  prepend-icon="cc-range"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Attack Type"
+                  :items="attackTypes"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
+              </v-layout>
+              <v-layout row>
+                <v-select
+                  v-model="filters.damageType"
+                  prepend-icon="cc-kinetic-damage"
+                  chips
+                  deletable-chips
+                  dense
+                  label="Damage Type"
+                  :items="damageTypes"
+                  multiple
+                  small-chips
+                  @change="updateFilters()"
+                />
+              </v-layout>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -46,8 +167,101 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  export default Vue.extend({
-    name: 'filter-panel',
-  })
+import Vue from 'vue'
+import {
+  Tag,
+  License,
+  SystemType,
+  WeaponType,
+  WeaponSize,
+  DamageType,
+  RangeType,
+} from '@/class'
+import { rules } from 'lancer-data'
+
+const nameSort = function(a, b) {
+  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
+  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
+  return 0
+}
+
+export default Vue.extend({
+  name: 'filter-panel',
+  props: {
+    system: Boolean,
+    weapon: Boolean,
+    size: String,
+  },
+  data: () => ({
+    filters: {
+      license: [],
+      include: [],
+      exclude: [],
+      source: [],
+      systemType: [],
+      weaponType: [],
+      weaponSize: [],
+      attackType: [],
+      damageType: [],
+    },
+  }),
+  computed: {
+    filterCount(): number {
+      let sum = 0
+      for (let arr in this.filters) {
+        sum += this.filters[arr].length
+      }
+      return sum
+    },
+    includeTags(): { text: string; value: string }[] {
+      return this.$store.getters
+        .getItemCollection('Tags')
+        .map(x => ({ text: x.Name().replace('{VAL}', 'X'), value: x.ID }))
+        .sort(nameSort)
+    },
+    excludeTags(): { text: string; value: string }[] {
+      return this.$store.getters
+        .getItemCollection('Tags')
+        .map(x => ({ text: x.Name().replace('{VAL}', 'X'), value: x.ID }))
+        .sort(nameSort)
+    },
+    manufacturers(): any[] {
+      return this.$store.getters
+        .getItemCollection('Manufacturers')
+        .map(x => ({ text: x.name, value: x.id }))
+        .sort(nameSort)
+    },
+    licenses(): License[] {
+      return this.$store.getters
+        .getItemCollection('Licenses')
+        .map(x => ({ text: x.Name, value: x.FrameID }))
+        .sort(nameSort)
+    },
+    systemTypes(): SystemType[] {
+      return Object.keys(SystemType).sort() as SystemType[]
+    },
+    attackTypes(): RangeType[] {
+      return Object.keys(RangeType).sort() as RangeType[]
+    },
+    damageTypes(): DamageType[] {
+      return Object.keys(DamageType).sort() as DamageType[]
+    },
+    weaponTypes(): WeaponType[] {
+      return Object.keys(WeaponType).sort() as WeaponType[]
+    },
+    weaponSizes(): WeaponSize[] {
+      return rules.mount_fittings[this.size].sort() as WeaponSize[]
+    },
+  },
+  methods: {
+    reset() {
+      for (let arr in this.filters) {
+        this.filters[arr].splice(0, this.filters[arr].length)
+      }
+    },
+    updateFilters() {
+      this.$emit('update', this.filters)
+    },
+  },
+})
 </script>

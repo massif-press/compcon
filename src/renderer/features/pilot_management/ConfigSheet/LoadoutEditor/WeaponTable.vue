@@ -48,6 +48,7 @@
         placeholder="Search"
         clearable
       />
+      <filter-panel weapon :size="weaponSlot.size" @update="updateFilter" />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -141,6 +142,7 @@
 import Vue from 'vue'
 import _ from 'lodash'
 import { rules } from 'lancer-data'
+import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import { RangeElement, DamageElement, WeaponCard } from '../../components/UI'
 import io from '@/features/_shared/data_io'
 import {
@@ -150,13 +152,13 @@ import {
   MechWeapon,
   Pilot,
 } from '@/class'
+import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
 export default Vue.extend({
   name: 'weapon-table',
-  components: { WeaponCard, RangeElement, DamageElement },
+  components: { WeaponCard, RangeElement, DamageElement, FilterPanel },
   props: {
     weaponSlot: WeaponSlot,
-    Size: EquippableMount,
     loadout: MechLoadout,
     maxSP: Number,
   },
@@ -166,6 +168,7 @@ export default Vue.extend({
     sortRule: null,
     search: null,
     searchFilter: null,
+    detailFilter: {},
     showLocked: false,
     showOverSp: false,
     headers: [
@@ -205,13 +208,17 @@ export default Vue.extend({
         i = i.filter(x => x.SP <= vm.freeSP)
       }
       // filter already equipped
-      if (vm.weaponSlot.Weapon) i = i.filter(x => x !== vm.weaponSlot.Weapon)
+      if (vm.weaponSlot.Weapon)
+        i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
 
       if (vm.search)
         i = i.filter(x =>
           x.Name.toLowerCase().includes(vm.search.toLowerCase())
         )
+
       i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
+
+      i = ItemFilter.FilterWeapons(i, this.detailFilter)
 
       return i
     },
@@ -225,6 +232,10 @@ export default Vue.extend({
     },
     remove() {
       this.$emit('remove-item', this.weaponSlot.Weapon)
+    },
+    updateFilter(filter) {
+      this.detailFilter = filter
+      this.$forceUpdate()
     },
     isLocked(item: MechWeapon): boolean {
       if (item.Source === 'GMS') return false
