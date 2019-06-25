@@ -16,7 +16,6 @@ import {
   PilotWeapon,
   PilotArmor,
   PilotGear,
-  CompendiumItem,
   Talent,
 } from '@/class'
 

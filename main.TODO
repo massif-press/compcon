@@ -4,15 +4,20 @@
 ✔ Heat cap maxed on activation @done(19-06-21 12:45)
 ✔ Check stress/structure tables @done(19-06-21 14:11)
 ☐ usage items initialized without pilot limited bonus
+☐ fix compendium search
+☐ fix pilot sort filters
+☐ pilot loadout delete crashes app on multiple loadouts
+☐ pilot loadout delete does not delete correct loadout
+✔ dupe loadout does not also dupe items @done(19-06-24 16:25)
+☐ custom mech image does not save to cloud
+☐ cannot change mech image after toggling save to cloud
+☐ save to cloud toggle keeps resetting to false
 
 On Deck:
   ✔ Stat Contributors @done(19-06-13 20:31)
   ✔ X/Y stat/attribute points @done(19-06-17 14:13)
   ✔ Show Frame tags on select @done(19-06-17 14:24)
   ✔ Mech Hangar -> Pilot Menu @done(19-06-21 12:40)
-
-  ☐ Active Mode
-
 
   ✔ Mark Equipment Destroyed @done(19-06-20 20:53)
   ✔ Limited Pips @done(19-06-20 15:19)
@@ -28,26 +33,14 @@ On Deck:
     ☐ Hardsuit detail rollable
 
     ☐ Filtering
-      ☐ Frames
-        ☐ Compendium
-          ☐ By Mech Type
-          ☐ By Source
-        ☐ New Frame
-          ☐ By Mech Type
-          ☐ By Source
-      ☐ Weapons
-        ☐ By Tag
-        ☐ By Attack Type
-        ☐ By Damage Type
-        ☐ By Size
-        ☐ By Weapon Type
-        ☐ By Source
-        ☐ By License
-      ☐ Systems
-        ☐ By Tag
-        ☐ By System Type
-        ☐ By Source
-        ☐ By License
+      ☐ Tables
+        ☐ Frames
+        ✔ Weapons @done(19-06-24 16:20)
+        ✔ Systems @done(19-06-24 16:20)
+      ☐ Compendium
+        ☐ Frames
+        ☐ Weapons
+        ☐ Systems
 
   ☐ Downtime Resources
 

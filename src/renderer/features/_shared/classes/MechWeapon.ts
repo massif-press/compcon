@@ -4,7 +4,6 @@ import {
   Damage,
   Range,
   WeaponMod,
-  Tag,
   WeaponSize,
   WeaponType,
   ItemType,
