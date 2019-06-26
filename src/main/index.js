@@ -50,11 +50,6 @@ function createMainWindow() {
     window.setMenu(null)
   }
 
-  // we don't want to show a menu except on OSX
-  if (process.platform !== 'darwin') {
-    window.setMenu(null)
-  }
-
   window.on('closed', () => {
     mainWindow = null
   })
