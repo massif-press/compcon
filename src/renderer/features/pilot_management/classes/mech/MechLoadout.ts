@@ -2,7 +2,6 @@ import _ from 'lodash'
 import store from '@/store'
 import {
   LicensedItem,
-  LicenseRequirement,
   MechSystem,
   Mount,
   Mech,
@@ -145,7 +144,7 @@ class MechLoadout extends Loadout {
   }
 
   public get RequiredLicenses() {
-    let requirements = [] as LicenseRequirement[]
+    let requirements = [] as ILicenseRequirement[]
     const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
       this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
     )
@@ -157,12 +156,7 @@ class MechLoadout extends Loadout {
         if (GMSIndex > -1) {
           requirements[GMSIndex].items.push(item.Name)
         } else {
-          requirements.push({
-            source: 'GMS',
-            name: '',
-            rank: 0,
-            items: [item.Name],
-          })
+          requirements.push(item.RequiredLicense)
         }
       } else {
         const licenseIndex = requirements.findIndex(
@@ -174,12 +168,7 @@ class MechLoadout extends Loadout {
         if (licenseIndex > -1) {
           requirements[licenseIndex].items.push(item.Name)
         } else {
-          requirements.push({
-            source: item.Source,
-            name: item.License,
-            rank: item.LicenseLevel,
-            items: [item.Name],
-          })
+          requirements.push(item.RequiredLicense)
         }
       }
     })

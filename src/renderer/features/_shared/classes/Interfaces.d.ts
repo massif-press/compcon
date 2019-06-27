@@ -103,3 +103,11 @@ declare interface IBackgroundData {
   description: string
   triggers: string
 }
+
+declare interface ILicenseRequirement {
+  source: string
+  name: string
+  rank: number
+  items: string[]
+  missing?: boolean
+}
