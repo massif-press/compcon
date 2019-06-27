@@ -1,34 +1,20 @@
-✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
 
 On Deck:
-  ✔ Stat Contributors @done(19-06-13 20:31)
-  ✔ X/Y stat/attribute points @done(19-06-17 14:13)
-  ✔ Show Frame tags on select @done(19-06-17 14:24)
-  ✔ Mech Hangar -> Pilot Menu @done(19-06-21 12:40)
+  ☐ Uses on Pilot Gear
 
-  ✔ Mark Equipment Destroyed @done(19-06-20 20:53)
-  ✔ Limited Pips @done(19-06-20 15:19)
-
-  
-  ✔ Item Notes @done(19-06-20 15:01)
-
-    ☐ Uses on Pilot Gear
-    ☐ Signature Weapon type selection
-    ☐ Hardsuit detail rollable
-
-  ✔ Filtering @done(19-06-25 13:53)
+  ☐ Signature Weapon type selection
+  ☐ Hardsuit detail rollable
 
   ☐ Downtime Resources
 
   ☐ Active Mode
+    ☐ Light mech sheet
     ☐ Active Mode Sheet
     ☐ Set Status(es)
     ☐ Set Condition(s)
-    ✔ Full Repair button @done(19-06-13 19:49)
     ☐ Tooltip pip number on hover
-    ✔ DANGER ZONE on heat display @done(19-06-13 16:12)
     ☐ Keyboard entry: Structure
     ☐ Keyboard entry: HP
     ☐ Keyboard entry: Stress
@@ -50,22 +36,9 @@ On Deck:
         ☐ "Loaded" toggle
         ☐ Ammo block
 
-  Refactor:
-    ☐ Contributor/Bonus rules logic should go into seperate class(es)
-    ☐ Move RequiredLicense logic into LicensedItem abstract
-      ☐ Change RequiredLicense calls to pull RLs from item instances, instead of calculating them
-
-  ✔ fix compendium search @done(19-06-25 10:27)
-  ✔ fix pilot sort filters @done(19-06-25 10:29)
-  ✔ pilot loadout delete crashes app on multiple loadouts @done(19-06-25 10:35)
-  ✔ pilot loadout delete does not delete correct loadout @done(19-06-25 10:35)
-  ✔ dupe loadout does not also dupe items @done(19-06-24 16:25)
-  ✔ custom mech image does not save to cloud @done(19-06-25 10:40)
-  ✔ cannot change mech image after toggling save to cloud @done(19-06-25 10:40)
-  ✔ save to cloud toggle keeps resetting to false @done(19-06-25 10:40)
-  ✔ extra flex on statblock output @done(19-06-25 10:41)
-  ✔ H0R_OS SYS Upgrade II @done(19-06-25 12:22)
-
+Refactor:
+  ☐ Contributor/Bonus rules logic should go into seperate class(es)
+  ✔ Move RequiredLicense logic into LicensedItem abstract @done(19-06-26 11:08)
 
 Improvements:
   ☐ refresh cloud-saved pilots
@@ -106,8 +79,6 @@ Styling:
       ☐ Add space for sketches (unlined)
       ☐ Mark danger zone heat
       ☐ Per-item notes
-  ☐ Stat Contributions
-  ☐ Hardsuit and Pilot Weapon rollables and generators
   ☐ Charts
   ☐ Actions Panel
   ☐ Tutorial popups (vue-tour)
@@ -120,6 +91,27 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
+  ✔ Stat Contributors @done(19-06-13 20:31) @project(On Deck)
+  ✔ X/Y stat/attribute points @done(19-06-17 14:13) @project(On Deck)
+  ✔ Show Frame tags on select @done(19-06-17 14:24) @project(On Deck)
+  ✔ Mech Hangar -> Pilot Menu @done(19-06-21 12:40) @project(On Deck)
+  ✔ Mark Equipment Destroyed @done(19-06-20 20:53) @project(On Deck)
+  ✔ Limited Pips @done(19-06-20 15:19) @project(On Deck)
+  ✔ Item Notes @done(19-06-20 15:01) @project(On Deck)
+  ✔ Filtering @done(19-06-25 13:53) @project(On Deck)
+  ✔ Full Repair button @done(19-06-13 19:49) @project(On Deck)
+  ✔ DANGER ZONE on heat display @done(19-06-13 16:12) @project(On Deck)
+  ✔ fix compendium search @done(19-06-25 10:27) @project(On Deck)
+  ✔ fix pilot sort filters @done(19-06-25 10:29) @project(On Deck)
+  ✔ pilot loadout delete crashes app on multiple loadouts @done(19-06-25 10:35) @project(On Deck)
+  ✔ pilot loadout delete does not delete correct loadout @done(19-06-25 10:35) @project(On Deck)
+  ✔ dupe loadout does not also dupe items @done(19-06-24 16:25) @project(On Deck)
+  ✔ custom mech image does not save to cloud @done(19-06-25 10:40) @project(On Deck)
+  ✔ cannot change mech image after toggling save to cloud @done(19-06-25 10:40) @project(On Deck)
+  ✔ save to cloud toggle keeps resetting to false @done(19-06-25 10:40) @project(On Deck)
+  ✔ extra flex on statblock output @done(19-06-25 10:41) @project(On Deck)
+  ✔ H0R_OS SYS Upgrade II @done(19-06-25 12:22) @project(On Deck)
   ✔ Not serializing/deserializing overcharge @done(19-06-17 12:09)
   ✔ CB shaping not working @done(19-06-17 12:18)
   ✔ Raleigh E-Defense @done(19-06-11 12:17)

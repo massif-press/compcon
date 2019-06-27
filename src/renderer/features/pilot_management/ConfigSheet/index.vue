@@ -1,5 +1,5 @@
 <template>
-  <div id="config-sheet" class="roster-content">
+  <div class="roster-content">
     <empty-view v-if="config.Frame.err">
       <div slot="contents">
         <p class="grey--text text-xs-center display-2">
@@ -71,7 +71,6 @@
         <v-layout align-end>
           <v-flex shrink>
             <editable-label
-              dark
               attr="Name"
               description="Configuration Name"
               :placeholder="config.Name"
@@ -94,7 +93,6 @@
                 @click="frameInfoModal = true"
                 large
                 flat
-                dark
                 class="ml-0 pl-1 pr-1 pt-4 pb-0"
               >
                 {{ config.Frame.Source }} {{ config.Frame.Name }}
@@ -119,7 +117,6 @@
               </v-flex>
             </v-layout>
             <v-textarea
-              dark
               color="orange"
               v-model="config.Notes"
               auto-grow
@@ -128,7 +125,7 @@
             />
             <!-- Req. Licenses -->
             <v-layout class="mt-0">
-              <span class="config-header mt-0">Licenses Required</span>
+              <span class="header mt-0">Licenses Required</span>
             </v-layout>
             <v-layout>
               <v-flex>
@@ -236,7 +233,7 @@
         </v-layout>
         <!-- Attribute Block -->
         <v-layout>
-          <span class="config-header">
+          <span class="header">
             Mech Attributes
             <span style="float: right">
               <contributor label="SIZE" :value="config.Size" :contributors="config.SizeContributors" reverse/>
@@ -271,7 +268,7 @@
               <v-flex class="hase">
                 <span>{{ pilot.MechSkills.Eng }}</span>
               </v-flex>
-              <v-divider dark class="pt-0 mt-0" />
+              <v-divider class="pt-0 mt-0" />
               <v-flex class="subheader">
                 <span class="caption">
                   <contributor
@@ -287,7 +284,7 @@
             </v-layout>
           </v-flex>
           <v-flex>
-            <v-layout>
+            <!-- <v-layout>
                   <v-flex shrink class="mr-2">
                     <span class="grey--text">
                       <contributor
@@ -528,43 +525,79 @@
                       @update="config.CurrentOvercharge = $event"
                     />
                   </v-flex>
-            </v-layout>
+            </v-layout> -->
             <v-layout justify-space-between>
               <statblock-item
-                :attr="'Attack Bonus'"
+                attr="Structure"
+                :val="config.MaxStructure"
+                :contributors="config.StructureContributors"
+              />
+              <statblock-item
+                attr="HP"
+                :val="config.MaxHP"
+                :contributors="config.HPContributors"
+              />
+              <statblock-item
+                attr="Armor"
+                :val="config.Armor"
+                :contributors="config.ArmorContributors"
+              />
+            </v-layout>
+
+             <v-layout justify-space-between>
+              <statblock-item
+                attr="Stress"
+                :val="config.MaxStress"
+                :contributors="config.StressContributors"
+              />
+              <statblock-item
+                attr="Heat Capacity"
+                :val="config.HeatCapacity"
+                :contributors="config.HeatCapContributors"
+              />
+              <statblock-item
+                attr="Repair Capacity"
+                :val="config.RepairCapacity"
+                :contributors="config.RepCapContributors"
+              />
+            </v-layout>  
+                     
+            <v-layout justify-space-between>
+              <statblock-item
+                attr="Attack Bonus"
                 signed
                 :val="config.AttackBonus"
                 :contributors="config.AttackBonusContributors"
               />
               <statblock-item
-                :attr="'Tech Attack'"
+                attr="Tech Attack"
                 signed
                 :val="config.TechAttack"
                 :contributors="config.TechAttackContributors"
               />
               <statblock-item
-                :attr="'Limited System Bonus'"
+                attr="Limited System Bonus"
                 signed
                 :val="config.LimitedBonus"
                 :contributors="config.LimitedContributors"
               />
             </v-layout>
             <v-layout justify-space-between>
-              <statblock-item :attr="'Speed'" :val="config.Speed" :contributors="config.SpeedContributors"/>
-              <statblock-item :attr="'Evasion'" :val="config.Evasion" :contributors="config.EvasionContributors"/>
-              <statblock-item :attr="'E-Defense'" :val="config.EDefense" :contributors="config.EDefenseContributors"/>
+              <statblock-item attr="Speed" :val="config.Speed" :contributors="config.SpeedContributors"/>
+              <statblock-item attr="Evasion" :val="config.Evasion" :contributors="config.EvasionContributors"/>
+              <statblock-item attr="E-Defense" :val="config.EDefense" :contributors="config.EDefenseContributors"/>
               <statblock-item
-                :attr="'Sensor Range'"
+                attr="Sensor Range"
                 :val="config.SensorRange"
                 :contributors="config.SensorRangeContributors"
               />
-              <statblock-item :attr="'Save Target'" :val="config.SaveTarget" :contributors="config.SaveTargetContributors" />
+              <statblock-item attr="Save Target" :val="config.SaveTarget" :contributors="config.SaveTargetContributors" />
             </v-layout>
           </v-flex>
         </v-layout>
 
-
-        <v-layout><span class="config-header">Pilot Traits</span></v-layout>
+<!-- 
+        <v-layout><span class="header">Pilot Traits</span></v-layout>
 
         <v-layout class="ml-3 mr-3">
           <v-flex>
@@ -575,22 +608,22 @@
           </v-flex>
         </v-layout>
 
-        <v-layout><span class="config-header">Frame Traits</span></v-layout>
+        <v-layout><span class="header">Frame Traits</span></v-layout>
         <trait-item
           v-for="trait in config.Frame.Traits"
           :key="trait.name"
           :trait="trait"
-        />
+        /> -->
 
-        <v-layout><span class="config-header">CORE System</span></v-layout>
+        <v-layout><span class="header">CORE System</span></v-layout>
         <v-layout>
-          <v-flex class="m-2">
-            <v-toolbar color="grey darken-2">
-              <v-toolbar-title class="white--text">
+          <v-flex class="ma-2">
+            <v-toolbar color="grey lighten-2">
+              <v-toolbar-title>
                 {{ config.Frame.CoreSystem.Name }}
               </v-toolbar-title>
             </v-toolbar>
-            <v-card dark>
+            <v-card>
               <v-card-text
                 v-if="config.Frame.CoreSystem.Ddescription"
                 v-html="config.Frame.CoreSystem.Description"
@@ -617,7 +650,7 @@
           </v-flex>
         </v-layout>
 
-        <v-layout><span class="config-header">Mech Equipment</span></v-layout>
+        <v-layout><span class="header">Mech Equipment</span></v-layout>
         <v-layout>
           <v-flex>
             <mech-loadout :config="config" :pilot="pilot" />
@@ -625,7 +658,7 @@
         </v-layout>
       </v-container>
 
-      <v-divider dark />
+      <v-divider />
       <v-layout justify-space-around fill-height class="ma-5">
         <v-flex xs>
           <v-btn
@@ -633,7 +666,6 @@
             color="warning"
             outline
             block
-            dark
             @click="openPrintOptions(false)"
           >
             <v-icon>print</v-icon>
@@ -837,26 +869,8 @@
 </script>
 
 <style scoped>
-  #config-sheet {
-    background-color: #424242;
-  }
-
-  .config-header {
-    background-color: #757575;
-    color: #eeeeee;
-    font-weight: bold;
-    letter-spacing: 3px;
-    width: 100%;
-    padding-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 3px;
-    height: 40px;
-    padding-top: 8px;
-  }
 
   .subheader {
-    background-color: #757575;
-    color: #eeeeee;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
@@ -866,8 +880,7 @@
   }
 
   .hase {
-    color: #ffffff;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: 300;
     margin-top: 0;
     padding-top: 0;

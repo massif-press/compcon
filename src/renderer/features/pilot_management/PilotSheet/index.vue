@@ -892,7 +892,7 @@
   })
 </script>
 
-<style scoped>
+<style>
   .header {
     background-color: lightgray;
     color: black;

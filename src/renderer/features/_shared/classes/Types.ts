@@ -66,20 +66,4 @@ interface AppContext {
   getters: any
 }
 
-interface LicenseRequirement {
-  source: string
-  name: string
-  rank: number
-  items: string[]
-  missing?: boolean
-}
-
-export {
-  AppContext,
-  AppState,
-  Brew,
-  PrintOptions,
-  Manufacturer,
-  Status,
-  LicenseRequirement,
-}
+export { AppContext, AppState, Brew, PrintOptions, Manufacturer, Status }

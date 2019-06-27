@@ -38,6 +38,12 @@
           </template>
 
           <v-list dense>
+            <v-list-tile to="/active">
+              <v-list-tile-title class="minor-title">
+                Active Play Mode
+              </v-list-tile-title>
+            </v-list-tile>
+            <v-divider />
             <v-list-tile to="/pilot">
               <v-list-tile-title class="minor-title">
                 Pilot Sheet
@@ -183,52 +189,52 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import HelpPage from './Pages/HelpPage.vue'
-  import AboutPage from './Pages/AboutPage.vue'
-  import OptionsPage from './Pages/OptionsPage.vue'
-  import { Route } from 'vue-router'
+import Vue from 'vue'
+import HelpPage from './Pages/HelpPage.vue'
+import AboutPage from './Pages/AboutPage.vue'
+import OptionsPage from './Pages/OptionsPage.vue'
+import { Route } from 'vue-router'
 
-  export default Vue.extend({
-    name: 'top-bar',
-    components: { HelpPage, AboutPage, OptionsPage },
-    data: () => ({
-      aboutModal: false,
-      helpModal: false,
-      optionsModal: false,
-      ver: 0,
-      hangarActive: false,
-      zeroConfigs: false,
-    }),
-    methods: {
-      home: function() {
-        this.$router.push('/')
-      },
-      historyNav: function(dir: number) {
-        this.$router.go(dir)
-      },
-      toConfigSheet(mech) {
-        this.pilot.LoadedMech = mech
-        this.$router.push('./config')
-      },
+export default Vue.extend({
+  name: 'top-bar',
+  components: { HelpPage, AboutPage, OptionsPage },
+  data: () => ({
+    aboutModal: false,
+    helpModal: false,
+    optionsModal: false,
+    ver: 0,
+    hangarActive: false,
+    zeroConfigs: false,
+  }),
+  methods: {
+    home: function() {
+      this.$router.push('/')
     },
-    computed: {
-      pilot() {
-        const p = this.$store.getters.getPilot
-        return p.Name ? p : null
-      },
+    historyNav: function(dir: number) {
+      this.$router.go(dir)
     },
-    created() {
-      const vm = this as any
-      vm.ver = process.env.npm_package_version
-        ? `v${process.env.npm_package_version}`
-        : `v${vm.version}`
+    toConfigSheet(mech) {
+      this.pilot.LoadedMech = mech
+      this.$router.push('./config')
     },
-  })
+  },
+  computed: {
+    pilot() {
+      const p = this.$store.getters.getPilot
+      return p.Name ? p : null
+    },
+  },
+  created() {
+    const vm = this as any
+    vm.ver = process.env.npm_package_version
+      ? `v${process.env.npm_package_version}`
+      : `v${vm.version}`
+  },
+})
 </script>
 
 <style scoped>
-  p {
-    margin-left: 8px;
-  }
+p {
+  margin-left: 8px;
+}
 </style>

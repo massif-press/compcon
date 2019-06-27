@@ -60,7 +60,6 @@ import {
   PrintOptions,
   Manufacturer,
   Status,
-  LicenseRequirement,
 } from './features/_shared/classes/Types'
 import Statblock from './features/pilot_management/classes/Statblock'
 import DiceRoller from './features/_shared/classes/DiceRoller'
@@ -116,7 +115,6 @@ export {
   PrintOptions,
   Manufacturer,
   Status,
-  LicenseRequirement,
   Statblock,
   DiceRoller,
 }

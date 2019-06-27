@@ -2,17 +2,7 @@ import store from '@/store'
 import _ from 'lodash'
 import uid from '@/features/_shared/uid'
 import { rules } from 'lancer-data'
-import {
-  LicenseRequirement,
-  Pilot,
-  Frame,
-  MechLoadout,
-  Mount,
-  MechWeapon,
-  MechSystem,
-  MountType,
-  IntegratedMount,
-} from '@/class'
+import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
 
 class Mech {
   private id: string
@@ -101,22 +91,15 @@ class Mech {
   }
 
   //TODO: refactor
-  public get RequiredLicenses(): LicenseRequirement[] {
+  public get RequiredLicenses(): ILicenseRequirement[] {
     let requirements = this.ActiveLoadout
       ? this.ActiveLoadout.RequiredLicenses
-      : ([] as LicenseRequirement[])
+      : ([] as ILicenseRequirement[])
 
     if (this.frame.Name.toUpperCase() === 'EVEREST') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
       if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
-      else
-        requirements.push({
-          source: 'GMS',
-          name: '',
-          rank: 0,
-          items: ['EVEREST Frame'],
-          missing: false,
-        })
+      else requirements.push(this.Frame.RequiredLicense)
     } else {
       const reqIdx = requirements.findIndex(
         x => x.name === `${this.frame.Name}` && x.rank === 2
@@ -125,13 +108,7 @@ class Mech {
         requirements[reqIdx].items.push(
           `${this.frame.Name.toUpperCase()} Frame`
         )
-      else
-        requirements.push({
-          source: this.frame.Source,
-          name: this.frame.Name,
-          rank: 2,
-          items: [`${this.frame.Name.toUpperCase()} Frame`],
-        })
+      else requirements.push(this.Frame.RequiredLicense)
     }
 
     for (const l of requirements) {

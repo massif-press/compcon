@@ -26,6 +26,11 @@ export default new Router({
             .default,
         },
         {
+          path: '/active',
+          component: require('@/features/pilot_management/ActiveSheet/index')
+            .default,
+        },
+        {
           path: '/hangar',
           component: require('@/features/pilot_management/HangarView/index')
             .default,
