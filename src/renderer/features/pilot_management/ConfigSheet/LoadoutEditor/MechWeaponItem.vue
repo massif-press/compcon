@@ -4,7 +4,7 @@
       <v-tooltip top>
         <v-btn
           slot="activator"
-          color="blue-grey darken-2"
+          color="blue-grey lighten-2"
           block
           @click="weaponSelectorModal = true"
           class="ma-0 pa-0"
@@ -82,9 +82,9 @@
               </b>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element dark small :range="getRange()" />
+                <range-element small :range="getRange()" />
                 &emsp;&mdash;&emsp;
-                <damage-element dark small size="16" :dmg="getDamage()" />
+                <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
                   <div slot="activator">
@@ -131,7 +131,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-toolbar fixed dense flat dark>
+      <v-toolbar fixed dense flat>
         <v-toolbar-title>
           <span class="text-capitalize">Select Weapon</span>
         </v-toolbar-title>
@@ -154,7 +154,7 @@
 
     <!-- Superheavy Lock Modal -->
     <v-dialog v-model="lockDialog">
-      <v-toolbar fixed dense flat dark>
+      <v-toolbar fixed dense flat>
         <v-toolbar-title>
           <span class="text-capitalize">Select Bracing Mount</span>
         </v-toolbar-title>
@@ -204,7 +204,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-toolbar fixed dense flat dark>
+      <v-toolbar fixed dense flat>
         <v-toolbar-title>
           <span class="text-capitalize">Select Weapon Modification</span>
         </v-toolbar-title>
@@ -215,7 +215,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-card dark>
+      <v-card >
         <mod-table
           :weapon-slot="weaponSlot"
           :mount="mount"
