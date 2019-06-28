@@ -4,7 +4,7 @@
       <v-tooltip top>
         <v-btn
           slot="activator"
-          color="blue-grey darken-2"
+          color="blue-grey lighten-2"
           v-if="empty || system.err"
           block
           @click="systemSelectorModal = true"
@@ -15,7 +15,7 @@
         </v-btn>
         <v-btn
           slot="activator"
-          color="blue-grey darken-2"
+          color="blue-grey lighten-2"
           v-else
           block
           :disabled="integrated"
@@ -86,7 +86,7 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <v-toolbar fixed dense flat dark>
+      <v-toolbar fixed dense flat>
         <v-toolbar-title>
           <span class="text-capitalize">Select System</span>
         </v-toolbar-title>

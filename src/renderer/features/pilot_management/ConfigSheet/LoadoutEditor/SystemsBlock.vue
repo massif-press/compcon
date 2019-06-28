@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
+    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">Systems</span>
       <v-card-text class="bordered ml-3 pt-4 pb-4">
         <mech-system-item

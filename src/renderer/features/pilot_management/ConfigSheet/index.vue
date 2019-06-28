@@ -76,7 +76,7 @@
               :placeholder="config.Name"
               :mech="config"
             >
-              <span slot="label" class="display-2 white--text">
+              <span slot="label" class="display-2">
                 {{ config.Name }}
               </span>
             </editable-label>
@@ -117,7 +117,6 @@
               </v-flex>
             </v-layout>
             <v-textarea
-              color="orange"
               v-model="config.Notes"
               auto-grow
               rows="1"
@@ -176,7 +175,6 @@
                 <v-alert
                   type="warning"
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
-                  outline
                 >
                   <b>WARNING: UNLICENSED COMPONENTS</b>
                   <br />
@@ -190,7 +188,6 @@
                 <v-alert
                   type="warning"
                   :value="config.CurrentSP > config.MaxSP"
-                  outline
                 >
                   <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
                   <br />
@@ -663,7 +660,7 @@
         <v-flex xs>
           <v-btn
             large
-            color="warning"
+            color="primary"
             outline
             block
             @click="openPrintOptions(false)"
@@ -672,7 +669,7 @@
             &nbsp; PRINT
           </v-btn>
           <v-btn
-            color="warning"
+            color="primary"
             small
             flat
             block
