@@ -2,7 +2,8 @@
 ☐ usage items initialized without pilot limited bonus
 
 On Deck:
-  ☐ Uses on Pilot Gear
+  ✔ Uses on Pilot Gear @done(19-06-29 11:11)
+  ☐ Update lancer-data
 
   ☐ Signature Weapon type selection
   ☐ Hardsuit detail rollable
@@ -10,16 +11,23 @@ On Deck:
   ☐ Downtime Resources
 
   ☐ Active Mode
-    ☐ Light mech sheet
+    ✔ Light mech sheet @done(19-06-29 11:11)
     ☐ Active Mode Sheet
-    ☐ Set Status(es)
-    ☐ Set Condition(s)
+    ☐ Switch active mode loadout (pilot)
+    ✔ Switch active mode loadout (mech) @done(19-06-30 16:54)
+    ☐ Split active mode into components
+    ✔ Active Mode Systems @done(19-06-30 16:54)
+    ✔ Active Mode Sys/Weapon Destroy @done(19-06-30 16:08)
+    ✔ Active Mode Weapon Mods @done(19-06-30 16:08)
+    ✔ Active Mode Tags @done(19-06-30 16:08)
+    ☐ Destroyable Mods
+    ☐ Extract use tracking from config sheet
+    ☐ Remove IsActive from old active templates
+    ☐ Turn Economy side panel
+    ✔ Set Status(es) @done(19-06-29 11:48)
+    ✔ Set Condition(s) @done(19-06-29 11:48)
     ☐ Tooltip pip number on hover
-    ☐ Keyboard entry: Structure
-    ☐ Keyboard entry: HP
-    ☐ Keyboard entry: Stress
-    ☐ Keyboard entry: Heat
-    ☐ Keyboard entry: Repair
+    ☐ Keyboard entry for all pip components
     ☐ Structure Table popup on 0HP
     ☐ Stress Table popup on full heat
     ☐ DESTROYED status

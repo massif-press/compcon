@@ -23,6 +23,8 @@ class Mech {
   private active: boolean
   private pilot: Pilot
   private cc_ver: string
+  private statuses: string[]
+  private conditions: string[]
 
   constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate()
@@ -42,6 +44,8 @@ class Mech {
     this.current_core_energy = 1
     this.current_overcharge = 0
     this.active_loadout = null
+    this.statuses = []
+    this.conditions = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -339,7 +343,7 @@ class Mech {
   }
 
   public get CurrentHP(): number {
-    return this.active ? this.current_hp : this.MaxHP
+    return this.current_hp
   }
 
   public set CurrentHP(hp: number) {
@@ -481,8 +485,26 @@ class Mech {
     this.save()
   }
 
-  // -- Active Mode Utilities ---------------------------------------------------------------------
+  // -- Statuses and Conditions -------------------------------------------------------------------
+  public get Conditions(): string[] {
+    return this.conditions
+  }
 
+  public set Conditions(conditions: string[]) {
+    this.conditions = conditions
+    this.save()
+  }
+
+  public get Statuses(): string[] {
+    return this.statuses
+  }
+
+  public set Statuses(statuses: string[]) {
+    this.statuses = statuses
+    this.save()
+  }
+
+  // -- Active Mode Utilities ---------------------------------------------------------------------
   public FullRepair() {
     this.CurrentStructure = this.MaxStructure
     this.CurrentHP = this.MaxHP
@@ -496,6 +518,8 @@ class Mech {
         if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
       })
     })
+    this.statuses = []
+    this.conditions = []
     this.save()
   }
 
@@ -607,6 +631,8 @@ class Mech {
       current_overcharge: m.current_overcharge,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
       active_loadout: m.active_loadout,
+      statuses: m.statuses,
+      conditions: m.conditions,
       cc_ver: m.cc_ver,
     }
   }
@@ -631,6 +657,8 @@ class Mech {
       MechLoadout.Deserialize(x, m)
     )
     m.active_loadout = m.active_loadout
+    m.statuses = mechData.statuses || []
+    m.conditions = mechData.conditions || []
     m.cc_ver = mechData.cc_ver || ''
     return m
   }
