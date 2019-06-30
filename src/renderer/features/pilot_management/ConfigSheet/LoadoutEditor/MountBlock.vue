@@ -15,7 +15,7 @@
               cbsLoader = true
             "
           >
-            <v-icon :color="'yellow'">mdi-progress-download</v-icon>
+            <v-icon color="primary">mdi-progress-download</v-icon>
           </v-btn>
           <span>Apply CORE Bonus Effects</span>
         </v-tooltip>
@@ -24,9 +24,9 @@
         <v-card color="grey lighten-1">
           <v-card-text class="blockquote text-xs-center">
             LOCKED
-            <br />
+            <br>
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
-            <br />
+            <br>
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -49,7 +49,7 @@
         >
           <v-card-text class="text-xs-center">
             <b>{{ cb.Name }}</b>
-            <br />
+            <br>
             <i class="caption">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>
@@ -58,7 +58,7 @@
 
     <!-- CB Benefit -->
     <v-dialog v-model="coreBonusSelectorModal" width="70vw" lazy hide-overlay>
-      <v-card >
+      <v-card>
         <core-benefit-selector
           v-if="cbsLoader"
           :loadout="loadout"

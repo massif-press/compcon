@@ -4,11 +4,13 @@ import { CompendiumItem, Range, Damage, Tag, ItemType } from '@/class'
 abstract class PilotEquipment extends CompendiumItem {
   private tags: ITagData[]
   private notes: string[]
+  protected current_uses: number
 
   constructor(equipmentData: any) {
     super(equipmentData)
     this.tags = equipmentData.tags || []
     this.notes = []
+    this.current_uses = equipmentData.uses || 0
   }
 
   private save() {
@@ -52,6 +54,7 @@ abstract class PilotEquipment extends CompendiumItem {
       id: item.ID,
       notes: item.Notes,
       destroyed: false,
+      uses: item.current_uses,
     }
   }
 
@@ -61,6 +64,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!itemData) return null
     const item = store.getters.getItemById('PilotGear', itemData.id)
     item.Notes = itemData.notes
+    item.current_uses = itemData.uses
     return item
   }
 }
@@ -157,6 +161,16 @@ class PilotGear extends PilotEquipment {
   }
 
   public get Uses(): number | null {
+    return this.current_uses || null
+  }
+
+  public set Uses(val: number) {
+    val = val < 0 ? 0 : val
+    val = val > this.uses ? this.uses : val
+    this.current_uses = val
+  }
+
+  public get MaxUses(): number | null {
     return this.uses || null
   }
 }
