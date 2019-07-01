@@ -46,7 +46,7 @@ function convertPilot(old: any): IPilotData {
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
-    cc_ver: '1.3.9',
+    cc_ver: '1.3.9c',
   }
 }
 
@@ -87,7 +87,7 @@ function convertMechs(old: any): IMechData {
     current_overcharge: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
-    cc_ver: '1.3.9',
+    cc_ver: '1.3.9c',
   }
 }
 
