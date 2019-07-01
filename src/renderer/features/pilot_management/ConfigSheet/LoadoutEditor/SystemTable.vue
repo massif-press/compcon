@@ -1,11 +1,11 @@
 <template>
-  <v-card flat dark>
+  <v-card flat>
     <v-toolbar class="mt-5 pt-1">
       <v-tooltip top nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="warning" v-model="showLocked">
-            <v-icon v-if="showLocked" dark slot="append" color="warning">lock_open</v-icon>
-            <v-icon v-else dark slot="append">lock</v-icon>
+            <v-icon v-if="showLocked" slot="append" color="warning">lock_open</v-icon>
+            <v-icon v-else slot="append">lock</v-icon>
           </v-switch>
         </div>
         <span
@@ -20,8 +20,8 @@
       <v-tooltip top class="ml-5" nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="yellow" v-model="showOverSp">
-            <v-icon v-if="showOverSp" dark slot="append" color="yellow">flash_off</v-icon>
-            <v-icon v-else dark slot="append">flash_on</v-icon>
+            <v-icon v-if="showOverSp" slot="append" color="yellow">flash_off</v-icon>
+            <v-icon v-else slot="append">flash_on</v-icon>
           </v-switch>
         </div>
         <span
@@ -44,7 +44,7 @@
         placeholder="Search"
         clearable
       />
-      <filter-panel system @update="updateFilter" />
+      <filter-panel system @update="updateFilter"/>
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">

@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="!mount.imparm || (mount.imparm && hasImpArm)"> -->
   <div>
-    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
+    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">
         {{ mount.MountName }}
         <v-tooltip top>
@@ -15,18 +15,18 @@
               cbsLoader = true
             "
           >
-            <v-icon :color="'yellow'">mdi-progress-download</v-icon>
+            <v-icon color="primary">mdi-progress-download</v-icon>
           </v-btn>
           <span>Apply CORE Bonus Effects</span>
         </v-tooltip>
       </span>
       <v-card-text v-if="mount.IsLocked" class="bordered ml-3 pt-4">
-        <v-card color="grey darken-1">
+        <v-card color="grey lighten-1">
           <v-card-text class="blockquote text-xs-center">
             LOCKED
-            <br />
+            <br>
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
-            <br />
+            <br>
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -44,12 +44,12 @@
         <v-card
           v-for="(cb, j) in mount.BonusEffects"
           :key="`mb_${j}`"
-          color="grey darken-1"
+          color="grey lighten-1"
           class="ma-2"
         >
           <v-card-text class="text-xs-center">
             <b>{{ cb.Name }}</b>
-            <br />
+            <br>
             <i class="caption">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>
@@ -58,7 +58,7 @@
 
     <!-- CB Benefit -->
     <v-dialog v-model="coreBonusSelectorModal" width="70vw" lazy hide-overlay>
-      <v-card dark>
+      <v-card>
         <core-benefit-selector
           v-if="cbsLoader"
           :loadout="loadout"

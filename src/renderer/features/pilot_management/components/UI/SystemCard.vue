@@ -1,38 +1,20 @@
 <template>
   <v-card
     flat
-    :color="tableItem ? '' : '#373737'"
+    :color="tableItem ? '' : '#e0e0e0'"
     :class="itemData.IsDestroyed ? 'destroyed-bg' : ''"
   >
     <v-card-text class="pb-0 pt-0">
       <div v-if="!integrated && !tableItem">
         <v-tooltip left v-if="itemData.IsDestroyed">
-          <v-btn
-            slot="activator"
-            fab
-            absolute
-            right
-            dark
-            style="top: 5px"
-            @click="ToggleDestroy()"
-          >
+          <v-btn slot="activator" fab absolute right style="top: 5px" @click="ToggleDestroy()">
             <v-icon large color="success">mdi-checkbox-blank</v-icon>
           </v-btn>
           <span>Repair Equipment</span>
         </v-tooltip>
         <v-tooltip left v-else>
-          <v-btn
-            slot="activator"
-            fab
-            absolute
-            right
-            icon
-            style="top: 5px"
-            @click="ToggleDestroy()"
-          >
-            <v-icon large color="warning" class="hover-opacity">
-              mdi-image-broken-variant
-            </v-icon>
+          <v-btn slot="activator" fab absolute right icon style="top: 5px" @click="ToggleDestroy()">
+            <v-icon large color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
           </v-btn>
           <span>Mark equipment as Destroyed</span>
         </v-tooltip>
@@ -40,27 +22,23 @@
       <div v-if="!integrated" class="pt-2">
         <em v-if="!itemData.License">
           {{ itemData.Source }}
-          <br />
+          <br>
         </em>
         <em v-else>
           {{ itemData.Source }} {{ itemData.License }}, RANK
-          <span v-for="n in itemData.LicenseLevel" :key="n">I</span>
-          <br />
+          <span
+            v-for="n in itemData.LicenseLevel"
+            :key="n"
+          >I</span>
+          <br>
         </em>
       </div>
+      <p v-if="itemData.Description && tableItem" v-html="itemData.Description" class="fluff-text"/>
       <p
-        v-if="itemData.Description && tableItem"
-        v-html="itemData.Description"
-        class="fluff-text"
-      />
-      <p v-if="!integrated" class="effect-text font-weight-bold">
-        {{ itemData.Type }} ({{ itemData.sp }} SP)
-      </p>
-      <p
-        v-if="itemData.Effect"
-        v-html="itemData.Effect"
-        class="pl-2 effect-text"
-      />
+        v-if="!integrated"
+        class="effect-text font-weight-bold"
+      >{{ itemData.Type }} ({{ itemData.sp }} SP)</p>
+      <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text"/>
       <v-layout class="pb-2">
         <item-tag
           v-for="t in itemData.Tags"
@@ -72,17 +50,17 @@
       <div v-if="!tableItem && pilot && itemData.IsLimited">
         <v-layout>
           <v-flex xs1>
-            <v-divider class="mt-2 mr-3" />
+            <v-divider class="mt-2 mr-3"/>
           </v-flex>
           <v-flex shrink>
-            <span class="caption grey--text">USES</span>
-            <b class="warning--text">
+            <span class="caption grey--text text--darken-2">USES</span>
+            <b class="primary--text">
               {{ itemData.Uses }} /
               {{ itemData.MaxUses + pilot.LimitedBonus }}
             </b>
           </v-flex>
           <v-flex grow>
-            <v-divider class="mt-2 ml-3" />
+            <v-divider class="mt-2 ml-3"/>
           </v-flex>
           <v-flex xs1></v-flex>
         </v-layout>
@@ -92,25 +70,24 @@
             :current="itemData.Uses"
             :max="itemData.MaxUses + pilot.LimitedBonus"
             large
-            color="warning"
+            color="primary"
             bg-color="grey darken-1"
             empty-icon="mdi-hexagon-outline"
             full-icon="mdi-hexagon"
             @update="itemData.Uses = $event"
           />
-          <!-- :readonly="!config.IsActive" -->
         </v-layout>
       </div>
       <div v-if="!tableItem" class="pb-4">
         <v-layout>
           <v-flex xs1>
-            <v-divider class="mt-2 mr-3" />
+            <v-divider class="mt-2 mr-3"/>
           </v-flex>
           <v-flex shrink>
-            <span class="caption grey--text">ITEM NOTES</span>
+            <span class="caption grey--text text--darken-2">ITEM NOTES</span>
           </v-flex>
           <v-flex grow>
-            <v-divider class="mt-2 ml-3" />
+            <v-divider class="mt-2 ml-3"/>
           </v-flex>
           <v-flex xs1></v-flex>
         </v-layout>
@@ -120,19 +97,11 @@
           class="mt-1"
         >
           <v-flex xs11>
-            <item-note :content="n" @update="updateNote(idx, $event)" />
+            <item-note :content="n" @update="updateNote(idx, $event)"/>
           </v-flex>
           <v-flex xs1>
             <v-tooltip top>
-              <v-btn
-                slot="activator"
-                outline
-                color="error"
-                icon
-                dark
-                small
-                @click="removeNote(idx)"
-              >
+              <v-btn slot="activator" outline color="error" icon small @click="removeNote(idx)">
                 <v-icon>close</v-icon>
               </v-btn>
               <span>Delete Note</span>
@@ -143,9 +112,8 @@
           <v-btn
             slot="activator"
             outline
-            color="warning"
+            color="primary"
             icon
-            dark
             small
             absolute
             bottom

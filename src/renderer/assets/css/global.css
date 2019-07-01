@@ -46,7 +46,17 @@
   position: relative;
   top: 15px;
   left: 30px;
-  background-color: #616161;
+  background-color: #e0e0e0;
+  font-size: 20px;
+  letter-spacing: 3px;
+  padding: 0;
+}
+
+.mount-title-dark {
+  position: relative;
+  top: 15px;
+  left: 30px;
+  background-color: #424242 !important;
   font-size: 20px;
   letter-spacing: 3px;
   padding: 0;
@@ -56,12 +66,26 @@
   position: absolute;
   bottom: 12px;
   right: 45px;
-  background-color: #616161;
+  background-color: #e0e0e0;
+  font-size: 16px;
+  letter-spacing: 3px;
+  padding: 0;
+}
+
+.bottom-title-dark {
+  position: absolute;
+  bottom: 12px;
+  right: 45px;
+  background-color: #424242 !important;
   font-size: 16px;
   letter-spacing: 3px;
   padding: 0;
 }
 
 .bordered {
-  border: solid 2px #424242;
+  border: solid 2px #bdbdbd;
+}
+
+.bordered-dark {
+  border: solid 2px #bdbdbd;
 }

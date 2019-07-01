@@ -81,6 +81,7 @@ class ItemFilter {
     items: MechSystem[],
     filter: ISystemFilter
   ): MechSystem[] {
+    filter.systemType = filter.systemType.map(x => x.replace(' ', ''))
     items = this.FilterEquipment(items, filter) as MechSystem[]
     if (filter.systemType && filter.systemType.length) {
       items = items.filter(x => filter.systemType.includes(x.Type))
@@ -95,7 +96,6 @@ class ItemFilter {
   ): MechEquipment[] {
     items = this.FilterEquipment(items, filter)
     if (filter.systemType && filter.systemType.length) {
-      console.log(filter.systemType)
       items = items.filter(function(item) {
         if (item.ItemType === ItemType.MechSystem)
           return filter.systemType.includes((item as MechSystem).Type)

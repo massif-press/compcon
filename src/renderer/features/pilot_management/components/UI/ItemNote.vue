@@ -1,12 +1,12 @@
 <template>
   <v-textarea
     v-model="note"
+    :readonly="readonly"
     @change="update"
     rows="1"
     auto-grow
     solo
     hide-details
-    :dark="!light"
   />
 </template>
 
@@ -19,6 +19,7 @@ export default Vue.extend({
   props: {
     content: String,
     light: Boolean,
+    readonly: Boolean,
   },
   data: () => ({
     note: '',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card v-if="!config.Loadouts.length" dark>
+    <v-card v-if="!config.Loadouts.length" >
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="newLoadout()" color="primary">
@@ -13,10 +13,9 @@
     <v-tabs
       v-else
       v-model="tabIndex"
-      dark
-      color="grey darken-2"
+      color="grey lighten-2"
       show-arrows
-      slider-color="pink"
+      slider-color="primary"
       mandatory
       @change="changeTab()"
       :key="config.Loadouts.length"
@@ -32,7 +31,7 @@
           <span>Add New Loadout</span>
         </v-tooltip>
       </span>
-      <v-tabs-items mandatory dark>
+      <v-tabs-items mandatory>
         <v-tab-item
           v-for="(loadout, i) in config.Loadouts"
           :key="loadout.id + i"

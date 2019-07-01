@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey darken-2">
+    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">
         {{ mount.ItemSource }} Integrated Mount
       </span>
@@ -9,7 +9,7 @@
           <v-flex xs2>
             <v-btn
               :ripple="false"
-              color="blue-grey darken-2"
+              color="blue-grey lighten-2"
               block
               class="ma-0 pa-0"
               style="height:100%"
@@ -44,7 +44,6 @@
                   <span class="mr-5" style="display: inline-flex;">
                     <range-element
                       v-if="mount.Weapon.Range"
-                      dark
                       small
                       :range="getRange()"
                     />
@@ -53,7 +52,6 @@
                     </span>
                     <damage-element
                       v-if="mount.Weapon.Damage"
-                      dark
                       small
                       size="16"
                       :dmg="mount.Weapon.Damage"
@@ -72,7 +70,6 @@
                         fab
                         absolute
                         right
-                        dark
                         style="top: 5px"
                         @click="ToggleDestroy()"
                       >
@@ -109,7 +106,6 @@
                       <br />
                       <damage-element
                         v-if="mount.Weapon.Damage"
-                        dark
                         :dmg="mount.Weapon.Damage"
                       />
                       <range-element
