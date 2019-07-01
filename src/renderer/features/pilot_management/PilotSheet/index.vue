@@ -34,13 +34,12 @@
             <!-- Pilot Statblock -->
             <v-layout>
               <v-flex>
-                <span
-                  class="caption"
-                  v-html="
-                    `HP ${pilot.CurrentHP}`
-                  "
+                <pip-bar
+                  small
+                  :model="pilot.MaxHP"
+                  :items="[pilot.MaxHP]"
+                  :caption="`HP ${pilot.MaxHP}`"
                 />
-                <pip-bar small :model="pilot.HP" :items="[pilot.HP]" :caption="`HP ${pilot.HP}`"/>
               </v-flex>
               <pip-bar
                 small
@@ -130,26 +129,6 @@
         </v-layout>
         <!-- End Pilot Info Block -->
 
-        <!-- Pilot Alerts -->
-        <v-layout>
-          <v-flex>
-            <v-alert
-              :value="!pilot.Mechs.length"
-              color="info"
-              icon="info"
-              outline
-              class="ma-2 ml-5 mr-5"
-            >
-              <b>No Associated Mech</b>
-              <br>This pilot does not have any mech Configurations associated with
-              their profile. A new Configuration can be added by navigating to
-              the
-              <b>MECH HANGAR</b>
-              from the menu bar
-            </v-alert>
-          </v-flex>
-        </v-layout>
-
         <!-- Bio/Apparance Block -->
         <v-layout>
           <v-flex xs8>
@@ -229,13 +208,6 @@
                   label="History"
                 />
               </v-flex>
-            </v-layout>
-            <v-layout>
-              <!-- Contacts -->
-              <!-- <v-flex>
-                <v-layout><span class="header no-icon">Contacts</span></v-layout>
-                <contacts-list :contacts="pilot.contacts" @add-contact="refresh" :key="pilot.contacts.length" />
-              </v-flex>-->
             </v-layout>
           </v-flex>
           <v-flex xs4>
