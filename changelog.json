@@ -1,12 +1,16 @@
 {
-  "stable": "1.3.9",
-  "beta": "1.4.1",
+  "stable": "1.3.9c",
+  "beta": "1.4.2",
   "news": {
-    "date": "June 25th, 2019",
-    "version": "1.4.1",
-    "body": "<p>Hello, Pilots,</p> <p>Stable got some important fixes (thanks Ashkaun!) and Beta is getting some long-awaited active mode functionality. The UI will still be a little janky for a while -- I want to get systems running (and running fairly well) before the styling passes.</p>"
+    "date": "July 1st, 2019",
+    "version": "1.4.2",
+    "body": "<p>More stable fixes (thanks, Neverender!), and beta gets a rough draft of the Active Mode sheet, available in the new navigation bar. This removes a lot of the Active/Inactive status stuff, and should be a lot more intuitive. Please drop by the Discord to let me know what you think about the layout and how it can be improved. Over the next few weeks I'll be improving Active Mode and adding Downtime Resources to the pilot sheet. After that (in no particular order) will be:</p> <ul> <li>Print Improvements</li> <li>GM Mode</li> <li>Homebrew Editor</li> <li>Mobile Alpha (probably tablet only, at first)</li> <li>Integrate NPC/Encounter Toolkit</li> <li>Styling pass</li> </ul>"
   },
   "changelog": [
+    {
+      "version": "1.4.2",
+      "changes": "<ul> <li>Active Play Mode added</li> <li>Active/Inactive status removed from most pages <ul> <li>Preserved in Roster/Hangar for print/statblock functionality</li> </ul> </li> <li>Set Mech Status/Condition (Active Mode)</li> <li>New Mech Sheet layout</li> <li>Fixed a bug that was deleting the incorrect Mech Loadout instead of the current selection</li> <li>Filtering submenu now correctly filters Aux weapons</li> </ul>"
+    },
     {
       "version": "1.4.1",
       "changes": "<ul> <li>The Navigation Bar has been updated <ul> <li>the Pilot Sheet and Mech Hangar are accessed through a dropdown (the currently selected Pilot's callsign button). An extra click to get to the Mech Hangar -- but -- quicker swapping between Mechs. Feedback welcome!</li> </ul> </li> <li>You can now mark Mech weapons and systems as \"Destroyed\" if the mech is currently active. Future Active Mode updates will automatically deduct Repair points.</li> <li>Mech equipment with the Limited tag now have a pip bar you can use to track how many uses of a limited system or weapon remain. <ul> <li>There are some issues with this related to the Pilot's limited bonus. These are being worked on currently.</li> </ul> </li> <li>You can now add notes to Pilot Gear and Mech Equipment</li> <li>Filtering options have been added to Frame and Mech Equipment tables (both in the editor and compendium) accessible through the purple button near the search bar <ul> <li>As of right now, every selection is an OR (so, no filtering for an item that has Accuracy AND Ordnance). That might be a future improvement.</li> </ul> </li> <li>Fixes some bad Danger Zone math</li> </ul>"
@@ -14,6 +18,10 @@
     {
       "version": "1.4.0",
       "changes": "<ul> <li>Mech stat contribution panels <ul> <li>Hover over a stat (eg. the \"HP\" text above the mech HP pips) to see the calculation panel</li> </ul> </li> <li>The Pilot Attribute Editor buttons have been moved a bit, and now alert you if you have any unspent trigger, talent, license, CORE bonus, or mech skill points left unspent</li> <li>Frame tags are now on the Frame select page</li> <li>There's a&nbsp;<strong>Full Repair</strong> button on active mechs, next to the HP/Armor display.</li> <li>The heat indicator will change when the mech is in the&nbsp;<strong>danger zone</strong></li> <li>An issue that was causing a full-HP mech to \"lose\" the two HP from GMS Personalizations has been fixed</li> </ul>"
+    },
+    {
+      "version": "1.3.9b/c",
+      "changes": "<ul> <li>Corrects the \"Stabilize\" action text to include the new rules regarding Exposed</li> <li>Fixes a bug that was preventing item tags from appearing in the Compendium search</li> <li>Fixes a bug that was allowing Unique items to be added to loadouts multiple times</li> </ul>"
     },
     {
       "version": "1.3.9",

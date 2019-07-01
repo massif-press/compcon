@@ -2,17 +2,7 @@ import store from '@/store'
 import _ from 'lodash'
 import uid from '@/features/_shared/uid'
 import { rules } from 'lancer-data'
-import {
-  LicenseRequirement,
-  Pilot,
-  Frame,
-  MechLoadout,
-  Mount,
-  MechWeapon,
-  MechSystem,
-  MountType,
-  IntegratedMount,
-} from '@/class'
+import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
 
 class Mech {
   private id: string
@@ -33,6 +23,8 @@ class Mech {
   private active: boolean
   private pilot: Pilot
   private cc_ver: string
+  private statuses: string[]
+  private conditions: string[]
 
   constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate()
@@ -52,6 +44,8 @@ class Mech {
     this.current_core_energy = 1
     this.current_overcharge = 0
     this.active_loadout = null
+    this.statuses = []
+    this.conditions = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -101,22 +95,15 @@ class Mech {
   }
 
   //TODO: refactor
-  public get RequiredLicenses(): LicenseRequirement[] {
+  public get RequiredLicenses(): ILicenseRequirement[] {
     let requirements = this.ActiveLoadout
       ? this.ActiveLoadout.RequiredLicenses
-      : ([] as LicenseRequirement[])
+      : ([] as ILicenseRequirement[])
 
     if (this.frame.Name.toUpperCase() === 'EVEREST') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
       if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
-      else
-        requirements.push({
-          source: 'GMS',
-          name: '',
-          rank: 0,
-          items: ['EVEREST Frame'],
-          missing: false,
-        })
+      else requirements.push(this.Frame.RequiredLicense)
     } else {
       const reqIdx = requirements.findIndex(
         x => x.name === `${this.frame.Name}` && x.rank === 2
@@ -125,13 +112,7 @@ class Mech {
         requirements[reqIdx].items.push(
           `${this.frame.Name.toUpperCase()} Frame`
         )
-      else
-        requirements.push({
-          source: this.frame.Source,
-          name: this.frame.Name,
-          rank: 2,
-          items: [`${this.frame.Name.toUpperCase()} Frame`],
-        })
+      else requirements.push(this.Frame.RequiredLicense)
     }
 
     for (const l of requirements) {
@@ -362,7 +343,7 @@ class Mech {
   }
 
   public get CurrentHP(): number {
-    return this.active ? this.current_hp : this.MaxHP
+    return this.current_hp
   }
 
   public set CurrentHP(hp: number) {
@@ -504,8 +485,26 @@ class Mech {
     this.save()
   }
 
-  // -- Active Mode Utilities ---------------------------------------------------------------------
+  // -- Statuses and Conditions -------------------------------------------------------------------
+  public get Conditions(): string[] {
+    return this.conditions
+  }
 
+  public set Conditions(conditions: string[]) {
+    this.conditions = conditions
+    this.save()
+  }
+
+  public get Statuses(): string[] {
+    return this.statuses
+  }
+
+  public set Statuses(statuses: string[]) {
+    this.statuses = statuses
+    this.save()
+  }
+
+  // -- Active Mode Utilities ---------------------------------------------------------------------
   public FullRepair() {
     this.CurrentStructure = this.MaxStructure
     this.CurrentHP = this.MaxHP
@@ -519,6 +518,8 @@ class Mech {
         if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
       })
     })
+    this.statuses = []
+    this.conditions = []
     this.save()
   }
 
@@ -630,6 +631,8 @@ class Mech {
       current_overcharge: m.current_overcharge,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
       active_loadout: m.active_loadout,
+      statuses: m.statuses,
+      conditions: m.conditions,
       cc_ver: m.cc_ver,
     }
   }
@@ -654,6 +657,8 @@ class Mech {
       MechLoadout.Deserialize(x, m)
     )
     m.active_loadout = m.active_loadout
+    m.statuses = mechData.statuses || []
+    m.conditions = mechData.conditions || []
     m.cc_ver = mechData.cc_ver || ''
     return m
   }

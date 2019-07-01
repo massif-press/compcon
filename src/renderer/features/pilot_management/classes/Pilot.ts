@@ -250,8 +250,14 @@ class Pilot {
   }
 
   public get CurrentHP(): number {
-    if (this.active && this.current_hp) return this.current_hp
-    return this.MaxHP
+    return this.current_hp
+  }
+
+  public set CurrentHP(hp: number) {
+    if (hp > this.MaxHP) this.current_hp = this.MaxHP
+    else if (hp < 0) this.current_hp = 0
+    else this.current_hp = hp
+    this.save()
   }
 
   public get Armor(): number {

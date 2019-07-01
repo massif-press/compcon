@@ -64,15 +64,29 @@ abstract class LicensedItem extends CompendiumItem {
   public get Source(): string {
     return this.source.toUpperCase()
   }
+
   public get License(): string {
     return this.license
   }
+
   public get LicenseLevel(): number {
     return this.license_level
   }
+
   public get LicenseString(): string {
     if (this.license) return `${this.license} ${this.license_level}`
     return this.source
+  }
+
+  public get RequiredLicense(): ILicenseRequirement {
+    return {
+      source: this.Source,
+      name: this.License,
+      rank: this.LicenseLevel,
+      items: [
+        this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name,
+      ],
+    }
   }
 }
 

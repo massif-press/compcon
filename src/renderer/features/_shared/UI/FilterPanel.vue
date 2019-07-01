@@ -1,7 +1,7 @@
 <template>
   <div class="text-xs-center">
     <v-bottom-sheet>
-      <v-badge overlap slot="activator" dark @click="">
+      <v-badge overlap slot="activator" dark @click="''">
         <template v-if="filterCount" v-slot:badge>
           <span>{{ filterCount }}</span>
         </template>
@@ -13,10 +13,8 @@
         </v-tooltip>
       </v-badge>
       <v-toolbar dense color="purple darken-3" dark>
-        <v-toolbar-title>
-          Filter {{ system ? 'Mech Systems' : 'Mech Weapons' }}
-        </v-toolbar-title>
-        <v-spacer />
+        <v-toolbar-title>Filter {{ system ? 'Mech Systems' : 'Mech Weapons' }}</v-toolbar-title>
+        <v-spacer/>
         <v-btn color="error" @click="reset()">Clear Selected Filters</v-btn>
       </v-toolbar>
       <v-card flat>
@@ -239,21 +237,33 @@ export default Vue.extend({
         .sort(nameSort)
     },
     systemTypes(): SystemType[] {
-      return Object.keys(SystemType).sort() as SystemType[]
+      return Object.keys(SystemType)
+        .map(k => SystemType[k as any])
+        .sort() as SystemType[]
     },
     attackTypes(): RangeType[] {
-      return Object.keys(RangeType).sort() as RangeType[]
+      return Object.keys(RangeType)
+        .map(k => RangeType[k as any])
+        .sort() as RangeType[]
     },
     damageTypes(): DamageType[] {
-      return Object.keys(DamageType).sort() as DamageType[]
+      return Object.keys(DamageType)
+        .map(k => DamageType[k as any])
+        .sort() as DamageType[]
     },
     weaponTypes(): WeaponType[] {
-      return Object.keys(WeaponType).sort() as WeaponType[]
+      return Object.keys(WeaponType)
+        .map(k => WeaponType[k as any])
+        .sort() as WeaponType[]
     },
     weaponSizes(): WeaponSize[] {
       if (this.size)
-        return rules.mount_fittings[this.size].sort() as WeaponSize[]
-      return Object.keys(WeaponSize).sort() as WeaponSize[]
+        return rules.mount_fittings[this.size]
+          .map(k => WeaponSize[k as any])
+          .sort() as WeaponSize[]
+      return Object.keys(WeaponSize)
+        .map(k => WeaponSize[k as any])
+        .sort() as WeaponSize[]
     },
   },
   methods: {
