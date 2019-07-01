@@ -1,5 +1,5 @@
 <template>
-  <div class="roster-content" style="background-color: #424242">
+  <div class="roster-content" style="background-color: #424242; height:94vh">
     <v-container fluid dark>
       <v-layout row wrap>
         <v-flex class="major-title white--text pt-1">
@@ -16,9 +16,6 @@
             :current="pilot.CurrentHP"
             :max="pilot.MaxHP"
             :color="color.hp.dark"
-            bg-color="grey darken-1"
-            empty-icon="mdi-hexagon-outline"
-            full-icon="mdi-hexagon"
             no-clear
             @update="pilot.CurrentHP = $event"
           />
@@ -39,7 +36,33 @@
           <span class="minor-title white--text">{{ pilot.Evasion }}</span>
         </v-flex>
       </v-layout>
-      <div v-if="pilot.ActiveLoadout" class="mt-2">
+      <div v-if="!pilot.ActiveLoadout" class="ma-3">
+        <v-alert value="visible" type="warning" class="mb-3 effect-text">
+          <span class="minor-title">No Pilot Loadouts Available</span>
+          <br>
+        </v-alert>
+        <v-btn block large color="primary" dark to="/pilot">Edit {{pilot.Callsign}}</v-btn>
+      </div>
+      <div v-else class="mt-2">
+        <v-layout>
+          <span class="minor-title white--text">{{pilot.ActiveLoadout.Name}}</span>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on }">
+              <v-btn small relative class="ma-0 ml-2" dark outline v-on="on">Change Loadout</v-btn>
+            </template>
+            <v-list>
+              <v-list-tile
+                v-for="(loadout, index) in pilot.Loadouts"
+                :key="index"
+                @click="pilot.ActiveLoadout = loadout"
+              >
+                <v-list-tile-content>
+                  <v-list-tile-title class="text-xs-right font-weight-bold">{{ loadout.Name }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </v-layout>
         <v-layout wrap justify-center>
           <pilot-equipment-card
             v-for="(a, i) in pilot.ActiveLoadout.Armor"
@@ -66,36 +89,26 @@
         >
           <span slot="header" class="minor-title">Pilot Traits</span>
           <v-layout row wrap>
-            <v-flex xs12>
-              <v-card dark class="ma-1" v-for="(talent, i) in pilot.Talents" :key="`tal_${i}`">
-                <v-card-title class="pa-0 minor-title" style="background-color: #616161">
-                  <span class="ml-2">{{ talent.Talent.Name }} {{'I'.repeat(talent.Rank)}}</span>
-                  <v-spacer/>
-                  <span class="caption grey--text">TALENT&nbsp;</span>
-                </v-card-title>
-                <v-card-text class="pa-1">
-                  <ul v-for="n in 3" :key="'talent_' + n">
-                    <li v-if="talent.Rank >= n">
-                      <span v-html="talent.Talent.Ranks[n - 1].description"/>
-                    </li>
-                  </ul>
-                </v-card-text>
-              </v-card>
+            <v-flex xs12 v-for="(talent, i) in pilot.Talents" :key="`tal_${i}`">
+              <active-card
+                color="#616161"
+                :header="`${talent.Talent.Name} ${'I'.repeat(talent.Rank)}`"
+                subheader="PILOT TALENT"
+              >
+                <ul v-for="n in 3" :key="'talent_' + n">
+                  <li v-if="talent.Rank >= n">
+                    <span v-html="talent.Talent.Ranks[n - 1].description"/>
+                  </li>
+                </ul>
+              </active-card>
             </v-flex>
           </v-layout>
           <v-divider dark class="ma-2"/>
           <v-layout row>
             <v-flex v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
-              <v-card dark class="ma-1">
-                <v-card-title class="pa-0 minor-title" style="background-color: #616161">
-                  <span class="ml-2">{{ bonus.Name }}</span>
-                  <v-spacer/>
-                  <span class="caption grey--text">CORE BONUS&nbsp;</span>
-                </v-card-title>
-                <v-card-text class="pa-1">
-                  <span v-html="bonus.effect"/>
-                </v-card-text>
-              </v-card>
+              <active-card color="#616161" :header="bonus.Name" subheader="CORE BONUS">
+                <span v-html="bonus.effect"/>
+              </active-card>
             </v-flex>
           </v-layout>
         </v-expansion-panel-content>
@@ -121,7 +134,7 @@
               <v-list-tile
                 v-for="(mech, index) in pilot.Mechs"
                 :key="index"
-                @click="selectMech(mech)"
+                @click="pilot.ActiveMech = mech"
               >
                 <v-list-tile-content>
                   <v-list-tile-title class="text-xs-right font-weight-bold">{{ mech.Name }}</v-list-tile-title>
@@ -194,7 +207,7 @@
           <v-flex shrink>
             <v-menu offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark v-on="on">Change Mech</v-btn>
+                <v-btn outline dark v-on="on">Change Mech</v-btn>
               </template>
               <v-list>
                 <v-list-tile
@@ -266,7 +279,6 @@
                   large
                   :color="color.structure.dark"
                   bg-color="pink darken-4"
-                  empty-icon="mdi-hexagon-outline"
                   full-icon="cc-structure"
                   mech
                   @update="mech.CurrentStructure = $event"
@@ -291,9 +303,6 @@
                     :max="mech.MaxHP"
                     large
                     :color="color.hp.dark"
-                    bg-color="grey darken-1"
-                    empty-icon="mdi-hexagon-outline"
-                    full-icon="mdi-hexagon"
                     @update="mech.CurrentHP = $event"
                   />
                   <v-flex shrink>
@@ -316,12 +325,13 @@
                   <v-tooltip left>
                     <v-btn
                       slot="activator"
-                      color="green darken-3"
                       dark
-                      class="ma-0"
+                      fab
+                      flat
+                      class="ma-0 mr-3"
                       @click="mech.FullRepair()"
                     >
-                      <v-icon large>mdi-restore</v-icon>
+                      <v-icon large color="green accent-3">mdi-restore</v-icon>
                     </v-btn>
                     <span>Fully repair and recharge this mech.</span>
                   </v-tooltip>
@@ -468,83 +478,73 @@
           <v-flex xs4>
             <v-layout fill-height row wrap>
               <v-flex xs12 v-for="(trait, i) in mech.Frame.Traits" :key="`tr_${i}`">
-                <v-card dark class="ma-1">
-                  <v-card-title class="pa-0 minor-title" style="background-color: #673AB7">
-                    <span class="ml-2">{{ trait.name }}</span>
-                    <v-spacer/>
-                    <span class="caption">FRAME TRAIT&nbsp;</span>
-                  </v-card-title>
-                  <v-card-text class="pa-1">
-                    <span v-html="trait.description"/>
-                  </v-card-text>
-                </v-card>
+                <active-card
+                  :color="color.frame.light"
+                  :header="trait.name"
+                  subheader="FRAME TRAIT"
+                >
+                  <span v-html="trait.description"/>
+                </active-card>
               </v-flex>
             </v-layout>
           </v-flex>
+          <v-spacer/>
           <v-flex xs8>
-            <v-card dark class="ma-1" height="97%">
-              <v-card-title class="pa-0 minor-title" style="background-color: #00897B">
-                <span class="ml-2">{{ mech.Frame.CoreSystem.Name }}</span>
-                <v-spacer/>
-                <span class="caption">CORE SYSTEM&nbsp;</span>
-              </v-card-title>
-              <v-card-text class="pa-1">
-                <div v-if="mech.Frame.CoreSystem.Passive">
-                  <v-card-title class="ma-0 pa-0 subheading">Passive</v-card-title>
-                  <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                    <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive"/>
-                  </v-card-text>
-                </div>
-                <v-card-title class="minor-title pa-0 ma-0">
-                  {{ mech.Frame.CoreSystem.Active }}
-                  <span
-                    class="pt-2 ml-2 caption grey--text"
-                  >(ACTIVE)</span>
-                </v-card-title>
+            <active-card
+              color="#00897B"
+              :header="mech.Frame.CoreSystem.Name"
+              subheader="CORE SYSTEM"
+            >
+              <div v-if="mech.Frame.CoreSystem.Passive">
+                <v-card-title class="ma-0 pa-0 subheading">Passive</v-card-title>
                 <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                  <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect"/>
-                  <item-tag v-for="t in mech.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t"/>
+                  <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive"/>
                 </v-card-text>
+              </div>
+              <v-card-title class="minor-title pa-0 ma-0">
+                {{ mech.Frame.CoreSystem.Active }}
+                <span
+                  class="pt-2 ml-2 caption grey--text"
+                >(ACTIVE)</span>
+              </v-card-title>
+              <v-card-text class="mt-0 pt-0 mb-0 pb-1">
+                <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect"/>
+                <item-tag v-for="t in mech.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t"/>
               </v-card-text>
-            </v-card>
+            </active-card>
           </v-flex>
         </v-layout>
 
         <v-divider dark class="ma-2 mb-3"/>
         <div v-if="!loadout">
           <div v-if="!mech.Loadouts.length" class="ma-3">
-            <v-alert value="visible" type="error" class="mb-3 effect-text">
+            <v-alert value="visible" type="warning" class="mb-3 effect-text">
               <span class="minor-title">No Mech Loadouts Available</span>
               <br>
             </v-alert>
-            <v-btn block large color="primary" dark to="/config">Edit {{mech.Name}}</v-btn>
+            <v-btn block large color="primary" dark @click="editMech(mech)">Edit {{mech.Name}}</v-btn>
           </div>
         </div>
 
         <div v-else>
           <v-layout>
-            <v-flex grow>
-              <span class="major-title white--text">{{loadout.Name}}</span>
-            </v-flex>
-            <v-spacer/>
-            <v-flex shrink>
-              <v-menu offset-y>
-                <template v-slot:activator="{ on }">
-                  <v-btn absolute right color="primary" dark v-on="on">Change Loadout</v-btn>
-                </template>
-                <v-list>
-                  <v-list-tile
-                    v-for="(loadout, index) in mech.Loadouts"
-                    :key="index"
-                    @click="mech.ActiveLoadout = loadout"
-                  >
-                    <v-list-tile-content>
-                      <v-list-tile-title class="text-xs-right font-weight-bold">{{ loadout.Name }}</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
-            </v-flex>
+            <span class="minor-title white--text">{{loadout.Name}}</span>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn small relative class="ma-0 ml-2" dark outline v-on="on">Change Loadout</v-btn>
+              </template>
+              <v-list>
+                <v-list-tile
+                  v-for="(loadout, index) in mech.Loadouts"
+                  :key="index"
+                  @click="mech.ActiveLoadout = loadout"
+                >
+                  <v-list-tile-content>
+                    <v-list-tile-title class="text-xs-right font-weight-bold">{{ loadout.Name }}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
           </v-layout>
           <v-layout row wrap>
             <mount-card v-for="(mount, i) in loadout.Mounts" :key="`mount_${i}`" :mount="mount"/>
@@ -577,6 +577,7 @@ import PilotEquipmentCard from './components/PilotEquipmentCard.vue'
 import MechAttributeItem from './components/MechAttributeItem.vue'
 import MountCard from './components/Mount/index.vue'
 import MechSystemCard from './components/MechSystemCard.vue'
+import ActiveCard from './components/UI/ActiveCard.vue'
 import colors from '@/features/_shared/UI/CCColors'
 import {
   DamageElement,
@@ -599,6 +600,7 @@ export default Vue.extend({
     MountCard,
     ItemTag,
     MechSystemCard,
+    ActiveCard,
   },
   data: () => ({
     tabs: 0,
@@ -631,6 +633,12 @@ export default Vue.extend({
       return this.$store.getters
         .getItemCollection('Statuses')
         .filter(x => x.type === 'Condition')
+    },
+  },
+  methods: {
+    editMech(mech: Mech) {
+      this.pilot.LoadedMech = this.mech
+      this.$router.push('./config')
     },
   },
 })

@@ -5,24 +5,26 @@ On Deck:
   ✔ Uses on Pilot Gear @done(19-06-29 11:11)
   ☐ Update lancer-data
 
+  ☐ refresh cloud save (push/pull)
+
   ☐ Signature Weapon type selection
   ☐ Hardsuit detail rollable
 
   ☐ Downtime Resources
 
-  ☐ Active Mode
+  Active Mode:
     ✔ Light mech sheet @done(19-06-29 11:11)
-    ☐ Active Mode Sheet
-    ☐ Switch active mode loadout (pilot)
+    ✔ Active Mode Sheet @done(19-07-01 14:30)
+    ✔ Switch active mode loadout (pilot) @done(19-07-01 14:30)
     ✔ Switch active mode loadout (mech) @done(19-06-30 16:54)
-    ☐ Split active mode into components
+    ✔ Split active mode into components @done(19-07-01 14:14)
     ✔ Active Mode Systems @done(19-06-30 16:54)
     ✔ Active Mode Sys/Weapon Destroy @done(19-06-30 16:08)
     ✔ Active Mode Weapon Mods @done(19-06-30 16:08)
     ✔ Active Mode Tags @done(19-06-30 16:08)
     ☐ Destroyable Mods
-    ☐ Extract use tracking from config sheet
-    ☐ Remove IsActive from old active templates
+    ✔ Extract use tracking from config sheet @done(19-07-01 14:14)
+    ✔ Remove IsActive from old active templates @done(19-06-30 16:58)
     ☐ Turn Economy side panel
     ✔ Set Status(es) @done(19-06-29 11:48)
     ✔ Set Condition(s) @done(19-06-29 11:48)
@@ -35,14 +37,12 @@ On Deck:
     ☐ Spend rep to heal
     ☐ 2 rep for str/stress
     ☐ 4 rep for repair from DESTROYED
-
-    ☐ Active Mode Loadout View
-      ☐ Weapon Cards
-        ☐ Name, Range, Damage, Effect, Tags
-        ☐ Limited Pips
-        ☐ Click to apply self heat
-        ☐ "Loaded" toggle
-        ☐ Ammo block
+    ☐ Click to apply weapon/system self heat
+    ☐ "Loaded" weapon toggle
+    ☐ Ammo block
+    Post Roller:
+      ☐ Add heat on overcharge
+      ☐ Roll on stress/structure tables
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
@@ -60,6 +60,11 @@ Improvements:
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
+
+Preconstructed Characters:
+  ☐ Select Character (cultural stuff)
+  ☐ Select Build (talents etc)
+  ☐ Select Mech (everest)
 
 2.0:
   ☐ Delete Homebrew content packs

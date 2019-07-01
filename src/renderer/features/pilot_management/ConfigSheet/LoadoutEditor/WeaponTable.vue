@@ -205,7 +205,7 @@ export default Vue.extend({
           x.Name.toLowerCase().includes(vm.search.toLowerCase())
         )
 
-      i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
+      i = i.filter(x => !vm.loadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
       i = ItemFilter.FilterWeapons(i, this.detailFilter)
 

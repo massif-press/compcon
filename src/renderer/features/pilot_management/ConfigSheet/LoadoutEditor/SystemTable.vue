@@ -173,14 +173,14 @@ export default Vue.extend({
         i = i.filter(x => x.SP <= vm.freeSP)
       }
       // filter already equipped
-      if (vm.currentEquip) i = i.filter(x => x !== vm.currentEquip)
+      if (vm.currentEquip) i = i.filter(x => x.ID !== vm.currentEquip.ID)
 
       if (vm.search)
         i = i.filter(x =>
           x.Name.toLowerCase().includes(vm.search.toLowerCase())
         )
 
-      i = i.filter(x => !vm.loadout.UniqueSystems.includes(x))
+      i = i.filter(x => !vm.loadout.UniqueSystems.map(y => y.ID).includes(x.ID))
 
       // AI limit
       let aiLimit = 1

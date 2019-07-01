@@ -30,10 +30,10 @@
           :readonly="readonly"
           :small="small"
           :large="large"
-          :empty-icon="emptyIcon"
-          :full-icon="fullIcon"
+          :empty-icon="emptyIcon ? emptyIcon : 'mdi-hexagon-outline'"
+          :full-icon="fullIcon ? fullIcon : 'mdi-hexagon'"
           :color="color"
-          :background-color="bgColor"
+          :background-color="bgColor ? bgColor : 'grey darken-1'"
         />
       </v-flex>
     </v-layout>

@@ -35,14 +35,7 @@
               @click="props.expanded = !props.expanded"
             >
               <td style="padding: 0!important;">
-                <v-btn
-                  color="primary"
-                  small
-                  @click.stop="select(props.item)"
-                  class="p-0 m-0"
-                >
-                  equip
-                </v-btn>
+                <v-btn color="primary" small @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
               </td>
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
@@ -69,38 +62,26 @@
               @click="props.expanded = !props.expanded"
             >
               <td style="padding: 0!important;">
-                <v-btn
-                  color="primary"
-                  @click="select(props.item)"
-                  class="p-0 m-0"
-                >
-                  equip
-                </v-btn>
+                <v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn>
               </td>
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
               </td>
               <td>
                 <span class="subheading">
-                  <range-element small :range="props.item.Range" />
+                  <range-element small :range="props.item.Range"/>
                 </span>
               </td>
               <td>
                 <span class="subheading">
-                  <damage-element small :dmg="props.item.Damage" />
+                  <damage-element small :dmg="props.item.Damage"/>
                 </span>
               </td>
             </tr>
             <!-- Gear -->
             <tr v-else @click="props.expanded = !props.expanded">
               <td style="padding: 0!important;">
-                <v-btn
-                  color="primary"
-                  @click="select(props.item)"
-                  class="p-0 m-0"
-                >
-                  equip
-                </v-btn>
+                <v-btn color="primary" @click="select(props.item)" class="p-0 m-0">equip</v-btn>
               </td>
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
@@ -113,7 +94,7 @@
           <template slot="expand" slot-scope="props">
             <v-card flat color="grey lighten-4">
               <v-card-text class="pa-1 pl-3 pr-3">
-                <gear-card :itemData="props.item" />
+                <gear-card :itemData="props.item" table-item/>
               </v-card-text>
             </v-card>
           </template>
@@ -122,9 +103,7 @@
       <v-layout v-if="equippedItem" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="error" @click="remove(equippedItem)">
-            Remove {{ equippedItem.Name }}
-          </v-btn>
+          <v-btn color="error" @click="remove(equippedItem)">Remove {{ equippedItem.Name }}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
