@@ -58,7 +58,7 @@ abstract class LicensedItem extends CompendiumItem {
     super(itemData)
     this.source = itemData.source || ''
     this.license = itemData.license || ''
-    this.license_level = itemData.license_level || 0
+    this.license_level = this.source === 'GMS' ? 0 : itemData.license_level
   }
 
   public get Source(): string {
@@ -66,11 +66,11 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get License(): string {
-    return this.license
+    return this.ItemType === ItemType.Frame ? this.Name : this.license
   }
 
   public get LicenseLevel(): number {
-    return this.license_level
+    return this.ItemType === ItemType.Frame ? 2 : this.license_level
   }
 
   public get LicenseString(): string {

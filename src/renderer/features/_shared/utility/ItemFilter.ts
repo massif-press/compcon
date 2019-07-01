@@ -81,7 +81,6 @@ class ItemFilter {
     items: MechSystem[],
     filter: ISystemFilter
   ): MechSystem[] {
-    filter.systemType = filter.systemType.map(x => x.replace(' ', ''))
     items = this.FilterEquipment(items, filter) as MechSystem[]
     if (filter.systemType && filter.systemType.length) {
       items = items.filter(x => filter.systemType.includes(x.Type))

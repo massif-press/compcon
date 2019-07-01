@@ -94,7 +94,6 @@ class Mech {
     this.save()
   }
 
-  //TODO: refactor
   public get RequiredLicenses(): ILicenseRequirement[] {
     let requirements = this.ActiveLoadout
       ? this.ActiveLoadout.RequiredLicenses

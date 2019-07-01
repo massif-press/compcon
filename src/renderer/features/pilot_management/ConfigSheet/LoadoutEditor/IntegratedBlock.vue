@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase">
-        {{ mount.ItemSource }} Integrated Mount
-      </span>
+      <span class="mount-title pl-3 pr-3 text-uppercase">{{ mount.ItemSource }} Integrated Mount</span>
       <v-card-text class="bordered ml-3 pt-4">
         <v-layout fill-height>
           <v-flex xs2>
@@ -13,43 +11,22 @@
               block
               class="ma-0 pa-0"
               style="height:100%"
-            >
-              Integrated Weapon
-            </v-btn>
+            >Integrated Weapon</v-btn>
           </v-flex>
           <v-flex xs10>
             <v-expansion-panel class="m-0">
-              <v-expansion-panel-content
-                :class="mount.Weapon.IsDestroyed ? 'destroyed-bg' : ''"
-              >
+              <v-expansion-panel-content>
                 <v-layout slot="header">
-                  <span
-                    class="subheading font-weight-bold"
-                    :style="
-                      mount.Weapon.IsDestroyed
-                        ? 'text-decoration: line-through;'
-                        : ''
-                    "
-                  >
-                    {{ mount.Weapon.Name }}
-                  </span>
+                  <span class="subheading font-weight-bold">{{ mount.Weapon.Name }}</span>
                   <small v-if="mount.Weapon.IsLimited" class="warning--text">
                     &nbsp; ({{ mount.Weapon.Uses }} /
                     {{ mount.Weapon.MaxUses + pilot.LimitedBonus }})
                   </small>
-                  <b v-if="mount.Weapon.IsDestroyed" class="red--text">
-                    &emsp; // DESTROYED //
-                  </b>
-                  <v-spacer />
+
+                  <v-spacer/>
                   <span class="mr-5" style="display: inline-flex;">
-                    <range-element
-                      v-if="mount.Weapon.Range"
-                      small
-                      :range="getRange()"
-                    />
-                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage">
-                      &emsp;&mdash;&emsp;
-                    </span>
+                    <range-element v-if="mount.Weapon.Range" small :range="getRange()"/>
+                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage">&emsp;&mdash;&emsp;</span>
                     <damage-element
                       v-if="mount.Weapon.Damage"
                       small
@@ -59,43 +36,7 @@
                   </span>
                 </v-layout>
                 <div class="ma-1">
-                  <v-card
-                    flat
-                    color="#373737"
-                    :class="mount.Weapon.IsDestroyed ? 'destroyed-bg' : ''"
-                  >
-                    <v-tooltip left v-if="mount.Weapon.IsDestroyed">
-                      <v-btn
-                        slot="activator"
-                        fab
-                        absolute
-                        right
-                        style="top: 5px"
-                        @click="ToggleDestroy()"
-                      >
-                        <v-icon large color="success">
-                          mdi-checkbox-blank
-                        </v-icon>
-                      </v-btn>
-                      <span>Repair Equipment</span>
-                    </v-tooltip>
-                    <v-tooltip left v-else>
-                      <v-btn
-                        slot="activator"
-                        fab
-                        absolute
-                        right
-                        icon
-                        style="top: 5px"
-                        @click="ToggleDestroy()"
-                      >
-                        <v-icon large color="warning" class="hover-opacity">
-                          mdi-image-broken-variant
-                        </v-icon>
-                      </v-btn>
-                      <span>Mark equipment as Destroyed</span>
-                    </v-tooltip>
-
+                  <v-card flat color="#e0e0e0">
                     <v-card-text class="pb-0 pt-0">
                       <p
                         v-if="mount.Weapon.Description"
@@ -103,15 +44,9 @@
                         class="fluff-text"
                       />
                       <b>{{ mount.Weapon.Size }} {{ mount.Weapon.Type }}</b>
-                      <br />
-                      <damage-element
-                        v-if="mount.Weapon.Damage"
-                        :dmg="mount.Weapon.Damage"
-                      />
-                      <range-element
-                        v-if="mount.Weapon.Range"
-                        :range="mount.Weapon.Range"
-                      />
+                      <br>
+                      <damage-element v-if="mount.Weapon.Damage" :dmg="mount.Weapon.Damage"/>
+                      <range-element v-if="mount.Weapon.Range" :range="mount.Weapon.Range"/>
                       <p
                         v-if="mount.Weapon.effect"
                         v-html="mount.Weapon.effect"
@@ -138,65 +73,61 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import { RangeElement, DamageElement, ItemTag } from '../../components/UI'
-  import {
-    IntegratedMount,
-    RangeType,
-    DamageType,
-    Range,
-    MechLoadout,
-  } from '@/class'
-  import { Pilot } from '@/class'
+import Vue from 'vue'
+import { RangeElement, DamageElement, ItemTag } from '../../components/UI'
+import {
+  IntegratedMount,
+  RangeType,
+  DamageType,
+  Range,
+  MechLoadout,
+} from '@/class'
+import { Pilot } from '@/class'
 
-  export default Vue.extend({
-    name: 'integrated-block',
-    props: {
-      mount: IntegratedMount,
-      loadout: MechLoadout,
+export default Vue.extend({
+  name: 'integrated-block',
+  props: {
+    mount: IntegratedMount,
+    loadout: MechLoadout,
+  },
+  components: { ItemTag, RangeElement, DamageElement },
+  methods: {
+    //TODO: should not be hardcoded
+    getRange(): Range[] {
+      const w = this.mount.Weapon
+      if (!w) return []
+      let bonuses = [] as { type: RangeType; val: number }[]
+      if (w.Mod && w.Mod.AddedRange)
+        bonuses.push({
+          type: RangeType.Range,
+          val: w.Mod.AddedRange,
+        })
+      const pilot = this.$store.getters.getPilot
+      if (pilot.has('CoreBonus', 'neurolinked'))
+        bonuses.push({
+          type: RangeType.Range,
+          val: 3,
+        })
+      if (pilot.has('CoreBonus', 'gyges'))
+        bonuses.push({
+          type: RangeType.Threat,
+          val: 1,
+        })
+      if (
+        this.loadout.HasSystem('externalbatteries') &&
+        w.Damage[0].Type === DamageType.Energy
+      )
+        bonuses.push({
+          type: RangeType.Range,
+          val: 5,
+        })
+      return Range.AddBonuses(w.Range, bonuses)
     },
-    components: { ItemTag, RangeElement, DamageElement },
-    methods: {
-      //TODO: should not be hardcoded
-      getRange(): Range[] {
-        const w = this.mount.Weapon
-        if (!w) return []
-        let bonuses = [] as { type: RangeType; val: number }[]
-        if (w.Mod && w.Mod.AddedRange)
-          bonuses.push({
-            type: RangeType.Range,
-            val: w.Mod.AddedRange,
-          })
-        const pilot = this.$store.getters.getPilot
-        if (pilot.has('CoreBonus', 'neurolinked'))
-          bonuses.push({
-            type: RangeType.Range,
-            val: 3,
-          })
-        if (pilot.has('CoreBonus', 'gyges'))
-          bonuses.push({
-            type: RangeType.Threat,
-            val: 1,
-          })
-        if (
-          this.loadout.HasSystem('externalbatteries') &&
-          w.Damage[0].Type === DamageType.Energy
-        )
-          bonuses.push({
-            type: RangeType.Range,
-            val: 5,
-          })
-        return Range.AddBonuses(w.Range, bonuses)
-      },
-      ToggleDestroy() {
-        if (this.mount.Weapon.IsDestroyed) this.mount.Weapon.Repair()
-        else this.mount.Weapon.Destroy()
-      },
+  },
+  computed: {
+    pilot(): Pilot {
+      return this.$store.getters.getPilot
     },
-    computed: {
-      pilot(): Pilot {
-        return this.$store.getters.getPilot
-      },
-    },
-  })
+  },
+})
 </script>
