@@ -205,13 +205,13 @@ export default Vue.extend({
         i = i.filter(x => x.SP <= vm.freeSP)
       }
       // filter already equipped
-      if (vm.weaponSlot.Weapon) i = i.filter(x => x !== vm.weaponSlot.Weapon)
+      if (vm.weaponSlot.Weapon) i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
 
       if (vm.search)
         i = i.filter(x =>
           x.Name.toLowerCase().includes(vm.search.toLowerCase())
         )
-      i = i.filter(x => !vm.loadout.UniqueWeapons.includes(x))
+      i = i.filter(x => !vm.loadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
       return i
     },
