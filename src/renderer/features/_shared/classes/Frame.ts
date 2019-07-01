@@ -141,8 +141,8 @@ class Frame extends LicensedItem {
 }
 
 interface Trait {
-  name: string
-  description: string
+  name: string;
+  description: string;
 }
 
 class CoreSystem {
