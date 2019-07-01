@@ -2,6 +2,16 @@
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
 
+✔ update lancer-data @done(19-07-01 14:59)
+✘ mech loadout does not delete correct loadout @cancelled(19-07-01 15:11) (fixed in beta)
+☐ stabilize text doesn't include exposed
+✔ no tags in compendium @done(19-07-01 15:02)
+☐ filtering not working on aux
+✔ unique items can be added multiple times @done(19-07-01 15:01)
+
+- downtime bonus/resources section (extra gear, contacts, etc etc)
+
+
 On Deck:
   ✔ Stat Contributors @done(19-06-13 20:31)
   ✔ X/Y stat/attribute points @done(19-06-17 14:13)
