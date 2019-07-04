@@ -115,6 +115,12 @@ class MechLoadout extends Loadout {
     return this.AllEquippableMounts(true).flatMap(x => x.Weapons)
   }
 
+  public ReloadAll() {
+    this.Weapons.forEach(w => {
+      if (w.IsLoading) w.Loaded = true
+    });
+  }
+
   public get Systems(): MechSystem[] {
     return this.systems
   }

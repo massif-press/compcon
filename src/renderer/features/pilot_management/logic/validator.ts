@@ -1,6 +1,7 @@
-import { Pilot, Mech, MountType, EquippableMount, Frame } from '@/class'
+import { Pilot, MountType, EquippableMount, Frame } from '@/class'
 import io from '@/features/_shared/data_io'
 import store from '@/store'
+import Vue from 'vue'
 
 function isValidJSON(text: string) {
   try {
@@ -46,7 +47,7 @@ function convertPilot(old: any): IPilotData {
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
-    cc_ver: '1.4.2',
+    cc_ver: Vue.prototype.version,
   }
 }
 
@@ -87,9 +88,11 @@ function convertMechs(old: any): IMechData {
     current_overcharge: 0,
     statuses: [],
     conditions: [],
+    resistances: [],
+    burn: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
-    cc_ver: '1.4.2',
+    cc_ver: Vue.prototype.version,
   }
 }
 

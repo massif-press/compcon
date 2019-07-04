@@ -1,62 +1,79 @@
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
 
-✔ update lancer-data @done(19-07-01 14:59)
-✘ mech loadout does not delete correct loadout @cancelled(19-07-01 15:11) (fixed in beta)
-✔ stabilize text doesn't include exposed @done(19-07-01 15:34)
-✔ no tags in compendium @done(19-07-01 15:02)
-✔ filtering not working on aux @done(19-07-01 15:34)
-✔ unique items can be added multiple times @done(19-07-01 15:01)
-
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
-
 On Deck:
-  ✔ Uses on Pilot Gear @done(19-06-29 11:11)
-  ☐ Update lancer-data
+  ☐ hidden tags for specially-handled items
+    ☐ update lancer-data
+    ☐ prototype weapon: set max uses
+    ☐ Signature Weapon type selection
+    ☐ enforce hidden rule
 
   ☐ refresh cloud save (push/pull)
-
-  ☐ Signature Weapon type selection
-  ☐ Hardsuit detail rollable
 
   ☐ Downtime Resources
 
   Active Mode:
-    ✔ Light mech sheet @done(19-06-29 11:11)
-    ✔ Active Mode Sheet @done(19-07-01 14:30)
-    ✔ Switch active mode loadout (pilot) @done(19-07-01 14:30)
-    ✔ Switch active mode loadout (mech) @done(19-06-30 16:54)
-    ✔ Split active mode into components @done(19-07-01 14:14)
-    ✔ Active Mode Systems @done(19-06-30 16:54)
-    ✔ Active Mode Sys/Weapon Destroy @done(19-06-30 16:08)
-    ✔ Active Mode Weapon Mods @done(19-06-30 16:08)
-    ✔ Active Mode Tags @done(19-06-30 16:08)
-    ☐ Destroyable Mods
-    ✔ Extract use tracking from config sheet @done(19-07-01 14:14)
-    ✔ Remove IsActive from old active templates @done(19-06-30 16:58)
+    ✔ Destroyable Mods @done(19-07-02 12:28)
+    ✔ Uses on Mods @done(19-07-02 12:28)
     ☐ Turn Economy side panel
-    ✔ Set Status(es) @done(19-06-29 11:48)
-    ✔ Set Condition(s) @done(19-06-29 11:48)
+      ☐ States
+        ☐ Begin Mission
+        ☐ Start Combat -> COMBAT ENGAGED (?)
+        ☐ Rest -> COMBAT DISENGAGED (?)
+        ☐ End Mission
+      ✔ Turn (move, 2qa/1fa, overcharge, reaction, free actions) @done(19-07-04 14:05)
+        ✔ increment overcharge and prompt to add heat @done(19-07-04 11:17)
+          ✔ overcharge undo heat add @done(19-07-04 12:25)
+        ✔ Overwatch @done(19-07-03 15:08)
+        ✔ Brace @done(19-07-04 10:34)
+          ✔ Automatically add resistance @done(19-07-04 10:34)
+          ✔ Change HP bar icon on resistance (like danger zone) @done(19-07-04 10:26)
+          ✔ blocks overwatch (vice versa) @done(19-07-03 15:08)
+        ✔ Stabilize @done(19-07-04 13:35)
+          ✔ Reset heat gauge, end exposed @done(19-07-04 13:21)
+          ✔ Player choose to spend 1 repair to refill HP @done(19-07-04 13:21)
+          ✔ One of the following: @done(19-07-04 13:21)
+            ✔ Reload all loading weapons @done(19-07-04 13:21)
+            ✔ End all Burn @done(19-07-04 13:21)
+              ✔ Add Burn tracker @done(19-07-04 13:21)
+            ✔ End a Condition @done(19-07-04 13:21)
+        ✔ Shut Down @done(19-07-04 14:05)
+        ✔ Prepare @done(19-07-04 13:32)
+      ☐ short rest
+        ☐ spend repair menu
+          ☐ Spend rep to repair
+          ☐ Spend rep to heal
+          ☐ 2 rep for str/stress
+          ☐ 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override)
+      ☐ full repair
+      ☐ end mission
     ☐ Tooltip pip number on hover
     ☐ Keyboard entry for all pip components
     ☐ Structure Table popup on 0HP
     ☐ Stress Table popup on full heat
     ☐ DESTROYED status
-    ☐ Spend rep to repair
-    ☐ Spend rep to heal
-    ☐ 2 rep for str/stress
-    ☐ 4 rep for repair from DESTROYED
     ☐ Click to apply weapon/system self heat
-    ☐ "Loaded" weapon toggle
+    ✔ "Loaded" weapon toggle @done(19-07-02 12:53)
+    ☐ Disable dangerzone systems outside of dangerzone
     ☐ Ammo block
     Post Roller:
       ☐ Add heat on overcharge
       ☐ Roll on stress/structure tables
 
+  ☐ turn personaliztions off if destroyed
+
+GM MODE:
+  ☐ Campaigns landing page (import/export/new/select)
+    ☐ Pilot Roster (import pilots via json or gistID)
+    ☐ NPC Roster
+
+    -vuetify timelines
+
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
-  ✔ Move RequiredLicense logic into LicensedItem abstract @done(19-06-26 11:08)
+  ☐ Turn Manager methods should go into Mech class
 
 Improvements:
   ☐ refresh cloud-saved pilots
@@ -104,6 +121,7 @@ Preconstructed Characters:
       ☐ Per-item notes
   ☐ Charts
   ☐ Actions Panel
+  ☐ Hardsuit detail rollable
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
   ☐ Dice math parser
@@ -114,6 +132,27 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ update lancer-data @done(19-07-01 14:59)
+  ✘ mech loadout does not delete correct loadout @cancelled(19-07-01 15:11) (fixed in beta)
+  ✔ stabilize text doesn't include exposed @done(19-07-01 15:34)
+  ✔ no tags in compendium @done(19-07-01 15:02)
+  ✔ filtering not working on aux @done(19-07-01 15:34)
+  ✔ unique items can be added multiple times @done(19-07-01 15:01)
+  ✔ Uses on Pilot Gear @done(19-06-29 11:11) @project(On Deck)
+  ✔ Light mech sheet @done(19-06-29 11:11) @project(On Deck.Active Mode)
+  ✔ Active Mode Sheet @done(19-07-01 14:30) @project(On Deck.Active Mode)
+  ✔ Switch active mode loadout (pilot) @done(19-07-01 14:30) @project(On Deck.Active Mode)
+  ✔ Switch active mode loadout (mech) @done(19-06-30 16:54) @project(On Deck.Active Mode)
+  ✔ Split active mode into components @done(19-07-01 14:14) @project(On Deck.Active Mode)
+  ✔ Active Mode Systems @done(19-06-30 16:54) @project(On Deck.Active Mode)
+  ✔ Active Mode Sys/Weapon Destroy @done(19-06-30 16:08) @project(On Deck.Active Mode)
+  ✔ Active Mode Weapon Mods @done(19-06-30 16:08) @project(On Deck.Active Mode)
+  ✔ Active Mode Tags @done(19-06-30 16:08) @project(On Deck.Active Mode)
+  ✔ Extract use tracking from config sheet @done(19-07-01 14:14) @project(On Deck.Active Mode)
+  ✔ Remove IsActive from old active templates @done(19-06-30 16:58) @project(On Deck.Active Mode)
+  ✔ Set Status(es) @done(19-06-29 11:48) @project(On Deck.Active Mode)
+  ✔ Set Condition(s) @done(19-06-29 11:48) @project(On Deck.Active Mode)
+  ✔ Move RequiredLicense logic into LicensedItem abstract @done(19-06-26 11:08) @project(Refactor)
   ✔ Setting HP to max w/ personalizations equipped and closing/reopening CC ticks off the HP granted by personalizations @done(19-06-17 15:28)
   ✔ Stat Contributors @done(19-06-13 20:31) @project(On Deck)
   ✔ X/Y stat/attribute points @done(19-06-17 14:13) @project(On Deck)

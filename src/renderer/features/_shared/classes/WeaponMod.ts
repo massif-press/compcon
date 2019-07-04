@@ -1,20 +1,17 @@
 import store from '@/store'
 import {
-  LicensedItem,
   Tag,
   WeaponType,
   WeaponSize,
   ItemType,
   Damage,
+  MechEquipment,
 } from '@/class'
 
-class WeaponMod extends LicensedItem {
-  private sp: number
+class WeaponMod extends MechEquipment {
   private applied_to: WeaponType[]
   private applied_string: string
-  private effect: string
   private restricted_sizes: WeaponSize[]
-  private tags: ITagData[]
   private added_tags: ITagData[]
   private added_damage?: Damage
   private added_range: number
@@ -24,7 +21,6 @@ class WeaponMod extends LicensedItem {
     this.sp = weaponModData.sp
     this.applied_to = weaponModData.applied_to
     this.applied_string = weaponModData.applied_string
-    this.effect = weaponModData.effect
     this.description = weaponModData.description
     this.restricted_sizes = weaponModData.restricted_sizes
     this.tags = weaponModData.tags
@@ -45,10 +41,6 @@ class WeaponMod extends LicensedItem {
 
   public get AppliedString(): string {
     return this.applied_string
-  }
-
-  public get Effect(): string {
-    return this.effect
   }
 
   public get Restricted(): WeaponSize[] {

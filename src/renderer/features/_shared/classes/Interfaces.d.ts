@@ -11,6 +11,7 @@ declare interface IEquipmentData {
 }
 
 declare interface IMechWeaponData extends IEquipmentData {
+  loaded: boolean;
   mod: string | null;
 }
 
@@ -67,6 +68,8 @@ declare interface IMechData {
   active_loadout: string | null;
   statuses: string[];
   conditions: string[];
+  resistances: string[];
+  burn: number;
   cc_ver: string;
 }
 

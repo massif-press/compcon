@@ -3,7 +3,7 @@
     <empty-view v-if="config.Frame.err">
       <div slot="contents">
         <p class="grey--text text-xs-center display-2">// MISSING FRAME DATA //</p>
-        <br>
+        <br />
         <span v-if="config.brew" class="caption grey--text">({{ config.brew }})</span>
       </div>
     </empty-view>
@@ -36,7 +36,7 @@
                 flat
                 class="ml-0 pl-1 pr-1 pt-4 pb-0"
               >{{ config.Frame.Source }} {{ config.Frame.Name }}</v-btn>
-              <v-card-text slot="modal-content" v-html="config.Frame.description"/>
+              <v-card-text slot="modal-content" v-html="config.Frame.description" />
             </lazy-dialog>
           </v-flex>
         </v-layout>
@@ -50,7 +50,7 @@
                 </span>
               </v-flex>
             </v-layout>
-            <v-textarea v-model="config.Notes" auto-grow rows="1" label="Configuration Notes"/>
+            <v-textarea v-model="config.Notes" auto-grow rows="1" label="Configuration Notes" />
             <!-- Req. Licenses -->
             <v-layout class="mt-0">
               <span class="header mt-0">Licenses Required</span>
@@ -65,15 +65,15 @@
                   <v-chip
                     slot="activator"
                     :color="
-                      l.missing ? 'deep-orange darken-4' : 'grey darken-1'
+                      l.missing ? 'deep-orange darken-4' : 'grey lighten-1'
                     "
-                    class="white--text"
+                    :class="l.missing ? 'white--text' : ''"
                   >
                     <v-avatar
                       v-if="l.rank"
                       :class="
                         `${
-                          l.missing ? 'amber darken-3' : 'blue-grey darken-2'
+                          l.missing ? 'amber darken-3' : 'blue-grey lighten-1'
                         } font-weight-black title`
                       "
                     >
@@ -84,10 +84,10 @@
                   <span>
                     <span v-if="l.missing" class="font-weight-bold yellow--text">
                       WARNING: MISSING LICENSE
-                      <br>
+                      <br />
                     </span>
                     <b>{{ l.name }} RANK {{ l.rank }}</b>
-                    <br>
+                    <br />
                     <i>Required for:&nbsp;</i>
                     {{ l.items.join(', ') }}
                   </span>
@@ -101,7 +101,7 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>WARNING: UNLICENSED COMPONENTS</b>
-                  <br>Pilot is missing one or more licenses required for this
+                  <br />Pilot is missing one or more licenses required for this
                   configuration
                 </v-alert>
               </v-flex>
@@ -110,7 +110,7 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="config.CurrentSP > config.MaxSP">
                   <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
-                  <br>Configuration loadout exceeds available SP points (
+                  <br />Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -120,7 +120,7 @@
           <!-- Appearance -->
           <v-flex class="ma-2">
             <div style="border: solid 1px #757575; border-radius: 3px">
-              <v-img :src="config.Portrait" class="ml-2" max-height="55vh" contain/>
+              <v-img :src="config.Portrait" class="ml-2" max-height="55vh" contain />
             </div>
             <v-btn
               block
@@ -182,7 +182,7 @@
               <v-flex class="hase">
                 <span>{{ pilot.MechSkills.Eng }}</span>
               </v-flex>
-              <v-divider class="pt-0 mt-0"/>
+              <v-divider class="pt-0 mt-0" />
               <v-flex class="subheader">
                 <span class="caption">
                   <contributor
@@ -204,7 +204,7 @@
                 :val="config.MaxStructure"
                 :contributors="config.StructureContributors"
               />
-              <statblock-item attr="HP" :val="config.MaxHP" :contributors="config.HPContributors"/>
+              <statblock-item attr="HP" :val="config.MaxHP" :contributors="config.HPContributors" />
               <statblock-item
                 attr="Armor"
                 :val="config.Armor"
@@ -283,7 +283,7 @@
         <v-layout>
           <span class="header">Frame Traits</span>
         </v-layout>
-        <trait-item v-for="trait in config.Frame.Traits" :key="trait.name" :trait="trait"/>
+        <trait-item v-for="trait in config.Frame.Traits" :key="trait.name" :trait="trait" />
 
         <v-layout>
           <span class="header">CORE System</span>
@@ -301,7 +301,7 @@
               <div v-if="config.Frame.CoreSystem.Passive">
                 <v-card-title class="subheading">Passive</v-card-title>
                 <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                  <p class="mb-1" v-html="config.Frame.CoreSystem.Passive"/>
+                  <p class="mb-1" v-html="config.Frame.CoreSystem.Passive" />
                 </v-card-text>
               </div>
               <v-card-title class="title">
@@ -311,8 +311,8 @@
                 >(ACTIVE)</span>
               </v-card-title>
               <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                <p class="mb-1" v-html="config.Frame.CoreSystem.Effect"/>
-                <item-tag v-for="t in config.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t"/>
+                <p class="mb-1" v-html="config.Frame.CoreSystem.Effect" />
+                <item-tag v-for="t in config.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t" />
               </v-card-text>
             </v-card>
           </v-flex>
@@ -323,12 +323,12 @@
         </v-layout>
         <v-layout>
           <v-flex>
-            <mech-loadout :config="config" :pilot="pilot"/>
+            <mech-loadout :config="config" :pilot="pilot" />
           </v-flex>
         </v-layout>
       </v-container>
 
-      <v-divider/>
+      <v-divider />
       <v-layout justify-space-around fill-height class="ma-5">
         <v-flex xs>
           <v-btn large color="primary" outline block @click="openPrintOptions(false)">
@@ -361,7 +361,7 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>CRITICAL: UNLICENSED COMPONENTS</b>
-                  <br>Pilot is missing one or more licenses required for this
+                  <br />Pilot is missing one or more licenses required for this
                   configuration.
                 </v-alert>
               </v-flex>
@@ -370,7 +370,7 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
                   <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b>
-                  <br>Configuration loadout exceeds available SP points (
+                  <br />Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -380,7 +380,7 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="config.MaxSP - config.CurrentSP > 0">
                   <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b>
-                  <br>
+                  <br />
                   Configuration retains
                   {{ config.MaxSP - config.CurrentSP }} unused System Points.
                   Combat efficacy limited.
@@ -391,7 +391,7 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="hasEmptyMounts()">
                   <b>WARNING: EMPTY MOUNTS DETECTED</b>
-                  <br>Configuration has mounts that do not contain an equipped
+                  <br />Configuration has mounts that do not contain an equipped
                   weapon. Combat efficacy limited.
                 </v-alert>
               </v-flex>
