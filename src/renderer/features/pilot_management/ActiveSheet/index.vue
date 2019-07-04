@@ -1,5 +1,6 @@
 <template>
-  <div class="roster-content" style="background-color: #424242; height:94vh">
+  <div class="roster-content" style="background-color: #424242; height:94vh; padding-right: 20px">
+    <turn-sidebar :mech="mech" :loadout="loadout" />
     <v-container fluid dark>
       <v-layout row wrap>
         <v-flex class="major-title white--text pt-1">
@@ -22,24 +23,24 @@
         </v-flex>
         <v-flex>
           <span class="grey--text">ARMOR</span>
-          <br>
+          <br />
           <span class="minor-title white--text">{{ pilot.Armor }}</span>
         </v-flex>
         <v-flex>
           <span class="grey--text">E-DEFENSE</span>
-          <br>
+          <br />
           <span class="minor-title white--text">{{ pilot.EDefense }}</span>
         </v-flex>
         <v-flex>
           <span class="grey--text">EVASION</span>
-          <br>
+          <br />
           <span class="minor-title white--text">{{ pilot.Evasion }}</span>
         </v-flex>
       </v-layout>
       <div v-if="!pilot.ActiveLoadout" class="ma-3">
         <v-alert value="visible" type="warning" class="mb-3 effect-text">
           <span class="minor-title">No Pilot Loadouts Available</span>
-          <br>
+          <br />
         </v-alert>
         <v-btn block large color="primary" dark to="/pilot">Edit {{pilot.Callsign}}</v-btn>
       </div>
@@ -97,28 +98,28 @@
               >
                 <ul v-for="n in 3" :key="'talent_' + n">
                   <li v-if="talent.Rank >= n">
-                    <span v-html="talent.Talent.Ranks[n - 1].description"/>
+                    <span v-html="talent.Talent.Ranks[n - 1].description" />
                   </li>
                 </ul>
               </active-card>
             </v-flex>
           </v-layout>
-          <v-divider dark class="ma-2"/>
+          <v-divider dark class="ma-2" />
           <v-layout row>
             <v-flex v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
               <active-card color="#616161" :header="bonus.Name" subheader="CORE BONUS">
-                <span v-html="bonus.effect"/>
+                <span v-html="bonus.effect" />
               </active-card>
             </v-flex>
           </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
-      <v-divider dark class="ma-3"/>
+      <v-divider dark class="ma-3" />
       <div v-if="!mech" class="ma-5">
         <div v-if="!pilot.Mechs.length">
           <v-alert value="visible" type="error" class="mb-3 effect-text">
             <span class="minor-title">No Saved Mech Configurations</span>
-            <br>
+            <br />
           </v-alert>
           <v-btn block large color="primary" dark to="/hangar">To Mech Hangar</v-btn>
         </div>
@@ -153,7 +154,30 @@
             <span>{{ mech.Name }}</span>
             <span class="caption grey--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
           </v-flex>
-          <v-spacer/>
+          <v-spacer />
+          <v-flex shrink>
+            <v-menu offset-y nudge-left="85px">
+              <template v-slot:activator="{ on }">
+                <v-btn outline small dark v-on="on">Change Mech</v-btn>
+              </template>
+              <v-list>
+                <v-list-tile
+                  v-for="(mech, index) in pilot.Mechs"
+                  :key="index"
+                  @click="pilot.ActiveMech = mech"
+                >
+                  <v-list-tile-content>
+                    <v-list-tile-title class="text-xs-right font-weight-bold">{{ mech.Name }}</v-list-tile-title>
+                    <v-list-tile-sub-title
+                      class="text-xs-right"
+                    >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </v-flex>
+        </v-layout>
+        <v-layout justify-space-between class="ml-4 mr-4">
           <v-flex xs3>
             <v-select
               v-model="mech.Statuses"
@@ -171,14 +195,14 @@
                   </v-chip>
                   <div>
                     <ul>
-                      <li v-for="e in item.effects" :key="e" v-html="e"/>
+                      <li v-for="e in item.effects" :key="e" v-html="e" />
                     </ul>
                   </div>
                 </v-tooltip>
               </template>
             </v-select>
           </v-flex>
-          <v-spacer/>
+          <v-spacer />
           <v-flex xs3>
             <v-select
               v-model="mech.Conditions"
@@ -196,34 +220,55 @@
                   </v-chip>
                   <div>
                     <ul>
-                      <li v-for="e in item.effects" :key="e" v-html="e"/>
+                      <li v-for="e in item.effects" :key="e" v-html="e" />
                     </ul>
                   </div>
                 </v-tooltip>
               </template>
             </v-select>
           </v-flex>
-          <v-spacer/>
-          <v-flex shrink>
-            <v-menu offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn outline dark v-on="on">Change Mech</v-btn>
+          <v-spacer />
+          <v-flex xs3>
+            <v-select
+              v-model="mech.Resistances"
+              label="Resistances"
+              :items="resistances"
+              item-text="name"
+              color="blue accent-1"
+              multiple
+              dark
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-chip v-if="index < 2" small slot="activator" :color="color[item.color].light">
+                  <b>{{ item.name }}</b>
+                </v-chip>
+                <span
+                  v-if="index === 2"
+                  class="grey--text caption"
+                >(+{{ mech.Resistances.length - 1 }} others)</span>
               </template>
-              <v-list>
-                <v-list-tile
-                  v-for="(mech, index) in pilot.Mechs"
-                  :key="index"
-                  @click="pilot.ActiveMech = mech"
-                >
-                  <v-list-tile-content>
-                    <v-list-tile-title class="text-xs-right font-weight-bold">{{ mech.Name }}</v-list-tile-title>
-                    <v-list-tile-sub-title
-                      class="text-xs-right"
-                    >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-menu>
+            </v-select>
+          </v-flex>
+          <v-spacer />
+          <v-flex shrink>
+            <v-text-field
+              v-model="mech.Burn"
+              type="number"
+              append-outer-icon="add"
+              @click:append-outer="mech.Burn += 1"
+              prepend-icon="remove"
+              @click:prepend="mech.Burn -= 1"
+              dark
+              style="width: 125px"
+              @change="mech.Burn = parseInt($event)"
+            >
+              <template v-slot:append>
+                <v-tooltip top>
+                  <v-icon slot="activator" :color="color.burn.dark">mdi-fire</v-icon>
+                  <span>Current Burn</span>
+                </v-tooltip>
+              </template>
+            </v-text-field>
           </v-flex>
         </v-layout>
         <v-layout>
@@ -265,7 +310,7 @@
           </v-flex>
           <v-flex>
             <v-layout>
-              <v-flex xs2 class="mr-2">
+              <v-flex xs2 class="mr-2" style="min-width: 200px">
                 <span class="grey--text">
                   STRUCTURE
                   <b
@@ -284,7 +329,7 @@
                   @update="mech.CurrentStructure = $event"
                 />
               </v-flex>
-              <v-flex xs9 style="max-width: 625px">
+              <v-flex>
                 <span class="grey--text">
                   &nbsp; HP
                   <b :style="`color: ${color.hp.dark}`">
@@ -302,7 +347,8 @@
                     :current="mech.CurrentHP"
                     :max="mech.MaxHP"
                     large
-                    :color="color.hp.dark"
+                    :color="hpColor"
+                    :full-icon="hpResistance ? 'mdi-octagram' : ''"
                     @update="mech.CurrentHP = $event"
                   />
                   <v-flex shrink>
@@ -319,7 +365,7 @@
                   </v-flex>
                 </v-layout>
               </v-flex>
-              <v-flex class="text-xs-right ml-4">
+              <v-flex xs2 class="text-xs-right ml-4">
                 <span class="grey--text">FULL REPAIR&nbsp;</span>
                 <v-layout justify-end>
                   <v-tooltip left>
@@ -338,9 +384,9 @@
                 </v-layout>
               </v-flex>
             </v-layout>
-            <v-divider dark/>
+            <v-divider dark class="mt-2 mb-2" />
             <v-layout class="mb-4">
-              <v-flex shrink class="mr-2">
+              <v-flex shrink class="mr-2" style="min-width: 200px">
                 <span class="grey--text">
                   REACTOR STRESS
                   <b :style="`color: ${color.stress.dark}`">
@@ -391,7 +437,7 @@
                     : color.heatcap.dark
                 "
                   bg-color="red darken-4"
-                  empty-icon="mdi-circle-outline"
+                  :empty-icon="mech.Resistances.includes('Heat') ? 'mdi-octagram-outline' : 'mdi-circle-outline'"
                   :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
                   @update="mech.CurrentHeat = $event"
                 />
@@ -459,17 +505,17 @@
             </v-layout>
 
             <v-layout justify-space-between>
-              <mech-attribute-item attr="Attack Bonus" signed :val="mech.AttackBonus"/>
-              <mech-attribute-item attr="Tech Attack" signed :val="mech.TechAttack"/>
-              <mech-attribute-item attr="Limited System Bonus" signed :val="mech.LimitedBonus"/>
+              <mech-attribute-item attr="Attack Bonus" signed :val="mech.AttackBonus" />
+              <mech-attribute-item attr="Tech Attack" signed :val="mech.TechAttack" />
+              <mech-attribute-item attr="Limited System Bonus" signed :val="mech.LimitedBonus" />
             </v-layout>
             <v-layout justify-space-between>
-              <mech-attribute-item attr="Speed" :val="mech.Speed"/>
-              <mech-attribute-item attr="Evasion" :val="mech.Evasion"/>
-              <mech-attribute-item attr="E-Defense" :val="mech.EDefense"/>
-              <mech-attribute-item attr="Sensor Range" :val="mech.SensorRange"/>
-              <mech-attribute-item attr="Save Target" :val="mech.SaveTarget"/>
-              <mech-attribute-item attr="Size" :val="mech.Size"/>
+              <mech-attribute-item attr="Speed" :val="mech.Speed" />
+              <mech-attribute-item attr="Evasion" :val="mech.IsStunned ? 5 : mech.Evasion" />
+              <mech-attribute-item attr="E-Defense" :val="mech.EDefense" />
+              <mech-attribute-item attr="Sensor Range" :val="mech.SensorRange" />
+              <mech-attribute-item attr="Save Target" :val="mech.SaveTarget" />
+              <mech-attribute-item attr="Size" :val="mech.Size" />
             </v-layout>
           </v-flex>
         </v-layout>
@@ -483,12 +529,12 @@
                   :header="trait.name"
                   subheader="FRAME TRAIT"
                 >
-                  <span v-html="trait.description"/>
+                  <span v-html="trait.description" />
                 </active-card>
               </v-flex>
             </v-layout>
           </v-flex>
-          <v-spacer/>
+          <v-spacer />
           <v-flex xs8>
             <active-card
               color="#00897B"
@@ -498,7 +544,7 @@
               <div v-if="mech.Frame.CoreSystem.Passive">
                 <v-card-title class="ma-0 pa-0 subheading">Passive</v-card-title>
                 <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                  <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive"/>
+                  <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive" />
                 </v-card-text>
               </div>
               <v-card-title class="minor-title pa-0 ma-0">
@@ -508,19 +554,19 @@
                 >(ACTIVE)</span>
               </v-card-title>
               <v-card-text class="mt-0 pt-0 mb-0 pb-1">
-                <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect"/>
-                <item-tag v-for="t in mech.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t"/>
+                <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
+                <item-tag v-for="t in mech.Frame.CoreSystem.Tags" :key="t.id" :tag-obj="t" />
               </v-card-text>
             </active-card>
           </v-flex>
         </v-layout>
 
-        <v-divider dark class="ma-2 mb-3"/>
+        <v-divider dark class="ma-2 mb-3" />
         <div v-if="!loadout">
           <div v-if="!mech.Loadouts.length" class="ma-3">
             <v-alert value="visible" type="warning" class="mb-3 effect-text">
               <span class="minor-title">No Mech Loadouts Available</span>
-              <br>
+              <br />
             </v-alert>
             <v-btn block large color="primary" dark @click="editMech(mech)">Edit {{mech.Name}}</v-btn>
           </div>
@@ -529,7 +575,7 @@
         <div v-else>
           <v-layout>
             <span class="minor-title white--text">{{loadout.Name}}</span>
-            <v-menu offset-y>
+            <v-menu offset-y nudge-left="20px">
               <template v-slot:activator="{ on }">
                 <v-btn small relative class="ma-0 ml-2" dark outline v-on="on">Change Loadout</v-btn>
               </template>
@@ -547,14 +593,18 @@
             </v-menu>
           </v-layout>
           <v-layout row wrap>
-            <mount-card v-for="(mount, i) in loadout.Mounts" :key="`mount_${i}`" :mount="mount"/>
+            <mount-card
+              v-for="(mount, i) in loadout.AllEquippableMounts(pilot.has('CoreBonus', 'imparm'))"
+              :key="`mount_${i}`"
+              :mount="mount"
+            />
             <v-flex xs12>
               <v-card class="ma-0 pa-0" flat dark>
                 <span class="mount-title-dark pl-3 pr-3 text-uppercase">SYSTEMS</span>
                 <v-card-text class="bordered-dark ml-3 pt-4">
                   <v-layout row wrap>
                     <mech-system-card
-                      v-for="(system, i) in loadout.Systems"
+                      v-for="(system, i) in mech.IntegratedSystems.concat(loadout.Systems)"
                       :key="`system${i}`"
                       :system="system"
                     />
@@ -576,6 +626,7 @@ import TickBar from '../components/UI/TickBar.vue'
 import PilotEquipmentCard from './components/PilotEquipmentCard.vue'
 import MechAttributeItem from './components/MechAttributeItem.vue'
 import MountCard from './components/Mount/index.vue'
+import TurnSidebar from './components/Turn/index.vue'
 import MechSystemCard from './components/MechSystemCard.vue'
 import ActiveCard from './components/UI/ActiveCard.vue'
 import colors from '@/features/_shared/UI/CCColors'
@@ -601,10 +652,21 @@ export default Vue.extend({
     ItemTag,
     MechSystemCard,
     ActiveCard,
+    TurnSidebar,
   },
   data: () => ({
     tabs: 0,
+    burn: 0,
     overcharge: ['+1', '+1d3', '+1d6', '+1d6+4'],
+    resistances: [
+      { name: 'Kinetic', color: 'kinetic' },
+      { name: 'Energy', color: 'energy' },
+      { name: 'Explosive', color: 'explosive' },
+      { name: 'Heat', color: 'heat' },
+      { name: 'Burn', color: 'burn' },
+      { name: 'All', color: 'variable' },
+      { name: 'Next Attack', color: 'overcharge' },
+    ],
   }),
   computed: {
     pilot(): Pilot {
@@ -633,6 +695,27 @@ export default Vue.extend({
       return this.$store.getters
         .getItemCollection('Statuses')
         .filter(x => x.type === 'Condition')
+    },
+    hpResistance(): boolean {
+      if (
+        this.mech.Resistances.length === 1 &&
+        this.mech.Resistances[0] === 'Heat'
+      )
+        return false
+      return this.mech.Resistances.length
+    },
+    hpColor(): string {
+      if (this.mech.Resistances.length) {
+        if (this.mech.Resistances.length === 1) {
+          const c = this.resistances
+            .find(x => x.name === this.mech.Resistances[0])
+            .name.toLowerCase()
+          if (c === 'heat') return colors.hp.dark
+          return colors[c] ? colors[c].dark : colors.overcharge.dark
+        }
+        return colors.variable.dark
+      }
+      return colors.hp.dark
     },
   },
   methods: {

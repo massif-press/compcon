@@ -215,12 +215,14 @@ export default Vue.extend({
     includeTags(): { text: string; value: string }[] {
       return this.$store.getters
         .getItemCollection('Tags')
+        .filter(x => !x.FilterIgnore)
         .map(x => ({ text: x.Name().replace('{VAL}', 'X'), value: x.ID }))
         .sort(nameSort)
     },
     excludeTags(): { text: string; value: string }[] {
       return this.$store.getters
         .getItemCollection('Tags')
+        .filter(x => !x.FilterIgnore)
         .map(x => ({ text: x.Name().replace('{VAL}', 'X'), value: x.ID }))
         .sort(nameSort)
     },

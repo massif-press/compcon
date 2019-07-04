@@ -1,4 +1,4 @@
-import { ItemType, Pilot } from '@/class'
+import { ItemType } from '@/class'
 import store from '@/store'
 
 class Tag {
@@ -6,6 +6,8 @@ class Tag {
   private name: string
   private description: string
   private val: number | string
+  private filter_ignore: boolean
+  private hidden: boolean
   private item_type: ItemType
   private brew: string
 
@@ -15,6 +17,8 @@ class Tag {
     this.description = tagData.description
     this.brew = tagData.brew || 'Core'
     this.val = ''
+    this.hidden = tagData.hidden || false
+    this.filter_ignore = tagData.filter_ignore || this.hidden
     this.item_type = ItemType.Tag
   }
 
@@ -24,6 +28,14 @@ class Tag {
 
   public set Value(val: number | string) {
     this.val = val
+  }
+
+  public get FilterIgnore(): boolean {
+    return this.filter_ignore
+  }
+
+  public get Hidden(): boolean {
+    return this.hidden
   }
 
   public Description(add_bonus?: number): string {
@@ -86,6 +98,10 @@ class Tag {
 
   public get IsLimited(): boolean {
     return this.id === 'limited'
+  }
+
+  public get IsLoading(): boolean {
+    return this.id === 'loading'
   }
 
   public static Deserialize(data: ITagData[]): Tag[] {
