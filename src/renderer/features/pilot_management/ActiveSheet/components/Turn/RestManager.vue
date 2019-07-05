@@ -1,15 +1,7 @@
 <template>
   <div>
     <v-layout column fill-height>
-      <div v-if="rest">
-        <v-flex xs12 class="major-title text-xs-center" style="background: #606060">
-          <span>OUT OF COMBAT</span>
-        </v-flex>
-        <v-flex xs12 class="ma-3">
-          <v-btn large block @click="startRest()">Rest</v-btn>
-        </v-flex>
-      </div>
-      <div v-else>
+      <div>
         <v-flex xs12 class="major-title text-xs-center" style="background: #33691E">
           <span>RESTING</span>
         </v-flex>
@@ -212,8 +204,10 @@ export default Vue.extend({
     startRest() {
       this.rest = true
       const pilot = this.$store.getters.getPilot
-      pilot.CurrentHP += Math.ceil(pilot.CurrentHP / 2)
+      pilot.CurrentHP += Math.ceil(pilot.MaxHP / 2)
       this.mech.CurrentHeat = 0
+      this.mech.Conditions.splice(0, this.mech.Conditions.length)
+      this.mech.Statuses.splice(0, this.mech.Statuses.length)
     },
     healHP() {
       this.mech.CurrentHP = this.mech.MaxHP

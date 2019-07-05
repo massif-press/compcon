@@ -36,7 +36,7 @@
         <turn-manager ref="turn" :mech="mech" :loadout="loadout" @end="endCombat()" />
       </v-window-item>
       <v-window-item :value="3">
-        <rest-manager :mech="mech" :loadout="loadout" @end="startCombat()" />
+        <rest-manager ref="rest" :mech="mech" :loadout="loadout" @end="startCombat()" />
       </v-window-item>
       <!-- <v-window-item :value="4">
         mission complete
@@ -70,6 +70,7 @@ export default Vue.extend({
       this.step = 2
     },
     endCombat() {
+      this.$refs.rest.startRest()
       this.step = 3
     },
   },
