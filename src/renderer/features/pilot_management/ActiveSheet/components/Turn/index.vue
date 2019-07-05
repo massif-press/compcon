@@ -28,25 +28,21 @@
     </div>
 
     <v-window v-model="step" class="ml-5 white--text" style="height:100%; width: 85%">
-      <v-window-item :value="1">
+      <!-- <v-window-item :value="1">
         start mission
         <v-btn @click="step++">start mission</v-btn>
-      </v-window-item>
+      </v-window-item>-->
       <v-window-item :value="2">
-        <turn-manager :mech="mech" :loadout="loadout" @end="step++" />
+        <turn-manager ref="turn" :mech="mech" :loadout="loadout" @end="endCombat()" />
       </v-window-item>
       <v-window-item :value="3">
-        short rest
-        <br />long rest
-        <br />end mission
-        <br />
-        <v-btn @click="step++">end mission</v-btn>
+        <rest-manager :mech="mech" :loadout="loadout" @end="startCombat()" />
       </v-window-item>
-      <v-window-item :value="4">
+      <!-- <v-window-item :value="4">
         mission complete
         combat stats
         <v-btn @click="step = 1">confirm</v-btn>
-      </v-window-item>
+      </v-window-item>-->
     </v-window>
   </v-navigation-drawer>
 </template>
@@ -66,8 +62,17 @@ export default Vue.extend({
   data: () => ({
     drawer: true,
     mini: true,
-    step: 1,
+    step: 2,
   }),
+  methods: {
+    startCombat() {
+      this.$refs.turn.restart()
+      this.step = 2
+    },
+    endCombat() {
+      this.step = 3
+    },
+  },
 })
 </script>
 
