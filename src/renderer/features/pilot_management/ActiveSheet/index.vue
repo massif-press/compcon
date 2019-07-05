@@ -14,6 +14,7 @@
           </span>
           <tick-bar
             small
+            :key="pilot.CurrentHP"
             :current="pilot.CurrentHP"
             :max="pilot.MaxHP"
             :color="color.hp.dark"

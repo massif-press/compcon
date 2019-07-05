@@ -450,6 +450,7 @@ export default Vue.extend({
       this.actions = 2
       this.maxMove = this.mech.Speed
       this.overcharged = false
+      this.overwatch = false
       this.prepare = false
       if (this.braced) {
         this.bracedCooldown = true
@@ -459,7 +460,9 @@ export default Vue.extend({
       } else if (this.bracedCooldown) {
         this.bracedCooldown = false
       }
-      this.mech.AddDamage(this.mech.Burn, 'Burn')
+      if (this.mech.Burn) {
+        this.mech.AddDamage(this.mech.Burn, 'Burn')
+      }
     },
     restart() {
       this.turn = 1
