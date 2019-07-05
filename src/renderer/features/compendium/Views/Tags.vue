@@ -3,16 +3,8 @@
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
-          <ul
-            class="menu"
-            v-scroll-spy-active="{ class: 'customActive' }"
-            v-scroll-spy-link
-          >
-            <li
-              v-for="t in tags"
-              :key="'key_' + t.id"
-              class="minor-title pt-1 pb-1"
-            >
+          <ul class="menu" v-scroll-spy-active="{ class: 'customActive' }" v-scroll-spy-link>
+            <li v-for="t in tags" :key="'key_' + t.id" class="minor-title pt-1 pb-1">
               <a>{{ t.name.replace(/{VAL}/g, 'X') }}</a>
             </li>
           </ul>
@@ -22,15 +14,11 @@
         <v-divider class="ml-0 mr-5" vertical />
       </v-flex>
       <v-flex xs9>
-        <span class="display-1 text-uppercase font-weight-thin">
-          EQUIPMENT TAGS
-        </span>
+        <span class="display-1 text-uppercase font-weight-thin">EQUIPMENT TAGS</span>
         <div v-scroll-spy="{ offset: 60, time: 0 }">
           <div v-for="t in tags" :key="t.id" class="text-xs-center pa-1">
             <v-card flat>
-              <v-card-title primary-title class="title">
-                {{ t.name.replace(/{VAL}/g, 'X') }}
-              </v-card-title>
+              <v-card-title primary-title class="title">{{ t.name.replace(/{VAL}/g, 'X') }}</v-card-title>
               <v-card-text class="text-xs-left pt-0">
                 <p
                   class="blockquote ma-0 pa-0"
@@ -53,7 +41,9 @@ export default Vue.extend({
     tags: [],
   }),
   created() {
-    this.tags = this.$store.getters.getItemCollection('Tags')
+    this.tags = this.$store.getters
+      .getItemCollection('Tags')
+      .filter(x => !x.Hidden)
   },
 })
 </script>

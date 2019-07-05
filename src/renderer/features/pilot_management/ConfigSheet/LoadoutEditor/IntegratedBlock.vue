@@ -23,9 +23,9 @@
                     {{ mount.Weapon.MaxUses + pilot.LimitedBonus }})
                   </small>
 
-                  <v-spacer/>
+                  <v-spacer />
                   <span class="mr-5" style="display: inline-flex;">
-                    <range-element v-if="mount.Weapon.Range" small :range="getRange()"/>
+                    <range-element v-if="mount.Weapon.Range" small :range="getRange()" />
                     <span v-if="mount.Weapon.Range && mount.Weapon.Damage">&emsp;&mdash;&emsp;</span>
                     <damage-element
                       v-if="mount.Weapon.Damage"
@@ -44,9 +44,9 @@
                         class="fluff-text"
                       />
                       <b>{{ mount.Weapon.Size }} {{ mount.Weapon.Type }}</b>
-                      <br>
-                      <damage-element v-if="mount.Weapon.Damage" :dmg="mount.Weapon.Damage"/>
-                      <range-element v-if="mount.Weapon.Range" :range="mount.Weapon.Range"/>
+                      <br />
+                      <damage-element v-if="mount.Weapon.Damage" :dmg="mount.Weapon.Damage" />
+                      <range-element v-if="mount.Weapon.Range" :range="mount.Weapon.Range" />
                       <p
                         v-if="mount.Weapon.effect"
                         v-html="mount.Weapon.effect"
@@ -81,6 +81,7 @@ import {
   DamageType,
   Range,
   MechLoadout,
+  WeaponType,
 } from '@/class'
 import { Pilot } from '@/class'
 
@@ -108,7 +109,7 @@ export default Vue.extend({
           type: RangeType.Range,
           val: 3,
         })
-      if (pilot.has('CoreBonus', 'gyges'))
+      if (this.pilot.has('CoreBonus', 'gyges') && w.Type === WeaponType.Melee)
         bonuses.push({
           type: RangeType.Threat,
           val: 1,
@@ -117,10 +118,17 @@ export default Vue.extend({
         this.loadout.HasSystem('externalbatteries') &&
         w.Damage[0].Type === DamageType.Energy
       )
-        bonuses.push({
-          type: RangeType.Range,
-          val: 5,
-        })
+        if (w.Type === WeaponType.Melee) {
+          bonuses.push({
+            type: RangeType.Threat,
+            val: 1,
+          })
+        } else {
+          bonuses.push({
+            type: RangeType.Range,
+            val: 5,
+          })
+        }
       return Range.AddBonuses(w.Range, bonuses)
     },
   },

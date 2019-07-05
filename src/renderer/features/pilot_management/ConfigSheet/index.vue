@@ -486,6 +486,10 @@ export default Vue.extend({
       ) {
         this.printWarningDialog = true
       } else {
+        this.$store.dispatch('setPrintOptions', {
+          mech: this.config,
+          combo: false,
+        })
         this.$router.push('/print-config')
       }
     },

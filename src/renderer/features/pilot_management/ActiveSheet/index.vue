@@ -595,7 +595,7 @@
           </v-layout>
           <v-layout row wrap>
             <mount-card
-              v-for="(mount, i) in loadout.AllEquippableMounts(pilot.has('CoreBonus', 'imparm'))"
+              v-for="(mount, i) in loadout.AllMounts(pilot.has('CoreBonus', 'imparm'), pilot.has('CoreBonus', 'intweapon'))"
               :key="`mount_${i}`"
               :mount="mount"
             />

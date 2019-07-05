@@ -1,12 +1,20 @@
 {
   "stable": "1.3.9c",
-  "beta": "1.4.2",
+  "beta": "1.4.3b",
   "news": {
-    "date": "July 1st, 2019",
-    "version": "1.4.2",
-    "body": "<p>More stable fixes (thanks, Neverender!), and beta gets a rough draft of the Active Mode sheet, available in the new navigation bar. This removes a lot of the Active/Inactive status stuff, and should be a lot more intuitive. Please drop by the Discord to let me know what you think about the layout and how it can be improved. Over the next few weeks I'll be improving Active Mode and adding Downtime Resources to the pilot sheet. After that (in no particular order) will be:</p> <ul> <li>Print Improvements</li> <li>GM Mode</li> <li>Homebrew Editor</li> <li>Mobile Alpha (probably tablet only, at first)</li> <li>Integrate NPC/Encounter Toolkit</li> <li>Styling pass</li> </ul>"
+    "date": "July 5th, 2019",
+    "version": "1.4.3b",
+    "body": "<p><strong>1.4.3b: A few quick (but important) active mode bug fixes</strong></p><p>Hello, Pilots</p> <p>Beta has an <strong>extremely experimental</strong> new feature in active mode: the turn manager.<br />Expand the right panel to track turns and actions, track combat, and spend repairs during a rest. It automates most of the accounting work related to action economy, movement and boosting, stabilizing, bracing, overcharging, shut down/boot up, and burn management.</p> <p>It won't do anything to prevent cheating, doesn't take Talents, (most) systems, and Frame traits into account yet, and doesn't (yet) prompt you to roll on Structure/Stress tables. There's also, undoubtedly, stuff that I've missed. Keep that in mind if you're trying it out in a game.</p> <p>I'd really appreciate any and all feedback on this -- please contact me (@beeftime) on the LANCER discord.&nbsp;"
   },
   "changelog": [
+    {
+      "version": "1.4.3b",
+      "changes": "<ul> <li>Fixed a bug that was preventing integrated weapons from appearing on the Active Mode page (thanks Carnival!)</li> <li>Fixed statblock output for loadouts with integrated CORE weapons and certain CORE Bonuses (thanks AliceXVI!)</li> <li>Gyges now no longer erroneously adds threat to non-melee weapons (thanks Karla!)</li> <li>External Batteries now correctly add threat to melee energy weapons</li> <li>Combined print now works correctly (thanks dracoaleksander!)</li> <li>Printing from the Pilot Sheet now has a new mech selection interface</li> </ul>"
+    },
+    {
+      "version": "1.4.3",
+      "changes": "<ul> <li>Added Status/Condition tracker to Active Mode</li> <li>Added Resistance tracker to Active Mode</li> <li>Added Burn tracker to Active Mode</li> <li>Added the Turn Manager to Active Mode</li> <li>Added the Rest Manager to Active Mode</li> <li>Added Limited pips and the Destroyable toggle to Weapon Mods</li> <li>Added a \"Loaded\" toggle to \"Loading\"-tagged items</li> <li>Corrected a bug that was preventing Active Mode items from appearing if they had a note attached</li> <li>Corrected some malformed data that was preventing certain limited items from seeing the Limited pips</li> </ul>"
+    },
     {
       "version": "1.4.2",
       "changes": "<ul> <li>Active Play Mode added</li> <li>Active/Inactive status removed from most pages <ul> <li>Preserved in Roster/Hangar for print/statblock functionality</li> </ul> </li> <li>Set Mech Status/Condition (Active Mode)</li> <li>New Mech Sheet layout</li> <li>Fixed a bug that was deleting the incorrect Mech Loadout instead of the current selection</li> <li>Filtering submenu now correctly filters Aux weapons</li> </ul>"

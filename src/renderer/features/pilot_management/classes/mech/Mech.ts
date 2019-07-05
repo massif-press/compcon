@@ -370,8 +370,10 @@ class Mech {
 
   public get MaxHP(): number {
     let bonus = this.pilot.Grit + this.Hull * 2
-    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
-      bonus += 2
+    if (this.ActiveLoadout) {
+      const personalizations = this.ActiveLoadout.GetSystem('personalizations')
+      if (personalizations && !personalizations.IsDestroyed) bonus += 2
+    }
     if (this.pilot.has('CoreBonus', 'frame')) bonus += 5
     return this.frame.HP + bonus
   }

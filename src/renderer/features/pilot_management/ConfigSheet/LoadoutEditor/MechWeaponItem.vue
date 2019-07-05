@@ -61,11 +61,11 @@
                   <span class="caption">({{ weaponSlot.Weapon.Mod.SP }} SP)</span>
                 </span>
               </span>
-              <v-spacer/>
+              <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()"/>&emsp;&mdash;&emsp;
-                <damage-element small size="16" :dmg="getDamage()"/>
-                <v-spacer class="mr-3"/>
+                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
+                <damage-element small size="16" :dmg="getDamage()" />
+                <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
                   <div slot="activator">
                     <v-btn
@@ -88,8 +88,8 @@
               v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
               :modData="weaponSlot.Weapon.Mod"
             />
-            <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb"/>
-            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout"/>
+            <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb" />
+            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -107,7 +107,7 @@
         <v-toolbar-title>
           <span class="text-capitalize">Select Weapon</span>
         </v-toolbar-title>
-        <v-spacer/>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="weaponSelectorModal = false">
             <v-icon large>close</v-icon>
@@ -130,7 +130,7 @@
         <v-toolbar-title>
           <span class="text-capitalize">Select Bracing Mount</span>
         </v-toolbar-title>
-        <v-spacer/>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="lockDialog = false">
             <v-icon large>close</v-icon>
@@ -141,16 +141,16 @@
         <v-card-text class="text-xs-center">
           Superheavy-class weaponry requires an additional mount. Select the
           bracing mount below.
-          <br>
+          <br />
           <i>
             The selected mount will be locked until the superheavy weapon is
             removed.
           </i>
-          <br>
+          <br />
           <v-layout row justify-center>
             <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
               <v-flex v-if="m.Type !== 'Heavy'">
-                <v-btn v-html="`&emsp;${m.Type}&emsp;`" large block @click="equipSuperheavy(m)"/>
+                <v-btn v-html="`&emsp;${m.Type}&emsp;`" large block @click="equipSuperheavy(m)" />
               </v-flex>
             </div>
           </v-layout>
@@ -172,7 +172,7 @@
         <v-toolbar-title>
           <span class="text-capitalize">Select Weapon Modification</span>
         </v-toolbar-title>
-        <v-spacer/>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="modModal = false">
             <v-icon large>close</v-icon>
@@ -215,6 +215,7 @@ import {
   Damage,
   RangeType,
   DamageType,
+  WeaponType,
 } from '@/class'
 
 export default Vue.extend({
@@ -268,7 +269,7 @@ export default Vue.extend({
           type: RangeType.Range,
           val: 3,
         })
-      if (pilot.has('CoreBonus', 'gyges'))
+      if (this.pilot.has('CoreBonus', 'gyges') && w.Type === WeaponType.Melee)
         bonuses.push({
           type: RangeType.Threat,
           val: 1,
@@ -277,10 +278,17 @@ export default Vue.extend({
         this.loadout.HasSystem('externalbatteries') &&
         w.Damage[0].Type === DamageType.Energy
       )
-        bonuses.push({
-          type: RangeType.Range,
-          val: 5,
-        })
+        if (w.Type === WeaponType.Melee) {
+          bonuses.push({
+            type: RangeType.Threat,
+            val: 1,
+          })
+        } else {
+          bonuses.push({
+            type: RangeType.Range,
+            val: 5,
+          })
+        }
       return Range.AddBonuses(w.Range, bonuses)
     },
     getDamage(): Damage[] {

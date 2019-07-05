@@ -566,7 +566,6 @@ export default Vue.extend({
     },
     endCondition(c: string) {
       const cidx = this.mech.Conditions.findIndex(x => x === c)
-      console.log(this.mech.Conditions)
       if (cidx > -1) this.mech.Conditions.splice(cidx, 1)
       this.conditionDialog = false
     },
