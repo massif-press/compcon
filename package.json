@@ -15,7 +15,7 @@
     "int-test": "jest int"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.4.3b",
+    "title": "COMP/CON v1.4.3c",
     "whiteListedModules": [
       "vue",
       "vuetify"
