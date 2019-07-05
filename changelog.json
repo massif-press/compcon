@@ -1,14 +1,14 @@
 {
   "stable": "1.3.9c",
-  "beta": "1.4.3b",
+  "beta": "1.4.3c",
   "news": {
     "date": "July 5th, 2019",
-    "version": "1.4.3b",
-    "body": "<p><strong>1.4.3b: A few quick (but important) active mode bug fixes</strong></p><p>Hello, Pilots</p> <p>Beta has an <strong>extremely experimental</strong> new feature in active mode: the turn manager.<br />Expand the right panel to track turns and actions, track combat, and spend repairs during a rest. It automates most of the accounting work related to action economy, movement and boosting, stabilizing, bracing, overcharging, shut down/boot up, and burn management.</p> <p>It won't do anything to prevent cheating, doesn't take Talents, (most) systems, and Frame traits into account yet, and doesn't (yet) prompt you to roll on Structure/Stress tables. There's also, undoubtedly, stuff that I've missed. Keep that in mind if you're trying it out in a game.</p> <p>I'd really appreciate any and all feedback on this -- please contact me (@beeftime) on the LANCER discord.&nbsp;"
+    "version": "1.4.3c",
+    "body": "<p><strong>1.4.3c: A few quick (but important) active mode bug fixes</strong></p><p>Hello, Pilots</p> <p>Beta has an <strong>extremely experimental</strong> new feature in active mode: the turn manager.<br />Expand the right panel to track turns and actions, track combat, and spend repairs during a rest. It automates most of the accounting work related to action economy, movement and boosting, stabilizing, bracing, overcharging, shut down/boot up, and burn management.</p> <p>It won't do anything to prevent cheating, doesn't take Talents, (most) systems, and Frame traits into account yet, and doesn't (yet) prompt you to roll on Structure/Stress tables. There's also, undoubtedly, stuff that I've missed. Keep that in mind if you're trying it out in a game.</p> <p>I'd really appreciate any and all feedback on this -- please contact me (@beeftime) on the LANCER discord.&nbsp;"
   },
   "changelog": [
     {
-      "version": "1.4.3b",
+      "version": "1.4.3c",
       "changes": "<ul> <li>Fixed a bug that was preventing integrated weapons from appearing on the Active Mode page (thanks Carnival!)</li> <li>Fixed statblock output for loadouts with integrated CORE weapons and certain CORE Bonuses (thanks AliceXVI!)</li> <li>Gyges now no longer erroneously adds threat to non-melee weapons (thanks Karla!)</li> <li>External Batteries now correctly add threat to melee energy weapons</li> <li>Combined print now works correctly (thanks dracoaleksander!)</li> <li>Printing from the Pilot Sheet now has a new mech selection interface</li> </ul>"
     },
     {
