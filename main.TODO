@@ -1,5 +1,6 @@
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
+☐ can't mark intg systems destroyed
 
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
@@ -10,6 +11,9 @@ On Deck:
     ☐ Signature Weapon type selection
     ☐ enforce hidden rule
 
+  ☐ 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override)
+
+
   ☐ refresh cloud save (push/pull)
 
   ☐ Downtime Resources
@@ -19,10 +23,8 @@ On Deck:
     ✔ Uses on Mods @done(19-07-02 12:28)
     ☐ Turn Economy side panel
       ☐ States
-        ☐ Begin Mission
-        ☐ Start Combat -> COMBAT ENGAGED (?)
-        ☐ Rest -> COMBAT DISENGAGED (?)
-        ☐ End Mission
+        ✔ Start Combat -> COMBAT ENGAGED (?) @done(19-07-04 14:56)
+        ✔ Rest -> COMBAT DISENGAGED (?) @done(19-07-04 19:11)
       ✔ Turn (move, 2qa/1fa, overcharge, reaction, free actions) @done(19-07-04 14:05)
         ✔ increment overcharge and prompt to add heat @done(19-07-04 11:17)
           ✔ overcharge undo heat add @done(19-07-04 12:25)
@@ -41,12 +43,12 @@ On Deck:
             ✔ End a Condition @done(19-07-04 13:21)
         ✔ Shut Down @done(19-07-04 14:05)
         ✔ Prepare @done(19-07-04 13:32)
-      ☐ short rest
-        ☐ spend repair menu
-          ☐ Spend rep to repair
-          ☐ Spend rep to heal
-          ☐ 2 rep for str/stress
-          ☐ 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override)
+      ✔ reset turns on re-enter @done(19-07-04 17:31)
+      ✔ short rest @done(19-07-04 19:11)
+        ✔ spend repair menu @done(19-07-04 19:11)
+          ✔ Spend rep to repair @done(19-07-04 19:11)
+          ✔ Spend rep to heal @done(19-07-04 19:11)
+          ✔ 2 rep for str/stress @done(19-07-04 19:11)
       ☐ full repair
       ☐ end mission
     ☐ Tooltip pip number on hover

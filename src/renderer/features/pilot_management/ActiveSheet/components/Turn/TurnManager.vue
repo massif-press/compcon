@@ -461,6 +461,17 @@ export default Vue.extend({
       }
       this.mech.AddDamage(this.mech.Burn, 'Burn')
     },
+    restart() {
+      this.turn = 1
+      this.history = []
+      this.move = 0
+      this.actions = 2
+      this.maxMove = this.mech.Speed
+      this.overcharged = false
+      this.prepare = false
+      this.braced = false
+      this.bracedCooldown = false
+    },
     actionColor() {
       if (this.mech.IsShutDown) return 'grey'
       if (this.actions > 2) return 'light-blue darken-1'
