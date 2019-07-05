@@ -18,8 +18,8 @@ class Statblock {
   ${pilot.Name} 
   ${pilot.Background.Name}, LL${pilot.Level}
   GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${
-        pilot.MechSkills.Agi
-      } S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
+  pilot.MechSkills.Agi
+} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
 
       output += `[ SKILL TRIGGERS ]\n`
       for (let i = 0; i < pilot.Skills.length; i++) {
@@ -96,16 +96,14 @@ class Statblock {
       output += `SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
       output += '[ WEAPONS ]\n'
-      if (mech.Frame.CoreSystem.Integrated) {
-        output += `  CORE INTEGRATED MOUNT: ${mech.Frame.CoreSystem.Integrated.Name}\n`
-      }
       for (const im of mech.IntegratedMounts) {
         output += `  INTEGRATED MOUNT: ${im.Weapon ? im.Weapon.Name : ''}\n`
       }
-
-      if (mech.ActiveLoadout) {
-        for (const mount of mech.ActiveLoadout.AllEquippableMounts(
-          pilot && pilot.has('CoreBonus', 'imparm')
+      const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
+      if (loadout) {
+        for (const mount of loadout.AllEquippableMounts(
+          pilot && pilot.has('CoreBonus', 'imparm'),
+          pilot && pilot.has('CoreBonus', 'intweapon')
         )) {
           output += `  ${mount.MountName}: `
           if (mount.IsLocked) {
@@ -121,7 +119,7 @@ class Statblock {
         }
 
         output += '[ SYSTEMS ]\n  '
-        const allsys = mech.IntegratedSystems.concat(mech.ActiveLoadout.Systems)
+        const allsys = mech.IntegratedSystems.concat(loadout.Systems)
         allsys.forEach((sys, i) => {
           output += `${sys.Name}${linebreak(i, allsys.length)}`
         })

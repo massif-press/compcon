@@ -151,7 +151,15 @@
 import Vue from 'vue'
 import colors from '@/features/_shared/UI/CCColors'
 import WeaponModCard from './WeaponModCard.vue'
-import { Pilot, RangeType, DamageType, Range, Mech, MechLoadout } from '@/class'
+import {
+  Pilot,
+  RangeType,
+  DamageType,
+  Range,
+  Mech,
+  MechLoadout,
+  WeaponType,
+} from '@/class'
 import {
   DamageElement,
   RangeElement,
@@ -200,7 +208,7 @@ export default Vue.extend({
           type: RangeType.Range,
           val: 3,
         })
-      if (this.pilot.has('CoreBonus', 'gyges'))
+      if (this.pilot.has('CoreBonus', 'gyges') && w.Type === WeaponType.Melee)
         bonuses.push({
           type: RangeType.Threat,
           val: 1,
@@ -209,10 +217,17 @@ export default Vue.extend({
         this.loadout.HasSystem('externalbatteries') &&
         w.Damage[0].Type === DamageType.Energy
       )
-        bonuses.push({
-          type: RangeType.Range,
-          val: 5,
-        })
+        if (w.Type === WeaponType.Melee) {
+          bonuses.push({
+            type: RangeType.Threat,
+            val: 1,
+          })
+        } else {
+          bonuses.push({
+            type: RangeType.Range,
+            val: 5,
+          })
+        }
       return Range.AddBonuses(w.Range, bonuses)
     },
     getDamage() {
