@@ -1,5 +1,3 @@
-import { Dice } from 'dice-typescript'
-
 // stats: {
 //   min: number
 //   max: number
