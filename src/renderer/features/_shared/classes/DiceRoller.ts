@@ -1,3 +1,5 @@
+import { Dice } from 'dice-typescript'
+
 // stats: {
 //   min: number
 //   max: number
@@ -22,6 +24,15 @@
 //   mode: 0,
 // }
 
+// class damageRollResult implements IDamageRollResult {
+
+//   // getDiceString(): string
+//   // getStaticBonus(): number
+//   // getDamage(): number
+//   // getRawRolls(): number[]
+
+// }
+
 class d20RollResult implements ISkillOrHitRollResult {
   private _total: number
   private _rawDieRoll: number
@@ -36,7 +47,7 @@ class d20RollResult implements ISkillOrHitRollResult {
     staticBonus?: number,
     accuracyDiceCount?: number,
     rawAccuracyRolls?: number[],
-    accuracyResult?: number,
+    accuracyResult?: number
   ) {
     this._total = total || 0
     this._rawDieRoll = rawDieRoll || 0
@@ -45,7 +56,7 @@ class d20RollResult implements ISkillOrHitRollResult {
     this._rawAccuracyRolls = rawAccuracyRolls || []
     this._accuracyResult = accuracyResult || 0
   }
-  
+
   public get total(): number {
     return this._total
   }
@@ -71,11 +82,10 @@ class d20RollResult implements ISkillOrHitRollResult {
   }
 }
 
-
 class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
-  
+
   public static rollSkillCheck(
     staticBonus: number = 0,
     totalAccuracy: number = 0,
@@ -103,7 +113,10 @@ class DiceRoller {
     totalDifficulty: number = 0
   ): d20RollResult {
     return DiceRoller.rollSkillCheck(
-      staticBonus, totalAccuracy, totalDifficulty)
+      staticBonus,
+      totalAccuracy,
+      totalDifficulty
+    )
   }
 
   public static rollDamage(diceString: string): number {
@@ -114,17 +127,46 @@ class DiceRoller {
     return result
   }
 
-  public static parseDiceString(diceString: string): {dice: {type: number, quantity: number}[], modifier: number} {
+  public static parseDiceString(
+    diceString: string
+  ): { dice: { type: number; quantity: number }[]; modifier: number } {
     // remove all spaces
-    // check if illegal characters
-    // parse out any dice
-    // parce and total all static mods
+    let parsedString = diceString.replace(/\s/g, '')
 
-    return {
-      dice: [
-        { type: 6, quantity: 1 }
-      ],
-      modifier: 0
+    // parse
+    let numberTest = new RegExp('^([1-9]*)$').exec(parsedString)
+    let simpleDieTest = new RegExp('^([1-9]*)d([1-9]*)$').exec(parsedString)
+    let complexDieTest = new RegExp('^([1-9]*)d([1-9]*)\\+([1-9]*)$').exec(
+      parsedString
+    )
+
+    if (numberTest) {
+      return {
+        dice: [{ type: 0, quantity: 0 }],
+        modifier: parseInt(numberTest[1]),
+      }
+    } else if (simpleDieTest) {
+      return {
+        dice: [
+          {
+            type: parseInt(simpleDieTest[2]),
+            quantity: parseInt(simpleDieTest[1]),
+          },
+        ],
+        modifier: 0,
+      }
+    } else if (complexDieTest) {
+      let result = {
+        dice: [
+          {
+            type: parseInt(complexDieTest[2]),
+            quantity: parseInt(complexDieTest[1]),
+          },
+        ],
+        modifier: parseInt(complexDieTest[3]),
+      }
+
+      return result
     }
   }
 
@@ -146,9 +188,11 @@ class DiceRoller {
     }
   }
 
-  public static rollAccuracyDice(numberOfDice: number): {result: number, rolls: number[] } {
+  public static rollAccuracyDice(
+    numberOfDice: number
+  ): { result: number; rolls: number[] } {
     if (numberOfDice === 0) return { result: 0, rolls: [] }
-    
+
     // needs to handle both positive and negative accuracy (aka difficulty)
     let rawResults = DiceRoller.rollDieSet(Math.abs(numberOfDice), 6)
 
@@ -170,35 +214,6 @@ class DiceRoller {
     if (dieType <= 0) return 0
 
     return Math.floor(Math.random() * Math.floor(dieType)) + 1
-  }
-
-  // ported from https://stackoverflow.com/questions/35020687/how-to-parse-dice-notation-with-a-java-regular-expression
-  public static parse(dieString: string) {
-
-    let amount: number
-    let die: number
-    let mult: number = 1
-    let add: number = 0
-
-
-    // Pattern p = Pattern.compile("([1-9]\\d*)?d([1-9]\\d*)([/x][1-9]\\d*)?([+-]\\d+)?");
-    // Matcher m = p.matcher("d20");
-    // if (m.matches()) {
-    //     amount = (m.group(1) != null) ? Integer.parseInt(m.group(1)) : 1;
-    //     die = Integer.parseInt(m.group(2));
-    //     if (m.group(3) != null) {
-    //         boolean positive = m.group(3).startsWith("x");
-    //         int val = Integer.parseInt(m.group(3).substring(1));
-    //         mult = positive ? val : -val;
-    //     }
-    //     if (m.group(4) != null) {
-    //         boolean positive = m.group(4).startsWith("+");
-    //         int val = Integer.parseInt(m.group(4).substring(1));
-    //         add = positive ? val : -val;
-    //     }
-    // }
-    // else
-    //     System.out.println("No match"); // Do whatever you need
   }
 }
 

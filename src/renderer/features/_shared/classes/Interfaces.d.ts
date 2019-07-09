@@ -35,15 +35,8 @@ declare interface IHitRollResult {
 declare interface IDamageRollResult {
   getDiceString(): string
   getStaticBonus(): number
-  isAP(): boolean
-  getDamage(): Object[]
-  getStats(): {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
+  getDamage(): number
+  getRawRolls(): number[]
 }
 
 declare interface IBareRollResult {
