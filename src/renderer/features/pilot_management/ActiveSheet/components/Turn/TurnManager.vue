@@ -178,30 +178,49 @@
         </v-expand-transition>
         <v-expand-transition>
           <v-layout row wrap justify-center v-show="actions >= 2">
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_barrage" @click="fullAction()" />
+            <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_bombardment" @click="bombard()" />
+              </div>
             </v-flex>
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_fullactivate" @click="fullAction()" />
+            <v-flex xs4>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_barrage" @click="fullAction()" />
+              </div>
             </v-flex>
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_fulltech" @click="fullAction()" />
+            <v-flex xs4>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_fullactivate" @click="fullAction()" />
+              </div>
             </v-flex>
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_stabilize" @click="openStabilize()" />
+            <v-flex xs4>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_fulltech" @click="fullAction()" />
+              </div>
             </v-flex>
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_disengage" @click="fullAction()" />
+            <v-flex xs6>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_stabilize" @click="openStabilize()" />
+              </div>
+            </v-flex>
+            <v-flex xs6>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_disengage" @click="fullAction()" />
+              </div>
             </v-flex>
           </v-layout>
         </v-expand-transition>
         <v-expand-transition>
           <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_overwatch" @click="setOverwatch()" />
+            <v-flex xs6>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_overwatch" @click="setOverwatch()" />
+              </div>
             </v-flex>
-            <v-flex class="mr-1 mb-1">
-              <action-button action-id="action_brace" @click="setBrace()" />
+            <v-flex xs6>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_brace" @click="setBrace()" />
+              </div>
             </v-flex>
           </v-layout>
         </v-expand-transition>
@@ -209,6 +228,37 @@
           <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
             <v-flex class="mr-1 mb-1">
               <action-button action-id="action_overcharge" @click="openOvercharge" />
+            </v-flex>
+          </v-layout>
+        </v-expand-transition>
+        <v-expand-transition>
+          <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
+            <v-flex xs12>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-expand-transition>
+        <v-expand-transition>
+          <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
+            <v-flex xs12>
+              <div class="mr-1 mb-1">
+                <action-button action-id="action_deployableshield" @click="deployableShield()" />
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-expand-transition>
+        <v-expand-transition>
+          <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
+            <v-flex xs12>
+              <div class="mr-1 mb-1">
+                <action-button
+                  action-id="action_corebattery"
+                  @click="coreBattery()"
+                  :disabled="mech.CurrentCoreEnergy > 0"
+                />
+              </div>
             </v-flex>
           </v-layout>
         </v-expand-transition>
@@ -388,6 +438,7 @@ export default Vue.extend({
   name: 'turn-manager',
   components: { ActionButton, TickBar },
   props: {
+    pilot: Object,
     mech: Object,
     loadout: Object,
   },
@@ -407,6 +458,7 @@ export default Vue.extend({
     stabilizeMajor: null,
     stabilizeMinor: null,
     conditionDialog: false,
+    redundant: false,
     history: [],
     overcharge: ['+1', '+1d3', '+1d6', '+1d6+4'],
     overcharge_heat: '',
@@ -424,6 +476,26 @@ export default Vue.extend({
           const hidx = this.mech.Statuses.findIndex(x => x === 'Hidden')
           if (hidx > -1) this.mech.Statuses.splice(hidx, 1)
           this.actions += 1
+          break
+        case 'bombard':
+          this.actions += 2
+          const abidx = this.pilot.Reserves.findIndex(
+            x => x.ID === 'reserve_bombardment'
+          )
+          if (abidx > -1) this.pilot.Reserves[abidx].Used = false
+          break
+        case 'depshield':
+          const dsidx = this.pilot.Reserves.findIndex(
+            x => x.ID === 'reserve_bombardment'
+          )
+          if (dsidx > -1) this.pilot.Reserves[dsidx].Used = false
+          break
+        case 'corebattery':
+          const cdidx = this.pilot.Reserves.findIndex(
+            x => x.ID === 'reserve_bombardment'
+          )
+          this.mech.CurrentCoreEnergy = 0
+          if (cdidx > -1) this.pilot.Reserves[cdidx].Used = false
           break
         case 'overcharge':
           this.mech.ReduceHeat(parseInt(action.val), true)
@@ -508,6 +580,38 @@ export default Vue.extend({
         this.actions -= 2
       }
     },
+    bombard() {
+      if (this.actions >= 2) {
+        this.history.push({ field: 'bombard', val: false })
+        this.actions -= 2
+        const abidx = this.pilot.Reserves.findIndex(
+          x => x.ID === 'reserve_bombardment'
+        )
+        if (abidx > -1) this.pilot.Reserves[abidx].Used = true
+      }
+    },
+    redundantRepair() {
+      const rridx = this.pilot.Reserves.findIndex(
+        x => x.ID === 'reserve_redundantrepair'
+      )
+      if (rridx > -1) this.pilot.Reserves[rridx].Used = true
+      this.openStabilize(true)
+    },
+    deployableShield() {
+      this.history.push({ field: 'depshield', val: false })
+      const dsidx = this.pilot.Reserves.findIndex(
+        x => x.ID === 'reserve_deployableshield'
+      )
+      if (dsidx > -1) this.pilot.Reserves[dsidx].Used = true
+    },
+    coreBattery() {
+      this.history.push({ field: 'corebattery', val: false })
+      const cbidx = this.pilot.Reserves.findIndex(
+        x => x.ID === 'reserve_corebattery'
+      )
+      if (cbidx > -1) this.pilot.Reserves[cbidx].Used = true
+      this.mech.CurrentCoreEnergy = 1
+    },
     setPrepare() {
       this.history.push({ field: 'prepare', val: false })
       this.prepare = true
@@ -535,7 +639,8 @@ export default Vue.extend({
       this.mech.AddHeat(parseInt(this.overcharge_heat))
       this.overcharge_heat = ''
     },
-    openStabilize() {
+    openStabilize(redundant?: boolean) {
+      this.redundant = redundant || false
       this.stabilizeDialog = true
     },
     commitStabilize() {
@@ -562,7 +667,7 @@ export default Vue.extend({
         case 'end_ally_condition':
           break
       }
-      this.actions -= 2
+      if (!this.redundant) this.actions -= 2
     },
     endCondition(c: string) {
       const cidx = this.mech.Conditions.findIndex(x => x === c)

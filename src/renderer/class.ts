@@ -16,6 +16,10 @@ import {
   DamageType,
   HASE,
   MechType,
+  ReserveType,
+  // NarrativeReserve,
+  // TacticalReserve,
+  // MechReserve,
 } from './features/_shared/classes/enums'
 import { CompendiumItem, LicensedItem } from './features/_shared/classes/Item'
 import CoreBonus from './features/_shared/classes/CoreBonus'
@@ -26,7 +30,6 @@ import Skill from './features/_shared/classes/Skill'
 import Tag from './features/_shared/classes/Tag'
 import Talent from './features/_shared/classes/Talent'
 import License from './features/_shared/classes/License'
-import Contact from './features/pilot_management/classes/Contact'
 import MechSkills from './features/pilot_management/classes/MechSkills'
 import {
   PilotEquipment,
@@ -53,6 +56,7 @@ import {
 import WeaponMod from './features/_shared/classes/WeaponMod'
 import WeaponSlot from './features/pilot_management/classes/mech/WeaponSlot'
 import Mech from './features/pilot_management/classes/mech/Mech'
+import Reserve from './features/pilot_management/classes/reserves/Reserve'
 import {
   AppState,
   AppContext,
@@ -82,6 +86,10 @@ export {
   DamageType,
   HASE,
   MechType,
+  ReserveType,
+  // NarrativeReserve,
+  // TacticalReserve,
+  // MechReserve,
   License,
   CoreBonus,
   Damage,
@@ -92,7 +100,6 @@ export {
   Skill,
   Tag,
   Talent,
-  Contact,
   MechSkills,
   Pilot,
   PilotEquipment,
@@ -104,6 +111,7 @@ export {
   PilotSkill,
   PilotTalent,
   Background,
+  Reserve,
   Frame,
   Mech,
   MechLoadout,

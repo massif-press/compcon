@@ -205,8 +205,24 @@
                   v-model="pilot.History"
                   auto-grow
                   rows="1"
-                  label="History"
+                  label="Pilot History"
+                  class="pl-3 pr-3"
                 />
+              </v-flex>
+            </v-layout>
+            <!-- Pilot Notes -->
+            <v-layout>
+              <v-flex>
+                <div class="pt-1 pb-1 pl-3 pr-3">
+                  <v-textarea
+                    color="primary"
+                    v-model="pilot.Notes"
+                    auto-grow
+                    outline
+                    rows="1"
+                    label="Notes"
+                  />
+                </div>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -262,6 +278,45 @@
           </v-flex>
         </v-layout>
         <!-- End Bio/Apparance Block -->
+
+        <!-- Downtime -->
+        <v-layout class="header" align-content-space-around>
+          <v-flex>
+            <span>Downtime Reserves</span>
+          </v-flex>
+          <v-flex shrink>
+            <v-tooltip left>
+              <span slot="activator">
+                <pilot-edit-modal
+                  title="Add Downtime Reserve"
+                  :modelRef="downtimeModal"
+                  ref="downtimeSelector"
+                >
+                  <downtime-selector
+                    slot="modal-content"
+                    :pilot="pilot"
+                    @notify="notify"
+                    @close="closeDowntime"
+                  />
+                </pilot-edit-modal>
+              </span>
+              <span>Add Downtime Reserve</span>
+            </v-tooltip>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap justify-center>
+          <v-container fluid grid-list-sm fill-height>
+            <v-layout row wrap fill-height>
+              <reserve
+                v-for="(r, i) in pilot.Reserves"
+                :key="`dtr_${i}`"
+                :reserve="r"
+                @remove="pilot.Reserves.splice(i, 1)"
+              />
+            </v-layout>
+          </v-container>
+        </v-layout>
+        <!-- End Downtime -->
 
         <!-- Skills Block -->
         <v-layout>
@@ -513,25 +568,6 @@
             <pilot-loadout :pilot="pilot" />
           </v-flex>
         </v-layout>
-
-        <!-- Pilot Notes -->
-        <v-layout class="header">
-          <span>Notes</span>
-        </v-layout>
-        <v-layout>
-          <v-flex>
-            <div class="pt-1 pb-1 pl-3 pr-3">
-              <v-textarea
-                color="primary"
-                v-model="pilot.Notes"
-                auto-grow
-                outline
-                rows="1"
-                label="Pilot Notes"
-              />
-            </div>
-          </v-flex>
-        </v-layout>
       </v-container>
 
       <v-divider />
@@ -621,8 +657,8 @@ import {
   CoreBonusSelector,
   LevelSelector,
 } from './Selectors'
+import DowntimeSelector from './Downtime/DowntimeSelector.vue'
 import {
-  ContactsList,
   LicenseItem,
   SkillItem,
   TalentItem,
@@ -632,6 +668,7 @@ import {
 } from './SheetComponents'
 import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
 import NewConfig from '../HangarView/AddConfigMenu.vue'
+import Reserve from './Downtime/Reserve.vue'
 import { Pilot, PilotSkill, Background, Statblock, Mech } from '@/class'
 import { rules } from 'lancer-data'
 
@@ -646,7 +683,6 @@ export default Vue.extend({
     PilotLoadout,
     CoreBonusItem,
     ImageSelector,
-    ContactsList,
     BackgroundSelector,
     SkillSelector,
     TalentSelector,
@@ -661,6 +697,8 @@ export default Vue.extend({
     HasePips,
     EmptyView,
     TickBar,
+    Reserve,
+    DowntimeSelector,
   },
   data: () => ({
     CallsignDialog: false,
@@ -670,6 +708,7 @@ export default Vue.extend({
     newConfigModal: false,
     backgroundModal: false,
     appearanceModal: false,
+    downtimeModal: false,
     skillModal: false,
     licenseModal: false,
     talentModal: false,
@@ -716,6 +755,10 @@ export default Vue.extend({
     closePortrait() {
       ;(this.$refs['appearanceSelector'] as any).cancel()
       this.appearanceModal = false
+    },
+    closeDowntime() {
+      ;(this.$refs['downtimeSelector'] as any).cancel()
+      this.downtimeModal = false
     },
     openPrintOptions() {
       if (this.pilot.ActiveConfig) {

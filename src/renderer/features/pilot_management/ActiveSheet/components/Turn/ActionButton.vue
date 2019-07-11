@@ -8,6 +8,7 @@
         :large="large"
         class="ma-0"
         :color="actionColor"
+        :disabled="disabled"
         @click="clicked"
       >
         <v-icon style="position: absolute; left: 0">$vuetify.icons.{{action.action_type}}</v-icon>
@@ -37,6 +38,8 @@ export default Vue.extend({
     actionId: String,
     small: Boolean,
     large: Boolean,
+    colorOverride: String,
+    disabled: Boolean,
   },
   data: () => ({
     action: {},
@@ -50,25 +53,28 @@ export default Vue.extend({
   },
   created() {
     this.action = actions.find(x => x.id === this.actionId)
-    switch (this.action.action_type) {
-      case 'move':
-        this.actionColor = 'red darken-3'
-        break
-      case 'full':
-        this.actionColor = 'indigo darken-1'
-        break
-      case 'quick':
-        this.actionColor = 'info'
-        break
-      case 'overcharge':
-        this.actionColor = 'pink accent-3'
-        break
-      case 'reaction':
-        this.actionColor = 'purple darken-2'
-        break
-      default:
-        this.actionColor = 'green darken-2'
-        break
+    if (this.colorOverride) this.actionColor = this.colorOverride
+    else {
+      switch (this.action.action_type) {
+        case 'move':
+          this.actionColor = 'red darken-3'
+          break
+        case 'full':
+          this.actionColor = 'indigo darken-1'
+          break
+        case 'quick':
+          this.actionColor = 'info'
+          break
+        case 'overcharge':
+          this.actionColor = 'pink accent-3'
+          break
+        case 'reaction':
+          this.actionColor = 'purple darken-2'
+          break
+        default:
+          this.actionColor = 'green darken-2'
+          break
+      }
     }
   },
 })

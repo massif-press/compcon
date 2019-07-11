@@ -1,6 +1,6 @@
 <template>
   <div class="roster-content" style="background-color: #424242; height:94vh; padding-right: 20px">
-    <turn-sidebar :mech="mech" :loadout="loadout" />
+    <turn-sidebar :mech="mech" :loadout="loadout" :pilot="pilot" />
     <v-container fluid dark>
       <v-layout row wrap>
         <v-flex class="major-title white--text pt-1">
@@ -70,19 +70,59 @@
             v-for="(a, i) in pilot.ActiveLoadout.Armor"
             :key="`p_armor_${i}`"
             :item="a"
+            show
           />
           <pilot-equipment-card
             v-for="(w, i) in pilot.ActiveLoadout.Weapons"
             :key="`p_weapon_${i}`"
             :item="w"
+            show
           />
           <pilot-equipment-card
             v-for="(g,i) in pilot.ActiveLoadout.Gear"
             :key="`p_gear_${i}`"
             :item="g"
+            show
+          />
+          <pilot-equipment-card
+            v-for="(w, i) in pilot.ActiveLoadout.ExtendedWeapons"
+            :key="`p_e_weapon_${i}`"
+            :item="w"
+            :show="pilot.has('reserve', 'extendedharness')"
+            extended
+          />
+          <pilot-equipment-card
+            v-for="(g, i) in pilot.ActiveLoadout.ExtendedGear"
+            :key="`p_e_gear_${i}`"
+            :item="g"
+            :show="pilot.has('reserve', 'extendedharness')"
+            extended
           />
         </v-layout>
       </div>
+      <v-expansion-panel expand dark class="mt-2">
+        <v-expansion-panel-content
+          expand-icon="keyboard_arrow_down"
+          ripple
+          style="background-color: #616161"
+        >
+          <span slot="header" class="minor-title">Reserves</span>
+          <v-layout row wrap fill-height>
+            <v-flex xs4 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
+              <div class="ma-1">
+                <active-card :color="reserveColor(r)" :header="`${r.Name}`" subheader="RESERVE">
+                  <span v-if="!r.resourceName && !r.Note">{{r.Description}}</span>
+                  <div v-else>
+                    <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">{{r.ResourceName}}</p>
+                    <p v-if="r.Note" class="ml-2">{{r.Note}}</p>
+                  </div>
+                </active-card>
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
       <v-expansion-panel expand dark class="mt-2">
         <v-expansion-panel-content
           expand-icon="keyboard_arrow_down"
@@ -115,6 +155,7 @@
           </v-layout>
         </v-expansion-panel-content>
       </v-expansion-panel>
+
       <v-divider dark class="ma-3" />
       <div v-if="!mech" class="ma-5">
         <div v-if="!pilot.Mechs.length">
@@ -622,7 +663,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Pilot, Mech, MechLoadout } from '@/class'
+import { Pilot, Mech, MechLoadout, Reserve, ReserveType } from '@/class'
 import TickBar from '../components/UI/TickBar.vue'
 import PilotEquipmentCard from './components/PilotEquipmentCard.vue'
 import MechAttributeItem from './components/MechAttributeItem.vue'
@@ -723,6 +764,10 @@ export default Vue.extend({
     editMech(mech: Mech) {
       this.pilot.LoadedMech = this.mech
       this.$router.push('./config')
+    },
+    reserveColor(r: Reserve): string {
+      if (r.Type === ReserveType.Narrative) return '#00695C'
+      return r.Type === ReserveType.Tactical ? '#827717' : '#BF360C'
     },
   },
 })

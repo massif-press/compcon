@@ -4,8 +4,7 @@
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="pilot.AddLoadout()" color="primary">
-            <v-icon>add</v-icon>
-            Add New Loadout
+            <v-icon>add</v-icon>Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -21,9 +20,7 @@
       @change="changeTab()"
       :key="pilot.Loadouts.length"
     >
-      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">
-        {{ pilotLoadout.Name }}
-      </v-tab>
+      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">{{ pilotLoadout.Name }}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="pilot.AddLoadout()">
@@ -33,69 +30,75 @@
         </v-tooltip>
       </span>
       <v-tabs-items mandatory>
-        <v-tab-item
-          v-for="(pilotLoadout, index) in pilot.Loadouts"
-          :key="pilotLoadout.id + index"
-        >
+        <v-tab-item v-for="(pilotLoadout, index) in pilot.Loadouts" :key="pilotLoadout.id + index">
           <v-card>
             <v-card-text>
-              <div
-                v-for="(a, index) in pilotLoadout.Armor"
-                :key="`p-armor-${index}`"
-              >
+              <div v-for="(a, index) in pilotLoadout.Armor" :key="`p-armor-${index}`">
                 <gear-item
                   item-type="Armor"
                   :item="a"
-                  @clicked="openSelector(a, index, 'PilotArmor')"
+                  @clicked="openSelector(a, index, 'PilotArmor', false)"
                 />
               </div>
 
               <br />
-              <div
-                v-for="(w, index) in pilotLoadout.Weapons"
-                :key="`p-weapon-${index}`"
-              >
+              <div v-for="(w, index) in pilotLoadout.Weapons" :key="`p-weapon-${index}`">
                 <gear-item
                   item-type="Weapon"
                   :item="w"
-                  @clicked="openSelector(w, index, 'PilotWeapon')"
+                  @clicked="openSelector(w, index, 'PilotWeapon', false)"
                 />
               </div>
 
               <br />
-              <div
-                v-for="(g, index) in pilotLoadout.Gear"
-                :key="`p-gear-${index}`"
-              >
+              <div v-for="(g, index) in pilotLoadout.Gear" :key="`p-gear-${index}`">
                 <gear-item
                   item-type="Gear"
                   :item="g"
-                  @clicked="openSelector(g, index, 'PilotGear')"
+                  @clicked="openSelector(g, index, 'PilotGear', false)"
                 />
               </div>
+              <v-card flat v-if="pilot.has('reserve', 'extendedharness')" class="ma-3">
+                <v-toolbar dense color="lime darken-4" dark>
+                  <v-toolbar-title>Extended Harness</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <div
+                    v-for="(w, index) in pilotLoadout.ExtendedWeapons"
+                    :key="`p-e-weapon-${index}`"
+                  >
+                    <gear-item
+                      item-type="Weapon"
+                      :item="w"
+                      @clicked="openSelector(w, index, 'PilotWeapon', true)"
+                    />
+                  </div>
+
+                  <br />
+                  <div v-for="(g, index) in pilotLoadout.ExtendedGear" :key="`p-e-gear-${index}`">
+                    <gear-item
+                      item-type="Gear"
+                      :item="g"
+                      @clicked="openSelector(g, index, 'PilotGear', true)"
+                    />
+                  </div>
+                </v-card-text>
+              </v-card>
             </v-card-text>
 
             <v-card-actions>
               <v-btn slot="activator" flat @click="renameDialog = true">
-                <v-icon small left>edit</v-icon>
-                Rename Loadout
+                <v-icon small left>edit</v-icon>Rename Loadout
               </v-btn>
 
               <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
-                <v-icon small left>file_copy</v-icon>
-                Duplicate Loadout
+                <v-icon small left>file_copy</v-icon>Duplicate Loadout
               </v-btn>
 
               <v-spacer />
 
-              <v-btn
-                slot="activator"
-                flat
-                color="error"
-                @click="deleteDialog = true"
-              >
-                <v-icon small left>edit</v-icon>
-                Delete Loadout
+              <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
+                <v-icon small left>edit</v-icon>Delete Loadout
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -128,11 +131,7 @@
       @cancel="renameDialog = false"
     >
       <v-card-text slot="modal-content">
-        <v-text-field
-          v-model="newLoadoutName"
-          label="Loadout Name"
-          type="text"
-        ></v-text-field>
+        <v-text-field v-model="newLoadoutName" label="Loadout Name" type="text"></v-text-field>
       </v-card-text>
     </lazy-dialog>
 
@@ -187,6 +186,7 @@ export default Vue.extend({
     tabIndex: 0,
     itemIndex: 0,
     itemType: '',
+    extended: false,
     equippedItem: null,
     newLoadoutName: '',
     selectorModal: false,
@@ -205,12 +205,18 @@ export default Vue.extend({
       this.pilot.RemoveLoadout(this.pilot.ActiveLoadout)
       this.notify('Loadout Deleted')
     },
-    openSelector(item: PilotEquipment, index: number, itemType: ItemType) {
+    openSelector(
+      item: PilotEquipment,
+      index: number,
+      itemType: ItemType,
+      extended: boolean
+    ) {
       var vm = this as any
       vm.itemIndex = index
       vm.itemType = itemType
       vm.equippedItem = item
       vm.selectorModal = true
+      vm.extended = extended
     },
     renameLoadout() {
       if (this.newLoadoutName === '') {
@@ -223,12 +229,12 @@ export default Vue.extend({
     },
     equipItem(item: PilotEquipment) {
       if (this.pilot.ActiveLoadout)
-        this.pilot.ActiveLoadout.Add(item, this.itemIndex)
+        this.pilot.ActiveLoadout.Add(item, this.itemIndex, this.extended)
       this.selectorModal = false
     },
     removeItem(item: PilotEquipment) {
       if (this.pilot.ActiveLoadout)
-        this.pilot.ActiveLoadout.Remove(item, this.itemIndex)
+        this.pilot.ActiveLoadout.Remove(item, this.itemIndex, this.extended)
       this.selectorModal = false
     },
     changeTab() {

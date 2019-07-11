@@ -59,6 +59,78 @@ search for:
 
 >//[A: bbbb]
 
+GM TOOLKIT:
+Active Campaigns    |   Character Builder 
+Archived Campaigns  |   NPC Builder
+                    |   Mission Builder
+                    |   Faction Builder
+Import Campaign     |   Location Builder
+
+CHARACTER BUILDER (generatable)
+  Name
+  Occupation/Rank
+  Description
+  Details
+  Skills
+  Resources
+
+NPC BUILDER
+ generators based on points, difficulty, mission profile
+
+ENCOUNTER BUILDER
+  Set encounter type
+  Add/Remove Objective
+  Add/Remove Wave
+    Import/New NPC
+
+FACTION BUILDER (generatable)
+  Name
+  Description
+  Rankings
+
+Location Builder
+  Name
+  Description
+  Sub-locations
+
+Campaign Manager
+  Start Session
+    Downtime
+      Add Event
+    Mission
+      Add Debrief Notes
+    End Session
+  Timeline
+    Missions
+    Add/Remove Event at location
+  Locations
+    Location Browser (tree)
+    Setting (top level)
+      Area name (generator)
+      Description
+    Import location (select parent)
+    Add preset (system/gate/planet/continent/settlement/outpost/station/stellar feature)
+  Factions (import/new)
+    Add/remove Resources
+    Standings (link other factions)
+    Associated Characters (link players/characters, rank)
+    Add Goal (track with portents)
+    Add Other Track/Clock
+  Players (import)
+    Add GM note
+    Add GM Resource
+  Characters (import/new)
+    Add Note
+    Add Track/Clock
+  Missions
+    Create Mission
+      Location
+      Events
+      Encounters
+    Import/Export Mission
+
+----
+
 More glyphs:
 Variable Damage
 Select Weapon Mod
@@ -67,7 +139,6 @@ Overcharge Point
 Apply CORE Bonus
 System
 Activate/Deactivate Pilot/Mech
-Contact/Add Contact
 Rank 1/2/3
 HASE pip
 HP/ARMOR/EDEF/EVA/SPD
