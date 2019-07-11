@@ -36,8 +36,8 @@ declare interface IEquipmentData {
 }
 
 declare interface IMechWeaponData extends IEquipmentData {
-  loaded: boolean;
-  mod: string | null;
+  loaded: boolean
+  mod: string | null
 }
 
 declare interface IPilotData {
@@ -76,7 +76,6 @@ declare interface IPilotLoadoutData {
 }
 
 declare interface IMechData {
-<<<<<<< HEAD
   id: string
   name: string
   notes: string
@@ -94,29 +93,9 @@ declare interface IMechData {
   active_loadout: string | null
   statuses: string[]
   conditions: string[]
+  resistances: string[]
+  burn: number
   cc_ver: string
-=======
-  id: string;
-  name: string;
-  notes: string;
-  portrait: string;
-  cloud_portrait: string;
-  frame: string;
-  active: boolean;
-  current_structure: number;
-  current_hp: number;
-  current_stress: number;
-  current_heat: number;
-  current_repairs: number;
-  current_overcharge: number;
-  loadouts: IMechLoadoutData[];
-  active_loadout: string | null;
-  statuses: string[];
-  conditions: string[];
-  resistances: string[];
-  burn: number;
-  cc_ver: string;
->>>>>>> dev
 }
 
 declare interface IMechLoadoutData {
