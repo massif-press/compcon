@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import uid from '@/features/_shared/uid'
 import {
-  Contact,
+  Reserve,
   Background,
   MechSkills,
   PilotLicense,
@@ -40,6 +40,8 @@ class Pilot {
   private core_bonuses: CoreBonus[]
   private mechSkills: MechSkills
 
+  private reserves: Reserve[]
+
   private loadouts: PilotLoadout[]
   private active_loadout: string | null
 
@@ -74,6 +76,7 @@ class Pilot {
     this.loadouts = []
     this.mechs = []
     this.loaded_mech = null
+    this.reserves = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
@@ -93,6 +96,9 @@ class Pilot {
     } else if (typeName.toLowerCase() === 'talent') {
       const index = this.talents.findIndex(x => x.Talent.ID === id)
       return rank ? index > -1 && this.talents[index].Rank >= rank : index > -1
+    } else if (typeName.toLowerCase() === 'reserve') {
+      const e = this.Reserves.find(x => x.ID === `reserve_${id}`)
+      return e && !e.Used
     }
     return false
   }
@@ -584,6 +590,16 @@ class Pilot {
     this.save()
   }
 
+  // -- Downtime Reserves -------------------------------------------------------------------------
+  public get Reserves(): Reserve[] {
+    return this.reserves
+  }
+
+  public set Reserves(reserves: Reserve[]) {
+    this.reserves = reserves
+    this.save()
+  }
+
   // -- Loadouts ----------------------------------------------------------------------------------
   public get Loadouts(): PilotLoadout[] {
     return this.loadouts
@@ -714,7 +730,9 @@ class Pilot {
       quirk: p.Qirk,
       current_hp: p.CurrentHP,
       active: p.IsActive,
-      // contacts: p.contacts,
+      reserves: p.Reserves.length
+        ? p.Reserves.map(x => Reserve.Serialize(x))
+        : [],
       background: Background.Serialize(p.Background),
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
@@ -744,7 +762,6 @@ class Pilot {
     p.quirk = pilotData.quirk
     p.current_hp = pilotData.current_hp
     p.active = pilotData.active
-    // p.contacts = pilotData.contacts
     p.background = Background.Deserialize(pilotData.background)
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills)
     p.licenses = pilotData.licenses.map((x: IRankedData) =>
@@ -762,6 +779,9 @@ class Pilot {
     p.loadouts = pilotData.loadouts.map((x: IPilotLoadoutData) =>
       PilotLoadout.Deserialize(x)
     )
+    p.Reserves = pilotData.reserves
+      ? pilotData.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+      : []
     p.active_loadout = pilotData.active_loadout
     p.mechs = pilotData.mechs.length
       ? pilotData.mechs.map((x: IMechData) => Mech.Deserialize(x, p))

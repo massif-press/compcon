@@ -17,6 +17,7 @@ import {
   PilotArmor,
   PilotGear,
   Talent,
+  Reserve,
 } from '@/class'
 
 const moduleState = {
@@ -36,6 +37,7 @@ const moduleState = {
   Quirks: [],
   Brews: [],
   Licenses: [],
+  Reserves: [],
 }
 
 function stageBrewData(
@@ -81,6 +83,7 @@ const mutations = {
     state.Manufacturers = lancerData.manufacturers
     state.Statuses = lancerData.statuses
     state.Quirks = lancerData.quirks
+    state.Reserves = lancerData.reserves.map((x: any) => new Reserve(x))
     state.Brews = io.findBrewData(state.UserDataPath)
   },
   LOAD_BREWS(state: AppState) {

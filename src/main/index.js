@@ -104,7 +104,7 @@ if (process.platform === 'darwin') {
         {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
-          click: function () {
+          click: function() {
             app.quit()
           },
         },

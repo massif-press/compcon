@@ -1,9 +1,9 @@
 <template>
-  <v-flex v-if="item" xs4>
+  <v-flex v-if="item && show" xs4>
     <v-card dark color="grey darken-3" class="ma-1" height="100px" style="overflow: hidden">
-      <v-card-title class="pa-1" style="background-color:#616161">
+      <v-card-title class="pa-1" :style="`background-color:${extended ? '#827717' : '#616161'}`">
         <b>{{item.Name}}</b>
-        <v-spacer/>
+        <v-spacer />
         <v-dialog width="500">
           <template v-slot:activator="{ on }">
             <v-btn absolute right style="right: 0" icon flat dark v-on="on">
@@ -12,7 +12,7 @@
           </template>
           <v-card>
             <v-card-title class="headline teal darken-2 white--text">{{item.Name}}</v-card-title>
-            <v-card-text v-html="item.Description"/>
+            <v-card-text v-html="item.Description" />
           </v-card>
         </v-dialog>
       </v-card-title>
@@ -44,10 +44,10 @@
             <v-flex>
               <v-layout justify-space-between>
                 <v-flex shrink>
-                  <damage-element dark :dmg="item.Damage"/>
+                  <damage-element dark :dmg="item.Damage" />
                 </v-flex>
                 <v-flex shrink>
-                  <range-element dark :range="item.Range"/>
+                  <range-element dark :range="item.Range" />
                 </v-flex>
               </v-layout>
             </v-flex>
@@ -63,7 +63,7 @@
                 <b class="warning--text">{{ item.Uses }} / {{ item.MaxUses }}</b>
               </v-flex>
               <v-flex grow>
-                <v-divider class="mt-2 ml-3"/>
+                <v-divider class="mt-2 ml-3" />
               </v-flex>
               <v-flex xs1></v-flex>
             </v-layout>
@@ -82,7 +82,7 @@
             </v-layout>
           </div>
         </div>
-        <p v-if="item.Effect" class="effect-text" v-html="item.Effect"/>
+        <p v-if="item.Effect" class="effect-text" v-html="item.Effect" />
       </v-card-text>
     </v-card>
   </v-flex>
@@ -100,6 +100,8 @@ export default Vue.extend({
   components: { DamageElement, RangeElement, LimitedBar },
   props: {
     item: Object,
+    show: Boolean,
+    extended: Boolean,
   },
 })
 </script>

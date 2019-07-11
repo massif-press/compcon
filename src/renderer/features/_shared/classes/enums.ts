@@ -105,6 +105,47 @@ enum HASE {
   E = 'eng',
 }
 
+enum ReserveType {
+  Narrative = 'Narrative',
+  Tactical = 'Tactical',
+  Mech = 'Mech',
+}
+
+// enum NarrativeReserve {
+//   Access = 'Access',
+//   Backing = 'Backing',
+//   Supplies = 'Supplies',
+//   Disguise = 'Disguise',
+//   Diversion = 'Diversion',
+//   Reputation = 'Reputation',
+//   SafeHarbor = 'Safe Harbor',
+//   Tracking = 'Tracking',
+//   Knowledge = 'Knowledge',
+// }
+
+// enum TacticalReserve {
+//   Scouting = 'Scouting',
+//   Vehicle = 'Vehicle',
+//   Reinforcements = 'Reinforcements',
+//   EnvironmentalShielding = 'Environmental Shielding',
+//   Accuracy = 'Accuracy',
+//   Ambush = 'Ambush',
+//   OrbitalDrop = 'Orbital Drop',
+//   NHPAssistant = 'NHP Assistant',
+//   Bombardment = 'Bombardment',
+//   ExtendedHarness = 'Extended Harness',
+// }
+
+// enum MechReserve {
+//   CoreBattery = 'Core Battery',
+//   DeployableShield = 'Deployable Shield',
+//   RedundantRepair = 'Redundant Repair ',
+//   SystemsReinforcement = 'Systems Reinforcement',
+//   SmartAmmo = 'Smart Ammo',
+//   BoostedServos = 'Boosted Servos',
+//   JumpJets = 'Jump Jets',
+// }
+
 export {
   MountType,
   FittingSize,
@@ -117,4 +158,8 @@ export {
   DamageType,
   HASE,
   MechType,
+  ReserveType,
+  // NarrativeReserve,
+  // TacticalReserve,
+  // MechReserve,
 }
