@@ -28,6 +28,7 @@ function convertPilot(old: any): IPilotData {
     current_hp: old.current_hp || 6,
     active: false,
     background: old.custom_background ? 'ai' : old.background,
+    reserves: [],
     mechSkills: [
       old.mechSkills.hull,
       old.mechSkills.agi,
@@ -68,6 +69,8 @@ function convertPilotLoadouts(old: any): IPilotLoadoutData {
       x ? { id: x.id, notes: [] } : null
     ),
     gear: old.items.gear.map((x: any) => (x ? { id: x.id, notes: [] } : null)),
+    extendedGear: [null, null],
+    extendedWeapons: [null]
   }
 }
 

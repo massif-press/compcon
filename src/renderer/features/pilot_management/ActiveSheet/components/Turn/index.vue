@@ -33,7 +33,7 @@
         <v-btn @click="step++">start mission</v-btn>
       </v-window-item>-->
       <v-window-item :value="2">
-        <turn-manager ref="turn" :mech="mech" :loadout="loadout" @end="endCombat()" />
+        <turn-manager ref="turn" :mech="mech" :loadout="loadout" :pilot="pilot" @end="endCombat()" />
       </v-window-item>
       <v-window-item :value="3">
         <rest-manager ref="rest" :mech="mech" :loadout="loadout" @end="startCombat()" />
@@ -56,6 +56,7 @@ export default Vue.extend({
   name: 'turn-sidebar',
   components: { TurnManager, RestManager },
   props: {
+    pilot: Object,
     mech: Object,
     loadout: Object,
   },

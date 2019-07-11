@@ -15,18 +15,8 @@
     <div class="ml-5 mr-5">
       <v-container fluid grid-list-lg class="mt-0 pt-0">
         <v-layout row wrap justify-center>
-          <category-card
-            color="green"
-            icon="mdi-factory"
-            loc="manufacturers"
-            name="Manufacturers"
-          />
-          <category-card
-            color="green"
-            icon="mdi-view-week"
-            loc="licenses"
-            name="Licenses"
-          />
+          <category-card color="green" icon="mdi-factory" loc="manufacturers" name="Manufacturers" />
+          <category-card color="green" icon="mdi-view-week" loc="licenses" name="Licenses" />
           <category-card
             color="green"
             icon="mdi-hexagon-multiple"
@@ -35,70 +25,30 @@
           />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card
-            color="purple"
-            icon="cc-frame"
-            loc="frames"
-            name="Frames"
-          />
-          <category-card
-            color="red"
-            icon="cc-melee"
-            loc="weapons"
-            name="Mech Weapons"
-          />
-          <category-card
-            color="teal"
-            icon="mdi-chip"
-            loc="systems"
-            name="Mech Systems"
-          />
+          <category-card color="purple" icon="cc-frame" loc="frames" name="Frames" />
+          <category-card color="red" icon="cc-melee" loc="weapons" name="Mech Weapons" />
+          <category-card color="teal" icon="mdi-chip" loc="systems" name="Mech Systems" />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card
-            color="primary"
-            icon="cc-pilot"
-            loc="pilot_gear"
-            name="Pilot Equipment"
-          />
-          <category-card
-            color="indigo"
-            icon="public"
-            loc="backgrounds"
-            name="Pilot Backgrounds"
-          />
+          <category-card color="primary" icon="cc-pilot" loc="pilot_gear" name="Pilot Equipment" />
+          <category-card color="indigo" icon="public" loc="backgrounds" name="Pilot Backgrounds" />
           <category-card
             color="indigo"
             icon="cc-accuracy"
             loc="skills"
             name="Pilot Skill Triggers"
           />
-          <category-card
-            color="indigo"
-            icon="cc-rank-3"
-            loc="talents"
-            name="Pilot Talents"
-          />
+          <category-card color="indigo" icon="cc-rank-3" loc="talents" name="Pilot Talents" />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card
-            color="secondary"
-            icon="label"
-            loc="tags"
-            name="Equipment Tags"
-          />
+          <category-card color="secondary" icon="label" loc="tags" name="Equipment Tags" />
           <category-card
             color="secondary"
             icon="mdi-gauge"
             loc="statuses"
             name="Statuses and Conditions"
           />
-          <category-card
-            color="secondary"
-            icon="mdi-map"
-            loc="reference"
-            name="Combat Reference"
-          />
+          <category-card color="secondary" icon="mdi-map" loc="reference" name="Reference" />
           <!-- <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" /> -->
         </v-layout>
       </v-container>
