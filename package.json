@@ -1,11 +1,11 @@
 {
   "name": "compcon",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "author": "Massif Press",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "electron-webpack dev",
+    "dev": "electron-webpack dev --client-log-level warning",
     "compile": "electron-webpack",
     "dist": "yarn compile && BUILD_OS=local TRAVIS_BRANCH=build electron-builder",
     "dist-travis": "yarn compile && electron-builder",
@@ -15,7 +15,7 @@
     "int-test": "jest int"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.4.3c",
+    "title": "COMP/CON v1.4.4",
     "whiteListedModules": [
       "vue",
       "vuetify"

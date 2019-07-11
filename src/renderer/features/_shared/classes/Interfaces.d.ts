@@ -60,11 +60,19 @@ declare interface IPilotData {
   skills: IRankedData[]
   talents: IRankedData[]
   core_bonuses: string[]
+  reserves: IReserveData[]
   loadouts: IPilotLoadoutData[]
   active_loadout: string | null
   mechs: IMechData[]
   active_mech: string | null
   cc_ver: string
+}
+
+declare interface IReserveData {
+  id: string
+  resource_name: string
+  resource_note: string
+  used: boolean
 }
 
 declare interface IPilotLoadoutData {
@@ -73,6 +81,8 @@ declare interface IPilotLoadoutData {
   armor: (IEquipmentData | null)[]
   weapons: (IEquipmentData | null)[]
   gear: (IEquipmentData | null)[]
+  extendedWeapons: (IEquipmentData | null)[]
+  extendedGear: (IEquipmentData | null)[]
 }
 
 declare interface IMechData {

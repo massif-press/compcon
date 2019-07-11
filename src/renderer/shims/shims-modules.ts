@@ -30,4 +30,5 @@ declare module 'lancer-data' {
   const weapons: any
   const rules: any
   const actions: any
+  const reserves: any
 }
