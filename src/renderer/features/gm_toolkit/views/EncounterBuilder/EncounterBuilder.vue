@@ -72,7 +72,6 @@
 import Vue from 'vue';
 import EncounterBase from '../../logic/EncounterBase';
 import _ from 'lodash';
-import { State, namespace } from 'vuex-class';
 import NPC from '../../logic/NPC';
 import File from "../../components/File.vue";
 import EncounterNPCObject from "../../components/EncounterBuilder/EncounterNPCObject.vue";
@@ -81,7 +80,6 @@ import newId from '../../logic/newId';
 import { mapState } from 'vuex';
 
 
-const npcDesigner = namespace('npcDesigner');
 
 export default Vue.extend({
     name: 'encounter-builder',
@@ -95,7 +93,7 @@ export default Vue.extend({
         }
     },
     computed: {
-        ...mapState(['npcDesigner/npcs']),
+        ...mapState('npcDesigner', ['npcs']),
         encounterNPCs() {
             return this.encounter.npcs.map(npc => npc.npc)
         }
