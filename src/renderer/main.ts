@@ -31,7 +31,7 @@ Vue.prototype.userDataPath = path.normalize(
   path.join(remote.app.getPath('userData'), 'data')
 )
 
-Vue.prototype.version = '1.4.3c'
+Vue.prototype.version = '1.4.4'
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
