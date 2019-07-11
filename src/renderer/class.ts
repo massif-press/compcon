@@ -66,6 +66,8 @@ import {
   DiceRoller,
   D20RollResult,
   DamageRollResult,
+  ParsedDieString,
+  DieSet,
 } from './features/_shared/classes/DiceRoller'
 
 export {
@@ -123,4 +125,6 @@ export {
   DiceRoller,
   D20RollResult,
   DamageRollResult,
+  ParsedDieString,
+  DieSet,
 }

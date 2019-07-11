@@ -1,4 +1,10 @@
-import { DiceRoller, D20RollResult, DamageRollResult } from '@/class'
+import {
+  DiceRoller,
+  D20RollResult,
+  DamageRollResult,
+  ParsedDieString,
+  DieSet,
+} from '@/class'
 import 'jest'
 import { mockRandom, resetMockRandom } from 'jest-mock-random'
 
@@ -96,37 +102,54 @@ describe('rollDamage', () => {
   it('rolls 1d6 correctly', () => {
     mockRandom([0.4])
 
-    expect(DiceRoller.rollDamage('1d6')).toBeInstanceOf(DamageRollResult)
+    let result = DiceRoller.rollDamage('1d6')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.total).toEqual(3)
   })
 })
 
 describe('parseDiceString', () => {
   it('parses 123', () => {
-    expect(DiceRoller.parseDiceString('123')).toEqual({
-      dice: [{ type: 0, quantity: 0 }],
-      modifier: 123,
-    })
+    let result = DiceRoller.parseDiceString('123')
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(0)
+    expect(result.dice[0].quantity).toEqual(0)
+    expect(result.modifier).toEqual(123)
   })
 
   it('parses 1d6', () => {
-    expect(DiceRoller.parseDiceString('1d6')).toEqual({
-      dice: [{ type: 6, quantity: 1 }],
-      modifier: 0,
-    })
+    let result = DiceRoller.parseDiceString('1d6')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(6)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(0)
   })
 
   it('parses 1d3+9', () => {
-    expect(DiceRoller.parseDiceString('1d3+9')).toEqual({
-      dice: [{ type: 3, quantity: 1 }],
-      modifier: 9,
-    })
+    let result = DiceRoller.parseDiceString('1d3+9')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(3)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(9)
   })
 
   it('parses 1 d 6 + 5', () => {
-    expect(DiceRoller.parseDiceString('1 d 6 + 5')).toEqual({
-      dice: [{ type: 6, quantity: 1 }],
-      modifier: 5,
-    })
+    let result = DiceRoller.parseDiceString('1 d 6 + 5')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(6)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(5)
   })
 })
 

@@ -104,6 +104,42 @@ class D20RollResult implements Id20RollResult {
   }
 }
 
+class DieSet {
+  private _type: number
+  private _quantity: number
+
+  constructor(type: number, quantity: number) {
+    this._type = type
+    this._quantity = quantity
+  }
+
+  public get type(): number {
+    return this._type
+  }
+
+  public get quantity(): number {
+    return this._quantity
+  }
+}
+
+class ParsedDieString {
+  private _dice: DieSet[]
+  private _modifier: number
+
+  constructor(dice, modifier) {
+    this._dice = dice
+    this._modifier = modifier
+  }
+
+  public get dice(): { type: number; quantity: number }[] {
+    return this._dice
+  }
+
+  public get modifier(): number {
+    return this._modifier
+  }
+}
+
 class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
@@ -149,9 +185,7 @@ class DiceRoller {
     return result
   }
 
-  public static parseDiceString(
-    diceString: string
-  ): { dice: { type: number; quantity: number }[]; modifier: number } {
+  public static parseDiceString(diceString: string): ParsedDieString {
     // remove all spaces
     let parsedString = diceString.replace(/\s/g, '')
 
@@ -163,32 +197,28 @@ class DiceRoller {
     )
 
     if (numberTest) {
-      return {
-        dice: [{ type: 0, quantity: 0 }],
-        modifier: parseInt(numberTest[1]),
-      }
-    } else if (simpleDieTest) {
-      return {
-        dice: [
-          {
-            type: parseInt(simpleDieTest[2]),
-            quantity: parseInt(simpleDieTest[1]),
-          },
-        ],
-        modifier: 0,
-      }
-    } else if (complexDieTest) {
-      let result = {
-        dice: [
-          {
-            type: parseInt(complexDieTest[2]),
-            quantity: parseInt(complexDieTest[1]),
-          },
-        ],
-        modifier: parseInt(complexDieTest[3]),
-      }
+      let dieSet = new DieSet(0, 0)
+      let modifier = parseInt(numberTest[1])
 
-      return result
+      return new ParsedDieString([dieSet], modifier)
+    } else if (simpleDieTest) {
+      let dieSet = new DieSet(
+        parseInt(simpleDieTest[2]),
+        parseInt(simpleDieTest[1])
+      )
+      let modifier = 0
+
+      return new ParsedDieString([dieSet], 0)
+    } else if (complexDieTest) {
+      let dieSet = new DieSet(
+        parseInt(complexDieTest[2]),
+        parseInt(complexDieTest[1])
+      )
+      let modifier = parseInt(complexDieTest[3])
+
+      return new ParsedDieString([dieSet], modifier)
+    } else {
+      return
     }
   }
 
@@ -240,4 +270,4 @@ class DiceRoller {
 }
 
 // module.exports = DiceRoller
-export { DiceRoller, D20RollResult, DamageRollResult }
+export { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet }
