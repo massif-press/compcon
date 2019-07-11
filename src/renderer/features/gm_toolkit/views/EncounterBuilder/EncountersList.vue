@@ -91,13 +91,13 @@ export default Vue.extend({
     // @encounterBuilder.State encounters!: EncounterBase[];
     // @encounterBuilder.Mutation('delete') deleteEncounter!: (id: string) => void;
     name: 'encounters-list',
-    components: { AddButton },
+    components: { AddButton, File },
     data: () => ({
         deleteDialog: false,
         deletingID: null as null | string,
     }),
-    computed: mapState({ encounters: 'encounterBuilder/encounters' }),
-    methods: mapMutations({ deleteEncounter: 'encounterBuilder/delete' }),
+    computed: mapState('encounterBuilder', { encounters: 'encounters' }),
+    methods: mapMutations('encounterBuilder', { deleteEncounter: 'delete' }),
 });
 </script>
 
