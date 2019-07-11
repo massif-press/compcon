@@ -1,5 +1,5 @@
 {
-  "stable": "1.3.9c",
+  "stable": "1.3.10",
   "beta": "1.4.4",
   "news": {
     "date": "July 11th, 2019",
@@ -30,6 +30,10 @@
     {
       "version": "1.4.0",
       "changes": "<ul> <li>Mech stat contribution panels <ul> <li>Hover over a stat (eg. the \"HP\" text above the mech HP pips) to see the calculation panel</li> </ul> </li> <li>The Pilot Attribute Editor buttons have been moved a bit, and now alert you if you have any unspent trigger, talent, license, CORE bonus, or mech skill points left unspent</li> <li>Frame tags are now on the Frame select page</li> <li>There's a&nbsp;<strong>Full Repair</strong> button on active mechs, next to the HP/Armor display.</li> <li>The heat indicator will change when the mech is in the&nbsp;<strong>danger zone</strong></li> <li>An issue that was causing a full-HP mech to \"lose\" the two HP from GMS Personalizations has been fixed</li> </ul>"
+    },
+    {
+      "version": "1.3.10",
+      "changes": "<ul> <li>Corrects the&nbsp;GOBLIN Trait 'Reactive Code' (thanks Spook!)</li> <li>Adds the 'Insulated' trait to the LANCASTER (thanks Mikhail!)</li> <li>Corrects the tags on IPS-N TORTUGA III Hyper Dense Armor</li> </ul>"
     },
     {
       "version": "1.3.9b/c",
