@@ -111,7 +111,7 @@ import { info } from 'lancer-data'
 export default Vue.extend({
   name: 'landing-page',
   data: () => ({
-    ver: '1.3.9c',
+    ver: '1.3.10',
     changelog: {},
     err: false,
     loading: true,
