@@ -18,7 +18,7 @@ class MechWeapon extends MechEquipment {
   private weapon_type: WeaponType
   private damage?: Damage[]
   private range?: Range[]
-
+  private loaded: boolean
   private mod: WeaponMod | null
   // private ammo?: WeaponAmmo | null;
 
@@ -30,6 +30,7 @@ class MechWeapon extends MechEquipment {
       this.damage = weaponData.damage.map((x: any) => new Damage(x))
     if (weaponData.range)
       this.range = weaponData.range.map((x: any) => new Range(x))
+    this.loaded = true
     this.mod = null
     this.item_type = ItemType.MechWeapon
   }
@@ -63,6 +64,18 @@ class MechWeapon extends MechEquipment {
     return this.mod || null
   }
 
+  public get IsLoading(): boolean {
+    return this.Tags.some(x => x.IsLoading)
+  }
+
+  public get Loaded(): boolean {
+    return this.loaded
+  }
+
+  public set Loaded(loaded: boolean) {
+    this.loaded = loaded
+  }
+
   // public set Ammo(ammo: WeaponAmmo | null) {
   //   this.ammo = ammo;
   // }
@@ -77,6 +90,7 @@ class MechWeapon extends MechEquipment {
       notes: item.Notes,
       uses: item.Uses || 0,
       destroyed: item.IsDestroyed || false,
+      loaded: item.Loaded || true,
       mod: item.Mod ? item.Mod.ID : null,
     }
   }
@@ -86,6 +100,7 @@ class MechWeapon extends MechEquipment {
     item.Notes = itemData.notes
     item.uses = itemData.uses || 0
     item.destroyed = itemData.destroyed || false
+    item.loaded = itemData.loaded || true
     item.Mod = itemData.mod
       ? store.getters.getItemById('WeaponMods', itemData.mod)
       : null

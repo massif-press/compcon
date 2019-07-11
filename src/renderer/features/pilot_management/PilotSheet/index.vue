@@ -28,9 +28,9 @@
                   <span slot="label" class="blockquote ml-1 pl-0">{{ pilot.Name }}&nbsp;</span>
                 </editable-label>
               </v-flex>
-              <v-spacer/>
+              <v-spacer />
             </v-layout>
-            <v-divider class="ma-2"/>
+            <v-divider class="ma-2" />
             <!-- Pilot Statblock -->
             <v-layout>
               <v-flex>
@@ -70,7 +70,7 @@
           <!-- License Level -->
           <v-flex shrink>
             <span class="caption float-right">LICENSE LEVEL</span>
-            <br>
+            <br />
           </v-flex>
           <span class="xl-text">{{ pilot.Level }}</span>
           <v-flex shrink>
@@ -239,7 +239,7 @@
             <v-layout>
               <v-flex class="pl-2" @click="appearanceModal = true">
                 <div v-if="pilot.Portrait">
-                  <v-img :src="pilot.Portrait" max-height="55vh" max-width="45.1vw" contain/>
+                  <v-img :src="pilot.Portrait" max-height="55vh" max-width="45.1vw" contain />
                 </div>
                 <div v-else>
                   <v-btn block small flat color="primary lighten-1">
@@ -355,7 +355,7 @@
                   ref="licenseSelector"
                   :highlight="pilot.IsMissingLicenses"
                 >
-                  <license-selector slot="modal-content" :pilot="pilot"/>
+                  <license-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot Licenses</span>
@@ -403,7 +403,7 @@
                   ref="talentSelector"
                   :highlight="pilot.IsMissingTalents"
                 >
-                  <talent-selector slot="modal-content" :pilot="pilot" @close="setPilotTalents"/>
+                  <talent-selector slot="modal-content" :pilot="pilot" @close="setPilotTalents" />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot Talents</span>
@@ -451,7 +451,7 @@
                   ref="mechSkillSelector"
                   :highlight="pilot.IsMissingHASE"
                 >
-                  <mech-skills-selector slot="modal-content" :pilot="pilot" @close="setMechSkills"/>
+                  <mech-skills-selector slot="modal-content" :pilot="pilot" @close="setMechSkills" />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot Mech Skills</span>
@@ -459,10 +459,10 @@
           </v-flex>
         </v-layout>
         <v-layout center justify-space-around class="pl-5">
-          <hase-pips title="hull" attribute="hull"/>
-          <hase-pips title="agility" attribute="agi"/>
-          <hase-pips title="systems" attribute="sys"/>
-          <hase-pips title="engineering" attribute="eng"/>
+          <hase-pips title="hull" attribute="hull" />
+          <hase-pips title="agility" attribute="agi" />
+          <hase-pips title="systems" attribute="sys" />
+          <hase-pips title="engineering" attribute="eng" />
         </v-layout>
 
         <!-- CORE Bonuses -->
@@ -493,7 +493,7 @@
                   ref="bonusSelector"
                   :highlight="pilot.IsMissingCBs"
                 >
-                  <core-bonus-selector slot="modal-content" :pilot="pilot"/>
+                  <core-bonus-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot CORE Bonuses</span>
@@ -501,7 +501,7 @@
           </v-flex>
         </v-layout>
         <v-layout row v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
-          <core-bonus-item :cb="cb"/>
+          <core-bonus-item :cb="cb" />
         </v-layout>
 
         <!-- Pilot Loadout -->
@@ -510,7 +510,7 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-            <pilot-loadout :pilot="pilot"/>
+            <pilot-loadout :pilot="pilot" />
           </v-flex>
         </v-layout>
 
@@ -534,7 +534,7 @@
         </v-layout>
       </v-container>
 
-      <v-divider/>
+      <v-divider />
 
       <!-- Print Block -->
       <v-layout class="ma-5">
@@ -556,20 +556,38 @@
       </v-layout>
 
       <v-snackbar v-model="snackbar" :timeout="5000">
-        <span v-html="notification"/>
+        <span v-html="notification" />
         <v-btn color="pink" flat @click="snackbar = false">Close</v-btn>
       </v-snackbar>
 
-      <v-dialog v-model="printDialog" persistent width="50vw">
+      <v-dialog v-model="printDialog" persistent width="500px">
         <v-card>
-          <v-card-title class="title">Active Mech Detected</v-card-title>
-          <v-card-text>Include {{ pilot.Callsign }}'s currently active mech?</v-card-text>
-          <slot name="modal-content"></slot>
-          <v-divider/>
+          <v-card-text class="text-xs-center effect-text">
+            Include a mech from {{ pilot.Callsign }}'s hangar?
+            <v-select
+              :items="pilot.Mechs"
+              box
+              label="Mech"
+              item-text="Name"
+              item-value="ID"
+              @change="printMech = $event"
+              class="mt-3"
+            >
+              <template v-slot:selection="{ item }">
+                <span class="minor-title">
+                  {{item.name}}
+                  <span
+                    class="caption grey--text"
+                  >{{item.Frame.Source}} {{item.Frame.Name}}</span>
+                </span>
+              </template>
+            </v-select>
+          </v-card-text>
+          <v-divider />
           <v-card-actions>
             <v-btn color="primary" @click="print(false)">No</v-btn>
-            <v-spacer/>
-            <v-btn color="primary" @click="print(true)">Yes</v-btn>
+            <v-spacer />
+            <v-btn color="primary" @click="print(true, printMech)" :disabled="!printMech">Yes</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -614,7 +632,7 @@ import {
 } from './SheetComponents'
 import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
 import NewConfig from '../HangarView/AddConfigMenu.vue'
-import { Pilot, PilotSkill, Background, Statblock } from '@/class'
+import { Pilot, PilotSkill, Background, Statblock, Mech } from '@/class'
 import { rules } from 'lancer-data'
 
 export default Vue.extend({
@@ -661,6 +679,7 @@ export default Vue.extend({
     printDialog: false,
     levelEditor: false,
     snackbar: false,
+    printMech: null,
     notification: '',
     activeLoadoutIdx: 0,
     loadoutForceReloadTrigger: 0,
@@ -708,16 +727,22 @@ export default Vue.extend({
         this.$router.push('/print-pilot')
       }
     },
-    print: function(includeMech: boolean) {
+    print: function(includeMech: boolean, mechID?: string) {
       this.printDialog = false
+      let mech = null
+      if (mechID) {
+        mech = this.pilot.Mechs.find(x => x.ID === mechID)
+      }
       this.$store.dispatch('setPrintOptions', {
         combo: includeMech,
+        mech: mech,
       })
       if (includeMech) {
         this.$router.push('/print-all')
       } else {
         this.$router.push('/print-pilot')
       }
+      this.printMech = null
     },
     copyPilotStatblock() {
       clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))

@@ -31,10 +31,18 @@ Vue.prototype.userDataPath = path.normalize(
   path.join(remote.app.getPath('userData'), 'data')
 )
 
-Vue.prototype.version = '1.4.2'
+Vue.prototype.version = '1.4.3c'
 
 Vue.use(Vuetify, {
   iconfont: 'mdi',
+    icons: {
+    'move': 'mdi-arrow-right-bold-hexagon-outline',
+    'quick': 'mdi-hexagon-slice-3',
+    'full': 'mdi-hexagon-slice-6',
+    'reaction': 'mdi-redo-variant',
+    'overcharge': 'mdi-alert-octagram',
+    'free': 'mdi-axis-arrow',
+  }
 })
 Vue.use(VueMousetrap)
 Vue.use(ScrollSpy, {

@@ -25,6 +25,8 @@ class Mech {
   private cc_ver: string
   private statuses: string[]
   private conditions: string[]
+  private resistances: string[]
+  private burn: number
 
   constructor(frame: Frame, pilot: Pilot) {
     this.id = uid.generate()
@@ -46,6 +48,8 @@ class Mech {
     this.active_loadout = null
     this.statuses = []
     this.conditions = []
+    this.resistances = []
+    this.burn = 0
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -352,10 +356,24 @@ class Mech {
     this.save()
   }
 
+  public AddDamage(dmg: number, resistance?: string) {
+    if (resistance && this.resistances.includes(resistance)) {
+      dmg =  Math.ceil(dmg/2)
+    }
+    while (dmg > this.CurrentHP) {
+      this.CurrentStructure -= 1
+      dmg -= this.CurrentHP
+      this.current_hp = this.MaxHP
+    }
+    this.CurrentHP -= dmg
+  }
+
   public get MaxHP(): number {
     let bonus = this.pilot.Grit + this.Hull * 2
-    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
-      bonus += 2
+    if (this.ActiveLoadout) {
+      const personalizations = this.ActiveLoadout.GetSystem('personalizations')
+      if (personalizations && !personalizations.IsDestroyed) bonus += 2
+    }
     if (this.pilot.has('CoreBonus', 'frame')) bonus += 5
     return this.frame.HP + bonus
   }
@@ -400,6 +418,26 @@ class Mech {
     else if (heat < 0) this.current_heat = 0
     else this.current_heat = heat
     this.save()
+  }
+
+  public AddHeat(heat: number) {
+    heat = this.resistances.includes('Heat') ? Math.ceil(heat/2) : heat
+    let newHeat = this.current_heat + heat
+    while (newHeat > this.HeatCapacity) {
+      this.CurrentStress -= 1
+      newHeat -= this.HeatCapacity
+    }
+    this.CurrentHeat = newHeat
+  }
+
+  public ReduceHeat(heat: number, resist?: boolean) {
+    if (resist) heat = this.resistances.includes('Heat') ? Math.ceil(heat/2) : heat
+    while (heat > this.CurrentHeat) {
+      heat -= this.CurrentHeat
+      this.CurrentStress += 1
+      this.current_heat = this.HeatCapacity
+    }
+    this.CurrentHeat -= heat
   }
 
   public get IsInDangerZone(): boolean {
@@ -485,6 +523,14 @@ class Mech {
   }
 
   // -- Statuses and Conditions -------------------------------------------------------------------
+  public get IsShutDown(): boolean {
+    return this.Statuses.includes("Shut Down")
+  }
+
+  public get IsStunned(): boolean {
+    return this.conditions.includes('Stunned')
+  }
+  
   public get Conditions(): string[] {
     return this.conditions
   }
@@ -500,6 +546,25 @@ class Mech {
 
   public set Statuses(statuses: string[]) {
     this.statuses = statuses
+    this.save()
+  }
+
+  public get Resistances(): string[] {
+    return this.resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this.resistances = resistances
+    this.save()
+  }
+
+  public get Burn(): number{
+    return this.burn
+  }
+
+  public set Burn(burn: number) {
+    this.burn = burn
+    if (this.burn < 0) this.burn = 0
     this.save()
   }
 
@@ -519,6 +584,8 @@ class Mech {
     })
     this.statuses = []
     this.conditions = []
+    this.resistances = []
+    this.Burn = 0
     this.save()
   }
 
@@ -632,6 +699,8 @@ class Mech {
       active_loadout: m.active_loadout,
       statuses: m.statuses,
       conditions: m.conditions,
+      resistances: m.resistances,
+      burn: m.burn,
       cc_ver: m.cc_ver,
     }
   }
@@ -658,6 +727,8 @@ class Mech {
     m.active_loadout = m.active_loadout
     m.statuses = mechData.statuses || []
     m.conditions = mechData.conditions || []
+    m.resistances = mechData.resistances || []
+    m.burn = mechData.burn
     m.cc_ver = mechData.cc_ver || ''
     return m
   }

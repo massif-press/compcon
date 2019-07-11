@@ -126,7 +126,6 @@ class EquippableMount extends Mount {
 
   public Clear() {
     this.Slots.forEach(s => {
-      console.log(s)
       s.UnequipWeapon()
     })
   }
