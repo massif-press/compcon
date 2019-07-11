@@ -16,9 +16,11 @@ declare interface Id20RollResult {
 }
 
 declare interface IDamageRollResult {
+  diceString: string
   total: number
   rawDieRolls: number[]
   staticBonus: number
+  parseError: boolean
 }
 
 declare interface IRankedData {

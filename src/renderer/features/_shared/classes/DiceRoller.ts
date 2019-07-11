@@ -35,11 +35,25 @@ class DamageRollResult implements IDamageRollResult {
   private _total: number
   private _rawDieRolls: number[]
   private _staticBonus: number
+  private _parseError: boolean
+  private _diceString: string
 
-  constructor(total: number, rawRolls: number[], staticBonus: number) {
+  constructor(
+    diceString: string,
+    total: number,
+    rawRolls: number[],
+    staticBonus: number,
+    parseError?: boolean
+  ) {
+    this._diceString = diceString
     this._total = total || 0
     this._rawDieRolls = rawRolls || [0]
     this._staticBonus = staticBonus || 0
+    this._parseError = parseError || false
+  }
+
+  public get diceString(): string {
+    return this._diceString
   }
 
   public get total(): number {
@@ -52,6 +66,10 @@ class DamageRollResult implements IDamageRollResult {
 
   public get staticBonus(): number {
     return this._staticBonus
+  }
+
+  public get parseError(): boolean {
+    return this._parseError
   }
 }
 
@@ -108,7 +126,7 @@ class DieSet {
   private _type: number
   private _quantity: number
 
-  constructor(type: number, quantity: number) {
+  constructor(quantity: number, type: number) {
     this._type = type
     this._quantity = quantity
   }
@@ -180,9 +198,13 @@ class DiceRoller {
   public static rollDamage(diceString: string): DamageRollResult {
     let parsedRoll = DiceRoller.parseDiceString(diceString)
 
-    let result: DamageRollResult = new DamageRollResult(0, [0], 0)
-
-    return result
+    if (!parsedRoll) {
+      // return as a error - they get back the dice string
+      // and can handle as a special case
+      return new DamageRollResult(diceString, 0, [0], 0, true)
+    } else {
+      // return new DamageRollResult(diceString)
+    }
   }
 
   public static parseDiceString(diceString: string): ParsedDieString {
@@ -203,33 +225,36 @@ class DiceRoller {
       return new ParsedDieString([dieSet], modifier)
     } else if (simpleDieTest) {
       let dieSet = new DieSet(
-        parseInt(simpleDieTest[2]),
-        parseInt(simpleDieTest[1])
+        parseInt(simpleDieTest[1]),
+        parseInt(simpleDieTest[2])
       )
       let modifier = 0
 
       return new ParsedDieString([dieSet], 0)
     } else if (complexDieTest) {
       let dieSet = new DieSet(
-        parseInt(complexDieTest[2]),
-        parseInt(complexDieTest[1])
+        parseInt(complexDieTest[1]),
+        parseInt(complexDieTest[2])
       )
       let modifier = parseInt(complexDieTest[3])
 
       return new ParsedDieString([dieSet], modifier)
     } else {
-      return
+      return undefined
     }
   }
 
-  public static rollDieSet(dieQuantity: number, dieType: number) {
-    if (dieQuantity <= 0 || dieType <= 0) return { result: 0, rolls: [] }
+  public static rollDieSet(
+    dieSet: DieSet
+  ): { result: number; rolls: number[] } {
+    if (dieSet.quantity <= 0 || dieSet.type <= 0)
+      return { result: 0, rolls: [] }
 
     let total: number = 0
     let rolls: number[] = []
 
-    for (let x = 0; x < dieQuantity; x++) {
-      let result = DiceRoller.rollDie(dieType)
+    for (let x = 0; x < dieSet.quantity; x++) {
+      let result = DiceRoller.rollDie(dieSet.type)
       total += result
       rolls.push(result)
     }
@@ -246,7 +271,9 @@ class DiceRoller {
     if (numberOfDice === 0) return { result: 0, rolls: [] }
 
     // needs to handle both positive and negative accuracy (aka difficulty)
-    let rawResults = DiceRoller.rollDieSet(Math.abs(numberOfDice), 6)
+    let rawResults = DiceRoller.rollDieSet(
+      new DieSet(Math.abs(numberOfDice), 6)
+    )
 
     let total: number = Math.max(...rawResults.rolls)
     if (numberOfDice < 0) {
