@@ -97,6 +97,7 @@
     "electron-webpack-vue": "^2.2.3",
     "eslint-plugin-html": "^5.0.3",
     "jest": "^24.8.0",
+    "jest-mock-random": "^1.0.2",
     "prettier": "^1.18.0",
     "ts-jest": "^24.0.2",
     "typescript": "^3.4.5",
