@@ -60,6 +60,7 @@
     }
   },
   "dependencies": {
+    "@aricchi/electron-vue-devtools": "^5.0.8-1",
     "@mdi/font": "^3.6.95",
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",
