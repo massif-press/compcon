@@ -17,19 +17,16 @@
 
     <v-container>
       <v-layout style="height: 100%" align-v="center" class="mt-0 pt-0">
-        <v-flex>
+        <v-flex class="px-1">
           <v-btn block color="primary" large to="/pilot_management">Pilot Roster</v-btn>
         </v-flex>
-        <v-flex>
+        <v-flex class="px-1">
           <v-btn block color="primary" large to="/compendium">COMPENDIUM</v-btn>
         </v-flex>
-        <v-flex>
-          <v-tooltip bottom>
-            <v-btn slot="activator" block large :to="'/gm'" disabled>GM Toolkit</v-btn>
-            <span>WIP</span>
-          </v-tooltip>
+        <v-flex class="px-1">
+            <v-btn slot="activator" block color="primary" large :to="'/gm'">GM Toolkit</v-btn>
         </v-flex>
-        <v-flex>
+        <v-flex class="px-1">
           <v-btn slot="activator" block large :to="'/mods'" disabled>Homebrew Editor</v-btn>
         </v-flex>
       </v-layout>
