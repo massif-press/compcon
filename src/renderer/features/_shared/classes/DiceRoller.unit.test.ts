@@ -99,12 +99,76 @@ describe('rollToHit', () => {
 })
 
 describe('rollDamage', () => {
+  it('rolls static 123 correctly', () => {
+    mockRandom([0.4])
+
+    let result = DiceRoller.rollDamage('123')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('123')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([])
+    expect(result.staticBonus).toBe(123)
+    expect(result.total).toEqual(123)
+  })
+
+  it('rolls static 000123 correctly', () => {
+    mockRandom([0.4])
+
+    let result = DiceRoller.rollDamage('000123')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('000123')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([])
+    expect(result.staticBonus).toBe(123)
+    expect(result.total).toEqual(123)
+  })
+
   it('rolls 1d6 correctly', () => {
     mockRandom([0.4])
 
     let result = DiceRoller.rollDamage('1d6')
     expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('1d6')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([3])
+    expect(result.staticBonus).toBe(0)
     expect(result.total).toEqual(3)
+  })
+
+  it('rolls 1d6+10 correctly', () => {
+    mockRandom([0.4])
+
+    let result = DiceRoller.rollDamage('1d6+10')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('1d6+10')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([3])
+    expect(result.staticBonus).toBe(10)
+    expect(result.total).toEqual(13)
+  })
+
+  it('rolls 1d6-22 correctly', () => {
+    mockRandom([0.4])
+
+    let result = DiceRoller.rollDamage('1d6-22')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('1d6-22')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([3])
+    expect(result.staticBonus).toBe(-22)
+    expect(result.total).toEqual(-19)
+  })
+
+  it('rolls 1 d 6 - 22 correctly', () => {
+    mockRandom([0.4])
+
+    let result = DiceRoller.rollDamage('1 d 6 - 22')
+    expect(result).toBeInstanceOf(DamageRollResult)
+    expect(result.diceString).toEqual('1 d 6 - 22')
+    expect(result.parseError).toBeFalsy()
+    expect(result.rawDieRolls).toEqual([3])
+    expect(result.staticBonus).toBe(-22)
+    expect(result.total).toEqual(-19)
   })
 })
 
@@ -141,6 +205,39 @@ describe('parseDiceString', () => {
     expect(result.modifier).toEqual(9)
   })
 
+  it('parses a roll with multi-digit modifier', () => {
+    let result = DiceRoller.parseDiceString('1d3+22')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(3)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(22)
+  })
+
+  it('parses a roll with multi-digit modifier ending in 0', () => {
+    let result = DiceRoller.parseDiceString('1d3+10')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(3)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(10)
+  })
+
+  it('parses a roll with a negative modifier', () => {
+    let result = DiceRoller.parseDiceString('1d3-22')
+
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(1)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(3)
+    expect(result.dice[0].quantity).toEqual(1)
+    expect(result.modifier).toEqual(-22)
+  })
+
   it('parses 1 d 6 + 5', () => {
     let result = DiceRoller.parseDiceString('1 d 6 + 5')
 
@@ -151,6 +248,12 @@ describe('parseDiceString', () => {
     expect(result.dice[0].quantity).toEqual(1)
     expect(result.modifier).toEqual(5)
   })
+})
+
+it('returns a parse error for a bad string', () => {
+  let result = DiceRoller.parseDiceString('blahblah')
+
+  expect(result).toBeUndefined()
 })
 
 describe('rollAccuracyDice', () => {

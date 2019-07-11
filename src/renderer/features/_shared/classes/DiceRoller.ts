@@ -149,7 +149,7 @@ class ParsedDieString {
     this._modifier = modifier
   }
 
-  public get dice(): { type: number; quantity: number }[] {
+  public get dice(): DieSet[] {
     return this._dice
   }
 
@@ -201,9 +201,29 @@ class DiceRoller {
     if (!parsedRoll) {
       // return as a error - they get back the dice string
       // and can handle as a special case
+
       return new DamageRollResult(diceString, 0, [0], 0, true)
     } else {
-      // return new DamageRollResult(diceString)
+      let total: number = 0
+      let rawRolls: number[] = []
+      let staticBonus: number = 0
+
+      staticBonus = parsedRoll.modifier
+      total = staticBonus
+
+      parsedRoll.dice.forEach(dieSet => {
+        let x = DiceRoller.rollDieSet(dieSet)
+        total += x.result
+        rawRolls.push(...x.rolls)
+      })
+
+      return new DamageRollResult(
+        diceString,
+        total,
+        rawRolls,
+        staticBonus,
+        false
+      )
     }
   }
 
@@ -212,9 +232,9 @@ class DiceRoller {
     let parsedString = diceString.replace(/\s/g, '')
 
     // parse
-    let numberTest = new RegExp('^([1-9]*)$').exec(parsedString)
-    let simpleDieTest = new RegExp('^([1-9]*)d([1-9]*)$').exec(parsedString)
-    let complexDieTest = new RegExp('^([1-9]*)d([1-9]*)\\+([1-9]*)$').exec(
+    let numberTest = new RegExp('^([0-9]*)$').exec(parsedString)
+    let simpleDieTest = new RegExp('^([0-9]*)d([0-9]*)$').exec(parsedString)
+    let complexDieTest = new RegExp('^([0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(
       parsedString
     )
 
