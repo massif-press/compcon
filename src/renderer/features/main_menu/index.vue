@@ -34,13 +34,13 @@
         </v-flex>
       </v-layout>
 
-      <v-divider class="ma-2"/>
+      <v-divider class="ma-2" />
 
       <v-layout>
         <v-flex>
           <v-card v-if="loading">
             <v-card-text class="text-xs-center">
-              <v-progress-circular :size="120" :width="12" color="primary" indeterminate/>
+              <v-progress-circular :size="120" :width="12" color="primary" indeterminate />
               <p class="minor-title mt-3">LOADING...</p>
             </v-card-text>
           </v-card>
@@ -54,7 +54,7 @@
               <span
                 class="caption"
               >(v{{ changelog.news.version }})</span>
-              <v-spacer/>
+              <v-spacer />
               <span class="minor title">
                 Stable:
                 <span class="primary--text">{{ changelog.stable }}</span>
@@ -68,18 +68,18 @@
             <div v-if="ver !== changelog.beta && ver !== changelog.stable" class="ma-0 ml-5 mr-5">
               <v-btn block large color="warning" @click="toUpdate">Update COMP/CON</v-btn>
             </div>
-            <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body"/>
-            <v-divider class="mt-2 mb-2"/>
+            <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
+            <v-divider class="mt-2 mb-2" />
             <div v-for="(i, idx) in changelog.changelog" :key="idx">
               <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{ i.version }}</v-card-title>
-              <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes"/>
-              <v-divider class="mt-2 mb-2"/>
+              <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
+              <v-divider class="mt-2 mb-2" />
             </div>
           </v-card>
           <v-card v-else>
             <v-card-text>
               <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
-              <br>
+              <br />
               <p class="text-xs-center">
                 <span class="title">
                   Check
@@ -111,7 +111,7 @@ import { info } from 'lancer-data'
 export default Vue.extend({
   name: 'landing-page',
   data: () => ({
-    ver: '1.4.2',
+    ver: '1.4.3c',
     changelog: {},
     err: false,
     loading: true,

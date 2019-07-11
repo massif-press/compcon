@@ -58,10 +58,20 @@ class MechLoadout extends Loadout {
     return this.improvedArmament
   }
 
-  public AllEquippableMounts(improved?: boolean): EquippableMount[] {
-    if (improved && this.equippableMounts.length < 3)
-      return this.equippableMounts.concat([this.improvedArmament])
-    return this.equippableMounts
+  public AllMounts(improved?: boolean, integrated?: boolean): Mount[] {
+    let ms = []
+    if (integrated) ms.push(this.integratedWeapon)
+    if (improved && this.equippableMounts.length < 3) ms.push(this.improvedArmament)
+    ms = ms.concat(this.equippableMounts).concat(this.integratedMounts)
+    return ms
+  }
+
+  public AllEquippableMounts(improved?: boolean, integrated?: boolean): EquippableMount[] {
+    let ms = []
+    if (integrated) ms.push(this.integratedWeapon)
+    if (improved && this.equippableMounts.length < 3) ms.push(this.improvedArmament)
+    ms = ms.concat(this.equippableMounts)
+    return ms
   }
 
   public RetrofitMount(mountIndex: number) {
@@ -115,6 +125,12 @@ class MechLoadout extends Loadout {
     return this.AllEquippableMounts(true).flatMap(x => x.Weapons)
   }
 
+  public ReloadAll() {
+    this.Weapons.forEach(w => {
+      if (w.IsLoading) w.Loaded = true
+    });
+  }
+
   public get Systems(): MechSystem[] {
     return this.systems
   }
@@ -126,6 +142,10 @@ class MechLoadout extends Loadout {
 
   public HasSystem(system_id: string): boolean {
     return !!this.Systems.find(x => x.ID === system_id)
+  }
+
+  public GetSystem(system_id: string): MechSystem | null {
+    return this.Systems.find(x => x.ID === system_id) || null
   }
 
   public AddSystem(system: MechSystem) {

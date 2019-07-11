@@ -1,11 +1,10 @@
 <template>
   <div>
-    <v-card v-if="!config.Loadouts.length" >
+    <v-card v-if="!config.Loadouts.length">
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="newLoadout()" color="primary">
-            <v-icon>add</v-icon>
-            Add New Loadout
+            <v-icon>add</v-icon>Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -20,9 +19,7 @@
       @change="changeTab()"
       :key="config.Loadouts.length"
     >
-      <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">
-        {{ loadout.name }}
-      </v-tab>
+      <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">{{ loadout.name }}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="newLoadout()">
@@ -32,11 +29,7 @@
         </v-tooltip>
       </span>
       <v-tabs-items mandatory>
-        <v-tab-item
-          v-for="(loadout, i) in config.Loadouts"
-          :key="loadout.id + i"
-          lazy
-        >
+        <v-tab-item v-for="(loadout, i) in config.Loadouts" :key="loadout.id + i" lazy>
           <v-card>
             <v-card-text>
               <integrated-block
@@ -64,11 +57,7 @@
 
               <v-divider dark class="mb-3 mt-3" />
 
-              <systems-block
-                :loadout="loadout"
-                :mech="config"
-                :key="loadout.TotalSP"
-              />
+              <systems-block :loadout="loadout" :mech="config" :key="loadout.TotalSP" />
 
               <v-card-actions>
                 <lazy-dialog
@@ -79,21 +68,15 @@
                   @cancel="renameDialog = false"
                 >
                   <v-btn slot="activator" flat @click="renameDialog = true">
-                    <v-icon small left>edit</v-icon>
-                    Rename Loadout
+                    <v-icon small left>edit</v-icon>Rename Loadout
                   </v-btn>
                   <v-card-text slot="modal-content">
-                    <v-text-field
-                      v-model="newLoadoutName"
-                      label="Loadout Name"
-                      type="text"
-                    ></v-text-field>
+                    <v-text-field v-model="newLoadoutName" label="Loadout Name" type="text"></v-text-field>
                   </v-card-text>
                 </lazy-dialog>
 
                 <v-btn flat @click="copyLoadout(loadout)">
-                  <v-icon small left>file_copy</v-icon>
-                  Duplicate Loadout
+                  <v-icon small left>file_copy</v-icon>Duplicate Loadout
                 </v-btn>
 
                 <v-spacer />
@@ -106,14 +89,8 @@
                   @accept="deleteLoadout(loadout)"
                   @cancel="deleteDialog = false"
                 >
-                  <v-btn
-                    slot="activator"
-                    flat
-                    color="error"
-                    @click="deleteDialog = true"
-                  >
-                    <v-icon small left>edit</v-icon>
-                    Delete Loadout
+                  <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
+                    <v-icon small left>edit</v-icon>Delete Loadout
                   </v-btn>
                   <v-card-text slot="modal-content">
                     <p>
@@ -137,84 +114,84 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import io from '@/features/_shared/data_io'
-  import MountBlock from './MountBlock.vue'
-  import IntegratedBlock from './IntegratedBlock.vue'
-  import SystemsBlock from './SystemsBlock.vue'
-  import { LazyDialog } from '../../components/UI'
-  import { MechLoadout, MechSystem, Mech, Pilot } from '@/class'
+import Vue from 'vue'
+import io from '@/features/_shared/data_io'
+import MountBlock from './MountBlock.vue'
+import IntegratedBlock from './IntegratedBlock.vue'
+import SystemsBlock from './SystemsBlock.vue'
+import { LazyDialog } from '../../components/UI'
+import { MechLoadout, MechSystem, Mech, Pilot } from '@/class'
 
-  export default Vue.extend({
-    name: 'mech-loadout',
-    components: {
-      MountBlock,
-      SystemsBlock,
-      IntegratedBlock,
-      LazyDialog,
+export default Vue.extend({
+  name: 'mech-loadout',
+  components: {
+    MountBlock,
+    SystemsBlock,
+    IntegratedBlock,
+    LazyDialog,
+  },
+  props: {
+    config: Mech,
+    pilot: Pilot,
+  },
+  data: () => ({
+    tabIndex: 0,
+    newLoadoutName: '',
+    renameDialog: false,
+    deleteDialog: false,
+    notification: '',
+    snackbar: false,
+  }),
+  methods: {
+    newLoadout() {
+      this.config.AddLoadout()
+      this.tabIndex = this.config.Loadouts.length - 1
     },
-    props: {
-      config: Mech,
-      pilot: Pilot,
+    deleteLoadout(loadout: MechLoadout) {
+      this.tabIndex = this.config.Loadouts.length - 1
+      this.deleteDialog = false
+      this.config.RemoveLoadout(loadout)
     },
-    data: () => ({
-      tabIndex: 0,
-      newLoadoutName: '',
-      renameDialog: false,
-      deleteDialog: false,
-      notification: '',
-      snackbar: false,
-    }),
-    methods: {
-      newLoadout() {
-        this.config.AddLoadout()
-        this.tabIndex = this.config.Loadouts.length - 1
-      },
-      deleteLoadout(loadout: MechLoadout) {
-        this.tabIndex = this.config.Loadouts.length - 1
-        this.deleteDialog = false
-        this.config.RemoveLoadout(loadout)
-      },
-      copyLoadout(loadout: MechLoadout) {
-        this.config.CloneLoadout(loadout)
-        this.tabIndex = this.config.Loadouts.length - 1
-      },
-      hasImpArm() {
-        return this.pilot.has('CoreBonus', 'imparm')
-      },
-      hasIntWeapon() {
-        return this.pilot.has('CoreBonus', 'intweapon')
-      },
-      renameLoadout(loadout: MechLoadout) {
-        if (this.newLoadoutName === '') {
-          this.notification = 'Loadout names cannot be blank'
-          this.snackbar = true
-        } else {
-          this.config.ActiveLoadout.Name = this.newLoadoutName
-          this.newLoadoutName = ''
-          this.renameDialog = false
-        }
-      },
-      changeTab() {
-        this.config.ActiveLoadout = this.config.Loadouts[this.tabIndex]
-      },
+    copyLoadout(loadout: MechLoadout) {
+      this.config.CloneLoadout(loadout)
+      this.tabIndex = this.config.Loadouts.length - 1
     },
-    created() {
-      if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
-        const activeIndex = this.config.Loadouts.findIndex(
-          x => x.ID === this.config.ActiveLoadout.ID
-        )
-        if (activeIndex > -1) {
-          this.tabIndex = activeIndex
-        } else {
-          this.tabIndex = 0
-          this.config.ActiveLoadout = this.config.Loadouts[0]
-        }
-      } else if (this.config && this.config.Loadouts) {
-        this.tabIndex = 0
-        if (this.config.Loadouts.length)
-          this.config.ActiveLoadout = this.config.Loadouts[0]
+    hasImpArm() {
+      return this.pilot.has('CoreBonus', 'imparm')
+    },
+    hasIntWeapon() {
+      return this.pilot.has('CoreBonus', 'intweapon')
+    },
+    renameLoadout(loadout: MechLoadout) {
+      if (this.newLoadoutName === '') {
+        this.notification = 'Loadout names cannot be blank'
+        this.snackbar = true
+      } else {
+        this.config.ActiveLoadout.Name = this.newLoadoutName
+        this.newLoadoutName = ''
+        this.renameDialog = false
       }
     },
-  })
+    changeTab() {
+      this.config.ActiveLoadout = this.config.Loadouts[this.tabIndex]
+    },
+  },
+  created() {
+    if (this.config && this.config.Loadouts && this.config.ActiveLoadout) {
+      const activeIndex = this.config.Loadouts.findIndex(
+        x => x.ID === this.config.ActiveLoadout.ID
+      )
+      if (activeIndex > -1) {
+        this.tabIndex = activeIndex
+      } else {
+        this.tabIndex = 0
+        this.config.ActiveLoadout = this.config.Loadouts[0]
+      }
+    } else if (this.config && this.config.Loadouts) {
+      this.tabIndex = 0
+      if (this.config.Loadouts.length)
+        this.config.ActiveLoadout = this.config.Loadouts[0]
+    }
+  },
+})
 </script>

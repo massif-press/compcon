@@ -19,7 +19,7 @@ const colors = {
   },
   mechsystem: {
     light: '#009688',
-    dark: '#4DB6AC',
+    dark: '#009688',
   },
   mod: {
     light: '#00ACC1',
