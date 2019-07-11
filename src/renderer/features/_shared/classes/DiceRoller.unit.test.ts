@@ -200,7 +200,7 @@ describe('rollAccuracyDice', () => {
 describe('rollDieSet', () => {
   it('returns correctly for 1 die', () => {
     mockRandom([0.4])
-    expect(DiceRoller.rollDieSet(1, 10)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(1, 10))).toEqual(
       expect.objectContaining({
         result: 5,
         rolls: [5],
@@ -210,7 +210,7 @@ describe('rollDieSet', () => {
 
   it('returns correctly for multiple dice', () => {
     mockRandom([0.399, 0.678, 0.555])
-    expect(DiceRoller.rollDieSet(3, 10)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(3, 10))).toEqual(
       expect.objectContaining({
         result: 17,
         rolls: [4, 7, 6],
@@ -219,7 +219,7 @@ describe('rollDieSet', () => {
   })
 
   it('returns 0 & [] when rolling 0 dice', () => {
-    expect(DiceRoller.rollDieSet(0, 10)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(0, 10))).toEqual(
       expect.objectContaining({
         result: 0,
         rolls: [],
@@ -228,7 +228,7 @@ describe('rollDieSet', () => {
   })
 
   it('returns 0 & [] when rolling negative dice', () => {
-    expect(DiceRoller.rollDieSet(-5, 10)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(-5, 10))).toEqual(
       expect.objectContaining({
         result: 0,
         rolls: [],
@@ -237,7 +237,7 @@ describe('rollDieSet', () => {
   })
 
   it('returns 0 & [] when rolling dice type 0', () => {
-    expect(DiceRoller.rollDieSet(5, 0)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(5, 0))).toEqual(
       expect.objectContaining({
         result: 0,
         rolls: [],
@@ -246,7 +246,7 @@ describe('rollDieSet', () => {
   })
 
   it('returns 0 & [] when rolling a negative dice type ', () => {
-    expect(DiceRoller.rollDieSet(5, -5)).toEqual(
+    expect(DiceRoller.rollDieSet(new DieSet(5, -5))).toEqual(
       expect.objectContaining({
         result: 0,
         rolls: [],
