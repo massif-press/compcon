@@ -31,7 +31,31 @@
 
 // }
 
-class d20RollResult implements ISkillOrHitRollResult {
+class DamageRollResult implements IDamageRollResult {
+  private _total: number
+  private _rawDieRolls: number[]
+  private _staticBonus: number
+
+  constructor(total: number, rawRolls: number[], staticBonus: number) {
+    this._total = total || 0
+    this._rawDieRolls = rawRolls || [0]
+    this._staticBonus = staticBonus || 0
+  }
+
+  public get total(): number {
+    return this._total
+  }
+
+  public get rawDieRolls(): number[] {
+    return this._rawDieRolls
+  }
+
+  public get staticBonus(): number {
+    return this._staticBonus
+  }
+}
+
+class D20RollResult implements Id20RollResult {
   private _total: number
   private _rawDieRoll: number
   private _staticBonus: number
@@ -88,14 +112,14 @@ class DiceRoller {
     staticBonus: number = 0,
     totalAccuracy: number = 0,
     totalDifficulty: number = 0
-  ): d20RollResult {
+  ): D20RollResult {
     let d20Result: number = DiceRoller.rollDie(20)
 
     let netAccuracyDice: number = totalAccuracy - totalDifficulty
     let accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
     let total = d20Result + staticBonus + accuracyResults.result
 
-    return new d20RollResult(
+    return new D20RollResult(
       total,
       d20Result,
       staticBonus,
@@ -109,7 +133,7 @@ class DiceRoller {
     staticBonus: number = 0,
     totalAccuracy: number = 0,
     totalDifficulty: number = 0
-  ): d20RollResult {
+  ): D20RollResult {
     return DiceRoller.rollSkillCheck(
       staticBonus,
       totalAccuracy,
@@ -117,10 +141,10 @@ class DiceRoller {
     )
   }
 
-  public static rollDamage(diceString: string): number {
+  public static rollDamage(diceString: string): DamageRollResult {
     let parsedRoll = DiceRoller.parseDiceString(diceString)
 
-    let result: number = 0
+    let result: DamageRollResult = new DamageRollResult(0, [0], 0)
 
     return result
   }
@@ -216,4 +240,4 @@ class DiceRoller {
 }
 
 // module.exports = DiceRoller
-export { DiceRoller, d20RollResult }
+export { DiceRoller, D20RollResult, DamageRollResult }

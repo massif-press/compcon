@@ -62,9 +62,10 @@ import {
   Status,
 } from './features/_shared/classes/Types'
 import Statblock from './features/pilot_management/classes/Statblock'
-import { 
+import {
   DiceRoller,
-  d20RollResult
+  D20RollResult,
+  DamageRollResult,
 } from './features/_shared/classes/DiceRoller'
 
 export {
@@ -120,5 +121,6 @@ export {
   Status,
   Statblock,
   DiceRoller,
-  d20RollResult,
+  D20RollResult,
+  DamageRollResult,
 }

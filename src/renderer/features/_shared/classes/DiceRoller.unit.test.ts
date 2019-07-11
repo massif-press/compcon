@@ -1,4 +1,4 @@
-import { DiceRoller, d20RollResult } from '@/class'
+import { DiceRoller, D20RollResult, DamageRollResult } from '@/class'
 import 'jest'
 import { mockRandom, resetMockRandom } from 'jest-mock-random'
 
@@ -11,7 +11,7 @@ describe('rollSkillCheck', () => {
     mockRandom([0.499])
 
     let result = DiceRoller.rollSkillCheck()
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(0)
     expect(result.accuracyDiceCount).toBe(0)
@@ -24,7 +24,7 @@ describe('rollSkillCheck', () => {
     mockRandom([0.499, 0.001, 0.55])
 
     let result = DiceRoller.rollSkillCheck(5, 5, 3)
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(5)
     expect(result.accuracyDiceCount).toBe(2)
@@ -39,7 +39,7 @@ describe('rollSkillCheck', () => {
     mockRandom([0.499, 0.001, 0.55])
 
     let result = DiceRoller.rollSkillCheck(0, 3, 5)
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.accuracyDiceCount).toBe(-2)
     expect(result.accuracyResult).toBe(-4)
     expect(result.rawAccuracyRolls).toHaveLength(2)
@@ -54,7 +54,7 @@ describe('rollToHit', () => {
     mockRandom([0.499])
 
     let result = DiceRoller.rollToHit()
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(0)
     expect(result.accuracyDiceCount).toBe(0)
@@ -67,7 +67,7 @@ describe('rollToHit', () => {
     mockRandom([0.499, 0.001, 0.55])
 
     let result = DiceRoller.rollSkillCheck(5, 5, 3)
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(5)
     expect(result.accuracyDiceCount).toBe(2)
@@ -82,7 +82,7 @@ describe('rollToHit', () => {
     mockRandom([0.499, 0.001, 0.55])
 
     let result = DiceRoller.rollSkillCheck(0, 3, 5)
-    expect(result).toBeInstanceOf(d20RollResult)
+    expect(result).toBeInstanceOf(D20RollResult)
     expect(result.accuracyDiceCount).toBe(-2)
     expect(result.accuracyResult).toBe(-4)
     expect(result.rawAccuracyRolls).toHaveLength(2)
@@ -92,13 +92,13 @@ describe('rollToHit', () => {
   })
 })
 
-// describe('rollDamage', () => {
-//   it('rolls 1d6 correctly', () => {
-//     mockRandom([.4])
+describe('rollDamage', () => {
+  it('rolls 1d6 correctly', () => {
+    mockRandom([0.4])
 
-//     expect(DiceRoller.rollDamage("1d6")).toEqual(4)
-//   })
-// })
+    expect(DiceRoller.rollDamage('1d6')).toBeInstanceOf(DamageRollResult)
+  })
+})
 
 describe('parseDiceString', () => {
   it('parses 123', () => {
