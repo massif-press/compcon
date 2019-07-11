@@ -5,7 +5,7 @@
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
 On Deck:
-  ☐ update lancer-data
+  ✔ update lancer-data @done(19-07-11 14:17)
   ☐ statblock mech select modal
 
   ☐ hidden tags for specially-handled items
@@ -163,7 +163,7 @@ Archive:
   ✔ External Batteries not adding to energy threat @done(19-07-05 12:21)
   ✔ Combined print not working @done(19-07-05 13:01)
   ✔ turn personaliztions off if destroyed @done(19-07-05 11:27) @project(On Deck)
-  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
+D  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
   ✔ enforce hidden rule @done(19-07-05 11:17) @project(On Deck)
   ✔ Destroyable Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)
   ✔ Uses on Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)
