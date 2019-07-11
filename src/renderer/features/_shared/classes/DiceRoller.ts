@@ -1,74 +1,104 @@
-// TODO LIST
-// - move to interfaces file
-// create validator for dice (separate from parser) for unit testing the data
+// stats: {
+//   min: number
+//   max: number
+//   mean: number
+//   median: number
+//   mode: number
+// }
 
-declare interface ISkillRollResult {
-  rawDieRoll: number
-  staticBonus: number
-  accuracyDiceCount: number // net accuracy dice total - negative if at disadvantage
-  rawAccuracyRolls: number[] // results of each accuracy/disadvantage die
-  accuracyResult: number
-  isRisky: boolean
-  isHeroic: boolean
-  isSuccessful: boolean
-  stats: {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
+// private _stats: {
+//   min: number
+//   max: number
+//   mean: number
+//   median: number
+//   mode: number
+// }
+
+// this._stats = stats || {
+//   min: 0,
+//   max: 0,
+//   mean: 0,
+//   median: 0,
+//   mode: 0,
+// }
+
+// class damageRollResult implements IDamageRollResult {
+
+//   // getDiceString(): string
+//   // getStaticBonus(): number
+//   // getDamage(): number
+//   // getRawRolls(): number[]
+
+// }
+
+class DamageRollResult implements IDamageRollResult {
+  private _total: number
+  private _rawDieRolls: number[]
+  private _staticBonus: number
+  private _parseError: boolean
+  private _diceString: string
+
+  constructor(
+    diceString: string,
+    total: number,
+    rawRolls: number[],
+    staticBonus: number,
+    parseError?: boolean
+  ) {
+    this._diceString = diceString
+    this._total = total || 0
+    this._rawDieRolls = rawRolls || [0]
+    this._staticBonus = staticBonus || 0
+    this._parseError = parseError || false
+  }
+
+  public get diceString(): string {
+    return this._diceString
+  }
+
+  public get total(): number {
+    return this._total
+  }
+
+  public get rawDieRolls(): number[] {
+    return this._rawDieRolls
+  }
+
+  public get staticBonus(): number {
+    return this._staticBonus
+  }
+
+  public get parseError(): boolean {
+    return this._parseError
   }
 }
 
-class SkillRollResult implements ISkillRollResult {
+class D20RollResult implements Id20RollResult {
+  private _total: number
   private _rawDieRoll: number
   private _staticBonus: number
   private _accuracyDiceCount: number
   private _rawAccuracyRolls: number[]
   private _accuracyResult: number
-  private _risky: boolean
-  private _heroic: boolean
-  private _successful: boolean
-  private _stats: {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
 
   constructor(
+    total: number,
     rawDieRoll: number,
-    staticBonus: number,
-    accuracyDiceCount: number,
-    rawAccuracyRolls: number[],
-    accuracyResult: number,
-    risky: boolean,
-    heroic: boolean,
-    successful: boolean,
-    stats: {
-      min: number
-      max: number
-      mean: number
-      median: number
-      mode: number
-    }
+    staticBonus?: number,
+    accuracyDiceCount?: number,
+    rawAccuracyRolls?: number[],
+    accuracyResult?: number
   ) {
+    this._total = total || 0
     this._rawDieRoll = rawDieRoll || 0
     this._staticBonus = staticBonus || 0
     this._accuracyDiceCount = accuracyDiceCount || 0
     this._rawAccuracyRolls = rawAccuracyRolls || []
     this._accuracyResult = accuracyResult || 0
-    this._risky = risky || false
-    this._heroic = heroic || false
-    this._successful = successful || false
-    this._stats = stats || {
-      min: 0,
-      max: 0,
-      mean: 0,
-      median: 0,
-      mode: 0,
-    }
+  }
+
+  public get total(): number {
+    return this._total
   }
 
   public get rawDieRoll(): number {
@@ -90,129 +120,201 @@ class SkillRollResult implements ISkillRollResult {
   public get accuracyResult(): number {
     return this._accuracyResult
   }
+}
 
-  public get isRisky(): boolean {
-    return this._risky
+class DieSet {
+  private _type: number
+  private _quantity: number
+
+  constructor(quantity: number, type: number) {
+    this._type = type
+    this._quantity = quantity
   }
 
-  public get isHeroic(): boolean {
-    return this._heroic
+  public get type(): number {
+    return this._type
   }
 
-  public get isSuccessful(): boolean {
-    return this._successful
-  }
-
-  public get stats() {
-    return this._stats
+  public get quantity(): number {
+    return this._quantity
   }
 }
 
-declare interface IHitRollResult {
-  getStaticBonus(): number
-  isCritical(): boolean
-  getAccuracyDiceCount(): number // net accuracy dice total - negative if at disadvantage
-  getRawAccuracyRolls(): number[] // results of each accuracy/disadvantage die
-  getAccuracyResult(): number
-  getRawMainRolls(): number[] // raw rolls for the "main" dice
-  getKeptMainRolls(): number[] // kept dice from crits
-  getStats(): {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
-  }
-}
+class ParsedDieString {
+  private _dice: DieSet[]
+  private _modifier: number
 
-declare interface IDamageRollResult {
-  getDiceString(): string
-  getStaticBonus(): number
-  isAP(): boolean
-  getDamage(): Object[]
-  getStats(): {
-    min: number
-    max: number
-    mean: number
-    median: number
-    mode: number
+  constructor(dice, modifier) {
+    this._dice = dice
+    this._modifier = modifier
   }
-}
 
-declare interface IBareRollResult {
-  getDiceString(): string
-  getStaticBonus(): number
+  public get dice(): DieSet[] {
+    return this._dice
+  }
+
+  public get modifier(): number {
+    return this._modifier
+  }
 }
 
 class DiceRoller {
-  // note that a skill roll being difficult should be handled
-  // by incrementing totalDifficulty
+  // this class will make rolls, given all the inputs
+  // it makes no evaluation re their success or failure
+
   public static rollSkillCheck(
     staticBonus: number = 0,
     totalAccuracy: number = 0,
-    totalDifficulty: number = 0,
-    risky: boolean = false,
-    heroic: boolean = false
-  ): SkillRollResult {
-    let d20Result = DiceRoller._rollDie(20)
+    totalDifficulty: number = 0
+  ): D20RollResult {
+    let d20Result: number = DiceRoller.rollDie(20)
 
-    let netAccuracyDice = totalAccuracy - totalDifficulty
-    let accuracyResults = DiceRoller._rollAccuracyDice(netAccuracyDice)
+    let netAccuracyDice: number = totalAccuracy - totalDifficulty
+    let accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
+    let total = d20Result + staticBonus + accuracyResults.result
 
-    return new SkillRollResult(
+    return new D20RollResult(
+      total,
       d20Result,
       staticBonus,
       netAccuracyDice,
-      [],
-      0,
-      false,
-      false,
-      false,
-      {
-        min: 0,
-        max: 0,
-        mean: 0,
-        median: 0,
-        mode: 0,
-      }
+      accuracyResults.rolls,
+      accuracyResults.result
     )
   }
 
-  public static _rollDieSet(dieQuantity: number, dieType: number) {
-    if (dieQuantity <= 0) return { total: 0, rolls: [] }
+  public static rollToHit(
+    staticBonus: number = 0,
+    totalAccuracy: number = 0,
+    totalDifficulty: number = 0
+  ): D20RollResult {
+    return DiceRoller.rollSkillCheck(
+      staticBonus,
+      totalAccuracy,
+      totalDifficulty
+    )
+  }
+
+  public static rollDamage(diceString: string): DamageRollResult {
+    let parsedRoll = DiceRoller.parseDiceString(diceString)
+
+    if (!parsedRoll) {
+      // return as a error - they get back the dice string
+      // and can handle as a special case
+
+      return new DamageRollResult(diceString, 0, [0], 0, true)
+    } else {
+      let total: number = 0
+      let rawRolls: number[] = []
+      let staticBonus: number = 0
+
+      staticBonus = parsedRoll.modifier
+      total = staticBonus
+
+      parsedRoll.dice.forEach(dieSet => {
+        let x = DiceRoller.rollDieSet(dieSet)
+        total += x.result
+        rawRolls.push(...x.rolls)
+      })
+
+      return new DamageRollResult(
+        diceString,
+        total,
+        rawRolls,
+        staticBonus,
+        false
+      )
+    }
+  }
+
+  public static parseDiceString(diceString: string): ParsedDieString {
+    // remove all spaces
+    let parsedString = diceString.replace(/\s/g, '')
+
+    // parse
+    let numberTest = new RegExp('^([0-9]*)$').exec(parsedString)
+    let simpleDieTest = new RegExp('^([0-9]*)d([0-9]*)$').exec(parsedString)
+    let complexDieTest = new RegExp('^([0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(
+      parsedString
+    )
+
+    if (numberTest) {
+      let dieSet = new DieSet(0, 0)
+      let modifier = parseInt(numberTest[1])
+
+      return new ParsedDieString([dieSet], modifier)
+    } else if (simpleDieTest) {
+      let dieSet = new DieSet(
+        parseInt(simpleDieTest[1]),
+        parseInt(simpleDieTest[2])
+      )
+      let modifier = 0
+
+      return new ParsedDieString([dieSet], 0)
+    } else if (complexDieTest) {
+      let dieSet = new DieSet(
+        parseInt(complexDieTest[1]),
+        parseInt(complexDieTest[2])
+      )
+      let modifier = parseInt(complexDieTest[3])
+
+      return new ParsedDieString([dieSet], modifier)
+    } else {
+      return undefined
+    }
+  }
+
+  public static rollDieSet(
+    dieSet: DieSet
+  ): { result: number; rolls: number[] } {
+    if (dieSet.quantity <= 0 || dieSet.type <= 0)
+      return { result: 0, rolls: [] }
 
     let total: number = 0
     let rolls: number[] = []
 
-    for (let x = 0; x < dieQuantity; x++) {
-      let result = DiceRoller._rollDie(dieType)
+    for (let x = 0; x < dieSet.quantity; x++) {
+      let result = DiceRoller.rollDie(dieSet.type)
       total += result
       rolls.push(result)
     }
 
     return {
-      total: total,
+      result: total,
       rolls: rolls,
     }
   }
 
-  public static _rollAccuracyDice(numberOfDice: number): object {
+  public static rollAccuracyDice(
+    numberOfDice: number
+  ): { result: number; rolls: number[] } {
+    if (numberOfDice === 0) return { result: 0, rolls: [] }
+
     // needs to handle both positive and negative accuracy (aka difficulty)
-    let rawResults = DiceRoller._rollDieSet(Math.abs(numberOfDice), 6)
+    let rawResults = DiceRoller.rollDieSet(
+      new DieSet(Math.abs(numberOfDice), 6)
+    )
 
     let total: number = Math.max(...rawResults.rolls)
-    if (numberOfDice < 0) total = -total
+    if (numberOfDice < 0) {
+      total = -total
+      rawResults.rolls.forEach((value, index) => {
+        rawResults[index] = -rawResults[index]
+      })
+    }
 
     return {
-      result: [total],
-      rolls: [rawResults.rolls],
+      result: total,
+      rolls: rawResults.rolls,
     }
   }
 
-  public static _rollDie(dieType: number) {
+  public static rollDie(dieType: number) {
+    if (dieType <= 0) return 0
+
     return Math.floor(Math.random() * Math.floor(dieType)) + 1
   }
 }
 
 // module.exports = DiceRoller
-export default DiceRoller
+export { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet }
