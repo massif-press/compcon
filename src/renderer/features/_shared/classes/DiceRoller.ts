@@ -31,133 +31,6 @@
 
 // }
 
-class DamageRollResult implements IDamageRollResult {
-  private _total: number
-  private _rawDieRolls: number[]
-  private _staticBonus: number
-  private _parseError: boolean
-  private _diceString: string
-
-  constructor(
-    diceString: string,
-    total: number,
-    rawRolls: number[],
-    staticBonus: number,
-    parseError?: boolean
-  ) {
-    this._diceString = diceString
-    this._total = total || 0
-    this._rawDieRolls = rawRolls || [0]
-    this._staticBonus = staticBonus || 0
-    this._parseError = parseError || false
-  }
-
-  public get diceString(): string {
-    return this._diceString
-  }
-
-  public get total(): number {
-    return this._total
-  }
-
-  public get rawDieRolls(): number[] {
-    return this._rawDieRolls
-  }
-
-  public get staticBonus(): number {
-    return this._staticBonus
-  }
-
-  public get parseError(): boolean {
-    return this._parseError
-  }
-}
-
-class D20RollResult implements Id20RollResult {
-  private _total: number
-  private _rawDieRoll: number
-  private _staticBonus: number
-  private _accuracyDiceCount: number
-  private _rawAccuracyRolls: number[]
-  private _accuracyResult: number
-
-  constructor(
-    total: number,
-    rawDieRoll: number,
-    staticBonus?: number,
-    accuracyDiceCount?: number,
-    rawAccuracyRolls?: number[],
-    accuracyResult?: number
-  ) {
-    this._total = total || 0
-    this._rawDieRoll = rawDieRoll || 0
-    this._staticBonus = staticBonus || 0
-    this._accuracyDiceCount = accuracyDiceCount || 0
-    this._rawAccuracyRolls = rawAccuracyRolls || []
-    this._accuracyResult = accuracyResult || 0
-  }
-
-  public get total(): number {
-    return this._total
-  }
-
-  public get rawDieRoll(): number {
-    return this._rawDieRoll
-  }
-
-  public get staticBonus(): number {
-    return this._staticBonus
-  }
-
-  public get accuracyDiceCount(): number {
-    return this._accuracyDiceCount
-  }
-
-  public get rawAccuracyRolls(): number[] {
-    return this._rawAccuracyRolls
-  }
-
-  public get accuracyResult(): number {
-    return this._accuracyResult
-  }
-}
-
-class DieSet {
-  private _type: number
-  private _quantity: number
-
-  constructor(quantity: number, type: number) {
-    this._type = type
-    this._quantity = quantity
-  }
-
-  public get type(): number {
-    return this._type
-  }
-
-  public get quantity(): number {
-    return this._quantity
-  }
-}
-
-class ParsedDieString {
-  private _dice: DieSet[]
-  private _modifier: number
-
-  constructor(dice, modifier) {
-    this._dice = dice
-    this._modifier = modifier
-  }
-
-  public get dice(): DieSet[] {
-    return this._dice
-  }
-
-  public get modifier(): number {
-    return this._modifier
-  }
-}
-
 class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
@@ -316,5 +189,131 @@ class DiceRoller {
   }
 }
 
-// module.exports = DiceRoller
+class DamageRollResult implements IDamageRollResult {
+  private _total: number
+  private _rawDieRolls: number[]
+  private _staticBonus: number
+  private _parseError: boolean
+  private _diceString: string
+
+  constructor(
+    diceString: string,
+    total: number,
+    rawRolls: number[],
+    staticBonus: number,
+    parseError?: boolean
+  ) {
+    this._diceString = diceString
+    this._total = total || 0
+    this._rawDieRolls = rawRolls || [0]
+    this._staticBonus = staticBonus || 0
+    this._parseError = parseError || false
+  }
+
+  public get diceString(): string {
+    return this._diceString
+  }
+
+  public get total(): number {
+    return this._total
+  }
+
+  public get rawDieRolls(): number[] {
+    return this._rawDieRolls
+  }
+
+  public get staticBonus(): number {
+    return this._staticBonus
+  }
+
+  public get parseError(): boolean {
+    return this._parseError
+  }
+}
+
+class D20RollResult implements Id20RollResult {
+  private _total: number
+  private _rawDieRoll: number
+  private _staticBonus: number
+  private _accuracyDiceCount: number
+  private _rawAccuracyRolls: number[]
+  private _accuracyResult: number
+
+  constructor(
+    total: number,
+    rawDieRoll: number,
+    staticBonus?: number,
+    accuracyDiceCount?: number,
+    rawAccuracyRolls?: number[],
+    accuracyResult?: number
+  ) {
+    this._total = total || 0
+    this._rawDieRoll = rawDieRoll || 0
+    this._staticBonus = staticBonus || 0
+    this._accuracyDiceCount = accuracyDiceCount || 0
+    this._rawAccuracyRolls = rawAccuracyRolls || []
+    this._accuracyResult = accuracyResult || 0
+  }
+
+  public get total(): number {
+    return this._total
+  }
+
+  public get rawDieRoll(): number {
+    return this._rawDieRoll
+  }
+
+  public get staticBonus(): number {
+    return this._staticBonus
+  }
+
+  public get accuracyDiceCount(): number {
+    return this._accuracyDiceCount
+  }
+
+  public get rawAccuracyRolls(): number[] {
+    return this._rawAccuracyRolls
+  }
+
+  public get accuracyResult(): number {
+    return this._accuracyResult
+  }
+}
+
+class DieSet {
+  private _type: number
+  private _quantity: number
+
+  constructor(quantity: number, type: number) {
+    this._type = type
+    this._quantity = quantity
+  }
+
+  public get type(): number {
+    return this._type
+  }
+
+  public get quantity(): number {
+    return this._quantity
+  }
+}
+
+class ParsedDieString {
+  private _dice: DieSet[]
+  private _modifier: number
+
+  constructor(dice, modifier) {
+    this._dice = dice
+    this._modifier = modifier
+  }
+
+  public get dice(): DieSet[] {
+    return this._dice
+  }
+
+  public get modifier(): number {
+    return this._modifier
+  }
+}
+
 export { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet }
