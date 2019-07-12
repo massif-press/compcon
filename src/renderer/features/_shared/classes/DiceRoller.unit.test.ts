@@ -248,12 +248,12 @@ describe('parseDiceString', () => {
     expect(result.dice[0].quantity).toEqual(1)
     expect(result.modifier).toEqual(5)
   })
-})
 
-it('returns a parse error for a bad string', () => {
-  let result = DiceRoller.parseDiceString('blahblah')
+  it('returns a parse error for a bad string', () => {
+    let result = DiceRoller.parseDiceString('blahblah')
 
-  expect(result).toBeUndefined()
+    expect(result).toBeUndefined()
+  })
 })
 
 describe('rollAccuracyDice', () => {
