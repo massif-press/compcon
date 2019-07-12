@@ -2,21 +2,13 @@
   <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">PILOT GEAR</span>
     <v-card class="mt-3">
-      <v-tabs
-        v-model="tabModel"
-        color="blue-grey"
-        dark
-        slider-color="warning"
-        grow
-      >
+      <v-tabs v-model="tabModel" color="blue-grey" dark slider-color="warning" grow>
         <v-tab v-for="m in titles" :key="m" ripple>
           {{ m }}
         </v-tab>
         <v-tab-item v-for="(n, i) in gear" :key="n + 'arr'">
           <v-data-table
-            :headers="
-              i === 0 ? armor_headers : i === 1 ? weapon_headers : gear_headers
-            "
+            :headers="i === 0 ? armor_headers : i === 1 ? weapon_headers : gear_headers"
             :items="n"
             :custom-sort="customSort"
             :expand="true"
@@ -90,11 +82,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  RangeElement,
-  DamageElement,
-  GearCard,
-} from '@/features/pilot_management/components/UI'
+import { RangeElement, DamageElement, GearCard } from '@/features/pilot_management/components/UI'
 import { PilotEquipment, CompendiumItem, ItemType } from '@/class'
 
 export default Vue.extend({

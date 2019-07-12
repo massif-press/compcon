@@ -24,9 +24,7 @@
             <v-flex v-if="itemData.HPBonus">+{{ itemData.hp_bonus }}</v-flex>
             <v-flex>+{{ itemData.Armor || 0 }}</v-flex>
             <v-flex>{{ itemData.Evasion || 'N/A' }}</v-flex>
-            <v-flex v-if="itemData.EvasionBonus">
-              +{{ itemData.EvasionBonus }}
-            </v-flex>
+            <v-flex v-if="itemData.EvasionBonus">+{{ itemData.EvasionBonus }}</v-flex>
             <v-flex>{{ itemData.Edefense || 'N/A' }}</v-flex>
             <v-flex>{{ itemData.Speed }}</v-flex>
             <v-flex v-if="itemData.SpeedBonus">{itemData.SpeedBonus}}</v-flex>
@@ -43,17 +41,9 @@
         </div>
         <!-- Gear -->
         <div v-else>
-          <p
-            v-if="itemData.Uses"
-            class="ml-2 effect-text"
-            v-html="`${itemData.Uses} Uses`"
-          />
+          <p v-if="itemData.Uses" class="ml-2 effect-text" v-html="`${itemData.Uses} Uses`" />
         </div>
-        <p
-          v-if="itemData.Effect"
-          class="ml-2 effect-text"
-          v-html="itemData.Effect"
-        />
+        <p v-if="itemData.Effect" class="ml-2 effect-text" v-html="itemData.Effect" />
         <v-layout class="ml-2">
           <item-tag v-for="t in itemData.Tags" :key="t.id" :tag-obj="t" />
         </v-layout>

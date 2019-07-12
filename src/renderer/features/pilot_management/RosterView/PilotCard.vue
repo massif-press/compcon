@@ -2,17 +2,11 @@
   <v-hover style="background-color: rgba(0,0,0,0)">
     <v-card
       slot-scope="{ hover }"
-      :class="
-        `${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`
-      "
+      :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`"
     >
       <v-layout row style="cursor: pointer;" @click="toPilotSheet()">
         <v-flex v-if="pilot.Portrait" class="ma-0 pb-0 pt-0">
-          <v-img
-            :src="pilot.Portrait"
-            position="top"
-            :height="`${cardHeight}px`"
-          />
+          <v-img :src="pilot.Portrait" position="top" :height="`${cardHeight}px`" />
         </v-flex>
         <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
@@ -38,17 +32,8 @@
               <v-spacer />
               <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
-                  <v-btn
-                    slot="activator"
-                    icon
-                    class="ma-0"
-                    @click="activatePilot"
-                  >
-                    <v-icon
-                      :color="
-                        pilot.IsActive ? 'teal accent-3' : 'grey darken-1'
-                      "
-                    >
+                  <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
+                    <v-icon :color="pilot.IsActive ? 'teal accent-3' : 'grey darken-1'">
                       mdi-power
                     </v-icon>
                   </v-btn>
@@ -67,34 +52,19 @@
                   </div>
                 </v-tooltip>
                 <v-tooltip top>
-                  <v-btn
-                    slot="activator"
-                    icon
-                    class="ma-0"
-                    @click="exportDialog = true"
-                  >
+                  <v-btn slot="activator" icon class="ma-0" @click="exportDialog = true">
                     <v-icon>mdi-export-variant</v-icon>
                   </v-btn>
                   <span>Export Pilot</span>
                 </v-tooltip>
                 <v-tooltip top>
-                  <v-btn
-                    slot="activator"
-                    icon
-                    class="ma-0"
-                    @click="copyDialog = true"
-                  >
+                  <v-btn slot="activator" icon class="ma-0" @click="copyDialog = true">
                     <v-icon>mdi-content-duplicate</v-icon>
                   </v-btn>
                   <span>Clone Pilot</span>
                 </v-tooltip>
                 <v-tooltip top>
-                  <v-btn
-                    slot="activator"
-                    icon
-                    class="ma-0"
-                    @click="deleteDialog = true"
-                  >
+                  <v-btn slot="activator" icon class="ma-0" @click="deleteDialog = true">
                     <v-icon>delete</v-icon>
                   </v-btn>
                   <span>Delete Pilot</span>
@@ -119,8 +89,7 @@
         >
           <template v-slot:modal-content>
             <v-card-text>
-              Are you sure you want to delete {{ pilot.Callsign }}? This action
-              cannot be undone
+              Are you sure you want to delete {{ pilot.Callsign }}? This action cannot be undone
             </v-card-text>
           </template>
         </lazy-dialog>
@@ -185,13 +154,7 @@
                 </span>
                 <code>{{ pilot.gistID }}</code>
                 <v-tooltip top>
-                  <v-btn
-                    small
-                    icon
-                    slot="activator"
-                    color="grey lighten-3"
-                    @click="copyShareID"
-                  >
+                  <v-btn small icon slot="activator" color="grey lighten-3" @click="copyShareID">
                     <v-icon small>mdi-clipboard-text</v-icon>
                   </v-btn>
                   <span>Copy Share ID to Clipboard</span>
@@ -269,9 +232,7 @@ export default Vue.extend({
       this.snackbar = true
     },
     activeColorClass(): string {
-      return this.pilot.IsActive
-        ? 'success--text text--lighten-2'
-        : 'grey--text text--lighten-1'
+      return this.pilot.IsActive ? 'success--text text--lighten-2' : 'grey--text text--lighten-1'
     },
     panelColor(): string {
       return this.pilot.IsActive
@@ -284,11 +245,7 @@ export default Vue.extend({
     },
     activatePilot() {
       this.pilot.Active = !this.pilot.IsActive
-      this.notify(
-        `${this.pilot.Callsign} ${
-          this.pilot.IsActive ? 'Activated' : 'Deactivated'
-        }`
-      )
+      this.notify(`${this.pilot.Callsign} ${this.pilot.IsActive ? 'Activated' : 'Deactivated'}`)
     },
     deletePilot() {
       this.deleteDialog = false
@@ -330,9 +287,7 @@ export default Vue.extend({
           var gistID = newGist.id
           this.pilot.GistID = gistID
           clipboard.writeText(gistID)
-          vm.notify(
-            'Pilot Uploaded Successfully!<br>Share ID copied to Clipboard'
-          )
+          vm.notify('Pilot Uploaded Successfully!<br>Share ID copied to Clipboard')
           vm.uploadFailed = false
           vm.cloudLoading = false
           vm.exportDialog = false
@@ -352,9 +307,7 @@ export default Vue.extend({
         .updatePilotGist(this.pilot)
         .then((newGist: any) => {
           clipboard.writeText(newGist.id)
-          vm.notify(
-            'Pilot Updated Successfully!<br>Share ID copied to Clipboard'
-          )
+          vm.notify('Pilot Updated Successfully!<br>Share ID copied to Clipboard')
           vm.uploadFailed = false
           vm.cloudLoading = false
         })

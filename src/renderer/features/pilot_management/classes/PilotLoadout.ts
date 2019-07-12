@@ -1,13 +1,6 @@
 import _ from 'lodash'
 import store from '@/store'
-import {
-  PilotEquipment,
-  PilotArmor,
-  PilotWeapon,
-  PilotGear,
-  Loadout,
-  ItemType,
-} from '@/class'
+import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear, Loadout, ItemType } from '@/class'
 import { rules } from 'lancer-data'
 
 class PilotLoadout extends Loadout {
@@ -19,9 +12,9 @@ class PilotLoadout extends Loadout {
 
   constructor(count: number, id?: string) {
     super(count, id)
-    this.armor = Array(rules.max_pilot_armor).fill(null),
-    this.gear = Array(rules.max_pilot_gear).fill(null),
-    this.weapons = Array(rules.max_pilot_weapons).fill(null)
+    ;(this.armor = Array(rules.max_pilot_armor).fill(null)),
+      (this.gear = Array(rules.max_pilot_gear).fill(null)),
+      (this.weapons = Array(rules.max_pilot_weapons).fill(null))
     this.extendedWeapons = Array(1).fill(null)
     this.extendedGear = Array(2).fill(null)
   }
@@ -52,7 +45,7 @@ class PilotLoadout extends Loadout {
 
   public set ExtendedWeapons(items: (PilotWeapon | null)[]) {
     this.extendedWeapons = items
-  }  
+  }
 
   public get Gear(): (PilotGear | null)[] {
     return this.gear
@@ -68,7 +61,7 @@ class PilotLoadout extends Loadout {
 
   public set ExtendedGear(items: (PilotGear | null)[]) {
     this.extendedGear = items
-  }  
+  }
 
   public get Items(): PilotEquipment[] {
     return (this.armor as PilotEquipment[])
@@ -130,19 +123,15 @@ class PilotLoadout extends Loadout {
     let loadout = new PilotLoadout(0, loadoutData.id)
     loadout.ID = loadoutData.id
     loadout.Name = loadoutData.name
-    loadout.Armor = loadoutData.armor.map(
-      x => PilotEquipment.Deserialize(x) as PilotArmor
-    )
-    loadout.Weapons = loadoutData.weapons.map(
-      x => PilotEquipment.Deserialize(x) as PilotWeapon
-    )
-    loadout.Gear = loadoutData.gear.map(
-      x => PilotEquipment.Deserialize(x) as PilotGear
-    )
-    loadout.ExtendedWeapons = loadoutData.extendedWeapons ? loadoutData.extendedWeapons.map(
-      x => PilotEquipment.Deserialize(x) as PilotWeapon) : Array(1).fill(null)
-    loadout.ExtendedGear = loadoutData.extendedGear ? loadoutData.extendedGear.map(
-      x => PilotEquipment.Deserialize(x) as PilotGear) : Array(2).fill(null)
+    loadout.Armor = loadoutData.armor.map(x => PilotEquipment.Deserialize(x) as PilotArmor)
+    loadout.Weapons = loadoutData.weapons.map(x => PilotEquipment.Deserialize(x) as PilotWeapon)
+    loadout.Gear = loadoutData.gear.map(x => PilotEquipment.Deserialize(x) as PilotGear)
+    loadout.ExtendedWeapons = loadoutData.extendedWeapons
+      ? loadoutData.extendedWeapons.map(x => PilotEquipment.Deserialize(x) as PilotWeapon)
+      : Array(1).fill(null)
+    loadout.ExtendedGear = loadoutData.extendedGear
+      ? loadoutData.extendedGear.map(x => PilotEquipment.Deserialize(x) as PilotGear)
+      : Array(2).fill(null)
     return loadout
   }
 }

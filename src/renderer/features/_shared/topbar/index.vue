@@ -57,15 +57,9 @@
             </v-list-tile>
           </v-list>
           <v-list two line dense>
-            <v-list-tile
-              v-for="mech in pilot.Mechs"
-              :key="mech.Name"
-              @click="toConfigSheet(mech)"
-            >
+            <v-list-tile v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
               <v-list-tile-content>
-                <v-list-tile-title
-                  class="text-xs-right font-weight-bold effect-text"
-                >
+                <v-list-tile-title class="text-xs-right font-weight-bold effect-text">
                   {{ mech.Name }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title class="text-xs-right">
@@ -108,19 +102,9 @@
     <!-- Options Modal -->
     <v-dialog v-model="optionsModal" width="80vw" scrollable>
       <v-card>
-        <v-toolbar
-          absolute
-          class="primary white--text"
-          style="position: sticky"
-        >
+        <v-toolbar absolute class="primary white--text" style="position: sticky">
           <v-toolbar-title>Options</v-toolbar-title>
-          <v-btn
-            flat
-            icon
-            color="white"
-            class="ml-auto"
-            @click="optionsModal = false"
-          >
+          <v-btn flat icon color="white" class="ml-auto" @click="optionsModal = false">
             <v-icon dark>close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -133,19 +117,9 @@
     <!-- About Modal -->
     <v-dialog v-model="aboutModal" width="80vw">
       <v-card>
-        <v-toolbar
-          absolute
-          class="primary white--text"
-          style="position: sticky"
-        >
+        <v-toolbar absolute class="primary white--text" style="position: sticky">
           <v-toolbar-title>About COMP/CON</v-toolbar-title>
-          <v-btn
-            flat
-            icon
-            color="white"
-            class="ml-auto"
-            @click="aboutModal = false"
-          >
+          <v-btn flat icon color="white" class="ml-auto" @click="aboutModal = false">
             <v-icon dark>close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -157,19 +131,9 @@
     <!-- Help Modal -->
     <v-dialog v-model="helpModal" width="85vw">
       <v-card>
-        <v-toolbar
-          absolute
-          class="primary white--text"
-          style="position: sticky"
-        >
+        <v-toolbar absolute class="primary white--text" style="position: sticky">
           <v-toolbar-title>Help</v-toolbar-title>
-          <v-btn
-            flat
-            icon
-            color="white"
-            class="ml-auto"
-            @click="helpModal = false"
-          >
+          <v-btn flat icon color="white" class="ml-auto" @click="helpModal = false">
             <v-icon dark>close</v-icon>
           </v-btn>
         </v-toolbar>

@@ -4,8 +4,11 @@
 
 - downtime bonus/resources section (extra gear, contacts, etc etc)
 
+Merge NPCs:
+  ✔ Persistence @done(19-07-12 13:08)
+  ✔ UI pass @done(19-07-12 13:08)
+
 On Deck:
-  ✔ update lancer-data @done(19-07-11 14:17)
   ☐ statblock mech select modal
 
   ☐ hidden tags for specially-handled items
@@ -19,47 +22,12 @@ On Deck:
       ☐ Pilot Section
       ☐ Skills
     Reserves:
-      ✔ Section on Pilot Sheet @done(19-07-10 14:57)
-      ✔ Add Mark/Unmark "Used" @done(19-07-11 11:59)
-      Narrative Reserves:
-        ✔ Access @done(19-07-10 14:57)
-        ✔ Backing @done(19-07-10 14:57)
-        ✔ Supplies @done(19-07-10 14:57)
-        ✔ Disguise @done(19-07-10 14:57)
-        ✔ Diversion @done(19-07-10 14:57)
-        ✔ Reputation @done(19-07-10 14:57)
-        ✔ Tracking @done(19-07-10 14:57)
-        ✔ Safe Harbor @done(19-07-10 14:57)
-        ✔ Knowledge @done(19-07-10 14:57)
-      Tactical Reserves:
-        ✔ Vehicle @done(19-07-10 14:57)
-        ✔ Reinforcements @done(19-07-10 14:57)
-        ✔ NHP Assistant @done(19-07-10 14:57)
-        ✔ Scouting @done(19-07-10 14:57)
-        ✔ Environmental Shielding @done(19-07-10 14:57)
-        ✔ Accuracy @done(19-07-10 14:57)
-        ✔ Ambush @done(19-07-10 14:57)
-        ✔ Orbital Drop @done(19-07-10 14:57)
-      Tactical Reserves (Special Rules):
-        ✔ Bombardment @done(19-07-11 12:25)
-        ✔ Extended Harness @done(19-07-11 11:11)
-      Mech Reserves:
-        special action on action panel, appear in active (reserves section), consumed after use (confirm, mark consumed. Must be removed manually from pilot sheet downtime section)
-        ✔ Core Battery (recharge core if empty) @done(19-07-11 13:06)
-        ✔ Deployable Shield (system) @done(19-07-11 13:17)
-        ✔ Redundant Repair (add to action panel as free action) @done(19-07-11 13:06)
-        not consumed, just add to downtime section
-        ✔ Systems Reinforcement @done(19-07-11 13:27)
-        ✔ Smart Ammo @done(19-07-11 13:27)
-        ✔ Boosted Servos @done(19-07-11 13:27)
-        ✔ Jump Jets @done(19-07-11 13:27)
       Special Reserves:
         ☐ Custom
         ☐ Get Creative Project
         ☐ Get Focused Trigger
         ☐ Get Organized Organization
     Actions:
-      ✔ Add Actions to Compendium @done(19-07-10 14:58)
       name - description -notes
       ☐ Power at a Cost
       ☐ Buy Some Time
@@ -122,6 +90,8 @@ Preconstructed Characters:
 2.0:
   ☐ Delete Homebrew content packs
   ☐ Default Long Rim content pack
+  ☐ Update Help
+  ☐ Update About
   Printing:
     General Print Options:
       ☐ Large fonts
@@ -157,6 +127,36 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ update lancer-data @done(19-07-11 14:17) @project(On Deck)
+  ✔ Section on Pilot Sheet @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves)
+  ✔ Add Mark/Unmark "Used" @done(19-07-11 11:59) @project(On Deck.Downtime.Reserves)
+  ✔ Access @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Backing @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Supplies @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Disguise @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Diversion @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Reputation @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Tracking @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Safe Harbor @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Knowledge @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Narrative Reserves)
+  ✔ Vehicle @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Reinforcements @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ NHP Assistant @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Scouting @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Environmental Shielding @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Accuracy @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Ambush @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Orbital Drop @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves.Tactical Reserves)
+  ✔ Bombardment @done(19-07-11 12:25) @project(On Deck.Downtime.Reserves.Tactical Reserves (Special Rules))
+  ✔ Extended Harness @done(19-07-11 11:11) @project(On Deck.Downtime.Reserves.Tactical Reserves (Special Rules))
+  ✔ Core Battery (recharge core if empty) @done(19-07-11 13:06) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Deployable Shield (system) @done(19-07-11 13:17) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Redundant Repair (add to action panel as free action) @done(19-07-11 13:06) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Systems Reinforcement @done(19-07-11 13:27) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Smart Ammo @done(19-07-11 13:27) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Boosted Servos @done(19-07-11 13:27) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Jump Jets @done(19-07-11 13:27) @project(On Deck.Downtime.Reserves.Mech Reserves)
+  ✔ Add Actions to Compendium @done(19-07-10 14:58) @project(On Deck.Downtime.Actions)
   ✔ intg weapons not showing up on active mode @done(19-07-05 11:50)
   ✔ intg weapons doubling on statblock output @done(19-07-05 11:57)
   ✔ Gyges being applied to non-melee @done(19-07-05 12:13)

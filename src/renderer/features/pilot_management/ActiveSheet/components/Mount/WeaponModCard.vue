@@ -32,7 +32,9 @@
         style="bottom: 0; right:0"
         @click="mod.Destroy()"
       >
-        <v-icon size="25" color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
+        <v-icon size="25" color="warning" class="hover-opacity">
+          mdi-image-broken-variant
+        </v-icon>
       </v-btn>
       <span>Mark Weapon Mod as Destroyed</span>
     </v-tooltip>
@@ -41,25 +43,26 @@
       :style="`background-color: ${mod.IsDestroyed ? '#1e1e1e' : '#546E7A'}`"
     >
       <span v-if="mod.IsDestroyed" class="ml-2 red--text">
-        <i style="text-decoration: line-through">{{ mod.Name }}</i> (DESTROYED)
+        <i style="text-decoration: line-through">{{ mod.Name }}</i>
+        (DESTROYED)
       </span>
       <span v-else class="ml-2">{{ mod.Name }}</span>
-      <v-spacer/>
+      <v-spacer />
       <span class="caption">WEAPON MOD</span>
     </v-card-title>
     <v-card-text class="pb-0 pt-0">
-      <p v-if="mod.Effect" v-html="mod.Effect" class="ma-0 pa-1 pl-1"/>
+      <p v-if="mod.Effect" v-html="mod.Effect" class="ma-0 pa-1 pl-1" />
       <div v-if="mod.IsLimited">
         <v-layout>
           <v-flex xs1>
-            <v-divider class="mt-2 mr-3"/>
+            <v-divider class="mt-2 mr-3" />
           </v-flex>
           <v-flex shrink>
             <span class="caption grey--text">USES&nbsp;</span>
             <b class="warning--text">{{ mod.Uses }} / {{ mod.MaxUses + limitedBonus }}</b>
           </v-flex>
           <v-flex grow>
-            <v-divider class="mt-2 ml-3"/>
+            <v-divider class="mt-2 ml-3" />
           </v-flex>
           <v-flex xs1></v-flex>
         </v-layout>
@@ -79,7 +82,7 @@
       </div>
     </v-card-text>
     <v-layout class="pb-1">
-      <item-tag v-for="(t, index) in mod.Tags" :key="t.id + index" :tag-obj="t" :pilot="pilot"/>
+      <item-tag v-for="(t, index) in mod.Tags" :key="t.id + index" :tag-obj="t" :pilot="pilot" />
     </v-layout>
   </v-card>
 </template>
@@ -108,8 +111,7 @@ export default Vue.extend({
   computed: {
     pilot() {
       return this.$store.getters.getPilot
-    }
-  }
+    },
+  },
 })
 </script>
-

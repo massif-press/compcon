@@ -15,9 +15,7 @@
     </v-flex>
     <v-flex>
       <v-subheader>
-        {{ searchResults.length }} result{{
-          searchResults.length === 1 ? '' : 's'
-        }}
+        {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
       </v-subheader>
       <v-slide-y-reverse-transition mode="out-in">
         <v-layout row wrap :key="searchText">
@@ -32,10 +30,7 @@
             :key="index"
             v-for="(item, index) in searchResults"
           >
-            <v-card
-              v-ripple
-              :to="`/compendium/item/${item.ItemType}/${item.id}`"
-            >
+            <v-card v-ripple :to="`/compendium/item/${item.ItemType}/${item.id}`">
               <!-- -->
               <v-card-title
                 primary-title
@@ -46,16 +41,9 @@
                 class="white--text"
               >
                 <div class="headline">
-                  {{ item.ItemType === 'frame' ? `${item.source} ` : ''
-                  }}{{ item.name }}
+                  {{ item.ItemType === 'frame' ? `${item.source} ` : '' }}{{ item.name }}
                 </div>
-                <v-chip
-                  disabled
-                  outline
-                  label
-                  color="white"
-                  class="text-uppercase ml-auto"
-                >
+                <v-chip disabled outline label color="white" class="text-uppercase ml-auto">
                   {{ item.ItemType }}
                 </v-chip>
               </v-card-title>

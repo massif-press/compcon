@@ -1,14 +1,6 @@
 import store from '@/store'
 import _ from 'lodash'
-import {
-  Damage,
-  Range,
-  WeaponMod,
-  WeaponSize,
-  WeaponType,
-  ItemType,
-  MechEquipment,
-} from '@/class'
+import { Damage, Range, WeaponMod, WeaponSize, WeaponType, ItemType, MechEquipment } from '@/class'
 
 // TODO:
 // class WeaponAmmo {}
@@ -26,10 +18,8 @@ class MechWeapon extends MechEquipment {
     super(weaponData)
     this.size = weaponData.mount
     this.weapon_type = weaponData.type
-    if (weaponData.damage)
-      this.damage = weaponData.damage.map((x: any) => new Damage(x))
-    if (weaponData.range)
-      this.range = weaponData.range.map((x: any) => new Range(x))
+    if (weaponData.damage) this.damage = weaponData.damage.map((x: any) => new Damage(x))
+    if (weaponData.range) this.range = weaponData.range.map((x: any) => new Range(x))
     this.loaded = true
     this.mod = null
     this.item_type = ItemType.MechWeapon
@@ -101,9 +91,7 @@ class MechWeapon extends MechEquipment {
     item.uses = itemData.uses || 0
     item.destroyed = itemData.destroyed || false
     item.loaded = itemData.loaded || true
-    item.Mod = itemData.mod
-      ? store.getters.getItemById('WeaponMods', itemData.mod)
-      : null
+    item.Mod = itemData.mod ? store.getters.getItemById('WeaponMods', itemData.mod) : null
     return item
   }
 }

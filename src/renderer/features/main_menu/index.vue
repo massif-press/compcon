@@ -24,7 +24,7 @@
           <v-btn block color="primary" large to="/compendium">COMPENDIUM</v-btn>
         </v-flex>
         <v-flex class="px-1">
-            <v-btn slot="activator" block color="primary" large :to="'/gm'">GM Toolkit</v-btn>
+          <v-btn slot="activator" block color="primary" large :to="'/gm'">GM Toolkit</v-btn>
         </v-flex>
         <v-flex class="px-1">
           <v-btn slot="activator" block large :to="'/mods'" disabled>Homebrew Editor</v-btn>
@@ -48,9 +48,7 @@
           >
             <v-card-title class="major-title">
               Updated {{ changelog.news.date }}&nbsp;
-              <span
-                class="caption"
-              >(v{{ changelog.news.version }})</span>
+              <span class="caption">(v{{ changelog.news.version }})</span>
               <v-spacer />
               <span class="minor title">
                 Stable:
@@ -68,7 +66,9 @@
             <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
             <v-divider class="mt-2 mb-2" />
             <div v-for="(i, idx) in changelog.changelog" :key="idx">
-              <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{ i.version }}</v-card-title>
+              <v-card-title class="minor-title mb-1 pb-1">
+                Changelog for: {{ i.version }}
+              </v-card-title>
               <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
               <v-divider class="mt-2 mb-2" />
             </div>

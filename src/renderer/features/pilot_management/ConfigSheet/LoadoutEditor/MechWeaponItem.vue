@@ -9,10 +9,7 @@
           @click="weaponSelectorModal = true"
           class="ma-0 pa-0"
           style="height:100%"
-          v-html="
-            weaponSlot.Size +
-              (!weaponSlot.Weapon || weaponSlot.Weapon.err ? ' Weapon' : '')
-          "
+          v-html="weaponSlot.Size + (!weaponSlot.Weapon || weaponSlot.Weapon.err ? ' Weapon' : '')"
         ></v-btn>
         <span v-if="!weaponSlot.Weapon">Equip {{ weaponSlot.Size }} Weapon</span>
         <span v-else>Change Equipped {{ weaponSlot.Size }} Weapon</span>
@@ -29,7 +26,9 @@
       <div v-else-if="weaponSlot.Weapon.err">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading grey--text">// MISSING WEAPON DATA //</span>
+            <span slot="header" class="subheading grey--text">
+              // MISSING WEAPON DATA //
+            </span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -39,31 +38,32 @@
             <v-layout slot="header">
               <span
                 class="subheading font-weight-bold"
-                :style="
-                  weaponSlot.Weapon.IsDestroyed
-                    ? 'text-decoration: line-through;'
-                    : ''
-                "
+                :style="weaponSlot.Weapon.IsDestroyed ? 'text-decoration: line-through;' : ''"
               >
                 {{ weaponSlot.Weapon.name }}
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && weaponSlot.Weapon.Mod.err"
                 >
-                  <span class="subheading grey--text">// MISSING MOD DATA //</span>
+                  <span class="subheading grey--text">
+                    // MISSING MOD DATA //
+                  </span>
                 </span>
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
                 >
                   <span class="grey--text font-weight-regular">//</span>
-                  <span class="blue-grey--text">{{ weaponSlot.Weapon.Mod.Name }}</span>
+                  <span class="blue-grey--text">
+                    {{ weaponSlot.Weapon.Mod.Name }}
+                  </span>
                   <span class="caption">({{ weaponSlot.Weapon.Mod.SP }} SP)</span>
                 </span>
               </span>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
+                <range-element small :range="getRange()" />
+                &emsp;&mdash;&emsp;
                 <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
@@ -89,7 +89,11 @@
               :modData="weaponSlot.Weapon.Mod"
             />
             <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb" />
-            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout" />
+            <weapon-card
+              :item="weaponSlot.Weapon"
+              :mod="weaponSlot.Weapon.Mod"
+              :loadout="loadout"
+            />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -139,12 +143,10 @@
       </v-toolbar>
       <v-card>
         <v-card-text class="text-xs-center">
-          Superheavy-class weaponry requires an additional mount. Select the
-          bracing mount below.
+          Superheavy-class weaponry requires an additional mount. Select the bracing mount below.
           <br />
           <i>
-            The selected mount will be locked until the superheavy weapon is
-            removed.
+            The selected mount will be locked until the superheavy weapon is removed.
           </i>
           <br />
           <v-layout row justify-center>
@@ -274,10 +276,7 @@ export default Vue.extend({
           type: RangeType.Threat,
           val: 1,
         })
-      if (
-        this.loadout.HasSystem('externalbatteries') &&
-        w.Damage[0].Type === DamageType.Energy
-      )
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy)
         if (w.Type === WeaponType.Melee) {
           bonuses.push({
             type: RangeType.Threat,

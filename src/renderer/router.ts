@@ -19,38 +19,31 @@ export default new Router({
       children: [
         {
           path: '',
-          component: require('@/features/pilot_management/RosterView/index')
-            .default,
+          component: require('@/features/pilot_management/RosterView/index').default,
         },
         {
           path: '/pilot',
-          component: require('@/features/pilot_management/PilotSheet/index')
-            .default,
+          component: require('@/features/pilot_management/PilotSheet/index').default,
         },
         {
           path: '/active',
-          component: require('@/features/pilot_management/ActiveSheet/index')
-            .default,
+          component: require('@/features/pilot_management/ActiveSheet/index').default,
         },
         {
           path: '/hangar',
-          component: require('@/features/pilot_management/HangarView/index')
-            .default,
+          component: require('@/features/pilot_management/HangarView/index').default,
         },
         {
           path: '/config',
-          component: require('@/features/pilot_management/ConfigSheet/index')
-            .default,
+          component: require('@/features/pilot_management/ConfigSheet/index').default,
         },
         {
           path: '/new',
-          component: require('@/features/pilot_management/PilotSheet/New/index')
-            .default,
+          component: require('@/features/pilot_management/PilotSheet/New/index').default,
         },
         {
           path: '/level',
-          component: require('@/features/pilot_management/PilotSheet/Level/index')
-            .default,
+          component: require('@/features/pilot_management/PilotSheet/Level/index').default,
         },
         {
           path: '/compendium',
@@ -62,23 +55,19 @@ export default new Router({
             },
             {
               path: '/compendium/search',
-              component: require('@/features/compendium/Views/SearchResults')
-                .default,
+              component: require('@/features/compendium/Views/SearchResults').default,
             },
             {
               path: '/compendium/item/:type/:id',
-              component: require('@/features/compendium/UI/CompendiumItem')
-                .default,
+              component: require('@/features/compendium/UI/CompendiumItem').default,
             },
             {
               path: '/licenses',
-              component: require('@/features/compendium/Views/Licenses')
-                .default,
+              component: require('@/features/compendium/Views/Licenses').default,
             },
             {
               path: '/manufacturers',
-              component: require('@/features/compendium/Views/Manufacturers')
-                .default,
+              component: require('@/features/compendium/Views/Manufacturers').default,
             },
             {
               path: '/frames',
@@ -94,13 +83,11 @@ export default new Router({
             },
             {
               path: '/pilot_gear',
-              component: require('@/features/compendium/Views/PilotGear')
-                .default,
+              component: require('@/features/compendium/Views/PilotGear').default,
             },
             {
               path: '/statuses',
-              component: require('@/features/compendium/Views/Statuses')
-                .default,
+              component: require('@/features/compendium/Views/Statuses').default,
             },
             {
               path: '/tags',
@@ -108,13 +95,11 @@ export default new Router({
             },
             {
               path: '/reference',
-              component: require('@/features/compendium/Views/Reference')
-                .default,
+              component: require('@/features/compendium/Views/Reference').default,
             },
             {
               path: '/corebonuses',
-              component: require('@/features/compendium/Views/CoreBonuses')
-                .default,
+              component: require('@/features/compendium/Views/CoreBonuses').default,
             },
             {
               path: '/talents',
@@ -122,8 +107,7 @@ export default new Router({
             },
             {
               path: '/backgrounds',
-              component: require('@/features/compendium/Views/Backgrounds')
-                .default,
+              component: require('@/features/compendium/Views/Backgrounds').default,
             },
             {
               path: '/skills',
@@ -135,24 +119,20 @@ export default new Router({
     },
     {
       path: '/print-pilot',
-      component: require('@/features/pilot_management/PilotSheet/Print/PrintView')
-        .default,
+      component: require('@/features/pilot_management/PilotSheet/Print/PrintView').default,
     },
     {
       path: '/print-all',
-      component: require('@/features/pilot_management/PilotSheet/Print/CombinedPrintView')
-        .default,
+      component: require('@/features/pilot_management/PilotSheet/Print/CombinedPrintView').default,
     },
     {
       path: '/print-config',
-      component: require('@/features/pilot_management/ConfigSheet/Print/PrintView')
-        .default,
+      component: require('@/features/pilot_management/ConfigSheet/Print/PrintView').default,
     },
-    ...(gmToolkitRoutes.map(route => ( {
+    ...gmToolkitRoutes.map(route => ({
       ...route,
-      path: route.path.replace(/^\//, '/gm')
-    } )
-    )),
+      path: route.path.replace(/^\//, '/gm'),
+    })),
     // {
     //   path: "/homebrew",
     //   name: "homebrew-editor",

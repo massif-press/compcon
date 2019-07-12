@@ -27,12 +27,7 @@
               <v-card>
                 <v-card-title class="title">Enter Share ID</v-card-title>
                 <v-card-text>
-                  <v-text-field
-                    v-model="shareIDText"
-                    label="Share ID"
-                    outline
-                    clearable
-                  />
+                  <v-text-field v-model="shareIDText" label="Share ID" outline clearable />
                   <span class="effect-text red--text">{{ errorText }}</span>
                 </v-card-text>
                 <v-divider />
@@ -56,14 +51,7 @@
           </v-flex>
           <v-flex shrink>
             <v-dialog width="600" v-model="cloudInfoDialog">
-              <v-btn
-                slot="activator"
-                icon
-                small
-                right
-                absolute
-                style="right: 150px;"
-              >
+              <v-btn slot="activator" icon small right absolute style="right: 150px;">
                 <v-icon color="grey" small>help</v-icon>
               </v-btn>
               <v-card>
@@ -71,9 +59,9 @@
                   Cloud Save Importer
                 </v-card-title>
                 <v-card-text>
-                  This tool imports LANCER pilots saved to the cloud via the
-                  "Save to Cloud" export button. Imported characters generate
-                  new Share IDs, so any changes will be uploaded to a
+                  This tool imports LANCER pilots saved to the cloud via the "Save to Cloud" export
+                  button. Imported characters generate new Share IDs, so any changes will be
+                  uploaded to a
                   <strong>new</strong>
                   cloud save.
                 </v-card-text>

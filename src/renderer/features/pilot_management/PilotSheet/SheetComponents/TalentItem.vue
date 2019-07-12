@@ -6,11 +6,7 @@
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
-      <v-icon
-        v-if="pilotTalent"
-        color="primary"
-        v-html="`cc-rank-${pilotTalent.Rank}`"
-      />
+      <v-icon v-if="pilotTalent" color="primary" v-html="`cc-rank-${pilotTalent.Rank}`" />
       <span>{{ talent.name }}</span>
     </v-toolbar-title>
 
@@ -31,9 +27,7 @@
               <v-icon
                 class="mt-2"
                 :color="isLocked(index) ? 'grey darken-2' : 'primary'"
-                v-html="
-                  isLocked(index) ? `mdi-lock-outline` : `cc-rank-${index + 1}`
-                "
+                v-html="isLocked(index) ? `mdi-lock-outline` : `cc-rank-${index + 1}`"
               />
               {{ r.name }}
             </div>

@@ -3,31 +3,21 @@
     <template v-slot:left-column>
       <v-layout>
         <v-flex xs12>
-          <div
-            v-for="plicense in pilot.Licenses"
-            :key="`summary_${plicense.License.Name}`"
-          >
+          <div v-for="plicense in pilot.Licenses" :key="`summary_${plicense.License.Name}`">
             <v-layout v-if="!licenseExists(plicense.License)">
               <v-flex shrink>
                 <span class="grey--text">// MISSING DATA //</span>
                 <br />
               </v-flex>
               <v-flex shrink>
-                <v-btn
-                  icon
-                  flat
-                  color="error"
-                  @click="this.pilot.RemoveLicense(plicense.License)"
-                >
+                <v-btn icon flat color="error" @click="this.pilot.RemoveLicense(plicense.License)">
                   <v-icon>delete</v-icon>
                 </v-btn>
               </v-flex>
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-icon color="primary" small>
-                  cc-rank-{{ plicense.Rank }}
-                </v-icon>
+                <v-icon color="primary" small>cc-rank-{{ plicense.Rank }}</v-icon>
                 <strong>{{ plicense.License.name }}</strong>
               </v-flex>
             </v-layout>
@@ -37,30 +27,13 @@
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-layout>
         <v-flex xs12>
-          <v-alert
-            outline
-            color="success"
-            icon="check_circle"
-            :value="!pilot.IsMissingLicenses"
-          >
+          <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingLicenses">
             License Selection Complete
           </v-alert>
-          <v-alert
-            outline
-            color="warning"
-            icon="priority_high"
-            :value="pilot.IsMissingLicenses"
-          >
-            {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }} License
-            Points remaining
+          <v-alert outline color="warning" icon="priority_high" :value="pilot.IsMissingLicenses">
+            {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }} License Points remaining
           </v-alert>
-          <v-btn
-            block
-            flat
-            small
-            :disabled="!pilot.Licenses.length"
-            @click="resetLicenses"
-          >
+          <v-btn block flat small :disabled="!pilot.Licenses.length" @click="resetLicenses">
             Reset
           </v-btn>
         </v-flex>
@@ -98,60 +71,53 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import _ from 'lodash'
-  import { PilotLicense, License, Manufacturer, Pilot } from '@/class'
-  import { LicenseItem } from '../SheetComponents'
-  import Selector from './Selector.vue'
+import Vue from 'vue'
+import _ from 'lodash'
+import { PilotLicense, License, Manufacturer, Pilot } from '@/class'
+import { LicenseItem } from '../SheetComponents'
+import Selector from './Selector.vue'
 
-  export default Vue.extend({
-    name: 'license-selector',
-    props: {
-      pilot: Pilot,
-      levelUp: Boolean,
+export default Vue.extend({
+  name: 'license-selector',
+  props: {
+    pilot: Pilot,
+    levelUp: Boolean,
+  },
+  components: { LicenseItem, Selector },
+  data: () => ({
+    licenses: [],
+    licenseData: [] as any,
+  }),
+  methods: {
+    pilotRank(license: License): number {
+      const l = this.pilot.Licenses.find(x => x.License.FrameID === license.FrameID)
+      return l ? l.Rank : 0
     },
-    components: { LicenseItem, Selector },
-    data: () => ({
-      licenses: [],
-      licenseData: [] as any,
-    }),
-    methods: {
-      pilotRank(license: License): number {
-        const l = this.pilot.Licenses.find(
-          x => x.License.FrameID === license.FrameID
-        )
-        return l ? l.Rank : 0
-      },
-      manufacturer(id: string): Manufacturer {
-        return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
-      },
-      licenseExists(license: License): boolean {
-        if (!this.licenseData[license.Source]) return false
-        return this.licenseData[license.Source].some(
-          (x: License) => x.ToString === license.ToString
-        )
-      },
-      addLicense(license: any) {
-        var vm = this as any
-        vm.pilot.AddLicense(license)
+    manufacturer(id: string): Manufacturer {
+      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+    },
+    licenseExists(license: License): boolean {
+      if (!this.licenseData[license.Source]) return false
+      return this.licenseData[license.Source].some((x: License) => x.ToString === license.ToString)
+    },
+    addLicense(license: any) {
+      var vm = this as any
+      vm.pilot.AddLicense(license)
 
-        if (vm.levelUp && !vm.pilot.IsMissingLicenses) {
-          vm.$emit('set-licenses', vm.licenses)
-          window.scrollTo(0, document.body.scrollHeight)
-        }
-      },
-      removeLicense(license: any) {
-        this.pilot.RemoveLicense(license)
-      },
-      resetLicenses() {
-        this.pilot.ClearLicenses()
-      },
+      if (vm.levelUp && !vm.pilot.IsMissingLicenses) {
+        vm.$emit('set-licenses', vm.licenses)
+        window.scrollTo(0, document.body.scrollHeight)
+      }
     },
-    created() {
-      this.licenseData = _.groupBy(
-        this.$store.getters.getItemCollection('Licenses'),
-        'source'
-      )
+    removeLicense(license: any) {
+      this.pilot.RemoveLicense(license)
     },
-  })
+    resetLicenses() {
+      this.pilot.ClearLicenses()
+    },
+  },
+  created() {
+    this.licenseData = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
+  },
+})
 </script>

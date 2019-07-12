@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase">{{ mount.ItemSource }} Integrated Mount</span>
+      <span class="mount-title pl-3 pr-3 text-uppercase">
+        {{ mount.ItemSource }} Integrated Mount
+      </span>
       <v-card-text class="bordered ml-3 pt-4">
         <v-layout fill-height>
           <v-flex xs2>
@@ -11,13 +13,17 @@
               block
               class="ma-0 pa-0"
               style="height:100%"
-            >Integrated Weapon</v-btn>
+            >
+              Integrated Weapon
+            </v-btn>
           </v-flex>
           <v-flex xs10>
             <v-expansion-panel class="m-0">
               <v-expansion-panel-content>
                 <v-layout slot="header">
-                  <span class="subheading font-weight-bold">{{ mount.Weapon.Name }}</span>
+                  <span class="subheading font-weight-bold">
+                    {{ mount.Weapon.Name }}
+                  </span>
                   <small v-if="mount.Weapon.IsLimited" class="warning--text">
                     &nbsp; ({{ mount.Weapon.Uses }} /
                     {{ mount.Weapon.MaxUses + pilot.LimitedBonus }})
@@ -26,7 +32,9 @@
                   <v-spacer />
                   <span class="mr-5" style="display: inline-flex;">
                     <range-element v-if="mount.Weapon.Range" small :range="getRange()" />
-                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage">&emsp;&mdash;&emsp;</span>
+                    <span v-if="mount.Weapon.Range && mount.Weapon.Damage">
+                      &emsp;&mdash;&emsp;
+                    </span>
                     <damage-element
                       v-if="mount.Weapon.Damage"
                       small
@@ -75,14 +83,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { RangeElement, DamageElement, ItemTag } from '../../components/UI'
-import {
-  IntegratedMount,
-  RangeType,
-  DamageType,
-  Range,
-  MechLoadout,
-  WeaponType,
-} from '@/class'
+import { IntegratedMount, RangeType, DamageType, Range, MechLoadout, WeaponType } from '@/class'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
@@ -114,10 +115,7 @@ export default Vue.extend({
           type: RangeType.Threat,
           val: 1,
         })
-      if (
-        this.loadout.HasSystem('externalbatteries') &&
-        w.Damage[0].Type === DamageType.Energy
-      )
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy)
         if (w.Type === WeaponType.Melee) {
           bonuses.push({
             type: RangeType.Threat,

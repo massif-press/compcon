@@ -9,15 +9,10 @@ class Damage {
   private raw_value: string | number
   private override: boolean
 
-  constructor(damage: {
-    type: string
-    val: string | number
-    override: boolean
-  }) {
+  constructor(damage: { type: string; val: string | number; override: boolean }) {
     this.damage_type = this.getDamageType(damage.type)
     this.raw_value = damage.val
-    this.value =
-      typeof damage.val === 'number' ? damage.val.toString() : damage.val
+    this.value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
     this.override = damage.override || false
   }
 
@@ -54,8 +49,7 @@ class Damage {
     if (typeof this.raw_value === 'number') return this.raw_value
     else {
       let bonus = 0
-      if (this.raw_value.split('+').length === 2)
-        bonus = parseInt(this.raw_value.split('+')[1])
+      if (this.raw_value.split('+').length === 2) bonus = parseInt(this.raw_value.split('+')[1])
       const split = this.raw_value.split('d')
       // (qty * size) + bonus
       return parseInt(split[0]) * parseInt(split[1]) + bonus

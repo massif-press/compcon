@@ -14,15 +14,7 @@
         <v-tooltip left>
           <v-menu offset-y slot="activator">
             <template v-slot:activator="{ on }">
-              <v-btn
-                icon
-                dark
-                absolute
-                top
-                right
-                style="margin-top: 80px;"
-                v-on="on"
-              >
+              <v-btn icon dark absolute top right style="margin-top: 80px;" v-on="on">
                 <v-icon>mdi-sort</v-icon>
               </v-btn>
             </template>

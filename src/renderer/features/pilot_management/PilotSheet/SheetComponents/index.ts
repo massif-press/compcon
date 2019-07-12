@@ -5,11 +5,4 @@ import TalentItem from './TalentItem.vue'
 import HasePips from './HasePips.vue'
 import PilotEditModal from './PilotEditModal.vue'
 
-export {
-  CoreBonusItem,
-  LicenseItem,
-  SkillItem,
-  TalentItem,
-  PilotEditModal,
-  HasePips,
-}
+export { CoreBonusItem, LicenseItem, SkillItem, TalentItem, PilotEditModal, HasePips }

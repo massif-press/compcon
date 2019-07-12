@@ -3,15 +3,7 @@
     <v-layout row>
       <v-flex shrink v-if="!readonly">
         <v-tooltip left>
-          <v-btn
-            slot="activator"
-            flat
-            icon
-            class="ma-0 pt-0"
-            dark
-            relative
-            @click="clear"
-          >
+          <v-btn slot="activator" flat icon class="ma-0 pt-0" dark relative @click="clear">
             <v-icon :large="large" :small="small">remove</v-icon>
           </v-btn>
           <span>Mark Use</span>
@@ -39,48 +31,48 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import { Pilot } from '@/class'
-  export default Vue.extend({
-    name: 'limited-bar',
-    props: {
-      current: Number,
-      max: Number,
-      small: Boolean,
-      large: Boolean,
-      emptyIcon: String,
-      fullIcon: String,
-      color: String,
-      bgColor: String,
-      readonly: Boolean,
+import Vue from 'vue'
+import { Pilot } from '@/class'
+export default Vue.extend({
+  name: 'limited-bar',
+  props: {
+    current: Number,
+    max: Number,
+    small: Boolean,
+    large: Boolean,
+    emptyIcon: String,
+    fullIcon: String,
+    color: String,
+    bgColor: String,
+    readonly: Boolean,
+  },
+  data: () => ({
+    model: 0,
+    lock: true,
+  }),
+  methods: {
+    clear() {
+      this.model -= 1
     },
-    data: () => ({
-      model: 0,
-      lock: true,
-    }),
-    methods: {
-      clear() {
-        this.model -= 1
-      },
+  },
+  computed: {
+    pilot(): Pilot {
+      return this.$store.getters.getPilot
     },
-    computed: {
-      pilot(): Pilot {
-        return this.$store.getters.getPilot
-      },
+  },
+  created() {
+    this.lock = true
+    if (!this.readonly) {
+      this.model = this.current > this.max ? this.max : this.current
+    } else this.model = this.max
+    this.lock = false
+  },
+  watch: {
+    model(val: number) {
+      if (!this.lock && !isNaN(val)) {
+        this.$emit('update', val)
+      }
     },
-    created() {
-      this.lock = true
-      if (!this.readonly) {
-        this.model = this.current > this.max ? this.max : this.current
-      } else this.model = this.max
-      this.lock = false
-    },
-    watch: {
-      model(val: number) {
-        if (!this.lock && !isNaN(val)) {
-          this.$emit('update', val)
-        }
-      },
-    },
-  })
+  },
+})
 </script>

@@ -15,16 +15,12 @@ class License {
     this.name = frame.Name
     this.brew = frame.Brew || 'Core'
 
-    let items: LicensedItem[] = _.clone(
-      store.getters.getItemCollection('MechWeapons')
-    )
+    let items: LicensedItem[] = _.clone(store.getters.getItemCollection('MechWeapons'))
       .concat(
         store.getters.getItemCollection('WeaponMods'),
         store.getters.getItemCollection('MechSystems')
       )
-      .filter(
-        (x: LicensedItem) => x.License.toUpperCase() === this.Name.toUpperCase()
-      )
+      .filter((x: LicensedItem) => x.License.toUpperCase() === this.Name.toUpperCase())
 
     this.unlocks = [
       items.filter(x => x.LicenseLevel === 1),

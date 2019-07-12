@@ -29,12 +29,7 @@ function convertPilot(old: any): IPilotData {
     active: false,
     background: old.custom_background ? 'ai' : old.background,
     reserves: [],
-    mechSkills: [
-      old.mechSkills.hull,
-      old.mechSkills.agi,
-      old.mechSkills.sys,
-      old.mechSkills.eng,
-    ],
+    mechSkills: [old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng],
     licenses: old.licenses.map((x: any) => ({
       id: licenseNameToId(x.name),
       rank: x.level,
@@ -42,9 +37,7 @@ function convertPilot(old: any): IPilotData {
     skills: old.skills.map((x: any) => ({ id: x.id, rank: x.bonus / 2 })),
     talents: old.talents.map((x: any) => ({ id: x.id, rank: x.rank })),
     core_bonuses: old.core_bonuses,
-    loadouts: old.loadouts
-      ? old.loadouts.map((x: any) => convertPilotLoadouts(x))
-      : [],
+    loadouts: old.loadouts ? old.loadouts.map((x: any) => convertPilotLoadouts(x)) : [],
     active_loadout: null,
     mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
     active_mech: null,
@@ -62,15 +55,11 @@ function convertPilotLoadouts(old: any): IPilotLoadoutData {
   return {
     id: old.id,
     name: old.name,
-    armor: old.items.armor.map((x: any) =>
-      x ? { id: x.id, notes: [] } : null
-    ),
-    weapons: old.items.weapon.map((x: any) =>
-      x ? { id: x.id, notes: [] } : null
-    ),
+    armor: old.items.armor.map((x: any) => (x ? { id: x.id, notes: [] } : null)),
+    weapons: old.items.weapon.map((x: any) => (x ? { id: x.id, notes: [] } : null)),
     gear: old.items.gear.map((x: any) => (x ? { id: x.id, notes: [] } : null)),
     extendedGear: [null, null],
-    extendedWeapons: [null]
+    extendedWeapons: [null],
   }
 }
 
@@ -105,12 +94,8 @@ function convertMechLoadouts(old: any): IMechLoadoutData {
     name: old.name,
     systems: old.systems.map((x: any) => ({ id: x.id, notes: [] })),
     mounts: old.mounts.map((x: any) => convertMountData(x)),
-    improved_armament: EquippableMount.Serialize(
-      new EquippableMount(MountType.Flex)
-    ),
-    integratedWeapon: EquippableMount.Serialize(
-      new EquippableMount(MountType.Aux)
-    ),
+    improved_armament: EquippableMount.Serialize(new EquippableMount(MountType.Flex)),
+    integratedWeapon: EquippableMount.Serialize(new EquippableMount(MountType.Aux)),
     retrofitIndex: null,
     retrofitOriginalType: null,
   }
