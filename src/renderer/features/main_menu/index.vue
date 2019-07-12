@@ -48,7 +48,9 @@
           >
             <v-card-title class="major-title">
               Updated {{ changelog.news.date }}&nbsp;
-              <span class="caption">(v{{ changelog.news.version }})</span>
+              <span
+                class="caption"
+              >(v{{ changelog.news.version }})</span>
               <v-spacer />
               <span class="minor title">
                 Stable:
@@ -66,9 +68,7 @@
             <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
             <v-divider class="mt-2 mb-2" />
             <div v-for="(i, idx) in changelog.changelog" :key="idx">
-              <v-card-title class="minor-title mb-1 pb-1">
-                Changelog for: {{ i.version }}
-              </v-card-title>
+              <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{ i.version }}</v-card-title>
               <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
               <v-divider class="mt-2 mb-2" />
             </div>
@@ -108,7 +108,7 @@ import { info } from 'lancer-data'
 export default Vue.extend({
   name: 'landing-page',
   data: () => ({
-    ver: '1.4.4',
+    ver: '1.5.0',
     changelog: {},
     err: false,
     loading: true,

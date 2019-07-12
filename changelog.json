@@ -1,12 +1,16 @@
 {
   "stable": "1.3.10",
-  "beta": "1.4.4",
+  "beta": "1.5.0",
   "news": {
-    "date": "July 11th, 2019",
-    "version": "1.4.4",
-    "body": "<p>Hello Pilots,</p> <p>Active Play mode has been fairly stable (or largely unused), so I'm moving ahead with&nbsp;<strong>Downtime Reserves.&nbsp;</strong>This is the first of a multi-part downtime implementation - this one covers reserves, and the next will cover actions. It's still a first-pass draft, so don't be too surprised if things change or get reordered in the near future.</p> <p>As always, please drop me a line at @beeftime on the LANCER Discord if you have questions, ideas, or feedback</p>"
+    "date": "July 12th, 2019",
+    "version": "1.5.0",
+    "body": "<p>Hello, Pilots!</p><p>I'm happy to announce we've merged in the NPC Toolkit into <strong>beta</strong>, consisting of the NPC Builder, Encounter Builder, and Encounter runner. It is basically a direct port of the web-based tool into C/C and over the next few days and weeks we'll work on getting it better integrated into the software.</p><p>As always, please feel free drop by the LANCER Discord's #comp-con channel</p>"
   },
   "changelog": [
+    {
+      "version": "1.5.0",
+      "changes": "<ul> <li>Added NPC Designer, Encounter Builder, and Encounter Runner to the GM Toolkit/li> </ul>"
+    },
     {
       "version": "1.4.4",
       "changes": "<ul> <li>Adds a \"Downtime Reserves\" section to the Pilot Sheet, where reserves can be added, removed, and edited <ul> <li>Reserves can be (un)marked Used, activating or deactivating them in Active Mode</li> <li>Adding the Extended Harness reserve will add a new section to all of that pilot's loadouts</li> </ul> </li> <li>Adds a \"Reserves\" section to the Active Play Mode, detailing current pilot reserves. <ul> <li>The \"Bombardment\" Reserve will appear on the Turn Manager as a consumable Full Action</li> <li>The Deployable Shield Reserve will appear on the Turn Manager as a consumable Free Action</li> <li>The Redundant Repair Reserve will appear on the Turn Manager as a consumable Free Action</li> <li>The CORE Battery Reserve will appear on the Turn Manager as a consumable Free Action, disabled if the current Mech has full CORE Energy</li> </ul> </li> <li>Downtime Actions have been added to the Compendium</li> </ul>"
