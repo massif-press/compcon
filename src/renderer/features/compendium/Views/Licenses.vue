@@ -37,10 +37,7 @@ export default Vue.extend({
     },
   },
   created() {
-    this.licenses = _.groupBy(
-      this.$store.getters.getItemCollection('Licenses'),
-      'source'
-    )
+    this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
   },
 })
 </script>

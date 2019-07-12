@@ -6,7 +6,7 @@
       </v-flex>
       <v-flex xs12 class="callsign-text text-xs-center" style="line-height: 60px;">
         <span>TURN</span>
-        <span class="pink--text">{{turn}}</span>
+        <span class="pink--text">{{ turn }}</span>
       </v-flex>
       <v-flex v-if="braced" xs12 class="minor-title text-xs-center reaction-bg">
         <span v-html="'BRACED'" />
@@ -24,7 +24,9 @@
         <span v-html="'PREPARED ACTION'" />
       </v-flex>
       <v-divider dark class="ma-2" />
-      <v-flex xs12 class="caption text-xs-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-flex>
+      <v-flex xs12 class="caption text-xs-center mb-2">
+        &mdash; ACTIONS REMAINING &mdash;
+      </v-flex>
       <v-flex xs12 class="caption text-xs-center">
         <v-tooltip bottom>
           <v-avatar
@@ -32,7 +34,7 @@
             size="4.5em"
             class="ml-1 mr-1"
             :key="move"
-            :color=" move === maxMove || bracedCooldown || mech.IsShutDown ? 'grey' : 'red darken-3'"
+            :color="move === maxMove || bracedCooldown || mech.IsShutDown ? 'grey' : 'red darken-3'"
           >
             <v-icon size="3.25em" dark>$vuetify.icons.move</v-icon>
           </v-avatar>
@@ -40,21 +42,15 @@
         </v-tooltip>
         <v-tooltip bottom>
           <v-avatar slot="activator" size="4.5em" :color="actionColor()" class="ml-1 mr-1">
-            <v-icon
-              v-if="actions > 2 && !mech.IsShutDown"
-              size="3.25em"
-              dark
-            >$vuetify.icons.overcharge</v-icon>
-            <v-icon
-              v-else-if="actions === 2 && !mech.IsShutDown"
-              size="3.25em"
-              dark
-            >$vuetify.icons.full</v-icon>
-            <v-icon
-              v-else-if="actions === 1 && !mech.IsShutDown"
-              size="3.25em"
-              dark
-            >$vuetify.icons.quick</v-icon>
+            <v-icon v-if="actions > 2 && !mech.IsShutDown" size="3.25em" dark>
+              $vuetify.icons.overcharge
+            </v-icon>
+            <v-icon v-else-if="actions === 2 && !mech.IsShutDown" size="3.25em" dark>
+              $vuetify.icons.full
+            </v-icon>
+            <v-icon v-else-if="actions === 1 && !mech.IsShutDown" size="3.25em" dark>
+              $vuetify.icons.quick
+            </v-icon>
             <v-icon v-else size="3.25em" dark>mdi-hexagon-outline</v-icon>
           </v-avatar>
           <span>1 Full Action / 2 Quick Actions</span>
@@ -75,7 +71,9 @@
             slot="activator"
             size="4.5em"
             class="ml-1 mr-1"
-            :color=" bracedCooldown || overwatch || braced || mech.IsShutDown ? 'grey' : 'purple darken-3'"
+            :color="
+              bracedCooldown || overwatch || braced || mech.IsShutDown ? 'grey' : 'purple darken-3'
+            "
           >
             <v-icon size="3.25em" dark>$vuetify.icons.reaction</v-icon>
           </v-avatar>
@@ -86,14 +84,16 @@
             slot="activator"
             size="4.5em"
             class="ml-1 mr-1"
-            :color=" bracedCooldown || mech.IsShutDown  ? 'grey' : 'green darken-3'"
+            :color="bracedCooldown || mech.IsShutDown ? 'grey' : 'green darken-3'"
           >
             <v-icon size="3.25em" dark>$vuetify.icons.free</v-icon>
           </v-avatar>
           <span>Free Actions</span>
         </v-tooltip>
       </v-flex>
-      <v-flex xs12 class="caption text-xs-center mt-3">&mdash; MOVEMENT &mdash;</v-flex>
+      <v-flex xs12 class="caption text-xs-center mt-3">
+        &mdash; MOVEMENT &mdash;
+      </v-flex>
       <v-flex xs12>
         <div style="display: table; margin: 0 auto;">
           <tick-bar
@@ -125,7 +125,9 @@
           <span>Undo last action</span>
         </v-tooltip>
       </v-flex>
-      <v-flex xs12 class="caption text-xs-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-flex>
+      <v-flex xs12 class="caption text-xs-center mt-2 mb-1">
+        &mdash; ACTIONS &mdash;
+      </v-flex>
 
       <v-flex xs12 v-if="mech.IsShutDown">
         <action-button v-if="actions >= 2" action-id="action_bootup" class="mb-1" @click="boot()" />
@@ -312,26 +314,35 @@
         </v-expansion-panel>
       </v-flex>
       <v-flex xs12 class="text-xs-center ma-2 mt-4">
-        <v-btn block color="warning" outline dark small @click="newTurn()">END TURN</v-btn>
+        <v-btn block color="warning" outline dark small @click="newTurn()">
+          END TURN
+        </v-btn>
       </v-flex>
     </v-layout>
     <v-divider class="ma-2" />
     <v-layout row wrap>
       <v-flex xs12>
-        <v-btn block color="amber darken-4" dark @click="endCombat">End Combat</v-btn>
+        <v-btn block color="amber darken-4" dark @click="endCombat">
+          End Combat
+        </v-btn>
       </v-flex>
     </v-layout>
 
     <v-dialog v-model="overchargeDialog" scrollable width="500px" transition="dialog-transition">
       <v-card>
-        <v-toolbar flat dark color="pink accent-3" class="major-title">Overcharge</v-toolbar>
+        <v-toolbar flat dark color="pink accent-3" class="major-title">
+          Overcharge
+        </v-toolbar>
         <v-card-text class="effect-text pb-0">
-          <p>Overcharging immediately allows you to make any quick action of your choice as a free action, even one you already made this turn.</p>
+          <p>
+            Overcharging immediately allows you to make any quick action of your choice as a free
+            action, even one you already made this turn.
+          </p>
           <p class="text-xs-center minor-title pb-0">
             Overcharging will incur
-            <span
-              class="red--text text--darken-2"
-            >{{overcharge[mech.CurrentOvercharge]}} Heat</span>
+            <span class="red--text text--darken-2">
+              {{ overcharge[mech.CurrentOvercharge] }} Heat
+            </span>
             <br />
             <span class="caption">INPUT HEAT COST TO CONFIRM OVERCHARGE</span>
           </p>
@@ -350,7 +361,9 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn flat color="primary" @click="overchargeDialog = false">Cancel</v-btn>
+          <v-btn flat color="primary" @click="overchargeDialog = false">
+            Cancel
+          </v-btn>
           <v-spacer />
           <v-btn
             large
@@ -358,15 +371,22 @@
             color="pink accent-3"
             :disabled="!overcharge_heat || overcharge_heat === '0'"
             @click="commitOvercharge"
-          >Overcharge</v-btn>
+          >
+            Overcharge
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="stabilizeDialog" scrollable max-width="825px" transition="dialog-transition">
       <v-card>
-        <v-toolbar flat dark color="indigo darken-1" class="major-title">Stabilize</v-toolbar>
+        <v-toolbar flat dark color="indigo darken-1" class="major-title">
+          Stabilize
+        </v-toolbar>
         <v-card-text class="effect-text pb-0">
-          <p>Enact emergency protocols in order to purge your mech‘s systems of excess heat, repair your chassis where you can, and buy your system time to eliminate hostile code.</p>
+          <p>
+            Enact emergency protocols in order to purge your mech‘s systems of excess heat, repair
+            your chassis where you can, and buy your system time to eliminate hostile code.
+          </p>
           <p class="caption red--text text-xs-center pa-0">
             <b>// WARNING: THIS ACTION CANNOT BE UNDONE //</b>
           </p>
@@ -378,7 +398,11 @@
                 value="cool"
               />
               <v-radio
-                :label="`Spend 1 Repair to refill HP to maximum. ${!mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //': ''}`"
+                :label="
+                  `Spend 1 Repair to refill HP to maximum. ${
+                    !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
+                  }`
+                "
                 value="repair"
                 :disabled="!mech.CurrentRepairs"
               />
@@ -388,12 +412,20 @@
             <v-radio-group v-model="stabilizeMinor">
               <v-radio label="Reload all weapons with the Loading Tag" value="reload" />
               <v-radio
-                :label="`End all Burn currently affecting your mech ${mech.Burn === 0 ? ' // BURN STATUS NOMINAL //': ''}`"
+                :label="
+                  `End all Burn currently affecting your mech ${
+                    mech.Burn === 0 ? ' // BURN STATUS NOMINAL //' : ''
+                  }`
+                "
                 value="end_burn"
                 :disabled="mech.Burn === 0"
               />
               <v-radio
-                :label="`End a condition affecting your mech ${!mech.Conditions.length ? ' // MECH STATUS NOMINAL //': ''}`"
+                :label="
+                  `End a condition affecting your mech ${
+                    !mech.Conditions.length ? ' // MECH STATUS NOMINAL //' : ''
+                  }`
+                "
                 value="end_self_condition"
                 :disabled="!mech.Conditions.length"
               />
@@ -406,7 +438,9 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn flat color="primary" @click="stabilizeDialog = false">Cancel</v-btn>
+          <v-btn flat color="primary" @click="stabilizeDialog = false">
+            Cancel
+          </v-btn>
           <v-spacer />
           <v-btn
             large
@@ -414,15 +448,21 @@
             color="indigo darken-3"
             :disabled="!stabilizeMajor || !stabilizeMinor"
             @click="commitStabilize"
-          >Stabilize</v-btn>
+          >
+            Stabilize
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="conditionDialog" width="500px" persistent transition="dialog-transition">
       <v-card>
-        <v-toolbar dark flat class="major-title">Select Condiditon to End</v-toolbar>
+        <v-toolbar dark flat class="major-title">
+          Select Condiditon to End
+        </v-toolbar>
         <v-card-text>
-          <v-btn v-for="c in mech.Conditions" :key="c" block large @click="endCondition(c)">{{c}}</v-btn>
+          <v-btn v-for="c in mech.Conditions" :key="c" block large @click="endCondition(c)">
+            {{ c }}
+          </v-btn>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -479,21 +519,15 @@ export default Vue.extend({
           break
         case 'bombard':
           this.actions += 2
-          const abidx = this.pilot.Reserves.findIndex(
-            x => x.ID === 'reserve_bombardment'
-          )
+          const abidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
           if (abidx > -1) this.pilot.Reserves[abidx].Used = false
           break
         case 'depshield':
-          const dsidx = this.pilot.Reserves.findIndex(
-            x => x.ID === 'reserve_bombardment'
-          )
+          const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
           if (dsidx > -1) this.pilot.Reserves[dsidx].Used = false
           break
         case 'corebattery':
-          const cdidx = this.pilot.Reserves.findIndex(
-            x => x.ID === 'reserve_bombardment'
-          )
+          const cdidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
           this.mech.CurrentCoreEnergy = 0
           if (cdidx > -1) this.pilot.Reserves[cdidx].Used = false
           break
@@ -570,8 +604,7 @@ export default Vue.extend({
     },
     hide() {
       this.history.push({ field: 'hide', val: false })
-      if (!this.mech.Statuses.includes('Hidden'))
-        this.mech.Statuses.push('Hidden')
+      if (!this.mech.Statuses.includes('Hidden')) this.mech.Statuses.push('Hidden')
       this.actions -= 1
     },
     fullAction() {
@@ -584,31 +617,23 @@ export default Vue.extend({
       if (this.actions >= 2) {
         this.history.push({ field: 'bombard', val: false })
         this.actions -= 2
-        const abidx = this.pilot.Reserves.findIndex(
-          x => x.ID === 'reserve_bombardment'
-        )
+        const abidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
         if (abidx > -1) this.pilot.Reserves[abidx].Used = true
       }
     },
     redundantRepair() {
-      const rridx = this.pilot.Reserves.findIndex(
-        x => x.ID === 'reserve_redundantrepair'
-      )
+      const rridx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_redundantrepair')
       if (rridx > -1) this.pilot.Reserves[rridx].Used = true
       this.openStabilize(true)
     },
     deployableShield() {
       this.history.push({ field: 'depshield', val: false })
-      const dsidx = this.pilot.Reserves.findIndex(
-        x => x.ID === 'reserve_deployableshield'
-      )
+      const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_deployableshield')
       if (dsidx > -1) this.pilot.Reserves[dsidx].Used = true
     },
     coreBattery() {
       this.history.push({ field: 'corebattery', val: false })
-      const cbidx = this.pilot.Reserves.findIndex(
-        x => x.ID === 'reserve_corebattery'
-      )
+      const cbidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_corebattery')
       if (cbidx > -1) this.pilot.Reserves[cbidx].Used = true
       this.mech.CurrentCoreEnergy = 1
     },
@@ -619,8 +644,7 @@ export default Vue.extend({
     },
     setBrace() {
       this.history.push({ field: 'braced', val: false })
-      if (!this.mech.Resistances.includes('Next Attack'))
-        this.mech.Resistances.push('Next Attack')
+      if (!this.mech.Resistances.includes('Next Attack')) this.mech.Resistances.push('Next Attack')
       this.braced = true
     },
     setOverwatch() {
@@ -711,4 +735,3 @@ export default Vue.extend({
   background-color: #01579b;
 }
 </style>
-

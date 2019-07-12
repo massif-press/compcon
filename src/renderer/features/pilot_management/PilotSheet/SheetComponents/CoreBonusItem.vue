@@ -22,24 +22,11 @@
           <p class="effect-text pb-0" v-html="cb.effect" />
         </v-card-text>
         <v-card-actions v-if="selectItem" class="ml-5 mr-5">
-          <v-btn
-            v-if="selectable && !isSelected"
-            large
-            block
-            outline
-            @click="add"
-            color="primary"
-          >
+          <v-btn v-if="selectable && !isSelected" large block outline @click="add" color="primary">
             <v-icon>add</v-icon>
             <span v-html="`Add ${cb.name}`" />
           </v-btn>
-          <v-btn
-            v-else-if="isSelected"
-            large
-            block
-            @click="remove"
-            color="white"
-          >
+          <v-btn v-else-if="isSelected" large block @click="remove" color="white">
             <span v-html="`Remove ${cb.name}`" />
           </v-btn>
         </v-card-actions>

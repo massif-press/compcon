@@ -28,7 +28,9 @@
           style="bottom: 0; right:0"
           @click="weapon.Destroy()"
         >
-          <v-icon size="25" color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
+          <v-icon size="25" color="warning" class="hover-opacity">
+            mdi-image-broken-variant
+          </v-icon>
         </v-btn>
         <span>Mark equipment as Destroyed</span>
       </v-tooltip>
@@ -37,18 +39,22 @@
         :style="`background-color: ${weapon.IsDestroyed ? '#1e1e1e' : color.mechweapon.dark}`"
       >
         <span v-if="weapon.IsDestroyed" class="ml-2 red--text">
-          <i style="text-decoration: line-through">{{ weapon.Name }}</i> (DESTROYED)
+          <i style="text-decoration: line-through">{{ weapon.Name }}</i>
+          (DESTROYED)
         </span>
         <span v-else class="ml-2">{{ weapon.Name }}</span>
         <span v-if="weapon.Mod">
           <span class="pink--text text--lighten-2">&nbsp;//</span>
           <span v-if="weapon.Mod.IsDestroyed" class="red--text">
-            <i style="text-decoration: line-through">{{ weapon.Mod.Name }}</i> (DESTROYED)
+            <i style="text-decoration: line-through">{{ weapon.Mod.Name }}</i>
+            (DESTROYED)
           </span>
-          <span v-else class="pink--text text--lighten-4">{{ weapon.Mod.Name }}</span>
+          <span v-else class="pink--text text--lighten-4">
+            {{ weapon.Mod.Name }}
+          </span>
         </span>
         <v-spacer />
-        <span class="caption">{{weapon.Source}} {{weapon.Size}} {{weapon.Type}}&nbsp;</span>
+        <span class="caption">{{ weapon.Source }} {{ weapon.Size }} {{ weapon.Type }}&nbsp;</span>
       </v-card-title>
       <v-card-text class="pa-1">
         <v-layout justify-start>
@@ -81,9 +87,9 @@
               </v-flex>
               <v-flex shrink>
                 <span class="caption grey--text">USES&nbsp;</span>
-                <b
-                  class="warning--text"
-                >{{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}</b>
+                <b class="warning--text">
+                  {{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}
+                </b>
               </v-flex>
               <v-flex grow>
                 <v-divider class="mt-2 ml-3" />
@@ -139,7 +145,9 @@
             <v-flex xs1></v-flex>
           </v-layout>
           <ul>
-            <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">{{n}}</li>
+            <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">
+              {{ n }}
+            </li>
           </ul>
         </div>
       </v-card-text>
@@ -151,15 +159,7 @@
 import Vue from 'vue'
 import colors from '@/features/_shared/UI/CCColors'
 import WeaponModCard from './WeaponModCard.vue'
-import {
-  Pilot,
-  RangeType,
-  DamageType,
-  Range,
-  Mech,
-  MechLoadout,
-  WeaponType,
-} from '@/class'
+import { Pilot, RangeType, DamageType, Range, Mech, MechLoadout, WeaponType } from '@/class'
 import {
   DamageElement,
   RangeElement,
@@ -213,10 +213,7 @@ export default Vue.extend({
           type: RangeType.Threat,
           val: 1,
         })
-      if (
-        this.loadout.HasSystem('externalbatteries') &&
-        w.Damage[0].Type === DamageType.Energy
-      )
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy)
         if (w.Type === WeaponType.Melee) {
           bonuses.push({
             type: RangeType.Threat,
@@ -238,15 +235,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-
-
-<style>
-.hover-opacity {
-  opacity: 0.5;
-  transition: opacity 0.3s;
-}
-.hover-opacity:hover {
-  opacity: 1;
-}
-</style>

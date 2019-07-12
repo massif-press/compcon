@@ -24,9 +24,9 @@
         <v-card color="grey lighten-1">
           <v-card-text class="blockquote text-xs-center">
             LOCKED
-            <br>
+            <br />
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
-            <br>
+            <br />
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -49,7 +49,7 @@
         >
           <v-card-text class="text-xs-center">
             <b>{{ cb.Name }}</b>
-            <br>
+            <br />
             <i class="caption">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>

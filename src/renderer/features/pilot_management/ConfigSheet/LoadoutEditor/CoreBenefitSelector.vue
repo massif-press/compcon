@@ -1,44 +1,33 @@
 <template>
   <div>
-    <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
+    <v-card-title class="title">
+      Add or Remove Core Bonus Improvements
+    </v-card-title>
     <v-card-text class="text-xs-center">
       <v-layout justify-center wrap>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
-          <v-btn
-            large
-            block
-            v-if="appliedHardpoints()"
-            @click="removeHardpoints()"
-          >Uninstall Auto-Stabilizing Hardpoints</v-btn>
-          <v-btn
-            large
-            block
-            v-else-if="unappliedHardpoints()"
-            @click="addHardpoints()"
-          >Install Auto-Stabilizing Hardpoints</v-btn>
+          <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">
+            Uninstall Auto-Stabilizing Hardpoints
+          </v-btn>
+          <v-btn large block v-else-if="unappliedHardpoints()" @click="addHardpoints()">
+            Install Auto-Stabilizing Hardpoints
+          </v-btn>
         </v-flex>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'burnout')">
-          <v-btn
-            large
-            block
-            v-if="appliedBurnout()"
-            @click="removeBurnout()"
-          >Uninstall BURNOUT Insulation</v-btn>
-          <v-btn
-            large
-            block
-            v-else-if="unappliedBurnout()"
-            @click="addBurnout()"
-          >Install BURNOUT Insulation</v-btn>
+          <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">
+            Uninstall BURNOUT Insulation
+          </v-btn>
+          <v-btn large block v-else-if="unappliedBurnout()" @click="addBurnout()">
+            Install BURNOUT Insulation
+          </v-btn>
         </v-flex>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
-          <v-btn
-            large
-            block
-            v-if="appliedRetrofit()"
-            @click="removeRetrofit()"
-          >Restore Original Mount</v-btn>
-          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">Retrofit Mount</v-btn>
+          <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">
+            Restore Original Mount
+          </v-btn>
+          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">
+            Retrofit Mount
+          </v-btn>
         </v-flex>
       </v-layout>
       <v-divider class="ma-3" />
@@ -79,15 +68,11 @@ export default Vue.extend({
       return this.mount.BonusEffects.some(x => x.ID === 'hardpoints')
     },
     addHardpoints() {
-      this.mount.AddCoreBonus(
-        this.$store.getters.getItemById('CoreBonuses', 'hardpoints')
-      )
+      this.mount.AddCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'hardpoints'))
       this.$emit('close')
     },
     removeHardpoints() {
-      this.mount.RemoveCoreBonus(
-        this.$store.getters.getItemById('CoreBonuses', 'hardpoints')
-      )
+      this.mount.RemoveCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'hardpoints'))
       this.$emit('close')
     },
     unappliedBurnout(): boolean {
@@ -100,33 +85,22 @@ export default Vue.extend({
       return this.mount.BonusEffects.some(x => x.ID === 'burnout')
     },
     addBurnout() {
-      this.mount.AddCoreBonus(
-        this.$store.getters.getItemById('CoreBonuses', 'burnout')
-      )
+      this.mount.AddCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'burnout'))
       this.$emit('close')
     },
     removeBurnout() {
-      this.mount.RemoveCoreBonus(
-        this.$store.getters.getItemById('CoreBonuses', 'burnout')
-      )
+      this.mount.RemoveCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'burnout'))
       this.$emit('close')
     },
     unappliedRetrofit(): boolean {
-      return (
-        this.pilot.has('CoreBonus', 'retrofit') && !this.loadout.IsRetrofitted
-      )
+      return this.pilot.has('CoreBonus', 'retrofit') && !this.loadout.IsRetrofitted
     },
     appliedRetrofit(): boolean {
-      return (
-        this.loadout.IsRetrofitted &&
-        _.isEqual(this.mount, this.loadout.RetrofittedMount)
-      )
+      return this.loadout.IsRetrofitted && _.isEqual(this.mount, this.loadout.RetrofittedMount)
     },
     addRetrofit() {
       this.loadout.RetrofitMount(
-        this.loadout
-          .AllEquippableMounts(true, true)
-          .findIndex(x => _.isEqual(x, this.mount))
+        this.loadout.AllEquippableMounts(true, true).findIndex(x => _.isEqual(x, this.mount))
       )
       this.$emit('close')
     },

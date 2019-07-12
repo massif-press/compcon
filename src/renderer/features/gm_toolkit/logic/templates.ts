@@ -1,4 +1,4 @@
-import NPCTemplate from './interfaces/NPCTemplate';
+import NPCTemplate from './interfaces/NPCTemplate'
 
 const templates: NPCTemplate[] = [
   {
@@ -20,8 +20,7 @@ const templates: NPCTemplate[] = [
     traits: [
       {
         name: 'Juggernaut',
-        effect:
-          'At the start of its turn, the Ultra ends one condition affecting it.',
+        effect: 'At the start of its turn, the Ultra ends one condition affecting it.',
       },
       {
         name: 'Legendary',
@@ -40,7 +39,7 @@ const templates: NPCTemplate[] = [
         structure: 4,
         stress: 4,
         hp: stats.hp + 5,
-      };
+      }
     },
     incompatibleTemplates: ['elite', 'grunt'],
   },
@@ -60,7 +59,7 @@ const templates: NPCTemplate[] = [
         ...stats,
         structure: 2,
         stress: 2,
-      };
+      }
     },
     incompatibleTemplates: ['ultra', 'grunt'],
   },
@@ -124,8 +123,7 @@ const templates: NPCTemplate[] = [
       },
       {
         name: 'Exotic Systems',
-        description:
-          'Any NPC with the exotic tag can choose one or two optional exotic modules',
+        description: 'Any NPC with the exotic tag can choose one or two optional exotic modules',
       },
     ],
     traits: [],
@@ -144,8 +142,7 @@ const templates: NPCTemplate[] = [
       },
       {
         name: 'Vulnerable to Tech',
-        description:
-          'All hostile tech actions against the Drone can be made with +1 Accuracy.',
+        description: 'All hostile tech actions against the Drone can be made with +1 Accuracy.',
       },
     ],
     traits: [],
@@ -153,7 +150,7 @@ const templates: NPCTemplate[] = [
       return {
         ...stats,
         hp: stats.hp + 5,
-      };
+      }
     },
     incompatibleTemplates: [],
   },
@@ -255,8 +252,7 @@ const templates: NPCTemplate[] = [
       },
       {
         name: 'No Manipulators',
-        description:
-          'A vehicle cannot initiate a grapple, pick up, or manipulate items',
+        description: 'A vehicle cannot initiate a grapple, pick up, or manipulate items',
       },
       {
         name: 'Limited Melee Attacks',
@@ -294,8 +290,7 @@ const templates: NPCTemplate[] = [
       },
       {
         name: 'No Manipulators',
-        description:
-          'A ship cannot initiate a grapple, pick up, or manipulate items',
+        description: 'A ship cannot initiate a grapple, pick up, or manipulate items',
       },
       {
         name: 'Limited Melee Attacks',
@@ -312,10 +307,10 @@ const templates: NPCTemplate[] = [
       return {
         ...stats,
         hp: stats.hp + 5,
-      };
+      }
     },
     incompatibleTemplates: ['vehicle'],
   },
-];
+]
 
-export default templates;
+export default templates

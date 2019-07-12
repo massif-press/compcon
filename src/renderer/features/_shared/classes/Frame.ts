@@ -1,13 +1,6 @@
 import store from '@/store'
 import { rules } from 'lancer-data'
-import {
-  LicensedItem,
-  MechWeapon,
-  Tag,
-  MountType,
-  ItemType,
-  MechType,
-} from '@/class'
+import { LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType } from '@/class'
 
 class Frame extends LicensedItem {
   private mechtype: MechType[]
@@ -141,8 +134,8 @@ class Frame extends LicensedItem {
 }
 
 interface Trait {
-  name: string;
-  description: string;
+  name: string
+  description: string
 }
 
 class CoreSystem {
@@ -157,9 +150,7 @@ class CoreSystem {
   constructor(coreData: any) {
     this.name = coreData.name
     this.description = coreData.description
-    this.integrated = coreData.integrated
-      ? new MechWeapon(coreData.integrated)
-      : null
+    this.integrated = coreData.integrated ? new MechWeapon(coreData.integrated) : null
     this.passive = coreData.passive
     this.active_name = coreData.active_name
     this.effect = coreData.effect

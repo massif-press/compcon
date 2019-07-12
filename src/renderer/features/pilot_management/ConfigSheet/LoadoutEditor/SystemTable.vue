@@ -4,36 +4,30 @@
       <v-tooltip top nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="warning" v-model="showLocked">
-            <v-icon v-if="showLocked" slot="append" color="warning">lock_open</v-icon>
+            <v-icon v-if="showLocked" slot="append" color="warning">
+              lock_open
+            </v-icon>
             <v-icon v-else slot="append">lock</v-icon>
           </v-switch>
         </div>
-        <span
-          v-html="
-            showLocked
-              ? 'Hide unauthorized systems'
-              : 'Show unauthorized systems'
-          "
-        />
+        <span v-html="showLocked ? 'Hide unauthorized systems' : 'Show unauthorized systems'" />
       </v-tooltip>
 
       <v-tooltip top class="ml-5" nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="yellow" v-model="showOverSp">
-            <v-icon v-if="showOverSp" slot="append" color="yellow">flash_off</v-icon>
+            <v-icon v-if="showOverSp" slot="append" color="yellow">
+              flash_off
+            </v-icon>
             <v-icon v-else slot="append">flash_on</v-icon>
           </v-switch>
         </div>
         <span
-          v-html="
-            showOverSp
-              ? 'Hide systems above SP capacity'
-              : 'Show systems above SP capacity'
-          "
+          v-html="showOverSp ? 'Hide systems above SP capacity' : 'Show systems above SP capacity'"
         />
       </v-tooltip>
 
-      <v-spacer/>
+      <v-spacer />
       <v-text-field
         class="search-field ma-2"
         prepend-icon="search"
@@ -44,7 +38,7 @@
         placeholder="Search"
         clearable
       />
-      <filter-panel system @update="updateFilter"/>
+      <filter-panel system @update="updateFilter" />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -59,7 +53,9 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
-              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">
+                equip
+              </v-btn>
             </td>
             <td>
               <span class="subheading">
@@ -67,8 +63,9 @@
                 <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
-                    {{ pilot.callsign }} does not have the license for this
-                    system ({{ props.item.License }}
+                    {{ pilot.callsign }} does not have the license for this system ({{
+                      props.item.License
+                    }}
                     {{ props.item.LicenseLevel }})
                   </span>
                 </v-tooltip>
@@ -82,10 +79,9 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span
-                v-if="props.item.Source !== 'GMS'"
-                class="subheading"
-              >{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">
+                {{ props.item.License }} {{ props.item.LicenseLevel }}
+              </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -95,7 +91,7 @@
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <system-card :itemData="props.item" table-item/>
+              <system-card :itemData="props.item" table-item />
             </v-card-text>
           </v-card>
         </template>
@@ -103,12 +99,12 @@
       <v-layout v-if="currentEquip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn
-            v-if="currentEquip.err"
-            color="amber darken-4"
-            @click="remove"
-          >Uninstall Missing System</v-btn>
-          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{ currentEquip.Name }}</v-btn>
+          <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">
+            Uninstall Missing System
+          </v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">
+            Uninstall {{ currentEquip.Name }}
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -159,16 +155,10 @@ export default Vue.extend({
     },
     systems(): MechSystem[] {
       const vm = this as any
-      const allSystems = vm.$store.getters.getItemCollection(
-        'MechSystems'
-      ) as MechSystem[]
+      const allSystems = vm.$store.getters.getItemCollection('MechSystems') as MechSystem[]
       let i = allSystems.filter(x => x.Source)
       if (!vm.showLocked) {
-        i = i.filter(
-          x =>
-            x.Source === 'GMS' ||
-            vm.pilot.has('License', x.License, x.LicenseLevel)
-        )
+        i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
       }
       if (!vm.showOverSp) {
         i = i.filter(x => x.SP <= vm.freeSP)
@@ -176,18 +166,14 @@ export default Vue.extend({
       // filter already equipped
       if (vm.currentEquip) i = i.filter(x => x.ID !== vm.currentEquip.ID)
 
-      if (vm.search)
-        i = i.filter(x =>
-          x.Name.toLowerCase().includes(vm.search.toLowerCase())
-        )
+      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
       i = i.filter(x => !vm.loadout.UniqueSystems.map(y => y.ID).includes(x.ID))
 
       // AI limit
       let aiLimit = 1
       if (this.pilot.has('CoreBonus', 'shaping')) aiLimit += 1
-      const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI)
-        .length
+      const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI).length
       if (aiTotal >= aiLimit) i = i.filter(x => x.Type !== SystemType.AI)
 
       i = ItemFilter.FilterSystems(i, this.detailFilter)

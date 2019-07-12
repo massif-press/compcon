@@ -1,19 +1,6 @@
 <template>
-  <v-dialog
-    lazy
-    v-model="model"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-  >
-    <v-btn
-      slot="activator"
-      class="edit-btn mlneg"
-      small
-      flat
-      icon
-      color="primary"
-    >
+  <v-dialog lazy v-model="model" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
       <v-icon small>edit</v-icon>
     </v-btn>
     <v-card flat>
@@ -30,13 +17,7 @@
         <v-container grid-list-sm fluid>
           <v-layout row>
             <v-flex xs10>
-              <v-btn
-                block
-                outline
-                large
-                color="primary"
-                @click="importImage('frame')"
-              >
+              <v-btn block outline large color="primary" @click="importImage('frame')">
                 Import Custom Frame Image
               </v-btn>
             </v-flex>
@@ -50,14 +31,11 @@
                       help
                     </v-icon>
                     <span>
-                      This custom frame image will be stored in the cloud, and
-                      the
+                      This custom frame image will be stored in the cloud, and the
                       <br />
-                      image URL will be appended to its configuration's COMP/CON
-                      data.
+                      image URL will be appended to its configuration's COMP/CON data.
                       <br />
-                      When exporting this configuration, other users will see
-                      this
+                      When exporting this configuration, other users will see this
                       <br />
                       image, provided they are connected to the internet.
                     </span>
@@ -92,9 +70,7 @@
             <v-flex xs3>
               <div class="clickable" @click="assignDefault">
                 <v-img
-                  :src="
-                    `file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`
-                  "
+                  :src="`file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`"
                   position="top"
                   max-height="40vh"
                   max-width="40vw"

@@ -7,8 +7,7 @@ class Skill extends CompendiumItem {
 
   constructor(skillData: any) {
     super(skillData)
-    ;(this.detail = skillData.detail),
-      (this.family = SkillFamily[skillData.family] as SkillFamily)
+    ;(this.detail = skillData.detail), (this.family = SkillFamily[skillData.family] as SkillFamily)
     this.item_type = ItemType.Skill
   }
 

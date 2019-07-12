@@ -84,10 +84,7 @@
       <div class="ma-2">
         <v-layout class="headline">Licenses</v-layout>
         <v-layout row wrap justify-space-between>
-          <v-flex
-            v-for="plicense in pilot.Licenses"
-            :key="plicense.License.Name"
-          >
+          <v-flex v-for="plicense in pilot.Licenses" :key="plicense.License.Name">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>

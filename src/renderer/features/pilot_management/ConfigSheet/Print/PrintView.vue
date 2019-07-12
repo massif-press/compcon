@@ -9,10 +9,9 @@
             {{ pilot.Callsign }}
           </span>
           <br />
-          <h1
-            class="p-mechname font-weight-black"
-            :style="`font-size: ${calcSize(config.Name)}px`"
-          >{{ config.Name }}</h1>
+          <h1 class="p-mechname font-weight-black" :style="`font-size: ${calcSize(config.Name)}px`">
+            {{ config.Name }}
+          </h1>
         </v-flex>
         <v-flex class="ml-5">
           <v-layout justify-space-between class="text-xs-center">
@@ -41,46 +40,62 @@
               <b>ATK</b>
               BONUS
               <br />
-              <span class="p-title font-weight-regular">{{ signed(config.AttackBonus) }}</span>
+              <span class="p-title font-weight-regular">
+                {{ signed(config.AttackBonus) }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>TECH</b>
               ATK
               <br />
-              <span class="p-title font-weight-regular">{{ signed(config.TechAttack) }}</span>
+              <span class="p-title font-weight-regular">
+                {{ signed(config.TechAttack) }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>SAVE</b>
               TARGET
               <br />
-              <span class="p-title font-weight-regular">{{ config.SaveTarget }}</span>
+              <span class="p-title font-weight-regular">
+                {{ config.SaveTarget }}
+              </span>
             </v-flex>
           </v-layout>
           <v-layout justify-space-between class="text-xs-center mt-2">
             <v-flex class="p-reg">
               <b>SPEED</b>
               <br />
-              <span class="p-title font-weight-regular">{{ config.Speed }}</span>
+              <span class="p-title font-weight-regular">
+                {{ config.Speed }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>EVASION</b>
               <br />
-              <span class="p-title font-weight-regular">{{ config.Evasion }}</span>
+              <span class="p-title font-weight-regular">
+                {{ config.Evasion }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>E-DEFENSE</b>
               <br />
-              <span class="p-title font-weight-regular">{{ config.EDefense }}</span>
+              <span class="p-title font-weight-regular">
+                {{ config.EDefense }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>SENSOR RANGE</b>
               <br />
-              <span class="p-title font-weight-regular">{{ config.SensorRange }}</span>
+              <span class="p-title font-weight-regular">
+                {{ config.SensorRange }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>LTD SYS BONUS</b>
               <br />
-              <span class="p-title font-weight-regular">{{ signed(config.LimitedBonus) }}</span>
+              <span class="p-title font-weight-regular">
+                {{ signed(config.LimitedBonus) }}
+              </span>
             </v-flex>
             <v-flex class="p-reg">
               <b>SIZE</b>
@@ -96,13 +111,17 @@
         <v-flex shrink>
           <span class="p-reg">STRUCTURE</span>
           <br />
-          <v-icon v-for="n in config.MaxStructure" :key="'structure_' + n">crop_din</v-icon>
+          <v-icon v-for="n in config.MaxStructure" :key="'structure_' + n">
+            crop_din
+          </v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HP</span>
           <br />
           <h1 class="p-large font-weight-bold">
-            <span style="text-decoration: underline; white-space: pre; font-size:16px">____</span>
+            <span style="text-decoration: underline; white-space: pre; font-size:16px">
+              ____
+            </span>
             / {{ config.MaxHP }}
           </h1>
           <span class="p-large">{{ config.Armor }} ARMOR</span>
@@ -112,13 +131,17 @@
         <v-flex shrink>
           <span class="p-reg">REACTOR STRESS</span>
           <br />
-          <v-icon v-for="n in config.MaxStress" :key="'structure_' + n">crop_din</v-icon>
+          <v-icon v-for="n in config.MaxStress" :key="'structure_' + n">
+            crop_din
+          </v-icon>
         </v-flex>
         <v-flex shrink class="ml-2">
           <span class="p-reg">HEAT</span>
           <br />
           <h1 class="p-large font-weight-bold">
-            <span style="text-decoration: underline; white-space: pre; font-size:16px">____</span>
+            <span style="text-decoration: underline; white-space: pre; font-size:16px">
+              ____
+            </span>
             / {{ config.HeatCapacity }}
           </h1>
         </v-flex>
@@ -127,7 +150,9 @@
           <span class="p-reg">REPAIR CAPACITY</span>
           <br />
           <h1 class="p-large font-weight-bold">
-            <span style="text-decoration: underline; white-space: pre; font-size:16px">____</span>
+            <span style="text-decoration: underline; white-space: pre; font-size:16px">
+              ____
+            </span>
             / {{ config.RepairCapacity }}
           </h1>
         </v-flex>
@@ -176,18 +201,15 @@
             <p class="p-reg ml-2 mt-0 mb-0" v-html="config.Frame.CoreSystem.Passive" />
           </v-flex>
           <v-flex>
-            <span
-              class="p-reg font-weight-bold"
-            >{{ config.Frame.CoreSystem.Active }} (Requires 1 CORE Power):</span>
+            <span class="p-reg font-weight-bold">
+              {{ config.Frame.CoreSystem.Active }} (Requires 1 CORE Power):
+            </span>
             <p class="p-reg ml-2 mt-0 mb-0" v-html="config.Frame.CoreSystem.Effect" />
           </v-flex>
           <v-flex>
-            <span
-              v-for="t in config.Frame.CoreSystem.tags"
-              :key="t.id"
-              small
-              class="print-tag"
-            >{{ t.Name }}</span>
+            <span v-for="t in config.Frame.CoreSystem.tags" :key="t.id" small class="print-tag">
+              {{ t.Name }}
+            </span>
           </v-flex>
         </v-flex>
       </v-layout>
@@ -227,7 +249,9 @@
                         :key="t.id + 'intmount'"
                         small
                         class="print-tag ml-2"
-                      >{{ t.Name(pilot.LimitedBonus) }}</span>
+                      >
+                        {{ t.Name(pilot.LimitedBonus) }}
+                      </span>
                     </div>
                   </div>
                 </v-flex>
@@ -240,27 +264,30 @@
                     <span class="p-mount-title">{{ mount.Type }}</span>
                     <div class="mount-interior">
                       <div v-if="mount.IsLocked" class="text-xs-center">
-                        <i
-                          style="letter-spacing: 5px; color: grey;"
-                        >MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING</i>
+                        <i style="letter-spacing: 5px; color: grey;">
+                          MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING
+                        </i>
                       </div>
                       <div v-else-if="!mount.Weapons.length">
-                        <i style="letter-spacing: 5px; color: grey;">&emsp;EMPTY</i>
+                        <i style="letter-spacing: 5px; color: grey;">
+                          &emsp;EMPTY
+                        </i>
                       </div>
                       <div v-else v-for="w in mount.Slots" :key="w.id">
                         <v-layout>
                           <v-flex shrink class="ml-1" v-if="!w.Weapon">
                             <span class="p-large">
-                              <i style="letter-spacing: 5px; color: grey;">&emsp;EMPTY</i>
+                              <i style="letter-spacing: 5px; color: grey;">
+                                &emsp;EMPTY
+                              </i>
                             </span>
                           </v-flex>
                           <v-flex shrink class="ml-1" v-if="!w.Weapon.err">
                             <span class="p-large">{{ w.Weapon.Name }}</span>
                             <span class="p-reg">({{ w.Weapon.Size }} {{ w.Weapon.Type }})</span>
-                            <span
-                              v-if="w.Weapon.Mod"
-                              class="p-reg"
-                            >&nbsp;//&nbsp;{{ w.Weapon.Mod.Name }}</span>
+                            <span v-if="w.Weapon.Mod" class="p-reg">
+                              &nbsp;//&nbsp;{{ w.Weapon.Mod.Name }}
+                            </span>
                           </v-flex>
                           <v-flex shrink class="ml-2" v-if="!w.Weapon.err">
                             <range-element size="9" :range="w.Weapon.Range" />
@@ -281,7 +308,9 @@
                           :key="t.id + w.id"
                           small
                           class="print-tag ml-2"
-                        >{{ t.Name(pilot.LimitedBonus) }}</span>
+                        >
+                          {{ t.Name(pilot.LimitedBonus) }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -300,12 +329,9 @@
                 <span class="p-large">{{ sys.Name }}</span>
                 <br />
                 <p class="p-reg ml-2 mt-0 mb-0" v-html="sys.Effect" />
-                <span
-                  v-for="t in sys.Tags"
-                  :key="t.id + sys"
-                  small
-                  class="print-tag ml-2"
-                >{{ t.Name(pilot.LimitedBonus) }}</span>
+                <span v-for="t in sys.Tags" :key="t.id + sys" small class="print-tag ml-2">
+                  {{ t.Name(pilot.LimitedBonus) }}
+                </span>
               </v-flex>
             </v-layout>
             <v-layout v-for="(sys, index) in loadout.Systems" :key="'system_' + index" row>
@@ -313,12 +339,9 @@
                 <span class="p-large">{{ sys.Name }}</span>
                 <br />
                 <p class="p-reg ml-2 mt-0 mb-0" v-html="sys.Effect" />
-                <span
-                  v-for="t in sys.Tags"
-                  :key="t.id + sys"
-                  small
-                  class="print-tag ml-2"
-                >{{ t.Name(pilot.LimitedBonus) }}</span>
+                <span v-for="t in sys.Tags" :key="t.id + sys" small class="print-tag ml-2">
+                  {{ t.Name(pilot.LimitedBonus) }}
+                </span>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -331,13 +354,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { RangeElement, DamageElement } from '../../components/UI'
-import {
-  PrintOptions,
-  Pilot,
-  Mech,
-  MechLoadout,
-  EquippableMount,
-} from '@/class'
+import { PrintOptions, Pilot, Mech, MechLoadout, EquippableMount } from '@/class'
 
 export default Vue.extend({
   name: 'mech-print-view',
@@ -351,10 +368,7 @@ export default Vue.extend({
   }),
   computed: {
     allMounts(): EquippableMount[] {
-      return this.loadout.AllEquippableMounts(
-        this.hasImpArm(),
-        this.hasIntWeapon()
-      )
+      return this.loadout.AllEquippableMounts(this.hasImpArm(), this.hasIntWeapon())
     },
   },
   methods: {

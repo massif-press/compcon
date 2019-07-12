@@ -108,13 +108,8 @@ class Mech {
       if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
       else requirements.push(this.Frame.RequiredLicense)
     } else {
-      const reqIdx = requirements.findIndex(
-        x => x.name === `${this.frame.Name}` && x.rank === 2
-      )
-      if (reqIdx > -1)
-        requirements[reqIdx].items.push(
-          `${this.frame.Name.toUpperCase()} Frame`
-        )
+      const reqIdx = requirements.findIndex(x => x.name === `${this.frame.Name}` && x.rank === 2)
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this.frame.Name.toUpperCase()} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     }
 
@@ -152,10 +147,8 @@ class Mech {
 
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait
-    else if (this.portrait)
-      return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`
-    else
-      return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
+    else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`
+    else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -176,17 +169,13 @@ class Mech {
 
   public get Armor(): number {
     let bonus =
-      this.pilot.has('CoreBonus', 'plating') &&
-      this.frame.Armor < rules.max_mech_armor
-        ? 1
-        : 0
+      this.pilot.has('CoreBonus', 'plating') && this.frame.Armor < rules.max_mech_armor ? 1 : 0
     return this.frame.Armor + bonus
   }
 
   public get ArmorContributors(): string[] {
     let output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    if (this.pilot.has('CoreBonus', 'plating'))
-      output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
+    if (this.pilot.has('CoreBonus', 'plating')) output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
     return output
   }
 
@@ -213,10 +202,7 @@ class Mech {
   }
 
   public get EvasionContributors(): string[] {
-    let output = [
-      `FRAME Base Evasion: ${this.Frame.Evasion}`,
-      `Pilot AGILITY Bonus: +${this.Agi}`,
-    ]
+    let output = [`FRAME Base Evasion: ${this.Frame.Evasion}`, `Pilot AGILITY Bonus: +${this.Agi}`]
     if (this.pilot.has('CoreBonus', 'fssync'))
       output.push(`Full Subjectivity Sync (SSC CORE Bonus): +2`)
     return output
@@ -285,10 +271,7 @@ class Mech {
   }
 
   public get TechAttackContributors(): string[] {
-    return [
-      `FRAME Base Tech Attack: ${this.Frame.TechAttack}`,
-      `Pilot SYSTEMS Bonus: +${this.Sys}`,
-    ]
+    return [`FRAME Base Tech Attack: ${this.Frame.TechAttack}`, `Pilot SYSTEMS Bonus: +${this.Sys}`]
   }
 
   public get Grapple(): number {
@@ -330,8 +313,7 @@ class Mech {
   }
 
   public set CurrentStructure(structure: number) {
-    if (structure > this.MaxStructure)
-      this.current_structure = this.MaxStructure
+    if (structure > this.MaxStructure) this.current_structure = this.MaxStructure
     else if (structure < 0) this.current_structure = 0
     else this.current_structure = structure
     this.save()
@@ -358,7 +340,7 @@ class Mech {
 
   public AddDamage(dmg: number, resistance?: string) {
     if (resistance && this.resistances.includes(resistance)) {
-      dmg =  Math.ceil(dmg/2)
+      dmg = Math.ceil(dmg / 2)
     }
     while (dmg > this.CurrentHP) {
       this.CurrentStructure -= 1
@@ -386,8 +368,7 @@ class Mech {
     ]
     if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
       output.push(`Personalizations (GMS System): +2`)
-    if (this.pilot.has('CoreBonus', 'frame'))
-      output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
+    if (this.pilot.has('CoreBonus', 'frame')) output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
     return output
   }
 
@@ -421,7 +402,7 @@ class Mech {
   }
 
   public AddHeat(heat: number) {
-    heat = this.resistances.includes('Heat') ? Math.ceil(heat/2) : heat
+    heat = this.resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
     let newHeat = this.current_heat + heat
     while (newHeat > this.HeatCapacity) {
       this.CurrentStress -= 1
@@ -431,7 +412,7 @@ class Mech {
   }
 
   public ReduceHeat(heat: number, resist?: boolean) {
-    if (resist) heat = this.resistances.includes('Heat') ? Math.ceil(heat/2) : heat
+    if (resist) heat = this.resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
     while (heat > this.CurrentHeat) {
       heat -= this.CurrentHeat
       this.CurrentStress += 1
@@ -441,9 +422,7 @@ class Mech {
   }
 
   public get IsInDangerZone(): boolean {
-    return (
-      this.IsActive && this.current_heat >= Math.ceil(this.HeatCapacity / 2)
-    )
+    return this.IsActive && this.current_heat >= Math.ceil(this.HeatCapacity / 2)
   }
 
   public get HeatCapacity(): number {
@@ -524,13 +503,13 @@ class Mech {
 
   // -- Statuses and Conditions -------------------------------------------------------------------
   public get IsShutDown(): boolean {
-    return this.Statuses.includes("Shut Down")
+    return this.Statuses.includes('Shut Down')
   }
 
   public get IsStunned(): boolean {
     return this.conditions.includes('Stunned')
   }
-  
+
   public get Conditions(): string[] {
     return this.conditions
   }
@@ -558,7 +537,7 @@ class Mech {
     this.save()
   }
 
-  public get Burn(): number{
+  public get Burn(): number {
     return this.burn
   }
 
@@ -593,9 +572,7 @@ class Mech {
   public get IntegratedMounts(): IntegratedMount[] {
     let intg = []
     if (this.frame.CoreSystem.Integrated) {
-      intg.push(
-        new IntegratedMount(this.frame.CoreSystem.Integrated, 'CORE System')
-      )
+      intg.push(new IntegratedMount(this.frame.CoreSystem.Integrated, 'CORE System'))
     }
     if (this.pilot.has('Talent', 'ncavalier', 3)) {
       const fr_weapon = store.getters.getItemById('MechWeapons', 'fuelrod')
@@ -642,9 +619,7 @@ class Mech {
   public RemoveLoadout(loadout: MechLoadout) {
     const index = this.loadouts.findIndex(x => _.isEqual(x, loadout))
     if (index === -1) {
-      console.error(
-        `Loadout"${loadout.Name}" does not exist on Mech ${this.Name}`
-      )
+      console.error(`Loadout"${loadout.Name}" does not exist on Mech ${this.Name}`)
     } else {
       this.loadouts.splice(index, 1)
       this.ActiveLoadout = this.loadouts[this.loadouts.length - 1]
@@ -655,14 +630,9 @@ class Mech {
   public CloneLoadout(loadout: MechLoadout) {
     const index = this.loadouts.findIndex(x => _.isEqual(x, loadout))
     if (index === -1) {
-      console.error(
-        `Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`
-      )
+      console.error(`Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`)
     } else {
-      var newLoadout = MechLoadout.Deserialize(
-        MechLoadout.Serialize(loadout),
-        this
-      )
+      var newLoadout = MechLoadout.Deserialize(MechLoadout.Serialize(loadout), this)
       newLoadout.RenewID()
       newLoadout.Name += ' (Copy)'
       this.loadouts.splice(index + 1, 0, newLoadout)
@@ -721,9 +691,7 @@ class Mech {
     m.current_repairs = mechData.current_repairs
     m.current_overcharge = mechData.current_overcharge || 0
     m.cc_ver = mechData.cc_ver
-    m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) =>
-      MechLoadout.Deserialize(x, m)
-    )
+    m.loadouts = mechData.loadouts.map((x: IMechLoadoutData) => MechLoadout.Deserialize(x, m))
     m.active_loadout = m.active_loadout
     m.statuses = mechData.statuses || []
     m.conditions = mechData.conditions || []

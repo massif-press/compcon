@@ -1,7 +1,16 @@
 <template>
   <div class="text-xs-center">
     <v-bottom-sheet>
-      <v-badge overlap slot="activator" dark @click="''">
+      <v-badge
+        overlap
+        slot="activator"
+        dark
+        @click="
+          ''
+
+
+        "
+      >
         <template v-if="filterCount" v-slot:badge>
           <span>{{ filterCount }}</span>
         </template>
@@ -14,7 +23,7 @@
       </v-badge>
       <v-toolbar dense color="purple darken-3" dark>
         <v-toolbar-title>Filter {{ system ? 'Mech Systems' : 'Mech Weapons' }}</v-toolbar-title>
-        <v-spacer/>
+        <v-spacer />
         <v-btn color="error" @click="reset()">Clear Selected Filters</v-btn>
       </v-toolbar>
       <v-card flat>
@@ -166,15 +175,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  Tag,
-  License,
-  SystemType,
-  WeaponType,
-  WeaponSize,
-  DamageType,
-  RangeType,
-} from '@/class'
+import { Tag, License, SystemType, WeaponType, WeaponSize, DamageType, RangeType } from '@/class'
 import { rules } from 'lancer-data'
 
 const nameSort = function(a, b) {
@@ -260,9 +261,7 @@ export default Vue.extend({
     },
     weaponSizes(): WeaponSize[] {
       if (this.size)
-        return rules.mount_fittings[this.size]
-          .map(k => WeaponSize[k as any])
-          .sort() as WeaponSize[]
+        return rules.mount_fittings[this.size].map(k => WeaponSize[k as any]).sort() as WeaponSize[]
       return Object.keys(WeaponSize)
         .map(k => WeaponSize[k as any])
         .sort() as WeaponSize[]

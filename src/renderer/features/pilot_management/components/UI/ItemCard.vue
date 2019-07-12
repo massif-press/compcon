@@ -7,60 +7,23 @@
       <!-- Weapon -->
       <div v-if="itemData.ItemType === 'MechWeapon'">
         <p v-html="'Weapon'" class="pa-0 ma-0 mb-2 title" />
-        <p
-          v-if="itemData.Description"
-          class="fluff-text"
-          v-html="itemData.Description"
-        />
-        <p class="pa-0 ma-0 mb-2 title">
-          {{ itemData.Size }} {{ itemData.Type }}
-        </p>
-        <p
-          v-if="itemData.SP"
-          v-html="`${itemData.SP} SP`"
-          class="pa-0 ma-0 mb-2 title"
-        />
+        <p v-if="itemData.Description" class="fluff-text" v-html="itemData.Description" />
+        <p class="pa-0 ma-0 mb-2 title">{{ itemData.Size }} {{ itemData.Type }}</p>
+        <p v-if="itemData.SP" v-html="`${itemData.SP} SP`" class="pa-0 ma-0 mb-2 title" />
         <damage-element :dmg="itemData.Damage" />
         <range-element :range="itemData.Range" />
-        <p
-          v-if="itemData.Effect"
-          v-html="itemData.Effect"
-          class="effect-text"
-        />
+        <p v-if="itemData.Effect" v-html="itemData.Effect" class="effect-text" />
       </div>
       <!-- System -->
-      <div
-        v-else-if="
-          itemData.ItemType === 'MechSystem' ||
-            itemData.ItemType === 'WeaponMod'
-        "
-      >
-        <p
-          v-if="itemData.Type"
-          v-html="itemData.Type"
-          class="pa-0 ma-0 mb-2 title"
-        />
-        <p
-          v-if="itemData.Description"
-          class="fluff-text"
-          v-html="itemData.Description"
-        />
-        <p
-          v-if="itemData.SP"
-          v-html="`${itemData.SP} SP`"
-          class="pa-0 ma-0 mb-2 title"
-        />
-        <p
-          v-if="itemData.Effect"
-          v-html="`${itemData.Effect}`"
-          class="effect-text"
-        />
+      <div v-else-if="itemData.ItemType === 'MechSystem' || itemData.ItemType === 'WeaponMod'">
+        <p v-if="itemData.Type" v-html="itemData.Type" class="pa-0 ma-0 mb-2 title" />
+        <p v-if="itemData.Description" class="fluff-text" v-html="itemData.Description" />
+        <p v-if="itemData.SP" v-html="`${itemData.SP} SP`" class="pa-0 ma-0 mb-2 title" />
+        <p v-if="itemData.Effect" v-html="`${itemData.Effect}`" class="effect-text" />
       </div>
       <!-- Frame -->
       <div v-else>
-        <b class="ml-3">
-          {{ itemData.Source }} {{ itemData.MechTypeString }} Frame
-        </b>
+        <b class="ml-3">{{ itemData.Source }} {{ itemData.MechTypeString }} Frame</b>
         <frame-statblock :frame="itemData" />
       </div>
       <v-layout>

@@ -45,8 +45,7 @@ class Background {
   }
 
   public static Deserialize(bgData?: IBackgroundData | string): Background {
-    if (typeof bgData === 'string')
-      return store.getters.getItemById('Backgrounds', bgData)
+    if (typeof bgData === 'string') return store.getters.getItemById('Backgrounds', bgData)
     if (typeof bgData === 'object') return new Background(bgData)
     return new Background()
   }

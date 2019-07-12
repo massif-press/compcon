@@ -3,11 +3,7 @@
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
-          <ul
-            class="menu"
-            v-scroll-spy-active="{ class: 'customActive' }"
-            v-scroll-spy-link
-          >
+          <ul class="menu" v-scroll-spy-active="{ class: 'customActive' }" v-scroll-spy-link>
             <li
               v-for="s in statuses.Status"
               :key="'key_' + s.name"
@@ -36,25 +32,14 @@
         <br />
         <div v-scroll-spy="{ offset: 60, time: 0 }">
           <span class="major-title">Statuses</span>
-          <div
-            v-for="s in statuses.Status"
-            :key="s.name"
-            class="text-xs-center pa-1"
-          >
+          <div v-for="s in statuses.Status" :key="s.name" class="text-xs-center pa-1">
             <v-card flat>
-              <v-card-title
-                primary-title
-                class="title text-uppercase font-weight-light"
-              >
+              <v-card-title primary-title class="title text-uppercase font-weight-light">
                 {{ s.name }}
               </v-card-title>
               <v-card-text class="text-xs-left pt-0">
                 <ul>
-                  <li
-                    v-for="e in s.effects"
-                    :key="e"
-                    class="blockquote ma-0 pa-0"
-                  >
+                  <li v-for="e in s.effects" :key="e" class="blockquote ma-0 pa-0">
                     {{ e }}
                   </li>
                 </ul>
@@ -63,25 +48,14 @@
           </div>
           <v-divider class="ma-3" />
           <span class="major-title">Conditions</span>
-          <div
-            v-for="s in statuses.Condition"
-            :key="s.name"
-            class="text-xs-center pa-1"
-          >
+          <div v-for="s in statuses.Condition" :key="s.name" class="text-xs-center pa-1">
             <v-card flat>
-              <v-card-title
-                primary-title
-                class="title text-uppercase font-weight-light"
-              >
+              <v-card-title primary-title class="title text-uppercase font-weight-light">
                 {{ s.name }}
               </v-card-title>
               <v-card-text class="text-xs-left pt-0">
                 <ul>
-                  <li
-                    v-for="e in s.effects"
-                    :key="e"
-                    class="blockquote ma-0 pa-0"
-                  >
+                  <li v-for="e in s.effects" :key="e" class="blockquote ma-0 pa-0">
                     {{ e }}
                   </li>
                 </ul>
@@ -105,10 +79,7 @@ export default Vue.extend({
     section: 0,
   }),
   created() {
-    this.statuses = _.groupBy(
-      this.$store.getters.getItemCollection('Statuses'),
-      'type'
-    )
+    this.statuses = _.groupBy(this.$store.getters.getItemCollection('Statuses'), 'type')
   },
 })
 </script>

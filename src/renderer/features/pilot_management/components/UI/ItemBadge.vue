@@ -38,19 +38,13 @@
         <span v-html="tooltip(item)" />
       </v-tooltip>
     </div>
-    <v-dialog
-      lazy
-      v-model="model"
-      :width="item.ItemType === 'Frame' ? '95vw' : '50vw'"
-    >
+    <v-dialog lazy v-model="model" :width="item.ItemType === 'Frame' ? '95vw' : '50vw'">
       <v-toolbar :color="itemColor(item.ItemType)" dark>
         <v-toolbar-title>
           {{ item.Name }}
           <span class="caption">
             ({{ item.Source }}
-            <span v-if="item.ItemType !== 'Frame'">
-              {{ item.License }} {{ item.LicenseLevel }}
-            </span>
+            <span v-if="item.ItemType !== 'Frame'">{{ item.License }} {{ item.LicenseLevel }}</span>
             )
           </span>
         </v-toolbar-title>
@@ -68,14 +62,7 @@
 import Vue from 'vue'
 import ItemCard from './ItemCard.vue'
 import colors from '@/features/_shared/UI/CCColors'
-import {
-  CompendiumItem,
-  ItemType,
-  Frame,
-  MechWeapon,
-  MechSystem,
-  WeaponMod,
-} from '@/class'
+import { CompendiumItem, ItemType, Frame, MechWeapon, MechSystem, WeaponMod } from '@/class'
 
 export default Vue.extend({
   name: 'item-badge',

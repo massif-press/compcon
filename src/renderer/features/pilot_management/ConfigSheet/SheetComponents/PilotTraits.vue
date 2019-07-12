@@ -6,20 +6,11 @@
           <div class="text-uppercase title">talents</div>
         </template>
         <v-card>
-          <v-card-text
-            v-for="(talent, index) in talents"
-            :key="talent.Talent.ID"
-            class="pb-0 pt-0"
-          >
+          <v-card-text v-for="(talent, index) in talents" :key="talent.Talent.ID" class="pb-0 pt-0">
             <div v-for="n in 3" :key="'talent_' + n">
               <div v-if="talent.Rank >= n">
-                <span class="minor-title">
-                  {{ talent.Talent.Ranks[n - 1].name }}:
-                </span>
-                <span
-                  class="effect-text"
-                  v-html="talent.Talent.Ranks[n - 1].description"
-                />
+                <span class="minor-title">{{ talent.Talent.Ranks[n - 1].name }}:</span>
+                <span class="effect-text" v-html="talent.Talent.Ranks[n - 1].description" />
               </div>
             </div>
             <v-divider v-if="index + 1 < talents.length" class="ma-2" />

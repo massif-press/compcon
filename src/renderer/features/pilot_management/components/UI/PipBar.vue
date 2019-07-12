@@ -16,18 +16,18 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  export default Vue.extend({
-    name: 'pip-bar',
-    props: {
-      model: Number,
-      shrink: Boolean,
-      small: Boolean,
-      large: Boolean,
-      xLarge: Boolean,
-      items: Array,
-      icons: Array,
-      caption: String,
-    },
-  })
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'pip-bar',
+  props: {
+    model: Number,
+    shrink: Boolean,
+    small: Boolean,
+    large: Boolean,
+    xLarge: Boolean,
+    items: Array,
+    icons: Array,
+    caption: String,
+  },
+})
 </script>

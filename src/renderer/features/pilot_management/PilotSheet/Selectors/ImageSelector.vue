@@ -3,13 +3,7 @@
     <v-container grid-list-sm fluid>
       <v-layout row>
         <v-flex xs10>
-          <v-btn
-            block
-            outline
-            large
-            color="primary"
-            @click="importImage('portrait')"
-          >
+          <v-btn block outline large color="primary" @click="importImage('portrait')">
             Import Portrait Image
           </v-btn>
         </v-flex>
@@ -64,9 +58,7 @@
           <div
             :class="
               `text-xs-right justify-center pa-1 ${
-                i === pilot.LocalPortrait && !pilot.CloudPortrait
-                  ? 'preselected'
-                  : 'fadeSelect'
+                i === pilot.LocalPortrait && !pilot.CloudPortrait ? 'preselected' : 'fadeSelect'
               } clickable`
             "
             @click="assignPortrait(i)"
@@ -137,11 +129,9 @@ export default Vue.extend({
     },
     importAll() {
       var vm = this as any
-      vm.portraits = io
-        .getImages('portrait', vm.userDataPath)
-        .sort(function(a, b) {
-          return a === vm.pilot.portrait ? 0 : 1
-        })
+      vm.portraits = io.getImages('portrait', vm.userDataPath).sort(function(a, b) {
+        return a === vm.pilot.portrait ? 0 : 1
+      })
     },
     importImage(imgType: string) {
       var vm = this as any

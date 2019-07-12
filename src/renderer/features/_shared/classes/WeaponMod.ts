@@ -1,12 +1,5 @@
 import store from '@/store'
-import {
-  Tag,
-  WeaponType,
-  WeaponSize,
-  ItemType,
-  Damage,
-  MechEquipment,
-} from '@/class'
+import { Tag, WeaponType, WeaponSize, ItemType, Damage, MechEquipment } from '@/class'
 
 class WeaponMod extends MechEquipment {
   private applied_to: WeaponType[]
@@ -25,8 +18,7 @@ class WeaponMod extends MechEquipment {
     this.restricted_sizes = weaponModData.restricted_sizes
     this.tags = weaponModData.tags
     this.added_tags = weaponModData.added_tags || []
-    if (weaponModData.added_damage)
-      this.added_damage = new Damage(weaponModData.added_damage)
+    if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage)
     this.added_range = weaponModData.added_range || 0
     this.item_type = ItemType.WeaponMod
   }

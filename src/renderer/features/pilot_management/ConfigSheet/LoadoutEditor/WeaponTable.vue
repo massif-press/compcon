@@ -4,36 +4,30 @@
       <v-tooltip top nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="warning" v-model="showLocked">
-            <v-icon v-if="showLocked" slot="append" color="warning">lock_open</v-icon>
+            <v-icon v-if="showLocked" slot="append" color="warning">
+              lock_open
+            </v-icon>
             <v-icon v-else slot="append">lock</v-icon>
           </v-switch>
         </div>
-        <span
-          v-html="
-            showLocked
-              ? 'Hide unauthorized weapons'
-              : 'Show unauthorized weapons'
-          "
-        />
+        <span v-html="showLocked ? 'Hide unauthorized weapons' : 'Show unauthorized weapons'" />
       </v-tooltip>
 
       <v-tooltip top class="ml-5" nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="yellow" v-model="showOverSp">
-            <v-icon v-if="showOverSp" slot="append" color="yellow">flash_off</v-icon>
+            <v-icon v-if="showOverSp" slot="append" color="yellow">
+              flash_off
+            </v-icon>
             <v-icon v-else slot="append">flash_on</v-icon>
           </v-switch>
         </div>
         <span
-          v-html="
-            showOverSp
-              ? 'Hide weapons above SP capacity'
-              : 'Show weapons above SP capacity'
-          "
+          v-html="showOverSp ? 'Hide weapons above SP capacity' : 'Show weapons above SP capacity'"
         />
       </v-tooltip>
 
-      <v-spacer/>
+      <v-spacer />
       <v-text-field
         class="search-field ma-2"
         prepend-icon="search"
@@ -44,7 +38,7 @@
         placeholder="Search"
         clearable
       />
-      <filter-panel weapon :size="weaponSlot.size" @update="updateFilter"/>
+      <filter-panel weapon :size="weaponSlot.size" @update="updateFilter" />
     </v-toolbar>
 
     <v-container fluid class="mt-0 pt-0">
@@ -60,7 +54,9 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
-              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">
+                equip
+              </v-btn>
             </td>
             <td>
               <span class="subheading">
@@ -68,8 +64,9 @@
                 <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
-                    {{ pilot.Callsign }} does not have the license for this
-                    system ({{ props.item.License }}
+                    {{ pilot.Callsign }} does not have the license for this system ({{
+                      props.item.License
+                    }}
                     {{ props.item.LicenseLevel }})
                   </span>
                 </v-tooltip>
@@ -83,10 +80,9 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span
-                v-if="props.item.Source !== 'GMS'"
-                class="subheading"
-              >{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">
+                {{ props.item.License }} {{ props.item.LicenseLevel }}
+              </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.Size }}</span>
@@ -96,12 +92,12 @@
             </td>
             <td class="text-xs-left">
               <span class="subheading">
-                <range-element small :range="props.item.Range"/>
+                <range-element small :range="props.item.Range" />
               </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">
-                <damage-element small size="16" :dmg="props.item.Damage"/>
+                <damage-element small size="16" :dmg="props.item.Damage" />
               </span>
             </td>
             <td class="text-xs-left">
@@ -112,7 +108,7 @@
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <weapon-card :item="props.item" table-item/>
+              <weapon-card :item="props.item" table-item />
             </v-card-text>
           </v-card>
         </template>
@@ -120,7 +116,9 @@
       <v-layout v-if="weaponSlot.Weapon" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{ weaponSlot.Weapon.Name }}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">
+            Uninstall {{ weaponSlot.Weapon.Name }}
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -134,13 +132,7 @@ import { rules } from 'lancer-data'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import { RangeElement, DamageElement, WeaponCard } from '../../components/UI'
 import io from '@/features/_shared/data_io'
-import {
-  WeaponSlot,
-  MechLoadout,
-  EquippableMount,
-  MechWeapon,
-  Pilot,
-} from '@/class'
+import { WeaponSlot, MechLoadout, EquippableMount, MechWeapon, Pilot } from '@/class'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
 export default Vue.extend({
@@ -175,35 +167,23 @@ export default Vue.extend({
   computed: {
     freeSP(): number {
       const remaining = this.maxSP - this.loadout.TotalSP
-      return this.weaponSlot.Weapon
-        ? remaining - this.weaponSlot.Weapon.SP
-        : remaining
+      return this.weaponSlot.Weapon ? remaining - this.weaponSlot.Weapon.SP : remaining
     },
     weapons(): MechWeapon[] {
       const vm = this as any
-      const allWeapons = vm.$store.getters.getItemCollection(
-        'MechWeapons'
-      ) as MechWeapon[]
+      const allWeapons = vm.$store.getters.getItemCollection('MechWeapons') as MechWeapon[]
       const fittings = rules.mount_fittings[vm.weaponSlot.Size]
       let i = allWeapons.filter(x => x.Source && fittings.includes(x.Size))
       if (!vm.showLocked) {
-        i = i.filter(
-          x =>
-            x.Source === 'GMS' ||
-            vm.pilot.has('License', x.License, x.LicenseLevel)
-        )
+        i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
       }
       if (!vm.showOverSp) {
         i = i.filter(x => x.SP <= vm.freeSP)
       }
       // filter already equipped
-      if (vm.weaponSlot.Weapon)
-        i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
+      if (vm.weaponSlot.Weapon) i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
 
-      if (vm.search)
-        i = i.filter(x =>
-          x.Name.toLowerCase().includes(vm.search.toLowerCase())
-        )
+      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
       i = i.filter(x => !vm.loadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
       i = ItemFilter.FilterWeapons(i, this.detailFilter)

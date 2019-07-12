@@ -76,12 +76,7 @@
               />
             </v-toolbar>
             <v-card light>
-              <v-data-table
-                :headers="headers"
-                :items="frames"
-                item-key="id"
-                hide-actions
-              >
+              <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
                 <template slot="items" slot-scope="props">
                   <tr :class="{ locked: isLocked(props.item) }">
                     <td style="padding: 0!important; width:50px;">
@@ -111,18 +106,12 @@
                             <span class="major-title font-weight-bold">
                               {{ props.item.Name }}
                               <v-tooltip v-if="isLocked(props.item)" top>
-                                <v-icon
-                                  color="warning"
-                                  slot="activator"
-                                  style="display: inline;"
-                                >
+                                <v-icon color="warning" slot="activator" style="display: inline;">
                                   warning
                                 </v-icon>
                                 <span>
-                                  {{ pilot.callsign }} does not have the license
-                                  necessary to print this frame ({{
-                                    props.item.Name
-                                  }}
+                                  {{ pilot.callsign }} does not have the license necessary to print
+                                  this frame ({{ props.item.Name }}
                                   II)
                                 </span>
                               </v-tooltip>
@@ -244,10 +233,7 @@ export default Vue.extend({
     showLocked: false,
     search: null,
     filter: [],
-    headers: [
-      { align: 'left', sortable: false },
-      { text: 'Frame', align: 'left', value: 'Name' },
-    ],
+    headers: [{ align: 'left', sortable: false }, { text: 'Frame', align: 'left', value: 'Name' }],
     infoDialog: false,
     selectedFrame: {} as Frame,
   }),
@@ -257,14 +243,10 @@ export default Vue.extend({
       let i = vm.$store.getters.getItemCollection('Frames')
 
       if (!vm.showLocked)
-        i = i.filter(
-          (x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS'
-        )
+        i = i.filter((x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
 
       if (vm.search)
-        i = i.filter((x: Frame) =>
-          x.Name.toUpperCase().includes(vm.search.toUpperCase())
-        )
+        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))

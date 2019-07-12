@@ -3,11 +3,7 @@
     <!-- Small Element -->
     <div v-if="small">
       <v-tooltip top>
-        <span
-          slot="activator"
-          class="inline"
-          :style="`font-size: ${size || 18}px;`"
-        >
+        <span slot="activator" class="inline" :style="`font-size: ${size || 18}px;`">
           <div v-for="(d, index) in dmg" :key="`dmg_${index}_activator`">
             <b v-if="d.Override"><v-icon>more_horiz</v-icon></b>
             <b v-else :style="'color: ' + d.Color(dark)">
@@ -28,11 +24,7 @@
     <!-- Regular Element -->
     <div v-else>
       <span :style="`font-size: ${size || 18}px;`">
-        <div
-          v-for="(d, index) in dmg"
-          :key="`dmg_${index}_dmgElement`"
-          class="inline"
-        >
+        <div v-for="(d, index) in dmg" :key="`dmg_${index}_dmgElement`" class="inline">
           <b :style="'color: ' + d.Color(dark)">{{ d.ToString }}</b>
           <i v-if="dmg.length - 1 > index" class="grey--text">//&nbsp;</i>
         </div>

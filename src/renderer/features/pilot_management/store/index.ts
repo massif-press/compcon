@@ -2,6 +2,7 @@ import _ from 'lodash'
 import Vue from 'vue'
 import io from '../../_shared/data_io'
 import { AppContext, AppState, Pilot } from '@/class'
+import validator from '../logic/validator';
 
 const moduleState = {
   Pilots: [],
@@ -31,8 +32,8 @@ const mutations = {
     }
   },
   LOAD_PILOTS(state: AppState) {
-    state.Pilots = io
-      .loadUserData(Vue.prototype.userDataPath, 'pilots.json')
+    state.Pilots = validator.checkVersion(io
+      .loadUserData(Vue.prototype.userDataPath, 'pilots.json') as IPilotData[])
       .map(x => Pilot.Deserialize(x))
     savePilots(state.Pilots)
   },

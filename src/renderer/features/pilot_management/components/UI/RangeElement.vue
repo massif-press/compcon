@@ -2,20 +2,13 @@
   <div>
     <!-- Small Element -->
     <div top v-if="small">
-      <div
-        v-for="(r, index) in range"
-        :key="`range_${index}_activator`"
-        style="display:inline"
-      >
+      <div v-for="(r, index) in range" :key="`range_${index}_activator`" style="display:inline">
         <!-- <v-tooltip top v-if="r.override">
         <span slot="activator"><v-icon>more_horiz</v-icon></span>
         <span class="text-capitalize"> {{r.Value}}</span>
       </v-tooltip> -->
         <v-tooltip top>
-          <span
-            slot="activator"
-            :style="`font-size: ${size || 16}px; display: inline-flex;`"
-          >
+          <span slot="activator" :style="`font-size: ${size || 16}px; display: inline-flex;`">
             <b v-if="r.Override"><v-icon>more_horiz</v-icon></b>
             <span v-else class="text-capitalize">
               {{ r.Value }}

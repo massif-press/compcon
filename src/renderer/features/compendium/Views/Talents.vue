@@ -3,16 +3,8 @@
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
-          <ul
-            class="menu"
-            v-scroll-spy-active="{ class: 'customActive' }"
-            v-scroll-spy-link
-          >
-            <li
-              v-for="t in talents"
-              :key="'key_' + t.id"
-              class="minor-title pt-1 pb-1"
-            >
+          <ul class="menu" v-scroll-spy-active="{ class: 'customActive' }" v-scroll-spy-link>
+            <li v-for="t in talents" :key="'key_' + t.id" class="minor-title pt-1 pb-1">
               <a>{{ t.Name }}</a>
             </li>
           </ul>
@@ -44,9 +36,7 @@
               >
                 <div style="width:100%">
                   <div class="title">
-                    <v-icon class="mt-2" color="primary">
-                      cc-rank-{{ index + 1 }}
-                    </v-icon>
+                    <v-icon class="mt-2" color="primary">cc-rank-{{ index + 1 }}</v-icon>
                     {{ r.name }}
                   </div>
                   <p class="pl-4 effect-text" v-html="r.description" />

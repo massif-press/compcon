@@ -1,31 +1,31 @@
-import store from '@/store';
+import store from '@/store'
 
-import NPC from './logic/NPC';
-import EncounterBase from './logic/EncounterBase';
+import NPC from './logic/NPC'
+import EncounterBase from './logic/EncounterBase'
 
-import Main from './Main.vue';
+import Main from './Main.vue'
 
-import Home from './views/Home.vue';
-import UnderConstruction from './views/UnderConstruction.vue';
+import Home from './views/Home.vue'
+import UnderConstruction from './views/UnderConstruction.vue'
 
-import NpcDesignerIndex from './views/NpcDesigner/NpcDesignerIndex.vue';
-import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue';
-import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue';
-import NpcsList from './views/NpcDesigner/NpcsList.vue';
-import NpcDisplay from './views/NpcDesigner/NpcDisplay.vue';
+import NpcDesignerIndex from './views/NpcDesigner/NpcDesignerIndex.vue'
+import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
+import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue'
+import NpcsList from './views/NpcDesigner/NpcsList.vue'
+import NpcDisplay from './views/NpcDesigner/NpcDisplay.vue'
 
-import EncounterBuilderIndex from './views/EncounterBuilder/EncounterBuilderIndex.vue';
-import EncountersList from './views/EncounterBuilder/EncountersList.vue';
-import EncounterBuilder from './views/EncounterBuilder/EncounterBuilder.vue';
+import EncounterBuilderIndex from './views/EncounterBuilder/EncounterBuilderIndex.vue'
+import EncountersList from './views/EncounterBuilder/EncountersList.vue'
+import EncounterBuilder from './views/EncounterBuilder/EncounterBuilder.vue'
 
-import EncounterRunnerIndex from './views/EncounterRunner/EncounterRunnerIndex.vue';
-import EncounterRunnerList from './views/EncounterRunner/EncounterRunnerList.vue';
-import EncounterRunnerNew from './views/EncounterRunner/EncounterRunnerNew.vue';
-import EncounterRunner from './views/EncounterRunner/EncounterRunner.vue';
-import { RouteConfig } from 'vue-router';
+import EncounterRunnerIndex from './views/EncounterRunner/EncounterRunnerIndex.vue'
+import EncounterRunnerList from './views/EncounterRunner/EncounterRunnerList.vue'
+import EncounterRunnerNew from './views/EncounterRunner/EncounterRunnerNew.vue'
+import EncounterRunner from './views/EncounterRunner/EncounterRunner.vue'
+import { RouteConfig } from 'vue-router'
 
 function getNPC(id: string): NPC {
-  return (store.state as any).npcDesigner.npcs.find((n: NPC) => n.id === id);
+  return (store.state as any).npcDesigner.npcs.find((n: NPC) => n.id === id)
 }
 
 const routes: RouteConfig[] = [
@@ -83,9 +83,9 @@ const routes: RouteConfig[] = [
           {
             path: '/encounter-builder/new',
             beforeEnter: (to, from, next) => {
-              const newEnc = new EncounterBase('Untitled Encounter');
-              store.commit('encounterBuilder/add', newEnc);
-              next('/encounter-builder/' + newEnc.id);
+              const newEnc = new EncounterBase('Untitled Encounter')
+              store.commit('encounterBuilder/add', newEnc)
+              next('/encounter-builder/' + newEnc.id)
             },
           },
           {
@@ -94,7 +94,7 @@ const routes: RouteConfig[] = [
             component: EncounterBuilder,
             props: route => ({
               preEnc: (store.state as any).encounterBuilder.encounters.find(
-                (e: any) => e.id === route.params.id,
+                (e: any) => e.id === route.params.id
               ),
             }),
           },
@@ -120,7 +120,7 @@ const routes: RouteConfig[] = [
             component: EncounterRunner,
             props: route => ({
               preEnc: (store.state as any).encounterRunner.activeEncounters.find(
-                (e: any) => e.id === route.params.id,
+                (e: any) => e.id === route.params.id
               ),
             }),
           },
@@ -131,7 +131,7 @@ const routes: RouteConfig[] = [
         name: 'about',
         component: UnderConstruction,
       },
-    ]
+    ],
   },
 ]
 
