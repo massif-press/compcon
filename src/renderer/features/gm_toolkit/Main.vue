@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app" style="padding: 0 !important;">
+  <v-app id="gm-toolkit" style="padding: 0 !important;">
     <v-toolbar color="primary" dark flat app fixed clipped-left>
       <v-toolbar-side-icon key="back" @click.stop="hitSideIcon">
         <transition name="spin">
@@ -18,7 +18,7 @@
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" app clipped disable-resize-watcher>
       <v-list>
-        <v-list-tile to="/" active-class="secondary--text">
+        <v-list-tile to="/gm" active-class="secondary--text">
           <v-list-tile-action class="pl-2">
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -108,3 +108,37 @@ export default {
   },
 }
 </script>
+
+<style>
+#gm-toolkit .v-toolbar {
+  z-index: 11;
+}
+#gm-toolkit .v-card {
+  box-shadow: none;
+  border: 1px solid !important;
+}
+#gm-toolkit .v-dialog .v-card,
+#gm-toolkit .v-select-list {
+  border: none !important;
+}
+
+#gm-toolkit .spin-enter-active,
+#gm-toolkit .spin-leave-active {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+}
+#gm-toolkit .spin-leave-to {
+  transform: rotate(-90deg);
+}
+#gm-toolkit .spin-enter {
+  transform: rotate(90deg);
+}
+#gm-toolkit .spin-enter,
+#gm-toolkit .spin-leave-to {
+  opacity: 0;
+}
+#gm-toolkit .grow-shrink-0 > * {
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+}
+</style>
