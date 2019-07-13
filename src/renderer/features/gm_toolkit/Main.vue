@@ -52,12 +52,12 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider />
-        <v-list-tile to="/about" active-class="secondary--text">
+        <v-list-tile to="/" active-class="secondary--text">
           <v-list-tile-action class="pl-2">
-            <v-icon>mdi-information</v-icon>
+            <v-icon>mdi-arrow-left-circle</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>About</v-list-tile-title>
+            <v-list-tile-title>Back to COMP/CON</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
