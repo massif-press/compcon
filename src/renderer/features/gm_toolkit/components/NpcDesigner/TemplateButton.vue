@@ -22,7 +22,7 @@ export default Vue.extend({
     template: { type: Object, required: true },
     closable: { type: Boolean, default: false },
     addable: { type: Boolean, default: false },
-    disabled: { type: Array, default: false },
+    disabled: { type: [Array, Boolean], default: false },
   },
 })
 </script>
