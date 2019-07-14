@@ -106,7 +106,7 @@
     "name": "ARGUS armor",
     "class": "ultra",
     "type": "system",
-    "effect": "The ultra’s armor increases to 5. Each time it rolls a critical or overheating check, reduce its armor by 2, to a minimum of 0.",
+    "effect": "The ultra’s armor increases to 6. Each time it rolls a structure or overheating check, reduce its armor by 2, to a minimum of 0.",
     "base": false
   },
   {
