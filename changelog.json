@@ -1,15 +1,15 @@
 {
   "stable": "1.3.10",
-  "beta": "1.5.0",
+  "beta": "1.5.1",
   "news": {
-    "date": "July 12th, 2019",
-    "version": "1.5.0",
-    "body": "<p>Hello, Pilots!</p><p>I'm happy to announce we've merged in the NPC Toolkit into <strong>beta</strong>, consisting of the NPC Builder, Encounter Builder, and Encounter runner. It is basically a direct port of the web-based tool into C/C and over the next few days and weeks we'll work on getting it better integrated into the software.</p><p>As always, please feel free drop by the LANCER Discord's #comp-con channel</p>"
+    "date": "July 15th, 2019",
+    "version": "1.5.1",
+    "body": "<p>Hello, Pilots!</p><p>I'm happy to announce we've merged in the NPC Toolkit into <strong>beta</strong>, consisting of the NPC Builder, Encounter Builder, and Encounter runner. It is basically a direct port of the web-based tool into C/C and over the next few days and weeks we'll work on getting it better integrated into the software.</p><p>As always, please feel free drop by the LANCER Discord's #comp-con channel with questions, comments, or feature suggestions</p>"
   },
   "changelog": [
     {
       "version": "1.5.0",
-      "changes": "<ul> <li>Added NPC Designer, Encounter Builder, and Encounter Runner to the GM Toolkit/li> </ul>"
+      "changes": "<ul> <li>Added NPC Designer, Encounter Builder, and Encounter Runner to the GM Toolkit</li> </ul>"
     },
     {
       "version": "1.4.4",
