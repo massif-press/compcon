@@ -121,7 +121,7 @@
                   :closable="
                     !system.base ||
                       // make it also closable if it's a base system from another class
-                      ![npc.npcClass.name, 'generic'].includes(system.class)
+                      ![npc.npcClass.name, 'generic', ...npc._templates].includes(system.class)
                   "
                   @close="npc.removeSystem(system)"
                 />

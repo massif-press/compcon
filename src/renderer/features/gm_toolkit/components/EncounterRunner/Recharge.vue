@@ -4,22 +4,7 @@
       <v-checkbox color="secondary" :value="charged" @click.stop="charged = !charged" />
     </div>
     <div class="mx-1 caption">{{ charged ? 'Charged' : 'Charging' }} ({{ value }}+)</div>
-    <v-fab-transition>
-      <v-icon key="charged" color="primary" v-if="charged">mdi-history</v-icon>
-      <v-btn class="mx-0" icon small v-else key="recharging" @click.stop="roll">
-        <v-icon
-          ref="die"
-          :class="{ failed: failedAnim }"
-          @animationend="failedAnim = false"
-          color="primary"
-        >
-          mdi-dice-d6
-        </v-icon>
-      </v-btn>
-    </v-fab-transition>
-    <span class="last" :class="{ floating: floating }" @animationend="floating = false">
-      {{ last }}{{ !failed ? '!' : '' }}
-    </span>
+    <v-icon color="primary">mdi-history</v-icon>
   </div>
 </template>
 
@@ -30,10 +15,6 @@ export default Vue.extend({
   name: 'recharge',
   data: () => ({
     charged: false,
-    failed: false,
-    failedAnim: false,
-    last: 0,
-    floating: false,
   }),
   props: {
     value: { type: Number, required: true },
@@ -41,24 +22,6 @@ export default Vue.extend({
   },
   mounted() {
     this.charged = this.digital
-  },
-  methods: {
-    roll() {
-      this.failed = false
-      const result = Math.floor(Math.random() * 6) + 1
-      if (result >= this.value) {
-        this.charged = true
-      } else {
-        this.$nextTick(() => {
-          this.failed = true
-          this.failedAnim = true
-        })
-      }
-      this.last = result
-      this.$nextTick(() => {
-        this.floating = true
-      })
-    },
   },
 })
 </script>
@@ -68,6 +31,7 @@ export default Vue.extend({
   height: 24px;
   font-weight: bold;
 }
+/*
 .failed {
   animation-name: shake-rotate;
   animation-duration: 500ms;
@@ -110,5 +74,5 @@ export default Vue.extend({
     opacity: 0;
     transform: translateY(-2em);
   }
-}
+} */
 </style>

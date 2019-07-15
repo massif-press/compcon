@@ -152,6 +152,7 @@ export default Vue.extend({
     },
     damageStrings(): string[] {
       if (this.system.type !== 'weapon') return ['']
+      if (!this.system.damage) return ['']
       const map: { [key: string]: string } = {
         kinetic: 'KIN',
         explosive: 'EXP',
@@ -160,7 +161,7 @@ export default Vue.extend({
         heat: 'HEA',
       }
       const { damage: damages } = this.system
-      return damages!.map((damage: any) => {
+      return damages.map((damage: any) => {
         const damageAmount = damage.val[Math.min(this.npc.tier, damage.val.length - 1)]
         return `${damageAmount} ${map[damage.type]}`
       })
