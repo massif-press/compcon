@@ -76,7 +76,7 @@ const templates: NPCTemplate[] = [
       {
         name: 'Weak',
         description:
-          'Weak: The grunt only has 1 structure and stress maximum. If it takes any heat, it shuts down.',
+          'The grunt only has 1 structure and stress maximum. If it takes any heat from an external source, it is destroyed.',
       },
     ],
     traits: [],
