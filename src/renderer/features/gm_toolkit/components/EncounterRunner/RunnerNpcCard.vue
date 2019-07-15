@@ -72,8 +72,8 @@
       </v-layout>
       <v-layout column v-else>
         <span class="grey--text  caption">
-          The grunt only has 1 HP, structure and stress maximum. If it takes heat, it shuts down. If
-          it takes damage, it's destroyed.
+          The grunt only has 1 HP, structure and stress maximum. If it takes any heat from an
+          external source, it is destroyed. If it takes damage, it's destroyed.
           <br />
           It
           <b>doesn't</b>
