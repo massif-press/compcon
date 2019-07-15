@@ -59,7 +59,7 @@ export const NPCTips = (npc: NPC): Tip[] => {
   }
 
   if (templates.includes('commander')) {
-    const commanderTraitCount = systems.filter(sys => sys.class === 'commander').length
+    const commanderTraitCount = systems.filter(sys => sys.class === 'commander' && !sys.base).length
     output.push({
       id: 'commander',
       text: `The NPC should have <b>one</b> commander trait. It has <b>${commanderTraitCount}</b>.`,

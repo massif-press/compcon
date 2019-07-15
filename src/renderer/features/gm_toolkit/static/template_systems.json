@@ -57,6 +57,13 @@
     "name": "Unstoppable",
     "class": "ultra",
     "type": "trait",
+    "effect": "The Ultra always cannot be knocked back, knocked prone, or moved involuntarily.",
+    "base": false
+  },
+  {
+    "name": "Sight",
+    "class": "ultra",
+    "type": "trait",
     "effect": "Hostile characters cannot hide while inside the Ultra’s sensor range and it ignores invisibility.",
     "base": false
   },
@@ -99,7 +106,7 @@
     "name": "ARGUS armor",
     "class": "ultra",
     "type": "system",
-    "effect": "The ultra’s armor increases to 5. Each time it rolls a critical or overheating check, reduce its armor by 2, to a minimum of 0.",
+    "effect": "The ultra’s armor increases to 6. Each time it rolls a structure or overheating check, reduce its armor by 2, to a minimum of 0.",
     "base": false
   },
   {
