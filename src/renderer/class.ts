@@ -73,6 +73,10 @@ import {
   ParsedDieString,
   DieSet,
 } from './features/_shared/classes/DiceRoller'
+import {
+  DiceStats,
+  DiceStatsResult,
+} from './features/_shared/classes/DiceStats'
 
 export {
   MountType,
@@ -135,4 +139,6 @@ export {
   DamageRollResult,
   ParsedDieString,
   DieSet,
+  DiceStats,
+  DiceStatsResult,
 }
