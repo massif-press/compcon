@@ -1,36 +1,3 @@
-// stats: {
-//   min: number
-//   max: number
-//   mean: number
-//   median: number
-//   mode: number
-// }
-
-// private _stats: {
-//   min: number
-//   max: number
-//   mean: number
-//   median: number
-//   mode: number
-// }
-
-// this._stats = stats || {
-//   min: 0,
-//   max: 0,
-//   mean: 0,
-//   median: 0,
-//   mode: 0,
-// }
-
-// class damageRollResult implements IDamageRollResult {
-
-//   // getDiceString(): string
-//   // getStaticBonus(): number
-//   // getDamage(): number
-//   // getRawRolls(): number[]
-
-// }
-
 class DiceRoller {
   // this class will make rolls, given all the inputs
   // it makes no evaluation re their success or failure
