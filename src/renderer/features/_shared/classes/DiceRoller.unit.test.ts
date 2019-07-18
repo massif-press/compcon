@@ -174,10 +174,17 @@ describe('rollDamage', () => {
 
 describe('parseDiceString', () => {
   it.each`
-    input     | arrayLength | dieType | dieQuantity | modifier
-    ${'123'}  | ${1}        | ${0}    | ${0}        | ${123}
-    ${'-1d6'} | ${1}        | ${6}    | ${-1}       | ${0}
-    ${'+1d6'} | ${1}        | ${6}    | ${1}        | ${0}
+    input          | arrayLength | dieType | dieQuantity | modifier
+    ${'123'}       | ${1}        | ${0}    | ${0}        | ${123}
+    ${'-1d6'}      | ${1}        | ${6}    | ${-1}       | ${0}
+    ${'+1d6'}      | ${1}        | ${6}    | ${1}        | ${0}
+    ${'1d6'}       | ${1}        | ${6}    | ${1}        | ${0}
+    ${'1d3+9'}     | ${1}        | ${3}    | ${1}        | ${9}
+    ${'1d3+22'}    | ${1}        | ${3}    | ${1}        | ${22}
+    ${'1d3+10'}    | ${1}        | ${3}    | ${1}        | ${10}
+    ${'1d3-22'}    | ${1}        | ${3}    | ${1}        | ${-22}
+    ${'-1d3-22'}   | ${1}        | ${3}    | ${-1}       | ${-22}
+    ${'1 d 6 + 5'} | ${1}        | ${6}    | ${1}        | ${5}
   `(
     'parses $input correctly',
     ({ input, arrayLength, dieType, dieQuantity, modifier }) => {
@@ -190,82 +197,6 @@ describe('parseDiceString', () => {
       expect(result.modifier).toEqual(modifier)
     }
   )
-
-  it('parses 123', () => {
-    let result = DiceRoller.parseDiceString('123')
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(0)
-    expect(result.dice[0].quantity).toEqual(0)
-    expect(result.modifier).toEqual(123)
-  })
-
-  it('parses 1d6', () => {
-    let result = DiceRoller.parseDiceString('1d6')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(6)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(0)
-  })
-
-  it('parses 1d3+9', () => {
-    let result = DiceRoller.parseDiceString('1d3+9')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(3)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(9)
-  })
-
-  it('parses a roll with multi-digit modifier', () => {
-    let result = DiceRoller.parseDiceString('1d3+22')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(3)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(22)
-  })
-
-  it('parses a roll with multi-digit modifier ending in 0', () => {
-    let result = DiceRoller.parseDiceString('1d3+10')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(3)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(10)
-  })
-
-  it('parses a roll with a negative modifier', () => {
-    let result = DiceRoller.parseDiceString('1d3-22')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(3)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(-22)
-  })
-
-  it('parses 1 d 6 + 5', () => {
-    let result = DiceRoller.parseDiceString('1 d 6 + 5')
-
-    expect(result).toBeInstanceOf(ParsedDieString)
-    expect(result.dice).toHaveLength(1)
-    expect(result.dice[0]).toBeInstanceOf(DieSet)
-    expect(result.dice[0].type).toEqual(6)
-    expect(result.dice[0].quantity).toEqual(1)
-    expect(result.modifier).toEqual(5)
-  })
 
   it('returns a parse error for a bad string', () => {
     let result = DiceRoller.parseDiceString('blahblah')
