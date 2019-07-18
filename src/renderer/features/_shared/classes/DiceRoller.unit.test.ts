@@ -173,6 +173,24 @@ describe('rollDamage', () => {
 })
 
 describe('parseDiceString', () => {
+  it.each`
+    input     | arrayLength | dieType | dieQuantity | modifier
+    ${'123'}  | ${1}        | ${0}    | ${0}        | ${123}
+    ${'-1d6'} | ${1}        | ${6}    | ${-1}       | ${0}
+    ${'+1d6'} | ${1}        | ${6}    | ${1}        | ${0}
+  `(
+    'parses $input correctly',
+    ({ input, arrayLength, dieType, dieQuantity, modifier }) => {
+      let result = DiceRoller.parseDiceString(input)
+      expect(result).toBeInstanceOf(ParsedDieString)
+      expect(result.dice).toHaveLength(arrayLength)
+      expect(result.dice[0]).toBeInstanceOf(DieSet)
+      expect(result.dice[0].type).toEqual(dieType)
+      expect(result.dice[0].quantity).toEqual(dieQuantity)
+      expect(result.modifier).toEqual(modifier)
+    }
+  )
+
   it('parses 123', () => {
     let result = DiceRoller.parseDiceString('123')
     expect(result).toBeInstanceOf(ParsedDieString)

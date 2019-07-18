@@ -72,11 +72,13 @@ class DiceRoller {
     let parsedString = diceString.replace(/\s/g, '')
 
     // parse
-    let numberTest = new RegExp('^([0-9]*)$').exec(parsedString)
-    let simpleDieTest = new RegExp('^([0-9]*)d([0-9]*)$').exec(parsedString)
-    let complexDieTest = new RegExp('^([0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(
+    let numberTest = new RegExp('^([\\+-]?[0-9]*)$').exec(parsedString)
+    let simpleDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)$').exec(
       parsedString
     )
+    let complexDieTest = new RegExp(
+      '^([\\+-]?[0-9]*)d([0-9]*)([\\+-][0-9]*)$'
+    ).exec(parsedString)
 
     if (numberTest) {
       let dieSet = new DieSet(0, 0)

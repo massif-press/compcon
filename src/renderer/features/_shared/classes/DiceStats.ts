@@ -2,12 +2,11 @@ import { DiceRoller, ParsedDieString } from './DiceRoller'
 
 class DiceStats {
   // returns stats for a dice string
-  public getStats(diceString: string) {
+  public static getStats(diceString: string): DiceStatsResult {
     let min: number = 0
     let max: number = 0
     let mean: number = 0
-    let median: number = 0
-    let mode: number = 0
+    let error: boolean = false
 
     let parsedString = DiceRoller.parseDiceString(diceString)
 
@@ -15,30 +14,23 @@ class DiceStats {
       min = DiceStats.calculateMin(parsedString)
       max = DiceStats.calculateMax(parsedString)
       mean = DiceStats.calculateMean(parsedString)
-      median = DiceStats.calculateMedian(parsedString)
-      mode = DiceStats.calculateMode(parsedString)
-
-      // parsedString.dice.forEach(die => {
-      //   // assuming a die's lowest pip side is 1
-      //   min += 1
-      //   max += die.type
-
-      //   // get mean
-      //   // add up all possible values for die
-      // })
-
-      // min += parsedString.modifier
-      // max += parsedString.modifier
+    } else {
+      min = 0
+      max = 0
+      mean = 0
+      error = true
     }
 
-    return new DiceStatsResult(min, max, mean, median, mode)
+    return new DiceStatsResult(diceString, min, max, mean, error)
   }
 
   public static calculateMin(parsedDice: ParsedDieString): number {
     let min: number = parsedDice.modifier
     parsedDice.dice.forEach(die => {
-      if (die.type >= 1 && die.quantity >= 1) {
-        min += 1
+      if (die.type > 0 && die.quantity > 0) {
+        min += die.quantity
+      } else if (die.type > 0) {
+        min += die.type * die.quantity // i.e. for -3d6, min is -6
       }
     })
 
@@ -48,44 +40,58 @@ class DiceStats {
   public static calculateMax(parsedDice: ParsedDieString): number {
     let max: number = parsedDice.modifier
     parsedDice.dice.forEach(die => {
-      max += die.type
+      if (die.type > 0 && die.quantity > 0) {
+        max += die.type * die.quantity
+      } else if (die.type > 0) {
+        max += die.quantity // i.e. for -3d6, max is -3
+      }
     })
 
     return max
   }
 
   public static calculateMean(parsedDice: ParsedDieString): number {
-    return
-  }
+    let result: number = 0
+    parsedDice.dice.forEach(die => {
+      if (die.type <= 0) return
 
-  public static calculateMedian(parsedDice: ParsedDieString): number {
-    return
-  }
+      let total = 0
+      let count = 0
+      for (let x = 0; x < die.type; x++) {
+        total += x + 1
+        count += 1
+      }
 
-  public static calculateMode(parsedDice: ParsedDieString): number {
-    return
+      result += (total / count) * die.quantity + parsedDice.modifier
+    })
+
+    return result
   }
 }
 
 class DiceStatsResult implements IDiceStats {
+  private _diceString: string
   private _min: number
   private _max: number
   private _mean: number
-  private _median: number
-  private _mode: number
+  private _error: boolean
 
   constructor(
+    diceString: string,
     min: number,
     max: number,
     mean: number,
-    median: number,
-    mode: number
+    error?: boolean
   ) {
+    this._diceString = diceString
     this._min = min
     this._max = max
     this._mean = mean
-    this._median = median
-    this._mode = mode
+    this._error = error || false
+  }
+
+  public get diceString(): string {
+    return this.diceString
   }
 
   public get min(): number {
@@ -100,12 +106,8 @@ class DiceStatsResult implements IDiceStats {
     return this._mean
   }
 
-  public get median(): number {
-    return this._median
-  }
-
-  public get mode(): number {
-    return this._mode
+  public get error(): boolean {
+    return this._error
   }
 }
 
