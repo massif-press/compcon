@@ -8,12 +8,7 @@ class Range {
   private override: boolean
   private bonus: number
 
-  constructor(range: {
-    type: string
-    val: number
-    override: boolean
-    bonus?: number
-  }) {
+  constructor(range: { type: string; val: number; override: boolean; bonus?: number }) {
     this.range_type = range.type as RangeType
     this.value = range.val
     this.override = range.override || false
@@ -47,10 +42,7 @@ class Range {
     return `${this.range_type} ${this.Value}`
   }
 
-  public static AddBonuses(
-    ranges: Range[],
-    bonuses: { type: RangeType; val: number }[]
-  ): Range[] {
+  public static AddBonuses(ranges: Range[], bonuses: { type: RangeType; val: number }[]): Range[] {
     var output = [] as Range[]
     ranges.forEach(range => {
       let bonus = bonuses

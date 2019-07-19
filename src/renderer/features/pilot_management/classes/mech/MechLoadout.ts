@@ -77,23 +77,16 @@ class MechLoadout extends Loadout {
   public RetrofitMount(mountIndex: number) {
     this.retrofitIndex = mountIndex
     this.retrofitOriginalType = this.equippableMounts[mountIndex].Type
-    this.equippableMounts.splice(
-      mountIndex,
-      1,
-      new EquippableMount(MountType.MainAux)
-    )
+    this.equippableMounts.splice(mountIndex, 1, new EquippableMount(MountType.MainAux))
     this.save()
   }
 
   public get RetrofittedMount(): EquippableMount | null {
-    return this.retrofitIndex === null
-      ? null
-      : this.equippableMounts[this.retrofitIndex]
+    return this.retrofitIndex === null ? null : this.equippableMounts[this.retrofitIndex]
   }
 
   public RemoveRetrofitting() {
-    if (this.retrofitIndex === null || this.retrofitOriginalType === null)
-      return
+    if (this.retrofitIndex === null || this.retrofitOriginalType === null) return
     this.equippableMounts.splice(
       this.retrofitIndex,
       1,
@@ -117,8 +110,7 @@ class MechLoadout extends Loadout {
   }
 
   public get Equipment(): MechEquipment[] {
-    return (this.Weapons as MechEquipment[]).concat(this
-      .Systems as MechEquipment[])
+    return (this.Weapons as MechEquipment[]).concat(this.Systems as MechEquipment[])
   }
 
   public get Weapons(): MechWeapon[] {
@@ -128,7 +120,7 @@ class MechLoadout extends Loadout {
   public ReloadAll() {
     this.Weapons.forEach(w => {
       if (w.IsLoading) w.Loaded = true
-    });
+    })
   }
 
   public get Systems(): MechSystem[] {
@@ -165,9 +157,9 @@ class MechLoadout extends Loadout {
 
   public get RequiredLicenses() {
     let requirements = [] as ILicenseRequirement[]
-    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
-      this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
-    )
+    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(this.Weapons.map(
+      x => x.Mod
+    ).filter(x => x !== null) as LicensedItem[])
     const equippedSystems = this.systems as LicensedItem[]
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
@@ -180,10 +172,7 @@ class MechLoadout extends Loadout {
         }
       } else {
         const licenseIndex = requirements.findIndex(
-          x =>
-            x.source === item.Source &&
-            x.name === item.License &&
-            x.rank === item.LicenseLevel
+          x => x.source === item.Source && x.name === item.License && x.rank === item.LicenseLevel
         )
         if (licenseIndex > -1) {
           requirements[licenseIndex].items.push(item.Name)
@@ -196,11 +185,7 @@ class MechLoadout extends Loadout {
   }
 
   public get TotalSP(): number {
-    const mountSP = [
-      ...this.equippableMounts,
-      this.improvedArmament,
-      this.integratedWeapon,
-    ]
+    const mountSP = [...this.equippableMounts, this.improvedArmament, this.integratedWeapon]
       .flatMap(x => x.Weapons)
       .reduce(function(a, b) {
         return a + (b ? b.SP : 0)
@@ -233,20 +218,13 @@ class MechLoadout extends Loadout {
     }
   }
 
-  public static Deserialize(
-    loadoutData: IMechLoadoutData,
-    mech: Mech
-  ): MechLoadout {
+  public static Deserialize(loadoutData: IMechLoadoutData, mech: Mech): MechLoadout {
     let ml = new MechLoadout(mech)
     ml.ID = loadoutData.id
     ml.Name = loadoutData.name
     ml.systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
-    ml.equippableMounts = loadoutData.mounts.map(x =>
-      EquippableMount.Deserialize(x)
-    )
-    ml.improvedArmament = EquippableMount.Deserialize(
-      loadoutData.improved_armament
-    )
+    ml.equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
+    ml.improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml.integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon)

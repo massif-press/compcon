@@ -2,24 +2,16 @@
   <div class="roster-view">
     <v-container fluid class="pa-0 pt-3">
       <v-layout>
-        <v-flex><hr class="mr-2 ml-2 mt-4"></v-flex>
+        <v-flex><hr class="mr-2 ml-2 mt-4" /></v-flex>
         <v-flex shrink class="ml-2 mr-2 text-xs-center roster-title">
           <span>pilot roster</span>
         </v-flex>
-        <v-flex><hr class="mr-2 ml-2 mt-4"></v-flex>
+        <v-flex><hr class="mr-2 ml-2 mt-4" /></v-flex>
       </v-layout>
       <v-tooltip left>
         <v-menu offset-y slot="activator">
           <template v-slot:activator="{ on }">
-            <v-btn
-              icon
-              dark
-              absolute
-              top
-              right
-              style="margin-top: 80px;"
-              v-on="on"
-            >
+            <v-btn icon dark absolute top right style="margin-top: 80px;" v-on="on">
               <v-icon>mdi-sort</v-icon>
             </v-btn>
           </template>

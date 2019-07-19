@@ -43,10 +43,7 @@ export default Vue.extend({
   },
   computed: {
     reserves() {
-      return _.groupBy(
-        this.$store.getters.getItemCollection('Reserves'),
-        'Type'
-      )
+      return _.groupBy(this.$store.getters.getItemCollection('Reserves'), 'Type')
     },
   },
   methods: {

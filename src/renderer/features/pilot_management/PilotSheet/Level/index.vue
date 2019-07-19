@@ -24,11 +24,7 @@
               Select New License
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step
-              v-if="pilot.Level % 3 === 0"
-              :complete="lv_step > 6"
-              step="6"
-            >
+            <v-stepper-step v-if="pilot.Level % 3 === 0" :complete="lv_step > 6" step="6">
               Select New Core Bonus
             </v-stepper-step>
             <v-divider />
@@ -40,10 +36,7 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-container>
-                <level-update-block
-                  :lvl="pilot.Level"
-                  :callsign="pilot.Callsign"
-                />
+                <level-update-block :lvl="pilot.Level" :callsign="pilot.Callsign" />
               </v-container>
 
               <v-layout justify-space-between>
@@ -70,12 +63,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="primary"
-                    :disabled="!hasSkills"
-                    @click="stepForward"
-                  >
+                  <v-btn large color="primary" :disabled="!hasSkills" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
@@ -94,12 +82,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="primary"
-                    :disabled="!hasTalents"
-                    @click="stepForward"
-                  >
+                  <v-btn large color="primary" :disabled="!hasTalents" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
@@ -108,11 +91,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
-              <mech-skills-selector
-                v-if="lv_step === 4"
-                :pilot="pilot"
-                level-up
-              />
+              <mech-skills-selector v-if="lv_step === 4" :pilot="pilot" level-up />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot">Cancel</v-btn>
@@ -122,12 +101,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="primary"
-                    :disabled="!hasMechSkills"
-                    @click="stepForward"
-                  >
+                  <v-btn large color="primary" :disabled="!hasMechSkills" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
@@ -146,12 +120,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="primary"
-                    :disabled="!hasLicenses"
-                    @click="stepForward"
-                  >
+                  <v-btn large color="primary" :disabled="!hasLicenses" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
@@ -160,11 +129,7 @@
             </v-stepper-content>
 
             <v-stepper-content v-if="pilot.Level % 3 === 0" step="6">
-              <core-bonus-selector
-                v-if="lv_step === 6"
-                :pilot="pilot"
-                level-up
-              />
+              <core-bonus-selector v-if="lv_step === 6" :pilot="pilot" level-up />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot">Cancel</v-btn>
@@ -174,12 +139,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="primary"
-                    :disabled="!hasBonuses"
-                    @click="stepForward"
-                  >
+                  <v-btn large color="primary" :disabled="!hasBonuses" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
@@ -270,10 +230,7 @@ export default Vue.extend({
       )
     },
     hasMechSkills(): boolean {
-      return (
-        this.pilot.MechSkills.Sum >=
-        rules.minimum_mech_skills + this.pilot.Level
-      )
+      return this.pilot.MechSkills.Sum >= rules.minimum_mech_skills + this.pilot.Level
     },
     hasLicenses(): boolean {
       return (

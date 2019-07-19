@@ -44,11 +44,7 @@ const getChangelog = function() {
   return gistClient.setToken(token).getOneById(changelogID)
 }
 
-const uploadImage = function(
-  userPath: string,
-  subPath: string,
-  imgPath: string
-) {
+const uploadImage = function(userPath: string, subPath: string, imgPath: string) {
   return imgur.uploadFile(path.join(userPath, 'img', subPath, imgPath))
 }
 

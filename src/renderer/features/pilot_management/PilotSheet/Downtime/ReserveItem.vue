@@ -1,7 +1,7 @@
 <template>
   <v-card class="ma-2" height="235px">
     <v-toolbar dark flat dense :color="color">
-      <v-toolbar-title class="minor-title">{{reserve.Name}}</v-toolbar-title>
+      <v-toolbar-title class="minor-title">{{ reserve.Name }}</v-toolbar-title>
     </v-toolbar>
     <v-card-text class="effect-text pa-2 ma-0">
       <span v-html="reserve.Description" />
@@ -14,7 +14,8 @@
         :color="color"
         @click="clicked"
       >
-        <v-icon left>add</v-icon>Add Reserve
+        <v-icon left>add</v-icon>
+        Add Reserve
       </v-btn>
     </v-card-text>
   </v-card>

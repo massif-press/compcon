@@ -24,11 +24,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <license-card
-        v-if="!licenseData.err"
-        :license="licenseData"
-        :rank="pilotRank"
-      />
+      <license-card v-if="!licenseData.err" :license="licenseData" :rank="pilotRank" />
       <v-layout v-if="selectable" class="text-xs-center">
         <v-flex v-if="pilotRank === 1" class="ma-2">
           <v-btn @click="remove" flat color="warning" block>

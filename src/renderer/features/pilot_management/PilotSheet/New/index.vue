@@ -4,53 +4,33 @@
       <v-flex>
         <v-stepper v-model="np_step">
           <v-stepper-header>
-            <v-stepper-step
-              editable
-              :complete="newPilot.callsign !== ''"
-              step="1"
-            >
+            <v-stepper-step editable :complete="newPilot.callsign !== ''" step="1">
               <span>Identification</span>
               <small v-if="newPilot.callsign">{{ newPilot.callsign }}</small>
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step
-              editable
-              :complete="newPilot.background !== ''"
-              step="2"
-            >
+            <v-stepper-step editable :complete="newPilot.background !== ''" step="2">
               <span>Background</span>
               <small v-if="newPilot.Background">
                 {{ newPilot.Background.name }}
               </small>
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step
-              editable
-              :complete="newPilot.skills.length === 4"
-              step="3"
-            >
+            <v-stepper-step editable :complete="newPilot.skills.length === 4" step="3">
               <span>Skills</span>
               <small v-if="newPilot.skills.length">
                 {{ newPilot.skills.length }}/{{ 4 }} Skills Selected
               </small>
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step
-              editable
-              :complete="newPilot.talents.length === 3"
-              step="4"
-            >
+            <v-stepper-step editable :complete="newPilot.talents.length === 3" step="4">
               <span>Talents</span>
               <small v-if="newPilot.talents.length">
                 {{ newPilot.talents.length }}/{{ 3 }} Talents Selected
               </small>
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step
-              editable
-              :complete="hasMechSkills === true"
-              step="5"
-            >
+            <v-stepper-step editable :complete="hasMechSkills === true" step="5">
               <span>Mech Skills</span>
               <small v-if="hasMechSkills === true">Mech Skills Selected</small>
             </v-stepper-step>
@@ -67,12 +47,7 @@
                   <v-flex xs7>
                     <v-text-field v-model="newPilot.callsign" clearable>
                       <v-tooltip top slot="prepend-inner">
-                        <v-btn
-                          slot="activator"
-                          icon
-                          flat
-                          @click="randomCallsign"
-                        >
+                        <v-btn slot="activator" icon flat @click="randomCallsign">
                           <v-icon>mdi-dice-multiple</v-icon>
                         </v-btn>
                         <span>Generate Random Callsign</span>
@@ -144,11 +119,7 @@
                           </v-fade-transition>
                         </v-img>
 
-                        <v-btn
-                          color="primary"
-                          block
-                          @click="appearanceModal = true"
-                        >
+                        <v-btn color="primary" block @click="appearanceModal = true">
                           &emsp;Set Pilot Portrait&emsp;
                         </v-btn>
                         <v-dialog
@@ -165,20 +136,13 @@
                               </v-toolbar-title>
                               <v-spacer />
                               <v-toolbar-items>
-                                <v-btn
-                                  icon
-                                  large
-                                  @click="appearanceModal = false"
-                                >
+                                <v-btn icon large @click="appearanceModal = false">
                                   <v-icon large>close</v-icon>
                                 </v-btn>
                               </v-toolbar-items>
                             </v-toolbar>
                             <v-spacer class="mt-5" />
-                            <image-selector
-                              :pilot="newPilot"
-                              @close="appearanceModal = false"
-                            />
+                            <image-selector :pilot="newPilot" @close="appearanceModal = false" />
                           </v-card>
                         </v-dialog>
                       </v-flex>
@@ -223,11 +187,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="3">
-              <skill-selector
-                :pilot="newPilot"
-                new-pilot
-                @close="stepForward"
-              />
+              <skill-selector :pilot="newPilot" new-pilot @close="stepForward" />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -246,11 +206,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
-              <talent-selector
-                :pilot="newPilot"
-                new-pilot
-                @close="stepForward"
-              />
+              <talent-selector :pilot="newPilot" new-pilot @close="stepForward" />
               <v-layout justify-space-between>
                 <v-flex xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
@@ -318,12 +274,7 @@
                           >
                             <v-layout>
                               <v-flex xs12>
-                                <v-chip
-                                  slot="activator"
-                                  dark
-                                  color="primary"
-                                  small
-                                >
+                                <v-chip slot="activator" dark color="primary" small>
                                   +
                                   <b>{{ skill.Bonus }}</b>
                                 </v-chip>
@@ -349,9 +300,7 @@
                           >
                             <v-layout>
                               <v-flex xs12>
-                                <v-icon color="primary">
-                                  cc-rank-{{ talent.Rank }}
-                                </v-icon>
+                                <v-icon color="primary">cc-rank-{{ talent.Rank }}</v-icon>
                                 <strong class="effect-text font-weight-bold">
                                   {{ talent.Talent.Name }}
                                 </strong>
@@ -370,18 +319,10 @@
                         </v-card-title>
                         <v-divider class="m-0 p-0" />
                         <v-card-text>
-                          <li class="title">
-                            Hull +{{ newPilot.MechSkills.Hull }}
-                          </li>
-                          <li class="title">
-                            Agility +{{ newPilot.MechSkills.Agi }}
-                          </li>
-                          <li class="title">
-                            Systems +{{ newPilot.MechSkills.Sys }}
-                          </li>
-                          <li class="title">
-                            Engineering +{{ newPilot.MechSkills.Eng }}
-                          </li>
+                          <li class="title">Hull +{{ newPilot.MechSkills.Hull }}</li>
+                          <li class="title">Agility +{{ newPilot.MechSkills.Agi }}</li>
+                          <li class="title">Systems +{{ newPilot.MechSkills.Sys }}</li>
+                          <li class="title">Engineering +{{ newPilot.MechSkills.Eng }}</li>
                         </v-card-text>
                       </v-card>
                     </v-flex>
@@ -402,12 +343,7 @@
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                  <v-btn
-                    large
-                    color="success"
-                    @click="savePilot"
-                    :disabled="!canSavePilot"
-                  >
+                  <v-btn large color="success" @click="savePilot" :disabled="!canSavePilot">
                     Confirm &nbsp;
                     <v-icon>done</v-icon>
                   </v-btn>
@@ -423,12 +359,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  BackgroundSelector,
-  SkillSelector,
-  TalentSelector,
-  MechSkillsSelector,
-} from '../Selectors'
+import { BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector } from '../Selectors'
 import ImageSelector from '../Selectors/ImageSelector.vue'
 import io from '@/features/_shared/data_io'
 import { Pilot, Background } from '@/class'
@@ -466,9 +397,7 @@ export default Vue.extend({
       this.$forceUpdate()
     },
     randomName() {
-      this.newPilot.Name = `${io.randomName('firstnames.txt')} ${io.randomName(
-        'lastnames.txt'
-      )}`
+      this.newPilot.Name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
       this.$forceUpdate()
     },
   },

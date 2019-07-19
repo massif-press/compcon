@@ -10,7 +10,9 @@
           @click="systemSelectorModal = true"
           class="ma-0 pa-0"
           style="height:100%"
-        >Add System</v-btn>
+        >
+          Add System
+        </v-btn>
         <v-btn
           slot="activator"
           color="blue-grey lighten-2"
@@ -20,7 +22,9 @@
           @click="systemSelectorModal = true"
           class="ma-0 pa-0"
           style="height:100%"
-        >{{ system.Type }}</v-btn>
+        >
+          {{ system.Type }}
+        </v-btn>
         <span v-if="empty">Install System</span>
         <span v-else>Change or Remove Installed System</span>
       </v-tooltip>
@@ -36,7 +40,9 @@
       <div v-else-if="system.err">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading grey--text">// MISSING SYSTEM DATA //&emsp;</span>
+            <span slot="header" class="subheading grey--text">
+              // MISSING SYSTEM DATA //&emsp;
+            </span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -46,19 +52,20 @@
             <v-layout slot="header">
               <span
                 class="subheading font-weight-bold"
-                :style="
-                  system.IsDestroyed ? 'text-decoration: line-through;' : ''
-                "
-              >{{ system.Name }}</span>
+                :style="system.IsDestroyed ? 'text-decoration: line-through;' : ''"
+              >
+                {{ system.Name }}
+              </span>
               <small v-if="system.IsLimited" class="primary--text">
-                &nbsp; ({{ system.Uses }} /
-                {{ system.MaxUses + pilot.LimitedBonus }})
+                &nbsp; ({{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }})
               </small>
-              <b v-if="system.IsDestroyed" class="red--text">&emsp; // DESTROYED //</b>
-              <v-spacer/>
+              <b v-if="system.IsDestroyed" class="red--text">
+                &emsp; // DESTROYED //
+              </b>
+              <v-spacer />
               <span class="mr-5" style="display: inline-flex;">{{ system.SP }} SP</span>
             </v-layout>
-            <system-card :itemData="system" :integrated="integrated"/>
+            <system-card :itemData="system" :integrated="integrated" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -76,7 +83,7 @@
         <v-toolbar-title>
           <span class="text-capitalize">Select System</span>
         </v-toolbar-title>
-        <v-spacer/>
+        <v-spacer />
         <v-toolbar-items>
           <v-btn icon large @click="systemSelectorModal = false">
             <v-icon large>close</v-icon>
@@ -121,16 +128,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style>
-.destroyed-bg {
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255, 196, 0, 0.1),
-    rgba(255, 196, 0, 0.1) 20px,
-    rgba(0, 0, 0, 0.1) 20px,
-    rgba(0, 0, 0, 0.1) 40px
-  );
-}
-</style>
-

@@ -40,15 +40,9 @@ const moduleState = {
   Reserves: [],
 }
 
-function stageBrewData(
-  userDataPath: string,
-  brewDataFolder: string,
-  file: string
-) {
+function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
   const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
-  const bID = info
-    ? `${info.name} v.${info.version}`
-    : 'Unknown Content Package'
+  const bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
   let bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
   if (bArr.length) {
     bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
@@ -62,12 +56,8 @@ const mutations = {
     io.checkFolders(userDataPath)
   },
   LOAD_DATA(state: AppState) {
-    state.Backgrounds = lancerData.backgrounds.map(
-      (x: any) => new Background(x)
-    )
-    state.CoreBonuses = lancerData.core_bonuses.map(
-      (x: any) => new CoreBonus(x)
-    )
+    state.Backgrounds = lancerData.backgrounds.map((x: any) => new Background(x))
+    state.CoreBonuses = lancerData.core_bonuses.map((x: any) => new CoreBonus(x))
     state.Talents = lancerData.talents.map((x: any) => new Talent(x))
     state.Skills = lancerData.skills.map((x: any) => new Skill(x))
     state.Frames = lancerData.frames.map((x: any) => new Frame(x))
@@ -87,49 +77,31 @@ const mutations = {
     state.Brews = io.findBrewData(state.UserDataPath)
   },
   LOAD_BREWS(state: AppState) {
-    const brewDataFolders = state.Brews.filter((x: any) => x.info.active).map(
-      x => x.dir
-    )
+    const brewDataFolders = state.Brews.filter((x: any) => x.info.active).map(x => x.dir)
     for (const dir of brewDataFolders) {
       state.Backgrounds = state.Backgrounds.concat(
         stageBrewData(state.UserDataPath, dir, 'backgrounds')
       )
-      state.Talents = state.Talents.concat(
-        stageBrewData(state.UserDataPath, dir, 'talents')
-      )
-      state.Skills = state.Skills.concat(
-        stageBrewData(state.UserDataPath, dir, 'skills')
-      )
+      state.Talents = state.Talents.concat(stageBrewData(state.UserDataPath, dir, 'talents'))
+      state.Skills = state.Skills.concat(stageBrewData(state.UserDataPath, dir, 'skills'))
       state.CoreBonuses = state.CoreBonuses.concat(
         stageBrewData(state.UserDataPath, dir, 'core_bonus')
       )
-      state.Frames = state.Frames.concat(
-        stageBrewData(state.UserDataPath, dir, 'frames')
-      )
+      state.Frames = state.Frames.concat(stageBrewData(state.UserDataPath, dir, 'frames'))
       state.Manufacturers = state.Manufacturers.concat(
         stageBrewData(state.UserDataPath, dir, 'manufacturers')
       )
       state.MechWeapons = state.MechWeapons.concat(
         stageBrewData(state.UserDataPath, dir, 'weapons')
       )
-      state.WeaponMods = state.WeaponMods.concat(
-        stageBrewData(state.UserDataPath, dir, 'mods')
-      )
+      state.WeaponMods = state.WeaponMods.concat(stageBrewData(state.UserDataPath, dir, 'mods'))
       state.MechSystems = state.MechSystems.concat(
         stageBrewData(state.UserDataPath, dir, 'systems')
       )
-      state.PilotGear = state.PilotGear.concat(
-        stageBrewData(state.UserDataPath, dir, 'pilot_gear')
-      )
-      state.Tags = state.Tags.concat(
-        stageBrewData(state.UserDataPath, dir, 'tags')
-      )
-      state.Statuses = state.Statuses.concat(
-        stageBrewData(state.UserDataPath, dir, 'statuses')
-      )
-      state.Quirks = state.Quirks.concat(
-        stageBrewData(state.UserDataPath, dir, 'quirks')
-      )
+      state.PilotGear = state.PilotGear.concat(stageBrewData(state.UserDataPath, dir, 'pilot_gear'))
+      state.Tags = state.Tags.concat(stageBrewData(state.UserDataPath, dir, 'tags'))
+      state.Statuses = state.Statuses.concat(stageBrewData(state.UserDataPath, dir, 'statuses'))
+      state.Quirks = state.Quirks.concat(stageBrewData(state.UserDataPath, dir, 'quirks'))
     }
   },
   SET_BREW_ACTIVE(state: AppState, payload: any) {

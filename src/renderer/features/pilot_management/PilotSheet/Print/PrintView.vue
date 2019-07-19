@@ -26,12 +26,7 @@
       </v-layout>
 
       <!-- pilot stats block -->
-      <v-layout
-        fill-height
-        justify-space-between
-        align-end
-        class="text-xs-center mt-2 mb-1"
-      >
+      <v-layout fill-height justify-space-between align-end class="text-xs-center mt-2 mb-1">
         <v-flex>
           <span class="label">HP</span>
           <br />
@@ -72,18 +67,12 @@
         <v-flex>
           <v-layout><span class="label">TRIGGERS</span></v-layout>
           <v-layout wrap>
-            <div
-              v-for="(i, idx) in pilot.Skills"
-              :key="'skill' + idx"
-              class="ml-2"
-            >
+            <div v-for="(i, idx) in pilot.Skills" :key="'skill' + idx" class="ml-2">
               <v-flex class="ma-1">
                 <span class="p-large ml-1" style="padding-top:5px">
                   {{ i.Skill.Trigger }}
                 </span>
-                <v-chip small outline color="indigo" class="p-large">
-                  +{{ i.Bonus }}
-                </v-chip>
+                <v-chip small outline color="indigo" class="p-large">+{{ i.Bonus }}</v-chip>
               </v-flex>
             </div>
           </v-layout>
@@ -96,21 +85,12 @@
       <v-layout align-space-around justify-space-between fill-height>
         <v-flex>
           <v-layout><span class="label">TALENTS</span></v-layout>
-          <div
-            v-for="(t, idx) in pilot.Talents"
-            :key="'talent' + idx"
-            class="ml-2 mb-1"
-          >
+          <div v-for="(t, idx) in pilot.Talents" :key="'talent' + idx" class="ml-2 mb-1">
             <v-layout>
               <v-icon v-for="n in t.Rank" :key="`talstar_${n}`" small>
                 star
               </v-icon>
-              <v-icon
-                v-for="n in 3 - t.Rank"
-                :key="`talnot_${n}`"
-                color="grey lighten-1"
-                small
-              >
+              <v-icon v-for="n in 3 - t.Rank" :key="`talnot_${n}`" color="grey lighten-1" small>
                 star_outline
               </v-icon>
               <span class="p-large ml-2">{{ t.Talent.Name }}</span>
@@ -144,17 +124,10 @@
                 <v-icon v-for="n in l.Rank" :key="`licstar_${n}`" small>
                   star
                 </v-icon>
-                <v-icon
-                  v-for="n in 3 - l.Rank"
-                  :key="`licnot_${n}`"
-                  color="grey lighten-1"
-                  small
-                >
+                <v-icon v-for="n in 3 - l.Rank" :key="`licnot_${n}`" color="grey lighten-1" small>
                   star_outline
                 </v-icon>
-                <span class="p-large ml-2">
-                  {{ l.License.Source }} {{ l.License.Name }}
-                </span>
+                <span class="p-large ml-2">{{ l.License.Source }} {{ l.License.Name }}</span>
               </v-layout>
             </div>
 
@@ -288,11 +261,7 @@
                           <damage-element size="12" :dmg="i.Damage" />
                         </v-flex>
                         <v-flex shrink>
-                          <span
-                            v-for="t in i.Tags"
-                            :key="t.ID + idx"
-                            class="ml-1 mr-1"
-                          >
+                          <span v-for="t in i.Tags" :key="t.ID + idx" class="ml-1 mr-1">
                             {{ t.Name() }}
                           </span>
                         </v-flex>
@@ -318,10 +287,7 @@
                       <v-flex shrink class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
                         <br />
-                        <p
-                          class="ml-2 mb-0 pb-0 p-small"
-                          v-html="i.Description"
-                        />
+                        <p class="ml-2 mb-0 pb-0 p-small" v-html="i.Description" />
                       </v-flex>
                     </div>
                   </div>

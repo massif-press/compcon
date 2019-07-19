@@ -3,16 +3,8 @@
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
-          <ul
-            class="menu"
-            v-scroll-spy-active="{ class: 'customActive' }"
-            v-scroll-spy-link
-          >
-            <li
-              v-for="s in skills"
-              :key="'key_' + s.id"
-              class="effect-text pt-1 pb-1"
-            >
+          <ul class="menu" v-scroll-spy-active="{ class: 'customActive' }" v-scroll-spy-link>
+            <li v-for="s in skills" :key="'key_' + s.id" class="effect-text pt-1 pb-1">
               <a>{{ s.Trigger }}</a>
             </li>
           </ul>
