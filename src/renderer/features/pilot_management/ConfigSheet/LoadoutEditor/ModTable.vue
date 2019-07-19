@@ -63,11 +63,7 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
-              <v-btn
-                color="primary"
-                @click.stop="select(props.item)"
-                class="p-0 m-0"
-              >
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">
                 equip
               </v-btn>
             </td>
@@ -77,8 +73,9 @@
                 <v-tooltip v-if="isLocked(props.item)" top>
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
-                    {{ pilot.callsign }} does not have the license for this
-                    weapon modification ({{ props.item.License }}
+                    {{ pilot.callsign }} does not have the license for this weapon modification ({{
+                      props.item.License
+                    }}
                     {{ props.item.LicenseLevel }})
                   </span>
                 </v-tooltip>
@@ -94,9 +91,7 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span class="subheading">
-                {{ props.item.License }} {{ props.item.LicenseLevel }}
-              </span>
+              <span class="subheading">{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -109,16 +104,8 @@
         <template slot="expand" slot-scope="props">
           <v-card flat>
             <v-card-text>
-              <p
-                v-if="props.item.Description"
-                v-html="props.item.Description"
-                class="fluff-text"
-              />
-              <p
-                v-if="props.item.Effect"
-                v-html="props.item.Effect"
-                class="pl-2 effect-text"
-              />
+              <p v-if="props.item.Description" v-html="props.item.Description" class="fluff-text" />
+              <p v-if="props.item.Effect" v-html="props.item.Effect" class="pl-2 effect-text" />
               <v-layout class="mt-2">
                 <item-tag
                   v-for="(tag, index) in props.item.Tags"
@@ -149,13 +136,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { ItemTag } from '../../components/UI'
-import {
-  WeaponMod,
-  Pilot,
-  WeaponSlot,
-  EquippableMount,
-  MechLoadout,
-} from '@/class'
+import { WeaponMod, Pilot, WeaponSlot, EquippableMount, MechLoadout } from '@/class'
 
 export default Vue.extend({
   name: 'mod-table',
@@ -186,22 +167,14 @@ export default Vue.extend({
   computed: {
     freeSP(): number {
       const remaining = this.maxSP - this.loadout.TotalSP
-      return this.weaponSlot.Weapon
-        ? remaining - this.weaponSlot.Weapon.SP
-        : remaining
+      return this.weaponSlot.Weapon ? remaining - this.weaponSlot.Weapon.SP : remaining
     },
     mods(): WeaponMod[] {
       const vm = this as any
-      const allMods = vm.$store.getters.getItemCollection(
-        'WeaponMods'
-      ) as WeaponMod[]
+      const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
       let i = allMods.filter(x => x.Source)
       if (!vm.showLocked) {
-        i = i.filter(
-          x =>
-            x.Source === 'GMS' ||
-            vm.pilot.has('License', x.License, x.LicenseLevel)
-        )
+        i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
       }
       if (!vm.showOverSp) {
         i = i.filter(x => x.SP <= vm.freeSP)
@@ -213,10 +186,7 @@ export default Vue.extend({
       // // filter out any mount restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(vm.Weapon.Size))
       // // search input
-      if (vm.search)
-        i = i.filter(x =>
-          x.Name.toLowerCase().includes(vm.search.toLowerCase())
-        )
+      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
       return i
     },

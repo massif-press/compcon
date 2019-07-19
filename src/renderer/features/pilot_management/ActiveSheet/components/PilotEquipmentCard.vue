@@ -2,7 +2,7 @@
   <v-flex v-if="item && show" xs4>
     <v-card dark color="grey darken-3" class="ma-1" height="100px" style="overflow: hidden">
       <v-card-title class="pa-1" :style="`background-color:${extended ? '#827717' : '#616161'}`">
-        <b>{{item.Name}}</b>
+        <b>{{ item.Name }}</b>
         <v-spacer />
         <v-dialog width="500">
           <template v-slot:activator="{ on }">
@@ -11,7 +11,9 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-title class="headline teal darken-2 white--text">{{item.Name}}</v-card-title>
+            <v-card-title class="headline teal darken-2 white--text">
+              {{ item.Name }}
+            </v-card-title>
             <v-card-text v-html="item.Description" />
           </v-card>
         </v-dialog>
@@ -55,7 +57,9 @@
         </div>
         <!-- Gear -->
         <div v-else>
-          <p v-if="!item.MaxUses" class="ma-3 text-xs-center minor-title grey--text">Unlimited Uses</p>
+          <p v-if="!item.MaxUses" class="ma-3 text-xs-center minor-title grey--text">
+            Unlimited Uses
+          </p>
           <div v-else>
             <v-layout>
               <v-flex shrink>
@@ -90,11 +94,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  DamageElement,
-  RangeElement,
-  LimitedBar,
-} from '@/features/pilot_management/components/UI'
+import { DamageElement, RangeElement, LimitedBar } from '@/features/pilot_management/components/UI'
 export default Vue.extend({
   name: 'pilot-equipment-card',
   components: { DamageElement, RangeElement, LimitedBar },

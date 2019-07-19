@@ -14,7 +14,9 @@
         </v-tooltip>
         <v-tooltip left v-else>
           <v-btn slot="activator" fab absolute right icon style="top: 5px" @click="ToggleDestroy()">
-            <v-icon large color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
+            <v-icon large color="warning" class="hover-opacity">
+              mdi-image-broken-variant
+            </v-icon>
           </v-btn>
           <span>Mark equipment as Destroyed</span>
         </v-tooltip>
@@ -22,23 +24,23 @@
       <div v-if="!integrated" class="pt-2">
         <em v-if="!itemData.License">
           {{ itemData.Source }}
-          <br>
+          <br />
         </em>
         <em v-else>
           {{ itemData.Source }} {{ itemData.License }}, RANK
-          <span
-            v-for="n in itemData.LicenseLevel"
-            :key="n"
-          >I</span>
-          <br>
+          <span v-for="n in itemData.LicenseLevel" :key="n">I</span>
+          <br />
         </em>
       </div>
-      <p v-if="itemData.Description && tableItem" v-html="itemData.Description" class="fluff-text"/>
       <p
-        v-if="!integrated"
-        class="effect-text font-weight-bold"
-      >{{ itemData.Type }} ({{ itemData.sp }} SP)</p>
-      <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text"/>
+        v-if="itemData.Description && tableItem"
+        v-html="itemData.Description"
+        class="fluff-text"
+      />
+      <p v-if="!integrated" class="effect-text font-weight-bold">
+        {{ itemData.Type }} ({{ itemData.sp }} SP)
+      </p>
+      <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text" />
       <v-layout class="pb-2">
         <item-tag
           v-for="t in itemData.Tags"
@@ -50,7 +52,7 @@
       <div v-if="!tableItem && pilot && itemData.IsLimited">
         <v-layout>
           <v-flex xs1>
-            <v-divider class="mt-2 mr-3"/>
+            <v-divider class="mt-2 mr-3" />
           </v-flex>
           <v-flex shrink>
             <span class="caption grey--text text--darken-2">USES</span>
@@ -60,7 +62,7 @@
             </b>
           </v-flex>
           <v-flex grow>
-            <v-divider class="mt-2 ml-3"/>
+            <v-divider class="mt-2 ml-3" />
           </v-flex>
           <v-flex xs1></v-flex>
         </v-layout>
@@ -81,13 +83,13 @@
       <div v-if="!tableItem" class="pb-4">
         <v-layout>
           <v-flex xs1>
-            <v-divider class="mt-2 mr-3"/>
+            <v-divider class="mt-2 mr-3" />
           </v-flex>
           <v-flex shrink>
             <span class="caption grey--text text--darken-2">ITEM NOTES</span>
           </v-flex>
           <v-flex grow>
-            <v-divider class="mt-2 ml-3"/>
+            <v-divider class="mt-2 ml-3" />
           </v-flex>
           <v-flex xs1></v-flex>
         </v-layout>
@@ -97,7 +99,7 @@
           class="mt-1"
         >
           <v-flex xs11>
-            <item-note :content="n" @update="updateNote(idx, $event)"/>
+            <item-note :content="n" @update="updateNote(idx, $event)" />
           </v-flex>
           <v-flex xs1>
             <v-tooltip top>
@@ -177,4 +179,3 @@ export default Vue.extend({
   opacity: 1;
 }
 </style>
-

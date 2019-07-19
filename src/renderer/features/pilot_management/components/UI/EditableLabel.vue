@@ -14,9 +14,7 @@
         <v-icon small>edit</v-icon>
       </v-btn>
       <v-card>
-        <v-card-title class="headline" primary-title>
-          Edit {{ description }}
-        </v-card-title>
+        <v-card-title class="headline" primary-title>Edit {{ description }}</v-card-title>
         <v-card-text>
           <v-text-field
             v-model="newLabel"
@@ -58,9 +56,7 @@ export default Vue.extend({
   }),
   computed: {
     canSave(): boolean {
-      return (this.newLabel &&
-        this.newLabel.length &&
-        this.newLabel !== '') as boolean
+      return (this.newLabel && this.newLabel.length && this.newLabel !== '') as boolean
     },
   },
   methods: {

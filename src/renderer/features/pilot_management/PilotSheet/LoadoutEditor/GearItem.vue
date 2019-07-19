@@ -27,9 +27,7 @@
           <v-expansion-panel-content disabled>
             <span slot="header" class="subheading grey--text">
               // MISSING ITEM DATA //&emsp;
-              <span v-if="item.brew" class="caption grey--text">
-                ({{ item.brew }})
-              </span>
+              <span v-if="item.brew" class="caption grey--text">({{ item.brew }})</span>
             </span>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -42,13 +40,8 @@
                 {{ itemData.name }}
               </span>
               <v-spacer />
-              <span
-                v-if="itemData.type === 'armor'"
-                class="mr-5"
-                style="display: inline-flex;"
-              >
-                ARMOR: {{ itemData.armor || 0 }} // EDEF:
-                {{ itemData.edef || 0 }} // EVASION:
+              <span v-if="itemData.type === 'armor'" class="mr-5" style="display: inline-flex;">
+                ARMOR: {{ itemData.armor || 0 }} // EDEF: {{ itemData.edef || 0 }} // EVASION:
                 {{ itemData.evasion || 0 }} // SPEED: {{ itemData.speed || 0 }}
               </span>
               <span

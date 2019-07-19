@@ -356,9 +356,7 @@ class Pilot {
   public RemoveSkill(skill: Skill) {
     const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
     if (index === -1) {
-      console.error(
-        `Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       if (this.skills[index].Rank > 1) {
         this.skills[index].Decrement()
@@ -414,9 +412,7 @@ class Pilot {
   public RemoveTalent(talent: Talent) {
     const index = this.talents.findIndex(x => _.isEqual(x.Talent, talent))
     if (index === -1) {
-      console.error(
-        `Talent "${talent.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`Talent "${talent.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       if (this.talents[index].Rank > 1) {
         this.talents[index].Decrement()
@@ -481,9 +477,7 @@ class Pilot {
   public RemoveCoreBonus(coreBonus: CoreBonus) {
     const index = this.core_bonuses.findIndex(x => _.isEqual(coreBonus, x))
     if (index === -1) {
-      console.error(
-        `CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       this.core_bonuses.splice(index, 1)
       this.removeCoreBonusEffects(coreBonus)
@@ -545,11 +539,7 @@ class Pilot {
   public RemoveLicense(license: License) {
     const index = this.licenses.findIndex(x => _.isEqual(x.License, license))
     if (index === -1) {
-      console.error(
-        `License "${license.ToString()}" does not exist on Pilot ${
-          this.callsign
-        }`
-      )
+      console.error(`License "${license.ToString()}" does not exist on Pilot ${this.callsign}`)
     } else {
       if (this.licenses[index].Rank > 1) {
         this.licenses[index].Decrement()
@@ -629,9 +619,7 @@ class Pilot {
   public RemoveLoadout(loadout: PilotLoadout) {
     const index = this.loadouts.findIndex(x => _.isEqual(x, loadout))
     if (index === -1) {
-      console.error(
-        `Loadout"${loadout.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`Loadout"${loadout.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       if (loadout.ID === this.active_loadout) this.active_loadout = null
       this.loadouts.splice(index, 1)
@@ -642,9 +630,7 @@ class Pilot {
   public CloneLoadout(loadout: PilotLoadout) {
     const index = this.loadouts.findIndex(x => _.isEqual(x, loadout))
     if (index === -1) {
-      console.error(
-        `Loadout "${loadout.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`Loadout "${loadout.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       let newLoadout = PilotLoadout.Deserialize(PilotLoadout.Serialize(loadout))
       newLoadout.RenewID()
@@ -667,9 +653,7 @@ class Pilot {
   public RemoveMech(mech: Mech) {
     const index = this.mechs.findIndex(x => _.isEqual(x, mech))
     if (index === -1) {
-      console.error(
-        `Loadout "${mech.Name}" does not exist on Pilot ${this.callsign}`
-      )
+      console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
       this.mechs.splice(index, 1)
     }
@@ -730,9 +714,7 @@ class Pilot {
       quirk: p.Qirk,
       current_hp: p.CurrentHP,
       active: p.IsActive,
-      reserves: p.Reserves.length
-        ? p.Reserves.map(x => Reserve.Serialize(x))
-        : [],
+      reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       background: Background.Serialize(p.Background),
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
@@ -764,21 +746,11 @@ class Pilot {
     p.active = pilotData.active
     p.background = Background.Deserialize(pilotData.background)
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills)
-    p.licenses = pilotData.licenses.map((x: IRankedData) =>
-      PilotLicense.Deserialize(x)
-    )
-    p.skills = pilotData.skills.map((x: IRankedData) =>
-      PilotSkill.Deserialize(x)
-    )
-    p.talents = pilotData.talents.map((x: IRankedData) =>
-      PilotTalent.Deserialize(x)
-    )
-    p.CoreBonuses = pilotData.core_bonuses.map((x: string) =>
-      CoreBonus.Deserialize(x)
-    )
-    p.loadouts = pilotData.loadouts.map((x: IPilotLoadoutData) =>
-      PilotLoadout.Deserialize(x)
-    )
+    p.licenses = pilotData.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
+    p.skills = pilotData.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
+    p.talents = pilotData.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
+    p.CoreBonuses = pilotData.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
+    p.loadouts = pilotData.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
     p.Reserves = pilotData.reserves
       ? pilotData.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
       : []

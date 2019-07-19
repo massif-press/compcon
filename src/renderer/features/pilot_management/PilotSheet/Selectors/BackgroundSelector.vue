@@ -54,11 +54,7 @@
             <v-dialog width="450" v-model="customBgDialog">
               <v-card>
                 <v-card-text class="mb-0 pb-0">
-                  <v-text-field
-                    v-model="customBg"
-                    box
-                    label="Enter Custom Pilot Background"
-                  />
+                  <v-text-field v-model="customBg" box label="Enter Custom Pilot Background" />
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
@@ -66,11 +62,7 @@
                     Cancel
                   </v-btn>
                   <v-spacer />
-                  <v-btn
-                    color="success"
-                    :disabled="!customBg.length"
-                    @click="onCustom"
-                  >
+                  <v-btn color="success" :disabled="!customBg.length" @click="onCustom">
                     Confirm
                   </v-btn>
                 </v-card-actions>

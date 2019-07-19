@@ -14,7 +14,9 @@
                   :pilot="pilot"
                   :placeholder="pilot.Callsign"
                 >
-                  <span slot="label" class="callsign-text">{{ pilot.Callsign }}</span>
+                  <span slot="label" class="callsign-text">
+                    {{ pilot.Callsign }}
+                  </span>
                 </editable-label>
               </v-flex>
               <!-- Name -->
@@ -140,16 +142,16 @@
                 </v-layout>
                 <v-layout>
                   <v-flex xs12 class="text-xs-center">
-                    <b
-                      v-if="pilot.custom_background"
-                      class="minor-title"
-                    >{{ pilot.custom_background }}</b>
+                    <b v-if="pilot.custom_background" class="minor-title">
+                      {{ pilot.custom_background }}
+                    </b>
                     <div v-else style="display: inline">
-                      <span
-                        v-if="pilot.Background.err"
-                        class="grey--text"
-                      >// MISSING BACKGROUND DATA //</span>
-                      <b v-else class="minor-title">{{ pilot.Background.Name }}</b>
+                      <span v-if="pilot.Background.err" class="grey--text">
+                        // MISSING BACKGROUND DATA //
+                      </span>
+                      <b v-else class="minor-title">
+                        {{ pilot.Background.Name }}
+                      </b>
                     </div>
                     <v-tooltip right class="mlneg">
                       <span slot="activator">
@@ -259,7 +261,8 @@
                 </div>
                 <div v-else>
                   <v-btn block small flat color="primary lighten-1">
-                    <v-icon small>add</v-icon>&nbsp;Add Pilot Image
+                    <v-icon small>add</v-icon>
+                    &nbsp;Add Pilot Image
                   </v-btn>
                 </div>
               </v-flex>
@@ -344,7 +347,9 @@
                     small
                     slot="activator"
                     :color="pilot.IsMissingSkills ? 'warning' : ''"
-                  >{{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}</v-chip>
+                  >
+                    {{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}
+                  </v-chip>
                   <div>
                     <span>
                       {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }}
@@ -394,7 +399,9 @@
                 small
                 slot="activator"
                 :color="pilot.IsMissingLicenses ? 'warning' : ''"
-              >{{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}</v-chip>
+              >
+                {{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }}
@@ -442,7 +449,9 @@
                 small
                 slot="activator"
                 :color="pilot.IsMissingTalents ? 'warning' : ''"
-              >{{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}</v-chip>
+              >
+                {{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }}
@@ -490,7 +499,9 @@
                 small
                 slot="activator"
                 :color="pilot.IsMissingHASE ? 'warning' : ''"
-              >{{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}</v-chip>
+              >
+                {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxHASEPoints - pilot.CurrentHASEPoints }}
@@ -506,7 +517,11 @@
                   ref="mechSkillSelector"
                   :highlight="pilot.IsMissingHASE"
                 >
-                  <mech-skills-selector slot="modal-content" :pilot="pilot" @close="setMechSkills" />
+                  <mech-skills-selector
+                    slot="modal-content"
+                    :pilot="pilot"
+                    @close="setMechSkills"
+                  />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot Mech Skills</span>
@@ -532,7 +547,9 @@
                 small
                 slot="activator"
                 :color="pilot.IsMissingCBs ? 'warning' : ''"
-              >{{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}</v-chip>
+              >
+                {{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxCBPoints - pilot.CurrentCBPoints }}
@@ -576,15 +593,16 @@
       <v-layout class="ma-5">
         <v-flex>
           <v-btn color="primary" large outline block @click="openPrintOptions()">
-            <v-icon>print</v-icon>&emsp; PRINT PILOT SHEET
+            <v-icon>print</v-icon>
+            &emsp; PRINT PILOT SHEET
           </v-btn>
           <v-btn color="primary" small flat block @click="copyPilotStatblock()">
             copy pilot statblock &nbsp;
             <v-tooltip top>
               <v-icon slot="activator" small color="grey">help</v-icon>
               <span>
-                This produces a small raw text overview of the current Pilot and
-                copies it to the clipboard.
+                This produces a small raw text overview of the current Pilot and copies it to the
+                clipboard.
               </span>
             </v-tooltip>
           </v-btn>
@@ -611,10 +629,10 @@
             >
               <template v-slot:selection="{ item }">
                 <span class="minor-title">
-                  {{item.name}}
-                  <span
-                    class="caption grey--text"
-                  >{{item.Frame.Source}} {{item.Frame.Name}}</span>
+                  {{ item.name }}
+                  <span class="caption grey--text">
+                    {{ item.Frame.Source }} {{ item.Frame.Name }}
+                  </span>
                 </span>
               </template>
             </v-select>
@@ -623,7 +641,9 @@
           <v-card-actions>
             <v-btn color="primary" @click="print(false)">No</v-btn>
             <v-spacer />
-            <v-btn color="primary" @click="print(true, printMech)" :disabled="!printMech">Yes</v-btn>
+            <v-btn color="primary" @click="print(true, printMech)" :disabled="!printMech">
+              Yes
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -631,7 +651,9 @@
 
     <!-- Missing/No Pilot Display -->
     <empty-view v-else>
-      <p slot="contents" class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
+      <p slot="contents" class="grey--text text-xs-center display-2">
+        NO PILOT LOADED
+      </p>
     </empty-view>
   </div>
 </template>

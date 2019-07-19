@@ -3,16 +3,8 @@
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
-          <ul
-            class="menu"
-            v-scroll-spy-active="{ class: 'customActive' }"
-            v-scroll-spy-link
-          >
-            <li
-              v-for="b in backgrounds"
-              :key="'key_' + b.ID"
-              class="minor-title pt-1 pb-1"
-            >
+          <ul class="menu" v-scroll-spy-active="{ class: 'customActive' }" v-scroll-spy-link>
+            <li v-for="b in backgrounds" :key="'key_' + b.ID" class="minor-title pt-1 pb-1">
               <a>{{ b.Name }}</a>
             </li>
           </ul>
@@ -26,11 +18,7 @@
           PILOT BACKGROUNDS
         </span>
         <div v-scroll-spy="{ offset: 60, time: 0 }">
-          <div
-            v-for="b in backgrounds"
-            :key="`summary_block_m${b.ID}`"
-            class="mt-3"
-          >
+          <div v-for="b in backgrounds" :key="`summary_block_m${b.ID}`" class="mt-3">
             <v-card flat>
               <v-toolbar-title dense flat color="grey lighten-3">
                 <span class="title text-uppercase font-weight-light">

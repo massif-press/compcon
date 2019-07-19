@@ -2,14 +2,16 @@
   <v-flex xs4>
     <v-card height="100%" :color="reserve.Used ? 'grey lighten-4' : ''">
       <v-toolbar dark flat dense :color="reserve.Used ? 'grey darken-1' : color">
-        <v-toolbar-title class="minor-title">{{reserve.Name}}</v-toolbar-title>
+        <v-toolbar-title class="minor-title">
+          {{ reserve.Name }}
+        </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-tooltip top>
             <v-btn flat icon slot="activator">
               <v-icon>mdi-information-outline</v-icon>
             </v-btn>
-            <span>{{reserve.Description}}</span>
+            <span>{{ reserve.Description }}</span>
           </v-tooltip>
           <v-tooltip top>
             <v-btn flat icon slot="activator" class="fadeSelect" @click="remove">
@@ -25,13 +27,13 @@
           <v-textarea v-model.lazy="reserve.Note" auto-grow box rows="1" label="Details" />
         </div>
         <div v-else-if="reserve.Type === 'Mech'">
-          <span class="effect-text">{{reserve.Description}}</span>
+          <span class="effect-text">{{ reserve.Description }}</span>
         </div>
         <div v-else>
           <div
             v-if="reserve.ID === 'reserve_bombardment' || reserve.ID === 'reserve_extendedharness'"
           >
-            <span class="effect-text">{{reserve.Description}}</span>
+            <span class="effect-text">{{ reserve.Description }}</span>
             <v-spacer class="pb-4" />
           </div>
           <div v-else>
@@ -60,9 +62,7 @@ export default Vue.extend({
   computed: {
     color(): string {
       if (this.reserve.Type === ReserveType.Narrative) return 'teal darken-3'
-      return this.reserve.Type === ReserveType.Tactical
-        ? 'lime darken-4'
-        : 'deep-orange darken-3'
+      return this.reserve.Type === ReserveType.Tactical ? 'lime darken-4' : 'deep-orange darken-3'
     },
   },
   methods: {

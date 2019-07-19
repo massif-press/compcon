@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "1.4.4",
+  "version": "1.5.1",
   "author": "Massif Press",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
@@ -15,7 +15,7 @@
     "int-test": "jest int"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.4.4",
+    "title": "COMP/CON v1.5.1",
     "whiteListedModules": [
       "vue",
       "vuetify"
@@ -60,6 +60,7 @@
     }
   },
   "dependencies": {
+    "@aricchi/electron-vue-devtools": "^5.0.8-1",
     "@mdi/font": "^3.6.95",
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",

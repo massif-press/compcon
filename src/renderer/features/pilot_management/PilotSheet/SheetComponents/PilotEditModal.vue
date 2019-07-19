@@ -35,41 +35,41 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  export default Vue.extend({
-    name: 'pilot-edit-modal',
-    data: () => ({
-      model: false,
-      loader: false,
-    }),
-    props: {
-      title: String,
-      modelRef: Boolean,
-      highlight: Boolean,
-      noActivator: Boolean,
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'pilot-edit-modal',
+  data: () => ({
+    model: false,
+    loader: false,
+  }),
+  props: {
+    title: String,
+    modelRef: Boolean,
+    highlight: Boolean,
+    noActivator: Boolean,
+  },
+  methods: {
+    cancel() {
+      this.$emit('close')
+      this.model = false
+      this.loader = false
     },
-    methods: {
-      cancel() {
-        this.$emit('close')
-        this.model = false
-        this.loader = false
+  },
+  watch: {
+    model: {
+      immediate: true,
+      handler(val: boolean) {
+        this.model = val
+        this.loader = val
       },
     },
-    watch: {
-      model: {
-        immediate: true,
-        handler(val: boolean) {
-          this.model = val
-          this.loader = val
-        },
-      },
-      modelRef: {
-        immediate: true,
-        handler(val: boolean) {
-          this.model = val
-          this.loader = val
-        },
+    modelRef: {
+      immediate: true,
+      handler(val: boolean) {
+        this.model = val
+        this.loader = val
       },
     },
-  })
+  },
+})
 </script>

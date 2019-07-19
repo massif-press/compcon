@@ -6,20 +6,17 @@
           :class="missing ? 'grey--text' : ''"
           v-html="missing ? '// MISSING MOD DATA // ' : modData.name"
         />
-        <br>
+        <br />
         <span class="caption">WEAPON MODIFICATION</span>
       </v-card-text>
       <v-card-text v-if="!missing" class="pb-0 pt-0">
         <em>
           {{ modData.source }} {{ modData.license }}, RANK
-          <span
-            v-for="n in modData.license_level"
-            :key="n"
-          >I</span>
-          <br>
+          <span v-for="n in modData.license_level" :key="n">I</span>
+          <br />
         </em>
-        <p v-if="modData.description" v-html="modData.description" class="fluff-text"/>
-        <p v-if="modData.effect" v-html="modData.effect" class="pl-2 effect-text"/>
+        <p v-if="modData.description" v-html="modData.description" class="fluff-text" />
+        <p v-if="modData.effect" v-html="modData.effect" class="pl-2 effect-text" />
         <v-layout class="mt-2">
           <item-tag
             v-for="(t, index) in modData.Tags"

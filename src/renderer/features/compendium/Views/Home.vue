@@ -15,7 +15,12 @@
     <div class="ml-5 mr-5">
       <v-container fluid grid-list-lg class="mt-0 pt-0">
         <v-layout row wrap justify-center>
-          <category-card color="green" icon="mdi-factory" loc="manufacturers" name="Manufacturers" />
+          <category-card
+            color="green"
+            icon="mdi-factory"
+            loc="manufacturers"
+            name="Manufacturers"
+          />
           <category-card color="green" icon="mdi-view-week" loc="licenses" name="Licenses" />
           <category-card
             color="green"

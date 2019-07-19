@@ -1,10 +1,4 @@
-import {
-  DiceRoller,
-  D20RollResult,
-  DamageRollResult,
-  ParsedDieString,
-  DieSet,
-} from '@/class'
+import { DiceRoller, D20RollResult, DamageRollResult, ParsedDieString, DieSet } from '@/class'
 import 'jest'
 import { mockRandom, resetMockRandom } from 'jest-mock-random'
 

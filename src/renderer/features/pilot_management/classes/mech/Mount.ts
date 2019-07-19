@@ -1,12 +1,6 @@
 import _ from 'lodash'
 import store from '@/store'
-import {
-  MechWeapon,
-  WeaponSlot,
-  CoreBonus,
-  MountType,
-  FittingSize,
-} from '@/class'
+import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize } from '@/class'
 import { WeaponSize } from '@/features/_shared/classes/enums'
 
 abstract class Mount {
@@ -30,18 +24,12 @@ abstract class Mount {
       this.slots = [new WeaponSlot(FittingSize.Integrated)]
     } else {
       if (mtype === MountType.AuxAux) {
-        this.slots = [
-          new WeaponSlot(FittingSize.Auxiliary),
-          new WeaponSlot(FittingSize.Auxiliary),
-        ]
+        this.slots = [new WeaponSlot(FittingSize.Auxiliary), new WeaponSlot(FittingSize.Auxiliary)]
       } else if (mtype === MountType.Aux) {
         this.slots = [new WeaponSlot(FittingSize.Auxiliary)]
         this.name_override = 'Integrated Weapon'
       } else if (mtype === MountType.MainAux) {
-        this.slots = [
-          new WeaponSlot(FittingSize.Main),
-          new WeaponSlot(FittingSize.Auxiliary),
-        ]
+        this.slots = [new WeaponSlot(FittingSize.Main), new WeaponSlot(FittingSize.Auxiliary)]
       } else if (mtype === MountType.Flex) {
         this.slots = [new WeaponSlot(FittingSize.Flex)]
         this.extra = [new WeaponSlot(FittingSize.Auxiliary)]

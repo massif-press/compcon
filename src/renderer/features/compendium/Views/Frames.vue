@@ -35,12 +35,7 @@
       </v-layout>
       <v-layout>
         <v-flex>
-          <v-data-table
-            :headers="headers"
-            :items="frames"
-            item-key="id"
-            hide-actions
-          >
+          <v-data-table :headers="headers" :items="frames" item-key="id" hide-actions>
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
@@ -135,9 +130,7 @@ export default Vue.extend({
       let i = vm.$store.getters.getItemCollection('Frames')
 
       if (vm.search)
-        i = i.filter((x: Frame) =>
-          x.Name.toUpperCase().includes(vm.search.toUpperCase())
-        )
+        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))

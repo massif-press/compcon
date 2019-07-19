@@ -83,9 +83,7 @@ abstract class LicensedItem extends CompendiumItem {
       source: this.Source,
       name: this.License,
       rank: this.LicenseLevel,
-      items: [
-        this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name,
-      ],
+      items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     }
   }
 }

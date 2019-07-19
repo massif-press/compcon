@@ -12,10 +12,7 @@
       <v-layout>
         <v-flex>
           <v-expansion-panel expand focusable>
-            <v-expansion-panel-content
-              v-for="cb in bonuses[m]"
-              :key="`${cb.id}_data'`"
-            >
+            <v-expansion-panel-content v-for="cb in bonuses[m]" :key="`${cb.id}_data'`">
               <v-toolbar-title slot="header" dense flat>
                 <span class="title text-uppercase font-weight-light">
                   {{ cb.Name.toUpperCase() }}
@@ -52,10 +49,7 @@ export default Vue.extend({
   }),
   created() {
     var vm = this as any
-    vm.bonuses = _.groupBy(
-      vm.$store.getters.getItemCollection('CoreBonuses'),
-      'source'
-    )
+    vm.bonuses = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
   },
 })
 </script>

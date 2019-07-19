@@ -28,7 +28,9 @@
           style="bottom: 0; right:0"
           @click="system.Destroy()"
         >
-          <v-icon size="25" color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
+          <v-icon size="25" color="warning" class="hover-opacity">
+            mdi-image-broken-variant
+          </v-icon>
         </v-btn>
         <span>Mark equipment as Destroyed</span>
       </v-tooltip>
@@ -37,14 +39,15 @@
         :style="`background-color: ${system.IsDestroyed ? '#1e1e1e' : color.mechsystem.dark}`"
       >
         <span v-if="system.IsDestroyed" class="ml-2 red--text">
-          <i style="text-decoration: line-through">{{ system.Name }}</i> (DESTROYED)
+          <i style="text-decoration: line-through">{{ system.Name }}</i>
+          (DESTROYED)
         </span>
         <span v-else class="ml-2">{{ system.Name }}</span>
-        <v-spacer/>
-        <span class="caption">{{system.Source}} {{system.Type}}&nbsp;</span>
+        <v-spacer />
+        <span class="caption">{{ system.Source }} {{ system.Type }}&nbsp;</span>
       </v-card-title>
       <v-card-text class="pa-1">
-        <p class="pa-0 ml-3 mr-3 mb-0" v-html="system.Effect"/>
+        <p class="pa-0 ml-3 mr-3 mb-0" v-html="system.Effect" />
 
         <v-layout>
           <item-tag
@@ -57,14 +60,16 @@
         <div v-if="system.IsLimited">
           <v-layout>
             <v-flex xs1>
-              <v-divider class="mt-2 mr-3"/>
+              <v-divider class="mt-2 mr-3" />
             </v-flex>
             <v-flex shrink>
               <span class="caption grey--text">USES&nbsp;</span>
-              <b class="warning--text">{{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}</b>
+              <b class="warning--text">
+                {{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}
+              </b>
             </v-flex>
             <v-flex grow>
-              <v-divider class="mt-2 ml-3"/>
+              <v-divider class="mt-2 ml-3" />
             </v-flex>
             <v-flex xs1></v-flex>
           </v-layout>
@@ -85,18 +90,20 @@
         <div v-if="system.Notes.length">
           <v-layout>
             <v-flex xs1>
-              <v-divider class="mt-2 mr-3"/>
+              <v-divider class="mt-2 mr-3" />
             </v-flex>
             <v-flex shrink>
               <span class="caption grey--text">NOTES</span>
             </v-flex>
             <v-flex grow>
-              <v-divider class="mt-2 ml-3"/>
+              <v-divider class="mt-2 ml-3" />
             </v-flex>
             <v-flex xs1></v-flex>
           </v-layout>
           <ul>
-            <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">{{n}}</li>
+            <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">
+              {{ n }}
+            </li>
           </ul>
         </div>
       </v-card-text>
@@ -131,15 +138,3 @@ export default Vue.extend({
   methods: {},
 })
 </script>
-
-
-
-<style>
-.hover-opacity {
-  opacity: 0.5;
-  transition: opacity 0.3s;
-}
-.hover-opacity:hover {
-  opacity: 1;
-}
-</style>

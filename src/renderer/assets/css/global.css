@@ -89,3 +89,21 @@
 .bordered-dark {
   border: solid 2px #bdbdbd;
 }
+
+.hover-opacity {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.hover-opacity:hover {
+  opacity: 1;
+}
+
+.destroyed-bg {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 196, 0, 0.1),
+    rgba(255, 196, 0, 0.1) 20px,
+    rgba(0, 0, 0, 0.1) 20px,
+    rgba(0, 0, 0, 0.1) 40px
+  );
+}

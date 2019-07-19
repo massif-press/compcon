@@ -32,18 +32,8 @@ export default {
       check(path.join(userDataPath, 'img', 'portrait'))
       var allDefaultImages = this.getImages('frames', getStaticPath())
       for (let i = 0; i < allDefaultImages.length; i++) {
-        var imagePath = path.join(
-          userDataPath,
-          'img',
-          'default_frames',
-          allDefaultImages[i]
-        )
-        var originalPath = path.join(
-          getStaticPath(),
-          'img',
-          'frames',
-          allDefaultImages[i]
-        )
+        var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        var originalPath = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
         if (
           !fs.existsSync(imagePath) ||
           fs.statSync(imagePath).size !== fs.statSync(originalPath).size
@@ -51,18 +41,8 @@ export default {
           console.info(
             `Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`
           )
-          const origin = path.join(
-            getStaticPath(),
-            'img',
-            'frames',
-            allDefaultImages[i]
-          )
-          const destination = path.join(
-            userDataPath,
-            'img',
-            'default_frames',
-            allDefaultImages[i]
-          )
+          const origin = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
+          const destination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
           copySync(origin, destination)
         }
       }
@@ -114,38 +94,19 @@ export default {
     if (!fs.existsSync(contentPath)) {
       fs.mkdirSync(contentPath)
     }
-    const destination = path.join(
-      userDataPath,
-      'content',
-      path.basename(origin)
-    )
+    const destination = path.join(userDataPath, 'content', path.basename(origin))
     copySync(origin, destination)
 
     // collect and copy default frame images into global default frame folder
     var allDefaultImages = this.getImages('default_frames', destination)
     for (let i = 0; i < allDefaultImages.length; i++) {
-      var imagePath = path.join(
-        userDataPath,
-        'img',
-        'default_frames',
-        allDefaultImages[i]
-      )
+      var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
       if (!fs.existsSync(imagePath)) {
         console.info(
           `Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`
         )
-        const imgOrigin = path.join(
-          destination,
-          'img',
-          'default_frames',
-          allDefaultImages[i]
-        )
-        const imgDestination = path.join(
-          userDataPath,
-          'img',
-          'default_frames',
-          allDefaultImages[i]
-        )
+        const imgOrigin = path.join(destination, 'img', 'default_frames', allDefaultImages[i])
+        const imgDestination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
         copySync(imgOrigin, imgDestination)
       }
     }
@@ -157,9 +118,7 @@ export default {
       info.active = isActive
       fs.writeFileSync(infopath, JSON.stringify(info, null, 2), 'utf8')
     } else {
-      console.error(
-        `brew at ${infopath} does not exists OR is missing info.json!`
-      )
+      console.error(`brew at ${infopath} does not exists OR is missing info.json!`)
     }
   },
   getImages(subdir: string, userDataPath: string): string[] {
@@ -179,19 +138,15 @@ export default {
       .readFileSync(p)
       .toString()
       .split('\n')
-    return array[Math.floor(Math.random() * array.length)].replace(
-      /[\n\r]/g,
-      ''
-    )
+    return array[Math.floor(Math.random() * array.length)].replace(/[\n\r]/g, '')
   },
-  loadUserData(userDataPath: string, filePath: string): IPilotData[] {
+  loadUserData(userDataPath: string, filePath: string): any[] {
     if (fs.existsSync(userDataPath)) {
-      if (fs.existsSync(path.join(userDataPath, filePath))) {
-        return validator.checkVersion(
-          JSON.parse(
-            fs.readFileSync(path.join(userDataPath, filePath), 'utf-8')
-          )
-        )
+      const joinedPath = path.join(userDataPath, filePath)
+      if (fs.existsSync(joinedPath)) {
+        // return validator.checkVersion(
+        return JSON.parse(fs.readFileSync(joinedPath, 'utf-8'))
+        // )
       } else {
         console.warn(
           `file ${filePath} does not exist in folder ${userDataPath}. (if this is a new installation, ignore this message)`
@@ -205,28 +160,16 @@ export default {
       return []
     }
   },
-  saveUserData(
-    userDataPath: string,
-    filePath: string,
-    data: any,
-    callback: () => void
-  ) {
+  saveUserData(userDataPath: string, filePath: string, data: any, callback: () => void) {
     if (!fs.existsSync(path.join(userDataPath))) {
       console.info("data folder doesn't exist in userData dir, creating...")
       fs.mkdirSync(userDataPath)
       console.info('data folder created successfully')
     }
-    fs.writeFileSync(
-      path.join(userDataPath, filePath),
-      JSON.stringify(data, null, 2),
-      'utf8'
-    )
+    fs.writeFileSync(path.join(userDataPath, filePath), JSON.stringify(data, null, 2), 'utf8')
   },
   backup(userDataPath: string) {
-    fs.copyFileSync(
-      path.join(userDataPath, 'pilots.json'),
-      path.join(userDataPath, 'pilots.old')
-    )
+    fs.copyFileSync(path.join(userDataPath, 'pilots.json'), path.join(userDataPath, 'pilots.old'))
   },
   saveFile(dataPath: string, data: any) {
     fs.writeFileSync(dataPath, data, 'utf8')
@@ -249,19 +192,13 @@ export default {
     }
 
     if (!fs.existsSync(savePath)) {
-      console.info(
-        `data/img/${subdir} folder doesn't exist in userData dir, creating...`
-      )
+      console.info(`data/img/${subdir} folder doesn't exist in userData dir, creating...`)
       fs.mkdirSync(path.join(userDataPath, 'img', subdir))
     }
 
     const data = fs.readFileSync(imgPath)
     if (data) {
-      fs.writeFileSync(
-        path.join(savePath, path.parse(imgPath).base),
-        data,
-        null
-      )
+      fs.writeFileSync(path.join(savePath, path.parse(imgPath).base), data, null)
       return savePath
     }
     return 'no data to save!'

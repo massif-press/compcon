@@ -1,14 +1,16 @@
-  <template>
+<template>
   <v-flex xs12>
     <v-card class="ma-0 pa-0" flat dark>
-      <span class="mount-title-dark pl-3 pr-3 text-uppercase">{{ mount.MountName }}</span>
+      <span class="mount-title-dark pl-3 pr-3 text-uppercase">
+        {{ mount.MountName }}
+      </span>
       <v-card-text v-if="mount.IsLocked" class="bordered-dark ml-3 pt-4">
         <v-card color="grey darken-2">
           <v-card-text class="blockquote text-xs-center">
             LOCKED
-            <br>
+            <br />
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
-            <br>
+            <br />
           </v-card-text>
         </v-card>
       </v-card-text>
@@ -25,12 +27,14 @@
           </v-card-text>
         </v-card>
         <v-layout>
-          <span v-if="!mount.Weapons || !mount.Weapons.length" class="minor-title grey--text">EMPTY</span>
+          <span v-if="!mount.Weapons || !mount.Weapons.length" class="minor-title grey--text">
+            EMPTY
+          </span>
           <mech-weapon-card
             v-for="(w, i) in mount.Weapons"
             :key="w.ID + i"
             :weapon="w"
-            :width="(100/mount.Weapons.length)"
+            :width="100 / mount.Weapons.length"
           />
         </v-layout>
       </v-card-text>

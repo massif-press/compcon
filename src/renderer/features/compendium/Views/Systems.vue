@@ -19,12 +19,7 @@
           <filter-panel system include-mods @update="updateFilter" />
         </v-flex>
       </v-layout>
-      <v-data-table
-        :headers="headers"
-        :items="systems"
-        item-key="id"
-        hide-actions
-      >
+      <v-data-table :headers="headers" :items="systems" item-key="id" hide-actions>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td class="text-xs-left">
@@ -82,9 +77,7 @@ export default Vue.extend({
         .filter((x: WeaponMod) => x.Source)
 
       if (vm.search)
-        items = items.filter(x =>
-          x.Name.toLowerCase().includes(vm.search.toLowerCase())
-        )
+        items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
       items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
 

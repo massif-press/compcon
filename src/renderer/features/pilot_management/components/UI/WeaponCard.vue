@@ -139,10 +139,7 @@ export default Vue.extend({
           type: RangeType.Threat,
           val: 1,
         })
-      if (
-        this.loadout.HasSystem('externalbatteries') &&
-        w.Damage[0].Type === DamageType.Energy
-      )
+      if (this.loadout.HasSystem('externalbatteries') && w.Damage[0].Type === DamageType.Energy)
         if (w.Type === WeaponType.Melee) {
           bonuses.push({
             type: RangeType.Threat,

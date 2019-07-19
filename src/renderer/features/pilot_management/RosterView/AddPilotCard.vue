@@ -3,23 +3,28 @@
     <v-card
       slot-scope="{ hover }"
       :class="`inactive elevation-${hover ? 12 : 0} mb-0 pb-0`"
-      @click="addMenu = true" 
+      @click="addMenu = true"
       flat
-      height="302px">
+      height="302px"
+    >
       <v-layout row>
         <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
-          <div style="display:table; width:100%; cursor: pointer;" >
+          <div style="display:table; width:100%; cursor: pointer;">
             <span class="pilot-letter">
               <v-icon dark size="300px" style="width:100%">cc-pilot</v-icon>
             </span>
           </div>
         </v-flex>
       </v-layout>
-      <v-layout row >
+      <v-layout row>
         <v-flex class="mt-0 pt-0">
-          <v-card dark flat color="rgba(0, 0, 0, 0.55)" 
-          :class="`elevation-${hover ? 12 : 0} mt-0 pt-0`"
-          height="100%" >
+          <v-card
+            dark
+            flat
+            color="rgba(0, 0, 0, 0.55)"
+            :class="`elevation-${hover ? 12 : 0} mt-0 pt-0`"
+            height="100%"
+          >
             <v-card-text class="text-xs-center white--text">
               <span class="font-weight-light center-align add-letter">
                 Add New Pilot

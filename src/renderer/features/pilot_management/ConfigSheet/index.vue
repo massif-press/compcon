@@ -2,7 +2,9 @@
   <div class="roster-content">
     <empty-view v-if="config.Frame.err">
       <div slot="contents">
-        <p class="grey--text text-xs-center display-2">// MISSING FRAME DATA //</p>
+        <p class="grey--text text-xs-center display-2">
+          // MISSING FRAME DATA //
+        </p>
         <br />
         <span v-if="config.brew" class="caption grey--text">({{ config.brew }})</span>
       </div>
@@ -35,7 +37,9 @@
                 large
                 flat
                 class="ml-0 pl-1 pr-1 pt-4 pb-0"
-              >{{ config.Frame.Source }} {{ config.Frame.Name }}</v-btn>
+              >
+                {{ config.Frame.Source }} {{ config.Frame.Name }}
+              </v-btn>
               <v-card-text slot="modal-content" v-html="config.Frame.description" />
             </lazy-dialog>
           </v-flex>
@@ -46,7 +50,9 @@
               <v-flex>
                 <span class="white--text fluff-text ml-2">
                   {{ getManufacturer(config.Frame.Source).Name }}
-                  <v-chip small outline pill color="white">{{ config.Frame.MechTypeString }} Mech</v-chip>
+                  <v-chip small outline pill color="white">
+                    {{ config.Frame.MechTypeString }} Mech
+                  </v-chip>
                 </span>
               </v-flex>
             </v-layout>
@@ -64,9 +70,7 @@
                 >
                   <v-chip
                     slot="activator"
-                    :color="
-                      l.missing ? 'deep-orange darken-4' : 'grey lighten-1'
-                    "
+                    :color="l.missing ? 'deep-orange darken-4' : 'grey lighten-1'"
                     :class="l.missing ? 'white--text' : ''"
                   >
                     <v-avatar
@@ -77,7 +81,9 @@
                         } font-weight-black title`
                       "
                     >
-                      <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">I</span>
+                      <span v-for="n in l.rank" :key="'ri_rnk_' + l.name + n">
+                        I
+                      </span>
                     </v-avatar>
                     {{ l.source }} {{ l.name }}
                   </v-chip>
@@ -101,8 +107,8 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>WARNING: UNLICENSED COMPONENTS</b>
-                  <br />Pilot is missing one or more licenses required for this
-                  configuration
+                  <br />
+                  Pilot is missing one or more licenses required for this configuration
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -110,7 +116,8 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="config.CurrentSP > config.MaxSP">
                   <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />Configuration loadout exceeds available SP points (
+                  <br />
+                  Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -131,7 +138,9 @@
                 appearanceLoader = true
                 appearanceModal = true
               "
-            >Set Custom Image</v-btn>
+            >
+              Set Custom Image
+            </v-btn>
           </v-flex>
           <image-selector
             :model="appearanceModal"
@@ -291,7 +300,9 @@
         <v-layout>
           <v-flex class="ma-2">
             <v-toolbar color="grey lighten-2">
-              <v-toolbar-title>{{ config.Frame.CoreSystem.Name }}</v-toolbar-title>
+              <v-toolbar-title>
+                {{ config.Frame.CoreSystem.Name }}
+              </v-toolbar-title>
             </v-toolbar>
             <v-card>
               <v-card-text
@@ -306,9 +317,7 @@
               </div>
               <v-card-title class="title">
                 {{ config.Frame.CoreSystem.Active }}
-                <span
-                  class="pt-2 ml-2 caption grey--text"
-                >(ACTIVE)</span>
+                <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
               </v-card-title>
               <v-card-text class="mt-0 pt-0 mb-0 pb-1">
                 <p class="mb-1" v-html="config.Frame.CoreSystem.Effect" />
@@ -332,15 +341,16 @@
       <v-layout justify-space-around fill-height class="ma-5">
         <v-flex xs>
           <v-btn large color="primary" outline block @click="openPrintOptions(false)">
-            <v-icon>print</v-icon>&nbsp; PRINT
+            <v-icon>print</v-icon>
+            &nbsp; PRINT
           </v-btn>
           <v-btn color="primary" small flat block @click="copyConfigStatblock()">
             copy config statblock &nbsp;
             <v-tooltip top>
               <v-icon slot="activator" small color="grey">help</v-icon>
               <span>
-                This produces a small raw text overview of the current
-                Configuration and copies it to the clipboard.
+                This produces a small raw text overview of the current Configuration and copies it
+                to the clipboard.
               </span>
             </v-tooltip>
           </v-btn>
@@ -361,8 +371,8 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>CRITICAL: UNLICENSED COMPONENTS</b>
-                  <br />Pilot is missing one or more licenses required for this
-                  configuration.
+                  <br />
+                  Pilot is missing one or more licenses required for this configuration.
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -370,7 +380,8 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
                   <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />Configuration loadout exceeds available SP points (
+                  <br />
+                  Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -382,8 +393,8 @@
                   <b>WARNING: FREE SYSTEM CAPACITY REMAINING</b>
                   <br />
                   Configuration retains
-                  {{ config.MaxSP - config.CurrentSP }} unused System Points.
-                  Combat efficacy limited.
+                  {{ config.MaxSP - config.CurrentSP }} unused System Points. Combat efficacy
+                  limited.
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -391,8 +402,9 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="hasEmptyMounts()">
                   <b>WARNING: EMPTY MOUNTS DETECTED</b>
-                  <br />Configuration has mounts that do not contain an equipped
-                  weapon. Combat efficacy limited.
+                  <br />
+                  Configuration has mounts that do not contain an equipped weapon. Combat efficacy
+                  limited.
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -402,7 +414,9 @@
     </div>
 
     <empty-view v-else>
-      <p slot="contents" class="grey--text text-xs-center display-2">NO CONFIGURATION LOADED</p>
+      <p slot="contents" class="grey--text text-xs-center display-2">
+        NO CONFIGURATION LOADED
+      </p>
     </empty-view>
   </div>
 </template>
@@ -421,12 +435,7 @@ import {
   TickBar,
   Contributor,
 } from '../components/UI'
-import {
-  StatblockItem,
-  TraitItem,
-  ImageSelector,
-  PilotTraits,
-} from './SheetComponents'
+import { StatblockItem, TraitItem, ImageSelector, PilotTraits } from './SheetComponents'
 import MechLoadout from './LoadoutEditor/MechLoadout.vue'
 import { clipboard } from 'electron'
 import ccc from '@/features/_shared/UI/CCColors'
