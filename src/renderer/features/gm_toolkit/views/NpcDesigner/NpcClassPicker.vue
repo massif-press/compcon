@@ -41,8 +41,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
+import {npc_classes} from 'lancer-data'
 
-import npcClasses from '../../static/classes.json'
 import NPC from '../../logic/NPC'
 import NPCClass from '../../logic/interfaces/NPCClass'
 import { mapMutations } from 'vuex'
@@ -69,7 +69,7 @@ export default Vue.extend({
   },
   computed: {
     classesByRole(): object {
-      return _.groupBy(npcClasses, 'role')
+      return _.groupBy(npc_classes, 'role')
     },
   },
 })

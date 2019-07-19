@@ -42,8 +42,9 @@ import NPCClass from '../../logic/interfaces/NPCClass'
 import { NPCSystem } from '../../logic/interfaces/NPCSystem'
 import SystemCard from '../../components/NpcDesigner/SystemButton.vue'
 import { type } from 'os'
+import { npc_systems } from 'lancer-data'
 
-const allSystems: NPCSystem.Any[] = require('../../static/systems.json')
+const allSystems: NPCSystem.Any[] = npc_systems
 
 export default Vue.extend({
   name: 'class-info',
