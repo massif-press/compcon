@@ -84,6 +84,9 @@ function convertMechs(old: any): IMechData {
     burn: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
+    destroyed: false,
+    reactor_destroyed: false,
+    meltdown_imminent: false,
     cc_ver: Vue.prototype.version,
   }
 }

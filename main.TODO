@@ -2,8 +2,6 @@
 ☐ usage items initialized without pilot limited bonus
 ☐ can't mark intg systems destroyed
 
-- downtime bonus/resources section (extra gear, contacts, etc etc)
-
 Merge NPCs:
   ✔ Persistence @done(19-07-12 13:08)
   ✔ UI pass @done(19-07-12 13:08)
@@ -43,14 +41,24 @@ On Deck:
       ☐ Scrounge and Barter
 
   Active Mode:
-    ☐ Show pilot stats &c. only on Ejected status
-    ☐ Tooltip pip number on hover
-    ☐ Keyboard entry for all pip components
-    ☐ Structure Table popup on 0HP
-    ☐ Stress Table popup on full heat
-    ☐ DESTROYED status
-      ☐ no actions possible
-      ☐ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override)
+    ☐ EJECTED status
+      ☐ Show pilot stats &c. only on Ejected status
+    ✔ DESTROYED status @done(19-07-18 12:28)
+      ✔ no actions possible @done(19-07-18 12:28)
+      ✔ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override) @done(19-07-18 12:29)
+
+    ✔ Keyboard entry for all pip components @done(19-07-17 14:52)
+    ✔ Structure Table popup on 0HP @done(19-07-18 10:08)
+      ✔ roll Xd6, select result (or skip), reroll 1 for destroyed, take worst @done(19-07-18 10:08)
+        ✔ glancing blow (apply effect) @done(19-07-18 10:08)
+        ✔ system trauma (roll again, mark system/mount destroyed) @done(19-07-18 11:01)
+        ✔ direct hit (reroll) @done(19-07-18 11:41)
+          ✔ stun on 3+ @done(19-07-18 11:41)
+          ✔ save or destroyed (stun on save) @done(19-07-18 11:41)
+          ✔ destroyed on 1- @done(19-07-18 11:41)
+      ✔ ST reacts to current structure damage (limit options, etc) @done(19-07-18 11:02)
+      ✔ Mark weapons/systems as destroyed @done(19-07-18 11:02)
+    ✔ Stress Table popup on full heat @done(19-07-18 13:14)
     ☐ Click to apply weapon/system self heat
     ☐ Disable dangerzone systems outside of dangerzone
     ☐ Ammo block
@@ -63,7 +71,7 @@ GM MODE:
     ☐ Pilot Roster (import pilots via json or gistID)
     ☐ NPC Roster
 
-    -vuetify timelines
+    ☐ vuetify timelines
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)

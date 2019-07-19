@@ -26,6 +26,9 @@ class Mech {
   private statuses: string[]
   private conditions: string[]
   private resistances: string[]
+  private destroyed: boolean
+  private reactor_destroyed: boolean
+  private meltdown_imminent: boolean
   private burn: number
 
   constructor(frame: Frame, pilot: Pilot) {
@@ -50,6 +53,9 @@ class Mech {
     this.conditions = []
     this.resistances = []
     this.burn = 0
+    this.destroyed = false
+    this.reactor_destroyed = false
+    this.meltdown_imminent = false
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -502,6 +508,43 @@ class Mech {
   }
 
   // -- Statuses and Conditions -------------------------------------------------------------------
+  public get IsDestroyed(): boolean {
+    return this.destroyed
+  }
+
+  public set IsDestroyed(b: boolean) {
+     this.destroyed = b
+  }
+
+  public get MeltdownImminent(): boolean {
+    return this.meltdown_imminent
+  }
+
+  public set MeltdownImminent(meltdown: boolean) {
+    this.meltdown_imminent = meltdown
+  }
+
+  public get ReactorDestroyed(): boolean {
+    return this.reactor_destroyed
+  }
+
+  public set ReactorDestroyed(destroyed: boolean) {
+    this.reactor_destroyed = destroyed
+  }
+
+  public Destroy() {
+    this.destroyed = true
+    this.save()
+  }
+
+  public Repair() {
+    this.destroyed = false
+    this.CurrentStress = 1
+    this.CurrentStructure = 1
+    this.CurrentHP = this.MaxHP
+    this.save()
+  }
+  
   public get IsShutDown(): boolean {
     return this.Statuses.includes('Shut Down')
   }
@@ -558,6 +601,7 @@ class Mech {
     this.CurrentOvercharge = 0
     this.loadouts.forEach(x => {
       x.Equipment.forEach(y => {
+        if (y.IsDestroyed) y.Repair()
         if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
       })
     })
@@ -565,6 +609,9 @@ class Mech {
     this.conditions = []
     this.resistances = []
     this.Burn = 0
+    this.destroyed = false
+    this.reactor_destroyed = false
+    this.meltdown_imminent = false
     this.save()
   }
 
@@ -671,6 +718,9 @@ class Mech {
       conditions: m.conditions,
       resistances: m.resistances,
       burn: m.burn,
+      destroyed: m.destroyed,
+      meltdown_imminent: m.meltdown_imminent,
+      reactor_destroyed: m.reactor_destroyed,
       cc_ver: m.cc_ver,
     }
   }
@@ -696,7 +746,10 @@ class Mech {
     m.statuses = mechData.statuses || []
     m.conditions = mechData.conditions || []
     m.resistances = mechData.resistances || []
-    m.burn = mechData.burn
+    m.burn = mechData.burn || 0
+    m.destroyed = mechData.destroyed || false
+    m.meltdown_imminent = mechData.meltdown_imminent || false
+    m.reactor_destroyed = mechData.reactor_destroyed || false
     m.cc_ver = mechData.cc_ver || ''
     return m
   }

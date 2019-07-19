@@ -28,7 +28,6 @@ export default {
     },
     add(state: any, npc: NPC) {
       state.npcs.push(npc)
-      console.log(state.npcs)
       saveNPCs(state.npcs)
     },
     edit(state: any, newNpc: NPC) {
