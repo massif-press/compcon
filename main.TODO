@@ -17,28 +17,54 @@ On Deck:
 
   Downtime:
     ☐ Downtime Sheet
-      ☐ Pilot Section
-      ☐ Skills
+      ✔ Pilot Section @done(19-07-19 14:42)
+      ✔ Skills @done(19-07-19 14:42)
+      ☐ Downtime Actions Panel
+        name - description - notes - cost
+        ☐ Power at a Cost
+          ☐ Add reserve (or custom reserve), cost
+        ☐ Buy Some Time
+          ☐ Add reserve: Time cost as note
+        ☐ Get a Damn Drink
+          ☐ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity
+          ☐ 0 1 or 2 reserves (one reserve item)
+          ☐ cost (or no cost)
+        ☐ Get Creative
+          ☐ Start project or continue project
+            ☐ Start project adds a new Project reserve with status IN PROGRESS
+              ☐ IN PROGRESS project has requirements (costs)
+            ☐ Notes etc
+          ☐ Continue project - input roll
+            ☐ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project
+            ☐ Completed project changes reserve status, makes usable
+        ☐ Get Focused
+          ☐ Add new Skill
+          ☐ Upgrade Get Focused Skill
+        ☐ Get Organized
+          ☐ New Organization section
+          ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
+          ☐ Manage Organization
+          ☐ Upgrade Organization
+        ☐ Gather Information
+          ☐ Input roll
+            ☐ skip or get reserve with cost
+            ☐ get info, no cost
+        ☐ Get Connected
+          ☐ Input roll
+            ☐ skip or get reserve with cost
+            ☐ get info, no cost
+        ☐ Scrounge and Barter
+          ☐ Input roll
+            ☐ skip or get reserve with cost
+            ☐ select predetermined cost
+            ☐ get info, no cost
     Reserves:
       Special Reserves:
         ☐ Custom
         ☐ Get Creative Project
         ☐ Get Focused Trigger
         ☐ Get Organized Organization
-    Actions:
-      name - description -notes
-      ☐ Power at a Cost
-      ☐ Buy Some Time
-      ☐ Get a Damn Drink
-      ☐ Get Creative
-        ☐ Starts project (reserves), add reserve when finished
-      ☐ Get Focused
-        ☐ Add special Get Focused trigger or upgrade old one
-      ☐ Get Organized
-        ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
-      ☐ Gather Information
-      ☐ Get Connected
-      ☐ Scrounge and Barter
+
 
   Active Mode:
     ☐ EJECTED status
@@ -76,6 +102,7 @@ GM MODE:
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
+  ☐ underscore private properties
 
 Improvements:
   ☐ refresh cloud-saved pilots
@@ -123,8 +150,6 @@ Preconstructed Characters:
       ☐ Mark danger zone heat
       ☐ Per-item notes
   ☐ Charts
-  ☐ Actions Panel
-  ☐ Hardsuit detail rollable
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
   ☐ Dice math parser
