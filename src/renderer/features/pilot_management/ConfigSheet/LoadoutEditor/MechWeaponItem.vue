@@ -26,9 +26,7 @@
       <div v-else-if="weaponSlot.Weapon.err">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading grey--text">
-              // MISSING WEAPON DATA //
-            </span>
+            <span slot="header" class="subheading grey--text">// MISSING WEAPON DATA //</span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -45,25 +43,20 @@
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && weaponSlot.Weapon.Mod.err"
                 >
-                  <span class="subheading grey--text">
-                    // MISSING MOD DATA //
-                  </span>
+                  <span class="subheading grey--text">// MISSING MOD DATA //</span>
                 </span>
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
                 >
                   <span class="grey--text font-weight-regular">//</span>
-                  <span class="blue-grey--text">
-                    {{ weaponSlot.Weapon.Mod.Name }}
-                  </span>
+                  <span class="blue-grey--text">{{ weaponSlot.Weapon.Mod.Name }}</span>
                   <span class="caption">({{ weaponSlot.Weapon.Mod.SP }} SP)</span>
                 </span>
               </span>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()" />
-                &emsp;&mdash;&emsp;
+                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
                 <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
@@ -89,11 +82,7 @@
               :modData="weaponSlot.Weapon.Mod"
             />
             <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb" />
-            <weapon-card
-              :item="weaponSlot.Weapon"
-              :mod="weaponSlot.Weapon.Mod"
-              :loadout="loadout"
-            />
+            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -145,9 +134,7 @@
         <v-card-text class="text-xs-center">
           Superheavy-class weaponry requires an additional mount. Select the bracing mount below.
           <br />
-          <i>
-            The selected mount will be locked until the superheavy weapon is removed.
-          </i>
+          <i>The selected mount will be locked until the superheavy weapon is removed.</i>
           <br />
           <v-layout row justify-center>
             <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
