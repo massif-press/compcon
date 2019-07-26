@@ -96,6 +96,22 @@
           />
         </v-layout>
       </div>
+
+      <v-divider dark class="ma-2" />
+
+      <v-expansion-panel expand dark class="mt-2">
+        <v-expansion-panel-content
+          expand-icon="keyboard_arrow_down"
+          ripple
+          style="background-color: #616161"
+        >
+          <span slot="header" class="minor-title">Pilot Skills</span>
+          <v-layout wrap justify-center>
+            <pilot-skill-card v-for="(s, i) in pilot.Skills" :key="`p_skill_${i}`" :pSkill="s" />
+          </v-layout>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
       <v-expansion-panel expand dark class="mt-2">
         <v-expansion-panel-content
           expand-icon="keyboard_arrow_down"
@@ -104,14 +120,15 @@
         >
           <span slot="header" class="minor-title">Reserves</span>
           <v-layout row wrap fill-height>
-            <v-flex xs4 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
-              <div class="ma-1">
+            <v-flex xs6 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
+              <div class="mr-1" style="height: 95%">
                 <active-card :color="reserveColor(r)" :header="`${r.Name}`" subheader="RESERVE">
-                  <span v-if="!r.resourceName && !r.Note">{{ r.Description }}</span>
-                  <div v-else>
-                    <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">{{ r.ResourceName }}</p>
+                  <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">{{ r.ResourceName }}</p>
                     <p v-if="r.Note" class="ml-2">{{ r.Note }}</p>
-                  </div>
+                  <span v-if="!r.ResourceName || !r.Note">{{ r.Description }}</span>
+                  <v-alert type="warning" :value="r.ResourceCost" outline>
+                    <span v-html="r.ResourceCost" />
+                  </v-alert>
                 </active-card>
               </div>
             </v-flex>
@@ -155,7 +172,7 @@
       <v-divider dark class="ma-3" />
       <div v-if="!mech" class="ma-5">
         <div v-if="!pilot.Mechs.length">
-          <v-alert value="visible" type="error" class="mb-3 effect-text">
+          <v-alert value="value" type="error" class="mb-3 effect-text">
             <span class="minor-title">No Saved Mech Configurations</span>
             <br />
           </v-alert>
@@ -215,7 +232,23 @@
             </v-menu>
           </v-flex>
         </v-layout>
-        <div v-if="mech.IsDestroyed">
+        <div v-if="mech.IsEjected">
+          <v-card-text class="text-xs-center">
+            <p class="major-title deep-orange--text pa-3 ma-5" style="background-color:black;">
+              PILOT EJECTED
+              <v-btn
+                small
+                absolute
+                right
+                color="warning"
+                outline
+                style="right: 120px"
+                @click="mech.IsEjected = false"
+              >Force Remount</v-btn>
+            </p>
+          </v-card-text>
+        </div>
+        <div v-else-if="mech.IsDestroyed">
           <v-card-text class="text-xs-center destroyed-bg">
             <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
               MECH DESTROYED
@@ -662,6 +695,7 @@ import MechSystemCard from './components/MechSystemCard.vue'
 import StructureTable from './components/StructureTable.vue'
 import StressTable from './components/StressTable.vue'
 import ActiveCard from './components/UI/ActiveCard.vue'
+import PilotSkillCard from './components/UI/PilotSkillCard.vue'
 import colors from '@/features/_shared/UI/CCColors'
 import {
   DamageElement,
@@ -688,6 +722,7 @@ export default Vue.extend({
     TurnSidebar,
     StructureTable,
     StressTable,
+    PilotSkillCard,
   },
   data: () => ({
     tabs: 0,

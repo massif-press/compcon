@@ -45,29 +45,34 @@
           <span>TURN</span>
           <span class="pink--text">{{ turn }}</span>
         </v-flex>
-        <v-flex v-if="braced" xs12 class="minor-title text-xs-center reaction-bg">
-          <span v-html="'BRACED'" />
+        <v-flex v-if="mech.IsEjected" xs12 class="minor-title text-xs-center reaction-bg">
+          <span v-html="'PILOT EJECTED'" />
         </v-flex>
-        <v-flex
-          v-if="bracedCooldown"
-          xs12
-          class="minor-title red--text text-xs-center destroyed-bg"
-        >
-          <span v-html="'// BRACE RECOVERY //'" />
-        </v-flex>
-        <v-flex
-          v-if="mech.IsShutDown"
-          xs12
-          class="minor-title red--text text-xs-center destroyed-bg"
-        >
-          <span v-html="'// SHUT DOWN //'" />
-        </v-flex>
-        <v-flex v-if="overwatch" xs12 class="minor-title text-xs-center reaction-bg">
-          <span v-html="'OVERWATCH'" />
-        </v-flex>
-        <v-flex v-if="prepare" xs12 class="minor-title text-xs-center prepare-bg">
-          <span v-html="'PREPARED ACTION'" />
-        </v-flex>
+        <div v-else>
+          <v-flex v-if="braced" xs12 class="minor-title text-xs-center reaction-bg">
+            <span v-html="'BRACED'" />
+          </v-flex>
+          <v-flex
+            v-if="bracedCooldown"
+            xs12
+            class="minor-title red--text text-xs-center destroyed-bg"
+          >
+            <span v-html="'// BRACE RECOVERY //'" />
+          </v-flex>
+          <v-flex
+            v-if="mech.IsShutDown"
+            xs12
+            class="minor-title red--text text-xs-center destroyed-bg"
+          >
+            <span v-html="'// SHUT DOWN //'" />
+          </v-flex>
+          <v-flex v-if="overwatch" xs12 class="minor-title text-xs-center reaction-bg">
+            <span v-html="'OVERWATCH'" />
+          </v-flex>
+          <v-flex v-if="prepare" xs12 class="minor-title text-xs-center prepare-bg">
+            <span v-html="'PREPARED ACTION'" />
+          </v-flex>
+        </div>
         <v-divider dark class="ma-2" />
         <v-flex xs12 class="caption text-xs-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-flex>
         <v-flex xs12 class="caption text-xs-center">
@@ -144,6 +149,7 @@
         <v-flex xs12>
           <div style="display: table; margin: 0 auto;">
             <tick-bar
+              label="SPACES MOVED"
               :current="move"
               :key="move"
               :max="maxMove"
@@ -173,214 +179,347 @@
           </v-tooltip>
         </v-flex>
         <v-flex xs12 class="caption text-xs-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-flex>
-
-        <v-flex xs12 v-if="mech.IsShutDown">
-          <action-button
-            v-if="actions >= 2"
-            action-id="action_bootup"
-            class="mb-1"
-            @click="boot()"
-          />
-        </v-flex>
-        <v-flex v-else xs12>
-          <v-flex xs12 v-if="mech.MeltdownImminent" class="mb-3">
-            <v-btn
-              block
-              x-large
-              class="ma-0"
-              color="red accent-4"
-              @click="meltdown()"
-            >REACTOR MELTDOWN</v-btn>
-            <v-btn
-              block
-              small
-              outline
-              class="ma-0 mt-1"
-              color="light-green accent-3"
-              @click="avoidMeltdown()"
-            >STABILIZE REACTOR</v-btn>
+        <!-- conditionally exclusive v-shows (instead of v-if/else-if/else) is necessary here because vue chokes on a critical mass nested conditionals with transitions -->
+        <div v-show="mech.IsShutDown">
+          <v-flex xs12>
+            <action-button
+              v-if="actions >= 2"
+              action-id="action_bootup"
+              class="mb-1"
+              @click="boot()"
+            />
           </v-flex>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="actions">
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_skirmish" @click="quickAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_quickactivate" @click="quickAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_quicktech" @click="quickAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_boost" @click="boost()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_ram" @click="quickAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_grapple" @click="quickAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_hide" @click="hide()" />
-                </div>
-              </v-flex>
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_search" @click="quickAction()" />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="actions >= 2">
-              <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_bombardment" @click="bombard()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_barrage" @click="fullAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_fullactivate" @click="fullAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs4>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_fulltech" @click="fullAction()" />
-                </div>
-              </v-flex>
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_stabilize" @click="openStabilize()" />
-                </div>
-              </v-flex>
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_disengage" @click="fullAction()" />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_overwatch" @click="setOverwatch()" />
-                </div>
-              </v-flex>
-              <v-flex xs6>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_brace" @click="setBrace()" />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
-              <v-flex class="mr-1 mb-1">
-                <action-button action-id="action_overcharge" @click="openOvercharge" />
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
-              <v-flex xs12>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
-              <v-flex xs12>
-                <div class="mr-1 mb-1">
-                  <action-button action-id="action_deployableshield" @click="deployableShield()" />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-          <v-expand-transition>
-            <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
-              <v-flex xs12>
-                <div class="mr-1 mb-1">
+        </div>
+        <div v-show="mech.IsEjected && !mech.IsShutDown">
+          <v-flex xs12>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="actions >= 2">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button
+                      action-id="action_mount"
+                      @click="remount()"
+                      name-override="Remount Mech"
+                    />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="actions">
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_quickactivate" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_boost" @click="boost()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_hide" @click="hide()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_search" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_prepare" @click="setPrepare()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="actions >= 2">
+                <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_bombardment" @click="bombard()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_fight" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_jockey" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_fullactivate" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_disengage" @click="fullAction()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_overwatch" @click="setOverwatch()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_brace" @click="setBrace()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
+                <v-flex class="mr-1 mb-1">
+                  <action-button action-id="action_overcharge" @click="openOvercharge" />
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_deployableshield" @click="deployableShield()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button
+                      action-id="action_corebattery"
+                      @click="coreBattery()"
+                      :disabled="mech.CurrentCoreEnergy > 0"
+                    />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+          </v-flex>
+        </div>
+        <div v-show="!mech.IsShutDown && !mech.IsEjected">
+          <v-flex xs12>
+            <v-flex xs12 v-if="mech.MeltdownImminent" class="mb-3">
+              <v-btn
+                block
+                x-large
+                class="ma-0"
+                color="red accent-4"
+                @click="meltdown()"
+              >REACTOR MELTDOWN</v-btn>
+              <v-btn
+                block
+                small
+                outline
+                class="ma-0 mt-1"
+                color="light-green accent-3"
+                @click="avoidMeltdown()"
+              >STABILIZE REACTOR</v-btn>
+            </v-flex>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="actions">
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_skirmish" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_quickactivate" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_quicktech" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_boost" @click="boost()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_ram" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_grapple" @click="quickAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_hide" @click="hide()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_search" @click="quickAction()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="actions >= 2">
+                <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_bombardment" @click="bombard()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_barrage" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_fullactivate" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs4>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_fulltech" @click="fullAction()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_stabilize" @click="openStabilize()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_disengage" @click="fullAction()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_overwatch" @click="setOverwatch()" />
+                  </div>
+                </v-flex>
+                <v-flex xs6>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_brace" @click="setBrace()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
+                <v-flex class="mr-1 mb-1">
+                  <action-button action-id="action_overcharge" @click="openOvercharge" />
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button action-id="action_deployableshield" @click="deployableShield()" />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
+                <v-flex xs12>
+                  <div class="mr-1 mb-1">
+                    <action-button
+                      action-id="action_corebattery"
+                      @click="coreBattery()"
+                      :disabled="mech.CurrentCoreEnergy > 0"
+                    />
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-expand-transition>
+            <v-expand-transition>
+              <v-expansion-panel v-show="actions" class="mt-2">
+                <v-expansion-panel-content style="background-color: #616161" class="pa-2 pr-3">
+                  <span slot="header" class="minor-title">Other Actions</span>
                   <action-button
-                    action-id="action_corebattery"
-                    @click="coreBattery()"
-                    :disabled="mech.CurrentCoreEnergy > 0"
+                    v-if="actions >= 1"
+                    action-id="action_shutdown"
+                    class="mb-1"
+                    @click="shutDown()"
                   />
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-expand-transition>
-
-          <v-expansion-panel class="mt-2">
-            <v-expansion-panel-content style="background-color: #616161" class="pa-2 pr-3">
-              <span slot="header" class="minor-title">Other Actions</span>
-              <action-button
-                v-if="actions >= 1"
-                action-id="action_shutdown"
-                class="mb-1"
-                @click="shutDown()"
-              />
-              <action-button
-                v-if="actions >= 1"
-                action-id="action_eject"
-                class="mb-1"
-                @click="quickAction()"
-              />
-              <action-button
-                v-if="actions >= 1"
-                action-id="action_selfdestruct"
-                class="mb-1"
-                @click="quickAction()"
-              />
-              <action-button
-                v-if="actions >= 1"
-                action-id="action_prepare"
-                class="mb-1"
-                @click="setPrepare()"
-              />
-              <action-button
-                v-if="actions >= 2"
-                action-id="action_mount"
-                class="mb-1"
-                @click="fullAction()"
-              />
-              <action-button
-                v-if="actions >= 2"
-                action-id="action_skillcheck"
-                class="mb-1"
-                @click="fullAction()"
-              />
-              <action-button
-                v-if="actions >= 2"
-                action-id="action_improvattack"
-                class="mb-1"
-                @click="fullAction()"
-              />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-flex>
+                  <action-button
+                    v-if="actions >= 1"
+                    action-id="action_eject"
+                    class="mb-1"
+                    @click="eject()"
+                  />
+                  <action-button
+                    v-if="actions >= 1"
+                    action-id="action_selfdestruct"
+                    class="mb-1"
+                    @click="quickAction()"
+                  />
+                  <action-button
+                    v-if="actions >= 1"
+                    action-id="action_prepare"
+                    class="mb-1"
+                    @click="setPrepare()"
+                  />
+                  <action-button
+                    v-if="actions >= 2"
+                    action-id="action_mount"
+                    class="mb-1"
+                    nameOverride="Dismount"
+                    @click="dismount()"
+                  />
+                  <action-button
+                    v-if="actions >= 2"
+                    action-id="action_skillcheck"
+                    class="mb-1"
+                    @click="fullAction()"
+                  />
+                  <action-button
+                    v-if="actions >= 2"
+                    action-id="action_improvattack"
+                    class="mb-1"
+                    @click="fullAction()"
+                  />
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expand-transition>
+          </v-flex>
+        </div>
         <v-flex xs12 class="text-xs-center ma-2 mt-4">
-          <v-btn block color="warning" outline dark small @click="newTurn()">END TURN</v-btn>
+          <v-btn block color="warning" outline dark large @click="newTurn()">END TURN</v-btn>
         </v-flex>
       </v-layout>
       <v-divider class="ma-2" />
@@ -571,7 +710,7 @@ export default Vue.extend({
           this.mech.IsDestroyed = false
           this.mech.ReactorDestroyed = false
         case 'boost':
-          this.maxMove -= this.mech.Speed
+          this.maxMove -= this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
           if (this.move < this.maxMove) this.move === this.maxMove
           this.actions += 1
           break
@@ -579,6 +718,16 @@ export default Vue.extend({
           const hidx = this.mech.Statuses.findIndex(x => x === 'Hidden')
           if (hidx > -1) this.mech.Statuses.splice(hidx, 1)
           this.actions += 1
+          break
+        case 'dismount':
+          this.actions += 1
+        case 'eject':
+          this.mech.IsEjected = false
+          this.actions += 1
+          break
+        case 'remount':
+          this.mech.IsEjected = true
+          this.actions += 2
           break
         case 'bombard':
           this.actions += 2
@@ -617,7 +766,7 @@ export default Vue.extend({
       this.history = []
       this.move = 0
       this.actions = 2
-      this.maxMove = this.mech.Speed
+      this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
       this.overcharged = false
       this.overwatch = false
       this.prepare = false
@@ -638,7 +787,7 @@ export default Vue.extend({
       this.history = []
       this.move = 0
       this.actions = 2
-      this.maxMove = this.mech.Speed
+      this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
       this.overcharged = false
       this.prepare = false
       this.braced = false
@@ -661,7 +810,7 @@ export default Vue.extend({
       if (this.actions > 0) {
         this.history.push({ field: 'boost' })
         this.actions--
-        this.maxMove += this.mech.Speed
+        this.maxMove += this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
         if (this.move < 0) this.move === 0
       }
     },
@@ -669,6 +818,21 @@ export default Vue.extend({
       this.history.push({ field: 'hide', val: false })
       if (!this.mech.Statuses.includes('Hidden')) this.mech.Statuses.push('Hidden')
       this.actions -= 1
+    },
+    dismount() {
+      this.history.push({ field: 'dismount', val: false })
+      this.mech.IsEjected = true
+      this.actions -= 2
+    },
+    eject() {
+      this.history.push({ field: 'eject', val: false })
+      this.mech.IsEjected = true
+      this.actions -= 1
+    },
+    remount() {
+      this.history.push({ field: 'remount', val: false })
+      this.mech.IsEjected = false
+      this.actions -= 2
     },
     fullAction() {
       if (this.actions >= 2) {
@@ -793,7 +957,7 @@ export default Vue.extend({
     },
   },
   created() {
-    this.maxMove = this.mech.Speed
+    this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
   },
 })
 </script>

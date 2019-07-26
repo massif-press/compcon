@@ -5,7 +5,7 @@
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "electron-webpack dev --client-log-level warning",
+    "dev": "electron-webpack dev --client-log-level error",
     "compile": "electron-webpack",
     "dist": "yarn compile && BUILD_OS=local TRAVIS_BRANCH=build electron-builder",
     "dist-travis": "yarn compile && electron-builder",

@@ -221,9 +221,9 @@
       <v-flex xs12>
         <v-btn block color="amber darken-4" dark @click="startCombat">Enter Combat</v-btn>
       </v-flex>
-      <!-- <v-flex xs12>
-        <v-btn block color="green darken-4" dark @click="endMission">Complete Mission</v-btn>
-      </v-flex>-->
+      <v-flex xs12>
+        <v-btn large block color="green darken-4" dark @click="endMission">Complete Mission</v-btn>
+      </v-flex>
     </v-layout>
   </div>
 </template>
@@ -308,6 +308,10 @@ export default Vue.extend({
       this.mech.Repair()
     },
     startCombat() {
+      this.rest = false
+      this.$emit('restart')
+    },
+    endMission() {
       this.rest = false
       this.$emit('end')
     },

@@ -14,9 +14,9 @@
         <v-icon style="position: absolute; left: 0">$vuetify.icons.{{ action.action_type }}</v-icon>
         <div style="position: absolute; right: 0">
           <v-divider dark vertical class="ml-2 mr-1" />
-          <v-icon small @click.stop="dialog = true">mdi-help-circle-outline</v-icon>
+          <v-icon :small="!large" @click.stop="dialog = true">mdi-help-circle-outline</v-icon>
         </div>
-        <span class="pl-4 pr-3">{{ action.name }}</span>
+        <span class="pl-4 pr-3">{{ nameOverride ? nameOverride : action.name }}</span>
       </v-btn>
       <span>{{ action.description }}</span>
     </v-tooltip>
@@ -40,6 +40,7 @@ export default Vue.extend({
     large: Boolean,
     colorOverride: String,
     disabled: Boolean,
+    nameOverride: String,
   },
   data: () => ({
     action: {},

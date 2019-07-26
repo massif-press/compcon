@@ -15,21 +15,6 @@ EJS                              1              1              3             21
 SUM:                            73            441            138           6969 ( n i c e )
 -------------------------------------------------------------------------------
 
-4/8
-     118 text files.
-     118 unique files.                                          
-       0 files ignored.
-github.com/AlDanial/cloc v 1.80  T=0.38 s (309.8 files/s, 31673.3 lines/s)
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-Vuejs Component                 79            482            143           9173
-TypeScript                      38            149            116           1975
-EJS                              1              1              3             21
--------------------------------------------------------------------------------
-SUM:                           118            632            262          11169
--------------------------------------------------------------------------------
-
 5/10
      143 text files.
      143 unique files.                                          
@@ -130,6 +115,50 @@ Campaign Manager
     Import/Export Mission
 
 ----
+Have:
+- Pilot
+- Frame
+- Advantage
+- Difficulty
+- Melee
+- Threat
+- Thrown
+- Range
+- AoE Blast
+- AoE Burst
+- AoE Cone
+- AoE Line
+- Kinetic Damage
+- Energy Damage
+- Explosive Damage
+- Heat Damage
+- Burn Damage
+- Reactor Stress
+- Structure
+- Variable Damage
+- Repair Capacity pip
+- Overcharge pip
+- Mech System
+- Activate Pilot/Mech
+- Deactivate Pilot/Mech
+
+NPC roles:
+- Striker
+- Tank
+- Controller
+- Support
+- Artillery
+
+NPC module types:
+- Weapon
+- System
+- Trait
+
+Need:
+- Free Action
+- Downtime Action
+- Downtime Reserve (or, Narrative/Mech/Tactical Reserve)
+
 
 More glyphs:
 Variable Damage

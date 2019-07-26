@@ -1,6 +1,6 @@
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
-☐ can't mark intg systems destroyed
+☐ can't mark intg systems destroyed, change their notes, etc
 
 Merge NPCs:
   ✔ Persistence @done(19-07-12 13:08)
@@ -15,20 +15,29 @@ On Deck:
 
   ☐ refresh cloud save (push/pull)
 
+  ✔ Downtime screen -> mission flow @done(19-07-26 13:05)
+
   Downtime:
+    ☐ Pilot Sheet -> Add Custom Reserve
+    ☐ Pilot Sheet -> Add Custom Trigger
+    ☐ Pilot Sheet -> Add Custom Project
+    ☐ Pilot Sheet -> Add Custom Organization
     ☐ Downtime Sheet
       ✔ Pilot Section @done(19-07-19 14:42)
       ✔ Skills @done(19-07-19 14:42)
+      ☐ Expand Reserves/Skills in downtime, collapse in mission
+      ☐ Hide mech in downtime (STANDING BY)
+      ☐ Downtime action edit in active mode
       ☐ Downtime Actions Panel
         name - description - notes - cost
-        ☐ Power at a Cost
-          ☐ Add reserve (or custom reserve), cost
-        ☐ Buy Some Time
-          ☐ Add reserve: Time cost as note
-        ☐ Get a Damn Drink
-          ☐ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity
-          ☐ 0 1 or 2 reserves (one reserve item)
-          ☐ cost (or no cost)
+        ✔ Power at a Cost @done(19-07-25 14:30)
+          ✔ Add reserve (or custom reserve), cost @done(19-07-25 14:36)
+        ✔ Buy Some Time @done(19-07-26 10:54)
+          ✔ Add reserve: Time cost as note @done(19-07-26 10:54)
+        ✔ Get a Damn Drink @done(19-07-26 12:18)
+          ✔ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity @done(19-07-26 12:18)
+          ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18)
+          ✔ cost (or no cost) @done(19-07-26 12:18)
         ☐ Get Creative
           ☐ Start project or continue project
             ☐ Start project adds a new Project reserve with status IN PROGRESS
@@ -45,30 +54,32 @@ On Deck:
           ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
           ☐ Manage Organization
           ☐ Upgrade Organization
-        ☐ Gather Information
-          ☐ Input roll
-            ☐ skip or get reserve with cost
-            ☐ get info, no cost
-        ☐ Get Connected
-          ☐ Input roll
-            ☐ skip or get reserve with cost
-            ☐ get info, no cost
-        ☐ Scrounge and Barter
-          ☐ Input roll
-            ☐ skip or get reserve with cost
-            ☐ select predetermined cost
-            ☐ get info, no cost
+        ✔ Gather Information @done(19-07-26 12:39)
+          ✔ Input roll @done(19-07-26 12:39)
+            ✔ skip or get reserve with cost @done(19-07-26 12:39)
+            ✔ get info, no cost @done(19-07-26 12:39)
+        ✔ Get Connected @done(19-07-26 12:51)
+          ✔ Input roll @done(19-07-26 12:51)
+            ✔ skip or get reserve with cost @done(19-07-26 12:51)
+            ✔ get info, no cost @done(19-07-26 12:51)
+        ✔ Scrounge and Barter @done(19-07-26 13:06)
+          ✔ Input roll @done(19-07-26 13:06)
+            ✔ skip or get reserve with cost @done(19-07-26 13:06)
+            ✔ select predetermined cost @done(19-07-26 13:06)
+            ✔ get info, no cost @done(19-07-26 13:07)
     Reserves:
       Special Reserves:
-        ☐ Custom
+        ✔ Custom @done(19-07-25 14:37)
         ☐ Get Creative Project
         ☐ Get Focused Trigger
         ☐ Get Organized Organization
 
 
   Active Mode:
-    ☐ EJECTED status
-      ☐ Show pilot stats &c. only on Ejected status
+    ✔ EJECTED status @done(19-07-20 18:17)
+      ✔ Show pilot stats &c. only on Ejected status @done(19-07-20 18:17)
+      ✔ Fight Action @done(19-07-20 18:17)
+      ✔ Jockey Action @done(19-07-20 18:17)
     ✔ DESTROYED status @done(19-07-18 12:28)
       ✔ no actions possible @done(19-07-18 12:28)
       ✔ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override) @done(19-07-18 12:29)
@@ -88,9 +99,6 @@ On Deck:
     ☐ Click to apply weapon/system self heat
     ☐ Disable dangerzone systems outside of dangerzone
     ☐ Ammo block
-    Post Roller:
-      ☐ Add heat on overcharge
-      ☐ Roll on stress/structure tables
 
 GM MODE:
   ☐ Campaigns landing page (import/export/new/select)
@@ -107,11 +115,9 @@ Refactor:
 Improvements:
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
-  ☐ new editable label
+  ☐ use NPC editable label
   ☐ different cloud save ui 
-  ☐ Weapon Ammo Class
-  ☐ Set Ammo (with armament)
-  ☐ Downtime Resources in glossary
+  ✔ Downtime Resources in glossary @done(19-07-20 18:47)
   ☐ Undo
   
 Styling:

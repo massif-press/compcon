@@ -1,6 +1,12 @@
 <template>
   <v-flex :style="`width: ${width}%`">
-    <v-card dark class="ma-1" height="100%" :class="weapon.IsDestroyed ? 'destroyed-bg' : ''">
+    <v-card
+      color="#595959"
+      dark
+      class="ma-1"
+      height="100%"
+      :class="weapon.IsDestroyed ? 'destroyed-bg' : ''"
+    >
       <v-tooltip left v-if="weapon.IsDestroyed">
         <v-btn
           slot="activator"
@@ -28,9 +34,7 @@
           style="bottom: 0; right:0"
           @click="weapon.Destroy()"
         >
-          <v-icon size="25" color="warning" class="hover-opacity">
-            mdi-image-broken-variant
-          </v-icon>
+          <v-icon size="25" color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
         </v-btn>
         <span>Mark equipment as Destroyed</span>
       </v-tooltip>
@@ -49,9 +53,7 @@
             <i style="text-decoration: line-through">{{ weapon.Mod.Name }}</i>
             (DESTROYED)
           </span>
-          <span v-else class="pink--text text--lighten-4">
-            {{ weapon.Mod.Name }}
-          </span>
+          <span v-else class="pink--text text--lighten-4">{{ weapon.Mod.Name }}</span>
         </span>
         <v-spacer />
         <span class="caption">{{ weapon.Source }} {{ weapon.Size }} {{ weapon.Type }}&nbsp;</span>
@@ -87,9 +89,9 @@
               </v-flex>
               <v-flex shrink>
                 <span class="caption grey--text">USES&nbsp;</span>
-                <b class="warning--text">
-                  {{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}
-                </b>
+                <b
+                  class="warning--text"
+                >{{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}</b>
               </v-flex>
               <v-flex grow>
                 <v-divider class="mt-2 ml-3" />
@@ -145,9 +147,7 @@
             <v-flex xs1></v-flex>
           </v-layout>
           <ul>
-            <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">
-              {{ n }}
-            </li>
+            <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">{{ n }}</li>
           </ul>
         </div>
       </v-card-text>

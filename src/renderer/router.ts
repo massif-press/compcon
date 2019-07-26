@@ -30,10 +30,6 @@ export default new Router({
           component: require('@/features/pilot_management/ActiveSheet/index').default,
         },
         {
-          path: '/downtime',
-          component: require('@/features/pilot_management/DowntimeSheet/index').default,
-        },
-        {
           path: '/hangar',
           component: require('@/features/pilot_management/HangarView/index').default,
         },

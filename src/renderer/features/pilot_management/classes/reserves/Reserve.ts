@@ -9,6 +9,7 @@ class Reserve {
   private label: string
   private resource_name: string
   private resource_note: string
+  private resource_cost: string
   private description: string
   private roll_min: number
   private roll_max: number
@@ -21,6 +22,7 @@ class Reserve {
     this.label = reserveData.label
     this.resource_name = ''
     this.resource_note = ''
+    this.resource_cost = ''
     this.description = reserveData.description
     this.roll_min = reserveData.roll_min
     this.roll_max = reserveData.roll_max
@@ -53,6 +55,15 @@ class Reserve {
 
   public set ResourceName(name: string) {
     this.resource_name = name
+    this.save()
+  }
+
+  public get ResourceCost(): string {
+    return this.resource_cost
+  }
+
+  public set ResourceCost(cost: string) {
+    this.resource_cost = cost
     this.save()
   }
 
@@ -94,6 +105,7 @@ class Reserve {
       id: reserve.ID,
       resource_name: reserve.ResourceName,
       resource_note: reserve.Note,
+      resource_cost: reserve.ResourceCost,
       used: reserve.Used,
     }
   }
@@ -102,6 +114,7 @@ class Reserve {
     let r = new Reserve(reserves.find(x => x.id === rData.id))
     r.ResourceName = rData.resource_name
     r.Note = rData.resource_note
+    r.ResourceCost = rData.resource_cost
     r.Used = rData.used
     return r
   }
