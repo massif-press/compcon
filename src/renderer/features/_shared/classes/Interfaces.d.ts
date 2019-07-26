@@ -72,6 +72,7 @@ declare interface IReserveData {
   id: string;
   resource_name: string;
   resource_note: string;
+  resource_cost: string;
   used: boolean;
 }
 
@@ -105,6 +106,7 @@ declare interface IMechData {
   conditions: string[];
   resistances: string[];
   burn: number;
+  ejected: boolean;
   destroyed: boolean;
   meltdown_imminent: boolean;
   reactor_destroyed: boolean;

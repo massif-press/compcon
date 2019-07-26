@@ -26,6 +26,7 @@ class Mech {
   private statuses: string[]
   private conditions: string[]
   private resistances: string[]
+  private ejected: boolean
   private destroyed: boolean
   private reactor_destroyed: boolean
   private meltdown_imminent: boolean
@@ -53,6 +54,7 @@ class Mech {
     this.conditions = []
     this.resistances = []
     this.burn = 0
+    this.ejected = false
     this.destroyed = false
     this.reactor_destroyed = false
     this.meltdown_imminent = false
@@ -516,6 +518,14 @@ class Mech {
      this.destroyed = b
   }
 
+  public get IsEjected(): boolean {
+    return this.ejected
+  }
+
+  public set IsEjected(b: boolean) {
+     this.ejected = b
+  }
+
   public get MeltdownImminent(): boolean {
     return this.meltdown_imminent
   }
@@ -718,6 +728,7 @@ class Mech {
       conditions: m.conditions,
       resistances: m.resistances,
       burn: m.burn,
+      ejected: m.ejected,
       destroyed: m.destroyed,
       meltdown_imminent: m.meltdown_imminent,
       reactor_destroyed: m.reactor_destroyed,
@@ -747,6 +758,7 @@ class Mech {
     m.conditions = mechData.conditions || []
     m.resistances = mechData.resistances || []
     m.burn = mechData.burn || 0
+    m.ejected = mechData.ejected || false
     m.destroyed = mechData.destroyed || false
     m.meltdown_imminent = mechData.meltdown_imminent || false
     m.reactor_destroyed = mechData.reactor_destroyed || false

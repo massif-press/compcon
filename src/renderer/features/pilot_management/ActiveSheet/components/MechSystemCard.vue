@@ -1,6 +1,11 @@
 <template>
   <v-flex xs6>
-    <v-card dark class="ma-1" height="100%" :class="system.IsDestroyed ? 'destroyed-bg' : ''">
+    <v-card
+      dark
+      color="#595959"
+      height="95%"
+      :class="system.IsDestroyed ? 'destroyed-bg ma-1 pb-3' : 'ma-1 pb-3'"
+    >
       <v-tooltip left v-if="system.IsDestroyed">
         <v-btn
           slot="activator"
@@ -28,9 +33,7 @@
           style="bottom: 0; right:0"
           @click="system.Destroy()"
         >
-          <v-icon size="25" color="warning" class="hover-opacity">
-            mdi-image-broken-variant
-          </v-icon>
+          <v-icon size="25" color="warning" class="hover-opacity">mdi-image-broken-variant</v-icon>
         </v-btn>
         <span>Mark equipment as Destroyed</span>
       </v-tooltip>
@@ -64,9 +67,7 @@
             </v-flex>
             <v-flex shrink>
               <span class="caption grey--text">USES&nbsp;</span>
-              <b class="warning--text">
-                {{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}
-              </b>
+              <b class="warning--text">{{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}</b>
             </v-flex>
             <v-flex grow>
               <v-divider class="mt-2 ml-3" />
@@ -101,9 +102,7 @@
             <v-flex xs1></v-flex>
           </v-layout>
           <ul>
-            <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">
-              {{ n }}
-            </li>
+            <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">{{ n }}</li>
           </ul>
         </div>
       </v-card-text>

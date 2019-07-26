@@ -28,7 +28,7 @@
       <v-toolbar-items>
         <v-btn flat to="/compendium">Compendium</v-btn>
         <v-btn flat to="/pilot_management">Pilot Roster</v-btn>
-        <v-divider vertical class="ml-2 mr-2" />
+        <v-divider v-if="pilot" vertical class="ml-2 mr-2" />
         <v-menu v-if="pilot" nudge-bottom="45px" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" color="primary">
@@ -40,9 +40,6 @@
           <v-list dense>
             <v-list-tile to="/active">
               <v-list-tile-title class="minor-title">Active Play Mode</v-list-tile-title>
-            </v-list-tile>
-            <v-list-tile to="/downtime">
-              <v-list-tile-title class="minor-title">Downtime Mode</v-list-tile-title>
             </v-list-tile>
             <v-divider />
             <v-list-tile to="/pilot">

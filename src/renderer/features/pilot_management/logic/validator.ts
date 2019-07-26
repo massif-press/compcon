@@ -84,6 +84,7 @@ function convertMechs(old: any): IMechData {
     burn: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
+    ejected: false,
     destroyed: false,
     reactor_destroyed: false,
     meltdown_imminent: false,

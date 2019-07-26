@@ -2,9 +2,7 @@
   <v-flex xs4>
     <v-card height="100%" :color="reserve.Used ? 'grey lighten-4' : ''">
       <v-toolbar dark flat dense :color="reserve.Used ? 'grey darken-1' : color">
-        <v-toolbar-title class="minor-title">
-          {{ reserve.Name }}
-        </v-toolbar-title>
+        <v-toolbar-title class="minor-title">{{ reserve.Name }}</v-toolbar-title>
         <v-spacer />
         <v-toolbar-items>
           <v-tooltip top>
@@ -41,6 +39,14 @@
             <v-textarea v-model.lazy="reserve.Note" auto-grow box rows="1" label="Details" />
           </div>
         </div>
+        <v-textarea
+          v-model.lazy="reserve.ResourceCost"
+          auto-grow
+          box
+          rows="1"
+          label="Cost/Complications (if any)"
+          clearable
+        />
         <v-checkbox
           v-model="reserve.Used"
           label="Used"
