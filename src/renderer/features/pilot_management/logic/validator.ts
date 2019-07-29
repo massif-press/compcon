@@ -29,6 +29,7 @@ function convertPilot(old: any): IPilotData {
     active: false,
     background: old.custom_background ? 'ai' : old.background,
     reserves: [],
+    orgs: [],
     mechSkills: [old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng],
     licenses: old.licenses.map((x: any) => ({
       id: licenseNameToId(x.name),

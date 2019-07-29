@@ -13,21 +13,20 @@ On Deck:
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon type selection
 
-  ☐ refresh cloud save (push/pull)
-
   ✔ Downtime screen -> mission flow @done(19-07-26 13:05)
 
   Downtime:
-    ☐ Pilot Sheet -> Add Custom Reserve
-    ☐ Pilot Sheet -> Add Custom Trigger
+    ✔ Pilot Sheet -> Add Custom Reserve @done(19-07-29 12:37)
+    ✔ Pilot Sheet -> Add Custom Trigger @done(19-07-29 12:17)
+    ✔ Pilot Sheet -> Remove Custom Trigger @done(19-07-29 12:17)
     ☐ Pilot Sheet -> Add Custom Project
     ☐ Pilot Sheet -> Add Custom Organization
     ☐ Downtime Sheet
       ✔ Pilot Section @done(19-07-19 14:42)
       ✔ Skills @done(19-07-19 14:42)
       ☐ Expand Reserves/Skills in downtime, collapse in mission
+        ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49)
       ☐ Hide mech in downtime (STANDING BY)
-      ☐ Downtime action edit in active mode
       ☐ Downtime Actions Panel
         name - description - notes - cost
         ✔ Power at a Cost @done(19-07-25 14:30)
@@ -39,21 +38,22 @@ On Deck:
           ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18)
           ✔ cost (or no cost) @done(19-07-26 12:18)
         ☐ Get Creative
-          ☐ Start project or continue project
-            ☐ Start project adds a new Project reserve with status IN PROGRESS
-              ☐ IN PROGRESS project has requirements (costs)
-            ☐ Notes etc
+          ✔ Start project or continue project @done(19-07-29 16:41)
+            ✔ Start project adds a new Project reserve with status IN PROGRESS @done(19-07-29 16:41)
+              ✔ IN PROGRESS project has requirements (costs) @done(19-07-29 16:41)
+            ✔ Notes etc @done(19-07-29 16:41)
           ☐ Continue project - input roll
             ☐ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project
             ☐ Completed project changes reserve status, makes usable
-        ☐ Get Focused
-          ☐ Add new Skill
-          ☐ Upgrade Get Focused Skill
+        ✔ Get Focused @done(19-07-29 11:43)
+          ✔ Add new Skill @done(19-07-29 11:43)
+          ✔ Upgrade Get Focused Skill @done(19-07-29 11:43)
         ☐ Get Organized
           ☐ New Organization section
           ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
           ☐ Manage Organization
           ☐ Upgrade Organization
+          ☐ Mandatory org rolling on every downtime
         ✔ Gather Information @done(19-07-26 12:39)
           ✔ Input roll @done(19-07-26 12:39)
             ✔ skip or get reserve with cost @done(19-07-26 12:39)
@@ -70,9 +70,9 @@ On Deck:
     Reserves:
       Special Reserves:
         ✔ Custom @done(19-07-25 14:37)
-        ☐ Get Creative Project
-        ☐ Get Focused Trigger
-        ☐ Get Organized Organization
+        ✔ Get Creative Project @done(19-07-29 16:41)
+        ✔ Get Focused Trigger @done(19-07-29 11:46)
+        ✔ Get Organized Organization @done(19-07-29 16:41)
 
 
   Active Mode:
@@ -96,21 +96,16 @@ On Deck:
       ✔ ST reacts to current structure damage (limit options, etc) @done(19-07-18 11:02)
       ✔ Mark weapons/systems as destroyed @done(19-07-18 11:02)
     ✔ Stress Table popup on full heat @done(19-07-18 13:14)
-    ☐ Click to apply weapon/system self heat
-    ☐ Disable dangerzone systems outside of dangerzone
-    ☐ Ammo block
-
-GM MODE:
-  ☐ Campaigns landing page (import/export/new/select)
-    ☐ Pilot Roster (import pilots via json or gistID)
-    ☐ NPC Roster
-
-    ☐ vuetify timelines
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
+  ☐ background -> save string only
+
+Style Pass:
+  ☐ Vuetify 2.0
+  ☐ Standardize colors, add Vuetify theme
 
 Improvements:
   ☐ refresh cloud-saved pilots
@@ -119,9 +114,18 @@ Improvements:
   ☐ different cloud save ui 
   ✔ Downtime Resources in glossary @done(19-07-20 18:47)
   ☐ Undo
+  ☐ Click to apply weapon/system self heat
+  ☐ Disable dangerzone systems outside of dangerzone
+  ☐ Ammo block
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
+
+  GM MODE:
+  ☐ Campaigns landing page (import/export/new/select)
+    ☐ Pilot Roster (import pilots via json or gistID)
+    ☐ NPC Roster
+    ☐ vuetify timelines
 
 Preconstructed Characters:
   ☐ Select Character (cultural stuff)

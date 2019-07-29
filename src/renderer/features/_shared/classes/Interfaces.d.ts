@@ -26,6 +26,7 @@ declare interface IDamageRollResult {
 declare interface IRankedData {
   id: string;
   rank: number;
+  custom?: boolean;
 }
 
 declare interface IEquipmentData {
@@ -61,6 +62,7 @@ declare interface IPilotData {
   talents: IRankedData[];
   core_bonuses: string[];
   reserves: IReserveData[];
+  orgs: IOrganizationData[];
   loadouts: IPilotLoadoutData[];
   active_loadout: string | null;
   mechs: IMechData[];
@@ -70,10 +72,29 @@ declare interface IPilotData {
 
 declare interface IReserveData {
   id: string;
+  type?: string;
+  name?: string;
+  label?: string;
+  description?: string;
   resource_name: string;
   resource_note: string;
   resource_cost: string;
   used: boolean;
+}
+
+declare interface IProjectData extends IReserveData {
+  complicated: boolean;
+  can_finish: boolean;
+  finished: boolean;
+  progress: number;
+  requirements: string[];
+}
+
+declare interface IOrganizationData {
+  purpose: string;
+  description: string;
+  efficiency: number;
+  influence: number;
 }
 
 declare interface IPilotLoadoutData {
