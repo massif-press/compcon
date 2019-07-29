@@ -3,7 +3,7 @@
     <template v-slot:left-column>
       <v-layout>
         <v-flex xs12>
-          <div v-for="pSkill in pilot.Skills" :key="`summary_${pSkill.Skill.ID}`">
+          <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
             <v-layout v-if="pSkill.err">
               <v-flex shrink>
                 <span class="grey--text">// MISSING DATA //</span>
@@ -35,28 +35,20 @@
             color="success"
             icon="check_circle"
             :value="!pilot.IsMissingSkills && !(points.selectedCurrent < points.selectedMin)"
-          >
-            Skill Selection Complete
-          </v-alert>
+          >Skill Selection Complete</v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
-          >
-            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
-          </v-alert>
+          >{{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining</v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="points.selectedCurrent < points.selectedMin"
-          >
-            Must select a minimum of {{ points.selectedMin }} skills
-          </v-alert>
-          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">
-            Reset
-          </v-btn>
+          >Must select a minimum of {{ points.selectedMin }} skills</v-alert>
+          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">Reset</v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -65,7 +57,9 @@
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
         <v-flex class="skill-header minor-title" v-html="h.description" />
         <v-layout v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
-          <v-flex xs11><skill-item :skill="skill" /></v-flex>
+          <v-flex xs11>
+            <skill-item :skill="skill" />
+          </v-flex>
           <v-flex>
             <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
               <div class="centered">
@@ -101,6 +95,82 @@
           </v-flex>
         </v-layout>
       </div>
+
+      <div class="mb-4">
+        <v-flex class="skill-header minor-title" v-html="'Custom Skill Triggers'" />
+        <v-layout>
+          <v-flex xs11>
+            <v-layout>
+              <v-flex xs3>
+                <div class="centered text-xs-left pl-3">
+                  <span class="subheading font-weight-bold">New Custom Skill</span>
+                </div>
+              </v-flex>
+              <v-flex xs9>
+                <v-text-field v-model="newSkill" box hide-details label="New Skill Trigger" />
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex>
+            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+              <div class="centered">
+                <v-tooltip top>
+                  <v-btn
+                    class="ma-0"
+                    color="primary"
+                    icon
+                    flat
+                    slot="activator"
+                    :disabled="(pilot.CurrentSkillPoints >= pilot.MaxSkillPoints) || !newSkill"
+                    @click="addCustomSkill()"
+                  >
+                    <v-icon v-html="'add'" />
+                  </v-btn>
+                  <span>Add Custom Skill</span>
+                </v-tooltip>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout v-for="pskill in customSkills" :key="pskill.Skill.Name">
+          <v-flex xs11>
+            <skill-item :skill="pskill.Skill" />
+          </v-flex>
+          <v-flex>
+            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+              <div class="centered">
+                <v-tooltip top>
+                  <v-btn
+                    class="ma-0"
+                    color="primary"
+                    icon
+                    flat
+                    slot="activator"
+                    :disabled="!canAdd(pskill.Skill)"
+                    @click="add(pskill.Skill)"
+                  >
+                    <v-icon v-html="newPilot ? 'check' : 'arrow_upward'" />
+                  </v-btn>
+                  <span>Increase Skill Bonus</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <v-btn
+                    class="ma-0"
+                    icon
+                    flat
+                    slot="activator"
+                    :disabled="!canSubtract(pskill.Skill)"
+                    @click="subtract(pskill.Skill)"
+                  >
+                    <v-icon v-html="newPilot ? 'cancel' : 'arrow_downward'" />
+                  </v-btn>
+                  <span v-html="newPilot ? 'Remove Skill Trigger' : 'Decrease Skill Bonus'" />
+                </v-tooltip>
+              </div>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </div>
     </template>
   </selector>
 </template>
@@ -112,7 +182,7 @@ import _ from 'lodash'
 import { SkillItem } from '../SheetComponents'
 import Selector from './Selector.vue'
 import { rules } from 'lancer-data'
-import { Pilot, Skill, PilotSkill } from '@/class'
+import { Pilot, Skill, PilotSkill, CustomSkill } from '@/class'
 
 export default Vue.extend({
   name: 'skill-selector',
@@ -123,6 +193,7 @@ export default Vue.extend({
   },
   data: () => ({
     skills: [],
+    newSkill: '',
     headers: [
       {
         attr: 'str',
@@ -148,6 +219,9 @@ export default Vue.extend({
   }),
   components: { Selector, SkillItem },
   computed: {
+    customSkills() {
+      return this.pilot.Skills.filter(x => x.IsCustom)
+    },
     points() {
       var vm = this as any
       return {
@@ -157,6 +231,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    addCustomSkill() {
+      this.pilot.AddSkill(new CustomSkill(this.newSkill))
+      this.newSkill = ''
+    },
     add(skill: Skill) {
       var vm = this as any
       vm.pilot.AddSkill(skill)

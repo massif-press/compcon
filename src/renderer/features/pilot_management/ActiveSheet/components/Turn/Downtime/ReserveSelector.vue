@@ -77,6 +77,12 @@ export default Vue.extend({
     reserveByID(id) {
       return reserves.find(x => x.id === id)
     },
+    reset() {
+      this.type = ''
+      this.reserve = ''
+      this.custom_name = ''
+      this.details = ''
+    },
   },
 })
 </script>

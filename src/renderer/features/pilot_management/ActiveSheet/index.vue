@@ -112,19 +112,22 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel expand dark class="mt-2">
+      <v-expansion-panel expand dark class="mt-2" :disabled="!pilot.Reserves.length">
         <v-expansion-panel-content
           expand-icon="keyboard_arrow_down"
           ripple
           style="background-color: #616161"
         >
-          <span slot="header" class="minor-title">Reserves</span>
+          <span
+            slot="header"
+            class="minor-title"
+          >Reserves {{pilot.Reserves.length ? '' : ' (NONE) '}}</span>
           <v-layout row wrap fill-height>
             <v-flex xs6 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
               <div class="mr-1" style="height: 95%">
                 <active-card :color="reserveColor(r)" :header="`${r.Name}`" subheader="RESERVE">
                   <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">{{ r.ResourceName }}</p>
-                    <p v-if="r.Note" class="ml-2">{{ r.Note }}</p>
+                  <p v-if="r.Note" class="ml-2">{{ r.Note }}</p>
                   <span v-if="!r.ResourceName || !r.Note">{{ r.Description }}</span>
                   <v-alert type="warning" :value="r.ResourceCost" outline>
                     <span v-html="r.ResourceCost" />
@@ -160,7 +163,7 @@
           </v-layout>
           <v-divider dark class="ma-2" />
           <v-layout row>
-            <v-flex v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
+            <v-flex xs4 v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
               <active-card color="#616161" :header="bonus.Name" subheader="CORE BONUS">
                 <span v-html="bonus.effect" />
               </active-card>

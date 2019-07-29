@@ -15,7 +15,16 @@
         <v-toolbar-items>
           <v-dialog width="50vw">
             <template v-slot:activator="{ on }">
-              <v-btn absolute right style="right: 0; top: 0" icon flat dark v-on="on">
+              <v-btn
+                v-if="!pSkill.IsCustom"
+                absolute
+                right
+                style="right: 0; top: 0"
+                icon
+                flat
+                dark
+                v-on="on"
+              >
                 <v-icon dark>mdi-information-outline</v-icon>
               </v-btn>
             </template>

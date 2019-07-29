@@ -17,10 +17,14 @@
         <damn-drink :pilot="pilot" @close="$refs.damndrink.dialog = false" />
       </dt-action>
       <dt-action action-id="action_creative" class="mb-1" ref="getcreative">
-        <!-- <gather-information :pilot="pilot" @close="$refs.gatherinfo.dialog = false" /> -->
+        <get-creative :pilot="pilot" @close="$refs.getcreative.dialog = false" />
       </dt-action>
-      <dt-action action-id="action_focused" class="mb-1" />
-      <dt-action action-id="action_organized" class="mb-1" />
+      <dt-action action-id="action_focused" class="mb-1" ref="getfocused">
+        <get-focused :pilot="pilot" @close="$refs.getfocused.dialog = false" />
+      </dt-action>
+      <dt-action action-id="action_organized" class="mb-1" ref="getorganized">
+        <get-organized :pilot="pilot" @close="$refs.getorganized.dialog = false" />
+      </dt-action>
       <dt-action action-id="action_information" class="mb-1" ref="gatherinfo">
         <gather-information :pilot="pilot" @close="$refs.gatherinfo.dialog = false" />
       </dt-action>
@@ -49,6 +53,9 @@ import DamnDrink from './Downtime/DamnDrink.vue'
 import GatherInformation from './Downtime/GatherInformation.vue'
 import GetConnected from './Downtime/GetConnected.vue'
 import ScroungeBarter from './Downtime/ScroungeBarter.vue'
+import GetFocused from './Downtime/GetFocused.vue'
+import GetCreative from './Downtime/GetCreative.vue'
+import GetOrganized from './Downtime/GetOrganized.vue'
 
 export default Vue.extend({
   name: 'downtime-sidebar',
@@ -60,6 +67,9 @@ export default Vue.extend({
     GatherInformation,
     GetConnected,
     ScroungeBarter,
+    GetFocused,
+    GetCreative,
+    GetOrganized,
   },
   props: {
     pilot: Object,

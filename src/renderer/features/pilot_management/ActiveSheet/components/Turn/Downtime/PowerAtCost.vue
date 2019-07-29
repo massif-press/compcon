@@ -105,6 +105,7 @@ export default Vue.extend({
     close() {
       this.complication1 = 'None'
       this.complication2 = 'None'
+      this.$refs.rs.reset()
       this.$emit('close')
     },
   },
