@@ -63,18 +63,20 @@
                   <div slot="activator">
                     <v-btn
                       @click.stop="toggleModModal(true)"
-                      flat
-                      icon
+                      :color="availableMod() ? 'blue-grey lighten-2' : ''"
+                      :disabled="availableMod() ? false : true"
                       small
                       absolute
                       class="ma-0 pa-0"
                       style="top: 10px"
                     >
+                      <span>Mod</span>
                       <v-icon small>build</v-icon>
                     </v-btn>
                   </div>
                   <span>Add/Change Weapon Mods</span>
                 </v-tooltip>
+                <v-spacer class="mr-5" />
               </span>
             </v-layout>
             <mod-card
@@ -242,6 +244,20 @@ export default Vue.extend({
     },
   },
   methods: {
+    availableMod(): boolean {
+      const vm = this as any
+      const weapon = this.weaponSlot.Weapon
+      const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
+      let i = allMods.filter(x => x.Source)
+      // get all licensed mods
+      i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
+      // filter out any mount size restrictions
+      i = i.filter(x => !x.Restricted || !x.Restricted.includes(weapon.Size))
+      // filter out any weapon type restrictions
+      i = i.filter(x => !x.AppliedTo || x.AppliedTo.includes(weapon.Type))
+
+      return i.length > 0
+    },
     //TODO: should not be hardcoded
     getRange(): Range[] {
       const w = this.weaponSlot.Weapon
