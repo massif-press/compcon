@@ -1,20 +1,22 @@
-import { Skill } from '@/class'
+import { Skill, CustomSkill } from '@/class'
 import { rules } from 'lancer-data'
 
 class PilotSkill {
-  private skill: Skill
+  private skill: Skill | CustomSkill
   private rank: number
+  private isCustom: boolean
 
-  constructor(skill: Skill, rank?: number) {
+  constructor(skill: Skill | CustomSkill, rank?: number) {
     this.skill = skill
     this.rank = rank ? rank : 1
+    this.isCustom = skill instanceof CustomSkill
   }
 
   public get Title(): string {
     return this.skill.Name
   }
 
-  public get Skill(): Skill {
+  public get Skill(): Skill | CustomSkill {
     return this.skill
   }
 
@@ -24,6 +26,10 @@ class PilotSkill {
 
   public get Bonus(): number {
     return this.rank * rules.trigger_bonus_per_rank
+  }
+
+  public get IsCustom(): boolean {
+    return this.isCustom
   }
 
   public Increment(): boolean {
@@ -39,10 +45,12 @@ class PilotSkill {
   }
 
   public static Serialize(item: PilotSkill): IRankedData {
+    if (item.IsCustom) return { id: item.Skill.Name, rank: item.Rank, custom: true }
     return { id: item.Skill.ID, rank: item.Rank }
   }
 
   public static Deserialize(itemData: IRankedData) {
+    if (itemData.custom) return new PilotSkill(new CustomSkill(itemData.id), itemData.rank)
     return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank)
   }
 }

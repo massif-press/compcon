@@ -28,7 +28,7 @@
       <v-toolbar-items>
         <v-btn flat to="/compendium">Compendium</v-btn>
         <v-btn flat to="/pilot_management">Pilot Roster</v-btn>
-        <v-divider vertical class="ml-2 mr-2" />
+        <v-divider v-if="pilot" vertical class="ml-2 mr-2" />
         <v-menu v-if="pilot" nudge-bottom="45px" open-on-hover>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" color="primary">
@@ -39,32 +39,26 @@
 
           <v-list dense>
             <v-list-tile to="/active">
-              <v-list-tile-title class="minor-title">
-                Active Play Mode
-              </v-list-tile-title>
+              <v-list-tile-title class="minor-title">Active Play Mode</v-list-tile-title>
             </v-list-tile>
             <v-divider />
             <v-list-tile to="/pilot">
-              <v-list-tile-title class="minor-title">
-                Pilot Sheet
-              </v-list-tile-title>
+              <v-list-tile-title class="minor-title">Pilot Sheet</v-list-tile-title>
             </v-list-tile>
             <v-divider />
             <v-list-tile to="/hangar">
-              <v-list-tile-title class="minor-title">
-                Mech Hangar
-              </v-list-tile-title>
+              <v-list-tile-title class="minor-title">Mech Hangar</v-list-tile-title>
             </v-list-tile>
           </v-list>
           <v-list two line dense>
             <v-list-tile v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
               <v-list-tile-content>
-                <v-list-tile-title class="text-xs-right font-weight-bold effect-text">
-                  {{ mech.Name }}
-                </v-list-tile-title>
-                <v-list-tile-sub-title class="text-xs-right">
-                  {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-                </v-list-tile-sub-title>
+                <v-list-tile-title
+                  class="text-xs-right font-weight-bold effect-text"
+                >{{ mech.Name }}</v-list-tile-title>
+                <v-list-tile-sub-title
+                  class="text-xs-right"
+                >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -81,19 +75,13 @@
 
           <v-list>
             <v-list-tile @click="optionsModal = true">
-              <v-list-tile-title flat>
-                Options
-              </v-list-tile-title>
+              <v-list-tile-title flat>Options</v-list-tile-title>
             </v-list-tile>
             <v-list-tile @click="aboutModal = true">
-              <v-list-tile-title flat>
-                About
-              </v-list-tile-title>
+              <v-list-tile-title flat>About</v-list-tile-title>
             </v-list-tile>
             <v-list-tile @click="helpModal = true">
-              <v-list-tile-title flat>
-                Help
-              </v-list-tile-title>
+              <v-list-tile-title flat>Help</v-list-tile-title>
             </v-list-tile>
           </v-list>
         </v-menu>
@@ -143,9 +131,7 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" flat @click="helpModal = false">
-            Close
-          </v-btn>
+          <v-btn color="primary" flat @click="helpModal = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

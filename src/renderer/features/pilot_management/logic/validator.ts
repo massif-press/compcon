@@ -29,6 +29,7 @@ function convertPilot(old: any): IPilotData {
     active: false,
     background: old.custom_background ? 'ai' : old.background,
     reserves: [],
+    orgs: [],
     mechSkills: [old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng],
     licenses: old.licenses.map((x: any) => ({
       id: licenseNameToId(x.name),
@@ -84,6 +85,10 @@ function convertMechs(old: any): IMechData {
     burn: 0,
     loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
+    ejected: false,
+    destroyed: false,
+    reactor_destroyed: false,
+    meltdown_imminent: false,
     cc_ver: Vue.prototype.version,
   }
 }

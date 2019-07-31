@@ -13,6 +13,8 @@ import {
   Talent,
   CoreBonus,
   Mech,
+  CustomSkill,
+  Organization,
 } from '@/class'
 import { rules } from 'lancer-data'
 import store from '@/store'
@@ -41,6 +43,7 @@ class Pilot {
   private mechSkills: MechSkills
 
   private reserves: Reserve[]
+  private orgs: Organization[]
 
   private loadouts: PilotLoadout[]
   private active_loadout: string | null
@@ -77,6 +80,7 @@ class Pilot {
     this.mechs = []
     this.loaded_mech = null
     this.reserves = []
+    this.orgs = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
@@ -87,7 +91,7 @@ class Pilot {
 
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
-      return this.skills.findIndex(x => x.Skill.ID === id) > -1
+      return this.skills.findIndex(x => x.Skill.Name === id || x.Skill.ID === id) > -1
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.core_bonuses.findIndex(x => x.ID === id) > -1
     } else if (typeName.toLowerCase() === 'license') {
@@ -343,7 +347,7 @@ class Pilot {
     this.save()
   }
 
-  public AddSkill(skill: Skill) {
+  public AddSkill(skill: Skill | CustomSkill) {
     const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
     if (index === -1) {
       this.skills.push(new PilotSkill(skill))
@@ -353,7 +357,7 @@ class Pilot {
     this.save()
   }
 
-  public RemoveSkill(skill: Skill) {
+  public RemoveSkill(skill: Skill | CustomSkill) {
     const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
     if (index === -1) {
       console.error(`Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`)
@@ -590,6 +594,15 @@ class Pilot {
     this.save()
   }
 
+  public get Organizations(): Organization[] {
+    return this.orgs
+  }
+
+  public set Organizations(orgs: Organization[]) {
+    this.orgs = orgs
+    this.save()
+  }
+
   // -- Loadouts ----------------------------------------------------------------------------------
   public get Loadouts(): PilotLoadout[] {
     return this.loadouts
@@ -715,6 +728,7 @@ class Pilot {
       current_hp: p.CurrentHP,
       active: p.IsActive,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
+      orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
       background: Background.Serialize(p.Background),
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
@@ -753,6 +767,9 @@ class Pilot {
     p.loadouts = pilotData.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
     p.Reserves = pilotData.reserves
       ? pilotData.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+      : []
+    p.Organizations = pilotData.orgs
+      ? pilotData.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
       : []
     p.active_loadout = pilotData.active_loadout
     p.mechs = pilotData.mechs.length

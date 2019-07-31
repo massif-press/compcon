@@ -109,42 +109,20 @@ enum ReserveType {
   Narrative = 'Narrative',
   Tactical = 'Tactical',
   Mech = 'Mech',
+  Project = 'Project',
+  Organization = 'Organization',
 }
 
-// enum NarrativeReserve {
-//   Access = 'Access',
-//   Backing = 'Backing',
-//   Supplies = 'Supplies',
-//   Disguise = 'Disguise',
-//   Diversion = 'Diversion',
-//   Reputation = 'Reputation',
-//   SafeHarbor = 'Safe Harbor',
-//   Tracking = 'Tracking',
-//   Knowledge = 'Knowledge',
-// }
-
-// enum TacticalReserve {
-//   Scouting = 'Scouting',
-//   Vehicle = 'Vehicle',
-//   Reinforcements = 'Reinforcements',
-//   EnvironmentalShielding = 'Environmental Shielding',
-//   Accuracy = 'Accuracy',
-//   Ambush = 'Ambush',
-//   OrbitalDrop = 'Orbital Drop',
-//   NHPAssistant = 'NHP Assistant',
-//   Bombardment = 'Bombardment',
-//   ExtendedHarness = 'Extended Harness',
-// }
-
-// enum MechReserve {
-//   CoreBattery = 'Core Battery',
-//   DeployableShield = 'Deployable Shield',
-//   RedundantRepair = 'Redundant Repair ',
-//   SystemsReinforcement = 'Systems Reinforcement',
-//   SmartAmmo = 'Smart Ammo',
-//   BoostedServos = 'Boosted Servos',
-//   JumpJets = 'Jump Jets',
-// }
+enum OrgType {
+  Military = 'Military',
+  Scientific = 'Scientific',
+  Academic = 'Academic',
+  Criminal = 'Criminal',
+  Humanitarian = 'Humanitarian',
+  Industrial = 'Industrial',
+  Entertainment = 'Entertainment',
+  Political = 'Political',
+}
 
 export {
   MountType,
@@ -159,7 +137,5 @@ export {
   HASE,
   MechType,
   ReserveType,
-  // NarrativeReserve,
-  // TacticalReserve,
-  // MechReserve,
+  OrgType,
 }

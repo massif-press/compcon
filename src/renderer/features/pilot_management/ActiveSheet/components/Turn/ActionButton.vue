@@ -14,18 +14,14 @@
         <v-icon style="position: absolute; left: 0">$vuetify.icons.{{ action.action_type }}</v-icon>
         <div style="position: absolute; right: 0">
           <v-divider dark vertical class="ml-2 mr-1" />
-          <v-icon small @click.stop="dialog = true">
-            mdi-help-circle-outline
-          </v-icon>
+          <v-icon :small="!large" @click.stop="dialog = true">mdi-help-circle-outline</v-icon>
         </div>
-        <span class="pl-4 pr-3">{{ action.name }}</span>
+        <span class="pl-4 pr-3">{{ nameOverride ? nameOverride : action.name }}</span>
       </v-btn>
       <span>{{ action.description }}</span>
     </v-tooltip>
     <v-dialog v-model="dialog" width="700">
-      <v-toolbar dense :color="actionColor" class="major-title" dark>
-        {{ action.name }}
-      </v-toolbar>
+      <v-toolbar dense :color="actionColor" class="major-title" dark>{{ action.name }}</v-toolbar>
       <v-card dark>
         <v-card-text v-html="action.detail" class="effect-text" />
       </v-card>
@@ -44,6 +40,7 @@ export default Vue.extend({
     large: Boolean,
     colorOverride: String,
     disabled: Boolean,
+    nameOverride: String,
   },
   data: () => ({
     action: {},
@@ -74,6 +71,9 @@ export default Vue.extend({
           break
         case 'reaction':
           this.actionColor = 'purple darken-2'
+          break
+        case 'downtime':
+          this.actionColor = 'blue-grey darken-2'
           break
         default:
           this.actionColor = 'green darken-2'

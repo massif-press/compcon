@@ -1,8 +1,6 @@
 ☐ Personalization issue occuring while saving currently-active mechs
 ☐ usage items initialized without pilot limited bonus
-☐ can't mark intg systems destroyed
-
-- downtime bonus/resources section (extra gear, contacts, etc etc)
+☐ can't mark intg systems destroyed, change their notes, etc
 
 Merge NPCs:
   ✔ Persistence @done(19-07-12 13:08)
@@ -15,72 +13,120 @@ On Deck:
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon type selection
 
-  ☐ refresh cloud save (push/pull)
+  ✔ Downtime screen -> mission flow @done(19-07-26 13:05)
 
   Downtime:
-    ☐ Downtime Sheet
-      ☐ Pilot Section
-      ☐ Skills
+    ✔ Pilot Sheet -> Add Custom Reserve @done(19-07-29 12:37)
+    ✔ Pilot Sheet -> Add Custom Trigger @done(19-07-29 12:17)
+    ✔ Pilot Sheet -> Remove Custom Trigger @done(19-07-29 12:17)
+    ✔ Pilot Sheet -> Add Custom Project @done(19-07-30 11:48)
+    ✔ Pilot Sheet -> Add Custom Organization @done(19-07-31 10:34)
+    ✔ Pilot Sheet Org Section @done(19-07-31 10:44)
+    ✔ Action Sheet Org Section @done(19-07-31 10:54)
+    ✔ Downtime Sheet @done(19-07-31 12:41)
+      ✔ Pilot Section @done(19-07-19 14:42)
+      ✔ Skills @done(19-07-19 14:42)
+      ✔ Expand Reserves/Skills in downtime, collapse in mission @done(19-07-31 12:41)
+        ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49)
+      ✔ Downtime Actions Panel @done(19-07-31 10:56)
+        ✔ Power at a Cost @done(19-07-25 14:30)
+          ✔ Add reserve (or custom reserve), cost @done(19-07-25 14:36)
+        ✔ Buy Some Time @done(19-07-26 10:54)
+          ✔ Add reserve: Time cost as note @done(19-07-26 10:54)
+        ✔ Get a Damn Drink @done(19-07-26 12:18)
+          ✔ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity @done(19-07-26 12:18)
+          ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18)
+          ✔ cost (or no cost) @done(19-07-26 12:18)
+        ✔ Get Creative @done(19-07-30 10:59)
+          ✔ Start project or continue project @done(19-07-29 16:41)
+            ✔ Start project adds a new Project reserve with status IN PROGRESS @done(19-07-29 16:41)
+              ✔ IN PROGRESS project has requirements (costs) @done(19-07-29 16:41)
+            ✔ Notes etc @done(19-07-29 16:41)
+          ✔ Continue project - input roll @done(19-07-30 10:59)
+            ✔ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project @done(19-07-30 10:59)
+            ✔ Completed project changes reserve status, makes usable @done(19-07-30 10:59)
+        ✔ Get Focused @done(19-07-29 11:43)
+          ✔ Add new Skill @done(19-07-29 11:43)
+          ✔ Upgrade Get Focused Skill @done(19-07-29 11:43)
+        ✔ Get Organized @done(19-07-31 10:56)
+          ✔ New Organization section @done(19-07-30 15:42)
+          ✔ Add Organization (name, details, efficiency and influence tracks) to reserves @done(19-07-31 10:16)
+          ✔ Manage Organization @done(19-07-31 10:17)
+          ✔ Upgrade Organization @done(19-07-31 10:17)
+        ✔ Gather Information @done(19-07-26 12:39)
+          ✔ Input roll @done(19-07-26 12:39)
+            ✔ skip or get reserve with cost @done(19-07-26 12:39)
+            ✔ get info, no cost @done(19-07-26 12:39)
+        ✔ Get Connected @done(19-07-26 12:51)
+          ✔ Input roll @done(19-07-26 12:51)
+            ✔ skip or get reserve with cost @done(19-07-26 12:51)
+            ✔ get info, no cost @done(19-07-26 12:51)
+        ✔ Scrounge and Barter @done(19-07-26 13:06)
+          ✔ Input roll @done(19-07-26 13:06)
+            ✔ skip or get reserve with cost @done(19-07-26 13:06)
+            ✔ select predetermined cost @done(19-07-26 13:06)
+            ✔ get info, no cost @done(19-07-26 13:07)
     Reserves:
       Special Reserves:
-        ☐ Custom
-        ☐ Get Creative Project
-        ☐ Get Focused Trigger
-        ☐ Get Organized Organization
-    Actions:
-      name - description -notes
-      ☐ Power at a Cost
-      ☐ Buy Some Time
-      ☐ Get a Damn Drink
-      ☐ Get Creative
-        ☐ Starts project (reserves), add reserve when finished
-      ☐ Get Focused
-        ☐ Add special Get Focused trigger or upgrade old one
-      ☐ Get Organized
-        ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
-      ☐ Gather Information
-      ☐ Get Connected
-      ☐ Scrounge and Barter
+        ✔ Custom @done(19-07-25 14:37)
+        ✔ Get Creative Project @done(19-07-29 16:41)
+        ✔ Get Focused Trigger @done(19-07-29 11:46)
+        ✔ Get Organized Organization @done(19-07-29 16:41)
+
 
   Active Mode:
-    ☐ Show pilot stats &c. only on Ejected status
-    ☐ Tooltip pip number on hover
-    ☐ Keyboard entry for all pip components
-    ☐ Structure Table popup on 0HP
-    ☐ Stress Table popup on full heat
-    ☐ DESTROYED status
-      ☐ no actions possible
-      ☐ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override)
-    ☐ Click to apply weapon/system self heat
-    ☐ Disable dangerzone systems outside of dangerzone
-    ☐ Ammo block
-    Post Roller:
-      ☐ Add heat on overcharge
-      ☐ Roll on stress/structure tables
+    ✔ EJECTED status @done(19-07-20 18:17)
+      ✔ Show pilot stats &c. only on Ejected status @done(19-07-20 18:17)
+      ✔ Fight Action @done(19-07-20 18:17)
+      ✔ Jockey Action @done(19-07-20 18:17)
+    ✔ DESTROYED status @done(19-07-18 12:28)
+      ✔ no actions possible @done(19-07-18 12:28)
+      ✔ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override) @done(19-07-18 12:29)
 
-GM MODE:
-  ☐ Campaigns landing page (import/export/new/select)
-    ☐ Pilot Roster (import pilots via json or gistID)
-    ☐ NPC Roster
-
-    -vuetify timelines
+    ✔ Keyboard entry for all pip components @done(19-07-17 14:52)
+    ✔ Structure Table popup on 0HP @done(19-07-18 10:08)
+      ✔ roll Xd6, select result (or skip), reroll 1 for destroyed, take worst @done(19-07-18 10:08)
+        ✔ glancing blow (apply effect) @done(19-07-18 10:08)
+        ✔ system trauma (roll again, mark system/mount destroyed) @done(19-07-18 11:01)
+        ✔ direct hit (reroll) @done(19-07-18 11:41)
+          ✔ stun on 3+ @done(19-07-18 11:41)
+          ✔ save or destroyed (stun on save) @done(19-07-18 11:41)
+          ✔ destroyed on 1- @done(19-07-18 11:41)
+      ✔ ST reacts to current structure damage (limit options, etc) @done(19-07-18 11:02)
+      ✔ Mark weapons/systems as destroyed @done(19-07-18 11:02)
+    ✔ Stress Table popup on full heat @done(19-07-18 13:14)
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
+  ☐ underscore private properties
+  ☐ background -> save string only
+
+Style Pass:
+  ☐ Vuetify 2.0
+  ☐ Standardize colors, add Vuetify theme
+  ☐ Should be able to collapse reserves individually by clicking toolbar
 
 Improvements:
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
-  ☐ new editable label
+  ☐ use NPC editable label
   ☐ different cloud save ui 
-  ☐ Weapon Ammo Class
-  ☐ Set Ammo (with armament)
-  ☐ Downtime Resources in glossary
+  ✔ Downtime Resources in glossary @done(19-07-20 18:47)
   ☐ Undo
+  ☐ Click to apply weapon/system self heat
+  ☐ Disable dangerzone systems outside of dangerzone
+  ☐ Ammo block
+  ☐ Mandatory org rolling at the start of every downtime
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
+
+  GM MODE:
+  ☐ Campaigns landing page (import/export/new/select)
+    ☐ Pilot Roster (import pilots via json or gistID)
+    ☐ NPC Roster
+    ☐ vuetify timelines
 
 Preconstructed Characters:
   ☐ Select Character (cultural stuff)
@@ -115,11 +161,9 @@ Preconstructed Characters:
       ☐ Mark danger zone heat
       ☐ Per-item notes
   ☐ Charts
-  ☐ Actions Panel
-  ☐ Hardsuit detail rollable
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
-  ☐ Dice math parser
+  ✔ Dice math parser @done(19-07-30 15:49)
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
 
@@ -163,7 +207,7 @@ Archive:
   ✔ External Batteries not adding to energy threat @done(19-07-05 12:21)
   ✔ Combined print not working @done(19-07-05 13:01)
   ✔ turn personaliztions off if destroyed @done(19-07-05 11:27) @project(On Deck)
-D  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
+  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
   ✔ enforce hidden rule @done(19-07-05 11:17) @project(On Deck)
   ✔ Destroyable Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)
   ✔ Uses on Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)

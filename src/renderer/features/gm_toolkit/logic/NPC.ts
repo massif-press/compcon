@@ -1,14 +1,15 @@
 import NPCClass from './interfaces/NPCClass'
 import { NPCSystem } from './interfaces/NPCSystem'
 import NPCTemplate from './interfaces/NPCTemplate'
+import data from 'lancer-data'
 
 import _ from 'lodash'
 
-const npcClasses: NPCClass[] = require('../static/classes.json')
-const systems: NPCSystem.Any[] = require('../static/systems.json')
-const genericSystems: NPCSystem.Any[] = require('../static/generic_systems.json')
+const npcClasses: NPCClass[] = data.npc_classes
+const systems: NPCSystem.Any[] = data.npc_systems
+const genericSystems: NPCSystem.Any[] = data.npc_generic_systems
 const templates: NPCTemplate[] = require('./templates').default
-const templateSystems: NPCSystem.Any[] = require('../static/template_systems.json')
+const templateSystems: NPCSystem.Any[] = data.npc_template_systems
 
 export default class NPC {
   id: string

@@ -27,29 +27,42 @@
       </v-layout>
     </div>
 
-    <v-window v-model="step" class="ml-5 white--text" style="height:100%; width: 85%">
-      <!-- <v-window-item :value="1">
-        start mission
-        <v-btn @click="step++">start mission</v-btn>
-      </v-window-item>-->
-      <v-window-item :value="2">
-        <turn-manager
-          ref="turn"
-          :mech="mech"
-          :loadout="loadout"
-          :pilot="pilot"
-          @end="endCombat()"
-        />
-      </v-window-item>
-      <v-window-item :value="3">
-        <rest-manager ref="rest" :mech="mech" :loadout="loadout" @end="startCombat()" />
-      </v-window-item>
-      <!-- <v-window-item :value="4">
-        mission complete
-        combat stats
-        <v-btn @click="step = 1">confirm</v-btn>
-      </v-window-item>-->
-    </v-window>
+    <v-fade-transition>
+      <v-window
+        v-model="step"
+        v-show="!mini"
+        class="ml-5 white--text"
+        style="height:100%; width: 85%"
+      >
+        <v-window-item>
+          <downtime-manager
+            ref="dt"
+            :mech="mech"
+            :loadout="loadout"
+            :pilot="pilot"
+            @end="startCombat()"
+          />
+        </v-window-item>
+        <v-window-item>
+          <turn-manager
+            ref="turn"
+            :mech="mech"
+            :loadout="loadout"
+            :pilot="pilot"
+            @end="endCombat()"
+          />
+        </v-window-item>
+        <v-window-item>
+          <rest-manager
+            ref="rest"
+            :mech="mech"
+            :loadout="loadout"
+            @restart="startCombat()"
+            @end="startDowntime()"
+          />
+        </v-window-item>
+      </v-window>
+    </v-fade-transition>
   </v-navigation-drawer>
 </template>
 
@@ -57,10 +70,11 @@
 import Vue from 'vue'
 import TurnManager from './TurnManager.vue'
 import RestManager from './RestManager.vue'
+import DowntimeManager from './DowntimeManager.vue'
 
 export default Vue.extend({
   name: 'turn-sidebar',
-  components: { TurnManager, RestManager },
+  components: { TurnManager, RestManager, DowntimeManager },
   props: {
     pilot: Object,
     mech: Object,
@@ -69,16 +83,21 @@ export default Vue.extend({
   data: () => ({
     drawer: true,
     mini: true,
-    step: 2,
+    step: 0,
   }),
   methods: {
     startCombat() {
       this.$refs.turn.restart()
-      this.step = 2
+      this.step = 1
+      this.$emit('combat')
     },
     endCombat() {
       this.$refs.rest.startRest()
-      this.step = 3
+      this.step = 2
+    },
+    startDowntime() {
+      this.step = 0
+      this.$emit('downtime')
     },
   },
 })
