@@ -23,10 +23,10 @@ On Deck:
     ✔ Pilot Sheet -> Add Custom Organization @done(19-07-31 10:34)
     ✔ Pilot Sheet Org Section @done(19-07-31 10:44)
     ✔ Action Sheet Org Section @done(19-07-31 10:54)
-    ☐ Downtime Sheet
+    ✔ Downtime Sheet @done(19-07-31 12:41)
       ✔ Pilot Section @done(19-07-19 14:42)
       ✔ Skills @done(19-07-19 14:42)
-      ☐ Expand Reserves/Skills in downtime, collapse in mission
+      ✔ Expand Reserves/Skills in downtime, collapse in mission @done(19-07-31 12:41)
         ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49)
       ✔ Downtime Actions Panel @done(19-07-31 10:56)
         ✔ Power at a Cost @done(19-07-25 14:30)

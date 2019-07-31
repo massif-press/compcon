@@ -4,7 +4,7 @@ import { Tag, WeaponType, WeaponSize, ItemType, Damage, MechEquipment } from '@/
 class WeaponMod extends MechEquipment {
   private applied_to: WeaponType[]
   private applied_string: string
-  private restricted_sizes: WeaponSize[]
+  private restricted_mounts: WeaponSize[]
   private added_tags: ITagData[]
   private added_damage?: Damage
   private added_range: number
@@ -15,7 +15,7 @@ class WeaponMod extends MechEquipment {
     this.applied_to = weaponModData.applied_to
     this.applied_string = weaponModData.applied_string
     this.description = weaponModData.description
-    this.restricted_sizes = weaponModData.restricted_sizes
+    this.restricted_mounts = weaponModData.restricted_mounts
     this.tags = weaponModData.tags
     this.added_tags = weaponModData.added_tags || []
     if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage)
@@ -36,7 +36,7 @@ class WeaponMod extends MechEquipment {
   }
 
   public get Restricted(): WeaponSize[] {
-    return this.restricted_sizes
+    return this.restricted_mounts
   }
 
   public get Tags(): Tag[] {
