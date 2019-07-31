@@ -177,5 +177,5 @@ declare interface ILicenseRequirement {
   name: string;
   rank: number;
   items: string[];
-  missing?: boolean;
+  missing?: boolean;}
 }
