@@ -40,7 +40,7 @@
             :mech="mech"
             :loadout="loadout"
             :pilot="pilot"
-            @end="step = 1"
+            @end="startCombat()"
           />
         </v-window-item>
         <v-window-item>
@@ -58,7 +58,7 @@
             :mech="mech"
             :loadout="loadout"
             @restart="startCombat()"
-            @end="step = 0"
+            @end="startDowntime()"
           />
         </v-window-item>
       </v-window>
@@ -89,10 +89,15 @@ export default Vue.extend({
     startCombat() {
       this.$refs.turn.restart()
       this.step = 1
+      this.$emit('combat')
     },
     endCombat() {
       this.$refs.rest.startRest()
       this.step = 2
+    },
+    startDowntime() {
+      this.step = 0
+      this.$emit('downtime')
     },
   },
 })

@@ -51,11 +51,6 @@
                           </div>
                         </v-flex>
                       </v-layout>
-                      <!-- <v-progress-linear
-                        :value="rollProgress"
-                        :color="progressColor"
-                        height="20px"
-                      />-->
                       <v-slide-y-transition>
                         <v-layout v-show="initialRoll" row wrap class="text-xs-center">
                           <v-flex xs12 v-if="initialRoll < 10">
@@ -109,8 +104,8 @@
                       block
                       large
                       color="primary"
-                      v-for="p in projects"
-                      :key="p.ResourceName"
+                      v-for="(p, i) in projects"
+                      :key="p.ResourceName + i"
                       @click="improveSelection = p"
                     >{{p.ResourceName}}</v-btn>
                   </div>
@@ -169,7 +164,12 @@
                         </v-layout>
                         <v-slide-y-transition>
                           <v-layout v-show="improveRoll" row wrap class="text-xs-center">
-                            <v-flex xs12 v-if="improveRoll < 20">
+                            <v-flex xs12 v-if="improveRoll < 10 && !improveSelection.Progress">
+                              <p
+                                class="pt-2 pb-0 ma-0 effect-text"
+                              >You don’t make any progress on this project for now</p>
+                            </v-flex>
+                            <v-flex xs12 v-else-if="improveRoll < 20">
                               <p
                                 class="pt-2 pb-0 ma-0 effect-text"
                               >You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:</p>
@@ -222,16 +222,16 @@
         v-if="tabs === 0"
         large
         color="primary"
-        @click="tabs === 0 ? addProject() : improveProject()"
         :disabled="(!initialRoll || !project_name)"
+        @click="addProject()"
       >Add Project</v-btn>
       <v-btn
         v-else
         large
         color="primary"
-        @click="tabs === 0 ? addProject() : improveProject()"
-        :disabled="(!initialRoll || !project_name)"
-      >Update Project</v-btn>
+        @click="!improveSelection.IsComplicated && improveRoll >= 20 ? completeProject() : improveProject()"
+        :disabled="(!improveRoll)"
+      >{{!improveSelection.IsComplicated && improveRoll >= 20 ? 'Complete Project': 'Update Project'}}</v-btn>
     </v-card-actions>
   </div>
 </template>
@@ -253,38 +253,25 @@ export default Vue.extend({
     improveRoll: '',
     improve: '',
     cost: '',
-    costs: [
-      'Quality materials',
-      'Specific knowledge or techniques',
-      'Specialized tools',
-      'A good workspace',
-    ],
     improveSelection: null,
+    costs: [
+      ' Quality materials',
+      ' Specific knowledge or techniques',
+      ' Specialized tools',
+      ' A good workspace',
+    ],
   }),
   computed: {
     projects() {
-      return this.pilot.Reserves.filter(x => x.Type === 'Project')
+      return this.pilot.Reserves.filter(x => x.Type === 'Project' && !x.IsFinished)
     },
-    // rollProgress() {
-    //   if (!this.initialRoll) return 0
-    //   else if (this.initialRoll < 10) return 1
-    //   else if (this.initialRoll < 20) return 2
-    //   else if (this.complicated) return 3
-    //   return 4
-    // },
-    // progressColor() {
-    //   if (this.rollProgress < 50) return 'error'
-    //   else if (this.rollProgress < 80) return 'warning'
-    //   else if (this.rollProgress < 100) return 'lime'
-    //   return 'success'
-    // },
   },
   methods: {
     addProject() {
       let p = new Project({
         id: 'reserve_project',
         type: 'Project',
-        name: 'Downtime Project (in progress)',
+        name: 'Project (In Progress)',
         label: this.project_name,
         description: this.details,
         complicated: this.complicated,
@@ -292,18 +279,32 @@ export default Vue.extend({
       p.ResourceName = this.project_name
       if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`
       p.IsFinished = false
-      // p.Progress = this.rollProgress()
+      p.Progress = this.initialRoll < 10 || this.improveRoll < 10 ? 1 : 0
       this.pilot.Reserves.push(p)
       this.close()
     },
     improveProject() {
+      if (this.cost) this.improveSelection.ResourceCost = `Requires: ${this.cost.toString()}`
+      if (this.initialRoll < 10) this.improveSelection.Progress = 1
       this.close()
     },
-    completeProject() {},
+    completeProject() {
+      this.improveSelection.Name = this.improveSelection.ResourceLabel
+      this.improveSelection.ResourceName = ''
+      this.improveSelection.ResourceCost = ''
+      this.improveSelection.IsFinished = true
+      this.close()
+    },
     close() {
       this.tabs = 0
-      this.newSkill = ''
+      this.project_name = ''
+      this.details = ''
+      this.complicated = false
+      this.initialRoll = ''
+      this.improveRoll = ''
       this.improve = ''
+      this.cost = ''
+      this.improveSelection = null
       this.$emit('close')
     },
   },

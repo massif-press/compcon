@@ -1,6 +1,12 @@
 <template>
   <div class="roster-content" style="background-color: #424242; height:94vh; padding-right: 20px">
-    <turn-sidebar :mech="mech" :loadout="loadout" :pilot="pilot" />
+    <turn-sidebar
+      :mech="mech"
+      :loadout="loadout"
+      :pilot="pilot"
+      @downtime="setDtPanels()"
+      @combat="setCombatPanels()"
+    />
     <v-container fluid dark>
       <v-layout row wrap>
         <v-flex class="major-title white--text pt-1">
@@ -99,7 +105,7 @@
 
       <v-divider dark class="ma-2" />
 
-      <v-expansion-panel expand dark class="mt-2">
+      <v-expansion-panel expand dark class="mt-2" v-model="skillsPanel">
         <v-expansion-panel-content
           expand-icon="keyboard_arrow_down"
           ripple
@@ -112,7 +118,13 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel expand dark class="mt-2" :disabled="!pilot.Reserves.length">
+      <v-expansion-panel
+        expand
+        dark
+        class="mt-2"
+        :disabled="!pilot.Reserves.length"
+        v-model="reservesPanel"
+      >
         <v-expansion-panel-content
           expand-icon="keyboard_arrow_down"
           ripple
@@ -121,7 +133,7 @@
           <span
             slot="header"
             class="minor-title"
-          >Reserves {{pilot.Reserves.length ? '' : ' (NONE) '}}</span>
+          >Reserves {{pilot.Reserves.length + pilot.Organizations.length > 0 ? '' : ' (NONE) '}}</span>
           <v-layout row wrap fill-height>
             <v-flex xs6 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
               <div class="mr-1" style="height: 95%">
@@ -131,6 +143,21 @@
                   <span v-if="!r.ResourceName || !r.Note">{{ r.Description }}</span>
                   <v-alert type="warning" :value="r.ResourceCost" outline>
                     <span v-html="r.ResourceCost" />
+                  </v-alert>
+                </active-card>
+              </div>
+            </v-flex>
+
+            <v-flex xs6 v-for="(o, i) in pilot.Organizations" :key="`org_${i}`">
+              <div class="mr-1" style="height: 95%">
+                <active-card color="#673AB7" :header="`${o.Name}`" subheader="ORGANIZATION">
+                  <b class="ml-2">{{ o.Purpose}}</b>
+                  <p v-if="o.Description" class="font-weight-bold pa-1 ma-1">{{ o.Description }}</p>
+                  <p
+                    class="minor-title text-xs-center"
+                  >{{o.Efficiency}} Efficiency &emsp;&emsp; {{o.Influence}} Influence</p>
+                  <v-alert type="warning" :value="o.Actions" outline>
+                    <span>This organization must take the following action: {{o.Actions}}</span>
                   </v-alert>
                 </active-card>
               </div>
@@ -688,7 +715,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Pilot, Mech, MechLoadout, Reserve, ReserveType } from '@/class'
+import { Pilot, Mech, MechLoadout, Reserve, ReserveType, Organization } from '@/class'
 import TickBar from '../components/UI/TickBar.vue'
 import PilotEquipmentCard from './components/PilotEquipmentCard.vue'
 import MechAttributeItem from './components/MechAttributeItem.vue'
@@ -744,6 +771,8 @@ export default Vue.extend({
     stressRolledOver: false,
     structureDialog: false,
     stressDialog: false,
+    reservesPanel: [true],
+    skillsPanel: [true],
   }),
   computed: {
     pilot(): Pilot {
@@ -786,6 +815,14 @@ export default Vue.extend({
     },
   },
   methods: {
+    setDtPanels() {
+      this.skillsPanel = [true]
+      this.reservesPanel = [true]
+    },
+    setCombatPanels() {
+      this.skillsPanel = [false]
+      this.reservesPanel = [false]
+    },
     editMech(mech: Mech) {
       this.pilot.LoadedMech = this.mech
       this.$router.push('./config')
