@@ -60,6 +60,8 @@ for (const m in mixins) {
   }
 }
 
+Vue.config.devtools = process.env.NODE_ENV === 'development'
+
 new Vue({
   components: { App },
   router,
