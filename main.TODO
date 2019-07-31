@@ -19,16 +19,16 @@ On Deck:
     ✔ Pilot Sheet -> Add Custom Reserve @done(19-07-29 12:37)
     ✔ Pilot Sheet -> Add Custom Trigger @done(19-07-29 12:17)
     ✔ Pilot Sheet -> Remove Custom Trigger @done(19-07-29 12:17)
-    ☐ Pilot Sheet -> Add Custom Project
-    ☐ Pilot Sheet -> Add Custom Organization
+    ✔ Pilot Sheet -> Add Custom Project @done(19-07-30 11:48)
+    ✔ Pilot Sheet -> Add Custom Organization @done(19-07-31 10:34)
+    ✔ Pilot Sheet Org Section @done(19-07-31 10:44)
+    ✔ Action Sheet Org Section @done(19-07-31 10:54)
     ☐ Downtime Sheet
       ✔ Pilot Section @done(19-07-19 14:42)
       ✔ Skills @done(19-07-19 14:42)
       ☐ Expand Reserves/Skills in downtime, collapse in mission
         ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49)
-      ☐ Hide mech in downtime (STANDING BY)
-      ☐ Downtime Actions Panel
-        name - description - notes - cost
+      ✔ Downtime Actions Panel @done(19-07-31 10:56)
         ✔ Power at a Cost @done(19-07-25 14:30)
           ✔ Add reserve (or custom reserve), cost @done(19-07-25 14:36)
         ✔ Buy Some Time @done(19-07-26 10:54)
@@ -37,23 +37,22 @@ On Deck:
           ✔ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity @done(19-07-26 12:18)
           ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18)
           ✔ cost (or no cost) @done(19-07-26 12:18)
-        ☐ Get Creative
+        ✔ Get Creative @done(19-07-30 10:59)
           ✔ Start project or continue project @done(19-07-29 16:41)
             ✔ Start project adds a new Project reserve with status IN PROGRESS @done(19-07-29 16:41)
               ✔ IN PROGRESS project has requirements (costs) @done(19-07-29 16:41)
             ✔ Notes etc @done(19-07-29 16:41)
-          ☐ Continue project - input roll
-            ☐ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project
-            ☐ Completed project changes reserve status, makes usable
+          ✔ Continue project - input roll @done(19-07-30 10:59)
+            ✔ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project @done(19-07-30 10:59)
+            ✔ Completed project changes reserve status, makes usable @done(19-07-30 10:59)
         ✔ Get Focused @done(19-07-29 11:43)
           ✔ Add new Skill @done(19-07-29 11:43)
           ✔ Upgrade Get Focused Skill @done(19-07-29 11:43)
-        ☐ Get Organized
-          ☐ New Organization section
-          ☐ Add Organization (name, details, efficiency and influence tracks) to reserves
-          ☐ Manage Organization
-          ☐ Upgrade Organization
-          ☐ Mandatory org rolling on every downtime
+        ✔ Get Organized @done(19-07-31 10:56)
+          ✔ New Organization section @done(19-07-30 15:42)
+          ✔ Add Organization (name, details, efficiency and influence tracks) to reserves @done(19-07-31 10:16)
+          ✔ Manage Organization @done(19-07-31 10:17)
+          ✔ Upgrade Organization @done(19-07-31 10:17)
         ✔ Gather Information @done(19-07-26 12:39)
           ✔ Input roll @done(19-07-26 12:39)
             ✔ skip or get reserve with cost @done(19-07-26 12:39)
@@ -106,6 +105,7 @@ Refactor:
 Style Pass:
   ☐ Vuetify 2.0
   ☐ Standardize colors, add Vuetify theme
+  ☐ Should be able to collapse reserves individually by clicking toolbar
 
 Improvements:
   ☐ refresh cloud-saved pilots
@@ -117,6 +117,7 @@ Improvements:
   ☐ Click to apply weapon/system self heat
   ☐ Disable dangerzone systems outside of dangerzone
   ☐ Ammo block
+  ☐ Mandatory org rolling at the start of every downtime
   
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
@@ -162,7 +163,7 @@ Preconstructed Characters:
   ☐ Charts
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
-  ☐ Dice math parser
+  ✔ Dice math parser @done(19-07-30 15:49)
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
 
@@ -206,7 +207,7 @@ Archive:
   ✔ External Batteries not adding to energy threat @done(19-07-05 12:21)
   ✔ Combined print not working @done(19-07-05 13:01)
   ✔ turn personaliztions off if destroyed @done(19-07-05 11:27) @project(On Deck)
-D  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
+  ✔ update lancer-data @done(19-07-04 19:48) @project(On Deck)
   ✔ enforce hidden rule @done(19-07-05 11:17) @project(On Deck)
   ✔ Destroyable Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)
   ✔ Uses on Mods @done(19-07-02 12:28) @project(On Deck.Active Mode)

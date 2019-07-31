@@ -91,10 +91,12 @@ declare interface IProjectData extends IReserveData {
 }
 
 declare interface IOrganizationData {
+  name: string;
   purpose: string;
   description: string;
   efficiency: number;
   influence: number;
+  actions: string;
 }
 
 declare interface IPilotLoadoutData {

@@ -315,6 +315,23 @@
               />
             </v-layout>
           </v-container>
+          <v-layout class="header" align-content-space-around>
+            <v-flex>
+              <span>Organizations</span>
+            </v-flex>
+          </v-layout>
+          <v-layout row wrap justify-center>
+            <v-container fluid grid-list-sm fill-height>
+              <v-layout row wrap fill-height>
+                <organization
+                  v-for="(o, i) in pilot.Organizations"
+                  :key="`org_${i}`"
+                  :org="o"
+                  @remove="pilot.Organizations.splice(i, 1)"
+                />
+              </v-layout>
+            </v-container>
+          </v-layout>
         </v-layout>
         <!-- End Downtime -->
 
@@ -669,6 +686,7 @@ import {
 import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
 import NewConfig from '../HangarView/AddConfigMenu.vue'
 import Reserve from './Downtime/Reserve.vue'
+import Organization from './Downtime/Organization.vue'
 import { Pilot, PilotSkill, Background, Statblock, Mech } from '@/class'
 import { rules } from 'lancer-data'
 
@@ -698,6 +716,7 @@ export default Vue.extend({
     EmptyView,
     TickBar,
     Reserve,
+    Organization,
     DowntimeSelector,
   },
   data: () => ({

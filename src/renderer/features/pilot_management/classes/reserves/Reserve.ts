@@ -45,6 +45,10 @@ class Reserve {
     return this.name
   }
 
+  public set Name(n: string) {
+    this.name = n
+  }
+
   public get ResourceLabel(): string {
     return this.label
   }
