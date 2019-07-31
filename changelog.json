@@ -1,12 +1,16 @@
 {
   "stable": "1.3.10",
-  "beta": "1.5.1",
+  "beta": "1.5.2",
   "news": {
-    "date": "July 15th, 2019",
-    "version": "1.5.1",
-    "body": "<p>Hello, Pilots!</p><p>ari just dropped the first round of NPC fixes. Enjoy!</p>"
+    "date": "July 31st, 2019",
+    "version": "1.5.2",
+    "body": "<p>Hello, Pilots!</p><p>I've got a giant update for you today. Giant and (no way else to put it) ugly. UI and code both -- but -- better to smash it out and see how it sticks than continue to work on something that everyone hates. So check out the new active mode features and downtime/reserve management and see if anything breaks. These systems will be expanded, and&nbsp;<strong>everything</strong> is getting a visual overhaul. I'll explain:</p> <p>In the next month or so, you'll probably see a handful of bug fix patches, but no major additional functionality. That's because we'll be behind the scenes doing two things: refactoring code and renovating the UI to bring it in line with the style of the LANCER PDF release. Once this is done (and stable) it'll move into both branches, and that'll be COMP/CON v1.x wrapped up.</p> <p>v2.0 begins work on the campaign manager, homebrew editor, expanded print options, and mobile versions.</p> <p>As always, drop by the LANCER Discord for comments/questions/feature ideas/etc.</p>"
   },
   "changelog": [
+    {
+      "version": "1.5.2",
+      "changes": "<ul><ul> <li>Downtime Reserve management on the Pilot Sheet <ul> <li>Add/Remove/Edit Narrative, Tactical, and Mech Reserves, \"Get Creative\" projects, and \"Get Organized\" organizations, as well as create custom Reserves</li> </ul> </li> <li>Custom Skill Triggers can be added, removed, and upgraded in the Pilot Skill Trigger selector on the New Pilot/Level Pilot and Pilot Sheets</li> <li>Downtime Actions on the Active Mode sheet <ul> <li>The sheet and sidebar now start in Downtime Mode, where Downtime Actions can be issued (and Reserves created/added as appropriate)</li> <li>Downtime Mode is now an additional state between the Combat/Rest loop</li> <li>Project-type reserves can be created and continued in the Get Creative action panel</li> <li>Custom Skill Triggers can be created and improved in the Get Focused action panel</li> <li>Organizations can be created and run in the Get Organized action panel</li> </ul> </li> <li>Active mode now appropriately recognizes a pilot's Mounted/Unmounted status</li> <li>Mechs can now be destroyed, and must either be repaired in Active Mode, or (in the event of a catastrophic reactor meltdown) reprinted from the Mech Sheet</li> <li>All Pip Bars (like Mech HP) now use the NPC-style keyboard input helper</li> <li>COMP/CON will now automatically recognize when you've lost a point of structure or stress and react accordingly (this will only trigger when using the keyboard input)</li> <li>A bunch of various data fixes</li> </ul></ul>"
+    },
     {
       "version": "1.5.1",
       "changes": "<ul> <li>Various NPC Data fixes</li> </ul>"
