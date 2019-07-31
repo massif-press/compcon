@@ -1,8 +1,14 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  Menu
+} from 'electron'
 import * as path from 'path'
-import { format as formatUrl } from 'url'
+import {
+  format as formatUrl
+} from 'url'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -23,10 +29,6 @@ function createMainWindow() {
   window.maximize()
 
   console.log(process.platform)
-
-  if (isDevelopment) {
-    window.webContents.openDevTools()
-  }
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
@@ -90,11 +92,9 @@ app.on('ready', () => {
 // Create menu items for OSX - copy/paste and some other stuff won't work
 // without them
 if (process.platform === 'darwin') {
-  var template = [
-    {
+  var template = [{
       label: 'Comp/Con',
-      submenu: [
-        {
+      submenu: [{
           label: 'About Comp/Con',
           selector: 'orderFrontStandardAboutPanel:',
         },
@@ -104,7 +104,7 @@ if (process.platform === 'darwin') {
         {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
-          click: function() {
+          click: function () {
             app.quit()
           },
         },
@@ -112,10 +112,15 @@ if (process.platform === 'darwin') {
     },
     {
       label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
+      submenu: [{
+          role: 'undo'
+        },
+        {
+          role: 'redo'
+        },
+        {
+          type: 'separator'
+        },
         {
           label: 'Cut',
           accelerator: 'CmdOrCtrl+X',
@@ -140,13 +145,11 @@ if (process.platform === 'darwin') {
     },
     {
       label: 'View',
-      submenu: [
-        {
-          label: 'Toggle Dev Tools',
-          accelerator: 'Alt+CmdOrCtrl+I',
-          role: 'toggleDevTools',
-        },
-      ],
+      submenu: [{
+        label: 'Toggle Dev Tools',
+        accelerator: 'Alt+CmdOrCtrl+I',
+        role: 'toggleDevTools',
+      }, ],
     },
   ]
 

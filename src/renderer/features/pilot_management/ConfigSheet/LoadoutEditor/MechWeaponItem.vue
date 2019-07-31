@@ -26,9 +26,7 @@
       <div v-else-if="weaponSlot.Weapon.err">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
-            <span slot="header" class="subheading grey--text">
-              // MISSING WEAPON DATA //
-            </span>
+            <span slot="header" class="subheading grey--text">// MISSING WEAPON DATA //</span>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -45,43 +43,40 @@
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && weaponSlot.Weapon.Mod.err"
                 >
-                  <span class="subheading grey--text">
-                    // MISSING MOD DATA //
-                  </span>
+                  <span class="subheading grey--text">// MISSING MOD DATA //</span>
                 </span>
                 <span
                   class="subheading font-weight-bold"
                   v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
                 >
                   <span class="grey--text font-weight-regular">//</span>
-                  <span class="blue-grey--text">
-                    {{ weaponSlot.Weapon.Mod.Name }}
-                  </span>
+                  <span class="blue-grey--text">{{ weaponSlot.Weapon.Mod.Name }}</span>
                   <span class="caption">({{ weaponSlot.Weapon.Mod.SP }} SP)</span>
                 </span>
               </span>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()" />
-                &emsp;&mdash;&emsp;
+                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
                 <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
                   <div slot="activator">
                     <v-btn
                       @click.stop="toggleModModal(true)"
-                      flat
-                      icon
+                      :color="availableMod() ? 'blue-grey lighten-2' : ''"
+                      :disabled="availableMod() ? false : true"
                       small
                       absolute
                       class="ma-0 pa-0"
                       style="top: 10px"
                     >
+                      <span>Mod</span>
                       <v-icon small>build</v-icon>
                     </v-btn>
                   </div>
                   <span>Add/Change Weapon Mods</span>
                 </v-tooltip>
+                <v-spacer class="mr-5" />
               </span>
             </v-layout>
             <mod-card
@@ -89,11 +84,7 @@
               :modData="weaponSlot.Weapon.Mod"
             />
             <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb" />
-            <weapon-card
-              :item="weaponSlot.Weapon"
-              :mod="weaponSlot.Weapon.Mod"
-              :loadout="loadout"
-            />
+            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -145,9 +136,7 @@
         <v-card-text class="text-xs-center">
           Superheavy-class weaponry requires an additional mount. Select the bracing mount below.
           <br />
-          <i>
-            The selected mount will be locked until the superheavy weapon is removed.
-          </i>
+          <i>The selected mount will be locked until the superheavy weapon is removed.</i>
           <br />
           <v-layout row justify-center>
             <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
@@ -255,6 +244,20 @@ export default Vue.extend({
     },
   },
   methods: {
+    availableMod(): boolean {
+      const vm = this as any
+      const weapon = this.weaponSlot.Weapon
+      const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
+      let i = allMods.filter(x => x.Source)
+      // get all licensed mods
+      i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
+      // filter out any mount size restrictions
+      i = i.filter(x => !x.Restricted || !x.Restricted.includes(weapon.Size))
+      // filter out any weapon type restrictions
+      i = i.filter(x => !x.AppliedTo || x.AppliedTo.includes(weapon.Type))
+
+      return i.length > 0
+    },
     //TODO: should not be hardcoded
     getRange(): Range[] {
       const w = this.weaponSlot.Weapon
