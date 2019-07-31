@@ -31,4 +31,9 @@ declare module 'lancer-data' {
   const rules: any
   const actions: any
   const reserves: any
+  const npc_classes: any
+  const npc_generic_systems: any
+  const npc_systems: any
+  const npc_template_systems: any
+  const npc_templates: any
 }

@@ -3,10 +3,18 @@
     <span class="display-1 text-uppercase font-weight-thin">REFERENCE</span>
     <v-card class="mt-3" flat color="grey lighten-4">
       <v-card-text class="fluff-text">
-        On a turn, players can perform a move, and either two quick actions or one full action, with
-        no duplicate actions allowed. Players can overcharge their mechs to gain an extra quick
-        action at the cost of heat, and all characters can also take any number of Free Actions on
-        their turn, and any number of reactions per round, even outside their turn.
+        <p>
+          On a turn, players can perform a move, and either two quick actions or one full action, with
+          no duplicate actions allowed. Players can overcharge their mechs to gain an extra quick
+          action at the cost of heat, and all characters can also take any number of Free Actions on
+          their turn, and any number of reactions per round, even outside their turn.
+        </p>
+        <p>
+          Pilots on foot can take the following actions and reactions :
+          <strong>BOOST, HIDE, SEARCH, ACTIVATE, SKILL CHECK, DISENGAGE, PREPARE, OVERWATCH, BRACE</strong>, as well as the two pilot-specific actions:
+          <strong>FIGHT</strong> and
+          <strong>JOCKEY</strong>
+        </p>
       </v-card-text>
     </v-card>
     <v-container fluid>
@@ -14,9 +22,7 @@
         <v-flex shrink>
           <v-card flat color="transparent">
             <v-card-text class="ma-0 pa-0 text-xs-center">
-              <span class="display-1 text-uppercase font-weight-light">
-                ACTION ECONOMY
-              </span>
+              <span class="display-1 text-uppercase font-weight-light">ACTION ECONOMY</span>
               <br />
               <span class="fluff-text">Per Turn</span>
             </v-card-text>
@@ -26,30 +32,20 @@
       <v-card color="grey lighten-5" elevation-10>
         <v-card-text>
           <v-layout justify-center row>
-            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">
-              Move
-            </v-flex>
+            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">Move</v-flex>
             <v-flex xs4 class="effect-text text-xs-center ml-2 mr-2">
               One Full Action
               <b>or</b>
               Two Quick Actions
             </v-flex>
-            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">
-              Overcharge
-            </v-flex>
-            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">
-              Reaction
-            </v-flex>
-            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">
-              Free Actions
-            </v-flex>
+            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">Overcharge</v-flex>
+            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">Reaction</v-flex>
+            <v-flex xs2 class="effect-text text-xs-center ml-2 mr-2">Free Actions</v-flex>
           </v-layout>
           <v-layout justify-center row class="pt-2">
             <v-flex xs2 class="text-xs-center mr-1">
               <v-card color="red darken-3" class="pt-4 pb-4">
-                <v-icon size="10em" dark>
-                  mdi-arrow-right-bold-hexagon-outline
-                </v-icon>
+                <v-icon size="10em" dark>mdi-arrow-right-bold-hexagon-outline</v-icon>
               </v-card>
             </v-flex>
             <v-flex xs4 class="text-xs-center ml-1 mr-1">
@@ -63,18 +59,14 @@
                   <v-layout>
                     <v-flex>
                       <v-card color="primary">
-                        <v-icon size="5.1em" class="pt-2 pb-3" dark>
-                          mdi-hexagon-slice-3
-                        </v-icon>
+                        <v-icon size="5.1em" class="pt-2 pb-3" dark>mdi-hexagon-slice-3</v-icon>
                       </v-card>
                     </v-flex>
                   </v-layout>
                   <v-layout>
                     <v-flex>
                       <v-card color="primary">
-                        <v-icon size="5.1em" class="pt-3 pb-1" dark>
-                          mdi-hexagon-slice-3
-                        </v-icon>
+                        <v-icon size="5.1em" class="pt-3 pb-1" dark>mdi-hexagon-slice-3</v-icon>
                       </v-card>
                     </v-flex>
                   </v-layout>
@@ -114,7 +106,7 @@
                 >
                   <v-toolbar card dense dark :color="getColor(a.action_type, hover)">
                     <v-icon dark>{{ getIcon(a.action_type) }}</v-icon>
-                    <v-toolbar-title>{{ a.name }}</v-toolbar-title>
+                    <v-toolbar-title>{{ a.name }} {{a.pilot ? '(Pilot Only)' : ''}}</v-toolbar-title>
                     <v-spacer />
                   </v-toolbar>
                   <v-card-text class="text-xs-left pt-2 pb-2">
@@ -137,22 +129,16 @@
       </v-layout>
     </v-container>
 
-    <span class="display-1 mt-3 text-uppercase font-weight-light">
-      DOWNTIME ACTIONS
-    </span>
+    <span class="display-1 mt-3 text-uppercase font-weight-light">DOWNTIME ACTIONS</span>
     <v-card class="mt-1" flat color="grey lighten-4">
       <v-card-text class="fluff-text">
         <p>
           These story actions represent what pilots gets up to during a stretch of downtime.
-          <br />
-          Unlike a regular skill check, these downtime actions have specific outcomes depending on
+          <br />Unlike a regular skill check, these downtime actions have specific outcomes depending on
           whether you hit, miss, or roll a 20+, and usually ask you to choose from a list.
-          <strong>
-            Like regular skill checks, triggers can activate on downtime actions.
-          </strong>
+          <strong>Like regular skill checks, triggers can activate on downtime actions.</strong>
           The actual trigger that activates is dependent on context.
-          <br />
-          As a good rule, a pilot can do only
+          <br />As a good rule, a pilot can do only
           <strong>one</strong>
           of these during downtime, and
           <strong>one or two</strong>
@@ -203,9 +189,9 @@
         <v-flex shrink>
           <v-card flat color="transparent">
             <v-card-text class="ma-0 pa-0 text-xs-center">
-              <span class="display-1 text-uppercase font-weight-light">
-                STRUCTURE DAMAGE & OVERHEATING
-              </span>
+              <span
+                class="display-1 text-uppercase font-weight-light"
+              >STRUCTURE DAMAGE & OVERHEATING</span>
               <br />
               <v-divider class="mt-2 mb-2" />
             </v-card-text>
@@ -221,19 +207,13 @@
             <v-card-text>
               <v-layout>
                 <v-flex xs2>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Roll
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Roll</span>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Result
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Result</span>
                 </v-flex>
                 <v-flex xs7>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Effect
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Effect</span>
                 </v-flex>
               </v-layout>
               <v-divider class="ma-2" />
@@ -244,9 +224,7 @@
                   <v-icon large>mdi-dice-6</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Glancing Blow
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Glancing Blow</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -264,9 +242,7 @@
                   <v-icon large>mdi-dice-4</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    System Trauma
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">System Trauma</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -285,28 +261,23 @@
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Direct Hit
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Direct Hit</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
                     This result has different outcomes depending on how much structure your mech has
                     remaining.
-                    <br />
-                    3+ - Your mech is
+                    <br />3+ - Your mech is
                     <b>stunned</b>
                     until the end of your next turn.
-                    <br />
-                    2 - Your mech must pass a
+                    <br />2 - Your mech must pass a
                     <b>hull</b>
                     save or be
                     <b>destroyed</b>
                     .Even on a successful check, your mech is
                     <b>stunned</b>
                     until the end of your next turn.
-                    <br />
-                    1 or lower - Your mech is
+                    <br />1 or lower - Your mech is
                     <b>destroyed</b>
                     .
                   </span>
@@ -319,9 +290,7 @@
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Crushing Hit
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Crushing Hit</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -344,19 +313,13 @@
             <v-card-text>
               <v-layout>
                 <v-flex xs2>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Roll
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Roll</span>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Result
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Result</span>
                 </v-flex>
                 <v-flex xs7>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Effect
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Effect</span>
                 </v-flex>
               </v-layout>
               <v-divider class="ma-2" />
@@ -367,9 +330,7 @@
                   <v-icon large>mdi-dice-6</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Emergency Shunt
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Emergency Shunt</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -388,9 +349,7 @@
                   <v-icon large>mdi-dice-4</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Power Plant Destabilize
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Power Plant Destabilize</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -407,27 +366,22 @@
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Meltdown
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Meltdown</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
                     This result has different outcomes depending on how much reactor stress your
                     mech has remaining.
-                    <br />
-                    3+ - Your mech immediately suffers from the
+                    <br />3+ - Your mech immediately suffers from the
                     <b>exposed</b>
                     condition until it takes action to remove it.
-                    <br />
-                    2 - Your mech must pass a engineering check or suffer a reactor meltdown at the
+                    <br />2 - Your mech must pass a engineering check or suffer a reactor meltdown at the
                     end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking
                     a full action and repeating this check. Even on a successful check, your mech
                     suffers from the
                     <b>exposed</b>
                     condition until it takes action to remove it.
-                    <br />
-                    1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
+                    <br />1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
                   </span>
                 </v-flex>
               </v-layout>
@@ -438,9 +392,7 @@
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-flex>
                 <v-flex xs3>
-                  <span class="subheading font-weight-bold text-uppercase">
-                    Irreversible Meltdown
-                  </span>
+                  <span class="subheading font-weight-bold text-uppercase">Irreversible Meltdown</span>
                 </v-flex>
                 <v-flex xs7>
                   <span class="subheading">
@@ -472,9 +424,7 @@
         <v-flex shrink>
           <v-card flat color="transparent">
             <v-card-text class="ma-0 pa-0 text-xs-center">
-              <span class="display-1 text-uppercase font-weight-light">
-                COMBAT TERMINOLOGY
-              </span>
+              <span class="display-1 text-uppercase font-weight-light">COMBAT TERMINOLOGY</span>
               <br />
               <v-divider class="mt-2 mb-2" />
             </v-card-text>
@@ -628,7 +578,7 @@ export default Vue.extend({
     },
   },
   created() {
-    this.actions = actions.filter(x => x.action_type !== 'downtime')
+    this.actions = actions.filter(x => x.action_type !== 'downtime' && !x.reserve)
     this.downtimeActions = actions.filter(x => x.action_type === 'downtime')
   },
 })

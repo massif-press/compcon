@@ -41,6 +41,7 @@ Vue.use(Vuetify, {
     full: 'mdi-hexagon-slice-6',
     reaction: 'mdi-redo-variant',
     overcharge: 'mdi-alert-octagram',
+    downtime: 'mdi-weather-sunset-down',
     free: 'mdi-axis-arrow',
   },
   theme: {
