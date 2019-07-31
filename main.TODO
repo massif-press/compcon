@@ -2,99 +2,12 @@
 ☐ usage items initialized without pilot limited bonus
 ☐ can't mark intg systems destroyed, change their notes, etc
 
-Merge NPCs:
-  ✔ Persistence @done(19-07-12 13:08)
-  ✔ UI pass @done(19-07-12 13:08)
-
 On Deck:
   ☐ statblock mech select modal
 
   ☐ hidden tags for specially-handled items
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon type selection
-
-  ✔ Downtime screen -> mission flow @done(19-07-26 13:05)
-
-  Downtime:
-    ✔ Pilot Sheet -> Add Custom Reserve @done(19-07-29 12:37)
-    ✔ Pilot Sheet -> Add Custom Trigger @done(19-07-29 12:17)
-    ✔ Pilot Sheet -> Remove Custom Trigger @done(19-07-29 12:17)
-    ✔ Pilot Sheet -> Add Custom Project @done(19-07-30 11:48)
-    ✔ Pilot Sheet -> Add Custom Organization @done(19-07-31 10:34)
-    ✔ Pilot Sheet Org Section @done(19-07-31 10:44)
-    ✔ Action Sheet Org Section @done(19-07-31 10:54)
-    ✔ Downtime Sheet @done(19-07-31 12:41)
-      ✔ Pilot Section @done(19-07-19 14:42)
-      ✔ Skills @done(19-07-19 14:42)
-      ✔ Expand Reserves/Skills in downtime, collapse in mission @done(19-07-31 12:41)
-        ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49)
-      ✔ Downtime Actions Panel @done(19-07-31 10:56)
-        ✔ Power at a Cost @done(19-07-25 14:30)
-          ✔ Add reserve (or custom reserve), cost @done(19-07-25 14:36)
-        ✔ Buy Some Time @done(19-07-26 10:54)
-          ✔ Add reserve: Time cost as note @done(19-07-26 10:54)
-        ✔ Get a Damn Drink @done(19-07-26 12:18)
-          ✔ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity @done(19-07-26 12:18)
-          ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18)
-          ✔ cost (or no cost) @done(19-07-26 12:18)
-        ✔ Get Creative @done(19-07-30 10:59)
-          ✔ Start project or continue project @done(19-07-29 16:41)
-            ✔ Start project adds a new Project reserve with status IN PROGRESS @done(19-07-29 16:41)
-              ✔ IN PROGRESS project has requirements (costs) @done(19-07-29 16:41)
-            ✔ Notes etc @done(19-07-29 16:41)
-          ✔ Continue project - input roll @done(19-07-30 10:59)
-            ✔ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project @done(19-07-30 10:59)
-            ✔ Completed project changes reserve status, makes usable @done(19-07-30 10:59)
-        ✔ Get Focused @done(19-07-29 11:43)
-          ✔ Add new Skill @done(19-07-29 11:43)
-          ✔ Upgrade Get Focused Skill @done(19-07-29 11:43)
-        ✔ Get Organized @done(19-07-31 10:56)
-          ✔ New Organization section @done(19-07-30 15:42)
-          ✔ Add Organization (name, details, efficiency and influence tracks) to reserves @done(19-07-31 10:16)
-          ✔ Manage Organization @done(19-07-31 10:17)
-          ✔ Upgrade Organization @done(19-07-31 10:17)
-        ✔ Gather Information @done(19-07-26 12:39)
-          ✔ Input roll @done(19-07-26 12:39)
-            ✔ skip or get reserve with cost @done(19-07-26 12:39)
-            ✔ get info, no cost @done(19-07-26 12:39)
-        ✔ Get Connected @done(19-07-26 12:51)
-          ✔ Input roll @done(19-07-26 12:51)
-            ✔ skip or get reserve with cost @done(19-07-26 12:51)
-            ✔ get info, no cost @done(19-07-26 12:51)
-        ✔ Scrounge and Barter @done(19-07-26 13:06)
-          ✔ Input roll @done(19-07-26 13:06)
-            ✔ skip or get reserve with cost @done(19-07-26 13:06)
-            ✔ select predetermined cost @done(19-07-26 13:06)
-            ✔ get info, no cost @done(19-07-26 13:07)
-    Reserves:
-      Special Reserves:
-        ✔ Custom @done(19-07-25 14:37)
-        ✔ Get Creative Project @done(19-07-29 16:41)
-        ✔ Get Focused Trigger @done(19-07-29 11:46)
-        ✔ Get Organized Organization @done(19-07-29 16:41)
-
-
-  Active Mode:
-    ✔ EJECTED status @done(19-07-20 18:17)
-      ✔ Show pilot stats &c. only on Ejected status @done(19-07-20 18:17)
-      ✔ Fight Action @done(19-07-20 18:17)
-      ✔ Jockey Action @done(19-07-20 18:17)
-    ✔ DESTROYED status @done(19-07-18 12:28)
-      ✔ no actions possible @done(19-07-18 12:28)
-      ✔ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override) @done(19-07-18 12:29)
-
-    ✔ Keyboard entry for all pip components @done(19-07-17 14:52)
-    ✔ Structure Table popup on 0HP @done(19-07-18 10:08)
-      ✔ roll Xd6, select result (or skip), reroll 1 for destroyed, take worst @done(19-07-18 10:08)
-        ✔ glancing blow (apply effect) @done(19-07-18 10:08)
-        ✔ system trauma (roll again, mark system/mount destroyed) @done(19-07-18 11:01)
-        ✔ direct hit (reroll) @done(19-07-18 11:41)
-          ✔ stun on 3+ @done(19-07-18 11:41)
-          ✔ save or destroyed (stun on save) @done(19-07-18 11:41)
-          ✔ destroyed on 1- @done(19-07-18 11:41)
-      ✔ ST reacts to current structure damage (limit options, etc) @done(19-07-18 11:02)
-      ✔ Mark weapons/systems as destroyed @done(19-07-18 11:02)
-    ✔ Stress Table popup on full heat @done(19-07-18 13:14)
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
@@ -112,7 +25,6 @@ Improvements:
   ☐ draggable pilot/config cards
   ☐ use NPC editable label
   ☐ different cloud save ui 
-  ✔ Downtime Resources in glossary @done(19-07-20 18:47)
   ☐ Undo
   ☐ Click to apply weapon/system self heat
   ☐ Disable dangerzone systems outside of dangerzone
@@ -122,7 +34,6 @@ Improvements:
 Styling:
   ☐ Pilot Cards shouldn't deviate in size
 
-  GM MODE:
   ☐ Campaigns landing page (import/export/new/select)
     ☐ Pilot Roster (import pilots via json or gistID)
     ☐ NPC Roster
@@ -163,7 +74,6 @@ Preconstructed Characters:
   ☐ Charts
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
-  ✔ Dice math parser @done(19-07-30 15:49)
   ☐ Default selectable pilot glyphs and portraits
     ☐ Detect and install on first startup
 
@@ -171,6 +81,84 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Persistence @done(19-07-12 13:08) @project(Merge NPCs)
+  ✔ UI pass @done(19-07-12 13:08) @project(Merge NPCs)
+  ✔ Downtime screen -> mission flow @done(19-07-26 13:05) @project(On Deck)
+  ✔ Pilot Sheet -> Add Custom Reserve @done(19-07-29 12:37) @project(On Deck.Downtime)
+  ✔ Pilot Sheet -> Add Custom Trigger @done(19-07-29 12:17) @project(On Deck.Downtime)
+  ✔ Pilot Sheet -> Remove Custom Trigger @done(19-07-29 12:17) @project(On Deck.Downtime)
+  ✔ Pilot Sheet -> Add Custom Project @done(19-07-30 11:48) @project(On Deck.Downtime)
+  ✔ Pilot Sheet -> Add Custom Organization @done(19-07-31 10:34) @project(On Deck.Downtime)
+  ✔ Pilot Sheet Org Section @done(19-07-31 10:44) @project(On Deck.Downtime)
+  ✔ Action Sheet Org Section @done(19-07-31 10:54) @project(On Deck.Downtime)
+  ✔ Downtime Sheet @done(19-07-31 12:41) @project(On Deck.Downtime)
+  ✔ Pilot Section @done(19-07-19 14:42) @project(On Deck.Downtime)
+  ✔ Skills @done(19-07-19 14:42) @project(On Deck.Downtime)
+  ✔ Expand Reserves/Skills in downtime, collapse in mission @done(19-07-31 12:41) @project(On Deck.Downtime)
+  ✔ disable reserve expander if pilot has no reserves @done(19-07-29 12:49) @project(On Deck.Downtime)
+  ✔ Downtime Actions Panel @done(19-07-31 10:56) @project(On Deck.Downtime)
+  ✔ Power at a Cost @done(19-07-25 14:30) @project(On Deck.Downtime)
+  ✔ Add reserve (or custom reserve), cost @done(19-07-25 14:36) @project(On Deck.Downtime)
+  ✔ Buy Some Time @done(19-07-26 10:54) @project(On Deck.Downtime)
+  ✔ Add reserve: Time cost as note @done(19-07-26 10:54) @project(On Deck.Downtime)
+  ✔ Get a Damn Drink @done(19-07-26 12:18) @project(On Deck.Downtime)
+  ✔ Add reserve: A good reputation | A friend or connection | A useful item or piece of information | A convenient opportunity @done(19-07-26 12:18) @project(On Deck.Downtime)
+  ✔ 0 1 or 2 reserves (one reserve item) @done(19-07-26 12:18) @project(On Deck.Downtime)
+  ✔ cost (or no cost) @done(19-07-26 12:18) @project(On Deck.Downtime)
+  ✔ Get Creative @done(19-07-30 10:59) @project(On Deck.Downtime)
+  ✔ Start project or continue project @done(19-07-29 16:41) @project(On Deck.Downtime)
+  ✔ Start project adds a new Project reserve with status IN PROGRESS @done(19-07-29 16:41) @project(On Deck.Downtime)
+  ✔ IN PROGRESS project has requirements (costs) @done(19-07-29 16:41) @project(On Deck.Downtime)
+  ✔ Notes etc @done(19-07-29 16:41) @project(On Deck.Downtime)
+  ✔ Continue project - input roll @done(19-07-30 10:59) @project(On Deck.Downtime)
+  ✔ Roll does nothing, or increases progress, or increases progress AND adds requirement, or completes project @done(19-07-30 10:59) @project(On Deck.Downtime)
+  ✔ Completed project changes reserve status, makes usable @done(19-07-30 10:59) @project(On Deck.Downtime)
+  ✔ Get Focused @done(19-07-29 11:43) @project(On Deck.Downtime)
+  ✔ Add new Skill @done(19-07-29 11:43) @project(On Deck.Downtime)
+  ✔ Upgrade Get Focused Skill @done(19-07-29 11:43) @project(On Deck.Downtime)
+  ✔ Get Organized @done(19-07-31 10:56) @project(On Deck.Downtime)
+  ✔ New Organization section @done(19-07-30 15:42) @project(On Deck.Downtime)
+  ✔ Add Organization (name, details, efficiency and influence tracks) to reserves @done(19-07-31 10:16) @project(On Deck.Downtime)
+  ✔ Manage Organization @done(19-07-31 10:17) @project(On Deck.Downtime)
+  ✔ Upgrade Organization @done(19-07-31 10:17) @project(On Deck.Downtime)
+  ✔ Gather Information @done(19-07-26 12:39) @project(On Deck.Downtime)
+  ✔ Input roll @done(19-07-26 12:39) @project(On Deck.Downtime)
+  ✔ skip or get reserve with cost @done(19-07-26 12:39) @project(On Deck.Downtime)
+  ✔ get info, no cost @done(19-07-26 12:39) @project(On Deck.Downtime)
+  ✔ Get Connected @done(19-07-26 12:51) @project(On Deck.Downtime)
+  ✔ Input roll @done(19-07-26 12:51) @project(On Deck.Downtime)
+  ✔ skip or get reserve with cost @done(19-07-26 12:51) @project(On Deck.Downtime)
+  ✔ get info, no cost @done(19-07-26 12:51) @project(On Deck.Downtime)
+  ✔ Scrounge and Barter @done(19-07-26 13:06) @project(On Deck.Downtime)
+  ✔ Input roll @done(19-07-26 13:06) @project(On Deck.Downtime)
+  ✔ skip or get reserve with cost @done(19-07-26 13:06) @project(On Deck.Downtime)
+  ✔ select predetermined cost @done(19-07-26 13:06) @project(On Deck.Downtime)
+  ✔ get info, no cost @done(19-07-26 13:07) @project(On Deck.Downtime)
+  ✔ Custom @done(19-07-25 14:37) @project(On Deck.Downtime.Reserves.Special Reserves)
+  ✔ Get Creative Project @done(19-07-29 16:41) @project(On Deck.Downtime.Reserves.Special Reserves)
+  ✔ Get Focused Trigger @done(19-07-29 11:46) @project(On Deck.Downtime.Reserves.Special Reserves)
+  ✔ Get Organized Organization @done(19-07-29 16:41) @project(On Deck.Downtime.Reserves.Special Reserves)
+  ✔ EJECTED status @done(19-07-20 18:17) @project(On Deck.Active Mode)
+  ✔ Show pilot stats &c. only on Ejected status @done(19-07-20 18:17) @project(On Deck.Active Mode)
+  ✔ Fight Action @done(19-07-20 18:17) @project(On Deck.Active Mode)
+  ✔ Jockey Action @done(19-07-20 18:17) @project(On Deck.Active Mode)
+  ✔ DESTROYED status @done(19-07-18 12:28) @project(On Deck.Active Mode)
+  ✔ no actions possible @done(19-07-18 12:28) @project(On Deck.Active Mode)
+  ✔ in repair menu: 4 rep for repair from DESTROYED (enter self repair & ally repair to clear, override) @done(19-07-18 12:29) @project(On Deck.Active Mode)
+  ✔ Keyboard entry for all pip components @done(19-07-17 14:52) @project(On Deck.Active Mode)
+  ✔ Structure Table popup on 0HP @done(19-07-18 10:08) @project(On Deck.Active Mode)
+  ✔ roll Xd6, select result (or skip), reroll 1 for destroyed, take worst @done(19-07-18 10:08) @project(On Deck.Active Mode)
+  ✔ glancing blow (apply effect) @done(19-07-18 10:08) @project(On Deck.Active Mode)
+  ✔ system trauma (roll again, mark system/mount destroyed) @done(19-07-18 11:01) @project(On Deck.Active Mode)
+  ✔ direct hit (reroll) @done(19-07-18 11:41) @project(On Deck.Active Mode)
+  ✔ stun on 3+ @done(19-07-18 11:41) @project(On Deck.Active Mode)
+  ✔ save or destroyed (stun on save) @done(19-07-18 11:41) @project(On Deck.Active Mode)
+  ✔ destroyed on 1- @done(19-07-18 11:41) @project(On Deck.Active Mode)
+  ✔ ST reacts to current structure damage (limit options, etc) @done(19-07-18 11:02) @project(On Deck.Active Mode)
+  ✔ Mark weapons/systems as destroyed @done(19-07-18 11:02) @project(On Deck.Active Mode)
+  ✔ Stress Table popup on full heat @done(19-07-18 13:14) @project(On Deck.Active Mode)
+  ✔ Downtime Resources in glossary @done(19-07-20 18:47) @project(Improvements)
+  ✔ Dice math parser @done(19-07-30 15:49) @project(2.0)
   ✔ update lancer-data @done(19-07-11 14:17) @project(On Deck)
   ✔ Section on Pilot Sheet @done(19-07-10 14:57) @project(On Deck.Downtime.Reserves)
   ✔ Add Mark/Unmark "Used" @done(19-07-11 11:59) @project(On Deck.Downtime.Reserves)
