@@ -1,9 +1,9 @@
 declare interface IDiceStats {
-  diceString: string;
   min: number;
   max: number;
   mean: number;
   error: boolean;
+  diceString: string;
 }
 
 declare interface Id20RollResult {
