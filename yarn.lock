@@ -5235,9 +5235,9 @@ kleur@^3.0.2:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
 
 lancer-data@^1.9.2:
-  version "1.9.21"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.21.tgz#12455e7be2edf2a23bf2532dd97fcb6b4cdd5a55"
-  integrity sha512-6TUBAIADMDaqkBvqJP0EvLujogCFMq1sL4qTtya2NVLWzoT3vcZapzm4i8oEc4GLyfiwn06O2DMC1+uoBdiWgw==
+  version "1.9.22"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.22.tgz#9c7876c171480f5f788915ec906e159998a464ec"
+  integrity sha512-t7kBFN1vLW4tD83in14FHu7pNLC09R6ZkTzIONuoaNThPivW6NouQf78sF8V/EWD2Yf7gbscF02NY9GJWzV41w==
 
 latest-version@^3.0.0:
   version "3.1.0"

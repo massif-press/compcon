@@ -4,9 +4,7 @@
       <v-tooltip top nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="warning" v-model="showLocked">
-            <v-icon v-if="showLocked" slot="append" color="warning">
-              lock_open
-            </v-icon>
+            <v-icon v-if="showLocked" slot="append" color="warning">lock_open</v-icon>
             <v-icon v-else slot="append">lock</v-icon>
           </v-switch>
         </div>
@@ -16,9 +14,7 @@
       <v-tooltip top class="ml-5" nudge-bottom="20px">
         <div class="pt-3" slot="activator">
           <v-switch color="yellow" v-model="showOverSp">
-            <v-icon v-if="showOverSp" slot="append" color="yellow">
-              flash_off
-            </v-icon>
+            <v-icon v-if="showOverSp" slot="append" color="yellow">flash_off</v-icon>
             <v-icon v-else slot="append">flash_on</v-icon>
           </v-switch>
         </div>
@@ -53,9 +49,7 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td style="padding: 0!important;">
-              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">
-                equip
-              </v-btn>
+              <v-btn color="primary" @click.stop="select(props.item)" class="p-0 m-0">equip</v-btn>
             </td>
             <td>
               <span class="subheading">
@@ -64,7 +58,7 @@
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
                     {{ pilot.callsign }} does not have the license for this system ({{
-                      props.item.License
+                    props.item.License
                     }}
                     {{ props.item.LicenseLevel }})
                   </span>
@@ -79,9 +73,10 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span v-if="props.item.Source !== 'GMS'" class="subheading">
-                {{ props.item.License }} {{ props.item.LicenseLevel }}
-              </span>
+              <span
+                v-if="props.item.Source !== 'GMS'"
+                class="subheading"
+              >{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -99,12 +94,12 @@
       <v-layout v-if="currentEquip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">
-            Uninstall Missing System
-          </v-btn>
-          <v-btn v-else color="amber darken-4" @click="remove">
-            Uninstall {{ currentEquip.Name }}
-          </v-btn>
+          <v-btn
+            v-if="currentEquip.err"
+            color="amber darken-4"
+            @click="remove"
+          >Uninstall Missing System</v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{ currentEquip.Name }}</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -189,7 +184,7 @@ export default Vue.extend({
       if (this.currentEquip) {
         this.loadout.ChangeSystem(this.index, item)
       } else {
-        this.loadout.AddSystem(item)
+        this.loadout.AddSystem(item, this.pilot)
       }
       this.$emit('close')
     },

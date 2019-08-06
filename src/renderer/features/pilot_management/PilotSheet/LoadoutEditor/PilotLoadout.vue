@@ -4,8 +4,7 @@
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="pilot.AddLoadout()" color="primary">
-            <v-icon>add</v-icon>
-            Add New Loadout
+            <v-icon>add</v-icon>Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -21,9 +20,7 @@
       @change="changeTab()"
       :key="pilot.Loadouts.length"
     >
-      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">
-        {{ pilotLoadout.Name }}
-      </v-tab>
+      <v-tab v-for="(pilotLoadout, i) in pilot.Loadouts" :key="i">{{ pilotLoadout.Name }}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="pilot.AddLoadout()">
@@ -91,20 +88,17 @@
 
             <v-card-actions>
               <v-btn slot="activator" flat @click="renameDialog = true">
-                <v-icon small left>edit</v-icon>
-                Rename Loadout
+                <v-icon small left>edit</v-icon>Rename Loadout
               </v-btn>
 
               <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
-                <v-icon small left>file_copy</v-icon>
-                Duplicate Loadout
+                <v-icon small left>file_copy</v-icon>Duplicate Loadout
               </v-btn>
 
               <v-spacer />
 
               <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
-                <v-icon small left>edit</v-icon>
-                Delete Loadout
+                <v-icon small left>edit</v-icon>Delete Loadout
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -150,9 +144,7 @@
       @cancel="deleteDialog = false"
     >
       <v-card-text slot="modal-content">
-        <p>
-          Are you sure you want to delete this loadout? This action cannot be undone.
-        </p>
+        <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
       </v-card-text>
     </lazy-dialog>
 
@@ -230,11 +222,13 @@ export default Vue.extend({
     equipItem(item: PilotEquipment) {
       if (this.pilot.ActiveLoadout)
         this.pilot.ActiveLoadout.Add(item, this.itemIndex, this.extended)
+      this.$parent.$forceUpdate()
       this.selectorModal = false
     },
     removeItem(item: PilotEquipment) {
       if (this.pilot.ActiveLoadout)
         this.pilot.ActiveLoadout.Remove(item, this.itemIndex, this.extended)
+      this.$parent.$forceUpdate()
       this.selectorModal = false
     },
     changeTab() {
