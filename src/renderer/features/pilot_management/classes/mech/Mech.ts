@@ -698,12 +698,19 @@ class Mech {
   }
 
   public get ActiveLoadout(): MechLoadout | null {
-    return this.loadouts.find(x => x.ID === this.active_loadout) || null
+    if (!this.loadouts.length) return null
+    return this.loadouts.find(x => x.ID === this.active_loadout) || this.loadouts[0]
   }
 
   public set ActiveLoadout(loadout: MechLoadout | null) {
-    this.active_loadout = loadout.ID || ''
+    this.active_loadout = loadout ? loadout.ID || '' : null
     this.save()
+  }
+
+  public UpdateLoadouts() {
+    this.loadouts.forEach(x => {
+      x.UpdateIntegrated(this)
+    });
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

@@ -697,7 +697,7 @@
                   <v-card-text class="bordered-dark ml-3 pt-4">
                     <v-layout row wrap>
                       <mech-system-card
-                        v-for="(system, i) in mech.IntegratedSystems.concat(loadout.Systems)"
+                        v-for="(system, i) in loadout.IntegratedSystems.concat(loadout.Systems)"
                         :key="`system${i}`"
                         :system="system"
                       />

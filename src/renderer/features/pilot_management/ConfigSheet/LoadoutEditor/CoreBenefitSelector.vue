@@ -1,33 +1,44 @@
 <template>
   <div>
-    <v-card-title class="title">
-      Add or Remove Core Bonus Improvements
-    </v-card-title>
+    <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
     <v-card-text class="text-xs-center">
       <v-layout justify-center wrap>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
-          <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">
-            Uninstall Auto-Stabilizing Hardpoints
-          </v-btn>
-          <v-btn large block v-else-if="unappliedHardpoints()" @click="addHardpoints()">
-            Install Auto-Stabilizing Hardpoints
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedHardpoints()"
+            @click="removeHardpoints()"
+          >Uninstall Auto-Stabilizing Hardpoints</v-btn>
+          <v-btn
+            large
+            block
+            v-else-if="unappliedHardpoints()"
+            @click="addHardpoints()"
+          >Install Auto-Stabilizing Hardpoints</v-btn>
         </v-flex>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'burnout')">
-          <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">
-            Uninstall BURNOUT Insulation
-          </v-btn>
-          <v-btn large block v-else-if="unappliedBurnout()" @click="addBurnout()">
-            Install BURNOUT Insulation
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedBurnout()"
+            @click="removeBurnout()"
+          >Uninstall BURNOUT Insulation</v-btn>
+          <v-btn
+            large
+            block
+            v-else-if="unappliedBurnout()"
+            @click="addBurnout()"
+          >Install BURNOUT Insulation</v-btn>
         </v-flex>
         <v-flex xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
-          <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">
-            Restore Original Mount
-          </v-btn>
-          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">
-            Retrofit Mount
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedRetrofit()"
+            @click="removeRetrofit()"
+          >Restore Original Mount</v-btn>
+          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">Retrofit Mount</v-btn>
         </v-flex>
       </v-layout>
       <v-divider class="ma-3" />
@@ -100,7 +111,12 @@ export default Vue.extend({
     },
     addRetrofit() {
       this.loadout.RetrofitMount(
-        this.loadout.AllEquippableMounts(true, true).findIndex(x => _.isEqual(x, this.mount))
+        this.loadout
+          .AllEquippableMounts(
+            this.pilot.has('CoreBonus', 'imparm'),
+            this.pilot.has('CoreBonus', 'intweapon')
+          )
+          .findIndex(x => x === this.mount)
       )
       this.$emit('close')
     },
