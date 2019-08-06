@@ -69,9 +69,10 @@
                       absolute
                       class="ma-0 pa-0"
                       style="top: 10px"
+                      dark
                     >
                       <span>Mod</span>
-                      <v-icon small>build</v-icon>
+                      <v-icon small right>build</v-icon>
                     </v-btn>
                   </div>
                   <span>Add/Change Weapon Mods</span>
@@ -84,7 +85,12 @@
               :modData="weaponSlot.Weapon.Mod"
             />
             <core-bonus-card v-for="cb in mount.CoreBonuses" :key="cb.ID" :cb="cb" />
-            <weapon-card :item="weaponSlot.Weapon" :mod="weaponSlot.Weapon.Mod" :loadout="loadout" />
+            <weapon-card
+              :item="weaponSlot.Weapon"
+              :mod="weaponSlot.Weapon.Mod"
+              :loadout="loadout"
+              :integrated="integrated"
+            />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
@@ -222,11 +228,12 @@ export default Vue.extend({
     CoreBonusCard,
   },
   props: {
-    weaponSlot: WeaponSlot,
-    mount: EquippableMount,
-    loadout: MechLoadout,
+    weaponSlot: Object,
+    mount: Object,
+    loadout: Object,
     maxSP: Number,
     noMod: Boolean,
+    integrated: Boolean,
   },
   data: () => ({
     weaponSelectorModal: false,
@@ -249,8 +256,6 @@ export default Vue.extend({
       const weapon = this.weaponSlot.Weapon
       const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
       let i = allMods.filter(x => x.Source)
-      // get all licensed mods
-      i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
       // filter out any mount size restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(weapon.Size))
       // filter out any weapon type restrictions
@@ -320,7 +325,7 @@ export default Vue.extend({
       }
     },
     equipWeapon(item: MechWeapon) {
-      this.weaponSlot.EquipWeapon(item)
+      this.weaponSlot.EquipWeapon(item, this.pilot)
       this.weaponSelectorModal = false
     },
     equipSuperheavy(lockMount: EquippableMount) {

@@ -4,8 +4,7 @@
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="newLoadout()" color="primary">
-            <v-icon>add</v-icon>
-            Add New Loadout
+            <v-icon>add</v-icon>Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -20,9 +19,7 @@
       @change="changeTab()"
       :key="config.Loadouts.length"
     >
-      <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">
-        {{ loadout.name }}
-      </v-tab>
+      <v-tab v-for="loadout in config.Loadouts" :key="loadout.id">{{ loadout.name }}</v-tab>
       <span>
         <v-tooltip top>
           <v-btn icon slot="activator" @click="newLoadout()">
@@ -35,11 +32,13 @@
         <v-tab-item v-for="(loadout, i) in config.Loadouts" :key="loadout.id + i" lazy>
           <v-card>
             <v-card-text>
-              <integrated-block
+              <mount-block
                 v-for="(im, j) in loadout.IntegratedMounts"
                 :key="`int_${i}_${j}`"
                 :mount="im"
                 :loadout="loadout"
+                integrated
+                no-
               />
 
               <mount-block
@@ -47,7 +46,7 @@
                 :mount="loadout.IntegratedWeaponMount"
                 :loadout="loadout"
                 :maxSP="config.MaxSP"
-                integrated-weapon
+                intweapon
               />
 
               <mount-block
@@ -71,21 +70,15 @@
                   @cancel="renameDialog = false"
                 >
                   <v-btn slot="activator" flat @click="renameDialog = true">
-                    <v-icon small left>edit</v-icon>
-                    Rename Loadout
+                    <v-icon small left>edit</v-icon>Rename Loadout
                   </v-btn>
                   <v-card-text slot="modal-content">
-                    <v-text-field
-                      v-model="newLoadoutName"
-                      label="Loadout Name"
-                      type="text"
-                    ></v-text-field>
+                    <v-text-field v-model="newLoadoutName" label="Loadout Name" type="text"></v-text-field>
                   </v-card-text>
                 </lazy-dialog>
 
                 <v-btn flat @click="copyLoadout(loadout)">
-                  <v-icon small left>file_copy</v-icon>
-                  Duplicate Loadout
+                  <v-icon small left>file_copy</v-icon>Duplicate Loadout
                 </v-btn>
 
                 <v-spacer />
@@ -99,13 +92,10 @@
                   @cancel="deleteDialog = false"
                 >
                   <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
-                    <v-icon small left>edit</v-icon>
-                    Delete Loadout
+                    <v-icon small left>edit</v-icon>Delete Loadout
                   </v-btn>
                   <v-card-text slot="modal-content">
-                    <p>
-                      Are you sure you want to delete this loadout? This action cannot be undone.
-                    </p>
+                    <p>Are you sure you want to delete this loadout? This action cannot be undone.</p>
                   </v-card-text>
                 </lazy-dialog>
               </v-card-actions>
@@ -126,7 +116,6 @@
 import Vue from 'vue'
 import io from '@/features/_shared/data_io'
 import MountBlock from './MountBlock.vue'
-import IntegratedBlock from './IntegratedBlock.vue'
 import SystemsBlock from './SystemsBlock.vue'
 import { LazyDialog } from '../../components/UI'
 import { MechLoadout, MechSystem, Mech, Pilot } from '@/class'
@@ -136,7 +125,6 @@ export default Vue.extend({
   components: {
     MountBlock,
     SystemsBlock,
-    IntegratedBlock,
     LazyDialog,
   },
   props: {

@@ -285,7 +285,7 @@ class Pilot {
     if (this.ActiveLoadout) {
       this.ActiveLoadout.Armor.forEach(x => {
         if (!x) return
-        if (x.Speed && x.Speed > speed) speed = x.Speed
+        if (x.Speed) speed = x.Speed
         speed += x.SpeedBonus
       })
     }
@@ -297,7 +297,7 @@ class Pilot {
     if (this.ActiveLoadout) {
       this.ActiveLoadout.Armor.forEach(x => {
         if (!x) return
-        if (x.Evasion && x.Evasion > evasion) evasion = x.Evasion
+        if (x.Evasion) evasion = x.Evasion
         evasion += x.EvasionBonus
       })
     }
@@ -309,7 +309,7 @@ class Pilot {
     if (this.ActiveLoadout) {
       this.ActiveLoadout.Armor.forEach(x => {
         if (!x) return
-        if (x.EDefense && x.EDefense > edef) edef = x.EDefense
+        if (x.EDefense) edef = x.EDefense
         edef += x.EDefenseBonus
       })
     }
@@ -409,7 +409,7 @@ class Pilot {
       this.talents[index].Increment()
     }
     this.talentSort()
-    this.resetIntegratedTalents()
+    this.updateIntegratedTalents()
     this.save()
   }
 
@@ -425,7 +425,7 @@ class Pilot {
       }
     }
     this.talentSort()
-    this.resetIntegratedTalents()
+    this.updateIntegratedTalents()
     this.save()
   }
 
@@ -443,11 +443,9 @@ class Pilot {
     })
   }
 
-  private resetIntegratedTalents() {
+  private updateIntegratedTalents() {
     this.mechs.forEach(mech => {
-      mech.Loadouts.forEach(loadout => {
-        loadout.ResetIntegratedMounts(mech)
-      })
+      mech.UpdateLoadouts()
     })
   }
 

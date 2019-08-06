@@ -1,7 +1,7 @@
 <template>
   <v-card flat color="#e0e0e0">
     <v-card-text class="pb-0 pt-0">
-      <div class="pt-2">
+      <div v-if="!integrated" class="pt-2">
         <em v-if="!item.License">
           {{ item.Source }}
           <br />
@@ -111,6 +111,7 @@ export default Vue.extend({
     tableItem: Boolean,
     mod: WeaponMod,
     loadout: MechLoadout,
+    integrated: Boolean,
   },
   components: { ItemTag, RangeElement, DamageElement, ItemNote, LimitedBar },
   computed: {

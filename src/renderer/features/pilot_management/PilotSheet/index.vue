@@ -36,6 +36,7 @@
               <v-flex>
                 <pip-bar
                   small
+                  :key="pilot.ActiveLoadout.Armor.ID"
                   :model="pilot.MaxHP"
                   :items="[pilot.MaxHP]"
                   :caption="`HP ${pilot.MaxHP}`"
@@ -43,24 +44,28 @@
               </v-flex>
               <pip-bar
                 small
+                :key="pilot.ActiveLoadout.Armor.ID"
                 :model="pilot.Armor"
                 :items="[pilot.Armor]"
                 :caption="`ARMOR ${pilot.Armor}`"
               />
               <pip-bar
                 small
+                :key="pilot.ActiveLoadout.Armor.ID"
                 :model="pilot.EDefense"
                 :items="[pilot.EDefense]"
                 :caption="`E-DEFENSE ${pilot.EDefense}`"
               />
               <pip-bar
                 small
+                :key="pilot.ActiveLoadout.Armor.ID"
                 :model="pilot.Evasion"
                 :items="[pilot.Evasion]"
                 :caption="`EVASION ${pilot.Evasion}`"
               />
               <pip-bar
                 small
+                :key="pilot.ActiveLoadout.Armor.ID"
                 :model="pilot.Speed"
                 :items="[pilot.Speed]"
                 :caption="`SPEED ${pilot.Speed}`"

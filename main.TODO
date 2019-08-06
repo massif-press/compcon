@@ -1,19 +1,9 @@
-☐ Personalization issue occuring while saving currently-active mechs
-☐ usage items initialized without pilot limited bonus
-☐ can't mark intg systems destroyed, change their notes, etc
-
-On Deck:
-  ☐ statblock mech select modal
-
-  ☐ hidden tags for specially-handled items
-    ☐ prototype weapon: set max uses
-    ☐ Signature Weapon type selection
-
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
   ☐ background -> save string only
+  ☐ v-show over v-if
 
 Style Pass:
   ☐ Vuetify 2.0
@@ -21,6 +11,12 @@ Style Pass:
   ☐ Should be able to collapse reserves individually by clicking toolbar
 
 Improvements:
+  ☐ hidden tags for specially-handled items
+    ☐ prototype weapon: set max uses
+    ☐ Signature Weapon damage type selection
+    ☐ Prototype Weapon type/range/damage type selection
+  ☐ Exclude filter parameter for filter panel
+  ☐ statblock mech select modal
   ☐ refresh cloud-saved pilots
   ☐ draggable pilot/config cards
   ☐ use NPC editable label
@@ -30,10 +26,9 @@ Improvements:
   ☐ Disable dangerzone systems outside of dangerzone
   ☐ Ammo block
   ☐ Mandatory org rolling at the start of every downtime
-  
-Styling:
   ☐ Pilot Cards shouldn't deviate in size
-
+  
+Campaign Tools:
   ☐ Campaigns landing page (import/export/new/select)
     ☐ Pilot Roster (import pilots via json or gistID)
     ☐ NPC Roster
@@ -81,6 +76,22 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ usage items initialized without pilot limited bonus @done(19-08-05 15:26)
+  ✔ can't mark intg systems destroyed, change their notes, etc @done(19-08-05 15:34)
+  ✔ loadouts dissappearing on mech quick swap @done(19-08-05 13:16)
+  ✔ hidden tags aren't @done(19-08-05 13:27)
+  ✔ confirm button doesn't activate for mount destruction @done(19-08-05 13:26)
+  ✔ Filter broken for Flight Systems @done(19-08-05 13:35)
+  ✔ Retrofit mount applies to incorrect mount @done(19-08-05 13:51)
+  ✔ Superheavy mounting lock wasn't being saved @done(19-08-05 13:55)
+  ✔ Integrated mounts not allowing note/limited/destroyed tracking @done(19-08-05 16:07)
+  ✔ Minoutar Excommunicate @done(19-08-06 09:43)
+  ✔ Data typos @done(19-08-06 09:52)
+  ✔ Update lancer-data @done(19-08-06 09:52)
+  ✔ T3 Ronin Speed @done(19-08-06 09:52)
+  ✔ Delete long name NPCs @done(19-08-06 10:02)
+  ✔ Pilot Evasion update lag @done(19-08-06 10:21)
+  ✔ Update version number @done(19-08-06 10:27)
   ✔ Persistence @done(19-07-12 13:08) @project(Merge NPCs)
   ✔ UI pass @done(19-07-12 13:08) @project(Merge NPCs)
   ✔ Downtime screen -> mission flow @done(19-07-26 13:05) @project(On Deck)
