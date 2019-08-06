@@ -11,12 +11,13 @@
         <v-flex class="draghandle">
           <v-icon dark>mdi-drag</v-icon>
         </v-flex>
-        <v-flex class="title tierclass">
-          {{ npc.name }}
-        </v-flex>
-        <v-flex class="ml-auto body-2 text-uppercase tierclass">
-          TIER {{ npcData.tier + 1 }} {{ npcData.npcClass.name }}
-        </v-flex>
+        <v-flex
+          class="title tierclass"
+          style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"
+        >{{ npc.name }}</v-flex>
+        <v-flex
+          class="ml-auto body-2 text-uppercase tierclass"
+        >TIER {{ npcData.tier + 1 }} {{ npcData.npcClass.name }}</v-flex>
         <v-flex py-0>
           <v-btn
             outline
@@ -71,11 +72,10 @@
         </v-flex>
       </v-layout>
       <v-layout column v-else>
-        <span class="grey--text  caption">
+        <span class="grey--text caption">
           The grunt only has 1 HP, structure and stress maximum. If it takes any heat from an
           external source, it is destroyed. If it takes damage, it's destroyed.
-          <br />
-          It
+          <br />It
           <b>doesn't</b>
           take any damage from successful saves.
         </span>
@@ -93,7 +93,7 @@
                     >
                 </transition>
             </v-btn>
-        </v-card-actions> -->
+    </v-card-actions>-->
     <v-expand-transition>
       <div class="d-flex justify-space-evenly" style="flex-direction: column; flex-grow: 1;">
         <!-- v-if="expanded"             -->
@@ -130,33 +130,23 @@
             <v-layout wrap align-center>
               <v-flex stat>
                 <v-flex class="caption">ARMOR</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.armor }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.armor }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">EVADE</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.evade }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.evade }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">EDEF</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.edef }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.edef }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">SPEED</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.speed }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.speed }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">SENSOR</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.sensor }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.sensor }}</v-flex>
               </v-flex>
             </v-layout>
           </v-container>
@@ -165,33 +155,31 @@
             <v-layout wrap align-center>
               <v-flex stat>
                 <v-flex class="caption">HULL</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.hull > -1 ? '+' : '' }}{{ npcData.stats.hull }}
-                </v-flex>
+                <v-flex
+                  class="headline font-weight-bold primary--text"
+                >{{ npcData.stats.hull > -1 ? '+' : '' }}{{ npcData.stats.hull }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">AGI</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.agility > -1 ? '+' : '' }}{{ npcData.stats.agility }}
-                </v-flex>
+                <v-flex
+                  class="headline font-weight-bold primary--text"
+                >{{ npcData.stats.agility > -1 ? '+' : '' }}{{ npcData.stats.agility }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">SYS</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.systems > -1 ? '+' : '' }}{{ npcData.stats.systems }}
-                </v-flex>
+                <v-flex
+                  class="headline font-weight-bold primary--text"
+                >{{ npcData.stats.systems > -1 ? '+' : '' }}{{ npcData.stats.systems }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">ENG</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.engineering > -1 ? '+' : '' }}{{ npcData.stats.engineering }}
-                </v-flex>
+                <v-flex
+                  class="headline font-weight-bold primary--text"
+                >{{ npcData.stats.engineering > -1 ? '+' : '' }}{{ npcData.stats.engineering }}</v-flex>
               </v-flex>
               <v-flex stat>
                 <v-flex class="caption">SAVE</v-flex>
-                <v-flex class="headline font-weight-bold primary--text">
-                  {{ npcData.stats.save }}
-                </v-flex>
+                <v-flex class="headline font-weight-bold primary--text">{{ npcData.stats.save }}</v-flex>
               </v-flex>
             </v-layout>
           </v-container>
@@ -199,22 +187,20 @@
         <template v-if="npcData.features.length">
           <v-divider class="my-2" />
           <v-container pt-1 fluid class="primary--text">
-            <h3 class="body-2">
-              Features
-            </h3>
+            <h3 class="body-2">Features</h3>
             <v-dialog max-width="500" v-for="feature in npcData.features" :key="feature.name">
               <template v-slot:activator="{ on }">
-                <v-chip dark color="primary" v-on="on" class="featurechip" v-ripple>
-                  {{ feature.name }}
-                </v-chip>
+                <v-chip
+                  dark
+                  color="primary"
+                  v-on="on"
+                  class="featurechip"
+                  v-ripple
+                >{{ feature.name }}</v-chip>
               </template>
               <v-card class="primary--text">
-                <v-card-title class="title primary white--text">
-                  {{ feature.name }}
-                </v-card-title>
-                <v-card-text>
-                  {{ feature.description }}
-                </v-card-text>
+                <v-card-title class="title primary white--text">{{ feature.name }}</v-card-title>
+                <v-card-text>{{ feature.description }}</v-card-text>
               </v-card>
             </v-dialog>
           </v-container>

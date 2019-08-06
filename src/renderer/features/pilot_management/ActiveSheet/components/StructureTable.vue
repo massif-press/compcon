@@ -136,7 +136,7 @@
           <v-btn
             color="success"
             large
-            :disabled="(systemTraumaRoll <= 3 && !destroyedMount) || (systemTraumaRoll > 3 && !destroyedSystem)"
+            :disabled="(systemTraumaRoll <= 3 && destroyedMount === null) || (systemTraumaRoll > 3 && !destroyedSystem)"
             @click="applySystemTrauma"
           >confirm</v-btn>
         </v-card-actions>
