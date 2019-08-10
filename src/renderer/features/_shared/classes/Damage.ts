@@ -57,7 +57,7 @@ class Damage {
   }
 
   public get Icon(): string {
-    return `cc-${this.damage_type.toLowerCase()}`
+    return `cci-${this.damage_type.toLowerCase()}`
   }
 
   public get ToString(): string {

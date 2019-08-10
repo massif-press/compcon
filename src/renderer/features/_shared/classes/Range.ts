@@ -33,7 +33,7 @@ class Range {
   }
 
   public get Icon(): string {
-    return `cc-${this.range_type.toLowerCase()}`
+    return `cci-${this.range_type.toLowerCase()}`
   }
 
   public get ToString(): string {

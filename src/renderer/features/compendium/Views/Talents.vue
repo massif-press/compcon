@@ -36,7 +36,7 @@
               >
                 <div style="width:100%">
                   <div class="title">
-                    <v-icon class="mt-2" color="primary">cc-rank-{{ index + 1 }}</v-icon>
+                    <v-icon class="mt-2" color="primary">cci-rank-{{ index + 1 }}</v-icon>
                     {{ r.name }}
                   </div>
                   <p class="pl-4 effect-text" v-html="r.description" />

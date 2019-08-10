@@ -30,20 +30,20 @@
           />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card color="purple" icon="cc-frame" loc="frames" name="Frames" />
-          <category-card color="red" icon="cc-melee" loc="weapons" name="Mech Weapons" />
+          <category-card color="purple" icon="cci-frame" loc="frames" name="Frames" />
+          <category-card color="red" icon="cci-melee" loc="weapons" name="Mech Weapons" />
           <category-card color="teal" icon="mdi-chip" loc="systems" name="Mech Systems" />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card color="primary" icon="cc-pilot" loc="pilot_gear" name="Pilot Equipment" />
+          <category-card color="primary" icon="cci-pilot" loc="pilot_gear" name="Pilot Equipment" />
           <category-card color="indigo" icon="public" loc="backgrounds" name="Pilot Backgrounds" />
           <category-card
             color="indigo"
-            icon="cc-accuracy"
+            icon="cci-accuracy"
             loc="skills"
             name="Pilot Skill Triggers"
           />
-          <category-card color="indigo" icon="cc-rank-3" loc="talents" name="Pilot Talents" />
+          <category-card color="indigo" icon="cci-rank-3" loc="talents" name="Pilot Talents" />
         </v-layout>
         <v-layout row wrap justify-center>
           <category-card color="secondary" icon="label" loc="tags" name="Equipment Tags" />

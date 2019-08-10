@@ -17,7 +17,7 @@
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-icon color="primary" small>cc-rank-{{ plicense.Rank }}</v-icon>
+                <v-icon color="primary" small>cci-rank-{{ plicense.Rank }}</v-icon>
                 <strong>{{ plicense.License.name }}</strong>
               </v-flex>
             </v-layout>

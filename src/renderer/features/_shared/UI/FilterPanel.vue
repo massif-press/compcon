@@ -47,7 +47,7 @@
               <v-layout>
                 <v-select
                   v-model="filters.license"
-                  prepend-icon="cc-frame"
+                  prepend-icon="cci-frame"
                   chips
                   deletable-chips
                   dense
@@ -140,7 +140,7 @@
               <v-layout row>
                 <v-select
                   v-model="filters.attackType"
-                  prepend-icon="cc-range"
+                  prepend-icon="cci-range"
                   chips
                   deletable-chips
                   dense
@@ -154,7 +154,7 @@
               <v-layout row>
                 <v-select
                   v-model="filters.damageType"
-                  prepend-icon="cc-kinetic-damage"
+                  prepend-icon="cci-kinetic-damage"
                   chips
                   deletable-chips
                   dense

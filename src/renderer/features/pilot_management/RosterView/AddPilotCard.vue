@@ -11,7 +11,7 @@
         <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
           <div style="display:table; width:100%; cursor: pointer;">
             <span class="pilot-letter">
-              <v-icon dark size="300px" style="width:100%">cc-pilot</v-icon>
+              <v-icon dark size="300px" style="width:100%">cci-pilot</v-icon>
             </span>
           </div>
         </v-flex>

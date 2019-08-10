@@ -300,7 +300,7 @@
                           >
                             <v-layout>
                               <v-flex xs12>
-                                <v-icon color="primary">cc-rank-{{ talent.Rank }}</v-icon>
+                                <v-icon color="primary">cci-rank-{{ talent.Rank }}</v-icon>
                                 <strong class="effect-text font-weight-bold">
                                   {{ talent.Talent.Name }}
                                 </strong>
