@@ -1,3 +1,33 @@
+@font-face {
+  font-family: 'Helvetica Black';
+  src: url('../fonts/Helvetica-Black.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Helvetica Bold';
+  src: url('../fonts/Helvetica-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Helvetica Light';
+  src: url('../fonts/Helvetica-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Helvetica Ultralight';
+  src: url('../fonts/HelveticaBQ-UltraLight.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Helvetica Oblique';
+  src: url('../fonts/Helvetica-LightOblique.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Consolas';
+  src: url('../fonts/Consolas.ttf') format('truetype');
+}
+
 .callsign-text {
   font-weight: 300;
   font-size: 3.5em;
@@ -65,10 +95,6 @@ code.horus:hover {
   animation: distort 0.6s infinite;
   text-transform: uppercase;
   font-weight: bold;
-}
-
-.ra-quiet {
-  color: azure;
 }
 
 @keyframes distort {

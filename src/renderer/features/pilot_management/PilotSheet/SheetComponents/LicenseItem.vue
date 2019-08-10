@@ -6,7 +6,7 @@
     </v-toolbar-title>
 
     <v-toolbar-title slot="header" v-else dense>
-      <v-icon color="primary" v-html="`cc-rank-${pilotRank}`" />
+      <v-icon color="primary" v-html="`cci-rank-${pilotRank}`" />
       <span class="title">{{ licenseData.Name }}</span>
       <span class="caption">({{ licenseData.Source }})</span>
     </v-toolbar-title>

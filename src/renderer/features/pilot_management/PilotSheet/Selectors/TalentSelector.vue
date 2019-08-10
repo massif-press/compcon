@@ -16,7 +16,7 @@
             </v-layout>
             <v-layout v-else>
               <v-flex xs12>
-                <v-icon small color="primary">cc-rank-{{ pTalent.Rank }}</v-icon>
+                <v-icon small color="primary">cci-rank-{{ pTalent.Rank }}</v-icon>
                 <strong>{{ pTalent.Talent.Name }}</strong>
               </v-flex>
             </v-layout>

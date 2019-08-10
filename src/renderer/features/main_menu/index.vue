@@ -1,141 +1,87 @@
 <template>
   <div id="wrapper">
-    <v-container fluid class="mb-0 pb-0">
-      <v-layout>
-        <v-flex>
-          <span class="display-3">COMP/CON</span>
-          &emsp;
-          <span class="minor-title">v.{{ ver }} // LANCER Core {{ lancerVer }}</span>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
-          <h3 class="display-1 grey--text">&emsp; A digital toolset for the LANCER TTRPG</h3>
-        </v-flex>
-      </v-layout>
-    </v-container>
-
-    <v-container>
-      <v-layout style="height: 100%" align-v="center" class="mt-0 pt-0">
-        <v-flex class="px-1">
-          <v-btn block color="primary" large to="/pilot_management">Pilot Roster</v-btn>
-        </v-flex>
-        <v-flex class="px-1">
-          <v-btn block color="primary" large to="/compendium">COMPENDIUM</v-btn>
-        </v-flex>
-        <v-flex class="px-1">
-          <v-btn slot="activator" block color="primary" large :to="'/gm'">GM Toolkit</v-btn>
-        </v-flex>
-        <v-flex class="px-1">
-          <v-btn slot="activator" block large :to="'/mods'" disabled>Homebrew Editor</v-btn>
-        </v-flex>
-      </v-layout>
-
-      <v-divider class="ma-2" />
-
-      <v-layout>
-        <v-flex>
-          <v-card v-if="loading">
-            <v-card-text class="text-xs-center">
-              <v-progress-circular :size="120" :width="12" color="primary" indeterminate />
-              <p class="minor-title mt-3">LOADING...</p>
-            </v-card-text>
-          </v-card>
-          <v-card
-            v-else-if="changelog && changelog.news"
-            height="65vh"
-            style="overflow-y: scroll; overflow-x: hidden"
-          >
-            <v-card-title class="major-title">
-              Updated {{ changelog.news.date }}&nbsp;
-              <span
-                class="caption"
-              >(v{{ changelog.news.version }})</span>
-              <v-spacer />
-              <span class="minor title">
-                Stable:
-                <span class="primary--text">{{ changelog.stable }}</span>
-              </span>
-              &emsp;
-              <span class="minor title">
-                Beta:
-                <span class="primary--text">{{ changelog.beta }}</span>
-              </span>
-            </v-card-title>
-            <div v-if="ver !== changelog.beta && ver !== changelog.stable" class="ma-0 ml-5 mr-5">
-              <v-btn block large color="warning" @click="toUpdate">Update COMP/CON</v-btn>
-            </div>
-            <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
-            <v-divider class="mt-2 mb-2" />
-            <div v-for="(i, idx) in changelog.changelog" :key="idx">
-              <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{ i.version }}</v-card-title>
-              <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
-              <v-divider class="mt-2 mb-2" />
-            </div>
-          </v-card>
-          <v-card v-else>
-            <v-card-text>
-              <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
-              <br />
-              <p class="text-xs-center">
-                <span class="title">
-                  Check
-                  <a @click="toUpdate">https://massif-press.itch.io/compcon for updates</a>
-                </span>
-              </p>
-            </v-card-text>
-          </v-card>
+    <main-title />
+    <update-alert @hover="ccLog('update')" />
+    <v-container fluid style="height: 85vh">
+      <v-layout row fill-height>
+        <v-flex fill-height>
+          <v-layout column fill-height justfiy-space-around class="mb-4 ml-4 pb-4">
+            <c-c-log ref="log" />
+            <v-spacer />
+            <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
+            <main-btn :to="'/pilot_management'" @hover="ccLog('pilot')">Pilot Roster</main-btn>
+            <main-btn :to="'/gm'" @hover="ccLog('gm')">GM Tools</main-btn>
+            <main-btn :to="'/ui-test'" @hover="ccLog('campaign')">Campaign Management</main-btn>
+            <main-btn :to="'/ui-test'" @hover="ccLog('homebrew')">Content Editor</main-btn>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-container>
 
-    <!-- <v-footer fixed>
-      <span href="#">&emsp;v. {{ ver }}</span>
-      <v-spacer/>
-      <v-btn flat small disabled>About</v-btn>
-      <v-btn flat small disabled>Help</v-btn>
-      <v-btn color="warning" small disabled>Support This Project</v-btn>
-    </v-footer>-->
+    <v-footer color="primary" fixed>
+      <v-spacer />
+      <v-btn text small dark>About</v-btn>
+      <v-divider vertical dark class="mx-1" />
+      <v-btn text small dark>Help</v-btn>
+      <v-divider vertical dark class="mx-1" />
+      <v-btn color="amber darken-3" dark small>Support This Project</v-btn>
+    </v-footer>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import apis from '../pilot_management/logic/apis'
-import { remote } from 'electron'
 import { info } from 'lancer-data'
+
+import MainTitle from './_components/MainTitle.vue'
+import MainBtn from './_components/MainBtn.vue'
+import UpdateAlert from './_components/UpdateAlert.vue'
+import CCLog from './_components/CCLog.vue'
 
 export default Vue.extend({
   name: 'landing-page',
+  components: {
+    MainTitle,
+    MainBtn,
+    UpdateAlert,
+    CCLog,
+  },
   data: () => ({
-    ver: '1',
-    changelog: {},
-    err: false,
-    loading: true,
     lancerVer: info.version,
   }),
   methods: {
-    toUpdate() {
-      remote.shell.openExternal('https://massif-press.itch.io/compcon')
+    ccLog(btn: string) {
+      switch (btn) {
+        case 'compendium':
+          this.$refs['log'].print(
+            'man compendium',
+            'Browse the database of LANCER frames, equipment, and rules'
+          )
+          break
+        case 'pilot':
+          this.$refs['log'].print('man pilot_sheet', 'Create and manage pilots and their mechs.')
+          break
+        case 'gm':
+          this.$refs['log'].print('man gm_tools', 'Build and manage NPCs and encounters')
+          break
+        case 'campaign':
+          this.$refs['log'].print('man campaigns', 'work in progress')
+          break
+        case 'homebrew':
+          this.$refs['log'].print('man homebrew', 'work in progress')
+          break
+        case 'update':
+          this.$refs['log'].print(
+            'gms-upm compcon changelog -l',
+            'View changelog and update COMP/CON'
+          )
+        default:
+          break
+      }
     },
   },
-  created: function() {
+  created() {
     if (Vue.prototype.version) this.ver = Vue.prototype.version
-    apis
-      .getChangelog()
-      .then((response: any) => {
-        this.loading = false
-        if (!response || !response.files) {
-          this.err = true
-        } else {
-          this.err = false
-          this.changelog = JSON.parse(response.files['changelog.json'].content)
-        }
-      })
-      .catch(() => {
-        this.loading = false
-        this.err = true
-      })
     this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
     this.$store.dispatch('loadData')
     this.$store.dispatch('buildLicenses')
@@ -147,16 +93,20 @@ export default Vue.extend({
 #wrapper {
   width: 100%;
   height: 100vh;
-
-  background: radial-gradient(
-    ellipse at top left,
-    rgba(255, 255, 255, 1) 40%,
-    rgba(229, 229, 229, 0.9) 100%
-  );
 }
 </style>
 
 <style>
+#output-container {
+  position: absolute;
+  background-color: #ededed;
+  width: 50vw;
+  height: 200px;
+  padding-top: 20px;
+  top: 10px;
+  z-index: 0;
+}
+
 body {
   overflow: hidden;
 }
@@ -175,3 +125,4 @@ body {
   background: #888;
 }
 </style>
+``

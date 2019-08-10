@@ -13,6 +13,11 @@ export default new Router({
       component: require('@/features/main_menu/index').default,
     },
     {
+      path: '/ui-test',
+      name: 'ui-test',
+      component: require('@/features/ui_test/index').default,
+    },
+    {
       path: '/pilot_management',
       name: 'pilot_management',
       component: require('@/features/pilot_management/index').default,

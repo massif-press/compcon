@@ -1,4 +1,4 @@
-// CC-specific color defs
+// cci-specific color defs
 
 const colors = {
   frame: {

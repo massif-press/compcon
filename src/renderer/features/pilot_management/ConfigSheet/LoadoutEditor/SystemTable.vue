@@ -113,7 +113,6 @@ import { SystemCard } from '../../components/UI'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
 import { rules } from 'lancer-data'
-import { item } from '../../../../mixins/data'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
 export default Vue.extend({

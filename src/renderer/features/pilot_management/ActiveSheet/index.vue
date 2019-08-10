@@ -435,7 +435,7 @@
                     large
                     :color="color.structure.dark"
                     bg-color="pink darken-4"
-                    full-icon="cc-structure"
+                    full-icon="cci-structure"
                     mech
                     @update="mech.CurrentStructure = $event"
                     :class="{ rolledOver: structRolledOver }"
@@ -509,7 +509,7 @@
                     :color="color.stress.dark"
                     bg-color="deep-orange darken-4"
                     empty-icon="mdi-circle-outline"
-                    full-icon="cc-reactor-stress"
+                    full-icon="cci-reactor-stress"
                     @update="mech.CurrentStress = $event"
                     :class="{ rolledOver: stressRolledOver }"
                   />
