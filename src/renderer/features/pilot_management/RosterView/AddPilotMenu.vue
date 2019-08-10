@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialogModel" width="500">
+  <v-dialog v-model="display" width="500">
     <v-card>
       <v-card-title class="headline grey lighten-2" primary-title>
         Add New Pilot
@@ -98,12 +98,29 @@ export default Vue.extend({
   name: 'add-pilot-menu',
   props: ['dialogModel'],
   data: () => ({
+    display: false,
     cloudDialog: false,
     cloudInfoDialog: false,
     cloudLoading: false,
     shareIDText: '',
     errorText: '',
   }),
+  watch: {
+    dialogModel (val) {
+      if (val) {
+        this.display = true
+      } else {
+        if (this.display) {
+          this.display = false
+        }
+      }
+    },
+    display (val) {
+      if (!val) {
+        this.close()
+      }
+    },
+  },
   methods: {
     close() {
       this.errorText = ''
