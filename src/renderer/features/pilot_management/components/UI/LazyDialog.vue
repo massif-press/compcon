@@ -56,6 +56,10 @@ export default Vue.extend({
     model (val) {
       if (val) {
         this.display = true
+      } else {
+        if (this.display) {
+          this.display = false
+        }
       }
     },
     display (val) {
