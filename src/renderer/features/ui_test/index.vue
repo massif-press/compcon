@@ -120,34 +120,47 @@
       </v-layout>
     </v-container>
     <br />
-    <cc-title>dialogs & modals</cc-title>
-    <v-container>
-      <v-layout row class="text-center">
+    <cc-title>dialogs</cc-title>
+    <v-container class="text-center">
+      <v-layout row class="my-2">
         <v-flex>
           <cc-dialog small @confirm="dialog1Confirm()">
             <template v-slot:button>small dialog</template>
             <template v-slot:title>Small Dialog Box (v-slot:title)</template>
-            <template v-slot:content>Dialog contents (v-slot:content)</template>
+            Dialog contents
           </cc-dialog>
         </v-flex>
         <v-flex>
           <cc-dialog @confirm="dialog1Confirm()">
             <template v-slot:button>dialog</template>
             <template v-slot:title>Dialog Box (v-slot:title)</template>
-            <template v-slot:content>Dialog contents (v-slot:content)</template>
+            Dialog contents
           </cc-dialog>
         </v-flex>
         <v-flex>
           <cc-dialog large @confirm="dialog1Confirm()">
             <template v-slot:button>large dialog</template>
             <template v-slot:title>Large Dialog Box (v-slot:title)</template>
-            <template v-slot:content>Dialog contents (v-slot:content)</template>
+            Dialog contents
           </cc-dialog>
         </v-flex>
       </v-layout>
+        <v-layout row class="my-2">
+          <v-flex>
+            <cc-popup small @confirm="dialog1Confirm()">
+              <template v-slot:button>popup</template>
+              <template v-slot:title>CC-Popup</template>
+              popup content
+            </cc-popup>
+          </v-flex>
+          <v-flex>
+            <cc-btn @click="notification = true">Notification</cc-btn>
+            <cc-notification :model="notification" @close="notification = false">snackbar notification</cc-notification>  
+          </v-flex>
+        </v-layout>
     </v-container>
 
-    <v-btn to="/">back</v-btn>
+    <v-btn flat x-large to="/">back</v-btn>
   </v-container>
 </template>
 
@@ -214,6 +227,9 @@ const icons = [
 
 export default Vue.extend({
   name: 'ui-test',
+  data: () => ({
+    notification: false,
+  }),
   methods: {
     allIcons() {
       return icons

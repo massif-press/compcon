@@ -24,7 +24,7 @@ export default Vue.extend({
   width: 70%;
   clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
   opacity: 1;
-  z-index: 100;
+  z-index: 2;
 }
 
 #title {
