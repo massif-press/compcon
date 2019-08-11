@@ -20,11 +20,23 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn text small dark>About</v-btn>
+      <div @mouseenter="ccLog('about')">
+      <cc-dialog large flat dark no-confirm>
+        <template v-slot:button>about</template>
+          <template v-slot:title>About COMP/CON</template>
+            Dialog contents
+        </cc-dialog>
+      </div>
       <v-divider vertical dark class="mx-1" />
-      <v-btn text small dark>Help</v-btn>
-      <v-divider vertical dark class="mx-1" />
-      <v-btn color="amber darken-3" dark small>Support This Project</v-btn>
+      <div @mouseenter="ccLog('help')">
+      <cc-dialog large flat dark no-confirm>
+        <template v-slot:button>help</template>
+          <template v-slot:title>Help</template>
+            Dialog contents
+        </cc-dialog>
+      </div>
+      <!-- <v-divider vertical dark class="mx-1" /> -->
+      <!-- <v-btn color="amber darken-3" dark small>Support This Project</v-btn> -->
     </v-footer>
   </div>
 </template>
@@ -69,6 +81,12 @@ export default Vue.extend({
           break
         case 'homebrew':
           this.$refs['log'].print('man homebrew', 'work in progress')
+          break
+                  case 'about':
+          this.$refs['log'].print('compcon --about', 'work in progress')
+          break
+                  case 'help':
+          this.$refs['log'].print('compcon --help', 'work in progress')
           break
         case 'update':
           this.$refs['log'].print(
