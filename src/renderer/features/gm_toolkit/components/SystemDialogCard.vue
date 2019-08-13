@@ -10,9 +10,9 @@
         <span v-if="system.type === 'weapon'">{{ system.weapon_type.join(' ') }}</span>
         <span v-else-if="system.action">{{ actionName(system.action) }}</span>
       </div>
-      <v-btn outline color="white" v-ripple="false" style="pointer: default!important" round>
-        {{ system.class }}
-      </v-btn>
+      <div>
+        <v-chip large outline color="white" pill>{{ system.class }}</v-chip>
+      </div>
     </v-card-title>
 
     <v-card-text>
@@ -39,9 +39,13 @@
       <p v-if="system.effect" class="my-2">{{ system.effect }}</p>
       <template v-if="system.tags || system.recharge">
         <div>
-          <v-chip dark color="primary" small v-for="tag in system.tags" :key="tag.name">
-            {{ renderTag(tag, npc && npc.tier) }}
-          </v-chip>
+          <v-chip
+            dark
+            color="primary"
+            small
+            v-for="tag in system.tags"
+            :key="tag.name"
+          >{{ renderTag(tag, npc && npc.tier) }}</v-chip>
           <v-chip dark color="primary" small v-if="system.recharge" key="recharge">
             Recharge&nbsp;
             <b>{{ system.recharge }}</b>

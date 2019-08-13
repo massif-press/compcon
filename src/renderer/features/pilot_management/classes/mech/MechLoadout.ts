@@ -11,6 +11,7 @@ import {
   EquippableMount,
   MechEquipment,
   MechWeapon,
+  Pilot,
 } from '@/class'
 
 class MechLoadout extends Loadout {
@@ -21,12 +22,14 @@ class MechLoadout extends Loadout {
   private retrofitIndex: number | null
   private retrofitOriginalType: MountType | null
   private systems: MechSystem[]
+  private integratedSystems: MechSystem[]
 
   constructor(mech: Mech) {
     super(mech.Loadouts.length)
-    this.integratedMounts = mech.IntegratedMounts
+    this.integratedMounts = [...mech.IntegratedMounts]
     this.equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this.systems = []
+    this.integratedSystems = mech.IntegratedSystems
     this.improvedArmament = new EquippableMount(MountType.Flex)
     this.integratedWeapon = new EquippableMount(MountType.Aux)
     this.retrofitIndex = null
@@ -37,13 +40,34 @@ class MechLoadout extends Loadout {
     store.dispatch('saveData')
   }
 
-  public get IntegratedMounts(): IntegratedMount[] {
-    return this.integratedMounts
+  public UpdateIntegrated(mech: Mech) {
+    mech.IntegratedSystems.forEach(s => {
+      if (!this.integratedSystems.find(x => x.ID === s.ID))
+        this.integratedSystems.push(s)
+    });
+
+    this.integratedSystems.forEach((s, idx) => {
+      if (!mech.IntegratedSystems.find(x => x.ID === s.ID))
+        this.integratedSystems.splice(idx, 1)
+      s.Uses = s.MaxUses + mech.LimitedBonus
+    });
+
+    mech.IntegratedMounts.forEach(s => {
+      if (!this.integratedMounts.find(x => x.ItemSource === s.ItemSource))
+        this.integratedMounts.push(s)
+    });
+
+    this.integratedMounts.forEach((s, idx) => {
+      if (!mech.IntegratedMounts.find(x => x.ItemSource === s.ItemSource))
+        this.integratedMounts.splice(idx, 1)
+      s.Weapon.Uses = s.Weapon.MaxUses + mech.LimitedBonus
+    });
+
+    this.save()
   }
 
-  public ResetIntegratedMounts(mech: Mech) {
-    this.integratedMounts = mech.IntegratedMounts
-    this.save()
+  public get IntegratedMounts(): IntegratedMount[] {
+    return this.integratedMounts
   }
 
   public EquippableMounts(): EquippableMount[] {
@@ -123,6 +147,10 @@ class MechLoadout extends Loadout {
     })
   }
 
+  public get IntegratedSystems(): MechSystem[] {
+    return this.integratedSystems
+  }
+
   public get Systems(): MechSystem[] {
     return this.systems
   }
@@ -140,8 +168,10 @@ class MechLoadout extends Loadout {
     return this.Systems.find(x => x.ID === system_id) || null
   }
 
-  public AddSystem(system: MechSystem) {
-    this.systems.push(_.clone(system))
+  public AddSystem(system: MechSystem, pilot: Pilot) {
+    const sys = _.clone(system)
+    if (sys.IsLimited) sys.Uses = sys.MaxUses + pilot.LimitedBonus
+    this.systems.push(sys)
     this.save()
   }
 
@@ -209,8 +239,10 @@ class MechLoadout extends Loadout {
     return {
       id: ml.ID,
       name: ml.Name,
-      systems: ml.Systems.map(x => MechSystem.Serialize(x)),
+      systems: ml.systems.map(x => MechSystem.Serialize(x)),
+      integratedSystems: ml.integratedSystems.map(x => MechSystem.Serialize(x)),
       mounts: ml.equippableMounts.map(x => EquippableMount.Serialize(x)),
+      integratedMounts: ml.integratedMounts.map(x => IntegratedMount.Serialize(x)),
       improved_armament: EquippableMount.Serialize(ml.improvedArmament),
       integratedWeapon: EquippableMount.Serialize(ml.integratedWeapon),
       retrofitIndex: ml.retrofitIndex,
@@ -223,7 +255,9 @@ class MechLoadout extends Loadout {
     ml.ID = loadoutData.id
     ml.Name = loadoutData.name
     ml.systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
+    ml.integratedSystems = !loadoutData.integratedSystems ? mech.IntegratedSystems : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
     ml.equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
+    ml.integratedMounts = !loadoutData.integratedMounts ? mech.IntegratedMounts : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
     ml.improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml.integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)
@@ -232,6 +266,7 @@ class MechLoadout extends Loadout {
     ml.retrofitOriginalType = ml.retrofitOriginalType
       ? (loadoutData.retrofitOriginalType as MountType)
       : null
+    if (!loadoutData.integratedSystems) ml.UpdateIntegrated(mech)
     return ml
   }
 }

@@ -11,7 +11,12 @@
         />
       </v-flex>
       <v-flex ml-auto class="body-2">
-        <v-chip label outline dark color="white" disabled>NPC: {{ encounterNPC.npc.name }}</v-chip>
+        <v-chip label outline dark color="white" disabled>
+          NPC:
+          <span
+            style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"
+          >{{ encounterNPC.npc.name }}</span>
+        </v-chip>
       </v-flex>
       <v-btn style="margin-left: 0" small icon dark @click="$emit('deleted')">
         <v-icon small>delete</v-icon>
