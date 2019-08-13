@@ -33,8 +33,6 @@ jobs:
         - yarn unit-test
         - yarn int-test
         - yarn dist-travis --linux --publish never
-        - pwd
-        - ls -la
     - stage: build  
       name: "mac"
       os: osx
@@ -43,7 +41,6 @@ jobs:
         - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
         - yarn dist-travis --mac --publish never
-        - cat build/latest-mac.yml
         - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac/
     - stage: build
       name: "windows"
@@ -62,7 +59,6 @@ jobs:
         - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/linux
         - yarn dist-travis --linux --publish never
-        - cat build/latest-linux.yml
         - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux/
     - stage: deploy
       name: "deploy" 
