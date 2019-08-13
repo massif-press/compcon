@@ -342,6 +342,10 @@ class Pilot {
     return this.CurrentSkillPoints < this.MaxSkillPoints
   }
 
+  public get TooManySkills(): boolean {
+    return this.CurrentSkillPoints > this.MaxSkillPoints
+  }
+
   public set Skills(skills: PilotSkill[]) {
     this.skills = skills
     this.save()
@@ -394,6 +398,10 @@ class Pilot {
 
   public get IsMissingTalents(): boolean {
     return this.CurrentTalentPoints < this.MaxTalentPoints
+  }
+
+  public get TooManyTalents(): boolean {
+    return this.CurrentTalentPoints > this.MaxTalentPoints
   }
 
   public set Talents(talents: PilotTalent[]) {
@@ -465,6 +473,10 @@ class Pilot {
   public get IsMissingCBs(): boolean {
     return this.CurrentCBPoints < this.MaxCBPoints
   }
+  
+  public get TooManyCBs(): boolean {
+    return this.CurrentCBPoints > this.MaxCBPoints
+  }
 
   public set CoreBonuses(coreBonuses: CoreBonus[]) {
     this.core_bonuses = coreBonuses
@@ -523,6 +535,10 @@ class Pilot {
     return this.CurrentLicensePoints < this.MaxLicensePoints
   }
 
+  public get TooManyLicenses(): boolean {
+    return this.CurrentLicensePoints > this.MaxLicensePoints
+  }
+
   public set Licenses(licenses: PilotLicense[]) {
     this.licenses = licenses
     this.save()
@@ -575,6 +591,10 @@ class Pilot {
 
   public get IsMissingHASE(): boolean {
     return this.CurrentHASEPoints < this.MaxHASEPoints
+  }
+
+  public get TooManyHASE(): boolean {
+    return this.CurrentHASEPoints > this.MaxHASEPoints
   }
 
   public set MechSkills(mechskills: MechSkills) {
