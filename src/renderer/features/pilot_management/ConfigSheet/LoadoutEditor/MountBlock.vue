@@ -3,8 +3,8 @@
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">
-        {{ mount.MountName }}
-        <v-tooltip top>
+        {{ integrated ? mount.ItemSource + ' Integrated Mount' : mount.MountName }}
+        <v-tooltip top v-if="!integrated">
           <v-btn
             v-if="isCbVisible()"
             slot="activator"
@@ -38,7 +38,8 @@
           :mount="mount"
           :loadout="loadout"
           :maxSP="maxSP"
-          :no-mod="integratedWeapon"
+          :no-mod="intweapon || integrated"
+          :integrated="integrated"
         />
 
         <v-card
@@ -86,7 +87,8 @@ export default Vue.extend({
     mount: Object,
     loadout: Object,
     maxSP: Number,
-    integratedWeapon: Boolean,
+    integrated: Boolean,
+    intweapon: Boolean,
   },
   data: () => ({
     weaponSelectorModal: false,
@@ -118,7 +120,7 @@ export default Vue.extend({
   methods: {
     isCbVisible(): boolean {
       return (
-        !this.integratedWeapon &&
+        !this.intweapon &&
         (this.pilot.has('CoreBonus', 'hardpoints') ||
           this.pilot.has('CoreBonus', 'burnout') ||
           this.pilot.has('CoreBonus', 'retrofit'))

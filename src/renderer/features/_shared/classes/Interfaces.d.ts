@@ -140,7 +140,9 @@ declare interface IMechLoadoutData {
   id: string;
   name: string;
   systems: IEquipmentData[];
+  integratedSystems: IEquipmentData[];
   mounts: IMountData[];
+  integratedMounts: { weapon: IMechWeaponData; source: string }[];
   improved_armament: IMountData;
   integratedWeapon: IMountData;
   retrofitIndex: number | null;

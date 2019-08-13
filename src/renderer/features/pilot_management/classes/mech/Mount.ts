@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import store from '@/store'
-import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize } from '@/class'
-import { WeaponSize } from '@/features/_shared/classes/enums'
+import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {
   private mount_type: MountType
@@ -89,6 +88,17 @@ class IntegratedMount extends Mount {
   public get ItemSource(): string {
     return this.item_source
   }
+
+    public static Serialize(m: IntegratedMount) {
+    return {
+      weapon: MechWeapon.Serialize(m.Weapon),
+      source: m.ItemSource
+    }
+  }
+
+  public static Deserialize(mountData: any): IntegratedMount {
+    return new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), mountData.source)
+  }
 }
 
 class EquippableMount extends Mount {
@@ -148,6 +158,7 @@ class EquippableMount extends Mount {
     m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
     m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
     m.bonus_effects = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
+    m.lock = mountData.lock
     return m
   }
 }
