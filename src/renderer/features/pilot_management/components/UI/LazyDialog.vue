@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="activator" @click="activate"></slot>
-    <v-dialog v-model="model" persistent width="80vw">
+    <v-dialog v-model="display" width="80vw">
       <v-card>
         <v-card-title class="title">{{ title }}</v-card-title>
         <slot name="modal-content"></slot>
@@ -36,6 +36,7 @@ export default Vue.extend({
     disableCondition: Boolean,
   },
   data: () => ({
+    display: false,
     loader: false,
   }),
   methods: {
@@ -49,6 +50,22 @@ export default Vue.extend({
     },
     accept() {
       this.$emit('accept'), (this.loader = false)
+    },
+  },
+  watch: {
+    model (val) {
+      if (val) {
+        this.display = true
+      } else {
+        if (this.display) {
+          this.display = false
+        }
+      }
+    },
+    display (val) {
+      if (!val) {
+        this.cancel()
+      }
     },
   },
 })
