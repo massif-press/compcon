@@ -88,7 +88,7 @@ export default Vue.extend({
   height: 21px;
   clip-path: polygon(0 0, 0% 100%, 100% 0);
   background: inherit;
-  z-index: 100;
+  z-index: 1;
   transition: all 0.2s ease-in-out;
 }
 
@@ -102,7 +102,7 @@ export default Vue.extend({
   right: 0px;
   clip-path: polygon(100% 100%, 0% 100%, 100% 0);
   background: inherit;
-  z-index: 100;
+  z-index: 1;
   transition: all 0.2s ease-in-out;
 }
 .shadow:hover::before {
