@@ -629,7 +629,8 @@ class Mech {
   public get IntegratedMounts(): IntegratedMount[] {
     let intg = []
     if (this.frame.CoreSystem.Integrated) {
-      intg.push(new IntegratedMount(this.frame.CoreSystem.Integrated, 'CORE System'))
+      const int_weapon = store.getters.getItemById('MechWeapons', this.frame.CoreSystem.Integrated)
+      intg.push(new IntegratedMount(int_weapon, 'CORE System'))
     }
     if (this.pilot.has('Talent', 'ncavalier', 3)) {
       const fr_weapon = store.getters.getItemById('MechWeapons', 'fuelrod')
