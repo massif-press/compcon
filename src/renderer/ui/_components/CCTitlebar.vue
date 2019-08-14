@@ -3,6 +3,7 @@
     <v-toolbar-title class="heading h2 white--text">
       <slot></slot>
     </v-toolbar-title>
+    <v-spacer />
     <v-toolbar-items>
       <slot name="items"></slot>
     </v-toolbar-items>

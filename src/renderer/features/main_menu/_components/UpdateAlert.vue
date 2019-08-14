@@ -1,5 +1,5 @@
 <template>
-  <div style="z-index: 1000">
+  <div style="z-index: 10">
     <div class="abs">
       <div v-if="canUpdate" class="text-right" style="width: 100vw">
         <span class="stat-text pr-2">
@@ -8,7 +8,7 @@
           <span class="grey--text">//</span>
         </span>
       </div>
-      <div style="position: absolute; right: 5vw; z-index: 1001">
+      <div style="position: absolute; right: 5vw; z-index: 11">
         <v-btn
           :class="{'pulse' : !expanded && canUpdate}"
           large
@@ -94,7 +94,7 @@ export default Vue.extend({
 
 #panel {
   position: absolute;
-  z-index: 1000;
+  z-index: 9;
   right: 0vw;
   top: 75px;
 }

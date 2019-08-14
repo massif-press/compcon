@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
+    <v-bottom-sheet v-model="dialog">
       <template v-slot:activator="{ on }">
-        <v-btn v-if="flat" text :dark="dark" v-on="on">
+        <v-btn v-if="flat" flat v-on="on">
           <slot name="button"></slot>
         </v-btn>
         <cc-btn v-else v-on="on">
@@ -10,35 +10,25 @@
         </cc-btn>
       </template>
 
-      <v-card tile>
+      <v-sheet>
         <cc-titlebar>
           <slot name="title"></slot>
+          <template v-slot:items>
+              <v-btn text dark @click="dialog=false"><v-icon x-large>close</v-icon></v-btn>
+          </template>
         </cc-titlebar>
-
         <v-card-text>
           <slot></slot>
         </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions v-if="noConfirm">
-          <v-spacer />
-                    <v-btn text @click="dialog = false">dismiss</v-btn>
-        </v-card-actions>
-        <v-card-actions v-else>
-          <v-btn text @click="dialog = false">cancel</v-btn>
-          <v-spacer />
-          <cc-btn @click="confirm">confirm</cc-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'cc-dialog',
+  name: 'cc-popup',
   data: () => ({
     dialog: false,
   }),
@@ -52,14 +42,6 @@ export default Vue.extend({
       required: false,
     },
     flat: {
-      type: Boolean,
-      required: false,
-    },
-        dark: {
-      type: Boolean,
-      required: false,
-    },
-            noConfirm: {
       type: Boolean,
       required: false,
     },
