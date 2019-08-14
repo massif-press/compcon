@@ -362,10 +362,10 @@
               <v-flex shrink>
                 <v-tooltip left>
                   <v-chip
-                    :outline="!pilot.IsMissingSkills"
+                    :outline="!(pilot.IsMissingSkills || pilot.TooManySkills)"
                     small
                     slot="activator"
-                    :color="pilot.IsMissingSkills ? 'warning' : ''"
+                    :color="(pilot.IsMissingSkills || pilot.TooManySkills) ? 'warning' : ''"
                   >{{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}</v-chip>
                   <div>
                     <span>
@@ -379,7 +379,7 @@
                     <pilot-edit-modal
                       title="Edit Pilot Skill Triggers"
                       :modelRef="skillModal"
-                      :highlight="pilot.IsMissingSkills"
+                      :highlight="(pilot.IsMissingSkills || pilot.TooManySkills)"
                     >
                       <skill-selector
                         slot="modal-content"
@@ -412,10 +412,10 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!pilot.IsMissingLicenses"
+                :outline="!(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
                 small
                 slot="activator"
-                :color="pilot.IsMissingLicenses ? 'warning' : ''"
+                :color="(pilot.IsMissingLicenses || pilot.TooManyLicenses) ? 'warning' : ''"
               >{{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}</v-chip>
               <div>
                 <span>
@@ -430,7 +430,7 @@
                   title="Edit Pilot Licenses"
                   :modelRef="licenseModal"
                   ref="licenseSelector"
-                  :highlight="pilot.IsMissingLicenses"
+                  :highlight="(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
                 >
                   <license-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>
@@ -460,10 +460,10 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!pilot.IsMissingTalents"
+                :outline="!(pilot.IsMissingTalents || pilot.TooManyTalents)"
                 small
                 slot="activator"
-                :color="pilot.IsMissingTalents ? 'warning' : ''"
+                :color="(pilot.IsMissingTalents || pilot.TooManyTalents) ? 'warning' : ''"
               >{{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}</v-chip>
               <div>
                 <span>
@@ -478,7 +478,7 @@
                   title="Edit Pilot Talents"
                   :modelRef="talentModal"
                   ref="talentSelector"
-                  :highlight="pilot.IsMissingTalents"
+                  :highlight="(pilot.IsMissingTalents || pilot.TooManyTalents)"
                 >
                   <talent-selector slot="modal-content" :pilot="pilot" @close="setPilotTalents" />
                 </pilot-edit-modal>
@@ -508,10 +508,10 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!pilot.IsMissingHASE"
+                :outline="!(pilot.IsMissingHASE || pilot.TooManyHASE)"
                 small
                 slot="activator"
-                :color="pilot.IsMissingHASE ? 'warning' : ''"
+                :color="(pilot.IsMissingHASE || pilot.TooManyHASE) ? 'warning' : ''"
               >{{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}</v-chip>
               <div>
                 <span>
@@ -526,7 +526,7 @@
                   title="Edit Mech Skills"
                   :modelRef="mechSkillModal"
                   ref="mechSkillSelector"
-                  :highlight="pilot.IsMissingHASE"
+                  :highlight="(pilot.IsMissingHASE || pilot.TooManyHASE)"
                 >
                   <mech-skills-selector slot="modal-content" :pilot="pilot" @close="setMechSkills" />
                 </pilot-edit-modal>
@@ -550,10 +550,10 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!pilot.IsMissingCBs"
+                :outline="!(pilot.IsMissingCBs || pilot.TooManyCBs)"
                 small
                 slot="activator"
-                :color="pilot.IsMissingCBs ? 'warning' : ''"
+                :color="(pilot.IsMissingCBs || pilot.TooManyCBs) ? 'warning' : ''"
               >{{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}</v-chip>
               <div>
                 <span>
@@ -568,7 +568,7 @@
                   title="Edit CORE Bonuses"
                   :modelRef="bonusModal"
                   ref="bonusSelector"
-                  :highlight="pilot.IsMissingCBs"
+                  :highlight="(pilot.IsMissingCBs || pilot.TooManyCBs)"
                 >
                   <core-bonus-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>

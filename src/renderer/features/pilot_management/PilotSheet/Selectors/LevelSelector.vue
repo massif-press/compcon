@@ -86,13 +86,6 @@ export default Vue.extend({
     setLevel() {
       if (this.newLevel > parseInt(rules.max_pilot_level))
         this.newLevel = parseInt(rules.max_pilot_level)
-      if (this.newLevel < this.pilot.Level) {
-        this.pilot.ClearLicenses()
-        this.pilot.ClearSkills()
-        this.pilot.ClearTalents()
-        this.pilot.ClearCoreBonuses()
-        this.pilot.MechSkills = new MechSkills()
-      }
       this.pilot.Level = parseInt(this.newLevel)
 
       this.$emit('changed', this.newLevel)
