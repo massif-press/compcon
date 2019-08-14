@@ -1,12 +1,16 @@
 {
   "stable": "1.3.10",
-  "beta": "1.5.3",
+  "beta": "1.5.4",
   "news": {
-    "date": "August 6th, 2019",
-    "version": "1.5.3",
-    "body": "<p>Greetings, Pilots!</p><p>This update resolves (or should resolve, anyway) all the bugs that have been submitted to the <a href='https://forms.gle/vSVpaJazCf4pC8AJ9'>COMP/CON Issue Tracker</a>. If you spot any, please let me know. If beta proves to be more-or-less usable, I'll be moving it into stable. From there, I'll go quiet for a bit as I work on a refactor and a styling pass that'll bring us in to v.2.x</p>"
+    "date": "August 14th, 2019",
+    "version": "1.5.4",
+    "body": "<p>Greetings, Pilots!</p><p>This update resolves a few remaining bugs. Updates will be fairly scarce until the styling pass is completed. Stop by the LANCER discord if you want to follow its development more closely.</p>"
   },
   "changelog": [
+    {
+      "version": "1.5.4",
+      "changes": "<ul> <li>Improvements to the weapon \"Add Mod\" button (thanks, Tso!)</li> <li>Pilot improvement points are now preserved when a pilot is leveled down (thanks, Qwertronix! 🎉 first PR! 🎉 )</li> <li>More consistent dismissal of dialog boxes across the app (thanks, Qwertronix!)</li> <li>Fixed a bug that was causing Frame CORE Integrated Weapons to show up as missing (may require deleting and rebuilding your loadout)</li> </ul>"
+    },
     {
       "version": "1.5.3",
       "changes": "<ul> <li>Equipment with Uses are now initialized with the pilot's limited bonus</li> <li>Can now mark integrated mounts and systems destroyed, add notes, and count uses</li> <li>Fixes a bug where loadouts were disappearing on changing mechs</li> <li>Hidden Tags are now correctly hidden</li> <li>Fixes a bug where the Confirm button wasn't activating when the first available mount was selected on the Structure Damage &gt; System Trauma modal</li> <li>The Flight System filter has been fixed</li> <li>Fixed a bug where the Retrofit Mount CORE Bonus was being applied to the n+1th mount</li> <li>Fixed a bug that was preventing the serialization of the Superheavy weapon mount bracing</li> <li>Corrected the Minotaur's Aggressive System Sync to correctly show Excommunicate</li> <li>Fixed several typos in the LANCER data</li> <li>Corrected the Ronin's T3 Speed</li> <li>Fixed a bug that was preventing NPCs with very long names from being deleted</li> <li>Pilot stats should now update instantly when armor is added or removed</li> </ul>"
