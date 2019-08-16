@@ -27,7 +27,7 @@
               <v-card>
                 <v-card-title class="title">Enter Share ID</v-card-title>
                 <v-card-text>
-                  <v-text-field v-model="shareIDText" label="Share ID" outline clearable />
+                  <v-text-field v-model="shareIDText" label="Share ID" outline clearable autofocus />
                   <span class="effect-text red--text">{{ errorText }}</span>
                 </v-card-text>
                 <v-divider />
