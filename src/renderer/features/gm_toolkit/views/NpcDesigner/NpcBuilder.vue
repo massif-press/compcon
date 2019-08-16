@@ -63,10 +63,25 @@
     </v-card-title>
     <v-card-text class="px-4">
       <!-- Stats -->
+      <v-flex align-center v-if="!editingStats">
+        <v-btn :color="roleColor" class="ml-auto white--text" @click="editStats">EDIT STATS</v-btn>
+      </v-flex>
+      <v-flex align-center v-else>
+        <v-btn :color="roleColor" class="ml-auto white--text" @click="submitStats">SUBMIT STATS</v-btn>
+      </v-flex>
       <v-layout wrap justify-space-around class="statblock">
         <v-flex xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
+          <!--
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
+          -->
+          <div v-if="!editingStats" class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
+          <v-text-field v-else
+            :v-model="stat"
+            :label="stats[stat].toString()"
+            solo
+            :color="roleColor"
+          ></v-text-field>
         </v-flex>
         <v-flex xs6 sm2 lg1>
           <div class="label">SIZE</div>
@@ -230,9 +245,21 @@ export default Vue.extend({
   data: function() {
     return {
       editingName: false,
+      editingStats: false,
       newName: '',
       npc: _.clone(this.preNpc),
       systemsUnlocked: false,
+
+      HP: 0,
+      HEAT: 0,
+      STRUCTURE: 0,
+      STRESS: 0,
+      ARMOR: 0,
+      SPEED: 0,
+      EVADE: 0,
+      EDEF: 0,
+      SENSE: 0,
+      SAVE: 0,
     }
   },
   computed: {
@@ -244,6 +271,7 @@ export default Vue.extend({
       const npcst = (this.npc as NPC).stats
       let obj: { [key: string]: number | null } = {
         HP: npcst.hp,
+        //HEAT: npcst.heatcap >= 1 ? npcst.heatcap : null,
         HEAT: npcst.heatcap,
         STRUCTURE: npcst.structure > 1 ? npcst.structure : null,
         STRESS: npcst.stress > 1 ? npcst.stress : null,
@@ -305,6 +333,21 @@ export default Vue.extend({
       }
       this.editingName = false
     },
+
+    editStats(): void {
+      console.log(this)
+      this.editingStats = true
+      console.log("editingStats: " + this.editingStats)
+    },
+
+    submitStats() {
+      for (var s in this.stats) {
+        console.log(s, this.stats[s])
+      }
+      console.log(this.ARMOR)
+      this.editingStats = false
+      console.log("editingStats: " + this.editingStats)
+    }
   },
   watch: {
     npc: {
