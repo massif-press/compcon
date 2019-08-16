@@ -4,6 +4,7 @@ export default {
   'role--controller': '#398ad6',
   'role--support': '#6aa84f',
   'role--artillery': '#a64d79',
+  'role--biological': '#ab5aed',
 
   'system--weapon': '#cc0000',
   'system--system': '#2aa780',
