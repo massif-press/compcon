@@ -1,16 +1,25 @@
+Big:
+  ☐ NPC stuff in compendium
+  ☐ mod cards
+
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
   ☐ background -> save string only
   ☐ v-show over v-if
+  ☐ genericize frame image row element
 
 Style Pass:
   ☐ Vuetify 2.0
   ☐ Standardize colors, add Vuetify theme
   ☐ Should be able to collapse reserves individually by clicking toolbar
+  ☐ global notification
+  ☐ error logging
+  ☐ ra text/horus text
 
 Improvements:
+  ☐ browsable image galleries, per frame
   ☐ hidden tags for specially-handled items
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection

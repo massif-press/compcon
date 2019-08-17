@@ -1,45 +1,61 @@
 <template>
   <v-container fluid>
-    <span class="display-1 text-uppercase font-weight-thin">CORE BONUSES</span>
-    <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
-      <v-layout>
-        <v-flex class="text-xs-center pa-3">
-          <span class="major-title text-uppercase font-weight-regular">
-            {{ getManufacturer(m).name }}
-          </span>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
-          <v-expansion-panel expand focusable>
-            <v-expansion-panel-content v-for="cb in bonuses[m]" :key="`${cb.id}_data'`">
-              <v-toolbar-title slot="header" dense flat>
-                <span class="title text-uppercase font-weight-light">
-                  {{ cb.Name.toUpperCase() }}
-                </span>
-              </v-toolbar-title>
-              <v-card>
-                <div class="mb-2" v-if="!cb.err">
-                  <v-card-title class="pb-0 mb-0 mt-0 pt-2">
-                    <p class="fluff-text" v-html="cb.Description" />
-                  </v-card-title>
-                  <v-card-text class="pb-1 mt-0 pt-0">
-                    <p class="effect-text pb-0" v-html="cb.Effect" />
-                  </v-card-text>
-                </div>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-flex>
-      </v-layout>
-      <br />
-    </div>
+    <v-navigation-drawer
+      permanent
+      fixed
+      color="transparent"
+      class="mr-3"
+      :style="`top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
+    >
+      <v-list nav dense>
+        <div v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" class="pt-2">
+          <v-list-item>
+            <v-list-item-title>
+              <v-icon left>cci-orbital</v-icon>
+              <span class="heading sub">{{ m}}</span>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item
+            v-for="cb in bonuses[m]"
+            :key="`${cb.id}_data'`"
+            link
+            @click="$vuetify.goTo(`#e_${cb.id}`, {
+              duration: 150,
+              easing: 'easeInOutQuad',
+              offset: 25
+            })"
+          >
+            <v-list-item-title class="heading h3 ml-2">{{cb.Name}}</v-list-item-title>
+          </v-list-item>
+        </div>
+      </v-list>
+    </v-navigation-drawer>
+    <v-layout row>
+      <v-flex offset-xs2 class="pl-7 mr-7">
+        <h1 class="heading mb-3">CORE BONUSES</h1>
+        <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
+          <span class="heading mech">{{ manufacturer(m).name }}</span>
+          <cc-titled-panel
+            :id="`e_${b.id}`"
+            v-for="(b, i) in bonuses[m]"
+            :key="`${b.ID}_${i}`"
+            icon="mdi-hexagon-multiple"
+            :title="b.Name"
+            color="panel-border"
+            class="ma-3"
+          >
+            <p class="flavor-text" v-html="b.Description" />
+            <p class="effect-text pb-0" v-html="b.Effect" />
+          </cc-titled-panel>
+        </div>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import _ from 'lodash'
 import { CoreBonus } from '@/class'
 
 export default Vue.extend({
@@ -47,9 +63,15 @@ export default Vue.extend({
   data: () => ({
     bonuses: [],
   }),
+  methods: {
+    manufacturer(id: string) {
+      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+    },
+  },
   created() {
     var vm = this as any
-    vm.bonuses = _.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
+    vm.bonuses = this.$_.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
+    window.addEventListener('scroll', this.adjustScroll)
   },
 })
 </script>

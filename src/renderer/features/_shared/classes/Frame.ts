@@ -134,14 +134,14 @@ class Frame extends LicensedItem {
 }
 
 interface Trait {
-  name: string
-  description: string
+  name: string;
+  description: string;
 }
 
 class CoreSystem {
   private name: string
   private description: string
-  private integrated: MechWeapon | null
+  private integrated: string | null
   private passive?: string
   private active_name: string
   private effect: string
@@ -150,7 +150,7 @@ class CoreSystem {
   constructor(coreData: any) {
     this.name = coreData.name
     this.description = coreData.description
-    this.integrated = coreData.integrated ? new MechWeapon(coreData.integrated) : null
+    this.integrated = coreData.integrated ? coreData.integrated.id : null
     this.passive = coreData.passive
     this.active_name = coreData.active_name
     this.effect = coreData.effect
@@ -166,7 +166,8 @@ class CoreSystem {
   }
 
   public get Integrated(): MechWeapon | null {
-    return this.integrated || null
+    if (!this.integrated) return null
+    return store.getters.getItemById('MechWeapons', this.integrated)
   }
 
   public get Passive(): string | null {

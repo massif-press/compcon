@@ -77,6 +77,9 @@
 .cci-weaponmod:before {
   content: '\e93e';
 }
+.cci-weapon-mod:before {
+  content: '\e93e';
+}
 .cci-blast:before {
   content: '\e941';
 }
@@ -176,6 +179,9 @@
 .cci-system:before {
   content: '\e935';
 }
+.cci-mech-system:before {
+  content: '\e935';
+}
 .cci-threat:before {
   content: '\e936';
 }
@@ -183,5 +189,8 @@
   content: '\e93f';
 }
 .cci-weapon:before {
+  content: '\e940';
+}
+.cci-mech-weapon:before {
   content: '\e940';
 }

@@ -145,22 +145,22 @@
           </cc-dialog>
         </v-flex>
       </v-layout>
-        <v-layout row class="my-2">
-          <v-flex>
-            <cc-popup small @confirm="dialog1Confirm()">
-              <template v-slot:button>popup</template>
-              <template v-slot:title>CC-Popup</template>
-              popup content
-            </cc-popup>
-          </v-flex>
-          <v-flex>
-            <cc-btn @click="notification = true">Notification</cc-btn>
-            <cc-notification :model="notification" @close="notification = false">snackbar notification</cc-notification>  
-          </v-flex>
-        </v-layout>
+      <v-layout row class="my-2">
+        <v-flex>
+          <cc-popup small @confirm="dialog1Confirm()">
+            <template v-slot:button>popup</template>
+            <template v-slot:title>CC-Popup</template>
+            popup content
+          </cc-popup>
+        </v-flex>
+        <v-flex>
+          <cc-btn @click="notification = true">Notification</cc-btn>
+          <cc-notification :model="notification" @close="notification = false">snackbar notification</cc-notification>
+        </v-flex>
+      </v-layout>
     </v-container>
 
-    <v-btn flat x-large to="/">back</v-btn>
+    <v-btn text x-large to="/">back</v-btn>
   </v-container>
 </template>
 
@@ -248,55 +248,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style>
-.heading {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-h1.heading {
-  font-size: 36pt;
-}
-h2.heading {
-  font-size: 18pt;
-}
-h3.heading {
-  font-size: 14pt;
-}
-.heading.table {
-  font-family: 'Helvetica Black', sans-serif;
-  font-size: 24pt;
-}
-.heading.mech {
-  font-size: 36pt;
-  color: var(--v-primary-base);
-}
-.heading.sub {
-  font-size: 18pt;
-  color: var(--v-primary-base);
-}
-
-.body-text {
-  font-family: 'Helvetica Regular', sans-serif;
-  font-size: 12pt;
-}
-
-.flavor-text {
-  font-family: 'Consolas', monospace;
-  font-size: 12pt;
-}
-
-.stat-text {
-  font-family: 'Consolas', monospace;
-  font-size: 12pt;
-  font-weight: bolder;
-}
-
-.ra-quiet {
-  color: #eeeeee;
-  font-family: 'Consolas', monospace;
-  font-size: 12pt;
-  font-weight: bolder;
-}
-</style>

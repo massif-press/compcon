@@ -60,17 +60,21 @@ class Damage {
     return `cci-${this.damage_type.toLowerCase()}`
   }
 
-  public get ToString(): string {
+  public get Color(): string {
+    return `damage--${this.damage_type.toLowerCase()}`
+  }
+
+  public get Text(): string {
     if (this.override) return this.value
     return `${this.value} ${this.damage_type} Damage`
   }
 
-  public Color(dark: boolean): string {
-    var c: any = colors
-    var dt = this.damage_type.toLowerCase()
-    if (!dt || !c[dt]) return dark ? '#FFF' : '#000'
-    return dark ? c[dt].dark : c[dt].light
-  }
+  // public Color(dark: boolean): string {
+  //   var c: any = colors
+  //   var dt = this.damage_type.toLowerCase()
+  //   if (!dt || !c[dt]) return dark ? '#FFF' : '#000'
+  //   return dark ? c[dt].dark : c[dt].light
+  // }
 }
 
 export default Damage

@@ -2,17 +2,18 @@
   <div>
     <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
       <template v-slot:activator="{ on }">
-        <v-btn v-if="flat" text :dark="dark" v-on="on">
+        <v-btn v-if="flat" :small="small" :large="large" :color="color" text :dark="dark" v-on="on">
           <slot name="button"></slot>
         </v-btn>
-        <cc-btn v-else v-on="on">
+        <cc-btn v-else :small="small" :large="large" :color="color" v-on="on">
           <slot name="button"></slot>
         </cc-btn>
       </template>
 
       <v-card tile>
-        <cc-titlebar>
+        <cc-titlebar :color="color">
           <slot name="title"></slot>
+          <slot slot="items" name="title-items"></slot>
         </cc-titlebar>
 
         <v-card-text>
@@ -23,7 +24,7 @@
 
         <v-card-actions v-if="noConfirm">
           <v-spacer />
-                    <v-btn text @click="dialog = false">dismiss</v-btn>
+          <v-btn text @click="dialog = false">dismiss</v-btn>
         </v-card-actions>
         <v-card-actions v-else>
           <v-btn text @click="dialog = false">cancel</v-btn>
@@ -43,6 +44,11 @@ export default Vue.extend({
     dialog: false,
   }),
   props: {
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
     small: {
       type: Boolean,
       required: false,
@@ -55,11 +61,11 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
-        dark: {
+    dark: {
       type: Boolean,
       required: false,
     },
-            noConfirm: {
+    noConfirm: {
       type: Boolean,
       required: false,
     },

@@ -1,31 +1,31 @@
 @font-face {
   font-family: 'Helvetica Black';
-  src: url('../fonts/Helvetica-Black.otf') format('opentype');
+  src: url('../../assets/fonts/Helvetica-Black.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Helvetica Bold';
-  src: url('../fonts/Helvetica-Bold.otf') format('opentype');
+  src: url('../../assets/fonts/Helvetica-Bold.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Helvetica Light';
-  src: url('../fonts/Helvetica-Light.otf') format('opentype');
+  src: url('../../assets/fonts/Helvetica-Light.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Helvetica Ultralight';
-  src: url('../fonts/HelveticaBQ-UltraLight.otf') format('opentype');
+  src: url('../../assets/fonts/HelveticaBQ-UltraLight.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Helvetica Oblique';
-  src: url('../fonts/Helvetica-LightOblique.otf') format('opentype');
+  src: url('../../assets/fonts/Helvetica-LightOblique.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'Consolas';
-  src: url('../fonts/Consolas.ttf') format('truetype');
+  src: url('../../assets/fonts/Consolas.ttf') format('truetype');
 }
 
 .callsign-text {
@@ -36,17 +36,6 @@
   text-transform: uppercase;
 }
 
-.fluff-text {
-  font-weight: 300;
-  font-style: italic;
-  font-size: 1.15em;
-}
-
-.effect-text {
-  font-weight: 400;
-  font-size: 1.15em;
-}
-
 .xl-text {
   font-size: 120px;
   line-height: 90px;
@@ -55,25 +44,109 @@
 }
 
 .minor-title {
-  font-weight: 500;
-  font-size: 1.2em;
+  font-family: 'Helvetica Bold', sans-serif;
+  font-size: 14pt;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .major-title {
-  font-weight: 500;
-  font-size: 1.8em;
+  font-family: 'Helvetica Black', sans-serif;
+  font-size: 22pt;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
 .active-text {
-  font-size: 3em;
+  font-size: 36pt;
   letter-spacing: 5px;
   line-height: 0;
   text-transform: uppercase;
   text-align: right;
+}
+
+.heading {
+  font-family: 'Helvetica Bold', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+h1.heading {
+  font-size: 36pt;
+}
+.heading.h1 {
+  font-size: 36pt;
+}
+h2.heading {
+  font-size: 18pt;
+}
+.heading.h2 {
+  font-size: 18pt;
+}
+h3.heading {
+  font-size: 14pt;
+}
+.heading.h3 {
+  font-size: 14pt;
+}
+.heading.table {
+  font-family: 'Helvetica Black', sans-serif;
+  font-size: 24pt;
+}
+.heading.mech {
+  font-size: 36pt;
+  color: var(--v-primary-base);
+}
+.heading.sub {
+  font-size: 16pt;
+  color: var(--v-primary-base);
+}
+
+.body-text {
+  font-family: 'Helvetica Regular', sans-serif;
+  font-size: 12pt;
+  color: var(--v-text-base);
+}
+
+.flavor-text {
+  font-family: 'Consolas', monospace;
+  font-size: 12pt;
+  color: var(--v-light-text-base);
+}
+
+.fluff-text {
+  font-family: 'Helvetica Oblique', sans-serif;
+  font-style: italic;
+  font-size: 13pt;
+  color: var(--v-light-text-base);
+}
+
+.effect-text {
+  font-family: 'Helvetica', sans-serif;
+  font-weight: bold;
+  font-size: 13pt;
+  color: var(--v-text-base);
+}
+
+.stat-text {
+  font-family: 'Consolas', monospace;
+  font-size: 12pt;
+  font-weight: bolder;
+  color: #000;
+}
+
+.large-text {
+  font-size: 18pt !important;
+}
+
+.x-large-text {
+  font-size: 25pt !important;
+}
+
+.ra-quiet {
+  color: #eeeeee;
+  font-family: 'Consolas', monospace;
+  font-size: 12pt;
+  font-weight: bolder;
 }
 
 code {

@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "author": "Massif Press",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
@@ -15,7 +15,7 @@
     "int-test": "jest int"
   },
   "electronWebpack": {
-    "title": "COMP/CON v1.5.3",
+    "title": "COMP/CON v1.5.4",
     "whiteListedModules": [
       "vue",
       "vuetify"
@@ -64,6 +64,7 @@
     "@mdi/font": "^3.6.95",
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",
+    "apexcharts": "^3.8.4",
     "axios": "^0.18.0",
     "css-loader": "^3.0.0",
     "electron-webpack-eslint": "^4.0.1",
@@ -78,6 +79,7 @@
     "source-map-support": "^0.5.10",
     "typeface-roboto": "^0.0.54",
     "typeit": "^6.0.3",
+    "vue-apexcharts": "^1.4.0",
     "vue-mousetrap": "^1.0.1",
     "vue-router": "^3.0.6",
     "vue2-scrollspy": "^2.3.1",

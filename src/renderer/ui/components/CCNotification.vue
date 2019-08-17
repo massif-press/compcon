@@ -1,14 +1,10 @@
 <template>
-    <v-snackbar color="primary" right v-model="model" >
-      <slot></slot>
-      <v-btn
-        color="white"
-        text
-        @click="close"
-      >
-        <v-icon large>close</v-icon>
-      </v-btn>
-    </v-snackbar>
+  <v-snackbar color="primary" tile right v-model="model">
+    <slot></slot>
+    <v-btn color="white" text @click="close">
+      <v-icon large>close</v-icon>
+    </v-btn>
+  </v-snackbar>
 </template>
 
 <script lang="ts">
@@ -19,7 +15,7 @@ export default Vue.extend({
     model: {
       type: Boolean,
       required: true,
-      default: false
+      default: false,
     },
   },
   methods: {
