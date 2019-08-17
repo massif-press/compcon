@@ -377,12 +377,14 @@ export default Vue.extend({
 
     submitStats() {
       console.log(this.npc.stats)
+      var newStats = _.clone(this.npc.stats)
       for (var s in this.stats) {
         if (typeof this.stats[s] === "string") {
           this.stats[s] = Number(this.stats[s])
         }
         //;(this.npc as NPC).stats[this.statMap[s]] = this.stats[s]
         console.log("New:", s, this.stats[s], typeof this.stats[s])
+        newStats[this.statMap[s]] = this.stats[s]
         //console.log(this.statMap[s], this.npc.stats[this.statMap[s]])
       }
       for (var h in this.hase) {
@@ -390,7 +392,11 @@ export default Vue.extend({
           this.hase[h] = Number(this.hase[h])
         }
         //console.log(h, this.hase[h], typeof this.hase[h])
+        console.log("New:", h, this.hase[h], typeof this.hase[h])
+        newStats[this.statMap[h]] = this.hase[h]
       }
+      //;(this.ncp as NPC).stats = newStats
+      console.log(this.npc.stats)
       this.editingStats = false
     }
   },
