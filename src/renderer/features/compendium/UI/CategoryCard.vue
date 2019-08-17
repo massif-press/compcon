@@ -1,22 +1,30 @@
 <template>
   <v-flex grow>
-    <v-hover>
+    <v-hover v-slot:default="{ hover }">
       <v-card
-        slot-scope="{ hover }"
-        :class="`elevation-${hover ? 10 : 1}`"
+        id="underline-parent"
+        :class="`clipped-x-large ${hover?'on-hover':''}`"
         :to="loc"
         height="13em"
-        :color="color + (hover ? ' lighten-2' : '')"
+        :color="color"
+        tile
+        outlined
       >
-        <v-card-text class="text-xs-center">
-          <v-icon size="5em" dark>{{ icon }}</v-icon>
-        </v-card-text>
-        <v-card-actions style="background-color: rgba(255,255,255,0.6)">
-          &nbsp;
-          <v-spacer />
-          <span class="title font-weight-light pt-4 pb-4">{{ name }}</span>
-          <v-spacer />
-          &nbsp;
+        <v-icon
+          size="150"
+          class="pa-0 ma-0"
+          style="position: absolute; bottom: -5px; left: 0"
+          dark
+        >{{ icon }}</v-icon>
+        <v-card-actions
+          id="card-actions"
+          class="text-right"
+          :style="`display: inline-block; position: absolute; width: 100%; top: 0; left: 0; color: black; background: white`"
+        >
+          <span
+            style="position:absolute; top: 0; right: 0; display: contents; font-size: 25pt"
+            class="underline-slide px-4 heading h2"
+          >{{ name }}</span>
         </v-card-actions>
       </v-card>
     </v-hover>
@@ -36,3 +44,42 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.v-card {
+  filter: brightness(120%);
+  transition: all 0.3s ease-in-out;
+}
+
+.v-card > .v-icon {
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.v-card:hover > .v-icon {
+  opacity: 1;
+}
+
+.v-card:not(.on-hover) {
+  filter: brightness(100%);
+}
+
+.underline-slide::before {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 100;
+  background-color: black;
+  transform-origin: bottom left;
+  transform: scaleX(0);
+  transition: transform 0.45s ease;
+}
+
+#underline-parent:hover > #card-actions > .underline-slide::before {
+  transform-origin: bottom right;
+  transform: scaleX(1);
+}
+</style>

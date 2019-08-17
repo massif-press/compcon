@@ -21,18 +21,18 @@
     <v-footer color="primary" fixed>
       <v-spacer />
       <div @mouseenter="ccLog('about')">
-      <cc-dialog large flat dark no-confirm>
-        <template v-slot:button>about</template>
+        <cc-dialog large flat dark no-confirm>
+          <template v-slot:button>about</template>
           <template v-slot:title>About COMP/CON</template>
-            Dialog contents
+          Dialog contents
         </cc-dialog>
       </div>
       <v-divider vertical dark class="mx-1" />
       <div @mouseenter="ccLog('help')">
-      <cc-dialog large flat dark no-confirm>
-        <template v-slot:button>help</template>
+        <cc-dialog large flat dark no-confirm>
+          <template v-slot:button>help</template>
           <template v-slot:title>Help</template>
-            Dialog contents
+          Dialog contents
         </cc-dialog>
       </div>
       <!-- <v-divider vertical dark class="mx-1" /> -->
@@ -82,10 +82,10 @@ export default Vue.extend({
         case 'homebrew':
           this.$refs['log'].print('man homebrew', 'work in progress')
           break
-                  case 'about':
+        case 'about':
           this.$refs['log'].print('compcon --about', 'work in progress')
           break
-                  case 'help':
+        case 'help':
           this.$refs['log'].print('compcon --help', 'work in progress')
           break
         case 'update':
@@ -112,9 +112,7 @@ export default Vue.extend({
   width: 100%;
   height: 100vh;
 }
-</style>
 
-<style>
 #output-container {
   position: absolute;
   background-color: #ededed;
@@ -124,23 +122,4 @@ export default Vue.extend({
   top: 10px;
   z-index: 0;
 }
-
-body {
-  overflow: hidden;
-}
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0);
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
 </style>
-``

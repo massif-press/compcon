@@ -1,0 +1,45 @@
+/* Slide Transition */
+.slide-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-leave-active {
+  transition: all 0.8s ease;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(100vw);
+}
+
+/* Pulse Animation */
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(244, 155, 11, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
+  }
+}
+
+/* Sliding Underline Animation */
+
+/* .underline-slide::before {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background-color: #fff;
+  transform-origin: bottom right;
+  transform: scaleX(0);
+  transition: transform 0.45s ease;
+}
+
+.underline-slide-parent > .underline-slide::before {
+  transform-origin: bottom left;
+  transform: scaleX(1);
+} */

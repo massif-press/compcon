@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <span class="heading h2 text--text">{{cs.Name}}</span>
+    <p v-html="cs.Description" class="flavor-text" />
+
+    <div v-if="cs.Passive">
+      <span class="heading sub">PASSIVE</span>
+      <p v-html="cs.Passive" class="effect-text panel pa-2" />
+    </div>
+
+    <span class="heading sub">ACTIVE {{cs.Active ? ` - ${cs.Active}`: ''}}</span>
+    <p v-html="cs.Effect" class="effect-text panel-block pa-2" />
+
+    <div v-if="cs.Integrated">
+      <span class="heading sub">CORE INTEGRATED WEAPON - {{cs.Integrated.Name}}</span>
+      <div class="panel-block pa-2 mt-1 mb-3">
+        <cc-mech-weapon-card :item="cs.Integrated" />
+      </div>
+    </div>
+
+    <v-layout>
+      <cc-tag v-for="t in cs.Tags" :key="t.id" :tag="t" />
+    </v-layout>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-frame-core-system-panel',
+  props: {
+    cs: {
+      type: Object,
+      required: true,
+    },
+  },
+})
+</script>

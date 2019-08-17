@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <top-bar />
-    <div class="wrapper">
-      <v-fade-transition leave-absolute>
-        <router-view />
-      </v-fade-transition>
-    </div>
+  <div class="wrapper">
+    <cc-nav />
+    <v-fade-transition leave-absolute>
+      <router-view />
+    </v-fade-transition>
   </div>
 </template>
 
@@ -14,11 +12,11 @@ import Vue from 'vue'
 import { Pilot } from '@/class'
 import store from '../../store'
 import { mapGetters } from 'vuex'
-import { TopBar } from '@/features/_shared/topbar'
+import CCNav from '@/features/nav/index.vue'
 
 export default Vue.extend({
   name: 'pilot_management',
-  components: { TopBar },
+  components: { 'cc-nav': CCNav },
   created() {
     this.$store.dispatch('loadPilots')
   },

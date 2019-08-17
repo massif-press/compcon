@@ -98,29 +98,5 @@ export default Vue.extend({
   right: 0vw;
   top: 75px;
 }
-
-.slide-enter-active {
-  transition: all 0.3s ease;
-}
-.slide-leave-active {
-  transition: all 0.8s ease;
-}
-.slide-enter,
-.slide-leave-to {
-  transform: translateX(100vw);
-}
-
-.pulse {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0px rgba(244, 155, 11, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 0 35px rgba(0, 0, 0, 0);
-  }
-}
 </style>
 

@@ -63,8 +63,7 @@
                   <div slot="activator">
                     <v-btn
                       @click.stop="toggleModModal(true)"
-                      :color="availableMod() ? 'blue-grey lighten-2' : ''"
-                      :disabled="availableMod() ? false : true"
+                      :color="availableMod() ? 'blue-grey lighten-2' : 'white grey--text'"
                       small
                       absolute
                       class="ma-0 pa-0"
@@ -256,6 +255,8 @@ export default Vue.extend({
       const weapon = this.weaponSlot.Weapon
       const allMods = vm.$store.getters.getItemCollection('WeaponMods') as WeaponMod[]
       let i = allMods.filter(x => x.Source)
+      // filter out all unlicensed mods
+      i = i.filter(x => x.Source === 'GMS' || vm.pilot.has('License', x.License, x.LicenseLevel))
       // filter out any mount size restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(weapon.Size))
       // filter out any weapon type restrictions

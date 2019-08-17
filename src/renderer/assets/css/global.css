@@ -119,3 +119,19 @@
 .spin-leave-to {
   opacity: 0;
 }
+
+.border {
+  border: 5px double var(--v-panel-border-base);
+  border-radius: 2px;
+}
+
+.border-primary {
+  border: 5px double var(--v-primary-base);
+  border-radius: 2px;
+}
+
+.panel-block {
+  background-color: var(--v-panel-base);
+  border: 5px double var(--v-panel-border-base);
+  border-radius: 2px;
+}

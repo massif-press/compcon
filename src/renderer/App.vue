@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <nav />
     <v-slide-x-transition mode="out-in">
       <router-view />
     </v-slide-x-transition>

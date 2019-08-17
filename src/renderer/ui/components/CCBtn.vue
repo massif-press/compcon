@@ -1,8 +1,14 @@
 <template>
   <div style="position: relative; max-width: fit-content; display: inline-block">
-    <div class="shadow" :style="`background:${getColor()}`">
-      <v-btn tile class="clipped" v-bind="$props" @click="$emit('click')">
-        <span :class="small ? '' : 'heading h2 align'" style="display: contents">
+    <div class="wings" :style="`background:${getColor(color, $vuetify)}`">
+      <v-btn
+        tile
+        class="clipped-btn"
+        v-bind="$props"
+        @click="$emit('click')"
+        style="visibility: visible;"
+      >
+        <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           &nbsp;
           <slot></slot>&nbsp;&nbsp;
         </span>
@@ -43,6 +49,11 @@ export default Vue.extend({
     dark: {
       type: Boolean,
       required: false,
+      default: true,
+    },
+    light: {
+      type: Boolean,
+      required: false,
       default: false,
     },
     outlined: {
@@ -54,33 +65,15 @@ export default Vue.extend({
       required: false,
     },
   },
-  methods: {
-    getColor(): string {
-      if (this.color.substring(0, 1) === '#') return this.color
-      return this.$vuetify.theme.currentTheme[this.color]
-    },
-  },
 })
 </script>
 
 <style scoped>
-.clipped {
-  visibility: visible;
-  clip-path: polygon(
-    20px 0,
-    100% 0,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    0 100%,
-    0 20px
-  );
-}
-
-.shadow {
+.wings {
   visibility: hidden;
 }
 
-.shadow::before {
+.wings::before {
   visibility: visible;
   content: ' ';
   position: absolute;
@@ -92,7 +85,7 @@ export default Vue.extend({
   transition: all 0.2s ease-in-out;
 }
 
-.shadow::after {
+.wings::after {
   visibility: visible;
   content: ' ';
   position: absolute;
@@ -105,15 +98,15 @@ export default Vue.extend({
   z-index: 1;
   transition: all 0.2s ease-in-out;
 }
-.shadow:hover::before {
-  transform: translate(-5px, -2px);
+.wings:hover::before {
+  transform: translate(-6px, 0px);
 }
 
-.shadow:hover::after {
-  transform: translate(5px, 2px);
+.wings:hover::after {
+  transform: translate(6px, 0px);
 }
 
 .align {
-  line-height: 28pt;
+  line-height: 10pt;
 }
 </style>

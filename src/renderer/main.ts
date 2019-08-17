@@ -2,9 +2,9 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
 import 'material-icons/iconfont/material-icons.css'
 import './assets/css/global.css'
-import './assets/css/typography.css'
+import './ui/style/_style.css'
 import './assets/glyphs/glyphs.css'
-import './ui/_globals'
+import './ui/globals'
 
 import Vue from 'vue'
 
@@ -20,6 +20,11 @@ import VueMousetrap from 'vue-mousetrap'
 import theme from './ui/theme'
 
 import ScrollSpy, { Easing } from 'vue2-scrollspy'
+
+import mixins from './mixins'
+
+import _ from 'lodash';    
+Object.defineProperty(Vue.prototype, '$_', { value: _ });
 
 const windowAny: any = window
 
@@ -41,6 +46,10 @@ Vue.use(ScrollSpy, {
 })
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
+
+mixins.forEach(m => {
+  Vue.mixin(m);
+});
 
 new Vue({
   components: { App },
