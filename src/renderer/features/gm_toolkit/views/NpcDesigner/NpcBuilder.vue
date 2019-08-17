@@ -77,8 +77,8 @@
           -->
           <div v-if="!editingStats" class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
           <v-text-field v-else
-            :v-model="stat"
-            :label="stats[stat].toString()"
+            v-model="stats[stat]"
+            type="number"
             solo
             :color="roleColor"
           ></v-text-field>
@@ -103,13 +103,19 @@
           xs6
           sm2
           lg1
-          v-for="hase in ['hull', 'agility', 'systems', 'engineering']"
-          :key="hase"
+          v-for="check in Object.keys(hase)"
+          :key="check"
         >
-          <div class="label text-uppercase">{{ hase }}</div>
-          <div
+          <div class="label text-uppercase">{{ check }}</div>
+          <div v-if="!editingStats"
             class="headline font-weight-bold primary--text"
-          >{{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}</div>
+          >{{ hase[check] > -1 ? '+' : '' }}{{ hase[check] }}</div>
+          <v-text-field v-else
+            v-model="hase[check]"
+            type="number"
+            solo
+            :color="roleColor"
+          ></v-text-field>
         </v-flex>
       </v-layout>
       <v-divider class="my-3" />
@@ -267,6 +273,26 @@ export default Vue.extend({
       return NPCTips(this.npc)
     },
 
+    statMap() {
+      let obj: { [key: string]: string } = {
+        HP: "hp",
+        HEAT: "heatcap",
+        STRUCTURE: "structure",
+        STRESS: "stress",
+        ARMOR: "armor",
+        SPEED: "speed",
+        EVADE: "evade",
+        EDEF: "edef",
+        SENSE: "sensor",
+        SAVE: "save",
+        HULL: "hull",
+        AGILITY: "agility",
+        SYSTEMS: "systems",
+        ENGINEERING: "engineering",
+      }
+      return _.pickBy(obj, o => o !== null)
+    },
+
     stats() {
       const npcst = (this.npc as NPC).stats
       let obj: { [key: string]: number | null } = {
@@ -281,6 +307,17 @@ export default Vue.extend({
         EDEF: npcst.edef,
         SENSE: npcst.sensor,
         SAVE: npcst.save,
+      }
+      return _.pickBy(obj, o => o !== null)
+    },
+
+    hase() {
+      const npcst = (this.npc as NPC).stats
+      let obj: { [key: string]: number } = {
+        HULL: npcst.hull,
+        AGILITY: npcst.agility,
+        SYSTEMS: npcst.systems,
+        ENGINEERING: npcst.engineering,
       }
       return _.pickBy(obj, o => o !== null)
     },
@@ -335,18 +372,26 @@ export default Vue.extend({
     },
 
     editStats(): void {
-      console.log(this)
       this.editingStats = true
-      console.log("editingStats: " + this.editingStats)
     },
 
     submitStats() {
+      console.log(this.npc.stats)
       for (var s in this.stats) {
-        console.log(s, this.stats[s])
+        if (typeof this.stats[s] === "string") {
+          this.stats[s] = Number(this.stats[s])
+        }
+        //;(this.npc as NPC).stats[this.statMap[s]] = this.stats[s]
+        console.log("New:", s, this.stats[s], typeof this.stats[s])
+        //console.log(this.statMap[s], this.npc.stats[this.statMap[s]])
       }
-      console.log(this.ARMOR)
+      for (var h in this.hase) {
+        if (typeof this.hase[h] === "string") {
+          this.hase[h] = Number(this.hase[h])
+        }
+        //console.log(h, this.hase[h], typeof this.hase[h])
+      }
       this.editingStats = false
-      console.log("editingStats: " + this.editingStats)
     }
   },
   watch: {
