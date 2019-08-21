@@ -20,24 +20,14 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <div @mouseenter="ccLog('about')">
-        <cc-dialog large flat dark no-confirm>
-          <template v-slot:button>about</template>
-          <template v-slot:title>About COMP/CON</template>
-          Dialog contents
-        </cc-dialog>
-      </div>
+      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">About</v-btn>
       <v-divider vertical dark class="mx-1" />
-      <div @mouseenter="ccLog('help')">
-        <cc-dialog large flat dark no-confirm>
-          <template v-slot:button>help</template>
-          <template v-slot:title>Help</template>
-          Dialog contents
-        </cc-dialog>
-      </div>
+      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">Help</v-btn>
       <!-- <v-divider vertical dark class="mx-1" /> -->
       <!-- <v-btn color="amber darken-3" dark small>Support This Project</v-btn> -->
     </v-footer>
+    <cc-solo-dialog large no-confirm title="About" ref="aboutModal">about test</cc-solo-dialog>
+    <cc-solo-dialog large no-confirm title="Help" ref="helpModal">help test</cc-solo-dialog>
   </div>
 </template>
 

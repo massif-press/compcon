@@ -1,5 +1,5 @@
 import store from '@/store'
-import { Tag, WeaponType, WeaponSize, ItemType, Damage, MechEquipment } from '@/class'
+import { Tag, WeaponType, WeaponSize, ItemType, Damage, Range, MechEquipment } from '@/class'
 
 class WeaponMod extends MechEquipment {
   private applied_to: WeaponType[]
@@ -7,7 +7,7 @@ class WeaponMod extends MechEquipment {
   private restricted_mounts: WeaponSize[]
   private added_tags: ITagData[]
   private added_damage?: Damage
-  private added_range: number
+  private added_range?: Range
 
   constructor(weaponModData: any) {
     super(weaponModData)
@@ -19,7 +19,7 @@ class WeaponMod extends MechEquipment {
     this.tags = weaponModData.tags
     this.added_tags = weaponModData.added_tags || []
     if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage)
-    this.added_range = weaponModData.added_range || 0
+    if (weaponModData.added_range) this.added_range = new Range(weaponModData.added_range)
     this.item_type = ItemType.WeaponMod
   }
 
@@ -51,8 +51,8 @@ class WeaponMod extends MechEquipment {
     return this.added_damage || null
   }
 
-  public get AddedRange(): number {
-    return this.added_range
+  public get AddedRange(): Range | null {
+    return this.added_range || null
   }
 
   public static Deserialize(id: string): WeaponMod {

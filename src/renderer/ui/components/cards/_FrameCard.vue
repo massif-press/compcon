@@ -27,7 +27,7 @@
       v-for="(t, i) in item.Traits"
       :key="`trait_${i}`"
       icon="cci-trait"
-      :title="t.Name"
+      :title="t.name"
     >
       <p class="effect-text ma-0 pa-0">{{t.description}}</p>
     </cc-titled-panel>

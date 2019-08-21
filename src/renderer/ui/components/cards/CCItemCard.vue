@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'cc-item-card',
-  props: ['item', 'type'],
+  props: ['item'],
   data() {
     return {
       component: null,
@@ -16,7 +16,7 @@ export default {
       if (!this.item) {
         return null
       }
-      return () => import(`./CC${this.item.ItemType}Card.vue`)
+      return () => import(`./_${this.item.ItemType}Card.vue`)
     },
   },
   mounted() {

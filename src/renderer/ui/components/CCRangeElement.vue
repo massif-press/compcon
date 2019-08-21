@@ -7,11 +7,16 @@
       style="display: inline-block"
     >
       <cc-tooltip :title="r.Type" :content="r.Text">
-        <div class="clip-icon">
+        <span v-if="small">
+          <v-icon left color="text">{{r.Icon}}</v-icon>
+          <v-icon v-if="r.Override">mdi-information-outline</v-icon>
+          <span v-else>{{r.Value}}</span>
+        </span>
+        <div v-else class="clip-icon">
           <v-icon x-large color="text">{{r.Icon}}</v-icon>
         </div>
       </cc-tooltip>
-      <span v-if="!icon">{{r.Value}}</span>
+      <span v-if="!small">{{r.Value}}</span>
     </div>
   </div>
 </template>
@@ -26,10 +31,9 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
-    icon: {
+    small: {
       type: Boolean,
       required: false,
-      default: false,
     },
   },
 })

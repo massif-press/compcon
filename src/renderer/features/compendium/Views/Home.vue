@@ -24,7 +24,7 @@
           <category-card color="primary" icon="mdi-view-week" loc="licenses" name="Licenses" />
           <category-card
             color="primary"
-            icon="mdi-hexagon-multiple"
+            icon="cci-corebonus"
             loc="corebonuses"
             name="CORE Bonuses"
           />
@@ -35,18 +35,40 @@
           <category-card color="system" icon="mdi-chip" loc="systems" name="Mech Systems" />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card color="primary" icon="cci-pilot" loc="pilot_gear" name="Equipment" />
-          <category-card color="primary" icon="public" loc="backgrounds" name="Backgrounds" />
+          <category-card color="secondary" icon="cci-pilot" loc="pilot_gear" name="Pilot Gear" />
+          <category-card color="secondary" icon="public" loc="backgrounds" name="Backgrounds" />
+          <category-card color="secondary" icon="cci-accuracy" loc="skills" name="Skill Triggers" />
+          <category-card color="secondary" icon="cci-rank-3" loc="talents" name="Talents" />
+        </v-layout>
+        <!-- <v-layout row wrap justify-center>
+          <category-card
+            color="template"
+            icon="cci-role-striker"
+            loc="backgrounds"
+            name="NPC Classes"
+          />
+          <category-card
+            color="template"
+            icon="cci-reticule"
+            loc="backgrounds"
+            name="NPC Templates"
+          />
+          <category-card color="template" icon="cci-large-beam" loc="skills" name="NPC Systems" />
+        </v-layout>-->
+        <v-layout row wrap justify-center>
+          <category-card
+            color="primary"
+            icon="mdi-gauge"
+            loc="statuses"
+            name="Statuses & Conditions"
+          />
+          <category-card color="primary" icon="cci-barrage" loc="reference" name="Reserves" />
+          <category-card color="primary" icon="mdi-map" loc="reference" name="Action Economy" />
         </v-layout>
         <v-layout row wrap justify-center>
-          <category-card color="trait" icon="cci-accuracy" loc="skills" name="Skill Triggers" />
-          <category-card color="trait" icon="cci-rank-3" loc="talents" name="Talents" />
-        </v-layout>
-        <v-layout row wrap justify-center>
-          <category-card color="secondary" icon="label" loc="tags" name="Tags" />
-          <category-card color="secondary" icon="mdi-gauge" loc="statuses" name="Statuses" />
-          <category-card color="secondary" icon="mdi-map" loc="reference" name="Reference" />
-          <!-- <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" /> -->
+          <category-card color="primary" icon="mdi-tag" loc="tags" name="Equipment Tags" />
+          <category-card color="primary" icon="mdi-map" loc="reference" name="Reference" />
+          <category-card color="primary" icon="mdi-library-books" loc name="Glossary" />
         </v-layout>
       </v-container>
     </div>

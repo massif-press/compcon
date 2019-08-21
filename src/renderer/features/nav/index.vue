@@ -80,28 +80,17 @@
       </template>
 
       <v-list>
-        <v-list-item @click="optionsDialog = true">Options</v-list-item>
-        <v-list-item @click="aboutDialog = true">About</v-list-item>
-        <v-list-item @click="helpDialog = true">Help</v-list-item>
+        <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
+        <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
+        <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
       </v-list>
     </v-menu>
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog large no-confirm :model="optionsDialog" @cancel="optionsDialog = false">
-      <template slot="title">Options</template>
-      options test
-    </cc-solo-dialog>
-
-    <cc-solo-dialog large no-confirm :model="aboutDialog" @cancel="aboutDialog = false">
-      <template slot="title">About</template>
-      about test
-    </cc-solo-dialog>
-
-    <cc-solo-dialog large no-confirm :model="helpDialog" @cancel="helpDialog = false">
-      <template slot="title">Help</template>
-      help test
-    </cc-solo-dialog>
+    <cc-solo-dialog large no-confirm title="Options" ref="optionsModal">options test</cc-solo-dialog>
+    <cc-solo-dialog large no-confirm title="About" ref="aboutModal">about test</cc-solo-dialog>
+    <cc-solo-dialog large no-confirm title="Help" ref="helpModal">help test</cc-solo-dialog>
   </v-app-bar>
 </template>
 

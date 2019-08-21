@@ -1,25 +1,36 @@
-Big:
-  ☐ NPC stuff in compendium
-  ☐ mod cards
+Compendium:
+  ☐ compendium table filter panel
+    ☐ filters need to be exclusive
+  ☐ Pilot Armor/Weapon/Gear cards
+  ☐ Reference
+    ☐ Damage tables
+    ☐ ???
+  ☐ Glossary
+  ☐ Action Economy
+  ☐ Reserves & Downtime Actions
+  ☐ Pilot Talents
+
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
   ☐ background -> save string only
-  ☐ v-show over v-if
   ☐ genericize frame image row element
 
 Style Pass:
   ☐ Vuetify 2.0
+  ☐ use vuetify file upload component
   ☐ Standardize colors, add Vuetify theme
   ☐ Should be able to collapse reserves individually by clicking toolbar
   ☐ global notification
   ☐ error logging
   ☐ ra text/horus text
+  ☐ integrate text color getter
 
 Improvements:
-  ☐ browsable image galleries, per frame
+  ☐ NPC stuff in compendium
+  ☐ browsable image galleries
   ☐ hidden tags for specially-handled items
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection
