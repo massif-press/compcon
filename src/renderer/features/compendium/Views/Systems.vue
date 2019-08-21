@@ -1,7 +1,8 @@
 <template>
-  <v-container fluid px-5>
-    <span class="display-1 text-uppercase font-weight-thin">MECH SYSTEMS</span>
-    <v-card>
+  <v-container fluid>
+    <h1 class="heading">MECH SYSTEMS</h1>
+    <compendium-table :headers="headers" :items="systems" />
+    <!-- <v-card>
       <v-layout row class="pa-3">
         <v-flex>
           <v-text-field
@@ -44,12 +45,13 @@
           </v-card>
         </template>
       </v-data-table>
-    </v-card>
+    </v-card>-->
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import CompendiumTable from '../UI/CompendiumTable.vue'
 import { SystemCard } from '@/features/pilot_management/components/UI'
 import { WeaponMod, MechSystem } from '@/class'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
@@ -57,38 +59,44 @@ import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
 export default Vue.extend({
   name: 'systems',
-  components: { SystemCard, FilterPanel },
+  components: { CompendiumTable, SystemCard, FilterPanel },
   data: () => ({
     search: null,
     detailFilter: {},
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'System', align: 'left', value: 'Name' },
-      { text: 'License', align: 'left', value: 'License' },
+      { text: 'License', align: 'left', value: 'LicenseString' },
       { text: 'SP Cost', align: 'left', value: 'SP' },
     ],
+    systems: [],
   }),
-  computed: {
-    systems(): MechSystem[] {
-      const vm = this as any
-      let items = vm.$store.getters
-        .getItemCollection('MechSystems')
-        .concat(this.$store.getters.getItemCollection('WeaponMods'))
-        .filter((x: WeaponMod) => x.Source)
+  // computed: {
+  //   systems(): MechSystem[] {
+  //     const vm = this as any
+  //     let items = vm.$store.getters
+  //       .getItemCollection('MechSystems')
+  //       .concat(this.$store.getters.getItemCollection('WeaponMods'))
+  //       .filter((x: WeaponMod) => x.Source)
 
-      if (vm.search)
-        items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+  //     if (vm.search)
+  //       items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
-      items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
+  //     items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
 
-      return items
-    },
-  },
-  methods: {
-    updateFilter(filter) {
-      this.detailFilter = filter
-      this.$forceUpdate()
-    },
+  //     return items
+  //   },
+  // },
+  // methods: {
+  //   updateFilter(filter) {
+  //     this.detailFilter = filter
+  //     this.$forceUpdate()
+  //   },
+  // },
+  created() {
+    this.systems = this.$store.getters
+      .getItemCollection('MechSystems')
+      .filter((x: MechSystem) => x.Source) as MechSystem[]
   },
 })
 </script>

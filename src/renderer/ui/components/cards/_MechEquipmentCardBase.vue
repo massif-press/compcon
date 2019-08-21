@@ -26,9 +26,7 @@
       <p v-html="item.Effect" class="effect-text panel pa-2" />
     </div>
 
-    <v-layout class="my-2">
-      <cc-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tag="t" />
-    </v-layout>
+    <cc-tags :tags="item.Tags" />
   </v-card-text>
 </template>
 

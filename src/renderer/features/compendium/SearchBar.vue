@@ -19,7 +19,6 @@ export default Vue.extend({
   name: 'compendium-search-bar',
   data: () => ({
     searchText: '',
-    eventListener: null,
   }),
   methods: {
     doSearch() {
@@ -27,9 +26,9 @@ export default Vue.extend({
     },
   },
   mounted() {
-    const thisAny: any = this
-    thisAny.$mousetrap.bind(['ctrl+f', '/'], () => {
-      ;(this.$refs.input as HTMLElement).focus()
+    const vm = this
+    vm.$mousetrap.bind(['ctrl+f', '/'], () => {
+      ;(vm.$refs.input as HTMLElement).focus()
     })
   },
 })

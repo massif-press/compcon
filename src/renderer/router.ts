@@ -63,10 +63,6 @@ export default new Router({
               component: require('@/features/compendium/Views/SearchResults').default,
             },
             {
-              path: '/compendium/item/:type/:id',
-              component: require('@/features/compendium/UI/CompendiumItem').default,
-            },
-            {
               path: '/licenses',
               component: require('@/features/compendium/Views/Licenses').default,
             },

@@ -1,9 +1,15 @@
 <template>
-  <div class="mb-2">
-    <v-toolbar :color="color" dark flat dense class="clipped-large-invert">
+  <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : '' }`" @click="$emit('click')">
+    <v-toolbar
+      :color="color"
+      dark
+      flat
+      dense
+      :class="`clipped-large-invert ${clickable ? 'titlebar' : '' }`"
+    >
       <v-toolbar-title>
         <v-icon v-if="icon" x-large left>{{icon}}</v-icon>
-        <span class="heading h3">{{title}}</span>
+        <span :class="`heading h3 ${clickable ? 'underline-slide' : '' }`">{{title}}</span>
       </v-toolbar-title>
     </v-toolbar>
 
@@ -33,6 +39,53 @@ export default Vue.extend({
       required: false,
       default: 'primary',
     },
+    clickable: {
+      type: Boolean,
+      required: false,
+    },
   },
 })
 </script>
+
+<style scoped>
+.clickable:hover {
+  cursor: pointer;
+}
+
+.titlebar {
+  filter: brightness(100%);
+  transition: all 0.3s ease-in-out;
+}
+
+#panel-wrapper:hover .titlebar {
+  filter: brightness(120%);
+}
+
+#panel-wrapper .v-icon {
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#panel-wrapper:hover .v-icon {
+  opacity: 1;
+}
+
+.underline-slide::before {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  z-index: 100;
+  background-color: white;
+  transform-origin: bottom left;
+  transform: scaleX(0);
+  transition: transform 0.45s ease;
+}
+
+#panel-wrapper:hover .underline-slide::before {
+  transform-origin: bottom right;
+  transform: scaleX(1);
+}
+</style>

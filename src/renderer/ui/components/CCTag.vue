@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Pilot, Tag } from '@/class'
 
 export default Vue.extend({
   name: 'cc-tag',
@@ -27,12 +26,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.cc-tooltip {
-  background: rgba(0, 0, 0, 1) !important;
-  background-color: rgba(0, 0, 0, 1) !important;
-  opacity: 1 !important;
-  max-width: 50vw;
-}
-</style>

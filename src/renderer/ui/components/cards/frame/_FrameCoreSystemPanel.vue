@@ -14,20 +14,21 @@
     <div v-if="cs.Integrated">
       <span class="heading sub">CORE INTEGRATED WEAPON - {{cs.Integrated.Name}}</span>
       <div class="panel-block pa-2 mt-1 mb-3">
-        <cc-mech-weapon-card :item="cs.Integrated" />
+        <mech-weapon-card :item="cs.Integrated" />
       </div>
     </div>
 
-    <v-layout>
-      <cc-tag v-for="t in cs.Tags" :key="t.id" :tag="t" />
-    </v-layout>
+    <cc-tags :tags="cs.Tags" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import MechWeaponCard from '../_MechWeaponCard.vue'
+
 export default Vue.extend({
   name: 'cc-frame-core-system-panel',
+  components: { MechWeaponCard },
   props: {
     cs: {
       type: Object,

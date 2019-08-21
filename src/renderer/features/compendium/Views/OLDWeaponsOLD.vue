@@ -1,10 +1,5 @@
 <template>
-  <v-container fluid>
-    <h1 class="heading">MECH WEAPONS</h1>
-    <compendium-table :headers="headers" :items="weapons" />
-  </v-container>
-
-  <!-- <v-container fluid px-5>
+  <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH WEAPONS</span>
     <v-card>
       <v-layout row class="pa-3">
@@ -70,12 +65,11 @@
         </template>
       </v-data-table>
     </v-card>
-  </v-container>-->
+  </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import CompendiumTable from '../UI/CompendiumTable.vue'
 import { RangeElement, DamageElement, WeaponCard } from '@/features/pilot_management/components/UI'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
@@ -83,46 +77,65 @@ import { MechWeapon } from '@/class'
 
 export default Vue.extend({
   name: 'weapons',
-  components: { CompendiumTable, WeaponCard, RangeElement, DamageElement, FilterPanel },
+  components: { WeaponCard, RangeElement, DamageElement, FilterPanel },
   data: () => ({
-    // search: null,
-    // detailFilter: {},
+    search: null,
+    detailFilter: {},
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'Weapon', align: 'left', value: 'Name' },
-      { text: 'License', align: 'left', value: 'LicenseString' },
+      { text: 'License', align: 'left', value: 'License' },
       { text: 'Size', align: 'left', value: 'Size' },
       { text: 'Type', align: 'left', value: 'Type' },
       { text: 'Range', align: 'left', value: 'Range' },
       { text: 'Damage', align: 'left', value: 'Damage' },
     ],
-    weapons: [],
   }),
-  // computed: {
-  //   weapons(): MechWeapon[] {
-  //     const vm = this as any
-  //     let items = vm.$store.getters
-  //       .getItemCollection('MechWeapons')
-  //       .filter((x: MechWeapon) => x.Source) as MechWeapon[]
+  computed: {
+    weapons(): MechWeapon[] {
+      const vm = this as any
+      let items = vm.$store.getters
+        .getItemCollection('MechWeapons')
+        .filter((x: MechWeapon) => x.Source) as MechWeapon[]
 
-  //     if (vm.search)
-  //       items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+      if (vm.search)
+        items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
 
-  //     items = ItemFilter.FilterWeapons(items, this.detailFilter)
+      items = ItemFilter.FilterWeapons(items, this.detailFilter)
 
-  //     return items
-  //   },
-  // },
+      return items
+    },
+  },
   methods: {
+    customSort(items, index, isDescending) {
+      items.sort((a, b) => {
+        if (index === 'Damage') {
+          if (isDescending) {
+            return b.Damage[0].Max - a.Damage[0].Max
+          } else {
+            return a.Damage[0].Max - b.Damage[0].Max
+          }
+        } else if (index === 'Range') {
+          if (isDescending) {
+            return b.Range[0].Max - a.Range[0].Max
+          } else {
+            return a.Range[0].Max - b.Range[0].Max
+          }
+        } else {
+          if (!isDescending) {
+            return a[index] < b[index] ? -1 : 1
+          } else {
+            return b[index] < a[index] ? -1 : 1
+          }
+        }
+      })
+
+      return items
+    },
     updateFilter(filter) {
       this.detailFilter = filter
       this.$forceUpdate()
     },
-  },
-  created() {
-    this.weapons = this.$store.getters
-      .getItemCollection('MechWeapons')
-      .filter((x: MechWeapon) => x.Source) as MechWeapon[]
   },
 })
 </script>

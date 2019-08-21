@@ -1,57 +1,43 @@
 <template>
-  <v-container fluid>
-    <v-navigation-drawer
-      permanent
-      fixed
-      color="transparent"
-      class="mr-3"
-      :style="`top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
-    >
-      <v-list nav dense>
-        <div v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" class="pt-2">
-          <v-list-item>
-            <v-list-item-title>
-              <v-icon left>cci-orbital</v-icon>
-              <span class="heading sub">{{ m}}</span>
-            </v-list-item-title>
-          </v-list-item>
+  <cc-sidebar-view>
+    <div slot="sidebar" v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" class="pt-2">
+      <v-list-item>
+        <v-list-item-title>
+          <v-icon left>cci-orbital</v-icon>
+          <span class="heading sub">{{ m}}</span>
+        </v-list-item-title>
+      </v-list-item>
 
-          <v-list-item
-            v-for="cb in bonuses[m]"
-            :key="`${cb.id}_data'`"
-            link
-            @click="$vuetify.goTo(`#e_${cb.id}`, {
+      <v-list-item
+        v-for="cb in bonuses[m]"
+        :key="`${cb.id}_data'`"
+        link
+        @click="$vuetify.goTo(`#e_${cb.id}`, {
               duration: 150,
               easing: 'easeInOutQuad',
               offset: 25
             })"
-          >
-            <v-list-item-title class="heading h3 ml-2">{{cb.Name}}</v-list-item-title>
-          </v-list-item>
-        </div>
-      </v-list>
-    </v-navigation-drawer>
-    <v-layout row>
-      <v-flex offset-xs2 class="pl-7 mr-7">
-        <h1 class="heading mb-3">CORE BONUSES</h1>
-        <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
-          <span class="heading mech">{{ manufacturer(m).name }}</span>
-          <cc-titled-panel
-            :id="`e_${b.id}`"
-            v-for="(b, i) in bonuses[m]"
-            :key="`${b.ID}_${i}`"
-            icon="mdi-hexagon-multiple"
-            :title="b.Name"
-            color="panel-border"
-            class="ma-3"
-          >
-            <p class="flavor-text" v-html="b.Description" />
-            <p class="effect-text pb-0" v-html="b.Effect" />
-          </cc-titled-panel>
-        </div>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      >
+        <v-list-item-title class="heading h3 ml-2">{{cb.Name}}</v-list-item-title>
+      </v-list-item>
+    </div>
+    <h1 class="heading mb-3">CORE BONUSES</h1>
+    <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
+      <span class="heading mech">{{ manufacturer(m).name }}</span>
+      <cc-titled-panel
+        :id="`e_${b.id}`"
+        v-for="(b, i) in bonuses[m]"
+        :key="`${b.ID}_${i}`"
+        icon="cci-corebonus"
+        :title="b.Name"
+        color="panel-border"
+        class="ma-3"
+      >
+        <p class="flavor-text" v-html="b.Description" />
+        <p class="effect-text pb-0" v-html="b.Effect" />
+      </cc-titled-panel>
+    </div>
+  </cc-sidebar-view>
 </template>
 
 <script lang="ts">
@@ -71,7 +57,6 @@ export default Vue.extend({
   created() {
     var vm = this as any
     vm.bonuses = this.$_.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
-    window.addEventListener('scroll', this.adjustScroll)
   },
 })
 </script>
