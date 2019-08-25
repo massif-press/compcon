@@ -42,7 +42,6 @@
         :headers="headers"
         :items="systems"
         :expand="true"
-        :search="search"
         item-key="id"
         hide-actions
       >

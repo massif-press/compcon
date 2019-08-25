@@ -127,7 +127,7 @@
 import Vue from 'vue'
 import { ItemTag } from '../../components/UI'
 import { WeaponMod, Pilot, WeaponSlot, EquippableMount, MechLoadout } from '@/class'
-import accent_fold from '@/features/_shared/utility/accent_fold'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'mod-table',

@@ -100,7 +100,7 @@
 import Vue from 'vue'
 import { FrameStatblock } from '@/features/pilot_management/components/UI'
 import { MechType, Frame } from '@/class'
-import accent_fold from '@/features/_shared/utility/accent_fold';
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'frames',

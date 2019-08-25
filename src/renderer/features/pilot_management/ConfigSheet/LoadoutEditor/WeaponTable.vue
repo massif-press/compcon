@@ -48,7 +48,6 @@
         :expand="true"
         item-key="id"
         :custom-sort="customSort"
-        :search="search"
         hide-actions
       >
         <template slot="items" slot-scope="props">
@@ -134,7 +133,7 @@ import { RangeElement, DamageElement, WeaponCard } from '../../components/UI'
 import io from '@/features/_shared/data_io'
 import { WeaponSlot, MechLoadout, EquippableMount, MechWeapon, Pilot } from '@/class'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import accent_fold from '@/features/_shared/utility/accent_fold'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'weapon-table',

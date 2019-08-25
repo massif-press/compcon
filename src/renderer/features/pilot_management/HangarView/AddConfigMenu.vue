@@ -220,7 +220,7 @@ import io from '@/features/_shared/data_io'
 import validator from '../logic/validator'
 import { Pilot, Frame, Mech, MechType } from '@/class'
 import { ItemCard } from '../components/UI'
-import accent_fold from '@/features/_shared/utility/accent_fold';
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'new-config',
