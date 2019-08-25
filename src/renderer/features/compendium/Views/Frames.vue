@@ -100,6 +100,7 @@
 import Vue from 'vue'
 import { FrameStatblock } from '@/features/pilot_management/components/UI'
 import { MechType, Frame } from '@/class'
+import accent_fold from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'frames',
@@ -129,8 +130,10 @@ export default Vue.extend({
       var vm = this as any
       let i = vm.$store.getters.getItemCollection('Frames')
 
-      if (vm.search)
-        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
+      if (vm.search) {
+        const searchTerm = accent_fold(vm.search as string)
+        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(searchTerm.toUpperCase()))
+      }
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
