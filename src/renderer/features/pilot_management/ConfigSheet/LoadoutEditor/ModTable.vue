@@ -177,7 +177,7 @@ export default Vue.extend({
       // // filter out any mount restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(vm.weaponSlot.Weapon.Size))
       // // search input
-      if (vm.search) i = i.filter(x => accent_fold(x.Name).toLowerCase().includes(accent_fold(vm.search).toLowerCase()))
+      if (vm.search) i = i.filter(x => accent_fold(x.Name.toLowerCase()).includes(accent_fold(vm.search.toLowerCase())))
 
       return i
     },

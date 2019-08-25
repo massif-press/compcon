@@ -162,7 +162,7 @@ export default Vue.extend({
       // filter already equipped
       if (vm.currentEquip) i = i.filter(x => x.ID !== vm.currentEquip.ID)
 
-      if (vm.search) i = i.filter(x => accent_fold(x.Name).toLowerCase().includes(accent_fold(vm.search).toLowerCase()))
+      if (vm.search) i = i.filter(x => accent_fold(x.Name.toLowerCase()).includes(accent_fold(vm.search.toLowerCase())))
 
       i = i.filter(x => !vm.loadout.UniqueSystems.map(y => y.ID).includes(x.ID))
 
