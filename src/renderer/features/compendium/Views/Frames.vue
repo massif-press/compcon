@@ -131,8 +131,8 @@ export default Vue.extend({
       let i = vm.$store.getters.getItemCollection('Frames')
 
       if (vm.search) {
-        const searchTerm = accent_fold(vm.search as string)
-        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(searchTerm.toUpperCase()))
+        const searchTerm = vm.search as string
+        i = i.filter((x: Frame) => accent_fold(x.Name).toUpperCase().includes(accent_fold(searchTerm).toUpperCase()))
       }
 
       if (vm.filter.length) {
