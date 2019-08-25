@@ -134,6 +134,7 @@ import { RangeElement, DamageElement, WeaponCard } from '../../components/UI'
 import io from '@/features/_shared/data_io'
 import { WeaponSlot, MechLoadout, EquippableMount, MechWeapon, Pilot } from '@/class'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
+import accent_fold from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'weapon-table',
@@ -183,7 +184,7 @@ export default Vue.extend({
       // filter already equipped
       if (vm.weaponSlot.Weapon) i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
 
-      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+      if (vm.search) i = i.filter(x => accent_fold(x.Name).toLowerCase().includes(accent_fold(vm.search).toLowerCase()))
       i = i.filter(x => !vm.loadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
       i = ItemFilter.FilterWeapons(i, this.detailFilter)
