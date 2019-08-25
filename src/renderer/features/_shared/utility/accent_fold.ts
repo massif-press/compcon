@@ -35,3 +35,9 @@ export default function accent_fold(s: string): string {
 	}
 	return ret;
 }
+
+export function includesIgnoringAccentsCase(haystack: string, needle: string): boolean {
+	const searchIn = accent_fold(haystack.toLowerCase())
+	const searchFor = accent_fold(needle.toLowerCase())
+	return searchIn.includes(searchFor)
+}

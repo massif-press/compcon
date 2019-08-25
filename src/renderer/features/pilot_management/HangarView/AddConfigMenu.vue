@@ -247,7 +247,7 @@ export default Vue.extend({
         i = i.filter((x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
 
       if (vm.search)
-        i = i.filter((x: Frame) => accent_fold(x.Name.toUpperCase()).includes(accent_fold(vm.search.toUpperCase())))
+        i = i.filter((x: Frame) => includesIgnoringAccentsCase(x.Name, vm.search))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
