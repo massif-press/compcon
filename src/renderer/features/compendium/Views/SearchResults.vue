@@ -66,7 +66,7 @@ import Vue from 'vue'
 import _ from 'lodash'
 import colors from '@/features/_shared/UI/CCColors'
 import { CompendiumItem, ItemType } from '@/class'
-import accent_fold from '@/features/_shared/utility/accent_fold';
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'search-results',
@@ -97,7 +97,7 @@ export default Vue.extend({
       if (!this.searchText) {
         return []
       }
-      const results = this.validResults.filter(r => includesIgnoringAccentsCase(r.Name, this.seachText))
+      const results = this.validResults.filter(r => includesIgnoringAccentsCase(r.Name, this.searchText))
       return results
     },
   },

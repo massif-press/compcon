@@ -37,7 +37,10 @@ export default function accent_fold(s: string): string {
 }
 
 export function includesIgnoringAccentsCase(haystack: string, needle: string): boolean {
+	console.log('haystack\n', haystack)
+	console.log('needle\n', needle)
 	const searchIn = accent_fold(haystack.toLowerCase())
 	const searchFor = accent_fold(needle.toLowerCase())
+	console.log('result', searchIn.includes(searchFor))
 	return searchIn.includes(searchFor)
 }

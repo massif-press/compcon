@@ -22,7 +22,6 @@
       <v-data-table
         :headers="headers"
         :items="weapons"
-        :search="search"
         :custom-sort="customSort"
         item-key="id"
         hide-actions
@@ -73,7 +72,7 @@ import Vue from 'vue'
 import { RangeElement, DamageElement, WeaponCard } from '@/features/pilot_management/components/UI'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import accent_fold from '@/features/_shared/utility/accent_fold'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 import { MechWeapon } from '@/class'
 
 export default Vue.extend({
