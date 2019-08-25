@@ -98,7 +98,7 @@ export default Vue.extend({
         return []
       }
       const results = this.validResults.filter(r =>
-        r.Name.toLowerCase().includes(accent_fold(this.searchText).toLowerCase())
+        accent_fold(r.Name).toLowerCase().includes(accent_fold(this.searchText).toLowerCase())
       )
       return results
     },
