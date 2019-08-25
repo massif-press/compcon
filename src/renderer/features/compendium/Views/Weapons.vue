@@ -100,7 +100,7 @@ export default Vue.extend({
         .filter((x: MechWeapon) => x.Source) as MechWeapon[]
 
       if (vm.search)
-        items = items.filter(x => accent_fold(x.Name.toLowerCase()).includes(accent_fold(vm.search.toLowerCase())))
+        items = items.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
 
       items = ItemFilter.FilterWeapons(items, this.detailFilter)
 

@@ -78,7 +78,7 @@ export default Vue.extend({
         .filter((x: WeaponMod) => x.Source)
 
       if (vm.search)
-        items = items.filter(x => accent_fold(x.Name.toLowerCase()).includes(accent_fold(vm.search.toLowerCase())))
+        items = items.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
 
       items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
 
