@@ -54,6 +54,7 @@ import { SystemCard } from '@/features/pilot_management/components/UI'
 import { WeaponMod, MechSystem } from '@/class'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
+import accent_fold from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'systems',
@@ -77,7 +78,7 @@ export default Vue.extend({
         .filter((x: WeaponMod) => x.Source)
 
       if (vm.search)
-        items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+        items = items.filter(x => accent_fold(x.Name).toLowerCase().includes(accent_fold(vm.search).toLowerCase()))
 
       items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
 

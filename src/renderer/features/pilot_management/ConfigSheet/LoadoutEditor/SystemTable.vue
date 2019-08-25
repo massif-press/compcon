@@ -115,6 +115,7 @@ import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
 import { rules } from 'lancer-data'
 import { item } from '../../../../mixins/data'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
+import accent_fold from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'system-table',
@@ -161,7 +162,7 @@ export default Vue.extend({
       // filter already equipped
       if (vm.currentEquip) i = i.filter(x => x.ID !== vm.currentEquip.ID)
 
-      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+      if (vm.search) i = i.filter(x => accent_fold(x.Name).toLowerCase().includes(accent_fold(vm.search).toLowerCase()))
 
       i = i.filter(x => !vm.loadout.UniqueSystems.map(y => y.ID).includes(x.ID))
 
