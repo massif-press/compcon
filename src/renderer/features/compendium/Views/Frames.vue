@@ -132,7 +132,7 @@ export default Vue.extend({
 
       if (vm.search) {
         const searchTerm = vm.search as string
-        i = i.filter((x: Frame) => accent_fold(x.Name).toUpperCase().includes(accent_fold(searchTerm).toUpperCase()))
+        i = i.filter((x: Frame) => accent_fold(x.Name.toUpperCase()).includes(accent_fold(searchTerm.toUpperCase())))
       }
 
       if (vm.filter.length) {
