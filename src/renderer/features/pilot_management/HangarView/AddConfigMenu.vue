@@ -220,6 +220,7 @@ import io from '@/features/_shared/data_io'
 import validator from '../logic/validator'
 import { Pilot, Frame, Mech, MechType } from '@/class'
 import { ItemCard } from '../components/UI'
+import accent_fold from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'new-config',
@@ -246,7 +247,7 @@ export default Vue.extend({
         i = i.filter((x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
 
       if (vm.search)
-        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
+        i = i.filter((x: Frame) => x.Name.toUpperCase().includes(accent_fold(vm.search).toUpperCase()))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
