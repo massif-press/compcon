@@ -61,9 +61,9 @@
       <v-list two line dense>
         <v-list-item v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
           <v-list-item-content>
-            <v-list-item-title
-              class="text-xs-right font-weight-bold effect-text"
-            >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-title>
+            <v-list-item-title class="text-xs-right font-weight-bold effect-text">
+              {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+            </v-list-item-title>
             <v-list-item-sub-title class="text-xs-right">{{ mech.Name }}</v-list-item-sub-title>
           </v-list-item-content>
         </v-list-item>
@@ -88,7 +88,9 @@
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog large no-confirm title="Options" ref="optionsModal">options test</cc-solo-dialog>
+    <cc-solo-dialog large no-confirm title="Options" ref="optionsModal">
+      options test
+    </cc-solo-dialog>
     <cc-solo-dialog large no-confirm title="About" ref="aboutModal">about test</cc-solo-dialog>
     <cc-solo-dialog large no-confirm title="Help" ref="helpModal">help test</cc-solo-dialog>
   </v-app-bar>

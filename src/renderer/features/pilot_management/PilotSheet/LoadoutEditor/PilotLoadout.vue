@@ -4,7 +4,8 @@
       <v-card-text>
         <p class="text-sm-center">
           <v-btn large @click="pilot.AddLoadout()" color="primary">
-            <v-icon>add</v-icon>Add New Loadout
+            <v-icon>add</v-icon>
+            Add New Loadout
           </v-btn>
         </p>
       </v-card-text>
@@ -88,17 +89,20 @@
 
             <v-card-actions>
               <v-btn slot="activator" flat @click="renameDialog = true">
-                <v-icon small left>edit</v-icon>Rename Loadout
+                <v-icon small left>edit</v-icon>
+                Rename Loadout
               </v-btn>
 
               <v-btn flat @click="pilot.CloneLoadout(pilotLoadout)">
-                <v-icon small left>file_copy</v-icon>Duplicate Loadout
+                <v-icon small left>file_copy</v-icon>
+                Duplicate Loadout
               </v-btn>
 
               <v-spacer />
 
               <v-btn slot="activator" flat color="error" @click="deleteDialog = true">
-                <v-icon small left>edit</v-icon>Delete Loadout
+                <v-icon small left>edit</v-icon>
+                Delete Loadout
               </v-btn>
             </v-card-actions>
           </v-card>

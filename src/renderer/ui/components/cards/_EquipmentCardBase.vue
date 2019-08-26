@@ -1,6 +1,6 @@
 <template>
   <v-card-text class="py-0">
-    <v-layout row class="stat-text" fill-height>
+    <v-layout class="stat-text" fill-height>
       <slot></slot>
     </v-layout>
 
@@ -9,12 +9,14 @@
         <v-divider class="mt-3" />
       </v-flex>
       <v-flex shrink class="mx-1">
-        <v-icon color="panel-border">cci-{{$_.kebabCase(item.ItemType)}}</v-icon>
+        <v-icon color="panel-border">cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
       </v-flex>
       <v-flex grow>
         <v-divider class="mt-3" />
       </v-flex>
     </v-layout>
+
+    <slot name="statblock"></slot>
 
     <div v-if="item.Description">
       <span class="overline ml-n2">COMPENDIUM ENTRY</span>
@@ -33,7 +35,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'cc-mech-card-base',
+  name: 'equipment-card-base',
   props: {
     item: {
       type: Object,

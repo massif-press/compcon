@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
     <v-layout>
+      <v-flex shrink>
+        <span class="flavor-text grey--text">{{ fItems.length }} Items</span>
+      </v-flex>
       <v-spacer />
       <v-flex xs3>
         <v-text-field
@@ -14,11 +17,8 @@
           clearable
         />
       </v-flex>
-      <v-flex shrink mx-2>
-        <!-- <v-btn fab small color="primary" dark @click="$refs.fpanel.show()">
-          <v-icon>mdi-filter-variant</v-icon>
-        </v-btn>-->
-        <cc-filter-panel ref="fpanel" />
+      <v-flex v-if="!noFilter" shrink mx-2>
+        <cc-filter-panel :item-type="itemType" @set-filters="setFilters" />
       </v-flex>
     </v-layout>
     <v-layout>
@@ -43,7 +43,7 @@
             <search-result-modal :item="item" :ref="`modal_${item.ID}`" />
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="stat-text">{{item.Name}}</span>
+            <span class="stat-text">{{ item.Name }}</span>
           </template>
           <template v-slot:item.Damage="{ item }">
             <cc-damage-element small :damage="item.Damage" />
@@ -59,6 +59,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import ItemFilter from '@/features/_shared/utility/ItemFilter'
 import SearchResultModal from './SearchResultModal.vue'
 
 export default Vue.extend({
@@ -73,10 +74,15 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    noFilter: {
+      type: Boolean,
+      required: false,
+    },
   },
   data: () => ({
     search: '',
-    filter: [],
+    filters: {},
+    itemType: '',
   }),
   computed: {
     fItems() {
@@ -85,9 +91,9 @@ export default Vue.extend({
 
       if (vm.search) i = i.filter(x => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
 
-      // if (vm.filter.length) {
-      //   i = i.filter(x => x.Mechtype.some(y => vm.filter.includes(y)))
-      // }
+      if (Object.keys(vm.filters).length) {
+        i = ItemFilter.Filter(i, vm.filters)
+      }
 
       return i
     },
@@ -107,6 +113,12 @@ export default Vue.extend({
       })
       return items
     },
+    setFilters(newFilter) {
+      ;(this as any).filters = newFilter
+    },
+  },
+  created() {
+    this.itemType = this.items[0].ItemType
   },
 })
 </script>

@@ -47,9 +47,9 @@ export default Vue.extend({
   name: 'home',
   components: { HomeCard },
   created() {
-      this.$store.commit('npcDesigner/load')
-      this.$store.commit('encounterBuilder/load')
-      this.$store.commit('encounterRunner/load')
-  }
+    this.$store.commit('npcDesigner/load')
+    this.$store.commit('encounterBuilder/load')
+    this.$store.commit('encounterRunner/load')
+  },
 })
 </script>

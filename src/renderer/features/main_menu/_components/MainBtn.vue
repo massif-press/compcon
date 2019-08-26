@@ -1,17 +1,17 @@
 <template>
-  <v-flex style="position: relative;">
+  <div style="height: 70px" class="my-4">
     <div
+      id="btn-main"
       @mouseenter="$emit('hover')"
       @mouseover="mouseOver = true"
       @mouseleave="mouseOver = false"
-      id="btn-main"
       @click="$router.push(to)"
     >
-      <div class="heading pb-1" id="unskew">
-        <slot></slot>
+      <div id="unskew" class="heading pb-1">
+        <slot />
       </div>
     </div>
-  </v-flex>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,10 +19,15 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'main-btn',
+  props: {
+    to: {
+      type: String,
+      required: true,
+    },
+  },
   data: () => ({
     mouseOver: false,
   }),
-  props: ['to'],
 })
 </script>
 
@@ -59,7 +64,7 @@ export default Vue.extend({
   cursor: pointer;
   height: 70px;
   width: 620px;
-  left: -60px;
+  left: -30px;
   transform: skew(-0.65rad);
   background: var(--v-primary-base);
   z-index: 5;
@@ -100,5 +105,3 @@ export default Vue.extend({
   transition: all ease-in-out 0.45s;
 }
 </style>
-
-

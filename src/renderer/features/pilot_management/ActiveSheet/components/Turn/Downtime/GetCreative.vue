@@ -1,10 +1,13 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
+      <v-layout wrap class="text-center">
         <v-flex xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
-            You tweak something or attempt to make something new, either a physical project, or a piece of software. It doesn’t have to be something on the a gear list, but it generally can’t be something as impactful as a piece of mech gear. Once finished, you can use it as
+            You tweak something or attempt to make something new, either a physical project, or a
+            piece of software. It doesn’t have to be something on the a gear list, but it generally
+            can’t be something as impactful as a piece of mech gear. Once finished, you can use it
+            as
             <strong>reserves.</strong>
           </p>
           <v-divider class="ma-2" />
@@ -19,7 +22,7 @@
                       <v-toolbar-title class="minor-title">New Project</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="effect-text pa-2">
-                      <v-layout row wrap>
+                      <v-layout wrap>
                         <v-flex xs7>
                           <v-text-field v-model="project_name" label="Project Name" />
                         </v-flex>
@@ -27,14 +30,17 @@
                         <v-flex xs3>
                           <v-tooltip top>
                             <v-switch slot="activator" v-model="complicated" label="Complicated" />
-                            <span>This project is complex, resource-intensive, or generally difficult to complete</span>
+                            <span>
+                              This project is complex, resource-intensive, or generally difficult to
+                              complete
+                            </span>
                           </v-tooltip>
                         </v-flex>
                         <v-flex xs12>
                           <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
                         </v-flex>
                       </v-layout>
-                      <v-layout row>
+                      <v-layout>
                         <v-flex xs12>
                           <div style="margin-left: 35%; margin-right: 35%">
                             <v-text-field
@@ -52,16 +58,18 @@
                         </v-flex>
                       </v-layout>
                       <v-slide-y-transition>
-                        <v-layout v-show="initialRoll" row wrap class="text-xs-center">
+                        <v-layout v-show="initialRoll" wrap class="text-center">
                           <v-flex xs12 v-if="initialRoll < 10">
-                            <p
-                              class="pt-2 pb-0 ma-0 effect-text"
-                            >You don’t make any progress on this project for now</p>
+                            <p class="pt-2 pb-0 ma-0 effect-text">
+                              You don’t make any progress on this project for now
+                            </p>
                           </v-flex>
                           <v-flex xs12 v-else-if="initialRoll < 20">
-                            <p
-                              class="pt-2 pb-0 ma-0 effect-text"
-                            >You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:</p>
+                            <p class="pt-2 pb-0 ma-0 effect-text">
+                              You can make progress on your project, but can’t finish it. You can
+                              finish it next time you have downtime without a roll if you get some
+                              things before then:
+                            </p>
                             <v-combobox
                               class="mr-5 ml-5"
                               v-model="cost"
@@ -77,9 +85,11 @@
                               <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                             </div>
                             <div v-else>
-                              <p
-                                class="pt-2 pb-0 ma-0 effect-text"
-                              >You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:</p>
+                              <p class="pt-2 pb-0 ma-0 effect-text">
+                                You can make progress on your project, but can’t finish it. You can
+                                finish it next time you have downtime without a roll if you get some
+                                things before then:
+                              </p>
                               <v-combobox
                                 class="mr-5 ml-5"
                                 v-model="cost"
@@ -107,23 +117,22 @@
                       v-for="(p, i) in projects"
                       :key="p.ResourceName + i"
                       @click="improveSelection = p"
-                    >{{p.ResourceName}}</v-btn>
+                    >
+                      {{ p.ResourceName }}
+                    </v-btn>
                   </div>
                   <v-slide-x-transition>
                     <div v-show="improveSelection">
                       <div v-if="improveSelection">
-                        <v-layout row wrap>
+                        <v-layout wrap>
                           <v-flex xs12 class="text-xs-left">
-                            <v-btn
-                              small
-                              outline
-                              @click="improveSelection = null"
-                            >Select another project</v-btn>
+                            <v-btn small outline @click="improveSelection = null">
+                              Select another project
+                            </v-btn>
                           </v-flex>
-                          <v-flex
-                            xs12
-                            class="text-xs-center minor-title"
-                          >Working on {{improveSelection.ResourceName}}</v-flex>
+                          <v-flex xs12 class="text-center minor-title">
+                            Working on {{ improveSelection.ResourceName }}
+                          </v-flex>
                           <v-flex xs12>
                             <v-alert
                               :value="improveSelection.ResourceCost"
@@ -131,19 +140,17 @@
                               class="text-xs-left"
                               outline
                             >
-                              <v-layout row>
+                              <v-layout>
                                 <v-flex>
                                   <b class="minor-title">COMPLETE IMMEDIATELY</b>
                                   <br />
-                                  <p class="pt-2">{{improveSelection.ResourceCost}}</p>
+                                  <p class="pt-2">{{ improveSelection.ResourceCost }}</p>
                                   <v-spacer />
                                 </v-flex>
                                 <v-flex shrink>
-                                  <v-btn
-                                    class="mt-3"
-                                    color="success"
-                                    @click="completeProject()"
-                                  >Complete</v-btn>
+                                  <v-btn class="mt-3" color="success" @click="completeProject()">
+                                    Complete
+                                  </v-btn>
                                 </v-flex>
                               </v-layout>
                             </v-alert>
@@ -163,16 +170,18 @@
                           </v-flex>
                         </v-layout>
                         <v-slide-y-transition>
-                          <v-layout v-show="improveRoll" row wrap class="text-xs-center">
+                          <v-layout v-show="improveRoll" wrap class="text-center">
                             <v-flex xs12 v-if="improveRoll < 10 && !improveSelection.Progress">
-                              <p
-                                class="pt-2 pb-0 ma-0 effect-text"
-                              >You don’t make any progress on this project for now</p>
+                              <p class="pt-2 pb-0 ma-0 effect-text">
+                                You don’t make any progress on this project for now
+                              </p>
                             </v-flex>
                             <v-flex xs12 v-else-if="improveRoll < 20">
-                              <p
-                                class="pt-2 pb-0 ma-0 effect-text"
-                              >You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:</p>
+                              <p class="pt-2 pb-0 ma-0 effect-text">
+                                You can make progress on your project, but can’t finish it. You can
+                                finish it next time you have downtime without a roll if you get some
+                                things before then:
+                              </p>
                               <v-combobox
                                 class="mr-5 ml-5"
                                 v-model="cost"
@@ -188,9 +197,11 @@
                                 <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                               </div>
                               <div v-else>
-                                <p
-                                  class="pt-2 pb-0 ma-0 effect-text"
-                                >You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:</p>
+                                <p class="pt-2 pb-0 ma-0 effect-text">
+                                  You can make progress on your project, but can’t finish it. You
+                                  can finish it next time you have downtime without a roll if you
+                                  get some things before then:
+                                </p>
                                 <v-combobox
                                   class="mr-5 ml-5"
                                   v-model="cost"
@@ -222,16 +233,28 @@
         v-if="tabs === 0"
         large
         color="primary"
-        :disabled="(!initialRoll || !project_name)"
+        :disabled="!initialRoll || !project_name"
         @click="addProject()"
-      >Add Project</v-btn>
+      >
+        Add Project
+      </v-btn>
       <v-btn
         v-else
         large
         color="primary"
-        @click="!improveSelection.IsComplicated && improveRoll >= 20 ? completeProject() : improveProject()"
-        :disabled="(!improveRoll)"
-      >{{!improveSelection.IsComplicated && improveRoll >= 20 ? 'Complete Project': 'Update Project'}}</v-btn>
+        @click="
+          !improveSelection.IsComplicated && improveRoll >= 20
+            ? completeProject()
+            : improveProject()
+        "
+        :disabled="!improveRoll"
+      >
+        {{
+          !improveSelection.IsComplicated && improveRoll >= 20
+            ? 'Complete Project'
+            : 'Update Project'
+        }}
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

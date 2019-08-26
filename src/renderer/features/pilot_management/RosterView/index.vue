@@ -3,7 +3,7 @@
     <v-container fluid class="pa-0 pt-3">
       <v-layout>
         <v-flex><hr class="mr-2 ml-2 mt-4" /></v-flex>
-        <v-flex shrink class="ml-2 mr-2 text-xs-center roster-title">
+        <v-flex shrink class="ml-2 mr-2 text-center roster-title">
           <span>pilot roster</span>
         </v-flex>
         <v-flex><hr class="mr-2 ml-2 mt-4" /></v-flex>
@@ -32,7 +32,7 @@
       </v-tooltip>
     </v-container>
     <v-container grid-list-xl fluid>
-      <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
+      <v-layout wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(p, i) in pilots" :key="p.id" class="mb-4" xs3>
           <pilot-card :pilot="p" :p-idx="i" :card-height="cardHeight" />
         </v-flex>

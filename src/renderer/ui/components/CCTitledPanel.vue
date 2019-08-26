@@ -1,15 +1,15 @@
 <template>
-  <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : '' }`" @click="$emit('click')">
+  <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : ''}`" @click="$emit('click')">
     <v-toolbar
       :color="color"
       dark
       flat
       dense
-      :class="`clipped-large-invert ${clickable ? 'titlebar' : '' }`"
+      :class="`clipped-large-invert ${clickable ? 'titlebar' : ''}`"
     >
       <v-toolbar-title>
-        <v-icon v-if="icon" x-large left>{{icon}}</v-icon>
-        <span :class="`heading h3 ${clickable ? 'underline-slide' : '' }`">{{title}}</span>
+        <v-icon v-if="icon" x-large left>{{ icon }}</v-icon>
+        <span :class="`heading h3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
       </v-toolbar-title>
     </v-toolbar>
 

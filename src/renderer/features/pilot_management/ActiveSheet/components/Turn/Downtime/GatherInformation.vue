@@ -1,15 +1,20 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
+      <v-layout wrap class="text-center">
         <v-flex xs12 class="effect-text">
-          <p
-            class="pt-2 pb-0 ma-0"
-          >You poke your nose around, perhaps where it doesn’t belong. You’re investigating something, doing research, following up on a mystery, tracking a target, or keeping an eye on something. You might be doing research in a library, or go undercover in an organization to learn what you can. Whatever you’re doing, you’re generally trying to gather information on a subject of your choosing.</p>
+          <p class="pt-2 pb-0 ma-0">
+            You poke your nose around, perhaps where it doesn’t belong. You’re investigating
+            something, doing research, following up on a mystery, tracking a target, or keeping an
+            eye on something. You might be doing research in a library, or go undercover in an
+            organization to learn what you can. Whatever you’re doing, you’re generally trying to
+            gather information on a subject of your choosing.
+          </p>
           <v-divider class="ma-2" />
           <p class="pt-2 pb-0 ma-0 minor-title">
             Roll
-            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>&nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
+            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
+            &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
         </v-flex>
         <v-flex xs12>
@@ -28,27 +33,25 @@
         </v-flex>
       </v-layout>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" row wrap class="text-xs-center">
+        <v-layout v-show="skillRoll" wrap class="text-center">
           <v-flex xs12 v-if="skillRoll < 10">
-            <p
-              class="pt-2 pb-0 ma-0 minor-title"
-            >You can choose to get out now, or get what you are looking for. If you choose the latter, you get your information but it immediately gets you into trouble.</p>
+            <p class="pt-2 pb-0 ma-0 minor-title">
+              You can choose to get out now, or get what you are looking for. If you choose the
+              latter, you get your information but it immediately gets you into trouble.
+            </p>
             <v-slide-x-transition>
               <v-btn v-show="!commit" large color="success" @click="close">Get out now</v-btn>
             </v-slide-x-transition>
             <v-slide-x-reverse-transition>
-              <v-btn
-                v-show="!commit"
-                large
-                color="warning"
-                @click="commit = true"
-              >Get what you are looking for</v-btn>
+              <v-btn v-show="!commit" large color="warning" @click="commit = true">
+                Get what you are looking for
+              </v-btn>
             </v-slide-x-reverse-transition>
           </v-flex>
           <v-flex xs12 v-else-if="skillRoll < 20">
-            <p
-              class="pt-2 pb-0 ma-0 minor-title"
-            >you find the information you’ve looking for. However...</p>
+            <p class="pt-2 pb-0 ma-0 minor-title">
+              you find the information you’ve looking for. However...
+            </p>
             <v-card class="pa-1 ma-0" color="grey lighten-4">
               <v-card-text class="pa-1 ma-0">
                 <v-radio-group v-model="choice" mandatory>
@@ -59,12 +62,14 @@
             </v-card>
           </v-flex>
           <v-flex xs12 v-else>
-            <p class="pt-2 pb-0 ma-0 minor-title">You get your information cleanly, no complications</p>
+            <p class="pt-2 pb-0 ma-0 minor-title">
+              You get your information cleanly, no complications
+            </p>
           </v-flex>
           <v-flex xs12>
             <v-slide-y-transition>
               <v-card
-                v-show="skillRoll >= 10 || skillRoll < 10 && commit"
+                v-show="skillRoll >= 10 || (skillRoll < 10 && commit)"
                 color="grey lighten-4"
                 class="ml-5 mr-5 mt-2"
               >
@@ -89,7 +94,9 @@
         color="primary"
         @click="addReserve"
         :disabled="skillRoll === '' || details === ''"
-      >add reserve</v-btn>
+      >
+        add reserve
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

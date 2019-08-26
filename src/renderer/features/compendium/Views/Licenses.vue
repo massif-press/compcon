@@ -2,7 +2,7 @@
   <v-container fluid px-5>
     <h1 class="heading">LICENSES</h1>
     <v-layout v-for="m in Object.keys(licenses)" :key="m">
-      <v-flex class="text-xs-center pa-3">
+      <v-flex class="text-center pa-3">
         <span class="heading mech">{{ manufacturer(m).name }}</span>
         <v-expansion-panels accordion focusable active-class="border-primary">
           <v-expansion-panel class="border-highlight" v-for="l in licenses[m]" :key="l.FrameID">
@@ -21,7 +21,9 @@
                   outlined
                   color="primary"
                   class="mr-2"
-                >{{ m }}</v-chip>
+                >
+                  {{ m }}
+                </v-chip>
               </div>
               <v-img
                 :src="frame(l.FrameID).DefaultImage"

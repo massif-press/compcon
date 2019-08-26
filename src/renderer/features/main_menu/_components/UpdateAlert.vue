@@ -10,7 +10,7 @@
       </div>
       <div style="position: absolute; right: 5vw; z-index: 11">
         <v-btn
-          :class="{'pulse' : !expanded && canUpdate}"
+          :class="{ pulse: !expanded && canUpdate }"
           large
           fab
           @mouseenter="$emit('hover')"
@@ -20,10 +20,11 @@
           style="box-shadow: 0 0 0 0"
         >
           <transition name="spin" mode="out-in">
-            <v-icon
-              v-bind:key="expanded"
-              x-large
-            >{{ expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'}}</v-icon>
+            <v-icon v-bind:key="expanded" x-large>
+              {{
+                expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
+              }}
+            </v-icon>
           </transition>
         </v-btn>
       </div>
@@ -99,4 +100,3 @@ export default Vue.extend({
   top: 75px;
 }
 </style>
-

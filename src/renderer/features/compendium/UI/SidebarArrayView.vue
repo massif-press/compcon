@@ -5,15 +5,17 @@
       v-for="(e, i) in array"
       :key="`${i}_sidebar'`"
       link
-      @click="$vuetify.goTo(`#e_${e.ID}`, {
-              duration: 150,
-              easing: 'easeInOutQuad',
-              offset: 25
-            })"
+      @click="
+        $vuetify.goTo(`#e_${e.ID}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+        })
+      "
     >
-      <v-list-item-title class="heading h3 ml-2">{{e[nameKey]}}</v-list-item-title>
+      <v-list-item-title class="heading h3 ml-2">{{ e[nameKey] }}</v-list-item-title>
     </v-list-item>
-    <h1 class="heading mb-3 ml-5">{{title}}</h1>
+    <h1 class="heading mb-3 ml-5">{{ title }}</h1>
     <cc-titled-panel
       v-for="(e, i) in array"
       :id="`e_${e.ID}`"
@@ -64,4 +66,3 @@ export default Vue.extend({
   },
 })
 </script>
-

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="heading h2 text--text">{{cs.Name}}</span>
+    <span class="heading h2 text--text">{{ cs.Name }}</span>
     <p v-html="cs.Description" class="flavor-text" />
 
     <div v-if="cs.Passive">
@@ -8,11 +8,11 @@
       <p v-html="cs.Passive" class="effect-text panel pa-2" />
     </div>
 
-    <span class="heading sub">ACTIVE {{cs.Active ? ` - ${cs.Active}`: ''}}</span>
+    <span class="heading sub">ACTIVE {{ cs.Active ? ` - ${cs.Active}` : '' }}</span>
     <p v-html="cs.Effect" class="effect-text panel-block pa-2" />
 
     <div v-if="cs.Integrated">
-      <span class="heading sub">CORE INTEGRATED WEAPON - {{cs.Integrated.Name}}</span>
+      <span class="heading sub">CORE INTEGRATED WEAPON - {{ cs.Integrated.Name }}</span>
       <div class="panel-block pa-2 mt-1 mb-3">
         <mech-weapon-card :item="cs.Integrated" />
       </div>

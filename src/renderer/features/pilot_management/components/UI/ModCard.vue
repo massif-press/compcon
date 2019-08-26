@@ -1,7 +1,7 @@
 <template>
   <div class="ma-1">
     <v-card flat color="blue-grey lighten-3" class="ma-2">
-      <v-card-text class="title text-xs-center pb-1 pt-2">
+      <v-card-text class="title text-center pb-1 pt-2">
         <span
           :class="missing ? 'grey--text' : ''"
           v-html="missing ? '// MISSING MOD DATA // ' : modData.name"

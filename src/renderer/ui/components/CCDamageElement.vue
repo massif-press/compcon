@@ -8,15 +8,15 @@
     >
       <cc-tooltip :title="d.Type || ''" :content="d.Text || ''">
         <span v-if="small">
-          <v-icon :color="d.Color">{{d.Icon}}</v-icon>
+          <v-icon :color="d.Color">{{ d.Icon }}</v-icon>
           <v-icon v-if="d.Override">mdi-information-outline</v-icon>
-          <span v-else>{{d.Value}}</span>
+          <span v-else>{{ d.Value }}</span>
         </span>
         <div v-else class="clip-icon">
-          <v-icon x-large :color="d.Color">{{d.Icon}}</v-icon>
+          <v-icon x-large :color="d.Color">{{ d.Icon }}</v-icon>
         </div>
       </cc-tooltip>
-      <span v-if="!small">{{d.Value}}</span>
+      <span v-if="!small">{{ d.Value }}</span>
     </div>
   </div>
 </template>

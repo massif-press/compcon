@@ -1,7 +1,7 @@
 <template>
   <v-bottom-sheet v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn v-if="flat" flat v-on="on">
+      <v-btn v-if="flat" text v-on="on">
         <slot name="button"></slot>
       </v-btn>
       <cc-btn v-else v-on="on">
@@ -13,7 +13,7 @@
       <cc-titlebar>
         <slot name="title"></slot>
         <template v-slot:items>
-          <v-btn text dark @click="dialog=false">
+          <v-btn text dark @click="dialog = false">
             <v-icon x-large>close</v-icon>
           </v-btn>
         </template>

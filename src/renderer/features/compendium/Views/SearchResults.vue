@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap justify-center class="mt-5 px-5">
+    <v-layout wrap justify-center class="mt-5 px-5">
       <v-flex xs8 px-2 pb-3>
         <v-text-field
           ref="input"
@@ -15,9 +15,11 @@
         />
       </v-flex>
       <v-flex>
-        <v-subheader>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</v-subheader>
+        <v-subheader>
+          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+        </v-subheader>
         <v-slide-y-reverse-transition mode="out-in">
-          <v-layout row wrap fill-height :key="searchText">
+          <v-layout wrap fill-height :key="searchText">
             <v-flex grow xs4 class="px-2 py-2" :key="index" v-for="(item, index) in searchResults">
               <cc-titled-panel
                 :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
@@ -33,7 +35,7 @@
               </cc-titled-panel>
               <search-result-modal :item="item" :ref="`modal_${item.ID}`" />
             </v-flex>
-            <v-flex xs12><br></v-flex>
+            <v-flex xs12><br /></v-flex>
           </v-layout>
         </v-slide-y-reverse-transition>
       </v-flex>

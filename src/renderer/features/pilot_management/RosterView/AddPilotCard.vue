@@ -7,8 +7,8 @@
       flat
       height="302px"
     >
-      <v-layout row>
-        <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
+      <v-layout>
+        <v-flex class="ma-0 pb-0 pt-0 text-center">
           <div style="display:table; width:100%; cursor: pointer;">
             <span class="pilot-letter">
               <v-icon dark size="300px" style="width:100%">cci-pilot</v-icon>
@@ -16,7 +16,7 @@
           </div>
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout>
         <v-flex class="mt-0 pt-0">
           <v-card
             dark
@@ -25,7 +25,7 @@
             :class="`elevation-${hover ? 12 : 0} mt-0 pt-0`"
             height="100%"
           >
-            <v-card-text class="text-xs-center white--text">
+            <v-card-text class="text-center white--text">
               <span class="font-weight-light center-align add-letter">
                 Add New Pilot
               </span>

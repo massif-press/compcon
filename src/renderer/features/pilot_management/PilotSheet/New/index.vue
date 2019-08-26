@@ -43,7 +43,7 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-container>
-                <v-layout justify-space-between align-center row fill-height>
+                <v-layout justify-space-between align-centerfill-height>
                   <v-flex xs7>
                     <v-text-field v-model="newPilot.callsign" clearable>
                       <v-tooltip top slot="prepend-inner">
@@ -112,7 +112,7 @@
                               class="d-flex grey lighten-2"
                               style="height: 100%; align-items:center"
                             >
-                              <span class="text-xs-center display-1 grey--text">
+                              <span class="text-center display-1 grey--text">
                                 No Pilot Portrait
                               </span>
                             </div>
@@ -257,7 +257,7 @@
                       {{ newPilot.history }}
                     </blockquote>
                   </v-flex>
-                  <v-layout row justify-space-around>
+                  <v-layout justify-space-around>
                     <v-flex xs4>
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">

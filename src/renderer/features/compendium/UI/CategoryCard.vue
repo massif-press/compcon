@@ -3,28 +3,29 @@
     <v-hover v-slot:default="{ hover }">
       <v-card
         id="underline-parent"
-        :class="`clipped-x-large ${hover?'on-hover':''}`"
+        :class="`clipped-x-large ${hover ? 'on-hover' : ''}`"
         :to="loc"
         height="10em"
         :color="color"
         tile
         outlined
       >
-        <v-icon
-          size="100"
-          class="pa-0 ma-0"
-          style="position: absolute; bottom: -5px; left: 0"
-          dark
-        >{{ icon }}</v-icon>
+        <v-icon size="100" class="pa-0 ma-0" style="position: absolute; bottom: -5px; left: 0" dark>
+          {{ icon }}
+        </v-icon>
         <v-card-actions
           id="card-actions"
           class="text-right"
-          :style="`display: inline-block; position: absolute; width: 100%; top: 0; left: 0; color: black; background: white`"
+          :style="
+            `display: inline-block; position: absolute; width: 100%; top: 0; left: 0; color: black; background: white`
+          "
         >
           <span
             style="position:absolute; top: 0; right: 0; display: contents; font-size: 22pt"
             class="underline-slide px-4 heading h2"
-          >{{ name }}</span>
+          >
+            {{ name }}
+          </span>
         </v-card-actions>
       </v-card>
     </v-hover>

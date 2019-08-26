@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
+      <v-layout wrap class="text-center">
         <v-flex xs12 class="effect-text">
-          <p
-            class="pt-2 pb-0 ma-0"
-          >You focus on increasing your own skills, training, and self-improvement. You might practice, learn, meditate, or call on a teacher.</p>
+          <p class="pt-2 pb-0 ma-0">
+            You focus on increasing your own skills, training, and self-improvement. You might
+            practice, learn, meditate, or call on a teacher.
+          </p>
           <v-divider class="ma-2" />
           <v-card>
             <v-tabs v-model="tabs" dark color="primary" slider-color="yellow" grow>
@@ -13,7 +14,7 @@
               <v-tab :disabled="!customSkills.length">Improve Custom Skill</v-tab>
               <v-tab-item>
                 <v-card-text>
-                  <v-layout row>
+                  <v-layout>
                     <v-flex shrink>
                       <v-chip large color="primary" dark class="title" style="margin-top: 12px">
                         <span class="title">+2</span>
@@ -58,7 +59,9 @@
         color="primary"
         @click="tabs === 0 ? addSkill() : improveSkill()"
         :disabled="(tabs === 0 && !newSkill) || (tabs === 1 && !improve)"
-      >{{tabs === 0 ? 'Add Skill': 'Improve Skill'}}</v-btn>
+      >
+        {{ tabs === 0 ? 'Add Skill' : 'Improve Skill' }}
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

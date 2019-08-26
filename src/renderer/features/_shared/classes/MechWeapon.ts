@@ -1,6 +1,16 @@
 import store from '@/store'
 import _ from 'lodash'
-import { Damage, Range, WeaponMod, WeaponSize, WeaponType, ItemType, MechEquipment } from '@/class'
+import {
+  Damage,
+  Range,
+  WeaponMod,
+  WeaponSize,
+  WeaponType,
+  ItemType,
+  MechEquipment,
+  DamageType,
+  RangeType,
+} from '@/class'
 
 // TODO:
 // class WeaponAmmo {}
@@ -42,8 +52,16 @@ class MechWeapon extends MechEquipment {
     return this.damage || []
   }
 
+  public get DamageType(): DamageType[] {
+    return this.damage.map(x => x.Type)
+  }
+
   public get Range(): Range[] {
     return this.range || []
+  }
+
+  public get RangeType(): RangeType[] {
+    return this.range.map(x => x.Type)
   }
 
   public set Mod(mod: WeaponMod | null) {

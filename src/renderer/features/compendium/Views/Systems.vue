@@ -2,50 +2,6 @@
   <v-container fluid>
     <h1 class="heading">MECH SYSTEMS</h1>
     <compendium-table :headers="headers" :items="systems" />
-    <!-- <v-card>
-      <v-layout row class="pa-3">
-        <v-flex>
-          <v-text-field
-            class="search-field ma-2"
-            prepend-icon="search"
-            v-model="search"
-            flat
-            hide-details
-            single-line
-            placeholder="Search"
-            clearable
-          />
-        </v-flex>
-        <v-flex shrink>
-          <filter-panel system include-mods @update="updateFilter" />
-        </v-flex>
-      </v-layout>
-      <v-data-table :headers="headers" :items="systems" item-key="id" hide-actions>
-        <template slot="items" slot-scope="props">
-          <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-left">
-              <span class="subheading">{{ props.item.Source }}</span>
-            </td>
-            <td class="text-xs-left">
-              <span class="title">{{ props.item.Name }}</span>
-            </td>
-            <td class="text-xs-left">
-              <span class="subheading">{{ props.item.LicenseString }}</span>
-            </td>
-            <td class="text-xs-left">
-              <span class="subheading">{{ props.item.SP }}</span>
-            </td>
-          </tr>
-        </template>
-        <template slot="expand" slot-scope="props">
-          <v-card flat>
-            <v-card-text>
-              <system-card :itemData="props.item" table-item />
-            </v-card-text>
-          </v-card>
-        </template>
-      </v-data-table>
-    </v-card>-->
   </v-container>
 </template>
 
@@ -53,7 +9,7 @@
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
 import { SystemCard } from '@/features/pilot_management/components/UI'
-import { WeaponMod, MechSystem } from '@/class'
+import { WeaponMod, MechSystem, MechEquipment } from '@/class'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
 
@@ -71,32 +27,11 @@ export default Vue.extend({
     ],
     systems: [],
   }),
-  // computed: {
-  //   systems(): MechSystem[] {
-  //     const vm = this as any
-  //     let items = vm.$store.getters
-  //       .getItemCollection('MechSystems')
-  //       .concat(this.$store.getters.getItemCollection('WeaponMods'))
-  //       .filter((x: WeaponMod) => x.Source)
-
-  //     if (vm.search)
-  //       items = items.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
-
-  //     items = ItemFilter.FilterSystemsCompendium(items, this.detailFilter)
-
-  //     return items
-  //   },
-  // },
-  // methods: {
-  //   updateFilter(filter) {
-  //     this.detailFilter = filter
-  //     this.$forceUpdate()
-  //   },
-  // },
   created() {
     this.systems = this.$store.getters
       .getItemCollection('MechSystems')
-      .filter((x: MechSystem) => x.Source) as MechSystem[]
+      .concat(this.$store.getters.getItemCollection('WeaponMods'))
+      .filter((x: MechEquipment) => x.Source) as MechEquipment[]
   },
 })
 </script>

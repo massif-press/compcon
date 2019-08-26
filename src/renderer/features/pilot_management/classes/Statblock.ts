@@ -18,8 +18,8 @@ class Statblock {
   ${pilot.Name} 
   ${pilot.Background.Name}, LL${pilot.Level}
   GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${
-        pilot.MechSkills.Sys
-      } E:${pilot.MechSkills.Eng}\n`
+  pilot.MechSkills.Sys
+} E:${pilot.MechSkills.Eng}\n`
 
       output += `[ SKILL TRIGGERS ]\n`
       for (let i = 0; i < pilot.Skills.length; i++) {

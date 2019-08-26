@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
     <v-card tile>
-      <cc-titlebar :icon="icon" :color="color">{{title}}</cc-titlebar>
+      <cc-titlebar :icon="icon" :color="color">{{ title }}</cc-titlebar>
 
       <v-card-text>
         <slot></slot>

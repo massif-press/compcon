@@ -14,7 +14,7 @@
           </h1>
         </v-flex>
         <v-flex class="ml-5">
-          <v-layout justify-space-between class="text-xs-center">
+          <v-layout justify-space-between class="text-center">
             <v-flex class="p-reg">
               <b>HULL</b>
               <br />
@@ -61,7 +61,7 @@
               </span>
             </v-flex>
           </v-layout>
-          <v-layout justify-space-between class="text-xs-center mt-2">
+          <v-layout justify-space-between class="text-center mt-2">
             <v-flex class="p-reg">
               <b>SPEED</b>
               <br />
@@ -107,7 +107,7 @@
       </v-layout>
 
       <hr class="ma-2" />
-      <v-layout justify-space-around class="text-xs-center">
+      <v-layout justify-space-around class="text-center">
         <v-flex shrink>
           <span class="p-reg">STRUCTURE</span>
           <br />
@@ -178,7 +178,7 @@
 
       <hr class="ma-2" />
 
-      <v-layout row>
+      <v-layout>
         <v-flex xs6>
           <span class="label">TRAITS</span>
           <br />
@@ -192,7 +192,7 @@
         <v-flex xs6>
           <span class="label">CORE System</span>
           <br />
-          <v-flex class="text-xs-center">
+          <v-flex class="text-center">
             <span class="p-large">{{ config.Frame.CoreSystem.Name }}</span>
             <br />
           </v-flex>
@@ -218,7 +218,7 @@
       <div v-if="loadout">
         <span class="label" style="page-break-inside: avoid">MOUNTS</span>
         <br />
-        <v-layout row>
+        <v-layout>
           <v-flex>
             <v-layout
               v-for="(mount, index) in loadout.IntegratedMounts"
@@ -263,7 +263,7 @@
                   <div class="p-bordered mt-1 mb-1 pa-0">
                     <span class="p-mount-title">{{ mount.Type }}</span>
                     <div class="mount-interior">
-                      <div v-if="mount.IsLocked" class="text-xs-center">
+                      <div v-if="mount.IsLocked" class="text-center">
                         <i style="letter-spacing: 5px; color: grey;">
                           MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING
                         </i>
@@ -322,7 +322,7 @@
 
         <span class="label" style="page-break-inside: avoid">SYSTEMS</span>
         <br />
-        <v-layout row>
+        <v-layout>
           <v-flex>
             <v-layout v-for="(sys, index) in config.IntegratedSystems" :key="'system_' + index" row>
               <v-flex>

@@ -24,8 +24,8 @@ import ScrollSpy, { Easing } from 'vue2-scrollspy'
 
 import mixins from './mixins'
 
-import _ from 'lodash';    
-Object.defineProperty(Vue.prototype, '$_', { value: _ });
+import _ from 'lodash'
+Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
 const windowAny: any = window
 
@@ -50,8 +50,8 @@ Vue.use(ScrollSpy, {
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
 mixins.forEach(m => {
-  Vue.mixin(m);
-});
+  Vue.mixin(m)
+})
 
 new Vue({
   components: { App },

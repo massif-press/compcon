@@ -7,7 +7,7 @@
   <!-- <v-container fluid px-5>
     <span class="display-1 text-uppercase font-weight-thin">MECH WEAPONS</span>
     <v-card>
-      <v-layout row class="pa-3">
+      <v-layout class="pa-3">
         <v-flex>
           <v-text-field
             class="search-field ma-2"

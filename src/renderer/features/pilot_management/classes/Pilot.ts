@@ -473,7 +473,7 @@ class Pilot {
   public get IsMissingCBs(): boolean {
     return this.CurrentCBPoints < this.MaxCBPoints
   }
-  
+
   public get TooManyCBs(): boolean {
     return this.CurrentCBPoints > this.MaxCBPoints
   }

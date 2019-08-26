@@ -1,13 +1,14 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
+      <v-layout wrap class="text-center">
         <v-flex xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             Name what you want. You can
-            <strong>always</strong> get it,
-            but the GM chooses
-            <strong>one or two</strong> complications, depending on how outlandish the request is
+            <strong>always</strong>
+            get it, but the GM chooses
+            <strong>one or two</strong>
+            complications, depending on how outlandish the request is
           </p>
         </v-flex>
         <v-divider class="ma-2" />
@@ -50,7 +51,9 @@
         color="primary"
         @click="addReserve"
         :disabled="complication1 === 'None' || !$refs.rs.reserveComplete"
-      >add reserve</v-btn>
+      >
+        add reserve
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

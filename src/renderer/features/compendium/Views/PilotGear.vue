@@ -12,13 +12,13 @@
       <v-tab ripple>WEAPONS</v-tab>
       <v-tab ripple>GEAR</v-tab>
       <v-tab-item>
-        <compendium-table :headers="armor_headers" :items="armor" />
+        <compendium-table no-filter :headers="armor_headers" :items="armor" />
       </v-tab-item>
       <v-tab-item>
-        <compendium-table :headers="weapon_headers" :items="weapons" />
+        <compendium-table no-filter :headers="weapon_headers" :items="weapons" />
       </v-tab-item>
       <v-tab-item>
-        <compendium-table :headers="gear_headers" :items="gear" />
+        <compendium-table no-filter :headers="gear_headers" :items="gear" />
       </v-tab-item>
     </v-tabs>
   </v-container>

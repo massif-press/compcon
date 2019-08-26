@@ -42,26 +42,24 @@ class MechLoadout extends Loadout {
 
   public UpdateIntegrated(mech: Mech) {
     mech.IntegratedSystems.forEach(s => {
-      if (!this.integratedSystems.find(x => x.ID === s.ID))
-        this.integratedSystems.push(s)
-    });
+      if (!this.integratedSystems.find(x => x.ID === s.ID)) this.integratedSystems.push(s)
+    })
 
     this.integratedSystems.forEach((s, idx) => {
-      if (!mech.IntegratedSystems.find(x => x.ID === s.ID))
-        this.integratedSystems.splice(idx, 1)
+      if (!mech.IntegratedSystems.find(x => x.ID === s.ID)) this.integratedSystems.splice(idx, 1)
       s.Uses = s.MaxUses + mech.LimitedBonus
-    });
+    })
 
     mech.IntegratedMounts.forEach(s => {
       if (!this.integratedMounts.find(x => x.ItemSource === s.ItemSource))
         this.integratedMounts.push(s)
-    });
+    })
 
     this.integratedMounts.forEach((s, idx) => {
       if (!mech.IntegratedMounts.find(x => x.ItemSource === s.ItemSource))
         this.integratedMounts.splice(idx, 1)
       s.Weapon.Uses = s.Weapon.MaxUses + mech.LimitedBonus
-    });
+    })
 
     this.save()
   }
@@ -255,9 +253,13 @@ class MechLoadout extends Loadout {
     ml.ID = loadoutData.id
     ml.Name = loadoutData.name
     ml.systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
-    ml.integratedSystems = !loadoutData.integratedSystems ? mech.IntegratedSystems : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
+    ml.integratedSystems = !loadoutData.integratedSystems
+      ? mech.IntegratedSystems
+      : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
     ml.equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
-    ml.integratedMounts = !loadoutData.integratedMounts ? mech.IntegratedMounts : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
+    ml.integratedMounts = !loadoutData.integratedMounts
+      ? mech.IntegratedMounts
+      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
     ml.improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml.integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)

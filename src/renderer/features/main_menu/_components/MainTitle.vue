@@ -5,7 +5,7 @@
     <div id="subtitle">
       <span>A digital toolset for the LANCER TTRPG</span>
       <v-icon size="8pt" color="white" class="ml-2 mr-2">mdi-delta</v-icon>
-      <span>v{{version}} // LANCER CORE {{lancerVersion}}</span>
+      <span>v{{ version }} // LANCER CORE {{ lancerVersion }}</span>
     </div>
   </div>
 </template>

@@ -1,17 +1,23 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
+      <v-layout wrap class="text-center">
         <v-flex xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
-            You try and stave off some reckoning, extend your window of opportunity, or merely buy more time and breathing room for you and your group to act. You might be trying to dodge some heat, survive stranded in the wilderness, or cause a distraction so another plan can go off.
-            <br />You can use that distraction or bought time as
-            <strong>reserves</strong> for the next mission.
+            You try and stave off some reckoning, extend your window of opportunity, or merely buy
+            more time and breathing room for you and your group to act. You might be trying to dodge
+            some heat, survive stranded in the wilderness, or cause a distraction so another plan
+            can go off.
+            <br />
+            You can use that distraction or bought time as
+            <strong>reserves</strong>
+            for the next mission.
           </p>
           <v-divider class="ma-2" />
           <p class="pt-2 pb-0 ma-0 minor-title">
             Roll
-            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>&nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
+            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
+            &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
         </v-flex>
         <v-flex xs12>
@@ -30,22 +36,25 @@
         </v-flex>
       </v-layout>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" row wrap class="text-xs-center">
+        <v-layout v-show="skillRoll" wrap class="text-center">
           <v-flex xs12 v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can buy only a little time, and only if drastic measures are taken
-              <em>right now.</em>Otherwise, whatever you're trying to stave off catches up to you.
+              <em>right now.</em>
+              Otherwise, whatever you're trying to stave off catches up to you.
             </p>
           </v-flex>
           <v-flex xs12 v-else-if="skillRoll < 20">
-            <p
-              class="pt-2 pb-0 ma-0 minor-title"
-            >You can buy enough time, but the situation becomes precarious or desperate. Next time you get this result with the same situation, treat it as a 9 or lower.</p>
+            <p class="pt-2 pb-0 ma-0 minor-title">
+              You can buy enough time, but the situation becomes precarious or desperate. Next time
+              you get this result with the same situation, treat it as a 9 or lower.
+            </p>
           </v-flex>
           <v-flex xs12 v-else>
-            <p
-              class="pt-2 pb-0 ma-0 minor-title"
-            >You buy enough time as you need for now, until the next mission. If you've already gotten this result, it becomes a 10-19 for the same situation next time.</p>
+            <p class="pt-2 pb-0 ma-0 minor-title">
+              You buy enough time as you need for now, until the next mission. If you've already
+              gotten this result, it becomes a 10-19 for the same situation next time.
+            </p>
           </v-flex>
           <v-flex xs12>
             <v-card color="grey lighten-4" class="ml-5 mr-5">
@@ -69,7 +78,9 @@
         color="primary"
         @click="addReserve"
         :disabled="skillRoll === '' || details === ''"
-      >add reserve</v-btn>
+      >
+        add reserve
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

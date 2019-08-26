@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-layout v-if="skill.err">
-      <v-card-text class="text-xs-center pa-1">
+      <v-card-text class="text-center pa-1">
         <span class="subheading grey--text">// MISSING DATA //</span>
       </v-card-text>
     </v-layout>

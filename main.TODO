@@ -1,14 +1,14 @@
 Compendium:
-  ☐ compendium table filter panel
-    ☐ filters need to be exclusive
-  ☐ Pilot Armor/Weapon/Gear cards
+  ✔ compendium table filter panel @done(19-08-21 19:16)
+    ✔ filters need to be exclusive @done(19-08-21 15:58)
+  ✔ Pilot Armor/Weapon/Gear cards @done(19-08-22 09:09)
   ☐ Reference
     ☐ Damage tables
     ☐ ???
   ☐ Glossary
-  ☐ Action Economy
+  ✔ Action Economy @done(19-08-23 14:14)
   ☐ Reserves & Downtime Actions
-  ☐ Pilot Talents
+  ✔ Pilot Talents @done(19-08-23 13:03)
 
 
 Refactor:
@@ -16,7 +16,7 @@ Refactor:
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
   ☐ background -> save string only
-  ☐ genericize frame image row element
+  ☐ genericize frame row imageelement
 
 Style Pass:
   ☐ Vuetify 2.0

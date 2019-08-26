@@ -89,9 +89,9 @@
               </v-flex>
               <v-flex shrink>
                 <span class="caption grey--text">USES&nbsp;</span>
-                <b
-                  class="warning--text"
-                >{{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}</b>
+                <b class="warning--text">
+                  {{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}
+                </b>
               </v-flex>
               <v-flex grow>
                 <v-divider class="mt-2 ml-3" />

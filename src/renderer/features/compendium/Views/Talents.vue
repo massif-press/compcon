@@ -1,5 +1,27 @@
 <template>
-  <v-container fluid>
+  <cc-sidebar-view>
+    <v-list-item
+      slot="sidebar"
+      v-for="(t, i) in talents"
+      :key="`${i}_sidebar'`"
+      link
+      @click="
+        $vuetify.goTo(`#e_${t.ID}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+        })
+      "
+    >
+      <v-list-item-title class="heading h3 ml-2">{{ t.Name }}</v-list-item-title>
+    </v-list-item>
+    <h1 class="heading mb-3 ml-5">PILOT TALENTS</h1>
+    <div v-for="t in talents" :key="`${t.ID}_data'`" :id="`e_${t.ID}`">
+      <cc-talent-panel :talent="t" />
+    </div>
+  </cc-sidebar-view>
+
+  <!-- <v-container fluid>
     <v-layout>
       <v-flex xs2>
         <div class="sidebar">
@@ -48,7 +70,7 @@
       </v-flex>
     </v-layout>
     <br />
-  </v-container>
+  </v-container>-->
 </template>
 
 <script lang="ts">
@@ -58,7 +80,6 @@ export default Vue.extend({
   name: 'talents',
   data: () => ({
     talents: [],
-    section: 0,
   }),
   created() {
     var vm = this as any
@@ -66,29 +87,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.sidebar {
-  position: fixed;
-  top: 60px;
-  left: 15px;
-  width: 16.6vw;
-  height: 90vh;
-  overflow-y: scroll;
-}
-
-.customActive {
-  color: #0091ea;
-  border-left: 5px solid #178ce6;
-  padding-left: 5px;
-  transition: all 0.5s;
-}
-
-.menu {
-  display: contents;
-}
-
-.menu a {
-  color: #424242;
-}
-</style>

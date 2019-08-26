@@ -1,16 +1,15 @@
 <template>
-  <v-layout row justify-space-around class="mx-4">
+  <v-layout justify-space-around class="mx-4">
     <v-flex xs4>
       <v-select
         class="px-2"
         v-model="sourceFilter"
         prepend-icon="mdi-factory"
-        chips
-        deletable-chips
         outlined
         label="From Manufacturer"
         :items="manufacturers"
-        multiple
+        chips
+        deletable-chips
         small-chips
         @change="updateFilters()"
       />
@@ -61,7 +60,7 @@ const nameSort = function(a, b) {
 export default Vue.extend({
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: [],
+    sourceFilter: '',
     typeFilter: [],
     mountFilter: [],
   }),
@@ -84,12 +83,17 @@ export default Vue.extend({
     },
   },
   methods: {
+    clear() {
+      this.sourceFilter = []
+      this.typeFilter = []
+      this.mountFilter = []
+    },
     updateFilters() {
-      this.$emit('set-filters', {
-        source: this.sourceFilter,
-        mechType: this.typeFilter,
-        mounts: this.mountFilter,
-      })
+      let fObj = {} as any
+      if (this.sourceFilter) fObj.Source = [this.sourceFilter]
+      if (this.typeFilter.length) fObj.Mechtype = this.typeFilter
+      if (this.mountFilter.length) fObj.Mounts = this.mountFilter
+      this.$emit('set-filters', fObj)
     },
   },
 })

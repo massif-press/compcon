@@ -4,11 +4,11 @@
       slot-scope="{ hover }"
       :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`"
     >
-      <v-layout row style="cursor: pointer;" @click="toPilotSheet()">
+      <v-layout style="cursor: pointer;" @click="toPilotSheet()">
         <v-flex v-if="pilot.Portrait" class="ma-0 pb-0 pt-0">
           <v-img :src="pilot.Portrait" position="top" :height="`${cardHeight}px`" />
         </v-flex>
-        <v-flex v-else class="ma-0 pb-0 pt-0 text-xs-center">
+        <v-flex v-else class="ma-0 pb-0 pt-0 text-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
             <span class="pilot-letter white--text">
               {{ pilot.Callsign.substring(0, 1).toUpperCase() }}
@@ -16,7 +16,7 @@
           </div>
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout>
         <v-flex>
           <v-card :color="panelColor()" dark flat>
             <v-layout>
@@ -37,7 +37,7 @@
                       mdi-power
                     </v-icon>
                   </v-btn>
-                  <div class="text-xs-center">
+                  <div class="text-center">
                     <span>
                       <b :class="activeColorClass()">
                         {{ pilot.active ? 'Active' : 'Inactive' }}
@@ -101,7 +101,7 @@
           @cancel="exportDialog = false"
         >
           <template v-slot:modal-content>
-            <v-card-text class="text-xs-center">
+            <v-card-text class="text-center">
               <v-btn large flat color="primary" @click="exportPilot">
                 Save to File
                 <v-icon right dark>save</v-icon>
@@ -148,7 +148,7 @@
             </v-card-text>
             <div v-if="pilot.gistID">
               <v-divider />
-              <v-card-text class="text-xs-center">
+              <v-card-text class="text-center">
                 <span class="effect-text" style="vertical-align: middle">
                   Share ID:&emsp;
                 </span>
@@ -171,7 +171,7 @@
           @cancel="copyDialog = false"
         >
           <template v-slot:modal-content>
-            <v-card-text class="text-xs-center">
+            <v-card-text class="text-center">
               <v-btn large block color="indigo" @click="clonePilot()" dark>
                 Duplicate Pilot
               </v-btn>

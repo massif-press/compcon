@@ -1,10 +1,8 @@
 <template>
-  <v-flex>
-    <div id="output-container">
-      <p class="flavor-text" id="output"></p>
-      <div id="overlay" />
-    </div>
-  </v-flex>
+  <div id="output-container">
+    <p class="flavor-text" id="output"></p>
+    <div id="overlay" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -65,14 +63,14 @@ export default Vue.extend({
 })
 </script>
 
-
 <style scoped>
 #output {
   position: absolute;
   bottom: 0;
   left: 12px;
   height: 150;
-  width: 60vw;
+  width: 70vw;
+  min-width: 700px;
   overflow: hidden;
   z-index: 2;
   color: var(--v-panel-border-base);
@@ -80,7 +78,8 @@ export default Vue.extend({
 #output-container {
   position: absolute;
   height: 250px;
-  width: 65vw;
+  width: 75vw;
+  min-width: 700px;
   top: 0;
   left: 0;
   background: var(--v-panel-base);

@@ -515,7 +515,7 @@ class Mech {
   }
 
   public set IsDestroyed(b: boolean) {
-     this.destroyed = b
+    this.destroyed = b
   }
 
   public get IsEjected(): boolean {
@@ -523,7 +523,7 @@ class Mech {
   }
 
   public set IsEjected(b: boolean) {
-     this.ejected = b
+    this.ejected = b
   }
 
   public get MeltdownImminent(): boolean {
@@ -554,7 +554,7 @@ class Mech {
     this.CurrentHP = this.MaxHP
     this.save()
   }
-  
+
   public get IsShutDown(): boolean {
     return this.Statuses.includes('Shut Down')
   }
@@ -711,7 +711,7 @@ class Mech {
   public UpdateLoadouts() {
     this.loadouts.forEach(x => {
       x.UpdateIntegrated(this)
-    });
+    })
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

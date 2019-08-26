@@ -1,7 +1,7 @@
 <template>
   <div style="height: 95vh">
     <v-container style="height: 100%">
-      <v-layout align-center justify-center row fill-height>
+      <v-layout align-center justify-centerfill-height>
         <v-flex>
           <slot name="contents"></slot>
         </v-flex>

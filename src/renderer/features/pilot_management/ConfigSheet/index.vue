@@ -2,7 +2,7 @@
   <div class="roster-content">
     <empty-view v-if="config.Frame.err">
       <div slot="contents">
-        <p class="grey--text text-xs-center display-2">// MISSING FRAME DATA //</p>
+        <p class="grey--text text-center display-2">// MISSING FRAME DATA //</p>
         <br />
         <span v-if="config.brew" class="caption grey--text">({{ config.brew }})</span>
       </div>
@@ -35,14 +35,16 @@
                 large
                 flat
                 class="ml-0 pl-1 pr-1 pt-4 pb-0"
-              >{{ config.Frame.Source }} {{ config.Frame.Name }}</v-btn>
+              >
+                {{ config.Frame.Source }} {{ config.Frame.Name }}
+              </v-btn>
               <v-card-text slot="modal-content" v-html="config.Frame.description" />
             </lazy-dialog>
           </v-flex>
         </v-layout>
         <v-layout v-if="config.IsDestroyed">
           <v-flex xs12>
-            <v-card class="text-xs-center destroyed-bg ma-3">
+            <v-card class="text-center destroyed-bg ma-3">
               <v-card-text class="ma-0 pa-0">
                 <p class="capitalize-text display-2 pa-2">MECH DESTROYED</p>
                 <p v-if="config.ReactorDestroyed" class="major-title pa-2">REACTOR DESTROYED</p>
@@ -60,7 +62,9 @@
               <v-flex>
                 <span class="white--text fluff-text ml-2">
                   {{ getManufacturer(config.Frame.Source).Name }}
-                  <v-chip small outline pill color="white">{{ config.Frame.MechTypeString }} Mech</v-chip>
+                  <v-chip small outline pill color="white">
+                    {{ config.Frame.MechTypeString }} Mech
+                  </v-chip>
                 </span>
               </v-flex>
             </v-layout>
@@ -113,7 +117,8 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>WARNING: UNLICENSED COMPONENTS</b>
-                  <br />Pilot is missing one or more licenses required for this configuration
+                  <br />
+                  Pilot is missing one or more licenses required for this configuration
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -121,7 +126,8 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="config.CurrentSP > config.MaxSP">
                   <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />Configuration loadout exceeds available SP points (
+                  <br />
+                  Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -142,7 +148,9 @@
                 appearanceLoader = true
                 appearanceModal = true
               "
-            >Set Custom Image</v-btn>
+            >
+              Set Custom Image
+            </v-btn>
           </v-flex>
           <image-selector
             :model="appearanceModal"
@@ -168,7 +176,7 @@
         </v-layout>
         <v-layout>
           <v-flex xs1 class="mr-3">
-            <v-layout column justify-center fill-height class="text-xs-center">
+            <v-layout column justify-center fill-height class="text-center">
               <v-flex class="subheader">
                 <span class="caption">HULL</span>
               </v-flex>
@@ -317,9 +325,7 @@
               </div>
               <v-card-title class="title">
                 {{ config.Frame.CoreSystem.Active }}
-                <span
-                  class="pt-2 ml-2 caption grey--text"
-                >(ACTIVE)</span>
+                <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
               </v-card-title>
               <v-card-text class="mt-0 pt-0 mb-0 pb-1">
                 <p class="mb-1" v-html="config.Frame.CoreSystem.Effect" />
@@ -343,7 +349,8 @@
       <v-layout justify-space-around fill-height class="ma-5">
         <v-flex xs>
           <v-btn large color="primary" outline block @click="openPrintOptions(false)">
-            <v-icon>print</v-icon>&nbsp; PRINT
+            <v-icon>print</v-icon>
+            &nbsp; PRINT
           </v-btn>
           <v-btn color="primary" small flat block @click="copyConfigStatblock()">
             copy config statblock &nbsp;
@@ -372,7 +379,8 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>CRITICAL: UNLICENSED COMPONENTS</b>
-                  <br />Pilot is missing one or more licenses required for this configuration.
+                  <br />
+                  Pilot is missing one or more licenses required for this configuration.
                 </v-alert>
               </v-flex>
             </v-layout>
@@ -380,7 +388,8 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
                   <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />Configuration loadout exceeds available SP points (
+                  <br />
+                  Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -401,7 +410,8 @@
               <v-flex class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="hasEmptyMounts()">
                   <b>WARNING: EMPTY MOUNTS DETECTED</b>
-                  <br />Configuration has mounts that do not contain an equipped weapon. Combat efficacy
+                  <br />
+                  Configuration has mounts that do not contain an equipped weapon. Combat efficacy
                   limited.
                 </v-alert>
               </v-flex>
@@ -412,7 +422,7 @@
     </div>
 
     <empty-view v-else>
-      <p slot="contents" class="grey--text text-xs-center display-2">NO CONFIGURATION LOADED</p>
+      <p slot="contents" class="grey--text text-center display-2">NO CONFIGURATION LOADED</p>
     </empty-view>
   </div>
 </template>

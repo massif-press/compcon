@@ -1,5 +1,5 @@
 language: node_js
-node_js: "10"
+node_js: '10'
 cache:
   yarn: true
   directories:
@@ -15,7 +15,6 @@ env:
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
-
 stages:
   - name: test
   - name: build
@@ -26,24 +25,24 @@ stages:
 jobs:
   include:
     - stage: test
-      name: "test"
+      name: 'test'
       os: linux
       dist: xenial
       script:
         - yarn unit-test
         - yarn int-test
         - yarn dist-travis --linux --publish never
-    - stage: build  
-      name: "mac"
+    - stage: build
+      name: 'mac'
       os: osx
       osx_image: xcode10.2
-      script: 
+      script:
         - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
         - yarn dist-travis --mac --publish never
         - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac/
     - stage: build
-      name: "windows"
+      name: 'windows'
       os: osx
       osx_image: xcode10.2
       script:
@@ -52,16 +51,16 @@ jobs:
         - yarn dist-travis --win --publish never
         - aws s3 cp build/compcon*.exe s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/win/
     - stage: build
-      name: "linux"
+      name: 'linux'
       os: linux
       dist: xenial
-      script: 
+      script:
         - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/linux
         - yarn dist-travis --linux --publish never
         - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux/
     - stage: deploy
-      name: "deploy" 
+      name: 'deploy'
       script:
         - ./build_scripts/install_aws.sh
         - source ./build_scripts/set_deploy_vars.sh

@@ -11,7 +11,7 @@
       <span class="caption">({{ licenseData.Source }})</span>
     </v-toolbar-title>
     <v-card>
-      <v-layout v-if="selectable && available" class="text-xs-center">
+      <v-layout v-if="selectable && available" class="text-center">
         <v-flex v-if="!pilotRank" class="ma-2 ml-5 mr-5">
           <v-btn @click="add" color="primary" large block>unlock rank I</v-btn>
         </v-flex>
@@ -25,7 +25,7 @@
         </v-flex>
       </v-layout>
       <license-card v-if="!licenseData.err" :license="licenseData" :rank="pilotRank" />
-      <v-layout v-if="selectable" class="text-xs-center">
+      <v-layout v-if="selectable" class="text-center">
         <v-flex v-if="pilotRank === 1" class="ma-2">
           <v-btn @click="remove" flat color="warning" block>
             remove rank I

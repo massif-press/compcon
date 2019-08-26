@@ -2,8 +2,8 @@
   <div>
     <v-layout grow-shrink-0 align-center class="text-xs-left text-uppercase body-2">
       <span class="grey--text">
-        {{label || 'LABEL'}}
-        <b v-if="labelArray" :style="`color: ${color}`">{{labelArray[current]}}</b>
+        {{ label || 'LABEL' }}
+        <b v-if="labelArray" :style="`color: ${color}`">{{ labelArray[current] }}</b>
         <b v-else :style="`color: ${color}`">{{ current }}/{{ max }}</b>
       </span>
       <v-flex v-if="!noInput" ml-0 class="white--text">

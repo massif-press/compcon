@@ -68,7 +68,7 @@
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
                     {{ pilot.callsign }} does not have the license for this weapon modification ({{
-                    props.item.License
+                      props.item.License
                     }}
                     {{ props.item.LicenseLevel }})
                   </span>
@@ -116,7 +116,9 @@
       >
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{ weaponSlot.Weapon.Mod.Name }}</v-btn>
+          <v-btn color="amber darken-4" @click="remove">
+            Uninstall {{ weaponSlot.Weapon.Mod.Name }}
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>
