@@ -5,7 +5,7 @@
         <v-flex>
           <hr style="border-color: grey" dark class="mt-2 ml-5 mr-4" />
         </v-flex>
-        <v-flex shrink class="text-xs-center active-pilot-title">
+        <v-flex shrink class="text-center active-pilot-title">
           <span>{{ pilot.Callsign }}</span>
         </v-flex>
         <v-flex>
@@ -35,13 +35,13 @@
         </v-tooltip>
       </v-layout>
       <v-layout>
-        <v-flex class="text-xs-center hangar-title">
+        <v-flex class="text-center hangar-title">
           <span>mech hangar</span>
         </v-flex>
       </v-layout>
     </v-container>
     <v-container grid-list-xl fluid>
-      <v-layout row wrap class="ml-2 mr-2 mb-5" fill-height>
+      <v-layout wrap class="ml-2 mr-2 mb-5" fill-height>
         <v-flex v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" xs3>
           <config-card :mech="c" :pilot="pilot" :card-height="cardHeight" />
         </v-flex>

@@ -111,8 +111,16 @@ export default new Router({
               component: require('@/features/compendium/Views/Backgrounds').default,
             },
             {
-              path: '/skills',
-              component: require('@/features/compendium/Views/Skills').default,
+              path: '/actions',
+              component: require('@/features/compendium/Views/ActionEconomy').default,
+            },
+            {
+              path: '/glossary',
+              component: require('@/features/compendium/Views/Glossary').default,
+            },
+            {
+              path: '/reserves',
+              component: require('@/features/compendium/Views/Reserves').default,
             },
           ],
         },

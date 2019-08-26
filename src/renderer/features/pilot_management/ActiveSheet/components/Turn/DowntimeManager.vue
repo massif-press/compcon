@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout column fill-height>
-      <v-flex xs12 class="major-title text-xs-center">
+      <v-flex xs12 class="major-title text-center">
         <span>DOWNTIME</span>
       </v-flex>
     </v-layout>
@@ -36,7 +36,7 @@
       </dt-action>
     </div>
     <v-divider class="ma-2" dark />
-    <v-layout row wrap>
+    <v-layout wrap>
       <v-flex xs12>
         <v-btn block large color="amber darken-4" dark @click="$emit('end')">Begin Mission</v-btn>
       </v-flex>
@@ -78,4 +78,3 @@ export default Vue.extend({
   },
 })
 </script>
-

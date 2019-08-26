@@ -7,7 +7,7 @@
     </v-card>
     <div v-if="!hideStatblock">
       <v-card color="grey lighten-3 mt-1 pt-1" flat>
-        <v-layout class="font-weight-bold text-xs-center effect-text">
+        <v-layout class="font-weight-bold text-center effect-text">
           <v-flex xs2>Size</v-flex>
           <v-flex xs2>Armor</v-flex>
           <v-flex xs2>HP</v-flex>
@@ -21,7 +21,7 @@
           <v-flex xs2>SP</v-flex>
         </v-layout>
       </v-card>
-      <v-layout class="text-xs-center effect-text">
+      <v-layout class="text-center effect-text">
         <v-flex xs2>{{ frame.Size }}</v-flex>
         <v-flex xs2>{{ frame.Armor }}</v-flex>
         <v-flex xs2>{{ frame.HP }}</v-flex>
@@ -36,7 +36,7 @@
       </v-layout>
     </div>
     <v-card color="grey lighten-4">
-      <v-layout align-space-between justify-space-around row fill-height>
+      <v-layout align-space-between justify-space-aroundfill-height>
         <v-flex xs8>
           <v-card-text>
             <v-card flat color="transparent">

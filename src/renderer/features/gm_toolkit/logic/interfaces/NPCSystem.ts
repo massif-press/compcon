@@ -1,4 +1,4 @@
-export module NPCSystem {
+export namespace NPCSystem {
   interface Base {
     name: string
     class: string

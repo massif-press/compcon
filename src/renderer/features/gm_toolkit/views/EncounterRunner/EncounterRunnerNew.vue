@@ -9,7 +9,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="mb-3" />
-    <v-slide-y-transition group tag="div" class="layout row wrap justify-start">
+    <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
       <v-flex v-for="encounter in encounters" :key="encounter.id" xs12 sm6 md4>
         <File
           :name="encounter.name"

@@ -7,7 +7,7 @@
           <h2 class="body-2 role-title">{{ role }}</h2>
           <v-divider class="role-title-line" />
         </v-flex>
-        <v-layout row wrap justify-center mb-4 px-3 :key="role">
+        <v-layout wrap justify-center mb-4 px-3 :key="role">
           <v-flex xs3 v-for="cls in classesByRole[role]" :key="cls.name">
             <v-btn
               block
@@ -41,7 +41,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
-import {npc_classes} from 'lancer-data'
+import { npc_classes } from 'lancer-data'
 
 import NPC from '../../logic/NPC'
 import NPCClass from '../../logic/interfaces/NPCClass'

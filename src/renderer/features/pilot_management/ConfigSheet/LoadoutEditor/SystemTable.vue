@@ -58,7 +58,7 @@
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
                     {{ pilot.callsign }} does not have the license for this system ({{
-                    props.item.License
+                      props.item.License
                     }}
                     {{ props.item.LicenseLevel }})
                   </span>
@@ -73,10 +73,9 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span
-                v-if="props.item.Source !== 'GMS'"
-                class="subheading"
-              >{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">
+                {{ props.item.License }} {{ props.item.LicenseLevel }}
+              </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -94,12 +93,12 @@
       <v-layout v-if="currentEquip" justify-space-between class="pt-4">
         <v-flex xs1></v-flex>
         <v-flex shrink>
-          <v-btn
-            v-if="currentEquip.err"
-            color="amber darken-4"
-            @click="remove"
-          >Uninstall Missing System</v-btn>
-          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{ currentEquip.Name }}</v-btn>
+          <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">
+            Uninstall Missing System
+          </v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">
+            Uninstall {{ currentEquip.Name }}
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-container>

@@ -1,5 +1,5 @@
 <template>
-  <mech-equipment-card-base :item="item">
+  <equipment-card-base :item="item">
     <v-flex v-if="item.AddedRange" shrink class="mx-3">
       <cc-range-element :range="[item.AddedRange]" />
     </v-flex>
@@ -8,29 +8,30 @@
     </v-flex>
     <v-flex v-if="item.SP">
       <span class="large-text">
-        <b class="primary--text">{{item.SP}}</b> SP
+        <b class="primary--text">{{ item.SP }}</b>
+        SP
       </span>
     </v-flex>
     <v-spacer />
     <v-flex shrink class="mx-3">
-      <div class="large-text">{{item.AppliedString}}</div>
+      <div class="large-text">{{ item.AppliedString }}</div>
       <div v-if="item.Restricted">
         <br />
-        <span
-          class="stat-text error--text"
-        >RESTRICTED: {{item.Restricted.join('/').toUpperCase()}} MOUNTS</span>
+        <span class="stat-text error--text">
+          RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
+        </span>
       </div>
     </v-flex>
-  </mech-equipment-card-base>
+  </equipment-card-base>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import MechEquipmentCardBase from './_MechEquipmentCardBase.vue'
+import EquipmentCardBase from './_EquipmentCardBase.vue'
 
 export default Vue.extend({
   name: 'cc-weapon-mod-card',
-  components: { MechEquipmentCardBase },
+  components: { EquipmentCardBase },
   props: {
     item: {
       type: Object,

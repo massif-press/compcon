@@ -92,9 +92,9 @@
           :key="hase"
         >
           <div class="label text-uppercase">{{ hase }}</div>
-          <div
-            class="headline font-weight-bold primary--text"
-          >{{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}</div>
+          <div class="headline font-weight-bold primary--text">
+            {{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}
+          </div>
         </v-flex>
       </v-layout>
       <v-divider class="my-3" />
@@ -138,7 +138,9 @@
                 ripple
                 centered
                 mandatory
-              >{{ cat }}</v-tab>
+              >
+                {{ cat }}
+              </v-tab>
               <v-tab-item v-for="cat in Object.keys(systemsAvailable)" :key="cat">
                 <v-container fluid>
                   <v-fade-transition
@@ -202,7 +204,9 @@
     </v-card-text>
     <v-divider class="my-1" />
     <v-card-actions class="mb-1 mr-2">
-      <v-btn flat :color="roleColor" class="ml-auto" @click="$router.push('/npc-designer/')">Done</v-btn>
+      <v-btn flat :color="roleColor" class="ml-auto" @click="$router.push('/npc-designer/')">
+        Done
+      </v-btn>
     </v-card-actions>
     <GoblinChan v-if="npc && tips.length" :tips="tips" key="goblinchan" />
   </v-card>

@@ -8,7 +8,7 @@
       @combat="setCombatPanels()"
     />
     <v-container fluid dark>
-      <v-layout row wrap>
+      <v-layout wrap>
         <v-flex class="major-title white--text pt-1">
           <span>{{ pilot.Callsign }}</span>
           <span class="caption grey--text">{{ pilot.Name }}</span>
@@ -61,7 +61,9 @@
                 @click="pilot.ActiveLoadout = loadout"
               >
                 <v-list-tile-content>
-                  <v-list-tile-title class="text-xs-right font-weight-bold">{{ loadout.Name }}</v-list-tile-title>
+                  <v-list-tile-title class="text-xs-right font-weight-bold">
+                    {{ loadout.Name }}
+                  </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -130,15 +132,16 @@
           ripple
           style="background-color: #616161"
         >
-          <span
-            slot="header"
-            class="minor-title"
-          >Reserves {{pilot.Reserves.length + pilot.Organizations.length > 0 ? '' : ' (NONE) '}}</span>
-          <v-layout row wrap fill-height>
+          <span slot="header" class="minor-title">
+            Reserves {{ pilot.Reserves.length + pilot.Organizations.length > 0 ? '' : ' (NONE) ' }}
+          </span>
+          <v-layout wrap fill-height>
             <v-flex xs6 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
               <div class="mr-1" style="height: 95%">
                 <active-card :color="reserveColor(r)" :header="`${r.Name}`" subheader="RESERVE">
-                  <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">{{ r.ResourceName }}</p>
+                  <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">
+                    {{ r.ResourceName }}
+                  </p>
                   <p v-if="r.Note" class="ml-2">{{ r.Note }}</p>
                   <span v-if="!r.ResourceName || !r.Note">{{ r.Description }}</span>
                   <v-alert type="warning" :value="r.ResourceCost" outline>
@@ -151,13 +154,13 @@
             <v-flex xs6 v-for="(o, i) in pilot.Organizations" :key="`org_${i}`">
               <div class="mr-1" style="height: 95%">
                 <active-card color="#673AB7" :header="`${o.Name}`" subheader="ORGANIZATION">
-                  <b class="ml-2">{{ o.Purpose}}</b>
+                  <b class="ml-2">{{ o.Purpose }}</b>
                   <p v-if="o.Description" class="font-weight-bold pa-1 ma-1">{{ o.Description }}</p>
-                  <p
-                    class="minor-title text-xs-center"
-                  >{{o.Efficiency}} Efficiency &emsp;&emsp; {{o.Influence}} Influence</p>
+                  <p class="minor-title text-center">
+                    {{ o.Efficiency }} Efficiency &emsp;&emsp; {{ o.Influence }} Influence
+                  </p>
                   <v-alert type="warning" :value="o.Actions" outline>
-                    <span>This organization must take the following action: {{o.Actions}}</span>
+                    <span>This organization must take the following action: {{ o.Actions }}</span>
                   </v-alert>
                 </active-card>
               </div>
@@ -173,7 +176,7 @@
           style="background-color: #616161"
         >
           <span slot="header" class="minor-title">Pilot Traits</span>
-          <v-layout row wrap>
+          <v-layout wrap>
             <v-flex xs12 v-for="(talent, i) in pilot.Talents" :key="`tal_${i}`">
               <active-card
                 color="#616161"
@@ -189,7 +192,7 @@
             </v-flex>
           </v-layout>
           <v-divider dark class="ma-2" />
-          <v-layout row>
+          <v-layout>
             <v-flex xs4 v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
               <active-card color="#616161" :header="bonus.Name" subheader="CORE BONUS">
                 <span v-html="bonus.effect" />
@@ -223,10 +226,12 @@
                 @click="pilot.ActiveMech = mech"
               >
                 <v-list-tile-content>
-                  <v-list-tile-title class="text-xs-right font-weight-bold">{{ mech.Name }}</v-list-tile-title>
-                  <v-list-tile-sub-title
-                    class="text-xs-right"
-                  >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
+                  <v-list-tile-title class="text-xs-right font-weight-bold">
+                    {{ mech.Name }}
+                  </v-list-tile-title>
+                  <v-list-tile-sub-title class="text-xs-right">
+                    {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+                  </v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -252,10 +257,12 @@
                   @click="pilot.ActiveMech = mech"
                 >
                   <v-list-tile-content>
-                    <v-list-tile-title class="text-xs-right font-weight-bold">{{ mech.Name }}</v-list-tile-title>
-                    <v-list-tile-sub-title
-                      class="text-xs-right"
-                    >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
+                    <v-list-tile-title class="text-xs-right font-weight-bold">
+                      {{ mech.Name }}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title class="text-xs-right">
+                      {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+                    </v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
@@ -263,7 +270,7 @@
           </v-flex>
         </v-layout>
         <div v-if="mech.IsEjected">
-          <v-card-text class="text-xs-center">
+          <v-card-text class="text-center">
             <p class="major-title deep-orange--text pa-3 ma-5" style="background-color:black;">
               PILOT EJECTED
               <v-btn
@@ -274,12 +281,14 @@
                 outline
                 style="right: 120px"
                 @click="mech.IsEjected = false"
-              >Force Remount</v-btn>
+              >
+                Force Remount
+              </v-btn>
             </p>
           </v-card-text>
         </div>
         <div v-else-if="mech.IsDestroyed">
-          <v-card-text class="text-xs-center destroyed-bg">
+          <v-card-text class="text-center destroyed-bg">
             <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
               MECH DESTROYED
               <span
@@ -287,7 +296,8 @@
                 class="title red--text text--accent-3 pa-0 ma-0"
                 style="background-color:black;"
               >
-                <br />REACTOR DESTROYED
+                <br />
+                REACTOR DESTROYED
               </span>
             </p>
           </v-card-text>
@@ -358,10 +368,9 @@
                   <v-chip v-if="index < 2" small slot="activator" :color="color[item.color].light">
                     <b>{{ item.name }}</b>
                   </v-chip>
-                  <span
-                    v-if="index === 2"
-                    class="grey--text caption"
-                  >(+{{ mech.Resistances.length - 1 }} others)</span>
+                  <span v-if="index === 2" class="grey--text caption">
+                    (+{{ mech.Resistances.length - 1 }} others)
+                  </span>
                 </template>
               </v-select>
             </v-flex>
@@ -389,7 +398,7 @@
           </v-layout>
           <v-layout>
             <v-flex xs1 class="mr-3 white--text">
-              <v-layout column justify-center fill-height class="text-xs-center">
+              <v-layout column justify-center fill-height class="text-center">
                 <v-flex>
                   <div class="subheader">
                     <span class="caption">HULL</span>
@@ -532,10 +541,10 @@
                     :color="mech.IsInDangerZone ? color.dangerzone.dark : color.heatcap.dark"
                     bg-color="red darken-4"
                     :empty-icon="
-                    mech.Resistances.includes('Heat')
-                      ? 'mdi-octagram-outline'
-                      : 'mdi-circle-outline'
-                  "
+                      mech.Resistances.includes('Heat')
+                        ? 'mdi-octagram-outline'
+                        : 'mdi-circle-outline'
+                    "
                     :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
                     @update="mech.CurrentHeat = $event"
                     rollover
@@ -612,7 +621,7 @@
 
           <v-layout>
             <v-flex xs4>
-              <v-layout fill-height row wrap>
+              <v-layout fill-heightwrap>
                 <v-flex xs12 v-for="(trait, i) in mech.Frame.Traits" :key="`tr_${i}`">
                   <active-card
                     :color="color.frame.light"
@@ -639,9 +648,7 @@
                 </div>
                 <v-card-title class="minor-title pa-0 ma-0">
                   {{ mech.Frame.CoreSystem.Active }}
-                  <span
-                    class="pt-2 ml-2 caption grey--text"
-                  >(ACTIVE)</span>
+                  <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
                 </v-card-title>
                 <v-card-text class="mt-0 pt-0 mb-0 pb-1">
                   <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
@@ -658,7 +665,9 @@
                 <span class="minor-title">No Mech Loadouts Available</span>
                 <br />
               </v-alert>
-              <v-btn block large color="primary" dark @click="editMech(mech)">Edit {{ mech.Name }}</v-btn>
+              <v-btn block large color="primary" dark @click="editMech(mech)">
+                Edit {{ mech.Name }}
+              </v-btn>
             </div>
           </div>
 
@@ -667,7 +676,9 @@
               <span class="minor-title white--text">{{ loadout.Name }}</span>
               <v-menu offset-y nudge-left="20px">
                 <template v-slot:activator="{ on }">
-                  <v-btn small relative class="ma-0 ml-2" dark outline v-on="on">Change Loadout</v-btn>
+                  <v-btn small relative class="ma-0 ml-2" dark outline v-on="on">
+                    Change Loadout
+                  </v-btn>
                 </template>
                 <v-list>
                   <v-list-tile
@@ -676,18 +687,20 @@
                     @click="mech.ActiveLoadout = loadout"
                   >
                     <v-list-tile-content>
-                      <v-list-tile-title class="text-xs-right font-weight-bold">{{ loadout.Name }}</v-list-tile-title>
+                      <v-list-tile-title class="text-xs-right font-weight-bold">
+                        {{ loadout.Name }}
+                      </v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </v-list>
               </v-menu>
             </v-layout>
-            <v-layout row wrap>
+            <v-layout wrap>
               <mount-card
                 v-for="(mount, i) in loadout.AllMounts(
-                pilot.has('CoreBonus', 'imparm'),
-                pilot.has('CoreBonus', 'intweapon')
-              )"
+                  pilot.has('CoreBonus', 'imparm'),
+                  pilot.has('CoreBonus', 'intweapon')
+                )"
                 :key="`mount_${i}`"
                 :mount="mount"
               />
@@ -695,7 +708,7 @@
                 <v-card class="ma-0 pa-0" flat dark>
                   <span class="mount-title-dark pl-3 pr-3 text-uppercase">SYSTEMS</span>
                   <v-card-text class="bordered-dark ml-3 pt-4">
-                    <v-layout row wrap>
+                    <v-layout wrap>
                       <mech-system-card
                         v-for="(system, i) in loadout.IntegratedSystems.concat(loadout.Systems)"
                         :key="`system${i}`"

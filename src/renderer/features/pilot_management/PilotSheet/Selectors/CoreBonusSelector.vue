@@ -40,7 +40,7 @@
     <template v-slot:right-column>
       <div v-for="m in Object.keys(bonusData)" :key="`summary_block_m${m}`">
         <v-layout>
-          <v-flex class="text-xs-center pa-3">
+          <v-flex class="text-center pa-3">
             <span class="display-2 text-uppercase font-weight-light">
               {{ manufacturer(m).name }}
             </span>

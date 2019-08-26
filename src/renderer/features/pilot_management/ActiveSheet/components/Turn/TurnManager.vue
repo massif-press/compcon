@@ -2,7 +2,7 @@
   <div>
     <div v-if="mech.IsDestroyed">
       <v-card>
-        <v-card-text class="text-xs-center destroyed-bg">
+        <v-card-text class="text-center destroyed-bg">
           <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
             MECH DESTROYED
             <span
@@ -10,7 +10,8 @@
               class="title red--text text--accent-3 pa-0 ma-0"
               style="background-color:black;"
             >
-              <br />REACTOR DESTROYED
+              <br />
+              REACTOR DESTROYED
             </span>
           </p>
         </v-card-text>
@@ -38,51 +39,49 @@
     </div>
     <div v-else>
       <v-layout column fill-height>
-        <v-flex xs12 class="major-title text-xs-center destroyed-bg">
+        <v-flex xs12 class="major-title text-center destroyed-bg">
           <span>COMBAT ENGAGED</span>
         </v-flex>
-        <v-flex xs12 class="callsign-text text-xs-center" style="line-height: 60px;">
+        <v-flex xs12 class="callsign-text text-center" style="line-height: 60px;">
           <span>TURN</span>
           <span class="pink--text">{{ turn }}</span>
         </v-flex>
-        <v-flex v-if="mech.IsEjected" xs12 class="minor-title text-xs-center reaction-bg">
+        <v-flex v-if="mech.IsEjected" xs12 class="minor-title text-center reaction-bg">
           <span v-html="'PILOT EJECTED'" />
         </v-flex>
         <div v-else>
-          <v-flex v-if="braced" xs12 class="minor-title text-xs-center reaction-bg">
+          <v-flex v-if="braced" xs12 class="minor-title text-center reaction-bg">
             <span v-html="'BRACED'" />
           </v-flex>
-          <v-flex
-            v-if="bracedCooldown"
-            xs12
-            class="minor-title red--text text-xs-center destroyed-bg"
-          >
+          <v-flex v-if="bracedCooldown" xs12 class="minor-title red--text text-center destroyed-bg">
             <span v-html="'// BRACE RECOVERY //'" />
           </v-flex>
           <v-flex
             v-if="mech.IsShutDown"
             xs12
-            class="minor-title red--text text-xs-center destroyed-bg"
+            class="minor-title red--text text-center destroyed-bg"
           >
             <span v-html="'// SHUT DOWN //'" />
           </v-flex>
-          <v-flex v-if="overwatch" xs12 class="minor-title text-xs-center reaction-bg">
+          <v-flex v-if="overwatch" xs12 class="minor-title text-center reaction-bg">
             <span v-html="'OVERWATCH'" />
           </v-flex>
-          <v-flex v-if="prepare" xs12 class="minor-title text-xs-center prepare-bg">
+          <v-flex v-if="prepare" xs12 class="minor-title text-center prepare-bg">
             <span v-html="'PREPARED ACTION'" />
           </v-flex>
         </div>
         <v-divider dark class="ma-2" />
-        <v-flex xs12 class="caption text-xs-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-flex>
-        <v-flex xs12 class="caption text-xs-center">
+        <v-flex xs12 class="caption text-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-flex>
+        <v-flex xs12 class="caption text-center">
           <v-tooltip bottom>
             <v-avatar
               slot="activator"
               size="4.5em"
               class="ml-1 mr-1"
               :key="move"
-              :color="move === maxMove || bracedCooldown || mech.IsShutDown ? 'grey' : 'red darken-3'"
+              :color="
+                move === maxMove || bracedCooldown || mech.IsShutDown ? 'grey' : 'red darken-3'
+              "
             >
               <v-icon size="3.25em" dark>$vuetify.icons.move</v-icon>
             </v-avatar>
@@ -90,21 +89,15 @@
           </v-tooltip>
           <v-tooltip bottom>
             <v-avatar slot="activator" size="4.5em" :color="actionColor()" class="ml-1 mr-1">
-              <v-icon
-                v-if="actions > 2 && !mech.IsShutDown"
-                size="3.25em"
-                dark
-              >$vuetify.icons.overcharge</v-icon>
-              <v-icon
-                v-else-if="actions === 2 && !mech.IsShutDown"
-                size="3.25em"
-                dark
-              >$vuetify.icons.full</v-icon>
-              <v-icon
-                v-else-if="actions === 1 && !mech.IsShutDown"
-                size="3.25em"
-                dark
-              >$vuetify.icons.quick</v-icon>
+              <v-icon v-if="actions > 2 && !mech.IsShutDown" size="3.25em" dark>
+                $vuetify.icons.overcharge
+              </v-icon>
+              <v-icon v-else-if="actions === 2 && !mech.IsShutDown" size="3.25em" dark>
+                $vuetify.icons.full
+              </v-icon>
+              <v-icon v-else-if="actions === 1 && !mech.IsShutDown" size="3.25em" dark>
+                $vuetify.icons.quick
+              </v-icon>
               <v-icon v-else size="3.25em" dark>mdi-hexagon-outline</v-icon>
             </v-avatar>
             <span>1 Full Action / 2 Quick Actions</span>
@@ -126,8 +119,10 @@
               size="4.5em"
               class="ml-1 mr-1"
               :color="
-              bracedCooldown || overwatch || braced || mech.IsShutDown ? 'grey' : 'purple darken-3'
-            "
+                bracedCooldown || overwatch || braced || mech.IsShutDown
+                  ? 'grey'
+                  : 'purple darken-3'
+              "
             >
               <v-icon size="3.25em" dark>$vuetify.icons.reaction</v-icon>
             </v-avatar>
@@ -145,7 +140,7 @@
             <span>Free Actions</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs12 class="caption text-xs-center mt-3">&mdash; MOVEMENT &mdash;</v-flex>
+        <v-flex xs12 class="caption text-center mt-3">&mdash; MOVEMENT &mdash;</v-flex>
         <v-flex xs12>
           <div style="display: table; margin: 0 auto;">
             <tick-bar
@@ -178,7 +173,7 @@
             <span>Undo last action</span>
           </v-tooltip>
         </v-flex>
-        <v-flex xs12 class="caption text-xs-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-flex>
+        <v-flex xs12 class="caption text-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-flex>
         <!-- conditionally exclusive v-shows (instead of v-if/else-if/else) is necessary here because vue chokes on a critical mass nested conditionals with transitions -->
         <div v-show="mech.IsShutDown">
           <v-flex xs12>
@@ -193,7 +188,7 @@
         <div v-show="mech.IsEjected && !mech.IsShutDown">
           <v-flex xs12>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="actions >= 2">
+              <v-layout wrap justify-center v-show="actions >= 2">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
                     <action-button
@@ -206,7 +201,7 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="actions">
+              <v-layout wrap justify-center v-show="actions">
                 <v-flex xs4>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_quickactivate" @click="quickAction()" />
@@ -235,7 +230,7 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="actions >= 2">
+              <v-layout wrap justify-center v-show="actions >= 2">
                 <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_bombardment" @click="bombard()" />
@@ -264,7 +259,7 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
+              <v-layout wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
                 <v-flex xs6>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_overwatch" @click="setOverwatch()" />
@@ -278,14 +273,14 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
+              <v-layout wrap justify-center v-show="!bracedCooldown && !overcharged">
                 <v-flex class="mr-1 mb-1">
                   <action-button action-id="action_overcharge" @click="openOvercharge" />
                 </v-flex>
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
@@ -294,16 +289,19 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
-                    <action-button action-id="action_deployableshield" @click="deployableShield()" />
+                    <action-button
+                      action-id="action_deployableshield"
+                      @click="deployableShield()"
+                    />
                   </div>
                 </v-flex>
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
                     <action-button
@@ -320,13 +318,9 @@
         <div v-show="!mech.IsShutDown && !mech.IsEjected">
           <v-flex xs12>
             <v-flex xs12 v-if="mech.MeltdownImminent" class="mb-3">
-              <v-btn
-                block
-                x-large
-                class="ma-0"
-                color="red accent-4"
-                @click="meltdown()"
-              >REACTOR MELTDOWN</v-btn>
+              <v-btn block x-large class="ma-0" color="red accent-4" @click="meltdown()">
+                REACTOR MELTDOWN
+              </v-btn>
               <v-btn
                 block
                 small
@@ -334,10 +328,12 @@
                 class="ma-0 mt-1"
                 color="light-green accent-3"
                 @click="avoidMeltdown()"
-              >STABILIZE REACTOR</v-btn>
+              >
+                STABILIZE REACTOR
+              </v-btn>
             </v-flex>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="actions">
+              <v-layout wrap justify-center v-show="actions">
                 <v-flex xs4>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_skirmish" @click="quickAction()" />
@@ -381,7 +377,7 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="actions >= 2">
+              <v-layout wrap justify-center v-show="actions >= 2">
                 <v-flex xs12 v-if="pilot.has('reserve', 'bombardment')">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_bombardment" @click="bombard()" />
@@ -415,7 +411,7 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
+              <v-layout wrap justify-center v-show="!braced && !overwatch && !bracedCooldown">
                 <v-flex xs6>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_overwatch" @click="setOverwatch()" />
@@ -429,14 +425,14 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="!bracedCooldown && !overcharged">
+              <v-layout wrap justify-center v-show="!bracedCooldown && !overcharged">
                 <v-flex class="mr-1 mb-1">
                   <action-button action-id="action_overcharge" @click="openOvercharge" />
                 </v-flex>
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'redundantrepair')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
@@ -445,16 +441,19 @@
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'deployableshield')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
-                    <action-button action-id="action_deployableshield" @click="deployableShield()" />
+                    <action-button
+                      action-id="action_deployableshield"
+                      @click="deployableShield()"
+                    />
                   </div>
                 </v-flex>
               </v-layout>
             </v-expand-transition>
             <v-expand-transition>
-              <v-layout row wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
+              <v-layout wrap justify-center v-show="pilot.has('reserve', 'corebattery')">
                 <v-flex xs12>
                   <div class="mr-1 mb-1">
                     <action-button
@@ -518,12 +517,12 @@
             </v-expand-transition>
           </v-flex>
         </div>
-        <v-flex xs12 class="text-xs-center ma-2 mt-4">
+        <v-flex xs12 class="text-center ma-2 mt-4">
           <v-btn block color="warning" outline dark large @click="newTurn()">END TURN</v-btn>
         </v-flex>
       </v-layout>
       <v-divider class="ma-2" />
-      <v-layout row wrap>
+      <v-layout wrap>
         <v-flex xs12>
           <v-btn block color="amber darken-4" dark @click="endCombat">End Combat</v-btn>
         </v-flex>
@@ -537,11 +536,11 @@
               Overcharging immediately allows you to make any quick action of your choice as a free
               action, even one you already made this turn.
             </p>
-            <p class="text-xs-center minor-title pb-0">
+            <p class="text-center minor-title pb-0">
               Overcharging will incur
-              <span
-                class="red--text text--darken-2"
-              >{{ overcharge[mech.CurrentOvercharge] }} Heat</span>
+              <span class="red--text text--darken-2">
+                {{ overcharge[mech.CurrentOvercharge] }} Heat
+              </span>
               <br />
               <span class="caption">INPUT HEAT COST TO CONFIRM OVERCHARGE</span>
             </p>
@@ -568,7 +567,9 @@
               color="pink accent-3"
               :disabled="!overcharge_heat || overcharge_heat === '0'"
               @click="commitOvercharge"
-            >Overcharge</v-btn>
+            >
+              Overcharge
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -585,10 +586,10 @@
               Enact emergency protocols in order to purge your mech‘s systems of excess heat, repair
               your chassis where you can, and buy your system time to eliminate hostile code.
             </p>
-            <p class="caption red--text text-xs-center pa-0">
+            <p class="caption red--text text-center pa-0">
               <b>// WARNING: THIS ACTION CANNOT BE UNDONE //</b>
             </p>
-            <p class="text-xs-center minor-title pb-0">
+            <p class="text-center minor-title pb-0">
               <span class="caption">Choose one of the following:</span>
               <v-radio-group v-model="stabilizeMajor">
                 <v-radio
@@ -597,10 +598,10 @@
                 />
                 <v-radio
                   :label="
-                  `Spend 1 Repair to refill HP to maximum. ${
-                    !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
-                  }`
-                "
+                    `Spend 1 Repair to refill HP to maximum. ${
+                      !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
+                    }`
+                  "
                   value="repair"
                   :disabled="!mech.CurrentRepairs"
                 />
@@ -611,19 +612,19 @@
                 <v-radio label="Reload all weapons with the Loading Tag" value="reload" />
                 <v-radio
                   :label="
-                  `End all Burn currently affecting your mech ${
-                    mech.Burn === 0 ? ' // BURN STATUS NOMINAL //' : ''
-                  }`
-                "
+                    `End all Burn currently affecting your mech ${
+                      mech.Burn === 0 ? ' // BURN STATUS NOMINAL //' : ''
+                    }`
+                  "
                   value="end_burn"
                   :disabled="mech.Burn === 0"
                 />
                 <v-radio
                   :label="
-                  `End a condition affecting your mech ${
-                    !mech.Conditions.length ? ' // MECH STATUS NOMINAL //' : ''
-                  }`
-                "
+                    `End a condition affecting your mech ${
+                      !mech.Conditions.length ? ' // MECH STATUS NOMINAL //' : ''
+                    }`
+                  "
                   value="end_self_condition"
                   :disabled="!mech.Conditions.length"
                 />
@@ -644,7 +645,9 @@
               color="indigo darken-3"
               :disabled="!stabilizeMajor || !stabilizeMinor"
               @click="commitStabilize"
-            >Stabilize</v-btn>
+            >
+              Stabilize
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -652,13 +655,9 @@
         <v-card>
           <v-toolbar dark flat class="major-title">Select Condiditon to End</v-toolbar>
           <v-card-text>
-            <v-btn
-              v-for="c in mech.Conditions"
-              :key="c"
-              block
-              large
-              @click="endCondition(c)"
-            >{{ c }}</v-btn>
+            <v-btn v-for="c in mech.Conditions" :key="c" block large @click="endCondition(c)">
+              {{ c }}
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-dialog>

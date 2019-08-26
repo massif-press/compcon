@@ -1,6 +1,6 @@
 <template>
   <v-flex shrink>
-    <v-layout row>
+    <v-layout>
       <v-flex shrink v-if="!readonly">
         <v-tooltip left>
           <v-btn slot="activator" flat icon class="ma-0 pt-0" dark relative @click="clear">

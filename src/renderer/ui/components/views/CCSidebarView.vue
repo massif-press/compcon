@@ -11,7 +11,7 @@
         <slot name="sidebar"></slot>
       </v-list>
     </v-navigation-drawer>
-    <v-layout row>
+    <v-layout>
       <v-flex offset-xs2 class="pl-7 mr-7">
         <slot></slot>
       </v-flex>

@@ -5,11 +5,12 @@
         <slot></slot>
       </div>
     </template>
-    <span
-      v-if="err"
-    >Unable to load tooltip information. This may be due to malformed data or an unloaded content package.</span>
+    <span v-if="err">
+      Unable to load tooltip information. This may be due to malformed data or an unloaded content
+      package.
+    </span>
     <div v-else>
-      <span class="heading h3 accent--text">{{title}}</span>
+      <span class="heading h3 accent--text">{{ title }}</span>
       <v-divider dark class="my-1" />
       <p class="flavor-text white--text">{{ content }}</p>
     </div>

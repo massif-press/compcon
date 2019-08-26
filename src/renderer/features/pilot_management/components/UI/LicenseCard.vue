@@ -1,9 +1,9 @@
 <template>
   <v-card flat class="pt-0">
     <v-card-text class="pt-0">
-      <v-layout row>
+      <v-layout>
         <v-flex xs4 :class="{ locked: rank && rank < 1 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 1" class="grey-text">
               RANK I &nbsp;
               <v-icon>mdi-lock-outline</v-icon>
@@ -19,7 +19,7 @@
           </div>
         </v-flex>
         <v-flex xs4 :class="{ locked: rank && rank < 2 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 2" class="grey-text">
               RANK II &nbsp;
               <v-icon>mdi-lock-outline</v-icon>
@@ -35,7 +35,7 @@
           </div>
         </v-flex>
         <v-flex xs4 :class="{ locked: rank && rank < 3 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 3" class="grey-text">
               RANK III &nbsp;
               <v-icon>mdi-lock-outline</v-icon>

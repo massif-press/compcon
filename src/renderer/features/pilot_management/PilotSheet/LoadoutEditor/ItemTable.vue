@@ -42,19 +42,19 @@
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">+{{ props.item.Armor }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">+{{ props.item.HPBonus || 0 }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.EDefense }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Evasion }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Speed }}</span>
               </td>
             </tr>
@@ -92,7 +92,7 @@
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Uses }}</span>
               </td>
             </tr>

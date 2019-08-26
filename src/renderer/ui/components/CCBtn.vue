@@ -10,7 +10,8 @@
       >
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           &nbsp;
-          <slot></slot>&nbsp;&nbsp;
+          <slot></slot>
+          &nbsp;&nbsp;
         </span>
       </v-btn>
     </div>

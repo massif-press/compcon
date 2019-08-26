@@ -5,7 +5,7 @@
         Add New Pilot
       </v-card-title>
 
-      <v-card-text class="text-xs-center">
+      <v-card-text class="text-center">
         <v-btn block large color="primary" @click="goToNew">
           Create New Pilot
         </v-btn>
@@ -106,7 +106,7 @@ export default Vue.extend({
     errorText: '',
   }),
   watch: {
-    dialogModel (val) {
+    dialogModel(val) {
       if (val) {
         this.display = true
       } else {
@@ -115,7 +115,7 @@ export default Vue.extend({
         }
       }
     },
-    display (val) {
+    display(val) {
       if (!val) {
         this.close()
       }

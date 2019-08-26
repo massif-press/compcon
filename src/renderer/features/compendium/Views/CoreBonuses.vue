@@ -4,7 +4,7 @@
       <v-list-item>
         <v-list-item-title>
           <v-icon left>cci-orbital</v-icon>
-          <span class="heading sub">{{ m}}</span>
+          <span class="heading sub">{{ m }}</span>
         </v-list-item-title>
       </v-list-item>
 
@@ -12,13 +12,15 @@
         v-for="cb in bonuses[m]"
         :key="`${cb.id}_data'`"
         link
-        @click="$vuetify.goTo(`#e_${cb.id}`, {
-              duration: 150,
-              easing: 'easeInOutQuad',
-              offset: 25
-            })"
+        @click="
+          $vuetify.goTo(`#e_${cb.id}`, {
+            duration: 150,
+            easing: 'easeInOutQuad',
+            offset: 25,
+          })
+        "
       >
-        <v-list-item-title class="heading h3 ml-2">{{cb.Name}}</v-list-item-title>
+        <v-list-item-title class="heading h3 ml-2">{{ cb.Name }}</v-list-item-title>
       </v-list-item>
     </div>
     <h1 class="heading mb-3">CORE BONUSES</h1>

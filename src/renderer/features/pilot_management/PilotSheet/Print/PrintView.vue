@@ -26,7 +26,7 @@
       </v-layout>
 
       <!-- pilot stats block -->
-      <v-layout fill-height justify-space-between align-end class="text-xs-center mt-2 mb-1">
+      <v-layout fill-height justify-space-between align-end class="text-center mt-2 mb-1">
         <v-flex>
           <span class="label">HP</span>
           <br />
@@ -187,7 +187,7 @@
 
         <!-- loadout -->
         <div v-if="loadout">
-          <v-layout row>
+          <v-layout>
             <v-flex xs4>
               <div v-if="loadout.Armor.length" class="ma-1 ml-2">
                 <span class="label">ARMOR</span>

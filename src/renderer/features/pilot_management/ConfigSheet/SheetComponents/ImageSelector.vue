@@ -15,7 +15,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-container grid-list-sm fluid>
-          <v-layout row>
+          <v-layout>
             <v-flex xs10>
               <v-btn block outline large color="primary" @click="importImage('frame')">
                 Import Custom Frame Image
@@ -45,7 +45,7 @@
             </v-flex>
           </v-layout>
           <v-divider />
-          <v-layout row justify-center wrap fill-height align-center>
+          <v-layout justify-center wrap fill-height align-center>
             <v-flex v-if="config.CloudPortrait" xs3>
               <div :class="`justify-center pa-1 cloud`">
                 <v-img

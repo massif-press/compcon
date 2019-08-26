@@ -10,7 +10,7 @@
         <!-- Armor -->
         <div v-if="itemData.ItemType === 'PilotArmor'">
           <v-card color="grey lighten-2" class="mt-3 pt-1 pb-1 mb-2" flat>
-            <v-layout class="effect-text text-xs-center">
+            <v-layout class="effect-text text-center">
               <v-flex v-if="itemData.HPBonus">HP Bonus</v-flex>
               <v-flex>Armor</v-flex>
               <v-flex>Evasion</v-flex>
@@ -20,7 +20,7 @@
               <v-flex v-if="itemData.speed_bonus">Speed Bonus</v-flex>
             </v-layout>
           </v-card>
-          <v-layout class="title text-xs-center pa-0 ma-0 mb-2">
+          <v-layout class="title text-center pa-0 ma-0 mb-2">
             <v-flex v-if="itemData.HPBonus">+{{ itemData.hp_bonus }}</v-flex>
             <v-flex>+{{ itemData.Armor || 0 }}</v-flex>
             <v-flex>{{ itemData.Evasion || 'N/A' }}</v-flex>

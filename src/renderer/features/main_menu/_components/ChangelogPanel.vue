@@ -41,7 +41,7 @@
       <v-card-text>
         <v-alert :value="true" type="error">Error: Could not communicate with server</v-alert>
         <br />
-        <p class="text-xs-center">
+        <p class="text-center">
           <span class="title">
             Check
             <a @click="toUpdate">https://massif-press.itch.io/compcon for updates</a>

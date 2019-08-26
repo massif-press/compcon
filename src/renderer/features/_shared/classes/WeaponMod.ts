@@ -1,5 +1,14 @@
 import store from '@/store'
-import { Tag, WeaponType, WeaponSize, ItemType, Damage, Range, MechEquipment } from '@/class'
+import {
+  Tag,
+  WeaponType,
+  WeaponSize,
+  ItemType,
+  Damage,
+  Range,
+  MechEquipment,
+  SystemType,
+} from '@/class'
 
 class WeaponMod extends MechEquipment {
   private applied_to: WeaponType[]
@@ -21,6 +30,10 @@ class WeaponMod extends MechEquipment {
     if (weaponModData.added_damage) this.added_damage = new Damage(weaponModData.added_damage)
     if (weaponModData.added_range) this.added_range = new Range(weaponModData.added_range)
     this.item_type = ItemType.WeaponMod
+  }
+
+  public get Type(): SystemType {
+    return SystemType.Mod
   }
 
   public get SP(): number {

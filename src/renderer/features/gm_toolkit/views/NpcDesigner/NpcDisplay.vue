@@ -21,10 +21,9 @@
           >
             <v-icon dark size="36" class="mr-1">mdi-numeric-{{ npc.tier + 1 }}-box</v-icon>
             <div class="subheading text-uppercase">{{ npc.npcClass.name }}</div>
-            <div
-              class="subheading text-uppercase"
-              v-if="npc._templates.length"
-            >&nbsp;—&nbsp;{{ npc._templates.join(' ') }}</div>
+            <div class="subheading text-uppercase" v-if="npc._templates.length">
+              &nbsp;—&nbsp;{{ npc._templates.join(' ') }}
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -48,9 +47,9 @@
           :key="hase"
         >
           <div class="label text-uppercase">{{ hase }}</div>
-          <div
-            class="headline font-weight-bold primary--text"
-          >{{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}</div>
+          <div class="headline font-weight-bold primary--text">
+            {{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}
+          </div>
         </v-flex>
       </v-layout>
       <!-- Features -->
@@ -58,9 +57,9 @@
         <v-divider class="my-3" />
         <div class="hidden-xs-only">
           <h6 class="title text-xs-left grey--text text--darken-1">Features</h6>
-          <h6
-            class="caption text-xs-left grey--text text--darken-1 mb-1"
-          >{{ npc.features.length }} items</h6>
+          <h6 class="caption text-xs-left grey--text text--darken-1 mb-1">
+            {{ npc.features.length }} items
+          </h6>
         </div>
         <!-- Feature cards -->
         <v-layout wrap justify-center>
@@ -73,9 +72,9 @@
       <!-- Systems header -->
       <div class="hidden-xs-only">
         <h6 class="title text-xs-left grey--text text--darken-1">Systems</h6>
-        <h6
-          class="caption text-xs-left grey--text text--darken-1 mb-1"
-        >{{ npc.systems.length }} items</h6>
+        <h6 class="caption text-xs-left grey--text text--darken-1 mb-1">
+          {{ npc.systems.length }} items
+        </h6>
       </div>
       <!-- System cards -->
       <v-layout wrap justify-center>
@@ -92,7 +91,9 @@
         :color="`role--${npc.npcClass.role}`"
         class="ml-auto"
         @click="$router.replace(`/npc-designer/edit/${npc.id}`)"
-      >Edit</v-btn>
+      >
+        Edit
+      </v-btn>
       <!-- Delete dialog -->
       <v-dialog v-model="deleteDialog" persistent max-width="290">
         <template v-slot:activator="{ on }">
@@ -104,7 +105,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn :color="`role--${npc.npcClass.role}`" flat @click="deleteSelf">OK</v-btn>
-            <v-btn :color="`role--${npc.npcClass.role}`" flat @click="deleteDialog = false">Cancel</v-btn>
+            <v-btn :color="`role--${npc.npcClass.role}`" flat @click="deleteDialog = false">
+              Cancel
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

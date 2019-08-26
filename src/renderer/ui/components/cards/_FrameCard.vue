@@ -1,16 +1,14 @@
 <template>
   <v-card-text class="py-0">
-    <v-layout row class="stat-text" fill-height>
+    <v-layout class="stat-text" fill-height>
       <v-flex shrink>
-        <span class="heading h2">{{item.Source}} {{item.MechTypeString}} Frame</span>
+        <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
       </v-flex>
       <v-spacer />
       <v-flex shrink>
-        <v-icon
-          size="80"
-          color="primary"
-          style="line-height: 40px"
-        >cci-size-{{item.size === 0.5 ? 'half' : item.size}}</v-icon>
+        <v-icon size="80" color="primary" style="line-height: 40px">
+          cci-size-{{ item.size === 0.5 ? 'half' : item.size }}
+        </v-icon>
       </v-flex>
     </v-layout>
 
@@ -29,13 +27,13 @@
       icon="cci-trait"
       :title="t.name"
     >
-      <p class="effect-text ma-0 pa-0">{{t.description}}</p>
+      <p class="effect-text ma-0 pa-0">{{ t.description }}</p>
     </cc-titled-panel>
 
     <span class="overline ml-n2">AVAILABLE WEAPON MOUNTS</span>
     <v-layout justify-space-around class="mb-3">
-      <v-flex shrink v-for="(m, i) in item.Mounts" :key="m+i">
-        <cc-title small>{{m}} Mount</cc-title>
+      <v-flex shrink v-for="(m, i) in item.Mounts" :key="m + i">
+        <cc-title small>{{ m }} Mount</cc-title>
       </v-flex>
     </v-layout>
 

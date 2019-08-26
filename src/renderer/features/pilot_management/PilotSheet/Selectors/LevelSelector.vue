@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-text class="text-xs-center">
+    <v-card-text class="text-center">
       <p>
         <i>
           This tool skips the level up wizard. Triggers, licenses, talents, mech skills, and CORE

@@ -39,13 +39,9 @@
       <p v-if="system.effect" class="my-2">{{ system.effect }}</p>
       <template v-if="system.tags || system.recharge">
         <div>
-          <v-chip
-            dark
-            color="primary"
-            small
-            v-for="tag in system.tags"
-            :key="tag.name"
-          >{{ renderTag(tag, npc && npc.tier) }}</v-chip>
+          <v-chip dark color="primary" small v-for="tag in system.tags" :key="tag.name">
+            {{ renderTag(tag, npc && npc.tier) }}
+          </v-chip>
           <v-chip dark color="primary" small v-if="system.recharge" key="recharge">
             Recharge&nbsp;
             <b>{{ system.recharge }}</b>

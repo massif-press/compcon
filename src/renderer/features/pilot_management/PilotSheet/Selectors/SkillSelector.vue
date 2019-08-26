@@ -35,20 +35,28 @@
             color="success"
             icon="check_circle"
             :value="!pilot.IsMissingSkills && !(points.selectedCurrent < points.selectedMin)"
-          >Skill Selection Complete</v-alert>
+          >
+            Skill Selection Complete
+          </v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
-          >{{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining</v-alert>
+          >
+            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
+          </v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="points.selectedCurrent < points.selectedMin"
-          >Must select a minimum of {{ points.selectedMin }} skills</v-alert>
-          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">Reset</v-btn>
+          >
+            Must select a minimum of {{ points.selectedMin }} skills
+          </v-alert>
+          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">
+            Reset
+          </v-btn>
         </v-flex>
       </v-layout>
     </template>
@@ -61,7 +69,7 @@
             <skill-item :skill="skill" />
           </v-flex>
           <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn
@@ -112,7 +120,7 @@
             </v-layout>
           </v-flex>
           <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn
@@ -121,7 +129,7 @@
                     icon
                     flat
                     slot="activator"
-                    :disabled="(pilot.CurrentSkillPoints >= pilot.MaxSkillPoints) || !newSkill"
+                    :disabled="pilot.CurrentSkillPoints >= pilot.MaxSkillPoints || !newSkill"
                     @click="addCustomSkill()"
                   >
                     <v-icon v-html="'add'" />
@@ -137,7 +145,7 @@
             <skill-item :skill="pskill.Skill" />
           </v-flex>
           <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn

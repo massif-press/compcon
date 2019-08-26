@@ -6,8 +6,8 @@
       @click="openConfigModal"
       style="height: 100%"
     >
-      <v-layout row>
-        <v-flex class="ma-0 pb-0 pt-0 text-xs-center">
+      <v-layout>
+        <v-flex class="ma-0 pb-0 pt-0 text-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%; cursor: pointer;`">
             <span class="pilot-letter white--text">
               <v-icon dark size="20vw">cci-frame</v-icon>
@@ -15,10 +15,10 @@
           </div>
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout>
         <v-flex class="pb-0">
           <v-card color="transparent" flat>
-            <v-card-text class="text-xs-center white--text">
+            <v-card-text class="text-center white--text">
               <span class="font-weight-light center-align add-letter">
                 Add New Mech
               </span>

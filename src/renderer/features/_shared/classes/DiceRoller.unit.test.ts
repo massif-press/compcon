@@ -179,18 +179,15 @@ describe('parseDiceString', () => {
     ${'1d3-22'}    | ${1}        | ${3}    | ${1}        | ${-22}
     ${'-1d3-22'}   | ${1}        | ${3}    | ${-1}       | ${-22}
     ${'1 d 6 + 5'} | ${1}        | ${6}    | ${1}        | ${5}
-  `(
-    'parses $input correctly',
-    ({ input, arrayLength, dieType, dieQuantity, modifier }) => {
-      let result = DiceRoller.parseDiceString(input)
-      expect(result).toBeInstanceOf(ParsedDieString)
-      expect(result.dice).toHaveLength(arrayLength)
-      expect(result.dice[0]).toBeInstanceOf(DieSet)
-      expect(result.dice[0].type).toEqual(dieType)
-      expect(result.dice[0].quantity).toEqual(dieQuantity)
-      expect(result.modifier).toEqual(modifier)
-    }
-  )
+  `('parses $input correctly', ({ input, arrayLength, dieType, dieQuantity, modifier }) => {
+  let result = DiceRoller.parseDiceString(input)
+  expect(result).toBeInstanceOf(ParsedDieString)
+  expect(result.dice).toHaveLength(arrayLength)
+  expect(result.dice[0]).toBeInstanceOf(DieSet)
+  expect(result.dice[0].type).toEqual(dieType)
+  expect(result.dice[0].quantity).toEqual(dieQuantity)
+  expect(result.modifier).toEqual(modifier)
+})
 
   it('returns a parse error for a bad string', () => {
     let result = DiceRoller.parseDiceString('blahblah')

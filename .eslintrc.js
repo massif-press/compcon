@@ -1,16 +1,23 @@
 module.exports = {
-  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  parser: 'vue-eslint-parser',
+  plugins: ['@typescript-eslint', 'vuetify'],
   extends: [
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'prettier/@typescript-eslint',
+    'plugin:vue/recommended',
   ],
   parserOptions: {
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
+    ecmaVersion: 2018,
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser',
   },
   rules: {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    "@typescript-eslint/indent": ["error", 2],
-    "camelcase": "off",
-    "@typescript-eslint/camelcase": ["error", {properties: "never"}]
+    '@typescript-eslint/indent': ['error', 2],
+    camelcase: 'off',
+    '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
+    '@typescript-eslint/interface-name-prefix': 0,
+    'vue/max-attributes-per-line': 'off',
+    'vue/name-property-casing': ['error', 'kebab-case'],
   },
-};
+}

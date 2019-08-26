@@ -1,5 +1,5 @@
 <template>
-  <div class="text-xs-center">
+  <div class="text-center">
     <v-bottom-sheet>
       <v-badge
         overlap
@@ -28,9 +28,9 @@
       </v-toolbar>
       <v-card flat>
         <v-card-text>
-          <v-layout row>
+          <v-layout>
             <v-flex xs4 class="ml-2 mr-2">
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.source"
                   prepend-icon="mdi-factory"
@@ -60,7 +60,7 @@
               </v-layout>
             </v-flex>
             <v-flex xs4 class="ml-2 mr-2">
-              <v-layout row wrap>
+              <v-layout wrap>
                 <v-select
                   v-model="filters.include"
                   prepend-icon="mdi-tag"
@@ -91,7 +91,7 @@
               </v-layout>
             </v-flex>
             <v-flex v-if="system" xs4 class="ml-2 mr-2">
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.systemType"
                   prepend-icon="mdi-chip"
@@ -107,7 +107,7 @@
               </v-layout>
             </v-flex>
             <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.weaponType"
                   prepend-icon="mdi-sword"
@@ -121,7 +121,7 @@
                   @change="updateFilters()"
                 />
               </v-layout>
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.weaponSize"
                   prepend-icon="mdi-relative-scale"
@@ -137,7 +137,7 @@
               </v-layout>
             </v-flex>
             <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.attackType"
                   prepend-icon="cci-range"
@@ -151,7 +151,7 @@
                   @change="updateFilters()"
                 />
               </v-layout>
-              <v-layout row>
+              <v-layout>
                 <v-select
                   v-model="filters.damageType"
                   prepend-icon="cci-kinetic-damage"

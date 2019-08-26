@@ -144,16 +144,14 @@
                   <span>Biography</span>
                 </v-layout>
                 <v-layout>
-                  <v-flex xs12 class="text-xs-center">
-                    <b
-                      v-if="pilot.custom_background"
-                      class="minor-title"
-                    >{{ pilot.custom_background }}</b>
+                  <v-flex xs12 class="text-center">
+                    <b v-if="pilot.custom_background" class="minor-title">
+                      {{ pilot.custom_background }}
+                    </b>
                     <div v-else style="display: inline">
-                      <span
-                        v-if="pilot.Background.err"
-                        class="grey--text"
-                      >// MISSING BACKGROUND DATA //</span>
+                      <span v-if="pilot.Background.err" class="grey--text">
+                        // MISSING BACKGROUND DATA //
+                      </span>
                       <b v-else class="minor-title">{{ pilot.Background.Name }}</b>
                     </div>
                     <v-tooltip right class="mlneg">
@@ -176,7 +174,7 @@
                 </v-layout>
                 <!-- Clone Quirk -->
                 <v-layout v-if="pilot.quirk">
-                  <v-flex class="text-xs-center">
+                  <v-flex class="text-center">
                     <v-alert :value="true" color="amber darken-4" class="ma-2">
                       <b class="minor-title">Clone Quirk</b>
                       <editable-label
@@ -264,7 +262,8 @@
                 </div>
                 <div v-else>
                   <v-btn block small flat color="primary lighten-1">
-                    <v-icon small>add</v-icon>&nbsp;Add Pilot Image
+                    <v-icon small>add</v-icon>
+                    &nbsp;Add Pilot Image
                   </v-btn>
                 </div>
               </v-flex>
@@ -309,9 +308,9 @@
             </v-tooltip>
           </v-flex>
         </v-layout>
-        <v-layout row wrap justify-center>
+        <v-layout wrap justify-center>
           <v-container fluid grid-list-sm fill-height>
-            <v-layout row wrap fill-height>
+            <v-layout wrap fill-height>
               <reserve
                 v-for="(r, i) in pilot.Reserves"
                 :key="`dtr_${i}`"
@@ -325,9 +324,9 @@
               <span>Organizations</span>
             </v-flex>
           </v-layout>
-          <v-layout row wrap justify-center>
+          <v-layout wrap justify-center>
             <v-container fluid grid-list-sm fill-height>
-              <v-layout row wrap fill-height>
+              <v-layout wrap fill-height>
                 <organization
                   v-for="(o, i) in pilot.Organizations"
                   :key="`org_${i}`"
@@ -349,7 +348,7 @@
             </v-layout>
             <v-layout align-center justify-center column fill-height>
               <v-flex>
-                <span class="display-3 font-weight-black text-xs-center">+{{ pilot.Grit }}</span>
+                <span class="display-3 font-weight-black text-center">+{{ pilot.Grit }}</span>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -362,11 +361,13 @@
               <v-flex shrink>
                 <v-tooltip left>
                   <v-chip
-                    :outline="!(pilot.IsMissingSkills || pilot.TooManySkills)"
+                    :outline="!(pilot.IsMissingSkills || pilot.TooManySkills)"
                     small
                     slot="activator"
-                    :color="(pilot.IsMissingSkills || pilot.TooManySkills) ? 'warning' : ''"
-                  >{{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}</v-chip>
+                    :color="pilot.IsMissingSkills || pilot.TooManySkills ? 'warning' : ''"
+                  >
+                    {{ pilot.CurrentSkillPoints }}/{{ pilot.MaxSkillPoints }}
+                  </v-chip>
                   <div>
                     <span>
                       {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }}
@@ -379,7 +380,7 @@
                     <pilot-edit-modal
                       title="Edit Pilot Skill Triggers"
                       :modelRef="skillModal"
-                      :highlight="(pilot.IsMissingSkills || pilot.TooManySkills)"
+                      :highlight="pilot.IsMissingSkills || pilot.TooManySkills"
                     >
                       <skill-selector
                         slot="modal-content"
@@ -412,11 +413,13 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
+                :outline="!(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
                 small
                 slot="activator"
-                :color="(pilot.IsMissingLicenses || pilot.TooManyLicenses) ? 'warning' : ''"
-              >{{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}</v-chip>
+                :color="pilot.IsMissingLicenses || pilot.TooManyLicenses ? 'warning' : ''"
+              >
+                {{ pilot.CurrentLicensePoints }}/{{ pilot.MaxLicensePoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }}
@@ -430,7 +433,7 @@
                   title="Edit Pilot Licenses"
                   :modelRef="licenseModal"
                   ref="licenseSelector"
-                  :highlight="(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
+                  :highlight="pilot.IsMissingLicenses || pilot.TooManyLicenses"
                 >
                   <license-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>
@@ -460,11 +463,13 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!(pilot.IsMissingTalents || pilot.TooManyTalents)"
+                :outline="!(pilot.IsMissingTalents || pilot.TooManyTalents)"
                 small
                 slot="activator"
-                :color="(pilot.IsMissingTalents || pilot.TooManyTalents) ? 'warning' : ''"
-              >{{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}</v-chip>
+                :color="pilot.IsMissingTalents || pilot.TooManyTalents ? 'warning' : ''"
+              >
+                {{ pilot.CurrentTalentPoints }}/{{ pilot.MaxTalentPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }}
@@ -478,7 +483,7 @@
                   title="Edit Pilot Talents"
                   :modelRef="talentModal"
                   ref="talentSelector"
-                  :highlight="(pilot.IsMissingTalents || pilot.TooManyTalents)"
+                  :highlight="pilot.IsMissingTalents || pilot.TooManyTalents"
                 >
                   <talent-selector slot="modal-content" :pilot="pilot" @close="setPilotTalents" />
                 </pilot-edit-modal>
@@ -508,11 +513,13 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!(pilot.IsMissingHASE || pilot.TooManyHASE)"
+                :outline="!(pilot.IsMissingHASE || pilot.TooManyHASE)"
                 small
                 slot="activator"
-                :color="(pilot.IsMissingHASE || pilot.TooManyHASE) ? 'warning' : ''"
-              >{{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}</v-chip>
+                :color="pilot.IsMissingHASE || pilot.TooManyHASE ? 'warning' : ''"
+              >
+                {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxHASEPoints - pilot.CurrentHASEPoints }}
@@ -526,9 +533,13 @@
                   title="Edit Mech Skills"
                   :modelRef="mechSkillModal"
                   ref="mechSkillSelector"
-                  :highlight="(pilot.IsMissingHASE || pilot.TooManyHASE)"
+                  :highlight="pilot.IsMissingHASE || pilot.TooManyHASE"
                 >
-                  <mech-skills-selector slot="modal-content" :pilot="pilot" @close="setMechSkills" />
+                  <mech-skills-selector
+                    slot="modal-content"
+                    :pilot="pilot"
+                    @close="setMechSkills"
+                  />
                 </pilot-edit-modal>
               </span>
               <span>Edit Pilot Mech Skills</span>
@@ -550,11 +561,13 @@
           <v-flex shrink>
             <v-tooltip left>
               <v-chip
-                :outline="!(pilot.IsMissingCBs || pilot.TooManyCBs)"
+                :outline="!(pilot.IsMissingCBs || pilot.TooManyCBs)"
                 small
                 slot="activator"
-                :color="(pilot.IsMissingCBs || pilot.TooManyCBs) ? 'warning' : ''"
-              >{{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}</v-chip>
+                :color="pilot.IsMissingCBs || pilot.TooManyCBs ? 'warning' : ''"
+              >
+                {{ pilot.CurrentCBPoints }}/{{ pilot.MaxCBPoints }}
+              </v-chip>
               <div>
                 <span>
                   {{ pilot.MaxCBPoints - pilot.CurrentCBPoints }}
@@ -568,7 +581,7 @@
                   title="Edit CORE Bonuses"
                   :modelRef="bonusModal"
                   ref="bonusSelector"
-                  :highlight="(pilot.IsMissingCBs || pilot.TooManyCBs)"
+                  :highlight="pilot.IsMissingCBs || pilot.TooManyCBs"
                 >
                   <core-bonus-selector slot="modal-content" :pilot="pilot" />
                 </pilot-edit-modal>
@@ -577,7 +590,7 @@
             </v-tooltip>
           </v-flex>
         </v-layout>
-        <v-layout row v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
+        <v-layout v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
           <core-bonus-item :cb="cb" />
         </v-layout>
 
@@ -598,7 +611,8 @@
       <v-layout class="ma-5">
         <v-flex>
           <v-btn color="primary" large outline block @click="openPrintOptions()">
-            <v-icon>print</v-icon>&emsp; PRINT PILOT SHEET
+            <v-icon>print</v-icon>
+            &emsp; PRINT PILOT SHEET
           </v-btn>
           <v-btn color="primary" small flat block @click="copyPilotStatblock()">
             copy pilot statblock &nbsp;
@@ -620,7 +634,7 @@
 
       <v-dialog v-model="printDialog" persistent width="500px">
         <v-card>
-          <v-card-text class="text-xs-center effect-text">
+          <v-card-text class="text-center effect-text">
             Include a mech from {{ pilot.Callsign }}'s hangar?
             <v-select
               :items="pilot.Mechs"
@@ -634,9 +648,9 @@
               <template v-slot:selection="{ item }">
                 <span class="minor-title">
                   {{ item.name }}
-                  <span
-                    class="caption grey--text"
-                  >{{ item.Frame.Source }} {{ item.Frame.Name }}</span>
+                  <span class="caption grey--text">
+                    {{ item.Frame.Source }} {{ item.Frame.Name }}
+                  </span>
                 </span>
               </template>
             </v-select>
@@ -645,7 +659,9 @@
           <v-card-actions>
             <v-btn color="primary" @click="print(false)">No</v-btn>
             <v-spacer />
-            <v-btn color="primary" @click="print(true, printMech)" :disabled="!printMech">Yes</v-btn>
+            <v-btn color="primary" @click="print(true, printMech)" :disabled="!printMech">
+              Yes
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -653,7 +669,7 @@
 
     <!-- Missing/No Pilot Display -->
     <empty-view v-else>
-      <p slot="contents" class="grey--text text-xs-center display-2">NO PILOT LOADED</p>
+      <p slot="contents" class="grey--text text-center display-2">NO PILOT LOADED</p>
     </empty-view>
   </div>
 </template>

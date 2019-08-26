@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-container grid-list-sm fluid>
-      <v-layout row>
+      <v-layout>
         <v-flex xs10>
           <v-btn block outline large color="primary" @click="importImage('portrait')">
             Import Portrait Image
@@ -31,7 +31,7 @@
         </v-flex>
       </v-layout>
       <v-divider class="mb-2" />
-      <v-layout row justify-space-between wrap fill-height align-center>
+      <v-layout justify-space-between wrap fill-height align-center>
         <v-flex v-if="pilot.CloudPortrait" xs3>
           <div :class="`justify-center pa-1 cloud`">
             <v-img

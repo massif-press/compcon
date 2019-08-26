@@ -8,7 +8,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="mb-3" />
-    <v-slide-y-transition group tag="div" class="layout row wrap justify-start">
+    <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
       <v-flex v-for="npc in npcs" :key="npc.id" xs4>
         <File
           :name="npc.name"
@@ -20,7 +20,9 @@
           <template v-slot:extra-icons>
             <v-menu bottom left>
               <template v-slot:activator="{ on }">
-                <v-icon right class="ml-auto more-icon" v-on="on" @click.stop>mdi-dots-vertical</v-icon>
+                <v-icon right class="ml-auto more-icon" v-on="on" @click.stop>
+                  mdi-dots-vertical
+                </v-icon>
               </template>
 
               <v-list class="more-list">
@@ -56,7 +58,9 @@
               deleteDialog = false
               deletingNPCID = null
             "
-          >Cancel</v-btn>
+          >
+            Cancel
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

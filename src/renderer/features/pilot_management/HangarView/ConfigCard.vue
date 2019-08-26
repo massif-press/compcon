@@ -1,12 +1,12 @@
 <template>
   <v-hover style="background-color: rgba(0,0,0,0)">
     <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`">
-      <v-layout row style="cursor: pointer;" @click="toConfigSheet()">
+      <v-layout style="cursor: pointer;" @click="toConfigSheet()">
         <v-flex class="ma-0 pb-0 pt-0">
           <v-img :src="mech.Portrait" position="top" :height="`${cardHeight}px`" />
         </v-flex>
       </v-layout>
-      <v-layout row>
+      <v-layout>
         <v-flex>
           <v-card :color="panelColor(mech.IsActive)" dark flat>
             <v-layout>
@@ -22,7 +22,7 @@
                       mdi-power
                     </v-icon>
                   </v-btn>
-                  <div class="text-xs-center">
+                  <div class="text-center">
                     <span>
                       <b :class="activeColorClass()">
                         {{ mech.IsActive ? 'Active' : 'Inactive' }}
@@ -102,7 +102,7 @@
           @cancel="copyDialog = false"
         >
           <template v-slot:modal-content>
-            <v-card-text slot="modal-content" class="text-xs-center">
+            <v-card-text slot="modal-content" class="text-center">
               <v-btn large block color="indigo" @click="cloneConfig" dark>
                 Duplicate Configuration
               </v-btn>

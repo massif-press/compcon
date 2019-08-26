@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs4 class="ma-1 text-xs-center">
+  <v-flex xs4 class="ma-1 text-center">
     <v-card dark flat>
       <v-card-text class="pa-0 effect-text" style="background-color: #616161">
         <span style="text-transform: uppercase">{{ attr }}</span>

@@ -5,16 +5,18 @@
     </v-toolbar>
     <v-window v-model="window">
       <v-window-item>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <span class="fluff-text">
             <b class="minor-title red--text">REACTOR LEVELS CRITICAL</b>
-            <br />Roll 1d6 per point of reactor stress
+            <br />
+            Roll 1d6 per point of reactor stress
           </span>
           <br />
-          <span class="display-2">{{totalRolls}}d6</span>
+          <span class="display-2">{{ totalRolls }}d6</span>
           <br />
           <span class="caption capitalize-text">
-            <b>{{totalRolls - rolls.length}}</b> rolls remaining
+            <b>{{ totalRolls - rolls.length }}</b>
+            rolls remaining
           </span>
           <br />
           <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
@@ -29,7 +31,7 @@
               <span>Click to re-roll</span>
             </v-tooltip>
           </div>
-          <div v-for="n in (totalRolls - rolls.length)" :key="`er${n}`" class="d-inline">
+          <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
             <v-btn flat icon x-large disabled>
               <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
             </v-btn>
@@ -54,11 +56,13 @@
           <span
             v-if="rolls.filter(x => x === 1).length > 1"
             class="major-title font-weight-bold capitalize-text red--text"
-          >// REACTOR INTEGRITY FAILING //</span>
+          >
+            // REACTOR INTEGRITY FAILING //
+          </span>
           <span v-else-if="rolls.length" class="minor-title capitalize-text">
             Result:
-            <b>{{Math.min(...rolls)}}</b>
-            <i>({{results[Math.min(...rolls) - 1]}})</i>
+            <b>{{ Math.min(...rolls) }}</b>
+            <i>({{ results[Math.min(...rolls) - 1] }})</i>
           </span>
         </v-card-text>
         <v-divider />
@@ -68,16 +72,19 @@
           <v-btn
             color="primary"
             large
-            :disabled="(totalRolls - rolls.length) > 0"
+            :disabled="totalRolls - rolls.length > 0"
             @click="window = resultWindow"
-          >continue</v-btn>
+          >
+            continue
+          </v-btn>
         </v-card-actions>
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Emergency Shunt</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <p class="fluff-text">
-            Cooling systems have recovered and managed to contain the peaking heat levels. However, your mech is
+            Cooling systems have recovered and managed to contain the peaking heat levels. However,
+            your mech is
             <strong>impaired</strong>
             until the end of your next turn.
           </p>
@@ -91,10 +98,11 @@
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Power Plant Destabilization</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <p class="fluff-text">
             Your mech’s power plant has become unstable, ejecting jets of plasma. Your mech is
-            <strong>exposed</strong> until you take action to remove the condition.
+            <strong>exposed</strong>
+            until you take action to remove the condition.
           </p>
         </v-card-text>
         <v-card-actions>
@@ -106,14 +114,17 @@
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">MELTDOWN</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <div class="fluff-text">
             <p v-if="mech.CurrentStructure >= 3">
               Your mech is
-              <b>exposed</b> until you take action to remove the condition.
+              <b>exposed</b>
+              until you take action to remove the condition.
             </p>
             <p v-else>
-              Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this check. Even on a successful check, your mech suffers from the
+              Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6
+              turns after this one (rolled by the GM). You can reverse it by taking a full action
+              and repeating this check. Even on a successful check, your mech suffers from the
               <b>exposed</b>
               condition until you take action to remove it.
             </p>
@@ -134,11 +145,10 @@
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Irreversible Meltdown</v-card-title>
-        <v-card-text class="text-xs-center title-bg">
-          <p
-            class="major-title red--text pa-3 ma-5"
-            style="background-color:black;"
-          >REACTOR CRITICAL // MELTDOWN IMMINENT</p>
+        <v-card-text class="text-center title-bg">
+          <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
+            REACTOR CRITICAL // MELTDOWN IMMINENT
+          </p>
         </v-card-text>
         <v-card-actions>
           <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
@@ -213,7 +223,6 @@ export default Vue.extend({
   },
 })
 </script>
-
 
 <style scoped>
 .title-bg {

@@ -56,7 +56,8 @@
               </span>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
+                <range-element small :range="getRange()" />
+                &emsp;&mdash;&emsp;
                 <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
@@ -138,12 +139,12 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           Superheavy-class weaponry requires an additional mount. Select the bracing mount below.
           <br />
           <i>The selected mount will be locked until the superheavy weapon is removed.</i>
           <br />
-          <v-layout row justify-center>
+          <v-layout justify-center>
             <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
               <v-flex v-if="m.Type !== 'Heavy'">
                 <v-btn v-html="`&emsp;${m.Type}&emsp;`" large block @click="equipSuperheavy(m)" />
