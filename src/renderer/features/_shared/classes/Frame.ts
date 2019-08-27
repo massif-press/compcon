@@ -170,6 +170,11 @@ class CoreSystem {
     return store.getters.getItemById('MechWeapons', this.integrated)
   }
 
+  public getIntegrated(): MechWeapon | null {
+    if (!this.integrated) return null
+    return store.getters.getItemById('MechWeapons', this.integrated)
+  }
+
   public get Passive(): string | null {
     return this.passive || null
   }

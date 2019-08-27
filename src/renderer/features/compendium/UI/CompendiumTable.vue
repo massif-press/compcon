@@ -61,6 +61,7 @@
 import Vue from 'vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
 import SearchResultModal from './SearchResultModal.vue'
+import includesIgnoringAccentsCase from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'frames',
@@ -89,7 +90,7 @@ export default Vue.extend({
       var vm = this as any
       let i = vm.items
 
-      if (vm.search) i = i.filter(x => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
+      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
 
       if (Object.keys(vm.filters).length) {
         i = ItemFilter.Filter(i, vm.filters)

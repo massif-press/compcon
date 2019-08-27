@@ -60,21 +60,21 @@
               <v-card-text class="ml-4">
                 <span class="subheading">
                   <b>
-                    {{ frame.CoreSystem.Integrated.Name }} ({{ frame.CoreSystem.Integrated.Size }}
-                    {{ frame.CoreSystem.Integrated.Type }}):
+                    {{ frame.CoreSystem.getIntegrated().Name }} ({{ frame.CoreSystem.getIntegrated().Size }}
+                    {{ frame.CoreSystem.getIntegrated().Type }}):
                   </b>
                 </span>
                 <range-element
-                  v-if="frame.CoreSystem.Integrated.Range"
-                  :range="frame.CoreSystem.Integrated.Range"
+                  v-if="frame.CoreSystem.getIntegrated().Range"
+                  :range="frame.CoreSystem.getIntegrated().Range"
                 />
                 <damage-element
-                  v-if="frame.CoreSystem.Integrated.Damage"
+                  v-if="frame.CoreSystem.getIntegrated().Damage"
                   size="16"
-                  :dmg="frame.CoreSystem.Integrated.Damage"
+                  :dmg="frame.CoreSystem.getIntegrated().Damage"
                 />
                 <br />
-                <span v-html="frame.CoreSystem.Integrated.Effect" class="effect-text" />
+                <span v-html="frame.CoreSystem.getIntegrated().Effect" class="effect-text" />
                 <br />
                 <item-tag v-for="tag in frame.CoreSystem.Tags" :key="tag.id" :tag-obj="tag" />
               </v-card-text>

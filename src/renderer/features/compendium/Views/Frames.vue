@@ -9,6 +9,7 @@
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
 import { MechType, Frame } from '@/class'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'frames',
@@ -33,21 +34,6 @@ export default Vue.extend({
     frames: [],
     frameTypes: [],
   }),
-  // computed: {
-  //   frames() {
-  //     var vm = this as any
-  //     let i = vm.$store.getters.getItemCollection('Frames')
-
-  //     if (vm.search)
-  //       i = i.filter((x: Frame) => x.Name.toUpperCase().includes(vm.search.toUpperCase()))
-
-  //     if (vm.filter.length) {
-  //       i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
-  //     }
-
-  //     return i
-  //   },
-  // },
   created() {
     this.frames = this.$store.getters.getItemCollection('Frames')
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
