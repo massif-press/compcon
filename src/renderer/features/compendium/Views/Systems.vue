@@ -12,6 +12,7 @@ import { SystemCard } from '@/features/pilot_management/components/UI'
 import { WeaponMod, MechSystem, MechEquipment } from '@/class'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'systems',
@@ -27,11 +28,6 @@ export default Vue.extend({
     ],
     systems: [],
   }),
-  created() {
-    this.systems = this.$store.getters
-      .getItemCollection('MechSystems')
-      .concat(this.$store.getters.getItemCollection('WeaponMods'))
-      .filter((x: MechEquipment) => x.Source) as MechEquipment[]
   },
 })
 </script>

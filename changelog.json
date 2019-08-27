@@ -1,12 +1,16 @@
 {
   "stable": "1.3.10",
-  "beta": "1.5.4",
+  "beta": "1.5.5",
   "news": {
     "date": "August 14th, 2019",
-    "version": "1.5.4",
-    "body": "<p>Greetings, Pilots!</p><p>This update resolves a few remaining bugs. Updates will be fairly scarce until the styling pass is completed. Stop by the LANCER discord if you want to follow its development more closely.</p>"
+    "version": "1.5.5",
+    "body": "<p>Greetings, pilots!</p> <p>Work continues on the styling pass. I'll have a better idea of an ETA by the end of the month. In the meantime, some new contributors have stepped up to quash bugs and improve QoL -- huge thanks to Samsterious, CoreyT355 and Eranziel!</p>"
   },
   "changelog": [
+    {
+      "version": "1.5.5",
+      "changes": "<ul> <li>Integrated CORE System weapons now appear correctly on Frame info panels</li> <li>The Pilot Cloud ID field will now auto-focus on open (thanks, Samsterious! 🎉 first PR! 🎉 )</li> <li>Encounter NPCs with long names will no longer overflow their textboxes. Instead, a tooltip will appear with the full name (thanks, CoreyT355! 🎉 first PR! 🎉 )</li> <li>Biological NPCs added to the NPC Builder (thanks, Eranziel! 🎉 first PR! 🎉 )</li> <li>Search input now intelligently handles special characters - eg. \"ja\" with match \"J&auml;ger\" (thanks, Qwertronix!)</li> </ul>"
+    },
     {
       "version": "1.5.4",
       "changes": "<ul> <li>Improvements to the weapon \"Add Mod\" button (thanks, Tso!)</li> <li>Pilot improvement points are now preserved when a pilot is leveled down (thanks, Qwertronix! 🎉 first PR! 🎉 )</li> <li>More consistent dismissal of dialog boxes across the app (thanks, Qwertronix!)</li> <li>Fixed a bug that was causing Frame CORE Integrated Weapons to show up as missing (may require deleting and rebuilding your loadout)</li> </ul>"
