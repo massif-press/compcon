@@ -2,9 +2,9 @@
   <cc-titled-panel :title="talent.Name" icon="cci-trait">
     <talent-rank-item
       v-for="(r, i) in talent.Ranks"
+      :key="r.name"
       :talent-rank="r"
       :rank-index="i + 1"
-      :key="r.name"
     />
   </cc-titled-panel>
 </template>

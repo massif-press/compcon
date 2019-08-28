@@ -1,8 +1,8 @@
 <template>
   <v-card flat class="ma-2">
     <v-card-text>
-      <v-layout wrap>
-        <v-flex xs6>
+      <v-row wrap>
+        <v-col xs6>
           <v-select
             class="ml-2 mr-2"
             label="Reserve Type"
@@ -12,8 +12,8 @@
             hide-details
             @change="reserve = ''"
           />
-        </v-flex>
-        <v-flex xs6 v-if="type && type !== 'Custom'">
+        </v-col>
+        <v-col xs6 v-if="type && type !== 'Custom'">
           <v-select
             class="ml-2 mr-2"
             label="Reserve"
@@ -24,9 +24,9 @@
             outline
             hide-details
           />
-        </v-flex>
+        </v-col>
         <v-slide-y-transition>
-          <v-flex xs12 v-show="type === 'Custom' || reserve">
+          <v-col xs12 v-show="type === 'Custom' || reserve">
             <v-card color="grey lighten-4" class="ml-3 mr-3">
               <v-card-text class="pt-1 pb-0">
                 <p
@@ -46,9 +46,9 @@
                 </div>
               </v-card-text>
             </v-card>
-          </v-flex>
+          </v-col>
         </v-slide-y-transition>
-      </v-layout>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>

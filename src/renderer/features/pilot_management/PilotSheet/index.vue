@@ -3,11 +3,11 @@
     <div v-if="pilot.Name">
       <v-container fluid>
         <!-- Pilot Info Block -->
-        <v-layout>
-          <v-flex xs10>
-            <v-layout align-end>
+        <v-row>
+          <v-col xs10>
+            <v-row align-end>
               <!-- Callsign -->
-              <v-flex shrink>
+              <v-col shrink>
                 <editable-label
                   attr="callsign"
                   description="Callsign"
@@ -16,9 +16,9 @@
                 >
                   <span slot="label" class="callsign-text">{{ pilot.Callsign }}</span>
                 </editable-label>
-              </v-flex>
+              </v-col>
               <!-- Name -->
-              <v-flex>
+              <v-col>
                 <editable-label
                   attr="name"
                   description="Name"
@@ -27,13 +27,13 @@
                 >
                   <span slot="label" class="blockquote ml-1 pl-0">{{ pilot.Name }}&nbsp;</span>
                 </editable-label>
-              </v-flex>
+              </v-col>
               <v-spacer />
-            </v-layout>
+            </v-row>
             <v-divider class="ma-2" />
             <!-- Pilot Statblock -->
-            <v-layout>
-              <v-flex>
+            <v-row>
+              <v-col>
                 <pip-bar
                   small
                   :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 1"
@@ -41,7 +41,7 @@
                   :items="[pilot.MaxHP]"
                   :caption="`HP ${pilot.MaxHP}`"
                 />
-              </v-flex>
+              </v-col>
               <pip-bar
                 small
                 :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 2"
@@ -70,15 +70,15 @@
                 :items="[pilot.Speed]"
                 :caption="`SPEED ${pilot.Speed}`"
               />
-            </v-layout>
-          </v-flex>
+            </v-row>
+          </v-col>
           <!-- License Level -->
-          <v-flex shrink>
+          <v-col shrink>
             <span class="caption float-right">LICENSE LEVEL</span>
             <br />
-          </v-flex>
+          </v-col>
           <span class="xl-text">{{ pilot.Level }}</span>
-          <v-flex shrink>
+          <v-col shrink>
             <!-- Level Up Button -->
             <v-tooltip bottom nudge-right="15px">
               <v-btn
@@ -130,21 +130,21 @@
                 />
               </template>
             </lazy-dialog>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <!-- End Pilot Info Block -->
 
         <!-- Bio/Apparance Block -->
-        <v-layout>
-          <v-flex xs8>
-            <v-layout>
-              <v-flex>
+        <v-row>
+          <v-col xs8>
+            <v-row>
+              <v-col>
                 <!-- Biograpgy -->
-                <v-layout class="header" align-content-space-around>
+                <v-row class="header" align-content-space-around>
                   <span>Biography</span>
-                </v-layout>
-                <v-layout>
-                  <v-flex xs12 class="text-center">
+                </v-row>
+                <v-row>
+                  <v-col xs12 class="text-center">
                     <b v-if="pilot.custom_background" class="minor-title">
                       {{ pilot.custom_background }}
                     </b>
@@ -170,11 +170,11 @@
                       </span>
                       <span>Change Pilot Background</span>
                     </v-tooltip>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
                 <!-- Clone Quirk -->
-                <v-layout v-if="pilot.quirk">
-                  <v-flex class="text-center">
+                <v-row v-if="pilot.quirk">
+                  <v-col class="text-center">
                     <v-alert :value="true" color="amber darken-4" class="ma-2">
                       <b class="minor-title">Clone Quirk</b>
                       <editable-label
@@ -200,8 +200,8 @@
                         <span>Remove Quirk</span>
                       </v-tooltip>
                     </v-alert>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
                 <!-- Pilot History -->
                 <v-textarea
                   color="primary"
@@ -211,11 +211,11 @@
                   label="Pilot History"
                   class="pl-3 pr-3"
                 />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
             <!-- Pilot Notes -->
-            <v-layout>
-              <v-flex>
+            <v-row>
+              <v-col>
                 <div class="pt-1 pb-1 pl-3 pr-3">
                   <v-textarea
                     color="primary"
@@ -226,16 +226,16 @@
                     label="Notes"
                   />
                 </div>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex xs4>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col xs4>
             <!-- Appearance -->
-            <v-layout class="header" align-content-space-around>
-              <v-flex>
+            <v-row class="header" align-content-space-around>
+              <v-col>
                 <span>Appearance</span>
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-tooltip left>
                   <span slot="activator">
                     <pilot-edit-modal
@@ -253,10 +253,10 @@
                   </span>
                   <span>Change Pilot Portrait</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
-            <v-layout>
-              <v-flex class="pl-2" @click="appearanceModal = true">
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="pl-2" @click="appearanceModal = true">
                 <div v-if="pilot.Portrait">
                   <v-img :src="pilot.Portrait" max-height="55vh" max-width="45.1vw" contain />
                 </div>
@@ -266,10 +266,10 @@
                     &nbsp;Add Pilot Image
                   </v-btn>
                 </div>
-              </v-flex>
-            </v-layout>
-            <v-layout>
-              <v-flex class="pl-2">
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="pl-2">
                 <v-textarea
                   color="primary"
                   v-model="pilot.TextAppearance"
@@ -277,18 +277,18 @@
                   rows="1"
                   label="Description"
                 />
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
         <!-- End Bio/Apparance Block -->
 
         <!-- Downtime -->
-        <v-layout class="header" align-content-space-around>
-          <v-flex>
+        <v-row class="header" align-content-space-around>
+          <v-col>
             <span>Downtime Reserves</span>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-tooltip left>
               <span slot="activator">
                 <pilot-edit-modal
@@ -306,59 +306,59 @@
               </span>
               <span>Add Downtime Resource</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
-        <v-layout wrap justify-center>
+          </v-col>
+        </v-row>
+        <v-row wrap justify="center">
           <v-container fluid grid-list-sm fill-height>
-            <v-layout wrap fill-height>
+            <v-row wrap fill-height>
               <reserve
                 v-for="(r, i) in pilot.Reserves"
                 :key="`dtr_${i}`"
                 :reserve="r"
                 @remove="pilot.Reserves.splice(i, 1)"
               />
-            </v-layout>
+            </v-row>
           </v-container>
-          <v-layout class="header" align-content-space-around>
-            <v-flex>
+          <v-row class="header" align-content-space-around>
+            <v-col>
               <span>Organizations</span>
-            </v-flex>
-          </v-layout>
-          <v-layout wrap justify-center>
+            </v-col>
+          </v-row>
+          <v-row wrap justify="center">
             <v-container fluid grid-list-sm fill-height>
-              <v-layout wrap fill-height>
+              <v-row wrap fill-height>
                 <organization
                   v-for="(o, i) in pilot.Organizations"
                   :key="`org_${i}`"
                   :org="o"
                   @remove="pilot.Organizations.splice(i, 1)"
                 />
-              </v-layout>
+              </v-row>
             </v-container>
-          </v-layout>
-        </v-layout>
+          </v-row>
+        </v-row>
         <!-- End Downtime -->
 
         <!-- Skills Block -->
-        <v-layout>
-          <v-flex xs1>
+        <v-row>
+          <v-col xs1>
             <!-- Grit -->
-            <v-layout class="header" justify-space-around>
+            <v-row class="header" justify-space-around>
               <span>Grit</span>
-            </v-layout>
-            <v-layout align-center justify-center column fill-height>
-              <v-flex>
+            </v-row>
+            <v-row align-center justify="center" column fill-height>
+              <v-col>
                 <span class="display-3 font-weight-black text-center">+{{ pilot.Grit }}</span>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex xs11>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col xs11>
             <!-- Triggers -->
-            <v-layout class="header" justify-space-around>
-              <v-flex>
+            <v-row class="header" justify-space-around>
+              <v-col>
                 <span>Skill Triggers</span>
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-tooltip left>
                   <v-chip
                     :outline="!(pilot.IsMissingSkills || pilot.TooManySkills)"
@@ -391,26 +391,26 @@
                   </span>
                   <span>Edit Pilot Skill Triggers</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
-            <v-layout>
-              <v-flex class="mr-3">
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="mr-3">
                 <skill-item
                   v-for="(pilotskill, i) in pilot.Skills"
                   :key="pilotskill.Skill.ID + i"
                   :pilotSkill="pilotskill"
                   :skill="pilotskill.Skill"
                 />
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
         <!-- License Block -->
-        <v-layout class="header" justify-space-around>
-          <v-flex>
+        <v-row class="header" justify-space-around>
+          <v-col>
             <span>Licenses</span>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-tooltip left>
               <v-chip
                 :outline="!(pilot.IsMissingLicenses || pilot.TooManyLicenses)"
@@ -440,10 +440,10 @@
               </span>
               <span>Edit Pilot Licenses</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
-        <v-layout class="ml-3 mr-3">
-          <v-flex>
+          </v-col>
+        </v-row>
+        <v-row class="ml-3 mr-3">
+          <v-col>
             <v-expansion-panel focusable>
               <license-item
                 v-for="pLicense in pilot.Licenses"
@@ -452,15 +452,15 @@
                 :licenseData="pLicense.License"
               />
             </v-expansion-panel>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
 
         <!-- Talent Block -->
-        <v-layout class="header" justify-space-around>
-          <v-flex>
+        <v-row class="header" justify-space-around>
+          <v-col>
             <span>Talents</span>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-tooltip left>
               <v-chip
                 :outline="!(pilot.IsMissingTalents || pilot.TooManyTalents)"
@@ -490,10 +490,10 @@
               </span>
               <span>Edit Pilot Talents</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
-        <v-layout class="ml-3 mr-3">
-          <v-flex>
+          </v-col>
+        </v-row>
+        <v-row class="ml-3 mr-3">
+          <v-col>
             <v-expansion-panel focusable>
               <talent-item
                 v-for="pilotTalent in pilot.Talents"
@@ -502,15 +502,15 @@
                 :talent="pilotTalent.Talent"
               />
             </v-expansion-panel>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
 
         <!-- Mech Skills Block -->
-        <v-layout class="header" justify-space-around>
-          <v-flex>
+        <v-row class="header" justify-space-around>
+          <v-col>
             <span>Mech Skills</span>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-tooltip left>
               <v-chip
                 :outline="!(pilot.IsMissingHASE || pilot.TooManyHASE)"
@@ -544,21 +544,21 @@
               </span>
               <span>Edit Pilot Mech Skills</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
-        <v-layout center justify-space-around class="pl-5">
+          </v-col>
+        </v-row>
+        <v-row center justify-space-around class="pl-5">
           <hase-pips title="hull" attribute="hull" />
           <hase-pips title="agility" attribute="agi" />
           <hase-pips title="systems" attribute="sys" />
           <hase-pips title="engineering" attribute="eng" />
-        </v-layout>
+        </v-row>
 
         <!-- CORE Bonuses -->
-        <v-layout class="header" justify-space-around>
-          <v-flex>
+        <v-row class="header" justify-space-around>
+          <v-col>
             <span>CORE Bonuses</span>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-tooltip left>
               <v-chip
                 :outline="!(pilot.IsMissingCBs || pilot.TooManyCBs)"
@@ -588,28 +588,28 @@
               </span>
               <span>Edit Pilot CORE Bonuses</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
-        <v-layout v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
+          </v-col>
+        </v-row>
+        <v-row v-for="cb in pilot.CoreBonuses" :key="cb.ID" class="ml-5 mr-5">
           <core-bonus-item :cb="cb" />
-        </v-layout>
+        </v-row>
 
         <!-- Pilot Loadout -->
-        <v-layout class="header">
+        <v-row class="header">
           <span>Pilot Gear</span>
-        </v-layout>
-        <v-layout>
-          <v-flex xs12>
+        </v-row>
+        <v-row>
+          <v-col xs12>
             <pilot-loadout :pilot="pilot" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
 
       <v-divider />
 
       <!-- Print Block -->
-      <v-layout class="ma-5">
-        <v-flex>
+      <v-row class="ma-5">
+        <v-col>
           <v-btn color="primary" large outline block @click="openPrintOptions()">
             <v-icon>print</v-icon>
             &emsp; PRINT PILOT SHEET
@@ -624,8 +624,8 @@
               </span>
             </v-tooltip>
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
       <v-snackbar v-model="snackbar" :timeout="5000">
         <span v-html="notification" />

@@ -1,15 +1,15 @@
 <template>
-  <v-flex shrink>
-    <v-layout>
-      <v-flex shrink v-if="!readonly">
+  <v-col shrink>
+    <v-row>
+      <v-col shrink v-if="!readonly">
         <v-tooltip left>
           <v-btn slot="activator" flat icon class="ma-0 pt-0" dark relative @click="clear">
             <v-icon :large="large" :small="small">remove</v-icon>
           </v-btn>
           <span>Mark Use</span>
         </v-tooltip>
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-rating
           :key="current"
           class="d-inline-block"
@@ -25,9 +25,9 @@
           :color="color"
           :background-color="bgColor"
         />
-      </v-flex>
-    </v-layout>
-  </v-flex>
+      </v-col>
+    </v-row>
+  </v-col>
 </template>
 
 <script lang="ts">

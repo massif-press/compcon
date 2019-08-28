@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout column fill-height>
+    <v-row column fill-height>
       <div v-if="mech.IsDestroyed">
         <v-card>
           <v-card-text class="text-center destroyed-bg">
@@ -23,7 +23,7 @@
           </p>
         </div>
         <div v-else>
-          <v-flex xs12 class="text-center mt-3 mb-3">
+          <v-col xs12 class="text-center mt-3 mb-3">
             <span class="grey--text">
               REPAIR CAPACITY REMAINING:
               <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
@@ -42,7 +42,7 @@
                 mdi-circle-outline
               </v-icon>
             </span>
-          </v-flex>
+          </v-col>
           <v-divider dark class="ma-2" />
           <v-card color="grey darken-2" class="mb-2">
             <v-card-text>
@@ -83,10 +83,10 @@
         </div>
       </div>
       <div v-else>
-        <v-flex xs12 class="major-title text-center" style="background: #33691E">
+        <v-col xs12 class="major-title text-center" style="background: #33691E">
           <span>RESTING</span>
-        </v-flex>
-        <v-flex xs12 class="text-center mt-3 mb-3">
+        </v-col>
+        <v-col xs12 class="text-center mt-3 mb-3">
           <span class="grey--text">
             REPAIR CAPACITY REMAINING:
             <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
@@ -103,8 +103,8 @@
               mdi-circle-outline
             </v-icon>
           </span>
-        </v-flex>
-        <v-flex xs12 class="text-xs-right">
+        </v-col>
+        <v-col xs12 class="text-xs-right">
           <span class="caption">
             {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS COMPLETE
           </span>
@@ -115,14 +115,14 @@
             background-color="red darken-4"
             height="10"
           />
-        </v-flex>
-        <v-flex xs12 class="text-xs-left">
+        </v-col>
+        <v-col xs12 class="text-xs-left">
           <span v-if="mech.CurrentHP === mech.MaxHP" class="minor-title grey--text">
             >:// HP NOMINAL
           </span>
-          <v-layout v-elsewrap>
+          <v-row v-elsewrap>
             <span class="minor-title orange--text">>:// WARNING: DAMAGE DETECTED</span>
-            <v-flex class="mr-4 ml-2">
+            <v-col class="mr-4 ml-2">
               <v-btn
                 block
                 light
@@ -132,19 +132,19 @@
               >
                 Recover HP
               </v-btn>
-            </v-flex>
-            <v-flex class="text-center" xs2>
+            </v-col>
+            <v-col class="text-center" xs2>
               <v-icon large class="mt-2">control_point</v-icon>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 class="text-xs-left">
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col xs12 class="text-xs-left">
           <span v-if="mech.CurrentStructure === mech.MaxStructure" class="minor-title grey--text">
             >:// STRUCTURAL INTEGRITY NOMINAL
           </span>
-          <v-layout v-elsewrap>
+          <v-row v-elsewrap>
             <span class="minor-title red--text">>:// CRITICAL: STRUCTURE COMPROMISED</span>
-            <v-flex class="mr-4 ml-2">
+            <v-col class="mr-4 ml-2">
               <v-btn
                 block
                 :color="color.structure.dark"
@@ -157,23 +157,23 @@
               >
                 Repair Structure
               </v-btn>
-            </v-flex>
-            <v-flex xs2 class="text-center" v-if="mech.Frame.Name.toLowerCase() === 'everest'">
+            </v-col>
+            <v-col xs2 class="text-center" v-if="mech.Frame.Name.toLowerCase() === 'everest'">
               <v-icon large class="mt-2">control_point</v-icon>
-            </v-flex>
-            <v-flex xs2 class="text-center" v-else>
+            </v-col>
+            <v-col xs2 class="text-center" v-else>
               <v-icon large class="mt-2">control_point</v-icon>
               <v-icon large class="mt-2">control_point</v-icon>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 class="text-xs-left">
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col xs12 class="text-xs-left">
           <span v-if="mech.CurrentStress === mech.MaxStress" class="minor-title grey--text">
             >:// REACTOR STRESS NOMINAL
           </span>
-          <v-layout v-elsewrap>
+          <v-row v-elsewrap>
             <span class="minor-title red--text">>:// CRITICAL: REACTOR DAMAGED</span>
-            <v-flex grow class="mr-4 ml-2">
+            <v-col grow class="mr-4 ml-2">
               <v-btn
                 block
                 :color="color.stress.dark"
@@ -182,23 +182,23 @@
               >
                 Repair Reactor
               </v-btn>
-            </v-flex>
-            <v-flex xs2 class="text-center">
+            </v-col>
+            <v-col xs2 class="text-center">
               <v-icon large class="mt-2">control_point</v-icon>
               <v-icon large class="mt-2">control_point</v-icon>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 class="text-xs-left">
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col xs12 class="text-xs-left">
           <span v-if="!destroyedWeapons.length" class="minor-title grey--text">
             >:// ARMAMENT NOMINAL
           </span>
           <div v-else>
-            <v-layout>
+            <v-row>
               <span class="minor-title red--text">>:// WARNING: ARMAMENT DAMAGED</span>
-            </v-layout>
-            <v-layout v-for="w in destroyedWeapons" :key="w.ID">
-              <v-flex class="mr-4">
+            </v-row>
+            <v-row v-for="w in destroyedWeapons" :key="w.ID">
+              <v-col class="mr-4">
                 <v-btn
                   block
                   :color="color.weapon.dark"
@@ -207,23 +207,23 @@
                 >
                   Repair {{ w.Name }}
                 </v-btn>
-              </v-flex>
-              <v-flex xs2 class="text-center">
+              </v-col>
+              <v-col xs2 class="text-center">
                 <v-icon large class="mt-2">control_point</v-icon>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
-        <v-flex xs12 class="text-xs-left">
+        </v-col>
+        <v-col xs12 class="text-xs-left">
           <span v-if="!destroyedSystems.length" class="minor-title grey--text">
             >:// SYSTEMS NOMINAL
           </span>
           <div v-else>
-            <v-layout>
+            <v-row>
               <span class="minor-title red--text">>:// WARNING: EQUIPMENT DAMAGED</span>
-            </v-layout>
-            <v-layout v-for="s in destroyedSystems" :key="s.ID">
-              <v-flex class="mr-4">
+            </v-row>
+            <v-row v-for="s in destroyedSystems" :key="s.ID">
+              <v-col class="mr-4">
                 <v-btn
                   block
                   color="teal darken-3"
@@ -232,24 +232,24 @@
                 >
                   Repair {{ s.Name }}
                 </v-btn>
-              </v-flex>
-              <v-flex xs2 class="text-center">
+              </v-col>
+              <v-col xs2 class="text-center">
                 <v-icon large class="mt-2">control_point</v-icon>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
+        </v-col>
       </div>
-    </v-layout>
+    </v-row>
     <v-divider class="ma-2" />
-    <v-layout wrap>
-      <v-flex xs12>
+    <v-row wrap>
+      <v-col xs12>
         <v-btn block color="amber darken-4" dark @click="startCombat">Enter Combat</v-btn>
-      </v-flex>
-      <v-flex xs12>
+      </v-col>
+      <v-col xs12>
         <v-btn large block color="green darken-4" dark @click="endMission">Complete Mission</v-btn>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

@@ -10,7 +10,12 @@
         <v-icon left large dark>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
         {{ item.Name }}
       </span>
-      <v-chip slot="title-items" color="white" class="stat-text mt-4 mr-6" outlined label>
+      <v-chip
+        slot="title-items"
+        color="white"
+        class="stat-text mt-4 mr-6"
+        outlined
+        label>
         {{ item.Source }} {{ $_.startCase(item.ItemType) }}
       </v-chip>
 
@@ -23,14 +28,14 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-item-modal',
-  data: () => ({
-    dialog: false,
-  }),
   props: {
     item: {
       type: Object,
       required: true,
     },
   },
+  data: () => ({
+    dialog: false,
+  }),
 })
 </script>

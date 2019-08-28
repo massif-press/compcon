@@ -1,20 +1,20 @@
 <template>
   <div>
-    <v-layout align-center justify-center>
+    <v-row align-center justify="center">
       <span class="callsign-text mb-4">{{ pilot.callsign }}</span>
-    </v-layout>
+    </v-row>
     <v-divider />
     <v-container grid-list-xl text-center class="mt-0 pt-0 mb-0 pb-0">
-      <v-layout justify-space-between>
-        <v-flex>
+      <v-row justify-space-between>
+        <v-col>
           <b class="minor-title">License Level {{ pilot.Level }}</b>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
       <div class="ma-2">
-        <v-layout class="headline">Skills</v-layout>
-        <v-layout wrap justify-space-between>
-          <v-flex v-for="pskill in pilot.Skills" :key="pskill.Skill.ID">
+        <v-row class="headline">Skills</v-row>
+        <v-row wrap justify-space-between>
+          <v-col v-for="pskill in pilot.Skills" :key="pskill.Skill.ID">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>
@@ -23,14 +23,14 @@
                 </b>
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
 
       <div class="ma-2">
-        <v-layout class="headline">Talents</v-layout>
-        <v-layout wrap justify-space-between>
-          <v-flex v-for="ptalent in pilot.Talents" :key="ptalent.Talent.ID">
+        <v-row class="headline">Talents</v-row>
+        <v-row wrap justify-space-between>
+          <v-col v-for="ptalent in pilot.Talents" :key="ptalent.Talent.ID">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>
@@ -39,52 +39,52 @@
                 </b>
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
 
       <div class="ma-2">
-        <v-layout class="headline">Mech Skills</v-layout>
-        <v-layout wrap justify-space-between>
-          <v-flex>
+        <v-row class="headline">Mech Skills</v-row>
+        <v-row wrap justify-space-between>
+          <v-col>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>Hull</b>
                 <b class="primary--text">{{ pilot.MechSkills.Hull }}</b>
               </v-card-text>
             </v-card>
-          </v-flex>
-          <v-flex>
+          </v-col>
+          <v-col>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>Agility</b>
                 <b class="primary--text">{{ pilot.MechSkills.Agi }}</b>
               </v-card-text>
             </v-card>
-          </v-flex>
-          <v-flex>
+          </v-col>
+          <v-col>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>Systems</b>
                 <b class="primary--text">{{ pilot.MechSkills.Sys }}</b>
               </v-card-text>
             </v-card>
-          </v-flex>
-          <v-flex>
+          </v-col>
+          <v-col>
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>Engineering</b>
                 <b class="primary--text">{{ pilot.MechSkills.Eng }}</b>
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
 
       <div class="ma-2">
-        <v-layout class="headline">Licenses</v-layout>
-        <v-layout wrap justify-space-between>
-          <v-flex v-for="plicense in pilot.Licenses" :key="plicense.License.Name">
+        <v-row class="headline">Licenses</v-row>
+        <v-row wrap justify-space-between>
+          <v-col v-for="plicense in pilot.Licenses" :key="plicense.License.Name">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>
@@ -93,21 +93,21 @@
                 </b>
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
 
       <div class="ma-2" v-if="pilot.level % 3 === 0">
-        <v-layout class="headline">Core Bonuses</v-layout>
-        <v-layout wrap justify-space-between>
-          <v-flex v-for="cb in pilot.CoreBonuses" :key="cb.ID">
+        <v-row class="headline">Core Bonuses</v-row>
+        <v-row wrap justify-space-between>
+          <v-col v-for="cb in pilot.CoreBonuses" :key="cb.ID">
             <v-card color="grey lighten-3" elevation="10">
               <v-card-text class="bigtext">
                 <b>{{ cb.Name }}</b>
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
     </v-container>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar color="primary" tile right v-model="model">
+  <v-snackbar v-model="model" color="primary" tile right>
     <slot></slot>
     <v-btn color="white" text @click="close">
       <v-icon large>close</v-icon>

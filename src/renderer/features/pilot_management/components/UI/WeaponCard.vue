@@ -21,7 +21,7 @@
       <damage-element :dmg="getDamage()" />
       <range-element :range="getRange()" />
       <p v-if="item.Effect" v-html="item.Effect" class="pl-1 ml-1 pb-1 mb-1 effect-text" />
-      <v-layout class="pb-2">
+      <v-row class="pb-2">
         <item-tag
           v-for="(t, index) in item.Tags"
           :key="t.id + index"
@@ -36,33 +36,33 @@
             :pilot="!tableItem ? pilot : null"
           />
         </div>
-      </v-layout>
+      </v-row>
       <div v-if="!tableItem" class="pb-4">
-        <v-layout>
-          <v-flex xs1>
+        <v-row>
+          <v-col xs1>
             <v-divider class="mt-2 mr-3" />
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <span class="caption grey--text text--darken-2">ITEM NOTES</span>
-          </v-flex>
-          <v-flex grow>
+          </v-col>
+          <v-col grow>
             <v-divider class="mt-2 ml-3" />
-          </v-flex>
-          <v-flex xs1></v-flex>
-        </v-layout>
-        <v-layout v-for="(n, idx) in item.Notes" :key="`${item.Name}_note_${idx}`" class="mt-1">
-          <v-flex xs11>
+          </v-col>
+          <v-col xs1></v-col>
+        </v-row>
+        <v-row v-for="(n, idx) in item.Notes" :key="`${item.Name}_note_${idx}`" class="mt-1">
+          <v-col xs11>
             <item-note :content="n" @update="updateNote(idx, $event)" />
-          </v-flex>
-          <v-flex xs1>
+          </v-col>
+          <v-col xs1>
             <v-tooltip top>
               <v-btn slot="activator" outline color="error" icon small @click="removeNote(idx)">
                 <v-icon>close</v-icon>
               </v-btn>
               <span>Delete Note</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <v-tooltip top>
           <v-btn
             slot="activator"

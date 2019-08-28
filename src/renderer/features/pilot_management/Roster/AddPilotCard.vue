@@ -7,17 +7,17 @@
       flat
       height="302px"
     >
-      <v-layout>
-        <v-flex class="ma-0 pb-0 pt-0 text-center">
+      <v-row>
+        <v-col class="ma-0 pb-0 pt-0 text-center">
           <div style="display:table; width:100%; cursor: pointer;">
             <span class="pilot-letter">
               <v-icon dark size="300px" style="width:100%">cci-pilot</v-icon>
             </span>
           </div>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex class="mt-0 pt-0">
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="mt-0 pt-0">
           <v-card
             dark
             flat
@@ -31,8 +31,8 @@
               </span>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <add-pilot-menu :dialogModel="addMenu" @close="addMenu = false" />
     </v-card>
   </v-hover>

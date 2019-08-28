@@ -13,7 +13,9 @@
           <span v-else>{{ r.Value }}</span>
         </span>
         <div v-else class="clip-icon">
-          <v-icon x-large color="text">{{ r.Icon }}</v-icon>
+          <v-icon x-large color="text">
+            {{ r.Icon }}
+          </v-icon>
         </div>
       </cc-tooltip>
       <span v-if="!small">{{ r.Value }}</span>

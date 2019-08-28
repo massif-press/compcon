@@ -7,37 +7,37 @@
     </v-card>
     <div v-if="!hideStatblock">
       <v-card color="grey lighten-3 mt-1 pt-1" flat>
-        <v-layout class="font-weight-bold text-center effect-text">
-          <v-flex xs2>Size</v-flex>
-          <v-flex xs2>Armor</v-flex>
-          <v-flex xs2>HP</v-flex>
-          <v-flex xs2>Evasion</v-flex>
-          <v-flex xs2>E-Defense</v-flex>
-          <v-flex xs2>Heat Capacity</v-flex>
-          <v-flex xs2>Sensor Range</v-flex>
-          <v-flex xs2>Tech Attack</v-flex>
-          <v-flex xs2>Save</v-flex>
-          <v-flex xs2>Speed</v-flex>
-          <v-flex xs2>SP</v-flex>
-        </v-layout>
+        <v-row class="font-weight-bold text-center effect-text">
+          <v-col xs2>Size</v-col>
+          <v-col xs2>Armor</v-col>
+          <v-col xs2>HP</v-col>
+          <v-col xs2>Evasion</v-col>
+          <v-col xs2>E-Defense</v-col>
+          <v-col xs2>Heat Capacity</v-col>
+          <v-col xs2>Sensor Range</v-col>
+          <v-col xs2>Tech Attack</v-col>
+          <v-col xs2>Save</v-col>
+          <v-col xs2>Speed</v-col>
+          <v-col xs2>SP</v-col>
+        </v-row>
       </v-card>
-      <v-layout class="text-center effect-text">
-        <v-flex xs2>{{ frame.Size }}</v-flex>
-        <v-flex xs2>{{ frame.Armor }}</v-flex>
-        <v-flex xs2>{{ frame.HP }}</v-flex>
-        <v-flex xs2>{{ frame.Evasion }}</v-flex>
-        <v-flex xs2>{{ frame.EDefense }}</v-flex>
-        <v-flex xs2>{{ frame.HeatCap }}</v-flex>
-        <v-flex xs2>{{ frame.SensorRange }}</v-flex>
-        <v-flex xs2>{{ frame.TechAttack }}</v-flex>
-        <v-flex xs2>{{ frame.Save }}</v-flex>
-        <v-flex xs2>{{ frame.Speed }}</v-flex>
-        <v-flex xs2>{{ frame.SP }}</v-flex>
-      </v-layout>
+      <v-row class="text-center effect-text">
+        <v-col xs2>{{ frame.Size }}</v-col>
+        <v-col xs2>{{ frame.Armor }}</v-col>
+        <v-col xs2>{{ frame.HP }}</v-col>
+        <v-col xs2>{{ frame.Evasion }}</v-col>
+        <v-col xs2>{{ frame.EDefense }}</v-col>
+        <v-col xs2>{{ frame.HeatCap }}</v-col>
+        <v-col xs2>{{ frame.SensorRange }}</v-col>
+        <v-col xs2>{{ frame.TechAttack }}</v-col>
+        <v-col xs2>{{ frame.Save }}</v-col>
+        <v-col xs2>{{ frame.Speed }}</v-col>
+        <v-col xs2>{{ frame.SP }}</v-col>
+      </v-row>
     </div>
     <v-card color="grey lighten-4">
-      <v-layout align-space-between justify-space-aroundfill-height>
-        <v-flex xs8>
+      <v-row align-space-between justify-space-aroundfill-height>
+        <v-col xs8>
           <v-card-text>
             <v-card flat color="transparent">
               <v-card-title class="title mt-0 pt-2 mb-0 pb-0">
@@ -118,16 +118,16 @@
               </v-card-text>
             </v-card>
           </v-card-text>
-        </v-flex>
-        <v-flex>
+        </v-col>
+        <v-col>
           <v-img
             :src="frame.DefaultImage"
             class="ma-2"
             contain
             style="top: 50%; left: 50%; transform: translate(-50%,-50%);"
           />
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card>
   </div>
 </template>

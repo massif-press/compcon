@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="background-color: white">
-    <v-layout v-for="bg in backgrounds" :key="bg.id">
-      <v-flex>
+    <v-row v-for="bg in backgrounds" :key="bg.id">
+      <v-col>
         <v-card>
           <v-toolbar
             :color="isSelected(bg.id) ? 'primary' : ''"
@@ -34,10 +34,10 @@
           </v-card-text>
         </v-card>
         <br />
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-card>
           <v-toolbar dense flat>
             <v-btn
@@ -77,8 +77,8 @@
           </v-card-text>
         </v-card>
         <br />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

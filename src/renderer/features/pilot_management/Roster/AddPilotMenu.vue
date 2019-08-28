@@ -18,8 +18,8 @@
           Import from Clipboard
         </v-btn>
 
-        <v-layout>
-          <v-flex>
+        <v-row>
+          <v-col>
             <v-dialog width="600" v-model="cloudDialog">
               <v-btn slot="activator" block flat color="primary">
                 Import from Cloud
@@ -48,8 +48,8 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <v-dialog width="600" v-model="cloudInfoDialog">
               <v-btn slot="activator" icon small right absolute style="right: 150px;">
                 <v-icon color="grey" small>help</v-icon>
@@ -73,8 +73,8 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-divider />

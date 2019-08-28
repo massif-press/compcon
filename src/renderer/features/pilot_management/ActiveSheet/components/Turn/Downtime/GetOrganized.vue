@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             Start, run, or improve an organization, business, or other venture.
           </p>
@@ -33,11 +33,11 @@
                         label="Purpose, goal, and orginaztion details"
                         box
                       />
-                      <v-layout wrap>
-                        <v-flex xs12 class="text-center">
+                      <v-row wrap>
+                        <v-col xs12 class="text-center">
                           <span class="minor-title">Start with:</span>
-                        </v-flex>
-                        <v-flex xs5>
+                        </v-col>
+                        <v-col xs5>
                           <v-tooltip top>
                             <div slot="activator">
                               <v-btn
@@ -68,9 +68,9 @@
                               <strong>reserves.</strong>
                             </span>
                           </v-tooltip>
-                        </v-flex>
+                        </v-col>
                         <v-spacer />
-                        <v-flex xs5>
+                        <v-col xs5>
                           <v-tooltip top>
                             <div slot="activator">
                               <v-btn
@@ -96,8 +96,8 @@
                               public opinion.
                             </span>
                           </v-tooltip>
-                        </v-flex>
-                      </v-layout>
+                        </v-col>
+                      </v-row>
                     </v-card-text>
                   </v-card>
                 </v-card-text>
@@ -119,13 +119,13 @@
                   <v-slide-x-transition>
                     <div v-show="selected">
                       <div v-if="selected">
-                        <v-layout wrap>
-                          <v-flex xs12 class="text-xs-left">
+                        <v-row wrap>
+                          <v-col xs12 class="text-xs-left">
                             <v-btn small outline @click="selected = null">
                               Select another organization
                             </v-btn>
-                          </v-flex>
-                          <v-flex xs12>
+                          </v-col>
+                          <v-col xs12>
                             <v-card class="ma-2">
                               <v-toolbar dark flat dense color="deep-purple">
                                 <v-toolbar-title class="minor-title">
@@ -153,8 +153,8 @@
                                   ></v-text-field>
                                 </div>
                                 <v-slide-y-transition>
-                                  <v-layout v-show="improveRoll" wrap class="text-center">
-                                    <v-flex xs12 v-if="improveRoll < 10">
+                                  <v-row v-show="improveRoll" wrap class="text-center">
+                                    <v-col xs12 v-if="improveRoll < 10">
                                       <span>
                                         <i>This organization</i>
                                         &emsp;
@@ -205,9 +205,9 @@
                                           </v-btn-toggle>
                                         </div>
                                       </v-slide-x-reverse-transition>
-                                    </v-flex>
-                                    <v-flex xs12 v-else-if="improveRoll < 20">
-                                      <v-layout
+                                    </v-col>
+                                    <v-col xs12 v-else-if="improveRoll < 20">
+                                      <v-row
                                         v-if="
                                           parseInt(selected.influence) === 6 &&
                                             parseInt(selected.efficiency) === 6
@@ -215,17 +215,17 @@
                                         row
                                         wrap
                                       >
-                                        <v-flex class="text-center">
+                                        <v-col class="text-center">
                                           <span class="minor-title grey--text">
                                             Organization is operating at maximum capacity
                                           </span>
-                                        </v-flex>
-                                      </v-layout>
-                                      <v-layout v-elsewrap>
-                                        <v-flex xs12 class="text-center">
+                                        </v-col>
+                                      </v-row>
+                                      <v-row v-elsewrap>
+                                        <v-col xs12 class="text-center">
                                           <span class="minor-title">Improve:</span>
-                                        </v-flex>
-                                        <v-flex xs5>
+                                        </v-col>
+                                        <v-col xs5>
                                           <v-tooltip top>
                                             <div slot="activator">
                                               <v-btn
@@ -264,9 +264,9 @@
                                               <strong>reserves.</strong>
                                             </span>
                                           </v-tooltip>
-                                        </v-flex>
+                                        </v-col>
                                         <v-spacer />
-                                        <v-flex xs5>
+                                        <v-col xs5>
                                           <v-tooltip top>
                                             <div slot="activator">
                                               <v-btn
@@ -300,10 +300,10 @@
                                               create opportunities, or sway public opinion.
                                             </span>
                                           </v-tooltip>
-                                        </v-flex>
-                                      </v-layout>
-                                    </v-flex>
-                                    <v-flex xs12 v-else>
+                                        </v-col>
+                                      </v-row>
+                                    </v-col>
+                                    <v-col xs12 v-else>
                                       <span
                                         v-if="
                                           parseInt(selected.influence) < 6 &&
@@ -328,13 +328,13 @@
                                       <span v-else class="minor-title grey--text">
                                         Organization is operating at maximum capacity
                                       </span>
-                                    </v-flex>
-                                  </v-layout>
+                                    </v-col>
+                                  </v-row>
                                 </v-slide-y-transition>
                               </v-card-text>
                             </v-card>
-                          </v-flex>
-                        </v-layout>
+                          </v-col>
+                        </v-row>
                       </div>
                     </div>
                   </v-slide-x-transition>
@@ -342,8 +342,8 @@
               </v-tab-item>
             </v-tabs>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
     <v-divider />
     <v-card-actions>

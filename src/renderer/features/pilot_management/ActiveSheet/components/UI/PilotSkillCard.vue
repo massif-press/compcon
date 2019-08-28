@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs4>
+  <v-col xs4>
     <div class="ma-1">
       <v-toolbar dark dense style="background-color: #616161">
         <v-chip small dark color="primary">
@@ -41,7 +41,7 @@
         </v-toolbar-items>
       </v-toolbar>
     </div>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

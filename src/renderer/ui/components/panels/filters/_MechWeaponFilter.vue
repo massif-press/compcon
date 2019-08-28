@@ -1,9 +1,9 @@
 <template>
-  <v-layout wrap justify-space-around class="mx-4">
-    <v-flex xs4>
+  <v-row wrap justify-space-around class="mx-4">
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="sourceFilter"
+        class="px-2"
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -13,11 +13,11 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="tagFilter"
+        class="px-2"
         prepend-icon="mdi-tag"
         chips
         deletable-chips
@@ -26,11 +26,11 @@
         label="Tags"
         :items="tags"
         multiple
-        @change="updateFilters()"
         item-text="Name"
+        @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
         v-model="weaponTypeFilter"
         class="px-2"
@@ -43,8 +43,8 @@
         :items="weaponTypes"
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
         v-model="weaponSizeFilter"
         class="px-2"
@@ -57,8 +57,8 @@
         :items="weaponSizes"
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
         v-model="attackTypeFilter"
         class="px-2"
@@ -72,8 +72,8 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
         v-model="damageTypeFilter"
         class="px-2"
@@ -87,13 +87,13 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { MechType, MountType, Tag, WeaponType, WeaponSize, RangeType, DamageType } from '@/class'
+import { Tag, WeaponType, WeaponSize, RangeType, DamageType } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1

@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You can only make this action where there’s a drink to actually get (in town, a station,
             a city, or some other populated area). It doesn’t have to be an actual drink, but you
@@ -16,8 +16,8 @@
             <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col xs12>
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -30,11 +30,11 @@
               @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
             ></v-text-field>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" wrap class="text-center">
-          <v-flex xs12 v-if="skillRoll < 10">
+        <v-row v-show="skillRoll" wrap class="text-center">
+          <v-col xs12 v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can decide whether you had good time or not. However, you wake up in a gutter
               somewhere with only one of the following:
@@ -46,15 +46,15 @@
               :items="losses"
               label="You retain..."
             />
-          </v-flex>
-          <v-flex xs12 v-else-if="skillRoll < 20">
+          </v-col>
+          <v-col xs12 v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You gain one of the following choices as
               <strong>reserves</strong>
               , and lose one:
             </p>
-            <v-layout>
-              <v-flex xs6>
+            <v-row>
+              <v-col xs6>
                 <div class="ma-2">
                   <v-select
                     hide-details
@@ -65,18 +65,18 @@
                   />
                   <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
                 </div>
-              </v-flex>
-              <v-flex xs6>
+              </v-col>
+              <v-col xs6>
                 <div class="ma-2">
                   <v-select outline v-model="loss" :items="choices" label="But lose..." />
                 </div>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex xs12 v-else>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col xs12 v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">Gain two reserves:</p>
-            <v-layout>
-              <v-flex xs6>
+            <v-row>
+              <v-col xs6>
                 <div class="ma-2">
                   <v-select
                     hide-details
@@ -87,8 +87,8 @@
                   />
                   <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
                 </div>
-              </v-flex>
-              <v-flex xs6>
+              </v-col>
+              <v-col xs6>
                 <div class="ma-2">
                   <v-select
                     hide-details
@@ -99,10 +99,10 @@
                   />
                   <v-textarea v-model="details2" auto-grow rows="1" label="Details" box />
                 </div>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </v-slide-y-transition>
     </v-card-text>
     <v-divider />

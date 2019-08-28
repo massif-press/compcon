@@ -1,51 +1,51 @@
 <template>
   <v-container>
     <h3 class="headline mb-2 grey--text text--darken-1">Encounter Builder</h3>
-    <v-layout column>
-      <v-flex>
+    <v-row column>
+      <v-col>
         <v-text-field
           label="Name"
           v-model="encounter.name"
           style="font-size: 1.4em"
           color="secondary"
         />
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-textarea label="Notes" outline v-model="encounter.notes" color="secondary" />
-      </v-flex>
-      <v-layout>
-        <v-flex xs12 sm6>
+      </v-col>
+      <v-row>
+        <v-col xs12 sm6>
           <h6 class="body-2 text-xs-left grey--text text--darken-1">Encounter NPCs</h6>
           <v-card class="pickCard">
             <v-slide-y-transition group tag="div" class="layout column pa-3">
-              <v-flex v-for="(npc, i) in encounter.npcs" :key="npc.id">
+              <v-col v-for="(npc, i) in encounter.npcs" :key="npc.id">
                 <EncounterNPCObject :npc="npc" @deleted="deleteNPC(i)" />
-              </v-flex>
+              </v-col>
             </v-slide-y-transition>
           </v-card>
-        </v-flex>
-        <v-flex xs12 sm6>
+        </v-col>
+        <v-col xs12 sm6>
           <h6 class="body-2 text-xs-left grey--text text--darken-1">Created NPCs</h6>
           <v-card class="pickCard">
-            <v-layout wrap pa-3>
-              <v-flex xs12 sm6 v-for="npc in npcs" :key="npc.id">
+            <v-row wrap pa-3>
+              <v-col xs12 sm6 v-for="npc in npcs" :key="npc.id">
                 <File icon="mdi-account" :name="npc.name" @click.native="addNPC(npc)">
                   <template v-slot:extra-icons>
                     <v-icon>add</v-icon>
                   </template>
                 </File>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card>
-        </v-flex>
-      </v-layout>
-      <v-layout class="mt-3" justify-space-around>
+        </v-col>
+      </v-row>
+      <v-row class="mt-3" justify-space-around>
         <v-spacer />
-        <v-flex shrink>
+        <v-col shrink>
           <v-btn color="primary" large flat to="/encounter-builder">Done</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-layout>
+        </v-col>
+      </v-row>
+    </v-row>
   </v-container>
 </template>
 

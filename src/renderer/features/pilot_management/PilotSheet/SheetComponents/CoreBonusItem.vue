@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-col>
     <v-card>
       <div v-if="!selectItem">
         <v-toolbar v-if="cb.err" class="mb-2" dense flat>
@@ -32,7 +32,7 @@
         </v-card-actions>
       </div>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

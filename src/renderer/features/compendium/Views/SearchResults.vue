@@ -1,26 +1,26 @@
 <template>
-  <v-container>
-    <v-layout wrap justify-center class="mt-5 px-5">
-      <v-flex xs8 px-2 pb-3>
+  <v-container fluid class="mt-5">
+    <v-row justify="center">
+      <v-col cols="8">
         <v-text-field
           ref="input"
+          :value="searchText"
           class="search-field"
           prepend-icon="search"
-          @input="$_.debounce(setSearch($event), 500)"
-          :value="this.searchText"
           solo
           hide-details
           single-line
           placeholder="Search"
+          @input="$_.debounce(setSearch($event), 500)"
         />
-      </v-flex>
-      <v-flex>
-        <v-subheader>
-          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
-        </v-subheader>
+      </v-col>
+    </v-row>
+    <v-row class="mx-3">
+      <v-col>
+        <v-subheader>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</v-subheader>
         <v-slide-y-reverse-transition mode="out-in">
-          <v-layout wrap fill-height :key="searchText">
-            <v-flex grow xs4 class="px-2 py-2" :key="index" v-for="(item, index) in searchResults">
+          <v-row :key="searchText" fill-height >
+            <v-col v-for="(item, index) in searchResults" :key="index">
               <cc-titled-panel
                 :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
                 :icon="'cci-' + $_.kebabCase(item.ItemType)"
@@ -29,25 +29,27 @@
                 @click="$refs[`modal_${item.ID}`][0].show()"
               >
                 <span
-                  v-html="item.Description ? item.Description : item.Effect ? item.Effect : ''"
                   class="item-description"
+                  v-html="item.Description ? item.Description : item.Effect ? item.Effect : ''"
                 />
               </cc-titled-panel>
-              <search-result-modal :item="item" :ref="`modal_${item.ID}`" />
-            </v-flex>
-            <v-flex xs12><br /></v-flex>
-          </v-layout>
+              <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
+            </v-col>
+            <v-col xs12>
+              <br />
+            </v-col>
+          </v-row>
         </v-slide-y-reverse-transition>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import SearchResultModal from '../UI/SearchResultModal.vue'
-import { CompendiumItem, ItemType } from '@/class'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { CompendiumItem } from '@/class'
+import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'search-results',
@@ -78,7 +80,7 @@ export default Vue.extend({
       if (!this.searchText) {
         return []
       }
-      const results = this.validResults.filter(r => includesIgnoringAccentsCase(r.Name, this.searchText))
+      const results = this.validResults.filter(r => accentInclude(r.Name, this.searchText))
       return results
     },
   },

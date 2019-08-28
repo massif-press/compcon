@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You try and get your hands on some gear or asset for your group by dredging the
             scrapyard, chasing down rumors, bartering in the local market, hunting around, or
@@ -18,8 +18,8 @@
             <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col xs12>
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -32,17 +32,17 @@
               @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
             ></v-text-field>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" wrap class="text-center">
-          <v-flex xs12 v-if="skillRoll < 10">
+        <v-row v-show="skillRoll" wrap class="text-center">
+          <v-col xs12 v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">You can get what you’re looking for, but...</p>
             <v-radio-group v-model="choice" mandatory>
               <v-radio v-for="(c, i) in choices" :key="c" :label="c" :value="i"></v-radio>
             </v-radio-group>
-          </v-flex>
-          <v-flex xs12 v-else-if="skillRoll < 20">
+          </v-col>
+          <v-col xs12 v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can get what you’re looking for, as long as you trade in a little...
             </p>
@@ -53,13 +53,13 @@
                 </v-radio-group>
               </v-card-text>
             </v-card>
-          </v-flex>
-          <v-flex xs12 v-else>
+          </v-col>
+          <v-col xs12 v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">
               You get what you’re looking for, no problems at all.
             </p>
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col xs12>
             <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
               <v-toolbar dark dense color="#00695C">
                 <v-toolbar-title>New Asset</v-toolbar-title>
@@ -69,8 +69,8 @@
                 <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-slide-y-transition>
     </v-card-text>
     <v-divider />

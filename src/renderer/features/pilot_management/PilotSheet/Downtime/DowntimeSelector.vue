@@ -22,41 +22,41 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Narrative']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col xs3 v-for="r in reserves['Narrative']" :key="r.ID">
                 <reserve-item :reserve="r" color="teal darken-3" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Tactical']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col xs3 v-for="r in reserves['Tactical']" :key="r.ID">
                 <reserve-item :reserve="r" color="lime darken-4" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Mech']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col xs3 v-for="r in reserves['Mech']" :key="r.ID">
                 <reserve-item :reserve="r" color="deep-orange darken-3" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout justify-center>
-              <v-flex xs6>
+            <v-row justify="center">
+              <v-col xs6>
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Custom Reserve</v-toolbar-title>
@@ -84,26 +84,26 @@
                     </v-btn>
                   </v-card-text>
                 </v-card>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout justify-center>
-              <v-flex xs8>
+            <v-row justify="center">
+              <v-col xs8>
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Downtime Project</v-toolbar-title>
                   </v-toolbar>
                   <v-card-text class="effect-text pa-2 ma-0">
-                    <v-layout wrap>
-                      <v-flex xs6>
+                    <v-row wrap>
+                      <v-col xs6>
                         <v-text-field v-model="projectName" label="Project Name" />
-                      </v-flex>
-                      <v-flex xs2 class="ml-4">
+                      </v-col>
+                      <v-col xs2 class="ml-4">
                         <v-tooltip top>
                           <v-switch
                             slot="activator"
@@ -115,8 +115,8 @@
                             complete
                           </span>
                         </v-tooltip>
-                      </v-flex>
-                      <v-flex xs2>
+                      </v-col>
+                      <v-col xs2>
                         <v-tooltip top>
                           <v-switch slot="activator" v-model="projectFinished" label="Finished" />
                           <span>
@@ -124,8 +124,8 @@
                             <strong>reserve</strong>
                           </span>
                         </v-tooltip>
-                      </v-flex>
-                      <v-flex xs12>
+                      </v-col>
+                      <v-col xs12>
                         <v-textarea
                           v-model="projectDetails"
                           auto-grow
@@ -133,8 +133,8 @@
                           label="Details"
                           box
                         />
-                      </v-flex>
-                      <v-flex xs12>
+                      </v-col>
+                      <v-col xs12>
                         <v-combobox
                           class="mr-5 ml-5"
                           v-model="projectCost"
@@ -144,8 +144,8 @@
                           :disabled="projectFinished"
                           label="Add requirements (optional)"
                         ></v-combobox>
-                      </v-flex>
-                    </v-layout>
+                      </v-col>
+                    </v-row>
                     <v-btn
                       block
                       outline
@@ -159,8 +159,8 @@
                     </v-btn>
                   </v-card-text>
                 </v-card>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -187,11 +187,11 @@
                   label="Purpose, goal, and orginaztion details"
                   box
                 />
-                <v-layout wrap>
-                  <v-flex xs12 class="text-center">
+                <v-row wrap>
+                  <v-col xs12 class="text-center">
                     <span class="minor-title">Start with:</span>
-                  </v-flex>
-                  <v-flex xs5 class="text-center">
+                  </v-col>
+                  <v-col xs5 class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn
@@ -220,9 +220,9 @@
                         <strong>reserves.</strong>
                       </span>
                     </v-tooltip>
-                  </v-flex>
+                  </v-col>
                   <v-spacer />
-                  <v-flex xs5 class="text-center">
+                  <v-col xs5 class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn
@@ -248,8 +248,8 @@
                         opinion.
                       </span>
                     </v-tooltip>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
                 <br />
                 <br />
                 <v-btn

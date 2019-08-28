@@ -15,14 +15,14 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-container grid-list-sm fluid>
-          <v-layout>
-            <v-flex xs10>
+          <v-row>
+            <v-col xs10>
               <v-btn block outline large color="primary" @click="importImage('frame')">
                 Import Custom Frame Image
               </v-btn>
-            </v-flex>
+            </v-col>
             <v-divider vertical class="ml-2 mr-2" />
-            <v-flex xs2>
+            <v-col xs2>
               <v-switch v-model="cloud" @change="checkCloudSave">
                 <span slot="label">
                   Save to Cloud
@@ -42,12 +42,12 @@
                   </v-tooltip>
                 </span>
               </v-switch>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
           <v-divider />
-          <v-layout justify-center wrap fill-height align-center>
-            <v-flex v-if="config.CloudPortrait" xs3>
-              <div :class="`justify-center pa-1 cloud`">
+          <v-row justify="center" wrap fill-height align-center>
+            <v-col v-if="config.CloudPortrait" xs3>
+              <div :class="`justify="center" pa-1 cloud`">
                 <v-img
                   :src="config.CloudPortrait"
                   position="top"
@@ -66,8 +66,8 @@
                   <span>Saved to Cloud</span>
                 </v-tooltip>
               </div>
-            </v-flex>
-            <v-flex xs3>
+            </v-col>
+            <v-col xs3>
               <div class="clickable" @click="assignDefault">
                 <v-img
                   :src="`file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`"
@@ -77,11 +77,11 @@
                   contain
                 />
               </div>
-            </v-flex>
-            <v-flex v-for="i in images" :key="i" xs3>
+            </v-col>
+            <v-col v-for="i in images" :key="i" xs3>
               <div
                 :class="
-                  `text-xs-right justify-center pa-1 ${
+                  `text-xs-right justify="center" pa-1 ${
                     i === config.LocalPortrait ? 'preselected' : 'clickable'
                   }`
                 "
@@ -110,8 +110,8 @@
                   contain
                 />
               </div>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
       </v-container>
     </v-card>

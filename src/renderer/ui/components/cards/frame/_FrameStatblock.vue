@@ -1,6 +1,6 @@
 <template>
-  <v-container grid-list-md class="mt-0 pt-1">
-    <v-layout justify-space-between wrap fill-height>
+  <v-container class="mt-0 pt-1" fill-height>
+    <v-row justify-space-between wrap dense>
       <cc-statblock-panel name="Armor" :value="frame.Armor" />
       <cc-statblock-panel name="HP" :value="frame.HP" />
       <cc-statblock-panel name="Evasion" :value="frame.Evasion" />
@@ -11,7 +11,7 @@
       <cc-statblock-panel name="Save" :value="frame.Save" />
       <cc-statblock-panel name="Speed" :value="frame.Speed" />
       <cc-statblock-panel name="SP" :value="frame.SP" />
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 

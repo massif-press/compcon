@@ -8,15 +8,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
-import { RangeElement, DamageElement, WeaponCard } from '@/features/pilot_management/components/UI'
-import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
-import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 import { MechWeapon } from '@/class'
 
 export default Vue.extend({
   name: 'weapons',
-  components: { CompendiumTable, WeaponCard, RangeElement, DamageElement, FilterPanel },
+  components: { CompendiumTable },
   data: () => ({
     headers: [
       { text: 'Source', align: 'left', value: 'Source' },

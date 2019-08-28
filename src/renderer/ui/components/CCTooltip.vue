@@ -26,6 +26,7 @@ export default Vue.extend({
     err: {
       type: String,
       required: false,
+      default: '',
     },
     title: {
       type: String,

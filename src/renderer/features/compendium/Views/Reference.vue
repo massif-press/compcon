@@ -3,53 +3,53 @@
     <h1 class="heading mb-3 ml-5">REFERENCE</h1>
     <v-container class="effect-text">
       <span class="heading mech">Structure Damage & Overheating</span>
-      <v-layout justify-center>
-        <v-flex xs11>
+      <v-row justify="center">
+        <v-col xs11>
           <v-toolbar color="red darken-3" dark>
             <v-toolbar-title>STRUCTURE DAMAGE</v-toolbar-title>
           </v-toolbar>
           <v-card>
             <v-card-text>
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <span class="heading h3">Roll</span>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Result</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="heading h3">Effect</span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-5</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-6</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Glancing Blow</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Emergency systems kick in and stabilize your mech. However, your mech is
                     <b>impaired</b>
                     until the end of your next turn.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-2</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-4</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">System Trauma</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Parts of your mech are torn off by the damage. Roll a d6. On a 1-3, all the
                     weapons on one mount are destroyed. On a 4-6, a system is destroyed. You choose
@@ -58,17 +58,17 @@
                     If there’s absolutely nothing left to destroy, this result becomes DIRECT HIT
                     instead.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-1</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Direct Hit</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     This result has different outcomes depending on how much structure your mech has
                     remaining.
@@ -89,94 +89,94 @@
                     <b>destroyed</b>
                     .
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-1</v-icon>
                   <v-icon large>mdi-dice-1</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Crushing Hit</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Your mech is damaged beyond repair and is
                     <b>destroyed</b>
                     . You can still exit it as normal.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
-      <v-layout justify-center class="mt-4">
-        <v-flex xs11>
+        </v-col>
+      </v-row>
+      <v-row justify="center" class="mt-4">
+        <v-col xs11>
           <v-toolbar color="orange darken-4" dark>
             <v-toolbar-title>OVERHEATING</v-toolbar-title>
           </v-toolbar>
           <v-card>
             <v-card-text>
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <span class="heading h3">Roll</span>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Result</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="heading h3">Effect</span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-5</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-6</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Emergency Shunt</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Cooling systems recover and manage to contain the peaking heat levels. However,
                     your mech is
                     <b>impaired</b>
                     until the end of your next turn.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-2</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-4</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Power Plant Destabilize</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Your mech’s power plant becomes unstable, ejecting jets of plasma. Your mech
                     suffers from the
                     <b>exposed</b>
                     status (taking double damage) until it takes action to remove it.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-1</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Meltdown</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     This result has different outcomes depending on how much reactor stress your
                     mech has remaining.
@@ -194,24 +194,24 @@
                     <br />
                     1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
-              <v-layout>
-                <v-flex xs2>
+              <v-row>
+                <v-col xs2>
                   <v-icon large>mdi-dice-1</v-icon>
                   <v-icon large>mdi-dice-1</v-icon>
-                </v-flex>
-                <v-flex xs3>
+                </v-col>
+                <v-col xs3>
                   <span class="heading h3">Irreversible Meltdown</span>
-                </v-flex>
-                <v-flex xs7>
+                </v-col>
+                <v-col xs7>
                   <span class="body-text text--text">
                     Your reactor goes critical. Your mech will suffer a reactor meltdown at the end
                     of your next turn.
                   </span>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
               <v-divider class="ma-2" />
               <p class="ma-3 flavor-text">
                 Certain overheating results can cause a reactor meltdown. This can be immediate, or
@@ -224,8 +224,8 @@
               </p>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

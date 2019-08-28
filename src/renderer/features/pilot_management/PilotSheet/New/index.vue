@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <v-layout>
-      <v-flex>
+    <v-row>
+      <v-col>
         <v-stepper v-model="np_step">
           <v-stepper-header>
             <v-stepper-step editable :complete="newPilot.callsign !== ''" step="1">
@@ -43,8 +43,8 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-container>
-                <v-layout justify-space-between align-centerfill-height>
-                  <v-flex xs7>
+                <v-row justify-space-between align-centerfill-height>
+                  <v-col xs7>
                     <v-text-field v-model="newPilot.callsign" clearable>
                       <v-tooltip top slot="prepend-inner">
                         <v-btn slot="activator" icon flat @click="randomCallsign">
@@ -93,11 +93,11 @@
                       auto-grow
                       rows="5"
                     />
-                  </v-flex>
+                  </v-col>
                   <v-spacer />
-                  <v-flex class="ml-4">
-                    <v-layout justify-center align-center column>
-                      <v-flex>
+                  <v-col class="ml-4">
+                    <v-row justify="center" align-center column>
+                      <v-col>
                         <v-img
                           class="center"
                           contain
@@ -145,19 +145,19 @@
                             <image-selector :pilot="newPilot" @close="appearanceModal = false" />
                           </v-card>
                         </v-dialog>
-                      </v-flex>
+                      </v-col>
                       <br />
-                      <v-flex></v-flex>
-                    </v-layout>
-                  </v-flex>
-                </v-layout>
+                      <v-col></v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
               </v-container>
 
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn
                     large
                     color="primary"
@@ -167,32 +167,32 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="2">
               <background-selector @close="stepForward" :pilot="newPilot" />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="3">
               <skill-selector :pilot="newPilot" new-pilot @close="stepForward" />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -201,17 +201,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="4">
               <talent-selector :pilot="newPilot" new-pilot @close="stepForward" />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -220,17 +220,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="5">
               <mech-skills-selector :pilot="newPilot" new-pilot />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -239,26 +239,26 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="6">
               <v-container>
-                <v-layout column>
-                  <v-flex>
+                <v-row column>
+                  <v-col>
                     <span class="display-3">{{ newPilot.callsign }}</span>
                     //
                     <span class="title">{{ newPilot.name }}</span>
-                  </v-flex>
-                  <v-flex>{{ getBackground(newPilot.background).name }}</v-flex>
-                  <v-flex v-if="newPilot.history">
+                  </v-col>
+                  <v-col>{{ getBackground(newPilot.background).name }}</v-col>
+                  <v-col v-if="newPilot.history">
                     <blockquote class="blockquote">
                       {{ newPilot.history }}
                     </blockquote>
-                  </v-flex>
-                  <v-layout justify-space-around>
-                    <v-flex xs4>
+                  </v-col>
+                  <v-row justify-space-around>
+                    <v-col xs4>
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
                           <h3 class="headline mb-0">
@@ -272,21 +272,21 @@
                             v-for="skill in newPilot.Skills"
                             :key="`confirm_${skill.Skill.ID}`"
                           >
-                            <v-layout>
-                              <v-flex xs12>
+                            <v-row>
+                              <v-col xs12>
                                 <v-chip slot="activator" dark color="primary" small>
                                   +
                                   <b>{{ skill.Bonus }}</b>
                                 </v-chip>
 
                                 <strong>{{ skill.Skill.Trigger }}</strong>
-                              </v-flex>
-                            </v-layout>
+                              </v-col>
+                            </v-row>
                           </div>
                         </v-card-text>
                       </v-card>
-                    </v-flex>
-                    <v-flex xs4>
+                    </v-col>
+                    <v-col xs4>
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
                           <h3 class="headline mb-0">Talents</h3>
@@ -298,19 +298,19 @@
                             v-for="talent in newPilot.talents"
                             :key="`confirm_${talent.Talent.ID}`"
                           >
-                            <v-layout>
-                              <v-flex xs12>
+                            <v-row>
+                              <v-col xs12>
                                 <v-icon color="primary">cci-rank-{{ talent.Rank }}</v-icon>
                                 <strong class="effect-text font-weight-bold">
                                   {{ talent.Talent.Name }}
                                 </strong>
-                              </v-flex>
-                            </v-layout>
+                              </v-col>
+                            </v-row>
                           </div>
                         </v-card-text>
                       </v-card>
-                    </v-flex>
-                    <v-flex xs4>
+                    </v-col>
+                    <v-col xs4>
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
                           <h3 class="headline mb-0">
@@ -325,20 +325,20 @@
                           <li class="title">Engineering +{{ newPilot.MechSkills.Eng }}</li>
                         </v-card-text>
                       </v-card>
-                    </v-flex>
-                  </v-layout>
-                </v-layout>
+                    </v-col>
+                  </v-row>
+                </v-row>
               </v-container>
-              <v-layout>
-                <v-flex xs12 class="text-xs-right">
+              <v-row>
+                <v-col xs12 class="text-xs-right">
                   <span class="caption mr-5">Is this correct?</span>
-                </v-flex>
-              </v-layout>
-              <v-layout justify-space-between>
-                <v-flex xs1>
+                </v-col>
+              </v-row>
+              <v-row justify-space-between>
+                <v-col xs1>
                   <v-btn flat to="pilot_management">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -347,13 +347,13 @@
                     Confirm &nbsp;
                     <v-icon>done</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -3,16 +3,16 @@
     <!-- Header -->
     <v-card-title class="white--text d-flex" :class="`role--${npc.npcClass.role}`">
       <v-container fluid style="padding: 0 16px">
-        <v-layout
+        <v-row
           align-center
           grow-shrink-0
           :class="{
             column: $vuetify.breakpoint.xsOnly,
-            'justify-center': $vuetify.breakpoint.xsOnly,
+            'justify="center"': $vuetify.breakpoint.xsOnly,
           }"
         >
-          <v-flex headline>{{ npc.name }}</v-flex>
-          <v-flex
+          <v-col headline>{{ npc.name }}</v-col>
+          <v-col
             shrink
             class="d-flex align-center justify-start grow-shrink-0"
             :class="{
@@ -24,22 +24,22 @@
             <div class="subheading text-uppercase" v-if="npc._templates.length">
               &nbsp;—&nbsp;{{ npc._templates.join(' ') }}
             </div>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
     </v-card-title>
     <v-container fluid>
       <!-- Stats -->
-      <v-layout wrap justify-space-around class="statblock">
-        <v-flex xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
+      <v-row wrap justify-space-around class="statblock">
+        <v-col xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="my-3" />
       <!-- HASE -->
-      <v-layout wrap justify-space-around class="statblock">
-        <v-flex
+      <v-row wrap justify-space-around class="statblock">
+        <v-col
           xs6
           sm2
           lg1
@@ -50,8 +50,8 @@
           <div class="headline font-weight-bold primary--text">
             {{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <!-- Features -->
       <template v-if="npc.features.length">
         <v-divider class="my-3" />
@@ -62,11 +62,11 @@
           </h6>
         </div>
         <!-- Feature cards -->
-        <v-layout wrap justify-center>
-          <v-flex xs12 sm6 lg3 v-for="feature in npc.features" :key="feature.name">
+        <v-row wrap justify="center">
+          <v-col xs12 sm6 lg3 v-for="feature in npc.features" :key="feature.name">
             <feature-card :feature="feature" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </template>
       <v-divider class="my-3" />
       <!-- Systems header -->
@@ -77,11 +77,11 @@
         </h6>
       </div>
       <!-- System cards -->
-      <v-layout wrap justify-center>
-        <v-flex xs12 sm6 lg3 v-for="system in npc.systems" :key="system.name">
+      <v-row wrap justify="center">
+        <v-col xs12 sm6 lg3 v-for="system in npc.systems" :key="system.name">
           <system-card :npc="npc" :system="system" />
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
     <v-divider class="my-1" />
     <!-- Actions -->

@@ -40,9 +40,6 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-dialog',
-  data: () => ({
-    dialog: false,
-  }),
   props: {
     color: {
       type: String,
@@ -70,6 +67,9 @@ export default Vue.extend({
       required: false,
     },
   },
+  data: () => ({
+    dialog: false,
+  }),
   methods: {
     confirm() {
       this.dialog = false

@@ -1,31 +1,27 @@
 <template>
   <v-card-text class="py-0">
-    <v-layout class="stat-text" fill-height>
-      <slot></slot>
-    </v-layout>
+    <v-row class="stat-text" fill-height>
+      <slot />
+    </v-row>
 
-    <v-layout>
-      <v-flex grow>
-        <v-divider class="mt-3" />
-      </v-flex>
-      <v-flex shrink class="mx-1">
-        <v-icon color="panel-border">cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
-      </v-flex>
-      <v-flex grow>
-        <v-divider class="mt-3" />
-      </v-flex>
-    </v-layout>
+    <v-row>
+      <v-divider class="mt-3" />
+      <v-icon color="panel-border">
+        cci-{{ $_.kebabCase(item.ItemType) }}
+      </v-icon>
+      <v-divider class="mt-3" />
+    </v-row>
 
-    <slot name="statblock"></slot>
+    <slot name="statblock" />
 
     <div v-if="item.Description">
       <span class="overline ml-n2">COMPENDIUM ENTRY</span>
-      <p v-html="item.Description" class="flavor-text" />
+      <p class="flavor-text" v-html="item.Description" />
     </div>
 
     <div v-if="item.Effect">
       <span class="overline ml-n2">WEAPON EFFECT</span>
-      <p v-html="item.Effect" class="effect-text panel pa-2" />
+      <p class="effect-text panel pa-2" v-html="item.Effect" />
     </div>
 
     <cc-tags :tags="item.Tags" />

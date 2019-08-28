@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-layout grow-shrink-0 align-center class="text-xs-left text-uppercase body-2">
+    <v-row grow-shrink-0 align-center class="text-xs-left text-uppercase body-2">
       <span class="grey--text">
         {{ label || 'LABEL' }}
         <b v-if="labelArray" :style="`color: ${color}`">{{ labelArray[current] }}</b>
         <b v-else :style="`color: ${color}`">{{ current }}/{{ max }}</b>
       </span>
-      <v-flex v-if="!noInput" ml-0 class="white--text">
+      <v-col v-if="!noInput" ml-0 class="white--text">
         <v-fade-transition leave-absolute>
           <v-btn flat icon small @click="startInputting" v-if="!inputting">
             <v-icon :color="color">mdi-keyboard</v-icon>
@@ -25,13 +25,13 @@
             />
           </div>
         </v-fade-transition>
-      </v-flex>
-      <v-flex v-if="clearable" ml-0 class="white--text">
+      </v-col>
+      <v-col v-if="clearable" ml-0 class="white--text">
         <v-btn flat icon small @click="$emit('update', 0)">
           <v-icon :color="color">clear</v-icon>
         </v-btn>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-rating
       :key="current"
       class="d-inline-block"

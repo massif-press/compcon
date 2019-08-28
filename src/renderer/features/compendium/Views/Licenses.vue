@@ -1,8 +1,8 @@
 <template>
   <v-container fluid px-5>
     <h1 class="heading">LICENSES</h1>
-    <v-layout v-for="m in Object.keys(licenses)" :key="m">
-      <v-flex class="text-center pa-3">
+    <v-row v-for="m in Object.keys(licenses)" :key="m">
+      <v-col class="text-center pa-3">
         <span class="heading mech">{{ manufacturer(m).name }}</span>
         <v-expansion-panels accordion focusable active-class="border-primary">
           <v-expansion-panel class="border-highlight" v-for="l in licenses[m]" :key="l.FrameID">
@@ -39,8 +39,8 @@
           </v-expansion-panel>
         </v-expansion-panels>
         <v-divider class="mt-5 mb-0" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

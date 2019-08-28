@@ -8,15 +8,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
-import { SystemCard } from '@/features/pilot_management/components/UI'
-import { WeaponMod, MechSystem, MechEquipment } from '@/class'
-import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
-import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import {MechSystem} from '@/class'
 
 export default Vue.extend({
   name: 'systems',
-  components: { CompendiumTable, SystemCard, FilterPanel },
+  components: { CompendiumTable },
   data: () => ({
     search: null,
     detailFilter: {},
@@ -28,6 +24,10 @@ export default Vue.extend({
     ],
     systems: [],
   }),
+  created() {
+    this.systems = this.$store.getters
+      .getItemCollection('MechSystems')
+      .filter((x: MechSystem) => x.Source) as MechSystem[]
   },
 })
 </script>

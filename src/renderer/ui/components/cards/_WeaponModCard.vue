@@ -1,27 +1,18 @@
 <template>
   <equipment-card-base :item="item">
-    <v-flex v-if="item.AddedRange" shrink class="mx-3">
-      <cc-range-element :range="[item.AddedRange]" />
-    </v-flex>
-    <v-flex v-if="item.AddedDamage" shrink class="mx-3">
-      <cc-damage-element :damage="[item.AddedDamage]" />
-    </v-flex>
-    <v-flex v-if="item.SP">
-      <span class="large-text">
-        <b class="primary--text">{{ item.SP }}</b>
-        SP
-      </span>
-    </v-flex>
-    <v-spacer />
-    <v-flex shrink class="mx-3">
-      <div class="large-text">{{ item.AppliedString }}</div>
-      <div v-if="item.Restricted">
-        <br />
-        <span class="stat-text error--text">
-          RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
-        </span>
-      </div>
-    </v-flex>
+    <cc-range-element v-if="item.AddedRange" :range="[item.AddedRange]" />
+    <cc-damage-element v-if="item.AddedDamage" :damage="[item.AddedDamage]" />
+    <span v-if="item.SP" class="large-text">
+      <b class="primary--text">{{ item.SP }}</b>
+      SP
+    </span>
+    <div class="large-text ml-auto">{{ item.AppliedString }}</div>
+    <div v-if="item.Restricted">
+      <br />
+      <span
+        class="stat-text error--text"
+      >RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS</span>
+    </div>
   </equipment-card-base>
 </template>
 

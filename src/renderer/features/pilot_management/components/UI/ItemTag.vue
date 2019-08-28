@@ -1,5 +1,5 @@
 <template>
-  <v-flex shrink v-show="!tagObj.Hidden">
+  <v-col shrink v-show="!tagObj.Hidden">
     <v-tooltip top offset-y>
       <v-chip
         class="px-1 py-2"
@@ -32,7 +32,7 @@
         <v-card-text v-else class="pa-1 ma-0 effect-text">{{ tagObj.Description() }}</v-card-text>
       </template>
     </v-tooltip>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

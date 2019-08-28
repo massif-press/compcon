@@ -8,8 +8,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
-import { MechType, Frame } from '@/class'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { MechType } from '@/class'
 
 export default Vue.extend({
   name: 'frames',

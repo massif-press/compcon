@@ -29,15 +29,15 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-popup',
-  data: () => ({
-    dialog: false,
-  }),
   props: {
     icon: {
       type: Boolean,
       required: false,
     },
   },
+  data: () => ({
+    dialog: false,
+  }),
   methods: {
     confirm() {
       this.dialog = false

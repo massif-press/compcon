@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You poke your nose around, perhaps where it doesn’t belong. You’re investigating
             something, doing research, following up on a mystery, tracking a target, or keeping an
@@ -16,8 +16,8 @@
             <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col xs12>
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -30,11 +30,11 @@
               @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
             ></v-text-field>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" wrap class="text-center">
-          <v-flex xs12 v-if="skillRoll < 10">
+        <v-row v-show="skillRoll" wrap class="text-center">
+          <v-col xs12 v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can choose to get out now, or get what you are looking for. If you choose the
               latter, you get your information but it immediately gets you into trouble.
@@ -47,8 +47,8 @@
                 Get what you are looking for
               </v-btn>
             </v-slide-x-reverse-transition>
-          </v-flex>
-          <v-flex xs12 v-else-if="skillRoll < 20">
+          </v-col>
+          <v-col xs12 v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               you find the information you’ve looking for. However...
             </p>
@@ -60,13 +60,13 @@
                 </v-radio-group>
               </v-card-text>
             </v-card>
-          </v-flex>
-          <v-flex xs12 v-else>
+          </v-col>
+          <v-col xs12 v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">
               You get your information cleanly, no complications
             </p>
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col xs12>
             <v-slide-y-transition>
               <v-card
                 v-show="skillRoll >= 10 || (skillRoll < 10 && commit)"
@@ -81,8 +81,8 @@
                 </v-card-text>
               </v-card>
             </v-slide-y-transition>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-slide-y-transition>
     </v-card-text>
     <v-divider />

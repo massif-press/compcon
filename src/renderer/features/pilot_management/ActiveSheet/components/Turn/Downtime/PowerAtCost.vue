@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             Name what you want. You can
             <strong>always</strong>
@@ -10,13 +10,13 @@
             <strong>one or two</strong>
             complications, depending on how outlandish the request is
           </p>
-        </v-flex>
+        </v-col>
         <v-divider class="ma-2" />
-        <v-flex xs12>
+        <v-col xs12>
           <span class="minor-title">Resource Gained</span>
           <reserve-selector ref="rs" />
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col xs6>
           <div class="ml-2 mr-2">
             <span class="minor-title">Complication</span>
             <v-select
@@ -27,8 +27,8 @@
               hide-details
             />
           </div>
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col xs6>
           <div class="ml-2 mr-2">
             <span class="minor-title">Additional Complication</span>
             <v-select
@@ -39,8 +39,8 @@
               hide-details
             />
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
     <v-divider />
     <v-card-actions>

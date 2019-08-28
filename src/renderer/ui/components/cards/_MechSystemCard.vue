@@ -1,15 +1,10 @@
 <template>
   <equipment-card-base :item="item">
-    <v-flex v-if="item.SP">
-      <span class="large-text">
-        <b class="primary--text">{{ item.SP }}</b>
-        SP
-      </span>
-    </v-flex>
-    <v-spacer />
-    <v-flex shrink class="mx-3">
-      <div class="large-text">{{ item.Size }} {{ item.Type }}</div>
-    </v-flex>
+    <span v-if="item.SP" span class="large-text">
+      <b class="primary--text">{{ item.SP }}</b>
+      SP
+    </span>
+    <div class="large-text ml-auto">{{ item.Size }} {{ item.Type }}</div>
   </equipment-card-base>
 </template>
 
