@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12>
+  <v-col xs12>
     <v-card class="ma-0 pa-0" flat dark>
       <span class="mount-title-dark pl-3 pr-3 text-uppercase">
         {{ mount.MountName }}
@@ -26,7 +26,7 @@
             <i class="effect-text">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>
-        <v-layout>
+        <v-row>
           <span v-if="!mount.Weapons || !mount.Weapons.length" class="minor-title grey--text">
             EMPTY
           </span>
@@ -36,10 +36,10 @@
             :weapon="w"
             :width="100 / mount.Weapons.length"
           />
-        </v-layout>
+        </v-row>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

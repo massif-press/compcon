@@ -24,7 +24,7 @@ export default new Router({
       children: [
         {
           path: '',
-          component: require('@/features/pilot_management/RosterView/index').default,
+          component: require('@/features/pilot_management/Roster/index').default,
         },
         {
           path: '/pilot',
@@ -85,6 +85,10 @@ export default new Router({
             {
               path: '/pilot_gear',
               component: require('@/features/compendium/Views/PilotGear').default,
+            },
+            {
+              path: '/skills',
+              component: require('@/features/compendium/Views/Skills').default,
             },
             {
               path: '/statuses',

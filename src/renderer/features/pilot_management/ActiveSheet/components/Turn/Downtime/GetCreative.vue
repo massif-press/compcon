@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout wrap class="text-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col xs12 class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You tweak something or attempt to make something new, either a physical project, or a
             piece of software. It doesn’t have to be something on the a gear list, but it generally
@@ -22,12 +22,12 @@
                       <v-toolbar-title class="minor-title">New Project</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text class="effect-text pa-2">
-                      <v-layout wrap>
-                        <v-flex xs7>
+                      <v-row wrap>
+                        <v-col xs7>
                           <v-text-field v-model="project_name" label="Project Name" />
-                        </v-flex>
+                        </v-col>
                         <v-spacer />
-                        <v-flex xs3>
+                        <v-col xs3>
                           <v-tooltip top>
                             <v-switch slot="activator" v-model="complicated" label="Complicated" />
                             <span>
@@ -35,13 +35,13 @@
                               complete
                             </span>
                           </v-tooltip>
-                        </v-flex>
-                        <v-flex xs12>
+                        </v-col>
+                        <v-col xs12>
                           <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
-                        </v-flex>
-                      </v-layout>
-                      <v-layout>
-                        <v-flex xs12>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col xs12>
                           <div style="margin-left: 35%; margin-right: 35%">
                             <v-text-field
                               v-model="initialRoll"
@@ -55,16 +55,16 @@
                               hide-details
                             ></v-text-field>
                           </div>
-                        </v-flex>
-                      </v-layout>
+                        </v-col>
+                      </v-row>
                       <v-slide-y-transition>
-                        <v-layout v-show="initialRoll" wrap class="text-center">
-                          <v-flex xs12 v-if="initialRoll < 10">
+                        <v-row v-show="initialRoll" wrap class="text-center">
+                          <v-col xs12 v-if="initialRoll < 10">
                             <p class="pt-2 pb-0 ma-0 effect-text">
                               You don’t make any progress on this project for now
                             </p>
-                          </v-flex>
-                          <v-flex xs12 v-else-if="initialRoll < 20">
+                          </v-col>
+                          <v-col xs12 v-else-if="initialRoll < 20">
                             <p class="pt-2 pb-0 ma-0 effect-text">
                               You can make progress on your project, but can’t finish it. You can
                               finish it next time you have downtime without a roll if you get some
@@ -79,8 +79,8 @@
                               label="Add at least two requirements:"
                               :error="cost.length < 2"
                             ></v-combobox>
-                          </v-flex>
-                          <v-flex xs12 v-else>
+                          </v-col>
+                          <v-col xs12 v-else>
                             <div v-if="!complicated">
                               <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                             </div>
@@ -100,8 +100,8 @@
                                 :error="!cost.length"
                               ></v-combobox>
                             </div>
-                          </v-flex>
-                        </v-layout>
+                          </v-col>
+                        </v-row>
                       </v-slide-y-transition>
                     </v-card-text>
                   </v-card>
@@ -124,35 +124,35 @@
                   <v-slide-x-transition>
                     <div v-show="improveSelection">
                       <div v-if="improveSelection">
-                        <v-layout wrap>
-                          <v-flex xs12 class="text-xs-left">
+                        <v-row wrap>
+                          <v-col xs12 class="text-xs-left">
                             <v-btn small outline @click="improveSelection = null">
                               Select another project
                             </v-btn>
-                          </v-flex>
-                          <v-flex xs12 class="text-center minor-title">
+                          </v-col>
+                          <v-col xs12 class="text-center minor-title">
                             Working on {{ improveSelection.ResourceName }}
-                          </v-flex>
-                          <v-flex xs12>
+                          </v-col>
+                          <v-col xs12>
                             <v-alert
                               :value="improveSelection.ResourceCost"
                               color="primary"
                               class="text-xs-left"
                               outline
                             >
-                              <v-layout>
-                                <v-flex>
+                              <v-row>
+                                <v-col>
                                   <b class="minor-title">COMPLETE IMMEDIATELY</b>
                                   <br />
                                   <p class="pt-2">{{ improveSelection.ResourceCost }}</p>
                                   <v-spacer />
-                                </v-flex>
-                                <v-flex shrink>
+                                </v-col>
+                                <v-col shrink>
                                   <v-btn class="mt-3" color="success" @click="completeProject()">
                                     Complete
                                   </v-btn>
-                                </v-flex>
-                              </v-layout>
+                                </v-col>
+                              </v-row>
                             </v-alert>
                             <p v-if="improveSelection.ResourceCost" class="fluff-text">OR</p>
                             <div style="margin-left: 35%; margin-right: 35%">
@@ -167,16 +167,16 @@
                                 @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
                               ></v-text-field>
                             </div>
-                          </v-flex>
-                        </v-layout>
+                          </v-col>
+                        </v-row>
                         <v-slide-y-transition>
-                          <v-layout v-show="improveRoll" wrap class="text-center">
-                            <v-flex xs12 v-if="improveRoll < 10 && !improveSelection.Progress">
+                          <v-row v-show="improveRoll" wrap class="text-center">
+                            <v-col xs12 v-if="improveRoll < 10 && !improveSelection.Progress">
                               <p class="pt-2 pb-0 ma-0 effect-text">
                                 You don’t make any progress on this project for now
                               </p>
-                            </v-flex>
-                            <v-flex xs12 v-else-if="improveRoll < 20">
+                            </v-col>
+                            <v-col xs12 v-else-if="improveRoll < 20">
                               <p class="pt-2 pb-0 ma-0 effect-text">
                                 You can make progress on your project, but can’t finish it. You can
                                 finish it next time you have downtime without a roll if you get some
@@ -191,8 +191,8 @@
                                 label="Add at least two requirements:"
                                 :error="cost.length < 2"
                               ></v-combobox>
-                            </v-flex>
-                            <v-flex xs12 v-else>
+                            </v-col>
+                            <v-col xs12 v-else>
                               <div v-if="!improveSelection.complicated">
                                 <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                               </div>
@@ -212,8 +212,8 @@
                                   :error="!cost.length"
                                 ></v-combobox>
                               </div>
-                            </v-flex>
-                          </v-layout>
+                            </v-col>
+                          </v-row>
                         </v-slide-y-transition>
                       </div>
                     </div>
@@ -222,8 +222,8 @@
               </v-tab-item>
             </v-tabs>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
     <v-divider />
     <v-card-actions>

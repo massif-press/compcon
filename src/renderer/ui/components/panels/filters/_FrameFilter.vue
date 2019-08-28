@@ -1,9 +1,9 @@
 <template>
-  <v-layout justify-space-around class="mx-4">
-    <v-flex xs4>
+  <v-row justify-space-around class="mx-4">
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="sourceFilter"
+        class="px-2"
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -13,11 +13,11 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="typeFilter"
+        class="px-2"
         prepend-icon="cci-frame"
         chips
         deletable-chips
@@ -28,11 +28,11 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="mountFilter"
+        class="px-2"
         prepend-icon="cci-weapon"
         chips
         deletable-chips
@@ -43,8 +43,8 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

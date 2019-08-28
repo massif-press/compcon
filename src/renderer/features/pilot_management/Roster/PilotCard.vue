@@ -4,23 +4,23 @@
       slot-scope="{ hover }"
       :class="`${pilot.active ? 'active' : 'inactive'} elevation-${hover ? 12 : 0}`"
     >
-      <v-layout style="cursor: pointer;" @click="toPilotSheet()">
-        <v-flex v-if="pilot.Portrait" class="ma-0 pb-0 pt-0">
+      <v-row style="cursor: pointer;" @click="toPilotSheet()">
+        <v-col v-if="pilot.Portrait" class="ma-0 pb-0 pt-0">
           <v-img :src="pilot.Portrait" position="top" :height="`${cardHeight}px`" />
-        </v-flex>
-        <v-flex v-else class="ma-0 pb-0 pt-0 text-center">
+        </v-col>
+        <v-col v-else class="ma-0 pb-0 pt-0 text-center">
           <div :style="`height: ${cardHeight}px; display:table; width:100%`">
             <span class="pilot-letter white--text">
               {{ pilot.Callsign.substring(0, 1).toUpperCase() }}
             </span>
           </div>
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <v-card :color="panelColor()" dark flat>
-            <v-layout>
-              <v-flex xs9 class="ma-2">
+            <v-row>
+              <v-col xs9 class="ma-2">
                 <span class="title">{{ pilot.Callsign }}</span>
                 <br />
                 <span class="caption">
@@ -28,9 +28,9 @@
                   <br />
                   {{ pilot.Background.Name }}, LL{{ pilot.Level }}
                 </span>
-              </v-flex>
+              </v-col>
               <v-spacer />
-              <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
+              <v-col class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activatePilot">
                     <v-icon :color="pilot.IsActive ? 'teal accent-3' : 'grey darken-1'">
@@ -69,10 +69,10 @@
                   </v-btn>
                   <span>Delete Pilot</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card>
-        </v-flex>
+        </v-col>
 
         <v-snackbar v-model="snackbar" :timeout="5000">
           <span v-html="notification" />
@@ -193,7 +193,7 @@
             </v-card-text>
           </template>
         </lazy-dialog>
-      </v-layout>
+      </v-row>
     </v-card>
   </v-hover>
 </template>

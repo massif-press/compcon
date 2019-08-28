@@ -1,9 +1,9 @@
 <template>
-  <v-layout wrap justify-space-around class="mx-4">
-    <v-flex xs4>
+  <v-row wrap justify-space-around class="mx-4">
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="sourceFilter"
+        class="px-2"
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -13,11 +13,11 @@
         small-chips
         @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
-        class="px-2"
         v-model="tagFilter"
+        class="px-2"
         prepend-icon="mdi-tag"
         chips
         deletable-chips
@@ -26,12 +26,12 @@
         :items="tags"
         multiple
         small-chips
-        @change="updateFilters()"
         item-text="Name"
         item-value="ID"
+        @change="updateFilters()"
       />
-    </v-flex>
-    <v-flex xs4>
+    </v-col>
+    <v-col xs4>
       <v-select
         v-model="systemTypeFilter"
         class="px-2"
@@ -39,18 +39,18 @@
         outlined
         label="System Type"
         :items="systemTypes"
-        @change="updateFilters()"
         chips
         deletable-chips
         small-chips
+        @change="updateFilters()"
       />
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { MechType, MountType, Tag, SystemType } from '@/class'
+import { Tag, SystemType } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1

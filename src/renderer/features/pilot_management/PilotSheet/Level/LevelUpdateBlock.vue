@@ -1,42 +1,42 @@
 <template>
   <div>
-    <v-layout align-center justify-center>
+    <v-row align-center justify="center">
       <span class="title">{{ callsign }}</span>
-    </v-layout>
+    </v-row>
     <v-divider />
-    <v-layout align-center justify-center>
-      <v-flex shrink>
+    <v-row align-center justify="center">
+      <v-col shrink>
         <span class="grey--text">
           LICENSE
           <br />
           LEVEL
         </span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="display-3 grey--text">{{ lvl - 1 }}</span>
-      </v-flex>
-      <v-flex shrink class="ml-4">
+      </v-col>
+      <v-col shrink class="ml-4">
         <v-icon size="70px" class="ml-5">arrow_forwards</v-icon>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span>
           LICENSE
           <br />
           LEVEL
         </span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="display-3">{{ lvl }}</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-container grid-list-xl text-center class="mt-0 pt-0 mb-0 pb-0">
-      <v-layout justify-space-between>
-        <v-flex>
+      <v-row justify-space-between>
+        <v-col>
           <b>Pending Advancements for License Level {{ lvl }}:</b>
-        </v-flex>
-      </v-layout>
-      <v-layout justify-space-between>
-        <v-flex xs3>
+        </v-col>
+      </v-row>
+      <v-row justify-space-between>
+        <v-col xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+2</span>
@@ -44,9 +44,9 @@
               <b>Pilot Skill Points</b>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-col>
 
-        <v-flex xs3>
+        <v-col xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -54,9 +54,9 @@
               <b>Mech Skill Point</b>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-col>
 
-        <v-flex xs3>
+        <v-col xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -64,9 +64,9 @@
               <b>Talent Point</b>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-col>
 
-        <v-flex xs3>
+        <v-col xs3>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -74,11 +74,11 @@
               <b>License Point</b>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
-      <v-layout justify-center>
-        <v-flex>
+      <v-row justify="center">
+        <v-col>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <b>Grit:</b>
@@ -94,11 +94,11 @@
               </span>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
 
-      <v-layout justify-space-between v-if="lvl % 3 === 0">
-        <v-flex xs12>
+      <v-row justify-space-between v-if="lvl % 3 === 0">
+        <v-col xs12>
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -106,8 +106,8 @@
               <b>Core Bonus</b>
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

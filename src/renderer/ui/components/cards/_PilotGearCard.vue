@@ -1,11 +1,9 @@
 <template>
   <equipment-card-base :item="item">
-    <v-flex>
-      <span class="large-text">
-        <b class="primary--text">{{ item.uses ? item.uses : 'Unlimited' }}</b>
-        Use{{ !item.uses || item.uses > 1 ? 's' : '' }}
-      </span>
-    </v-flex>
+    <span class="large-text">
+      <b class="primary--text">{{ item.uses ? item.uses : 'Unlimited' }}</b>
+      Use{{ !item.uses || item.uses > 1 ? 's' : '' }}
+    </span>
   </equipment-card-base>
 </template>
 

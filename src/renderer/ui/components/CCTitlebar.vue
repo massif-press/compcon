@@ -1,7 +1,7 @@
 <template>
   <v-toolbar :color="getColor()" class="clipped-large">
     <v-toolbar-title :class="`heading h2 ${dark ? 'white--text' : 'black--text'}`">
-      <v-icon :dark="dark" v-if="icon" left>{{ icon }}</v-icon>
+      <v-icon v-if="icon" :dark="dark" left>{{ icon }}</v-icon>
       <slot></slot>
     </v-toolbar-title>
     <v-spacer />
@@ -29,6 +29,7 @@ export default Vue.extend({
     icon: {
       type: String,
       required: false,
+      default: '',
     },
   },
 })

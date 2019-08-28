@@ -8,14 +8,14 @@
       :style="`top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
     >
       <v-list nav dense>
-        <slot name="sidebar"></slot>
+        <slot name="sidebar" />
       </v-list>
     </v-navigation-drawer>
-    <v-layout>
-      <v-flex offset-xs2 class="pl-7 mr-7">
-        <slot></slot>
-      </v-flex>
-    </v-layout>
+    <v-row>
+      <v-col offset="2" class="pl-7 mr-7">
+        <slot />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

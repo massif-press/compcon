@@ -1,5 +1,5 @@
 <template>
-  <v-flex :shrink="shrink">
+  <v-col :shrink="shrink">
     <span v-if="caption" class="caption" v-html="caption" />
     <v-rating
       dense
@@ -12,7 +12,7 @@
       :empty-icon="icons ? icons[0] : 'brightness_7'"
       :full-icon="icons && icons[1] ? icons[1] : 'brightness_1'"
     />
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

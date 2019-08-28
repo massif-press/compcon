@@ -1,8 +1,8 @@
 <template>
   <cc-sidebar-view>
     <v-list-item
-      slot="sidebar"
       v-for="(e, i) in array"
+      slot="sidebar"
       :key="`${i}_sidebar'`"
       link
       @click="
@@ -58,10 +58,12 @@ export default Vue.extend({
     subKey: {
       type: String,
       required: false,
+      default: '',
     },
     icon: {
       type: String,
       required: false,
+      default: '',
     },
   },
 })

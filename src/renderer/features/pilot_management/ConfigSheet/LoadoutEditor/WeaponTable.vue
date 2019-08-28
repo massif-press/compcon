@@ -112,14 +112,14 @@
           </v-card>
         </template>
       </v-data-table>
-      <v-layout v-if="weaponSlot.Weapon" justify-space-between class="pt-4">
-        <v-flex xs1></v-flex>
-        <v-flex shrink>
+      <v-row v-if="weaponSlot.Weapon" justify-space-between class="pt-4">
+        <v-col xs1></v-col>
+        <v-col shrink>
           <v-btn color="amber darken-4" @click="remove">
             Uninstall {{ weaponSlot.Weapon.Name }}
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>
@@ -133,7 +133,7 @@ import { RangeElement, DamageElement, WeaponCard } from '../../components/UI'
 import io from '@/features/_shared/data_io'
 import { WeaponSlot, MechLoadout, EquippableMount, MechWeapon, Pilot } from '@/class'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { accentInclude } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'weapon-table',
@@ -183,10 +183,10 @@ export default Vue.extend({
       // filter already equipped
       if (vm.weaponSlot.Weapon) i = i.filter(x => x.ID !== vm.weaponSlot.Weapon.ID)
 
-      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
+      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
       i = i.filter(x => !vm.loadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
-      i = ItemFilter.FilterWeapons(i, this.detailFilter)
+      // i = ItemFilter.FilterWeapons(i, this.detailFilter)
 
       return i
     },

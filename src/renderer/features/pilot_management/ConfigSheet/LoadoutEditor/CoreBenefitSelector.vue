@@ -2,32 +2,32 @@
   <div>
     <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
     <v-card-text class="text-center">
-      <v-layout justify-center wrap>
-        <v-flex xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
+      <v-row justify="center" wrap>
+        <v-col xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
           <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">
             Uninstall Auto-Stabilizing Hardpoints
           </v-btn>
           <v-btn large block v-else-if="unappliedHardpoints()" @click="addHardpoints()">
             Install Auto-Stabilizing Hardpoints
           </v-btn>
-        </v-flex>
-        <v-flex xs12 v-if="pilot.has('CoreBonus', 'burnout')">
+        </v-col>
+        <v-col xs12 v-if="pilot.has('CoreBonus', 'burnout')">
           <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">
             Uninstall BURNOUT Insulation
           </v-btn>
           <v-btn large block v-else-if="unappliedBurnout()" @click="addBurnout()">
             Install BURNOUT Insulation
           </v-btn>
-        </v-flex>
-        <v-flex xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
+        </v-col>
+        <v-col xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
           <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">
             Restore Original Mount
           </v-btn>
           <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">
             Retrofit Mount
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="ma-3" />
     </v-card-text>
     <v-card-actions>

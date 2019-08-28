@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="primary white--text">
-      <span class="heading h3">{{ talentRank.name }}</span>
+      <span class="heading h3 pl-2">{{ talentRank.name }}</span>
     </div>
-    <v-layout>
-      <v-flex shrink>
+    <v-row>
+      <v-col cols="auto">
         <v-icon size="120" color="primary">cci-rank-{{ rankIndex }}</v-icon>
-      </v-flex>
-      <v-flex class="ml-3">
+      </v-col>
+      <v-col>
         <p class="flavor-text pt-2" v-html="talentRank.description" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

@@ -1,26 +1,26 @@
 <template>
   <v-card :color="roleColor" :class="`${roleColor}--text`">
-    <v-layout align-center pl-4 pr-2 py-2 class="white--text">
-      <v-flex>
+    <v-row align-center pl-4 pr-2 py-2 class="white--text">
+      <v-col>
         <v-text-field dark v-model="npc.name" color="white" class="namefield">
           <v-tooltip slot="prepend" bottom>
             <v-icon slot="activator">mdi-account</v-icon>
             <span>{{ npc.name }}</span>
           </v-tooltip>
         </v-text-field>
-      </v-flex>
-      <v-flex ml-auto class="body-2">
+      </v-col>
+      <v-col ml-auto class="body-2">
         <v-chip label outline dark color="white" disabled>
           NPC:
           <span style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">
             {{ encounterNPC.npc.name }}
           </span>
         </v-chip>
-      </v-flex>
+      </v-col>
       <v-btn style="margin-left: 0" small icon dark @click="$emit('deleted')">
         <v-icon small>delete</v-icon>
       </v-btn>
-    </v-layout>
+    </v-row>
   </v-card>
 </template>
 

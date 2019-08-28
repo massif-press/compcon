@@ -1,11 +1,16 @@
 <template>
-  <component ref="c" :is="component" v-if="component" @set-filters="$emit('set-filters', $event)" />
+  <component :is="component" v-if="component" ref="c" @set-filters="$emit('set-filters', $event)" />
 </template>
 
 <script>
 export default {
   name: 'cc-item-filter',
-  props: ['itemType'],
+  props: {
+    itemType: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       component: null,
@@ -19,11 +24,6 @@ export default {
       return () => import(`./_${this.itemType}Filter.vue`)
     },
   },
-  methods: {
-    clear() {
-      this.$refs.c.clear()
-    },
-  },
   mounted() {
     this.loader()
       .then(() => {
@@ -32,6 +32,11 @@ export default {
       .catch(() => {
         console.error(`Unable to load component ${this.itemType}`)
       })
+  },
+  methods: {
+    clear() {
+      this.$refs.c.clear()
+    },
   },
 }
 </script>

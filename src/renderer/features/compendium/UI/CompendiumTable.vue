@@ -1,59 +1,51 @@
 <template>
   <v-container fluid>
-    <v-layout>
-      <v-flex shrink>
-        <span class="flavor-text grey--text">{{ fItems.length }} Items</span>
-      </v-flex>
-      <v-spacer />
-      <v-flex xs3>
+    <v-row>
+      <v-col cols="3" class="ml-auto">
         <v-text-field
+          v-model="search"
           class="search-field"
           prepend-icon="search"
-          v-model="search"
           flat
           hide-actions
           single-line
           placeholder="Search"
           clearable
+          persistent-hint
+          :hint="`${fItems.length } Items`"
         />
-      </v-flex>
-      <v-flex v-if="!noFilter" shrink mx-2>
-        <cc-filter-panel :item-type="itemType" @set-filters="setFilters" />
-      </v-flex>
-    </v-layout>
-    <v-layout>
-      <v-flex>
-        <v-data-table
-          :headers="headers"
-          :items="fItems"
-          :custom-sort="customSort"
-          item-key="id"
-          hide-default-footer
-          disable-pagination
-          class="elevation-0 flavor-text"
-          calculate-widths
-          fixed-header
-          show-select
-          single-select
-        >
-          <template v-slot:item.data-table-select="{ item }">
-            <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
-              <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
-            <search-result-modal :item="item" :ref="`modal_${item.ID}`" />
-          </template>
-          <template v-slot:item.Name="{ item }">
-            <span class="stat-text">{{ item.Name }}</span>
-          </template>
-          <template v-slot:item.Damage="{ item }">
-            <cc-damage-element small :damage="item.Damage" />
-          </template>
-          <template v-slot:item.Range="{ item }">
-            <cc-range-element small :range="item.Range" />
-          </template>
-        </v-data-table>
-      </v-flex>
-    </v-layout>
+      </v-col>
+      <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
+    </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="fItems"
+      :custom-sort="customSort"
+      item-key="id"
+      hide-default-footer
+      disable-pagination
+      class="elevation-0 flavor-text"
+      calculate-widths
+      fixed-header
+      show-select
+      single-select
+    >
+      <template v-slot:item.data-table-select="{ item }">
+        <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
+          <v-icon>mdi-open-in-new</v-icon>
+        </v-btn>
+        <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
+      </template>
+      <template v-slot:item.Name="{ item }">
+        <span class="stat-text">{{ item.Name }}</span>
+      </template>
+      <template v-slot:item.Damage="{ item }">
+        <cc-damage-element small :damage="item.Damage" />
+      </template>
+      <template v-slot:item.Range="{ item }">
+        <cc-range-element small :range="item.Range" />
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
@@ -61,7 +53,7 @@
 import Vue from 'vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
 import SearchResultModal from './SearchResultModal.vue'
-import includesIgnoringAccentsCase from '@/features/_shared/utility/accent_fold'
+import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'frames',
@@ -90,7 +82,7 @@ export default Vue.extend({
       var vm = this as any
       let i = vm.items
 
-      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
+      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
 
       if (Object.keys(vm.filters).length) {
         i = ItemFilter.Filter(i, vm.filters)
@@ -102,7 +94,6 @@ export default Vue.extend({
   methods: {
     customSort(items, index, descending) {
       const desc = descending[0]
-      const idx = index[0]
       items.sort((a, b) => {
         if (index[0] === 'Damage') {
           return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max

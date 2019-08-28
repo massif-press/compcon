@@ -1,10 +1,10 @@
 <template>
-  <v-flex :xs="downtime ? 3 : 4">
+  <v-col :cols="downtime ? 4 : 3">
     <cc-titled-panel
       clickable
       :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
       :icon="`$vuetify.icons.${action.action_type}`"
-      :color="`action-${action.action_type}`"
+      :color="`action--${action.action_type}`"
       @click="$refs.dialog.show()"
     >
       <v-card-text class="text-xs-left py-2" style="height: 115px">
@@ -13,15 +13,15 @@
     </cc-titled-panel>
 
     <cc-solo-dialog
+      ref="dialog"
       :icon="`$vuetify.icons.${action.action_type}`"
-      :color="`action-${action.action_type}`"
+      :color="`action--${action.action_type}`"
       no-confirm
       :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
-      ref="dialog"
     >
       <p class="body-text text--text" v-html="action.detail" />
     </cc-solo-dialog>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

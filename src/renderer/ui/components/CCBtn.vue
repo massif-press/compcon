@@ -5,13 +5,12 @@
         tile
         class="clipped-btn"
         v-bind="$props"
-        @click="$emit('click')"
         style="visibility: visible;"
+        @click="$emit('click')"
       >
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           &nbsp;
-          <slot></slot>
-          &nbsp;&nbsp;
+          <slot></slot>&nbsp;&nbsp;
         </span>
       </v-btn>
     </div>
@@ -28,7 +27,7 @@ export default Vue.extend({
       required: false,
       default: false,
     },
-    'x-large': {
+    xLarge: {
       type: Boolean,
       required: false,
       default: false,
@@ -64,6 +63,7 @@ export default Vue.extend({
     to: {
       type: [String, Object],
       required: false,
+      default: '',
     },
   },
 })

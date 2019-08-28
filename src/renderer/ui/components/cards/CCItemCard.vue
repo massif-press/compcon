@@ -1,11 +1,16 @@
 <template>
-  <component :is="component" :item="item" v-if="component" />
+  <component :is="component" v-if="component" :item="item" />
 </template>
 
 <script>
 export default {
   name: 'cc-item-card',
-  props: ['item'],
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       component: null,

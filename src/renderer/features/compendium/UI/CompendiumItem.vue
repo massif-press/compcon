@@ -42,22 +42,22 @@
         <v-divider />
         <v-card-text class="pt-0">
           <v-subheader class="mb-0">Weapon</v-subheader>
-          <v-layout mb-2 py-2 px-1 align-center>
+          <v-row mb-2 py-2 px-1 align-center>
             <div class="pl-2 subheading">{{ item.mount }} {{ item.type }}</div>
             <v-divider vertical class="mx-3" />
             <range-element :range="item.range" />
             <v-divider vertical class="mx-3" />
             <damage-element :dmg="item.damage" />
-          </v-layout>
+          </v-row>
         </v-card-text>
       </template>
       <template v-if="item.Tags && item.Tags.length">
         <v-divider />
         <v-card-text class="pt-0">
           <v-subheader class="mb-0">Tags</v-subheader>
-          <v-layout class="pb-2">
+          <v-row class="pb-2">
             <item-tag v-for="(t, index) in item.Tags" :key="t.id + index" :tag-obj="t" />
-          </v-layout>
+          </v-row>
         </v-card-text>
       </template>
     </v-card>

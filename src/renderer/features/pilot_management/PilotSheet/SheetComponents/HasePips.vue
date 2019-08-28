@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-col>
     <span class="text-uppercase">{{ title }}</span>
     <span class="grey--text">({{ attr || 0 }})</span>
     <v-tooltip top>
@@ -16,7 +16,7 @@
       />
       <span class="effect-text" v-html="tooltip()" />
     </v-tooltip>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

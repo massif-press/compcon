@@ -17,6 +17,7 @@ declare module 'lancer-data' {
   const backgrounds: any
   const skills: any
   const core_bonuses: any
+  const glossary: any
   const frames: any
   const info: any
   const manufacturers: any

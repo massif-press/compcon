@@ -1,21 +1,21 @@
 <template>
   <v-hover style="background-color: rgba(0,0,0,0)">
     <v-card slot-scope="{ hover }" :class="`inactive elevation-${hover ? 12 : 0}`">
-      <v-layout style="cursor: pointer;" @click="toConfigSheet()">
-        <v-flex class="ma-0 pb-0 pt-0">
+      <v-row style="cursor: pointer;" @click="toConfigSheet()">
+        <v-col class="ma-0 pb-0 pt-0">
           <v-img :src="mech.Portrait" position="top" :height="`${cardHeight}px`" />
-        </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <v-card :color="panelColor(mech.IsActive)" dark flat>
-            <v-layout>
-              <v-flex xs9 class="ma-2">
+            <v-row>
+              <v-col xs9 class="ma-2">
                 <span class="title">{{ mech.Name }}</span>
                 <br />
                 <span class="caption">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
-              </v-flex>
-              <v-flex class="mt-2 mb-2 mr-1 text-xs-right">
+              </v-col>
+              <v-col class="mt-2 mb-2 mr-1 text-xs-right">
                 <v-tooltip top>
                   <v-btn slot="activator" icon class="ma-0" @click="activateConfig()">
                     <v-icon :color="mech.IsActive ? 'teal accent-3' : 'grey lighten-1'">
@@ -53,10 +53,10 @@
                   </v-btn>
                   <span>Delete Configuration</span>
                 </v-tooltip>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card>
-        </v-flex>
+        </v-col>
 
         <v-snackbar v-model="snackbar" :timeout="5000">
           <span v-html="notification" />
@@ -109,7 +109,7 @@
             </v-card-text>
           </template>
         </lazy-dialog>
-      </v-layout>
+      </v-row>
     </v-card>
   </v-hover>
 </template>

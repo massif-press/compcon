@@ -9,7 +9,7 @@
     >
       <v-toolbar-title>
         <v-icon v-if="icon" x-large left>{{ icon }}</v-icon>
-        <span :class="`heading h3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
+        <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
       </v-toolbar-title>
     </v-toolbar>
 
@@ -33,6 +33,7 @@ export default Vue.extend({
     icon: {
       type: String,
       required: false,
+      default: '',
     },
     color: {
       type: String,

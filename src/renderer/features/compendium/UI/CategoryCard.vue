@@ -1,5 +1,5 @@
 <template>
-  <v-flex grow>
+  <v-col grow>
     <v-hover v-slot:default="{ hover }">
       <v-card
         id="underline-parent"
@@ -29,7 +29,7 @@
         </v-card-actions>
       </v-card>
     </v-hover>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

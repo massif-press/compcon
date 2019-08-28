@@ -1,56 +1,36 @@
 <template>
   <div>
     <h1 class="heading mb-3 ml-5">ACTION ECONOMY</h1>
-    <v-card class="mt-3" flat color="grey lighten-4">
-      <v-card-text class="body-text text--text">
-        <p class="px-4 my-2">
-          On a turn, players can perform a move, and either two quick actions or one full action,
-          with no duplicate actions allowed. Players can overcharge their mechs to gain an extra
-          quick action at the cost of heat, and all characters can also take any number of Free
-          Actions on their turn, and any number of reactions per round, even outside their turn.
-          <br />
-          <br />
-          Pilots on foot can take the following actions and reactions :
-          <strong>
-            BOOST, HIDE, SEARCH, ACTIVATE, SKILL CHECK, DISENGAGE, PREPARE, OVERWATCH, BRACE
-          </strong>
-          , as well as the two pilot-specific actions:
-          <strong>FIGHT</strong>
-          and
-          <strong>JOCKEY</strong>
-        </p>
-      </v-card-text>
-    </v-card>
     <v-container>
       <span class="heading mech">Per Turn</span>
       <v-card color="grey lighten-5" elevation-10>
         <v-card-text>
-          <v-layout justify-center row>
+          <v-row justify="center" dense>
             <action-type-card action="move" />
-            <v-flex xs3 class="effect-text text-center ml-2 mr-2">
+            <v-col cols="3" class="effect-text text-center">
               Full Action
               <i class="grey--text">or</i>
               2 Quick Actions
               <br />
-              <v-card tile color="action-full" width="100%" class="text-center pt-4 pb-4">
+              <v-card tile color="action--full" width="100%" class="text-center pt-4 pb-4">
                 <v-icon size="100" dark>$vuetify.icons.full</v-icon>
                 <v-icon size="50" color="indigo lighten-3">mdi-swap-horizontal</v-icon>
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
               </v-card>
-            </v-flex>
+            </v-col>
             <action-type-card action="overcharge" />
             <action-type-card action="reaction" />
             <action-type-card action="free" />
-          </v-layout>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-container>
 
     <v-container grid-list-md fluid>
-      <v-layout wrap fill-height justify-center>
+      <v-row wrap fill-height justify="center">
         <action-card v-for="a in actions" :key="a.id" :action="a" />
-      </v-layout>
+      </v-row>
     </v-container>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <template>
   <v-card flat class="pt-0">
     <v-card-text class="pt-0">
-      <v-layout class="text-center">
-        <v-flex xs4 v-for="n in 3" :key="`r_${n}`" :class="{ locked: rank && rank < n }">
+      <v-row class="text-center">
+        <v-col v-for="n in 3" :key="`r_${n}`" xs4 :class="{ locked: rank && rank < n }">
           <p class="text-center pt-2 subheading font-weight-bold">
             <span class="grey-text">
               RANK {{ 'I'.repeat(n) }}
@@ -13,8 +13,8 @@
           <div v-for="i in license.Unlocks[n - 1]" :key="i.id" class="my-2">
             <cc-item-modal :item="i" />
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -25,8 +25,13 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-license-panel',
   props: {
-    license: Object,
-    rank: Number,
+    license: {
+      type: Object,
+      required: true,
+    },
+    rank: {
+      type: Number,
+      required: true,}
   },
 })
 </script>

@@ -28,9 +28,9 @@
       </v-toolbar>
       <v-card flat>
         <v-card-text>
-          <v-layout>
-            <v-flex xs4 class="ml-2 mr-2">
-              <v-layout>
+          <v-row>
+            <v-col xs4 class="ml-2 mr-2">
+              <v-row>
                 <v-select
                   v-model="filters.source"
                   prepend-icon="mdi-factory"
@@ -43,8 +43,8 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-              <v-layout>
+              </v-row>
+              <v-row>
                 <v-select
                   v-model="filters.license"
                   prepend-icon="cci-frame"
@@ -57,10 +57,10 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-            </v-flex>
-            <v-flex xs4 class="ml-2 mr-2">
-              <v-layout wrap>
+              </v-row>
+            </v-col>
+            <v-col xs4 class="ml-2 mr-2">
+              <v-row wrap>
                 <v-select
                   v-model="filters.include"
                   prepend-icon="mdi-tag"
@@ -73,8 +73,8 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-              <v-layout>
+              </v-row>
+              <v-row>
                 <v-select
                   v-model="filters.exclude"
                   prepend-icon="block"
@@ -88,10 +88,10 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-            </v-flex>
-            <v-flex v-if="system" xs4 class="ml-2 mr-2">
-              <v-layout>
+              </v-row>
+            </v-col>
+            <v-col v-if="system" xs4 class="ml-2 mr-2">
+              <v-row>
                 <v-select
                   v-model="filters.systemType"
                   prepend-icon="mdi-chip"
@@ -104,10 +104,10 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-            </v-flex>
-            <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
-              <v-layout>
+              </v-row>
+            </v-col>
+            <v-col v-if="weapon" xs4 class="ml-2 mr-2">
+              <v-row>
                 <v-select
                   v-model="filters.weaponType"
                   prepend-icon="mdi-sword"
@@ -120,8 +120,8 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-              <v-layout>
+              </v-row>
+              <v-row>
                 <v-select
                   v-model="filters.weaponSize"
                   prepend-icon="mdi-relative-scale"
@@ -134,10 +134,10 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-            </v-flex>
-            <v-flex v-if="weapon" xs4 class="ml-2 mr-2">
-              <v-layout>
+              </v-row>
+            </v-col>
+            <v-col v-if="weapon" xs4 class="ml-2 mr-2">
+              <v-row>
                 <v-select
                   v-model="filters.attackType"
                   prepend-icon="cci-range"
@@ -150,8 +150,8 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-              <v-layout>
+              </v-row>
+              <v-row>
                 <v-select
                   v-model="filters.damageType"
                   prepend-icon="cci-kinetic-damage"
@@ -164,9 +164,9 @@
                   small-chips
                   @change="updateFilters()"
                 />
-              </v-layout>
-            </v-flex>
-          </v-layout>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-bottom-sheet>

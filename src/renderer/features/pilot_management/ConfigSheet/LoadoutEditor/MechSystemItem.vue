@@ -1,6 +1,6 @@
 <template>
-  <v-layout fill-height>
-    <v-flex xs2>
+  <v-row fill-height>
+    <v-col xs2>
       <v-tooltip top>
         <v-btn
           slot="activator"
@@ -28,8 +28,8 @@
         <span v-if="empty">Install System</span>
         <span v-else>Change or Remove Installed System</span>
       </v-tooltip>
-    </v-flex>
-    <v-flex xs10>
+    </v-col>
+    <v-col xs10>
       <div v-if="empty">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
@@ -49,7 +49,7 @@
       <div v-else>
         <v-expansion-panel class="m-0">
           <v-expansion-panel-content :class="system.IsDestroyed ? 'destroyed-bg' : ''">
-            <v-layout slot="header">
+            <v-row slot="header">
               <span
                 class="subheading font-weight-bold"
                 :style="system.IsDestroyed ? 'text-decoration: line-through;' : ''"
@@ -64,12 +64,12 @@
               </b>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">{{ system.SP }} SP</span>
-            </v-layout>
+            </v-row>
             <system-card :itemData="system" :integrated="integrated" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
-    </v-flex>
+    </v-col>
 
     <!-- System Selector Modal -->
     <v-dialog
@@ -98,7 +98,7 @@
         :index="index"
       />
     </v-dialog>
-  </v-layout>
+  </v-row>
 </template>
 
 <script lang="ts">

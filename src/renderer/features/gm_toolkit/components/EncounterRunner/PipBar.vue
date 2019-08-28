@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-layout grow-shrink-0 align-center class="text-xs-left text-uppercase body-2">
-      <v-flex>{{ label }} {{ value }}/{{ max }}</v-flex>
-      <v-flex ml-0 class="primary--text">
+    <v-row grow-shrink-0 align-center class="text-xs-left text-uppercase body-2">
+      <v-col>{{ label }} {{ value }}/{{ max }}</v-col>
+      <v-col ml-0 class="primary--text">
         <v-fade-transition leave-absolute>
           <v-btn
             style="color: currentColor !important"
@@ -27,8 +27,8 @@
             />
           </div>
         </v-fade-transition>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-rating
       class="pipbar"
       :value="value"

@@ -1,15 +1,15 @@
 <template>
   <div>
     <span class="heading h2 text--text">{{ cs.Name }}</span>
-    <p v-html="cs.Description" class="flavor-text" />
+    <p class="flavor-text" v-html="cs.Description" />
 
     <div v-if="cs.Passive">
       <span class="heading sub">PASSIVE</span>
-      <p v-html="cs.Passive" class="effect-text panel pa-2" />
+      <p class="effect-text panel pa-2" v-html="cs.Passive" />
     </div>
 
     <span class="heading sub">ACTIVE {{ cs.Active ? ` - ${cs.Active}` : '' }}</span>
-    <p v-html="cs.Effect" class="effect-text panel-block pa-2" />
+    <p class="effect-text panel-block pa-2" v-html="cs.Effect" />
 
     <div v-if="cs.Integrated">
       <span class="heading sub">CORE INTEGRATED WEAPON - {{ cs.Integrated.Name }}</span>

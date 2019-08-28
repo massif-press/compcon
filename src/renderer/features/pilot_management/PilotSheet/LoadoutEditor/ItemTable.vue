@@ -106,12 +106,12 @@
           </template>
         </v-data-table>
       </v-card>
-      <v-layout v-if="equippedItem" justify-space-between class="pt-4">
-        <v-flex xs1></v-flex>
-        <v-flex shrink>
+      <v-row v-if="equippedItem" justify-space-between class="pt-4">
+        <v-col xs1></v-col>
+        <v-col shrink>
           <v-btn color="error" @click="remove(equippedItem)">Remove {{ equippedItem.Name }}</v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>

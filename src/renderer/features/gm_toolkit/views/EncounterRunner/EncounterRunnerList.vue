@@ -1,16 +1,16 @@
 <template>
   <v-container fluid>
-    <v-layout align-center>
+    <v-row align-center>
       <h3 class="headline text-xs-left ml-2 grey--text text--darken-1">
         Active Encounters
       </h3>
-      <v-flex ml-auto style="padding: 7px; flex-grow: 0;">
+      <v-col ml-auto style="padding: 7px; flex-grow: 0;">
         <add-button text="Run New Encounter" to="/encounter-runner/new" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-divider class="mb-3" />
     <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
-      <v-flex v-for="encounter in activeEncounters" :key="encounter.id" xs12 sm6 md2>
+      <v-col v-for="encounter in activeEncounters" :key="encounter.id" xs12 sm6 md2>
         <File
           :name="encounter.name"
           icon="mdi-account-group"
@@ -30,7 +30,7 @@
             </v-btn>
           </template>
         </File>
-      </v-flex>
+      </v-col>
     </v-slide-y-transition>
     <v-dialog v-model="deleteDialog" v-if="deletingID !== null" persistent max-width="290">
       <v-card>

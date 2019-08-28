@@ -18,7 +18,7 @@
             :force-fallback="true"
           >
             <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
-              <v-flex
+              <v-col
                 xs6
                 class="cardflex"
                 :class="calcSize(npc)"
@@ -26,7 +26,7 @@
                 :key="npc.id"
               >
                 <runner-npc-card :npc="npc" />
-              </v-flex>
+              </v-col>
             </v-slide-y-transition>
           </draggable>
         </v-container>
@@ -35,7 +35,7 @@
       <v-tab-item>
         <v-container fluid>
           <v-slide-y-transition group tag="div" class="layoutwrap justify-start grow-shrink-0">
-            <v-flex xs12 sm6 md3 v-for="npc in destroyedNpcs" :key="npc.id">
+            <v-col xs12 sm6 md3 v-for="npc in destroyedNpcs" :key="npc.id">
               <v-card color="grey darken-2" class="dead-npc">
                 <v-card-title class="white--text title">
                   {{ npc.name }}
@@ -51,7 +51,7 @@
                   </v-btn>
                 </v-card-title>
               </v-card>
-            </v-flex>
+            </v-col>
           </v-slide-y-transition>
         </v-container>
       </v-tab-item>

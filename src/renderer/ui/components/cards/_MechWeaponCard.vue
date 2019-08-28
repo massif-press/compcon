@@ -1,18 +1,9 @@
 <template>
   <equipment-card-base :item="item">
-    <v-flex shrink class="mx-3">
-      <cc-range-element :range="item.Range" />
-    </v-flex>
-    <v-flex shrink class="mx-3">
-      <cc-damage-element :damage="item.Damage" />
-    </v-flex>
-    <v-flex v-if="item.SP">
-      <span class="text-lighten--text">({{ item.SP }} SP)</span>
-    </v-flex>
-    <v-spacer />
-    <v-flex shrink class="mx-3">
-      <div class="large-text">{{ item.Size }} {{ item.Type }}</div>
-    </v-flex>
+    <cc-range-element :range="item.Range" />
+    <cc-damage-element :damage="item.Damage" />
+    <span v-if="item.SP" class="text-lighten--text">({{ item.SP }} SP)</span>
+    <div class="large-text ml-auto">{{ item.Size }} {{ item.Type }}</div>
   </equipment-card-base>
 </template>
 

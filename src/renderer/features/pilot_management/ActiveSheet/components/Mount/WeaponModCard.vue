@@ -53,20 +53,20 @@
     <v-card-text class="pb-0 pt-0">
       <p v-if="mod.Effect" v-html="mod.Effect" class="ma-0 pa-1 pl-1" />
       <div v-if="mod.IsLimited">
-        <v-layout>
-          <v-flex xs1>
+        <v-row>
+          <v-col xs1>
             <v-divider class="mt-2 mr-3" />
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <span class="caption grey--text">USES&nbsp;</span>
             <b class="warning--text">{{ mod.Uses }} / {{ mod.MaxUses + limitedBonus }}</b>
-          </v-flex>
-          <v-flex grow>
+          </v-col>
+          <v-col grow>
             <v-divider class="mt-2 ml-3" />
-          </v-flex>
-          <v-flex xs1></v-flex>
-        </v-layout>
-        <v-layout justify-start>
+          </v-col>
+          <v-col xs1></v-col>
+        </v-row>
+        <v-row justify-start>
           <limited-bar
             :key="mod.Name + '_tb_' + mod.Uses"
             :current="mod.Uses"
@@ -78,12 +78,12 @@
             full-icon="mdi-hexagon"
             @update="mod.Uses = $event"
           />
-        </v-layout>
+        </v-row>
       </div>
     </v-card-text>
-    <v-layout class="pb-1">
+    <v-row class="pb-1">
       <item-tag v-for="(t, index) in mod.Tags" :key="t.id + index" :tag-obj="t" :pilot="pilot" />
-    </v-layout>
+    </v-row>
   </v-card>
 </template>
 

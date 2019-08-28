@@ -1,7 +1,7 @@
 <template>
-  <v-layout class="my-2">
+  <v-row class="my-2">
     <cc-tag v-for="(t, i) in tags" :key="`${t.id}_${i}`" :tag="t" />
-  </v-layout>
+  </v-row>
 </template>
 
 <script lang="ts">

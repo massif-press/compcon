@@ -1,20 +1,18 @@
 <template>
   <v-card-text class="py-0">
-    <v-layout class="stat-text" fill-height>
-      <v-flex shrink>
-        <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
-      </v-flex>
-      <v-spacer />
-      <v-flex shrink>
-        <v-icon size="80" color="primary" style="line-height: 40px">
-          cci-size-{{ item.size === 0.5 ? 'half' : item.size }}
-        </v-icon>
-      </v-flex>
-    </v-layout>
+    <v-row class="stat-text" fill-height>
+      <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
+      <v-icon
+        size="80"
+        color="primary"
+        class="ml-auto"
+        style="line-height: 40px"
+      >cci-size-{{ item.size === 0.5 ? 'half' : item.size }}</v-icon>
+    </v-row>
 
     <div v-if="item.Description">
       <span class="overline ml-n2">COMPENDIUM ENTRY</span>
-      <p v-html="item.Description" class="flavor-text" />
+      <p class="flavor-text" v-html="item.Description" />
     </div>
 
     <span class="overline ml-n2">BASE FRAME ATTRIBUTES</span>
@@ -31,11 +29,11 @@
     </cc-titled-panel>
 
     <span class="overline ml-n2">AVAILABLE WEAPON MOUNTS</span>
-    <v-layout justify-space-around class="mb-3">
-      <v-flex shrink v-for="(m, i) in item.Mounts" :key="m + i">
+    <v-row justify-space-around class="mb-3">
+      <v-col v-for="(m, i) in item.Mounts" :key="m + i">
         <cc-title small>{{ m }} Mount</cc-title>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
 
     <span class="overline ml-n2">ONBOARD CORE SYSTEM</span>
     <frame-core-system-panel :cs="item.CoreSystem" />

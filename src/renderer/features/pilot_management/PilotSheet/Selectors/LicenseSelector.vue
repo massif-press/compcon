@@ -1,32 +1,32 @@
 <template>
   <selector title="Pilot Licenses">
     <template v-slot:left-column>
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col xs12>
           <div v-for="plicense in pilot.Licenses" :key="`summary_${plicense.License.Name}`">
-            <v-layout v-if="!licenseExists(plicense.License)">
-              <v-flex shrink>
+            <v-row v-if="!licenseExists(plicense.License)">
+              <v-col shrink>
                 <span class="grey--text">// MISSING DATA //</span>
                 <br />
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-btn icon flat color="error" @click="this.pilot.RemoveLicense(plicense.License)">
                   <v-icon>delete</v-icon>
                 </v-btn>
-              </v-flex>
-            </v-layout>
-            <v-layout v-else>
-              <v-flex xs12>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col xs12>
                 <v-icon color="primary" small>cci-rank-{{ plicense.Rank }}</v-icon>
                 <strong>{{ plicense.License.name }}</strong>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col xs12>
           <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingLicenses">
             License Selection Complete
           </v-alert>
@@ -36,20 +36,20 @@
           <v-btn block flat small :disabled="!pilot.Licenses.length" @click="resetLicenses">
             Reset
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </template>
     <template v-slot:right-column>
       <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
-        <v-layout>
-          <v-flex class="text-center pa-3">
+        <v-row>
+          <v-col class="text-center pa-3">
             <span class="display-2 text-uppercase font-weight-light">
               {{ manufacturer(m).name }}
             </span>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <v-expansion-panel focusable>
               <license-item
                 v-for="l in licenseData[m]"
@@ -62,8 +62,8 @@
                 @remove="pilot.RemoveLicense(l)"
               />
             </v-expansion-panel>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <br />
       </div>
     </template>
