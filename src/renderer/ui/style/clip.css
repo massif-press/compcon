@@ -10,12 +10,16 @@
   clip-path: polygon(100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 0);
 }
 
-.clipped-x-large {
-  clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
-}
-
 .clipped-large-invert {
   clip-path: polygon(calc(100% - 30px) 0%, 100% calc(100% - 20px), 100% 100%, 0 100%, 0 0);
+}
+
+.clipped-square-invert {
+  clip-path: polygon(calc(100% - 30px) 0%, 100% 30px, 100% 100%, 0 100%, 0 0);
+}
+
+.clipped-x-large {
+  clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
 }
 
 .clipped-btn {
