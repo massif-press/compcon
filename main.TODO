@@ -7,6 +7,9 @@ Refactor:
 
 Style Pass:
   ☐ Corp Icons
+  ☐ pilot custom stylizing
+  ☐ pilot NO IMG
+  ☐ pilot CRUD to dropdown menu
   ☐ Vuetify 2.0
   ☐ use vuetify file upload component
   ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05)
