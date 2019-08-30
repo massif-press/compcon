@@ -104,6 +104,8 @@ import Vue from 'vue'
 import apis from '../pilot_management/logic/apis'
 import { remote } from 'electron'
 import { info } from 'lancer-data'
+import { getModule } from 'vuex-module-decorators';
+import { ModuleStore } from '../_shared/store';
 
 export default Vue.extend({
   name: 'landing-page',
@@ -113,6 +115,7 @@ export default Vue.extend({
     err: false,
     loading: true,
     lancerVer: info.version,
+    moduleStore: {},
   }),
   methods: {
     toUpdate() {
@@ -120,6 +123,7 @@ export default Vue.extend({
     },
   },
   created: function() {
+    const moduleStore = getModule(ModuleStore, this.$store)
     if (Vue.prototype.version) this.ver = Vue.prototype.version
     apis
       .getChangelog()
@@ -136,9 +140,9 @@ export default Vue.extend({
         this.loading = false
         this.err = true
       })
-    this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
-    this.$store.dispatch('loadData')
-    this.$store.dispatch('buildLicenses')
+    moduleStore.setDatapath(Vue.prototype.userDataPath)
+    moduleStore.loadData()
+    moduleStore.buildLicenses()
   },
 })
 </script>
