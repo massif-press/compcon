@@ -84,6 +84,7 @@
     "vuetify": "^1.5.14",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
+    "vuex-module-decorators": "^0.10.1",
     "xlsx": "^0.14.2"
   },
   "devDependencies": {
