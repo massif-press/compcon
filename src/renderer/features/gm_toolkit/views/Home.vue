@@ -42,14 +42,21 @@
 import Vue from 'vue'
 
 import HomeCard from '../components/Home/HomeCard.vue'
+import { getModule } from 'vuex-module-decorators';
+import { EncounterRunnerStore } from '../store/encounterRunner';
 
 export default Vue.extend({
   name: 'home',
   components: { HomeCard },
   created() {
-      this.$store.commit('npcDesigner/load')
-      this.$store.commit('encounterBuilder/load')
-      this.$store.commit('encounterRunner/load')
+    this.$store.commit('npcDesigner/load')
+    this.$store.commit('encounterBuilder/load')
+    // This below is equivalent one of the above lines.
+    // ...it's more boilerplate and typing, but it's also 
+    // more type-safe and informative when debugging, 
+    // and is better supported by IDEs for intellisense.
+    const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
+    encounterRunnerStore.load()
   }
 })
 </script>
