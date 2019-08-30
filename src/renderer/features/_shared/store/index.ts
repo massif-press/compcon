@@ -40,7 +40,7 @@ export const LOAD_DATA = 'LOAD_DATA'
 export const LOAD_BREWS = 'LOAD_BREWS'
 
 @Module({
-  name: "ModuleStore",
+  name: "datastore",
 })
 export class ModuleStore extends VuexModule {
   UserDataPath = ''
