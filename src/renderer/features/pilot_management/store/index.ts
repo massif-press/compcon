@@ -23,7 +23,7 @@ export const DELETE_PILOT = 'DELETE_PILOT'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 
 @Module({
-  name: "PilotManagementStore",
+  name: "management",
 })
 export class PilotManagementStore extends VuexModule {
   Pilots: Pilot[] = []
