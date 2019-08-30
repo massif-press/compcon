@@ -42,14 +42,17 @@
 import Vue from 'vue'
 
 import HomeCard from '../components/Home/HomeCard.vue'
+import { getModule } from 'vuex-module-decorators';
+import { EncounterRunnerStore } from '../store/encounterRunner';
 
 export default Vue.extend({
   name: 'home',
   components: { HomeCard },
   created() {
-      this.$store.commit('npcDesigner/load')
-      this.$store.commit('encounterBuilder/load')
-      this.$store.commit('encounterRunner/load')
+    const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
+    this.$store.commit('npcDesigner/load')
+    this.$store.commit('encounterBuilder/load')
+    encounterRunnerStore.load()
   }
 })
 </script>
