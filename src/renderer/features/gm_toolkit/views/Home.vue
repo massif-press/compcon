@@ -49,9 +49,13 @@ export default Vue.extend({
   name: 'home',
   components: { HomeCard },
   created() {
-    const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
     this.$store.commit('npcDesigner/load')
     this.$store.commit('encounterBuilder/load')
+    // This below is equivalent one of the above lines.
+    // ...it's more boilerplate and typing, but it's also 
+    // more type-safe and informative when debugging, 
+    // and is better supported by IDEs for intellisense.
+    const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
     encounterRunnerStore.load()
   }
 })
