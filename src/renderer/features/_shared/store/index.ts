@@ -22,7 +22,7 @@ import {
   Status,
   Brew,
 } from '@/class'
-import { Module, VuexModule, Mutation, MutationAction, Action } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 
 
 function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
