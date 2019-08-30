@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import EncounterBase from '../logic/EncounterBase'
 import _ from 'lodash'
-import npcDesigner from './npcDesigner'
+import { NPCDesignerStore } from './npcDesigner'
 import io from '../../_shared/data_io'
 import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
 
@@ -24,7 +24,7 @@ export class EncounterBuilderStore extends VuexModule {
   load() {
     this.encounters = io
       .loadUserData(Vue.prototype.userDataPath, 'encounters.json')
-      .map(x => EncounterBase.deserialize(x, npcDesigner.state.npcs))
+      .map(x => EncounterBase.deserialize(x, NPCDesignerStore.state.npcs))
     saveEncounters(this.encounters)
   }
 
