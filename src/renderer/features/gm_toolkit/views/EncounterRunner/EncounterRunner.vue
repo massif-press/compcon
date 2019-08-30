@@ -66,6 +66,8 @@ import _ from 'lodash'
 import ActiveEncounter, { ActiveNPC } from '../../logic/ActiveEncounter'
 // components
 import RunnerNpcCard from '../../components/EncounterRunner/RunnerNpcCard.vue'
+import { EncounterRunnerStore } from '../../store/encounterRunner';
+import { getModule } from 'vuex-module-decorators';
 
 export default Vue.extend({
   components: { RunnerNpcCard, draggable },
@@ -113,7 +115,8 @@ export default Vue.extend({
   watch: {
     encounter: {
       handler: function onEncounterChange(val: ActiveEncounter) {
-        this.$store.commit('encounterRunner/edit', val)
+        const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
+        encounterRunnerStore.edit(val)
       },
       deep: true,
     },
