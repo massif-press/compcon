@@ -136,57 +136,12 @@ export class ModuleStore extends VuexModule {
     }
   }
 
-  // TODO: test to make sure this being async doesn't
-  // completely mess up the app
-  @MutationAction({
-    mutate: [
-      'Backgrounds',
-      'CoreBonuses',
-      'Talents',
-      'Skills',
-      'Frames',
-      'MechWeapons',
-      'WeaponMods',
-      'MechSystems',
-      'Tags',
-      'PilotGear',
-      'Manufacturers',
-      'Statuses',
-      'Quirks',
-      'Reserves',
-      'Brews',
-    ]
-  })
-  public async loadData_ma() {
-    return {
-      Backgrounds: lancerData.backgrounds.map((x: any) => new Background(x)),
-      CoreBonuses: lancerData.core_bonuses.map((x: any) => new CoreBonus(x)),
-      Talents: lancerData.talents.map((x: any) => new Talent(x)),
-      Skills: lancerData.skills.map((x: any) => new Skill(x)),
-      Frames: lancerData.frames.map((x: any) => new Frame(x)),
-      MechWeapons: lancerData.weapons.map((x: any) => new MechWeapon(x)),
-      WeaponMods: lancerData.mods.map((x: any) => new WeaponMod(x)),
-      MechSystems: lancerData.systems.map((x: any) => new MechSystem(x)),
-      Tags: lancerData.tags.map((x: any) => new Tag(x)),
-      PilotGear: lancerData.pilot_gear.map(function(x: any) {
-        if (x.type === 'weapon') return new PilotWeapon(x)
-        else if (x.type === 'armor') return new PilotArmor(x)
-        return new PilotGear(x)
-      }),
-      Manufacturers: lancerData.manufacturers,
-      Statuses: lancerData.statuses,
-      Quirks: lancerData.quirks,
-      Reserves: lancerData.reserves.map((x: any) => new Reserve(x)),
-      Brews: io.findBrewData(this.UserDataPath),
-    }
-  }
-
   get getItemById() {
     return (itemType: string, id: string) => {
       const err = { err: 'ID not found' }
       let match: any // TODO: narrow this down, or refactor method entirely
-      if (this.state[itemType] && this.state[itemType] instanceof Array) {
-        match = this.state[itemType].find((x: any) => x.id === id)
+      if (this[itemType] && this[itemType] instanceof Array) {
+        match = this[itemType].find((x: any) => x.id === id)
       }
       return match || err
     }
@@ -194,7 +149,7 @@ export class ModuleStore extends VuexModule {
 
   get getItemCollection() {
     return (itemType: string) => {
-      return this.state[itemType]
+      return this[itemType]
     }
   }
 
