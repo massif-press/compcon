@@ -171,6 +171,7 @@ export default Vue.extend({
   computed: {
     pilot() {
       const p = this.$store.getters.getPilot
+      if (!p) { return null }
       return p.Name ? p : null
     },
   },
