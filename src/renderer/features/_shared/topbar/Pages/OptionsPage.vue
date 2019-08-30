@@ -87,6 +87,8 @@ import { mapGetters } from 'vuex'
 import io from '@/features/_shared/data_io'
 import lancerData from 'lancer-data'
 import { Brew } from '@/class'
+import { getModule } from 'vuex-module-decorators';
+import { ModuleStore } from '../../store';
 
 export default Vue.extend({
   name: 'options-page',
@@ -104,6 +106,7 @@ export default Vue.extend({
       remote.shell.openExternal(link)
     },
     importBrew() {
+      const moduleStore = getModule(ModuleStore, this.$store)
       const { dialog } = require('electron').remote
       var path = dialog.showOpenDialog({
         title: 'Load Homebrew Folder',
@@ -112,9 +115,9 @@ export default Vue.extend({
       })
       if (path && path[0]) {
         io.saveBrewData(path[0], (this as any).userDataPath)
-        this.$store.dispatch('loadData')
-        this.$store.dispatch('loadBrews')
-        this.$store.dispatch('buildLicenses')
+        moduleStore.loadData()
+        moduleStore.loadBrews()
+        moduleStore.buildLicenses()
         this.detectBrews()
       }
     },
@@ -127,19 +130,21 @@ export default Vue.extend({
       this.brews = this.brews.concat(this.itemCollection('Brews'))
     },
     toggleBrew(brew: Brew) {
+      const moduleStore = getModule(ModuleStore, this.$store)
       this.$store.dispatch('setBrewActive', {
         dir: brew.dir,
         active: !brew.info.active,
       })
-      this.$store.dispatch('loadData')
-      this.$store.dispatch('loadBrews')
-      this.$store.dispatch('buildLicenses')
+      moduleStore.loadData()
+      moduleStore.loadBrews()
+      moduleStore.buildLicenses()
       this.detectBrews()
     },
     forceReload() {
-      this.$store.dispatch('loadData')
-      this.$store.dispatch('loadBrews')
-      this.$store.dispatch('buildLicenses')
+      const moduleStore = getModule(ModuleStore, this.$store)
+      moduleStore.loadData()
+      moduleStore.loadBrews()
+      moduleStore.buildLicenses()
       this.detectBrews()
     },
     forceHardReload() {
