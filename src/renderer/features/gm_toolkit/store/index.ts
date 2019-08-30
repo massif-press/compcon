@@ -1,5 +1,5 @@
 import npcDesigner from './npcDesigner'
-import encounterBuilder from './encounterBuilder'
+import { EncounterBuilderStore } from './encounterBuilder'
 import { EncounterRunnerStore } from './encounterRunner'
 
-export default { npcDesigner, encounterBuilder, encounterRunner: EncounterRunnerStore }
+export default { npcDesigner, encounterBuilder: EncounterBuilderStore, encounterRunner: EncounterRunnerStore }

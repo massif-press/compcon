@@ -3,6 +3,7 @@ import EncounterBase from '../logic/EncounterBase'
 import _ from 'lodash'
 import npcDesigner from './npcDesigner'
 import io from '../../_shared/data_io'
+import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
 
 function saveEncounters(encounters: EncounterBase[]) {
   const serialized = encounters.map(x => x.serialize())
@@ -11,33 +12,41 @@ function saveEncounters(encounters: EncounterBase[]) {
   })
 }
 
-export default {
+
+@Module({
+  name: "encounterBuilder",
   namespaced: true,
-  state: {
-    encounters: [],
-  },
-  mutations: {
-    load(state: any) {
-      state.encounters = io
-        .loadUserData(Vue.prototype.userDataPath, 'encounters.json')
-        .map(x => EncounterBase.deserialize(x, npcDesigner.state.npcs))
-      saveEncounters(state.encounters)
-    },
-    add(state: any, enc: EncounterBase) {
-      state.encounters.push(enc)
-      saveEncounters(state.encounters)
-    },
-    delete(state: any, id: string) {
-      _.remove(state.encounters, { id })
-      saveEncounters(state.encounters)
-    },
-    edit(state: any, newEncounter: EncounterBase) {
-      const target = state.encounters.find((enc: EncounterBase) => enc.id === newEncounter.id)
-      if (!target) throw new Error('encounter does not exist')
-      else {
-        Object.assign(target, newEncounter)
-        _.debounce(saveEncounters, 300)(state.encounters)
-      }
-    },
-  },
+})
+export class EncounterBuilderStore extends VuexModule {
+  encounters: EncounterBase[] = []
+
+  @Mutation
+  load() {
+    this.encounters = io
+      .loadUserData(Vue.prototype.userDataPath, 'encounters.json')
+      .map(x => EncounterBase.deserialize(x, npcDesigner.state.npcs))
+    saveEncounters(this.encounters)
+  }
+
+  @Mutation
+  add(enc: EncounterBase) {
+    this.encounters.push(enc)
+    saveEncounters(this.encounters)
+  }
+
+  @Mutation
+  delete(id: string) {
+    _.remove(this.encounters, { id })
+    saveEncounters(this.encounters)
+  }
+
+  @Mutation
+  edit(newEncounter: EncounterBase) {
+    const target = this.encounters.find((enc: EncounterBase) => enc.id === newEncounter.id)
+    if (!target) throw new Error('encounter does not exist')
+    else {
+      Object.assign(target, newEncounter)
+      _.debounce(saveEncounters, 300)(this.encounters)
+    }
+  }
 }
