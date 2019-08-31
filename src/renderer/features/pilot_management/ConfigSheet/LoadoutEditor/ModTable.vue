@@ -127,6 +127,7 @@
 import Vue from 'vue'
 import { ItemTag } from '../../components/UI'
 import { WeaponMod, Pilot, WeaponSlot, EquippableMount, MechLoadout } from '@/class'
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'mod-table',
@@ -176,7 +177,7 @@ export default Vue.extend({
       // // filter out any mount restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(vm.weaponSlot.Weapon.Size))
       // // search input
-      if (vm.search) i = i.filter(x => x.Name.toLowerCase().includes(vm.search.toLowerCase()))
+      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search) )
 
       return i
     },

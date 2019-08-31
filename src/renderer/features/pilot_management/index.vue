@@ -15,12 +15,15 @@ import { Pilot } from '@/class'
 import store from '../../store'
 import { mapGetters } from 'vuex'
 import { TopBar } from '@/features/_shared/topbar'
+import { getModule } from 'vuex-module-decorators';
+import { PilotManagementStore } from './store';
 
 export default Vue.extend({
   name: 'pilot_management',
   components: { TopBar },
   created() {
-    this.$store.dispatch('loadPilots')
+    const pilotStore = getModule(PilotManagementStore, this.$store)
+    pilotStore.loadPilots()
   },
 })
 </script>
