@@ -5235,9 +5235,9 @@ kleur@^3.0.2:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
 
 lancer-data@^1.9.2:
-  version "1.9.23"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.23.tgz#bbd74dbdfc2a3e061b7a6372afe328b65de95bbd"
-  integrity sha512-loONqk3c2S4+/RwM0zqcPB5ymjC6z+rtKkNd20H8gNKTIs+OvFmD2oFHWxXN8Dmh2Pz9HFLfrTTXs2mt39w6gA==
+  version "1.9.25"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-1.9.25.tgz#5f53897f6b94c80da5af2d26881552d1c3bb42be"
+  integrity sha512-nlf3k6FvUtK5NoCFdpFhKDZl8M9WZm3EML1gwbq/ZEr+A6+pmJfXqx6PgHpUHP48C2ilLq97nE5ky3BXlt9oXg==
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -8539,6 +8539,11 @@ vuex-electron@^1.0.3:
   dependencies:
     deepmerge "^2.1.1"
     electron-store "^2.0.0"
+
+vuex-module-decorators@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/vuex-module-decorators/-/vuex-module-decorators-0.10.1.tgz#a34ebf7c2aec701d19ae60dea0a8f1620825fd9e"
+  integrity sha512-OBvHEeer8uT///oTWqgf7kPe0j3hb9IC9ahdk41S4gBHhn5YUHpyXdry2OXp77zPzQ1P6wTY+Ju+/VUcU5mhzA==
 
 vuex@^3.1.0:
   version "3.1.1"
