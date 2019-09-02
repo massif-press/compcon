@@ -1,6 +1,7 @@
 import NPCClass from './interfaces/NPCClass'
 import { NPCSystem } from './interfaces/NPCSystem'
 import NPCTemplate from './interfaces/NPCTemplate'
+import NPCStats from './NPCStats'
 import data from 'lancer-data'
 
 import _ from 'lodash'
@@ -18,12 +19,13 @@ export default class NPC {
   _name?: string
   notes?: string
   size: number
+  stats: NPCStats
   static allSystems = systems.concat(genericSystems).concat(templateSystems)
 
   private _pickedSystems: NPCSystem.Any[] = []
   _templates: string[] = []
 
-  constructor(npcClass: NPCClass, tier?: 0 | 1 | 2, id?: string) {
+  constructor(npcClass: NPCClass, stats?: NPCStats, tier?: 0 | 1 | 2, id?: string) {
     if (id) {
       this.id = id
     } else {
@@ -34,6 +36,28 @@ export default class NPC {
     this.npcClass = npcClass
     this.tier = tier || 0
     this.size = this.npcClass.size[0]
+    // this.stats = this.npcClass.stats
+
+    if (stats) {
+      this.stats = stats
+    } else {
+      this.stats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
+      this.stats.structure = 1
+      this.stats.stress = 1
+      this.stats.statcaps = { armor: 4, }
+    }
+
+    for (const stat in this.stats) {
+      if (this.stats.statcaps.hasOwnProperty(stat) && this.stats.statcaps[stat] < (this.stats as any)[stat]) {
+        this.stats = {
+          ...this.stats,
+          [stat]: this.stats.statcaps[stat],
+        }
+      }
+    }
+    
+
+    console.log(npcClass)
   }
 
   get class_systems() {
@@ -151,76 +175,78 @@ export default class NPC {
     return _.uniqBy(_.flatten(this.templates.map(t => t.features)), 'name')
   }
 
-  get stats(): {
-    hp: number
-    evade: number
-    edef: number
-    heatcap: number
-    hull: number
-    agility: number
-    systems: number
-    engineering: number
-    armor: number
-    speed: number
-    sensor: number
-    save: number
-    structure: number
-    stress: number
-  } {
-    let tempStats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
-    tempStats.structure = 1
-    tempStats.stress = 1
+  // get stats(): {
+  //   hp: number
+  //   evade: number
+  //   edef: number
+  //   heatcap: number
+  //   hull: number
+  //   agility: number
+  //   systems: number
+  //   engineering: number
+  //   armor: number
+  //   speed: number
+  //   sensor: number
+  //   save: number
+  //   structure: number
+  //   stress: number
+  // } {
+  //   let tempStats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
+  //   tempStats.structure = 1
+  //   tempStats.stress = 1
 
-    let statCaps: { [key: string]: number } = {
-      armor: 4,
-    }
+  //   let statCaps: { [key: string]: number } = {
+  //     armor: 4,
+  //   }
 
-    for (const template of this.templates) {
-      if (template.statTransform) tempStats = template.statTransform(tempStats)
-      if (template.statCaps) {
-        for (const stat in template.statCaps) {
-          const cap = template.statCaps[stat]
-          if (!statCaps[stat] || cap < statCaps[stat]) {
-            statCaps[stat] = cap
-          }
-        }
-      }
-    }
+  //   for (const template of this.templates) {
+  //     if (template.statTransform) tempStats = template.statTransform(tempStats)
+  //     if (template.statCaps) {
+  //       for (const stat in template.statCaps) {
+  //         const cap = template.statCaps[stat]
+  //         if (!statCaps[stat] || cap < statCaps[stat]) {
+  //           statCaps[stat] = cap
+  //         }
+  //       }
+  //     }
+  //   }
 
-    function typeGuard(s: NPCSystem.Any): s is NPCSystem.NonWeapon {
-      return s.hasOwnProperty('stat_bonuses')
-    }
+  //   function typeGuard(s: NPCSystem.Any): s is NPCSystem.NonWeapon {
+  //     return s.hasOwnProperty('stat_bonuses')
+  //   }
 
-    const systemsWithBonus = this._pickedSystems.filter(typeGuard)
+  //   const systemsWithBonus = this._pickedSystems.filter(typeGuard)
 
-    for (const _system of systemsWithBonus) {
-      const system = _system as NPCSystem.NonWeapon
-      for (const stat in (system as NPCSystem.NonWeapon).stat_bonuses) {
-        if (tempStats.hasOwnProperty(stat)) {
-          tempStats[stat] += system.stat_bonuses![stat]
-        }
-      }
-    }
+  //   for (const _system of systemsWithBonus) {
+  //     const system = _system as NPCSystem.NonWeapon
+  //     for (const stat in (system as NPCSystem.NonWeapon).stat_bonuses) {
+  //       if (tempStats.hasOwnProperty(stat)) {
+  //         tempStats[stat] += system.stat_bonuses![stat]
+  //       }
+  //     }
+  //   }
 
-    for (const stat in tempStats) {
-      if (statCaps.hasOwnProperty(stat) && statCaps[stat] < (tempStats as any)[stat]) {
-        tempStats = {
-          ...tempStats,
-          [stat]: statCaps[stat],
-        }
-      }
-    }
+  //   for (const stat in tempStats) {
+  //     if (statCaps.hasOwnProperty(stat) && statCaps[stat] < (tempStats as any)[stat]) {
+  //       tempStats = {
+  //         ...tempStats,
+  //         [stat]: statCaps[stat],
+  //       }
+  //     }
+  //   }
 
-    return tempStats
-  }
+  //   return tempStats
+  // }
 
   public serialize() {
+  console.log(this.stats)
     return {
       id: this.id,
       class: this.npcClass.name,
       tier: this.tier,
       name: this._name,
       size: this.size,
+      stats: this.stats,
       templates: this._templates,
       systems: this._pickedSystems.map(s => s.name),
     }
@@ -234,10 +260,28 @@ export default class NPC {
     templates: string[]
     systems: string[]
     size?: number
+    stats: {
+      hp: number
+      evade: number
+      edef: number
+      heatcap: number
+      hull: number
+      agility: number
+      systems: number
+      engineering: number
+      armor: number
+      speed: number
+      sensor: number
+      save: number
+      structure: number
+      stress: number
+      statcaps: { [key: string]: number }
+    }
   }) {
     const cl = npcClasses.find(c => c.name === obj.class)
     if (!cl) throw new Error('invalid class')
-    let npc = new NPC(cl, obj.tier as 0 | 1 | 2, obj.id)
+    let stats = new NPCStats(obj.stats)
+    let npc = new NPC(cl, stats, obj.tier as 0 | 1 | 2, obj.id)
     if (obj.name) npc.name = obj.name
     npc._templates = obj.templates
     for (const sysName of obj.systems) {
