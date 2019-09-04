@@ -57,7 +57,7 @@ export default class NPC {
     }
     
 
-    console.log(npcClass)
+    console.log("New NPC:", this.npcClass, this.stats)
   }
 
   get class_systems() {

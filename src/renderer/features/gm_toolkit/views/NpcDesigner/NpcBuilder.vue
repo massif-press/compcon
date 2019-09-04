@@ -240,6 +240,7 @@ import GoblinChan from '../../components/NpcDesigner/GoblinChan.vue'
 import { mapState } from 'vuex'
 
 import NPC from '../../logic/NPC'
+import NPCStats from '../../logic/NPCStats'
 import { Dictionary } from 'vue-router/types/router'
 import { NPCSystem } from '../../logic/interfaces/NPCSystem'
 import { NPCTips } from '../../logic/Tips'
@@ -297,7 +298,6 @@ export default Vue.extend({
       const npcst = (this.npc as NPC).stats
       let obj: { [key: string]: number | null } = {
         HP: npcst.hp,
-        //HEAT: npcst.heatcap >= 1 ? npcst.heatcap : null,
         HEAT: npcst.heatcap,
         STRUCTURE: npcst.structure > 1 ? npcst.structure : null,
         STRESS: npcst.stress > 1 ? npcst.stress : null,
@@ -377,7 +377,7 @@ export default Vue.extend({
 
     submitStats() {
       console.log(this.npc.stats)
-      var newStats = _.clone(this.npc.stats)
+      var newStats = _.clone(this.npc.stats) as NPCStats
       for (var s in this.stats) {
         if (typeof this.stats[s] === "string") {
           this.stats[s] = Number(this.stats[s])
@@ -395,7 +395,7 @@ export default Vue.extend({
         console.log("New:", h, this.hase[h], typeof this.hase[h])
         newStats[this.statMap[h]] = this.hase[h]
       }
-      //;(this.ncp as NPC).stats = newStats
+      ;(this.npc as NPC).stats = newStats
       console.log(this.npc.stats)
       this.editingStats = false
     }
