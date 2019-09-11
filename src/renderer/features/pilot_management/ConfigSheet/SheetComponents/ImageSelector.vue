@@ -16,13 +16,13 @@
         </v-toolbar>
         <v-container grid-list-sm fluid>
           <v-row>
-            <v-col xs10>
+            <v-col cols="10">
               <v-btn block outline large color="primary" @click="importImage('frame')">
                 Import Custom Frame Image
               </v-btn>
             </v-col>
             <v-divider vertical class="ml-2 mr-2" />
-            <v-col xs2>
+            <v-col cols="2">
               <v-switch v-model="cloud" @change="checkCloudSave">
                 <span slot="label">
                   Save to Cloud
@@ -46,7 +46,7 @@
           </v-row>
           <v-divider />
           <v-row justify="center" wrap fill-height align-center>
-            <v-col v-if="config.CloudPortrait" xs3>
+            <v-col v-if="config.CloudPortrait" cols="3">
               <div :class="`justify="center" pa-1 cloud`">
                 <v-img
                   :src="config.CloudPortrait"
@@ -67,7 +67,7 @@
                 </v-tooltip>
               </div>
             </v-col>
-            <v-col xs3>
+            <v-col cols="3">
               <div class="clickable" @click="assignDefault">
                 <v-img
                   :src="`file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`"
@@ -78,7 +78,7 @@
                 />
               </div>
             </v-col>
-            <v-col v-for="i in images" :key="i" xs3>
+            <v-col v-for="i in images" :key="i" cols="3">
               <div
                 :class="
                   `text-xs-right justify="center" pa-1 ${

@@ -7,7 +7,7 @@
     fill-height
   >
     <v-row align-center wrap>
-      <v-col xs12 md4>
+      <v-col cols="12" md4>
         <HomeCard
           title="NPC Designer"
           icon="mdi-account-edit"
@@ -16,7 +16,7 @@
         />
       </v-col>
 
-      <v-col xs12 md4>
+      <v-col cols="12" md4>
         <HomeCard
           title="Encounter Builder"
           icon="mdi-account-multiple-plus"
@@ -25,7 +25,7 @@
         />
       </v-col>
 
-      <v-col xs12 md4>
+      <v-col cols="12" md4>
         <HomeCard
           title="Encounter Runner"
           icon="mdi-account-group"
@@ -42,6 +42,8 @@
 import Vue from 'vue'
 
 import HomeCard from '../components/Home/HomeCard.vue'
+import { getModule } from 'vuex-module-decorators';
+import { EncounterRunnerStore } from '../store/encounterRunner';
 
 export default Vue.extend({
   name: 'home',
@@ -49,7 +51,16 @@ export default Vue.extend({
   created() {
     this.$store.commit('npcDesigner/load')
     this.$store.commit('encounterBuilder/load')
-    this.$store.commit('encounterRunner/load')
-  },
+    // <<<<<<< HEAD
+    //     this.$store.commit('encounterRunner/load')
+    //   },
+    // =======
+    // This below is equivalent one of the above lines.
+    // ...it's more boilerplate and typing, but it's also 
+    // more type-safe and informative when debugging, 
+    // and is better supported by IDEs for intellisense.
+    const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
+    encounterRunnerStore.load()
+  }
 })
 </script>

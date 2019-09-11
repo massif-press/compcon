@@ -5,6 +5,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import SidebarArrayView from '../UI/SidebarArrayView.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'tags',
@@ -13,7 +15,8 @@ export default Vue.extend({
     tags: [],
   }),
   created() {
-    this.tags = this.$store.getters.getItemCollection('Tags').filter(x => !x.IsHidden)
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.tags = compendium.Tags.filter(x => !x.IsHidden)
   },
 })
 </script>

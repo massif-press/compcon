@@ -7,7 +7,7 @@
     </v-row>
 
     <v-row v-else>
-      <v-col xs3>
+      <v-col cols="3">
         <div class="centered text-xs-left pl-3">
           <v-chip v-if="pilotSkill" dark color="primary" small outline>
             +
@@ -16,7 +16,7 @@
           <span class="subheading font-weight-bold">{{ skill.Trigger }}</span>
         </div>
       </v-col>
-      <v-col xs9>
+      <v-col cols="9">
         <v-expansion-panel class="pa-0 ma-0">
           <v-expansion-panel-content expand-icon="search">
             <template v-slot:header>

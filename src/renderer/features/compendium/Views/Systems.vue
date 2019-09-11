@@ -8,7 +8,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
-import {MechSystem} from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'systems',
@@ -25,9 +26,8 @@ export default Vue.extend({
     systems: [],
   }),
   created() {
-    this.systems = this.$store.getters
-      .getItemCollection('MechSystems')
-      .filter((x: MechSystem) => x.Source) as MechSystem[]
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.systems = compendium.MechSystems.filter(x => x.Source)
   },
 })
 </script>

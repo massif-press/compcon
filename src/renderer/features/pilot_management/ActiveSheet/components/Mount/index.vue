@@ -1,5 +1,5 @@
 <template>
-  <v-col xs12>
+  <v-col cols="12">
     <v-card class="ma-0 pa-0" flat dark>
       <span class="mount-title-dark pl-3 pr-3 text-uppercase">
         {{ mount.MountName }}

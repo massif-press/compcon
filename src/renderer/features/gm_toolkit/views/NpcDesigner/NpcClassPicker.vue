@@ -8,7 +8,7 @@
           <v-divider class="role-title-line" />
         </v-col>
         <v-row wrap justify="center" mb-4 px-3 :key="role">
-          <v-col xs3 v-for="cls in classesByRole[role]" :key="cls.name">
+          <v-col cols="3" v-for="cls in classesByRole[role]" :key="cls.name">
             <v-btn
               block
               dark

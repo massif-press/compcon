@@ -12,7 +12,7 @@
   >
     <div class="panel-expander">
       <v-row column fill-height justify="center">
-        <v-col xs6>
+        <v-col cols="6">
           <v-divider dark vertical class="ml-4" />
         </v-col>
         <v-col shrink>
@@ -21,7 +21,7 @@
             <v-icon large v-else>mdi-chevron-double-right</v-icon>
           </v-btn>
         </v-col>
-        <v-col xs6>
+        <v-col cols="6">
           <v-divider dark vertical class="ml-4" />
         </v-col>
       </v-row>

@@ -11,23 +11,21 @@
             <v-divider />
             <v-stepper-step editable :complete="newPilot.background !== ''" step="2">
               <span>Background</span>
-              <small v-if="newPilot.Background">
-                {{ newPilot.Background.name }}
-              </small>
+              <small v-if="newPilot.Background">{{ newPilot.Background.name }}</small>
             </v-stepper-step>
             <v-divider />
             <v-stepper-step editable :complete="newPilot.skills.length === 4" step="3">
               <span>Skills</span>
-              <small v-if="newPilot.skills.length">
-                {{ newPilot.skills.length }}/{{ 4 }} Skills Selected
-              </small>
+              <small
+                v-if="newPilot.skills.length"
+              >{{ newPilot.skills.length }}/{{ 4 }} Skills Selected</small>
             </v-stepper-step>
             <v-divider />
             <v-stepper-step editable :complete="newPilot.talents.length === 3" step="4">
               <span>Talents</span>
-              <small v-if="newPilot.talents.length">
-                {{ newPilot.talents.length }}/{{ 3 }} Talents Selected
-              </small>
+              <small
+                v-if="newPilot.talents.length"
+              >{{ newPilot.talents.length }}/{{ 3 }} Talents Selected</small>
             </v-stepper-step>
             <v-divider />
             <v-stepper-step editable :complete="hasMechSkills === true" step="5">
@@ -35,16 +33,14 @@
               <small v-if="hasMechSkills === true">Mech Skills Selected</small>
             </v-stepper-step>
             <v-divider />
-            <v-stepper-step step="6">
-              Confirm
-            </v-stepper-step>
+            <v-stepper-step step="6">Confirm</v-stepper-step>
           </v-stepper-header>
 
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-container>
                 <v-row justify-space-between align-centerfill-height>
-                  <v-col xs7>
+                  <v-col cols="7">
                     <v-text-field v-model="newPilot.callsign" clearable>
                       <v-tooltip top slot="prepend-inner">
                         <v-btn slot="activator" icon flat @click="randomCallsign">
@@ -57,9 +53,7 @@
                         <b v-if="!newPilot.callsign" class="red--text">*</b>
                       </span>
                       <span slot="append-outer">
-                        <v-icon v-if="newPilot.callsign" color="green">
-                          check_circle
-                        </v-icon>
+                        <v-icon v-if="newPilot.callsign" color="green">check_circle</v-icon>
                       </span>
                     </v-text-field>
                     <v-text-field v-model="newPilot.name" clearable>
@@ -74,9 +68,7 @@
                         <b v-if="!newPilot.name" class="red--text">*</b>
                       </span>
                       <span slot="append-outer">
-                        <v-icon v-if="newPilot.name" color="green">
-                          check_circle
-                        </v-icon>
+                        <v-icon v-if="newPilot.name" color="green">check_circle</v-icon>
                       </span>
                     </v-text-field>
                     <v-textarea
@@ -112,16 +104,16 @@
                               class="d-flex grey lighten-2"
                               style="height: 100%; align-items:center"
                             >
-                              <span class="text-center display-1 grey--text">
-                                No Pilot Portrait
-                              </span>
+                              <span class="text-center display-1 grey--text">No Pilot Portrait</span>
                             </div>
                           </v-fade-transition>
                         </v-img>
 
-                        <v-btn color="primary" block @click="appearanceModal = true">
-                          &emsp;Set Pilot Portrait&emsp;
-                        </v-btn>
+                        <v-btn
+                          color="primary"
+                          block
+                          @click="appearanceModal = true"
+                        >&emsp;Set Pilot Portrait&emsp;</v-btn>
                         <v-dialog
                           lazy
                           v-model="appearanceModal"
@@ -131,9 +123,7 @@
                         >
                           <v-card>
                             <v-toolbar fixed dense flat>
-                              <v-toolbar-title>
-                                Set Pilot Portrait
-                              </v-toolbar-title>
+                              <v-toolbar-title>Set Pilot Portrait</v-toolbar-title>
                               <v-spacer />
                               <v-toolbar-items>
                                 <v-btn icon large @click="appearanceModal = false">
@@ -154,7 +144,7 @@
               </v-container>
 
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -174,13 +164,12 @@
             <v-stepper-content step="2">
               <background-selector @close="stepForward" :pilot="newPilot" />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
-                    <v-icon>chevron_left</v-icon>
-                    Back
+                    <v-icon>chevron_left</v-icon>Back
                   </v-btn>
                 </v-col>
               </v-row>
@@ -189,13 +178,12 @@
             <v-stepper-content step="3">
               <skill-selector :pilot="newPilot" new-pilot @close="stepForward" />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
-                    <v-icon>chevron_left</v-icon>
-                    Back
+                    <v-icon>chevron_left</v-icon>Back
                   </v-btn>
                   <v-btn large color="primary" @click="stepForward">
                     Continue
@@ -208,13 +196,12 @@
             <v-stepper-content step="4">
               <talent-selector :pilot="newPilot" new-pilot @close="stepForward" />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
-                    <v-icon>chevron_left</v-icon>
-                    Back
+                    <v-icon>chevron_left</v-icon>Back
                   </v-btn>
                   <v-btn large color="primary" @click="stepForward">
                     Continue
@@ -227,13 +214,12 @@
             <v-stepper-content step="5">
               <mech-skills-selector :pilot="newPilot" new-pilot />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
-                    <v-icon>chevron_left</v-icon>
-                    Back
+                    <v-icon>chevron_left</v-icon>Back
                   </v-btn>
                   <v-btn large color="primary" @click="stepForward">
                     Continue
@@ -253,17 +239,13 @@
                   </v-col>
                   <v-col>{{ getBackground(newPilot.background).name }}</v-col>
                   <v-col v-if="newPilot.history">
-                    <blockquote class="blockquote">
-                      {{ newPilot.history }}
-                    </blockquote>
+                    <blockquote class="blockquote">{{ newPilot.history }}</blockquote>
                   </v-col>
                   <v-row justify-space-around>
-                    <v-col xs4>
+                    <v-col cols="4">
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
-                          <h3 class="headline mb-0">
-                            Pilot Skills
-                          </h3>
+                          <h3 class="headline mb-0">Pilot Skills</h3>
                         </v-card-title>
                         <v-divider class="m-0 p-0" />
                         <v-card-text>
@@ -273,7 +255,7 @@
                             :key="`confirm_${skill.Skill.ID}`"
                           >
                             <v-row>
-                              <v-col xs12>
+                              <v-col cols="12">
                                 <v-chip slot="activator" dark color="primary" small>
                                   +
                                   <b>{{ skill.Bonus }}</b>
@@ -286,7 +268,7 @@
                         </v-card-text>
                       </v-card>
                     </v-col>
-                    <v-col xs4>
+                    <v-col cols="4">
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
                           <h3 class="headline mb-0">Talents</h3>
@@ -299,23 +281,21 @@
                             :key="`confirm_${talent.Talent.ID}`"
                           >
                             <v-row>
-                              <v-col xs12>
+                              <v-col cols="12">
                                 <v-icon color="primary">cci-rank-{{ talent.Rank }}</v-icon>
-                                <strong class="effect-text font-weight-bold">
-                                  {{ talent.Talent.Name }}
-                                </strong>
+                                <strong
+                                  class="effect-text font-weight-bold"
+                                >{{ talent.Talent.Name }}</strong>
                               </v-col>
                             </v-row>
                           </div>
                         </v-card-text>
                       </v-card>
                     </v-col>
-                    <v-col xs4>
+                    <v-col cols="4">
                       <v-card style="height:100%">
                         <v-card-title class="mb-0 pb-2">
-                          <h3 class="headline mb-0">
-                            Mech Skills
-                          </h3>
+                          <h3 class="headline mb-0">Mech Skills</h3>
                         </v-card-title>
                         <v-divider class="m-0 p-0" />
                         <v-card-text>
@@ -330,18 +310,17 @@
                 </v-row>
               </v-container>
               <v-row>
-                <v-col xs12 class="text-xs-right">
+                <v-col cols="12" class="text-xs-right">
                   <span class="caption mr-5">Is this correct?</span>
                 </v-col>
               </v-row>
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot_management">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
-                    <v-icon>chevron_left</v-icon>
-                    Back
+                    <v-icon>chevron_left</v-icon>Back
                   </v-btn>
                   <v-btn large color="success" @click="savePilot" :disabled="!canSavePilot">
                     Confirm &nbsp;
@@ -359,8 +338,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector } from '../Selectors'
-import ImageSelector from '../Selectors/ImageSelector.vue'
+import {
+  BackgroundSelector,
+  SkillSelector,
+  TalentSelector,
+  MechSkillsSelector,
+} from '../PilotSheet/Selectors'
+import ImageSelector from '../PilotSheet/Selectors/ImageSelector.vue'
 import io from '@/features/_shared/data_io'
 import { Pilot, Background } from '@/class'
 

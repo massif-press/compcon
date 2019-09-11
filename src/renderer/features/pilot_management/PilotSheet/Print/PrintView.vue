@@ -188,7 +188,7 @@
         <!-- loadout -->
         <div v-if="loadout">
           <v-row>
-            <v-col xs4>
+            <v-col cols="4">
               <div v-if="loadout.Armor.length" class="ma-1 ml-2">
                 <span class="label">ARMOR</span>
                 <br />
@@ -274,7 +274,7 @@
 
             <hr vertical class="ma-2" />
 
-            <v-col xs8>
+            <v-col cols="8">
               <div v-if="loadout.Gear.length" class="ma-1 ml-2">
                 <span class="label">GEAR</span>
                 <br />

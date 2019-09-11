@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             Name what you want. You can
             <strong>always</strong>
@@ -12,11 +12,11 @@
           </p>
         </v-col>
         <v-divider class="ma-2" />
-        <v-col xs12>
+        <v-col cols="12">
           <span class="minor-title">Resource Gained</span>
           <reserve-selector ref="rs" />
         </v-col>
-        <v-col xs6>
+        <v-col cols="6">
           <div class="ml-2 mr-2">
             <span class="minor-title">Complication</span>
             <v-select
@@ -28,7 +28,7 @@
             />
           </div>
         </v-col>
-        <v-col xs6>
+        <v-col cols="6">
           <div class="ml-2 mr-2">
             <span class="minor-title">Additional Complication</span>
             <v-select

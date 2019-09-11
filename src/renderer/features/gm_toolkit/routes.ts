@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 
 import NPC from './logic/NPC'
 import EncounterBase from './logic/EncounterBase'

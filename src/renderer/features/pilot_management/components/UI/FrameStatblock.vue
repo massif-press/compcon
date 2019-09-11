@@ -8,36 +8,36 @@
     <div v-if="!hideStatblock">
       <v-card color="grey lighten-3 mt-1 pt-1" flat>
         <v-row class="font-weight-bold text-center effect-text">
-          <v-col xs2>Size</v-col>
-          <v-col xs2>Armor</v-col>
-          <v-col xs2>HP</v-col>
-          <v-col xs2>Evasion</v-col>
-          <v-col xs2>E-Defense</v-col>
-          <v-col xs2>Heat Capacity</v-col>
-          <v-col xs2>Sensor Range</v-col>
-          <v-col xs2>Tech Attack</v-col>
-          <v-col xs2>Save</v-col>
-          <v-col xs2>Speed</v-col>
-          <v-col xs2>SP</v-col>
+          <v-col cols="2">Size</v-col>
+          <v-col cols="2">Armor</v-col>
+          <v-col cols="2">HP</v-col>
+          <v-col cols="2">Evasion</v-col>
+          <v-col cols="2">E-Defense</v-col>
+          <v-col cols="2">Heat Capacity</v-col>
+          <v-col cols="2">Sensor Range</v-col>
+          <v-col cols="2">Tech Attack</v-col>
+          <v-col cols="2">Save</v-col>
+          <v-col cols="2">Speed</v-col>
+          <v-col cols="2">SP</v-col>
         </v-row>
       </v-card>
       <v-row class="text-center effect-text">
-        <v-col xs2>{{ frame.Size }}</v-col>
-        <v-col xs2>{{ frame.Armor }}</v-col>
-        <v-col xs2>{{ frame.HP }}</v-col>
-        <v-col xs2>{{ frame.Evasion }}</v-col>
-        <v-col xs2>{{ frame.EDefense }}</v-col>
-        <v-col xs2>{{ frame.HeatCap }}</v-col>
-        <v-col xs2>{{ frame.SensorRange }}</v-col>
-        <v-col xs2>{{ frame.TechAttack }}</v-col>
-        <v-col xs2>{{ frame.Save }}</v-col>
-        <v-col xs2>{{ frame.Speed }}</v-col>
-        <v-col xs2>{{ frame.SP }}</v-col>
+        <v-col cols="2">{{ frame.Size }}</v-col>
+        <v-col cols="2">{{ frame.Armor }}</v-col>
+        <v-col cols="2">{{ frame.HP }}</v-col>
+        <v-col cols="2">{{ frame.Evasion }}</v-col>
+        <v-col cols="2">{{ frame.EDefense }}</v-col>
+        <v-col cols="2">{{ frame.HeatCap }}</v-col>
+        <v-col cols="2">{{ frame.SensorRange }}</v-col>
+        <v-col cols="2">{{ frame.TechAttack }}</v-col>
+        <v-col cols="2">{{ frame.Save }}</v-col>
+        <v-col cols="2">{{ frame.Speed }}</v-col>
+        <v-col cols="2">{{ frame.SP }}</v-col>
       </v-row>
     </div>
     <v-card color="grey lighten-4">
       <v-row align-space-between justify-space-aroundfill-height>
-        <v-col xs8>
+        <v-col cols="8">
           <v-card-text>
             <v-card flat color="transparent">
               <v-card-title class="title mt-0 pt-2 mb-0 pb-0">

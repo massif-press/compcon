@@ -2,7 +2,7 @@
   <v-card flat class="pt-0">
     <v-card-text class="pt-0">
       <v-row class="text-center">
-        <v-col v-for="n in 3" :key="`r_${n}`" xs4 :class="{ locked: rank && rank < n }">
+        <v-col v-for="n in 3" :key="`r_${n}`" cols="4" :class="{ locked: rank && rank < n }">
           <p class="text-center pt-2 subheading font-weight-bold">
             <span class="grey-text">
               RANK {{ 'I'.repeat(n) }}

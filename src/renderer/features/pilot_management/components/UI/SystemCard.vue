@@ -51,7 +51,7 @@
       </v-row>
       <div v-if="!tableItem && pilot && itemData.IsLimited">
         <v-row>
-          <v-col xs1>
+          <v-col cols="1">
             <v-divider class="mt-2 mr-3" />
           </v-col>
           <v-col shrink>
@@ -64,7 +64,7 @@
           <v-col grow>
             <v-divider class="mt-2 ml-3" />
           </v-col>
-          <v-col xs1></v-col>
+          <v-col cols="1"></v-col>
         </v-row>
         <v-row justify-start>
           <limited-bar
@@ -82,7 +82,7 @@
       </div>
       <div v-if="!tableItem" class="pb-4">
         <v-row>
-          <v-col xs1>
+          <v-col cols="1">
             <v-divider class="mt-2 mr-3" />
           </v-col>
           <v-col shrink>
@@ -91,17 +91,17 @@
           <v-col grow>
             <v-divider class="mt-2 ml-3" />
           </v-col>
-          <v-col xs1></v-col>
+          <v-col cols="1"></v-col>
         </v-row>
         <v-row
           v-for="(n, idx) in itemData.Notes"
           :key="`${itemData.Name}_note_${idx}`"
           class="mt-1"
         >
-          <v-col xs11>
+          <v-col cols="11">
             <item-note :content="n" @update="updateNote(idx, $event)" />
           </v-col>
-          <v-col xs1>
+          <v-col cols="1">
             <v-tooltip top>
               <v-btn slot="activator" outline color="error" icon small @click="removeNote(idx)">
                 <v-icon>close</v-icon>

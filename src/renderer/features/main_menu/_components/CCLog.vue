@@ -1,6 +1,6 @@
 <template>
   <div id="output-container">
-    <p class="flavor-text" id="output"></p>
+    <p id="output" class="flavor-text" />
     <div id="overlay" />
   </div>
 </template>
@@ -33,6 +33,15 @@ export default Vue.extend({
       '>//[COMP/CON: <span class="black--text">Welcome, Lancer. Input Command.</span>]',
     ],
   }),
+  mounted() {
+    this.typeit = new typeit('#output', {
+      speed: 12,
+      nextStringDelay: 25,
+      cursorChar: '_',
+      startDelete: false,
+      strings: this.text,
+    }).go()
+  },
   methods: {
     print(user: string, response: string) {
       this.typeit.freeze()
@@ -50,15 +59,6 @@ export default Vue.extend({
         .type(`<br>>//[COMP/CON: <span class="black--text">${response}</span>]`)
         .go()
     },
-  },
-  mounted() {
-    this.typeit = new typeit('#output', {
-      speed: 12,
-      nextStringDelay: 25,
-      cursorChar: '_',
-      startDelete: false,
-      strings: this.text,
-    }).go()
   },
 })
 </script>

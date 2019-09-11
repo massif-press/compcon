@@ -70,7 +70,7 @@
     <cc-title>glyphs</cc-title>
     <v-container grid-list-xs>
       <v-row dense>
-        <v-col dense v-for="i in allIcons()" :key="i">
+        <v-col v-for="i in allIcons()" :key="i" dense>
           <v-card outlined>
             <v-card-text class="text-center">
               <v-icon size="60px" color="black">cci-{{ i }}</v-icon>
@@ -125,34 +125,22 @@
       <v-row class="my-2">
         <v-col>
           <cc-dialog small @confirm="dialog1Confirm()">
-            <template v-slot:button>
-              small dialog
-            </template>
-            <template v-slot:title>
-              Small Dialog Box (v-slot:title)
-            </template>
+            <template v-slot:button>small dialog</template>
+            <template v-slot:title>Small Dialog Box (v-slot:title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
         <v-col>
           <cc-dialog @confirm="dialog1Confirm()">
-            <template v-slot:button>
-              dialog
-            </template>
-            <template v-slot:title>
-              Dialog Box (v-slot:title)
-            </template>
+            <template v-slot:button>dialog</template>
+            <template v-slot:title>Dialog Box (v-slot:title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
         <v-col>
           <cc-dialog large @confirm="dialog1Confirm()">
-            <template v-slot:button>
-              large dialog
-            </template>
-            <template v-slot:title>
-              Large Dialog Box (v-slot:title)
-            </template>
+            <template v-slot:button>large dialog</template>
+            <template v-slot:title>Large Dialog Box (v-slot:title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
@@ -160,20 +148,14 @@
       <v-row class="my-2">
         <v-col>
           <cc-popup small @confirm="dialog1Confirm()">
-            <template v-slot:button>
-              popup
-            </template>
-            <template v-slot:title>
-              CC-Popup
-            </template>
+            <template v-slot:button>popup</template>
+            <template v-slot:title>CC-Popup</template>
             popup content
           </cc-popup>
         </v-col>
         <v-col>
           <cc-btn @click="notification = true">Notification</cc-btn>
-          <cc-notification :model="notification" @close="notification = false">
-            snackbar notification
-          </cc-notification>
+          <cc-notification :model="notification" @close="notification = false">snackbar notification</cc-notification>
         </v-col>
       </v-row>
     </v-container>

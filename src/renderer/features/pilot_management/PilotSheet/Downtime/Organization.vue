@@ -1,5 +1,5 @@
 <template>
-  <v-col xs6>
+  <v-col cols="6">
     <v-card height="100%">
       <v-toolbar dark flat dense color="deep-purple">
         <v-toolbar-title class="minor-title">{{ org.Name }}</v-toolbar-title>

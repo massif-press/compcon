@@ -20,7 +20,7 @@
         <v-col>
           <v-card :color="panelColor()" dark flat>
             <v-row>
-              <v-col xs9 class="ma-2">
+              <v-col cols="9" class="ma-2">
                 <span class="title">{{ pilot.Callsign }}</span>
                 <br />
                 <span class="caption">

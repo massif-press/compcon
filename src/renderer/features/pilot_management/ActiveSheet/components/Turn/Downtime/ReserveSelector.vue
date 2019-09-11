@@ -2,7 +2,7 @@
   <v-card flat class="ma-2">
     <v-card-text>
       <v-row wrap>
-        <v-col xs6>
+        <v-col cols="6">
           <v-select
             class="ml-2 mr-2"
             label="Reserve Type"
@@ -13,7 +13,7 @@
             @change="reserve = ''"
           />
         </v-col>
-        <v-col xs6 v-if="type && type !== 'Custom'">
+        <v-col cols="6" v-if="type && type !== 'Custom'">
           <v-select
             class="ml-2 mr-2"
             label="Reserve"
@@ -26,7 +26,7 @@
           />
         </v-col>
         <v-slide-y-transition>
-          <v-col xs12 v-show="type === 'Custom' || reserve">
+          <v-col cols="12" v-show="type === 'Custom' || reserve">
             <v-card color="grey lighten-4" class="ml-3 mr-3">
               <v-card-text class="pt-1 pb-0">
                 <p

@@ -35,7 +35,7 @@
     </v-card-title>
     <v-card-text>
       <v-row wrap v-if="!npcData._templates.includes('grunt')">
-        <v-col xs6>
+        <v-col cols="6">
           <PipBar
             label="hp"
             v-model="npc.hp"
@@ -44,7 +44,7 @@
             @rollover="onHpRollover"
           />
         </v-col>
-        <v-col xs6>
+        <v-col cols="6">
           <PipBar
             label="heat"
             v-model="npc.heat"
@@ -54,7 +54,7 @@
             @rollover="onHeatRollover"
           />
         </v-col>
-        <v-col xs6 v-if="npcData.stats.structure > 1">
+        <v-col cols="6" v-if="npcData.stats.structure > 1">
           <PipBar
             label="structure"
             v-model="npc.structure"
@@ -62,7 +62,7 @@
             :class="{ rolledOver: structRolledOver }"
           />
         </v-col>
-        <v-col xs6 v-if="npcData.stats.stress > 1">
+        <v-col cols="6" v-if="npcData.stats.stress > 1">
           <PipBar
             label="stress"
             v-model="npc.stress"
@@ -208,7 +208,7 @@
         <v-container fluid px-0 py-0 mt-3 mt-auto>
           <v-row wrap>
             <v-col
-              :class="isUltra && $vuetify.breakpoint.xlOnly ? 'xs4 pa-0' : 'xs12 py-0'"
+              :class="isUltra && $vuetify.breakpoint.xlOnly ? 'cols="4" pa-0' : 'cols="12" py-0'"
               v-for="system in systemsSorted"
               :key="system.name"
             >

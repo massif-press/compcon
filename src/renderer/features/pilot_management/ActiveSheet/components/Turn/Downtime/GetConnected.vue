@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You try and make connections, call upon favors, ask for help, or drum up support for a
             particular course of action. You need access to communications or just good old
@@ -19,7 +19,7 @@
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
         </v-col>
-        <v-col xs12>
+        <v-col cols="12">
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -36,7 +36,7 @@
       </v-row>
       <v-slide-y-transition>
         <v-row v-show="skillRoll" wrap class="text-center">
-          <v-col xs12 v-if="skillRoll < 10">
+          <v-col cols="12" v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You’ve got to do a favor or make good on a promise for your connection
               <em>right now</em>
@@ -45,7 +45,7 @@
               If you take action right away, however, they’ll go along with what you want.
             </p>
           </v-col>
-          <v-col xs12 v-else-if="skillRoll < 20">
+          <v-col cols="12" v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               Your connection will help you, but you’ve got to do a favor or make good on a promise
               <em>after</em>
@@ -54,14 +54,14 @@
               If you don’t, treat any result as a 9 or lower next time with the same organization.
             </p>
           </v-col>
-          <v-col xs12 v-else>
+          <v-col cols="12" v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">
               Your connection will help you out, no strings attached.
               <br />
               Treat this result as a 10-19 if you make it again with the same organization.
             </p>
           </v-col>
-          <v-col xs12>
+          <v-col cols="12">
             <v-card color="grey lighten-4" class="ml-5 mr-5">
               <v-toolbar dark dense color="#00695C">
                 <v-toolbar-title>Connection</v-toolbar-title>

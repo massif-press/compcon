@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You focus on increasing your own skills, training, and self-improvement. You might
             practice, learn, meditate, or call on a teacher.

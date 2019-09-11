@@ -40,7 +40,7 @@
               </v-container>
 
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -55,7 +55,7 @@
             <v-stepper-content step="2">
               <skill-selector v-if="lv_step === 2" :pilot="pilot" level-up />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -74,7 +74,7 @@
             <v-stepper-content step="3">
               <talent-selector v-if="lv_step === 3" :pilot="pilot" level-up />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -93,7 +93,7 @@
             <v-stepper-content step="4">
               <mech-skills-selector v-if="lv_step === 4" :pilot="pilot" level-up />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -112,7 +112,7 @@
             <v-stepper-content step="5">
               <license-selector v-if="lv_step === 5" :pilot="pilot" level-up />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -131,7 +131,7 @@
             <v-stepper-content v-if="pilot.Level % 3 === 0" step="6">
               <core-bonus-selector v-if="lv_step === 6" :pilot="pilot" level-up />
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>
@@ -153,12 +153,12 @@
               </v-container>
 
               <v-row>
-                <v-col xs12 class="text-xs-right">
+                <v-col cols="12" class="text-xs-right">
                   <span class="caption mr-5">Is this correct?</span>
                 </v-col>
               </v-row>
               <v-row justify-space-between>
-                <v-col xs1>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
                 </v-col>
                 <v-col shrink>

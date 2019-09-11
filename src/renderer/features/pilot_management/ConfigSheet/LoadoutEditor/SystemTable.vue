@@ -90,7 +90,7 @@
         </template>
       </v-data-table>
       <v-row v-if="currentEquip" justify-space-between class="pt-4">
-        <v-col xs1></v-col>
+        <v-col cols="1"></v-col>
         <v-col shrink>
           <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">
             Uninstall Missing System

@@ -17,7 +17,7 @@
         </v-card-text>
       </v-card>
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <v-tooltip top>
             <v-btn
               slot="activator"
@@ -39,40 +39,40 @@
     </div>
     <div v-else>
       <v-row column fill-height>
-        <v-col xs12 class="major-title text-center destroyed-bg">
+        <v-col cols="12" class="major-title text-center destroyed-bg">
           <span>COMBAT ENGAGED</span>
         </v-col>
-        <v-col xs12 class="callsign-text text-center" style="line-height: 60px;">
+        <v-col cols="12" class="callsign-text text-center" style="line-height: 60px;">
           <span>TURN</span>
           <span class="pink--text">{{ turn }}</span>
         </v-col>
-        <v-col v-if="mech.IsEjected" xs12 class="minor-title text-center reaction-bg">
+        <v-col v-if="mech.IsEjected" cols="12" class="minor-title text-center reaction-bg">
           <span v-html="'PILOT EJECTED'" />
         </v-col>
         <div v-else>
-          <v-col v-if="braced" xs12 class="minor-title text-center reaction-bg">
+          <v-col v-if="braced" cols="12" class="minor-title text-center reaction-bg">
             <span v-html="'BRACED'" />
           </v-col>
-          <v-col v-if="bracedCooldown" xs12 class="minor-title red--text text-center destroyed-bg">
+          <v-col v-if="bracedCooldown" cols="12" class="minor-title red--text text-center destroyed-bg">
             <span v-html="'// BRACE RECOVERY //'" />
           </v-col>
           <v-col
             v-if="mech.IsShutDown"
-            xs12
+            cols="12"
             class="minor-title red--text text-center destroyed-bg"
           >
             <span v-html="'// SHUT DOWN //'" />
           </v-col>
-          <v-col v-if="overwatch" xs12 class="minor-title text-center reaction-bg">
+          <v-col v-if="overwatch" cols="12" class="minor-title text-center reaction-bg">
             <span v-html="'OVERWATCH'" />
           </v-col>
-          <v-col v-if="prepare" xs12 class="minor-title text-center prepare-bg">
+          <v-col v-if="prepare" cols="12" class="minor-title text-center prepare-bg">
             <span v-html="'PREPARED ACTION'" />
           </v-col>
         </div>
         <v-divider dark class="ma-2" />
-        <v-col xs12 class="caption text-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-col>
-        <v-col xs12 class="caption text-center">
+        <v-col cols="12" class="caption text-center mb-2">&mdash; ACTIONS REMAINING &mdash;</v-col>
+        <v-col cols="12" class="caption text-center">
           <v-tooltip bottom>
             <v-avatar
               slot="activator"
@@ -140,8 +140,8 @@
             <span>Free Actions</span>
           </v-tooltip>
         </v-col>
-        <v-col xs12 class="caption text-center mt-3">&mdash; MOVEMENT &mdash;</v-col>
-        <v-col xs12>
+        <v-col cols="12" class="caption text-center mt-3">&mdash; MOVEMENT &mdash;</v-col>
+        <v-col cols="12">
           <div style="display: table; margin: 0 auto;">
             <tick-bar
               label="SPACES MOVED"
@@ -156,7 +156,7 @@
             />
           </div>
         </v-col>
-        <v-col xs12>
+        <v-col cols="12">
           <v-tooltip top>
             <v-btn
               slot="activator"
@@ -173,10 +173,10 @@
             <span>Undo last action</span>
           </v-tooltip>
         </v-col>
-        <v-col xs12 class="caption text-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-col>
+        <v-col cols="12" class="caption text-center mt-2 mb-1">&mdash; ACTIONS &mdash;</v-col>
         <!-- conditionally exclusive v-shows (instead of v-if/else-if/else) is necessary here because vue chokes on a critical mass nested conditionals with transitions -->
         <div v-show="mech.IsShutDown">
-          <v-col xs12>
+          <v-col cols="12">
             <action-button
               v-if="actions >= 2"
               action-id="action_bootup"
@@ -186,10 +186,10 @@
           </v-col>
         </div>
         <div v-show="mech.IsEjected && !mech.IsShutDown">
-          <v-col xs12>
+          <v-col cols="12">
             <v-expand-transition>
               <v-row wrap justify="center" v-show="actions >= 2">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button
                       action-id="action_mount"
@@ -202,27 +202,27 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="actions">
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_quickactivate" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_boost" @click="boost()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_hide" @click="hide()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_search" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_prepare" @click="setPrepare()" />
                   </div>
@@ -231,27 +231,27 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="actions >= 2">
-                <v-col xs12 v-if="pilot.has('reserve', 'bombardment')">
+                <v-col cols="12" v-if="pilot.has('reserve', 'bombardment')">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_bombardment" @click="bombard()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_fight" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_jockey" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_fullactivate" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_disengage" @click="fullAction()" />
                   </div>
@@ -260,12 +260,12 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="!braced && !overwatch && !bracedCooldown">
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_overwatch" @click="setOverwatch()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_brace" @click="setBrace()" />
                   </div>
@@ -281,7 +281,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'redundantrepair')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
                   </div>
@@ -290,7 +290,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'deployableshield')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button
                       action-id="action_deployableshield"
@@ -302,7 +302,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'corebattery')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button
                       action-id="action_corebattery"
@@ -316,8 +316,8 @@
           </v-col>
         </div>
         <div v-show="!mech.IsShutDown && !mech.IsEjected">
-          <v-col xs12>
-            <v-col xs12 v-if="mech.MeltdownImminent" class="mb-3">
+          <v-col cols="12">
+            <v-col cols="12" v-if="mech.MeltdownImminent" class="mb-3">
               <v-btn block x-large class="ma-0" color="red accent-4" @click="meltdown()">
                 REACTOR MELTDOWN
               </v-btn>
@@ -334,42 +334,42 @@
             </v-col>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="actions">
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_skirmish" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_quickactivate" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_quicktech" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_boost" @click="boost()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_ram" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_grapple" @click="quickAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_hide" @click="hide()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_search" @click="quickAction()" />
                   </div>
@@ -378,32 +378,32 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="actions >= 2">
-                <v-col xs12 v-if="pilot.has('reserve', 'bombardment')">
+                <v-col cols="12" v-if="pilot.has('reserve', 'bombardment')">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_bombardment" @click="bombard()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_barrage" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_fullactivate" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs4>
+                <v-col cols="4">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_fulltech" @click="fullAction()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_stabilize" @click="openStabilize()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_disengage" @click="fullAction()" />
                   </div>
@@ -412,12 +412,12 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="!braced && !overwatch && !bracedCooldown">
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_overwatch" @click="setOverwatch()" />
                   </div>
                 </v-col>
-                <v-col xs6>
+                <v-col cols="6">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_brace" @click="setBrace()" />
                   </div>
@@ -433,7 +433,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'redundantrepair')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button action-id="action_redundantrepair" @click="redundantRepair()" />
                   </div>
@@ -442,7 +442,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'deployableshield')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button
                       action-id="action_deployableshield"
@@ -454,7 +454,7 @@
             </v-expand-transition>
             <v-expand-transition>
               <v-row wrap justify="center" v-show="pilot.has('reserve', 'corebattery')">
-                <v-col xs12>
+                <v-col cols="12">
                   <div class="mr-1 mb-1">
                     <action-button
                       action-id="action_corebattery"
@@ -517,13 +517,13 @@
             </v-expand-transition>
           </v-col>
         </div>
-        <v-col xs12 class="text-center ma-2 mt-4">
+        <v-col cols="12" class="text-center ma-2 mt-4">
           <v-btn block color="warning" outline dark large @click="newTurn()">END TURN</v-btn>
         </v-col>
       </v-row>
       <v-divider class="ma-2" />
       <v-row wrap>
-        <v-col xs12>
+        <v-col cols="12">
           <v-btn block color="amber darken-4" dark @click="endCombat">End Combat</v-btn>
         </v-col>
       </v-row>

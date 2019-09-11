@@ -16,7 +16,7 @@ class Statblock {
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «
   ${pilot.Name} 
-  ${pilot.Background.Name}, LL${pilot.Level}
+  ${pilot.Background}, LL${pilot.Level}
   GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${
   pilot.MechSkills.Sys
 } E:${pilot.MechSkills.Eng}\n`

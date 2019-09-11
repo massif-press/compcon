@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             Start, run, or improve an organization, business, or other venture.
           </p>
@@ -34,10 +34,10 @@
                         box
                       />
                       <v-row wrap>
-                        <v-col xs12 class="text-center">
+                        <v-col cols="12" class="text-center">
                           <span class="minor-title">Start with:</span>
                         </v-col>
-                        <v-col xs5>
+                        <v-col cols="5">
                           <v-tooltip top>
                             <div slot="activator">
                               <v-btn
@@ -70,7 +70,7 @@
                           </v-tooltip>
                         </v-col>
                         <v-spacer />
-                        <v-col xs5>
+                        <v-col cols="5">
                           <v-tooltip top>
                             <div slot="activator">
                               <v-btn
@@ -120,12 +120,12 @@
                     <div v-show="selected">
                       <div v-if="selected">
                         <v-row wrap>
-                          <v-col xs12 class="text-xs-left">
+                          <v-col cols="12" class="text-xs-left">
                             <v-btn small outline @click="selected = null">
                               Select another organization
                             </v-btn>
                           </v-col>
-                          <v-col xs12>
+                          <v-col cols="12">
                             <v-card class="ma-2">
                               <v-toolbar dark flat dense color="deep-purple">
                                 <v-toolbar-title class="minor-title">
@@ -154,7 +154,7 @@
                                 </div>
                                 <v-slide-y-transition>
                                   <v-row v-show="improveRoll" wrap class="text-center">
-                                    <v-col xs12 v-if="improveRoll < 10">
+                                    <v-col cols="12" v-if="improveRoll < 10">
                                       <span>
                                         <i>This organization</i>
                                         &emsp;
@@ -206,7 +206,7 @@
                                         </div>
                                       </v-slide-x-reverse-transition>
                                     </v-col>
-                                    <v-col xs12 v-else-if="improveRoll < 20">
+                                    <v-col cols="12" v-else-if="improveRoll < 20">
                                       <v-row
                                         v-if="
                                           parseInt(selected.influence) === 6 &&
@@ -222,10 +222,10 @@
                                         </v-col>
                                       </v-row>
                                       <v-row v-elsewrap>
-                                        <v-col xs12 class="text-center">
+                                        <v-col cols="12" class="text-center">
                                           <span class="minor-title">Improve:</span>
                                         </v-col>
-                                        <v-col xs5>
+                                        <v-col cols="5">
                                           <v-tooltip top>
                                             <div slot="activator">
                                               <v-btn
@@ -266,7 +266,7 @@
                                           </v-tooltip>
                                         </v-col>
                                         <v-spacer />
-                                        <v-col xs5>
+                                        <v-col cols="5">
                                           <v-tooltip top>
                                             <div slot="activator">
                                               <v-btn
@@ -303,7 +303,7 @@
                                         </v-col>
                                       </v-row>
                                     </v-col>
-                                    <v-col xs12 v-else>
+                                    <v-col cols="12" v-else>
                                       <span
                                         v-if="
                                           parseInt(selected.influence) < 6 &&

@@ -5,7 +5,9 @@
       fixed
       color="transparent"
       class="mr-3"
-      :style="`top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
+      :style="popup
+        ? `top: 65px; padding-bottom: 65px;`
+        : `top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
     >
       <v-list nav dense>
         <slot name="sidebar" />
@@ -24,5 +26,11 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'cc-sidebar-view',
+  props: {
+    popup: {
+      type: Boolean,
+      required: false,
+    },
+  },
 })
 </script>

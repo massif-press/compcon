@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You tweak something or attempt to make something new, either a physical project, or a
             piece of software. It doesn’t have to be something on the a gear list, but it generally
@@ -23,11 +23,11 @@
                     </v-toolbar>
                     <v-card-text class="effect-text pa-2">
                       <v-row wrap>
-                        <v-col xs7>
+                        <v-col cols="7">
                           <v-text-field v-model="project_name" label="Project Name" />
                         </v-col>
                         <v-spacer />
-                        <v-col xs3>
+                        <v-col cols="3">
                           <v-tooltip top>
                             <v-switch slot="activator" v-model="complicated" label="Complicated" />
                             <span>
@@ -36,12 +36,12 @@
                             </span>
                           </v-tooltip>
                         </v-col>
-                        <v-col xs12>
+                        <v-col cols="12">
                           <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
                         </v-col>
                       </v-row>
                       <v-row>
-                        <v-col xs12>
+                        <v-col cols="12">
                           <div style="margin-left: 35%; margin-right: 35%">
                             <v-text-field
                               v-model="initialRoll"
@@ -59,12 +59,12 @@
                       </v-row>
                       <v-slide-y-transition>
                         <v-row v-show="initialRoll" wrap class="text-center">
-                          <v-col xs12 v-if="initialRoll < 10">
+                          <v-col cols="12" v-if="initialRoll < 10">
                             <p class="pt-2 pb-0 ma-0 effect-text">
                               You don’t make any progress on this project for now
                             </p>
                           </v-col>
-                          <v-col xs12 v-else-if="initialRoll < 20">
+                          <v-col cols="12" v-else-if="initialRoll < 20">
                             <p class="pt-2 pb-0 ma-0 effect-text">
                               You can make progress on your project, but can’t finish it. You can
                               finish it next time you have downtime without a roll if you get some
@@ -80,7 +80,7 @@
                               :error="cost.length < 2"
                             ></v-combobox>
                           </v-col>
-                          <v-col xs12 v-else>
+                          <v-col cols="12" v-else>
                             <div v-if="!complicated">
                               <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                             </div>
@@ -125,15 +125,15 @@
                     <div v-show="improveSelection">
                       <div v-if="improveSelection">
                         <v-row wrap>
-                          <v-col xs12 class="text-xs-left">
+                          <v-col cols="12" class="text-xs-left">
                             <v-btn small outline @click="improveSelection = null">
                               Select another project
                             </v-btn>
                           </v-col>
-                          <v-col xs12 class="text-center minor-title">
+                          <v-col cols="12" class="text-center minor-title">
                             Working on {{ improveSelection.ResourceName }}
                           </v-col>
-                          <v-col xs12>
+                          <v-col cols="12">
                             <v-alert
                               :value="improveSelection.ResourceCost"
                               color="primary"
@@ -171,12 +171,12 @@
                         </v-row>
                         <v-slide-y-transition>
                           <v-row v-show="improveRoll" wrap class="text-center">
-                            <v-col xs12 v-if="improveRoll < 10 && !improveSelection.Progress">
+                            <v-col cols="12" v-if="improveRoll < 10 && !improveSelection.Progress">
                               <p class="pt-2 pb-0 ma-0 effect-text">
                                 You don’t make any progress on this project for now
                               </p>
                             </v-col>
-                            <v-col xs12 v-else-if="improveRoll < 20">
+                            <v-col cols="12" v-else-if="improveRoll < 20">
                               <p class="pt-2 pb-0 ma-0 effect-text">
                                 You can make progress on your project, but can’t finish it. You can
                                 finish it next time you have downtime without a roll if you get some
@@ -192,7 +192,7 @@
                                 :error="cost.length < 2"
                               ></v-combobox>
                             </v-col>
-                            <v-col xs12 v-else>
+                            <v-col cols="12" v-else>
                               <div v-if="!improveSelection.complicated">
                                 <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
                               </div>

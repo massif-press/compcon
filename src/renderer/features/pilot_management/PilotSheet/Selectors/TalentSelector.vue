@@ -2,7 +2,7 @@
   <selector title="Pilot Talents">
     <template v-slot:left-column>
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <div v-for="pTalent in pilot.Talents" :key="`summary_${pTalent.talent.id}`">
             <v-row v-if="pTalent.Talent.err">
               <v-col shrink>
@@ -15,7 +15,7 @@
               </v-col>
             </v-row>
             <v-row v-else>
-              <v-col xs12>
+              <v-col cols="12">
                 <v-icon small color="primary">cci-rank-{{ pTalent.Rank }}</v-icon>
                 <strong>{{ pTalent.Talent.Name }}</strong>
               </v-col>
@@ -25,7 +25,7 @@
       </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <v-alert
             outline
             color="success"

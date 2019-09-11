@@ -43,7 +43,7 @@
           </v-col>
         </v-row>
         <v-row v-if="config.IsDestroyed">
-          <v-col xs12>
+          <v-col cols="12">
             <v-card class="text-center destroyed-bg ma-3">
               <v-card-text class="ma-0 pa-0">
                 <p class="capitalize-text display-2 pa-2">MECH DESTROYED</p>
@@ -57,7 +57,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col xs7>
+          <v-col cols="7">
             <v-row>
               <v-col>
                 <span class="white--text fluff-text ml-2">
@@ -175,7 +175,7 @@
           </span>
         </v-row>
         <v-row>
-          <v-col xs1 class="mr-3">
+          <v-col cols="1" class="mr-3">
             <v-row column justify="center" fill-height class="text-center">
               <v-col class="subheader">
                 <span class="caption">HULL</span>

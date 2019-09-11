@@ -59,10 +59,18 @@ import { remote } from 'electron'
 export default Vue.extend({
   name: 'changelog-panel',
   props: {
-    changelog: Object,
-    err: Boolean,
-    loading: Boolean,
-    canUpdate: Boolean,
+    changelog: {
+      type: Object,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    canUpdate: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
     toUpdate() {
@@ -71,11 +79,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.bordered {
-  background: var(--v-panel-base) !important;
-  border: 5px double var(--v-panel-border-base) !important;
-  border-radius: 2px !important;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <cc-sidebar-view>
-    <div slot="sidebar" v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" class="pt-2">
+    <div v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" slot="sidebar" class="pt-2">
       <v-list-item>
         <v-list-item-title>
           <v-icon left>cci-orbital</v-icon>
@@ -27,8 +27,8 @@
     <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
       <span class="heading mech">{{ manufacturer(m).name }}</span>
       <cc-titled-panel
-        :id="`e_${b.id}`"
         v-for="(b, i) in bonuses[m]"
+        :id="`e_${b.id}`"
         :key="`${b.ID}_${i}`"
         icon="cci-corebonus"
         :title="b.Name"
@@ -44,21 +44,23 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CoreBonus } from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'core-bonuses',
   data: () => ({
     bonuses: [],
   }),
+  created() {
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.bonuses = this.$_.groupBy(compendium.CoreBonuses, 'source')
+  },
   methods: {
     manufacturer(id: string) {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      const compendium = getModule(CompendiumStore, this.$store)
+      return compendium.getItemById(id.toUpperCase())
     },
-  },
-  created() {
-    var vm = this as any
-    vm.bonuses = this.$_.groupBy(vm.$store.getters.getItemCollection('CoreBonuses'), 'source')
   },
 })
 </script>

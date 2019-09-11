@@ -3,7 +3,7 @@
     <v-card-title class="title">Add or Remove Core Bonus Improvements</v-card-title>
     <v-card-text class="text-center">
       <v-row justify="center" wrap>
-        <v-col xs12 v-if="pilot.has('CoreBonus', 'hardpoints')">
+        <v-col cols="12" v-if="pilot.has('CoreBonus', 'hardpoints')">
           <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">
             Uninstall Auto-Stabilizing Hardpoints
           </v-btn>
@@ -11,7 +11,7 @@
             Install Auto-Stabilizing Hardpoints
           </v-btn>
         </v-col>
-        <v-col xs12 v-if="pilot.has('CoreBonus', 'burnout')">
+        <v-col cols="12" v-if="pilot.has('CoreBonus', 'burnout')">
           <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">
             Uninstall BURNOUT Insulation
           </v-btn>
@@ -19,7 +19,7 @@
             Install BURNOUT Insulation
           </v-btn>
         </v-col>
-        <v-col xs12 v-if="pilot.has('CoreBonus', 'retrofit')">
+        <v-col cols="12" v-if="pilot.has('CoreBonus', 'retrofit')">
           <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">
             Restore Original Mount
           </v-btn>

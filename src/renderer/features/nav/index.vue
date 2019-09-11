@@ -2,7 +2,7 @@
   <v-app-bar app fixed hide-on-scroll top color="primary" class="clipped-large" dark dense>
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="historyNav(-1)" text>
+        <v-btn text icon v-on="on" @click="historyNav(-1)">
           <v-icon dark>mdi-arrow-left</v-icon>
         </v-btn>
       </template>
@@ -11,7 +11,7 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="historyNav(1)" text>
+        <v-btn text icon v-on="on" @click="historyNav(1)">
           <v-icon dark>mdi-arrow-right</v-icon>
         </v-btn>
       </template>
@@ -20,7 +20,7 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="home()" text>
+        <v-btn text icon v-on="on" @click="home()">
           <v-icon dark>mdi-home</v-icon>
         </v-btn>
       </template>
@@ -46,7 +46,7 @@
 
     <v-menu v-if="pilot" nudge-bottom="35px" open-on-hover>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" light tile color="white" elevation="0">
+        <v-btn light tile color="white" elevation="0" v-on="on">
           {{ pilot.Callsign }}
           <v-icon light>arrow_drop_down</v-icon>
         </v-btn>
@@ -61,12 +61,21 @@
       <v-list two line dense>
         <v-list-item v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
           <v-list-item-content>
-            <v-list-item-title class="text-xs-right font-weight-bold effect-text">
-              {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-            </v-list-item-title>
+            <v-list-item-title
+              class="text-xs-right font-weight-bold effect-text"
+            >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-title>
             <v-list-item-sub-title class="text-xs-right">{{ mech.Name }}</v-list-item-sub-title>
           </v-list-item-content>
         </v-list-item>
+      </v-list>
+      <v-divider />
+      <v-list>
+        <v-list-item to="/active">Print</v-list-item>
+        <v-list-item to="/active">Export</v-list-item>
+        <!-- <v-list-item to="/pilot">Clone</v-list-item> -->
+        <!-- TODO: if cloud save is present -->
+        <v-list-item to="/active">Cloud Sync</v-list-item>
+        <v-list-item to="/hangar" color="warning">Delete</v-list-item>
       </v-list>
     </v-menu>
 
@@ -88,11 +97,9 @@
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog large no-confirm title="Options" ref="optionsModal">
-      options test
-    </cc-solo-dialog>
-    <cc-solo-dialog large no-confirm title="About" ref="aboutModal">about test</cc-solo-dialog>
-    <cc-solo-dialog large no-confirm title="Help" ref="helpModal">help test</cc-solo-dialog>
+    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options">options test</cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
   </v-app-bar>
 </template>
 
@@ -101,7 +108,6 @@ import Vue from 'vue'
 // import HelpPage from './Pages/HelpPage.vue'
 // import AboutPage from './Pages/AboutPage.vue'
 // import OptionsPage from './Pages/OptionsPage.vue'
-import { Route } from 'vue-router'
 
 export default Vue.extend({
   name: 'cc-nav',
@@ -111,6 +117,12 @@ export default Vue.extend({
     helpDialog: false,
     optionsDialog: false,
   }),
+  computed: {
+    pilot() {
+      const p = this.$store.getters.getPilot
+      return p ? p : null
+    },
+  },
   methods: {
     home: function() {
       this.$router.push('/')
@@ -121,12 +133,6 @@ export default Vue.extend({
     toConfigSheet(mech) {
       this.pilot.LoadedMech = mech
       this.$router.push('./config')
-    },
-  },
-  computed: {
-    pilot() {
-      const p = this.$store.getters.getPilot
-      return p.Name ? p : null
     },
   },
 })

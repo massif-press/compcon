@@ -1,6 +1,6 @@
 <template>
   <v-row fill-height>
-    <v-col xs2>
+    <v-col cols="2">
       <v-tooltip top>
         <v-btn
           slot="activator"
@@ -14,7 +14,7 @@
         <span>{{ empty ? 'Add' : 'Change' }} {{ itemType }}</span>
       </v-tooltip>
     </v-col>
-    <v-col xs10>
+    <v-col cols="10">
       <div v-if="empty">
         <v-expansion-panel>
           <v-expansion-panel-content disabled>

@@ -1,5 +1,5 @@
 <template>
-  <v-col xs4>
+  <v-col cols="4">
     <div class="ma-1">
       <v-toolbar dark dense style="background-color: #616161">
         <v-chip small dark color="primary">

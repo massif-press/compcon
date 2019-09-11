@@ -44,7 +44,7 @@ export default new Router({
         },
         {
           path: '/new',
-          component: require('@/features/pilot_management/PilotSheet/New/index').default,
+          component: require('@/features/pilot_management/New/index').default,
         },
         {
           path: '/level',

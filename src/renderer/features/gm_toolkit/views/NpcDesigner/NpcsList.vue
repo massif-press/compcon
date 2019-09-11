@@ -9,7 +9,7 @@
     </v-row>
     <v-divider class="mb-3" />
     <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
-      <v-col v-for="npc in npcs" :key="npc.id" xs4>
+      <v-col v-for="npc in npcs" :key="npc.id" cols="4">
         <File
           :name="npc.name"
           icon="mdi-account"

@@ -1,11 +1,12 @@
 <template>
-  <v-simple-table fixed-header>
+  <v-simple-table fixed-header class="mb-4">
     <thead>
       <tr>
         <th class="text-left">Callsign</th>
         <th class="text-left">Name</th>
         <th class="text-center">License Level</th>
         <th class="text-left">Active Mech</th>
+        <th class="text-left">Campaign</th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +23,9 @@
           >{{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}</span>
         </td>
         <td v-else>
+          <span class="grey--text">NONE</span>
+        </td>
+        <td>
           <span class="grey--text">NONE</span>
         </td>
       </tr>

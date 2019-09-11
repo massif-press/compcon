@@ -2,7 +2,7 @@
   <selector title="Pilot Licenses">
     <template v-slot:left-column>
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <div v-for="plicense in pilot.Licenses" :key="`summary_${plicense.License.Name}`">
             <v-row v-if="!licenseExists(plicense.License)">
               <v-col shrink>
@@ -16,7 +16,7 @@
               </v-col>
             </v-row>
             <v-row v-else>
-              <v-col xs12>
+              <v-col cols="12">
                 <v-icon color="primary" small>cci-rank-{{ plicense.Rank }}</v-icon>
                 <strong>{{ plicense.License.name }}</strong>
               </v-col>
@@ -26,7 +26,7 @@
       </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingLicenses">
             License Selection Complete
           </v-alert>

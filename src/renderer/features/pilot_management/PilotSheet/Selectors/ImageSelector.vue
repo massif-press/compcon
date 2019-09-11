@@ -2,13 +2,13 @@
   <v-container>
     <v-container grid-list-sm fluid>
       <v-row>
-        <v-col xs10>
+        <v-col cols="10">
           <v-btn block outline large color="primary" @click="importImage('portrait')">
             Import Portrait Image
           </v-btn>
         </v-col>
         <v-divider vertical class="ml-2 mr-2" />
-        <v-col xs2>
+        <v-col cols="2">
           <v-switch v-model="cloud" @change="checkCloudSave">
             <span slot="label">
               Save to Cloud
@@ -32,7 +32,7 @@
       </v-row>
       <v-divider class="mb-2" />
       <v-row justify-space-between wrap fill-height align-center>
-        <v-col v-if="pilot.CloudPortrait" xs3>
+        <v-col v-if="pilot.CloudPortrait" cols="3">
           <div :class="`justify="center" pa-1 cloud`">
             <v-img
               :src="pilot.CloudPortrait"
@@ -54,7 +54,7 @@
             </v-tooltip>
           </div>
         </v-col>
-        <v-col v-for="i in portraits" :key="i" xs3>
+        <v-col v-for="i in portraits" :key="i" cols="3">
           <div
             :class="
               `text-xs-right justify="center" pa-1 ${

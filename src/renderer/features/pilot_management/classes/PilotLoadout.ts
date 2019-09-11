@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import store from '@/store'
+import { store } from '@/store'
 import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear, Loadout, ItemType } from '@/class'
 import { rules } from 'lancer-data'
 

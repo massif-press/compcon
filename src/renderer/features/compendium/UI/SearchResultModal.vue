@@ -1,16 +1,14 @@
 <template>
   <v-dialog v-model="dialog" width="90vw">
     <v-card tile>
-      <cc-titlebar :icon="'cci' + $_.kebabCase(item.ItemType)" :color="$_.kebabCase(item.ItemType)">
-        {{ item.Source }} {{ item.Name }}
-      </cc-titlebar>
-
+      <cc-titlebar
+        :icon="'cci' + $_.kebabCase(item.ItemType)"
+        :color="$_.kebabCase(item.ItemType)"
+      >{{ item.Source }} {{ item.Name }}</cc-titlebar>
       <v-card-text>
         <cc-item-card :item="item" />
       </v-card-text>
-
       <v-divider></v-divider>
-
       <v-card-actions>
         <v-spacer />
         <v-btn text @click="dialog = false">dismiss</v-btn>

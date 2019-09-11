@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You can only make this action where there’s a drink to actually get (in town, a station,
             a city, or some other populated area). It doesn’t have to be an actual drink, but you
@@ -17,7 +17,7 @@
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
         </v-col>
-        <v-col xs12>
+        <v-col cols="12">
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -34,7 +34,7 @@
       </v-row>
       <v-slide-y-transition>
         <v-row v-show="skillRoll" wrap class="text-center">
-          <v-col xs12 v-if="skillRoll < 10">
+          <v-col cols="12" v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can decide whether you had good time or not. However, you wake up in a gutter
               somewhere with only one of the following:
@@ -47,14 +47,14 @@
               label="You retain..."
             />
           </v-col>
-          <v-col xs12 v-else-if="skillRoll < 20">
+          <v-col cols="12" v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You gain one of the following choices as
               <strong>reserves</strong>
               , and lose one:
             </p>
             <v-row>
-              <v-col xs6>
+              <v-col cols="6">
                 <div class="ma-2">
                   <v-select
                     hide-details
@@ -66,17 +66,17 @@
                   <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
                 </div>
               </v-col>
-              <v-col xs6>
+              <v-col cols="6">
                 <div class="ma-2">
                   <v-select outline v-model="loss" :items="choices" label="But lose..." />
                 </div>
               </v-col>
             </v-row>
           </v-col>
-          <v-col xs12 v-else>
+          <v-col cols="12" v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">Gain two reserves:</p>
             <v-row>
-              <v-col xs6>
+              <v-col cols="6">
                 <div class="ma-2">
                   <v-select
                     hide-details
@@ -88,7 +88,7 @@
                   <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
                 </div>
               </v-col>
-              <v-col xs6>
+              <v-col cols="6">
                 <div class="ma-2">
                   <v-select
                     hide-details

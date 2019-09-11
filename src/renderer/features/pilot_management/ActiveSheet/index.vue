@@ -136,7 +136,7 @@
             Reserves {{ pilot.Reserves.length + pilot.Organizations.length > 0 ? '' : ' (NONE) ' }}
           </span>
           <v-row wrap fill-height>
-            <v-col xs6 v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
+            <v-col cols="6" v-for="(r, i) in pilot.Reserves.filter(x => !x.Used)" :key="`res_${i}`">
               <div class="mr-1" style="height: 95%">
                 <active-card :color="reserveColor(r)" :header="`${r.Name}`" subheader="RESERVE">
                   <p v-if="r.ResourceName" class="font-weight-bold pa-1 ma-1">
@@ -151,7 +151,7 @@
               </div>
             </v-col>
 
-            <v-col xs6 v-for="(o, i) in pilot.Organizations" :key="`org_${i}`">
+            <v-col cols="6" v-for="(o, i) in pilot.Organizations" :key="`org_${i}`">
               <div class="mr-1" style="height: 95%">
                 <active-card color="#673AB7" :header="`${o.Name}`" subheader="ORGANIZATION">
                   <b class="ml-2">{{ o.Purpose }}</b>
@@ -177,7 +177,7 @@
         >
           <span slot="header" class="minor-title">Pilot Traits</span>
           <v-row wrap>
-            <v-col xs12 v-for="(talent, i) in pilot.Talents" :key="`tal_${i}`">
+            <v-col cols="12" v-for="(talent, i) in pilot.Talents" :key="`tal_${i}`">
               <active-card
                 color="#616161"
                 :header="`${talent.Talent.Name} ${'I'.repeat(talent.Rank)}`"
@@ -193,7 +193,7 @@
           </v-row>
           <v-divider dark class="ma-2" />
           <v-row>
-            <v-col xs4 v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
+            <v-col cols="4" v-for="(bonus, i) in pilot.CoreBonuses" :key="`cb_${i}`">
               <active-card color="#616161" :header="bonus.Name" subheader="CORE BONUS">
                 <span v-html="bonus.effect" />
               </active-card>
@@ -304,7 +304,7 @@
         </div>
         <div v-else>
           <v-row justify-space-between class="ml-4 mr-4">
-            <v-col xs3>
+            <v-col cols="3">
               <v-select
                 v-model="mech.Statuses"
                 label="Statuses"
@@ -329,7 +329,7 @@
               </v-select>
             </v-col>
             <v-spacer />
-            <v-col xs3>
+            <v-col cols="3">
               <v-select
                 v-model="mech.Conditions"
                 label="Conditions"
@@ -354,7 +354,7 @@
               </v-select>
             </v-col>
             <v-spacer />
-            <v-col xs3>
+            <v-col cols="3">
               <v-select
                 v-model="mech.Resistances"
                 label="Resistances"
@@ -397,7 +397,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col xs1 class="mr-3 white--text">
+            <v-col cols="1" class="mr-3 white--text">
               <v-row column justify="center" fill-height class="text-center">
                 <v-col>
                   <div class="subheader">
@@ -435,7 +435,7 @@
             </v-col>
             <v-col>
               <v-row>
-                <v-col xs2 class="mr-2" style="min-width: 200px">
+                <v-col cols="2" class="mr-2" style="min-width: 200px">
                   <tick-bar
                     label="STRUCTURE"
                     :key="'tb' + mech.CurrentStructure"
@@ -487,7 +487,7 @@
                     </v-col>
                   </v-row>
                 </v-col>
-                <v-col xs2 class="text-xs-right ml-4">
+                <v-col cols="2" class="text-xs-right ml-4">
                   <span class="grey--text">FULL REPAIR&nbsp;</span>
                   <v-row justify-end>
                     <v-tooltip left>
@@ -620,9 +620,9 @@
           </v-row>
 
           <v-row>
-            <v-col xs4>
+            <v-col cols="4">
               <v-row fill-heightwrap>
-                <v-col xs12 v-for="(trait, i) in mech.Frame.Traits" :key="`tr_${i}`">
+                <v-col cols="12" v-for="(trait, i) in mech.Frame.Traits" :key="`tr_${i}`">
                   <active-card
                     :color="color.frame.light"
                     :header="trait.name"
@@ -634,7 +634,7 @@
               </v-row>
             </v-col>
             <v-spacer />
-            <v-col xs8>
+            <v-col cols="8">
               <active-card
                 color="#00897B"
                 :header="mech.Frame.CoreSystem.Name"
@@ -704,7 +704,7 @@
                 :key="`mount_${i}`"
                 :mount="mount"
               />
-              <v-col xs12>
+              <v-col cols="12">
                 <v-card class="ma-0 pa-0" flat dark>
                   <span class="mount-title-dark pl-3 pr-3 text-uppercase">SYSTEMS</span>
                   <v-card-text class="bordered-dark ml-3 pt-4">

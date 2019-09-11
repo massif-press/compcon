@@ -1,5 +1,5 @@
 <template>
-  <v-col xs6>
+  <v-col cols="6">
     <v-card
       dark
       color="#595959"
@@ -62,7 +62,7 @@
         </v-row>
         <div v-if="system.IsLimited">
           <v-row>
-            <v-col xs1>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
             </v-col>
             <v-col shrink>
@@ -74,7 +74,7 @@
             <v-col grow>
               <v-divider class="mt-2 ml-3" />
             </v-col>
-            <v-col xs1></v-col>
+            <v-col cols="1"></v-col>
           </v-row>
           <v-row justify-start>
             <limited-bar
@@ -92,7 +92,7 @@
         </div>
         <div v-if="system.Notes.length">
           <v-row>
-            <v-col xs1>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
             </v-col>
             <v-col shrink>
@@ -101,7 +101,7 @@
             <v-col grow>
               <v-divider class="mt-2 ml-3" />
             </v-col>
-            <v-col xs1></v-col>
+            <v-col cols="1"></v-col>
           </v-row>
           <ul>
             <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">{{ n }}</li>

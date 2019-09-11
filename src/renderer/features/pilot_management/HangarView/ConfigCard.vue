@@ -10,7 +10,7 @@
         <v-col>
           <v-card :color="panelColor(mech.IsActive)" dark flat>
             <v-row>
-              <v-col xs9 class="ma-2">
+              <v-col cols="9" class="ma-2">
                 <span class="title">{{ mech.Name }}</span>
                 <br />
                 <span class="caption">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>

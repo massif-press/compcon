@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="overflow: hidden">
     <v-row>
-      <v-col xs3 class="pr-4">
+      <v-col cols="3" class="pr-4">
         <v-row>
           <v-col class="text-center">
             <span class="minor-title">{{ title }}</span>
@@ -10,7 +10,7 @@
         </v-row>
         <slot name="left-column"></slot>
       </v-col>
-      <v-col xs9 style="height: 90vh; overflow-y: scroll">
+      <v-col cols="9" style="height: 90vh; overflow-y: scroll">
         <slot name="right-column"></slot>
       </v-col>
     </v-row>

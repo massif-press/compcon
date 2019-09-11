@@ -11,7 +11,6 @@
         <p class="flavor-text py-0" v-html="action.description" />
       </v-card-text>
     </cc-titled-panel>
-
     <cc-solo-dialog
       ref="dialog"
       :icon="`$vuetify.icons.${action.action_type}`"

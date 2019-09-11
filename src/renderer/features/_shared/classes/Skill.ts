@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { CompendiumItem, SkillFamily, ItemType } from '@/class'
 
 class Skill extends CompendiumItem {

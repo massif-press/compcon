@@ -8,6 +8,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 import { MechType } from '@/class'
 
 export default Vue.extend({
@@ -34,7 +36,8 @@ export default Vue.extend({
     frameTypes: [],
   }),
   created() {
-    this.frames = this.$store.getters.getItemCollection('Frames')
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.frames = compendium.Frames
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
 })

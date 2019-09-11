@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <!-- <global-snackbar /> -->
     <nav />
     <v-slide-x-transition mode="out-in">
       <router-view />
@@ -9,24 +10,26 @@
 
 <script lang="ts">
 import Vue from 'vue'
+// import GlobalSnackbar from './UI/GlobalSnackbar.vue'
 
 export default Vue.extend({
   name: 'compcon',
+  // components: { GlobalSnackbar },
   mounted() {
-    const thisAny: any = this
-    thisAny.$mousetrap.bind('g r', () => {
+    const vm = this as any
+    vm.$mousetrap.bind('g r', () => {
       this.$router.push('/pilot_management')
     })
-    thisAny.$mousetrap.bind('g h', () => {
+    vm.$mousetrap.bind('g h', () => {
       this.$router.push('/hangar')
     })
-    thisAny.$mousetrap.bind('g c', () => {
+    vm.$mousetrap.bind('g c', () => {
       this.$router.push('/compendium')
     })
-    thisAny.$mousetrap.bind(['ctrl+left', 'backspace'], () => {
+    vm.$mousetrap.bind(['ctrl+left', 'backspace'], () => {
       this.$router.go(-1)
     })
-    thisAny.$mousetrap.bind('ctrl+right', () => {
+    vm.$mousetrap.bind('ctrl+right', () => {
       this.$router.go(1)
     })
   },

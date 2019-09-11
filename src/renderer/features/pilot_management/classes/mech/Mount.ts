@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import store from '@/store'
+import { store } from '@/store'
 import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {

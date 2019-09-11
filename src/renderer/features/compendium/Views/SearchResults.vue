@@ -19,7 +19,7 @@
       <v-col>
         <v-subheader>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</v-subheader>
         <v-slide-y-reverse-transition mode="out-in">
-          <v-row :key="searchText" fill-height >
+          <v-row :key="searchText" fill-height>
             <v-col v-for="(item, index) in searchResults" :key="index">
               <cc-titled-panel
                 :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
@@ -35,7 +35,7 @@
               </cc-titled-panel>
               <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
             </v-col>
-            <v-col xs12>
+            <v-col cols="12">
               <br />
             </v-col>
           </v-row>
@@ -58,11 +58,6 @@ export default Vue.extend({
     searchText: '',
     loaded: false,
   }),
-  mounted() {
-    this.searchText = this.$route.query.search as string
-    const input = this.$refs.input as HTMLInputElement
-    input.focus()
-  },
   computed: {
     validResults(): CompendiumItem[] {
       return this.$_.flatten(
@@ -83,6 +78,11 @@ export default Vue.extend({
       const results = this.validResults.filter(r => accentInclude(r.Name, this.searchText))
       return results
     },
+  },
+  mounted() {
+    this.searchText = this.$route.query.search as string
+    const input = this.$refs.input as HTMLInputElement
+    input.focus()
   },
   methods: {
     setSearch(value: string) {

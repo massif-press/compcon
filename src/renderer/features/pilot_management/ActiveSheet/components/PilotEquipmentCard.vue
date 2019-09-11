@@ -1,5 +1,5 @@
 <template>
-  <v-col v-if="item && show" xs4>
+  <v-col v-if="item && show" cols="4">
     <v-card dark color="grey darken-3" class="ma-1" height="100px" style="overflow: hidden">
       <v-card-title class="pa-1" :style="`background-color:${extended ? '#827717' : '#616161'}`">
         <b>{{ item.Name }}</b>
@@ -69,7 +69,7 @@
               <v-col grow>
                 <v-divider class="mt-2 ml-3" />
               </v-col>
-              <v-col xs1></v-col>
+              <v-col cols="1"></v-col>
             </v-row>
             <v-row justify-start>
               <limited-bar

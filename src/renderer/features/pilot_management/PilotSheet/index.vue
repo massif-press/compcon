@@ -4,7 +4,7 @@
       <v-container fluid>
         <!-- Pilot Info Block -->
         <v-row>
-          <v-col xs10>
+          <v-col cols="10">
             <v-row align-end>
               <!-- Callsign -->
               <v-col shrink>
@@ -136,7 +136,7 @@
 
         <!-- Bio/Apparance Block -->
         <v-row>
-          <v-col xs8>
+          <v-col cols="8">
             <v-row>
               <v-col>
                 <!-- Biograpgy -->
@@ -144,7 +144,7 @@
                   <span>Biography</span>
                 </v-row>
                 <v-row>
-                  <v-col xs12 class="text-center">
+                  <v-col cols="12" class="text-center">
                     <b v-if="pilot.custom_background" class="minor-title">
                       {{ pilot.custom_background }}
                     </b>
@@ -229,7 +229,7 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col xs4>
+          <v-col cols="4">
             <!-- Appearance -->
             <v-row class="header" align-content-space-around>
               <v-col>
@@ -341,7 +341,7 @@
 
         <!-- Skills Block -->
         <v-row>
-          <v-col xs1>
+          <v-col cols="1">
             <!-- Grit -->
             <v-row class="header" justify-space-around>
               <span>Grit</span>
@@ -352,7 +352,7 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col xs11>
+          <v-col cols="11">
             <!-- Triggers -->
             <v-row class="header" justify-space-around>
               <v-col>
@@ -599,7 +599,7 @@
           <span>Pilot Gear</span>
         </v-row>
         <v-row>
-          <v-col xs12>
+          <v-col cols="12">
             <pilot-loadout :pilot="pilot" />
           </v-col>
         </v-row>
