@@ -1,7 +1,16 @@
 <template>
-  <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
+  <v-dialog
+    v-model="dialog"
+    :fullscreen="fullscreen"
+    :width="small ? '30vw' : large ? '80vw' : '50vw'"
+  >
     <v-card tile>
-      <cc-titlebar :icon="icon" :color="color">{{ title }}</cc-titlebar>
+      <cc-titlebar large :icon="icon" :color="color" :fixed="fullscreen">
+        {{ title }}
+        <v-btn slot="items" dark icon @click="dialog = false">
+          <v-icon large>close</v-icon>
+        </v-btn>
+      </cc-titlebar>
 
       <v-card-text>
         <slot></slot>
@@ -16,7 +25,7 @@
       <v-card-actions v-else>
         <v-btn text @click="dialog = false">cancel</v-btn>
         <v-spacer />
-        <cc-btn @click="$emit('confirm')">confirm</cc-btn>
+        <cc-btn @click="confirm">confirm</cc-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -32,6 +41,10 @@ export default Vue.extend({
       required: false,
     },
     large: {
+      type: Boolean,
+      required: false,
+    },
+    fullscreen: {
       type: Boolean,
       required: false,
     },
@@ -58,6 +71,10 @@ export default Vue.extend({
     dialog: false,
   }),
   methods: {
+    confirm() {
+      this.$emit('confirm')
+      this.dialog = false
+    },
     show() {
       this.dialog = true
     },

@@ -13,24 +13,22 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
-        About
-      </v-btn>
+      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">About</v-btn>
       <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
-        Help
-      </v-btn>
+      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">Help</v-btn>
       <!-- <v-divider vertical dark class="mx-1" /> -->
       <!-- <v-btn color="amber darken-3" dark small>Support This Project</v-btn> -->
     </v-footer>
-    <cc-solo-dialog large no-confirm title="About" ref="aboutModal">about test</cc-solo-dialog>
-    <cc-solo-dialog large no-confirm title="Help" ref="helpModal">help test</cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { info } from 'lancer-data'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '../_shared/store'
 
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
@@ -47,7 +45,15 @@ export default Vue.extend({
   },
   data: () => ({
     lancerVer: info.version,
+    moduleStore: {},
   }),
+  created: function() {
+    const moduleStore = getModule(CompendiumStore, this.$store)
+    if (Vue.prototype.version) this.ver = Vue.prototype.version
+    moduleStore.setDatapath(Vue.prototype.userDataPath)
+    moduleStore.loadData()
+    moduleStore.buildLicenses()
+  },
   methods: {
     ccLog(btn: string) {
       switch (btn) {
@@ -84,12 +90,6 @@ export default Vue.extend({
           break
       }
     },
-  },
-  created() {
-    if (Vue.prototype.version) this.ver = Vue.prototype.version
-    this.$store.dispatch('setDatapath', Vue.prototype.userDataPath)
-    this.$store.dispatch('loadData')
-    this.$store.dispatch('buildLicenses')
   },
 })
 </script>

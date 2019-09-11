@@ -2,7 +2,7 @@
   <selector title="Pilot CORE Bonuses">
     <template v-slot:left-column>
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <div v-for="b in pilot.CoreBonuses" :key="`summary_${b.id}`">
             <v-row>
               <v-col>
@@ -16,7 +16,7 @@
       </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingCBs">
             CORE Bonus Selection Complete
           </v-alert>

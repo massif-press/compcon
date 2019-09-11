@@ -1,10 +1,17 @@
 <template>
-  <sidebar-array-view title="PILOT BACKGROUNDS" :array="backgrounds" icon="cci-orbit" />
+  <sidebar-array-view
+    title="PILOT BACKGROUNDS"
+    :array="backgrounds"
+    icon="cci-orbit"
+    name-key="name"
+    description-key="description"
+  />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import SidebarArrayView from '../UI/SidebarArrayView.vue'
+import { backgrounds } from 'lancer-data'
 
 export default Vue.extend({
   name: 'backgrounds',
@@ -13,7 +20,7 @@ export default Vue.extend({
     backgrounds: [],
   }),
   created() {
-    this.backgrounds = this.$store.getters.getItemCollection('Backgrounds')
+    this.backgrounds = backgrounds
   },
 })
 </script>

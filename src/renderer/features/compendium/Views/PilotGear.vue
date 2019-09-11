@@ -27,6 +27,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import CompendiumTable from '../UI/CompendiumTable.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 import { CompendiumItem, ItemType } from '@/class'
 
 export default Vue.extend({
@@ -55,15 +57,16 @@ export default Vue.extend({
     ],
   }),
   created() {
-    this.armor = this.$store.getters
-      .getItemCollection('PilotGear')
-      .filter((x: CompendiumItem) => x.ItemType === ItemType.PilotArmor)
-    this.weapons = this.$store.getters
-      .getItemCollection('PilotGear')
-      .filter((x: CompendiumItem) => x.ItemType === ItemType.PilotWeapon)
-    this.gear = this.$store.getters
-      .getItemCollection('PilotGear')
-      .filter((x: CompendiumItem) => x.ItemType === ItemType.PilotGear)
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.armor = compendium.PilotGear.filter(
+      (x: CompendiumItem) => x.ItemType === ItemType.PilotArmor
+    )
+    this.weapons = compendium.PilotGear.filter(
+      (x: CompendiumItem) => x.ItemType === ItemType.PilotWeapon
+    )
+    this.gear = compendium.PilotGear.filter(
+      (x: CompendiumItem) => x.ItemType === ItemType.PilotGear
+    )
   },
 })
 </script>

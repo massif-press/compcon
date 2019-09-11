@@ -1,6 +1,6 @@
 <template>
   <v-row wrap justify-space-around class="mx-4">
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
@@ -14,7 +14,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="tagFilter"
         class="px-2"
@@ -30,7 +30,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="weaponTypeFilter"
         class="px-2"
@@ -44,7 +44,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="weaponSizeFilter"
         class="px-2"
@@ -58,7 +58,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="attackTypeFilter"
         class="px-2"
@@ -73,7 +73,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="damageTypeFilter"
         class="px-2"

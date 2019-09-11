@@ -10,9 +10,14 @@
       package.
     </span>
     <div v-else>
-      <span class="heading h3 accent--text">{{ title }}</span>
-      <v-divider dark class="my-1" />
-      <p class="flavor-text white--text">{{ content }}</p>
+      <div v-if="simple">
+        <p class="flavor-text white--text">{{ content }}</p>
+      </div>
+      <div v-else>
+        <span v-if="title" class="heading h3 accent--text">{{ title }}</span>
+        <v-divider v-if="title" dark class="my-1" />
+        <p class="flavor-text white--text">{{ content }}</p>
+      </div>
     </div>
   </v-tooltip>
 </template>
@@ -28,9 +33,14 @@ export default Vue.extend({
       required: false,
       default: '',
     },
+    simple: {
+      type: Boolean,
+      required: false,
+    },
     title: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     content: {
       type: String,
@@ -42,8 +52,8 @@ export default Vue.extend({
 
 <style scoped>
 .cc-tooltip {
-  background: rgba(0, 0, 0, 1) !important;
-  background-color: rgba(0, 0, 0, 1) !important;
+  background: rgba(66, 66, 66, 1) !important;
+  background-color: rgba(66, 66, 66, 1) !important;
   opacity: 1 !important;
   max-width: 50vw;
 }

@@ -1,11 +1,10 @@
+/* eslint-disable */
 declare module '*.vue' {
   import Vue from 'vue'
   export default Vue
 }
 
 declare module 'vue-mousetrap'
-
-declare module 'vue2-scrollspy'
 
 declare module 'gist-client'
 

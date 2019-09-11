@@ -31,6 +31,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
+
 export default Vue.extend({
   name: 'manufacturers',
   data: () => ({
@@ -38,7 +41,8 @@ export default Vue.extend({
     manufacturers: {},
   }),
   created() {
-    this.manufacturers = this.$store.getters.getItemCollection('Manufacturers')
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.manufacturers = compendium.Manufacturers
   },
 })
 </script>

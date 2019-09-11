@@ -23,7 +23,7 @@
         <v-card flat>
           <v-card-text>
             <v-row wrap justify="center">
-              <v-col xs3 v-for="r in reserves['Narrative']" :key="r.ID">
+              <v-col cols="3" v-for="r in reserves['Narrative']" :key="r.ID">
                 <reserve-item :reserve="r" color="teal darken-3" @click="add(r)" />
               </v-col>
             </v-row>
@@ -34,7 +34,7 @@
         <v-card flat>
           <v-card-text>
             <v-row wrap justify="center">
-              <v-col xs3 v-for="r in reserves['Tactical']" :key="r.ID">
+              <v-col cols="3" v-for="r in reserves['Tactical']" :key="r.ID">
                 <reserve-item :reserve="r" color="lime darken-4" @click="add(r)" />
               </v-col>
             </v-row>
@@ -45,7 +45,7 @@
         <v-card flat>
           <v-card-text>
             <v-row wrap justify="center">
-              <v-col xs3 v-for="r in reserves['Mech']" :key="r.ID">
+              <v-col cols="3" v-for="r in reserves['Mech']" :key="r.ID">
                 <reserve-item :reserve="r" color="deep-orange darken-3" @click="add(r)" />
               </v-col>
             </v-row>
@@ -56,7 +56,7 @@
         <v-card flat>
           <v-card-text>
             <v-row justify="center">
-              <v-col xs6>
+              <v-col cols="6">
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Custom Reserve</v-toolbar-title>
@@ -93,17 +93,17 @@
         <v-card flat>
           <v-card-text>
             <v-row justify="center">
-              <v-col xs8>
+              <v-col cols="8">
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Downtime Project</v-toolbar-title>
                   </v-toolbar>
                   <v-card-text class="effect-text pa-2 ma-0">
                     <v-row wrap>
-                      <v-col xs6>
+                      <v-col cols="6">
                         <v-text-field v-model="projectName" label="Project Name" />
                       </v-col>
-                      <v-col xs2 class="ml-4">
+                      <v-col cols="2" class="ml-4">
                         <v-tooltip top>
                           <v-switch
                             slot="activator"
@@ -116,7 +116,7 @@
                           </span>
                         </v-tooltip>
                       </v-col>
-                      <v-col xs2>
+                      <v-col cols="2">
                         <v-tooltip top>
                           <v-switch slot="activator" v-model="projectFinished" label="Finished" />
                           <span>
@@ -125,7 +125,7 @@
                           </span>
                         </v-tooltip>
                       </v-col>
-                      <v-col xs12>
+                      <v-col cols="12">
                         <v-textarea
                           v-model="projectDetails"
                           auto-grow
@@ -134,7 +134,7 @@
                           box
                         />
                       </v-col>
-                      <v-col xs12>
+                      <v-col cols="12">
                         <v-combobox
                           class="mr-5 ml-5"
                           v-model="projectCost"
@@ -188,10 +188,10 @@
                   box
                 />
                 <v-row wrap>
-                  <v-col xs12 class="text-center">
+                  <v-col cols="12" class="text-center">
                     <span class="minor-title">Start with:</span>
                   </v-col>
-                  <v-col xs5 class="text-center">
+                  <v-col cols="5" class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn
@@ -222,7 +222,7 @@
                     </v-tooltip>
                   </v-col>
                   <v-spacer />
-                  <v-col xs5 class="text-center">
+                  <v-col cols="5" class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn

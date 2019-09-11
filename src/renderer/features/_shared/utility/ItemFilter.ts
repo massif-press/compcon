@@ -1,7 +1,5 @@
 import { MechEquipment, CompendiumItem } from '@/class'
 
-import _ from 'lodash'
-
 class ItemFilter {
   public static Filter(items: CompendiumItem[], filter: any): CompendiumItem[] {
     Object.keys(filter).forEach(p => {

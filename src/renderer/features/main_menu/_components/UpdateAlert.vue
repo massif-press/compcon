@@ -13,16 +13,16 @@
           :class="{ pulse: !expanded && canUpdate }"
           large
           fab
-          @mouseenter="$emit('hover')"
-          @click="expand"
           :color="canUpdate ? 'warning' : 'primary'"
           dark
           style="box-shadow: 0 0 0 0"
+          @mouseenter="$emit('hover')"
+          @click="expand"
         >
           <transition name="spin" mode="out-in">
-            <v-icon v-bind:key="expanded" x-large>
+            <v-icon :key="expanded" x-large>
               {{
-                expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
+              expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
               }}
             </v-icon>
           </transition>
@@ -30,7 +30,7 @@
       </div>
     </div>
     <transition name="slide" mode="out-in">
-      <div id="panel" v-if="expanded">
+      <div v-if="expanded" id="panel">
         <changelog-panel
           :loading="loading"
           :changelog="changelog"
@@ -57,12 +57,7 @@ export default Vue.extend({
     err: null,
     canUpdate: false,
   }),
-  methods: {
-    expand() {
-      this.$emit('expand')
-      this.expanded = !this.expanded
-    },
-  },
+
   created() {
     apis
       .getChangelog()
@@ -82,6 +77,12 @@ export default Vue.extend({
     this.canUpdate =
       Vue.prototype.version !== this.changelog.beta &&
       Vue.prototype.version !== this.changelog.stable
+  },
+  methods: {
+    expand() {
+      this.$emit('expand')
+      this.expanded = !this.expanded
+    },
   },
 })
 </script>

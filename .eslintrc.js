@@ -22,6 +22,14 @@ module.exports = {
     'vue/no-v-html': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/closing-line-bracket-newline': 'off',
+    'vue/html-closing-bracket-newline': 'off',
     'vue/html-self-closing': 'off',
+    '@typescript-eslint/explicit-function-return-type': [
+      'warn',
+      {
+        allowExpressions: true,
+        allowTypedFunctionExpressions: true,
+      },
+    ],
   },
 }

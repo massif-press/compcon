@@ -2,7 +2,7 @@
   <selector title="Pilot Skill Triggers">
     <template v-slot:left-column>
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
             <v-row v-if="pSkill.err">
               <v-col shrink>
@@ -16,7 +16,7 @@
               </v-col>
             </v-row>
             <v-row v-else>
-              <v-col xs12>
+              <v-col cols="12">
                 <v-chip dark color="primary" outline small>
                   +
                   <b>{{ pSkill.Bonus }}</b>
@@ -29,7 +29,7 @@
       </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-col xs12>
+        <v-col cols="12">
           <v-alert
             outline
             color="success"
@@ -65,7 +65,7 @@
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
         <v-col class="skill-header minor-title" v-html="h.description" />
         <v-row v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
-          <v-col xs11>
+          <v-col cols="11">
             <skill-item :skill="skill" />
           </v-col>
           <v-col>
@@ -107,14 +107,14 @@
       <div class="mb-4">
         <v-col class="skill-header minor-title" v-html="'Custom Skill Triggers'" />
         <v-row>
-          <v-col xs11>
+          <v-col cols="11">
             <v-row>
-              <v-col xs3>
+              <v-col cols="3">
                 <div class="centered text-xs-left pl-3">
                   <span class="subheading font-weight-bold">New Custom Skill</span>
                 </div>
               </v-col>
-              <v-col xs9>
+              <v-col cols="9">
                 <v-text-field v-model="newSkill" box hide-details label="New Skill Trigger" />
               </v-col>
             </v-row>
@@ -141,7 +141,7 @@
           </v-col>
         </v-row>
         <v-row v-for="pskill in customSkills" :key="pskill.Skill.Name">
-          <v-col xs11>
+          <v-col cols="11">
             <skill-item :skill="pskill.Skill" />
           </v-col>
           <v-col>

@@ -23,7 +23,7 @@
           </p>
         </div>
         <div v-else>
-          <v-col xs12 class="text-center mt-3 mb-3">
+          <v-col cols="12" class="text-center mt-3 mb-3">
             <span class="grey--text">
               REPAIR CAPACITY REMAINING:
               <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
@@ -83,10 +83,10 @@
         </div>
       </div>
       <div v-else>
-        <v-col xs12 class="major-title text-center" style="background: #33691E">
+        <v-col cols="12" class="major-title text-center" style="background: #33691E">
           <span>RESTING</span>
         </v-col>
-        <v-col xs12 class="text-center mt-3 mb-3">
+        <v-col cols="12" class="text-center mt-3 mb-3">
           <span class="grey--text">
             REPAIR CAPACITY REMAINING:
             <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
@@ -104,7 +104,7 @@
             </v-icon>
           </span>
         </v-col>
-        <v-col xs12 class="text-xs-right">
+        <v-col cols="12" class="text-xs-right">
           <span class="caption">
             {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS COMPLETE
           </span>
@@ -116,7 +116,7 @@
             height="10"
           />
         </v-col>
-        <v-col xs12 class="text-xs-left">
+        <v-col cols="12" class="text-xs-left">
           <span v-if="mech.CurrentHP === mech.MaxHP" class="minor-title grey--text">
             >:// HP NOMINAL
           </span>
@@ -133,12 +133,12 @@
                 Recover HP
               </v-btn>
             </v-col>
-            <v-col class="text-center" xs2>
+            <v-col class="text-center" cols="2">
               <v-icon large class="mt-2">control_point</v-icon>
             </v-col>
           </v-row>
         </v-col>
-        <v-col xs12 class="text-xs-left">
+        <v-col cols="12" class="text-xs-left">
           <span v-if="mech.CurrentStructure === mech.MaxStructure" class="minor-title grey--text">
             >:// STRUCTURAL INTEGRITY NOMINAL
           </span>
@@ -158,16 +158,16 @@
                 Repair Structure
               </v-btn>
             </v-col>
-            <v-col xs2 class="text-center" v-if="mech.Frame.Name.toLowerCase() === 'everest'">
+            <v-col cols="2" class="text-center" v-if="mech.Frame.Name.toLowerCase() === 'everest'">
               <v-icon large class="mt-2">control_point</v-icon>
             </v-col>
-            <v-col xs2 class="text-center" v-else>
+            <v-col cols="2" class="text-center" v-else>
               <v-icon large class="mt-2">control_point</v-icon>
               <v-icon large class="mt-2">control_point</v-icon>
             </v-col>
           </v-row>
         </v-col>
-        <v-col xs12 class="text-xs-left">
+        <v-col cols="12" class="text-xs-left">
           <span v-if="mech.CurrentStress === mech.MaxStress" class="minor-title grey--text">
             >:// REACTOR STRESS NOMINAL
           </span>
@@ -183,13 +183,13 @@
                 Repair Reactor
               </v-btn>
             </v-col>
-            <v-col xs2 class="text-center">
+            <v-col cols="2" class="text-center">
               <v-icon large class="mt-2">control_point</v-icon>
               <v-icon large class="mt-2">control_point</v-icon>
             </v-col>
           </v-row>
         </v-col>
-        <v-col xs12 class="text-xs-left">
+        <v-col cols="12" class="text-xs-left">
           <span v-if="!destroyedWeapons.length" class="minor-title grey--text">
             >:// ARMAMENT NOMINAL
           </span>
@@ -208,13 +208,13 @@
                   Repair {{ w.Name }}
                 </v-btn>
               </v-col>
-              <v-col xs2 class="text-center">
+              <v-col cols="2" class="text-center">
                 <v-icon large class="mt-2">control_point</v-icon>
               </v-col>
             </v-row>
           </div>
         </v-col>
-        <v-col xs12 class="text-xs-left">
+        <v-col cols="12" class="text-xs-left">
           <span v-if="!destroyedSystems.length" class="minor-title grey--text">
             >:// SYSTEMS NOMINAL
           </span>
@@ -233,7 +233,7 @@
                   Repair {{ s.Name }}
                 </v-btn>
               </v-col>
-              <v-col xs2 class="text-center">
+              <v-col cols="2" class="text-center">
                 <v-icon large class="mt-2">control_point</v-icon>
               </v-col>
             </v-row>
@@ -243,10 +243,10 @@
     </v-row>
     <v-divider class="ma-2" />
     <v-row wrap>
-      <v-col xs12>
+      <v-col cols="12">
         <v-btn block color="amber darken-4" dark @click="startCombat">Enter Combat</v-btn>
       </v-col>
-      <v-col xs12>
+      <v-col cols="12">
         <v-btn large block color="green darken-4" dark @click="endMission">Complete Mission</v-btn>
       </v-col>
     </v-row>

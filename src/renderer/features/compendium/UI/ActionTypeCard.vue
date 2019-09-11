@@ -1,5 +1,5 @@
 <template>
-  <v-col xs2 class="effect-text text-center text-capitalize">
+  <v-col cols="2" class="effect-text text-center text-capitalize">
     {{ action }}
     <br />
     <v-card tile :color="`action--${action}`" class="pt-4 pb-4">

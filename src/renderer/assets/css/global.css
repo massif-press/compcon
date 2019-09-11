@@ -82,6 +82,12 @@
   padding: 0;
 }
 
+.bordered {
+  background: var(--v-panel-base) !important;
+  border: 5px double var(--v-panel-border-base) !important;
+  border-radius: 2px !important;
+}
+
 .bordered-dark {
   border: solid 2px #bdbdbd;
 }

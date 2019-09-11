@@ -35,7 +35,7 @@
             </v-col>
           </v-fade-transition>
           <v-col
-            xs12
+            cols="12"
             sm2
             :class="{
               'mx-0': $vuetify.breakpoint.xsOnly,
@@ -64,11 +64,11 @@
     <v-card-text class="px-4">
       <!-- Stats -->
       <v-row wrap justify-space-around class="statblock">
-        <v-col xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
+        <v-col cols="6" sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
         </v-col>
-        <v-col xs6 sm2 lg1>
+        <v-col cols="6" sm2 lg1>
           <div class="label">SIZE</div>
           <div class="headline font-weight-bold primary--text">
             <v-select
@@ -85,7 +85,7 @@
       <!-- HASE -->
       <v-row wrap justify="center" class="statblock">
         <v-col
-          xs6
+          cols="6"
           sm2
           lg1
           v-for="hase in ['hull', 'agility', 'systems', 'engineering']"
@@ -110,7 +110,7 @@
       </v-row>
       <!-- Systems picker -->
       <v-row wrap>
-        <v-col xs12 sm6>
+        <v-col cols="12" sm6>
           <v-card class="picker-card">
             <v-container>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">
@@ -129,7 +129,7 @@
             </v-container>
           </v-card>
         </v-col>
-        <v-col xs12 sm6>
+        <v-col cols="12" sm6>
           <v-card class="picker-card">
             <v-tabs dark color="primary" slider-color="secondary">
               <v-tab
@@ -169,7 +169,7 @@
       </v-row>
       <!-- Templates picker -->
       <v-row>
-        <v-col xs6>
+        <v-col cols="6">
           <v-card class="picker-card">
             <v-container>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">
@@ -184,7 +184,7 @@
             </v-container>
           </v-card>
         </v-col>
-        <v-col xs6>
+        <v-col cols="6">
           <v-card class="picker-card">
             <v-container fluid>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">

@@ -1,6 +1,6 @@
 <template>
   <v-row justify-space-around class="mx-4">
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
@@ -14,7 +14,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="typeFilter"
         class="px-2"
@@ -29,7 +29,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col xs4>
+    <v-col cols="4">
       <v-select
         v-model="mountFilter"
         class="px-2"

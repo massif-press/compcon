@@ -1,11 +1,10 @@
 <template>
   <div
-    :class="`px-2 clipped${size()}`"
+    :class="`px-2 ml-n3 clipped${size()}`"
     :style="`width: max-content; background-color: ${getColor()};`"
   >
-    <span :class="`ctitle${size()} ${dark ? 'white--text' : 'black--text'}`" class="px-2 pb-1">
-      <slot></slot>
-      &nbsp;
+    <span :class="`ctitle${size()} ${dark ? 'white--text' : 'black--text'}`" class="pl-5 pr-2 pb-1">
+      <slot></slot>&nbsp;
     </span>
   </div>
 </template>

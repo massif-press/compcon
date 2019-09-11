@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { rules } from 'lancer-data'
 import { LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType } from '@/class'
 

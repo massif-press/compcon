@@ -10,7 +10,7 @@
     </v-row>
     <v-divider class="mb-3" />
     <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
-      <v-col v-for="encounter in encounters" :key="encounter.id" xs12 sm6 md4>
+      <v-col v-for="encounter in encounters" :key="encounter.id" cols="12" sm6 md4>
         <File
           :name="encounter.name"
           icon="mdi-account-group"

@@ -29,7 +29,7 @@
       <v-card flat>
         <v-card-text>
           <v-row>
-            <v-col xs4 class="ml-2 mr-2">
+            <v-col cols="4" class="ml-2 mr-2">
               <v-row>
                 <v-select
                   v-model="filters.source"
@@ -59,7 +59,7 @@
                 />
               </v-row>
             </v-col>
-            <v-col xs4 class="ml-2 mr-2">
+            <v-col cols="4" class="ml-2 mr-2">
               <v-row wrap>
                 <v-select
                   v-model="filters.include"
@@ -90,7 +90,7 @@
                 />
               </v-row>
             </v-col>
-            <v-col v-if="system" xs4 class="ml-2 mr-2">
+            <v-col v-if="system" cols="4" class="ml-2 mr-2">
               <v-row>
                 <v-select
                   v-model="filters.systemType"
@@ -106,7 +106,7 @@
                 />
               </v-row>
             </v-col>
-            <v-col v-if="weapon" xs4 class="ml-2 mr-2">
+            <v-col v-if="weapon" cols="4" class="ml-2 mr-2">
               <v-row>
                 <v-select
                   v-model="filters.weaponType"
@@ -136,7 +136,7 @@
                 />
               </v-row>
             </v-col>
-            <v-col v-if="weapon" xs4 class="ml-2 mr-2">
+            <v-col v-if="weapon" cols="4" class="ml-2 mr-2">
               <v-row>
                 <v-select
                   v-model="filters.attackType"

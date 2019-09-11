@@ -55,7 +55,7 @@ declare interface IPilotData {
   quirk: string
   current_hp: number
   active: boolean
-  background: IBackgroundData | string
+  background: string
   mechSkills: number[]
   licenses: IRankedData[]
   skills: IRankedData[]
@@ -180,4 +180,12 @@ declare interface ILicenseRequirement {
   rank: number
   items: string[]
   missing?: boolean
+}
+
+declare interface ISnackbarSettings {
+  text: string
+  multiline?: boolean
+  timeout?: number
+  color?: string
+  visible?: boolean
 }

@@ -2,7 +2,7 @@
   <v-card flat class="pt-0">
     <v-card-text class="pt-0">
       <v-row>
-        <v-col xs4 :class="{ locked: rank && rank < 1 }">
+        <v-col cols="4" :class="{ locked: rank && rank < 1 }">
           <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 1" class="grey-text">
               RANK I &nbsp;
@@ -18,7 +18,7 @@
             <item-badge :item="i" />
           </div>
         </v-col>
-        <v-col xs4 :class="{ locked: rank && rank < 2 }">
+        <v-col cols="4" :class="{ locked: rank && rank < 2 }">
           <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 2" class="grey-text">
               RANK II &nbsp;
@@ -34,7 +34,7 @@
             <item-badge :item="i" />
           </div>
         </v-col>
-        <v-col xs4 :class="{ locked: rank && rank < 3 }">
+        <v-col cols="4" :class="{ locked: rank && rank < 3 }">
           <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 3" class="grey-text">
               RANK III &nbsp;

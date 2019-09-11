@@ -4,15 +4,22 @@
       <v-card
         id="underline-parent"
         :class="`clipped-x-large ${hover ? 'on-hover' : ''}`"
-        :to="loc"
-        height="10em"
+        :height="small ? '8em' : '10em'"
         :color="color"
         tile
         outlined
+        @click="$emit('clicked')"
       >
-        <v-icon size="100" class="pa-0 ma-0" style="position: absolute; bottom: -5px; left: 0" dark>
-          {{ icon }}
-        </v-icon>
+        <v-icon
+          v-if="icon"
+          :size=" small ? 56 : 100"
+          :class="`pa-0 ma-0 ${small ? 'mb-2 ml-2' : ''}`"
+          style="position: absolute; bottom: -5px; left: 0"
+          dark
+        >{{ icon }}</v-icon>
+        <div v-else style="position: absolute; bottom: -5px; left: 0">
+          <slot name="content" />
+        </div>
         <v-card-actions
           id="card-actions"
           class="text-right"
@@ -23,25 +30,37 @@
           <span
             style="position:absolute; top: 0; right: 0; display: contents; font-size: 22pt"
             class="underline-slide px-4 heading h2"
-          >
-            {{ name }}
-          </span>
+          >{{ name }}</span>
         </v-card-actions>
       </v-card>
     </v-hover>
+    <slot />
   </v-col>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'category-card',
+  name: 'cc-major-btn',
   props: {
-    icon: String,
-    color: String,
-    name: String,
-    loc: String,
-    size: Number,
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    small: {
+      type: Boolean,
+      required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
   },
 })
 </script>

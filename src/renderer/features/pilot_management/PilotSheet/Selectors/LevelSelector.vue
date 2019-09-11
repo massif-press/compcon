@@ -8,7 +8,7 @@
         </i>
       </p>
       <v-row justify="center">
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10" height="100">
             <v-card-text>
               <span class="title">
@@ -20,7 +20,7 @@
           </v-card>
         </v-col>
 
-        <v-col xs1 class="ml-2 mr-2">
+        <v-col cols="1" class="ml-2 mr-2">
           <v-card flat>
             <v-card-text class="mt-3">
               <v-icon large>arrow_forward</v-icon>
@@ -28,7 +28,7 @@
           </v-card>
         </v-col>
 
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10" height="100">
             <v-card-text>
               <v-text-field

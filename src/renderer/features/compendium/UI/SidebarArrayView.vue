@@ -6,7 +6,7 @@
       :key="`${i}_sidebar'`"
       link
       @click="
-        $vuetify.goTo(`#e_${e.ID}`, {
+        $vuetify.goTo(`#e_${e[nameKey]}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
@@ -18,8 +18,8 @@
     <h1 class="heading mb-3 ml-5">{{ title }}</h1>
     <cc-titled-panel
       v-for="(e, i) in array"
-      :id="`e_${e.ID}`"
-      :key="`${e.ID}_${i}`"
+      :id="`e_${e[nameKey]}`"
+      :key="`${e[nameKey]}_${i}`"
       :icon="icon || ''"
       :title="e[nameKey]"
       color="primary"

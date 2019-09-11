@@ -1,5 +1,5 @@
 import { ItemType } from '@/class'
-import store from '@/store'
+import { store } from '@/store'
 
 class Tag {
   private id: string

@@ -42,10 +42,10 @@
     </v-container>
     <v-container grid-list-xl fluid>
       <v-row wrap class="ml-2 mr-2 mb-5" fill-height>
-        <v-col v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" xs3>
+        <v-col v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" cols="3">
           <config-card :mech="c" :pilot="pilot" :card-height="cardHeight" />
         </v-col>
-        <v-col xs3>
+        <v-col cols="3">
           <add-config-card :pilot="pilot" :card-height="cardHeight" />
         </v-col>
       </v-row>

@@ -7,8 +7,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 import CompendiumTable from '../UI/CompendiumTable.vue'
-import { MechWeapon } from '@/class'
 
 export default Vue.extend({
   name: 'weapons',
@@ -26,9 +27,8 @@ export default Vue.extend({
     weapons: [],
   }),
   created() {
-    this.weapons = this.$store.getters
-      .getItemCollection('MechWeapons')
-      .filter((x: MechWeapon) => x.Source) as MechWeapon[]
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.weapons = compendium.MechWeapons.filter(x => x.Source)
   },
 })
 </script>

@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="pc-wrapper"
-    @click="toPilotSheet()"
-  >
+  <div id="pc-wrapper" @click="toPilotSheet()">
     <v-card
       tile
       color="primary"
@@ -45,7 +42,7 @@
             </span>
           </p>
           <p class="flavor-text mb-0 ml-3">
-            <span v-for="l in pilot.Licenses" :key="l.license.Name + pilot.ID">
+            <span v-for="(l, i) in pilot.Licenses" :key="i + pilot.ID">
               <span class="grey--text">[ {{ l.license.Source }}</span>
               <b>
                 {{ l.license.Name }}
@@ -64,7 +61,7 @@
             <span class="grey--text">]</span>
             <span
               class="grey--text"
-            >&emsp;UNB::LNCR//CAV_ID > [{{ pilot.ActiveMech.ID }}] (CHECKSUM OK)</span>
+            >&emsp;UNB::LNCR//CAV_ID > [{{ pilot.ActiveMech.ID }}] (REGISTRATION FOUND)</span>
           </p>
         </div>
       </div>
@@ -94,7 +91,10 @@ export default Vue.extend({
 
 <style scoped>
 #pc-wrapper {
-  position:relative; min-height: 150px; min-width: 100%; cursor: pointer
+  position: relative;
+  min-height: 150px;
+  min-width: 100%;
+  cursor: pointer;
 }
 
 .callsign {

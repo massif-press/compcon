@@ -31,7 +31,7 @@
     <v-container fluid>
       <!-- Stats -->
       <v-row wrap justify-space-around class="statblock">
-        <v-col xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
+        <v-col cols="6" sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
         </v-col>
@@ -40,7 +40,7 @@
       <!-- HASE -->
       <v-row wrap justify-space-around class="statblock">
         <v-col
-          xs6
+          cols="6"
           sm2
           lg1
           v-for="hase in ['hull', 'agility', 'systems', 'engineering']"
@@ -63,7 +63,7 @@
         </div>
         <!-- Feature cards -->
         <v-row wrap justify="center">
-          <v-col xs12 sm6 lg3 v-for="feature in npc.features" :key="feature.name">
+          <v-col cols="12" sm6 lg3 v-for="feature in npc.features" :key="feature.name">
             <feature-card :feature="feature" />
           </v-col>
         </v-row>
@@ -78,7 +78,7 @@
       </div>
       <!-- System cards -->
       <v-row wrap justify="center">
-        <v-col xs12 sm6 lg3 v-for="system in npc.systems" :key="system.name">
+        <v-col cols="12" sm6 lg3 v-for="system in npc.systems" :key="system.name">
           <system-card :npc="npc" :system="system" />
         </v-col>
       </v-row>

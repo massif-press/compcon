@@ -14,7 +14,7 @@
         <v-textarea label="Notes" outline v-model="encounter.notes" color="secondary" />
       </v-col>
       <v-row>
-        <v-col xs12 sm6>
+        <v-col cols="12" sm6>
           <h6 class="body-2 text-xs-left grey--text text--darken-1">Encounter NPCs</h6>
           <v-card class="pickCard">
             <v-slide-y-transition group tag="div" class="layout column pa-3">
@@ -24,11 +24,11 @@
             </v-slide-y-transition>
           </v-card>
         </v-col>
-        <v-col xs12 sm6>
+        <v-col cols="12" sm6>
           <h6 class="body-2 text-xs-left grey--text text--darken-1">Created NPCs</h6>
           <v-card class="pickCard">
             <v-row wrap pa-3>
-              <v-col xs12 sm6 v-for="npc in npcs" :key="npc.id">
+              <v-col cols="12" sm6 v-for="npc in npcs" :key="npc.id">
                 <File icon="mdi-account" :name="npc.name" @click.native="addNPC(npc)">
                   <template v-slot:extra-icons>
                     <v-icon>add</v-icon>

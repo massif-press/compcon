@@ -1,7 +1,11 @@
 <template>
-  <v-toolbar :color="getColor()" class="clipped-large">
+  <v-toolbar
+    :color="getColor()"
+    class="clipped-large"
+    :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
+  >
     <v-toolbar-title :class="`heading h2 ${dark ? 'white--text' : 'black--text'}`">
-      <v-icon v-if="icon" :dark="dark" left>{{ icon }}</v-icon>
+      <v-icon v-if="icon" :large="large" :dark="dark" left>{{ icon }}</v-icon>
       <slot></slot>
     </v-toolbar-title>
     <v-spacer />
@@ -16,6 +20,10 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-titlebar',
   props: {
+    fixed: {
+      type: Boolean,
+      required: false,
+    },
     dark: {
       type: Boolean,
       required: false,
@@ -30,6 +38,10 @@ export default Vue.extend({
       type: String,
       required: false,
       default: '',
+    },
+    large: {
+      type: Boolean,
+      required: false,
     },
   },
 })

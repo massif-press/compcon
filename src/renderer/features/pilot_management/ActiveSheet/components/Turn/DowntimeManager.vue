@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row column fill-height>
-      <v-col xs12 class="major-title text-center">
+      <v-col cols="12" class="major-title text-center">
         <span>DOWNTIME</span>
       </v-col>
     </v-row>
@@ -37,7 +37,7 @@
     </div>
     <v-divider class="ma-2" dark />
     <v-row wrap>
-      <v-col xs12>
+      <v-col cols="12">
         <v-btn block large color="amber darken-4" dark @click="$emit('end')">Begin Mission</v-btn>
       </v-col>
     </v-row>

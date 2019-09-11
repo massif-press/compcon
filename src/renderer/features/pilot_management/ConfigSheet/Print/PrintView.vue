@@ -3,7 +3,7 @@
     <v-container fluid>
       <!-- callsign/name/level block -->
       <v-row fill-height justify-space-between>
-        <v-col xs3>
+        <v-col cols="3">
           <span class="p-reg">
             {{ config.Frame.Source }} {{ config.Frame.Name }} //
             {{ pilot.Callsign }}
@@ -179,7 +179,7 @@
       <hr class="ma-2" />
 
       <v-row>
-        <v-col xs6>
+        <v-col cols="6">
           <span class="label">TRAITS</span>
           <br />
           <v-col v-for="trait in config.Frame.Traits" :key="trait.Name">
@@ -189,7 +189,7 @@
           </v-col>
         </v-col>
 
-        <v-col xs6>
+        <v-col cols="6">
           <span class="label">CORE System</span>
           <br />
           <v-col class="text-center">

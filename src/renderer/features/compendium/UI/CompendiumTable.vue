@@ -91,6 +91,9 @@ export default Vue.extend({
       return i
     },
   },
+  created() {
+    this.itemType = this.items[0].ItemType
+  },
   methods: {
     customSort(items, index, descending) {
       const desc = descending[0]
@@ -108,9 +111,6 @@ export default Vue.extend({
     setFilters(newFilter) {
       ;(this as any).filters = newFilter
     },
-  },
-  created() {
-    this.itemType = this.items[0].ItemType
   },
 })
 </script>

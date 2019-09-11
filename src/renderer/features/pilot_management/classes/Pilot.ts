@@ -17,7 +17,7 @@ import {
   Organization,
 } from '@/class'
 import { rules } from 'lancer-data'
-import store from '@/store'
+import { store } from '@/store'
 
 class Pilot {
   private gistID: string
@@ -35,7 +35,7 @@ class Pilot {
   private cloud_portrait: string
   private current_hp: number
 
-  private background: Background
+  private background: string
   private licenses: PilotLicense[]
   private skills: PilotSkill[]
   private talents: PilotTalent[]
@@ -67,7 +67,7 @@ class Pilot {
     this.cloud_portrait = ''
     this.quirk = ''
     this.current_hp = this.MaxHP
-    this.background = new Background()
+    this.background = ''
     this.licenses = []
     this.skills = []
     this.talents = []
@@ -141,11 +141,11 @@ class Pilot {
     this.save()
   }
 
-  public get Background(): Background {
+  public get Background(): string {
     return this.background
   }
 
-  public set Background(bg: Background) {
+  public set Background(bg: string) {
     this.background = bg
     this.save()
   }
@@ -747,7 +747,7 @@ class Pilot {
       active: p.IsActive,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
-      background: Background.Serialize(p.Background),
+      background: p.Background,
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
@@ -776,7 +776,7 @@ class Pilot {
     p.quirk = pilotData.quirk
     p.current_hp = pilotData.current_hp
     p.active = pilotData.active
-    p.background = Background.Deserialize(pilotData.background)
+    p.background = pilotData.background
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills)
     p.licenses = pilotData.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     p.skills = pilotData.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))

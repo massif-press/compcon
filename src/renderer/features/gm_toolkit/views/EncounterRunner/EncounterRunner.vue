@@ -19,7 +19,7 @@
           >
             <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
               <v-col
-                xs6
+                cols="6"
                 class="cardflex"
                 :class="calcSize(npc)"
                 v-for="npc in aliveNpcs"
@@ -35,7 +35,7 @@
       <v-tab-item>
         <v-container fluid>
           <v-slide-y-transition group tag="div" class="layoutwrap justify-start grow-shrink-0">
-            <v-col xs12 sm6 md3 v-for="npc in destroyedNpcs" :key="npc.id">
+            <v-col cols="12" sm6 md3 v-for="npc in destroyedNpcs" :key="npc.id">
               <v-card color="grey darken-2" class="dead-npc">
                 <v-card-title class="white--text title">
                   {{ npc.name }}
@@ -66,6 +66,8 @@ import _ from 'lodash'
 import ActiveEncounter, { ActiveNPC } from '../../logic/ActiveEncounter'
 // components
 import RunnerNpcCard from '../../components/EncounterRunner/RunnerNpcCard.vue'
+import { EncounterRunnerStore } from '../../store/encounterRunner';
+import { getModule } from 'vuex-module-decorators';
 
 export default Vue.extend({
   components: { RunnerNpcCard, draggable },
@@ -113,7 +115,8 @@ export default Vue.extend({
   watch: {
     encounter: {
       handler: function onEncounterChange(val: ActiveEncounter) {
-        this.$store.commit('encounterRunner/edit', val)
+        const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
+        encounterRunnerStore.edit(val)
       },
       deep: true,
     },

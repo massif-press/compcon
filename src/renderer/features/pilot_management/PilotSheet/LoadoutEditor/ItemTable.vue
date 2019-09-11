@@ -107,7 +107,7 @@
         </v-data-table>
       </v-card>
       <v-row v-if="equippedItem" justify-space-between class="pt-4">
-        <v-col xs1></v-col>
+        <v-col cols="1"></v-col>
         <v-col shrink>
           <v-btn color="error" @click="remove(equippedItem)">Remove {{ equippedItem.Name }}</v-btn>
         </v-col>

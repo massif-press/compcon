@@ -1,5 +1,5 @@
 import { CompendiumItem, ItemType } from '@/class'
-import store from '@/store'
+import { store } from '@/store'
 
 class CoreBonus extends CompendiumItem {
   private source: string

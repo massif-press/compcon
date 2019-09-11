@@ -9,16 +9,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Pilot } from '@/class'
-import store from '../../store'
-import { mapGetters } from 'vuex'
 import CCNav from '@/features/nav/index.vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from './store'
 
 export default Vue.extend({
-  name: 'pilot_management',
+  name: 'pilot-management',
   components: { 'cc-nav': CCNav },
   created() {
-    this.$store.dispatch('loadPilots')
+    const pilotStore = getModule(PilotManagementStore, this.$store)
+    pilotStore.loadPilots()
   },
 })
 </script>

@@ -36,7 +36,7 @@
         </v-col>
       </v-row>
       <v-row justify-space-between>
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+2</span>
@@ -46,7 +46,7 @@
           </v-card>
         </v-col>
 
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -56,7 +56,7 @@
           </v-card>
         </v-col>
 
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -66,7 +66,7 @@
           </v-card>
         </v-col>
 
-        <v-col xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>
@@ -98,7 +98,7 @@
       </v-row>
 
       <v-row justify-space-between v-if="lvl % 3 === 0">
-        <v-col xs12>
+        <v-col cols="12">
           <v-card color="grey lighten-3" elevation="10">
             <v-card-text>
               <span class="display-2">+1</span>

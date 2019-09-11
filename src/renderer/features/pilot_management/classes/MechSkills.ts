@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { rules } from 'lancer-data'
 import { HASE } from '@/class'
 

@@ -1,5 +1,5 @@
 <template>
-  <v-col xs4>
+  <v-col cols="4">
     <v-card height="100%" :color="reserve.Used ? 'grey lighten-4' : ''">
       <v-toolbar dark flat dense :color="reserve.Used ? 'grey darken-1' : color">
         <v-toolbar-title class="minor-title">{{ reserve.Name }}</v-toolbar-title>

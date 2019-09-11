@@ -1,9 +1,9 @@
 <template>
   <cc-sidebar-view>
     <v-list-item
-      slot="sidebar"
       v-for="(t, i) in talents"
       :key="`${i}_sidebar'`"
+      slot="sidebar"
       link
       @click="
         $vuetify.goTo(`#e_${t.ID}`, {
@@ -16,7 +16,7 @@
       <v-list-item-title class="heading h3 ml-2">{{ t.Name }}</v-list-item-title>
     </v-list-item>
     <h1 class="heading mb-3 ml-5">PILOT TALENTS</h1>
-    <div v-for="t in talents" :key="`${t.ID}_data'`" :id="`e_${t.ID}`">
+    <div v-for="t in talents" :id="`e_${t.ID}`" :key="`${t.ID}_data'`">
       <cc-talent-panel :talent="t" />
     </div>
   </cc-sidebar-view>
@@ -24,6 +24,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'talents',
@@ -31,8 +33,8 @@ export default Vue.extend({
     talents: [],
   }),
   created() {
-    var vm = this as any
-    vm.talents = vm.$store.getters['getItemCollection']('Talents')
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.talents = compendium.Talents
   },
 })
 </script>

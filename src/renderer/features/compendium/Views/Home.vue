@@ -11,60 +11,101 @@
     <div class="ml-5 mr-5">
       <v-container fluid grid-list-lg class="mt-0 pt-0">
         <v-row wrap justify="center">
-          <category-card
-            color="primary"
+          <cc-major-btn
             icon="mdi-factory"
-            loc="manufacturers"
             name="Manufacturers"
+            @clicked="$router.push('manufacturers')"
           />
-          <category-card color="primary" icon="mdi-view-week" loc="licenses" name="Licenses" />
-          <category-card
+          <cc-major-btn
             color="primary"
+            icon="mdi-view-week"
+            name="Licenses"
+            @clicked="$router.push('licenses')"
+          />
+          <cc-major-btn
             icon="cci-corebonus"
-            loc="corebonuses"
             name="CORE Bonuses"
+            @clicked="$router.push('corebonuses')"
           />
         </v-row>
         <v-row wrap justify="center">
-          <category-card color="frame" icon="cci-frame" loc="frames" name="Frames" />
-          <category-card color="weapon" icon="cci-melee" loc="weapons" name="Mech Weapons" />
-          <category-card color="system" icon="mdi-chip" loc="systems" name="Mech Systems" />
+          <cc-major-btn
+            color="frame"
+            icon="cci-frame"
+            name="Frames"
+            @clicked="$router.push('frames')"
+          />
+          <cc-major-btn
+            color="weapon"
+            icon="cci-melee"
+            name="Mech Weapons"
+            @clicked="$router.push('weapons')"
+          />
+          <cc-major-btn
+            color="system"
+            icon="mdi-chip"
+            name="Mech Systems"
+            @clicked="$router.push('systems')"
+          />
         </v-row>
         <v-row wrap justify="center">
-          <category-card color="secondary" icon="cci-pilot" loc="pilot_gear" name="Pilot Gear" />
-          <category-card color="secondary" icon="public" loc="backgrounds" name="Backgrounds" />
-          <category-card color="secondary" icon="cci-accuracy" loc="skills" name="Skill Triggers" />
-          <category-card color="secondary" icon="cci-rank-3" loc="talents" name="Talents" />
+          <cc-major-btn
+            color="secondary"
+            icon="cci-pilot"
+            name="Pilot Gear"
+            @clicked="$router.push('pilot_gear')"
+          />
+          <cc-major-btn
+            color="secondary"
+            icon="public"
+            name="Backgrounds"
+            @clicked="$router.push('backgrounds')"
+          />
+          <cc-major-btn
+            color="secondary"
+            icon="cci-accuracy"
+            name="Skill Triggers"
+            @clicked="$router.push('skills')"
+          />
+          <cc-major-btn
+            color="secondary"
+            icon="cci-rank-3"
+            name="Talents"
+            @clicked="$router.push('talents')"
+          />
         </v-row>
         <!-- <v-row wrap justify="center">
-          <category-card
+          <cc-major-btn
             color="template"
             icon="cci-role-striker"
-            loc="backgrounds"
+            @clicked="$router.push('backgrounds')"
             name="NPC Classes"
           />
-          <category-card
+          <cc-major-btn
             color="template"
             icon="cci-reticule"
-            loc="backgrounds"
+            @clicked="$router.push('backgrounds')"
             name="NPC Templates"
           />
-          <category-card color="template" icon="cci-large-beam" loc="skills" name="NPC Systems" />
+          <cc-major-btn color="template" icon="cci-large-beam" @clicked="$router.push('skills')" name="NPC Systems" />
         </v-row>-->
         <v-row wrap justify="center">
-          <category-card
-            color="primary"
+          <cc-major-btn
             icon="mdi-gauge"
-            loc="statuses"
             name="Statuses & Conditions"
+            @clicked="$router.push('statuses')"
           />
-          <category-card color="primary" icon="cci-barrage" loc="reserves" name="Reserves" />
-          <category-card color="primary" icon="mdi-map" loc="actions" name="Action Economy" />
+          <cc-major-btn icon="cci-barrage" name="Reserves" @clicked="$router.push('reserves')" />
+          <cc-major-btn icon="mdi-map" name="Action Economy" @clicked="$router.push('actions')" />
         </v-row>
         <v-row wrap justify="center">
-          <category-card color="primary" icon="mdi-tag" loc="tags" name="Equipment Tags" />
-          <category-card color="primary" icon="mdi-map" loc="reference" name="Reference" />
-          <category-card color="primary" icon="mdi-library-books" loc="glossary" name="Glossary" />
+          <cc-major-btn icon="mdi-tag" name="Equipment Tags" @clicked="$router.push('tags')" />
+          <cc-major-btn icon="mdi-map" name="Reference" @clicked="$router.push('reference')" />
+          <cc-major-btn
+            icon="mdi-library-books"
+            name="Glossary"
+            @clicked="$router.push('glossary')"
+          />
         </v-row>
       </v-container>
     </div>
@@ -74,10 +115,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import SearchBar from '../SearchBar.vue'
-import CategoryCard from '../UI/CategoryCard.vue'
 
 export default Vue.extend({
   name: 'compendium-home',
-  components: { SearchBar, CategoryCard },
+  components: { SearchBar },
 })
 </script>

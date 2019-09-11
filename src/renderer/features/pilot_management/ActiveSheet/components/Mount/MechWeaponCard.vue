@@ -84,7 +84,7 @@
         <v-row>
           <v-col v-if="weapon.IsLimited">
             <v-row>
-              <v-col xs1>
+              <v-col cols="1">
                 <v-divider class="mt-2 mr-3" />
               </v-col>
               <v-col shrink>
@@ -113,7 +113,7 @@
           </v-col>
           <v-col v-if="weapon.IsLoading">
             <v-row>
-              <v-col xs1>
+              <v-col cols="1">
                 <v-divider class="mt-2 mr-3" />
               </v-col>
               <v-col shrink>
@@ -135,7 +135,7 @@
         </v-row>
         <div v-if="weapon.Notes.length">
           <v-row>
-            <v-col xs1>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
             </v-col>
             <v-col shrink>
@@ -144,7 +144,7 @@
             <v-col grow>
               <v-divider class="mt-2 ml-3" />
             </v-col>
-            <v-col xs1></v-col>
+            <v-col cols="1"></v-col>
           </v-row>
           <ul>
             <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">{{ n }}</li>

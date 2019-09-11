@@ -1,3 +1,12 @@
+New Pilot:
+  ☐ Background Selector drops list side on reopen
+  ☐ Background Selector does not scroll to list
+  ☐ Background selector emit background name
+  ☐ Add pilot portrait
+
+Artist attr:
+  - store images in artist folders, which contain json information about the artist
+
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
@@ -6,6 +15,9 @@ Refactor:
   ☐ genericize frame row imageelement
 
 Style Pass:
+  ☐ test importers
+  ☐ Print/Export/Sync/Copy/Delete in pilot dropdown menu on nav
+    ☐ Same options (except for sync) expand under selected mech
   ☐ Corp Icons
   ☐ pilot custom stylizing
   ☐ pilot NO IMG

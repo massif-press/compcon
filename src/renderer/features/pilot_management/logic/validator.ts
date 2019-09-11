@@ -1,6 +1,6 @@
 import { Pilot, MountType, EquippableMount, Frame } from '@/class'
 import io from '@/features/_shared/data_io'
-import store from '@/store'
+import { store } from '@/store'
 import Vue from 'vue'
 
 function isValidJSON(text: string) {

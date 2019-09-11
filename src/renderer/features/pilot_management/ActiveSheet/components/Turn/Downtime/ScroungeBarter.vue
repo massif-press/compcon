@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <v-row wrap class="text-center">
-        <v-col xs12 class="effect-text">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
             You try and get your hands on some gear or asset for your group by dredging the
             scrapyard, chasing down rumors, bartering in the local market, hunting around, or
@@ -19,7 +19,7 @@
             &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
         </v-col>
-        <v-col xs12>
+        <v-col cols="12">
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -36,13 +36,13 @@
       </v-row>
       <v-slide-y-transition>
         <v-row v-show="skillRoll" wrap class="text-center">
-          <v-col xs12 v-if="skillRoll < 10">
+          <v-col cols="12" v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">You can get what you’re looking for, but...</p>
             <v-radio-group v-model="choice" mandatory>
               <v-radio v-for="(c, i) in choices" :key="c" :label="c" :value="i"></v-radio>
             </v-radio-group>
           </v-col>
-          <v-col xs12 v-else-if="skillRoll < 20">
+          <v-col cols="12" v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You can get what you’re looking for, as long as you trade in a little...
             </p>
@@ -54,12 +54,12 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col xs12 v-else>
+          <v-col cols="12" v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">
               You get what you’re looking for, no problems at all.
             </p>
           </v-col>
-          <v-col xs12>
+          <v-col cols="12">
             <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
               <v-toolbar dark dense color="#00695C">
                 <v-toolbar-title>New Asset</v-toolbar-title>
