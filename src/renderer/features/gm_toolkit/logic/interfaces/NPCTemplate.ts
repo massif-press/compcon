@@ -12,7 +12,8 @@ export default interface NPCTemplate {
     name: string
     effect: string
   }[]
-  statTransform?: (arg: NPCStats) => NPCStats
+  // statTransform?: (arg: NPCStats) => NPCStats
+  statTransform?: { [key: string]: number }
   statCaps?: { [key: string]: number }
   incompatibleTemplates: string[]
 }

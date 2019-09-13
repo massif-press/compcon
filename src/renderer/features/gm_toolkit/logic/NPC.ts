@@ -150,26 +150,58 @@ export default class NPC {
       throw new Error(`NPC already has template "${templateName}"!`)
     const template = _.find(templates, t => t.name === templateName)
     if (!template) throw new Error(`invalid template name "${templateName}"!`)
-    this.templateTransformStats(templateName)
+    this.templateAddStats(templateName)
     this._templates.push(templateName)
     console.log("Done adding template ", templateName, this.stats)
   }
   removeTemplate(templateName: string) {
+    this.templateRemoveStats(templateName)
     this._templates = _.without(this._templates, templateName)
     this._pickedSystems = this._pickedSystems.filter(sys => sys.class !== templateName)
   }
-  templateTransformStats(templateName: string) {
+  templateAddStats(templateName: string) {
     const template = _.find(templates, t => t.name === templateName)
     // let tempStats = _.clone(this.stats)
-    if (template.statTransform) this.stats = template.statTransform(this.stats)
-      if (template.statCaps) {
-        for (const stat in template.statCaps) {
-          const cap = template.statCaps[stat]
-          if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
-            this.stats.statcaps[stat] = cap
-          }
+    if (template.statTransform) {
+      // this.stats = template.statTransform(this.stats)
+      for (const stat in template.statTransform) {
+        this.stats[stat] += template.statTransform[stat]
+      }
+    }
+    console.log("statcaps: ", template.statCaps)
+    if (template.statCaps) {
+      for (const stat in template.statCaps) {
+        const cap = template.statCaps[stat]
+        if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
+          this.stats.statcaps[stat] = cap
+        }
+        if (this.stats[stat] > this.stats.statcaps[stat]) {
+          this.stats[stat] = this.stats.statcaps[stat]
         }
       }
+    }
+  }
+  templateRemoveStats(templateName: string) {
+    const template = _.find(templates, t => t.name === templateName)
+    // let tempStats = _.clone(this.stats)
+    if (template.statTransform) {
+      // this.stats = template.statTransform(this.stats)
+      for (const stat in template.statTransform) {
+        this.stats[stat] -= template.statTransform[stat]
+      }
+    }
+    if (template.statCaps) {
+      // TODO: remove stat caps instead of add them.
+      for (const stat in template.statCaps) {
+        const cap = template.statCaps[stat]
+        if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
+          this.stats.statcaps[stat] = cap
+        }
+        if (this.stats[stat] > this.stats.statcaps[stat]) {
+          this.stats[stat] = this.stats.statcaps[stat]
+        }
+      }
+    }
   }
 
   templateIsIncompatible(templateName: string) {

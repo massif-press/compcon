@@ -36,15 +36,20 @@ const templates: NPCTemplate[] = [
           'The Ultra has unlimited overwatch reactions (it can still only take 1 reaction per turn).',
       },
     ],
-    statTransform(stats) {
-      console.log("Adding Ultra template")
-      let newStats = _.clone(stats)
-      newStats.structure = 4
-      newStats.stress = 4
-      newStats.hp += 5
-      console.log("Transformed stats: ", newStats)
-      return newStats
+    statTransform: {
+      structure: 3,
+      stress: 3,
+      hp: 5
     },
+    // statTransform(stats) {
+    //   console.log("Adding Ultra template")
+    //   let newStats = _.clone(stats)
+    //   newStats.structure = 4
+    //   newStats.stress = 4
+    //   newStats.hp += 5
+    //   console.log("Transformed stats: ", newStats)
+    //   return newStats
+    // },
     incompatibleTemplates: ['elite', 'grunt'],
   },
   {
@@ -58,12 +63,16 @@ const templates: NPCTemplate[] = [
       },
     ],
     traits: [],
-    statTransform(stats) {
-      let newStats = _.clone(stats)
-      newStats.structure = 2
-      newStats.stress = 2
-      return newStats
+    statTransform: {
+      structure: 1,
+      stress: 1
     },
+    // statTransform(stats) {
+    //   let newStats = _.clone(stats)
+    //   newStats.structure = 2
+    //   newStats.stress = 2
+    //   return newStats
+    // },
     incompatibleTemplates: ['ultra', 'grunt'],
   },
   {
@@ -103,12 +112,16 @@ const templates: NPCTemplate[] = [
       },
     ],
     traits: [],
-    statTransform(stats) {
-      let newStats = _.clone(stats)
-      newStats.structure += 1
-      newStats.stress += 1
-      return newStats
+    statTransform: {
+      structure: 1,
+      stress: 1
     },
+    // statTransform(stats) {
+    //   let newStats = _.clone(stats)
+    //   newStats.structure += 1
+    //   newStats.stress += 1
+    //   return newStats
+    // },
     incompatibleTemplates: [],
   },
   {
@@ -150,11 +163,14 @@ const templates: NPCTemplate[] = [
       },
     ],
     traits: [],
-    statTransform(stats) {
-      let newStats = _.clone(stats)
-      newStats.hp += 5
-      return newStats
+    statTransform: {
+      hp: 5
     },
+    // statTransform(stats) {
+    //   let newStats = _.clone(stats)
+    //   newStats.hp += 5
+    //   return newStats
+    // },
     incompatibleTemplates: [],
   },
 
@@ -190,12 +206,16 @@ const templates: NPCTemplate[] = [
           'Once per round, the Commander can cause an allied character it can see to re-roll any single attack roll or check as a reaction. The commander can’t use this reaction if it is Jammed.',
       },
     ],
-    statTransform(stats) {
-      let newStats = _.clone(stats)
-      newStats.structure += 1
-      newStats.stress += 1
-      return newStats
+    statTransform: {
+      structure: 1,
+      stress: 1
     },
+    // statTransform(stats) {
+    //   let newStats = _.clone(stats)
+    //   newStats.structure += 1
+    //   newStats.stress += 1
+    //   return newStats
+    // },
     incompatibleTemplates: [],
   },
   {
@@ -307,11 +327,14 @@ const templates: NPCTemplate[] = [
       },
     ],
     traits: [],
-    statTransform(stats) {
-      let newStats = _.clone(stats)
-      newStats.hp += 5
-      return newStats
+    statTransform: {
+      hp: 5
     },
+    // statTransform(stats) {
+    //   let newStats = _.clone(stats)
+    //   newStats.hp += 5
+    //   return newStats
+    // },
     incompatibleTemplates: ['vehicle'],
   },
 ]
