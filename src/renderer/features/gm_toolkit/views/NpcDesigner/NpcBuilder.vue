@@ -376,27 +376,28 @@ export default Vue.extend({
     },
 
     submitStats() {
-      console.log(this.npc.stats)
       var newStats = _.clone(this.npc.stats) as NPCStats
       for (var s in this.stats) {
         if (typeof this.stats[s] === "string") {
           this.stats[s] = Number(this.stats[s])
         }
-        //;(this.npc as NPC).stats[this.statMap[s]] = this.stats[s]
-        console.log("New:", s, this.stats[s], typeof this.stats[s])
         newStats[this.statMap[s]] = this.stats[s]
-        //console.log(this.statMap[s], this.npc.stats[this.statMap[s]])
+        if (newStats.statcaps[this.statMap[s]]) {
+          const cap = newStats.statcaps[this.statMap[s]]
+          if (cap < newStats[this.statMap[s]]) newStats[this.statMap[s]] = cap
+        }
       }
       for (var h in this.hase) {
         if (typeof this.hase[h] === "string") {
           this.hase[h] = Number(this.hase[h])
         }
-        //console.log(h, this.hase[h], typeof this.hase[h])
-        console.log("New:", h, this.hase[h], typeof this.hase[h])
         newStats[this.statMap[h]] = this.hase[h]
+        if (newStats.statcaps[this.statMap[h]]) {
+          const cap = newStats.statcaps[this.statMap[h]]
+          if (cap < newStats[this.statMap[h]]) newStats[this.statMap[h]] = cap
+        }
       }
       ;(this.npc as NPC).stats = newStats
-      console.log(this.npc.stats)
       this.editingStats = false
     }
   },

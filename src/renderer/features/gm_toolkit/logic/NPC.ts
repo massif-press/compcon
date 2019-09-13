@@ -150,11 +150,26 @@ export default class NPC {
       throw new Error(`NPC already has template "${templateName}"!`)
     const template = _.find(templates, t => t.name === templateName)
     if (!template) throw new Error(`invalid template name "${templateName}"!`)
+    this.templateTransformStats(templateName)
     this._templates.push(templateName)
+    console.log("Done adding template ", templateName, this.stats)
   }
   removeTemplate(templateName: string) {
     this._templates = _.without(this._templates, templateName)
     this._pickedSystems = this._pickedSystems.filter(sys => sys.class !== templateName)
+  }
+  templateTransformStats(templateName: string) {
+    const template = _.find(templates, t => t.name === templateName)
+    // let tempStats = _.clone(this.stats)
+    if (template.statTransform) this.stats = template.statTransform(this.stats)
+      if (template.statCaps) {
+        for (const stat in template.statCaps) {
+          const cap = template.statCaps[stat]
+          if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
+            this.stats.statcaps[stat] = cap
+          }
+        }
+      }
   }
 
   templateIsIncompatible(templateName: string) {
@@ -239,7 +254,7 @@ export default class NPC {
   // }
 
   public serialize() {
-  console.log(this.stats)
+  console.log("Serialize", this.stats)
     return {
       id: this.id,
       class: this.npcClass.name,
@@ -292,6 +307,7 @@ export default class NPC {
       if (!sys) throw new Error(`invalid system ${sysName}`)
       npc.pickSystem(sys)
     }
+    npc.stats = stats
     if (obj.size) npc.size = obj.size
     return npc
   }
