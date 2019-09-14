@@ -382,7 +382,7 @@ export default Vue.extend({
           this.stats[s] = Number(this.stats[s])
         }
         newStats[this.statMap[s]] = this.stats[s]
-        if (newStats.statcaps[this.statMap[s]]) {
+        if (newStats.statcaps[this.statMap[s]] != undefined) {
           const cap = newStats.statcaps[this.statMap[s]]
           if (cap < newStats[this.statMap[s]]) newStats[this.statMap[s]] = cap
         }
