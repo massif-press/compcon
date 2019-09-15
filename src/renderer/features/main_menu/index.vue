@@ -26,9 +26,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { info } from 'lancer-data'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '../_shared/store'
+import { validateImageFolders } from '@/io/ImageManagement'
+import { info } from 'lancer-data'
 
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
@@ -51,6 +52,7 @@ export default Vue.extend({
     const moduleStore = getModule(CompendiumStore, this.$store)
     if (Vue.prototype.version) this.ver = Vue.prototype.version
     moduleStore.setDatapath(Vue.prototype.userDataPath)
+    validateImageFolders()
     moduleStore.loadData()
     moduleStore.buildLicenses()
   },
