@@ -35,9 +35,9 @@ export default class NPCStats {
         stress: number
         statcaps: { [key: string]: number }
       }) {
-          for (const stat in stats) {
-              this[stat] = stats[stat]
-          }
-      }
+        for (const stat in stats) {
+            this[stat] = stats[stat]
+        }
+    }
 }
 

@@ -43,7 +43,7 @@ export default class NPC {
       this.stats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
       this.stats.structure = 1
       this.stats.stress = 1
-      this.stats.statcaps = { armor: 4, }
+      this.defaultCaps()
     }
 
     for (const stat in this.stats) {
@@ -88,6 +88,15 @@ export default class NPC {
     this._name = name
   }
 
+  defaultCaps() {
+    this.stats.statcaps = {
+      armor: 4,
+      hull: 6,
+      agility: 6,
+      systems: 6,
+      engineering: 6,
+    }
+}
   get pickedSystems() {
     return this._pickedSystems
   }
@@ -183,20 +192,24 @@ export default class NPC {
         this.stats[stat] -= template.statTransform[stat]
       }
     }
+    this._templates = _.without(this._templates, templateName)
+    this._pickedSystems = this._pickedSystems.filter(sys => sys.class !== templateName)
+    // Remove stat caps for the removed template, and search for higher stat caps
+    // among remaining templates.
     if (template.statCaps) {
-      // TODO: remove stat caps instead of add them.
-      for (const stat in template.statCaps) {
-        const cap = template.statCaps[stat]
-        if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
-          this.stats.statcaps[stat] = cap
-        }
-        if (this.stats[stat] > this.stats.statcaps[stat]) {
-          this.stats[stat] = this.stats.statcaps[stat]
+      this.defaultCaps()
+      // Check all templates for stat caps.
+      for (const t of this.templates) {
+        if (t.statCaps) {
+          for (const stat in t.statCaps) {
+            const cap = template.statCaps[stat]
+            if (cap === undefined || t.statCaps[stat] < cap) {
+              this.stats.statcaps[stat] = cap
+            }
+          }
         }
       }
     }
-    this._templates = _.without(this._templates, templateName)
-    this._pickedSystems = this._pickedSystems.filter(sys => sys.class !== templateName)
   }
 
   templateIsIncompatible(templateName: string) {
