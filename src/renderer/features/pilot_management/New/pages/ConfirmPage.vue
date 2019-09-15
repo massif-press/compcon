@@ -1,5 +1,11 @@
 <template>
-  <cc-stepper-content :complete="canContinue" exit="pilot_management" @complete="$emit('next')"></cc-stepper-content>
+  <cc-stepper-content
+    :complete="canContinue"
+    exit="pilot_management"
+    back
+    @back="$emit('back')"
+    @complete="$emit('next')"
+  ></cc-stepper-content>
 </template>
 
 <script lang="ts">

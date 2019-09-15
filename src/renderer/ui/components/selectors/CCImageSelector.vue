@@ -6,8 +6,8 @@
     no-confirm
     title="Select Image"
   >
-    <v-container fluid style="margin-top: 60px">
-      <v-row>
+    <v-container fluid>
+      <v-row style="margin-top: 60px">
         <span class="flavor-text grey--text">{{ portraits.length }} Pilot images found</span>
         <cc-tooltip simple content="Feature In Development">
           <v-btn class="ml-4" small outlined tile disabled>Manage image library</v-btn>
@@ -51,10 +51,10 @@
               fab
               color="white"
               relative
-              style="bottom: 330px; left: 0%; z-index: 100"
+              style="top:25px; left: 0; z-index: 100"
               class="img-button"
             >
-              <cc-tooltip simple content="Feature In Progress">
+              <cc-tooltip simple content="Feature In Development">
                 <v-icon color="secondary">mdi-magnify-plus</v-icon>
               </cc-tooltip>
             </v-btn>
@@ -63,10 +63,10 @@
               fab
               color="white"
               relative
-              style="bottom: 330px; left: 50%; z-index: 100"
+              style="top:25px; left: 10px; z-index: 100"
               class="img-button"
             >
-              <cc-tooltip simple content="Feature In Progress">
+              <cc-tooltip simple content="Feature In Development">
                 <v-icon color="secondary">mdi-brush</v-icon>
               </cc-tooltip>
             </v-btn>
@@ -75,7 +75,7 @@
               fab
               color="white"
               relative
-              style="bottom: 330px; left: 100%; z-index: 100"
+              style="top:25px; left: 20px; z-index: 100"
               class="img-button"
               @click.stop="deleteImage(i)"
             >

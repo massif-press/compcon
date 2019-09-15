@@ -10,7 +10,7 @@
       :title="label"
       @confirm="save"
     >
-      <v-textarea v-model="text" outlined />
+      <v-textarea v-model="text" outlined class="mt-6" />
     </cc-solo-dialog>
   </div>
 </template>

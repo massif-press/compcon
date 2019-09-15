@@ -25,16 +25,16 @@
           <identification-page :new-pilot="newPilot" @next="step++" />
         </v-stepper-content>
         <v-stepper-content step="2">
-          <skills-page :new-pilot="newPilot" @next="step++" />
+          <skills-page :new-pilot="newPilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="3">
-          <talents-page :new-pilot="newPilot" @next="step++" />
+          <talents-page :new-pilot="newPilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="4">
-          <mech-skills-page :new-pilot="newPilot" @next="step++" />
+          <mech-skills-page :new-pilot="newPilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="5">
-          <confirm-page :new-pilot="newPilot" @next="step++" />
+          <confirm-page :new-pilot="newPilot" @next="step++" @back="step--" />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
