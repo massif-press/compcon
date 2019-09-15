@@ -72,7 +72,7 @@
     "fs-extra": "^7.0.1",
     "gist-client": "^1.1.0",
     "imgur": "^0.3.1",
-    "lancer-data": "file:../lancer-data",
+    "lancer-data": "^2.0.0",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
     "source-map-support": "^0.5.10",
