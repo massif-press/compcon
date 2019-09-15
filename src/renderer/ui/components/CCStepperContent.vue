@@ -6,13 +6,14 @@
       <v-btn large text :to="exit">EXIT</v-btn>
       <v-spacer />
       <v-btn
-        color="success"
-        :disabled="!complete"
+        color="primary"
+        :disabled="!back"
         large
-        tile
-        class="ml-auto"
-        @click="$emit('complete')"
-      >CONTINUE</v-btn>
+        text
+        class="ml-auto mr-2"
+        @click="$emit('back')"
+      >BACK</v-btn>
+      <v-btn color="success" :disabled="!complete" large tile @click="$emit('complete')">CONTINUE</v-btn>
     </v-row>
   </div>
 </template>
@@ -25,6 +26,10 @@ export default Vue.extend({
     complete: {
       type: Boolean,
       required: true,
+    },
+    back: {
+      type: Boolean,
+      required: false,
     },
     exit: {
       type: String,

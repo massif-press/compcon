@@ -3,8 +3,8 @@
     :class="`px-2 ml-n3 clipped${size()}`"
     :style="`width: max-content; background-color: ${getColor()};`"
   >
-    <span :class="`ctitle${size()} ${dark ? 'white--text' : 'black--text'}`" class="pl-5 pr-2 pb-1">
-      <slot></slot>&nbsp;
+    <span :class="`ctitle${size()} ${dark ? 'white--text' : 'black--text'}`" class="pl-5 pr-5 pb-1">
+      <slot></slot>
     </span>
   </div>
 </template>

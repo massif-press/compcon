@@ -11,7 +11,11 @@
         <b>
           All fields marked with the
           <v-icon small color="error">mdi-alert</v-icon>&nbsp;glyph must be populated.
-        </b> By submitting this form you attest that your responses are truthful and accurate to the best of your knowledge. Knowingly providing false or or incomplete information is punishable under DoJ/HR AR 303-J.
+        </b>
+        <br />
+        <span
+          class="overline"
+        >By submitting this form you attest that your responses are truthful and accurate to the best of your knowledge. Knowingly providing false or or incomplete information is punishable under DoJ/HR AR 303-J.</span>
       </v-alert>
     </v-container>
     <v-row class="mx-6">
