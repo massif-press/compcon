@@ -1,11 +1,23 @@
-New Pilot:
+Bugs:
   ☐ Background Selector drops list side on reopen
-  ☐ Background Selector does not scroll to list
-  ☐ Background selector emit background name
-  ☐ Add pilot portrait
 
-Artist attr:
-  - store images in artist folders, which contain json information about the artist
+Name Generator:
+  ☐ provide dropdown for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
+
+Image Selector:
+  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
+  ☐ confirm dialog on image delete
+  ✔ add images to collection, or @done(19-09-14 16:31)
+    ✔ images should have json data w/ pointers to filename (id) @done(19-09-14 16:31)
+  ☐ select image
+  ✔ test image load/add/save/info @done(19-09-14 16:31)
+
+New Pilot:
+  ☐ Background Selector does not scroll to list
+  ✔ Background selector emit background name @done(19-09-14 17:17)
+  ☐ Add pilot portrait
+  ✔ Better random name generator @done(19-09-14 17:17)
+  ☐ Background selector highlight on mouseover
 
 Refactor:
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
@@ -22,7 +34,7 @@ Style Pass:
   ☐ pilot custom stylizing
   ☐ pilot NO IMG
   ☐ pilot CRUD to dropdown menu
-  ☐ Vuetify 2.0
+  ✔ Vuetify 2.0 @done(19-09-12 10:10)
   ☐ use vuetify file upload component
   ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05)
   ☐ Should be able to collapse reserves individually by clicking toolbar

@@ -24,6 +24,18 @@
         <v-stepper-content step="1">
           <identification-page :new-pilot="newPilot" @next="step++" />
         </v-stepper-content>
+        <v-stepper-content step="2">
+          <skills-page :new-pilot="newPilot" @next="step++" />
+        </v-stepper-content>
+        <v-stepper-content step="3">
+          <talents-page :new-pilot="newPilot" @next="step++" />
+        </v-stepper-content>
+        <v-stepper-content step="4">
+          <mech-skills-page :new-pilot="newPilot" @next="step++" />
+        </v-stepper-content>
+        <v-stepper-content step="5">
+          <confirm-page :new-pilot="newPilot" @next="step++" />
+        </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
   </v-container>
@@ -31,23 +43,22 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import IdentificationPage from './pages/Identification.vue'
+import IdentificationPage from './pages/IdentificationPage.vue'
+import SkillsPage from './pages/SkillsPage.vue'
+import TalentsPage from './pages/TalentsPage.vue'
+import MechSkillsPage from './pages/MechSkillsPage.vue'
+import ConfirmPage from './pages/ConfirmPage.vue'
 import { Pilot } from '@/class'
+
 export default Vue.extend({
   name: 'new-pilot-wizard',
-  components: { IdentificationPage },
-
+  components: { IdentificationPage, SkillsPage, TalentsPage, MechSkillsPage, ConfirmPage },
   data: () => ({
     step: 0,
     newPilot: {},
   }),
   created() {
     this.newPilot = new Pilot()
-  },
-  methods: {
-    randomName() {
-      console.log('ok')
-    },
   },
 })
 </script>

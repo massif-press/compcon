@@ -3,6 +3,7 @@
     <v-navigation-drawer
       permanent
       fixed
+      :value="true"
       color="transparent"
       class="mr-3"
       :style="popup

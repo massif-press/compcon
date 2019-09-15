@@ -78,6 +78,9 @@ export default Vue.extend({
     show() {
       this.dialog = true
     },
+    hide() {
+      this.dialog = false
+    },
   },
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <cc-stepper-content :complete="canContinue" exit="pilot_management" @complete="$emit('next')">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <h2 class="heading">
       UAD IDENT Service
@@ -97,35 +97,33 @@
       <v-col cols="5" class="ml-auto">
         <span class="overline">RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)</span>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-          <v-img src="https://via.placeholder.com/550" />
+          <!-- TODO: no data image -->
+          <v-img v-if="newPilot.Portrait" :src="newPilot.Portrait" aspect-ratio="1" />
+          <v-img v-else src="https://via.placeholder.com/550" />
         </div>
         <div class="mr-8 mt-3">
-          <v-btn outlined large block color="grey darken-3">
-            <v-icon style="position: absolute; right: -53px" color="grey">mdi-circle-outline</v-icon>
-            <v-icon left>mdi-plus</v-icon>Add Pilot Portrait
+          <v-btn outlined large block color="grey darken-3" @click="$refs.imageSelector.open()">
+            <span v-if="!newPilot.Portrait">
+              <v-icon left>mdi-plus</v-icon>Add Pilot Image
+            </span>
+            <span v-else>
+              <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Image
+            </span>
+            <div style="position: absolute; right: -53px">
+              <v-icon v-if="!newPilot.Portrait" color="grey">mdi-circle-outline</v-icon>
+              <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
+            </div>
           </v-btn>
+          <cc-image-selector ref="imageSelector" :pilot="newPilot" />
         </div>
       </v-col>
     </v-row>
-    <v-divider class="ma-3" />
-    <v-row class="mx-3">
-      <v-btn large text>EXIT</v-btn>
-      <v-spacer />
-      <v-btn
-        color="success"
-        :disabled="!canContinue"
-        large
-        tile
-        class="ml-auto"
-        @click="$emit('next')"
-      >CONTINUE</v-btn>
-    </v-row>
-  </div>
+  </cc-stepper-content>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import io from '@/features/_shared/data_io'
+import { randomName, randomCallsign } from '@/io/Generators'
 import TextEntryPopup from './components/TextEntryPopup.vue'
 
 export default Vue.extend({
@@ -137,16 +135,18 @@ export default Vue.extend({
       required: true,
     },
   },
-  methods: {
-    canContinue() {
-      return this.newPilot.Name && this.newPilot.Callsign
+  computed: {
+    canContinue(): boolean {
+      return !!(this.newPilot.Name && this.newPilot.Callsign)
     },
+  },
+  methods: {
     randomCallsign() {
-      this.newPilot.Callsign = `${io.randomName('callsigns.txt')}`
+      this.newPilot.Callsign = randomCallsign()
       this.$forceUpdate()
     },
     randomName() {
-      this.newPilot.Name = `${io.randomName('firstnames.txt')} ${io.randomName('lastnames.txt')}`
+      this.newPilot.Name = randomName()
       this.$forceUpdate()
     },
   },

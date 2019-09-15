@@ -121,7 +121,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import io from '@/features/_shared/data_io'
-import apis from '../../logic/apis'
+import apis from '@/features/_shared/apis'
 
 export default Vue.extend({
   name: 'image-selector',

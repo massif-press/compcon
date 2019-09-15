@@ -57,7 +57,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import validator from '@/features/pilot_management/logic/validator'
-import apis from '@/features/pilot_management/logic/apis'
+import apis from '@/features/_shared/apis'
 import LoadLog from './loaders/LoadLog.vue'
 import { clipboard } from 'electron'
 import { Pilot } from '@/class'
