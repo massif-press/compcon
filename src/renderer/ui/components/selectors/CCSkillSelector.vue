@@ -1,199 +1,104 @@
 <template>
-  <selector title="Pilot Skill Triggers">
+  <selector
+    title="Pilot Skill Triggers"
+    height="60vh"
+    :success="!pilot.IsMissingSkills && !(points.selectedCurrent < points.selectedMin)"
+  >
     <template v-slot:left-column>
-      <v-row>
-        <v-col cols="12">
-          <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
-            <v-row v-if="pSkill.err">
-              <v-col shrink>
-                <span class="grey--text">// MISSING DATA //</span>
-                <br />
-              </v-col>
-              <v-col shrink>
-                <v-btn icon flat color="error" @click="subtract(pSkill)">
-                  <v-icon>delete</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-row v-else>
-              <v-col cols="12">
-                <v-chip dark color="primary" outline small>
-                  +
-                  <b>{{ pSkill.Bonus }}</b>
-                </v-chip>
-                <strong>{{ pSkill.Skill.Trigger }}</strong>
-              </v-col>
-            </v-row>
-          </div>
-        </v-col>
-      </v-row>
-      <v-divider class="ma-2 ml-4 mr-4" />
+      <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
+        <v-row v-if="pSkill.err">
+          <v-col shrink>
+            <span class="grey--text">// MISSING DATA //</span>
+            <br />
+          </v-col>
+          <v-col shrink>
+            <v-btn icon text color="error" @click="subtract(pSkill)">
+              <v-icon>delete</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-card v-else text tile outlined width="100%" class="my-1 pa-1">
+          <v-chip dark color="primary" small>
+            +
+            <b>{{ pSkill.Bonus }}</b>
+          </v-chip>&nbsp;
+          <strong>{{ pSkill.Skill.Trigger }}</strong>
+        </v-card>
+      </div>
+      <v-divider v-if="pilot.Skills.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col cols="12">
           <v-alert
-            outline
+            outlined
             color="success"
             icon="check_circle"
+            class="stat-text"
             :value="!pilot.IsMissingSkills && !(points.selectedCurrent < points.selectedMin)"
-          >
-            Skill Selection Complete
-          </v-alert>
+          >Skill Selection Complete</v-alert>
           <v-alert
-            outline
-            color="warning"
-            icon="priority_high"
+            outlined
+            color="primary"
+            icon="warning"
+            class="stat-text"
             :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
-          >
-            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
-          </v-alert>
+          >{{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining</v-alert>
           <v-alert
-            outline
-            color="warning"
-            icon="priority_high"
+            outlined
+            color="primary"
+            icon="warning"
+            class="stat-text"
             :value="points.selectedCurrent < points.selectedMin"
-          >
-            Must select a minimum of {{ points.selectedMin }} skills
-          </v-alert>
-          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">
-            Reset
-          </v-btn>
+          >Must select a minimum of {{ points.selectedMin }} skills</v-alert>
+          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">Reset</v-btn>
         </v-col>
       </v-row>
     </template>
 
     <template v-slot:right-column>
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
-        <v-col class="skill-header minor-title" v-html="h.description" />
-        <v-row v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
-          <v-col cols="11">
-            <skill-item :skill="skill" />
-          </v-col>
-          <v-col>
-            <v-card style="height: 100%" class="text-center ma-0 pa-0">
-              <div class="centered">
-                <v-tooltip top>
-                  <v-btn
-                    class="ma-0"
-                    color="primary"
-                    icon
-                    flat
-                    slot="activator"
-                    :disabled="!canAdd(skill)"
-                    @click="add(skill)"
-                  >
-                    <v-icon v-html="newPilot ? 'check' : 'arrow_upward'" />
-                  </v-btn>
-                  <span>Increase Skill Bonus</span>
-                </v-tooltip>
-                <v-tooltip top>
-                  <v-btn
-                    class="ma-0"
-                    icon
-                    flat
-                    slot="activator"
-                    :disabled="!canSubtract(skill)"
-                    @click="subtract(skill)"
-                  >
-                    <v-icon v-html="newPilot ? 'cancel' : 'arrow_downward'" />
-                  </v-btn>
-                  <span v-html="newPilot ? 'Remove Skill Trigger' : 'Decrease Skill Bonus'" />
-                </v-tooltip>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
+        <span class="overline">Your Ability To</span>
+        <cc-title small>{{ h.description }}</cc-title>
+        <skill-select-item
+          v-for="s in skills[h.attr]"
+          :key="s.ID"
+          :skill="s"
+          :bonus="getBonus(s)"
+          :canAdd="canAdd(s)"
+          :canRemove="canSubtract(s)"
+          @add="add(s)"
+          @remove="subtract(s)"
+        />
       </div>
-
-      <div class="mb-4">
-        <v-col class="skill-header minor-title" v-html="'Custom Skill Triggers'" />
-        <v-row>
-          <v-col cols="11">
-            <v-row>
-              <v-col cols="3">
-                <div class="centered text-xs-left pl-3">
-                  <span class="subheading font-weight-bold">New Custom Skill</span>
-                </div>
-              </v-col>
-              <v-col cols="9">
-                <v-text-field v-model="newSkill" box hide-details label="New Skill Trigger" />
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col>
-            <v-card style="height: 100%" class="text-center ma-0 pa-0">
-              <div class="centered">
-                <v-tooltip top>
-                  <v-btn
-                    class="ma-0"
-                    color="primary"
-                    icon
-                    flat
-                    slot="activator"
-                    :disabled="pilot.CurrentSkillPoints >= pilot.MaxSkillPoints || !newSkill"
-                    @click="addCustomSkill()"
-                  >
-                    <v-icon v-html="'add'" />
-                  </v-btn>
-                  <span>Add Custom Skill</span>
-                </v-tooltip>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row v-for="pskill in customSkills" :key="pskill.Skill.Name">
-          <v-col cols="11">
-            <skill-item :skill="pskill.Skill" />
-          </v-col>
-          <v-col>
-            <v-card style="height: 100%" class="text-center ma-0 pa-0">
-              <div class="centered">
-                <v-tooltip top>
-                  <v-btn
-                    class="ma-0"
-                    color="primary"
-                    icon
-                    flat
-                    slot="activator"
-                    :disabled="!canAdd(pskill.Skill)"
-                    @click="add(pskill.Skill)"
-                  >
-                    <v-icon v-html="newPilot ? 'check' : 'arrow_upward'" />
-                  </v-btn>
-                  <span>Increase Skill Bonus</span>
-                </v-tooltip>
-                <v-tooltip top>
-                  <v-btn
-                    class="ma-0"
-                    icon
-                    flat
-                    slot="activator"
-                    :disabled="!canSubtract(pskill.Skill)"
-                    @click="subtract(pskill.Skill)"
-                  >
-                    <v-icon v-html="newPilot ? 'cancel' : 'arrow_downward'" />
-                  </v-btn>
-                  <span v-html="newPilot ? 'Remove Skill Trigger' : 'Decrease Skill Bonus'" />
-                </v-tooltip>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
+      <cc-title small>Custom Skill Triggers</cc-title>
+      <skill-select-item
+        v-for="(cs, i) in customSkills"
+        :key="`custom_skill_${i}`"
+        custom
+        :skill="cs"
+        :bonus="getBonus(cs)"
+        :canAdd="canAdd(cs)"
+        :canRemove="canSubtract(cs)"
+        @add="add(cs)"
+        @remove="subtract(cs)"
+      />
+      <add-custom-skill :pilot="pilot" />
     </template>
   </selector>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import io from '@/features/_shared/data_io'
 import _ from 'lodash'
-import SkillItem from './components/_SkillItem.vue'
+import SkillSelectItem from './components/_SkillSelectItem.vue'
 import Selector from './components/_SelectorBase.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 import { rules } from 'lancer-data'
-import { Pilot, Skill, PilotSkill, CustomSkill } from '@/class'
+import { Pilot, Skill, CustomSkill } from '@/class'
 
 export default Vue.extend({
   name: 'skill-selector',
+  components: { Selector, SkillSelectItem },
   props: {
     pilot: Pilot,
     newPilot: Boolean,
@@ -205,43 +110,48 @@ export default Vue.extend({
     headers: [
       {
         attr: 'str',
-        description:
-          'Your pilot’s ability to use, resist, and apply direct force, physical or otherwise',
+        description: 'use, resist, and apply direct force, physical or otherwise',
       },
       {
         attr: 'dex',
-        description: 'Your pilot’s ability to perform skillfully and accurately under pressure',
+        description: 'perform skillfully and accurately under pressure',
       },
       {
         attr: 'int',
-        description: 'Your pilot’s ability to notice details, think creatively, and prepare',
+        description: 'notice details, think creatively, and prepare',
       },
       {
         attr: 'cha',
-        description:
-          'Your pilot’s ability to talk, lead, change minds, make connections, and requisition resources',
+        description: 'talk, lead, change minds, make connections, and requisition resources',
       },
     ],
     pLevel: 0,
     scrollPosition: null,
   }),
-  components: { Selector, SkillItem },
   computed: {
     customSkills() {
       return this.pilot.Skills.filter(x => x.IsCustom)
     },
     points() {
-      var vm = this as any
       return {
-        selectedCurrent: vm.pilot.Skills.length,
+        selectedCurrent: this.pilot.Skills.length,
         selectedMin: rules.minimum_pilot_skills,
       }
     },
+  },
+  created() {
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.skills = _.groupBy(compendium.Skills, 'Family')
   },
   methods: {
     addCustomSkill() {
       this.pilot.AddSkill(new CustomSkill(this.newSkill))
       this.newSkill = ''
+    },
+    getBonus(skill: Skill) {
+      return this.pilot.has('Skill', skill.ID)
+        ? this.pilot.skills.find(x => x.Skill.ID === skill.ID).Bonus
+        : 0
     },
     add(skill: Skill) {
       var vm = this as any
@@ -276,10 +186,6 @@ export default Vue.extend({
       return vm.pilot.has('Skill', skill.ID)
     },
   },
-  created() {
-    var vm = this as any
-    vm.skills = _.groupBy(vm.$store.getters.getItemCollection('Skills'), 'Family')
-  },
 })
 </script>
 
@@ -292,11 +198,6 @@ export default Vue.extend({
 
 #scroll-area {
   overflow-y: scroll;
-}
-
-.skill-header {
-  text-align: center;
-  padding: 5px;
 }
 
 strong {

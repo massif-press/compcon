@@ -27,7 +27,14 @@
         >By submitting this form you attest that your responses are truthful and accurate to the best of your knowledge. Knowingly providing false or or incomplete information is punishable under DoJ/HR AR 303-J.</span>
       </v-alert>
     </v-container>
-    <cc-skill-selector :pilot="newPilot" />
+    <v-row>
+      <v-col cols="auto" class="ml-auto">
+        <cc-tooltip simple content="Feature In Development">
+          <v-btn small outlined disabled>Suggest Skills</v-btn>
+        </cc-tooltip>
+      </v-col>
+    </v-row>
+    <cc-skill-selector :pilot="newPilot" new-pilot />
   </cc-stepper-content>
 </template>
 
