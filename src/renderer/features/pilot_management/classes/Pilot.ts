@@ -362,7 +362,7 @@ class Pilot {
   }
 
   public RemoveSkill(skill: Skill | CustomSkill) {
-    const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
+    const index = this.skills.findIndex(x => x.Skill.ID === skill.ID)
     if (index === -1) {
       console.error(`Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`)
     } else {

@@ -4,7 +4,7 @@
     :style="`width: max-content; background-color: ${getColor()};`"
   >
     <span :class="`ctitle${size()} ${dark ? 'white--text' : 'black--text'}`" class="pl-5 pr-5 pb-1">
-      <slot></slot>
+      <slot />
     </span>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip top content-class="cc-tooltip">
     <template v-slot:activator="{ on }">
-      <div v-on="on">
+      <div :class="{'d-inline': inline}" v-on="on">
         <slot></slot>
       </div>
     </template>
@@ -34,6 +34,10 @@ export default Vue.extend({
       default: '',
     },
     simple: {
+      type: Boolean,
+      required: false,
+    },
+    inline: {
       type: Boolean,
       required: false,
     },

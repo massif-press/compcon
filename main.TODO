@@ -2,6 +2,11 @@
 Name Generator:
   ☐ provide dropdown for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
 
+Skill Selector:
+  ☐ Custom Skill Adder
+  ☐ Test Custom Skills
+  ☐ remove old font stylings
+
 Image Selector:
   ☐ refactor
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)
