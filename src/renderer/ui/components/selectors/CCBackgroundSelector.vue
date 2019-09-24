@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-icon @click="open()">cci-orbit</v-icon>
+    <v-icon color="secondary" @click="open()">cci-orbit</v-icon>
     <cc-solo-dialog
       id="bg-selector-dialog"
       ref="dialog"

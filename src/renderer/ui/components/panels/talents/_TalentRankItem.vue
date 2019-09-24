@@ -1,16 +1,14 @@
 <template>
   <div>
     <div class="primary white--text">
-      <span class="heading h3 pl-2">{{ talentRank.name }}</span>
+      <span class="heading h3 pl-2">
+        {{ talentRank.name }}
+        <span
+          class="overline primary--text text--lighten-3"
+        >&nbsp;RANK {{ rankIndex }}</span>
+      </span>
     </div>
-    <v-row>
-      <v-col cols="auto">
-        <v-icon size="120" color="primary">cci-rank-{{ rankIndex }}</v-icon>
-      </v-col>
-      <v-col>
-        <p class="flavor-text pt-2" v-html="talentRank.description" />
-      </v-col>
-    </v-row>
+    <cc-talent-rank-item :rank="rankIndex" :description="talentRank.description" />
   </div>
 </template>
 

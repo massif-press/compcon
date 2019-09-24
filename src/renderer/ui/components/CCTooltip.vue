@@ -2,7 +2,7 @@
   <v-tooltip top content-class="cc-tooltip">
     <template v-slot:activator="{ on }">
       <div :class="{'d-inline': inline}" v-on="on">
-        <slot></slot>
+        <slot />
       </div>
     </template>
     <span v-if="err">
@@ -16,7 +16,7 @@
       <div v-else>
         <span v-if="title" class="heading h3 accent--text">{{ title }}</span>
         <v-divider v-if="title" dark class="my-1" />
-        <p class="flavor-text white--text">{{ content }}</p>
+        <p class="flavor-text white--text pb-0 mb-0">{{ content }}</p>
       </div>
     </div>
   </v-tooltip>

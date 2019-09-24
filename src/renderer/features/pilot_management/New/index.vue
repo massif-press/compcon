@@ -1,7 +1,7 @@
 <template>
   <v-container fluid style="margin-top: 50px">
-    <v-stepper v-model="step">
-      <v-stepper-header>
+    <v-stepper v-model="step" non-linear class="elevation-0">
+      <v-stepper-header class="elevation-0" style="height: 40px">
         <v-stepper-step editable step="1">
           <span>Identification</span>
         </v-stepper-step>
@@ -18,7 +18,7 @@
           <span>Mech Skills</span>
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step step="5">Confirm</v-stepper-step>
+        <v-stepper-step editable step="5">Confirm</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content step="1">

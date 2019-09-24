@@ -11,11 +11,15 @@
         <v-icon v-if="icon" x-large left>{{ icon }}</v-icon>
         <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
       </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-items class="mr-4">
+        <slot name="items" />
+      </v-toolbar-items>
     </v-toolbar>
 
     <v-card flat outlined>
       <v-card-text>
-        <slot></slot>
+        <slot />
       </v-card-text>
     </v-card>
   </div>

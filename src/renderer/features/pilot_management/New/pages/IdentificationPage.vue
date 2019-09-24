@@ -5,6 +5,11 @@
       UAD IDENT Service
       <cc-slashes />&nbsp;RM-4 Personnel::Pilot (C)
     </h2>
+    <div style="position: absolute; right: 16px; top: 16px">
+      <cc-tooltip simple content="Feature In Development">
+        <v-btn small outlined disabled>Select Premade Template</v-btn>
+      </cc-tooltip>
+    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>Welcome to the Union Administrative Department's IDENT registration service. IDENT is the omninet-based certification system that guides the user through the UAD's pilot registration process. IDENT helps ensure pilots meet regulatory and policy requirements through the use of NHP-directed data validation protocols. Union Regulars that have already been issued an RM-4 IDENT fingerprint should not complete this form unless instructed to by their commanding officer.</span>
       <v-alert type="warning" color="primary" outlined class="mt-2">
@@ -20,11 +25,11 @@
     </v-container>
     <v-row class="mx-6">
       <v-col cols="5" class="mr-auto">
-        <span class="overline">RM-4-01 // FULL NAME OR PRIMARY ALIAS, EXCLUDING HONORIFICS</span>
+        <span class="overline">RM-4-01 // FULL NAME OR PRIMARY ALIAS</span>
         <v-text-field v-model="newPilot.Name" outlined label="Name" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Name">
-              <v-icon @click="randomName">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomName">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
@@ -37,7 +42,7 @@
         <v-text-field v-model="newPilot.Callsign" outlined label="Callsign" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Callsign">
-              <v-icon @click="randomCallsign">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomCallsign">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
@@ -106,7 +111,7 @@
           <v-img v-else src="https://via.placeholder.com/550" />
         </div>
         <div class="mr-8 mt-3">
-          <v-btn outlined large block color="grey darken-3" @click="$refs.imageSelector.open()">
+          <v-btn outlined large block color="secondary" @click="$refs.imageSelector.open()">
             <span v-if="!newPilot.Portrait">
               <v-icon left>mdi-plus</v-icon>Add Pilot Image
             </span>

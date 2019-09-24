@@ -11,6 +11,11 @@
       UAD IDENT Service
       <cc-slashes />&nbsp;RM-4d Pilot Self Assessment (3/3)
     </h2>
+    <div style="position: absolute; right: 16px; top: 16px">
+      <cc-tooltip simple content="Feature In Development">
+        <v-btn small outlined disabled>Suggest Mech Skills</v-btn>
+      </cc-tooltip>
+    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>The RM-4b PILOT SELF ASSESSMENT (Mech Skills) will be transmitted to print staff to finalize the configuration of your issued GMS EVEREST. This configuration data will be remitted to your personal Omninet vault on the validation and acceptance of the RM-4 form along with the issuance of your IDENT fingerprint, which then may be applied to any future Frame(s) at your discretion.</span>
       <v-alert type="warning" color="primary" outlined class="mt-2">

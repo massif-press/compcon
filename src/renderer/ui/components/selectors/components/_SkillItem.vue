@@ -2,20 +2,19 @@
   <div>
     <v-card v-if="skill.err" flat outlined>
       <v-card-text class="text-center pa-1">
-        <span class="subheading grey--text">// MISSING DATA //</span>
+        <span class="flavor-text grey--text">// MISSING DATA //</span>
       </v-card-text>
     </v-card>
-
     <v-expansion-panels v-else focusable accordion>
       <v-expansion-panel class="elevation-0 text-center">
         <v-expansion-panel-header>
           <v-row>
             <v-col cols="3">
-              <div class="centered text-xs-left pl-3">
+              <div class="centered text-left pl-3">
                 <v-chip v-if="bonus" dark color="primary" small outline>
                   <b>+ {{ bonus }}</b>
                 </v-chip>
-                <span class="subheading font-weight-bold">{{ skill.Trigger }}</span>
+                <span class="stat-text">{{ skill.Trigger }}</span>
               </div>
             </v-col>
             <v-col cols="9">
@@ -52,9 +51,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.v-expansion-panel {
-  box-shadow: 0 !important;
-}
-</style>
