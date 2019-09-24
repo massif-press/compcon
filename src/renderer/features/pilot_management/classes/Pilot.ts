@@ -330,6 +330,11 @@ class Pilot {
     return this.skills
   }
 
+  public set Skills(skills: PilotSkill[]) {
+    this.skills = skills
+    this.save()
+  }
+
   public get CurrentSkillPoints(): number {
     return this.skills.reduce((sum, skill) => sum + skill.Rank, 0)
   }
@@ -346,12 +351,18 @@ class Pilot {
     return this.CurrentSkillPoints > this.MaxSkillPoints
   }
 
-  public set Skills(skills: PilotSkill[]) {
-    this.skills = skills
-    this.save()
+  public CanAddSkill(skill: Skill | CustomSkill): boolean {
+    if (this.Level === 0) {
+      return this.Skills.length < rules.minimum_pilot_skills && !this.has('Skill', skill.ID)
+    } else {
+      const underLimit = this.CurrentSkillPoints < this.MaxSkillPoints
+      if (!this.has('Skill', skill.ID) && underLimit) return true
+      const pSkill = this.Skills.find(x => x.Skill.ID === skill.ID)
+      return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
+    }
   }
 
-  public AddSkill(skill: Skill | CustomSkill) {
+  public AddSkill(skill: Skill | CustomSkill): void {
     const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
     if (index === -1) {
       this.skills.push(new PilotSkill(skill))
@@ -361,7 +372,15 @@ class Pilot {
     this.save()
   }
 
-  public RemoveSkill(skill: Skill | CustomSkill) {
+  public AddCustomSkill(skill: string): void {
+    this.AddSkill(new CustomSkill(skill))
+  }
+
+  public CanRemoveSkill(skill: Skill | CustomSkill): boolean {
+    return this.has('Skill', skill.ID)
+  }
+
+  public RemoveSkill(skill: Skill | CustomSkill): void {
     const index = this.skills.findIndex(x => x.Skill.ID === skill.ID)
     if (index === -1) {
       console.error(`Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`)

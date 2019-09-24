@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col dense cols="5" class="ml-auto mr-auto">
         <v-alert
-          value="true"
+          :value="true"
           :type="pilot.IsMissingHASE ? 'info' : 'success'"
           outlined
           class="stat-text"
@@ -18,16 +18,27 @@
     </span>
     <v-row dense>
       <v-col dense cols="auto" class="ml-auto mr-auto">
-        <v-btn icon left bottom class="d-inline" @click="remove('Hull')">
+        <v-btn
+          color="secondary"
+          :disabled="!pilot.MechSkills.Hull"
+          fab
+          x-small
+          left
+          bottom
+          class="d-inline elevation-0"
+          @click="remove('Hull')"
+        >
           <v-icon>remove</v-icon>
         </v-btn>
         <cc-rating :model="pilot.MechSkills.Hull" />
         <v-btn
           :disabled="!pilot.IsMissingHASE"
-          icon
+          color="secondary"
+          fab
+          x-small
           right
           bottom
-          class="d-inline"
+          class="d-inline elevation-0"
           @click="add('Hull')"
         >
           <v-icon>add</v-icon>
@@ -54,14 +65,25 @@
     >Your AGILITY skill describes your ability to build and pilot fast, evasive mechs</span>
     <v-row dense>
       <v-col dense cols="auto" class="ml-auto mr-auto">
-        <v-btn icon left bottom class="d-inline" @click="remove('Agi')">
+        <v-btn
+          color="secondary"
+          :disabled="!pilot.MechSkills.Agi"
+          fab
+          x-small
+          left
+          bottom
+          class="d-inline elevation-0"
+          @click="remove('Agi')"
+        >
           <v-icon>remove</v-icon>
         </v-btn>
         <cc-rating :model="pilot.MechSkills.Agi" />
         <v-btn
-          class="d-inline"
           :disabled="!pilot.IsMissingHASE"
-          icon
+          color="secondary"
+          class="d-inline elevation-0"
+          fab
+          x-small
           right
           bottom
           @click="add('Agi')"
@@ -88,14 +110,25 @@
     </span>
     <v-row dense>
       <v-col dense cols="auto" class="ml-auto mr-auto">
-        <v-btn icon left bottom class="d-inline" @click="remove('Sys')">
+        <v-btn
+          color="secondary"
+          :disabled="!pilot.MechSkills.Sys"
+          fab
+          x-small
+          left
+          bottom
+          class="d-inline elevation-0"
+          @click="remove('Sys')"
+        >
           <v-icon>remove</v-icon>
         </v-btn>
         <cc-rating :model="pilot.MechSkills.Sys" />
         <v-btn
-          class="d-inline"
+          class="d-inline elevation-0"
+          color="secondary"
           :disabled="!pilot.IsMissingHASE"
-          icon
+          fab
+          x-small
           right
           bottom
           @click="add('Sys')"
@@ -125,14 +158,25 @@
     </span>
     <v-row dense>
       <v-col dense cols="auto" class="ml-auto mr-auto">
-        <v-btn icon left bottom class="d-inline" @click="remove('Eng')">
+        <v-btn
+          color="secondary"
+          :disabled="!pilot.MechSkills.Eng"
+          fab
+          x-small
+          left
+          bottom
+          class="d-inline elevation-0"
+          @click="remove('Eng')"
+        >
           <v-icon>remove</v-icon>
         </v-btn>
         <cc-rating :model="pilot.MechSkills.Eng" />
         <v-btn
-          class="d-inline"
+          class="d-inline elevation-0"
+          color="secondary"
           :disabled="!pilot.IsMissingHASE"
-          icon
+          fab
+          x-small
           right
           bottom
           @click="add('Eng')"

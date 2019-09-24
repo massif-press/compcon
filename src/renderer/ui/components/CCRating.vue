@@ -8,6 +8,7 @@
     class="d-inline"
     empty-icon="mdi-hexagon-outline"
     full-icon="mdi-hexagon-slice-6"
+    background-color="grey lighten-1"
   />
 </template>
 
