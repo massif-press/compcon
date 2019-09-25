@@ -32,7 +32,7 @@
         >By submitting this form you attest that your responses are truthful and accurate to the best of your knowledge. Knowingly providing false or or incomplete information is punishable under DoJ/HR AR 303-J.</span>
       </v-alert>
     </v-container>
-    <cc-skill-selector :pilot="newPilot" new-pilot />
+    <cc-skill-selector :pilot="pilot" />
   </cc-stepper-content>
 </template>
 
@@ -42,14 +42,14 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'identification-page',
   props: {
-    newPilot: {
+    pilot: {
       type: Object,
       required: true,
     },
   },
   computed: {
     canContinue(): boolean {
-      return !this.newPilot.IsMissingSkills
+      return !this.pilot.IsMissingSkills
     },
   },
 })

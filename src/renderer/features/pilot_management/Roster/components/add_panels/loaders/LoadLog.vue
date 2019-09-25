@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import typeit from 'typeit'
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 
 export default Vue.extend({
   name: 'clipboard-log',
@@ -98,7 +98,7 @@ export default Vue.extend({
           nextStringDelay: 80,
           lifeLike: true,
         })
-        .type(`<br>$ <span class="success--text">l:id::${uid.generate()}</span>↵`)
+        .type(`<br>$ <span class="success--text">l:id::${uuid()}</span>↵`)
         .options({
           speed: 12,
           nextStringDelay: 24,

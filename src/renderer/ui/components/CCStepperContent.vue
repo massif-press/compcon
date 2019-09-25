@@ -13,7 +13,14 @@
         class="ml-auto mr-2"
         @click="$emit('back')"
       >BACK</v-btn>
-      <v-btn color="success" :disabled="!complete" large tile @click="$emit('complete')">CONTINUE</v-btn>
+      <v-btn
+        v-if="!noConfirm"
+        color="success"
+        :disabled="!complete"
+        large
+        tile
+        @click="$emit('complete')"
+      >CONTINUE</v-btn>
     </v-row>
   </div>
 </template>
@@ -34,6 +41,10 @@ export default Vue.extend({
     exit: {
       type: String,
       required: true,
+    },
+    noConfirm: {
+      type: Boolean,
+      required: false,
     },
   },
 })

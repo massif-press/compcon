@@ -1,4 +1,4 @@
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 
 const ordArr = [
   'Primary',
@@ -17,8 +17,8 @@ abstract class Loadout {
   private id: string
   private name: string
 
-  constructor(count: number, id?: string) {
-    this.id = id ? id : uid.generate()
+  public constructor(count: number, id?: string) {
+    this.id = id ? id : uuid()
     this.name = `${ordArr[count]} Loadout`
   }
 
@@ -31,7 +31,7 @@ abstract class Loadout {
   }
 
   public RenewID() {
-    this.id = uid.generate()
+    this.id = uuid()
   }
 
   public get Name(): string {
