@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import _ from 'lodash'
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
 
@@ -33,7 +33,7 @@ class Mech {
   private burn: number
 
   constructor(frame: Frame, pilot: Pilot) {
-    this.id = uid.generate()
+    this.id = uuid()
     this.name = ''
     this.notes = ''
     this.portrait = ''
@@ -71,7 +71,7 @@ class Mech {
   }
 
   public RenewID() {
-    this.id = uid.generate()
+    this.id = uuid()
   }
 
   public get Name(): string {

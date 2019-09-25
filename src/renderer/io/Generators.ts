@@ -15,11 +15,11 @@ function pullRandom(filename: string, count: number): string[] {
   return _.sampleSize(arr, count).map(x => x.replace(/[\n\r]/g, ''))
 }
 
-function randomCallsign(): string {
+function callsign(): string {
   return pullRandom('callsigns.txt', 1)[0]
 }
 
-function randomName(): string {
+function name(): string {
   const prob = JSON.parse(fs.readFileSync(dataPath('name_mods.json'), 'utf-8'))
   const firstnames = pullRandom('firstnames.txt', 2)
   const lastnames = pullRandom('lastnames.txt', 2)
@@ -37,4 +37,20 @@ function randomName(): string {
   return name
 }
 
-export { randomName, randomCallsign }
+function mission(): string {
+  const m = JSON.parse(fs.readFileSync(dataPath('mission.json'), 'utf-8'))
+  return `${_.sample(m.a)} ${_.sample(m.b)}`
+}
+
+// function flavorString(): string {
+//   const str =
+//     Math.random()
+//       .toString(36)
+//       .substring(2, 15) +
+//     Math.random()
+//       .toString(36)
+//       .substring(2, 15)
+//   return btoa(str)
+// }
+
+export { name, callsign, mission }

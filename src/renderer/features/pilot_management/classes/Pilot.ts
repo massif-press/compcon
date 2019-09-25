@@ -1,8 +1,7 @@
 import _ from 'lodash'
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 import {
   Reserve,
-  Background,
   MechSkills,
   PilotLicense,
   PilotLoadout,
@@ -55,7 +54,7 @@ class Pilot {
   private cc_ver: string
 
   constructor() {
-    this.id = uid.generate()
+    this.id = uuid()
     this.gistID = ''
     this.level = 0
     this.callsign = ''
@@ -117,8 +116,8 @@ class Pilot {
     return this.id
   }
 
-  public RenewID() {
-    this.id = uid.generate()
+  public RenewID(): void {
+    this.id = uuid()
     this.gistID = ''
     this.save()
   }
@@ -175,6 +174,10 @@ class Pilot {
   public set Name(newVal: string) {
     this.name = newVal
     this.save()
+  }
+
+  public get HasIdent(): boolean {
+    return !!(this.Name && this.Callsign)
   }
 
   public get TextAppearance(): string {
@@ -351,6 +354,10 @@ class Pilot {
     return this.CurrentSkillPoints > this.MaxSkillPoints
   }
 
+  public get HasFullSkills(): boolean {
+    return this.CurrentSkillPoints === this.MaxSkillPoints
+  }
+
   public CanAddSkill(skill: Skill | CustomSkill): boolean {
     if (this.Level === 0) {
       return this.Skills.length < rules.minimum_pilot_skills && !this.has('Skill', skill.ID)
@@ -421,6 +428,10 @@ class Pilot {
 
   public get TooManyTalents(): boolean {
     return this.CurrentTalentPoints > this.MaxTalentPoints
+  }
+
+  public get HasFullTalents(): boolean {
+    return this.CurrentTalentPoints === this.MaxTalentPoints
   }
 
   public set Talents(talents: PilotTalent[]) {
@@ -614,6 +625,10 @@ class Pilot {
 
   public get TooManyHASE(): boolean {
     return this.CurrentHASEPoints > this.MaxHASEPoints
+  }
+
+  public get HasFullHASE(): boolean {
+    return this.CurrentHASEPoints === this.MaxHASEPoints
   }
 
   public set MechSkills(mechskills: MechSkills) {

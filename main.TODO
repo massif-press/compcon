@@ -26,6 +26,7 @@ New Pilot:
   ☐ Background Selector drops list side on reopen
 
 Refactor:
+  ☐ Replace UID with UUID
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class

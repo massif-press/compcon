@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content :complete="canContinue" exit="pilot_management" @complete="$emit('next')">
+  <cc-stepper-content :complete="pilot.HasIdent" exit="pilot_management" @complete="$emit('next')">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <h2 class="heading">
       UAD IDENT Service
@@ -26,40 +26,46 @@
     <v-row class="mx-6">
       <v-col cols="5" class="mr-auto">
         <span class="overline">RM-4-01 // FULL NAME OR PRIMARY ALIAS</span>
-        <v-text-field v-model="newPilot.Name" outlined label="Name" hide-details>
+        <v-text-field
+          v-model="pilot.Name"
+          outlined
+          label="Name"
+          hide-details
+          @change="$emit('set', {attr: 'Name', val: $event})"
+        >
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Name">
-              <v-icon color="secondary" @click="randomName">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
-            <v-icon v-if="!newPilot.Name" color="error">mdi-alert</v-icon>
+            <v-icon v-if="!pilot.Name" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
 
         <span class="overline">RM-4-02 // APPROVED CALLSIGN (OR CADET DESINGATION, IF APPLICABLE)</span>
-        <v-text-field v-model="newPilot.Callsign" outlined label="Callsign" hide-details>
+        <v-text-field v-model="pilot.Callsign" outlined label="Callsign" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Callsign">
-              <v-icon color="secondary" @click="randomCallsign">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomCallsign()">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
-            <v-icon v-if="!newPilot.Callsign" color="error">mdi-alert</v-icon>
+            <v-icon v-if="!pilot.Callsign" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
 
-        <span class="overline">RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON FORM RM-2-C)</span>
-        <v-text-field v-model="newPilot.Background" outlined label="Background" hide-details>
+        <span class="overline">RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)</span>
+        <v-text-field v-model="pilot.Background" outlined label="Background" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Select Predefined Background">
-              <cc-background-selector @select="newPilot.Background = $event" />
+              <cc-background-selector @select="$emit('set', {attr: 'Background', val: $event})" />
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
-            <v-icon v-if="!newPilot.Background" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.Background" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
@@ -67,17 +73,17 @@
         <span class="overline">RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER RM-4b SUPPLIMENTAL</span>
         <text-entry-popup
           label="Pilot Biography"
-          :prepopulate="newPilot.History"
-          @save="newPilot.History = $event"
+          :prepopulate="pilot.History"
+          @save="$emit('set', {attr: 'History', val: $event})"
         >
-          <span v-if="!newPilot.History">
+          <span v-if="!pilot.History">
             <v-icon left>mdi-plus</v-icon>Add Pilot Biography
           </span>
           <span v-else>
             <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Biography
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!newPilot.History" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
@@ -85,17 +91,17 @@
         <span class="overline">RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS</span>
         <text-entry-popup
           label="Pilot Description"
-          :prepopulate="newPilot.TextAppearance"
-          @save="newPilot.TextAppearance = $event"
+          :prepopulate="pilot.TextAppearance"
+          @save="$emit('set', {attr: 'TextAppearance', val: $event})"
         >
-          <span v-if="!newPilot.TextAppearance">
+          <span v-if="!pilot.TextAppearance">
             <v-icon left>mdi-plus</v-icon>Add Pilot Description
           </span>
           <span v-else>
             <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Description
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!newPilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
@@ -107,23 +113,23 @@
         <span class="overline">RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)</span>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
           <!-- TODO: no data image -->
-          <v-img v-if="newPilot.Portrait" :src="newPilot.Portrait" aspect-ratio="1" />
+          <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
           <v-img v-else src="https://via.placeholder.com/550" />
         </div>
         <div class="mr-8 mt-3">
           <v-btn outlined large block color="secondary" @click="$refs.imageSelector.open()">
-            <span v-if="!newPilot.Portrait">
+            <span v-if="!pilot.Portrait">
               <v-icon left>mdi-plus</v-icon>Add Pilot Image
             </span>
             <span v-else>
               <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Image
             </span>
             <div style="position: absolute; right: -53px">
-              <v-icon v-if="!newPilot.Portrait" color="grey">mdi-circle-outline</v-icon>
+              <v-icon v-if="!pilot.Portrait" color="grey">mdi-circle-outline</v-icon>
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </div>
           </v-btn>
-          <cc-image-selector ref="imageSelector" :pilot="newPilot" />
+          <cc-image-selector ref="imageSelector" :pilot="pilot" />
         </div>
       </v-col>
     </v-row>
@@ -132,30 +138,25 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { randomName, randomCallsign } from '@/io/Generators'
+import { name, callsign } from '@/io/Generators'
 import TextEntryPopup from './components/TextEntryPopup.vue'
 
 export default Vue.extend({
   name: 'identification-page',
   components: { TextEntryPopup },
   props: {
-    newPilot: {
+    pilot: {
       type: Object,
       required: true,
     },
   },
-  computed: {
-    canContinue(): boolean {
-      return !!(this.newPilot.Name && this.newPilot.Callsign)
-    },
-  },
   methods: {
     randomCallsign() {
-      this.newPilot.Callsign = randomCallsign()
+      this.$emit('set', { attr: 'Callsign', val: callsign() })
       this.$forceUpdate()
     },
     randomName() {
-      this.newPilot.Name = randomName()
+      this.$emit('set', { attr: 'Name', val: name() })
       this.$forceUpdate()
     },
   },

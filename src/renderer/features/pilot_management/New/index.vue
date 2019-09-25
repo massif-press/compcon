@@ -2,19 +2,43 @@
   <v-container fluid style="margin-top: 50px">
     <v-stepper v-model="step" non-linear class="elevation-0">
       <v-stepper-header class="elevation-0" style="height: 40px">
-        <v-stepper-step editable step="1">
+        <v-stepper-step
+          editable
+          :complete="pilot.HasIdent"
+          :color="pilot.HasIdent ? 'success' : 'primary'"
+          edit-icon="mdi-check"
+          step="1"
+        >
           <span>Identification</span>
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step editable step="2">
+        <v-stepper-step
+          editable
+          :complete="pilot.HasFullSkills"
+          :color="pilot.HasFullSkills ? 'success' : 'primary'"
+          edit-icon="mdi-check"
+          step="2"
+        >
           <span>Skills</span>
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step editable step="3">
+        <v-stepper-step
+          editable
+          :complete="pilot.HasFullTalents"
+          :color="pilot.HasFullTalents ? 'success' : 'primary'"
+          edit-icon="mdi-check"
+          step="3"
+        >
           <span>Talents</span>
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step editable step="4">
+        <v-stepper-step
+          editable
+          :complete="pilot.HasFullHASE"
+          :color="pilot.HasFullHASE ? 'success' : 'primary'"
+          edit-icon="mdi-check"
+          step="4"
+        >
           <span>Mech Skills</span>
         </v-stepper-step>
         <v-divider />
@@ -22,19 +46,23 @@
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content step="1">
-          <identification-page :new-pilot="newPilot" @next="step++" />
+          <identification-page
+            :pilot="pilot"
+            @next="step++"
+            @set="pilot[$event.attr] = $event.val"
+          />
         </v-stepper-content>
         <v-stepper-content step="2">
-          <skills-page :new-pilot="newPilot" @next="step++" @back="step--" />
+          <skills-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="3">
-          <talents-page :new-pilot="newPilot" @next="step++" @back="step--" />
+          <talents-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="4">
-          <mech-skills-page :new-pilot="newPilot" @next="step++" @back="step--" />
+          <mech-skills-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="5">
-          <confirm-page :new-pilot="newPilot" @next="step++" @back="step--" />
+          <confirm-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -51,14 +79,19 @@ import ConfirmPage from './pages/ConfirmPage.vue'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
-  name: 'new-pilot-wizard',
+  name: 'pilot-wizard',
   components: { IdentificationPage, SkillsPage, TalentsPage, MechSkillsPage, ConfirmPage },
   data: () => ({
-    step: 0,
-    newPilot: {},
+    step: 1,
+    pilot: {},
   }),
+  watch: {
+    step() {
+      window.scrollTo(0, 0)
+    },
+  },
   created() {
-    this.newPilot = new Pilot()
+    this.pilot = new Pilot()
   },
 })
 </script>
