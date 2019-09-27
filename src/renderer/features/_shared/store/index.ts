@@ -152,7 +152,7 @@ export class ModuleStore extends VuexModule {
   }
 
   get getUserPath() {
-    return () => this.UserDataPath
+    return this.UserDataPath
   }
 
   @Action
