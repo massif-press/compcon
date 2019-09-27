@@ -69,8 +69,8 @@ import { PilotTalent, Talent } from '@/class'
 export default Vue.extend({
   name: 'talent-item',
   props: {
-    pilotTalent: PilotTalent,
-    talent: Talent,
+    pilotTalent: Object,
+    talent: Object,
     newPilot: Boolean,
     selectable: Boolean,
     available: Boolean,
