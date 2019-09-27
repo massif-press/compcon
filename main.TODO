@@ -3,8 +3,8 @@ Name Generator:
   ☐ provide dropdown for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
 
 Skill Selector:
-  ☐ Custom Skill Adder
-  ☐ Test Custom Skills
+  ✔ Custom Skill Adder @done(19-09-25 15:51)
+  ✔ Test Custom Skills @done(19-09-25 15:51)
   ☐ remove old font stylings
 
 Image Selector:
@@ -25,8 +25,19 @@ New Pilot:
   ☐ Background selector highlight on mouseover
   ☐ Background Selector drops list side on reopen
 
+Pilot Sheet:
+  ✔ 3-tab default view @done(19-09-26 15:26)
+  ☐ top bar into pilot view
+  ☐ change name, background, callsign in dossier
+  ☐ set player name in dossier
+  ☐ set active-inactive-mia-kia-etc in dossier
+  ☐ faction info in dossier
+
+Mech Sheet:
+  ☐ Primary color based on manufacturer
+
 Refactor:
-  ☐ Replace UID with UUID
+  ✔ Replace UID with UUID @done(19-09-25 15:50)
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
@@ -43,7 +54,6 @@ Style Pass:
   ☐ pilot NO IMG
   ☐ pilot CRUD to dropdown menu
   ✔ Vuetify 2.0 @done(19-09-12 10:10)
-  ☐ use vuetify file upload component
   ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05)
   ☐ Should be able to collapse reserves individually by clicking toolbar
   ☐ global notification

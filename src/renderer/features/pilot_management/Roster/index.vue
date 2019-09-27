@@ -33,6 +33,8 @@ import RosterSort from './components/RosterSort.vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotTable from './components/PilotTable.vue'
 import AddPilot from './components/AddPilot.vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'roster-view',
@@ -42,7 +44,8 @@ export default Vue.extend({
     listOption: 0,
   }),
   created() {
-    this.pilots = this.$store.getters.getAllPilots
+    const store = getModule(PilotManagementStore, this.$store)
+    this.pilots = store.Pilots
   },
   methods: {
     sortPilots(sortedPilots) {

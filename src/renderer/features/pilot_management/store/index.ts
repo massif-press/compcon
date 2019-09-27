@@ -101,9 +101,6 @@ export class PilotManagementStore extends VuexModule {
   get getPilot(): Pilot {
     return this.ActivePilot
   }
-  get getAllPilots(): Pilot[] {
-    return this.Pilots || []
-  }
   /**
    * @deprecated Now that type info is preserved,
    * just access `printOptions` directly instead.

@@ -71,6 +71,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'cc-pilot-card',
@@ -82,7 +84,8 @@ export default Vue.extend({
   },
   methods: {
     toPilotSheet() {
-      this.$store.dispatch('loadPilot', this.pilot)
+      const store = getModule(PilotManagementStore, this.$store)
+      store.ActivePilot = this.pilot
       this.$router.push('./pilot')
     },
   },
