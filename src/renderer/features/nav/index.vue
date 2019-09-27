@@ -57,26 +57,6 @@
         <v-list-item to="/pilot">Pilot Sheet</v-list-item>
         <v-list-item to="/hangar">Mech Hangar</v-list-item>
       </v-list>
-      <v-divider />
-      <v-list two line dense>
-        <v-list-item v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
-          <v-list-item-content>
-            <v-list-item-title
-              class="text-xs-right font-weight-bold effect-text"
-            >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-title>
-            <v-list-item-sub-title class="text-xs-right">{{ mech.Name }}</v-list-item-sub-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <v-list>
-        <v-list-item to="/active">Print</v-list-item>
-        <v-list-item to="/active">Export</v-list-item>
-        <!-- <v-list-item to="/pilot">Clone</v-list-item> -->
-        <!-- TODO: if cloud save is present -->
-        <v-list-item to="/active">Cloud Sync</v-list-item>
-        <v-list-item to="/hangar" color="warning">Delete</v-list-item>
-      </v-list>
     </v-menu>
 
     <v-divider vertical dark class="ml-2 mr-2" />
@@ -108,6 +88,8 @@ import Vue from 'vue'
 // import HelpPage from './Pages/HelpPage.vue'
 // import AboutPage from './Pages/AboutPage.vue'
 // import OptionsPage from './Pages/OptionsPage.vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'cc-nav',
@@ -119,8 +101,8 @@ export default Vue.extend({
   }),
   computed: {
     pilot() {
-      const p = this.$store.getters.getPilot
-      return p ? p : null
+      const store = getModule(PilotManagementStore, this.$store)
+      return store.ActivePilot || null
     },
   },
   methods: {
