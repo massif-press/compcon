@@ -3,7 +3,10 @@
     <h1 class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
-        <span class="heading mech">{{ manufacturer(m).name }}</span>
+        <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
+          <cc-logo :source="m" size="xLarge" class="pt-4" />
+          {{ manufacturer(m).name }}
+        </span>
         <v-expansion-panels accordion focusable active-class="border-primary">
           <v-expansion-panel v-for="l in licenses[m]" :key="l.FrameID" class="border-highlight">
             <v-expansion-panel-header id="hover-parent" hide-actions>

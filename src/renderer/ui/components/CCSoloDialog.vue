@@ -8,12 +8,14 @@
       <cc-titlebar large :icon="icon" :color="color" :fixed="fullscreen">
         {{ title }}
         <v-btn slot="items" dark icon @click="dialog = false">
-          <v-icon large>close</v-icon>
+          <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
 
+      <v-spacer v-if="fullscreen" class="titlebar-margin" />
+
       <v-card-text>
-        <slot></slot>
+        <slot />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -84,3 +86,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.titlebar-margin {
+  padding-top: 60px;
+}
+</style>

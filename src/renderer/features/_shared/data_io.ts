@@ -28,11 +28,11 @@ export default {
       check(path.join(userDataPath, 'content'))
       check(path.join(userDataPath, 'img'))
       check(path.join(userDataPath, 'img', 'frame'))
-      check(path.join(userDataPath, 'img', 'default_frames'))
+      check(path.join(userDataPath, 'img', 'default_frame'))
       check(path.join(userDataPath, 'img', 'portrait'))
       var allDefaultImages = this.getImages('frames', getStaticPath())
       for (let i = 0; i < allDefaultImages.length; i++) {
-        var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        var imagePath = path.join(userDataPath, 'img', 'default_frame', allDefaultImages[i])
         var originalPath = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
         if (
           !fs.existsSync(imagePath) ||
@@ -42,7 +42,7 @@ export default {
             `Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`
           )
           const origin = path.join(getStaticPath(), 'img', 'frames', allDefaultImages[i])
-          const destination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+          const destination = path.join(userDataPath, 'img', 'default_frame', allDefaultImages[i])
           copySync(origin, destination)
         }
       }
@@ -98,15 +98,15 @@ export default {
     copySync(origin, destination)
 
     // collect and copy default frame images into global default frame folder
-    var allDefaultImages = this.getImages('default_frames', destination)
+    var allDefaultImages = this.getImages('default_frame', destination)
     for (let i = 0; i < allDefaultImages.length; i++) {
-      var imagePath = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+      var imagePath = path.join(userDataPath, 'img', 'default_frame', allDefaultImages[i])
       if (!fs.existsSync(imagePath)) {
         console.info(
           `Frame default image ${allDefaultImages[i]} does not exist in user folder. Copying...`
         )
-        const imgOrigin = path.join(destination, 'img', 'default_frames', allDefaultImages[i])
-        const imgDestination = path.join(userDataPath, 'img', 'default_frames', allDefaultImages[i])
+        const imgOrigin = path.join(destination, 'img', 'default_frame', allDefaultImages[i])
+        const imgDestination = path.join(userDataPath, 'img', 'default_frame', allDefaultImages[i])
         copySync(imgOrigin, imgDestination)
       }
     }

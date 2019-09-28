@@ -1,10 +1,10 @@
 <template>
-  <v-row dense>
-    <v-col>
-      <skill-item :bonus="bonus" :skill="skill" />
+  <v-row dense class="pa-0">
+    <v-col dense class="pa-0">
+      <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
     <v-col cols="auto">
-      <div class="mt-4 ml-auto mr-auto">
+      <div class="ml-auto mr-auto">
         <cc-tooltip simple content="Increase Skill Bonus" inline>
           <v-btn large color="secondary" icon :disabled="!canAdd" @click="$emit('add')">
             <v-icon x-large>cci-accuracy</v-icon>
@@ -22,11 +22,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import SkillItem from './_SkillItem.vue'
 
 export default Vue.extend({
   name: 'skill-select-item',
-  components: { SkillItem },
   props: {
     skill: {
       type: Object,

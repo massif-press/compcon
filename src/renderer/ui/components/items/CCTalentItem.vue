@@ -1,0 +1,46 @@
+<template>
+  <cc-titled-panel :title="talent.Name" :icon="`cci-rank-${rank}`">
+    <v-btn slot="items" icon @click="$refs.dialog.show()">
+      <v-icon large>mdi-information-outline</v-icon>
+    </v-btn>
+    <cc-solo-dialog ref="dialog" large icon="cci-trait" no-confirm :title="talent.Name">
+      <cc-talent-info :talent="talent" />
+    </cc-solo-dialog>
+    <cc-talent-rank-item
+      v-for="(tr, i) in ranks()"
+      :key="tr.name"
+      :lock="i + 1 > rank"
+      :rank="i + 1"
+      :description="tr.description"
+      small
+    />
+  </cc-titled-panel>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'talent-item',
+  props: {
+    talent: {
+      type: Object,
+      required: true,
+    },
+    rank: {
+      type: Number,
+      required: true,
+    },
+    hideLocked: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  methods: {
+    ranks() {
+      if (this.hideLocked) return this.talent.Ranks.slice(0, this.rank)
+      return this.talent.Ranks
+    },
+  },
+})
+</script>

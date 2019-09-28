@@ -40,7 +40,7 @@
     </template>
 
     <template v-slot:right-column>
-      <talent-item
+      <talent-select-item
         v-for="talent in talents"
         :key="talent.ID"
         :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
@@ -56,9 +56,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TalentItem from './components/_TalentItem.vue'
 import Selector from './components/_SelectorBase.vue'
 import MissingItem from './components/_MissingItem.vue'
+import TalentSelectItem from './components/_TalentSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Talent, PilotTalent, Pilot } from '@/class'
@@ -66,7 +66,7 @@ import { rules } from 'lancer-data'
 
 export default Vue.extend({
   name: 'talent-selector',
-  components: { Selector, TalentItem, MissingItem },
+  components: { Selector, TalentSelectItem, MissingItem },
   props: {
     pilot: Pilot,
     levelUp: Boolean,

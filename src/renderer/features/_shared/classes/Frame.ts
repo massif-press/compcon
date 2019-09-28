@@ -129,7 +129,7 @@ class Frame extends LicensedItem {
   }
 
   public get DefaultImage(): string {
-    return `file://${store.getters.getUserPath}/img/default_frames/${this.ID}.png`
+    return `file://${store.getters.getUserPath}/img/default_frame/${this.ID}.png`
   }
 }
 

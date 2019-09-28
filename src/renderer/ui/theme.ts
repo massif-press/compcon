@@ -85,6 +85,12 @@ export default {
         'system--system': '#2aa780',
         'system--trait': '#bd6579',
 
+        'faction--gms': '#b30c1d',
+        'faction--ips-n': '#1661b8',
+        'faction--ssc': '#ffbb61',
+        'faction--ha': '#6e4373',
+        'faction--horus': '#00a256',
+
         template: '#ad8951',
       },
       dark: {
@@ -152,6 +158,12 @@ export default {
         'system--weapon': '#cc0000',
         'system--system': '#2aa780',
         'system--trait': '#bd6579',
+
+        'faction--gms': '#b30c1d',
+        'faction--ips-n': '#1661b8',
+        'faction--ssc': '#ffbb61',
+        'faction--ha': '#6e4373',
+        'faction--horus': '#00a256',
 
         template: '#ad8951',
       },

@@ -156,7 +156,7 @@ class Mech {
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait
     else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`
-    else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
+    else return `file://${store.getters.getUserPath}/img/default_frame/${this.Frame.ID}.png`
   }
 
   // -- Attributes --------------------------------------------------------------------------------

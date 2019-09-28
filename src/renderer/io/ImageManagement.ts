@@ -22,6 +22,7 @@ enum ImageTag {
   Frame = 'frame',
   Location = 'location',
   Object = 'object',
+  Logo = 'logo',
   Misc = 'misc',
 }
 
@@ -47,14 +48,12 @@ function getImageInfoArray(subdir: ImageTag): IImageInfo[] {
   return JSON.parse(fs.readFileSync(imageData, 'utf-8')) as IImageInfo[]
 }
 
-function getImagePaths(subdir: ImageTag): string[] {
-  const imageDir = getImageDir(subdir)
-
+function getImagePaths(subdir: ImageTag, defaults: boolean = false): string[] {
+  const imageDir = defaults ? path.join(__static, 'img', subdir) : getImageDir(subdir)
   if (!fs.existsSync(imageDir)) {
     extlog(`image subdir ${subdir} doesn't exist, creating...`)
     fs.mkdirSync(imageDir)
   }
-
   return (
     fs.readdirSync(imageDir).filter(x => webImageTypes.includes(path.extname(x).toLowerCase())) ||
     []
@@ -86,11 +85,31 @@ function checkImageData(subdir: ImageTag): void {
   writeImageInfo(info, subdir)
 }
 
-// should be called on window creation
+function copyDefaults(origin: string): void {
+  const store = getModule(CompendiumStore)
+  const destination = `default_${origin}`
+  const defaults = getImagePaths(origin as ImageTag, true)
+  for (let i = 0; i < defaults.length; i++) {
+    const imagePath = path.join(store.UserDataPath, 'img', destination, defaults[i])
+    const defaultPath = path.join(__static, 'img', origin, defaults[i])
+    if (!fs.existsSync(defaultPath)) continue
+    if (
+      !fs.existsSync(imagePath) ||
+      fs.statSync(imagePath).size !== fs.statSync(defaultPath).size
+    ) {
+      extlog(`${origin} default ${defaults[i]} does not exist in user folder. Copying...`)
+      const originPath = path.join(__static, 'img', origin, defaults[i])
+      const destinationPath = path.join(store.UserDataPath, 'img', destination, defaults[i])
+      copySync(originPath, destinationPath)
+    }
+  }
+}
+
 function validateImageFolders(): void {
   let subdirs = Object.keys(ImageTag).map(k => ImageTag[k as string])
   subdirs.forEach(s => {
     checkImageData(s)
+    copyDefaults(s)
   })
 }
 

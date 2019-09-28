@@ -508,6 +508,10 @@ class Pilot {
     return this.CurrentCBPoints > this.MaxCBPoints
   }
 
+  public get HasCBs(): boolean {
+    return this.CurrentCBPoints === this.MaxCBPoints
+  }
+
   public set CoreBonuses(coreBonuses: CoreBonus[]) {
     this.core_bonuses = coreBonuses
     this.save()

@@ -148,6 +148,11 @@
   border-radius: 2px;
 }
 
+.border-thin-primary {
+  border: 1px solid var(--v-primary-base);
+  margin-bottom: -1px;
+}
+
 .panel-block {
   background-color: var(--v-panel-base);
   border: 5px double var(--v-panel-border-base);

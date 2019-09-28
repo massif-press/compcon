@@ -1,101 +1,5 @@
 <template>
   <div class="roster-content mt-12">
-    <div v-if="pilot">
-      <v-container fluid>
-        <!-- Pilot Info Block -->
-        <v-row>
-          <v-col cols="10">
-            <v-row align-end>
-              <!-- Callsign -->
-              <v-col shrink>
-                <editable-label
-                  attr="callsign"
-                  description="Callsign"
-                  :pilot="pilot"
-                  :placeholder="pilot.Callsign"
-                >
-                  <span slot="label" class="callsign-text">{{ pilot.Callsign }}</span>
-                </editable-label>
-              </v-col>
-              <!-- Name -->
-              <v-col>
-                <editable-label
-                  attr="name"
-                  description="Name"
-                  :placeholder="pilot.Name"
-                  :pilot="pilot"
-                >
-                  <span slot="label" class="blockquote ml-1 pl-0">{{ pilot.Name }}&nbsp;</span>
-                </editable-label>
-              </v-col>
-              <v-spacer />
-            </v-row>
-            <v-divider class="ma-2" />
-            <!-- Pilot Statblock -->
-            <v-row>
-              <v-col>
-                <pip-bar
-                  small
-                  :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 1"
-                  :model="pilot.MaxHP"
-                  :items="[pilot.MaxHP]"
-                  :caption="`HP ${pilot.MaxHP}`"
-                />
-              </v-col>
-              <pip-bar
-                small
-                :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 2"
-                :model="pilot.Armor"
-                :items="[pilot.Armor]"
-                :caption="`ARMOR ${pilot.Armor}`"
-              />
-              <pip-bar
-                small
-                :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 3"
-                :model="pilot.EDefense"
-                :items="[pilot.EDefense]"
-                :caption="`E-DEFENSE ${pilot.EDefense}`"
-              />
-              <pip-bar
-                small
-                :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 4"
-                :model="pilot.Evasion"
-                :items="[pilot.Evasion]"
-                :caption="`EVASION ${pilot.Evasion}`"
-              />
-              <pip-bar
-                small
-                :key="pilot.ActiveLoadout ? pilot.ActiveLoadout.Armor.ID : 5"
-                :model="pilot.Speed"
-                :items="[pilot.Speed]"
-                :caption="`SPEED ${pilot.Speed}`"
-              />
-            </v-row>
-          </v-col>
-          <!-- License Level -->
-          <v-col shrink>
-            <span class="caption float-right">LICENSE LEVEL</span>
-            <br />
-          </v-col>
-          <span class="xl-text">{{ pilot.Level }}</span>
-          <v-col shrink>
-            <!-- Level Up Button -->
-            <v-tooltip bottom nudge-right="15px">
-              <v-btn
-                :to="'/level'"
-                slot="activator"
-                bottom
-                right
-                fab
-                small
-                :disabled="pilot.Level === maxLevel"
-                color="primary"
-                style="float:right; margin-left:30px"
-              >
-                <v-icon large>arrow_upward</v-icon>
-              </v-btn>
-              <span>Level Up</span>
-            </v-tooltip>
             <!-- Level Selector -->
             <lazy-dialog
               :model="levelEditor"
@@ -665,7 +569,6 @@ import {
   LazyDialog,
   EditableLabel,
   EditableTextfield,
-  PipBar,
   EmptyView,
   TickBar,
 } from '../components/UI'
@@ -716,7 +619,6 @@ export default Vue.extend({
     LazyDialog,
     PilotEditModal,
     LevelSelector,
-    PipBar,
     HasePips,
     EmptyView,
     TickBar,

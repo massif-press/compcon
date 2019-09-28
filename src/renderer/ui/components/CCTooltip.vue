@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top content-class="cc-tooltip">
+  <v-tooltip top content-class="cc-tooltip" :open-delay="delayed ? 500 : 0">
     <template v-slot:activator="{ on }">
       <div :class="{'d-inline': inline}" v-on="on">
         <slot />
@@ -11,7 +11,7 @@
     </span>
     <div v-else>
       <div v-if="simple">
-        <p class="flavor-text white--text">{{ content }}</p>
+        <p class="flavor-text white--text" v-html="content" />
       </div>
       <div v-else>
         <span v-if="title" class="heading h3 accent--text">{{ title }}</span>
@@ -38,6 +38,10 @@ export default Vue.extend({
       required: false,
     },
     inline: {
+      type: Boolean,
+      required: false,
+    },
+    delayed: {
       type: Boolean,
       required: false,
     },
