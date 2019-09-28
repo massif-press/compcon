@@ -1,5 +1,5 @@
 <template>
-  <v-flex ml-0 class="primary--text">
+  <v-col ml-0 class="primary--text">
     <v-fade-transition leave-absolute>
       <v-btn
         style="color: currentColor !important"
@@ -24,7 +24,7 @@
         />
       </div>
     </v-fade-transition>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template>
-  <v-layout fill-height>
-    <v-flex xs2>
+  <v-row fill-height>
+    <v-col cols="2">
       <v-tooltip top>
         <v-btn
           slot="activator"
@@ -13,8 +13,8 @@
         </v-btn>
         <span>{{ empty ? 'Add' : 'Change' }} {{ itemType }}</span>
       </v-tooltip>
-    </v-flex>
-    <v-flex xs10>
+    </v-col>
+    <v-col cols="10">
       <div v-if="empty">
         <v-expansion-panel>
           <v-expansion-panel-content disabled>
@@ -35,7 +35,7 @@
       <div v-else>
         <v-expansion-panel>
           <v-expansion-panel-content>
-            <v-layout slot="header">
+            <v-row slot="header">
               <span class="subheading font-weight-bold">
                 {{ itemData.name }}
               </span>
@@ -56,13 +56,13 @@
               <span v-else class="mr-5" style="display: inline-flex;">
                 {{ itemData.uses ? `${itemData.uses} Uses` : '' }}
               </span>
-            </v-layout>
+            </v-row>
             <gear-card :itemData="itemData" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

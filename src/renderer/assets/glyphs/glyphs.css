@@ -1,19 +1,14 @@
 @font-face {
   font-family: 'compcon';
-  src: url('fonts/compcon.eot?aanadr');
-  src: url('fonts/compcon.eot?aanadr#iefix') format('embedded-opentype'),
-    url('fonts/compcon.ttf?aanadr') format('truetype'),
-    url('fonts/compcon.woff?aanadr') format('woff'),
-    url('fonts/compcon.svg?aanadr#compcon') format('svg');
+  src: url('fonts/compcon.ttf?f14i1r') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^='cc-'],
-[class*=' cc-'] {
+[class^='cci-'],
+[class*=' cci-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'compcon' !important;
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -25,176 +20,177 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.cc-frame .path1-filled:before {
-  content: '\e901';
-  color: rgb(0, 0, 0);
+.cci-rank-1:before {
+  content: '\e942';
 }
-.cc-frame .path2-filled:before {
+.cci-rank-2:before {
+  content: '\e943';
+}
+.cci-rank-3:before {
+  content: '\e944';
+}
+.cci-nested-hexagons:before {
+  content: '\e945';
+}
+.cci-orbit:before {
+  content: '\e946';
+}
+.cci-orbital:before {
+  content: '\e947';
+}
+.cci-large-beam:before {
+  content: '\e948';
+}
+.cci-ammo:before {
+  content: '\e949';
+}
+.cci-burning:before {
+  content: '\e94a';
+}
+.cci-balance:before {
+  content: '\e94b';
+}
+.cci-reticule:before {
+  content: '\e94c';
+}
+.cci-spikes:before {
+  content: '\e94d';
+}
+.cci-eclipse:before {
+  content: '\e94e';
+}
+.cci-sword-array:before {
+  content: '\e94f';
+}
+.cci-marker:before {
+  content: '\e950';
+}
+.cci-barrage:before {
+  content: '\e951';
+}
+.cci-range:before {
   content: '\e902';
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
 }
-.cc-frame .path3-filled:before {
-  content: '\e903';
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
+.cci-thrown:before {
+  content: '\e913';
 }
-.cc-frame .path4-filled:before {
-  content: '\e904';
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
+.cci-weaponmod:before {
+  content: '\e93e';
 }
-.cc-frame .path5-filled:before {
-  content: '\e905';
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
+.cci-weapon-mod:before {
+  content: '\e93e';
 }
-.cc-frame .path6-filled:before {
-  content: '\e906';
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
+.cci-blast:before {
+  content: '\e941';
 }
-.cc-frame:before {
+.cci-accuracy:before {
   content: '\e900';
 }
-.cc-advantage-filled:before {
-  content: '\41';
+.cci-activate:before {
+  content: '\e901';
 }
-.cc-aoe-blast-filled:before {
-  content: '\42';
+.cci-burst:before {
+  content: '\e903';
 }
-.cc-aoe-burst-filled:before {
-  content: '\43';
+.cci-cone:before {
+  content: '\e904';
 }
-.cc-aoe-cone-filled:before {
-  content: '\44';
+.cci-line:before {
+  content: '\e905';
 }
-.cc-aoe-line-filled:before {
-  content: '\45';
+.cci-corebonus:before {
+  content: '\e906';
 }
-.cc-energy-damage-filled:before {
-  content: '\46';
+.cci-burn:before {
+  content: '\e907';
 }
-.cc-burn-damage-filled:before {
-  content: '\47';
+.cci-energy:before {
+  content: '\e908';
 }
-.cc-explosive-damage-filled:before {
-  content: '\48';
+.cci-explosive:before {
+  content: '\e909';
 }
-.cc-heat-damage-filled:before {
-  content: '\49';
+.cci-heat:before {
+  content: '\e90a';
 }
-.cc-kinetic-damage-filled:before {
-  content: '\4a';
+.cci-kinetic:before {
+  content: '\e90b';
 }
-.cc-difficulty-filled:before {
-  content: '\4b';
+.cci-variable:before {
+  content: '\e90c';
 }
-.cc-melee-filled:before {
-  content: '\4c';
+.cci-deactivate:before {
+  content: '\e90d';
 }
-.cc-pilot-filled:before {
-  content: '\4d';
+.cci-difficulty:before {
+  content: '\e90e';
 }
-.cc-range-filled:before {
-  content: '\4e';
+.cci-frame:before {
+  content: '\e90f';
 }
-.cc-reactor-stress-filled:before {
-  content: '\4f';
+.cci-melee:before {
+  content: '\e910';
 }
-.cc-structure-filled:before {
-  content: '\50';
+.cci-overcharge:before {
+  content: '\e911';
 }
-.cc-threat-filled:before {
-  content: '\51';
+.cci-pilot:before {
+  content: '\e912';
 }
-.cc-thrown-filled:before {
-  content: '\52';
+.cci-reactor:before {
+  content: '\e914';
 }
-.cc-difficulty1-filled:before {
-  content: '\40';
+.cci-repair:before {
+  content: '\e915';
 }
-.cc-difficulty:before {
-  content: '\60';
+.cci-role-artillery:before {
+  content: '\e916';
 }
-.cc-accuracy:before {
-  content: '\61';
+.cci-role-controller:before {
+  content: '\e917';
 }
-.cc-blast:before {
-  content: '\62';
+.cci-role-striker:before {
+  content: '\e918';
 }
-.cc-burst:before {
-  content: '\63';
+.cci-role-support:before {
+  content: '\e919';
 }
-.cc-cone:before {
-  content: '\64';
+.cci-role-tank:before {
+  content: '\e91a';
 }
-.cc-line:before {
-  content: '\65';
+.cci-size-1:before {
+  content: '\e91b';
 }
-.cc-energy:before {
-  content: '\66';
+.cci-size-2:before {
+  content: '\e921';
 }
-.cc-burn:before {
-  content: '\67';
+.cci-size-3:before {
+  content: '\e927';
 }
-.cc-explosive:before {
-  content: '\68';
+.cci-size-4:before {
+  content: '\e92d';
 }
-.cc-heat:before {
-  content: '\69';
+.cci-size-half:before {
+  content: '\e933';
 }
-.cc-kinetic:before {
-  content: '\6a';
+.cci-structure:before {
+  content: '\e934';
 }
-.cc-energy-damage:before {
-  content: '\66';
+.cci-system:before {
+  content: '\e935';
 }
-.cc-burn-damage:before {
-  content: '\67';
+.cci-mech-system:before {
+  content: '\e935';
 }
-.cc-explosive-damage:before {
-  content: '\68';
+.cci-threat:before {
+  content: '\e936';
 }
-.cc-heat-damage:before {
-  content: '\69';
+.cci-trait:before {
+  content: '\e93f';
 }
-.cc-kinetic-damage:before {
-  content: '\6a';
+.cci-weapon:before {
+  content: '\e940';
 }
-.cc-difficulty:before {
-  content: '\6b';
-}
-.cc-melee:before {
-  content: '\6c';
-}
-.cc-pilot:before {
-  content: '\6d';
-}
-.cc-range:before {
-  content: '\6e';
-}
-.cc-reactor-stress:before {
-  content: '\6f';
-}
-.cc-structure:before {
-  content: '\70';
-}
-.cc-threat:before {
-  content: '\71';
-}
-.cc-thrown:before {
-  content: '\72';
-}
-.cc-interdiction:before {
-  content: '\30';
-}
-.cc-rank-1:before {
-  content: '\31';
-}
-.cc-rank-2:before {
-  content: '\32';
-}
-.cc-rank-3:before {
-  content: '\33';
+.cci-mech-weapon:before {
+  content: '\e940';
 }

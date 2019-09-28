@@ -14,12 +14,16 @@
       :style="{
         height: !(system.effect_short || system.effect) ? '100%' : 'auto',
       }"
-    >{{ system.name }}</v-card-title>
+    >
+      {{ system.name }}
+    </v-card-title>
     <v-card-text
       class="primary--text"
       v-if="system.effect_short || system.effect"
       style="overflow-y: hidden;"
-    >{{ system.effect_short || system.effect }}</v-card-text>
+    >
+      {{ system.effect_short || system.effect }}
+    </v-card-text>
     <v-dialog v-model="dialog" max-width="40%">
       <system-dialog-card :npc="npc" :system="system" />
     </v-dialog>

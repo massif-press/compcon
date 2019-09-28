@@ -26,9 +26,9 @@
         <b class="ml-3">{{ itemData.Source }} {{ itemData.MechTypeString }} Frame</b>
         <frame-statblock :frame="itemData" />
       </div>
-      <v-layout>
+      <v-row>
         <item-tag v-for="t in itemData.Tags" :key="t.id" :tag-obj="t" />
-      </v-layout>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>

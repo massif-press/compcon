@@ -1,12 +1,12 @@
 <template>
-  <v-flex xs12>
+  <v-col cols="12">
     <v-card class="ma-0 pa-0" flat dark>
       <span class="mount-title-dark pl-3 pr-3 text-uppercase">
         {{ mount.MountName }}
       </span>
       <v-card-text v-if="mount.IsLocked" class="bordered-dark ml-3 pt-4">
         <v-card color="grey darken-2">
-          <v-card-text class="blockquote text-xs-center">
+          <v-card-text class="blockquote text-center">
             LOCKED
             <br />
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
@@ -21,12 +21,12 @@
           color="grey darken-2"
           class="ma-1 pa-0"
         >
-          <v-card-text class="text-xs-center pa-2">
+          <v-card-text class="text-center pa-2">
             <b class="minor-title">{{ cb.Name }}:</b>
             <i class="effect-text">{{ cb.MountedEffect }}</i>
           </v-card-text>
         </v-card>
-        <v-layout>
+        <v-row>
           <span v-if="!mount.Weapons || !mount.Weapons.length" class="minor-title grey--text">
             EMPTY
           </span>
@@ -36,10 +36,10 @@
             :weapon="w"
             :width="100 / mount.Weapons.length"
           />
-        </v-layout>
+        </v-row>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

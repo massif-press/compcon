@@ -3,12 +3,12 @@
     <v-container px-4 class="grey--text text--darken-1" fluid>
       <div class="mt-2 mb-4 headline grey--text">Choose a class</div>
       <template v-for="role in Object.keys(classesByRole)">
-        <v-flex :key="`${role}--title`">
+        <v-col :key="`${role}--title`">
           <h2 class="body-2 role-title">{{ role }}</h2>
           <v-divider class="role-title-line" />
-        </v-flex>
-        <v-layout row wrap justify-center mb-4 px-3 :key="role">
-          <v-flex xs3 v-for="cls in classesByRole[role]" :key="cls.name">
+        </v-col>
+        <v-row wrap justify="center" mb-4 px-3 :key="role">
+          <v-col cols="3" v-for="cls in classesByRole[role]" :key="cls.name">
             <v-btn
               block
               dark
@@ -21,8 +21,8 @@
                 <v-icon small dark>mdi-information-outline</v-icon>
               </v-btn>
             </v-btn>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </template>
     </v-container>
     <v-dialog v-model="infoDialog" max-width="50%">
@@ -41,7 +41,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import _ from 'lodash'
-import {npc_classes} from 'lancer-data'
+import { npc_classes } from 'lancer-data'
 
 import NPC from '../../logic/NPC'
 import NPCClass from '../../logic/interfaces/NPCClass'

@@ -1,11 +1,11 @@
 <template>
   <div style="height: 95vh">
     <v-container style="height: 100%">
-      <v-layout align-center justify-center row fill-height>
-        <v-flex>
+      <v-row align-center justify="center"fill-height>
+        <v-col>
           <slot name="contents"></slot>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-layout column fill-height>
-      <v-flex xs12 class="major-title text-xs-center" style="background: #606060">
+    <v-row column fill-height>
+      <v-col cols="12" class="major-title text-center" style="background: #606060">
         <span>MISSION COMPLETE</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </div>
 </template>

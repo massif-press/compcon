@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { rules } from 'lancer-data'
 import { LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType } from '@/class'
 
@@ -134,8 +134,8 @@ class Frame extends LicensedItem {
 }
 
 interface Trait {
-  name: string;
-  description: string;
+  name: string
+  description: string
 }
 
 class CoreSystem {
@@ -165,8 +165,9 @@ class CoreSystem {
     return this.description
   }
 
-  public get Integrated(): string | null {
-    return this.integrated || null
+  public get Integrated(): MechWeapon | null {
+    if (!this.integrated) return null
+    return store.getters.getItemById('MechWeapons', this.integrated)
   }
 
   public getIntegrated(): MechWeapon | null {

@@ -1,0 +1,6 @@
+{
+  "middleNameChance": 0.05,
+  "secondSurnameChance": 0.08,
+  "suffixChance": 0.1,
+  "suffixes": ["II", "III", "IV", "V", "VI", "VII"]
+}

@@ -53,7 +53,7 @@ export default Vue.extend({
     },
   },
   watch: {
-    model (val) {
+    model(val) {
       if (val) {
         this.display = true
       } else {
@@ -62,7 +62,7 @@ export default Vue.extend({
         }
       }
     },
-    display (val) {
+    display(val) {
       if (!val) {
         this.cancel()
       }

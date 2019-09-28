@@ -11,20 +11,20 @@
     style="padding-top: 60px; z-index: 9"
   >
     <div class="panel-expander">
-      <v-layout column fill-height justify-center>
-        <v-flex xs6>
+      <v-row column fill-height justify="center">
+        <v-col cols="6">
           <v-divider dark vertical class="ml-4" />
-        </v-flex>
-        <v-flex shrink>
+        </v-col>
+        <v-col shrink>
           <v-btn flat icon dark @click.stop="mini = !mini">
             <v-icon large v-if="mini">mdi-chevron-double-left</v-icon>
             <v-icon large v-else>mdi-chevron-double-right</v-icon>
           </v-btn>
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col cols="6">
           <v-divider dark vertical class="ml-4" />
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </div>
 
     <v-fade-transition>

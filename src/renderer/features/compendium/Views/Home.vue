@@ -1,61 +1,112 @@
 <template>
   <div>
-    <v-container fluid class="mt-0">
-      <v-layout row class="compendium-header mt-0 pt-0 mb-3" justify-center>
-        <v-flex>
-          <h1 class="display-1 font-weight-thin">Compendium</h1>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex xs12 px-2 pb-3>
+    <v-container fluid>
+      <h1 class="display-1 font-weight-thin text-center">COMPENDIUM</h1>
+      <v-row justify="center">
+        <v-col cols="8">
           <search-bar />
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
     <div class="ml-5 mr-5">
       <v-container fluid grid-list-lg class="mt-0 pt-0">
-        <v-layout row wrap justify-center>
-          <category-card
-            color="green"
+        <v-row wrap justify="center">
+          <cc-major-btn
             icon="mdi-factory"
-            loc="manufacturers"
             name="Manufacturers"
+            @clicked="$router.push('manufacturers')"
           />
-          <category-card color="green" icon="mdi-view-week" loc="licenses" name="Licenses" />
-          <category-card
-            color="green"
-            icon="mdi-hexagon-multiple"
-            loc="corebonuses"
+          <cc-major-btn
+            color="primary"
+            icon="mdi-view-week"
+            name="Licenses"
+            @clicked="$router.push('licenses')"
+          />
+          <cc-major-btn
+            icon="cci-corebonus"
             name="CORE Bonuses"
+            @clicked="$router.push('corebonuses')"
           />
-        </v-layout>
-        <v-layout row wrap justify-center>
-          <category-card color="purple" icon="cc-frame" loc="frames" name="Frames" />
-          <category-card color="red" icon="cc-melee" loc="weapons" name="Mech Weapons" />
-          <category-card color="teal" icon="mdi-chip" loc="systems" name="Mech Systems" />
-        </v-layout>
-        <v-layout row wrap justify-center>
-          <category-card color="primary" icon="cc-pilot" loc="pilot_gear" name="Pilot Equipment" />
-          <category-card color="indigo" icon="public" loc="backgrounds" name="Pilot Backgrounds" />
-          <category-card
-            color="indigo"
-            icon="cc-accuracy"
-            loc="skills"
-            name="Pilot Skill Triggers"
+        </v-row>
+        <v-row wrap justify="center">
+          <cc-major-btn
+            color="frame"
+            icon="cci-frame"
+            name="Frames"
+            @clicked="$router.push('frames')"
           />
-          <category-card color="indigo" icon="cc-rank-3" loc="talents" name="Pilot Talents" />
-        </v-layout>
-        <v-layout row wrap justify-center>
-          <category-card color="secondary" icon="label" loc="tags" name="Equipment Tags" />
-          <category-card
+          <cc-major-btn
+            color="weapon"
+            icon="cci-melee"
+            name="Mech Weapons"
+            @clicked="$router.push('weapons')"
+          />
+          <cc-major-btn
+            color="system"
+            icon="mdi-chip"
+            name="Mech Systems"
+            @clicked="$router.push('systems')"
+          />
+        </v-row>
+        <v-row wrap justify="center">
+          <cc-major-btn
             color="secondary"
-            icon="mdi-gauge"
-            loc="statuses"
-            name="Statuses and Conditions"
+            icon="cci-pilot"
+            name="Pilot Gear"
+            @clicked="$router.push('pilot_gear')"
           />
-          <category-card color="secondary" icon="mdi-map" loc="reference" name="Reference" />
-          <!-- <category-card color="secondary" icon="mdi-library-books" loc="" name="Glossary" /> -->
-        </v-layout>
+          <cc-major-btn
+            color="secondary"
+            icon="public"
+            name="Backgrounds"
+            @clicked="$router.push('backgrounds')"
+          />
+          <cc-major-btn
+            color="secondary"
+            icon="cci-accuracy"
+            name="Skill Triggers"
+            @clicked="$router.push('skills')"
+          />
+          <cc-major-btn
+            color="secondary"
+            icon="cci-rank-3"
+            name="Talents"
+            @clicked="$router.push('talents')"
+          />
+        </v-row>
+        <!-- <v-row wrap justify="center">
+          <cc-major-btn
+            color="template"
+            icon="cci-role-striker"
+            @clicked="$router.push('backgrounds')"
+            name="NPC Classes"
+          />
+          <cc-major-btn
+            color="template"
+            icon="cci-reticule"
+            @clicked="$router.push('backgrounds')"
+            name="NPC Templates"
+          />
+          <cc-major-btn color="template" icon="cci-large-beam" @clicked="$router.push('skills')" name="NPC Systems" />
+        </v-row>-->
+        <v-row wrap justify="center">
+          <cc-major-btn
+            icon="mdi-gauge"
+            name="Statuses & Conditions"
+            @clicked="$router.push('statuses')"
+          />
+          <cc-major-btn icon="cci-barrage" name="Reserves" @clicked="$router.push('reserves')" />
+          <cc-major-btn icon="mdi-map" name="Action Economy" @clicked="$router.push('actions')" />
+        </v-row>
+        <v-row wrap justify="center">
+          <cc-major-btn icon="mdi-tag" name="Equipment Tags" @clicked="$router.push('tags')" />
+          <cc-major-btn icon="mdi-map" name="Reference" @clicked="$router.push('reference')" />
+          <cc-major-btn
+            icon="mdi-library-books"
+            name="Glossary"
+            @clicked="$router.push('glossary')"
+          />
+        </v-row>
       </v-container>
     </div>
   </div>
@@ -64,19 +115,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import SearchBar from '../SearchBar.vue'
-import CategoryCard from '../UI/CategoryCard.vue'
 
 export default Vue.extend({
   name: 'compendium-home',
-  components: { SearchBar, CategoryCard },
+  components: { SearchBar },
 })
 </script>
-
-<style scoped>
-.compendium-header h1 {
-  font-size: 3em !important;
-  letter-spacing: 0.2em !important;
-  text-align: center;
-  text-transform: uppercase;
-}
-</style>

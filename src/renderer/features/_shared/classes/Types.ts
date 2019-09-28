@@ -33,6 +33,7 @@ interface Manufacturer {
 
 interface Status {
   name: string
+  type: string
   effects: string[]
 }
 

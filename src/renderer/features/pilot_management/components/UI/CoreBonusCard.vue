@@ -1,7 +1,7 @@
 <template>
   <div class="ma-1">
     <v-card flat color="grey darken-3" class="ma-2">
-      <v-card-text class="title text-xs-center pb-1 pt-2">
+      <v-card-text class="title text-center pb-1 pt-2">
         <span class="caption text--capitalize">{{ cb.Name }}</span>
       </v-card-text>
       <v-card-text class="pb-0 pt-0">

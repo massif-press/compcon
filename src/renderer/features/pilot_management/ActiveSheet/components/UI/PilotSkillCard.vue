@@ -1,12 +1,12 @@
 <template>
-  <v-flex xs4>
+  <v-col cols="4">
     <div class="ma-1">
       <v-toolbar dark dense style="background-color: #616161">
         <v-chip small dark color="primary">
           <v-avatar class="mr-0">
             <v-icon>add</v-icon>
           </v-avatar>
-          <b class="font-weight-bold" style="font-size: 16px">{{pSkill.Bonus}}</b>
+          <b class="font-weight-bold" style="font-size: 16px">{{ pSkill.Bonus }}</b>
         </v-chip>
         <v-toolbar-title>{{ pSkill.Skill.Name }}</v-toolbar-title>
 
@@ -29,7 +29,9 @@
               </v-btn>
             </template>
             <v-card>
-              <v-card-title class="major-title primary white--text">{{ pSkill.Skill.Name }}</v-card-title>
+              <v-card-title class="major-title primary white--text">
+                {{ pSkill.Skill.Name }}
+              </v-card-title>
               <v-card-text>
                 <p class="effect-text" v-html="pSkill.Skill.Description" />
                 <p class="fluff-text" v-html="pSkill.Skill.Detail" />
@@ -39,7 +41,7 @@
         </v-toolbar-items>
       </v-toolbar>
     </div>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

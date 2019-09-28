@@ -16,36 +16,32 @@
     </v-card-title>
 
     <v-card-text>
-      <v-layout justify-space-around grow-shrink-0 v-if="system.type === 'weapon'">
-        <v-flex>
+      <v-row justify-space-around grow-shrink-0 v-if="system.type === 'weapon'">
+        <v-col>
           <v-chip outline label color="primary">
             <v-icon left>mdi-dice-multiple</v-icon>
             {{ printRoll(system.weapon_roll, system.smart, npc) }}
           </v-chip>
-        </v-flex>
-        <v-flex>
+        </v-col>
+        <v-col>
           <v-chip outline label color="primary">
             <v-icon left>mdi-vector-line</v-icon>
             {{ printRange(system.weapon_range) }}
           </v-chip>
-        </v-flex>
-        <v-flex v-if="system.damage">
+        </v-col>
+        <v-col v-if="system.damage">
           <v-chip outline label color="primary">
             <v-icon left>mdi-flare</v-icon>
             {{ printDamage(system.damage) }}
           </v-chip>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <p v-if="system.effect" class="my-2">{{ system.effect }}</p>
       <template v-if="system.tags || system.recharge">
         <div>
-          <v-chip
-            dark
-            color="primary"
-            small
-            v-for="tag in system.tags"
-            :key="tag.name"
-          >{{ renderTag(tag, npc && npc.tier) }}</v-chip>
+          <v-chip dark color="primary" small v-for="tag in system.tags" :key="tag.name">
+            {{ renderTag(tag, npc && npc.tier) }}
+          </v-chip>
           <v-chip dark color="primary" small v-if="system.recharge" key="recharge">
             Recharge&nbsp;
             <b>{{ system.recharge }}</b>

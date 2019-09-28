@@ -1,13 +1,13 @@
 <template>
   <v-card>
-    <v-layout v-if="skill.err">
-      <v-card-text class="text-xs-center pa-1">
+    <v-row v-if="skill.err">
+      <v-card-text class="text-center pa-1">
         <span class="subheading grey--text">// MISSING DATA //</span>
       </v-card-text>
-    </v-layout>
+    </v-row>
 
-    <v-layout v-else>
-      <v-flex xs3>
+    <v-row v-else>
+      <v-col cols="3">
         <div class="centered text-xs-left pl-3">
           <v-chip v-if="pilotSkill" dark color="primary" small outline>
             +
@@ -15,8 +15,8 @@
           </v-chip>
           <span class="subheading font-weight-bold">{{ skill.Trigger }}</span>
         </div>
-      </v-flex>
-      <v-flex xs9>
+      </v-col>
+      <v-col cols="9">
         <v-expansion-panel class="pa-0 ma-0">
           <v-expansion-panel-content expand-icon="search">
             <template v-slot:header>
@@ -29,8 +29,8 @@
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 

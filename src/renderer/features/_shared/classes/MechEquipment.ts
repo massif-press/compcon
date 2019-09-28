@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { LicensedItem, Tag } from '@/class'
 
 abstract class MechEquipment extends LicensedItem {

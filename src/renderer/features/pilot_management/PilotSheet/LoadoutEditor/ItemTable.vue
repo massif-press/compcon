@@ -42,19 +42,19 @@
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">+{{ props.item.Armor }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">+{{ props.item.HPBonus || 0 }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.EDefense }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Evasion }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Speed }}</span>
               </td>
             </tr>
@@ -92,7 +92,7 @@
               <td>
                 <span class="subheading">{{ props.item.Name }}</span>
               </td>
-              <td class="text-xs-center">
+              <td class="text-center">
                 <span class="subheading">{{ props.item.Uses }}</span>
               </td>
             </tr>
@@ -106,12 +106,12 @@
           </template>
         </v-data-table>
       </v-card>
-      <v-layout v-if="equippedItem" justify-space-between class="pt-4">
-        <v-flex xs1></v-flex>
-        <v-flex shrink>
+      <v-row v-if="equippedItem" justify-space-between class="pt-4">
+        <v-col cols="1"></v-col>
+        <v-col shrink>
           <v-btn color="error" @click="remove(equippedItem)">Remove {{ equippedItem.Name }}</v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>

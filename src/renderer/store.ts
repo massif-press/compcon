@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { ModuleStore } from './features/_shared/store/'
+import { CompendiumStore } from './features/_shared/store/'
+import { Global } from './features/_shared/store/global'
 import { PilotManagementStore } from './features/pilot_management/store/'
 
 import gmToolkitModules from './features/gm_toolkit/store'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
-    datastore: ModuleStore,
+    global: Global,
+    datastore: CompendiumStore,
     management: PilotManagementStore,
     ...gmToolkitModules,
   },
 })
+
+export { store, Global, CompendiumStore, PilotManagementStore }

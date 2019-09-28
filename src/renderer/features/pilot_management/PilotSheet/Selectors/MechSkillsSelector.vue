@@ -1,19 +1,19 @@
 <template>
   <v-container style="overflow-y: scroll">
-    <v-layout align-center justify-center column>
+    <v-row align-center justify="center" column>
       <v-alert value="true" :type="pilot.IsMissingHASE ? 'info' : 'success'" outline>
         {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }} Mech Skills selected
       </v-alert>
-    </v-layout>
-    <v-layout align-center justify-center column>
-      <v-flex><span class="headline">HULL</span></v-flex>
-      <v-flex>
+    </v-row>
+    <v-row align-center justify="center" column>
+      <v-col><span class="headline">HULL</span></v-col>
+      <v-col>
         <span class="font-weight-light">
           Your HULL skill describes your ability to build and pilot durable, heavy mechs that can
           take punches and keep going
         </span>
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-btn icon left bottom @click="remove('Hull')">
           <v-icon>remove</v-icon>
         </v-btn>
@@ -30,30 +30,30 @@
         <v-btn :disabled="!pilot.IsMissingHASE" icon right bottom @click="add('Hull')">
           <v-icon>add</v-icon>
         </v-btn>
-      </v-flex>
-    </v-layout>
-    <v-layout class="bonus-text" justify-center row>
-      <v-flex shrink>
+      </v-col>
+    </v-row>
+    <v-row class="bonus-text" justify="center" row>
+      <v-col shrink>
         <span class="minor-title">MECH HP</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Hull * 2 }}</span>
-      </v-flex>
-      <v-flex shrink class="ml-2 mr-2">
+      </v-col>
+      <v-col shrink class="ml-2 mr-2">
         <span class="fluff-text grey--text">//</span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="minor-title">REPAIR CAPACITY</span>
         <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Hull / 2) }}</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column>
-      <v-flex><span class="headline">AGILITY</span></v-flex>
-      <v-flex>
+    <v-row align-center justify="center" column>
+      <v-col><span class="headline">AGILITY</span></v-col>
+      <v-col>
         <span class="font-weight-light">
           Your AGILITY skill describes your ability to build and pilot fast, evasive mechs
         </span>
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-btn icon left bottom @click="remove('Agi')">
           <v-icon>remove</v-icon>
         </v-btn>
@@ -70,31 +70,31 @@
         <v-btn :disabled="!pilot.IsMissingHASE" icon right bottom @click="add('Agi')">
           <v-icon>add</v-icon>
         </v-btn>
-      </v-flex>
-      <v-layout class="bonus-text" justify-center row>
-        <v-flex shrink>
+      </v-col>
+      <v-row class="bonus-text" justify="center" row>
+        <v-col shrink>
           <span class="minor-title">EVASION</span>
           <span class="minor-title primary--text">+{{ pilot.MechSkills.Agi }}</span>
-        </v-flex>
-        <v-flex shrink class="ml-2 mr-2">
+        </v-col>
+        <v-col shrink class="ml-2 mr-2">
           <span class="fluff-text grey--text">//</span>
-        </v-flex>
-        <v-flex shrink>
+        </v-col>
+        <v-col shrink>
           <span class="minor-title">SPEED</span>
           <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Agi / 2) }}</span>
-        </v-flex>
-      </v-layout>
-    </v-layout>
+        </v-col>
+      </v-row>
+    </v-row>
     <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column>
-      <v-flex><span class="headline">SYSTEMS</span></v-flex>
-      <v-flex>
+    <v-row align-center justify="center" column>
+      <v-col><span class="headline">SYSTEMS</span></v-col>
+      <v-col>
         <span class="font-weight-light">
           Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful
           electronic warfare tools
         </span>
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-btn icon left bottom @click="remove('Sys')">
           <v-icon>remove</v-icon>
         </v-btn>
@@ -111,38 +111,38 @@
         <v-btn :disabled="!pilot.IsMissingHASE" icon right bottom @click="add('Sys')">
           <v-icon>add</v-icon>
         </v-btn>
-      </v-flex>
-    </v-layout>
-    <v-layout class="bonus-text" justify-center row>
-      <v-flex shrink>
+      </v-col>
+    </v-row>
+    <v-row class="bonus-text" justify="center" row>
+      <v-col shrink>
         <span class="minor-title">ELECTRONIC DEFENSE</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Sys }}</span>
-      </v-flex>
-      <v-flex shrink class="ml-2 mr-2">
+      </v-col>
+      <v-col shrink class="ml-2 mr-2">
         <span class="fluff-text grey--text">//</span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="minor-title">TECH ATTACK</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Sys }}</span>
-      </v-flex>
-      <v-flex shrink class="ml-2 mr-2">
+      </v-col>
+      <v-col shrink class="ml-2 mr-2">
         <span class="fluff-text grey--text">//</span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="minor-title">SP</span>
         <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Sys / 2) }}</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-divider class="ml-2 mr-2 mt-0 pt-0 mb-3" />
-    <v-layout align-center justify-center column>
-      <v-flex><span class="headline">ENGINEERING</span></v-flex>
-      <v-flex>
+    <v-row align-center justify="center" column>
+      <v-col><span class="headline">ENGINEERING</span></v-col>
+      <v-col>
         <span class="font-weight-light">
           Your ENGINEERING skill describes your ability to build and pilot mechs with powerful
           reactors, supplies and support systems
         </span>
-      </v-flex>
-      <v-flex>
+      </v-col>
+      <v-col>
         <v-btn icon left bottom @click="remove('Eng')">
           <v-icon>remove</v-icon>
         </v-btn>
@@ -159,21 +159,21 @@
         <v-btn :disabled="!pilot.IsMissingHASE" icon right bottom @click="add('Eng')">
           <v-icon>add</v-icon>
         </v-btn>
-      </v-flex>
-    </v-layout>
-    <v-layout class="bonus-text" justify-center row>
-      <v-flex shrink>
+      </v-col>
+    </v-row>
+    <v-row class="bonus-text" justify="center" row>
+      <v-col shrink>
         <span class="minor-title">HEAT CAPACITY</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Eng }}</span>
-      </v-flex>
-      <v-flex shrink class="ml-2 mr-2">
+      </v-col>
+      <v-col shrink class="ml-2 mr-2">
         <span class="fluff-text grey--text">//</span>
-      </v-flex>
-      <v-flex shrink>
+      </v-col>
+      <v-col shrink>
         <span class="minor-title">LIMITED SYSTEMS BONUS</span>
         <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Eng / 2) }}</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

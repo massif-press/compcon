@@ -33,10 +33,10 @@ class Range {
   }
 
   public get Icon(): string {
-    return `cc-${this.range_type.toLowerCase()}`
+    return `cci-${this.range_type.toLowerCase()}`
   }
 
-  public get ToString(): string {
+  public get Text(): string {
     if (this.override) return this.Value.toString()
     if (this.bonus) return `${this.range_type} ${this.Value} (+${this.bonus})`
     return `${this.range_type} ${this.Value}`
