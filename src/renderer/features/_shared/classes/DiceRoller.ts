@@ -40,9 +40,9 @@ class DiceRoller {
 
       return new DamageRollResult(diceString, 0, [0], 0, true)
     } else {
-      let total: number = 0
+      let total = 0
       let rawRolls: number[] = []
-      let staticBonus: number = 0
+      let staticBonus = 0
 
       staticBonus = parsedRoll.modifier
       total = staticBonus
@@ -89,7 +89,7 @@ class DiceRoller {
   public static rollDieSet(dieSet: DieSet): { result: number; rolls: number[] } {
     if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [] }
 
-    let total: number = 0
+    let total = 0
     let rolls: number[] = []
 
     for (let x = 0; x < dieSet.quantity; x++) {

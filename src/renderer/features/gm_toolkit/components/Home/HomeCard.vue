@@ -1,6 +1,6 @@
 <template>
   <v-card ripple :to="to" class="home-card" :class="`${color}--text text--darken-2`">
-    <div class="justify-center pb-0 ">
+    <div class="justify="center" pb-0 ">
       <h3 class="headline">
         {{ title }}
       </h3>

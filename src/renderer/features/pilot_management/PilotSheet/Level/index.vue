@@ -1,7 +1,7 @@
 <template>
   <v-container id="np-container" fluid>
-    <v-layout>
-      <v-flex>
+    <v-row>
+      <v-col>
         <v-stepper id="np-stepper" v-model="lv_step">
           <v-stepper-header>
             <v-stepper-step :complete="lv_step > 1" step="1">
@@ -39,26 +39,26 @@
                 <level-update-block :lvl="pilot.Level" :callsign="pilot.Callsign" />
               </v-container>
 
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn large color="primary" @click="stepForward">
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="2">
               <skill-selector v-if="lv_step === 2" :pilot="pilot" level-up />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -67,17 +67,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="3">
               <talent-selector v-if="lv_step === 3" :pilot="pilot" level-up />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -86,17 +86,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="4">
               <mech-skills-selector v-if="lv_step === 4" :pilot="pilot" level-up />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -105,17 +105,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="5">
               <license-selector v-if="lv_step === 5" :pilot="pilot" level-up />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -124,17 +124,17 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content v-if="pilot.Level % 3 === 0" step="6">
               <core-bonus-selector v-if="lv_step === 6" :pilot="pilot" level-up />
-              <v-layout justify-space-between>
-                <v-flex xs1>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -143,8 +143,8 @@
                     Continue
                     <v-icon>chevron_right</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
 
             <v-stepper-content :step="pilot.Level % 3 === 0 ? '7' : '6'">
@@ -152,16 +152,16 @@
                 <confirmation-block :pilot="pilot" />
               </v-container>
 
-              <v-layout>
-                <v-flex xs12 class="text-xs-right">
+              <v-row>
+                <v-col cols="12" class="text-xs-right">
                   <span class="caption mr-5">Is this correct?</span>
-                </v-flex>
-              </v-layout>
-              <v-layout justify-space-between>
-                <v-flex xs1>
+                </v-col>
+              </v-row>
+              <v-row justify-space-between>
+                <v-col cols="1">
                   <v-btn flat to="pilot">Cancel</v-btn>
-                </v-flex>
-                <v-flex shrink>
+                </v-col>
+                <v-col shrink>
                   <v-btn color="primary" flat @click="stepBack">
                     <v-icon>chevron_left</v-icon>
                     Back
@@ -170,13 +170,13 @@
                     Confirm &nbsp;
                     <v-icon>done</v-icon>
                   </v-btn>
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

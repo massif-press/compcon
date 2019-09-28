@@ -1,6 +1,6 @@
-import store from '@/store'
+import { store } from '@/store'
 import _ from 'lodash'
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
 
@@ -33,7 +33,7 @@ class Mech {
   private burn: number
 
   constructor(frame: Frame, pilot: Pilot) {
-    this.id = uid.generate()
+    this.id = uuid()
     this.name = ''
     this.notes = ''
     this.portrait = ''
@@ -71,7 +71,7 @@ class Mech {
   }
 
   public RenewID() {
-    this.id = uid.generate()
+    this.id = uuid()
   }
 
   public get Name(): string {
@@ -515,7 +515,7 @@ class Mech {
   }
 
   public set IsDestroyed(b: boolean) {
-     this.destroyed = b
+    this.destroyed = b
   }
 
   public get IsEjected(): boolean {
@@ -523,7 +523,7 @@ class Mech {
   }
 
   public set IsEjected(b: boolean) {
-     this.ejected = b
+    this.ejected = b
   }
 
   public get MeltdownImminent(): boolean {
@@ -554,7 +554,7 @@ class Mech {
     this.CurrentHP = this.MaxHP
     this.save()
   }
-  
+
   public get IsShutDown(): boolean {
     return this.Statuses.includes('Shut Down')
   }
@@ -711,7 +711,7 @@ class Mech {
   public UpdateLoadouts() {
     this.loadouts.forEach(x => {
       x.UpdateIntegrated(this)
-    });
+    })
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

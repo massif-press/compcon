@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
-    <v-layout justify-center>
-      <v-flex class="mt-5">
+    <v-row justify="center">
+      <v-col class="mt-5">
         <v-stepper v-model="nc_step" vertical>
           <v-stepper-step :complete="nc_step > 1" step="1">
             Editor Mode
@@ -98,8 +98,8 @@
                       style="height:100px;"
                       @click="spawnPopup(props.item)"
                     >
-                      <v-layout>
-                        <v-flex shrink class="pt-2">
+                      <v-row>
+                        <v-col shrink class="pt-2">
                           <span>
                             {{ props.item.Source }}
                             <br />
@@ -129,8 +129,8 @@
                               {{ m }}
                             </v-chip>
                           </div>
-                        </v-flex>
-                        <v-flex>
+                        </v-col>
+                        <v-col>
                           <v-img
                             :src="props.item.DefaultImage"
                             max-height="100px"
@@ -138,8 +138,8 @@
                             class="gradient"
                             style="mask-image: linear-gradient(to left, rgba(0,0,0,1) 40%, rgba(0,0,0,0));"
                           />
-                        </v-flex>
-                      </v-layout>
+                        </v-col>
+                      </v-row>
                     </td>
                   </tr>
                 </template>
@@ -187,9 +187,9 @@
                 </span>
               </v-text-field>
             </v-card>
-            <v-layout justify-space-between>
+            <v-row justify-space-between>
               <v-spacer />
-              <v-flex shrink>
+              <v-col shrink>
                 <v-btn color="primary" flat @click="nc_step--">
                   <v-icon>chevron_left</v-icon>
                   Back
@@ -204,12 +204,12 @@
                   Confirm &nbsp;
                   <v-icon>done</v-icon>
                 </v-btn>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-stepper-content>
         </v-stepper>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -220,7 +220,7 @@ import io from '@/features/_shared/data_io'
 import validator from '../logic/validator'
 import { Pilot, Frame, Mech, MechType } from '@/class'
 import { ItemCard } from '../components/UI'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { accentInclude } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'new-config',
@@ -236,7 +236,7 @@ export default Vue.extend({
     filter: [],
     headers: [{ align: 'left', sortable: false }, { text: 'Frame', align: 'left', value: 'Name' }],
     infoDialog: false,
-    selectedFrame: {} as Frame,
+    selectedFrame: {},
   }),
   computed: {
     frames() {
@@ -247,7 +247,7 @@ export default Vue.extend({
         i = i.filter((x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
 
       if (vm.search)
-        i = i.filter((x: Frame) => includesIgnoringAccentsCase(x.Name, vm.search))
+        i = i.filter((x: Frame) => accentInclude(x.Name, vm.search))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))
@@ -282,7 +282,8 @@ export default Vue.extend({
       newMech.Name = this.newConfigName || 'New Config'
       this.pilot.AddMech(newMech)
       this.newConfigName = null
-      ;(this.selectedFrame = {} as Frame), (this.nc_step = 1)
+      this.selectedFrame = {}
+      this.nc_step = 1
       this.$emit('close')
     },
     importFile() {

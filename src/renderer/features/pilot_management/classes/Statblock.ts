@@ -1,8 +1,8 @@
 import { Pilot, Mech } from '@/class'
 
 class Statblock {
-  public static Generate(pilot: Pilot | null, mech: Mech | null) {
-    function linebreak(i: number, length: number) {
+  public static Generate(pilot: Pilot | null, mech: Mech | null): string {
+    function linebreak(i: number, length: number): string {
       if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
         return '\n  '
       } else if (i + 1 < length) {
@@ -16,10 +16,10 @@ class Statblock {
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «
   ${pilot.Name} 
-  ${pilot.Background.Name}, LL${pilot.Level}
+  ${pilot.Background}, LL${pilot.Level}
   GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${
-        pilot.MechSkills.Sys
-      } E:${pilot.MechSkills.Eng}\n`
+  pilot.MechSkills.Sys
+} E:${pilot.MechSkills.Eng}\n`
 
       output += `[ SKILL TRIGGERS ]\n`
       for (let i = 0; i < pilot.Skills.length; i++) {

@@ -1,22 +1,22 @@
 <template>
   <selector title="Pilot CORE Bonuses">
     <template v-slot:left-column>
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <div v-for="b in pilot.CoreBonuses" :key="`summary_${b.id}`">
-            <v-layout>
-              <v-flex>
+            <v-row>
+              <v-col>
                 <strong>{{ b.Name }}</strong>
                 &nbsp;
                 <span class="caption">({{ b.Source }})</span>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingCBs">
             CORE Bonus Selection Complete
           </v-alert>
@@ -33,23 +33,23 @@
           >
             Reset
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </template>
 
     <template v-slot:right-column>
       <div v-for="m in Object.keys(bonusData)" :key="`summary_block_m${m}`">
-        <v-layout>
-          <v-flex class="text-xs-center pa-3">
+        <v-row>
+          <v-col class="text-center pa-3">
             <span class="display-2 text-uppercase font-weight-light">
               {{ manufacturer(m).name }}
             </span>
             <br />
             <span class="caption grey--text" v-html="requirement(m)" />
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <v-expansion-panel expand focusable>
               <v-expansion-panel-content v-for="cb in bonusData[m]" :key="`${cb.id}_data'`">
                 <v-toolbar-title slot="header" dense>
@@ -74,8 +74,8 @@
                 </v-card>
               </v-expansion-panel-content>
             </v-expansion-panel>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <br />
       </div>
     </template>

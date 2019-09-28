@@ -1,7 +1,7 @@
 // Maintain this file as the single point of import for all class/type/interface definitions
 // (to the extent possible) in order to avoid any circular reference errors. Basic types and
-// abstract classes should be imported before their more complex children. AFAIK the definitions
-// can be stored anywhere and collected imports are fine as long as their constituents are impored
+// abstract classes should be imported before their children. AFAIK the definitions can be
+// stored anywhere and collected imports are fine as long as their constituents are impored
 // first in this file.
 
 import {
@@ -73,10 +73,7 @@ import {
   ParsedDieString,
   DieSet,
 } from './features/_shared/classes/DiceRoller'
-import {
-  DiceStats,
-  DiceStatsResult,
-} from './features/_shared/classes/DiceStats'
+import { DiceStats, DiceStatsResult } from './features/_shared/classes/DiceStats'
 
 export {
   MountType,

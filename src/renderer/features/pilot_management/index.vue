@@ -1,26 +1,21 @@
 <template>
-  <div>
-    <top-bar />
-    <div class="wrapper">
-      <v-fade-transition leave-absolute>
-        <router-view />
-      </v-fade-transition>
-    </div>
+  <div class="wrapper">
+    <cc-nav />
+    <v-fade-transition leave-absolute>
+      <router-view />
+    </v-fade-transition>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Pilot } from '@/class'
-import store from '../../store'
-import { mapGetters } from 'vuex'
-import { TopBar } from '@/features/_shared/topbar'
-import { getModule } from 'vuex-module-decorators';
-import { PilotManagementStore } from './store';
+import CCNav from '@/features/nav/index.vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from './store'
 
 export default Vue.extend({
-  name: 'pilot_management',
-  components: { TopBar },
+  name: 'pilot-management',
+  components: { 'cc-nav': CCNav },
   created() {
     const pilotStore = getModule(PilotManagementStore, this.$store)
     pilotStore.loadPilots()

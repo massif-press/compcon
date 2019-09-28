@@ -6,26 +6,26 @@
     :style="{ padding: $vuetify.breakpoint.lgAndUp ? '0 20%' : 0 }"
     fill-height
   >
-    <v-layout align-center wrap>
-      <v-flex xs12 md4>
+    <v-row align-center wrap>
+      <v-col cols="12" md4>
         <HomeCard
           title="NPC Designer"
           icon="mdi-account-edit"
           text="Build NPCs to use in encounters."
           to="npc-designer"
         />
-      </v-flex>
+      </v-col>
 
-      <v-flex xs12 md4>
+      <v-col cols="12" md4>
         <HomeCard
           title="Encounter Builder"
           icon="mdi-account-multiple-plus"
           text="Compose encounters using your NPCs."
           to="encounter-builder"
         />
-      </v-flex>
+      </v-col>
 
-      <v-flex xs12 md4>
+      <v-col cols="12" md4>
         <HomeCard
           title="Encounter Runner"
           icon="mdi-account-group"
@@ -33,8 +33,8 @@
           to="encounter-runner"
           :icon-offset="13"
         />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -51,6 +51,10 @@ export default Vue.extend({
   created() {
     this.$store.commit('npcDesigner/load')
     this.$store.commit('encounterBuilder/load')
+    // <<<<<<< HEAD
+    //     this.$store.commit('encounterRunner/load')
+    //   },
+    // =======
     // This below is equivalent one of the above lines.
     // ...it's more boilerplate and typing, but it's also 
     // more type-safe and informative when debugging, 

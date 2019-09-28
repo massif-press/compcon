@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <v-container grid-list-sm fluid>
-      <v-layout row>
-        <v-flex xs10>
+      <v-row>
+        <v-col cols="10">
           <v-btn block outline large color="primary" @click="importImage('portrait')">
             Import Portrait Image
           </v-btn>
-        </v-flex>
+        </v-col>
         <v-divider vertical class="ml-2 mr-2" />
-        <v-flex xs2>
+        <v-col cols="2">
           <v-switch v-model="cloud" @change="checkCloudSave">
             <span slot="label">
               Save to Cloud
@@ -28,12 +28,12 @@
               </v-tooltip>
             </span>
           </v-switch>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="mb-2" />
-      <v-layout row justify-space-between wrap fill-height align-center>
-        <v-flex v-if="pilot.CloudPortrait" xs3>
-          <div :class="`justify-center pa-1 cloud`">
+      <v-row justify-space-between wrap fill-height align-center>
+        <v-col v-if="pilot.CloudPortrait" cols="3">
+          <div :class="`justify="center" pa-1 cloud`">
             <v-img
               :src="pilot.CloudPortrait"
               position="top"
@@ -53,11 +53,11 @@
               <span>Saved to Cloud</span>
             </v-tooltip>
           </div>
-        </v-flex>
-        <v-flex v-for="i in portraits" :key="i" xs3>
+        </v-col>
+        <v-col v-for="i in portraits" :key="i" cols="3">
           <div
             :class="
-              `text-xs-right justify-center pa-1 ${
+              `text-xs-right justify="center" pa-1 ${
                 i === pilot.LocalPortrait && !pilot.CloudPortrait ? 'preselected' : 'fadeSelect'
               } clickable`
             "
@@ -87,8 +87,8 @@
               style="opacity: 1!important"
             />
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
     <v-btn large flat color="error" @click="assignPortrait('')">
       <v-icon>remove_circle_outline</v-icon>
@@ -100,7 +100,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import io from '@/features/_shared/data_io'
-import apis from '../../logic/apis'
+import apis from '@/features/_shared/apis'
 import { Pilot } from '@/class'
 
 export default Vue.extend({

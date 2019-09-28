@@ -1,90 +1,68 @@
 <template>
-  <v-layout row wrap mt-5 px-5>
-    <v-flex xs12 px-2>
-      <v-text-field
-        ref="input"
-        class="search-field"
-        prepend-icon="search"
-        @input="debounceInput"
-        :value="this.searchText"
-        solo
-        hide-details
-        single-line
-        placeholder="Search"
-      />
-    </v-flex>
-    <v-flex>
-      <v-subheader>
-        {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
-      </v-subheader>
-      <v-slide-y-reverse-transition mode="out-in">
-        <v-layout row wrap :key="searchText">
-          <v-flex
-            grow
-            xs12
-            md6
-            lg4
-            xl3
-            px-2
-            py-2
-            :key="index"
-            v-for="(item, index) in searchResults"
-          >
-            <v-card v-ripple :to="`/compendium/item/${item.ItemType}/${item.id}`">
-              <!-- -->
-              <v-card-title
-                primary-title
-                :style="{
-                  backgroundColor: colors[item.ItemType.toLowerCase()].light,
-                }"
-                :class="{ 'full-title': !item.description }"
-                class="white--text"
+  <v-container fluid class="mt-5">
+    <v-row justify="center">
+      <v-col cols="8">
+        <v-text-field
+          ref="input"
+          :value="searchText"
+          class="search-field"
+          prepend-icon="search"
+          solo
+          hide-details
+          single-line
+          placeholder="Search"
+          @input="$_.debounce(setSearch($event), 500)"
+        />
+      </v-col>
+    </v-row>
+    <v-row class="mx-3">
+      <v-col>
+        <v-subheader>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</v-subheader>
+        <v-slide-y-reverse-transition mode="out-in">
+          <v-row :key="searchText" fill-height>
+            <v-col v-for="(item, index) in searchResults" :key="index">
+              <cc-titled-panel
+                :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
+                :icon="'cci-' + $_.kebabCase(item.ItemType)"
+                :color="$_.kebabCase(item.ItemType)"
+                clickable
+                @click="$refs[`modal_${item.ID}`][0].show()"
               >
-                <div class="headline">
-                  {{ item.ItemType === 'frame' ? `${item.source} ` : '' }}{{ item.name }}
-                </div>
-                <v-chip disabled outline label color="white" class="text-uppercase ml-auto">
-                  {{ item.ItemType }}
-                </v-chip>
-              </v-card-title>
-              <v-card-text v-if="item.description">
-                <span v-html="item.description" class="item-description"></span>
-              </v-card-text>
-              <!-- <v-card-actions>
-                <v-btn flat>More</v-btn>
-              </v-card-actions>-->
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-slide-y-reverse-transition>
-    </v-flex>
-  </v-layout>
+                <span
+                  class="item-description"
+                  v-html="item.Description ? item.Description : item.Effect ? item.Effect : ''"
+                />
+              </cc-titled-panel>
+              <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
+            </v-col>
+            <v-col cols="12">
+              <br />
+            </v-col>
+          </v-row>
+        </v-slide-y-reverse-transition>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import _ from 'lodash'
-import colors from '@/features/_shared/UI/CCColors'
-import { CompendiumItem, ItemType } from '@/class'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import SearchResultModal from '../UI/SearchResultModal.vue'
+import { CompendiumItem } from '@/class'
+import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'search-results',
+  components: { SearchResultModal },
   data: () => ({
     searchText: '',
     loaded: false,
-    colors: colors,
   }),
-  mounted() {
-    this.searchText = this.$route.query.search as string
-    const input = this.$refs.input as HTMLInputElement
-    input.focus()
-  },
   computed: {
     validResults(): CompendiumItem[] {
-      return _.flatten(
-        _.values(
-          _.pick(this.$store.state.datastore as object, [
+      return this.$_.flatten(
+        this.$_.values(
+          this.$_.pick(this.$store.state.datastore as object, [
             'Frames',
             'MechSystems',
             'MechWeapons',
@@ -97,9 +75,14 @@ export default Vue.extend({
       if (!this.searchText) {
         return []
       }
-      const results = this.validResults.filter(r => includesIgnoringAccentsCase(r.Name, this.searchText))
+      const results = this.validResults.filter(r => accentInclude(r.Name, this.searchText))
       return results
     },
+  },
+  mounted() {
+    this.searchText = this.$route.query.search as string
+    const input = this.$refs.input as HTMLInputElement
+    input.focus()
   },
   methods: {
     setSearch(value: string) {
@@ -109,9 +92,6 @@ export default Vue.extend({
       this.searchText = value
       this.$router.replace(`/compendium/search?search=${value}`)
     },
-    debounceInput: _.debounce(function(this: any, e: string) {
-      this.setSearch(e)
-    }, 500),
     forceInput() {
       this.setSearch((this.$refs.input as HTMLInputElement).value)
     },
@@ -124,26 +104,12 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.v-card {
-  cursor: pointer;
-  user-select: none;
-  height: 100%;
-}
-.v-card__title > .headline {
-  max-width: 70%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.full-title {
-  height: 100%;
-}
 .item-description {
   display: block;
-  max-height: 50px;
+  min-height: 65px;
+  max-height: 65px;
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
   font-style: italic;
   color: gray;
 }

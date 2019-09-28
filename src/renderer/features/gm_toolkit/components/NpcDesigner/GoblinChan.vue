@@ -1,7 +1,9 @@
 <template>
-  <v-layout column hidden-sm-and-down class="goblinchan">
+  <v-row column hidden-sm-and-down class="goblinchan">
     <v-slide-y-reverse-transition group>
-      <b class="goblinchan-header primary--text" v-if="tips.length" key="header">GOBLIN-CHAN'S TIPS</b>
+      <b class="goblinchan-header primary--text" v-if="tips.length" key="header">
+        GOBLIN-CHAN'S TIPS
+      </b>
       <v-card
         class="popover"
         v-for="tip in tips"
@@ -14,7 +16,7 @@
     <div>
       <img :src="imgSource" alt="Goblin-chan" />
     </div>
-  </v-layout>
+  </v-row>
 </template>
 
 <script lang="ts">

@@ -1,67 +1,75 @@
 <template>
   <selector title="Pilot Skill Triggers">
     <template v-slot:left-column>
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
-            <v-layout v-if="pSkill.err">
-              <v-flex shrink>
+            <v-row v-if="pSkill.err">
+              <v-col shrink>
                 <span class="grey--text">// MISSING DATA //</span>
                 <br />
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-btn icon flat color="error" @click="subtract(pSkill)">
                   <v-icon>delete</v-icon>
                 </v-btn>
-              </v-flex>
-            </v-layout>
-            <v-layout v-else>
-              <v-flex xs12>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col cols="12">
                 <v-chip dark color="primary" outline small>
                   +
                   <b>{{ pSkill.Bonus }}</b>
                 </v-chip>
                 <strong>{{ pSkill.Skill.Trigger }}</strong>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <v-alert
             outline
             color="success"
             icon="check_circle"
             :value="!pilot.IsMissingSkills && !(points.selectedCurrent < points.selectedMin)"
-          >Skill Selection Complete</v-alert>
+          >
+            Skill Selection Complete
+          </v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
-          >{{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining</v-alert>
+          >
+            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
+          </v-alert>
           <v-alert
             outline
             color="warning"
             icon="priority_high"
             :value="points.selectedCurrent < points.selectedMin"
-          >Must select a minimum of {{ points.selectedMin }} skills</v-alert>
-          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">Reset</v-btn>
-        </v-flex>
-      </v-layout>
+          >
+            Must select a minimum of {{ points.selectedMin }} skills
+          </v-alert>
+          <v-btn block flat small :disabled="!pilot.Skills.length" @click="resetSkills">
+            Reset
+          </v-btn>
+        </v-col>
+      </v-row>
     </template>
 
     <template v-slot:right-column>
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
-        <v-flex class="skill-header minor-title" v-html="h.description" />
-        <v-layout v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
-          <v-flex xs11>
+        <v-col class="skill-header minor-title" v-html="h.description" />
+        <v-row v-for="skill in skills[h.attr]" :key="skills.length + skill.ID">
+          <v-col cols="11">
             <skill-item :skill="skill" />
-          </v-flex>
-          <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+          </v-col>
+          <v-col>
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn
@@ -92,27 +100,27 @@
                 </v-tooltip>
               </div>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
 
       <div class="mb-4">
-        <v-flex class="skill-header minor-title" v-html="'Custom Skill Triggers'" />
-        <v-layout>
-          <v-flex xs11>
-            <v-layout>
-              <v-flex xs3>
+        <v-col class="skill-header minor-title" v-html="'Custom Skill Triggers'" />
+        <v-row>
+          <v-col cols="11">
+            <v-row>
+              <v-col cols="3">
                 <div class="centered text-xs-left pl-3">
                   <span class="subheading font-weight-bold">New Custom Skill</span>
                 </div>
-              </v-flex>
-              <v-flex xs9>
+              </v-col>
+              <v-col cols="9">
                 <v-text-field v-model="newSkill" box hide-details label="New Skill Trigger" />
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col>
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn
@@ -121,7 +129,7 @@
                     icon
                     flat
                     slot="activator"
-                    :disabled="(pilot.CurrentSkillPoints >= pilot.MaxSkillPoints) || !newSkill"
+                    :disabled="pilot.CurrentSkillPoints >= pilot.MaxSkillPoints || !newSkill"
                     @click="addCustomSkill()"
                   >
                     <v-icon v-html="'add'" />
@@ -130,14 +138,14 @@
                 </v-tooltip>
               </div>
             </v-card>
-          </v-flex>
-        </v-layout>
-        <v-layout v-for="pskill in customSkills" :key="pskill.Skill.Name">
-          <v-flex xs11>
+          </v-col>
+        </v-row>
+        <v-row v-for="pskill in customSkills" :key="pskill.Skill.Name">
+          <v-col cols="11">
             <skill-item :skill="pskill.Skill" />
-          </v-flex>
-          <v-flex>
-            <v-card style="height: 100%" class="text-xs-center ma-0 pa-0">
+          </v-col>
+          <v-col>
+            <v-card style="height: 100%" class="text-center ma-0 pa-0">
               <div class="centered">
                 <v-tooltip top>
                   <v-btn
@@ -168,8 +176,8 @@
                 </v-tooltip>
               </div>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
     </template>
   </selector>

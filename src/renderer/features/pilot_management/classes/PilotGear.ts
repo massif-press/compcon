@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { CompendiumItem, Range, Damage, Tag, ItemType } from '@/class'
 
 abstract class PilotEquipment extends CompendiumItem {

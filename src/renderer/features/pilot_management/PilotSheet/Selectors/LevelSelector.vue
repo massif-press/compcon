@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-card-text class="text-xs-center">
+    <v-card-text class="text-center">
       <p>
         <i>
           This tool skips the level up wizard. Triggers, licenses, talents, mech skills, and CORE
           bonuses will have to be updated manually
         </i>
       </p>
-      <v-layout justify-center>
-        <v-flex xs3>
+      <v-row justify="center">
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10" height="100">
             <v-card-text>
               <span class="title">
@@ -18,17 +18,17 @@
               </span>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-col>
 
-        <v-flex xs1 class="ml-2 mr-2">
+        <v-col cols="1" class="ml-2 mr-2">
           <v-card flat>
             <v-card-text class="mt-3">
               <v-icon large>arrow_forward</v-icon>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-col>
 
-        <v-flex xs3>
+        <v-col cols="3">
           <v-card color="grey lighten-3" elevation="10" height="100">
             <v-card-text>
               <v-text-field
@@ -43,11 +43,11 @@
               />
             </v-card-text>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
-    <v-layout>
-      <v-flex>
+    <v-row>
+      <v-col>
         <v-alert :value="newLevel && newLevel < pilot.level" type="warning">
           <b>WARNING: LEVEL REMOVAL</b>
           <br />
@@ -56,15 +56,15 @@
             Bonuses. They must be re-added manually.
           </span>
         </v-alert>
-      </v-flex>
-    </v-layout>
-    <v-layout v-if="newLevel !== null" class="ma-4">
-      <v-flex class="ml-5 mr-5">
+      </v-col>
+    </v-row>
+    <v-row v-if="newLevel !== null" class="ma-4">
+      <v-col class="ml-5 mr-5">
         <v-btn block color="primary" large @click="setLevel" :disabled="newLevel === pilot.levels">
           Set Pilot Level
         </v-btn>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

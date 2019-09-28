@@ -13,13 +13,18 @@ export default new Router({
       component: require('@/features/main_menu/index').default,
     },
     {
+      path: '/ui-test',
+      name: 'ui-test',
+      component: require('@/features/ui_test/index').default,
+    },
+    {
       path: '/pilot_management',
       name: 'pilot_management',
       component: require('@/features/pilot_management/index').default,
       children: [
         {
           path: '',
-          component: require('@/features/pilot_management/RosterView/index').default,
+          component: require('@/features/pilot_management/Roster/index').default,
         },
         {
           path: '/pilot',
@@ -39,7 +44,7 @@ export default new Router({
         },
         {
           path: '/new',
-          component: require('@/features/pilot_management/PilotSheet/New/index').default,
+          component: require('@/features/pilot_management/New/index').default,
         },
         {
           path: '/level',
@@ -56,10 +61,6 @@ export default new Router({
             {
               path: '/compendium/search',
               component: require('@/features/compendium/Views/SearchResults').default,
-            },
-            {
-              path: '/compendium/item/:type/:id',
-              component: require('@/features/compendium/UI/CompendiumItem').default,
             },
             {
               path: '/licenses',
@@ -86,6 +87,10 @@ export default new Router({
               component: require('@/features/compendium/Views/PilotGear').default,
             },
             {
+              path: '/skills',
+              component: require('@/features/compendium/Views/Skills').default,
+            },
+            {
               path: '/statuses',
               component: require('@/features/compendium/Views/Statuses').default,
             },
@@ -110,8 +115,16 @@ export default new Router({
               component: require('@/features/compendium/Views/Backgrounds').default,
             },
             {
-              path: '/skills',
-              component: require('@/features/compendium/Views/Skills').default,
+              path: '/actions',
+              component: require('@/features/compendium/Views/ActionEconomy').default,
+            },
+            {
+              path: '/glossary',
+              component: require('@/features/compendium/Views/Glossary').default,
+            },
+            {
+              path: '/reserves',
+              component: require('@/features/compendium/Views/Reserves').default,
             },
           ],
         },

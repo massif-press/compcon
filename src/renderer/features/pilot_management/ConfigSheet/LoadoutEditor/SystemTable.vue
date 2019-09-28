@@ -57,7 +57,7 @@
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
                     {{ pilot.callsign }} does not have the license for this system ({{
-                    props.item.License
+                      props.item.License
                     }}
                     {{ props.item.LicenseLevel }})
                   </span>
@@ -72,10 +72,9 @@
               <span class="subheading">{{ props.item.Source }}</span>
             </td>
             <td class="text-xs-left">
-              <span
-                v-if="props.item.Source !== 'GMS'"
-                class="subheading"
-              >{{ props.item.License }} {{ props.item.LicenseLevel }}</span>
+              <span v-if="props.item.Source !== 'GMS'" class="subheading">
+                {{ props.item.License }} {{ props.item.LicenseLevel }}
+              </span>
             </td>
             <td class="text-xs-left">
               <span class="subheading">{{ props.item.SP }}</span>
@@ -90,17 +89,17 @@
           </v-card>
         </template>
       </v-data-table>
-      <v-layout v-if="currentEquip" justify-space-between class="pt-4">
-        <v-flex xs1></v-flex>
-        <v-flex shrink>
-          <v-btn
-            v-if="currentEquip.err"
-            color="amber darken-4"
-            @click="remove"
-          >Uninstall Missing System</v-btn>
-          <v-btn v-else color="amber darken-4" @click="remove">Uninstall {{ currentEquip.Name }}</v-btn>
-        </v-flex>
-      </v-layout>
+      <v-row v-if="currentEquip" justify-space-between class="pt-4">
+        <v-col cols="1"></v-col>
+        <v-col shrink>
+          <v-btn v-if="currentEquip.err" color="amber darken-4" @click="remove">
+            Uninstall Missing System
+          </v-btn>
+          <v-btn v-else color="amber darken-4" @click="remove">
+            Uninstall {{ currentEquip.Name }}
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>
@@ -112,9 +111,8 @@ import { SystemCard } from '../../components/UI'
 import FilterPanel from '@/features/_shared/UI/FilterPanel.vue'
 import { MechLoadout, MechSystem, SystemType, Pilot } from '@/class'
 import { rules } from 'lancer-data'
-import { item } from '../../../../mixins/data'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold'
+import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'system-table',
@@ -161,7 +159,7 @@ export default Vue.extend({
       // filter already equipped
       if (vm.currentEquip) i = i.filter(x => x.ID !== vm.currentEquip.ID)
 
-      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search))
+      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
 
       i = i.filter(x => !vm.loadout.UniqueSystems.map(y => y.ID).includes(x.ID))
 
@@ -171,7 +169,7 @@ export default Vue.extend({
       const aiTotal = this.loadout.Systems.filter(x => x.Type === SystemType.AI).length
       if (aiTotal >= aiLimit) i = i.filter(x => x.Type !== SystemType.AI)
 
-      i = ItemFilter.FilterSystems(i, this.detailFilter)
+      // i = ItemFilter.FilterSystems(i, this.detailFilter)
 
       return i
     },
