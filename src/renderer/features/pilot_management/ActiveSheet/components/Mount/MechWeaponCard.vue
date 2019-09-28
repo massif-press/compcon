@@ -1,5 +1,5 @@
 <template>
-  <v-flex :style="`width: ${width}%`">
+  <v-col :style="`width: ${width}%`">
     <v-card
       color="#595959"
       dark
@@ -59,18 +59,18 @@
         <span class="caption">{{ weapon.Source }} {{ weapon.Size }} {{ weapon.Type }}&nbsp;</span>
       </v-card-title>
       <v-card-text class="pa-1">
-        <v-layout justify-start>
-          <v-flex shrink class="ml-1">
+        <v-row justify-start>
+          <v-col shrink class="ml-1">
             <damage-element dark :dmg="getDamage()" />
-          </v-flex>
-          <v-flex shrink class="ml-3 pt-1">
+          </v-col>
+          <v-col shrink class="ml-3 pt-1">
             <range-element dark :range="getRange()" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <weapon-mod-card v-if="weapon.Mod" :mod="weapon.Mod" :limited-bonus="pilot.LimitedBonus" />
         <p class="pa-0 ml-3 mr-3 mb-0" v-html="weapon.Effect" />
 
-        <v-layout>
+        <v-row>
           <item-tag
             v-for="(t, index) in weapon.Tags"
             :key="t.id + index"
@@ -80,24 +80,24 @@
           <div v-if="weapon.Mod && weapon.Mod.AddedTags" style="display: inline-flex;">
             <item-tag v-for="t in weapon.Mod.AddedTags" :key="t.id" :tagObj="t" :pilot="pilot" />
           </div>
-        </v-layout>
-        <v-layout>
-          <v-flex v-if="weapon.IsLimited">
-            <v-layout>
-              <v-flex xs1>
+        </v-row>
+        <v-row>
+          <v-col v-if="weapon.IsLimited">
+            <v-row>
+              <v-col cols="1">
                 <v-divider class="mt-2 mr-3" />
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <span class="caption grey--text">USES&nbsp;</span>
-                <b
-                  class="warning--text"
-                >{{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}</b>
-              </v-flex>
-              <v-flex grow>
+                <b class="warning--text">
+                  {{ weapon.Uses }} / {{ weapon.MaxUses + pilot.LimitedBonus }}
+                </b>
+              </v-col>
+              <v-col grow>
                 <v-divider class="mt-2 ml-3" />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-start>
+              </v-col>
+            </v-row>
+            <v-row justify-start>
               <limited-bar
                 :key="weapon.Name + '_tb_' + weapon.Uses"
                 :current="weapon.Uses"
@@ -109,50 +109,50 @@
                 full-icon="mdi-hexagon"
                 @update="weapon.Uses = $event"
               />
-            </v-layout>
-          </v-flex>
-          <v-flex v-if="weapon.IsLoading">
-            <v-layout>
-              <v-flex xs1>
+            </v-row>
+          </v-col>
+          <v-col v-if="weapon.IsLoading">
+            <v-row>
+              <v-col cols="1">
                 <v-divider class="mt-2 mr-3" />
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <span class="caption grey--text">LOADED&nbsp;</span>
-              </v-flex>
-              <v-flex grow>
+              </v-col>
+              <v-col grow>
                 <v-divider class="mt-2 ml-3" />
-              </v-flex>
-            </v-layout>
-            <v-layout justify-start>
+              </v-col>
+            </v-row>
+            <v-row justify-start>
               <v-switch
                 v-model="weapon.Loaded"
                 class="ma-0 pa-0 ml-2"
                 color="warning"
                 :label="`${weapon.Loaded ? 'Loaded' : 'Not Loaded'}`"
               ></v-switch>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+            </v-row>
+          </v-col>
+        </v-row>
         <div v-if="weapon.Notes.length">
-          <v-layout>
-            <v-flex xs1>
+          <v-row>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
-            </v-flex>
-            <v-flex shrink>
+            </v-col>
+            <v-col shrink>
               <span class="caption grey--text">NOTES</span>
-            </v-flex>
-            <v-flex grow>
+            </v-col>
+            <v-col grow>
               <v-divider class="mt-2 ml-3" />
-            </v-flex>
-            <v-flex xs1></v-flex>
-          </v-layout>
+            </v-col>
+            <v-col cols="1"></v-col>
+          </v-row>
           <ul>
             <li v-for="(n, idx) in weapon.Notes" :key="`${weapon.Name}_note_${idx}`">{{ n }}</li>
           </ul>
         </div>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

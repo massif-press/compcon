@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
-    <v-layout justify-center align-center px-5 grow-shrink-0>
-      <v-flex>
+    <v-row justify="center" align-center px-5 grow-shrink-0>
+      <v-col>
         <v-card-text class=" d-flex justify-space-around align-center">
           <v-icon class="grey--text text--darken-2 mx-3" size="48">
             mdi-wrench
@@ -13,8 +13,8 @@
             mdi-wrench
           </v-icon>
         </v-card-text>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

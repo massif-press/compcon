@@ -1,6 +1,6 @@
 import { MechWeapon, FittingSize, Pilot } from '@/class'
 import _ from 'lodash'
-import store from '@/store'
+import { store } from '@/store'
 import WeaponMod from '@/features/_shared/classes/WeaponMod'
 
 class WeaponSlot {

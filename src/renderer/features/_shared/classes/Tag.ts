@@ -1,5 +1,5 @@
 import { ItemType } from '@/class'
-import store from '@/store'
+import { store } from '@/store'
 
 class Tag {
   private id: string
@@ -34,11 +34,15 @@ class Tag {
     return this.filter_ignore
   }
 
-  public get Hidden(): boolean {
+  public get IsHidden(): boolean {
     return this.hidden
   }
 
-  public Description(add_bonus?: number): string {
+  public get Description(): string {
+    return this.description.replace(/{VAL}/g, 'X')
+  }
+
+  public GetDescription(add_bonus?: number): string {
     let bonus = 0
     if (this.ID === 'limited') bonus = add_bonus || 0
     if (!this.val) return this.description
@@ -63,7 +67,11 @@ class Tag {
     return this.id
   }
 
-  public Name(add_bonus?: number): string {
+  public get Name(): string {
+    return this.name.replace(/{VAL}/g, 'X')
+  }
+
+  public GetName(add_bonus?: number): string {
     let bonus = 0
     if (this.ID === 'limited') bonus = add_bonus || 0
     if (!this.val) return this.name

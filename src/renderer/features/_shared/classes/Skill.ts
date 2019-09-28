@@ -1,19 +1,19 @@
-import store from '@/store'
+import { store } from '@/store'
 import { CompendiumItem, SkillFamily, ItemType } from '@/class'
 
 class Skill extends CompendiumItem {
-  private detail: string
-  private family: SkillFamily
+  private _detail: string
+  private _family: SkillFamily
 
-  constructor(skillData: any) {
+  public constructor(skillData: { detail: string; family: string }) {
     super(skillData)
-    this.detail = skillData.detail, 
-    this.family = SkillFamily[skillData.family] as SkillFamily
+    this._detail = skillData.detail
+    this._family = SkillFamily[skillData.family] as SkillFamily
     this.item_type = ItemType.Skill
   }
 
   public get Detail(): string {
-    return this.detail
+    return this._detail
   }
 
   public get Trigger(): string {
@@ -21,7 +21,7 @@ class Skill extends CompendiumItem {
   }
 
   public get Family(): string {
-    return this.family
+    return this._family
   }
 
   public static Deserialize(id: string): Skill {
@@ -30,20 +30,20 @@ class Skill extends CompendiumItem {
 }
 
 class CustomSkill {
-  private name: string
-  private item_type: ItemType
+  private _name: string
+  private _item_type: ItemType
 
-  constructor(name: string) {
-    this.name = name
-    this.item_type = ItemType.Skill
+  public constructor(name: string) {
+    this._name = name
+    this._item_type = ItemType.Skill
   }
 
   public get ID(): string {
-    return this.name
+    return this._name
   }
 
   public get Name(): string {
-    return this.name
+    return this._name
   }
 
   public get Description(): string {
@@ -51,7 +51,7 @@ class CustomSkill {
   }
 
   public get ItemType(): ItemType {
-    return this.item_type
+    return this._item_type
   }
 
   public get Brew(): string {
@@ -59,21 +59,16 @@ class CustomSkill {
   }
 
   public get Detail(): string {
-    return 'Custom Skill Trigger'
+    return ''
   }
 
   public get Trigger(): string {
-    return this.name
+    return this._name
   }
 
   public get Family(): string {
     return 'Custom'
   }
-
 }
 
-
-export {
-  Skill,
-  CustomSkill
-}
+export { Skill, CustomSkill }

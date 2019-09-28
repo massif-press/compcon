@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs4 class="mb-1 text-xs-center">
+  <v-col cols="4" class="mb-1 text-center">
     <v-card flat class="ma-2" color="grey lighten-2">
       <v-card-text class="stat-header pt-1 pb-1">
         <contributor
@@ -15,7 +15,7 @@
         </span>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

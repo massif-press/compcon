@@ -3,25 +3,25 @@
     <!-- Header -->
     <v-card-title class="white--text d-flex" :class="roleColor" style="min-height: 70px;">
       <v-container fluid style="padding: 0 16px">
-        <v-layout
+        <v-row
           align-center
           grow-shrink-0
           wrap
           :class="{
             column: $vuetify.breakpoint.xsOnly,
-            'justify-center': $vuetify.breakpoint.xsOnly,
+            'justify="center"': $vuetify.breakpoint.xsOnly,
           }"
         >
           <v-fade-transition leave-absolute>
-            <v-layout align-center v-if="!editingName" class="name" key="name">
-              <v-flex headline shrink>{{ npc.name }}</v-flex>
-              <v-flex shrink>
+            <v-row align-center v-if="!editingName" class="name" key="name">
+              <v-col headline shrink>{{ npc.name }}</v-col>
+              <v-col shrink>
                 <v-btn flat dark class="my-0 mx-1 px-2" style="min-width: 0;" @click="editName">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-              </v-flex>
-            </v-layout>
-            <v-flex v-else key="editname">
+              </v-col>
+            </v-row>
+            <v-col v-else key="editname">
               <v-text-field
                 ref="namefield"
                 required
@@ -32,10 +32,10 @@
                 @keyup.enter="$refs.namefield.blur"
                 class="mx-0 my-0"
               ></v-text-field>
-            </v-flex>
+            </v-col>
           </v-fade-transition>
-          <v-flex
-            xs12
+          <v-col
+            cols="12"
             sm2
             :class="{
               'mx-0': $vuetify.breakpoint.xsOnly,
@@ -54,11 +54,11 @@
                 <v-icon :color="roleColor">mdi-numeric-3-box</v-icon>
               </v-btn>
             </v-btn-toggle>
-          </v-flex>
-          <v-flex subheading shrink>
+          </v-col>
+          <v-col subheading shrink>
             <div class="text-uppercase">{{ npc.npcClass.name }}</div>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-container>
     </v-card-title>
     <v-card-text class="px-4">
@@ -94,13 +94,13 @@
             />
             <div v-else class="headline font-weight-bold primary--text">{{ npc.size }}</div>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="my-3" />
       <!-- HASE -->
-      <v-layout wrap justify-center class="statblock">
-        <v-flex
-          xs6
+      <v-row wrap justify="center" class="statblock">
+        <v-col
+          cols="6"
           sm2
           lg1
           v-for="check in Object.keys(hase)"
@@ -123,15 +123,15 @@
       <v-text-field outline label="Notes" v-model="npc.notes" :color="roleColor"></v-text-field>
       <v-divider class="mt-2 mb-3" />
       <!-- Systems header -->
-      <v-layout grow-shrink-0>
-        <v-flex class="title mb-2 text-xs-left grey--text text--darken-1">Systems</v-flex>
-        <v-flex ml-auto>
+      <v-row grow-shrink-0>
+        <v-col class="title mb-2 text-xs-left grey--text text--darken-1">Systems</v-col>
+        <v-col ml-auto>
           <v-checkbox :color="roleColor" v-model="systemsUnlocked" label="Unlock all systems" />
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <!-- Systems picker -->
-      <v-layout wrap>
-        <v-flex xs12 sm6>
+      <v-row wrap>
+        <v-col cols="12" sm6>
           <v-card class="picker-card">
             <v-container>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">
@@ -149,8 +149,8 @@
               </v-fade-transition>
             </v-container>
           </v-card>
-        </v-flex>
-        <v-flex xs12 sm6>
+        </v-col>
+        <v-col cols="12" sm6>
           <v-card class="picker-card">
             <v-tabs dark color="primary" slider-color="secondary">
               <v-tab
@@ -159,7 +159,9 @@
                 ripple
                 centered
                 mandatory
-              >{{ cat }}</v-tab>
+              >
+                {{ cat }}
+              </v-tab>
               <v-tab-item v-for="cat in Object.keys(systemsAvailable)" :key="cat">
                 <v-container fluid>
                   <v-fade-transition
@@ -179,16 +181,16 @@
               </v-tab-item>
             </v-tabs>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <!-- Templates header -->
       <v-divider class="my-3" />
-      <v-layout grow-shrink-0>
-        <v-flex class="title mb-2 text-xs-left grey--text text--darken-1">Templates</v-flex>
-      </v-layout>
+      <v-row grow-shrink-0>
+        <v-col class="title mb-2 text-xs-left grey--text text--darken-1">Templates</v-col>
+      </v-row>
       <!-- Templates picker -->
-      <v-layout>
-        <v-flex xs6>
+      <v-row>
+        <v-col cols="6">
           <v-card class="picker-card">
             <v-container>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">
@@ -202,8 +204,8 @@
               </v-fade-transition>
             </v-container>
           </v-card>
-        </v-flex>
-        <v-flex xs6>
+        </v-col>
+        <v-col cols="6">
           <v-card class="picker-card">
             <v-container fluid>
               <v-fade-transition group tag="div" class="layout justify-start grow-shrink-0 wrap">
@@ -218,12 +220,14 @@
               </v-fade-transition>
             </v-container>
           </v-card>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
     <v-divider class="my-1" />
     <v-card-actions class="mb-1 mr-2">
-      <v-btn flat :color="roleColor" class="ml-auto" @click="$router.push('/npc-designer/')">Done</v-btn>
+      <v-btn flat :color="roleColor" class="ml-auto" @click="$router.push('/npc-designer/')">
+        Done
+      </v-btn>
     </v-card-actions>
     <GoblinChan v-if="npc && tips.length" :tips="tips" key="goblinchan" />
   </v-card>

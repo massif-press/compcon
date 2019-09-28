@@ -1,15 +1,15 @@
 <template>
   <v-container fluid>
     <!-- Header -->
-    <v-layout align-center>
+    <v-row align-center>
       <h3 class="headline text-xs-left ml-2 grey--text text--darken-1">NPCs</h3>
-      <v-flex ml-auto style="padding: 7px; flex-grow: 0;">
+      <v-col ml-auto style="padding: 7px; flex-grow: 0;">
         <add-button text="Create NPC" to="/npc-designer/new" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-divider class="mb-3" />
-    <v-slide-y-transition group tag="div" class="layout row wrap justify-start">
-      <v-flex v-for="npc in npcs" :key="npc.id" xs4>
+    <v-slide-y-transition group tag="div" class="layoutwrap justify-start">
+      <v-col v-for="npc in npcs" :key="npc.id" cols="4">
         <File
           :name="npc.name"
           icon="mdi-account"
@@ -20,7 +20,9 @@
           <template v-slot:extra-icons>
             <v-menu bottom left>
               <template v-slot:activator="{ on }">
-                <v-icon right class="ml-auto more-icon" v-on="on" @click.stop>mdi-dots-vertical</v-icon>
+                <v-icon right class="ml-auto more-icon" v-on="on" @click.stop>
+                  mdi-dots-vertical
+                </v-icon>
               </template>
 
               <v-list class="more-list">
@@ -40,7 +42,7 @@
             </v-menu>
           </template>
         </File>
-      </v-flex>
+      </v-col>
     </v-slide-y-transition>
     <v-dialog v-if="deletingNPCID !== null" v-model="deleteDialog" persistent max-width="290">
       <v-card>
@@ -56,7 +58,9 @@
               deleteDialog = false
               deletingNPCID = null
             "
-          >Cancel</v-btn>
+          >
+            Cancel
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

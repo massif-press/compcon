@@ -1,43 +1,85 @@
 <template>
   <v-container fluid px-5>
-    <span class="display-1 text-uppercase font-weight-thin">LICENSES</span>
-    <v-layout v-for="m in Object.keys(licenses)" :key="m">
-      <v-flex class="text-xs-center pa-3">
-        <span class="display-2 text-uppercase font-weight-light">
-          {{ getManufacturer(m).name }}
-        </span>
-        <v-expansion-panel class="mt-2">
-          <v-expansion-panel-content v-for="l in licenses[m]" :key="l.FrameID">
-            <template v-slot:header>
-              <div class="text-uppercase title">{{ l.Name }}</div>
-            </template>
-            <license-card :license="l" />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+    <h1 class="heading">LICENSES</h1>
+    <v-row v-for="m in Object.keys(licenses)" :key="m">
+      <v-col class="text-center pa-3">
+        <span class="heading mech">{{ manufacturer(m).name }}</span>
+        <v-expansion-panels accordion focusable active-class="border-primary">
+          <v-expansion-panel v-for="l in licenses[m]" :key="l.FrameID" class="border-highlight">
+            <v-expansion-panel-header id="hover-parent" hide-actions>
+              <div>
+                <span>
+                  <span class="caption">{{ frame(l.FrameID).Source }}</span>
+                  <br />
+                  <span class="major-title font-weight-bold">{{ frame(l.FrameID).Name }}</span>
+                </span>
+                <v-chip
+                  v-for="f in frame(l.FrameID).Mechtype"
+                  :key="f"
+                  small
+                  dark
+                  outlined
+                  color="primary"
+                  class="mr-2"
+                >{{ f }}</v-chip>
+              </div>
+              <v-img
+                id="img-hover"
+                :src="frame(l.FrameID).DefaultImage"
+                max-height="100%"
+                :position="`top ${frame(l.FrameID).YPosition}% left 80px`"
+                style="position:absolute; top: 0; right: 0;"
+              />
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <cc-license-panel :license="l" />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <v-divider class="mt-5 mb-0" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import _ from 'lodash'
-import { LicenseCard } from '@/features/pilot_management/components/UI'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'licenses',
-  components: { LicenseCard },
   data: () => ({
     licenses: {},
   }),
+  created() {
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.licenses = this.$_.groupBy(compendium.Licenses, 'source')
+  },
   methods: {
     manufacturer(id: string) {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      const compendium = getModule(CompendiumStore, this.$store)
+      return compendium.getItemById('Manufacturers', id.toUpperCase())
     },
-  },
-  created() {
-    this.licenses = _.groupBy(this.$store.getters.getItemCollection('Licenses'), 'source')
+    frame(id: string) {
+      const compendium = getModule(CompendiumStore, this.$store)
+      return compendium.getItemById('Frames', id)
+    },
   },
 })
 </script>
+
+<style scoped>
+#img-hover {
+  opacity: 0.7;
+  transition: all 0.3s ease-in-out;
+}
+
+#hover-parent:hover > #img-hover {
+  opacity: 1;
+}
+
+.border-primary #img-hover {
+  opacity: 1;
+}
+</style>

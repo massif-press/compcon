@@ -1,6 +1,6 @@
 <template>
-  <v-layout fill-height>
-    <v-flex xs2>
+  <v-row fill-height>
+    <v-col cols="2">
       <v-tooltip top>
         <v-btn
           slot="activator"
@@ -14,8 +14,8 @@
         <span v-if="!weaponSlot.Weapon">Equip {{ weaponSlot.Size }} Weapon</span>
         <span v-else>Change Equipped {{ weaponSlot.Size }} Weapon</span>
       </v-tooltip>
-    </v-flex>
-    <v-flex xs10>
+    </v-col>
+    <v-col cols="10">
       <div v-if="!weaponSlot.Weapon">
         <v-expansion-panel class="ma-0">
           <v-expansion-panel-content disabled>
@@ -33,7 +33,7 @@
       <div v-else>
         <v-expansion-panel class="m-0">
           <v-expansion-panel-content :class="weaponSlot.Weapon.IsDestroyed ? 'destroyed-bg' : ''">
-            <v-layout slot="header">
+            <v-row slot="header">
               <span
                 class="subheading font-weight-bold"
                 :style="weaponSlot.Weapon.IsDestroyed ? 'text-decoration: line-through;' : ''"
@@ -56,7 +56,8 @@
               </span>
               <v-spacer />
               <span class="mr-5" style="display: inline-flex;">
-                <range-element small :range="getRange()" />&emsp;&mdash;&emsp;
+                <range-element small :range="getRange()" />
+                &emsp;&mdash;&emsp;
                 <damage-element small size="16" :dmg="getDamage()" />
                 <v-spacer class="mr-3" />
                 <v-tooltip top v-if="!noMod">
@@ -78,7 +79,7 @@
                 </v-tooltip>
                 <v-spacer class="mr-5" />
               </span>
-            </v-layout>
+            </v-row>
             <mod-card
               v-if="weaponSlot.Weapon.Mod && !weaponSlot.Weapon.Mod.err"
               :modData="weaponSlot.Weapon.Mod"
@@ -93,7 +94,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </div>
-    </v-flex>
+    </v-col>
 
     <!-- Weapon Selector Modal -->
     <v-dialog
@@ -138,18 +139,18 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           Superheavy-class weaponry requires an additional mount. Select the bracing mount below.
           <br />
           <i>The selected mount will be locked until the superheavy weapon is removed.</i>
           <br />
-          <v-layout row justify-center>
+          <v-row justify="center">
             <div v-for="(m, i) in loadout.AllEquippableMounts(hasImproved)" :key="`sh_${i}`">
-              <v-flex v-if="m.Type !== 'Heavy'">
+              <v-col v-if="m.Type !== 'Heavy'">
                 <v-btn v-html="`&emsp;${m.Type}&emsp;`" large block @click="equipSuperheavy(m)" />
-              </v-flex>
+              </v-col>
             </div>
-          </v-layout>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -185,7 +186,7 @@
         />
       </v-card>
     </v-dialog>
-  </v-layout>
+  </v-row>
 </template>
 
 <script lang="ts">

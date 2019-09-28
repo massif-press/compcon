@@ -15,18 +15,22 @@
           <v-divider dark vertical class="ml-2 mr-1" />
           <v-icon @click.stop="infoDialog = true">mdi-help-circle-outline</v-icon>
         </div>
-        <span class="pl-4 pr-3">{{action.name}}</span>
+        <span class="pl-4 pr-3">{{ action.name }}</span>
       </v-btn>
       <span>{{ action.description }}</span>
     </v-tooltip>
     <v-dialog v-model="dialog" width="80vw">
-      <v-toolbar dense color="blue-grey darken-2" class="major-title" dark>{{ action.name }}</v-toolbar>
+      <v-toolbar dense color="blue-grey darken-2" class="major-title" dark>
+        {{ action.name }}
+      </v-toolbar>
       <v-card>
         <slot @close="this.dialog = false"></slot>
       </v-card>
     </v-dialog>
     <v-dialog v-model="infoDialog" width="800">
-      <v-toolbar dense color="blue-grey darken-2" class="major-title" dark>{{ action.name }}</v-toolbar>
+      <v-toolbar dense color="blue-grey darken-2" class="major-title" dark>
+        {{ action.name }}
+      </v-toolbar>
       <v-card dark>
         <v-card-text v-html="action.detail" class="effect-text" />
       </v-card>

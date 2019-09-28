@@ -36,13 +36,13 @@
       </span>
       <!-- <div v-if="showCb">
         <v-card v-if="bonuses && bonuses.gyges" color="grey darken-1" class="ml-5 mr-5 mt-3 mb-3">
-          <v-card-text class="text-xs-center ma-0 pa-2">
+          <v-card-text class="text-center ma-0 pa-2">
             <span class="blockquote">GYGES Frame Reinforcement</span><br>
             <span>+1 Melee Weapon Threat</span>
           </v-card-text>
         </v-card>
         <v-card v-if="bonuses && bonuses.neurolinked" color="grey darken-1" class="ml-5 mr-5 mt-3 mb-3">
-          <v-card-text class="text-xs-center ma-0 pa-2">
+          <v-card-text class="text-center ma-0 pa-2">
             <span class="blockquote">Neuro-linked Targeting</span><br>
             <span>+3 Range</span>
           </v-card-text>

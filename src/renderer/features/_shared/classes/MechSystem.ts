@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import { MechEquipment, SystemType, ItemType } from '@/class'
 
 class MechSystem extends MechEquipment {

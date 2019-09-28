@@ -1,9 +1,9 @@
 <template>
   <v-card flat class="pt-0">
     <v-card-text class="pt-0">
-      <v-layout row>
-        <v-flex xs4 :class="{ locked: rank && rank < 1 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+      <v-row>
+        <v-col cols="4" :class="{ locked: rank && rank < 1 }">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 1" class="grey-text">
               RANK I &nbsp;
               <v-icon>mdi-lock-outline</v-icon>
@@ -17,9 +17,9 @@
           <div v-for="i in license.Unlocks[0]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>
-        </v-flex>
-        <v-flex xs4 :class="{ locked: rank && rank < 2 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+        </v-col>
+        <v-col cols="4" :class="{ locked: rank && rank < 2 }">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 2" class="grey-text">
               RANK II &nbsp;
               <v-icon>mdi-lock-outline</v-icon>
@@ -33,9 +33,9 @@
           <div v-for="i in license.Unlocks[1]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>
-        </v-flex>
-        <v-flex xs4 :class="{ locked: rank && rank < 3 }">
-          <p class="text-xs-center pt-2 subheading font-weight-bold">
+        </v-col>
+        <v-col cols="4" :class="{ locked: rank && rank < 3 }">
+          <p class="text-center pt-2 subheading font-weight-bold">
             <span v-if="rank && rank < 3" class="grey-text">
               RANK III &nbsp;
               <v-icon>mdi-lock-outline</v-icon>
@@ -49,8 +49,8 @@
           <div v-for="i in license.Unlocks[2]" :key="i.id" class="mr-4 ml-4">
             <item-badge :item="i" />
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>

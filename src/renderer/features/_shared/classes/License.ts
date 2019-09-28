@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 import _ from 'lodash'
 import { LicensedItem, Frame } from '@/class'
 

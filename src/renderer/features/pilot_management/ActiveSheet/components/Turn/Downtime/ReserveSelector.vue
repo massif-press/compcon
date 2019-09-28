@@ -1,8 +1,8 @@
 <template>
   <v-card flat class="ma-2">
     <v-card-text>
-      <v-layout row wrap>
-        <v-flex xs6>
+      <v-row wrap>
+        <v-col cols="6">
           <v-select
             class="ml-2 mr-2"
             label="Reserve Type"
@@ -12,8 +12,8 @@
             hide-details
             @change="reserve = ''"
           />
-        </v-flex>
-        <v-flex xs6 v-if="type && type !== 'Custom'">
+        </v-col>
+        <v-col cols="6" v-if="type && type !== 'Custom'">
           <v-select
             class="ml-2 mr-2"
             label="Reserve"
@@ -24,9 +24,9 @@
             outline
             hide-details
           />
-        </v-flex>
+        </v-col>
         <v-slide-y-transition>
-          <v-flex xs12 v-show="(type === 'Custom' || reserve)">
+          <v-col cols="12" v-show="type === 'Custom' || reserve">
             <v-card color="grey lighten-4" class="ml-3 mr-3">
               <v-card-text class="pt-1 pb-0">
                 <p
@@ -35,16 +35,20 @@
                   v-html="reserveByID(reserve).description"
                 />
                 <div
-                  v-if="type !== 'Mech' && reserve !== 'reserve_extendedharness' && reserve !== 'reserve_bombardment'"
+                  v-if="
+                    type !== 'Mech' &&
+                      reserve !== 'reserve_extendedharness' &&
+                      reserve !== 'reserve_bombardment'
+                  "
                 >
                   <v-text-field v-model="custom_name" label="Resource Name" style="width: 500px" />
                   <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
                 </div>
               </v-card-text>
             </v-card>
-          </v-flex>
+          </v-col>
         </v-slide-y-transition>
-      </v-layout>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -86,4 +90,3 @@ export default Vue.extend({
   },
 })
 </script>
-
