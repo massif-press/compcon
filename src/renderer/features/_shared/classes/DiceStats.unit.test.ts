@@ -21,12 +21,12 @@ describe('DiceStats', () => {
       ${'-3d6+10'} | ${-8}  | ${7}   | ${-0.5}
       ${'-3d6-10'} | ${-28} | ${-13} | ${-20.5}
     `('calculates correctly for $dice', ({ dice, min, max, mean }) => {
-      let result = DiceStats.getStats(dice)
-      expect(result).toBeInstanceOf(DiceStatsResult)
-      expect(result.min).toBe(min)
-      expect(result.max).toBe(max)
-      expect(result.mean).toBe(mean)
-    })
+  let result = DiceStats.getStats(dice)
+  expect(result).toBeInstanceOf(DiceStatsResult)
+  expect(result.min).toBe(min)
+  expect(result.max).toBe(max)
+  expect(result.mean).toBe(mean)
+})
 
     it('errors out appropriately for garbage input', () => {
       let result = DiceStats.getStats('awdadawd')
@@ -53,9 +53,9 @@ describe('DiceStats', () => {
       ${'-3d6+10'} | ${7}
       ${'-3d6-10'} | ${-13}
     `('gets max as $expected for $dice', ({ dice, expected }) => {
-      let parsed = DiceRoller.parseDiceString(dice)
-      expect(DiceStats.calculateMax(parsed)).toBe(expected)
-    })
+  let parsed = DiceRoller.parseDiceString(dice)
+  expect(DiceStats.calculateMax(parsed)).toBe(expected)
+})
   })
 
   describe('calculateMin', () => {
@@ -75,9 +75,9 @@ describe('DiceStats', () => {
       ${'-3d6+10'} | ${-8}
       ${'-3d6-10'} | ${-28}
     `('gets min as $expected for $dice', ({ dice, expected }) => {
-      let parsed = DiceRoller.parseDiceString(dice)
-      expect(DiceStats.calculateMin(parsed)).toBe(expected)
-    })
+  let parsed = DiceRoller.parseDiceString(dice)
+  expect(DiceStats.calculateMin(parsed)).toBe(expected)
+})
   })
 
   describe('calculateMean', () => {
@@ -98,8 +98,8 @@ describe('DiceStats', () => {
       ${'-3d6+10'} | ${-0.5}
       ${'-3d6-10'} | ${-20.5}
     `('gets mean as $expected for $dice', ({ dice, expected }) => {
-      let parsed = DiceRoller.parseDiceString(dice)
-      expect(DiceStats.calculateMean(parsed)).toBe(expected)
-    })
+  let parsed = DiceRoller.parseDiceString(dice)
+  expect(DiceStats.calculateMean(parsed)).toBe(expected)
+})
   })
 })

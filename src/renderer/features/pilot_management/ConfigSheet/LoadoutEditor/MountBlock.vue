@@ -22,7 +22,7 @@
       </span>
       <v-card-text v-if="mount.IsLocked" class="bordered ml-3 pt-4">
         <v-card color="grey lighten-1">
-          <v-card-text class="blockquote text-xs-center">
+          <v-card-text class="blockquote text-center">
             LOCKED
             <br />
             <span class="caption">SUPERHEAVY WEAPON BRACING</span>
@@ -48,7 +48,7 @@
           color="grey lighten-1"
           class="ma-2"
         >
-          <v-card-text class="text-xs-center">
+          <v-card-text class="text-center">
             <b>{{ cb.Name }}</b>
             <br />
             <i class="caption">{{ cb.MountedEffect }}</i>

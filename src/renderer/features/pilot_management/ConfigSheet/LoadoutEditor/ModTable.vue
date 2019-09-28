@@ -68,7 +68,7 @@
                   <v-icon color="warning" slot="activator">warning</v-icon>
                   <span>
                     {{ pilot.callsign }} does not have the license for this weapon modification ({{
-                    props.item.License
+                      props.item.License
                     }}
                     {{ props.item.LicenseLevel }})
                   </span>
@@ -98,27 +98,29 @@
             <v-card-text>
               <p v-if="props.item.Description" v-html="props.item.Description" class="fluff-text" />
               <p v-if="props.item.Effect" v-html="props.item.Effect" class="pl-2 effect-text" />
-              <v-layout class="mt-2">
+              <v-row class="mt-2">
                 <item-tag
                   v-for="(tag, index) in props.item.Tags"
                   :key="tag.id + index"
                   :tag-obj="tag"
                 />
-              </v-layout>
+              </v-row>
             </v-card-text>
           </v-card>
         </template>
       </v-data-table>
-      <v-layout
+      <v-row
         v-if="weaponSlot.Weapon && weaponSlot.Weapon.Mod"
         justify-space-between
         class="pt-4"
       >
-        <v-flex xs1></v-flex>
-        <v-flex shrink>
-          <v-btn color="amber darken-4" @click="remove">Uninstall {{ weaponSlot.Weapon.Mod.Name }}</v-btn>
-        </v-flex>
-      </v-layout>
+        <v-col cols="1"></v-col>
+        <v-col shrink>
+          <v-btn color="amber darken-4" @click="remove">
+            Uninstall {{ weaponSlot.Weapon.Mod.Name }}
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>
@@ -127,7 +129,7 @@
 import Vue from 'vue'
 import { ItemTag } from '../../components/UI'
 import { WeaponMod, Pilot, WeaponSlot, EquippableMount, MechLoadout } from '@/class'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { accentInclude } from '@/features/_shared/utility/accent_fold';
 
 export default Vue.extend({
   name: 'mod-table',
@@ -177,7 +179,7 @@ export default Vue.extend({
       // // filter out any mount restrictions
       i = i.filter(x => !x.Restricted || !x.Restricted.includes(vm.weaponSlot.Weapon.Size))
       // // search input
-      if (vm.search) i = i.filter(x => includesIgnoringAccentsCase(x.Name, vm.search) )
+      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search) )
 
       return i
     },

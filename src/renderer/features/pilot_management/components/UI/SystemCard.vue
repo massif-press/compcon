@@ -41,32 +41,32 @@
         {{ itemData.Type }} ({{ itemData.sp }} SP)
       </p>
       <p v-if="itemData.Effect" v-html="itemData.Effect" class="pl-2 effect-text" />
-      <v-layout class="pb-2">
+      <v-row class="pb-2">
         <item-tag
           v-for="t in itemData.Tags"
           :key="t.id"
           :tagObj="t"
           :pilot="!tableItem ? pilot : null"
         />
-      </v-layout>
+      </v-row>
       <div v-if="!tableItem && pilot && itemData.IsLimited">
-        <v-layout>
-          <v-flex xs1>
+        <v-row>
+          <v-col cols="1">
             <v-divider class="mt-2 mr-3" />
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <span class="caption grey--text text--darken-2">USES</span>
             <b class="primary--text">
               {{ itemData.Uses }} /
               {{ itemData.MaxUses + pilot.LimitedBonus }}
             </b>
-          </v-flex>
-          <v-flex grow>
+          </v-col>
+          <v-col grow>
             <v-divider class="mt-2 ml-3" />
-          </v-flex>
-          <v-flex xs1></v-flex>
-        </v-layout>
-        <v-layout justify-start>
+          </v-col>
+          <v-col cols="1"></v-col>
+        </v-row>
+        <v-row justify-start>
           <limited-bar
             :key="itemData.Name + '_tb_' + itemData.Uses"
             :current="itemData.Uses"
@@ -78,38 +78,38 @@
             full-icon="mdi-hexagon"
             @update="itemData.Uses = $event"
           />
-        </v-layout>
+        </v-row>
       </div>
       <div v-if="!tableItem" class="pb-4">
-        <v-layout>
-          <v-flex xs1>
+        <v-row>
+          <v-col cols="1">
             <v-divider class="mt-2 mr-3" />
-          </v-flex>
-          <v-flex shrink>
+          </v-col>
+          <v-col shrink>
             <span class="caption grey--text text--darken-2">ITEM NOTES</span>
-          </v-flex>
-          <v-flex grow>
+          </v-col>
+          <v-col grow>
             <v-divider class="mt-2 ml-3" />
-          </v-flex>
-          <v-flex xs1></v-flex>
-        </v-layout>
-        <v-layout
+          </v-col>
+          <v-col cols="1"></v-col>
+        </v-row>
+        <v-row
           v-for="(n, idx) in itemData.Notes"
           :key="`${itemData.Name}_note_${idx}`"
           class="mt-1"
         >
-          <v-flex xs11>
+          <v-col cols="11">
             <item-note :content="n" @update="updateNote(idx, $event)" />
-          </v-flex>
-          <v-flex xs1>
+          </v-col>
+          <v-col cols="1">
             <v-tooltip top>
               <v-btn slot="activator" outline color="error" icon small @click="removeNote(idx)">
                 <v-icon>close</v-icon>
               </v-btn>
               <span>Delete Note</span>
             </v-tooltip>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <v-tooltip top>
           <v-btn
             slot="activator"

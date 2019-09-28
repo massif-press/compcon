@@ -5,16 +5,18 @@
     </v-toolbar>
     <v-window v-model="window">
       <v-window-item>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <span class="fluff-text">
             <b class="minor-title red--text">FRAME INTEGRITY COMPROMISED</b>
-            <br />Roll 1d6 per point of structure damage
+            <br />
+            Roll 1d6 per point of structure damage
           </span>
           <br />
-          <span class="display-2">{{totalRolls}}d6</span>
+          <span class="display-2">{{ totalRolls }}d6</span>
           <br />
           <span class="caption capitalize-text">
-            <b>{{totalRolls - rolls.length}}</b> rolls remaining
+            <b>{{ totalRolls - rolls.length }}</b>
+            rolls remaining
           </span>
           <br />
           <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
@@ -29,7 +31,7 @@
               <span>Click to re-roll</span>
             </v-tooltip>
           </div>
-          <div v-for="n in (totalRolls - rolls.length)" :key="`er${n}`" class="d-inline">
+          <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
             <v-btn flat icon x-large disabled>
               <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
             </v-btn>
@@ -54,11 +56,13 @@
           <span
             v-if="rolls.filter(x => x === 1).length > 1"
             class="major-title font-weight-bold capitalize-text red--text"
-          >// CRITICAL STRUCTURAL DAMAGE //</span>
+          >
+            // CRITICAL STRUCTURAL DAMAGE //
+          </span>
           <span v-else-if="rolls.length" class="minor-title capitalize-text">
             Result:
-            <b>{{Math.min(...rolls)}}</b>
-            <i>({{results[Math.min(...rolls) - 1]}})</i>
+            <b>{{ Math.min(...rolls) }}</b>
+            <i>({{ results[Math.min(...rolls) - 1] }})</i>
           </span>
         </v-card-text>
         <v-divider />
@@ -68,14 +72,16 @@
           <v-btn
             color="primary"
             large
-            :disabled="(totalRolls - rolls.length) > 0"
+            :disabled="totalRolls - rolls.length > 0"
             @click="window = resultWindow"
-          >continue</v-btn>
+          >
+            continue
+          </v-btn>
         </v-card-actions>
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Glancing Blow</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <p class="fluff-text">
             Emergency systems kick in and stabilize your mech. However, your mech is
             <strong>impaired</strong>
@@ -91,7 +97,7 @@
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">System Trauma</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
           <v-btn
             class="mt-0 mb-4"
@@ -136,14 +142,19 @@
           <v-btn
             color="success"
             large
-            :disabled="(systemTraumaRoll <= 3 && destroyedMount === null) || (systemTraumaRoll > 3 && !destroyedSystem)"
+            :disabled="
+              (systemTraumaRoll <= 3 && destroyedMount === null) ||
+                (systemTraumaRoll > 3 && !destroyedSystem)
+            "
             @click="applySystemTrauma"
-          >confirm</v-btn>
+          >
+            confirm
+          </v-btn>
         </v-card-actions>
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Direct Hit</v-card-title>
-        <v-card-text class="text-xs-center">
+        <v-card-text class="text-center">
           <div class="fluff-text">
             <p v-if="mech.CurrentStructure >= 3">
               Your mech is
@@ -176,8 +187,10 @@
       </v-window-item>
       <v-window-item>
         <v-card-title primary-title class="major-title">Crushing Hit</v-card-title>
-        <v-card-text class="text-xs-center destroyed-bg">
-          <p class="major-title red--text pa-3 ma-5" style="background-color:black;">MECH DESTROYED</p>
+        <v-card-text class="text-center destroyed-bg">
+          <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
+            MECH DESTROYED
+          </p>
         </v-card-text>
         <v-card-actions>
           <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
@@ -280,7 +293,6 @@ export default Vue.extend({
   },
 })
 </script>
-
 
 <style scoped>
 .title-bg {

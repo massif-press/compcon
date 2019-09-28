@@ -1,5 +1,4 @@
 import { DamageType } from '@/class'
-import colors from '@/features/_shared/UI/CCColors'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -57,19 +56,16 @@ class Damage {
   }
 
   public get Icon(): string {
-    return `cc-${this.damage_type.toLowerCase()}`
+    return `cci-${this.damage_type.toLowerCase()}`
   }
 
-  public get ToString(): string {
+  public get Color(): string {
+    return `damage--${this.damage_type.toLowerCase()}`
+  }
+
+  public get Text(): string {
     if (this.override) return this.value
     return `${this.value} ${this.damage_type} Damage`
-  }
-
-  public Color(dark: boolean): string {
-    var c: any = colors
-    var dt = this.damage_type.toLowerCase()
-    if (!dt || !c[dt]) return dark ? '#FFF' : '#000'
-    return dark ? c[dt].dark : c[dt].light
   }
 }
 

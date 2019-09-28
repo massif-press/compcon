@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import store from '@/store'
+import { store } from '@/store'
 import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {
@@ -89,10 +89,10 @@ class IntegratedMount extends Mount {
     return this.item_source
   }
 
-    public static Serialize(m: IntegratedMount) {
+  public static Serialize(m: IntegratedMount) {
     return {
       weapon: MechWeapon.Serialize(m.Weapon),
-      source: m.ItemSource
+      source: m.ItemSource,
     }
   }
 

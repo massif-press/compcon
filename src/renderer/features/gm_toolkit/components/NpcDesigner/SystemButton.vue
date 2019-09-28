@@ -27,7 +27,9 @@
       />
       <v-icon left small>{{ icon }}</v-icon>
       {{ system.name }}
-      <v-icon class="rightbtn" small right @click.stop="dialog = true">mdi-information-outline</v-icon>
+      <v-icon class="rightbtn" small right @click.stop="dialog = true">
+        mdi-information-outline
+      </v-icon>
     </v-chip>
     <v-dialog v-model="dialog" max-width="40%">
       <system-dialog-card :npc="npc" :system="system" />

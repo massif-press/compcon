@@ -1,8 +1,7 @@
 import _ from 'lodash'
-import uid from '@/features/_shared/uid'
+import uuid from 'uuid/v1'
 import {
   Reserve,
-  Background,
   MechSkills,
   PilotLicense,
   PilotLoadout,
@@ -17,7 +16,7 @@ import {
   Organization,
 } from '@/class'
 import { rules } from 'lancer-data'
-import store from '@/store'
+import { store } from '@/store'
 
 class Pilot {
   private gistID: string
@@ -35,7 +34,7 @@ class Pilot {
   private cloud_portrait: string
   private current_hp: number
 
-  private background: Background
+  private background: string
   private licenses: PilotLicense[]
   private skills: PilotSkill[]
   private talents: PilotTalent[]
@@ -55,7 +54,7 @@ class Pilot {
   private cc_ver: string
 
   constructor() {
-    this.id = uid.generate()
+    this.id = uuid()
     this.gistID = ''
     this.level = 0
     this.callsign = ''
@@ -67,7 +66,7 @@ class Pilot {
     this.cloud_portrait = ''
     this.quirk = ''
     this.current_hp = this.MaxHP
-    this.background = new Background()
+    this.background = ''
     this.licenses = []
     this.skills = []
     this.talents = []
@@ -117,8 +116,8 @@ class Pilot {
     return this.id
   }
 
-  public RenewID() {
-    this.id = uid.generate()
+  public RenewID(): void {
+    this.id = uuid()
     this.gistID = ''
     this.save()
   }
@@ -141,11 +140,11 @@ class Pilot {
     this.save()
   }
 
-  public get Background(): Background {
+  public get Background(): string {
     return this.background
   }
 
-  public set Background(bg: Background) {
+  public set Background(bg: string) {
     this.background = bg
     this.save()
   }
@@ -175,6 +174,10 @@ class Pilot {
   public set Name(newVal: string) {
     this.name = newVal
     this.save()
+  }
+
+  public get HasIdent(): boolean {
+    return !!(this.Name && this.Callsign)
   }
 
   public get TextAppearance(): string {
@@ -330,6 +333,11 @@ class Pilot {
     return this.skills
   }
 
+  public set Skills(skills: PilotSkill[]) {
+    this.skills = skills
+    this.save()
+  }
+
   public get CurrentSkillPoints(): number {
     return this.skills.reduce((sum, skill) => sum + skill.Rank, 0)
   }
@@ -346,12 +354,22 @@ class Pilot {
     return this.CurrentSkillPoints > this.MaxSkillPoints
   }
 
-  public set Skills(skills: PilotSkill[]) {
-    this.skills = skills
-    this.save()
+  public get HasFullSkills(): boolean {
+    return this.CurrentSkillPoints === this.MaxSkillPoints
   }
 
-  public AddSkill(skill: Skill | CustomSkill) {
+  public CanAddSkill(skill: Skill | CustomSkill): boolean {
+    if (this.Level === 0) {
+      return this.Skills.length < rules.minimum_pilot_skills && !this.has('Skill', skill.ID)
+    } else {
+      const underLimit = this.CurrentSkillPoints < this.MaxSkillPoints
+      if (!this.has('Skill', skill.ID) && underLimit) return true
+      const pSkill = this.Skills.find(x => x.Skill.ID === skill.ID)
+      return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
+    }
+  }
+
+  public AddSkill(skill: Skill | CustomSkill): void {
     const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
     if (index === -1) {
       this.skills.push(new PilotSkill(skill))
@@ -361,8 +379,16 @@ class Pilot {
     this.save()
   }
 
-  public RemoveSkill(skill: Skill | CustomSkill) {
-    const index = this.skills.findIndex(x => _.isEqual(x.Skill, skill))
+  public AddCustomSkill(skill: string): void {
+    this.AddSkill(new CustomSkill(skill))
+  }
+
+  public CanRemoveSkill(skill: Skill | CustomSkill): boolean {
+    return this.has('Skill', skill.ID)
+  }
+
+  public RemoveSkill(skill: Skill | CustomSkill): void {
+    const index = this.skills.findIndex(x => x.Skill.ID === skill.ID)
     if (index === -1) {
       console.error(`Skill Trigger "${skill.Name}" does not exist on Pilot ${this.callsign}`)
     } else {
@@ -402,6 +428,10 @@ class Pilot {
 
   public get TooManyTalents(): boolean {
     return this.CurrentTalentPoints > this.MaxTalentPoints
+  }
+
+  public get HasFullTalents(): boolean {
+    return this.CurrentTalentPoints === this.MaxTalentPoints
   }
 
   public set Talents(talents: PilotTalent[]) {
@@ -473,7 +503,7 @@ class Pilot {
   public get IsMissingCBs(): boolean {
     return this.CurrentCBPoints < this.MaxCBPoints
   }
-  
+
   public get TooManyCBs(): boolean {
     return this.CurrentCBPoints > this.MaxCBPoints
   }
@@ -595,6 +625,10 @@ class Pilot {
 
   public get TooManyHASE(): boolean {
     return this.CurrentHASEPoints > this.MaxHASEPoints
+  }
+
+  public get HasFullHASE(): boolean {
+    return this.CurrentHASEPoints === this.MaxHASEPoints
   }
 
   public set MechSkills(mechskills: MechSkills) {
@@ -747,7 +781,7 @@ class Pilot {
       active: p.IsActive,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
-      background: Background.Serialize(p.Background),
+      background: p.Background,
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
@@ -776,7 +810,7 @@ class Pilot {
     p.quirk = pilotData.quirk
     p.current_hp = pilotData.current_hp
     p.active = pilotData.active
-    p.background = Background.Deserialize(pilotData.background)
+    p.background = pilotData.background
     p.mechSkills = MechSkills.Deserialize(pilotData.mechSkills)
     p.licenses = pilotData.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     p.skills = pilotData.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))

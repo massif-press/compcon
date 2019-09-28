@@ -2,24 +2,27 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
 import 'material-icons/iconfont/material-icons.css'
 import './assets/css/global.css'
-import './assets/css/typography.css'
+import './ui/style/_style.css'
 import './assets/glyphs/glyphs.css'
+import './ui/globals'
 
 import Vue from 'vue'
 
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import { store } from './store'
 import { remote } from 'electron'
 import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
 
-import gmTheme from './features/gm_toolkit/vuetify_theme'
+import theme from './ui/theme'
 
-import ScrollSpy, { Easing } from 'vue2-scrollspy'
-import * as items from './mixins/data'
+import mixins from './mixins'
+
+import _ from 'lodash'
+Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
 const windowAny: any = window
 
@@ -31,42 +34,22 @@ if (process.env.NODE_ENV !== 'development') {
 
 Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
 
-Vue.prototype.version = '1.5.5'
+Vue.prototype.version = '2.0.0'
+Vue.prototype.lancerVersion = 'PRERELEASE 2'
 
-Vue.use(Vuetify, {
-  iconfont: 'mdi',
-  icons: {
-    move: 'mdi-arrow-right-bold-hexagon-outline',
-    quick: 'mdi-hexagon-slice-3',
-    full: 'mdi-hexagon-slice-6',
-    reaction: 'mdi-redo-variant',
-    overcharge: 'mdi-alert-octagram',
-    downtime: 'mdi-weather-sunset-down',
-    free: 'mdi-axis-arrow',
-  },
-  theme: {
-    ...gmTheme,
-  },
-})
+Vue.use(Vuetify)
 Vue.use(VueMousetrap)
-Vue.use(ScrollSpy, {
-  easing: Easing.Cubic.In,
-})
-
-const mixins = items as any
-for (const m in mixins) {
-  if (mixins.hasOwnProperty(m)) {
-    Vue.mixin(mixins[m])
-  }
-}
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
+mixins.forEach(m => {
+  Vue.mixin(m)
+})
+
 new Vue({
   components: { App },
+  vuetify: new Vuetify(theme as any),
   router,
   store,
   template: '<App/>',
 }).$mount('#app')
-
-// router.replace('/pilot_management')

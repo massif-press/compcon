@@ -15,17 +15,17 @@
       <h1 class="title mb-2">Systems</h1>
       <div>
         <h1 class="caption mb-1 font-weight-bold">BASE</h1>
-        <v-layout wrap justify-center grow-shrink-0>
-          <v-flex v-for="system in baseSystems" :key="system.name">
+        <v-row wrap justify="center" grow-shrink-0>
+          <v-col v-for="system in baseSystems" :key="system.name">
             <system-card :system="system" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <h1 class="caption mt-3 mb-1 font-weight-bold">OPTIONAL</h1>
-        <v-layout px-5 wrap justify-center grow-shrink-0>
-          <v-flex v-for="system in optionalSystems" :key="system.name">
+        <v-row px-5 wrap justify="center" grow-shrink-0>
+          <v-col v-for="system in optionalSystems" :key="system.name">
             <system-card :system="system" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </div>
     </v-card-text>
     <v-divider class="my-1" />

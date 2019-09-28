@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-layout column fill-height>
-      <v-flex xs12 class="major-title text-xs-center">
+    <v-row column fill-height>
+      <v-col cols="12" class="major-title text-center">
         <span>DOWNTIME</span>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-divider class="ma-2" dark />
     <div class="ma-2 pt-3">
       <dt-action action-id="action_poweratcost" class="mb-1" ref="atcost">
@@ -36,11 +36,11 @@
       </dt-action>
     </div>
     <v-divider class="ma-2" dark />
-    <v-layout row wrap>
-      <v-flex xs12>
+    <v-row wrap>
+      <v-col cols="12">
         <v-btn block large color="amber darken-4" dark @click="$emit('end')">Begin Mission</v-btn>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -78,4 +78,3 @@ export default Vue.extend({
   },
 })
 </script>
-

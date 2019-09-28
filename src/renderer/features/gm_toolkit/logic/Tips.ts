@@ -1,7 +1,11 @@
 import _ from 'lodash'
 import NPC from './NPC'
 
-export type Tip = { id: string; text: string; satisfied: boolean }
+export interface Tip {
+  id: string
+  text: string
+  satisfied: boolean
+}
 
 export const NPCTips = (npc: NPC): Tip[] => {
   const output: Tip[] = []

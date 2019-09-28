@@ -1,45 +1,47 @@
 <template>
   <div class="syswrap" @click="dialog = true">
-    <v-layout column mx-0 my-0 class="sys primary--text">
-      <v-layout justify-space-between align-center grow-shrink-0 mx-0 my-0>
-        <v-flex body-2 text-uppercase :class="`system--${system.type} white--text sysname`">
-          {{ shortName }}
-        </v-flex>
-        <v-layout align-center mt-0 v-if="system.type === 'weapon'">
+    <v-row column mx-0 my-0 class="sys primary--text">
+      <v-row justify-space-between align-center grow-shrink-0 mx-0 my-0>
+        <v-col
+          body-2
+          text-uppercase
+          :class="`system--${system.type} white--text sysname`"
+        >{{ shortName }}</v-col>
+        <v-row align-center mt-0 v-if="system.type === 'weapon'">
           <v-icon color="primary">mdi-dice-d20</v-icon>
           <div class="font-weight-bold mr-2">{{ rollString }}</div>
           <v-icon color="primary">mdi-arrow-expand-horizontal</v-icon>
-          <div class="font-weight-bold mr-2 layout column justify-center">
-            <v-flex py-0 pl-2 v-for="(range, i) in rangeStrings" :key="i">
-              {{ range }}
-            </v-flex>
+          <div class="font-weight-bold mr-2 layout column" justify="center">
+            <v-col py-0 pl-2 v-for="(range, i) in rangeStrings" :key="i">{{ range }}</v-col>
           </div>
           <v-icon color="primary">mdi-flare</v-icon>
           <div
             style="margin: 0 !important"
-            class="font-weight-bold mr-2 layout column justify-center"
+            class="font-weight-bold mr-2 layout column"
+            justify="center"
           >
-            <v-flex py-0 pl-2 v-for="(damage, i) in damageStrings" :key="i">
-              {{ damage }}
-            </v-flex>
+            <v-col py-0 pl-2 v-for="(damage, i) in damageStrings" :key="i">{{ damage }}</v-col>
           </div>
-        </v-layout>
-        <v-flex class="caption syseffectshort ml-3" v-else-if="!isMultiline">
-          {{ system.effect_short || system.effect }}
-        </v-flex>
-        <v-flex layout align-center my-0 v-else-if="system.action || system.recharge">
+        </v-row>
+        <v-col
+          class="caption syseffectshort ml-3"
+          v-else-if="!isMultiline"
+        >{{ system.effect_short || system.effect }}</v-col>
+        <v-col layout align-center my-0 v-else-if="system.action || system.recharge">
           <span class="body-2 mr-1">{{ actionName }}</span>
           <template v-if="system.tech_roll">
             <v-icon color="primary">mdi-dice-d20</v-icon>
             <div class="font-weight-bold mr-2">{{ rollString }}</div>
           </template>
           <recharge :value="system.recharge" v-if="system.recharge" />
-        </v-flex>
-      </v-layout>
-      <v-flex class="caption" v-if="isMultiline" style="white-space: nowrap !important">
-        {{ system.effect_short || system.effect }}
-      </v-flex>
-      <v-flex v-if="system.tags" py-0>
+        </v-col>
+      </v-row>
+      <v-col
+        class="caption"
+        v-if="isMultiline"
+        style="white-space: nowrap !important"
+      >{{ system.effect_short || system.effect }}</v-col>
+      <v-col v-if="system.tags" py-0>
         <v-chip
           disabled
           v-for="tag in system.tags"
@@ -49,11 +51,9 @@
           color="primary"
           class="white--text caption"
           py-0
-        >
-          {{ renderTag(tag, npc.tier) }}
-        </v-chip>
-      </v-flex>
-    </v-layout>
+        >{{ renderTag(tag, npc.tier) }}</v-chip>
+      </v-col>
+    </v-row>
     <v-dialog v-model="dialog" max-width="40%">
       <system-dialog-card :npc="npc" :system="system" />
     </v-dialog>

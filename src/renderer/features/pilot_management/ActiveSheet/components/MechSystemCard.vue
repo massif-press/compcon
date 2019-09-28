@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs6>
+  <v-col cols="6">
     <v-card
       dark
       color="#595959"
@@ -52,29 +52,31 @@
       <v-card-text class="pa-1">
         <p class="pa-0 ml-3 mr-3 mb-0" v-html="system.Effect" />
 
-        <v-layout>
+        <v-row>
           <item-tag
             v-for="(t, index) in system.Tags"
             :key="t.id + index"
             :tagObj="t"
             :pilot="pilot"
           />
-        </v-layout>
+        </v-row>
         <div v-if="system.IsLimited">
-          <v-layout>
-            <v-flex xs1>
+          <v-row>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
-            </v-flex>
-            <v-flex shrink>
+            </v-col>
+            <v-col shrink>
               <span class="caption grey--text">USES&nbsp;</span>
-              <b class="warning--text">{{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}</b>
-            </v-flex>
-            <v-flex grow>
+              <b class="warning--text">
+                {{ system.Uses }} / {{ system.MaxUses + pilot.LimitedBonus }}
+              </b>
+            </v-col>
+            <v-col grow>
               <v-divider class="mt-2 ml-3" />
-            </v-flex>
-            <v-flex xs1></v-flex>
-          </v-layout>
-          <v-layout justify-start>
+            </v-col>
+            <v-col cols="1"></v-col>
+          </v-row>
+          <v-row justify-start>
             <limited-bar
               :key="system.Name + '_tb_' + system.Uses"
               :current="system.Uses"
@@ -86,28 +88,28 @@
               full-icon="mdi-hexagon"
               @update="system.Uses = $event"
             />
-          </v-layout>
+          </v-row>
         </div>
         <div v-if="system.Notes.length">
-          <v-layout>
-            <v-flex xs1>
+          <v-row>
+            <v-col cols="1">
               <v-divider class="mt-2 mr-3" />
-            </v-flex>
-            <v-flex shrink>
+            </v-col>
+            <v-col shrink>
               <span class="caption grey--text">NOTES</span>
-            </v-flex>
-            <v-flex grow>
+            </v-col>
+            <v-col grow>
               <v-divider class="mt-2 ml-3" />
-            </v-flex>
-            <v-flex xs1></v-flex>
-          </v-layout>
+            </v-col>
+            <v-col cols="1"></v-col>
+          </v-row>
           <ul>
             <li v-for="(n, idx) in system.Notes" :key="`${system.Name}_note_${idx}`">{{ n }}</li>
           </ul>
         </div>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </v-col>
 </template>
 
 <script lang="ts">

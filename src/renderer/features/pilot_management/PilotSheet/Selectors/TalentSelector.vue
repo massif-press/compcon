@@ -1,31 +1,31 @@
 <template>
   <selector title="Pilot Talents">
     <template v-slot:left-column>
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <div v-for="pTalent in pilot.Talents" :key="`summary_${pTalent.talent.id}`">
-            <v-layout v-if="pTalent.Talent.err">
-              <v-flex shrink>
+            <v-row v-if="pTalent.Talent.err">
+              <v-col shrink>
                 <span class="grey--text">// MISSING DATA //</span>
-              </v-flex>
-              <v-flex shrink>
+              </v-col>
+              <v-col shrink>
                 <v-btn icon flat color="error" @click="remove(pTalent)">
                   <v-icon>delete</v-icon>
                 </v-btn>
-              </v-flex>
-            </v-layout>
-            <v-layout v-else>
-              <v-flex xs12>
-                <v-icon small color="primary">cc-rank-{{ pTalent.Rank }}</v-icon>
+              </v-col>
+            </v-row>
+            <v-row v-else>
+              <v-col cols="12">
+                <v-icon small color="primary">cci-rank-{{ pTalent.Rank }}</v-icon>
                 <strong>{{ pTalent.Talent.Name }}</strong>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="ma-2 ml-4 mr-4" />
-      <v-layout>
-        <v-flex xs12>
+      <v-row>
+        <v-col cols="12">
           <v-alert
             outline
             color="success"
@@ -53,8 +53,8 @@
           <v-btn block flat small :disabled="!talents.length" @click="resetTalents">
             Reset
           </v-btn>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </template>
 
     <template v-slot:right-column>

@@ -3,10 +3,10 @@ import { DiceRoller, ParsedDieString } from './DiceRoller'
 class DiceStats {
   // returns stats for a dice string
   public static getStats(diceString: string): DiceStatsResult {
-    let min: number = 0
-    let max: number = 0
-    let mean: number = 0
-    let error: boolean = false
+    let min = 0
+    let max = 0
+    let mean = 0
+    let error = false
 
     let parsedString = DiceRoller.parseDiceString(diceString)
 
@@ -51,7 +51,7 @@ class DiceStats {
   }
 
   public static calculateMean(parsedDice: ParsedDieString): number {
-    let result: number = 0
+    let result = 0
     parsedDice.dice.forEach(die => {
       if (die.type <= 0) return
 
@@ -76,13 +76,7 @@ class DiceStatsResult implements IDiceStats {
   private _mean: number
   private _error: boolean
 
-  constructor(
-    diceString: string,
-    min: number,
-    max: number,
-    mean: number,
-    error?: boolean
-  ) {
+  constructor(diceString: string, min: number, max: number, mean: number, error?: boolean) {
     this._diceString = diceString
     this._min = min
     this._max = max

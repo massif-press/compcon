@@ -1,20 +1,25 @@
 <template>
   <div>
     <v-card-text>
-      <v-layout row wrap class="text-xs-center">
-        <v-flex xs12 class="effect-text">
+      <v-row wrap class="text-center">
+        <v-col cols="12" class="effect-text">
           <p class="pt-2 pb-0 ma-0">
-            You try and make connections, call upon favors, ask for help, or drum up support for a particular course of action. You need access to communications or just good old fashioned face to face conversation to take this action.
-            <br />You can use your connection’s resources or aid as
-            <strong>reserves</strong> for the next mission.
+            You try and make connections, call upon favors, ask for help, or drum up support for a
+            particular course of action. You need access to communications or just good old
+            fashioned face to face conversation to take this action.
+            <br />
+            You can use your connection’s resources or aid as
+            <strong>reserves</strong>
+            for the next mission.
           </p>
           <v-divider class="ma-2" />
           <p class="pt-2 pb-0 ma-0 minor-title">
             Roll
-            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>&nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
+            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
+            &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
           </p>
-        </v-flex>
-        <v-flex xs12>
+        </v-col>
+        <v-col cols="12">
           <div style="margin-left: 40%; margin-right: 40%">
             <v-text-field
               v-model="skillRoll"
@@ -27,31 +32,36 @@
               @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
             ></v-text-field>
           </div>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-slide-y-transition>
-        <v-layout v-show="skillRoll" row wrap class="text-xs-center">
-          <v-flex xs12 v-if="skillRoll < 10">
+        <v-row v-show="skillRoll" wrap class="text-center">
+          <v-col cols="12" v-if="skillRoll < 10">
             <p class="pt-2 pb-0 ma-0 minor-title">
               You’ve got to do a favor or make good on a promise for your connection
-              <em>right now</em>. Otherwise, they won’t help you at all.
-              <br />If you take action right away, however, they’ll go along with what you want.
+              <em>right now</em>
+              . Otherwise, they won’t help you at all.
+              <br />
+              If you take action right away, however, they’ll go along with what you want.
             </p>
-          </v-flex>
-          <v-flex xs12 v-else-if="skillRoll < 20">
+          </v-col>
+          <v-col cols="12" v-else-if="skillRoll < 20">
             <p class="pt-2 pb-0 ma-0 minor-title">
               Your connection will help you, but you’ve got to do a favor or make good on a promise
-              <em>after</em> they help you.
-              <br />If you don’t, treat any result as a 9 or lower next time with the same organization.
+              <em>after</em>
+              they help you.
+              <br />
+              If you don’t, treat any result as a 9 or lower next time with the same organization.
             </p>
-          </v-flex>
-          <v-flex xs12 v-else>
+          </v-col>
+          <v-col cols="12" v-else>
             <p class="pt-2 pb-0 ma-0 minor-title">
               Your connection will help you out, no strings attached.
-              <br />Treat this result as a 10-19 if you make it again with the same organization.
+              <br />
+              Treat this result as a 10-19 if you make it again with the same organization.
             </p>
-          </v-flex>
-          <v-flex xs12>
+          </v-col>
+          <v-col cols="12">
             <v-card color="grey lighten-4" class="ml-5 mr-5">
               <v-toolbar dark dense color="#00695C">
                 <v-toolbar-title>Connection</v-toolbar-title>
@@ -65,8 +75,8 @@
                 <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
               </v-card-text>
             </v-card>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-slide-y-transition>
     </v-card-text>
     <v-divider />
@@ -78,7 +88,9 @@
         color="primary"
         @click="addReserve"
         :disabled="skillRoll === '' || custom_name === ''"
-      >add reserve</v-btn>
+      >
+        add reserve
+      </v-btn>
     </v-card-actions>
   </div>
 </template>

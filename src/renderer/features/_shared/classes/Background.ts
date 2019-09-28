@@ -1,4 +1,4 @@
-import store from '@/store'
+import { store } from '@/store'
 
 class Background {
   private id: string
@@ -6,7 +6,7 @@ class Background {
   private description: string
   private triggers: string
 
-  constructor(backgroundData?: IBackgroundData) {
+  public constructor(backgroundData?: IBackgroundData) {
     if (backgroundData) {
       this.id = backgroundData.id
       this.name = backgroundData.name

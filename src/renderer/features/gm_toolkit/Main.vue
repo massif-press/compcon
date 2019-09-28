@@ -63,14 +63,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-container bg fill-height grid-list-md text-xs-center>
-      <v-layout row wrap justify-center>
-        <v-flex pa-0>
+    <v-container bg fill-height grid-list-md text-center>
+      <v-row wrap justify="center">
+        <v-col pa-0>
           <v-fade-transition mode="out-in">
             <router-view class="py-5" />
           </v-fade-transition>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </v-app>
 </template>

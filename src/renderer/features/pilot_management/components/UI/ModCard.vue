@@ -1,7 +1,7 @@
 <template>
   <div class="ma-1">
     <v-card flat color="blue-grey lighten-3" class="ma-2">
-      <v-card-text class="title text-xs-center pb-1 pt-2">
+      <v-card-text class="title text-center pb-1 pt-2">
         <span
           :class="missing ? 'grey--text' : ''"
           v-html="missing ? '// MISSING MOD DATA // ' : modData.name"
@@ -17,14 +17,14 @@
         </em>
         <p v-if="modData.description" v-html="modData.description" class="fluff-text" />
         <p v-if="modData.effect" v-html="modData.effect" class="pl-2 effect-text" />
-        <v-layout class="mt-2">
+        <v-row class="mt-2">
           <item-tag
             v-for="(t, index) in modData.Tags"
             :key="t.id + index"
             :tag-obj="t"
             :pilot="pilot"
           />
-        </v-layout>
+        </v-row>
       </v-card-text>
     </v-card>
   </div>

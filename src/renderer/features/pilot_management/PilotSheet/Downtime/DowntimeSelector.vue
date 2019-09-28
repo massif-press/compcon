@@ -22,41 +22,41 @@
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout row wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Narrative']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col cols="3" v-for="r in reserves['Narrative']" :key="r.ID">
                 <reserve-item :reserve="r" color="teal darken-3" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout row wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Tactical']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col cols="3" v-for="r in reserves['Tactical']" :key="r.ID">
                 <reserve-item :reserve="r" color="lime darken-4" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout row wrap justify-center>
-              <v-flex xs3 v-for="r in reserves['Mech']" :key="r.ID">
+            <v-row wrap justify="center">
+              <v-col cols="3" v-for="r in reserves['Mech']" :key="r.ID">
                 <reserve-item :reserve="r" color="deep-orange darken-3" @click="add(r)" />
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout row justify-center>
-              <v-flex xs6>
+            <v-row justify="center">
+              <v-col cols="6">
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Custom Reserve</v-toolbar-title>
@@ -79,40 +79,44 @@
                       @click="addCustom"
                       :disabled="!custom_type || !custom_name"
                     >
-                      <v-icon left>add</v-icon>Add Reserve
+                      <v-icon left>add</v-icon>
+                      Add Reserve
                     </v-btn>
                   </v-card-text>
                 </v-card>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
           <v-card-text>
-            <v-layout row justify-center>
-              <v-flex xs8>
+            <v-row justify="center">
+              <v-col cols="8">
                 <v-card class="ma-2">
                   <v-toolbar dark flat dense color="deep-purple">
                     <v-toolbar-title class="minor-title">New Downtime Project</v-toolbar-title>
                   </v-toolbar>
                   <v-card-text class="effect-text pa-2 ma-0">
-                    <v-layout row wrap>
-                      <v-flex xs6>
+                    <v-row wrap>
+                      <v-col cols="6">
                         <v-text-field v-model="projectName" label="Project Name" />
-                      </v-flex>
-                      <v-flex xs2 class="ml-4">
+                      </v-col>
+                      <v-col cols="2" class="ml-4">
                         <v-tooltip top>
                           <v-switch
                             slot="activator"
                             v-model="projectComplicated"
                             label="Complicated"
                           />
-                          <span>This project is complex, resource-intensive, or generally difficult to complete</span>
+                          <span>
+                            This project is complex, resource-intensive, or generally difficult to
+                            complete
+                          </span>
                         </v-tooltip>
-                      </v-flex>
-                      <v-flex xs2>
+                      </v-col>
+                      <v-col cols="2">
                         <v-tooltip top>
                           <v-switch slot="activator" v-model="projectFinished" label="Finished" />
                           <span>
@@ -120,8 +124,8 @@
                             <strong>reserve</strong>
                           </span>
                         </v-tooltip>
-                      </v-flex>
-                      <v-flex xs12>
+                      </v-col>
+                      <v-col cols="12">
                         <v-textarea
                           v-model="projectDetails"
                           auto-grow
@@ -129,8 +133,8 @@
                           label="Details"
                           box
                         />
-                      </v-flex>
-                      <v-flex xs12>
+                      </v-col>
+                      <v-col cols="12">
                         <v-combobox
                           class="mr-5 ml-5"
                           v-model="projectCost"
@@ -140,8 +144,8 @@
                           :disabled="projectFinished"
                           label="Add requirements (optional)"
                         ></v-combobox>
-                      </v-flex>
-                    </v-layout>
+                      </v-col>
+                    </v-row>
                     <v-btn
                       block
                       outline
@@ -150,12 +154,13 @@
                       @click="addProject"
                       :disabled="!projectName"
                     >
-                      <v-icon left>add</v-icon>Add Project
+                      <v-icon left>add</v-icon>
+                      Add Project
                     </v-btn>
                   </v-card-text>
                 </v-card>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -182,11 +187,11 @@
                   label="Purpose, goal, and orginaztion details"
                   box
                 />
-                <v-layout row wrap>
-                  <v-flex xs12 class="text-xs-center">
+                <v-row wrap>
+                  <v-col cols="12" class="text-center">
                     <span class="minor-title">Start with:</span>
-                  </v-flex>
-                  <v-flex xs5 class="text-xs-center">
+                  </v-col>
+                  <v-col cols="5" class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn
@@ -195,22 +200,29 @@
                           block
                           color="primary"
                           @click="orgStart = 'efficiency'"
-                        >Efficiency</v-btn>
+                        >
+                          Efficiency
+                        </v-btn>
                         <div v-else>
-                          <span class="major-title">+ {{orgStart === 'efficiency' ? '2' : '0'}}</span>
+                          <span class="major-title">
+                            + {{ orgStart === 'efficiency' ? '2' : '0' }}
+                          </span>
                           <br />
                           <span>Organization Efficiency</span>
                         </div>
                       </div>
                       <span>
-                        How directly effective your organization is at what it does (a military organization with high efficiency would be good at combat, for example).
-                        <br />Efficiency can be used to perform activities related to your organization’s purpose (science, military, etc). You can use these advantages as
+                        How directly effective your organization is at what it does (a military
+                        organization with high efficiency would be good at combat, for example).
+                        <br />
+                        Efficiency can be used to perform activities related to your organization’s
+                        purpose (science, military, etc). You can use these advantages as
                         <strong>reserves.</strong>
                       </span>
                     </v-tooltip>
-                  </v-flex>
+                  </v-col>
                   <v-spacer />
-                  <v-flex xs5 class="text-xs-center">
+                  <v-col cols="5" class="text-center">
                     <v-tooltip top>
                       <div slot="activator">
                         <v-btn
@@ -219,17 +231,25 @@
                           block
                           color="primary"
                           @click="orgStart = 'influence'"
-                        >Influence</v-btn>
+                        >
+                          Influence
+                        </v-btn>
                         <div v-else>
-                          <span class="major-title">+ {{orgStart === 'influence' ? '2' : '0'}}</span>
+                          <span class="major-title">
+                            + {{ orgStart === 'influence' ? '2' : '0' }}
+                          </span>
                           <br />
                           <span>Organization Influence</span>
                         </div>
                       </div>
-                      <span>Influence is your organization’s size, reach, wealth, and reputation. Influence be used to acquire assets, create opportunities, or sway public opinion.</span>
+                      <span>
+                        Influence is your organization’s size, reach, wealth, and reputation.
+                        Influence be used to acquire assets, create opportunities, or sway public
+                        opinion.
+                      </span>
                     </v-tooltip>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
                 <br />
                 <br />
                 <v-btn
@@ -240,7 +260,8 @@
                   @click="addOrg"
                   :disabled="!orgName || !orgType || !orgStart"
                 >
-                  <v-icon left>add</v-icon>Add Organization
+                  <v-icon left>add</v-icon>
+                  Add Organization
                 </v-btn>
               </v-card-text>
             </v-card>

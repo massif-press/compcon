@@ -1,0 +1,23 @@
+@import 'spacers.css';
+@import 'typography.css';
+@import 'clip.css';
+@import 'animation.css';
+
+body {
+  overflow: hidden;
+  font-family: 'Helvetica Regular', sans-serif;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}

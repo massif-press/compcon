@@ -1,19 +1,19 @@
 <template>
   <v-container fluid style="overflow: hidden">
-    <v-layout>
-      <v-flex xs3 class="pr-4">
-        <v-layout>
-          <v-flex class="text-xs-center">
+    <v-row>
+      <v-col cols="3" class="pr-4">
+        <v-row>
+          <v-col class="text-center">
             <span class="minor-title">{{ title }}</span>
             <v-divider class="ma-2 ml-4 mr-4" />
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
         <slot name="left-column"></slot>
-      </v-flex>
-      <v-flex xs9 style="height: 90vh; overflow-y: scroll">
+      </v-col>
+      <v-col cols="9" style="height: 90vh; overflow-y: scroll">
         <slot name="right-column"></slot>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
