@@ -23,3 +23,6 @@ compendium may get flavor later
 
 io:
 should contain any and all logic that touches the os -- file loading, checking appdata, etc
+
+view:
+split views into collections of components wherever possible for easy reordering

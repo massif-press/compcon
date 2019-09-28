@@ -3,8 +3,8 @@
     <div v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" slot="sidebar" class="pt-2">
       <v-list-item>
         <v-list-item-title>
-          <v-icon left>cci-orbital</v-icon>
-          <span class="heading sub">{{ m }}</span>
+          <cc-logo :source="m" />
+          <span class="heading sub" :style="`color: ${manufacturer(m).color}`">{{ m }}</span>
         </v-list-item-title>
       </v-list-item>
 
@@ -26,18 +26,13 @@
     <h1 class="heading mb-3">CORE BONUSES</h1>
     <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
       <span class="heading mech">{{ manufacturer(m).name }}</span>
-      <cc-titled-panel
+      <cc-core-bonus-item
         v-for="(b, i) in bonuses[m]"
         :id="`e_${b.id}`"
         :key="`${b.ID}_${i}`"
-        icon="cci-corebonus"
-        :title="b.Name"
-        color="panel-border"
+        :bonus="b"
         class="ma-3"
-      >
-        <p class="flavor-text" v-html="b.Description" />
-        <p class="effect-text pb-0" v-html="b.Effect" />
-      </cc-titled-panel>
+      />
     </div>
   </cc-sidebar-view>
 </template>

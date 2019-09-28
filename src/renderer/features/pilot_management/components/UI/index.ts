@@ -10,7 +10,6 @@ import ItemCard from './ItemCard.vue'
 import SystemCard from './SystemCard.vue'
 import WeaponCard from './WeaponCard.vue'
 import mdColors from './mdColors'
-import PipBar from './PipBar.vue'
 import ItemTag from './ItemTag.vue'
 import ItemBadge from './ItemBadge.vue'
 import ItemNote from './ItemNote.vue'
@@ -32,7 +31,6 @@ export {
   GearCard,
   ItemCard,
   mdColors,
-  PipBar,
   ItemTag,
   ItemBadge,
   WeaponCard,

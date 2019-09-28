@@ -4,13 +4,13 @@
       <v-icon large>mdi-information-outline</v-icon>
     </v-btn>
     <cc-solo-dialog ref="dialog" large icon="cci-trait" no-confirm :title="talent.Name">
-      <talent-info :talent="talent" />
+      <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
-    <v-stepper v-model="step" non-linear class="elevation-0 mt-n3">
+    <v-stepper v-model="step" non-linear class="elevation-0 mt-n1">
       <v-stepper-header style="height: 50px" class="elevation-0">
         <v-stepper-step
           step="I"
-          :complete="pilotRank === 1"
+          :complete="pilotRank >= 1"
           complete-icon="cci-rank-1"
           edit-icon="cci-rank-1"
           editable
@@ -53,6 +53,16 @@
             :rank="2"
             :description="talent.Ranks[1].description"
           />
+          <div v-if="pilotRank >= 1">
+            <v-btn v-if="pilotRank === 1" block outlined color="secondary" @click="add()">
+              <v-icon left>cci-accuracy</v-icon>
+              Unlock {{ talent.Name }}: {{ talent.Ranks[1].name }}
+            </v-btn>
+            <v-btn v-else-if="pilotRank >= 2" block outlined color="error" @click="$emit('remove')">
+              <v-icon left>cci-difficulty</v-icon>
+              Unlearn {{ talent.Name }}: {{ talent.Ranks[1].name }}
+            </v-btn>
+          </div>
         </v-stepper-content>
         <v-stepper-content step="III" class="py-0 mt-n4">
           <cc-talent-rank-item
@@ -60,6 +70,22 @@
             :rank="3"
             :description="talent.Ranks[2].description"
           />
+          <div v-if="pilotRank >= 2">
+            <v-btn v-if="pilotRank === 2" block outlined color="secondary" @click="add()">
+              <v-icon left>cci-accuracy</v-icon>
+              Unlock {{ talent.Name }}: {{ talent.Ranks[2].name }}
+            </v-btn>
+            <v-btn
+              v-else-if="pilotRank === 3"
+              block
+              outlined
+              color="error"
+              @click="$emit('remove')"
+            >
+              <v-icon left>cci-difficulty</v-icon>
+              Unlearn {{ talent.Name }}: {{ talent.Ranks[1].name }}
+            </v-btn>
+          </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -68,11 +94,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TalentInfo from './_TalentInfo.vue'
 
 export default Vue.extend({
   name: 'talent-item',
-  components: { TalentInfo },
   props: {
     talent: {
       type: Object,
@@ -83,14 +107,6 @@ export default Vue.extend({
       required: true,
     },
     newPilot: {
-      type: Boolean,
-      required: false,
-    },
-    selectable: {
-      type: Boolean,
-      required: false,
-    },
-    available: {
       type: Boolean,
       required: false,
     },

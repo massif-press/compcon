@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 200px;">
+  <div style="height: 155px;">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col cols="10">
@@ -17,13 +17,17 @@
               <br />
               <span class="heading h1" style="line-height: 40px; font-size: 80px">{{ pilot.Level }}</span>
               <br />
-              <v-icon
-                large
-                dark
-                class="fadeSelect ml-4"
-                @click="''"
-              >mdi-arrow-up-bold-hexagon-outline</v-icon>
-              <v-icon small dark class="fadeSelect mt-2" @click="''">mdi-circle-edit-outline</v-icon>
+              <cc-tooltip simple inline content="Level Up" class="ml-4">
+                <v-icon
+                  large
+                  dark
+                  class="fadeSelect"
+                  @click="$router.push('/level')"
+                >mdi-arrow-up-bold-hexagon-outline</v-icon>
+              </cc-tooltip>
+              <cc-tooltip delayed simple inline content="Edit License Level">
+                <v-icon small dark class="fadeSelect mt-2" @click="''">mdi-circle-edit-outline</v-icon>
+              </cc-tooltip>
             </v-col>
           </v-row>
           <v-row dense>
@@ -50,31 +54,42 @@
       </v-row>
       <v-row id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
-          <v-icon>mdi-heart</v-icon>
-          <span>10</span>
+          <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
+            <v-icon>mdi-heart-outline</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ pilot.CurrentHP }}</span>
+          <span class="flavor-text grey--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <v-icon>mdi-heart</v-icon>
-          <span>10</span>
+          <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
+            <v-icon>mdi-shield-outline</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ pilot.Armor }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <v-icon>mdi-heart</v-icon>
-          <span>10</span>
+          <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
+            <v-icon>cci-marker</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <v-icon>mdi-heart</v-icon>
-          <span>10</span>
+          <cc-tooltip simple inline delay :content="`Evasion: ${pilot.Evasion}`">
+            <v-icon>mdi-arrow-decision</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ pilot.Evasion }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <v-icon>mdi-heart</v-icon>
-          <span>10</span>
+          <cc-tooltip simple inline delay :content="`Speed: ${pilot.Speed}`">
+            <v-icon>$vuetify.icons.move</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>
       </v-row>
       <div id="image-bg" />
       <div id="image" class="border">
         <!-- TODO: no data image -->
-        <!-- <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" /> -->
-        <v-img src="https://via.placeholder.com/550" />
+        <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
+        <v-img v-else src="https://via.placeholder.com/550" />
       </div>
     </div>
   </div>
@@ -82,12 +97,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '@/store'
+import { Pilot } from '@/class'
+
 export default Vue.extend({
   name: 'pilot-header',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
+  computed: {
+    pilot(): Pilot {
+      const store = getModule(PilotManagementStore, this.$store)
+      return store.ActivePilot
     },
   },
 })

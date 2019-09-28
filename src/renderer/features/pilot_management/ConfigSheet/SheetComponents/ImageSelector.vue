@@ -70,7 +70,7 @@
             <v-col cols="3">
               <div class="clickable" @click="assignDefault">
                 <v-img
-                  :src="`file://${userDataPath}/img/default_frames/${config.Frame.ID}.png`"
+                  :src="`file://${userDataPath}/img/default_frame/${config.Frame.ID}.png`"
                   position="top"
                   max-height="40vh"
                   max-width="40vw"

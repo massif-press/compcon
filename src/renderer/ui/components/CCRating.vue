@@ -3,6 +3,7 @@
     v-model="model"
     hover
     x-large
+    :dense="dense"
     :length="max"
     readonly
     class="d-inline"
@@ -25,6 +26,10 @@ export default Vue.extend({
       type: Number,
       required: false,
       default: 6,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
     },
   },
 })

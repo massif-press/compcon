@@ -1,0 +1,48 @@
+<template>
+  <div>
+    <cc-title small>
+      <section-edit-chip
+        :highlight="!pilot.HasFullTalents"
+        :current="pilot.CurrentTalentPoints"
+        :max="pilot.MaxTalentPoints"
+        :label="`Edit Pilot Talents (${pilot.CurrentTalentPoints}/${pilot.MaxTalentPoints})`"
+        @open-selector="$refs.talentSelector.show()"
+      />Talents
+    </cc-title>
+    <cc-solo-dialog
+      ref="talentSelector"
+      icon="cci-trait"
+      no-confirm
+      title="Set Pilot Talents"
+      fullscreen
+    >
+      <cc-talent-selector :pilot="pilot" />
+    </cc-solo-dialog>
+    <v-container>
+      <cc-talent-item
+        v-for="(t, i) in pilot.Talents"
+        :key="`t_${i}`"
+        :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+        :talent="t.Talent"
+        :rank="t.Rank"
+        hide-locked
+      />
+    </v-container>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import SectionEditChip from '../../components/SectionEditChip.vue'
+
+export default Vue.extend({
+  name: 'skill-block',
+  components: { SectionEditChip },
+  props: {
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
+})
+</script>

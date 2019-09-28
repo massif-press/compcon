@@ -3,9 +3,7 @@
     <v-card>
       <div v-if="!selectItem">
         <v-toolbar v-if="cb.err" class="mb-2" dense flat>
-          <span class="subheading grey--text">
-            // MISSING CORE BONUS DATA //
-          </span>
+          <span class="subheading grey--text">// MISSING CORE BONUS DATA //</span>
         </v-toolbar>
         <v-toolbar dense flat color="grey lighten-2">
           <v-toolbar-title>

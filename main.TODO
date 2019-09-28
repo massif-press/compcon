@@ -1,6 +1,15 @@
 
 Name Generator:
-  ☐ provide dropdown for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
+  ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
+
+Core Bonus Selector:
+  ✔ Faction colors @done(19-09-27 15:24)
+  ✔ Faction icons @done(19-09-28 13:45)
+  ☐ no cb block
+
+Icons:
+  ☐ E-Defense
+  ☐ Evasion
 
 Skill Selector:
   ✔ Custom Skill Adder @done(19-09-25 15:51)
@@ -28,16 +37,26 @@ New Pilot:
 Pilot Sheet:
   ✔ 3-tab default view @done(19-09-26 15:26)
   ☐ top bar into pilot view
+  ☐ level edit menu
   ☐ change name, background, callsign in dossier
   ☐ set player name in dossier
   ☐ set active-inactive-mia-kia-etc in dossier
   ☐ faction info in dossier
+  ☐ downtime resources
+  ☐ downtime selector
+  ☐ organization resources
+  ☐ org builder (future)
 
 Mech Sheet:
   ☐ Primary color based on manufacturer
 
+Compendium:
+  ☐ Add Factions
+  ☐ Fix CC Solo Dialog padding
+
 Refactor:
   ✔ Replace UID with UUID @done(19-09-25 15:50)
+  ☐ Use object syntax for conditional classes in template
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
@@ -49,13 +68,10 @@ Style Pass:
   ☐ test importers
   ☐ Print/Export/Sync/Copy/Delete in pilot dropdown menu on nav
     ☐ Same options (except for sync) expand under selected mech
-  ☐ Corp Icons
-  ☐ pilot custom stylizing
+  ✔ Corp Icons @done(19-09-28 13:45)
   ☐ pilot NO IMG
-  ☐ pilot CRUD to dropdown menu
   ✔ Vuetify 2.0 @done(19-09-12 10:10)
   ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05)
-  ☐ Should be able to collapse reserves individually by clicking toolbar
   ☐ global notification
   ☐ error logging
   ☐ ra text/horus text
@@ -69,18 +85,13 @@ Improvements:
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection
     ☐ Prototype Weapon type/range/damage type selection
-  ☐ Exclude filter parameter for filter panel
   ☐ statblock mech select modal
   ☐ refresh cloud-saved pilots
-  ☐ draggable pilot/config cards
-  ☐ use NPC editable label
   ☐ different cloud save ui 
-  ☐ Undo
   ☐ Click to apply weapon/system self heat
   ☐ Disable dangerzone systems outside of dangerzone
   ☐ Ammo block
   ☐ Mandatory org rolling at the start of every downtime
-  ☐ Pilot Cards shouldn't deviate in size
   
 Campaign Tools:
   ☐ Campaigns landing page (import/export/new/select)

@@ -18,7 +18,7 @@
     </v-toolbar>
 
     <v-card flat outlined>
-      <v-card-text>
+      <v-card-text class="pa-2">
         <slot />
       </v-card-text>
     </v-card>

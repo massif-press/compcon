@@ -1,0 +1,53 @@
+<template>
+  <div>
+    <cc-title small>
+      <section-edit-chip
+        :highlight="!pilot.HasFullSkills"
+        :current="pilot.CurrentSkillPoints"
+        :max="pilot.MaxSkillPoints"
+        :label="`Edit Pilot Skill Triggers (${pilot.CurrentSkillPoints}/${pilot.MaxSkillPoints})`"
+        @open-selector="$refs.skillSelector.show()"
+      />Skill Triggers
+    </cc-title>
+    <cc-solo-dialog
+      ref="skillSelector"
+      icon="cci-trait"
+      no-confirm
+      title="Set Pilot Skill Triggers"
+      fullscreen
+    >
+      <cc-skill-selector :pilot="pilot" />
+    </cc-solo-dialog>
+    <v-row style="width: calc(100vw - 230px)">
+      <v-col cols="auto" class="mr-2 text-center">
+        <span class="stat-text">PILOT GRIT</span>
+        <br />
+        <span class="heading mech" style="font-size: 80px; line-height: 50px">+{{ pilot.Grit }}</span>
+      </v-col>
+      <v-col>
+        <cc-skill-item
+          v-for="(s,i) in pilot.Skills"
+          :key="`s_${i}`"
+          :bonus="s.Bonus"
+          :skill="s.Skill"
+        />
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import SectionEditChip from '../../components/SectionEditChip.vue'
+
+export default Vue.extend({
+  name: 'skill-block',
+  components: { SectionEditChip },
+  props: {
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
+})
+</script>

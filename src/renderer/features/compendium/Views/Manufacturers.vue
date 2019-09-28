@@ -2,25 +2,26 @@
   <v-container fluid px-5>
     <h1 class="heading">MANUFACTURERS</h1>
     <v-tabs
+      v-model="tabModel"
       vertical
       background-color="primary"
       :slider-size="12"
       slider-color="active"
       icons-and-text
     >
-      <v-tab v-for="m in manufacturers" :key="m.id" ripple>
-        <v-icon large>cci-orbit</v-icon>
+      <v-tab v-for="(m, i) in manufacturers" :key="m.id" ripple>
+        <cc-logo size="large" :source="m.id" :color="tabModel == i ? 'white' : 'black'" />
         {{ m.id }}
       </v-tab>
       <v-tab-item v-for="m in manufacturers" :key="m.id + 'desc'">
         <v-card flat class="px-3 py-3">
-          <v-card-title class="heading mech pb-4">{{ m.name }}</v-card-title>
+          <v-card-title class="heading mech pb-4" :style="`color: ${m.color}`">{{ m.name }}</v-card-title>
           <v-card-text class="mt-1 ml-2 pr-4 pt-0">
-            <div class="border" style="float: right; margin-left: 20px">
-              <v-img src="https://via.placeholder.com/450" />
+            <div style="float: right; margin-left: 20px; margin-right: 50px">
+              <v-img :src="logoSrc(m)" min-width="300px" min-height="300px" />
             </div>
             <blockquote class="quote-block fluff-text grey--text text--darken-4" v-html="m.quote" />
-            <v-divider class="ma-2" />
+            <v-divider class="ma-2" style="width: 800px" />
             <p class="body-text black--text" v-html="m.description" />
           </v-card-text>
         </v-card>
@@ -33,6 +34,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { Manufacturer } from '@/class'
 
 export default Vue.extend({
   name: 'manufacturers',
@@ -43,6 +45,11 @@ export default Vue.extend({
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
     this.manufacturers = compendium.Manufacturers
+  },
+  methods: {
+    logoSrc(m: Manufacturer) {
+      return `file://${Vue.prototype.userDataPath}/img/default_logo/${m.logo}.svg`
+    },
   },
 })
 </script>
