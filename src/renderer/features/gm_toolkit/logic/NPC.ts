@@ -251,7 +251,7 @@ export default class NPC {
     templates: string[]
     systems: string[]
     size?: number
-    stats: {
+    stats?: {
       hp: number
       evade: number
       edef: number
@@ -271,8 +271,16 @@ export default class NPC {
   }) {
     const cl = npcClasses.find(c => c.name === obj.class)
     if (!cl) throw new Error('invalid class')
-    let stats = new NPCStats(obj.stats)
-    let npc = new NPC(cl, stats, obj.tier as 0 | 1 | 2, obj.id)
+    let npc = null
+    let stats = null
+    if (obj.hasOwnProperty('stats')) {
+      stats = new NPCStats(obj.stats)
+      npc = new NPC(cl, stats, obj.tier as 0 | 1 | 2, obj.id)
+    }
+    else {
+      npc = new NPC(cl, null, obj.tier as 0 | 1 | 2, obj.id)
+      stats = npc.stats
+    }
     if (obj.name) npc.name = obj.name
     npc._templates = obj.templates
     for (const sysName of obj.systems) {
