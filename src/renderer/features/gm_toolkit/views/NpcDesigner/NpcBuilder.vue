@@ -63,12 +63,27 @@
     </v-card-title>
     <v-card-text class="px-4">
       <!-- Stats -->
-      <v-row wrap justify-space-around class="statblock">
-        <v-col cols="6" sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
+      <v-flex align-center v-if="!editingStats">
+        <v-btn :color="roleColor" class="ml-auto white--text" @click="editStats">EDIT STATS</v-btn>
+      </v-flex>
+      <v-flex align-center v-else>
+        <v-btn :color="roleColor" class="ml-auto white--text" @click="submitStats">SUBMIT STATS</v-btn>
+      </v-flex>
+      <v-layout wrap justify-space-around class="statblock">
+        <v-flex xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
+          <!--
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
-        </v-col>
-        <v-col cols="6" sm2 lg1>
+          -->
+          <div v-if="!editingStats" class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
+          <v-text-field v-else
+            v-model="stats[stat]"
+            type="number"
+            solo
+            :color="roleColor"
+          ></v-text-field>
+        </v-flex>
+        <v-flex xs6 sm2 lg1>
           <div class="label">SIZE</div>
           <div class="headline font-weight-bold primary--text">
             <v-select
@@ -88,15 +103,21 @@
           cols="6"
           sm2
           lg1
-          v-for="hase in ['hull', 'agility', 'systems', 'engineering']"
-          :key="hase"
+          v-for="check in Object.keys(hase)"
+          :key="check"
         >
-          <div class="label text-uppercase">{{ hase }}</div>
-          <div class="headline font-weight-bold primary--text">
-            {{ npc.stats[hase] > -1 ? '+' : '' }}{{ npc.stats[hase] }}
-          </div>
-        </v-col>
-      </v-row>
+          <div class="label text-uppercase">{{ check }}</div>
+          <div v-if="!editingStats"
+            class="headline font-weight-bold primary--text"
+          >{{ hase[check] > -1 ? '+' : '' }}{{ hase[check] }}</div>
+          <v-text-field v-else
+            v-model="hase[check]"
+            type="number"
+            solo
+            :color="roleColor"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
       <v-divider class="my-3" />
       <!-- Notes -->
       <v-text-field outline label="Notes" v-model="npc.notes" :color="roleColor"></v-text-field>
@@ -223,6 +244,7 @@ import GoblinChan from '../../components/NpcDesigner/GoblinChan.vue'
 import { mapState } from 'vuex'
 
 import NPC from '../../logic/NPC'
+import NPCStats from '../../logic/NPCStats'
 import { Dictionary } from 'vue-router/types/router'
 import { NPCSystem } from '../../logic/interfaces/NPCSystem'
 import { NPCTips } from '../../logic/Tips'
@@ -234,14 +256,46 @@ export default Vue.extend({
   data: function() {
     return {
       editingName: false,
+      editingStats: false,
       newName: '',
       npc: _.clone(this.preNpc),
       systemsUnlocked: false,
+
+      HP: 0,
+      HEAT: 0,
+      STRUCTURE: 0,
+      STRESS: 0,
+      ARMOR: 0,
+      SPEED: 0,
+      EVADE: 0,
+      EDEF: 0,
+      SENSE: 0,
+      SAVE: 0,
     }
   },
   computed: {
     tips(): object[] {
       return NPCTips(this.npc)
+    },
+
+    statMap() {
+      let obj: { [key: string]: string } = {
+        HP: "hp",
+        HEAT: "heatcap",
+        STRUCTURE: "structure",
+        STRESS: "stress",
+        ARMOR: "armor",
+        SPEED: "speed",
+        EVADE: "evade",
+        EDEF: "edef",
+        SENSE: "sensor",
+        SAVE: "save",
+        HULL: "hull",
+        AGILITY: "agility",
+        SYSTEMS: "systems",
+        ENGINEERING: "engineering",
+      }
+      return _.pickBy(obj, o => o !== null)
     },
 
     stats() {
@@ -257,6 +311,17 @@ export default Vue.extend({
         EDEF: npcst.edef,
         SENSE: npcst.sensor,
         SAVE: npcst.save,
+      }
+      return _.pickBy(obj, o => o !== null)
+    },
+
+    hase() {
+      const npcst = (this.npc as NPC).stats
+      let obj: { [key: string]: number } = {
+        HULL: npcst.hull,
+        AGILITY: npcst.agility,
+        SYSTEMS: npcst.systems,
+        ENGINEERING: npcst.engineering,
       }
       return _.pickBy(obj, o => o !== null)
     },
@@ -309,6 +374,36 @@ export default Vue.extend({
       }
       this.editingName = false
     },
+
+    editStats(): void {
+      this.editingStats = true
+    },
+
+    submitStats() {
+      var newStats = _.clone(this.npc.stats) as NPCStats
+      for (var s in this.stats) {
+        if (typeof this.stats[s] === "string") {
+          this.stats[s] = Number(this.stats[s])
+        }
+        newStats[this.statMap[s]] = this.stats[s]
+        if (newStats.statcaps[this.statMap[s]] != undefined) {
+          const cap = newStats.statcaps[this.statMap[s]]
+          if (cap < newStats[this.statMap[s]]) newStats[this.statMap[s]] = cap
+        }
+      }
+      for (var h in this.hase) {
+        if (typeof this.hase[h] === "string") {
+          this.hase[h] = Number(this.hase[h])
+        }
+        newStats[this.statMap[h]] = this.hase[h]
+        if (newStats.statcaps[this.statMap[h]]) {
+          const cap = newStats.statcaps[this.statMap[h]]
+          if (cap < newStats[this.statMap[h]]) newStats[this.statMap[h]] = cap
+        }
+      }
+      ;(this.npc as NPC).stats = newStats
+      this.editingStats = false
+    }
   },
   watch: {
     npc: {
