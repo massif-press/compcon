@@ -1,5 +1,5 @@
 <template>
-  <v-dialog lazy v-model="model" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog lazy v-model="display" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-btn slot="activator" class="edit-btn mlneg" small flat icon color="primary">
       <v-icon small>edit</v-icon>
     </v-btn>
@@ -130,6 +130,7 @@ export default Vue.extend({
     config: Object,
   },
   data: () => ({
+    display: false,
     images: [],
     cloud: false,
   }),
@@ -200,6 +201,20 @@ export default Vue.extend({
     close() {
       this.$emit('close')
     },
+  },
+  watch: {
+    model (val) {
+      if (val) {
+        this.display = true
+      } else {
+        if (this.display) {
+          this.display = false
+        }
+      }
+    },
+    display (val) {
+      if (!val) this.close()
+    }
   },
   mounted() {
     this.importAll()
