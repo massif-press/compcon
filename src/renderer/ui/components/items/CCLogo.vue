@@ -40,7 +40,7 @@ export default Vue.extend({
     mColor: '',
   }),
   computed: {
-    iconSize(): number {
+    iconSize(): string {
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default
     },
     iconColor(): string {

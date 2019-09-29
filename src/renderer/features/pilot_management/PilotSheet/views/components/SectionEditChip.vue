@@ -6,9 +6,10 @@
         label
         :class="{'fadeSelect': !highlight}"
         :color="highlight ? 'warning' : 'primary'"
+        style="margin-bottom: 1px"
         @click="$emit('open-selector')"
       >
-        {{ current }}/{{ max }}
+        {{ current }}/{{ max }}&nbsp;
         <v-icon>mdi-circle-edit-outline</v-icon>
       </v-chip>
     </cc-tooltip>

@@ -2,6 +2,10 @@
   cursor: pointer !important;
 }
 
+.no-shadow::before {
+  box-shadow: none !important;
+}
+
 .edit-btn {
   opacity: 0.25;
   cursor: pointer;

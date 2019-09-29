@@ -11,6 +11,7 @@ import SystemCard from './SystemCard.vue'
 import WeaponCard from './WeaponCard.vue'
 import mdColors from './mdColors'
 import ItemTag from './ItemTag.vue'
+import PipBar from './PipBar.vue'
 import ItemBadge from './ItemBadge.vue'
 import ItemNote from './ItemNote.vue'
 import ModCard from './ModCard.vue'
@@ -42,4 +43,5 @@ export {
   Contributor,
   ItemNote,
   LimitedBar,
+  PipBar,
 }

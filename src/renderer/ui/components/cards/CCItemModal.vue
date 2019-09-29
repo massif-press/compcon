@@ -1,7 +1,7 @@
 <template>
   <div>
     <cc-dialog no-confirm :color="$_.kebabCase(item.ItemType)" large>
-      <span slot="button" class="white--text">
+      <span slot="button" class="white--text" style="width: 100%">
         <v-icon left>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
         {{ item.Name }} {{ item.ItemType === 'Frame' ? 'FRAME' : '' }}
       </span>
@@ -15,9 +15,8 @@
         color="white"
         class="stat-text mt-4 mr-6"
         outlined
-        label>
-        {{ item.Source }} {{ $_.startCase(item.ItemType) }}
-      </v-chip>
+        label
+      >{{ item.Source }} {{ $_.startCase(item.ItemType) }}</v-chip>
 
       <cc-item-card :item="item" />
     </cc-dialog>

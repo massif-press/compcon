@@ -63,14 +63,14 @@
     </v-card-title>
     <v-card-text class="px-4">
       <!-- Stats -->
-      <v-flex align-center v-if="!editingStats">
+      <v-col align-center v-if="!editingStats">
         <v-btn :color="roleColor" class="ml-auto white--text" @click="editStats">EDIT STATS</v-btn>
-      </v-flex>
-      <v-flex align-center v-else>
+      </v-col>
+      <v-col align-center v-else>
         <v-btn :color="roleColor" class="ml-auto white--text" @click="submitStats">SUBMIT STATS</v-btn>
-      </v-flex>
-      <v-layout wrap justify-space-around class="statblock">
-        <v-flex xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
+      </v-col>
+      <v-row wrap justify-space-around class="statblock">
+        <v-col xs6 sm2 lg1 v-for="stat in Object.keys(stats)" :key="stat">
           <div class="label">{{ stat }}</div>
           <!--
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
@@ -82,8 +82,8 @@
             solo
             :color="roleColor"
           ></v-text-field>
-        </v-flex>
-        <v-flex xs6 sm2 lg1>
+        </v-col>
+        <v-col xs6 sm2 lg1>
           <div class="label">SIZE</div>
           <div class="headline font-weight-bold primary--text">
             <v-select
@@ -116,8 +116,8 @@
             solo
             :color="roleColor"
           ></v-text-field>
-        </v-flex>
-      </v-layout>
+        </v-col>
+      </v-row>
       <v-divider class="my-3" />
       <!-- Notes -->
       <v-text-field outline label="Notes" v-model="npc.notes" :color="roleColor"></v-text-field>

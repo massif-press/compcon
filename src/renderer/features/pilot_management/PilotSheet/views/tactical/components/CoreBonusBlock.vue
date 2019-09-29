@@ -11,7 +11,7 @@
     </cc-title>
     <cc-solo-dialog
       ref="bonusSelector"
-      icon="cci-trait"
+      icon="cci-corebonus"
       no-confirm
       title="Set Pilot CORE Bonuses"
       fullscreen
