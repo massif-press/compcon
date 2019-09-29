@@ -1,4 +1,5 @@
 import { NPCStatBlock } from './NPCClass'
+import NPCStats from '../NPCStats'
 
 export default interface NPCTemplate {
   name: string
@@ -11,7 +12,8 @@ export default interface NPCTemplate {
     name: string
     effect: string
   }[]
-  statTransform?: (arg: { [key: string]: number }) => { [key: string]: number }
+  // statTransform?: (arg: NPCStats) => NPCStats
+  statTransform?: { [key: string]: number }
   statCaps?: { [key: string]: number }
   incompatibleTemplates: string[]
 }
