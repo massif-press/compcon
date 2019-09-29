@@ -17,12 +17,18 @@
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col cols="12">
-          <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingCBs">
-            CORE Bonus Selection Complete
-          </v-alert>
-          <v-alert outline color="warning" icon="priority_high" :value="pilot.IsMissingCBs">
-            {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
-          </v-alert>
+          <v-alert
+            outline
+            color="success"
+            icon="check_circle"
+            :value="!pilot.IsMissingCBs"
+          >CORE Bonus Selection Complete</v-alert>
+          <v-alert
+            outline
+            color="warning"
+            icon="priority_high"
+            :value="pilot.IsMissingCBs"
+          >{{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected</v-alert>
           <v-btn
             v-if="!levelUp"
             block
@@ -30,9 +36,7 @@
             small
             :disabled="!pilot.CoreBonuses.length"
             @click="pilot.ClearCoreBonuses()"
-          >
-            Reset
-          </v-btn>
+          >Reset</v-btn>
         </v-col>
       </v-row>
     </template>
@@ -41,9 +45,7 @@
       <div v-for="m in Object.keys(bonusData)" :key="`summary_block_m${m}`">
         <v-row>
           <v-col class="text-center pa-3">
-            <span class="display-2 text-uppercase font-weight-light">
-              {{ manufacturer(m).name }}
-            </span>
+            <span class="display-2 text-uppercase font-weight-light">{{ manufacturer(m).name }}</span>
             <br />
             <span class="caption grey--text" v-html="requirement(m)" />
           </v-col>
@@ -53,9 +55,7 @@
             <v-expansion-panel expand focusable>
               <v-expansion-panel-content v-for="cb in bonusData[m]" :key="`${cb.id}_data'`">
                 <v-toolbar-title slot="header" dense>
-                  <v-icon v-if="!getAvailableCount(m) && !getSelectedCount(m)">
-                    mdi-lock
-                  </v-icon>
+                  <v-icon v-if="!getAvailableCount(m) && !getSelectedCount(m)">mdi-lock</v-icon>
                   <v-icon v-else-if="getSelectedStatus(cb)">check</v-icon>
                   <span v-else class="mr-3" v-html="'&nbsp;'" />
                   &nbsp;
@@ -64,10 +64,8 @@
                 <v-card>
                   <core-bonus-item
                     :cb="cb"
-                    :key="cb.id"
-                    :selectable="getSelectableStatus(cb)"
-                    :isSelected="getSelectedStatus(cb)"
-                    select-item
+                    :is-selectable="getSelectableStatus(cb)"
+                    :is-selected="getSelectedStatus(cb)"
                     @added="addBonus(cb)"
                     @removed="pilot.RemoveCoreBonus(cb)"
                   />

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <mech-skills-block :pilot="pilot" />LICENSES
+    <mech-skills-block :pilot="pilot" />
+    <license-block :pilot="pilot" />
     <core-bonus-block :pilot="pilot" />
     <talent-block :pilot="pilot" />
   </div>
@@ -9,12 +10,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import MechSkillsBlock from './components/MechSkillsBlock.vue'
+import LicenseBlock from './components/LicenseBlock.vue'
 import CoreBonusBlock from './components/CoreBonusBlock.vue'
 import TalentBlock from './components/TalentBlock.vue'
 
 export default Vue.extend({
   name: 'tactical-view',
-  components: { MechSkillsBlock, CoreBonusBlock, TalentBlock },
+  components: { MechSkillsBlock, LicenseBlock, CoreBonusBlock, TalentBlock },
   props: {
     pilot: {
       type: Object,

@@ -84,10 +84,11 @@ class Pilot {
   }
 
   // -- Utility -----------------------------------------------------------------------------------
-  private save() {
+  private save(): void {
     store.dispatch('saveData')
   }
 
+  //TODO: don't extract id or type at call, just pass object and deal with it w/ instanceof/typeof
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
       return this.skills.findIndex(x => x.Skill.Name === id || x.Skill.ID === id) > -1
@@ -109,6 +110,11 @@ class Pilot {
   public getTalentRank(id: string): number {
     const index = this.talents.findIndex(x => x.Talent.ID === id)
     return index > -1 ? this.talents[index].Rank : 0
+  }
+
+  public getLicenseRank(name: string): number {
+    const index = this.licenses.findIndex(x => x.License.Name === name)
+    return index > -1 ? this.licenses[index].Rank : 0
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -138,6 +144,12 @@ class Pilot {
   public set Level(level: number) {
     this.level = level
     this.save()
+  }
+
+  public LicenseLevel(factionID: string): number {
+    return this.Licenses.filter(
+      x => x.License.Source.toLowerCase() === factionID.toLowerCase()
+    ).reduce((a, b) => +a + +b.Rank, 0)
   }
 
   public get Background(): string {
@@ -492,6 +504,11 @@ class Pilot {
     return this.core_bonuses
   }
 
+  public set CoreBonuses(coreBonuses: CoreBonus[]) {
+    this.core_bonuses = coreBonuses
+    this.save()
+  }
+
   public get CurrentCBPoints(): number {
     return this.core_bonuses.length
   }
@@ -512,17 +529,12 @@ class Pilot {
     return this.CurrentCBPoints === this.MaxCBPoints
   }
 
-  public set CoreBonuses(coreBonuses: CoreBonus[]) {
-    this.core_bonuses = coreBonuses
-    this.save()
-  }
-
-  public AddCoreBonus(coreBonus: CoreBonus) {
+  public AddCoreBonus(coreBonus: CoreBonus): void {
     this.core_bonuses.push(coreBonus)
     this.save()
   }
 
-  public RemoveCoreBonus(coreBonus: CoreBonus) {
+  public RemoveCoreBonus(coreBonus: CoreBonus): void {
     const index = this.core_bonuses.findIndex(x => _.isEqual(coreBonus, x))
     if (index === -1) {
       console.error(`CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this.callsign}`)
@@ -571,6 +583,10 @@ class Pilot {
 
   public get TooManyLicenses(): boolean {
     return this.CurrentLicensePoints > this.MaxLicensePoints
+  }
+
+  public get HasLicenses(): boolean {
+    return this.CurrentLicensePoints === this.MaxLicensePoints
   }
 
   public set Licenses(licenses: PilotLicense[]) {

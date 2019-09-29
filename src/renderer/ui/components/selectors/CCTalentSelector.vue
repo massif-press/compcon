@@ -45,7 +45,7 @@
         :key="talent.ID"
         :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
         :talent="talent"
-        :pilot-rank="pilotRank(talent)"
+        :pilot-rank="pilot.getTalentRank(talent.ID)"
         :new-pilot="newPilot"
         @add="pilot.AddTalent(talent)"
         @remove="pilot.RemoveTalent(talent)"
@@ -61,7 +61,7 @@ import MissingItem from './components/_MissingItem.vue'
 import TalentSelectItem from './components/_TalentSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Talent, PilotTalent, Pilot } from '@/class'
+import { Pilot } from '@/class'
 import { rules } from 'lancer-data'
 
 export default Vue.extend({
@@ -96,16 +96,6 @@ export default Vue.extend({
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
     this.talents = compendium.Talents
-  },
-  methods: {
-    pilotTalent(talent: Talent): PilotTalent | null {
-      const pt = this.pilot.Talents.find(x => x.Talent.ID === talent.ID)
-      return pt ? pt : null
-    },
-    pilotRank(talent: Talent): number {
-      const pt = this.pilot.Talents.find(x => x.Talent.ID === talent.ID)
-      return pt ? pt.Rank : 0
-    },
   },
 })
 </script>

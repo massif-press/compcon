@@ -1,46 +1,27 @@
 <template>
-  <v-row>
-    <v-col cols="2">
-      <v-btn tile block min-height="100%">
-        <v-icon>cci-accuracy</v-icon>
+  <v-row dense>
+    <v-col cols="auto" dense class="pr-0">
+      <v-btn
+        tile
+        block
+        outlined
+        min-height="calc(100% - 8px)"
+        class="pa-0"
+        :color="color"
+        :disabled="!isSelected && !isSelectable"
+        @click="$emit(isSelected ? 'remove' : 'add', bonus)"
+      >
+        <cc-tooltip simple inline :content="ttContent()">
+          <v-icon v-if="isSelected" size="80" color="error">cci-difficulty</v-icon>
+          <v-icon v-else-if="isSelectable" size="80" color="secondary">cci-accuracy</v-icon>
+          <v-icon v-else size="80" color="grey">mdi-lock</v-icon>
+        </cc-tooltip>
       </v-btn>
     </v-col>
-    <v-col>
+    <v-col class="pl-0">
       <cc-core-bonus-item :bonus="bonus" />
     </v-col>
   </v-row>
-  <!-- </v-row>
-    <v-card>
-      <div v-if="!selectItem">
-        <v-toolbar v-if="cb.err" class="mb-2" dense flat>
-          <span class="subheading grey--text">// MISSING CORE BONUS DATA //</span>
-        </v-toolbar>
-        <v-toolbar dense flat color="grey lighten-2">
-          <v-toolbar-title>
-            <span>{{ cb.name }}&nbsp;</span>
-            <span class="caption">{{ cb.source }}</span>
-          </v-toolbar-title>
-        </v-toolbar>
-      </div>
-      <div class="mb-2" v-if="!cb.err">
-        <v-card-title class="pb-0 mb-0 mt-0 pt-2">
-          <p class="fluff-text" v-html="cb.description" />
-        </v-card-title>
-        <v-card-text class="pb-1 mt-0 pt-0">
-          <p class="effect-text pb-0" v-html="cb.effect" />
-        </v-card-text>
-        <v-card-actions v-if="selectItem" class="ml-5 mr-5">
-          <v-btn v-if="selectable && !isSelected" large block outline @click="add" color="primary">
-            <v-icon>add</v-icon>
-            <span v-html="`Add ${cb.name}`" />
-          </v-btn>
-          <v-btn v-else-if="isSelected" large block @click="remove" color="white">
-            <span v-html="`Remove ${cb.name}`" />
-          </v-btn>
-        </v-card-actions>
-      </div>
-    </v-card>
-  </v-col>-->
 </template>
 
 <script lang="ts">
@@ -53,17 +34,24 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    selectable: Boolean,
-    isSelected: Boolean,
-    selectItem: Boolean,
-    darken: Boolean,
+    color: {
+      type: String,
+      required: true,
+    },
+    isSelected: {
+      type: Boolean,
+      required: true,
+    },
+    isSelectable: {
+      type: Boolean,
+      required: true,
+    },
   },
   methods: {
-    add() {
-      this.$emit('added', this.cb)
-    },
-    remove() {
-      this.$emit('removed', this.cb)
+    ttContent() {
+      if (!this.isSelected && !this.isSelectable) return 'Locked'
+      else if (this.isSelected) return `Remove ${this.bonus.Name}`
+      return `Add ${this.bonus.Name}`
     },
   },
 })

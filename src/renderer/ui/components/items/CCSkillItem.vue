@@ -56,9 +56,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style>
-.no-shadow::before {
-  box-shadow: none !important;
-}
-</style>
