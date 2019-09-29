@@ -1,6 +1,7 @@
 import NPCClass from './interfaces/NPCClass'
 import { NPCSystem } from './interfaces/NPCSystem'
 import NPCTemplate from './interfaces/NPCTemplate'
+import NPCStats from './NPCStats'
 import data from 'lancer-data'
 
 import _ from 'lodash'
@@ -18,12 +19,13 @@ export default class NPC {
   _name?: string
   notes?: string
   size: number
+  stats: NPCStats
   static allSystems = systems.concat(genericSystems).concat(templateSystems)
 
   private _pickedSystems: NPCSystem.Any[] = []
   _templates: string[] = []
 
-  constructor(npcClass: NPCClass, tier?: 0 | 1 | 2, id?: string) {
+  constructor(npcClass: NPCClass, stats?: NPCStats, tier?: 0 | 1 | 2, id?: string) {
     if (id) {
       this.id = id
     } else {
@@ -34,6 +36,27 @@ export default class NPC {
     this.npcClass = npcClass
     this.tier = tier || 0
     this.size = this.npcClass.size[0]
+
+    if (stats) {
+      this.stats = stats
+    } else {
+      this.stats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
+      this.stats.structure = 1
+      this.stats.stress = 1
+      this.defaultCaps()
+    }
+
+    for (const stat in this.stats) {
+      if (
+        this.stats.statcaps.hasOwnProperty(stat) &&
+        this.stats.statcaps[stat] < (this.stats as any)[stat]
+      ) {
+        this.stats = {
+          ...this.stats,
+          [stat]: this.stats.statcaps[stat],
+        }
+      }
+    }
   }
 
   get class_systems() {
@@ -68,13 +91,34 @@ export default class NPC {
     this._name = name
   }
 
+  defaultCaps() {
+    this.stats.statcaps = {
+      armor: 4,
+      hull: 6,
+      agility: 6,
+      systems: 6,
+      engineering: 6,
+    }
+  }
   get pickedSystems() {
     return this._pickedSystems
   }
   pickSystem(system: NPCSystem.Any) {
     this._pickedSystems.push(system)
+    if (system.hasOwnProperty('stat_bonuses')) {
+      const sb = (system as NPCSystem.NonWeapon).stat_bonuses
+      for (const stat in sb) {
+        this.stats[stat] += sb[stat]
+      }
+    }
   }
   removeSystem(system: NPCSystem.Any) {
+    if (system.hasOwnProperty('stat_bonuses')) {
+      const sb = (system as NPCSystem.NonWeapon).stat_bonuses
+      for (const stat in sb) {
+        this.stats[stat] -= sb[stat]
+      }
+    }
     this._pickedSystems = this._pickedSystems.filter(sys => sys.name !== system.name)
   }
 
@@ -126,11 +170,49 @@ export default class NPC {
       throw new Error(`NPC already has template "${templateName}"!`)
     const template = _.find(templates, t => t.name === templateName)
     if (!template) throw new Error(`invalid template name "${templateName}"!`)
+    if (template.statTransform) {
+      for (const stat in template.statTransform) {
+        this.stats[stat] += template.statTransform[stat]
+      }
+    }
+    if (template.statCaps) {
+      for (const stat in template.statCaps) {
+        const cap = template.statCaps[stat]
+        if (!this.stats.statcaps[stat] || cap < this.stats.statcaps[stat]) {
+          this.stats.statcaps[stat] = cap
+        }
+        if (this.stats[stat] > this.stats.statcaps[stat]) {
+          this.stats[stat] = this.stats.statcaps[stat]
+        }
+      }
+    }
     this._templates.push(templateName)
   }
   removeTemplate(templateName: string) {
+    const template = _.find(templates, t => t.name === templateName)
+    if (template.statTransform) {
+      for (const stat in template.statTransform) {
+        this.stats[stat] -= template.statTransform[stat]
+      }
+    }
     this._templates = _.without(this._templates, templateName)
     this._pickedSystems = this._pickedSystems.filter(sys => sys.class !== templateName)
+    // Remove stat caps for the removed template, and search for higher stat caps
+    // among remaining templates.
+    if (template.statCaps) {
+      this.defaultCaps()
+      // Check all templates for stat caps.
+      for (const t of this.templates) {
+        if (t.statCaps) {
+          for (const stat in t.statCaps) {
+            const cap = template.statCaps[stat]
+            if (cap === undefined || t.statCaps[stat] < cap) {
+              this.stats.statcaps[stat] = cap
+            }
+          }
+        }
+      }
+    }
   }
 
   templateIsIncompatible(templateName: string) {
@@ -151,69 +233,6 @@ export default class NPC {
     return _.uniqBy(_.flatten(this.templates.map(t => t.features)), 'name')
   }
 
-  get stats(): {
-    hp: number
-    evade: number
-    edef: number
-    heatcap: number
-    hull: number
-    agility: number
-    systems: number
-    engineering: number
-    armor: number
-    speed: number
-    sensor: number
-    save: number
-    structure: number
-    stress: number
-  } {
-    let tempStats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
-    tempStats.structure = 1
-    tempStats.stress = 1
-
-    let statCaps: { [key: string]: number } = {
-      armor: 4,
-    }
-
-    for (const template of this.templates) {
-      if (template.statTransform) tempStats = template.statTransform(tempStats)
-      if (template.statCaps) {
-        for (const stat in template.statCaps) {
-          const cap = template.statCaps[stat]
-          if (!statCaps[stat] || cap < statCaps[stat]) {
-            statCaps[stat] = cap
-          }
-        }
-      }
-    }
-
-    function typeGuard(s: NPCSystem.Any): s is NPCSystem.NonWeapon {
-      return s.hasOwnProperty('stat_bonuses')
-    }
-
-    const systemsWithBonus = this._pickedSystems.filter(typeGuard)
-
-    for (const _system of systemsWithBonus) {
-      const system = _system as NPCSystem.NonWeapon
-      for (const stat in (system as NPCSystem.NonWeapon).stat_bonuses) {
-        if (tempStats.hasOwnProperty(stat)) {
-          tempStats[stat] += system.stat_bonuses![stat]
-        }
-      }
-    }
-
-    for (const stat in tempStats) {
-      if (statCaps.hasOwnProperty(stat) && statCaps[stat] < (tempStats as any)[stat]) {
-        tempStats = {
-          ...tempStats,
-          [stat]: statCaps[stat],
-        }
-      }
-    }
-
-    return tempStats
-  }
-
   public serialize() {
     return {
       id: this.id,
@@ -221,6 +240,7 @@ export default class NPC {
       tier: this.tier,
       name: this._name,
       size: this.size,
+      stats: this.stats,
       templates: this._templates,
       systems: this._pickedSystems.map(s => s.name),
     }
@@ -234,10 +254,35 @@ export default class NPC {
     templates: string[]
     systems: string[]
     size?: number
+    stats?: {
+      hp: number
+      evade: number
+      edef: number
+      heatcap: number
+      hull: number
+      agility: number
+      systems: number
+      engineering: number
+      armor: number
+      speed: number
+      sensor: number
+      save: number
+      structure: number
+      stress: number
+      statcaps: { [key: string]: number }
+    }
   }) {
     const cl = npcClasses.find(c => c.name === obj.class)
     if (!cl) throw new Error('invalid class')
-    let npc = new NPC(cl, obj.tier as 0 | 1 | 2, obj.id)
+    let npc = null
+    let stats = null
+    if (obj.hasOwnProperty('stats')) {
+      stats = new NPCStats(obj.stats)
+      npc = new NPC(cl, stats, obj.tier as 0 | 1 | 2, obj.id)
+    } else {
+      npc = new NPC(cl, null, obj.tier as 0 | 1 | 2, obj.id)
+      stats = npc.stats
+    }
     if (obj.name) npc.name = obj.name
     npc._templates = obj.templates
     for (const sysName of obj.systems) {
@@ -248,6 +293,7 @@ export default class NPC {
       if (!sys) throw new Error(`invalid system ${sysName}`)
       npc.pickSystem(sys)
     }
+    npc.stats = stats
     if (obj.size) npc.size = obj.size
     return npc
   }
