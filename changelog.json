@@ -1,12 +1,16 @@
 {
-  "stable": "1.3.10",
-  "beta": "1.5.5",
+  "stable": "1.5.5",
+  "beta": "1.5.6",
   "news": {
     "date": "August 14th, 2019",
     "version": "1.5.5",
-    "body": "<p>Greetings, pilots!</p> <p>Work continues on the styling pass. I'll have a better idea of an ETA by the end of the month. In the meantime, some new contributors have stepped up to quash bugs and improve QoL -- huge thanks to Samsterious, CoreyT355 and Eranziel!</p>"
+    "body": "<p>Greetings, pilots!</p> <p>The styling pass is coming along nicely -- feel free to stop by the LANCER discord for updates and previews.<br>Today's fixes (both functional and compendium corrections) are largely due to Eranziel, who deserves a ton of thanks for the hard work!</p><p>A few known bugs that will be addressed with the style update: <ul> <li>In certain cases, mods or notes may be duplicated across weapons when added</li> <li>Loadouts may \"disappear\" on navigation to the mech sheet. Reloading the page or creating a new loadout usually corrects this</li> <li>NPCs loading with the wrong systems. This can be corrected by leaving and re-entering the page.</li> </ul>"
   },
   "changelog": [
+    {
+      "version": "1.5.6",
+      "changes": "<ul> <li>Corrects a page layout issue on the printed Pilot sheet</li> <li>Prevents NPCs with long names/class names from hiding the \"Graveyard\" button</li> <li>New Feature: Editable NPC stats (thanks, Eranziel!)</li> <li>Lots of compendium corrections (thanks, Eranziel!)</li> </ul>"
+    },
     {
       "version": "1.5.5",
       "changes": "<ul> <li>Integrated CORE System weapons now appear correctly on Frame info panels</li> <li>The Pilot Cloud ID field will now auto-focus on open (thanks, Samsterious! 🎉 first PR! 🎉 )</li> <li>Encounter NPCs with long names will no longer overflow their textboxes. Instead, a tooltip will appear with the full name (thanks, CoreyT355! 🎉 first PR! 🎉 )</li> <li>Biological NPCs added to the NPC Builder (thanks, Eranziel! 🎉 first PR! 🎉 )</li> <li>Search input now intelligently handles special characters - eg. \"ja\" with match \"J&auml;ger\" (thanks, Qwertronix!)</li> </ul>"
