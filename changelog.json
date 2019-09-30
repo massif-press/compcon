@@ -3,7 +3,7 @@
   "beta": "1.5.6",
   "news": {
     "date": "August 14th, 2019",
-    "version": "1.5.5",
+    "version": "1.5.6",
     "body": "<p>Greetings, pilots!</p> <p>The styling pass is coming along nicely -- feel free to stop by the LANCER discord for updates and previews.<br>Today's fixes (both functional and compendium corrections) are largely due to Eranziel, who deserves a ton of thanks for the hard work!</p><p>A few known bugs that will be addressed with the style update: <ul> <li>In certain cases, mods or notes may be duplicated across weapons when added</li> <li>Loadouts may \"disappear\" on navigation to the mech sheet. Reloading the page or creating a new loadout usually corrects this</li> <li>NPCs loading with the wrong systems. This can be corrected by leaving and re-entering the page.</li> </ul>"
   },
   "changelog": [
