@@ -17,7 +17,8 @@
         >{{ npc.name }}</v-flex>
         <v-flex
           class="ml-auto body-2 text-uppercase tierclass"
-        >TIER {{ npcData.tier + 1 }} {{ npcData.npcClass.name }}</v-flex>
+          style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;"
+        >T{{ npcData.tier + 1 }} {{ npcData.npcClass.name }}</v-flex>
         <v-flex py-0>
           <v-btn
             outline
