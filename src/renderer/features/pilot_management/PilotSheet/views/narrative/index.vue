@@ -1,10 +1,5 @@
 <template>
   <div>
-    <!-- <cc-logo source="gms" />
-    <cc-logo source="ips-n" />
-    <cc-logo source="ssc" />
-    <cc-logo source="horus" />
-    <cc-logo source="ha" />-->
     <skill-block :pilot="pilot" />
     <cc-title small>
       <section-edit-icon label="Edit Pilot Downtime Resources" />Downtime Resources

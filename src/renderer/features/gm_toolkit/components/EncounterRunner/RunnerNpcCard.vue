@@ -17,7 +17,8 @@
         >{{ npc.name }}</v-col>
         <v-col
           class="ml-auto body-2 text-uppercase tierclass"
-        >TIER {{ npcData.tier + 1 }} {{ npcData.npcClass.name }}</v-col>
+          style="max-width: 100px; overflow: hidden; text-overflow: ellipsis;"
+        >T{{ npcData.tier + 1 }} {{ npcData.npcClass.name }}</v-col>
         <v-col py-0>
           <v-btn
             outline
@@ -207,11 +208,7 @@
         </template>
         <v-container fluid px-0 py-0 mt-3 mt-auto>
           <v-row wrap>
-            <v-col
-              :class="isUltra && $vuetify.breakpoint.xlOnly ? 'cols="4" pa-0' : 'cols="12" py-0'"
-              v-for="system in systemsSorted"
-              :key="system.name"
-            >
+            <v-col v-for="system in systemsSorted" :key="system.name">
               <NpcCardSystem :system="system" :npc="npcData" />
             </v-col>
           </v-row>

@@ -1,0 +1,62 @@
+<template>
+  <v-fade-transition leave-absolute>
+    <div v-if="!editing" key="str">
+      <slot />
+      <v-icon small class="fadeSelect" @click="edit()">mdi-circle-edit-outline</v-icon>
+    </div>
+    <v-col v-else key="editname">
+      <v-text-field
+        v-model="newStr"
+        required
+        hide-details
+        autofocus
+        class="mx-0 my-0 mt-n4"
+        @blur="submit()"
+        @keyup.enter="submit()"
+      ></v-text-field>
+    </v-col>
+  </v-fade-transition>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-short-string-editor',
+  data: () => ({
+    newStr: '',
+    editing: false,
+  }),
+  methods: {
+    edit() {
+      this.editing = true
+      this.newStr = this.$slots.default[0].text
+    },
+    submit() {
+      if (this.newStr.length) this.$emit('set', this.newStr)
+      this.editing = false
+    },
+  },
+})
+</script>
+
+<style scoped>
+.name.fade-transition-enter-active {
+  position: relative;
+  top: -2px;
+}
+.name.fade-transition-leave-active {
+  position: relative;
+  bottom: 1px;
+}
+.v-input {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.v-input__slot {
+  margin-bottom: 0 !important;
+}
+.label {
+  font-size: 1em;
+  font-weight: bold;
+}
+</style>

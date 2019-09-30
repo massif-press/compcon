@@ -9,9 +9,7 @@
           <h1 class="p-title font-weight-black">{{ pilot.Callsign }}</h1>
         </v-col>
         <v-col class="ml-3">
-          <span class="p-large font-weight-light">
-            {{ pilot.Name }}, {{ pilot.Background.Name }}
-          </span>
+          <span class="p-large font-weight-light">{{ pilot.Name }}, {{ pilot.Background.Name }}</span>
         </v-col>
         <v-col shrink class="mr-4 text-xs-right">
           <span class="label text-xs-right">LEVEL</span>
@@ -31,10 +29,10 @@
           <span class="label">HP</span>
           <br />
           <h1 class="p-xlarge font-weight-regular">
-            <span style="text-decoration: underline; white-space: pre;">
-              ____
+            <span>
+              <span style="text-decoration: underline; white-space: pre;">____</span>
+              / {{ pilot.MaxHP }}
             </span>
-            / {{ pilot.MaxHP }}
           </h1>
         </v-col>
         <v-col>
@@ -138,30 +136,22 @@
             <v-row>
               <span class="subheading">
                 HULL:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Hull }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Hull }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 AGI:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Agi }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Agi }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 SYS:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Sys }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Sys }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 ENG:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Eng }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Eng }}</span>
               </span>
             </v-row>
           </v-col>
@@ -194,9 +184,7 @@
                 <br />
                 <div v-for="(i, idx) in loadout.Armor" :key="'armor_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-row class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
@@ -246,9 +234,7 @@
                 <br />
                 <div v-for="(i, idx) in loadout.Weapons" :key="'weapon_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-row shrink class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
@@ -261,9 +247,11 @@
                           <damage-element size="12" :dmg="i.Damage" />
                         </v-col>
                         <v-col shrink>
-                          <span v-for="t in i.Tags" :key="t.ID + idx" class="ml-1 mr-1">
-                            {{ t.Name() }}
-                          </span>
+                          <span
+                            v-for="t in i.Tags"
+                            :key="t.ID + idx"
+                            class="ml-1 mr-1"
+                          >{{ t.Name() }}</span>
                         </v-col>
                       </v-row>
                     </div>
@@ -280,9 +268,7 @@
                 <br />
                 <v-row v-for="(i, idx) in loadout.Gear" :key="'gear_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-col shrink class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
