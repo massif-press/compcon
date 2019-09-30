@@ -47,13 +47,21 @@ export default class NPC {
     }
 
     for (const stat in this.stats) {
-      if (this.stats.statcaps.hasOwnProperty(stat) && this.stats.statcaps[stat] < (this.stats as any)[stat]) {
+      if (
+        this.stats.statcaps.hasOwnProperty(stat) &&
+        this.stats.statcaps[stat] < (this.stats as any)[stat]
+      ) {
         this.stats = {
           ...this.stats,
           [stat]: this.stats.statcaps[stat],
         }
       }
     }
+  }
+
+  setTierStats() {
+    this.stats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
+    this.defaultCaps()
   }
 
   get class_systems() {
@@ -96,7 +104,7 @@ export default class NPC {
       systems: 6,
       engineering: 6,
     }
-}
+  }
   get pickedSystems() {
     return this._pickedSystems
   }
@@ -244,30 +252,30 @@ export default class NPC {
   }
 
   static deserialize(obj: {
-    id: string
-    class: string
-    tier: number
-    name?: string
-    templates: string[]
-    systems: string[]
-    size?: number
+    id: string;
+    class: string;
+    tier: number;
+    name?: string;
+    templates: string[];
+    systems: string[];
+    size?: number;
     stats?: {
-      hp: number
-      evade: number
-      edef: number
-      heatcap: number
-      hull: number
-      agility: number
-      systems: number
-      engineering: number
-      armor: number
-      speed: number
-      sensor: number
-      save: number
-      structure: number
-      stress: number
-      statcaps: { [key: string]: number }
-    }
+      hp: number;
+      evade: number;
+      edef: number;
+      heatcap: number;
+      hull: number;
+      agility: number;
+      systems: number;
+      engineering: number;
+      armor: number;
+      speed: number;
+      sensor: number;
+      save: number;
+      structure: number;
+      stress: number;
+      statcaps: { [key: string]: number };
+    };
   }) {
     const cl = npcClasses.find(c => c.name === obj.class)
     if (!cl) throw new Error('invalid class')
@@ -276,8 +284,7 @@ export default class NPC {
     if (obj.hasOwnProperty('stats')) {
       stats = new NPCStats(obj.stats)
       npc = new NPC(cl, stats, obj.tier as 0 | 1 | 2, obj.id)
-    }
-    else {
+    } else {
       npc = new NPC(cl, null, obj.tier as 0 | 1 | 2, obj.id)
       stats = npc.stats
     }

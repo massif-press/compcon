@@ -43,7 +43,7 @@
               'mr-2': $vuetify.breakpoint.smAndUp,
             }"
           >
-            <v-btn-toggle v-model="npc.tier" mandatory>
+            <v-btn-toggle v-model="npc.tier" mandatory @change="npc.setTierStats()">
               <v-btn flat>
                 <v-icon :color="roleColor">mdi-numeric-1-box</v-icon>
               </v-btn>
@@ -75,13 +75,11 @@
           <!--
           <div class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
           -->
-          <div v-if="!editingStats" class="headline font-weight-bold primary--text">{{ stats[stat] }}</div>
-          <v-text-field v-else
-            v-model="stats[stat]"
-            type="number"
-            solo
-            :color="roleColor"
-          ></v-text-field>
+          <div
+            v-if="!editingStats"
+            class="headline font-weight-bold primary--text"
+          >{{ stats[stat] }}</div>
+          <v-text-field v-else v-model="stats[stat]" type="number" solo :color="roleColor"></v-text-field>
         </v-flex>
         <v-flex xs6 sm2 lg1>
           <div class="label">SIZE</div>
@@ -99,23 +97,13 @@
       <v-divider class="my-3" />
       <!-- HASE -->
       <v-layout wrap justify-center class="statblock">
-        <v-flex
-          xs6
-          sm2
-          lg1
-          v-for="check in Object.keys(hase)"
-          :key="check"
-        >
+        <v-flex xs6 sm2 lg1 v-for="check in Object.keys(hase)" :key="check">
           <div class="label text-uppercase">{{ check }}</div>
-          <div v-if="!editingStats"
+          <div
+            v-if="!editingStats"
             class="headline font-weight-bold primary--text"
           >{{ hase[check] > -1 ? '+' : '' }}{{ hase[check] }}</div>
-          <v-text-field v-else
-            v-model="hase[check]"
-            type="number"
-            solo
-            :color="roleColor"
-          ></v-text-field>
+          <v-text-field v-else v-model="hase[check]" type="number" solo :color="roleColor"></v-text-field>
         </v-flex>
       </v-layout>
       <v-divider class="my-3" />
@@ -276,20 +264,20 @@ export default Vue.extend({
 
     statMap() {
       let obj: { [key: string]: string } = {
-        HP: "hp",
-        HEAT: "heatcap",
-        STRUCTURE: "structure",
-        STRESS: "stress",
-        ARMOR: "armor",
-        SPEED: "speed",
-        EVADE: "evade",
-        EDEF: "edef",
-        SENSE: "sensor",
-        SAVE: "save",
-        HULL: "hull",
-        AGILITY: "agility",
-        SYSTEMS: "systems",
-        ENGINEERING: "engineering",
+        HP: 'hp',
+        HEAT: 'heatcap',
+        STRUCTURE: 'structure',
+        STRESS: 'stress',
+        ARMOR: 'armor',
+        SPEED: 'speed',
+        EVADE: 'evade',
+        EDEF: 'edef',
+        SENSE: 'sensor',
+        SAVE: 'save',
+        HULL: 'hull',
+        AGILITY: 'agility',
+        SYSTEMS: 'systems',
+        ENGINEERING: 'engineering',
       }
       return _.pickBy(obj, o => o !== null)
     },
@@ -376,9 +364,12 @@ export default Vue.extend({
     },
 
     submitStats() {
+      console.log(this.npc.stats)
+      console.log(this.stats)
+      console.log(this.stats.statcaps)
       var newStats = _.clone(this.npc.stats) as NPCStats
       for (var s in this.stats) {
-        if (typeof this.stats[s] === "string") {
+        if (typeof this.stats[s] === 'string') {
           this.stats[s] = Number(this.stats[s])
         }
         newStats[this.statMap[s]] = this.stats[s]
@@ -388,18 +379,19 @@ export default Vue.extend({
         }
       }
       for (var h in this.hase) {
-        if (typeof this.hase[h] === "string") {
+        if (typeof this.hase[h] === 'string') {
           this.hase[h] = Number(this.hase[h])
         }
         newStats[this.statMap[h]] = this.hase[h]
-        if (newStats.statcaps[this.statMap[h]]) {
+        if (newStats.statcaps[this.statMap[h]] != undefined) {
           const cap = newStats.statcaps[this.statMap[h]]
+          console.log(cap)
           if (cap < newStats[this.statMap[h]]) newStats[this.statMap[h]] = cap
         }
       }
       ;(this.npc as NPC).stats = newStats
       this.editingStats = false
-    }
+    },
   },
   watch: {
     npc: {
