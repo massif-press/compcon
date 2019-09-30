@@ -2,7 +2,7 @@
   <v-container fluid class="mt-7">
     <pilot-header />
     <v-fade-transition group>
-      <info-view v-show="page === 0" key="v0" />
+      <info-view v-show="page === 0" key="v0" :pilot="pilot" />
       <narrative-view v-show="page === 1" key="v1" :pilot="pilot" />
       <tactical-view v-show="page === 2" key="v2" :pilot="pilot" />
       <mech-hangar-view v-show="page === 3" key="v3" />
@@ -17,7 +17,7 @@ import Vue from 'vue'
 import PilotNav from './components/PilotNav.vue'
 import PilotHeader from './views/PilotHeader.vue'
 import NarrativeView from './views/narrative/index.vue'
-import InfoView from './views/InfoView.vue'
+import InfoView from './views/info/index.vue'
 import TacticalView from './views/tactical/index.vue'
 import MechHangarView from './views/MechHangarView.vue'
 import { getModule } from 'vuex-module-decorators'

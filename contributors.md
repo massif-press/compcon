@@ -1,5 +1,9 @@
 these are working notes, I'll make a good contributor guide eventually I swear:
 
+chores left:
+integrate vue-class-component
+testing
+
 static -
 should just contain data, keep logic out (to the extent possible)
 img file should be the onboard/stock images we want to copy over into appdata (see data io startup)
