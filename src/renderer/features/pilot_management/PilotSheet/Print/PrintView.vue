@@ -9,9 +9,7 @@
           <h1 class="p-title font-weight-black">{{ pilot.Callsign }}</h1>
         </v-flex>
         <v-flex class="ml-3">
-          <span class="p-large font-weight-light">
-            {{ pilot.Name }}, {{ pilot.Background.Name }}
-          </span>
+          <span class="p-large font-weight-light">{{ pilot.Name }}, {{ pilot.Background.Name }}</span>
         </v-flex>
         <v-flex shrink class="mr-4 text-xs-right">
           <span class="label text-xs-right">LEVEL</span>
@@ -31,10 +29,10 @@
           <span class="label">HP</span>
           <br />
           <h1 class="p-xlarge font-weight-regular">
-            <span style="text-decoration: underline; white-space: pre;">
-              ____
+            <span>
+              <span style="text-decoration: underline; white-space: pre;">____</span>
+              / {{ pilot.MaxHP }}
             </span>
-            / {{ pilot.MaxHP }}
           </h1>
         </v-flex>
         <v-flex>
@@ -65,13 +63,13 @@
       <v-layout justify-space-between fill-height>
         <!-- skills -->
         <v-flex>
-          <v-layout><span class="label">TRIGGERS</span></v-layout>
+          <v-layout>
+            <span class="label">TRIGGERS</span>
+          </v-layout>
           <v-layout wrap>
             <div v-for="(i, idx) in pilot.Skills" :key="'skill' + idx" class="ml-2">
               <v-flex class="ma-1">
-                <span class="p-large ml-1" style="padding-top:5px">
-                  {{ i.Skill.Trigger }}
-                </span>
+                <span class="p-large ml-1" style="padding-top:5px">{{ i.Skill.Trigger }}</span>
                 <v-chip small outline color="indigo" class="p-large">+{{ i.Bonus }}</v-chip>
               </v-flex>
             </div>
@@ -84,15 +82,18 @@
       <!-- talents -->
       <v-layout align-space-around justify-space-between fill-height>
         <v-flex>
-          <v-layout><span class="label">TALENTS</span></v-layout>
+          <v-layout>
+            <span class="label">TALENTS</span>
+          </v-layout>
           <div v-for="(t, idx) in pilot.Talents" :key="'talent' + idx" class="ml-2 mb-1">
             <v-layout>
-              <v-icon v-for="n in t.Rank" :key="`talstar_${n}`" small>
-                star
-              </v-icon>
-              <v-icon v-for="n in 3 - t.Rank" :key="`talnot_${n}`" color="grey lighten-1" small>
-                star_outline
-              </v-icon>
+              <v-icon v-for="n in t.Rank" :key="`talstar_${n}`" small>star</v-icon>
+              <v-icon
+                v-for="n in 3 - t.Rank"
+                :key="`talnot_${n}`"
+                color="grey lighten-1"
+                small
+              >star_outline</v-icon>
               <span class="p-large ml-2">{{ t.Talent.Name }}</span>
             </v-layout>
             <div class="ml-4">
@@ -121,12 +122,13 @@
             <br />
             <div v-for="l in pilot.Licenses" :key="l.id">
               <v-layout>
-                <v-icon v-for="n in l.Rank" :key="`licstar_${n}`" small>
-                  star
-                </v-icon>
-                <v-icon v-for="n in 3 - l.Rank" :key="`licnot_${n}`" color="grey lighten-1" small>
-                  star_outline
-                </v-icon>
+                <v-icon v-for="n in l.Rank" :key="`licstar_${n}`" small>star</v-icon>
+                <v-icon
+                  v-for="n in 3 - l.Rank"
+                  :key="`licnot_${n}`"
+                  color="grey lighten-1"
+                  small
+                >star_outline</v-icon>
                 <span class="p-large ml-2">{{ l.License.Source }} {{ l.License.Name }}</span>
               </v-layout>
             </div>
@@ -138,30 +140,22 @@
             <v-layout>
               <span class="subheading">
                 HULL:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Hull }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Hull }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 AGI:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Agi }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Agi }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 SYS:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Sys }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Sys }}</span>
               </span>
               <span class="label ml-3 mr-2">//</span>
               <span class="subheading">
                 ENG:
-                <span class="font-weight-black">
-                  {{ pilot.MechSkills.Eng }}
-                </span>
+                <span class="font-weight-black">{{ pilot.MechSkills.Eng }}</span>
               </span>
             </v-layout>
           </v-flex>
@@ -194,9 +188,7 @@
                 <br />
                 <div v-for="(i, idx) in loadout.Armor" :key="'armor_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-layout class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
@@ -246,9 +238,7 @@
                 <br />
                 <div v-for="(i, idx) in loadout.Weapons" :key="'weapon_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-layout shrink class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
@@ -261,9 +251,11 @@
                           <damage-element size="12" :dmg="i.Damage" />
                         </v-flex>
                         <v-flex shrink>
-                          <span v-for="t in i.Tags" :key="t.ID + idx" class="ml-1 mr-1">
-                            {{ t.Name() }}
-                          </span>
+                          <span
+                            v-for="t in i.Tags"
+                            :key="t.ID + idx"
+                            class="ml-1 mr-1"
+                          >{{ t.Name() }}</span>
                         </v-flex>
                       </v-layout>
                     </div>
@@ -280,9 +272,7 @@
                 <br />
                 <v-layout v-for="(i, idx) in loadout.Gear" :key="'gear_' + idx">
                   <div v-if="i">
-                    <div v-if="i.err">
-                      // MISSING DATA //
-                    </div>
+                    <div v-if="i.err">// MISSING DATA //</div>
                     <div v-else>
                       <v-flex shrink class="mr-2">
                         <span class="p-large">{{ i.Name }}</span>
