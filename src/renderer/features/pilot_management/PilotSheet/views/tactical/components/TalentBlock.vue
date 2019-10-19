@@ -19,8 +19,10 @@
       <cc-talent-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-container>
+      <no-data-block v-if="!pilot.Talents.length" />
       <cc-talent-item
         v-for="(t, i) in pilot.Talents"
+        v-else
         :key="`t_${i}`"
         :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
         :talent="t.Talent"
@@ -34,10 +36,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import SectionEditChip from '../../components/SectionEditChip.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue'
 
 export default Vue.extend({
   name: 'skill-block',
-  components: { SectionEditChip },
+  components: { SectionEditChip, NoDataBlock },
   props: {
     pilot: {
       type: Object,

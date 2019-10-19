@@ -1,26 +1,24 @@
 <template>
   <div>
     <skill-block :pilot="pilot" />
-    <cc-title small>
-      <section-edit-icon label="Edit Pilot Downtime Resources" />Downtime Resources
-    </cc-title>
-    <cc-title small>
+    <dt-resources-block :pilot="pilot" />
+    <!-- TODO: -->
+    <!-- <cc-title small>
       <section-edit-icon label="Edit Pilot Organizations" />Organizations
-    </cc-title>
-    <cc-title small>
-      <span class="ml-7">&emsp;</span> Gear Loadouts
-    </cc-title>
+    </cc-title>-->
+    <pilot-loadout-block :pilot="pilot" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import SectionEditIcon from '../components/SectionEditIcon.vue'
 import SkillBlock from './components/SkillBlock.vue'
+import DtResourcesBlock from './components/DtResourcesBlock.vue'
+import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
 
 export default Vue.extend({
   name: 'narrative-view',
-  components: { SkillBlock, SectionEditIcon },
+  components: { SkillBlock, DtResourcesBlock, PilotLoadoutBlock },
   props: {
     pilot: {
       type: Object,

@@ -18,6 +18,7 @@ import {
   Manufacturer,
   Status,
   Brew,
+  Faction,
 } from '@/class'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
@@ -57,6 +58,7 @@ export class CompendiumStore extends VuexModule {
   public Quirks: string[] = []
   public Licenses: License[] = []
   public Reserves: Reserve[] = []
+  public Factions: Faction[] = []
   // Brews: Brew[] = []
 
   @Mutation

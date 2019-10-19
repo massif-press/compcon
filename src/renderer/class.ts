@@ -63,6 +63,7 @@ import {
   Brew,
   PrintOptions,
   Manufacturer,
+  Faction,
   Status,
 } from './features/_shared/classes/Types'
 import Statblock from './features/pilot_management/classes/Statblock'
@@ -89,6 +90,7 @@ export {
   MechType,
   ReserveType,
   OrgType,
+  Faction,
   License,
   CoreBonus,
   Damage,

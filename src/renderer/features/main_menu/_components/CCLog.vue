@@ -1,62 +1,175 @@
 <template>
   <div id="output-container">
-    <p id="output" class="flavor-text" />
-    <div id="overlay" />
+    <p id="completed" class="flavor-text grey--text text--darken-1 py-0 my-0"></p>
+    <p id="output" class="flavor-text grey--text text--darken-1 py-0 my-0">
+      <br />
+      <br />
+      <br />
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import typeit from 'typeit'
+import { encryption } from '@/io/Generators'
 
 export default Vue.extend({
   name: 'cc-log',
   data: () => ({
     typeit: {},
-    text: [
-      'COMPANION/CONCIERGE UNIT INITIALIZING',
-      'GMS COMP/CON Unit Mk XI Rev 9.4.1',
-      '5016.8.22 General Massive Systems // Please Operate Responsibly',
-      'Initializing semantic manifold ... done',
-      'Initializing logic gradients ... done',
-      '&emsp;&emsp;1.0255EB FREE (3.6EB TOTAL)',
-      'KERNEL supported CPUs:',
-      '&emsp;&emsp;GMS MISSISSIPPI Series (MkII+)',
-      '&emsp;&emsp;IPS-N HighSeas 9+',
-      '&emsp;&emsp;SSC Premier IV-XIV',
-      '&emsp;&emsp;HA DOMINANCE line/all',
-      '&emsp;&emsp;[WN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKN]',
-      'Establishing encrypted link (A06::DISCORDANT BREATH) ... done',
-      'AM-LI in unprivileged domain disabled',
-      'Frame not present or invalid',
-      'No sensory bridge found // manual input mode enabled',
-      '>//[COMP/CON: <span class="black--text">Welcome, Lancer. Input Command.</span>]',
-    ],
+    text: [],
+    lock: false,
   }),
   mounted() {
     this.typeit = new typeit('#output', {
-      speed: 12,
-      nextStringDelay: 25,
+      speed: 2,
+      nextStringDelay: 5,
       cursorChar: '_',
       startDelete: false,
-      strings: this.text,
-    }).go()
+      beforeString: () => {
+        document.getElementById('output').scrollIntoView({ block: 'end' })
+      },
+    })
+      .type('<br>')
+      .type('COMPANION/CONCIERGE UNIT INITIALIZING')
+      .break()
+      .type('GMS COMP/CON Unit Mk XI Rev 11.4.1c')
+      .break()
+      .type('5016.8.22 General Massive Systems // Please Operate Responsibly')
+      .break()
+      .type('Initializing semantic manifold ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('done')
+      .break()
+      .type('Initializing logic gradients ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('. ')
+      .pause(150)
+      .type('done')
+      .break()
+      .type('&emsp;&emsp;1.0255EB FREE (3.6EB TOTAL)')
+      .break()
+      .type('KERNEL supported CPUs:')
+      .break()
+      .type('&emsp;&emsp;GMS MISSISSIPPI Series (MkII+)')
+      .break()
+      .type('&emsp;&emsp;IPS-N Carronade v9.1+')
+      .break()
+      .type('&emsp;&emsp;SSC Premier IV-XIV')
+      .break()
+      .type('&emsp;&emsp;HA DOMINANCE line/all')
+      .break()
+      .type('&emsp;&emsp;[WN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKN]')
+      .break()
+      .type(`Policy Zone: ${encryption()}`)
+      .break()
+      .type('Demand map ICRS at 3c0001000-23c0001000.')
+      .break()
+      .type('Heap//PSIM at 23c0002000-43c0002000.')
+      .break()
+      .type('Thread "Idle": pointer: 0x23c0002010, stack: 0x6440000')
+      .break()
+      .type('Thread "Main": pointer: 0x23c0002f70, stack: 0x6460000')
+      .break()
+      .type(`****** VDOMAIN for frame//integrator ******`)
+      .break()
+      .type('backend at /local/domain/0/backend/gms/')
+      .break()
+      .type('Failed to read /local/domain/0/ssc/fs_sync.')
+      .break()
+      .type('Failed to read /local/domain/0/gms/dummy_plug.')
+      .break()
+      .type('Failed to read /local/domain/0/gms/manual_controls.')
+      .break()
+      .type('WARNING: FRAME NOT PRESENT OR INVALID')
+      .break()
+      .type('******************************************')
+      .break()
+      .type('Initializing gms-cc-subsys v_int')
+      .break()
+      .type('Initializing gms-cc-subsys tests')
+      .break()
+      .type('Initializing gms-cc-subsys omninet_cls')
+      .break()
+      .type('Initializing gms-cc-subsys events')
+      .break()
+      .type('Hierarchical RCU implementation.')
+      .break()
+      .type('RCU subjective-clock acceleration is DISABLED.')
+      .break()
+      .type(`Establishing encrypted link (${encryption()}) `)
+      .pause(200)
+      .type('. ')
+      .pause(200)
+      .type('. ')
+      .pause(200)
+      .type('. ')
+      .pause(300)
+      .type('done')
+      .break()
+      .type('AM-LI in unprivileged domain disabled')
+      .break()
+      .type('No sensory bridge found // manual input mode enabled')
+      .break()
+      .type('>//[COMP/CON: <span class="black--text">Welcome, Lancer. Input Command.</span>]')
+      .break()
+      .go()
   },
   methods: {
     print(user: string, response: string) {
-      this.typeit.freeze()
+      if (this.lock) return
+      this.lock = true
+      let firstLine = ''
+      this.typeit.options({ cursorChar: ' ', cursor: false })
+      if (this.typeit.is('started') && !this.typeit.is('frozen') && !this.typeit.is('completed'))
+        firstLine = '^C<br>// INTERRUPT: STARTUP OVERRIDE // REACTOR MUST BE PRIMED MANUALLY<br>'
+
+      this.typeit.destroy()
+
+      //collect written strings so typeit doesn't erase them
+      // const output = document.getElementById('output')
+      const completed = document.getElementById('completed')
+      const contents = document.getElementsByClassName('ti-container')[0]
+      // if (completed.innerHTML.length > 1) completed.innerHTML += '<br />'
+      completed.innerHTML += contents.innerHTML
 
       this.typeit = new typeit('#output', {
-        speed: 32,
-        lifeLike: true,
-        startDelete: false,
+        speed: 3,
+        nextStringDelay: 7,
         cursorChar: '_',
+        startDelete: false,
+        strings: [],
+        beforeString: () => {
+          document.getElementById('output').scrollIntoView({ block: 'end' })
+        },
+        afterString: () => {
+          document.getElementById('output').scrollIntoView({ block: 'end' })
+        },
+        afterComplete: () => {
+          this.lock = false
+        },
       })
+        .type(firstLine)
         .options({ speed: 32, lifeLike: true })
-        .type(`$ <span class="success--text">${user}</span>↵`)
+        .type(`$ `)
+        .type(`<span class="success--text">${user}</span>↵`)
         .pause(100)
-        .options({ speed: 5, lifeLike: false })
-        .type(`<br>>//[COMP/CON: <span class="black--text">${response}</span>]`)
+        .options({ speed: 3, lifeLike: false })
+        .break()
+        .type('>')
+        .type(`//[COMP/CON: <span class="black--text">${response}</span>]`)
+        .type(' ')
         .go()
     },
   },
@@ -64,39 +177,14 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-#output {
-  position: absolute;
-  bottom: 0;
-  left: 12px;
-  height: 150;
-  width: 70vw;
-  min-width: 700px;
-  overflow: hidden;
-  z-index: 2;
-  color: var(--v-panel-border-base);
-}
 #output-container {
   position: absolute;
-  height: 250px;
-  width: 75vw;
-  min-width: 700px;
+  height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: calc(100vw - 665px);
   top: 0;
-  left: 0;
-  background: var(--v-panel-base);
-  border-bottom: 5px double var(--v-panel-border-base);
-  border-right: 5px double var(--v-panel-border-base);
-  border-radius: 2px;
-  z-index: 1;
-}
-#overlay {
-  position: absolute;
-  height: 200px;
-  top: 0;
-  left: 0;
   right: 0;
-  bottom: 0;
-  /* background: red; */
-  background: linear-gradient(var(--v-panel-base) 50%, rgba(0, 0, 0, 0) 100%);
-  z-index: 5;
+  z-index: 1;
 }
 </style>

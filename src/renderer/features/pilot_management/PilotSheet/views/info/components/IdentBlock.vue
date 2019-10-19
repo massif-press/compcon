@@ -26,7 +26,7 @@
         </span>
       </v-col>
     </v-row>
-    <v-row class="stat-text pt-0" dense>
+    <v-row class="stat-text pt-0 mt-n3" dense>
       <v-col cols="4" class="pt-0" dense>
         <span class="overline">RM-4://(IDENT)</span>
         <br />
@@ -43,6 +43,25 @@
         <v-icon small class="fadeSelect" @click="''">mdi-cloud-sync</v-icon>
       </v-col>
     </v-row>
+    <v-row class="stat-text pt-0 mt-n3" dense>
+      <v-col cols="4" class="pt-0" dense>
+        <span class="overline">PLAYER</span>
+        <cc-short-string-editor @set="pilot.PlayerName = $event">{{ pilot.PlayerName || '---' }}</cc-short-string-editor>
+      </v-col>
+      <v-col cols="4" class="pt-0" dense>
+        <span class="overline">FACTION</span>
+        <br />---
+        <cc-tooltip simple inline content="Feature In Development">
+          <v-icon small class="fadeSelect" @click="''">mdi-circle-edit-outline</v-icon>
+        </cc-tooltip>
+      </v-col>
+      <v-col cols="4" class="pt-0" dense>
+        <span class="overline">STATUS</span>
+        <br />
+        <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
+        <cc-simple-select :items="pilotStatuses" @set="pilot.Status = $event" />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -54,10 +73,35 @@ import { Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'ident-block',
+  data: () => ({
+    pilotStatuses: [
+      { text: 'Active', value: 'ACTIVE' },
+      { text: 'Inactive', value: 'INACTIVE' },
+      { text: 'Retired', value: 'RET' },
+      { text: 'Missing In Action', value: 'MIA' },
+      { text: 'Killed In Action', value: 'KIA' },
+      { text: 'Unknown', value: 'UNKNOWN' },
+    ],
+  }),
   computed: {
     pilot(): Pilot {
       const store = getModule(PilotManagementStore, this.$store)
       return store.ActivePilot
+    },
+  },
+  methods: {
+    statusColor(): string {
+      switch (this.pilot.Status.toLowerCase()) {
+        case 'active':
+          return 'success'
+          break
+        case 'mia':
+        case 'kia':
+          return 'error'
+        default:
+          return 'text'
+          break
+      }
     },
   },
 })

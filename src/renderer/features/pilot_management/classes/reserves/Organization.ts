@@ -29,6 +29,10 @@ class Organization {
     store.dispatch('saveData')
   }
 
+  public get Type(): string {
+    return 'Organization'
+  }
+
   public get Purpose(): OrgType {
     return this.purpose
   }

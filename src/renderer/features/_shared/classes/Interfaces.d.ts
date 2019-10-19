@@ -47,6 +47,9 @@ declare interface IPilotData {
   level: number
   callsign: string
   name: string
+  player_name: string
+  status: string
+  factionID: string
   text_appearance: string
   notes: string
   history: string
@@ -54,7 +57,6 @@ declare interface IPilotData {
   cloud_portrait: string
   quirk: string
   current_hp: number
-  active: boolean
   background: string
   mechSkills: number[]
   licenses: IRankedData[]
@@ -64,7 +66,7 @@ declare interface IPilotData {
   reserves: IReserveData[]
   orgs: IOrganizationData[]
   loadouts: IPilotLoadoutData[]
-  active_loadout: string | null
+  active_loadout_index: number
   mechs: IMechData[]
   active_mech: string | null
   cc_ver: string

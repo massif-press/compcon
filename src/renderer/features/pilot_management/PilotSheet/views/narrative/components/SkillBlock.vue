@@ -25,8 +25,10 @@
         <span class="heading mech" style="font-size: 80px; line-height: 50px">+{{ pilot.Grit }}</span>
       </v-col>
       <v-col>
+        <no-data-block v-if="!pilot.Skills.length" />
         <cc-skill-item
           v-for="(s,i) in pilot.Skills"
+          v-else
           :key="`s_${i}`"
           :bonus="s.Bonus"
           :skill="s.Skill"
@@ -39,10 +41,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import SectionEditChip from '../../components/SectionEditChip.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue'
 
 export default Vue.extend({
   name: 'skill-block',
-  components: { SectionEditChip },
+  components: { SectionEditChip, NoDataBlock },
   props: {
     pilot: {
       type: Object,

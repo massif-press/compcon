@@ -23,7 +23,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import SectionEditIcon from '../../components/SectionEditIcon.vue'
-import NoDataBlock from './NoDataBlock.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'

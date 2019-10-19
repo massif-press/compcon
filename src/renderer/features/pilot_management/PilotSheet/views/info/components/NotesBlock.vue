@@ -3,7 +3,7 @@
     <cc-title small>
       <span class="ml-9">&emsp;</span> Player Notes
     </cc-title>
-    <v-textarea class="mt-2" v-model="pilot.Notes" outlined auto-grow />
+    <v-textarea v-model="pilot.Notes" class="mt-2" outlined auto-grow />
   </div>
 </template>
 

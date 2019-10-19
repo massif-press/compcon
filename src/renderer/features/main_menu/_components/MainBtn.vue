@@ -1,17 +1,20 @@
 <template>
-  <div style="height: 70px" class="my-4">
-    <div
-      id="btn-main"
-      @mouseenter="$emit('hover')"
-      @mouseover="mouseOver = true"
-      @mouseleave="mouseOver = false"
-      @click="$router.push(to)"
-    >
-      <div id="unskew" class="heading pb-1">
-        <slot />
+  <v-col cols="12">
+    <div style="height: 70px">
+      <div
+        id="btn-main"
+        @mouseenter="$emit('hover')"
+        @mouseover="mouseOver = true"
+        @mouseleave="mouseOver = false"
+        @click="$router.push(to)"
+      >
+        <div id="unskew" class="heading pb-1">
+          <v-icon dark size="50" class="ml-n4 mt-n2">cci-pilot</v-icon>
+          <slot />
+        </div>
       </div>
     </div>
-  </div>
+  </v-col>
 </template>
 
 <script lang="ts">

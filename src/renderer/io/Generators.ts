@@ -42,6 +42,12 @@ function mission(): string {
   return `${_.sample(m.a)} ${_.sample(m.b)}`
 }
 
+function encryption(): string {
+  return `${Math.random()
+    .toString()
+    .substring(2, 4)}::${mission()}`.toUpperCase()
+}
+
 // function flavorString(): string {
 //   const str =
 //     Math.random()
@@ -53,4 +59,4 @@ function mission(): string {
 //   return btoa(str)
 // }
 
-export { name, callsign, mission }
+export { name, callsign, mission, encryption }

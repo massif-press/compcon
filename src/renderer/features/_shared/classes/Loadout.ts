@@ -19,7 +19,7 @@ abstract class Loadout {
 
   public constructor(count: number, id?: string) {
     this.id = id ? id : uuid()
-    this.name = `${ordArr[count]} Loadout`
+    this.name = ordArr[count]
   }
 
   public get ID(): string {
