@@ -58,7 +58,7 @@
         </v-btn>
       </template>
       <v-list two-line subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-2">Print / Export / Cloud Options</v-subheader>
+        <v-subheader class="heading h2 white--text primary py-0 px-2">Pilot Options</v-subheader>
         <v-list-item @click="$emit('!')">
           <v-list-item-icon>
             <v-icon>mdi-printer</v-icon>
@@ -101,7 +101,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Quick Sync</v-list-item-title>
-            <v-list-item-subtitle>Update pilot to/from cloud</v-list-item-subtitle>
+            <v-list-item-subtitle>Update pilot to/from the cloud</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider />

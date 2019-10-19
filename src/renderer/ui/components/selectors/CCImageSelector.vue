@@ -49,13 +49,14 @@
             <v-btn
               small
               fab
-              color="white"
+              color="grey lighten-2"
               relative
               style="top:25px; left: 0; z-index: 100"
               class="img-button"
+              @click.stop="''"
             >
               <cc-tooltip simple content="Feature In Development">
-                <v-icon color="secondary">mdi-magnify-plus</v-icon>
+                <v-icon color="grey">mdi-magnify-plus</v-icon>
               </cc-tooltip>
             </v-btn>
             <v-btn
@@ -65,9 +66,10 @@
               relative
               style="top:25px; left: 10px; z-index: 100"
               class="img-button"
+              @click.stop="''"
             >
               <cc-tooltip simple content="Feature In Development">
-                <v-icon color="secondary">mdi-brush</v-icon>
+                <v-icon color="grey">mdi-palette</v-icon>
               </cc-tooltip>
             </v-btn>
             <v-btn

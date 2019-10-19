@@ -41,6 +41,10 @@ class Reserve {
     return this.type
   }
 
+  public get Color(): string {
+    return this.used ? 'grey darken-1' : `reserve--${this.type.toLowerCase()}`
+  }
+
   public get Name(): string {
     return this.name
   }

@@ -19,7 +19,8 @@
       <cc-core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-container>
-      <cc-core-bonus-item v-for="(b, i) in pilot.CoreBonuses" :key="`b_${i}`" :bonus="b" />
+      <no-data-block v-if="!pilot.CoreBonuses.length" />
+      <cc-core-bonus-item v-for="(b, i) in pilot.CoreBonuses" v-else :key="`b_${i}`" :bonus="b" />
     </v-container>
   </div>
 </template>
@@ -27,10 +28,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import SectionEditChip from '../../components/SectionEditChip.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue'
 
 export default Vue.extend({
   name: 'skill-block',
-  components: { SectionEditChip },
+  components: { NoDataBlock, SectionEditChip },
   props: {
     pilot: {
       type: Object,

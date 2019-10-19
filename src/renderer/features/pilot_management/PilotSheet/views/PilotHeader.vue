@@ -86,12 +86,27 @@
         </v-col>
       </v-row>
       <div id="image-bg" />
-      <div id="image" class="border">
-        <!-- TODO: no data image -->
-        <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
-        <v-img v-else src="https://via.placeholder.com/550" />
-      </div>
+      <v-hover>
+        <template v-slot:default="{ hover }">
+          <div id="image" class="border">
+            <!-- TODO: no data image -->
+            <v-img
+              v-if="pilot.Portrait"
+              :src="pilot.Portrait"
+              aspect-ratio="1"
+              position="top center"
+            />
+            <v-img v-else src="https://via.placeholder.com/550" />
+            <v-fade-transition>
+              <v-overlay v-if="hover" absolute color="secondary">
+                <cc-btn color="secondary" @click="$refs.imageSelector.open()">Set Pilot Portrait</cc-btn>
+              </v-overlay>
+            </v-fade-transition>
+          </div>
+        </template>
+      </v-hover>
     </div>
+    <cc-image-selector ref="imageSelector" :pilot="pilot" />
   </div>
 </template>
 

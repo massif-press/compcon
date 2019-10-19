@@ -19,7 +19,8 @@
       <cc-license-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-container>
-      <v-row dense justify="center">
+      <no-data-block v-if="!pilot.Licenses.length" />
+      <v-row v-else dense justify="center">
         <v-col v-for="(l, i) in pilot.Licenses" :key="`l_${i}`" cols="4">
           <cc-pilot-license-item :pilot-license="l" />
         </v-col>
@@ -31,10 +32,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import SectionEditChip from '../../components/SectionEditChip.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue'
 
 export default Vue.extend({
   name: 'skill-block',
-  components: { SectionEditChip },
+  components: { SectionEditChip, NoDataBlock },
   props: {
     pilot: {
       type: Object,

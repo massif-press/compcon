@@ -2,10 +2,13 @@
 Name Generator:
   ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
 
+Navigation:
+  ☐ scroll to top on nav
+
 Core Bonus Selector:
   ✔ Faction colors @done(19-09-27 15:24)
   ✔ Faction icons @done(19-09-28 13:45)
-  ☐ no cb block
+  ✔ no cb block @done(19-10-17 13:26)
 
 Icons:
   ☐ E-Defense
@@ -24,6 +27,11 @@ Image Selector:
     ✔ images should have json data w/ pointers to filename (id) @done(19-09-14 16:31)
   ✔ select image @done(19-09-15 15:15)
   ✔ test image load/add/save/info @done(19-09-14 16:31)
+  ☐ Avatar image bounding box select
+
+Pilot Roster:
+  ☐ Big Card view
+  ☐ Status in roster
 
 New Pilot:
   ✔ each page should have autofill (far right of main title) @done(19-09-24 06:42)
@@ -36,17 +44,23 @@ New Pilot:
 
 Pilot Sheet:
   ✔ 3-tab default view @done(19-09-26 15:26)
-  ☐ click to set pilot image
+  ✔ click to set pilot image @done(19-10-05 12:00)
   ☐ top bar into pilot view
+  ☐ change pilot img doesn't automatically update
   ☐ level edit menu
-  ☐ change name, background, callsign in dossier
+  ✔ change name, background, callsign in dossier @done(19-10-05 12:00)
   ☐ set player name in dossier
   ☐ set active-inactive-mia-kia-etc in dossier
   ☐ faction info in dossier
-  ☐ downtime resources
-  ☐ downtime selector
-  ☐ organization resources
-  ☐ org builder (future)
+  ✔ downtime resources @done(19-10-17 16:39)
+    ✔ downtime reserve editable panels @done(19-10-17 16:39)
+  ✔ downtime selector @done(19-10-17 14:59)
+  ☐ org builder 
+  ☐ primary color based on faction
+
+Skills:
+  ☐ Get Focused should add a Get Focused skill increase
+    ☐ Add as downtime reserve
 
 Mech Sheet:
   ☐ Primary color based on manufacturer

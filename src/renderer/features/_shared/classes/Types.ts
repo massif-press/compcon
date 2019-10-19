@@ -33,6 +33,15 @@ interface Manufacturer {
   color: string
 }
 
+interface Faction {
+  id: string
+  name: string
+  description: string
+  logo: string
+  color: string
+}
+
+
 interface Status {
   name: string
   type: string
@@ -70,4 +79,4 @@ interface AppContext {
   getters: any
 }
 
-export { AppContext, AppState, Brew, PrintOptions, Manufacturer, Status }
+export { AppContext, AppState, Brew, PrintOptions, Manufacturer, Faction, Status }

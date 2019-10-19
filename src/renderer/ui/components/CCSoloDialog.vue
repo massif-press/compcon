@@ -3,6 +3,7 @@
     v-model="dialog"
     :fullscreen="fullscreen"
     :width="small ? '30vw' : large ? '80vw' : '50vw'"
+    :style="fullscreen ? `x-overflow: hidden` : ''"
   >
     <v-card tile>
       <cc-titlebar large :icon="icon" :color="color" :fixed="fullscreen">
@@ -14,7 +15,7 @@
 
       <v-spacer v-if="fullscreen" class="titlebar-margin" />
 
-      <v-card-text>
+      <v-card-text :style="noPad ? 'padding: 0!important' : '' ">
         <slot />
       </v-card-text>
 
@@ -51,6 +52,10 @@ export default Vue.extend({
       required: false,
     },
     noConfirm: {
+      type: Boolean,
+      required: false,
+    },
+    noPad: {
       type: Boolean,
       required: false,
     },

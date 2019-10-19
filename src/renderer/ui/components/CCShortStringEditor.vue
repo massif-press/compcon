@@ -1,16 +1,17 @@
 <template>
   <v-fade-transition leave-absolute>
-    <div v-if="!editing" key="str">
+    <div v-if="!editing" key="str" :class="{'d-inline' : inline}">
       <slot />
       <v-icon small class="fadeSelect" @click="edit()">mdi-circle-edit-outline</v-icon>
     </div>
-    <v-col v-else key="editname">
+    <v-col v-else key="editname" :class="{'d-inline' : inline}">
       <v-text-field
         v-model="newStr"
+        dense
         required
         hide-details
         autofocus
-        class="mx-0 my-0 mt-n4"
+        :class="`mx-0 my-0 mt-n4`"
         @blur="submit()"
         @keyup.enter="submit()"
       ></v-text-field>
@@ -22,6 +23,12 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-short-string-editor',
+  props: {
+    inline: {
+      type: Boolean,
+      required: false,
+    },
+  },
   data: () => ({
     newStr: '',
     editing: false,
