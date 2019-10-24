@@ -34,7 +34,7 @@
         <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
-        <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
+        <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
       </template>
       <template v-slot:item.Name="{ item }">
         <span class="stat-text">{{ item.Name }}</span>
@@ -52,12 +52,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import SearchResultModal from './SearchResultModal.vue'
 import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'frames',
-  components: { SearchResultModal },
   props: {
     headers: {
       type: Array,

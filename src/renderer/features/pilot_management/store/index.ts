@@ -4,7 +4,7 @@ import io from '../../_shared/data_io'
 import { Pilot } from '@/class'
 import validator from '../logic/validator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { PrintOptions } from '@/features/_shared/classes/Types'
+import { PrintOptions } from '@/classes/Types'
 
 function savePilots(pilots: Pilot[]): void {
   const serialized = pilots.map(x => Pilot.Serialize(x))

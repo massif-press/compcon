@@ -128,7 +128,6 @@ export default Vue.extend({
       }
 
       typer.go()
-      console.log(typer)
     },
   },
 })

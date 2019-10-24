@@ -48,6 +48,22 @@ function encryption(): string {
     .substring(2, 4)}::${mission()}`.toUpperCase()
 }
 
+function flavorID(template: string): string {
+  const uc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const lc = 'abcdefghijklmnopqrstuvwxyz'
+  const num = '0123456789'
+
+  let i = template.length
+  let output = ''
+  while (i--) {
+    output += template[i]
+      .replace(/A/, _.sample(uc))
+      .replace(/a/, _.sample(lc))
+      .replace(/N/, _.sample(num))
+  }
+  return output
+}
+
 // function flavorString(): string {
 //   const str =
 //     Math.random()
@@ -59,4 +75,4 @@ function encryption(): string {
 //   return btoa(str)
 // }
 
-export { name, callsign, mission, encryption }
+export { name, callsign, mission, encryption, flavorID }

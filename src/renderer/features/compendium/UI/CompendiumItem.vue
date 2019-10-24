@@ -6,7 +6,7 @@
         :style="{ backgroundColor: colors[item.ItemType.toLowerCase()].light }"
         class="white--text"
       >
-        <div class="headline">{{ item.name }}</div>
+        <div class="headline">{{ item.Name }}</div>
         <v-chip disabled outline label color="white" class="text-uppercase ml-4">
           {{ item.ItemType }}
           <span

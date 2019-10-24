@@ -1,0 +1,784 @@
+import { store } from '@/store'
+import _ from 'lodash'
+import uuid from 'uuid/v1'
+import { rules } from 'lancer-data'
+import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
+
+class Mech {
+  private _id: string
+  private _name: string
+  private _notes: string
+  private _portrait: string
+  private _cloud_portrait: string
+  private _frame: Frame
+  private _loadouts: MechLoadout[]
+  private _active_loadout: string | null
+  private _current_structure: number
+  private _current_hp: number
+  private _current_stress: number
+  private _current_heat: number
+  private _current_repairs: number
+  private _current_core_energy: number
+  private _current_overcharge: number
+  private _active: boolean
+  private _pilot: Pilot
+  private _cc_ver: string
+  private _statuses: string[]
+  private _conditions: string[]
+  private _resistances: string[]
+  private _ejected: boolean
+  private _destroyed: boolean
+  private _reactor_destroyed: boolean
+  private _meltdown_imminent: boolean
+  private _burn: number
+
+  public constructor(frame: Frame, pilot: Pilot) {
+    this._id = uuid()
+    this._name = ''
+    this._notes = ''
+    this._portrait = ''
+    this._cloud_portrait = ''
+    this._frame = frame
+    this._pilot = pilot
+    this._loadouts = []
+    this._active = false
+    this._current_structure = this.MaxStructure
+    this._current_hp = this.MaxHP
+    this._current_stress = this.MaxStress
+    this._current_heat = 0
+    this._current_repairs = this.RepairCapacity
+    this._current_core_energy = 1
+    this._current_overcharge = 0
+    this._active_loadout = null
+    this._statuses = []
+    this._conditions = []
+    this._resistances = []
+    this._burn = 0
+    this._ejected = false
+    this._destroyed = false
+    this._reactor_destroyed = false
+    this._meltdown_imminent = false
+    this._cc_ver = store.getters.getVersion || 'N/A'
+  }
+  // -- Utility -----------------------------------------------------------------------------------
+  private save(): void {
+    store.dispatch('saveData')
+  }
+
+  // -- Info --------------------------------------------------------------------------------------
+  public get ID(): string {
+    return this._id
+  }
+
+  public RenewID(): void {
+    this._id = uuid()
+  }
+
+  public get Name(): string {
+    return this._name
+  }
+
+  public set Name(name: string) {
+    this._name = name
+    this.save()
+  }
+
+  public get Notes(): string {
+    return this._notes
+  }
+
+  public set Notes(notes: string) {
+    this._notes = notes
+    this.save()
+  }
+
+  public get Frame(): Frame {
+    return this._frame
+  }
+
+  //TODO: remove one
+  public get IsActive(): boolean {
+    return this._active
+  }
+
+  public get Active(): boolean {
+    return this._active
+  }
+
+  public set Active(toggle: boolean) {
+    this._active = toggle
+    if (this.IsActive) this.FullRepair()
+    this.save()
+  }
+
+  public get RequiredLicenses(): ILicenseRequirement[] {
+    let requirements = this.ActiveLoadout
+      ? this.ActiveLoadout.RequiredLicenses
+      : ([] as ILicenseRequirement[])
+
+    if (this._frame.Name.toUpperCase() === 'EVEREST') {
+      const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
+      if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
+      else requirements.push(this.Frame.RequiredLicense)
+    } else {
+      const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
+      else requirements.push(this.Frame.RequiredLicense)
+    }
+
+    for (const l of requirements) {
+      if (l.source === 'GMS') continue
+      l.missing = !this._pilot.has('License', l.name, l.rank)
+    }
+
+    return requirements.sort((a, b) => {
+      return a.rank < b.rank ? -1 : a.rank > b.rank ? 1 : 0
+    })
+  }
+
+  public SetCloudPortrait(src: string): void {
+    this._cloud_portrait = src
+    this.save()
+  }
+
+  public get CloudPortrait(): string {
+    return this._cloud_portrait
+  }
+
+  public SetLocalPortrait(src: string): void {
+    this._portrait = src
+    this.save()
+  }
+
+  public get LocalPortrait(): string {
+    return this._portrait
+  }
+
+  public get Portrait(): string {
+    if (this._cloud_portrait) return this._cloud_portrait
+    else if (this._portrait)
+      return `file://${store.getters.getUserPath}/img/frame/${this._portrait}`
+    else return `file://${store.getters.getUserPath}/img/default_frame/${this.Frame.ID}.png`
+  }
+
+  // -- Attributes --------------------------------------------------------------------------------
+  public get Size(): number {
+    if (this._frame.Size === rules.max_frame_size) return rules.max_frame_size
+    const bonus = this._pilot.has('CoreBonus', 'fomorian')
+    if (bonus) {
+      return this._frame.Size === 0.5 ? 1 : this._frame.Size + 1
+    } else return this._frame.Size
+  }
+
+  public get SizeContributors(): string[] {
+    let output = [`FRAME Base Size: ${this.Frame.Size}`]
+    if (this._pilot.has('CoreBonus', 'fomorian'))
+      output.push(`Fomorian Frame Reinforcement (IPS-N CORE Bonus): +1`)
+    return output
+  }
+
+  public get Armor(): number {
+    let bonus =
+      this._pilot.has('CoreBonus', 'plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
+    return this._frame.Armor + bonus
+  }
+
+  public get ArmorContributors(): string[] {
+    let output = [`FRAME Base Armor: ${this.Frame.Armor}`]
+    if (this._pilot.has('CoreBonus', 'plating'))
+      output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
+    return output
+  }
+
+  public get SaveTarget(): number {
+    let bonus = this._pilot.Grit
+    if (this._pilot.has('CoreBonus', 'opendoor')) bonus += 2
+    return this._frame.SaveTarget + bonus
+  }
+
+  public get SaveTargetContributors(): string[] {
+    let output = [
+      `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
+      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
+    ]
+    if (this._pilot.has('CoreBonus', 'opendoor'))
+      output.push(`The Lesson of the Open Door (HORUS CORE Bonus): +2`)
+    return output
+  }
+
+  public get Evasion(): number {
+    let bonus = this.Agi
+    if (this._pilot.has('CoreBonus', 'fssync')) bonus += 2
+    return this._frame.Evasion + bonus
+  }
+
+  public get EvasionContributors(): string[] {
+    let output = [`FRAME Base Evasion: ${this.Frame.Evasion}`, `Pilot AGILITY Bonus: +${this.Agi}`]
+    if (this._pilot.has('CoreBonus', 'fssync'))
+      output.push(`Full Subjectivity Sync (SSC CORE Bonus): +2`)
+    return output
+  }
+
+  public get Speed(): number {
+    let bonus = Math.floor(this.Agi / 2)
+    return this._frame.Speed + bonus
+  }
+
+  public get SpeedContributors(): string[] {
+    return [
+      `FRAME Base Speed: ${this.Frame.Speed}`,
+      `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
+    ]
+  }
+
+  public get SensorRange(): number {
+    return this._frame.SensorRange
+  }
+
+  public get SensorRangeContributors(): string[] {
+    return [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
+  }
+
+  public get EDefense(): number {
+    let bonus = this.Sys
+    if (this._pilot.has('CoreBonus', 'disbelief')) bonus += 2
+    return this._frame.EDefense + bonus
+  }
+
+  public get EDefenseContributors(): string[] {
+    let output = [
+      `FRAME Base E-Defense: ${this.Frame.EDefense}`,
+      `Pilot SYSTEMS Bonus: +${this.Sys}`,
+    ]
+    if (this._pilot.has('CoreBonus', 'disbelief'))
+      output.push(`The Lesson of Disbelief (HORUS CORE Bonus): +2`)
+    return output
+  }
+
+  public get LimitedBonus(): number {
+    let bonus = 0
+    if (this._pilot.has('CoreBonus', 'ammofeeds')) bonus += 2
+    return Math.floor(this.Eng / 2) + bonus
+  }
+
+  public get LimitedContributors(): string[] {
+    let output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
+    if (this._pilot.has('CoreBonus', 'ammofeeds'))
+      output.push(`Integrated Ammo Feeds (HA CORE Bonus): +5`)
+    return output
+  }
+
+  public get AttackBonus(): number {
+    return this._pilot.Grit
+  }
+
+  public get AttackBonusContributors(): string[] {
+    return [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+  }
+
+  public get TechAttack(): number {
+    let bonus = this.Sys
+    return this._frame.TechAttack + bonus
+  }
+
+  public get TechAttackContributors(): string[] {
+    return [`FRAME Base Tech Attack: ${this.Frame.TechAttack}`, `Pilot SYSTEMS Bonus: +${this.Sys}`]
+  }
+
+  public get Grapple(): number {
+    return rules.base_grapple
+  }
+
+  public get Ram(): number {
+    return rules.base_ram
+  }
+
+  public get SaveBonus(): number {
+    return this._pilot.Grit
+  }
+
+  public get SaveBonusContributors(): string[] {
+    return [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+  }
+
+  // -- HASE --------------------------------------------------------------------------------------
+  public get Hull(): number {
+    return this._pilot.MechSkills.Hull
+  }
+
+  public get Agi(): number {
+    return this._pilot.MechSkills.Agi
+  }
+
+  public get Sys(): number {
+    return this._pilot.MechSkills.Sys
+  }
+
+  public get Eng(): number {
+    return this._pilot.MechSkills.Eng
+  }
+
+  // -- Stats -------------------------------------------------------------------------------------
+  public get CurrentStructure(): number {
+    return this._active ? this._current_structure : this.MaxStructure
+  }
+
+  public set CurrentStructure(structure: number) {
+    if (structure > this.MaxStructure) this._current_structure = this.MaxStructure
+    else if (structure < 0) this._current_structure = 0
+    else this._current_structure = structure
+    this.save()
+  }
+
+  public get MaxStructure(): number {
+    return this._frame.Structure
+  }
+
+  public get StructureContributors(): string[] {
+    return [`FRAME Base Structure: ${this.Frame.Structure}`]
+  }
+
+  public get CurrentHP(): number {
+    return this._current_hp
+  }
+
+  public set CurrentHP(hp: number) {
+    if (hp > this.MaxHP) this._current_hp = this.MaxHP
+    else if (hp < 0) this._current_hp = 0
+    else this._current_hp = hp
+    this.save()
+  }
+
+  public AddDamage(dmg: number, resistance?: string): void {
+    if (resistance && this._resistances.includes(resistance)) {
+      dmg = Math.ceil(dmg / 2)
+    }
+    while (dmg > this.CurrentHP) {
+      this.CurrentStructure -= 1
+      dmg -= this.CurrentHP
+      this._current_hp = this.MaxHP
+    }
+    this.CurrentHP -= dmg
+  }
+
+  public get MaxHP(): number {
+    let bonus = this._pilot.Grit + this.Hull * 2
+    if (this.ActiveLoadout) {
+      const personalizations = this.ActiveLoadout.GetSystem('personalizations')
+      if (personalizations && !personalizations.IsDestroyed) bonus += 2
+    }
+    if (this._pilot.has('CoreBonus', 'frame')) bonus += 5
+    return this._frame.HP + bonus
+  }
+
+  public get HPContributors(): string[] {
+    let output = [
+      `FRAME Base HP: ${this.Frame.HP}`,
+      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
+      `Pilot HULL Bonus: +${this.Hull * 2}`,
+    ]
+    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
+      output.push(`Personalizations (GMS System): +2`)
+    if (this._pilot.has('CoreBonus', 'frame'))
+      output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
+    return output
+  }
+
+  public get CurrentSP(): number {
+    if (!this.ActiveLoadout) return this.MaxSP
+    return this.ActiveLoadout.TotalSP
+  }
+
+  public get MaxSP(): number {
+    let bonus = this._pilot.Grit + Math.floor(this.Sys / 2)
+    return this.Frame.SP + bonus
+  }
+
+  public get SPContributors(): string[] {
+    return [
+      `FRAME Base SP: ${this.Frame.SP}`,
+      `Pilot GRIT Bonus: +${this._pilot.Grit}`,
+      `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
+    ]
+  }
+
+  public get CurrentHeat(): number {
+    return this._active ? this._current_heat : this.HeatCapacity
+  }
+
+  public set CurrentHeat(heat: number) {
+    if (heat > this.HeatCapacity) this._current_heat = this.HeatCapacity
+    else if (heat < 0) this._current_heat = 0
+    else this._current_heat = heat
+    this.save()
+  }
+
+  public AddHeat(heat: number): void {
+    heat = this._resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
+    let newHeat = this._current_heat + heat
+    while (newHeat > this.HeatCapacity) {
+      this.CurrentStress -= 1
+      newHeat -= this.HeatCapacity
+    }
+    this.CurrentHeat = newHeat
+  }
+
+  public ReduceHeat(heat: number, resist?: boolean): void {
+    if (resist) heat = this._resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
+    while (heat > this.CurrentHeat) {
+      heat -= this.CurrentHeat
+      this.CurrentStress += 1
+      this._current_heat = this.HeatCapacity
+    }
+    this.CurrentHeat -= heat
+  }
+
+  public get IsInDangerZone(): boolean {
+    return this.IsActive && this._current_heat >= Math.ceil(this.HeatCapacity / 2)
+  }
+
+  public get HeatCapacity(): number {
+    var bonus = this.Eng
+    if (this._pilot.has('CoreBonus', 'superior')) bonus += 2
+    return this._frame.HeatCap + bonus
+  }
+
+  public get HeatCapContributors(): string[] {
+    let output = [
+      `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
+      `Pilot ENGINEERING Bonus: +${this.Eng}`,
+    ]
+    if (this._pilot.has('CoreBonus', 'superior'))
+      output.push(`Superior By Design (HA CORE Bonus): +2`)
+    return output
+  }
+
+  public get CurrentStress(): number {
+    return this._active ? this._current_stress : this.MaxStress
+  }
+
+  public set CurrentStress(stress: number) {
+    if (stress > this.MaxStress) this._current_stress = this.MaxStress
+    else if (stress < 0) this._current_stress = 0
+    else this._current_stress = stress
+    this.save()
+  }
+
+  public get MaxStress(): number {
+    return this._frame.HeatStress
+  }
+
+  public get StressContributors(): string[] {
+    return [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
+  }
+
+  public get CurrentRepairs(): number {
+    return this._active ? this._current_repairs : this.RepairCapacity
+  }
+
+  public set CurrentRepairs(rep: number) {
+    if (rep > this.RepairCapacity) this._current_repairs = this.RepairCapacity
+    else if (rep < 0) this._current_repairs = 0
+    else this._current_repairs = rep
+    this.save()
+  }
+
+  public get RepairCapacity(): number {
+    var bonus = Math.floor(this.Hull / 2)
+    return this._frame.RepCap + bonus
+  }
+
+  public get RepCapContributors(): string[] {
+    return [
+      `FRAME Base Repair Capacity: ${this.Frame.RepCap}`,
+      `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
+    ]
+  }
+
+  public get CurrentCoreEnergy(): number {
+    return this._active ? this._current_core_energy : 1
+  }
+
+  public set CurrentCoreEnergy(energy: number) {
+    this._current_core_energy = energy < 1 ? 0 : 1
+    this.save()
+  }
+
+  public get CurrentOvercharge(): number {
+    return this._active ? this._current_overcharge : 0
+  }
+
+  public set CurrentOvercharge(overcharge: number) {
+    this._current_overcharge = overcharge
+    this.save()
+  }
+
+  // -- Statuses and Conditions -------------------------------------------------------------------
+  public get IsDestroyed(): boolean {
+    return this._destroyed
+  }
+
+  public set IsDestroyed(b: boolean) {
+    this._destroyed = b
+  }
+
+  public get IsEjected(): boolean {
+    return this._ejected
+  }
+
+  public set IsEjected(b: boolean) {
+    this._ejected = b
+  }
+
+  public get MeltdownImminent(): boolean {
+    return this._meltdown_imminent
+  }
+
+  public set MeltdownImminent(meltdown: boolean) {
+    this._meltdown_imminent = meltdown
+  }
+
+  public get ReactorDestroyed(): boolean {
+    return this._reactor_destroyed
+  }
+
+  public set ReactorDestroyed(destroyed: boolean) {
+    this._reactor_destroyed = destroyed
+  }
+
+  public Destroy(): void {
+    this._destroyed = true
+    this.save()
+  }
+
+  public Repair(): void {
+    this._destroyed = false
+    this.CurrentStress = 1
+    this.CurrentStructure = 1
+    this.CurrentHP = this.MaxHP
+    this.save()
+  }
+
+  public get IsShutDown(): boolean {
+    return this.Statuses.includes('Shut Down')
+  }
+
+  public get IsStunned(): boolean {
+    return this._conditions.includes('Stunned')
+  }
+
+  public get Conditions(): string[] {
+    return this._conditions
+  }
+
+  public set Conditions(conditions: string[]) {
+    this._conditions = conditions
+    this.save()
+  }
+
+  public get Statuses(): string[] {
+    return this._statuses
+  }
+
+  public set Statuses(statuses: string[]) {
+    this._statuses = statuses
+    this.save()
+  }
+
+  public get Resistances(): string[] {
+    return this._resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this._resistances = resistances
+    this.save()
+  }
+
+  public get Burn(): number {
+    return this._burn
+  }
+
+  public set Burn(burn: number) {
+    this._burn = burn
+    if (this._burn < 0) this._burn = 0
+    this.save()
+  }
+
+  // -- Active Mode Utilities ---------------------------------------------------------------------
+  public FullRepair(): void {
+    this.CurrentStructure = this.MaxStructure
+    this.CurrentHP = this.MaxHP
+    this.CurrentStress = this.MaxStress
+    this.CurrentHeat = 0
+    this.CurrentRepairs = this.RepairCapacity
+    this.CurrentCoreEnergy = 1
+    this.CurrentOvercharge = 0
+    this._loadouts.forEach(x => {
+      x.Equipment.forEach(y => {
+        if (y.IsDestroyed) y.Repair()
+        if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
+      })
+    })
+    this._statuses = []
+    this._conditions = []
+    this._resistances = []
+    this.Burn = 0
+    this._destroyed = false
+    this._reactor_destroyed = false
+    this._meltdown_imminent = false
+    this.save()
+  }
+
+  // -- Integrated/Talents ------------------------------------------------------------------------
+  public get IntegratedMounts(): IntegratedMount[] {
+    let intg = []
+    if (this._frame.CoreSystem.Integrated) {
+      const intWeapon = store.getters.referenceByID(
+        'MechWeapons',
+        this._frame.CoreSystem.Integrated
+      )
+      intg.push(new IntegratedMount(intWeapon, 'CORE System'))
+    }
+    if (this._pilot.has('Talent', 'ncavalier', 3)) {
+      const frWeapon = store.getters.referenceByID('MechWeapons', 'fuelrod')
+      intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))
+    }
+    if (this._pilot.has('Talent', 'eng')) {
+      const id = `prototype${this._pilot.getTalentRank('eng')}`
+      const engWeapon = store.getters.referenceByID('MechWeapons', id)
+      intg.push(new IntegratedMount(engWeapon, 'Engineer'))
+    }
+    return intg
+  }
+
+  public get IntegratedSystems(): MechSystem[] {
+    let intg = []
+    if (this._pilot.has('Talent', 'armsman')) {
+      const arms = store.getters.referenceByID(
+        'MechSystems',
+        `armsman${this._pilot.getTalentRank('armsman')}`
+      )
+      intg.push(new MechSystem(arms))
+    }
+    if (this._pilot.has('Talent', 'techno')) {
+      const techno = store.getters.referenceByID(
+        'MechSystems',
+        `techno${this._pilot.getTalentRank('techno')}`
+      )
+      intg.push(new MechSystem(techno))
+    }
+    return intg
+  }
+
+  // -- Loadouts ----------------------------------------------------------------------------------
+  public get Loadouts(): MechLoadout[] {
+    return this._loadouts
+  }
+
+  public AddLoadout(): void {
+    this._loadouts.push(new MechLoadout(this))
+    this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
+    this.save()
+  }
+
+  public RemoveLoadout(loadout: MechLoadout): void {
+    const index = this._loadouts.findIndex(x => _.isEqual(x, loadout))
+    if (index === -1) {
+      console.error(`Loadout"${loadout.Name}" does not exist on Mech ${this.Name}`)
+    } else {
+      this._loadouts.splice(index, 1)
+      this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
+    }
+    this.save()
+  }
+
+  public CloneLoadout(loadout: MechLoadout): void {
+    const index = this._loadouts.findIndex(x => _.isEqual(x, loadout))
+    if (index === -1) {
+      console.error(`Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`)
+    } else {
+      var newLoadout = MechLoadout.Deserialize(MechLoadout.Serialize(loadout), this)
+      newLoadout.RenewID()
+      newLoadout.Name += ' (Copy)'
+      this._loadouts.splice(index + 1, 0, newLoadout)
+    }
+    this.save()
+  }
+
+  public get ActiveLoadout(): MechLoadout | null {
+    if (!this._loadouts.length) return null
+    return this._loadouts.find(x => x.ID === this._active_loadout) || this._loadouts[0]
+  }
+
+  public set ActiveLoadout(loadout: MechLoadout | null) {
+    this._active_loadout = loadout ? loadout.ID || '' : null
+    this.save()
+  }
+
+  public UpdateLoadouts(): void {
+    this._loadouts.forEach(x => {
+      x.UpdateIntegrated(this)
+    })
+  }
+
+  // -- I/O ---------------------------------------------------------------------------------------
+  public static Serialize(m: Mech): IMechData {
+    return {
+      id: m.ID,
+      name: m.Name,
+      notes: m.Notes,
+      portrait: m._portrait,
+      cloud_portrait: m._cloud_portrait,
+      frame: m.Frame.ID,
+      active: m._active,
+      current_structure: m._current_structure,
+      current_hp: m._current_hp,
+      current_stress: m._current_stress,
+      current_heat: m._current_heat,
+      current_repairs: m._current_repairs,
+      current_overcharge: m._current_overcharge,
+      loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
+      active_loadout: m._active_loadout,
+      statuses: m._statuses,
+      conditions: m._conditions,
+      resistances: m._resistances,
+      burn: m._burn,
+      ejected: m._ejected,
+      destroyed: m._destroyed,
+      meltdown_imminent: m._meltdown_imminent,
+      reactor_destroyed: m._reactor_destroyed,
+      cc_ver: store.getters.getVersion || 'ERR',
+    }
+  }
+
+  public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
+    const f = store.getters.referenceByID('Frames', mechData.frame)
+    let m = new Mech(f, pilot)
+    m._id = mechData.id
+    m._name = mechData.name
+    m._portrait = mechData.portrait
+    m._cloud_portrait = mechData.cloud_portrait
+    m._active = mechData.active
+    m._current_structure = mechData.current_structure
+    m._current_hp = mechData.current_hp
+    m._current_stress = mechData.current_stress
+    m._current_heat = mechData.current_heat
+    m._current_repairs = mechData.current_repairs
+    m._current_overcharge = mechData.current_overcharge || 0
+    m._cc_ver = mechData.cc_ver
+    m._loadouts = mechData.loadouts.map((x: IMechLoadoutData) => MechLoadout.Deserialize(x, m))
+    m._active_loadout = mechData.active_loadout
+    m._statuses = mechData.statuses || []
+    m._conditions = mechData.conditions || []
+    m._resistances = mechData.resistances || []
+    m._burn = mechData.burn || 0
+    m._ejected = mechData.ejected || false
+    m._destroyed = mechData.destroyed || false
+    m._meltdown_imminent = mechData.meltdown_imminent || false
+    m._reactor_destroyed = mechData.reactor_destroyed || false
+    m._cc_ver = mechData.cc_ver || ''
+    return m
+  }
+}
+
+export default Mech

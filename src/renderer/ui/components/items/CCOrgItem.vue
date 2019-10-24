@@ -15,11 +15,11 @@
       >
         <div slot="items">
           <cc-tooltip simple inline content="Delete Organization">
-            <v-btn flat icon color="error" @click="remove()">
+            <v-btn icon color="error" @click="remove()">
               <v-icon>delete</v-icon>
             </v-btn>
           </cc-tooltip>
-          <v-btn flat icon dark @click="dialog = false">
+          <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
         </div>

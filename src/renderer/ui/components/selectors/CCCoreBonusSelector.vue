@@ -115,7 +115,7 @@ export default Vue.extend({
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.getItemById('Manufacturers', id.toUpperCase())
+      return compendium.referenceByID('Manufacturers', id.toUpperCase())
     },
     requirement(mID: string): string {
       const m = this.manufacturer(mID)

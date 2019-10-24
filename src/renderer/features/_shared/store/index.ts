@@ -1,9 +1,9 @@
+import _ from 'lodash'
 import io from '../data_io'
 import lancerData from 'lancer-data'
 import {
   License,
   CoreBonus,
-  Background,
   Skill,
   Frame,
   MechWeapon,
@@ -33,6 +33,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 // }
 
 export const SET_DATA_PATH = 'SET_DATA_PATH'
+export const SET_VERSIONS = 'SET_VERSIONS'
 export const SET_BREW_ACTIVE = 'SET_BREW_ACTIVE'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -43,7 +44,8 @@ export const LOAD_BREWS = 'LOAD_BREWS'
 })
 export class CompendiumStore extends VuexModule {
   public UserDataPath = ''
-  public Backgrounds: Background[] = []
+  public LancerVersion = ''
+  public CCVersion = ''
   public Talents: Talent[] = []
   public Skills: Skill[] = []
   public CoreBonuses: CoreBonus[] = []
@@ -68,6 +70,12 @@ export class CompendiumStore extends VuexModule {
   }
 
   @Mutation
+  private [SET_VERSIONS](lancer: string, cc: string): void {
+    this.LancerVersion = lancer
+    this.CCVersion = cc
+  }
+
+  @Mutation
   // private [SET_BREW_ACTIVE](dir: string, active: boolean): void {
   //   io.setBrewActive(this.UserDataPath, dir, active)
   // }
@@ -82,7 +90,6 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_DATA](): void {
-    this.Backgrounds = lancerData.backgrounds.map((x: any) => new Background(x))
     this.CoreBonuses = lancerData.core_bonuses.map((x: any) => new CoreBonus(x))
     this.Talents = lancerData.talents.map((x: any) => new Talent(x))
     this.Skills = lancerData.skills.map((x: any) => new Skill(x))
@@ -129,14 +136,25 @@ export class CompendiumStore extends VuexModule {
   //   }
   // }
 
-  public get getItemById(): any | { err: string } {
+  private nfErr = { err: 'ID not found' }
+
+  public get instantiate(): any | { err: string } {
     return (itemType: string, id: string) => {
-      const err = { err: 'ID not found' }
-      let match: any // TODO: narrow this down, or refactor method entirely
       if (this[itemType] && this[itemType] instanceof Array) {
-        match = this[itemType].find((x: any) => x.id === id)
+        const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+        return i ? _.clone(i) : this.nfErr
       }
-      return match || err
+      return { err: 'Invalid Item Type' }
+    }
+  }
+
+  public get referenceByID(): any | { err: string } {
+    return (itemType: string, id: string) => {
+      if (this[itemType] && this[itemType] instanceof Array) {
+        const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
+        return i ? i : this.nfErr
+      }
+      return { err: 'Invalid Item Type' }
     }
   }
 
@@ -148,6 +166,10 @@ export class CompendiumStore extends VuexModule {
 
   public get getUserPath(): string {
     return this.UserDataPath
+  }
+
+  public get getVersion(): string {
+    return this.CCVersion
   }
 
   @Action
@@ -163,6 +185,11 @@ export class CompendiumStore extends VuexModule {
   @Action
   public setDatapath(userDataPath: string): void {
     this.context.commit(SET_DATA_PATH, userDataPath)
+  }
+
+  @Action
+  public setVersions(lancerVer: string, ccVer: string): void {
+    this.context.commit(SET_VERSIONS, { lancerVer, ccVer })
   }
 
   @Action

@@ -60,9 +60,13 @@
     </v-row>
     <v-row v-if="newLevel !== null" class="ma-4">
       <v-col class="ml-5 mr-5">
-        <v-btn block color="primary" large @click="setLevel" :disabled="newLevel === pilot.levels">
-          Set Pilot Level
-        </v-btn>
+        <v-btn
+          block
+          color="primary"
+          large
+          @click="setLevel"
+          :disabled="newLevel === pilot.levels"
+        >Set Pilot Level</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -71,7 +75,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pilot } from '@/class'
-import MechSkills from '../../classes/MechSkills'
 import { rules } from 'lancer-data'
 
 export default Vue.extend({

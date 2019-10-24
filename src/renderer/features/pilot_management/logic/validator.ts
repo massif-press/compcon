@@ -3,7 +3,7 @@ import io from '@/features/_shared/data_io'
 import { store } from '@/store'
 import Vue from 'vue'
 
-function isValidJSON(text: string) {
+function isValidJSON(text: string): string | boolean {
   try {
     JSON.parse(text)
     return true
@@ -12,36 +12,62 @@ function isValidJSON(text: string) {
   }
 }
 
-function convertPilot(old: any): IPilotData {
+function convertMountData(old: any): IMountData {
+  return {
+    mount_type: old.mount_type,
+    lock: old.sh_lock || false,
+    slots: old.weapons.map((x: any) => ({
+      size: old.mount_type,
+      weapon: {
+        id: x.id,
+        notes: [],
+      },
+    })),
+    extra: [],
+    bonus_effects: [],
+  }
+}
+
+function convertMechLoadouts(old: any): IMechLoadoutData {
   return {
     id: old.id,
-    gistID: '',
-    level: old.level,
-    callsign: old.callsign,
     name: old.name,
-    text_appearance: old.text_appearance || '',
-    notes: old.notes || '',
-    history: old.history || '',
+    systems: old.systems.map((x: any) => ({ id: x.id, notes: [] })),
+    integratedSystems: [],
+    mounts: old.mounts.map((x: any) => convertMountData(x)),
+    integratedMounts: [],
+    improved_armament: EquippableMount.Serialize(new EquippableMount(MountType.Flex)),
+    integratedWeapon: EquippableMount.Serialize(new EquippableMount(MountType.Aux)),
+    retrofitIndex: null,
+    retrofitOriginalType: null,
+  }
+}
+
+function convertMechs(old: any): IMechData {
+  return {
+    id: old.id,
+    name: old.name,
+    notes: '',
     portrait: old.portrait || '',
     cloud_portrait: '',
-    quirk: '',
-    current_hp: old.current_hp || 6,
+    frame: old.frame_id || old.frame,
     active: false,
-    background: old.custom_background ? 'ai' : old.background,
-    reserves: [],
-    orgs: [],
-    mechSkills: [old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng],
-    licenses: old.licenses.map((x: any) => ({
-      id: licenseNameToId(x.name),
-      rank: x.level,
-    })),
-    skills: old.skills.map((x: any) => ({ id: x.id, rank: x.bonus / 2 })),
-    talents: old.talents.map((x: any) => ({ id: x.id, rank: x.rank })),
-    core_bonuses: old.core_bonuses,
-    loadouts: old.loadouts ? old.loadouts.map((x: any) => convertPilotLoadouts(x)) : [],
+    current_structure: 0,
+    current_hp: 0,
+    current_stress: 0,
+    current_heat: 0,
+    current_repairs: 0,
+    current_overcharge: 0,
+    statuses: [],
+    conditions: [],
+    resistances: [],
+    burn: 0,
+    loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
     active_loadout: null,
-    mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
-    active_mech: null,
+    ejected: false,
+    destroyed: false,
+    reactor_destroyed: false,
+    meltdown_imminent: false,
     cc_ver: Vue.prototype.version,
   }
 }
@@ -64,63 +90,39 @@ function convertPilotLoadouts(old: any): IPilotLoadoutData {
   }
 }
 
-function convertMechs(old: any): IMechData {
+function convertPilot(old: any): IPilotData {
   return {
     id: old.id,
+    gistID: '',
+    level: old.level,
+    callsign: old.callsign,
     name: old.name,
-    notes: '',
+    text_appearance: old.text_appearance || '',
+    player_name: old.player_name || '',
+    factionID: old.factionID || '',
+    status: old.status || 'ACTIVE',
+    notes: old.notes || '',
+    history: old.history || '',
     portrait: old.portrait || '',
     cloud_portrait: '',
-    frame: old.frame_id,
-    active: false,
-    current_structure: 0,
-    current_hp: 0,
-    current_stress: 0,
-    current_heat: 0,
-    current_repairs: 0,
-    current_overcharge: 0,
-    statuses: [],
-    conditions: [],
-    resistances: [],
-    burn: 0,
-    loadouts: old.loadouts.map((x: any) => convertMechLoadouts(x)),
-    active_loadout: null,
-    ejected: false,
-    destroyed: false,
-    reactor_destroyed: false,
-    meltdown_imminent: false,
-    cc_ver: Vue.prototype.version,
-  }
-}
-
-function convertMechLoadouts(old: any): IMechLoadoutData {
-  return {
-    id: old.id,
-    name: old.name,
-    systems: old.systems.map((x: any) => ({ id: x.id, notes: [] })),
-    integratedSystems: [],
-    mounts: old.mounts.map((x: any) => convertMountData(x)),
-    integratedMounts: [],
-    improved_armament: EquippableMount.Serialize(new EquippableMount(MountType.Flex)),
-    integratedWeapon: EquippableMount.Serialize(new EquippableMount(MountType.Aux)),
-    retrofitIndex: null,
-    retrofitOriginalType: null,
-  }
-}
-
-function convertMountData(old: any): IMountData {
-  return {
-    mount_type: old.mount_type,
-    lock: old.sh_lock || false,
-    slots: old.weapons.map((x: any) => ({
-      size: old.mount_type,
-      weapon: {
-        id: x.id,
-        notes: [],
-      },
+    quirk: '',
+    current_hp: old.current_hp || 6,
+    background: old.custom_background ? 'ai' : old.background,
+    reserves: [],
+    orgs: [],
+    mechSkills: [old.mechSkills.hull, old.mechSkills.agi, old.mechSkills.sys, old.mechSkills.eng],
+    licenses: old.licenses.map((x: any) => ({
+      id: licenseNameToId(x.name),
+      rank: x.level,
     })),
-    extra: [],
-    bonus_effects: [],
+    skills: old.skills.map((x: any) => ({ id: x.id, rank: x.bonus / 2 })),
+    talents: old.talents.map((x: any) => ({ id: x.id, rank: x.rank })),
+    core_bonuses: old.core_bonuses,
+    loadouts: old.loadouts ? old.loadouts.map((x: any) => convertPilotLoadouts(x)) : [],
+    active_loadout_index: 1,
+    mechs: old.configs ? old.configs.map((x: any) => convertMechs(x)) : [],
+    active_mech: null,
+    cc_ver: Vue.prototype.version,
   }
 }
 

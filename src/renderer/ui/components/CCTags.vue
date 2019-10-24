@@ -1,6 +1,6 @@
 <template>
   <v-row class="my-2">
-    <cc-tag v-for="(t, i) in tags" :key="`${t.id}_${i}`" :tag="t" />
+    <cc-tag v-for="(t, i) in tags" :key="`${t.id}_${i}`" :tag="t" :small="small" />
   </v-row>
 </template>
 
@@ -13,6 +13,10 @@ export default Vue.extend({
     tags: {
       type: Array,
       required: true,
+    },
+    small: {
+      type: Boolean,
+      required: false,
     },
   },
 })

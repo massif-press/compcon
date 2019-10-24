@@ -1,3 +1,14 @@
+Next Steps:
+  ☐ Testing Framework
+    ☐ Unit
+    ☐ E2E
+  ☐ Robust error logging
+
+Item Selector:
+  ✔ Add Currently Equipped slot @done(19-10-22 16:32)
+
+Item Uses/Limited:
+  ☐ Count up instead of down
 
 Name Generator:
   ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
@@ -13,6 +24,9 @@ Core Bonus Selector:
 Icons:
   ☐ E-Defense
   ☐ Evasion
+
+Print:
+  ☐ Print all relevant tags
 
 Skill Selector:
   ✔ Custom Skill Adder @done(19-09-25 15:51)
@@ -49,8 +63,8 @@ Pilot Sheet:
   ☐ change pilot img doesn't automatically update
   ☐ level edit menu
   ✔ change name, background, callsign in dossier @done(19-10-05 12:00)
-  ☐ set player name in dossier
-  ☐ set active-inactive-mia-kia-etc in dossier
+  ✔ set player name in dossier @done(19-10-22 15:54)
+  ✔ set active-inactive-mia-kia-etc in dossier @done(19-10-22 15:54)
   ☐ faction info in dossier
   ✔ downtime resources @done(19-10-17 16:39)
     ✔ downtime reserve editable panels @done(19-10-17 16:39)
@@ -70,13 +84,15 @@ Compendium:
   ☐ Fix CC Solo Dialog padding
 
 Refactor:
+  ☐ remove _shared
+  ☐ all classes into individual files
   ✔ Replace UID with UUID @done(19-09-25 15:50)
   ☐ Use object syntax for conditional classes in template
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
-  ☐ background -> save string only
+  ✔ background -> save string only @done(19-10-24 16:21)
   ☐ genericize frame row imageelement
 
 Style Pass:

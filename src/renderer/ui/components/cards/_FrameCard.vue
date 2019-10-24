@@ -1,5 +1,5 @@
 <template>
-  <v-card-text class="py-0">
+  <v-card-text>
     <v-row class="stat-text" fill-height>
       <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
       <v-icon

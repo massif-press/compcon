@@ -47,7 +47,6 @@ export default Vue.extend({
   }),
   methods: {
     stageFilters(newFilters) {
-      console.log(newFilters)
       this.filters = newFilters
     },
     clearFilters() {

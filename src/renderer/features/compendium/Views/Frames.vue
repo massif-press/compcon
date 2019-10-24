@@ -28,7 +28,7 @@ export default Vue.extend({
       { text: 'RepCap', align: 'left', value: 'RepCap' },
       { text: 'Sensors', align: 'left', value: 'SensorRange' },
       { text: 'TechAtk', align: 'left', value: 'TechAttack' },
-      { text: 'Save', align: 'left', value: 'Save' },
+      { text: 'Save', align: 'left', value: 'SaveTarget' },
       { text: 'Speed', align: 'left', value: 'Speed' },
       { text: 'SP', align: 'left', value: 'SP' },
     ],

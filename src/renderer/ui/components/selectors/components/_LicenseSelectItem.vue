@@ -73,7 +73,7 @@ export default Vue.extend({
   methods: {
     frame(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.getItemById('Frames', id)
+      return compendium.referenceByID('Frames', id)
     },
   },
 })
