@@ -11,7 +11,7 @@
         required
         hide-details
         autofocus
-        :class="`mx-0 my-0 mt-n4`"
+        :class="inline ? '' : `mx-0 my-0 mt-n4`"
         @blur="submit()"
         @keyup.enter="submit()"
       ></v-text-field>

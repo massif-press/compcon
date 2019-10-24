@@ -1,14 +1,12 @@
 <template>
-  <v-card-text class="py-0">
+  <v-card-text>
     <v-row class="stat-text" fill-height>
       <slot />
     </v-row>
 
     <v-row>
       <v-divider class="mt-3" />
-      <v-icon color="panel-border">
-        cci-{{ $_.kebabCase(item.ItemType) }}
-      </v-icon>
+      <v-icon color="panel-border">cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
       <v-divider class="mt-3" />
     </v-row>
 

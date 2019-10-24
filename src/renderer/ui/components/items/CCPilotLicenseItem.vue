@@ -37,7 +37,7 @@ export default Vue.extend({
   }),
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.color = compendium.getItemById(
+    this.color = compendium.referenceByID(
       'Manufacturers',
       this.pilotLicense.License.source.toUpperCase()
     ).color

@@ -27,15 +27,19 @@
       <v-divider class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col cols="12">
-          <v-alert outline color="success" icon="check_circle" :value="!pilot.IsMissingLicenses">
-            License Selection Complete
-          </v-alert>
-          <v-alert outline color="warning" icon="priority_high" :value="pilot.IsMissingLicenses">
-            {{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }} License Points remaining
-          </v-alert>
-          <v-btn block flat small :disabled="!pilot.Licenses.length" @click="resetLicenses">
-            Reset
-          </v-btn>
+          <v-alert
+            outline
+            color="success"
+            icon="check_circle"
+            :value="!pilot.IsMissingLicenses"
+          >License Selection Complete</v-alert>
+          <v-alert
+            outline
+            color="warning"
+            icon="priority_high"
+            :value="pilot.IsMissingLicenses"
+          >{{ pilot.MaxLicensePoints - pilot.CurrentLicensePoints }} License Points remaining</v-alert>
+          <v-btn block flat small :disabled="!pilot.Licenses.length" @click="resetLicenses">Reset</v-btn>
         </v-col>
       </v-row>
     </template>
@@ -43,9 +47,7 @@
       <div v-for="m in Object.keys(licenseData)" :key="`summary_block_m${m}`">
         <v-row>
           <v-col class="text-center pa-3">
-            <span class="display-2 text-uppercase font-weight-light">
-              {{ manufacturer(m).name }}
-            </span>
+            <span class="display-2 text-uppercase font-weight-light">{{ manufacturer(m).name }}</span>
           </v-col>
         </v-row>
         <v-row>
@@ -94,7 +96,7 @@ export default Vue.extend({
       return l ? l.Rank : 0
     },
     manufacturer(id: string): Manufacturer {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      return this.$store.getters.referenceByID('Manufacturers', id.toUpperCase())
     },
     licenseExists(license: License): boolean {
       if (!this.licenseData[license.Source]) return false

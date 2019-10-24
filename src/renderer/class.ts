@@ -18,45 +18,35 @@ import {
   MechType,
   ReserveType,
   OrgType,
-} from './features/_shared/classes/enums'
-import { CompendiumItem, LicensedItem } from './features/_shared/classes/Item'
-import CoreBonus from './features/_shared/classes/CoreBonus'
-import Damage from './features/_shared/classes/Damage'
-import Loadout from './features/_shared/classes/Loadout'
-import Range from './features/_shared/classes/Range'
-import { Skill, CustomSkill } from './features/_shared/classes/Skill'
-import Tag from './features/_shared/classes/Tag'
-import Talent from './features/_shared/classes/Talent'
-import License from './features/_shared/classes/License'
-import MechSkills from './features/pilot_management/classes/MechSkills'
-import {
-  PilotEquipment,
-  PilotArmor,
-  PilotWeapon,
-  PilotGear,
-} from './features/pilot_management/classes/PilotGear'
-import PilotLicense from './features/pilot_management/classes/PilotLicense'
-import PilotLoadout from './features/pilot_management/classes/PilotLoadout'
-import PilotSkill from './features/pilot_management/classes/PilotSkill'
-import PilotTalent from './features/pilot_management/classes/PilotTalent'
-import Background from './features/_shared/classes/Background'
-import Pilot from './features/pilot_management/classes/Pilot'
-import Frame from './features/_shared/classes/Frame'
-import MechLoadout from './features/pilot_management/classes/mech/MechLoadout'
-import MechEquipment from './features/_shared/classes/MechEquipment'
-import MechSystem from './features/_shared/classes/MechSystem'
-import MechWeapon from './features/_shared/classes/MechWeapon'
-import {
-  Mount,
-  IntegratedMount,
-  EquippableMount,
-} from './features/pilot_management/classes/mech/Mount'
-import WeaponMod from './features/_shared/classes/WeaponMod'
-import WeaponSlot from './features/pilot_management/classes/mech/WeaponSlot'
-import Mech from './features/pilot_management/classes/mech/Mech'
-import Reserve from './features/pilot_management/classes/reserves/Reserve'
-import Project from './features/pilot_management/classes/reserves/Project'
-import Organization from './features/pilot_management/classes/reserves/Organization'
+} from './classes/enums'
+import Tag from './classes/Tag'
+import { CompendiumItem, LicensedItem } from './classes/Item'
+import CoreBonus from './classes/pilot/CoreBonus'
+import Damage from './classes/Damage'
+import Loadout from './classes/Loadout'
+import Range from './classes/Range'
+import { Skill, CustomSkill } from './classes/pilot/Skill'
+import Talent from './classes/pilot/Talent'
+import License from './classes/License'
+import MechSkills from './classes/pilot/MechSkills'
+import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear } from './classes/pilot/PilotGear'
+import PilotLicense from './classes/pilot/PilotLicense'
+import PilotLoadout from './classes/pilot/PilotLoadout'
+import PilotSkill from './classes/pilot/PilotSkill'
+import PilotTalent from './classes/pilot/PilotTalent'
+import Pilot from './classes/pilot/Pilot'
+import Frame from './classes/mech/Frame'
+import MechLoadout from './classes/mech/MechLoadout'
+import MechEquipment from './classes/mech/MechEquipment'
+import MechSystem from './classes/mech/MechSystem'
+import MechWeapon from './classes/mech/MechWeapon'
+import { Mount, IntegratedMount, EquippableMount } from './classes/mech/Mount'
+import WeaponMod from './classes/mech/WeaponMod'
+import WeaponSlot from './classes/mech/WeaponSlot'
+import Mech from './classes/mech/Mech'
+import Reserve from './classes/pilot/reserves/Reserve'
+import Project from './classes/pilot/reserves/Project'
+import Organization from './classes/pilot/reserves/Organization'
 import {
   AppState,
   AppContext,
@@ -65,16 +55,16 @@ import {
   Manufacturer,
   Faction,
   Status,
-} from './features/_shared/classes/Types'
-import Statblock from './features/pilot_management/classes/Statblock'
+} from './classes/Types'
+import Statblock from './classes/Statblock'
 import {
   DiceRoller,
   D20RollResult,
   DamageRollResult,
   ParsedDieString,
   DieSet,
-} from './features/_shared/classes/DiceRoller'
-import { DiceStats, DiceStatsResult } from './features/_shared/classes/DiceStats'
+} from './classes/dice/DiceRoller'
+import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats'
 
 export {
   MountType,
@@ -112,7 +102,6 @@ export {
   PilotLoadout,
   PilotSkill,
   PilotTalent,
-  Background,
   Reserve,
   Project,
   Organization,

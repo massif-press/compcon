@@ -4,28 +4,41 @@
     <v-card-text class="text-center">
       <v-row justify="center" wrap>
         <v-col cols="12" v-if="pilot.has('CoreBonus', 'hardpoints')">
-          <v-btn large block v-if="appliedHardpoints()" @click="removeHardpoints()">
-            Uninstall Auto-Stabilizing Hardpoints
-          </v-btn>
-          <v-btn large block v-else-if="unappliedHardpoints()" @click="addHardpoints()">
-            Install Auto-Stabilizing Hardpoints
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedHardpoints()"
+            @click="removeHardpoints()"
+          >Uninstall Auto-Stabilizing Hardpoints</v-btn>
+          <v-btn
+            large
+            block
+            v-else-if="unappliedHardpoints()"
+            @click="addHardpoints()"
+          >Install Auto-Stabilizing Hardpoints</v-btn>
         </v-col>
         <v-col cols="12" v-if="pilot.has('CoreBonus', 'burnout')">
-          <v-btn large block v-if="appliedBurnout()" @click="removeBurnout()">
-            Uninstall BURNOUT Insulation
-          </v-btn>
-          <v-btn large block v-else-if="unappliedBurnout()" @click="addBurnout()">
-            Install BURNOUT Insulation
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedBurnout()"
+            @click="removeBurnout()"
+          >Uninstall BURNOUT Insulation</v-btn>
+          <v-btn
+            large
+            block
+            v-else-if="unappliedBurnout()"
+            @click="addBurnout()"
+          >Install BURNOUT Insulation</v-btn>
         </v-col>
         <v-col cols="12" v-if="pilot.has('CoreBonus', 'retrofit')">
-          <v-btn large block v-if="appliedRetrofit()" @click="removeRetrofit()">
-            Restore Original Mount
-          </v-btn>
-          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">
-            Retrofit Mount
-          </v-btn>
+          <v-btn
+            large
+            block
+            v-if="appliedRetrofit()"
+            @click="removeRetrofit()"
+          >Restore Original Mount</v-btn>
+          <v-btn large block v-if="unappliedRetrofit()" @click="addRetrofit()">Retrofit Mount</v-btn>
         </v-col>
       </v-row>
       <v-divider class="ma-3" />
@@ -66,11 +79,11 @@ export default Vue.extend({
       return this.mount.BonusEffects.some(x => x.ID === 'hardpoints')
     },
     addHardpoints() {
-      this.mount.AddCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'hardpoints'))
+      this.mount.AddCoreBonus(this.$store.getters.referenceByID('CoreBonuses', 'hardpoints'))
       this.$emit('close')
     },
     removeHardpoints() {
-      this.mount.RemoveCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'hardpoints'))
+      this.mount.RemoveCoreBonus(this.$store.getters.referenceByID('CoreBonuses', 'hardpoints'))
       this.$emit('close')
     },
     unappliedBurnout(): boolean {
@@ -83,11 +96,11 @@ export default Vue.extend({
       return this.mount.BonusEffects.some(x => x.ID === 'burnout')
     },
     addBurnout() {
-      this.mount.AddCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'burnout'))
+      this.mount.AddCoreBonus(this.$store.getters.referenceByID('CoreBonuses', 'burnout'))
       this.$emit('close')
     },
     removeBurnout() {
-      this.mount.RemoveCoreBonus(this.$store.getters.getItemById('CoreBonuses', 'burnout'))
+      this.mount.RemoveCoreBonus(this.$store.getters.referenceByID('CoreBonuses', 'burnout'))
       this.$emit('close')
     },
     unappliedRetrofit(): boolean {

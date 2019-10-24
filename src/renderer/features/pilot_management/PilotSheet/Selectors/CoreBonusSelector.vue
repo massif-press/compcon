@@ -99,7 +99,7 @@ export default Vue.extend({
   }),
   methods: {
     manufacturer(id: string): Manufacturer {
-      return this.$store.getters.getItemById('Manufacturers', id.toUpperCase())
+      return this.$store.getters.referenceByID('Manufacturers', id.toUpperCase())
     },
     requirement(m: string): string {
       var vm = this as any

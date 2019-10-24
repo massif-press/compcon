@@ -595,7 +595,7 @@ import PilotLoadout from './LoadoutEditor/PilotLoadout.vue'
 import NewConfig from '../HangarView/AddConfigMenu.vue'
 import Reserve from './Downtime/Reserve.vue'
 import Organization from './Downtime/Organization.vue'
-import { Pilot, PilotSkill, Background, Statblock, Mech } from '@/class'
+import { Pilot, PilotSkill, Statblock, Mech } from '@/class'
 import { rules } from 'lancer-data'
 
 export default Vue.extend({

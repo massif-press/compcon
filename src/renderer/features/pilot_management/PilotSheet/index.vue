@@ -1,12 +1,10 @@
 <template>
   <v-container fluid class="mt-7">
     <pilot-header />
-    <v-fade-transition group>
-      <info-view v-show="page === 0" key="v0" :pilot="pilot" />
-      <narrative-view v-show="page === 1" key="v1" :pilot="pilot" />
-      <tactical-view v-show="page === 2" key="v2" :pilot="pilot" />
-      <mech-hangar-view v-show="page === 3" key="v3" />
-    </v-fade-transition>
+    <info-view v-show="page === 0" key="v0" :pilot="pilot" class="pilot-array-item" />
+    <narrative-view v-show="page === 1" key="v1" :pilot="pilot" class="pilot-array-item" />
+    <tactical-view v-show="page === 2" key="v2" :pilot="pilot" class="pilot-array-item" />
+    <mech-hangar-view v-show="page === 3" key="v3" class="pilot-array-item" />
     <pilot-nav :selected="page" @set-page="page = $event" />
     <v-spacer style="min-height: 80px" />
   </v-container>

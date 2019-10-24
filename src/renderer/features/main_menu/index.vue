@@ -33,7 +33,6 @@ import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import UpdateAlert from './_components/UpdateAlert.vue'
 import CCLog from './_components/CCLog.vue'
-import { info } from 'lancer-data'
 
 export default Vue.extend({
   name: 'landing-page',
@@ -43,13 +42,14 @@ export default Vue.extend({
     UpdateAlert,
     CCLog,
   },
-  data: () => ({
-    lancerVer: info.version,
-    moduleStore: {},
-  }),
+
   created: function() {
-    if (Vue.prototype.version) this.ver = Vue.prototype.version
-    startup(Vue.prototype.userDataPath, this.$store)
+    startup(
+      Vue.prototype.userDataPath,
+      Vue.prototype.version,
+      Vue.prototype.lancerVersion,
+      this.$store
+    )
   },
   methods: {
     ccLog(btn: string) {

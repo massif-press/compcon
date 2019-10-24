@@ -5,9 +5,10 @@ import { CompendiumStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 import { validateImageFolders } from './ImageManagement'
 
-export default function(userDataPath: string, store: any): void {
+export default function(userDataPath: string, lancerVer: string, ccVer: string, store: any): void {
   const s = getModule(CompendiumStore, store)
   s.setDatapath(userDataPath)
+  s.setVersions(lancerVer, ccVer)
   validateImageFolders()
   s.loadData()
   s.buildLicenses()

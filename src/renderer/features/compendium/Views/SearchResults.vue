@@ -33,7 +33,7 @@
                   v-html="item.Description ? item.Description : item.Effect ? item.Effect : ''"
                 />
               </cc-titled-panel>
-              <search-result-modal :ref="`modal_${item.ID}`" :item="item" />
+              <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
             </v-col>
             <v-col cols="12">
               <br />
@@ -47,13 +47,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import SearchResultModal from '../UI/SearchResultModal.vue'
 import { CompendiumItem } from '@/class'
 import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'search-results',
-  components: { SearchResultModal },
   data: () => ({
     searchText: '',
     loaded: false,
