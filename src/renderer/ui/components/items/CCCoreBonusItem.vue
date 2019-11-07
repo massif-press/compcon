@@ -2,7 +2,7 @@
   <cc-titled-panel
     icon="cci-corebonus"
     :title="bonus.Name"
-    :color="manufacturer(bonus.source).color"
+    :color="manufacturer(bonus.Source).color"
   >
     <p class="flavor-text" v-html="bonus.Description" />
     <p class="effect-text pb-0" v-html="bonus.Effect" />

@@ -7,7 +7,6 @@
       <v-container>
         <new-pilot-button />
         <v-row>
-          <clipboard-import />
           <file-import />
           <cloud-import />
         </v-row>
@@ -20,12 +19,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import NewPilotButton from './NewPilotButton.vue'
-import ClipboardImport from './add_panels/ClipboardImport.vue'
 import FileImport from './add_panels/FileImport.vue'
 import CloudImport from './add_panels/CloudImport.vue'
 
 export default Vue.extend({
   name: 'add-pilot',
-  components: { ClipboardImport, FileImport, CloudImport, NewPilotButton },
+  components: { FileImport, CloudImport, NewPilotButton },
 })
 </script>

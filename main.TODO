@@ -3,9 +3,52 @@ Next Steps:
     ☐ Unit
     ☐ E2E
   ☐ Robust error logging
+  ☐ Renders for itch.io
+  ☐ Allow user to set save data location
+  ☐ Split Pilot, Mech into subclasses
+
+Cleanup:
+  ☐ Remove useless `dense`s from v-col (use no-gutters or dense on row)
+  ☐ remove old font stylings
+
+Flavor Pass:
+  ☐ Cloud settings panel
+  ☐ Statblock panel
+  ☐ Export panel
+  ☐ Print panel
+
+Printing:
+  ☐ Mark danger zone heat
+  ☐ Print Preview
+  General Print Options:
+    ☐ Large fonts
+    ☐ Print trackable stats as numbers or as pips
+  Pilot Print Options:
+    ☐ Print image
+    ☐ Print empty appearance frame (for drawing)
+    ☐ Print History
+    ☐ Print appearance Notes
+    ☐ Print Pilot Notes
+    ☐ Add space for notes
+    ☐ Add space for sketches
+    ☐ Add space for additonal equipment
+  Mech Print Options: 
+    ☐ Print image
+    ☐ Print empty apparance frame (for drawing)
+    ☐ Print Notes
+    ☐ Add space for notes (lined)
+    ☐ Add space for sketches (unlined)
+    ☐ Per-item notes
 
 Item Selector:
-  ✔ Add Currently Equipped slot @done(19-10-22 16:32)
+  ☐ Item card notes don't immediately update
+
+CCTooltip:
+  ☐ Restyle
+  ☐ Use v-menu
+
+Cloud Sync:
+  ☐ ask cc-club to test pull/push cloud syncs
 
 Item Uses/Limited:
   ☐ Count up instead of down
@@ -16,11 +59,6 @@ Name Generator:
 Navigation:
   ☐ scroll to top on nav
 
-Core Bonus Selector:
-  ✔ Faction colors @done(19-09-27 15:24)
-  ✔ Faction icons @done(19-09-28 13:45)
-  ✔ no cb block @done(19-10-17 13:26)
-
 Icons:
   ☐ E-Defense
   ☐ Evasion
@@ -28,19 +66,10 @@ Icons:
 Print:
   ☐ Print all relevant tags
 
-Skill Selector:
-  ✔ Custom Skill Adder @done(19-09-25 15:51)
-  ✔ Test Custom Skills @done(19-09-25 15:51)
-  ☐ remove old font stylings
-
 Image Selector:
   ☐ refactor
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ confirm dialog on image delete
-  ✔ add images to collection, or @done(19-09-14 16:31)
-    ✔ images should have json data w/ pointers to filename (id) @done(19-09-14 16:31)
-  ✔ select image @done(19-09-15 15:15)
-  ✔ test image load/add/save/info @done(19-09-14 16:31)
   ☐ Avatar image bounding box select
 
 Pilot Roster:
@@ -48,27 +77,18 @@ Pilot Roster:
   ☐ Status in roster
 
 New Pilot:
-  ✔ each page should have autofill (far right of main title) @done(19-09-24 06:42)
   ☐ Background Selector does not scroll to list
-  ✔ Background selector emit background name @done(19-09-14 17:17)
-  ✔ Add pilot portrait @done(19-09-15 15:15)
-  ✔ Better random name generator @done(19-09-14 17:17)
   ☐ Background selector highlight on mouseover
   ☐ Background Selector drops list side on reopen
 
 Pilot Sheet:
-  ✔ 3-tab default view @done(19-09-26 15:26)
-  ✔ click to set pilot image @done(19-10-05 12:00)
-  ☐ top bar into pilot view
+  ☐ Delete Pilot
+  ☐ Level Wizard
+  ☐ Mech Hangar
+  ☐ test importers
+  ☐ top bar doesn't reflect active pilot
   ☐ change pilot img doesn't automatically update
-  ☐ level edit menu
-  ✔ change name, background, callsign in dossier @done(19-10-05 12:00)
-  ✔ set player name in dossier @done(19-10-22 15:54)
-  ✔ set active-inactive-mia-kia-etc in dossier @done(19-10-22 15:54)
   ☐ faction info in dossier
-  ✔ downtime resources @done(19-10-17 16:39)
-    ✔ downtime reserve editable panels @done(19-10-17 16:39)
-  ✔ downtime selector @done(19-10-17 14:59)
   ☐ org builder 
   ☐ primary color based on faction
 
@@ -81,28 +101,20 @@ Mech Sheet:
 
 Compendium:
   ☐ Add Factions
-  ☐ Fix CC Solo Dialog padding
 
 Refactor:
   ☐ remove _shared
   ☐ all classes into individual files
-  ✔ Replace UID with UUID @done(19-09-25 15:50)
-  ☐ Use object syntax for conditional classes in template
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
   ☐ underscore private properties
-  ✔ background -> save string only @done(19-10-24 16:21)
-  ☐ genericize frame row imageelement
+  ☐ genericize frame row image element
 
 Style Pass:
-  ☐ test importers
-  ☐ Print/Export/Sync/Copy/Delete in pilot dropdown menu on nav
+  ☐ Fix header on tables
     ☐ Same options (except for sync) expand under selected mech
-  ✔ Corp Icons @done(19-09-28 13:45)
   ☐ pilot NO IMG
-  ✔ Vuetify 2.0 @done(19-09-12 10:10)
-  ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05)
   ☐ global notification
   ☐ error logging
   ☐ ra text/horus text
@@ -116,9 +128,6 @@ Improvements:
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection
     ☐ Prototype Weapon type/range/damage type selection
-  ☐ statblock mech select modal
-  ☐ refresh cloud-saved pilots
-  ☐ different cloud save ui 
   ☐ Click to apply weapon/system self heat
   ☐ Disable dangerzone systems outside of dangerzone
   ☐ Ammo block
@@ -140,28 +149,6 @@ Preconstructed Characters:
   ☐ Default Long Rim content pack
   ☐ Update Help
   ☐ Update About
-  Printing:
-    General Print Options:
-      ☐ Large fonts
-      ☐ Print trackable stats as numbers (current/max) or as pips ([] [] [])
-    Pilot Print Options:
-      ☐ Print image
-      ☐ Print empty appearance frame (for drawing)
-      ☐ Print History
-      ☐ Print appearance Notes
-      ☐ Print Pilot Notes
-      ☐ Print background fluff text
-      ☐ Add space for notes
-      ☐ Add space for sketches
-      ☐ Add space for additonal equipment
-    Mech Print Options: 
-      ☐ Print image
-      ☐ Print empty apparance frame (for drawing)
-      ☐ Print Notes
-      ☐ Add space for notes (lined)
-      ☐ Add space for sketches (unlined)
-      ☐ Mark danger zone heat
-      ☐ Per-item notes
   ☐ Charts
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
@@ -172,6 +159,47 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Add Currently Equipped slot @done(19-10-22 16:32) @project(Item Selector)
+  ✔ cloud portrait auto on cloud save @done(19-10-29 16:01) @project(Cloud Sync)
+  ✔ sync if owner @done(19-10-29 16:02) @project(Cloud Sync)
+  ✔ sync if not owner @done(19-10-30 11:11) @project(Cloud Sync)
+  ✔ Cloud Panel UI @done(19-10-31 13:40) @project(Cloud Sync)
+  ✔ Faction colors @done(19-09-27 15:24) @project(Core Bonus Selector)
+  ✔ Faction icons @done(19-09-28 13:45) @project(Core Bonus Selector)
+  ✔ no cb block @done(19-10-17 13:26) @project(Core Bonus Selector)
+  ✔ Custom Skill Adder @done(19-09-25 15:51) @project(Skill Selector)
+  ✔ Test Custom Skills @done(19-09-25 15:51) @project(Skill Selector)
+  ✔ add images to collection, or @done(19-09-14 16:31) @project(Image Selector)
+  ✔ images should have json data w/ pointers to filename (id) @done(19-09-14 16:31) @project(Image Selector)
+  ✔ select image @done(19-09-15 15:15) @project(Image Selector)
+  ✔ test image load/add/save/info @done(19-09-14 16:31) @project(Image Selector)
+  ✔ each page should have autofill (far right of main title) @done(19-09-24 06:42) @project(New Pilot)
+  ✔ Background selector emit background name @done(19-09-14 17:17) @project(New Pilot)
+  ✔ Add pilot portrait @done(19-09-15 15:15) @project(New Pilot)
+  ✔ Better random name generator @done(19-09-14 17:17) @project(New Pilot)
+  ✔ Cloud Management window @done(19-10-31 14:13) @project(Pilot Sheet)
+  ✔ Quick Sync button @done(19-10-31 14:13) @project(Pilot Sheet)
+  ✔ Print Options window @done(19-11-01 13:56) @project(Pilot Sheet)
+  ✔ Export window @done(19-10-31 15:14) @project(Pilot Sheet)
+  ✔ Statblock window @done(19-10-31 14:13) @project(Pilot Sheet)
+  ✔ statblock mech select modal @done(19-10-31 14:13) @project(Pilot Sheet)
+  ✔ level edit menu @done(19-11-04 11:20) @project(Pilot Sheet)
+  ✔ 3-tab default view @done(19-09-26 15:26) @project(Pilot Sheet)
+  ✔ click to set pilot image @done(19-10-05 12:00) @project(Pilot Sheet)
+  ✔ top bar into pilot view @done(19-10-31 14:29) @project(Pilot Sheet)
+  ✔ change name, background, callsign in dossier @done(19-10-05 12:00) @project(Pilot Sheet)
+  ✔ set player name in dossier @done(19-10-22 15:54) @project(Pilot Sheet)
+  ✔ set active-inactive-mia-kia-etc in dossier @done(19-10-22 15:54) @project(Pilot Sheet)
+  ✔ downtime resources @done(19-10-17 16:39) @project(Pilot Sheet)
+  ✔ downtime reserve editable panels @done(19-10-17 16:39) @project(Pilot Sheet)
+  ✔ downtime selector @done(19-10-17 14:59) @project(Pilot Sheet)
+  ✔ Fix CC Solo Dialog padding @done(19-10-28 14:21) @project(Compendium)
+  ✔ Replace UID with UUID @done(19-09-25 15:50) @project(Refactor)
+  ✔ background -> save string only @done(19-10-24 16:21) @project(Refactor)
+  ✔ Print/Export/Sync/Copy/Delete in pilot dropdown menu on nav @done(19-11-01 13:56) @project(Style Pass)
+  ✔ Corp Icons @done(19-09-28 13:45) @project(Style Pass)
+  ✔ Vuetify 2.0 @done(19-09-12 10:10) @project(Style Pass)
+  ✔ Standardize colors, add Vuetify theme @done(19-08-28 15:05) @project(Style Pass)
   ✔ usage items initialized without pilot limited bonus @done(19-08-05 15:26)
   ✔ can't mark intg systems destroyed, change their notes, etc @done(19-08-05 15:34)
   ✔ loadouts dissappearing on mech quick swap @done(19-08-05 13:16)
@@ -710,7 +738,7 @@ Archive:
   ✔ Update Rules @done(19-03-04 15:39) @project(1.8.5)
   ✔ Skills @done(19-03-04 12:11) @project(1.8.5)
   ✔ In-depth Skill Descriptions @done(19-03-04 12:11) @project(1.8.5)
-  ✔ Talent selctor mutating vuex store @done(19-03-01 10:03) @project(Bugs)
+  ✔ Talent Selector mutating vuex store @done(19-03-01 10:03) @project(Bugs)
   ✔ Name/Callsign/Config Name generators @done(19-03-04 13:55) @project(Other)
   ✔ Damage component @done(19-02-25 12:56) @project(Vue Parity)
   ✔ Range component @done(19-02-25 12:56) @project(Vue Parity)
@@ -738,7 +766,7 @@ Archive:
   ✔ completed talents/skills should scroll to next button @done(19-02-18 15:22) @project(Other)
   ✔ Vuetify @done(19-02-18 14:55) @project(Other)
   ✔ Remove clickaway @done(19-02-22 14:13) @project(Other)
-  ✔ Talent selctor: tooltips get stuck @done(19-02-18 14:55) @project(Bugs)
+  ✔ Talent Selector: tooltips get stuck @done(19-02-18 14:55) @project(Bugs)
   ✔ From-pilot selectors must re-init every modal open @done(19-02-21 11:51) @project(Bugs)
   ✔ Contact editing not working @done(19-02-28 15:43) @project(Bugs)
   ✔ Combat webbing item selector rows @done(19-02-28 15:36) @project(Bugs)

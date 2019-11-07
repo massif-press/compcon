@@ -137,7 +137,12 @@
           <v-col>
             <div class="border ml-auto mr-auto" style="width: 300px; height: 300px">
               <!-- TODO: no data image -->
-              <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
+              <v-img
+                v-if="pilot.Portrait"
+                :src="pilot.Portrait"
+                aspect-ratio="1"
+                position="top center"
+              />
               <v-img v-else src="https://via.placeholder.com/550" />
             </div>
           </v-col>

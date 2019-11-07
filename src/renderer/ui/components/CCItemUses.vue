@@ -5,7 +5,7 @@
       :key="`chk_${n - 1}`"
       v-model="model"
       :value="n - 1"
-      :class="`d-inline ma-0 ${right ? 'mr-n2' : ''} ${left ? 'ml-n2' : ''}`"
+      :class="`fs-override d-inline ma-0 ${right ? 'mr-n2' : ''} ${left ? 'ml-n2' : ''} ${large ? 'mt-4 cb-lg' : small ? 'cb-sm' : ''}`"
       :ripple="false"
       :off-icon="emptyIcon"
       :on-icon="fullIcon"
@@ -85,5 +85,28 @@ export default Vue.extend({
 
 .d-inline .v-input__control {
   display: inline !important;
+}
+
+.fs-override i {
+  font-size: inherit !important;
+}
+
+.cb-lg input,
+.cb-lg .v-input input {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.cb-lg {
+  font-size: 60px !important;
+  padding-left: 20px;
+}
+
+.cb-md {
+  font-size: 45px !important;
+}
+
+.cb-sm {
+  font-size: 20px !important;
 }
 </style>

@@ -18,8 +18,8 @@
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>The RM-4b PILOT SELF ASSESSMENT (Talents) audit catalogs an individual pilot's self-reported combat operation aptitudes and confers requisition privileges for simulator time, holofield and cortical sensorium training materials, battlefield telemetry data at classifications below GREY SIERRA SHARP, and (in specific cases) GMS MM-pattern materiel licenses. Additional resources may be made available at your request in the course of field operations.</span>
-      <v-alert type="warning" color="primary" outlined class="mt-2">
-        <b>Selct three (3) Pilot Talents.</b>
+      <v-alert color="primary" outlined dense border="left" class="mt-2">
+        <b>Select three (3) Pilot Talents.</b>
         <br />
         <span
           class="overline"
@@ -34,7 +34,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'identification-page',
+  name: 'talents-page',
   props: {
     pilot: {
       type: Object,
