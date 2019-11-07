@@ -93,7 +93,10 @@ function convertPilotLoadouts(old: any): IPilotLoadoutData {
 function convertPilot(old: any): IPilotData {
   return {
     id: old.id,
-    gistID: '',
+    cloudID: old.cloudID || old.gistID || '',
+    cloudOwnerID: '',
+    lastCloudUpdate: '',
+    ps_layout: 'tabbed',
     level: old.level,
     callsign: old.callsign,
     name: old.name,
@@ -134,7 +137,7 @@ export default {
     let output = [] as IPilotData[]
     let copyOld = false
     data.forEach((e: any) => {
-      if (e.cc_ver) output.push(e)
+      if (e.status) output.push(e)
       else {
         copyOld = true
         try {
@@ -147,7 +150,11 @@ export default {
     if (copyOld) io.backup(store.getters.getUserPath)
     return output
   },
-  clipboardPilot(data: string, callback: (err: any, result: any) => void) {
+  checkMechVersion(data: any): IMechData {
+    if (data.cc_ver) return data
+    else return convertMechs(data)
+  },
+  importPilot(data: string, callback: (err: any, result: any) => void) {
     let err = null
     let result = null
     if (!isValidJSON(data)) {
@@ -161,10 +168,6 @@ export default {
       }
     }
     callback(err, result)
-  },
-  checkMechVersion(data: any): IMechData {
-    if (data.cc_ver) return data
-    else return convertMechs(data)
   },
   clipboardConfig(data: string, callback: (err: any, result: any) => void) {
     let err = null

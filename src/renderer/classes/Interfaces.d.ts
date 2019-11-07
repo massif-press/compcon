@@ -42,7 +42,10 @@ declare interface IMechWeaponData extends IEquipmentData {
 
 declare interface IPilotData {
   id: string
-  gistID: string
+  cloudID: string
+  cloudOwnerID: string
+  lastCloudUpdate: string
+  ps_layout: string
   level: number
   callsign: string
   name: string

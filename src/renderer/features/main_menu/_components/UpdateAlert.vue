@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import apis from '@/features/_shared/apis'
+import apis from '@/io/apis'
 import ChangelogPanel from './ChangelogPanel.vue'
 
 export default Vue.extend({

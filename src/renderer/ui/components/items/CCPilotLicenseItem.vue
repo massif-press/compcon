@@ -39,7 +39,7 @@ export default Vue.extend({
     const compendium = getModule(CompendiumStore, this.$store)
     this.color = compendium.referenceByID(
       'Manufacturers',
-      this.pilotLicense.License.source.toUpperCase()
+      this.pilotLicense.License.Source.toUpperCase()
     ).color
   },
 })

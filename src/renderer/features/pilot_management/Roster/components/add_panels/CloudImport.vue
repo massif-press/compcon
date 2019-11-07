@@ -3,8 +3,8 @@
     icon="mdi-cloud-download"
     color="success"
     name="Cloud Import"
-    @clicked="dialog = true"
     small
+    @clicked="dialog = true"
   >
     <v-dialog v-model="dialog" width="50vw">
       <v-card
@@ -16,6 +16,7 @@
         <v-row>
           <v-col cols="7" class="ml-auto mr-auto">
             <v-text-field
+              v-model="importID"
               dark
               autofocus
               label="UND IDENT ID"
@@ -57,7 +58,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import validator from '@/features/pilot_management/logic/validator'
-import apis from '@/features/_shared/apis'
+import apis from '@/io/apis'
 import LoadLog from './loaders/LoadLog.vue'
 import { clipboard } from 'electron'
 import { Pilot } from '@/class'
@@ -67,16 +68,17 @@ export default Vue.extend({
   components: { LoadLog },
   data: () => ({
     dialog: false,
+    importID: '',
     importPilot: null,
     cloudLoading: false,
   }),
   methods: {
     cloudImport() {
-      var vm = this as any
+      const vm = this
       vm.dialog = true
-
       vm.cloudLoading = true
       apis
+        .loadPilot(vm.importID)
         .importPilotGist(vm.shareIDText)
         .then((gist: any) => {
           let newPilotData = JSON.parse(gist.files['pilot.txt'].content)
@@ -91,26 +93,6 @@ export default Vue.extend({
           vm.errorText = 'Pilot Import Failed! Cannot resolve this Share ID'
           vm.cloudLoading = false
         })
-
-      validator.clipboardPilot(clipboard.readText(), function(err, result) {
-        if (err) {
-          //TODO: log this
-          //TODO: notification
-          Vue.nextTick().then(function() {
-            vm.$refs['log'].type(true)
-          })
-        } else {
-          vm.importPilot = Pilot.Deserialize(result)
-          Vue.nextTick().then(function() {
-            vm.$refs['log'].type(false)
-          })
-        }
-      })
-    },
-    confirmImport() {
-      this.importPilot.RenewID()
-      this.$store.dispatch('addPilot', this.importPilot)
-      this.dialog = false
     },
   },
 })

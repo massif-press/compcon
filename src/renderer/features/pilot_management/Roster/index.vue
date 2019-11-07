@@ -19,8 +19,8 @@
         </v-row>
         <add-pilot />
       </v-container>
-      <v-container v-else>
-        <pilot-table :pilots="pilots" />
+      <v-container v-else fluid>
+        <pilot-table :pilots="pilots" class="mx-4" />
         <add-pilot />
       </v-container>
     </v-slide-x-transition>

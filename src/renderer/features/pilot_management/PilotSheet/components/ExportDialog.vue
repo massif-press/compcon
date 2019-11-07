@@ -1,0 +1,99 @@
+<template>
+  <cc-solo-dialog
+    ref="dialog"
+    icon="mdi-account-arrow-right"
+    large
+    no-confirm
+    title="Export Pilot Data"
+  >
+    <v-card-text>
+      <span>A flavorful description...</span>
+      <div v-if="pilot.CloudID" class="flavor-text">
+        <span class="font-weight-bold primary--text">Pilot Share Code:&nbsp;</span>
+        <span>
+          {{ pilot.CloudID }}
+          <cc-tooltip simple inline content="Copy Share Code to clipboard">
+            <v-icon
+              :color="copyConfirm ? 'success' : 'grey'"
+              @click="copyCode()"
+            >{{ copyConfirm ? 'mdi-check-outline': 'mdi-clipboard-text-outline' }}</v-icon>
+          </cc-tooltip>
+          <v-fade-transition>
+            <span v-if="copyConfirm" class="grey--text">Copied!</span>
+          </v-fade-transition>
+          <v-fade-transition>
+            <span v-if="copyConfirm" class="grey--text">Copied!</span>
+          </v-fade-transition>
+        </span>
+      </div>
+      <v-row>
+        <v-col>
+          <v-btn
+            large
+            block
+            tile
+            outlined
+            color="primary"
+            @click="exportPilot()"
+          >Export Pilot Data File</v-btn>
+        </v-col>
+        <v-col cols="auto" class="ml-n1">
+          <cc-tooltip
+            simple
+            inline
+            :content="`This will create a pilot data file on your system that can then be imported into another COMP/CON user's Pilot Roster via the \'Add New Pilot\' > \'Import from File\' option. If this pilot has a cloud save record, that connection will be preserved. `"
+          >
+            <v-icon class="mt-2 ml-n3">mdi-information-outline</v-icon>
+          </cc-tooltip>
+        </v-col>
+      </v-row>
+      <v-row></v-row>
+    </v-card-text>
+  </cc-solo-dialog>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { remote } from 'electron'
+import { saveFile } from '@/io/Data'
+import { Pilot } from '@/class'
+import { clipboard } from 'electron'
+
+export default Vue.extend({
+  name: 'cloud-dialog',
+  props: {
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
+  data: () => ({
+    syncing: false,
+    copyConfirm: false,
+  }),
+  methods: {
+    show() {
+      this.$refs.dialog.show()
+    },
+    hide() {
+      this.$refs.dialog.hide()
+    },
+    exportPilot() {
+      const { dialog } = remote
+      var path = dialog.showSaveDialog({
+        defaultPath: this.pilot.Callsign.toUpperCase().replace(/\W/g, ''),
+        buttonLabel: 'Save Pilot',
+      })
+      saveFile(path + '.json', JSON.stringify(Pilot.Serialize(this.pilot)))
+      this.hide()
+    },
+    copyCode() {
+      this.copyConfirm = true
+      clipboard.writeText(this.pilot.CloudID)
+      setTimeout(() => {
+        this.copyConfirm = false
+      }, 1200)
+    },
+  },
+})
+</script>

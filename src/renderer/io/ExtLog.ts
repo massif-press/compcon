@@ -9,13 +9,13 @@ function ExtLog(s: string): void {
   const logfile = path.join(store.UserDataPath, 'compcon.log')
 
   if (!fs.existsSync(logfile)) {
-    fs.writeFile(logfile, '[]', function(err) {
-      if (err) {
-        alert(`Critical Error: COMP/CON unable to create error log at ${logfile}: \n ${err}`)
-        return
-      }
+    try {
+      fs.writeFileSync(logfile, '[]')
       ExtLog('Created error log')
-    })
+    } catch (err) {
+      alert(`Critical Error: COMP/CON unable to create error log at ${logfile}: \n ${err}`)
+      return
+    }
   }
 
   let log = fs.readFileSync(logfile, 'utf-8') as string

@@ -18,9 +18,15 @@ import {
 } from '@/class'
 import { rules } from 'lancer-data'
 import { store } from '@/store'
+import api from '@/io/apis'
 
 class Pilot {
-  private _gistID: string
+  private _cloudID: string
+  private _cloudOwnerID: string
+  private _lastCloudUpdate: string
+  private _cloud_portrait: string
+
+  private _ps_layout: string
   private _callsign: string
   private _name: string
   private _player_name: string
@@ -34,7 +40,6 @@ class Pilot {
   private _id: string
   private _level: number
   private _portrait: string
-  private _cloud_portrait: string
   private _current_hp: number
   private _background: string
 
@@ -57,7 +62,10 @@ class Pilot {
 
   public constructor() {
     this._id = uuid()
-    this._gistID = ''
+    this._cloudID = ''
+    this._cloudOwnerID = ''
+    this._lastCloudUpdate = ''
+    this._ps_layout = 'tabbed'
     this._level = 0
     this._callsign = ''
     this._name = ''
@@ -116,7 +124,7 @@ class Pilot {
 
   public RenewID(): void {
     this._id = uuid()
-    this._gistID = ''
+    this._cloudID = ''
     this.save()
   }
 
@@ -129,6 +137,11 @@ class Pilot {
     this.save()
   }
 
+  public ApplyLevel(update: IPilotData): void {
+    this.setPilotData(update)
+    this.save()
+  }
+
   public get Background(): string {
     return this._background
   }
@@ -138,12 +151,12 @@ class Pilot {
     this.save()
   }
 
-  public get GistID(): string {
-    return this._gistID
+  public get PilotSheetLayout(): string {
+    return this._ps_layout
   }
 
-  public set GistID(id: string) {
-    this._gistID = id
+  public set PilotSheetLayout(layout: string) {
+    this._ps_layout = layout
     this.save()
   }
 
@@ -239,15 +252,6 @@ class Pilot {
     this.save()
   }
 
-  public SetCloudPortrait(src: string): void {
-    this._cloud_portrait = src
-    this.save()
-  }
-
-  public get CloudPortrait(): string {
-    return this._cloud_portrait
-  }
-
   public SetLocalPortrait(src: string): void {
     this._portrait = src
     this.save()
@@ -262,6 +266,106 @@ class Pilot {
     else if (this._portrait)
       return `file://${store.getters.getUserPath}/img/pilot/${this._portrait}`
     else return ''
+  }
+
+  // -- Cloud -------------------------------------------------------------------------------------
+  public get CloudPortrait(): string {
+    return this._cloud_portrait
+  }
+
+  public set CloudPortrait(src: string) {
+    this._cloud_portrait = src
+    this.save()
+  }
+
+  public get CloudID(): string {
+    return this._cloudID
+  }
+
+  public set CloudID(id: string) {
+    this._cloudID = id
+    this.save()
+  }
+
+  public get CloudOwnerID(): string {
+    return this._cloudOwnerID
+  }
+
+  public set CloudOwnerID(id: string) {
+    this._cloudOwnerID = id
+    this.save()
+  }
+
+  public get LastCloudUpdate(): string {
+    return this._lastCloudUpdate
+  }
+
+  public set LastCloudUpdate(id: string) {
+    this._lastCloudUpdate = id
+    this.save()
+  }
+
+  public get IsUserOwned(): boolean {
+    return this.CloudOwnerID === store.getters.getUserProfile.userID
+  }
+
+  public SetCloudPortrait(): string {
+    if (!this.LocalPortrait) return 'Nothing to upload'
+    api
+      .uploadImage(store.getters.getUserPath, 'portrait', this.LocalPortrait)
+      .then((json: any) => {
+        this.CloudPortrait = json.data.link
+        return 'Image Upload Successful'
+      })
+      .catch(function(err: any) {
+        return `Error Uploading Image: ${err.message}`
+      })
+    return null
+  }
+
+  public async CloudSave(): Promise<any> {
+    if (!this.CloudID) {
+      return api
+        .newPilot(this)
+        .then((response: any) => {
+          this.setCloudInfo(response.id)
+        })
+        .then(() => {
+          this.SetCloudPortrait()
+        })
+    } else {
+      return api
+        .savePilot(this)
+        .then((response: any) => {
+          this.setCloudInfo(response.id)
+        })
+        .then(() => {
+          this.SetCloudPortrait()
+        })
+    }
+  }
+
+  public async CloudLoad(): Promise<any> {
+    if (!this.CloudID) return Promise.reject('No Cloud ID')
+    return api
+      .loadPilot(this.CloudID)
+      .then((gist: any) => {
+        const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
+        this.setPilotData(newPilotData)
+        this.LastCloudUpdate = new Date().toString()
+      })
+  }
+
+  public CloudCopy(): Promise<any> {
+    this.CloudID = ''
+    this.CloudOwnerID = ''
+    return this.CloudSave()
+  }
+
+  public setCloudInfo(id: string): void {
+    this.CloudID = id
+    this.CloudOwnerID = store.getters.getUserProfile.userID
+    this.LastCloudUpdate = new Date().toString()
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -539,6 +643,10 @@ class Pilot {
     return this.CurrentCBPoints === this.MaxCBPoints
   }
 
+  public get CBEligible(): boolean {
+    return this.Level % 3 === 0
+  }
+
   public AddCoreBonus(coreBonus: CoreBonus): void {
     this._core_bonuses.push(coreBonus)
     this.save()
@@ -802,7 +910,10 @@ class Pilot {
   public static Serialize(p: Pilot): IPilotData {
     return {
       id: p.ID,
-      gistID: p.GistID,
+      cloudID: p.CloudID,
+      cloudOwnerID: p.CloudOwnerID,
+      lastCloudUpdate: p.LastCloudUpdate,
+      ps_layout: p.PilotSheetLayout,
       level: p.Level,
       callsign: p.Callsign,
       name: p.Name,
@@ -834,45 +945,52 @@ class Pilot {
 
   public static Deserialize(pilotData: IPilotData): Pilot {
     let p = new Pilot()
-    p._gistID = pilotData.gistID
-    p._id = pilotData.id
-    p._level = pilotData.level
-    p._callsign = pilotData.callsign
-    p._name = pilotData.name
-    p._player_name = pilotData.player_name
-    p._status = pilotData.status || 'ACTIVE'
-    p._factionID = pilotData.factionID
-    p._text_appearance = pilotData.text_appearance
-    p._notes = pilotData.notes
-    p._history = pilotData.history
-    p._portrait = pilotData.portrait
-    p._cloud_portrait = pilotData.cloud_portrait
-    p._quirk = pilotData.quirk
-    p._current_hp = pilotData.current_hp
-    p._background = pilotData.background
-    p._mechSkills = MechSkills.Deserialize(pilotData.mechSkills)
-    p._licenses = pilotData.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
-    p._skills = pilotData.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
-    p._talents = pilotData.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
-    p.CoreBonuses = pilotData.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
-    p._loadouts = pilotData.loadouts.length
-      ? pilotData.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
-      : [new PilotLoadout(0)]
-    p.Reserves = pilotData.reserves
-      ? pilotData.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
-      : []
-    p.Organizations = pilotData.orgs
-      ? pilotData.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
-      : []
-    p._active_loadout = pilotData.active_loadout_index
-      ? p._loadouts[pilotData.active_loadout_index]
-      : p._loadouts[0]
-    p._mechs = pilotData.mechs.length
-      ? pilotData.mechs.map((x: IMechData) => Mech.Deserialize(x, p))
-      : []
-    p._active_mech = pilotData.active_mech
-    p.cc_ver = pilotData.cc_ver || ''
+    p.setPilotData(pilotData)
     return p
+  }
+
+  private setPilotData(data: IPilotData): void {
+    this._cloudID = data.cloudID || ''
+    this._cloudOwnerID = data.cloudOwnerID || ''
+    this._lastCloudUpdate = data.lastCloudUpdate || ''
+    this._ps_layout = data.ps_layout || 'tabbed'
+    this._id = data.id
+    this._level = data.level
+    this._callsign = data.callsign
+    this._name = data.name
+    this._player_name = data.player_name
+    this._status = data.status || 'ACTIVE'
+    this._factionID = data.factionID
+    this._text_appearance = data.text_appearance
+    this._notes = data.notes
+    this._history = data.history
+    this._portrait = data.portrait
+    this._cloud_portrait = data.cloud_portrait
+    this._quirk = data.quirk
+    this._current_hp = data.current_hp
+    this._background = data.background
+    this._mechSkills = MechSkills.Deserialize(data.mechSkills)
+    this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
+    this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
+    this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
+    this.CoreBonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
+    this._loadouts = data.loadouts.length
+      ? data.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
+      : [new PilotLoadout(0)]
+    this.Reserves = data.reserves
+      ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+      : []
+    this.Organizations = data.orgs
+      ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
+      : []
+    this._active_loadout = data.active_loadout_index
+      ? this._loadouts[data.active_loadout_index]
+      : this._loadouts[0]
+    this._mechs = data.mechs.length
+      ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+      : []
+    this._active_mech = data.active_mech
+    this.cc_ver = data.cc_ver || ''
   }
 }
 

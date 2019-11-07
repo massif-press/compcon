@@ -104,7 +104,7 @@
 import Vue from 'vue'
 // import io from '@/features/_shared/data_io'
 import { getImageInfoArray, addImage, removeImage, ImageTag } from '@/io/ImageManagement'
-import apis from '@/features/_shared/apis'
+import apis from '@/io/apis'
 import { Pilot } from '@/class'
 
 export default Vue.extend({

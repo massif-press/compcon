@@ -1,11 +1,14 @@
 <template>
   <v-container fluid class="mt-7">
     <pilot-header />
-    <info-view v-show="page === 0" key="v0" :pilot="pilot" class="pilot-array-item" />
-    <narrative-view v-show="page === 1" key="v1" :pilot="pilot" class="pilot-array-item" />
-    <tactical-view v-show="page === 2" key="v2" :pilot="pilot" class="pilot-array-item" />
-    <mech-hangar-view v-show="page === 3" key="v3" class="pilot-array-item" />
-    <pilot-nav :selected="page" @set-page="page = $event" />
+    <tabbed-layout v-if="layout === 'tabbed'" :page="page" :pilot="pilot" />
+    <classic-layout v-else-if="layout === 'classic'" :page="page" :pilot="pilot" />
+    <pilot-nav
+      :pilot="pilot"
+      :selected="page"
+      @set-page="page = $event"
+      @set-layout="pilot.PilotSheetLayout = $event"
+    />
     <v-spacer style="min-height: 80px" />
   </v-container>
 </template>
@@ -13,18 +16,16 @@
 <script lang="ts">
 import Vue from 'vue'
 import PilotNav from './components/PilotNav.vue'
-import PilotHeader from './views/PilotHeader.vue'
-import NarrativeView from './views/narrative/index.vue'
-import InfoView from './views/info/index.vue'
-import TacticalView from './views/tactical/index.vue'
-import MechHangarView from './views/hangar/index.vue'
+import PilotHeader from './components/PilotHeader.vue'
+import TabbedLayout from './layouts/Tabbed.vue'
+import ClassicLayout from './layouts/Classic.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'pilot-sheet',
-  components: { PilotNav, PilotHeader, NarrativeView, InfoView, TacticalView, MechHangarView },
+  components: { PilotNav, PilotHeader, TabbedLayout, ClassicLayout },
   data: () => ({
     page: 1,
   }),
@@ -32,6 +33,14 @@ export default Vue.extend({
     pilot(): Pilot {
       const store = getModule(PilotManagementStore, this.$store)
       return store.ActivePilot
+    },
+    layout(): string {
+      return this.pilot.PilotSheetLayout
+    },
+  },
+  watch: {
+    layout() {
+      this.page = 0
     },
   },
 })

@@ -32,7 +32,12 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 //   return bArr || []
 // }
 
+interface IUserProfile {
+  id: string
+}
+
 export const SET_DATA_PATH = 'SET_DATA_PATH'
+export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const SET_BREW_ACTIVE = 'SET_BREW_ACTIVE'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
@@ -44,6 +49,7 @@ export const LOAD_BREWS = 'LOAD_BREWS'
 })
 export class CompendiumStore extends VuexModule {
   public UserDataPath = ''
+  public UserProfile = { id: '' }
   public LancerVersion = ''
   public CCVersion = ''
   public Talents: Talent[] = []
@@ -67,6 +73,11 @@ export class CompendiumStore extends VuexModule {
   private [SET_DATA_PATH](userDataPath: string): void {
     this.UserDataPath = userDataPath
     io.checkFolders(userDataPath)
+  }
+
+  @Mutation
+  private [SET_USER_PROFILE](userProfile: IUserProfile): void {
+    this.UserProfile = userProfile
   }
 
   @Mutation
@@ -168,6 +179,10 @@ export class CompendiumStore extends VuexModule {
     return this.UserDataPath
   }
 
+  public get getUserProfile(): IUserProfile {
+    return this.UserProfile
+  }
+
   public get getVersion(): string {
     return this.CCVersion
   }
@@ -185,6 +200,11 @@ export class CompendiumStore extends VuexModule {
   @Action
   public setDatapath(userDataPath: string): void {
     this.context.commit(SET_DATA_PATH, userDataPath)
+  }
+
+  @Action
+  public setUserProfile(userProfile: object): void {
+    this.context.commit(SET_USER_PROFILE, userProfile)
   }
 
   @Action

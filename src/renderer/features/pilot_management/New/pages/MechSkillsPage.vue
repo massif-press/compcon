@@ -18,7 +18,7 @@
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>The RM-4b PILOT SELF ASSESSMENT (Mech Skills) will be transmitted to print staff to finalize the configuration of your issued GMS EVEREST. This configuration data will be remitted to your personal Omninet vault on the validation and acceptance of the RM-4 form along with the issuance of your IDENT fingerprint, which then may be applied to any future Frame(s) at your discretion.</span>
-      <v-alert type="warning" color="primary" outlined class="mt-2">
+      <v-alert color="primary" outlined dense border="left" class="mt-2">
         <b>Add two (2) Mech Skill Points.</b>
         <br />
         <span
@@ -34,7 +34,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'identification-page',
+  name: 'mech-skills-page',
   props: {
     pilot: {
       type: Object,

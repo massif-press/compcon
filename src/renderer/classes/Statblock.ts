@@ -1,7 +1,7 @@
 import { Pilot, Mech } from '@/class'
 
 class Statblock {
-  public static Generate(pilot: Pilot | null, mech: Mech | null): string {
+  public static Generate(pilot?: Pilot, mech?: Mech): string {
     function linebreak(i: number, length: number): string {
       if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
         return '\n  '
@@ -21,7 +21,7 @@ class Statblock {
   pilot.MechSkills.Sys
 } E:${pilot.MechSkills.Eng}\n`
 
-      output += `[ SKILL TRIGGERS ]\n`
+      output += `[ SKILL TRIGGERS ]\n  `
       for (let i = 0; i < pilot.Skills.length; i++) {
         const s = pilot.Skills[i]
         output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(i, pilot.Skills.length)}`
@@ -33,19 +33,23 @@ class Statblock {
         output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.Talents.length)}`
       }
 
-      output += '[ LICENSES ]\n  '
-      for (let i = 0; i < pilot.Licenses.length; i++) {
-        const l = pilot.Licenses[i]
-        output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
-          i,
-          pilot.Licenses.length
-        )}`
+      if (pilot.Licenses.length) {
+        output += '[ LICENSES ]\n  '
+        for (let i = 0; i < pilot.Licenses.length; i++) {
+          const l = pilot.Licenses[i]
+          output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
+            i,
+            pilot.Licenses.length
+          )}`
+        }
       }
 
-      output += '[ CORE BONUSES ]\n  '
-      for (let i = 0; i < pilot.CoreBonuses.length; i++) {
-        const cb = pilot.CoreBonuses[i]
-        output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
+      if (pilot.CoreBonuses.length) {
+        output += '[ CORE BONUSES ]\n  '
+        for (let i = 0; i < pilot.CoreBonuses.length; i++) {
+          const cb = pilot.CoreBonuses[i]
+          output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
+        }
       }
 
       const loadout = pilot.ActiveLoadout
@@ -67,17 +71,19 @@ class Statblock {
     if (pilot && mech) output += '\n----------\n'
 
     if (mech) {
-      output += `« ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${mech.Frame.Name}\n  `
+      output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
       if (!pilot)
-        output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n `
-      output += ` STRUCTURE:${mech.CurrentStructure}${mech.IsActive ? '/' + mech.MaxStructure : ''}`
+        output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
+      output += `  STRUCTURE:${mech.CurrentStructure}${
+        mech.IsActive ? '/' + mech.MaxStructure : ''
+      }`
       output += ` HP:${mech.CurrentHP}${mech.IsActive ? '/' + mech.MaxHP : ''}`
-      output += ` ARMOR:${mech.Armor}\n  `
-      output += `STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
+      output += ` ARMOR:${mech.Armor}\n`
+      output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
       output += ` HEAT:${mech.CurrentHeat}${mech.IsActive ? '/' + mech.HeatCapacity : ''}`
-      output += ` REPAIR:${mech.CurrentRepairs}${mech.IsActive ? '/' + mech.RepairCapacity : ''}`
-      output += `\n  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n  `
-      output += `SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
+      output += ` REPAIR:${mech.CurrentRepairs}${mech.IsActive ? '/' + mech.RepairCapacity : ''}\n`
+      output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
+      output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
       output += '[ WEAPONS ]\n'
       for (const im of mech.IntegratedMounts) {
