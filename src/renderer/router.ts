@@ -6,6 +6,9 @@ import gmToolkitRoutes from './features/gm_toolkit/routes'
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior() {
+    return { x: 0, y: 0 }
+  },
   routes: [
     {
       path: '/',
@@ -39,8 +42,8 @@ export default new Router({
           component: require('@/features/pilot_management/HangarView/index').default,
         },
         {
-          path: '/config',
-          component: require('@/features/pilot_management/ConfigSheet/index').default,
+          path: '/mech',
+          component: require('@/features/pilot_management/MechSheet/index').default,
         },
         {
           path: '/new',
@@ -130,18 +133,18 @@ export default new Router({
         },
       ],
     },
-    {
-      path: '/print-pilot',
-      component: require('@/features/pilot_management/PilotSheet/Print/PrintView').default,
-    },
-    {
-      path: '/print-all',
-      component: require('@/features/pilot_management/PilotSheet/Print/CombinedPrintView').default,
-    },
-    {
-      path: '/print-config',
-      component: require('@/features/pilot_management/ConfigSheet/Print/PrintView').default,
-    },
+    // {
+    //   path: '/print-pilot',
+    //   component: require('@/features/pilot_management/PilotSheet/Print/PrintView').default,
+    // },
+    // {
+    //   path: '/print-all',
+    //   component: require('@/features/pilot_management/PilotSheet/Print/CombinedPrintView').default,
+    // },
+    // {
+    //   path: '/print-config',
+    //   component: require('@/features/pilot_management/ConfigSheet/Print/PrintView').default,
+    // },
     ...gmToolkitRoutes.map(route => ({
       ...route,
       path: route.path.replace(/^\//, '/gm'),

@@ -4,7 +4,7 @@
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
         <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
-          <cc-logo :source="m" size="xLarge" class="pt-4" />
+          <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
           {{ manufacturer(m).name }}
         </span>
         <v-expansion-panels accordion focusable active-class="border-primary">

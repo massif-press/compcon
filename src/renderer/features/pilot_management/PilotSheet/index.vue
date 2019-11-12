@@ -1,13 +1,13 @@
 <template>
   <v-container fluid class="mt-7">
     <pilot-header />
-    <tabbed-layout v-if="layout === 'tabbed'" :page="page" :pilot="pilot" />
-    <classic-layout v-else-if="layout === 'classic'" :page="page" :pilot="pilot" />
+    <tabbed-layout v-if="profile.PilotSheetView === 'tabbed'" :page="page" :pilot="pilot" />
+    <classic-layout v-else-if="profile.PilotSheetView === 'classic'" :page="page" :pilot="pilot" />
     <pilot-nav
       :pilot="pilot"
       :selected="page"
       @set-page="page = $event"
-      @set-layout="pilot.PilotSheetLayout = $event"
+      @set-layout="profile.PilotSheetView = $event"
     />
     <v-spacer style="min-height: 80px" />
   </v-container>
@@ -20,8 +20,9 @@ import PilotHeader from './components/PilotHeader.vue'
 import TabbedLayout from './layouts/Tabbed.vue'
 import ClassicLayout from './layouts/Classic.vue'
 import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
+import { CompendiumStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
+import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'pilot-sheet',
@@ -34,8 +35,9 @@ export default Vue.extend({
       const store = getModule(PilotManagementStore, this.$store)
       return store.ActivePilot
     },
-    layout(): string {
-      return this.pilot.PilotSheetLayout
+    profile(): UserProfile {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile
     },
   },
   watch: {

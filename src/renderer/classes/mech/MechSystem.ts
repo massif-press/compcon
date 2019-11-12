@@ -1,11 +1,15 @@
 import { store } from '@/store'
-import _ from 'lodash'
 import { MechEquipment, SystemType, ItemType } from '@/class'
+import { IMechEquipmentData } from '@/interface'
+
+interface IMechSystemData extends IMechEquipmentData {
+  type: SystemType
+}
 
 class MechSystem extends MechEquipment {
   private _system_type: SystemType
 
-  public constructor(systemData: any) {
+  public constructor(systemData: IMechSystemData) {
     super(systemData)
     this._system_type = systemData.type
     this._item_type = ItemType.MechSystem
@@ -35,4 +39,4 @@ class MechSystem extends MechEquipment {
   }
 }
 
-export default MechSystem
+export { MechSystem, IMechSystemData }

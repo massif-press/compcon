@@ -1,127 +1,14 @@
-import { store } from '@/store'
-import { CompendiumItem, Range, Damage, Tag, ItemType } from '@/class'
+import { PilotEquipment, ItemType } from '@/class'
+import { IPilotEquipmentData } from '@/interface'
 
-abstract class PilotEquipment extends CompendiumItem {
-  private _tags: ITagData[]
-  protected current_uses: number
-
-  public constructor(equipmentData: any) {
-    super(equipmentData)
-    this._tags = equipmentData.tags || []
-    this.current_uses = 0
-  }
-
-  protected save(): void {
-    store.dispatch('saveData')
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
-  }
-
-  public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
-    if (!item) return null
-    return {
-      id: item.ID,
-      destroyed: false,
-      uses: item.current_uses,
-    }
-  }
-
-  public static Deserialize(itemData: IEquipmentData | null): PilotEquipment | null {
-    if (!itemData) return null
-    const item = store.getters.referenceByID('PilotGear', itemData.id)
-    item.current_uses = itemData.uses
-    return item
-  }
-}
-
-class PilotArmor extends PilotEquipment {
-  private hp_bonus: number
-  private speed: number
-  private speed_bonus: number
-  private armor: number
-  private edef: number
-  private edef_bonus: number
-  private evasion: number
-  private evasion_bonus: number
-
-  public constructor(armorData: any) {
-    super(armorData)
-    this.hp_bonus = armorData.hp_bonus || 0
-    this.speed = armorData.speed || 0
-    this.speed_bonus = armorData.speed_bonus || 0
-    this.armor = armorData.armor || 0
-    this.edef = armorData.edef || 0
-    this.edef_bonus = armorData.edef_bonus || 0
-    this.evasion = armorData.evasion || 0
-    this.evasion_bonus = armorData.evasion_bonus || 0
-    this._item_type = ItemType.PilotArmor
-  }
-
-  public get HPBonus(): number {
-    return this.hp_bonus
-  }
-
-  public get Speed(): number {
-    return this.speed
-  }
-
-  public get SpeedBonus(): number {
-    return this.speed_bonus
-  }
-
-  public get Armor(): number {
-    return this.armor
-  }
-
-  public get EDefense(): number {
-    return this.edef
-  }
-
-  public get EDefenseBonus(): number {
-    return this.edef_bonus
-  }
-
-  public get Evasion(): number {
-    return this.evasion
-  }
-
-  public get EvasionBonus(): number {
-    return this.evasion_bonus
-  }
-}
-
-class PilotWeapon extends PilotEquipment {
-  private range: Range
-  private damage: Damage
-  private effect: string
-
-  public constructor(weaponData: any) {
-    super(weaponData)
-    this.range = weaponData.range.map((x: any) => new Range(x))
-    this.damage = weaponData.damage.map((x: any) => new Damage(x))
-    this.effect = weaponData.effect || ''
-    this._item_type = ItemType.PilotWeapon
-  }
-
-  public get Range(): Range {
-    return this.range
-  }
-
-  public get Damage(): Damage {
-    return this.damage
-  }
-
-  public get Effect(): string {
-    return this.effect
-  }
+interface IPilotGearData extends IPilotEquipmentData {
+  uses?: number
 }
 
 class PilotGear extends PilotEquipment {
   private uses?: number
 
-  public constructor(gearData: any) {
+  public constructor(gearData: IPilotGearData) {
     super(gearData)
     this.uses = gearData.uses || null
     this._item_type = ItemType.PilotGear
@@ -143,4 +30,4 @@ class PilotGear extends PilotEquipment {
   }
 }
 
-export { PilotEquipment, PilotArmor, PilotWeapon, PilotGear }
+export { PilotGear, IPilotGearData }

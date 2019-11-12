@@ -7,7 +7,7 @@
         color="primary"
         class="ml-auto"
         style="line-height: 40px"
-      >cci-size-{{ item.size === 0.5 ? 'half' : item.size }}</v-icon>
+      >cci-size-{{ item.size === 0.5 ? 'half' : item.Size }}</v-icon>
     </v-row>
 
     <div v-if="item.Description">

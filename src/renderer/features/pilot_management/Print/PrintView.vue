@@ -63,13 +63,13 @@
       <v-row justify-space-between fill-height>
         <!-- skills -->
         <v-col>
-          <v-row><span class="label">TRIGGERS</span></v-row>
+          <v-row>
+            <span class="label">TRIGGERS</span>
+          </v-row>
           <v-row wrap>
             <div v-for="(i, idx) in pilot.Skills" :key="'skill' + idx" class="ml-2">
               <v-col class="ma-1">
-                <span class="p-large ml-1" style="padding-top:5px">
-                  {{ i.Skill.Trigger }}
-                </span>
+                <span class="p-large ml-1" style="padding-top:5px">{{ i.Skill.Trigger }}</span>
                 <v-chip small outline color="indigo" class="p-large">+{{ i.Bonus }}</v-chip>
               </v-col>
             </div>
@@ -82,15 +82,18 @@
       <!-- talents -->
       <v-row align-space-around justify-space-between fill-height>
         <v-col>
-          <v-row><span class="label">TALENTS</span></v-row>
+          <v-row>
+            <span class="label">TALENTS</span>
+          </v-row>
           <div v-for="(t, idx) in pilot.Talents" :key="'talent' + idx" class="ml-2 mb-1">
             <v-row>
-              <v-icon v-for="n in t.Rank" :key="`talstar_${n}`" small>
-                star
-              </v-icon>
-              <v-icon v-for="n in 3 - t.Rank" :key="`talnot_${n}`" color="grey lighten-1" small>
-                star_outline
-              </v-icon>
+              <v-icon v-for="n in t.Rank" :key="`talstar_${n}`" small>star</v-icon>
+              <v-icon
+                v-for="n in 3 - t.Rank"
+                :key="`talnot_${n}`"
+                color="grey lighten-1"
+                small
+              >star_outline</v-icon>
               <span class="p-large ml-2">{{ t.Talent.Name }}</span>
             </v-row>
             <div class="ml-4">
@@ -119,12 +122,13 @@
             <br />
             <div v-for="l in pilot.Licenses" :key="l.id">
               <v-row>
-                <v-icon v-for="n in l.Rank" :key="`licstar_${n}`" small>
-                  star
-                </v-icon>
-                <v-icon v-for="n in 3 - l.Rank" :key="`licnot_${n}`" color="grey lighten-1" small>
-                  star_outline
-                </v-icon>
+                <v-icon v-for="n in l.Rank" :key="`licstar_${n}`" small>star</v-icon>
+                <v-icon
+                  v-for="n in 3 - l.Rank"
+                  :key="`licnot_${n}`"
+                  color="grey lighten-1"
+                  small
+                >star_outline</v-icon>
                 <span class="p-large ml-2">{{ l.License.Source }} {{ l.License.Name }}</span>
               </v-row>
             </div>
@@ -241,10 +245,10 @@
                       </v-row>
                       <v-row class="mb-1 ml-2">
                         <v-col shrink class="mr-3">
-                          <range-element size="12" :range="i.Range" />
+                          <!-- <range-element size="12" :range="i.Range" /> -->
                         </v-col>
                         <v-col shrink>
-                          <damage-element size="12" :dmg="i.Damage" />
+                          <!-- <damage-element size="12" :dmg="i.Damage" /> -->
                         </v-col>
                         <v-col shrink>
                           <span
@@ -289,32 +293,32 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { RangeElement, DamageElement } from '../../components/UI'
-import { Pilot, PrintOptions, PilotLoadout } from '@/class'
+// import { RangeElement, DamageElement } from '../../components/UI'
+// import { Pilot, PrintOptions, PilotLoadout } from '@/class'
 
 export default Vue.extend({
   name: 'pilot-print-view',
-  components: { RangeElement, DamageElement },
-  data: () => ({
-    pilot: {} as Pilot,
-    loadout: {} as PilotLoadout | null,
-    printOptions: {} as PrintOptions,
-    blockPrint: false,
-  }),
-  created() {
-    this.pilot = this.$store.getters.getPilot
-    this.printOptions = this.$store.getters.getPrintOptions
-    this.loadout = this.pilot.ActiveLoadout
-    if (this.printOptions.combo) this.blockPrint = true
-  },
-  mounted() {
-    if (!this.blockPrint) {
-      window.print()
-      setTimeout(() => {
-        this.$router.push('/pilot')
-      }, 10)
-    }
-  },
+  //   components: { RangeElement, DamageElement },
+  //   data: () => ({
+  //     pilot: {} as Pilot,
+  //     loadout: {} as PilotLoadout | null,
+  //     printOptions: {} as PrintOptions,
+  //     blockPrint: false,
+  //   }),
+  //   created() {
+  //     this.pilot = this.$store.getters.getPilot
+  //     this.printOptions = this.$store.getters.getPrintOptions
+  //     this.loadout = this.pilot.ActiveLoadout
+  //     if (this.printOptions.combo) this.blockPrint = true
+  //   },
+  //   mounted() {
+  //     if (!this.blockPrint) {
+  //       window.print()
+  //       setTimeout(() => {
+  //         this.$router.push('/pilot')
+  //       }, 10)
+  //     }
+  //   },
 })
 </script>
 

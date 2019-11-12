@@ -1,3 +1,5 @@
+// global declaration file for common interfaces that are used too often to warrant placing in @/interfaces
+
 declare interface IDiceStats {
   min: number
   max: number
@@ -35,9 +37,9 @@ declare interface IEquipmentData {
   uses?: number
 }
 
-declare interface IMechWeaponData extends IEquipmentData {
+declare interface IMechWeaponSaveData extends IEquipmentData {
   loaded: boolean
-  mod: string | null
+  mod?: string
 }
 
 declare interface IPilotData {
@@ -45,7 +47,6 @@ declare interface IPilotData {
   cloudID: string
   cloudOwnerID: string
   lastCloudUpdate: string
-  ps_layout: string
   level: number
   callsign: string
   name: string
@@ -146,7 +147,7 @@ declare interface IMechLoadoutData {
   systems: IEquipmentData[]
   integratedSystems: IEquipmentData[]
   mounts: IMountData[]
-  integratedMounts: { weapon: IMechWeaponData; source: string }[]
+  integratedMounts: { weapon: IMechWeaponSaveData; source: string }[]
   improved_armament: IMountData
   integratedWeapon: IMountData
   retrofitIndex: number | null
@@ -163,7 +164,7 @@ declare interface IMountData {
 
 declare interface IWeaponSlotData {
   size: string
-  weapon: IMechWeaponData | null
+  weapon: IMechWeaponSaveData | null
 }
 
 declare interface ITagData {
@@ -185,4 +186,34 @@ declare interface ISnackbarSettings {
   timeout?: number
   color?: string
   visible?: boolean
+}
+
+declare interface Brew {
+  info: string
+  dir: string
+}
+
+declare interface PrintOptions {
+  mech_id: string
+  loadout_index: number
+  combo: boolean
+}
+
+declare interface Faction {
+  id: string
+  name: string
+  description: string
+  logo: string
+  color: string
+}
+
+declare interface Status {
+  name: string
+  type: string
+  effects: string[]
+}
+
+declare interface FrameTrait {
+  name: string
+  description: string
 }

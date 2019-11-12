@@ -1,6 +1,8 @@
 import _ from 'lodash'
 import io from '../data_io'
 import lancerData from 'lancer-data'
+import { getUser, UserProfile } from '@/io/User'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,
   CoreBonus,
@@ -16,11 +18,20 @@ import {
   Talent,
   Reserve,
   Manufacturer,
-  Status,
-  Brew,
-  Faction,
 } from '@/class'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import {
+  ICoreBonusData,
+  ITalentData,
+  IFrameData,
+  IMechWeaponData,
+  ISkillData,
+  IPilotArmorData,
+  IPilotGearData,
+  IPilotWeaponData,
+  IWeaponModData,
+  IMechSystemData,
+  IManufacturerData,
+} from '@/interface'
 
 // function stageBrewData(userDataPath: string, brewDataFolder: string, file: string): void {
 //   const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
@@ -32,12 +43,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 //   return bArr || []
 // }
 
-interface IUserProfile {
-  id: string
-}
-
 export const SET_DATA_PATH = 'SET_DATA_PATH'
-export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const SET_BREW_ACTIVE = 'SET_BREW_ACTIVE'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
@@ -48,10 +54,10 @@ export const LOAD_BREWS = 'LOAD_BREWS'
   name: 'datastore',
 })
 export class CompendiumStore extends VuexModule {
-  public UserDataPath = ''
-  public UserProfile = { id: '' }
-  public LancerVersion = ''
-  public CCVersion = ''
+  public UserDataPath: string = ''
+  public LancerVersion: string = ''
+  public CCVersion: string = ''
+  public UserProfile: UserProfile = {} as any
   public Talents: Talent[] = []
   public Skills: Skill[] = []
   public CoreBonuses: CoreBonus[] = []
@@ -75,11 +81,7 @@ export class CompendiumStore extends VuexModule {
     io.checkFolders(userDataPath)
   }
 
-  @Mutation
-  private [SET_USER_PROFILE](userProfile: IUserProfile): void {
-    this.UserProfile = userProfile
-  }
-
+  // TODO: just set as part of the data loader
   @Mutation
   private [SET_VERSIONS](lancer: string, cc: string): void {
     this.LancerVersion = lancer
@@ -101,23 +103,24 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_DATA](): void {
-    this.CoreBonuses = lancerData.core_bonuses.map((x: any) => new CoreBonus(x))
-    this.Talents = lancerData.talents.map((x: any) => new Talent(x))
-    this.Skills = lancerData.skills.map((x: any) => new Skill(x))
-    this.Frames = lancerData.frames.map((x: any) => new Frame(x))
-    this.MechWeapons = lancerData.weapons.map((x: any) => new MechWeapon(x))
-    this.WeaponMods = lancerData.mods.map((x: any) => new WeaponMod(x))
-    this.MechSystems = lancerData.systems.map((x: any) => new MechSystem(x))
-    this.Tags = lancerData.tags.map((x: any) => new Tag(x))
+    this.UserProfile = getUser()
+    this.CoreBonuses = lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x))
+    this.Talents = lancerData.talents.map((x: ITalentData) => new Talent(x))
+    this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
+    this.Frames = lancerData.frames.map((x: IFrameData) => new Frame(x))
+    this.MechWeapons = lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x))
+    this.WeaponMods = lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x))
+    this.MechSystems = lancerData.systems.map((x: IMechSystemData) => new MechSystem(x))
+    this.Tags = lancerData.tags.map((x: ITagData) => new Tag(x))
     this.PilotGear = lancerData.pilot_gear.map(function(x: any) {
-      if (x.type === 'weapon') return new PilotWeapon(x)
-      else if (x.type === 'armor') return new PilotArmor(x)
-      return new PilotGear(x)
+      if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+      else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+      return new PilotGear(x as IPilotGearData)
     })
-    this.Manufacturers = lancerData.manufacturers
+    this.Manufacturers = lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x))
+    this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
-    this.Reserves = lancerData.reserves.map((x: any) => new Reserve(x))
     // this.Brews = io.findBrewData(this.UserDataPath)
   }
 
@@ -179,7 +182,7 @@ export class CompendiumStore extends VuexModule {
     return this.UserDataPath
   }
 
-  public get getUserProfile(): IUserProfile {
+  public get getUserProfile(): UserProfile {
     return this.UserProfile
   }
 
@@ -200,11 +203,6 @@ export class CompendiumStore extends VuexModule {
   @Action
   public setDatapath(userDataPath: string): void {
     this.context.commit(SET_DATA_PATH, userDataPath)
-  }
-
-  @Action
-  public setUserProfile(userProfile: object): void {
-    this.context.commit(SET_USER_PROFILE, userProfile)
   }
 
   @Action

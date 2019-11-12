@@ -8,48 +8,55 @@ class MechSkills {
   private sys: number
   private eng: number
 
-  constructor(h?: number, a?: number, s?: number, e?: number) {
+  public constructor(h?: number, a?: number, s?: number, e?: number) {
     this.hull = h || 0
     this.agi = a || 0
     this.sys = s || 0
     this.eng = e || 0
   }
 
+  private save(): void {
+    store.dispatch('saveData')
+  }
+
   public get Hull(): number {
     return this.hull
   }
-  public get Agi(): number {
-    return this.agi
-  }
-  public get Sys(): number {
-    return this.sys
-  }
-  public get Eng(): number {
-    return this.eng
-  }
+
   public set Hull(val: number) {
     this.hull = val
   }
+
+  public get Agi(): number {
+    return this.agi
+  }
+
   public set Agi(val: number) {
     this.agi = val
   }
+
+  public get Sys(): number {
+    return this.sys
+  }
+
   public set Sys(val: number) {
     this.sys = val
   }
+
+  public get Eng(): number {
+    return this.eng
+  }
+
   public set Eng(val: number) {
     this.eng = val
   }
 
-  private save() {
-    store.dispatch('saveData')
-  }
-
-  public Increment(field: HASE) {
+  public Increment(field: HASE): void {
     if (this[field] < rules.max_hase) this[field] += 1
     this.save()
   }
 
-  public Decrement(field: HASE) {
+  public Decrement(field: HASE): void {
     if (this[field] > 0) this[field] -= 1
     this.save()
   }
@@ -62,7 +69,7 @@ class MechSkills {
     return [item.Hull, item.Agi, item.Sys, item.Eng]
   }
 
-  public static Deserialize(itemData: number[]) {
+  public static Deserialize(itemData: number[]): MechSkills {
     return new MechSkills(itemData[0], itemData[1], itemData[2], itemData[3])
   }
 }

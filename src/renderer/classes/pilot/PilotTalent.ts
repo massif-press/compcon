@@ -4,7 +4,7 @@ class PilotTalent {
   private talent: Talent
   private rank: number
 
-  constructor(talent: Talent, rank?: number) {
+  public constructor(talent: Talent, rank?: number) {
     this.talent = talent
     this.rank = rank ? rank : 1
   }
@@ -33,7 +33,7 @@ class PilotTalent {
     return { id: item.Talent.ID, rank: item.Rank }
   }
 
-  public static Deserialize(itemData: IRankedData) {
+  public static Deserialize(itemData: IRankedData): PilotTalent {
     return new PilotTalent(Talent.Deserialize(itemData.id), itemData.rank)
   }
 }

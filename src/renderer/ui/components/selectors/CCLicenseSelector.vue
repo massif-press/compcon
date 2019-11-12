@@ -4,7 +4,7 @@
       <v-row v-for="pl in pilot.Licenses" :key="`summary_${pl.License.Name}`">
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
         <span v-else>
-          <v-icon :color="manufacturer(pl.License.Source).color">cci-rank-{{ pl.Rank }}</v-icon>
+          <v-icon :color="manufacturer(pl.License.Source).Color">cci-rank-{{ pl.Rank }}</v-icon>
           <strong>{{ pl.License.Name }}</strong>
         </span>
       </v-row>

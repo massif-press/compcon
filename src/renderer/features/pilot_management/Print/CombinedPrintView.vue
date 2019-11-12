@@ -1,19 +1,19 @@
 <template>
   <div>
-    <pilot-view />
+    <!-- <pilot-view />
     <div style="page-break-before: always;"></div>
-    <config-view />
+    <config-view />-->
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import PilotView from './PrintView.vue'
-import ConfigView from '../../ConfigSheet/Print/PrintView.vue'
+// import PilotView from './PrintView.vue'
+// import ConfigView from '../../ConfigSheet/Print/PrintView.vue'
 
 export default Vue.extend({
   name: 'combined-print',
-  components: { PilotView, ConfigView },
+  // components: { PilotView, ConfigView },
   mounted() {
     window.print()
     setTimeout(() => {

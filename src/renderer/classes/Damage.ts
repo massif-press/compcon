@@ -2,13 +2,19 @@ import { DamageType } from '@/class'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
+interface IDamageData {
+  type: string
+  val: string | number
+  override: boolean
+}
+
 class Damage {
   private _damage_type: DamageType
   private _value: string
   private _raw_value: string | number
   private _override: boolean
 
-  public constructor(damage: { type: string; val: string | number; override: boolean }) {
+  public constructor(damage: IDamageData) {
     this._damage_type = this.getDamageType(damage.type)
     this._raw_value = damage.val
     this._value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
@@ -69,4 +75,4 @@ class Damage {
   }
 }
 
-export default Damage
+export { Damage, IDamageData }

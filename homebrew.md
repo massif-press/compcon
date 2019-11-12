@@ -6,7 +6,7 @@ A good working example of custom data can be found [here](https://github.com/jar
 
 An empty set of datafiles has been created for your convienience [here](https://github.com/jarena3/compcon-extra/tree/master/Blank)
 
-If there are any questions, please find me in the `#resource-hub` channel on the official LANCER Discord
+If there are any questions, please find me in the `#comp-con` channel on the official LANCER Discord
 
 ## Adding Content to COMP/CON
 

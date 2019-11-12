@@ -1,12 +1,19 @@
-import { CompendiumItem, ItemType } from '@/class'
+import { CompendiumItem, ItemType, Manufacturer } from '@/class'
 import { store } from '@/store'
+import { ICompendiumItemData } from '@/interface'
+
+interface ICoreBonusData extends ICompendiumItemData {
+  source: string
+  effect: string
+  mounted_effect?: string
+}
 
 class CoreBonus extends CompendiumItem {
   private _source: string
   private _effect: string
   private _mounted_effect: string
 
-  public constructor(cbData?: any) {
+  public constructor(cbData?: ICoreBonusData) {
     super(cbData)
     this._source = cbData.source
     this._effect = cbData.effect
@@ -16,6 +23,10 @@ class CoreBonus extends CompendiumItem {
 
   public get Source(): string {
     return this._source
+  }
+
+  public get Manufacturer(): Manufacturer {
+    return store.getters.referenceByID('Manufacturers', this._source)
   }
 
   public get Effect(): string {
@@ -31,4 +42,4 @@ class CoreBonus extends CompendiumItem {
   }
 }
 
-export default CoreBonus
+export { CoreBonus, ICoreBonusData }

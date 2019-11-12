@@ -26,7 +26,6 @@ class Pilot {
   private _lastCloudUpdate: string
   private _cloud_portrait: string
 
-  private _ps_layout: string
   private _callsign: string
   private _name: string
   private _player_name: string
@@ -65,7 +64,6 @@ class Pilot {
     this._cloudID = ''
     this._cloudOwnerID = ''
     this._lastCloudUpdate = ''
-    this._ps_layout = 'tabbed'
     this._level = 0
     this._callsign = ''
     this._name = ''
@@ -148,15 +146,6 @@ class Pilot {
 
   public set Background(bg: string) {
     this._background = bg
-    this.save()
-  }
-
-  public get PilotSheetLayout(): string {
-    return this._ps_layout
-  }
-
-  public set PilotSheetLayout(layout: string) {
-    this._ps_layout = layout
     this.save()
   }
 
@@ -347,13 +336,11 @@ class Pilot {
 
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
-    return api
-      .loadPilot(this.CloudID)
-      .then((gist: any) => {
-        const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
-        this.setPilotData(newPilotData)
-        this.LastCloudUpdate = new Date().toString()
-      })
+    return api.loadPilot(this.CloudID).then((gist: any) => {
+      const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
+      this.setPilotData(newPilotData)
+      this.LastCloudUpdate = new Date().toString()
+    })
   }
 
   public CloudCopy(): Promise<any> {
@@ -892,17 +879,18 @@ class Pilot {
     return this._mechs.find(x => x.ID === this._active_mech) || null
   }
 
-  public set ActiveMech(config: Mech | null) {
+  public set ActiveMech(mech: Mech | null) {
     this._mechs.forEach(m => {
       m.Active = false
     })
 
-    if (!config) {
+    if (!mech) {
       this.save()
       return
     }
-    config.Active = true
-    this._active_mech = config.ID
+    
+    mech.Active = true
+    this._active_mech = mech.ID
     this.save()
   }
 
@@ -913,7 +901,6 @@ class Pilot {
       cloudID: p.CloudID,
       cloudOwnerID: p.CloudOwnerID,
       lastCloudUpdate: p.LastCloudUpdate,
-      ps_layout: p.PilotSheetLayout,
       level: p.Level,
       callsign: p.Callsign,
       name: p.Name,
@@ -953,7 +940,6 @@ class Pilot {
     this._cloudID = data.cloudID || ''
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''
-    this._ps_layout = data.ps_layout || 'tabbed'
     this._id = data.id
     this._level = data.level
     this._callsign = data.callsign

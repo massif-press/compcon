@@ -4,7 +4,13 @@
       <v-row style="position:absolute; z-index: 10" class="py-2">
         <v-col dense cols="1" class="ml-n3 mr-4">
           <v-icon v-if="rank" size="50" color="primary" class="d-inline">cci-rank-{{ rank }}</v-icon>
-          <cc-logo v-else size="xLarge" color="grey" class="d-inline" :source="license.Source" />
+          <cc-logo
+            v-else
+            size="xLarge"
+            color="grey"
+            class="d-inline"
+            :source="license.Manufacturer"
+          />
         </v-col>
         <v-col dense class="ml-2">
           <span class="caption">{{ frame(license.FrameID).Source }}</span>

@@ -35,7 +35,7 @@ import SectionEditChip from '../../components/SectionEditChip.vue'
 import NoDataBlock from '../../components/NoDataBlock.vue'
 
 export default Vue.extend({
-  name: 'skill-block',
+  name: 'license-block',
   components: { SectionEditChip, NoDataBlock },
   props: {
     pilot: {

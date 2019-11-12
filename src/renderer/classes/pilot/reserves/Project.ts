@@ -7,14 +7,14 @@ class Project extends Reserve {
   private _progress: number
   private _requirements: string[]
 
-  public constructor(projectData: any) {
-    super(projectData)
+  public constructor(data: IProjectData) {
+    super(data)
     this.type = ReserveType.Project
-    this._complicated = projectData.complicated
-    this._can_finish = projectData.can_finish
-    this._finished = projectData.finished
-    this._progress = projectData.progress
-    this._requirements = projectData.requirements
+    this._complicated = data.complicated
+    this._can_finish = data.can_finish
+    this._finished = data.finished
+    this._progress = data.progress
+    this._requirements = data.requirements
   }
 
   public get IsComplicated(): boolean {

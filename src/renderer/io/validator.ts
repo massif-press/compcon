@@ -96,7 +96,6 @@ function convertPilot(old: any): IPilotData {
     cloudID: old.cloudID || old.gistID || '',
     cloudOwnerID: '',
     lastCloudUpdate: '',
-    ps_layout: 'tabbed',
     level: old.level,
     callsign: old.callsign,
     name: old.name,

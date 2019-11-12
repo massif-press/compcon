@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import _ from 'lodash'
-import { LicensedItem, Frame } from '@/class'
+import { LicensedItem, Frame, Manufacturer } from '@/class'
 
 class License {
   private _frame_id: string
@@ -38,6 +38,10 @@ class License {
 
   public get Source(): string {
     return this._source
+  }
+
+  public get Manufacturer(): Manufacturer {
+    return store.getters.referenceByID('Manufacturers', this._source)
   }
 
   public get FrameID(): string {

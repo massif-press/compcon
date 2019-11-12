@@ -11,9 +11,17 @@ import {
   DamageType,
   RangeType,
 } from '@/class'
+import { IMechEquipmentData, IDamageData, IRangeData } from '@/interface'
 
 // TODO:
 // class WeaponAmmo {}
+
+interface IMechWeaponData extends IMechEquipmentData {
+  mount: WeaponSize
+  type: WeaponType
+  damage: IDamageData[]
+  range: IRangeData[]
+}
 
 class MechWeapon extends MechEquipment {
   private _size: WeaponSize
@@ -24,12 +32,12 @@ class MechWeapon extends MechEquipment {
   private _mod: WeaponMod | null
   // private ammo?: WeaponAmmo | null;
 
-  public constructor(weaponData: any) {
+  public constructor(weaponData: IMechWeaponData) {
     super(weaponData)
     this._size = weaponData.mount
     this._weapon_type = weaponData.type
-    if (weaponData._damage) this._damage = weaponData._damage.map((x: any) => new Damage(x))
-    if (weaponData._range) this._range = weaponData._range.map((x: any) => new Range(x))
+    if (weaponData.damage) this._damage = weaponData.damage.map(x => new Damage(x))
+    if (weaponData.range) this._range = weaponData.range.map(x => new Range(x))
     this._loaded = true
     this._mod = null
     this._item_type = ItemType.MechWeapon
@@ -92,7 +100,7 @@ class MechWeapon extends MechEquipment {
   //   return this.ammo || null;
   // }
 
-  public static Serialize(item: MechWeapon): IMechWeaponData {
+  public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
       uses: item.Uses || 0,
@@ -102,7 +110,7 @@ class MechWeapon extends MechEquipment {
     }
   }
 
-  public static Deserialize(itemData: IMechWeaponData): MechWeapon {
+  public static Deserialize(itemData: IMechWeaponSaveData): MechWeapon {
     let item = store.getters.instantiate('MechWeapons', itemData.id)
     item.uses = itemData.uses || 0
     item.destroyed = itemData.destroyed || false
@@ -112,4 +120,4 @@ class MechWeapon extends MechEquipment {
   }
 }
 
-export default MechWeapon
+export { MechWeapon, IMechWeaponData }

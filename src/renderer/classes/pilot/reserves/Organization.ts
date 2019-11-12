@@ -9,20 +9,13 @@ class Organization {
   private _influence: number
   private _actions: string
 
-  public constructor(
-    name: string,
-    purpose: OrgType,
-    efficiency: number,
-    influence: number,
-    description: string,
-    actions: string
-  ) {
-    this._name = name
-    this._purpose = purpose
-    this._efficiency = efficiency
-    this._influence = influence
-    this._description = description
-    this._actions = actions
+  public constructor(data: IOrganizationData) {
+    this._name = data.name
+    this._purpose = data.purpose as OrgType
+    this._efficiency = data.efficiency
+    this._influence = data.influence
+    this._description = data.description
+    this._actions = data.actions
   }
 
   private save(): void {
@@ -96,14 +89,7 @@ class Organization {
   }
 
   public static Deserialize(data: IOrganizationData): Organization {
-    return new Organization(
-      data.name,
-      OrgType[data.purpose],
-      data.efficiency,
-      data.influence,
-      data.description,
-      data.actions
-    )
+    return new Organization(data)
   }
 }
 

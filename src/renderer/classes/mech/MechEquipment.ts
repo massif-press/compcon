@@ -1,4 +1,13 @@
 import { LicensedItem, Tag } from '@/class'
+import { ILicensedItemData } from '@/interface'
+
+interface IMechEquipmentData extends ILicensedItemData {
+  sp: number
+  tags: ITagData[]
+  effect: string
+  talent_item?: boolean
+  frame_id?: boolean
+}
 
 abstract class MechEquipment extends LicensedItem {
   protected sp: number
@@ -8,11 +17,11 @@ abstract class MechEquipment extends LicensedItem {
   private _uses: number
   private _destroyed: boolean
 
-  public constructor(itemData: any) {
+  public constructor(itemData: IMechEquipmentData) {
     super(itemData)
     this.sp = itemData.sp || 0
     this.tags = itemData.tags
-    this._effect = itemData._effect
+    this._effect = itemData.effect
     this._integrated = itemData.talent_item || itemData.frame_id || false
     this._uses = this.MaxUses
     this._destroyed = false
@@ -68,4 +77,4 @@ abstract class MechEquipment extends LicensedItem {
   }
 }
 
-export default MechEquipment
+export { MechEquipment, IMechEquipmentData }

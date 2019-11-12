@@ -11,9 +11,6 @@ yarn
 # serve dev
 yarn dev
 
-# build electron application for production
-yarn dist
-
 ```
 
 ---

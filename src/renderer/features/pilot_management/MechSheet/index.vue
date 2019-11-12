@@ -35,9 +35,7 @@
                 large
                 flat
                 class="ml-0 pl-1 pr-1 pt-4 pb-0"
-              >
-                {{ config.Frame.Source }} {{ config.Frame.Name }}
-              </v-btn>
+              >{{ config.Frame.Source }} {{ config.Frame.Name }}</v-btn>
               <v-card-text slot="modal-content" v-html="config.Frame.description" />
             </lazy-dialog>
           </v-col>
@@ -61,10 +59,8 @@
             <v-row>
               <v-col>
                 <span class="white--text fluff-text ml-2">
-                  {{ getManufacturer(config.Frame.Source).Name }}
-                  <v-chip small outline pill color="white">
-                    {{ config.Frame.MechTypeString }} Mech
-                  </v-chip>
+                  {{ Frame.Manufacturer.Name }}
+                  <v-chip small outline pill color="white">{{ config.Frame.MechTypeString }} Mech</v-chip>
                 </span>
               </v-col>
             </v-row>
@@ -117,8 +113,7 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>WARNING: UNLICENSED COMPONENTS</b>
-                  <br />
-                  Pilot is missing one or more licenses required for this configuration
+                  <br />Pilot is missing one or more licenses required for this configuration
                 </v-alert>
               </v-col>
             </v-row>
@@ -126,8 +121,7 @@
               <v-col class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="config.CurrentSP > config.MaxSP">
                   <b>WARNING: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />
-                  Configuration loadout exceeds available SP points (
+                  <br />Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -148,9 +142,7 @@
                 appearanceLoader = true
                 appearanceModal = true
               "
-            >
-              Set Custom Image
-            </v-btn>
+            >Set Custom Image</v-btn>
           </v-col>
           <image-selector
             :model="appearanceModal"
@@ -325,7 +317,9 @@
               </div>
               <v-card-title class="title">
                 {{ config.Frame.CoreSystem.Active }}
-                <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
+                <span
+                  class="pt-2 ml-2 caption grey--text"
+                >(ACTIVE)</span>
               </v-card-title>
               <v-card-text class="mt-0 pt-0 mb-0 pb-1">
                 <p class="mb-1" v-html="config.Frame.CoreSystem.Effect" />
@@ -349,8 +343,7 @@
       <v-row justify-space-around fill-height class="ma-5">
         <v-col xs>
           <v-btn large color="primary" outline block @click="openPrintOptions(false)">
-            <v-icon>print</v-icon>
-            &nbsp; PRINT
+            <v-icon>print</v-icon>&nbsp; PRINT
           </v-btn>
           <v-btn color="primary" small flat block @click="copyConfigStatblock()">
             copy config statblock &nbsp;
@@ -379,8 +372,7 @@
                   :value="config.RequiredLicenses.filter(x => x.missing).length"
                 >
                   <b>CRITICAL: UNLICENSED COMPONENTS</b>
-                  <br />
-                  Pilot is missing one or more licenses required for this configuration.
+                  <br />Pilot is missing one or more licenses required for this configuration.
                 </v-alert>
               </v-col>
             </v-row>
@@ -388,8 +380,7 @@
               <v-col class="mr-3 ml-3 mt-0">
                 <v-alert type="error" :value="config.CurrentSP > config.MaxSP">
                   <b>CRITICAL: SYSTEM CAPACITY EXCEEDED</b>
-                  <br />
-                  Configuration loadout exceeds available SP points (
+                  <br />Configuration loadout exceeds available SP points (
                   <b>{{ config.CurrentSP }} SP used</b>
                   , {{ config.MaxSP }} SP available)
                 </v-alert>
@@ -410,8 +401,7 @@
               <v-col class="mr-3 ml-3 mt-0">
                 <v-alert type="warning" :value="hasEmptyMounts()">
                   <b>WARNING: EMPTY MOUNTS DETECTED</b>
-                  <br />
-                  Configuration has mounts that do not contain an equipped weapon. Combat efficacy
+                  <br />Configuration has mounts that do not contain an equipped weapon. Combat efficacy
                   limited.
                 </v-alert>
               </v-col>

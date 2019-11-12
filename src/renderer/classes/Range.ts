@@ -2,13 +2,20 @@ import { RangeType } from '@/class'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
+interface IRangeData {
+  type: string
+  val: number
+  override: boolean
+  bonus?: number
+}
+
 class Range {
   private _range_type: RangeType
   private _value: number
   private _override: boolean
   private _bonus: number
 
-  public constructor(range: { type: string; val: number; override: boolean; bonus?: number }) {
+  public constructor(range: IRangeData) {
     this._range_type = range.type as RangeType
     this._value = range.val
     this._override = range.override || false
@@ -62,4 +69,4 @@ class Range {
   }
 }
 
-export default Range
+export { Range, IRangeData }
