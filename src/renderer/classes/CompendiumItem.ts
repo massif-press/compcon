@@ -1,7 +1,16 @@
 import { store } from '@/store'
 import { ItemType } from '@/class'
+
 // items that are stored as compendium data, refernced by ID and contain
 // at minimum a name, itemtype, and brew
+
+interface ICompendiumItemData {
+  id: string
+  name: string
+  description: string
+  brew?: string
+}
+
 abstract class CompendiumItem {
   private _id: string
   protected _name: string
@@ -11,7 +20,7 @@ abstract class CompendiumItem {
   private _brew: string
   private _err?: string
 
-  public constructor(itemData?: any) {
+  public constructor(itemData?: ICompendiumItemData) {
     if (itemData) {
       this._id = itemData.id
       this._name = itemData.name
@@ -63,44 +72,4 @@ abstract class CompendiumItem {
   }
 }
 
-// these items are unlocked via pilots ranking up in a specific frame license
-abstract class LicensedItem extends CompendiumItem {
-  private _source: string
-  private _license: string
-  private _license_level: number
-
-  public constructor(itemData?: any) {
-    super(itemData)
-    this._source = itemData.source || ''
-    this._license = itemData.license || ''
-    this._license_level = this._source === 'GMS' ? 0 : itemData.license_level
-  }
-
-  public get Source(): string {
-    return this._source.toUpperCase()
-  }
-
-  public get License(): string {
-    return this.ItemType === ItemType.Frame ? this.Name : this._license
-  }
-
-  public get LicenseLevel(): number {
-    return this.ItemType === ItemType.Frame ? 2 : this._license_level
-  }
-
-  public get LicenseString(): string {
-    if (this._license) return `${this._license} ${this._license_level}`
-    return this._source
-  }
-
-  public get RequiredLicense(): ILicenseRequirement {
-    return {
-      source: this.Source,
-      name: this.License,
-      rank: this.LicenseLevel,
-      items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
-    }
-  }
-}
-
-export { CompendiumItem, LicensedItem }
+export { CompendiumItem, ICompendiumItemData }

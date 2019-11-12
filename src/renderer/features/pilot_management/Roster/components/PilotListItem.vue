@@ -13,7 +13,7 @@
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
-      <div style="width: 100%" class="overlay primary">
+      <div style="width: 100%" class="overlay primary sliced">
         <h2 class="heading callsign" style="margin-left: 150px;">{{ pilot.Callsign }}</h2>
       </div>
       <div style="margin-right: 30px; border-top: 0!important" class="panel-block">
@@ -22,11 +22,14 @@
             <span class="grey--text">>IDENT//[</span>
             <b class="black--text">{{ pilot.Name }}</b>
             <span class="grey--text">] -</span>
+            <span class="grey--text">>STATUS//[</span>
+            <span :class="`${statusColor(pilot.Status)}--text`">{{ pilot.Status }}</span>
+            <span class="grey--text">] -</span>
             <span class="text--text">
               {{ pilot.Background.Name }}
               <span
                 class="grey--text"
-              >&emsp;UNB::LNCR//OPCON_ID > [{{ pilot.ID }}] (CHECKSUM OK)</span>
+              >&emsp;UNB::LNCR//OPCON_ID > (CHECKSUM OK)</span>
             </span>
           </p>
           <p class="flavor-text mb-0">
@@ -52,16 +55,13 @@
             </span>
           </p>
           <p v-if="pilot.ActiveMech" class="flavor-text mb-0">
-            <span class="grey--text">ACTIVE FRAME CONFIG //</span>
+            <span class="grey--text">UNB::LNCR//CAV - ACTIVE FRAME //</span>
             <span
               class="text--text"
             >{{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}</span>
             <span class="grey--text">[</span>
             <span class="text--text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
             <span class="grey--text">]</span>
-            <span
-              class="grey--text"
-            >&emsp;UNB::LNCR//CAV_ID > [{{ pilot.ActiveMech.ID }}] (REGISTRATION FOUND)</span>
           </p>
         </div>
       </div>
@@ -75,7 +75,7 @@ import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
-  name: 'cc-pilot-card',
+  name: 'cc-pilot-list-item',
   props: {
     pilot: {
       type: Object,
@@ -87,6 +87,19 @@ export default Vue.extend({
       const store = getModule(PilotManagementStore, this.$store)
       store.ActivePilot = this.pilot
       this.$router.push('./pilot')
+    },
+    statusColor(status: string): string {
+      switch (status.toLowerCase()) {
+        case 'active':
+          return 'success'
+          break
+        case 'mia':
+        case 'kia':
+          return 'error'
+        default:
+          return 'text'
+          break
+      }
     },
   },
 })

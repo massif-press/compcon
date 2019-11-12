@@ -112,9 +112,9 @@ export default Vue.extend({
     historyNav: function(dir: number) {
       this.$router.go(dir)
     },
-    toConfigSheet(mech) {
+    toMechSheet(mech) {
       this.pilot.LoadedMech = mech
-      this.$router.push('./config')
+      this.$router.push('./mech')
     },
   },
 })

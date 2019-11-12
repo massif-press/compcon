@@ -1,6 +1,5 @@
-import _ from 'lodash'
 import { store } from '@/store'
-import { MechWeapon, WeaponSlot, CoreBonus, MountType, FittingSize, WeaponSize } from '@/class'
+import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {
   private _mount_type: MountType
@@ -75,94 +74,4 @@ abstract class Mount {
     return this.lock
   }
 }
-
-class IntegratedMount extends Mount {
-  private _item_source: string
-
-  public constructor(intWeapon: MechWeapon, itemSource: string) {
-    super(MountType.Integrated)
-    this.slots[0].EquipWeapon(intWeapon)
-    this._item_source = itemSource
-  }
-
-  public get Weapon(): MechWeapon | null {
-    return this.slots[0].Weapon
-  }
-
-  public get ItemSource(): string {
-    return this._item_source
-  }
-
-  public static Serialize(m: IntegratedMount): { weapon: IMechWeaponData; source: string } {
-    return {
-      weapon: MechWeapon.Serialize(m.Weapon),
-      source: m.ItemSource,
-    }
-  }
-
-  public static Deserialize(mountData: any): IntegratedMount {
-    return new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), mountData.source)
-  }
-}
-
-class EquippableMount extends Mount {
-  private bonus_effects: CoreBonus[]
-
-  public constructor(mtype: MountType) {
-    super(mtype)
-    this.bonus_effects = []
-  }
-
-  public Lock(): void {
-    this.lock = true
-    this.save()
-  }
-
-  public Unlock(): void {
-    this.lock = false
-    this.save()
-  }
-
-  public Clear(): void {
-    this.Slots.forEach(s => {
-      s.UnequipWeapon()
-    })
-    this.save()
-  }
-
-  public AddCoreBonus(cb: CoreBonus): void {
-    this.bonus_effects.push(cb)
-    this.save()
-  }
-
-  public RemoveCoreBonus(cb: CoreBonus): void {
-    const index = this.bonus_effects.findIndex(x => _.isEqual(x, cb))
-    if (index > -1) this.bonus_effects.splice(index, 1)
-    this.save()
-  }
-
-  public get BonusEffects(): CoreBonus[] {
-    return this.bonus_effects
-  }
-
-  public static Serialize(m: EquippableMount): IMountData {
-    return {
-      mount_type: m.Type,
-      lock: m.IsLocked,
-      slots: m.slots.map(x => WeaponSlot.Serialize(x)),
-      extra: m.extra.map(x => WeaponSlot.Serialize(x)),
-      bonus_effects: m.BonusEffects.map(x => x.ID),
-    }
-  }
-
-  public static Deserialize(mountData: IMountData): EquippableMount {
-    let m = new EquippableMount(mountData.mount_type as MountType)
-    m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
-    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
-    m.bonus_effects = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
-    m.lock = mountData.lock
-    return m
-  }
-}
-
-export { Mount, IntegratedMount, EquippableMount }
+export default Mount

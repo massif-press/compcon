@@ -1,12 +1,13 @@
 <template>
-  <svg :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}`" v-html="svg" />
+  <svg
+    :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${stroke ? 'stroke-width: 25px;' : ''}`"
+    v-html="svg"
+  />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import fs from 'fs'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
 
 enum sizeMap {
   xSmall = '16px',
@@ -21,7 +22,7 @@ export default Vue.extend({
   name: 'cc-logo',
   props: {
     source: {
-      type: String,
+      type: Object,
       required: true,
     },
     size: {
@@ -34,24 +35,25 @@ export default Vue.extend({
       required: false,
       default: '',
     },
+    stroke: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data: () => ({
     svg: '',
-    mColor: '',
   }),
   computed: {
     iconSize(): string {
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default
     },
     iconColor(): string {
-      return this.color ? this.color : this.mColor
+      return this.color ? this.color : this.source.Color
     },
   },
-  created() {
-    const s = getModule(CompendiumStore, this.$store)
-    const m = s.Manufacturers.find(x => x.id.toLowerCase() === this.source.toLowerCase())
-    this.mColor = m.color
-    this.svg = fs.readFileSync(`${Vue.prototype.userDataPath}/img/default_logo/${m.logo}.svg`)
+  mounted() {
+    this.svg = fs.readFileSync(this.source.Logo)
   },
 })
 </script>

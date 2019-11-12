@@ -22,12 +22,12 @@ function ExtLog(s: string): void {
 
   log += `\n${Vue.prototype.version} - ${new Date().toLocaleString()}: ${s}`
 
-  fs.writeFile(logfile, log, function(err) {
-    if (err) {
-      alert(`Critical Error: COMP/CON unable to write to error log at ${logfile}: \n ${err}`)
-      return
-    }
-  })
+  try {
+    fs.writeFileSync(logfile, log)
+  } catch (err) {
+    alert(`Critical Error: COMP/CON unable to create error log at ${logfile}: \n ${err}`)
+    return
+  }
 }
 
 export default ExtLog

@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table fixed-header class="mb-4" style="background-color: transparent">
+  <v-simple-table fixed-header class="mb-4 flavor-text" style="background-color: transparent">
     <thead>
       <tr>
         <th class="text-left">Callsign</th>

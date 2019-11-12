@@ -4,7 +4,7 @@ class PilotLicense {
   private license: License
   private rank: number
 
-  constructor(license: License, rank: number) {
+  public constructor(license: License, rank: number) {
     this.license = license
     this.rank = rank
   }
@@ -41,7 +41,7 @@ class PilotLicense {
     return { id: item.License.FrameID, rank: item.Rank }
   }
 
-  public static Deserialize(itemData: IRankedData) {
+  public static Deserialize(itemData: IRankedData): PilotLicense {
     return new PilotLicense(License.Deserialize(itemData.id), itemData.rank)
   }
 }

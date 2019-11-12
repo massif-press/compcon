@@ -9,6 +9,19 @@ import {
   MechEquipment,
   SystemType,
 } from '@/class'
+import { IDamageData, IRangeData, IMechEquipmentData } from '@/interface'
+
+interface IWeaponModData extends IMechEquipmentData {
+  sp: number
+  applied_to: WeaponType[]
+  applied_string: string
+  description: string
+  restricted_mounts: WeaponSize[]
+  tags: ITagData[]
+  added_tags?: ITagData[]
+  added_damage?: IDamageData
+  added_range?: IRangeData
+}
 
 class WeaponMod extends MechEquipment {
   private _applied_to: WeaponType[]
@@ -18,7 +31,7 @@ class WeaponMod extends MechEquipment {
   private _added_damage?: Damage
   private _added_range?: Range
 
-  public constructor(weaponModData: any) {
+  public constructor(weaponModData: IWeaponModData) {
     super(weaponModData)
     this.sp = weaponModData.sp
     this._applied_to = weaponModData.applied_to
@@ -73,4 +86,4 @@ class WeaponMod extends MechEquipment {
   }
 }
 
-export default WeaponMod
+export { WeaponMod, IWeaponModData }

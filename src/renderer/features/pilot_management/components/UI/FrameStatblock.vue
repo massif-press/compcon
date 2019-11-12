@@ -30,7 +30,7 @@
         <v-col cols="2">{{ frame.HeatCap }}</v-col>
         <v-col cols="2">{{ frame.SensorRange }}</v-col>
         <v-col cols="2">{{ frame.TechAttack }}</v-col>
-        <v-col cols="2">{{ frame.Save }}</v-col>
+        <v-col cols="2">{{ frame.SaveTarget }}</v-col>
         <v-col cols="2">{{ frame.Speed }}</v-col>
         <v-col cols="2">{{ frame.SP }}</v-col>
       </v-row>
@@ -40,23 +40,20 @@
         <v-col cols="8">
           <v-card-text>
             <v-card flat color="transparent">
-              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">
-                Mounts
-              </v-card-title>
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Mounts</v-card-title>
               <v-card-text>
                 <b v-for="(t, i) in frame.mounts" :key="t + i" class="title font-weight-black">
                   &emsp;{{ t }}&emsp;
-                  <span v-if="i < frame.mounts.length - 1" class="fluff-text grey--text">
-                    //
-                  </span>
+                  <span
+                    v-if="i < frame.mounts.length - 1"
+                    class="fluff-text grey--text"
+                  >//</span>
                 </b>
               </v-card-text>
             </v-card>
 
             <v-card v-if="frame.CoreSystem.Integrated" flat color="transparent">
-              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">
-                Integrated Mount
-              </v-card-title>
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Integrated Mount</v-card-title>
               <v-card-text class="ml-4">
                 <span class="subheading">
                   <b>
@@ -81,9 +78,7 @@
             </v-card>
 
             <v-card class="m-1" flat color="transparent">
-              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">
-                Traits
-              </v-card-title>
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">Traits</v-card-title>
               <v-card-text class="ml-4">
                 <span v-for="t in frame.Traits" :key="t.name">
                   <b class="subheading font-weight-bold">{{ t.name }}:</b>
@@ -95,9 +90,7 @@
             </v-card>
 
             <v-card class="m-1" flat color="transparent">
-              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">
-                CORE System
-              </v-card-title>
+              <v-card-title class="title mt-0 pt-2 mb-0 pb-0">CORE System</v-card-title>
               <v-card-text class="ml-4">
                 <span>
                   <b class="subheading font-weight-bold">{{ frame.CoreSystem.Name }}:</b>

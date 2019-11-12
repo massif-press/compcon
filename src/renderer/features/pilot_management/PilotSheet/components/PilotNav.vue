@@ -155,6 +155,7 @@
             <v-list-item-content>
               <cc-tooltip simple content="Feature In Development">
                 <v-list-item-title>Manage Custom Views</v-list-item-title>
+                <v-list-item-subtitle>Feature In Development</v-list-item-subtitle>
               </cc-tooltip>
             </v-list-item-content>
           </v-list-item>

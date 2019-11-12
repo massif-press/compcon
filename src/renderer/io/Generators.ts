@@ -19,6 +19,10 @@ function callsign(): string {
   return pullRandom('callsigns.txt', 1)[0]
 }
 
+function mechname(): string {
+  return pullRandom('mechnames.txt', 1)[0]
+}
+
 function name(): string {
   const prob = JSON.parse(fs.readFileSync(dataPath('name_mods.json'), 'utf-8'))
   const firstnames = pullRandom('firstnames.txt', 2)
@@ -75,4 +79,4 @@ function flavorID(template: string): string {
 //   return btoa(str)
 // }
 
-export { name, callsign, mission, encryption, flavorID }
+export { name, callsign, mechname, mission, encryption, flavorID }

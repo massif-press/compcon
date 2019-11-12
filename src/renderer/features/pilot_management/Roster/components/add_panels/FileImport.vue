@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import validator from '@/features/pilot_management/logic/validator'
+import validator from '@/io/validator'
 import io from '@/features/_shared/data_io'
 import LoadLog from './loaders/LoadLog.vue'
 import { Pilot } from '@/class'

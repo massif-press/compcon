@@ -13,15 +13,15 @@ class Reserve {
   private _description: string
   private _used: boolean
 
-  public constructor(reserveData: any) {
-    this._id = reserveData.id
-    this.type = reserveData.type || ReserveType.Narrative
-    this._name = reserveData.name || ''
-    this._label = reserveData.label || ''
-    this._resource_name = reserveData.resource_name || ''
-    this._resource_note = reserveData.resource_note || ''
-    this._resource_cost = reserveData.resource_cost || ''
-    this._description = reserveData.description || ''
+  public constructor(data: IReserveData) {
+    this._id = data.id
+    this.type = (data.type as ReserveType) || ReserveType.Narrative
+    this._name = data.name || ''
+    this._label = data.label || ''
+    this._resource_name = data.resource_name || ''
+    this._resource_note = data.resource_note || ''
+    this._resource_cost = data.resource_cost || ''
+    this._description = data.description || ''
     this._used = false
   }
 

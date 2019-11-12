@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { copySync } from 'fs-extra'
 import path from 'path'
-import validator from '@/features/pilot_management/logic/validator'
+import validator from '@/io/validator'
 
 declare const __static: string
 

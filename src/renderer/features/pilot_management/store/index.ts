@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Vue from 'vue'
 import io from '../../_shared/data_io'
 import { Pilot } from '@/class'
-import validator from '../logic/validator'
+import validator from '../../../io/validator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import { PrintOptions } from '@/classes/Types'
 

@@ -1,5 +1,7 @@
 these are working notes, I'll make a good contributor guide eventually I swear:
 
+- please adhere to eslint whenever possible. prefer leaving warnings to adding ignores.
+
 chores left:
 integrate vue-class-component
 testing
@@ -30,3 +32,16 @@ should contain any and all logic that touches the os -- file loading, checking a
 
 view:
 split views into collections of components wherever possible for easy reordering
+
+classes:
+maintain types to the extent possible
+provide data interface when necessary (avoid any, in-function definitions)
+provide static Serialize and Deserialize fns if something needs to be saved
+each class must be declared in its own file
+import all classes into @/class, get classes from there instead of traversing the dir tree
+
+interfaces:
+keep interface in class file when convienient
+declare interface when useful (so, available globally)
+to do: look into TS import() fn in dec file to keep definitions with class, but make all interface available globally
+import nonglobal interfaces in @/interface

@@ -1,14 +1,17 @@
 <template>
   <v-dialog width="90vw">
     <template v-slot:activator="{ on }">
-      <v-btn x-large outlined :color="color" block v-on="on">
-        <v-icon large :color="color">cci-rank-{{ pilotLicense.Rank }}</v-icon>
+      <v-btn x-large outlined :color="pilotLicense.License.Manufacturer.Color" block v-on="on">
+        <v-icon
+          large
+          :color="pilotLicense.License.Manufacturer.Color"
+        >cci-rank-{{ pilotLicense.Rank }}</v-icon>
         <v-spacer />
         {{ pilotLicense.License.Source }}
         {{ pilotLicense.License.Name }}
         {{ 'I'.repeat(pilotLicense.Rank) }}
         <v-spacer />
-        <cc-logo size="large" :source="pilotLicense.License.Source" />
+        <cc-logo size="large" :source="pilotLicense.License.Manufacturer" />
       </v-btn>
     </template>
     <v-card>
@@ -21,11 +24,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
-  name: 'cc-core-bonus-item',
+  name: 'cc-pilot-license-item',
   props: {
     pilotLicense: {
       type: Object,
@@ -35,12 +36,5 @@ export default Vue.extend({
   data: () => ({
     color: 'primary',
   }),
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.color = compendium.referenceByID(
-      'Manufacturers',
-      this.pilotLicense.License.Source.toUpperCase()
-    ).color
-  },
 })
 </script>

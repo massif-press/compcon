@@ -144,7 +144,7 @@
                   outlined
                   label
                 >
-                  <cc-logo size="small" :source="l.License.Source" />
+                  <cc-logo size="small" :source="l.License.Manufacturer" />
                   &nbsp;{{ l.License.Name }} {{ "I".repeat(l.Rank) }}
                 </v-chip>
               </v-col>

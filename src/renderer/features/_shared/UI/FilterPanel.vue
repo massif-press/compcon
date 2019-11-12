@@ -1,16 +1,11 @@
 <template>
   <div class="text-center">
     <v-bottom-sheet>
-      <v-badge
-        overlap
-        slot="activator"
-        dark
-        @click="
+      <v-badge overlap slot="activator" dark @click="
           ''
 
 
-        "
-      >
+        ">
         <template v-if="filterCount" v-slot:badge>
           <span>{{ filterCount }}</span>
         </template>
@@ -175,7 +170,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, License, SystemType, WeaponType, WeaponSize, DamageType, RangeType } from '@/class'
+import {
+  License,
+  SystemType,
+  WeaponType,
+  WeaponSize,
+  DamageType,
+  RangeType,
+  Manufacturer,
+} from '@/class'
 import { rules } from 'lancer-data'
 
 const nameSort = function(a, b) {
@@ -227,10 +230,10 @@ export default Vue.extend({
         .map(x => ({ text: x.Name().replace('{VAL}', 'X'), value: x.ID }))
         .sort(nameSort)
     },
-    manufacturers(): any[] {
+    manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.name, value: x.id }))
+        .map(x => ({ text: x.Name, value: x.ID }))
         .sort(nameSort)
     },
     licenses(): License[] {

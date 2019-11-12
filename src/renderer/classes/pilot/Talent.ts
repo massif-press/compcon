@@ -1,9 +1,14 @@
 import { store } from '@/store'
-import { CompendiumItem } from '../Item'
+import { CompendiumItem } from '@/class'
+import { ICompendiumItemData } from '@/interface'
 
 interface ITalentRank {
   name: string
   description: string
+}
+
+interface ITalentData extends ICompendiumItemData {
+  ranks: ITalentRank[]
 }
 
 class Talent extends CompendiumItem {
@@ -29,4 +34,4 @@ class Talent extends CompendiumItem {
   }
 }
 
-export default Talent
+export { Talent, ITalentData }
