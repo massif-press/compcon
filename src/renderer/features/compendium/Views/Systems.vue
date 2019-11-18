@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
-    <h1 class="heading">MECH SYSTEMS</h1>
-    <compendium-table :headers="headers" :items="systems" />
+    <compendium-table :headers="headers" :items="systems">Mech Systems</compendium-table>
   </v-container>
 </template>
 

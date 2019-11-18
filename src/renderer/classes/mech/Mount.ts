@@ -47,7 +47,7 @@ abstract class Mount {
     return this._mount_type
   }
 
-  public get MountName(): string {
+  public get Name(): string {
     return this._name_override ? this._name_override : `${this.Type} Mount`
   }
 

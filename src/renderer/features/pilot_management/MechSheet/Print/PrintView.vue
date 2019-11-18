@@ -228,7 +228,7 @@
               <div v-if="mount" style="width: 100%">
                 <v-col>
                   <div class="p-bordered mt-1 mb-1 pa-0">
-                    <span class="p-mount-title">{{ mount.MountName }}</span>
+                    <span class="p-mount-title">{{ mount.Name }}</span>
                     <div class="mount-interior">
                       <v-row>
                         <v-col shrink class="ml-1">

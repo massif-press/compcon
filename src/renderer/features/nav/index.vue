@@ -1,5 +1,15 @@
 <template>
-  <v-app-bar app fixed hide-on-scroll top color="primary" class="clipped-large" dark dense>
+  <v-app-bar
+    app
+    fixed
+    hide-on-scroll
+    top
+    color="primary"
+    class="clipped-large"
+    dark
+    dense
+    style="z-index:999"
+  >
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
         <v-btn text icon v-on="on" @click="historyNav(-1)">
@@ -77,7 +87,9 @@
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options">options test</cc-solo-dialog>
+    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options">
+      options test
+    </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
   </v-app-bar>

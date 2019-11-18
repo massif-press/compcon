@@ -1,13 +1,14 @@
 <template>
   <div>
-    <cc-title small>
+    <cc-title small color="pilot">
       <section-edit-chip
         :highlight="!pilot.HasFullTalents"
         :current="pilot.CurrentTalentPoints"
         :max="pilot.MaxTalentPoints"
         :label="`Edit Pilot Talents (${pilot.CurrentTalentPoints}/${pilot.MaxTalentPoints})`"
         @open-selector="$refs.talentSelector.show()"
-      />Talents
+      />
+      Talents
     </cc-title>
     <cc-solo-dialog
       ref="talentSelector"
@@ -28,6 +29,8 @@
         :talent="t.Talent"
         :rank="t.Rank"
         hide-locked
+        color="pilot"
+        item-color="secondary"
       />
     </v-container>
   </div>

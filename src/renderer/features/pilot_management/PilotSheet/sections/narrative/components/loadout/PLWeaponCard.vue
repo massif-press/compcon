@@ -23,7 +23,7 @@
         <cc-damage-element small :damage="item.Damage" />
       </v-row>
       <v-row dense class="mt-1 mb-0 pb-0">
-        <cc-tags small :tags="item.Tags" />
+        <cc-tags small :tags="item.Tags" color="secondary" />
       </v-row>
       <v-row v-if="item.notes">
         <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
@@ -38,24 +38,25 @@
         <div v-if="item">
           <span class="overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-            <span
-              class="success--text text--darken-1"
-            >[ PILOT ARMAMENT REGISTRATION VERIFIED ]</span>
+            <span class="success--text text--darken-1">
+              [ PILOT ARMAMENT REGISTRATION VERIFIED ]
+            </span>
           </span>
           <br />
           <span class="heading h1 primary--text" style="line-height: 20px">{{ item.Name }}</span>
           <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
-          <span
-            class="overline"
-          >GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)</span>
+          <span class="overline">
+            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
+          </span>
           <br />
-          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">NO SELECTION</span>
-          <span
-            class="flavor-text overline mt-n1 error--text"
-            style="display: block"
-          >[ MATERIEL ID INVALID OR MISSING ]</span>
+          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+            NO SELECTION
+          </span>
+          <span class="flavor-text overline mt-n1 error--text" style="display: block">
+            [ MATERIEL ID INVALID OR MISSING ]
+          </span>
         </div>
       </cc-selector-table>
     </v-card-text>

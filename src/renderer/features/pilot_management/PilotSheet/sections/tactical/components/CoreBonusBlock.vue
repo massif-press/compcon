@@ -1,13 +1,14 @@
 <template>
   <div>
-    <cc-title small>
+    <cc-title small color="pilot">
       <section-edit-chip
         :highlight="!pilot.HasCBs"
         :current="pilot.CurrentCBPoints"
         :max="pilot.MaxCBPoints"
         :label="`Edit Pilot CORE Bonuses (${pilot.CurrentCBPoints}/${pilot.MaxCBPoints})`"
         @open-selector="$refs.bonusSelector.show()"
-      />CORE Bonuses
+      />
+      CORE Bonuses
     </cc-title>
     <cc-solo-dialog
       ref="bonusSelector"

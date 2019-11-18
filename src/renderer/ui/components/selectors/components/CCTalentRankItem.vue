@@ -1,10 +1,10 @@
 <template>
-  <v-row :dense="small">
+  <v-row :dense="small" align="center">
     <v-col cols="auto" class="text-center">
       <v-icon
-        :class="{'mr-4' : small}"
+        :class="{ 'mr-4': small }"
         :size="small ? 40 : 80"
-        :color="lock ? 'grey lighten-1' : 'primary'"
+        :color="lock ? 'grey lighten-1' : color"
         v-html="`cci-rank-${rank}`"
       />
     </v-col>
@@ -34,6 +34,11 @@ export default Vue.extend({
     small: {
       type: Boolean,
       required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
     },
   },
 })

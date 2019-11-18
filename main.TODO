@@ -11,6 +11,7 @@ Next Steps:
 Cleanup:
   ☐ Remove useless `dense`s from v-col (use no-gutters or dense on row)
   ☐ remove old font stylings
+  ☐ Add License info to Item cards
 
 Flavor Pass:
   ☐ Cloud settings panel
@@ -83,7 +84,7 @@ Image Selector:
 
 Pilot Roster:
   ☐ Big Card view
-  ☐ Status in roster
+  ✔ Status in roster @done(19-11-12 13:56)
 
 New Pilot:
   ☐ Background Selector does not scroll to list
@@ -91,9 +92,12 @@ New Pilot:
   ☐ Background Selector drops list side on reopen
 
 Pilot Sheet:
+  ☐ Add params to route to land on tab
+  ☐ Pilot sheet should remember last tab (for forward/back)
+  ✔ Mech sheet under pilot sheet @done(19-11-12 13:56)
   ☐ Delete Pilot
   ✔ Level Wizard @done(19-11-07 10:19)
-  ☐ Mech Hangar
+  ✔ Mech Hangar @done(19-11-12 11:58)
   ☐ test importers
     ☐ ask cc-club to test pull/push cloud syncs
   ☐ top bar doesn't reflect active pilot
@@ -107,10 +111,21 @@ Skills:
     ☐ Add as downtime reserve
 
 Mech Sheet:
-  ☐ Primary color based on manufacturer
+  ✔ Primary color based on manufacturer @done(19-11-12 13:55)
+  ✔ hide pilot stats when mech sheet is loaded @done(19-11-13 14:31)
+  ✔ traits @done(19-11-13 14:48)
+  ☐ systems warnings
+    ☐ unfinished (!) icon on cards for unfilled SP/mounts
+  ✔ attributes @done(19-11-13 16:04)
+  ✔ CORE system @done(19-11-15 12:48)
+  ☐ loadouts
 
 Compendium:
   ☐ Add Factions
+
+Nav Bar:
+  ☐ Better pilot menu
+  ☐ Pilot not always getting picked up
 
 Refactor:
   ✔ Move nonglobal interfaces into calling class, include in interface.ts @done(19-11-11 13:41)
@@ -126,8 +141,7 @@ Refactor:
   ☐ genericize frame row image element
 
 Style Pass:
-  ☐ Fix header on tables
-    ☐ Same options (except for sync) expand under selected mech
+  ✔ Fix header on tables @done(19-11-15 10:28)
   ☐ pilot NO IMG
   ☐ global notification
   ☐ error logging

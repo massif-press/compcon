@@ -1,5 +1,5 @@
 <template>
-  <cc-titled-panel :title="talent.Name" :icon="`cci-rank-${rank}`">
+  <cc-titled-panel :title="talent.Name" :icon="`cci-rank-${rank}`" :color="color">
     <v-btn slot="items" icon @click="$refs.dialog.show()">
       <v-icon large>mdi-information-outline</v-icon>
     </v-btn>
@@ -13,6 +13,7 @@
       :rank="i + 1"
       :description="tr.description"
       small
+      :color="itemColor"
     />
   </cc-titled-panel>
 </template>
@@ -34,6 +35,16 @@ export default Vue.extend({
     hideLocked: {
       type: Boolean,
       required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    itemColor: {
+      type: String,
+      required: false,
+      default: 'primary',
     },
   },
   methods: {

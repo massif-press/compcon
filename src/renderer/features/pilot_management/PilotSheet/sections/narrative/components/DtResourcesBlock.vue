@@ -1,7 +1,8 @@
 <template>
   <div>
-    <cc-title small>
-      <section-edit-icon label="Add Downtime Reserves" @open-selector="$refs.dtSelector.show()" />Downtime Reserves
+    <cc-title small color="pilot">
+      <section-edit-icon label="Add Downtime Reserves" @open-selector="$refs.dtSelector.show()" />
+      Downtime Reserves
     </cc-title>
     <cc-solo-dialog
       ref="dtSelector"

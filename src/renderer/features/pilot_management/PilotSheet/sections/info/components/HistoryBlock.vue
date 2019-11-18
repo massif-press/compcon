@@ -1,7 +1,8 @@
 <template>
   <div>
-    <cc-title small>
-      <section-edit-icon label="Edit Pilot Biography" @open-selector="show()" />Pilot Biography
+    <cc-title small color="pilot">
+      <section-edit-icon label="Edit Pilot Biography" @open-selector="show()" />
+      Pilot Biography
     </cc-title>
     <div class="my-2">
       <p v-if="pilot.History" class="flavor-text text--text mx-2" v-html="pilot.History" />

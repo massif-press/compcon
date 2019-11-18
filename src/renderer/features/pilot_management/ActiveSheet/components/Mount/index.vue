@@ -2,7 +2,7 @@
   <v-col cols="12">
     <v-card class="ma-0 pa-0" flat dark>
       <span class="mount-title-dark pl-3 pr-3 text-uppercase">
-        {{ mount.MountName }}
+        {{ mount.Name }}
       </span>
       <v-card-text v-if="mount.IsLocked" class="bordered-dark ml-3 pt-4">
         <v-card color="grey darken-2">

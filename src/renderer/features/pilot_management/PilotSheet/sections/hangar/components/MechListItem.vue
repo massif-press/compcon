@@ -1,5 +1,5 @@
 <template>
-  <div id="pc-wrapper" @click="emit('go', mech)">
+  <div id="pc-wrapper" @click="$emit('go', mech)">
     <v-card
       tile
       :color="mech.Frame.Manufacturer.Color"

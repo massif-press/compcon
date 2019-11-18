@@ -1,11 +1,13 @@
 <template>
   <div class="pb-3">
-    <cc-title small>
-      <span class="ml-9">&emsp;</span> Gear Loadout
+    <cc-title small color="pilot">
+      <span class="ml-9">&emsp;</span>
+      Gear Loadout
     </cc-title>
     <cc-loadout-panel
       :loadouts="pilot.Loadouts"
       :active-loadout="pilot.ActiveLoadout"
+      color="pilot"
       @set-active="pilot.ActiveLoadout = $event"
       @add-loadout="pilot.AddLoadout()"
       @clone-loadout="pilot.CloneLoadout()"

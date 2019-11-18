@@ -1,7 +1,8 @@
 <template>
   <div>
-    <cc-title small>
-      <span class="ml-9">&emsp;</span> Player Notes
+    <cc-title small color="pilot">
+      <span class="ml-9">&emsp;</span>
+      Player Notes
     </cc-title>
     <v-textarea v-model="pilot.Notes" class="mt-2" outlined auto-grow />
   </div>

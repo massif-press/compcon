@@ -62,6 +62,10 @@ export default Vue.extend({
         name: this.customName,
         label: this.customName,
         description: this.details,
+        resource_name: '',
+        resource_note: '',
+        resource_cost: '',
+        used: false,
       })
       this.clear()
       this.$emit('add', nr)

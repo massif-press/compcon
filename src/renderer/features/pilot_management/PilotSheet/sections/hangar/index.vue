@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title large>Hangar&emsp;</cc-title>
+    <cc-title large color="pilot">Hangar&emsp;</cc-title>
     <v-btn-toggle id="viewtoggle" v-model="profile.HangarView" mandatory>
       <v-btn small icon value="cards">
         <v-icon color="primary">mdi-view-grid</v-icon>
@@ -21,6 +21,7 @@
           @set-active="pilot.ActiveMech = $event"
           @delete-mech="pilot.RemoveMech($event)"
           @dupe-mech="pilot.CloneMech($event)"
+          @go="toMechSheet($event)"
         />
       </v-row>
     </v-container>
@@ -32,15 +33,17 @@
         @set-active="pilot.ActiveMech = $event"
         @delete-mech="pilot.RemoveMech($event)"
         @dupe-mech="pilot.CloneMech($event)"
+        @go="toMechSheet($event)"
       />
     </v-container>
     <v-container v-else>
-      <mech-table :mechs="pilot.Mechs" />
+      <mech-table :mechs="pilot.Mechs" @go="toMechSheet($event)" />
     </v-container>
     <v-row justify="center">
       <v-col cols="auto">
         <cc-btn x-large class="ml-auto mr-auto" @click="$refs.dialog.show()">
-          <v-icon left large>cci-accuracy</v-icon>&emsp;Add New Mech
+          <v-icon left large>cci-accuracy</v-icon>
+          &emsp;Add New Mech
         </cc-btn>
       </v-col>
     </v-row>
@@ -75,9 +78,10 @@ export default Vue.extend({
     },
   },
   methods: {
-    toMechSheet() {
-      this.pilot.LoadedMech = this.mech
-      this.$router.push('./mech')
+    toMechSheet(mech) {
+      const store = getModule(PilotManagementStore, this.$store)
+      store.setLoadedMech(mech.ID)
+      this.$router.push(`./mech/${this.pilot.ID}/${mech.ID}`)
     },
   },
 })

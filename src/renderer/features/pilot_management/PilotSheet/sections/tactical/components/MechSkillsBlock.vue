@@ -1,13 +1,14 @@
 <template>
   <div>
-    <cc-title small>
+    <cc-title small color="pilot">
       <section-edit-chip
         :highlight="!pilot.HasFullHASE"
         :current="pilot.CurrentHASEPoints"
         :max="pilot.MaxHASEPoints"
         :label="`Edit Pilot Mech Skills (${pilot.CurrentHASEPoints}/${pilot.MaxHASEPoints})`"
         @open-selector="$refs.mechskillsSelector.show()"
-      />Mech Skills
+      />
+      Mech Skills
     </cc-title>
     <cc-solo-dialog
       ref="mechskillsSelector"

@@ -1,8 +1,10 @@
 <template>
-  <v-row wrap justify-space-around class="mx-4">
+  <v-row justify="space-around" dense class="mx-4">
     <v-col cols="4">
       <v-select
         v-model="sourceFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="mdi-factory"
         outlined
@@ -17,6 +19,8 @@
     <v-col cols="4">
       <v-select
         v-model="tagFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="mdi-tag"
         chips
@@ -33,6 +37,8 @@
     <v-col cols="4">
       <v-select
         v-model="weaponTypeFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="cci-weapon"
         chips
@@ -47,6 +53,8 @@
     <v-col cols="4">
       <v-select
         v-model="weaponSizeFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="mdi-relative-scale"
         chips
@@ -61,6 +69,8 @@
     <v-col cols="4">
       <v-select
         v-model="attackTypeFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="cci-range"
         chips
@@ -76,6 +86,8 @@
     <v-col cols="4">
       <v-select
         v-model="damageTypeFilter"
+        dense
+        hide-details
         class="px-2"
         prepend-icon="cci-kinetic"
         chips
@@ -93,7 +105,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, WeaponType, WeaponSize, RangeType, DamageType } from '@/class'
+import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -112,10 +124,10 @@ export default Vue.extend({
     damageTypeFilter: [],
   }),
   computed: {
-    manufacturers(): any[] {
+    manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.name, value: x.id }))
+        .map(x => ({ text: x.Name, value: x.ID }))
         .sort(nameSort)
     },
     weaponTypes(): WeaponType[] {

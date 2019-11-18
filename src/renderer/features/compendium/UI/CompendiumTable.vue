@@ -1,7 +1,10 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="3" class="ml-auto">
+    <v-row class="mx-2 mt-n2 mb-2" no-gutters>
+      <v-col cols="auto">
+        <h1 class="heading"><slot /></h1>
+      </v-col>
+      <v-col cols="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
           class="search-field"
@@ -12,16 +15,18 @@
           placeholder="Search"
           clearable
           persistent-hint
-          :hint="`${fItems.length } Items`"
+          :hint="`${fItems.length} Items`"
         />
       </v-col>
       <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
     </v-row>
     <v-data-table
+      v-resize="onResize()"
       :headers="headers"
       :items="fItems"
       :custom-sort="customSort"
-      item-key="id"
+      item-key="ID"
+      :height="tableHeight"
       hide-default-footer
       disable-pagination
       class="elevation-0 flavor-text"
@@ -74,6 +79,7 @@ export default Vue.extend({
     search: '',
     filters: {},
     itemType: '',
+    tableHeight: 500,
   }),
   computed: {
     fItems() {
@@ -92,6 +98,9 @@ export default Vue.extend({
   created() {
     this.itemType = this.items[0].ItemType
   },
+  mounted() {
+    this.onResize()
+  },
   methods: {
     customSort(items, index, descending) {
       const desc = descending[0]
@@ -107,7 +116,10 @@ export default Vue.extend({
       return items
     },
     setFilters(newFilter) {
-      ;(this as any).filters = newFilter
+      this.filters = newFilter
+    },
+    onResize() {
+      this.tableHeight = window.innerHeight - 160
     },
   },
 })

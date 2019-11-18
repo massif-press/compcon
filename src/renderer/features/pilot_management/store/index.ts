@@ -4,7 +4,7 @@ import io from '../../_shared/data_io'
 import { Pilot } from '@/class'
 import validator from '../../../io/validator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { PrintOptions } from '@/classes/Types'
+// import { PrintOptions } from '@/classes/Types'
 
 function savePilots(pilots: Pilot[]): void {
   const serialized = pilots.map(x => Pilot.Serialize(x))
@@ -21,12 +21,14 @@ export const ADD_PILOT = 'ADD_PILOT'
 export const CLONE_PILOT = 'CLONE_PILOT'
 export const DELETE_PILOT = 'DELETE_PILOT'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
+export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 
 @Module({
   name: 'management',
 })
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
+  public LoadedMechID: string = ''
   public ActivePilot: Pilot = undefined
   public printOptions: PrintOptions = undefined
 
@@ -94,20 +96,25 @@ export class PilotManagementStore extends VuexModule {
     this.printOptions = payload
   }
 
-  /**
-   * @deprecated Now that type info is preserved,
-   * just access `ActivePilot` directly instead.
-   */
-  get getPilot(): Pilot {
-    return this.ActivePilot
+  @Mutation
+  private [SET_LOADED_MECH](payload: string): void {
+    this.LoadedMechID = payload
   }
-  /**
-   * @deprecated Now that type info is preserved,
-   * just access `printOptions` directly instead.
-   */
-  get getPrintOptions(): PrintOptions {
-    return this.printOptions
-  }
+
+  // /**
+  //  * @deprecated Now that type info is preserved,
+  //  * just access `ActivePilot` directly instead.
+  //  */
+  // get getPilot(): Pilot {
+  //   return this.ActivePilot
+  // }
+  // /**
+  //  * @deprecated Now that type info is preserved,
+  //  * just access `printOptions` directly instead.
+  //  */
+  // get getPrintOptions(): PrintOptions {
+  //   return this.printOptions
+  // }
 
   @Action
   public saveData(): void {
@@ -147,5 +154,10 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public setPrintOptions(options: object): void {
     this.context.commit(SET_PRINT_OPTIONS, options)
+  }
+
+  @Action
+  public setLoadedMech(id: string): void {
+    this.context.commit(SET_LOADED_MECH, id)
   }
 }

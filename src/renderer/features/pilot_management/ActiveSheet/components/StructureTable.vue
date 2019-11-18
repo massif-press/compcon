@@ -251,7 +251,7 @@ export default Vue.extend({
       return this.loadout
         .AllMounts(this.pilot.has('CoreBonus', 'imparm'), this.pilot.has('CoreBonus', 'intweapon'))
         .filter(x => x.Weapons.some(w => !w.IsDestroyed) && !(x.IsLimited && x.Uses === 0))
-        .map((m, i) => ({ name: m.MountName, index: i }))
+        .map((m, i) => ({ name: m.Name, index: i }))
     },
     destroyableSystems() {
       return this.loadout.Systems.filter(x => !x.IsDestroyed && !(x.IsLimited && x.Uses === 0))

@@ -3,7 +3,7 @@
     <div :style="`border: 2px solid ${mech.Frame.Manufacturer.Color}`">
       <v-hover>
         <template v-slot:default="{ hover }">
-          <v-card height="300px" tile flat @click="emit('go', mech)">
+          <v-card height="300px" tile flat @click="$emit('go', mech)">
             <div
               class="clipped-large"
               :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${mech.Frame.Manufacturer.Color}`"

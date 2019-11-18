@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="py-2" />
-    <v-toolbar id="toolbar" color="primary" dark flat dense class="sliced" max-height="30px">
+    <v-toolbar id="toolbar" :color="color" dark flat dense class="sliced" max-height="30px">
       <v-toolbar-title style="max-height: 30px" class="mt-n3">
         <v-menu offset-y top>
           <template v-slot:activator="{ on }">
@@ -18,13 +18,16 @@
             </v-list-item>
             <v-list-item @click="$emit('add-loadout')">
               <v-list-item-title :class="`${color}--text font-weight-bold`">
-                <v-icon color="primary" left>add</v-icon>Add New Loadout
+                <v-icon color="primary" left>add</v-icon>
+                Add New Loadout
               </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
         <span class="l-title">
-          <cc-short-string-editor inline @set="activeLoadout.Name = $event">{{ activeLoadout.Name }}</cc-short-string-editor>
+          <cc-short-string-editor inline @set="activeLoadout.Name = $event">
+            {{ activeLoadout.Name }}
+          </cc-short-string-editor>
         </span>
       </v-toolbar-title>
       <v-spacer />
@@ -41,24 +44,27 @@
           <v-card>
             <v-card-text class="text-center flavor-text">
               <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-              <br />//[COMP/CON:
+              <br />
+              //[COMP/CON:
               <b class="black--text">
                 Lancer, please confirm deletion of
-                <span
-                  class="primary--text"
-                >{{ activeLoadout.Name }}</span> Loadout
-              </b>]
+                <span class="primary--text">{{ activeLoadout.Name }}</span>
+                Loadout
+              </b>
+              ]
               <v-divider class="my-2" />
               <v-row dense>
                 <v-btn small text>DENY</v-btn>
-                <cc-btn small color="error" class="ml-auto" @click="$emit('remove-loadout')">CONFIRM</cc-btn>
+                <cc-btn small color="error" class="ml-auto" @click="$emit('remove-loadout')">
+                  CONFIRM
+                </cc-btn>
               </v-row>
             </v-card-text>
           </v-card>
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <v-card flat outlined tile color="primary">
+    <v-card flat outlined tile :color="color">
       <v-card-text class="pa-2 white">
         <slot />
       </v-card-text>
@@ -70,7 +76,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'pilot-loadout-block',
+  name: 'cc-loadout-panel',
   props: {
     loadouts: {
       type: Array,
