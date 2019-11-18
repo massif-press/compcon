@@ -6,14 +6,19 @@
       </v-card-text>
     </v-card>
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
-      <v-expansion-panel :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`">
+      <v-expansion-panel
+        :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`"
+        :style="pilot ? 'border-color: var(--v-pilot-base)' : ''"
+      >
         <v-expansion-panel-header class="px-2">
           <v-row dense>
             <v-col cols="3" dense>
               <div class="centered text-left pl-3">
                 <span class="stat-text">{{ skill.Trigger }}</span>
                 <div v-if="bonus">
-                  <v-icon v-for="n in bonus" :key="skill.ID + n" color="primary" small>mdi-hexagon</v-icon>
+                  <v-icon v-for="n in bonus" :key="skill.ID + n" color="secondary" small>
+                    mdi-hexagon
+                  </v-icon>
                   <span class="flavor-text grey--text">(+{{ bonus }})</span>
                 </div>
               </div>
@@ -50,6 +55,10 @@ export default Vue.extend({
       required: true,
     },
     noBorder: {
+      type: Boolean,
+      required: false,
+    },
+    pilot: {
       type: Boolean,
       required: false,
     },

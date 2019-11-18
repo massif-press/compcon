@@ -2,7 +2,7 @@
   <v-col>
     <div style="height: 100%">
       <v-card flat tile class="clipped-large grey lighten-3" style="height: 100%">
-        <v-card-title class="primary white--text py-0 heading h3" style="height: 28px">
+        <v-card-title class="pilot white--text py-0 heading h3" style="height: 28px">
           {{ title }}
           <cc-tooltip v-if="extended" simple inline content="Extended Harness">
             <v-icon dark right small class="mt-n1">mdi-alpha-e-box-outline</v-icon>
@@ -107,7 +107,7 @@ export default Vue.extend({
   right: 0;
   height: 2px;
   z-index: 10;
-  background-color: var(--v-primary-base);
+  background-color: var(--v-secondary-base);
   transform-origin: bottom left;
   transform: scaleX(0);
   transition: transform 0.4s ease;

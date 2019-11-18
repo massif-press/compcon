@@ -42,10 +42,10 @@
       fab
       x-small
       outlined
-      disabled
+      :disabled="!lastLoaded"
       class="mx-4 unskew"
       dark
-      @click="$emit('set-page', 99)"
+      @click="toMech()"
     >
       <v-icon large>cci-frame</v-icon>
     </v-btn>
@@ -177,6 +177,8 @@ import CloudDialog from './CloudDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import ExportDialog from './ExportDialog.vue'
 import PrintDialog from './PrintDialog.vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'pilot-nav',
@@ -189,6 +191,17 @@ export default Vue.extend({
     selected: {
       type: Number,
       required: true,
+    },
+  },
+  computed: {
+    lastLoaded() {
+      const store = getModule(PilotManagementStore, this.$store)
+      return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID) ? store.LoadedMechID : ''
+    },
+  },
+  methods: {
+    toMech() {
+      this.$router.push(`mech/${this.pilot.ID}/${this.lastLoaded}`)
     },
   },
 })

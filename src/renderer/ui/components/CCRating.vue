@@ -6,6 +6,7 @@
     :dense="dense"
     :length="max"
     readonly
+    :color="color"
     class="d-inline"
     empty-icon="mdi-hexagon-outline"
     full-icon="mdi-hexagon-slice-6"
@@ -30,6 +31,11 @@ export default Vue.extend({
     dense: {
       type: Boolean,
       required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary'
     },
   },
 })

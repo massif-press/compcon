@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
-    <h1 class="heading">FRAMES</h1>
-    <compendium-table :headers="headers" :items="frames" />
+    <compendium-table :headers="headers" :items="frames">Frames</compendium-table>
   </v-container>
 </template>
 

@@ -4,6 +4,8 @@
       <v-select
         v-model="sourceFilter"
         class="px-2"
+        hide-details
+        dense
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -18,6 +20,8 @@
       <v-select
         v-model="typeFilter"
         class="px-2"
+        hide-details
+        dense
         prepend-icon="cci-frame"
         chips
         deletable-chips
@@ -33,6 +37,8 @@
       <v-select
         v-model="mountFilter"
         class="px-2"
+        hide-details
+        dense
         prepend-icon="cci-weapon"
         chips
         deletable-chips
@@ -49,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { MechType, MountType } from '@/class'
+import { MechType, MountType, Manufacturer } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -65,10 +71,10 @@ export default Vue.extend({
     mountFilter: [],
   }),
   computed: {
-    manufacturers(): any[] {
+    manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.name, value: x.id }))
+        .map(x => ({ text: x.Name, value: x.ID }))
         .sort(nameSort)
     },
     mechTypes(): MechType[] {

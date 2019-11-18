@@ -3,7 +3,7 @@
     <span class="text-uppercase stat-text">{{ title }}</span>
     <span class="flavor-text grey--text">({{ skillPoints || 0 }})</span>
     <cc-tooltip simple :content="tooltip()">
-      <cc-rating :model="skillPoints" :max="6" dense />
+      <cc-rating :model="skillPoints" :max="6" dense color="secondary" />
     </cc-tooltip>
   </v-col>
 </template>

@@ -24,7 +24,7 @@
         <v-col cols="auto" class="ml-auto text-right mt-n2">
           <span class="overline">ITEM USES</span>
           <br />
-          <v-icon v-if="!item.MaxUses" color="primary" class="mt-n2">mdi-infinity</v-icon>
+          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n2">mdi-infinity</v-icon>
           <cc-item-uses
             v-else
             :key="item.Uses || item.MaxUses"
@@ -32,6 +32,7 @@
             :max="item.MaxUses"
             class="mt-n1"
             right
+            color="secondary"
             @set="$set(item, 'Uses', $event)"
           />
         </v-col>
@@ -52,9 +53,9 @@
         <div v-if="item">
           <span class="overline">
             GMS EQUIPMENT CATALOG PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-            <span
-              class="success--text text--darken-1"
-            >[ PILOT EQUIPMENT REGISTRATION VERIFIED ]</span>
+            <span class="success--text text--darken-1">
+              [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
+            </span>
           </span>
           <br />
           <span class="heading h1 primary--text" style="line-height: 20px">{{ item.Name }}</span>
@@ -63,11 +64,12 @@
         <div v-else>
           <span class="overline">GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span>
           <br />
-          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">NO SELECTION</span>
-          <span
-            class="flavor-text overline mt-n1 error--text"
-            style="display: block"
-          >[ EQUIPMENT ID INVALID OR MISSING ]</span>
+          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+            NO SELECTION
+          </span>
+          <span class="flavor-text overline mt-n1 error--text" style="display: block">
+            [ EQUIPMENT ID INVALID OR MISSING ]
+          </span>
         </div>
       </cc-selector-table>
     </v-card-text>

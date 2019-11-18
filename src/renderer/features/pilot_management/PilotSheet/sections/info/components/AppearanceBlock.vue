@@ -1,7 +1,8 @@
 <template>
   <div>
-    <cc-title small>
-      <section-edit-icon label="Edit Pilot Appearance" @open-selector="show()" />Pilot Appearance
+    <cc-title small color="pilot">
+      <section-edit-icon label="Edit Pilot Appearance" @open-selector="show()" />
+      Pilot Appearance
     </cc-title>
     <div class="my-2">
       <p

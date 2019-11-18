@@ -99,6 +99,14 @@ export default Vue.extend({
         label: this.projectName,
         description: this.projectDetails,
         complicated: this.projectComplicated,
+        can_finish: false,
+        finished: false,
+        progress: 0,
+        requirements: [],
+        resource_name: '',
+        resource_note: '',
+        resource_cost: '',
+        used: false,
       })
       p.ResourceName = this.projectFinished ? '' : this.project_name
       if (this.projectCost && !this.projectFinished)

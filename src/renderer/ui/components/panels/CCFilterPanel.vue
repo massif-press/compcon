@@ -1,7 +1,7 @@
 <template>
   <v-bottom-sheet v-model="panel">
     <template v-slot:activator="{ on }">
-      <v-badge overlap bottom color="panel-border">
+      <v-badge overlap right color="secondary">
         <template v-if="filterCount" v-slot:badge>
           <span class="stat-text white--text">{{ filterCount }}</span>
         </template>
@@ -14,7 +14,7 @@
 
     <v-sheet>
       <cc-titlebar dark icon="mdi-filter-variant">Set Item Filters</cc-titlebar>
-      <v-card-text>
+      <v-card-text pb-0>
         <cc-item-filter ref="controls" :item-type="itemType" @set-filters="stageFilters" />
       </v-card-text>
       <v-divider />

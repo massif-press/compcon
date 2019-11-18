@@ -12,7 +12,7 @@ class Mech {
   private _cloud_portrait: string
   private _frame: Frame
   private _loadouts: MechLoadout[]
-  private _active_loadout: string | null
+  private _active_loadout: MechLoadout
   private _current_structure: number
   private _current_hp: number
   private _current_stress: number
@@ -49,7 +49,7 @@ class Mech {
     this._current_repairs = this.RepairCapacity
     this._current_core_energy = 1
     this._current_overcharge = 0
-    this._active_loadout = null
+    this._active_loadout = new MechLoadout(this)
     this._statuses = []
     this._conditions = []
     this._resistances = []
@@ -514,6 +514,14 @@ class Mech {
   }
 
   // -- Statuses and Conditions -------------------------------------------------------------------
+  public get StatusString(): string {
+    if (this.ReactorDestroyed) return 'reactorDestroyed'
+    else if (this.IsDestroyed) return 'destroyed'
+    else if (this.IsEjected) return 'ejected'
+    else if (this.MeltdownImminent) return 'meltdown'
+    return ''
+  }
+
   public get IsDestroyed(): boolean {
     return this._destroyed
   }
@@ -675,43 +683,45 @@ class Mech {
     return this._loadouts
   }
 
+  public set Loadouts(loadouts: MechLoadout[]) {
+    this._loadouts = loadouts
+    this.save()
+  }
+
+  public get ActiveLoadout(): MechLoadout {
+    return this._active_loadout
+  }
+
+  public set ActiveLoadout(loadout: MechLoadout) {
+    this._active_loadout = loadout
+    this.save()
+  }
+
   public AddLoadout(): void {
     this._loadouts.push(new MechLoadout(this))
     this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
     this.save()
   }
 
-  public RemoveLoadout(loadout: MechLoadout): void {
-    const index = this._loadouts.findIndex(x => _.isEqual(x, loadout))
-    if (index === -1) {
-      console.error(`Loadout"${loadout.Name}" does not exist on Mech ${this.Name}`)
+  public RemoveLoadout(): void {
+    if (this._loadouts.length === 1) {
+      console.error(`Cannot remove last Mech Loadout`)
     } else {
+      console.log(this._loadouts)
+      const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
+      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
       this._loadouts.splice(index, 1)
-      this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
+      this.save()
     }
-    this.save()
   }
 
-  public CloneLoadout(loadout: MechLoadout): void {
-    const index = this._loadouts.findIndex(x => _.isEqual(x, loadout))
-    if (index === -1) {
-      console.error(`Loadout "${loadout.Name}" does not exist on Mech ${this.Name}`)
-    } else {
-      var newLoadout = MechLoadout.Deserialize(MechLoadout.Serialize(loadout), this)
-      newLoadout.RenewID()
-      newLoadout.Name += ' (Copy)'
-      this._loadouts.splice(index + 1, 0, newLoadout)
-    }
-    this.save()
-  }
-
-  public get ActiveLoadout(): MechLoadout | null {
-    if (!this._loadouts.length) return null
-    return this._loadouts.find(x => x.ID === this._active_loadout) || this._loadouts[0]
-  }
-
-  public set ActiveLoadout(loadout: MechLoadout | null) {
-    this._active_loadout = loadout ? loadout.ID || '' : null
+  public CloneLoadout(): void {
+    const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
+    let newLoadout = MechLoadout.Deserialize(MechLoadout.Serialize(this.ActiveLoadout), this)
+    newLoadout.RenewID()
+    newLoadout.Name += ' (Copy)'
+    this._loadouts.splice(index + 1, 0, newLoadout)
+    this._active_loadout = this._loadouts[index + 1]
     this.save()
   }
 
@@ -738,7 +748,7 @@ class Mech {
       current_repairs: m._current_repairs,
       current_overcharge: m._current_overcharge,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
-      active_loadout: m._active_loadout,
+      active_loadout_index: m.Loadouts.findIndex(x => x.ID === m.ActiveLoadout.ID),
       statuses: m._statuses,
       conditions: m._conditions,
       resistances: m._resistances,
@@ -751,32 +761,43 @@ class Mech {
     }
   }
 
-  public static Deserialize(mechData: IMechData, pilot: Pilot): Mech {
-    const f = store.getters.referenceByID('Frames', mechData.frame)
+  public static Deserialize(data: IMechData, pilot: Pilot): Mech {
+    const f = store.getters.referenceByID('Frames', data.frame)
     let m = new Mech(f, pilot)
-    m._id = mechData.id
-    m._name = mechData.name
-    m._portrait = mechData.portrait
-    m._cloud_portrait = mechData.cloud_portrait
-    m._active = mechData.active
-    m._current_structure = mechData.current_structure
-    m._current_hp = mechData.current_hp
-    m._current_stress = mechData.current_stress
-    m._current_heat = mechData.current_heat
-    m._current_repairs = mechData.current_repairs
-    m._current_overcharge = mechData.current_overcharge || 0
-    m._cc_ver = mechData.cc_ver
-    m._loadouts = mechData.loadouts.map((x: IMechLoadoutData) => MechLoadout.Deserialize(x, m))
-    m._active_loadout = mechData.active_loadout
-    m._statuses = mechData.statuses || []
-    m._conditions = mechData.conditions || []
-    m._resistances = mechData.resistances || []
-    m._burn = mechData.burn || 0
-    m._ejected = mechData.ejected || false
-    m._destroyed = mechData.destroyed || false
-    m._meltdown_imminent = mechData.meltdown_imminent || false
-    m._reactor_destroyed = mechData.reactor_destroyed || false
-    m._cc_ver = mechData.cc_ver || ''
+    m._id = data.id
+    m._name = data.name
+    m._portrait = data.portrait
+    m._cloud_portrait = data.cloud_portrait
+    m._active = data.active
+    m._current_structure = data.current_structure
+    m._current_hp = data.current_hp
+    m._current_stress = data.current_stress
+    m._current_heat = data.current_heat
+    m._current_repairs = data.current_repairs
+    m._current_overcharge = data.current_overcharge || 0
+    m._cc_ver = data.cc_ver
+    if (
+      data.active_loadout_index === null ||
+      data.active_loadout_index === undefined ||
+      !m._loadouts.length
+    ) {
+      m._loadouts = [new MechLoadout(m)]
+      m._active_loadout = m._loadouts[0]
+    } else {
+      m._loadouts = data.loadouts.map((x: IMechLoadoutData) => MechLoadout.Deserialize(x, m))
+      m._active_loadout = data.active_loadout_index
+        ? m._loadouts[data.active_loadout_index]
+        : m._loadouts[0]
+    }
+    m._statuses = data.statuses || []
+    m._conditions = data.conditions || []
+    m._resistances = data.resistances || []
+    m._burn = data.burn || 0
+    m._ejected = data.ejected || false
+    m._destroyed = data.destroyed || false
+    m._meltdown_imminent = data.meltdown_imminent || false
+    m._reactor_destroyed = data.reactor_destroyed || false
+    m._cc_ver = data.cc_ver || ''
     return m
   }
 }

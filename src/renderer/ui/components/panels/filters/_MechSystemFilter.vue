@@ -4,6 +4,8 @@
       <v-select
         v-model="sourceFilter"
         class="px-2"
+        hide-details
+        dense
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -18,6 +20,8 @@
       <v-select
         v-model="tagFilter"
         class="px-2"
+        hide-details
+        dense
         prepend-icon="mdi-tag"
         chips
         deletable-chips
@@ -35,6 +39,7 @@
       <v-select
         v-model="systemTypeFilter"
         class="px-2"
+        dense
         prepend-icon="cci-system"
         outlined
         label="System Type"
@@ -50,7 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, SystemType } from '@/class'
+import { Tag, SystemType, Manufacturer } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -66,10 +71,10 @@ export default Vue.extend({
     systemTypeFilter: [],
   }),
   computed: {
-    manufacturers(): any[] {
+    manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.name, value: x.id }))
+        .map(x => ({ text: x.Name, value: x.ID }))
         .sort(nameSort)
     },
     systemTypes(): SystemType[] {

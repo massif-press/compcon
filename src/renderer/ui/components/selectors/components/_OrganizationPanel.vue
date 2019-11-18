@@ -121,14 +121,14 @@ export default Vue.extend({
   },
   methods: {
     add() {
-      const o = new Organization(
-        this.orgName,
-        this.orgType,
-        this.orgStart === 'efficiency' ? 2 : 0,
-        this.orgStart === 'influence' ? 2 : 0,
-        this.orgDetails,
-        ''
-      )
+      const o = new Organization({
+        name: this.orgName,
+        purpose: this.orgType,
+        efficiency: this.orgStart === 'efficiency' ? 2 : 0,
+        influence: this.orgStart === 'influence' ? 2 : 0,
+        description: this.orgDetails,
+        actions: '',
+      })
       this.clear()
       this.$emit('add', o)
     },

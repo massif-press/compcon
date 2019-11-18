@@ -40,6 +40,12 @@ provide static Serialize and Deserialize fns if something needs to be saved
 each class must be declared in its own file
 import all classes into @/class, get classes from there instead of traversing the dir tree
 
+class structure:
+Pilot
+Mech
+CompendiumItem
+LicensedItem
+
 interfaces:
 keep interface in class file when convienient
 declare interface when useful (so, available globally)

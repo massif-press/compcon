@@ -95,7 +95,7 @@ class Statblock {
           pilot && pilot.has('CoreBonus', 'imparm'),
           pilot && pilot.has('CoreBonus', 'intweapon')
         )) {
-          output += `  ${mount.MountName}: `
+          output += `  ${mount.Name}: `
           if (mount.IsLocked) {
             output += 'SUPERHEAVY WEAPON BRACING'
           } else {

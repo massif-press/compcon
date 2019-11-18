@@ -1,15 +1,14 @@
 <template>
   <v-container fluid>
-    <h1 class="heading">MECH WEAPONS</h1>
-    <compendium-table :headers="headers" :items="weapons" />
+    <compendium-table :headers="headers" :items="weapons">Mech Weapons</compendium-table>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import CompendiumTable from '../UI/CompendiumTable.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import CompendiumTable from '../UI/CompendiumTable.vue'
 
 export default Vue.extend({
   name: 'weapons',

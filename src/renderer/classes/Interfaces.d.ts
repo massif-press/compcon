@@ -129,7 +129,7 @@ declare interface IMechData {
   current_repairs: number
   current_overcharge: number
   loadouts: IMechLoadoutData[]
-  active_loadout: string | null
+  active_loadout_index: number
   statuses: string[]
   conditions: string[]
   resistances: string[]

@@ -14,7 +14,6 @@ import {
   Mech,
   CustomSkill,
   Organization,
-  Faction,
 } from '@/class'
 import { rules } from 'lancer-data'
 import { store } from '@/store'
@@ -831,7 +830,7 @@ class Pilot {
       console.error(`Cannot remove last Pilot Loadout`)
     } else {
       const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-      this._active_loadout = this._loadouts[index + index === 0 ? 1 : -1]
+      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
       this._loadouts.splice(index, 1)
       this.save()
     }
@@ -888,7 +887,7 @@ class Pilot {
       this.save()
       return
     }
-    
+
     mech.Active = true
     this._active_mech = mech.ID
     this.save()

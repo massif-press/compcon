@@ -1,13 +1,14 @@
 <template>
   <div>
-    <cc-title small>
+    <cc-title small color="pilot">
       <section-edit-chip
         :highlight="!pilot.HasLicenses"
         :current="pilot.CurrentLicensePoints"
         :max="pilot.MaxLicensePoints"
         :label="`Edit Pilot Licenses (${pilot.CurrentLicensePoints}/${pilot.MaxLicensePoints})`"
         @open-selector="$refs.licenseSelector.show()"
-      />Licenses
+      />
+      Licenses
     </cc-title>
     <cc-solo-dialog
       ref="licenseSelector"

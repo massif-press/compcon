@@ -4,8 +4,9 @@
       <v-chip
         small
         label
-        :class="{'fadeSelect': !highlight}"
-        :color="highlight ? 'warning' : 'primary'"
+        dark
+        :class="{ fadeSelect: !highlight }"
+        :color="highlight ? 'warning' : 'pilot'"
         style="margin-bottom: 1px"
         @click="$emit('open-selector')"
       >

@@ -3,7 +3,7 @@
   <div>
     <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
       <span class="mount-title pl-3 pr-3 text-uppercase">
-        {{ integrated ? mount.ItemSource + ' Integrated Mount' : mount.MountName }}
+        {{ integrated ? mount.ItemSource + ' Integrated Mount' : mount.Name }}
         <v-tooltip top v-if="!integrated">
           <v-btn
             v-if="isCbVisible()"

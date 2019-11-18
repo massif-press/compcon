@@ -7,31 +7,26 @@
             <v-col dense cols="auto">
               <span class="overline lh">callsign</span>
               <br />
-              <span
-                class="heading h1"
-                style="line-height: 18px; letter-spacing: 10px"
-              >{{ pilot.Callsign }}</span>
+              <span class="heading h1" style="line-height: 18px; letter-spacing: 10px">
+                {{ pilot.Callsign }}
+              </span>
             </v-col>
             <v-col cols="auto" class="ml-auto text-center mt-2">
               <span class="overline">license level</span>
               <br />
-              <span class="heading h1" style="line-height: 40px; font-size: 80px">{{ pilot.Level }}</span>
+              <span class="heading h1" style="line-height: 40px; font-size: 80px">
+                {{ pilot.Level }}
+              </span>
               <br />
               <cc-tooltip simple inline content="Level Up" class="ml-4">
-                <v-icon
-                  large
-                  dark
-                  class="fadeSelect"
-                  @click="$router.push('/level')"
-                >mdi-arrow-up-bold-hexagon-outline</v-icon>
+                <v-icon large dark class="fadeSelect" @click="$router.push('level')">
+                  mdi-arrow-up-bold-hexagon-outline
+                </v-icon>
               </cc-tooltip>
               <cc-tooltip delayed simple inline content="Edit License Level">
-                <v-icon
-                  small
-                  dark
-                  class="fadeSelect mt-2"
-                  @click="$refs.levelEdit.show()"
-                >mdi-circle-edit-outline</v-icon>
+                <v-icon small dark class="fadeSelect mt-2" @click="$refs.levelEdit.show()">
+                  mdi-circle-edit-outline
+                </v-icon>
               </cc-tooltip>
             </v-col>
           </v-row>
@@ -39,15 +34,16 @@
             <v-col cols="auto" class="mr-3">
               <span class="overline lh">name</span>
               <br />
-              <span style="display: block" class="stat-text white--text mt-n2">{{ pilot.Name }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.Name }}
+              </span>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-3">
               <span class="overline lh">background</span>
               <br />
-              <span
-                style="display: block"
-                class="stat-text white--text mt-n2"
-              >{{ pilot.Background }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.Background }}
+              </span>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-3">
               <span class="overline lh">rm-4://(IDENT)</span>
@@ -104,7 +100,9 @@
             <v-img v-else src="https://via.placeholder.com/550" />
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="secondary">
-                <cc-btn color="secondary" @click="$refs.imageSelector.open()">Set Pilot Portrait</cc-btn>
+                <cc-btn color="secondary" @click="$refs.imageSelector.open()">
+                  Set Pilot Portrait
+                </cc-btn>
               </v-overlay>
             </v-fade-transition>
           </div>
