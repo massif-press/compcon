@@ -1,6 +1,6 @@
 <template>
   <v-row dense class="pa-0">
-    <v-col dense class="pa-0">
+    <v-col class="pa-0">
       <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
     <v-col cols="auto">

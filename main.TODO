@@ -7,9 +7,27 @@ Next Steps:
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
   ☐ In-file interface declarations available globally through TS import()
+  ☐ Talent Die counters
+
+Mech loadout:
+  ☐ AI mark as Unshackled
+  ✔ Mark Mod Destroyed @done(19-11-19 19:34)
+  ☐ Properly serialize mods so they can remember destroyed/shackled/etc
+  ✔ Mod inserts @done(19-11-19 14:06)
+  ☐ Int and talent mounts
+  ☐ Applied CBs
+  ✔ Destroyed toggle @done(19-11-19 19:35)
+  ☐ Loaded toggle
+    ☐ Loaded/Unloaded icon
+  ☐ Limited pips
+  ☐ SH Brace Lock
+  ✔ Mod selector should respect uniques @done(19-11-19 14:06)
+  ✔ Systems/Mod selector should respect AIs @done(19-11-19 14:06)
+  ☐ Make fake AI tag for techno 3 AI
+  ☐ Mod items for system section (name -- installed on -- sp cost)
 
 Cleanup:
-  ☐ Remove useless `dense`s from v-col (use no-gutters or dense on row)
+  ✔ Remove useless `dense`s from v-col (use no-gutters or dense on row) @done(19-11-18 16:41)
   ☐ remove old font stylings
   ☐ Add License info to Item cards
 
@@ -142,6 +160,7 @@ Refactor:
 
 Style Pass:
   ✔ Fix header on tables @done(19-11-15 10:28)
+  ✔ "Expanded" tags -- inline descriptions for item cards @done(19-11-18 16:40)
   ☐ pilot NO IMG
   ☐ global notification
   ☐ error logging

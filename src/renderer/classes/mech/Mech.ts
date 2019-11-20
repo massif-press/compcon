@@ -1,5 +1,4 @@
 import { store } from '@/store'
-import _ from 'lodash'
 import uuid from 'uuid/v1'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
@@ -96,16 +95,15 @@ class Mech {
     return this._frame
   }
 
-  //TODO: remove one
+  public get Pilot(): Pilot {
+    return this._pilot
+  }
+
   public get IsActive(): boolean {
     return this._active
   }
 
-  public get Active(): boolean {
-    return this._active
-  }
-
-  public set Active(toggle: boolean) {
+  public set IsActive(toggle: boolean) {
     this._active = toggle
     if (this.IsActive) this.FullRepair()
     this.save()
@@ -392,6 +390,10 @@ class Mech {
   public get MaxSP(): number {
     let bonus = this._pilot.Grit + Math.floor(this.Sys / 2)
     return this.Frame.SP + bonus
+  }
+
+  public get FreeSP(): number {
+    return this.MaxSP - this.CurrentSP
   }
 
   public get SPContributors(): string[] {
@@ -779,7 +781,7 @@ class Mech {
     if (
       data.active_loadout_index === null ||
       data.active_loadout_index === undefined ||
-      !m._loadouts.length
+      !data.loadouts.length
     ) {
       m._loadouts = [new MechLoadout(m)]
       m._active_loadout = m._loadouts[0]

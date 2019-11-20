@@ -28,6 +28,7 @@ class MechSystem extends MechEquipment {
       id: item.ID,
       uses: item.Uses || 0,
       destroyed: item.IsDestroyed || false,
+      unshackled: item.IsUnshackled || false,
     }
   }
 
@@ -35,6 +36,7 @@ class MechSystem extends MechEquipment {
     let item = store.getters.instantiate('MechSystems', itemData.id)
     item.Uses = itemData.uses || 0
     item.destroyed = itemData.destroyed || false
+    item.unshackled = itemData.unshackled || false
     return item
   }
 }

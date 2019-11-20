@@ -1,18 +1,35 @@
 <template>
   <equipment-card-base :item="item">
-    <cc-range-element v-if="item.AddedRange" :range="[item.AddedRange]" />
-    <cc-damage-element v-if="item.AddedDamage" :damage="[item.AddedDamage]" />
-    <span v-if="item.SP" class="large-text">
-      <b class="primary--text">{{ item.SP }}</b>
-      SP
-    </span>
-    <div class="large-text ml-auto">{{ item.AppliedString }}</div>
-    <div v-if="item.Restricted">
-      <br />
-      <span
-        class="stat-text error--text"
-      >RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS</span>
-    </div>
+    <v-col v-if="item.AddedRange" cols="auto">
+      <cc-range-element :range="[item.AddedRange]" />
+    </v-col>
+    <v-divider v-if="item.AddedRange" vertical class="mx-4" />
+    <v-col v-if="item.AddedDamage" cols="auto">
+      <cc-damage-element :damage="[item.AddedDamage]" />
+    </v-col>
+    <v-divider v-if="item.AddedDamage" vertical class="mx-4" />
+    <v-col v-if="item.SP" cols="auto" class="text-center">
+      <div class="clip-icon">
+        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
+      </div>
+      <span>
+        <b>{{ item.SP }}</b>
+        <br />
+        <div class="overline mt-n1">
+          SYSTEM POINTS
+        </div>
+      </span>
+    </v-col>
+    <v-col cols="auto" class="ml-auto text-right">
+      <span class="overline">APPLIED TO</span>
+      <div class="heading h2 mt-n2">{{ item.AppliedString }}</div>
+      <span class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+      <div v-if="item.Restricted">
+        <span class="stat-text error--text">
+          RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
+        </span>
+      </div>
+    </v-col>
   </equipment-card-base>
 </template>
 

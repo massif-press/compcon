@@ -2,8 +2,10 @@
   <v-expansion-panel class="border-highlight">
     <v-expansion-panel-header id="hover-parent" style="height:65px;" hide-actions>
       <v-row style="position:absolute; z-index: 10" class="py-2">
-        <v-col dense cols="1" class="ml-n3 mr-4">
-          <v-icon v-if="rank" size="50" color="primary" class="d-inline">cci-rank-{{ rank }}</v-icon>
+        <v-col cols="1" class="ml-n3 mr-4">
+          <v-icon v-if="rank" size="50" color="primary" class="d-inline">
+            cci-rank-{{ rank }}
+          </v-icon>
           <cc-logo
             v-else
             size="xLarge"
@@ -12,7 +14,7 @@
             :source="license.Manufacturer"
           />
         </v-col>
-        <v-col dense class="ml-2">
+        <v-col class="ml-2">
           <span class="caption">{{ frame(license.FrameID).Source }}</span>
           <br />
           <span class="major-title font-weight-bold pop">{{ license.Name }}</span>
@@ -24,7 +26,9 @@
             outlined
             color="primary"
             class="mr-2 pop"
-          >{{ f }}</v-chip>
+          >
+            {{ f }}
+          </v-chip>
         </v-col>
       </v-row>
       <v-img

@@ -1,6 +1,18 @@
 <template>
-  <v-row class="my-2">
-    <cc-tag v-for="(t, i) in tags" :key="`${t.id}_${i}`" :tag="t" :small="small" :color="color" />
+  <v-row v-if="extended" no-gutters>
+    <v-col v-for="(t, i) in tags" :key="`${t.id}_${i}`" cols="12">
+      <cc-extended-tag :tag="t" />
+    </v-col>
+  </v-row>
+  <v-row v-else class="my-2">
+    <cc-tag
+      v-for="(t, i) in tags"
+      :key="`${t.id}_${i}`"
+      :tag="t"
+      :small="small"
+      :color="color"
+      :pilot="pilot"
+    />
   </v-row>
 </template>
 
@@ -18,10 +30,19 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
+    extended: {
+      type: Boolean,
+      required: false,
+    },
     color: {
       type: String,
       required: false,
       default: 'primary',
+    },
+    pilot: {
+      type: Object,
+      required: false,
+      default: null,
     },
   },
 })

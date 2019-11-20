@@ -1,5 +1,5 @@
 <template>
-  <v-col dense class="py-0">
+  <v-col class="py-0">
     <span class="text-uppercase stat-text">{{ title }}</span>
     <span class="flavor-text grey--text">({{ skillPoints || 0 }})</span>
     <cc-tooltip simple :content="tooltip()">

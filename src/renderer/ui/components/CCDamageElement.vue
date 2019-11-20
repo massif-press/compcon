@@ -16,7 +16,14 @@
           <v-icon x-large :color="d.Color">{{ d.Icon }}</v-icon>
         </div>
       </cc-tooltip>
-      <span v-if="!small">{{ d.Value }}</span>
+      <span v-if="!small">
+        &nbsp;{{ d.Value }}
+        <br />
+        <div class="overline mt-n1">
+          <b>{{ d.Type }}</b>
+          Damage
+        </div>
+      </span>
     </div>
   </div>
 </template>

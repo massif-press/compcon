@@ -1,8 +1,12 @@
 <template>
   <equipment-card-base :item="item">
-    <cc-range-element :range="item.Range" />
-    <cc-damage-element :damage="item.Damage" />
-    <div class="large-text ml-auto">{{ item.Size }} {{ item.Type }}</div>
+    <v-col cols="auto">
+      <cc-range-element :range="item.Range" />
+    </v-col>
+    <v-divider vertical class="mx-4" />
+    <v-col cols="auto">
+      <cc-damage-element :damage="item.Damage" />
+    </v-col>
   </equipment-card-base>
 </template>
 

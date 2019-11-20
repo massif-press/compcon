@@ -1,30 +1,29 @@
 <template>
   <div>
-    <cc-selector-table :items="availableWeapons" :headers="headers" @equip="$emit('equip', $event)">
-      <div v-if="weaponSlot.Weapon">
+    <cc-selector-table :items="availableMods" :headers="headers" @equip="$emit('install', $event)">
+      <div v-if="weapon.Mod">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
           <span class="success--text text--darken-1">
-            [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
+            [ EQUIPMENT MODIFICATION REGISTERED ]
           </span>
         </span>
         <br />
         <span class="heading h1 primary--text" style="line-height: 20px">
-          {{ weaponSlot.Weapon.Name }}
+          {{ weapon.Mod.Name }}
         </span>
-        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
+        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</span>
       </div>
       <div v-else>
         <span class="overline">
-          UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//ARMAMENT::{{ weaponSlot.Size }}
-          MOUNT
+          UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
         </span>
         <br />
         <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
           NO SELECTION
         </span>
         <span class="flavor-text overline mt-n1 error--text" style="display: block">
-          [ EQUIPMENT ID INVALID OR MISSING ]
+          [ MODIFICATION DATA INVALID OR MISSING ]
         </span>
       </div>
       <div slot="extra-item">
@@ -40,9 +39,7 @@
             slot="label"
             simple
             inline
-            :content="
-              showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-            "
+            :content="showUnlicensed ? 'Unlicensed mods: SHOWN' : 'Unlicensed mods: HIDDEN'"
           >
             <v-icon
               large
@@ -87,14 +84,14 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { MechWeapon } from '@/class'
+import { MechWeapon, WeaponMod } from '@/class'
 import { rules } from 'lancer-data'
 import { flavorID } from '@/io/Generators'
 
 export default Vue.extend({
   name: 'weapon-selector',
   props: {
-    weaponSlot: {
+    weapon: {
       type: Object,
       required: true,
     },
@@ -105,51 +102,56 @@ export default Vue.extend({
   },
   data: () => ({
     headers: [
+      { align: 'left', sortable: false, width: '5vw' },
       { text: 'Source', align: 'left', value: 'Source' },
-      { text: 'Weapon', align: 'left', value: 'Name' },
+      { text: 'Mod', align: 'left', value: 'Name' },
       { text: 'License', align: 'left', value: 'LicenseString' },
-      { text: 'Size', align: 'left', value: 'Size' },
-      { text: 'Type', align: 'left', value: 'Type' },
-      { text: 'Range', align: 'left', value: 'Range' },
-      { text: 'Damage', align: 'left', value: 'Damage' },
+      { text: 'Applied To', align: 'left', value: 'AppliedString' },
       { text: 'SP', align: 'left', value: 'SP' },
       { text: '', align: 'center', value: 'Detail' },
     ],
-    weapons: [],
+    mods: [],
     showUnlicensed: false,
     showOverSP: false,
   }),
   computed: {
     freeSP(): number {
-      return this.weaponSlot.Weapon
-        ? this.mech.FreeSP + this.weaponSlot.Weapon.SP
-        : this.mech.FreeSP
+      return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
     },
-    availableWeapons(): MechWeapon[] {
-      const fittings = rules.mount_fittings[this.weaponSlot.Size]
+    availableMods(): MechWeapon[] {
+      // filter by applied_to
+      let i = this.mods.filter(x => x.AppliedTo.includes(this.weapon.Type))
 
-      let i = this.weapons.filter(x => x.Source && fittings.includes(x.Size))
+      // // filter out any mount restrictions
+      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size))
+
       if (!this.showUnlicensed) {
         i = i.filter(
           x => x.Source === 'GMS' || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         )
       }
+
       if (!this.showOverSP) {
         i = i.filter(x => x.SP <= this.freeSP)
       }
 
       // filter already equipped
-      if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
+      if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
 
       // filter unique
-      i = i.filter(x => !this.mech.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
+      i = i.filter(x => !this.mech.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID))
+
+      // filter ai
+      if (this.mech.ActiveLoadout.AICount >= this.mech.Pilot.AICapacity) {
+        i = i.filter(x => !x.IsAI)
+      }
 
       return i
     },
   },
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.weapons = compendium.MechWeapons.filter(x => x.Source)
+    this.mods = compendium.WeaponMods.filter(x => x.Source)
   },
   methods: {
     fID(template: string): string {

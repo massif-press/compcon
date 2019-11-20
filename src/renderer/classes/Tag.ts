@@ -104,6 +104,10 @@ class Tag {
     return this._id === 'unique'
   }
 
+  public get IsAI(): boolean {
+    return this._id === 'ai'
+  }
+
   public get IsLimited(): boolean {
     return this._id === 'limited'
   }

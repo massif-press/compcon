@@ -4,6 +4,14 @@
       <legend :style="`color: ${color}`" class="heading h3">
         Systems
       </legend>
+      <div style="position: relative">
+        <div class="side-legend">
+          <span class="heading h3 grey--text text--darken-3">
+            {{ mech.FreeSP }} / {{ mech.MaxSP }}
+            <span class="overline">SP</span>
+          </span>
+        </div>
+      </div>
     </fieldset>
   </v-card>
   <!-- <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
@@ -57,6 +65,7 @@ export default Vue.extend({
   props: {
     loadout: MechLoadout,
     mech: Mech,
+    color: String,
   },
   // methods: {
   //   usedSP(): number {
@@ -69,7 +78,7 @@ export default Vue.extend({
 
 <style scoped>
 fieldset {
-  border-color: var(--v-grey-base);
+  border-color: var(--v-grey-darken2);
   border-radius: 5px;
   margin-bottom: 12px;
   padding: 4px;
@@ -77,5 +86,16 @@ fieldset {
 
 legend {
   padding: 3px 12px;
+}
+
+.side-legend {
+  position: absolute;
+  right: 20px;
+  top: -30px;
+  background-color: white;
+  padding: 0px 8px;
+  height: 28px;
+  border: 1px solid grey;
+  border-radius: 5px;
 }
 </style>

@@ -4,7 +4,20 @@
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
       </legend>
-      <weapon-slot-card v-for="(s, i) in mount.Slots" :key="`slot_${mount.Name}-${i}`" :slot="s" />
+      <div style="position: relative">
+        <div class="side-legend">
+          <v-btn small outlined color="grey darken-2">
+            <v-icon left>cci-corebonus</v-icon>
+            No core bonus applied
+          </v-btn>
+        </div>
+      </div>
+      <weapon-slot-card
+        v-for="(s, i) in mount.Slots"
+        :key="`slot_${mount.Name}-${i}`"
+        :weapon-slot="s"
+        :mech="mech"
+      />
     </fieldset>
   </v-col>
 
@@ -103,6 +116,10 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    mech: {
+      type: Object,
+      required: true,
+    },
     // loadout: Object,
     // maxSp: Number,
     // integrated: Boolean,
@@ -150,7 +167,7 @@ export default Vue.extend({
 
 <style scoped>
 fieldset {
-  border-color: var(--v-grey-base);
+  border-color: var(--v-grey-darken2);
   border-radius: 5px;
   margin-bottom: 12px;
   padding: 4px;
@@ -158,5 +175,16 @@ fieldset {
 
 legend {
   padding: 3px 12px;
+}
+
+.side-legend {
+  position: absolute;
+  right: 20px;
+  top: -30px;
+  background-color: white;
+  height: 30px;
+  border: 2px;
+  border-color: var(--v-grey-base);
+  border-radius: 5px;
 }
 </style>

@@ -4,7 +4,7 @@
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col cols="10">
           <v-row dense style="height: 60px;">
-            <v-col dense cols="auto">
+            <v-col cols="auto">
               <span class="overline lh">callsign</span>
               <br />
               <span class="heading h1" style="line-height: 18px; letter-spacing: 10px">

@@ -11,6 +11,7 @@ import {
   MechEquipment,
   MechWeapon,
   Pilot,
+  WeaponMod,
 } from '@/class'
 
 class MechLoadout extends Loadout {
@@ -226,6 +227,20 @@ class MechLoadout extends Loadout {
 
   public get UniqueSystems(): MechSystem[] {
     return this.Systems.filter(x => x.IsUnique)
+  }
+
+  public get UniqueMods(): WeaponMod[] {
+    return this.Weapons.map(x => x.Mod).filter(y => y && y.IsUnique)
+  }
+
+  public get UniqueItems(): MechEquipment[] {
+    return (this.UniqueWeapons as MechEquipment[])
+      .concat(this.UniqueSystems as MechEquipment[])
+      .concat(this.UniqueMods as MechEquipment[])
+  }
+
+  public get AICount(): number {
+    return this.Equipment.filter(x => x.IsAI).length
   }
 
   public static Serialize(ml: MechLoadout): IMechLoadoutData {

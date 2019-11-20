@@ -1,5 +1,5 @@
 <template>
-  <v-col dense>
+  <v-col>
     <v-card
       flat
       tile

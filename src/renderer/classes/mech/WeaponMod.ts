@@ -27,6 +27,7 @@ class WeaponMod extends MechEquipment {
   private _applied_to: WeaponType[]
   private _applied_string: string
   private _restricted_mounts: WeaponSize[]
+  private _tags: ITagData[]
   private _added_tags: ITagData[]
   private _added_damage?: Damage
   private _added_range?: Range
@@ -38,7 +39,7 @@ class WeaponMod extends MechEquipment {
     this._applied_string = weaponModData.applied_string
     this._description = weaponModData.description
     this._restricted_mounts = weaponModData.restricted_mounts
-    this.tags = weaponModData.tags
+    this._tags = weaponModData.tags
     this._added_tags = weaponModData.added_tags || []
     if (weaponModData.added_damage) this._added_damage = new Damage(weaponModData.added_damage)
     if (weaponModData.added_range) this._added_range = new Range(weaponModData.added_range)
@@ -66,7 +67,7 @@ class WeaponMod extends MechEquipment {
   }
 
   public get Tags(): Tag[] {
-    return Tag.Deserialize(this.tags)
+    return Tag.Deserialize(this._tags)
   }
 
   public get AddedTags(): Tag[] {
