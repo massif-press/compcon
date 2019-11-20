@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <v-row class="stat-text" fill-height>
+    <v-row class="flavor-text" no-gutters>
       <slot />
     </v-row>
 
@@ -22,7 +22,7 @@
       <p class="effect-text panel pa-2" v-html="item.Effect" />
     </div>
 
-    <cc-tags :tags="item.Tags" />
+    <cc-tags :tags="item.Tags" extended />
   </v-card-text>
 </template>
 

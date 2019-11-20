@@ -7,6 +7,7 @@
         :outlined="!license.missing"
         :dark="license.missing"
         :color="license.missing ? 'deep-orange darken-4' : 'success darken-2'"
+        class="ma-1"
         v-on="on"
       >
         <v-icon left>cci-rank-{{ license.rank }}</v-icon>

@@ -56,6 +56,14 @@ class MechWeapon extends MechEquipment {
     return this.Mod.SP + this.sp
   }
 
+  public get BaseSP(): number {
+    return this.sp
+  }
+
+  public get ModSP(): number {
+    return this.Mod ? this.Mod.SP : 0
+  }
+
   public get Damage(): Damage[] {
     return this._damage || []
   }

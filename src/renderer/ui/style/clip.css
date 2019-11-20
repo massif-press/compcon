@@ -42,4 +42,5 @@
   clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
   background-color: var(--v-panel-base);
   border: 3px double var(--v-panel-border-base);
+  margin: auto;
 }

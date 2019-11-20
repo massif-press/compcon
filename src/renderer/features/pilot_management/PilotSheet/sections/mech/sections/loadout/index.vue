@@ -14,18 +14,17 @@
         <mount-block
           v-for="(im, j) in mech.ActiveLoadout.IntegratedMounts"
           :key="`int_${j}`"
-          :mount="im"
-          :loadout="mech.ActiveLoadout"
           integrated
+          :mount="im"
+          :mech="mech"
           :color="color"
         />
 
         <mount-block
           v-if="pilot.has('CoreBonus', 'intweapon')"
-          :mount="mech.ActiveLoadout.IntegratedWeaponMount"
-          :loadout="mech.ActiveLoadout"
-          :max-sp="mech.MaxSP"
           intweapon
+          :mount="mech.ActiveLoadout.IntegratedWeaponMount"
+          :mech="mech"
           :color="color"
         />
 
@@ -33,8 +32,7 @@
           v-for="(m, k) in mech.ActiveLoadout.AllEquippableMounts(pilot.has('CoreBonus', 'imparm'))"
           :key="`m_${k}`"
           :mount="m"
-          :loadout="mech.ActiveLoadout"
-          :max-sp="mech.MaxSP"
+          :mech="mech"
           :color="color"
         />
       </v-row>

@@ -8,7 +8,7 @@
     class="clipped-large"
     dark
     dense
-    style="z-index:999"
+    style="z-index:50"
   >
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">

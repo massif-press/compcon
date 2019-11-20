@@ -132,7 +132,7 @@ export default Vue.extend({
     mech: {},
     color: '#000',
   }),
-  mounted() {
+  created() {
     const store = getModule(PilotManagementStore, this.$store)
     this.pilot = store.ActivePilot
     this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)

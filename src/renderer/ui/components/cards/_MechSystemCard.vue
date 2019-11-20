@@ -1,10 +1,21 @@
 <template>
   <equipment-card-base :item="item">
-    <span v-if="item.SP" span class="large-text">
-      <b class="primary--text">{{ item.SP }}</b>
-      SP
-    </span>
-    <div class="large-text ml-auto">{{ item.Size }} {{ item.Type }}</div>
+    <v-col v-if="item.SP" cols="auto" class="text-center">
+      <div class="clip-icon">
+        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
+      </div>
+      <span>
+        <b>{{ item.SP }}</b>
+        <br />
+        <div class="overline mt-n1">
+          SYSTEM POINTS
+        </div>
+      </span>
+    </v-col>
+    <v-col cols="auto" class="ml-auto text-right">
+      <div class="heading h2">{{ item.Type }}</div>
+      <span class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+    </v-col>
   </equipment-card-base>
 </template>
 

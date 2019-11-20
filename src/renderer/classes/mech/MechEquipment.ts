@@ -16,6 +16,7 @@ abstract class MechEquipment extends LicensedItem {
   private _integrated: boolean
   private _uses: number
   private _destroyed: boolean
+  private _unshackled: boolean
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)
@@ -25,6 +26,7 @@ abstract class MechEquipment extends LicensedItem {
     this._integrated = itemData.talent_item || itemData.frame_id || false
     this._uses = this.MaxUses
     this._destroyed = false
+    this._unshackled = false
   }
 
   public get Tags(): Tag[] {
@@ -41,6 +43,18 @@ abstract class MechEquipment extends LicensedItem {
 
   public get IsUnique(): boolean {
     return this.Tags.some(x => x.IsUnique)
+  }
+
+  public get IsAI(): boolean {
+    return this.Tags.some(x => x.IsAI)
+  }
+
+  public get IsUnshackled(): boolean {
+    return this._unshackled
+  }
+
+  public set IsUnshackled(b: boolean) {
+    this._unshackled = b
   }
 
   public get IsLimited(): boolean {

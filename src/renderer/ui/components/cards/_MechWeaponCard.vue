@@ -1,9 +1,29 @@
 <template>
   <equipment-card-base :item="item">
-    <cc-range-element :range="item.Range" />
-    <cc-damage-element :damage="item.Damage" />
-    <span v-if="item.SP" class="text-lighten--text">({{ item.SP }} SP)</span>
-    <div class="large-text ml-auto">{{ item.Size }} {{ item.Type }}</div>
+    <v-col cols="auto">
+      <cc-range-element :range="item.Range" />
+    </v-col>
+    <v-divider vertical class="mx-4" />
+    <v-col cols="auto">
+      <cc-damage-element :damage="item.Damage" />
+    </v-col>
+    <v-divider v-if="item.BaseSP" vertical class="mx-4" />
+    <v-col v-if="item.BaseSP" cols="auto" class="text-center">
+      <div class="clip-icon">
+        <v-icon v-for="n in item.BaseSP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
+      </div>
+      <span>
+        <b>{{ item.BaseSP }}</b>
+        <br />
+        <div class="overline mt-n1">
+          SYSTEM POINTS
+        </div>
+      </span>
+    </v-col>
+    <v-col cols="auto" class="ml-auto text-right">
+      <div class="heading h2">{{ item.Size }} {{ item.Type }}</div>
+      <span class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+    </v-col>
   </equipment-card-base>
 </template>
 

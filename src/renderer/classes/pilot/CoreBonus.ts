@@ -33,6 +33,10 @@ class CoreBonus extends CompendiumItem {
     return this._effect
   }
 
+  public get IsMountable(): boolean {
+    return !!this.MountedEffect
+  }
+
   public get MountedEffect(): string {
     return this._mounted_effect
   }

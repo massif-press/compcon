@@ -435,6 +435,10 @@ class Pilot {
     return bonus
   }
 
+  public get AICapacity(): number {
+    return this.has('corebonus', 'shaping') ? 2 : 1
+  }
+
   // -- Skills ------------------------------------------------------------------------------------
   public get Skills(): PilotSkill[] {
     return this._skills
@@ -880,7 +884,7 @@ class Pilot {
 
   public set ActiveMech(mech: Mech | null) {
     this._mechs.forEach(m => {
-      m.Active = false
+      m.IsActive = false
     })
 
     if (!mech) {
@@ -888,7 +892,7 @@ class Pilot {
       return
     }
 
-    mech.Active = true
+    mech.IsActive = true
     this._active_mech = mech.ID
     this.save()
   }

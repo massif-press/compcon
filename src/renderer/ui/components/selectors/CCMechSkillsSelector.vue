@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row dense>
-      <v-col dense cols="5" class="ml-auto mr-auto">
+      <v-col cols="5" class="ml-auto mr-auto">
         <v-alert
           :value="true"
           :type="pilot.IsMissingHASE ? 'info' : 'success'"
@@ -17,7 +17,7 @@
       take punches and keep going
     </span>
     <v-row dense>
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <v-btn
           color="secondary"
           :disabled="!pilot.MechSkills.Hull"
@@ -46,7 +46,7 @@
       </v-col>
     </v-row>
     <v-row dense class="mt-n3 mb-6">
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <span class="heading h3">
           MECH HP
           <span class="primary--text">+{{ pilot.MechSkills.Hull * 2 }}</span>
@@ -64,7 +64,7 @@
       class="flavor-text"
     >Your AGILITY skill describes your ability to build and pilot fast, evasive mechs</span>
     <v-row dense>
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <v-btn
           color="secondary"
           :disabled="!pilot.MechSkills.Agi"
@@ -94,7 +94,7 @@
     </v-row>
 
     <v-row dense class="mt-n3 mb-6">
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <span class="minor-title">EVASION</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Agi }}</span>
         <cc-slashes class="ml-1 mr-1" />
@@ -109,7 +109,7 @@
       electronic warfare tools
     </span>
     <v-row dense>
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <v-btn
           color="secondary"
           :disabled="!pilot.MechSkills.Sys"
@@ -139,7 +139,7 @@
     </v-row>
 
     <v-row dense class="mt-n3 mb-6">
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <span class="minor-title">ELECTRONIC DEFENSE</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Sys }}</span>
         <cc-slashes class="ml-1 mr-1" />
@@ -157,7 +157,7 @@
       reactors, supplies and support systems
     </span>
     <v-row dense>
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <v-btn
           color="secondary"
           :disabled="!pilot.MechSkills.Eng"
@@ -187,7 +187,7 @@
     </v-row>
 
     <v-row dense class="mt-n3 mb-6">
-      <v-col dense cols="auto" class="ml-auto mr-auto">
+      <v-col cols="auto" class="ml-auto mr-auto">
         <span class="minor-title">HEAT CAPACITY</span>
         <span class="minor-title primary--text">+{{ pilot.MechSkills.Eng }}</span>
 
