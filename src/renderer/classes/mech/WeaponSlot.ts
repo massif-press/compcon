@@ -1,4 +1,4 @@
-import { MechWeapon, FittingSize, Pilot } from '@/class'
+import { MechWeapon, FittingSize } from '@/class'
 import _ from 'lodash'
 import { store } from '@/store'
 import { WeaponMod } from '@/class'
@@ -28,9 +28,8 @@ class WeaponSlot {
     return this.Weapon && this.Weapon.Mod
   }
 
-  public EquipWeapon(weapon: MechWeapon, pilot?: Pilot): void {
+  public EquipWeapon(weapon: MechWeapon): void {
     const w = _.clone(weapon)
-    if (w.IsLimited && pilot) w.Uses = w.MaxUses + pilot.LimitedBonus
     this._weapon = w
     this.save()
   }

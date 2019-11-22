@@ -5,7 +5,11 @@
       :key="`chk_${n - 1}`"
       v-model="model"
       :value="n - 1"
-      :class="`fs-override d-inline ma-0 ${right ? 'mr-n2' : ''} ${left ? 'ml-n2' : ''} ${large ? 'mt-4 cb-lg' : small ? 'cb-sm' : ''}`"
+      :class="
+        `fs-override d-inline ma-0 ${right ? 'mr-n2' : ''} ${left ? 'ml-n2' : ''} ${
+          large ? 'mt-4 cb-lg' : small ? 'cb-sm' : 'cb-md'
+        }`
+      "
       :ripple="false"
       :off-icon="emptyIcon"
       :on-icon="fullIcon"
@@ -103,7 +107,8 @@ export default Vue.extend({
 }
 
 .cb-md {
-  font-size: 45px !important;
+  font-size: 30px !important;
+  padding-left: 5px;
 }
 
 .cb-sm {

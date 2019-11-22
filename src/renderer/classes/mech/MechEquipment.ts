@@ -1,4 +1,4 @@
-import { LicensedItem, Tag } from '@/class'
+import { LicensedItem, Tag, Pilot } from '@/class'
 import { ILicensedItemData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
@@ -17,6 +17,7 @@ abstract class MechEquipment extends LicensedItem {
   private _uses: number
   private _destroyed: boolean
   private _unshackled: boolean
+  private _loaded: boolean
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)
@@ -24,9 +25,10 @@ abstract class MechEquipment extends LicensedItem {
     this.tags = itemData.tags
     this._effect = itemData.effect
     this._integrated = itemData.talent_item || itemData.frame_id || false
-    this._uses = this.MaxUses
+    this._uses = 0
     this._destroyed = false
     this._unshackled = false
+    this._loaded = true
   }
 
   public get Tags(): Tag[] {
@@ -57,12 +59,27 @@ abstract class MechEquipment extends LicensedItem {
     this._unshackled = b
   }
 
+  public Unshackle(): void {
+    if (!this.IsAI) return
+    this._unshackled = true
+    this.save()
+  }
+
+  public Shackle(): void {
+    this._unshackled = false
+    this.save()
+  }
+
   public get IsLimited(): boolean {
     return this.Tags.some(x => x.IsLimited)
   }
 
   public get IsDestroyed(): boolean {
     return this._destroyed
+  }
+
+  public set IsDestroyed(b: boolean) {
+    this._destroyed = b
   }
 
   public Destroy(): void {
@@ -72,6 +89,19 @@ abstract class MechEquipment extends LicensedItem {
 
   public Repair(): void {
     this._destroyed = false
+    this.save()
+  }
+
+  public get IsLoading(): boolean {
+    return this.Tags.some(x => x.IsLoading)
+  }
+
+  public get Loaded(): boolean {
+    return this._loaded
+  }
+
+  public set Loaded(_loaded: boolean) {
+    this._loaded = _loaded
     this.save()
   }
 
@@ -88,6 +118,10 @@ abstract class MechEquipment extends LicensedItem {
     if (!this.IsLimited) return 0
     const limVal = this.Tags.find(x => x.IsLimited).Value
     return typeof limVal === 'number' ? limVal : 0
+  }
+
+  public getTotalUses(pilot?: Pilot): number {
+    return this.MaxUses + (pilot ? pilot.LimitedBonus : 0)
   }
 }
 

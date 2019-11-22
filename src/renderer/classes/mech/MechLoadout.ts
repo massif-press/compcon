@@ -19,8 +19,6 @@ class MechLoadout extends Loadout {
   private _equippableMounts: EquippableMount[]
   private _improvedArmament: EquippableMount
   private _integratedWeapon: EquippableMount
-  private _retrofitIndex: number | null
-  private _retrofitOriginalType: MountType | null
   private _systems: MechSystem[]
   private _integratedSystems: MechSystem[]
 
@@ -32,8 +30,6 @@ class MechLoadout extends Loadout {
     this._integratedSystems = mech.IntegratedSystems
     this._improvedArmament = new EquippableMount(MountType.Flex)
     this._integratedWeapon = new EquippableMount(MountType.Aux)
-    this._retrofitIndex = null
-    this._retrofitOriginalType = null
   }
 
   public UpdateIntegrated(mech: Mech): void {
@@ -43,7 +39,7 @@ class MechLoadout extends Loadout {
 
     this._integratedSystems.forEach((s, idx) => {
       if (!mech.IntegratedSystems.find(x => x.ID === s.ID)) this._integratedSystems.splice(idx, 1)
-      s.Uses = s.MaxUses + mech.LimitedBonus
+      s.Uses = s.getTotalUses(mech.Pilot)
     })
 
     mech.IntegratedMounts.forEach(s => {
@@ -54,7 +50,7 @@ class MechLoadout extends Loadout {
     this._integratedMounts.forEach((s, idx) => {
       if (!mech.IntegratedMounts.find(x => x.ItemSource === s.ItemSource))
         this._integratedMounts.splice(idx, 1)
-      s.Weapon.Uses = s.Weapon.MaxUses + mech.LimitedBonus
+      s.Weapon.Uses = s.Weapon.getTotalUses(mech.Pilot)
     })
 
     this.save()
@@ -92,39 +88,18 @@ class MechLoadout extends Loadout {
     return ms
   }
 
-  public RetrofitMount(mountIndex: number): void {
-    this._retrofitIndex = mountIndex
-    this._retrofitOriginalType = this._equippableMounts[mountIndex].Type
-    this._equippableMounts.splice(mountIndex, 1, new EquippableMount(MountType.MainAux))
-    this.save()
-  }
-
-  public get RetrofittedMount(): EquippableMount | null {
-    return this._retrofitIndex === null ? null : this._equippableMounts[this._retrofitIndex]
-  }
-
-  public RemoveRetrofitting(): void {
-    if (this._retrofitIndex === null || this._retrofitOriginalType === null) return
-    this._equippableMounts.splice(
-      this._retrofitIndex,
-      1,
-      new EquippableMount(this._retrofitOriginalType)
-    )
-    this._retrofitIndex = null
-    this._retrofitOriginalType = null
-    this.save()
-  }
-
-  public get IsRetrofitted(): boolean {
-    return this._retrofitIndex !== null
-  }
-
   public get Mounts(): Mount[] {
     return (this._integratedMounts as Mount[]).concat(this._equippableMounts)
   }
 
   public get HasEmptyMounts(): boolean {
     return this._equippableMounts.some(x => x === null)
+  }
+
+  public RemoveRetrofitting(): void {
+    this.AllEquippableMounts(true, true).forEach(x => {
+      if (x.Bonuses.some(x => x.ID === 'retrofit')) x.ClearBonuses()
+    })
   }
 
   public get Equipment(): MechEquipment[] {
@@ -139,6 +114,10 @@ class MechLoadout extends Loadout {
     this.Weapons.forEach(w => {
       if (w.IsLoading) w.Loaded = true
     })
+  }
+
+  public UnequipSuperheavy(): void {
+    this.AllEquippableMounts(true, true).forEach(x => x.Unlock())
   }
 
   public get IntegratedSystems(): MechSystem[] {
@@ -164,7 +143,7 @@ class MechLoadout extends Loadout {
 
   public AddSystem(system: MechSystem, pilot: Pilot): void {
     const sys = _.clone(system)
-    if (sys.IsLimited) sys.Uses = sys.MaxUses + pilot.LimitedBonus
+    if (sys.IsLimited) sys.Uses = sys.getTotalUses(pilot)
     this._systems.push(sys)
     this.save()
   }
@@ -212,7 +191,7 @@ class MechLoadout extends Loadout {
     const mountSP = [...this._equippableMounts, this._improvedArmament, this._integratedWeapon]
       .flatMap(x => x.Weapons)
       .reduce(function(a, b) {
-        return a + (b ? b.SP : 0)
+        return a + (b ? b.TotalSP : 0)
       }, 0)
 
     const systemSP = this._systems.reduce(function(a, b) {
@@ -253,8 +232,6 @@ class MechLoadout extends Loadout {
       integratedMounts: ml._integratedMounts.map(x => IntegratedMount.Serialize(x)),
       improved_armament: EquippableMount.Serialize(ml._improvedArmament),
       integratedWeapon: EquippableMount.Serialize(ml._integratedWeapon),
-      retrofitIndex: ml._retrofitIndex,
-      retrofitOriginalType: ml._retrofitOriginalType,
     }
   }
 
@@ -274,10 +251,6 @@ class MechLoadout extends Loadout {
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon)
-    ml._retrofitIndex = loadoutData.retrofitIndex
-    ml._retrofitOriginalType = ml._retrofitOriginalType
-      ? (loadoutData.retrofitOriginalType as MountType)
-      : null
     if (!loadoutData.integratedSystems) ml.UpdateIntegrated(mech)
     return ml
   }

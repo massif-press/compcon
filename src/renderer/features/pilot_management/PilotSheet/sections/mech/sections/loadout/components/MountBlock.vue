@@ -1,111 +1,43 @@
 <template>
-  <v-col>
+  <v-col style="min-width: 40vw">
     <fieldset>
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
+        <span v-if="impArm">(IMPROVED ARMAMENT)</span>
       </legend>
-      <div style="position: relative">
-        <div class="side-legend">
-          <v-btn small outlined color="grey darken-2">
-            <v-icon left>cci-corebonus</v-icon>
-            No core bonus applied
-          </v-btn>
-        </div>
-      </div>
-      <weapon-slot-card
-        v-for="(s, i) in mount.Slots"
-        :key="`slot_${mount.Name}-${i}`"
-        :weapon-slot="s"
+      <cb-mount-menu
+        v-if="!intWeapon && !integrated"
+        :key="mech.AvailableBonuses.length"
         :mech="mech"
+        :mount="mount"
       />
+      <cb-card v-for="b in mount.Bonuses" :key="`${mount.ID}_bonus-${b.ID}`" :bonus="b" />
+      <sh-lock-card v-if="mount.IsLocked" />
+      <div v-else>
+        <weapon-slot-card
+          v-for="(s, i) in mount.Slots"
+          :key="`slot_${mount.ID}-${i}`"
+          :weapon-slot="s"
+          :mech="mech"
+          :mount="mount"
+          :readonly="integrated"
+          :int-weapon="intWeapon"
+        />
+      </div>
     </fieldset>
   </v-col>
-
-  <!-- <div v-if="!mount.imparm || (mount.imparm && hasImpArm)"> -->
-  <!-- <div>
-    <v-card class="mb-2 pr-5 pl-0 pb-4" color="grey lighten-2">
-      <span class="mount-title pl-3 pr-3 text-uppercase">
-        {{ integrated ? mount.ItemSource + ' Integrated Mount' : mount.Name }}
-        <v-tooltip top v-if="!integrated">
-          <v-btn
-            v-if="isCbVisible()"
-            slot="activator"
-            icon
-            class="ma-0"
-            @click="
-              coreBonusSelectorModal = true
-              cbsLoader = true
-            "
-          >
-            <v-icon color="primary">mdi-progress-download</v-icon>
-          </v-btn>
-          <span>Apply CORE Bonus Effects</span>
-        </v-tooltip>
-      </span>
-      <v-card-text v-if="mount.IsLocked" class="bordered ml-3 pt-4">
-        <v-card color="grey lighten-1">
-          <v-card-text class="blockquote text-center">
-            LOCKED
-            <br />
-            <span class="caption">SUPERHEAVY WEAPON BRACING</span>
-            <br />
-          </v-card-text>
-        </v-card>
-      </v-card-text>
-      <v-card-text v-else class="bordered ml-3 pt-4">
-        <mech-weapon-item
-          v-for="(ws, i) in mount.Slots"
-          :key="`ws_${i}`"
-          :weapon-slot="ws"
-          :mount="mount"
-          :loadout="loadout"
-          :maxSP="maxSP"
-          :no-mod="intweapon || integrated"
-          :integrated="integrated"
-        />
-
-        <v-card
-          v-for="(cb, j) in mount.BonusEffects"
-          :key="`mb_${j}`"
-          color="grey lighten-1"
-          class="ma-2"
-        >
-          <v-card-text class="text-center">
-            <b>{{ cb.Name }}</b>
-            <br />
-            <i class="caption">{{ cb.MountedEffect }}</i>
-          </v-card-text>
-        </v-card>
-      </v-card-text>
-    </v-card>
-
-   <v-dialog v-model="coreBonusSelectorModal" width="70vw" lazy hide-overlay>
-      <v-card>
-        <core-benefit-selector
-          v-if="cbsLoader"
-          :loadout="loadout"
-          :mount="mount"
-          @close="coreBonusSelectorModal = false"
-        />
-      </v-card>
-    </v-dialog>
-  </div> -->
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import WeaponSlotCard from './WeaponSlotCard.vue'
-// import _ from 'lodash'
-// import MechWeaponItem from './MechWeaponItem.vue'
-// import WeaponTable from './WeaponTable.vue'
-// import CoreBenefitSelector from './CoreBenefitSelector.vue'
-// import ModTable from './ModTable.vue'
-// import { LazyDialog } from '../../components/UI'
-// import { Mount, MechWeapon, WeaponMod, Pilot } from '@/class'
+import CbMountMenu from './CbMountMenu.vue'
+import CbCard from './CbCard.vue'
+import ShLockCard from './ShLockCard.vue'
 
 export default Vue.extend({
   name: 'mount-block',
-  components: { WeaponSlotCard },
+  components: { WeaponSlotCard, CbMountMenu, CbCard, ShLockCard },
   props: {
     color: {
       type: String,
@@ -120,48 +52,16 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    // loadout: Object,
-    // maxSp: Number,
-    // integrated: Boolean,
-    // intweapon: Boolean,
+    integrated: {
+      type: Boolean,
+    },
+    intWeapon: {
+      type: Boolean,
+    },
+    impArm: {
+      type: Boolean,
+    },
   },
-  data: () => ({
-    weaponSelectorModal: false,
-    shLockDialog: false,
-    coreBonusSelectorModal: false,
-    cbsLoader: false,
-    weaponIndex: 0,
-    size: '',
-    current_equip: {} || null,
-    current_equip_mod: {},
-    pendingSuperheavy: {},
-    modModal: false,
-    modLoader: false,
-    modWeapon: {},
-    weaponReload: 0,
-  }),
-  // components: {
-  //   MechWeaponItem,
-  //   WeaponTable,
-  //   CoreBenefitSelector,
-  //   ModTable,
-  //   LazyDialog,
-  // },
-  // computed: {
-  //   pilot(): Pilot {
-  //     return this.$store.getters.getPilot
-  //   },
-  // },
-  // methods: {
-  //   isCbVisible(): boolean {
-  //     return (
-  //       !this.intweapon &&
-  //       (this.pilot.has('CoreBonus', 'hardpoints') ||
-  //         this.pilot.has('CoreBonus', 'burnout') ||
-  //         this.pilot.has('CoreBonus', 'retrofit'))
-  //     )
-  //   },
-  // },
 })
 </script>
 
@@ -175,16 +75,5 @@ fieldset {
 
 legend {
   padding: 3px 12px;
-}
-
-.side-legend {
-  position: absolute;
-  right: 20px;
-  top: -30px;
-  background-color: white;
-  height: 30px;
-  border: 2px;
-  border-color: var(--v-grey-base);
-  border-radius: 5px;
 }
 </style>

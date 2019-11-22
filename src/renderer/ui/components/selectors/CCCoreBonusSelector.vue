@@ -1,7 +1,7 @@
 <template>
   <selector title="Pilot CORE Bonuses" height="60vh" :success="!pilot.IsMissingCBs">
     <template v-slot:left-column>
-      <v-row v-for="b in pilot.CoreBonuses" :key="`summary_${b.id}`">
+      <v-row v-for="b in pilot.CoreBonuses" :key="`summary_${b.ID}`">
         <missing-item v-if="b.err" @remove="remove(b)" />
         <span v-else>
           <v-icon small color="primary">cci-corebonus</v-icon>
@@ -17,21 +17,27 @@
           icon="check_circle"
           class="stat-text"
           :value="!pilot.IsMissingCBs"
-        >CORE Bonus Selection Complete</v-alert>
+        >
+          CORE Bonus Selection Complete
+        </v-alert>
         <v-alert
           outlined
           color="primary"
           icon="warning"
           class="stat-text"
           :value="pilot.IsMissingCBs"
-        >{{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected</v-alert>
+        >
+          {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
+        </v-alert>
         <v-btn
           block
           text
           small
           :disabled="!pilot.CoreBonuses.length"
           @click="pilot.ClearCoreBonuses()"
-        >Reset</v-btn>
+        >
+          Reset
+        </v-btn>
       </v-row>
     </template>
 
@@ -44,14 +50,18 @@
         >
           <v-expansion-panel-header>
             <div>
-              <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
-                <cc-logo :source="m" size="xLarge" class="pt-4" />
-                {{ manufacturer(m).name }}
+              <span class="heading mech" :style="`color: ${manufacturer(m).Color}`">
+                <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
+                {{ manufacturer(m).Name }}
               </span>
               <br />
               <v-alert outlined :color="manufacturer(m).color" class="py-1 my-2">
                 <v-row class="text-center">
-                  <span class="flavor-text text--text" style="width: 100%" v-html="requirement(m)" />
+                  <span
+                    class="flavor-text text--text"
+                    style="width: 100%"
+                    v-html="requirement(m)"
+                  />
                 </v-row>
               </v-alert>
             </div>
@@ -64,7 +74,7 @@
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
-              :color="manufacturer(m).color"
+              :color="manufacturer(m).Color"
               @add="pilot.AddCoreBonus(b)"
               @remove="pilot.RemoveCoreBonus(b)"
             />

@@ -16,7 +16,7 @@
       </v-card-text>
       <v-card-text v-else class="bordered-dark ml-3 pt-4">
         <v-card
-          v-for="(cb, j) in mount.BonusEffects"
+          v-for="(cb, j) in mount.Bonuses"
           :key="`mb_${j}`"
           color="grey darken-2"
           class="ma-1 pa-0"

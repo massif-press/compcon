@@ -25,7 +25,9 @@ class IntegratedMount extends Mount {
   }
 
   public static Deserialize(mountData: any): IntegratedMount {
-    return new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), mountData.source)
+    const im = new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), mountData.source)
+    im.getID()
+    return im
   }
 }
 

@@ -8,28 +8,38 @@ Next Steps:
   ☐ Split Pilot, Mech into subclasses
   ☐ In-file interface declarations available globally through TS import()
   ☐ Talent Die counters
+  ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
+  ☐ Better visibility on range/damage bonuses (contributors)
+  ☐ Move explicit-lookup functions to a generalized bonus framework
+
+Bugs:
+  ☐ Inifinte render function on loadout with uses (probably re integrated weapons)
+
+Unshackling:
+  ☐ Add Unshackled to Reactor/Structure tables
+  ☐ Reshackled on shut down/full repair
+
+Mech Sheet:
+  ☐ systems warnings
+    ☐ Missing licenses
+    ☐ SP issues
+    ☐ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI
+    ☐ unfinished (!) icon on cards for unfilled SP/mounts
+  ☐ loadouts
 
 Mech loadout:
-  ☐ AI mark as Unshackled
-  ✔ Mark Mod Destroyed @done(19-11-19 19:34)
-  ☐ Properly serialize mods so they can remember destroyed/shackled/etc
-  ✔ Mod inserts @done(19-11-19 14:06)
-  ☐ Int and talent mounts
-  ☐ Applied CBs
-  ✔ Destroyed toggle @done(19-11-19 19:35)
-  ☐ Loaded toggle
-    ☐ Loaded/Unloaded icon
-  ☐ Limited pips
-  ☐ SH Brace Lock
-  ✔ Mod selector should respect uniques @done(19-11-19 14:06)
-  ✔ Systems/Mod selector should respect AIs @done(19-11-19 14:06)
+  ✔ core int weapons @done(19-11-20 22:26)
+    ✔ instantiate correctly @done(19-11-20 22:26)
+  ✔ SH Brace Lock @done(19-11-21 15:12)
   ☐ Make fake AI tag for techno 3 AI
   ☐ Mod items for system section (name -- installed on -- sp cost)
+  ✔ GetRange @done(19-11-21 15:23)
+  ✔ GetDamage @done(19-11-21 15:23)
+  ☐ confirm loadouts unload talent items on lost talent
+
 
 Cleanup:
-  ✔ Remove useless `dense`s from v-col (use no-gutters or dense on row) @done(19-11-18 16:41)
   ☐ remove old font stylings
-  ☐ Add License info to Item cards
 
 Flavor Pass:
   ☐ Cloud settings panel
@@ -67,26 +77,16 @@ CCTooltip:
   ☐ Restyle
   ☐ Use v-menu
 
-Cloud Sync:
-
 Hangar:
-  ✔ Store Roster/Hangar view preference in user prefs @done(19-11-11 15:10)
-  ✔ Store pilot sheet view pref in user prefs @done(19-11-11 15:10)
-  ✔ Set active mech @done(19-11-11 15:10)
-  ✔ Delete Mech @done(19-11-11 15:25)
-  ✔ Duplicate Mech @done(19-11-11 15:25)
   ☐ Fix MechOps for card
   ☐ Quick Print Mech
-
-Item Uses/Limited:
-  ☐ Count up instead of down
 
 Name Generator:
   ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
 
 Navigation:
   ☐ scroll to top on nav
-
+  
 Icons:
   ☐ E-Defense
   ☐ Evasion
@@ -102,7 +102,6 @@ Image Selector:
 
 Pilot Roster:
   ☐ Big Card view
-  ✔ Status in roster @done(19-11-12 13:56)
 
 New Pilot:
   ☐ Background Selector does not scroll to list
@@ -112,10 +111,7 @@ New Pilot:
 Pilot Sheet:
   ☐ Add params to route to land on tab
   ☐ Pilot sheet should remember last tab (for forward/back)
-  ✔ Mech sheet under pilot sheet @done(19-11-12 13:56)
   ☐ Delete Pilot
-  ✔ Level Wizard @done(19-11-07 10:19)
-  ✔ Mech Hangar @done(19-11-12 11:58)
   ☐ test importers
     ☐ ask cc-club to test pull/push cloud syncs
   ☐ top bar doesn't reflect active pilot
@@ -128,16 +124,6 @@ Skills:
   ☐ Get Focused should add a Get Focused skill increase
     ☐ Add as downtime reserve
 
-Mech Sheet:
-  ✔ Primary color based on manufacturer @done(19-11-12 13:55)
-  ✔ hide pilot stats when mech sheet is loaded @done(19-11-13 14:31)
-  ✔ traits @done(19-11-13 14:48)
-  ☐ systems warnings
-    ☐ unfinished (!) icon on cards for unfilled SP/mounts
-  ✔ attributes @done(19-11-13 16:04)
-  ✔ CORE system @done(19-11-15 12:48)
-  ☐ loadouts
-
 Compendium:
   ☐ Add Factions
 
@@ -146,12 +132,9 @@ Nav Bar:
   ☐ Pilot not always getting picked up
 
 Refactor:
-  ✔ Move nonglobal interfaces into calling class, include in interface.ts @done(19-11-11 13:41)
-  ✔ Manufacturer class @done(19-11-08 14:35)
   ☐ Replace most instances of .Source with .Manufacturer.Name
   ☐ prevent null activeloadout
   ☐ remove _shared
-  ✔ all classes into individual files @done(19-11-11 13:27)
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
@@ -159,8 +142,6 @@ Refactor:
   ☐ genericize frame row image element
 
 Style Pass:
-  ✔ Fix header on tables @done(19-11-15 10:28)
-  ✔ "Expanded" tags -- inline descriptions for item cards @done(19-11-18 16:40)
   ☐ pilot NO IMG
   ☐ global notification
   ☐ error logging
@@ -206,6 +187,40 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Mech detects unshackling @done(19-11-20 11:00) @project(Unshackling)
+  ✔ Primary color based on manufacturer @done(19-11-12 13:55) @project(Mech Sheet)
+  ✔ hide pilot stats when mech sheet is loaded @done(19-11-13 14:31) @project(Mech Sheet)
+  ✔ traits @done(19-11-13 14:48) @project(Mech Sheet)
+  ✔ attributes @done(19-11-13 16:04) @project(Mech Sheet)
+  ✔ CORE system @done(19-11-15 12:48) @project(Mech Sheet)
+  ✔ AI mark as Unshackled @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ Mark Mod Destroyed @done(19-11-19 19:34) @project(Mech loadout)
+  ✔ Properly serialize mods so they can remember destroyed/shackled/etc @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ Mod inserts @done(19-11-19 14:06) @project(Mech loadout)
+  ✔ Applied CBs @done(19-11-20 16:17) @project(Mech loadout)
+  ✔ Destroyed toggle @done(19-11-19 19:35) @project(Mech loadout)
+  ✔ Loaded toggle @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ Loaded/Unloaded icon @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ Limited pips @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ Mod selector should respect uniques @done(19-11-19 14:06) @project(Mech loadout)
+  ✔ Systems/Mod selector should respect AIs @done(19-11-19 14:06) @project(Mech loadout)
+  ✔ Remove useless `dense`s from v-col (use no-gutters or dense on row) @done(19-11-18 16:41) @project(Cleanup)
+  ✔ Add License info to Item cards @done(19-11-20 10:48) @project(Cleanup)
+  ✔ Store Roster/Hangar view preference in user prefs @done(19-11-11 15:10) @project(Hangar)
+  ✔ Store pilot sheet view pref in user prefs @done(19-11-11 15:10) @project(Hangar)
+  ✔ Set active mech @done(19-11-11 15:10) @project(Hangar)
+  ✔ Delete Mech @done(19-11-11 15:25) @project(Hangar)
+  ✔ Duplicate Mech @done(19-11-11 15:25) @project(Hangar)
+  ✔ Count up instead of down @done(19-11-20 16:19) @project(Item Uses/Limited)
+  ✔ Status in roster @done(19-11-12 13:56) @project(Pilot Roster)
+  ✔ Mech sheet under pilot sheet @done(19-11-12 13:56) @project(Pilot Sheet)
+  ✔ Level Wizard @done(19-11-07 10:19) @project(Pilot Sheet)
+  ✔ Mech Hangar @done(19-11-12 11:58) @project(Pilot Sheet)
+  ✔ Move nonglobal interfaces into calling class, include in interface.ts @done(19-11-11 13:41) @project(Refactor)
+  ✔ Manufacturer class @done(19-11-08 14:35) @project(Refactor)
+  ✔ all classes into individual files @done(19-11-11 13:27) @project(Refactor)
+  ✔ Fix header on tables @done(19-11-15 10:28) @project(Style Pass)
+  ✔ "Expanded" tags -- inline descriptions for item cards @done(19-11-18 16:40) @project(Style Pass)
   ✔ Add Currently Equipped slot @done(19-10-22 16:32) @project(Item Selector)
   ✔ cloud portrait auto on cloud save @done(19-10-29 16:01) @project(Cloud Sync)
   ✔ sync if owner @done(19-10-29 16:02) @project(Cloud Sync)

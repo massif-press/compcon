@@ -45,7 +45,7 @@ class CoreSystem {
 
   public getIntegrated(): MechWeapon | null {
     if (!this._integrated) return null
-    return store.getters.referenceByID('MechWeapons', this._integrated)
+    return store.getters.instantiate('MechWeapons', this._integrated)
   }
 
   public get Passive(): string | null {
