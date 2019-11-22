@@ -35,12 +35,13 @@ declare interface IEquipmentData {
   id: string
   destroyed: boolean
   unshackled: boolean
+  note: string
   uses?: number
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
   loaded: boolean
-  mod?: string
+  mod?: IEquipmentData
 }
 
 declare interface IPilotData {
@@ -151,8 +152,6 @@ declare interface IMechLoadoutData {
   integratedMounts: { weapon: IMechWeaponSaveData; source: string }[]
   improved_armament: IMountData
   integratedWeapon: IMountData
-  retrofitIndex: number | null
-  retrofitOriginalType: string | null
 }
 
 declare interface IMountData {

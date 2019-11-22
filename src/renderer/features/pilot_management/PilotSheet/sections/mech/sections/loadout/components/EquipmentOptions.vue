@@ -23,7 +23,7 @@
         </v-list-item-content>
       </v-list-item>
       <div v-if="item.IsLoading">
-        <v-list-item v-if="item.IsLoaded" @click="item.IsLoaded = false">
+        <v-list-item v-if="item.Loaded" @click="item.Loaded = false">
           <v-list-item-icon>
             <v-icon>mdi-progress-download</v-icon>
           </v-list-item-icon>
@@ -31,7 +31,7 @@
             <v-list-item-title>Mark as Unloaded</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else @click="item.IsLoaded = true">
+        <v-list-item v-else @click="item.Loaded = true">
           <v-list-item-icon>
             <v-icon>mdi-progress-upload</v-icon>
           </v-list-item-icon>
@@ -41,7 +41,7 @@
         </v-list-item>
       </div>
       <div v-if="item.IsAI">
-        <v-list-item v-if="!item.IsUnshackled" @click="item.IsUnshackled = false">
+        <v-list-item v-if="!item.IsUnshackled" @click="item.Unshackle()">
           <v-list-item-icon>
             <v-icon>mdi-link-variant</v-icon>
           </v-list-item-icon>
@@ -49,7 +49,7 @@
             <v-list-item-title>Mark as Unshackled</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else @click="item.IsUnshackled = true">
+        <v-list-item v-else @click="item.Shackle()">
           <v-list-item-icon>
             <v-icon>mdi-link-variant-off</v-icon>
           </v-list-item-icon>

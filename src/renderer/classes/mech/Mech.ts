@@ -1,7 +1,8 @@
 import { store } from '@/store'
 import uuid from 'uuid/v1'
+import _ from 'lodash'
 import { rules } from 'lancer-data'
-import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
+import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
 
 class Mech {
   private _id: string
@@ -107,6 +108,11 @@ class Mech {
     this._active = toggle
     if (this.IsActive) this.FullRepair()
     this.save()
+  }
+
+  public get IsUnshackled(): boolean {
+    if (!this.ActiveLoadout.AICount) return false
+    return !!this.ActiveLoadout.Equipment.filter(x => x.IsUnshackled).length
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
@@ -626,7 +632,7 @@ class Mech {
     this._loadouts.forEach(x => {
       x.Equipment.forEach(y => {
         if (y.IsDestroyed) y.Repair()
-        if (y.IsLimited) y.Uses = y.MaxUses + this.LimitedBonus
+        if (y.IsLimited) y.Uses = y.getTotalUses(this.Pilot)
       })
     })
     this._statuses = []
@@ -643,11 +649,7 @@ class Mech {
   public get IntegratedMounts(): IntegratedMount[] {
     let intg = []
     if (this._frame.CoreSystem.Integrated) {
-      const intWeapon = store.getters.referenceByID(
-        'MechWeapons',
-        this._frame.CoreSystem.Integrated
-      )
-      intg.push(new IntegratedMount(intWeapon, 'CORE System'))
+      intg.push(new IntegratedMount(this._frame.CoreSystem.getIntegrated(), 'CORE System'))
     }
     if (this._pilot.has('Talent', 'ncavalier', 3)) {
       const frWeapon = store.getters.referenceByID('MechWeapons', 'fuelrod')
@@ -709,7 +711,6 @@ class Mech {
     if (this._loadouts.length === 1) {
       console.error(`Cannot remove last Mech Loadout`)
     } else {
-      console.log(this._loadouts)
       const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
       this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
       this._loadouts.splice(index, 1)
@@ -731,6 +732,19 @@ class Mech {
     this._loadouts.forEach(x => {
       x.UpdateIntegrated(this)
     })
+  }
+
+  // -- Mountable CORE Bonuses --------------------------------------------------------------------
+  public get PilotBonuses(): CoreBonus[] {
+    return this.Pilot.CoreBonuses.filter(x => x.IsMountable)
+  }
+
+  public get AppliedBonuses(): CoreBonus[] {
+    return _.flatten(this.ActiveLoadout.AllEquippableMounts(true, true).map(x => x.Bonuses))
+  }
+
+  public get AvailableBonuses(): CoreBonus[] {
+    return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

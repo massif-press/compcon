@@ -10,6 +10,7 @@ import {
   MechEquipment,
   DamageType,
   RangeType,
+  Mech,
 } from '@/class'
 import { IMechEquipmentData, IDamageData, IRangeData } from '@/interface'
 
@@ -28,7 +29,6 @@ class MechWeapon extends MechEquipment {
   private _weapon_type: WeaponType
   private _damage?: Damage[]
   private _range?: Range[]
-  private _loaded: boolean
   private _mod: WeaponMod | null
   // private ammo?: WeaponAmmo | null;
 
@@ -38,7 +38,6 @@ class MechWeapon extends MechEquipment {
     this._weapon_type = weaponData.type
     if (weaponData.damage) this._damage = weaponData.damage.map(x => new Damage(x))
     if (weaponData.range) this._range = weaponData.range.map(x => new Range(x))
-    this._loaded = true
     this._mod = null
     this._item_type = ItemType.MechWeapon
   }
@@ -51,12 +50,12 @@ class MechWeapon extends MechEquipment {
     return this._weapon_type
   }
 
-  public get SP(): number {
+  public get TotalSP(): number {
     if (!this.Mod) return this.sp
     return this.Mod.SP + this.sp
   }
 
-  public get BaseSP(): number {
+  public get SP(): number {
     return this.sp
   }
 
@@ -65,6 +64,8 @@ class MechWeapon extends MechEquipment {
   }
 
   public get Damage(): Damage[] {
+    if (this._damage && this.Mod && this.Mod.AddedDamage)
+      return this._damage.concat(this.Mod.AddedDamage)
     return this._damage || []
   }
 
@@ -74,6 +75,41 @@ class MechWeapon extends MechEquipment {
 
   public get Range(): Range[] {
     return this._range || []
+  }
+
+  public getTotalRange(mech: Mech): Range[] {
+    let bonuses = [] as { type: RangeType; val: number }[]
+    if (this.Mod && this.Mod.AddedRange)
+      bonuses.push({
+        type: RangeType.Range,
+        val: parseInt(this.Mod.AddedRange.Value),
+      })
+    if (mech.Pilot.has('CoreBonus', 'neurolinked'))
+      bonuses.push({
+        type: RangeType.Range,
+        val: 3,
+      })
+    if (mech.Pilot.has('CoreBonus', 'gyges') && this.Type === WeaponType.Melee)
+      bonuses.push({
+        type: RangeType.Threat,
+        val: 1,
+      })
+    if (
+      mech.ActiveLoadout.HasSystem('externalbatteries') &&
+      this.Damage[0].Type === DamageType.Energy
+    )
+      if (this.Type === WeaponType.Melee) {
+        bonuses.push({
+          type: RangeType.Threat,
+          val: 1,
+        })
+      } else {
+        bonuses.push({
+          type: RangeType.Range,
+          val: 5,
+        })
+      }
+    return Range.AddBonuses(this.Range, bonuses)
   }
 
   public get RangeType(): RangeType[] {
@@ -88,42 +124,26 @@ class MechWeapon extends MechEquipment {
     return this._mod || null
   }
 
-  public get IsLoading(): boolean {
-    return this.Tags.some(x => x.IsLoading)
-  }
-
-  public get Loaded(): boolean {
-    return this._loaded
-  }
-
-  public set Loaded(_loaded: boolean) {
-    this._loaded = _loaded
-  }
-
-  // public set Ammo(ammo: WeaponAmmo | null) {
-  //   this.ammo = ammo;
-  // }
-
-  // public get Ammo(): WeaponAmmo | null {
-  //   return this.ammo || null;
-  // }
-
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
       uses: item.Uses || 0,
-      destroyed: item.IsDestroyed || false,
-      loaded: item.Loaded || true,
-      mod: item.Mod ? item.Mod.ID : null,
+      destroyed: item.IsDestroyed,
+      unshackled: item.IsUnshackled,
+      loaded: item.Loaded,
+      note: item.Note,
+      mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
     }
   }
 
-  public static Deserialize(itemData: IMechWeaponSaveData): MechWeapon {
-    let item = store.getters.instantiate('MechWeapons', itemData.id)
-    item.uses = itemData.uses || 0
-    item.destroyed = itemData.destroyed || false
-    item._loaded = itemData.loaded || true
-    item.Mod = itemData.mod ? WeaponMod.Deserialize(itemData.mod) : null
+  public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
+    let item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
+    item.Uses = data.uses || 0
+    item.IsDestroyed = data.destroyed || false
+    item.IsUnshackled = data.unshackled || false
+    item.Loaded = data.loaded || true
+    item.Mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
+    item.Note = data.note
     return item
   }
 }

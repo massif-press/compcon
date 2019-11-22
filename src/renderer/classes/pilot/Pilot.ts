@@ -648,7 +648,7 @@ class Pilot {
       console.error(`CORE Bonus "${coreBonus.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
       this._core_bonuses.splice(index, 1)
-      this.removeCoreBonusEffects(coreBonus)
+      this.removeCoreBonuses(coreBonus)
     }
     this.save()
   }
@@ -659,7 +659,7 @@ class Pilot {
     }
   }
 
-  private removeCoreBonusEffects(coreBonus: CoreBonus): void {
+  private removeCoreBonuses(coreBonus: CoreBonus): void {
     this._mechs.forEach(mech => {
       mech.Loadouts.forEach(loadout => {
         if (coreBonus.ID === 'retrofit') loadout.RemoveRetrofitting()

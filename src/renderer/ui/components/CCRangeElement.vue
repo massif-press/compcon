@@ -13,7 +13,7 @@
           <span v-else>{{ r.Value }}</span>
           <cc-slashes v-if="i + 1 < range.length" />
         </span>
-        <div v-else class="clip-icon mx-2">
+        <div v-else class="clip-icon">
           <v-icon x-large color="text">
             {{ r.Icon }}
           </v-icon>

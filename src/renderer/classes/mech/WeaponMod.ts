@@ -82,8 +82,23 @@ class WeaponMod extends MechEquipment {
     return this._added_range || null
   }
 
-  public static Deserialize(id: string): WeaponMod {
-    return store.getters.instantiate('WeaponMods', id)
+  public static Serialize(item: WeaponMod): IEquipmentData {
+    return {
+      id: item.ID,
+      uses: item.Uses || 0,
+      destroyed: item.IsDestroyed || false,
+      unshackled: item.IsUnshackled || false,
+      note: item.Note,
+    }
+  }
+
+  public static Deserialize(data: IEquipmentData): WeaponMod {
+    let item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
+    item.Uses = data.uses || 0
+    item.IsDestroyed = data.destroyed || false
+    item.IsUnshackled = data.unshackled || false
+    item.Note = data.note
+    return item
   }
 }
 

@@ -43,7 +43,7 @@
         />
 
         <v-card
-          v-for="(cb, j) in mount.BonusEffects"
+          v-for="(cb, j) in mount.Bonuses"
           :key="`mb_${j}`"
           color="grey lighten-1"
           class="ma-2"

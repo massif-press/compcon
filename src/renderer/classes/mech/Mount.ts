@@ -1,14 +1,17 @@
+import uuid from 'uuid/v1'
 import { store } from '@/store'
 import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {
   private _mount_type: MountType
+  private _id: string
   protected lock: boolean
   protected slots: WeaponSlot[]
   protected extra: WeaponSlot[]
   private _name_override: string
 
   public constructor(mountType: MountType) {
+    this._id = uuid()
     this._mount_type = mountType
     this.lock = false
     this.extra = []
@@ -17,7 +20,7 @@ abstract class Mount {
     this.generateSlots(mountType)
   }
 
-  private generateSlots(mountType: MountType): void {
+  protected generateSlots(mountType: MountType): void {
     if (mountType === MountType.Integrated) {
       this.slots = [new WeaponSlot(FittingSize.Integrated)]
     } else {
@@ -41,6 +44,14 @@ abstract class Mount {
 
   protected save(): void {
     store.dispatch('saveData')
+  }
+
+  protected getID(): void {
+    this._id = uuid()
+  }
+
+  public get ID(): string {
+    return this._id
   }
 
   public get Type(): MountType {
@@ -74,4 +85,5 @@ abstract class Mount {
     return this.lock
   }
 }
+
 export default Mount

@@ -44,10 +44,7 @@
               <v-card-text>
                 <b v-for="(t, i) in frame.mounts" :key="t + i" class="title font-weight-black">
                   &emsp;{{ t }}&emsp;
-                  <span
-                    v-if="i < frame.mounts.length - 1"
-                    class="fluff-text grey--text"
-                  >//</span>
+                  <span v-if="i < frame.mounts.length - 1" class="fluff-text grey--text">//</span>
                 </b>
               </v-card-text>
             </v-card>
@@ -57,21 +54,23 @@
               <v-card-text class="ml-4">
                 <span class="subheading">
                   <b>
-                    {{ frame.CoreSystem.getIntegrated().Name }} ({{ frame.CoreSystem.getIntegrated().Size }}
-                    {{ frame.CoreSystem.getIntegrated().Type }}):
+                    {{ frame.CoreSystem.Integrated().Name }} ({{
+                      frame.CoreSystem.Integrated().Size
+                    }}
+                    {{ frame.CoreSystem.Integrated().Type }}):
                   </b>
                 </span>
                 <range-element
-                  v-if="frame.CoreSystem.getIntegrated().Range"
-                  :range="frame.CoreSystem.getIntegrated().Range"
+                  v-if="frame.CoreSystem.Integrated().Range"
+                  :range="frame.CoreSystem.Integrated().Range"
                 />
                 <damage-element
-                  v-if="frame.CoreSystem.getIntegrated().Damage"
+                  v-if="frame.CoreSystem.Integrated().Damage"
                   size="16"
-                  :dmg="frame.CoreSystem.getIntegrated().Damage"
+                  :dmg="frame.CoreSystem.Integrated().Damage"
                 />
                 <br />
-                <span v-html="frame.CoreSystem.getIntegrated().Effect" class="effect-text" />
+                <span v-html="frame.CoreSystem.Integrated().Effect" class="effect-text" />
                 <br />
                 <item-tag v-for="tag in frame.CoreSystem.Tags" :key="tag.id" :tag-obj="tag" />
               </v-card-text>

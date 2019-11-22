@@ -29,14 +29,16 @@ class MechSystem extends MechEquipment {
       uses: item.Uses || 0,
       destroyed: item.IsDestroyed || false,
       unshackled: item.IsUnshackled || false,
+      note: item.Note,
     }
   }
 
-  public static Deserialize(itemData: IEquipmentData): MechSystem {
-    let item = store.getters.instantiate('MechSystems', itemData.id)
-    item.Uses = itemData.uses || 0
-    item.destroyed = itemData.destroyed || false
-    item.unshackled = itemData.unshackled || false
+  public static Deserialize(data: IEquipmentData): MechSystem {
+    let item = store.getters.instantiate('MechSystems', data.id) as MechSystem
+    item.Uses = data.uses || 0
+    item.IsDestroyed = data.destroyed || false
+    item.IsUnshackled = data.unshackled || false
+    item.Note = data.note
     return item
   }
 }

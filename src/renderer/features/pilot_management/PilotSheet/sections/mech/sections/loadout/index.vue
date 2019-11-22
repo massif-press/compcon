@@ -10,7 +10,7 @@
       @clone-loadout="mech.CloneLoadout()"
       @remove-loadout="mech.RemoveLoadout()"
     >
-      <v-row>
+      <v-row dense>
         <mount-block
           v-for="(im, j) in mech.ActiveLoadout.IntegratedMounts"
           :key="`int_${j}`"
@@ -22,14 +22,22 @@
 
         <mount-block
           v-if="pilot.has('CoreBonus', 'intweapon')"
-          intweapon
+          int-weapon
           :mount="mech.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
           :color="color"
         />
 
         <mount-block
-          v-for="(m, k) in mech.ActiveLoadout.AllEquippableMounts(pilot.has('CoreBonus', 'imparm'))"
+          v-if="pilot.has('CoreBonus', 'imparm')"
+          imp-arm
+          :mount="mech.ActiveLoadout.ImprovedArmamentMount"
+          :mech="mech"
+          :color="color"
+        />
+
+        <mount-block
+          v-for="(m, k) in mech.ActiveLoadout.EquippableMounts"
           :key="`m_${k}`"
           :mount="m"
           :mech="mech"
