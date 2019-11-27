@@ -3,7 +3,8 @@
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <h2 class="heading">
       UAD IDENT Service
-      <cc-slashes />&nbsp;RM-4 Personnel::Pilot (C)
+      <cc-slashes />
+      &nbsp;RM-4 Personnel::Pilot (C)
     </h2>
     <div style="position: absolute; right: 16px; top: 16px">
       <cc-tooltip simple content="Feature In Development">
@@ -11,16 +12,26 @@
       </cc-tooltip>
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
-      <span>Welcome to the Union Administrative Department's IDENT registration service. IDENT is the omninet-based certification system that guides the user through the UAD's pilot registration process. IDENT helps ensure pilots meet regulatory and policy requirements through the use of NHP-directed data validation protocols. Union Regulars that have already been issued an RM-4 IDENT fingerprint should not complete this form unless instructed to by their commanding officer.</span>
+      <span>
+        Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
+        omninet-based certification system that guides the user through the UAD's pilot registration
+        process. IDENT helps ensure pilots meet regulatory and policy requirements through the use
+        of NHP-directed data validation protocols. Union Regulars that have already been issued an
+        RM-4 IDENT fingerprint should not complete this form unless instructed to by their
+        commanding officer.
+      </span>
       <v-alert type="warning" color="primary" outlined class="mt-2" dense>
         <b>
           All fields marked with the
-          <v-icon small color="error">mdi-alert</v-icon>&nbsp;glyph must be populated.
+          <v-icon small color="error">mdi-alert</v-icon>
+          &nbsp;glyph must be populated.
         </b>
         <br />
-        <span
-          class="overline"
-        >By submitting this form you attest that your responses are truthful and accurate to the best of your knowledge. Knowingly providing false or or incomplete information is punishable under DoJ/HR AR 303-J.</span>
+        <span class="overline">
+          By submitting this form you attest that your responses are truthful and accurate to the
+          best of your knowledge. Knowingly providing false or or incomplete information is
+          punishable under DoJ/HR AR 303-J.
+        </span>
       </v-alert>
     </v-container>
     <v-row class="mx-6">
@@ -31,7 +42,7 @@
           outlined
           label="Name"
           hide-details
-          @change="$emit('set', {attr: 'Name', val: $event})"
+          @change="$emit('set', { attr: 'Name', val: $event })"
         >
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Name">
@@ -44,7 +55,9 @@
           </template>
         </v-text-field>
 
-        <span class="overline">RM-4-02 // APPROVED CALLSIGN (OR CADET DESINGATION, IF APPLICABLE)</span>
+        <span class="overline">
+          RM-4-02 // APPROVED CALLSIGN (OR CADET DESINGATION, IF APPLICABLE)
+        </span>
         <v-text-field v-model="pilot.Callsign" outlined label="Callsign" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Callsign">
@@ -61,7 +74,7 @@
         <v-text-field v-model="pilot.Background" outlined label="Background" hide-details>
           <template v-slot:prepend>
             <cc-tooltip simple content="Select Predefined Background">
-              <cc-background-selector @select="$emit('set', {attr: 'Background', val: $event})" />
+              <cc-background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
@@ -74,13 +87,15 @@
         <text-entry-popup
           label="Pilot Biography"
           :prepopulate="pilot.History"
-          @save="$emit('set', {attr: 'History', val: $event})"
+          @save="$emit('set', { attr: 'History', val: $event })"
         >
           <span v-if="!pilot.History">
-            <v-icon left>mdi-plus</v-icon>Add Pilot Biography
+            <v-icon left>mdi-plus</v-icon>
+            Add Pilot Biography
           </span>
           <span v-else>
-            <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Biography
+            <v-icon left>mdi-circle-edit-outline</v-icon>
+            Edit Pilot Biography
           </span>
           <div style="position: absolute; right: -53px">
             <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
@@ -92,13 +107,15 @@
         <text-entry-popup
           label="Pilot Description"
           :prepopulate="pilot.TextAppearance"
-          @save="$emit('set', {attr: 'TextAppearance', val: $event})"
+          @save="$emit('set', { attr: 'TextAppearance', val: $event })"
         >
           <span v-if="!pilot.TextAppearance">
-            <v-icon left>mdi-plus</v-icon>Add Pilot Description
+            <v-icon left>mdi-plus</v-icon>
+            Add Pilot Description
           </span>
           <span v-else>
-            <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Description
+            <v-icon left>mdi-circle-edit-outline</v-icon>
+            Edit Pilot Description
           </span>
           <div style="position: absolute; right: -53px">
             <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
@@ -110,26 +127,30 @@
         <v-divider vertical />
       </v-col>
       <v-col cols="5" class="ml-auto">
-        <span class="overline">RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)</span>
+        <span class="overline">
+          RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
+        </span>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
           <!-- TODO: no data image -->
-          <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
+          <v-img v-if="pilot.Portrait" :key="pilot.Image" :src="pilot.Portrait" aspect-ratio="1" />
           <v-img v-else src="https://via.placeholder.com/550" />
         </div>
         <div class="mr-8 mt-3">
           <v-btn outlined large block color="secondary" @click="$refs.imageSelector.open()">
             <span v-if="!pilot.Portrait">
-              <v-icon left>mdi-plus</v-icon>Add Pilot Image
+              <v-icon left>mdi-plus</v-icon>
+              Add Pilot Image
             </span>
             <span v-else>
-              <v-icon left>mdi-circle-edit-outline</v-icon>Edit Pilot Image
+              <v-icon left>mdi-circle-edit-outline</v-icon>
+              Edit Pilot Image
             </span>
             <div style="position: absolute; right: -53px">
               <v-icon v-if="!pilot.Portrait" color="grey">mdi-circle-outline</v-icon>
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </div>
           </v-btn>
-          <cc-image-selector ref="imageSelector" :pilot="pilot" />
+          <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
         </div>
       </v-col>
     </v-row>

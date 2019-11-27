@@ -10,7 +10,6 @@ import {
   EquippableMount,
   MechEquipment,
   MechWeapon,
-  Pilot,
   WeaponMod,
 } from '@/class'
 
@@ -23,7 +22,7 @@ class MechLoadout extends Loadout {
   private _integratedSystems: MechSystem[]
 
   public constructor(mech: Mech) {
-    super(mech.Loadouts.length)
+    super(mech.Loadouts ? mech.Loadouts.length : 0)
     this._integratedMounts = [...mech.IntegratedMounts]
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
@@ -39,7 +38,6 @@ class MechLoadout extends Loadout {
 
     this._integratedSystems.forEach((s, idx) => {
       if (!mech.IntegratedSystems.find(x => x.ID === s.ID)) this._integratedSystems.splice(idx, 1)
-      s.Uses = s.getTotalUses(mech.Pilot)
     })
 
     mech.IntegratedMounts.forEach(s => {
@@ -50,7 +48,6 @@ class MechLoadout extends Loadout {
     this._integratedMounts.forEach((s, idx) => {
       if (!mech.IntegratedMounts.find(x => x.ItemSource === s.ItemSource))
         this._integratedMounts.splice(idx, 1)
-      s.Weapon.Uses = s.Weapon.getTotalUses(mech.Pilot)
     })
 
     this.save()
@@ -93,7 +90,7 @@ class MechLoadout extends Loadout {
   }
 
   public get HasEmptyMounts(): boolean {
-    return this._equippableMounts.some(x => x === null)
+    return this._equippableMounts.flatMap(x => x.Slots).some(y => y.Weapon === null)
   }
 
   public RemoveRetrofitting(): void {
@@ -141,15 +138,15 @@ class MechLoadout extends Loadout {
     return this.Systems.find(x => x.ID === systemID) || null
   }
 
-  public AddSystem(system: MechSystem, pilot: Pilot): void {
-    const sys = _.clone(system)
-    if (sys.IsLimited) sys.Uses = sys.getTotalUses(pilot)
+  public AddSystem(system: MechSystem): void {
+    const sys = _.cloneDeep(system)
     this._systems.push(sys)
     this.save()
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
-    this._systems.splice(index, 1, _.clone(system))
+    this._systems.splice(index, 1, _.cloneDeep(system))
+    this.save()
   }
 
   public RemoveSystem(system: MechSystem): void {

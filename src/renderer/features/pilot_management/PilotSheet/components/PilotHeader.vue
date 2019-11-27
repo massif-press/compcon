@@ -93,6 +93,7 @@
             <!-- TODO: no data image -->
             <v-img
               v-if="pilot.Portrait"
+              :key="pilot.Image"
               :src="pilot.Portrait"
               aspect-ratio="1"
               position="top center"
@@ -109,7 +110,7 @@
         </template>
       </v-hover>
     </div>
-    <cc-image-selector ref="imageSelector" :pilot="pilot" />
+    <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
     <level-edit-dialog ref="levelEdit" :pilot="pilot" />
   </div>
 </template>

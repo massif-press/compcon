@@ -117,7 +117,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public set Mod(_mod: WeaponMod | null) {
-    this._mod = _.clone(_mod)
+    this._mod = _.cloneDeep(_mod)
   }
 
   public get Mod(): WeaponMod | null {

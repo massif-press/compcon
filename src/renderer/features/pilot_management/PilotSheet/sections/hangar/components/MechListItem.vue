@@ -21,35 +21,31 @@
         <v-row no-gutters>
           <span class="heading h2 callsign" style="margin-left: 150px;">{{ mech.Name }}</span>
           <v-fade-transition>
-            <span
-              v-if="mech.IsActive"
-              class="heading h2 callsign ml-auto pr-10"
-            >/ / ACTIVE / /&nbsp;</span>
+            <span v-if="mech.IsActive" class="heading h2 callsign ml-auto pr-10">
+              / / ACTIVE / /&nbsp;
+            </span>
           </v-fade-transition>
         </v-row>
       </div>
       <div style="margin-right: 30px; border-top: 0!important" class="panel-block">
         <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
-            <v-row no-gutters justify="right">
+            <v-row no-gutters justify="end">
               <v-col cols="auto">
-                <b>{{ mech.Name }}</b> //
+                <b>{{ mech.Name }}</b>
+                //
                 <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                 <br />
                 <!-- TODO: prevent null activeloadout -->
                 Equipped Loadout: {{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
               </v-col>
               <v-col cols="auto" class="ml-auto mr-4">
-                <div style="margin-right: 36px">
-                  <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
-                    <v-icon
-                      size="50"
-                      class="fadeSelect"
-                      @click.stop="$emit('set-active', mech)"
-                    >cci-activate</v-icon>
-                  </cc-tooltip>
-                  <v-icon v-else size="50" color="success">cci-activate</v-icon>
-                </div>
+                <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
+                  <v-icon size="50" class="fadeSelect" @click.stop="$emit('set-active', mech)">
+                    cci-activate
+                  </v-icon>
+                </cc-tooltip>
+                <v-icon v-else size="50" color="success">cci-activate</v-icon>
               </v-col>
             </v-row>
             <v-row dense>
@@ -98,28 +94,49 @@
                   <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
                 </v-alert>
               </v-col>
-              <v-col cols="auto" class="ml-auto mr-4">
-                <mech-ops
-                  :mech="mech"
-                  @delete="$emit('delete-mech', mech)"
-                  @dupe="$emit('dupe-mech', mech)"
-                />
+              <v-col cols="auto" class="ml-auto mr-4 mt-2">
+                <cc-tooltip simple inline content="Delete Mech">
+                  <v-btn
+                    small
+                    icon
+                    class="fadeSelect"
+                    color="error"
+                    @click.stop="$refs.delete.show()"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <cc-tooltip simple inline content="Duplicate Mech">
+                  <v-btn small icon class="fadeSelect" @click.stop="$refs.copy.show()">
+                    <v-icon>mdi-content-copy</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <cc-tooltip simple inline content="Print Mech Sheet">
+                  <v-btn small icon class="fadeSelect" @click.stop="$refs.print.show()">
+                    <v-icon>mdi-printer</v-icon>
+                  </v-btn>
+                </cc-tooltip>
               </v-col>
             </v-row>
           </p>
         </div>
       </div>
     </div>
+    <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
+    <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
+    <print-dialog ref="print" :pilot="mech.Pilot" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import MechOps from './MechOps.vue'
+import CopyMechDialog from './CopyMechDialog.vue'
+import DeleteMechDialog from './DeleteMechDialog.vue'
+import PrintDialog from '../../../components/PrintDialog.vue'
 
 export default Vue.extend({
   name: 'mech-list-item',
-  components: { MechOps },
+  components: { CopyMechDialog, DeleteMechDialog, PrintDialog },
   props: {
     mech: {
       type: Object,

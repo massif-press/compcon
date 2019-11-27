@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!tag.IsHidden">
+  <div v-if="!tag.IsHidden" class="d-inline-block my-2">
     <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
       <v-chip class="px-2 py-2 mx-1" :color="tag.err ? 'error' : color" dark label :small="small">
         <v-avatar>

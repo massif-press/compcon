@@ -10,15 +10,6 @@
     >
       <span class="unskew">MECH CONFIGURATION</span>
     </v-btn>
-    <!-- <v-btn
-      tile
-      depressed
-      :color="selected === 1 ? 'white' : 'primary'"
-      :dark="selected !== 1"
-      @click="$emit('set-page', 1)"
-    >
-      <span class="unskew">OPERATOR RECORDS</span>
-    </v-btn>-->
     <cc-tooltip simple inline content="Feature In Development">
       <v-btn
         tile
@@ -31,7 +22,7 @@
         <span class="unskew">COMBAT ANALYTICS</span>
       </v-btn>
     </cc-tooltip>
-    <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="$router.go('-1')">
+    <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
       <v-icon large>cci-pilot</v-icon>
     </v-btn>
     <v-divider vertical class="mx-2" />
@@ -59,17 +50,21 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Generate Statblock</v-list-item-title>
-            <v-list-item-subtitle>Get a plaintext representation of this mech configuration</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              Get a plaintext representation of this mech configuration
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item @click="$emit('!')">
+        <v-list-item @click="$emit('delete')">
           <v-list-item-icon>
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="error--text">Delete Mech</v-list-item-title>
-            <v-list-item-subtitle class="error--text">Remove mech from the Hangar</v-list-item-subtitle>
+            <v-list-item-subtitle class="error--text">
+              Remove mech from the Hangar
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -84,7 +79,13 @@
       <v-list subheader>
         <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
         <v-list-item-group>
-          <v-list-item @click="''">
+          <v-list-item
+            @click="
+              ''
+
+
+            "
+          >
             <v-list-item-icon>
               <v-icon>mdi-view-array</v-icon>
             </v-list-item-icon>
@@ -117,7 +118,7 @@ import StatblockDialog from '../../../components/StatblockDialog.vue'
 import PrintDialog from '../../../components/PrintDialog.vue'
 
 export default Vue.extend({
-  name: 'pilot-nav',
+  name: 'mech-nav',
   components: { StatblockDialog, PrintDialog },
   props: {
     pilot: {
@@ -127,6 +128,11 @@ export default Vue.extend({
     selected: {
       type: Number,
       required: true,
+    },
+  },
+  methods: {
+    toPilotSheet() {
+      this.$router.push({ name: 'pilot_sheet' })
     },
   },
 })

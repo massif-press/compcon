@@ -240,13 +240,17 @@ class Pilot {
     this.save()
   }
 
-  public SetLocalPortrait(src: string): void {
+  public SetLocalImage(src: string): void {
     this._portrait = src
     this.save()
   }
 
-  public get LocalPortrait(): string {
+  public get LocalImage(): string {
     return this._portrait
+  }
+
+  public get Image(): string {
+    return this.Portrait
   }
 
   public get Portrait(): string {
@@ -257,11 +261,11 @@ class Pilot {
   }
 
   // -- Cloud -------------------------------------------------------------------------------------
-  public get CloudPortrait(): string {
+  public get CloudImage(): string {
     return this._cloud_portrait
   }
 
-  public set CloudPortrait(src: string) {
+  public set CloudImage(src: string) {
     this._cloud_portrait = src
     this.save()
   }
@@ -297,12 +301,12 @@ class Pilot {
     return this.CloudOwnerID === store.getters.getUserProfile.userID
   }
 
-  public SetCloudPortrait(): string {
-    if (!this.LocalPortrait) return 'Nothing to upload'
+  public SetCloudImage(): string {
+    if (!this.LocalImage) return 'Nothing to upload'
     api
-      .uploadImage(store.getters.getUserPath, 'portrait', this.LocalPortrait)
+      .uploadImage(store.getters.getUserPath, 'portrait', this.LocalImage)
       .then((json: any) => {
-        this.CloudPortrait = json.data.link
+        this.CloudImage = json.data.link
         return 'Image Upload Successful'
       })
       .catch(function(err: any) {
@@ -319,7 +323,7 @@ class Pilot {
           this.setCloudInfo(response.id)
         })
         .then(() => {
-          this.SetCloudPortrait()
+          this.SetCloudImage()
         })
     } else {
       return api
@@ -328,7 +332,7 @@ class Pilot {
           this.setCloudInfo(response.id)
         })
         .then(() => {
-          this.SetCloudPortrait()
+          this.SetCloudImage()
         })
     }
   }
@@ -454,7 +458,8 @@ class Pilot {
   }
 
   public get MaxSkillPoints(): number {
-    return rules.minimum_pilot_skills + this._level
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
+    return rules.minimum_pilot_skills + this._level + bonus
   }
 
   public get IsMissingSkills(): boolean {
@@ -874,6 +879,7 @@ class Pilot {
     const mechData = Mech.Serialize(mech)
     const clone = Mech.Deserialize(mechData, this)
     clone.RenewID()
+    clone.Name += '*'
     this._mechs.push(clone)
     this.save()
   }

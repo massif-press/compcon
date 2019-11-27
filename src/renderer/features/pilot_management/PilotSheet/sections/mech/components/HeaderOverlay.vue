@@ -60,7 +60,7 @@ export default Vue.extend({
   transform: skew(0.65rad);
   background-color: #fafafa;
   color: var(--v-text-base);
-  z-index: 11;
+  z-index: 2;
   width: 75vw;
   margin-left: -20px;
 }

@@ -1,4 +1,4 @@
-import { LicensedItem, Tag, Pilot } from '@/class'
+import { LicensedItem, Tag } from '@/class'
 import { ILicensedItemData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
@@ -15,6 +15,7 @@ abstract class MechEquipment extends LicensedItem {
   private _effect: string
   private _integrated: boolean
   private _uses: number
+  private _max_uses: number
   private _destroyed: boolean
   private _unshackled: boolean
   private _loaded: boolean
@@ -29,6 +30,12 @@ abstract class MechEquipment extends LicensedItem {
     this._destroyed = false
     this._unshackled = false
     this._loaded = true
+    if (itemData.tags) {
+      const ltd = itemData.tags.find(x => x.id === 'limited')
+      this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
+    } else {
+      this._max_uses = 0
+    }
   }
 
   public get Tags(): Tag[] {
@@ -115,13 +122,12 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get MaxUses(): number {
-    if (!this.IsLimited) return 0
-    const limVal = this.Tags.find(x => x.IsLimited).Value
-    return typeof limVal === 'number' ? limVal : 0
+    return this._max_uses
   }
 
-  public getTotalUses(pilot?: Pilot): number {
-    return this.MaxUses + (pilot ? pilot.LimitedBonus : 0)
+  public getTotalUses(bonus?: number): number {
+    const b = bonus ? bonus : 0
+    return this.MaxUses + b
   }
 }
 

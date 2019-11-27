@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-overlay :mech="mech" />
-    <mech-nav :selected="0" :pilot="pilot" :mech="mech" />
+    <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
       <v-col cols="auto">
         <cc-title large :color="color">{{ mech.Name }}&emsp;</cc-title>
@@ -33,11 +33,9 @@
         <v-icon v-else class="mt-n1" x-large color="success">cci-activate</v-icon>
       </v-col>
     </v-row>
+    <status-alert v-for="s in mech.StatusString" :key="`status-${s}`" :type="s" />
     <v-row align="center">
       <v-col cols="8">
-        <v-row v-if="mech.StatusString">
-          <status-alert :type="mech.StatusString" />
-        </v-row>
         <v-row>
           <v-col>
             <cc-title small :color="color">Operator Notes</cc-title>
@@ -63,7 +61,13 @@
       <v-col cols="4">
         <div class="text-center">
           <div class="border">
-            <v-img :src="mech.Portrait" min-height="100%" max-width="100%" position="top center" />
+            <v-img
+              :key="mech.Image"
+              :src="mech.Portrait"
+              min-height="100%"
+              max-width="100%"
+              position="top center"
+            />
           </div>
           <v-btn
             outlined
@@ -77,7 +81,7 @@
             Set Mech Image
           </v-btn>
 
-          <cc-image-selector ref="imageSelector" :pilot="pilot" />
+          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
         </div>
       </v-col>
     </v-row>
@@ -88,7 +92,9 @@
       {{ mech.Frame.Source }} {{ mech.Frame.Name }} CORE System
     </cc-title>
     <core-item :core-system="mech.Frame.CoreSystem" :color="color" />
-    <loadout-block :color="color" :mech="mech" :pilot="pilot" />
+    <cc-title small :color="color" class="mb-2">Equipment Loadout</cc-title>
+    <cc-mech-loadout :mech="mech" />
+    <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
   </div>
 </template>
 
@@ -101,7 +107,7 @@ import CoreItem from './components/CoreItem.vue'
 import LicenseRequirementBlock from './sections/license_requirements/index.vue'
 import TraitBlock from './sections/traits/index.vue'
 import AttributesBlock from './sections/attributes/index.vue'
-import LoadoutBlock from './sections/loadout/index.vue'
+import DeleteMechDialog from '../hangar/components/DeleteMechDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 
@@ -114,8 +120,8 @@ export default Vue.extend({
     HeaderOverlay,
     TraitBlock,
     AttributesBlock,
-    LoadoutBlock,
     CoreItem,
+    DeleteMechDialog,
   },
   props: {
     pilotID: {
@@ -137,6 +143,12 @@ export default Vue.extend({
     this.pilot = store.ActivePilot
     this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)
     this.color = this.mech.Frame.Manufacturer.Color
+  },
+  methods: {
+    deleteMech() {
+      this.$router.push({ name: 'mech_hangar' })
+      this.pilot.RemoveMech(this.mech)
+    },
   },
 })
 </script>

@@ -25,7 +25,7 @@
           </v-btn>
         </div>
         <p class="flavor-text mx-2 my-1" v-html="reserve.Description" />
-        <v-card flat outlined class="px-5">
+        <v-card v-if="reserve.ID != 'reserve_skill'" flat outlined class="px-5">
           <v-card-text>
             <v-row>
               <v-col cols="9">
@@ -41,7 +41,10 @@
                 </div>
                 <div v-else>
                   <div
-                    v-if="reserve.ID === 'reserve_bombardment' || reserve.ID === 'reserve_extendedharness'"
+                    v-if="
+                      reserve.ID === 'reserve_bombardment' ||
+                        reserve.ID === 'reserve_extendedharness'
+                    "
                   >
                     <span class="effect-text">{{ reserve.Description }}</span>
                     <v-spacer class="pb-4" />

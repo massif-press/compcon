@@ -6,15 +6,18 @@
           <v-card height="300px" tile flat @click="$emit('go', mech)">
             <div
               class="clipped-large"
-              :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${mech.Frame.Manufacturer.Color}`"
+              :style="
+                `z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${mech.Frame.Manufacturer.Color}`
+              "
             >
-              <span
-                class="heading h2 white--text flavor-text ml-2"
-                style="letter-spacing: 3px"
-              >{{ mech.Name }}</span>
+              <span class="heading h2 white--text flavor-text ml-2" style="letter-spacing: 3px">
+                {{ mech.Name }}
+              </span>
             </div>
             <div
-              :style="`z-index: 3; position: absolute; top: -5px; right: 20px; height: 32px; width:32px`"
+              :style="
+                `z-index: 3; position: absolute; top: -5px; right: 20px; height: 32px; width:32px`
+              "
             >
               <cc-logo
                 size="xLarge"
@@ -28,10 +31,10 @@
               <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
                 <v-card flat tile class="flavor-text white--text">
                   <v-card-text>
-                    <b>{{ mech.Name }}</b> //
+                    <b>{{ mech.Name }}</b>
+                    //
                     <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                     <br />
-                    <!-- TODO: prevent null activeloadout -->
                     Equipped Loadout: {{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
                     <!-- TODO: add charts -->
                     <v-row dense>
@@ -106,11 +109,27 @@
                     </cc-tooltip>
                     <v-icon v-else large color="success">cci-activate</v-icon>
                     <v-spacer />
-                    <mech-ops
-                      :mech="mech"
-                      @delete="$emit('delete-mech', mech)"
-                      @dupe="$emit('dupe-mech', mech)"
-                    />
+                    <cc-tooltip simple inline content="Delete Mech">
+                      <v-btn
+                        small
+                        icon
+                        class="fadeSelect"
+                        color="error"
+                        @click.stop="$refs.delete.show()"
+                      >
+                        <v-icon>delete</v-icon>
+                      </v-btn>
+                    </cc-tooltip>
+                    <cc-tooltip simple inline content="Duplicate Mech">
+                      <v-btn small icon class="fadeSelect" @click.stop="$refs.copy.show()">
+                        <v-icon>mdi-content-copy</v-icon>
+                      </v-btn>
+                    </cc-tooltip>
+                    <cc-tooltip simple inline content="Print Mech Sheet">
+                      <v-btn small icon class="fadeSelect" @click.stop="$refs.print.show()">
+                        <v-icon>mdi-printer</v-icon>
+                      </v-btn>
+                    </cc-tooltip>
                   </v-card-actions>
                 </v-card>
               </v-overlay>
@@ -119,16 +138,21 @@
         </template>
       </v-hover>
     </div>
+    <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
+    <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
+    <print-dialog ref="print" :pilot="mech.Pilot" />
   </v-col>
 </template>
 
 <script lang="ts">
-import MechOps from './MechOps.vue'
-
 import Vue from 'vue'
+import CopyMechDialog from './CopyMechDialog.vue'
+import DeleteMechDialog from './DeleteMechDialog.vue'
+import PrintDialog from '../../../components/PrintDialog.vue'
+
 export default Vue.extend({
   name: 'mech-card',
-  components: { MechOps },
+  components: { CopyMechDialog, DeleteMechDialog, PrintDialog },
   props: {
     mech: {
       type: Object,

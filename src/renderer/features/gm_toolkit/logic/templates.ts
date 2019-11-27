@@ -43,7 +43,7 @@ const templates: NPCTemplate[] = [
     },
     // statTransform(stats) {
     //   console.log("Adding Ultra template")
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.structure = 4
     //   newStats.stress = 4
     //   newStats.hp += 5
@@ -68,7 +68,7 @@ const templates: NPCTemplate[] = [
       stress: 1
     },
     // statTransform(stats) {
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.structure = 2
     //   newStats.stress = 2
     //   return newStats
@@ -117,7 +117,7 @@ const templates: NPCTemplate[] = [
       stress: 1
     },
     // statTransform(stats) {
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.structure += 1
     //   newStats.stress += 1
     //   return newStats
@@ -167,7 +167,7 @@ const templates: NPCTemplate[] = [
       hp: 5
     },
     // statTransform(stats) {
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.hp += 5
     //   return newStats
     // },
@@ -211,7 +211,7 @@ const templates: NPCTemplate[] = [
       stress: 1
     },
     // statTransform(stats) {
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.structure += 1
     //   newStats.stress += 1
     //   return newStats
@@ -331,7 +331,7 @@ const templates: NPCTemplate[] = [
       hp: 5
     },
     // statTransform(stats) {
-    //   let newStats = _.clone(stats)
+    //   let newStats = _.cloneDeep(stats)
     //   newStats.hp += 5
     //   return newStats
     // },

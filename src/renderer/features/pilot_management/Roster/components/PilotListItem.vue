@@ -27,9 +27,7 @@
             <span class="grey--text">] -</span>
             <span class="text--text">
               {{ pilot.Background.Name }}
-              <span
-                class="grey--text"
-              >&emsp;UNB::LNCR//OPCON_ID > (CHECKSUM OK)</span>
+              <span class="grey--text">&emsp;UNB::LNCR//OPCON_ID > (CHECKSUM OK)</span>
             </span>
           </p>
           <p class="flavor-text mb-0">
@@ -37,11 +35,15 @@
               >UNB LICENSING BOARD//REGISTRATION STATUS:
               <span class="success--text">
                 VALID [
-                <b>LL: {{ pilot.Level }}</b> ]
+                <b>LL: {{ pilot.Level }}</b>
+                ]
               </span>
-              <span
-                class="text--text"
-              >[ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{ pilot.MechSkills.Sys }} E:{{ pilot.MechSkills.Eng }} ]</span>
+              <span class="text--text">
+                [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
+                  pilot.MechSkills.Sys
+                }}
+                E:{{ pilot.MechSkills.Eng }} ]
+              </span>
             </span>
           </p>
           <p class="flavor-text mb-0 ml-3">
@@ -56,9 +58,9 @@
           </p>
           <p v-if="pilot.ActiveMech" class="flavor-text mb-0">
             <span class="grey--text">UNB::LNCR//CAV - ACTIVE FRAME //</span>
-            <span
-              class="text--text"
-            >{{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}</span>
+            <span class="text--text">
+              {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+            </span>
             <span class="grey--text">[</span>
             <span class="text--text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
             <span class="grey--text">]</span>
@@ -85,7 +87,7 @@ export default Vue.extend({
   methods: {
     toPilotSheet() {
       const store = getModule(PilotManagementStore, this.$store)
-      store.ActivePilot = this.pilot
+      store.loadPilot(this.pilot)
       this.$router.push('pilot')
     },
     statusColor(status: string): string {

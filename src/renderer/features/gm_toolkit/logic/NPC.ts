@@ -40,7 +40,7 @@ export default class NPC {
     if (stats) {
       this.stats = stats
     } else {
-      this.stats = (_.clone(this.npcClass.stats[this.tier]) as unknown) as any
+      this.stats = (_.cloneDeep(this.npcClass.stats[this.tier]) as unknown) as any
       this.stats.structure = 1
       this.stats.stress = 1
       this.defaultCaps()

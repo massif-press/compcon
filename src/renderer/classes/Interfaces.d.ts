@@ -1,4 +1,9 @@
 // global declaration file for common interfaces that are used too often to warrant placing in @/interfaces
+declare interface IImageContainer {
+  SetLocalImage(): any
+  SetCloudImage(): any
+  Image: string
+}
 
 declare interface IDiceStats {
   min: number

@@ -1,13 +1,8 @@
 <template>
   <div>
-    <tabbed-layout v-if="profile.PilotSheetView === 'tabbed'" :page="page" :pilot="pilot" />
-    <classic-layout v-else-if="profile.PilotSheetView === 'classic'" :page="page" :pilot="pilot" />
-    <pilot-nav
-      :pilot="pilot"
-      :selected="page"
-      @set-page="page = $event"
-      @set-layout="profile.PilotSheetView = $event"
-    />
+    <tabbed-layout v-if="profile.PilotSheetView === 'tabbed'" :page="tab" :pilot="pilot" />
+    <classic-layout v-else-if="profile.PilotSheetView === 'classic'" :page="tab" :pilot="pilot" />
+    <pilot-nav :pilot="pilot" :selected="tab" @set-layout="profile.PilotSheetView = $event" />
   </div>
 </template>
 
@@ -24,6 +19,12 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'pilot-sheet-content',
   components: { PilotNav, TabbedLayout, ClassicLayout },
+  props: {
+    tab: {
+      type: String,
+      required: true,
+    },
+  },
   data: () => ({
     page: 1,
   }),
@@ -38,6 +39,9 @@ export default Vue.extend({
     },
   },
   watch: {
+    tab() {
+      this.page = this.tab
+    },
     layout() {
       this.page = 0
     },

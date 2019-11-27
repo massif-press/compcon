@@ -62,10 +62,41 @@
         </v-btn>
       </template>
 
-      <v-list>
-        <v-list-item to="/active">Active Play Mode</v-list-item>
-        <v-list-item to="/pilot">Pilot Sheet</v-list-item>
-        <v-list-item to="/hangar">Mech Hangar</v-list-item>
+      <v-list two-line subheader>
+        <v-list-item to="/active">
+          <v-list-item-icon>
+            <v-icon large>cci-activate</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Active Mode</v-list-item-title>
+            <v-list-item-subtitle>
+              Gameplay manager for running a pilot in LANCER sessions
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="pilotSheet()">
+          <v-list-item-icon>
+            <v-icon large>cci-pilot</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Pilot Sheet</v-list-item-title>
+            <v-list-item-subtitle>
+              View, edit, and update this pilot's information
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- TODO: add tab=3 -->
+        <v-list-item @click="mechHangar()">
+          <v-list-item-icon>
+            <v-icon large>cci-frame</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Mech Hangar</v-list-item-title>
+            <v-list-item-subtitle>
+              Build mechs and manage this pilot's library of mech configurations
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-menu>
 
@@ -78,7 +109,7 @@
         </v-btn>
       </template>
 
-      <v-list>
+      <v-list dense>
         <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
         <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
@@ -114,19 +145,21 @@ export default Vue.extend({
   computed: {
     pilot() {
       const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot || null
+      return store.ActivePilot
     },
   },
   methods: {
-    home: function() {
+    home() {
       this.$router.push('/')
     },
-    historyNav: function(dir: number) {
-      this.$router.go(dir)
+    pilotSheet() {
+      this.$router.push({ name: 'pilot_sheet' })
     },
-    toMechSheet(mech) {
-      this.pilot.LoadedMech = mech
-      this.$router.push('./mech')
+    mechHangar() {
+      this.$router.push({ name: 'mech_hangar' })
+    },
+    historyNav(dir: number) {
+      this.$router.go(dir)
     },
   },
 })

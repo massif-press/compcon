@@ -40,7 +40,6 @@ class Mech {
     this._cloud_portrait = ''
     this._frame = frame
     this._pilot = pilot
-    this._loadouts = []
     this._active = false
     this._current_structure = this.MaxStructure
     this._current_hp = this.MaxHP
@@ -49,7 +48,6 @@ class Mech {
     this._current_repairs = this.RepairCapacity
     this._current_core_energy = 1
     this._current_overcharge = 0
-    this._active_loadout = new MechLoadout(this)
     this._statuses = []
     this._conditions = []
     this._resistances = []
@@ -58,6 +56,8 @@ class Mech {
     this._destroyed = false
     this._reactor_destroyed = false
     this._meltdown_imminent = false
+    this._loadouts = [new MechLoadout(this)]
+    this.ActiveLoadout = this._loadouts[0]
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -140,28 +140,31 @@ class Mech {
     })
   }
 
-  public SetCloudPortrait(src: string): void {
+  public SetCloudImage(src: string): void {
     this._cloud_portrait = src
     this.save()
   }
 
-  public get CloudPortrait(): string {
+  public get CloudImage(): string {
     return this._cloud_portrait
   }
 
-  public SetLocalPortrait(src: string): void {
+  public SetLocalImage(src: string): void {
     this._portrait = src
     this.save()
   }
 
-  public get LocalPortrait(): string {
+  public get LocalImage(): string {
     return this._portrait
+  }
+
+  public get Image(): string {
+    return this.Portrait
   }
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait)
-      return `file://${store.getters.getUserPath}/img/frame/${this._portrait}`
+    else if (this._portrait) return `file://${store.getters.getUserPath}/img/mech/${this._portrait}`
     else return `file://${store.getters.getUserPath}/img/default_frame/${this.Frame.ID}.png`
   }
 
@@ -522,12 +525,18 @@ class Mech {
   }
 
   // -- Statuses and Conditions -------------------------------------------------------------------
-  public get StatusString(): string {
-    if (this.ReactorDestroyed) return 'reactorDestroyed'
-    else if (this.IsDestroyed) return 'destroyed'
-    else if (this.IsEjected) return 'ejected'
-    else if (this.MeltdownImminent) return 'meltdown'
-    return ''
+  public get StatusString(): string[] {
+    const out = []
+    if (this.ReactorDestroyed) out.push('reactorDestroyed')
+    if (this.IsDestroyed) out.push('destroyed')
+    if (this.IsEjected) out.push('ejected')
+    if (this.MeltdownImminent) out.push('meltdown')
+    if (this.ActiveLoadout.Systems.filter(x => x.IsUnshackled).length) out.push('unshackled')
+    if (this.FreeSP < 0) out.push('overSP')
+    if (this.FreeSP) out.push('underSP')
+    if (this.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
+    if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
+    return out
   }
 
   public get IsDestroyed(): boolean {
@@ -632,7 +641,7 @@ class Mech {
     this._loadouts.forEach(x => {
       x.Equipment.forEach(y => {
         if (y.IsDestroyed) y.Repair()
-        if (y.IsLimited) y.Uses = y.getTotalUses(this.Pilot)
+        if (y.IsLimited) y.Uses = y.getTotalUses(this.Pilot.LimitedBonus)
       })
     })
     this._statuses = []
@@ -677,6 +686,7 @@ class Mech {
         'MechSystems',
         `techno${this._pilot.getTalentRank('techno')}`
       )
+      console.log(techno)
       intg.push(new MechSystem(techno))
     }
     return intg
