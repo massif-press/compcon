@@ -19,8 +19,8 @@
           :key="`${m.ID}_mc`"
           :mech="m"
           @set-active="pilot.ActiveMech = $event"
-          @delete-mech="pilot.RemoveMech($event)"
-          @dupe-mech="pilot.CloneMech($event)"
+          @delete="pilot.RemoveMech($event)"
+          @copy="pilot.CloneMech($event)"
           @go="toMechSheet($event)"
         />
       </v-row>
@@ -31,8 +31,8 @@
         :key="`${m.ID}_mc`"
         :mech="m"
         @set-active="pilot.ActiveMech = $event"
-        @delete-mech="pilot.RemoveMech($event)"
-        @dupe-mech="pilot.CloneMech($event)"
+        @delete="pilot.RemoveMech($event)"
+        @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)"
       />
     </v-container>
@@ -81,7 +81,7 @@ export default Vue.extend({
     toMechSheet(mech) {
       const store = getModule(PilotManagementStore, this.$store)
       store.setLoadedMech(mech.ID)
-      this.$router.push(`./mech/${this.pilot.ID}/${mech.ID}`)
+      this.$router.push(`../mech/${this.pilot.ID}/${mech.ID}`)
     },
   },
 })

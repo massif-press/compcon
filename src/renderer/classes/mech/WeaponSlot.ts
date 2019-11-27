@@ -29,7 +29,7 @@ class WeaponSlot {
   }
 
   public EquipWeapon(weapon: MechWeapon): void {
-    const w = _.clone(weapon)
+    const w = _.cloneDeep(weapon)
     this._weapon = w
     this.save()
   }

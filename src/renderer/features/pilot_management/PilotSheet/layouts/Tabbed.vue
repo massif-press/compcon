@@ -1,9 +1,9 @@
 <template>
   <div>
-    <info-view v-show="page === 0" key="v0" :pilot="pilot" />
-    <narrative-view v-show="page === 1" key="v1" :pilot="pilot" />
-    <tactical-view v-show="page === 2" key="v2" :pilot="pilot" />
-    <mech-hangar-view v-show="page === 3" key="v3" :pilot="pilot" />
+    <info-view v-show="page === '0'" key="v0" :pilot="pilot" />
+    <narrative-view v-show="page === '1'" key="v1" :pilot="pilot" />
+    <tactical-view v-show="page === '2'" key="v2" :pilot="pilot" />
+    <mech-hangar-view v-show="page === '3'" key="v3" :pilot="pilot" />
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default Vue.extend({
       required: true,
     },
     page: {
-      type: Number,
+      type: String,
       required: true,
     },
   },

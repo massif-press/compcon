@@ -29,8 +29,8 @@ export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
   public LoadedMechID: string = ''
-  public ActivePilot: Pilot = undefined
-  public printOptions: PrintOptions = undefined
+  public ActivePilot: Pilot = null
+  public printOptions: PrintOptions = null
 
   @Mutation
   private [SAVE_DATA](): void {
@@ -101,21 +101,6 @@ export class PilotManagementStore extends VuexModule {
     this.LoadedMechID = payload
   }
 
-  // /**
-  //  * @deprecated Now that type info is preserved,
-  //  * just access `ActivePilot` directly instead.
-  //  */
-  // get getPilot(): Pilot {
-  //   return this.ActivePilot
-  // }
-  // /**
-  //  * @deprecated Now that type info is preserved,
-  //  * just access `printOptions` directly instead.
-  //  */
-  // get getPrintOptions(): PrintOptions {
-  //   return this.printOptions
-  // }
-
   @Action
   public saveData(): void {
     this.context.commit(SAVE_DATA)
@@ -127,8 +112,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public loadPilot(pilotId: string): void {
-    this.context.commit(SET_PILOT, pilotId)
+  public loadPilot(pilot: Pilot): void {
+    this.context.commit(SET_PILOT, pilot)
   }
 
   @Action

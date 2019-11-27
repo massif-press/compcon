@@ -258,7 +258,7 @@ export default Vue.extend({
       editingName: false,
       editingStats: false,
       newName: '',
-      npc: _.clone(this.preNpc),
+      npc: _.cloneDeep(this.preNpc),
       systemsUnlocked: false,
 
       HP: 0,
@@ -380,7 +380,7 @@ export default Vue.extend({
     },
 
     submitStats() {
-      var newStats = _.clone(this.npc.stats) as NPCStats
+      var newStats = _.cloneDeep(this.npc.stats) as NPCStats
       for (var s in this.stats) {
         if (typeof this.stats[s] === "string") {
           this.stats[s] = Number(this.stats[s])

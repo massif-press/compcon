@@ -1,14 +1,17 @@
 <template>
-  <v-card dark height="100%" class="ma-1">
-    <v-card-title class="pa-0 pl-2 pr-2" :style="`background-color: ${color}`">
-      <span class="minor-title">{{ header }}</span>
-      <v-spacer />
-      <span class="caption">{{ subheader }}</span>
-    </v-card-title>
-    <v-card-text class="pa-1">
-      <slot></slot>
-    </v-card-text>
-  </v-card>
+  <v-col :cols="cols" class="pa-1">
+    <v-card tile color="grey lighten-3 clipped">
+      <v-card-title class="pa-0 pl-2 pr-2" :class="color">
+        <span class="heading h3 white--text">{{ header }}</span>
+        <v-spacer />
+        <span class="overline white--text mr-2">{{ subheader }}</span>
+      </v-card-title>
+      <v-card-text class="pa-1 pl-2 ma-0 text--text flavor-text">
+        <div v-if="content" class="text-center heading h2 pb-2">{{ content }}</div>
+        <slot v-else />
+      </v-card-text>
+    </v-card>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -16,9 +19,30 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'active-card',
   props: {
-    color: String,
-    header: String,
-    subheader: String,
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    header: {
+      type: String,
+      required: true,
+    },
+    subheader: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    content: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    cols: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 })
 </script>

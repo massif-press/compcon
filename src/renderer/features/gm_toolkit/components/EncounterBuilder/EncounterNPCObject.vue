@@ -34,7 +34,7 @@ export default Vue.extend({
   props: { npc: { type: Object, required: true } },
   data: function() {
     return {
-      encounterNPC: _.clone(this.npc),
+      encounterNPC: _.cloneDeep(this.npc),
     }
   },
   computed: {

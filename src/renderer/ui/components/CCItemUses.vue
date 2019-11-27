@@ -1,25 +1,14 @@
 <template>
-  <div>
-    <v-checkbox
+  <div class="mt-n1">
+    <v-icon
       v-for="n in max"
-      :key="`chk_${n - 1}`"
-      v-model="model"
-      :value="n - 1"
-      :class="
-        `fs-override d-inline ma-0 ${right ? 'mr-n2' : ''} ${left ? 'ml-n2' : ''} ${
-          large ? 'mt-4 cb-lg' : small ? 'cb-sm' : 'cb-md'
-        }`
-      "
-      :ripple="false"
-      :off-icon="emptyIcon"
-      :on-icon="fullIcon"
-      dense
-      hide-details
+      :key="`chk_${item.ID}-${n}`"
+      class="d-inline ma-0"
       :small="small"
       :large="large"
       :color="color"
-      @click.native.stop
-      @change="$emit('set', model.length)"
+      @click.stop="set(n)"
+      v-html="n <= current ? fullIcon : emptyIcon"
     />
   </div>
 </template>
@@ -30,30 +19,20 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'cc-item-uses',
   props: {
-    current: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    bonus: {
       type: Number,
       required: false,
       default: 0,
     },
-    max: {
-      type: Number,
-      required: true,
-    },
     small: {
       type: Boolean,
-      required: false,
     },
     large: {
       type: Boolean,
-      required: false,
-    },
-    right: {
-      type: Boolean,
-      required: false,
-    },
-    left: {
-      type: Boolean,
-      required: false,
     },
     emptyIcon: {
       type: String,
@@ -71,47 +50,19 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-  data: () => ({
-    model: [],
-  }),
-  created() {
-    for (let i = 0; i < this.current; i++) {
-      this.model.push(i)
-    }
+  computed: {
+    max() {
+      return this.item.MaxUses + this.bonus
+    },
+    current() {
+      return this.item.Uses
+    },
+  },
+  methods: {
+    set(val) {
+      if (val > this.current) Vue.set(this.item, 'Uses', this.item.Uses + 1)
+      else Vue.set(this.item, 'Uses', this.item.Uses - 1)
+    },
   },
 })
 </script>
-
-<style>
-.d-inline .v-input__slot {
-  display: inline !important;
-}
-
-.d-inline .v-input__control {
-  display: inline !important;
-}
-
-.fs-override i {
-  font-size: inherit !important;
-}
-
-.cb-lg input,
-.cb-lg .v-input input {
-  width: 50px !important;
-  height: 50px !important;
-}
-
-.cb-lg {
-  font-size: 60px !important;
-  padding-left: 20px;
-}
-
-.cb-md {
-  font-size: 30px !important;
-  padding-left: 5px;
-}
-
-.cb-sm {
-  font-size: 20px !important;
-}
-</style>

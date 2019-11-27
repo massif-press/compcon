@@ -2,12 +2,9 @@
   <v-card-text>
     <v-row class="stat-text" fill-height>
       <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
-      <v-icon
-        size="80"
-        color="primary"
-        class="ml-auto"
-        style="line-height: 40px"
-      >cci-size-{{ item.size === 0.5 ? 'half' : item.Size }}</v-icon>
+      <v-icon size="80" color="primary" class="ml-auto" style="line-height: 40px">
+        cci-size-{{ item.size === 0.5 ? 'half' : item.Size }}
+      </v-icon>
     </v-row>
 
     <div v-if="item.Description">
@@ -19,14 +16,7 @@
     <frame-statblock :frame="item" />
 
     <span class="overline ml-n2">FRAME TRAITS</span>
-    <cc-titled-panel
-      v-for="(t, i) in item.Traits"
-      :key="`trait_${i}`"
-      icon="cci-trait"
-      :title="t.name"
-    >
-      <p class="effect-text ma-0 pa-0">{{ t.description }}</p>
-    </cc-titled-panel>
+    <cc-trait-item v-for="(t, i) in item.Traits" :key="`trait_${i}`" :trait="t" />
 
     <span class="overline ml-n2">AVAILABLE WEAPON MOUNTS</span>
     <v-row justify-space-around class="mb-3">

@@ -68,7 +68,7 @@ export default Vue.extend({
   },
   data: function() {
     return {
-      encounter: _.clone(this.preEnc),
+      encounter: _.cloneDeep(this.preEnc),
     }
   },
   computed: {

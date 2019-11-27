@@ -23,18 +23,17 @@ export default Vue.extend({
       required: true,
     },
     page: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
   watch: {
-    page(newPage, oldPage) {
+    page(newPage) {
       this.$vuetify.goTo(`#section-${newPage}`, {
         duration: 15,
         easing: 'easeInOutCubic',
         offset: 10,
       })
-      console.log(oldPage, newPage, 'do a scroll')
     },
   },
   mounted() {

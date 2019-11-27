@@ -156,7 +156,7 @@ export class CompendiumStore extends VuexModule {
     return (itemType: string, id: string) => {
       if (this[itemType] && this[itemType] instanceof Array) {
         const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
-        return i ? _.clone(i) : this.nfErr
+        return i ? _.cloneDeep(i) : this.nfErr
       }
       return { err: 'Invalid Item Type' }
     }

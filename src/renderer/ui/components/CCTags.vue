@@ -4,7 +4,7 @@
       <cc-extended-tag :tag="t" />
     </v-col>
   </v-row>
-  <v-row v-else class="my-2">
+  <div v-else>
     <cc-tag
       v-for="(t, i) in tags"
       :key="`${t.id}_${i}`"
@@ -13,7 +13,7 @@
       :color="color"
       :pilot="pilot"
     />
-  </v-row>
+  </div>
 </template>
 
 <script lang="ts">

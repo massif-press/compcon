@@ -34,12 +34,19 @@ export default new Router({
           component: require('@/features/pilot_management/PilotSheet/index').default,
           children: [
             {
+              name: 'pilot_sheet',
               path: '',
-              redirect: '/sheet',
+              redirect: '/sheet/1',
             },
             {
-              path: '/sheet',
+              name: 'mech_hangar',
+              path: '',
+              redirect: '/sheet/3',
+            },
+            {
+              path: '/sheet/:tab',
               component: require('@/features/pilot_management/PilotSheet/layouts/index').default,
+              props: true,
             },
             {
               path: '/mech/:pilotID/:mechID',

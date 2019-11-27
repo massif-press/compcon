@@ -8,38 +8,24 @@ Next Steps:
   ☐ Split Pilot, Mech into subclasses
   ☐ In-file interface declarations available globally through TS import()
   ☐ Talent Die counters
-  ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
   ☐ Better visibility on range/damage bonuses (contributors)
   ☐ Move explicit-lookup functions to a generalized bonus framework
+  ☐ Avatar image bounding box select
+  ☐ Charts
+  ☐ Tutorial popups (vue-tour)
+  ☐ Gear Catalog comparison view
 
 Bugs:
-  ☐ Inifinte render function on loadout with uses (probably re integrated weapons)
+  ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
+  ☐ armsman (at least) bugged
+
+Active Mode:
+  ☐ Toggleable dense loadout view
 
 Unshackling:
   ☐ Add Unshackled to Reactor/Structure tables
   ☐ Reshackled on shut down/full repair
-
-Mech Sheet:
-  ☐ systems warnings
-    ☐ Missing licenses
-    ☐ SP issues
-    ☐ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI
-    ☐ unfinished (!) icon on cards for unfilled SP/mounts
-  ☐ loadouts
-
-Mech loadout:
-  ✔ core int weapons @done(19-11-20 22:26)
-    ✔ instantiate correctly @done(19-11-20 22:26)
-  ✔ SH Brace Lock @done(19-11-21 15:12)
-  ☐ Make fake AI tag for techno 3 AI
-  ☐ Mod items for system section (name -- installed on -- sp cost)
-  ✔ GetRange @done(19-11-21 15:23)
-  ✔ GetDamage @done(19-11-21 15:23)
-  ☐ confirm loadouts unload talent items on lost talent
-
-
-Cleanup:
-  ☐ remove old font stylings
+  ☐ Prevent c/c from shackled
 
 Flavor Pass:
   ☐ Cloud settings panel
@@ -78,27 +64,15 @@ CCTooltip:
   ☐ Use v-menu
 
 Hangar:
-  ☐ Fix MechOps for card
   ☐ Quick Print Mech
-
-Name Generator:
-  ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
-
-Navigation:
-  ☐ scroll to top on nav
-  
-Icons:
-  ☐ E-Defense
-  ☐ Evasion
+  ☐ Quick Statblock Mech
 
 Print:
   ☐ Print all relevant tags
 
 Image Selector:
-  ☐ refactor
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ confirm dialog on image delete
-  ☐ Avatar image bounding box select
 
 Pilot Roster:
   ☐ Big Card view
@@ -109,37 +83,24 @@ New Pilot:
   ☐ Background Selector drops list side on reopen
 
 Pilot Sheet:
-  ☐ Add params to route to land on tab
-  ☐ Pilot sheet should remember last tab (for forward/back)
-  ☐ Delete Pilot
   ☐ test importers
     ☐ ask cc-club to test pull/push cloud syncs
-  ☐ top bar doesn't reflect active pilot
-  ☐ change pilot img doesn't automatically update
-  ☐ faction info in dossier
-  ☐ org builder 
-  ☐ primary color based on faction
 
-Skills:
-  ☐ Get Focused should add a Get Focused skill increase
-    ☐ Add as downtime reserve
-
-Compendium:
-  ☐ Add Factions
-
-Nav Bar:
-  ☐ Better pilot menu
-  ☐ Pilot not always getting picked up
+Factions:
+  ☐ Add Factions to Compendium
+  ☐ Pilot primary color should change based on faction
+  ☐ Faction info in Pilot dossier
+  ☐ Faction and Org builders
 
 Refactor:
+  ☐ remove old font stylings
   ☐ Replace most instances of .Source with .Manufacturer.Name
-  ☐ prevent null activeloadout
   ☐ remove _shared
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
   ☐ Turn Manager methods should go into Mech class
-  ☐ underscore private properties
   ☐ genericize frame row image element
+  ☐ redo converter/validator
 
 Style Pass:
   ☐ pilot NO IMG
@@ -149,7 +110,7 @@ Style Pass:
   ☐ integrate text color getter
 
 Improvements:
-  ☐ NPC stuff in compendium
+  ☐ Add truncated effects to long effect equipment
   ☐ Expand Glossary
   ☐ browsable image galleries
   ☐ hidden tags for specially-handled items
@@ -169,24 +130,51 @@ Campaign Tools:
 
 Preconstructed Characters:
   ☐ Select Character (cultural stuff)
+    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
   ☐ Select Build (talents etc)
   ☐ Select Mech (everest)
 
 2.0:
   ☐ Delete Homebrew content packs
-  ☐ Default Long Rim content pack
+  ☐ Core Book and Long Rim content packs
   ☐ Update Help
   ☐ Update About
-  ☐ Charts
-  ☐ Tutorial popups (vue-tour)
-  ☐ Gear Catalog comparison view
-  ☐ Default selectable pilot glyphs and portraits
-    ☐ Detect and install on first startup
 
 Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Inifinte render function on loadout with uses @done(19-11-22 16:56) @project(Bugs)
+  ✔ Infinite render w/ loadout systems with uses @done(19-11-25 14:57) @project(Bugs)
+  ✔ confirm loadouts unload talent items on lost talent @done(19-11-25 15:02) @project(Mech loadout)
+  ✔ mech image selector @done(19-11-25 15:02) @project(Mech loadout)
+  ✔ Fix MechOps for card @done(19-11-25 15:02) @project(Hangar)
+  ✔ scroll to top on nav @done(19-11-27 13:05) @project(Navigation)
+  ✔ refactor @done(19-11-27 13:05) @project(Image Selector)
+  ✔ Add params to route to land on tab @done(19-11-27 12:35) @project(Pilot Sheet)
+  ✔ Pilot sheet should remember last tab (for forward/back) @done(19-11-27 12:35) @project(Pilot Sheet)
+  ✔ Delete Pilot @done(19-11-27 12:35) @project(Pilot Sheet)
+  ✔ top bar doesn't reflect active pilot @done(19-11-27 12:35) @project(Pilot Sheet)
+  ✔ change pilot img doesn't automatically update @done(19-11-22 17:15) @project(Pilot Sheet)
+  ✔ Get Focused should add a Get Focused skill increase @done(19-11-27 13:03) @project(Skills)
+  ✔ Add as downtime reserve @done(19-11-27 13:03) @project(Skills)
+  ✔ Better pilot menu @done(19-11-26 15:02) @project(Nav Bar)
+  ✔ Pilot not always getting picked up @done(19-11-26 15:00) @project(Nav Bar)
+  ✔ prevent null activeloadout @done(19-11-27 13:03) @project(Refactor)
+  ✔ underscore private properties @done(19-11-27 13:03) @project(Refactor)
+  ✔ systems warnings @done(19-11-22 15:54) @project(Mech Sheet)
+  ✔ Missing licenses @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ SP issues @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ loadouts @done(19-11-22 13:53) @project(Mech Sheet)
+  ✔ core int weapons @done(19-11-20 22:26) @project(Mech loadout)
+  ✔ instantiate correctly @done(19-11-20 22:26) @project(Mech loadout)
+  ✔ SH Brace Lock @done(19-11-21 15:12) @project(Mech loadout)
+  ✔ Make fake AI tag for techno 3 AI @done(19-11-22 12:46) @project(Mech loadout)
+  ✔ Mod items for system section (name -- installed on -- sp cost) @done(19-11-22 13:53) @project(Mech loadout)
+  ✔ GetRange @done(19-11-21 15:23) @project(Mech loadout)
+  ✔ GetDamage @done(19-11-21 15:23) @project(Mech loadout)
+  ✔ NPC stuff in compendium @done(19-11-22 13:27) @project(Improvements)
   ✔ Mech detects unshackling @done(19-11-20 11:00) @project(Unshackling)
   ✔ Primary color based on manufacturer @done(19-11-12 13:55) @project(Mech Sheet)
   ✔ hide pilot stats when mech sheet is loaded @done(19-11-13 14:31) @project(Mech Sheet)

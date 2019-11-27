@@ -4,36 +4,36 @@
     <v-btn
       tile
       depressed
-      :color="selected === 0 ? 'white' : 'primary'"
-      :dark="selected !== 0"
-      @click="$emit('set-page', 0)"
+      :color="selected === '0' ? 'white' : 'primary'"
+      :dark="selected !== '0'"
+      to="/sheet/0"
     >
       <span class="unskew">DOSSIER</span>
     </v-btn>
     <v-btn
       tile
       depressed
-      :color="selected === 1 ? 'white' : 'primary'"
-      :dark="selected !== 1"
-      @click="$emit('set-page', 1)"
+      :color="selected === '1' ? 'white' : 'primary'"
+      :dark="selected !== '1'"
+      to="/sheet/1"
     >
       <span class="unskew">NARRATIVE PROFILE</span>
     </v-btn>
     <v-btn
       tile
       depressed
-      :color="selected === 2 ? 'white' : 'primary'"
-      :dark="selected !== 2"
-      @click="$emit('set-page', 2)"
+      :color="selected === '2' ? 'white' : 'primary'"
+      :dark="selected !== '2'"
+      to="/sheet/2"
     >
       <span class="unskew">TACTICAL PROFILE</span>
     </v-btn>
     <v-btn
       tile
       depressed
-      :color="selected === 3 ? 'white' : 'primary'"
-      :dark="selected !== 3"
-      @click="$emit('set-page', 3)"
+      :color="selected === '3' ? 'white' : 'primary'"
+      :dark="selected !== '3'"
+      to="/sheet/3"
     >
       <span class="unskew">MECH HANGAR</span>
     </v-btn>
@@ -65,7 +65,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Print</v-list-item-title>
-            <v-list-item-subtitle>Print tabletop-ready character and mech sheets</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              Print tabletop-ready character and mech sheets
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
@@ -74,7 +76,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Generate Statblock</v-list-item-title>
-            <v-list-item-subtitle>Get a plaintext representation of this character's build</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              Get a plaintext representation of this character's build
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.exportDialog.show()">
@@ -92,7 +96,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Cloud Settings</v-list-item-title>
-            <v-list-item-subtitle>Manage this pilot's cloud data and share codes</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              Manage this pilot's cloud data and share codes
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.cloud.sync()">
@@ -101,23 +107,27 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Quick Sync</v-list-item-title>
-            <v-list-item-subtitle
-              v-if="!pilot.CloudID && !pilot.IsUserOwned"
-            >Sync cloud with pilot (creates new cloud data)</v-list-item-subtitle>
-            <v-list-item-subtitle
-              v-else-if="!pilot.CloudID || pilot.IsUserOwned"
-            >Sync cloud with pilot (overwrites cloud data)</v-list-item-subtitle>
-            <v-list-item-subtitle v-else>Sync pilot with cloud (overwrites local data)</v-list-item-subtitle>
+            <v-list-item-subtitle v-if="!pilot.CloudID && !pilot.IsUserOwned">
+              Sync cloud with pilot (creates new cloud data)
+            </v-list-item-subtitle>
+            <v-list-item-subtitle v-else-if="!pilot.CloudID || pilot.IsUserOwned">
+              Sync cloud with pilot (overwrites cloud data)
+            </v-list-item-subtitle>
+            <v-list-item-subtitle v-else>
+              Sync pilot with cloud (overwrites local data)
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item @click="$emit('!')">
+        <v-list-item @click="$refs.deleteDialog.show()">
           <v-list-item-icon>
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="error--text">Delete Pilot</v-list-item-title>
-            <v-list-item-subtitle class="error--text">Remove this pilot from the roster</v-list-item-subtitle>
+            <v-list-item-subtitle class="error--text">
+              Remove this pilot from the roster
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -166,6 +176,7 @@
     <export-dialog ref="exportDialog" class="unskew" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" />
     <cloud-dialog ref="cloudDialog" class="unskew" :pilot="pilot" />
+    <delete-dialog ref="deleteDialog" class="unskew" :pilot="pilot" @delete="deletePilot()" />
     <cloud-manager ref="cloud" class="unskew" :pilot="pilot" />
   </div>
 </template>
@@ -177,31 +188,48 @@ import CloudDialog from './CloudDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import ExportDialog from './ExportDialog.vue'
 import PrintDialog from './PrintDialog.vue'
+import DeleteDialog from './DeletePilotDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'pilot-nav',
-  components: { CloudManager, CloudDialog, StatblockDialog, ExportDialog, PrintDialog },
+  components: {
+    CloudManager,
+    CloudDialog,
+    StatblockDialog,
+    ExportDialog,
+    PrintDialog,
+    DeleteDialog,
+  },
   props: {
     pilot: {
       type: Object,
       required: true,
     },
     selected: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
   computed: {
     lastLoaded() {
       const store = getModule(PilotManagementStore, this.$store)
-      return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID) ? store.LoadedMechID : ''
+      return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID)
+        ? store.LoadedMechID
+        : this.pilot.ActiveMech
+        ? this.pilot.ActiveMech.ID
+        : null
     },
   },
   methods: {
     toMech() {
-      this.$router.push(`mech/${this.pilot.ID}/${this.lastLoaded}`)
+      this.$router.push(`../mech/${this.pilot.ID}/${this.lastLoaded}`)
+    },
+    deletePilot() {
+      this.$router.push('/pilot_management')
+      const store = getModule(PilotManagementStore, this.$store)
+      store.deletePilot(this.pilot)
     },
   },
 })

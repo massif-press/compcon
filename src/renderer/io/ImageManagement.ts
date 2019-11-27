@@ -20,6 +20,7 @@ enum ImageTag {
   NPC = 'npc',
   Enemy = 'enemy',
   Frame = 'frame',
+  Mech = 'mech',
   Location = 'location',
   Object = 'object',
   Logo = 'logo',

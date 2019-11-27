@@ -76,7 +76,7 @@ export default Vue.extend({
   },
   data: function() {
     return {
-      encounter: _.clone(this.preEnc),
+      encounter: _.cloneDeep(this.preEnc),
       draggedIndex: null as number | null,
     }
   },
@@ -106,7 +106,7 @@ export default Vue.extend({
 
     onChange({ newIndex, oldIndex }: any) {
       this.draggedIndex = null
-      const arr = _.clone(this.encounter.npcs)
+      const arr = _.cloneDeep(this.encounter.npcs)
       arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0])
       console.log(arr.map(a => a.baseNPC.name))
       this.encounter.npcs = [...arr]
