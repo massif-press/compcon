@@ -48,9 +48,7 @@
           >
             <v-card-title class="major-title">
               Updated {{ changelog.news.date }}&nbsp;
-              <span
-                class="caption"
-              >(v{{ changelog.news.version }})</span>
+              <span class="caption">(v{{ changelog.news.version }})</span>
               <v-spacer />
               <span class="minor title">
                 Stable:
@@ -68,7 +66,9 @@
             <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="changelog.news.body" />
             <v-divider class="mt-2 mb-2" />
             <div v-for="(i, idx) in changelog.changelog" :key="idx">
-              <v-card-title class="minor-title mb-1 pb-1">Changelog for: {{ i.version }}</v-card-title>
+              <v-card-title class="minor-title mb-1 pb-1">
+                Changelog for: {{ i.version }}
+              </v-card-title>
               <v-card-text class="mt-1 pt-1 ml-3 pr-5" v-html="i.changes" />
               <v-divider class="mt-2 mb-2" />
             </div>
@@ -105,7 +105,7 @@ import apis from '../pilot_management/logic/apis'
 import { remote } from 'electron'
 import { info } from 'lancer-data'
 import { getModule } from 'vuex-module-decorators';
-import { ModuleStore } from '../_shared/store';
+import { ModuleStore, setupData } from '../_shared/store';
 
 export default Vue.extend({
   name: 'landing-page',
@@ -141,8 +141,7 @@ export default Vue.extend({
         this.err = true
       })
     moduleStore.setDatapath(Vue.prototype.userDataPath)
-    moduleStore.loadData()
-    moduleStore.buildLicenses()
+    setupData(this.$store);
   },
 })
 </script>

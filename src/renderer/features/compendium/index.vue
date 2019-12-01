@@ -8,8 +8,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { setupData } from '../_shared/store'
 
 export default Vue.extend({
   name: 'compendium',
+  created() {
+    setupData(this.$store)
+  },
 })
 </script>
