@@ -76,6 +76,10 @@
 </template>
 
 <script>
+import { getModule } from 'vuex-module-decorators'
+import { EncounterRunnerStore } from './store/encounterRunner'
+import { NPCDesignerStore } from './store/npcDesigner'
+
 export default {
   data: () => ({
     drawer: false,
@@ -105,6 +109,10 @@ export default {
     backButton() {
       if (this.backButton) this.drawer = false
     },
+  },
+  created() {
+    getModule(EncounterRunnerStore, this.$store).load()
+    getModule(NPCDesignerStore, this.$store).load()
   },
 }
 </script>

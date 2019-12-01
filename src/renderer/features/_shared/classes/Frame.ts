@@ -1,6 +1,7 @@
 import store from '@/store'
 import { rules } from 'lancer-data'
 import { LicensedItem, MechWeapon, Tag, MountType, ItemType, MechType } from '@/class'
+import data_io from '../data_io'
 
 class Frame extends LicensedItem {
   private mechtype: MechType[]
@@ -129,13 +130,13 @@ class Frame extends LicensedItem {
   }
 
   public get DefaultImage(): string {
-    return `file://${store.getters.getUserPath}/img/default_frames/${this.ID}.png`
+    return data_io.getFrameImageURI(this.ID)
   }
 }
 
 interface Trait {
-  name: string;
-  description: string;
+  name: string
+  description: string
 }
 
 class CoreSystem {

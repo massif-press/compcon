@@ -3,6 +3,7 @@ import _ from 'lodash'
 import uid from '@/features/_shared/uid'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount } from '@/class'
+import io from '@/features/_shared/data_io'
 
 class Mech {
   private id: string
@@ -154,9 +155,10 @@ class Mech {
   }
 
   public get Portrait(): string {
-    if (this.cloud_portrait) return this.cloud_portrait
-    else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`
-    else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
+    // if (this.cloud_portrait) return this.cloud_portrait else
+    // else if (this.portrait) return `file://${store.getters.getUserPath}/img/frame/${this.portrait}`
+    // else return `file://${store.getters.getUserPath}/img/default_frames/${this.Frame.ID}.png`
+    return io.getFrameImageURI(this.Frame.ID)
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -515,7 +517,7 @@ class Mech {
   }
 
   public set IsDestroyed(b: boolean) {
-     this.destroyed = b
+    this.destroyed = b
   }
 
   public get IsEjected(): boolean {
@@ -523,7 +525,7 @@ class Mech {
   }
 
   public set IsEjected(b: boolean) {
-     this.ejected = b
+    this.ejected = b
   }
 
   public get MeltdownImminent(): boolean {
@@ -554,7 +556,7 @@ class Mech {
     this.CurrentHP = this.MaxHP
     this.save()
   }
-  
+
   public get IsShutDown(): boolean {
     return this.Statuses.includes('Shut Down')
   }
@@ -711,7 +713,7 @@ class Mech {
   public UpdateLoadouts() {
     this.loadouts.forEach(x => {
       x.UpdateIntegrated(this)
-    });
+    })
   }
 
   // -- I/O ---------------------------------------------------------------------------------------

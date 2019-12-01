@@ -1,4 +1,7 @@
 export default {
+  getFrameImageURI(frameID: string): string {
+    return `/static/img/frames/${frameID}.png`
+  },
   loadUserData(_, path) {
     const data = localStorage.getItem(path)
     if (data) return JSON.parse(data)
@@ -14,4 +17,5 @@ export default {
   loadBrewData: (...args) => null,
   findBrewData: (...args) => null,
   setBrewActive: (...args) => null,
+  importFile: (...args) => null,
 }
