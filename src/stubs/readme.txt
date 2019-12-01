@@ -1,0 +1,1 @@
+These are stubs used to get the app to compile for browser while we work on porting functionality to be browser-friendly. They are used in web/webpack.config.js with NormalModuleReplacementPlugin to replace modules that would otherwise fail to compile due to using Node-exclusive APIs.

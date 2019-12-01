@@ -20,18 +20,19 @@ import {
   Status,
   Brew,
 } from '@/class'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
+// function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
+//   const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
+//   const bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
+//   let bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
+//   if (bArr.length) {
+//     bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
+//   }
+//   return bArr || []
+// }
 
-function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
-  const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
-  const bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
-  let bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
-  if (bArr.length) {
-    bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
-  }
-  return bArr || []
-}
+const stageBrewData = (...args) => []
 
 export const SET_DATA_PATH = 'SET_DATA_PATH'
 export const SET_BREW_ACTIVE = 'SET_BREW_ACTIVE'
@@ -40,7 +41,7 @@ export const LOAD_DATA = 'LOAD_DATA'
 export const LOAD_BREWS = 'LOAD_BREWS'
 
 @Module({
-  name: "datastore",
+  name: 'datastore',
 })
 export class ModuleStore extends VuexModule {
   UserDataPath = ''
@@ -59,12 +60,12 @@ export class ModuleStore extends VuexModule {
   Quirks: Array<string> = []
   Brews: Array<Brew> = []
   Licenses: Array<License> = []
-  Reserves: Array<Reserve> = []
+  Reserves: Array<Reserve> = [];
 
   @Mutation
   [SET_DATA_PATH](userDataPath: string) {
     this.UserDataPath = userDataPath
-    io.checkFolders(userDataPath)
+    // io.checkFolders(userDataPath)
   }
 
   @Mutation
@@ -101,7 +102,7 @@ export class ModuleStore extends VuexModule {
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
     this.Reserves = lancerData.reserves.map((x: any) => new Reserve(x))
-    this.Brews = io.findBrewData(this.UserDataPath)
+    // this.Brews = io.findBrewData(this.UserDataPath)
   }
 
   @Mutation
@@ -120,13 +121,9 @@ export class ModuleStore extends VuexModule {
       this.Manufacturers = this.Manufacturers.concat(
         stageBrewData(this.UserDataPath, dir, 'manufacturers')
       )
-      this.MechWeapons = this.MechWeapons.concat(
-        stageBrewData(this.UserDataPath, dir, 'weapons')
-      )
+      this.MechWeapons = this.MechWeapons.concat(stageBrewData(this.UserDataPath, dir, 'weapons'))
       this.WeaponMods = this.WeaponMods.concat(stageBrewData(this.UserDataPath, dir, 'mods'))
-      this.MechSystems = this.MechSystems.concat(
-        stageBrewData(this.UserDataPath, dir, 'systems')
-      )
+      this.MechSystems = this.MechSystems.concat(stageBrewData(this.UserDataPath, dir, 'systems'))
       this.PilotGear = this.PilotGear.concat(stageBrewData(this.UserDataPath, dir, 'pilot_gear'))
       this.Tags = this.Tags.concat(stageBrewData(this.UserDataPath, dir, 'tags'))
       this.Statuses = this.Statuses.concat(stageBrewData(this.UserDataPath, dir, 'statuses'))
@@ -161,7 +158,7 @@ export class ModuleStore extends VuexModule {
   }
 
   @Action
-  public loadBrews() { 
+  public loadBrews() {
     this.context.commit(LOAD_BREWS)
   }
 
@@ -172,13 +169,11 @@ export class ModuleStore extends VuexModule {
 
   @Action
   public setBrewActive(dir: string, active: boolean) {
-    this.context.commit(SET_BREW_ACTIVE, {dir, active})
+    this.context.commit(SET_BREW_ACTIVE, { dir, active })
   }
 
   @Action
   public buildLicenses() {
     this.context.commit(BUILD_LICENSES)
   }
-
 }
-
