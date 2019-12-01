@@ -15,9 +15,8 @@ import { Pilot } from '@/class'
 import store from '../../store'
 import { mapGetters } from 'vuex'
 import { TopBar } from '@/features/_shared/topbar'
-import { getModule } from 'vuex-module-decorators';
-import { PilotManagementStore } from './store';
-import { setupData } from '../_shared/store'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from './store'
 
 export default Vue.extend({
   name: 'pilot_management',
@@ -25,7 +24,6 @@ export default Vue.extend({
   created() {
     const pilotStore = getModule(PilotManagementStore, this.$store)
     pilotStore.loadPilots()
-    setupData(this.$store);
   },
 })
 </script>

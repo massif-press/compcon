@@ -104,8 +104,7 @@ import Vue from 'vue'
 import apis from '../pilot_management/logic/apis'
 import { remote } from 'electron'
 import { info } from 'lancer-data'
-import { getModule } from 'vuex-module-decorators';
-import { ModuleStore, setupData } from '../_shared/store';
+import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
   name: 'landing-page',
@@ -123,7 +122,6 @@ export default Vue.extend({
     },
   },
   created: function() {
-    const moduleStore = getModule(ModuleStore, this.$store)
     if (Vue.prototype.version) this.ver = Vue.prototype.version
     apis
       .getChangelog()
@@ -140,8 +138,6 @@ export default Vue.extend({
         this.loading = false
         this.err = true
       })
-    moduleStore.setDatapath(Vue.prototype.userDataPath)
-    setupData(this.$store);
   },
 })
 </script>

@@ -20,6 +20,8 @@ import gmTheme from './features/gm_toolkit/vuetify_theme'
 
 import ScrollSpy, { Easing } from 'vue2-scrollspy'
 import * as items from './mixins/data'
+import { getModule } from 'vuex-module-decorators'
+import { ModuleStore } from './features/_shared/store'
 
 const windowAny: any = window
 
@@ -80,6 +82,12 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  created() {
+    const moduleStore = getModule(ModuleStore, this.$store)
+    moduleStore.loadData()
+    moduleStore.buildLicenses()
+    moduleStore.setDatapath(Vue.prototype.userDataPath)
+  },
 }).$mount('#app')
 
 // router.replace('/pilot_management')

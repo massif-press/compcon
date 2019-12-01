@@ -177,9 +177,3 @@ export class ModuleStore extends VuexModule {
     this.context.commit(BUILD_LICENSES)
   }
 }
-
-export function setupData(store) {
-  const moduleStore = getModule(ModuleStore, store)
-  moduleStore.loadData()
-  moduleStore.buildLicenses()
-}

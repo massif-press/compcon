@@ -8,6 +8,9 @@ export default {
     localStorage.setItem(path, JSON.stringify(data))
     callback()
   },
+  backup(_) {
+    localStorage.setItem('pilots.old', localStorage.getItem('pilots.json'))
+  },
   loadBrewData: (...args) => null,
   findBrewData: (...args) => null,
   setBrewActive: (...args) => null,

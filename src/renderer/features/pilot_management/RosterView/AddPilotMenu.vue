@@ -10,13 +10,13 @@
           Create New Pilot
         </v-btn>
         <v-divider />
-        <v-btn block flat color="primary" @click="importFile">
+        <!-- <v-btn block flat color="primary" @click="importFile">
           Import from File
         </v-btn>
 
         <v-btn block flat color="primary" @click="importClipboard">
           Import from Clipboard
-        </v-btn>
+        </v-btn> -->
 
         <v-layout>
           <v-flex>
@@ -27,7 +27,13 @@
               <v-card>
                 <v-card-title class="title">Enter Share ID</v-card-title>
                 <v-card-text>
-                  <v-text-field v-model="shareIDText" label="Share ID" outline clearable autofocus />
+                  <v-text-field
+                    v-model="shareIDText"
+                    label="Share ID"
+                    outline
+                    clearable
+                    autofocus
+                  />
                   <span class="effect-text red--text">{{ errorText }}</span>
                 </v-card-text>
                 <v-divider />
@@ -106,7 +112,7 @@ export default Vue.extend({
     errorText: '',
   }),
   watch: {
-    dialogModel (val) {
+    dialogModel(val) {
       if (val) {
         this.display = true
       } else {
@@ -115,7 +121,7 @@ export default Vue.extend({
         }
       }
     },
-    display (val) {
+    display(val) {
       if (!val) {
         this.close()
       }
