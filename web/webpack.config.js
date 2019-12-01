@@ -21,7 +21,7 @@ module.exports = {
         port: 1000,
         hot: true,
         open: true,
-        historyApiFallback: true
+        // historyApiFallback: true
     },
     module: {
         rules: [
@@ -43,6 +43,27 @@ module.exports = {
                         }
                     }
                 ],
+            },
+            // Need babel-loader to transpile for iOS compatibility, doesn't seem like ts-loader can achieve this on its own...?
+            // Should investigate
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            "presets": [
+                                [
+                                    "@babel/preset-env",
+                                    {
+                                        useBuiltIns: "entry"
+                                    }
+                                ],
+                            ]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.vue$/,
