@@ -7,6 +7,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
@@ -85,6 +86,10 @@ module.exports = {
         new HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
         new ForkTsCheckerWebpackPlugin(),
+        new CopyPlugin([
+            { from: 'static', to: 'static' },
+            { from: 'web/public/_redirects', to: '.' }
+        ]),
         new HTMLWebpackPlugin({
             showErrors: true,
             cache: false,

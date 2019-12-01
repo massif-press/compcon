@@ -93,6 +93,7 @@
     "@typescript-eslint/parser": "^1.7.0",
     "circular-dependency-plugin": "^5.0.2",
     "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.5",
     "electron": "4.0.1",
     "electron-builder": "20.38.4",
     "electron-webpack": "^2.6.2",
