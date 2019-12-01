@@ -67,6 +67,7 @@ module.exports = {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'file-loader',
                 options: {
+                    esModule: false,
                     outputPath: 'img',
                     name: '[name].[ext]?[hash]'
                 }
