@@ -20,7 +20,7 @@ import {
   Status,
   Brew,
 } from '@/class'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
 
 // function stageBrewData(userDataPath: string, brewDataFolder: string, file: string) {
 //   const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
@@ -176,4 +176,10 @@ export class ModuleStore extends VuexModule {
   public buildLicenses() {
     this.context.commit(BUILD_LICENSES)
   }
+}
+
+export function setupData(store) {
+  const moduleStore = getModule(ModuleStore, store)
+  moduleStore.loadData()
+  moduleStore.buildLicenses()
 }
