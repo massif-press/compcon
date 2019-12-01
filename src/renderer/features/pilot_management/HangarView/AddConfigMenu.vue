@@ -14,13 +14,13 @@
                   <v-btn large color="primary" block @click="nc_step = 2">
                     Create New
                   </v-btn>
-                  <v-divider class="ma-4" />
+                  <!-- <v-divider class="ma-4" />
                   <v-btn flat color="primary" block @click="importFile">
                     Import from File
                   </v-btn>
                   <v-btn flat color="primary" block @click="importClipboard">
                     Import from Clipboard
-                  </v-btn>
+                  </v-btn> -->
                 </div>
               </v-card-text>
             </v-card>
@@ -220,7 +220,7 @@ import io from '@/features/_shared/data_io'
 import validator from '../logic/validator'
 import { Pilot, Frame, Mech, MechType } from '@/class'
 import { ItemCard } from '../components/UI'
-import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold';
+import { includesIgnoringAccentsCase } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
   name: 'new-config',
@@ -246,8 +246,7 @@ export default Vue.extend({
       if (!vm.showLocked)
         i = i.filter((x: Frame) => vm.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
 
-      if (vm.search)
-        i = i.filter((x: Frame) => includesIgnoringAccentsCase(x.Name, vm.search))
+      if (vm.search) i = i.filter((x: Frame) => includesIgnoringAccentsCase(x.Name, vm.search))
 
       if (vm.filter.length) {
         i = i.filter((x: Frame) => x.Mechtype.some(y => vm.filter.includes(y)))

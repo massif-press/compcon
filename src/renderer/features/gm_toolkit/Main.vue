@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import { setupData } from '../_shared/store'
 export default {
   data: () => ({
     drawer: false,
@@ -106,9 +105,6 @@ export default {
     backButton() {
       if (this.backButton) this.drawer = false
     },
-  },
-  created() {
-    setupData(this.$store)
   },
 }
 </script>
