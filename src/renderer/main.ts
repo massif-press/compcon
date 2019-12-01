@@ -27,6 +27,19 @@ if (process.env.NODE_ENV !== 'development') {
   windowAny.__static = require('path')
     .join(__dirname, '/static')
     .replace(/\\/g, '\\\\')
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(registration => {
+          console.log('SW registered: ', registration)
+        })
+        .catch(registrationError => {
+          console.log('SW registration failed: ', registrationError)
+        })
+    })
+  }
 }
 
 Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
@@ -66,7 +79,7 @@ new Vue({
   components: { App },
   router,
   store,
-  template: '<App/>',
+  render: h => h(App),
 }).$mount('#app')
 
 // router.replace('/pilot_management')
