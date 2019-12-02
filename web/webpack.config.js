@@ -109,7 +109,7 @@ module.exports = {
         new ForkTsCheckerWebpackPlugin(),
         new CopyPlugin([
             { from: 'static', to: 'static' },
-            { from: 'web/public/_redirects', to: '.' }
+            { from: 'web/public/config', to: '.' }
         ]),
         new HTMLWebpackPlugin({
             showErrors: true,
@@ -140,7 +140,9 @@ module.exports = {
             clientsClaim: true,
             skipWaiting: true,
             navigateFallback: '/index.html',
-            exclude: ['_redirects']
+            // these two files aren't accessible by clients so including them in the precache manifest makes it fail to register
+            // (i think)
+            exclude: ['_redirects', '_headers']
         }),
         new FaviconsWebpackPlugin({
             logo: './icons/256x256.png', // svg works too!
