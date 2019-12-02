@@ -45,7 +45,7 @@
         <v-flex v-for="(c, i) in pilot.Mechs" :key="c.id + i" class="mb-4" xs12 sm6 lg4 xl3>
           <config-card :mech="c" :pilot="pilot" :card-height="cardHeight" />
         </v-flex>
-        <v-flex xs3>
+        <v-flex xs12 sm6 lg4 xl3>
           <add-config-card :pilot="pilot" :card-height="cardHeight" />
         </v-flex>
       </v-layout>
