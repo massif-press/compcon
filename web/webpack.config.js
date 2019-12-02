@@ -121,6 +121,7 @@ module.exports = {
         new WebpackPwaManifest({
             name: 'COMP/CON',
             short_name: 'C/C',
+            start_url: '/',
             description: 'Digital toolkit for the LANCER RPG',
             background_color: '#ffffff',
             theme_color: '#ffffff',
