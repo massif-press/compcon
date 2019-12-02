@@ -136,7 +136,7 @@ module.exports = {
         new GenerateSW({
             swDest: 'sw.js',
             clientsClaim: true,
-            skipWaiting: true,
+            exclude: ['_redirects']
         }),
         new DefinePlugin({
             ELECTRON: JSON.stringify(false)
