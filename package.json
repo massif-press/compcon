@@ -14,7 +14,7 @@
     "unit-test": "jest unit",
     "int-test": "jest int"
   },
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": "> 0.15%, not dead",
   "electronWebpack": {
     "title": "COMP/CON v1.5.6",
     "whiteListedModules": [
