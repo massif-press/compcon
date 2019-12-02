@@ -11,6 +11,10 @@ const fs = require('fs');
 const CopyPlugin = require('copy-webpack-plugin');
 const InjectPlugin = require('webpack-inject-plugin').default;
 
+const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+
+console.log(isProduction)
+
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
     entry: './src/renderer/main.ts',
@@ -154,7 +158,7 @@ module.exports = {
             exclude: ['_redirects', '_headers']
         }),
         // inject code to register service worker we just generated, but only in prod
-        process.env.NODE_ENV === 'production' ? new InjectPlugin(() => fs.readFileSync(
+        isProduction ? new InjectPlugin(() => fs.readFileSync(
             path.resolve(__dirname, 'public/register_sw.js')
         )) : () => null,
         new FaviconsWebpackPlugin({
