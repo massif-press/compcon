@@ -25,23 +25,21 @@ import { ModuleStore } from './features/_shared/store'
 
 const windowAny: any = window
 
-if (process.env.NODE_ENV !== 'development') {
-  windowAny.__static = require('path')
-    .join(__dirname, '/static')
-    .replace(/\\/g, '\\\\')
+windowAny.__static = require('path')
+  .join(__dirname, '/static')
+  .replace(/\\/g, '\\\\')
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-          console.log('SW registered: ', registration)
-        })
-        .catch(registrationError => {
-          console.log('SW registration failed: ', registrationError)
-        })
-    })
-  }
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(registration => {
+        console.log('SW registered: ', registration)
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError)
+      })
+  })
 }
 
 Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
