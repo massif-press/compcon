@@ -149,6 +149,7 @@ module.exports = {
                 appDescription: 'A digital toolset for the LANCER TTRPG',
                 background: '#fff',
                 theme_color: '#fff',
+                appleStatusBarStyle: "black",
             }
         }),
         new DefinePlugin({
