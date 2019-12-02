@@ -1404,6 +1404,14 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/loader-utils@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@types/loader-utils/-/loader-utils-1.1.3.tgz#82b9163f2ead596c68a8c03e450fbd6e089df401"
+  integrity sha512-euKGFr2oCB3ASBwG39CYJMR3N9T0nanVqXdiH7Zu/Nqddt6SmFRxytq/i2w9LQYNQekEtGBz+pE3qG6fQTNvRg==
+  dependencies:
+    "@types/node" "*"
+    "@types/webpack" "*"
+
 "@types/lodash@^4.14.123":
   version "4.14.136"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.136.tgz#413e85089046b865d960c9ff1d400e04c31ab60f"
@@ -1462,7 +1470,7 @@
     "@types/source-list-map" "*"
     source-map "^0.6.1"
 
-"@types/webpack@^4.4.31":
+"@types/webpack@*", "@types/webpack@^4.4.17", "@types/webpack@^4.4.31":
   version "4.41.0"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.41.0.tgz#b813a044d8b0dec7dfcd7622fdbe327bde06eb9a"
   integrity sha512-tWkdf9nO0zFgAY/EumUKwrDUhraHKDqCPhwfFR/R8l0qnPdgb9le0Gzhvb7uzVpouuDGBgiE//ZdY+5jcZy2TA==
@@ -6410,7 +6418,7 @@ loader-runner@^2.3.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"
 
-loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.2, loader-utils@^1.2.3:
+loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.2, loader-utils@^1.2.3, loader-utils@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
   integrity sha512-fkpz8ejdnEMG3s37wGL07iSBDg99O9D5yflE9RGNH3hRdx9SOwYfnGYdZOUIZitN8E+E2vkq3MUMYMvPYl5ZZA==
@@ -10121,6 +10129,15 @@ webpack-dev-server@^3.7.2:
     webpack-dev-middleware "^3.7.0"
     webpack-log "^2.0.0"
     yargs "12.0.5"
+
+webpack-inject-plugin@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/webpack-inject-plugin/-/webpack-inject-plugin-1.5.3.tgz#4d6894eb7d1bfbc1e30c75f2708699910d6ae6b2"
+  integrity sha512-Ri8dzjWvR5XQ/uRZM0xHdzAMQy1n337RopmXhsZ/p0K9GYMBRW1x+YrLEqSwH26wPcyZDcpDW0dmv9YfcJZUIw==
+  dependencies:
+    "@types/loader-utils" "^1.1.3"
+    "@types/webpack" "^4.4.17"
+    loader-utils "~1.2.3"
 
 webpack-log@^2.0.0:
   version "2.0.0"

@@ -113,6 +113,7 @@
     "vue-loader": "^15.7.2",
     "vue-template-compiler": "^2.5.17",
     "webpack": "4.28.4",
+    "webpack-inject-plugin": "^1.5.3",
     "webpack-pwa-manifest": "^4.1.1",
     "workbox-webpack-plugin": "^4.3.1"
   }

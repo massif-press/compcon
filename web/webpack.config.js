@@ -7,7 +7,9 @@ const { GenerateSW } = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const path = require('path');
+const fs = require('fs');
 const CopyPlugin = require('copy-webpack-plugin');
+const InjectPlugin = require('webpack-inject-plugin').default;
 
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
@@ -21,7 +23,7 @@ module.exports = {
         port: 1000,
         hot: true,
         open: true,
-        // historyApiFallback: true
+        historyApiFallback: true
     },
     module: {
         rules: [
@@ -144,6 +146,10 @@ module.exports = {
             // (i think)
             exclude: ['_redirects', '_headers']
         }),
+        // inject code to register service worker we just generated
+        new InjectPlugin(() => fs.readFileSync(
+            path.resolve(__dirname, 'public/register_sw.js')
+        )),
         new FaviconsWebpackPlugin({
             logo: './icons/256x256.png', // svg works too!
             favicons: {
