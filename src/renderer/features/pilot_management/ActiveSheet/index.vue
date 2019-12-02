@@ -824,7 +824,8 @@ export default Vue.extend({
       this.reservesPanel = [false]
     },
     editMech(mech: Mech) {
-      this.pilot.LoadedMech = this.mech
+      this.pilot.LoadedMech = mech
+      localStorage.setItem('lastLoadedMechID', mech.ID)
       this.$router.push('./config')
     },
     reserveColor(r: Reserve): string {

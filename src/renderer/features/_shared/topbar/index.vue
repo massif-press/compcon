@@ -53,12 +53,12 @@
           <v-list two line dense>
             <v-list-tile v-for="mech in pilot.Mechs" :key="mech.Name" @click="toConfigSheet(mech)">
               <v-list-tile-content>
-                <v-list-tile-title
-                  class="text-xs-right font-weight-bold effect-text"
-                >{{ mech.Name }}</v-list-tile-title>
-                <v-list-tile-sub-title
-                  class="text-xs-right"
-                >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-tile-sub-title>
+                <v-list-tile-title class="text-xs-right font-weight-bold effect-text">
+                  {{ mech.Name }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title class="text-xs-right">
+                  {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+                </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -165,13 +165,16 @@ export default Vue.extend({
     },
     toConfigSheet(mech) {
       this.pilot.LoadedMech = mech
+      localStorage.setItem('lastLoadedMechID', mech.ID)
       this.$router.push('./config')
     },
   },
   computed: {
     pilot() {
       const p = this.$store.getters.getPilot
-      if (!p) { return null }
+      if (!p) {
+        return null
+      }
       return p.Name ? p : null
     },
   },

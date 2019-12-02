@@ -95,6 +95,13 @@ module.exports = {
                     outputPath: 'img',
                     name: '[name].[ext]?[hash]'
                 }
+            },
+            {
+                test: /\.txt$/,
+                loader: 'raw-loader',
+                options: {
+                    esModule: false,
+                }
             }
         ],
     },
@@ -146,10 +153,10 @@ module.exports = {
             // (i think)
             exclude: ['_redirects', '_headers']
         }),
-        // inject code to register service worker we just generated
-        new InjectPlugin(() => fs.readFileSync(
+        // inject code to register service worker we just generated, but only in prod
+        process.env.NODE_ENV === 'production' ? new InjectPlugin(() => fs.readFileSync(
             path.resolve(__dirname, 'public/register_sw.js')
-        )),
+        )) : () => null,
         new FaviconsWebpackPlugin({
             logo: './icons/256x256.png', // svg works too!
             favicons: {
