@@ -29,19 +29,6 @@ windowAny.__static = require('path')
   .join(__dirname, '/static')
   .replace(/\\/g, '\\\\')
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(registration => {
-        console.log('SW registered: ', registration)
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError)
-      })
-  })
-}
-
 Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
 
 Vue.prototype.version = '1.5.6'
