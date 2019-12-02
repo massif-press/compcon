@@ -22,6 +22,9 @@ import ScrollSpy, { Easing } from 'vue2-scrollspy'
 import * as items from './mixins/data'
 import { getModule } from 'vuex-module-decorators'
 import { ModuleStore } from './features/_shared/store'
+import { PilotManagementStore } from './features/pilot_management/store'
+import { EncounterRunnerStore } from './features/gm_toolkit/store/encounterRunner'
+import { NPCDesignerStore } from './features/gm_toolkit/store/npcDesigner'
 
 const windowAny: any = window
 
@@ -72,6 +75,12 @@ new Vue({
     moduleStore.loadData()
     moduleStore.buildLicenses()
     moduleStore.setDatapath(Vue.prototype.userDataPath)
+
+    const pilotStore = getModule(PilotManagementStore, this.$store)
+    pilotStore.loadPilots()
+
+    getModule(EncounterRunnerStore, this.$store).load()
+    getModule(NPCDesignerStore, this.$store).load()
   },
 }).$mount('#app')
 

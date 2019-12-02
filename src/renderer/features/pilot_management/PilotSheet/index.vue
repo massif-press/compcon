@@ -815,7 +815,7 @@ export default Vue.extend({
       clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
       this.notify('Pilot Statblock Copied to Clipboard')
     },
-  },
+  }
 })
 </script>
 

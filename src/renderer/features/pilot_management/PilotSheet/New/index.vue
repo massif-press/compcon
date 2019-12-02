@@ -113,13 +113,13 @@
                               style="height: 100%; align-items:center"
                             >
                               <span class="text-xs-center display-1 grey--text">
-                                No Pilot Portrait
+                                Setting Pilot Portraits Not Available
                               </span>
                             </div>
                           </v-fade-transition>
                         </v-img>
 
-                        <v-btn color="primary" block @click="appearanceModal = true">
+                        <v-btn disabled color="primary" block @click="appearanceModal = true">
                           &emsp;Set Pilot Portrait&emsp;
                         </v-btn>
                         <v-dialog
@@ -363,6 +363,8 @@ import { BackgroundSelector, SkillSelector, TalentSelector, MechSkillsSelector }
 import ImageSelector from '../Selectors/ImageSelector.vue'
 import io from '@/features/_shared/data_io'
 import { Pilot, Background } from '@/class'
+import { PilotManagementStore } from '../../store'
+import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
   name: 'new-pilot',
@@ -378,6 +380,9 @@ export default Vue.extend({
     appearanceModal: false,
     newPilot: new Pilot(),
   }),
+  created() {
+    // getModule(PilotManagementStore, this.$store).loadLastPilot()
+  },
   methods: {
     savePilot() {
       this.newPilot.cc_ver = Vue.prototype.version

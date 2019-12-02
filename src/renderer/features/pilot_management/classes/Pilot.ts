@@ -240,7 +240,8 @@ class Pilot {
   public get Portrait(): string {
     if (this.cloud_portrait) return this.cloud_portrait
     else if (this.portrait)
-      return `file://${store.getters.getUserPath}/img/portrait/${this.portrait}`
+      // return `file://${store.getters.getUserPath}/img/portrait/${this.portrait}`
+      return ''
     else return ''
   }
 
@@ -473,7 +474,7 @@ class Pilot {
   public get IsMissingCBs(): boolean {
     return this.CurrentCBPoints < this.MaxCBPoints
   }
-  
+
   public get TooManyCBs(): boolean {
     return this.CurrentCBPoints > this.MaxCBPoints
   }

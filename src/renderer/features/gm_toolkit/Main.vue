@@ -110,10 +110,7 @@ export default {
       if (this.backButton) this.drawer = false
     },
   },
-  created() {
-    getModule(EncounterRunnerStore, this.$store).load()
-    getModule(NPCDesignerStore, this.$store).load()
-  },
+  created() {},
 }
 </script>
 

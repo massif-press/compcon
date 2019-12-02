@@ -2,9 +2,9 @@ import _ from 'lodash'
 import Vue from 'vue'
 import io from '../../_shared/data_io'
 import { Pilot } from '@/class'
-import validator from '../logic/validator';
-import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators';
-import { PrintOptions } from '@/features/_shared/classes/Types';
+import validator from '../logic/validator'
+import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import { PrintOptions } from '@/features/_shared/classes/Types'
 
 function savePilots(pilots: Pilot[]) {
   const serialized = pilots.map(x => Pilot.Serialize(x))
@@ -23,12 +23,12 @@ export const DELETE_PILOT = 'DELETE_PILOT'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 
 @Module({
-  name: "management",
+  name: 'management',
 })
 export class PilotManagementStore extends VuexModule {
   Pilots: Pilot[] = []
   ActivePilot: Pilot = undefined
-  printOptions: PrintOptions = undefined
+  printOptions: PrintOptions = undefined;
 
   @Mutation
   [SAVE_DATA]() {
@@ -37,6 +37,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   [SET_PILOT](payload: Pilot) {
+    localStorage.setItem('lastActivePilotID', payload.ID)
     this.ActivePilot = payload
   }
 
@@ -51,9 +52,21 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   [LOAD_PILOTS]() {
-    this.Pilots = validator.checkVersion(io
-      .loadUserData(Vue.prototype.userDataPath, 'pilots.json') as IPilotData[])
+    console.log('Loading Pilots')
+    this.Pilots = validator
+      .checkVersion(io.loadUserData(Vue.prototype.userDataPath, 'pilots.json') as IPilotData[])
       .map(x => Pilot.Deserialize(x))
+
+    const lastActivePilotID = localStorage.getItem('lastActivePilotID')
+    if (lastActivePilotID) {
+      this.ActivePilot = this.Pilots.find(x => x.ID === lastActivePilotID)
+      const lastLoadedMechID = localStorage.getItem('lastLoadedMechID')
+      console.log('LastLoadedMechID', lastLoadedMechID)
+      if (lastLoadedMechID)
+        this.ActivePilot.LoadedMech = this.ActivePilot.Mechs.find(
+          mech => mech.ID === lastLoadedMechID
+        )
+    }
     savePilots(this.Pilots)
   }
 
@@ -95,8 +108,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   /**
-   * @deprecated Now that type info is preserved, 
-   * just access `ActivePilot` directly instead. 
+   * @deprecated Now that type info is preserved,
+   * just access `ActivePilot` directly instead.
    */
   get getPilot(): Pilot {
     return this.ActivePilot
@@ -105,8 +118,8 @@ export class PilotManagementStore extends VuexModule {
     return this.Pilots || []
   }
   /**
-   * @deprecated Now that type info is preserved, 
-   * just access `printOptions` directly instead. 
+   * @deprecated Now that type info is preserved,
+   * just access `printOptions` directly instead.
    */
   get getPrintOptions(): PrintOptions {
     return this.printOptions

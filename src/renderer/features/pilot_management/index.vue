@@ -21,10 +21,7 @@ import { PilotManagementStore } from './store'
 export default Vue.extend({
   name: 'pilot_management',
   components: { TopBar },
-  created() {
-    const pilotStore = getModule(PilotManagementStore, this.$store)
-    pilotStore.loadPilots()
-  },
+  created() {},
 })
 </script>
 

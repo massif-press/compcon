@@ -148,6 +148,7 @@ export default Vue.extend({
     },
     toConfigSheet() {
       this.pilot.LoadedMech = this.mech
+      localStorage.setItem('lastLoadedMechID', this.mech.ID)
       this.$router.push('./config')
     },
     activateConfig() {
