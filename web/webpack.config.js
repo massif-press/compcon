@@ -1,11 +1,11 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const { join } = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const { HotModuleReplacementPlugin, DefinePlugin, NormalModuleReplacementPlugin } = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -141,6 +141,15 @@ module.exports = {
             skipWaiting: true,
             navigateFallback: '/index.html',
             exclude: ['_redirects']
+        }),
+        new FaviconsWebpackPlugin({
+            logo: './icons/256x256.png', // svg works too!
+            favicons: {
+                appName: 'COMP/CON',
+                appDescription: 'A digital toolset for the LANCER TTRPG',
+                background: '#fff',
+                theme_color: '#fff',
+            }
         }),
         new DefinePlugin({
             ELECTRON: JSON.stringify(false)
