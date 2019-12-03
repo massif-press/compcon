@@ -1,0 +1,21 @@
+[
+  {
+    "id": "glancing_blow",
+    "name": "Glancing Blow",
+    "description": "Emergency systems kick in and stabilize your mech. However, your mech is <strong>impaired</strong> until the end of your next turn."
+  },
+  {
+    "id": "system_trauma",
+    "name": "System Trauma",
+    "description": "Parts of your mech have been torn off by the damage. Roll a d6."
+  },
+  {
+    "id": "system_trauma",
+    "name": "Direct Hit"
+  },
+  {
+    "id": "crushing_hit",
+    "name": "Crushing Hit",
+    "description": "<b class='heading h2 error--text'>// MECH DESTROYED //</b>"
+  }
+]

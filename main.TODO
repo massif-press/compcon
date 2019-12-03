@@ -18,8 +18,10 @@ Next Steps:
 Bugs:
   ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
   ☐ armsman (at least) bugged
+  ☐ disableable cc-btn
 
 Active Mode:
+  ☐ Side Panel
   ☐ Toggleable dense loadout view
 
 Unshackling:
@@ -69,6 +71,8 @@ Hangar:
 
 Print:
   ☐ Print all relevant tags
+  ☐ Print NPCs
+  ☐ Print Encounters
 
 Image Selector:
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)

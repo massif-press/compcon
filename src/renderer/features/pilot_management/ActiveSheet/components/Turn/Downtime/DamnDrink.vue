@@ -1,115 +1,139 @@
 <template>
   <div>
     <v-card-text>
-      <v-row wrap class="text-center">
-        <v-col cols="12" class="effect-text">
-          <p class="pt-2 pb-0 ma-0">
-            You can only make this action where there’s a drink to actually get (in town, a station,
-            a city, or some other populated area). It doesn’t have to be an actual drink, but you
-            blow off some steam, carouse, and generally get into trouble. You could be doing this to
-            make connections, collect gossip, forge a reputation, or maybe just to forget what
-            happened on the last mission. There’s usually trouble.
-          </p>
-          <v-divider class="ma-2" />
-          <p class="pt-2 pb-0 ma-0 minor-title">
-            Roll
-            <v-icon class="pa-0 ma-0" color="primary">mdi-dice-d20</v-icon>
-            &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
-          </p>
-        </v-col>
-        <v-col cols="12">
-          <div style="margin-left: 40%; margin-right: 40%">
-            <v-text-field
-              v-model="skillRoll"
-              type="number"
-              label="Roll Result"
-              outline
-              append-outer-icon="add"
-              @click:append-outer="skillRoll++"
-              prepend-icon="remove"
-              @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
-            ></v-text-field>
-          </div>
+      <p
+        class="text-center flavor-text"
+        v-html="
+          'You can only make this action where there’s a drink to actually get (in town, a station, a city, or some other populated area). It doesn’t have to be an actual drink, but you blow off some steam, carouse, and generally get into trouble. You could be doing this to make connections, collect gossip, forge a reputation, or maybe just to forget what happened on the last mission. There’s usually trouble.'
+        "
+      />
+      <v-divider class="mb-2" />
+      <div class="pt-2 heading h3 text-center">
+        Roll
+        <v-icon large color="primary">mdi-dice-d20</v-icon>
+        &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
+      </div>
+      <v-row justify="center">
+        <v-col cols="3">
+          <v-text-field
+            v-model="skillRoll"
+            type="number"
+            label="Roll Result"
+            outlined
+            dense
+            hide-details
+            append-outer-icon="add"
+            prepend-icon="remove"
+            @click:append-outer="skillRoll++"
+            @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
+          />
         </v-col>
       </v-row>
       <v-slide-y-transition>
-        <v-row v-show="skillRoll" wrap class="text-center">
-          <v-col cols="12" v-if="skillRoll < 10">
-            <p class="pt-2 pb-0 ma-0 minor-title">
+        <v-row v-show="skillRoll" justify="center" class="text-center flavor-text">
+          <v-col cols="10">
+            <p v-if="skillRoll < 10" class="font-weight-bold px-3">
               You can decide whether you had good time or not. However, you wake up in a gutter
               somewhere with only one of the following:
+              <v-select
+                v-model="kept"
+                class="ml-5 mr-5"
+                outlined
+                :items="losses"
+                label="You retain..."
+              />
             </p>
-            <v-select
-              class="ml-5 mr-5"
-              outline
-              v-model="kept"
-              :items="losses"
-              label="You retain..."
-            />
-          </v-col>
-          <v-col cols="12" v-else-if="skillRoll < 20">
-            <p class="pt-2 pb-0 ma-0 minor-title">
+            <p v-else-if="skillRoll < 20" class="font-weight-bold px-3">
               You gain one of the following choices as
               <strong>reserves</strong>
               , and lose one:
+              <v-row>
+                <v-col cols="6">
+                  <v-select
+                    v-model="reserve1"
+                    hide-details
+                    dense
+                    outlined
+                    :items="choices"
+                    label="You gain..."
+                  />
+                  <v-textarea
+                    v-if="reserve1"
+                    v-model="details1"
+                    auto-grow
+                    rows="1"
+                    label="Details"
+                    box
+                  />
+                </v-col>
+                <v-col cols="6">
+                  <v-select
+                    v-model="loss"
+                    outlined
+                    dense
+                    hide-details
+                    :items="choices"
+                    label="But lose..."
+                  />
+                </v-col>
+              </v-row>
             </p>
-            <v-row>
-              <v-col cols="6">
-                <div class="ma-2">
-                  <v-select
-                    hide-details
-                    outline
-                    v-model="reserve1"
-                    :items="choices"
-                    label="You gain..."
-                  />
-                  <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
-                </div>
-              </v-col>
-              <v-col cols="6">
-                <div class="ma-2">
-                  <v-select outline v-model="loss" :items="choices" label="But lose..." />
-                </div>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col cols="12" v-else>
-            <p class="pt-2 pb-0 ma-0 minor-title">Gain two reserves:</p>
-            <v-row>
-              <v-col cols="6">
-                <div class="ma-2">
-                  <v-select
-                    hide-details
-                    outline
-                    v-model="reserve1"
-                    :items="choices"
-                    label="You gain..."
-                  />
-                  <v-textarea v-model="details1" auto-grow rows="1" label="Details" box />
-                </div>
-              </v-col>
-              <v-col cols="6">
-                <div class="ma-2">
-                  <v-select
-                    hide-details
-                    outline
-                    v-model="reserve2"
-                    :items="choices"
-                    label="...as well as..."
-                  />
-                  <v-textarea v-model="details2" auto-grow rows="1" label="Details" box />
-                </div>
-              </v-col>
-            </v-row>
+            <p v-else class="font-weight-bold px-3">
+              Gain two reserves:
+              <v-row>
+                <v-col cols="6">
+                  <div class="ma-2">
+                    <v-select
+                      v-model="reserve1"
+                      hide-details
+                      outlined
+                      dense
+                      :items="choices"
+                      label="You gain..."
+                    />
+                    <v-textarea
+                      v-if="reserve1"
+                      v-model="details1"
+                      auto-grow
+                      rows="1"
+                      label="Details"
+                      box
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="6">
+                  <div class="ma-2">
+                    <v-select
+                      v-model="reserve2"
+                      hide-details
+                      outlined
+                      dense
+                      :items="choices"
+                      label="...as well as..."
+                    />
+                    <v-textarea
+                      v-if="reserve2"
+                      v-model="details2"
+                      auto-grow
+                      rows="1"
+                      label="Details"
+                      box
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </p>
           </v-col>
         </v-row>
       </v-slide-y-transition>
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn flat @click="close()">cancel</v-btn>
+      <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn large color="primary" @click="addReserve" :disabled="addDisabled">add reserve</v-btn>
+      <v-btn large tile color="primary" :disabled="addDisabled" @click="addReserve">
+        add reserve
+      </v-btn>
     </v-card-actions>
   </div>
 </template>
@@ -120,7 +144,10 @@ import { Reserve } from '@/class'
 export default Vue.extend({
   name: 'damn-drink',
   props: {
-    pilot: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     skillRoll: '',
@@ -158,10 +185,11 @@ export default Vue.extend({
           name: 'A Damn Drink',
           label: '',
           description: '',
-          roll_min: 0,
-          roll_max: 0,
+          resource_note: '',
+          resource_cost: '',
+          resource_name: '',
+          used: false,
         })
-        // nr.Note = this.details
         const lossArr = [...this.losses]
         lossArr.splice(lossArr.findIndex(x => x === this.kept), 1)
         nr.ResourceCost = `You've lost ${lossArr[0].toLowerCase()}, as well as ${lossArr[1].toLowerCase()}`
@@ -173,8 +201,10 @@ export default Vue.extend({
           name: this.reserve1,
           label: '',
           description: '',
-          roll_min: 0,
-          roll_max: 0,
+          resource_note: '',
+          resource_cost: '',
+          resource_name: '',
+          used: false,
         })
         nr.Note = this.details1
         nr.ResourceCost = `You've lost ${this.loss.toLowerCase()}`
@@ -186,8 +216,10 @@ export default Vue.extend({
           name: this.reserve1,
           label: '',
           description: '',
-          roll_min: 0,
-          roll_max: 0,
+          resource_note: '',
+          resource_cost: '',
+          resource_name: '',
+          used: false,
         })
         nr.Note = this.details1
         this.pilot.Reserves.push(nr)
@@ -198,8 +230,10 @@ export default Vue.extend({
           name: this.reserve2,
           label: '',
           description: '',
-          roll_min: 0,
-          roll_max: 0,
+          resource_note: '',
+          resource_cost: '',
+          resource_name: '',
+          used: false,
         })
         nr2.Note = this.details2
         this.pilot.Reserves.push(nr2)

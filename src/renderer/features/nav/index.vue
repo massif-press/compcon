@@ -64,7 +64,7 @@
 
       <v-list two-line subheader>
         <v-list-item to="/active">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-activate</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -75,7 +75,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="pilotSheet()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-pilot</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -87,7 +87,7 @@
         </v-list-item>
         <!-- TODO: add tab=3 -->
         <v-list-item @click="mechHangar()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-frame</v-icon>
           </v-list-item-icon>
           <v-list-item-content>

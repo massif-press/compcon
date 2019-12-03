@@ -1,178 +1,157 @@
 <template>
-  <v-card>
-    <v-toolbar color="title-bg" dark flat>
-      <v-toolbar-title class="display-2 font-weight-bold">OVERHEATING</v-toolbar-title>
-    </v-toolbar>
-    <v-window v-model="window">
-      <v-window-item>
-        <v-card-text class="text-center">
-          <span class="fluff-text">
-            <b class="minor-title red--text">REACTOR LEVELS CRITICAL</b>
+  <v-dialog v-model="dialog" width="60vw" persistent>
+    <v-card flat tile>
+      <v-toolbar color="title-bg clipped-large" dark flat>
+        <v-toolbar-title class="heading h1">OVERHEATING</v-toolbar-title>
+      </v-toolbar>
+      <v-window v-model="window">
+        <v-window-item>
+          <v-card-text class="text-center">
+            <span class="flavor-text">
+              <v-alert prominent dark dense icon="cci-reactor" color="error" border="left" tile>
+                <b class="heading h2">REACTOR STRESS CRITICAL</b>
+              </v-alert>
+              Roll 1d6 per point of reactor stress
+            </span>
             <br />
-            Roll 1d6 per point of reactor stress
-          </span>
-          <br />
-          <span class="display-2">{{ totalRolls }}d6</span>
-          <br />
-          <span class="caption capitalize-text">
-            <b>{{ totalRolls - rolls.length }}</b>
-            rolls remaining
-          </span>
-          <br />
-          <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
-            <v-tooltip top>
-              <v-btn slot="activator" flat icon @click="rolls.splice(n - 1, 1)">
-                <v-icon
-                  x-large
-                  v-html="`mdi-dice-${rolls[n - 1]}`"
-                  :color="rolls[n - 1] === 1 ? 'red accent-4' : 'black'"
-                />
+            <span class="overline">
+              <b>{{ totalRolls - rolls.length }}</b>
+              rolls remaining
+            </span>
+            <br />
+            <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
+              <cc-tooltip simple inline content="Click to re-roll">
+                <v-btn icon @click="rolls.splice(n - 1, 1)">
+                  <v-icon
+                    x-large
+                    :color="rolls[n - 1] === 1 ? 'error' : 'black'"
+                    v-html="`mdi-dice-${rolls[n - 1]}`"
+                  />
+                </v-btn>
+              </cc-tooltip>
+            </div>
+            <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
+              <v-btn icon x-large disabled>
+                <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
-              <span>Click to re-roll</span>
-            </v-tooltip>
-          </div>
-          <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
-            <v-btn flat icon x-large disabled>
-              <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
-            </v-btn>
-          </div>
-          <div v-if="rolls.length < totalRolls" class="d-inline">
+            </div>
             <br />
+            <v-scroll-y-transition group leave-absolute>
+              <div v-if="rolls.length < totalRolls" key="tr01" class="d-inline">
+                <v-btn
+                  v-for="n in 6"
+                  :key="`rb${n}`"
+                  class="mt-0 mb-4"
+                  :ripple="false"
+                  x-large
+                  color="primary"
+                  icon
+                  @click="rolls.push(n)"
+                >
+                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+                </v-btn>
+              </div>
+              <div v-else key="tr02">
+                <v-scroll-y-transition group>
+                  <span
+                    v-if="rolls.filter(x => x === 1).length > 1"
+                    key="t01"
+                    class="heading h3 error--text"
+                  >
+                    // REACTOR INTEGRITY FAILING //
+                  </span>
+                  <span v-else-if="rolls.length" key="t02" class="heading h3">
+                    <b>{{ results[Math.min(...rolls) - 1] }}</b>
+                    <i class="overline">({{ Math.min(...rolls) }})</i>
+                  </span>
+                </v-scroll-y-transition>
+              </div>
+            </v-scroll-y-transition>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-btn color="warning" @click="dialog = false">dismiss</v-btn>
+            <v-spacer />
             <v-btn
-              class="mt-0 mb-4"
-              :ripple="false"
-              x-large
-              v-for="n in 6"
-              :key="`rb${n}`"
               color="primary"
-              flat
-              icon
-              @click="rolls.push(n)"
+              large
+              :disabled="totalRolls - rolls.length > 0"
+              @click="window = resultWindow"
             >
-              <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+              continue
             </v-btn>
+          </v-card-actions>
+        </v-window-item>
+        <table-window-item
+          :title="resultData[0].name"
+          :content="resultData[0].description"
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyES()"
+        />
+        <table-window-item
+          :title="resultData[1].name"
+          :content="resultData[1].description"
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyPPD()"
+        />
+        <table-window-item
+          :title="resultData[2].name"
+          other-btn
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyPPD()"
+        >
+          <p
+            v-html="
+              mech.CurrentStructure >= 3
+                ? 'Your mech is <b>exposed</b> until you take action to remove the condition.'
+                : 'Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this check. Even on a successful check, your mech suffers from the <b>exposed</b> condition until you take action to remove it.'
+            "
+          />
+          <div slot="confirm-button">
+            <div v-if="mech.CurrentStructure >= 3">
+              <v-btn color="success" large @click="applyPPD()">confirm</v-btn>
+            </div>
+            <div v-else>
+              <v-btn color="error" large @click="window = 4">fail hull save</v-btn>
+              <v-btn color="success" large @click="applyPPD">succeed hull save</v-btn>
+            </div>
           </div>
-          <br />
-          <span
-            v-if="rolls.filter(x => x === 1).length > 1"
-            class="major-title font-weight-bold capitalize-text red--text"
-          >
-            // REACTOR INTEGRITY FAILING //
-          </span>
-          <span v-else-if="rolls.length" class="minor-title capitalize-text">
-            Result:
-            <b>{{ Math.min(...rolls) }}</b>
-            <i>({{ results[Math.min(...rolls) - 1] }})</i>
-          </span>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            large
-            :disabled="totalRolls - rolls.length > 0"
-            @click="window = resultWindow"
-          >
-            continue
-          </v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Emergency Shunt</v-card-title>
-        <v-card-text class="text-center">
-          <p class="fluff-text">
-            Cooling systems have recovered and managed to contain the peaking heat levels. However,
-            your mech is
-            <strong>impaired</strong>
-            until the end of your next turn.
-          </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn color="success" large @click="applyES()">confirm</v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Power Plant Destabilization</v-card-title>
-        <v-card-text class="text-center">
-          <p class="fluff-text">
-            Your mech’s power plant has become unstable, ejecting jets of plasma. Your mech is
-            <strong>exposed</strong>
-            until you take action to remove the condition.
-          </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn color="success" large @click="applyPPD()">confirm</v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">MELTDOWN</v-card-title>
-        <v-card-text class="text-center">
-          <div class="fluff-text">
-            <p v-if="mech.CurrentStructure >= 3">
-              Your mech is
-              <b>exposed</b>
-              until you take action to remove the condition.
-            </p>
-            <p v-else>
-              Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6
-              turns after this one (rolled by the GM). You can reverse it by taking a full action
-              and repeating this check. Even on a successful check, your mech suffers from the
-              <b>exposed</b>
-              condition until you take action to remove it.
-            </p>
-          </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <div v-if="mech.CurrentStructure >= 3">
-            <v-btn color="success" large @click="applyPPD()">confirm</v-btn>
-          </div>
-          <div v-else>
-            <v-btn color="error" large @click="window = 4">fail hull save</v-btn>
-            <v-btn color="success" large @click="applyPPD">succeed hull save</v-btn>
-          </div>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Irreversible Meltdown</v-card-title>
-        <v-card-text class="text-center title-bg">
-          <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
-            REACTOR CRITICAL // MELTDOWN IMMINENT
-          </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn color="success" large @click="applyMeltdown()">confirm</v-btn>
-        </v-card-actions>
-      </v-window-item>
-    </v-window>
-  </v-card>
+        </table-window-item>
+
+        <table-window-item
+          :title="resultData[3].name"
+          :content="resultData[3].description"
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyMeltdown()"
+        />
+      </v-window>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import TableWindowItem from './TableWindowItem.vue'
+import ResultData from './stress_results.json'
+
 export default Vue.extend({
   name: 'stress-table',
+  components: { TableWindowItem },
   props: {
-    mech: Object,
-    loadout: Object,
-    pilot: Object,
+    mech: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
+    dialog: false,
     window: 0,
     rolls: [],
+    resultData: ResultData,
     results: [
       'Meltdown',
       'Power Plant Destabilize',
@@ -203,10 +182,13 @@ export default Vue.extend({
     },
   },
   methods: {
+    show() {
+      this.dialog = true
+    },
     close() {
       this.window = 0
       this.rolls = []
-      this.$emit('dismiss')
+      this.dialog = false
     },
     applyES() {
       if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
@@ -230,8 +212,8 @@ export default Vue.extend({
     45deg,
     rgb(124, 0, 0),
     rgba(124, 0, 0) 20px,
-    rgba(0, 0, 0) 20px,
-    rgba(0, 0, 0) 40px
+    rgba(30, 30, 30) 20px,
+    rgba(30, 30, 30) 40px
   );
 }
 

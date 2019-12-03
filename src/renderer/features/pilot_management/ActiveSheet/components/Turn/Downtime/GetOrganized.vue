@@ -1,359 +1,348 @@
 <template>
   <div>
     <v-card-text>
-      <v-row wrap class="text-center">
-        <v-col cols="12" class="effect-text">
-          <p class="pt-2 pb-0 ma-0">
-            Start, run, or improve an organization, business, or other venture.
-          </p>
-          <v-divider class="ma-2" />
-          <v-card>
-            <v-tabs v-model="tabs" dark color="primary" slider-color="yellow" grow>
-              <v-tab>Establish Organization</v-tab>
-              <v-tab :disabled="!organizations.length">Improve Organization</v-tab>
-              <v-tab-item>
-                <v-card-text>
-                  <v-card class="ma-2">
-                    <v-toolbar dark flat dense color="deep-purple">
-                      <v-toolbar-title class="minor-title">New Organization</v-toolbar-title>
+      <p
+        class="text-center flavor-text"
+        v-html="'Start, run, or improve an organization, business, or other venture.'"
+      />
+      <v-divider class="mb-2" />
+      <v-card>
+        <v-tabs v-model="tabs" color="white" background-color="primary" slider-color="white" grow>
+          <v-tab>Establish Organization</v-tab>
+          <v-tab :disabled="!organizations.length">Improve Organization</v-tab>
+          <v-tab-item>
+            <v-card flat tile class="ma-3">
+              <v-toolbar dark flat tile dense color="action--downtime">
+                <v-toolbar-title class="heading h2">New Organization</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text class="pa-4">
+                <v-row dense>
+                  <v-col cols="4">
+                    <v-select
+                      v-model="type"
+                      label="Organization Type"
+                      :items="orgTypes"
+                      outlined
+                      dense
+                      hide-details
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="name"
+                      outlined
+                      dense
+                      hide-details
+                      label="Organization Name"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row dense justify="center">
+                  <v-col cols="10">
+                    <v-textarea
+                      v-model="details"
+                      auto-grow
+                      rows="1"
+                      label="Purpose, goal, and orginaztion details"
+                    />
+                  </v-col>
+                </v-row>
+                <div class="heading h2 text-center mb-2">Start with:</div>
+                <v-row dense justify="space-around">
+                  <v-col cols="5">
+                    <cc-tooltip
+                      simple
+                      inline
+                      content="How directly effective your organization is at what it does (a military organization with high efficiency would be good at combat, for example). <br /> Efficiency can be used to perform activities related to your organization’s purpose (science, military, etc). You can use these advantages as <strong>reserves.</strong>"
+                    >
+                      <v-btn
+                        v-if="!start"
+                        large
+                        block
+                        tile
+                        color="primary"
+                        @click="start = 'efficiency'"
+                      >
+                        Efficiency
+                      </v-btn>
+                      <div v-else class="text-center flavor-text">
+                        <span class="heading h2">+ {{ start === 'efficiency' ? '2' : '0' }}</span>
+                        <br />
+                        <span>Organization Efficiency</span>
+                      </div>
+                    </cc-tooltip>
+                  </v-col>
+
+                  <v-col cols="5">
+                    <cc-tooltip
+                      simple
+                      inline
+                      content="Influence is your organization’s size, reach, wealth, and reputation.<br>Influence be used to acquire assets, create opportunities, or sway public opinion."
+                    >
+                      <v-btn
+                        v-if="!start"
+                        large
+                        block
+                        tile
+                        color="primary"
+                        @click="start = 'influence'"
+                      >
+                        Influence
+                      </v-btn>
+                      <div v-else class="text-center flavor-text">
+                        <span class="heading h2">+ {{ start === 'influence' ? '2' : '0' }}</span>
+                        <br />
+                        <span>Organization Influence</span>
+                      </div>
+                    </cc-tooltip>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card-text>
+              <div v-if="!selected" class="mx-3">
+                <v-btn
+                  v-for="o in organizations"
+                  :key="o.Name"
+                  tile
+                  block
+                  dark
+                  class="my-3"
+                  color="action--downtime"
+                  @click="selected = o"
+                >
+                  {{ o.Name }}
+                </v-btn>
+              </div>
+              <v-slide-x-transition>
+                <div v-if="selected">
+                  <v-btn small text @click="selected = null">
+                    <v-icon left>mdi-chevron-left</v-icon>
+                    Select another organization
+                  </v-btn>
+
+                  <v-card tile flat>
+                    <v-toolbar dark flat dense color="action--downtime">
+                      <v-toolbar-title class="heading h2">
+                        {{ selected.Name }}
+                      </v-toolbar-title>
                     </v-toolbar>
-                    <v-card-text class="effect-text pa-2 ma-0">
-                      <v-select
-                        v-model="type"
-                        label="Organization Type"
-                        :items="orgTypes"
-                        outline
-                        hide-details
-                      />
-                      <v-text-field v-model="name" label="Organization Name" />
+                    <v-card-text class="mx-3">
                       <v-textarea
-                        v-model="details"
+                        v-model="selected.Description"
                         auto-grow
                         rows="1"
                         label="Purpose, goal, and orginaztion details"
-                        box
                       />
-                      <v-row wrap>
-                        <v-col cols="12" class="text-center">
-                          <span class="minor-title">Start with:</span>
-                        </v-col>
+                      <v-row justify="center">
                         <v-col cols="5">
-                          <v-tooltip top>
-                            <div slot="activator">
-                              <v-btn
-                                v-if="!start"
-                                large
-                                block
-                                color="primary"
-                                @click="start = 'efficiency'"
-                              >
-                                Efficiency
-                              </v-btn>
-                              <div v-else>
-                                <span class="major-title">
-                                  + {{ start === 'efficiency' ? '2' : '0' }}
-                                </span>
-                                <br />
-                                <span>Organization Efficiency</span>
-                              </div>
-                            </div>
-                            <span>
-                              How directly effective your organization is at what it does (a
-                              military organization with high efficiency would be good at combat,
-                              for example).
-                              <br />
-                              Efficiency can be used to perform activities related to your
-                              organization’s purpose (science, military, etc). You can use these
-                              advantages as
-                              <strong>reserves.</strong>
-                            </span>
-                          </v-tooltip>
-                        </v-col>
-                        <v-spacer />
-                        <v-col cols="5">
-                          <v-tooltip top>
-                            <div slot="activator">
-                              <v-btn
-                                v-if="!start"
-                                large
-                                block
-                                color="primary"
-                                @click="start = 'influence'"
-                              >
-                                Influence
-                              </v-btn>
-                              <div v-else>
-                                <span class="major-title">
-                                  + {{ start === 'influence' ? '2' : '0' }}
-                                </span>
-                                <br />
-                                <span>Organization Influence</span>
-                              </div>
-                            </div>
-                            <span>
-                              Influence is your organization’s size, reach, wealth, and reputation.
-                              Influence be used to acquire assets, create opportunities, or sway
-                              public opinion.
-                            </span>
-                          </v-tooltip>
+                          <v-text-field
+                            v-model="improveRoll"
+                            type="number"
+                            label="Organization Management Roll Result"
+                            outlined
+                            dense
+                            hide-details
+                            append-outer-icon="add"
+                            prepend-icon="remove"
+                            @click:append-outer="improveRoll++"
+                            @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
+                          />
                         </v-col>
                       </v-row>
-                    </v-card-text>
-                  </v-card>
-                </v-card-text>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card-text>
-                  <div v-if="!selected" class="ml-5 mr-5">
-                    <v-btn
-                      block
-                      large
-                      color="primary"
-                      v-for="o in organizations"
-                      :key="o.Name"
-                      @click="selected = o"
-                    >
-                      {{ o.Name }}
-                    </v-btn>
-                  </div>
-                  <v-slide-x-transition>
-                    <div v-show="selected">
-                      <div v-if="selected">
-                        <v-row wrap>
-                          <v-col cols="12" class="text-xs-left">
-                            <v-btn small outline @click="selected = null">
-                              Select another organization
-                            </v-btn>
+
+                      <v-slide-y-transition>
+                        <v-row v-if="improveRoll" dense class="text-center flavor-text">
+                          <v-col v-if="improveRoll < 10">
+                            <v-row dense justify="center">
+                              <v-col cols="auto" class="pr-2">This organization</v-col>
+                              <v-col cols="auto" class="mt-n5">
+                                <v-radio-group
+                                  v-model="badChoice"
+                                  row
+                                  dense
+                                  style="display: inline-block"
+                                >
+                                  <v-radio label="Folds Immediately" value="fold" color="error" />
+                                  <v-radio
+                                    :label="`Loses Efficiency (${selected.Efficiency} available)`"
+                                    :disabled="selected.Efficiency === 0"
+                                    value="efficiency"
+                                    color="warning"
+                                  />
+                                  <v-radio
+                                    :label="`Loses Influence (${selected.Influence} available)`"
+                                    :disabled="selected.Influence === 0"
+                                    value="influence"
+                                    color="warning"
+                                  />
+                                </v-radio-group>
+                              </v-col>
+                            </v-row>
+                            <v-slide-x-reverse-transition>
+                              <div v-show="badChoice !== '' && badChoice !== 'fold'">
+                                <br />
+                                <span>
+                                  Additionally, the organization takes one of the following actions:
+                                </span>
+                                <v-btn-toggle v-model="action" mandatory>
+                                  <v-btn flat large value="Pay Debts">Pay Debts</v-btn>
+                                  <v-btn flat large value="Prove Worthiness">
+                                    Prove Worthiness
+                                  </v-btn>
+                                  <v-btn flat large value="Get Bailed Out">
+                                    Get Bailed Out
+                                  </v-btn>
+                                  <v-btn flat large value="Make an Aggressive Move">
+                                    Make an Aggressive Move
+                                  </v-btn>
+                                </v-btn-toggle>
+                              </div>
+                            </v-slide-x-reverse-transition>
                           </v-col>
-                          <v-col cols="12">
-                            <v-card class="ma-2">
-                              <v-toolbar dark flat dense color="deep-purple">
-                                <v-toolbar-title class="minor-title">
-                                  {{ selected.Name }} ({{ selected.Purpose }})
-                                </v-toolbar-title>
-                              </v-toolbar>
-                              <v-card-text class="effect-text pa-2 ma-0">
-                                <v-textarea
-                                  v-model="selected.Description"
-                                  auto-grow
-                                  rows="1"
-                                  label="Purpose, goal, and orginaztion details"
-                                  box
-                                />
-                                <div style="margin-left: 30%; margin-right: 30%">
-                                  <v-text-field
-                                    v-model="improveRoll"
-                                    type="number"
-                                    label="Organization Management Roll Result"
-                                    outline
-                                    append-outer-icon="add"
-                                    @click:append-outer="improveRoll++"
-                                    prepend-icon="remove"
-                                    @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
-                                  ></v-text-field>
-                                </div>
-                                <v-slide-y-transition>
-                                  <v-row v-show="improveRoll" wrap class="text-center">
-                                    <v-col cols="12" v-if="improveRoll < 10">
-                                      <span>
-                                        <i>This organization</i>
-                                        &emsp;
-                                        <v-radio-group
-                                          row
-                                          v-model="badChoice"
-                                          style="display: inline-block"
-                                        >
-                                          <v-radio
-                                            label="Folds Immediately"
-                                            value="fold"
-                                            color="red darken-2"
-                                          ></v-radio>
-                                          <v-radio
-                                            :label="
-                                              `Loses Efficiency (${selected.Efficiency} available)`
-                                            "
-                                            :disabled="selected.Efficiency === 0"
-                                            value="efficiency"
-                                          ></v-radio>
-                                          <v-radio
-                                            :label="
-                                              `Loses Influence (${selected.Influence} available)`
-                                            "
-                                            :disabled="selected.Influence === 0"
-                                            value="influence"
-                                          ></v-radio>
-                                        </v-radio-group>
+                          <v-col v-else-if="improveRoll <= 20" cols="12">
+                            <v-row
+                              v-if="
+                                parseInt(selected.Influence) === 6 &&
+                                  parseInt(selected.Efficiency) === 6
+                              "
+                              row
+                              wrap
+                            >
+                              <v-col class="text-center">
+                                <span class="heading h3 grey--text">
+                                  Organization is operating at maximum capacity
+                                </span>
+                              </v-col>
+                            </v-row>
+                            <v-row v-else>
+                              <v-col cols="12" class="text-center">
+                                <span class="heading h3">Improve:</span>
+                              </v-col>
+                              <v-col cols="5">
+                                <v-tooltip top>
+                                  <div slot="activator">
+                                    <v-btn
+                                      large
+                                      block
+                                      color="primary"
+                                      :disabled="
+                                        selected.Efficiency === 6 || improvement === 'efficiency'
+                                      "
+                                      @click="improvement = 'efficiency'"
+                                    >
+                                      Efficiency
+                                    </v-btn>
+                                    <div>
+                                      <span class="heading h3">
+                                        +
+                                        {{
+                                          selected.Efficiency +
+                                            (improvement === 'efficiency' ? 2 : 0)
+                                        }}
+                                        Efficiency
                                       </span>
-                                      <v-slide-x-reverse-transition>
-                                        <div v-show="badChoice !== '' && badChoice !== 'fold'">
-                                          <br />
-                                          <span>
-                                            Additionally, the organization takes one of the
-                                            following actions:
-                                          </span>
-                                          <v-btn-toggle v-model="action" mandatory>
-                                            <v-btn flat large value="Pay Debts">Pay Debts</v-btn>
-                                            <v-btn flat large value="Prove Worthiness">
-                                              Prove Worthiness
-                                            </v-btn>
-                                            <v-btn flat large value="Get Bailed Out">
-                                              Get Bailed Out
-                                            </v-btn>
-                                            <v-btn flat large value="Make an Aggressive Move">
-                                              Make an Aggressive Move
-                                            </v-btn>
-                                          </v-btn-toggle>
-                                        </div>
-                                      </v-slide-x-reverse-transition>
-                                    </v-col>
-                                    <v-col cols="12" v-else-if="improveRoll < 20">
-                                      <v-row
-                                        v-if="
-                                          parseInt(selected.influence) === 6 &&
-                                            parseInt(selected.efficiency) === 6
-                                        "
-                                        row
-                                        wrap
-                                      >
-                                        <v-col class="text-center">
-                                          <span class="minor-title grey--text">
-                                            Organization is operating at maximum capacity
-                                          </span>
-                                        </v-col>
-                                      </v-row>
-                                      <v-row v-elsewrap>
-                                        <v-col cols="12" class="text-center">
-                                          <span class="minor-title">Improve:</span>
-                                        </v-col>
-                                        <v-col cols="5">
-                                          <v-tooltip top>
-                                            <div slot="activator">
-                                              <v-btn
-                                                large
-                                                block
-                                                color="primary"
-                                                :disabled="
-                                                  selected.efficiency === 6 ||
-                                                    improvement === 'efficiency'
-                                                "
-                                                @click="improvement = 'efficiency'"
-                                              >
-                                                Efficiency
-                                              </v-btn>
-                                              <div>
-                                                <span class="minor-title">
-                                                  +
-                                                  {{
-                                                    selected.Efficiency +
-                                                      (improvement === 'efficiency' ? 2 : 0)
-                                                  }}
-                                                  Efficiency
-                                                </span>
-                                                <br />
-                                                <span>Organization Efficiency</span>
-                                              </div>
-                                            </div>
-                                            <span>
-                                              How directly effective your organization is at what it
-                                              does (a military organization with high efficiency
-                                              would be good at combat, for example).
-                                              <br />
-                                              Efficiency can be used to perform activities related
-                                              to your organization’s purpose (science, military,
-                                              etc). You can use these advantages as
-                                              <strong>reserves.</strong>
-                                            </span>
-                                          </v-tooltip>
-                                        </v-col>
-                                        <v-spacer />
-                                        <v-col cols="5">
-                                          <v-tooltip top>
-                                            <div slot="activator">
-                                              <v-btn
-                                                large
-                                                block
-                                                color="primary"
-                                                :disabled="
-                                                  selected.influence === 6 ||
-                                                    improvement === 'influence'
-                                                "
-                                                @click="improvement = 'influence'"
-                                              >
-                                                Influence
-                                              </v-btn>
-                                              <div>
-                                                <span class="minor-title">
-                                                  +
-                                                  {{
-                                                    selected.Influence +
-                                                      (improvement === 'influence' ? 2 : 0)
-                                                  }}
-                                                  Influence
-                                                </span>
-                                                <br />
-                                                <span>Organization Influence</span>
-                                              </div>
-                                            </div>
-                                            <span>
-                                              Influence is your organization’s size, reach, wealth,
-                                              and reputation. Influence be used to acquire assets,
-                                              create opportunities, or sway public opinion.
-                                            </span>
-                                          </v-tooltip>
-                                        </v-col>
-                                      </v-row>
-                                    </v-col>
-                                    <v-col cols="12" v-else>
-                                      <span
-                                        v-if="
-                                          parseInt(selected.influence) < 6 &&
-                                            parseInt(selected.efficiency) < 6
-                                        "
-                                        class="minor-title primary--text"
-                                      >
-                                        Organization Influence and Efficiency increased by +2
+                                      <br />
+                                      <span>Organization Efficiency</span>
+                                    </div>
+                                  </div>
+                                  <span>
+                                    How directly effective your organization is at what it does (a
+                                    military organization with high efficiency would be good at
+                                    combat, for example).
+                                    <br />
+                                    Efficiency can be used to perform activities related to your
+                                    organization’s purpose (science, military, etc). You can use
+                                    these advantages as
+                                    <strong>reserves.</strong>
+                                  </span>
+                                </v-tooltip>
+                              </v-col>
+                              <v-spacer />
+                              <v-col cols="5">
+                                <v-tooltip top>
+                                  <div slot="activator">
+                                    <v-btn
+                                      large
+                                      block
+                                      color="primary"
+                                      :disabled="
+                                        selected.Influence === 6 || improvement === 'influence'
+                                      "
+                                      @click="improvement = 'influence'"
+                                    >
+                                      Influence
+                                    </v-btn>
+                                    <div>
+                                      <span class="heading h3">
+                                        +
+                                        {{
+                                          selected.Influence + (improvement === 'influence' ? 2 : 0)
+                                        }}
+                                        Influence
                                       </span>
-                                      <span
-                                        v-else-if="parseInt(selected.influence) < 6"
-                                        class="minor-title primary--text"
-                                      >
-                                        Organization Influence increased by +2
-                                      </span>
-                                      <span
-                                        v-else-if="parseInt(selected.efficiency) < 6"
-                                        class="minor-title primary--text"
-                                      >
-                                        Organization Efficiency increased by +2
-                                      </span>
-                                      <span v-else class="minor-title grey--text">
-                                        Organization is operating at maximum capacity
-                                      </span>
-                                    </v-col>
-                                  </v-row>
-                                </v-slide-y-transition>
-                              </v-card-text>
-                            </v-card>
+                                      <br />
+                                      <span>Organization Influence</span>
+                                    </div>
+                                  </div>
+                                  <span>
+                                    Influence is your organization’s size, reach, wealth, and
+                                    reputation. Influence be used to acquire assets, create
+                                    opportunities, or sway public opinion.
+                                  </span>
+                                </v-tooltip>
+                              </v-col>
+                            </v-row>
+                          </v-col>
+                          <v-col v-else cols="12">
+                            <span
+                              v-if="
+                                parseInt(selected.Influence) < 6 &&
+                                  parseInt(selected.Efficiency) < 6
+                              "
+                              class="heading h3 primary--text"
+                            >
+                              Organization Influence and Efficiency increased by +2
+                            </span>
+                            <span
+                              v-else-if="parseInt(selected.Influence) < 6"
+                              class="heading h3 primary--text"
+                            >
+                              Organization Influence increased by +2
+                            </span>
+                            <span
+                              v-else-if="parseInt(selected.Efficiency) < 6"
+                              class="heading h3 primary--text"
+                            >
+                              Organization Efficiency increased by +2
+                            </span>
+                            <span v-else class="heading h3 grey--text">
+                              Organization is operating at maximum capacity
+                            </span>
                           </v-col>
                         </v-row>
-                      </div>
-                    </div>
-                  </v-slide-x-transition>
-                </v-card-text>
-              </v-tab-item>
-            </v-tabs>
-          </v-card>
-        </v-col>
-      </v-row>
+                      </v-slide-y-transition>
+                    </v-card-text>
+                  </v-card>
+                </div>
+              </v-slide-x-transition>
+            </v-card-text>
+          </v-tab-item>
+        </v-tabs>
+      </v-card>
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn flat @click="close()">cancel</v-btn>
+      <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
       <v-btn
         large
-        :color="this.badChoice === 'fold' ? 'error' : 'primary'"
-        @click="tabs === 0 ? addOrg() : improveOrg()"
+        tile
+        :color="badChoice === 'fold' ? 'error' : 'primary'"
         :disabled="confirmDisabled"
+        @click="tabs === 0 ? addOrg() : improveOrg()"
       >
         {{ confirmName() }}
       </v-btn>
@@ -363,11 +352,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Reserve, CustomSkill, OrgType, Organization } from '@/class'
+import { OrgType, Organization } from '@/class'
 export default Vue.extend({
   name: 'get-organized',
   props: {
-    pilot: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     tabs: 0,
@@ -384,7 +376,7 @@ export default Vue.extend({
   computed: {
     orgTypes() {
       return Object.keys(OrgType)
-        .map(k => OrgType[k as any])
+        .map(k => OrgType[k])
         .sort() as OrgType[]
     },
     organizations() {
@@ -403,6 +395,7 @@ export default Vue.extend({
           return false
         }
       }
+      return false
     },
   },
   methods: {
@@ -415,14 +408,14 @@ export default Vue.extend({
     },
     addOrg() {
       this.pilot.Organizations.push(
-        new Organization(
-          this.name,
-          this.type,
-          this.start === 'efficiency' ? 2 : 0,
-          this.start === 'influence' ? 2 : 0,
-          this.details,
-          (this.actions = '')
-        )
+        new Organization({
+          name: this.name,
+          purpose: this.purpose,
+          efficiency: this.start === 'efficiency' ? 2 : 0,
+          influence: this.start === 'influence' ? 2 : 0,
+          description: this.details,
+          actions: '',
+        })
       )
       this.close()
     },

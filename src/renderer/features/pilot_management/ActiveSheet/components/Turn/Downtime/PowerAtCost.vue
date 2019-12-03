@@ -1,56 +1,52 @@
 <template>
   <div>
     <v-card-text>
-      <v-row wrap class="text-center">
-        <v-col cols="12" class="effect-text">
-          <p class="pt-2 pb-0 ma-0">
-            Name what you want. You can
-            <strong>always</strong>
-            get it, but the GM chooses
-            <strong>one or two</strong>
-            complications, depending on how outlandish the request is
-          </p>
-        </v-col>
-        <v-divider class="ma-2" />
-        <v-col cols="12">
-          <span class="minor-title">Resource Gained</span>
+      <p
+        class="text-center flavor-text"
+        v-html="
+          'Name what you want. You can <strong>always</strong> get it, but the GM chooses <strong>one or two</strong> complications, depending on how outlandish the request is'
+        "
+      />
+
+      <v-divider class="mb-2" />
+      <v-row class="mx-3">
+        <v-col cols="6">
+          <span class="heading h3 primary--text">Resource Gained</span>
           <reserve-selector ref="rs" />
         </v-col>
         <v-col cols="6">
-          <div class="ml-2 mr-2">
-            <span class="minor-title">Complication</span>
-            <v-select
-              label="Complication"
-              v-model="complication1"
-              :items="complications"
-              outline
-              hide-details
-            />
-          </div>
-        </v-col>
-        <v-col cols="6">
-          <div class="ml-2 mr-2">
-            <span class="minor-title">Additional Complication</span>
-            <v-select
-              label="Complication"
-              v-model="complication2"
-              :items="complications"
-              outline
-              hide-details
-            />
-          </div>
+          <span class="heading h3 primary--text">Complication</span>
+          <v-select
+            v-model="complication1"
+            label="Complication"
+            :items="complications"
+            outlined
+            dense
+            hide-details
+          />
+          <br />
+          <span class="heading h3 primary--text">Additional Complication</span>
+          <v-select
+            v-model="complication2"
+            label="Complication"
+            :items="complications"
+            outlined
+            dense
+            hide-details
+          />
         </v-col>
       </v-row>
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn flat @click="close()">cancel</v-btn>
+      <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
       <v-btn
         large
+        tile
         color="primary"
-        @click="addReserve"
         :disabled="complication1 === 'None' || !$refs.rs.reserveComplete"
+        @click="addReserve"
       >
         add reserve
       </v-btn>
@@ -67,7 +63,7 @@ export default Vue.extend({
   name: 'power-at-cost',
   components: { ReserveSelector },
   props: {
-    pilot: Object,
+    pilot: { type: Object, required: true },
   },
   data: () => ({
     complication1: 'None',
@@ -95,12 +91,11 @@ export default Vue.extend({
         name: (r && r.name) || rs.custom_name || 'Custom Reserve',
         label: rs.custom_name,
         description: (r && r.description) || '',
-        roll_min: 0,
-        roll_max: 0,
+        resource_name: rs.custom_name || '',
+        resource_note: rs.details || '',
+        resource_cost: this.complication1,
+        used: false,
       })
-      nr.ResourceName = rs.custom_name
-      nr.Note = rs.details
-      nr.ResourceCost = this.complication1
       if (this.complication2 !== 'None') nr.ResourceCost += `\n${this.complication2}`
       this.pilot.Reserves.push(nr)
       this.close()

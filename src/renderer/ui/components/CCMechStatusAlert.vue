@@ -1,5 +1,5 @@
 <template>
-  <v-alert :color="color" prominent dense tile :icon="icon" dark>
+  <v-alert v-if="show" :color="color" prominent dense tile :icon="icon" dark>
     <div class="heading h2 ">
       <span v-if="type === 'ejected'">ALERT: PILOT EJECTED</span>
       <span v-else-if="type === 'destroyed'">MECH DESTROYED</span>
@@ -12,7 +12,7 @@
       <span v-else-if="type === 'unlicensed'">WARNING: UNLICENSED EQUIPMENT DETECTED</span>
     </div>
     <div>
-      <v-btn v-if="type === 'ejected'" block small outlined dark @click="$emit('clear-status')">
+      <v-btn v-if="type === 'ejected'" block small outlined dark @click="$emit('clear-ejected')">
         <v-icon left>cci-pilot</v-icon>
         Confirm Pilot has re-boarded mech
       </v-btn>
@@ -76,8 +76,23 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+    criticalOnly: {
+      type: Boolean,
+    },
   },
   computed: {
+    show() {
+      if (!this.criticalOnly) return true
+      switch (this.type) {
+        case 'overSP':
+        case 'underSP':
+        case 'unfinished':
+        case 'unlicensed':
+          return false
+        default:
+          return true
+      }
+    },
     icon() {
       switch (this.type) {
         case 'ejected':

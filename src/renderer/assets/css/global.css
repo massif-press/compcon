@@ -162,3 +162,11 @@
   border: 5px double var(--v-panel-border-base);
   border-radius: 2px;
 }
+
+.hide-input-spinners input[type='number'] {
+  -moz-appearance: textfield;
+}
+.hide-input-spinners input::-webkit-outer-spin-button,
+.hide-input-spinners input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

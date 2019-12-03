@@ -60,7 +60,7 @@
       <v-list two-line subheader>
         <v-subheader class="heading h2 white--text primary py-0 px-2">Pilot Options</v-subheader>
         <v-list-item @click="$refs.printDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-printer</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -71,7 +71,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-file-document-box</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -82,7 +82,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.exportDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-export-variant</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -91,7 +91,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.cloudDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-cloud</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -102,7 +102,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.cloud.sync()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-cloud-sync</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -120,7 +120,7 @@
         </v-list-item>
         <v-divider />
         <v-list-item @click="$refs.deleteDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -143,7 +143,7 @@
         <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
         <v-list-item-group>
           <v-list-item @click="$emit('set-layout', 'tabbed')">
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-view-array</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
@@ -151,7 +151,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="$emit('set-layout', 'classic')">
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-view-sequential</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
@@ -159,7 +159,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item disabled>
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-playlist-edit</v-icon>
             </v-list-item-icon>
             <v-list-item-content>

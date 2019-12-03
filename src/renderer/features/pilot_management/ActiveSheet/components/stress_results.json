@@ -1,0 +1,21 @@
+[
+  {
+    "id": "emergency_shunt",
+    "name": "Emergency Shunt",
+    "description": "Cooling systems have recovered and managed to contain the peaking heat levels. However, your mech is <strong>impaired</strong> until the end of your next turn."
+  },
+  {
+    "id": "destabilization",
+    "name": "Power Plant Destabilization",
+    "description": "Your mech’s power plant has become unstable, ejecting jets of plasma. Your mech is <strong>exposed</strong> until you take action to remove the condition."
+  },
+  {
+    "id": "meltdown",
+    "name": "MELTDOWN"
+  },
+  {
+    "id": "reactor_critical",
+    "name": "Irreversible Meltdown",
+    "description": "<b class='heading h2 error--text'>REACTOR CRITICAL // MELTDOWN IMMINENT</b>"
+  }
+]

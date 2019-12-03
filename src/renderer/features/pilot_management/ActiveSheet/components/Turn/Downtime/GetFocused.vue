@@ -1,65 +1,32 @@
 <template>
   <div>
     <v-card-text>
-      <v-row wrap class="text-center">
-        <v-col cols="12" class="effect-text">
-          <p class="pt-2 pb-0 ma-0">
-            You focus on increasing your own skills, training, and self-improvement. You might
-            practice, learn, meditate, or call on a teacher.
-          </p>
-          <v-divider class="ma-2" />
-          <v-card>
-            <v-tabs v-model="tabs" dark color="primary" slider-color="yellow" grow>
-              <v-tab>New Custom Skill</v-tab>
-              <v-tab :disabled="!customSkills.length">Improve Custom Skill</v-tab>
-              <v-tab-item>
-                <v-card-text>
-                  <v-row>
-                    <v-col shrink>
-                      <v-chip large color="primary" dark class="title" style="margin-top: 12px">
-                        <span class="title">+2</span>
-                      </v-chip>
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="newSkill"
-                        outline
-                        label="New Skill Trigger"
-                        style="width: 600px"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card-text>
-                  <v-radio-group v-model="improve" class="ml-4 mr-4">
-                    <v-radio
-                      v-for="s in customSkills"
-                      class="black--text minor-title"
-                      :key="s.Skill.Name"
-                      :value="s.Skill.Name"
-                      :label="`${s.Skill.Name} (+${s.Bonus})`"
-                      :disabled="s.Bonus >= 6"
-                    />
-                  </v-radio-group>
-                </v-card-text>
-              </v-tab-item>
-            </v-tabs>
-          </v-card>
-        </v-col>
-      </v-row>
+      <p
+        class="text-center flavor-text"
+        v-html="
+          'You focus on increasing your own skills, training, and self-improvement. You might practice, learn, meditate, or call on a teacher.'
+        "
+      />
+      <v-divider class="ma-2" />
+      <v-alert
+        color="secondary"
+        prominent
+        icon="mdi-information-outline"
+        dense
+        outlined
+        border="left"
+      >
+        Completing this Downtime Action will add a "Get Focused" item to this pilot's Downtime
+        Reserves. Each "Get Focused" Reserve adds a bonus Skill Trigger selection, which can be made
+        in the
+        <b class="primary--text">Pilot Sheet's Skill Trigger selection screen.</b>
+      </v-alert>
     </v-card-text>
     <v-divider />
     <v-card-actions>
       <v-btn flat @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn
-        large
-        color="primary"
-        @click="tabs === 0 ? addSkill() : improveSkill()"
-        :disabled="(tabs === 0 && !newSkill) || (tabs === 1 && !improve)"
-      >
+      <v-btn large tile color="primary" @click="addSkill()">
         {{ tabs === 0 ? 'Add Skill' : 'Improve Skill' }}
       </v-btn>
     </v-card-actions>
@@ -68,35 +35,33 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Reserve, CustomSkill } from '@/class'
+import { Reserve } from '@/class'
+
 export default Vue.extend({
   name: 'get-focused',
   props: {
-    pilot: Object,
-  },
-  data: () => ({
-    tabs: 0,
-    newSkill: '',
-    improve: '',
-  }),
-  computed: {
-    customSkills() {
-      return this.pilot.Skills.filter(x => x.IsCustom)
+    pilot: {
+      type: Object,
+      required: true,
     },
   },
   methods: {
     addSkill() {
-      this.pilot.AddSkill(new CustomSkill(this.newSkill))
-      this.close()
-    },
-    improveSkill() {
-      this.pilot.Skills.find(x => x.Skill.Name === this.improve).Increment()
+      this.pilot.Reserves.push(
+        new Reserve({
+          id: 'reserve_skill',
+          type: 'Narrative',
+          name: 'Skill Focus',
+          description: 'Added via the "Get Focused" Downtime Action',
+          resource_name: 'Skill Focus',
+          resource_cost: '',
+          resource_note: '',
+          used: false,
+        })
+      )
       this.close()
     },
     close() {
-      this.tabs = 0
-      this.newSkill = ''
-      this.improve = ''
       this.$emit('close')
     },
   },
