@@ -578,6 +578,10 @@ class Mech {
 
   public Repair(): void {
     this._destroyed = false
+    this._reactor_destroyed = false
+    this._meltdown_imminent = false
+    this._statuses = []
+    this._conditions = []
     this.CurrentStress = 1
     this.CurrentStructure = 1
     this.CurrentHP = this.MaxHP

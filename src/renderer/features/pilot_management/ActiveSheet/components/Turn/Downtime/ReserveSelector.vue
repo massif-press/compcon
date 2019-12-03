@@ -1,61 +1,52 @@
 <template>
-  <v-card flat class="ma-2">
-    <v-card-text>
-      <v-row wrap>
-        <v-col cols="6">
-          <v-select
-            class="ml-2 mr-2"
-            label="Reserve Type"
-            v-model="type"
-            :items="reserveTypes"
-            outline
-            hide-details
-            @change="reserve = ''"
+  <div>
+    <v-select
+      v-model="type"
+      label="Reserve Type"
+      :items="reserveTypes"
+      outlined
+      dense
+      hide-details
+      @change="reserve = ''"
+    />
+    <v-select
+      v-if="type && type !== 'Custom'"
+      v-model="reserve"
+      class="ma-2"
+      label="Reserve"
+      :items="reserves"
+      item-text="name"
+      item-value="id"
+      outlined
+      dense
+      hide-details
+    />
+    <v-slide-y-transition>
+      <v-card v-if="type === 'Custom' || reserve" color="grey lighten-4" class="mx-3 mt-1">
+        <v-card-text class="flavor-text pt-1 pb-0">
+          <p
+            v-if="type !== 'Custom' && reserve"
+            class="pa-1 ma-1"
+            v-html="reserveByID(reserve).description"
           />
-        </v-col>
-        <v-col cols="6" v-if="type && type !== 'Custom'">
-          <v-select
-            class="ml-2 mr-2"
-            label="Reserve"
-            v-model="reserve"
-            :items="reserves"
-            item-text="name"
-            item-value="id"
-            outline
-            hide-details
-          />
-        </v-col>
-        <v-slide-y-transition>
-          <v-col cols="12" v-show="type === 'Custom' || reserve">
-            <v-card color="grey lighten-4" class="ml-3 mr-3">
-              <v-card-text class="pt-1 pb-0">
-                <p
-                  v-if="type !== 'Custom' && reserve"
-                  class="pa-1 ma-1"
-                  v-html="reserveByID(reserve).description"
-                />
-                <div
-                  v-if="
-                    type !== 'Mech' &&
-                      reserve !== 'reserve_extendedharness' &&
-                      reserve !== 'reserve_bombardment'
-                  "
-                >
-                  <v-text-field v-model="custom_name" label="Resource Name" style="width: 500px" />
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
-                </div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-slide-y-transition>
-      </v-row>
-    </v-card-text>
-  </v-card>
+          <div
+            v-if="
+              type !== 'Mech' &&
+                reserve !== 'reserve_extendedharness' &&
+                reserve !== 'reserve_bombardment'
+            "
+          >
+            <v-text-field v-model="custom_name" label="Resource Name" style="width: 500px" />
+            <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-slide-y-transition>
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import _ from 'lodash'
 import { reserves } from 'lancer-data'
 
 export default Vue.extend({

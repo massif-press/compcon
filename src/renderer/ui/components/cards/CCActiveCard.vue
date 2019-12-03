@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols" class="pa-1">
-    <v-card tile color="grey lighten-3 clipped">
+    <v-card tile color="grey lighten-3 clipped" height="100%">
       <v-card-title class="pa-0 pl-2 pr-2" :class="color">
         <span class="heading h3 white--text">{{ header }}</span>
         <v-spacer />
@@ -17,7 +17,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'active-card',
+  name: 'cc-active-card',
   props: {
     color: {
       type: String,
@@ -39,7 +39,7 @@ export default Vue.extend({
       default: '',
     },
     cols: {
-      type: String,
+      type: [String, Number],
       required: false,
       default: '',
     },

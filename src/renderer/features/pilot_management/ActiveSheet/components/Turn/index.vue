@@ -1,65 +1,36 @@
 <template>
   <v-navigation-drawer
-    v-model="drawer"
     :mini-variant="mini"
     absolute
-    dark
+    fixed
     right
-    mini-variant-width="40"
+    mini-variant-width="30"
     width="550px"
-    class="elevation-10"
-    style="padding-top: 60px; z-index: 9"
+    style="z-index: 9; position: fixed; height: 100%;"
   >
     <div class="panel-expander">
-      <v-row column fill-height justify="center">
-        <v-col cols="6">
-          <v-divider dark vertical class="ml-4" />
-        </v-col>
-        <v-col shrink>
-          <v-btn flat icon dark @click.stop="mini = !mini">
-            <v-icon large v-if="mini">mdi-chevron-double-left</v-icon>
-            <v-icon large v-else>mdi-chevron-double-right</v-icon>
-          </v-btn>
-        </v-col>
-        <v-col cols="6">
-          <v-divider dark vertical class="ml-4" />
+      <v-row align="center" style="height: 100%" @click.stop="mini = !mini">
+        <v-col cols="auto">
+          <v-icon v-if="mini" large dark class="pr-1">mdi-chevron-double-left</v-icon>
+          <v-icon v-else large dark class="pr-1">mdi-chevron-double-right</v-icon>
         </v-col>
       </v-row>
     </div>
 
+    <div style="min-height: 40px" />
     <v-fade-transition>
       <v-window
-        v-model="step"
         v-show="!mini"
-        class="ml-5 white--text"
-        style="height:100%; width: 85%"
+        v-model="step"
+        class="white pa-1"
+        style="height:100%; margin-left: 40px;"
       >
+        <downtime-manager ref="dt" :pilot="pilot" @end="startCombat()" />
         <v-window-item>
-          <downtime-manager
-            ref="dt"
-            :mech="mech"
-            :loadout="loadout"
-            :pilot="pilot"
-            @end="startCombat()"
-          />
+          <turn-manager ref="turn" :pilot="pilot" @end="endCombat()" />
         </v-window-item>
         <v-window-item>
-          <turn-manager
-            ref="turn"
-            :mech="mech"
-            :loadout="loadout"
-            :pilot="pilot"
-            @end="endCombat()"
-          />
-        </v-window-item>
-        <v-window-item>
-          <rest-manager
-            ref="rest"
-            :mech="mech"
-            :loadout="loadout"
-            @restart="startCombat()"
-            @end="startDowntime()"
-          />
+          <rest-manager ref="rest" :mech="mech" @restart="startCombat()" @end="startDowntime()" />
         </v-window-item>
       </v-window>
     </v-fade-transition>
@@ -76,24 +47,24 @@ export default Vue.extend({
   name: 'turn-sidebar',
   components: { TurnManager, RestManager, DowntimeManager },
   props: {
-    pilot: Object,
-    mech: Object,
-    loadout: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
-    drawer: true,
     mini: true,
     step: 0,
   }),
   methods: {
     startCombat() {
-      this.$refs.turn.restart()
       this.step = 1
+      this.$refs.turn.restart()
       this.$emit('combat')
     },
     endCombat() {
-      this.$refs.rest.startRest()
       this.step = 2
+      this.$refs.rest.startRest()
     },
     startDowntime() {
       this.step = 0
@@ -107,5 +78,14 @@ export default Vue.extend({
 .panel-expander {
   position: fixed;
   height: 100%;
+  background-color: var(--v-primary-darken2);
+  padding-top: 40px;
+  opacity: 1;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panel-expander:hover {
+  opacity: 0.6;
 }
 </style>

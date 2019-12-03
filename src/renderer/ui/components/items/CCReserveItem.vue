@@ -4,8 +4,10 @@
       <template v-slot:activator="{ on }">
         <v-btn large outlined :color="reserve.Color" block v-on="on">
           <v-icon small left :color="reserve.Color">cci-barrage</v-icon>
-          <s v-if="reserve.Used">{{ reserve.Name }}</s>
-          <span v-else>{{ reserve.Name }}</span>
+          <div style="width: 18vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <s v-if="reserve.Used">{{ reserve.Name }}</s>
+            <span v-else>{{ reserve.Name }}</span>
+          </div>
         </v-btn>
       </template>
       <cc-titled-panel

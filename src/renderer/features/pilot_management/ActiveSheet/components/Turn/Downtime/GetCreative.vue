@@ -1,237 +1,226 @@
 <template>
-  <div>
-    <v-card-text>
-      <v-row wrap class="text-center">
-        <v-col cols="12" class="effect-text">
-          <p class="pt-2 pb-0 ma-0">
-            You tweak something or attempt to make something new, either a physical project, or a
-            piece of software. It doesn’t have to be something on the a gear list, but it generally
-            can’t be something as impactful as a piece of mech gear. Once finished, you can use it
-            as
-            <strong>reserves.</strong>
-          </p>
-          <v-divider class="ma-2" />
-          <v-card>
-            <v-tabs v-model="tabs" dark color="primary" slider-color="yellow" grow>
-              <v-tab>Start New Project</v-tab>
-              <v-tab :disabled="!projects.length">Continue Project</v-tab>
-              <v-tab-item>
-                <v-card-text>
-                  <v-card class="ma-2">
-                    <v-toolbar dark flat dense color="deep-purple">
-                      <v-toolbar-title class="minor-title">New Project</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text class="effect-text pa-2">
-                      <v-row wrap>
-                        <v-col cols="7">
-                          <v-text-field v-model="project_name" label="Project Name" />
-                        </v-col>
-                        <v-spacer />
-                        <v-col cols="3">
-                          <v-tooltip top>
-                            <v-switch slot="activator" v-model="complicated" label="Complicated" />
-                            <span>
-                              This project is complex, resource-intensive, or generally difficult to
-                              complete
-                            </span>
-                          </v-tooltip>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="12">
-                          <div style="margin-left: 35%; margin-right: 35%">
-                            <v-text-field
-                              v-model="initialRoll"
-                              type="number"
-                              label="Initial Roll Result"
-                              outline
-                              append-outer-icon="add"
-                              @click:append-outer="initialRoll++"
-                              prepend-icon="remove"
-                              @click:prepend="initialRoll > 1 ? initialRoll-- : ''"
-                              hide-details
-                            ></v-text-field>
-                          </div>
-                        </v-col>
-                      </v-row>
-                      <v-slide-y-transition>
-                        <v-row v-show="initialRoll" wrap class="text-center">
-                          <v-col cols="12" v-if="initialRoll < 10">
-                            <p class="pt-2 pb-0 ma-0 effect-text">
-                              You don’t make any progress on this project for now
-                            </p>
-                          </v-col>
-                          <v-col cols="12" v-else-if="initialRoll < 20">
-                            <p class="pt-2 pb-0 ma-0 effect-text">
-                              You can make progress on your project, but can’t finish it. You can
-                              finish it next time you have downtime without a roll if you get some
-                              things before then:
-                            </p>
-                            <v-combobox
-                              class="mr-5 ml-5"
-                              v-model="cost"
-                              :items="costs"
-                              chips
-                              multiple
-                              label="Add at least two requirements:"
-                              :error="cost.length < 2"
-                            ></v-combobox>
-                          </v-col>
-                          <v-col cols="12" v-else>
-                            <div v-if="!complicated">
-                              <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
-                            </div>
-                            <div v-else>
-                              <p class="pt-2 pb-0 ma-0 effect-text">
-                                You can make progress on your project, but can’t finish it. You can
-                                finish it next time you have downtime without a roll if you get some
-                                things before then:
-                              </p>
-                              <v-combobox
-                                class="mr-5 ml-5"
-                                v-model="cost"
-                                :items="costs"
-                                chips
-                                multiple
-                                label="Add at least one requirement:"
-                                :error="!cost.length"
-                              ></v-combobox>
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-slide-y-transition>
-                    </v-card-text>
-                  </v-card>
-                </v-card-text>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card-text>
-                  <div v-if="!improveSelection" class="ml-5 mr-5">
-                    <v-btn
-                      block
-                      large
-                      color="primary"
-                      v-for="(p, i) in projects"
-                      :key="p.ResourceName + i"
-                      @click="improveSelection = p"
-                    >
-                      {{ p.ResourceName }}
-                    </v-btn>
-                  </div>
-                  <v-slide-x-transition>
-                    <div v-show="improveSelection">
-                      <div v-if="improveSelection">
-                        <v-row wrap>
-                          <v-col cols="12" class="text-xs-left">
-                            <v-btn small outline @click="improveSelection = null">
-                              Select another project
-                            </v-btn>
-                          </v-col>
-                          <v-col cols="12" class="text-center minor-title">
-                            Working on {{ improveSelection.ResourceName }}
-                          </v-col>
-                          <v-col cols="12">
-                            <v-alert
-                              :value="improveSelection.ResourceCost"
-                              color="primary"
-                              class="text-xs-left"
-                              outline
-                            >
-                              <v-row>
-                                <v-col>
-                                  <b class="minor-title">COMPLETE IMMEDIATELY</b>
-                                  <br />
-                                  <p class="pt-2">{{ improveSelection.ResourceCost }}</p>
-                                  <v-spacer />
-                                </v-col>
-                                <v-col shrink>
-                                  <v-btn class="mt-3" color="success" @click="completeProject()">
-                                    Complete
-                                  </v-btn>
-                                </v-col>
-                              </v-row>
-                            </v-alert>
-                            <p v-if="improveSelection.ResourceCost" class="fluff-text">OR</p>
-                            <div style="margin-left: 35%; margin-right: 35%">
-                              <v-text-field
-                                v-model="improveRoll"
-                                type="number"
-                                label="Progress Roll Result"
-                                outline
-                                append-outer-icon="add"
-                                @click:append-outer="improveRoll++"
-                                prepend-icon="remove"
-                                @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
-                              ></v-text-field>
-                            </div>
-                          </v-col>
-                        </v-row>
-                        <v-slide-y-transition>
-                          <v-row v-show="improveRoll" wrap class="text-center">
-                            <v-col cols="12" v-if="improveRoll < 10 && !improveSelection.Progress">
-                              <p class="pt-2 pb-0 ma-0 effect-text">
-                                You don’t make any progress on this project for now
-                              </p>
-                            </v-col>
-                            <v-col cols="12" v-else-if="improveRoll < 20">
-                              <p class="pt-2 pb-0 ma-0 effect-text">
-                                You can make progress on your project, but can’t finish it. You can
-                                finish it next time you have downtime without a roll if you get some
-                                things before then:
-                              </p>
-                              <v-combobox
-                                class="mr-5 ml-5"
-                                v-model="cost"
-                                :items="costs"
-                                chips
-                                multiple
-                                label="Add at least two requirements:"
-                                :error="cost.length < 2"
-                              ></v-combobox>
-                            </v-col>
-                            <v-col cols="12" v-else>
-                              <div v-if="!improveSelection.complicated">
-                                <p class="pt-2 pb-0 ma-0 minor-title">Project Complete</p>
-                              </div>
-                              <div v-else>
-                                <p class="pt-2 pb-0 ma-0 effect-text">
-                                  You can make progress on your project, but can’t finish it. You
-                                  can finish it next time you have downtime without a roll if you
-                                  get some things before then:
-                                </p>
-                                <v-combobox
-                                  class="mr-5 ml-5"
-                                  v-model="cost"
-                                  :items="costs"
-                                  chips
-                                  multiple
-                                  label="Add at least one requirement:"
-                                  :error="!cost.length"
-                                ></v-combobox>
-                              </div>
-                            </v-col>
-                          </v-row>
-                        </v-slide-y-transition>
-                      </div>
-                    </div>
-                  </v-slide-x-transition>
-                </v-card-text>
-              </v-tab-item>
-            </v-tabs>
+  <v-card-text>
+    <p
+      class="text-center flavor-text pt-2"
+      v-html="
+        'You tweak something or attempt to make something new, either a physical project, or a piece of software. It doesn’t have to be something on the a gear list, but it generally can’t be something as impactful as a piece of mech gear. Once finished, you can use it as <strong>reserves.</strong>'
+      "
+    />
+    <v-divider class="mb-3" />
+    <v-card>
+      <v-tabs v-model="tabs" color="white" background-color="primary" slider-color="white" grow>
+        <v-tab>Start New Project</v-tab>
+        <v-tab :disabled="!projects.length">Continue Project</v-tab>
+        <v-tab-item>
+          <v-card flat tile class="ma-3">
+            <v-toolbar dark flat tile dense color="action--downtime">
+              <v-toolbar-title class="heading h2">New Project</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text class="pa-4">
+              <v-row dense>
+                <v-col cols="7">
+                  <v-text-field v-model="project_name" outlined dense label="Project Name" />
+                </v-col>
+                <v-col cols="auto" class="ml-auto mt-n4 mr-3">
+                  <cc-tooltip
+                    simple
+                    inline
+                    content="This project is complex, resource-intensive, or generally difficult to complete"
+                  >
+                    <v-switch v-model="complicated" dense inset label="Complicated" />
+                  </cc-tooltip>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col class="mx-6">
+                  <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="4">
+                  <v-text-field
+                    v-model="initialRoll"
+                    type="number"
+                    label="Initial Roll Result"
+                    outlined
+                    dense
+                    append-outer-icon="add"
+                    prepend-icon="remove"
+                    hide-details
+                    @click:append-outer="initialRoll++"
+                    @click:prepend="initialRoll > 1 ? initialRoll-- : ''"
+                  />
+                </v-col>
+              </v-row>
+              <v-slide-y-transition>
+                <v-row v-show="initialRoll" justify="center" class="text-center flavor-text">
+                  <v-col cols="10">
+                    <p
+                      v-if="initialRoll < 10"
+                      class="font-weight-bold px-3"
+                      v-html="'You don’t make any progress on this project for now'"
+                    />
+
+                    <p v-else-if="initialRoll < 20" class="font-weight-bold px-3">
+                      You can make progress on your project, but can’t finish it. You can finish it
+                      next time you have downtime without a roll if you get some things before then:
+                      <v-combobox
+                        v-model="cost"
+                        class="mr-5 ml-5"
+                        :items="costs"
+                        chips
+                        multiple
+                        label="Add at least two requirements:"
+                        :error="cost.length < 2"
+                      />
+                    </p>
+                    <p v-else class="font-weight-bold px-3">
+                      {{
+                        complicated
+                          ? 'You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:'
+                          : 'Project Complete'
+                      }}
+                      <v-combobox
+                        v-if="complicated"
+                        v-model="cost"
+                        class="mr-5 ml-5"
+                        :items="costs"
+                        chips
+                        multiple
+                        label="Add at least one requirement:"
+                        :error="!cost.length"
+                      />
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-slide-y-transition>
+            </v-card-text>
           </v-card>
-        </v-col>
-      </v-row>
-    </v-card-text>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card-text v-if="!improveSelection">
+            <div class="mx-3">
+              <v-btn
+                v-for="(p, i) in projects"
+                :key="p.ResourceName + i"
+                tile
+                block
+                dark
+                class="my-3"
+                color="action--downtime"
+                @click="improveSelection = p"
+              >
+                {{ p.ResourceName }}
+              </v-btn>
+            </div>
+          </v-card-text>
+          <v-slide-x-transition>
+            <div v-if="improveSelection">
+              <v-btn small text @click="improveSelection = null">
+                <v-icon left>mdi-chevron-left</v-icon>
+                Select another project
+              </v-btn>
+              <div class="text-center heading h2">
+                Working on {{ improveSelection.ResourceName }}
+              </div>
+              <v-row dense justify="center">
+                <v-col cols="8">
+                  <v-alert
+                    v-if="improveSelection.ResourceCost"
+                    color="primary"
+                    dense
+                    outlined
+                    border="left"
+                    class="mt-2"
+                  >
+                    <b class="heading h2">COMPLETE IMMEDIATELY</b>
+                    <br />
+                    <p class="pt-2 pb-0 mb-0">{{ improveSelection.ResourceCost }}</p>
+                    <div class="text-right">
+                      <v-btn tile color="success" @click="completeProject()">
+                        Complete
+                      </v-btn>
+                    </div>
+                  </v-alert>
+                </v-col>
+              </v-row>
+              <div
+                v-if="improveSelection.ResourceCost"
+                class="text-center heading h2 primary--text"
+              >
+                OR
+              </div>
+              <v-row justify="center">
+                <v-col cols="3">
+                  <v-text-field
+                    v-model="improveRoll"
+                    type="number"
+                    label="Progress Roll Result"
+                    outlined
+                    dense
+                    hide-details
+                    append-outer-icon="add"
+                    prepend-icon="remove"
+                    @click:append-outer="improveRoll++"
+                    @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
+                  />
+                </v-col>
+              </v-row>
+              <v-slide-y-transition>
+                <v-row v-show="improveRoll" justify="center" class="text-center flavor-text">
+                  <v-col cols="10">
+                    <p
+                      v-if="improveRoll < 10"
+                      class="font-weight-bold px-3"
+                      v-html="'You don’t make any progress on this project for now'"
+                    />
+
+                    <p v-else-if="improveRoll < 20" class="font-weight-bold px-3">
+                      You can make progress on your project, but can’t finish it. You can finish it
+                      next time you have downtime without a roll if you get some things before then:
+                      <v-combobox
+                        v-model="cost"
+                        class="mr-5 ml-5"
+                        :items="costs"
+                        chips
+                        multiple
+                        label="Add at least two requirements:"
+                        :error="cost.length < 2"
+                      />
+                    </p>
+                    <p v-else class="font-weight-bold px-3">
+                      {{
+                        complicated
+                          ? 'You can make progress on your project, but can’t finish it. You can finish it next time you have downtime without a roll if you get some things before then:'
+                          : 'Project Complete'
+                      }}
+                      <v-combobox
+                        v-if="complicated"
+                        v-model="cost"
+                        class="mr-5 ml-5"
+                        :items="costs"
+                        chips
+                        multiple
+                        label="Add at least one requirement:"
+                        :error="!cost.length"
+                      />
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-slide-y-transition>
+            </div>
+          </v-slide-x-transition>
+        </v-tab-item>
+      </v-tabs>
+    </v-card>
     <v-divider />
     <v-card-actions>
-      <v-btn flat @click="close()">cancel</v-btn>
+      <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
       <v-btn
         v-if="tabs === 0"
         large
+        tile
         color="primary"
         :disabled="!initialRoll || !project_name"
         @click="addProject()"
@@ -241,13 +230,14 @@
       <v-btn
         v-else
         large
+        tile
         color="primary"
+        :disabled="!improveRoll"
         @click="
           !improveSelection.IsComplicated && improveRoll >= 20
             ? completeProject()
             : improveProject()
         "
-        :disabled="!improveRoll"
       >
         {{
           !improveSelection.IsComplicated && improveRoll >= 20
@@ -256,7 +246,7 @@
         }}
       </v-btn>
     </v-card-actions>
-  </div>
+  </v-card-text>
 </template>
 
 <script lang="ts">
@@ -265,7 +255,10 @@ import { Project } from '@/class'
 export default Vue.extend({
   name: 'get-creative',
   props: {
-    pilot: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     tabs: 0,
@@ -298,11 +291,16 @@ export default Vue.extend({
         label: this.project_name,
         description: this.details,
         complicated: this.complicated,
+        resource_name: this.project_name,
+        resource_note: '',
+        resource_cost: '',
+        used: false,
+        can_finish: false,
+        finished: false,
+        progress: this.initialRoll < 10 || this.improveRoll < 10 ? 1 : 0,
+        requirements: [],
       })
-      p.ResourceName = this.project_name
       if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`
-      p.IsFinished = false
-      p.Progress = this.initialRoll < 10 || this.improveRoll < 10 ? 1 : 0
       this.pilot.Reserves.push(p)
       this.close()
     },

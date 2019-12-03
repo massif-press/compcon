@@ -1,112 +1,115 @@
 <template>
-  <v-card>
-    <v-toolbar color="title-bg" dark flat>
-      <v-toolbar-title class="display-2 font-weight-bold">STRUCTURE DAMAGE</v-toolbar-title>
-    </v-toolbar>
-    <v-window v-model="window">
-      <v-window-item>
-        <v-card-text class="text-center">
-          <span class="fluff-text">
-            <b class="minor-title red--text">FRAME INTEGRITY COMPROMISED</b>
+  <v-dialog v-model="dialog" width="60vw" persistent>
+    <v-card flat tile>
+      <v-toolbar color="title-bg clipped-large" dark flat>
+        <v-toolbar-title class="heading h1">STRUCTURE DAMAGE</v-toolbar-title>
+      </v-toolbar>
+      <v-window v-model="window">
+        <v-window-item>
+          <v-card-text class="text-center">
+            <span class="flavor-text">
+              <v-alert prominent dark dense icon="cci-structure" color="error" border="left" tile>
+                <b class="heading h2">FRAME INTEGRITY COMPROMISED</b>
+              </v-alert>
+              Roll 1d6 per point of structure damage
+            </span>
             <br />
-            Roll 1d6 per point of structure damage
-          </span>
-          <br />
-          <span class="display-2">{{ totalRolls }}d6</span>
-          <br />
-          <span class="caption capitalize-text">
-            <b>{{ totalRolls - rolls.length }}</b>
-            rolls remaining
-          </span>
-          <br />
-          <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
-            <v-tooltip top>
-              <v-btn slot="activator" flat icon @click="rolls.splice(n - 1, 1)">
-                <v-icon
-                  x-large
-                  v-html="`mdi-dice-${rolls[n - 1]}`"
-                  :color="rolls[n - 1] === 1 ? 'red accent-4' : 'black'"
-                />
+            <span class="overline">
+              <b>{{ totalRolls - rolls.length }}</b>
+              rolls remaining
+            </span>
+            <br />
+            <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
+              <cc-tooltip simple inline content="Click to re-roll">
+                <v-btn flat icon @click="rolls.splice(n - 1, 1)">
+                  <v-icon
+                    x-large
+                    :color="rolls[n - 1] === 1 ? 'error' : ''"
+                    v-html="`mdi-dice-${rolls[n - 1]}`"
+                  />
+                </v-btn>
+              </cc-tooltip>
+            </div>
+            <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
+              <v-btn flat icon x-large disabled>
+                <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
-              <span>Click to re-roll</span>
-            </v-tooltip>
-          </div>
-          <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
-            <v-btn flat icon x-large disabled>
-              <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
-            </v-btn>
-          </div>
-          <div v-if="rolls.length < totalRolls" class="d-inline">
+            </div>
             <br />
+            <v-scroll-y-transition group leave-absolute>
+              <div v-if="rolls.length < totalRolls" key="tr01" class="d-inline">
+                <v-btn
+                  v-for="n in 6"
+                  :key="`rb${n}`"
+                  class="mt-0 mb-4"
+                  :ripple="false"
+                  x-large
+                  color="primary"
+                  icon
+                  @click="rolls.push(n)"
+                >
+                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+                </v-btn>
+              </div>
+              <div v-else key="tr02">
+                <v-scroll-y-transition group>
+                  <span
+                    v-if="rolls.filter(x => x === 1).length > 1"
+                    key="t01"
+                    class="heading h3 error--text"
+                  >
+                    // CRITICAL STRUCTURAL DAMAGE //
+                  </span>
+                  <span v-else-if="rolls.length" key="t02" class="heading h3">
+                    <b>{{ results[Math.min(...rolls) - 1] }}</b>
+                    <i class="overline">({{ Math.min(...rolls) }})</i>
+                  </span>
+                </v-scroll-y-transition>
+              </div>
+            </v-scroll-y-transition>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-btn text small @click="dialog = false">dismiss</v-btn>
+            <v-spacer />
             <v-btn
-              class="mt-0 mb-4"
-              :ripple="false"
-              x-large
-              v-for="n in 6"
-              :key="`rb${n}`"
               color="primary"
-              flat
-              icon
-              @click="rolls.push(n)"
+              large
+              tile
+              :disabled="totalRolls - rolls.length > 0"
+              @click="window = resultWindow"
             >
-              <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+              continue
             </v-btn>
-          </div>
-          <br />
-          <span
-            v-if="rolls.filter(x => x === 1).length > 1"
-            class="major-title font-weight-bold capitalize-text red--text"
-          >
-            // CRITICAL STRUCTURAL DAMAGE //
-          </span>
-          <span v-else-if="rolls.length" class="minor-title capitalize-text">
-            Result:
-            <b>{{ Math.min(...rolls) }}</b>
-            <i>({{ results[Math.min(...rolls) - 1] }})</i>
-          </span>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            large
-            :disabled="totalRolls - rolls.length > 0"
-            @click="window = resultWindow"
-          >
-            continue
-          </v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Glancing Blow</v-card-title>
-        <v-card-text class="text-center">
+          </v-card-actions>
+        </v-window-item>
+        <table-window-item
+          :title="resultData[0].name"
+          :content="resultData[0].description"
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyGlancingBlow()"
+        />
+        <table-window-item
+          :title="resultData[1].name"
+          :disabled="
+            (systemTraumaRoll <= 3 && destroyedMount === null) ||
+              (systemTraumaRoll > 3 && !destroyedSystem)
+          "
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applySystemTrauma()"
+        >
           <p class="fluff-text">
-            Emergency systems kick in and stabilize your mech. However, your mech is
-            <strong>impaired</strong>
-            until the end of your next turn.
+            Parts of your mech have been torn off by the damage. Roll a d6.
           </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn color="success" large @click="applyGlancingBlow">confirm</v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">System Trauma</v-card-title>
-        <v-card-text class="text-center">
-          <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
           <v-btn
+            v-for="n in 6"
+            :key="`rb${n}`"
             class="mt-0 mb-4"
             :ripple="false"
             x-large
-            v-for="n in 6"
-            :key="`rb${n}`"
             :color="systemTraumaRoll === n ? 'error' : 'primary'"
-            flat
             icon
             @click="systemTraumaRoll = n"
           >
@@ -114,8 +117,8 @@
           </v-btn>
           <div v-if="systemTraumaRoll && systemTraumaRoll <= 3">
             <v-select
-              style="margin-left: 30%; margin-right: 30%"
               v-model="destroyedMount"
+              style="margin-left: 30%; margin-right: 30%"
               label="Mounts"
               :items="destroyableMounts"
               item-text="name"
@@ -125,8 +128,8 @@
           </div>
           <div v-else-if="systemTraumaRoll && systemTraumaRoll >= 4">
             <v-select
-              style="margin-left: 30%; margin-right: 30%"
               v-model="destroyedSystem"
+              style="margin-left: 30%; margin-right: 30%"
               label="Systems"
               :items="destroyableSystems"
               item-text="Name"
@@ -134,87 +137,63 @@
             />
             <span class="effect-text">This system is destroyed</span>
           </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn
-            color="success"
-            large
-            :disabled="
-              (systemTraumaRoll <= 3 && destroyedMount === null) ||
-                (systemTraumaRoll > 3 && !destroyedSystem)
+        </table-window-item>
+        <table-window-item
+          :title="resultData[2].name"
+          other-btn
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+        >
+          <p
+            v-html="
+              mech.CurrentStructure >= 3
+                ? 'Your mech is <b>stunned</b> until the end of your next turn.'
+                : 'Your mech must pass a <b>hull</b> save or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
             "
-            @click="applySystemTrauma"
-          >
-            confirm
-          </v-btn>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Direct Hit</v-card-title>
-        <v-card-text class="text-center">
-          <div class="fluff-text">
-            <p v-if="mech.CurrentStructure >= 3">
-              Your mech is
-              <b>stunned</b>
-              until the end of your next turn.
-            </p>
-            <p v-else>
-              Your mech must pass a
-              <b>hull</b>
-              save or be
-              <b>destroyed</b>
-              .Even on a successful check, your mech is
-              <b>stunned</b>
-              until the end of your next turn.
-            </p>
+          />
+          <div slot="confirm-button">
+            <div v-if="mech.CurrentStructure >= 3">
+              <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
+            </div>
+            <div v-else>
+              <v-btn color="error" tile large @click="window = 4">fail hull save</v-btn>
+              <v-btn color="success darken-1" tile large @click="applyDirectHit()">
+                pass hull save
+              </v-btn>
+            </div>
           </div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <div v-if="mech.CurrentStructure >= 3">
-            <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
-          </div>
-          <div v-else>
-            <v-btn color="error" large @click="window = 4">fail hull save</v-btn>
-            <v-btn color="success" large @click="applyDirectHit">succeed hull save</v-btn>
-          </div>
-        </v-card-actions>
-      </v-window-item>
-      <v-window-item>
-        <v-card-title primary-title class="major-title">Crushing Hit</v-card-title>
-        <v-card-text class="text-center destroyed-bg">
-          <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
-            MECH DESTROYED
-          </p>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="warning" @click="$emit('dismiss')">dismiss</v-btn>
-          <v-spacer />
-          <v-btn color="primary" flat @click="window = 0">previous</v-btn>
-          <v-btn color="success" large @click="applyDestroyed">confirm</v-btn>
-        </v-card-actions>
-      </v-window-item>
-    </v-window>
-  </v-card>
+        </table-window-item>
+        <table-window-item
+          :title="resultData[3].name"
+          :content="resultData[3].description"
+          @dismiss="$emit('dismiss')"
+          @previous="window = 0"
+          @confirm="applyDestroyed()"
+        />
+      </v-window>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import TableWindowItem from './TableWindowItem.vue'
+import ResultData from './structure_results.json'
+
 export default Vue.extend({
   name: 'structure-table',
+  components: { TableWindowItem },
   props: {
-    mech: Object,
-    loadout: Object,
-    pilot: Object,
+    mech: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
+    dialog: false,
     window: 0,
     rolls: [],
+    resultData: ResultData,
     systemTraumaRoll: null,
     destroyedSystem: null,
     destroyedMount: null,
@@ -228,6 +207,9 @@ export default Vue.extend({
     ],
   }),
   computed: {
+    loadout() {
+      return this.mech.ActiveLoadout
+    },
     totalRolls() {
       return (this.mech.CurrentStructure - this.mech.MaxStructure) * -1
     },
@@ -249,7 +231,10 @@ export default Vue.extend({
     },
     destroyableMounts() {
       return this.loadout
-        .AllMounts(this.pilot.has('CoreBonus', 'imparm'), this.pilot.has('CoreBonus', 'intweapon'))
+        .AllMounts(
+          this.mech.Pilot.has('CoreBonus', 'imparm'),
+          this.mech.Pilot.has('CoreBonus', 'intweapon')
+        )
         .filter(x => x.Weapons.some(w => !w.IsDestroyed) && !(x.IsLimited && x.Uses === 0))
         .map((m, i) => ({ name: m.Name, index: i }))
     },
@@ -258,11 +243,16 @@ export default Vue.extend({
     },
   },
   methods: {
+    show() {
+      this.dialog = true
+    },
     close() {
       this.window = 0
       this.rolls = []
       this.systemTraumaRoll = null
-      ;(this.destroyedSystem = null), (this.destroyedMount = null), this.$emit('dismiss')
+      this.destroyedSystem = null
+      this.destroyedMount = null
+      this.dialog = false
     },
     applyGlancingBlow() {
       if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
@@ -281,8 +271,8 @@ export default Vue.extend({
         this.loadout.Systems.find(x => x.ID === this.destroyedSystem).Destroy()
       } else {
         const m = this.loadout.AllMounts(
-          this.pilot.has('CoreBonus', 'imparm'),
-          this.pilot.has('CoreBonus', 'intweapon')
+          this.mech.Pilot.has('CoreBonus', 'imparm'),
+          this.mech.Pilot.has('CoreBonus', 'intweapon')
         )[this.destroyedMount]
         m.Weapons.forEach(w => {
           w.Destroy()
@@ -300,8 +290,8 @@ export default Vue.extend({
     45deg,
     rgb(94, 72, 0),
     rgba(94, 72, 0) 20px,
-    rgba(0, 0, 0) 20px,
-    rgba(0, 0, 0) 40px
+    rgba(30, 30, 30) 20px,
+    rgba(30, 30, 30) 40px
   );
 }
 

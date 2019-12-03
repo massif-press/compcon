@@ -143,7 +143,7 @@
         <v-col cols="12" class="caption text-center mt-3">&mdash; MOVEMENT &mdash;</v-col>
         <v-col cols="12">
           <div style="display: table; margin: 0 auto;">
-            <tick-bar
+            <cc-tick-bar
               label="SPACES MOVED"
               :current="move"
               :key="move"
@@ -668,15 +668,24 @@
 <script lang="ts">
 import Vue from 'vue'
 import ActionButton from './ActionButton.vue'
-import TickBar from '../../../components/UI/TickBar.vue'
+// import TickBar from '../../../components/UI/TickBar.vue'
 
 export default Vue.extend({
   name: 'turn-manager',
-  components: { ActionButton, TickBar },
+  components: { ActionButton },
   props: {
-    pilot: Object,
-    mech: Object,
-    loadout: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    mech() {
+      return this.pilot.ActiveMech
+    },
+    loadout() {
+      return this.mech.ActiveLoadout
+    }
   },
   data: () => ({
     step: 2,

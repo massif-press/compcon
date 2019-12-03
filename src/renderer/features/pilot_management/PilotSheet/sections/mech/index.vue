@@ -33,7 +33,7 @@
         <v-icon v-else class="mt-n1" x-large color="success">cci-activate</v-icon>
       </v-col>
     </v-row>
-    <status-alert v-for="s in mech.StatusString" :key="`status-${s}`" :type="s" />
+    <cc-mech-status-alert v-for="s in mech.StatusString" :key="`status-${s}`" :type="s" />
     <v-row align="center">
       <v-col cols="8">
         <v-row>
@@ -101,7 +101,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import MechNav from './components/MechNav.vue'
-import StatusAlert from './components/StatusAlert.vue'
 import HeaderOverlay from './components/HeaderOverlay.vue'
 import CoreItem from './components/CoreItem.vue'
 import LicenseRequirementBlock from './sections/license_requirements/index.vue'
@@ -116,7 +115,6 @@ export default Vue.extend({
   components: {
     MechNav,
     LicenseRequirementBlock,
-    StatusAlert,
     HeaderOverlay,
     TraitBlock,
     AttributesBlock,

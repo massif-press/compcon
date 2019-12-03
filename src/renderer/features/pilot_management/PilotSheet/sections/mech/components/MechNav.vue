@@ -36,7 +36,7 @@
       <v-list two-line subheader>
         <v-subheader class="heading h2 white--text primary py-0 px-2">Mech Options</v-subheader>
         <v-list-item @click="$refs.printDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-printer</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -45,7 +45,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-file-document-box</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -57,7 +57,7 @@
         </v-list-item>
         <v-divider />
         <v-list-item @click="$emit('delete')">
-          <v-list-item-icon>
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -86,7 +86,7 @@
 
             "
           >
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-view-array</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
@@ -94,7 +94,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item disabled>
-            <v-list-item-icon>
+            <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-playlist-edit</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
