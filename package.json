@@ -5,14 +5,8 @@
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "electron-webpack dev --client-log-level error",
-    "compile": "electron-webpack",
-    "dist": "yarn compile && BUILD_OS=local TRAVIS_BRANCH=build electron-builder",
-    "dist-travis": "yarn compile && electron-builder",
-    "lint": "yarn pretty-quick && eslint '**/*.ts' --ignore-pattern node_modules/",
-    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "unit-test": "jest unit",
-    "int-test": "jest int"
+    "dev": "webpack-dev-server",
+    "build": "webpack"
   },
   "electronWebpack": {
     "title": "COMP/CON v2.0.0",
@@ -61,6 +55,8 @@
   },
   "dependencies": {
     "@aricchi/electron-vue-devtools": "^5.0.8-1",
+    "@capacitor/cli": "^1.3.0",
+    "@capacitor/core": "^1.3.0",
     "@mdi/font": "^3.6.95",
     "@types/fs-extra": "^5.0.5",
     "@types/lodash": "^4.14.123",

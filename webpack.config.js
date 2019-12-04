@@ -59,11 +59,11 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            corejs: 3,
                             "presets": [
                                 [
                                     "@babel/preset-env",
                                     {
+                                        corejs: 3,
                                         useBuiltIns: "entry"
                                     }
                                 ],

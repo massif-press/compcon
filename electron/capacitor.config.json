@@ -1,0 +1,8 @@
+{
+  "appId": "com.massifpress.compcon",
+  "appName": "COMP/CON",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "dist",
+  "cordova": {}
+}
