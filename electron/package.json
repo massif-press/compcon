@@ -1,0 +1,56 @@
+{
+  "name": "compcon",
+  "version": "1.0.0",
+  "description": "A digital toolset for the LANCER TTRPG",
+  "main": "index.js",
+  "scripts": {
+    "electron:start": "electron ./",
+    "electron:build": "electron-builder ./"
+  },
+  "build": {
+    "productName": "COMP/CON",
+    "appId": "com.massifpress.compcon",
+    "mac": {
+      "icon": "../icons/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "./entitlements.mac.inherit.plist",
+      "target": [
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "../icons/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "../icons",
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ],
+      "category": "Game"
+    }
+  },
+  "dependencies": {
+    "@capacitor/electron": "^1.3.0",
+    "electron-is-dev": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0"
+  },
+  "keywords": [
+    "capacitor",
+    "electron"
+  ],
+  "author": "",
+  "license": "ISC"
+}
