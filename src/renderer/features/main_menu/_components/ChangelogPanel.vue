@@ -3,7 +3,7 @@
     <v-card v-if="loading" class="mx-4" width="75vw" height="85vh">
       <v-card-text class="text-center">
         <v-progress-circular :size="120" :width="12" color="secondary" indeterminate />
-        <p class="minor-title mt-3">LOADING...</p>
+        <p class="heading h3 mt-3">LOADING...</p>
       </v-card-text>
     </v-card>
     <v-card

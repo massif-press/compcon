@@ -14,7 +14,7 @@
                 <span>
                   <span class="caption">{{ frame(l.FrameID).Source }}</span>
                   <br />
-                  <span class="major-title font-weight-bold">{{ frame(l.FrameID).Name }}</span>
+                  <span class="heading h2 font-weight-bold">{{ frame(l.FrameID).Name }}</span>
                 </span>
                 <v-chip
                   v-for="f in frame(l.FrameID).Mechtype"
