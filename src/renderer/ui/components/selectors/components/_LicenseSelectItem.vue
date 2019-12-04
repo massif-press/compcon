@@ -17,7 +17,7 @@
         <v-col class="ml-2">
           <span class="caption">{{ frame(license.FrameID).Source }}</span>
           <br />
-          <span class="major-title font-weight-bold pop">{{ license.Name }}</span>
+          <span class="heading h2 font-weight-bold pop">{{ license.Name }}</span>
           <v-chip
             v-for="f in frame(license.FrameID).Mechtype"
             :key="f"

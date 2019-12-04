@@ -34,7 +34,7 @@
     <v-divider class="ma-4" />
     <v-row justify="center">
       <v-col cols="auto">
-        <cc-btn x-large color="primary" @click="$emit('end')">Begin Mission</cc-btn>
+        <cc-btn x-large color="primary" @click="$emit('end')">Enter Combat</cc-btn>
       </v-col>
     </v-row>
   </v-window-item>
@@ -53,7 +53,7 @@ import {
   GetFocused,
   GetCreative,
   GetOrganized,
-} from './Downtime'
+} from './'
 
 export default Vue.extend({
   name: 'downtime-sidebar',
