@@ -17,7 +17,7 @@ import {
 } from '@/class'
 import { rules } from 'lancer-data'
 import { store } from '@/store'
-import api from '@/io/apis'
+import gistApi from '@/io/apis/gist'
 
 class Pilot {
   private _cloudID: string
@@ -303,7 +303,7 @@ class Pilot {
 
   public SetCloudImage(): string {
     if (!this.LocalImage) return 'Nothing to upload'
-    api
+    gistApi
       .uploadImage(store.getters.getUserPath, 'portrait', this.LocalImage)
       .then((json: any) => {
         this.CloudImage = json.data.link
@@ -317,7 +317,7 @@ class Pilot {
 
   public async CloudSave(): Promise<any> {
     if (!this.CloudID) {
-      return api
+      return gistApi
         .newPilot(this)
         .then((response: any) => {
           this.setCloudInfo(response.id)
@@ -326,7 +326,7 @@ class Pilot {
           this.SetCloudImage()
         })
     } else {
-      return api
+      return gistApi
         .savePilot(this)
         .then((response: any) => {
           this.setCloudInfo(response.id)
@@ -339,7 +339,7 @@ class Pilot {
 
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
-    return api.loadPilot(this.CloudID).then((gist: any) => {
+    return gistApi.loadPilot(this.CloudID).then((gist: any) => {
       const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
       this.setPilotData(newPilotData)
       this.LastCloudUpdate = new Date().toString()

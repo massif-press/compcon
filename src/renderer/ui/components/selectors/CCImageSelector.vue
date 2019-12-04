@@ -182,7 +182,7 @@ export default Vue.extend({
           this.$emit('notify', 'Cloud Upload Successful')
         })
         .catch(function(err: any) {
-          this.emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+          this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
         })
     },
     open() {

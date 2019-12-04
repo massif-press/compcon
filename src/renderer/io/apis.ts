@@ -8,9 +8,6 @@ import path from 'path'
 const token = atob('ZTk4MjJhZTE0MzYyMTRkNDY5YTlkZTNkMDIxMTRmODVkNTJhMjAwMg==')
 const gistClient = new GistClient()
 
-imgur.setClientId('36f102b737b2f5f')
-imgur.setAPIUrl('https://api.imgur.com/3/')
-
 const newPilot = async function(pilot: Pilot): Promise<any> {
   return gistClient.setToken(token).create({
     files: {
