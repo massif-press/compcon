@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TurnSidebar from './components/Turn/index.vue'
+import TurnSidebar from './turn/index.vue'
 import PilotBlock from './layout/PilotBlock.vue'
 import MechBlock from './layout/MechBlock.vue'
 import { getModule } from 'vuex-module-decorators'

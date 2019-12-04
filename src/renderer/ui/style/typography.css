@@ -43,14 +43,14 @@
   font-weight: 100;
 }
 
-.minor-title {
+.heading h3 {
   font-family: 'Helvetica Bold', sans-serif;
   font-size: 14pt;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-.major-title {
+.heading h2 {
   font-family: 'Helvetica Black', sans-serif;
   font-size: 22pt;
   letter-spacing: 2px;

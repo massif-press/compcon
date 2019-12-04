@@ -2,21 +2,7 @@
   <div>
     <v-row column fill-height>
       <div v-if="mech.IsDestroyed">
-        <v-card>
-          <v-card-text class="text-center destroyed-bg">
-            <p class="major-title red--text pa-3 ma-5" style="background-color:black;">
-              MECH DESTROYED
-              <span
-                v-if="mech.ReactorDestroyed"
-                class="title red--text text--accent-3 pa-0 ma-0"
-                style="background-color:black;"
-              >
-                <br />
-                REACTOR DESTROYED
-              </span>
-            </p>
-          </v-card-text>
-        </v-card>
+        <destroyed-alert :mech="mech" />
         <div v-if="mech.ReactorDestroyed">
           <p class="effect-text text-center pt-4">
             This mech cannot be repaired and must be reprinted.
@@ -83,7 +69,7 @@
         </div>
       </div>
       <div v-else>
-        <v-col cols="12" class="major-title text-center" style="background: #33691E">
+        <v-col cols="12" class="heading h2 text-center" style="background: #33691E">
           <span>RESTING</span>
         </v-col>
         <v-col cols="12" class="text-center mt-3 mb-3">
@@ -117,11 +103,11 @@
           />
         </v-col>
         <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentHP === mech.MaxHP" class="minor-title grey--text">
+          <span v-if="mech.CurrentHP === mech.MaxHP" class="heading h3 grey--text">
             >:// HP NOMINAL
           </span>
           <v-row v-elsewrap>
-            <span class="minor-title orange--text">>:// WARNING: DAMAGE DETECTED</span>
+            <span class="heading h3 orange--text">>:// WARNING: DAMAGE DETECTED</span>
             <v-col class="mr-4 ml-2">
               <v-btn
                 block
@@ -139,11 +125,11 @@
           </v-row>
         </v-col>
         <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentStructure === mech.MaxStructure" class="minor-title grey--text">
+          <span v-if="mech.CurrentStructure === mech.MaxStructure" class="heading h3 grey--text">
             >:// STRUCTURAL INTEGRITY NOMINAL
           </span>
           <v-row v-elsewrap>
-            <span class="minor-title red--text">>:// CRITICAL: STRUCTURE COMPROMISED</span>
+            <span class="heading h3 red--text">>:// CRITICAL: STRUCTURE COMPROMISED</span>
             <v-col class="mr-4 ml-2">
               <v-btn
                 block
@@ -168,11 +154,11 @@
           </v-row>
         </v-col>
         <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentStress === mech.MaxStress" class="minor-title grey--text">
+          <span v-if="mech.CurrentStress === mech.MaxStress" class="heading h3 grey--text">
             >:// REACTOR STRESS NOMINAL
           </span>
           <v-row v-elsewrap>
-            <span class="minor-title red--text">>:// CRITICAL: REACTOR DAMAGED</span>
+            <span class="heading h3 red--text">>:// CRITICAL: REACTOR DAMAGED</span>
             <v-col grow class="mr-4 ml-2">
               <v-btn
                 block
@@ -190,12 +176,12 @@
           </v-row>
         </v-col>
         <v-col cols="12" class="text-xs-left">
-          <span v-if="!destroyedWeapons.length" class="minor-title grey--text">
+          <span v-if="!destroyedWeapons.length" class="heading h3 grey--text">
             >:// ARMAMENT NOMINAL
           </span>
           <div v-else>
             <v-row>
-              <span class="minor-title red--text">>:// WARNING: ARMAMENT DAMAGED</span>
+              <span class="heading h3 red--text">>:// WARNING: ARMAMENT DAMAGED</span>
             </v-row>
             <v-row v-for="w in destroyedWeapons" :key="w.ID">
               <v-col class="mr-4">
@@ -215,12 +201,12 @@
           </div>
         </v-col>
         <v-col cols="12" class="text-xs-left">
-          <span v-if="!destroyedSystems.length" class="minor-title grey--text">
+          <span v-if="!destroyedSystems.length" class="heading h3 grey--text">
             >:// SYSTEMS NOMINAL
           </span>
           <div v-else>
             <v-row>
-              <span class="minor-title red--text">>:// WARNING: EQUIPMENT DAMAGED</span>
+              <span class="heading h3 red--text">>:// WARNING: EQUIPMENT DAMAGED</span>
             </v-row>
             <v-row v-for="s in destroyedSystems" :key="s.ID">
               <v-col class="mr-4">
@@ -255,7 +241,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TickBar from '../../../components/UI/TickBar.vue'
+// import TickBar from '../../../components/UI/TickBar.vue'
 import colors from '@/features/_shared/UI/CCColors'
 import { MechEquipment } from '@/class'
 
@@ -265,7 +251,7 @@ function normalize(current, max): number {
 
 export default Vue.extend({
   name: 'rest-manager',
-  components: { TickBar },
+  // components: { TickBar },
   props: {
     mech: Object,
     loadout: Object,
