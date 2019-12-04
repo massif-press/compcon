@@ -498,9 +498,9 @@ export default Vue.extend({
         this.$router.push('/print-config')
       }
     },
-    copyConfigStatblock() {
+    async copyConfigStatblock() {
       var vm = this as any
-      clipboard.writeText(Statblock.Generate(null, this.config))
+      await clipboard.writeText(Statblock.Generate(null, this.config))
       this.notify('Mech Statblock Copied to Clipboard')
     },
   },

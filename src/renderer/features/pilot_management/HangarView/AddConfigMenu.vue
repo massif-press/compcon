@@ -302,10 +302,11 @@ export default Vue.extend({
       }
       this.$emit('close')
     },
-    importClipboard() {
+    async importClipboard() {
       var vm = this
       const { clipboard } = require('electron')
-      validator.clipboardConfig(clipboard.readText(), function(err, result) {
+      const clip = await clipboard.readText()
+      validator.clipboardConfig(clip, function(err, result) {
         if (err) {
           alert(err)
         } else {

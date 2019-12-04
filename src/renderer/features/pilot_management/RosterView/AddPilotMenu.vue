@@ -13,10 +13,10 @@
         <!-- <v-btn block flat color="primary" @click="importFile">
           Import from File
         </v-btn>
-
+         -->
         <v-btn block flat color="primary" @click="importClipboard">
           Import from Clipboard
-        </v-btn> -->
+        </v-btn>
 
         <v-layout>
           <v-flex>
@@ -156,10 +156,11 @@ export default Vue.extend({
         vm.addDialog = false
       }
     },
-    importClipboard() {
+    async importClipboard() {
       var vm = this as any
       const { clipboard } = require('electron')
-      validator.clipboardPilot(clipboard.readText(), function(err, result) {
+      const clip = await clipboard.readText()
+      validator.clipboardPilot(clip, function(err, result) {
         if (err) {
           alert(err)
         } else {

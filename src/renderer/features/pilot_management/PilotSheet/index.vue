@@ -811,8 +811,8 @@ export default Vue.extend({
       }
       this.printMech = null
     },
-    copyPilotStatblock() {
-      clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
+    async copyPilotStatblock() {
+      await clipboard.writeText(Statblock.Generate(this.pilot, this.pilot.ActiveMech))
       this.notify('Pilot Statblock Copied to Clipboard')
     },
   }

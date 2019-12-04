@@ -85,10 +85,10 @@
           @cancel="exportDialog = false"
         >
           <template v-slot:modal-content>
-            <v-btn large block flat color="primary" @click="exportConfig">
+            <!-- <v-btn large block flat color="primary" @click="exportConfig">
               Save to File
             </v-btn>
-            <br />
+            <br /> -->
             <v-btn large block flat color="primary" @click="copyConfig">
               Copy Configuration Data to Clipboard
             </v-btn>
@@ -179,9 +179,9 @@ export default Vue.extend({
       this.exportDialog = false
       this.notify('Configuration Exported Successfully')
     },
-    copyConfig() {
+    async copyConfig() {
       const { clipboard } = require('electron')
-      clipboard.writeText(JSON.stringify(Mech.Serialize(this.mech)))
+      await clipboard.writeText(JSON.stringify(Mech.Serialize(this.mech)))
       this.exportDialog = false
       this.notify('Configuration Copied to Clipboard')
     },
