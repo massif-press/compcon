@@ -102,11 +102,11 @@
         >
           <template v-slot:modal-content>
             <v-card-text class="text-xs-center">
-              <v-btn large flat color="primary" @click="exportPilot">
+              <!-- <v-btn large flat color="primary" @click="exportPilot">
                 Save to File
                 <v-icon right dark>save</v-icon>
               </v-btn>
-              <br />
+              <br /> -->
               <v-btn large flat color="primary" @click="copyPilot">
                 Copy Pilot Data to Clipboard
                 <v-icon right dark>mdi-clipboard-text</v-icon>
@@ -272,8 +272,8 @@ export default Vue.extend({
       this.exportDialog = false
       this.notify('Pilot Export Successful')
     },
-    copyPilot() {
-      clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
+    async copyPilot() {
+      await clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
       this.exportDialog = false
       this.notify('Pilot Data Copied to Clipboard')
     },
@@ -286,7 +286,9 @@ export default Vue.extend({
         .then((newGist: any) => {
           var gistID = newGist.id
           this.pilot.GistID = gistID
-          clipboard.writeText(gistID)
+          return clipboard.writeText(gistID)
+        })
+        .then(_ => {
           vm.notify('Pilot Uploaded Successfully!<br>Share ID copied to Clipboard')
           vm.uploadFailed = false
           vm.cloudLoading = false
@@ -306,7 +308,9 @@ export default Vue.extend({
       apis
         .updatePilotGist(this.pilot)
         .then((newGist: any) => {
-          clipboard.writeText(newGist.id)
+          return clipboard.writeText(newGist.id)
+        })
+        .then(() => {
           vm.notify('Pilot Updated Successfully!<br>Share ID copied to Clipboard')
           vm.uploadFailed = false
           vm.cloudLoading = false
@@ -317,8 +321,8 @@ export default Vue.extend({
           vm.cloudLoading = false
         })
     },
-    copyShareID() {
-      clipboard.writeText(this.pilot.GistID)
+    async copyShareID() {
+      await clipboard.writeText(this.pilot.GistID)
       this.notify('Share ID copied to Clipboard')
     },
   },
