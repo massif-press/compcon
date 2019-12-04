@@ -44,9 +44,11 @@
               />
             </p>
             <p v-else-if="skillRoll < 20" class="font-weight-bold px-3">
-              You gain one of the following choices as
-              <strong>reserves</strong>
-              , and lose one:
+              <span
+                v-html="
+                  'You gain one of the following choices as <strong>reserves</strong> , and lose one:'
+                "
+              />
               <v-row>
                 <v-col cols="6">
                   <v-select

@@ -45,7 +45,7 @@
               <span>
                 <span class="caption">{{ f.Source }}</span>
                 <br />
-                <span class="major-title font-weight-bold">{{ f.Name }}</span>
+                <span class="heading h2 font-weight-bold">{{ f.Name }}</span>
               </span>
               <v-chip
                 v-for="mt in f.Mechtype"

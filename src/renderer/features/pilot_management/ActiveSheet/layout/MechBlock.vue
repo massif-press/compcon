@@ -6,13 +6,13 @@
     <div v-if="!mech" class="ma-5">
       <div v-if="!pilot.Mechs.length">
         <v-alert type="error" prominent>
-          <span class="minor-title">No Saved Mech Configurations</span>
+          <span class="heading h3">No Saved Mech Configurations</span>
           <br />
         </v-alert>
       </div>
       <div v-else class="ma-5">
         <v-alert value="visible" type="warning" class="mb-3 effect-text">
-          <span class="minor-title">No Active Mech Detected</span>
+          <span class="heading h3">No Active Mech Detected</span>
         </v-alert>
         <mech-select-button big :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
       </div>

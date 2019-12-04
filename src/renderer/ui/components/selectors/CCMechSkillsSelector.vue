@@ -95,11 +95,11 @@
 
     <v-row dense class="mt-n3 mb-6">
       <v-col cols="auto" class="ml-auto mr-auto">
-        <span class="minor-title">EVASION</span>
-        <span class="minor-title primary--text">+{{ pilot.MechSkills.Agi }}</span>
+        <span class="heading h3">EVASION</span>
+        <span class="heading h3 primary--text">+{{ pilot.MechSkills.Agi }}</span>
         <cc-slashes class="ml-1 mr-1" />
-        <span class="minor-title">SPEED</span>
-        <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Agi / 2) }}</span>
+        <span class="heading h3">SPEED</span>
+        <span class="heading h3 primary--text">+{{ Math.floor(pilot.MechSkills.Agi / 2) }}</span>
       </v-col>
     </v-row>
 
@@ -140,14 +140,14 @@
 
     <v-row dense class="mt-n3 mb-6">
       <v-col cols="auto" class="ml-auto mr-auto">
-        <span class="minor-title">ELECTRONIC DEFENSE</span>
-        <span class="minor-title primary--text">+{{ pilot.MechSkills.Sys }}</span>
+        <span class="heading h3">ELECTRONIC DEFENSE</span>
+        <span class="heading h3 primary--text">+{{ pilot.MechSkills.Sys }}</span>
         <cc-slashes class="ml-1 mr-1" />
-        <span class="minor-title">TECH ATTACK</span>
-        <span class="minor-title primary--text">+{{ pilot.MechSkills.Sys }}</span>
+        <span class="heading h3">TECH ATTACK</span>
+        <span class="heading h3 primary--text">+{{ pilot.MechSkills.Sys }}</span>
         <cc-slashes class="ml-1 mr-1" />
-        <span class="minor-title">SP</span>
-        <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Sys / 2) }}</span>
+        <span class="heading h3">SP</span>
+        <span class="heading h3 primary--text">+{{ Math.floor(pilot.MechSkills.Sys / 2) }}</span>
       </v-col>
     </v-row>
 
@@ -188,13 +188,13 @@
 
     <v-row dense class="mt-n3 mb-6">
       <v-col cols="auto" class="ml-auto mr-auto">
-        <span class="minor-title">HEAT CAPACITY</span>
-        <span class="minor-title primary--text">+{{ pilot.MechSkills.Eng }}</span>
+        <span class="heading h3">HEAT CAPACITY</span>
+        <span class="heading h3 primary--text">+{{ pilot.MechSkills.Eng }}</span>
 
         <cc-slashes class="ml-1 mr-1" />
 
-        <span class="minor-title">LIMITED SYSTEMS BONUS</span>
-        <span class="minor-title primary--text">+{{ Math.floor(pilot.MechSkills.Eng / 2) }}</span>
+        <span class="heading h3">LIMITED SYSTEMS BONUS</span>
+        <span class="heading h3 primary--text">+{{ Math.floor(pilot.MechSkills.Eng / 2) }}</span>
       </v-col>
     </v-row>
   </v-container>
