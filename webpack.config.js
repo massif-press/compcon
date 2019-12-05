@@ -141,6 +141,7 @@ module.exports = {
             background_color: '#ffffff',
             theme_color: '#ffffff',
             display: 'fullscreen',
+            orientation: 'any',
             crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
             icons: [
                 {
