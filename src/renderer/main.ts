@@ -11,8 +11,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { store } from './store'
-import { remote } from 'electron'
-import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
@@ -32,8 +30,6 @@ if (process.env.NODE_ENV !== 'development') {
     .replace(/\\/g, '\\\\')
 }
 
-Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
-
 Vue.prototype.version = '2.0.0'
 Vue.prototype.lancerVersion = 'PRERELEASE 2'
 
@@ -51,5 +47,5 @@ new Vue({
   vuetify: new Vuetify(theme as any),
   router,
   store,
-  template: '<App/>',
+  render: h => h(App),
 }).$mount('#app')
