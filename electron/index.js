@@ -28,7 +28,7 @@ const menuTemplateDev = [
   },
 ];
 
-async function createWindow () {
+async function createWindow() {
   // Define our main window size
   mainWindow = new BrowserWindow({
     height: 920,
@@ -40,6 +40,10 @@ async function createWindow () {
     }
   });
 
+  if (process.env.NODE_ENV !== 'production') {
+    require('vue-devtools').install()
+  }
+
   if (isDevMode) {
     // Set our above template to the Menu Object if we are in development mode, dont want users having the devtools.
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplateDev));
@@ -47,7 +51,7 @@ async function createWindow () {
     mainWindow.webContents.openDevTools();
   }
 
-  if(useSplashScreen) {
+  if (useSplashScreen) {
     splashScreen = new CapacitorSplashScreen(mainWindow);
     splashScreen.init(false);
   } else {
