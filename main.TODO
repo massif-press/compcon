@@ -14,6 +14,8 @@ Next Steps:
   ☐ Charts
   ☐ Tutorial popups (vue-tour)
   ☐ Gear Catalog comparison view
+  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
+    ☐ Modify movement speed based on prone/immob/stunned
 
 Bugs:
   ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
@@ -21,10 +23,6 @@ Bugs:
   ☐ disableable cc-btn
 
 Active Mode:
-  ☐ Side Panel
-    ✔ Downtime @done(19-12-04 11:15)
-    ☐ Mission
-    ☐ Debrief
   ☐ Toggleable dense loadout view
 
 Unshackling:
@@ -37,6 +35,18 @@ Flavor Pass:
   ☐ Statblock panel
   ☐ Export panel
   ☐ Print panel
+
+CCTooltip:
+  ☐ Restyle
+
+Hangar:
+  ☐ Quick Print Mech
+  ☐ Quick Statblock Mech
+
+Print:
+  ☐ Print all relevant tags
+  ☐ Print NPCs
+  ☐ Print Encounters
 
 Printing:
   ☐ Mark danger zone heat
@@ -64,19 +74,6 @@ Printing:
 Item Selector:
   ☐ Item card notes don't immediately update
 
-CCTooltip:
-  ☐ Restyle
-  ☐ Use v-menu
-
-Hangar:
-  ☐ Quick Print Mech
-  ☐ Quick Statblock Mech
-
-Print:
-  ☐ Print all relevant tags
-  ☐ Print NPCs
-  ☐ Print Encounters
-
 Image Selector:
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ confirm dialog on image delete
@@ -100,13 +97,11 @@ Factions:
   ☐ Faction and Org builders
 
 Refactor:
-  ☐ remove old font stylings
+  ✔ remove old font stylings @done(19-12-05 13:50)
   ☐ Replace most instances of .Source with .Manufacturer.Name
   ☐ remove _shared
   ☐ Rules logic into class
   ☐ Contributor/Bonus rules logic should go into seperate class(es)
-  ☐ Turn Manager methods should go into Mech class
-  ☐ genericize frame row image element
   ☐ redo converter/validator
 
 Style Pass:
@@ -151,6 +146,10 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Side Panel @done(19-12-05 13:01) @project(Active Mode)
+  ✔ Downtime @done(19-12-04 11:15) @project(Active Mode)
+  ✔ Mission @done(19-12-05 13:01) @project(Active Mode)
+  ✔ Debrief @done(19-12-05 13:01) @project(Active Mode)
   ✔ Inifinte render function on loadout with uses @done(19-11-22 16:56) @project(Bugs)
   ✔ Infinite render w/ loadout systems with uses @done(19-11-25 14:57) @project(Bugs)
   ✔ confirm loadouts unload talent items on lost talent @done(19-11-25 15:02) @project(Mech loadout)

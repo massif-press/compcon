@@ -28,7 +28,8 @@
         </v-card>
         <v-card flat tile>
           <fieldset>
-            <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>include:
+            <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>
+            include:
             <print-option-select multiple title="Include" :items="pilotIncludeOptions" />
           </fieldset>
           <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
@@ -38,7 +39,8 @@
         <v-scroll-y-transition>
           <v-card v-if="mechSelect" flat tile>
             <fieldset>
-              <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>include:
+              <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
+              include:
               <print-option-select multiple title="Include" :items="mechIncludeOptions" />
             </fieldset>
             <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
@@ -56,8 +58,8 @@
           </v-overlay>
         </v-card>
       </v-card-text>
-      <v-btn class="my-2" color="primary" block outlined>Print Preview</v-btn>
-      <v-btn class="my-2" color="primary" large block>Print</v-btn>
+      <!-- <v-btn class="my-2" color="primary" block outlined>Print Preview</v-btn> -->
+      <v-btn class="my-2" color="primary" large block @click="print">Print</v-btn>
       <cc-tooltip simple content="Feature In Development">
         <v-btn class="my-2" small text block disabled>Print Blank Character Sheets</v-btn>
       </cc-tooltip>
@@ -79,7 +81,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    mechSelect: '',
+    mechSelect: null,
     layoutOptions: [
       { text: 'Graphic/Portrait', icon: 'mdi-file' },
       { text: 'Graphic/Landscape', icon: 'mdi-note' },
@@ -139,6 +141,7 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     print() {
+      this.$router.push(`../print/${this.pilot.ID}/${this.mechSelect}`)
       //   openPrintOptions() {
       //   if (this.pilot.ActiveConfig) {
       //     this.printDialog = true
