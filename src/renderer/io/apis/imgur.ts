@@ -23,4 +23,4 @@ const uploadImage = async function(imgData: string /*base64*/) {
     .then(res => res.data)
 }
 
-export { uploadImage }
+export default { uploadImage }
