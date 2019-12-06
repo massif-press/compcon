@@ -2,6 +2,7 @@ import { store } from '@/store'
 import { rules } from 'lancer-data'
 import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
 import { ILicensedItemData, ICoreData } from '@/interface'
+import { staticPath } from '@/io/Data'
 
 interface IFrameStats {
   size: number
@@ -130,7 +131,7 @@ class Frame extends LicensedItem {
   }
 
   public get DefaultImage(): string {
-    return `file://${store.getters.getUserPath}/img/default_frame/${this.ID}.png`
+    return staticPath(`img/frame/${this.ID}.png`)
   }
 }
 
