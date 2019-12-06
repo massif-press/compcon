@@ -1,6 +1,6 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const { HotModuleReplacementPlugin, DefinePlugin, NormalModuleReplacementPlugin } = require('webpack');
+const { HotModuleReplacementPlugin, DefinePlugin, NormalModuleReplacementPlugin, IgnorePlugin } = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
@@ -17,6 +17,11 @@ console.log(isProduction)
 
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
+    target: "electron-main",
+    node: {
+        fs: 'empty',
+        __dirname: false
+    },
     entry: './src/renderer/main.ts',
     output: {
         filename: 'bundle.js',
@@ -174,20 +179,10 @@ module.exports = {
                 appleStatusBarStyle: "black",
             }
         }),
-        new DefinePlugin({
-            ELECTRON: JSON.stringify(false)
-        }),
-        new NormalModuleReplacementPlugin(
-            /^electron$/,
-            path.resolve('src/stubs/electron.ts')
-        ),
-        new NormalModuleReplacementPlugin(
-            /^imgur$/,
-            path.resolve('src/stubs/imgur_api.ts')
-        ),
+        // new IgnorePlugin(/^fs$/),
         // new NormalModuleReplacementPlugin(
-        //     /data_io$/,
-        //     path.resolve('src/stubs/data_io.ts')
+        //     /^electron$/,
+        //     path.resolve(__dirname, 'src/electron.ts')
         // ),
     ]
 }
