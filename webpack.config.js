@@ -114,6 +114,7 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.vue', '.js'],
         alias: {
             '@': path.resolve('src/renderer'),
+            '@assets': path.resolve('src/assets')
         }
     },
     plugins: [
