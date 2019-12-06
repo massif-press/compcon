@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row no-gutters align="start">
+    <v-row no-gutters align="start" :justify="justify">
       <v-col v-if="!flipInput" cols="auto">
         <slot />
       </v-col>
@@ -62,6 +62,11 @@ export default Vue.extend({
       type: String,
       required: false,
       default: '',
+    },
+    justify: {
+      type: String,
+      required: false,
+      default: 'start',
     },
     current: {
       type: Number,
@@ -209,6 +214,7 @@ export default Vue.extend({
   font-weight: bold;
   width: fit-content;
   margin-top: 2px;
+  max-width: 30px;
 }
 .pipinput:focus {
   outline: none;
