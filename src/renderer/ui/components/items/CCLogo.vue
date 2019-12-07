@@ -1,13 +1,17 @@
 <template>
   <svg
-    :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${stroke ? 'stroke-width: 25px;' : ''}`"
-    v-html="svg"
-  />
+    :style="
+      `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
+        stroke ? 'stroke-width: 25px;' : ''
+      }`
+    "
+  >
+    <use :href="source.Logo + '#Content'"></use>
+  </svg>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import fs from 'fs'
 
 enum sizeMap {
   xSmall = '16px',
@@ -41,9 +45,6 @@ export default Vue.extend({
       default: '',
     },
   },
-  data: () => ({
-    svg: '',
-  }),
   computed: {
     iconSize(): string {
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default
@@ -51,9 +52,6 @@ export default Vue.extend({
     iconColor(): string {
       return this.color ? this.color : this.source.Color
     },
-  },
-  mounted() {
-    this.svg = fs.readFileSync(this.source.Logo)
   },
 })
 </script>
