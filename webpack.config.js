@@ -1,31 +1,18 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const { HotModuleReplacementPlugin, DefinePlugin, NormalModuleReplacementPlugin, IgnorePlugin } = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
-const { GenerateSW } = require('workbox-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const path = require('path');
-const fs = require('fs');
 const CopyPlugin = require('copy-webpack-plugin');
-const InjectPlugin = require('webpack-inject-plugin').default;
 
-const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const fs = require('fs');
+const path = require('path');
+const merge = require('webpack-merge')
 
-console.log(isProduction)
-
-module.exports = {
+const baseConfig = {
     mode: process.env.NODE_ENV || 'development',
-    target: "electron-main",
-    node: {
-        fs: 'empty',
-        __dirname: false
-    },
     entry: './src/renderer/main.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
         publicPath: '',
     },
     devServer: {
@@ -36,12 +23,6 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                // Test for a polyfill (or any file) and it won't be included in your
-                // bundle
-                test: path.resolve(__dirname, 'node_modules/library/polyfill.js'),
-                use: 'null-loader',
-            },
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
@@ -119,12 +100,11 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.vue', '.js'],
         alias: {
             '@': path.resolve('src/renderer'),
-            '@assets': path.resolve('src/assets')
+            '@assets': path.resolve('src/renderer/assets')
         }
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
         new ForkTsCheckerWebpackPlugin(),
         new CopyPlugin([
@@ -138,51 +118,26 @@ module.exports = {
             favicon: path.resolve(__dirname, './icons/icon.ico'),
             template: path.resolve(__dirname, 'public/index.html')
         }),
-        new WebpackPwaManifest({
-            name: 'COMP/CON',
-            short_name: 'C/C',
-            start_url: '/index.html',
-            scope: '.',
-            description: 'Digital toolkit for the LANCER RPG',
-            background_color: '#ffffff',
-            theme_color: '#ffffff',
-            display: 'fullscreen',
-            orientation: 'any',
-            crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
-            icons: [
-                {
-                    src: path.resolve('icons/256x256.png'),
-                    sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
-                }
-            ]
-        }),
-        new GenerateSW({
-            swDest: 'sw.js',
-            clientsClaim: true,
-            skipWaiting: true,
-            navigateFallback: '/index.html',
-            // these two files aren't accessible by clients so including them in the precache manifest makes it fail to register
-            // (i think)
-            exclude: ['_redirects', '_headers']
-        }),
-        // inject code to register service worker we just generated, but only in prod
-        isProduction ? new InjectPlugin(() => fs.readFileSync(
-            path.resolve(__dirname, 'public/register_sw.js')
-        )) : () => null,
-        new FaviconsWebpackPlugin({
-            logo: './icons/256x256.png', // svg works too!
-            favicons: {
-                appName: 'COMP/CON',
-                appDescription: 'A digital toolset for the LANCER TTRPG',
-                background: '#fff',
-                theme_color: '#fff',
-                appleStatusBarStyle: "black",
-            }
-        }),
-        // new IgnorePlugin(/^fs$/),
-        // new NormalModuleReplacementPlugin(
-        //     /^electron$/,
-        //     path.resolve(__dirname, 'src/electron.ts')
-        // ),
     ]
+}
+
+function requireIfExists(filePath) {
+    try {
+        return require(filePath)
+    } catch (err) {
+        return {}
+    }
+}
+
+module.exports = function (env) {
+
+    const target = env.prod ? 'prod' : 'dev'
+
+    const out = merge(
+        baseConfig,
+        requireIfExists(`./webpack_config/webpack.${target}.config`),
+        requireIfExists(`./webpack_config/webpack.${env.platform}.config`),
+        requireIfExists(`./webpack_config/webpack.${env.platform}.${target}.config`),
+    )
+    return out
 }
