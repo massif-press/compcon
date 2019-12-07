@@ -45,7 +45,9 @@ const savePilot = async function(pilot: Pilot) {
 }
 
 const loadPilot = async function(id: string): Promise<IPilotData> {
-  return gistApi.get(id).then(res => res.data)
+  const gistData = (await gistApi.get(id)).data
+  const pilotData = JSON.parse(gistData.files['pilot.txt'].content) as IPilotData
+  return pilotData
 }
 
 export default {
