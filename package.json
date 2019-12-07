@@ -5,8 +5,8 @@
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "webpack"
+    "dev": "webpack-dev-server --progress --env.platform=web",
+    "build": "webpack --progress --env.platform=web"
   },
   "electronWebpack": {
     "title": "COMP/CON v2.0.0",
@@ -116,6 +116,7 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "4.28.4",
     "webpack-inject-plugin": "^1.5.3",
+    "webpack-merge": "^4.2.2",
     "webpack-pwa-manifest": "^4.1.1",
     "workbox-webpack-plugin": "^4.3.1"
   }
