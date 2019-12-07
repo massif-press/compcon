@@ -9,7 +9,7 @@
         <new-pilot-button />
         <v-row>
           <file-import @done="$refs.dialog.hide()" />
-          <cloud-import />
+          <cloud-import @done="$refs.dialog.hide()" />
         </v-row>
         <v-row></v-row>
       </v-container>
