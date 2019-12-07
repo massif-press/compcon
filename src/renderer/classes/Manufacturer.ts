@@ -1,4 +1,5 @@
 import { store } from '@/store'
+import { staticPath } from '@/io/Data'
 
 interface IManufacturerData {
   id: string
@@ -47,11 +48,7 @@ class Manufacturer {
   }
 
   public get Logo(): string {
-    return `${store.getters.getUserPath}/img/default_logo/${this._logo}.svg`
-  }
-
-  public get LogoSRC(): string {
-    return `file://${store.getters.getUserPath}/img/default_logo/${this._logo}.svg`
+    return staticPath(`/img/logo/${this._logo}.svg`)
   }
 }
 
