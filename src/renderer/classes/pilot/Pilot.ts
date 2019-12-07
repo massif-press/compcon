@@ -303,6 +303,7 @@ class Pilot {
 
   public SetCloudImage(): string {
     if (!this.LocalImage) return 'Nothing to upload'
+    // TODO-PWA
     gistApi
       .uploadImage(store.getters.getUserPath, 'portrait', this.LocalImage)
       .then((json: any) => {
@@ -932,7 +933,9 @@ class Pilot {
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
       core_bonuses: p.CoreBonuses.map(x => x.ID),
       loadouts: p.Loadouts.map(x => PilotLoadout.Serialize(x)),
-      active_loadout_index: p.Loadouts.findIndex(x => x.ID === p.ActiveLoadout.ID),
+      active_loadout_index: p.ActiveLoadout
+        ? p.Loadouts.findIndex(x => x.ID === p.ActiveLoadout.ID)
+        : null,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
