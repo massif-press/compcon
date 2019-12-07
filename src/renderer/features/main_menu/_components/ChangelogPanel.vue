@@ -54,7 +54,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { remote } from 'electron'
+import { Plugins } from '@capacitor/core'
+const { Browser } = Plugins
 
 export default Vue.extend({
   name: 'changelog-panel',
@@ -74,7 +75,9 @@ export default Vue.extend({
   },
   methods: {
     toUpdate() {
-      remote.shell.openExternal('https://massif-press.itch.io/compcon')
+      Browser.open({
+        url: 'https://massif-press.itch.io/compcon',
+      })
     },
   },
 })
