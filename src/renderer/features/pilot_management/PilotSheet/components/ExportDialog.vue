@@ -13,10 +13,9 @@
         <span>
           {{ pilot.CloudID }}
           <cc-tooltip simple inline content="Copy Share Code to clipboard">
-            <v-icon
-              :color="copyConfirm ? 'success' : 'grey'"
-              @click="copyCode()"
-            >{{ copyConfirm ? 'mdi-check-outline': 'mdi-clipboard-text-outline' }}</v-icon>
+            <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
+              {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}
+            </v-icon>
           </cc-tooltip>
           <v-fade-transition>
             <span v-if="copyConfirm" class="grey--text">Copied!</span>
@@ -28,20 +27,17 @@
       </div>
       <v-row>
         <v-col>
-          <v-btn
-            large
-            block
-            tile
-            outlined
-            color="primary"
-            @click="exportPilot()"
-          >Export Pilot Data File</v-btn>
+          <v-btn large block tile outlined color="primary" @click="exportPilot()">
+            Export Pilot Data File
+          </v-btn>
         </v-col>
         <v-col cols="auto" class="ml-n1">
           <cc-tooltip
             simple
             inline
-            :content="`This will create a pilot data file on your system that can then be imported into another COMP/CON user's Pilot Roster via the \'Add New Pilot\' > \'Import from File\' option. If this pilot has a cloud save record, that connection will be preserved. `"
+            :content="
+              `This will create a pilot data file on your system that can then be imported into another COMP/CON user's Pilot Roster via the \'Add New Pilot\' > \'Import from File\' option. If this pilot has a cloud save record, that connection will be preserved. `
+            "
           >
             <v-icon class="mt-2 ml-n3">mdi-information-outline</v-icon>
           </cc-tooltip>
@@ -54,7 +50,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { remote } from 'electron'
 import { saveFile } from '@/io/Data'
 import { Pilot } from '@/class'
 import { clipboard } from 'electron'
@@ -79,12 +74,10 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     exportPilot() {
-      const { dialog } = remote
-      var path = dialog.showSaveDialog({
-        defaultPath: this.pilot.Callsign.toUpperCase().replace(/\W/g, ''),
-        buttonLabel: 'Save Pilot',
-      })
-      saveFile(path + '.json', JSON.stringify(Pilot.Serialize(this.pilot)))
+      saveFile(
+        this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
+        JSON.stringify(Pilot.Serialize(this.pilot))
+      )
       this.hide()
     },
     copyCode() {
