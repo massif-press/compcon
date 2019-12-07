@@ -15,9 +15,13 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">About</v-btn>
+      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
+        About
+      </v-btn>
       <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">Help</v-btn>
+      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
+        Help
+      </v-btn>
       <v-divider vertical dark class="mx-1" />
       <v-btn color="warning" small dark text>Support This Project</v-btn>
     </v-footer>
@@ -28,7 +32,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import startup from '@/io/Startup'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import UpdateAlert from './_components/UpdateAlert.vue'
@@ -43,14 +46,6 @@ export default Vue.extend({
     CCLog,
   },
 
-  created: function() {
-    startup(
-      Vue.prototype.userDataPath,
-      Vue.prototype.version,
-      Vue.prototype.lancerVersion,
-      this.$store
-    )
-  },
   methods: {
     ccLog(btn: string) {
       switch (btn) {
