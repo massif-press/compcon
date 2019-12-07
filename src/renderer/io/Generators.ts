@@ -7,17 +7,17 @@ function pullRandom(data: string, count: number): string[] {
 }
 
 function callsign(): string {
-  return pullRandom(require('@assets/callsigns.txt'), 1)[0]
+  return pullRandom(require('@assets/generators/callsigns.txt'), 1)[0]
 }
 
 function mechname(): string {
-  return pullRandom(require('@assets/mechnames.txt'), 1)[0]
+  return pullRandom(require('@assets/generators/mechnames.txt'), 1)[0]
 }
 
 function name(): string {
-  const prob: any = require('@assets/name_mods.json')
-  const firstnames = pullRandom(require('@assets/firstnames.txt'), 2)
-  const lastnames = pullRandom(require('@assets/lastnames.txt'), 2)
+  const prob: any = require('@assets/generators/name_mods.json')
+  const firstnames = pullRandom(require('@assets/generators/firstnames.txt'), 2)
+  const lastnames = pullRandom(require('@assets/generators/lastnames.txt'), 2)
   let name =
     Math.random() <= prob.middleNameChance
       ? `${firstnames[0]} ${firstnames[1]}`
@@ -33,7 +33,7 @@ function name(): string {
 }
 
 function mission(): string {
-  const m = require('@assets/mission.json')
+  const m = require('@assets/generators/mission.json')
   return `${_.sample(m.a)} ${_.sample(m.b)}`
 }
 
