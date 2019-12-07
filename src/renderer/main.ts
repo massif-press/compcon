@@ -20,6 +20,7 @@ import theme from './ui/theme'
 import mixins from './mixins'
 
 import _ from 'lodash'
+import Startup from './io/Startup'
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
 const windowAny: any = window
@@ -48,4 +49,7 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  created() {
+    Startup('2.0.0', 'PRERELEASE 2', store)
+  },
 }).$mount('#app')
