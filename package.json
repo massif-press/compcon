@@ -6,7 +6,9 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "webpack-dev-server --progress --env.platform=web",
-    "build": "webpack --progress --env.platform=web"
+    "build": "webpack --progress --env.platform=web --env.prod",
+    "electron:test": "webpack --progress --env.platform=electron && cd ./electron && electron ./",
+    "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
   },
   "electronWebpack": {
     "title": "COMP/CON v2.0.0",
