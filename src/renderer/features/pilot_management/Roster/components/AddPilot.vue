@@ -1,13 +1,14 @@
 <template>
   <v-row>
     <cc-btn x-large class="ml-auto mr-auto" @click="$refs.dialog.show()">
-      <v-icon left large>cci-accuracy</v-icon>&emsp;Add New Pilot
+      <v-icon left large>cci-accuracy</v-icon>
+      &emsp;Add New Pilot
     </cc-btn>
     <cc-solo-dialog ref="dialog" icon="cci-pilot" no-confirm large title="Register Pilot">
       <v-container>
         <new-pilot-button />
         <v-row>
-          <file-import />
+          <file-import @done="$refs.dialog.hide()" />
           <cloud-import />
         </v-row>
         <v-row></v-row>
