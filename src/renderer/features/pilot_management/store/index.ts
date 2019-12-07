@@ -106,8 +106,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotData = await loadData<IPilotData[]>('pilots.json')
-    console.log(pilotData)
+    const pilotData = await loadData<IPilotData>('pilots.json')
     this.context.commit(LOAD_PILOTS, pilotData)
   }
 
