@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { saveFile } from '@/io/Data'
+import { saveFile } from '@/io/Dialog'
 import { Pilot } from '@/class'
 import { clipboard } from 'electron'
 
@@ -76,7 +76,8 @@ export default Vue.extend({
     exportPilot() {
       saveFile(
         this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-        JSON.stringify(Pilot.Serialize(this.pilot))
+        JSON.stringify(Pilot.Serialize(this.pilot)),
+        'Save Pilot'
       )
       this.hide()
     },
