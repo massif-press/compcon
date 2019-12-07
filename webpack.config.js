@@ -16,7 +16,7 @@ const baseConfig = {
         publicPath: '',
     },
     devServer: {
-        port: 1000,
+        port: 8080,
         hot: true,
         open: true,
         historyApiFallback: true
@@ -122,6 +122,7 @@ const baseConfig = {
 }
 
 function requireIfExists(filePath) {
+    console.log(filePath)
     try {
         return require(filePath)
     } catch (err) {
