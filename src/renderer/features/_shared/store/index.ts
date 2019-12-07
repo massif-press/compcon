@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import io from '../data_io'
 import lancerData from 'lancer-data'
 import { getUser, UserProfile } from '@/io/User'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
@@ -43,18 +42,14 @@ import {
 //   return bArr || []
 // }
 
-export const SET_DATA_PATH = 'SET_DATA_PATH'
 export const SET_VERSIONS = 'SET_VERSIONS'
-export const SET_BREW_ACTIVE = 'SET_BREW_ACTIVE'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
 export const LOAD_DATA = 'LOAD_DATA'
-export const LOAD_BREWS = 'LOAD_BREWS'
 
 @Module({
   name: 'datastore',
 })
 export class CompendiumStore extends VuexModule {
-  public UserDataPath: string = ''
   public LancerVersion: string = ''
   public CCVersion: string = ''
   public UserProfile: UserProfile = {} as any
@@ -74,12 +69,6 @@ export class CompendiumStore extends VuexModule {
   public Reserves: Reserve[] = []
   public Factions: Faction[] = []
   // Brews: Brew[] = []
-
-  @Mutation
-  private [SET_DATA_PATH](userDataPath: string): void {
-    this.UserDataPath = userDataPath
-    io.checkFolders(userDataPath)
-  }
 
   // TODO: just set as part of the data loader
   @Mutation
@@ -103,7 +92,7 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_DATA](): void {
-    this.UserProfile = getUser()
+    getUser().then(profile => (this.UserProfile = profile))
     this.CoreBonuses = lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x))
     this.Talents = lancerData.talents.map((x: ITalentData) => new Talent(x))
     this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
@@ -178,10 +167,6 @@ export class CompendiumStore extends VuexModule {
     }
   }
 
-  public get getUserPath(): string {
-    return this.UserDataPath
-  }
-
   public get getUserProfile(): UserProfile {
     return this.UserProfile
   }
@@ -196,23 +181,8 @@ export class CompendiumStore extends VuexModule {
   }
 
   @Action
-  public loadBrews(): void {
-    this.context.commit(LOAD_BREWS)
-  }
-
-  @Action
-  public setDatapath(userDataPath: string): void {
-    this.context.commit(SET_DATA_PATH, userDataPath)
-  }
-
-  @Action
   public setVersions(lancerVer: string, ccVer: string): void {
     this.context.commit(SET_VERSIONS, { lancerVer, ccVer })
-  }
-
-  @Action
-  public setBrewActive(dir: string, active: boolean): void {
-    this.context.commit(SET_BREW_ACTIVE, { dir, active })
   }
 
   @Action
