@@ -7,6 +7,7 @@ const platformNotSupportedMessage = `ERROR - PLATFORM NOT SUPPORTED: "${PLATFORM
 // variables used by electron
 let fs: typeof import('fs')
 let promisify: typeof import('util').promisify
+let electron: typeof import('electron')
 
 let userDataPath: string
 
@@ -14,7 +15,7 @@ if (PLATFORM == 'electron') {
   fs = require('fs')
   promisify = require('util').promisify
 
-  const electron = require('electron')
+  electron = require('electron')
   userDataPath = path.join((electron.app || electron.remote.app).getPath('userData'), 'data')
 }
 
@@ -37,6 +38,33 @@ const readFile = async function(name: string): Promise<string> {
       return localStorage.getItem(name)
     case 'electron':
       return await promisify(fs.readFile)(path.resolve(userDataPath, name), 'utf-8')
+    default:
+      throw new Error(platformNotSupportedMessage)
+  }
+}
+
+const saveFile = function(filename, data) {
+  switch (PLATFORM) {
+    case 'web':
+      var blob = new Blob([data], { type: 'text/csv' })
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, filename)
+      } else {
+        var elem = window.document.createElement('a')
+        elem.href = window.URL.createObjectURL(blob)
+        elem.download = filename
+        document.body.appendChild(elem)
+        elem.click()
+        document.body.removeChild(elem)
+      }
+      return
+    case 'electron':
+      const { dialog } = electron.remote
+      dialog.showSaveDialog({
+        defaultPath: filename,
+        buttonLabel: 'Save Pilot',
+      })
+      return
     default:
       throw new Error(platformNotSupportedMessage)
   }
@@ -84,4 +112,4 @@ const dataPathMap = {
 
 const USER_DATA_PATH = dataPathMap[PLATFORM]
 
-export { writeFile, readFile, saveData, loadData, exists, staticPath, USER_DATA_PATH }
+export { writeFile, readFile, saveFile, saveData, loadData, exists, staticPath, USER_DATA_PATH }
