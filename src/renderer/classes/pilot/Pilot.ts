@@ -255,8 +255,9 @@ class Pilot {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait)
-      return `file://${store.getters.getUserPath}/img/pilot/${this._portrait}`
+    // TODO-PWA
+    // else if (this._portrait)
+    //   return `file://${store.getters.getUserPath}/img/pilot/${this._portrait}`
     else return ''
   }
 
