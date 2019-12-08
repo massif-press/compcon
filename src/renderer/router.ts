@@ -30,6 +30,11 @@ export default new Router({
           component: require('@/features/pilot_management/Roster/index').default,
         },
         {
+          path: '/print/:pilotID/:mechID',
+          component: require('@/features/pilot_management/Print/index').default,
+          props: true,
+        },
+        {
           path: '/pilot',
           component: require('@/features/pilot_management/PilotSheet/index').default,
           children: [

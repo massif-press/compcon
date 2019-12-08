@@ -8,7 +8,6 @@
     class="my-2"
     dark
     :disabled="disabled"
-    v-on="on"
     @click="dialog = true"
   >
     <div style="position: absolute; right: 0">
@@ -29,7 +28,7 @@
         <v-toolbar dense flat color="action--downtime" class="heading h2" dark>
           {{ action.name }}
         </v-toolbar>
-        <v-card-text class="flavor-text mt-2" v-html="action.detail" />
+        <v-card-text class="flavor-text text--text mt-2" v-html="action.detail" />
       </v-card>
     </v-dialog>
   </v-btn>

@@ -48,19 +48,25 @@
               You get what you’re looking for, no problems at all.
             </p>
           </v-col>
-        </v-row>
-        <v-row dense>
-          <v-col>
-            <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
-              <v-toolbar dark dense color="action--downtime">
-                <v-toolbar-title>New Asset</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-text-field v-model="custom_name" label="Asset or Gear" style="width: 500px" />
-                <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
-              </v-card-text>
-            </v-card>
-          </v-col>
+          <v-row dense>
+            <v-col>
+              <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
+                <v-toolbar dark dense color="action--downtime">
+                  <v-toolbar-title>New Asset</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <v-text-field
+                    v-model="custom_name"
+                    label="Asset or Gear"
+                    style="width: 500px"
+                    dense
+                    outlined
+                  />
+                  <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-row>
       </v-slide-y-transition>
     </v-card-text>

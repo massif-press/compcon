@@ -1,11 +1,12 @@
 <template>
   <v-alert type="error" prominent dense class="destroyed-bg">
-    <span class="heading h2 red--text pa-3 ma-5">
-      MECH DESTROYED
-      <span v-if="mech.ReactorDestroyed" class="heading h2 red--text text--accent-3 pa-0 ma-0">
-        <br />
+    <span class="heading h2 white--text">
+      <span v-if="mech.ReactorDestroyed">
         REACTOR DESTROYED
+        <br />
+        <div class="overline mt-n2 pl-2">irreparable damage</div>
       </span>
+      <span v-else>MECH DESTROYED</span>
     </span>
   </v-alert>
 </template>
@@ -22,9 +23,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-span {
-  background-color: black;
-}
-</style>

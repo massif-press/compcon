@@ -35,10 +35,11 @@
             <p v-if="skillRoll < 10" class="font-weight-bold px-3">
               You can choose to get out now, or get what you are looking for. If you choose the
               latter, you get your information but it immediately gets you into trouble.
+              <br />
               <v-slide-x-transition>
                 <v-btn
                   v-show="!commit"
-                  large
+                  small
                   tile
                   class="mx-2"
                   color="success darken-1"
@@ -50,10 +51,10 @@
               <v-slide-x-reverse-transition>
                 <v-btn
                   v-show="!commit"
-                  large
+                  small
                   tile
                   class="mx-2"
-                  color="warning"
+                  color="primary"
                   @click="commit = true"
                 >
                   Get what you are looking for
@@ -75,24 +76,24 @@
               You get your information cleanly, no complications
             </p>
           </v-col>
-        </v-row>
-        <v-row dense>
-          <v-col>
-            <v-slide-y-transition>
-              <v-card
-                v-if="skillRoll >= 10 || (skillRoll < 10 && commit)"
-                color="grey lighten-4"
-                class="ml-5 mr-5 mt-2"
-              >
-                <v-toolbar dark dense color="action--downtime">
-                  <v-toolbar-title>Gathered Information</v-toolbar-title>
-                </v-toolbar>
-                <v-card-text>
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" />
-                </v-card-text>
-              </v-card>
-            </v-slide-y-transition>
-          </v-col>
+          <v-row dense>
+            <v-col>
+              <v-slide-y-transition>
+                <v-card
+                  v-if="skillRoll >= 10 || (skillRoll < 10 && commit)"
+                  color="grey lighten-4"
+                  class="ml-5 mr-5 mt-2"
+                >
+                  <v-toolbar dark dense color="action--downtime">
+                    <v-toolbar-title>Gathered Information</v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-textarea v-model="details" auto-grow rows="1" label="Details" />
+                  </v-card-text>
+                </v-card>
+              </v-slide-y-transition>
+            </v-col>
+          </v-row>
         </v-row>
       </v-slide-y-transition>
     </v-card-text>

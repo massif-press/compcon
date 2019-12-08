@@ -5,7 +5,7 @@
     hide-on-scroll
     top
     color="primary"
-    class="clipped-large"
+    class="clipped-large no-print"
     dark
     dense
     style="z-index:50"
@@ -85,7 +85,6 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <!-- TODO: add tab=3 -->
         <v-list-item @click="mechHangar()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-frame</v-icon>
