@@ -87,7 +87,8 @@ class UserProfile {
 async function getUser(): Promise<UserProfile> {
   const store = getModule(CompendiumStore)
 
-  if (!exists(CONFIG_FILE_NAME)) {
+  const configFileExists = await exists(CONFIG_FILE_NAME)
+  if (!configFileExists) {
     try {
       await writeFile(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
       extlog('Created user profile')
