@@ -33,7 +33,13 @@
         <v-icon v-else class="mt-n1" x-large color="success">cci-activate</v-icon>
       </v-col>
     </v-row>
-    <cc-mech-status-alert v-for="s in mech.StatusString" :key="`status-${s}`" :type="s" />
+    <cc-mech-status-alert
+      v-for="s in mech.StatusString"
+      :key="`status-${s}`"
+      :type="s"
+      @clear-ejected="mech.IsEjected = false"
+      @clear-status="mech.Repair()"
+    />
     <v-row align="center">
       <v-col cols="8">
         <v-row>

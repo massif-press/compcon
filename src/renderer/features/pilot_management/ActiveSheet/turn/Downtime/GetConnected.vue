@@ -56,25 +56,25 @@
               "
             />
           </v-col>
-        </v-row>
-        <v-row dense>
-          <v-col>
-            <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
-              <v-toolbar dark dense color="action--downtime">
-                <v-toolbar-title>Connection</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-text-field
-                  v-model="custom_name"
-                  label="Contact or Organization Name"
-                  outlined
-                  dense
-                  hide-details
-                />
-                <v-textarea v-model="details" auto-grow rows="1" label="Details" />
-              </v-card-text>
-            </v-card>
-          </v-col>
+          <v-row dense>
+            <v-col>
+              <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
+                <v-toolbar dark dense color="action--downtime">
+                  <v-toolbar-title>Connection</v-toolbar-title>
+                </v-toolbar>
+                <v-card-text>
+                  <v-text-field
+                    v-model="custom_name"
+                    label="Contact or Organization Name"
+                    outlined
+                    dense
+                    hide-details
+                  />
+                  <v-textarea v-model="details" auto-grow rows="1" label="Details" />
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-row>
       </v-slide-y-transition>
     </v-card-text>

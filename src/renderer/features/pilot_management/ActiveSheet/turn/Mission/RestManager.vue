@@ -1,52 +1,54 @@
 <template>
-  <div>
-    <v-row column fill-height>
-      <div v-if="mech.IsDestroyed">
+  <v-window-item class="px-3">
+    <v-row>
+      <div v-if="mech.IsDestroyed || mech.ReactorDestroyed">
         <destroyed-alert :mech="mech" />
         <div v-if="mech.ReactorDestroyed">
-          <p class="effect-text text-center pt-4">
+          <p class="stat-text primary--text text-center pt-4">
             This mech cannot be repaired and must be reprinted.
           </p>
         </div>
-        <div v-else>
+        <div v-else class="mx-3">
           <v-col cols="12" class="text-center mt-3 mb-3">
             <span class="grey--text">
               REPAIR CAPACITY REMAINING:
-              <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
+              <b>{{ mech.CurrentRepairs }}</b>
             </span>
             <br />
             <span>
-              <v-icon large v-for="n in mech.CurrentRepairs" :key="'rep_' + n">
+              <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large>
                 control_point
               </v-icon>
               <v-icon
-                large
-                color="grey darken-1"
                 v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
                 :key="'repcap_' + n"
+                large
+                color="grey darken-1"
               >
                 mdi-circle-outline
               </v-icon>
             </span>
           </v-col>
           <v-divider dark class="ma-2" />
-          <v-card color="grey darken-2" class="mb-2">
-            <v-card-text>
+          <v-card color="grey lighten-2" class="mb-2">
+            <v-card-text class="flavor-text text--text">
               This mech can be repaired to working order by spending 4 repair points. These repairs
               can be spent from this mech’s own pool or the pools of any pilots that wish to
               contribute, in any combination.
             </v-card-text>
           </v-card>
-          <span class="grey--text">REPAIR POINTS</span>
+          <span class="heading h3">REPAIR POINTS</span>
           <v-slider
             v-model="selfRepair"
-            :max="mech.CurrentRepairs > 4 ? 4 : mech.CurrentRepairs"
+            :max="Math.min(mech.CurrentRepairs, 4)"
             step="1"
             thumb-label
             ticks="always"
             tick-size="6"
-          ></v-slider>
-          <span class="grey--text">ALLY REPAIR POINTS</span>
+            track-color="primary"
+            track-fill-color="success"
+          />
+          <span class="heading h3">ALLY REPAIR POINTS</span>
           <v-slider
             v-model="allyRepair"
             step="1"
@@ -54,195 +56,226 @@
             ticks="always"
             thumb-label
             tick-size="6"
-          ></v-slider>
-          <br />
+            track-color="primary"
+            track-fill-color="success"
+          />
           <v-btn
             block
+            tile
             color="success"
             large
             dark
-            @click="repairDestroyed"
             :disabled="selfRepair + allyRepair < 4"
+            @click="repairDestroyed"
           >
             Repair Mech
           </v-btn>
         </div>
       </div>
-      <div v-else>
-        <v-col cols="12" class="heading h2 text-center" style="background: #33691E">
-          <span>RESTING</span>
-        </v-col>
-        <v-col cols="12" class="text-center mt-3 mb-3">
-          <span class="grey--text">
-            REPAIR CAPACITY REMAINING:
-            <b :style="`color: ${color.repcap.dark}`">{{ mech.CurrentRepairs }}</b>
-          </span>
-          <br />
-          <span>
-            <v-icon large v-for="n in mech.CurrentRepairs" :key="'rep_' + n">control_point</v-icon>
-            <v-icon
-              large
-              color="grey darken-1"
-              v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
-              :key="'repcap_' + n"
-            >
-              mdi-circle-outline
-            </v-icon>
-          </span>
-        </v-col>
-        <v-col cols="12" class="text-xs-right">
-          <span class="caption">
-            {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS COMPLETE
-          </span>
-          <v-progress-linear
-            class="pa-0 mt-0 mb-2"
-            :value="progress()"
-            color="blue darken-3"
-            background-color="red darken-4"
-            height="10"
-          />
-        </v-col>
-        <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentHP === mech.MaxHP" class="heading h3 grey--text">
-            >:// HP NOMINAL
-          </span>
-          <v-row v-elsewrap>
-            <span class="heading h3 orange--text">>:// WARNING: DAMAGE DETECTED</span>
-            <v-col class="mr-4 ml-2">
-              <v-btn
-                block
-                light
-                :color="color.hp.dark"
-                @click="healHP"
-                :disabled="!this.mech.CurrentRepairs"
+      <v-row v-else>
+        <v-col class="mx-2">
+          <p class="overline flavor-text grey--text pb-0 mb-0">
+            //[COMP/CON: COMBAT OPERATIONS COMPLETE
+            <br />
+            DISCONNECTING PILOT SENSORIUM ... done
+            <br />
+            UPLOADING BATTLEFIELD TELEMETRY ... done
+            <br />
+            RUNNING FRAME DIAGNOSTIC SUITE ... done ]
+          </p>
+          <p class="flavor-text grey--text">
+            //[COMP/CON:
+            <span class="text--text">
+              Lancer, I have detected
+              <span class="primary--text">{{ issues }}</span>
+              issues requiring your attention:
+            </span>
+            ]
+          </p>
+          <div class="text-center mt-3 mb-3">
+            <span class="heading h3">
+              REPAIR CAPACITY REMAINING:
+              <b class="primary--text">{{ mech.CurrentRepairs }}</b>
+            </span>
+            <br />
+            <span>
+              <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large>
+                control_point
+              </v-icon>
+              <v-icon
+                v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
+                :key="'repcap_' + n"
+                large
+                color="grey darken-1"
               >
-                Recover HP
-              </v-btn>
-            </v-col>
-            <v-col class="text-center" cols="2">
-              <v-icon large class="mt-2">control_point</v-icon>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentStructure === mech.MaxStructure" class="heading h3 grey--text">
-            >:// STRUCTURAL INTEGRITY NOMINAL
-          </span>
-          <v-row v-elsewrap>
-            <span class="heading h3 red--text">>:// CRITICAL: STRUCTURE COMPROMISED</span>
-            <v-col class="mr-4 ml-2">
-              <v-btn
-                block
-                :color="color.structure.dark"
-                @click="healStructure"
-                :disabled="
-                  mech.Frame.Name.toLowerCase() === 'everest'
-                    ? !mech.CurrentRepairs
-                    : mech.CurrentRepairs < 2
-                "
-              >
-                Repair Structure
-              </v-btn>
-            </v-col>
-            <v-col cols="2" class="text-center" v-if="mech.Frame.Name.toLowerCase() === 'everest'">
-              <v-icon large class="mt-2">control_point</v-icon>
-            </v-col>
-            <v-col cols="2" class="text-center" v-else>
-              <v-icon large class="mt-2">control_point</v-icon>
-              <v-icon large class="mt-2">control_point</v-icon>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="12" class="text-xs-left">
-          <span v-if="mech.CurrentStress === mech.MaxStress" class="heading h3 grey--text">
-            >:// REACTOR STRESS NOMINAL
-          </span>
-          <v-row v-elsewrap>
-            <span class="heading h3 red--text">>:// CRITICAL: REACTOR DAMAGED</span>
-            <v-col grow class="mr-4 ml-2">
-              <v-btn
-                block
-                :color="color.stress.dark"
-                @click="healStress"
-                :disabled="this.mech.CurrentRepairs < 2"
-              >
-                Repair Reactor
-              </v-btn>
-            </v-col>
-            <v-col cols="2" class="text-center">
-              <v-icon large class="mt-2">control_point</v-icon>
-              <v-icon large class="mt-2">control_point</v-icon>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="12" class="text-xs-left">
-          <span v-if="!destroyedWeapons.length" class="heading h3 grey--text">
-            >:// ARMAMENT NOMINAL
-          </span>
-          <div v-else>
-            <v-row>
-              <span class="heading h3 red--text">>:// WARNING: ARMAMENT DAMAGED</span>
-            </v-row>
-            <v-row v-for="w in destroyedWeapons" :key="w.ID">
-              <v-col class="mr-4">
+                mdi-circle-outline
+              </v-icon>
+            </span>
+          </div>
+          <div class="text-xs-right">
+            <span class="overline">
+              {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS COMPLETE
+            </span>
+            <v-progress-linear
+              class="pa-0 mt-0 mb-2"
+              :value="progress()"
+              color="blue darken-3"
+              background-color="red darken-4"
+              height="10"
+            />
+          </div>
+          <div class="text-left flavor-text">
+            <span v-if="mech.CurrentHP === mech.MaxHP" class="grey--text">
+              > NO DAMAGE DETECTED
+            </span>
+            <v-row v-else dense align="center">
+              <v-col cols="auto">
+                <b class="primary--text">WARNING: DAMAGE DETECTED</b>
+              </v-col>
+              <v-col cols="auto" class="ml-auto">
                 <v-btn
-                  block
-                  :color="color.weapon.dark"
-                  @click="repairSystem(w)"
+                  small
+                  dark
+                  tile
+                  color="secondary"
                   :disabled="!mech.CurrentRepairs"
+                  @click="healHP"
                 >
-                  Repair {{ w.Name }}
+                  Repair
                 </v-btn>
               </v-col>
-              <v-col cols="2" class="text-center">
-                <v-icon large class="mt-2">control_point</v-icon>
+              <v-col cols="3" class="ml-2">
+                <v-icon large>control_point</v-icon>
               </v-col>
             </v-row>
           </div>
-        </v-col>
-        <v-col cols="12" class="text-xs-left">
-          <span v-if="!destroyedSystems.length" class="heading h3 grey--text">
-            >:// SYSTEMS NOMINAL
-          </span>
-          <div v-else>
-            <v-row>
-              <span class="heading h3 red--text">>:// WARNING: EQUIPMENT DAMAGED</span>
-            </v-row>
-            <v-row v-for="s in destroyedSystems" :key="s.ID">
-              <v-col class="mr-4">
+          <div class="text-left flavor-text">
+            <span v-if="mech.CurrentStructure === mech.MaxStructure" class="grey--text">
+              > STRUCTURAL INTEGRITY NOMINAL
+            </span>
+            <v-row v-else dense align="center">
+              <v-col cols="auto">
+                <b class="primary--text">CRITICAL: STRUCTURE COMPROMISED</b>
+              </v-col>
+              <v-col cols="auto" class="ml-auto">
                 <v-btn
-                  block
-                  color="teal darken-3"
-                  @click="repairSystem(s)"
-                  :disabled="!mech.CurrentRepairs"
+                  small
+                  dark
+                  tile
+                  color="secondary"
+                  :disabled="isEverest ? !mech.CurrentRepairs : mech.CurrentRepairs < 2"
+                  @click="healStructure"
                 >
-                  Repair {{ s.Name }}
+                  Repair
                 </v-btn>
               </v-col>
-              <v-col cols="2" class="text-center">
-                <v-icon large class="mt-2">control_point</v-icon>
+              <v-col cols="3" class="ml-2">
+                <v-icon large>control_point</v-icon>
+                <v-icon v-if="isEverest" large>control_point</v-icon>
               </v-col>
             </v-row>
           </div>
+
+          <div class="text-left flavor-text">
+            <span v-if="mech.CurrentStress === mech.MaxStress" class="grey--text">
+              > REACTOR INTEGRITY NOMINAL
+            </span>
+            <v-row v-else dense align="center">
+              <v-col cols="auto">
+                <b class="primary--text">CRITICAL: REACTOR COMPROMISED</b>
+              </v-col>
+              <v-col cols="auto" class="ml-auto">
+                <v-btn
+                  small
+                  dark
+                  tile
+                  color="secondary"
+                  :disabled="mech.CurrentRepairs < 2"
+                  @click="healStress"
+                >
+                  Repair
+                </v-btn>
+              </v-col>
+              <v-col cols="3" class="ml-2">
+                <v-icon large>control_point</v-icon>
+                <v-icon large>control_point</v-icon>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="text-left flavor-text">
+            <span v-if="!destroyedWeapons.length" class="grey--text">
+              > ARMAMENT NOMINAL
+            </span>
+            <div v-else>
+              <b class="primary--text">WARNING: ARMAMENT DAMAGED</b>
+              <v-row v-for="w in destroyedWeapons" :key="w.ID" dense align="center">
+                <v-col cols="auto">
+                  <v-btn
+                    small
+                    dark
+                    tile
+                    block
+                    color="secondary"
+                    class="ml-6 my-0"
+                    :disabled="!mech.CurrentRepairs"
+                    @click="repairSystem(w)"
+                  >
+                    Repair {{ w.Name }}
+                  </v-btn>
+                </v-col>
+                <v-col cols="3" class="ml-auto">
+                  <v-icon large>control_point</v-icon>
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+
+          <div class="text-left flavor-text">
+            <span v-if="!destroyedSystems.length" class="grey--text">
+              > SYSTEMS NOMINAL
+            </span>
+            <div v-else>
+              <b class="primary--text">WARNING: SYSTEMS DAMAGED</b>
+              <v-row v-for="s in destroyedSystems" :key="s.ID" dense align="center">
+                <v-col cols="auto">
+                  <v-btn
+                    small
+                    dark
+                    tile
+                    block
+                    class="ml-6 my-0"
+                    color="secondary"
+                    :disabled="!mech.CurrentRepairs"
+                    @click="repairSystem(s)"
+                  >
+                    Repair {{ s.Name }}
+                  </v-btn>
+                </v-col>
+                <v-col cols="3" class="ml-auto">
+                  <v-icon large>control_point</v-icon>
+                </v-col>
+              </v-row>
+            </div>
+          </div>
         </v-col>
-      </div>
+      </v-row>
     </v-row>
     <v-divider class="ma-2" />
-    <v-row wrap>
-      <v-col cols="12">
-        <v-btn block color="amber darken-4" dark @click="startCombat">Enter Combat</v-btn>
+    <v-row dense justify="center">
+      <v-col cols="8">
+        <v-btn block color="primary" dark large @click="startCombat()">Resume Combat</v-btn>
       </v-col>
-      <v-col cols="12">
-        <v-btn large block color="green darken-4" dark @click="endMission">Complete Mission</v-btn>
+      <v-col cols="9" class="mt-1">
+        <v-btn block color="amber darken-4" @click="endMission()">Complete Mission</v-btn>
       </v-col>
     </v-row>
-  </div>
+  </v-window-item>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-// import TickBar from '../../../components/UI/TickBar.vue'
-import colors from '@/features/_shared/UI/CCColors'
+import DestroyedAlert from './components/DestroyedAlert.vue'
 import { MechEquipment } from '@/class'
 
 function normalize(current, max): number {
@@ -251,25 +284,43 @@ function normalize(current, max): number {
 
 export default Vue.extend({
   name: 'rest-manager',
-  // components: { TickBar },
+  components: { DestroyedAlert },
   props: {
-    mech: Object,
-    loadout: Object,
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     rest: false,
+    diagNumber: 0,
     selfRepair: 0,
     allyRepair: 0,
   }),
   computed: {
-    color() {
-      return colors
+    mech() {
+      return this.pilot.ActiveMech
+    },
+    loadout() {
+      return this.mech.ActiveLoadout
     },
     destroyedWeapons() {
       return this.loadout.Weapons.filter(x => x.IsDestroyed)
     },
     destroyedSystems() {
       return this.loadout.Systems.filter(x => x.IsDestroyed)
+    },
+    isEverest() {
+      return this.mech.Frame.Name.toLowerCase() === 'everest'
+    },
+    issues() {
+      return (
+        (this.mech.CurrentHP === this.mech.MaxHP ? 0 : 1) +
+        (this.mech.CurrentStructure === this.mech.MaxStructure ? 0 : 1) +
+        (this.mech.CurrentStress === this.mech.MaxStress ? 0 : 1) +
+        this.destroyedWeapons.length +
+        this.destroyedSystems.length
+      )
     },
   },
   methods: {
@@ -292,8 +343,7 @@ export default Vue.extend({
     },
     startRest() {
       this.rest = true
-      const pilot = this.$store.getters.getPilot
-      pilot.CurrentHP += Math.ceil(pilot.MaxHP / 2)
+      this.pilot.CurrentHP += Math.ceil(this.pilot.MaxHP / 2)
       this.mech.CurrentHeat = 0
       this.mech.Conditions.splice(0, this.mech.Conditions.length)
       this.mech.Statuses.splice(0, this.mech.Statuses.length)
@@ -304,7 +354,7 @@ export default Vue.extend({
     },
     healStructure() {
       this.mech.CurrentStructure = this.mech.MaxStructure
-      this.mech.CurrentRepairs -= this.mech.Frame.Name.toLowerCase() === 'everest' ? 1 : 2
+      this.mech.CurrentRepairs -= this.isEverest ? 1 : 2
     },
     healStress() {
       this.mech.CurrentStress = this.mech.MaxStress

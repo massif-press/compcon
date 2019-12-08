@@ -35,7 +35,6 @@
         dark
         @click="$emit('clear-status')"
       >
-        <v-icon left>cci-reactor</v-icon>
         Vent Reactor
       </v-btn>
       <v-btn

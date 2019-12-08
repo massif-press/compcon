@@ -547,6 +547,7 @@ class Mech {
 
   public set IsDestroyed(b: boolean) {
     this._destroyed = b
+    this.save()
   }
 
   public get IsEjected(): boolean {
@@ -555,6 +556,7 @@ class Mech {
 
   public set IsEjected(b: boolean) {
     this._ejected = b
+    this.save()
   }
 
   public get MeltdownImminent(): boolean {
@@ -563,6 +565,7 @@ class Mech {
 
   public set MeltdownImminent(meltdown: boolean) {
     this._meltdown_imminent = meltdown
+    this.save()
   }
 
   public get ReactorDestroyed(): boolean {
@@ -570,7 +573,10 @@ class Mech {
   }
 
   public set ReactorDestroyed(destroyed: boolean) {
+    this._meltdown_imminent = false
+    this._destroyed = false
     this._reactor_destroyed = destroyed
+    this.save()
   }
 
   public Destroy(): void {

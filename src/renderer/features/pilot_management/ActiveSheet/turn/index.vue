@@ -18,18 +18,17 @@
     </div>
 
     <div style="min-height: 40px" />
-    <v-fade-transition>
+    <v-fade-transition group>
       <v-window
-        v-show="!mini"
+        v-if="!mini"
+        key="trw-1"
         v-model="step"
         class="white pa-1"
         style="height:100%; margin-left: 40px;"
       >
         <downtime-manager ref="dt" :pilot="pilot" @end="startCombat()" />
         <turn-manager ref="turn" :pilot="pilot" @end="endCombat()" />
-        <v-window-item>
-          <rest-manager ref="rest" :mech="mech" @restart="startCombat()" @end="startDowntime()" />
-        </v-window-item>
+        <rest-manager ref="rest" :pilot="pilot" @restart="startCombat()" @end="startDowntime()" />
       </v-window>
     </v-fade-transition>
   </v-navigation-drawer>
