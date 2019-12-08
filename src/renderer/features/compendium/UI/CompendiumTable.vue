@@ -21,7 +21,7 @@
       <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
     </v-row>
     <v-data-table
-      v-resize="onResize()"
+      v-resize="onResize"
       :headers="headers"
       :items="fItems"
       :custom-sort="customSort"
@@ -60,7 +60,7 @@ import ItemFilter from '@/features/_shared/utility/ItemFilter'
 import { accentInclude } from '@/features/_shared/utility/accent_fold'
 
 export default Vue.extend({
-  name: 'frames',
+  name: 'compendium-table',
   props: {
     headers: {
       type: Array,
