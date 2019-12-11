@@ -1,29 +1,26 @@
 import Vue from 'vue'
-import NPC from '../logic/NPC'
-import io from '../../_shared/data_io'
+import NPC, { INPCData } from '../logic/NPC'
+import { loadData, saveData } from '@/io/Data'
 import _ from 'lodash'
-import { Module, VuexModule, Mutation } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+
+// TODO: use constants & actions
 
 function saveNPCs(npcs: NPC[]) {
   const serialized = npcs.map(x => x.serialize())
-  io.saveUserData(Vue.prototype.userDataPath, 'npcs.json', serialized, () => {
-    console.info('Data Saved')
-  })
+  saveData('npcs.json', serialized)
 }
 
-
 @Module({
-  name: "npcDesigner",
+  name: 'npcDesigner',
   namespaced: true,
 })
 export class NPCDesignerStore extends VuexModule {
   npcs: NPC[] = []
 
   @Mutation
-  load() {
-    this.npcs = io
-      .loadUserData(Vue.prototype.userDataPath, 'npcs.json')
-      .map(x => NPC.deserialize(x))
+  load(payload: INPCData[]) {
+    this.npcs = payload.map(x => NPC.deserialize(x))
     saveNPCs(this.npcs)
   }
 
@@ -47,5 +44,11 @@ export class NPCDesignerStore extends VuexModule {
       Object.assign(target, newNpc)
       _.debounce(saveNPCs, 300)(this.npcs)
     }
+  }
+
+  @Action
+  async loadNPCs() {
+    const npcData = await loadData<INPCData>('npcs.json')
+    this.context.commit('load', npcData)
   }
 }

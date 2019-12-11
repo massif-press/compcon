@@ -1,6 +1,17 @@
 import newId from './newId'
 import NPC from './NPC'
 
+export interface IEncounterBaseData {
+  id: string
+  name: string
+  notes: string
+  npcs: {
+    name: string
+    count: number
+    npcID: string
+  }[]
+}
+
 export interface EncounterBaseNPC {
   id: string
   npc: NPC
@@ -36,7 +47,7 @@ export default class EncounterBase {
     return diffCoefficient
   }
 
-  serialize() {
+  serialize(): IEncounterBaseData {
     return {
       id: this.id,
       name: this.name,
@@ -49,7 +60,7 @@ export default class EncounterBase {
     }
   }
 
-  public static deserialize(data: any, npcs: NPC[]) {
+  public static deserialize(data: IEncounterBaseData, npcs: NPC[]) {
     const enc = new EncounterBase(data.name)
     enc.notes = data.notes
     enc.id = data.id
