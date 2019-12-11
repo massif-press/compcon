@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --progress --env.platform=web",
     "build": "webpack --progress --env.platform=web --env.prod",
-    "electron:test": "webpack --progress --env.platform=electron && cd ./electron && electron ./",
+    "electron:dev": "webpack-dev-server --progress --env.platform=electron",
     "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
   },
   "electronWebpack": {
@@ -96,6 +96,7 @@
     "core-js": "3",
     "electron": "4.0.1",
     "electron-builder": "20.38.4",
+    "electron-reload": "^1.5.0",
     "electron-webpack": "^2.6.2",
     "electron-webpack-ts": "^3.1.1",
     "electron-webpack-vue": "^2.2.3",
@@ -120,6 +121,7 @@
     "webpack-inject-plugin": "^1.5.3",
     "webpack-merge": "^4.2.2",
     "webpack-pwa-manifest": "^4.1.1",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^4.3.1",
+    "write-file-webpack-plugin": "^4.5.1"
   }
 }

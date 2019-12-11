@@ -4,6 +4,8 @@ const { CapacitorSplashScreen } = require('@capacitor/electron');
 
 const path = require('path');
 
+require('electron-reload')(__dirname);
+
 // Place holders for our windows so they don't get garbage collected.
 let mainWindow = null;
 
@@ -11,7 +13,7 @@ let mainWindow = null;
 let splashScreen = null;
 
 //Change this if you do not wish to have a splash screen
-let useSplashScreen = true;
+let useSplashScreen = !isDevMode;
 
 // Create simple menu for easy devtools access, and for demo
 const menuTemplateDev = [
