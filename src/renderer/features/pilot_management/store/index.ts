@@ -2,7 +2,6 @@ import _ from 'lodash'
 import Vue from 'vue'
 import { saveData, loadData } from '@/io/Data'
 import { Pilot } from '@/class'
-import validator from '../../../io/validator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 // import { PrintOptions } from '@/classes/Types'
 
@@ -51,7 +50,10 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [LOAD_PILOTS](payload: IPilotData[]): void {
-    this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
+    // TODO: bring back validator?
+    // should maybe validate in the action instead of the mutator...
+    // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
+    this.Pilots = payload.map(x => Pilot.Deserialize(x))
     savePilots(this.Pilots)
   }
 

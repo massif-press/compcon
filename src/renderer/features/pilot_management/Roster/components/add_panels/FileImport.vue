@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import validator from '@/io/validator'
 import LoadLog from './loaders/LoadLog.vue'
 import { Pilot } from '@/class'
 import { importData } from '../../../../../io/Data'
