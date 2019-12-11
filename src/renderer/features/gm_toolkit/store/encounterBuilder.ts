@@ -1,30 +1,27 @@
 import Vue from 'vue'
-import EncounterBase from '../logic/EncounterBase'
+import EncounterBase, { IEncounterBaseData } from '../logic/EncounterBase'
 import _ from 'lodash'
 import { NPCDesignerStore } from './npcDesigner'
-import io from '../../_shared/data_io'
-import { VuexModule, Module, Mutation } from 'vuex-module-decorators';
+import { loadData, saveData } from '@/io/Data'
+import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
+
+// TODO: use constants & actions
 
 function saveEncounters(encounters: EncounterBase[]) {
   const serialized = encounters.map(x => x.serialize())
-  io.saveUserData(Vue.prototype.userDataPath, 'encounters.json', serialized, () => {
-    console.info('Data Saved')
-  })
+  saveData('encounters.json', serialized)
 }
 
-
 @Module({
-  name: "encounterBuilder",
+  name: 'encounterBuilder',
   namespaced: true,
 })
 export class EncounterBuilderStore extends VuexModule {
   encounters: EncounterBase[] = []
 
   @Mutation
-  load() {
-    this.encounters = io
-      .loadUserData(Vue.prototype.userDataPath, 'encounters.json')
-      .map(x => EncounterBase.deserialize(x, NPCDesignerStore.state.npcs))
+  load(payload: IEncounterBaseData[]) {
+    this.encounters = payload.map(x => EncounterBase.deserialize(x, NPCDesignerStore.state.npcs))
     saveEncounters(this.encounters)
   }
 
@@ -48,5 +45,11 @@ export class EncounterBuilderStore extends VuexModule {
       Object.assign(target, newEncounter)
       _.debounce(saveEncounters, 300)(this.encounters)
     }
+  }
+
+  @Action
+  async loadEncounters() {
+    const encounterData = await loadData<IEncounterBaseData>('encounters.json')
+    this.context.commit('load', encounterData)
   }
 }

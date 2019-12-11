@@ -7,9 +7,7 @@ const platformNotSupportedMessage = `ERROR - PLATFORM NOT SUPPORTED: "${PLATFORM
 
 // variables used by electron
 let fs: typeof import('fs')
-
 let electron: typeof import('electron')
-
 let userDataPath: string
 
 if (PLATFORM == 'electron') {

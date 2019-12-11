@@ -2,6 +2,13 @@ import EncounterBase, { EncounterBaseNPC } from './EncounterBase'
 import newId from './newId'
 import NPC from './NPC'
 
+export interface IActiveEncounterData {
+  id: string
+  name: string
+  notes: string
+  npcs: any[]
+}
+
 export class ActiveNPC {
   id: string
   name: string
@@ -67,24 +74,30 @@ export default class ActiveEncounter {
   notes: string
   npcs: ActiveNPC[]
 
-  constructor(enc: EncounterBase)
-  constructor(enc: { id: string; name: string; notes: string; npcs: any[] }) {
+  constructor()
+  constructor(enc: EncounterBase) {
     this.name = enc.name
     this.notes = enc.notes
-    if (enc instanceof EncounterBase) {
-      this.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
-    } else {
-      this.npcs = enc.npcs.map(n => ActiveNPC.deserialize(n))
-      this.id = enc.id
-    }
+    this.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
   }
 
-  serialize() {
+  serialize(): IActiveEncounterData {
     return {
       id: this.id,
       name: this.name,
       notes: this.notes,
       npcs: this.npcs.map(npc => npc.serialize()),
+    }
+  }
+
+  static deserialize(enc: IActiveEncounterData) {
+    activeEnc.name = enc.name
+    activeEnc.notes = enc.notes
+    if (enc instanceof EncounterBase) {
+      activeEnc.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
+    } else {
+      activeEnc.npcs = enc.npcs.map(n => ActiveNPC.deserialize(n))
+      activeEnc.id = enc.id
     }
   }
 }
