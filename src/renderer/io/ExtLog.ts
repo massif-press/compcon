@@ -20,7 +20,7 @@ const logPrefixStyles = [
 
 async function ExtLog(s: string) {
   if (Capacitor.platform != 'web') {
-    if (!exists(LOG_FILE_NAME)) {
+    if (!(await exists(LOG_FILE_NAME))) {
       try {
         await writeFile(LOG_FILE_NAME, '[]')
         await ExtLog('Created error log')
