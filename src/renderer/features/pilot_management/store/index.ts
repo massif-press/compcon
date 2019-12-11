@@ -7,7 +7,6 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 // import { PrintOptions } from '@/classes/Types'
 
 async function savePilots(pilots: Pilot[]) {
-  console.log(pilots)
   const serialized = pilots.map(x => Pilot.Serialize(x))
   await saveData('pilots.json', serialized)
 }
@@ -52,7 +51,6 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [LOAD_PILOTS](payload: IPilotData[]): void {
-    console.log(payload)
     this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
     savePilots(this.Pilots)
   }
