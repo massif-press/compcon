@@ -58,7 +58,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import validator from '@/io/validator'
 import gistApi from '@/io/apis/gist'
 import LoadLog from './loaders/LoadLog.vue'
 import { clipboard } from 'electron'
