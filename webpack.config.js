@@ -21,6 +21,7 @@ const baseConfig = {
         open: true,
         historyApiFallback: true
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
