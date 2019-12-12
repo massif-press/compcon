@@ -2,9 +2,14 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const InjectPlugin = require('webpack-inject-plugin').default;
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     plugins: [
+        new CopyPlugin([
+            { from: 'static', to: 'static' },
+            { from: 'public/config', to: '.' }
+        ]),
         new WebpackPwaManifest({
             name: 'COMP/CON',
             short_name: 'C/C',
