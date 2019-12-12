@@ -21,7 +21,11 @@ import mixins from './mixins'
 
 import _ from 'lodash'
 import Startup from './io/Startup'
+
+import { Capacitor } from '@capacitor/core'
+
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
+Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.version = '2.0.0'
 Vue.prototype.lancerVersion = 'PRERELEASE 2'
