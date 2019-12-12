@@ -1,8 +1,6 @@
 import path from 'path'
 import extlog from './ExtLog'
 import uuid from 'uuid/v1'
-import { CompendiumStore } from '@/store'
-import { getModule } from 'vuex-module-decorators'
 import { writeFile, readFile, exists, USER_DATA_PATH } from './Data'
 
 const CONFIG_FILE_NAME = 'user.config'
@@ -28,7 +26,6 @@ class UserProfile {
   }
 
   private save(): void {
-    const store = getModule(CompendiumStore)
     const data: IUserProfile = {
       id: this.ID,
       rosterView: this.RosterView,
@@ -85,8 +82,6 @@ class UserProfile {
 }
 
 async function getUser(): Promise<UserProfile> {
-  const store = getModule(CompendiumStore)
-
   const configFileExists = await exists(CONFIG_FILE_NAME)
   if (!configFileExists) {
     try {

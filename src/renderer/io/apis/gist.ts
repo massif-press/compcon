@@ -55,5 +55,4 @@ export default {
   newPilot,
   savePilot,
   loadPilot,
-  uploadImage: (...args) => null,
 }
