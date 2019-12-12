@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const isDevMode = require('electron-is-dev');
 const { CapacitorSplashScreen } = require('@capacitor/electron');
 
@@ -41,6 +41,10 @@ async function createWindow() {
       preload: path.join(__dirname, 'node_modules', '@capacitor', 'electron', 'dist', 'electron-bridge.js')
     }
   });
+
+  globalShortcut.register('CommandOrControl+R', function () {
+    mainWindow.reload()
+  })
 
   if (process.env.NODE_ENV !== 'production') {
     require('vue-devtools').install()
