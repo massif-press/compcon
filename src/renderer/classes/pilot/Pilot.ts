@@ -18,6 +18,8 @@ import {
 import { rules } from 'lancer-data'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
+import { Capacitor } from '@capacitor/core'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 class Pilot {
   private _cloudID: string
@@ -255,9 +257,8 @@ class Pilot {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    // TODO-PWA
-    // else if (this._portrait)
-    //   return `file://${store.getters.getUserPath}/img/pilot/${this._portrait}`
+    else if (Capacitor.platform !== 'web' && this._portrait)
+      return getImagePath(ImageTag.Pilot, this._portrait)
     else return ''
   }
 
@@ -302,40 +303,20 @@ class Pilot {
     return this.CloudOwnerID === store.getters.getUserProfile.userID
   }
 
-  public SetCloudImage(): string {
-    if (!this.LocalImage) return 'Nothing to upload'
-    // TODO-PWA
-    gistApi
-      .uploadImage(store.getters.getUserPath, 'portrait', this.LocalImage)
-      .then((json: any) => {
-        this.CloudImage = json.data.link
-        return 'Image Upload Successful'
-      })
-      .catch(function(err: any) {
-        return `Error Uploading Image: ${err.message}`
-      })
-    return null
+  public SetCloudImage(src: string): void {
+    this._cloud_portrait = src
+    this.save()
   }
 
   public async CloudSave(): Promise<any> {
     if (!this.CloudID) {
-      return gistApi
-        .newPilot(this)
-        .then((response: any) => {
-          this.setCloudInfo(response.id)
-        })
-        .then(() => {
-          this.SetCloudImage()
-        })
+      return gistApi.newPilot(this).then((response: any) => {
+        this.setCloudInfo(response.id)
+      })
     } else {
-      return gistApi
-        .savePilot(this)
-        .then((response: any) => {
-          this.setCloudInfo(response.id)
-        })
-        .then(() => {
-          this.SetCloudImage()
-        })
+      return gistApi.savePilot(this).then((response: any) => {
+        this.setCloudInfo(response.id)
+      })
     }
   }
 
@@ -974,7 +955,9 @@ class Pilot {
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
     this.CoreBonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._loadouts = data.loadouts.length
-      ? data.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
+      ? data.loadouts
+        .filter(n => Boolean(n))
+        .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
       : [new PilotLoadout(0)]
     this.Reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))

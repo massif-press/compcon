@@ -34,6 +34,8 @@ const readFile = async function(name: string): Promise<string> {
     case 'web':
       return localStorage.getItem(name)
     case 'electron':
+      console.log('IN ELECTRON!')
+      console.log(path.resolve(userDataPath, name))
       return await promisify(fs.readFile)(path.resolve(userDataPath, name), 'utf-8')
     default:
       throw new Error(platformNotSupportedMessage)
@@ -70,21 +72,6 @@ const importData = function<T>(file: File): Promise<T> {
   })
 }
 
-const staticPath = function(pathEnd: string) {
-  let pathBase
-  switch (PLATFORM) {
-    case 'web':
-      pathBase = '/static'
-      break
-    case 'electron':
-      pathBase = path.join(path.dirname(__dirname), 'app', 'static')
-      break
-    default:
-      throw new Error(platformNotSupportedMessage)
-  }
-  return path.join(pathBase, pathEnd)
-}
-
 const dataPathMap = {
   web: 'localStorage',
   electron: userDataPath,
@@ -92,4 +79,4 @@ const dataPathMap = {
 
 const USER_DATA_PATH = dataPathMap[PLATFORM]
 
-export { writeFile, readFile, saveData, loadData, importData, exists, staticPath, USER_DATA_PATH }
+export { writeFile, readFile, saveData, loadData, importData, exists, USER_DATA_PATH }

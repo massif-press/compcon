@@ -110,7 +110,13 @@
         </template>
       </v-hover>
     </div>
-    <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
+    <cc-image-selector-web
+      v-if="$platform === 'web'"
+      ref="imageSelector"
+      :item="pilot"
+      type="pilot"
+    />
+    <cc-image-selector v-else ref="imageSelector" :item="pilot" type="pilot" />
     <level-edit-dialog ref="levelEdit" :pilot="pilot" />
   </div>
 </template>
@@ -131,6 +137,9 @@ export default Vue.extend({
       return store.ActivePilot
     },
   },
+  created() {
+    console.log('CHUNGUS', this.$platform, this.$platform === 'web')
+  }
 })
 </script>
 

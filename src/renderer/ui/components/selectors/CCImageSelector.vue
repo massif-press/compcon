@@ -89,7 +89,7 @@
               </cc-tooltip>
             </v-btn>
             <v-img
-              :src="`file://${userDataPath}/img/${type.toLowerCase()}/${i}`"
+              :src="imagePath(i)"
               position="top"
               aspect-ratio="1"
               max-width="300px"
@@ -105,8 +105,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getImageInfoArray, addImage, removeImage, ImageTag } from '@/io/ImageManagement'
-import apis from '@/io/apis'
+import { addImage, removeImage, getImagePath, getImagePaths } from '@/io/ImageManagement'
+import imgur from '@/io/apis/imgur'
+import fs from 'fs'
+import { promisify } from 'util'
+
 
 export default Vue.extend({
   name: 'image-selector',
@@ -128,6 +131,10 @@ export default Vue.extend({
     this.importAll()
   },
   methods: {
+    imagePath(i) {
+      if (!this.type) return ''
+      else return getImagePath(this.type, i)
+    },
     assignImage(src: string) {
       if (this.cloud) this.cloudSave(src)
       else this.item.SetLocalImage(src)
@@ -141,13 +148,11 @@ export default Vue.extend({
       this.importAll()
       this.$forceUpdate()
     },
-    importAll() {
-      const vm = this as any
-      this.images = getImageInfoArray(this.type)
-        .map(x => x.filename)
-        .sort(function(a) {
-          return a === vm.item.portrait ? 0 : 1
-        })
+    async importAll() {
+      const paths = await getImagePaths(this.type)
+      this.images = paths.sort(function(a) {
+        return a === this.item.portrait ? 0 : 1
+      })
     },
     importImage() {
       const { dialog } = require('electron').remote
@@ -174,16 +179,18 @@ export default Vue.extend({
         this.item.SetCloudImage('')
       }
     },
-    cloudSave(src: string) {
-      apis
-        .uploadImage(this.userDataPath, 'portrait', src)
-        .then(function(json: any) {
-          this.item.SetCloudImage(json.data.link)
-          this.$emit('notify', 'Cloud Upload Successful')
-        })
-        .catch(function(err: any) {
-          this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
-        })
+    async cloudSave(src: string) {
+      const data = await promisify(fs.readFile)(
+        getImagePath(this.type, src),
+        { encoding: 'base64' }
+      )
+      try {
+        const link = await imgur.uploadImage(data)
+        this.item.SetCloudImage(link)
+        this.$emit('notify', 'Cloud Upload Successful')
+      } catch (err) {
+        this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+      }
     },
     open() {
       this.$refs.dialog.show()
