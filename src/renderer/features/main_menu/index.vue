@@ -9,6 +9,9 @@
         </v-flex>
       </v-layout>
       <v-layout>
+        <a href="https://www.netlify.com">
+          <img src="https://www.netlify.com/img/global/badges/netlify-dark.svg" />
+        </a>
         <v-flex>
           <h3 class="display-1 grey--text">&emsp; A digital toolset for the LANCER TTRPG</h3>
         </v-flex>
