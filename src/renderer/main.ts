@@ -23,14 +23,6 @@ import _ from 'lodash'
 import Startup from './io/Startup'
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
-const windowAny: any = window
-
-if (process.env.NODE_ENV !== 'development') {
-  windowAny.__static = require('path')
-    .join(__dirname, '/static')
-    .replace(/\\/g, '\\\\')
-}
-
 Vue.prototype.version = '2.0.0'
 Vue.prototype.lancerVersion = 'PRERELEASE 2'
 
