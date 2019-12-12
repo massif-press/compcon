@@ -48,8 +48,8 @@ new Vue({
   vuetify: new Vuetify(theme as any),
   router,
   store,
-  render: h => h(App),
   created() {
     Startup('2.0.0', 'PRERELEASE 2', store)
   },
+  render: h => h(App),
 }).$mount('#app')
