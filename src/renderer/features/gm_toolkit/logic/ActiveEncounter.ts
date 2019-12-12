@@ -74,11 +74,16 @@ export default class ActiveEncounter {
   notes: string
   npcs: ActiveNPC[]
 
-  constructor()
-  constructor(enc: EncounterBase) {
+  constructor(enc: EncounterBase)
+  constructor(enc: IActiveEncounterData) {
     this.name = enc.name
     this.notes = enc.notes
-    this.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
+    if (enc instanceof EncounterBase) {
+      this.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
+    } else {
+      this.npcs = enc.npcs.map(n => ActiveNPC.deserialize(n))
+      this.id = enc.id
+    }
   }
 
   serialize(): IActiveEncounterData {
@@ -87,17 +92,6 @@ export default class ActiveEncounter {
       name: this.name,
       notes: this.notes,
       npcs: this.npcs.map(npc => npc.serialize()),
-    }
-  }
-
-  static deserialize(enc: IActiveEncounterData) {
-    activeEnc.name = enc.name
-    activeEnc.notes = enc.notes
-    if (enc instanceof EncounterBase) {
-      activeEnc.npcs = enc.npcs.map(npc => new ActiveNPC(npc))
-    } else {
-      activeEnc.npcs = enc.npcs.map(n => ActiveNPC.deserialize(n))
-      activeEnc.id = enc.id
     }
   }
 }
