@@ -64,7 +64,7 @@ const importData = function<T>(file: File): Promise<T> {
   return new Promise(resolve => {
     var fr = new FileReader()
     fr.onload = e => {
-      resolve(JSON.parse(e.target.result as string) as T)
+      resolve(JSON.parse((e.target as FileReader).result as string) as T)
     } // CHANGE to whatever function you want which would eventually call resolve
     fr.readAsText(file)
   })

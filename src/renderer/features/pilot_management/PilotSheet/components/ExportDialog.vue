@@ -52,7 +52,8 @@
 import Vue from 'vue'
 import { saveFile } from '@/io/Dialog'
 import { Pilot } from '@/class'
-import { clipboard } from 'electron'
+import { Plugins } from '@capacitor/core'
+const { Clipboard } = Plugins
 
 export default Vue.extend({
   name: 'cloud-dialog',
@@ -81,9 +82,11 @@ export default Vue.extend({
       )
       this.hide()
     },
-    copyCode() {
+    async copyCode() {
       this.copyConfirm = true
-      clipboard.writeText(this.pilot.CloudID)
+      await Clipboard.write({
+        string: this.pilot.CloudID
+      })
       setTimeout(() => {
         this.copyConfirm = false
       }, 1200)

@@ -21,11 +21,13 @@
           <span v-if="!pilot.CloudID">No Vault data found</span>
           <span v-else-if="pilot.IsUserOwned">
             {{ pilot.Callsign }}'s data is stored in
-            <b class="primary--text">your</b> Vault
+            <b class="primary--text">your</b>
+            Vault
           </span>
           <span v-else>
             {{ pilot.Callsign }} data is stored in
-            <b class="primary--text">someone else's</b> Vault
+            <b class="primary--text">someone else's</b>
+            Vault
           </span>
           <br />
           <span class="heading h3 primary--text">Pilot Share Code:&nbsp;</span>
@@ -33,10 +35,9 @@
           <span v-else>
             {{ pilot.CloudID }}
             <cc-tooltip simple inline content="Copy Share Code to clipboard">
-              <v-icon
-                :color="copyConfirm ? 'success' : 'grey'"
-                @click="copyCode()"
-              >{{ copyConfirm ? 'mdi-check-outline': 'mdi-clipboard-text-outline' }}</v-icon>
+              <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
+                {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}
+              </v-icon>
             </cc-tooltip>
             <v-fade-transition>
               <span v-if="copyConfirm" class="grey--text">Copied!</span>
@@ -70,13 +71,21 @@
               color="primary"
               :disabled="!pilot.IsUserOwned || !pilot.CloudID"
               @click="$refs.cloud.save()"
-            >Save Pilot Data to Vault</v-btn>
+            >
+              Save Pilot Data to Vault
+            </v-btn>
           </v-col>
           <v-col cols="auto" class="ml-n1">
             <cc-tooltip
               simple
               inline
-              :content="`Saves local pilot data to the Cloud, <b class='accent--text'>overwriting</b> any cloud data that currently exists. ${!pilot.IsUserOwned ? 'Because this pilot did not originate from your Vault, you are unable to overwrite its cloud data. Using the \'Create New Vault Record\' option will allow you to create a unique Cloud copy of this pilot you can save over.' : ''}`"
+              :content="
+                `Saves local pilot data to the Cloud, <b class='accent--text'>overwriting</b> any cloud data that currently exists. ${
+                  !pilot.IsUserOwned
+                    ? 'Because this pilot did not originate from your Vault, you are unable to overwrite its cloud data. Using the \'Create New Vault Record\' option will allow you to create a unique Cloud copy of this pilot you can save over.'
+                    : ''
+                }`
+              "
             >
               <v-icon class="mt-1 ml-n3">mdi-information-outline</v-icon>
             </cc-tooltip>
@@ -92,7 +101,9 @@
               color="primary"
               :disabled="!pilot.CloudID"
               @click="$refs.cloud.load()"
-            >Load Pilot Data from Vault</v-btn>
+            >
+              Load Pilot Data from Vault
+            </v-btn>
           </v-col>
           <v-col cols="auto" class="ml-n1">
             <cc-tooltip
@@ -106,20 +117,21 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn
-              large
-              block
-              tile
-              outlined
-              color="primary"
-              @click="$refs.cloud.new()"
-            >Create new Vault record</v-btn>
+            <v-btn large block tile outlined color="primary" @click="$refs.cloud.new()">
+              Create new Vault record
+            </v-btn>
           </v-col>
           <v-col cols="auto" class="ml-n1">
             <cc-tooltip
               simple
               inline
-              :content="`This option creates a new, unique pilot cloud record and links that record to this pilot data on your system. ${pilot.CloudID ? 'Selecting this option will <b class=\'accent--text\'>break the link</b> between this pilot and the current Vault record it is linked with' : '' }`"
+              :content="
+                `This option creates a new, unique pilot cloud record and links that record to this pilot data on your system. ${
+                  pilot.CloudID
+                    ? 'Selecting this option will <b class=\'accent--text\'>break the link</b> between this pilot and the current Vault record it is linked with'
+                    : ''
+                }`
+              "
             >
               <v-icon class="mt-1 ml-n4">mdi-information-outline</v-icon>
             </cc-tooltip>
@@ -133,7 +145,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import CloudManager from './CloudManager.vue'
-import { clipboard } from 'electron'
+import { Plugins } from '@capacitor/core'
+const { Clipboard } = Plugins
+
 
 export default Vue.extend({
   name: 'cloud-dialog',
@@ -155,9 +169,11 @@ export default Vue.extend({
     hide() {
       this.$refs.dialog.hide()
     },
-    copyCode() {
+     async copyCode() {
       this.copyConfirm = true
-      clipboard.writeText(this.pilot.CloudID)
+      await Clipboard.write({
+        string: this.pilot.CloudID
+      })
       setTimeout(() => {
         this.copyConfirm = false
       }, 1200)

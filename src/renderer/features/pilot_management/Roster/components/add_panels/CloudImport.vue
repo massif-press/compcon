@@ -60,7 +60,6 @@
 import Vue from 'vue'
 import gistApi from '@/io/apis/gist'
 import LoadLog from './loaders/LoadLog.vue'
-import { clipboard } from 'electron'
 import { Pilot } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '../../../store'
