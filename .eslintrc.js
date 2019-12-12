@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/indent': ['error', 2],
     camelcase: 'off',
+    "@typescript-eslint/no-var-requires": "off",
     '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
     '@typescript-eslint/interface-name-prefix': 0,
     'vue/max-attributes-per-line': 'off',
@@ -32,5 +33,5 @@ module.exports = {
         allowTypedFunctionExpressions: true,
       },
     ],
-  },
+  }
 }
