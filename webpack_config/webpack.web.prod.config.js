@@ -7,7 +7,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   plugins: [
     new CopyPlugin([
-      { from: 'static', to: 'static' },
       { from: 'public/config', to: '.' }
     ]),
     new WebpackPwaManifest({

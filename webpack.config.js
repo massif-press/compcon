@@ -2,6 +2,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
 const merge = require('webpack-merge')
@@ -103,6 +104,9 @@ const baseConfig = {
     }
   },
   plugins: [
+    new CopyPlugin([
+      { from: 'static', to: 'static' },
+    ]),
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin(),

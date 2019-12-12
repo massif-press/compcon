@@ -7,21 +7,30 @@ const subprocessPlugin = {
     compiler.hooks.done.tapAsync(
       'ElectronSubprocess',
       (compilation, callback) => {
+        if (!this.electronChildProcessRunning) {
+          const platform = require('os').platform()
+          const childArgs = platform === 'win32' ?
+            ['cmd', ['/C', path.resolve('electron/node_modules/.bin/electron.cmd' + ' ./')]]
+            : [path.resolve('electron/node_modules/.bin/electron'), './']
 
-        const platform = require('os').platform()
-        const childArgs = platform === 'win32' ?
-          ['cmd', ['/C', path.resolve('electron/node_modules/.bin/electron.cmd' + ' ./')]]
-          : [path.resolve('electron/node_modules/.bin/electron'), './']
+          const child = childProcess.spawn(...childArgs, {
+            cwd: './electron',
+          })
 
-        const child = childProcess.spawn(...childArgs, {
-          cwd: './electron',
-        })
-        child.stdout.on('data', function (data) {
-          console.log(data.toString());
-        });
-        child.stderr.on('data', function (data) {
-          console.log(data.toString());
-        });
+          child.stdout.on('data', function (data) {
+            console.log(data.toString());
+          });
+          child.stderr.on('data', function (data) {
+            console.log(data.toString());
+          });
+
+          child.on('exit', () => {
+            this.electronChildProcessRunning = false
+          });
+        }
+
+        this.electronChildProcessRunning = true
+
         callback()
       }
     )
