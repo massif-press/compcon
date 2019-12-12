@@ -26,6 +26,7 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-self-closing': 'off',
     'vue/multiline-html-element-content-newline': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/explicit-function-return-type': [
       'warn',
       {
