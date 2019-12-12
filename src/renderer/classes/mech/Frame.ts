@@ -1,8 +1,6 @@
-import { store } from '@/store'
 import { rules } from 'lancer-data'
 import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
 import { ILicensedItemData, ICoreData } from '@/interface'
-import { staticPath } from '@/io/Data'
 
 interface IFrameStats {
   size: number

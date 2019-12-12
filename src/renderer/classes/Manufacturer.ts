@@ -1,5 +1,4 @@
-import { store } from '@/store'
-import { staticPath } from '@/io/Data'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IManufacturerData {
   id: string
@@ -48,7 +47,7 @@ class Manufacturer {
   }
 
   public get Logo(): string {
-    return staticPath(`/img/logo/${this._logo}.svg`)
+    return getImagePath(ImageTag.Logo, '${this._logo}.svg')
   }
 }
 
