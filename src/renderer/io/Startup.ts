@@ -11,8 +11,7 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
   dataStore.loadData()
   dataStore.buildLicenses()
 
-  // TODO-PWA
-  // validateImageFolders()
+  validateImageFolders()
 
   const pilotStore = getModule(PilotManagementStore, store)
   pilotStore.loadPilots()
