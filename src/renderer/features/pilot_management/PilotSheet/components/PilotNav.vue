@@ -6,7 +6,7 @@
       depressed
       :color="selected === '0' ? 'white' : 'primary'"
       :dark="selected !== '0'"
-      to="/sheet/0"
+      to="../sheet/0"
     >
       <span class="unskew">DOSSIER</span>
     </v-btn>
@@ -15,7 +15,7 @@
       depressed
       :color="selected === '1' ? 'white' : 'primary'"
       :dark="selected !== '1'"
-      to="/sheet/1"
+      to="../sheet/1"
     >
       <span class="unskew">NARRATIVE PROFILE</span>
     </v-btn>
@@ -24,7 +24,7 @@
       depressed
       :color="selected === '2' ? 'white' : 'primary'"
       :dark="selected !== '2'"
-      to="/sheet/2"
+      to="../sheet/2"
     >
       <span class="unskew">TACTICAL PROFILE</span>
     </v-btn>
@@ -33,7 +33,7 @@
       depressed
       :color="selected === '3' ? 'white' : 'primary'"
       :dark="selected !== '3'"
-      to="/sheet/3"
+      to="../sheet/3"
     >
       <span class="unskew">MECH HANGAR</span>
     </v-btn>
@@ -224,7 +224,7 @@ export default Vue.extend({
   },
   methods: {
     toMech() {
-      this.$router.push(`../mech/${this.pilot.ID}/${this.lastLoaded}`)
+      this.$router.push(`../mech/${this.lastLoaded}`)
     },
     deletePilot() {
       this.$router.push('/pilot_management')

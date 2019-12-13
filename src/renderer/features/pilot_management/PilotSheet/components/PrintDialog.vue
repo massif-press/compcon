@@ -3,9 +3,10 @@
     <v-card-text>
       <span class="flavor-text">A flavorful description...</span>
       <v-select
-        v-model="mechSelect"
+        v-model="selectedMechID"
         :items="pilot.Mechs"
         item-text="Name"
+        item-value="ID"
         label="Include Mech (optional)"
         outlined
         clearable
@@ -37,10 +38,10 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    mechSelect: null,
+    selectedMechID: null,
   }),
   created() {
-    if (this.pilot.ActiveMech) this.mechSelect = this.pilot.ActiveMech
+    if (this.pilot.ActiveMech) this.selectedMechID = this.pilot.ActiveMech.ID
   },
   methods: {
     show() {
@@ -50,10 +51,10 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     print() {
-      this.$router.push(`../print/${this.pilot.ID}/${this.mechSelect.ID}`)
+      this.$router.push(`/print/${this.pilot.ID}/${this.selectedMechID}`)
     },
     printBlank() {
-      this.$router.push(`../print/blank/blank`)
+      this.$router.push(`/print/blank/blank`)
     },
   },
 })

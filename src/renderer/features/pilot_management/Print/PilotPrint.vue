@@ -222,15 +222,23 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '../store'
+import Pilot from '../../../classes/pilot/Pilot'
 
 export default Vue.extend({
   name: 'pilot-print-view',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
+  computed: {
+    pilot() {
+      return getModule(PilotManagementStore, this.$store)
+      .Pilots
+      .find(p => p.ID === this.$route.params.pilotID)
     },
-  },
+    mech() {
+      return (this.pilot as Pilot).Mechs
+      .find(m => m.ID === this.$route.params.mechID)
+    }
+  }
 })
 </script>
 
