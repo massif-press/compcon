@@ -137,9 +137,6 @@ export default Vue.extend({
       return store.ActivePilot
     },
   },
-  created() {
-    console.log('CHUNGUS', this.$platform, this.$platform === 'web')
-  }
 })
 </script>
 
