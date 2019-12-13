@@ -10,42 +10,42 @@
         <div class="overline no-height">PILOT</div>
         <b class="no-height">{{ pilot.Name }}</b>
         <br />
-        <i>{{ pilot.Background }}, License Level {{ pilot.Level }}</i>
+        <i>{{ pilot.Background }}, LL {{ pilot.Level }}</i>
       </v-col>
       <v-col cols="5" class="ml-auto mr-auto">
         <v-row dense justify="space-between">
-          <v-col>
+          <v-col cols="auto">
             <div class="overline no-height mb-n3">HP</div>
             <div>
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+              <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               <b class="flavor-text pt-3" v-html="`/${pilot.MaxHP}`" />
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <div class="overline no-height mb-n3 ml-n7">ARMOR</div>
             <div style="position: relative; width: max-content;">
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-shield-outline</v-icon>
+              <v-icon size="50" color="grey lighten-3">mdi-shield-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Armor" />
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <div class="overline no-height mb-n3 ml-n6">E-DEF</div>
             <div style="position: relative; width: max-content;">
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-marker</v-icon>
+              <v-icon size="50" color="grey lighten-3">cci-marker</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.EDefense" />
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <div class="overline no-height mb-n3 ml-n8">EVASION</div>
             <div style="position: relative; width: max-content;">
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-arrow-decision</v-icon>
+              <v-icon size="50" color="grey lighten-3">mdi-arrow-decision</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <div class="overline no-height mb-n3 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content;">
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">$vuetify.icons.move</v-icon>
+              <v-icon size="50" color="grey lighten-3">$vuetify.icons.move</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
             </div>
           </v-col>
@@ -78,28 +78,28 @@
             <span class="font-weight-bold overline no-height pr-3">HULL</span>
             <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="grey lighten-1" class="mr-n1">mdi-hexagon-outline</v-icon>
-              <div class="heading h2 icon-overlap" v-html="pilot.MechSkills.Hull" />
+              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Hull" />
             </div>
           </v-col>
           <v-col>
             <span class="font-weight-bold overline no-height pr-3">AGI</span>
             <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="grey lighten-1" class="mr-n1">mdi-hexagon-outline</v-icon>
-              <div class="heading h2 icon-overlap" v-html="pilot.MechSkills.Agi" />
+              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Agi" />
             </div>
           </v-col>
           <v-col>
             <span class="font-weight-bold overline no-height pr-3">SYS</span>
             <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="grey lighten-1" class="mr-n1">mdi-hexagon-outline</v-icon>
-              <div class="heading h2 icon-overlap" v-html="pilot.MechSkills.Sys" />
+              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Sys" />
             </div>
           </v-col>
           <v-col>
             <span class="font-weight-bold overline no-height pr-3">ENG</span>
             <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="grey lighten-1" class="mr-n1">mdi-hexagon-outline</v-icon>
-              <div class="heading h2 icon-overlap" v-html="pilot.MechSkills.Eng" />
+              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Eng" />
             </div>
           </v-col>
         </v-row>
@@ -235,13 +235,17 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.caption {
+  font-size: 14px;
+}
+
 .no-height {
   line-height: 0;
 }
 
 .icon-overlap {
   position: absolute;
-  top: -1px;
+  top: -5px;
   left: 1px;
   width: -webkit-fill-available;
   text-align: center;

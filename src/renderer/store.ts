@@ -4,7 +4,7 @@ import { CompendiumStore } from './features/_shared/store/'
 import { Global } from './features/_shared/store/global'
 import { PilotManagementStore } from './features/pilot_management/store/'
 
-import gmToolkitModules from './features/gm_toolkit/store'
+import gmToolkitModules from './features/encounters/store'
 
 Vue.use(Vuex)
 

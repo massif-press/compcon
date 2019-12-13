@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <cc-nav pilot />
+    <cc-nav encounter />
     <v-fade-transition leave-absolute>
       <router-view />
     </v-fade-transition>
@@ -9,17 +9,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CCNav from '@/features/nav/index.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from './store'
+import CcNav from '@/features/nav/index.vue'
 
 export default Vue.extend({
-  name: 'pilot-management',
-  components: { 'cc-nav': CCNav },
-  created() {
-    const pilotStore = getModule(PilotManagementStore, this.$store)
-    pilotStore.loadPilots()
-  },
+  name: 'encounter-toolkit',
+  components: { CcNav },
 })
 </script>
 

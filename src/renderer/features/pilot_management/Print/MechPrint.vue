@@ -27,7 +27,7 @@
     </v-row>
 
     <v-row dense align="center">
-      <v-col cols="1" class="mr-n5">
+      <v-col cols="1" class="mr-n2">
         <v-row dense justify="space-around" class="mt-n1 pl-3">
           <v-col class="mt-n6">
             <span class="font-weight-bold overline no-height pr-3">HULL</span>
@@ -64,7 +64,7 @@
           <v-col cols="2" class="text-center">
             <div class="overline no-height mb-n2">STRUCTURE</div>
             <div>
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-structure</v-icon>
+              <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-structure</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.MaxStructure}`" />
             </div>
           </v-col>
@@ -73,14 +73,14 @@
               <v-col cols="auto">
                 <div class="overline no-height mb-n2 ml-2">ARMOR</div>
                 <div style="position: relative; width: max-content;">
-                  <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-shield-outline</v-icon>
+                  <v-icon size="60" color="grey lighten-4" class="mr-n1">mdi-shield-outline</v-icon>
                   <div class="heading p-stat icon-overlap" v-html="mech.Armor" />
                 </div>
               </v-col>
               <v-col cols="auto" class="text-center">
                 <div class="overline no-height mb-n2 mr-6">HP</div>
                 <div>
-                  <v-icon size="60" color="grey lighten-3" class="mr-n1">
+                  <v-icon size="60" color="grey lighten-4" class="mr-n1">
                     mdi-hexagon-outline
                   </v-icon>
                   <b class="flavor-text pt-3" v-html="`/${mech.MaxHP}`" />
@@ -91,45 +91,45 @@
           <v-col cols="2" class="text-center">
             <div class="overline no-height mb-n2 mr-2">REACTOR</div>
             <div>
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-reactor</v-icon>
+              <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-reactor</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.MaxStress}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
             <div class="overline no-height mb-n2 mr-6">HEAT</div>
             <div>
-              <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-fire</v-icon>
+              <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-fire</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.HeatCapacity}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
             <div class="overline no-height mb-n2">REPAIR CAPACITY</div>
             <div>
-              <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-repair</v-icon>
+              <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-repair</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.RepairCapacity}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
             <div class="overline no-height mb-n2">CORE POWER</div>
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-battery-outline</v-icon>
+            <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-battery-outline</v-icon>
           </v-col>
         </v-row>
         <v-row dense class="mx-6">
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">ATTACK BONUS</legend>
+              <legend class="stat-text px-1">ATK BONUS</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ signed(mech.AttackBonus) }}</div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">TECH ATTACK</legend>
+              <legend class="stat-text px-1">TECH ATK</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ signed(mech.TechAttack) }}</div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">SAVE TARGET</legend>
+              <legend class="stat-text px-1">SAVE</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ mech.SaveTarget }}</div>
             </fieldset>
           </v-col>
@@ -153,7 +153,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">LIMITED SYSTEMS</legend>
+              <legend class="stat-text px-1">LTD SYS</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ signed(mech.LimitedBonus) }}</div>
             </fieldset>
           </v-col>
@@ -169,7 +169,7 @@
       <v-col v-for="(t, i) in mech.Frame.Traits" :key="`mt_${i}`" class="mt-n1">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.name }}</legend>
-          <span class="ml-6" v-html="t.description" />
+          <p class="ml-6" v-html="t.description" />
         </fieldset>
       </v-col>
     </v-row>
@@ -189,93 +189,99 @@
         </span>
       </div>
     </fieldset>
+
+    <v-row dense>
+      <v-col cols="1">
+        <v-divider class="mt-3" />
+      </v-col>
+      <v-col cols="auto">
+        <span class="heading h3">
+          {{ mech.ActiveLoadout.Name }}
+          <span class="overline">//LOADOUT</span>
+        </span>
+      </v-col>
+      <v-col>
+        <v-divider class="mt-3" />
+      </v-col>
+    </v-row>
+
+    <v-row dense>
+      <v-col v-for="(m, i) in mounts" :key="`mmt_${i}`" :cols="getMountCols(i)">
+        <fieldset class="mt-n2 pb-1" style="position: relative">
+          <legend class="heading ml-1 px-2">{{ m.Name }}</legend>
+          <div v-if="m.isLocked" class="text-center flavor-text">
+            MOUNT LOCKED
+            <br />
+            <span class="overline">// SUPERHEAVY WEAPON BRACING //</span>
+          </div>
+          <div v-for="(w, j) in m.Weapons" v-else :key="`mmtw_${i}_${j}`" class="px-1">
+            <span class="stat-text">
+              {{ w.Name }}
+              <span class="overline">{{ w.Source }} {{ w.Size }} {{ w.Type }}</span>
+            </span>
+            <div class="caption">
+              <b v-for="(r, k) in w.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
+              |
+              <b v-for="(d, k) in w.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
+              <p v-if="w.Effect" v-html="w.Effect" />
+              <p v-if="w.Mod" class="px-2">
+                <span class="heading">
+                  {{ w.Mod.Name }}
+                </span>
+                <span class="overline">&nbsp;//APPLIED MOD</span>
+                <br />
+                <span v-html="w.Mod.Effect" />
+              </p>
+              <div class="text-right" style="position: absolute; bottom: 3px; left: 0; right: 0;">
+                <v-chip
+                  v-for="(t, k) in w.Tags"
+                  :key="`mmwt_${i}_${j}_${k}`"
+                  outlined
+                  x-small
+                  label
+                  class="mx-1"
+                >
+                  {{ t.GetName(mech.LimitedBonus) }}
+                </v-chip>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </v-col>
+    </v-row>
+
+    <fieldset class="mt-n2 pb-1">
+      <legend class="heading ml-1 px-2">Systems</legend>
+      <v-row dense>
+        <v-col v-for="(s, i) in mech.ActiveLoadout.Systems" :key="`mms_${i}`" :cols="getSysCols(i)">
+          <div class="bordered-block">
+            <span class="stat-text">
+              {{ s.Name }}
+              <span class="overline">{{ s.Source }} {{ s.Type }}</span>
+            </span>
+            <div v-if="s.Effect" class="caption" v-html="s.Effect" />
+            <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
+              <v-chip
+                v-for="(t, j) in s.Tags"
+                :key="`mmst_${i}_${j}`"
+                outlined
+                x-small
+                label
+                class="mx-1"
+              >
+                {{ t.GetName(mech.LimitedBonus) }}
+              </v-chip>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
+    </fieldset>
   </v-container>
   <!-- <v-container fluid>
 
-      <hr class="mt-2 ml-2 mr-2" />
-      <div v-if="loadout">
-        <span class="label" style="page-break-inside: avoid">MOUNTS</span>
-        <br />
-        <v-row>
-          <v-col>
-            <v-row
-              v-for="(mount, index) in loadout.IntegratedMounts"
-              :key="'intmount_' + index"
-              row
-            >
-              <div v-if="mount" style="width: 100%">
-                <v-col>
-                  <div class="p-bordered mt-1 mb-1 pa-0">
-                    <span class="p-mount-title">{{ mount.Name }}</span>
-                    <div class="mount-interior">
-                      <v-row>
-                        <v-col shrink class="ml-1">
-                          <span class="p-large">{{ mount.Weapon.Name }}</span>
-                        </v-col>
-                        <v-col v-if="mount.Weapon.Range" shrink class="ml-2">
-                          <range-element size="9" :range="mount.Weapon.Range" />
-                        </v-col>
-                        <v-col v-if="mount.Weapon.Damage" shrink class="ml-2">
-                          <span>
-                            <damage-element size="9" :dmg="mount.Weapon.Damage" />
-                          </span>
-                        </v-col>
-                      </v-row>
-                      <p class="p-reg ml-2 mt-0 mb-0" v-html="mount.Effect" />
-                      <span
-                        v-for="t in mount.Weapon.Tags"
-                        :key="t.id + 'intmount'"
-                        small
-                        class="print-tag ml-2"
-                      >
-                        {{ t.Name(pilot.LimitedBonus) }}
-                      </span>
-                    </div>
-                  </div>
-                </v-col>
-              </div>
-            </v-row>
+
             <v-row v-for="(mount, index) in allMounts" :key="'mount_' + index" row>
-              <div style="width: 100%">
-                <v-col>
-                  <div class="p-bordered mt-1 mb-1 pa-0">
-                    <span class="p-mount-title">{{ mount.Type }}</span>
-                    <div class="mount-interior">
-                      <div v-if="mount.IsLocked" class="text-center">
-                        <i style="letter-spacing: 5px; color: grey;">
-                          MOUNT LOCKED &mdash; SUPERHEAVY WEAPON BRACING
-                        </i>
-                      </div>
-                      <div v-else-if="!mount.Weapons.length">
-                        <i style="letter-spacing: 5px; color: grey;">
-                          &emsp;EMPTY
-                        </i>
-                      </div>
-                      <div v-else v-for="w in mount.Slots" :key="w.id">
-                        <v-row>
-                          <v-col shrink class="ml-1" v-if="!w.Weapon">
-                            <span class="p-large">
-                              <i style="letter-spacing: 5px; color: grey;">
-                                &emsp;EMPTY
-                              </i>
-                            </span>
-                          </v-col>
-                          <v-col shrink class="ml-1" v-if="!w.Weapon.err">
-                            <span class="p-large">{{ w.Weapon.Name }}</span>
-                            <span class="p-reg">({{ w.Weapon.Size }} {{ w.Weapon.Type }})</span>
-                            <span v-if="w.Weapon.Mod" class="p-reg">
-                              &nbsp;//&nbsp;{{ w.Weapon.Mod.Name }}
-                            </span>
-                          </v-col>
-                          <v-col shrink class="ml-2" v-if="!w.Weapon.err">
-                            <range-element size="9" :range="w.Weapon.Range" />
-                          </v-col>
-                          <v-col shrink class="ml-2" v-if="!w.Weapon.err">
-                            <span>
-                              <damage-element size="9" :dmg="w.Weapon.Damage" />
-                            </span>
-                          </v-col>
-                        </v-row>
+  
                         <p class="p-reg ml-2 mt-0 mb-0" v-html="w.Weapon.Effect" />
                         <p v-if="w.Weapon.Mod" class="p-reg ml-2 mt-0 mb-0">
                           <span class="p-large">{{ w.Weapon.Mod.Name }}:</span>
@@ -298,34 +304,6 @@
           </v-col>
         </v-row>
 
-        <span class="label" style="page-break-inside: avoid">SYSTEMS</span>
-        <br />
-        <v-row>
-          <v-col>
-            <v-row v-for="(sys, index) in config.IntegratedSystems" :key="'system_' + index" row>
-              <v-col>
-                <span class="p-large">{{ sys.Name }}</span>
-                <br />
-                <p class="p-reg ml-2 mt-0 mb-0" v-html="sys.Effect" />
-                <span v-for="t in sys.Tags" :key="t.id + sys" small class="print-tag ml-2">
-                  {{ t.Name(pilot.LimitedBonus) }}
-                </span>
-              </v-col>
-            </v-row>
-            <v-row v-for="(sys, index) in loadout.Systems" :key="'system_' + index" row>
-              <v-col>
-                <span class="p-large">{{ sys.Name }}</span>
-                <br />
-                <p class="p-reg ml-2 mt-0 mb-0" v-html="sys.Effect" />
-                <span v-for="t in sys.Tags" :key="t.id + sys" small class="print-tag ml-2">
-                  {{ t.Name(pilot.LimitedBonus) }}
-                </span>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
   </div> -->
 </template>
 
@@ -342,15 +320,43 @@ export default Vue.extend({
       required: true,
     },
   },
+  computed: {
+    mounts() {
+      return this.mech.ActiveLoadout.AllMounts(
+        this.mech.Pilot.has('corebonus', 'imparm'),
+        this.mech.Pilot.has('corebonus', 'intweapon')
+      )
+    },
+  },
   methods: {
     signed(val: number) {
       return val > -1 ? `+${val}` : `${val}`
+    },
+    getMountCols(col: number) {
+      if (this.mounts.length <= 3) return 12 / this.mounts.length
+      if (this.mounts.length < 3 && this.mounts.length % 2 === 0) return 6
+      if (col <= 3) return 4
+      return 6
+    },
+    getSysCols(idx: number) {
+      const systems = this.mech.ActiveLoadout.Systems
+      if (systems.length % 3 === 0) return 4
+      if (systems.length % 2 === 0) {
+        if (systems.length - idx > 2) return 4
+        return 6
+      }
+      if (idx < 3) return 4
+      return 6
     },
   },
 })
 </script>
 
 <style scoped>
+.caption {
+  font-size: 14px;
+}
+
 .no-height {
   line-height: 0;
 }
@@ -378,5 +384,14 @@ fieldset {
   border: 1px solid;
   border-color: darkgrey;
   border-radius: 2px;
+}
+
+.bordered-block {
+  border: 1px solid grey;
+  border-radius: 2px;
+  padding: 4px;
+  height: 100%;
+  position: relative;
+  padding-bottom: 12px;
 }
 </style>

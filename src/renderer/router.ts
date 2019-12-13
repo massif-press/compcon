@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-import gmToolkitRoutes from './features/gm_toolkit/routes'
+import encounterRoutes from './features/encounters/routes'
 
 Vue.use(Router)
 
@@ -153,21 +152,9 @@ export default new Router({
         },
       ],
     },
-    // {
-    //   path: '/print-pilot',
-    //   component: require('@/features/pilot_management/PilotSheet/Print/PrintView').default,
-    // },
-    // {
-    //   path: '/print-all',
-    //   component: require('@/features/pilot_management/PilotSheet/Print/CombinedPrintView').default,
-    // },
-    // {
-    //   path: '/print-config',
-    //   component: require('@/features/pilot_management/ConfigSheet/Print/PrintView').default,
-    // },
-    ...gmToolkitRoutes.map(route => ({
+    ...encounterRoutes.map(route => ({
       ...route,
-      path: route.path.replace(/^\//, '/gm'),
+      path: route.path = '/gm/' + route.path,
     })),
     // {
     //   path: "/homebrew",

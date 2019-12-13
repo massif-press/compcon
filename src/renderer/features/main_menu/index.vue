@@ -8,16 +8,20 @@
         <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
         <main-btn :to="'/pilot_management'" @hover="ccLog('pilot')">Pilot Roster</main-btn>
         <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
-        <main-btn :to="'/ui-test'" @hover="ccLog('campaign')">Campaign Manager</main-btn>
-        <main-btn :to="'/ui-test'" @hover="ccLog('homebrew')">Content Editor</main-btn>
+        <disabled-main-btn disabled>Campaign Manager</disabled-main-btn>
+        <disabled-main-btn disabled>Content Editor</disabled-main-btn>
       </v-row>
     </v-container>
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">About</v-btn>
+      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
+        About
+      </v-btn>
       <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">Help</v-btn>
+      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
+        Help
+      </v-btn>
       <v-divider vertical dark class="mx-1" />
       <v-btn color="warning" small dark text>Support This Project</v-btn>
     </v-footer>
@@ -31,6 +35,7 @@ import Vue from 'vue'
 import startup from '@/io/Startup'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
+import DisabledMainBtn from './_components/DisabledMainBtn.vue'
 import UpdateAlert from './_components/UpdateAlert.vue'
 import CCLog from './_components/CCLog.vue'
 
@@ -39,6 +44,7 @@ export default Vue.extend({
   components: {
     MainTitle,
     MainBtn,
+    DisabledMainBtn,
     UpdateAlert,
     CCLog,
   },
@@ -67,7 +73,10 @@ export default Vue.extend({
           )
           break
         case 'gm':
-          this.$refs['log'].print('man gm_tools', 'Build NPCs, and manage and run encounters')
+          this.$refs['log'].print(
+            'man gm_tools',
+            'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
+          )
           break
         case 'campaign':
           this.$refs['log'].print('man campaigns', 'work in progress')

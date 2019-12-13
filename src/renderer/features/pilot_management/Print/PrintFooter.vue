@@ -5,11 +5,11 @@
       <v-icon>mdi-close</v-icon>
     </v-btn>
     <v-spacer />
-    <v-btn disabled>
+    <v-btn @click="$refs.options.show()">
       <span>Options</span>
       <v-icon>mdi-settings</v-icon>
     </v-btn>
-
+    <options-dialog ref="options" @set="setOptions($event)" />
     <v-btn @click="print()">
       <span>Print</span>
       <v-icon>print</v-icon>
@@ -19,11 +19,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import OptionsDialog from './OptionsDialog.vue'
+
 export default Vue.extend({
   name: 'print-footer',
+  components: { OptionsDialog },
   methods: {
     print() {
       window.print()
+    },
+    setOptions(options) {
+      console.log(options)
     },
   },
 })
