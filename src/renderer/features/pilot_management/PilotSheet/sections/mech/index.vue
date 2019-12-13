@@ -116,6 +116,8 @@ import AttributesBlock from './sections/attributes/index.vue'
 import DeleteMechDialog from '../hangar/components/DeleteMechDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
+import Pilot from '../../../../../classes/pilot/Pilot'
+import Mech from '../../../../../classes/mech/Mech'
 
 export default Vue.extend({
   name: 'mech-sheet',
@@ -138,16 +140,16 @@ export default Vue.extend({
       required: true,
     },
   },
-  data: () => ({
-    pilot: {},
-    mech: {},
-    color: '#000',
-  }),
-  created() {
-    const store = getModule(PilotManagementStore, this.$store)
-    this.pilot = store.ActivePilot
-    this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)
-    this.color = this.mech.Frame.Manufacturer.Color
+  computed: {
+    pilot(): Pilot {
+      return this.$store.state.management.Pilots.find(p => p.ID === this.pilotID)
+    },
+    mech(): Mech {
+      return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID)
+    },
+    color() {
+      return this.mech.Frame.Manufacturer.Color
+    },
   },
   methods: {
     deleteMech() {

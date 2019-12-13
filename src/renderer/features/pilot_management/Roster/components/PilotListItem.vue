@@ -86,9 +86,7 @@ export default Vue.extend({
   },
   methods: {
     toPilotSheet() {
-      const store = getModule(PilotManagementStore, this.$store)
-      store.loadPilot(this.pilot)
-      this.$router.push('pilot')
+      this.$router.push(`pilot/${this.pilot.ID}`)
     },
     statusColor(status: string): string {
       switch (status.toLowerCase()) {

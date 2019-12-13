@@ -59,7 +59,7 @@
           </v-btn>
         </template>
         <v-list two-line subheader>
-          <v-list-item to="/active">
+          <v-list-item :to="`/pilot/${pilot.ID}/active`">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon large>cci-activate</v-icon>
             </v-list-item-icon>
@@ -138,6 +138,7 @@ import Vue from 'vue'
 // import OptionsPage from './Pages/OptionsPage.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
+import activePilot from '../pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'cc-nav',
@@ -151,12 +152,7 @@ export default Vue.extend({
     helpDialog: false,
     optionsDialog: false,
   }),
-  computed: {
-    pilot() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
-    },
-  },
+  mixins: [activePilot],
   methods: {
     home() {
       this.$router.push('/')
