@@ -107,8 +107,14 @@
 import Vue from 'vue'
 import { addImage, removeImage, getImagePath, getImagePaths } from '@/io/ImageManagement'
 import imgur from '@/io/apis/imgur'
-import fs from 'fs'
 import { promisify } from 'util'
+import { Capacitor } from '@capacitor/core'
+
+let fs: typeof import('fs')
+
+if (Capacitor.platform !== 'web') {
+  fs = require('fs')
+}
 
 // TODO: no way to actually do save to cloud yet
 export default Vue.extend({
@@ -155,7 +161,7 @@ export default Vue.extend({
     },
     async importAll() {
       const paths = await getImagePaths(this.type)
-      this.images = paths.sort((a) => {
+      this.images = paths.sort(a => {
         return a === this.item.portrait ? 0 : 1
       })
     },
@@ -186,10 +192,9 @@ export default Vue.extend({
       }
     },
     async cloudSave(src: string) {
-      const data = await promisify(fs.readFile)(
-        getImagePath(this.type, src),
-        { encoding: 'base64' }
-      )
+      const data = await promisify(fs.readFile)(getImagePath(this.type, src), {
+        encoding: 'base64',
+      })
       try {
         const link = await imgur.uploadImage(data)
         this.item.SetCloudImage(link)
