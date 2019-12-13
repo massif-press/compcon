@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <cc-nav pilot />
+    <cc-nav pilot-management />
     <v-fade-transition leave-absolute>
       <router-view />
     </v-fade-transition>
