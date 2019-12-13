@@ -32,6 +32,7 @@ import NoDataBlock from '../../components/NoDataBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'appearance-block',
@@ -39,12 +40,7 @@ export default Vue.extend({
   data: () => ({
     appearance: '',
   }),
-  computed: {
-    pilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
-    },
-  },
+  mixins: [activePilot],
   created() {
     this.appearance = this.pilot.TextAppearance || ''
   },
