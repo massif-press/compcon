@@ -34,43 +34,44 @@ export default new Router({
           props: true,
         },
         {
-          path: '/pilot',
+          path: '/pilot/:pilotID',
           component: require('@/features/pilot_management/PilotSheet/index').default,
+          props: true,
           children: [
             {
               name: 'pilot_sheet',
               path: '',
-              redirect: '/sheet/1',
+              redirect: 'sheet/1',
             },
             {
               name: 'mech_hangar',
               path: '',
-              redirect: '/sheet/3',
+              redirect: 'sheet/3',
             },
             {
-              path: '/sheet/:tab',
+              path: 'sheet/:tab',
               component: require('@/features/pilot_management/PilotSheet/layouts/index').default,
               props: true,
             },
             {
-              path: '/mech/:pilotID/:mechID',
+              path: 'mech/:mechID',
               component: require('@/features/pilot_management/PilotSheet/sections/mech/index')
                 .default,
               props: true,
+            },
+            {
+              path: 'level',
+              component: require('@/features/pilot_management/Level/index').default,
+            },
+            {
+              path: 'active',
+              component: require('@/features/pilot_management/ActiveSheet/index').default,
             },
           ],
         },
         {
           path: '/new',
           component: require('@/features/pilot_management/New/index').default,
-        },
-        {
-          path: '/level',
-          component: require('@/features/pilot_management/Level/index').default,
-        },
-        {
-          path: '/active',
-          component: require('@/features/pilot_management/ActiveSheet/index').default,
         },
         {
           path: '/compendium',

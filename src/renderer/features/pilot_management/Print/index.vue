@@ -43,12 +43,6 @@ export default Vue.extend({
   created() {
     if (this.pilotID === 'blank') {
       this.blank = true
-    } else {
-      const store = getModule(PilotManagementStore, this.$store)
-      this.pilot = store.ActivePilot
-      if (this.mechID) {
-        this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)
-      }
     }
   },
 })

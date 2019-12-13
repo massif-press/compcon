@@ -31,21 +31,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [SAVE_DATA](): void {
-    if (this.Pilots.length) _.debounce(savePilots, 300)(this.Pilots)
-  }
-
-  @Mutation
-  private [SET_PILOT](payload: Pilot): void {
-    this.ActivePilot = payload
-  }
-
-  @Mutation
-  private [UPDATE_PILOT](payload: Pilot): void {
-    const index = this.Pilots.findIndex(x => x.ID === this.ActivePilot.ID)
-    if (index > -1) {
-      Vue.set(this.Pilots, index, payload)
-      this.ActivePilot = payload
-    }
+    if (this.Pilots.length) _.debounce(savePilots, 1000)(this.Pilots)
   }
 
   @Mutation
@@ -53,7 +39,7 @@ export class PilotManagementStore extends VuexModule {
     // TODO: bring back validator?
     // should maybe validate in the action instead of the mutator...
     // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
-    this.Pilots = payload.map(x => Pilot.Deserialize(x))
+    this.Pilots = [...payload.map(x => Pilot.Deserialize(x))]
     savePilots(this.Pilots)
   }
 
@@ -108,16 +94,6 @@ export class PilotManagementStore extends VuexModule {
   public async loadPilots() {
     const pilotData = await loadData<IPilotData>('pilots.json')
     this.context.commit(LOAD_PILOTS, pilotData)
-  }
-
-  @Action
-  public loadPilot(pilot: Pilot): void {
-    this.context.commit(SET_PILOT, pilot)
-  }
-
-  @Action
-  public updatePilot(payload: Pilot): void {
-    this.context.commit(UPDATE_PILOT, payload)
   }
 
   @Action

@@ -59,7 +59,7 @@
         <v-stepper-step
           editable
           :complete="pilot.HasFullCB"
-          :color="pilot.CBEligible ? pilot.HasFullCB ? 'success' : 'primary' : 'grey'"
+          :color="pilot.CBEligible ? (pilot.HasFullCB ? 'success' : 'primary') : 'grey'"
           edit-icon="mdi-check"
           step="6"
         >
@@ -126,8 +126,9 @@ export default Vue.extend({
   }),
   computed: {
     currentPilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
+      return getModule(PilotManagementStore, this.$store).Pilots.find(
+        p => p.ID === this.$route.params.pilotID
+      )
     },
   },
   watch: {

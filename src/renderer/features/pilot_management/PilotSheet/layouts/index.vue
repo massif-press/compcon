@@ -24,14 +24,17 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+    pilotID: {
+      type: String,
+      required: true,
+    },
   },
   data: () => ({
     page: 1,
   }),
   computed: {
     pilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
+      return this.$store.state.management.Pilots.find(p => p.ID === this.pilotID)
     },
     profile(): UserProfile {
       const store = getModule(CompendiumStore, this.$store)
