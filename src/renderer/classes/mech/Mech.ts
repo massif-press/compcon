@@ -168,7 +168,7 @@ class Mech {
     if (this._cloud_portrait) return this._cloud_portrait
     else if (Capacitor.platform !== 'web' && this._portrait)
       return getImagePath(ImageTag.Mech, this._portrait)
-    else return getImagePath(ImageTag.Frame, `${this.Frame.ID}.png`)
+    else return this.Frame.DefaultImage
   }
 
   // -- Attributes --------------------------------------------------------------------------------

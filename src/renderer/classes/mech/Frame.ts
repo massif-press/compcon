@@ -1,6 +1,7 @@
 import { rules } from 'lancer-data'
 import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
 import { ILicensedItemData, ICoreData } from '@/interface'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IFrameStats {
   size: number
@@ -129,7 +130,7 @@ class Frame extends LicensedItem {
   }
 
   public get DefaultImage(): string {
-    return staticPath(`img/frame/${this.ID}.png`)
+    return getImagePath(ImageTag.Frame, `${this.ID}.png`, true)
   }
 }
 

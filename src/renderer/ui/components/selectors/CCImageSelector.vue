@@ -17,7 +17,7 @@
           <v-icon>add_circle_outline</v-icon>
           &emsp; add image to collection
         </cc-btn>
-        <cc-btn v-if="item.Image" small color="error" class="ml-4" @click="assignImage('')">
+        <cc-btn v-if="item.Image" small color="error" class="ml-4" @click="clearAssignedImage()">
           <v-icon>remove_circle_outline</v-icon>
           &emsp;Clear Assigned Image
         </cc-btn>
@@ -110,7 +110,7 @@ import imgur from '@/io/apis/imgur'
 import fs from 'fs'
 import { promisify } from 'util'
 
-
+// TODO: no way to actually do save to cloud yet
 export default Vue.extend({
   name: 'image-selector',
   props: {
@@ -135,26 +135,31 @@ export default Vue.extend({
       if (!this.type) return ''
       else return getImagePath(this.type, i)
     },
-    assignImage(src: string) {
-      if (this.cloud) this.cloudSave(src)
+    async clearAssignedImage() {
+      if (this.item.CloudImage) this.item.SetCloudImage('')
+      this.item.SetLocalImage('')
+      this.$refs.dialog.hide()
+    },
+    async assignImage(src: string) {
+      if (this.cloud) await this.cloudSave(src)
       else this.item.SetLocalImage(src)
       this.$refs.dialog.hide()
     },
-    deleteImage(src: string) {
+    async deleteImage(src: string) {
       if (src === this.item.LocalImage) {
         this.item.SetLocalImage('')
       }
-      removeImage(this.type, src)
-      this.importAll()
+      await removeImage(this.type, src)
+      await this.importAll()
       this.$forceUpdate()
     },
     async importAll() {
       const paths = await getImagePaths(this.type)
-      this.images = paths.sort(function(a) {
+      this.images = paths.sort((a) => {
         return a === this.item.portrait ? 0 : 1
       })
     },
-    importImage() {
+    async importImage() {
       const { dialog } = require('electron').remote
       var path = dialog.showOpenDialog({
         title: 'Load Image',
@@ -167,14 +172,15 @@ export default Vue.extend({
           },
         ],
       })
+      if (!path) return
       console.log(path[0])
-      addImage(this.type, path[0])
-      this.importAll()
+      await addImage(this.type, path[0])
+      await this.importAll()
       this.$forceUpdate()
     },
-    checkCloudSave(toggle: boolean) {
+    async checkCloudSave(toggle: boolean) {
       if (toggle) {
-        if (this.item.LocalImage) this.cloudSave(this.item.LocalImage)
+        if (this.item.LocalImage) await this.cloudSave(this.item.LocalImage)
       } else {
         this.item.SetCloudImage('')
       }

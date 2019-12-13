@@ -34,8 +34,6 @@ const readFile = async function(name: string): Promise<string> {
     case 'web':
       return localStorage.getItem(name)
     case 'electron':
-      console.log('IN ELECTRON!')
-      console.log(path.resolve(userDataPath, name))
       return await promisify(fs.readFile)(path.resolve(userDataPath, name), 'utf-8')
     default:
       throw new Error(platformNotSupportedMessage)
