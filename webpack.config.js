@@ -70,6 +70,15 @@ const baseConfig = {
         ]
       },
       {
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'eslint-loader'
+          }
+        ],
+      },
+      {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
         loader: 'file-loader',
         options: {
