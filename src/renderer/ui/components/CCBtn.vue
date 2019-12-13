@@ -1,16 +1,18 @@
 <template>
   <div style="position: relative; max-width: fit-content; display: inline-block">
-    <div class="wings" :style="`background:${getColor(color, $vuetify)}`">
+    <div :class="disabled ? 'disabled' : ''" class="wings" :style="`background:${bgColor}`">
       <v-btn
         tile
         class="clipped-btn"
         v-bind="$props"
         style="visibility: visible;"
+        :style="`visibility: visible; background-color: ${bgColor} !important`"
         @click="$emit('click')"
       >
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           &nbsp;
-          <slot></slot>&nbsp;&nbsp;
+          <slot></slot>
+          &nbsp;&nbsp;
         </span>
       </v-btn>
     </div>
@@ -40,6 +42,7 @@ export default Vue.extend({
     disabled: {
       type: Boolean,
       required: false,
+      default: false,
     },
     color: {
       type: String,
@@ -66,6 +69,12 @@ export default Vue.extend({
       default: '',
     },
   },
+  computed: {
+    bgColor(): string {
+      if (this.disabled) return 'gray'
+      else return this.getColor(this.color, this.$vuetify)
+    }
+  }
 })
 </script>
 
@@ -83,7 +92,7 @@ export default Vue.extend({
   clip-path: polygon(0 0, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out, background-color 1ms;
 }
 
 .wings::after {
@@ -97,13 +106,13 @@ export default Vue.extend({
   clip-path: polygon(100% 100%, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out, background-color 1ms;
 }
-.wings:hover::before {
+.wings:not(.disabled):hover::before {
   transform: translate(-6px, 0px);
 }
 
-.wings:hover::after {
+.wings:not(.disabled):hover::after {
   transform: translate(6px, 0px);
 }
 

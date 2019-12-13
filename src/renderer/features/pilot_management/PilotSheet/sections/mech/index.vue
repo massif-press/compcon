@@ -87,7 +87,8 @@
             Set Mech Image
           </v-btn>
 
-          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
+          <cc-image-selector-web v-if="$platform" ref="imageSelector" :item="mech" type="mech" />
+          <cc-image-selector v-else ref="imageSelector" :item="mech" type="mech" />
         </div>
       </v-col>
     </v-row>

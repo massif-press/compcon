@@ -21,11 +21,11 @@ export default new Router({
     },
     {
       path: '/pilot_management',
-      name: 'pilot_management',
       component: require('@/features/pilot_management/index').default,
       children: [
         {
           path: '',
+          name: 'pilot_roster',
           component: require('@/features/pilot_management/Roster/index').default,
         },
         {

@@ -1,9 +1,9 @@
-import fs from 'fs'
 import path from 'path'
 import extlog from './ExtLog'
 import uuid from 'uuid/v1'
-import { CompendiumStore } from '@/store'
-import { getModule } from 'vuex-module-decorators'
+import { writeFile, readFile, exists, USER_DATA_PATH } from './Data'
+
+const CONFIG_FILE_NAME = 'user.config'
 
 interface IUserProfile {
   id: string
@@ -26,8 +26,6 @@ class UserProfile {
   }
 
   private save(): void {
-    const store = getModule(CompendiumStore)
-    const configfile = path.join(store.UserDataPath, 'user.config')
     const data: IUserProfile = {
       id: this.ID,
       rosterView: this.RosterView,
@@ -35,7 +33,7 @@ class UserProfile {
       pilotSheetView: this.PilotSheetView,
     }
 
-    fs.writeFileSync(configfile, JSON.stringify(data, null, 2), 'utf8')
+    writeFile(CONFIG_FILE_NAME, JSON.stringify(data, null, 2))
   }
 
   public get ID(): string {
@@ -83,21 +81,24 @@ class UserProfile {
   }
 }
 
-function getUser(): UserProfile {
-  const store = getModule(CompendiumStore)
-  const configfile = path.join(store.UserDataPath, 'user.config')
-
-  if (!fs.existsSync(configfile)) {
+async function getUser(): Promise<UserProfile> {
+  const configFileExists = await exists(CONFIG_FILE_NAME)
+  if (!configFileExists) {
     try {
-      fs.writeFileSync(configfile, JSON.stringify(new UserProfile(uuid())))
+      await writeFile(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
       extlog('Created user profile')
     } catch (err) {
-      extlog(`Critical Error: COMP/CON unable to create user profile at ${configfile}: \n ${err}`)
+      extlog(
+        `Critical Error: COMP/CON unable to create user profile at ${path.join(
+          USER_DATA_PATH,
+          CONFIG_FILE_NAME
+        )}: \n ${err}`
+      )
       return
     }
   }
 
-  const data = JSON.parse(fs.readFileSync(configfile, 'utf-8')) as IUserProfile
+  const data = JSON.parse(await readFile(CONFIG_FILE_NAME)) as IUserProfile
   return UserProfile.Deserialize(data)
 }
 

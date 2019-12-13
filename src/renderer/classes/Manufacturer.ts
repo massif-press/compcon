@@ -1,4 +1,4 @@
-import { store } from '@/store'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IManufacturerData {
   id: string
@@ -47,11 +47,7 @@ class Manufacturer {
   }
 
   public get Logo(): string {
-    return `${store.getters.getUserPath}/img/default_logo/${this._logo}.svg`
-  }
-
-  public get LogoSRC(): string {
-    return `file://${store.getters.getUserPath}/img/default_logo/${this._logo}.svg`
+    return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
   }
 }
 

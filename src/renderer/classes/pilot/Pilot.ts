@@ -17,7 +17,9 @@ import {
 } from '@/class'
 import { rules } from 'lancer-data'
 import { store } from '@/store'
-import api from '@/io/apis'
+import gistApi from '@/io/apis/gist'
+import { Capacitor } from '@capacitor/core'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 class Pilot {
   private _cloudID: string
@@ -255,8 +257,8 @@ class Pilot {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait)
-      return `file://${store.getters.getUserPath}/img/pilot/${this._portrait}`
+    else if (Capacitor.platform !== 'web' && this._portrait)
+      return getImagePath(ImageTag.Pilot, this._portrait)
     else return ''
   }
 
@@ -301,45 +303,26 @@ class Pilot {
     return this.CloudOwnerID === store.getters.getUserProfile.userID
   }
 
-  public SetCloudImage(): string {
-    if (!this.LocalImage) return 'Nothing to upload'
-    api
-      .uploadImage(store.getters.getUserPath, 'portrait', this.LocalImage)
-      .then((json: any) => {
-        this.CloudImage = json.data.link
-        return 'Image Upload Successful'
-      })
-      .catch(function(err: any) {
-        return `Error Uploading Image: ${err.message}`
-      })
-    return null
+  public SetCloudImage(src: string): void {
+    this._cloud_portrait = src
+    this.save()
   }
 
   public async CloudSave(): Promise<any> {
     if (!this.CloudID) {
-      return api
-        .newPilot(this)
-        .then((response: any) => {
-          this.setCloudInfo(response.id)
-        })
-        .then(() => {
-          this.SetCloudImage()
-        })
+      return gistApi.newPilot(this).then((response: any) => {
+        this.setCloudInfo(response.id)
+      })
     } else {
-      return api
-        .savePilot(this)
-        .then((response: any) => {
-          this.setCloudInfo(response.id)
-        })
-        .then(() => {
-          this.SetCloudImage()
-        })
+      return gistApi.savePilot(this).then((response: any) => {
+        this.setCloudInfo(response.id)
+      })
     }
   }
 
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
-    return api.loadPilot(this.CloudID).then((gist: any) => {
+    return gistApi.loadPilot(this.CloudID).then((gist: any) => {
       const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
       this.setPilotData(newPilotData)
       this.LastCloudUpdate = new Date().toString()
@@ -932,7 +915,9 @@ class Pilot {
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
       core_bonuses: p.CoreBonuses.map(x => x.ID),
       loadouts: p.Loadouts.map(x => PilotLoadout.Serialize(x)),
-      active_loadout_index: p.Loadouts.findIndex(x => x.ID === p.ActiveLoadout.ID),
+      active_loadout_index: p.ActiveLoadout
+        ? p.Loadouts.findIndex(x => x.ID === p.ActiveLoadout.ID)
+        : null,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
@@ -970,7 +955,9 @@ class Pilot {
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
     this.CoreBonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._loadouts = data.loadouts.length
-      ? data.loadouts.map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
+      ? data.loadouts
+        .filter(n => Boolean(n))
+        .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
       : [new PilotLoadout(0)]
     this.Reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))

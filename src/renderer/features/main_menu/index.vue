@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import startup from '@/io/Startup'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import DisabledMainBtn from './_components/DisabledMainBtn.vue'
@@ -49,14 +48,6 @@ export default Vue.extend({
     CCLog,
   },
 
-  created: function() {
-    startup(
-      Vue.prototype.userDataPath,
-      Vue.prototype.version,
-      Vue.prototype.lancerVersion,
-      this.$store
-    )
-  },
   methods: {
     ccLog(btn: string) {
       switch (btn) {

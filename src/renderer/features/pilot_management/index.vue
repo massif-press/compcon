@@ -16,10 +16,6 @@ import { PilotManagementStore } from './store'
 export default Vue.extend({
   name: 'pilot-management',
   components: { 'cc-nav': CCNav },
-  created() {
-    const pilotStore = getModule(PilotManagementStore, this.$store)
-    pilotStore.loadPilots()
-  },
 })
 </script>
 

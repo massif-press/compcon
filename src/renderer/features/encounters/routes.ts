@@ -30,12 +30,11 @@ function getNPC(id: string): NPC {
 const routes: RouteConfig[] = [
   {
     path: '/',
-    name: 'gm-toolkit',
     component: Main,
     children: [
       {
         path: '',
-        name: 'home',
+        name: 'gm-toolkit-home',
         component: Home,
       },
       {

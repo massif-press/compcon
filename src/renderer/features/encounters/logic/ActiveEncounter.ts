@@ -2,6 +2,13 @@ import EncounterBase, { EncounterBaseNPC } from './EncounterBase'
 import newId from './newId'
 import NPC from './NPC'
 
+export interface IActiveEncounterData {
+  id: string
+  name: string
+  notes: string
+  npcs: any[]
+}
+
 export class ActiveNPC {
   id: string
   name: string
@@ -68,7 +75,7 @@ export default class ActiveEncounter {
   npcs: ActiveNPC[]
 
   constructor(enc: EncounterBase)
-  constructor(enc: { id: string; name: string; notes: string; npcs: any[] }) {
+  constructor(enc: IActiveEncounterData) {
     this.name = enc.name
     this.notes = enc.notes
     if (enc instanceof EncounterBase) {
@@ -79,7 +86,7 @@ export default class ActiveEncounter {
     }
   }
 
-  serialize() {
+  serialize(): IActiveEncounterData {
     return {
       id: this.id,
       name: this.name,

@@ -17,7 +17,7 @@
           <v-icon>add_circle_outline</v-icon>
           &emsp; add image to collection
         </cc-btn>
-        <cc-btn v-if="item.Image" small color="error" class="ml-4" @click="assignImage('')">
+        <cc-btn v-if="item.Image" small color="error" class="ml-4" @click="clearAssignedImage()">
           <v-icon>remove_circle_outline</v-icon>
           &emsp;Clear Assigned Image
         </cc-btn>
@@ -89,7 +89,7 @@
               </cc-tooltip>
             </v-btn>
             <v-img
-              :src="`file://${userDataPath}/img/${type.toLowerCase()}/${i}`"
+              :src="imagePath(i)"
               position="top"
               aspect-ratio="1"
               max-width="300px"
@@ -105,9 +105,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getImageInfoArray, addImage, removeImage, ImageTag } from '@/io/ImageManagement'
-import apis from '@/io/apis'
+import { addImage, removeImage, getImagePath, getImagePaths } from '@/io/ImageManagement'
+import imgur from '@/io/apis/imgur'
+import { promisify } from 'util'
+import { Capacitor } from '@capacitor/core'
 
+let fs: typeof import('fs')
+
+if (Capacitor.platform !== 'web') {
+  fs = require('fs')
+}
+
+// TODO: no way to actually do save to cloud yet
 export default Vue.extend({
   name: 'image-selector',
   props: {
@@ -128,28 +137,35 @@ export default Vue.extend({
     this.importAll()
   },
   methods: {
-    assignImage(src: string) {
-      if (this.cloud) this.cloudSave(src)
+    imagePath(i) {
+      if (!this.type) return ''
+      else return getImagePath(this.type, i)
+    },
+    async clearAssignedImage() {
+      if (this.item.CloudImage) this.item.SetCloudImage('')
+      this.item.SetLocalImage('')
+      this.$refs.dialog.hide()
+    },
+    async assignImage(src: string) {
+      if (this.cloud) await this.cloudSave(src)
       else this.item.SetLocalImage(src)
       this.$refs.dialog.hide()
     },
-    deleteImage(src: string) {
+    async deleteImage(src: string) {
       if (src === this.item.LocalImage) {
         this.item.SetLocalImage('')
       }
-      removeImage(this.type, src)
-      this.importAll()
+      await removeImage(this.type, src)
+      await this.importAll()
       this.$forceUpdate()
     },
-    importAll() {
-      const vm = this as any
-      this.images = getImageInfoArray(this.type)
-        .map(x => x.filename)
-        .sort(function(a) {
-          return a === vm.item.portrait ? 0 : 1
-        })
+    async importAll() {
+      const paths = await getImagePaths(this.type)
+      this.images = paths.sort(a => {
+        return a === this.item.portrait ? 0 : 1
+      })
     },
-    importImage() {
+    async importImage() {
       const { dialog } = require('electron').remote
       var path = dialog.showOpenDialog({
         title: 'Load Image',
@@ -162,28 +178,30 @@ export default Vue.extend({
           },
         ],
       })
+      if (!path) return
       console.log(path[0])
-      addImage(this.type, path[0])
-      this.importAll()
+      await addImage(this.type, path[0])
+      await this.importAll()
       this.$forceUpdate()
     },
-    checkCloudSave(toggle: boolean) {
+    async checkCloudSave(toggle: boolean) {
       if (toggle) {
-        if (this.item.LocalImage) this.cloudSave(this.item.LocalImage)
+        if (this.item.LocalImage) await this.cloudSave(this.item.LocalImage)
       } else {
         this.item.SetCloudImage('')
       }
     },
-    cloudSave(src: string) {
-      apis
-        .uploadImage(this.userDataPath, 'portrait', src)
-        .then(function(json: any) {
-          this.item.SetCloudImage(json.data.link)
-          this.$emit('notify', 'Cloud Upload Successful')
-        })
-        .catch(function(err: any) {
-          this.emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
-        })
+    async cloudSave(src: string) {
+      const data = await promisify(fs.readFile)(getImagePath(this.type, src), {
+        encoding: 'base64',
+      })
+      try {
+        const link = await imgur.uploadImage(data)
+        this.item.SetCloudImage(link)
+        this.$emit('notify', 'Cloud Upload Successful')
+      } catch (err) {
+        this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+      }
     },
     open() {
       this.$refs.dialog.show()

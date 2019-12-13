@@ -6,6 +6,33 @@ import data from 'lancer-data'
 
 import _ from 'lodash'
 
+export interface INPCData {
+  id: string
+  class: string
+  tier: number
+  name?: string
+  templates: string[]
+  systems: string[]
+  size?: number
+  stats?: {
+    hp: number
+    evade: number
+    edef: number
+    heatcap: number
+    hull: number
+    agility: number
+    systems: number
+    engineering: number
+    armor: number
+    speed: number
+    sensor: number
+    save: number
+    structure: number
+    stress: number
+    statcaps: { [key: string]: number }
+  }
+}
+
 const npcClasses: NPCClass[] = data.npc_classes
 const systems: NPCSystem.Any[] = data.npc_systems
 const genericSystems: NPCSystem.Any[] = data.npc_generic_systems
@@ -59,16 +86,16 @@ export default class NPC {
     }
   }
 
-  get class_systems() {
+  get classSystems() {
     return systems.filter(s => s.class === this.npcClass.name)
   }
 
-  get base_class_systems() {
-    return this.class_systems.filter(s => s.base)
+  get baseClassSystems() {
+    return this.classSystems.filter(s => s.base)
   }
 
-  get optional_class_systems() {
-    return this.class_systems.filter(s => !s.base)
+  get optionalClassSystems() {
+    return this.classSystems.filter(s => !s.base)
   }
 
   get genericSystemsAvailable() {
@@ -134,7 +161,7 @@ export default class NPC {
         }))
       )
     )
-    const preSort = this.base_class_systems.concat(this.pickedSystems).concat(templateTraits)
+    const preSort = this.baseClassSystems.concat(this.pickedSystems).concat(templateTraits)
     return _.orderBy(preSort, ['base', 'type', 'name'], ['desc', 'desc', 'asc'])
   }
 
@@ -153,7 +180,7 @@ export default class NPC {
         .map(t => t.name)
         .concat(
           templates
-            .find(t => t.name === templateName)!
+            .find(t => t.name === templateName)
             .incompatibleTemplates.filter(t => this._templates.includes(t))
         )
     )
@@ -233,7 +260,7 @@ export default class NPC {
     return _.uniqBy(_.flatten(this.templates.map(t => t.features)), 'name')
   }
 
-  public serialize() {
+  public serialize(): INPCData {
     return {
       id: this.id,
       class: this.npcClass.name,
@@ -246,35 +273,10 @@ export default class NPC {
     }
   }
 
-  static deserialize(obj: {
-    id: string
-    class: string
-    tier: number
-    name?: string
-    templates: string[]
-    systems: string[]
-    size?: number
-    stats?: {
-      hp: number
-      evade: number
-      edef: number
-      heatcap: number
-      hull: number
-      agility: number
-      systems: number
-      engineering: number
-      armor: number
-      speed: number
-      sensor: number
-      save: number
-      structure: number
-      stress: number
-      statcaps: { [key: string]: number }
-    }
-  }) {
+  static deserialize(obj: INPCData): NPC {
     const cl = npcClasses.find(c => c.name === obj.class)
     if (!cl) throw new Error('invalid class')
-    let npc = null
+    let npc: NPC = null
     let stats = null
     if (obj.hasOwnProperty('stats')) {
       stats = new NPCStats(obj.stats)
