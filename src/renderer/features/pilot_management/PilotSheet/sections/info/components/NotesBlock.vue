@@ -13,14 +13,10 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
+import activePilot from '../../../../mixins/activePilot'
 
 export default Vue.extend({
   name: 'notes-block',
-  computed: {
-    pilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
-    },
-  },
+  mixins: [activePilot],
 })
 </script>

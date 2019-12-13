@@ -15,6 +15,7 @@ import PilotBlock from './layout/PilotBlock.vue'
 import MechBlock from './layout/MechBlock.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
+import activePilot from '../mixins/activePilot'
 
 export default Vue.extend({
   name: 'active-sheet',
@@ -23,11 +24,6 @@ export default Vue.extend({
     PilotBlock,
     MechBlock,
   },
-  computed: {
-    pilot() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
-    },
-  },
+  mixins: [activePilot],
 })
 </script>

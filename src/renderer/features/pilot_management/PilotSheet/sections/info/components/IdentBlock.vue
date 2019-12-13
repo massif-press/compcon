@@ -3,7 +3,9 @@
     <v-row class="stat-text pt-0 pb-0">
       <v-col class="pt-0">
         <span class="overline">CALLSIGN</span>
-        <cc-short-string-editor @set="pilot.Callsign = $event">{{ pilot.Callsign }}</cc-short-string-editor>
+        <cc-short-string-editor @set="pilot.Callsign = $event">
+          {{ pilot.Callsign }}
+        </cc-short-string-editor>
       </v-col>
       <v-col class="pt-0">
         <span class="overline">NAME</span>
@@ -12,10 +14,9 @@
       <v-col class="pt-0">
         <span class="overline">BACKGROUND</span>
         <br />
-        <cc-short-string-editor
-          class="d-inline"
-          @set="pilot.Background = $event"
-        >{{ pilot.Background }}</cc-short-string-editor>
+        <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
+          {{ pilot.Background }}
+        </cc-short-string-editor>
         <span>
           <cc-background-selector
             :pilot="pilot"
@@ -54,13 +55,26 @@
     <v-row class="stat-text pt-0 mt-n3">
       <v-col class="pt-0" dense>
         <span class="overline">PLAYER</span>
-        <cc-short-string-editor @set="pilot.PlayerName = $event">{{ pilot.PlayerName || '---' }}</cc-short-string-editor>
+        <cc-short-string-editor @set="pilot.PlayerName = $event">
+          {{ pilot.PlayerName || '---' }}
+        </cc-short-string-editor>
       </v-col>
       <v-col class="pt-0" dense>
         <span class="overline">FACTION</span>
-        <br />---
+        <br />
+        ---
         <cc-tooltip simple inline content="Feature In Development">
-          <v-icon small class="fadeSelect" @click="''">mdi-circle-edit-outline</v-icon>
+          <v-icon
+            small
+            class="fadeSelect"
+            @click="
+              ''
+
+
+            "
+          >
+            mdi-circle-edit-outline
+          </v-icon>
         </cc-tooltip>
       </v-col>
       <v-col class="pt-0" dense>
@@ -81,6 +95,7 @@ import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
 import ExtLog from '@/io/ExtLog'
+import activePilot from '../../../../mixins/activePilot'
 
 export default Vue.extend({
   name: 'ident-block',
@@ -98,12 +113,7 @@ export default Vue.extend({
     notification: '',
     syncing: false,
   }),
-  computed: {
-    pilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
-    },
-  },
+  mixins: [activePilot],
   methods: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {

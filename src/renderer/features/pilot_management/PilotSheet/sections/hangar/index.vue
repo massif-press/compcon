@@ -67,11 +67,13 @@ import { UserProfile } from '@/io/User'
 export default Vue.extend({
   name: 'mech-hangar-view',
   components: { MechCard, MechListItem, MechTable, NewMechMenu },
-  computed: {
-    pilot(): Pilot {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.ActivePilot
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
     },
+  },
+  computed: {
     profile(): UserProfile {
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile
