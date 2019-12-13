@@ -83,7 +83,7 @@ export default Vue.extend({
     toMechSheet(mech) {
       const store = getModule(PilotManagementStore, this.$store)
       store.setLoadedMech(mech.ID)
-      this.$router.push(`../mech/${this.pilot.ID}/${mech.ID}`)
+      this.$router.push(`../mech/${mech.ID}`)
     },
   },
 })
