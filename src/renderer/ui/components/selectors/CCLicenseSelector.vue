@@ -16,21 +16,21 @@
           icon="check_circle"
           class="stat-text"
           :value="!pilot.IsMissingLicenses"
-        >License Selection Complete</v-alert>
+        >
+          License Selection Complete
+        </v-alert>
         <v-alert
           outlined
           color="primary"
           icon="warning"
           class="stat-text"
           :value="pilot.IsMissingLicenses"
-        >{{ pilot.CurrentLicensePoints }} / {{ pilot.MaxLicensePoints }} Licenses selected</v-alert>
-        <v-btn
-          block
-          text
-          small
-          :disabled="!pilot.Licenses.length"
-          @click="pilot.ClearLicenses()"
-        >Reset</v-btn>
+        >
+          {{ pilot.CurrentLicensePoints }} / {{ pilot.MaxLicensePoints }} Licenses selected
+        </v-alert>
+        <v-btn block text small :disabled="!pilot.Licenses.length" @click="pilot.ClearLicenses()">
+          Reset
+        </v-btn>
       </v-row>
     </template>
 
@@ -38,7 +38,7 @@
       <v-row v-for="m in Object.keys(licenses)" :key="m">
         <v-col class="text-center pa-3">
           <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
-            <cc-logo :source="m" size="xLarge" class="pt-4" />
+            <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
             {{ manufacturer(m).name }}
           </span>
           <v-expansion-panels accordion focusable active-class="border-primary">
