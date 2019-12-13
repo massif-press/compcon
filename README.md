@@ -8,8 +8,17 @@
 # install dependencies
 yarn
 
-# serve dev
+# serve dev on web
 yarn dev
+
+# build for web
+yarn build
+
+# serve dev on election (no HMR, hard refreshes instead)
+yarn electron:dev
+
+# build for election
+yarn electron:build
 
 ```
 
