@@ -54,8 +54,8 @@ enum ImageTag {
 
 function getImageDir(subdir: ImageTag, defaults: boolean = false): string {
   // images are grabbed from /static/img on web, datapath on electron
-  const root = isWeb ? 'static' : userDataPath
-  if (defaults) return path.join(root, 'img', 'default', subdir)
+  const root = isWeb ? '/static' : userDataPath
+  if (defaults && !isWeb) return path.join(root, 'img', 'default', subdir)
   return path.join(root, 'img', subdir)
 }
 
