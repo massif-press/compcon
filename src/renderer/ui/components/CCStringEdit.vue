@@ -6,6 +6,8 @@
       :placeholder="placeholder"
       outlined
       hide-details
+      autofocus
+      @focus="$event.target.select()"
     />
   </edit-button>
 </template>

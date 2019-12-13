@@ -18,9 +18,8 @@ Next Steps:
     ☐ Modify movement speed based on prone/immob/stunned
 
 Bugs:
-  ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
-  ☐ armsman (at least) bugged
-  ☐ disableable cc-btn
+  ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52)
+  ✔ armsman (at least) bugged @done(19-12-11 12:52)
 
 Active Mode:
   ☐ Toggleable dense loadout view
@@ -45,12 +44,52 @@ Hangar:
 
 Print:
   ☐ Print all relevant tags
+  ☐ Print stress/structure tables
   ☐ Print NPCs
   ☐ Print Encounters
 
+NPC Data Structure:
+  ☐ 
+
+NPC:
+  NPC Roster:
+    ☐ NPC library
+      ☐ Custom tier icon
+      ☐ Sort by:
+        ☐ type
+        ☐ campaign
+        ☐ label
+        ☐ power rating
+    ☐ Import/Export/Print/Statblock NPC
+    ☐ Add new NPC
+      ☐ Template
+      ☐ Custom
+  Encounter Builder:
+    ☐ Add Map(?)
+    ☐ Add Goals
+    ☐ Add Conditions
+      ☐ Add NPCs (by wave)
+  Mission Runner:
+    ☐ Build Mission
+      ☐ Add Encounters
+    ☐ Run Mission
+      ☐ Turns
+      ☐ Initiative Tracker
+      ☐ Pilot Import
+      ☐ Graveyard
+      ☐ Reinforcements
+      ☐ Rests
+      ☐ Complete Mission
+        ☐ Success/Failure (based on conditions)
+        ☐ Stats
+  General:
+  ☐ Activations stat
+  ☐ Rename/Reflavor
+
 Printing:
   ☐ Mark danger zone heat
-  ☐ Print Preview
+  ✔ Print Preview @done(19-12-06 15:19)
+  ☐ Reserves Page
   General Print Options:
     ☐ Large fonts
     ☐ Print trackable stats as numbers or as pips
@@ -70,6 +109,9 @@ Printing:
     ☐ Add space for notes (lined)
     ☐ Add space for sketches (unlined)
     ☐ Per-item notes
+  Campaign Portfolio:
+    ☐ Art + fluff cover page
+    ☐ Blank pages for campaigns
 
 Item Selector:
   ☐ Item card notes don't immediately update
@@ -98,6 +140,8 @@ Factions:
 
 Refactor:
   ✔ remove old font stylings @done(19-12-05 13:50)
+  ☐ use @focus="$event.target.select()" for all edit button inputs
+  ☐ Normalize folder names
   ☐ Replace most instances of .Source with .Manufacturer.Name
   ☐ remove _shared
   ☐ Rules logic into class
@@ -110,6 +154,7 @@ Style Pass:
   ☐ error logging
   ☐ ra text/horus text
   ☐ integrate text color getter
+  ☐ disableable cc-btn
 
 Improvements:
   ☐ Add truncated effects to long effect equipment

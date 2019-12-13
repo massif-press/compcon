@@ -30,10 +30,24 @@
       </v-col>
       <v-col cols="2" class="unskew">
         <cc-tooltip simple inline delay :content="`Heat: ${mech.CurrentHeat}/${mech.HeatCapacity}`">
-          <v-icon>cci-heat</v-icon>
+          <v-icon>mdi-fire</v-icon>
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentHeat }}</span>
         <span class="flavor-text grey--text" style="font-size:14px">/{{ mech.HeatCapacity }}</span>
+      </v-col>
+      <v-col cols="2" class="unskew">
+        <cc-tooltip
+          simple
+          inline
+          delay
+          :content="`Repair Capacity: ${mech.CurrentRepairs}/${mech.RepairCapacity}`"
+        >
+          <v-icon>cci-repair</v-icon>
+        </cc-tooltip>
+        <span class="stat-text">{{ mech.CurrentRepairs }}</span>
+        <span class="flavor-text grey--text" style="font-size:14px">
+          /{{ mech.RepairCapacity }}
+        </span>
       </v-col>
     </v-row>
   </div>

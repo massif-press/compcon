@@ -1,10 +1,10 @@
 <template>
   <v-fade-transition leave-absolute>
-    <div v-if="!editing" key="str" :class="{'d-inline' : inline}">
+    <div v-if="!editing" key="str" :class="{ 'd-inline': inline }">
       <slot />
       <v-icon small class="fadeSelect" @click="edit()">mdi-circle-edit-outline</v-icon>
     </div>
-    <v-col v-else key="editname" :class="{'d-inline' : inline}">
+    <v-col v-else key="editname" :class="{ 'd-inline': inline }">
       <v-text-field
         v-model="newStr"
         dense
@@ -14,6 +14,7 @@
         :class="inline ? '' : `mx-0 my-0 mt-n4`"
         @blur="submit()"
         @keyup.enter="submit()"
+        @focus="$event.target.select()"
       ></v-text-field>
     </v-col>
   </v-fade-transition>
@@ -36,7 +37,7 @@ export default Vue.extend({
   methods: {
     edit() {
       this.editing = true
-      this.newStr = this.$slots.default[0].text
+      this.newStr = this.$slots.default[0].text.trim()
     },
     submit() {
       if (this.newStr.length) this.$emit('set', this.newStr)
@@ -58,9 +59,13 @@ export default Vue.extend({
 .v-input {
   padding: 0 !important;
   margin: 0 !important;
+  font-size: inherit !important;
+  min-height: min-content !important;
 }
 .v-input__slot {
   margin-bottom: 0 !important;
+  font-size: inherit !important;
+  min-height: min-content !important;
 }
 .label {
   font-size: 1em;

@@ -685,19 +685,18 @@ class Mech {
   public get IntegratedSystems(): MechSystem[] {
     let intg = []
     if (this._pilot.has('Talent', 'armsman')) {
-      const arms = store.getters.referenceByID(
+      const arms = store.getters.instantiate(
         'MechSystems',
         `armsman${this._pilot.getTalentRank('armsman')}`
       )
-      intg.push(new MechSystem(arms))
+      intg.push(arms)
     }
     if (this._pilot.has('Talent', 'techno')) {
-      const techno = store.getters.referenceByID(
+      const techno = store.getters.instantiate(
         'MechSystems',
         `techno${this._pilot.getTalentRank('techno')}`
       )
-      console.log(techno)
-      intg.push(new MechSystem(techno))
+      intg.push(techno)
     }
     return intg
   }

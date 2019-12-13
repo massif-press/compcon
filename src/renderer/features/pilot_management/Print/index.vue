@@ -1,9 +1,11 @@
 <template>
   <div class="printable" style="width: 100%">
     <div class="no-print" style="min-height: 48px!important" />
-    <pilot-print :pilot="pilot" />
-    <div style="page-break-before: always;"></div>
-    <mech-print v-if="mech" :mech="mech" />
+    <blank-pilot-print v-if="blank" />
+    <pilot-print v-else :pilot="pilot" />
+    <div style="page-break-before: always;" />
+    <blank-mech-print v-if="blank" />
+    <mech-print v-else-if="mech" :mech="mech" />
     <print-footer />
     <div class="no-print" style="min-height: 60px!important" />
   </div>
@@ -11,7 +13,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import BlankPilotPrint from './BlankPilotPrint.vue'
 import PilotPrint from './PilotPrint.vue'
+import BlankMechPrint from './BlankMechPrint.vue'
 import MechPrint from './MechPrint.vue'
 import PrintFooter from './PrintFooter.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -19,7 +23,7 @@ import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'combined-print',
-  components: { PilotPrint, MechPrint, PrintFooter },
+  components: { BlankPilotPrint, PilotPrint, BlankMechPrint, MechPrint, PrintFooter },
   props: {
     pilotID: {
       type: String,
@@ -32,34 +36,50 @@ export default Vue.extend({
     },
   },
   data: () => ({
+    blank: false,
     pilot: null,
     mech: null,
   }),
   created() {
-    const store = getModule(PilotManagementStore, this.$store)
-    this.pilot = store.ActivePilot
-    this.mech = this.pilot.ActiveMech
-    // if (this.mechID) {
-    //   this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)
-    // }
+    if (this.pilotID === 'blank') {
+      this.blank = true
+    } else {
+      const store = getModule(PilotManagementStore, this.$store)
+      this.pilot = store.ActivePilot
+      if (this.mechID) {
+        this.mech = store.ActivePilot.Mechs.find(x => x.ID === this.mechID)
+      }
+    }
   },
 })
 </script>
 
+<style>
+.v-application .caption {
+  line-height: normal !important;
+}
+</style>
+
 <style scoped>
 @page {
   size: A4;
-  margin: 0;
+  margin: 10px;
+  color-adjust: exact !important;
+  -webkit-print-color-adjust: exact !important;
+  background-color: white;
 }
 @media print {
   .printable {
-    zoom: 50%;
+    zoom: 75%;
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
   }
   .caption {
-    line-height: 0 !important;
+    line-height: normal;
   }
   fieldset {
     padding: 0px;
+    border-style: solid;
   }
 }
 </style>

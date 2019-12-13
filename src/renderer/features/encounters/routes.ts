@@ -3,12 +3,11 @@ import { store } from '@/store'
 import NPC from './logic/NPC'
 import EncounterBase from './logic/EncounterBase'
 
-import Main from './Main.vue'
+import Main from './index.vue'
 
-import Home from './views/Home.vue'
-import UnderConstruction from './views/UnderConstruction.vue'
+import Home from './landing.vue'
 
-import NpcDesignerIndex from './views/NpcDesigner/NpcDesignerIndex.vue'
+import NpcRoster from './npc/index.vue'
 import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
 import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue'
 import NpcsList from './views/NpcDesigner/NpcsList.vue'
@@ -40,36 +39,36 @@ const routes: RouteConfig[] = [
         component: Home,
       },
       {
-        path: '/npc-designer',
-        component: NpcDesignerIndex,
-        children: [
-          {
-            path: '',
-            name: 'npc-list',
-            component: NpcsList,
-          },
-          {
-            path: '/npc/:id',
-            name: 'npc',
-            component: NpcDisplay,
-            props: route => ({
-              npc: getNPC(route.params.id),
-            }),
-          },
-          {
-            path: '/npc-designer/new',
-            name: 'npc-new',
-            component: NpcClassPicker,
-          },
-          {
-            path: '/npc-designer/edit/:id',
-            name: 'npc-edit',
-            component: NpcBuilder,
-            props: route => ({
-              preNpc: getNPC(route.params.id),
-            }),
-          },
-        ],
+        path: '/npc-roster',
+        component: NpcRoster,
+        // children: [
+        //   {
+        //     path: '',
+        //     name: 'npc-list',
+        //     component: NpcsList,
+        //   },
+        //   {
+        //     path: '/npc/:id',
+        //     name: 'npc',
+        //     component: NpcDisplay,
+        //     props: route => ({
+        //       npc: getNPC(route.params.id),
+        //     }),
+        //   },
+        //   {
+        //     path: '/npc-designer/new',
+        //     name: 'npc-new',
+        //     component: NpcClassPicker,
+        //   },
+        //   {
+        //     path: '/npc-designer/edit/:id',
+        //     name: 'npc-edit',
+        //     component: NpcBuilder,
+        //     props: route => ({
+        //       preNpc: getNPC(route.params.id),
+        //     }),
+        //   },
+        // ],
       },
       {
         path: '/encounter-builder',
@@ -125,11 +124,6 @@ const routes: RouteConfig[] = [
             }),
           },
         ],
-      },
-      {
-        path: '/about',
-        name: 'about',
-        component: UnderConstruction,
       },
     ],
   },
