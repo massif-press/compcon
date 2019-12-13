@@ -17,7 +17,7 @@ import Vue from 'vue'
 import PilotHeader from './components/PilotHeader.vue'
 import { PilotManagementStore } from '../store'
 import { getModule } from 'vuex-module-decorators'
-import activePilot from '../mixins/activePilot'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'pilot-sheet',

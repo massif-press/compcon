@@ -125,7 +125,7 @@
 import Vue from 'vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import { Pilot } from '@/class'
-import activePilot from '../../mixins/activePilot'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'pilot-header',
