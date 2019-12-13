@@ -52,14 +52,15 @@ enum ImageTag {
   Misc = 'misc',
 }
 
-function getImageDir(subdir: ImageTag): string {
+function getImageDir(subdir: ImageTag, defaults: boolean = false): string {
   // images are grabbed from /static/img on web, datapath on electron
   const root = isWeb ? 'static' : userDataPath
+  if (defaults) return path.join(root, 'img', 'default', subdir)
   return path.join(root, 'img', subdir)
 }
 
-function getImagePath(subdir: ImageTag, fileName: string) {
-  return path.join(getImageDir(subdir), fileName)
+function getImagePath(subdir: ImageTag, fileName: string, defaults: boolean = false) {
+  return path.join(getImageDir(subdir, defaults), fileName)
 }
 
 // TODO: figure out how to make this work on web
@@ -106,9 +107,10 @@ function getImagePath(subdir: ImageTag, fileName: string) {
 
 async function getImagePaths(subdir: ImageTag, defaults: boolean = false): Promise<string[]> {
   if (isWeb) return
-  const imageDir = defaults ? path.join(__dirname, 'static', 'img', subdir) : getImageDir(subdir)
-  if (!(await exists(imageDir))) {
-    extlog(`image subdir ${subdir} doesn't exist, creating...`)
+  const imageDir = getImageDir(subdir, defaults)
+  const dirExists = await exists(imageDir)
+  if (!dirExists) {
+    extlog(`${defaults ? 'default' : ''} image subdir ${subdir} doesn't exist, creating...`)
     await mkdir(imageDir)
   }
   const dir = await readdir(imageDir)
@@ -117,34 +119,43 @@ async function getImagePaths(subdir: ImageTag, defaults: boolean = false): Promi
 
 async function copyDefaults(origin: string): Promise<void> {
   if (isWeb) return
-  const destination = `default_${origin}`
-  const defaults = await getImagePaths(origin as ImageTag, true)
-
+  const defaultDirPath = path.join(__dirname, 'static', 'img', origin)
+  if (!(await exists(defaultDirPath))) return
+  const defaults = await readdir(defaultDirPath)
   await Promise.all(
     defaults.map(async defaultImg => {
-      const imagePath = path.join(userDataPath, 'img', destination, defaultImg)
-      const defaultPath = path.join(__dirname, 'static', 'img', origin, defaultImg)
+      const imagePath = path.join(userDataPath, 'img', 'default', origin, defaultImg)
+      const defaultPath = path.join(defaultDirPath, defaultImg)
       if (!(await exists(defaultPath))) return
       if (
         !(await exists(imagePath)) ||
         (await stat(imagePath)).size !== (await stat(defaultPath)).size
       ) {
         extlog(`${origin} default ${defaultImg} does not exist in user folder. Copying...`)
-        const originPath = path.join(__dirname, 'static', 'img', origin, defaultImg)
-        const destinationPath = path.join(userDataPath, 'img', destination, defaultImg)
+        const originPath = path.join(defaultDirPath, defaultImg)
+        const destinationPath = path.join(userDataPath, 'img', 'default', origin, defaultImg)
         await copyFile(originPath, destinationPath)
       }
     })
   )
 }
 
-function validateImageFolders(): void {
+async function validateImageFolders(): Promise<void> {
+  if (isWeb) return
   let subdirs = Object.keys(ImageTag).map(k => ImageTag[k as string])
-  subdirs.forEach(s => {
-    // TODO
-    // checkImageData(s)
-    copyDefaults(s)
-  })
+  const defaultPath = path.join(userDataPath, 'img', 'default')
+  const defaultsExist = await exists(defaultPath)
+  if (!defaultsExist) {
+    extlog(`default subfolder doesn't exist, creating...`)
+    await mkdir(defaultPath)
+  }
+  Promise.all(
+    subdirs.map(async subdir => {
+      // TODO
+      // checkImageData(subdir)
+      await copyDefaults(subdir)
+    })
+  )
 }
 
 async function addImage(subdir: ImageTag, imagePath: string) {

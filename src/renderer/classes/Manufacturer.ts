@@ -47,7 +47,7 @@ class Manufacturer {
   }
 
   public get Logo(): string {
-    return getImagePath(ImageTag.Logo, `${this._logo}.svg`)
+    return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
   }
 }
 
