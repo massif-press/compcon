@@ -14,7 +14,7 @@
         ]
         <v-divider class="my-2" />
         <v-row dense>
-          <v-btn small text @click="deleteDialog = false">DENY</v-btn>
+          <v-btn small text @click="dialog = false">DENY</v-btn>
           <cc-btn small color="error" class="ml-auto" @click="remove()">
             CONFIRM
           </cc-btn>
