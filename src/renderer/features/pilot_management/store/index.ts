@@ -1,16 +1,13 @@
 import _ from 'lodash'
 import Vue from 'vue'
-import io from '../../_shared/data_io'
+import { saveData, loadData } from '@/io/Data'
 import { Pilot } from '@/class'
-import validator from '../../../io/validator'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 // import { PrintOptions } from '@/classes/Types'
 
-function savePilots(pilots: Pilot[]): void {
+async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.map(x => Pilot.Serialize(x))
-  io.saveUserData(Vue.prototype.userDataPath, 'pilots.json', serialized, () => {
-    console.info('Data Saved')
-  })
+  await saveData('pilots.json', serialized)
 }
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -52,10 +49,11 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [LOAD_PILOTS](): void {
-    this.Pilots = validator
-      .checkVersion(io.loadUserData(Vue.prototype.userDataPath, 'pilots.json') as IPilotData[])
-      .map(x => Pilot.Deserialize(x))
+  private [LOAD_PILOTS](payload: IPilotData[]): void {
+    // TODO: bring back validator?
+    // should maybe validate in the action instead of the mutator...
+    // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
+    this.Pilots = payload.map(x => Pilot.Deserialize(x))
     savePilots(this.Pilots)
   }
 
@@ -107,8 +105,9 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public loadPilots(): void {
-    this.context.commit(LOAD_PILOTS)
+  public async loadPilots() {
+    const pilotData = await loadData<IPilotData>('pilots.json')
+    this.context.commit(LOAD_PILOTS, pilotData)
   }
 
   @Action

@@ -3,6 +3,8 @@ import uuid from 'uuid/v1'
 import _ from 'lodash'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
+import { Capacitor } from '@capacitor/core'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 class Mech {
   private _id: string
@@ -164,8 +166,9 @@ class Mech {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait) return `file://${store.getters.getUserPath}/img/mech/${this._portrait}`
-    else return `file://${store.getters.getUserPath}/img/default_frame/${this.Frame.ID}.png`
+    else if (Capacitor.platform !== 'web' && this._portrait)
+      return getImagePath(ImageTag.Mech, this._portrait)
+    else return this.Frame.DefaultImage
   }
 
   // -- Attributes --------------------------------------------------------------------------------

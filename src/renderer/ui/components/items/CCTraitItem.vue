@@ -16,7 +16,7 @@ export default Vue.extend({
     },
     color: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 })

@@ -28,7 +28,8 @@
             ></v-text-field>
           </v-col>
         </v-row>
-        <load-log ref="log" />\
+        <load-log ref="log" />
+        \
         <v-divider dark />
         <v-card-actions v-if="cloudLoading">
           <v-progress-circular color="white" indeterminate size="22"></v-progress-circular>
@@ -57,11 +58,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import validator from '@/io/validator'
-import apis from '@/io/apis'
+import gistApi from '@/io/apis/gist'
 import LoadLog from './loaders/LoadLog.vue'
-import { clipboard } from 'electron'
 import { Pilot } from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { PilotManagementStore } from '../../../store'
 
 export default Vue.extend({
   name: 'cloud-import',
@@ -73,26 +74,17 @@ export default Vue.extend({
     cloudLoading: false,
   }),
   methods: {
-    cloudImport() {
-      const vm = this
-      vm.dialog = true
-      vm.cloudLoading = true
-      apis
-        .loadPilot(vm.importID)
-        .importPilotGist(vm.shareIDText)
-        .then((gist: any) => {
-          let newPilotData = JSON.parse(gist.files['pilot.txt'].content)
-          let newPilot = Pilot.Deserialize(newPilotData)
-          newPilot.RenewID()
-          vm.$store.dispatch('addPilot', newPilot)
-          vm.cloudDialog = false
-          vm.cloudLoading = false
-          vm.close()
-        })
-        .catch(function(err: any) {
-          vm.errorText = 'Pilot Import Failed! Cannot resolve this Share ID'
-          vm.cloudLoading = false
-        })
+    async cloudImport() {
+      this.dialog = true
+      this.cloudLoading = true
+      const pilotData = await gistApi.loadPilot(this.importID)
+      const newPilot = Pilot.Deserialize(pilotData)
+      newPilot.RenewID()
+      getModule(PilotManagementStore, this.$store).addPilot(newPilot)
+      this.cloudDialog = false
+      this.cloudLoading = false
+      this.dialog = false
+      this.$emit('done')
     },
   },
 })

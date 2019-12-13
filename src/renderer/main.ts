@@ -11,8 +11,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { store } from './store'
-import { remote } from 'electron'
-import path from 'path'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify'
 import VueMousetrap from 'vue-mousetrap'
@@ -22,17 +20,12 @@ import theme from './ui/theme'
 import mixins from './mixins'
 
 import _ from 'lodash'
+import Startup from './io/Startup'
+
+import { Capacitor } from '@capacitor/core'
+
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
-
-const windowAny: any = window
-
-if (process.env.NODE_ENV !== 'development') {
-  windowAny.__static = require('path')
-    .join(__dirname, '/static')
-    .replace(/\\/g, '\\\\')
-}
-
-Vue.prototype.userDataPath = path.normalize(path.join(remote.app.getPath('userData'), 'data'))
+Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.version = '2.0.0'
 Vue.prototype.lancerVersion = 'PRERELEASE 2'
@@ -51,5 +44,8 @@ new Vue({
   vuetify: new Vuetify(theme as any),
   router,
   store,
-  template: '<App/>',
+  created() {
+    Startup('2.0.0', 'PRERELEASE 2', store)
+  },
+  render: h => h(App),
 }).$mount('#app')

@@ -9,7 +9,7 @@
         <v-icon color="primary">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <roster-sort :pilots="pilots" @sort="sortPilots" />
+    <roster-sort :pilots="pilots" @sort="onSort" />
     <v-slide-x-transition mode="out-in">
       <v-container v-if="profile.RosterView === 'list'" fluid>
         <v-row>
@@ -36,26 +36,31 @@ import AddPilot from './components/AddPilot.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, PilotManagementStore } from '@/store'
 import { UserProfile } from '@/io/User'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'roster-view',
   components: { RosterSort, PilotListItem, PilotTable, AddPilot },
   data: () => ({
-    pilots: [],
+    sortParams: null,
   }),
   computed: {
     profile(): UserProfile {
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile
     },
-  },
-  created() {
-    const store = getModule(PilotManagementStore, this.$store)
-    this.pilots = store.Pilots
+    pilotsUnsorted() {
+      const store = getModule(PilotManagementStore, this.$store)
+      return store.Pilots
+    },
+    pilots() {
+      if (!this.sortParams) return this.pilotsUnsorted
+      return this.$_.orderBy(this.pilotsUnsorted, ...this.sortParams)
+    },
   },
   methods: {
-    sortPilots(sortedPilots) {
-      this.pilots = sortedPilots
+    onSort(sortParams: any[]) {
+      this.sortParams = sortParams
     },
   },
 })

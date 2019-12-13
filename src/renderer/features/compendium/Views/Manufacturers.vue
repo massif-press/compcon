@@ -15,10 +15,12 @@
       </v-tab>
       <v-tab-item v-for="m in manufacturers" :key="m.ID + 'desc'">
         <v-card flat class="px-3 py-3">
-          <v-card-title class="heading mech pb-4" :style="`color: ${m.Color}`">{{ m.Name }}</v-card-title>
+          <v-card-title class="heading mech pb-4" :style="`color: ${m.Color}`">
+            {{ m.Name }}
+          </v-card-title>
           <v-card-text class="mt-1 ml-2 pr-4 pt-0">
             <div style="float: right; margin-left: 20px; margin-right: 50px">
-              <v-img :src="m.LogoSRC" min-width="300px" min-height="300px" />
+              <v-img :src="m.Logo" min-width="300px" min-height="300px" />
             </div>
             <blockquote class="quote-block fluff-text grey--text text--darken-4" v-html="m.Quote" />
             <v-divider class="ma-2" style="width: 800px" />

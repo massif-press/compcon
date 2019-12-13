@@ -22,7 +22,7 @@
           <transition name="spin" mode="out-in">
             <v-icon :key="expanded" x-large>
               {{
-              expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
+                expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
               }}
             </v-icon>
           </transition>
@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import apis from '@/io/apis'
+import gistApi from '@/io/apis/gist'
 import ChangelogPanel from './ChangelogPanel.vue'
 
 export default Vue.extend({
@@ -59,7 +59,7 @@ export default Vue.extend({
   }),
 
   created() {
-    apis
+    gistApi
       .getChangelog()
       .then((response: any) => {
         this.loading = false

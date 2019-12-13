@@ -24,7 +24,9 @@
                   outlined
                   color="primary"
                   class="mr-2"
-                >{{ f }}</v-chip>
+                >
+                  {{ f }}
+                </v-chip>
               </div>
               <v-img
                 id="img-hover"
@@ -52,12 +54,11 @@ import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'licenses',
-  data: () => ({
-    licenses: {},
-  }),
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.licenses = this.$_.groupBy(compendium.Licenses, 'source')
+  computed: {
+    licenses() {
+      const licenseData = getModule(CompendiumStore, this.$store).Licenses
+      return this.$_.groupBy(licenseData, 'Source')
+    }
   },
   methods: {
     manufacturer(id: string) {

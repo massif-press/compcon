@@ -1,30 +1,27 @@
 import Vue from 'vue'
-import ActiveEncounter from '../logic/ActiveEncounter'
+import ActiveEncounter, { IActiveEncounterData } from '../logic/ActiveEncounter'
 import _ from 'lodash'
-import io from '../../_shared/data_io'
+import { loadData, saveData } from '@/io/Data'
 import EncounterBase from '../logic/EncounterBase'
-import { VuexModule, Module, Action, Mutation } from 'vuex-module-decorators';
+import { VuexModule, Module, Action, Mutation } from 'vuex-module-decorators'
 
 function saveEncounters(encounters: ActiveEncounter[]) {
   const serialized = encounters.map(x => x.serialize())
-  io.saveUserData(Vue.prototype.userDataPath, 'active_encounters.json', serialized, () => {
-    console.info('Data Saved')
-  })
+  saveData('active_encounters.json', serialized)
 }
 
-
 @Module({
-  name: "encounterRunner",
+  name: 'encounterRunner',
   namespaced: true,
 })
 export class EncounterRunnerStore extends VuexModule {
   activeEncounters: ActiveEncounter[] = []
 
   @Mutation
-  load() {
-    this.activeEncounters = io
-      .loadUserData(Vue.prototype.userDataPath, 'active_encounters.json')
-      .map(x => new ActiveEncounter(x))
+  load(payload: IActiveEncounterData[]) {
+    // TODO: currently doing `x as any` because overloads don't work as i thought apparently, so i get a type error
+    // in future, instead of using constructors for ActiveEncounter, have deserialize and fromEncounter static methods
+    this.activeEncounters = payload.map(x => new ActiveEncounter(x as any))
     saveEncounters(this.activeEncounters)
   }
 
@@ -42,9 +39,7 @@ export class EncounterRunnerStore extends VuexModule {
 
   @Mutation
   edit(newEncounter: ActiveEncounter) {
-    const target = this.activeEncounters.find(
-      (enc: ActiveEncounter) => enc.id === newEncounter.id
-    )
+    const target = this.activeEncounters.find((enc: ActiveEncounter) => enc.id === newEncounter.id)
     if (!target) throw new Error('encounter does not exist')
     else {
       Object.assign(target, newEncounter)
@@ -57,5 +52,11 @@ export class EncounterRunnerStore extends VuexModule {
     const activeEnc = new ActiveEncounter(baseEnc)
     this.context.commit('add', activeEnc)
     return activeEnc
+  }
+
+  @Action
+  async loadActiveEncounters() {
+    const activeEncounterData = await loadData<IActiveEncounterData>('active_encounters.json')
+    this.context.commit('load', activeEncounterData)
   }
 }

@@ -41,7 +41,7 @@ export default Vue.extend({
   methods: {
     sortBy(field: string, direction: string) {
       const vm = this as any
-      vm.$emit('sort', vm.$_.orderBy(vm.pilots, field, direction))
+      vm.$emit('sort', [field, direction])
     },
   },
 })
