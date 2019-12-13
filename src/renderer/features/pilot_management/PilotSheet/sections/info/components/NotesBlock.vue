@@ -13,7 +13,7 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
-import activePilot from '../../../../mixins/activePilot'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'notes-block',
