@@ -86,16 +86,16 @@ export default class NPC {
     }
   }
 
-  get class_systems() {
+  get classSystems() {
     return systems.filter(s => s.class === this.npcClass.name)
   }
 
-  get base_class_systems() {
-    return this.class_systems.filter(s => s.base)
+  get baseClassSystems() {
+    return this.classSystems.filter(s => s.base)
   }
 
-  get optional_class_systems() {
-    return this.class_systems.filter(s => !s.base)
+  get optionalClassSystems() {
+    return this.classSystems.filter(s => !s.base)
   }
 
   get genericSystemsAvailable() {
@@ -161,7 +161,7 @@ export default class NPC {
         }))
       )
     )
-    const preSort = this.base_class_systems.concat(this.pickedSystems).concat(templateTraits)
+    const preSort = this.baseClassSystems.concat(this.pickedSystems).concat(templateTraits)
     return _.orderBy(preSort, ['base', 'type', 'name'], ['desc', 'desc', 'asc'])
   }
 
@@ -180,7 +180,7 @@ export default class NPC {
         .map(t => t.name)
         .concat(
           templates
-            .find(t => t.name === templateName)!
+            .find(t => t.name === templateName)
             .incompatibleTemplates.filter(t => this._templates.includes(t))
         )
     )
