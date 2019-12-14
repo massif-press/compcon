@@ -69,7 +69,7 @@ const baseConfig = {
         ]
       },
       {
-        test: /\.(ts|js)x?$/,
+        test: /\.(ts|js|vue)$/,
         exclude: /node_modules/,
         use: [
           {
