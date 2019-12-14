@@ -7,7 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   plugins: [
     new CopyPlugin([
-      { from: 'public/config', to: '.' }
+      { from: 'netlify.toml', to: '.' }
     ]),
     new WebpackPwaManifest({
       name: 'COMP/CON',
