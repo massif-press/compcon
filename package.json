@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "webpack-dev-server --progress --env.platform=web",
     "build": "webpack --progress --env.platform=web --env.prod",
+    "unit-test": "jest unit",
+    "int-test": "jest int",
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
     "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
   },
