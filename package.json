@@ -12,31 +12,19 @@
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
     "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
   },
-  "electronWebpack": {
-    "title": "COMP/CON v2.0.0",
-    "whiteListedModules": [
-      "vue",
-      "vuetify"
-    ]
-  },
   "build": {
-    "productName": "compcon",
-    "appId": "com.jarena.compcon",
-    "directories": {
-      "output": "build/"
-    },
-    "files": [
-      "dist/main/**/*",
-      "dist/renderer/**/*"
-    ],
+    "productName": "COMP/CON",
+    "appId": "com.massifpress.compcon",
     "mac": {
-      "icon": "icons/icon.icns",
+      "icon": "./icons/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "./electron/entitlements.mac.inherit.plist",
       "target": [
         "zip"
       ]
     },
     "win": {
-      "icon": "icons/icon.ico",
+      "icon": "./icons/icon.ico",
       "target": [
         {
           "target": "portable",
@@ -48,7 +36,7 @@
       ]
     },
     "linux": {
-      "icon": "icons",
+      "icon": "./icons",
       "target": [
         {
           "target": "AppImage"
@@ -85,8 +73,7 @@
     "vuetify": "^2.0.0-beta.9",
     "vuex": "^3.1.0",
     "vuex-electron": "^1.0.3",
-    "vuex-module-decorators": "^0.10.1",
-    "xlsx": "^0.14.2"
+    "vuex-module-decorators": "^0.10.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
@@ -97,11 +84,8 @@
     "copy-webpack-plugin": "^5.0.5",
     "core-js": "3",
     "electron": "4.0.1",
-    "electron-builder": "20.38.4",
+    "electron-builder": "^20.41.0",
     "electron-reload": "^1.5.0",
-    "electron-webpack": "^2.6.2",
-    "electron-webpack-ts": "^3.1.1",
-    "electron-webpack-vue": "^2.2.3",
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-vue": "^5.2.3",
