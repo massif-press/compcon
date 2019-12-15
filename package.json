@@ -10,40 +10,7 @@
     "unit-test": "jest unit",
     "int-test": "jest int",
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
-    "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
-  },
-  "build": {
-    "productName": "COMP/CON",
-    "appId": "com.massifpress.compcon",
-    "mac": {
-      "icon": "./icons/icon.icns",
-      "hardenedRuntime": true,
-      "entitlements": "./electron/entitlements.mac.inherit.plist",
-      "target": [
-        "zip"
-      ]
-    },
-    "win": {
-      "icon": "./icons/icon.ico",
-      "target": [
-        {
-          "target": "portable",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "icon": "./icons",
-      "target": [
-        {
-          "target": "AppImage"
-        }
-      ],
-      "category": "Game"
-    }
+    "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder"
   },
   "dependencies": {
     "@aricchi/electron-vue-devtools": "^5.0.8-1",
@@ -76,6 +43,7 @@
     "vuex-module-decorators": "^0.10.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "@types/jest": "^24.0.13",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
@@ -110,6 +78,7 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "4.28.4",
     "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
     "webpack-inject-plugin": "^1.5.3",
     "webpack-merge": "^4.2.2",
     "webpack-pwa-manifest": "^4.1.1",
