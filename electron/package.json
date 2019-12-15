@@ -1,0 +1,49 @@
+{
+  "name": "compcon-electron",
+  "version": "2.0.0",
+  "main": "index.js",
+  "author": "Massif Press",
+  "license": "GPL-3.0-or-later",
+  "build": {
+    "productName": "COMP/CON",
+    "appId": "com.massifpress.compcon",
+    "mac": {
+      "icon": "../icons/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "./entitlements.mac.inherit.plist",
+      "target": [
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "../icons/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "../icons",
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ],
+      "category": "Game"
+    }
+  },
+  "dependencies": {
+    "@capacitor/electron": "^1.3.0",
+    "electron-is-dev": "^1.1.0",
+    "vue-devtools": "^5.1.3",
+    "electron-reload": "^1.5.0"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0"
+  }
+}
