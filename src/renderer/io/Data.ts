@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import path from 'path'
 import { promisify } from 'util'
+import ExtLog from './ExtLog'
 
 const PLATFORM = Capacitor.platform
 const platformNotSupportedMessage = `ERROR - PLATFORM NOT SUPPORTED: "${PLATFORM}" `
@@ -14,6 +15,14 @@ if (PLATFORM == 'electron') {
   fs = require('fs')
   electron = require('electron')
   userDataPath = path.join((electron.app || electron.remote.app).getPath('userData'), 'data')
+}
+
+const ensureDataDir = function(): void {
+  const dataPathExists = fs.existsSync(userDataPath)
+  if (!dataPathExists) {
+    fs.mkdirSync(userDataPath)
+    ExtLog(`Created user data directory at ${userDataPath}`)
+  }
 }
 
 const writeFile = async function(name: string, data: string): Promise<void> {
@@ -51,13 +60,18 @@ const exists = async function(name: string): Promise<boolean> {
   }
 }
 
-const saveData = async function<T>(fileName: string, data: T) {
+const saveData = async function<T>(fileName: string, data: T): Promise<void> {
   return writeFile(fileName, JSON.stringify(data))
 }
 
-const loadData = async function<T>(fileName: string) {
-  const dataText = await readFile(fileName)
-  return (JSON.parse(dataText) || []) as T[]
+const loadData = async function<T>(fileName: string): Promise<T[]> {
+  const fileExists = await exists(fileName)
+  if (fileExists) {
+    const dataText = await readFile(fileName)
+    return (JSON.parse(dataText) || []) as T[]
+  } else {
+    return []
+  }
 }
 
 const importData = function<T>(file: File): Promise<T> {
@@ -77,4 +91,13 @@ const dataPathMap = {
 
 const USER_DATA_PATH = dataPathMap[PLATFORM]
 
-export { writeFile, readFile, saveData, loadData, importData, exists, USER_DATA_PATH }
+export {
+  ensureDataDir,
+  writeFile,
+  readFile,
+  saveData,
+  loadData,
+  importData,
+  exists,
+  USER_DATA_PATH,
+}
