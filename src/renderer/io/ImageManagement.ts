@@ -122,9 +122,15 @@ async function copyDefaults(origin: string): Promise<void> {
   const defaultDirPath = path.join(__dirname, 'static', 'img', origin)
   if (!(await exists(defaultDirPath))) return
   const defaults = await readdir(defaultDirPath)
+  const destinationDir = path.join(userDataPath, 'img', 'default', origin)
+  const destinationDirExists = await exists(destinationDir)
+  if (!destinationDirExists) {
+    extlog(`${origin} default folder does not exist in user folder. Creating...`)
+    await mkdir(destinationDir)
+  }
   await Promise.all(
     defaults.map(async defaultImg => {
-      const imagePath = path.join(userDataPath, 'img', 'default', origin, defaultImg)
+      const imagePath = path.join(destinationDir, defaultImg)
       const defaultPath = path.join(defaultDirPath, defaultImg)
       if (!(await exists(defaultPath))) return
       if (
@@ -133,7 +139,7 @@ async function copyDefaults(origin: string): Promise<void> {
       ) {
         extlog(`${origin} default ${defaultImg} does not exist in user folder. Copying...`)
         const originPath = path.join(defaultDirPath, defaultImg)
-        const destinationPath = path.join(userDataPath, 'img', 'default', origin, defaultImg)
+        const destinationPath = path.join(destinationDir, defaultImg)
         await copyFile(originPath, destinationPath)
       }
     })
@@ -143,6 +149,13 @@ async function copyDefaults(origin: string): Promise<void> {
 async function validateImageFolders(): Promise<void> {
   if (isWeb) return
   let subdirs = Object.keys(ImageTag).map(k => ImageTag[k as string])
+
+  const imgPath = path.join(userDataPath, 'img')
+  const imgPathExists = await exists(imgPath)
+  if (!imgPathExists) {
+    extlog(`img subfolder doesn't exist, creating...`)
+    await mkdir(imgPath)
+  }
   const defaultPath = path.join(userDataPath, 'img', 'default')
   const defaultsExist = await exists(defaultPath)
   if (!defaultsExist) {
