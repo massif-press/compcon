@@ -2,10 +2,17 @@
   <v-container fluid class="mt-9" style="height: 100%">
     <cc-gm-header title="NPC ROSTER" />
     <v-row>
-      <v-col cols="4" class="mt-n4">
+      <v-col cols="4" class="mt-n4" style="min-height: 87vh; max-height: 87vh; overflow-y: scroll;">
         <v-row dense>
           <v-col>
-            <v-text-field v-model="search" dense hide-details outlined clearable />
+            <v-text-field
+              v-model="search"
+              prepend-inner-icon="mdi-magnify"
+              dense
+              hide-details
+              outlined
+              clearable
+            />
           </v-col>
           <v-col cols="auto">
             <roster-group @set="grouping = $event" />
@@ -45,25 +52,25 @@
             </template>
             <template v-slot:item.Role="{ item }">
               <cc-tooltip simple :content="item.Role.toUpperCase()">
-                <v-icon large class="ml-n4" :color="`role--${item.Role}`">
-                  cci-role-{{ item.Role }}
-                </v-icon>
+                <v-icon large :color="`role--${item.Role}`">cci-role-{{ item.Role }}</v-icon>
               </cc-tooltip>
             </template>
             <template v-slot:item.Tier="{ item }">
               <cc-tooltip simple :content="`TIER ${item.Tier} NPC`">
-                <v-icon v-if="item.Tier === 'custom'" large color="grey darken-2" class="ml-n4">
+                <v-icon v-if="item.Tier === 'custom'" large color="grey darken-2">
                   mdi-star-circle-outline
                 </v-icon>
                 <v-icon
                   v-else
                   large
-                  class="ml-n4"
                   :color="item.Tier === 1 ? 'grey' : item.Tier === 2 ? 'grey darken-2' : 'black'"
                 >
                   cci-rank-{{ item.Tier }}
                 </v-icon>
               </cc-tooltip>
+            </template>
+            <template v-slot:item.Power="{ item }">
+              <span class="caption text-uppercase">{{ item.Power }}</span>
             </template>
           </v-data-table>
         </v-row>
@@ -78,9 +85,9 @@
         </v-row>
       </v-col>
       <v-divider vertical />
-      <v-col class="bordered-view">
+      <v-col id="scrollTarget" class="bordered-view">
         <npc-card v-if="selectedNpc" :npc="selectedNpc" />
-        <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+        <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
           <v-col cols="auto">
             <span class="heading h1 grey--text text--lighten-2">no npc selected</span>
           </v-col>
@@ -104,9 +111,10 @@ export default Vue.extend({
     grouping: null,
     headers: [
       { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'Class', value: 'Class', align: 'left' },
-      { text: 'Role', value: 'Role', align: 'center', width: '50px' },
-      { text: 'Tier', value: 'Tier', align: 'center', width: '50px' },
+      { text: 'Class', value: 'Class' },
+      { text: 'Role', value: 'Role' },
+      { text: 'Tier', value: 'Tier' },
+      { text: 'Power', value: 'Power' },
     ],
     npcs: [
       {
@@ -116,6 +124,8 @@ export default Vue.extend({
         Templates: ['Veteran', 'Pirate'],
         Tier: 1,
         Labels: ['a', 'b', 'c'],
+        Power: 331,
+        PowerTier: '301 - 400',
         Campaign: 'my campaign',
         Data: 'this is some npc a data',
       },
@@ -124,7 +134,9 @@ export default Vue.extend({
         Role: 'support',
         Class: 'scout',
         Templates: ['Grunt'],
-        Tier: 2,
+        Tier: 1,
+        Power: 88,
+        PowerTier: '0 - 100',
         Labels: ['a', 'b', 'c'],
         Campaign: 'my campaign',
         Data: 'this is some npc a data',
@@ -134,6 +146,9 @@ export default Vue.extend({
         Role: 'artillery',
         Class: 'operator',
         Tier: 3,
+        Templates: [],
+        Power: 304,
+        PowerTier: '301 - 400',
         Labels: ['a', 'c'],
         Campaign: 'Wallflower',
         Data: 'this is some npc a data',
@@ -144,18 +159,27 @@ export default Vue.extend({
         Class: 'breacher',
         Templates: ['Elite'],
         Tier: 'custom',
+        Power: 944,
+        PowerTier: '901 - 1000',
         Labels: ['a', 'f'],
         Campaign: 'Wallflower',
         Data: 'this is some npc a data',
       },
     ],
   }),
+  watch: {
+    selectedNpc() {
+      console.log('npc changed')
+      document.getElementById('scrollTarget').scrollTop = 0
+    },
+  },
 })
 </script>
 
 <style scoped>
 .bordered-view {
   min-height: 87vh;
+  max-height: 87vh;
   overflow-y: scroll;
   border: 1px solid darkgrey;
   border-radius: 3px;

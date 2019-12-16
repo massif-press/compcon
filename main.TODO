@@ -21,6 +21,10 @@ Bugs:
   ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52)
   ✔ armsman (at least) bugged @done(19-12-11 12:52)
 
+Etc:
+  ☐ For frame info and NPCs, make expandable image panel
+    ☐ Need image somewhere on frame card
+
 Active Mode:
   ☐ Toggleable dense loadout view
 
@@ -48,9 +52,6 @@ Print:
   ☐ Print NPCs
   ☐ Print Encounters
 
-NPC Data Structure:
-  ☐ 
-
 NPC:
   NPC Roster:
     ☐ NPC library
@@ -60,9 +61,10 @@ NPC:
         ☐ campaign
         ☐ label
         ☐ power rating
+    ☐ Assign Label
+    ☐ Assign Campaign
     ☐ Import/Export/Print/Statblock NPC
     ☐ Add new NPC
-      ☐ Template
       ☐ Custom
   Encounter Builder:
     ☐ Add Map(?)
