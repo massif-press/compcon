@@ -4,8 +4,11 @@
 import { CompendiumStore, PilotManagementStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 import { validateImageFolders } from './ImageManagement'
+import { ensureDataDir } from './Data'
 
 export default function(lancerVer: string, ccVer: string, store: any): void {
+  ensureDataDir()
+
   const dataStore = getModule(CompendiumStore, store)
   dataStore.setVersions(lancerVer, ccVer)
   dataStore.loadData()

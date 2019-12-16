@@ -1,6 +1,6 @@
 import path from 'path'
 import Vue from 'vue'
-import { writeFile, readFile, exists, USER_DATA_PATH } from './Data'
+import { writeFile, readFile, exists, USER_DATA_PATH, ensureDataDir } from './Data'
 import { Capacitor } from '@capacitor/core'
 import theme from '@/ui/theme'
 
@@ -18,8 +18,9 @@ const logPrefixStyles = [
   `padding: 2px 0.5em`,
 ]
 
-async function ExtLog(s: string) {
+async function ExtLog(s: string): Promise<void> {
   if (Capacitor.platform != 'web') {
+    ensureDataDir()
     if (!(await exists(LOG_FILE_NAME))) {
       try {
         await writeFile(LOG_FILE_NAME, '[]')
