@@ -3,51 +3,52 @@ node_js: '10'
 cache:
   yarn: true
   directories:
-  - node_modules
-  - "$HOME/.cache/electron"
-  - "$HOME/.cache/electron-builder"
+    - node_modules
+    - '$HOME/.cache/electron'
+    - '$HOME/.cache/electron-builder'
 install:
-- yarn
+  - yarn
 env:
   global:
-  - ELECTRON_CACHE=$HOME/.cache/electron
-  - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 before_cache:
-- rm -rf $HOME/.cache/electron-builder/wine
-
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 stages:
-- name: test
-- name: build
-  if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
+  # - name: test
+  - name: build
+    # if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
 
 jobs:
   include:
-  - stage: test
-    name: 'test'
-    os: linux
-    dist: xenial
-    script:
-      - yarn unit-test
-      - yarn int-test
-      - yarn build --linux --publish never
-  - stage: build
-    name: mac
-    os: osx
-    osx_image: xcode10.2
-    script:
-    - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
-    - yarn electron:build -mwl --publish never
-    deploy:
-      provider: releases
-      skip_cleanup: true
-      api_key:
-        secure: OSFomNadUN/fi5ALvRuVxGF9srtR4YjBvOxbCy0d8AFYvqn5HdGpgVE8zvh3Jsj/bgw0xUCRgJ0OE/jZxI5WYZWsNMzoiXzQOEAus2CGjR18rat8f2/UKP1IsIXYhc1iUHd9/uCNx4y/g7T1mtnsXEGShqjuv3B2Bq1WuCj6D0Sks3GPVnG5/VOkSnCWJrdyerqMoCIa1w5+/M3EwW7iTTm8WuZMCCfFJQQudur6VtwsZSpmDRPnjOI1n+0UrfuLauza0QCFaPerHPFfUVIPGGX//934PKsgPRqpa7uljdskqMN6f9nAnJ1pSAdSuxgyiR9zo+Bdt8QT28AEsG0u0DYR2Ptx/DKgyrTcCn39a1FxIpT5E+YTcqrPygPKcse/HAgmkOqYmRgKXrm8g3dM0XaN0VIS0PkiuQPYcmo1ZuHHkV+vIwqM1R5zMcKjCNIGe+RHFiGMCm2b+TVT25cjI/CggaxiSew9GkKjf3I32ZO7610pLScts4Om52v1dDHthXqc7Jc2eAN3I+9zuDhOeyRiw/WJeOc99717ssqJuzMMz/Mb6z4uEDC81iCqv88FiWCPyD+Sk1WDI3qtOMcpbj6dm9L409mo1SwpfNcRAk6jO4LN7tSjLXLePAcwJTBD2afUJhS7tp80PdKeZ49yKFh6yCrRqbLSlDWcwT4Kdy8=
-      file:
-      - 'electron/dist/COMPCON*.AppImage'
-      - 'electron/dist/COMPCON*.exe'
-      - 'electron/dist/COMPCON*mac.zip'
-      skip_cleanup: true
-      draft: true
-      on:
-        all_branches: true
+    # - stage: test
+    #   name: 'test'
+    #   os: linux
+    #   dist: xenial
+    #   script:
+    #     - yarn unit-test
+    #     - yarn int-test
+    #     - yarn build --linux --publish never
+    - stage: build
+      name: mac
+      os: osx
+      osx_image: xcode10.2
+      script:
+        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
+        - yarn electron:build -mwl --publish never
+      deploy:
+        provider: releases
+        skip_cleanup: true
+        api_key:
+          secure: OSFomNadUN/fi5ALvRuVxGF9srtR4YjBvOxbCy0d8AFYvqn5HdGpgVE8zvh3Jsj/bgw0xUCRgJ0OE/jZxI5WYZWsNMzoiXzQOEAus2CGjR18rat8f2/UKP1IsIXYhc1iUHd9/uCNx4y/g7T1mtnsXEGShqjuv3B2Bq1WuCj6D0Sks3GPVnG5/VOkSnCWJrdyerqMoCIa1w5+/M3EwW7iTTm8WuZMCCfFJQQudur6VtwsZSpmDRPnjOI1n+0UrfuLauza0QCFaPerHPFfUVIPGGX//934PKsgPRqpa7uljdskqMN6f9nAnJ1pSAdSuxgyiR9zo+Bdt8QT28AEsG0u0DYR2Ptx/DKgyrTcCn39a1FxIpT5E+YTcqrPygPKcse/HAgmkOqYmRgKXrm8g3dM0XaN0VIS0PkiuQPYcmo1ZuHHkV+vIwqM1R5zMcKjCNIGe+RHFiGMCm2b+TVT25cjI/CggaxiSew9GkKjf3I32ZO7610pLScts4Om52v1dDHthXqc7Jc2eAN3I+9zuDhOeyRiw/WJeOc99717ssqJuzMMz/Mb6z4uEDC81iCqv88FiWCPyD+Sk1WDI3qtOMcpbj6dm9L409mo1SwpfNcRAk6jO4LN7tSjLXLePAcwJTBD2afUJhS7tp80PdKeZ49yKFh6yCrRqbLSlDWcwT4Kdy8=
+        file_glob: true
+        file:
+        - "electron/dist/COMPCON*.AppImage"
+        - "electron/dist/COMPCON*.exe"
+        - "electron/dist/COMPCON*mac.zip"
+        skip_cleanup: true
+        draft: true
+        on:
+          tags: true
+          all_branches: true
