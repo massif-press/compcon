@@ -26,6 +26,7 @@ export default Vue.extend({
       { name: 'Labels', val: 'Labels' },
       { name: 'Campaign', val: 'Campaign' },
       { name: 'Tier', val: 'Tier' },
+      { name: 'Power Rating', val: 'PowerTier' },
     ],
   }),
 })
