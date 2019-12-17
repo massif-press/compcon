@@ -65,6 +65,19 @@ import {
   DieSet,
 } from './classes/dice/DiceRoller'
 import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats'
+import {
+  NpcFeatureType,
+  NpcFeature,
+  NpcTrait,
+  NpcReaction,
+  NpcSystem,
+  NpcTech,
+  NpcWeapon,
+  NpcStats,
+  NpcClass,
+  NpcTemplate,
+  NpcItem,
+} from './classes/npc'
 
 export {
   MountType,
@@ -125,4 +138,15 @@ export {
   DieSet,
   DiceStats,
   DiceStatsResult,
+  NpcFeatureType,
+  NpcFeature,
+  NpcReaction,
+  NpcSystem,
+  NpcTrait,
+  NpcWeapon,
+  NpcStats,
+  NpcClass,
+  NpcTemplate,
+  NpcItem,
+  NpcTech,
 }
