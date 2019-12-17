@@ -15,13 +15,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'main-btn',
-  props: {
-    to: {
-      type: String,
-      required: true,
-    },
-  },
+  name: 'disabled-main-btn',
   data: () => ({
     mouseOver: false,
   }),

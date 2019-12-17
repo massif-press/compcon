@@ -86,6 +86,7 @@
       </v-col>
       <v-divider vertical />
       <v-col id="scrollTarget" class="bordered-view">
+        <router-view />
         <npc-card v-if="selectedNpc" :npc="selectedNpc" />
         <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
           <v-col cols="auto">

@@ -18,10 +18,17 @@ if (PLATFORM == 'electron') {
 }
 
 const ensureDataDir = function(): void {
-  const dataPathExists = fs.existsSync(userDataPath)
-  if (!dataPathExists) {
-    fs.mkdirSync(userDataPath)
-    ExtLog(`Created user data directory at ${userDataPath}`)
+  switch (PLATFORM) {
+    case 'web':
+      return
+    case 'electron':
+      const dataPathExists = fs.existsSync(userDataPath)
+      if (!dataPathExists) {
+        fs.mkdirSync(userDataPath)
+        ExtLog(`Created user data directory at ${userDataPath}`)
+      }
+    default:
+      throw new Error(platformNotSupportedMessage)
   }
 }
 

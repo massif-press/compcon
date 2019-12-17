@@ -55,14 +55,13 @@ Print:
 NPC:
   NPC Roster:
     ☐ NPC library
+      ☐ Handle long names better
       ☐ Custom tier icon
-      ☐ Sort by:
-        ☐ type
-        ☐ campaign
-        ☐ label
-        ☐ power rating
+      ✔ Sort by: @done(19-12-17 13:27)
     ☐ Assign Label
+    ☐ Assign NPC Tags
     ☐ Assign Campaign
+    ☐ Assign Image
     ☐ Import/Export/Print/Statblock NPC
     ☐ Add new NPC
       ☐ Custom

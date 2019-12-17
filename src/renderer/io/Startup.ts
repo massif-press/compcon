@@ -12,6 +12,9 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
   const dataStore = getModule(CompendiumStore, store)
   dataStore.setVersions(lancerVer, ccVer)
   dataStore.loadData()
+  console.log(dataStore.NpcClasses)
+  console.log(dataStore.NpcFeatures)
+  console.log(dataStore.NpcTemplates)
   dataStore.buildLicenses()
 
   validateImageFolders()
