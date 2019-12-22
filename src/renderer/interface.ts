@@ -22,6 +22,17 @@ import { IManufacturerData } from './classes/Manufacturer'
 import { ITalentData } from './classes/pilot/Talent'
 import { ISkillData } from './classes/pilot/Skill'
 import { IMechWeaponData } from './classes/mech/MechWeapon'
+import {
+  INpcFeatureData,
+  INpcReactionData,
+  INpcSystemData,
+  INpcTechData,
+  INpcDamageData,
+  INpcWeaponData,
+  INpcStats,
+  INpcClassData,
+  INpcTemplateData,
+} from './classes/npc'
 
 export {
   ICompendiumItemData,
@@ -43,4 +54,13 @@ export {
   ITalentData,
   ISkillData,
   IMechWeaponData,
+  INpcFeatureData,
+  INpcReactionData,
+  INpcSystemData,
+  INpcTechData,
+  INpcDamageData,
+  INpcWeaponData,
+  INpcStats,
+  INpcClassData,
+  INpcTemplateData,
 }

@@ -9,7 +9,7 @@
       {{ title }}
     </h2>
     <v-divider class="my-2" />
-    <p class="flavor-text px-2">
+    <p class="flavor-text px-2" style="min-height: 50px">
       {{ text }}
     </p>
   </v-card>
