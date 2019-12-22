@@ -1,3 +1,34 @@
+NPC Data Structure:
+  npcs hold pointers to class, template, and systems
+    npcs each have name, description, and gm's notes (seperate from encounter notes)
+    systems: [
+      {
+        id: '', flavor_name: '', flavor_desc: '' //flavor_ overwrites the field
+      }
+    ]
+    custom_systems and illegal_systems for new system data and systems they aren't supposed to have, respectively
+  hold their own data for stats (inc'l activations and size)
+
+npc classes: {
+  id
+  name
+  description
+  tactics
+  stats ([1, 2, 3]) (inc'l size and activation)
+  list of base systems
+  list of optional systems
+}
+
+
+when an encounter is instantiated:
+ tracked npc cloned are created with current/max values for hp, heat, structure, stress, activations
+ systems track recharge, destroyed (needs recharge/destroyable tag)
+
+ Class, Template:
+  everything is a "feature" -- typed out into system, feature, trait, etc
+
+
+
 3/18
 cloc src --exclude-dir=data --ignore-whitespace
       73 text files.

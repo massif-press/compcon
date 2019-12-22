@@ -1,31 +1,31 @@
-import { store } from '@/store'
+// import { store } from '@/store'
 
-import NPC from './logic/NPC'
-import EncounterBase from './logic/EncounterBase'
+// import NPC from '../../classes/npc/Npc'
+// import EncounterBase from './logic/EncounterBase'
 
 import Main from './index.vue'
 
 import Home from './landing.vue'
 
 import NpcRoster from './npc/index.vue'
-import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
-import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue'
-import NpcsList from './views/NpcDesigner/NpcsList.vue'
-import NpcDisplay from './views/NpcDesigner/NpcDisplay.vue'
+// import NpcList from './views/NpcDesigner/NpcsList.vue'
+// import NpcDisplay from './views/NpcDesigner/NpcDisplay.vue'
+// import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
+// import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue'
 
-import EncounterBuilderIndex from './views/EncounterBuilder/EncounterBuilderIndex.vue'
-import EncountersList from './views/EncounterBuilder/EncountersList.vue'
-import EncounterBuilder from './views/EncounterBuilder/EncounterBuilder.vue'
+// import EncounterBuilderIndex from './views/EncounterBuilder/EncounterBuilderIndex.vue'
+// import EncountersList from './views/EncounterBuilder/EncountersList.vue'
+// import EncounterBuilder from './views/EncounterBuilder/EncounterBuilder.vue'
 
-import EncounterRunnerIndex from './views/EncounterRunner/EncounterRunnerIndex.vue'
-import EncounterRunnerList from './views/EncounterRunner/EncounterRunnerList.vue'
-import EncounterRunnerNew from './views/EncounterRunner/EncounterRunnerNew.vue'
-import EncounterRunner from './views/EncounterRunner/EncounterRunner.vue'
+// import EncounterRunnerIndex from './views/EncounterRunner/EncounterRunnerIndex.vue'
+import Mission from './mission/index.vue'
+// import EncounterRunnerNew from './views/EncounterRunner/EncounterRunnerNew.vue'
+// import EncounterRunner from './views/EncounterRunner/EncounterRunner.vue'
 import { RouteConfig } from 'vue-router'
 
-function getNPC(id: string): NPC {
-  return (store.state as any).npcDesigner.npcs.find((n: NPC) => n.id === id)
-}
+// function getNPC(id: string): NPC {
+//   return (store.state as any).npcDesigner.npcs.find((n: NPC) => n.ID === id)
+// }
 
 const routes: RouteConfig[] = [
   {
@@ -69,60 +69,60 @@ const routes: RouteConfig[] = [
         //   },
         // ],
       },
-      {
-        path: '/encounter-builder',
-        component: EncounterBuilderIndex,
-        children: [
-          {
-            path: '',
-            name: 'encounter-builder',
-            component: EncountersList,
-          },
-          {
-            path: '/encounter-builder/new',
-            beforeEnter: (to, from, next) => {
-              const newEnc = new EncounterBase('Untitled Encounter')
-              store.commit('encounterBuilder/add', newEnc)
-              next('/encounter-builder/' + newEnc.id)
-            },
-          },
-          {
-            path: '/encounter-builder/:id',
-            name: 'encounter-edit',
-            component: EncounterBuilder,
-            props: route => ({
-              preEnc: (store.state as any).encounterBuilder.encounters.find(
-                (e: any) => e.id === route.params.id
-              ),
-            }),
-          },
-        ],
-      },
+      // {
+      //   path: '/encounter-builder',
+      //   component: EncounterBuilderIndex,
+      //   children: [
+      //     {
+      //       path: '',
+      //       name: 'encounter-builder',
+      //       component: EncountersList,
+      //     },
+      //     {
+      //       path: '/encounter-builder/new',
+      //       beforeEnter: (to, from, next) => {
+      //         const newEnc = new EncounterBase('Untitled Encounter')
+      //         store.commit('encounterBuilder/add', newEnc)
+      //         next('/encounter-builder/' + newEnc.id)
+      //       },
+      //     },
+      //     {
+      //       path: '/encounter-builder/:id',
+      //       name: 'encounter-edit',
+      //       component: EncounterBuilder,
+      //       props: route => ({
+      //         preEnc: (store.state as any).encounterBuilder.encounters.find(
+      //           (e: any) => e.id === route.params.id
+      //         ),
+      //       }),
+      //     },
+      //   ],
+      // },
       {
         path: '/encounter-runner',
-        component: EncounterRunnerIndex,
-        children: [
-          {
-            path: '',
-            name: 'encounter-runner-list',
-            component: EncounterRunnerList,
-          },
-          {
-            path: '/encounter-runner/new',
-            name: 'encounter-runner-new',
-            component: EncounterRunnerNew,
-          },
-          {
-            path: '/encounter-runner/:id',
-            name: 'encounter-runner',
-            component: EncounterRunner,
-            props: route => ({
-              preEnc: (store.state as any).encounterRunner.activeEncounters.find(
-                (e: any) => e.id === route.params.id
-              ),
-            }),
-          },
-        ],
+        component: Mission,
+        // children: [
+        //   {
+        //     path: '',
+        //     name: 'encounter-runner-list',
+        //     component: Mission,
+        //   },
+        //   {
+        //     path: '/encounter-runner/new',
+        //     name: 'encounter-runner-new',
+        //     component: EncounterRunnerNew,
+        //   },
+        //   {
+        //     path: '/encounter-runner/:id',
+        //     name: 'encounter-runner',
+        //     component: EncounterRunner,
+        //     props: route => ({
+        //       preEnc: (store.state as any).encounterRunner.activeEncounters.find(
+        //         (e: any) => e.id === route.params.id
+        //       ),
+        //     }),
+        //   },
+        // ],
       },
     ],
   },
