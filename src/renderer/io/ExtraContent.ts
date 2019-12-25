@@ -75,7 +75,7 @@ const getPackID = async function(manifest: IContentPackManifest): Promise<string
 const parseContentPack = async function(binString: string): Promise<IContentPack> {
   const zip = await JSZip.loadAsync(binString)
 
-  const manifest = await readZipJSON<IContentPackManifest>(zip, 'manifest.json')
+  const manifest = await readZipJSON<IContentPackManifest>(zip, 'lcp_manifest.json')
   if (!manifest) throw new Error('Content pack has no manifest')
   if (!isValidManifest(manifest)) throw new Error('Content manifest is invalid')
 
