@@ -16,6 +16,7 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
   console.log(dataStore.NpcFeatures)
   console.log(dataStore.NpcTemplates)
   dataStore.buildLicenses()
+  dataStore.loadExtraContent()
 
   validateImageFolders()
 
