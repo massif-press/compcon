@@ -141,6 +141,7 @@ Factions:
 
 Refactor:
   ✔ remove old font stylings @done(19-12-05 13:50)
+  ☐ Compendium todo data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
   ☐ use @focus="$event.target.select()" for all edit button inputs
   ☐ Normalize folder names
   ☐ Replace most instances of .Source with .Manufacturer.Name
