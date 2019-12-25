@@ -24,6 +24,11 @@ export default new Router({
       component: require('@/features/pilot_management/index').default,
       children: [
         {
+          path: '/brewTest',
+          name: 'brew_test',
+          component: require('./BrewTest.vue').default,
+        },
+        {
           path: '',
           name: 'pilot_roster',
           component: require('@/features/pilot_management/Roster/index').default,
