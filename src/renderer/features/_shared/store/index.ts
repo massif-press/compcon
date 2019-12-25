@@ -20,11 +20,11 @@ import {
   NpcClass,
   NpcTemplate,
   NpcFeature,
-  NpcWeapon,
-  NpcReaction,
-  NpcTrait,
-  NpcSystem,
-  NpcTech,
+  // NpcWeapon,
+  // NpcReaction,
+  // NpcTrait,
+  // NpcSystem,
+  // NpcTech,
 } from '@/class'
 import {
   ICoreBonusData,
@@ -38,28 +38,30 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  INpcClassData,
-  INpcFeatureData,
-  INpcTemplateData,
-  INpcWeaponData,
-  INpcReactionData,
-  INpcSystemData,
-  INpcTechData,
+  // INpcClassData,
+  // INpcFeatureData,
+  // INpcTemplateData,
+  // INpcWeaponData,
+  // INpcReactionData,
+  // INpcSystemData,
+  // INpcTechData,
 } from '@/interface'
-
-// function stageBrewData(userDataPath: string, brewDataFolder: string, file: string): void {
-//   const info = io.loadBrewData(userDataPath, brewDataFolder, 'info')
-//   const bID = info ? `${info.name} v.${info.version}` : 'Unknown Content Package'
-//   let bArr = io.loadBrewData(userDataPath, brewDataFolder, file)
-//   if (bArr.length) {
-//     bArr = bArr.map((x: object) => ({ ...x, brew: bID }))
-//   }
-//   return bArr || []
-// }
+import {
+  IContentPack,
+  saveContentPack,
+  loadSavedContent,
+  IContentPackInfo,
+  removeContentPack,
+  getPackID,
+} from '@/io/ExtraContent'
+import { CompendiumItem } from '@/classes/CompendiumItem'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
 export const LOAD_DATA = 'LOAD_DATA'
+
+export const LOAD_PACK = 'LOAD_PACK'
+export const DELETE_PACK = 'DELETE_PACK'
 
 @Module({
   name: 'datastore',
@@ -86,7 +88,7 @@ export class CompendiumStore extends VuexModule {
   public NpcClasses: NpcClass[] = []
   public NpcTemplates: NpcTemplate[] = []
   public NpcFeatures: NpcFeature[] = []
-  // Brews: Brew[] = []
+  ContentPacks: IContentPackInfo[] = []
 
   // TODO: just set as part of the data loader
   @Mutation
@@ -95,10 +97,6 @@ export class CompendiumStore extends VuexModule {
     this.CCVersion = cc
   }
 
-  @Mutation
-  // private [SET_BREW_ACTIVE](dir: string, active: boolean): void {
-  //   io.setBrewActive(this.UserDataPath, dir, active)
-  // }
   @Mutation
   private [BUILD_LICENSES](): void {
     const licenses: License[] = []
@@ -128,43 +126,99 @@ export class CompendiumStore extends VuexModule {
     this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
-    this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
-    this.NpcFeatures = lancerData.npc_features.map(function(x: any) {
-      if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
-      else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
-      else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
-      else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
-      return new NpcTech(x as INpcTechData)
-    })
-    this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
-    // this.Brews = io.findBrewData(this.UserDataPath)
+    // this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
+    // this.NpcFeatures = lancerData.npc_features.map(function(x: any) {
+    //   if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
+    //   else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
+    //   else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
+    //   else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
+    //   return new NpcTech(x as INpcTechData)
+    // })
+    // this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
   }
 
-  // @Mutation
-  // private [LOAD_BREWS](): void {
-  //   const brewDataFolders = this.Brews.filter((x: any) => x.info.active).map(x => x.dir)
-  //   for (const dir of brewDataFolders) {
-  //     this.Backgrounds = this.Backgrounds.concat(
-  //       stageBrewData(this.UserDataPath, dir, 'backgrounds')
-  //     )
-  //     this.Talents = this.Talents.concat(stageBrewData(this.UserDataPath, dir, 'talents'))
-  //     this.Skills = this.Skills.concat(stageBrewData(this.UserDataPath, dir, 'skills'))
-  //     this.CoreBonuses = this.CoreBonuses.concat(
-  //       stageBrewData(this.UserDataPath, dir, 'core_bonus')
-  //     )
-  //     this.Frames = this.Frames.concat(stageBrewData(this.UserDataPath, dir, 'frames'))
-  //     this.Manufacturers = this.Manufacturers.concat(
-  //       stageBrewData(this.UserDataPath, dir, 'manufacturers')
-  //     )
-  //     this.MechWeapons = this.MechWeapons.concat(stageBrewData(this.UserDataPath, dir, 'weapons'))
-  //     this.WeaponMods = this.WeaponMods.concat(stageBrewData(this.UserDataPath, dir, 'mods'))
-  //     this.MechSystems = this.MechSystems.concat(stageBrewData(this.UserDataPath, dir, 'systems'))
-  //     this.PilotGear = this.PilotGear.concat(stageBrewData(this.UserDataPath, dir, 'pilot_gear'))
-  //     this.Tags = this.Tags.concat(stageBrewData(this.UserDataPath, dir, 'tags'))
-  //     this.Statuses = this.Statuses.concat(stageBrewData(this.UserDataPath, dir, 'statuses'))
-  //     this.Quirks = this.Quirks.concat(stageBrewData(this.UserDataPath, dir, 'quirks'))
-  //   }
-  // }
+  @Mutation
+  private [LOAD_PACK](pack: IContentPack): void {
+    const { info, data: contentData } = pack
+
+    this.CoreBonuses = [...this.CoreBonuses, ...contentData.coreBonuses.map(x => new CoreBonus(x))]
+    this.Talents = [...this.Talents, ...contentData.talents.map(x => new Talent(x))]
+    this.Frames = [...this.Frames, ...contentData.frames.map(x => new Frame(x))]
+    this.MechWeapons = [...this.MechWeapons, ...contentData.weapons.map(x => new MechWeapon(x))]
+    this.WeaponMods = [...this.WeaponMods, ...contentData.mods.map(x => new WeaponMod(x))]
+    this.MechSystems = [...this.MechSystems, ...contentData.systems.map(x => new MechSystem(x))]
+    this.Tags = [...this.Tags, ...contentData.tags.map(x => new Tag(x))]
+    this.PilotGear = [
+      ...this.PilotGear,
+      ...contentData.pilotGear.map((x: any) => {
+        if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+        else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+        return new PilotGear(x as IPilotGearData)
+      }),
+    ] as any
+    this.Manufacturers = [
+      ...this.Manufacturers,
+      ...contentData.manufacturers.map(x => new Manufacturer(x)),
+    ]
+    this.ContentPacks = [...this.ContentPacks, info]
+  }
+
+  @Mutation
+  private [DELETE_PACK](packID: string): void {
+    if (
+      !this.ContentPacks.map(p => p.id)
+        .includes(packID)
+    ) throw new Error(`Cannot delete pack with ID ${packID} as it does not exist`);
+    [
+      'CoreBonuses',
+      'Talents',
+      'Frames',
+      'MechWeapons',
+      'WeaponMods',
+      'MechSystems',
+      'PilotGear',
+      'Tags',
+      'Manufacturers',
+    ].forEach(category => {
+      this[category] = this[category].filter((item: CompendiumItem) => item.Brew !== packID)
+    })
+    this.ContentPacks = this.ContentPacks.filter(pack => pack.id !== packID)
+  }
+
+  @Action
+  public async addContentPack(pack: IContentPack): Promise<void> {
+    if (
+      this.ContentPacks.map(p => p.id)
+        .includes(pack.info.id)
+    ) throw new Error(`Pack with ID ${pack.info.id} already exists, replace it instead`)
+    this.context.commit(LOAD_PACK, pack)
+    this.context.commit(BUILD_LICENSES)
+    await saveContentPack(pack)
+  }
+
+  @Action
+  public async deleteContentPack(packID: string): Promise<void> {
+    this.context.commit(DELETE_PACK, packID)
+    this.context.commit(BUILD_LICENSES)
+    await removeContentPack(packID)
+  }
+
+  @Action
+  public async replaceContentPack(newPack: IContentPack): Promise<void> { 
+    const packID = await getPackID(newPack.info.manifest)
+
+    this.context.commit(DELETE_PACK, packID)
+    this.context.commit(LOAD_PACK, newPack)
+    this.context.commit(BUILD_LICENSES)
+
+  }
+
+  @Action
+  public async loadExtraContent(): Promise<void> {
+    const content = await loadSavedContent()
+    content.forEach(c => this.context.commit(LOAD_PACK, c))
+    this.context.commit(BUILD_LICENSES)
+  }
 
   private nfErr = { err: 'ID not found' }
 
