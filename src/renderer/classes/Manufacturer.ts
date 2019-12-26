@@ -7,6 +7,7 @@ interface IManufacturerData {
   quote: string
   logo: string
   color: string
+  logo_url?: string
 }
 
 class Manufacturer {
@@ -16,6 +17,7 @@ class Manufacturer {
   private _quote: string
   private _logo: string
   private _color: string
+  private _logo_url?: string
 
   public constructor(data: IManufacturerData) {
     this._id = data.id
@@ -24,6 +26,7 @@ class Manufacturer {
     this._quote = data.quote
     this._logo = data.logo
     this._color = data.color
+    this._logo_url = data.logo_url
   }
 
   public get ID(): string {
@@ -47,6 +50,7 @@ class Manufacturer {
   }
 
   public get Logo(): string {
+    if (this._logo_url) return this._logo_url
     return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
   }
 }
