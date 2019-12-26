@@ -27,6 +27,7 @@ interface IFrameData extends ILicensedItemData {
   stats: IFrameStats
   traits: FrameTrait[]
   core_system: ICoreData
+  image_url?: string
 }
 
 class Frame extends LicensedItem {
@@ -36,6 +37,7 @@ class Frame extends LicensedItem {
   private _stats: IFrameStats
   private _traits: FrameTrait[]
   private _core_system: CoreSystem
+  private _image_url?: string
 
   public constructor(frameData: IFrameData) {
     super(frameData)
@@ -46,6 +48,7 @@ class Frame extends LicensedItem {
     this._traits = frameData.traits
     this._core_system = new CoreSystem(frameData.core_system)
     this._item_type = ItemType.Frame
+    this._image_url = frameData.image_url
   }
 
   public get Mechtype(): MechType[] {
@@ -130,6 +133,7 @@ class Frame extends LicensedItem {
   }
 
   public get DefaultImage(): string {
+    if (this._image_url) return this._image_url
     return getImagePath(ImageTag.Frame, `${this.ID}.png`, true)
   }
 }
