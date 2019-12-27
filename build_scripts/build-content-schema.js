@@ -22,7 +22,7 @@ const schemasWanted = [
   'systems',
   'mods',
   'talents',
-  // 'tags'
+  'tags'
 ]
 
 console.log('Generating schemas...')
