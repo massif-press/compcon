@@ -39,7 +39,7 @@
                 small
                 color="secondary"
                 :href="item.manifest.website"
-                @click="visitWebsite(item.manifest.website)"
+                @click="visitWebsite($event, item.manifest.website)"
               >
                 <v-icon prepend>open_in_new</v-icon>
                 &nbsp;Website
@@ -81,7 +81,8 @@ export default class PacksList extends Vue {
     { text: '', value: 'action', sortable: false }
   ]
 
-  public visitWebsite(url) {
+  public visitWebsite(e: Event, url) {
+    e.preventDefault()
     Browser.open({
       url: url
     })
