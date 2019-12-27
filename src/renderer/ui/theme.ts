@@ -82,9 +82,12 @@ export default {
         'role--artillery': '#a64d79',
         'role--biological': '#7e52a3',
 
-        'system--weapon': '#cc0000',
-        'system--system': '#2aa780',
-        'system--trait': '#bd6579',
+        'npc-feature': '#cc0000',
+        'npc-trait': '#cc0000',
+        'npc-system': '#58b434',
+        'npc-weapon': '#212121',
+        'npc-tech': '#007674',
+        'npc-reaction': '#512DA8',
 
         'faction--gms': '#b30c1d',
         'faction--ips-n': '#1661b8',

@@ -1,4 +1,5 @@
 interface INpcClassStats {
+  activations: number[]
   armor: number[]
   hp: number[]
   evade: number[]
@@ -21,6 +22,10 @@ class NpcClassStats {
 
   public constructor(data: INpcClassStats) {
     this._stats = data
+  }
+
+  public Activations(tier: number): number {
+    return this._stats.activations[tier - 1]
   }
 
   public Armor(tier: number): number {
@@ -76,11 +81,11 @@ class NpcClassStats {
   }
 
   public Structure(tier: number): number {
-    return this._stats.structure ? this._stats.structure[tier - 1] : 0
+    return this._stats.structure ? this._stats.structure[tier - 1] : 1
   }
 
   public Stress(tier: number): number {
-    return this._stats.stress ? this._stats.stress[tier - 1] : 0
+    return this._stats.stress ? this._stats.stress[tier - 1] : 1
   }
 }
 

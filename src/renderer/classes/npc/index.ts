@@ -8,6 +8,7 @@ import { INpcDamageData, INpcWeaponData, NpcWeapon } from './NpcWeapon'
 import { INpcStats, NpcStats } from './NpcStats'
 import { INpcClassData, NpcClass } from './NpcClass'
 import { INpcTemplateData, NpcTemplate } from './NpcTemplate'
+import { INpcData, Npc } from './Npc'
 
 export {
   NpcFeatureType,
@@ -31,4 +32,6 @@ export {
   INpcItemSaveData,
   INpcTechData,
   NpcTech,
+  INpcData,
+  Npc,
 }

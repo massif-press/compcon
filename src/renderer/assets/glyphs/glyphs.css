@@ -32,6 +32,9 @@
 .cci-nested-hexagons:before {
   content: '\e945';
 }
+.cci-npc-tech:before {
+  content: '\e945';
+}
 .cci-orbit:before {
   content: '\e946';
 }
@@ -50,7 +53,7 @@
 .cci-balance:before {
   content: '\e94b';
 }
-.cci-reticule:before {
+.cci-reticle:before {
   content: '\e94c';
 }
 .cci-spikes:before {
@@ -60,6 +63,9 @@
   content: '\e94e';
 }
 .cci-sword-array:before {
+  content: '\e94f';
+}
+.cci-npc-reaction:before {
   content: '\e94f';
 }
 .cci-marker:before {
@@ -182,15 +188,24 @@
 .cci-mech-system:before {
   content: '\e935';
 }
+.cci-npc-system:before {
+  content: '\e935';
+}
 .cci-threat:before {
   content: '\e936';
 }
 .cci-trait:before {
   content: '\e93f';
 }
+.cci-npc-trait:before {
+  content: '\e93f';
+}
 .cci-weapon:before {
   content: '\e940';
 }
 .cci-mech-weapon:before {
+  content: '\e940';
+}
+.cci-npc-weapon:before {
   content: '\e940';
 }
