@@ -29,7 +29,7 @@ class NpcStats {
 
   public static FromClass(npcClass: NpcClass, tier: number): NpcStats {
     return new NpcStats({
-      activations: 1,
+      activations: npcClass.Stats.Activations(tier),
       armor: npcClass.Stats.Armor(tier),
       hp: npcClass.Stats.HP(tier),
       evade: npcClass.Stats.Evade(tier),
@@ -49,7 +49,15 @@ class NpcStats {
   }
 
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('npc/saveNpcData')
+  }
+
+  public get Stats(): INpcStats {
+    return this._stats
+  }
+
+  public set Stats(val: INpcStats) {
+    this._stats = val
   }
 
   public get Activations(): number {

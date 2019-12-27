@@ -50,6 +50,10 @@ async function createWindow() {
     require('vue-devtools').install()
   }
 
+  globalShortcut.register('CommandOrControl+Shift+I', function () {
+    mainWindow.webContents.openDevTools();
+  })
+
   if (isDevMode) {
     // Set our above template to the Menu Object if we are in development mode, dont want users having the devtools.
     Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplateDev));

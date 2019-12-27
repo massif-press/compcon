@@ -16,6 +16,10 @@ class NpcReaction extends NpcFeature {
   public get Trigger(): string {
     return this._trigger
   }
+
+  public get Color(): string {
+    return 'action--reaction'
+  }
 }
 
 export { INpcReactionData, NpcReaction }

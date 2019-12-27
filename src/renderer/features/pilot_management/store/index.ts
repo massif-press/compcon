@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import Vue from 'vue'
 import { saveData, loadData } from '@/io/Data'
 import { Pilot } from '@/class'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-// import { PrintOptions } from '@/classes/Types'
 
 async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.map(x => Pilot.Serialize(x))
@@ -76,11 +75,6 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [SET_PRINT_OPTIONS](payload: PrintOptions): void {
-    this.printOptions = payload
-  }
-
-  @Mutation
   private [SET_LOADED_MECH](payload: string): void {
     this.LoadedMechID = payload
   }
@@ -109,11 +103,6 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public deletePilot(payload: Pilot): void {
     this.context.commit(DELETE_PILOT, payload)
-  }
-
-  @Action
-  public setPrintOptions(options: object): void {
-    this.context.commit(SET_PRINT_OPTIONS, options)
   }
 
   @Action

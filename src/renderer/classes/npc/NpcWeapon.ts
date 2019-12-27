@@ -55,15 +55,19 @@ class NpcWeapon extends NpcFeature {
   }
 
   public Damage(tier: number): number {
-    return this._damage_data.damage[tier]
+    return this._damage_data.damage[tier - 1]
   }
 
   public Accuracy(tier: number): number {
-    return this._damage_data.accuracy[tier]
+    return this._damage_data.accuracy[tier - 1]
   }
 
   public Advantage(tier: number): number {
-    return this._damage_data.advantage[tier]
+    return this._damage_data.advantage[tier - 1]
+  }
+
+  public get Color(): string {
+    return 'weapon'
   }
 }
 

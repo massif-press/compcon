@@ -57,7 +57,7 @@ class NpcClass {
     return `cci-role-${this._role}`
   }
 
-  public get RoleColor(): string {
+  public get Color(): string {
     return `role--${this._role}`
   }
 

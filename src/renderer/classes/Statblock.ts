@@ -1,4 +1,4 @@
-import { Pilot, Mech } from '@/class'
+import { Pilot, Mech, Npc } from '@/class'
 
 class Statblock {
   public static Generate(pilot?: Pilot, mech?: Mech): string {
@@ -17,9 +17,7 @@ class Statblock {
       output += `» ${pilot.Callsign.toUpperCase()} «
   ${pilot.Name} 
   ${pilot.Background}, LL${pilot.Level}
-  GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${
-  pilot.MechSkills.Sys
-} E:${pilot.MechSkills.Eng}\n`
+  GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
 
       output += `[ SKILL TRIGGERS ]\n  `
       for (let i = 0; i < pilot.Skills.length; i++) {
@@ -115,6 +113,27 @@ class Statblock {
         })
       }
     }
+
+    return output
+  }
+
+  public static GenerateNPC(npc: Npc): string {
+    let output = `// ${npc.Name} //\n`
+    output += `${npc.Class.Name.toUpperCase()}`
+    if (npc.Templates) output += `${npc.Templates.map(t => t.Name).join(' ')}`
+    output += typeof npc.Tier === 'number' ? `, Tier ${npc.Tier} ` : ', Custom '
+    output += npc.Tag
+    output += '\n  [ STATS ]'
+    output += `\nH: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}`
+    output += `\nSTRUCT: ${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.Stats.HP}`
+    output += `\nSTRESS: ${npc.Stats.Stress} | HEATCAP: ${npc.Stats.HeatCapacity} | SPEED: ${npc.Stats.Speed}`
+    output += `\nSAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}`
+    output += `\nSENSOR: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACTIVATIONS: ${npc.Stats.Activations}`
+    output += '\n  [ FEATURES ]\n'
+    npc.Items.forEach((e, idx) => {
+      output += `${e.Name} (${'I'.repeat(e.Tier)})`
+      if (idx % 3 === 0) output += '\n'
+    })
 
     return output
   }

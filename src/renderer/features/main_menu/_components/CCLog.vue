@@ -14,6 +14,15 @@ import Vue from 'vue'
 import typeit from 'typeit'
 import { encryption } from '@/io/Generators'
 
+function scrollIntoViewSuppressed() {
+  try {
+    document.getElementById('output').scrollIntoView({ block: 'end' })
+  } catch (e) {
+    if (e instanceof TypeError) {
+    } else throw e
+  }
+}
+
 export default Vue.extend({
   name: 'cc-log',
   data: () => ({
@@ -28,7 +37,7 @@ export default Vue.extend({
       cursorChar: '_',
       startDelete: false,
       beforeString: () => {
-        document.getElementById('output').scrollIntoView({ block: 'end' })
+        scrollIntoViewSuppressed()
       },
     })
       .type('<br>')
@@ -139,10 +148,16 @@ export default Vue.extend({
 
       //collect written strings so typeit doesn't erase them
       // const output = document.getElementById('output')
-      const completed = document.getElementById('completed')
-      const contents = document.getElementsByClassName('ti-container')[0]
+      try {
+        const completed = document.getElementById('completed')
+        const contents = document.getElementsByClassName('ti-container')[0]
+        completed.innerHTML += contents.innerHTML
+      } catch (e) {
+        if (e instanceof TypeError) {
+          return
+        } else throw e
+      }
       // if (completed.innerHTML.length > 1) completed.innerHTML += '<br />'
-      completed.innerHTML += contents.innerHTML
 
       this.typeit = new typeit('#output', {
         speed: 3,
@@ -151,10 +166,10 @@ export default Vue.extend({
         startDelete: false,
         strings: [],
         beforeString: () => {
-          document.getElementById('output').scrollIntoView({ block: 'end' })
+          scrollIntoViewSuppressed()
         },
         afterString: () => {
-          document.getElementById('output').scrollIntoView({ block: 'end' })
+          scrollIntoViewSuppressed()
         },
         afterComplete: () => {
           this.lock = false

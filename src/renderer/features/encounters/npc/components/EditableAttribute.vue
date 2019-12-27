@@ -13,7 +13,7 @@
       <v-card-text class="pa-1 text--text">
         <v-text-field
           v-if="editMode"
-          v-model="val"
+          v-model="model"
           solo
           outlined
           filled
@@ -21,7 +21,7 @@
           hide-details
           autofocus
           type="number"
-          @input="$emit('set', val)"
+          @input="$emit('set', parseInt(model))"
           @blur="editMode = false"
           @keyup.enter="editMode = false"
           @focus="$event.target.select()"

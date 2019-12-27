@@ -20,11 +20,11 @@ import {
   NpcClass,
   NpcTemplate,
   NpcFeature,
-  // NpcWeapon,
-  // NpcReaction,
-  // NpcTrait,
-  // NpcSystem,
-  // NpcTech,
+  NpcWeapon,
+  NpcReaction,
+  NpcTrait,
+  NpcSystem,
+  NpcTech,
 } from '@/class'
 import {
   ICoreBonusData,
@@ -38,13 +38,13 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  // INpcClassData,
-  // INpcFeatureData,
-  // INpcTemplateData,
-  // INpcWeaponData,
-  // INpcReactionData,
-  // INpcSystemData,
-  // INpcTechData,
+  INpcClassData,
+  INpcFeatureData,
+  INpcTemplateData,
+  INpcWeaponData,
+  INpcReactionData,
+  INpcSystemData,
+  INpcTechData,
 } from '@/interface'
 import {
   IContentPack,
@@ -126,15 +126,16 @@ export class CompendiumStore extends VuexModule {
     this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
-    // this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
-    // this.NpcFeatures = lancerData.npc_features.map(function(x: any) {
-    //   if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
-    //   else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
-    //   else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
-    //   else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
-    //   return new NpcTech(x as INpcTechData)
-    // })
-    // this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
+    this.NpcFeatures = lancerData.npc_features.map(function(x: any) {
+      if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
+      else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
+      else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
+      else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
+      return new NpcTech(x as INpcTechData)
+    })
+    this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
+    this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
+    // this.Brews = io.findBrewData(this.UserDataPath)
   }
 
   @Mutation

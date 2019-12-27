@@ -18,11 +18,11 @@
     </div>
 
     <div v-if="item.Effect">
-      <span class="overline ml-n2">WEAPON EFFECT</span>
+      <span class="overline ml-n2">EFFECT</span>
       <p class="effect-text panel pa-2" v-html="item.Effect" />
     </div>
 
-    <cc-tags :tags="item.Tags" extended />
+    <cc-tags v-if="item.Tags" :tags="item.Tags" extended />
   </v-card-text>
 </template>
 
