@@ -10,7 +10,8 @@
     "unit-test": "jest unit",
     "int-test": "jest int",
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
-    "electron:build": "webpack --env.platform=electron --env.prod && cd ./electron && electron-builder"
+    "electron:build": "webpack --env.platform=electron --env.prod && cd ./electron && electron-builder",
+    "gen-schema": "node ./build_scripts/build-content-schema.js"
   },
   "dependencies": {
     "@aricchi/electron-vue-devtools": "^5.0.8-1",
@@ -76,6 +77,7 @@
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.2.1",
     "typescript": "^3.4.5",
+    "typescript-json-schema": "^0.41.0",
     "vue": "^2.6.10",
     "vue-loader": "^15.7.2",
     "vue-style-loader": "^4.1.2",
