@@ -6,11 +6,11 @@ import { getImagePath, ImageTag } from '@/io/ImageManagement'
 interface IFrameStats {
   size: number
   armor: number
-  structuremod: number
+  structuremod?: number
   hp: number
   evasion: number
   edef: number
-  stressmod: number
+  stressmod?: number
   heatcap: number
   repcap: number
   sensor_range: number
@@ -22,7 +22,7 @@ interface IFrameStats {
 
 interface IFrameData extends ILicensedItemData {
   mechtype: MechType[]
-  y_pos: number
+  y_pos?: number
   mounts: MountType[]
   stats: IFrameStats
   traits: FrameTrait[]
