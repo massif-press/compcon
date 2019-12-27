@@ -32,7 +32,9 @@ import {
   INpcStats,
   INpcClassData,
   INpcTemplateData,
+  INpcData,
 } from './classes/npc'
+import { INpcWaveData, IEncounterData } from './classes/encounter'
 
 export {
   ICompendiumItemData,
@@ -63,4 +65,7 @@ export {
   INpcStats,
   INpcClassData,
   INpcTemplateData,
+  INpcWaveData,
+  IEncounterData,
+  INpcData,
 }

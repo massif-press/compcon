@@ -1,111 +1,202 @@
 <template>
-  <v-container fluid class="mt-9" style="height: 100%">
-    <cc-gm-header title="NPC ROSTER" />
-    <v-row>
-      <v-col cols="4" class="mt-n4" style="min-height: 87vh; max-height: 87vh; overflow-y: scroll;">
-        <v-row dense>
-          <v-col>
-            <v-text-field
-              v-model="search"
-              prepend-inner-icon="mdi-magnify"
-              dense
-              hide-details
-              outlined
-              clearable
-            />
-          </v-col>
-          <v-col cols="auto">
-            <roster-group @set="grouping = $event" />
-          </v-col>
-        </v-row>
-        <v-divider class="my-2 " />
-        <v-row dense>
-          <v-data-table
+  <panel-view ref="view">
+    <cc-gm-header slot="title" title="NPC ROSTER" />
+    <template slot="left">
+      <v-row dense>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            prepend-inner-icon="mdi-magnify"
             dense
-            :items="npcs"
-            :headers="headers"
-            :group-by="grouping"
-            :search="search"
-            hide-default-footer
-            calculate-widths
-            class="transparent"
-            style="min-width: 100%"
-          >
-            <template v-slot:group.header="h" class="transparent">
-              <div class="primary sliced">
-                <v-icon dark left>mdi-chevron-right</v-icon>
-                <span class="heading white--text">{{ h.group.toUpperCase() }}</span>
-              </div>
+            hide-details
+            outlined
+            clearable
+          />
+        </v-col>
+        <v-col cols="auto">
+          <roster-group @set="grouping = $event" />
+        </v-col>
+      </v-row>
+      <v-divider class="my-2 " />
+      <v-row dense>
+        <v-data-table
+          dense
+          :items="npcs"
+          :headers="headers"
+          :group-by="grouping"
+          :search="search"
+          no-results-text="No NPCs Found"
+          hide-default-footer
+          calculate-widths
+          class="transparent"
+          style="min-width: 100%"
+        >
+          <template v-slot:group.header="h" class="transparent">
+            <div class="primary sliced">
+              <v-icon dark left>mdi-chevron-right</v-icon>
+              <span class="heading white--text">{{ h.group.toUpperCase() }}</span>
+            </div>
+          </template>
+          <template v-slot:item.Name="{ item }">
+            <span class="primary--text heading clickable ml-n2" @click="selectedNpc = item">
+              <v-menu offset-x left>
+                <template v-slot:activator="{ on }">
+                  <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
+                    <v-icon small class="fadeSelect">mdi-settings</v-icon>
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item @click="copyNpc(item)">
+                    <v-list-item-icon class="ma-0 mr-2 mt-2">
+                      <v-icon>mdi-content-copy</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title>Copy {{ item.Name }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="exportNpc(item)">
+                    <v-list-item-icon class="ma-0 mr-2 mt-2">
+                      <v-icon>mdi-export-variant</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title>Export {{ item.Name }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item disabled>
+                    <v-list-item-icon class="ma-0 mr-2 mt-2">
+                      <v-icon>mdi-printer</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title>Print NPC Sheet</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item @click="setStatblock(item)">
+                    <v-list-item-icon class="ma-0 mr-2 mt-2">
+                      <v-icon>mdi-file-document-box</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title>Generate NPC Statblock</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider />
+                  <v-list-item @click="deleteNpc(item)">
+                    <v-list-item-icon class="ma-0 mr-2 mt-2">
+                      <v-icon color="error">mdi-delete</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title class="error--text">
+                        Delete {{ item.Name }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+              {{ item.Name }}
+            </span>
+            <v-scroll-x-transition leave-absolute>
+              <v-icon v-if="selectedNpc === item" right color="primary">
+                mdi-chevron-triple-right
+              </v-icon>
+            </v-scroll-x-transition>
+          </template>
+          <template v-slot:item.Class="{ item }">
+            <span class="caption text-uppercase">{{ item.Class.Name }}</span>
+          </template>
+          <template v-slot:item.Role="{ item }">
+            <cc-tooltip simple :content="item.Class.Role.toUpperCase()">
+              <v-icon large :color="item.Class.Color">{{ item.Class.RoleIcon }}</v-icon>
+            </cc-tooltip>
+          </template>
+          <template v-slot:item.Tier="{ item }">
+            <cc-tooltip simple :content="`TIER ${item.Tier} NPC`">
+              <v-icon v-if="item.Tier === 'custom'" large color="grey darken-2">
+                mdi-star-circle-outline
+              </v-icon>
+              <v-icon
+                v-else
+                large
+                :color="item.Tier === 1 ? 'grey' : item.Tier === 2 ? 'grey darken-2' : 'black'"
+              >
+                cci-rank-{{ item.Tier }}
+              </v-icon>
+            </cc-tooltip>
+          </template>
+        </v-data-table>
+      </v-row>
+      <v-divider class="my-2 " />
+      <v-row justify="center" dense no-gutters>
+        <v-col cols="8">
+          <v-btn block tile color="primary" large to="/new-npc">
+            <v-icon left>mdi-plus</v-icon>
+            Add New NPC
+          </v-btn>
+        </v-col>
+        <v-col cols="8">
+          <v-dialog v-model="importDialog" width="50%" persistent>
+            <template v-slot:activator="{ on }">
+              <v-btn small outlined block tile color="primary" class="mt-1" v-on="on">
+                <v-icon left>mdi-application-import</v-icon>
+                Import NPC
+              </v-btn>
             </template>
-            <template v-slot:item.Name="{ item }">
-              <span class="primary--text heading clickable" @click="selectedNpc = item">
-                {{ item.Name }}
-              </span>
-              <v-scroll-x-transition leave-absolute>
-                <v-icon v-if="selectedNpc === item" right color="primary">
-                  mdi-chevron-triple-right
-                </v-icon>
-              </v-scroll-x-transition>
-            </template>
-            <template v-slot:item.Class="{ item }">
-              <span class="caption text-uppercase">{{ item.Class }}</span>
-            </template>
-            <template v-slot:item.Role="{ item }">
-              <cc-tooltip simple :content="item.Role.toUpperCase()">
-                <v-icon large :color="`role--${item.Role}`">cci-role-{{ item.Role }}</v-icon>
-              </cc-tooltip>
-            </template>
-            <template v-slot:item.Tier="{ item }">
-              <cc-tooltip simple :content="`TIER ${item.Tier} NPC`">
-                <v-icon v-if="item.Tier === 'custom'" large color="grey darken-2">
-                  mdi-star-circle-outline
-                </v-icon>
-                <v-icon
-                  v-else
-                  large
-                  :color="item.Tier === 1 ? 'grey' : item.Tier === 2 ? 'grey darken-2' : 'black'"
-                >
-                  cci-rank-{{ item.Tier }}
-                </v-icon>
-              </cc-tooltip>
-            </template>
-            <template v-slot:item.Power="{ item }">
-              <span class="caption text-uppercase">{{ item.Power }}</span>
-            </template>
-          </v-data-table>
-        </v-row>
-        <v-divider class="mt-3 mb-1" />
-        <v-row justify="center">
-          <v-col cols="10" class="text-center">
-            <v-btn block tile color="primary">
-              <v-icon left>mdi-plus</v-icon>
-              Add New NPC
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-divider vertical />
-      <v-col id="scrollTarget" class="bordered-view">
-        <router-view />
-        <npc-card v-if="selectedNpc" :npc="selectedNpc" />
-        <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
-          <v-col cols="auto">
-            <span class="heading h1 grey--text text--lighten-2">no npc selected</span>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+            <v-card flat tile>
+              <v-card-title>Select File to Import</v-card-title>
+              <v-card-text>
+                <v-file-input counter label="NPC .JSON File" outlined dense @change="fileImport" />
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-btn text @click="importDialog = false">Dismiss</v-btn>
+                <v-spacer />
+                <v-btn tile color="secondary" :disabled="!importNpc" @click="confirmImport">
+                  Confirm
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="statblockDialog" width="50%">
+            <cc-titled-panel title="NPC Statblock">
+              <v-textarea
+                v-if="statblockNpc"
+                :value="statblock()"
+                auto-grow
+                readonly
+                outlined
+                filled
+                class="flavor-text"
+              />
+            </cc-titled-panel>
+          </v-dialog>
+        </v-col>
+      </v-row>
+    </template>
+    <template slot="right">
+      <router-view />
+      <npc-card v-if="selectedNpc" :npc="selectedNpc" :labels="labels" :campaigns="campaigns" />
+      <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
+        <v-col cols="auto">
+          <span class="heading h1 grey--text text--lighten-2">no npc selected</span>
+        </v-col>
+      </v-row>
+    </template>
+  </panel-view>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import PanelView from '../components/PanelView.vue'
 import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
+import { getModule } from 'vuex-module-decorators'
+import { NpcStore } from '@/store'
+import { Npc, Statblock } from '@/class'
+import { INpcData } from '@/interface'
+import { importData } from '@/io/Data'
+import { saveFile } from '@/io/Dialog'
 
 export default Vue.extend({
   name: 'npc-manager',
-  components: { NpcCard, RosterGroup },
+  components: { PanelView, NpcCard, RosterGroup },
   data: () => ({
     search: '',
     selectedNpc: null,
@@ -115,77 +206,68 @@ export default Vue.extend({
       { text: 'Class', value: 'Class' },
       { text: 'Role', value: 'Role' },
       { text: 'Tier', value: 'Tier' },
-      { text: 'Power', value: 'Power' },
     ],
-    npcs: [
-      {
-        Name: 'npc a',
-        Role: 'striker',
-        Class: 'ace',
-        Templates: ['Veteran', 'Pirate'],
-        Tier: 1,
-        Labels: ['a', 'b', 'c'],
-        Power: 331,
-        PowerTier: '301 - 400',
-        Campaign: 'my campaign',
-        Data: 'this is some npc a data',
-      },
-      {
-        Name: 'npc b',
-        Role: 'support',
-        Class: 'scout',
-        Templates: ['Grunt'],
-        Tier: 1,
-        Power: 88,
-        PowerTier: '0 - 100',
-        Labels: ['a', 'b', 'c'],
-        Campaign: 'my campaign',
-        Data: 'this is some npc a data',
-      },
-      {
-        Name: 'npc c',
-        Role: 'artillery',
-        Class: 'operator',
-        Tier: 3,
-        Templates: [],
-        Power: 304,
-        PowerTier: '301 - 400',
-        Labels: ['a', 'c'],
-        Campaign: 'Wallflower',
-        Data: 'this is some npc a data',
-      },
-      {
-        Name: 'npc d',
-        Role: 'striker',
-        Class: 'breacher',
-        Templates: ['Elite'],
-        Tier: 'custom',
-        Power: 944,
-        PowerTier: '901 - 1000',
-        Labels: ['a', 'f'],
-        Campaign: 'Wallflower',
-        Data: 'this is some npc a data',
-      },
-    ],
+    npcs: [],
+    importDialog: false,
+    statblockDialog: false,
+    importNpc: null,
+    statblockNpc: null,
   }),
+  computed: {
+    labels() {
+      return this.npcs.flatMap(x => x.Labels).filter(x => x != null && x != '')
+    },
+    campaigns() {
+      return this.npcs.map(x => x.Campaign).filter(x => x != null && x != '')
+    },
+  },
   watch: {
     selectedNpc() {
-      console.log('npc changed')
-      document.getElementById('scrollTarget').scrollTop = 0
+      this.$refs.view.resetScroll()
+    },
+  },
+  created() {
+    const store = getModule(NpcStore, this.$store)
+    this.npcs = store.Npcs
+  },
+  methods: {
+    setStatblock(npc: Npc) {
+      this.statblockNpc = npc
+      this.statblockDialog = true
+    },
+    statblock() {
+      return Statblock.GenerateNPC(this.statblockNpc)
+    },
+    deleteNpc(npc: Npc) {
+      this.selectedNpc = null
+      const store = getModule(NpcStore, this.$store)
+      store.deleteNpc(npc)
+    },
+    copyNpc(npc: Npc) {
+      const store = getModule(NpcStore, this.$store)
+      store.cloneNpc(npc)
+    },
+    exportNpc(npc: Npc) {
+      saveFile(
+        npc.Name.toUpperCase().replace(/\W/g, '') + '.json',
+        JSON.stringify(Npc.Serialize(npc)),
+        'Save NPC'
+      )
+    },
+    async fileImport(file) {
+      const npcData = await importData<INpcData>(file)
+      this.importNpc = Npc.Deserialize(npcData)
+      this.importNpc.RenewID()
+    },
+    confirmImport() {
+      const store = getModule(NpcStore, this.$store)
+      store.addNpc(this.importNpc)
+      this.importNpc = null
+      this.importDialog = false
     },
   },
 })
 </script>
-
-<style scoped>
-.bordered-view {
-  min-height: 87vh;
-  max-height: 87vh;
-  overflow-y: scroll;
-  border: 1px solid darkgrey;
-  border-radius: 3px;
-}
-</style>
 
 <style>
 .v-row-group__header,

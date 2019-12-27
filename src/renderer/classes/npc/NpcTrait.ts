@@ -5,6 +5,10 @@ class NpcTrait extends NpcFeature {
     super(data)
     this.type = NpcFeatureType.Trait
   }
+
+  public get Color(): string {
+    return 'primary'
+  }
 }
 
 export default NpcTrait

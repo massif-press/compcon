@@ -1,3 +1,20 @@
+NPC point calc
+  pilot LL x 100. A LL4 pilot should be worth 400 pts
+  T1 Untemplated NPC should be worth 100-400pts
+  T1 Grunt should be worth 25-50pts
+  T1 Elite should be worth 200-800pts
+  T1 Ultra should be worth 400-1200pts
+
+Compare enemy encounter power to players + allies
+for T1: (100 = 1x player avg LL)
+<-400 - Trivial
+-400 - -100 - Easy
+-100 - +100 - Balanced
++100 - +400 - Difficult
+>+400 - Impossible
+
+
+
 NPC Data Structure:
   npcs hold pointers to class, template, and systems
     npcs each have name, description, and gm's notes (seperate from encounter notes)

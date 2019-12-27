@@ -1,4 +1,5 @@
 import uuid from 'uuid/v1'
+import _ from 'lodash'
 import { store } from '@/store'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
@@ -11,7 +12,6 @@ import {
   NpcItem,
   INpcItemSaveData,
 } from './'
-import { Tag } from '@/class'
 
 interface INpcData {
   id: string
@@ -20,14 +20,14 @@ interface INpcData {
   name: string
   campaign: string
   labels: string[]
-  tags: ITagData[]
+  tag: string
   templates: string[]
   items: INpcItemSaveData[]
-  selectedFeatures: string[]
   stats: INpcStats
   note: string
   cloudImage: string
   localImage: string
+  cc_ver: string
 }
 
 class Npc {
@@ -37,44 +37,65 @@ class Npc {
   private _tier: string | number
   private _class: NpcClass
   private _templates: NpcTemplate[]
-  private _selected_features: NpcFeature[]
   private _items: NpcItem[]
   private _stats: NpcStats
+  private _current_stats: NpcStats
   private _note: string
   private _cloud_image: string
   private _local_image: string
-  private _npc_tags: Tag[]
+  private _tag: string
   private _user_labels: string[]
+  private cc_ver: string
 
-  public constructor(npcClass: NpcClass) {
+  public constructor(npcClass: NpcClass, tier?: number) {
+    const t = tier || 1
     this._id = uuid()
-    this._name = `New ${npcClass.Name}`
-    this._tier = 1
+    this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
+    this._tier = t
     this._templates = []
-    this._npc_tags = []
+    this._tag = 'Mech'
     this._user_labels = []
     this._note = this._cloud_image = this._local_image = this._campaign = ''
     this._class = npcClass
-    this._stats = NpcStats.FromClass(npcClass, 1)
+    this._stats = NpcStats.FromClass(npcClass, t)
+    this._current_stats = NpcStats.FromClass(npcClass, t)
+    this._items = []
     npcClass.BaseFeatures.forEach(f => {
-      this._items.push(new NpcItem(f, 1))
+      this._items.push(new NpcItem(f, t))
     })
+    this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('npc/saveNpcData')
   }
 
   public get ID(): string {
     return this._id
   }
 
+  public RenewID(): void {
+    this._id = uuid()
+  }
+
   public get Power(): number {
     return 100
   }
 
+  public get PowerTier(): number {
+    return Math.ceil(this.Power / 100) * 100
+  }
+
   public get Stats(): NpcStats {
     return this._stats
+  }
+
+  public get CurrentStats(): NpcStats {
+    return this._current_stats
+  }
+
+  public ResetStats(): void {
+    this._current_stats = _.clone(this._stats)
   }
 
   public get Name(): string {
@@ -104,34 +125,20 @@ class Npc {
     this.save()
   }
 
-  public get Tags(): Tag[] {
-    return this._npc_tags
+  public get Tag(): string {
+    return this._tag
   }
 
-  public AddTag(tag: Tag): void {
-    this._npc_tags.push(tag)
-    this.save()
-  }
-
-  public RemoveTag(tag: Tag): void {
-    const idx = this._npc_tags.findIndex(x => x.ID === tag.ID)
-    if (idx > -1) this._npc_tags.splice(idx, 1)
-    this.save()
+  public set Tag(val: string) {
+    this._tag = val
   }
 
   public get Labels(): string[] {
     return this._user_labels
   }
 
-  public AddLabel(label: string): void {
-    this._user_labels.push(label)
-    this.save()
-  }
-
-  public RemoveLabel(label: string): void {
-    const idx = this._user_labels.indexOf(label)
-    if (idx > -1) this._user_labels.splice(idx, 1)
-    this.save()
+  public set Labels(val: string[]) {
+    this._user_labels = val
   }
 
   public get Tier(): number | string {
@@ -142,11 +149,16 @@ class Npc {
     this._tier = newTier
     if (typeof newTier === 'number') {
       this._stats = NpcStats.FromClass(this.Class, newTier)
-      this._items.forEach(f => {
-        f.Tier = newTier
+      this._items.forEach(i => {
+        i.Tier = newTier
+        this.setStatBonuses(i.Feature)
       })
     }
     this.save()
+  }
+
+  public get IsCustomTier(): boolean {
+    return this._tier === 'custom'
   }
 
   public get Class(): NpcClass {
@@ -166,7 +178,7 @@ class Npc {
   }
 
   public get SelectedFeatures(): NpcFeature[] {
-    return this._selected_features
+    return this.Items.map(x => x.Feature)
   }
 
   public get Features(): NpcFeature[] {
@@ -193,13 +205,6 @@ class Npc {
       let t = typeof this.Tier === 'number' ? this.Tier : 1
       this._items.push(new NpcItem(f, t))
     })
-    for (const attr in temp.StatBonus) {
-      if (temp.StatBonus.hasOwnProperty(attr)) {
-        this._stats[
-          Object.keys(this._stats).find(key => key.toLowerCase() === attr.toLowerCase())
-        ] += temp.StatBonus[attr]
-      }
-    }
     this.save()
   }
 
@@ -208,41 +213,46 @@ class Npc {
     if (idx > -1) {
       this._templates.splice(idx, 1)
       temp.BaseFeatures.forEach(f => {
-        let j = this._items.findIndex(y => y.Item.ID === f.ID)
+        let j = this._items.findIndex(y => y.Feature.ID === f.ID)
         if (j > -1) this._items.splice(j, 1)
       })
       temp.OptionalFeatures.forEach(f => {
-        let k = this._items.findIndex(z => z.Item.ID === f.ID)
+        let k = this._items.findIndex(z => z.Feature.ID === f.ID)
         if (k > -1) this._items.splice(k, 1)
       })
-      for (const attr in temp.StatBonus) {
-        if (temp.StatBonus.hasOwnProperty(attr)) {
-          this._stats[
-            Object.keys(this._stats).find(key => key.toLowerCase() === attr.toLowerCase())
-          ] -= temp.StatBonus[attr]
-        }
-      }
     }
     this.save()
   }
 
+  setStatBonuses(feat: NpcFeature, remove?: boolean): void {
+    if (feat.Bonus) {
+      for (const key in feat.Bonus) {
+        if (feat.Bonus.hasOwnProperty(key)) {
+          if (remove) this._stats.Stats[key] -= feat.Bonus[key]
+          else this._stats.Stats[key] += feat.Bonus[key]
+        }
+      }
+    }
+  }
+
   public AddFeature(feat: NpcFeature): void {
-    this._selected_features.push(feat)
     const t = typeof this.Tier === 'number' ? this.Tier : 1
     this._items.push(new NpcItem(feat, t))
+    this.setStatBonuses(feat)
     this.save()
   }
 
   public RemoveFeature(feat: NpcFeature): void {
-    const i = this._selected_features.findIndex(x => x.ID === feat.ID)
-    if (i > -1) {
-      this._selected_features.splice(i, 1)
-    }
-    const j = this._items.findIndex(x => x.Item.ID === feat.ID)
+    const j = this._items.findIndex(x => x.Feature.ID === feat.ID)
     if (j > -1) {
       this._items.splice(j, 1)
     }
+    this.setStatBonuses(feat, true)
     this.save()
+  }
+
+  public get Items(): NpcItem[] {
+    return this._items
   }
 
   public SetCloudImage(src: string): void {
@@ -274,41 +284,39 @@ class Npc {
     return {
       id: npc.ID,
       class: npc.Class.ID,
-      tier: npc.Tier,
-      name: npc.Name,
-      campaign: npc.Campaign,
-      labels: npc.Labels,
-      tags: npc.Tags.map(x => ({ id: x.ID, val: '' })),
+      tier: npc._tier,
+      name: npc._name,
+      campaign: npc._campaign,
+      labels: npc._user_labels,
+      tag: npc._tag,
       templates: npc.Templates.map(x => x.ID),
       items: npc._items.map(x => NpcItem.Serialize(x)),
-      selectedFeatures: npc.SelectedFeatures.map(x => x.ID),
-      stats: NpcStats.Serialize(npc.Stats),
-      note: npc.Note,
+      stats: NpcStats.Serialize(npc._stats),
+      note: npc._note,
       cloudImage: npc._cloud_image,
       localImage: npc._local_image,
+      cc_ver: npc.cc_ver,
     }
   }
 
   public static Deserialize(data: INpcData): Npc {
-    const c = store.getters.referenceByID('NpcClass', data.class)
+    const c = store.getters.referenceByID('NpcClasses', data.class)
     const npc = new Npc(c)
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name
     npc._campaign = data.campaign
     npc._user_labels = data.labels
-    npc._npc_tags = Tag.Deserialize(data.tags)
+    npc._tag = data.tag
     npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplate', x))
     npc._items = data.items.map(x => NpcItem.Deserialize(x))
-    npc._selected_features = data.selectedFeatures.map(x =>
-      store.getters.referenceByID('NpcFeature', x)
-    )
     npc._note = data.note
     npc._cloud_image = data.cloudImage
     npc._local_image = data.localImage
     npc._stats = NpcStats.Deserialize(data.stats)
+    npc.cc_ver = data.cc_ver
     return npc
   }
 }
 
-export default Npc
+export { Npc, INpcData }

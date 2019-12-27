@@ -77,7 +77,9 @@ import {
   NpcClass,
   NpcTemplate,
   NpcItem,
+  Npc,
 } from './classes/npc'
+import { NpcWave, Encounter } from './classes/encounter'
 
 export {
   MountType,
@@ -149,4 +151,7 @@ export {
   NpcTemplate,
   NpcItem,
   NpcTech,
+  Npc,
+  NpcWave,
+  Encounter,
 }

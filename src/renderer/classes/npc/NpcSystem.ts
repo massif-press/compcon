@@ -17,6 +17,10 @@ class NpcSystem extends NpcFeature {
   public get Tags(): Tag[] {
     return Tag.Deserialize(this._tags)
   }
+
+  public get Color(): string {
+    return 'system'
+  }
 }
 
 export { INpcSystemData, NpcSystem }
