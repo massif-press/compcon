@@ -54,7 +54,8 @@ jobs:
       - provider: script
         skip_cleanup: true
         on:
-          branch: version_2_travis
+          tags: true
+          all_branches: true
         script: bash build_scripts/deploy_butler.sh
     - name: build_web
       os: linux
