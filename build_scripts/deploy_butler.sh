@@ -18,4 +18,4 @@ curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/
 unzip butler.zip &&
 chmod +x butler &&
 ./butler -V &&
-./butler push ./electron/dist/COMPCON*.exe test-hidden --userversion ${TAG_BUILD_VERSION}
+./butler push ./electron/dist/COMPCON*.exe test-hidden --userversion 0.0.0
