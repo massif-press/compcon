@@ -13,3 +13,9 @@ else
     export WIN_ITCH_CHANNEL="massif-press/compcon:win-${build_type}"
     export LINUX_ITCH_CHANNEL="massif-press/compcon:linux-${build_type}"
 fi
+
+curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default &&
+unzip butler.zip &&
+chmod +x butler &&
+./butler -V &&
+./butler push ./electron/dist/COMPCON*.exe test-hidden --userversion ${TAG_BUILD_VERSION} &&

@@ -6,11 +6,11 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "webpack-dev-server --progress --env.platform=web",
-    "build": "webpack --progress --env.platform=web --env.prod",
+    "build": "webpack --env.platform=web --env.prod",
     "unit-test": "jest unit",
     "int-test": "jest int",
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
-    "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder"
+    "electron:build": "webpack --env.platform=electron --env.prod && cd ./electron && electron-builder"
   },
   "dependencies": {
     "@aricchi/electron-vue-devtools": "^5.0.8-1",
