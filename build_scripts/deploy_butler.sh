@@ -14,7 +14,7 @@ else
     export LINUX_ITCH_CHANNEL="massif-press/compcon:linux-${build_type}"
 fi
 
-curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default &&
+curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default &&
 unzip butler.zip &&
 chmod +x butler &&
 ./butler -V &&
