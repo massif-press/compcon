@@ -27,6 +27,7 @@ const ensureDataDir = function(): void {
         fs.mkdirSync(userDataPath)
         ExtLog(`Created user data directory at ${userDataPath}`)
       }
+      break
     default:
       throw new Error(platformNotSupportedMessage)
   }

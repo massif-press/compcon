@@ -2,6 +2,7 @@ Next Steps:
   ☐ Testing Framework
     ☐ Unit
     ☐ E2E
+    ☐ Test on both web and Electron
   ☐ Robust error logging
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
