@@ -1,35 +1,35 @@
 language: node_js
 node_js: '10'
-# cache:
-#   yarn: true
-#   directories:
-#     - node_modules
-#     - '$HOME/.cache/electron'
-#     - '$HOME/.cache/electron-builder'
+cache:
+  yarn: true
+  directories:
+    - node_modules
+    - '$HOME/.cache/electron'
+    - '$HOME/.cache/electron-builder'
 install:
   - yarn
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-# before_cache:
-#   - rm -rf $HOME/.cache/electron-builder/wine
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 stages:
-  # - name: test
+  - name: test
   - name: build
-    # if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
+    if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
 
 jobs:
   include:
-    # - stage: test
-    #   name: 'test'
-    #   os: linux
-    #   dist: xenial
-    #   script:
-    #     - yarn unit-test
-    #     - yarn int-test
-    #     - yarn build --linux --publish never
+    - stage: test
+      name: 'test'
+      os: linux
+      dist: xenial
+      script:
+        - yarn unit-test
+        - yarn int-test
+        - yarn build --linux --publish never
     - stage: build
       name: build_electron
       os: osx
