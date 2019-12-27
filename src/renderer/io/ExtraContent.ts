@@ -129,4 +129,4 @@ const removeContentPack = async function(packID: string): Promise<void> {
   saveData('extra_content.json', currentExtraContent.filter(pack => pack.info.id !== packID))
 }
 
-export { getPackID, parseContentPack, loadSavedContent, saveContentPack, removeContentPack }
+export { parseContentPack, loadSavedContent, saveContentPack, removeContentPack }

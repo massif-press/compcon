@@ -52,9 +52,9 @@ import {
   loadSavedContent,
   IContentPackInfo,
   removeContentPack,
-  getPackID,
 } from '@/io/ExtraContent'
 import { CompendiumItem } from '@/classes/CompendiumItem'
+import ExtLog from '@/io/ExtLog'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const BUILD_LICENSES = 'BUILD_LICENSES'
@@ -187,11 +187,13 @@ export class CompendiumStore extends VuexModule {
   }
 
   @Action
-  public async addContentPack(pack: IContentPack): Promise<void> {
+  public async installContentPack(pack: IContentPack): Promise<void> {
     if (
-      this.ContentPacks.map(p => p.id)
-        .includes(pack.info.id)
-    ) throw new Error(`Pack with ID ${pack.info.id} already exists, replace it instead`)
+      this.packAlreadyInstalled(pack.info.id)
+    ) {
+      ExtLog(`pack ${pack.info.manifest.name} [${pack.info.id}] already exists, deleting original...`)
+      this.context.commit(DELETE_PACK, pack.info.id)
+    }
     this.context.commit(LOAD_PACK, pack)
     this.context.commit(BUILD_LICENSES)
     await saveContentPack(pack)
@@ -205,20 +207,14 @@ export class CompendiumStore extends VuexModule {
   }
 
   @Action
-  public async replaceContentPack(newPack: IContentPack): Promise<void> { 
-    const packID = await getPackID(newPack.info.manifest)
-
-    this.context.commit(DELETE_PACK, packID)
-    this.context.commit(LOAD_PACK, newPack)
-    this.context.commit(BUILD_LICENSES)
-
-  }
-
-  @Action
   public async loadExtraContent(): Promise<void> {
     const content = await loadSavedContent()
     content.forEach(c => this.context.commit(LOAD_PACK, c))
     this.context.commit(BUILD_LICENSES)
+  }
+
+  public get packAlreadyInstalled(): any {
+    return (packID: string) => this.ContentPacks.map(pak => pak.id).includes(packID)
   }
 
   private nfErr = { err: 'ID not found' }
