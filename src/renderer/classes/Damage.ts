@@ -5,7 +5,7 @@ import { DamageType } from '@/class'
 interface IDamageData {
   type: string
   val: string | number
-  override: boolean
+  override?: boolean
 }
 
 class Damage {

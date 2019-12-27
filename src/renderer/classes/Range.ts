@@ -5,7 +5,7 @@ import { RangeType } from '@/class'
 interface IRangeData {
   type: string
   val: number
-  override: boolean
+  override?: boolean
   bonus?: number
 }
 

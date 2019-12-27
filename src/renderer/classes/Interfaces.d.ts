@@ -174,7 +174,7 @@ declare interface IWeaponSlotData {
 
 declare interface ITagData {
   id: string
-  val: string | number
+  val?: string | number
 }
 
 declare interface ILicenseRequirement {
