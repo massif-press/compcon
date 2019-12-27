@@ -169,7 +169,7 @@ export default Vue.extend({
     hide() {
       this.$refs.dialog.hide()
     },
-     async copyCode() {
+    async copyCode() {
       this.copyConfirm = true
       await Clipboard.write({
         string: this.pilot.CloudID

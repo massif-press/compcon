@@ -2,6 +2,7 @@
 .vscode/
 dist/
 build/
+electron/app
 node_modules/
 thumbs.db
 7z.so
