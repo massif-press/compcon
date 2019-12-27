@@ -192,7 +192,7 @@ export class CompendiumStore extends VuexModule {
       this.packAlreadyInstalled(pack.info.id)
     ) {
       ExtLog(`pack ${pack.info.manifest.name} [${pack.info.id}] already exists, deleting original...`)
-      this.context.commit(DELETE_PACK, pack.info.id)
+      await this.deleteContentPack(pack.info.id)
     }
     this.context.commit(LOAD_PACK, pack)
     this.context.commit(BUILD_LICENSES)
