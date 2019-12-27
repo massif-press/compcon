@@ -1,19 +1,19 @@
 language: node_js
 node_js: '10'
-cache:
-  yarn: true
-  directories:
-    - node_modules
-    - '$HOME/.cache/electron'
-    - '$HOME/.cache/electron-builder'
+# cache:
+#   yarn: true
+#   directories:
+#     - node_modules
+#     - '$HOME/.cache/electron'
+#     - '$HOME/.cache/electron-builder'
 install:
   - yarn
 env:
   global:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
+# before_cache:
+#   - rm -rf $HOME/.cache/electron-builder/wine
 
 stages:
   # - name: test
@@ -38,7 +38,7 @@ jobs:
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
         - yarn electron:build -mwl --publish never
       deploy:
-        provider: releases
+      - provider: releases
         skip_cleanup: true
         api_key: $GH_TOKEN
         file_glob: true
@@ -51,19 +51,11 @@ jobs:
         on:
           tags: true
           all_branches: true
-      deploy:
-        provider: script
+      - provider: script
         skip_cleanup: true
         on:
-          tags: true
-          all_branches: true
-        script:
-          - source ./build_scripts/set_deploy_vars.sh
-          - curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-          - unzip butler.zip
-          - chmod +x butler
-          - ./butler -V
-          - ./butler push ./electron/dist/COMPCON*.exe test-hidden --userversion ${TAG_BUILD_VERSION}
+          branch: version_2_travis
+        script: bash build_scripts/deploy_butler.sh
     - name: build_web
       os: linux
       script:
