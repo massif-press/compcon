@@ -51,6 +51,19 @@ jobs:
         on:
           tags: true
           all_branches: true
+      deploy:
+        provider: script
+        skip_cleanup: true
+        on:
+          tags: true
+          all_branches: true
+        script:
+          - source ./build_scripts/set_deploy_vars.sh
+          - curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          - unzip butler.zip
+          - chmod +x butler
+          - ./butler -V
+          - ./butler push ./electron/dist/COMPCON*.exe test-hidden --userversion ${TAG_BUILD_VERSION}
     - name: build_web
       os: linux
       script:
