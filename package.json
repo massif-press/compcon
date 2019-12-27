@@ -37,6 +37,7 @@
     "typeit": "^6.0.3",
     "typograph": "^1.0.15",
     "vue-apexcharts": "^1.4.0",
+    "vue-class-component": "^7.1.0",
     "vue-mousetrap": "^1.0.1",
     "vue-router": "^3.0.6",
     "vuedraggable": "^2.20.0",
