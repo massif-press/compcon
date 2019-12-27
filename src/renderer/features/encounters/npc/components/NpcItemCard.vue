@@ -1,16 +1,42 @@
 <template>
-  <span>dynamic loader for system, trait, feature</span>
+  <component
+    :is="component"
+    v-if="component"
+    :item="item"
+    @remove-feature="$emit('remove-feature', $event)"
+  />
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'npc-feature-card',
+<script>
+export default {
+  name: 'npc-item-card',
   props: {
-    feature: {
+    item: {
       type: Object,
       required: true,
     },
   },
-})
+  data() {
+    return {
+      component: null,
+    }
+  },
+  computed: {
+    loader() {
+      if (!this.item) {
+        return null
+      }
+      return () => import(`./cards/${this.item.Feature.FeatureType}Card.vue`)
+    },
+  },
+  mounted() {
+    this.loader()
+      .then(() => {
+        this.component = () => this.loader()
+      })
+      .catch(() => {
+        console.error(`Unable to load component ${this.item.Feature.FeatureType}`)
+      })
+  },
+}
 </script>

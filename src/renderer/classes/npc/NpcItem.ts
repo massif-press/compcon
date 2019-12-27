@@ -8,30 +8,41 @@ interface INpcItemSaveData {
   tier: number
   flavorName: string
   description: string
+  destroyed: boolean
+  charged: boolean
 }
 
 class NpcItem {
-  private _item: NpcFeature
+  private _feature: NpcFeature
   private _tier: number
-  private flavor_name: string
-  private flavor_description: string
+  private _flavor_name: string
+  private _flavor_description: string
+  private _destroyed: boolean
+  private _charged: boolean
 
   public constructor(feature: NpcFeature, tier: number) {
-    this._item = feature
+    this._feature = feature
     this._tier = tier
-    this.flavor_name = this.flavor_description = ''
+    this._flavor_name = this._flavor_description = ''
+    this._destroyed = false
+    this._charged = true
   }
 
-  public get Item(): NpcFeature {
-    return this._item
+  private save(): void {
+    store.dispatch('npc/saveNpcData')
+  }
+
+  public get Feature(): NpcFeature {
+    return this._feature
   }
 
   public get Name(): string {
-    return this.flavor_name || this.Item.Name
+    return this._flavor_name || this._feature.Name
   }
 
   public set Name(val: string) {
-    this.flavor_name = val
+    this._flavor_name = val
+    this.save()
   }
 
   public get Tier(): number {
@@ -40,29 +51,51 @@ class NpcItem {
 
   public set Tier(val: number) {
     this._tier = val
+    this.save()
   }
 
   public get Description(): string {
-    return this.flavor_description || ''
+    return this._flavor_description || ''
   }
 
   public set Description(val: string) {
-    this.flavor_description = val
+    this._flavor_description = val
+    this.save()
+  }
+
+  public get IsDestroyed(): boolean {
+    return this._destroyed
+  }
+
+  public set IsDestroyed(val: boolean) {
+    this._destroyed = val
+  }
+
+  public get IsCharged(): boolean {
+    return this._charged
+  }
+
+  public set IsCharged(val: boolean) {
+    this._charged = val
   }
 
   public static Serialize(item: NpcItem): INpcItemSaveData {
     return {
-      itemID: item.Item.ID,
+      itemID: item._feature.ID,
       tier: item.Tier,
-      flavorName: item.flavor_name,
+      flavorName: item._flavor_name,
       description: item.Description,
+      destroyed: item.IsDestroyed,
+      charged: item.IsCharged,
     }
   }
 
   public static Deserialize(data: INpcItemSaveData): NpcItem {
     const item = new NpcItem(store.getters.referenceByID('NpcFeatures', data.itemID), data.tier)
-    item.flavor_description = data.description
-    item.flavor_name = data.flavorName
+    item._flavor_description = data.description
+    item._flavor_name = data.flavorName
+    item._destroyed = data.destroyed
+    item._charged = data.charged
     return item
   }
 }

@@ -8,6 +8,7 @@ import Main from './index.vue'
 import Home from './landing.vue'
 
 import NpcRoster from './npc/index.vue'
+import NewNpc from './npc/new/index.vue'
 // import NpcList from './views/NpcDesigner/NpcsList.vue'
 // import NpcDisplay from './views/NpcDesigner/NpcDisplay.vue'
 // import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
@@ -40,6 +41,38 @@ const routes: RouteConfig[] = [
       {
         path: '/npc-roster',
         component: NpcRoster,
+        // children: [
+        //   {
+        //     path: '',
+        //     name: 'npc-list',
+        //     component: NpcsList,
+        //   },
+        //   {
+        //     path: '/npc/:id',
+        //     name: 'npc',
+        //     component: NpcDisplay,
+        //     props: route => ({
+        //       npc: getNPC(route.params.id),
+        //     }),
+        //   },
+        //   {
+        //     path: '/npc-designer/new',
+        //     name: 'npc-new',
+        //     component: NpcClassPicker,
+        //   },
+        //   {
+        //     path: '/npc-designer/edit/:id',
+        //     name: 'npc-edit',
+        //     component: NpcBuilder,
+        //     props: route => ({
+        //       preNpc: getNPC(route.params.id),
+        //     }),
+        //   },
+        // ],
+      },
+      {
+        path: '/new-npc',
+        component: NewNpc,
         // children: [
         //   {
         //     path: '',

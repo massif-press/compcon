@@ -13,8 +13,6 @@ import Vue from 'vue'
 import TurnSidebar from './turn/index.vue'
 import PilotBlock from './layout/PilotBlock.vue'
 import MechBlock from './layout/MechBlock.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({

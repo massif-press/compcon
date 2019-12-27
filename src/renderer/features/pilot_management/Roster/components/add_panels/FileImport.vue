@@ -54,7 +54,7 @@
 import Vue from 'vue'
 import LoadLog from './loaders/LoadLog.vue'
 import { Pilot } from '@/class'
-import { importData } from '../../../../../io/Data'
+import { importData } from '@/io/Data'
 
 export default Vue.extend({
   name: 'file-import',

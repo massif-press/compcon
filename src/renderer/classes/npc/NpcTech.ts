@@ -16,6 +16,7 @@ class NpcTech extends NpcFeature {
     super(data)
     this._tags = data.tags
     this._tech_type = data.tech_type
+    this._accuracy = data.accuracy
     this.type = NpcFeatureType.Tech
   }
 
@@ -29,6 +30,10 @@ class NpcTech extends NpcFeature {
 
   public Accuracy(tier: number): number {
     return this._accuracy[tier - 1]
+  }
+
+  public get Color(): string {
+    return 'frame'
   }
 }
 

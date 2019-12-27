@@ -88,7 +88,7 @@ import { MechWeapon } from '@/class'
 import { flavorID } from '@/io/Generators'
 
 export default Vue.extend({
-  name: 'weapon-selector',
+  name: 'mod-selector',
   props: {
     weapon: {
       type: Object,

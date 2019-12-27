@@ -16,6 +16,8 @@ Next Steps:
   ☐ Gear Catalog comparison view
   ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
     ☐ Modify movement speed based on prone/immob/stunned
+  ☐ Custom NPC Feature
+  ☐ NPC Custom Tier icon
 
 Bugs:
   ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52)
@@ -56,17 +58,32 @@ NPC:
   NPC Roster:
     ☐ NPC library
       ☐ Handle long names better
-      ☐ Custom tier icon
       ✔ Sort by: @done(19-12-17 13:27)
-    ☐ Assign Label
-    ☐ Assign NPC Tags
-    ☐ Assign Campaign
+    ✔ NpcItem Wrapper @done(19-12-19 13:00)
+    ✔ Cards @done(19-12-26 14:11)
+    ✔ Assign Label @done(19-12-19 13:37)
+    ✔ Assign NPC Tags @done(19-12-19 13:37)
+      ☐ Tag interactions
+    ✔ Assign Campaign @done(19-12-19 13:37)
+    ✔ Show fluff @done(19-12-19 13:43)
+    ✔ Show tactics @done(19-12-19 13:43)
     ☐ Assign Image
-    ☐ Import/Export/Print/Statblock NPC
-    ☐ Add new NPC
-      ☐ Custom
+    ✔ Reflavor System @done(19-12-19 13:00)
+    ✔ Set system tier in custom mode @done(19-12-19 13:00)
+    ☐ Power level calculation
+    ✔ Template Selector @done(19-12-26 18:39)
+    ✔ System Selector @done(19-12-26 14:11)
+    ✔ Add system from other class @done(19-12-26 14:59)
+    ✔ Add new NPC @done(19-12-18 16:06)
+    ✔ Save/Load NPCs @done(19-12-18 16:06)
+    ✔ Duplicate NPCs @done(19-12-26 20:28)
+    ✔ Delete NPCs @done(19-12-26 20:28)
+    ✔ Import/Export @done(19-12-26 20:28)
+    ☐ Print
+    ☐ Statblock
+    ✔ Move attribute mods to npc features @done(19-12-26 14:59)
   Encounter Builder:
-    ☐ Add Map(?)
+    ☐ Add Map
     ☐ Add Goals
     ☐ Add Conditions
       ☐ Add NPCs (by wave)
@@ -74,6 +91,9 @@ NPC:
     ☐ Build Mission
       ☐ Add Encounters
     ☐ Run Mission
+      ☐ NPCs instantiated as unique copies
+        ☐ Track trackable stats (struct/stress/hp/heat/activations)
+        ☐ Track conditions/statuses
       ☐ Turns
       ☐ Initiative Tracker
       ☐ Pilot Import
