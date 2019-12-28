@@ -5,6 +5,8 @@ NPC point calc
   T1 Elite should be worth 200-800pts
   T1 Ultra should be worth 400-1200pts
 
+  stats should have a pct modifier above or below tier level
+
 Compare enemy encounter power to players + allies
 for T1: (100 = 1x player avg LL)
 <-400 - Trivial
