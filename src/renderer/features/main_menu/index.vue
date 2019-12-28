@@ -10,7 +10,7 @@
         <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
         <disabled-main-btn disabled>Campaign Manager</disabled-main-btn>
         <disabled-main-btn disabled>Content Editor</disabled-main-btn>
-        </disabled-main-btn></v-row>
+      </v-row>
     </v-container>
 
     <v-footer color="primary" fixed>
