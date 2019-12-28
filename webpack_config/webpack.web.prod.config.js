@@ -2,12 +2,16 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const InjectPlugin = require('webpack-inject-plugin').default;
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const fs = require('fs')
 
 module.exports = {
   plugins: [
+    new CleanWebpackPlugin(),
     new CopyPlugin([
-      { from: 'public/config', to: '.' }
+      { from: path.resolve(__dirname, '../netlify.toml'), to: '.' }
     ]),
     new WebpackPwaManifest({
       name: 'COMP/CON',
@@ -34,11 +38,11 @@ module.exports = {
       navigateFallback: '/index.html',
       // these two files aren't accessible by clients so including them in the precache manifest makes it fail to register
       // (i think)
-      exclude: ['_redirects', '_headers']
+      exclude: ['netlify.toml']
     }),
     // inject code to register service worker we just generated, but only in prod
     new InjectPlugin(() => fs.readFileSync(
-      path.resolve(__dirname, 'public/register_sw.js')
+      path.resolve(__dirname, '../public/register_sw.js')
     )),
     new FaviconsWebpackPlugin({
       logo: './icons/256x256.png', // svg works too!

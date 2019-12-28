@@ -4,8 +4,8 @@ cache:
   yarn: true
   directories:
     - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
+    - '$HOME/.cache/electron'
+    - '$HOME/.cache/electron-builder'
 install:
   - yarn
 env:
@@ -19,8 +19,6 @@ stages:
   - name: test
   - name: build
     if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
-  - name: deploy
-    if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
 
 jobs:
   include:
@@ -31,45 +29,47 @@ jobs:
       script:
         - yarn unit-test
         - yarn int-test
-        - yarn dist-travis --linux --publish never
+        - yarn build --linux --publish never
     - stage: build
-      name: 'mac'
+      name: build_electron
       os: osx
       osx_image: xcode10.2
       script:
-        - ./build_scripts/install_aws.sh
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
-        - yarn dist-travis --mac --publish never
-        - aws s3 cp build/compcon*mac.zip s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/mac/
-    - stage: build
-      name: 'windows'
-      os: osx
-      osx_image: xcode10.2
-      script:
-        - ./build_scripts/install_aws.sh
-        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/win
-        - yarn dist-travis --win --publish never
-        - aws s3 cp build/compcon*.exe s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/win/
-    - stage: build
-      name: 'linux'
+        - yarn electron:build -mwl --publish never
+      deploy:
+      - provider: releases
+        skip_cleanup: true
+        api_key: $GH_TOKEN
+        file_glob: true
+        file:
+        - "electron/dist/COMPCON*.AppImage"
+        - "electron/dist/COMPCON*.exe"
+        - "electron/dist/COMPCON*mac.zip"
+        skip_cleanup: true
+        draft: true
+        on:
+          tags: true
+          all_branches: true
+      - provider: script
+        skip_cleanup: true
+        on:
+          tags: true
+          all_branches: true
+        script: bash build_scripts/deploy_butler.sh
+    - name: build_web
       os: linux
-      dist: xenial
       script:
-        - ./build_scripts/install_aws.sh
-        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/linux
-        - yarn dist-travis --linux --publish never
-        - aws s3 cp build/compcon*.AppImage s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER/linux/
-    - stage: deploy
-      name: 'deploy'
-      script:
-        - ./build_scripts/install_aws.sh
-        - source ./build_scripts/set_deploy_vars.sh
-        - mkdir ~/$TRAVIS_BUILD_NUMBER
-        - aws s3 cp --recursive s3://$AWS_BUCKET/$TRAVIS_BUILD_NUMBER ./$TRAVIS_BUILD_NUMBER
-        - curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-        - unzip butler.zip
-        - chmod +x butler
-        - ./butler -V
-        - ./butler push ./${TRAVIS_BUILD_NUMBER}/mac ${MAC_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
-        - ./butler push ./${TRAVIS_BUILD_NUMBER}/win ${WIN_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
-        - ./butler push ./${TRAVIS_BUILD_NUMBER}/linux ${LINUX_ITCH_CHANNEL}  --userversion ${TAG_BUILD_VERSION}
+        - yarn build --progress=false
+      deploy:
+        provider: netlify
+        site: $NETLIFY_SITE_ID
+        auth: $NETLIFY_AUTH_TOKEN
+        dir: 'dist/'
+        prod: true
+        message: 'Travis CI deployment'
+        edge: true
+        skip_cleanup: true
+        on:
+          tags: true
+          all_branches: true
