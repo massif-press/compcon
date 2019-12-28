@@ -1,112 +1,56 @@
 <template>
-  <div class="px-3 py-4">
-    <h3 class="headline">Load Content Package</h3>
-    <div style="display: flex;">
-      <v-file-input
-        v-model="value"
-        outlined
-        mr2
-        accept=".lcp"
-        prepend-inner-icon="mdi-package"
-        prepend-icon=""
-        class="mr-1"
-        @change="fileChange($event)"
-      />
-      <v-btn type="flat" color="primary" :disabled="!contentPack" @click="install">
-        {{ packAlreadyInstalled ? 'Replace' : 'Install' }}
-      </v-btn>
-    </div>
-    <p v-if="error" style="color: red">
-      {{ error }}
-    </p>
-    <p v-if="packAlreadyInstalled" style="font-style: italic; font-size: 0.75em">
-      A pack with this same name and author is already installed. It will be replaced by this copy.
-    </p>
-    <div v-if="contentPack">
-      <h4>{{ contentPack.manifest.name }} {{ contentPack.manifest.version }}</h4>
-      <i style="font-size: 0.8em">
-        By
-        <b>{{ contentPack.manifest.author }}</b>
-      </i>
-      <h5>Contains:</h5>
-      <ul>
-        <li
-          v-for="category in [
-            'manufacturers',
-            'coreBonuses',
-            'frames',
-            'weapons',
-            'systems',
-            'mods',
-            'pilotGear',
-            'talents',
-            'tags',
-          ]"
-          :key="category"
-        >
-          <b>{{ contentPack.data[category].length }}</b>
-          {{ category }}
-        </li>
-      </ul>
-    </div>
-    <packs-list />
-  </div>
+  <v-card outlined color="secondary" class="mt-4 containerCard white">
+    <v-tabs v-model="tabs" background-color="secondary accent-4" dark icons-and-text>
+      <v-tab>
+        Content Packs
+        <v-icon>list_alt</v-icon>
+      </v-tab>
+      <v-tab>
+        Install Content
+        <v-icon>open_in_browser</v-icon>
+      </v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="tabs">
+      <v-tab-item>
+        <packs-list />
+      </v-tab-item>
+      <v-tab-item>
+        <div>
+          <pack-install @installed="onInstalled" />
+        </div>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Component from 'vue-class-component'
 
-import PromisifyFileReader from 'promisify-file-reader'
-import { parseContentPack } from '@/io/ContentPackParser'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/features/_shared/store'
-
 import PacksList from './PacksList.vue'
-import { IContentPack } from '@/interface';
+import PackInstall from './PackInstall.vue'
+
 
 @Component({
-  components: { PacksList }
+  components: { PacksList, PackInstall }
 })
 export default class ExtraContent extends Vue {
+  public tabs = null
 
-  private dataStore = getModule(CompendiumStore, this.$store)
-
-  contentPack: IContentPack = null
-  error: string = null
-
-  async fileChange(file: HTMLInputElement) {
-    this.contentPack = null
-    this.error = null
-
-    if (!file) return
-
-    const fileData = await PromisifyFileReader.readAsBinaryString(file)
-    try {
-      this.contentPack = await parseContentPack(fileData)
-    } catch (e) {
-      this.error = e.message
-    }
+  public onInstalled() {
+    this.tabs = 0
   }
 
-  get packAlreadyInstalled() {
-    return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.id)
-  }
-
-  value = null
-  async install() {
-    await this.dataStore.installContentPack(this.contentPack)
-    this.contentPack = null
-    this.error = null
-    this.value = null
-  }
-
-  deletePack(packID: string) {
-    this.dataStore.deleteContentPack(packID)
-  }
-
-} 
+}
 </script>
 
 <style scoped>
+.containerCard {
+  min-height: 350px;
+  max-height: 750px;
+}
+.containerCard >>> .v-window__container,
+.containerCard >>> .v-window-item {
+  height: 100%;
+}
 </style>
