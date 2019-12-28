@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/class-name-casing */
 /* eslint-disable @typescript-eslint/camelcase */
-import { IContentPackManifest } from './io/ExtraContent'
-import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, ITalentData } from './interface'
+import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, ITalentData, IContentPackManifest } from './interface'
 
 
 type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level' | 'source'>
