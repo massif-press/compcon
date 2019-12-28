@@ -7,7 +7,7 @@
     </template>
     <v-list>
       <v-subheader class="heading h2 white--text primary py-0 px-2 mt-n3">
-        Group NPCs By
+        Group Encounters By
       </v-subheader>
       <v-list-item
         v-for="g in groups"
@@ -29,16 +29,11 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'roster-group',
+  name: 'encounter-group',
   data: () => ({
     groups: [
       { name: 'None', val: null, icon: 'mdi-close' },
-      { name: 'Role', val: 'Class.Role', icon: 'cci-role-striker' },
-      { name: 'Class', val: 'Class.Name', icon: 'mdi-rhombus-outline' },
-      { name: 'Labels', val: 'Labels', icon: 'mdi-label-outline' },
       { name: 'Campaign', val: 'Campaign', icon: 'mdi-map' },
-      { name: 'Tier', val: 'Tier', icon: 'cci-rank-3' },
-      { name: 'Power Rating', val: 'PowerTier', icon: 'mdi-battery-80' },
     ],
   }),
 })
