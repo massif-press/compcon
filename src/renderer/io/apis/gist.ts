@@ -3,7 +3,11 @@ import axios from 'axios'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
-const gistToken = atob('ZTk4MjJhZTE0MzYyMTRkNDY5YTlkZTNkMDIxMTRmODVkNTJhMjAwMg==')
+const gistToken = Buffer.from(
+  'ZTk4MjJhZTE0MzYyMTRkNDY5YTlkZTNkMDIxMTRmODVkNTJhMjAwMg==',
+  'base64'
+).toString()
+
 const gistApi = axios.create({
   baseURL: 'https://api.github.com/gists',
   headers: {

@@ -1,6 +1,14 @@
 <template>
   <div class="clipped px-2 pt-1">
     <span id="title">COMP/CON</span>
+    <!-- Shout out Netlify on web for their free open source plan -->
+    <a
+      v-if="$platform === 'web'"
+      href="https://www.netlify.com"
+      style="position: relative; top: 1px; left: 5px;"
+    >
+      <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" />
+    </a>
     <br />
     <div id="subtitle">
       <span>A digital toolset for the LANCER TTRPG</span>

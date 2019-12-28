@@ -1,7 +1,6 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
@@ -20,7 +19,6 @@ const baseConfig = {
     open: true,
     historyApiFallback: true
   },
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -69,15 +67,16 @@ const baseConfig = {
           'css-loader'
         ]
       },
-      {
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'eslint-loader'
-          }
-        ],
-      },
+      // commenting eslint loader out until we fix some of the issues cause it's annoying
+      // {
+      //   test: /\.(ts|js|vue)$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: 'eslint-loader'
+      //     }
+      //   ],
+      // },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
         loader: 'file-loader',
@@ -116,7 +115,6 @@ const baseConfig = {
     new CopyPlugin([
       { from: 'static', to: 'static' },
     ]),
-    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HTMLWebpackPlugin({
@@ -134,7 +132,9 @@ function requireIfExists(filePath) {
   try {
     return require(filePath)
   } catch (err) {
-    return {}
+    if (err.message.includes('Cannot find module'))
+      return {}
+    else throw err
   }
 }
 

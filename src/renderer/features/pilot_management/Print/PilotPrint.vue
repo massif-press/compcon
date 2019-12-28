@@ -231,12 +231,12 @@ export default Vue.extend({
   computed: {
     pilot() {
       return getModule(PilotManagementStore, this.$store)
-      .Pilots
-      .find(p => p.ID === this.$route.params.pilotID)
+        .Pilots
+        .find(p => p.ID === this.$route.params.pilotID)
     },
     mech() {
       return (this.pilot as Pilot).Mechs
-      .find(m => m.ID === this.$route.params.mechID)
+        .find(m => m.ID === this.$route.params.mechID)
     }
   }
 })
