@@ -9,8 +9,8 @@
         <main-btn :to="'/pilot_management'" @hover="ccLog('pilot')">Pilot Roster</main-btn>
         <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
         <disabled-main-btn disabled>Campaign Manager</disabled-main-btn>
-        <main-btn :to="'/brewTest'">Homebrew</main-btn>
-      </v-row>
+        <disabled-main-btn disabled>Content Editor</disabled-main-btn>
+        </disabled-main-btn></v-row>
     </v-container>
 
     <v-footer color="primary" fixed>
