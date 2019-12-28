@@ -24,7 +24,7 @@
           title="Mission Runner"
           icon="mdi-account-group"
           text="Run sets of encounters digitally with NPC and Pilot status tracking."
-          to="encounter-runner"
+          to="mission-runner"
           :icon-offset="13"
         />
       </v-col>

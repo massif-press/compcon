@@ -79,7 +79,9 @@ class Npc {
   }
 
   public get Power(): number {
-    return 100
+    // TODO: calc stat power for custom
+    const multiplier = typeof this.Tier === 'number' ? this.Tier : 3.5
+    return (this.Class.Power + this.Templates.reduce((a, b) => +a + +b.Power, 0)) * multiplier
   }
 
   public get PowerTier(): number {

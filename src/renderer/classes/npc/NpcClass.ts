@@ -10,6 +10,7 @@ interface INpcClassData {
   stats: INpcClassStats
   base_features: string[]
   optional_features: string[]
+  power: number
   brew: string
 }
 
@@ -24,6 +25,7 @@ class NpcClass {
   private _stats: NpcClassStats
   private _base_features: NpcFeature[]
   private _optional_features: NpcFeature[]
+  private _power: number
   private _brew: string
 
   public constructor(data: INpcClassData) {
@@ -32,6 +34,7 @@ class NpcClass {
     this._role = data.role
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
+    this._power = data.power
     this._base_features = this._base_features = data.base_features.map(x =>
       store.getters.referenceByID('NpcFeatures', x)
     )
@@ -47,6 +50,10 @@ class NpcClass {
 
   public get Name(): string {
     return this._name
+  }
+
+  public get Power(): number {
+    return this._power
   }
 
   public get Role(): string {

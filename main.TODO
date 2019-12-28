@@ -20,9 +20,14 @@ Next Steps:
   ☐ Custom NPC Feature
   ☐ NPC Custom Tier icon
 
+NPC roster: 
+  ☐ Route based views
+  ☐ Tag interactions
+  ☐ Print
+
 Bugs:
-  ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52)
-  ✔ armsman (at least) bugged @done(19-12-11 12:52)
+  ☐ Pilot gear loadout is broken
+  ☐ Fix NPC group sort
 
 Etc:
   ☐ For frame info and NPCs, make expandable image panel
@@ -55,62 +60,30 @@ Print:
   ☐ Print NPCs
   ☐ Print Encounters
 
-NPC:
-  NPC Roster:
-    ☐ NPC library
-      ☐ Handle long names better
-      ✔ Sort by: @done(19-12-17 13:27)
-    ✔ NpcItem Wrapper @done(19-12-19 13:00)
-    ✔ Cards @done(19-12-26 14:11)
-    ✔ Assign Label @done(19-12-19 13:37)
-    ✔ Assign NPC Tags @done(19-12-19 13:37)
-      ☐ Tag interactions
-    ✔ Assign Campaign @done(19-12-19 13:37)
-    ✔ Show fluff @done(19-12-19 13:43)
-    ✔ Show tactics @done(19-12-19 13:43)
-    ☐ Assign Image
-    ✔ Reflavor System @done(19-12-19 13:00)
-    ✔ Set system tier in custom mode @done(19-12-19 13:00)
-    ☐ Power level calculation
-    ✔ Template Selector @done(19-12-26 18:39)
-    ✔ System Selector @done(19-12-26 14:11)
-    ✔ Add system from other class @done(19-12-26 14:59)
-    ✔ Add new NPC @done(19-12-18 16:06)
-    ✔ Save/Load NPCs @done(19-12-18 16:06)
-    ✔ Duplicate NPCs @done(19-12-26 20:28)
-    ✔ Delete NPCs @done(19-12-26 20:28)
-    ✔ Import/Export @done(19-12-26 20:28)
-    ☐ Print
-    ☐ Statblock
-    ✔ Move attribute mods to npc features @done(19-12-26 14:59)
-  Encounter Builder:
-    ☐ Add Map
-    ☐ Add Goals
-    ☐ Add Conditions
-      ☐ Add NPCs (by wave)
-  Mission Runner:
-    ☐ Build Mission
-      ☐ Add Encounters
-    ☐ Run Mission
-      ☐ NPCs instantiated as unique copies
-        ☐ Track trackable stats (struct/stress/hp/heat/activations)
-        ☐ Track conditions/statuses
-      ☐ Turns
-      ☐ Initiative Tracker
-      ☐ Pilot Import
-      ☐ Graveyard
-      ☐ Reinforcements
-      ☐ Rests
-      ☐ Complete Mission
-        ☐ Success/Failure (based on conditions)
-        ☐ Stats
-  General:
-  ☐ Activations stat
-  ☐ Rename/Reflavor
+Encounter Builder:
+  ☐ Add Map
+  ☐ Add Goals
+  ☐ Add Conditions
+    ☐ Add NPCs (by wave)
+Mission Runner:
+  ☐ Build Mission
+    ☐ Add Encounters
+  ☐ Run Mission
+    ☐ NPCs instantiated as unique copies
+      ☐ Track trackable stats (struct/stress/hp/heat/activations)
+      ☐ Track conditions/statuses
+    ☐ Turns
+    ☐ Initiative Tracker
+    ☐ Pilot Import
+    ☐ Graveyard
+    ☐ Reinforcements
+    ☐ Rests
+    ☐ Complete Mission
+      ☐ Success/Failure (based on conditions)
+      ☐ Stats
 
 Printing:
   ☐ Mark danger zone heat
-  ✔ Print Preview @done(19-12-06 15:19)
   ☐ Reserves Page
   General Print Options:
     ☐ Large fonts
@@ -163,13 +136,13 @@ Factions:
 Refactor:
   ✔ remove old font stylings @done(19-12-05 13:50)
   ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
+  ☐ `routes` subnode for all features
   ☐ use @focus="$event.target.select()" for all edit button inputs
   ☐ Normalize folder names
   ☐ Replace most instances of .Source with .Manufacturer.Name
   ☐ remove _shared
   ☐ Rules logic into class
-  ☐ Contributor/Bonus rules logic should go into seperate class(es)
-  ☐ redo converter/validator
+  ☐ rewrite converter/validator
 
 Style Pass:
   ☐ pilot NO IMG
@@ -214,6 +187,34 @@ Homebrew:
   ☐ serve content packs as archives `.lcp`
 
 Archive:
+  ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52) @project(Bugs)
+  ✔ armsman (at least) bugged @done(19-12-11 12:52) @project(Bugs)
+  ✔ NPC library @done(19-12-27 15:44) @project(NPC.NPC Roster)
+  ✔ Handle long names better @done(19-12-27 16:33) @project(NPC.NPC Roster)
+  ✔ Sort by: @done(19-12-17 13:27) @project(NPC.NPC Roster)
+  ✔ NpcItem Wrapper @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Cards @done(19-12-26 14:11) @project(NPC.NPC Roster)
+  ✔ Assign Label @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Assign NPC Tags @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Assign Campaign @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Show fluff @done(19-12-19 13:43) @project(NPC.NPC Roster)
+  ✔ Show tactics @done(19-12-19 13:43) @project(NPC.NPC Roster)
+  ✔ Assign Image @done(19-12-27 15:30) @project(NPC.NPC Roster)
+  ✔ Reflavor System @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Set system tier in custom mode @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Power level calculation @done(19-12-27 15:44) @project(NPC.NPC Roster)
+  ✔ Template Selector @done(19-12-26 18:39) @project(NPC.NPC Roster)
+  ✔ System Selector @done(19-12-26 14:11) @project(NPC.NPC Roster)
+  ✔ Add system from other class @done(19-12-26 14:59) @project(NPC.NPC Roster)
+  ✔ Add new NPC @done(19-12-18 16:06) @project(NPC.NPC Roster)
+  ✔ Save/Load NPCs @done(19-12-18 16:06) @project(NPC.NPC Roster)
+  ✔ Duplicate NPCs @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Delete NPCs @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Import/Export @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Statblock @done(19-12-26 21:01) @project(NPC.NPC Roster)
+  ✔ Move attribute mods to npc features @done(19-12-26 14:59) @project(NPC.NPC Roster)
+  ✔ Print Preview @done(19-12-06 15:19) @project(Printing)
+  ✔ remove old font stylings @done(19-12-05 13:50) @project(Refactor)
   ✔ Side Panel @done(19-12-05 13:01) @project(Active Mode)
   ✔ Downtime @done(19-12-04 11:15) @project(Active Mode)
   ✔ Mission @done(19-12-05 13:01) @project(Active Mode)
