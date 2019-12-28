@@ -26,6 +26,7 @@
           :group-by="grouping"
           :search="search"
           no-results-text="No NPCs Found"
+          no-data-text="No Saved NPCs"
           hide-default-footer
           calculate-widths
           class="transparent"

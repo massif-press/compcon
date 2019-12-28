@@ -1,9 +1,10 @@
 import { Npc } from '@/class'
 import { store } from '@/store'
+import { INpcData } from '../npc'
 
 interface INpcWaveData {
   round: number
-  npcIDs: string[]
+  npcs: INpcData[]
 }
 
 class NpcWave {
@@ -12,7 +13,7 @@ class NpcWave {
 
   public constructor(data: INpcWaveData) {
     this._round = data.round
-    //load npcs by id
+    this._npcs = data.npcs.map(x => Npc.Deserialize(x))
   }
 
   private save(): void {
@@ -50,7 +51,7 @@ class NpcWave {
   public static Serialize(wave: NpcWave): INpcWaveData {
     return {
       round: wave.Round,
-      npcIDs: wave.NPCs.map(x => x.ID),
+      npcs: wave.NPCs.map(x => Npc.Serialize(x)),
     }
   }
 

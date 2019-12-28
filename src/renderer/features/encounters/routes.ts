@@ -14,7 +14,7 @@ import NewNpc from './npc/new/index.vue'
 // import NpcBuilder from './views/NpcDesigner/NpcBuilder.vue'
 // import NpcClassPicker from './views/NpcDesigner/NpcClassPicker.vue'
 
-// import EncounterBuilderIndex from './views/EncounterBuilder/EncounterBuilderIndex.vue'
+import EncounterBuilder from './encounter/index.vue'
 // import EncountersList from './views/EncounterBuilder/EncountersList.vue'
 // import EncounterBuilder from './views/EncounterBuilder/EncounterBuilder.vue'
 
@@ -102,37 +102,37 @@ const routes: RouteConfig[] = [
         //   },
         // ],
       },
-      // {
-      //   path: '/encounter-builder',
-      //   component: EncounterBuilderIndex,
-      //   children: [
-      //     {
-      //       path: '',
-      //       name: 'encounter-builder',
-      //       component: EncountersList,
-      //     },
-      //     {
-      //       path: '/encounter-builder/new',
-      //       beforeEnter: (to, from, next) => {
-      //         const newEnc = new EncounterBase('Untitled Encounter')
-      //         store.commit('encounterBuilder/add', newEnc)
-      //         next('/encounter-builder/' + newEnc.id)
-      //       },
-      //     },
-      //     {
-      //       path: '/encounter-builder/:id',
-      //       name: 'encounter-edit',
-      //       component: EncounterBuilder,
-      //       props: route => ({
-      //         preEnc: (store.state as any).encounterBuilder.encounters.find(
-      //           (e: any) => e.id === route.params.id
-      //         ),
-      //       }),
-      //     },
-      //   ],
-      // },
       {
-        path: '/encounter-runner',
+        path: '/encounter-builder',
+        component: EncounterBuilder,
+        //   children: [
+        //     {
+        //       path: '',
+        //       name: 'encounter-builder',
+        //       component: EncountersList,
+        //     },
+        //     {
+        //       path: '/encounter-builder/new',
+        //       beforeEnter: (to, from, next) => {
+        //         const newEnc = new EncounterBase('Untitled Encounter')
+        //         store.commit('encounterBuilder/add', newEnc)
+        //         next('/encounter-builder/' + newEnc.id)
+        //       },
+        //     },
+        //     {
+        //       path: '/encounter-builder/:id',
+        //       name: 'encounter-edit',
+        //       component: EncounterBuilder,
+        //       props: route => ({
+        //         preEnc: (store.state as any).encounterBuilder.encounters.find(
+        //           (e: any) => e.id === route.params.id
+        //         ),
+        //       }),
+        //     },
+        //   ],
+      },
+      {
+        path: '/mission-runner',
         component: Mission,
         // children: [
         //   {

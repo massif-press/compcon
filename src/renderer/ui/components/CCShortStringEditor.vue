@@ -7,7 +7,8 @@
     <v-col v-else key="editname" :class="{ 'd-inline': inline }">
       <v-text-field
         v-model="newStr"
-        dense
+        :dense="!large"
+        :height="large ? '50px' : ''"
         required
         hide-details
         autofocus
@@ -28,6 +29,9 @@ export default Vue.extend({
     inline: {
       type: Boolean,
       required: false,
+    },
+    large: {
+      type: Boolean,
     },
   },
   data: () => ({
@@ -60,15 +64,26 @@ export default Vue.extend({
   padding: 0 !important;
   margin: 0 !important;
   font-size: inherit !important;
+  line-height: inherit !important;
   min-height: min-content !important;
+}
+.v-input input {
+  max-height: fit-content !important;
 }
 .v-input__slot {
   margin-bottom: 0 !important;
   font-size: inherit !important;
   min-height: min-content !important;
+  line-height: inherit !important;
 }
 .label {
   font-size: 1em;
   font-weight: bold;
+}
+</style>
+
+<style>
+.v-input input {
+  max-height: fit-content !important;
 }
 </style>
