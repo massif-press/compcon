@@ -19,6 +19,8 @@ import theme from './ui/theme'
 
 import mixins from './mixins'
 
+import externalLinkDirective from './mixins/externalLinkDirective'
+
 import _ from 'lodash'
 import Startup from './io/Startup'
 
@@ -38,6 +40,8 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 mixins.forEach(m => {
   Vue.mixin(m)
 })
+
+Vue.directive('extlink', externalLinkDirective)
 
 new Vue({
   components: { App },
