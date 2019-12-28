@@ -26,24 +26,34 @@
         <!-- Expanded view -->
         <template v-slot:expanded-item="{ item, headers }">
           <td :colspan="headers.length" class="py-4 px-6 w-100">
-            <span v-if="item.manifest.description">
-              {{ item.manifest.description }}
-            </span>
-            <span v-else class="font-italic grey--text text--darken-1">
-              No description.
-            </span>
-            <div v-if="item.manifest.website" class="flex mt-1">
-              <v-btn
-                class="d-block"
-                text
-                small
-                color="secondary"
-                :href="item.manifest.website"
-                @click="visitWebsite($event, item.manifest.website)"
-              >
-                <v-icon prepend>open_in_new</v-icon>
-                &nbsp;Website
-              </v-btn>
+            <div class="d-flex">
+              <div style="display: flex; flex-direction: column;">
+                <span v-if="item.manifest.description">
+                  {{ item.manifest.description }}
+                </span>
+                <span v-else class="font-italic grey--text text--darken-1">
+                  No description.
+                </span>
+                <div v-if="item.manifest.website" class="mt-auto" style="flex-grow: 0;">
+                  <v-btn
+                    text
+                    small
+                    color="secondary"
+                    :href="item.manifest.website"
+                    @click="visitWebsite($event, item.manifest.website)"
+                  >
+                    <v-icon prepend>open_in_new</v-icon>
+                    &nbsp;Website
+                  </v-btn>
+                </div>
+              </div>
+              <div style="margin-left: 1em; max-width: 40%; min-width: 25%;">
+                <img
+                  v-if="item.manifest.image_url"
+                  style="max-width: 100%"
+                  :src="item.manifest.image_url"
+                />
+              </div>
             </div>
           </td>
         </template>
@@ -65,7 +75,7 @@ const { Browser } = Plugins
 @Component
 export default class PacksList extends Vue {
 
-  private compendiumStore = getModule(CompendiumStore)
+  private compendiumStore = getModule(CompendiumStore, this.$store)
 
   public async deletePack(id: string): Promise<void> {
     return await this.compendiumStore.deleteContentPack(id)

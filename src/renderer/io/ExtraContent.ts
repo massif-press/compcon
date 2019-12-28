@@ -18,6 +18,7 @@ export interface IContentPackManifest {
   version: string
   description?: string
   website?: string
+  image_url?: string
 }
 const isValidManifest = function(obj: any): obj is IContentPackManifest {
   return (
