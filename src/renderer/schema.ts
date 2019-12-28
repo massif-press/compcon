@@ -12,13 +12,15 @@ interface compendiumTagData {
   description: string
 }
 
+type NoBrew<T> = Omit<T, 'brew'>
+
 export type SCHEMA__manifest = IContentPackManifest
-export type SCHEMA__manufacturers = IManufacturerData[]
-export type SCHEMA__core_bonus = ICoreBonusData[]
-export type SCHEMA__frames = IFrameData_Fixed[]
-export type SCHEMA__weapons = IMechWeaponData[]
-export type SCHEMA__systems = IMechSystemData[]
-export type SCHEMA__mods = IWeaponModData[]
-export type SCHEMA__talents = ITalentData[]
+export type SCHEMA__manufacturers = NoBrew<IManufacturerData>[]
+export type SCHEMA__core_bonus = NoBrew<ICoreBonusData>[]
+export type SCHEMA__frames = NoBrew<IFrameData_Fixed>[]
+export type SCHEMA__weapons = NoBrew<IMechWeaponData>[]
+export type SCHEMA__systems = NoBrew<IMechSystemData>[]
+export type SCHEMA__mods = NoBrew<IWeaponModData>[]
+export type SCHEMA__talents = NoBrew<ITalentData>[]
 // temporary until we have a proper interface for compendium tag data
 export type SCHEMA__tags = compendiumTagData[]
