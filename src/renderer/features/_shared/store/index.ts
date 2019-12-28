@@ -52,7 +52,6 @@ import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
-export const BUILD_LICENSES = 'BUILD_LICENSES'
 export const LOAD_DATA = 'LOAD_DATA'
 
 export const LOAD_PACK = 'LOAD_PACK'
@@ -78,7 +77,7 @@ export class CompendiumStore extends VuexModule {
   private _Base_Tags: Tag[] = []
   public Statuses: Status[] = []
   public Quirks: string[] = []
-  public Licenses: License[] = []
+  // public Licenses: License[] = []
   public Reserves: Reserve[] = []
   public Factions: Faction[] = []
   public NpcClasses: NpcClass[] = []
@@ -114,20 +113,15 @@ export class CompendiumStore extends VuexModule {
     return [...this._Base_Tags , ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags)]
   }
 
+  public get Licenses(): License[] {
+    return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))
+  }
+
   // TODO: just set as part of the data loader
   @Mutation
   private [SET_VERSIONS](lancer: string, cc: string): void {
     this.LancerVersion = lancer
     this.CCVersion = cc
-  }
-
-  @Mutation
-  private [BUILD_LICENSES](): void {
-    const licenses: License[] = []
-    this._Base_Frames.filter(x => x.Source !== 'GMS').forEach(frame => {
-      licenses.push(new License(frame))
-    })
-    this.Licenses = licenses
   }
 
   @Mutation
@@ -184,7 +178,6 @@ export class CompendiumStore extends VuexModule {
   @Action
   public async setPackActive(payload: { packID: string, active: boolean }): Promise<void> {
     this.context.commit(SET_PACK_ACTIVE, payload)
-    this.context.commit(BUILD_LICENSES, payload)
     await saveUserData('extra_content.json', this.ContentPacks.map(pack => pack.Serialize()) )
   }
 
@@ -197,14 +190,12 @@ export class CompendiumStore extends VuexModule {
       await this.deleteContentPack(pack.id)
     }
     this.context.commit(LOAD_PACK, pack)
-    this.context.commit(BUILD_LICENSES)
     await saveUserData('extra_content.json', this.ContentPacks.map(pack => pack.Serialize()) )
   }
 
   @Action
   public async deleteContentPack(packID: string): Promise<void> {
     this.context.commit(DELETE_PACK, packID)
-    this.context.commit(BUILD_LICENSES)
     await saveUserData('extra_content.json', this.ContentPacks.map(pack => pack.Serialize()) )
   }
 
@@ -212,7 +203,6 @@ export class CompendiumStore extends VuexModule {
   public async loadExtraContent(): Promise<void> {
     const content = await loadUserData('extra_content.json')
     content.forEach(c => this.context.commit(LOAD_PACK, c))
-    this.context.commit(BUILD_LICENSES)
   }
 
   public get packAlreadyInstalled(): any {
@@ -263,10 +253,5 @@ export class CompendiumStore extends VuexModule {
   @Action
   public setVersions(lancerVer: string, ccVer: string): void {
     this.context.commit(SET_VERSIONS, { lancerVer, ccVer })
-  }
-
-  @Action
-  public buildLicenses(): void {
-    this.context.commit(BUILD_LICENSES)
   }
 }
