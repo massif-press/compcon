@@ -34,20 +34,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
-export default Vue.extend({
-  name: 'manufacturers',
-  data: () => ({
-    tabModel: 0,
-    manufacturers: {},
-  }),
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.manufacturers = compendium.Manufacturers
-  },
-})
+@Component
+export default class Manufacturers extends Vue {
+  public tabModel = 0
+
+  private compendiumStore = getModule(CompendiumStore, this.$store)
+  get manufacturers() { return this.compendiumStore.Manufacturers }
+
+}
 </script>
 
 <style scoped>
