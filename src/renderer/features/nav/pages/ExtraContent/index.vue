@@ -23,10 +23,10 @@
       A pack with this same name and author is already installed. It will be replaced by this copy.
     </p>
     <div v-if="contentPack">
-      <h4>{{ contentPack.info.manifest.name }} {{ contentPack.info.manifest.version }}</h4>
+      <h4>{{ contentPack.manifest.name }} {{ contentPack.manifest.version }}</h4>
       <i style="font-size: 0.8em">
         By
-        <b>{{ contentPack.info.manifest.author }}</b>
+        <b>{{ contentPack.manifest.author }}</b>
       </i>
       <h5>Contains:</h5>
       <ul>
@@ -58,11 +58,12 @@ import Vue from 'vue';
 import Component from 'vue-class-component'
 
 import PromisifyFileReader from 'promisify-file-reader'
-import { parseContentPack, IContentPack } from '@/io/ExtraContent'
+import { parseContentPack } from '@/io/ContentPackParser'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/features/_shared/store'
 
 import PacksList from './PacksList.vue'
+import { IContentPack } from '@/interface';
 
 @Component({
   components: { PacksList }
@@ -89,7 +90,7 @@ export default class ExtraContent extends Vue {
   }
 
   get packAlreadyInstalled() {
-    return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.info.id)
+    return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.id)
   }
 
   value = null
