@@ -21,8 +21,8 @@ class Damage {
     this._override = damage.override || false
   }
 
-  private getDamageType(str: string): DamageType {
-    switch (str.toLowerCase()) {
+  private getDamageType(str?: string): DamageType {
+    switch (str?.toLowerCase()) {
       case 'kinetic':
         return DamageType.Kinetic
       case 'energy':
