@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/class-name-casing */
 /* eslint-disable @typescript-eslint/camelcase */
-import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, ITalentData, IContentPackManifest } from './interface'
+import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, ITalentData, IContentPackManifest, IPilotGearData, IPilotWeaponData, IPilotArmorData } from './interface'
 
 
-type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level' | 'source'>
+type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level'>
 
 interface compendiumTagData {
   id: string
@@ -20,6 +20,11 @@ export type SCHEMA__frames = NoBrew<IFrameData_Fixed>[]
 export type SCHEMA__weapons = NoBrew<IMechWeaponData>[]
 export type SCHEMA__systems = NoBrew<IMechSystemData>[]
 export type SCHEMA__mods = NoBrew<IWeaponModData>[]
+export type SCHEMA__pilot_gear = (
+  NoBrew<IPilotWeaponData> |
+  NoBrew<IPilotArmorData> |
+  NoBrew<IPilotGearData>
+)[]
 export type SCHEMA__talents = NoBrew<ITalentData>[]
 // temporary until we have a proper interface for compendium tag data
 export type SCHEMA__tags = compendiumTagData[]
