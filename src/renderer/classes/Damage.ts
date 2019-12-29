@@ -2,8 +2,17 @@ import { DamageType } from '@/class'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
+enum DamageString {
+  kinetic = 'kinetic',
+  energy = 'energy',
+  explosive = 'explosive',
+  heat = 'heat',
+  burn = 'burn',
+  variable = 'variable',
+}
+
 interface IDamageData {
-  type: DamageType
+  type: DamageString
   val: string | number
   override?: boolean
 }
