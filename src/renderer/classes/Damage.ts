@@ -3,7 +3,7 @@ import { DamageType } from '@/class'
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
 interface IDamageData {
-  type: string
+  type: DamageType
   val: string | number
   override?: boolean
 }

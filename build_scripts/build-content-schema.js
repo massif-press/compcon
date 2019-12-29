@@ -21,6 +21,7 @@ const schemasWanted = [
   'weapons',
   'systems',
   'mods',
+  'pilot_gear',
   'talents',
   'tags'
 ]
