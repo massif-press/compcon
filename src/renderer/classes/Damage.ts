@@ -2,17 +2,8 @@ import { DamageType } from '@/class'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
-enum DamageString {
-  kinetic = 'kinetic',
-  energy = 'energy',
-  explosive = 'explosive',
-  heat = 'heat',
-  burn = 'burn',
-  variable = 'variable',
-}
-
 interface IDamageData {
-  type: DamageString
+  type: DamageType
   val: string | number
   override?: boolean
 }
@@ -31,7 +22,7 @@ class Damage {
   }
 
   private getDamageType(str: string): DamageType {
-    switch (str) {
+    switch (str.toLowerCase()) {
       case 'kinetic':
         return DamageType.Kinetic
       case 'energy':
