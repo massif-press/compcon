@@ -43,10 +43,11 @@
             <v-chip
               v-for="item in packContents"
               :key="item.name"
+              outlined
               color="secondary"
-              class="mr-2 mb-1"
+              class="mr-2 mb-1 caption"
             >
-              <v-avatar class="secondary darken-2" left>{{ item.count }}</v-avatar>
+              <v-avatar class="secondary white--text" left>{{ item.count }}</v-avatar>
               {{ item.name }}
             </v-chip>
           </div>
