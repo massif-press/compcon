@@ -11,6 +11,8 @@ const ordArr = [
   'Octonary',
   'Nonary',
   'Denary',
+  'Undenary',
+  'Duodenary',
 ]
 
 abstract class Loadout {
