@@ -14,12 +14,27 @@
       <v-btn
         block
         type="flat"
-        color="primary"
-        :disabled="!contentPack"
+        :disabled="!contentPack || installing"
+        :color="done ? 'success' : 'primary'"
         class="mb-2"
         @click="install"
       >
-        {{ packAlreadyInstalled ? 'Replace' : 'Install' }}
+        <v-fade-transition mode="out-in">
+          <svg
+            v-show="done"
+            class="check"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32px"
+            height="32px"
+            viewBox="0 0 154 154"
+          >
+            <polyline
+              points="43.5,77.8 63.7,97.9 112.2,49.4 "
+              style="stroke: white; fill: none; stroke-width: 12px"
+            />
+          </svg>
+        </v-fade-transition>
+        <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
       </v-btn>
       <p v-if="error" style="color: red">
         {{ error }}
@@ -93,19 +108,50 @@ export default class PackInstall extends Vue {
     return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.id)
   }
 
-  value = null
+  public value = null
+  public installing = false
+  public done = false
+
   async install() {
+    if (this.done || this.installing) return
+    this.installing = true
     await this.dataStore.installContentPack(this.contentPack)
-    this.contentPack = null
-    this.error = null
-    this.value = null
-    this.$emit('installed')
+    this.installing = false
+
+    this.done = true
+    setTimeout(() => {
+      console.log('gog')
+      this.$emit('installed')
+      this.contentPack = null
+      this.error = null
+      this.value = null
+      this.done = false
+    }, 500)
   }
+
+
 }
 </script>
 
 <style scoped>
 .packInstaller >>> .v-text-field__details {
   display: none;
+}
+
+.packInstaller >>> .v-btn {
+  transition: background-color 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.check {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: dash 750ms cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  /* animation-iteration-count: infinite; */
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 </style>
