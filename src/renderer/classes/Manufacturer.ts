@@ -49,6 +49,10 @@ class Manufacturer {
     return this._color
   }
 
+  public get LogoIsExternal(): boolean {
+    return !!this._logo_url
+  }
+
   public get Logo(): string {
     if (this._logo_url) return this._logo_url
     return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
