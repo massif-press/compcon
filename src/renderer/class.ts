@@ -80,6 +80,7 @@ import {
   Npc,
 } from './classes/npc'
 import { NpcWave, Encounter } from './classes/encounter'
+import { ContentPack } from './classes/ContentPack'
 
 export {
   MountType,
@@ -154,4 +155,5 @@ export {
   Npc,
   NpcWave,
   Encounter,
+  ContentPack
 }

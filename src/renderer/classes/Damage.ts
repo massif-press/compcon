@@ -3,9 +3,9 @@ import { DamageType } from '@/class'
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
 interface IDamageData {
-  type: string
+  type: DamageType
   val: string | number
-  override: boolean
+  override?: boolean
 }
 
 class Damage {
@@ -21,8 +21,8 @@ class Damage {
     this._override = damage.override || false
   }
 
-  private getDamageType(str: string): DamageType {
-    switch (str) {
+  private getDamageType(str?: string): DamageType {
+    switch (str?.toLowerCase()) {
       case 'kinetic':
         return DamageType.Kinetic
       case 'energy':
