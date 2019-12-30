@@ -34,6 +34,8 @@ declare module 'lancer-data' {
   const npc_classes: any
   const npc_templates: any
   const npc_features: any
+  const environments: any
+  const sitreps: any
   // const npc_generic_systems: any
   // const npc_systems: any
   // const npc_template_systems: any

@@ -46,6 +46,7 @@ enum ImageTag {
   Enemy = 'enemy',
   Frame = 'frame',
   Mech = 'mech',
+  Map = 'map',
   Location = 'location',
   Object = 'object',
   Logo = 'logo',

@@ -1,48 +1,79 @@
 import uuid from 'uuid/v1'
 import { Npc, NpcWave } from '@/class'
-import { INpcWaveData } from '@/interface'
 import { store } from '@/store'
 import { INpcData } from '../npc'
+import { Capacitor } from '@capacitor/core'
+import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IEncounterData {
   name: string
-  waves: INpcWaveData[]
+  location: string
+  npcs: INpcData[]
   reinforcements: INpcData[]
   labels: string[]
+  sitrep: Sitrep
   campaign?: string
   gmNotes?: string
   narrativeNotes?: string
   objectives?: string
   conditions?: string
+  environment?: string
+  environmentDetails?: string
+  cloud_map?: string
+  local_map?: string
+}
+
+interface Sitrep {
+  name: string
+  description: string
+  pcVictory: string
+  enemyVictory: string
+  noVictory?: string
+  deployment?: string
+  objective?: string
+  controlZone?: string
+  extraction?: string
 }
 
 class Encounter {
   private _id: string
   private _name: string
+  private _location: string
   private _labels: string[]
-  private _waves: NpcWave[]
+  private _npcs: Npc[]
   private _reinforcements: Npc[]
   private _gm_notes: string
   private _campaign: string
   private _narrative_notes: string
   private _objectives: string
   private _conditions: string
+  private _environment: string
+  private _environment_details: string
+  private _sitrep: Sitrep
+  private _cloud_map: string
+  private _local_map: string
 
   public constructor(data: IEncounterData) {
     this._id = uuid()
     this._name = data.name
+    this._location = data.location
     this._labels = data.labels
     this._campaign = data.campaign || ''
     this._gm_notes = data.gmNotes || ''
     this._narrative_notes = data.narrativeNotes || ''
     this._objectives = data.objectives || ''
     this._conditions = data.conditions || ''
-    this._waves = data.waves.map(w => NpcWave.Deserialize(w))
+    this._environment = data.environment || 'Nominal'
+    this._environment_details = data.environmentDetails || ''
+    this._cloud_map = data.cloud_map || ''
+    this._local_map = data.local_map || ''
+    this._sitrep = data.sitrep
+    this._npcs = data.reinforcements.map(x => Npc.Deserialize(x))
     this._reinforcements = data.reinforcements.map(x => Npc.Deserialize(x))
   }
 
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('encounter/saveEncounterData')
   }
 
   public get ID(): string {
@@ -62,6 +93,41 @@ class Encounter {
     this.save()
   }
 
+  public get Sitrep(): Sitrep {
+    return this._sitrep
+  }
+
+  public set Sitrep(val: Sitrep) {
+    this._sitrep = val
+    this.save()
+  }
+
+  public get Location(): string {
+    return this._location
+  }
+
+  public set Location(val: string) {
+    this._location = val
+    this.save()
+  }
+
+  public get Environment(): string {
+    return this._environment
+  }
+
+  public set Environment(val: string) {
+    this._environment = val
+    this.save()
+  }
+
+  public get EnvironmentDetails(): string {
+    return this._environment_details
+  }
+
+  public set EnvironmentDetails(val: string) {
+    this._environment_details = val
+    this.save()
+  }
   public get GmNotes(): string {
     return this._gm_notes
   }
@@ -116,12 +182,17 @@ class Encounter {
     this.save()
   }
 
-  public get Waves(): NpcWave[] {
-    return this._waves
+  public get Npcs(): Npc[] {
+    return this._npcs
   }
 
-  public get Npcs(): Npc[] {
-    return this._waves.flatMap(x => x.NPCs).concat(this.Reinforcements)
+  public AddNpc(npc: Npc): void {
+    this._npcs.push(npc)
+  }
+
+  public RemoveNpc(npc: Npc): void {
+    const idx = this._npcs.findIndex(x => x.ID === npc.ID)
+    if (idx > -1) this._npcs.splice(idx, 1)
   }
 
   public get Power(): number {
@@ -148,15 +219,48 @@ class Encounter {
     this.save()
   }
 
+  public SetCloudMap(src: string): void {
+    this._cloud_map = src
+    this.save()
+  }
+
+  public get CloudMap(): string {
+    return this._cloud_map
+  }
+
+  public SetLocalMap(src: string): void {
+    this._local_map = src
+    this.save()
+  }
+
+  public get LocalMap(): string {
+    return this._local_map
+  }
+
+  public get Map(): string {
+    if (this._cloud_map) return this._cloud_map
+    else if (Capacitor.platform !== 'web' && this._local_map)
+      return getImagePath(ImageTag.Map, this._local_map)
+    else return getImagePath(ImageTag.Frame, 'nodata.png', true)
+  }
+
   public static Serialize(enc: Encounter): IEncounterData {
     return {
       name: enc.Name,
-      waves: enc.Waves.map(x => NpcWave.Serialize(x)),
+      npcs: enc.Npcs.map(x => Npc.Serialize(x)),
       reinforcements: enc.Reinforcements.map(x => Npc.Serialize(x)),
       gmNotes: enc.GmNotes,
       labels: enc.Labels,
       campaign: enc.Campaign,
       narrativeNotes: enc.NarrativeNotes,
+      location: enc.Location,
+      objectives: enc.Objectives,
+      conditions: enc.Conditions,
+      environment: enc.Environment,
+      environmentDetails: enc.EnvironmentDetails,
+      sitrep: enc.Sitrep,
+      cloud_map: enc.CloudMap,
+      local_map: enc.LocalMap,
     }
   }
 

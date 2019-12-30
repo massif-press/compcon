@@ -86,6 +86,7 @@ export class CompendiumStore extends VuexModule {
   public NpcClasses: NpcClass[] = []
   public NpcTemplates: NpcTemplate[] = []
   public NpcFeatures: NpcFeature[] = []
+  public Environments: Environment[] = []
   // Brews: Brew[] = []
 
   // TODO: just set as part of the data loader
@@ -137,6 +138,7 @@ export class CompendiumStore extends VuexModule {
     })
     this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
     this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
+    this.Environments = lancerData.environments
     // this.Brews = io.findBrewData(this.UserDataPath)
   }
 

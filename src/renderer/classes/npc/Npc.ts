@@ -278,8 +278,8 @@ class Npc {
   public get Image(): string {
     if (this._cloud_image) return this._cloud_image
     else if (Capacitor.platform !== 'web' && this._local_image)
-      return getImagePath(ImageTag.Mech, this._local_image)
-    else return getImagePath(ImageTag.NPC, 'nodata.png', true)
+      return getImagePath(ImageTag.NPC, this._local_image)
+    else return getImagePath(ImageTag.Frame, 'nodata.png', true)
   }
 
   public static Serialize(npc: Npc): INpcData {
