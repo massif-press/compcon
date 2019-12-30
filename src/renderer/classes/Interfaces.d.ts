@@ -218,6 +218,12 @@ declare interface Status {
   effects: string[]
 }
 
+declare interface Environment {
+  id: string
+  name: string
+  description: string
+}
+
 declare interface FrameTrait {
   name: string
   description: string

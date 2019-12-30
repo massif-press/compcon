@@ -86,12 +86,6 @@
               </v-icon>
             </v-scroll-x-transition>
           </template>
-          <template v-slot:item.Waves="{ item }">
-            <span class="caption text-uppercase">{{ item.Waves.length }}</span>
-          </template>
-          <template v-slot:item.Npcs="{ item }">
-            <span class="caption text-uppercase">{{ item.Npcs.length }}</span>
-          </template>
           <template v-slot:item.Power="{ item }">
             <span class="caption text-uppercase">{{ item.Power }}</span>
           </template>
@@ -108,9 +102,13 @@
       </v-row>
     </template>
     <template slot="right">
-      <!-- <router-view /> -->
-      <!-- <npc-card v-if="selectedEncounter" :npc="selectedEncounter" :labels="labels" :campaigns="campaigns" /> -->
-      <span v-if="selectedEncounter">{{ selectedEncounter }}</span>
+      <router-view />
+      <encounter-card
+        v-if="selectedEncounter"
+        :encounter="selectedEncounter"
+        :labels="labels"
+        :campaigns="campaigns"
+      />
       <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
         <v-col cols="auto">
           <span class="heading h1 grey--text text--lighten-2">no encounter selected</span>
@@ -123,7 +121,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import PanelView from '../components/PanelView.vue'
-// import NpcCard from './NpcCard.vue'
+import EncounterCard from './components/EncounterCard.vue'
 import EncounterGroup from './components/EncounterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
 import { EncounterStore } from '@/store'
@@ -131,16 +129,14 @@ import { Encounter } from '@/class'
 
 export default Vue.extend({
   name: 'encounter-manager',
-  components: { PanelView, EncounterGroup },
+  components: { PanelView, EncounterCard, EncounterGroup },
   data: () => ({
     search: '',
     selectedEncounter: null,
     grouping: null,
     headers: [
       { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'Waves', value: 'Waves' },
-      { text: 'NPCs', value: 'Npcs' },
-      { text: 'PR', value: 'Power' },
+      { text: 'PR', value: 'Power', width: '50' },
     ],
     encounters: [],
   }),
