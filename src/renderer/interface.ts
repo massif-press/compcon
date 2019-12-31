@@ -34,7 +34,8 @@ import {
   INpcTemplateData,
   INpcData,
 } from './classes/npc'
-import { INpcWaveData, IEncounterData } from './classes/encounter'
+import { IEncounterData } from './classes/encounter'
+import { IContentPackManifest, IContentPack } from './classes/ContentPack'
 
 export {
   ICompendiumItemData,
@@ -65,7 +66,8 @@ export {
   INpcStats,
   INpcClassData,
   INpcTemplateData,
-  INpcWaveData,
   IEncounterData,
   INpcData,
+  IContentPackManifest,
+  IContentPack,
 }

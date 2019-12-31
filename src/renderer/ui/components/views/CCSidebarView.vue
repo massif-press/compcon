@@ -1,21 +1,17 @@
 <template>
   <v-container fluid>
-    <v-navigation-drawer
-      permanent
-      fixed
-      :value="true"
-      color="transparent"
-      class="mr-3"
-      :style="popup
-        ? `top: 65px; padding-bottom: 65px;`
-        : `top: ${$vuetify.application.top}px; padding-bottom: ${$vuetify.application.top}px;`"
-    >
-      <v-list nav dense>
-        <slot name="sidebar" />
-      </v-list>
-    </v-navigation-drawer>
     <v-row>
-      <v-col offset="2" class="pl-7 mr-7">
+      <v-col :cols="cols" style="position: fixed">
+        <slot name="alt" />
+        <v-list
+          dense
+          class="side-fixed"
+          :style="popup ? `top: 65px; padding-bottom: 65px;` : `top: 125px; padding-bottom: 65px;`"
+        >
+          <slot name="sidebar" />
+        </v-list>
+      </v-col>
+      <v-col :offset="cols" class="pl-7 mr-7">
         <slot />
       </v-col>
     </v-row>
@@ -32,6 +28,18 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
+    cols: {
+      type: [Number, String],
+      required: false,
+      default: '2',
+    },
   },
 })
 </script>
+
+<style scoped>
+.side-fixed {
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+}
+</style>

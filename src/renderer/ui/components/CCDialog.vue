@@ -2,10 +2,18 @@
   <div>
     <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
       <template v-slot:activator="{ on }">
-        <v-btn v-if="flat" :small="small" :large="large" :color="color" text :dark="dark" v-on="on">
+        <v-btn
+          v-if="flat"
+          :small="smallBtn"
+          :large="large"
+          :color="color"
+          text
+          :dark="dark"
+          v-on="on"
+        >
           <slot name="button"></slot>
         </v-btn>
-        <cc-btn v-else :small="small" :large="large" :color="color" v-on="on">
+        <cc-btn v-else :small="smallBtn" :large="large" :color="color" v-on="on">
           <slot name="button"></slot>
         </cc-btn>
       </template>
@@ -49,6 +57,9 @@ export default Vue.extend({
     small: {
       type: Boolean,
       required: false,
+    },
+    smallBtn: {
+      type: Boolean,
     },
     large: {
       type: Boolean,

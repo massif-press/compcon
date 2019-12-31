@@ -1,5 +1,15 @@
 <template>
+  <img
+    v-if="isExternal"
+    :src="source.Logo"
+    :alt="source.Name"
+    :style="{
+      maxWidth: iconSize,
+      height: 'auto',
+    }"
+  />
   <svg
+    v-else
     :style="
       `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
         stroke ? 'stroke-width: 25px;' : ''
@@ -50,8 +60,11 @@ export default Vue.extend({
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default
     },
     iconColor(): string {
-      return this.color ? this.color : this.source.Color
+      return this.color || this.source.Color
     },
-  },
+    isExternal(): string { 
+      return this.source.LogoIsExternal
+    }
+  }
 })
 </script>

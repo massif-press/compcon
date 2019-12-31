@@ -89,6 +89,10 @@ export default {
         'npc-tech': '#007674',
         'npc-reaction': '#512DA8',
 
+        enemy: '#C62828',
+        ally: '#1661b8',
+        neutral: '#455A64',
+
         'faction--gms': '#b30c1d',
         'faction--ips-n': '#1661b8',
         'faction--ssc': '#ffbb61',

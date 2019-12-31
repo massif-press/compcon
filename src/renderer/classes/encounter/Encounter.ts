@@ -1,5 +1,5 @@
 import uuid from 'uuid/v1'
-import { Npc, NpcWave } from '@/class'
+import { Npc } from '@/class'
 import { store } from '@/store'
 import { INpcData } from '../npc'
 import { Capacitor } from '@capacitor/core'
@@ -15,24 +15,10 @@ interface IEncounterData {
   campaign?: string
   gmNotes?: string
   narrativeNotes?: string
-  objectives?: string
-  conditions?: string
   environment?: string
   environmentDetails?: string
   cloud_map?: string
   local_map?: string
-}
-
-interface Sitrep {
-  name: string
-  description: string
-  pcVictory: string
-  enemyVictory: string
-  noVictory?: string
-  deployment?: string
-  objective?: string
-  controlZone?: string
-  extraction?: string
 }
 
 class Encounter {
@@ -45,8 +31,6 @@ class Encounter {
   private _gm_notes: string
   private _campaign: string
   private _narrative_notes: string
-  private _objectives: string
-  private _conditions: string
   private _environment: string
   private _environment_details: string
   private _sitrep: Sitrep
@@ -61,14 +45,12 @@ class Encounter {
     this._campaign = data.campaign || ''
     this._gm_notes = data.gmNotes || ''
     this._narrative_notes = data.narrativeNotes || ''
-    this._objectives = data.objectives || ''
-    this._conditions = data.conditions || ''
     this._environment = data.environment || 'Nominal'
     this._environment_details = data.environmentDetails || ''
     this._cloud_map = data.cloud_map || ''
     this._local_map = data.local_map || ''
     this._sitrep = data.sitrep
-    this._npcs = data.reinforcements.map(x => Npc.Deserialize(x))
+    this._npcs = data.npcs.map(x => Npc.Deserialize(x))
     this._reinforcements = data.reinforcements.map(x => Npc.Deserialize(x))
   }
 
@@ -164,24 +146,6 @@ class Encounter {
     this.save()
   }
 
-  public get Objectives(): string {
-    return this._objectives
-  }
-
-  public set Objectives(val: string) {
-    this._objectives = val
-    this.save()
-  }
-
-  public get Conditions(): string {
-    return this._conditions
-  }
-
-  public set Conditions(val: string) {
-    this._conditions = val
-    this.save()
-  }
-
   public get Npcs(): Npc[] {
     return this._npcs
   }
@@ -254,8 +218,6 @@ class Encounter {
       campaign: enc.Campaign,
       narrativeNotes: enc.NarrativeNotes,
       location: enc.Location,
-      objectives: enc.Objectives,
-      conditions: enc.Conditions,
       environment: enc.Environment,
       environmentDetails: enc.EnvironmentDetails,
       sitrep: enc.Sitrep,

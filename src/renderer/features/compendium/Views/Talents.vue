@@ -24,17 +24,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
-export default Vue.extend({
-  name: 'talents',
-  data: () => ({
-    talents: [],
-  }),
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.talents = compendium.Talents
-  },
-})
+
+@Component
+export default class Talents extends Vue {
+
+  private compendium = getModule(CompendiumStore, this.$store)
+  get talents() {
+    return this.compendium.Talents
+  }
+}
 </script>
