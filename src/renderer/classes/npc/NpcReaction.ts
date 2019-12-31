@@ -2,6 +2,7 @@ import { INpcFeatureData, NpcFeature, NpcFeatureType } from './'
 
 interface INpcReactionData extends INpcFeatureData {
   trigger: string
+  type: NpcFeatureType.Reaction
 }
 
 class NpcReaction extends NpcFeature {
