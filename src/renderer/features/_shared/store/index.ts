@@ -65,8 +65,19 @@ export class CompendiumStore extends VuexModule {
   public LancerVersion: string = ''
   public CCVersion: string = ''
   public UserProfile: UserProfile = {} as any
-  private _Base_Talents: Talent[] = []
   public Skills: Skill[] = []
+  public Statuses: Status[] = []
+  public Quirks: string[] = []
+  // public Licenses: License[] = []
+  public Reserves: Reserve[] = []
+  public Factions: Faction[] = []
+  public Environments: Environment[] = []
+  public Sitreps: Sitrep[] = []
+
+
+  ContentPacks: ContentPack[] = []
+
+  private _Base_Talents: Talent[] = []
   private _Base_CoreBonuses: CoreBonus[] = []
   private _Base_Frames: Frame[] = []
   private _Base_Manufacturers: Manufacturer[] = []
@@ -75,17 +86,29 @@ export class CompendiumStore extends VuexModule {
   private _Base_MechSystems: MechSystem[] = []
   private _Base_PilotGear: PilotGear[] = []
   private _Base_Tags: Tag[] = []
-  public Statuses: Status[] = []
-  public Quirks: string[] = []
-  // public Licenses: License[] = []
-  public Reserves: Reserve[] = []
-  public Factions: Faction[] = []
-  public NpcClasses: NpcClass[] = []
-  public NpcTemplates: NpcTemplate[] = []
-  public NpcFeatures: NpcFeature[] = []
-  public Environments: Environment[] = []
-  public Sitreps: Sitrep[] = []
-  ContentPacks: ContentPack[] = []
+
+  private _Base_NpcClasses: NpcClass[] = []
+  private _Base_NpcTemplates: NpcTemplate[] = []
+  private _Base_NpcFeatures: NpcFeature[] = []
+
+  public get NpcClasses(): NpcClass[] {
+    return [
+      ...this._Base_NpcClasses,
+      ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses),
+    ]
+  }
+  public get NpcTemplates(): NpcTemplate[] {
+    return [
+      ...this._Base_NpcTemplates,
+      ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcTemplates),
+    ]
+  }
+  public get NpcFeatures(): NpcFeature[] {
+    return [
+      ...this._Base_NpcFeatures,
+      ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures),
+    ]
+  }
 
   public get Talents(): Talent[] {
     return [
@@ -155,37 +178,41 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_DATA](): void {
+
     getUser().then(profile => (this.UserProfile = profile))
+
+    this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
+    this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
+    this.Statuses = lancerData.statuses
+    this.Quirks = lancerData.quirks
+    this.Environments = lancerData.environments
+    this.Sitreps = lancerData.sitreps
+
     this._Base_CoreBonuses = lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x))
     this._Base_Talents = lancerData.talents.map((x: ITalentData) => new Talent(x))
-    this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
     this._Base_Frames = lancerData.frames.map((x: IFrameData) => new Frame(x))
     this._Base_MechWeapons = lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x))
     this._Base_WeaponMods = lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x))
     this._Base_MechSystems = lancerData.systems.map((x: IMechSystemData) => new MechSystem(x))
     this._Base_Tags = lancerData.tags.map((x: ITagData) => new Tag(x))
+    // TODO: use type guards
     this._Base_PilotGear = lancerData.pilot_gear.map(function(x: any) {
       if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
       else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
       return new PilotGear(x as IPilotGearData)
     })
-    this._Base_Manufacturers = lancerData.manufacturers.map(
-      (x: IManufacturerData) => new Manufacturer(x)
-    )
-    this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
-    this.Statuses = lancerData.statuses
-    this.Quirks = lancerData.quirks
-    this.NpcFeatures = lancerData.npc_features.map(function(x: any) {
+    this._Base_Manufacturers = lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x) )
+    // TODO: use type guards
+    this._Base_NpcFeatures = lancerData.npc_features.map(function(x: any) {
       if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
       else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
       else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
       else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
       return new NpcTech(x as INpcTechData)
     })
-    this.NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
-    this.NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
-    this.Environments = lancerData.environments
-    this.Sitreps = lancerData.sitreps
+    this._Base_NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
+    this._Base_NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
+
   }
 
   @Mutation

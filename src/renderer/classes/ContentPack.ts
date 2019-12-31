@@ -1,6 +1,6 @@
-import { Manufacturer, CoreBonus, Frame, MechWeapon, MechSystem, WeaponMod, PilotGear, Talent, Tag } from '@/class';
-import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, IPilotEquipmentData, ITalentData } from '@/interface';
-
+import { Manufacturer, CoreBonus, Frame, MechWeapon, MechSystem, WeaponMod, PilotGear, Talent, Tag, NpcClass, NpcTemplate, NpcFeature, NpcWeapon, NpcReaction, NpcTrait, NpcSystem, NpcTech } from '@/class'
+import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, IPilotEquipmentData, ITalentData, INpcClassData, INpcFeatureData, INpcTemplateData,
+  INpcWeaponData, INpcReactionData, INpcSystemData, INpcTechData } from '@/interface'
 
 
 export interface IContentPackManifest {
@@ -21,6 +21,11 @@ interface IContentPackData {
   pilotGear: IPilotEquipmentData[]
   talents: ITalentData[]
   tags: ITagData[]
+
+  npcClasses: INpcClassData[]
+  npcFeatures: INpcFeatureData[]
+  npcTemplates: INpcTemplateData[]
+
 }
 
 export interface IContentPack {
@@ -73,6 +78,15 @@ export class ContentPack {
   private _Tags: Tag[] = []
   public get Tags(): Tag[] { return this._Tags }
 
+  private _NpcClasses: NpcClass[] = []
+  public get NpcClasses(): NpcClass[] { return this._NpcClasses }
+
+  private _NpcTemplates: NpcTemplate[] = []
+  public get NpcTemplates(): NpcTemplate[] { return this._NpcTemplates }
+
+  private _NpcFeatures: NpcFeature[] = []
+  public get NpcFeatures(): NpcFeature[] { return this._NpcFeatures }
+
 
   private _active: boolean
   public get Active(): boolean { return this._active }
@@ -87,15 +101,25 @@ export class ContentPack {
     this._data = data
     this._id = id
     
-    this._Manufacturers = this._data.manufacturers.map(x => new Manufacturer(x))
-    this._CoreBonuses = this._data.coreBonuses.map(x => new CoreBonus(x))
-    this._Frames = this._data.frames.map(x => new Frame(x))
-    this._MechWeapons = this._data.weapons.map(x => new MechWeapon(x))
-    this._MechSystems = this._data.systems.map(x => new MechSystem(x))
-    this._WeaponMods = this._data.mods.map(x => new WeaponMod(x))
-    this._PilotGear = this._data.pilotGear.map(x => new PilotGear(x))
-    this._Talents = this._data.talents.map(x => new Talent(x))
-    this._Tags = this._data.tags.map(x => new Tag(x))
+    this._Manufacturers = this._data.manufacturers?.map(x => new Manufacturer(x)) || []
+    this._CoreBonuses = this._data.coreBonuses?.map(x => new CoreBonus(x)) || []
+    this._Frames = this._data.frames?.map(x => new Frame(x)) || []
+    this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x)) || []
+    this._MechSystems = this._data.systems?.map(x => new MechSystem(x)) || []
+    this._WeaponMods = this._data.mods?.map(x => new WeaponMod(x)) || []
+    this._PilotGear = this._data.pilotGear?.map(x => new PilotGear(x)) || []
+    this._Talents = this._data.talents?.map(x => new Talent(x)) || []
+    this._Tags = this._data.tags?.map(x => new Tag(x)) || []
+
+    this._NpcClasses = this._data.npcClasses?.map(x => new NpcClass(x)) || []
+    this._NpcFeatures = this._data.npcFeatures?.map(function(x) {
+      if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
+      else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
+      else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x)
+      else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
+      return new NpcTech(x as INpcTechData)
+    }) || []
+    this._NpcTemplates = this._data.npcTemplates?.map(x => new NpcTemplate(x)) || []
 
   }
 
