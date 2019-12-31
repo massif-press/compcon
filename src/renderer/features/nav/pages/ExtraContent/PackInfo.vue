@@ -92,6 +92,9 @@ export default class PackInfo extends Vue {
     pilotGear: ['pilot gear item', 'pilot gear items'],
     talents: ['pilot talent', 'pilot talents'],
     tags: ['equipment tag', 'equipment tags'],
+    npcClasses: ['NPC class', 'NPC classes'],
+    npcFeatures: ['NPC feature', 'NPC features'],
+    npcTemplates: ['NPC template', 'NPC templates'],
   }
 
   get packContents() {
@@ -101,7 +104,9 @@ export default class PackInfo extends Vue {
     } )
       .filter(([, count]) => count > 0)
       .map(([key, count]) => {
-        const [singular, plural]: [string, string] = this.humanReadableMap[key]
+        const pair = this.humanReadableMap[key]
+        if (!pair) return { count, name: `${key}--NOT--HUMANIZED` }
+        const [singular, plural]: [string, string] = pair
         return { count, name: count > 1 ? plural : singular }
       })
   }
