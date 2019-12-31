@@ -3,9 +3,9 @@ import { RangeType } from '@/class'
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
 interface IRangeData {
-  type: string
+  type: RangeType
   val: number
-  override: boolean
+  override?: boolean
   bonus?: number
 }
 

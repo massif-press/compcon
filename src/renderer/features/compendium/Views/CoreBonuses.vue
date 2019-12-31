@@ -39,23 +39,24 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import _ from 'lodash';
 
-export default Vue.extend({
-  name: 'core-bonuses',
-  data: () => ({
-    bonuses: [],
-  }),
-  created() {
+
+@Component
+export default class CoreBonuses extends Vue {
+
+  private compendium = getModule(CompendiumStore, this.$store)
+  get bonuses() {
+    return _.groupBy(this.compendium.CoreBonuses, 'Source')
+  }
+
+  public manufacturer(id: string) {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.bonuses = this.$_.groupBy(compendium.CoreBonuses, 'Source')
-  },
-  methods: {
-    manufacturer(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Manufacturers', id.toUpperCase())
-    },
-  },
-})
+    return compendium.referenceByID('Manufacturers', id.toUpperCase())
+  }
+
+}
 </script>

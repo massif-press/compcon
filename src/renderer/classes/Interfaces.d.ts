@@ -174,7 +174,7 @@ declare interface IWeaponSlotData {
 
 declare interface ITagData {
   id: string
-  val: string | number
+  val?: string | number
 }
 
 declare interface ILicenseRequirement {
@@ -222,6 +222,19 @@ declare interface Environment {
   id: string
   name: string
   description: string
+}
+
+declare interface Sitrep {
+  id: string
+  name: string
+  description: string
+  pcVictory: string
+  enemyVictory: string
+  noVictory?: string
+  deployment?: string
+  objective?: string
+  controlZone?: string
+  extraction?: string
 }
 
 declare interface FrameTrait {

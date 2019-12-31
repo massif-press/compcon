@@ -8,3 +8,4 @@ thumbs.db
 7z.so
 butler*
 libc7zip.dylib
+schema_out/

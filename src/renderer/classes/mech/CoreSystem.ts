@@ -4,8 +4,8 @@ import { MechWeapon, Tag } from '@/class'
 interface ICoreData {
   name: string
   description: string
-  integrated: { id: string } | null
-  passive: string
+  integrated?: { id: string }
+  passive?: string
   active_name: string
   effect: string
   tags: ITagData[]

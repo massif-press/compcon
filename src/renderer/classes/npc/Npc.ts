@@ -12,6 +12,7 @@ import {
   NpcItem,
   INpcItemSaveData,
 } from './'
+import { EncounterSide } from '@/class'
 
 interface INpcData {
   id: string
@@ -25,6 +26,7 @@ interface INpcData {
   items: INpcItemSaveData[]
   stats: INpcStats
   note: string
+  side: string
   cloudImage: string
   localImage: string
   cc_ver: string
@@ -36,6 +38,7 @@ class Npc {
   private _campaign: string
   private _tier: string | number
   private _class: NpcClass
+  private _side: EncounterSide
   private _templates: NpcTemplate[]
   private _items: NpcItem[]
   private _stats: NpcStats
@@ -55,6 +58,7 @@ class Npc {
     this._templates = []
     this._tag = 'Mech'
     this._user_labels = []
+    this._side = EncounterSide.Enemy
     this._note = this._cloud_image = this._local_image = this._campaign = ''
     this._class = npcClass
     this._stats = NpcStats.FromClass(npcClass, t)
@@ -106,6 +110,15 @@ class Npc {
 
   public set Name(val: string) {
     this._name = val
+    this.save()
+  }
+
+  public get Side(): EncounterSide {
+    return this._side
+  }
+
+  public set Side(val: EncounterSide) {
+    this._side = val
     this.save()
   }
 
@@ -295,6 +308,7 @@ class Npc {
       items: npc._items.map(x => NpcItem.Serialize(x)),
       stats: NpcStats.Serialize(npc._stats),
       note: npc._note,
+      side: npc.Side,
       cloudImage: npc._cloud_image,
       localImage: npc._local_image,
       cc_ver: npc.cc_ver,
@@ -307,10 +321,11 @@ class Npc {
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name
+    npc._side = data.side as EncounterSide
     npc._campaign = data.campaign
     npc._user_labels = data.labels
     npc._tag = data.tag
-    npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplate', x))
+    npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
     npc._items = data.items.map(x => NpcItem.Deserialize(x))
     npc._note = data.note
     npc._cloud_image = data.cloudImage

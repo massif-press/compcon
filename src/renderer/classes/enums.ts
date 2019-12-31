@@ -123,6 +123,12 @@ enum OrgType {
   Political = 'Political',
 }
 
+enum EncounterSide {
+  Enemy = 'Enemy',
+  Ally = 'Ally',
+  Neutral = 'Neutral',
+}
+
 export {
   MountType,
   FittingSize,
@@ -137,4 +143,5 @@ export {
   MechType,
   ReserveType,
   OrgType,
+  EncounterSide,
 }

@@ -18,6 +18,7 @@ import {
   MechType,
   ReserveType,
   OrgType,
+  EncounterSide,
 } from './classes/enums'
 import Tag from './classes/Tag'
 import { CompendiumItem } from './classes/CompendiumItem'
@@ -79,7 +80,8 @@ import {
   NpcItem,
   Npc,
 } from './classes/npc'
-import { NpcWave, Encounter } from './classes/encounter'
+import { Encounter } from './classes/encounter'
+import { ContentPack } from './classes/ContentPack'
 
 export {
   MountType,
@@ -152,6 +154,7 @@ export {
   NpcItem,
   NpcTech,
   Npc,
-  NpcWave,
   Encounter,
+  EncounterSide,
+  ContentPack,
 }

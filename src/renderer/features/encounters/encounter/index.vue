@@ -124,7 +124,7 @@ import PanelView from '../components/PanelView.vue'
 import EncounterCard from './components/EncounterCard.vue'
 import EncounterGroup from './components/EncounterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
-import { EncounterStore } from '@/store'
+import { EncounterStore, CompendiumStore } from '@/store'
 import { Encounter } from '@/class'
 
 export default Vue.extend({
@@ -168,13 +168,16 @@ export default Vue.extend({
       store.cloneEncounter(encounter)
     },
     addNew() {
+      const sitreps = getModule(CompendiumStore, this.$store).Sitreps
       const store = getModule(EncounterStore, this.$store)
       store.addEncounter(
         new Encounter({
           name: 'New Encounter',
-          waves: [],
+          npcs: [],
           reinforcements: [],
           labels: [],
+          location: '',
+          sitrep: sitreps[0],
         })
       )
       console.log(store)
