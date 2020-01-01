@@ -26,7 +26,7 @@
 
 ## Contributing
 
-See [CONTRIBUTING.md](/CONTRIBUTING.md).
+See [CONTRIBUTING](/.github/CONTRIBUTING).
 
 ## Building
 COMP/CON is built with [Vue.js](https://vuejs.org/) and can build to either web or Electron.
