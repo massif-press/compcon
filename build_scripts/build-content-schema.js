@@ -23,7 +23,10 @@ const schemasWanted = [
   'mods',
   'pilot_gear',
   'talents',
-  'tags'
+  'tags',
+  'npc_classes',
+  'npc_features',
+  'npc_templates',
 ]
 
 console.log('Generating schemas...')
