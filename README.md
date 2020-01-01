@@ -18,11 +18,11 @@
 
 ## Features
 - Character & mech creation
- - Active Play Mode for status tracking during sessions
+  - Active Play Mode for status tracking during sessions
 - Compendium
 - Encounter Toolkit for GMs
- - NPC Roster
- - Encounter Builder & Mission Runner
+  - NPC Roster
+  - Encounter Builder & Mission Runner
 - Homebrew Support
 
 ## Contributing
