@@ -20,6 +20,7 @@ interface INpcFeatureData {
   effect?: string
   bonus?: object
   brew: string
+  type: NpcFeatureType
 }
 
 abstract class NpcFeature {

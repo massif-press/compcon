@@ -1,70 +1,53 @@
-# COMP/CON
+<h1 align="center">COMP/CON</h1>
+<p align="center" style="font-style: italic; font-weight: bold">
+  <img width="250" src="/icons/256x256.png">
+</p>
+<p align="center"><b><i>The companion app for <a href="https://massif-press.itch.io/corebook-pdf">Massif Press's LANCER Tabletop RPG</a></b></i></p>
+<p align="center">
+  <a href="https://massif-press.itch.io/compcon"><img width="250" src="https://static.itch.io/images/badge-color.svg"></a>
+  <br>
+  <a href="https://compcon.app">
+    <img width="200" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/>
+  </a>
+  <br>
+  <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
+  <a href="https://travis-ci.com/massif-press/compcon"><img src="https://travis-ci.com/massif-press/compcon.svg?branch=dev" alt="Build Status"></a>
 
-## [Comp/Con is now available at itch.io](https://massif-press.itch.io/compcon)
+</p>
 
-## Build Setup
+## Features
+- Character & mech creation
+  - Active Play Mode for status tracking during sessions
+- Compendium
+- Encounter Toolkit for GMs
+  - NPC Roster
+  - Encounter Builder & Mission Runner
+- Homebrew Support
 
-```bash
-# install dependencies
-yarn
+## Contributing
 
-# serve dev on web
-yarn dev
+See [CONTRIBUTING](/.github/CONTRIBUTING).
 
-# build for web
-yarn build
+## Building
+COMP/CON is built with [Vue.js](https://vuejs.org/) and can build to either web or Electron.
 
-# serve dev on election (no HMR, hard refreshes instead)
-yarn electron:dev
-
-# build for election
-yarn electron:build
-
+```sh
+# Install dependencies
+  yarn
+# Run in dev mode in the browser, with hot reloading
+  yarn dev
+# Build for web
+  yarn build
+# Build for Electron
+  yarn build:electron
 ```
 
----
+## Got a problem?
+- [**Have a feature request?**](https://goo.gl/forms/uBTHEwWpwO6NtSbh1)
+- [**Found a bug with the app's functionality?**](https://goo.gl/forms/PCHR8AJWOBLdMgE32)
+- [**Found a discrepancy between the LANCER data in the app and in the book?**](https://forms.gle/RoHSbei6HE3Z581k8)
 
-## About
-
-A pilot and mech builder, organizer, and item database (other stuff, too) for [Massif Press' LANCER Tabletop RPG](https://massif-press.itch.io/lancer-core-book).
-
-More information about LANCER can be found at [The official LANCER Twitter](https://twitter.com/lancer_rpg), as well as [the LANCER subreddit](https://www.reddit.com/r/LancerRPG/)</a>
-
-This is a piece of open source software under the GNU Public License — feel free to contribute via the [GitHub repository](https://github.com/jarena3/compcon) or yell at me directly on Twitter at [@jarena2](https://www.twitter.com/jarena2)</a>.
-
-### [Project Roadmap](https://github.com/massif-press/compcon/wiki/Roadmap)
-
-### [Contributing](https://github.com/massif-press/compcon/wiki/Getting-Started)
-
-### Attributions
-
-Default pilot and frame images are by Massif Press' [Tom Parkinson-Morgan](https://twitter.com/orbitaldropkick) for the LANCER Core Book
-
-The frame name generator contains many names lifted from the [Culture Ship Name Twitter account](https://twitter.com/cultureshipname)
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[8fae476](https://github.com/SimulatedGREG/electron-vue/tree/8fae4763e9d225d3691b627e83b9e09b56f6c935) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
-
----
+You can also just [create an issue](https://github.com/massif-press/compcon/issues/new) if you know what you're doing.
 
 ## License
-
-[GPL](https://www.gnu.org/licenses/gpl-3.0.en.html)
-
-A copy of this license can be fround in the LICENSE.MD file packaged with this software.
-
-COMP/CON LANCER TTRPG Assistant
-
-Copyright 2019 J. Arena
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+[GPL](/LICENSE)

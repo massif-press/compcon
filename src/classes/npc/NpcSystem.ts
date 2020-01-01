@@ -3,6 +3,7 @@ import { INpcFeatureData, NpcFeature, NpcFeatureType } from './'
 
 interface INpcSystemData extends INpcFeatureData {
   tags: ITagData[]
+  type: NpcFeatureType.System
 }
 
 class NpcSystem extends NpcFeature {

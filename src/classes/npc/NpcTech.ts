@@ -5,6 +5,7 @@ interface INpcTechData extends INpcFeatureData {
   tags: ITagData[]
   tech_type: string
   accuracy: number[]
+  type: NpcFeatureType.Tech
 }
 
 class NpcTech extends NpcFeature {
