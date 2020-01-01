@@ -40,7 +40,7 @@
         {{ error }}
       </p>
       <v-alert
-        v-model="packAlreadyInstalled"
+        :value="packAlreadyInstalled && !(installing || done)"
         type="info"
         class="transition-swing"
         transition="slide-y-reverse-transition"
