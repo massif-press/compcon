@@ -15,6 +15,7 @@ interface INpcWeaponData extends INpcFeatureData {
   range: IRangeData[]
   on_hit: string
   tags: ITagData[]
+  type: NpcFeatureType.Weapon
 }
 
 class NpcWeapon extends NpcFeature {

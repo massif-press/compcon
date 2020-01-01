@@ -8,7 +8,7 @@ const merge = require('webpack-merge')
 
 const baseConfig = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/renderer/main.ts',
+  entry: './src/main.ts',
   output: {
     filename: 'bundle.js',
     publicPath: '',
@@ -107,8 +107,8 @@ const baseConfig = {
   resolve: {
     extensions: ['.tsx', '.ts', '.vue', '.js'],
     alias: {
-      '@': path.resolve('src/renderer'),
-      '@assets': path.resolve('src/renderer/assets')
+      '@': path.resolve('src'),
+      '@assets': path.resolve('src/assets')
     }
   },
   plugins: [
