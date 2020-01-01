@@ -98,11 +98,11 @@
     <div v-else-if="encounter">
       <v-btn text tile to="/compendium">Compendium</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/npc-roster">NPC Roster</v-btn>
+      <v-btn text tile to="/gm/npc-roster">NPC Roster</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/encounter-builder">Encounters</v-btn>
+      <v-btn text tile to="/gm/encounter-builder">Encounters</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/mission-runner">Missions</v-btn>
+      <v-btn text tile to="/gm/mission-runner">Missions</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
     </div>
 

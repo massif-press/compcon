@@ -41,7 +41,7 @@
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="primary--text heading clickable ml-n2" @click="selectedEncounter = item">
+            <span class="primary--text heading clickable ml-n2" @click="toEncounter(item.ID)">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -103,17 +103,6 @@
     </template>
     <template slot="right">
       <router-view />
-      <encounter-card
-        v-if="selectedEncounter"
-        :encounter="selectedEncounter"
-        :labels="labels"
-        :campaigns="campaigns"
-      />
-      <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
-        <v-col cols="auto">
-          <span class="heading h1 grey--text text--lighten-2">no encounter selected</span>
-        </v-col>
-      </v-row>
     </template>
   </panel-view>
 </template>
@@ -121,7 +110,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import PanelView from '../components/PanelView.vue'
-import EncounterCard from './components/EncounterCard.vue'
 import EncounterGroup from './components/EncounterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
 import { EncounterStore, CompendiumStore } from '@/store'
@@ -129,7 +117,7 @@ import { Encounter } from '@/class'
 
 export default Vue.extend({
   name: 'encounter-manager',
-  components: { PanelView, EncounterCard, EncounterGroup },
+  components: { PanelView, EncounterGroup },
   data: () => ({
     search: '',
     selectedEncounter: null,
@@ -158,8 +146,11 @@ export default Vue.extend({
     this.encounters = store.Encounters
   },
   methods: {
+    toEncounter(id: string) {
+      this.$router.push({ name: 'encounter', params: { id } })
+    },
     deleteEncounter(encounter: Encounter) {
-      this.selectedEncounter = null
+      this.$router.push({ name: 'encounter', params: {} })
       const store = getModule(EncounterStore, this.$store)
       store.deleteEncounter(encounter)
     },
@@ -180,8 +171,8 @@ export default Vue.extend({
           sitrep: sitreps[0],
         })
       )
-      console.log(store)
-      this.selectedEncounter = this.encounters[this.encounters.length - 1]
+      const enc = this.encounters[this.encounters.length - 1].ID
+      this.$router.push({ name: 'encounter', params: { id: enc } })
     },
   },
 })

@@ -39,7 +39,7 @@
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="primary--text heading clickable ml-n2" @click="selectedNpc = item">
+            <span class="primary--text heading clickable ml-n2" @click="toNpc(item.ID)">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -127,7 +127,7 @@
       <v-divider class="my-2 " />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
-          <v-btn block tile color="primary" large to="/new-npc">
+          <v-btn block tile color="primary" large to="new-npc">
             <v-icon left>mdi-plus</v-icon>
             Add New NPC
           </v-btn>
@@ -173,12 +173,6 @@
     </template>
     <template slot="right">
       <router-view />
-      <npc-card v-if="selectedNpc" :npc="selectedNpc" :labels="labels" :campaigns="campaigns" />
-      <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
-        <v-col cols="auto">
-          <span class="heading h1 grey--text text--lighten-2">no npc selected</span>
-        </v-col>
-      </v-row>
     </template>
   </panel-view>
 </template>
@@ -186,7 +180,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import PanelView from '../components/PanelView.vue'
-import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
@@ -197,7 +190,7 @@ import { saveFile } from '@/io/Dialog'
 
 export default Vue.extend({
   name: 'npc-manager',
-  components: { PanelView, NpcCard, RosterGroup },
+  components: { PanelView, RosterGroup },
   data: () => ({
     search: '',
     selectedNpc: null,
@@ -232,6 +225,9 @@ export default Vue.extend({
     this.npcs = store.Npcs
   },
   methods: {
+    toNpc(id: string) {
+      this.$router.push({ name: 'npc', params: { id } })
+    },
     setStatblock(npc: Npc) {
       this.statblockNpc = npc
       this.statblockDialog = true
@@ -240,7 +236,7 @@ export default Vue.extend({
       return Statblock.GenerateNPC(this.statblockNpc)
     },
     deleteNpc(npc: Npc) {
-      this.selectedNpc = null
+      this.$router.push({ name: 'npc', params: {} })
       const store = getModule(NpcStore, this.$store)
       store.deleteNpc(npc)
     },

@@ -157,18 +157,6 @@ export default new Router({
       ...route,
       path: route.path = '/gm/' + route.path,
     })),
-    // {
-    //   path: "/homebrew",
-    //   name: "homebrew-editor",
-    //   component: require("@/features/homebrew/index")
-    //     .default
-    // },
-    // {
-    //   path: "/gm",
-    //   name: "gm-tools",
-    //   component: require("@/features/gm/index")
-    //     .default
-    // },
     {
       path: '*',
       redirect: '/',
