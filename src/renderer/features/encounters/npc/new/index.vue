@@ -68,7 +68,7 @@
       </v-row>
       <v-row justify="center" dense>
         <v-col cols="10">
-          <v-btn text small to="/npc-roster">
+          <v-btn text small to="/gm/npc-roster">
             <v-icon left>mdi-chevron-left</v-icon>
             Return to NPC Roster
           </v-btn>

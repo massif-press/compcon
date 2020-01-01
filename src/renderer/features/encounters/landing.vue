@@ -6,7 +6,7 @@
           title="NPC Roster"
           icon="mdi-account-edit"
           text="Design, edit, and manage NPCs for use in encounters."
-          to="npc-roster"
+          to="/gm/npc-roster"
         />
       </v-col>
 
@@ -15,7 +15,7 @@
           title="Encounter Builder"
           icon="mdi-account-multiple-plus"
           text="Compose encounters with NPCs, objectives, and battlefield conditions"
-          to="encounter-builder"
+          to="/gm/encounter-builder"
         />
       </v-col>
 
@@ -24,7 +24,7 @@
           title="Mission Runner"
           icon="mdi-account-group"
           text="Run sets of encounters digitally with NPC and Pilot status tracking."
-          to="mission-runner"
+          to="/gm/mission-runner"
           :icon-offset="13"
         />
       </v-col>

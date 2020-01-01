@@ -6,7 +6,7 @@
       </v-btn>
     </template>
     <npc-panel :npc="npc" side-select>
-      <v-btn block outlined color="error" @click="$emit('remove')">
+      <v-btn block outlined color="error" class="mt-2" @click="$emit('remove')">
         <v-icon left>mdi-delete</v-icon>
         remove npc
       </v-btn>
