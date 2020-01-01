@@ -12,12 +12,22 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noEmit": false,
-    "types": ["electron", "jest"],
+    "types": [
+      "electron",
+      "jest"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/renderer/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
   "include": [
     "src/**/*.ts",
@@ -26,17 +36,19 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/renderer/main.js",
+    "src/main.js",
     "src/main/index.js",
     "src/main/index.dev.js",
-    "src/renderer/store/modules/print.ts",
-    "src/renderer/store/modules/pilots.js",
-    "src/renderer/store/modules/index.ts",
-    "src/renderer/store/modules/datastore.ts",
-    "src/renderer/store/modules/configs.ts",
-    "src/renderer/store/modules/compendium.js"
+    "src/store/modules/print.ts",
+    "src/store/modules/pilots.js",
+    "src/store/modules/index.ts",
+    "src/store/modules/datastore.ts",
+    "src/store/modules/configs.ts",
+    "src/store/modules/compendium.js"
   ],
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "allowJs": true,
   "declaration": false
 }

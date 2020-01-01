@@ -11,5 +11,5 @@
 
 # Code
 ## Homebrew
-/src/renderer/io/ContentPackParser.ts @aritsune
-/src/renderer/classes/ContentPack.ts  @aritsune
+/src/io/ContentPackParser.ts @aritsune
+/src/classes/ContentPack.ts  @aritsune
