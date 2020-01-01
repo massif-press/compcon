@@ -3,7 +3,7 @@
   <img width="250" src="/icons/256x256.png">
 </p>
 <p align="center"><b><i>The companion app for <a href="https://massif-press.itch.io/corebook-pdf">Massif Press's LANCER Tabletop RPG</a></b></i></p>
-<span align="center">
+<p align="center">
   <a href="https://massif-press.itch.io/compcon"><img width="250" src="https://static.itch.io/images/badge-color.svg"></a>
   <br>
   <a href="https://compcon.app">
@@ -14,7 +14,7 @@
   [![Netlify Status](https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status)](https://app.netlify.com/sites/compcon/deploys)
 [![Build Status](https://travis-ci.com/massif-press/compcon.svg?branch=dev)](https://travis-ci.com/massif-press/compcon)
 
-</span>
+</p>
 
 ## Features
 - Character & mech creation
