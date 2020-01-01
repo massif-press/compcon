@@ -9,10 +9,9 @@
   <a href="https://compcon.app">
     <img width="200" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/>
   </a>
-  
-  
-  [![Netlify Status](https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status)](https://app.netlify.com/sites/compcon/deploys)
-[![Build Status](https://travis-ci.com/massif-press/compcon.svg?branch=dev)](https://travis-ci.com/massif-press/compcon)
+  <br>
+  <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
+  <a href="https://travis-ci.com/massif-press/compcon"><img src="https://travis-ci.com/massif-press/compcon.svg?branch=dev" alt="Build Status"></a>
 
 </p>
 
