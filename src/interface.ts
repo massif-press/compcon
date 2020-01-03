@@ -36,6 +36,7 @@ import {
 } from './classes/npc'
 import { IEncounterData } from './classes/encounter'
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
+import { ICounterData } from './classes/Counter' 
 
 export {
   ICompendiumItemData,
@@ -70,4 +71,5 @@ export {
   INpcData,
   IContentPackManifest,
   IContentPack,
+  ICounterData
 }
