@@ -15,10 +15,10 @@ class Counter {
   constructor(data: ICounterData) {
     const { name, min, max, defaultValue } = data
 
-    if (defaultValue > max)
+    if (max && defaultValue > max)
       throw new Error(`Error creating Counter: Default value of ${defaultValue} is greater than max value of ${max}`)
     
-    if (defaultValue < min)
+    if (min && defaultValue < min)
       throw new Error(`Error creating Counter: Default value of ${defaultValue} is lesser than min value of ${min}`)
 
     this.Name = name
@@ -35,11 +35,18 @@ class Counter {
   public get Value(): number {
     return this._value
   }
-  public Increment(by: number = 1): void {
-    this._value = Math.min( this.Max, this._value + by )
+  public Increment(): void {
+    this._value = Math.min( this.Max, this._value + 1 )
   }
-  public Decrement(by: number = 1): void {
-    this._value = Math.max( this.Min, this._value - by )
+  public Decrement(): void {
+    this._value = Math.max( this.Min, this._value - 1 )
+  }
+
+  public Set(inputValue: number): void {
+    let value = inputValue
+    if (this.Max) value = Math.min( this.Max, value )
+    if (this.Min) value = Math.max( this.Min, value )
+    this._value = value
   }
 
   public Reset(): void {

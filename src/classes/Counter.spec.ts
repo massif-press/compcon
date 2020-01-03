@@ -59,7 +59,6 @@ describe('Counter', () => {
   });
 
   it('throws when given invalid data', () => {
-    
     expect(() => {
       new Counter({
         name: 'Bad counter',
@@ -75,7 +74,18 @@ describe('Counter', () => {
         max: 1
       })
     }).toThrow()
+  });
 
+  it('works without min or max values', () => {
+
+    const testCounter = new Counter({
+      name: 'Test counter'
+    })
+
+    expect(testCounter.Max).toBeUndefined()
+    expect(testCounter.Min).toBeUndefined()
+
+    
 
   });
   
