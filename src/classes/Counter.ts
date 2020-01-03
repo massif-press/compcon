@@ -35,14 +35,14 @@ class Counter {
   public get Value(): number {
     return this._value
   }
-  public increment(by: number = 1): void {
+  public Increment(by: number = 1): void {
     this._value = Math.min( this.Max, this._value + by )
   }
-  public decrement(by: number = 1): void {
+  public Decrement(by: number = 1): void {
     this._value = Math.max( this.Min, this._value - by )
   }
 
-  public reset(): void {
+  public Reset(): void {
     this._value = this.Default
   }
 
