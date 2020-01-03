@@ -25,12 +25,12 @@ describe('Counter', () => {
     const counter = new Counter(testCounterData)
 
     for (let i = 0; i < 5; i++) {
-      counter.increment()
+      counter.Increment()
     }
 
     expect(counter.Value).toBe(6)
 
-    counter.increment()
+    counter.Increment()
     
     expect(counter.Value).toBe(6)
   });
@@ -40,7 +40,7 @@ describe('Counter', () => {
 
     expect(counter.Value).toBe(1)
 
-    counter.decrement()
+    counter.Decrement()
 
     expect(counter.Value).toBe(1)
   });
@@ -48,11 +48,11 @@ describe('Counter', () => {
   it('resets properly', () => {
     const counter = new Counter(testCounterData)
 
-    counter.increment()
-    counter.increment()
-    counter.increment()
+    counter.Increment()
+    counter.Increment()
+    counter.Increment()
 
-    counter.reset()
+    counter.Reset()
 
     expect(counter.Value).toBe(testCounterData.defaultValue)
 
