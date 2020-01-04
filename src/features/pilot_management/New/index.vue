@@ -93,5 +93,16 @@ export default Vue.extend({
   created() {
     this.pilot = new Pilot()
   },
+  async beforeRouteLeave(to, from, next) {
+
+    const confirmLeave = await this.$confirm(
+      'Exit wizard?',
+      'Are you sure you want to exit the wizard? Your pilot will be discarded.'
+    )
+
+    if (confirmLeave) next()
+    else next(false)
+
+  }
 })
 </script>
