@@ -79,15 +79,23 @@ describe('Counter', () => {
     }).toThrow()
   });
 
-  it('works without min or max values', () => {
+  it('works without min, max, or default values', () => {
 
     const testCounter = new Counter({
-      id: 'bad',
+      id: 'test',
       name: 'Test counter'
     })
 
     expect(testCounter.Max).toBeUndefined()
     expect(testCounter.Min).toBeUndefined()
+
+    expect(testCounter.Value).toBe(0)
+
+    testCounter.Increment()
+    expect(testCounter.Value).toBe(1)
+    testCounter.Decrement()
+    testCounter.Decrement()
+    expect(testCounter.Value).toBe(-1)
 
     
 
