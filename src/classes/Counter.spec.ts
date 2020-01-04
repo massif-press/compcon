@@ -4,6 +4,7 @@ import { ICounterData } from './Counter'
 
 
 const testCounterData: ICounterData = {
+  id: 'test',
   name: 'Test counter',
   defaultValue: 1,
   min: 1,

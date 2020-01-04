@@ -56,6 +56,17 @@ class Counter {
     this._value = this.Default
   }
 
+  public Serialize(): ICounterSaveData {
+    return {
+      id: this.ID,
+      val: this.Value
+    }
+  }
+
+  public LoadData(data: ICounterSaveData): void {
+    this.Set(data.val)
+  }
+
 
 }
 
