@@ -49,6 +49,7 @@ class Counter {
   }
 
   public Set(inputValue: number): void {
+    if (typeof inputValue !== 'number' || isNaN(inputValue)) return
     let value = inputValue
     if (this.Max) value = Math.min( this.Max, value )
     if (this.Min) value = Math.max( this.Min, value )
