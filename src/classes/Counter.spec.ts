@@ -62,6 +62,7 @@ describe('Counter', () => {
   it('throws when given invalid data', () => {
     expect(() => {
       new Counter({
+        id: 'bad',
         name: 'Bad counter',
         defaultValue: 0,
         min: 1
@@ -70,6 +71,7 @@ describe('Counter', () => {
 
     expect(() => {
       new Counter({
+        id: 'bad',
         name: 'Bad counter',
         defaultValue: 2,
         max: 1
@@ -80,6 +82,7 @@ describe('Counter', () => {
   it('works without min or max values', () => {
 
     const testCounter = new Counter({
+      id: 'bad',
       name: 'Test counter'
     })
 
