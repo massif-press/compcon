@@ -60,7 +60,7 @@
         flat
         color="primary"
         outline
-        @click="open('https://github.com/jarena3/massif-press/wiki/Getting-Started')"
+        @click="open('https://github.com/massif-press/compcon/wiki/Getting-Started')"
       >Contributor's Guide</v-btn>&emsp;&mdash;&emsp;
       <v-btn
         flat
