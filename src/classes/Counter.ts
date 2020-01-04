@@ -39,10 +39,12 @@ class Counter {
     return this._value
   }
   public Increment(): void {
-    this._value = Math.min( this.Max, this._value + 1 )
+    if (this.Max) this._value = Math.min( this.Max, this._value + 1 )
+    else this._value = this._value + 1
   }
   public Decrement(): void {
-    this._value = Math.max( this.Min, this._value - 1 )
+    if (this.Min) this._value = Math.max( this.Min, this._value - 1 )
+    else this._value = this._value - 1
   }
 
   public Set(inputValue: number): void {
