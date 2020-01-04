@@ -82,6 +82,8 @@ import {
 } from './classes/npc'
 import { Encounter, Rest, Mission } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
+import { Counter } from './classes/Counter'
+
 
 export {
   MountType,
@@ -159,4 +161,5 @@ export {
   Rest,
   Mission,
   ContentPack,
+  Counter
 }

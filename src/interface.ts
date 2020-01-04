@@ -34,6 +34,7 @@ import { INpcTemplateData } from './classes/npc/NpcTemplate'
 import { INpcData } from './classes/npc/Npc'
 import { IEncounterData, IMissionData } from './classes/encounter'
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
+import { ICounterData } from './classes/Counter' 
 
 export {
   ICompendiumItemData,
@@ -69,4 +70,5 @@ export {
   IMissionData,
   IContentPackManifest,
   IContentPack,
+  ICounterData
 }
