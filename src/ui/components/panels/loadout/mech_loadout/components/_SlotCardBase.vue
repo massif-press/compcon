@@ -31,8 +31,11 @@
             <div
               v-else
               class="py-3 text-center fadeSelect"
-              style="cursor: pointer; height: 100%"
-              @click="$refs.selectorDialog.show()"
+              style="height: 100%"
+              :style="{
+                cursor: readonly ? 'inherit' : 'pointer',
+              }"
+              @click="if (!readonly) $refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
                 <span class="heading h2 grey--text my-auto" style="width: 100%; ">// EMPTY //</span>
@@ -73,6 +76,10 @@ export default Vue.extend({
       type: Object,
       required: false,
       default: null,
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     },
   },
 })

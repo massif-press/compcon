@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <!-- <global-snackbar /> -->
+    <global-confirm ref="confirm" />
     <nav />
     <v-slide-x-transition mode="out-in">
       <router-view />
@@ -11,27 +12,33 @@
 <script lang="ts">
 import Vue from 'vue'
 // import GlobalSnackbar from './UI/GlobalSnackbar.vue'
+import GlobalConfirm from '@/ui/GlobalConfirm.vue'
 
 export default Vue.extend({
   name: 'compcon',
-  // components: { GlobalSnackbar },
+  components: { 
+    // GlobalSnackbar,
+    GlobalConfirm,
+  },
   mounted() {
-    const vm = this as any
-    vm.$mousetrap.bind('g r', () => {
+    this.$mousetrap.bind('g r', () => {
       this.$router.push('/pilot_management')
     })
-    vm.$mousetrap.bind('g h', () => {
+    this.$mousetrap.bind('g h', () => {
       this.$router.push('/hangar')
     })
-    vm.$mousetrap.bind('g c', () => {
+    this.$mousetrap.bind('g c', () => {
       this.$router.push('/compendium')
     })
-    vm.$mousetrap.bind(['ctrl+left', 'backspace'], () => {
+    this.$mousetrap.bind(['ctrl+left', 'backspace'], () => {
       this.$router.go(-1)
     })
-    vm.$mousetrap.bind('ctrl+right', () => {
+    this.$mousetrap.bind('ctrl+right', () => {
       this.$router.go(1)
     })
+
+    Vue.prototype.$confirm = this.$refs.confirm.open
+
   },
 })
 </script>
