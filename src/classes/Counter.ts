@@ -4,6 +4,7 @@ interface ICounterData {
   min?: number
   max?: number
   defaultValue?: number
+  custom?: boolean
 }
 
 class Counter {
