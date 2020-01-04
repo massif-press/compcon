@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="item">
+    <slot-card-base ref="base" :item="item" :readonly="readonly">
       <div slot="header">
         <span v-if="item">
           <equipment-options :item="item" />
