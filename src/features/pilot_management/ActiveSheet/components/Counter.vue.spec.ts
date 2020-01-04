@@ -35,19 +35,27 @@ const mockPilot = {
   saveCounter: () => null
 }
 
+const stubProperties = {
+  computed: {
+    pilot() { 
+      return mockPilot
+    }
+  }
+}
+
 const valueSelector = '.counterValue input'
 
 
 describe('Counter.vue', () => {
 
   // currently throws an error because of the watcher but test still pass. can't figure out how to stub the watcher out
-  const wrapper = mount(CounterComponent, {
+  let wrapper = mount(CounterComponent, {
     propsData: { counterData: testCounterData },
-    computed: {
-      pilot() { 
-        return mockPilot
-      }
-    }
+    ...stubProperties
+  })
+
+  it('renders the counter name', () => {
+    expect(wrapper.text()).toContain(testCounterData.name)
   })
 
   it('loads the saved value', () => {
@@ -86,7 +94,7 @@ describe('Counter.vue', () => {
   });
 
   it('resets to default properly', async () => {
-    const resetButton = wrapper.findAll('.v-btn').filter(wrap => wrap.text().toLowerCase().includes('reset'))
+    const resetButton = wrapper.findAll('.v-btn').filter(wrap => wrap.text().toLowerCase().includes('reset')).at(0)
 
     resetButton.trigger('click')
 
@@ -96,6 +104,19 @@ describe('Counter.vue', () => {
       (wrapper.find(valueSelector).element as HTMLInputElement).value
     ).toBe('1')
 
+  })
+
+  it('displays a delete button if custom', () => {
+    wrapper = mount(CounterComponent, {
+      propsData: { counterData: {
+        id: 'custom',
+        name: 'Custom',
+        custom: true
+      } },
+      ...stubProperties
+    })
+
+    expect(wrapper.text()).toContain('delete')
   })
 
 

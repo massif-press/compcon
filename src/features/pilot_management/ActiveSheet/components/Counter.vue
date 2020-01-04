@@ -1,14 +1,21 @@
 <template>
-  <v-card v-if="counter" tile outlined color="primary" class="white">
-    <v-card-title class="white--text py-2">
+  <v-card v-if="counter" tile outlined color="primary">
+    <v-card-title class="white--text py-2 d-flex">
       <span class="subtitle-2">{{ counter.Name }}</span>
+      <span v-if="counterData.custom" class="subtitle-2 font-italic" style="opacity: 0.5">
+        &nbsp;[custom]
+      </span>
+      <v-btn v-if="counterData.custom" class="ml-auto" dark icon x-small @click="$emit('delete')">
+        <v-icon small>delete</v-icon>
+      </v-btn>
     </v-card-title>
     <v-card-text class="white pb-2">
       <v-row justify="center" class="counterContent">
         <v-col sm="4">
           <v-btn
-            icon
-            large
+            fab
+            small
+            elevation="0"
             color="primary"
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()"
@@ -33,10 +40,11 @@
           />
         </v-col>
 
-        <v-col sm="4">
+        <v-col sm="4" class="d-flex justify-end">
           <v-btn
-            icon
-            large
+            fab
+            small
+            elevation="0"
             color="primary"
             :disabled="counter.Value >= counter.Max"
             @click="counter.Increment()"
@@ -85,6 +93,7 @@ export default class CounterComponent extends Vue {
 
   created() {
     this.counter = new Counter(this.$props.counterData)
+
     const data = (this as any).pilot.CounterSaveData.find(data => data.id === this.counter.ID)
     if (data) this.counter.LoadData(data)
   }
@@ -115,6 +124,7 @@ export default class CounterComponent extends Vue {
 
 .counterValue >>> input {
   font-size: 1.5em;
+  text-align: center;
   -moz-appearance: textfield;
 }
 
