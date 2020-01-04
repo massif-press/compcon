@@ -97,8 +97,15 @@ describe('Counter', () => {
     testCounter.Decrement()
     expect(testCounter.Value).toBe(-1)
 
-    
-
   });
+
+  it('does not change if set to a bad value', () => {
+    const counter = new Counter(testCounterData)
+
+    const oldVal = counter.Value
+    counter.Set('a' as any)
+    expect(counter.Value).toBe(oldVal)
+
+  })
   
 })
