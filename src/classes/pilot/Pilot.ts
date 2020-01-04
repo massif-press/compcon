@@ -20,6 +20,7 @@ import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { ICounterData } from '@/interface'
 
 class Pilot {
   private _cloudID: string
@@ -90,6 +91,8 @@ class Pilot {
     this._reserves = []
     this._orgs = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+
+    // this._initCounters()
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -881,9 +884,35 @@ class Pilot {
       return
     }
 
+
     mech.IsActive = true
     this._active_mech = mech.ID
     this.save()
+  }
+
+  // -- COUNTERS ----------------------------------------------------------------------------------
+
+  public get CounterData(): ICounterData[] {
+    return [
+      this.Talents?.flatMap(pilotTalent => pilotTalent.Talent.Counters),
+      this.CoreBonuses?.flatMap(cb => cb.Counters),
+      this.ActiveMech?.Frame.Counters,
+      this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
+      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [...weapon.Counters, ...weapon.Mod.Counters]),
+      this.ActiveMech?.Frame.CoreSystem.Integrated?.Counters
+    ].flat().filter(x => x !== null)
+  }
+
+  private _counterSaveData = []
+  public get CounterSaveData(): ICounterSaveData[] { return this._counterSaveData }
+  public saveCounter(inputData: ICounterSaveData): void {
+    const index = this._counterSaveData.findIndex(datum => datum.id === inputData.id)
+    if (index < 0) {
+      this._counterSaveData = [...this._counterSaveData, inputData]
+    } else {
+      this._counterSaveData[index] = inputData
+      this._counterSaveData = [...this._counterSaveData]
+    }
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -921,6 +950,7 @@ class Pilot {
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
+      counter_data: p.CounterSaveData
     }
   }
 
@@ -973,6 +1003,8 @@ class Pilot {
       : []
     this._active_mech = data.active_mech
     this.cc_ver = data.cc_ver || ''
+    this._counterSaveData = data.counter_data || []
+
   }
 }
 
