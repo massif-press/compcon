@@ -10,6 +10,11 @@ import EncounterBuilder from './encounter/index.vue'
 import EncounterCard from './encounter/components/EncounterCard.vue'
 
 import Mission from './mission/index.vue'
+import MissionLanding from './mission/landing.vue'
+import MissionBuilder from './mission/builder/index.vue'
+import MissionCard from './mission/builder/MissionCard.vue'
+import MissionRunner from './mission/runner/index.vue'
+
 import { RouteConfig } from 'vue-router'
 
 const routes: RouteConfig[] = [
@@ -54,31 +59,41 @@ const routes: RouteConfig[] = [
         ],
       },
       {
-        path: '/gm/mission-runner',
-        name: 'mission-runner',
+        path: '/gm/mission',
+        name: 'mission',
         component: Mission,
-        // children: [
-        //   {
-        //     path: '',
-        //     name: 'encounter-runner-list',
-        //     component: Mission,
-        //   },
-        //   {
-        //     path: '/encounter-runner/new',
-        //     name: 'encounter-runner-new',
-        //     component: EncounterRunnerNew,
-        //   },
-        //   {
-        //     path: '/encounter-runner/:id',
-        //     name: 'encounter-runner',
-        //     component: EncounterRunner,
-        //     props: route => ({
-        //       preEnc: (store.state as any).encounterRunner.activeEncounters.find(
-        //         (e: any) => e.id === route.params.id
-        //       ),
-        //     }),
-        //   },
-        // ],
+        children: [
+          {
+            path: '',
+            component: MissionLanding,
+          },
+          {
+            path: 'builder',
+            name: 'mission-builder',
+            component: MissionBuilder,
+            children: [
+              {
+                path: ':id',
+                name: 'edit-mission',
+                component: MissionCard,
+                props: true,
+              },
+            ],
+          },
+          {
+            path: 'runner',
+            name: 'mission-runner',
+            component: MissionRunner,
+            children: [
+              {
+                path: ':id',
+                name: 'active-mission',
+                component: EncounterCard,
+                props: true,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

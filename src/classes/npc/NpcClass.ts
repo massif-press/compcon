@@ -2,7 +2,7 @@ import { store } from '@/store'
 import { INpcClassStats, NpcClassStats } from './NpcClassStats'
 import { NpcFeature } from './'
 
-interface INpcClassData {
+export interface INpcClassData {
   id: string
   name: string
   role: string
@@ -14,7 +14,7 @@ interface INpcClassData {
   brew: string
 }
 
-class NpcClass {
+export class NpcClass {
   private _id: string
   private _name: string
   private _role: string
@@ -88,5 +88,3 @@ class NpcClass {
     return this._stats
   }
 }
-
-export { INpcClassData, NpcClass }

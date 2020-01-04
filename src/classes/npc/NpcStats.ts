@@ -1,7 +1,7 @@
 import { NpcClass } from './'
 import { store } from '@/store'
 
-interface INpcStats {
+export interface INpcStats {
   activations: number
   armor: number
   hp: number
@@ -20,7 +20,7 @@ interface INpcStats {
   stress?: number
 }
 
-class NpcStats {
+export class NpcStats {
   private _stats: INpcStats
 
   public constructor(data: INpcStats) {
@@ -228,5 +228,3 @@ class NpcStats {
     return new NpcStats(data)
   }
 }
-
-export { INpcStats, NpcStats }

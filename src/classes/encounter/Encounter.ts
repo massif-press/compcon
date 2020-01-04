@@ -5,7 +5,7 @@ import { INpcData } from '../npc'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
-interface IEncounterData {
+export interface IEncounterData {
   name: string
   location: string
   npcs: INpcData[]
@@ -21,7 +21,7 @@ interface IEncounterData {
   local_map?: string
 }
 
-class Encounter {
+export class Encounter {
   private _id: string
   private _name: string
   private _location: string
@@ -230,5 +230,3 @@ class Encounter {
     return new Encounter(data)
   }
 }
-
-export { IEncounterData, Encounter }

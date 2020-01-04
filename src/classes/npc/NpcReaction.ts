@@ -1,11 +1,11 @@
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from './'
 
-interface INpcReactionData extends INpcFeatureData {
+export interface INpcReactionData extends INpcFeatureData {
   trigger: string
   type: NpcFeatureType.Reaction
 }
 
-class NpcReaction extends NpcFeature {
+export class NpcReaction extends NpcFeature {
   private _trigger: string
 
   public constructor(data: INpcReactionData) {
@@ -22,5 +22,3 @@ class NpcReaction extends NpcFeature {
     return 'action--reaction'
   }
 }
-
-export { INpcReactionData, NpcReaction }

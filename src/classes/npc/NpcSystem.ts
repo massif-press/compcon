@@ -1,12 +1,12 @@
 import { Tag } from '@/class'
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from './'
 
-interface INpcSystemData extends INpcFeatureData {
+export interface INpcSystemData extends INpcFeatureData {
   tags: ITagData[]
   type: NpcFeatureType.System
 }
 
-class NpcSystem extends NpcFeature {
+export class NpcSystem extends NpcFeature {
   private _tags: ITagData[]
 
   public constructor(data: INpcSystemData) {
@@ -23,5 +23,3 @@ class NpcSystem extends NpcFeature {
     return 'system'
   }
 }
-
-export { INpcSystemData, NpcSystem }
