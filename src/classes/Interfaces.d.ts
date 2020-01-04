@@ -49,6 +49,11 @@ declare interface IMechWeaponSaveData extends IEquipmentData {
   mod?: IEquipmentData
 }
 
+declare interface ICounterSaveData {
+  id: string
+  val: number
+}
+
 declare interface IPilotData {
   id: string
   cloudID: string
@@ -79,7 +84,8 @@ declare interface IPilotData {
   active_loadout_index: number
   mechs: IMechData[]
   active_mech: string | null
-  cc_ver: string
+  cc_ver: string,
+  counter_data:
 }
 
 declare interface IReserveData {
