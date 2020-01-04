@@ -3,7 +3,7 @@
 import { NpcFeature } from './'
 import { store } from '@/store'
 
-interface INpcItemSaveData {
+export interface INpcItemSaveData {
   itemID: string
   tier: number
   flavorName: string
@@ -12,7 +12,7 @@ interface INpcItemSaveData {
   charged: boolean
 }
 
-class NpcItem {
+export class NpcItem {
   private _feature: NpcFeature
   private _tier: number
   private _flavor_name: string
@@ -99,5 +99,3 @@ class NpcItem {
     return item
   }
 }
-
-export { NpcItem, INpcItemSaveData }

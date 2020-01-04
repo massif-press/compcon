@@ -184,7 +184,7 @@
         </fieldset>
       </v-col>
       <v-col v-for="(w, i) in pilot.ActiveLoadout.Weapons" :key="`plw_${i}`">
-        <fieldset>
+        <fieldset v-if="w">
           <legend class="heading ml-1 px-2">
             {{ w.Name }}
             <span class="overline flavor-text">//PILOT WEAPON</span>
@@ -203,7 +203,7 @@
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col v-for="(g, i) in pilot.ActiveLoadout.Gear" :key="`plg_${i}`">
-        <fieldset>
+        <fieldset v-if="g">
           <legend class="heading ml-1 px-2">
             {{ g.Name }}
             <span class="overline flavor-text">//PILOT GEAR</span>
@@ -222,23 +222,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '../store'
-import Pilot from '../../../classes/pilot/Pilot'
 
 export default Vue.extend({
-  name: 'pilot-print-view',
-  computed: {
-    pilot() {
-      return getModule(PilotManagementStore, this.$store)
-        .Pilots
-        .find(p => p.ID === this.$route.params.pilotID)
+  name: 'pilot-print',
+  props: {
+    pilot: {
+      type: Object,
+      required: true,
     },
-    mech() {
-      return (this.pilot as Pilot).Mechs
-        .find(m => m.ID === this.$route.params.mechID)
-    }
-  }
+  },
 })
 </script>
 

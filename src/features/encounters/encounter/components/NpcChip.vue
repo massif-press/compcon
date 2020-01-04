@@ -5,8 +5,8 @@
         {{ npc.Name }}
       </v-btn>
     </template>
-    <npc-panel :npc="npc" side-select>
-      <v-btn block outlined color="error" class="mt-2" @click="$emit('remove')">
+    <npc-panel :npc="npc" :side-select="!readonly">
+      <v-btn v-if="!readonly" block outlined color="error" class="mt-2" @click="$emit('remove')">
         <v-icon left>mdi-delete</v-icon>
         remove npc
       </v-btn>
@@ -25,6 +25,9 @@ export default Vue.extend({
     npc: {
       type: Object,
       required: true,
+    },
+    readonly: {
+      type: Boolean,
     },
   },
 })

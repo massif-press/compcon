@@ -1,7 +1,7 @@
 import { store } from '@/store'
 import { NpcFeature } from './'
 
-interface INpcTemplateData {
+export interface INpcTemplateData {
   id: string
   name: string
   description: string
@@ -11,7 +11,7 @@ interface INpcTemplateData {
   brew: string
 }
 
-class NpcTemplate {
+export class NpcTemplate {
   private _id: string
   private _name: string
   private _description: string
@@ -58,5 +58,3 @@ class NpcTemplate {
     return this._optional_features
   }
 }
-
-export { INpcTemplateData, NpcTemplate }

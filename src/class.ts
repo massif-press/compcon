@@ -80,7 +80,7 @@ import {
   NpcItem,
   Npc,
 } from './classes/npc'
-import { Encounter } from './classes/encounter'
+import { Encounter, Rest, Mission } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
 
 export {
@@ -156,5 +156,7 @@ export {
   Npc,
   Encounter,
   EncounterSide,
+  Rest,
+  Mission,
   ContentPack,
 }

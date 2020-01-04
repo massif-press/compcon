@@ -102,7 +102,7 @@
       <v-divider vertical dark class="ml-2 mr-2" />
       <v-btn text tile to="/gm/encounter-builder">Encounters</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/gm/mission-runner">Missions</v-btn>
+      <v-btn text tile to="/gm/mission">Missions</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
     </div>
 

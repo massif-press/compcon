@@ -33,7 +33,7 @@
         </v-overlay>
       </v-card>
       <v-scroll-y-transition>
-        <v-card v-if="mechSelect" flat tile>
+        <v-card flat tile>
           <fieldset>
             <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
             include:
