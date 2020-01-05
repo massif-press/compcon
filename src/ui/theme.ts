@@ -1,4 +1,6 @@
-export default {
+import { VuetifyPreset } from "vuetify/types/presets";
+
+const theme: Partial<VuetifyPreset> = {
   icons: {
     iconfont: 'mdi',
     values: {
@@ -104,7 +106,7 @@ export default {
       dark: {
         primary: '#b30c1d',
         active: '#d93f4e',
-        secondary: '#283593',
+        secondary: '#4658db',
         accent: '#FF1744',
         error: '#F44336',
         pilot: '#424242',
@@ -113,7 +115,7 @@ export default {
         warning: '#FFAB00',
         text: '#EEEEEE',
         'light-text': '#E0E0E0',
-        panel: '#ededed',
+        panel: '#202020',
         'panel-border': '#8a949e',
         frame: '#673AB7',
         weapon: '#212121',
@@ -179,3 +181,5 @@ export default {
     },
   },
 }
+
+export default theme
