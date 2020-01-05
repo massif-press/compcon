@@ -28,7 +28,7 @@
       :height="tableHeight"
       hide-default-footer
       disable-pagination
-      class="elevation-0 flavor-text"
+      class="elevation-0 flavor-text background"
       calculate-widths
       fixed-header
       multi-sort
