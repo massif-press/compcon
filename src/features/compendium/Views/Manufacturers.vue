@@ -22,9 +22,9 @@
             <div style="float: right; margin-left: 20px; margin-right: 50px">
               <v-img :src="m.Logo" min-width="300px" min-height="300px" />
             </div>
-            <blockquote class="quote-block fluff-text grey--text text--darken-4" v-html="m.Quote" />
+            <blockquote class="quote-block fluff-text text--text" v-html="m.Quote" />
             <v-divider class="ma-2" style="width: 800px" />
-            <p class="body-text black--text" v-html="m.Description" />
+            <p class="body-text stark-text--text" v-html="m.Description" />
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -50,7 +50,7 @@ export default class Manufacturers extends Vue {
 
 <style scoped>
 .quote-block {
-  border-left: 10px solid var(--v-panel-base);
+  border-left: 10px solid var(--v-text-base);
   padding-left: 6px;
   padding-top: 4px;
 }
