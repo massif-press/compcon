@@ -65,7 +65,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <v-card flat outlined tile :color="color">
-      <v-card-text class="px-2 py-0 white">
+      <v-card-text class="px-2 py-0 background">
         <slot />
       </v-card-text>
     </v-card>
