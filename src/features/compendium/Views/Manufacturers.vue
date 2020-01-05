@@ -14,7 +14,7 @@
         {{ m.ID }}
       </v-tab>
       <v-tab-item v-for="m in manufacturers" :key="m.ID + 'desc'">
-        <v-card flat class="px-3 py-3">
+        <v-card flat class="px-3 py-3 panel">
           <v-card-title class="heading mech pb-4" :style="`color: ${m.Color}`">
             {{ m.Name }}
           </v-card-title>
