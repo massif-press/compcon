@@ -177,3 +177,8 @@
 .hide-input-spinners input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+
+.theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer { 
+  background: var(--v-panel-base) !important;
+}

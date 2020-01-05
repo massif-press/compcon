@@ -83,7 +83,7 @@ export default Vue.extend({
   left: 590px;
   height: 71px;
   width: 12px;
-  background: white;
+  background: var(--v-panel-base);
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
@@ -98,7 +98,7 @@ export default Vue.extend({
   left: 590px;
   height: 71px;
   width: 8px;
-  background: white;
+  background: var(--v-panel-base);
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
