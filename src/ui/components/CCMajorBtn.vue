@@ -12,25 +12,27 @@
       >
         <v-icon
           v-if="icon"
-          :size=" small ? 56 : 100"
+          :size="small ? 56 : 100"
           :class="`pa-0 ma-0 ${small ? 'mb-2 ml-2' : ''}`"
           style="position: absolute; bottom: -5px; left: 0"
           dark
-        >{{ icon }}</v-icon>
+        >
+          {{ icon }}
+        </v-icon>
         <div v-else style="position: absolute; bottom: -5px; left: 0">
           <slot name="content" />
         </div>
         <v-card-actions
           id="card-actions"
           class="text-right"
-          :style="
-            `display: inline-block; position: absolute; width: 100%; top: 0; left: 0; color: black; background: white`
-          "
+          :style="`display: inline-block; position: absolute; width: 100%; top: 0; left: 0;`"
         >
           <span
             style="position:absolute; top: 0; right: 0; display: contents; font-size: 22pt"
             class="underline-slide px-4 heading h2"
-          >{{ name }}</span>
+          >
+            {{ name }}
+          </span>
         </v-card-actions>
       </v-card>
     </v-hover>
@@ -84,6 +86,10 @@ export default Vue.extend({
   filter: brightness(100%);
 }
 
+.underline-slide {
+  color: var(--v-text-base);
+}
+
 .underline-slide::before {
   content: '';
   position: absolute;
@@ -92,10 +98,14 @@ export default Vue.extend({
   right: 0;
   height: 5px;
   z-index: 100;
-  background-color: black;
+  background-color: var(--v-text-base);
   transform-origin: bottom left;
   transform: scaleX(0);
   transition: transform 0.45s ease;
+}
+
+#card-actions {
+  background-color: var(--v-panel-base);
 }
 
 #underline-parent:hover > #card-actions > .underline-slide::before {
