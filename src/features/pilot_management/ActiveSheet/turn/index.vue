@@ -23,7 +23,7 @@
         v-if="!mini"
         key="trw-1"
         v-model="step"
-        class="white pa-1"
+        class="background pa-1"
         style="height:100%; margin-left: 40px;"
       >
         <downtime-manager ref="dt" :pilot="pilot" @end="startCombat()" />
