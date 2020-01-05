@@ -2,13 +2,17 @@
   <v-col cols="12">
     <div style="height: 70px">
       <div
-        id="btn-main"
+        class="btn-main"
+        :class="{
+          disabled,
+          grey: disabled,
+        }"
         @mouseenter="$emit('hover')"
         @mouseover="mouseOver = true"
         @mouseleave="mouseOver = false"
         @click="$router.push(to)"
       >
-        <div id="unskew" class="heading pb-1">
+        <div class="unskew heading pb-1">
           <v-icon dark size="50" class="ml-n4 mt-n2">cci-pilot</v-icon>
           <slot />
         </div>
@@ -27,6 +31,10 @@ export default Vue.extend({
       type: String,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     mouseOver: false,
@@ -35,7 +43,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-#unskew {
+.unskew {
   transform: skew(0.65rad) !important;
   position: absolute;
   left: 50px;
@@ -44,7 +52,7 @@ export default Vue.extend({
   margin-top: 4px;
 }
 
-#unskew::before {
+.unskew::before {
   content: '';
   position: absolute;
   bottom: 5px;
@@ -57,12 +65,12 @@ export default Vue.extend({
   transition: transform 0.45s ease;
 }
 
-#btn-main:hover > #unskew::before {
+.btn-main:not(.disabled):hover > .unskew::before {
   transform-origin: bottom left;
   transform: scaleX(1);
 }
 
-#btn-main {
+.btn-main {
   position: absolute;
   cursor: pointer;
   height: 70px;
@@ -73,11 +81,11 @@ export default Vue.extend({
   z-index: 5;
   transition: all ease-in-out 0.45s;
 }
-#btn-main:hover {
+.btn-main:not(.disabled):hover {
   background-color: var(--v-active-base);
   transition: all ease-in-out 0.45s;
 }
-#btn-main::after {
+.btn-main::after {
   content: ' ';
   position: absolute;
   left: 590px;
@@ -87,12 +95,12 @@ export default Vue.extend({
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
-#btn-main:hover::after {
+.btn-main:not(.disabled):hover::after {
   left: 625px;
   background: var(--v-active-base);
   transition: all ease-in-out 0.45s;
 }
-#btn-main::before {
+.btn-main::before {
   content: ' ';
   position: absolute;
   left: 590px;
@@ -102,9 +110,14 @@ export default Vue.extend({
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
-#btn-main:hover::before {
+.btn-main:not(.disabled):hover::before {
   left: 650px;
   background: var(--v-active-base);
   transition: all ease-in-out 0.45s;
+}
+
+.btn-main.disabled,
+.btn-main.disabled .unskew {
+  cursor: default;
 }
 </style>
