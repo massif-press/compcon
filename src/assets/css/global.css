@@ -179,7 +179,7 @@
 }
 
 
-.theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer { 
+.theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer, .theme--dark.v-data-table, .theme--dark.v-tabs-items { 
   background: var(--v-panel-base) !important;
 }
 

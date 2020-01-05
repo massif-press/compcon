@@ -5,7 +5,7 @@
     :width="small ? '30vw' : large ? '80vw' : '50vw'"
     :style="fullscreen ? `x-overflow: hidden` : ''"
   >
-    <v-card tile>
+    <v-card tile class="background">
       <cc-titlebar large :icon="icon" :color="color" :fixed="fullscreen">
         {{ title }}
         <v-btn slot="items" dark icon @click="dialog = false">
