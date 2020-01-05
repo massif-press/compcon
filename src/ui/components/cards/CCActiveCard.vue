@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols" class="pa-1">
-    <v-card tile color="grey lighten-3 clipped" height="100%">
+    <v-card tile color="panel clipped" height="100%">
       <v-card-title class="pa-0 pl-2 pr-2" :class="color">
         <span class="heading h3 white--text">{{ header }}</span>
         <v-spacer />
