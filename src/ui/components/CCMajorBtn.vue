@@ -105,7 +105,7 @@ export default Vue.extend({
 }
 
 #card-actions {
-  background-color: var(--v-panel-base);
+  background-color: var(--v-background-base);
 }
 
 #underline-parent:hover > #card-actions > .underline-slide::before {
