@@ -131,6 +131,9 @@ const theme: Partial<VuetifyPreset> = {
         secondary: '#4658db',
 
         weapon: '#2f2f2f',
+
+        'action--downtime': '#586a73',
+
       },
     },
   },
