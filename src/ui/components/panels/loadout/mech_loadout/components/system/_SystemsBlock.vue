@@ -1,5 +1,5 @@
 <template>
-  <v-card flat tile>
+  <v-card flat tile color="panel">
     <fieldset>
       <legend :style="`color: ${color}`" class="heading h3">
         Systems
