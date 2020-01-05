@@ -87,7 +87,7 @@ export default Vue.extend({
 }
 
 .underline-slide {
-  color: var(--v-text-base);
+  color: var(--v-stark-text-base);
 }
 
 .underline-slide::before {
@@ -98,7 +98,7 @@ export default Vue.extend({
   right: 0;
   height: 5px;
   z-index: 100;
-  background-color: var(--v-text-base);
+  background-color: var(--v-stark-text-base);
   transform-origin: bottom left;
   transform: scaleX(0);
   transition: transform 0.45s ease;
