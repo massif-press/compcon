@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined color="secondary" class="mt-4 containerCard white">
+  <v-card outlined color="secondary" class="mt-4 containerCard">
     <v-tabs v-model="tabs" background-color="secondary accent-4" dark icons-and-text>
       <v-tab>
         Content Packs
