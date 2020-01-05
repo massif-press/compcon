@@ -186,3 +186,11 @@
 .theme--dark.v-data-table.v-data-table--fixed-header thead th {
   background-color: var(--v-panel) !important;
 }
+
+.theme--dark tbody tr:hover:not(.v-data-table__expanded__content) {
+  background-color: var(--v-panel-lighten1) !important;
+}
+
+.theme--dark.v-btn-toggle:not(.v-btn-toggle--group) {
+  background-color: unset !important;
+}
