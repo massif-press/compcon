@@ -131,7 +131,7 @@ h3.heading {
   font-family: 'Consolas', monospace;
   font-size: 12pt;
   font-weight: bolder;
-  color: #000;
+  color: var(--v-text-stark-base)
 }
 
 .large-text {

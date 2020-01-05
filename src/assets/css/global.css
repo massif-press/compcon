@@ -182,3 +182,7 @@
 .theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer { 
   background: var(--v-panel-base) !important;
 }
+
+.theme--dark.v-data-table.v-data-table--fixed-header thead th {
+  background-color: var(--v-panel) !important;
+}
