@@ -146,7 +146,7 @@ export default Vue.extend({
 }
 #stat-row {
   transform: skew(0.65rad);
-  background-color: #fafafa;
+  background-color: var(--v-panel-base);
   color: var(--v-text-base);
   z-index: 10;
   width: 75vw;

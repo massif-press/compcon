@@ -3,13 +3,13 @@
     <h1 class="heading mb-3 ml-5">ACTION ECONOMY</h1>
     <v-container>
       <span class="heading mech">Per Turn</span>
-      <v-card color="grey lighten-5" elevation-10>
+      <v-card color="panel" elevation-10>
         <v-card-text>
           <v-row justify="center" dense>
             <action-type-card action="move" />
             <v-col cols="3" class="effect-text text-center">
               Full Action
-              <i class="grey--text">or</i>
+              <i class="grey--text text--darken-1">or</i>
               2 Quick Actions
               <br />
               <v-card tile color="action--full" width="100%" class="text-center pt-4 pb-4">

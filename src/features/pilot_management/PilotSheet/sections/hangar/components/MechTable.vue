@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table fixed-header class="mb-4 mt-4 flavor-text">
+  <v-simple-table fixed-header class="mb-4 mt-4 flavor-text panel">
     <thead>
       <tr>
         <th class="text-left">Name</th>

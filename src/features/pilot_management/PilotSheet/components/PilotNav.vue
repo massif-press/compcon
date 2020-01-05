@@ -1,42 +1,18 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <v-btn
-      tile
-      depressed
-      :color="selected === '0' ? 'white' : 'primary'"
-      :dark="selected !== '0'"
-      to="../sheet/0"
-    >
-      <span class="unskew">DOSSIER</span>
-    </v-btn>
-    <v-btn
-      tile
-      depressed
-      :color="selected === '1' ? 'white' : 'primary'"
-      :dark="selected !== '1'"
-      to="../sheet/1"
-    >
-      <span class="unskew">NARRATIVE PROFILE</span>
-    </v-btn>
-    <v-btn
-      tile
-      depressed
-      :color="selected === '2' ? 'white' : 'primary'"
-      :dark="selected !== '2'"
-      to="../sheet/2"
-    >
-      <span class="unskew">TACTICAL PROFILE</span>
-    </v-btn>
-    <v-btn
-      tile
-      depressed
-      :color="selected === '3' ? 'white' : 'primary'"
-      :dark="selected !== '3'"
-      to="../sheet/3"
-    >
-      <span class="unskew">MECH HANGAR</span>
-    </v-btn>
+    <nav-item :selected="selected === '0'" to="../sheet/0">
+      DOSSIER
+    </nav-item>
+    <nav-item :selected="selected === '1'" to="../sheet/1">
+      NARRATIVE PROFILE
+    </nav-item>
+    <nav-item :selected="selected === '2'" to="../sheet/2">
+      TACTICAL PROFILE
+    </nav-item>
+    <nav-item :selected="selected === '3'" to="../sheet/3">
+      MECH HANGAR
+    </nav-item>
     <v-btn
       icon
       fab
@@ -183,18 +159,22 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import NavItem from './NavItem.vue'
+
 import CloudManager from './CloudManager.vue'
 import CloudDialog from './CloudDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import ExportDialog from './ExportDialog.vue'
 import PrintDialog from './PrintDialog.vue'
 import DeleteDialog from './DeletePilotDialog.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'pilot-nav',
   components: {
+    NavItem,
     CloudManager,
     CloudDialog,
     StatblockDialog,
