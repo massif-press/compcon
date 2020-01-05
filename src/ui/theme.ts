@@ -108,14 +108,21 @@ const theme: Partial<VuetifyPreset> = {
     themes: {
       light: {
         ...themeDefaults,
-
+        'stark-panel': '#fff',
+        'stark-text': '#000',
       },
       dark: {
         ...themeDefaults,
+        
         'light-text': '#E0E0E0',
         panel: '#202020',
         text: '#EEEEEE',
+
+        'stark-panel': '#000',
+        'stark-text': '#fff',
+
         secondary: '#4658db',
+
         weapon: '#2f2f2f',
       },
     },
