@@ -1,7 +1,7 @@
 <template>
   <v-col class="pa-2">
     <div style="height: 100%">
-      <v-card flat tile class="clipped-large grey lighten-3" style="height: 100%">
+      <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 28px">
           <slot name="header" />
           <v-spacer />
@@ -87,12 +87,12 @@ export default Vue.extend({
 
 <style scoped>
 #underline-parent {
-  background-color: #e0e0e0;
+  background-color: var(--v-panel-darken1);
   transition: background-color 0.4s ease-in-out;
 }
 
 #underline-parent:hover {
-  background-color: #eeeeee;
+  background-color: var(--v-panel-base);
 }
 
 .underline-slide::before {

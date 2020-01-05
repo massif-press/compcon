@@ -92,7 +92,7 @@ export default Vue.extend({
 <style scoped>
 #viewtoggle {
   position: absolute;
-  left: calc(100vw - 325px);
+  left: calc(100vw - 400px);
   top: 190px;
   z-index: 4;
 }

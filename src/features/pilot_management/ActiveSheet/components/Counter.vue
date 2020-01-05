@@ -9,7 +9,7 @@
         <v-icon small>delete</v-icon>
       </v-btn>
     </v-card-title>
-    <v-card-text class="white pb-2">
+    <v-card-text class="background pb-2">
       <v-row justify="center" class="counterContent">
         <v-col sm="4">
           <v-btn

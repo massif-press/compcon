@@ -4,11 +4,12 @@
     color="primary"
     style="position: relative; height: 100%"
     :elevation="creating ? 12 : 0"
+    clipped
   >
     <transition name="fade">
       <v-card-text
         v-if="creating"
-        class="white"
+        class="background"
         style="height: 100%; display: flex; flex-direction: column;"
       >
         <v-text-field

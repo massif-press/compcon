@@ -1,6 +1,6 @@
 <template>
   <v-col class="text-center flavor-text">
-    <v-card flat tile class="ma-1 clipped" color="grey lighten-2">
+    <v-card flat tile class="ma-1 clipped" color="panel darken-1">
       <v-card-text
         class="white--text heading h3 pa-0"
         :style="`letter-spacing: 3px; background-color: ${color}`"

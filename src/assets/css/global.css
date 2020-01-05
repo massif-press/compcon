@@ -177,3 +177,20 @@
 .hide-input-spinners input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+
+.theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer, .theme--dark.v-data-table, .theme--dark.v-card, .theme--dark.v-tabs-items { 
+  background: var(--v-panel-base) !important;
+}
+
+.theme--dark.v-data-table.v-data-table--fixed-header thead th {
+  background-color: var(--v-panel) !important;
+}
+
+.theme--dark tbody tr:hover:not(.v-data-table__expanded__content) {
+  background-color: var(--v-panel-lighten1) !important;
+}
+
+.theme--dark.v-btn-toggle:not(.v-btn-toggle--group) {
+  background-color: unset !important;
+}

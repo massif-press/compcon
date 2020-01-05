@@ -45,7 +45,7 @@ Vue.directive('extlink', externalLinkDirective)
 
 new Vue({
   components: { App },
-  vuetify: new Vuetify(theme as any),
+  vuetify: new Vuetify(theme),
   router,
   store,
   created() {
