@@ -45,10 +45,6 @@ export default class ExtraContent extends Vue {
 </script>
 
 <style scoped>
-.containerCard {
-  min-height: 350px;
-  max-height: 750px;
-}
 .containerCard >>> .v-window__container,
 .containerCard >>> .v-window-item {
   height: 100%;
