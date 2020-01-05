@@ -1,7 +1,7 @@
 <template>
   <v-toolbar
     :color="getColor()"
-    class="clipped-large"
+    :class="{ 'clipped-large': clipped }"
     :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
   >
     <v-toolbar-title :class="`heading h2 ${dark ? 'white--text' : 'black--text'}`">
@@ -27,6 +27,10 @@ export default Vue.extend({
     dark: {
       type: Boolean,
       required: false,
+      default: true,
+    },
+    clipped: {
+      type: Boolean,
       default: true,
     },
     color: {
