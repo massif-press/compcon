@@ -119,7 +119,10 @@ const theme: Partial<VuetifyPreset> = {
         'light-text': '#E0E0E0',
 
         background: '#202020',
-        panel: '#202020',
+        panel: {
+          base: '#202020',
+          darken1: '#191919'
+        },
         text: '#EEEEEE',
 
         'stark-panel': '#000',
