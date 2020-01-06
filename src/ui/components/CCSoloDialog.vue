@@ -5,8 +5,8 @@
     :width="small ? '30vw' : large ? '80vw' : '50vw'"
     :style="fullscreen ? `x-overflow: hidden` : ''"
   >
-    <v-card tile>
-      <cc-titlebar large :icon="icon" :color="color" :fixed="fullscreen">
+    <v-card tile class="background">
+      <cc-titlebar :clipped="!noTitleClip" large :icon="icon" :color="color" :fixed="fullscreen">
         {{ title }}
         <v-btn slot="items" dark icon @click="dialog = false">
           <v-icon large left>close</v-icon>
@@ -15,7 +15,7 @@
 
       <v-spacer v-if="fullscreen" class="titlebar-margin" />
 
-      <v-card-text :style="noPad ? 'padding: 0!important' : '' ">
+      <v-card-text :style="noPad ? 'padding: 0!important' : ''">
         <slot />
       </v-card-text>
 
@@ -56,6 +56,10 @@ export default Vue.extend({
       required: false,
     },
     noPad: {
+      type: Boolean,
+      required: false,
+    },
+    noTitleClip: {
       type: Boolean,
       required: false,
     },

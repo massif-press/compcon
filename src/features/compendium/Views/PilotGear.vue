@@ -30,13 +30,12 @@ import Component from 'vue-class-component'
 import CompendiumTable from '../UI/CompendiumTable.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-
+import { ItemType } from '@/class'
 
 @Component({
-  components: { CompendiumTable }
+  components: { CompendiumTable },
 })
 export default class PilotGear extends Vue {
-
   public armor_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
     { text: 'Armor', align: 'center', value: 'Armor' },
@@ -47,8 +46,8 @@ export default class PilotGear extends Vue {
   ]
   public weapon_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
-    { text: 'Range', align: 'left', value: 'Range' },
-    { text: 'Damage', align: 'left', value: 'Damage' },
+    { text: 'Range', align: 'left', value: 'Range[0].Max' },
+    { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
   ]
   public gear_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
@@ -66,6 +65,5 @@ export default class PilotGear extends Vue {
   get gear() {
     return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotGear)
   }
-
 }
 </script>

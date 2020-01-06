@@ -14,7 +14,7 @@ import {
 } from './'
 import { EncounterSide } from '@/class'
 
-interface INpcData {
+export interface INpcData {
   id: string
   class: string
   tier: number | string
@@ -32,7 +32,7 @@ interface INpcData {
   cc_ver: string
 }
 
-class Npc {
+export class Npc {
   private _id: string
   private _name: string
   private _campaign: string
@@ -335,5 +335,3 @@ class Npc {
     return npc
   }
 }
-
-export { Npc, INpcData }

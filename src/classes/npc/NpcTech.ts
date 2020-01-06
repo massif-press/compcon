@@ -1,14 +1,14 @@
 import { Tag } from '@/class'
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '.'
 
-interface INpcTechData extends INpcFeatureData {
+export interface INpcTechData extends INpcFeatureData {
   tags: ITagData[]
   tech_type: string
   accuracy: number[]
   type: NpcFeatureType.Tech
 }
 
-class NpcTech extends NpcFeature {
+export class NpcTech extends NpcFeature {
   private _tags: ITagData[]
   private _tech_type: string
   private _accuracy: number[]
@@ -37,5 +37,3 @@ class NpcTech extends NpcFeature {
     return 'frame'
   }
 }
-
-export { INpcTechData, NpcTech }

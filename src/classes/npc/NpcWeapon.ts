@@ -2,14 +2,14 @@ import { Tag, Range } from '@/class'
 import { IRangeData } from '@/interface'
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '.'
 
-interface INpcDamageData {
+export interface INpcDamageData {
   type: string
   damage: number[]
   accuracy: number[]
   advantage: number[]
 }
 
-interface INpcWeaponData extends INpcFeatureData {
+export interface INpcWeaponData extends INpcFeatureData {
   weapon_type: string
   damage: INpcDamageData
   range: IRangeData[]
@@ -18,7 +18,7 @@ interface INpcWeaponData extends INpcFeatureData {
   type: NpcFeatureType.Weapon
 }
 
-class NpcWeapon extends NpcFeature {
+export class NpcWeapon extends NpcFeature {
   private _tags: ITagData[]
   private _weapon_type: string
   private _damage_data: INpcDamageData
@@ -71,5 +71,3 @@ class NpcWeapon extends NpcFeature {
     return 'weapon'
   }
 }
-
-export { INpcDamageData, INpcWeaponData, NpcWeapon }

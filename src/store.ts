@@ -5,6 +5,7 @@ import { Global } from './features/_shared/store/global'
 import { PilotManagementStore } from './features/pilot_management/store/'
 import { NpcStore } from './features/encounters/npc/store'
 import { EncounterStore } from './features/encounters/encounter/store'
+import { MissionStore } from './features/encounters/mission/store'
 
 // import gmToolkitModules from './features/encounters/store'
 
@@ -17,8 +18,16 @@ const store = new Vuex.Store({
     management: PilotManagementStore,
     npc: NpcStore,
     encounter: EncounterStore,
-    // ...gmToolkitModules,
+    mission: MissionStore,
   },
 })
 
-export { store, Global, CompendiumStore, EncounterStore, PilotManagementStore, NpcStore }
+export {
+  store,
+  Global,
+  CompendiumStore,
+  EncounterStore,
+  PilotManagementStore,
+  NpcStore,
+  MissionStore,
+}

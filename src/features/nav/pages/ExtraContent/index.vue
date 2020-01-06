@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined color="secondary" class="mt-4 containerCard white">
+  <v-card outlined color="secondary" class="mt-4 containerCard">
     <v-tabs v-model="tabs" background-color="secondary accent-4" dark icons-and-text>
       <v-tab>
         Content Packs
@@ -45,10 +45,6 @@ export default class ExtraContent extends Vue {
 </script>
 
 <style scoped>
-.containerCard {
-  min-height: 350px;
-  max-height: 750px;
-}
 .containerCard >>> .v-window__container,
 .containerCard >>> .v-window-item {
   height: 100%;

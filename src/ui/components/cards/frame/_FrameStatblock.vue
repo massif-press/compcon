@@ -9,6 +9,7 @@
       <cc-statblock-panel name="Repair Cap" :value="frame.RepCap" />
       <cc-statblock-panel name="Sensor Range" :value="frame.SensorRange" />
       <cc-statblock-panel name="Tech Attack" :value="frame.TechAttack" />
+      <cc-statblock-panel name="Repair Capacity" :value="frame.RepCap" />
       <cc-statblock-panel name="Save" :value="frame.SaveTarget" />
       <cc-statblock-panel name="Speed" :value="frame.Speed" />
       <cc-statblock-panel name="SP" :value="frame.SP" />

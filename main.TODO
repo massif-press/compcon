@@ -20,26 +20,41 @@ Next Steps:
   ☐ Custom NPC Feature
   ☐ NPC Custom Tier icon
 
+
+✔ Frame cards rep cap @done(20-01-03 12:00)
+
+
 Encounters:
-  ☐ Replace NPC-selector sidebar with groupable table
-  ☐ NPC buttons with:
-    ☐ View NPC Card
-    ☐ Set NPC side
-    ☐ Remove NPC
-  ☐ Route based views
+  ✔ Route based views @done(19-12-31 11:37)
   ☐ Print
 
 NPC roster: 
-  ☐ Route based views
+  ✔ Route based views @done(19-12-31 11:37)
   ☐ Tag interactions
   ☐ Print
 
-Mission:
-  ☐ Start/End turn
-  ☐ View encounter/map/etc
+Missions:
+  ☐ Build Mission
+    ☐ Add Encounters
+    ☐ Add Short Rest
+    ☐ Add GM Notes
+  ☐ Run Mission
+    ☐ Start/End turn
+    ☐ View encounter/map/etc
+    ☐ Encounters instantiated as unique copies
+    ☐ Turns
+    ☐ Initiative Tracker
+    ☐ Pilot Import
+    ☐ Graveyard
+    ☐ Reinforcements
+    ☐ Rests
+    ☐ Complete Mission
+      ☐ Success/Failure (based on conditions)
+      ☐ Stats
+  ☐ Active Missions
+      ☐ List
 
 Bugs:
-  ☐ Pilot gear loadout is broken
   ☐ Fix NPC group sort
 
 Etc:
@@ -67,37 +82,13 @@ Hangar:
   ☐ Quick Print Mech
   ☐ Quick Statblock Mech
 
-Print:
+Printing:
+  ☐ Mark danger zone heat
+  ☐ Reserves Page
   ☐ Print all relevant tags
   ☐ Print stress/structure tables
   ☐ Print NPCs
   ☐ Print Encounters
-
-Encounter Builder:
-  ☐ Add Map
-  ☐ Add Goals
-  ☐ Add Conditions
-    ☐ Add NPCs (by wave)
-Mission Runner:
-  ☐ Build Mission
-    ☐ Add Encounters
-  ☐ Run Mission
-    ☐ NPCs instantiated as unique copies
-      ☐ Track trackable stats (struct/stress/hp/heat/activations)
-      ☐ Track conditions/statuses
-    ☐ Turns
-    ☐ Initiative Tracker
-    ☐ Pilot Import
-    ☐ Graveyard
-    ☐ Reinforcements
-    ☐ Rests
-    ☐ Complete Mission
-      ☐ Success/Failure (based on conditions)
-      ☐ Stats
-
-Printing:
-  ☐ Mark danger zone heat
-  ☐ Reserves Page
   General Print Options:
     ☐ Large fonts
     ☐ Print trackable stats as numbers or as pips
@@ -142,7 +133,6 @@ Pilot Sheet:
 
 Factions:
   ☐ Add Factions to Compendium
-  ☐ Pilot primary color should change based on faction
   ☐ Faction info in Pilot dossier
   ☐ Faction and Org builders
 
@@ -178,12 +168,6 @@ Improvements:
   ☐ Ammo block
   ☐ Mandatory org rolling at the start of every downtime
   
-Campaign Tools:
-  ☐ Campaigns landing page (import/export/new/select)
-    ☐ Pilot Roster (import pilots via json or gistID)
-    ☐ NPC Roster
-    ☐ vuetify timelines
-
 Preconstructed Characters:
   ☐ Select Character (cultural stuff)
     ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
@@ -195,9 +179,6 @@ Preconstructed Characters:
   ☐ Core Book and Long Rim content packs
   ☐ Update Help
   ☐ Update About
-
-Homebrew:
-  ☐ serve content packs as archives `.lcp`
 
 Archive:
   ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52) @project(Bugs)

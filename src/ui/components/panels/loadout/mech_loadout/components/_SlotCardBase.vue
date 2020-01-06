@@ -1,7 +1,7 @@
 <template>
   <v-col class="pa-2">
     <div style="height: 100%">
-      <v-card flat tile class="clipped-large grey lighten-3" style="height: 100%">
+      <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 28px">
           <slot name="header" />
           <v-spacer />
@@ -31,8 +31,11 @@
             <div
               v-else
               class="py-3 text-center fadeSelect"
-              style="cursor: pointer; height: 100%"
-              @click="$refs.selectorDialog.show()"
+              style="height: 100%"
+              :style="{
+                cursor: readonly ? 'inherit' : 'pointer',
+              }"
+              @click="if (!readonly) $refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
                 <span class="heading h2 grey--text my-auto" style="width: 100%; ">// EMPTY //</span>
@@ -74,18 +77,22 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    readonly: {
+      type: Boolean,
+      default: false
+    },
   },
 })
 </script>
 
 <style scoped>
 #underline-parent {
-  background-color: #e0e0e0;
+  background-color: var(--v-panel-darken1);
   transition: background-color 0.4s ease-in-out;
 }
 
 #underline-parent:hover {
-  background-color: #eeeeee;
+  background-color: var(--v-panel-base);
 }
 
 .underline-slide::before {

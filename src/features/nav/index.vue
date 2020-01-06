@@ -98,11 +98,11 @@
     <div v-else-if="encounter">
       <v-btn text tile to="/compendium">Compendium</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/npc-roster">NPC Roster</v-btn>
+      <v-btn text tile to="/gm/npc-roster">NPC Roster</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/encounter-builder">Encounters</v-btn>
+      <v-btn text tile to="/gm/encounter-builder">Encounters</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
-      <v-btn text tile to="/mission-runner">Missions</v-btn>
+      <v-btn text tile to="/gm/mission">Missions</v-btn>
       <v-divider vertical dark class="ml-2 mr-2" />
     </div>
 
@@ -123,9 +123,10 @@
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options">
-      <ExtraContent />
+    <cc-solo-dialog ref="optionsModal" no-title-clip no-pad large no-confirm title="Options">
+      <options />
     </cc-solo-dialog>
+
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
   </v-app-bar>
@@ -136,13 +137,13 @@ import Vue from 'vue'
 // import HelpPage from './Pages/HelpPage.vue'
 // import AboutPage from './Pages/AboutPage.vue'
 // import OptionsPage from './Pages/OptionsPage.vue'
-import ExtraContent from './pages/ExtraContent/index.vue'
+import Options from './pages/Options.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'cc-nav',
   // components: { HelpPage, AboutPage, OptionsPage },
-  components: { ExtraContent },
+  components: { Options },
   mixins: [activePilot],
   props: {
     pilotManagement: { type: Boolean },
