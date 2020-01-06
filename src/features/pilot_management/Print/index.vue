@@ -2,7 +2,7 @@
   <div class="printable" style="width: 100%">
     <div class="no-print" style="min-height: 48px!important" />
     <blank-pilot-print v-if="blank" />
-    <pilot-print v-else :pilot="pilot" />
+    <pilot-print v-else-if="pilot" :pilot="pilot" />
     <div style="page-break-before: always;" />
     <blank-mech-print v-if="blank" />
     <mech-print v-else-if="mech" :mech="mech" />
@@ -20,6 +20,7 @@ import MechPrint from './MechPrint.vue'
 import PrintFooter from './PrintFooter.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
+import { Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'combined-print',
@@ -36,14 +37,17 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    blank: false,
     pilot: null,
     mech: null,
+    blank: false,
   }),
   created() {
-    if (this.pilotID === 'blank') {
-      this.blank = true
-    }
+    if (this.pilotID === 'blank') this.blank = true
+    this.pilot = getModule(PilotManagementStore, this.$store).Pilots.find(
+      p => p.ID === this.pilotID
+    )
+    console.log(this.pilot)
+    this.mech = !this.mechID ? null : (this.pilot as Pilot).Mechs.find(m => m.ID === this.mechID)
   },
 })
 </script>

@@ -6,7 +6,7 @@
           title="NPC Roster"
           icon="mdi-account-edit"
           text="Design, edit, and manage NPCs for use in encounters."
-          to="npc-roster"
+          to="/gm/npc-roster"
         />
       </v-col>
 
@@ -15,7 +15,7 @@
           title="Encounter Builder"
           icon="mdi-account-multiple-plus"
           text="Compose encounters with NPCs, objectives, and battlefield conditions"
-          to="encounter-builder"
+          to="/gm/encounter-builder"
         />
       </v-col>
 
@@ -24,7 +24,7 @@
           title="Mission Runner"
           icon="mdi-account-group"
           text="Run sets of encounters digitally with NPC and Pilot status tracking."
-          to="mission-runner"
+          to="/gm/mission"
           :icon-offset="13"
         />
       </v-col>
@@ -35,26 +35,10 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import HomeCard from './components/Home/HomeCard.vue'
-// import { getModule } from 'vuex-module-decorators';
-// import { EncounterRunnerStore } from '../store/encounterRunner';
+import HomeCard from './components/HomeCard.vue'
 
 export default Vue.extend({
   name: 'home',
   components: { HomeCard },
-  created() {
-    // this.$store.commit('npcDesigner/load')
-    // this.$store.commit('encounterBuilder/load')
-    // <<<<<<< HEAD
-    //     this.$store.commit('encounterRunner/load')
-    //   },
-    // =======
-    // This below is equivalent one of the above lines.
-    // ...it's more boilerplate and typing, but it's also
-    // more type-safe and informative when debugging,
-    // and is better supported by IDEs for intellisense.
-    // const encounterRunnerStore = getModule(EncounterRunnerStore, this.$store)
-    // encounterRunnerStore.load()
-  },
 })
 </script>

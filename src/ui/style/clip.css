@@ -11,7 +11,7 @@
 }
 
 .clipped-large {
-  clip-path: polygon(100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 0);
+  clip-path: polygon(calc(100% + 1px) 0, calc(100% + 1px) calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 0)
 }
 
 .clipped-large-invert {

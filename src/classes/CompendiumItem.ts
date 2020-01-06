@@ -1,5 +1,6 @@
 import { store } from '@/store'
 import { ItemType } from '@/class'
+import { ICounterData } from '@/interface'
 
 // items that are stored as compendium data, refernced by ID and contain
 // at minimum a name, itemtype, and brew
@@ -8,7 +9,8 @@ interface ICompendiumItemData {
   id: string
   name: string
   description: string
-  brew?: string
+  brew?: string,
+  counters?: ICounterData[]
 }
 
 abstract class CompendiumItem {
@@ -20,6 +22,8 @@ abstract class CompendiumItem {
   private _brew: string
   private _err?: string
 
+  public readonly Counters: ICounterData[]
+
   public constructor(itemData?: ICompendiumItemData) {
     if (itemData) {
       this._id = itemData.id
@@ -27,6 +31,9 @@ abstract class CompendiumItem {
       this._description = itemData.description
       this._item_type = ItemType.None
       this._brew = itemData.brew || 'Core'
+
+      this.Counters = itemData.counters || []
+
     } else {
       this._id = this._name = this._description = this._note = this._brew = ''
       this._item_type = ItemType.None

@@ -8,7 +8,7 @@
           {{ manufacturer(m).name }}
         </span>
         <v-expansion-panels accordion focusable active-class="border-primary">
-          <v-expansion-panel v-for="l in licenses[m]" :key="l.FrameID" class="border-highlight">
+          <v-expansion-panel v-for="l in licenses[m]" :key="l.FrameID" class="panel border-highlight">
             <v-expansion-panel-header id="hover-parent" hide-actions>
               <div>
                 <span>

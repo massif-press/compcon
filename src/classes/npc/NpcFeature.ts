@@ -1,4 +1,4 @@
-enum NpcFeatureType {
+export enum NpcFeatureType {
   Trait = 'Trait',
   System = 'System',
   Reaction = 'Reaction',
@@ -6,13 +6,13 @@ enum NpcFeatureType {
   Tech = 'Tech',
 }
 
-interface IOriginData {
+export interface IOriginData {
   type: string
   name: string
   base: boolean
 }
 
-interface INpcFeatureData {
+export interface INpcFeatureData {
   id: string
   name: string
   origin: IOriginData
@@ -23,7 +23,7 @@ interface INpcFeatureData {
   type: NpcFeatureType
 }
 
-abstract class NpcFeature {
+export abstract class NpcFeature {
   private _id: string
   private _name: string
   private _origin: IOriginData
@@ -110,5 +110,3 @@ abstract class NpcFeature {
     // return this._origin.name
   }
 }
-
-export { NpcFeatureType, INpcFeatureData, NpcFeature }

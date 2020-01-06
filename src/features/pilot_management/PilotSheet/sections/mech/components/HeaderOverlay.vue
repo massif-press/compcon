@@ -72,7 +72,7 @@ export default Vue.extend({
   top: -40px;
   left: -12px;
   transform: skew(0.65rad);
-  background-color: #fafafa;
+  background-color: var(--v-panel-base);
   color: var(--v-text-base);
   z-index: 2;
   width: 75vw;

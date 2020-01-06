@@ -8,8 +8,8 @@
         <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
         <main-btn :to="'/pilot_management'" @hover="ccLog('pilot')">Pilot Roster</main-btn>
         <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
-        <disabled-main-btn disabled>Campaign Manager</disabled-main-btn>
-        <disabled-main-btn disabled>Content Editor</disabled-main-btn>
+        <main-btn disabled>Campaign Manager</main-btn>
+        <main-btn disabled>Content Editor</main-btn>
       </v-row>
     </v-container>
 
@@ -34,7 +34,6 @@
 import Vue from 'vue'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
-import DisabledMainBtn from './_components/DisabledMainBtn.vue'
 import UpdateAlert from './_components/UpdateAlert.vue'
 import CCLog from './_components/CCLog.vue'
 
@@ -43,7 +42,6 @@ export default Vue.extend({
   components: {
     MainTitle,
     MainBtn,
-    DisabledMainBtn,
     UpdateAlert,
     CCLog,
   },

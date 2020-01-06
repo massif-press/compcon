@@ -24,14 +24,14 @@
       v-resize="onResize"
       :headers="headers"
       :items="fItems"
-      :custom-sort="customSort"
       item-key="ID"
       :height="tableHeight"
       hide-default-footer
       disable-pagination
-      class="elevation-0 flavor-text"
+      class="elevation-0 flavor-text background"
       calculate-widths
       fixed-header
+      multi-sort
       show-select
       single-select
     >
@@ -44,10 +44,10 @@
       <template v-slot:item.Name="{ item }">
         <span class="stat-text">{{ item.Name }}</span>
       </template>
-      <template v-slot:item.Damage="{ item }">
+      <template v-slot:item.Damage[0].Max="{ item }">
         <cc-damage-element small :damage="item.Damage" />
       </template>
-      <template v-slot:item.Range="{ item }">
+      <template v-slot:item.Range[0].Max="{ item }">
         <cc-range-element small :range="item.Range" />
       </template>
     </v-data-table>
@@ -103,15 +103,18 @@ export default Vue.extend({
   },
   methods: {
     customSort(items, index, descending) {
+      console.log(items, index, descending)
       const desc = descending[0]
       items.sort((a, b) => {
-        if (index[0] === 'Damage') {
-          return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
-        } else if (index[0] === 'Range') {
-          return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
-        } else {
-          return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
-        }
+        index.forEach(idx => {
+          if (idx === 'Damage') {
+            return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
+          } else if (idx === 'Range') {
+            return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
+          } else {
+            return desc ? (a[idx] < b[idx] ? -1 : 1) : b[idx] < a[idx] ? -1 : 1
+          }
+        })
       })
       return items
     },

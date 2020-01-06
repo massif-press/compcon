@@ -1,4 +1,4 @@
-interface INpcClassStats {
+export interface INpcClassStats {
   activations: number[]
   armor: number[]
   hp: number[]
@@ -17,7 +17,7 @@ interface INpcClassStats {
   stress?: number[]
 }
 
-class NpcClassStats {
+export class NpcClassStats {
   private _stats: INpcClassStats
 
   public constructor(data: INpcClassStats) {
@@ -88,5 +88,3 @@ class NpcClassStats {
     return this._stats.stress ? this._stats.stress[tier - 1] : 1
   }
 }
-
-export { NpcClassStats, INpcClassStats }

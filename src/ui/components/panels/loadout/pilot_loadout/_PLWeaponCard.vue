@@ -96,8 +96,8 @@ export default Vue.extend({
   data: () => ({
     headers: [
       { text: 'Item', align: 'left', value: 'Name' },
-      { text: 'Range', align: 'left', value: 'Range' },
-      { text: 'Damage', align: 'left', value: 'Damage' },
+      { text: 'Range', align: 'left', value: 'Range[0].Max' },
+      { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
       { text: 'Detail', align: 'center', value: 'Detail' },
     ],
   }),

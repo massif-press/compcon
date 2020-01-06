@@ -277,43 +277,13 @@
       </v-row>
     </fieldset>
   </v-container>
-  <!-- <v-container fluid>
-
-
-            <v-row v-for="(mount, index) in allMounts" :key="'mount_' + index" row>
-  
-                        <p class="p-reg ml-2 mt-0 mb-0" v-html="w.Weapon.Effect" />
-                        <p v-if="w.Weapon.Mod" class="p-reg ml-2 mt-0 mb-0">
-                          <span class="p-large">{{ w.Weapon.Mod.Name }}:</span>
-                          {{ w.Weapon.Mod.effect }}
-                        </p>
-                        <span
-                          v-for="t in w.Weapon.Tags"
-                          :key="t.id + w.id"
-                          small
-                          class="print-tag ml-2"
-                        >
-                          {{ t.Name(pilot.LimitedBonus) }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </v-col>
-              </div>
-            </v-row>
-          </v-col>
-        </v-row>
-
-  </div> -->
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-// import { RangeElement, DamageElement } from '../../components/UI'
-// import { PrintOptions, Pilot, Mech, MechLoadout, EquippableMount } from '@/class'
 
 export default Vue.extend({
-  name: 'mech-print-view',
+  name: 'mech-print',
   props: {
     mech: {
       type: Object,
