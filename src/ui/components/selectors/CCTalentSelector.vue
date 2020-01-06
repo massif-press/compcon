@@ -20,22 +20,30 @@
           icon="check_circle"
           class="stat-text"
           :value="!pilot.IsMissingTalents && enoughSelections"
-        >Talent Selection Complete</v-alert>
+        >
+          Talent Selection Complete
+        </v-alert>
         <v-alert
           outlined
           color="primary"
           icon="warning"
           class="stat-text"
           :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-        >{{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining</v-alert>
+        >
+          {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining
+        </v-alert>
         <v-alert
           outlined
           color="primary"
           icon="warning"
           class="stat-text"
           :value="!enoughSelections"
-        >Must select a minimum of {{ selectedMin }} talents</v-alert>
-        <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">Reset</v-btn>
+        >
+          Must select a minimum of {{ selectedMin }} talents
+        </v-alert>
+        <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
+          Reset
+        </v-btn>
       </v-row>
     </template>
 
@@ -61,7 +69,7 @@ import MissingItem from './components/_MissingItem.vue'
 import TalentSelectItem from './components/_TalentSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Pilot } from '@/class'
+import { Pilot, Talent } from '@/class'
 import { rules } from 'lancer-data'
 
 export default Vue.extend({
@@ -71,9 +79,6 @@ export default Vue.extend({
     pilot: Pilot,
     levelUp: Boolean,
   },
-  data: () => ({
-    talents: [],
-  }),
   computed: {
     newPilot(): boolean {
       return this.pilot.Level === 0
@@ -87,15 +92,15 @@ export default Vue.extend({
     selectionComplete(): boolean {
       return (this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents
     },
+    talents(): Talent[] {
+      const compendium = getModule(CompendiumStore, this.$store)
+      return compendium.Talents
+    }
   },
   watch: {
     selectionComplete() {
       window.scrollTo(0, document.body.scrollHeight)
     },
-  },
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.talents = compendium.Talents
   },
 })
 </script>
