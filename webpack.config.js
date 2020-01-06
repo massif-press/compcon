@@ -68,7 +68,7 @@ const baseConfig = {
       {
         test: /\.s(c|a)ss$/,
         use: [
-          'vue-style-loader',
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
           {
             loader: 'sass-loader',
@@ -81,7 +81,7 @@ const baseConfig = {
       {
         test: /\.css$/,
         use: [
-          'vue-style-loader',
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader'
         ]
       },
