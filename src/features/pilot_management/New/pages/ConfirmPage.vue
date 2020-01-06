@@ -1,6 +1,6 @@
 <template>
   <cc-stepper-content
-    :complete="canContinue"
+    :complete="pilotReady"
     exit="pilot_management"
     back
     no-confirm
