@@ -21,21 +21,21 @@ export default new Router({
     },
     {
       path: '/pilot_management',
-      component: require('@/features/pilot_management/index').default,
+      component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/index.vue'),
       children: [
         {
           path: '',
           name: 'pilot_roster',
-          component: require('@/features/pilot_management/Roster/index').default,
+          component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Roster/index.vue'),
         },
         {
           path: '/print/:pilotID/:mechID',
-          component: require('@/features/pilot_management/Print/index').default,
+          component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Print/index.vue'),
           props: true,
         },
         {
           path: '/pilot/:pilotID',
-          component: require('@/features/pilot_management/PilotSheet/index').default,
+          component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/index.vue'),
           props: true,
           children: [
             {
@@ -50,28 +50,27 @@ export default new Router({
             },
             {
               path: 'sheet/:tab',
-              component: require('@/features/pilot_management/PilotSheet/layouts/index').default,
+              component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/layouts/index.vue'),
               props: true,
             },
             {
               path: 'mech/:mechID',
-              component: require('@/features/pilot_management/PilotSheet/sections/mech/index')
-                .default,
+              component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/sections/mech/index.vue'),
               props: true,
             },
             {
               path: 'level',
-              component: require('@/features/pilot_management/Level/index').default,
+              component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Level/index.vue'),
             },
             {
               path: 'active',
-              component: require('@/features/pilot_management/ActiveSheet/index').default,
+              component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/ActiveSheet/index.vue'),
             },
           ],
         },
         {
           path: '/new',
-          component: require('@/features/pilot_management/New/index').default,
+          component: () => import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/New/index.vue'),
         },
         {
           path: '/compendium',
