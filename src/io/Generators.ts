@@ -16,11 +16,10 @@ function mechname(): string {
 
 async function name(): Promise<string> {
 
-  // @ts-ignore
-  const firstNamesList: string = (await import('@/assets/generators/firstnames.txt')).default
-  // @ts-ignore
-  const lastNamesList: string = (await import('@/assets/generators/lastnames.txt')).default
+  const firstNamesList = (await import(/* webpackChunkName: "generators" */ '@/assets/generators/firstnames.txt')).default
+  const lastNamesList = (await import(/* webpackChunkName: "generators" */ '@/assets/generators/lastnames.txt')).default
 
+  console.log(firstNamesList, lastNamesList)
 
   const prob: any = require('@/assets/generators/name_mods.json')
   const firstnames = pullRandom(firstNamesList, 2)
