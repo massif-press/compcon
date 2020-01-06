@@ -2,15 +2,19 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 const path = require('path');
 const merge = require('webpack-merge')
 
 const baseConfig = {
-  mode: process.env.NODE_ENV || 'development',
-  entry: './src/main.ts',
+  entry: {
+    app: './src/main.ts',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '',
   },
   devServer: {
@@ -116,6 +120,7 @@ const baseConfig = {
       { from: 'static', to: 'static' },
     ]),
     new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HTMLWebpackPlugin({
       showErrors: true,
@@ -147,6 +152,7 @@ module.exports = function (env) {
     requireIfExists(`./webpack_config/webpack.${target}.config`),
     requireIfExists(`./webpack_config/webpack.${env.platform}.config`),
     requireIfExists(`./webpack_config/webpack.${env.platform}.${target}.config`),
+    { mode: env.prod ? 'production' : 'development' },
   )
   return out
 }
