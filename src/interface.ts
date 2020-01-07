@@ -22,19 +22,22 @@ import { IManufacturerData } from './classes/Manufacturer'
 import { ITalentData } from './classes/pilot/Talent'
 import { ISkillData } from './classes/pilot/Skill'
 import { IMechWeaponData } from './classes/mech/MechWeapon'
-import { INpcFeatureData } from './classes/npc/NpcFeature'
-import { INpcReactionData } from './classes/npc/NpcReaction'
-import { INpcSystemData } from './classes/npc/NpcSystem'
-import { INpcTechData } from './classes/npc/NpcTech'
-import { INpcDamageData } from './classes/npc/NpcWeapon'
-import { INpcWeaponData } from './classes/npc/NpcWeapon'
-import { INpcStats } from './classes/npc/NpcStats'
-import { INpcClassData } from './classes/npc/NpcClass'
-import { INpcTemplateData } from './classes/npc/NpcTemplate'
-import { INpcData } from './classes/npc/Npc'
-import { IEncounterData, IMissionData } from './classes/encounter'
+import {
+  INpcFeatureData,
+  INpcReactionData,
+  INpcSystemData,
+  INpcDamageData,
+  INpcWeaponData,
+  INpcStats,
+  INpcClassData,
+  INpcTemplateData,
+  INpcItemSaveData,
+  INpcTechData,
+  INpcData,
+} from './classes/npc/interfaces'
+import { IEncounterData, IMissionData, IActiveMissionData } from './classes/encounter/interfaces'
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
-import { ICounterData } from './classes/Counter' 
+import { ICounterData } from './classes/Counter'
 
 export {
   ICompendiumItemData,
@@ -66,9 +69,11 @@ export {
   INpcClassData,
   INpcTemplateData,
   INpcData,
+  INpcItemSaveData,
   IEncounterData,
   IMissionData,
+  IActiveMissionData,
   IContentPackManifest,
   IContentPack,
-  ICounterData
+  ICounterData,
 }

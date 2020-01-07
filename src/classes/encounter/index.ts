@@ -1,5 +1,6 @@
-import { IEncounterData, Encounter } from './Encounter'
+import { Encounter } from './Encounter'
 import { Rest } from './Rest'
-import { IMissionData, Mission } from './Mission'
+import { Mission } from './Mission'
+import { ActiveMission } from './ActiveMission'
 
-export { IEncounterData, Encounter, Rest, IMissionData, Mission }
+export { Encounter, Rest, Mission, ActiveMission }

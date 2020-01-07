@@ -33,6 +33,7 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
 
   const missionStore = getModule(MissionStore, store)
   missionStore.loadMissions()
+  missionStore.loadActiveMissions()
 
   // TODO: In browser, save active pilot & mech IDs, reconstitute them here
   // TODO: Move GM toolkit data loading here

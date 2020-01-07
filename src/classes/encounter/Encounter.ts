@@ -1,7 +1,7 @@
 import uuid from 'uuid/v1'
-import { Npc } from '@/class'
+import { Npc, EncounterSide } from '@/class'
 import { store } from '@/store'
-import { INpcData } from '../npc'
+import { INpcData } from '../npc/interfaces'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
@@ -160,7 +160,15 @@ export class Encounter {
   }
 
   public get Power(): number {
-    return this.Npcs.reduce((a, b) => +a + +b.Power, 0)
+    const enemy = this.Npcs.filter(x => x.Side === EncounterSide.Enemy).reduce(
+      (a, b) => +a + +b.Power,
+      0
+    )
+    const ally = this.Npcs.filter(x => x.Side === EncounterSide.Ally).reduce(
+      (a, b) => +a + +b.Power,
+      0
+    )
+    return enemy - ally
   }
 
   public get Reinforcements(): Npc[] {

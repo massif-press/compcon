@@ -1,6 +1,7 @@
 import { Tag, Range } from '@/class'
 import { IRangeData } from '@/interface'
-import { INpcFeatureData, NpcFeature, NpcFeatureType } from '.'
+import { NpcFeature, NpcFeatureType } from '.'
+import { INpcFeatureData } from './interfaces'
 
 export interface INpcDamageData {
   type: string

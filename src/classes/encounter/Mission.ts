@@ -83,6 +83,22 @@ export class Mission {
     this.save()
   }
 
+  public get averagePower(): number {
+    return this.Encounters.reduce((a, b) => +a + +b.Power, 0) / this.Encounters.length
+  }
+
+  public get maxPower(): number {
+    return Math.max(...this.Encounters.map(x => x.Power))
+  }
+
+  public get Encounters(): Encounter[] {
+    return this._steps.filter((x: any) => x.Name) as Encounter[]
+  }
+
+  public get Rests(): Rest[] {
+    return this._steps.filter((x: any) => !x.Name) as Rest[]
+  }
+
   public get Steps(): (Encounter | Rest)[] {
     return this._steps
   }

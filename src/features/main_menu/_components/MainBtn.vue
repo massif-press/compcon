@@ -29,12 +29,13 @@ export default Vue.extend({
   props: {
     to: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     mouseOver: false,

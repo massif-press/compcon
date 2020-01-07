@@ -13,8 +13,8 @@
     <v-slide-x-transition mode="out-in">
       <v-container v-if="profile.RosterView === 'list'" fluid>
         <v-row>
-          <v-col v-for="p in pilots" :key="p.id" cols="12">
-            <pilot-list-item :pilot="p" />
+          <v-col v-for="p in pilots" :key="p.ID" cols="12">
+            <cc-pilot-list-item :pilot="p" />
           </v-col>
         </v-row>
         <add-pilot />
@@ -30,7 +30,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import RosterSort from './components/RosterSort.vue'
-import PilotListItem from './components/PilotListItem.vue'
 import PilotTable from './components/PilotTable.vue'
 import AddPilot from './components/AddPilot.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -40,7 +39,7 @@ import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { RosterSort, PilotListItem, PilotTable, AddPilot },
+  components: { RosterSort, PilotTable, AddPilot },
   data: () => ({
     sortParams: null,
   }),

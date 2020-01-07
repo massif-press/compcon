@@ -3,15 +3,8 @@ import _ from 'lodash'
 import { store } from '@/store'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import {
-  NpcStats,
-  INpcStats,
-  NpcClass,
-  NpcTemplate,
-  NpcFeature,
-  NpcItem,
-  INpcItemSaveData,
-} from './'
+import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
+import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 
 export interface INpcData {

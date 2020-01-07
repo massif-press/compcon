@@ -14,7 +14,7 @@
           title="Mission Runner"
           icon="mdi-play-speed"
           text="Start a new Mission or continue an active one"
-          to="/gm/mission/runner"
+          to="/gm/mission/selector"
         />
       </v-col>
     </v-row>
