@@ -9,83 +9,40 @@
     <v-stepper v-model="step" non-linear class="elevation-0 mt-n1">
       <v-stepper-header style="height: 50px" class="elevation-0">
         <v-stepper-step
-          step="I"
-          :complete="pilotRank >= 1"
-          complete-icon="cci-rank-1"
-          edit-icon="cci-rank-1"
+          v-for="i in 3"
+          :key="i"
+          :step="'I'.repeat(i)"
+          :complete="pilotRank >= i"
+          :complete-icon="`cci-rank-${i}`"
+          :edit-icon="`cci-rank-${i}`"
           editable
-        >{{ talent.Ranks[0].name }}</v-stepper-step>
-        <v-stepper-step
-          step="II"
-          :complete="pilotRank >= 2"
-          complete-icon="cci-rank-2"
-          edit-icon="cci-rank-2"
-          editable
-        >{{ talent.Ranks[1].name }}</v-stepper-step>
-        <v-stepper-step
-          step="III"
-          :complete="pilotRank === 3"
-          complete-icon="cci-rank-3"
-          edit-icon="cci-rank-3"
-          editable
-        >{{ talent.Ranks[2].name }}</v-stepper-step>
+        >
+          {{ talent.Ranks[i - 1].name }}
+        </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
-        <v-stepper-content step="I" class="py-0 mt-n4">
+        <v-stepper-content v-for="i in 3" :key="i" :step="'I'.repeat(i)" class="py-0 mt-n4">
           <cc-talent-rank-item
-            :lock="pilotRank < 1"
-            :rank="1"
-            :description="talent.Ranks[0].description"
+            :lock="pilotRank < i"
+            :rank="i"
+            :description="talent.Ranks[i - 1].description"
           />
-          <v-btn v-if="!pilotRank" block outlined color="secondary" @click="add()">
+          <v-btn
+            v-if="pilotRank < i"
+            block
+            :disabled="!available || (newPilot && i > 1)"
+            outlined
+            color="secondary"
+            @click="add()"
+          >
             <v-icon left>cci-accuracy</v-icon>
-            Unlock {{ talent.Name }}: {{ talent.Ranks[0].name }}
+            Unlock {{ talent.Name }}: {{ talent.Ranks[i - 1].name }}
           </v-btn>
-          <v-btn v-else-if="pilotRank >= 1" block outlined color="error" @click="$emit('remove')">
+          <v-btn v-else block outlined color="error" @click="remove()">
             <v-icon left>cci-difficulty</v-icon>
-            Unlearn {{ talent.Name }}: {{ talent.Ranks[0].name }}
+            Unlearn {{ talent.Name }}: {{ talent.Ranks[i - 1].name }}
           </v-btn>
-        </v-stepper-content>
-        <v-stepper-content step="II" class="py-0 mt-n4">
-          <cc-talent-rank-item
-            :lock="pilotRank < 2"
-            :rank="2"
-            :description="talent.Ranks[1].description"
-          />
-          <div v-if="pilotRank >= 1">
-            <v-btn v-if="pilotRank === 1" block outlined color="secondary" @click="add()">
-              <v-icon left>cci-accuracy</v-icon>
-              Unlock {{ talent.Name }}: {{ talent.Ranks[1].name }}
-            </v-btn>
-            <v-btn v-else-if="pilotRank >= 2" block outlined color="error" @click="$emit('remove')">
-              <v-icon left>cci-difficulty</v-icon>
-              Unlearn {{ talent.Name }}: {{ talent.Ranks[1].name }}
-            </v-btn>
-          </div>
-        </v-stepper-content>
-        <v-stepper-content step="III" class="py-0 mt-n4">
-          <cc-talent-rank-item
-            :lock="pilotRank < 3"
-            :rank="3"
-            :description="talent.Ranks[2].description"
-          />
-          <div v-if="pilotRank >= 2">
-            <v-btn v-if="pilotRank === 2" block outlined color="secondary" @click="add()">
-              <v-icon left>cci-accuracy</v-icon>
-              Unlock {{ talent.Name }}: {{ talent.Ranks[2].name }}
-            </v-btn>
-            <v-btn
-              v-else-if="pilotRank === 3"
-              block
-              outlined
-              color="error"
-              @click="$emit('remove')"
-            >
-              <v-icon left>cci-difficulty</v-icon>
-              Unlearn {{ talent.Name }}: {{ talent.Ranks[1].name }}
-            </v-btn>
-          </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -110,6 +67,10 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
+    available: {
+      type: Boolean,
+      default: true
+    }
   },
   data: () => ({
     step: 'I',
