@@ -209,6 +209,11 @@ export default Vue.extend({
   props: {
     pilot: Pilot,
   },
+  watch: {
+    'pilot.IsMissingHASE': function (newVal) {
+      if (newVal === false) window.scrollTo(0, document.body.scrollHeight)
+    }
+  },
   methods: {
     add(field: HASE) {
       this.pilot.MechSkills.Increment(field)
@@ -219,7 +224,7 @@ export default Vue.extend({
     close() {
       this.$emit('close')
     },
-  },
+  }
 })
 </script>
 
