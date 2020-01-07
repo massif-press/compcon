@@ -4,7 +4,7 @@
     <p class="flavor-text" v-html="cs.Description" />
 
     <div v-if="cs.PassiveEffect">
-      <span class="heading sub">{{ cs.PassiveName }}</span>
+      <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
       <p class="effect-text panel pa-2" v-html="cs.PassiveEffect" />
     </div>
 
