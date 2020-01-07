@@ -330,15 +330,19 @@
             subheader="CORE SYSTEM"
             style="height: 100%"
           >
-            <div v-if="mech.Frame.CoreSystem.Passive">
-              <span class="heading h2">Passive</span>
-              <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive" />
+            <div v-if="mech.Frame.CoreSystem.PassiveName">
+              <span class="heading h2">
+                {{ mech.Frame.CoreSystem.PassiveName }}
+                <span class="pt-2 ml-2 caption grey--text">(PASSIVE)</span>
+              </span>
+              <p class="mb-1" v-html="mech.Frame.CoreSystem.PassiveEffect" />
+              <br><br>
             </div>
             <span class="heading h2">
-              {{ mech.Frame.CoreSystem.Active }}
+              {{ mech.Frame.CoreSystem.ActiveName }}
               <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
             </span>
-            <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
+            <p class="mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
             <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
           </cc-active-card>
         </v-col>
