@@ -12,7 +12,7 @@ import App from './App.vue'
 import router from './router'
 import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
 import VueMousetrap from 'vue-mousetrap'
 
 import theme from './ui/theme'
