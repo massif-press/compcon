@@ -8,7 +8,7 @@ Next Steps:
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
   ☐ In-file interface declarations available globally through TS import()
-  ☐ Talent Die counters
+  ✔ Talent Die counters @done(20-01-07 10:09)
   ☐ Better visibility on range/damage bonuses (contributors)
   ☐ Move explicit-lookup functions to a generalized bonus framework
   ☐ Avatar image bounding box select
@@ -34,14 +34,15 @@ NPC roster:
   ☐ Print
 
 Missions:
-  ☐ Build Mission
-    ☐ Add Encounters
-    ☐ Add Short Rest
-    ☐ Add GM Notes
+  ✔ Build Mission @done(20-01-05 15:08)
+    ✔ Add Encounters @done(20-01-05 15:08)
+    ✔ Add Short Rest @done(20-01-05 15:08)
+    ✔ Add GM Notes @done(20-01-05 15:08)
   ☐ Run Mission
+    ✔ Briefing page @done(20-01-07 13:25)
     ☐ Start/End turn
     ☐ View encounter/map/etc
-    ☐ Encounters instantiated as unique copies
+    ✔ Encounters instantiated as unique copies @done(20-01-05 15:08)
     ☐ Turns
     ☐ Initiative Tracker
     ☐ Pilot Import
@@ -52,7 +53,7 @@ Missions:
       ☐ Success/Failure (based on conditions)
       ☐ Stats
   ☐ Active Missions
-      ☐ List
+      ✔ List @done(20-01-07 13:26)
 
 Bugs:
   ☐ Fix NPC group sort
@@ -60,6 +61,8 @@ Bugs:
 Etc:
   ☐ For frame info and NPCs, make expandable image panel
     ☐ Need image somewhere on frame card
+  ☐ Options Menu
+    ☐ Export/Import all functions
 
 Active Mode:
   ☐ Toggleable dense loadout view

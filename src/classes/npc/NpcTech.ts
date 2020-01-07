@@ -1,5 +1,6 @@
 import { Tag } from '@/class'
-import { INpcFeatureData, NpcFeature, NpcFeatureType } from '.'
+import { NpcFeature, NpcFeatureType } from '.'
+import { INpcFeatureData } from './interfaces'
 
 export interface INpcTechData extends INpcFeatureData {
   tags: ITagData[]

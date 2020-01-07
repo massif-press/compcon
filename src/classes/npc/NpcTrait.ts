@@ -1,4 +1,5 @@
-import { NpcFeature, INpcFeatureData, NpcFeatureType } from './'
+import { NpcFeature, NpcFeatureType } from './'
+import { INpcFeatureData } from './interfaces'
 
 export class NpcTrait extends NpcFeature {
   public constructor(data: INpcFeatureData) {
