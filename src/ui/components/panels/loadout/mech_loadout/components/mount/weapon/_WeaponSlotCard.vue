@@ -4,7 +4,7 @@
       <div slot="header">
         <span v-if="item">
           <equipment-options :item="item" />
-          <span v-if="!item.IsDestroyed" class="ml-n2">{{ item.Size }} {{ item.Type }}</span>
+          <span v-if="!item.Destroyed" class="ml-n2">{{ item.Size }} {{ item.Type }}</span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / EQUIPMENT DESTROYED / /&emsp;
           </span>

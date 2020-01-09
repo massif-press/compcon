@@ -22,10 +22,17 @@ export interface INpcData {
   side: string
   cloudImage: string
   localImage: string
+  statuses: string[]
+  conditions: string[]
+  resistances: string[]
+  reactions: string[]
+  burn: number
+  destroyed: boolean
+  actions: number
   cc_ver: string
 }
 
-export class Npc {
+export class Npc implements IActor {
   private _id: string
   private _name: string
   private _campaign: string
@@ -41,6 +48,13 @@ export class Npc {
   private _local_image: string
   private _tag: string
   private _user_labels: string[]
+  private _statuses: string[]
+  private _conditions: string[]
+  private _resistances: string[]
+  private _reactions: string[]
+  private _burn: number
+  private _actions: number
+  private _destroyed: boolean
   private cc_ver: string
 
   public constructor(npcClass: NpcClass, tier?: number) {
@@ -55,11 +69,18 @@ export class Npc {
     this._note = this._cloud_image = this._local_image = this._campaign = ''
     this._class = npcClass
     this._stats = NpcStats.FromClass(npcClass, t)
-    this._current_stats = NpcStats.FromClass(npcClass, t)
+    this._current_stats = NpcStats.FromClass(npcClass, t, true)
     this._items = []
     npcClass.BaseFeatures.forEach(f => {
       this._items.push(new NpcItem(f, t))
     })
+    this._statuses = []
+    this._conditions = []
+    this._resistances = []
+    this._reactions = []
+    this._burn = 0
+    this._actions = 2
+    this._destroyed = false
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
@@ -95,6 +116,14 @@ export class Npc {
 
   public ResetStats(): void {
     this._current_stats = _.clone(this._stats)
+  }
+
+  public get EncounterName(): string {
+    return this._name
+  }
+
+  public get Icon(): string {
+    return this.Class.RoleIcon
   }
 
   public get Name(): string {
@@ -288,6 +317,148 @@ export class Npc {
     else return getImagePath(ImageTag.Frame, 'nodata.png', true)
   }
 
+  // -- Encounter Management ----------------------------------------------------------------------
+
+  public get CurrentStructure(): number {
+    return this.CurrentStats.Structure
+  }
+
+  public set CurrentStructure(val: number) {
+    this.CurrentStats.Structure = val
+  }
+
+  public get CurrentHP(): number {
+    return this.CurrentStats.HP
+  }
+
+  public set CurrentHP(val: number) {
+    this.CurrentStats.HP = val
+  }
+
+  public get CurrentStress(): number {
+    return this.CurrentStats.Stress
+  }
+
+  public set CurrentStress(val: number) {
+    this.CurrentStats.Stress = val
+  }
+
+  public get CurrentHeat(): number {
+    return this.CurrentStats.HeatCapacity
+  }
+
+  public set CurrentHeat(val: number) {
+    this.CurrentStats.HeatCapacity = val
+  }
+
+  public get MaxStructure(): number {
+    return this.Stats.Structure
+  }
+
+  public get MaxHP(): number {
+    return this.Stats.HP
+  }
+
+  public get MaxStress(): number {
+    return this.Stats.Stress
+  }
+
+  public get HeatCapacity(): number {
+    return this.Stats.HeatCapacity
+  }
+
+  public get Conditions(): string[] {
+    return this._conditions
+  }
+
+  public set Conditions(conditions: string[]) {
+    this._conditions = conditions
+    this.save()
+  }
+
+  public get Statuses(): string[] {
+    return this._statuses
+  }
+
+  public set Statuses(statuses: string[]) {
+    this._statuses = statuses
+    this.save()
+  }
+
+  public get Resistances(): string[] {
+    return this._resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this._resistances = resistances
+    this.save()
+  }
+
+  public get Burn(): number {
+    return this._burn
+  }
+
+  public set Burn(burn: number) {
+    this._burn = burn
+    if (this._burn < 0) this._burn = 0
+    this.save()
+  }
+
+  public get Destroyed(): boolean {
+    return this._destroyed
+  }
+
+  public set Destroyed(val: boolean) {
+    this._destroyed = val
+    this.save()
+  }
+
+  public get Activations(): number {
+    return this.CurrentStats.Activations
+  }
+
+  public set Activations(val: number) {
+    this.CurrentStats.Activations = val
+    this.save()
+  }
+
+  public get Actions(): number {
+    return this._actions
+  }
+
+  public set Actions(val: number) {
+    this._actions = val
+    this.save()
+  }
+
+  public get CurrentMove(): number {
+    return this.CurrentStats.Speed
+  }
+
+  public set CurrentMove(val: number) {
+    this.CurrentStats.Speed = val
+    this.save()
+  }
+
+  public get MaxMove(): number {
+    return this.Stats.Speed
+  }
+
+  public get Reactions(): string[] {
+    return this._reactions
+  }
+
+  public set Reactions(val: string[]) {
+    this._reactions = val
+  }
+
+  public NewTurn(): void {
+    this.CurrentStats.Activations = 1
+    this._actions = 2
+    this.CurrentStats.Speed = this.MaxMove
+    this.save()
+  }
+
   public static Serialize(npc: Npc): INpcData {
     return {
       id: npc.ID,
@@ -304,6 +475,13 @@ export class Npc {
       side: npc.Side,
       cloudImage: npc._cloud_image,
       localImage: npc._local_image,
+      statuses: npc._statuses,
+      conditions: npc._conditions,
+      resistances: npc._resistances,
+      reactions: npc._reactions,
+      burn: npc._burn,
+      destroyed: npc._destroyed,
+      actions: npc._actions,
       cc_ver: npc.cc_ver,
     }
   }
@@ -324,6 +502,13 @@ export class Npc {
     npc._cloud_image = data.cloudImage
     npc._local_image = data.localImage
     npc._stats = NpcStats.Deserialize(data.stats)
+    npc._statuses = data.statuses || []
+    npc._conditions = data.conditions || []
+    npc._resistances = data.resistances || []
+    npc._reactions = data.reactions || []
+    npc._burn = data.burn || 0
+    npc._actions = data.actions || 1
+    npc._destroyed = data.destroyed || false
     npc.cc_ver = data.cc_ver
     return npc
   }

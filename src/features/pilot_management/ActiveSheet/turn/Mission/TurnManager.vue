@@ -1,6 +1,6 @@
 <template>
   <v-window-item>
-    <div v-if="mech.IsDestroyed || mech.ReactorDestroyed">
+    <div v-if="mech.Destroyed || mech.ReactorDestroyed">
       <destroyed-alert :mech="mech" />
     </div>
     <div v-else class="text-center">
@@ -10,7 +10,7 @@
         <span class="overcharge--text">{{ turn }}</span>
       </div>
       <div
-        v-if="mech.IsEjected"
+        v-if="mech.Ejected"
         class="heading h3 reaction-bg white--text pb-1"
         v-html="'PILOT EJECTED'"
       />
@@ -125,7 +125,7 @@
         <action-button v-if="actions >= 2" action-id="bootup" class="mb-1" @click="boot()" />
       </div>
       <div
-        v-show="mech.IsEjected && !mech.IsShutDown && !mech.IsDestroyed && !mech.ReactorDestroyed"
+        v-show="mech.Ejected && !mech.IsShutDown && !mech.Destroyed && !mech.ReactorDestroyed"
       >
         <v-scale-transition group>
           <v-row v-if="actions" key="a-r1" justify="center" dense>
@@ -170,7 +170,7 @@
         </v-scale-transition>
       </div>
     </div>
-    <div v-if="!mech.IsShutDown && !mech.IsEjected && !mech.IsDestroyed && !mech.ReactorDestroyed">
+    <div v-if="!mech.IsShutDown && !mech.Ejected && !mech.Destroyed && !mech.ReactorDestroyed">
       <div v-if="mech.MeltdownImminent" class="px-4">
         <v-btn block dark x-large tile color="dangerzone" @click="meltdown()">
           <v-icon left large>cci-reactor</v-icon>
@@ -310,7 +310,7 @@ export default Vue.extend({
     },
   },
   created() {
-    this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
+    this.maxMove = this.mech.Ejected ? this.pilot.Speed : this.mech.Speed
   },
   methods: {
     undo() {
@@ -319,10 +319,10 @@ export default Vue.extend({
         case 'avoid_meltdown':
           this.mech.MeltdownImminent = true
         case 'meltdown':
-          this.mech.IsDestroyed = false
+          this.mech.Destroyed = false
           this.mech.ReactorDestroyed = false
         case 'boost':
-          this.maxMove -= this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
+          this.maxMove -= this.mech.Ejected ? this.pilot.Speed : this.mech.Speed
           if (this.move < this.maxMove) this.move === this.maxMove
           this.actions += 1
           break
@@ -334,11 +334,11 @@ export default Vue.extend({
         case 'dismount':
           this.actions += 1
         case 'eject':
-          this.mech.IsEjected = false
+          this.mech.Ejected = false
           this.actions += 1
           break
         case 'remount':
-          this.mech.IsEjected = true
+          this.mech.Ejected = true
           this.actions += 2
           break
         case 'bombard':
@@ -378,7 +378,7 @@ export default Vue.extend({
       this.history = []
       this.move = 0
       this.actions = 2
-      this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
+      this.maxMove = this.mech.Ejected ? this.pilot.Speed : this.mech.Speed
       this.overcharged = false
       this.overwatch = false
       this.prepare = false
@@ -399,7 +399,7 @@ export default Vue.extend({
       this.history = []
       this.move = 0
       this.actions = 2
-      this.maxMove = this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
+      this.maxMove = this.mech.Ejected ? this.pilot.Speed : this.mech.Speed
       this.overcharged = false
       this.prepare = false
       this.braced = false
@@ -422,7 +422,7 @@ export default Vue.extend({
       if (this.actions > 0) {
         this.history.push({ field: 'boost' })
         this.actions--
-        this.maxMove += this.mech.IsEjected ? this.pilot.Speed : this.mech.Speed
+        this.maxMove += this.mech.Ejected ? this.pilot.Speed : this.mech.Speed
         if (this.move < 0) this.move === 0
       }
     },
@@ -433,17 +433,17 @@ export default Vue.extend({
     },
     dismount() {
       this.history.push({ field: 'dismount', val: false })
-      this.mech.IsEjected = true
+      this.mech.Ejected = true
       this.actions -= 2
     },
     eject() {
       this.history.push({ field: 'eject', val: false })
-      this.mech.IsEjected = true
+      this.mech.Ejected = true
       this.actions -= 1
     },
     remount() {
       this.history.push({ field: 'remount', val: false })
-      this.mech.IsEjected = false
+      this.mech.Ejected = false
       this.actions -= 2
     },
     fullAction() {

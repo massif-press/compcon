@@ -81,11 +81,11 @@ abstract class MechEquipment extends LicensedItem {
     return this.Tags.some(x => x.IsLimited)
   }
 
-  public get IsDestroyed(): boolean {
+  public get Destroyed(): boolean {
     return this._destroyed
   }
 
-  public set IsDestroyed(b: boolean) {
+  public set Destroyed(b: boolean) {
     this._destroyed = b
   }
 

@@ -86,7 +86,7 @@ class WeaponMod extends MechEquipment {
     return {
       id: item.ID,
       uses: item.Uses || 0,
-      destroyed: item.IsDestroyed || false,
+      destroyed: item.Destroyed || false,
       unshackled: item.IsUnshackled || false,
       note: item.Note,
     }
@@ -95,7 +95,7 @@ class WeaponMod extends MechEquipment {
   public static Deserialize(data: IEquipmentData): WeaponMod {
     let item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
     item.Uses = data.uses || 0
-    item.IsDestroyed = data.destroyed || false
+    item.Destroyed = data.destroyed || false
     item.IsUnshackled = data.unshackled || false
     item.Note = data.note
     return item

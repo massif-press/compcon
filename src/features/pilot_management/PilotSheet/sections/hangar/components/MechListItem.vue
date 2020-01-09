@@ -84,7 +84,7 @@
                 <span class="grey--text ml-n2">/{{ mech.RepairCapacity }}</span>
               </v-col>
               <v-col cols="auto" class="white--text flavor-text">
-                <v-alert v-if="mech.IsDestroyed" color="error" dense tile class="text-center">
+                <v-alert v-if="mech.Destroyed" color="error" dense tile class="text-center">
                   <span style="letter-spacing: 5px">// DESTROYED //</span>
                 </v-alert>
                 <v-alert v-if="mech.MeltdownImminent" color="orange" dense tile class="text-center">

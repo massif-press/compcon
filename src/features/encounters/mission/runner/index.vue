@@ -30,6 +30,29 @@
             <span v-else>{{ item.Mission.Steps[item.Step].IsLong ? 'Full' : 'Short' }} Rest</span>
           </template>
           <template v-slot:item.Continue="{ item }">
+            <v-menu offset-y offset-x top nudge-left="30px">
+              <template v-slot:activator="{ on }">
+                <v-btn small icon color="error" class="fadeSelect mr-2" v-on="on">
+                  <v-icon small>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="text-center">
+                  This will delete the active mission
+                  <b>({{ item.Mission.Name }} - {{ item.StartDate }})</b>
+                  and all progress will be lost.
+                  <br />
+                  Are you sure?
+                  <v-divider class="my-2" />
+                  <v-row dense>
+                    <v-btn small text>CANCEL</v-btn>
+                    <v-btn small color="error" class="ml-auto" @click="deleteActiveMission(item)">
+                      CONFIRM
+                    </v-btn>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-menu>
             <v-btn small tile color="primary" :to="`runner/${item.ID}`">
               CONTINUE MISSION
               <v-icon right>mdi-chevron-double-right</v-icon>
@@ -113,6 +136,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { MissionStore } from '@/store'
+import { ActiveMission } from '@/class'
 
 export default Vue.extend({
   name: 'active-mission-landing',
@@ -120,7 +144,7 @@ export default Vue.extend({
     headers: [
       { text: 'Name', value: 'Mission.Name', align: 'left' },
       { text: 'Encounter', value: 'Encounter' },
-      { text: 'Turn', value: 'Turn' },
+      { text: 'Round', value: 'Round' },
       { text: 'Date Started', value: 'StartDate' },
       { text: '', value: 'Continue', align: 'right' },
     ],
@@ -144,6 +168,12 @@ export default Vue.extend({
     const store = getModule(MissionStore, this.$store)
     this.availableMissions = store.Missions
     this.activeMissions = store.ActiveMissions
+  },
+  methods: {
+    deleteActiveMission(m: ActiveMission) {
+      const store = getModule(MissionStore, this.$store)
+      store.deleteActiveMission(m)
+    },
   },
 })
 </script>
