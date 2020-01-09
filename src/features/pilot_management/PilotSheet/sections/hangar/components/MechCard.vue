@@ -74,7 +74,7 @@
                       </v-col>
                     </v-row>
                   </v-card-text>
-                  <v-alert v-if="mech.IsDestroyed" color="error" dense tile class="text-center">
+                  <v-alert v-if="mech.Destroyed" color="error" dense tile class="text-center">
                     <span style="letter-spacing: 5px">// DESTROYED //</span>
                   </v-alert>
                   <v-alert

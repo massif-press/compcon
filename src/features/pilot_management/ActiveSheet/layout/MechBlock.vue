@@ -1,7 +1,7 @@
 <template>
   <div>
-    <stress-table ref="stressTable" :mech="mech" />
-    <structure-table ref="structureTable" :mech="mech" />
+    <cc-stress-table ref="stressTable" :mech="mech" />
+    <cc-structure-table ref="structureTable" :mech="mech" />
 
     <div v-if="!mech" class="ma-5">
       <div v-if="!pilot.Mechs.length">
@@ -33,13 +33,13 @@
         :key="`status-${s}`"
         :type="s"
         critical-only
-        @clear-ejected="mech.IsEjected = false"
+        @clear-ejected="mech.Ejected = false"
         @clear-status="mech.Repair()"
       />
 
       <v-row justify="space-between" dense>
         <v-col cols="3">
-          <status-select
+          <cc-status-select
             label="Statuses"
             :items="statuses"
             :model="mech.Statuses"
@@ -49,7 +49,7 @@
           />
         </v-col>
         <v-col cols="3">
-          <status-select
+          <cc-status-select
             label="Conditions"
             :items="conditions"
             :model="mech.Conditions"
@@ -59,7 +59,7 @@
           />
         </v-col>
         <v-col cols="3">
-          <status-select
+          <cc-status-select
             label="Resistances"
             :items="resistances"
             :model="mech.Resistances"
@@ -135,7 +135,7 @@
         </v-col>
 
         <v-col cols="auto" class="ml-auto">
-          <v-menu offset-y offset-x top nudge-left="30ox">
+          <v-menu offset-y offset-x top nudge-left="30px">
             <template v-slot:activator="{ on }">
               <v-btn large icon class="fadeSelect" v-on="on">
                 <v-icon x-large>cci-repair</v-icon>
@@ -350,16 +350,13 @@
 </template>
 
 <script lang="ts">
-import StructureTable from '../components/StructureTable.vue'
 import { Mech, MechLoadout } from '@/class'
-import StressTable from '../components/StressTable.vue'
 import MechSelectButton from '../components/MechSelectButton.vue'
-import StatusSelect from '../components/StatusSelect.vue'
 
 import Vue from 'vue'
 export default Vue.extend({
   name: 'mech-block',
-  components: { StructureTable, StressTable, MechSelectButton, StatusSelect },
+  components: { MechSelectButton },
   props: {
     pilot: {
       type: Object,

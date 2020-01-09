@@ -1,4 +1,3 @@
-
 // global declaration file for common interfaces that are used too often to warrant placing in @/interfaces
 declare interface IImageContainer {
   SetLocalImage(): any
@@ -85,8 +84,8 @@ declare interface IPilotData {
   active_loadout_index: number
   mechs: IMechData[]
   active_mech: string | null
-  cc_ver: string,
-  counter_data: ICounterSaveData[],
+  cc_ver: string
+  counter_data: ICounterSaveData[]
   custom_counters: object[]
 }
 
@@ -133,6 +132,7 @@ declare interface IMechData {
   id: string
   name: string
   notes: string
+  gm_note: string
   portrait: string
   cloud_portrait: string
   frame: string
@@ -151,6 +151,7 @@ declare interface IMechData {
   burn: number
   ejected: boolean
   destroyed: boolean
+  activations: number
   meltdown_imminent: boolean
   reactor_destroyed: boolean
   cc_ver: string

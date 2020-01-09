@@ -7,6 +7,10 @@ export class Rest {
     this._long = isLong
   }
 
+  public get Type(): string {
+    return 'Rest'
+  }
+
   public get IsLong(): boolean {
     return this._long
   }

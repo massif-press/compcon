@@ -67,28 +67,27 @@ import { Counter } from '@/class'
 import activePilot from '../../mixins/activePilot'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
-import Pilot from '../../../../classes/pilot/Pilot'
+import { Pilot } from '@/class'
 
 @Component({
   props: {
     counterData: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   mixins: [activePilot],
   watch: {
     counter: {
       handler(val: Counter) {
-        (this.pilot as Pilot).saveCounter(val.Serialize())
+        ;(this.pilot as Pilot).saveCounter(val.Serialize())
         getModule(PilotManagementStore, this.$store).saveData()
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 })
 export default class CounterComponent extends Vue {
-
   public counter: Counter = null
 
   created() {
@@ -106,13 +105,11 @@ export default class CounterComponent extends Vue {
   onInputEnterOrLeave(e: FocusEvent | InputEvent) {
     const element = e.target as HTMLInputElement
 
-    const val = parseInt( element.value )
+    const val = parseInt(element.value)
     this.counter.Set(val)
     element.value = this.counter.Value.toString()
     this.dirty = false
   }
-
-
 }
 </script>
 

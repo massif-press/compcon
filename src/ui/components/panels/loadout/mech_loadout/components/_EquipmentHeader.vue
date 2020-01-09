@@ -11,7 +11,7 @@
         <v-icon v-if="item.IsUnshackled" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
-        <span v-if="!item.IsDestroyed">{{ item.Name }}</span>
+        <span v-if="!item.Destroyed">{{ item.Name }}</span>
         <span v-else class="error--text" style="text-decoration: line-through;">
           {{ item.Name }}
         </span>

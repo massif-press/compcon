@@ -2,16 +2,16 @@
   <v-dialog v-model="dialog" width="60vw" persistent>
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
-        <v-toolbar-title class="heading h1">STRUCTURE DAMAGE</v-toolbar-title>
+        <v-toolbar-title class="heading h1">OVERHEATING</v-toolbar-title>
       </v-toolbar>
       <v-window v-model="window">
         <v-window-item>
           <v-card-text class="text-center">
             <span class="flavor-text">
-              <v-alert prominent dark dense icon="cci-structure" color="error" border="left" tile>
-                <b class="heading h2">FRAME INTEGRITY COMPROMISED</b>
+              <v-alert prominent dark dense icon="cci-reactor" color="error" border="left" tile>
+                <b class="heading h2">REACTOR STRESS CRITICAL</b>
               </v-alert>
-              Roll 1d6 per point of structure damage
+              Roll 1d6 per point of reactor stress
             </span>
             <br />
             <span class="overline">
@@ -21,17 +21,17 @@
             <br />
             <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
               <cc-tooltip simple inline content="Click to re-roll">
-                <v-btn flat icon @click="rolls.splice(n - 1, 1)">
+                <v-btn icon @click="rolls.splice(n - 1, 1)">
                   <v-icon
                     x-large
-                    :color="rolls[n - 1] === 1 ? 'error' : ''"
+                    :color="rolls[n - 1] === 1 ? 'error' : 'black'"
                     v-html="`mdi-dice-${rolls[n - 1]}`"
                   />
                 </v-btn>
               </cc-tooltip>
             </div>
             <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
-              <v-btn flat icon x-large disabled>
+              <v-btn icon x-large disabled>
                 <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
             </div>
@@ -58,7 +58,7 @@
                     key="t01"
                     class="heading h3 error--text"
                   >
-                    // CRITICAL STRUCTURAL DAMAGE //
+                    // REACTOR INTEGRITY FAILING //
                   </span>
                   <span v-else-if="rolls.length" key="t02" class="heading h3">
                     <b>{{ results[Math.min(...rolls) - 1] }}</b>
@@ -70,12 +70,11 @@
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn text small @click="dialog = false">dismiss</v-btn>
+            <v-btn color="warning" @click="dialog = false">dismiss</v-btn>
             <v-spacer />
             <v-btn
               color="primary"
               large
-              tile
               :disabled="totalRolls - rolls.length > 0"
               @click="window = resultWindow"
             >
@@ -88,87 +87,46 @@
           :content="resultData[0].description"
           @dismiss="$emit('dismiss')"
           @previous="window = 0"
-          @confirm="applyGlancingBlow()"
+          @confirm="applyES()"
         />
         <table-window-item
           :title="resultData[1].name"
-          :disabled="
-            (systemTraumaRoll <= 3 && destroyedMount === null) ||
-              (systemTraumaRoll > 3 && !destroyedSystem)
-          "
+          :content="resultData[1].description"
           @dismiss="$emit('dismiss')"
           @previous="window = 0"
-          @confirm="applySystemTrauma()"
-        >
-          <p class="fluff-text">
-            Parts of your mech have been torn off by the damage. Roll a d6.
-          </p>
-          <v-btn
-            v-for="n in 6"
-            :key="`rb${n}`"
-            class="mt-0 mb-4"
-            :ripple="false"
-            x-large
-            :color="systemTraumaRoll === n ? 'error' : 'primary'"
-            icon
-            @click="systemTraumaRoll = n"
-          >
-            <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
-          </v-btn>
-          <div v-if="systemTraumaRoll && systemTraumaRoll <= 3">
-            <v-select
-              v-model="destroyedMount"
-              style="margin-left: 30%; margin-right: 30%"
-              label="Mounts"
-              :items="destroyableMounts"
-              item-text="name"
-              item-value="index"
-            />
-            <span class="effect-text">All weapons on this mount are destroyed</span>
-          </div>
-          <div v-else-if="systemTraumaRoll && systemTraumaRoll >= 4">
-            <v-select
-              v-model="destroyedSystem"
-              style="margin-left: 30%; margin-right: 30%"
-              label="Systems"
-              :items="destroyableSystems"
-              item-text="Name"
-              item-value="ID"
-            />
-            <span class="effect-text">This system is destroyed</span>
-          </div>
-        </table-window-item>
+          @confirm="applyPPD()"
+        />
         <table-window-item
           :title="resultData[2].name"
           other-btn
           @dismiss="$emit('dismiss')"
           @previous="window = 0"
+          @confirm="applyPPD()"
         >
           <p
             v-html="
               mech.CurrentStructure >= 3
-                ? 'Your mech is <b>stunned</b> until the end of your next turn.'
-                : 'Your mech must pass a <b>hull</b> save or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
+                ? 'Your mech is <b>exposed</b> until you take action to remove the condition.'
+                : 'Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this check. Even on a successful check, your mech suffers from the <b>exposed</b> condition until you take action to remove it.'
             "
           />
           <div slot="confirm-button">
             <div v-if="mech.CurrentStructure >= 3">
-              <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
+              <v-btn color="success" large @click="applyPPD()">confirm</v-btn>
             </div>
             <div v-else>
-              <v-btn color="error" tile large @click="window = 4">fail hull save</v-btn>
-              <v-btn color="success darken-1" tile large @click="applyDirectHit()">
-                pass hull save
-              </v-btn>
+              <v-btn color="error" large @click="window = 4">fail hull save</v-btn>
+              <v-btn color="success" large @click="applyPPD">succeed hull save</v-btn>
             </div>
           </div>
         </table-window-item>
+
         <table-window-item
           :title="resultData[3].name"
           :content="resultData[3].description"
           @dismiss="$emit('dismiss')"
           @previous="window = 0"
-          @confirm="applyDestroyed()"
+          @confirm="applyMeltdown()"
         />
       </v-window>
     </v-card>
@@ -177,11 +135,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TableWindowItem from './TableWindowItem.vue'
-import ResultData from './structure_results.json'
+import TableWindowItem from './_TableWindowItem.vue'
+import ResultData from './_stress_results.json'
 
 export default Vue.extend({
-  name: 'structure-table',
+  name: 'stress-table',
   components: { TableWindowItem },
   props: {
     mech: {
@@ -194,24 +152,18 @@ export default Vue.extend({
     window: 0,
     rolls: [],
     resultData: ResultData,
-    systemTraumaRoll: null,
-    destroyedSystem: null,
-    destroyedMount: null,
     results: [
-      'Direct Hit',
-      'System Trauma',
-      'System Trauma',
-      'System Trauma',
-      'Glancing Blow',
-      'Glancing Blow',
+      'Meltdown',
+      'Power Plant Destabilize',
+      'Power Plant Destabilize',
+      'Power Plant Destabilize',
+      'Emergency Shunt',
+      'Emergency Shunt',
     ],
   }),
   computed: {
-    loadout() {
-      return this.mech.ActiveLoadout
-    },
     totalRolls() {
-      return (this.mech.CurrentStructure - this.mech.MaxStructure) * -1
+      return (this.mech.CurrentStress - this.mech.MaxStress) * -1
     },
     resultWindow(): number {
       if (this.rolls.filter(x => x === 1).length > 1) return 4
@@ -222,24 +174,11 @@ export default Vue.extend({
         case 4:
         case 3:
         case 2:
-          if (!this.destroyableMounts.length && !this.destroyableSystems.length) return 3
           return 2
         case 1:
-          return this.mech.CurrentStructure <= 1 ? 4 : 3
+          return 3
       }
       return 4
-    },
-    destroyableMounts() {
-      return this.loadout
-        .AllMounts(
-          this.mech.Pilot.has('CoreBonus', 'imparm'),
-          this.mech.Pilot.has('CoreBonus', 'intweapon')
-        )
-        .filter(x => x.Weapons.some(w => !w.IsDestroyed) && !(x.IsLimited && x.Uses === 0))
-        .map((m, i) => ({ name: m.Name, index: i }))
-    },
-    destroyableSystems() {
-      return this.loadout.Systems.filter(x => !x.IsDestroyed && !(x.IsLimited && x.Uses === 0))
     },
   },
   methods: {
@@ -249,35 +188,18 @@ export default Vue.extend({
     close() {
       this.window = 0
       this.rolls = []
-      this.systemTraumaRoll = null
-      this.destroyedSystem = null
-      this.destroyedMount = null
       this.dialog = false
     },
-    applyGlancingBlow() {
+    applyES() {
       if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
       this.close()
     },
-    applyDirectHit() {
-      if (!this.mech.Conditions.includes('Stunned')) this.mech.Conditions.push('Stunned')
+    applyPPD() {
+      if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
       this.close()
     },
-    applyDestroyed() {
-      this.mech.Destroy()
-      this.close()
-    },
-    applySystemTrauma() {
-      if (this.systemTraumaRoll > 3) {
-        this.loadout.Systems.find(x => x.ID === this.destroyedSystem).Destroy()
-      } else {
-        const m = this.loadout.AllMounts(
-          this.mech.Pilot.has('CoreBonus', 'imparm'),
-          this.mech.Pilot.has('CoreBonus', 'intweapon')
-        )[this.destroyedMount]
-        m.Weapons.forEach(w => {
-          w.Destroy()
-        })
-      }
+    applyMeltdown() {
+      this.mech.MeltdownImminent = true
       this.close()
     },
   },
@@ -288,8 +210,8 @@ export default Vue.extend({
 .title-bg {
   background: repeating-linear-gradient(
     45deg,
-    rgb(94, 72, 0),
-    rgba(94, 72, 0) 20px,
+    rgb(124, 0, 0),
+    rgba(124, 0, 0) 20px,
     rgba(30, 30, 30) 20px,
     rgba(30, 30, 30) 40px
   );

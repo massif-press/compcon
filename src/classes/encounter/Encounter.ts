@@ -19,6 +19,7 @@ export interface IEncounterData {
   environmentDetails?: string
   cloud_map?: string
   local_map?: string
+  round: number
 }
 
 export class Encounter {
@@ -36,6 +37,7 @@ export class Encounter {
   private _sitrep: Sitrep
   private _cloud_map: string
   private _local_map: string
+  private _round: number
 
   public constructor(data: IEncounterData) {
     this._id = uuid()
@@ -52,6 +54,7 @@ export class Encounter {
     this._sitrep = data.sitrep
     this._npcs = data.npcs.map(x => Npc.Deserialize(x))
     this._reinforcements = data.reinforcements.map(x => Npc.Deserialize(x))
+    this._round = data.round || 0
   }
 
   private save(): void {
@@ -66,12 +69,25 @@ export class Encounter {
     this._id = uuid()
   }
 
+  public get Type(): string {
+    return 'Encounter'
+  }
+
   public get Name(): string {
     return this._name
   }
 
   public set Name(val: string) {
     this._name = val
+    this.save()
+  }
+
+  public get Round(): number {
+    return this._round
+  }
+
+  public set Round(val: number) {
+    this._round = val
     this.save()
   }
 
@@ -231,6 +247,7 @@ export class Encounter {
       sitrep: enc.Sitrep,
       cloud_map: enc.CloudMap,
       local_map: enc.LocalMap,
+      round: enc.Round,
     }
   }
 

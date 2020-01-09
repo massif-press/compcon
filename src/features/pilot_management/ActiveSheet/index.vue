@@ -18,14 +18,13 @@ import CountersBlock from './layout/CountersBlock.vue'
 
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-
 export default Vue.extend({
   name: 'active-sheet',
   components: {
     TurnSidebar,
     PilotBlock,
     MechBlock,
-    CountersBlock
+    CountersBlock,
   },
   mixins: [activePilot],
 })

@@ -1,71 +1,68 @@
-Next Steps:
-  ☐ Testing Framework
-    ☐ Unit
-    ☐ E2E
-    ☐ Test on both web and Electron
-  ☐ Robust error logging
-  ☐ Renders for itch.io
-  ☐ Allow user to set save data location
-  ☐ Split Pilot, Mech into subclasses
-  ☐ In-file interface declarations available globally through TS import()
-  ✔ Talent Die counters @done(20-01-07 10:09)
-  ☐ Better visibility on range/damage bonuses (contributors)
-  ☐ Move explicit-lookup functions to a generalized bonus framework
-  ☐ Avatar image bounding box select
-  ☐ Charts
-  ☐ Tutorial popups (vue-tour)
-  ☐ Gear Catalog comparison view
-  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
-    ☐ Modify movement speed based on prone/immob/stunned
-  ☐ Custom NPC Feature
-  ☐ NPC Custom Tier icon
-
-
-✔ Frame cards rep cap @done(20-01-03 12:00)
-
-
-Encounters:
-  ✔ Route based views @done(19-12-31 11:37)
-  ☐ Print
-
 NPC roster: 
-  ✔ Route based views @done(19-12-31 11:37)
   ☐ Tag interactions
-  ☐ Print
+
+Encounter Data:
+  ☐ Non-instanced encounter should reference NPCs
+  ☐ Non-instanced mission should reference Encounter
+  ☐ Active mission should be self-contained
+    ☐ Actors need to write to mission, not own saves
 
 Missions:
-  ✔ Build Mission @done(20-01-05 15:08)
-    ✔ Add Encounters @done(20-01-05 15:08)
-    ✔ Add Short Rest @done(20-01-05 15:08)
-    ✔ Add GM Notes @done(20-01-05 15:08)
+  ☐ Event interface for Encounters and Rests
+  ✔ Actor interface for Pilots and NPCs @done(20-01-08 13:29)
+  ☐ Mission events must save mission, not class store
+  ☐ Scroll back to top on active card change
+  ☐ Active Cards
+    ☐ Rollovers
+      ✔ Mark destroyed/exposed @done(20-01-09 16:13)
+      ☐ Monstrosity table
+    ☐ Pending reaction array for Mech
+    ☐ Counters for players and NPCs
+    ✔ Player system/mount mark destroyed @done(20-01-09 15:50)
+    ✔ GM notes @done(20-01-09 15:51)
+    ✔ End turn @done(20-01-09 15:51)
+    ☐ Options
+      ☐ Remove from battlefield (warning)
+      ☐ Complete repair (warning)
+      ☐ Mark Destroyed
+
   ☐ Run Mission
-    ✔ Briefing page @done(20-01-07 13:25)
-    ☐ Start/End turn
-    ☐ View encounter/map/etc
-    ✔ Encounters instantiated as unique copies @done(20-01-05 15:08)
-    ☐ Turns
-    ☐ Initiative Tracker
-    ☐ Pilot Import
-    ☐ Graveyard
-    ☐ Reinforcements
+    ☐ End round
+      ☐ Warning if end round with remaining actor turn
+    ☐ Actor Slide Cards
+      ☐ Color change on pending reaction
+    ☐ Side Tabs
+      ☐ Notes
+        ☐ Active Mission scratchnote
+      ☐ Encounter Info
+        ☐ GM Notes, Map, etc
+      ☐ Reinforcements
+        ☐ Reinforcement pool
+        ☐ Add new NPC
+        ☐ Add new Pilot
+      ☐ Graveyard
+        ☐ Return to battle
+    ---
+    ☐ Rounds
+    ✔ Initiative Tracker @done(20-01-09 15:51)
     ☐ Rests
     ☐ Complete Mission
       ☐ Success/Failure (based on conditions)
       ☐ Stats
-  ☐ Active Missions
-      ✔ List @done(20-01-07 13:26)
+      ☐ Debrief
+    ---
+    ☐ List transitions for encounter actor card list
 
 Bugs:
   ☐ Fix NPC group sort
+  ☐ NPCs and Player mechs instantiating with full heat
+  ☐ Fix cc_ver stuff
 
 Etc:
   ☐ For frame info and NPCs, make expandable image panel
     ☐ Need image somewhere on frame card
   ☐ Options Menu
     ☐ Export/Import all functions
-
-Active Mode:
-  ☐ Toggleable dense loadout view
 
 Unshackling:
   ☐ Add Unshackled to Reactor/Structure tables
@@ -85,7 +82,98 @@ Hangar:
   ☐ Quick Print Mech
   ☐ Quick Statblock Mech
 
+Item Selector:
+  ☐ Item card notes don't immediately update
+
+Image Selector:
+  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
+  ☐ confirm dialog on image delete
+
+Pilot Roster:
+  ☐ Big Card view
+
+New Pilot:
+  ☐ Background Selector does not scroll to list
+  ☐ Background selector highlight on mouseover
+
+Pilot Sheet:
+  ☐ test importers
+    ☐ ask cc-club to test pull/push cloud syncs
+    ☐ briefing page pilot importers
+
+Refactor:
+  ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
+  ☐ `routes` subnode for all features
+  ☐ Normalize folder names
+  ☐ Replace most instances of .Source with .Manufacturer.Name
+  ☐ remove _shared
+  ☐ Rules logic into class
+  ☐ rewrite converter/validator
+
+Style Pass:
+  ☐ pilot NO IMG
+  ☐ global notification
+  ☐ error logging
+  ☐ ra text/horus text
+  ☐ integrate text color getter
+  ☐ disableable cc-btn
+
+2.0:
+  ☐ Delete Homebrew content packs
+  ☐ Core Book and Long Rim content packs
+  ☐ Update Help
+  ☐ Update About
+
+--- post v-2 ---
+Improvements:
+  ☐ Add truncated effects to long effect equipment
+  ☐ Expand Glossary
+  ☐ browsable image galleries
+  ☐ hidden tags for specially-handled items
+    ☐ prototype weapon: set max uses
+    ☐ Signature Weapon damage type selection
+    ☐ Prototype Weapon type/range/damage type selection
+  ☐ Click to apply weapon/system self heat
+  ☐ Disable dangerzone systems outside of dangerzone
+  ☐ Ammo block
+  ☐ Mandatory org rolling at the start of every downtime
+
+Next Steps:
+  ☐ Testing Framework
+    ☐ Unit
+    ☐ E2E
+    ☐ Test on both web and Electron
+  ☐ Robust error logging
+  ☐ Renders for itch.io
+  ☐ Allow user to set save data location
+  ☐ Split Pilot, Mech into subclasses
+  ☐ In-file interface declarations available globally through TS import()
+  ☐ Better visibility on range/damage bonuses (contributors)
+  ☐ Move explicit-lookup functions to a generalized bonus framework
+  ☐ Avatar image bounding box select
+  ☐ Charts
+  ☐ Tutorial popups (vue-tour)
+  ☐ Gear Catalog comparison view
+  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
+    ☐ Modify movement speed based on prone/immob/stunned
+  ☐ Custom NPC Feature
+  ☐ NPC Custom Tier icon
+
+Factions:
+  ☐ Add Factions to Compendium
+  ☐ Faction info in Pilot dossier
+  ☐ Faction and Org builders
+
+Preconstructed Characters:
+  ☐ Select Character (cultural stuff)
+    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
+  ☐ Select Build (talents etc)
+  ☐ Select Mech (everest)
+
 Printing:
+  ☐ NPC Printing
+  ☐ Encounter Printing
+  ☐ Mission Printing
   ☐ Mark danger zone heat
   ☐ Reserves Page
   ☐ Print all relevant tags
@@ -115,75 +203,23 @@ Printing:
     ☐ Art + fluff cover page
     ☐ Blank pages for campaigns
 
-Item Selector:
-  ☐ Item card notes don't immediately update
-
-Image Selector:
-  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
-  ☐ confirm dialog on image delete
-
-Pilot Roster:
-  ☐ Big Card view
-
-New Pilot:
-  ☐ Background Selector does not scroll to list
-  ☐ Background selector highlight on mouseover
-  ✔ Background Selector drops list side on reopen @done(19-12-30 21:46)
-
-Pilot Sheet:
-  ☐ test importers
-    ☐ ask cc-club to test pull/push cloud syncs
-
-Factions:
-  ☐ Add Factions to Compendium
-  ☐ Faction info in Pilot dossier
-  ☐ Faction and Org builders
-
-Refactor:
-  ✔ remove old font stylings @done(19-12-05 13:50)
-  ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
-  ☐ `routes` subnode for all features
-  ☐ use @focus="$event.target.select()" for all edit button inputs
-  ☐ Normalize folder names
-  ☐ Replace most instances of .Source with .Manufacturer.Name
-  ☐ remove _shared
-  ☐ Rules logic into class
-  ☐ rewrite converter/validator
-
-Style Pass:
-  ☐ pilot NO IMG
-  ☐ global notification
-  ☐ error logging
-  ☐ ra text/horus text
-  ☐ integrate text color getter
-  ☐ disableable cc-btn
-
-Improvements:
-  ☐ Add truncated effects to long effect equipment
-  ☐ Expand Glossary
-  ☐ browsable image galleries
-  ☐ hidden tags for specially-handled items
-    ☐ prototype weapon: set max uses
-    ☐ Signature Weapon damage type selection
-    ☐ Prototype Weapon type/range/damage type selection
-  ☐ Click to apply weapon/system self heat
-  ☐ Disable dangerzone systems outside of dangerzone
-  ☐ Ammo block
-  ☐ Mandatory org rolling at the start of every downtime
-  
-Preconstructed Characters:
-  ☐ Select Character (cultural stuff)
-    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
-  ☐ Select Build (talents etc)
-  ☐ Select Mech (everest)
-
-2.0:
-  ☐ Delete Homebrew content packs
-  ☐ Core Book and Long Rim content packs
-  ☐ Update Help
-  ☐ Update About
+Active Mode:
+  ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ Talent Die counters @done(20-01-07 10:09) @project(Next Steps)
+  ✔ Frame cards rep cap @done(20-01-03 12:00)
+  ✔ Route based views @done(19-12-31 11:37) @project(Encounters)
+  ✔ Route based views @done(19-12-31 11:37) @project(NPC roster)
+  ✔ Build Mission @done(20-01-05 15:08) @project(Missions)
+  ✔ Add Encounters @done(20-01-05 15:08) @project(Missions)
+  ✔ Add Short Rest @done(20-01-05 15:08) @project(Missions)
+  ✔ Add GM Notes @done(20-01-05 15:08) @project(Missions)
+  ✔ Briefing page @done(20-01-07 13:25) @project(Missions)
+  ✔ Encounters instantiated as unique copies @done(20-01-05 15:08) @project(Missions)
+  ✔ List @done(20-01-07 13:26) @project(Missions)
+  ✔ Background Selector drops list side on reopen @done(19-12-30 21:46) @project(New Pilot)
+  ✔ remove old font stylings @done(19-12-05 13:50) @project(Refactor)
   ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52) @project(Bugs)
   ✔ armsman (at least) bugged @done(19-12-11 12:52) @project(Bugs)
   ✔ NPC library @done(19-12-27 15:44) @project(NPC.NPC Roster)

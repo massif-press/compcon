@@ -7,7 +7,7 @@ export interface IActiveMissionData {
   mission: IMissionData
   pilots: IPilotData[]
   step: number
-  turn: number
+  round: number
   start: string
   end: string
 }
@@ -16,7 +16,7 @@ export class ActiveMission {
   private _id: string
   private _mission: Mission
   private _step: number
-  private _turn: number
+  private _round: number
   private _pilots: Pilot[]
   private _start_date: string
   private _end_date: string
@@ -26,7 +26,7 @@ export class ActiveMission {
     this._mission = m
     this._pilots = pilots
     this._step = 0
-    this._turn = 0
+    this._round = 0
     this._start_date = new Date().toISOString().slice(0, 10)
   }
 
@@ -63,12 +63,12 @@ export class ActiveMission {
     this._step = val
   }
 
-  public get Turn(): number {
-    return this._turn
+  public get Round(): number {
+    return this._round
   }
 
-  public set Turn(val: number) {
-    this._turn = val
+  public set Round(val: number) {
+    this._round = val
   }
 
   public get Pilots(): Pilot[] {
@@ -88,7 +88,7 @@ export class ActiveMission {
       mission: Mission.Serialize(m._mission),
       pilots: m.Pilots.map(x => Pilot.Serialize(x)),
       step: m.Step,
-      turn: m.Turn,
+      round: m.Round,
       start: m.StartDate,
       end: m.EndDate,
     }
@@ -99,7 +99,7 @@ export class ActiveMission {
       Mission.Deserialize(data.mission),
       data.pilots.map(x => Pilot.Deserialize(x))
     )
-    m.Turn = data.turn
+    m.Round = data.round
     m.Step = data.step
     m._start_date = data.start
     m._end_date = data.end

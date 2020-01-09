@@ -37,7 +37,7 @@
       v-for="s in mech.StatusString"
       :key="`status-${s}`"
       :type="s"
-      @clear-ejected="mech.IsEjected = false"
+      @clear-ejected="mech.Ejected = false"
       @clear-status="mech.Repair()"
     />
     <v-row align="center">
