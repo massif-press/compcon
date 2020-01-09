@@ -2,15 +2,20 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 const path = require('path');
 const merge = require('webpack-merge')
 
 const baseConfig = {
-  mode: process.env.NODE_ENV || 'development',
-  entry: './src/main.ts',
+  entry: {
+    app: './src/main.ts',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '',
   },
   devServer: {
@@ -61,9 +66,22 @@ const baseConfig = {
         loader: 'vue-loader'
       },
       {
+        test: /\.s(c|a)ss$/,
+        use: [
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass')
+            }
+          }
+        ]
+      },
+      {
         test: /\.css$/,
         use: [
-          'vue-style-loader',
+          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader'
         ]
       },
@@ -116,6 +134,8 @@ const baseConfig = {
       { from: 'static', to: 'static' },
     ]),
     new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
+    new MiniCssExtractPlugin(),
     new ForkTsCheckerWebpackPlugin(),
     new HTMLWebpackPlugin({
       showErrors: true,
@@ -128,7 +148,6 @@ const baseConfig = {
 }
 
 function requireIfExists(filePath) {
-  console.log(filePath)
   try {
     return require(filePath)
   } catch (err) {
@@ -138,15 +157,23 @@ function requireIfExists(filePath) {
   }
 }
 
-module.exports = function (env) {
+module.exports = function (env, argv) {
 
   const target = env.prod ? 'prod' : 'dev'
 
-  const out = merge(
+  let out = merge(
     baseConfig,
     requireIfExists(`./webpack_config/webpack.${target}.config`),
     requireIfExists(`./webpack_config/webpack.${env.platform}.config`),
     requireIfExists(`./webpack_config/webpack.${env.platform}.${target}.config`),
+    { mode: env.prod ? 'production' : 'development' },
   )
+
+  if (argv['analyze']) {
+    out = merge(out, {
+      plugins: [new BundleAnalyzerPlugin()]
+    })
+  }
+
   return out
 }
