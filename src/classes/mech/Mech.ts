@@ -122,9 +122,9 @@ class Mech {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
-    if (this._frame.Name.toUpperCase() === 'EVEREST') {
+    if (this._frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
-      if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
+      if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
       else requirements.push(this.Frame.RequiredLicense)
     } else {
       const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)
@@ -673,12 +673,12 @@ class Mech {
     if (this._frame.CoreSystem.Integrated) {
       intg.push(new IntegratedMount(this._frame.CoreSystem.getIntegrated(), 'CORE System'))
     }
-    if (this._pilot.has('Talent', 'ncavalier', 3)) {
-      const frWeapon = store.getters.referenceByID('MechWeapons', 'fuelrod')
+    if (this._pilot.has('Talent', 't_nuclear_cavalier', 3)) {
+      const frWeapon = store.getters.referenceByID('MechWeapons', 'mw_fuel_rod_gun')
       intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))
     }
-    if (this._pilot.has('Talent', 'eng')) {
-      const id = `prototype${this._pilot.getTalentRank('eng')}`
+    if (this._pilot.has('Talent', 't_engineer')) {
+      const id = `mw_prototype_${this._pilot.getTalentRank('t_engineer')}`
       const engWeapon = store.getters.referenceByID('MechWeapons', id)
       intg.push(new IntegratedMount(engWeapon, 'Engineer'))
     }
@@ -687,17 +687,17 @@ class Mech {
 
   public get IntegratedSystems(): MechSystem[] {
     let intg = []
-    if (this._pilot.has('Talent', 'armsman')) {
+    if (this._pilot.has('Talent', 't_walking_armory')) {
       const arms = store.getters.instantiate(
         'MechSystems',
-        `armsman${this._pilot.getTalentRank('armsman')}`
+        `ms_walking_armory_${this._pilot.getTalentRank('t_walking_armory')}`
       )
       intg.push(arms)
     }
-    if (this._pilot.has('Talent', 'techno')) {
+    if (this._pilot.has('Talent', 't_technophile')) {
       const techno = store.getters.instantiate(
         'MechSystems',
-        `techno${this._pilot.getTalentRank('techno')}`
+        `ms_technophile_${this._pilot.getTalentRank('t_technophile')}`
       )
       intg.push(techno)
     }
