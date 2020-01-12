@@ -40,6 +40,7 @@
     "vue-apexcharts": "^1.4.0",
     "vue-class-component": "^7.1.0",
     "vue-mousetrap": "^1.0.1",
+    "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.0.6",
     "vuedraggable": "^2.20.0",
     "vuetify": "^2.0.0-beta.9",
