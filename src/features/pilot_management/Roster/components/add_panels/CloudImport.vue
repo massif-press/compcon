@@ -10,6 +10,7 @@
       v-model="dialog"
       :pilot="importPilot"
       :error="error"
+      :loading="cloudLoading"
       @cancel="cancelImport"
       @confirm="confirmImport"
     >
