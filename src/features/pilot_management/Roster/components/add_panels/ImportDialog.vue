@@ -95,7 +95,7 @@ const jumps = [
   'ssc/subscribers-primary-015/vm/226 18ns',
   'ssc/tier-one-998/vm/165 19ns',
   "INC OVERRIDE>>> welcome 2 dogfriend_68's pound. ty for the data, bud ᕕ( ᐛ )ᕗ",
-  'UNKNOWN UNKNOWN UNKNOWN UNKNOWN ERR NEG INT',
+  '<span class="horus--force">UNKNOWN UNKNOWN UNKNOWN UNKNOWN ERR NEG INT</span>',
 ]
 
 @Component
@@ -191,9 +191,9 @@ export default class ImportDialog extends Vue {
         .type(`<span class="success--text">IDENT VALID!</span>`)
         .break()
         .type(`
-        //IDENT <span class="white--text">${pilot.ID}</span> // 
-        SIGN "<span class="blue--text">${pilot.Callsign.toUpperCase()}</span>" // 
-        LL ${pilot.Level}`)
+        //IDENT <span class="white--text">${pilot.ID}</span>//
+        SIGN[<span class="teal--text text--lighten-2">${pilot.Callsign.toUpperCase()}</span>]//
+        LL=${pilot.Level}`)
         .break()
 
       const licenseCount = pilot.Licenses
@@ -203,16 +203,16 @@ export default class ImportDialog extends Vue {
         }, {})
       const horusCount = licenseCount['HORUS'] || 0
 
-      let licenseStrings = Object.entries(licenseCount)
+      let licenseStrings = ['GMS'].concat(Object.entries(licenseCount)
         .filter(([name]) => name !== 'HORUS')
-        .map(([name, count]: [string, number]) => `${name.toUpperCase()} [${count}]`)
-      if (horusCount > 0) licenseStrings.push(`UNKNOWN UNKNOWN UNKN░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)`)
+        .map(([name, count]: [string, number]) => `${name.toUpperCase()} [${count}]`))
+      if (horusCount > 0) licenseStrings.push(`UNKNOWN UNKNOWN UNKN<span class="horus--force">░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)</span>`)
 
       const licenseString = licenseStrings.join(', ')
 
       typer.type(`//LICENSE RECORDS:: ${licenseString}`)
         .break()
-        .type('//// AWAITING CONFIRMATION')
+        .type('//// PLEASE CHECK AND CONFIRM THIS DATA.')
 
 
     }
