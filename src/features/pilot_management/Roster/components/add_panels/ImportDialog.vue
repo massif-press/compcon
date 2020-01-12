@@ -95,7 +95,7 @@ const jumps = [
   'ssc/subscribers-primary-015/vm/226 18ns',
   'ssc/tier-one-998/vm/165 19ns',
   "INC OVERRIDE>>> welcome 2 dogfriend_68's pound. ty for the data, bud ᕕ( ᐛ )ᕗ",
-  '<span class="horus--force">UNKNOWN UNKNOWN UNKNOWN UNKNOWN ERR NEG INT</span>',
+  '<span class="horus--subtle">UNKNOWN UNKNOWN UNKNOWN UNKNOWN ERR NEG INT</span>',
 ]
 
 @Component
@@ -206,7 +206,7 @@ export default class ImportDialog extends Vue {
       let licenseStrings = ['GMS'].concat(Object.entries(licenseCount)
         .filter(([name]) => name !== 'HORUS')
         .map(([name, count]: [string, number]) => `${name.toUpperCase()} [${count}]`))
-      if (horusCount > 0) licenseStrings.push(`UNKNOWN UNKNOWN UNKN<span class="horus--force">░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)</span>`)
+      if (horusCount > 0) licenseStrings.push(`UNKNOWN UNKNOWN UNKN<span class="horus--subtle">░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)</span>`)
 
       const licenseString = licenseStrings.join(', ')
 

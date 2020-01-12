@@ -170,7 +170,7 @@ code.horus:hover {
   font-weight: bold;
 }
 
-.horus--force {
+.horus--subtle {
   animation: distort-subtle 5s infinite;
 }
 
