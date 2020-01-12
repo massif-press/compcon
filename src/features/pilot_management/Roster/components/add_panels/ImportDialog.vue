@@ -13,8 +13,8 @@
       </v-row>
 
       <v-card-text class="grey--text stat-text" style="min-height:50vh">
-        <span ref="importLogInitial"></span>
-        <span ref="importLog"></span>
+        <span ref="preambleLog"></span>
+        <span ref="infoLog"></span>
       </v-card-text>
 
       <v-divider dark />
@@ -107,8 +107,8 @@ export default class ImportDialog extends Vue {
   @Prop(Pilot) readonly pilot?: Pilot
   @Prop(String) readonly error?: string
 
-  @Ref() readonly importLogInitial!: HTMLSpanElement
-  @Ref() readonly importLog!: HTMLSpanElement
+  @Ref() readonly preambleLog!: HTMLSpanElement
+  @Ref() readonly infoLog!: HTMLSpanElement
 
 
   @Prop(Object) readonly data: { pilot?: Pilot, error?: string }
@@ -128,8 +128,8 @@ export default class ImportDialog extends Vue {
       await Vue.nextTick()
       this.typeInitial()
     } else {
-      this.importLogInitial.innerHTML = ''
-      this.importLog.innerHTML = ''
+      this.preambleLog.innerHTML = ''
+      this.infoLog.innerHTML = ''
     }
   }
 
@@ -142,7 +142,7 @@ export default class ImportDialog extends Vue {
     ]
 
     this.initialTypePromise = new Promise((resolve) => {
-      new TypeIt(this.importLogInitial, {
+      new TypeIt(this.preambleLog, {
         speed: 1,
         nextStringDelay: 10,
         // cursor breaks spans in the typed text; waiting for fix @ https://github.com/alexmacarthur/typeit/issues/175
@@ -175,22 +175,23 @@ export default class ImportDialog extends Vue {
     
   }
 
+  private infoTyper: TypeIt
   async doType() {
     const { pilot, error } = this
-    console.log(pilot, error)
 
     if (!pilot && !error) {
-      this.importLog.innerHTML = '<br>$&nbsp;'
+      this.infoLog.innerHTML = '<br>$&nbsp;'
       return
     }
     
-    console.log('Awaiting!', this.initialTypePromise)
     await this.initialTypePromise
-    console.log('Awaited!')
 
-    this.importLogInitial.innerHTML = this.importLogInitial.innerHTML.replace(/<br>\$ <br>/, '')
+    if (this.infoTyper) this.infoTyper.destroy()
 
-    const typer = new TypeIt(this.importLog, {
+    this.preambleLog.innerHTML = this.preambleLog.innerHTML.replace(/<br>\$ <br>/, '')
+    this.infoLog.innerHTML = ''
+
+    this.infoTyper = new TypeIt(this.infoLog, {
       speed: 0,
       nextStringDelay: 0,
       startDelete: true,
@@ -207,7 +208,7 @@ export default class ImportDialog extends Vue {
       .break()
     
     if (error) {
-      typer
+      this.infoTyper
         .type(`// <span class="error--text">ERROR ERROR</span>=[[<span class="error--text font-style-italic">${error.toUpperCase().replace(/ /ig, '/')}</span>]]`)
         .break()
         .type(`// <span class="error--text">IDENT INVALID</span>`)
@@ -215,7 +216,7 @@ export default class ImportDialog extends Vue {
         .type('// PLEASE CHECK PROVIDED DATA.')
     }
     else if (pilot) {
-      typer
+      this.infoTyper
         .options({
           speed: 1,
           lifeLike: false,
@@ -242,11 +243,11 @@ export default class ImportDialog extends Vue {
 
       const licenseString = licenseStrings.join(', ')
 
-      typer.type(`//LICENSE RECORDS:: ${licenseString}`)
+      this.infoTyper.type(`//LICENSE RECORDS:: ${licenseString}`)
         .break()
         .type('//// PLEASE CHECK AND CONFIRM THIS DATA.')
     }
-    typer.go()
+    this.infoTyper.go()
   }
 
 
