@@ -33,10 +33,16 @@
         <cc-btn class="mx-2" small color="error" @click="$emit('cancel')">Cancel</cc-btn>
         <cc-btn class="mx-2" small color="success" @click="$emit('confirm')">Confirm</cc-btn>
       </v-card-actions>
+      <v-card-actions v-else-if="loading">
+        <span class="flavor-text">Loading...</span>
+        <v-spacer />
+        <v-btn small color="white" text @click="$emit('cancel')">Dismiss</v-btn>
+      </v-card-actions>
       <v-card-actions v-else>
         <v-spacer />
         <v-btn small color="grey" text @click="$emit('cancel')">Dismiss</v-btn>
       </v-card-actions>
+      <v-progress-linear :style="{ visibility: loading ? 'visible' : 'hidden' }" indeterminate />
     </v-card>
   </v-dialog>
 </template>
@@ -106,6 +112,7 @@ export default class ImportDialog extends Vue {
 
   @Prop(Pilot) readonly pilot?: Pilot
   @Prop(String) readonly error?: string
+  @Prop({ default: false }) loading!: boolean
 
   @Ref() readonly preambleLog!: HTMLSpanElement
   @Ref() readonly infoLog!: HTMLSpanElement
@@ -190,7 +197,7 @@ export default class ImportDialog extends Vue {
 
     this.preambleLog.innerHTML = this.preambleLog.innerHTML.replace(/<br>\$ <br>/, '')
     this.infoLog.innerHTML = ''
-
+  
     this.infoTyper = new TypeIt(this.infoLog, {
       speed: 0,
       nextStringDelay: 0,
