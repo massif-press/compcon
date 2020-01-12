@@ -13,7 +13,8 @@
       </v-row>
 
       <v-card-text class="grey--text stat-text" style="min-height:50vh">
-        <p ref="importLog"></p>
+        <span ref="importLogInitial"></span>
+        <span ref="importLog"></span>
       </v-card-text>
 
       <v-divider dark />
@@ -106,7 +107,8 @@ export default class ImportDialog extends Vue {
   @Prop(Pilot) readonly pilot?: Pilot
   @Prop(String) readonly error?: string
 
-  @Ref() readonly importLog!: HTMLDivElement
+  @Ref() readonly importLogInitial!: HTMLSpanElement
+  @Ref() readonly importLog!: HTMLSpanElement
 
 
   @Prop(Object) readonly data: { pilot?: Pilot, error?: string }
@@ -120,74 +122,104 @@ export default class ImportDialog extends Vue {
     this.doType()
   }
 
-  doType() {
-    const { pilot, error } = this
-    console.log(pilot, error)
-    this.importLog.innerHTML = ''
+  @Watch('value')
+  async onDialogChange(opened) {
+    if (opened) {
+      await Vue.nextTick()
+      this.typeInitial()
+    } else {
+      this.importLogInitial.innerHTML = ''
+      this.importLog.innerHTML = ''
+    }
+  }
 
-    if (!pilot && !error) return
-
+  private initialTypePromise: Promise<void>
+  typeInitial() {
     const jumpStrings = [
       '<br>0  CC/LOCALNET 0ns',
-      ...sampleSize(jumps, 5),
+      ...sampleSize(jumps, Math.floor(Math.random() * 4) + 2),
       'un_omni-26483-xv99.cradle.primary.MASTER_NODE 21ns',
     ]
 
-    const typer = new TypeIt(this.importLog, {
-      speed: 1,
-      nextStringDelay: 10,
-      // cursor breaks spans in the typed text; waiting for fix @ https://github.com/alexmacarthur/typeit/issues/175
-      // cursorChar: '_',
-      startDelete: true,
-      cursor: false,
-      lifeLike: false,
-      waitUntilVisible: true,
-    })
-
-
-    typer
-      .type(
-        '//[<span class="white--text">COMP/CON</span>: Understood, Pilot. Contacting UNI-COM Directory Service.]'
-      )
-      .break()
-      .type('Establishing Omninet connection, please stand by...')
-      .pause(100)
-      .type(jumpStrings.join('<br>'))
-      .break()
-      .type(
-        '>//[<span class="white--text">COMP/CON</span>: <span class="success--text">Omninet connection secure.</span> Please enter target IDENT UID.]'
-      )
-      .type(`<br>$ `)
-      .type(uuid())
-      .break()
-      .options({
+    this.initialTypePromise = new Promise((resolve) => {
+      new TypeIt(this.importLogInitial, {
         speed: 1,
+        nextStringDelay: 10,
+        // cursor breaks spans in the typed text; waiting for fix @ https://github.com/alexmacarthur/typeit/issues/175
+        // cursorChar: '_',
+        startDelete: true,
+        cursor: false,
         lifeLike: false,
+        waitUntilVisible: true,
+        afterComplete: () => resolve()
       })
-    
-    if (error) {
-      typer
-        .type('Validating...')
+        .type(
+          '//[<span class="white--text">COMP/CON</span>: Understood, Pilot. Contacting UNI-COM Directory Service.]'
+        )
         .break()
-        .type(`// <span class="error--text">ERROR ERROR</span>`)
+        .type('Establishing Omninet connection, please stand by...')
+        .pause(100)
+        .type(jumpStrings.join('<br>'))
         .break()
-        .type(`// <span class="error--text">IDENT INVALID</span>`)
-        .break()
-        .type('// PLEASE CHECK PROVIDED DATA.')
-        .break()
-        .type(`// <span class="error--text">ERROR ERROR</span>`)
-
-
-    }
-    else if (pilot) {
-      typer
+        .type(
+          '>//[<span class="white--text">COMP/CON</span>: <span class="success--text">Omninet connection secure.</span> Please enter target IDENT UID.]'
+        )
+        .type(`<br>$ `)
         .break()
         .options({
           speed: 1,
           lifeLike: false,
         })
-        .type('Validating...')
+        .go()
+    })
+    
+  }
+
+  async doType() {
+    const { pilot, error } = this
+    console.log(pilot, error)
+
+    if (!pilot && !error) {
+      this.importLog.innerHTML = '<br>$&nbsp;'
+      return
+    }
+    
+    console.log('Awaiting!', this.initialTypePromise)
+    await this.initialTypePromise
+    console.log('Awaited!')
+
+    this.importLogInitial.innerHTML = this.importLogInitial.innerHTML.replace(/<br>\$ <br>/, '')
+
+    const typer = new TypeIt(this.importLog, {
+      speed: 0,
+      nextStringDelay: 0,
+      startDelete: true,
+      cursor: false,
+      lifeLike: false,
+      waitUntilVisible: true,
+    })
+      .type('<br>$ ')
+      .options({ speed: 32, lifeLike: true, nextStringDelay: 10 })
+      .type(uuid())
+      .options({ speed: 1, lifeLike: false })
+      .break()
+      .type('Validating...')
+      .break()
+    
+    if (error) {
+      typer
+        .type(`// <span class="error--text">ERROR ERROR</span>=[[<span class="error--text font-style-italic">${error.toUpperCase().replace(/ /ig, '/')}</span>]]`)
         .break()
+        .type(`// <span class="error--text">IDENT INVALID</span>`)
+        .break()
+        .type('// PLEASE CHECK PROVIDED DATA.')
+    }
+    else if (pilot) {
+      typer
+        .options({
+          speed: 1,
+          lifeLike: false,
+        })
         .type(`<span class="success--text">IDENT VALID!</span>`)
         .break()
         .type(`
@@ -213,8 +245,6 @@ export default class ImportDialog extends Vue {
       typer.type(`//LICENSE RECORDS:: ${licenseString}`)
         .break()
         .type('//// PLEASE CHECK AND CONFIRM THIS DATA.')
-
-
     }
     typer.go()
   }
