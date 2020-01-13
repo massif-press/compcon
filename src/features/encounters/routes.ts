@@ -63,11 +63,11 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/gm/mission',
-        name: 'mission',
         component: Mission,
         children: [
           {
             path: '',
+            name: 'mission',
             component: MissionLanding,
           },
           {

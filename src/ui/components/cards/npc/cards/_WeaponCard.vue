@@ -1,5 +1,10 @@
 <template>
-  <card-base :item="item" :readonly="readonly" @remove-feature="$emit('remove-feature', $event)">
+  <card-base
+    :item="item"
+    :active="active"
+    :readonly="readonly"
+    @remove-feature="$emit('remove-feature', $event)"
+  >
     <v-row class="heading h3 text-center" dense no-gutters>
       <v-col :class="`${item.Feature.DamageType}--text`">
         <span v-if="item.Tier" class="heading h3">
@@ -53,7 +58,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CardBase from './CardBase.vue'
+import CardBase from './_CardBase.vue'
 
 export default Vue.extend({
   name: 'npc-trait-card',
@@ -64,6 +69,9 @@ export default Vue.extend({
       required: true,
     },
     readonly: {
+      type: Boolean,
+    },
+    active: {
       type: Boolean,
     },
   },

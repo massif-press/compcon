@@ -10,6 +10,7 @@ export interface INpcItemSaveData {
   description: string
   destroyed: boolean
   charged: boolean
+  uses: number
 }
 
 export class NpcItem {
@@ -19,6 +20,8 @@ export class NpcItem {
   private _flavor_description: string
   private _destroyed: boolean
   private _charged: boolean
+  private _uses: number
+  private _max_uses: number
 
   public constructor(feature: NpcFeature, tier: number) {
     this._feature = feature
@@ -26,6 +29,14 @@ export class NpcItem {
     this._flavor_name = this._flavor_description = ''
     this._destroyed = false
     this._charged = true
+    this._uses = 0
+    const f = feature as any
+    if (f.IsLimited) {
+      const ltd = f.Tags.find(x => x.IsLimited)
+      this._max_uses = ltd && typeof ltd.Value === 'number' ? ltd.Value : 0
+    } else {
+      this._max_uses = 0
+    }
   }
 
   private save(): void {
@@ -79,6 +90,19 @@ export class NpcItem {
     this._charged = val
   }
 
+  public get Uses(): number {
+    return this._uses
+  }
+
+  public set Uses(val: number) {
+    this._uses = val
+    this.save()
+  }
+
+  public get MaxUses(): number {
+    return this._max_uses
+  }
+
   public static Serialize(item: NpcItem): INpcItemSaveData {
     return {
       itemID: item._feature.ID,
@@ -87,6 +111,7 @@ export class NpcItem {
       description: item.Description,
       destroyed: item.Destroyed,
       charged: item.IsCharged,
+      uses: item.Uses,
     }
   }
 
@@ -96,6 +121,7 @@ export class NpcItem {
     item._flavor_name = data.flavorName
     item._destroyed = data.destroyed
     item._charged = data.charged
+    item._uses = data.uses || 0
     return item
   }
 }

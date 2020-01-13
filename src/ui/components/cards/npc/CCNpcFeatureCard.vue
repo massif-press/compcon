@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'npc-feature-card',
+  name: 'cc-npc-feature-card',
   props: {
     feature: {
       type: Object,
@@ -31,7 +31,7 @@ export default {
       if (!this.feature) {
         return null
       }
-      return () => import(`./cards/${this.feature.FeatureType}Card.vue`)
+      return () => import(`./cards/_${this.feature.FeatureType}Card.vue`)
     },
   },
   mounted() {

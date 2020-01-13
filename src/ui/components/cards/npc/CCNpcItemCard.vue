@@ -3,17 +3,22 @@
     :is="component"
     v-if="component"
     :item="item"
+    :active="active"
     @remove-feature="$emit('remove-feature', $event)"
+    @add-reaction="$emit('add-reaction', $event)"
   />
 </template>
 
 <script>
 export default {
-  name: 'npc-item-card',
+  name: 'cc-npc-item-card',
   props: {
     item: {
       type: Object,
       required: true,
+    },
+    active: {
+      type: Boolean,
     },
   },
   data() {
@@ -26,7 +31,7 @@ export default {
       if (!this.item) {
         return null
       }
-      return () => import(`./cards/${this.item.Feature.FeatureType}Card.vue`)
+      return () => import(`./cards/_${this.item.Feature.FeatureType}Card.vue`)
     },
   },
   mounted() {
