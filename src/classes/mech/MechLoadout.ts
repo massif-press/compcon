@@ -95,7 +95,7 @@ class MechLoadout extends Loadout {
 
   public RemoveRetrofitting(): void {
     this.AllEquippableMounts(true, true).forEach(x => {
-      if (x.Bonuses.some(x => x.ID === 'retrofit')) x.ClearBonuses()
+      if (x.Bonuses.some(x => x.ID === 'cb_mount_retrofitting')) x.ClearBonuses()
     })
   }
 

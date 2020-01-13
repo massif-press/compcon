@@ -88,8 +88,8 @@ class Statblock {
       const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
       if (loadout) {
         for (const mount of loadout.AllEquippableMounts(
-          pilot && pilot.has('CoreBonus', 'imparm'),
-          pilot && pilot.has('CoreBonus', 'intweapon')
+          pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
+          pilot && pilot.has('CoreBonus', 'cb_integrated_weapon')
         )) {
           output += `  ${mount.Name}: `
           if (mount.IsLocked) {
