@@ -174,7 +174,7 @@ class Mech {
   // -- Attributes --------------------------------------------------------------------------------
   public get Size(): number {
     if (this._frame.Size === rules.max_frame_size) return rules.max_frame_size
-    const bonus = this._pilot.has('CoreBonus', 'fomorian')
+    const bonus = this._pilot.has('CoreBonus', 'cb_fomorian_frame')
     if (bonus) {
       return this._frame.Size === 0.5 ? 1 : this._frame.Size + 1
     } else return this._frame.Size
@@ -182,27 +182,27 @@ class Mech {
 
   public get SizeContributors(): string[] {
     let output = [`FRAME Base Size: ${this.Frame.Size}`]
-    if (this._pilot.has('CoreBonus', 'fomorian'))
-      output.push(`Fomorian Frame Reinforcement (IPS-N CORE Bonus): +1`)
+    if (this._pilot.has('CoreBonus', 'cb_fomorian_frame'))
+      output.push(`FOMORIAN FRAME (IPS-N CORE Bonus): +1`)
     return output
   }
 
   public get Armor(): number {
     let bonus =
-      this._pilot.has('CoreBonus', 'plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
+      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
     return this._frame.Armor + bonus
   }
 
   public get ArmorContributors(): string[] {
     let output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    if (this._pilot.has('CoreBonus', 'plating'))
-      output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
+    if (this._pilot.has('CoreBonus', 'cb_sloped_plating'))
+      output.push(`SLOPED PLATING (IPS-N CORE Bonus): +1`)
     return output
   }
 
   public get SaveTarget(): number {
     let bonus = this._pilot.Grit
-    if (this._pilot.has('CoreBonus', 'opendoor')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door')) bonus += 2
     return this._frame.SaveTarget + bonus
   }
 
@@ -211,21 +211,21 @@ class Mech {
       `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
     ]
-    if (this._pilot.has('CoreBonus', 'opendoor'))
-      output.push(`The Lesson of the Open Door (HORUS CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door'))
+      output.push(`THE LESSON OF THE OPEN DOOR (HORUS CORE Bonus): +2`)
     return output
   }
 
   public get Evasion(): number {
     let bonus = this.Agi
-    if (this._pilot.has('CoreBonus', 'fssync')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync')) bonus += 2
     return this._frame.Evasion + bonus
   }
 
   public get EvasionContributors(): string[] {
     let output = [`FRAME Base Evasion: ${this.Frame.Evasion}`, `Pilot AGILITY Bonus: +${this.Agi}`]
-    if (this._pilot.has('CoreBonus', 'fssync'))
-      output.push(`Full Subjectivity Sync (SSC CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync'))
+      output.push(`FULL SUBJECTIVITY SYNC (SSC CORE Bonus): +2`)
     return output
   }
 
@@ -251,7 +251,7 @@ class Mech {
 
   public get EDefense(): number {
     let bonus = this.Sys
-    if (this._pilot.has('CoreBonus', 'disbelief')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief')) bonus += 2
     return this._frame.EDefense + bonus
   }
 
@@ -260,21 +260,21 @@ class Mech {
       `FRAME Base E-Defense: ${this.Frame.EDefense}`,
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
-    if (this._pilot.has('CoreBonus', 'disbelief'))
-      output.push(`The Lesson of Disbelief (HORUS CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief'))
+      output.push(`THE LESSON OF DISBELIEF (HORUS CORE Bonus): +2`)
     return output
   }
 
   public get LimitedBonus(): number {
     let bonus = 0
-    if (this._pilot.has('CoreBonus', 'ammofeeds')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds')) bonus += 2
     return Math.floor(this.Eng / 2) + bonus
   }
 
   public get LimitedContributors(): string[] {
     let output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
-    if (this._pilot.has('CoreBonus', 'ammofeeds'))
-      output.push(`Integrated Ammo Feeds (HA CORE Bonus): +5`)
+    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds'))
+      output.push(`INTEGRATED AMMO FEEDS (HA CORE Bonus): +2`)
     return output
   }
 
@@ -374,10 +374,10 @@ class Mech {
   public get MaxHP(): number {
     let bonus = this._pilot.Grit + this.Hull * 2
     if (this.ActiveLoadout) {
-      const personalizations = this.ActiveLoadout.GetSystem('personalizations')
+      const personalizations = this.ActiveLoadout.GetSystem('ms_personalizations')
       if (personalizations && !personalizations.IsDestroyed) bonus += 2
     }
-    if (this._pilot.has('CoreBonus', 'frame')) bonus += 5
+    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame')) bonus += 5
     return this._frame.HP + bonus
   }
 
@@ -387,10 +387,10 @@ class Mech {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot HULL Bonus: +${this.Hull * 2}`,
     ]
-    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
-      output.push(`Personalizations (GMS System): +2`)
-    if (this._pilot.has('CoreBonus', 'frame'))
-      output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
+    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('ms_personalizations'))
+      output.push(`PERSONALIZATIONS (GMS System): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame'))
+      output.push(`REINFORCED FRAME (IPS-N CORE Bonus): +5`)
     return output
   }
 
@@ -453,7 +453,7 @@ class Mech {
 
   public get HeatCapacity(): number {
     var bonus = this.Eng
-    if (this._pilot.has('CoreBonus', 'superior')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_superior_by_design')) bonus += 2
     return this._frame.HeatCap + bonus
   }
 
@@ -462,8 +462,8 @@ class Mech {
       `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
       `Pilot ENGINEERING Bonus: +${this.Eng}`,
     ]
-    if (this._pilot.has('CoreBonus', 'superior'))
-      output.push(`Superior By Design (HA CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_superior_by_design'))
+      output.push(`SUPERIOR BY DESIGN (HA CORE Bonus): +2`)
     return output
   }
 

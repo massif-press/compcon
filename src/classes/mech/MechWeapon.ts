@@ -84,18 +84,18 @@ class MechWeapon extends MechEquipment {
         type: RangeType.Range,
         val: parseInt(this.Mod.AddedRange.Value),
       })
-    if (mech.Pilot.has('CoreBonus', 'neurolinked'))
+    if (mech.Pilot.has('CoreBonus', 'cb_neurolink_targeting'))
       bonuses.push({
         type: RangeType.Range,
         val: 3,
       })
-    if (mech.Pilot.has('CoreBonus', 'gyges') && this.Type === WeaponType.Melee)
+    if (mech.Pilot.has('CoreBonus', 'cb_gyges_frame') && this.Type === WeaponType.Melee)
       bonuses.push({
         type: RangeType.Threat,
         val: 1,
       })
     if (
-      mech.ActiveLoadout.HasSystem('externalbatteries') &&
+      mech.ActiveLoadout.HasSystem('ms_external_batteries') &&
       this.Damage[0].Type === DamageType.Energy
     )
       if (this.Type === WeaponType.Melee) {

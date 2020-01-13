@@ -293,8 +293,8 @@ export default Vue.extend({
   computed: {
     mounts() {
       return this.mech.ActiveLoadout.AllMounts(
-        this.mech.Pilot.has('corebonus', 'imparm'),
-        this.mech.Pilot.has('corebonus', 'intweapon')
+        this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+        this.mech.Pilot.has('corebonus', 'cb_integrated_weapon')
       )
     },
   },

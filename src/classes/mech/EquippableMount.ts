@@ -35,7 +35,7 @@ class EquippableMount extends Mount {
 
   public AddCoreBonus(cb: CoreBonus): void {
     this._bonuses.push(cb)
-    if (cb.ID === 'retrofit') {
+    if (cb.ID === 'cb_mount_retrofitting') {
       this.slots = [new WeaponSlot(FittingSize.Main), new WeaponSlot(FittingSize.Auxiliary)]
     }
     this.save()
@@ -45,7 +45,7 @@ class EquippableMount extends Mount {
     const index = this._bonuses.findIndex(x => _.isEqual(x, cb))
     if (index > -1) {
       this._bonuses.splice(index, 1)
-      if (cb.ID === 'retrofit') {
+      if (cb.ID === 'cb_mount_retrofitting') {
         this.generateSlots(this.Type)
       }
     }
