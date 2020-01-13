@@ -10,10 +10,13 @@ Encounter Data:
 Missions:
   ☐ Event interface for Encounters and Rests
   ✔ Actor interface for Pilots and NPCs @done(20-01-08 13:29)
-  ☐ Mission events must save mission, not class store
-  ☐ Scroll back to top on active card change
-  ☐ Active Cards
-    ☐ NPC features
+  ✔ Scroll back to top on active card change @done(20-01-10 14:34)
+  ✔ Active Cards @done(20-01-11 16:49)
+    ✔ NPC features @done(20-01-11 16:49)
+      ✔ Recharge @done(20-01-10 16:12)
+      ✔ Limited @done(20-01-11 16:04)
+      ✔ Write Reaction @done(20-01-11 16:19)
+    ✔ Reactions combobox @done(20-01-10 16:31)
     ☐ Rollovers
       ✔ Mark destroyed/exposed @done(20-01-09 16:13)
       ☐ Monstrosity table
@@ -23,15 +26,14 @@ Missions:
     ✔ GM notes @done(20-01-09 15:51)
     ✔ End turn @done(20-01-09 15:51)
     ☐ Options
-      ☐ Remove from battlefield (warning)
-      ☐ Complete repair (warning)
+      ☐ Add Custom Reaction
       ☐ Mark Destroyed
+      ☐ Complete repair (warning)
+      ☐ Remove from battlefield (warning)
 
   ☐ Run Mission
-    ☐ End round
-      ☐ Warning if end round with remaining actor turn
-    ☐ Actor Slide Cards
-      ☐ Color change on pending reaction
+    ✔ End round @done(20-01-10 16:32)
+      ✔ Warning if end round with remaining actor turn @done(20-01-10 16:32)
     ☐ Side Tabs
       ☐ Notes
         ☐ Active Mission scratchnote
@@ -41,10 +43,8 @@ Missions:
         ☐ Reinforcement pool
         ☐ Add new NPC
         ☐ Add new Pilot
-      ☐ Graveyard
-        ☐ Return to battle
     ---
-    ☐ Rounds
+    ✔ Rounds @done(20-01-10 16:32)
     ✔ Initiative Tracker @done(20-01-09 15:51)
     ☐ Rests
     ☐ Complete Mission
@@ -138,6 +138,7 @@ Improvements:
   ☐ Disable dangerzone systems outside of dangerzone
   ☐ Ammo block
   ☐ Mandatory org rolling at the start of every downtime
+  ☐ Encounter mode list transitions
 
 Next Steps:
   ☐ Testing Framework

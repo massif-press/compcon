@@ -280,7 +280,7 @@
       </cc-title>
       <v-row dense>
         <v-col cols="12">
-          <npc-item-card
+          <cc-npc-item-card
             v-for="(i, idx) in npc.Items"
             :key="i.Feature.ID + idx"
             :item="i"
@@ -332,7 +332,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from './components/EditableAttribute.vue'
-import NpcItemCard from './components/NpcItemCard.vue'
 import FeatureSelector from './components/FeatureSelector.vue'
 import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
@@ -342,7 +341,7 @@ import { NpcStore } from '@/store'
 
 export default Vue.extend({
   name: 'npc-card',
-  components: { EditableAttribute, NpcItemCard, FeatureSelector, TemplateSelector },
+  components: { EditableAttribute, FeatureSelector, TemplateSelector },
   props: {
     id: {
       type: String,

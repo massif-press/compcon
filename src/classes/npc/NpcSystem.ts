@@ -20,6 +20,18 @@ export class NpcSystem extends NpcFeature {
     return Tag.Deserialize(this._tags)
   }
 
+  public get IsLimited(): boolean {
+    return this.Tags.some(x => x.IsLimited)
+  }
+
+  public get IsRecharging(): boolean {
+    return this.Tags.some(x => x.IsRecharging)
+  }
+
+  public get ChargeRoll(): string {
+    return this.Tags.find(x => x.IsRecharging).Value.toString()
+  }
+
   public get Color(): string {
     return 'system'
   }

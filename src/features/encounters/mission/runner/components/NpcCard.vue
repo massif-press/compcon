@@ -7,6 +7,7 @@
         </span>
         <span class="heading h2 light-text--text">
           <cc-slashes />
+          {{ npc.Side }}
           {{ typeof npc.Tier === 'number' ? `T${npc.Tier}` : `Custom` }} {{ npc.Class.Name }}
           {{ npc.Templates.map(t => t.Name).join(' ') }} {{ npc.Tag }}
         </span>
@@ -219,6 +220,13 @@
         </v-card>
       </v-col>
     </v-row>
+    <div class="overline">FEATURES</div>
+    <v-row dense>
+      <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" cols="6">
+        <cc-npc-item-card :item="i" active @add-reaction="npc.AddReaction($event)" />
+      </v-col>
+    </v-row>
+    <v-divider class="my-3" />
     <v-row dense>
       <v-textarea
         v-model="npc.Note"
@@ -230,11 +238,28 @@
         hide-actions
       />
     </v-row>
-    <v-row dense justify="center">
+    <v-row v-if="npc.Reactions.length" dense justify="center">
+      <v-col cols="10">
+        <div class="overline">STAGED REACTIONS</div>
+        <v-chip
+          v-for="(r, i) in npc.Reactions"
+          :key="r + i"
+          dark
+          color="action--reaction"
+          close
+          close-icon="mdi-close"
+          class="mx-1"
+          @click:close="npc.RemoveReaction(r)"
+        >
+          <v-icon left dark>mdi-redo-variant</v-icon>
+          <span class="heading h3">{{ r }}</span>
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row dense justify="center" class="mt-3">
       <v-col v-if="!npc.Destroyed" cols="8">
         <v-btn
           block
-          outlined
           large
           color="secondary"
           :disabled="npc.Activations === 0"
@@ -256,8 +281,49 @@
           </v-btn>
         </v-slide-y-transition>
       </v-col>
-      <v-col cols="auto" class="ml-2">
-        options menu
+      <v-col cols="auto">
+        <v-menu v-if="!readonly && !active" offset-x right>
+          <template v-slot:activator="{ on }">
+            <v-btn large icon v-on="on">
+              <v-icon large>mdi-settings</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense>
+            <v-list-item @click.stop>
+              <v-list-item-icon class="ma-0 mr-2 mt-2">
+                <v-icon>mdi-redo-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Stage Custom Reaction</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click.stop>
+              <v-list-item-icon class="ma-0 mr-2 mt-2">
+                <v-icon>mdi-close</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Remove from Battle</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>            
+            <v-list-item @click.stop>
+              <v-list-item-icon class="ma-0 mr-2 mt-2">
+                <v-icon>cci-repair</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Full Repair</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider />
+            <v-list-item @click.stop>
+              <v-list-item-icon class="ma-0 mr-2 mt-2">
+                <v-icon color="error">mdi-delete</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Delete from Encounter</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-col>
     </v-row>
     <cc-ref-stress-table ref="stressTable" />

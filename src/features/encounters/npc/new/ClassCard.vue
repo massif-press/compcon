@@ -108,7 +108,7 @@
     </cc-title>
     <v-row dense>
       <v-col v-for="f in npcc.BaseFeatures" :key="f.ID" cols="12">
-        <npc-feature-card :feature="f" :tier="tierPreview" />
+        <cc-npc-feature-card :feature="f" :tier="tierPreview" />
       </v-col>
     </v-row>
     <cc-title small :color="npcc.Color" class="mt-2">
@@ -116,7 +116,7 @@
     </cc-title>
     <v-row dense>
       <v-col v-for="f in npcc.OptionalFeatures" :key="f.ID" cols="12">
-        <npc-feature-card :feature="f" :tier="tierPreview" />
+        <cc-npc-feature-card :feature="f" :tier="tierPreview" />
       </v-col>
     </v-row>
   </v-container>
@@ -125,11 +125,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from '../components/EditableAttribute.vue'
-import NpcFeatureCard from '../components/NpcFeatureCard.vue'
 
 export default Vue.extend({
   name: 'npc-class-card',
-  components: { EditableAttribute, NpcFeatureCard },
+  components: { EditableAttribute },
   props: {
     npcc: {
       type: Object,

@@ -116,6 +116,10 @@ class Tag {
     return this._id === 'loading'
   }
 
+  public get IsRecharging(): boolean {
+    return this._id === 'recharge'
+  }
+
   public static Deserialize(data: ITagData[]): Tag[] {
     let output = [] as Tag[]
     if (!data) return output

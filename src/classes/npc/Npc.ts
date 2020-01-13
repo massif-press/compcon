@@ -77,7 +77,7 @@ export class Npc implements IActor {
     this._statuses = []
     this._conditions = []
     this._resistances = []
-    this._reactions = []
+    this._reactions = ['Overwatch']
     this._burn = 0
     this._actions = 2
     this._destroyed = false
@@ -452,10 +452,20 @@ export class Npc implements IActor {
     this._reactions = val
   }
 
+  public AddReaction(r: string): void {
+    if (!this.Reactions.some(x => x === r)) this.Reactions.push(r)
+  }
+
+  public RemoveReaction(r: string): void {
+    const idx = this.Reactions.findIndex(x => x === r)
+    if (idx > -1) this.Reactions.splice(idx, 1)
+  }
+
   public NewTurn(): void {
     this.CurrentStats.Activations = 1
     this._actions = 2
     this.CurrentStats.Speed = this.MaxMove
+    this.Reactions = ['Overwatch']
     this.save()
   }
 

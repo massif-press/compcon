@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense style="height: calc(100vh - 185px); overflow-y: scroll">
+    <v-row id="scroll" dense style="height: calc(100vh - 185px); overflow-y: scroll">
       <v-col>
         <v-card flat outlined height="100%">
           <v-card-text>
@@ -17,8 +17,8 @@
           <v-slide-group
             v-model="selectedActor"
             mandatory
-            active-class="success"
             show-arrows
+            center-active
             style="height: calc(100% - 8px)"
           >
             <div style="position: relative">
@@ -128,6 +128,11 @@ export default Vue.extend({
     },
     destroyed() {
       return this.actors.filter(x => x.Destroyed)
+    },
+  },
+  watch: {
+    selectedActor() {
+      document.getElementById('scroll').scrollTop = 0
     },
   },
   methods: {
