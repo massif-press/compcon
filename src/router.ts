@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import encounterRoutes from './features/encounters/routes'
+import { Capacitor } from '@capacitor/core'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: Capacitor.platform === 'web' ? 'history' : 'hash',
   scrollBehavior() {
     return { x: 0, y: 0 }
   },
