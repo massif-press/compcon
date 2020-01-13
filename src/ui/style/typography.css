@@ -170,6 +170,10 @@ code.horus:hover {
   font-weight: bold;
 }
 
+.horus--subtle {
+  animation: distort-subtle 5s infinite;
+}
+
 @keyframes distort {
   0% {
     text-shadow: 2px 1px #ff00ff, -2px -3px #00ffff;
@@ -195,6 +199,45 @@ code.horus:hover {
     text-shadow: -2px 0 #ff00ff, 2px -1px #00ffff;
     transform: translate(-2px, 0) translate3D(-30px, 0px, 0) rotate(-0.1deg);
     cursor: all-scroll;
+  }
+}
+
+@keyframes distort-subtle {
+  25% {
+    text-shadow: none;
+  }
+  26% {
+    text-shadow: 2px -1px #ff0000, -2px 3px #00ffff;
+  }
+  27% {
+    text-shadow: -2px -3px #ff0000, 2px 1px #00ffff;
+  }
+  28% {
+    text-shadow: 2px 1px #ff0000, -4px 1px #00ffff;
+  }
+  29% {
+    text-shadow: -4px 1px #ff0000, -2px -1px #00ffff;
+  }
+  30% {
+    text-shadow: none;
+  }
+  75% {
+    text-shadow: none;
+  }
+  76% {
+    text-shadow: -4px 1px #ff0000, -2px -1px #00ffff;
+  }
+  77% {
+    text-shadow: -2px -3px #ff0000, 2px 1px #00ffff;
+  }
+  78% {
+    text-shadow: 2px -1px #ff0000, -2px 3px #00ffff;
+  }
+  79% {
+    text-shadow: 2px 1px #ff0000, -4px 1px #00ffff;
+  }
+  80% {
+    text-shadow: none;
   }
 }
 

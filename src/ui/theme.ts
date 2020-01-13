@@ -1,6 +1,3 @@
-import { VuetifyPreset } from "vuetify/types/presets";
-
-
 const themeDefaults = {
   primary: '#b30c1d',
   active: '#d93f4e',
@@ -88,7 +85,7 @@ const themeDefaults = {
 }
 
 
-const theme: Partial<VuetifyPreset> = {
+const theme: any = {
   icons: {
     iconfont: 'mdi',
     values: {
