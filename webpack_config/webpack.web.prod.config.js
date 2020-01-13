@@ -36,9 +36,29 @@ module.exports = {
       clientsClaim: true,
       skipWaiting: true,
       navigateFallback: '/index.html',
-      // these two files aren't accessible by clients so including them in the precache manifest makes it fail to register
-      // (i think)
-      exclude: ['netlify.toml']
+      exclude: ['netlify.toml', /\.map$/, /\.(png|jpg|jpeg|svg)$/i],
+      runtimeCaching: [
+        {
+          urlPattern: /(^https:\/\/.*)?\.(png|jpg|jpeg|svg)(#.*)?$/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          },
+        },
+        {
+          urlPattern: /(^https:\/\/.*)?\.(woff|woff2|ttf|otf|eot|)$/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'fonts',
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          },
+        },
+      ]
     }),
     // inject code to register service worker we just generated, but only in prod
     new InjectPlugin(() => fs.readFileSync(
