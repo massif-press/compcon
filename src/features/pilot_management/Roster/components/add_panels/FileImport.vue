@@ -6,80 +6,82 @@
     small
     @clicked="dialog = true"
   >
-    <v-dialog v-model="dialog" width="50vw">
-      <v-card
-        id="panel"
-        tile
-        color="black"
-        style="border: 6px double var(--v-panel-border-base) !important; border-radius: 2px !important;"
-      >
-        <v-row>
-          <v-col cols="7" class="ml-auto mr-auto">
-            <v-file-input
-              ref=""
-              accept="text/json"
-              dark
-              outlined
-              autofocus
-              placeholder="Select Pilot Data File"
-              label="UND IDENT RECORD"
-              prepend-icon="mdi-paperclip"
-              @change="fileImport"
-            ></v-file-input>
-          </v-col>
-        </v-row>
-        <load-log ref="log" />
-        \
-        <v-divider dark />
-        <v-card-actions v-if="importPilot">
-          <span class="white--text flavor-text">
-            Import
-            <b>{{ importPilot.Name }}</b>
-            ?
-          </span>
-          <v-spacer />
-          <cc-btn class="mx-2" small color="error" @click="cancelImport">Cancel</cc-btn>
-          <cc-btn class="mx-2" small color="success" @click="confirmImport">Confirm</cc-btn>
-        </v-card-actions>
-        <v-card-actions v-else>
-          <v-spacer />
-          <v-btn small color="grey" text @click="cancelImport">Dismiss</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <import-dialog
+      v-model="dialog"
+      :pilot="importPilot"
+      :error="error"
+      @cancel="cancelImport"
+      @confirm="confirmImport"
+    >
+      <v-file-input
+        v-model="fileValue"
+        accept="text/json"
+        dark
+        outlined
+        autofocus
+        placeholder="Select Pilot Data File"
+        label="UND IDENT RECORD"
+        prepend-icon="mdi-paperclip"
+        @change="importFile"
+      />
+    </import-dialog>
   </cc-major-btn>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import LoadLog from './loaders/LoadLog.vue'
+
 import { Pilot } from '@/class'
 import { importData } from '@/io/Data'
 
+import ImportDialog from './ImportDialog.vue'
+
+
 export default Vue.extend({
   name: 'file-import',
-  components: { LoadLog },
+  components: { ImportDialog },
   data: () => ({
     dialog: false,
+    // fileValue is just used to clear the file input
+    fileValue: null,
     importPilot: null,
+    error: null,
   }),
+  watch: {
+    dialog(dialogOpen) {
+      if (!dialogOpen) this.reset()
+    }
+  },
   methods: {
-    async fileImport(file) {
-      const pilotData = await importData<IPilotData>(file)
-      this.importPilot = Pilot.Deserialize(pilotData)
-      this.importPilot.RenewID()
+    reset() {
+      this.fileValue = null
+      this.importPilot = null
+      this.error = null
+    },
+    async importFile(file) {
+      this.reset()
+      if (!file) return
+      try {
+        const pilotData = await importData<IPilotData>(file)
+        this.importPilot = Pilot.Deserialize(pilotData)
+        this.importPilot.RenewID()
+      } catch (e) {
+        this.error = e.message
+        return
+      }
     },
     confirmImport() {
       this.importPilot.RenewID()
       this.$store.dispatch('addPilot', this.importPilot)
+      this.reset()
       this.dialog = false
       this.$emit('done')
     },
     cancelImport() {
-      this.importPilot = null
+      this.reset()
       this.dialog = false
     },
-  },
+  }
 })
 </script>
 

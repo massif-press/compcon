@@ -6,7 +6,11 @@
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
         <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
-        <main-btn :to="'/pilot_management'" @hover="ccLog('pilot')">Pilot Roster</main-btn>
+        <main-btn
+          :to="'/pilot_management'"
+          :loading="pilotLoading"
+          @hover="ccLog('pilot')"
+        >Pilot Roster</main-btn>
         <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
         <main-btn disabled>Campaign Manager</main-btn>
         <main-btn disabled>Content Editor</main-btn>
@@ -15,13 +19,9 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
-        About
-      </v-btn>
+      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">About</v-btn>
       <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
-        Help
-      </v-btn>
+      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">Help</v-btn>
       <v-divider vertical dark class="mx-1" />
       <v-btn color="warning" small dark text>Support This Project</v-btn>
     </v-footer>
@@ -45,7 +45,14 @@ export default Vue.extend({
     UpdateAlert,
     CCLog,
   },
-
+  data: () => ({
+    pilotLoading: false,
+  }),
+  beforeRouteLeave(to, from, next) {
+    console.log('leaving', to)
+    if (to.path === '/pilot_management') this.pilotLoading = true
+    next()
+  },
   methods: {
     ccLog(btn: string) {
       switch (btn) {
