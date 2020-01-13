@@ -1,6 +1,8 @@
 import { Capacitor } from '@capacitor/core'
 import path from 'path'
 import { promisify } from 'util'
+import PromisifyFileReader from 'promisify-file-reader'
+
 import ExtLog from './ExtLog'
 
 const PLATFORM = Capacitor.platform
@@ -82,14 +84,9 @@ const loadData = async function<T>(fileName: string): Promise<T[]> {
   }
 }
 
-const importData = function<T>(file: File): Promise<T> {
-  return new Promise(resolve => {
-    var fr = new FileReader()
-    fr.onload = e => {
-      resolve(JSON.parse((e.target as FileReader).result as string) as T)
-    } // CHANGE to whatever function you want which would eventually call resolve
-    fr.readAsText(file)
-  })
+const importData = async function<T>(file: File): Promise<T> {
+  const text = await PromisifyFileReader.readAsText(file)
+  return JSON.parse(text) as T
 }
 
 const dataPathMap = {
