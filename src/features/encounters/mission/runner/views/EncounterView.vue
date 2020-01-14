@@ -10,6 +10,12 @@
               @delete-actor="deleteActor()"
             />
             <npc-card v-else-if="selected" :npc="selected" @delete-actor="deleteActor()" />
+            <encounter-nav
+              v-if="selected"
+              :mission="activeMission"
+              :encounter="encounter"
+              :actor="selected"
+            />
           </v-card-text>
         </v-card>
       </v-col>
@@ -98,10 +104,11 @@ import Vue from 'vue'
 import SlideItem from '../components/SlideItem.vue'
 import PlayerCard from '../components/PlayerCard.vue'
 import NpcCard from '../components/NpcCard.vue'
+import EncounterNav from '../components/EncounterNav.vue'
 
 export default Vue.extend({
   name: 'encounter-view',
-  components: { SlideItem, PlayerCard, NpcCard },
+  components: { SlideItem, PlayerCard, NpcCard, EncounterNav },
   props: {
     activeMission: {
       type: Object,

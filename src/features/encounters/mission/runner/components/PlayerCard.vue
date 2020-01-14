@@ -376,12 +376,11 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-row dense justify="center">
-      <v-col v-if="!mech.Defeat" cols="8">
+    <v-row dense justify="start" class="mb-10">
+      <v-col v-if="!mech.Defeat">
         <v-btn
           block
-          outlined
-          large
+          x-large
           color="secondary"
           :disabled="mech.Activations === 0"
           @click="mech.Activations = 0"
@@ -402,15 +401,6 @@
           </v-btn>
         </v-slide-y-transition>
       </v-col>
-      <v-col cols="auto" class="ml-2">
-        <card-options-menu
-          :defeated="mech.Defeat.length"
-          @stage-reaction="mech.AddReaction($event)"
-          @remove="mech.Defeat = $event"
-          @repair="mech.FullRepair()"
-          @delete-actor="$emit('delete-actor')"
-        />
-      </v-col>
     </v-row>
     <cc-stress-table ref="stressTable" :mech="mech" />
     <cc-structure-table ref="structureTable" :mech="mech" />
@@ -420,13 +410,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import PlayerEquipmentItem from './PlayerEquipmentItem.vue'
-import CardOptionsMenu from './CardOptionsMenu.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'player-card',
-  components: { PlayerEquipmentItem, CardOptionsMenu },
+  components: { PlayerEquipmentItem },
   props: {
     mech: {
       type: Object,
