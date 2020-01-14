@@ -31,7 +31,7 @@ abstract class MechEquipment extends LicensedItem {
     this._unshackled = false
     this._loaded = true
     if (itemData.tags) {
-      const ltd = itemData.tags.find(x => x.id === 'limited')
+      const ltd = itemData.tags.find(x => x.id === 'tg_limited')
       this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
     } else {
       this._max_uses = 0

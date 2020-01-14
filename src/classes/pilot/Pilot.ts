@@ -423,14 +423,14 @@ class Pilot {
   //TODO: collect passives, eg:
   public get LimitedBonus(): number {
     let bonus = Math.floor(this.MechSkills.Eng / 2)
-    if (this._core_bonuses.find(x => x.ID === 'ammofeeds')) {
+    if (this._core_bonuses.find(x => x.ID === 'cb_integrated_ammo_feeds')) {
       bonus += 2
     }
     return bonus
   }
 
   public get AICapacity(): number {
-    return this.has('corebonus', 'shaping') ? 2 : 1
+    return this.has('corebonus', 'cb_the_lesson_of_true_shaping') ? 2 : 1
   }
 
   // -- Skills ------------------------------------------------------------------------------------
@@ -657,9 +657,9 @@ class Pilot {
   private removeCoreBonuses(coreBonus: CoreBonus): void {
     this._mechs.forEach(mech => {
       mech.Loadouts.forEach(loadout => {
-        if (coreBonus.ID === 'retrofit') loadout.RemoveRetrofitting()
-        if (coreBonus.ID === 'imparm') loadout.ImprovedArmamentMount.Clear()
-        if (coreBonus.ID === 'intweapon') loadout.IntegratedWeaponMount.Clear()
+        if (coreBonus.ID === 'cb_mount_retrofitting') loadout.RemoveRetrofitting()
+        if (coreBonus.ID === 'cb_improved_armament') loadout.ImprovedArmamentMount.Clear()
+        if (coreBonus.ID === 'cb_integrated_weapon') loadout.IntegratedWeaponMount.Clear()
         loadout.AllEquippableMounts(true).forEach(mount => {
           mount.RemoveCoreBonus(coreBonus)
         })

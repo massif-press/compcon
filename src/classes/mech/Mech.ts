@@ -151,9 +151,9 @@ class Mech implements IActor {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
-    if (this._frame.Name.toUpperCase() === 'EVEREST') {
+    if (this._frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
-      if (gmsIdx > -1) requirements[gmsIdx].items.push('EVEREST Frame')
+      if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
       else requirements.push(this.Frame.RequiredLicense)
     } else {
       const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)
@@ -203,7 +203,7 @@ class Mech implements IActor {
   // -- Attributes --------------------------------------------------------------------------------
   public get Size(): number {
     if (this._frame.Size === rules.max_frame_size) return rules.max_frame_size
-    const bonus = this._pilot.has('CoreBonus', 'fomorian')
+    const bonus = this._pilot.has('CoreBonus', 'cb_fomorian_frame')
     if (bonus) {
       return this._frame.Size === 0.5 ? 1 : this._frame.Size + 1
     } else return this._frame.Size
@@ -211,27 +211,27 @@ class Mech implements IActor {
 
   public get SizeContributors(): string[] {
     let output = [`FRAME Base Size: ${this.Frame.Size}`]
-    if (this._pilot.has('CoreBonus', 'fomorian'))
-      output.push(`Fomorian Frame Reinforcement (IPS-N CORE Bonus): +1`)
+    if (this._pilot.has('CoreBonus', 'cb_fomorian_frame'))
+      output.push(`FOMORIAN FRAME (IPS-N CORE Bonus): +1`)
     return output
   }
 
   public get Armor(): number {
     let bonus =
-      this._pilot.has('CoreBonus', 'plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
+      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
     return this._frame.Armor + bonus
   }
 
   public get ArmorContributors(): string[] {
     let output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    if (this._pilot.has('CoreBonus', 'plating'))
-      output.push(`Sloped Plating (IPS-N CORE Bonus): +1`)
+    if (this._pilot.has('CoreBonus', 'cb_sloped_plating'))
+      output.push(`SLOPED PLATING (IPS-N CORE Bonus): +1`)
     return output
   }
 
   public get SaveTarget(): number {
     let bonus = this._pilot.Grit
-    if (this._pilot.has('CoreBonus', 'opendoor')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door')) bonus += 2
     return this._frame.SaveTarget + bonus
   }
 
@@ -240,21 +240,21 @@ class Mech implements IActor {
       `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
     ]
-    if (this._pilot.has('CoreBonus', 'opendoor'))
-      output.push(`The Lesson of the Open Door (HORUS CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door'))
+      output.push(`THE LESSON OF THE OPEN DOOR (HORUS CORE Bonus): +2`)
     return output
   }
 
   public get Evasion(): number {
     let bonus = this.Agi
-    if (this._pilot.has('CoreBonus', 'fssync')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync')) bonus += 2
     return this._frame.Evasion + bonus
   }
 
   public get EvasionContributors(): string[] {
     let output = [`FRAME Base Evasion: ${this.Frame.Evasion}`, `Pilot AGILITY Bonus: +${this.Agi}`]
-    if (this._pilot.has('CoreBonus', 'fssync'))
-      output.push(`Full Subjectivity Sync (SSC CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync'))
+      output.push(`FULL SUBJECTIVITY SYNC (SSC CORE Bonus): +2`)
     return output
   }
 
@@ -280,7 +280,7 @@ class Mech implements IActor {
 
   public get EDefense(): number {
     let bonus = this.Sys
-    if (this._pilot.has('CoreBonus', 'disbelief')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief')) bonus += 2
     return this._frame.EDefense + bonus
   }
 
@@ -289,21 +289,21 @@ class Mech implements IActor {
       `FRAME Base E-Defense: ${this.Frame.EDefense}`,
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
-    if (this._pilot.has('CoreBonus', 'disbelief'))
-      output.push(`The Lesson of Disbelief (HORUS CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief'))
+      output.push(`THE LESSON OF DISBELIEF (HORUS CORE Bonus): +2`)
     return output
   }
 
   public get LimitedBonus(): number {
     let bonus = 0
-    if (this._pilot.has('CoreBonus', 'ammofeeds')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds')) bonus += 2
     return Math.floor(this.Eng / 2) + bonus
   }
 
   public get LimitedContributors(): string[] {
     let output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
-    if (this._pilot.has('CoreBonus', 'ammofeeds'))
-      output.push(`Integrated Ammo Feeds (HA CORE Bonus): +5`)
+    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds'))
+      output.push(`INTEGRATED AMMO FEEDS (HA CORE Bonus): +2`)
     return output
   }
 
@@ -403,10 +403,10 @@ class Mech implements IActor {
   public get MaxHP(): number {
     let bonus = this._pilot.Grit + this.Hull * 2
     if (this.ActiveLoadout) {
-      const personalizations = this.ActiveLoadout.GetSystem('personalizations')
+      const personalizations = this.ActiveLoadout.GetSystem('ms_personalizations')
       if (personalizations && !personalizations.Destroyed) bonus += 2
     }
-    if (this._pilot.has('CoreBonus', 'frame')) bonus += 5
+    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame')) bonus += 5
     return this._frame.HP + bonus
   }
 
@@ -416,10 +416,10 @@ class Mech implements IActor {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot HULL Bonus: +${this.Hull * 2}`,
     ]
-    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('personalizations'))
-      output.push(`Personalizations (GMS System): +2`)
-    if (this._pilot.has('CoreBonus', 'frame'))
-      output.push(`Reinforced Frame (IPS-N CORE Bonus): +5`)
+    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('ms_personalizations'))
+      output.push(`PERSONALIZATIONS (GMS System): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame'))
+      output.push(`REINFORCED FRAME (IPS-N CORE Bonus): +5`)
     return output
   }
 
@@ -482,7 +482,7 @@ class Mech implements IActor {
 
   public get HeatCapacity(): number {
     var bonus = this.Eng
-    if (this._pilot.has('CoreBonus', 'superior')) bonus += 2
+    if (this._pilot.has('CoreBonus', 'cb_superior_by_design')) bonus += 2
     return this._frame.HeatCap + bonus
   }
 
@@ -491,8 +491,8 @@ class Mech implements IActor {
       `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
       `Pilot ENGINEERING Bonus: +${this.Eng}`,
     ]
-    if (this._pilot.has('CoreBonus', 'superior'))
-      output.push(`Superior By Design (HA CORE Bonus): +2`)
+    if (this._pilot.has('CoreBonus', 'cb_superior_by_design'))
+      output.push(`SUPERIOR BY DESIGN (HA CORE Bonus): +2`)
     return output
   }
 
@@ -771,12 +771,12 @@ class Mech implements IActor {
     if (this._frame.CoreSystem.Integrated) {
       intg.push(new IntegratedMount(this._frame.CoreSystem.getIntegrated(), 'CORE System'))
     }
-    if (this._pilot.has('Talent', 'ncavalier', 3)) {
-      const frWeapon = store.getters.referenceByID('MechWeapons', 'fuelrod')
+    if (this._pilot.has('Talent', 't_nuclear_cavalier', 3)) {
+      const frWeapon = store.getters.referenceByID('MechWeapons', 'mw_fuel_rod_gun')
       intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))
     }
-    if (this._pilot.has('Talent', 'eng')) {
-      const id = `prototype${this._pilot.getTalentRank('eng')}`
+    if (this._pilot.has('Talent', 't_engineer')) {
+      const id = `mw_prototype_${this._pilot.getTalentRank('t_engineer')}`
       const engWeapon = store.getters.referenceByID('MechWeapons', id)
       intg.push(new IntegratedMount(engWeapon, 'Engineer'))
     }
@@ -785,17 +785,17 @@ class Mech implements IActor {
 
   public get IntegratedSystems(): MechSystem[] {
     let intg = []
-    if (this._pilot.has('Talent', 'armsman')) {
+    if (this._pilot.has('Talent', 't_walking_armory')) {
       const arms = store.getters.instantiate(
         'MechSystems',
-        `armsman${this._pilot.getTalentRank('armsman')}`
+        `ms_walking_armory_${this._pilot.getTalentRank('t_walking_armory')}`
       )
       intg.push(arms)
     }
-    if (this._pilot.has('Talent', 'techno')) {
+    if (this._pilot.has('Talent', 't_technophile')) {
       const techno = store.getters.instantiate(
         'MechSystems',
-        `techno${this._pilot.getTalentRank('techno')}`
+        `ms_technophile_${this._pilot.getTalentRank('t_technophile')}`
       )
       intg.push(techno)
     }
