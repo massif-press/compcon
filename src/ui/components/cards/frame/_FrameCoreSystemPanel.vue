@@ -3,13 +3,13 @@
     <span class="heading h2 text--text">{{ cs.Name }}</span>
     <p class="flavor-text" v-html="cs.Description" />
 
-    <div v-if="cs.Passive">
-      <span class="heading sub">PASSIVE</span>
-      <p class="effect-text panel pa-2" v-html="cs.Passive" />
+    <div v-if="cs.PassiveEffect">
+      <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
+      <p class="effect-text panel pa-2" v-html="cs.PassiveEffect" />
     </div>
 
-    <span class="heading sub">ACTIVE {{ cs.Active ? ` - ${cs.Active}` : '' }}</span>
-    <p class="effect-text panel-block pa-2" v-html="cs.Effect" />
+    <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
+    <p class="effect-text panel-block pa-2" v-html="cs.ActiveEffect" />
 
     <div v-if="cs.Integrated">
       <span class="heading sub">CORE INTEGRATED WEAPON - {{ cs.Integrated.Name }}</span>

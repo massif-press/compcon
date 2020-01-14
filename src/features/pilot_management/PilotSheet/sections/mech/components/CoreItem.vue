@@ -8,7 +8,7 @@
         v-html="coreSystem.Description"
       />
       <v-alert
-        v-if="coreSystem.Passive"
+        v-if="coreSystem.PassiveName"
         prominent
         outlined
         dense
@@ -16,15 +16,18 @@
         border="left"
         icon="mdi-circle-expand"
       >
-        <h3 class="heading" :style="`color: ${color}`">Passive</h3>
-        <span class="flavor-text text--text">{{ coreSystem.Passive }}</span>
+        <h3 class="heading" :style="`color: ${color}`">
+          {{ coreSystem.PassiveName }}
+          <span class="grey--text" style="font-size: 14px">(PASSIVE)</span>
+        </h3>
+        <span class="flavor-text text--text">{{ coreSystem.PassiveEffect }}</span>
       </v-alert>
       <v-alert prominent text dense tile :color="color" border="left" icon="cci-corebonus">
         <h3 class="heading" :style="`color: ${color}`">
-          {{ coreSystem.Active }}
+          {{ coreSystem.ActiveName }}
           <span class="grey--text" style="font-size: 14px">(ACTIVE)</span>
         </h3>
-        <p class="flavor-text" v-html="coreSystem.Effect" />
+        <p class="flavor-text" v-html="coreSystem.ActiveEffect" />
         <cc-tags :tags="coreSystem.Tags" :color="color" small />
       </v-alert>
     </div>

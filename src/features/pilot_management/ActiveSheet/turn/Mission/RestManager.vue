@@ -311,7 +311,7 @@ export default Vue.extend({
       return this.loadout.Systems.filter(x => x.Destroyed)
     },
     isEverest() {
-      return this.mech.Frame.Name.toLowerCase() === 'everest'
+      return this.mech.Frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"'
     },
     issues() {
       return (

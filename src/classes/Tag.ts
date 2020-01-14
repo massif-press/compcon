@@ -44,7 +44,7 @@ class Tag {
 
   public GetDescription(addBonus?: number): string {
     let bonus = 0
-    if (this.ID === 'limited') bonus = addBonus || 0
+    if (this.ID === 'tg_limited') bonus = addBonus || 0
     if (!this._val) return this._description
     if (typeof this._val === 'number') {
       return this._description.replace(/{VAL}/g, (this._val + bonus).toString())
@@ -73,7 +73,7 @@ class Tag {
 
   public GetName(addBonus?: number): string {
     let bonus = 0
-    if (this.ID === 'limited') bonus = addBonus || 0
+    if (this.ID === 'tg_limited') bonus = addBonus || 0
     if (!this._val) return this._name
     if (typeof this._val === 'number') {
       return this._name.replace(/{VAL}/g, (this._val + bonus).toString())
@@ -101,19 +101,19 @@ class Tag {
   }
 
   public get IsUnique(): boolean {
-    return this._id === 'unique'
+    return this._id === 'tg_unique'
   }
 
   public get IsAI(): boolean {
-    return this._id === 'ai'
+    return this._id === 'tg_ai'
   }
 
   public get IsLimited(): boolean {
-    return this._id === 'limited'
+    return this._id === 'tg_limited'
   }
 
   public get IsLoading(): boolean {
-    return this._id === 'loading'
+    return this._id === 'tg_loading'
   }
 
   public get IsRecharging(): boolean {

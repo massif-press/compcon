@@ -6,6 +6,7 @@
       <cc-statblock-panel name="Evasion" :value="frame.Evasion" />
       <cc-statblock-panel name="E-Defense" :value="frame.EDefense" />
       <cc-statblock-panel name="Heat Capacity" :value="frame.HeatCap" />
+      <cc-statblock-panel name="Repair Cap" :value="frame.RepCap" />
       <cc-statblock-panel name="Sensor Range" :value="frame.SensorRange" />
       <cc-statblock-panel name="Tech Attack" :value="frame.TechAttack" />
       <cc-statblock-panel name="Repair Capacity" :value="frame.RepCap" />

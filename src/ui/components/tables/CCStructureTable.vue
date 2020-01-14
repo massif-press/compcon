@@ -232,8 +232,8 @@ export default Vue.extend({
     destroyableMounts() {
       return this.loadout
         .AllMounts(
-          this.mech.Pilot.has('CoreBonus', 'imparm'),
-          this.mech.Pilot.has('CoreBonus', 'intweapon')
+          this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+          this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
         )
         .filter(x => x.Weapons.some(w => !w.Destroyed) && !(x.IsLimited && x.Uses === 0))
         .map((m, i) => ({ name: m.Name, index: i }))
@@ -271,8 +271,8 @@ export default Vue.extend({
         this.loadout.Systems.find(x => x.ID === this.destroyedSystem).Destroy()
       } else {
         const m = this.loadout.AllMounts(
-          this.mech.Pilot.has('CoreBonus', 'imparm'),
-          this.mech.Pilot.has('CoreBonus', 'intweapon')
+          this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+          this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
         )[this.destroyedMount]
         m.Weapons.forEach(w => {
           w.Destroy()
