@@ -3,7 +3,7 @@
     <v-row class="stat-text" fill-height>
       <span class="heading h2">{{ item.Source }} {{ item.MechTypeString }} Frame</span>
       <v-icon size="80" color="primary" class="ml-auto" style="line-height: 40px">
-        cci-size-{{ item.size === 0.5 ? 'half' : item.Size }}
+        cci-size-{{ item.Size === 0.5 ? 'half' : item.Size }}
       </v-icon>
     </v-row>
 

@@ -21,8 +21,8 @@
         />
 
         <mount-block
-          v-if="mech.Pilot.has('CoreBonus', 'intweapon')"
-          int-weapon
+          v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
+          intWeapon
           :readonly="readonly"
           :mount="mech.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
@@ -30,8 +30,8 @@
         />
 
         <mount-block
-          v-if="mech.Pilot.has('CoreBonus', 'imparm')"
-          imp-arm
+          v-if="mech.Pilot.has('CoreBonus', 'cb_improved_armament')"
+          impArm
           :readonly="readonly"
           :mount="mech.ActiveLoadout.ImprovedArmamentMount"
           :mech="mech"
