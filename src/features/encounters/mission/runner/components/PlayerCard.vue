@@ -54,7 +54,14 @@
       </v-col>
     </v-row>
 
-    <v-alert v-if="mech.Activations === 0 && !mech.Destroyed" prominent dark dense border="left" icon="mdi-check">
+    <v-alert
+      v-if="mech.Activations === 0 && !mech.Defeat"
+      prominent
+      dark
+      dense
+      border="left"
+      icon="mdi-check"
+    >
       <span class="heading h2">Turn Complete</span>
     </v-alert>
 
@@ -333,7 +340,11 @@
     </v-row>
     <div class="overline">LOADOUT</div>
     <v-row dense>
-      <player-equipment-item v-for="(i, idx) in mech.ActiveLoadout.Equipment" :key="i.ID + idx" :item="i" />
+      <player-equipment-item
+        v-for="(i, idx) in mech.ActiveLoadout.Equipment"
+        :key="i.ID + idx"
+        :item="i"
+      />
     </v-row>
     <v-divider class="my-2" />
     <v-row dense>
@@ -347,8 +358,26 @@
         hide-actions
       />
     </v-row>
+    <v-row v-if="mech.Reactions.length" dense justify="center">
+      <v-col cols="10">
+        <div class="overline">STAGED REACTIONS</div>
+        <v-chip
+          v-for="(r, i) in mech.Reactions"
+          :key="r + i"
+          dark
+          color="action--reaction"
+          close
+          close-icon="mdi-close"
+          class="mx-1"
+          @click:close="mech.RemoveReaction(r)"
+        >
+          <v-icon left dark>mdi-redo-variant</v-icon>
+          <span class="heading h3">{{ r }}</span>
+        </v-chip>
+      </v-col>
+    </v-row>
     <v-row dense justify="center">
-      <v-col v-if="!mech.Destroyed" cols="8">
+      <v-col v-if="!mech.Defeat" cols="8">
         <v-btn
           block
           outlined
@@ -374,7 +403,13 @@
         </v-slide-y-transition>
       </v-col>
       <v-col cols="auto" class="ml-2">
-        options menu
+        <card-options-menu
+          :defeated="mech.Defeat.length"
+          @stage-reaction="mech.AddReaction($event)"
+          @remove="mech.Defeat = $event"
+          @repair="mech.FullRepair()"
+          @delete-actor="$emit('delete-actor')"
+        />
       </v-col>
     </v-row>
     <cc-stress-table ref="stressTable" :mech="mech" />
@@ -385,12 +420,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import PlayerEquipmentItem from './PlayerEquipmentItem.vue'
+import CardOptionsMenu from './CardOptionsMenu.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'player-card',
-  components: { PlayerEquipmentItem },
+  components: { PlayerEquipmentItem, CardOptionsMenu },
   props: {
     mech: {
       type: Object,

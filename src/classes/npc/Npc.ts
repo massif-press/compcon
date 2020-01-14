@@ -28,6 +28,7 @@ export interface INpcData {
   reactions: string[]
   burn: number
   destroyed: boolean
+  defeat: string
   actions: number
   cc_ver: string
 }
@@ -55,6 +56,7 @@ export class Npc implements IActor {
   private _burn: number
   private _actions: number
   private _destroyed: boolean
+  private _defeat: string
   private cc_ver: string
 
   public constructor(npcClass: NpcClass, tier?: number) {
@@ -81,6 +83,7 @@ export class Npc implements IActor {
     this._burn = 0
     this._actions = 2
     this._destroyed = false
+    this._defeat = ''
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
@@ -410,6 +413,16 @@ export class Npc implements IActor {
 
   public set Destroyed(val: boolean) {
     this._destroyed = val
+    this._defeat = val ? 'Destroyed' : ''
+    this.save()
+  }
+
+  public get Defeat(): string {
+    return this._defeat
+  }
+
+  public set Defeat(val: string) {
+    this._defeat = val
     this.save()
   }
 
@@ -461,6 +474,13 @@ export class Npc implements IActor {
     if (idx > -1) this.Reactions.splice(idx, 1)
   }
 
+  public FullRepair(): void {
+    this.CurrentStats.Reset(this.Stats)
+    this.Items.forEach(e => e.Repair())
+    this._defeat = ''
+    this._destroyed = false
+  }
+
   public NewTurn(): void {
     this.CurrentStats.Activations = 1
     this._actions = 2
@@ -491,6 +511,7 @@ export class Npc implements IActor {
       reactions: npc._reactions,
       burn: npc._burn,
       destroyed: npc._destroyed,
+      defeat: npc._defeat,
       actions: npc._actions,
       cc_ver: npc.cc_ver,
     }
@@ -519,6 +540,7 @@ export class Npc implements IActor {
     npc._burn = data.burn || 0
     npc._actions = data.actions || 1
     npc._destroyed = data.destroyed || false
+    npc._defeat = data.defeat || ''
     npc.cc_ver = data.cc_ver
     return npc
   }

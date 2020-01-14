@@ -148,9 +148,11 @@ declare interface IMechData {
   statuses: string[]
   conditions: string[]
   resistances: string[]
+  reactions: string[]
   burn: number
   ejected: boolean
   destroyed: boolean
+  defeat: string
   activations: number
   meltdown_imminent: boolean
   reactor_destroyed: boolean

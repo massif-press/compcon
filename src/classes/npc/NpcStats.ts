@@ -48,6 +48,25 @@ export class NpcStats {
     })
   }
 
+  public Reset(max: NpcStats): void {
+    this._stats.activations = max.Stats.activations
+    this._stats.armor = max.Stats.armor
+    this._stats.hp = max.Stats.hp
+    this._stats.evade = max.Stats.evade
+    this._stats.edef = max.Stats.edef
+    this._stats.heatcap = max.Stats.heatcap
+    this._stats.speed = max.Stats.speed
+    this._stats.sensor = max.Stats.sensor
+    this._stats.save = max.Stats.save
+    this._stats.hull = max.Stats.hull
+    this._stats.agility = max.Stats.agility
+    this._stats.systems = max.Stats.systems
+    this._stats.engineering = max.Stats.engineering
+    this._stats.size = max.Stats.size
+    this._stats.structure = max.Stats.structure
+    this._stats.stress = max.Stats.stress
+  }
+
   private save(): void {
     store.dispatch('npc/saveNpcData')
   }

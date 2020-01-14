@@ -25,11 +25,11 @@ Missions:
     ✔ Player system/mount mark destroyed @done(20-01-09 15:50)
     ✔ GM notes @done(20-01-09 15:51)
     ✔ End turn @done(20-01-09 15:51)
-    ☐ Options
-      ☐ Add Custom Reaction
-      ☐ Mark Destroyed
-      ☐ Complete repair (warning)
-      ☐ Remove from battlefield (warning)
+    ✔ Options @done(20-01-13 22:23)
+      ✔ Add Custom Reaction @done(20-01-13 21:30)
+      ✔ Remove from battle @done(20-01-13 22:23)
+      ✔ Delete Actor (warning) @done(20-01-13 22:23)
+      ✔ Complete repair (warning) @done(20-01-13 22:23)
 
   ☐ Run Mission
     ✔ End round @done(20-01-10 16:32)

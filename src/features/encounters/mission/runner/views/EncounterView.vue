@@ -4,8 +4,12 @@
       <v-col>
         <v-card flat outlined height="100%">
           <v-card-text>
-            <player-card v-if="selected && isPlayer(selected)" :mech="selected" />
-            <npc-card v-else-if="selected" :npc="selected" />
+            <player-card
+              v-if="selected && isPlayer(selected)"
+              :mech="selected"
+              @delete-actor="deleteActor()"
+            />
+            <npc-card v-else-if="selected" :npc="selected" @delete-actor="deleteActor()" />
           </v-card-text>
         </v-card>
       </v-col>
@@ -44,21 +48,21 @@
             </div>
             <slide-item v-for="a in finished" :key="a.ID" :actor="a" complete />
             <v-divider
-              v-if="destroyed.length"
+              v-if="defeated.length"
               vertical
               class="mx-4"
               style="border-color: darkgrey"
             />
             <div style="position: relative">
               <div
-                v-if="destroyed.length"
+                v-if="defeated.length"
                 class="overline font-weight-bold"
                 style="position: absolute; top: -2px"
               >
-                DESTROYED
+                DEFEATED
               </div>
             </div>
-            <slide-item v-for="a in destroyed" :key="a.ID" :actor="a" destroyed />
+            <slide-item v-for="a in defeated" :key="a.ID" :actor="a" defeated />
           </v-slide-group>
         </v-card>
       </v-col>
@@ -121,13 +125,13 @@ export default Vue.extend({
       return this.actors.find(x => x.ID === this.selectedActor)
     },
     initiative() {
-      return this.actors.filter(x => x.Activations > 0 && !x.Destroyed)
+      return this.actors.filter(x => x.Activations > 0 && !x.Defeat)
     },
     finished() {
-      return this.actors.filter(x => x.Activations === 0 && !x.Destroyed)
+      return this.actors.filter(x => x.Activations === 0 && !x.Defeat)
     },
-    destroyed() {
-      return this.actors.filter(x => x.Destroyed)
+    defeated() {
+      return this.actors.filter(x => x.Defeat)
     },
   },
   watch: {
@@ -149,6 +153,15 @@ export default Vue.extend({
         a.NewTurn()
       })
       this.encounter.Round++
+    },
+    deleteActor() {
+      if (this.isPlayer(this.selected)) {
+        const idx = this.activeMission.Pilots.findIndex(x => x.ID === this.selected.ID)
+        if (idx > -1) this.activeMission.Pilots.splice(idx)
+      } else {
+        const idx = this.encounter.Npcs.findIndex(x => x.ID === this.selected.ID)
+        if (idx > -1) this.encounter.Npcs.splice(idx)
+      }
     },
   },
 })

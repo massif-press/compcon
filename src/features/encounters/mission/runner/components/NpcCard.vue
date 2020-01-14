@@ -14,12 +14,12 @@
       </v-col>
     </v-row>
 
-    <v-alert v-if="npc.Destroyed" prominent color="error" dark border="left" icon="mdi-skull">
-      <span class="heading h2">NPC DESTROYED</span>
+    <v-alert v-if="npc.Defeat" prominent color="error" dark border="left" icon="mdi-skull">
+      <span class="heading h2">NPC {{ npc.Defeat }}</span>
     </v-alert>
 
     <v-alert
-      v-if="npc.Activations === 0 && !npc.Destroyed"
+      v-if="npc.Activations === 0 && !npc.Defeat"
       prominent
       dark
       dense
@@ -257,7 +257,7 @@
       </v-col>
     </v-row>
     <v-row dense justify="center" class="mt-3">
-      <v-col v-if="!npc.Destroyed" cols="8">
+      <v-col v-if="!npc.Defeat" cols="8">
         <v-btn
           block
           large
@@ -282,48 +282,13 @@
         </v-slide-y-transition>
       </v-col>
       <v-col cols="auto">
-        <v-menu v-if="!readonly && !active" offset-x right>
-          <template v-slot:activator="{ on }">
-            <v-btn large icon v-on="on">
-              <v-icon large>mdi-settings</v-icon>
-            </v-btn>
-          </template>
-          <v-list dense>
-            <v-list-item @click.stop>
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>mdi-redo-variant</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Stage Custom Reaction</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item @click.stop>
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>mdi-close</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Remove from Battle</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>            
-            <v-list-item @click.stop>
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>cci-repair</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Full Repair</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-divider />
-            <v-list-item @click.stop>
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon color="error">mdi-delete</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Delete from Encounter</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <card-options-menu
+          :defeated="npc.Defeat.length"
+          @stage-reaction="npc.AddReaction($event)"
+          @remove="npc.Defeat = $event"
+          @repair="npc.FullRepair()"
+          @delete-actor="$emit('delete-actor')"
+        />
       </v-col>
     </v-row>
     <cc-ref-stress-table ref="stressTable" />
@@ -333,15 +298,20 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import CardOptionsMenu from './CardOptionsMenu.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'npc-card',
+  components: { CardOptionsMenu },
   props: {
     npc: {
       type: Object,
       required: true,
+    },
+    defeated: {
+      type: Boolean,
     },
   },
   data: () => ({

@@ -103,6 +103,12 @@ export class NpcItem {
     return this._max_uses
   }
 
+  public Repair(): void {
+    this.Destroyed = false
+    this.IsCharged = true
+    this.Uses = 0
+  }
+
   public static Serialize(item: NpcItem): INpcItemSaveData {
     return {
       itemID: item._feature.ID,

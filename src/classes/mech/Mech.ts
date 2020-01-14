@@ -30,8 +30,10 @@ class Mech implements IActor {
   private _statuses: string[]
   private _conditions: string[]
   private _resistances: string[]
+  private _reactions: string[]
   private _ejected: boolean
   private _destroyed: boolean
+  private _defeat: string
   private _reactor_destroyed: boolean
   private _meltdown_imminent: boolean
   private _burn: number
@@ -58,9 +60,11 @@ class Mech implements IActor {
     this._statuses = []
     this._conditions = []
     this._resistances = []
+    this._reactions = []
     this._burn = 0
     this._ejected = false
     this._destroyed = false
+    this._defeat = ''
     this._reactor_destroyed = false
     this._meltdown_imminent = false
     this._loadouts = [new MechLoadout(this)]
@@ -584,9 +588,21 @@ class Mech implements IActor {
     return this.Speed
   }
 
-  //TODO: placeholder
   public get Reactions(): string[] {
-    return []
+    return this._reactions
+  }
+
+  public set Reactions(val: string[]) {
+    this._reactions = val
+  }
+
+  public AddReaction(r: string): void {
+    if (!this.Reactions.some(x => x === r)) this.Reactions.push(r)
+  }
+
+  public RemoveReaction(r: string): void {
+    const idx = this.Reactions.findIndex(x => x === r)
+    if (idx > -1) this.Reactions.splice(idx, 1)
   }
 
   public NewTurn(): void {
@@ -611,12 +627,22 @@ class Mech implements IActor {
     return out
   }
 
+  public get Defeat(): string {
+    return this._defeat
+  }
+
+  public set Defeat(val: string) {
+    this._defeat = val
+    this.save()
+  }
+
   public get Destroyed(): boolean {
     return this._destroyed
   }
 
   public set Destroyed(b: boolean) {
     this._destroyed = b
+    this._defeat = b ? 'Destroyed' : ''
     this.save()
   }
 
@@ -646,11 +672,13 @@ class Mech implements IActor {
     this._meltdown_imminent = false
     this._destroyed = false
     this._reactor_destroyed = destroyed
+    this._defeat = destroyed ? 'Reactor Destroyed' : ''
     this.save()
   }
 
   public Destroy(): void {
     this._destroyed = true
+    this._defeat = 'Destroyed'
     this.save()
   }
 
@@ -731,6 +759,7 @@ class Mech implements IActor {
     this._resistances = []
     this.Burn = 0
     this._destroyed = false
+    this._defeat = ''
     this._reactor_destroyed = false
     this._meltdown_imminent = false
     this.save()
@@ -860,9 +889,11 @@ class Mech implements IActor {
       statuses: m._statuses,
       conditions: m._conditions,
       resistances: m._resistances,
+      reactions: m._reactions,
       burn: m._burn,
       ejected: m._ejected,
       destroyed: m._destroyed,
+      defeat: m._defeat,
       activations: m._activations,
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
@@ -902,9 +933,11 @@ class Mech implements IActor {
     m._statuses = data.statuses || []
     m._conditions = data.conditions || []
     m._resistances = data.resistances || []
+    m._reactions = data.reactions || []
     m._burn = data.burn || 0
     m._ejected = data.ejected || false
     m._destroyed = data.destroyed || false
+    m._defeat = data.defeat || ''
     m._activations = data.activations || 1
     m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
