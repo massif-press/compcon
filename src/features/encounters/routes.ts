@@ -13,7 +13,10 @@ import Mission from './mission/index.vue'
 import MissionLanding from './mission/landing.vue'
 import MissionBuilder from './mission/builder/index.vue'
 import MissionCard from './mission/builder/MissionCard.vue'
-import MissionRunner from './mission/runner/index.vue'
+import MissionSelector from './mission/runner/index.vue'
+import MissionBriefing from './mission/runner/Briefing.vue'
+import MissionRunner from './mission/runner/Active.vue'
+import MissionDebriefing from './mission/runner/Debriefing.vue'
 
 import { RouteConfig } from 'vue-router'
 
@@ -81,17 +84,27 @@ const routes: RouteConfig[] = [
             ],
           },
           {
-            path: 'runner',
+            path: 'selector',
+            name: 'mission-selector',
+            component: MissionSelector,
+          },
+          {
+            path: 'briefing/:id',
+            name: 'mission-briefing',
+            props: true,
+            component: MissionBriefing,
+          },
+          {
+            path: 'runner/:id',
             name: 'mission-runner',
+            props: true,
             component: MissionRunner,
-            children: [
-              {
-                path: ':id',
-                name: 'active-mission',
-                component: EncounterCard,
-                props: true,
-              },
-            ],
+          },
+          {
+            path: 'debriefing/:id',
+            name: 'mission-debriefing',
+            props: true,
+            component: MissionDebriefing,
           },
         ],
       },

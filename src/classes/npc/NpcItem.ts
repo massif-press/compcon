@@ -63,11 +63,11 @@ export class NpcItem {
     this.save()
   }
 
-  public get IsDestroyed(): boolean {
+  public get Destroyed(): boolean {
     return this._destroyed
   }
 
-  public set IsDestroyed(val: boolean) {
+  public set Destroyed(val: boolean) {
     this._destroyed = val
   }
 
@@ -85,7 +85,7 @@ export class NpcItem {
       tier: item.Tier,
       flavorName: item._flavor_name,
       description: item.Description,
-      destroyed: item.IsDestroyed,
+      destroyed: item.Destroyed,
       charged: item.IsCharged,
     }
   }

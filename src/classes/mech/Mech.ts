@@ -6,10 +6,11 @@ import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } fro
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
-class Mech {
+class Mech implements IActor {
   private _id: string
   private _name: string
   private _notes: string
+  private _gm_note: string
   private _portrait: string
   private _cloud_portrait: string
   private _frame: Frame
@@ -22,6 +23,7 @@ class Mech {
   private _current_repairs: number
   private _current_core_energy: number
   private _current_overcharge: number
+  private _activations: number
   private _active: boolean
   private _pilot: Pilot
   private _cc_ver: string
@@ -33,11 +35,14 @@ class Mech {
   private _reactor_destroyed: boolean
   private _meltdown_imminent: boolean
   private _burn: number
+  private _actions: number
+  private _currentMove: number
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid()
     this._name = ''
     this._notes = ''
+    this._gm_note = ''
     this._portrait = ''
     this._cloud_portrait = ''
     this._frame = frame
@@ -60,6 +65,9 @@ class Mech {
     this._meltdown_imminent = false
     this._loadouts = [new MechLoadout(this)]
     this.ActiveLoadout = this._loadouts[0]
+    this._activations = 1
+    this._actions = 2
+    this._currentMove = this.Speed
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -85,12 +93,29 @@ class Mech {
     this.save()
   }
 
+  public get EncounterName(): string {
+    return this.Pilot.Callsign
+  }
+
+  public get Icon(): string {
+    return 'cci-pilot'
+  }
+
   public get Notes(): string {
     return this._notes
   }
 
   public set Notes(notes: string) {
     this._notes = notes
+    this.save()
+  }
+
+  public get GmNote(): string {
+    return this._notes
+  }
+
+  public set GmNote(val: string) {
+    this._gm_note = val
     this.save()
   }
 
@@ -330,7 +355,7 @@ class Mech {
 
   // -- Stats -------------------------------------------------------------------------------------
   public get CurrentStructure(): number {
-    return this._active ? this._current_structure : this.MaxStructure
+    return this._current_structure
   }
 
   public set CurrentStructure(structure: number) {
@@ -375,7 +400,7 @@ class Mech {
     let bonus = this._pilot.Grit + this.Hull * 2
     if (this.ActiveLoadout) {
       const personalizations = this.ActiveLoadout.GetSystem('ms_personalizations')
-      if (personalizations && !personalizations.IsDestroyed) bonus += 2
+      if (personalizations && !personalizations.Destroyed) bonus += 2
     }
     if (this._pilot.has('CoreBonus', 'cb_reinforced_frame')) bonus += 5
     return this._frame.HP + bonus
@@ -417,7 +442,7 @@ class Mech {
   }
 
   public get CurrentHeat(): number {
-    return this._active ? this._current_heat : this.HeatCapacity
+    return this._current_heat
   }
 
   public set CurrentHeat(heat: number) {
@@ -468,7 +493,7 @@ class Mech {
   }
 
   public get CurrentStress(): number {
-    return this._active ? this._current_stress : this.MaxStress
+    return this._current_stress
   }
 
   public set CurrentStress(stress: number) {
@@ -487,7 +512,7 @@ class Mech {
   }
 
   public get CurrentRepairs(): number {
-    return this._active ? this._current_repairs : this.RepairCapacity
+    return this._current_repairs
   }
 
   public set CurrentRepairs(rep: number) {
@@ -510,7 +535,7 @@ class Mech {
   }
 
   public get CurrentCoreEnergy(): number {
-    return this._active ? this._current_core_energy : 1
+    return this._current_core_energy
   }
 
   public set CurrentCoreEnergy(energy: number) {
@@ -519,7 +544,7 @@ class Mech {
   }
 
   public get CurrentOvercharge(): number {
-    return this._active ? this._current_overcharge : 0
+    return this._current_overcharge
   }
 
   public set CurrentOvercharge(overcharge: number) {
@@ -527,12 +552,56 @@ class Mech {
     this.save()
   }
 
+  // -- Encounter Management ----------------------------------------------------------------------
+  public get Activations(): number {
+    return this._activations
+  }
+
+  public set Activations(val: number) {
+    this._activations = val
+    this.save()
+  }
+
+  public get Actions(): number {
+    return this._actions
+  }
+
+  public set Actions(val: number) {
+    this._actions = val
+    this.save()
+  }
+
+  public get CurrentMove(): number {
+    return this._currentMove
+  }
+
+  public set CurrentMove(val: number) {
+    this._currentMove = val
+    this.save()
+  }
+
+  public get MaxMove(): number {
+    return this.Speed
+  }
+
+  //TODO: placeholder
+  public get Reactions(): string[] {
+    return []
+  }
+
+  public NewTurn(): void {
+    this._activations = 1
+    this._actions = 2
+    this._currentMove = this.MaxMove
+    this.save()
+  }
+
   // -- Statuses and Conditions -------------------------------------------------------------------
   public get StatusString(): string[] {
     const out = []
     if (this.ReactorDestroyed) out.push('reactorDestroyed')
-    if (this.IsDestroyed) out.push('destroyed')
-    if (this.IsEjected) out.push('ejected')
+    if (this.Destroyed) out.push('destroyed')
+    if (this.Ejected) out.push('ejected')
     if (this.MeltdownImminent) out.push('meltdown')
     if (this.ActiveLoadout.Systems.filter(x => x.IsUnshackled).length) out.push('unshackled')
     if (this.FreeSP < 0) out.push('overSP')
@@ -542,20 +611,20 @@ class Mech {
     return out
   }
 
-  public get IsDestroyed(): boolean {
+  public get Destroyed(): boolean {
     return this._destroyed
   }
 
-  public set IsDestroyed(b: boolean) {
+  public set Destroyed(b: boolean) {
     this._destroyed = b
     this.save()
   }
 
-  public get IsEjected(): boolean {
+  public get Ejected(): boolean {
     return this._ejected
   }
 
-  public set IsEjected(b: boolean) {
+  public set Ejected(b: boolean) {
     this._ejected = b
     this.save()
   }
@@ -653,7 +722,7 @@ class Mech {
     this.CurrentOvercharge = 0
     this._loadouts.forEach(x => {
       x.Equipment.forEach(y => {
-        if (y.IsDestroyed) y.Repair()
+        if (y.Destroyed) y.Repair()
         if (y.IsLimited) y.Uses = y.getTotalUses(this.Pilot.LimitedBonus)
       })
     })
@@ -775,6 +844,7 @@ class Mech {
       id: m.ID,
       name: m.Name,
       notes: m.Notes,
+      gm_note: m.GmNote,
       portrait: m._portrait,
       cloud_portrait: m._cloud_portrait,
       frame: m.Frame.ID,
@@ -793,6 +863,7 @@ class Mech {
       burn: m._burn,
       ejected: m._ejected,
       destroyed: m._destroyed,
+      activations: m._activations,
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
       cc_ver: store.getters.getVersion || 'ERR',
@@ -804,6 +875,7 @@ class Mech {
     let m = new Mech(f, pilot)
     m._id = data.id
     m._name = data.name
+    ;(m._notes = data.notes), (m._gm_note = data.gm_note)
     m._portrait = data.portrait
     m._cloud_portrait = data.cloud_portrait
     m._active = data.active
@@ -833,6 +905,7 @@ class Mech {
     m._burn = data.burn || 0
     m._ejected = data.ejected || false
     m._destroyed = data.destroyed || false
+    m._activations = data.activations || 1
     m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
     m._cc_ver = data.cc_ver || ''

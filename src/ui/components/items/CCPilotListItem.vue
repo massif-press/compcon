@@ -1,5 +1,5 @@
 <template>
-  <div id="pc-wrapper" @click="toPilotSheet()">
+  <div id="pc-wrapper" @click="selectable ? $emit('select', pilot) : toPilotSheet()">
     <v-card
       tile
       color="primary"
@@ -73,8 +73,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'cc-pilot-list-item',
@@ -82,6 +80,9 @@ export default Vue.extend({
     pilot: {
       type: Object,
       required: true,
+    },
+    selectable: {
+      type: Boolean,
     },
   },
   methods: {

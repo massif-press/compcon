@@ -182,8 +182,9 @@ export default Vue.extend({
       this.$emit('set', { attr: 'Callsign', val: callsign() })
       this.$forceUpdate()
     },
-    randomName() {
-      this.$emit('set', { attr: 'Name', val: name() })
+    async randomName() {
+      const generatedName = await name()
+      this.$emit('set', { attr: 'Name', val: generatedName })
       this.$forceUpdate()
     },
   },

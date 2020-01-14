@@ -4,7 +4,7 @@
       <div slot="header">
         <span v-if="mod">
           <equipment-options :item="mod" />
-          <span v-if="!mod.IsDestroyed" class="ml-n2">{{ mod.Name }}</span>
+          <span v-if="!mod.Destroyed" class="ml-n2">{{ mod.Name }}</span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / EQUIPMENT DESTROYED / /&emsp;
           </span>

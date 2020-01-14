@@ -4,7 +4,7 @@
       <div
         class="btn-main"
         :class="{
-          disabled,
+          disabled: disabled || loading,
           grey: disabled,
         }"
         @mouseenter="$emit('hover')"
@@ -16,6 +16,7 @@
           <v-icon dark size="50" class="ml-n4 mt-n2">cci-pilot</v-icon>
           <slot />
         </div>
+        <v-progress-linear v-if="loading" absolute bottom color="white" indeterminate />
       </div>
     </div>
   </v-col>
@@ -29,12 +30,17 @@ export default Vue.extend({
   props: {
     to: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     mouseOver: false,

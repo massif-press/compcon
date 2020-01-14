@@ -158,9 +158,7 @@ export default Vue.extend({
           name: 'New Mission',
           note: '',
           campaign: 'None',
-          encounters: [],
           labels: [],
-          rests: [],
           steps: [],
         })
       )

@@ -80,10 +80,9 @@ import {
   NpcItem,
   Npc,
 } from './classes/npc'
-import { Encounter, Rest, Mission } from './classes/encounter'
+import { Encounter, Rest, Mission, ActiveMission } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
 import { Counter } from './classes/Counter'
-
 
 export {
   MountType,
@@ -160,6 +159,7 @@ export {
   EncounterSide,
   Rest,
   Mission,
+  ActiveMission,
   ContentPack,
-  Counter
+  Counter,
 }

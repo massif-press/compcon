@@ -1,7 +1,7 @@
 <template>
   <v-window-item class="px-3">
     <v-row>
-      <div v-if="mech.IsDestroyed || mech.ReactorDestroyed">
+      <div v-if="mech.Destroyed || mech.ReactorDestroyed">
         <destroyed-alert :mech="mech" />
         <div v-if="mech.ReactorDestroyed">
           <p class="stat-text primary--text text-center pt-4">
@@ -305,10 +305,10 @@ export default Vue.extend({
       return this.mech.ActiveLoadout
     },
     destroyedWeapons() {
-      return this.loadout.Weapons.filter(x => x.IsDestroyed)
+      return this.loadout.Weapons.filter(x => x.Destroyed)
     },
     destroyedSystems() {
-      return this.loadout.Systems.filter(x => x.IsDestroyed)
+      return this.loadout.Systems.filter(x => x.Destroyed)
     },
     isEverest() {
       return this.mech.Frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"'
