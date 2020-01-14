@@ -4,7 +4,7 @@
     :title="
       `${npc.Name}  —  ${typeof npc.Tier === 'number' ? `T${npc.Tier}` : `Custom`} ${
         npc.Class.Name
-      } ${npc.Tag} ${npc.Templates.map(t => t.Name).join(' ')}`
+      } ${npc.Templates.map(t => t.Name).join(' ')} ${npc.Tag}`
     "
     :color="npc.Class.Color"
   >

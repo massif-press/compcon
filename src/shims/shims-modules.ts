@@ -12,6 +12,11 @@ declare module 'imgur'
 
 declare module 'vuedraggable'
 
+declare module "*.txt" {
+  const content: string;
+  export default content;
+}
+
 declare module 'lancer-data' {
   const backgrounds: any
   const skills: any

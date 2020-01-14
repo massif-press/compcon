@@ -27,14 +27,14 @@ export class NpcStats {
     this._stats = data
   }
 
-  public static FromClass(npcClass: NpcClass, tier: number): NpcStats {
+  public static FromClass(npcClass: NpcClass, tier: number, current?: boolean): NpcStats {
     return new NpcStats({
       activations: npcClass.Stats.Activations(tier),
       armor: npcClass.Stats.Armor(tier),
       hp: npcClass.Stats.HP(tier),
       evade: npcClass.Stats.Evade(tier),
       edef: npcClass.Stats.EDefense(tier),
-      heatcap: npcClass.Stats.HeatCapacity(tier),
+      heatcap: current ? 0 : npcClass.Stats.HeatCapacity(tier),
       speed: npcClass.Stats.Speed(tier),
       sensor: npcClass.Stats.Sensor(tier),
       save: npcClass.Stats.Save(tier),

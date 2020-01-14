@@ -8,7 +8,7 @@
     <v-card-actions>
       <v-btn text color="warning" @click="$emit('dismiss')">dismiss</v-btn>
       <v-spacer />
-      <v-btn text color="secondary" flat @click="$emit('previous')">previous</v-btn>
+      <v-btn text color="secondary" @click="$emit('previous')">previous</v-btn>
       <slot v-if="otherBtn" name="confirm-button" />
       <v-btn v-else color="primary" large :disabled="disabled" @click="$emit('confirm')">
         confirm

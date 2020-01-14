@@ -144,6 +144,10 @@ class Pilot {
     this.save()
   }
 
+  public get Power(): number {
+    return (this.Level + 1) * 100
+  }
+
   public get Background(): string {
     return this._background
   }
@@ -871,6 +875,10 @@ class Pilot {
   }
 
   public get ActiveMech(): Mech | null {
+    if (!this._active_mech) {
+      if (!this._mechs.length) return null
+      this.ActiveMech = this._mechs[0]
+    }
     return this._mechs.find(x => x.ID === this._active_mech) || null
   }
 
@@ -884,7 +892,6 @@ class Pilot {
       return
     }
 
-
     mech.IsActive = true
     this._active_mech = mech.ID
     this.save()
@@ -893,7 +900,9 @@ class Pilot {
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []
-  public get CounterSaveData(): ICounterSaveData[] { return this._counterSaveData }
+  public get CounterSaveData(): ICounterSaveData[] {
+    return this._counterSaveData
+  }
   public saveCounter(inputData: ICounterSaveData): void {
     const index = this._counterSaveData.findIndex(datum => datum.id === inputData.id)
     if (index < 0) {
@@ -905,12 +914,14 @@ class Pilot {
   }
 
   private _customCounters: ICounterData[] = []
-  public get CustomCounterData(): ICounterData[] { return this._customCounters || [] }
+  public get CustomCounterData(): ICounterData[] {
+    return this._customCounters || []
+  }
   public createCustomCounter(name: string): void {
     const counter = {
       name,
       id: uuid(),
-      custom: true
+      custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
   }
@@ -928,10 +939,15 @@ class Pilot {
       this.CoreBonuses?.flatMap(cb => cb.Counters),
       this.ActiveMech?.Frame.Counters,
       this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
-      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [...weapon.Counters, ...weapon.Mod.Counters]),
+      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [
+        ...weapon.Counters,
+        ...weapon.Mod.Counters,
+      ]),
       this.ActiveMech?.Frame.CoreSystem.Integrated?.Counters,
-      this.CustomCounterData
-    ].flat().filter(x => x)
+      this.CustomCounterData,
+    ]
+      .flat()
+      .filter(x => x)
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -970,7 +986,7 @@ class Pilot {
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
-      custom_counters: p.CustomCounterData
+      custom_counters: p.CustomCounterData,
     }
   }
 
@@ -1006,8 +1022,8 @@ class Pilot {
     this.CoreBonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._loadouts = data.loadouts.length
       ? data.loadouts
-        .filter(n => Boolean(n))
-        .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
+          .filter(n => Boolean(n))
+          .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
       : [new PilotLoadout(0)]
     this.Reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
@@ -1024,7 +1040,7 @@ class Pilot {
     this._active_mech = data.active_mech
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
-    this._customCounters = data.custom_counters as ICounterData[] || []
+    this._customCounters = (data.custom_counters as ICounterData[]) || []
   }
 }
 

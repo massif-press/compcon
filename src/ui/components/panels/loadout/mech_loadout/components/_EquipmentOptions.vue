@@ -7,7 +7,7 @@
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item v-if="!item.IsDestroyed" @click="item.Destroy()">
+        <v-list-item v-if="!item.Destroyed" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-image-broken-variant</v-icon>
           </v-list-item-icon>

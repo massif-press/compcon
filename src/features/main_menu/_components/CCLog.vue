@@ -1,7 +1,7 @@
 <template>
   <div id="output-container">
-    <p id="completed" class="flavor-text grey--text text--darken-1 py-0 my-0"></p>
-    <p id="output" class="flavor-text grey--text text--darken-1 py-0 my-0">
+    <p id="completed" ref="completed" class="flavor-text grey--text text--darken-1 py-0 my-0"></p>
+    <p id="output" ref="output" class="flavor-text grey--text text--darken-1 py-0 my-0">
       <br />
       <br />
       <br />
@@ -11,33 +11,33 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import typeit from 'typeit'
+import TypeIt from 'typeit'
 import { encryption } from '@/io/Generators'
-
-function scrollIntoViewSuppressed() {
-  try {
-    document.getElementById('output').scrollIntoView({ block: 'end' })
-  } catch (e) {
-    if (e instanceof TypeError) {
-    } else throw e
-  }
-}
 
 export default Vue.extend({
   name: 'cc-log',
   data: () => ({
-    typeit: {},
+    typer: {},
     text: [],
     lock: false,
   }),
-  mounted() {
-    this.typeit = new typeit('#output', {
+  async mounted() {
+    this.lock = true
+    await Vue.nextTick()
+    this.typer = new TypeIt(this.$refs.output, {
       speed: 2,
       nextStringDelay: 5,
-      cursorChar: '_',
+      lifeLike: false,
+      cursor: false,
       startDelete: false,
       beforeString: () => {
-        scrollIntoViewSuppressed()
+        this.$refs.output.scrollIntoView({ block: 'end' })
+      },
+      afterString: () => {
+        this.$refs.output.scrollIntoView({ block: 'end' })
+      },
+      afterComplete: () => {
+        this.lock = false
       },
     })
       .type('<br>')
@@ -79,7 +79,7 @@ export default Vue.extend({
       .break()
       .type('&emsp;&emsp;HA DOMINANCE line/all')
       .break()
-      .type('&emsp;&emsp;[WN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKNOWN UNKN]')
+      .type('&emsp;&emsp;[WN UNKNOWN UNKNOWN UNKNOWN <span class="horus--subtle">UN</span>KNOWN UNKNOWN UNKN]')
       .break()
       .type(`Policy Zone: ${encryption()}`)
       .break()
@@ -131,59 +131,43 @@ export default Vue.extend({
       .break()
       .type('No sensory bridge found // manual input mode enabled')
       .break()
-      .type('>//[COMP/CON: <span class="black--text">Welcome, Lancer. Input Command.</span>]')
-      .break()
+      .type('>//[<span class="primary--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Lancer. Input Command.</span>]')
       .go()
   },
   methods: {
     print(user: string, response: string) {
       if (this.lock) return
       this.lock = true
-      let firstLine = ''
-      this.typeit.options({ cursorChar: ' ', cursor: false })
-      if (this.typeit.is('started') && !this.typeit.is('frozen') && !this.typeit.is('completed'))
-        firstLine = '^C<br>// INTERRUPT: STARTUP OVERRIDE // REACTOR MUST BE PRIMED MANUALLY<br>'
 
-      this.typeit.destroy()
+      this.typer.destroy()
 
-      //collect written strings so typeit doesn't erase them
-      // const output = document.getElementById('output')
-      try {
-        const completed = document.getElementById('completed')
-        const contents = document.getElementsByClassName('ti-container')[0]
-        completed.innerHTML += contents.innerHTML
-      } catch (e) {
-        if (e instanceof TypeError) {
-          return
-        } else throw e
-      }
-      // if (completed.innerHTML.length > 1) completed.innerHTML += '<br />'
+      //collect written strings so TypeIt doesn't erase them
+      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML += '<br>'
+      this.$refs.completed.innerHTML += this.$refs.output.innerHTML
+      this.$refs.output.innerHTML = ''
 
-      this.typeit = new typeit('#output', {
-        speed: 3,
+      this.typer = new TypeIt(this.$refs.output, {
+        speed: 32,
+        lifeLike: true,
         nextStringDelay: 7,
-        cursorChar: '_',
-        startDelete: false,
-        strings: [],
+        cursor: false,
         beforeString: () => {
-          scrollIntoViewSuppressed()
+          this.$refs.output.scrollIntoView({ block: 'end' })
         },
         afterString: () => {
-          scrollIntoViewSuppressed()
+          this.$refs.output.scrollIntoView({ block: 'end' })
         },
         afterComplete: () => {
           this.lock = false
         },
       })
-        .type(firstLine)
-        .options({ speed: 32, lifeLike: true })
         .type(`$ `)
-        .type(`<span class="success--text">${user}</span>↵`)
+        .type(`<span class="stark-text--text">${user}</span>↵`)
         .pause(100)
         .options({ speed: 3, lifeLike: false })
         .break()
         .type('>')
-        .type(`//[COMP/CON: <span class="black--text">${response}</span>]`)
+        .type(`//[<span class="primary--text">COMP/CON</span>: <span class="black--text">${response}</span>]`)
         .type(' ')
         .go()
     },
@@ -194,7 +178,7 @@ export default Vue.extend({
 <style scoped>
 #output-container {
   position: absolute;
-  height: 80vh;
+  height: 90vh;
   overflow-y: scroll;
   overflow-x: hidden;
   width: calc(100vw - 665px);

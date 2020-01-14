@@ -128,7 +128,7 @@ class MechWeapon extends MechEquipment {
     return {
       id: item.ID,
       uses: item.Uses || 0,
-      destroyed: item.IsDestroyed,
+      destroyed: item.Destroyed,
       unshackled: item.IsUnshackled,
       loaded: item.Loaded,
       note: item.Note,
@@ -139,7 +139,7 @@ class MechWeapon extends MechEquipment {
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
     let item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
     item.Uses = data.uses || 0
-    item.IsDestroyed = data.destroyed || false
+    item.Destroyed = data.destroyed || false
     item.IsUnshackled = data.unshackled || false
     item.Loaded = data.loaded || true
     item.Mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
