@@ -256,11 +256,11 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-row dense justify="center" class="mt-3">
-      <v-col v-if="!npc.Defeat" cols="8">
+    <v-row dense justify="start" class="mt-3 mb-10">
+      <v-col v-if="!npc.Defeat">
         <v-btn
           block
-          large
+          x-large
           color="secondary"
           :disabled="npc.Activations === 0"
           @click="npc.Activations -= 1"
@@ -281,15 +281,6 @@
           </v-btn>
         </v-slide-y-transition>
       </v-col>
-      <v-col cols="auto">
-        <card-options-menu
-          :defeated="npc.Defeat.length"
-          @stage-reaction="npc.AddReaction($event)"
-          @remove="npc.Defeat = $event"
-          @repair="npc.FullRepair()"
-          @delete-actor="$emit('delete-actor')"
-        />
-      </v-col>
     </v-row>
     <cc-ref-stress-table ref="stressTable" />
     <cc-ref-structure-table ref="structureTable" />
@@ -298,13 +289,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CardOptionsMenu from './CardOptionsMenu.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'npc-card',
-  components: { CardOptionsMenu },
   props: {
     npc: {
       type: Object,

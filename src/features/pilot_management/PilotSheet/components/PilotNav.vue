@@ -1,18 +1,18 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <nav-item :selected="selected === '0'" to="../sheet/0">
+    <cc-nav-item :selected="selected === '0'" to="../sheet/0">
       DOSSIER
-    </nav-item>
-    <nav-item :selected="selected === '1'" to="../sheet/1">
+    </cc-nav-item>
+    <cc-nav-item :selected="selected === '1'" to="../sheet/1">
       NARRATIVE PROFILE
-    </nav-item>
-    <nav-item :selected="selected === '2'" to="../sheet/2">
+    </cc-nav-item>
+    <cc-nav-item :selected="selected === '2'" to="../sheet/2">
       TACTICAL PROFILE
-    </nav-item>
-    <nav-item :selected="selected === '3'" to="../sheet/3">
+    </cc-nav-item>
+    <cc-nav-item :selected="selected === '3'" to="../sheet/3">
       MECH HANGAR
-    </nav-item>
+    </cc-nav-item>
     <v-btn
       icon
       fab
@@ -159,7 +159,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import NavItem from './NavItem.vue'
 
 import CloudManager from './CloudManager.vue'
 import CloudDialog from './CloudDialog.vue'
@@ -174,7 +173,6 @@ import { PilotManagementStore } from '@/store'
 export default Vue.extend({
   name: 'pilot-nav',
   components: {
-    NavItem,
     CloudManager,
     CloudDialog,
     StatblockDialog,

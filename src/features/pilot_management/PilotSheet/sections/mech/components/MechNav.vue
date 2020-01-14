@@ -1,22 +1,13 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <nav-item
-      tile
-      depressed
-      :selected="selected === 0"
-      @click="$emit('set-page', 0)"
-    >
+    <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
       MECH CONFIGURATION
-    </nav-item>
+    </cc-nav-item>
     <cc-tooltip simple inline content="Feature In Development">
-      <nav-item
-        disabled
-        :selected="selected === 1"
-        @click="$emit('set-page', 1)"
-      >
+      <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
         COMBAT ANALYTICS
-      </nav-item>
+      </cc-nav-item>
     </cc-tooltip>
     <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
       <v-icon large>cci-pilot</v-icon>
@@ -111,15 +102,12 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import NavItem from '../../../components/NavItem.vue'
-
-
 import StatblockDialog from '../../../components/StatblockDialog.vue'
 import PrintDialog from '../../../components/PrintDialog.vue'
 
 export default Vue.extend({
   name: 'mech-nav',
-  components: { NavItem, StatblockDialog, PrintDialog },
+  components: { StatblockDialog, PrintDialog },
   props: {
     pilot: {
       type: Object,

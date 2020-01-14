@@ -10,6 +10,7 @@ export interface IActiveMissionData {
   round: number
   start: string
   end: string
+  note: string
 }
 
 export class ActiveMission {
@@ -20,6 +21,7 @@ export class ActiveMission {
   private _pilots: Pilot[]
   private _start_date: string
   private _end_date: string
+  private _note: string
 
   public constructor(m: Mission, pilots: Pilot[]) {
     this._id = uuid()
@@ -28,6 +30,7 @@ export class ActiveMission {
     this._step = 0
     this._round = 0
     this._start_date = new Date().toISOString().slice(0, 10)
+    this._note = ''
   }
 
   private save(): void {
@@ -79,6 +82,14 @@ export class ActiveMission {
     this._pilots = val
   }
 
+  public get Note(): string {
+    return this._note
+  }
+
+  public set Note(val: string) {
+    this._note = val
+  }
+
   public CurrentStep(): Encounter | Rest {
     return this._mission.Steps[this._step]
   }
@@ -91,6 +102,7 @@ export class ActiveMission {
       round: m.Round,
       start: m.StartDate,
       end: m.EndDate,
+      note: m.Note,
     }
   }
 
@@ -103,6 +115,7 @@ export class ActiveMission {
     m.Step = data.step
     m._start_date = data.start
     m._end_date = data.end
+    m._note = data.note
     return m
   }
 }
