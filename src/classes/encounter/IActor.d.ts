@@ -7,6 +7,7 @@ declare interface IActor {
   Resistances: string[]
   Burn: number
   Destroyed: boolean
+  Defeat: string
   Activations: number
   Actions: number
   CurrentStructure: number
@@ -22,4 +23,5 @@ declare interface IActor {
   Reactions: string[]
   Icon: string
   NewTurn: () => void
+  FullRepair: () => void
 }

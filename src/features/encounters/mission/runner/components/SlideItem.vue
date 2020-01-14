@@ -6,7 +6,7 @@
     class="mt-3"
   >
     <v-card
-      :color="destroyed ? 'pilot' : complete ? 'grey' : color"
+      :color="defeated ? 'pilot' : complete ? 'grey' : color"
       class="mb-2 mx-1"
       :style="active ? 'margin-top: 2px!important; transition: margin-top 0.2s ease-in-out' : ''"
       height="100%"
@@ -19,9 +19,9 @@
           style="max-width: 160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
         >
           <v-icon dark class="mx-n2">
-            {{ destroyed ? 'mdi-skull' : complete ? 'mdi-check' : actor.Icon }}
+            {{ defeated ? 'mdi-skull' : complete ? 'mdi-check' : actor.Icon }}
           </v-icon>
-          <b :style="destroyed ? 'text-decoration: linethrough' : ''">
+          <b :style="defeated ? 'text-decoration: linethrough' : ''">
             {{ actor.EncounterName }}
           </b>
         </div>
@@ -173,7 +173,7 @@ export default Vue.extend({
     complete: {
       type: Boolean,
     },
-    destroyed: {
+    defeated: {
       type: Boolean,
     },
   },
