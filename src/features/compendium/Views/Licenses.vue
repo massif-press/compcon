@@ -3,12 +3,16 @@
     <h1 class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
-        <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
+        <span class="heading mech" :style="`color: ${manufacturer(m).Color}`">
           <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
-          {{ manufacturer(m).name }}
+          {{ manufacturer(m).Name }}
         </span>
         <v-expansion-panels accordion focusable active-class="border-primary">
-          <v-expansion-panel v-for="l in licenses[m]" :key="l.FrameID" class="panel border-highlight">
+          <v-expansion-panel
+            v-for="l in licenses[m]"
+            :key="l.FrameID"
+            class="panel border-highlight"
+          >
             <v-expansion-panel-header id="hover-parent" hide-actions>
               <div>
                 <span>
@@ -58,12 +62,12 @@ export default Vue.extend({
     licenses() {
       const licenseData = getModule(CompendiumStore, this.$store).Licenses
       return this.$_.groupBy(licenseData, 'Source')
-    }
+    },
   },
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Manufacturers', id.toUpperCase())
+      return compendium.Manufacturers.find(x => x.Short === id)
     },
     frame(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
