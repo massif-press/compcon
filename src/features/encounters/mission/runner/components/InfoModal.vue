@@ -45,6 +45,7 @@
     <div class="heading mech">
       {{ encounter.Name }}
     </div>
+    <br />
     <p class="panel flavor-text" v-html="encounter.NarrativeNotes" />
     <v-row dense align="start" class="mt-n2">
       <v-col cols="7">
@@ -56,7 +57,7 @@
           class="flavor-text"
           v-html="encounter.EnvironmentDetails"
         />
-        <p v-if="encounter.NarrativeNotes" class="flavor-text" v-html="encounter.NarrativeNotes" />
+        <v-divider v-if="encounter.GmNotes" />
         <p v-if="encounter.GmNotes" class="flavor-text" v-html="encounter.GmNotes" />
       </v-col>
       <v-col cols="5">

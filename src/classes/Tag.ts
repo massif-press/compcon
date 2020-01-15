@@ -117,7 +117,7 @@ class Tag {
   }
 
   public get IsRecharging(): boolean {
-    return this._id === 'recharge'
+    return this._id === 'tg_recharge'
   }
 
   public static Deserialize(data: ITagData[]): Tag[] {

@@ -9,26 +9,25 @@ Encounter Data:
 
 Missions:
   ☐ Event interface for Encounters and Rests
-    ☐ Rollovers
-      ☐ Monstrosity table
-    ☐ Pending reaction array for Mech
-    ☐ Counters for players and NPCs
+  ☐ Rollovers
+    ☐ Monstrosity table
+    ✔ Pending reaction array for Mech @done(20-01-15 15:33)
+  ☐ Counters for players and NPCs
   ☐ Run Mission
-    ☐ Side Tabs
+    ✔ Side Tabs @done(20-01-15 15:33)
       ✔ Notes @done(20-01-14 13:33)
         ✔ Active Mission scratchnote @done(20-01-14 13:33)
       ✔ Encounter Info @done(20-01-14 14:13)
         ✔ GM Notes, Map, etc @done(20-01-14 14:13)
-      ☐ Reinforcements
-        ☐ Reinforcement pool
-        ☐ Add new NPC
-        ☐ Add new Pilot
-    ---
+      ✔ Reinforcements @done(20-01-15 16:55)
+        ✔ Reinforcement pool @done(20-01-15 16:55)
+        ✔ Add new NPC @done(20-01-15 16:55)
+        ✔ Add new Pilot @done(20-01-15 16:55)
     ☐ Rests
-    ☐ Complete Mission
-      ☐ Success/Failure (based on conditions)
-      ☐ Stats
-      ☐ Debrief
+  ☐ Complete Mission
+    ☐ Success/Failure (based on conditions)
+    ☐ Stats
+    ☐ Debrief
 
 Bugs:
   ☐ Fix NPC group sort
