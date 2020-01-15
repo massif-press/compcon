@@ -1,7 +1,7 @@
 <template>
   <cc-stepper-content
     :complete="canContinue"
-    exit="pilot_management"
+    :exit="`/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"
     @complete="$emit('next')"
