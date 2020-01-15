@@ -79,6 +79,7 @@ export default new Router({
             },
             {
               path: 'level',
+              name: 'pilot-level-wizard',
               component: () =>
                 import(
                   /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Level/index.vue'
