@@ -37,6 +37,10 @@ class Manufacturer {
     return this._name
   }
 
+  public get Short(): string {
+    return this._logo.toUpperCase()
+  }
+
   public get Description(): string {
     return this._description
   }

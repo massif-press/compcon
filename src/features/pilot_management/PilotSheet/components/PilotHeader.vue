@@ -19,7 +19,12 @@
               </span>
               <br />
               <cc-tooltip simple inline content="Level Up" class="ml-4">
-                <v-icon large dark class="fadeSelect" @click="$router.push('../level')">
+                <v-icon
+                  large
+                  dark
+                  class="fadeSelect"
+                  @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
+                >
                   mdi-arrow-up-bold-hexagon-outline
                 </v-icon>
               </cc-tooltip>
@@ -124,7 +129,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import LevelEditDialog from './LevelEditDialog.vue'
-import { Pilot } from '@/class'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
