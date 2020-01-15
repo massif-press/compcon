@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="px-3">
     <h2 class="heading" :style="`color: ${color}`">{{ coreSystem.Name }}</h2>
     <div class="mx-3">
       <p

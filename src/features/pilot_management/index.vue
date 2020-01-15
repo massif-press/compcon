@@ -10,8 +10,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import CCNav from '@/features/nav/index.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from './store'
 
 export default Vue.extend({
   name: 'pilot-management',

@@ -59,7 +59,7 @@
           </v-btn>
         </template>
         <v-list two-line subheader>
-          <v-list-item :to="`/pilot/${pilot.ID}/active`">
+          <v-list-item :to="`/active/${pilot.ID}`">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon large>cci-activate</v-icon>
             </v-list-item-icon>

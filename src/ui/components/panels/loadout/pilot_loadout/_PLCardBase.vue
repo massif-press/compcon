@@ -2,17 +2,19 @@
   <v-col>
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
-        <v-card-title class="pilot white--text py-0 heading h3" style="height: 28px">
-          {{ title }}
-          <cc-tooltip v-if="extended" simple inline content="Extended Harness">
-            <v-icon dark right small class="mt-n1">mdi-alpha-e-box-outline</v-icon>
-          </cc-tooltip>
+        <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
+          <div class="mt-n2">
+            {{ title }}
+            <cc-tooltip v-if="extended" simple inline content="Extended Harness">
+              <v-icon dark right small class="mt-n1">mdi-alpha-e-box-outline</v-icon>
+            </cc-tooltip>
+          </div>
           <v-spacer />
-          <div v-if="!readonly" class="text-right">
-            <v-btn v-if="item" icon dark @click="$emit('remove')">
+          <div v-if="!readonly" class="text-right mt-n2">
+            <v-btn v-if="item" small icon dark @click="$emit('remove')">
               <v-icon class="fadeSelect">delete</v-icon>
             </v-btn>
-            <v-btn icon dark @click="$refs.selectorDialog.show()">
+            <v-btn icon small dark @click="$refs.selectorDialog.show()">
               <v-icon class="fadeSelect" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
             </v-btn>
           </div>

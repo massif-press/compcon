@@ -2,10 +2,12 @@
   <v-col class="pa-2">
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
-        <v-card-title class="pilot white--text py-0 heading h3" style="height: 28px">
-          <slot name="header" />
-          <v-spacer />
-          <slot name="header-items" />
+        <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
+          <div class="mt-n1">
+            <slot name="header" />
+            <v-spacer />
+            <slot name="header-items" />
+          </div>
         </v-card-title>
         <v-card-text
           :id="item ? 'underline-parent' : ''"
@@ -79,7 +81,7 @@ export default Vue.extend({
     },
     readonly: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
 })
