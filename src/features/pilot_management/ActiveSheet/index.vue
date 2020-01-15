@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="margin-right: 40px" class="mt-4">
+  <v-container fluid style="margin-right: 40px" class="mt-4 ml-2">
     <turn-sidebar v-if="pilot.ActiveMech" :pilot="pilot" />
     <div style="height: 40px" />
     <pilot-block :pilot="pilot" />

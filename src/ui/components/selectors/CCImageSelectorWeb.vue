@@ -16,8 +16,8 @@
           class="image-input"
           accept="image/*"
           outlined
-          placeholder="Select Pilot Image"
-          label="UND IDENT RECORD"
+          placeholder="Select Image"
+          label="IMAGE FILE"
           prepend-icon="mdi-paperclip"
           :disabled="loading"
           @change="onChange"
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import imgur from '../../../io/apis/imgur';
+import imgur from '../../../io/apis/imgur'
 
 export default Vue.extend({
   name: 'web-image-selector',
@@ -65,7 +65,7 @@ export default Vue.extend({
       if (this.imageData) return `data:image/png;base64,${this.imageData}`
       else if (this.item.Portrait) return this.item.Portrait
       else return 'https://via.placeholder.com/550'
-    }
+    },
   },
   methods: {
     onChange(file: File | null) {
@@ -73,11 +73,15 @@ export default Vue.extend({
         this.imageData = null
         return
       }
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        // get base64 without url headers for imgur
-        this.imageData = btoa(reader.result as string)
-      }, false);
+      const reader = new FileReader()
+      reader.addEventListener(
+        'load',
+        () => {
+          // get base64 without url headers for imgur
+          this.imageData = btoa(reader.result as string)
+        },
+        false
+      )
       reader.readAsBinaryString(file)
     },
     async saveImage() {

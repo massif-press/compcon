@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y>
+  <v-menu top>
     <template v-slot:activator="{ on }">
       <div v-if="visible" style="position: relative">
         <div class="side-legend">
@@ -10,10 +10,12 @@
         </div>
       </div>
     </template>
-    <v-card outlined>
-      <v-card-title :style="`background-color: ${color}; height: 36px`" class="white--text">
-        <v-icon large left dark class="mt-n2">cci-corebonus</v-icon>
-        <span class="heading h2 mb-3">Mount CORE Bonuses</span>
+    <v-card outlined elevation="10">
+      <v-card-title :style="`background-color: ${color}; height: 32px`" class="white--text">
+        <div class="mt-n4">
+          <v-icon large left dark class="mt-n2">cci-corebonus</v-icon>
+          <span class="heading h2">Mount CORE Bonuses</span>
+        </div>
       </v-card-title>
       <v-card-text class="text-center">
         <v-row dense class="mt-2 mx-3">

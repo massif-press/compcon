@@ -7,7 +7,7 @@
         <v-card-text>
           <v-row justify="center" dense>
             <action-type-card action="move" />
-            <v-col cols="3" class="effect-text text-center">
+            <v-col cols="4" class="effect-text text-center">
               Full Action
               <i class="grey--text text--darken-1">or</i>
               2 Quick Actions

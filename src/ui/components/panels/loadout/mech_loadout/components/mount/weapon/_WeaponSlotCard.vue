@@ -12,12 +12,13 @@
         <span v-else>{{ weaponSlot.Size }} Weapon</span>
       </div>
       <div v-if="!readonly" slot="header-items" class="text-right">
-        <v-btn v-if="item" icon dark @click="remove()">
-          <v-icon class="fadeSelect">delete</v-icon>
-        </v-btn>
-        <v-btn icon dark @click="$refs.base.$refs.selectorDialog.show()">
-          <v-icon class="fadeSelect" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
-        </v-btn>
+        <v-icon v-if="item" class="fadeSelect mt-n1" dark @click.stop="remove()">delete</v-icon>
+        <v-icon
+          class="fadeSelect mt-n1"
+          dark
+          @click.stop="$refs.base.$refs.selectorDialog.show()"
+          v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
+        />
       </div>
       <div v-if="item">
         <equipment-header :item="item" :color="color">
