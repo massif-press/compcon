@@ -15,10 +15,10 @@
       </div>
       <div v-if="!readonly" slot="header-items" class="text-right">
         <v-btn v-if="item" icon dark @click="remove(item)">
-          <v-icon class="fadeSelect">delete</v-icon>
+          <v-icon class="fadeSelect mt-n1">delete</v-icon>
         </v-btn>
         <v-btn icon dark @click="$refs.base.$refs.selectorDialog.show()">
-          <v-icon class="fadeSelect" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
+          <v-icon class="fadeSelect mt-n1" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
         </v-btn>
       </div>
       <div v-if="item">

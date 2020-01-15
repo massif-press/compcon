@@ -3,7 +3,12 @@
   <div style="position: relative">
     <v-row id="stat-row" dense>
       <v-col cols="2" offset="1" class="unskew">
-        <cc-tooltip simple inline delay :content="`Structure: ${mech.CurrentHP}/${mech.MaxHP}`">
+        <cc-tooltip
+          simple
+          inline
+          delay
+          :content="`Structure: ${mech.CurrentStructure}/${mech.MaxStructure}`"
+        >
           <v-icon>cci-structure</v-icon>
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentStructure }}</span>

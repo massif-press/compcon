@@ -2,7 +2,6 @@
   <v-app-bar
     app
     fixed
-    hide-on-scroll
     top
     color="primary"
     class="clipped-large no-print"

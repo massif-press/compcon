@@ -3,11 +3,11 @@
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
-          <div class="mt-n1">
+          <span class="mt-n1" style="display: flex; width: 100%">
             <slot name="header" />
             <v-spacer />
             <slot name="header-items" />
-          </div>
+          </span>
         </v-card-title>
         <v-card-text
           :id="item ? 'underline-parent' : ''"

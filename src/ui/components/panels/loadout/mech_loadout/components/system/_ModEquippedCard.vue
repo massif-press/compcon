@@ -12,7 +12,7 @@
       </div>
       <div slot="header-items" class="text-right">
         <v-btn v-if="mod" icon dark @click="$emit('remove')">
-          <v-icon class="fadeSelect">delete</v-icon>
+          <v-icon class="fadeSelect mt-n1">delete</v-icon>
         </v-btn>
       </div>
       <v-row dense no-gutters>

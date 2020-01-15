@@ -1,6 +1,6 @@
 <template>
   <v-row dense no-gutters align="center">
-    <v-col cols="auto">
+    <v-col cols="auto" class="mr-1">
       <slot name="options" />
     </v-col>
     <v-col>
