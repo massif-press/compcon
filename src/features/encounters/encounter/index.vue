@@ -160,6 +160,7 @@ export default Vue.extend({
     },
     addNew() {
       const sitreps = getModule(CompendiumStore, this.$store).Sitreps
+      console.log(sitreps)
       const store = getModule(EncounterStore, this.$store)
       store.addEncounter(
         new Encounter({
@@ -169,6 +170,7 @@ export default Vue.extend({
           labels: [],
           location: '',
           sitrep: sitreps[0],
+          round: 1,
         })
       )
       const enc = this.encounters[this.encounters.length - 1].ID

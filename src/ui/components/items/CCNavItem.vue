@@ -8,6 +8,7 @@
     }"
     :to="to"
     :disabled="disabled"
+    @click="to ? '' : $emit('clicked')"
   >
     <span class="unskew">
       <slot />

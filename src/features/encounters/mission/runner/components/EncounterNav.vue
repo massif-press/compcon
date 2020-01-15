@@ -1,34 +1,17 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <v-bottom-sheet v-model="noteSheet">
-      <template v-slot:activator="{ on }">
-        <cc-nav-item>
-          <cc-tooltip simple content="GM Notepad">
-            <v-icon v-on="on">mdi-note</v-icon>
-          </cc-tooltip>
-        </cc-nav-item>
-      </template>
-      <v-sheet class="text-center" height="35vh">
-        <div class="primary white--text heading h3">GM NOTES</div>
-        <v-textarea
-          v-model="mission.Note"
-          filled
-          dense
-          autofocus
-          no-resize
-          rows="13"
-          class="mx-2"
-        />
-      </v-sheet>
-    </v-bottom-sheet>
-
-    <cc-nav-item>
-      <cc-tooltip simple content="Encounter Information">
-        <v-icon @click="$refs.infoDialog.show()">mdi-map</v-icon>
+    <cc-nav-item @clicked="noteSheet = true">
+      <cc-tooltip simple content="GM Notepad">
+        <v-icon>mdi-note</v-icon>
       </cc-tooltip>
     </cc-nav-item>
-    <cc-nav-item>
+    <cc-nav-item @clicked="$refs.infoDialog.show()">
+      <cc-tooltip simple content="Encounter Information">
+        <v-icon>mdi-map</v-icon>
+      </cc-tooltip>
+    </cc-nav-item>
+    <cc-nav-item @clicked="$refs.reinforcementDialog.show()">
       <cc-tooltip simple content="Reinforcements">
         <v-icon>mdi-plus-circle-outline</v-icon>
       </cc-tooltip>
@@ -116,16 +99,40 @@
     <cc-solo-dialog ref="infoDialog" icon="mdi-map" no-confirm title="Mission Information" large>
       <info-modal :mission="mission.Mission" :encounter="encounter" :step="mission.Step" />
     </cc-solo-dialog>
+    <v-bottom-sheet v-model="noteSheet">
+      <v-sheet class="text-center" height="35vh">
+        <div class="primary white--text heading h3">GM NOTES</div>
+        <v-textarea
+          v-model="mission.Note"
+          filled
+          dense
+          autofocus
+          no-resize
+          rows="13"
+          class="mx-2"
+        />
+      </v-sheet>
+    </v-bottom-sheet>
+    <cc-solo-dialog
+      ref="reinforcementDialog"
+      icon="mdi-plus-circle-outline"
+      no-confirm
+      title="Encounter Reinforcements"
+      large
+    >
+      <reinforcements-modal :mission="mission" :encounter="encounter" />
+    </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import InfoModal from './InfoModal.vue'
+import ReinforcementsModal from './ReinforcementsModal.vue'
 
 export default Vue.extend({
   name: 'encounter-nav',
-  components: { InfoModal },
+  components: { InfoModal, ReinforcementsModal },
   props: {
     encounter: {
       type: Object,
@@ -148,6 +155,7 @@ export default Vue.extend({
     removeDialog: false,
     repairDialog: false,
     deleteDialog: false,
+    reinforcementDialog: false,
     noteSheet: false,
   }),
   methods: {

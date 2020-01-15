@@ -207,6 +207,14 @@ export class Encounter {
     this.save()
   }
 
+  public MoveReinforcement(n: Npc): void {
+    const idx = this.Reinforcements.findIndex(x => x.ID === n.ID)
+    if (idx > -1) {
+      this.Reinforcements.splice(idx, 1)
+      this.Npcs.push(n)
+    }
+  }
+
   public SetCloudMap(src: string): void {
     this._cloud_map = src
     this.save()

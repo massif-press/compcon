@@ -74,7 +74,6 @@ export class CompendiumStore extends VuexModule {
   public Environments: Environment[] = []
   public Sitreps: Sitrep[] = []
 
-
   ContentPacks: ContentPack[] = []
 
   private _Base_Talents: Talent[] = []
@@ -178,7 +177,6 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_DATA](): void {
-
     getUser().then(profile => (this.UserProfile = profile))
 
     this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
@@ -201,7 +199,9 @@ export class CompendiumStore extends VuexModule {
       else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
       return new PilotGear(x as IPilotGearData)
     })
-    this._Base_Manufacturers = lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x) )
+    this._Base_Manufacturers = lancerData.manufacturers.map(
+      (x: IManufacturerData) => new Manufacturer(x)
+    )
     // TODO: use type guards
     this._Base_NpcFeatures = lancerData.npc_features.map(function(x: any) {
       if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
@@ -211,8 +211,9 @@ export class CompendiumStore extends VuexModule {
       return new NpcTech(x as INpcTechData)
     })
     this._Base_NpcClasses = lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))
-    this._Base_NpcTemplates = lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x))
-
+    this._Base_NpcTemplates = lancerData.npc_templates.map(
+      (x: INpcTemplateData) => new NpcTemplate(x)
+    )
   }
 
   @Mutation
