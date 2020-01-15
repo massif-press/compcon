@@ -11,7 +11,7 @@
     >
       <v-tab v-for="(m, i) in manufacturers" :key="m.ID" ripple>
         <cc-logo size="large" :source="m" :color="tabModel == i ? 'white' : 'black'" />
-        {{ m.ID }}
+        {{ m.Short }}
       </v-tab>
       <v-tab-item v-for="m in manufacturers" :key="m.ID + 'desc'">
         <v-card flat class="px-3 py-3 panel">
@@ -43,14 +43,15 @@ export default class Manufacturers extends Vue {
   public tabModel = 0
 
   private compendiumStore = getModule(CompendiumStore, this.$store)
-  get manufacturers() { return this.compendiumStore.Manufacturers }
-
+  get manufacturers() {
+    return this.compendiumStore.Manufacturers
+  }
 }
 </script>
 
 <style scoped>
 .quote-block {
-  border-left: 10px solid var(--v-text-base);
+  border-left: 10px solid var(--v-panel-border-base);
   padding-left: 6px;
   padding-top: 4px;
 }

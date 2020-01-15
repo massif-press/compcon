@@ -238,8 +238,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pilot } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
 import { mission } from '@/io/Generators'
 
 export default Vue.extend({
@@ -267,7 +265,7 @@ export default Vue.extend({
   methods: {
     savePilot() {
       this.original.ApplyLevel(Pilot.Serialize(this.pilot))
-      this.$router.push('..')
+      this.$router.push({ name: 'pilot_sheet', params: { id: this.pilot.ID } })
     },
     flipName(name: string): string {
       const suffixes = ['II', 'III', 'IV', 'V', 'VI', 'VII']

@@ -29,7 +29,7 @@
             <v-img :src="mech.Portrait" position="top center" height="100%" />
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
-                <v-card flat tile class="flavor-text white--text">
+                <v-card flat tile class="flavor-text" light>
                   <v-card-text>
                     <b>{{ mech.Name }}</b>
                     //

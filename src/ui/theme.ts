@@ -84,7 +84,6 @@ const themeDefaults = {
   template: '#ad8951',
 }
 
-
 const theme: any = {
   icons: {
     iconfont: 'mdi',
@@ -105,20 +104,20 @@ const theme: any = {
     themes: {
       light: {
         ...themeDefaults,
-        background: '#ffffff',
+        background: '#ededed',
 
-        'stark-panel': '#fff',
+        'stark-panel': '#ededed',
         'stark-text': '#000',
       },
       dark: {
         ...themeDefaults,
-        
+
         'light-text': '#E0E0E0',
 
         background: '#202020',
         panel: {
           base: '#202020',
-          darken1: '#191919'
+          darken1: '#191919',
         },
         text: '#EEEEEE',
 
@@ -130,7 +129,6 @@ const theme: any = {
         weapon: '#2f2f2f',
 
         'action--downtime': '#586a73',
-
       },
     },
   },

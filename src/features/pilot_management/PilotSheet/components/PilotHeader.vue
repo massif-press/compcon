@@ -18,7 +18,7 @@
               <span class="heading h1" style="line-height: 40px; font-size: 80px">{{ pilot.Level }}</span>
               <br />
               <cc-tooltip
-                v-if="isLevelingUp && pilot.Level < 12"
+                v-if="!isLevelingUp && pilot.Level < 12"
                 simple
                 inline
                 content="Level Up"
@@ -28,10 +28,10 @@
                   large
                   dark
                   class="fadeSelect"
-                  @click="$router.push('../level')"
+                  @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
                 >mdi-arrow-up-bold-hexagon-outline</v-icon>
               </cc-tooltip>
-              <cc-tooltip v-if="isLevelingUp" delayed simple inline content="Edit License Level">
+              <cc-tooltip v-if="!isLevelingUp" delayed simple inline content="Edit License Level">
                 <v-icon
                   small
                   dark
@@ -132,7 +132,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import LevelEditDialog from './LevelEditDialog.vue'
-import { Pilot } from '@/class'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
