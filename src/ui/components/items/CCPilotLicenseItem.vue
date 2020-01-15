@@ -2,10 +2,9 @@
   <v-dialog width="90vw">
     <template v-slot:activator="{ on }">
       <v-btn x-large outlined :color="pilotLicense.License.Manufacturer.Color" block v-on="on">
-        <v-icon
-          large
-          :color="pilotLicense.License.Manufacturer.Color"
-        >cci-rank-{{ pilotLicense.Rank }}</v-icon>
+        <v-icon large :color="pilotLicense.License.Manufacturer.Color">
+          cci-rank-{{ pilotLicense.Rank }}
+        </v-icon>
         <v-spacer />
         {{ pilotLicense.License.Source }}
         {{ pilotLicense.License.Name }}

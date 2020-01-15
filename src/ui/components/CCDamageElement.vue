@@ -3,7 +3,7 @@
     <div
       v-for="(d, i) in damage"
       :key="`dmg_${i}`"
-      class="text-center ml-auto mr-auto"
+      :class="`text-center ml-auto mr-auto ${i > 0 && !small ? 'pl-4' : ''}`"
       style="display: inline-block"
     >
       <cc-tooltip :title="d.Type || ''" :content="d.Text || ''">
