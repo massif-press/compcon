@@ -125,20 +125,22 @@ export default Vue.extend({
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Manufacturers', id.toUpperCase())
+      return compendium.Manufacturers.find(x => x.Short === id)
     },
     requirement(mID: string): string {
       const m = this.manufacturer(mID)
-      const abbr = `<b>${m.ID}</b>`
+      const abbr = `<b>${m.Short}</b>`
       const name = `<b>${m.Name}</b>`
-      if (m.ID === 'GMS')
+      if (m.Short === 'GMS')
         return `<b>${this.selectedCount(
-          m.ID
+          m.Short
         )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-      var lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
+      var lvl = `<b>${this.pilot.LicenseLevel(m.Short)}</b>`
       var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
-      output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
-      output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
+      output += `<b>${this.availableCount(
+        m.Short
+      )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
+      output += `<b>${this.selectedCount(m.Short)}</b> ${abbr} CORE Bonuses Selected`
       if (this.pilot.Level < 12)
         output += `<br>${
           this.pilot.Level < 3 ? 'First' : 'Next'

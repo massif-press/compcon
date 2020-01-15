@@ -45,6 +45,7 @@ export default new Router({
         },
         {
           path: '/pilot/:pilotID',
+          name: 'pilot-sheet',
           component: () =>
             import(
               /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/index.vue'
@@ -77,22 +78,24 @@ export default new Router({
                 ),
               props: true,
             },
-            {
-              path: 'level',
-              name: 'pilot-level-wizard',
-              component: () =>
-                import(
-                  /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Level/index.vue'
-                ),
-            },
-            {
-              path: 'active',
-              component: () =>
-                import(
-                  /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/ActiveSheet/index.vue'
-                ),
-            },
           ],
+        },
+        {
+          path: '/active/:pilotID',
+          props: true,
+          component: () =>
+            import(
+              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/ActiveSheet/index.vue'
+            ),
+        },
+        {
+          path: 'level/:pilotID',
+          name: 'level-up',
+          props: true,
+          component: () =>
+            import(
+              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Level/index.vue'
+            ),
         },
         {
           path: '/new',
