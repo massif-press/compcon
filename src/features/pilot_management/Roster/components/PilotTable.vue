@@ -23,9 +23,9 @@
         <td class="text-center">{{ p.Level }}</td>
         <td v-if="p.ActiveMech">
           {{ p.ActiveMech.Name }}
-          <span class="grey--text">
-            {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
-          </span>
+          <span
+            class="grey--text"
+          >{{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}</span>
         </td>
         <td v-else>
           <span class="grey--text">NONE</span>
@@ -44,20 +44,18 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pilot } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'pilot-table',
   props: {
     pilots: {
-      type: Array,
+      type: Array as () => Pilot[],
       required: true,
     },
   },
   methods: {
-    toPilotSheet() {
-      this.$router.push(`pilot/${this.pilot.ID}`)
+    toPilotSheet(pilot: Pilot) {
+      this.$router.push(`pilot/${pilot.ID}`)
     },
     statusColor(status: string): string {
       switch (status.toLowerCase()) {
