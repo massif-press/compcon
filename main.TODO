@@ -1,5 +1,6 @@
-NPC roster: 
+NPC etc: 
   ☐ Tag interactions
+    ☐ Monstrosity rollover table
 
 Encounter Data:
   ☐ Non-instanced encounter should reference NPCs
@@ -9,8 +10,7 @@ Encounter Data:
 
 Missions:
   ☐ Event interface for Encounters and Rests
-  ☐ Rollovers
-    ☐ Monstrosity table
+  ✔ Rollovers @done(20-01-15 20:24)
     ✔ Pending reaction array for Mech @done(20-01-15 15:33)
   ☐ Counters for players and NPCs
   ☐ Run Mission
@@ -102,6 +102,7 @@ Style Pass:
 
 --- post v-2 ---
 Improvements:
+  ☐ browser snyc storage
   ☐ Add truncated effects to long effect equipment
   ☐ Expand Glossary
   ☐ browsable image galleries
@@ -135,6 +136,9 @@ Next Steps:
     ☐ Modify movement speed based on prone/immob/stunned
   ☐ Custom NPC Feature
   ☐ NPC Custom Tier icon
+  ☐ Pilot Mode when a mech is dismounted/ejected in the encounter runner
+  ☐ Rounde/Encounter/Rest transitions
+  ☐ After Action Report stats
 
 Factions:
   ☐ Add Factions to Compendium

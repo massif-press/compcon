@@ -79,11 +79,28 @@
         </div>
         <v-btn block tile color="primary" @click="stageRoundEnd()">End Round</v-btn>
         <v-divider class="my-2" />
-        <v-btn block small color="primary" outlined>
-          Complete
-          <br />
-          Encounter
-        </v-btn>
+        <v-menu offset-x left>
+          <template v-slot:activator="{ on }">
+            <v-btn block small color="primary" outlined v-on="on">
+              Complete
+              <br />
+              Encounter
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="text-center font-weight-bold">
+              This will conclude the encounter and progress the mission. This can not be undone. Are
+              you sure you want to continue?
+              <v-divider class="my-2" />
+              <v-row dense>
+                <v-btn small text>CANCEL</v-btn>
+                <v-btn small color="primary" class="ml-auto" @click="$emit('finish')">
+                  CONFIRM
+                </v-btn>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-menu>
       </v-col>
     </v-row>
     <cc-solo-dialog ref="endConfirmDialog" title="Confirm End Round" @confirm="commitRoundEnd()">

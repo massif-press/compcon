@@ -10,8 +10,9 @@
       v-if="encounter.Type === 'Encounter'"
       :active-mission="activeMission"
       :encounter="encounter"
+      @finish="next()"
     />
-    <rest-view v-else :active-mission="activeMission" :rest="encounter" />
+    <rest-view v-else :active-mission="activeMission" :rest="encounter" @finish="next()" />
   </v-container>
 </template>
 
@@ -41,6 +42,14 @@ export default Vue.extend({
     },
     encounter() {
       return this.activeMission.Mission.Steps[this.activeMission.Step]
+    },
+  },
+  methods: {
+    next() {
+      this.activeMission.EndStep()
+      if (this.activeMission.IsComplete) {
+        this.$router.push({ name: 'mission-debriefing', params: { id: this.activeMission.ID } })
+      }
     },
   },
 })
