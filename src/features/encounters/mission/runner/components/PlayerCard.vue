@@ -358,7 +358,7 @@
         hide-actions
       />
     </v-row>
-    <v-row v-if="mech.Reactions.length" dense justify="center">
+    <v-row v-if="mech.Reactions.length && !rest" dense justify="center">
       <v-col cols="10">
         <div class="overline">STAGED REACTIONS</div>
         <v-chip
@@ -376,7 +376,7 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-row dense justify="start" class="mb-10">
+    <v-row v-if="!rest" dense justify="start" class="mb-10">
       <v-col v-if="!mech.Defeat">
         <v-btn
           block
@@ -402,6 +402,7 @@
         </v-slide-y-transition>
       </v-col>
     </v-row>
+    <div v-if="rest" style="height: 30px" />
     <cc-stress-table ref="stressTable" :mech="mech" />
     <cc-structure-table ref="structureTable" :mech="mech" />
   </div>
@@ -421,6 +422,9 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    rest: {
+      type: Boolean
+    }
   },
   data: () => ({
     overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
