@@ -90,81 +90,81 @@ export class CompendiumStore extends VuexModule {
   private _Base_NpcTemplates: NpcTemplate[] = []
   private _Base_NpcFeatures: NpcFeature[] = []
 
-  public get NpcClasses(): NpcClass[] {
+  get NpcClasses(): NpcClass[] {
     return [
       ...this._Base_NpcClasses,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses),
     ]
   }
-  public get NpcTemplates(): NpcTemplate[] {
+  get NpcTemplates(): NpcTemplate[] {
     return [
       ...this._Base_NpcTemplates,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcTemplates),
     ]
   }
-  public get NpcFeatures(): NpcFeature[] {
+  get NpcFeatures(): NpcFeature[] {
     return [
       ...this._Base_NpcFeatures,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures),
     ]
   }
 
-  public get Talents(): Talent[] {
+  get Talents(): Talent[] {
     return [
       ...this._Base_Talents,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Talents),
     ]
   }
-  public get CoreBonuses(): CoreBonus[] {
+  get CoreBonuses(): CoreBonus[] {
     return [
       ...this._Base_CoreBonuses,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.CoreBonuses),
     ]
   }
-  public get Frames(): Frame[] {
+  get Frames(): Frame[] {
     return [
       ...this._Base_Frames,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Frames),
     ]
   }
-  public get Manufacturers(): Manufacturer[] {
+  get Manufacturers(): Manufacturer[] {
     return [
       ...this._Base_Manufacturers,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Manufacturers),
     ]
   }
-  public get MechWeapons(): MechWeapon[] {
+  get MechWeapons(): MechWeapon[] {
     return [
       ...this._Base_MechWeapons,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.MechWeapons),
     ]
   }
-  public get WeaponMods(): WeaponMod[] {
+  get WeaponMods(): WeaponMod[] {
     return [
       ...this._Base_WeaponMods,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.WeaponMods),
     ]
   }
-  public get MechSystems(): MechSystem[] {
+  get MechSystems(): MechSystem[] {
     return [
       ...this._Base_MechSystems,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.MechSystems),
     ]
   }
-  public get PilotGear(): PilotGear[] {
+  get PilotGear(): PilotGear[] {
     return [
       ...this._Base_PilotGear,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.PilotGear),
     ]
   }
-  public get Tags(): Tag[] {
+  get Tags(): Tag[] {
     return [
       ...this._Base_Tags,
       ...this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags),
     ]
   }
 
-  public get Licenses(): License[] {
+  get Licenses(): License[] {
     return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))
   }
 
@@ -271,13 +271,13 @@ export class CompendiumStore extends VuexModule {
     content.forEach(c => this.context.commit(LOAD_PACK, c))
   }
 
-  public get packAlreadyInstalled(): any {
+  get packAlreadyInstalled(): any {
     return (packID: string) => this.ContentPacks.map(pak => pak.ID).includes(packID)
   }
 
   private nfErr = { err: 'ID not found' }
 
-  public get instantiate(): any | { err: string } {
+  get instantiate(): any | { err: string } {
     return (itemType: string, id: string) => {
       if (this[itemType] && this[itemType] instanceof Array) {
         const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
@@ -287,7 +287,7 @@ export class CompendiumStore extends VuexModule {
     }
   }
 
-  public get referenceByID(): any | { err: string } {
+  get referenceByID(): any | { err: string } {
     return (itemType: string, id: string) => {
       if (this[itemType] && this[itemType] instanceof Array) {
         const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
@@ -297,17 +297,17 @@ export class CompendiumStore extends VuexModule {
     }
   }
 
-  public get getItemCollection(): any {
+  get getItemCollection(): any {
     return (itemType: string) => {
       return this[itemType]
     }
   }
 
-  public get getUserProfile(): UserProfile {
+  get getUserProfile(): UserProfile {
     return this.UserProfile
   }
 
-  public get getVersion(): string {
+  get getVersion(): string {
     return this.CCVersion
   }
 
