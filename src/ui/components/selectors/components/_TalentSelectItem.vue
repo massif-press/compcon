@@ -7,7 +7,7 @@
       <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
     <v-stepper v-model="step" non-linear class="elevation-0 mt-n1">
-      <v-stepper-header style="height: 50px" class="elevation-0">
+      <v-stepper-header style="height: 50px!important" class="elevation-0">
         <v-stepper-step
           v-for="i in 3"
           :key="i"
@@ -15,6 +15,7 @@
           :complete="pilotRank >= i"
           :complete-icon="`cci-rank-${i}`"
           :edit-icon="`cci-rank-${i}`"
+          class="pa-0"
           editable
         >
           {{ talent.Ranks[i - 1].name }}
@@ -22,7 +23,7 @@
       </v-stepper-header>
 
       <v-stepper-items>
-        <v-stepper-content v-for="i in 3" :key="i" :step="'I'.repeat(i)" class="py-0 mt-n4">
+        <v-stepper-content v-for="i in 3" :key="i" :step="'I'.repeat(i)" class="pt-0 pb-2">
           <cc-talent-rank-item
             :lock="pilotRank < i"
             :rank="i"
@@ -69,8 +70,8 @@ export default Vue.extend({
     },
     available: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
     step: 'I',

@@ -67,19 +67,19 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/features/_shared/store'
+import { CompendiumStore } from '@/store'
 
 import { ContentPack } from '@/class'
 
 @Component
 export default class PacksList extends Vue {
-
   private compendiumStore = getModule(CompendiumStore, this.$store)
 
   public async toggleActive(packID: string, active: boolean): Promise<void> {
     console.log(packID, active)
     await this.compendiumStore.setPackActive({
-      packID, active
+      packID,
+      active,
     })
   }
 
@@ -95,10 +95,8 @@ export default class PacksList extends Vue {
     { text: 'Name', value: 'name' },
     { text: 'Author', value: 'Author' },
     { text: 'Version', value: 'version' },
-    { text: '', value: 'deleteAction', sortable: false }
+    { text: '', value: 'deleteAction', sortable: false },
   ]
-
-
 }
 </script>
 

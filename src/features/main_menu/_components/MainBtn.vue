@@ -65,7 +65,7 @@ export default Vue.extend({
   left: 0;
   right: 0;
   height: 5px;
-  background-color: #fff;
+  background-color: var(--v-background-base);
   transform-origin: bottom right;
   transform: scaleX(0);
   transition: transform 0.45s ease;
@@ -97,7 +97,7 @@ export default Vue.extend({
   left: 590px;
   height: 71px;
   width: 12px;
-  background: var(--v-panel-base);
+  background: var(--v-background-base);
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
@@ -112,7 +112,7 @@ export default Vue.extend({
   left: 590px;
   height: 71px;
   width: 8px;
-  background: var(--v-panel-base);
+  background: var(--v-background-base);
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }

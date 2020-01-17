@@ -92,13 +92,16 @@ import MissingItem from './components/_MissingItem.vue'
 import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { CoreBonus, Pilot } from '@/class'
+import { CoreBonus } from '@/class'
 
 export default Vue.extend({
   name: 'cc-core-bonus-selector',
   components: { Selector, CoreBonusSelectItem, MissingItem },
   props: {
-    pilot: Pilot,
+    pilot: {
+      type: Object,
+      required: true,
+    },
     levelUp: Boolean,
   },
   data: () => ({
@@ -137,6 +140,7 @@ export default Vue.extend({
         )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
       var lvl = `<b>${this.pilot.LicenseLevel(m.Short)}</b>`
       var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
+      var remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.Short)
       output += `<b>${this.availableCount(
         m.Short
       )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
@@ -144,9 +148,7 @@ export default Vue.extend({
       if (this.pilot.Level < 12)
         output += `<br>${
           this.pilot.Level < 3 ? 'First' : 'Next'
-        } ${name} CORE Bonus available in <b>${3 % this.pilot.Level || 3}</b> License Level${
-          3 % this.pilot.Level === 1 ? '' : 's'
-        }`
+        } ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
       return output
     },
     selectedCount(m: string): number {

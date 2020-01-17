@@ -16,29 +16,37 @@
           link
           @click="
             $vuetify.goTo(`#e_${e.id}`, {
-              duration: 150,
+              duration: 250,
               easing: 'easeInOutQuad',
               offset: 25,
-              container: '#bg-selector-dialog'
+              container: '.v-dialog--active',
             })
           "
         >
           <v-list-item-title class="heading h3 ml-2">{{ e.name }}</v-list-item-title>
         </v-list-item>
         <br />
-        <cc-titled-panel
-          v-for="(e, i) in backgrounds"
-          :id="`e_${e.id}`"
-          :key="`${e.id}_${i}`"
-          icon="cci-orbit"
-          :title="e.name"
-          color="primary"
-          class="ma-3 ml-5"
-          clickable
-          @click="choose(e.name)"
-        >
-          <p class="flavor-text" v-html="e.description" />
-        </cc-titled-panel>
+        <v-row v-for="(e, i) in backgrounds" :id="`e_${e.id}`" :key="`${e.id}_${i}`" no-gutters>
+          <v-col cols="1" class="mr-n5">
+            <v-btn
+              tile
+              block
+              text
+              min-height="calc(100% - 24px)"
+              class="pa-0 mt-3 fadeSelect"
+              @click="choose(e.name)"
+            >
+              <cc-tooltip simple inline :content="`Select '${e.name}'`">
+                <v-icon size="80" color="secondary">cci-accuracy</v-icon>
+              </cc-tooltip>
+            </v-btn>
+          </v-col>
+          <v-col cols="11">
+            <cc-titled-panel icon="cci-orbit" :title="e.name" class="ma-3 ml-5">
+              <p class="flavor-text" v-html="e.description" />
+            </cc-titled-panel>
+          </v-col>
+        </v-row>
       </cc-sidebar-view>
     </cc-solo-dialog>
   </div>

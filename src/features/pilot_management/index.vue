@@ -1,9 +1,11 @@
 <template>
-  <div class="wrapper">
+  <div>
     <cc-nav pilot-management />
-    <v-fade-transition leave-absolute>
-      <router-view />
-    </v-fade-transition>
+    <div class="ma-3">
+      <v-fade-transition leave-absolute>
+        <router-view />
+      </v-fade-transition>
+    </div>
   </div>
 </template>
 
@@ -26,10 +28,5 @@ export default Vue.extend({
 
 body {
   overflow: hidden;
-}
-
-.wrapper {
-  display: flex;
-  width: 100%;
 }
 </style>

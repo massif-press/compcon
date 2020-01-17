@@ -23,7 +23,7 @@
           / / NHP UNSHACKLED / /
         </v-alert>
         <p
-          class="mb-0 px-2 pt-1 flavor-text text--text"
+          class="mb-0 px-2 pt-1 effect-text text--text"
           @click.stop="$refs.detailDialog.show()"
           v-html="mod.Effect"
         />

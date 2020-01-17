@@ -1,6 +1,6 @@
 <template>
   <cc-titled-panel :title="talent.Name" icon="cci-trait">
-    <p class="flavor-text">{{ talent.Description }}</p>
+    <p class="flavor-text" v-html="talent.Description" />
     <talent-rank-item
       v-for="(r, i) in talent.Ranks"
       :key="r.name"

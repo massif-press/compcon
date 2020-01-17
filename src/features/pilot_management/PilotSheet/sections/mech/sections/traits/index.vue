@@ -1,8 +1,10 @@
 <template>
   <v-col>
-    <cc-title small :color="color" class="mb-2">
-      {{ mech.Frame.Source }} {{ mech.Frame.Name }} Frame Traits
-    </cc-title>
+    <div class="ml-n3">
+      <cc-title small :color="color" class="pl-3 mb-2">
+        {{ mech.Frame.Source }} {{ mech.Frame.Name }} Frame Traits
+      </cc-title>
+    </div>
     <cc-trait-item
       v-for="(t, index) in mech.Frame.Traits"
       :key="'trait_' + index + t.name"

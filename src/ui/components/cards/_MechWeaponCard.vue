@@ -3,17 +3,17 @@
     <v-col cols="auto">
       <cc-range-element :range="item.Range" />
     </v-col>
-    <v-divider vertical class="mx-4" />
+    <v-divider v-if="item.Range.length && item.Damage.length" vertical class="mx-4" />
     <v-col cols="auto">
       <cc-damage-element :damage="item.Damage" />
     </v-col>
-    <v-divider v-if="item.BaseSP" vertical class="mx-4" />
-    <v-col v-if="item.BaseSP" cols="auto" class="text-center">
+    <v-divider v-if="item.SP" vertical class="mx-4" />
+    <v-col v-if="item.SP" cols="auto" class="text-center">
       <div class="clip-icon">
-        <v-icon v-for="n in item.BaseSP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
+        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
       </div>
       <span>
-        <b>{{ item.BaseSP }}</b>
+        <b>{{ item.SP }}</b>
         <br />
         <div class="overline mt-n1">
           SYSTEM POINTS

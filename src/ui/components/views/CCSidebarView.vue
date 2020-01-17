@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
-    <v-row>
-      <v-col :cols="cols" style="position: fixed">
+  <v-container fluid class="mt-n3">
+    <v-row dense no-gutters>
+      <v-col :cols="cols" style="position: fixed" class="pt-2">
         <slot name="alt" />
         <v-list
           dense

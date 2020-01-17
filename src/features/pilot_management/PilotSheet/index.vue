@@ -2,7 +2,7 @@
   <v-container fluid class="mt-7">
     <template v-if="pilot">
       <pilot-header />
-      <router-view />
+      <router-view class="mt-5" />
       <v-spacer style="min-height: 80px" />
     </template>
     <template v-else>

@@ -121,9 +121,8 @@ h3.heading {
 }
 
 .effect-text {
-  font-family: 'Helvetica', sans-serif;
-  font-weight: bold;
-  font-size: 13pt;
+  font-family: 'Helvetica Bold', sans-serif;
+  font-size: 12pt;
   color: var(--v-text-base);
 }
 
@@ -131,7 +130,7 @@ h3.heading {
   font-family: 'Consolas', monospace;
   font-size: 12pt;
   font-weight: bolder;
-  color: var(--v-text-stark-base)
+  color: var(--v-text-stark-base);
 }
 
 .large-text {
