@@ -17,7 +17,7 @@
         </div>
       </cc-tooltip>
       <span v-if="!small">
-        &nbsp;{{ d.Value }}
+        <b>{{ d.Value }}</b>
         <br />
         <div class="overline mt-n1">
           <b>{{ d.Type }}</b>

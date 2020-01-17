@@ -46,7 +46,6 @@ export default Vue.extend({
     this.pilot = getModule(PilotManagementStore, this.$store).Pilots.find(
       p => p.ID === this.pilotID
     )
-    console.log(this.pilot)
     this.mech = !this.mechID ? null : (this.pilot as Pilot).Mechs.find(m => m.ID === this.mechID)
   },
 })

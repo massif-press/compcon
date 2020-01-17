@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import SidebarArrayView from '../UI/SidebarArrayView.vue'
+import SidebarArrayView from '../components/SidebarArrayView.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 

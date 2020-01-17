@@ -6,6 +6,7 @@
       v-if="$platform === 'web'"
       href="https://www.netlify.com"
       style="position: relative; top: 1px; left: 5px;"
+      class="fadeSelect"
     >
       <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" />
     </a>

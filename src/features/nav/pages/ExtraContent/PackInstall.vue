@@ -74,15 +74,14 @@ import Component from 'vue-class-component'
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from '@/io/ContentPackParser'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/features/_shared/store'
+import { CompendiumStore } from '@/store'
 
 import { IContentPack } from '@/interface'
 
 import PackInfo from './PackInfo.vue'
 
-
 @Component({
-  components: { PackInfo }
+  components: { PackInfo },
 })
 export default class PackInstall extends Vue {
   private dataStore = getModule(CompendiumStore, this.$store)
@@ -128,8 +127,6 @@ export default class PackInstall extends Vue {
       this.done = false
     }, 500)
   }
-
-
 }
 </script>
 

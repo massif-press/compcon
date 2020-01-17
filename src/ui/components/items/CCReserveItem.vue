@@ -5,8 +5,12 @@
         <v-btn large outlined :color="reserve.Color" block v-on="on">
           <v-icon small left :color="reserve.Color">cci-barrage</v-icon>
           <div style="width: 15vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-            <s v-if="reserve.Used">{{ reserve.Name }}</s>
-            <span v-else>{{ reserve.Name }}</span>
+            <s v-if="reserve.Used">
+              {{ reserve.Name }}{{ reserve.ResourceName ? `: ${reserve.ResourceName}` : '' }}
+            </s>
+            <span v-else>
+              {{ reserve.Name }}{{ reserve.ResourceName ? `: ${reserve.ResourceName}` : '' }}
+            </span>
           </div>
         </v-btn>
       </template>

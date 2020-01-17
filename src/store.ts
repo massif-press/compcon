@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { CompendiumStore } from './features/_shared/store/'
-import { Global } from './features/_shared/store/global'
+import { CompendiumStore } from './features/compendium/store'
 import { PilotManagementStore } from './features/pilot_management/store/'
 import { NpcStore } from './features/encounters/npc/store'
 import { EncounterStore } from './features/encounters/encounter/store'
@@ -13,7 +12,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    global: Global,
     datastore: CompendiumStore,
     management: PilotManagementStore,
     npc: NpcStore,
@@ -22,12 +20,4 @@ const store = new Vuex.Store({
   },
 })
 
-export {
-  store,
-  Global,
-  CompendiumStore,
-  EncounterStore,
-  PilotManagementStore,
-  NpcStore,
-  MissionStore,
-}
+export { store, CompendiumStore, EncounterStore, PilotManagementStore, NpcStore, MissionStore }

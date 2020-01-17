@@ -5,7 +5,7 @@
     :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
   >
     <v-toolbar-title :class="`heading h2 ${dark ? 'white--text' : 'black--text'}`">
-      <v-icon v-if="icon" :large="large" :dark="dark" left>{{ icon }}</v-icon>
+      <v-icon v-if="icon" x-large :dark="dark" class="mt-n1" left>{{ icon }}</v-icon>
       <slot></slot>
     </v-toolbar-title>
     <v-spacer />

@@ -89,12 +89,12 @@ export default Vue.extend({
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-panel-darken1);
+  background-color: var(--v-light-panel-darken1);
   transition: background-color 0.4s ease-in-out;
 }
 
 #underline-parent:hover {
-  background-color: var(--v-panel-base);
+  background-color: var(--v-light-panel-base);
 }
 
 .underline-slide::before {

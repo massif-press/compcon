@@ -66,8 +66,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { accentInclude } from '@/features/_shared/utility/accent_fold'
+import ItemFilter from '@/classes/utility/ItemFilter'
+import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
   name: 'cc-selector-table',

@@ -13,7 +13,7 @@
       <h3 class="heading primary--text">
         {{ tag.GetName() }}
       </h3>
-      <p class="flavor-text pb-0 mb-0" v-html="tag.GetDescription()" />
+      <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription()" />
     </div>
   </v-alert>
 </template>

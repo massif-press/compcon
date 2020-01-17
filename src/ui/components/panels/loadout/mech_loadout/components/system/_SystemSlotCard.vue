@@ -35,7 +35,7 @@
         </v-alert>
         <v-row v-if="item.Effect" dense>
           <v-col class="mr-3">
-            <p class="flavor-text mb-0" v-html="item.Effect" />
+            <p class="effect-text mb-0" v-html="item.Effect" />
           </v-col>
           <v-col cols="auto" class="ml-auto mr-3">
             <span class="heading h2" :style="`color: ${color}`">{{ item.SP }}</span>

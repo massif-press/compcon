@@ -1,6 +1,5 @@
 <template>
   <v-app id="app">
-    <!-- <global-snackbar /> -->
     <global-confirm ref="confirm" />
     <nav />
     <v-slide-x-transition mode="out-in">
@@ -11,13 +10,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-// import GlobalSnackbar from './UI/GlobalSnackbar.vue'
 import GlobalConfirm from '@/ui/GlobalConfirm.vue'
 
 export default Vue.extend({
   name: 'compcon',
-  components: { 
-    // GlobalSnackbar,
+  components: {
     GlobalConfirm,
   },
   mounted() {
@@ -38,7 +35,6 @@ export default Vue.extend({
     })
 
     Vue.prototype.$confirm = this.$refs.confirm.open
-
   },
 })
 </script>

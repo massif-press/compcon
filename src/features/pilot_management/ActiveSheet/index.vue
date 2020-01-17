@@ -1,12 +1,14 @@
 <template>
-  <v-container fluid style="margin-right: 40px" class="mt-4 ml-2">
+  <v-container fluid class="mt-4 ml-2">
     <turn-sidebar v-if="pilot.ActiveMech" :pilot="pilot" />
     <div style="height: 40px" />
-    <pilot-block :pilot="pilot" />
-    <v-divider class="mt-2 mb-4" />
-    <mech-block :pilot="pilot" />
-    <!-- TODO: fix counters block -->
-    <!-- <counters-block :counter-data="pilot.CounterData" /> -->
+    <div style="margin-right: 80px">
+      <pilot-block :pilot="pilot" />
+      <v-divider class="mt-2 mb-4" />
+      <mech-block :pilot="pilot" />
+      <!-- TODO: fix counters block -->
+      <!-- <counters-block :counter-data="pilot.CounterData" /> -->
+    </div>
   </v-container>
 </template>
 

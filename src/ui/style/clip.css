@@ -2,8 +2,16 @@
   clip-path: polygon(100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 0);
 }
 
+.clipped-small-invert {
+  clip-path: polygon(calc(100% - 5px) 0%, 100% calc(100% - 5px), 100% 100%, 0 100%, 0 0);
+}
+
 .clipped {
   clip-path: polygon(100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 0);
+}
+
+.clipped-invert {
+  clip-path: polygon(calc(100% - 10px) 0%, 100% calc(100% - 15px), 100% 100%, 0 100%, 0 0);
 }
 
 .sliced {
@@ -11,7 +19,23 @@
 }
 
 .clipped-large {
-  clip-path: polygon(calc(100% + 1px) 0, calc(100% + 1px) calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 0)
+  clip-path: polygon(
+    calc(100% + 1px) 0,
+    calc(100% + 1px) calc(100% - 30px),
+    calc(100% - 30px) 100%,
+    0 100%,
+    0 0
+  );
+}
+
+.clipped-x-large {
+  clip-path: polygon(
+    calc(100% + 1px) 0,
+    calc(100% + 1px) calc(100% - 50px),
+    calc(100% - 50px) 100%,
+    0 100%,
+    0 0
+  );
 }
 
 .clipped-large-invert {
@@ -40,7 +64,7 @@
 .clip-icon {
   width: fit-content;
   clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
-  background-color: var(--v-panel-base);
+  background-color: var(--v-light-panel-base);
   border: 3px double var(--v-panel-border-base);
   margin: auto;
 }
