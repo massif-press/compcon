@@ -19,17 +19,12 @@ import {
   INpcSystemData,
   INpcTechData,
   INpcTemplateData,
+  ITagCompendiumData
 } from './interface'
 
 
 type IFrameData_Fixed = Omit<IFrameData,
 'license' | 'license_level'>
-
-interface compendiumTagData {
-  id: string
-  name: string
-  description: string
-}
 
 type NoBrew<T> = Omit<T, 'brew'>
 
@@ -46,8 +41,7 @@ export type SCHEMA__pilot_gear = (
   NoBrew<IPilotGearData>
 )[]
 export type SCHEMA__talents = NoBrew<ITalentData>[]
-// temporary until we have a proper interface for compendium tag data
-export type SCHEMA__tags = compendiumTagData[]
+export type SCHEMA__tags = Omit<NoBrew<ITagCompendiumData>, 'filter_ignore' | 'hidden'>[]
 
 export type SCHEMA__npc_classes = NoBrew<INpcClassData>[]
 export type SCHEMA__npc_features = (
