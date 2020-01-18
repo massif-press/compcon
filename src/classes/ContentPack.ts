@@ -1,4 +1,6 @@
-import { Manufacturer, CoreBonus, Frame, MechWeapon, MechSystem, WeaponMod, PilotGear, Talent, Tag, NpcClass, NpcTemplate, NpcFeature, NpcWeapon, NpcReaction, NpcTrait, NpcSystem, NpcTech } from '@/class'
+import { mapValues } from 'lodash'
+
+import { Manufacturer, CoreBonus, Frame, MechWeapon, MechSystem, WeaponMod, PilotGear, Talent, Tag, NpcClass, NpcTemplate, NpcFeature, NpcWeapon, NpcReaction, NpcTrait, NpcSystem, NpcTech, CompendiumItem } from '@/class'
 import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, IPilotEquipmentData, ITalentData, INpcClassData, INpcFeatureData, INpcTemplateData,
   INpcWeaponData, INpcReactionData, INpcSystemData, INpcTechData } from '@/interface'
 
@@ -98,7 +100,7 @@ export class ContentPack {
 
     this._active = active
     this._manifest = manifest
-    this._data = data
+    this._data = mapValues(data, (items: any) => items.map(item => ({ ...item, brew: id })))
     this._id = id
     
     this._Manufacturers = this._data.manufacturers?.map(x => new Manufacturer(x)) || []
