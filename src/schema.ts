@@ -26,7 +26,7 @@ import {
 type IFrameData_Fixed = Omit<IFrameData,
 'license' | 'license_level'>
 
-type NoBrew<T> = Omit<T, 'brew'>
+type NoBrew<T> = Omit<T, 'brew' | 'id'>
 
 export type SCHEMA__manifest = IContentPackManifest
 export type SCHEMA__manufacturers = NoBrew<IManufacturerData>[]

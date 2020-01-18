@@ -9,6 +9,7 @@ import {
   ITalentData,
   IPilotEquipmentData,
   IContentPackManifest,
+  ITagCompendiumData,
   IContentPack,
   INpcClassData,
   INpcFeatureData,
@@ -57,19 +58,41 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
 const parseContentPack = async function(binString: string): Promise<IContentPack> {
   const zip = await JSZip.loadAsync(binString)
 
+
   const manifest = await readZipJSON<IContentPackManifest>(zip, 'lcp_manifest.json')
   if (!manifest) throw new Error('Content pack has no manifest')
   if (!isValidManifest(manifest)) throw new Error('Content manifest is invalid')
 
-  const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
-  const coreBonuses = await getZipData<ICoreBonusData>(zip, 'core_bonus.json')
-  const frames = await getZipData<IFrameData>(zip, 'frames.json')
-  const weapons = await getZipData<IMechWeaponData>(zip, 'weapons.json')
-  const systems = await getZipData<IMechSystemData>(zip, 'systems.json')
-  const mods = await getZipData<IWeaponModData>(zip, 'mods.json')
-  const pilotGear = await getZipData<IPilotEquipmentData>(zip, 'pilot_gear.json')
-  const talents = await getZipData<ITalentData>(zip, 'talents.json')
-  const tags = await getZipData<ITagData>(zip, 'tags.json')
+  const generateItemID = (type: string, name: string): string => `${manifest.item_prefix}__${type}_${name}`
+
+
+  const manufacturers = (await getZipData<IManufacturerData>(zip, 'manufacturers.json'))
+    .map(x => ({...x, id: x.id || generateItemID('mfr', x.name)}))
+  
+  const coreBonuses = (await getZipData<ICoreBonusData>(zip, 'core_bonus.json'))
+    .map(x => ({...x, id: x.id || generateItemID('cb', x.name)}))
+
+  const frames = (await getZipData<IFrameData>(zip, 'frames.json'))
+    .map(x => ({...x, id: x.id || generateItemID('mf', x.name)}))
+
+  const weapons = (await getZipData<IMechWeaponData>(zip, 'weapons.json'))
+    .map(x => ({...x, id: x.id || generateItemID('mw', x.name)}))
+
+  const systems = (await getZipData<IMechSystemData>(zip, 'systems.json'))
+    .map(x => ({...x, id: x.id || generateItemID('ms', x.name)}))
+
+  const mods = (await getZipData<IWeaponModData>(zip, 'mods.json'))
+    .map(x => ({...x, id: x.id || generateItemID('wm', x.name)}))
+
+  const pilotGear = (await getZipData<IPilotEquipmentData>(zip, 'pilot_gear.json'))
+    .map(x => ({...x, id: x.id || generateItemID('pg', x.name)}))
+
+  const talents = (await getZipData<ITalentData>(zip, 'talents.json'))
+    .map(x => ({...x, id: x.id || generateItemID('t', x.name)}))
+
+  const tags = (await getZipData<ITagCompendiumData>(zip, 'tags.json'))
+    .map(x => ({...x, id: x.id || generateItemID('tg', x.name)}))
+
 
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || []
   const npcFeatures = (await readZipJSON<INpcFeatureData[]>(zip, 'npc_features.json')) || []

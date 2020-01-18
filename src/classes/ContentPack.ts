@@ -2,11 +2,12 @@ import { mapValues } from 'lodash'
 
 import { Manufacturer, CoreBonus, Frame, MechWeapon, MechSystem, WeaponMod, PilotGear, Talent, Tag, NpcClass, NpcTemplate, NpcFeature, NpcWeapon, NpcReaction, NpcTrait, NpcSystem, NpcTech, CompendiumItem } from '@/class'
 import { IManufacturerData, ICoreBonusData, IFrameData, IMechWeaponData, IMechSystemData, IWeaponModData, IPilotEquipmentData, ITalentData, INpcClassData, INpcFeatureData, INpcTemplateData,
-  INpcWeaponData, INpcReactionData, INpcSystemData, INpcTechData } from '@/interface'
+  INpcWeaponData, INpcReactionData, INpcSystemData, INpcTechData, ITagCompendiumData } from '@/interface'
 
 
 export interface IContentPackManifest {
   name: string
+  item_prefix: string
   author: string
   version: string
   description?: string
@@ -22,7 +23,7 @@ interface IContentPackData {
   mods: IWeaponModData[]
   pilotGear: IPilotEquipmentData[]
   talents: ITalentData[]
-  tags: ITagData[]
+  tags: ITagCompendiumData[]
 
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
