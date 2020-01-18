@@ -38,6 +38,7 @@ class Manufacturer {
   }
 
   public get Short(): string {
+    if (this.LogoIsExternal) return this.ID
     return this._logo.toUpperCase()
   }
 
