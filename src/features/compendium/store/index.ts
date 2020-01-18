@@ -48,6 +48,7 @@ import {
   INpcSystemData,
   INpcTechData,
   IContentPack,
+  ITagCompendiumData
 } from '@/interface'
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
@@ -132,7 +133,7 @@ export class CompendiumStore extends VuexModule {
     else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
     return new PilotGear(x as IPilotGearData)
   })) PilotGear: PilotGear[]
-  @Brewable(() => lancerData.tags.map((x: ITagData) => new Tag(x))) Tags: Tag[]
+  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {
     return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))
