@@ -4,14 +4,14 @@
       <slot name="options" />
     </v-col>
     <v-col>
-      <span
-        :class="interior ? 'ml-n2 heading h3 white--text' : 'heading h3 text--text'"
-        style="line-height: 35px"
-      >
+      <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
         <v-icon v-if="item.IsUnshackled" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
-        <div class="mt-n2">{{ item.Size }} {{ item.Type }}</div>
+        <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">
+          {{ item.Name }} DESTROYED
+        </div>
+        <div v-else>{{ item.Name }}</div>
       </span>
     </v-col>
     <v-col v-if="item.Note" cols="auto" class="ml-2">

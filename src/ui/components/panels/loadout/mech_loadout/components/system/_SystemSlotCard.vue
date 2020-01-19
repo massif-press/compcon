@@ -8,7 +8,7 @@
             {{ item.Name }}
           </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / EQUIPMENT DESTROYED / /&emsp;
+            &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
           </span>
         </span>
         <span v-else>System</span>

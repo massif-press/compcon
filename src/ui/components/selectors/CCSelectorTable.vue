@@ -48,10 +48,10 @@
       <template v-slot:item.Name="{ item }">
         <span class="stat-text">{{ item.Name }}</span>
       </template>
-      <template v-slot:item.Damage="{ item }">
+      <template v-slot:item.Damage[0].Max="{ item }">
         <cc-damage-element small :damage="item.Damage" />
       </template>
-      <template v-slot:item.Range="{ item }">
+      <template v-slot:item.Range[0].Max="{ item }">
         <cc-range-element small :range="item.Range" />
       </template>
       <template v-slot:item.Detail="{ item }">
