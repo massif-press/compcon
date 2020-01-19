@@ -26,14 +26,14 @@
           [ MODIFICATION DATA INVALID OR MISSING ]
         </span>
       </div>
-      <div slot="extra-item">
+      <div slot="extra-item" class="mt-2 mb-n2">
         <v-switch
           v-model="showUnlicensed"
           dense
           inset
           hide-details
           color="warning"
-          class="mr-3 d-inline"
+          class="mr-3 d-inline mb-n2"
         >
           <cc-tooltip
             slot="label"
@@ -55,7 +55,7 @@
           inset
           hide-details
           color="warning"
-          class="mr-3 d-inline"
+          class="mr-3 d-inline mt-n2"
         >
           <cc-tooltip
             slot="label"

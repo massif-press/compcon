@@ -1,5 +1,5 @@
 <template>
-  <v-card flat tile class="my-1">
+  <v-card flat tile class="my-1" color="transparent">
     <v-card-title
       :class="`${item.Feature.Color} sliced pb-1 pt-2`"
       style="max-height:20px; line-height: 0"
@@ -69,8 +69,8 @@
       </div>
     </v-card-title>
     <v-card-text
-      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : ''}`"
-      :style="`border: 1px solid var(--v-${item.Feature.Color}-base)`"
+      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'light-panel'}`"
+      :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
     >
       <p
         v-if="item.Description"

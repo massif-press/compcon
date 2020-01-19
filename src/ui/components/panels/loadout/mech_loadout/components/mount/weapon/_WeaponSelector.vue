@@ -27,7 +27,7 @@
           [ EQUIPMENT ID INVALID OR MISSING ]
         </span>
       </div>
-      <div slot="extra-item">
+      <div slot="extra-item" class="mt-2 mb-n2">
         <v-switch
           v-model="showUnlicensed"
           dense
