@@ -38,6 +38,7 @@ import {
 import { IEncounterData, IMissionData, IActiveMissionData } from './classes/encounter/interfaces'
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
 import { ICounterData } from './classes/Counter'
+import { ITagCompendiumData } from './classes/Tag'
 
 export {
   ICompendiumItemData,
@@ -76,4 +77,5 @@ export {
   IContentPackManifest,
   IContentPack,
   ICounterData,
+  ITagCompendiumData
 }

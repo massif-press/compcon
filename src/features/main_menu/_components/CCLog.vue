@@ -31,10 +31,10 @@ export default Vue.extend({
       cursor: false,
       startDelete: false,
       beforeString: () => {
-        this.$refs.output.scrollIntoView({ block: 'end' })
+        this.$refs.output?.scrollIntoView({ block: 'end' })
       },
       afterString: () => {
-        this.$refs.output.scrollIntoView({ block: 'end' })
+        this.$refs.output?.scrollIntoView({ block: 'end' })
       },
       afterComplete: () => {
         this.lock = false
@@ -152,10 +152,10 @@ export default Vue.extend({
         nextStringDelay: 7,
         cursor: false,
         beforeString: () => {
-          this.$refs.output.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' })
         },
         afterString: () => {
-          this.$refs.output.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' })
         },
         afterComplete: () => {
           this.lock = false
