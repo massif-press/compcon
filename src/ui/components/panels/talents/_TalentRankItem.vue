@@ -3,12 +3,12 @@
     <div class="primary white--text">
       <span class="heading h3 pl-2">
         {{ talentRank.name }}
-        <span
-          class="overline primary--text text--lighten-3"
-        >&nbsp;RANK {{ rankIndex }}</span>
+        <span class="overline white--text">&nbsp;//RANK {{ rankIndex }}</span>
       </span>
     </div>
-    <cc-talent-rank-item :rank="rankIndex" :description="talentRank.description" />
+    <div class="light-panel clipped mb-2">
+      <cc-talent-rank-item :rank="rankIndex" :description="talentRank.description" />
+    </div>
   </div>
 </template>
 

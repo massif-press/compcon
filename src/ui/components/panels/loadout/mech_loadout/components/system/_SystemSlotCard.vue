@@ -8,7 +8,7 @@
             {{ item.Name }}
           </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / EQUIPMENT DESTROYED / /&emsp;
+            &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
           </span>
         </span>
         <span v-else>System</span>
@@ -35,7 +35,7 @@
         </v-alert>
         <v-row v-if="item.Effect" dense>
           <v-col class="mr-3">
-            <p class="flavor-text mb-0" v-html="item.Effect" />
+            <p class="effect-text mb-0" v-html="item.Effect" />
           </v-col>
           <v-col cols="auto" class="ml-auto mr-3">
             <span class="heading h2" :style="`color: ${color}`">{{ item.SP }}</span>

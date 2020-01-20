@@ -5,11 +5,11 @@
 
     <div v-if="cs.PassiveEffect">
       <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
-      <p class="effect-text panel pa-2" v-html="cs.PassiveEffect" />
+      <p class="effect-text light-panel pa-2 clipped" v-html="cs.PassiveEffect" />
     </div>
 
     <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
-    <p class="effect-text panel-block pa-2" v-html="cs.ActiveEffect" />
+    <p class="effect-text light-panel pa-2 clipped" v-html="cs.ActiveEffect" />
 
     <div v-if="cs.Integrated">
       <span class="heading sub">CORE INTEGRATED WEAPON - {{ cs.Integrated.Name }}</span>

@@ -17,7 +17,9 @@
     </v-row>
     <v-row class="mx-3">
       <v-col>
-        <v-subheader>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</v-subheader>
+        <v-subheader>
+          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+        </v-subheader>
         <v-slide-y-reverse-transition mode="out-in">
           <v-row :key="searchText" fill-height>
             <v-col v-for="(item, index) in searchResults" :key="index">
@@ -48,7 +50,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { CompendiumItem } from '@/class'
-import { accentInclude } from '@/features/_shared/utility/accent_fold'
+import { accentInclude } from '@/classes/utility/accent_fold'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'search-results',
@@ -58,14 +62,11 @@ export default Vue.extend({
   }),
   computed: {
     validResults(): CompendiumItem[] {
+      const compendium = getModule(CompendiumStore, this.$store)
+
       return this.$_.flatten(
         this.$_.values(
-          this.$_.pick(this.$store.state.datastore as object, [
-            'Frames',
-            'MechSystems',
-            'MechWeapons',
-            'WeaponMods',
-          ])
+          this.$_.pick(compendium, ['Frames', 'MechSystems', 'MechWeapons', 'WeaponMods'])
         )
       )
     },

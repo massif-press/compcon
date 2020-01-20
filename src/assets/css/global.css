@@ -94,19 +94,19 @@
 }
 
 .bordered {
-  background: var(--v-panel-base) !important;
+  background: var(--v-light-panel-base) !important;
   border: 5px double var(--v-panel-border-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-primary {
-  background: var(--v-panel-base) !important;
+  background: var(--v-light-panel-base) !important;
   border: 5px double var(--v-primary-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-success {
-  background: var(--v-panel-base) !important;
+  background: var(--v-light-panel-base) !important;
   border: 5px double var(--v-success-base) !important;
   border-radius: 2px !important;
 }
@@ -178,8 +178,18 @@
   -webkit-appearance: none;
 }
 
+.v-application,
+.v-light,
+.v-list,
+.v-stepper {
+  background: var(--v-background-base) !important;
+}
 
-.theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer, .theme--dark.v-data-table, .theme--dark.v-card, .theme--dark.v-tabs-items { 
+.v-tabs-items {
+  background-color: unset !important;
+}
+
+/* .theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer, .theme--dark.v-data-table, .theme--dark.v-card, .theme--dark.v-tabs-items { 
   background: var(--v-panel-base) !important;
 }
 
@@ -188,9 +198,9 @@
 }
 
 .theme--dark tbody tr:hover:not(.v-data-table__expanded__content) {
-  background-color: var(--v-panel-lighten1) !important;
+  background-color: var(--v-light-panelen1) !important;
 }
 
 .theme--dark.v-btn-toggle:not(.v-btn-toggle--group) {
   background-color: unset !important;
-}
+} */

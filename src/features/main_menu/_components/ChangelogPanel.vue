@@ -26,9 +26,15 @@
           <span class="primary--text">{{ changelog.beta }}</span>
         </span>
       </v-card-title>
-      <div v-if="canUpdate" class="text-center">
-        <cc-btn x-large color="warning" @click="toUpdate">Update COMP/CON</cc-btn>
-      </div>
+      <p class="text-center">
+        <span class="title">
+          Visit
+          <a @click="toUpdate">
+            https://massif-press.itch.io/compcon
+          </a>
+          for update information and desktop apps
+        </span>
+      </p>
       <v-card-text class="mt-1 pt-1 ml-3 pr-5 body-text" v-html="changelog.news.body" />
       <v-divider class="mt-2 mb-2" />
       <div v-for="(i, idx) in changelog.changelog" :key="idx">
@@ -65,10 +71,6 @@ export default Vue.extend({
       required: true,
     },
     loading: {
-      type: Boolean,
-      required: true,
-    },
-    canUpdate: {
       type: Boolean,
       required: true,
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <h1 class="display-1 font-weight-thin text-center">COMPENDIUM</h1>
+      <div class="heading mech text-center mt-n2 mb-n2">COMPENDIUM</div>
       <v-row justify="center">
         <v-col cols="8">
           <search-bar />

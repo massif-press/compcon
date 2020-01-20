@@ -4,9 +4,9 @@
       <div slot="header">
         <span v-if="item">
           <equipment-options :item="item" />
-          <span v-if="!item.Destroyed" class="ml-n2">{{ item.Size }} {{ item.Type }}</span>
+          <span v-if="!item.Destroyed" class="ml-n2">{{ item.Name }}</span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / EQUIPMENT DESTROYED / /&emsp;
+            &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
           </span>
         </span>
         <span v-else>{{ weaponSlot.Size }} Weapon</span>
@@ -35,7 +35,7 @@
           </div>
         </equipment-header>
         <v-row v-if="item.Effect">
-          <p class="flavor-text px-2 mx-2 py-0 mb-1" v-html="item.Effect" />
+          <p class="effect-text px-2 mx-2 py-0 mb-1" v-html="item.Effect" />
         </v-row>
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" @remove-mod="item.Mod = null" />

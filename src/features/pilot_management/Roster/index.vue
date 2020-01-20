@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="mx-3">
     <h1 class="heading margin-nav pl-2">Pilot Roster</h1>
     <v-btn-toggle v-model="profile.RosterView" mandatory>
       <v-btn small icon value="list">
@@ -35,7 +35,6 @@ import AddPilot from './components/AddPilot.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, PilotManagementStore } from '@/store'
 import { UserProfile } from '@/io/User'
-import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   name: 'roster-view',

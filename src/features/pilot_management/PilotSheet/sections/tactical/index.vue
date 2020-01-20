@@ -1,9 +1,9 @@
 <template>
   <div>
-    <license-block :pilot="pilot" />
-    <mech-skills-block :pilot="pilot" />
-    <core-bonus-block :pilot="pilot" />
-    <talent-block :pilot="pilot" />
+    <license-block :pilot="pilot" class="mb-4" />
+    <mech-skills-block :pilot="pilot" class="my-4" />
+    <core-bonus-block :pilot="pilot" class="my-4" />
+    <talent-block :pilot="pilot" class="mt-4" />
   </div>
 </template>
 

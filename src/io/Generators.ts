@@ -15,11 +15,12 @@ function mechname(): string {
 }
 
 async function name(): Promise<string> {
-
-  const firstNamesList = (await import(/* webpackChunkName: "generators" */ '@/assets/generators/firstnames.txt')).default
-  const lastNamesList = (await import(/* webpackChunkName: "generators" */ '@/assets/generators/lastnames.txt')).default
-
-  console.log(firstNamesList, lastNamesList)
+  const firstNamesList = (
+    await import(/* webpackChunkName: "generators" */ '@/assets/generators/firstnames.txt')
+  ).default
+  const lastNamesList = (
+    await import(/* webpackChunkName: "generators" */ '@/assets/generators/lastnames.txt')
+  ).default
 
   const prob: any = require('@/assets/generators/name_mods.json')
   const firstnames = pullRandom(firstNamesList, 2)

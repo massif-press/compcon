@@ -374,6 +374,10 @@ class Pilot {
     this.save()
   }
 
+  public Heal(): void {
+    this.CurrentHP = this.MaxHP
+  }
+
   public get Armor(): number {
     let armor = 0
     if (this.ActiveLoadout) {

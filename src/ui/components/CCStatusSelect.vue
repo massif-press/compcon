@@ -11,18 +11,20 @@
     outlined
     clearable
   >
-    <template v-slot:selection="{ item, index }">
-      <v-menu>
+    <template v-slot:selection="{ item }">
+      <v-menu top offset-y open-on-hover>
         <template v-slot:activator="{ on }">
           <v-chip small :dark="dark" :color="color" v-on="on">
             <b>{{ item.name }}</b>
           </v-chip>
         </template>
-        <div>
-          <ul>
-            <li v-for="e in item.effects" :key="e" v-html="e" />
-          </ul>
-        </div>
+        <v-card>
+          <v-card-text>
+            <ul>
+              <li v-for="e in item.effects" :key="e" v-html="e" />
+            </ul>
+          </v-card-text>
+        </v-card>
       </v-menu>
     </template>
   </v-select>

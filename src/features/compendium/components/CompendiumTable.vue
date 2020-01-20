@@ -56,8 +56,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ItemFilter from '@/features/_shared/utility/ItemFilter'
-import { accentInclude } from '@/features/_shared/utility/accent_fold'
+import ItemFilter from '@/classes/utility/ItemFilter'
+import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
   name: 'compendium-table',
@@ -103,7 +103,6 @@ export default Vue.extend({
   },
   methods: {
     customSort(items, index, descending) {
-      console.log(items, index, descending)
       const desc = descending[0]
       items.sort((a, b) => {
         index.forEach(idx => {

@@ -1,7 +1,7 @@
 <template>
   <v-alert dense :color="color" border="left" outlined>
     <h3 class="heading" :style="`color: ${color}`">{{ trait.name }}</h3>
-    <span class="flavor-text text--text">{{ trait.description }}</span>
+    <span class="body-text text--text">{{ trait.description }}</span>
   </v-alert>
 </template>
 
@@ -17,6 +17,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
+      default: 'primary',
     },
   },
 })

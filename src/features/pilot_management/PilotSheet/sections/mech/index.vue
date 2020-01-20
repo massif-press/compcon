@@ -24,7 +24,7 @@
           </cc-solo-dialog>
         </span>
       </v-col>
-      <v-col cols="auto" class="ml-2 mt-4">
+      <v-col cols="auto" class="ml-auto mt-4">
         <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
           <v-btn icon @click.stop="pilot.ActiveMech = mech">
             <v-icon x-large>cci-activate</v-icon>
@@ -44,7 +44,9 @@
       <v-col cols="8">
         <v-row class="px-3">
           <v-col>
-            <cc-title small :color="color">Operator Notes</cc-title>
+            <div class="ml-n3">
+              <cc-title small :color="color" class="pl-3">Operator Notes</cc-title>
+            </div>
             <v-textarea
               v-model="mech.Notes"
               class="mt-2"

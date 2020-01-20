@@ -14,36 +14,47 @@
       </v-row>
       <v-divider v-if="pilot.Talents.length" class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-alert
-          outlined
-          color="success"
-          icon="check_circle"
-          class="stat-text"
-          :value="!pilot.IsMissingTalents && enoughSelections"
-        >
-          Talent Selection Complete
-        </v-alert>
-        <v-alert
-          outlined
-          color="primary"
-          icon="warning"
-          class="stat-text"
-          :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-        >
-          {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining
-        </v-alert>
-        <v-alert
-          outlined
-          color="primary"
-          icon="warning"
-          class="stat-text"
-          :value="!enoughSelections"
-        >
-          Must select a minimum of {{ selectedMin }} talents
-        </v-alert>
-        <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
-          Reset
-        </v-btn>
+        <v-col>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="success"
+            icon="check_circle"
+            class="stat-text"
+            :value="!pilot.IsMissingTalents && enoughSelections"
+          >
+            Talent Selection Complete
+          </v-alert>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="primary"
+            icon="warning"
+            class="stat-text"
+            :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+          >
+            {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining
+          </v-alert>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="primary"
+            icon="warning"
+            class="stat-text"
+            :value="!enoughSelections"
+          >
+            Must select a minimum of {{ selectedMin }} talents
+          </v-alert>
+          <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
+            Reset
+          </v-btn>
+        </v-col>
       </v-row>
     </template>
 
@@ -95,7 +106,7 @@ export default Vue.extend({
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
       return compendium.Talents
-    }
+    },
   },
   watch: {
     selectionComplete() {

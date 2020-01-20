@@ -7,7 +7,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import CompendiumTable from '../UI/CompendiumTable.vue'
+import CompendiumTable from '../components/CompendiumTable.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechWeapon } from '../../../classes/mech/MechWeapon'

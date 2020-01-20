@@ -1,14 +1,15 @@
 <template>
   <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : ''}`" @click="$emit('click')">
     <v-toolbar
-      :color="color"
+      :color="color ? color : 'primary'"
       dark
       flat
       dense
-      :class="`clipped-large-invert ${clickable ? 'titlebar' : ''}`"
+      :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${clickable ? 'titlebar' : ''}`"
+      :style="dense ? 'height: 28px' : ''"
     >
-      <v-toolbar-title>
-        <v-icon v-if="icon" x-large left>{{ icon }}</v-icon>
+      <v-toolbar-title :class="dense ? 'mt-n6' : ''">
+        <v-icon v-if="icon" :x-large="!dense" left>{{ icon }}</v-icon>
         <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
       </v-toolbar-title>
       <v-spacer />
@@ -17,8 +18,14 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-card flat outlined>
-      <v-card-text class="pa-2">
+    <v-card
+      flat
+      outlined
+      :style="
+        `border-color: ${color ? color : 'var(--v-primary-base)'} !important; margin-top: -2px`
+      "
+    >
+      <v-card-text class="pt-2 pb-0 px-4">
         <slot />
       </v-card-text>
     </v-card>
@@ -42,11 +49,13 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: '',
     },
     clickable: {
       type: Boolean,
-      required: false,
+    },
+    dense: {
+      type: Boolean,
     },
   },
 })

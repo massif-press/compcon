@@ -7,38 +7,58 @@
     <template v-slot:left-column>
       <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
         <missing-item v-if="pSkill.Skill.err" @remove="pilot.RemoveSkill(pSkill)" />
-        <v-card v-else text tile outlined width="100%" class="my-1 pa-1">
+        <v-chip v-else label color="grey lighten-2" style="width: 100%" class="my-1 pa-1">
           <v-chip dark color="primary" small>
             +
             <b>{{ pSkill.Bonus }}</b>
-          </v-chip>&nbsp;
+          </v-chip>
+          &nbsp;
           <strong>{{ pSkill.Skill.Trigger }}</strong>
-        </v-card>
+        </v-chip>
       </div>
       <v-divider v-if="pilot.Skills.length" class="ma-2 ml-4 mr-4" />
       <v-row>
-        <v-alert
-          outlined
-          color="success"
-          icon="check_circle"
-          class="stat-text"
-          :value="!pilot.IsMissingSkills && enoughSelections"
-        >Skill Selection Complete</v-alert>
-        <v-alert
-          outlined
-          color="primary"
-          icon="warning"
-          class="stat-text"
-          :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
-        >{{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining</v-alert>
-        <v-alert
-          outlined
-          color="primary"
-          icon="warning"
-          class="stat-text"
-          :value="!enoughSelections"
-        >Must select a minimum of {{ selectedMin }} skills</v-alert>
-        <v-btn block text small :disabled="!pilot.Skills.length" @click="pilot.ClearSkills()">Reset</v-btn>
+        <v-col>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="success"
+            icon="check_circle"
+            class="stat-text"
+            :value="!pilot.IsMissingSkills && enoughSelections"
+          >
+            Skill Selection Complete
+          </v-alert>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="primary"
+            icon="warning"
+            class="stat-text"
+            :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
+          >
+            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
+          </v-alert>
+          <v-alert
+            outlined
+            prominent
+            dense
+            border="left"
+            color="primary"
+            icon="warning"
+            class="stat-text"
+            :value="!enoughSelections"
+          >
+            Must select a minimum of {{ selectedMin }} skills
+          </v-alert>
+          <v-btn block text small :disabled="!pilot.Skills.length" @click="pilot.ClearSkills()">
+            Reset
+          </v-btn>
+        </v-col>
       </v-row>
     </template>
 

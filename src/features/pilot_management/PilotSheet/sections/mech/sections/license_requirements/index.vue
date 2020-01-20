@@ -1,6 +1,8 @@
 <template>
   <v-col>
-    <cc-title small :color="color">Licenses Required</cc-title>
+    <div class="ml-n3">
+      <cc-title small :color="color" class="pl-3">Licenses Required</cc-title>
+    </div>
     <v-row>
       <v-col>
         <requirement-item

@@ -3,7 +3,7 @@
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
-          <div class="mt-n2">
+          <div class="mt-n1">
             {{ title }}
             <cc-tooltip v-if="extended" simple inline content="Extended Harness">
               <v-icon dark right small class="mt-n1">mdi-alpha-e-box-outline</v-icon>

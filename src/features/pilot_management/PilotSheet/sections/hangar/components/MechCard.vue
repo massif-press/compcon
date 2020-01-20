@@ -1,13 +1,21 @@
 <template>
   <v-col cols="4">
-    <div :style="`border: 2px solid ${mech.Frame.Manufacturer.Color}`">
+    <div
+      :style="
+        `border: 2px solid ${
+          mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+        }`
+      "
+    >
       <v-hover>
         <template v-slot:default="{ hover }">
           <v-card height="300px" tile flat @click="$emit('go', mech)">
             <div
               class="clipped-large"
               :style="
-                `z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${mech.Frame.Manufacturer.Color}`
+                `z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
+                  mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+                }`
               "
             >
               <span class="heading h2 white--text flavor-text ml-2" style="letter-spacing: 3px">
@@ -25,6 +33,13 @@
                 color="white"
                 :stroke="mech.Frame.Manufacturer.Color"
               />
+            </div>
+            <div
+              v-if="mech.IsActive"
+              class="overline"
+              :style="`z-index: 3; position: absolute; top: 30px; left: 4px;`"
+            >
+              <b class="success--text">//ACTIVE</b>
             </div>
             <v-img :src="mech.Portrait" position="top center" height="100%" />
             <v-fade-transition>
