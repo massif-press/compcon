@@ -1,42 +1,18 @@
 <template>
   <div style="z-index: 10">
     <div class="abs">
-      <div v-if="canUpdate" class="text-right" style="width: 100vw">
-        <span class="stat-text pr-2">
-          <span class="grey--text">//</span>
-          <span class="text-capitalize">Update Available</span>
-          <span class="grey--text">//</span>
-        </span>
-      </div>
       <div style="position: absolute; right: 5vw; z-index: 11">
-        <v-btn
-          :class="{ pulse: !expanded && canUpdate }"
-          large
-          fab
-          :color="canUpdate ? 'warning' : 'primary'"
-          dark
-          style="box-shadow: 0 0 0 0"
-          @mouseenter="$emit('hover')"
-          @click="expand"
-        >
-          <transition name="spin" mode="out-in">
-            <v-icon :key="expanded" x-large>
-              {{
-                expanded ? 'mdi-chevron-right' : canUpdate ? 'warning' : 'mdi-information-outline'
-              }}
-            </v-icon>
-          </transition>
+        <v-btn color="primary" outlined small @mouseenter="$emit('hover')" @click="expand">
+          <v-icon left small>
+            {{ expanded ? 'mdi-chevron-right' : 'mdi-information-outline' }}
+          </v-icon>
+          {{ expanded ? 'Hide' : 'View' }} Changelog
         </v-btn>
       </div>
     </div>
     <transition name="slide" mode="out-in">
       <div v-if="expanded" id="panel">
-        <changelog-panel
-          :loading="loading"
-          :changelog="changelog"
-          :err="err"
-          :can-update="canUpdate"
-        />
+        <changelog-panel :loading="loading" :changelog="changelog" :err="err" />
       </div>
     </transition>
   </div>
@@ -74,9 +50,6 @@ export default Vue.extend({
         this.loading = false
         this.err = true
       })
-    this.canUpdate =
-      Vue.prototype.version !== this.changelog.beta &&
-      Vue.prototype.version !== this.changelog.stable
   },
   methods: {
     expand() {

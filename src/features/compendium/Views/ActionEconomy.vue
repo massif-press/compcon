@@ -37,8 +37,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionTypeCard from '../UI/ActionTypeCard.vue'
-import ActionCard from '../UI/ActionCard.vue'
+import ActionTypeCard from '../components/ActionTypeCard.vue'
+import ActionCard from '../components/ActionCard.vue'
 import { actions } from 'lancer-data'
 
 export default Vue.extend({

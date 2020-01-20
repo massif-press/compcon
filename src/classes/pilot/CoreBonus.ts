@@ -26,7 +26,7 @@ class CoreBonus extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
-    return store.getters.referenceByID('Manufacturers', this._source)
+    return store.getters.getItemCollection('Manufacturers').find(x => x.Short === this._source)
   }
 
   public get Effect(): string {

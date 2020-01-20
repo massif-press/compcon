@@ -19,7 +19,7 @@
 
     <div v-if="item.Effect">
       <span class="overline ml-n2">EFFECT</span>
-      <p class="effect-text panel pa-2" v-html="item.Effect" />
+      <p class="effect-text light-panel pa-2 clipped" v-html="item.Effect" />
     </div>
 
     <cc-tags v-if="item.Tags" :tags="item.Tags" extended />

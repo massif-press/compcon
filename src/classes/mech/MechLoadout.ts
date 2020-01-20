@@ -90,7 +90,10 @@ class MechLoadout extends Loadout {
   }
 
   public get HasEmptyMounts(): boolean {
-    return this._equippableMounts.flatMap(x => x.Slots).some(y => y.Weapon === null)
+    return this._equippableMounts
+      .filter(x => !x.IsLocked)
+      .flatMap(x => x.Slots)
+      .some(y => y.Weapon === null)
   }
 
   public RemoveRetrofitting(): void {
@@ -157,9 +160,9 @@ class MechLoadout extends Loadout {
 
   public get RequiredLicenses(): ILicenseRequirement[] {
     let requirements = [] as ILicenseRequirement[]
-    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(this.Weapons.map(
-      x => x.Mod
-    ).filter(x => x !== null) as LicensedItem[])
+    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
+      this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
+    )
     const equippedSystems = this._systems as LicensedItem[]
 
     equippedSystems.concat(equippedWeapons).forEach(item => {

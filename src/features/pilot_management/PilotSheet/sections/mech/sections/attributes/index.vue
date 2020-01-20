@@ -1,6 +1,10 @@
 <template>
   <v-col>
-    <cc-title small :color="color">Mech Attributes</cc-title>
+    <div class="ml-n3">
+      <cc-title small :color="color" class="pl-3">
+        Mech Attributes
+      </cc-title>
+    </div>
     <v-row no-gutters>
       <v-col cols="1" class="mr-3">
         <hase-pips attr="hull" :val="pilot.MechSkills.Hull" :color="color" />

@@ -2,7 +2,7 @@
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title class="mod darken-1 py-0 heading h3 white--text" style="height: 24px!important">
-        <equipment-header :item="mod" interior dark class="mt-n2">
+        <equipment-header :item="mod" interior dark class="mt-n1">
           <equipment-options slot="options" :item="mod" />
           <cc-tooltip simple inline content="Remove Mod">
             <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
@@ -23,7 +23,7 @@
           / / NHP UNSHACKLED / /
         </v-alert>
         <p
-          class="mb-0 px-2 pt-1 flavor-text text--text"
+          class="mb-0 px-2 pt-1 effect-text text--text"
           @click.stop="$refs.detailDialog.show()"
           v-html="mod.Effect"
         />

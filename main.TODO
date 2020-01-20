@@ -1,119 +1,72 @@
-NPC roster: 
-  ☐ Tag interactions
+Current: 
+  Encounter Data:
+    ☐ Non-instanced encounter should reference NPCs
+    ☐ Non-instanced mission should reference Encounter
+    ☐ Active mission should be self-contained
+      ☐ Actors need to write to mission, not own saves
 
-Encounter Data:
-  ☐ Non-instanced encounter should reference NPCs
-  ☐ Non-instanced mission should reference Encounter
-  ☐ Active mission should be self-contained
-    ☐ Actors need to write to mission, not own saves
+  Missions:
+    ☐ Event interface for Encounters and Rests
+    ☐ Counters for players and NPCs
 
-Missions:
-  ☐ Event interface for Encounters and Rests
-  ☐ Rollovers
-    ☐ Monstrosity table
-    ✔ Pending reaction array for Mech @done(20-01-15 15:33)
-  ☐ Counters for players and NPCs
-  ☐ Run Mission
-    ✔ Side Tabs @done(20-01-15 15:33)
-      ✔ Notes @done(20-01-14 13:33)
-        ✔ Active Mission scratchnote @done(20-01-14 13:33)
-      ✔ Encounter Info @done(20-01-14 14:13)
-        ✔ GM Notes, Map, etc @done(20-01-14 14:13)
-      ✔ Reinforcements @done(20-01-15 16:55)
-        ✔ Reinforcement pool @done(20-01-15 16:55)
-        ✔ Add new NPC @done(20-01-15 16:55)
-        ✔ Add new Pilot @done(20-01-15 16:55)
-    ☐ Rests
-  ☐ Complete Mission
-    ☐ Success/Failure (based on conditions)
-    ☐ Stats
-    ☐ Debrief
+  Bugs:
+    ☐ Fix NPC group sort
+    ☐ Fix cc_ver stuff
+    ☐ Fix counters on pilot active mode
+    ☐ Fix filter panel
+    ☐ Tag data seems to deserialize incorrectly, especially w/r/t tag values
 
-Bugs:
-  ☐ Fix NPC group sort
-  ✔ NPCs and Player mechs instantiating with full heat @done(20-01-13 22:27)
-  ☐ Fix cc_ver stuff
+  Etc:
+    ☐ Nav Menu
+      ☐ Options 
+        ☐ Space for theme
+        ☐ Space for sync/account settings
+        ☐ Export/Import all functions
+        ☐ Clear all data
+        ☐ Space for achievements
+      ☐ Content Packages
+      ☐ About
+      ☐ Help
 
-Etc:
-  ☐ For frame info and NPCs, make expandable image panel
-    ☐ Need image somewhere on frame card
-  ☐ Options Menu
-    ☐ Export/Import all functions
+  Unshackling:
+    ☐ Add Unshackled to Reactor/Structure tables
+    ☐ Reshackled on shut down/full repair
+    ☐ Prevent c/c from shackled
 
-Unshackling:
-  ☐ Add Unshackled to Reactor/Structure tables
-  ☐ Reshackled on shut down/full repair
-  ☐ Prevent c/c from shackled
+  Flavor Pass:
+    ☐ Cloud settings panel
+    ☐ Statblock panel
+    ☐ Export panel
+    ☐ Print panel
 
-Flavor Pass:
-  ☐ Cloud settings panel
-  ☐ Statblock panel
-  ☐ Export panel
-  ☐ Print panel
+  Item Selector:
+    ☐ Item card notes don't immediately update
 
-CCTooltip:
-  ☐ Restyle
+  Image Selector:
+    ☐ confirm dialog on image delete
 
-Hangar:
-  ☐ Quick Print Mech
-  ☐ Quick Statblock Mech
+  Pilot Sheet:
+    ☐ test importers
+      ☐ ask cc-club to test pull/push cloud syncs
 
-Item Selector:
-  ☐ Item card notes don't immediately update
+  Refactor:
+    ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
+    ☐ `routes` subnode for all features
+    ✔ Normalize folder names @done(20-01-17 15:36)
+    ☐ rewrite converter/validator
 
-Image Selector:
-  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
-  ☐ confirm dialog on image delete
-
-Pilot Roster:
-  ☐ Big Card view
-
-New Pilot:
-  ☐ Background Selector does not scroll to list
-  ☐ Background selector highlight on mouseover
-
-Pilot Sheet:
-  ☐ test importers
-    ☐ ask cc-club to test pull/push cloud syncs
-    ☐ briefing page pilot importers
-
-Refactor:
-  ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
-  ☐ `routes` subnode for all features
-  ☐ Normalize folder names
-  ☐ Replace most instances of .Source with .Manufacturer.Name
-  ☐ remove _shared
-  ☐ Rules logic into class
-  ☐ rewrite converter/validator
-
-Style Pass:
-  ☐ pilot NO IMG
-  ☐ global notification
-  ☐ error logging
-  ☐ ra text/horus text
-  ☐ integrate text color getter
-  ☐ disableable cc-btn
-
-2.0:
-  ☐ Delete Homebrew content packs
-  ☐ Core Book and Long Rim content packs
-  ☐ Update Help
-  ☐ Update About
+  Style Pass:
+    ☐ Restyle CC tooltip
+    ☐ pilot NO IMG
+    ☐ map NO IMG
+    ☐ ra text
+    ✔ panel colors @done(20-01-17 15:36)
 
 --- post v-2 ---
-Improvements:
-  ☐ Add truncated effects to long effect equipment
-  ☐ Expand Glossary
-  ☐ browsable image galleries
-  ☐ hidden tags for specially-handled items
-    ☐ prototype weapon: set max uses
-    ☐ Signature Weapon damage type selection
-    ☐ Prototype Weapon type/range/damage type selection
-  ☐ Click to apply weapon/system self heat
-  ☐ Disable dangerzone systems outside of dangerzone
-  ☐ Ammo block
-  ☐ Mandatory org rolling at the start of every downtime
-  ☐ Encounter mode list transitions
+
+NPC etc: 
+  ☐ Tag interactions
+    ☐ Monstrosity rollover table
 
 Next Steps:
   ☐ Testing Framework
@@ -135,6 +88,45 @@ Next Steps:
     ☐ Modify movement speed based on prone/immob/stunned
   ☐ Custom NPC Feature
   ☐ NPC Custom Tier icon
+  ☐ Pilot Mode when a mech is dismounted/ejected in the encounter runner
+  ☐ Rounde/Encounter/Rest transitions
+  ☐ After Action Report stats
+  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
+  ☐ integrate text color getter
+  ☐ disableable cc-btn
+  ☐ better error logging
+  ☐ Rules logic into class
+  ☐ browser snyc storage
+  ☐ Add truncated effects to long effect equipment
+  ☐ Expand Glossary
+  ☐ browsable image galleries
+  ☐ hidden tags for specially-handled items
+    ☐ prototype weapon: set max uses
+    ☐ Signature Weapon damage type selection
+    ☐ Prototype Weapon type/range/damage type selection
+  ☐ Click to apply weapon/system self heat
+  ☐ Disable dangerzone systems outside of dangerzone
+  ☐ Ammo block
+  ☐ Mandatory org rolling at the start of every downtime
+  ☐ Encounter mode list transitions
+  ☐ global notification snackbar
+  ☐ pilot flash cloning
+
+Icons:
+  ☐ Compendium
+  ☐ Encounter Toolkit
+  ☐ Campaign Manager
+  ☐ Content Editor
+  ☐ System Point
+  ☐ Statuses
+  ☐ Active Mode
+  ☐ Mount Sizes ?
+
+Pilot Roster:
+  ☐ Big Card view
+
+  ☐ Quick Print Mech
+  ☐ Quick Statblock Mech
 
 Factions:
   ☐ Add Factions to Compendium
@@ -184,6 +176,26 @@ Active Mode:
   ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ For frame info make expandable image panel/need image somewhere on frame card @done(20-01-17 15:35) @project(Etc)
+  ✔ Background Selector does not scroll to list @done(20-01-17 14:15) @project(New Pilot)
+  ✔ Background selector highlight on mouseover @done(20-01-17 14:15) @project(New Pilot)
+  ✔ remove _shared @done(20-01-17 11:48) @project(Refactor)
+  ✔ Rollovers @done(20-01-15 20:24) @project(Missions)
+  ✔ Pending reaction array for Mech @done(20-01-15 15:33) @project(Missions)
+  ✔ Run Mission @done(20-01-16 14:06) @project(Missions)
+  ✔ Side Tabs @done(20-01-15 15:33) @project(Missions)
+  ✔ Notes @done(20-01-14 13:33) @project(Missions)
+  ✔ Active Mission scratchnote @done(20-01-14 13:33) @project(Missions)
+  ✔ Encounter Info @done(20-01-14 14:13) @project(Missions)
+  ✔ GM Notes, Map, etc @done(20-01-14 14:13) @project(Missions)
+  ✔ Reinforcements @done(20-01-15 16:55) @project(Missions)
+  ✔ Reinforcement pool @done(20-01-15 16:55) @project(Missions)
+  ✔ Add new NPC @done(20-01-15 16:55) @project(Missions)
+  ✔ Add new Pilot @done(20-01-15 16:55) @project(Missions)
+  ✔ Rests @done(20-01-16 14:06) @project(Missions)
+  ✔ Complete Mission @done(20-01-16 14:06) @project(Missions)
+  ✔ Success/Failure (based on conditions) @done(20-01-16 14:06) @project(Missions)
+  ✔ NPCs and Player mechs instantiating with full heat @done(20-01-13 22:27) @project(Bugs)
   ✔ Actor interface for Pilots and NPCs @done(20-01-08 13:29) @project(Missions)
   ✔ Scroll back to top on active card change @done(20-01-10 14:34) @project(Missions)
   ✔ Active Cards @done(20-01-11 16:49) @project(Missions)

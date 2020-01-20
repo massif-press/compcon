@@ -120,11 +120,36 @@
           style="min-width: 100%"
         >
           <template v-slot:group.header="h" class="transparent">
-            <div class="primary sliced">
+            <div class="pilot sliced">
               <span class="heading white--text ml-3">
                 {{ h.group ? h.group.toUpperCase() : 'NONE' }}
               </span>
             </div>
+          </template>
+          <template v-slot:item.Remove="{ item }">
+            <v-menu offset-y offset-x top nudge-left="30px">
+              <template v-slot:activator="{ on }">
+                <v-btn small icon color="error" class="fadeSelect mr-2" v-on="on">
+                  <v-icon small>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="text-center">
+                  This will delete the saved mission data for
+                  <b>{{ item.Mission.Name }}</b>
+                  .
+                  <br />
+                  Are you sure?
+                  <v-divider class="my-2" />
+                  <v-row dense>
+                    <v-btn small text>CANCEL</v-btn>
+                    <v-btn small color="error" class="ml-auto" @click="deleteActiveMission(item)">
+                      CONFIRM
+                    </v-btn>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-menu>
           </template>
         </v-data-table>
       </v-col>
@@ -146,28 +171,35 @@ export default Vue.extend({
       { text: 'Encounter', value: 'Encounter' },
       { text: 'Round', value: 'Round' },
       { text: 'Date Started', value: 'StartDate' },
-      { text: '', value: 'Continue', align: 'right' },
+      { text: '', value: 'Continue', align: 'right', sortable: false },
     ],
     availableHeaders: [
       { text: 'Name', value: 'Name', align: 'left' },
       { text: 'Encounters', value: 'Encounters' },
       { text: 'Labels', value: 'Labels' },
-      { text: '', value: 'Start', align: 'right' },
+      { text: '', value: 'Start', align: 'right', sortable: false },
     ],
     completedHeaders: [
-      { text: 'Name', value: 'Name', align: 'left' },
+      { text: 'Name', value: 'Mission.Name', align: 'left' },
       { text: 'Date Started', value: 'StartDate' },
       { text: 'Date Finished', value: 'EndDate' },
       { text: 'Result', value: 'Result' },
+      { text: '', value: 'Remove', align: 'right', sortable: false },
     ],
-    activeMissions: [],
-    availableMissions: [],
-    completedMissions: [],
   }),
-  created() {
-    const store = getModule(MissionStore, this.$store)
-    this.availableMissions = store.Missions
-    this.activeMissions = store.ActiveMissions
+  computed: {
+    availableMissions() {
+      const store = getModule(MissionStore, this.$store)
+      return store.Missions
+    },
+    activeMissions() {
+      const store = getModule(MissionStore, this.$store)
+      return store.ActiveMissions.filter(x => !x.IsComplete)
+    },
+    completedMissions() {
+      const store = getModule(MissionStore, this.$store)
+      return store.ActiveMissions.filter(x => x.IsComplete)
+    },
   },
   methods: {
     deleteActiveMission(m: ActiveMission) {

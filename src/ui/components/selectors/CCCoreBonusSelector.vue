@@ -2,8 +2,8 @@
   <selector title="Pilot CORE Bonuses" height="60vh" :success="!pilot.IsMissingCBs">
     <template v-slot:left-column>
       <v-row v-for="b in pilot.CoreBonuses" :key="`summary_${b.ID}`">
-        <missing-item v-if="b.err" @remove="remove(b)" />
-        <span v-else>
+        <!-- <missing-item v-if="b.err" @remove="pilot.RemoveCoreBonus(b)" /> -->
+        <span>
           <v-icon small color="primary">cci-corebonus</v-icon>
           <strong>{{ b.Name }}</strong>
           <span class="overline">{{ b.Source }}</span>
@@ -17,50 +17,44 @@
           icon="check_circle"
           class="stat-text"
           :value="!pilot.IsMissingCBs"
-        >
-          CORE Bonus Selection Complete
-        </v-alert>
+        >CORE Bonus Selection Complete</v-alert>
         <v-alert
           outlined
           color="primary"
           icon="warning"
           class="stat-text"
           :value="pilot.IsMissingCBs"
-        >
-          {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
-        </v-alert>
+        >{{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected</v-alert>
         <v-btn
           block
           text
           small
           :disabled="!pilot.CoreBonuses.length"
           @click="pilot.ClearCoreBonuses()"
-        >
-          Reset
-        </v-btn>
+        >Reset</v-btn>
       </v-row>
     </template>
 
     <template v-slot:right-column>
       <v-expansion-panels>
         <v-expansion-panel
-          v-for="m in Object.keys(coreBonuses)"
-          :key="`panel_m${m}`"
+          v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
+          :key="`panel_m${manufacturer.ID}`"
           class="no-shadow"
         >
           <v-expansion-panel-header>
             <div>
-              <span class="heading mech" :style="`color: ${manufacturer(m).Color}`">
-                <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
-                {{ manufacturer(m).Name }}
+              <span class="heading mech" :style="`color: ${manufacturer.Color}`">
+                <cc-logo :source="manufacturer" size="xLarge" class="pt-4" />
+                {{ manufacturer.Name }}
               </span>
               <br />
-              <v-alert outlined :color="manufacturer(m).color" class="py-1 my-2">
+              <v-alert outlined :color="manufacturer.Color" class="py-1 my-2">
                 <v-row class="text-center">
                   <span
                     class="flavor-text text--text"
                     style="width: 100%"
-                    v-html="requirement(m)"
+                    v-html="requirement(manufacturer)"
                   />
                 </v-row>
               </v-alert>
@@ -69,12 +63,12 @@
 
           <v-expansion-panel-content>
             <core-bonus-select-item
-              v-for="b in coreBonuses[m]"
+              v-for="b in coreBonuses"
               :key="b.ID"
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
-              :color="manufacturer(m).Color"
+              :color="manufacturer.Color"
               @add="pilot.AddCoreBonus(b)"
               @remove="pilot.RemoveCoreBonus(b)"
             />
@@ -87,81 +81,82 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component'
+import { Prop, Watch } from 'vue-property-decorator'
+
 import Selector from './components/_SelectorBase.vue'
 import MissingItem from './components/_MissingItem.vue'
 import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
+
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { CoreBonus, Pilot } from '@/class'
+import { Pilot, CoreBonus, Manufacturer } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-core-bonus-selector',
+
+@Component({
   components: { Selector, CoreBonusSelectItem, MissingItem },
-  props: {
-    pilot: Pilot,
-    levelUp: Boolean,
-  },
-  data: () => ({
-    coreBonuses: [],
-    panels: [],
-  }),
-  computed: {
-    selectionComplete(): boolean {
-      return this.levelUp && !this.pilot.IsMissingCBs
-    },
-  },
-  watch: {
-    selectionComplete() {
-      window.scrollTo(0, document.body.scrollHeight)
-    },
-  },
-  created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.coreBonuses = this.$_.groupBy(compendium.CoreBonuses, 'Source')
-    compendium.Manufacturers.forEach(m => {
-      this.panels.push(!!(this.availableCount(m.ID) || this.selectedCount(m.ID)))
-    })
-  },
-  methods: {
-    manufacturer(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.Manufacturers.find(x => x.Short === id)
-    },
-    requirement(mID: string): string {
-      const m = this.manufacturer(mID)
-      const abbr = `<b>${m.Short}</b>`
-      const name = `<b>${m.Name}</b>`
-      if (m.Short === 'GMS')
-        return `<b>${this.selectedCount(
-          m.Short
-        )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-      var lvl = `<b>${this.pilot.LicenseLevel(m.Short)}</b>`
-      var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
-      output += `<b>${this.availableCount(
-        m.Short
-      )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
-      output += `<b>${this.selectedCount(m.Short)}</b> ${abbr} CORE Bonuses Selected`
-      if (this.pilot.Level < 12)
-        output += `<br>${
-          this.pilot.Level < 3 ? 'First' : 'Next'
-        } ${name} CORE Bonus available in <b>${3 % this.pilot.Level || 3}</b> License Level${
-          3 % this.pilot.Level === 1 ? '' : 's'
-        }`
-      return output
-    },
-    selectedCount(m: string): number {
-      return this.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m).length
-    },
-    availableCount(m: string): number {
-      if (m.toUpperCase() === 'GMS') return Infinity
-      return Math.floor(this.pilot.LicenseLevel(m) / 3) - this.selectedCount(m)
-    },
-    isSelectable(b: CoreBonus): boolean {
-      return this.availableCount(b.Source) > 0 && this.pilot.IsMissingCBs
-    },
-    isSelected(b: CoreBonus): boolean {
-      return this.pilot.has('CoreBonus', b.ID)
-    },
-  },
 })
+export default class CCCoreBonusSelector extends Vue {
+
+  @Prop({ type: Object, required: true }) pilot!: Pilot;
+  @Prop(Boolean) levelUp!: boolean;
+
+  get coreBonuses(): CoreBonus[] {
+    return getModule(CompendiumStore, this.$store).CoreBonuses
+  }
+  get manufacturersWithCBs(): {
+    manufacturer: Manufacturer,
+    coreBonuses: CoreBonus[]
+  }[] {
+    const manufacturers = getModule(CompendiumStore, this.$store).Manufacturers
+
+    return manufacturers.map(manufacturer => ({
+      manufacturer,
+      coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer === manufacturer)
+    })).filter(x => x.coreBonuses.length > 0)
+
+  }
+
+  get selectionComplete(): boolean {
+    return this.levelUp && !this.pilot.IsMissingCBs
+  }
+  @Watch('selectionComplete') onSelectionComplete() {
+    window.scrollTo(0, document.body.scrollHeight)
+  }
+
+  requirement(m: Manufacturer): string {
+    const abbr = `<b>${m.Short}</b>`
+    const name = `<b>${m.Name}</b>`
+    if (m.Short === 'GMS')
+      return `<b>${this.selectedCount(
+        m.Short
+      )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
+    var lvl = `<b>${this.pilot.LicenseLevel(m.Short)}</b>`
+    var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
+    var remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.Short)
+    output += `<b>${this.availableCount(
+      m.Short
+    )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
+    output += `<b>${this.selectedCount(m.Short)}</b> ${abbr} CORE Bonuses Selected`
+    if (this.pilot.Level < 12)
+      output += `<br>${this.pilot.Level < 3 ? 'First' : 'Next'} ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
+    return output
+  }
+
+  selectedCount(m: string): number {
+    return this.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m).length
+  }
+  availableCount(m: string): number {
+    if (m.toUpperCase() === 'GMS') return Infinity
+    return Math.floor(this.pilot.LicenseLevel(m) / 3) - this.selectedCount(m)
+  }
+  isSelectable(b: CoreBonus): boolean {
+    return this.availableCount(b.Source) > 0 && this.pilot.IsMissingCBs
+  }
+  isSelected(b: CoreBonus): boolean {
+    return this.pilot.has('CoreBonus', b.ID)
+  }
+
+
+}
 </script>

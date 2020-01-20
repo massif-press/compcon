@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import SidebarArrayView from '../UI/SidebarArrayView.vue'
+import SidebarArrayView from '../components/SidebarArrayView.vue'
 import { backgrounds } from 'lancer-data'
 
 export default Vue.extend({

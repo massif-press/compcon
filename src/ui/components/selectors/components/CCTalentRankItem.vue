@@ -1,5 +1,5 @@
 <template>
-  <v-row :dense="small" align="center">
+  <v-row dense align="center">
     <v-col cols="auto" class="text-center">
       <v-icon
         :class="{ 'mr-4': small }"
@@ -9,7 +9,7 @@
       />
     </v-col>
     <v-col>
-      <p class="body-text pt-2 mb-1 ml-n4" v-html="description" />
+      <p class="effect-text px-3 ma-0 ml-n2" v-html="description" />
     </v-col>
   </v-row>
 </template>

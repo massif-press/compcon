@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="packInstaller" style="height: 600px;">
+  <v-layout class="packInstaller white" style="height: 600px;">
     <v-flex style="height: 100%; min-width: 25%; max-width: 25%" class="px-3 py-4">
       <v-file-input
         v-model="value"
@@ -8,7 +8,7 @@
         mr2
         accept=".lcp"
         prepend-inner-icon="mdi-package"
-        prepend-icon=""
+        prepend-icon
         @change="fileChange($event)"
       />
       <v-btn
@@ -36,9 +36,7 @@
         </v-fade-transition>
         <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
       </v-btn>
-      <p v-if="error" style="color: red">
-        {{ error }}
-      </p>
+      <p v-if="error" style="color: red">{{ error }}</p>
       <v-alert
         :value="packAlreadyInstalled && !(installing || done)"
         type="info"
@@ -74,15 +72,14 @@ import Component from 'vue-class-component'
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from '@/io/ContentPackParser'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/features/_shared/store'
+import { CompendiumStore } from '@/store'
 
 import { IContentPack } from '@/interface'
 
 import PackInfo from './PackInfo.vue'
 
-
 @Component({
-  components: { PackInfo }
+  components: { PackInfo },
 })
 export default class PackInstall extends Vue {
   private dataStore = getModule(CompendiumStore, this.$store)
@@ -128,8 +125,6 @@ export default class PackInstall extends Vue {
       this.done = false
     }, 500)
   }
-
-
 }
 </script>
 

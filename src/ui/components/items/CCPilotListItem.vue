@@ -16,7 +16,7 @@
       <div style="width: 100%" class="overlay primary sliced">
         <h2 class="heading callsign" style="margin-left: 150px;">{{ pilot.Callsign }}</h2>
       </div>
-      <div style="margin-right: 30px; border-top: 0!important" class="panel-block">
+      <div style="margin-right: 30px; border-top: 0!important" class="light-panel clipped">
         <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
             <span class="grey--text">>IDENT//[</span>

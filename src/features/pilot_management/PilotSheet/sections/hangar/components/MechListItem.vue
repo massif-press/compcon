@@ -2,7 +2,7 @@
   <div id="pc-wrapper" @click="$emit('go', mech)">
     <v-card
       tile
-      :color="mech.Frame.Manufacturer.Color"
+      :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.Color"
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
       min-width="150px"
@@ -16,7 +16,11 @@
       <div
         style="width: 100%"
         class="overlay sliced"
-        :style="`background-color: ${mech.Frame.Manufacturer.Color}`"
+        :style="
+          `background-color: ${
+            mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+          }`
+        "
       >
         <v-row no-gutters>
           <span class="heading h2 callsign" style="margin-left: 150px;">{{ mech.Name }}</span>
@@ -27,7 +31,7 @@
           </v-fade-transition>
         </v-row>
       </div>
-      <div style="margin-right: 30px; border-top: 0!important" class="panel-block">
+      <div style="margin-right: 30px; border-top: 0!important" class="light-panel clipped">
         <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
             <v-row no-gutters justify="end">
@@ -36,7 +40,6 @@
                 //
                 <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                 <br />
-                <!-- TODO: prevent null activeloadout -->
                 Equipped Loadout: {{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
               </v-col>
               <v-col cols="auto" class="ml-auto mr-4">
@@ -168,7 +171,7 @@ export default Vue.extend({
   left: 2px;
   bottom: 2px;
   right: 2px;
-  background-color: var(--v-panel-base);
+  background-color: var(--v-light-panel-base);
 }
 
 .overlay {

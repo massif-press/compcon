@@ -13,8 +13,8 @@
       <pilot-armor-card
         :item="pilot.ActiveLoadout.Armor[0]"
         :readonly="readonly"
-        @equip="$set(pilot.ActiveLoadout.Armor, 0, $event)"
-        @remove="$set(pilot.ActiveLoadout.Armor, 0, null)"
+        @equip="setArmor($event)"
+        @remove="setArmor(null)"
       />
       <v-divider vertical class="mx-4 my-3" />
       <pilot-weapon-card
@@ -60,6 +60,7 @@ import Vue from 'vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
+import { PilotArmor } from '@/class'
 
 export default Vue.extend({
   name: 'cc-pilot-loadout',
@@ -88,6 +89,10 @@ export default Vue.extend({
       if (this.pilot.has('reserve', 'extendedharness'))
         return this.pilot.ActiveLoadout.ExtendedWeapons
       return []
+    },
+    setArmor(a: PilotArmor | null) {
+      this.$set(this.pilot.ActiveLoadout.Armor, 0, a)
+      this.pilot.Heal()
     },
   },
 })

@@ -1,6 +1,14 @@
 import { ItemType } from '@/class'
 import { store } from '@/store'
+import { ICompendiumItemData } from '@/interface'
 
+export interface ITagCompendiumData extends ICompendiumItemData {
+  id: string
+  name: string
+  description: string
+  filter_ignore?: boolean
+  hidden?: boolean
+}
 class Tag {
   private _id: string
   private _name: string
@@ -11,7 +19,7 @@ class Tag {
   private _item_type: ItemType
   private _brew: string
 
-  public constructor(tagData: any) {
+  public constructor(tagData: ITagCompendiumData) {
     this._id = tagData.id
     this._name = tagData.name
     this._description = tagData.description

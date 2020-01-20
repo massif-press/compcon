@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionCard from '../UI/ActionCard.vue'
-import ReserveCard from '../UI/ReserveCard.vue'
+import ActionCard from '../components/ActionCard.vue'
+import ReserveCard from '../components/ReserveCard.vue'
 import { actions, reserves } from 'lancer-data'
 
 export default Vue.extend({
