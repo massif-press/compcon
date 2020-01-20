@@ -20,7 +20,7 @@
           {{ coreSystem.PassiveName }}
           <span class="grey--text" style="font-size: 14px">(PASSIVE)</span>
         </h3>
-        <span class="flavor-text text--text">{{ coreSystem.PassiveEffect }}</span>
+        <p class="flavor-text text--text" v-html="coreSystem.PassiveEffect" />
       </v-alert>
       <v-alert prominent text dense tile :color="color" border="left" icon="cci-corebonus">
         <h3 class="heading" :style="`color: ${color}`">
