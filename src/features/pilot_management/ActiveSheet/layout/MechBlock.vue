@@ -204,7 +204,7 @@
             v-if="mech.IsInDangerZone"
             class="caption font-weight-bold dangerzone--text text-center"
           >
-            // ALERT::HEAT LEVELS CRITICAL //
+            // HEAT::DANGER ZONE //
           </div>
           <div v-else class="caption grey--text text-center">
             HEAT LEVELS NOMINAL
@@ -336,7 +336,8 @@
                 <span class="pt-2 ml-2 caption grey--text">(PASSIVE)</span>
               </span>
               <p class="mb-1" v-html="mech.Frame.CoreSystem.PassiveEffect" />
-              <br><br>
+              <br />
+              <br />
             </div>
             <span class="heading h2">
               {{ mech.Frame.CoreSystem.ActiveName }}
@@ -432,7 +433,7 @@ export default Vue.extend({
     onHeatRollover() {
       if (this.mech.CurrentStress <= 1) {
         this.$nextTick(() => {
-          this.mech.CurrentHeat = this.mech.MaxHeat
+          this.mech.CurrentHeat = this.mech.HeatCapacity
         })
       }
       this.mech.CurrentStress = this.mech.CurrentStress - 1
