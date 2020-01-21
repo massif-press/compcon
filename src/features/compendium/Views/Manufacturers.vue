@@ -11,7 +11,7 @@
     >
       <v-tab v-for="(m, i) in manufacturers" :key="m.ID" ripple>
         <cc-logo size="large" :source="m" :color="tabModel == i ? 'white' : 'black'" />
-        {{ m.Short }}
+        {{ m.ID }}
       </v-tab>
       <v-tab-item v-for="m in manufacturers" :key="m.ID + 'desc'">
         <v-card flat class="px-3 py-3 light-panel clipped-x-large">

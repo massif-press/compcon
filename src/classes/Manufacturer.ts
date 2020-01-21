@@ -37,10 +37,6 @@ class Manufacturer {
     return this._name
   }
 
-  public get Short(): string {
-    return this._logo?.toUpperCase() || this.ID
-  }
-
   public get Description(): string {
     return this._description
   }
@@ -59,7 +55,8 @@ class Manufacturer {
 
   public get Logo(): string {
     if (this._logo_url) return this._logo_url
-    return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
+    else if (this._logo) return getImagePath(ImageTag.Logo, `${this._logo}.svg`, true)
+    else return '' // TODO: placeholder logo?
   }
 }
 
