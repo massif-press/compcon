@@ -73,7 +73,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
     return data.map(x => ({...x, id: x.id || generateItemID(dataPrefix, x.name)}))
   }
 
-  const manufacturers = generateIDs(await getZipData<IManufacturerData>(zip, 'manufacturers.json'), 'mfr')
+  const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonus.json'), 'cb')
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf')
   const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw')

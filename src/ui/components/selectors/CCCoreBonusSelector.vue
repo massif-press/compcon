@@ -125,19 +125,19 @@ export default class CCCoreBonusSelector extends Vue {
   }
 
   requirement(m: Manufacturer): string {
-    const abbr = `<b>${m.Short}</b>`
+    const abbr = `<b>${m.ID}</b>`
     const name = `<b>${m.Name}</b>`
-    if (m.Short === 'GMS')
+    if (m.ID === 'GMS')
       return `<b>${this.selectedCount(
-        m.Short
+        m.ID
       )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-    var lvl = `<b>${this.pilot.LicenseLevel(m.Short)}</b>`
+    var lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
     var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
-    var remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.Short)
+    var remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
     output += `<b>${this.availableCount(
-      m.Short
+      m.ID
     )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
-    output += `<b>${this.selectedCount(m.Short)}</b> ${abbr} CORE Bonuses Selected`
+    output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
     if (this.pilot.Level < 12)
       output += `<br>${this.pilot.Level < 3 ? 'First' : 'Next'} ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
     return output
