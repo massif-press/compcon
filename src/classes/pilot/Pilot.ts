@@ -85,12 +85,12 @@ class Pilot {
     this._mechSkills = new MechSkills()
     this._core_bonuses = []
     this._active_mech = null
-    this._active_loadout = new PilotLoadout(0)
     this._loadouts = []
     this._mechs = []
     this._reserves = []
     this._orgs = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+    this.AddLoadout()
 
     // this._initCounters()
   }

@@ -84,6 +84,11 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
+    itemTypeFallback: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data: () => ({
     search: '',
@@ -106,6 +111,7 @@ export default Vue.extend({
     },
   },
   created() {
+    if (!this.items.length) this.itemType = this.itemTypeFallback
     this.itemType = this.items[0].ItemType
   },
   mounted() {

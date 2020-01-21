@@ -67,7 +67,7 @@
           </v-col>
         </v-row>
       </div>
-      <system-selector slot="selector" :mech="mech" @equip="equip($event)" />
+      <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
     </slot-card-base>
   </div>
 </template>
