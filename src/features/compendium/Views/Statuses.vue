@@ -29,7 +29,7 @@ export default Vue.extend({
     this.statuses = compendium.Statuses.map(x => ({
       ID: x.name,
       type: x.type,
-      Description: listString(x.effects),
+      Description: x.effects,
     }))
   },
 })
