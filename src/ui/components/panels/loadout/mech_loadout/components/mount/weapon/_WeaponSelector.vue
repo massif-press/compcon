@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-selector-table :items="availableWeapons" :headers="headers" @equip="$emit('equip', $event)">
+    <cc-selector-table
+      :items="availableWeapons"
+      :headers="headers"
+      item-type-fallback="MechWeapon"
+      @equip="$emit('equip', $event)"
+    >
       <div v-if="weaponSlot.Weapon">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;

@@ -47,6 +47,7 @@ enum ItemType {
   MechWeapon = 'MechWeapon',
   MechSystem = 'MechSystem',
   WeaponMod = 'WeaponMod',
+  NpcFeature = 'NpcFeature',
 }
 
 enum SystemType {
