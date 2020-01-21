@@ -1,11 +1,11 @@
 <template>
-  <v-row wrap justify-space-around class="mx-4">
+  <v-row justify="space-around" dense class="mx-4">
     <v-col cols="4">
       <v-select
         v-model="sourceFilter"
-        class="px-2"
-        hide-details
         dense
+        hide-details
+        class="px-2"
         prepend-icon="mdi-factory"
         outlined
         label="From Manufacturer"
@@ -19,34 +19,19 @@
     <v-col cols="4">
       <v-select
         v-model="tagFilter"
-        class="px-2"
-        hide-details
         dense
+        hide-details
+        class="px-2"
         prepend-icon="mdi-tag"
         chips
         deletable-chips
+        small-chips
         outlined
         label="Tags"
         :items="tags"
-        multiple
-        small-chips
-        item-text="Name"
         item-value="ID"
-        @change="updateFilters()"
-      />
-    </v-col>
-    <v-col cols="4">
-      <v-select
-        v-model="systemTypeFilter"
-        class="px-2"
-        dense
-        prepend-icon="cci-system"
-        outlined
-        label="System Type"
-        :items="systemTypes"
-        chips
-        deletable-chips
-        small-chips
+        multiple
+        item-text="Name"
         @change="updateFilters()"
       />
     </v-col>
@@ -55,7 +40,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, SystemType, Manufacturer } from '@/class'
+import { Tag, WeaponType, Manufacturer } from '@/class'
 
 const nameSort = function(a, b) {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -68,7 +53,6 @@ export default Vue.extend({
   data: () => ({
     sourceFilter: [],
     tagFilter: [],
-    systemTypeFilter: [],
   }),
   computed: {
     manufacturers(): Manufacturer[] {
@@ -77,17 +61,11 @@ export default Vue.extend({
         .map(x => ({ text: x.Name, value: x.ID }))
         .sort(nameSort)
     },
-    systemTypes(): SystemType[] {
-      return Object.keys(SystemType)
-        .map(k => SystemType[k as any])
-        .filter(k => k !== 'Integrated')
-        .sort() as SystemType[]
-    },
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
           this.$store.getters
-            .getItemCollection('MechSystems')
+            .getItemCollection('WeaponMods')
             .flatMap(x => x.Tags)
             .filter(x => !x.FilterIgnore && !x.IsHidden)
         ),
@@ -99,13 +77,12 @@ export default Vue.extend({
     clear() {
       this.sourceFilter = []
       this.tagFilter = []
-      this.systemTypeFilter = []
+      this.weaponTypeFilter = []
     },
     updateFilters() {
       let fObj = {} as any
       if (this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
       this.$emit('set-filters', fObj)
     },
   },

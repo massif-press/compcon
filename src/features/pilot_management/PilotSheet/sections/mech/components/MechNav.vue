@@ -12,6 +12,9 @@
     <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
       <v-icon large>cci-pilot</v-icon>
     </v-btn>
+    <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+      <v-icon large>cci-activate</v-icon>
+    </v-btn>
     <v-divider vertical class="mx-2" />
     <div id="divider" />
     <v-menu offset-y top>
@@ -66,13 +69,7 @@
       <v-list subheader>
         <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
         <v-list-item-group>
-          <v-list-item
-            @click="
-              ''
-
-
-            "
-          >
+          <v-list-item @click.stop>
             <v-list-item-icon class="ma-0 mr-2 mt-3">
               <v-icon>mdi-view-array</v-icon>
             </v-list-item-icon>

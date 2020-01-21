@@ -37,6 +37,7 @@
       fixed-header
       show-select
       single-select
+      style="text-transform: uppercase"
     >
       <template v-slot:item.data-table-select="{ item }">
         <cc-tooltip simple inline :content="`Equip ${item.Name}`">
