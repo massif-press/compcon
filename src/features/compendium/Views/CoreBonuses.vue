@@ -56,7 +56,7 @@ export default class CoreBonuses extends Vue {
 
   public manufacturer(id: string) {
     const compendium = getModule(CompendiumStore, this.$store)
-    return compendium.Manufacturers.find(x => x.Short === id.toUpperCase())
+    return compendium.Manufacturers.find(x => x.ID === id.toUpperCase())
   }
 }
 </script>

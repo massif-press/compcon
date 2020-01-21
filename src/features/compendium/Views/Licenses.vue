@@ -67,7 +67,7 @@ export default Vue.extend({
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.Manufacturers.find(x => x.Short === id)
+      return compendium.Manufacturers.find(x => x.ID === id)
     },
     frame(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
