@@ -25,6 +25,9 @@
     >
       <v-icon large>cci-frame</v-icon>
     </v-btn>
+    <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+      <v-icon large>cci-activate</v-icon>
+    </v-btn>
     <v-divider vertical class="mx-2" />
     <div id="divider" />
     <v-menu offset-y top>
@@ -196,8 +199,8 @@ export default Vue.extend({
       return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
-          ? this.pilot.ActiveMech.ID
-          : null
+        ? this.pilot.ActiveMech.ID
+        : null
     },
   },
   methods: {

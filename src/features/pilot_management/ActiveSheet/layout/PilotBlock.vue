@@ -36,16 +36,43 @@
     <span class="overline">PILOT LOADOUT</span>
     <cc-pilot-loadout :pilot="pilot" readonly />
 
-    <span class="overline">SKILL TRIGGERS</span>
+    <v-row dense>
+      <v-col cols="auto">
+        <span class="overline">SKILL TRIGGERS</span>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.Skills.length, 'sk_', true)"
+        >
+          <v-icon small left>mdi-chevron-up</v-icon>
+          All
+        </v-btn>
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.Skills.length, 'sk_', false)"
+        >
+          <v-icon small left>mdi-chevron-down</v-icon>
+          All
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row dense justify="center">
       <cc-active-card
-        v-for="s in pilot.Skills"
-        :key="`sk_${s.Skill.ID}`"
-        cols="3"
+        v-for="(s, i) in pilot.Skills"
+        :key="`sk_${i}`"
+        :ref="`sk_${i}`"
+        cols="4"
         color="secondary"
-        :header="s.Skill.Name"
+        collapsible
+        start-closed
+        :header="`${s.Skill.Name} (+${s.Bonus})`"
         subheader="SKILL TRIGGER"
-        :content="`+${s.Bonus}`"
+        :content="s.Skill.Detail"
       />
     </v-row>
 
@@ -67,13 +94,39 @@
       />
     </v-row>
 
-    <span class="overline">TALENTS</span>
-    <v-row>
+    <v-row dense>
+      <v-col cols="auto">
+        <span class="overline">TALENTS</span>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.Talents.length, 'tal_', true)"
+        >
+          <v-icon small left>mdi-chevron-up</v-icon>
+          All
+        </v-btn>
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.Talents.length, 'tal_', false)"
+        >
+          <v-icon small left>mdi-chevron-down</v-icon>
+          All
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
       <cc-active-card
         v-for="(t, i) in pilot.Talents"
         :key="`tal_${i}`"
+        :ref="`tal_${i}`"
+        collapsible
         color="primary"
-        :cols="t.Rank < 3 ? t.Rank * 3 : 12"
+        :cols="6"
         :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
         subheader="PILOT TALENT"
       >
@@ -85,13 +138,39 @@
       </cc-active-card>
     </v-row>
 
-    <span v-if="pilot.CoreBonuses" class="overline">CORE BONUSES</span>
+    <v-row dense>
+      <v-col cols="auto">
+        <span class="overline">CORE BONUSES</span>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.CoreBonuses.length, 'cb_', true)"
+        >
+          <v-icon small left>mdi-chevron-up</v-icon>
+          All
+        </v-btn>
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(pilot.CoreBonuses.length, 'cb_', false)"
+        >
+          <v-icon small left>mdi-chevron-down</v-icon>
+          All
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row v-if="pilot.CoreBonuses">
       <cc-active-card
         v-for="(bonus, i) in pilot.CoreBonuses"
         :key="`cb_${i}`"
+        :ref="`cb_${i}`"
         :cols="12 / pilot.CoreBonuses.length"
         color="corepower"
+        collapsible
         :header="bonus.Name"
         subheader="CORE BONUS"
       >
@@ -109,6 +188,14 @@ export default Vue.extend({
     pilot: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    expandAll(len: number, key: string, expand: boolean) {
+      for (let i = 0; i < len; i++) {
+        const k = key + i
+        this.$refs[k][0].collapsed = expand
+      }
     },
   },
 })

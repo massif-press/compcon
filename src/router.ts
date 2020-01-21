@@ -45,7 +45,6 @@ export default new Router({
         },
         {
           path: '/pilot/:pilotID',
-          name: 'pilot-sheet',
           component: () =>
             import(
               /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/index.vue'
