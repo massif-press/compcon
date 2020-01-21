@@ -4,7 +4,7 @@
       <v-toolbar-title style="max-height: 30px" class="mt-n3">
         <v-menu offset-y top>
           <template v-slot:activator="{ on }">
-            <v-icon left class="fadeSelect mt-n2" v-on="on">mdi-chevron-up-circle</v-icon>
+            <v-icon left class="fadeSelect mt-n2" v-on="on">mdi-menu</v-icon>
           </template>
           <v-list class="px-2 py-3">
             <v-list-item-subtitle class="overline">Available Loadouts</v-list-item-subtitle>

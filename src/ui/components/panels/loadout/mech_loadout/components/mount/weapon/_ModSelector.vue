@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-selector-table :items="availableMods" :headers="headers" @equip="$emit('install', $event)">
+    <cc-selector-table
+      :items="availableMods"
+      :headers="headers"
+      item-type-fallback="WeaponMod"
+      @equip="$emit('install', $event)"
+    >
       <div v-if="weapon.Mod">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
