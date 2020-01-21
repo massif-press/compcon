@@ -1,8 +1,8 @@
 <template>
   <v-bottom-sheet v-model="panel">
     <template v-slot:activator="{ on }">
-      <v-badge overlap right color="secondary">
-        <template v-if="filterCount" v-slot:badge>
+      <v-badge :value="filterCount" overlap right color="secondary">
+        <template v-slot:badge>
           <span class="stat-text white--text">{{ filterCount }}</span>
         </template>
 
@@ -59,6 +59,7 @@ export default Vue.extend({
       this.panel = false
     },
     applyFilters() {
+      console.log(this.filters)
       this.filterCount = Object.keys(this.filters).length
       this.$emit('set-filters', this.filters)
     },
