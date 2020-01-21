@@ -126,6 +126,9 @@
       <options />
     </cc-solo-dialog>
 
+    <cc-solo-dialog ref="profileModal" large no-confirm title="User Profile">
+      profile test
+    </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
   </v-app-bar>
