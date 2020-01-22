@@ -13,7 +13,9 @@
           <v-btn small text color="primary" @click="$emit('go', m)">{{ m.Name }}</v-btn>
         </td>
         <td>{{ m.Frame.Source }} {{ m.Frame.Name }}</td>
-        <td>{{ m.Status || 'Active' }}</td>
+        <td>
+          <b :class="getMechStatus(m)[1]">{{ getMechStatus(m)[0] }}</b>
+        </td>
       </tr>
     </tbody>
   </v-simple-table>
@@ -21,12 +23,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Mech } from '@/class'
 export default Vue.extend({
   name: 'mech-table',
   props: {
     mechs: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    getMechStatus(m: Mech) {
+      if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
+      if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
+      if (m.IsActive) return ['ACTIVE', 'success--text']
+      return ['STANDBY', 'grey--text text--darken-2']
     },
   },
 })
