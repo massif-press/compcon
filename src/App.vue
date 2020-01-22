@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
     <global-confirm ref="confirm" />
+    <global-notifier ref="notifier" />
     <nav />
     <v-slide-x-transition mode="out-in">
       <router-view />
@@ -11,11 +12,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import GlobalConfirm from '@/ui/GlobalConfirm.vue'
+import GlobalNotifier from '@/ui/GlobalNotifier.vue'
 
 export default Vue.extend({
   name: 'compcon',
   components: {
     GlobalConfirm,
+    GlobalNotifier
   },
   mounted() {
     this.$mousetrap.bind('g r', () => {
@@ -35,6 +38,7 @@ export default Vue.extend({
     })
 
     Vue.prototype.$confirm = this.$refs.confirm.open
+    Vue.prototype.$notify = this.$refs.notifier.notify.bind(this.$refs.notifier)
   },
 })
 </script>
