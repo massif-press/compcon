@@ -42,13 +42,13 @@
     <span class="heading sub">light</span>
     <v-container grid-list-xs>
       <v-row dense>
-        <v-col v-for="c in allColors('light')" :key="c.name + 'light'">
+        <!-- <v-col v-for="c in allColors('light')" :key="c.name + 'light'">
           <v-card tile :color="c.color" class="text-center">
             <v-card-text>
               <span class="heading h3 px-2">{{ c.name }}</span>
             </v-card-text>
           </v-card>
-        </v-col>
+        </v-col> -->
       </v-row>
     </v-container>
     <br />
@@ -56,13 +56,13 @@
     <v-card dark color="grey darken-3">
       <v-container grid-list-xs>
         <v-row dense>
-          <v-col v-for="c in allColors('dark')" :key="c.name + 'light'">
+          <!-- <v-col v-for="c in allColors('dark')" :key="c.name + 'light'">
             <v-card dark tile :color="c.color" class="text-center">
               <v-card-text>
                 <span class="heading h3 px-2">{{ c.name }}</span>
               </v-card-text>
             </v-card>
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-container>
     </v-card>
@@ -147,15 +147,28 @@
       </v-row>
       <v-row class="my-2">
         <v-col>
-          <cc-popup small @confirm="dialog1Confirm()">
+          <!-- <cc-popup small @confirm="dialog1Confirm()">
             <template v-slot:button>popup</template>
             <template v-slot:title>CC-Popup</template>
             popup content
-          </cc-popup>
+          </cc-popup> -->
         </v-col>
-        <v-col>
-          <cc-btn @click="notification = true">Notification</cc-btn>
-          <cc-notification :model="notification" @close="notification = false">snackbar notification</cc-notification>
+      </v-row>
+    </v-container>
+
+    <!-- Global Notifier -->
+    <br />
+    <cc-title>Global Notifier</cc-title>
+    <v-container>
+      <v-row>
+        <v-col cols="3">
+          <v-text-field v-model="notificationText" />
+        </v-col>
+        <v-col cols="3">
+          <v-select :items="notificationTypes" v-model="notificationType" />
+        </v-col>
+        <v-col cols="2">
+          <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -224,11 +237,12 @@ const icons = [
   'trait',
   'weapon',
 ]
-
 export default Vue.extend({
   name: 'ui-test',
   data: () => ({
-    notification: false,
+    notificationText: '',
+    notificationTypes: ["Achievement", "Confirmation", "Error"],
+    notificationType: "Confirmation"
   }),
   methods: {
     allIcons() {
@@ -245,6 +259,9 @@ export default Vue.extend({
     dialog1Confirm() {
       console.log('dialog 1 confirmed')
     },
+    doNotify() {
+      this.$notify(this.notificationText, this.notificationType)
+    }
   },
 })
 </script>
