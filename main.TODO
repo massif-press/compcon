@@ -79,7 +79,6 @@ Next Steps:
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
-  ☐ In-file interface declarations available globally through TS import()
   ☐ Better visibility on range/damage bonuses (contributors)
   ☐ Move explicit-lookup functions to a generalized bonus framework
   ☐ Avatar image bounding box select
@@ -90,8 +89,7 @@ Next Steps:
     ☐ Modify movement speed based on prone/immob/stunned
   ☐ Custom NPC Feature
   ☐ NPC Custom Tier icon
-  ☐ Pilot Mode when a mech is dismounted/ejected in the encounter runner
-  ☐ Rounde/Encounter/Rest transitions
+  ☐ Round/Encounter/Rest transitions
   ☐ After Action Report stats
   ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ integrate text color getter
