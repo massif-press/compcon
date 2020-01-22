@@ -87,8 +87,8 @@
             //[COMP/CON:
             <span class="text--text">
               Lancer, I have detected
-              <span class="primary--text">{{ issues }}</span>
-              issues requiring your attention:
+              <b class="primary--text">{{ issues }}</b>
+              issue{{ issues === 1 ? '' : 's' }} requiring your attention:
             </span>
             ]
           </p>
@@ -142,10 +142,8 @@
                   @click="healHP"
                 >
                   Repair
+                  <v-icon right>control_point</v-icon>
                 </v-btn>
-              </v-col>
-              <v-col cols="3" class="ml-2">
-                <v-icon large>control_point</v-icon>
               </v-col>
             </v-row>
           </div>
@@ -167,11 +165,9 @@
                   @click="healStructure"
                 >
                   Repair
+                  <v-icon right>control_point</v-icon>
+                  <v-icon v-if="!isEverest" right>control_point</v-icon>
                 </v-btn>
-              </v-col>
-              <v-col cols="3" class="ml-2">
-                <v-icon large>control_point</v-icon>
-                <v-icon v-if="isEverest" large>control_point</v-icon>
               </v-col>
             </v-row>
           </div>
@@ -194,11 +190,9 @@
                   @click="healStress"
                 >
                   Repair
+                  <v-icon right>control_point</v-icon>
+                  <v-icon right>control_point</v-icon>
                 </v-btn>
-              </v-col>
-              <v-col cols="3" class="ml-2">
-                <v-icon large>control_point</v-icon>
-                <v-icon large>control_point</v-icon>
               </v-col>
             </v-row>
           </div>
@@ -210,22 +204,20 @@
             <div v-else>
               <b class="primary--text">WARNING: ARMAMENT DAMAGED</b>
               <v-row v-for="w in destroyedWeapons" :key="w.ID" dense align="center">
-                <v-col cols="auto">
+                <v-col cols="auto" class="ml-auto">
                   <v-btn
                     small
                     dark
                     tile
                     block
                     color="secondary"
-                    class="ml-6 my-0"
+                    class="my-0"
                     :disabled="!mech.CurrentRepairs"
                     @click="repairSystem(w)"
                   >
                     Repair {{ w.Name }}
+                    <v-icon right>control_point</v-icon>
                   </v-btn>
-                </v-col>
-                <v-col cols="3" class="ml-auto">
-                  <v-icon large>control_point</v-icon>
                 </v-col>
               </v-row>
             </div>
@@ -238,22 +230,20 @@
             <div v-else>
               <b class="primary--text">WARNING: SYSTEMS DAMAGED</b>
               <v-row v-for="s in destroyedSystems" :key="s.ID" dense align="center">
-                <v-col cols="auto">
+                <v-col cols="auto" class="ml-auto">
                   <v-btn
                     small
                     dark
                     tile
                     block
-                    class="ml-6 my-0"
+                    class="my-0"
                     color="secondary"
                     :disabled="!mech.CurrentRepairs"
                     @click="repairSystem(s)"
                   >
                     Repair {{ s.Name }}
+                    <v-icon right>control_point</v-icon>
                   </v-btn>
-                </v-col>
-                <v-col cols="3" class="ml-auto">
-                  <v-icon large>control_point</v-icon>
                 </v-col>
               </v-row>
             </div>
@@ -279,6 +269,7 @@ import DestroyedAlert from './components/DestroyedAlert.vue'
 import { MechEquipment } from '@/class'
 
 function normalize(current, max): number {
+  if (!max) return 1
   return current / max
 }
 
@@ -311,7 +302,7 @@ export default Vue.extend({
       return this.loadout.Systems.filter(x => x.Destroyed)
     },
     isEverest() {
-      return this.mech.Frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"'
+      return this.mech.Frame.ID === 'mf_standard_pattern_i_everest'
     },
     issues() {
       return (
@@ -330,14 +321,16 @@ export default Vue.extend({
           normalize(
             this.loadout.Weapons.length - this.destroyedWeapons.length,
             this.loadout.Weapons.length
-          ) +
+          ) *
+            3 +
           normalize(
             this.loadout.Systems.length - this.destroyedSystems.length,
             this.loadout.Systems.length
-          ) +
-          normalize(this.mech.CurrentStructure, this.mech.MaxStructure) +
-          normalize(this.mech.CurrentStress, this.mech.MaxStress)) /
-          5) *
+          ) *
+            3 +
+          normalize(this.mech.CurrentStructure, this.mech.MaxStructure) * 10 +
+          normalize(this.mech.CurrentStress, this.mech.MaxStress) * 8) /
+          24) *
         100
       )
     },
@@ -353,7 +346,7 @@ export default Vue.extend({
       this.mech.CurrentRepairs -= 1
     },
     healStructure() {
-      this.mech.CurrentStructure = this.mech.MaxStructure
+      this.mech.CurrentStructure += 1
       this.mech.CurrentRepairs -= this.isEverest ? 1 : 2
     },
     healStress() {
