@@ -64,15 +64,7 @@
         <br />
         ---
         <cc-tooltip simple inline content="Feature In Development">
-          <v-icon
-            small
-            class="fadeSelect"
-            @click="
-              ''
-
-
-            "
-          >
+          <v-icon small class="fadeSelect" @click.stop>
             mdi-circle-edit-outline
           </v-icon>
         </cc-tooltip>
@@ -81,7 +73,7 @@
         <span class="overline">STATUS</span>
         <br />
         <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
-        <cc-simple-select :items="pilotStatuses" @set="pilot.Status = $event" />
+        <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
     <cloud-manager ref="cloud" :pilot="pilot" @end-sync="syncing = false" />
@@ -91,15 +83,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import CloudManager from '../../../components/CloudManager.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
-import { Pilot } from '@/class'
-import ExtLog from '@/io/ExtLog'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 export default Vue.extend({
   name: 'ident-block',
   components: { CloudManager },
+  mixins: [activePilot],
   data: () => ({
     pilotStatuses: [
       { text: 'Active', value: 'ACTIVE' },
@@ -113,7 +102,6 @@ export default Vue.extend({
     notification: '',
     syncing: false,
   }),
-  mixins: [activePilot],
   methods: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {

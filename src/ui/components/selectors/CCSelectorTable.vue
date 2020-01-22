@@ -120,11 +120,12 @@ export default Vue.extend({
   },
   methods: {
     customSort(items, index, descending) {
+      console.log(items, index, descending)
       const desc = descending[0]
       items.sort((a, b) => {
-        if (index[0] === 'Damage') {
+        if (index[0] === 'Damage[0].Max') {
           return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
-        } else if (index[0] === 'Range') {
+        } else if (index[0] === 'Range[0].Max') {
           return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
         } else {
           return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
