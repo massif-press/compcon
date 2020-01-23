@@ -1,22 +1,27 @@
-export class Rest {
-  private _long: boolean
+import uuid from 'uuid/v4'
+import { IMissionStep } from './IMissionStep'
+import { MissionStepType } from '@/class'
+
+interface IRestData {
+  id: string
+  note: string
+}
+
+export class Rest implements IMissionStep {
+  private _id: string
   private _note: string
 
-  public constructor(note: string, isLong: boolean) {
-    this._note = note
-    this._long = isLong
+  public constructor() {
+    this._id = uuid()
+    this._note = ''
   }
 
-  public get Type(): string {
-    return 'Rest'
+  public get ID(): string {
+    return this._id
   }
 
-  public get IsLong(): boolean {
-    return this._long
-  }
-
-  public set IsLong(val: boolean) {
-    this._long = val
+  public get StepType(): MissionStepType {
+    return MissionStepType.Rest
   }
 
   public get Note(): string {
@@ -27,14 +32,17 @@ export class Rest {
     this._note = val
   }
 
-  public static Serialize(rest: Rest): { note: string; isLong: boolean } {
+  public static Serialize(rest: Rest): IRestData {
     return {
+      id: rest.ID,
       note: rest.Note,
-      isLong: rest.IsLong,
     }
   }
 
-  public static Deserialize(data: { note: string; isLong: boolean }): Rest {
-    return new Rest(data.note, data.isLong)
+  public static Deserialize(data: IRestData): Rest {
+    const r = new Rest()
+    r._id = data.id
+    r._note = data.note
+    return r
   }
 }

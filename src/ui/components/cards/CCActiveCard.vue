@@ -16,7 +16,7 @@
       </v-card-title>
       <v-scroll-y-transition leave-absolute>
         <v-card-text v-if="!collapsed" class="pa-1 pl-2 ma-0 text--text body-text">
-          <div v-if="content">{{ content }}</div>
+          <div v-if="content" :class="prominent ? 'text-center heading h3' : ''">{{ content }}</div>
           <slot v-else />
         </v-card-text>
       </v-scroll-y-transition>
@@ -57,6 +57,9 @@ export default Vue.extend({
       type: Boolean,
     },
     startClosed: {
+      type: Boolean,
+    },
+    prominent: {
       type: Boolean,
     },
   },
