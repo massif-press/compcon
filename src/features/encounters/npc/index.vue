@@ -127,7 +127,7 @@
       <v-divider class="my-2 " />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
-          <v-btn block tile color="primary" large to="new-npc">
+          <v-btn block tile color="primary" large @click="$router.push({ name: 'new-npc' })">
             <v-icon left>mdi-plus</v-icon>
             Add New NPC
           </v-btn>

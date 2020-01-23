@@ -61,6 +61,10 @@ export class EncounterStore extends VuexModule {
     saveEncounterData(this.Encounters)
   }
 
+  get getEncounters(): Encounter[] {
+    return this.Encounters
+  }
+
   @Action
   public saveEncounterData(): void {
     this.context.commit(SAVE_DATA)
