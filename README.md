@@ -12,6 +12,8 @@
   <br>
   <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
   <a href="https://travis-ci.com/massif-press/compcon"><img src="https://travis-ci.com/massif-press/compcon.svg?branch=dev" alt="Build Status"></a>
+  <br>
+  <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fendel" alt="Support the app on Patreon"></a>
 
 </p>
 
