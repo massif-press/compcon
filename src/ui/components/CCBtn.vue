@@ -23,6 +23,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import GetColorMixin from '../../mixins/getColor'
+import { Route } from 'vue-router'
 
 @Component({
   name: 'cc-btn',
@@ -53,7 +54,7 @@ export default class CCBtn extends mixins(GetColorMixin) {
   outlined?: boolean
 
   @Prop({ type: [String, Object], required: false, default: '', })
-  to?: boolean
+  to: string | Route
 
   get bgColor(): string {
     if (this.disabled) return 'gray'
