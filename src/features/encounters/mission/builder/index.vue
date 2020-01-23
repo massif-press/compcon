@@ -153,15 +153,7 @@ export default Vue.extend({
     },
     addNew() {
       const store = getModule(MissionStore, this.$store)
-      store.addMission(
-        new Mission({
-          name: 'New Mission',
-          note: '',
-          campaign: 'None',
-          labels: [],
-          steps: [],
-        })
-      )
+      store.addMission(new Mission())
       const m = this.missions[this.missions.length - 1].ID
       this.$router.push({ name: 'edit-mission', params: { id: m } })
     },

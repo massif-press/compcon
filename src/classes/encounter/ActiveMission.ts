@@ -1,11 +1,13 @@
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import { store } from '@/store'
-import { Mission, Pilot, Encounter, Rest } from '@/class'
-import { IMissionData } from '@/interface'
+import { Mission, Pilot, Npc, MissionStepType, Encounter } from '@/class'
+import { IMissionData, INpcData } from '@/interface'
+import { IMissionStep } from './IMissionStep'
 
 export interface IActiveMissionData {
   mission: IMissionData
-  pilots: IPilotData[]
+  pilotIDs: string[]
+  activeNpcs: INpcData[]
   step: number
   round: number
   start: string
@@ -19,7 +21,8 @@ export class ActiveMission {
   private _mission: Mission
   private _step: number
   private _round: number
-  private _pilots: Pilot[]
+  private _pilotIDs: string[]
+  private _activeNpcs: Npc[]
   private _start_date: string
   private _end_date: string
   private _note: string
@@ -28,16 +31,19 @@ export class ActiveMission {
   public constructor(m: Mission, pilots: Pilot[]) {
     this._id = uuid()
     this._mission = m
-    this._pilots = pilots
+    this._pilotIDs = pilots.map(x => x.ID)
+    this._activeNpcs = []
     this._step = 0
     this._round = 0
     this._start_date = new Date().toISOString().slice(0, 10)
     this._note = ''
     this._result = ''
+    this.spawnNpcs()
+    console.log(this._activeNpcs)
   }
 
   private save(): void {
-    store.dispatch('mission/saveMissionData')
+    store.dispatch('mission/saveActiveMissionData')
   }
 
   public get ID(): string {
@@ -78,6 +84,43 @@ export class ActiveMission {
     this.save()
   }
 
+  public get Encounter(): IMissionStep {
+    return this.Mission.Steps[this.Step]
+  }
+
+  public get ActiveNpcs(): Npc[] {
+    return this._activeNpcs
+  }
+
+  public set ActiveNpcs(npcs: Npc[]) {
+    this._activeNpcs = npcs
+    this.save()
+  }
+
+  private spawnNpcs(): void {
+    if (this.Encounter.StepType === MissionStepType.Rest) return
+    const enc = this.Encounter as Encounter
+    enc.Npcs.forEach(n => {
+      const nn = Npc.Deserialize(Npc.Serialize(n))
+      nn.RenewID()
+      nn.Active = true
+      this._activeNpcs.push(nn)
+    })
+    this.save()
+  }
+
+  public AddActiveNpc(n: Npc): void {
+    const nn = Npc.Deserialize(Npc.Serialize(n))
+    nn.RenewID()
+    nn.Active = true
+    this.ActiveNpcs.push(nn)
+  }
+
+  public RemoveActiveNpc(n: Npc): void {
+    const idx = this.ActiveNpcs.findIndex(x => x.ID === n.ID)
+    if (idx > -1) this.ActiveNpcs.splice(idx, 1)
+  }
+
   public get Round(): number {
     return this._round
   }
@@ -93,7 +136,7 @@ export class ActiveMission {
     } else {
       this._step += 1
       this._round = 0
-      this.save()
+      this.spawnNpcs()
     }
   }
 
@@ -104,11 +147,24 @@ export class ActiveMission {
   }
 
   public get Pilots(): Pilot[] {
-    return this._pilots
+    return store.getters['getPilots'].filter((x: Pilot) => this._pilotIDs.some(y => y === x.ID))
   }
 
   public set Pilots(val: Pilot[]) {
-    this._pilots = val
+    this._pilotIDs = val.map(x => x.ID)
+  }
+
+  public AddPilot(p: Pilot): void {
+    this._pilotIDs.push(p.ID)
+  }
+
+  public RemovePilot(p: Pilot): void {
+    const idx = this._pilotIDs.indexOf(p.ID)
+    if (idx > -1) this._pilotIDs.splice(idx, 1)
+  }
+
+  public get Npcs(): Npc[] {
+    return this._mission.Encounters.flatMap(x => x.Npcs)
   }
 
   public get Note(): string {
@@ -127,16 +183,17 @@ export class ActiveMission {
     this._result = val
   }
 
-  public CurrentStep(): Encounter | Rest {
+  public CurrentStep(): IMissionStep {
     return this._mission.Steps[this._step]
   }
 
   public static Serialize(m: ActiveMission): IActiveMissionData {
     return {
       mission: Mission.Serialize(m._mission),
-      pilots: m.Pilots.map(x => Pilot.Serialize(x)),
+      pilotIDs: m.Pilots.map(x => x.ID),
       step: m.Step,
       round: m.Round,
+      activeNpcs: m.ActiveNpcs.map(x => Npc.Serialize(x)),
       start: m.StartDate,
       end: m.EndDate,
       note: m.Note,
@@ -145,12 +202,11 @@ export class ActiveMission {
   }
 
   public static Deserialize(data: IActiveMissionData): ActiveMission {
-    const m = new ActiveMission(
-      Mission.Deserialize(data.mission),
-      data.pilots.map(x => Pilot.Deserialize(x))
-    )
+    const m = new ActiveMission(Mission.Deserialize(data.mission), [])
     m.Round = data.round
     m.Step = data.step
+    m.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
+    m._pilotIDs = data.pilotIDs
     m._start_date = data.start
     m._end_date = data.end
     m._note = data.note

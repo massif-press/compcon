@@ -60,7 +60,7 @@
             <b class="primary--text">Optional</b>
             Features
           </span>
-          <v-row dense class="mr-2 mt-n1">
+          <v-row dense class="mr-2 mt-n1 pb-2">
             <v-col v-for="f in e.OptionalFeatures" :key="f.ID" cols="auto">
               <cc-item-modal :item="f" />
             </v-col>
