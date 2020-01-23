@@ -54,7 +54,7 @@ import { Prop, Ref, Watch } from 'vue-property-decorator'
 import TypeIt from 'typeit'
 import { sampleSize } from 'lodash'
 
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import { Pilot } from '@/class'
 
 const jumps = [

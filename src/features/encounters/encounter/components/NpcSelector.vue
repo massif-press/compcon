@@ -67,7 +67,7 @@
             <v-divider class="my-2" />
             <v-row align="center" dense>
               <v-col cols="9" class="mt-n6">
-                <v-btn block large :color="side.toLowerCase()" dark @click="select(npc)">
+                <v-btn block large :color="side.toLowerCase()" dark @click="$emit('select', npc)">
                   <v-icon left>mdi-plus</v-icon>
                   Add NPC
                 </v-btn>
@@ -110,14 +110,6 @@ export default Vue.extend({
   created() {
     const compendium = getModule(NpcStore, this.$store)
     this.npcs = compendium.Npcs
-  },
-  methods: {
-    select(npc: Npc) {
-      const newNpc = Npc.Deserialize(Npc.Serialize(npc))
-      newNpc.RenewID()
-      newNpc.Side = this.side
-      this.$emit('select', newNpc)
-    },
   },
 })
 </script>

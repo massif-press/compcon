@@ -1,22 +1,15 @@
 Current: 
   Encounter Data:
     ☐ NPC Feature filter
-    ☐ Non-instanced encounter should reference NPCs
-    ☐ Non-instanced mission should reference Encounter
-    ☐ Active mission should be self-contained
-      ☐ Actors need to write to mission, not own saves
+    ☐ Fix NPC side selection
+    ☐ NPC chip remove/dupe
 
   Missions:
-    ☐ Event interface for Encounters and Rests
     ☐ Counters for players and NPCs
 
   Bugs:
     ☐ Fix NPC group sort
-    ✔ Fix cc_ver stuff @done(20-01-21 10:12)
     ☐ Fix counters on pilot active mode
-    ✔ Fix filter panel @done(20-01-21 13:42)
-      ✔ Weapon Mod Filter @done(20-01-21 13:42)
-    ✔ Tag data seems to deserialize incorrectly, especially w/r/t tag values @done(20-01-20 14:31)
 
   Etc:
     ☐ Nav Menu
@@ -33,7 +26,6 @@ Current:
   Unshackling:
     ☐ Add Unshackled to Reactor/Structure tables
     ☐ Reshackled on shut down/full repair
-    ☐ Prevent c/c from shackled
 
   Flavor Pass:
     ☐ Cloud settings panel
@@ -47,14 +39,7 @@ Current:
   Image Selector:
     ☐ confirm dialog on image delete
 
-  Pilot Sheet:
-    ☐ test importers
-      ☐ ask cc-club to test pull/push cloud syncs
-
   Refactor:
-    ✔ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description @done(20-01-20 14:34)
-    ☐ `routes` subnode for all features
-    ✔ Normalize folder names @done(20-01-17 15:36)
     ☐ rewrite converter/validator
 
   Style Pass:
@@ -62,7 +47,6 @@ Current:
     ☐ pilot NO IMG
     ☐ map NO IMG
     ☐ ra text
-    ✔ panel colors @done(20-01-17 15:36)
 
 --- post v-2 ---
 
@@ -111,6 +95,8 @@ Next Steps:
   ☐ Encounter mode list transitions
   ☐ global notification snackbar
   ☐ pilot flash cloning
+
+    ☐ `routes` subnode for all features
 
 Icons:
   ☐ Compendium
@@ -175,6 +161,18 @@ Active Mode:
   ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ Non-instanced encounter should reference NPCs @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Non-instanced mission should reference Encounter @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Active mission should be self-contained @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Actors need to write to mission, not own saves @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Event interface for Encounters and Rests @done(20-01-23 16:33) @project(Current.Missions)
+  ✔ Fix cc_ver stuff @done(20-01-21 10:12) @project(Current.Bugs)
+  ✔ Fix filter panel @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Weapon Mod Filter @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Tag data seems to deserialize incorrectly, especially w/r/t tag values @done(20-01-20 14:31) @project(Current.Bugs)
+  ✔ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description @done(20-01-20 14:34) @project(Current.Refactor)
+  ✔ Normalize folder names @done(20-01-17 15:36) @project(Current.Refactor)
+  ✔ panel colors @done(20-01-17 15:36) @project(Current.Style Pass)
   ✔ For frame info make expandable image panel/need image somewhere on frame card @done(20-01-17 15:35) @project(Etc)
   ✔ Background Selector does not scroll to list @done(20-01-17 14:15) @project(New Pilot)
   ✔ Background selector highlight on mouseover @done(20-01-17 14:15) @project(New Pilot)
