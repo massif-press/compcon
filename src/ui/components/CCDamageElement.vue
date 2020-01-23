@@ -30,16 +30,17 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Damage } from '@/classes/Damage'
 
 
 @Component({ name: 'cc-damage-element' })
 export default class CCDamageElement extends Vue {
-  
-  @Prop({ type: Array, required: true, }) 
-  damage
+
+  @Prop({ type: Array, required: true, validator: (prop: Damage[]) => prop.every((dmg) => dmg instanceof Damage) }) 
+  damage: Damage[]
 
   @Prop({ type: Boolean, required: false, })
-  small
+  small: boolean
   
 }
 </script>
