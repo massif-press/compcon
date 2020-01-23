@@ -45,47 +45,38 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-dialog',
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    smallBtn: {
-      type: Boolean,
-    },
-    large: {
-      type: Boolean,
-      required: false,
-    },
-    flat: {
-      type: Boolean,
-      required: false,
-    },
-    dark: {
-      type: Boolean,
-      required: false,
-    },
-    noConfirm: {
-      type: Boolean,
-      required: false,
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    confirm() {
-      this.dialog = false
-      this.$emit('confirm')
-    },
-  },
-})
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+
+
+@Component({ name: 'cc-dialog' })
+export default class CCDialog extends Vue {
+
+  @Prop({ type: String, required: false, default: 'primary', })
+  color: string 
+
+  @Prop({ type: Boolean, })
+  small?: boolean 
+
+  @Prop({ type: Boolean, })
+  smallBtn?: boolean 
+
+  @Prop({ type: Boolean, })
+  large?: boolean 
+
+  @Prop({ type: Boolean, })
+  flat?: boolean 
+
+  @Prop({ type: Boolean, })
+  dark?: boolean 
+
+  @Prop({ type: Boolean, })
+  noConfirm?: boolean
+
+  dialog: false
+
+  @Emit()
+  confirm() {
+    this.dialog = false
+  }
+}
 </script>
