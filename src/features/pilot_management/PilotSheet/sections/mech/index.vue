@@ -4,7 +4,7 @@
     <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
       <v-col cols="auto" class="mt-4">
-        <cc-title large :color="color">{{ mech.Name }}&emsp;</cc-title>
+        <cc-title :large="mech.Name.length < 31" :color="color">{{ mech.Name }}&emsp;</cc-title>
         <cc-logo size="large" :source="mech.Frame.Manufacturer" />
         <span class="heading h2" style="position: relative; top: -11px">
           <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>

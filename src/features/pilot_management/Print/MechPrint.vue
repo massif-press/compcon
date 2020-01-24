@@ -62,7 +62,7 @@
       <v-col class="mt-n5 ml-n8">
         <v-row dense justify="space-between" align="start">
           <v-col cols="2" class="text-center">
-            <div class="overline no-height mb-n2">STRUCTURE</div>
+            <div class="overline no-height">STRUCTURE</div>
             <div>
               <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-structure</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.MaxStructure}`" />
@@ -71,14 +71,14 @@
           <v-col cols="2">
             <v-row dense no-gutters justify="center">
               <v-col cols="auto">
-                <div class="overline no-height mb-n2 ml-2">ARMOR</div>
+                <div class="overline no-height ml-2">ARMOR</div>
                 <div style="position: relative; width: max-content;">
                   <v-icon size="60" color="grey lighten-4" class="mr-n1">mdi-shield-outline</v-icon>
                   <div class="heading p-stat icon-overlap" v-html="mech.Armor" />
                 </div>
               </v-col>
               <v-col cols="auto" class="text-center">
-                <div class="overline no-height mb-n2 mr-6">HP</div>
+                <div class="overline no-height mr-6">HP</div>
                 <div>
                   <v-icon size="60" color="grey lighten-4" class="mr-n1">
                     mdi-hexagon-outline
@@ -89,28 +89,28 @@
             </v-row>
           </v-col>
           <v-col cols="2" class="text-center">
-            <div class="overline no-height mb-n2 mr-2">REACTOR</div>
+            <div class="overline no-height mr-2">REACTOR</div>
             <div>
               <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-reactor</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.MaxStress}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
-            <div class="overline no-height mb-n2 mr-6">HEAT</div>
+            <div class="overline no-height mr-6">HEAT</div>
             <div>
               <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-fire</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.HeatCapacity}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
-            <div class="overline no-height mb-n2">REPAIR CAPACITY</div>
+            <div class="overline no-height">REPAIR CAPACITY</div>
             <div>
               <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-repair</v-icon>
               <b class="flavor-text pt-3" v-html="`/${mech.RepairCapacity}`" />
             </div>
           </v-col>
           <v-col cols="2" class="text-center">
-            <div class="overline no-height mb-n2">CORE POWER</div>
+            <div class="overline no-height">CORE POWER</div>
             <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-battery-outline</v-icon>
           </v-col>
         </v-row>
@@ -177,12 +177,26 @@
     <span class="overline">CORE SYSTEM</span>
     <fieldset class="mt-n2">
       <legend class="heading h3 ml-1 px-2">{{ mech.Frame.CoreSystem.Name }}</legend>
-      <div v-if="mech.Frame.CoreSystem.Passive">
-        <span class="heading ml-4">CORE PASSIVE</span>
+      <div v-if="mech.Frame.CoreSystem.PassiveEffect">
+        <span class="heading ml-4">
+          {{
+            mech.Frame.CoreSystem.PassiveName
+              ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
+              : 'CORE PASSIVE'
+          }}
+        </span>
         <br />
-        <span class="caption ml-6" v-html="mech.Frame.CoreSystem.Passive" />
+        <span class="caption ml-6" v-html="mech.Frame.CoreSystem.PassiveEffect" />
       </div>
-      <span class="caption ml-6" v-html="mech.Frame.CoreSystem.Effect" />
+      <span class="heading ml-4">
+        {{
+          mech.Frame.CoreSystem.ActiveName
+            ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+            : 'CORE ACTIVE'
+        }}
+      </span>
+      <br />
+      <p class="caption ml-6 mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
       <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
         <span v-for="(t, i) in mech.Frame.CoreSystem.Tags" :key="`mcst_${i}`" class="mx-1">
           {{ t.Name() }}
@@ -207,7 +221,7 @@
 
     <v-row dense>
       <v-col v-for="(m, i) in mounts" :key="`mmt_${i}`" :cols="getMountCols(i)">
-        <fieldset class="mt-n2 pb-1" style="position: relative">
+        <fieldset class="mt-n2 pb-2">
           <legend class="heading ml-1 px-2">{{ m.Name }}</legend>
           <div v-if="m.isLocked" class="text-center flavor-text">
             MOUNT LOCKED
@@ -219,9 +233,21 @@
               {{ w.Name }}
               <span class="overline">{{ w.Source }} {{ w.Size }} {{ w.Type }}</span>
             </span>
+            <div class="my-n1">
+              <v-chip
+                v-for="(t, k) in w.Tags"
+                :key="`mmwt_${i}_${j}_${k}`"
+                outlined
+                x-small
+                label
+                class="mx-1 mt-n1"
+              >
+                {{ t.GetName(mech.LimitedBonus) }}
+              </v-chip>
+            </div>
             <div class="caption">
               <b v-for="(r, k) in w.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
-              |
+              <span v-if="w.Damage.length">|</span>
               <b v-for="(d, k) in w.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
               <p v-if="w.Effect" v-html="w.Effect" />
               <p v-if="w.Mod" class="px-2">
@@ -232,18 +258,6 @@
                 <br />
                 <span v-html="w.Mod.Effect" />
               </p>
-              <div class="text-right" style="position: absolute; bottom: 3px; left: 0; right: 0;">
-                <v-chip
-                  v-for="(t, k) in w.Tags"
-                  :key="`mmwt_${i}_${j}_${k}`"
-                  outlined
-                  x-small
-                  label
-                  class="mx-1"
-                >
-                  {{ t.GetName(mech.LimitedBonus) }}
-                </v-chip>
-              </div>
             </div>
           </div>
         </fieldset>

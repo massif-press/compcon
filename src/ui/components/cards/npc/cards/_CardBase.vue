@@ -5,9 +5,7 @@
       style="max-height:20px; line-height: 0"
     >
       <div
-        :class="
-          `heading flavor-text white--text ${readonly || active ? 'pt-1 pb-2' : 'py-2 mt-n3'}`
-        "
+        :class="`heading flavor-text white--text ${active ? 'pt-1 pb-2' : 'py-2 mt-n3'}`"
         style="font-size:20px; line-height: 0"
       >
         <v-menu v-if="!readonly && !active" offset-x left>
@@ -69,7 +67,7 @@
       </div>
     </v-card-title>
     <v-card-text
-      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'light-panel'}`"
+      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
       :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
     >
       <p
