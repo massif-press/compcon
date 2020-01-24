@@ -41,30 +41,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-major-btn',
-  props: {
-    icon: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+
+@Component({ name: 'cc-major-btn' })
+export default class CCMajorButton extends Vue {
+  @Prop({ type: String, required: true, })
+  name!: string
+
+  @Prop({ type: String, required: false, default: '', })
+  icon: string
+
+  @Prop({ type: Boolean, required: false, })
+  small?: boolean
+
+  @Prop({ type: String, required: false, default: 'primary', })
+  color: string
+}
 </script>
 
 <style scoped>
