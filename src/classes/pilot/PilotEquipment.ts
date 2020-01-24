@@ -30,7 +30,7 @@ abstract class PilotEquipment extends CompendiumItem {
       id: item.ID,
       destroyed: false,
       uses: item.current_uses,
-      unshackled: false,
+      cascading: false,
       note: item.Note,
     }
   }

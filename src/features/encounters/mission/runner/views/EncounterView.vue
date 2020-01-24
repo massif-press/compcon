@@ -36,7 +36,7 @@
                 TURN PENDING
               </div>
             </div>
-            <slide-item v-for="a in initiative" :key="a.ID" :actor="a" />
+            <slide-item v-for="(a, i) in initiative" :key="`i_${a.ID}_${i}`" :actor="a" />
             <v-divider
               v-if="finished.length"
               vertical
@@ -52,7 +52,7 @@
                 TURN COMPLETE
               </div>
             </div>
-            <slide-item v-for="a in finished" :key="a.ID" :actor="a" complete />
+            <slide-item v-for="(a, i) in finished" :key="`f_${a.ID}_${i}`" :actor="a" complete />
             <v-divider
               v-if="defeated.length"
               vertical
@@ -68,7 +68,7 @@
                 DEFEATED
               </div>
             </div>
-            <slide-item v-for="a in defeated" :key="a.ID" :actor="a" defeated />
+            <slide-item v-for="(a, i) in defeated" :key="`d_${a.ID}_${i}`" :actor="a" defeated />
           </v-slide-group>
         </v-card>
       </v-col>
@@ -155,6 +155,11 @@ export default Vue.extend({
       document.getElementById('scroll').scrollTop = 0
     },
   },
+  created() {
+    this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
+      this.activeMission.ActiveNpcs
+    ) as IActor[]
+  },
   methods: {
     isPlayer(a: any) {
       return !!a.Frame
@@ -177,11 +182,6 @@ export default Vue.extend({
         this.activeMission.RemoveActiveNpc(this.selected)
       }
     },
-  },
-  created() {
-    this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
-      this.activeMission.ActiveNpcs
-    ) as IActor[]
   },
 })
 </script>

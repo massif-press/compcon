@@ -87,7 +87,7 @@ class WeaponMod extends MechEquipment {
       id: item.ID,
       uses: item.Uses || 0,
       destroyed: item.Destroyed || false,
-      unshackled: item.IsUnshackled || false,
+      cascading: item.IsCascading || false,
       note: item.Note,
     }
   }
@@ -96,7 +96,7 @@ class WeaponMod extends MechEquipment {
     let item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
     item.Uses = data.uses || 0
     item.Destroyed = data.destroyed || false
-    item.IsUnshackled = data.unshackled || false
+    item.IsCascading = data.cascading || false
     item.Note = data.note
     return item
   }

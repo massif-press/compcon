@@ -5,7 +5,7 @@
       <span v-else-if="type === 'destroyed'">MECH DESTROYED</span>
       <span v-else-if="type === 'meltdown'">DANGER: REACTOR MELTDOWN IMMINENT</span>
       <span v-else-if="type === 'reactorDestroyed'">REACTOR DESTROYED</span>
-      <span v-else-if="type === 'unshackled'">DANGER: UNSHACKLED NHP</span>
+      <span v-else-if="type === 'cascading'">DANGER: UNSHACKLED NHP</span>
       <span v-else-if="type === 'overSP'">ALERT: SYSTEM CAPACITY EXCEEDED</span>
       <span v-else-if="type === 'unfinished'">WARNING: EMPTY MOUNTS DETECTED</span>
       <span v-else-if="type === 'underSP'">WARNING: SYSTEM CAPACITY REMAINING</span>
@@ -48,7 +48,7 @@
         <v-icon left>cci-mech</v-icon>
         Reprint Mech
       </v-btn>
-      <span v-else-if="type === 'unshackled'" class="white--text flavor-text">
+      <span v-else-if="type === 'cascading'" class="white--text flavor-text">
         UNSHACKLED NHP REPRESENT AN IMMININENT THREAT TO ANY PERSONS OR PROPERTY WITHIN THE MAXIMUM
         OPERATIONAL AREA OF THE FRAME. FAILURE TO HARDCYCLE CONSTITUTES CONTRIBUTORY NEGLIGENCE
         UNDER UNION LAW.
@@ -109,7 +109,7 @@ export default Vue.extend({
         case 'reactorDestroyed':
           return 'mdi-nuke'
           break
-        case 'unshackled':
+        case 'cascading':
           return 'mdi-link-variant-off'
           break
         case 'overSP':
@@ -130,7 +130,7 @@ export default Vue.extend({
     color() {
       switch (this.type) {
         case 'destroyed':
-        case 'unshackled':
+        case 'cascading':
           return 'error'
           break
         case 'meltdown':

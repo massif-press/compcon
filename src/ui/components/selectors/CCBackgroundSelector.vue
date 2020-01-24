@@ -1,13 +1,7 @@
 <template>
   <div>
     <v-icon :small="small" color="secondary" @click="open()">cci-orbit</v-icon>
-    <cc-solo-dialog
-      id="bg-selector-dialog"
-      ref="dialog"
-      fullscreen
-      no-confirm
-      title="Select Pilot Background"
-    >
+    <cc-solo-dialog ref="dialog" fullscreen no-confirm title="Select Pilot Background">
       <cc-sidebar-view>
         <v-list-item
           v-for="(e, i) in backgrounds"

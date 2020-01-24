@@ -75,19 +75,45 @@
                 <v-icon color="grey">mdi-palette</v-icon>
               </cc-tooltip>
             </v-btn>
-            <v-btn
-              small
-              fab
-              color="white"
-              relative
-              style="top:25px; left: 20px; z-index: 100"
-              class="img-button"
-              @click.stop="deleteImage(i)"
-            >
-              <cc-tooltip simple content="Delete Image">
-                <v-icon color="error">mdi-delete</v-icon>
-              </cc-tooltip>
-            </v-btn>
+
+            <v-menu offset-y offset-x top nudge-left="30px">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  small
+                  fab
+                  color="white"
+                  relative
+                  style="top:25px; left: 20px; z-index: 100"
+                  class="img-button"
+                  v-on.stop="on"
+                >
+                  <cc-tooltip simple content="Delete Image">
+                    <v-icon color="error">mdi-delete</v-icon>
+                  </cc-tooltip>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="text-center flavor-text">
+                  <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
+                  <br />
+                  //[COMP/CON:
+                  <b class="black--text">
+                    Lancer, this will
+                    <span class="primary--text">permanently delete this image.</span>
+                    Do you want to continue?
+                  </b>
+                  ]
+                  <v-divider class="my-2" />
+                  <v-row dense>
+                    <v-btn small text>DENY</v-btn>
+                    <cc-btn small color="error" class="ml-auto" @click.stop="deleteImage(i)">
+                      CONFIRM
+                    </cc-btn>
+                  </v-row>
+                </v-card-text>
+              </v-card>
+            </v-menu>
+
             <v-img
               :src="imagePath(i)"
               position="top"

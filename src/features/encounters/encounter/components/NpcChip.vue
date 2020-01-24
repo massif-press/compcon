@@ -1,11 +1,19 @@
 <template>
   <v-dialog width="70vw">
     <template v-slot:activator="{ on }">
-      <v-btn :color="npc.Class.Color" outlined tile dark class="ma-1" v-on="on">
+      <v-btn :color="color ? color : npc.Class.Color" outlined tile dark class="ma-1" v-on="on">
         <v-btn v-if="reinforce" icon color="primary" class="ml-n2" @click.stop="$emit('move')">
           <v-icon>mdi-chevron-double-left</v-icon>
         </v-btn>
         {{ npc.Name }}
+        <span v-if="!readonly && !reinforce" class="pl-2">
+          <v-icon right small class="fadeSelect" @click.stop="$emit('clone')">
+            mdi-content-copy
+          </v-icon>
+          <v-icon right small class="fadeSelect" color="error" @click.stop="$emit('remove')">
+            mdi-delete
+          </v-icon>
+        </span>
       </v-btn>
     </template>
     <npc-panel :npc="npc" :side-select="!readonly">
@@ -38,6 +46,11 @@ export default Vue.extend({
     },
     reinforce: {
       type: Boolean,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
 })

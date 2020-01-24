@@ -218,6 +218,16 @@ export class Npc implements IActor {
     return this._class
   }
 
+  // for vuetify list grouping
+  public get ClassName(): string {
+    return this._class.Name
+  }
+
+  // for vuetify list grouping
+  public get ClassRole(): string {
+    return this._class.Role
+  }
+
   public get BaseClassFeatures(): NpcFeature[] {
     return this.Class.BaseFeatures
   }

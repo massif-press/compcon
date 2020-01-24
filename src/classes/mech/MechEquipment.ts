@@ -17,7 +17,7 @@ abstract class MechEquipment extends LicensedItem {
   private _uses: number
   private _max_uses: number
   private _destroyed: boolean
-  private _unshackled: boolean
+  private _cascading: boolean
   private _loaded: boolean
 
   public constructor(itemData: IMechEquipmentData) {
@@ -28,7 +28,7 @@ abstract class MechEquipment extends LicensedItem {
     this._integrated = itemData.talent_item || itemData.frame_id || false
     this._uses = 0
     this._destroyed = false
-    this._unshackled = false
+    this._cascading = false
     this._loaded = true
     if (itemData.tags) {
       const ltd = itemData.tags.find(x => x.id === 'tg_limited')
@@ -58,22 +58,22 @@ abstract class MechEquipment extends LicensedItem {
     return this.Tags.some(x => x.IsAI)
   }
 
-  public get IsUnshackled(): boolean {
-    return this._unshackled
+  public get IsCascading(): boolean {
+    return this._cascading
   }
 
-  public set IsUnshackled(b: boolean) {
-    this._unshackled = b
+  public set IsCascading(b: boolean) {
+    this._cascading = b
   }
 
   public Unshackle(): void {
     if (!this.IsAI) return
-    this._unshackled = true
+    this._cascading = true
     this.save()
   }
 
   public Shackle(): void {
-    this._unshackled = false
+    this._cascading = false
     this.save()
   }
 
