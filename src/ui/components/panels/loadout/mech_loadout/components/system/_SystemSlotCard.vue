@@ -56,10 +56,15 @@
           </v-col>
         </v-row>
         <v-row v-if="item.IsLoading" dense class="ml-1">
-          <v-chip small dark label :color="item.Loaded ? 'pilot' : 'grey'">
+          <v-btn
+            small
+            dark
+            :color="item.Loaded ? 'pilot' : 'grey'"
+            @click.stop="item.Loaded = !item.Loaded"
+          >
             <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
             {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-          </v-chip>
+          </v-btn>
         </v-row>
         <v-row no-gutters align="center" class="ml-2 mr-6 mt-n1">
           <v-col cols="auto" class="ml-auto">
