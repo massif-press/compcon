@@ -85,21 +85,21 @@
         <table-window-item
           :title="resultData[0].name"
           :content="resultData[0].description"
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyES()"
         />
         <table-window-item
           :title="resultData[1].name"
           :content="resultData[1].description"
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyPPD()"
         />
         <table-window-item
           :title="resultData[2].name"
           other-btn
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyPPD()"
         >
@@ -124,7 +124,8 @@
         <table-window-item
           :title="resultData[3].name"
           :content="resultData[3].description"
-          @dismiss="$emit('dismiss')"
+          :hide-previous="mech.CurrentStress <= 1"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyMeltdown()"
         />
@@ -184,6 +185,7 @@ export default Vue.extend({
   methods: {
     show() {
       this.dialog = true
+      if (this.mech.CurrentStress <= 1) this.window = 4
     },
     close() {
       this.window = 0

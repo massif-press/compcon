@@ -26,7 +26,7 @@ abstract class LicensedItem extends CompendiumItem {
   }
 
   public get Manufacturer(): Manufacturer {
-    return store.getters.getItemCollection('Manufacturers').find(x => x.Short === this.Source)
+    return store.getters.referenceByID('Manufacturers', this.Source)
   }
 
   public get License(): string {

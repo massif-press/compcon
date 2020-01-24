@@ -79,6 +79,10 @@ export class PilotManagementStore extends VuexModule {
     this.LoadedMechID = payload
   }
 
+  get getPilots(): Pilot[] {
+    return this.Pilots
+  }
+
   @Action
   public saveData(): void {
     this.context.commit(SAVE_DATA)

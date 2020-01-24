@@ -32,7 +32,7 @@
           <v-btn
             v-if="pilotRank < i"
             block
-            :disabled="!available || (newPilot && i > 1)"
+            :disabled="!available || (newPilot && i > 1) || pilotRank + 1 < i"
             outlined
             color="secondary"
             @click="add()"

@@ -1,37 +1,40 @@
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import { store } from '@/store'
 import { Encounter, Rest } from '@/class'
-import { IEncounterData } from '@/interface'
+import { IMissionStep } from './IMissionStep'
 
-export interface IMissionData {
+enum MissionStepType {
+  Encounter = 'Encounter',
+  Rest = 'Rest',
+}
+
+interface IMissionData {
   id?: string
   name: string
   note: string
   campaign: string
   labels: string[]
-  steps: (IEncounterData | { note: string; isLong: boolean })[]
+  step_ids: string[]
+  rests: { id: string; note: string }[]
 }
 
-export class Mission {
+class Mission {
   private _id: string
   private _name: string
   private _note: string
   private _campaign: string
   private _labels: string[]
-  private _steps: (Encounter | Rest)[]
+  private _rests: Rest[]
+  private _step_ids: string[]
 
-  public constructor(data: IMissionData) {
-    this._id = data.id ? data.id : uuid()
-    this._name = data.name
-    this._note = data.note
-    this._labels = data.labels
-    this._campaign = data.campaign
-    var s = []
-    data.steps.forEach((e: any) => {
-      if (e.name) s.push(Encounter.Deserialize(e as IEncounterData))
-      else s.push(Rest.Deserialize(e))
-    })
-    this._steps = s
+  public constructor() {
+    this._id = uuid()
+    this._name = 'New Mission'
+    this._note = ''
+    this._campaign = ''
+    this._labels = []
+    this._rests = []
+    this._step_ids = []
   }
 
   private save(): void {
@@ -92,72 +95,82 @@ export class Mission {
   }
 
   public get Encounters(): Encounter[] {
-    return this._steps.filter((x: any) => x.Name) as Encounter[]
+    const ids = this._step_ids.filter(x => !this.Rests.map(r => r.ID).some(y => y === x))
+    const enc = store.getters['encounter/getEncounters']
+    return ids.map(x => enc.find(y => y.ID === x))
   }
 
   public get Rests(): Rest[] {
-    return this._steps.filter((x: any) => !x.Name) as Rest[]
+    return this._rests
   }
 
-  public get Steps(): (Encounter | Rest)[] {
-    return this._steps
+  public get Steps(): IMissionStep[] {
+    return this._step_ids.map(x => this.Step(x))
   }
 
-  public Step(idx: number): Encounter | Rest {
-    return this.Steps[idx]
-  }
-
-  public StepType(idx: number): string {
-    return (this._steps[idx] as any).Name ? 'Encounter' : 'Rest'
+  public Step(id: string): IMissionStep {
+    const r = this._rests.find(x => x.ID === id)
+    if (r) return r
+    const enc = store.getters['encounter/getEncounters']
+    return enc.find(x => x.ID === id)
   }
 
   public MoveStepUp(idx): void {
-    const e = this._steps[idx]
-    const up = this._steps[idx - 1]
-    this._steps.splice(idx, 1, up)
-    this._steps.splice(idx - 1, 1, e)
+    const e = this._step_ids[idx]
+    const up = this._step_ids[idx - 1]
+    this._step_ids.splice(idx, 1, up)
+    this._step_ids.splice(idx - 1, 1, e)
+    this.save()
   }
 
   public MoveStepDown(idx): void {
-    const e = this._steps[idx]
-    const down = this._steps[idx + 1]
-    this._steps.splice(idx, 1, down)
-    this._steps.splice(idx + 1, 1, e)
+    const e = this._step_ids[idx]
+    const down = this._step_ids[idx + 1]
+    this._step_ids.splice(idx, 1, down)
+    this._step_ids.splice(idx + 1, 1, e)
+    this.save()
   }
 
   public AddEncounter(e: Encounter): void {
-    this._steps.push(e)
+    this._step_ids.push(e.ID)
     this.save()
   }
 
   public AddRest(): void {
-    const r = new Rest('', false)
-    this._steps.push(r)
+    const r = new Rest()
+    this._rests.push(r)
+    this._step_ids.push(r.ID)
     this.save()
   }
 
   public RemoveStep(index: number): void {
-    this._steps.splice(index, 1)
+    this._step_ids.splice(index, 1)
     this.save()
   }
 
   public static Serialize(mission: Mission): IMissionData {
-    var s = []
-    mission.Steps.forEach((e: any) => {
-      if (e.Name) s.push(Encounter.Serialize(e as Encounter))
-      else s.push(Rest.Serialize(e))
-    })
     return {
       id: mission.ID,
       name: mission._name,
       note: mission._note,
       campaign: mission._campaign,
       labels: mission._labels,
-      steps: s,
+      step_ids: mission._step_ids,
+      rests: mission.Rests.map(x => ({ id: x.ID, note: x.Note })),
     }
   }
 
   public static Deserialize(data: IMissionData): Mission {
-    return new Mission(data)
+    const m = new Mission()
+    m._id = data.id
+    m._name = data.name
+    m._note = data.note
+    m._labels = data.labels
+    m._campaign = data.campaign
+    m._rests = data.rests.map(x => Rest.Deserialize(x))
+    m._step_ids = data.step_ids
+    return m
   }
 }
+
+export { IMissionData, MissionStepType, Mission }
