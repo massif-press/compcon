@@ -30,7 +30,10 @@
         />
 
         <mount-block
-          v-if="mech.Pilot.has('CoreBonus', 'cb_improved_armament')"
+          v-if="
+            mech.Pilot.has('CoreBonus', 'cb_improved_armament') &&
+              mech.ActiveLoadout.EquippableMounts.length < 3
+          "
           impArm
           :readonly="readonly"
           :mount="mech.ActiveLoadout.ImprovedArmamentMount"

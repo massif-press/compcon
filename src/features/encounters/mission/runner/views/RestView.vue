@@ -4,7 +4,12 @@
       <v-col>
         <v-card flat outlined height="100%">
           <v-card-text>
-            <player-card v-if="selected" :mech="selected" rest @delete-actor="deleteActor()" />
+            <player-card
+              v-if="selected"
+              :mech="selected"
+              rest
+              @delete-actor="activeMission.RemovePilot($event)"
+            />
             <encounter-nav
               v-if="selected"
               :mission="activeMission"
@@ -55,16 +60,6 @@
         </v-menu>
       </v-col>
     </v-row>
-    <cc-solo-dialog ref="endConfirmDialog" title="Confirm End Round" @confirm="commitRoundEnd()">
-      <div class="flavor-text my-2">The following actors still have activations remaining:</div>
-      <div v-for="a in initiative" :key="`diag_${a.ID}`" class="heading h3 text--text">
-        <v-icon left>{{ a.Icon }}</v-icon>
-        {{ a.EncounterName }}
-      </div>
-      <div class="flavor-text my-2">
-        Ending this round will cause these actors to lose their unspent activations. Continue?
-      </div>
-    </cc-solo-dialog>
   </div>
 </template>
 
@@ -102,17 +97,6 @@ export default Vue.extend({
   watch: {
     selectedPilot() {
       document.getElementById('scroll').scrollTop = 0
-    },
-  },
-  methods: {
-    deleteActor() {
-      if (this.isPlayer(this.selected)) {
-        const idx = this.activeMission.Pilots.findIndex(x => x.ID === this.selected.ID)
-        if (idx > -1) this.activeMission.Pilots.splice(idx)
-      } else {
-        const idx = this.encounter.Npcs.findIndex(x => x.ID === this.selected.ID)
-        if (idx > -1) this.encounter.Npcs.splice(idx)
-      }
     },
   },
 })

@@ -66,13 +66,13 @@
                 <v-timeline-item
                   v-for="(step, idx) in mission.Steps"
                   :key="idx"
-                  :color="mission.StepType(idx) === 'Encounter' ? 'primary' : 'secondary'"
-                  :icon="mission.StepType(idx) === 'Encounter' ? 'mdi-sword-cross' : 'mdi-restore'"
+                  :color="step.StepType === 'Encounter' ? 'primary' : 'secondary'"
+                  :icon="step.StepType === 'Encounter' ? 'mdi-sword-cross' : 'mdi-restore'"
                   fill-dot
                 >
                   <v-card v-if="step">
                     <mission-step-element
-                      v-if="mission.StepType(idx) === 'Encounter'"
+                      v-if="step.StepType === 'Encounter'"
                       color="primary"
                       icon="mdi-sword-cross"
                       :index="idx"

@@ -58,6 +58,9 @@ export default Vue.extend({
 </style>
 
 <style scoped>
+.printable {
+  background-color: white !important;
+}
 @page {
   size: A4;
   margin: 10px;

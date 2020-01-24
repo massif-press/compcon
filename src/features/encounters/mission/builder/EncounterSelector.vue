@@ -63,7 +63,7 @@
       :key="`${encounter.ID}_${i}`"
     >
       <v-col class="pl-0 mb-2">
-        <encounter-panel :encounter="encounter" @select="select($event)" />
+        <encounter-panel :encounter="encounter" @select="$emit('select', $event)" />
       </v-col>
     </v-row>
   </cc-sidebar-view>
@@ -74,7 +74,6 @@ import Vue from 'vue'
 import EncounterPanel from './EncounterPanel.vue'
 import { getModule } from 'vuex-module-decorators'
 import { EncounterStore } from '@/store'
-import { Encounter } from '@/class'
 
 export default Vue.extend({
   name: 'encounter-selector',
@@ -91,13 +90,6 @@ export default Vue.extend({
   created() {
     const compendium = getModule(EncounterStore, this.$store)
     this.encounters = compendium.Encounters
-  },
-  methods: {
-    select(enc: Encounter) {
-      const newEncounter = Encounter.Deserialize(Encounter.Serialize(enc))
-      newEncounter.RenewID()
-      this.$emit('select', newEncounter)
-    },
   },
 })
 </script>

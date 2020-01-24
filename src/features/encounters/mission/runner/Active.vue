@@ -3,16 +3,20 @@
     <div class="overline">
       <b>{{ mission.Name }}</b>
       //{{ activeMission.Step.toString().padStart(2, '0') }}:{{
-        encounter.Type === 'Encounter' ? encounter.Name : 'Rest'
+        activeMission.Encounter.StepType === 'Encounter' ? activeMission.Encounter.Name : 'Rest'
       }}
     </div>
     <encounter-view
-      v-if="encounter.Type === 'Encounter'"
+      v-if="activeMission.Encounter.StepType === 'Encounter'"
       :active-mission="activeMission"
-      :encounter="encounter"
       @finish="next()"
     />
-    <rest-view v-else :active-mission="activeMission" :rest="encounter" @finish="next()" />
+    <rest-view
+      v-else
+      :active-mission="activeMission"
+      :rest="activeMission.Encounter"
+      @finish="next()"
+    />
   </v-container>
 </template>
 
@@ -39,9 +43,6 @@ export default Vue.extend({
     },
     mission() {
       return this.activeMission.Mission
-    },
-    encounter() {
-      return this.activeMission.Mission.Steps[this.activeMission.Step]
     },
   },
   methods: {

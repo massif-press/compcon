@@ -159,20 +159,8 @@ export default Vue.extend({
       store.cloneEncounter(encounter)
     },
     addNew() {
-      const sitreps = getModule(CompendiumStore, this.$store).Sitreps
-      console.log(sitreps)
       const store = getModule(EncounterStore, this.$store)
-      store.addEncounter(
-        new Encounter({
-          name: 'New Encounter',
-          npcs: [],
-          reinforcements: [],
-          labels: [],
-          location: '',
-          sitrep: sitreps[0],
-          round: 1,
-        })
-      )
+      store.addEncounter(new Encounter())
       const enc = this.encounters[this.encounters.length - 1].ID
       this.$router.push({ name: 'encounter', params: { id: enc } })
     },

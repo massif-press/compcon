@@ -1,15 +1,16 @@
-import uuid from 'uuid/v1'
-import { Npc, EncounterSide } from '@/class'
+import uuid from 'uuid/v4'
+import { Npc, EncounterSide, MissionStepType } from '@/class'
 import { store } from '@/store'
-import { INpcData } from '../npc/interfaces'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { IMissionStep } from './IMissionStep'
 
 export interface IEncounterData {
+  id: string
   name: string
   location: string
-  npcs: INpcData[]
-  reinforcements: INpcData[]
+  npc_ids: string[]
+  reinforcement_ids: string[]
   labels: string[]
   sitrep: Sitrep
   campaign?: string
@@ -19,16 +20,15 @@ export interface IEncounterData {
   environmentDetails?: string
   cloud_map?: string
   local_map?: string
-  round: number
 }
 
-export class Encounter {
+export class Encounter implements IMissionStep {
   private _id: string
   private _name: string
   private _location: string
   private _labels: string[]
-  private _npcs: Npc[]
-  private _reinforcements: Npc[]
+  private _npc_ids: string[]
+  private _reinforcement_ids: string[]
   private _gm_notes: string
   private _campaign: string
   private _narrative_notes: string
@@ -37,24 +37,22 @@ export class Encounter {
   private _sitrep: Sitrep
   private _cloud_map: string
   private _local_map: string
-  private _round: number
 
-  public constructor(data: IEncounterData) {
+  public constructor() {
     this._id = uuid()
-    this._name = data.name
-    this._location = data.location
-    this._labels = data.labels
-    this._campaign = data.campaign || ''
-    this._gm_notes = data.gmNotes || ''
-    this._narrative_notes = data.narrativeNotes || ''
-    this._environment = data.environment || 'Nominal'
-    this._environment_details = data.environmentDetails || ''
-    this._cloud_map = data.cloud_map || ''
-    this._local_map = data.local_map || ''
-    this._sitrep = data.sitrep
-    this._npcs = data.npcs.map(x => Npc.Deserialize(x))
-    this._reinforcements = data.reinforcements.map(x => Npc.Deserialize(x))
-    this._round = data.round || 0
+    this._name = 'New Encounter'
+    this._location = ''
+    this._labels = []
+    this._campaign = ''
+    this._gm_notes = ''
+    this._narrative_notes = ''
+    this._environment = 'Nominal'
+    this._environment_details = ''
+    this._cloud_map = ''
+    this._local_map = ''
+    this._sitrep = store.getters.getItemCollection('Sitreps')[0]
+    this._npc_ids = []
+    this._reinforcement_ids = []
   }
 
   private save(): void {
@@ -67,10 +65,11 @@ export class Encounter {
 
   public RenewID(): void {
     this._id = uuid()
+    this.save()
   }
 
-  public get Type(): string {
-    return 'Encounter'
+  public get StepType(): MissionStepType {
+    return MissionStepType.Encounter
   }
 
   public get Name(): string {
@@ -79,15 +78,6 @@ export class Encounter {
 
   public set Name(val: string) {
     this._name = val
-    this.save()
-  }
-
-  public get Round(): number {
-    return this._round
-  }
-
-  public set Round(val: number) {
-    this._round = val
     this.save()
   }
 
@@ -126,11 +116,12 @@ export class Encounter {
     this._environment_details = val
     this.save()
   }
-  public get GmNotes(): string {
+
+  public get Note(): string {
     return this._gm_notes
   }
 
-  public set GmNotes(val: string) {
+  public set Note(val: string) {
     this._gm_notes = val
     this.save()
   }
@@ -163,16 +154,23 @@ export class Encounter {
   }
 
   public get Npcs(): Npc[] {
-    return this._npcs
+    const npcs = []
+    this._npc_ids.forEach(id => {
+      const n = store.getters['npc/getNpcs'].find(x => x.ID === id)
+      if (n) npcs.push(n)
+    })
+    return npcs
   }
 
   public AddNpc(npc: Npc): void {
-    this._npcs.push(npc)
+    this._npc_ids.push(npc.ID)
+    this.save()
   }
 
   public RemoveNpc(npc: Npc): void {
-    const idx = this._npcs.findIndex(x => x.ID === npc.ID)
-    if (idx > -1) this._npcs.splice(idx, 1)
+    const idx = this._npc_ids.indexOf(npc.ID)
+    if (idx > -1) this._npc_ids.splice(idx, 1)
+    this.save()
   }
 
   public get Power(): number {
@@ -188,22 +186,22 @@ export class Encounter {
   }
 
   public get Reinforcements(): Npc[] {
-    return this._reinforcements
+    return store.getters['npc/getNpcs'].filter(x => this._reinforcement_ids.some(y => y === x.ID))
   }
 
   public set Reinforcements(npcs: Npc[]) {
-    this._reinforcements = npcs
+    this._reinforcement_ids = npcs.map(x => x.ID)
     this.save()
   }
 
   public AddReinforcement(n: Npc): void {
-    this._reinforcements.push(n)
+    this._reinforcement_ids.push(n.ID)
     this.save()
   }
 
   public RemoveReinforcement(n: Npc): void {
-    const idx = this._reinforcements.findIndex(x => x.ID === n.ID)
-    if (idx > -1) this._reinforcements.splice(idx, 1)
+    const idx = this._reinforcement_ids.indexOf(n.ID)
+    if (idx > -1) this._reinforcement_ids.splice(idx, 1)
     this.save()
   }
 
@@ -242,10 +240,11 @@ export class Encounter {
 
   public static Serialize(enc: Encounter): IEncounterData {
     return {
+      id: enc.ID,
       name: enc.Name,
-      npcs: enc.Npcs.map(x => Npc.Serialize(x)),
-      reinforcements: enc.Reinforcements.map(x => Npc.Serialize(x)),
-      gmNotes: enc.GmNotes,
+      npc_ids: enc._npc_ids,
+      reinforcement_ids: enc._reinforcement_ids,
+      gmNotes: enc.Note,
       labels: enc.Labels,
       campaign: enc.Campaign,
       narrativeNotes: enc.NarrativeNotes,
@@ -255,11 +254,25 @@ export class Encounter {
       sitrep: enc.Sitrep,
       cloud_map: enc.CloudMap,
       local_map: enc.LocalMap,
-      round: enc.Round,
     }
   }
 
   public static Deserialize(data: IEncounterData): Encounter {
-    return new Encounter(data)
+    const e = new Encounter()
+    e._id = data.id
+    e._name = data.name
+    e._location = data.location
+    e._labels = data.labels
+    e._campaign = data.campaign
+    e._gm_notes = data.gmNotes
+    e._narrative_notes = data.narrativeNotes
+    e._environment = data.environment
+    e._environment_details = data.environmentDetails
+    e._cloud_map = data.cloud_map
+    e._local_map = data.local_map
+    e._sitrep = data.sitrep
+    e._npc_ids = data.npc_ids
+    e._reinforcement_ids = data.reinforcement_ids
+    return e
   }
 }
