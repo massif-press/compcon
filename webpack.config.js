@@ -5,6 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const DefinePlugin = require('webpack').DefinePlugin
 
 
 const path = require('path');
@@ -143,6 +144,9 @@ const baseConfig = {
       title: 'COMP/CON',
       favicon: path.resolve(__dirname, './icons/icon.ico'),
       template: path.resolve(__dirname, 'public/index.html')
+    }),
+    new DefinePlugin({
+      'process.env.COMMIT_REF': JSON.stringify(process.env.COMMIT_REF || 'UNKNOWN')
     }),
   ]
 }
