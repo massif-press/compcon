@@ -1,6 +1,11 @@
-Current: 
+Other:   
   ☐ Reports form more like current templates
   ☐ Reports should originate from Massif
+
+Current: 
+NPC etc: 
+  ☐ Tag interactions
+    ☐ Monstrosity rollover table
 
   Etc:
     ☐ Nav Menu
@@ -8,20 +13,12 @@ Current:
         ☐ Space for theme
         ☐ Space for sync/account settings
         ☐ Export/Import all functions
+          ☐ rewrite converter/validator
         ☐ Clear all data
         ☐ Space for achievements
       ☐ Content Packages
       ☐ About
       ☐ Help
-
-  Item Selector:
-    ☐ Item card notes don't immediately update
-
-  Image Selector:
-    ☐ confirm dialog on image delete
-
-  Refactor:
-    ☐ rewrite converter/validator
 
   Style Pass:
     ☐ Restyle CC tooltip
@@ -30,13 +27,7 @@ Current:
     ☐ ra text
 
 --- post v-2 ---
-
-NPC etc: 
-  ☐ Tag interactions
-    ☐ Monstrosity rollover table
-
 Next Steps:
-
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
@@ -57,6 +48,8 @@ Next Steps:
   ☐ Encounter mode list transitions
 
     ☐ `routes` subnode for all features
+
+    ☐ reusable confirm menu
 
 Icons:
   ☐ Compendium
@@ -113,6 +106,7 @@ Active Mode:
   ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ confirm dialog on image delete @done(20-01-24 13:23) @project(Current.Image Selector)
   ✔ Fix NPC side selection @done(20-01-24 13:02) @project(Current.Encounter Data)
   ✔ NPC chip remove/dupe @done(20-01-24 11:41) @project(Current.Encounter Data)
   ✔ Fix NPC group sort @done(20-01-24 11:20) @project(Current.Encounter Data)
