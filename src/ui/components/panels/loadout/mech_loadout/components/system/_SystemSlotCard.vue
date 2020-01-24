@@ -24,14 +24,14 @@
       <div v-if="item">
         <v-row no-gutters align="center"></v-row>
         <v-alert
-          v-if="item.IsUnshackled"
+          v-if="item.IsCascading"
           dense
           tile
           color="error"
           class="text-center white--text stat-text"
           style="letter-spacing: 3px;"
         >
-          / / AI UNSHACKLED / /
+          / / AI IN CASCADE / /
         </v-alert>
         <v-row v-if="item.Effect" dense>
           <v-col class="mr-3">

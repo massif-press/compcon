@@ -33,8 +33,8 @@ export default Vue.extend({
   data: () => ({
     groups: [
       { name: 'None', val: null, icon: 'mdi-close' },
-      { name: 'Role', val: 'Class.Role', icon: 'cci-role-striker' },
-      { name: 'Class', val: 'Class.Name', icon: 'mdi-rhombus-outline' },
+      { name: 'Role', val: 'ClassRole', icon: 'cci-role-striker' },
+      { name: 'Class', val: 'ClassName', icon: 'mdi-rhombus-outline' },
       { name: 'Labels', val: 'Labels', icon: 'mdi-label-outline' },
       { name: 'Campaign', val: 'Campaign', icon: 'mdi-map' },
       { name: 'Tier', val: 'Tier', icon: 'cci-rank-3' },

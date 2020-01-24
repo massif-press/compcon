@@ -5,7 +5,7 @@
     </v-col>
     <v-col>
       <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
-        <v-icon v-if="item.IsUnshackled" color="warning" class="mt-n1">
+        <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
         <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">

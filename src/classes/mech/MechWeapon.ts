@@ -129,7 +129,7 @@ class MechWeapon extends MechEquipment {
       id: item.ID,
       uses: item.Uses || 0,
       destroyed: item.Destroyed,
-      unshackled: item.IsUnshackled,
+      cascading: item.IsCascading,
       loaded: item.Loaded,
       note: item.Note,
       mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
@@ -140,7 +140,7 @@ class MechWeapon extends MechEquipment {
     let item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
     item.Uses = data.uses || 0
     item.Destroyed = data.destroyed || false
-    item.IsUnshackled = data.unshackled || false
+    item.IsCascading = data.cascading || false
     item.Loaded = data.loaded || true
     item.Mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
     item.Note = data.note

@@ -1,15 +1,6 @@
 Current: 
-  Encounter Data:
-    ☐ NPC Feature filter
-    ☐ Fix NPC side selection
-    ☐ NPC chip remove/dupe
-
-  Missions:
-    ☐ Counters for players and NPCs
-
-  Bugs:
-    ☐ Fix NPC group sort
-    ☐ Fix counters on pilot active mode
+  ☐ Reports form more like current templates
+  ☐ Reports should originate from Massif
 
   Etc:
     ☐ Nav Menu
@@ -22,16 +13,6 @@ Current:
       ☐ Content Packages
       ☐ About
       ☐ Help
-
-  Unshackling:
-    ☐ Add Unshackled to Reactor/Structure tables
-    ☐ Reshackled on shut down/full repair
-
-  Flavor Pass:
-    ☐ Cloud settings panel
-    ☐ Statblock panel
-    ☐ Export panel
-    ☐ Print panel
 
   Item Selector:
     ☐ Item card notes don't immediately update
@@ -55,46 +36,25 @@ NPC etc:
     ☐ Monstrosity rollover table
 
 Next Steps:
-  ☐ Testing Framework
-    ☐ Unit
-    ☐ E2E
-    ☐ Test on both web and Electron
-  ☐ Robust error logging
+
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
-  ☐ Better visibility on range/damage bonuses (contributors)
-  ☐ Move explicit-lookup functions to a generalized bonus framework
-  ☐ Avatar image bounding box select
-  ☐ Charts
-  ☐ Tutorial popups (vue-tour)
-  ☐ Gear Catalog comparison view
-  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
-    ☐ Modify movement speed based on prone/immob/stunned
+    ☐ Counters for players and NPCs
+
+  ☐ NPC Feature filter
   ☐ Custom NPC Feature
-  ☐ NPC Custom Tier icon
-  ☐ Round/Encounter/Rest transitions
-  ☐ After Action Report stats
-  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ integrate text color getter
   ☐ disableable cc-btn
-  ☐ better error logging
-  ☐ Rules logic into class
-  ☐ browser snyc storage
-  ☐ Add truncated effects to long effect equipment
   ☐ Expand Glossary
-  ☐ browsable image galleries
   ☐ hidden tags for specially-handled items
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection
     ☐ Prototype Weapon type/range/damage type selection
-  ☐ Click to apply weapon/system self heat
+
   ☐ Disable dangerzone systems outside of dangerzone
-  ☐ Ammo block
-  ☐ Mandatory org rolling at the start of every downtime
+
   ☐ Encounter mode list transitions
-  ☐ global notification snackbar
-  ☐ pilot flash cloning
 
     ☐ `routes` subnode for all features
 
@@ -107,22 +67,14 @@ Icons:
   ☐ Statuses
   ☐ Active Mode
   ☐ Mount Sizes ?
+  ☐ NPC Custom Tier icon
+  ☐ Actor Destroyed
+  ☐ Actor Defeated
+  ☐ Actor Routed/Retreated
 
 Pilot Roster:
-  ☐ Big Card view
   ☐ Quick Print Mech
   ☐ Quick Statblock Mech
-
-Factions:
-  ☐ Add Factions to Compendium
-  ☐ Faction info in Pilot dossier
-  ☐ Faction and Org builders
-
-Preconstructed Characters:
-  ☐ Select Character (cultural stuff)
-    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
-  ☐ Select Build (talents etc)
-  ☐ Select Mech (everest)
 
 Printing:
   ☐ NPC Printing
@@ -161,6 +113,9 @@ Active Mode:
   ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ Fix NPC side selection @done(20-01-24 13:02) @project(Current.Encounter Data)
+  ✔ NPC chip remove/dupe @done(20-01-24 11:41) @project(Current.Encounter Data)
+  ✔ Fix NPC group sort @done(20-01-24 11:20) @project(Current.Encounter Data)
   ✔ Non-instanced encounter should reference NPCs @done(20-01-23 16:31) @project(Current.Encounter Data)
   ✔ Non-instanced mission should reference Encounter @done(20-01-23 16:31) @project(Current.Encounter Data)
   ✔ Active mission should be self-contained @done(20-01-23 16:33) @project(Current.Encounter Data)
@@ -280,7 +235,7 @@ Archive:
   ✔ systems warnings @done(19-11-22 15:54) @project(Mech Sheet)
   ✔ Missing licenses @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ SP issues @done(19-11-22 15:53) @project(Mech Sheet)
-  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Cascading AI @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ loadouts @done(19-11-22 13:53) @project(Mech Sheet)
   ✔ core int weapons @done(19-11-20 22:26) @project(Mech loadout)
   ✔ instantiate correctly @done(19-11-20 22:26) @project(Mech loadout)
@@ -296,7 +251,7 @@ Archive:
   ✔ traits @done(19-11-13 14:48) @project(Mech Sheet)
   ✔ attributes @done(19-11-13 16:04) @project(Mech Sheet)
   ✔ CORE system @done(19-11-15 12:48) @project(Mech Sheet)
-  ✔ AI mark as Unshackled @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ AI mark as Cascading @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mark Mod Destroyed @done(19-11-19 19:34) @project(Mech loadout)
   ✔ Properly serialize mods so they can remember destroyed/shackled/etc @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mod inserts @done(19-11-19 14:06) @project(Mech loadout)
