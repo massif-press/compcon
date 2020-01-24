@@ -29,16 +29,6 @@ export class NpcStore extends VuexModule {
     saveNpcData(this.Npcs)
   }
 
-  // @Mutation
-  // edit(newNpc: Npc) {
-  //   const target = this.Npcs.find((npc: Npc) => npc.ID === newNpc.ID)
-  //   if (!target) throw new Error('npc does not exist')
-  //   else {
-  //     Object.assign(target, newNpc)
-  //     _.debounce(saveNpcData, 300)(this.Npcs)
-  //   }
-  // }
-
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Npcs.length) _.debounce(saveNpcData, 1000)(this.Npcs)
@@ -69,6 +59,16 @@ export class NpcStore extends VuexModule {
       throw console.error('NPC not loaded!')
     }
     saveNpcData(this.Npcs)
+  }
+
+  get getNpcs(): Npc[] {
+    return this.Npcs
+  }
+
+  get getNpc(): any {
+    return (id: string) => {
+      return this.Npcs.find(x => x.ID === id)
+    }
   }
 
   @Action

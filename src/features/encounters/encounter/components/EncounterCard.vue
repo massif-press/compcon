@@ -250,13 +250,28 @@
             <legend class="heading h3 primary--text mx-2">FORCES</legend>
             <div v-if="forces.enemy.length" class="caption ml-2">ENEMY</div>
             <v-divider v-if="forces.enemy.length" />
-            <npc-chip v-for="n in forces.enemy" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="n in forces.enemy"
+              :key="n.ID"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+            />
             <div v-if="forces.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
-            <npc-chip v-for="n in forces.allied" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="n in forces.allied"
+              :key="n.ID"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+            />
             <div v-if="forces.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
-            <npc-chip v-for="n in forces.neutral" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="n in forces.neutral"
+              :key="n.ID"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+            />
             <div class="mx-6">
               <v-btn
                 color="primary"
@@ -281,7 +296,7 @@
               v-for="n in reinforcements.enemy"
               :key="n.ID"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
             />
             <div v-if="reinforcements.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
@@ -289,7 +304,7 @@
               v-for="n in reinforcements.allied"
               :key="n.ID"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
             />
             <div v-if="reinforcements.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
@@ -297,7 +312,7 @@
               v-for="n in reinforcements.neutral"
               :key="n.ID"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
             />
             <div class="mx-6">
               <v-btn
@@ -402,20 +417,12 @@ export default Vue.extend({
         ).description
     },
     addNpc(npc: Npc) {
-      this.encounter.Npcs.push(npc)
+      this.encounter.AddNpc(npc)
       this.$refs.npcDialog.hide()
     },
     addReinforcement(npc: Npc) {
-      this.encounter.Reinforcements.push(npc)
+      this.encounter.AddReinforcement(npc)
       this.$refs.reinforcementDialog.hide()
-    },
-    remove(npc: Npc) {
-      const idx = this.encounter.Npcs.findIndex(x => x.ID === npc.ID)
-      if (idx > -1) this.encounter.Npcs.splice(idx, 1)
-    },
-    removeRF(npc: Npc) {
-      const idx = this.encounter.Reinforcements.findIndex(x => x.ID === npc.ID)
-      if (idx > -1) this.encounter.Reinforcements.splice(idx, 1)
     },
   },
 })

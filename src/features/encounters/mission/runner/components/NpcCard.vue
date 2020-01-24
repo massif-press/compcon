@@ -82,7 +82,7 @@
           </v-col>
         </v-row>
         <v-row dense align="center" class="mt-n3">
-          <v-col v-if="npc.MaxStructure > 1" cols="2" class="mr-n6">
+          <v-col v-if="npc.MaxStructure > 1" cols="auto" class="mr-1">
             <cc-tick-bar
               :key="npc.CurrentStructure"
               :current="npc.CurrentStructure"
@@ -128,7 +128,7 @@
         </v-row>
 
         <v-row dense>
-          <v-col v-if="npc.MaxStress > 1" cols="2" class="mr-n6">
+          <v-col v-if="npc.MaxStress > 1" cols="auto" class="mr-n6">
             <cc-tick-bar
               :key="npc.CurrentStress"
               :current="npc.CurrentStress"
@@ -175,32 +175,52 @@
         <v-row dense align="center">
           <v-col>
             <v-row>
-              <cc-active-card :color="npc.Class.Color" header="Hull" :content="npc.Stats.Hull" />
               <cc-active-card
+                prominent
+                :color="npc.Class.Color"
+                header="Hull"
+                :content="npc.Stats.Hull"
+              />
+              <cc-active-card
+                prominent
                 :color="npc.Class.Color"
                 header="Agility"
                 :content="npc.Stats.Agility"
               />
               <cc-active-card
+                prominent
                 :color="npc.Class.Color"
                 header="Systems"
                 :content="npc.Stats.Systems"
               />
               <cc-active-card
+                prominent
                 :color="npc.Class.Color"
                 header="Engineering"
                 :content="npc.Stats.Engineering"
               />
             </v-row>
             <v-row>
-              <cc-active-card :color="npc.Class.Color" header="Save" :content="npc.Stats.Save" />
-              <cc-active-card :color="npc.Class.Color" header="Evade" :content="npc.Stats.Evade" />
               <cc-active-card
+                prominent
+                :color="npc.Class.Color"
+                header="Save"
+                :content="npc.Stats.Save"
+              />
+              <cc-active-card
+                prominent
+                :color="npc.Class.Color"
+                header="Evade"
+                :content="npc.Stats.Evade"
+              />
+              <cc-active-card
+                prominent
                 :color="npc.Class.Color"
                 header="E-Def"
                 :content="npc.Stats.EDefense"
               />
               <cc-active-card
+                prominent
                 :color="npc.Class.Color"
                 header="Sensor"
                 :content="npc.Stats.Sensor"
@@ -328,7 +348,7 @@ export default Vue.extend({
   },
   methods: {
     onHpRollover() {
-      if (this.npc.MaxStructure === 1) {
+      if (this.npc.MaxStructure === 1 || this.npc.CurrentStructure === 1) {
         this.$nextTick(() => {
           this.npc.CurrentHP = 0
           this.npc.CurrentStructure = 0

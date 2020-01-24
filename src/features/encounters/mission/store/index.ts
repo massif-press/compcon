@@ -6,6 +6,7 @@ import { loadData, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
+export const SAVE_ACTIVE_DATA = 'SAVE_ACTIVE_DATA'
 export const ADD_MISSION = 'ADD_MISSION'
 export const ADD_ACTIVE_MISSION = 'ADD_ACTIVE_MISSION'
 export const DELETE_MISSION = 'DELETE_MISSION'
@@ -47,6 +48,10 @@ export class MissionStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Missions.length) _.debounce(saveMissionData, 1000)(this.Missions)
+  }
+
+  @Mutation
+  private [SAVE_ACTIVE_DATA](): void {
     if (this.ActiveMissions.length) _.debounce(saveActiveMissionData, 1000)(this.ActiveMissions)
   }
 
@@ -96,6 +101,11 @@ export class MissionStore extends VuexModule {
 
   @Action
   public saveMissionData(): void {
+    this.context.commit(SAVE_DATA)
+  }
+
+  @Action
+  public saveActiveMissionData(): void {
     this.context.commit(SAVE_DATA)
   }
 

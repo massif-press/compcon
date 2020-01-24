@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import _ from 'lodash'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
