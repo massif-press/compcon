@@ -50,25 +50,20 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 @Component({ name: 'cc-dialog' })
 export default class CCDialog extends Vue {
+  @Prop({ type: Boolean, })
+  small?: boolean 
+  @Prop({ type: Boolean, })
+  smallBtn?: boolean 
+  @Prop({ type: Boolean, })
+  large?: boolean 
 
   @Prop({ type: String, required: false, default: 'primary', })
   color: string 
 
   @Prop({ type: Boolean, })
-  small?: boolean 
-
-  @Prop({ type: Boolean, })
-  smallBtn?: boolean 
-
-  @Prop({ type: Boolean, })
-  large?: boolean 
-
-  @Prop({ type: Boolean, })
   flat?: boolean 
-
   @Prop({ type: Boolean, })
   dark?: boolean 
-
   @Prop({ type: Boolean, })
   noConfirm?: boolean
 

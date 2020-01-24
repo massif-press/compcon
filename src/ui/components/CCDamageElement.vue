@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Damage } from '@/classes/Damage'
+import { Damage } from '@/class'
 
 
 @Component({ name: 'cc-damage-element' })
