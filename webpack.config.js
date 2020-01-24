@@ -146,7 +146,7 @@ const baseConfig = {
       template: path.resolve(__dirname, 'public/index.html')
     }),
     new DefinePlugin({
-      'process.env.COMMIT_REF': JSON.stringify(process.env.COMMIT_REF.substring(0, 7) || 'UNKNOWN')
+      'process.env.COMMIT_REF': JSON.stringify((process.env.COMMIT_REF && process.env.COMMIT_REF.substring(0, 7)) || 'UNKNOWN')
     }),
   ]
 }
