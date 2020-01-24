@@ -945,7 +945,7 @@ class Pilot {
       this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
       this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [
         ...weapon.Counters,
-        ...weapon.Mod.Counters,
+        ...(weapon.Mod?.Counters || []),
       ]),
       this.ActiveMech?.Frame.CoreSystem.Integrated?.Counters,
       this.CustomCounterData,
