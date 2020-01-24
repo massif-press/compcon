@@ -22,44 +22,38 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
-import GetColorMixin from '../../mixins/getColor'
+import GetColorMixin from '@/mixins/getColor'
 import { Route } from 'vue-router'
 
-@Component({
-  name: 'cc-btn',
-})
+
+@Component({ name: 'cc-btn', })
 export default class CCBtn extends mixins(GetColorMixin) {
   @Prop({ type: Boolean, required: false, default: false, }) 
   large: boolean
-
   @Prop({ type: Boolean, required: false, default: false, })
   xLarge: boolean
-  
   @Prop({ type: Boolean, required: false, default: false, })
   small: boolean
 
-  @Prop({ type: Boolean, required: false, default: false, })
-  disabled: boolean
-
+  get bgColor(): string {
+    if (this.disabled) return 'gray'
+    else return this.getColor(this.color, this.$vuetify)
+  }
   @Prop({ type: String, required: false, default: 'primary', })
   color: string 
-
   @Prop({ type: Boolean, required: false, default: true, })
   dark: boolean
-
   @Prop({ type: Boolean, required: false, default: false, })
   light: boolean
 
   @Prop({ type: Boolean, required: false, })
   outlined?: boolean
 
+  @Prop({ type: Boolean, required: false, default: false, })
+  disabled: boolean
+
   @Prop({ type: [String, Object], required: false, default: '', })
   to: string | Route
-
-  get bgColor(): string {
-    if (this.disabled) return 'gray'
-    else return this.getColor(this.color, this.$vuetify)
-  }
 }
 </script>
 
