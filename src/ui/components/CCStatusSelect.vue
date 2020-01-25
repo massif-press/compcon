@@ -31,41 +31,32 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'status-select',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-    model: {
-      type: Array,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    label: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    dark: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    arr: {
-      get() {
-        return this.model
-      },
-      set(val) {
-        this.$emit('set', val)
-      },
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'status-select', })
+export default class CCStatusSelect extends Vue {
+  
+  @Prop({ type: Array, required: true, })
+  items!: Status[]
+
+  @Prop({ type: Array, required: true, })
+  model!: Status[]
+
+  @Prop({ type: String, required: false, default: '', })
+  color: string
+
+  @Prop({ type: String, required: false, default: '', })
+  label: string
+
+  @Prop({ type: Boolean, })
+  dark?: boolean
+
+  get arr() {
+    return this.model
+  }
+  set arr(val) {
+    this.$emit('set', val)
+  }
+
+}
 </script>
