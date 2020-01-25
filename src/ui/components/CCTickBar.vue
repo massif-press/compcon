@@ -67,42 +67,42 @@ export default class CCTickBar extends Vue {
   }
 
   @Prop({ type: String, required: false, default: '', })
-  label: string
+  readonly label: string
 
   @Prop({ type: String, required: false, default: 'start', })
-  justify: string
+  readonly justify: string
   @Prop({ type: Boolean, })
-  small?: boolean
+  readonly small?: boolean
   @Prop({ type: Boolean, })
-  large?: boolean
+  readonly large?: boolean
   @Prop({ type: String, required: false, default: 'mdi-hexagon-outline', })
-  emptyIcon: string
+  readonly emptyIcon: string
   @Prop({ type: String, required: false, default: 'mdi-hexagon', })
-  fullIcon: string
+  readonly fullIcon: string
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
   @Prop({ type: String,required: false, default: 'grey lighten-1', })
-  bgColor: string
+  readonly bgColor: string
   @Prop({ type: Boolean, })
-  noPips?: boolean
+  readonly noPips?: boolean
 
   @Prop({ type: Boolean, })
-  readonly?: boolean
+  readonly readonly?: boolean
   @Prop({ type: Boolean, })
-  noInput?: boolean
+  readonly noInput?: boolean
   @Prop({ type: Boolean, })
-  flipInput?: boolean
+  readonly flipInput?: boolean
   @Prop({ type: Boolean, })
-  clearable?: boolean
+  readonly clearable?: boolean
   @Prop({ type: Boolean, default: false })
-  rollover: boolean
+  readonly rollover: boolean
   @Prop({ type: Boolean, default: false })
-  rolloverNegative: boolean
+  readonly rolloverNegative: boolean
 
   @Prop({ type: Number, required: true, })
-  current!: number
+  readonly current!: number
   @Prop({ type: Number, required: true, })
-  max!: number
+  readonly max!: number
 
   model = 0
   lock = true
