@@ -3,7 +3,7 @@ interface ICounterData {
   name: string
   min?: number
   max?: number
-  defaultValue?: number
+  default_value?: number
   custom?: boolean
 }
 
@@ -16,19 +16,19 @@ class Counter {
   public readonly Default: number
 
   constructor(data: ICounterData) {
-    const { id, name, min, max, defaultValue } = data
+    const { id, name, min, max, default_value } = data
 
-    if (max && defaultValue > max)
-      throw new Error(`Error creating Counter: Default value of ${defaultValue} is greater than max value of ${max}`)
+    if (max && default_value > max)
+      throw new Error(`Error creating Counter: Default value of ${default_value} is greater than max value of ${max}`)
     
-    if (min && defaultValue < min)
-      throw new Error(`Error creating Counter: Default value of ${defaultValue} is lesser than min value of ${min}`)
+    if (min && default_value < min)
+      throw new Error(`Error creating Counter: Default value of ${default_value} is lesser than min value of ${min}`)
 
     this.ID = id
     this.Name = name
     this.Min = min
     this.Max = max
-    this.Default = defaultValue || 0
+    this.Default = default_value || 0
 
     this._value = this.Default
 
