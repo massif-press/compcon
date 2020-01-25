@@ -112,7 +112,7 @@ import Vue from 'vue'
 import PanelView from '../components/PanelView.vue'
 import EncounterGroup from './components/EncounterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
-import { EncounterStore, CompendiumStore } from '@/store'
+import { EncounterStore } from '@/store'
 import { Encounter } from '@/class'
 
 export default Vue.extend({

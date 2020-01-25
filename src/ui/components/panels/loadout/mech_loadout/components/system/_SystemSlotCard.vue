@@ -24,14 +24,14 @@
       <div v-if="item">
         <v-row no-gutters align="center"></v-row>
         <v-alert
-          v-if="item.IsUnshackled"
+          v-if="item.IsCascading"
           dense
           tile
           color="error"
           class="text-center white--text stat-text"
           style="letter-spacing: 3px;"
         >
-          / / AI UNSHACKLED / /
+          / / AI IN CASCADE / /
         </v-alert>
         <v-row v-if="item.Effect" dense>
           <v-col class="mr-3">
@@ -56,10 +56,15 @@
           </v-col>
         </v-row>
         <v-row v-if="item.IsLoading" dense class="ml-1">
-          <v-chip small dark label :color="item.Loaded ? 'pilot' : 'grey'">
+          <v-btn
+            small
+            dark
+            :color="item.Loaded ? 'pilot' : 'grey'"
+            @click.stop="item.Loaded = !item.Loaded"
+          >
             <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
             {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-          </v-chip>
+          </v-btn>
         </v-row>
         <v-row no-gutters align="center" class="ml-2 mr-6 mt-n1">
           <v-col cols="auto" class="ml-auto">

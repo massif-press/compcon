@@ -5,12 +5,12 @@ import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IMissionStep } from './IMissionStep'
 
-export interface IEncounterData {
+interface IEncounterData {
   id: string
   name: string
   location: string
-  npc_ids: string[]
-  reinforcement_ids: string[]
+  npcs: { id: string; side: EncounterSide }[]
+  reinforcements: { id: string; side: EncounterSide }[]
   labels: string[]
   sitrep: Sitrep
   campaign?: string
@@ -22,13 +22,13 @@ export interface IEncounterData {
   local_map?: string
 }
 
-export class Encounter implements IMissionStep {
+class Encounter implements IMissionStep {
   private _id: string
   private _name: string
   private _location: string
   private _labels: string[]
-  private _npc_ids: string[]
-  private _reinforcement_ids: string[]
+  private _npcs: { id: string; side: EncounterSide }[]
+  private _reinforcements: { id: string; side: EncounterSide }[]
   private _gm_notes: string
   private _campaign: string
   private _narrative_notes: string
@@ -51,8 +51,8 @@ export class Encounter implements IMissionStep {
     this._cloud_map = ''
     this._local_map = ''
     this._sitrep = store.getters.getItemCollection('Sitreps')[0]
-    this._npc_ids = []
-    this._reinforcement_ids = []
+    this._npcs = []
+    this._reinforcements = []
   }
 
   private save(): void {
@@ -153,63 +153,63 @@ export class Encounter implements IMissionStep {
     this.save()
   }
 
-  public get Npcs(): Npc[] {
+  public Npcs(side: EncounterSide): Npc[] {
     const npcs = []
-    this._npc_ids.forEach(id => {
-      const n = store.getters['npc/getNpcs'].find(x => x.ID === id)
+    this.npcIDBySide(side).forEach(id => {
+      const n = store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id)
       if (n) npcs.push(n)
     })
     return npcs
   }
 
-  public AddNpc(npc: Npc): void {
-    this._npc_ids.push(npc.ID)
+  private npcIDBySide(side: EncounterSide): string[] {
+    return this._npcs.filter(x => x.side === side).map(x => x.id)
+  }
+
+  public AddNpc(npc: Npc, side: EncounterSide): void {
+    this._npcs.push({ id: npc.ID, side: side })
     this.save()
   }
 
   public RemoveNpc(npc: Npc): void {
-    const idx = this._npc_ids.indexOf(npc.ID)
-    if (idx > -1) this._npc_ids.splice(idx, 1)
+    const idx = this._npcs.findIndex(x => x.id === npc.ID)
+    if (idx > -1) this._npcs.splice(idx, 1)
     this.save()
   }
 
   public get Power(): number {
-    const enemy = this.Npcs.filter(x => x.Side === EncounterSide.Enemy).reduce(
-      (a, b) => +a + +b.Power,
-      0
-    )
-    const ally = this.Npcs.filter(x => x.Side === EncounterSide.Ally).reduce(
-      (a, b) => +a + +b.Power,
-      0
-    )
+    const enemy = this.Npcs(EncounterSide.Enemy).reduce((a, b) => +a + +b.Power, 0)
+    const ally = this.Npcs(EncounterSide.Ally).reduce((a, b) => +a + +b.Power, 0)
     return enemy - ally
   }
 
-  public get Reinforcements(): Npc[] {
-    return store.getters['npc/getNpcs'].filter(x => this._reinforcement_ids.some(y => y === x.ID))
+  public Reinforcements(side: EncounterSide): Npc[] {
+    return store.getters['npc/getNpcs'].filter(x =>
+      this.reinforcementIDBySide(side).some(y => y === x.ID)
+    )
   }
 
-  public set Reinforcements(npcs: Npc[]) {
-    this._reinforcement_ids = npcs.map(x => x.ID)
-    this.save()
+  private reinforcementIDBySide(side: EncounterSide): string[] {
+    return this._reinforcements.filter(x => x.side === side).map(x => x.id)
   }
 
-  public AddReinforcement(n: Npc): void {
-    this._reinforcement_ids.push(n.ID)
+  public AddReinforcement(n: Npc, side: EncounterSide): void {
+    this._reinforcements.push({ id: n.ID, side: side })
     this.save()
   }
 
   public RemoveReinforcement(n: Npc): void {
-    const idx = this._reinforcement_ids.indexOf(n.ID)
-    if (idx > -1) this._reinforcement_ids.splice(idx, 1)
+    const idx = this._reinforcements.findIndex(x => x.id === n.ID)
+    if (idx > -1) this._reinforcements.splice(idx, 1)
     this.save()
   }
 
   public MoveReinforcement(n: Npc): void {
-    const idx = this.Reinforcements.findIndex(x => x.ID === n.ID)
+    const r = this._reinforcements.find(x => x.id === n.ID)
+    const idx = this._reinforcements.findIndex(x => x.id === n.ID)
     if (idx > -1) {
-      this.Reinforcements.splice(idx, 1)
-      this.Npcs.push(n)
+      this._reinforcements.splice(idx, 1)
+      this._npcs.push({ id: n.ID, side: r.side })
     }
   }
 
@@ -242,8 +242,8 @@ export class Encounter implements IMissionStep {
     return {
       id: enc.ID,
       name: enc.Name,
-      npc_ids: enc._npc_ids,
-      reinforcement_ids: enc._reinforcement_ids,
+      npcs: enc._npcs,
+      reinforcements: enc._reinforcements,
       gmNotes: enc.Note,
       labels: enc.Labels,
       campaign: enc.Campaign,
@@ -271,8 +271,10 @@ export class Encounter implements IMissionStep {
     e._cloud_map = data.cloud_map
     e._local_map = data.local_map
     e._sitrep = data.sitrep
-    e._npc_ids = data.npc_ids
-    e._reinforcement_ids = data.reinforcement_ids
+    e._npcs = data.npcs
+    e._reinforcements = data.reinforcements
     return e
   }
 }
+
+export { Encounter, IEncounterData }

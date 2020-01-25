@@ -7,6 +7,7 @@
       } ${npc.Templates.map(t => t.Name).join(' ')} ${npc.Tag}`
     "
     :color="npc.Class.Color"
+    dense
   >
     <v-row dense class="mt-n1">
       <v-col v-if="npc.Campaign" cols="auto">
@@ -40,58 +41,60 @@
     />
     <p v-else-if="npc.Note" class="flavor-text mb-0" v-html="npc.Note" />
 
-    <v-row dense class="text-center">
+    <v-row dense class="text-center" align="center">
       <v-col cols="10">
         <v-row dense no-gutters>
-          <editable-attribute attr="HULL" :val="npc.Stats.Hull" :color="npc.Class.Color" />
-          <editable-attribute attr="AGI" :val="npc.Stats.Agility" :color="npc.Class.Color" />
-          <editable-attribute attr="SYS" :val="npc.Stats.Systems" :color="npc.Class.Color" />
-          <editable-attribute attr="ENG" :val="npc.Stats.Engineering" :color="npc.Class.Color" />
+          <simple-attribute attr="HULL" :val="npc.Stats.Hull" />
+          <simple-attribute attr="AGI" :val="npc.Stats.Agility" />
+          <simple-attribute attr="SYS" :val="npc.Stats.Systems" />
+          <simple-attribute attr="ENG" :val="npc.Stats.Engineering" />
         </v-row>
         <v-divider class="my-2" />
         <v-row dense no-gutters>
-          <editable-attribute attr="STRUCT." :val="npc.Stats.Structure" :color="npc.Class.Color" />
-          <editable-attribute attr="ARMOR" :val="npc.Stats.Armor" :color="npc.Class.Color" />
-          <editable-attribute attr="HP" :val="npc.Stats.HP" :color="npc.Class.Color" />
-          <editable-attribute attr="REACTOR" :val="npc.Stats.Stress" :color="npc.Class.Color" />
-          <editable-attribute
+          <simple-attribute attr="STRUCT." :val="npc.Stats.Structure" />
+          <simple-attribute attr="ARMOR" :val="npc.Stats.Armor" />
+          <simple-attribute attr="HP" :val="npc.Stats.HP" />
+          <simple-attribute attr="REACTOR" :val="npc.Stats.Stress" />
+          <simple-attribute
             attr="HEAT CAP."
             :val="npc.Stats.HeatCapacity"
             :color="npc.Class.Color"
           />
         </v-row>
+        <v-divider class="my-2" />
         <v-row dense no-gutters>
-          <editable-attribute attr="SPEED" :val="npc.Stats.Speed" :color="npc.Class.Color" />
-          <editable-attribute attr="SAVE" :val="npc.Stats.Save" :color="npc.Class.Color" />
-          <editable-attribute attr="EVADE" :val="npc.Stats.Evade" :color="npc.Class.Color" />
-          <editable-attribute attr="E-DEF." :val="npc.Stats.EDefense" :color="npc.Class.Color" />
-          <editable-attribute attr="SENSOR" :val="npc.Stats.Sensor" :color="npc.Class.Color" />
+          <simple-attribute attr="SPEED" :val="npc.Stats.Speed" />
+          <simple-attribute attr="SAVE" :val="npc.Stats.Save" />
+          <simple-attribute attr="EVADE" :val="npc.Stats.Evade" />
+          <simple-attribute attr="E-DEF." :val="npc.Stats.EDefense" />
+          <simple-attribute attr="SENSOR" :val="npc.Stats.Sensor" />
         </v-row>
         <v-divider class="my-2" />
         <v-row dense no-gutters>
-          <editable-attribute
+          <simple-attribute
             attr="ACTIVATIONS"
             :val="npc.Stats.Activations"
             :color="npc.Class.Color"
           />
-          <editable-attribute attr="SIZE" :val="npc.Stats.Size" :color="npc.Class.Color" />
+          <simple-attribute attr="SIZE" :val="npc.Stats.Size" />
         </v-row>
       </v-col>
+      <v-divider vertical />
       <v-col>
         <div>
-          <v-icon v-if="npc.Tier === 'custom'" size="60" :color="npc.Class.Color">
+          <v-icon v-if="npc.Tier === 'custom'" size="40" :color="npc.Class.Color">
             mdi-star-circle-outline
           </v-icon>
-          <v-icon v-else size="60" :color="npc.Class.Color">cci-rank-{{ npc.Tier }}</v-icon>
+          <v-icon v-else size="40" :color="npc.Class.Color">cci-rank-{{ npc.Tier }}</v-icon>
           <div v-if="npc.Tier === 'custom'" class="overline mt-n1">CUSTOM</div>
           <div v-else class="overline mt-n1">TIER {{ npc.Tier }}</div>
         </div>
-        <v-divider class="my-2" />
+        <v-divider class="my-1" />
         <div>
-          <v-icon size="60" :color="npc.Class.Color">{{ npc.Class.RoleIcon }}</v-icon>
+          <v-icon size="40" :color="npc.Class.Color">{{ npc.Class.RoleIcon }}</v-icon>
           <div class="overline mt-n1">{{ npc.Class.Role }}</div>
         </div>
-        <v-divider class="my-2" />
+        <v-divider class="my-1" />
         <div>
           <b class="caption">POWER RATING</b>
           <br />
@@ -133,11 +136,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import EditableAttribute from '../../npc/components/EditableAttribute.vue'
+import SimpleAttribute from './SimpleAttribute.vue'
 
 export default Vue.extend({
   name: 'npc-panel',
-  components: { EditableAttribute },
+  components: { SimpleAttribute },
   props: {
     npc: {
       type: Object,

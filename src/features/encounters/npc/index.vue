@@ -35,7 +35,9 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
-              <span class="heading white--text">{{ h.group.toUpperCase() }}</span>
+              <span class="heading white--text">
+                {{ h.group ? h.group.toUpperCase() : 'NONE' }}
+              </span>
             </div>
           </template>
           <template v-slot:item.Name="{ item }">

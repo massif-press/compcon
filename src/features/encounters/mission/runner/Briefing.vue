@@ -16,7 +16,7 @@
                 <div v-if="s.Name">
                   <span class="heading h3">{{ s.Name }}</span>
                   <v-divider />
-                  <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs.length }}</div>
+                  <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs('Enemy').length }}</div>
                   <div>ENV: {{ s.Environment }}</div>
                   <div>SITREP: {{ s.Sitrep.name }}</div>
                 </div>

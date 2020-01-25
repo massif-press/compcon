@@ -18,14 +18,14 @@
       <v-row dense no-gutters>
         <v-col cols="auto">
           <v-alert
-            v-if="mod.IsUnshackled"
+            v-if="mod.IsCascading"
             dense
             tile
             color="error"
             class="text-center white--text stat-text"
             style="letter-spacing: 3px;"
           >
-            / / AI UNSHACKLED / /
+            / / AI IN CASCADE / /
           </v-alert>
           <div class="overline">APPLIED TO</div>
           <div class="heading h3 grey--text text--darken-2 ml-3 mt-n1">{{ weapon.Name }}</div>
