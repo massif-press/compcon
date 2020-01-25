@@ -12,7 +12,7 @@
     clearable
   >
     <template v-slot:selection="{ item }">
-      <v-menu top offset-y open-on-hover>
+      <v-menu v-if="item.effects" top offset-y open-on-hover>
         <template v-slot:activator="{ on }">
           <v-chip small :dark="dark" :color="color" v-on="on">
             <b>{{ item.name }}</b>
@@ -20,12 +20,16 @@
         </template>
         <v-card>
           <v-card-text>
-            <ul>
+            <ul v-if="Array.isArray(item.effects)">
               <li v-for="e in item.effects" :key="e" v-html="e" />
             </ul>
+            <span v-else>{{ item.effects }}</span>
           </v-card-text>
         </v-card>
       </v-menu>
+      <v-chip v-else small :dark="dark" :color="color">
+        <b>{{ item.name }}</b>
+      </v-chip>
     </template>
   </v-select>
 </template>

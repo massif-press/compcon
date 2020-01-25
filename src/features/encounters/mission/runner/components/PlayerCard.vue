@@ -211,7 +211,7 @@
               v-if="mech.IsInDangerZone"
               class="caption font-weight-bold dangerzone--text text-center"
             >
-              // ALERT::HEAT LEVELS CRITICAL //
+              // HEAT::DANGER ZONE //
             </div>
             <div v-else class="caption grey--text text-center">
               HEAT LEVELS NOMINAL

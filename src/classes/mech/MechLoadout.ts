@@ -107,7 +107,9 @@ class MechLoadout extends Loadout {
   }
 
   public get Weapons(): MechWeapon[] {
-    return this.AllEquippableMounts(true).flatMap(x => x.Weapons)
+    return this.AllMounts(true, true)
+      .flatMap(x => x.Weapons)
+      .filter(x => x != null)
   }
 
   public ReloadAll(): void {

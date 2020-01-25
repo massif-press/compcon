@@ -27,14 +27,14 @@ export class NpcStats {
     this._stats = data
   }
 
-  public static FromClass(npcClass: NpcClass, tier: number, current?: boolean): NpcStats {
+  public static FromClass(npcClass: NpcClass, tier: number): NpcStats {
     return new NpcStats({
       activations: npcClass.Stats.Activations(tier),
       armor: npcClass.Stats.Armor(tier),
       hp: npcClass.Stats.HP(tier),
       evade: npcClass.Stats.Evade(tier),
       edef: npcClass.Stats.EDefense(tier),
-      heatcap: current ? 0 : npcClass.Stats.HeatCapacity(tier),
+      heatcap: npcClass.Stats.HeatCapacity(tier),
       speed: npcClass.Stats.Speed(tier),
       sensor: npcClass.Stats.Sensor(tier),
       save: npcClass.Stats.Save(tier),
@@ -45,6 +45,27 @@ export class NpcStats {
       size: npcClass.Stats.Size(tier),
       structure: npcClass.Stats.Structure(tier),
       stress: npcClass.Stats.Stress(tier),
+    })
+  }
+
+  public static FromMax(max: NpcStats): NpcStats {
+    return new NpcStats({
+      activations: max.Activations,
+      armor: max.Armor,
+      hp: max.HP,
+      evade: max.Evade,
+      edef: max.EDefense,
+      heatcap: 0,
+      speed: 0,
+      sensor: max.Sensor,
+      save: max.Save,
+      hull: max.Hull,
+      agility: max.Agility,
+      systems: max.Systems,
+      engineering: max.Engineering,
+      size: max.Size,
+      structure: max.Structure,
+      stress: max.Stress,
     })
   }
 

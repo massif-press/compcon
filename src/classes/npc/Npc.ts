@@ -1,4 +1,4 @@
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import _ from 'lodash'
 import { store } from '@/store'
 import { Capacitor } from '@capacitor/core'
@@ -8,6 +8,7 @@ import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 
 export interface INpcData {
+  active: boolean
   id: string
   class: string
   tier: number | string
@@ -34,6 +35,7 @@ export interface INpcData {
 }
 
 export class Npc implements IActor {
+  private _active: boolean
   private _id: string
   private _name: string
   private _campaign: string
@@ -61,6 +63,7 @@ export class Npc implements IActor {
 
   public constructor(npcClass: NpcClass, tier?: number) {
     const t = tier || 1
+    this._active = false
     this._id = uuid()
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._tier = t
@@ -71,7 +74,7 @@ export class Npc implements IActor {
     this._note = this._cloud_image = this._local_image = this._campaign = ''
     this._class = npcClass
     this._stats = NpcStats.FromClass(npcClass, t)
-    this._current_stats = NpcStats.FromClass(npcClass, t, true)
+    this._current_stats = NpcStats.FromMax(this._stats)
     this._items = []
     npcClass.BaseFeatures.forEach(f => {
       this._items.push(new NpcItem(f, t))
@@ -87,7 +90,17 @@ export class Npc implements IActor {
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
+  public get Active(): boolean {
+    return this._active
+  }
+
+  public set Active(val: boolean) {
+    if (val) this._current_stats = NpcStats.FromMax(this._stats)
+    this._active = val
+  }
+
   private save(): void {
+    if (this.Active) store.dispatch('mission/saveActiveMissionData')
     store.dispatch('npc/saveNpcData')
   }
 
@@ -203,6 +216,16 @@ export class Npc implements IActor {
 
   public get Class(): NpcClass {
     return this._class
+  }
+
+  // for vuetify list grouping
+  public get ClassName(): string {
+    return this._class.Name
+  }
+
+  // for vuetify list grouping
+  public get ClassRole(): string {
+    return this._class.Role
   }
 
   public get BaseClassFeatures(): NpcFeature[] {
@@ -482,15 +505,16 @@ export class Npc implements IActor {
   }
 
   public NewTurn(): void {
-    this.CurrentStats.Activations = 1
+    this.CurrentStats.Activations = this.Stats.Activations
     this._actions = 2
-    this.CurrentStats.Speed = this.MaxMove
+    this.CurrentStats.Speed = 0
     this.Reactions = ['Overwatch']
     this.save()
   }
 
   public static Serialize(npc: Npc): INpcData {
     return {
+      active: npc.Active,
       id: npc.ID,
       class: npc.Class.ID,
       tier: npc._tier,
@@ -520,6 +544,7 @@ export class Npc implements IActor {
   public static Deserialize(data: INpcData): Npc {
     const c = store.getters.referenceByID('NpcClasses', data.class)
     const npc = new Npc(c)
+    npc._active = data.active
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name

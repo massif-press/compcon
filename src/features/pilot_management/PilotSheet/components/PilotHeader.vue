@@ -1,22 +1,17 @@
-| <template>
+|
+<template>
   <div style="height: 155px;">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col cols="10">
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
-              <span class="overline lh">callsign</span>
-              <br />
-              <span
-                class="heading h1"
-                style="line-height: 18px; letter-spacing: 10px"
-              >{{ pilot.Callsign }}</span>
+              <div class="overline mb-n6">callsign</div>
+              <div class="heading h1" style="letter-spacing: 10px">{{ pilot.Callsign }}</div>
             </v-col>
             <v-col cols="auto" class="ml-auto text-center mt-2">
-              <span class="overline">license level</span>
-              <br />
-              <span class="heading h1" style="line-height: 40px; font-size: 80px">{{ pilot.Level }}</span>
-              <br />
+              <div class="overline mb-n9">license level</div>
+              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">{{ pilot.Level }}</div>
               <cc-tooltip
                 v-if="!isLevelingUp && pilot.Level < 12"
                 simple
@@ -29,15 +24,14 @@
                   dark
                   class="fadeSelect"
                   @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
-                >mdi-arrow-up-bold-hexagon-outline</v-icon>
+                >
+                  mdi-arrow-up-bold-hexagon-outline
+                </v-icon>
               </cc-tooltip>
               <cc-tooltip v-if="!isLevelingUp" delayed simple inline content="Edit License Level">
-                <v-icon
-                  small
-                  dark
-                  class="fadeSelect mt-2"
-                  @click="$refs.levelEdit.show()"
-                >mdi-circle-edit-outline</v-icon>
+                <v-icon small dark class="fadeSelect mt-2" @click="$refs.levelEdit.show()">
+                  mdi-circle-edit-outline
+                </v-icon>
               </cc-tooltip>
             </v-col>
           </v-row>
@@ -45,15 +39,16 @@
             <v-col cols="auto" class="mr-3">
               <span class="overline lh">name</span>
               <br />
-              <span style="display: block" class="stat-text white--text mt-n2">{{ pilot.Name }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.Name }}
+              </span>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-3">
               <span class="overline lh">background</span>
               <br />
-              <span
-                style="display: block"
-                class="stat-text white--text mt-n2"
-              >{{ pilot.Background }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.Background }}
+              </span>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-3">
               <span class="overline lh">rm-4://(IDENT)</span>
@@ -111,7 +106,9 @@
             <v-img v-else src="https://via.placeholder.com/550" />
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="secondary">
-                <cc-btn color="secondary" @click="$refs.imageSelector.open()">Set Pilot Portrait</cc-btn>
+                <cc-btn color="secondary" @click="$refs.imageSelector.open()">
+                  Set Pilot Portrait
+                </cc-btn>
               </v-overlay>
             </v-fade-transition>
           </div>
@@ -141,8 +138,8 @@ export default Vue.extend({
   computed: {
     isLevelingUp(): boolean {
       return this.$route.name === 'pilot-level-wizard'
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -183,8 +180,5 @@ export default Vue.extend({
   height: 215px;
   background-color: var(--v-primary-base);
   z-index: 0;
-}
-.lh {
-  line-height: 10px !important;
 }
 </style>

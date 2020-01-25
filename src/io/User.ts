@@ -1,6 +1,6 @@
 import path from 'path'
 import extlog from './ExtLog'
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import { writeFile, readFile, exists, USER_DATA_PATH } from './Data'
 
 const CONFIG_FILE_NAME = 'user.config'

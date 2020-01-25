@@ -39,7 +39,7 @@ declare interface IRankedData {
 declare interface IEquipmentData {
   id: string
   destroyed: boolean
-  unshackled: boolean
+  cascading: boolean
   note: string
   uses?: number
 }

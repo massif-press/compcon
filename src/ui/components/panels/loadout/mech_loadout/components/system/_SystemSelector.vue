@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-selector-table :items="availableSystems" :headers="headers" @equip="$emit('equip', $event)">
+    <cc-selector-table
+      :items="availableSystems"
+      :headers="headers"
+      item-type-fallback="MechSystem"
+      @equip="$emit('equip', $event)"
+    >
       <div v-if="equipped">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
@@ -136,7 +141,8 @@ export default Vue.extend({
       }
 
       if (!this.showOverSP) {
-        i = i.filter(x => x.SP <= this.freeSP)
+        const swapSP = this.equipped && this.equipped.SP ? this.equipped.SP : 0
+        i = i.filter(x => x.SP <= this.freeSP + swapSP)
       }
 
       return i

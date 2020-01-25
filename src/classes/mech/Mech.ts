@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 import _ from 'lodash'
 import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
@@ -141,9 +141,9 @@ class Mech implements IActor {
     this.save()
   }
 
-  public get IsUnshackled(): boolean {
+  public get IsCascading(): boolean {
     if (!this.ActiveLoadout.AICount) return false
-    return !!this.ActiveLoadout.Equipment.filter(x => x.IsUnshackled).length
+    return !!this.ActiveLoadout.Equipment.filter(x => x.IsCascading).length
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
@@ -619,7 +619,7 @@ class Mech implements IActor {
     if (this.Destroyed) out.push('destroyed')
     if (this.Ejected) out.push('ejected')
     if (this.MeltdownImminent) out.push('meltdown')
-    if (this.ActiveLoadout.Systems.filter(x => x.IsUnshackled).length) out.push('unshackled')
+    if (this.ActiveLoadout.Systems.filter(x => x.IsCascading).length) out.push('cascading')
     if (this.FreeSP < 0) out.push('overSP')
     if (this.FreeSP) out.push('underSP')
     if (this.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
