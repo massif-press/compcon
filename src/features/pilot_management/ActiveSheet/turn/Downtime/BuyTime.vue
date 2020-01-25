@@ -58,7 +58,7 @@
                 <v-toolbar-title class="heading h2">Bought Time</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+                <v-textarea v-model="details" auto-grow rows="1" label="Details" filled />
               </v-card-text>
             </v-card>
           </v-col>
