@@ -13,14 +13,14 @@
       </v-card-title>
       <div class="mod-border">
         <v-alert
-          v-if="mod.IsUnshackled"
+          v-if="mod.IsCascading"
           dense
           tile
           color="error"
           class="text-center white--text stat-text"
           style="letter-spacing: 3px;"
         >
-          / / NHP UNSHACKLED / /
+          / / NHP IN CASCADE / /
         </v-alert>
         <p
           class="mb-0 px-2 pt-1 effect-text text--text"

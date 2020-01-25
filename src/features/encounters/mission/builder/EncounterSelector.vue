@@ -44,7 +44,7 @@
                 duration: 150,
                 easing: 'easeInOutQuad',
                 offset: 25,
-                container: '#bg-selector-dialog',
+                container: '.v-dialog--active',
               })
             "
           >

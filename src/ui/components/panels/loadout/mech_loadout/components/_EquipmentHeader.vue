@@ -5,7 +5,7 @@
     </v-col>
     <v-col>
       <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
-        <v-icon v-if="item.IsUnshackled" color="warning" class="mt-n1">
+        <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
         <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">
@@ -20,10 +20,15 @@
       </cc-tooltip>
     </v-col>
     <v-col v-if="item.IsLoading" cols="auto" class="mr-2">
-      <v-chip small dark label :color="item.Loaded ? 'pilot' : 'grey'">
+      <v-btn
+        small
+        dark
+        :color="item.Loaded ? 'pilot' : 'grey'"
+        @click.stop="item.Loaded = !item.Loaded"
+      >
         <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
         {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-      </v-chip>
+      </v-btn>
     </v-col>
     <v-col v-if="item.SP" cols="auto" class="mr-3 ml-auto">
       <span class="heading h3" :style="`color: ${color}`">{{ item.SP }}SP</span>

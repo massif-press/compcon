@@ -10,13 +10,12 @@ import Component from 'vue-class-component'
 import CompendiumTable from '../components/CompendiumTable.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { MechSystem } from '@/class'
+import { MechEquipment } from '@/class'
 
 @Component({
-  components: { CompendiumTable }
+  components: { CompendiumTable },
 })
 export default class Weapons extends Vue {
-
   public headers = [
     { text: 'Source', align: 'left', value: 'Source' },
     { text: 'System', align: 'left', value: 'Name' },
@@ -25,9 +24,10 @@ export default class Weapons extends Vue {
   ]
 
   private compendium = getModule(CompendiumStore, this.$store)
-  public get systems(): MechSystem[] {
-    return this.compendium.MechSystems.filter(x => x.Source)
+  public get systems(): MechEquipment[] {
+    return (this.compendium.MechSystems as MechEquipment[])
+      .filter(x => x.Source)
+      .concat(this.compendium.WeaponMods as MechEquipment[])
   }
-
 }
 </script>

@@ -47,7 +47,7 @@
                 duration: 150,
                 easing: 'easeInOutQuad',
                 offset: 25,
-                container: '#bg-selector-dialog',
+                container: '.v-dialog--active',
               })
             "
           >
@@ -67,8 +67,16 @@
             <v-divider class="my-2" />
             <v-row align="center" dense>
               <v-col cols="9" class="mt-n6">
-                <v-btn block large :color="side.toLowerCase()" dark @click="$emit('select', npc)">
-                  <v-icon left>mdi-plus</v-icon>
+                <v-btn
+                  block
+                  x-large
+                  tile
+                  outlined
+                  :color="side.toLowerCase()"
+                  dark
+                  @click="$emit('select', { npc, side })"
+                >
+                  <v-icon large left>mdi-plus</v-icon>
                   Add NPC
                 </v-btn>
               </v-col>
@@ -95,7 +103,6 @@ import NpcPanel from './NpcPanel.vue'
 import RosterGroup from '../../npc/components/RosterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
-import { Npc } from '@/class'
 
 export default Vue.extend({
   name: 'npc-selector',

@@ -1,8 +1,6 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="cci-pilot" no-confirm title="Edit Pilot level">
     <v-card-text>
-      <span>A flavorful description...</span>
-
       <v-alert
         v-model="alert"
         border="left"
@@ -12,8 +10,9 @@
         outlined
         prominent
       >
-        This tool skips the level up wizard. Pilot attributes gained through levelling up, such as skill triggers, licenses, talents, mech skills, and CORE
-        bonuses will have to be updated manually
+        This tool skips the level up wizard. Pilot attributes gained through levelling up, such as
+        skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated
+        manually
       </v-alert>
 
       <v-row justify="center" class="text-center">
@@ -61,7 +60,9 @@
             x-large
             :disabled="newLevel === '' || newLevel === pilot.Level"
             @click="setLevel"
-          >Set Pilot Level</v-btn>
+          >
+            Set Pilot Level
+          </v-btn>
         </v-col>
       </v-row>
     </v-card-text>

@@ -14,6 +14,7 @@ import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
 import VueMousetrap from 'vue-mousetrap'
+import lancerData from 'lancer-data'
 
 import theme from './ui/theme'
 
@@ -30,7 +31,7 @@ Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.version = '2.0.0'
-Vue.prototype.lancerVersion = 'PRERELEASE 2'
+Vue.prototype.lancerVersion = lancerData.info.version
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)

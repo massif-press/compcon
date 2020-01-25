@@ -1,7 +1,6 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="mdi-text-subject" large no-confirm title="Pilot Statblock">
     <v-card-text>
-      <span>A flavorful description...</span>
       <v-select
         v-model="mechSelect"
         :items="pilot.Mechs"

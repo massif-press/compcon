@@ -3,6 +3,7 @@ import { store } from '@/store'
 import { Mission, Pilot, Npc, MissionStepType, Encounter } from '@/class'
 import { IMissionData, INpcData } from '@/interface'
 import { IMissionStep } from './IMissionStep'
+import { EncounterSide } from '../enums'
 
 export interface IActiveMissionData {
   mission: IMissionData
@@ -100,11 +101,15 @@ export class ActiveMission {
   private spawnNpcs(): void {
     if (this.Encounter.StepType === MissionStepType.Rest) return
     const enc = this.Encounter as Encounter
-    enc.Npcs.forEach(n => {
-      const nn = Npc.Deserialize(Npc.Serialize(n))
-      nn.RenewID()
-      nn.Active = true
-      this._activeNpcs.push(nn)
+    const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
+    sides.forEach(s => {
+      enc.Npcs(s).forEach(n => {
+        const nn = Npc.Deserialize(Npc.Serialize(n))
+        nn.RenewID()
+        nn.Active = true
+        nn.Side = s
+        this._activeNpcs.push(nn)
+      })
     })
     this.save()
   }
@@ -163,9 +168,14 @@ export class ActiveMission {
     if (idx > -1) this._pilotIDs.splice(idx, 1)
   }
 
-  public get Npcs(): Npc[] {
-    return this._mission.Encounters.flatMap(x => x.Npcs)
-  }
+  // public get Npcs(): Npc[] {
+  //   const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
+  //   const npcs = []
+  //   this._mission.Encounters.forEach(e => {
+
+  //   })
+  //   return this._mission.Encounters.flatMap(x => x.Npcs)
+  // }
 
   public get Note(): string {
     return this._note

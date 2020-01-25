@@ -4,7 +4,27 @@
       <v-col cols="7">
         <fieldset>
           <legend class="heading h3 primary--text mx-2">COMBATANTS</legend>
-          <npc-chip v-for="n in encounter.Npcs" :key="`cmbt_${n.ID}`" :npc="n" readonly />
+          <npc-chip
+            v-for="(n, i) in encounter.Npcs('Enemy')"
+            :key="`cmbt_e_${n.ID}_${i}`"
+            :npc="n"
+            readonly
+            color="red darken-1"
+          />
+          <npc-chip
+            v-for="(n, i) in encounter.Npcs('Ally')"
+            :key="`cmbt_a_${n.ID}_${i}`"
+            :npc="n"
+            readonly
+            color="blue darken-1"
+          />
+          <npc-chip
+            v-for="(n, i) in encounter.Npcs('Neutral')"
+            :key="`cmbt_n_${n.ID}_${i}`"
+            :npc="n"
+            readonly
+            color="grey darken-1"
+          />
         </fieldset>
         <fieldset>
           <legend class="heading h3 primary--text mx-2">PILOTS</legend>
@@ -31,11 +51,30 @@
             // NO REINFORCEMENTS REMAINING //
           </div>
           <npc-chip
-            v-for="n in encounter.Reinforcements"
-            :key="`rein_${n.ID}`"
+            v-for="(n, i) in encounter.Reinforcements('Enemy')"
+            :key="`rein_e_${n.ID}_${i}`"
             :npc="n"
             readonly
             reinforce
+            color="red darken-1"
+            @move="encounter.MoveReinforcement(n)"
+          />
+          <npc-chip
+            v-for="(n, i) in encounter.Reinforcements('Ally')"
+            :key="`rein_a_${n.ID}_${i}`"
+            :npc="n"
+            readonly
+            reinforce
+            color="blue darken-1"
+            @move="encounter.MoveReinforcement(n)"
+          />
+          <npc-chip
+            v-for="(n, i) in encounter.Reinforcements('Neutral')"
+            :key="`rein_n_${n.ID}_${i}`"
+            :npc="n"
+            readonly
+            reinforce
+            color="grey darken-1"
             @move="encounter.MoveReinforcement(n)"
           />
         </fieldset>

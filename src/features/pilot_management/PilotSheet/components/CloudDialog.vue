@@ -14,7 +14,16 @@
       title="Omninet Vault Settings"
     >
       <v-card-text>
-        <span>A flavorful description...</span>
+        <p class="flavor-text">
+          // UNI OMNINET VAULT REMIT INTERFACE v.7.3.1 rev. 3 //
+          <br />
+          <span class="caption">
+            PLEASE NOTE THAT ALL TRANSMIT RECORDS OF DATA SENT OR RECEIVED THROUGH THIS REMIT
+            INTERFACE BY UNION PERSONNEL MAY BE AUTOMATICALLY LOGGED, MONITORED AND/OR RECORDED BY
+            UNION NAVAL INTELLIGENCE NHP PERSONNEL PERSUANT TO 5014 OMNINET (TRANSMIT NODE
+            PROTOCOLS) (PARACAUSAL) REGULATIONS.
+          </span>
+        </p>
         <v-slide-x-transition group mode="in-out" />
         <div v-if="!syncing" key="nosync" class="flavor-text">
           <span class="heading h3 primary--text">Pilot status:&nbsp;</span>
@@ -148,7 +157,6 @@ import CloudManager from './CloudManager.vue'
 import { Plugins } from '@capacitor/core'
 const { Clipboard } = Plugins
 
-
 export default Vue.extend({
   name: 'cloud-dialog',
   components: { CloudManager },
@@ -172,7 +180,7 @@ export default Vue.extend({
     async copyCode() {
       this.copyConfirm = true
       await Clipboard.write({
-        string: this.pilot.CloudID
+        string: this.pilot.CloudID,
       })
       setTimeout(() => {
         this.copyConfirm = false
