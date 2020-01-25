@@ -65,7 +65,7 @@
                     auto-grow
                     rows="1"
                     label="Details"
-                    box
+                    filled
                   />
                 </v-col>
                 <v-col cols="6">
@@ -99,7 +99,7 @@
                       auto-grow
                       rows="1"
                       label="Details"
-                      box
+                      filled
                     />
                   </div>
                 </v-col>
@@ -119,7 +119,7 @@
                       auto-grow
                       rows="1"
                       label="Details"
-                      box
+                      filled
                     />
                   </div>
                 </v-col>
