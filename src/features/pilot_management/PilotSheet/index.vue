@@ -17,7 +17,9 @@ import Vue from 'vue'
 import PilotHeader from './components/PilotHeader.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'pilot-sheet',
   components: { PilotHeader },
   props: {
@@ -26,6 +28,6 @@ export default Vue.extend({
       required: true,
     },
   },
-  mixins: [activePilot],
+
 })
 </script>
