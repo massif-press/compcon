@@ -35,7 +35,9 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
-              <span class="heading white--text">{{ h.group.toUpperCase() }}</span>
+              <span class="heading white--text">
+                {{ h.group ? h.group.toUpperCase() : 'NONE' }}
+              </span>
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
@@ -127,7 +129,7 @@
       <v-divider class="my-2 " />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
-          <v-btn block tile color="primary" large to="new-npc">
+          <v-btn block tile color="primary" large @click="$router.push({ name: 'new-npc' })">
             <v-icon left>mdi-plus</v-icon>
             Add New NPC
           </v-btn>

@@ -16,7 +16,7 @@
                 <div v-if="s.Name">
                   <span class="heading h3">{{ s.Name }}</span>
                   <v-divider />
-                  <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs.length }}</div>
+                  <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs('Enemy').length }}</div>
                   <div>ENV: {{ s.Environment }}</div>
                   <div>SITREP: {{ s.Sitrep.name }}</div>
                 </div>
@@ -31,6 +31,11 @@
         <v-divider class="my-2 " />
         <fieldset style="border-radius: 5px">
           <legend><span class="px-2 heading h3 primary--text">PILOTS</span></legend>
+          <v-card v-if="!pilots.length" color="panel" flat tile>
+            <v-card-text class="text-center grey--text text--darken-2">
+              <span class="heading h3">// WARNING: NO ASSIGNED PILOTS //</span>
+            </v-card-text>
+          </v-card>
           <v-card v-for="p in pilots" :key="p.ID" cols="12" outlined class="my-1">
             <v-card-text class="pa-1">
               <v-row dense align="center">
@@ -55,7 +60,7 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <div class="my-1 mx-4">
+          <div class="my-2 mx-4">
             <v-btn tile outlined color="primary" block @click="$refs.pilotDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               Add Pilot
@@ -87,7 +92,7 @@
         </div>
         <v-row justify="center">
           <v-col cols="10">
-            <v-btn x-large block color="primary" :disabled="!pilots.length" @click="startMission()">
+            <v-btn x-large block color="primary" @click="startMission()">
               start
             </v-btn>
           </v-col>
@@ -166,6 +171,7 @@ export default Vue.extend({
       const m = new ActiveMission(this.mission, this.pilots)
       const store = getModule(MissionStore, this.$store)
       store.addActiveMission(m)
+      console.log(m)
       this.$router.push({ name: 'mission-runner', params: { id: m.ID } })
     },
   },

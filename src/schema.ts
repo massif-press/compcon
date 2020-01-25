@@ -29,7 +29,7 @@ type IFrameData_Fixed = Omit<IFrameData,
 type NoBrew<T> = Omit<T, 'brew' | 'id'>
 
 export type SCHEMA__manifest = IContentPackManifest
-export type SCHEMA__manufacturers = NoBrew<IManufacturerData>[]
+export type SCHEMA__manufacturers = Omit<IManufacturerData, 'logo'>[]
 export type SCHEMA__core_bonus = NoBrew<ICoreBonusData>[]
 export type SCHEMA__frames = NoBrew<IFrameData_Fixed>[]
 export type SCHEMA__weapons = NoBrew<IMechWeaponData>[]

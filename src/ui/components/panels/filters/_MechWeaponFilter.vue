@@ -29,6 +29,7 @@
         outlined
         label="Tags"
         :items="tags"
+        item-value="ID"
         multiple
         item-text="Name"
         @change="updateFilters()"
@@ -174,10 +175,10 @@ export default Vue.extend({
     },
     updateFilters() {
       let fObj = {} as any
-      if (this.sourceFilter) fObj.Source = [this.sourceFilter]
+      if (this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.weaponTypeFilter) fObj.Type = [this.weaponTypeFilter]
-      if (this.weaponSizeFilter) fObj.Size = [this.weaponSizeFilter]
+      if (this.weaponTypeFilter.length) fObj.Type = [this.weaponTypeFilter]
+      if (this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter]
       if (this.attackTypeFilter.length) fObj.RangeType = this.attackTypeFilter
       if (this.damageTypeFilter.length) fObj.DamageType = this.damageTypeFilter
       this.$emit('set-filters', fObj)

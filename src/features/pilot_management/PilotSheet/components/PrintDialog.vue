@@ -1,7 +1,6 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="mdi-printer" large no-confirm title="Print Character Sheets">
     <v-card-text>
-      <span class="flavor-text">A flavorful description...</span>
       <v-select
         v-model="selectedMechID"
         :items="pilot.Mechs"

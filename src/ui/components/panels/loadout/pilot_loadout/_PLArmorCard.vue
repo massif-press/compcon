@@ -53,7 +53,7 @@
       </v-row>
     </div>
     <v-card-text slot="selector">
-      <cc-selector-table :items="getArmor()" :headers="headers" @equip="equip($event)">
+      <cc-selector-table no-filter :items="getArmor()" :headers="headers" @equip="equip($event)">
         <div v-if="item">
           <span class="overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;

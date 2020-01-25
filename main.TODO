@@ -1,116 +1,55 @@
+Other:   
+  ☐ Reports form more like current templates
+  ☐ Reports should originate from Massif
+
 Current: 
-  Encounter Data:
-    ☐ Non-instanced encounter should reference NPCs
-    ☐ Non-instanced mission should reference Encounter
-    ☐ Active mission should be self-contained
-      ☐ Actors need to write to mission, not own saves
-
-  Missions:
-    ☐ Event interface for Encounters and Rests
-    ☐ Counters for players and NPCs
-
-  Bugs:
-    ☐ Fix NPC group sort
-    ☐ Fix cc_ver stuff
-    ☐ Fix counters on pilot active mode
-    ☐ Fix filter panel
-    ☐ Tag data seems to deserialize incorrectly, especially w/r/t tag values
+NPC etc: 
+  ☐ Tag interactions
+    ☐ Monstrosity rollover table
 
   Etc:
     ☐ Nav Menu
-      ☐ Options 
+      ☐ Profile 
         ☐ Space for theme
         ☐ Space for sync/account settings
         ☐ Export/Import all functions
+          ☐ rewrite converter/validator
         ☐ Clear all data
         ☐ Space for achievements
       ☐ Content Packages
       ☐ About
       ☐ Help
 
-  Unshackling:
-    ☐ Add Unshackled to Reactor/Structure tables
-    ☐ Reshackled on shut down/full repair
-    ☐ Prevent c/c from shackled
-
-  Flavor Pass:
-    ☐ Cloud settings panel
-    ☐ Statblock panel
-    ☐ Export panel
-    ☐ Print panel
-
-  Item Selector:
-    ☐ Item card notes don't immediately update
-
-  Image Selector:
-    ☐ confirm dialog on image delete
-
-  Pilot Sheet:
-    ☐ test importers
-      ☐ ask cc-club to test pull/push cloud syncs
-
-  Refactor:
-    ☐ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description
-    ☐ `routes` subnode for all features
-    ✔ Normalize folder names @done(20-01-17 15:36)
-    ☐ rewrite converter/validator
-
   Style Pass:
     ☐ Restyle CC tooltip
     ☐ pilot NO IMG
     ☐ map NO IMG
     ☐ ra text
-    ✔ panel colors @done(20-01-17 15:36)
 
 --- post v-2 ---
-
-NPC etc: 
-  ☐ Tag interactions
-    ☐ Monstrosity rollover table
-
 Next Steps:
-  ☐ Testing Framework
-    ☐ Unit
-    ☐ E2E
-    ☐ Test on both web and Electron
-  ☐ Robust error logging
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses
-  ☐ In-file interface declarations available globally through TS import()
-  ☐ Better visibility on range/damage bonuses (contributors)
-  ☐ Move explicit-lookup functions to a generalized bonus framework
-  ☐ Avatar image bounding box select
-  ☐ Charts
-  ☐ Tutorial popups (vue-tour)
-  ☐ Gear Catalog comparison view
-  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
-    ☐ Modify movement speed based on prone/immob/stunned
+    ☐ Counters for players and NPCs
+
+  ☐ NPC Feature filter
   ☐ Custom NPC Feature
-  ☐ NPC Custom Tier icon
-  ☐ Pilot Mode when a mech is dismounted/ejected in the encounter runner
-  ☐ Rounde/Encounter/Rest transitions
-  ☐ After Action Report stats
-  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
   ☐ integrate text color getter
   ☐ disableable cc-btn
-  ☐ better error logging
-  ☐ Rules logic into class
-  ☐ browser snyc storage
-  ☐ Add truncated effects to long effect equipment
   ☐ Expand Glossary
-  ☐ browsable image galleries
   ☐ hidden tags for specially-handled items
     ☐ prototype weapon: set max uses
     ☐ Signature Weapon damage type selection
     ☐ Prototype Weapon type/range/damage type selection
-  ☐ Click to apply weapon/system self heat
+
   ☐ Disable dangerzone systems outside of dangerzone
-  ☐ Ammo block
-  ☐ Mandatory org rolling at the start of every downtime
+
   ☐ Encounter mode list transitions
-  ☐ global notification snackbar
-  ☐ pilot flash cloning
+
+    ☐ `routes` subnode for all features
+
+    ☐ reusable confirm menu
 
 Icons:
   ☐ Compendium
@@ -121,23 +60,14 @@ Icons:
   ☐ Statuses
   ☐ Active Mode
   ☐ Mount Sizes ?
+  ☐ NPC Custom Tier icon
+  ☐ Actor Destroyed
+  ☐ Actor Defeated
+  ☐ Actor Routed/Retreated
 
 Pilot Roster:
-  ☐ Big Card view
-
   ☐ Quick Print Mech
   ☐ Quick Statblock Mech
-
-Factions:
-  ☐ Add Factions to Compendium
-  ☐ Faction info in Pilot dossier
-  ☐ Faction and Org builders
-
-Preconstructed Characters:
-  ☐ Select Character (cultural stuff)
-    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
-  ☐ Select Build (talents etc)
-  ☐ Select Mech (everest)
 
 Printing:
   ☐ NPC Printing
@@ -176,6 +106,22 @@ Active Mode:
   ☐ Toggleable dense loadout view
 
 Archive:
+  ✔ confirm dialog on image delete @done(20-01-24 13:23) @project(Current.Image Selector)
+  ✔ Fix NPC side selection @done(20-01-24 13:02) @project(Current.Encounter Data)
+  ✔ NPC chip remove/dupe @done(20-01-24 11:41) @project(Current.Encounter Data)
+  ✔ Fix NPC group sort @done(20-01-24 11:20) @project(Current.Encounter Data)
+  ✔ Non-instanced encounter should reference NPCs @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Non-instanced mission should reference Encounter @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Active mission should be self-contained @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Actors need to write to mission, not own saves @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Event interface for Encounters and Rests @done(20-01-23 16:33) @project(Current.Missions)
+  ✔ Fix cc_ver stuff @done(20-01-21 10:12) @project(Current.Bugs)
+  ✔ Fix filter panel @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Weapon Mod Filter @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Tag data seems to deserialize incorrectly, especially w/r/t tag values @done(20-01-20 14:31) @project(Current.Bugs)
+  ✔ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description @done(20-01-20 14:34) @project(Current.Refactor)
+  ✔ Normalize folder names @done(20-01-17 15:36) @project(Current.Refactor)
+  ✔ panel colors @done(20-01-17 15:36) @project(Current.Style Pass)
   ✔ For frame info make expandable image panel/need image somewhere on frame card @done(20-01-17 15:35) @project(Etc)
   ✔ Background Selector does not scroll to list @done(20-01-17 14:15) @project(New Pilot)
   ✔ Background selector highlight on mouseover @done(20-01-17 14:15) @project(New Pilot)
@@ -283,7 +229,7 @@ Archive:
   ✔ systems warnings @done(19-11-22 15:54) @project(Mech Sheet)
   ✔ Missing licenses @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ SP issues @done(19-11-22 15:53) @project(Mech Sheet)
-  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Cascading AI @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ loadouts @done(19-11-22 13:53) @project(Mech Sheet)
   ✔ core int weapons @done(19-11-20 22:26) @project(Mech loadout)
   ✔ instantiate correctly @done(19-11-20 22:26) @project(Mech loadout)
@@ -299,7 +245,7 @@ Archive:
   ✔ traits @done(19-11-13 14:48) @project(Mech Sheet)
   ✔ attributes @done(19-11-13 16:04) @project(Mech Sheet)
   ✔ CORE system @done(19-11-15 12:48) @project(Mech Sheet)
-  ✔ AI mark as Unshackled @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ AI mark as Cascading @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mark Mod Destroyed @done(19-11-19 19:34) @project(Mech loadout)
   ✔ Properly serialize mods so they can remember destroyed/shackled/etc @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mod inserts @done(19-11-19 14:06) @project(Mech loadout)

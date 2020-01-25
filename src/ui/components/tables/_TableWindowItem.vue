@@ -8,7 +8,7 @@
     <v-card-actions>
       <v-btn text color="warning" @click="$emit('dismiss')">dismiss</v-btn>
       <v-spacer />
-      <v-btn text color="secondary" @click="$emit('previous')">previous</v-btn>
+      <v-btn v-if="!hidePrevious" text color="secondary" @click="$emit('previous')">previous</v-btn>
       <slot v-if="otherBtn" name="confirm-button" />
       <v-btn v-else color="primary" large :disabled="disabled" @click="$emit('confirm')">
         confirm
@@ -26,6 +26,7 @@ export default Vue.extend({
     content: { type: String, required: false, default: '' },
     disabled: { type: Boolean },
     otherBtn: { type: Boolean },
+    hidePrevious: { type: Boolean },
   },
 })
 </script>

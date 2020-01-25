@@ -7,7 +7,6 @@
     title="Export Pilot Data"
   >
     <v-card-text>
-      <span>A flavorful description...</span>
       <div v-if="pilot.CloudID" class="flavor-text">
         <span class="font-weight-bold primary--text">Pilot Share Code:&nbsp;</span>
         <span>
@@ -85,7 +84,7 @@ export default Vue.extend({
     async copyCode() {
       this.copyConfirm = true
       await Clipboard.write({
-        string: this.pilot.CloudID
+        string: this.pilot.CloudID,
       })
       setTimeout(() => {
         this.copyConfirm = false

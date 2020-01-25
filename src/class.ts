@@ -80,7 +80,7 @@ import {
   NpcItem,
   Npc,
 } from './classes/npc'
-import { Encounter, Rest, Mission, ActiveMission } from './classes/encounter'
+import { Encounter, Rest, Mission, ActiveMission, MissionStepType } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
 import { Counter } from './classes/Counter'
 
@@ -159,6 +159,7 @@ export {
   EncounterSide,
   Rest,
   Mission,
+  MissionStepType,
   ActiveMission,
   ContentPack,
   Counter,

@@ -77,5 +77,5 @@ export {
   IContentPackManifest,
   IContentPack,
   ICounterData,
-  ITagCompendiumData
+  ITagCompendiumData,
 }

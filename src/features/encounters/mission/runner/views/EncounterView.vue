@@ -13,7 +13,7 @@
             <encounter-nav
               v-if="selected"
               :mission="activeMission"
-              :encounter="encounter"
+              :encounter="activeMission.Encounter"
               :actor="selected"
             />
           </v-card-text>
@@ -21,7 +21,7 @@
       </v-col>
     </v-row>
     <hr />
-    <v-row dense style="min-height: 100px">
+    <v-row v-if="actors" dense style="min-height: 100px">
       <v-col cols="11">
         <v-card flat outlined height="100%">
           <v-slide-group
@@ -36,7 +36,7 @@
                 TURN PENDING
               </div>
             </div>
-            <slide-item v-for="a in initiative" :key="a.ID" :actor="a" />
+            <slide-item v-for="(a, i) in initiative" :key="`i_${a.ID}_${i}`" :actor="a" />
             <v-divider
               v-if="finished.length"
               vertical
@@ -52,7 +52,7 @@
                 TURN COMPLETE
               </div>
             </div>
-            <slide-item v-for="a in finished" :key="a.ID" :actor="a" complete />
+            <slide-item v-for="(a, i) in finished" :key="`f_${a.ID}_${i}`" :actor="a" complete />
             <v-divider
               v-if="defeated.length"
               vertical
@@ -68,14 +68,14 @@
                 DEFEATED
               </div>
             </div>
-            <slide-item v-for="a in defeated" :key="a.ID" :actor="a" defeated />
+            <slide-item v-for="(a, i) in defeated" :key="`d_${a.ID}_${i}`" :actor="a" defeated />
           </v-slide-group>
         </v-card>
       </v-col>
       <v-col cols="1" class="text-center">
         <div class="heading h3">
           ROUND
-          <b class="primary--text">{{ encounter.Round }}</b>
+          <b class="primary--text">{{ activeMission.Round }}</b>
         </div>
         <v-btn block tile color="primary" @click="stageRoundEnd()">End Round</v-btn>
         <v-divider class="my-2" />
@@ -131,20 +131,12 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    encounter: {
-      type: Object,
-      required: true,
-    },
   },
   data: () => ({
     selectedActor: null,
+    actors: [],
   }),
   computed: {
-    actors(): IActor[] {
-      return this.activeMission.Pilots.map(x => x.ActiveMech).concat(
-        this.encounter.Npcs
-      ) as IActor[]
-    },
     selected(): IActor {
       return this.actors.find(x => x.ID === this.selectedActor)
     },
@@ -163,6 +155,11 @@ export default Vue.extend({
       document.getElementById('scroll').scrollTop = 0
     },
   },
+  created() {
+    this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
+      this.activeMission.ActiveNpcs
+    ) as IActor[]
+  },
   methods: {
     isPlayer(a: any) {
       return !!a.Frame
@@ -176,15 +173,13 @@ export default Vue.extend({
       this.finished.forEach((a: IActor) => {
         a.NewTurn()
       })
-      this.encounter.Round++
+      this.activeMission.Round++
     },
     deleteActor() {
       if (this.isPlayer(this.selected)) {
-        const idx = this.activeMission.Pilots.findIndex(x => x.ID === this.selected.ID)
-        if (idx > -1) this.activeMission.Pilots.splice(idx)
+        this.activeMission.RemovePilot(this.selected)
       } else {
-        const idx = this.encounter.Npcs.findIndex(x => x.ID === this.selected.ID)
-        if (idx > -1) this.encounter.Npcs.splice(idx)
+        this.activeMission.RemoveActiveNpc(this.selected)
       }
     },
   },

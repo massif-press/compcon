@@ -54,15 +54,30 @@
             deletable-chips
             dense
             multiple
+            background-color="stark-panel"
             label="User Labels"
             :items="labels"
           />
         </v-col>
         <v-col>
-          <v-combobox v-model="npc.Tag" outlined dense label="NPC Tag" :items="tags" />
+          <v-combobox
+            v-model="npc.Tag"
+            background-color="stark-panel"
+            outlined
+            dense
+            label="NPC Tag"
+            :items="tags"
+          />
         </v-col>
         <v-col>
-          <v-combobox v-model="npc.Campaign" outlined dense label="Campaign" :items="campaigns" />
+          <v-combobox
+            v-model="npc.Campaign"
+            background-color="stark-panel"
+            outlined
+            dense
+            label="Campaign"
+            :items="campaigns"
+          />
         </v-col>
         <v-col cols="auto" class="ml-auto mt-n6">
           <v-btn x-small block outlined style="margin-bottom: 2px" @click="flavor_dialog = true">
@@ -260,9 +275,9 @@
               </v-btn>
             </template>
             <cc-titled-panel :title="t.Name">
-              {{ t.Description }}
+              <p class="text--text" v-html="t.Description" />
               <v-divider class="my-2" />
-              <v-btn block outlined color="error" @click="npc.RemoveTemplate(t)">
+              <v-btn block outlined color="error" class="mb-2" @click="npc.RemoveTemplate(t)">
                 REMOVE TEMPLATE
               </v-btn>
             </cc-titled-panel>
@@ -338,7 +353,6 @@ import { NpcFeature, NpcTemplate } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
 
-
 export default Vue.extend({
   name: 'npc-card',
   components: { EditableAttribute, FeatureSelector, TemplateSelector },
@@ -369,7 +383,7 @@ export default Vue.extend({
     npc() {
       const store = getModule(NpcStore, this.$store)
       return store.Npcs.find(x => x.ID === this.id)
-    }
+    },
   },
   methods: {
     equip(feat: NpcFeature) {

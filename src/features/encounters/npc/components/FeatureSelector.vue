@@ -3,6 +3,8 @@
     <cc-selector-table
       :items="availableFeatures"
       :headers="headers"
+      no-filter
+      item-type-fallback="NpcFeature"
       @equip="$emit('equip', $event)"
     >
       <div slot="extra-item" class="mt-2">

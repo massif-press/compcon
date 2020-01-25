@@ -250,13 +250,31 @@
             <legend class="heading h3 primary--text mx-2">FORCES</legend>
             <div v-if="forces.enemy.length" class="caption ml-2">ENEMY</div>
             <v-divider v-if="forces.enemy.length" />
-            <npc-chip v-for="n in forces.enemy" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="(n, i) in forces.enemy"
+              :key="`fe_${n.ID}_i`"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+              @clone="encounter.AddNpc(n, 'Enemy')"
+            />
             <div v-if="forces.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
-            <npc-chip v-for="n in forces.allied" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="(n, i) in forces.allied"
+              :key="`fa_${n.ID}_i`"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+              @clone="encounter.AddNpc(n, 'Ally')"
+            />
             <div v-if="forces.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
-            <npc-chip v-for="n in forces.neutral" :key="n.ID" :npc="n" @remove="remove(n)" />
+            <npc-chip
+              v-for="(n, i) in forces.neutral"
+              :key="`fn_${n.ID}_i`"
+              :npc="n"
+              @remove="encounter.RemoveNpc(n)"
+              @clone="encounter.AddNpc(n, 'Neutral')"
+            />
             <div class="mx-6">
               <v-btn
                 color="primary"
@@ -278,26 +296,29 @@
             <div v-if="reinforcements.enemy.length" class="caption ml-2">ENEMY</div>
             <v-divider v-if="forces.enemy.length" />
             <npc-chip
-              v-for="n in reinforcements.enemy"
-              :key="n.ID"
+              v-for="(n, i) in reinforcements.enemy"
+              :key="`re_${n.ID}_i`"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
+              @clone="encounter.AddReinforcement(n, 'Enemy')"
             />
             <div v-if="reinforcements.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
             <npc-chip
-              v-for="n in reinforcements.allied"
-              :key="n.ID"
+              v-for="(n, i) in reinforcements.allied"
+              :key="`ra_${n.ID}_i`"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
+              @clone="encounter.AddReinforcement(n, 'Ally')"
             />
             <div v-if="reinforcements.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
             <npc-chip
-              v-for="n in reinforcements.neutral"
-              :key="n.ID"
+              v-for="(n, i) in reinforcements.neutral"
+              :key="`rn_${n.ID}_i`"
               :npc="n"
-              @remove="removeRF(n)"
+              @remove="encounter.RemoveReinforcement(n)"
+              @clone="encounter.AddReinforcement(n, 'Neutral')"
             />
             <div class="mx-6">
               <v-btn
@@ -342,7 +363,7 @@ import NpcChip from './NpcChip.vue'
 import NpcSelector from './NpcSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import { EncounterStore, CompendiumStore } from '@/store'
-import { EncounterSide, Npc } from '@/class'
+import { Npc, EncounterSide } from '@/class'
 
 export default Vue.extend({
   name: 'encounter-card',
@@ -380,16 +401,16 @@ export default Vue.extend({
     },
     forces() {
       return {
-        enemy: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Enemy),
-        allied: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Ally),
-        neutral: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Neutral),
+        enemy: this.encounter.Npcs('Enemy'),
+        allied: this.encounter.Npcs('Ally'),
+        neutral: this.encounter.Npcs('Neutral'),
       }
     },
     reinforcements() {
       return {
-        enemy: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Enemy),
-        allied: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Ally),
-        neutral: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Neutral),
+        enemy: this.encounter.Reinforcements('Enemy'),
+        allied: this.encounter.Reinforcements('Ally'),
+        neutral: this.encounter.Reinforcements('Neutral'),
       }
     },
   },
@@ -401,21 +422,13 @@ export default Vue.extend({
           x => x.name === this.encounter.Environment
         ).description
     },
-    addNpc(npc: Npc) {
-      this.encounter.Npcs.push(npc)
+    addNpc(event: { npc: Npc; side: EncounterSide }) {
+      this.encounter.AddNpc(event.npc, event.side)
       this.$refs.npcDialog.hide()
     },
-    addReinforcement(npc: Npc) {
-      this.encounter.Reinforcements.push(npc)
+    addReinforcement(event: { npc: Npc; side: EncounterSide }) {
+      this.encounter.AddReinforcement(event.npc, event.side)
       this.$refs.reinforcementDialog.hide()
-    },
-    remove(npc: Npc) {
-      const idx = this.encounter.Npcs.findIndex(x => x.ID === npc.ID)
-      if (idx > -1) this.encounter.Npcs.splice(idx, 1)
-    },
-    removeRF(npc: Npc) {
-      const idx = this.encounter.Reinforcements.findIndex(x => x.ID === npc.ID)
-      if (idx > -1) this.encounter.Reinforcements.splice(idx, 1)
     },
   },
 })

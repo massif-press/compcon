@@ -26,17 +26,17 @@
     <v-row dense class="mr-2 mt-n1 ml-2">
       <v-col v-if="forces.enemy.length" class="caption ml-2">
         <div class="stat-text red--text">ENEMY</div>
-        <npc-chip v-for="n in forces.enemy" :key="n.ID" :npc="n" readonly />
+        <npc-chip v-for="(n, i) in forces.enemy" :key="`fe_${n.ID}_${i}`" :npc="n" readonly />
       </v-col>
       <v-divider v-if="forces.allied.length" vertical />
       <v-col v-if="forces.allied.length" class="caption ml-2">
         <div class="stat-text blue--text">ALLIED</div>
-        <npc-chip v-for="n in forces.allied" :key="n.ID" :npc="n" readonly />
+        <npc-chip v-for="(n, i) in forces.allied" :key="`fa_${n.ID}_${i}`" :npc="n" readonly />
       </v-col>
       <v-divider v-if="forces.allied.length || forces.enemy.length" vertical />
       <v-col v-if="forces.neutral.length" class="caption ml-2">
         <div class="stat-text grey--text text--darken-1">NEUTRAL</div>
-        <npc-chip v-for="n in forces.neutral" :key="n.ID" :npc="n" readonly />
+        <npc-chip v-for="(n, i) in forces.neutral" :key="`fn_${n.ID}_${i}`" :npc="n" readonly />
       </v-col>
     </v-row>
     <v-row dense no-gutters class="my-2">
@@ -47,17 +47,32 @@
     <v-row dense class="mr-2 mt-n1 ml-2">
       <v-col v-if="reinforcements.enemy.length" class="caption ml-2">
         <div class="stat-text red--text">ENEMY</div>
-        <npc-chip v-for="n in reinforcements.enemy" :key="n.ID" :npc="n" readonly />
+        <npc-chip
+          v-for="(n, i) in reinforcements.enemy"
+          :key="`re_${n.ID}_${i}`"
+          :npc="n"
+          readonly
+        />
       </v-col>
       <v-divider v-if="reinforcements.allied.length" vertical />
       <v-col v-if="reinforcements.allied.length" class="caption ml-2">
         <div class="stat-text blue--text">ALLIED</div>
-        <npc-chip v-for="n in reinforcements.allied" :key="n.ID" :npc="n" readonly />
+        <npc-chip
+          v-for="(n, i) in reinforcements.allied"
+          :key="`ra_${n.ID}_${i}`"
+          :npc="n"
+          readonly
+        />
       </v-col>
       <v-divider v-if="reinforcements.allied.length || reinforcements.enemy.length" vertical />
       <v-col v-if="reinforcements.neutral.length" class="caption ml-2">
         <div class="stat-text grey--text text--darken-1">NEUTRAL</div>
-        <npc-chip v-for="n in reinforcements.neutral" :key="n.ID" :npc="n" readonly />
+        <npc-chip
+          v-for="(n, i) in reinforcements.neutral"
+          :key="`rn_${n.ID}_${i}`"
+          :npc="n"
+          readonly
+        />
       </v-col>
     </v-row>
     <div v-if="!readonly">
@@ -93,16 +108,16 @@ export default Vue.extend({
   computed: {
     forces() {
       return {
-        enemy: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Enemy),
-        allied: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Ally),
-        neutral: this.encounter.Npcs.filter(x => x.Side === EncounterSide.Neutral),
+        enemy: this.encounter.Npcs('Enemy'),
+        allied: this.encounter.Npcs('Ally'),
+        neutral: this.encounter.Npcs('Neutral'),
       }
     },
     reinforcements() {
       return {
-        enemy: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Enemy),
-        allied: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Ally),
-        neutral: this.encounter.Reinforcements.filter(x => x.Side === EncounterSide.Neutral),
+        enemy: this.encounter.Reinforcements('Enemy'),
+        allied: this.encounter.Reinforcements('Ally'),
+        neutral: this.encounter.Reinforcements('Neutral'),
       }
     },
   },
