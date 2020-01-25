@@ -20,7 +20,7 @@ jest.mock('@/store', () => ({
 const testCounterData: ICounterData = {
   id: 'test',
   name: 'Test counter',
-  defaultValue: 1,
+  default_value: 1,
   min: 1,
   max: 6
 }
