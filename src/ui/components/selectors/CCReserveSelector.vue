@@ -6,7 +6,7 @@
     />
     <v-tabs background-color="primary" hide-slider grow>
       <v-tab>
-        <b>Narrative Reserve</b>
+        <b>Resources Reserve</b>
       </v-tab>
       <v-tab>
         <b>Tactical Reserve</b>
@@ -25,11 +25,11 @@
       </v-tab>
       <v-tab-item>
         <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Narrative']" :key="`item_${r.ID}`" cols="6" class="px-4">
+          <v-col v-for="r in reserves['Resources']" :key="`item_${r.ID}`" cols="6" class="px-4">
             <reserve-item
               :reserve="r"
               icon="cci-pilot"
-              color="reserve--narrative"
+              color="reserve--resources"
               class="ma-2"
               @click="add(r)"
             />

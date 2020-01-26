@@ -109,7 +109,7 @@ export default Vue.extend({
     addReserve() {
       let nr = new Reserve({
         id: 'reserve_boughttime',
-        type: 'Narrative',
+        type: 'Resources',
         name: 'Connection',
         label: '',
         description: '',

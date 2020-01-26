@@ -10,6 +10,9 @@
     :disabled="disabled"
     @click="dialog = true"
   >
+    <v-icon style="position: absolute; left: -10px">
+      $vuetify.icons.{{ action.action_type }}
+    </v-icon>
     <div style="position: absolute; right: 0">
       <v-divider dark vertical class="ml-2 mr-1" />
       <v-icon class="fadeSelect" @click.stop="infoDialog = true">mdi-help-circle-outline</v-icon>
