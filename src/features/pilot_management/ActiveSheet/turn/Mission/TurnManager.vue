@@ -154,15 +154,15 @@
           <v-row v-if="!bracedCooldown && !overcharged" key="a-r4">
             <action-button action-id="overcharge" @click="$refs.overcharge.show()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'redundantrepair')" key="a-r5">
-            <action-button action-id="redundantrepair" @click="redundantRepair()" />
+          <v-row v-if="pilot.has('reserve', 'redundant_repair')" key="a-r5">
+            <action-button action-id="redundant_repair" @click="redundantRepair()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'deployableshield')" key="a-r6">
-            <action-button action-id="deployableshield" @click="deployableShield()" />
+          <v-row v-if="pilot.has('reserve', 'deployable_shield')" key="a-r6">
+            <action-button action-id="deployable_shield" @click="deployableShield()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'corebattery')" key="a-r7">
+          <v-row v-if="pilot.has('reserve', 'core_battery')" key="a-r7">
             <action-button
-              action-id="corebattery"
+              action-id="core_battery"
               :disabled="mech.CurrentCoreEnergy > 0"
               @click="coreBattery()"
             />
@@ -211,16 +211,16 @@
         <v-row v-if="!bracedCooldown && !overcharged" key="a-r11" justify="center" dense>
           <action-button action-id="overcharge" @click="$refs.overcharge.show()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'redundantrepair')" key="a-r12" justify="center" dense>
-          <action-button action-id="redundantrepair" @click="redundantRepair()" />
+        <v-row v-if="pilot.has('reserve', 'redundant_repair')" key="a-r12" justify="center" dense>
+          <action-button action-id="redundant_repair" @click="redundantRepair()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'deployableshield')" key="a-r13" justify="center" dense>
-          <action-button action-id="deployableshield" @click="deployableShield()" />
+        <v-row v-if="pilot.has('reserve', 'deployable_shield')" key="a-r13" justify="center" dense>
+          <action-button action-id="deployable_shield" @click="deployableShield()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'corebattery')" key="a-r14" justify="center" dense>
+        <v-row v-if="pilot.has('reserve', 'core_battery')" key="a-r14" justify="center" dense>
           <action-button
-            action-id="corebattery"
-            :disabled="mech.CurrentCoreEnergy"
+            action-id="core_battery"
+            :disabled="mech.CurrentCoreEnergy > 0"
             @click="coreBattery()"
           />
         </v-row>
@@ -461,18 +461,18 @@ export default Vue.extend({
       }
     },
     redundantRepair() {
-      const rridx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_redundantrepair')
+      const rridx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_redundant_repair')
       if (rridx > -1) this.pilot.Reserves[rridx].Used = true
       this.$refs.stabilize.show(true)
     },
     deployableShield() {
       this.history.push({ field: 'depshield', val: false })
-      const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_deployableshield')
+      const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_deployable_shield')
       if (dsidx > -1) this.pilot.Reserves[dsidx].Used = true
     },
     coreBattery() {
       this.history.push({ field: 'corebattery', val: false })
-      const cbidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_corebattery')
+      const cbidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_core_battery')
       if (cbidx > -1) this.pilot.Reserves[cbidx].Used = true
       this.mech.CurrentCoreEnergy = 1
     },

@@ -106,7 +106,7 @@ enum HASE {
 }
 
 enum ReserveType {
-  Narrative = 'Narrative',
+  Resources = 'Resources',
   Tactical = 'Tactical',
   Mech = 'Mech',
   Project = 'Project',

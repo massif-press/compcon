@@ -99,7 +99,7 @@ export default Vue.extend({
     addReserve() {
       let nr = new Reserve({
         id: 'reserve_boughttime',
-        type: 'Narrative',
+        type: 'Resources',
         name: 'Bought Time',
         label: '',
         description: 'More time and breathing room for you and your group to act',

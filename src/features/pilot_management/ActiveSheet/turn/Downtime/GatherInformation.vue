@@ -133,7 +133,7 @@ export default Vue.extend({
     addReserve() {
       let nr = new Reserve({
         id: 'reserve_gatherinfo',
-        type: 'Narrative',
+        type: 'Resources',
         name: 'Information',
         label: '',
         description: '',

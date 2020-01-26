@@ -109,7 +109,7 @@ export default Vue.extend({
     addReserve() {
       let nr = new Reserve({
         id: 'reserve_scroungebarter',
-        type: 'Narrative',
+        type: 'Resources',
         name: 'Asset',
         label: '',
         description: '',
