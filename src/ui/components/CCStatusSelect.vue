@@ -20,10 +20,7 @@
         </template>
         <v-card>
           <v-card-text>
-            <ul v-if="Array.isArray(item.effects)">
-              <li v-for="e in item.effects" :key="e" v-html="e" />
-            </ul>
-            <span v-else>{{ item.effects }}</span>
+            <p class='flavor-text' v-html="item.effects" />
           </v-card-text>
         </v-card>
       </v-menu>
