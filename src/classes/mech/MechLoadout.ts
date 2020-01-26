@@ -182,7 +182,9 @@ class MechLoadout extends Loadout {
         if (licenseIndex > -1) {
           requirements[licenseIndex].items.push(item.Name)
         } else {
-          requirements.push(item.RequiredLicense)
+          if (item.RequiredLicense.name !== '' && item.RequiredLicense.rank > 0) {
+            requirements.push(item.RequiredLicense)
+          }
         }
       }
     })
