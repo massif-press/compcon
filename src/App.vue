@@ -2,7 +2,6 @@
   <v-app id="app">
     <global-confirm ref="confirm" />
     <global-notifier ref="notifier" />
-    <nav />
     <v-slide-x-transition mode="out-in">
       <router-view />
     </v-slide-x-transition>
