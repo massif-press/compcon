@@ -5,6 +5,12 @@ declare interface IImageContainer {
   Image: string
 }
 
+interface INotification {
+  id: string
+  type: string,
+  text: string
+}
+
 declare interface IDiceStats {
   min: number
   max: number

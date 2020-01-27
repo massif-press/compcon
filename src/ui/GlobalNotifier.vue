@@ -1,20 +1,16 @@
 <template>
-  <transition-group name="snackFade" tag="div" id="notifier" class="container notifierContainer">
+  <transition-group id="notifier" name="snackFade" tag="div" class="container notifierContainer">
     <v-row
-      class="mb-1 align-center snackFade"
       v-for="notification in shownNotifications"
       :key="notification.id"
+      class="mb-1 align-end snackFade"
     >
-      <v-snackbar
-        @input="onNotificationInput($event, notification.id)"
-        :value="true"
-        :color="colorFromType(notification.type)"
-      >
-        {{ notification.text }}
-        <v-btn class="ml-auto" dark text @click="dismissNotification(notification.id)">
-          Dismiss
-        </v-btn>
-      </v-snackbar>
+      <notification-snackbar
+        :notification="notification"
+        :timeout="5000"
+        @closed="hideNotification(notification.id)"
+        @dismiss="hideNotification(notification.id)"
+      />
     </v-row>
   </transition-group>
 </template>
@@ -25,17 +21,11 @@ import Component from 'vue-class-component'
 
 import uuid from 'uuid/v4'
 
-enum NotificationType {
-  Achievement, Confirmation, Error
-}
+import NotificationSnackbar from './NotificationSnackbar.vue'
 
-interface INotification {
-  id: string
-  type: NotificationType,
-  text: string
-}
-
-@Component
+@Component({
+  components: { NotificationSnackbar }
+})
 export default class GlobalNotifier extends Vue {
   // TODO: move this to the store
   public notifications: INotification[] = []
@@ -43,9 +33,8 @@ export default class GlobalNotifier extends Vue {
   // notifications currently being shown to the user
   private shownNotifications: INotification[] = []
 
-  // public method to create a notification
-  public notify(text: string, type: NotificationType = NotificationType.Confirmation) {
-    console.log(text, type)
+  // public method to create a notification, will be assigned to the global Vue when app starts
+  public notify(text: string, type: string) {
     const notification = { id: uuid(), type, text }
 
     this.notifications = [...this.notifications, notification]
@@ -53,27 +42,9 @@ export default class GlobalNotifier extends Vue {
     this.$forceUpdate()
   }
 
-  private dismissNotification(id: string) {
+  private hideNotification(id: string) {
     this.shownNotifications = this.shownNotifications.filter(notif => notif.id !== id)
   }
-
-  private onNotificationInput(event, id) {
-    if (event === false) this.dismissNotification(id)
-  }
-
-  private colorFromType(type: string) {
-    switch (type) {
-      case 'Error':
-        return 'error'
-      case 'Confirmation':
-        return 'info'
-      case 'Achievement':
-        return 'success'
-      default:
-        return null;
-    }
-  }
-
 
 }
 </script>
@@ -86,12 +57,6 @@ export default class GlobalNotifier extends Vue {
   left: 8px;
   right: 8px;
   bottom: 8px;
-}
-
-.notifierContainer >>> .v-snack {
-  pointer-events: all;
-  position: static;
-  margin: 0 auto;
 }
 
 .snackFade {
