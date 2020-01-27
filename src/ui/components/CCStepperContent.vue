@@ -32,14 +32,14 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCStepperContent extends Vue{
 
   @Prop({ type: Boolean, required: false, })
-  noConfirm?: boolean
+  readonly noConfirm?: boolean
   @Prop({ type: Boolean, required: false, })
-  back?: boolean
+  readonly back?: boolean
 
   @Prop({ type: Boolean, required: true, })
-  complete!: boolean
+  readonly complete!: boolean
   @Prop({ type: String, required: true, })
-  exit!: string
+  readonly exit!: string
 
 }
 </script>

@@ -20,14 +20,14 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component({ name: 'cc-rating', })
 export default class CCRating extends Vue {
   @Prop({ type: Number, required: true, })
-  model!: number
+  readonly model!: number
   @Prop({ type: Number, required: false, default: 6, })
-  max: number
+  readonly max: number
 
   @Prop({ type: Boolean, required: false, })
-  dense?: boolean
+  readonly dense?: boolean
   @Prop({ type: String, required: false, default: 'primary' })
-  color: string
+  readonly color: string
 }
 
 export { CCRating as CCRanking }

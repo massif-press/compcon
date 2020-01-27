@@ -47,16 +47,16 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component({ name: 'cc-major-btn' })
 export default class CCMajorButton extends Vue {
   @Prop({ type: String, required: true, })
-  name!: string
+  readonly name!: string
 
   @Prop({ type: String, required: false, default: '', })
-  icon: string
+  readonly icon: string
 
   @Prop({ type: Boolean, required: false, })
-  small?: boolean
+  readonly small?: boolean
 
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
 }
 </script>
 
