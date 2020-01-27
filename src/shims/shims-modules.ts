@@ -4,14 +4,6 @@ declare module '*.vue' {
   export default Vue
 }
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $notifier: {
-      notify: (text: string) => void // TODO: define notification type
-    }
-  }
-}
-
 declare module 'vue-mousetrap'
 
 declare module 'gist-client'
