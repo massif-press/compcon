@@ -3,23 +3,34 @@
     <v-snackbar
       v-model="isOpen"
       :value="true"
-      :color="colorFromType(notification.type)"
-      :timeout="timeout"
+      :color="notificationVariant && notificationVariant.color"
+      :timeout="interacted ? timeout : 0"
+      @mouseover="onInteract"
+      ref="snackbar"
     >
-      <v-icon dark prepend class="mr-2">{{ iconFromType(notification.type) }}</v-icon>
-      {{ notification.text }}
+      <v-icon dark prepend class="mr-2">
+        {{ notificationVariant && notificationVariant.icon }}
+      </v-icon>
+      <span
+        v-if="notificationVariant && notificationVariant.prefix"
+        v-html="notificationVariant && notificationVariant.prefix"
+      />
+      &nbsp;
+      <span v-html="notification.text" />
       <v-btn class="ml-auto" dark text @click="$emit('dismiss')">
         Dismiss
       </v-btn>
-      <v-progress-linear
-        v-if="timeout > 0"
-        ref="progress"
-        v-model="timeoutValue"
-        absolute
-        bottom
-        color="white"
-        background-opacity="0"
-      />
+      <v-fade-transition>
+        <v-progress-linear
+          v-if="timeout > 0 && !interacted"
+          ref="progress"
+          v-model="timeoutValue"
+          absolute
+          bottom
+          color="white"
+          background-opacity="0"
+        />
+      </v-fade-transition>
     </v-snackbar>
   </div>
 </template>
@@ -27,18 +38,45 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { Prop, Watch } from 'vue-property-decorator'
+import { Prop, Watch, Ref } from 'vue-property-decorator'
+import { VSnackbar } from 'vuetify/lib'
+
+const notificationVariants: { [key: string]: INotificationVariant } = {
+  'error': {
+    color: 'error',
+    icon: '$error',
+    prefix: '<b>ERROR:</b>',
+    timeout: 0,
+  },
+  'confirmation': {
+    color: 'secondary',
+    icon: '$info',
+    timeout: 4000,
+  },
+  'achievement': {
+    color: 'success',
+    icon: 'mdi-trophy',
+    prefix: '<b>Achivement Unlocked:</b>',
+    timeout: 6000,
+  }
+}
 
 @Component
 export default class Notification extends Vue {
 
   @Prop({ type: Object, required: true }) notification: INotification
-  @Prop({ type: Number, required: true }) timeout: number
+
+  // utility function that sets the transition-duration of the progress-linear component
+  @Ref('progress') progress!: Vue
+
+  private setProgressTransition(duration: number) {
+    const el = this.progress.$el as HTMLElement
+    el.style.transitionDuration = `${duration}ms`
+  }
 
   timeoutValue: number = 100
   private async doTimeoutProgress() {
-    const el = (this.$refs.progress as Vue).$el as HTMLElement
-    el.style.transitionDuration = `${this.timeout}ms`
+    this.setProgressTransition(this.timeout)
     await this.$nextTick()
     this.timeoutValue = 0
   }
@@ -56,37 +94,30 @@ export default class Notification extends Vue {
     }
   }
 
-  private colorFromType(type: string) {
-    switch (type) {
-      case 'Error':
-        return 'error'
-      case 'Confirmation':
-        return 'info'
-      case 'Achievement':
-        return 'success'
-      default:
-        return null;
-    }
+  get notificationVariant() {
+    return notificationVariants[this.notification.variant] ?? notificationVariants['confirmation']
   }
 
-  private iconFromType(type: string) {
-    switch (type) {
-      case 'Error':
-        return '$error'
-      case 'Confirmation':
-        return '$info'
-      case 'Achievement':
-        return 'mdi-trophy'
-      default:
-        return null;
-    }
+  get timeout() {
+    return this.notificationVariant.timeout ?? 6000
   }
+
+  @Ref('snackbar') snackbar!: { setTimeout: () => void }
+  interacted = false;
+  async onInteract() {
+    // stop timeout if interaction detected
+    this.setProgressTransition(200)
+    await this.$nextTick()
+    this.interacted = true
+    this.snackbar.setTimeout()
+  }
+
 }
 </script>
 
 <style scoped>
 .notificationContainer {
-  margin: 0 auto;
+  margin-left: auto;
 }
 
 .notificationContainer >>> .v-snack {

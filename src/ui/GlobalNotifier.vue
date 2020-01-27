@@ -1,18 +1,22 @@
 <template>
-  <transition-group id="notifier" name="snackFade" tag="div" class="container notifierContainer">
-    <v-row
-      v-for="notification in shownNotifications"
-      :key="notification.id"
-      class="mb-1 align-end snackFade"
+  <v-container>
+    <transition-group
+      id="notifier"
+      name="snackFade"
+      tag="div"
+      class="d-flex flex-column align-right notifierContainer"
     >
       <notification-snackbar
+        v-for="notification in shownNotifications"
+        :key="notification.id"
+        class="mb-1 align-end snackFade"
         :notification="notification"
         :timeout="5000"
         @closed="hideNotification(notification.id)"
         @dismiss="hideNotification(notification.id)"
       />
-    </v-row>
-  </transition-group>
+    </transition-group>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -34,8 +38,8 @@ export default class GlobalNotifier extends Vue {
   private shownNotifications: INotification[] = []
 
   // public method to create a notification, will be assigned to the global Vue when app starts
-  public notify(text: string, type: string) {
-    const notification = { id: uuid(), type, text }
+  public notify(text: string, variant: string) {
+    const notification = { id: uuid(), variant, text }
 
     this.notifications = [...this.notifications, notification]
     this.shownNotifications = [...this.shownNotifications, notification]
@@ -63,6 +67,7 @@ export default class GlobalNotifier extends Vue {
   transition-property: opacity, transform;
   transition-duration: 0.15s;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transform-origin: center right;
 }
 
 .snackFade-enter,
