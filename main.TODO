@@ -28,6 +28,10 @@ NPC etc:
 
 --- post v-2 ---
 Next Steps:
+  ☐ Break up global dec file
+  ☐ Refactor ActiveState
+
+
   ☐ Renders for itch.io
   ☐ Allow user to set save data location
   ☐ Split Pilot, Mech into subclasses

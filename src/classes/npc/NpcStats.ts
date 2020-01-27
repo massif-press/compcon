@@ -75,7 +75,7 @@ export class NpcStats {
     this._stats.hp = max.Stats.hp
     this._stats.evade = max.Stats.evade
     this._stats.edef = max.Stats.edef
-    this._stats.heatcap = max.Stats.heatcap
+    this._stats.heatcap = 0
     this._stats.speed = max.Stats.speed
     this._stats.sensor = max.Stats.sensor
     this._stats.save = max.Stats.save

@@ -76,6 +76,11 @@ export default Vue.extend({
   data: () => ({
     step: 'I',
   }),
+  watch: {
+    pilotRank(newval, oldval) {
+      if (newval < oldval) this.step = 'I'.repeat(this.pilotRank + 1)
+    },
+  },
   created() {
     if (this.pilotRank === 1) this.step = 'II'
     else if (this.pilotRank > 1) this.step = 'III'

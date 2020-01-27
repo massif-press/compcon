@@ -45,7 +45,7 @@ import SlotCardBase from '../_SlotCardBase.vue'
 import EquipmentOptions from '../_EquipmentOptions.vue'
 
 export default Vue.extend({
-  name: 'system-slot-card',
+  name: 'mod-equipped-card',
   components: {
     SlotCardBase,
     EquipmentOptions,
