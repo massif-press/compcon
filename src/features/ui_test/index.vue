@@ -162,10 +162,10 @@
     <v-container>
       <v-row>
         <v-col cols="3">
-          <v-text-field v-model="notificationText" />
+          <v-text-field v-model="notificationText" class="pt-0 mt-0" />
         </v-col>
         <v-col cols="3">
-          <v-select :items="notificationTypes" v-model="notificationType" />
+          <v-select v-model="notificationType" class="pt-0 mt-0" :items="notificationTypes" />
         </v-col>
         <v-col cols="2">
           <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
@@ -241,7 +241,7 @@ export default Vue.extend({
   name: 'ui-test',
   data: () => ({
     notificationText: '',
-    notificationTypes: ["Achievement", "Confirmation", "Error"],
+    notificationTypes: ["achievement", "confirmation", "error"],
     notificationType: "Confirmation"
   }),
   methods: {

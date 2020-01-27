@@ -5,9 +5,15 @@ declare interface IImageContainer {
   Image: string
 }
 
+interface INotificationVariant {
+  color: string
+  icon: string
+  prefix?: string
+  timeout?: number
+}
 interface INotification {
   id: string
-  type: string,
+  variant: string
   text: string
 }
 
