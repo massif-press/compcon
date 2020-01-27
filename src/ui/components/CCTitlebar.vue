@@ -16,10 +16,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
+import GetColorMixin from '@/mixins/getColor'
 
 @Component({ name: 'cc-titlebar', })
-export default class CCTitlebar extends Vue {
+export default class CCTitlebar extends Mixins(GetColorMixin) {
 
   @Prop({ type: Boolean, required: false, })
   readonly fixed?: boolean 
