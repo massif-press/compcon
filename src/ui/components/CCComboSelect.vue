@@ -21,23 +21,24 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch, Mixins } from 'vue-property-decorator'
+import GetColorMixin from '@/mixins/getColor'
 
-@Component({ name: 'cc-short-string-editor', })
-export default class CCComboSelect extends Vue {
+@Component({ name: 'cc-combo-select', })
+export default class CCComboSelect extends Mixins(GetColorMixin) {
 
   @Prop({ type: Array, required: true, })
   readonly items!: { 
-    text: string | number | object
-    value: string | number | object
+    text: string | number | object,
+    value: string | number | object,
   }[]
   
-  sel = ''
+  sel: string | number | {value: any} = ''
   menu = false
   
   @Watch('sel')
   onSelChange() {
-    const s = typeof this.sel === 'string' ? this.sel : this.sel.value
+    const s = typeof this.sel === 'object' ? this.sel.value : this.sel
     this.$emit('set', s)
   }
 }

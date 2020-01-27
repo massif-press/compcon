@@ -20,14 +20,13 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { mixins } from 'vue-class-component'
+import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
 import GetColorMixin from '@/mixins/getColor'
 import { Route } from 'vue-router'
 
 
 @Component({ name: 'cc-btn', })
-export default class CCBtn extends mixins(GetColorMixin) {
+export default class CCBtn extends Mixins(GetColorMixin) {
   @Prop({ type: Boolean, required: false, default: false, }) 
   readonly large: boolean
   @Prop({ type: Boolean, required: false, default: false, })
