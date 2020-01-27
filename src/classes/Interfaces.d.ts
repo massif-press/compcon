@@ -15,6 +15,7 @@ interface INotification {
   id: string
   variant: string
   text: string
+  onClick?: () => void
 }
 
 declare interface IDiceStats {

@@ -38,8 +38,8 @@ export default class GlobalNotifier extends Vue {
   private shownNotifications: INotification[] = []
 
   // public method to create a notification, will be assigned to the global Vue when app starts
-  public notify(text: string, variant: string) {
-    const notification = { id: uuid(), variant, text }
+  public notify(text: string, variant: string, onClick?: () => void) {
+    const notification = { id: uuid(), variant, text, onClick }
 
     this.notifications = [...this.notifications, notification]
     this.shownNotifications = [...this.shownNotifications, notification]
