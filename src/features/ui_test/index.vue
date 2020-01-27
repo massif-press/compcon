@@ -260,7 +260,7 @@ export default Vue.extend({
       console.log('dialog 1 confirmed')
     },
     doNotify() {
-      this.$notify(this.notificationText, this.notificationType)
+      this.$notify(this.notificationText, this.notificationType, () => console.log('yup, you clicked the notification!', this))
     }
   },
 })

@@ -1,11 +1,14 @@
 <template>
   <div class="notificationContainer">
     <v-snackbar
+      v-ripple="isClickable"
       v-model="isOpen"
+      :style="{ cursor: isClickable ? 'pointer' : 'inherit' }"
       :value="true"
       :color="notificationVariant && notificationVariant.color"
       :timeout="interacted ? timeout : 0"
       @mouseover="onInteract"
+      @click="onClick"
       ref="snackbar"
     >
       <v-icon dark prepend class="mr-2">
@@ -105,11 +108,27 @@ export default class Notification extends Vue {
   @Ref('snackbar') snackbar!: { setTimeout: () => void }
   interacted = false;
   async onInteract() {
+    if (this.interacted || this.timeout === 0) return;
     // stop timeout if interaction detected
-    this.setProgressTransition(200)
+    this.setProgressTransition(500)
+    // wait for next tick so that the transition duration change takes
     await this.$nextTick()
+    // this will set `this.timeout` to 0
     this.interacted = true
+    // need to execute this method of the v-snackbar object to get it to actually take the timeout change
+    // tightly couples, but oh well
     this.snackbar.setTimeout()
+  }
+
+  // 
+  get isClickable() {
+    return typeof this.notification.onClick === 'function'
+  }
+
+  onClick() {
+    if (!this.isClickable) return
+    this.notification.onClick()
+    this.$emit('dismiss')
   }
 
 }
@@ -123,6 +142,11 @@ export default class Notification extends Vue {
 .notificationContainer >>> .v-snack {
   pointer-events: all;
   position: static;
+  /* need to unset all relative pos. values as v-ripple sets position to relative temporarily */
+  bottom: unset;
+  right: unset;
+  left: unset;
+  top: unset;
   border-radius: 0px;
 }
 
