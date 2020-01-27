@@ -9,6 +9,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCSlashes extends Vue {
   
   @Prop({ type: [String, Number], required: false, default: '', })
-  size: string | number 
+  readonly size: string | number 
 }
 </script>

@@ -18,7 +18,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCSimpleSelect extends Vue {
 
   @Prop({ type: Array, required: true, validator: (item) => item.text && item.text.toString })
-  items!: { 
+  readonly items!: { 
     text: string | number | object
     value: string | number | object
   }[]

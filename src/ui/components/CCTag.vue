@@ -20,15 +20,15 @@ import { Pilot, Tag } from '@/class'
 @Component({ name: 'cc-tag', })
 export default class CCTag extends Vue {
   @Prop({ type: Boolean, required: false, })
-  small?: boolean 
+  readonly small?: boolean 
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
 
   @Prop({ type: Object, required: true, })
-  tag!: Tag
+  readonly tag!: Tag
 
   @Prop({ type: Object, required: false, default: null, })
-  pilot?: Pilot 
+  readonly pilot?: Pilot 
 
   get bonus() {
     if (!this.pilot) return 0

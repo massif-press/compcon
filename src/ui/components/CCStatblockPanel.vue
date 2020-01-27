@@ -26,9 +26,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCStatblockPanel extends Vue {
 
   @Prop({ type: String, required: true, })
-  name!: string
+  readonly name!: string
   
   @Prop({ type: [String, Number], required: true, })
-  value!: string | number
+  readonly value!: string | number
 }
 </script>

@@ -73,11 +73,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCMechStatusAlert extends Vue {
   
   @Prop({ type: String, required: true, })
-  type!: string
+  readonly type!: string
   @Prop({ type: Boolean, })
-  criticalOnly?: boolean
+  readonly criticalOnly?: boolean
   @Prop({ type: Boolean, })
-  hideClear?: boolean
+  readonly hideClear?: boolean
 
   get show() {
     if (!this.criticalOnly) return true

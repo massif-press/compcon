@@ -22,20 +22,20 @@ import { MechEquipment, MechSystem, PilotGear } from '@/class'
 export default class CCItemUses extends Vue{
   
   @Prop({ type: Boolean, })
-  small?: boolean
+  readonly small?: boolean
   @Prop({ type: Boolean, })
-  large?: boolean
+  readonly large?: boolean
   @Prop({ type: String, required: false, default: 'mdi-hexagon-outline', })
-  emptyIcon: string 
+  readonly emptyIcon: string 
   @Prop({ type: String, required: false, default: 'mdi-hexagon-slice-6', })
-  fullIcon: string
+  readonly fullIcon: string
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
 
   @Prop({ type: Object, required: true, validator: (item) => item.MaxUses && item.Uses, })
-  item!: MechEquipment | MechSystem | PilotGear
+  readonly item!: MechEquipment | MechSystem | PilotGear
   @Prop({ type: Number, required: false, default: 0, })
-  bonus: number
+  readonly bonus: number
 
   get max() {
     return this.item.MaxUses + this.bonus

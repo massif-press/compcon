@@ -37,9 +37,9 @@ import { Range } from '@/class'
 @Component({ name: 'cc-range-element' })
 export default class CCRangeElement extends Vue{
   @Prop({ type: Array, required: true, validator: (elem) => elem instanceof Range })
-  range!: Range[]
+  readonly range!: Range[]
 
   @Prop({ type: Boolean, required: false, })
-  small?: boolean
+  readonly small?: boolean
 }
 </script>

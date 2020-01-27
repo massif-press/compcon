@@ -14,7 +14,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCNotification extends Vue{
 
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
     
   model = false
   close() {
