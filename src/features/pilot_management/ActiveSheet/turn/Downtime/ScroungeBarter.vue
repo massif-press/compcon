@@ -62,7 +62,7 @@
                     dense
                     outlined
                   />
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+                  <v-textarea v-model="details" auto-grow rows="1" label="Details" filled />
                 </v-card-text>
               </v-card>
             </v-col>
@@ -109,7 +109,7 @@ export default Vue.extend({
     addReserve() {
       let nr = new Reserve({
         id: 'reserve_scroungebarter',
-        type: 'Narrative',
+        type: 'Resources',
         name: 'Asset',
         label: '',
         description: '',

@@ -56,7 +56,7 @@ export default Vue.extend({
     reserve: '',
     custom_name: '',
     details: '',
-    reserveTypes: ['Narrative', 'Tactical', 'Mech', 'Custom'],
+    reserveTypes: ['Resources', 'Tactical', 'Mech', 'Custom'],
   }),
   computed: {
     reserveComplete() {

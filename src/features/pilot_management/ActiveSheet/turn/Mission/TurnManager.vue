@@ -122,21 +122,21 @@
       </div>
       <div class="overline text-center mt-2 mb-1">&mdash; ACTIONS &mdash;</div>
       <div v-if="mech.IsShutDown" key="a-boot">
-        <action-button v-if="actions >= 2" action-id="bootup" class="mb-1" @click="boot()" />
+        <action-button v-if="actions >= 2" action-id="boot_up" class="mb-1" @click="boot()" />
       </div>
       <div
         v-show="mech.Ejected && !mech.IsShutDown && !mech.Destroyed && !mech.ReactorDestroyed"
       >
         <v-scale-transition group>
           <v-row v-if="actions" key="a-r1" justify="center" dense>
-            <action-button cols="4" action-id="quickactivate" @click="quickAction()" />
+            <action-button cols="4" action-id="activate_quick" @click="quickAction()" />
             <action-button cols="4" action-id="boost" @click="boost()" />
             <action-button cols="4" action-id="hide" @click="hide()" />
             <action-button cols="6" action-id="search" @click="quickAction()" />
             <action-button cols="6" action-id="prepare" @click="setPrepare()" />
           </v-row>
           <v-row v-if="actions >= 2" key="a-r2" justify="center" dense>
-            <action-button action-id="mount" name-override="Remount Mech" @click="remount()" />
+            <action-button action-id="mount_dismount" name-override="Remount Mech" @click="remount()" />
             <action-button
               v-if="pilot.has('reserve', 'bombardment')"
               action-id="bombardment"
@@ -144,7 +144,7 @@
             />
             <action-button cols="6" action-id="fight" @click="fullAction()" />
             <action-button cols="6" action-id="jockey" @click="fullAction()" />
-            <action-button cols="6" action-id="fullactivate" @click="fullAction()" />
+            <action-button cols="6" action-id="activate_full" @click="fullAction()" />
             <action-button cols="6" action-id="disengage" @click="fullAction()" />
           </v-row>
           <v-row v-if="!braced && !overwatch && !bracedCooldown" key="a-r3" justify="center" dense>
@@ -154,15 +154,15 @@
           <v-row v-if="!bracedCooldown && !overcharged" key="a-r4">
             <action-button action-id="overcharge" @click="$refs.overcharge.show()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'redundantrepair')" key="a-r5">
-            <action-button action-id="redundantrepair" @click="redundantRepair()" />
+          <v-row v-if="pilot.has('reserve', 'redundant_repair')" key="a-r5">
+            <action-button action-id="redundant_repair" @click="redundantRepair()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'deployableshield')" key="a-r6">
-            <action-button action-id="deployableshield" @click="deployableShield()" />
+          <v-row v-if="pilot.has('reserve', 'deployable_shield')" key="a-r6">
+            <action-button action-id="deployable_shield" @click="deployableShield()" />
           </v-row>
-          <v-row v-if="pilot.has('reserve', 'corebattery')" key="a-r7">
+          <v-row v-if="pilot.has('reserve', 'core_battery')" key="a-r7">
             <action-button
-              action-id="corebattery"
+              action-id="core_battery"
               :disabled="mech.CurrentCoreEnergy > 0"
               @click="coreBattery()"
             />
@@ -184,8 +184,8 @@
       <v-scale-transition group>
         <v-row v-if="actions" key="a-r8" justify="center" dense>
           <action-button cols="4" action-id="skirmish" @click="quickAction()" />
-          <action-button cols="4" action-id="quickactivate" @click="quickAction()" />
-          <action-button cols="4" action-id="quicktech" @click="quickAction()" />
+          <action-button cols="4" action-id="activate_quick" @click="quickAction()" />
+          <action-button cols="4" action-id="quick_tech" @click="quickAction()" />
           <action-button cols="4" action-id="boost" @click="boost()" />
           <action-button cols="4" action-id="ram" @click="quickAction()" />
           <action-button cols="4" action-id="grapple" @click="quickAction()" />
@@ -199,8 +199,8 @@
             @click="bombard()"
           />
           <action-button cols="4" action-id="barrage" @click="fullAction()" />
-          <action-button cols="4" action-id="fullactivate" @click="fullAction()" />
-          <action-button cols="4" action-id="fulltech" @click="fullAction()" />
+          <action-button cols="4" action-id="activate_full" @click="fullAction()" />
+          <action-button cols="4" action-id="full_tech" @click="fullAction()" />
           <action-button cols="6" action-id="stabilize" @click="$refs.stabilize.show()" />
           <action-button cols="6" action-id="disengage" @click="fullAction()" />
         </v-row>
@@ -211,16 +211,16 @@
         <v-row v-if="!bracedCooldown && !overcharged" key="a-r11" justify="center" dense>
           <action-button action-id="overcharge" @click="$refs.overcharge.show()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'redundantrepair')" key="a-r12" justify="center" dense>
-          <action-button action-id="redundantrepair" @click="redundantRepair()" />
+        <v-row v-if="pilot.has('reserve', 'redundant_repair')" key="a-r12" justify="center" dense>
+          <action-button action-id="redundant_repair" @click="redundantRepair()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'deployableshield')" key="a-r13" justify="center" dense>
-          <action-button action-id="deployableshield" @click="deployableShield()" />
+        <v-row v-if="pilot.has('reserve', 'deployable_shield')" key="a-r13" justify="center" dense>
+          <action-button action-id="deployable_shield" @click="deployableShield()" />
         </v-row>
-        <v-row v-if="pilot.has('reserve', 'corebattery')" key="a-r14" justify="center" dense>
+        <v-row v-if="pilot.has('reserve', 'core_battery')" key="a-r14" justify="center" dense>
           <action-button
-            action-id="corebattery"
-            :disabled="mech.CurrentCoreEnergy"
+            action-id="core_battery"
+            :disabled="mech.CurrentCoreEnergy > 0"
             @click="coreBattery()"
           />
         </v-row>
@@ -236,22 +236,22 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-row dense>
-                <action-button v-if="actions >= 1" action-id="shutdown" @click="shutDown()" />
+                <action-button v-if="actions >= 1" action-id="shut_down" @click="shutDown()" />
                 <action-button v-if="actions >= 1" action-id="eject" @click="eject()" />
                 <action-button
                   v-if="actions >= 1"
-                  action-id="selfdestruct"
+                  action-id="self_destruct"
                   @click="quickAction()"
                 />
                 <action-button v-if="actions >= 1" action-id="prepare" @click="setPrepare()" />
                 <action-button
                   v-if="actions >= 2"
-                  action-id="mount"
+                  action-id="mount_dismount"
                   name-override="Dismount"
                   @click="dismount()"
                 />
-                <action-button v-if="actions >= 2" action-id="skillcheck" @click="fullAction()" />
-                <action-button v-if="actions >= 2" action-id="improvattack" @click="fullAction()" />
+                <action-button v-if="actions >= 2" action-id="skill_check" @click="fullAction()" />
+                <action-button v-if="actions >= 2" action-id="improvised_attack" @click="fullAction()" />
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -461,18 +461,18 @@ export default Vue.extend({
       }
     },
     redundantRepair() {
-      const rridx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_redundantrepair')
+      const rridx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_redundant_repair')
       if (rridx > -1) this.pilot.Reserves[rridx].Used = true
       this.$refs.stabilize.show(true)
     },
     deployableShield() {
       this.history.push({ field: 'depshield', val: false })
-      const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_deployableshield')
+      const dsidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_deployable_shield')
       if (dsidx > -1) this.pilot.Reserves[dsidx].Used = true
     },
     coreBattery() {
       this.history.push({ field: 'corebattery', val: false })
-      const cbidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_corebattery')
+      const cbidx = this.pilot.Reserves.findIndex(x => x.ID === 'reserve_core_battery')
       if (cbidx > -1) this.pilot.Reserves[cbidx].Used = true
       this.mech.CurrentCoreEnergy = 1
     },
