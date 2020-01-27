@@ -31,9 +31,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component({ name: 'cc-popup' })
 export default class CCPopup extends Vue {
   @Prop({ type: Boolean, required: false, })
-  flat?: boolean
+  readonly flat?: boolean
   @Prop({ type: Boolean, required: false, })
-  icon?: boolean
+  readonly icon?: boolean
 
   dialog = false
   confirm() {

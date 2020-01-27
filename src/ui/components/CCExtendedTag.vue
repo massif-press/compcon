@@ -26,6 +26,6 @@ import { Tag } from '@/class'
 @Component({ name: 'cc-tag' })
 export default class CCExtendedTag extends Vue {
   @Prop({ type: Object, required: true, })
-  tag: Tag
+  readonly tag: Tag
 }
 </script>

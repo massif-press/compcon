@@ -37,10 +37,10 @@ import { Damage } from '@/class'
 export default class CCDamageElement extends Vue {
 
   @Prop({ type: Array, required: true, validator: (prop: Damage[]) => prop.every((dmg) => dmg instanceof Damage) }) 
-  damage: Damage[]
+  readonly damage: Damage[]
 
   @Prop({ type: Boolean, required: false, })
-  small: boolean
+  readonly small: boolean
   
 }
 </script>

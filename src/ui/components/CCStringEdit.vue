@@ -23,13 +23,13 @@ import EditButton from './subcomponents/_EditButton.vue'
 export default class CCStringEdit extends Vue{
   
   @Prop({ type: String, required: false, default: ' ', })
-  label: string
+  readonly label: string
 
   @Prop({ type: String, required: true, })
-  placeholder!: string 
+  readonly placeholder!: string 
     
   @Prop({ type: Boolean, required: false, })
-  dark?: boolean 
+  readonly dark?: boolean 
   
   newString = ''
 
