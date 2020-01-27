@@ -1,22 +1,20 @@
 <template>
-  <v-container>
-    <transition-group
-      id="notifier"
-      name="snackFade"
-      tag="div"
-      class="d-flex flex-column align-right notifierContainer"
-    >
-      <notification-snackbar
-        v-for="notification in shownNotifications"
-        :key="notification.id"
-        class="mb-1 align-end snackFade"
-        :notification="notification"
-        :timeout="5000"
-        @closed="hideNotification(notification.id)"
-        @dismiss="hideNotification(notification.id)"
-      />
-    </transition-group>
-  </v-container>
+  <transition-group
+    id="notifier"
+    name="snackFade"
+    tag="div"
+    class="d-flex flex-column align-right notifierContainer"
+  >
+    <notification-snackbar
+      v-for="notification in shownNotifications"
+      :key="notification.id"
+      class="mb-1 align-end snackFade"
+      :notification="notification"
+      :timeout="5000"
+      @closed="hideNotification(notification.id)"
+      @dismiss="hideNotification(notification.id)"
+    />
+  </transition-group>
 </template>
 
 <script lang="ts">
