@@ -6,7 +6,7 @@ import { ICounterData } from './Counter'
 const testCounterData: ICounterData = {
   id: 'test',
   name: 'Test counter',
-  defaultValue: 1,
+  default_value: 1,
   min: 1,
   max: 6
 }
@@ -18,7 +18,7 @@ describe('Counter', () => {
 
     const counter = new Counter(testCounterData)
 
-    expect(counter.Value).toBe(testCounterData.defaultValue)
+    expect(counter.Value).toBe(testCounterData.default_value)
 
   })
 
@@ -55,7 +55,7 @@ describe('Counter', () => {
 
     counter.Reset()
 
-    expect(counter.Value).toBe(testCounterData.defaultValue)
+    expect(counter.Value).toBe(testCounterData.default_value)
 
   });
 
@@ -64,7 +64,7 @@ describe('Counter', () => {
       new Counter({
         id: 'bad',
         name: 'Bad counter',
-        defaultValue: 0,
+        default_value: 0,
         min: 1
       })
     }).toThrow()
@@ -73,7 +73,7 @@ describe('Counter', () => {
       new Counter({
         id: 'bad',
         name: 'Bad counter',
-        defaultValue: 2,
+        default_value: 2,
         max: 1
       })
     }).toThrow()
