@@ -23,16 +23,16 @@ import { Pilot, Tag } from '@/class'
 @Component({ name: 'cc-tags', })
 export default class CCTags extends Vue {
   @Prop({ type: Boolean, required: false, })
-  small?: boolean
+  readonly small?: boolean
   @Prop({ type: Boolean, required: false, })
-  extended?: boolean
+  readonly extended?: boolean
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
 
   @Prop({ type: Array, required: true, validator: (item) => item instanceof Tag })
-  tags!: Tag[]
+  readonly tags!: Tag[]
 
   @Prop({ type: Object, required: false, default: null, })
-  pilot?: Pilot 
+  readonly pilot?: Pilot 
 }
 </script>

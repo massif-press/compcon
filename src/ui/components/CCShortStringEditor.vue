@@ -28,9 +28,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCShortStringEditor extends Vue {
   
   @Prop({ type: Boolean, required: false, })
-  inline?: boolean
+  readonly inline?: boolean
   @Prop({ type: Boolean, })
-  large?: boolean
+  readonly large?: boolean
   
   newStr = ''
   editing = false

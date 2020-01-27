@@ -21,24 +21,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-short-string-editor',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  data: () => ({
-    sel: '',
-    menu: false,
-  }),
-  watch: {
-    sel() {
-      const s = typeof this.sel === 'string' ? this.sel : this.sel.value
-      this.$emit('set', s)
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-short-string-editor', })
+export default class CCComboSelect extends Vue {
+
+  @Prop({ type: Array, required: true, })
+  readonly items!: { 
+    text: string | number | object
+    value: string | number | object
+  }[]
+  
+  sel = ''
+  menu = false
+  
+  @Watch('sel')
+  onSelChange() {
+    const s = typeof this.sel === 'string' ? this.sel : this.sel.value
+    this.$emit('set', s)
+  }
+}
 </script>

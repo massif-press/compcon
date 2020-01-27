@@ -20,11 +20,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCGmHeader extends Vue{
   
   @Prop({ type: String, required: true, })
-  title!: string
+  readonly title!: string
 
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
   @Prop({ type: Boolean, })
-  flip: boolean
+  readonly flip: boolean
 }
 </script>

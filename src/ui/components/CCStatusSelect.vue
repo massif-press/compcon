@@ -37,19 +37,19 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCStatusSelect extends Vue {
   
   @Prop({ type: Array, required: true, })
-  items!: Status[]
+  readonly items!: Status[]
 
   @Prop({ type: Array, required: true, })
-  model!: Status[]
+  readonly model!: Status[]
 
   @Prop({ type: String, required: false, default: '', })
-  color: string
+  readonly color: string
 
   @Prop({ type: String, required: false, default: '', })
-  label: string
+  readonly label: string
 
   @Prop({ type: Boolean, })
-  dark?: boolean
+  readonly dark?: boolean
 
   get arr() {
     return this.model

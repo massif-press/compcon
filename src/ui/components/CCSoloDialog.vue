@@ -40,27 +40,27 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 @Component({ name: 'cc-solo-dialog', })
 export default class CCSoloDialog extends Vue {
   @Prop({ type: String, required: false, default: 'primary', })
-  color: string
+  readonly color: string
   @Prop({ type: String, required: false, default: '', })
-  icon: string
+  readonly icon: string
   
   @Prop({ type: Boolean, required: false, })
-  small?: boolean
+  readonly small?: boolean
   @Prop({ type: Boolean, required: false, })
-  large?: boolean
+  readonly large?: boolean
 
   @Prop({ type: Boolean, required: false, })
-  fullscreen?: boolean
+  readonly fullscreen?: boolean
 
   @Prop({ type: Boolean, required: false, })
-  noConfirm?: boolean
+  readonly noConfirm?: boolean
   @Prop({ type: Boolean, required: false, })
-  noPad?: boolean
+  readonly noPad?: boolean
   @Prop({ type: Boolean, required: false, })
-  noTitleClip?: boolean
+  readonly noTitleClip?: boolean
 
   @Prop({ type: String, required: false, })
-  title?: string
+  readonly title?: string
   
   dialog = false
   @Emit()
