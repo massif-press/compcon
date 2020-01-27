@@ -9,6 +9,7 @@ export interface IActiveMissionData {
   mission: IMissionData
   pilotIDs: string[]
   activeNpcs: INpcData[]
+  activeReinforcements: INpcData[]
   step: number
   round: number
   start: string
@@ -24,6 +25,7 @@ export class ActiveMission {
   private _round: number
   private _pilotIDs: string[]
   private _activeNpcs: Npc[]
+  private _activeReinforcements: Npc[]
   private _start_date: string
   private _end_date: string
   private _note: string
@@ -34,13 +36,13 @@ export class ActiveMission {
     this._mission = m
     this._pilotIDs = pilots.map(x => x.ID)
     this._activeNpcs = []
+    this._activeReinforcements = []
     this._step = 0
     this._round = 0
     this._start_date = new Date().toISOString().slice(0, 10)
     this._note = ''
     this._result = ''
     this.spawnNpcs()
-    console.log(this._activeNpcs)
   }
 
   private save(): void {
@@ -98,17 +100,25 @@ export class ActiveMission {
     this.save()
   }
 
+  private instantiateNpc(n: Npc, s: EncounterSide): Npc {
+    const nn = Npc.Deserialize(Npc.Serialize(n))
+    nn.RenewID()
+    nn.Active = true
+    nn.Side = s
+    return nn
+  }
+
   private spawnNpcs(): void {
     if (this.Encounter.StepType === MissionStepType.Rest) return
+    this._activeNpcs = []
     const enc = this.Encounter as Encounter
     const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
     sides.forEach(s => {
       enc.Npcs(s).forEach(n => {
-        const nn = Npc.Deserialize(Npc.Serialize(n))
-        nn.RenewID()
-        nn.Active = true
-        nn.Side = s
-        this._activeNpcs.push(nn)
+        this._activeNpcs.push(this.instantiateNpc(n, s))
+      })
+      enc.Reinforcements(s).forEach(n => {
+        this._activeReinforcements.push(this.instantiateNpc(n, s))
       })
     })
     this.save()
@@ -124,6 +134,37 @@ export class ActiveMission {
   public RemoveActiveNpc(n: Npc): void {
     const idx = this.ActiveNpcs.findIndex(x => x.ID === n.ID)
     if (idx > -1) this.ActiveNpcs.splice(idx, 1)
+  }
+
+  public get ActiveReinforcements(): Npc[] {
+    return this._activeReinforcements
+  }
+
+  public set ActiveReinforcements(npcs: Npc[]) {
+    this._activeReinforcements = npcs
+    this.save()
+  }
+
+  public AddActiveReinforcement(n: Npc, s: EncounterSide): void {
+    const nn = Npc.Deserialize(Npc.Serialize(n))
+    nn.RenewID()
+    nn.Active = true
+    nn.Side = s
+    this.ActiveReinforcements.push(nn)
+  }
+
+  public RemoveActiveReinforcement(n: Npc): void {
+    const idx = this.ActiveReinforcements.findIndex(x => x.ID === n.ID)
+    if (idx > -1) this.ActiveReinforcements.splice(idx, 1)
+  }
+
+  public MoveReinforcement(n: Npc): void {
+    const r = this._activeReinforcements.find(x => x.ID === n.ID)
+    const idx = this._activeReinforcements.findIndex(x => x.ID === n.ID)
+    if (idx > -1) {
+      this._activeReinforcements.splice(idx, 1)
+      this._activeNpcs.push(r)
+    }
   }
 
   public get Round(): number {
@@ -204,6 +245,7 @@ export class ActiveMission {
       step: m.Step,
       round: m.Round,
       activeNpcs: m.ActiveNpcs.map(x => Npc.Serialize(x)),
+      activeReinforcements: m.ActiveReinforcements.map(x => Npc.Serialize(x)),
       start: m.StartDate,
       end: m.EndDate,
       note: m.Note,
@@ -216,6 +258,7 @@ export class ActiveMission {
     m.Round = data.round
     m.Step = data.step
     m.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
+    m.ActiveReinforcements = data.activeReinforcements.map(x => Npc.Deserialize(x))
     m._pilotIDs = data.pilotIDs
     m._start_date = data.start
     m._end_date = data.end

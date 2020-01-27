@@ -5,21 +5,21 @@
         <fieldset>
           <legend class="heading h3 primary--text mx-2">COMBATANTS</legend>
           <npc-chip
-            v-for="(n, i) in encounter.Npcs('Enemy')"
+            v-for="(n, i) in mission.ActiveNpcs.filter(x => x.Side === 'Enemy')"
             :key="`cmbt_e_${n.ID}_${i}`"
             :npc="n"
             readonly
             color="red darken-1"
           />
           <npc-chip
-            v-for="(n, i) in encounter.Npcs('Ally')"
+            v-for="(n, i) in mission.ActiveNpcs.filter(x => x.Side === 'Ally')"
             :key="`cmbt_a_${n.ID}_${i}`"
             :npc="n"
             readonly
             color="blue darken-1"
           />
           <npc-chip
-            v-for="(n, i) in encounter.Npcs('Neutral')"
+            v-for="(n, i) in mission.ActiveNpcs.filter(x => x.Side === 'Neutral')"
             :key="`cmbt_n_${n.ID}_${i}`"
             :npc="n"
             readonly
@@ -45,37 +45,37 @@
         <fieldset>
           <legend class="heading h3 primary--text mx-2">REINFORCEMENTS</legend>
           <div
-            v-if="!encounter.Reinforcements.length"
+            v-if="!mission.ActiveReinforcements.length"
             class="text-center grey--text heading h3 mt-3 mb-4"
           >
             // NO REINFORCEMENTS REMAINING //
           </div>
           <npc-chip
-            v-for="(n, i) in encounter.Reinforcements('Enemy')"
+            v-for="(n, i) in mission.ActiveReinforcements.filter(x => x.Side === 'Enemy')"
             :key="`rein_e_${n.ID}_${i}`"
             :npc="n"
             readonly
             reinforce
             color="red darken-1"
-            @move="encounter.MoveReinforcement(n)"
+            @move="mission.MoveReinforcement(n)"
           />
           <npc-chip
-            v-for="(n, i) in encounter.Reinforcements('Ally')"
+            v-for="(n, i) in mission.ActiveReinforcements.filter(x => x.Side === 'Ally')"
             :key="`rein_a_${n.ID}_${i}`"
             :npc="n"
             readonly
             reinforce
             color="blue darken-1"
-            @move="encounter.MoveReinforcement(n)"
+            @move="mission.MoveReinforcement(n)"
           />
           <npc-chip
-            v-for="(n, i) in encounter.Reinforcements('Neutral')"
+            v-for="(n, i) in mission.ActiveReinforcements.filter(x => x.Side === 'Neutral')"
             :key="`rein_n_${n.ID}_${i}`"
             :npc="n"
             readonly
             reinforce
             color="grey darken-1"
-            @move="encounter.MoveReinforcement(n)"
+            @move="mission.MoveReinforcement(n)"
           />
         </fieldset>
       </v-col>
@@ -106,7 +106,7 @@ import Vue from 'vue'
 import NpcChip from '../../../encounter/components/NpcChip.vue'
 import NpcSelector from '../../../encounter/components/NpcSelector.vue'
 import PilotSelector from '../PilotSelector.vue'
-import { Pilot, Npc } from '@/class'
+import { Pilot, Npc, EncounterSide } from '@/class'
 
 export default Vue.extend({
   name: 'reinforcements-modal',
@@ -116,18 +116,14 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    encounter: {
-      type: Object,
-      required: true,
-    },
   },
   methods: {
     addPilot(pilot: Pilot) {
-      this.pilots.push(pilot)
+      this.mission.AddPilot(pilot)
       this.$refs.pilotDialog.hide()
     },
-    addNpc(npc: Npc) {
-      this.encounter.Reinforcements.push(npc)
+    addNpc(event: { npc: Npc; side: EncounterSide }) {
+      this.mission.AddActiveReinforcement(event.npc, event.side)
       this.$refs.npcDialog.hide()
     },
   },

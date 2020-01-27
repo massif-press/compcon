@@ -128,6 +128,25 @@ declare interface IPilotLoadoutData {
   extendedGear: (IEquipmentData | null)[]
 }
 
+declare interface IHistoryItem {
+  field: string
+  val?: any
+}
+
+declare interface IMechState {
+  stage: string
+  turn: number
+  move: number
+  actions: number
+  overwatch: boolean
+  braced: boolean
+  overcharged: boolean
+  prepare: boolean
+  bracedCooldown: boolean
+  redundant: boolean
+  history: IHistoryItem[]
+}
+
 declare interface IMechData {
   id: string
   name: string
@@ -157,6 +176,7 @@ declare interface IMechData {
   meltdown_imminent: boolean
   reactor_destroyed: boolean
   cc_ver: string
+  state: IMechState
 }
 
 declare interface IMechLoadoutData {

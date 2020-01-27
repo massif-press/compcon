@@ -153,6 +153,12 @@
           </v-col>
           <v-col>
             <fieldset>
+              <legend class="stat-text px-1">SENSOR RANGE</legend>
+              <div class="heading h2 text-center mt-n2 pb-1">{{ mech.SensorRange }}</div>
+            </fieldset>
+          </v-col>
+          <v-col>
+            <fieldset>
               <legend class="stat-text px-1">LTD SYS</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ signed(mech.LimitedBonus) }}</div>
             </fieldset>
