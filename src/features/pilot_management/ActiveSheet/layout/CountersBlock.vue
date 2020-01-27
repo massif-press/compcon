@@ -25,9 +25,11 @@ import CounterComponent from '../components/Counter.vue'
 import NewCounter from '../components/NewCounter.vue'
 import activePilot from '../../mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   components: { CounterComponent, NewCounter },
-  mixins: [activePilot],
+
   props: {
     counterData: {
       type: Array,

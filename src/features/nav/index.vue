@@ -142,11 +142,13 @@ import Vue from 'vue'
 import Options from './pages/Options.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'cc-nav',
   // components: { HelpPage, AboutPage, OptionsPage },
   components: { Options },
-  mixins: [activePilot],
+
   props: {
     pilotManagement: { type: Boolean },
     encounter: { type: Boolean },
