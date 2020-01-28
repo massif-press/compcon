@@ -20,7 +20,7 @@
       />
       &nbsp;
       <span v-html="notification.text" />
-      <v-btn class="ml-auto" dark text @click="$emit('dismiss')">
+      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss')">
         Dismiss
       </v-btn>
       <v-fade-transition>
