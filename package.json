@@ -62,7 +62,7 @@
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-vue": "^6.1.2",
     "eslint-plugin-vuetify": "^1.0.0-beta.5",
-    "favicons-webpack-plugin": "^3.0.0",
+    "favicons-webpack-plugin": "^2.0.0",
     "fibers": "^4.0.2",
     "file-loader": "^5.0.2",
     "fork-ts-checker-webpack-plugin": "^4.0.3",
