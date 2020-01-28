@@ -1,15 +1,15 @@
 <template>
   <div class="notificationContainer">
     <v-snackbar
-      v-ripple="isClickable"
+      ref="snackbar"
       v-model="isOpen"
+      v-ripple="isClickable"
       :style="{ cursor: isClickable ? 'pointer' : 'inherit' }"
       :value="true"
       :color="notificationVariant && notificationVariant.color"
       :timeout="interacted ? timeout : 0"
       @mouseover="onInteract"
       @click="onClick"
-      ref="snackbar"
     >
       <v-icon dark prepend class="mr-2">
         {{ notificationVariant && notificationVariant.icon }}
@@ -42,7 +42,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop, Watch, Ref } from 'vue-property-decorator'
-import { VSnackbar } from 'vuetify/lib'
 
 const notificationVariants: { [key: string]: INotificationVariant } = {
   'error': {
@@ -65,7 +64,7 @@ const notificationVariants: { [key: string]: INotificationVariant } = {
 }
 
 @Component
-export default class Notification extends Vue {
+export default class NotificationSnackbar extends Vue {
 
   @Prop({ type: Object, required: true }) notification: INotification
 
@@ -77,7 +76,7 @@ export default class Notification extends Vue {
     el.style.transitionDuration = `${duration}ms`
   }
 
-  timeoutValue: number = 100
+  timeoutValue = 100
   private async doTimeoutProgress() {
     this.setProgressTransition(this.timeout)
     await this.$nextTick()
