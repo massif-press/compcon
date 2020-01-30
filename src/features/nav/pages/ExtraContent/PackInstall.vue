@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="packInstaller white" style="height: 600px;">
+  <v-layout class="packInstaller white" style="min-height: 300px;">
     <v-flex style="height: 100%; min-width: 25%; max-width: 25%" class="px-3 py-4">
       <v-file-input
         v-model="value"
@@ -50,15 +50,17 @@
     <v-divider vertical class="mx-3" />
     <v-flex class="px-3 py-4">
       <v-fade-transition mode="out-in">
-        <div v-if="contentPack" key="pack" style="width: 100%; height: 100%;">
-          <pack-info style="width: 100%; height: 100%;" :pack="contentPack" />
+        <div v-if="contentPack" key="pack">
+          <pack-info :pack="contentPack" />
         </div>
         <div
           v-else
           key="nopack"
-          style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center;"
+          style="display: flex; width: 100%; height: 200px; align-items: center; justify-content: center;"
         >
-          <div class="caption font-italic grey--text text--darken-1">No content pack selected.</div>
+          <div class="heading h3 font-italic grey--text text--darken-1">
+            No content pack selected.
+          </div>
         </div>
       </v-fade-transition>
     </v-flex>
@@ -112,12 +114,12 @@ export default class PackInstall extends Vue {
   async install() {
     if (this.done || this.installing) return
     this.installing = true
+    this.contentPack.active = true
     await this.dataStore.installContentPack(this.contentPack)
     this.installing = false
 
     this.done = true
     setTimeout(() => {
-      console.log('gog')
       this.$emit('installed')
       this.contentPack = null
       this.error = null

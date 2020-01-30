@@ -74,6 +74,7 @@ class UserProfile {
 
   public static Deserialize(data: IUserProfile): UserProfile {
     let profile = new UserProfile(data.id)
+    profile._id = data.id || uuid()
     profile.RosterView = data.rosterView || 'list'
     profile.HangarView = data.hangarView || 'cards'
     profile.PilotSheetView = data.pilotSheetView || 'tabbed'

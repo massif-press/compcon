@@ -15,8 +15,8 @@ export class NpcTemplate {
   private _id: string
   private _name: string
   private _description: string
-  private _base_features: NpcFeature[]
-  private _optional_features: NpcFeature[]
+  private _base_features: string[]
+  private _optional_features: string[]
   private _power: number
   private _brew: string
 
@@ -24,12 +24,8 @@ export class NpcTemplate {
     this._id = data.id
     this._name = data.name
     this._description = data.description
-    this._base_features = this._base_features = data.base_features.map(x =>
-      store.getters.referenceByID('NpcFeatures', x)
-    )
-    this._optional_features = data.optional_features.map(x =>
-      store.getters.referenceByID('NpcFeatures', x)
-    )
+    this._base_features = data.base_features
+    this._optional_features = data.optional_features
     this._power = data.power
     this._brew = data.brew || 'CORE'
   }
@@ -51,10 +47,10 @@ export class NpcTemplate {
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this._base_features
+    return this._base_features.map(x => store.getters.referenceByID('NpcFeatures', x))
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this._optional_features
+    return this._optional_features.map(x => store.getters.referenceByID('NpcFeatures', x))
   }
 }

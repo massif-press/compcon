@@ -1,113 +1,28 @@
-Other:   
-  ☐ Reports form more like current templates
-  ☐ Reports should originate from Massif
-
 Current: 
 NPC etc: 
-  ☐ Tag interactions
-    ☐ Monstrosity rollover table
+  ✔ Tag interactions @done(20-01-30 13:25)
+  ✔ Size selector @done(20-01-30 13:09)
 
   Etc:
     ☐ Nav Menu
       ☐ Profile 
-        ☐ Space for theme
-        ☐ Space for sync/account settings
+        ✔ Space for theme @done(20-01-29 15:45)
+        ✔ Space for sync/account settings @done(20-01-29 15:45)
+        ✔ Hard Reload @done(20-01-30 15:54)
         ☐ Export/Import all functions
           ☐ rewrite converter/validator
         ☐ Clear all data
-        ☐ Space for achievements
-      ☐ Content Packages
-      ☐ About
-      ☐ Help
+        ✔ Space for achievements @done(20-01-29 15:45)
+      ✔ Content Packages @done(20-01-29 15:45)
+      ✔ Delete Content Package warning @done(20-01-30 15:54)
+      ✔ About @done(20-01-30 16:09)
+      ✔ Help @done(20-01-30 17:27)
 
   Style Pass:
-    ☐ Restyle CC tooltip
+    ✔ Restyle CC tooltip @done(20-01-30 14:06)
     ☐ pilot NO IMG
     ☐ map NO IMG
-    ☐ ra text
-
---- post v-2 ---
-Next Steps:
-  ☐ Break up global dec file
-  ☐ Refactor ActiveState
-
-
-  ☐ Renders for itch.io
-  ☐ Allow user to set save data location
-  ☐ Split Pilot, Mech into subclasses
-    ☐ Counters for players and NPCs
-
-  ☐ NPC Feature filter
-  ☐ Custom NPC Feature
-  ☐ integrate text color getter
-  ☐ disableable cc-btn
-  ☐ Expand Glossary
-  ☐ hidden tags for specially-handled items
-    ☐ prototype weapon: set max uses
-    ☐ Signature Weapon damage type selection
-    ☐ Prototype Weapon type/range/damage type selection
-
-  ☐ Disable dangerzone systems outside of dangerzone
-
-  ☐ Encounter mode list transitions
-
-    ☐ `routes` subnode for all features
-
-    ☐ reusable confirm menu
-
-Icons:
-  ☐ Compendium
-  ☐ Encounter Toolkit
-  ☐ Campaign Manager
-  ☐ Content Editor
-  ☐ System Point
-  ☐ Statuses
-  ☐ Active Mode
-  ☐ Mount Sizes ?
-  ☐ NPC Custom Tier icon
-  ☐ Actor Destroyed
-  ☐ Actor Defeated
-  ☐ Actor Routed/Retreated
-
-Pilot Roster:
-  ☐ Quick Print Mech
-  ☐ Quick Statblock Mech
-
-Printing:
-  ☐ NPC Printing
-  ☐ Encounter Printing
-  ☐ Mission Printing
-  ☐ Mark danger zone heat
-  ☐ Reserves Page
-  ☐ Print all relevant tags
-  ☐ Print stress/structure tables
-  ☐ Print NPCs
-  ☐ Print Encounters
-  General Print Options:
-    ☐ Large fonts
-    ☐ Print trackable stats as numbers or as pips
-  Pilot Print Options:
-    ☐ Print image
-    ☐ Print empty appearance frame (for drawing)
-    ☐ Print History
-    ☐ Print appearance Notes
-    ☐ Print Pilot Notes
-    ☐ Add space for notes
-    ☐ Add space for sketches
-    ☐ Add space for additonal equipment
-  Mech Print Options: 
-    ☐ Print image
-    ☐ Print empty apparance frame (for drawing)
-    ☐ Print Notes
-    ☐ Add space for notes (lined)
-    ☐ Add space for sketches (unlined)
-    ☐ Per-item notes
-  Campaign Portfolio:
-    ☐ Art + fluff cover page
-    ☐ Blank pages for campaigns
-
-Active Mode:
-  ☐ Toggleable dense loadout view
+    ☐ itch.io images and screens
 
 Archive:
   ✔ confirm dialog on image delete @done(20-01-24 13:23) @project(Current.Image Selector)

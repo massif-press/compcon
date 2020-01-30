@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined color="secondary" class="mt-4 containerCard">
+  <v-card flat tile class="containerCard">
     <v-tabs v-model="tabs" background-color="secondary accent-4" dark icons-and-text>
       <v-tab>
         Content Packs
@@ -15,24 +15,21 @@
         <packs-list />
       </v-tab-item>
       <v-tab-item>
-        <div>
-          <pack-install @installed="onInstalled" />
-        </div>
+        <pack-install @installed="onInstalled" />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from 'vue'
 import Component from 'vue-class-component'
 
 import PacksList from './PacksList.vue'
 import PackInstall from './PackInstall.vue'
 
-
 @Component({
-  components: { PacksList, PackInstall }
+  components: { PacksList, PackInstall },
 })
 export default class ExtraContent extends Vue {
   public tabs = null
@@ -40,7 +37,6 @@ export default class ExtraContent extends Vue {
   public onInstalled() {
     this.tabs = 0
   }
-
 }
 </script>
 
