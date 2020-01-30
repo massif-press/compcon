@@ -1,0 +1,72 @@
+{
+  "writers": [
+    {
+      "name": "Miguel Lopez",
+      "twitter": "The_One_Lopez",
+      "website": "massif-press.itch.io",
+      "image": "https://pbs.twimg.com/profile_images/1201241048732717056/SfxfR0CP_400x400.jpg"
+    },
+    {
+      "name": "Tom Parkinson Morgan",
+      "twitter": "Orbitaldropkick",
+      "website": "killsixbilliondemons.com",
+      "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
+    }
+  ],
+  "lead_devs": [
+    {
+      "name": "John Arena",
+      "twitter": "jarena2",
+      "website": "https://github.com/massif-press",
+      "image": "https://pbs.twimg.com/profile_images/1123993702425350144/OD4BlOya_400x400.png"
+    },
+    {
+      "name": "Ari K",
+      "twitter": "hellwife0",
+      "website": "https://github.com/massif-press",
+      "image": "https://pbs.twimg.com/profile_images/1221063769759133698/825h6y4B_400x400.jpg"
+    }
+  ],
+  "devs": [
+    {
+      "name": "Matthew Johnston",
+      "twitter": "dril",
+      "website": "https://github.com/massif-press"
+    },
+    {
+      "name": "CommanderTso",
+      "twitter": "dril",
+      "website": "https://github.com/massif-press"
+    },
+    {
+      "name": "Qwertronix",
+      "twitter": "dril",
+      "website": "https://github.com/massif-press"
+    }
+  ],
+  "t5": [],
+  "t4": [],
+  "t3": [],
+  "t2": [],
+  "t1": [],
+  "special_thanks": [
+    "#!",
+    "ASullyVoice",
+    "Cancermantis",
+    "Carnival",
+    "Juno \"RC\" Jones",
+    "Lesbian",
+    "Lunatic Blue",
+    "Neverender",
+    "NICE",
+    "PSinha",
+    "Ragu",
+    "romulus",
+    "Shotch",
+    "Swordrager",
+    "thesjans",
+    "VertigoCharades",
+    "Xen",
+    "Zieche"
+  ]
+}
