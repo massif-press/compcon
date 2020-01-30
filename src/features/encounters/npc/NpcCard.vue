@@ -169,6 +169,7 @@
               @set="npc.Stats.Stress = $event"
             />
             <editable-attribute
+              v-if="!npc.IsBiological"
               attr="HEAT CAP."
               :val="npc.Stats.HeatCapacity"
               :color="npc.Class.Color"
@@ -222,12 +223,11 @@
               :editable="npc.IsCustomTier"
               @set="npc.Stats.Activations = $event"
             />
-            <editable-attribute
-              attr="SIZE"
-              :val="npc.Stats.Size"
+            <size-attribute
+              :stats="npc.Stats"
               :color="npc.Class.Color"
               :editable="npc.IsCustomTier"
-              @set="npc.Stats.Size = $event"
+              selectable
             />
           </v-row>
           <v-row dense align="start" class="mt-n2">
@@ -347,6 +347,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from './components/EditableAttribute.vue'
+import SizeAttribute from './components/SizeAttribute.vue'
 import FeatureSelector from './components/FeatureSelector.vue'
 import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
@@ -355,7 +356,7 @@ import { NpcStore } from '@/store'
 
 export default Vue.extend({
   name: 'npc-card',
-  components: { EditableAttribute, FeatureSelector, TemplateSelector },
+  components: { EditableAttribute, FeatureSelector, TemplateSelector, SizeAttribute },
   props: {
     id: {
       type: String,

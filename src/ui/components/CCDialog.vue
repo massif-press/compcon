@@ -1,23 +1,20 @@
 <template>
   <div>
+    <v-btn
+      v-if="flat"
+      :small="smallBtn"
+      :large="large"
+      :color="color"
+      text
+      :dark="dark"
+      @click="dialog = true"
+    >
+      <slot name="button"></slot>
+    </v-btn>
+    <cc-btn v-else :small="smallBtn" :large="large" :color="color" @click="dialog = true">
+      <slot name="button"></slot>
+    </cc-btn>
     <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
-      <template v-slot:activator="{ on }">
-        <v-btn
-          v-if="flat"
-          :small="smallBtn"
-          :large="large"
-          :color="color"
-          text
-          :dark="dark"
-          v-on="on"
-        >
-          <slot name="button"></slot>
-        </v-btn>
-        <cc-btn v-else :small="smallBtn" :large="large" :color="color" v-on="on">
-          <slot name="button"></slot>
-        </cc-btn>
-      </template>
-
       <v-card tile>
         <cc-titlebar :color="color">
           <slot name="title"></slot>

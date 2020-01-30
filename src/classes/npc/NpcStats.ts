@@ -15,6 +15,7 @@ export interface INpcStats {
   agility: number
   systems: number
   engineering: number
+  sizes: number[]
   size: number
   structure?: number
   stress?: number
@@ -42,7 +43,8 @@ export class NpcStats {
       agility: npcClass.Stats.Agility(tier),
       systems: npcClass.Stats.Systems(tier),
       engineering: npcClass.Stats.Engineering(tier),
-      size: npcClass.Stats.Size(tier),
+      sizes: npcClass.Stats.Sizes(tier),
+      size: npcClass.Stats.Sizes(tier)[0],
       structure: npcClass.Stats.Structure(tier),
       stress: npcClass.Stats.Stress(tier),
     })
@@ -63,6 +65,7 @@ export class NpcStats {
       agility: max.Agility,
       systems: max.Systems,
       engineering: max.Engineering,
+      sizes: max.Sizes,
       size: max.Size,
       structure: max.Structure,
       stress: max.Stress,
@@ -83,6 +86,7 @@ export class NpcStats {
     this._stats.agility = max.Stats.agility
     this._stats.systems = max.Stats.systems
     this._stats.engineering = max.Stats.engineering
+    this._stats.sizes = max.Stats.sizes
     this._stats.size = max.Stats.size
     this._stats.structure = max.Stats.structure
     this._stats.stress = max.Stats.stress
@@ -216,6 +220,10 @@ export class NpcStats {
     this.save()
   }
 
+  public get Sizes(): number[] {
+    return this._stats.sizes
+  }
+
   public get Size(): number {
     return this._stats.size
   }
@@ -226,7 +234,7 @@ export class NpcStats {
   }
 
   public get Structure(): number {
-    return this._stats.structure || 1
+    return this._stats.structure
   }
 
   public set Structure(val: number) {
@@ -235,7 +243,7 @@ export class NpcStats {
   }
 
   public get Stress(): number {
-    return this._stats.stress || 1
+    return this._stats.stress
   }
 
   public set Stress(val: number) {
@@ -258,6 +266,7 @@ export class NpcStats {
       agility: item.Agility,
       systems: item.Systems,
       engineering: item.Engineering,
+      sizes: item.Sizes,
       size: item.Size,
       structure: item.Structure,
       stress: item.Stress,

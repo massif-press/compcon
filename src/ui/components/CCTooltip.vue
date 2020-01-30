@@ -1,7 +1,7 @@
 <template>
-  <v-tooltip top content-class="cc-tooltip" :open-delay="delayed ? 500 : 0">
+  <v-tooltip top content-class="cc-tooltip" :open-delay="delayed ? 500 : 150">
     <template v-slot:activator="{ on }">
-      <div :class="{'d-inline': inline}" v-on="on">
+      <div :class="{ 'd-inline': inline }" v-on="on">
         <slot />
       </div>
     </template>
@@ -11,12 +11,12 @@
     </span>
     <div v-else>
       <div v-if="simple">
-        <p class="flavor-text white--text" v-html="content" />
+        <p class="body-text white--text mb-0" v-html="content" />
       </div>
       <div v-else>
-        <span v-if="title" class="heading h3 accent--text">{{ title }}</span>
+        <span v-if="title" class="heading h3 white--text">{{ title }}</span>
         <v-divider v-if="title" dark class="my-1" />
-        <p class="flavor-text white--text pb-0 mb-0" v-html="content" />
+        <p class="body-text white--text pb-0 mb-0" v-html="content" />
       </div>
     </div>
   </v-tooltip>
@@ -60,8 +60,8 @@ export default Vue.extend({
 
 <style scoped>
 .cc-tooltip {
-  background: rgba(66, 66, 66, 1) !important;
-  background-color: rgba(66, 66, 66, 1) !important;
+  background: rgb(82, 82, 82, 0.97) !important;
+  background-color: rgba(82, 82, 82, 0.97) !important;
   opacity: 1 !important;
   max-width: 50vw;
 }

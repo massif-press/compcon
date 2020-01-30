@@ -1,8 +1,9 @@
 <template>
   <v-col>
-    <div class="heading h2 text-left">
-      {{ attr }}:
-      <b class="primary--text">{{ val }}</b>
+    <div class="heading h3 text-center">
+      {{ attr }}
+      <br />
+      <b class="primary--text heading h2">{{ val }}</b>
     </div>
   </v-col>
 </template>

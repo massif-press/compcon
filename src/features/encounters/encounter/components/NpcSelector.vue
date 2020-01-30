@@ -51,6 +51,8 @@
               })
             "
           >
+            <v-icon v-html="item.Class.RoleIcon" />
+            <v-icon left v-html="`cci-rank-${item.Tier}`" />
             {{ item.Name }}
           </span>
         </template>

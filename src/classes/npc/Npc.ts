@@ -68,11 +68,11 @@ export class Npc implements IActor {
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._tier = t
     this._templates = []
-    this._tag = 'Mech'
     this._user_labels = []
     this._side = EncounterSide.Enemy
     this._note = this._cloud_image = this._local_image = this._campaign = ''
     this._class = npcClass
+    this._tag = this.Class.Role.toLowerCase() === 'biological' ? 'Biological' : 'Mech'
     this._stats = NpcStats.FromClass(npcClass, t)
     this._current_stats = NpcStats.FromMax(this._stats)
     this._items = []
@@ -178,7 +178,12 @@ export class Npc implements IActor {
     this.save()
   }
 
+  public get IsBiological(): boolean {
+    return this._tag.toLowerCase() === 'biological'
+  }
+
   public get Tag(): string {
+    if (this.IsBiological) return 'Biological'
     return this._tag
   }
 
@@ -216,16 +221,6 @@ export class Npc implements IActor {
 
   public get Class(): NpcClass {
     return this._class
-  }
-
-  // for vuetify list grouping
-  public get ClassName(): string {
-    return this._class.Name
-  }
-
-  // for vuetify list grouping
-  public get ClassRole(): string {
-    return this._class.Role
   }
 
   public get BaseClassFeatures(): NpcFeature[] {

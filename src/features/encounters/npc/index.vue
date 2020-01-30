@@ -31,6 +31,7 @@
           calculate-widths
           class="transparent"
           style="min-width: 100%"
+          disable-pagination
         >
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">

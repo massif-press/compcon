@@ -6802,9 +6802,9 @@ kleur@^3.0.3:
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
 lancer-data@^2.0.8:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.10.tgz#c1234e4084e2482a559271c19eb1c45f8106a9af"
-  integrity sha512-M3N78JrUXDBIWN6fTjMXHnwS3n3N2faxY/LpW8IL8Y06O6vXI+lDPxWjkUOcJZFDChmET8P+jaURO/RfuTPa8Q==
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.11.tgz#fbe8f85b5b10b1edad1973735a4a56f4ea47d7a9"
+  integrity sha512-yaE0Bx9OwWn2JltndffS2XUtXQyyFAxUudU2ZrNKNMQLkwK0VnFvUKPxJ2YYuxsMDDNHoJCCtniWOGbi2bSmiQ==
 
 latest-version@^5.0.0:
   version "5.1.0"
@@ -10721,10 +10721,10 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.0.0-beta.9:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.3.tgz#8e39b0298c3dbe943c18df3b5b658cca7305e7c9"
-  integrity sha512-qAnNEk01sZGnV36d2b/8EQahvnqwxP5Mfii1G5hUOXUCLCNRbqwn7G419zR/2KxskCU0pmgnYaVA8KsL2oBYFw==
+vuetify@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.8.tgz#9e9105503d38e66c0fad27aba08de5e65ff6ba99"
+  integrity sha512-qeN+X/6L1Xi3Mmog9PMDUKYjC2ZOk3trl7/vDMuP0gcH1QReKb9tqpLjAyP8niOgnvZcUQw4jSc7e4Esju8Seg==
 
 vuex-module-decorators@^0.10.1:
   version "0.10.1"

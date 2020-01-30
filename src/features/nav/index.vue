@@ -114,41 +114,53 @@
       </template>
 
       <v-list dense>
+        <v-list-item @click="$refs.contentModal.show()">Manage Content</v-list-item>
         <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
         <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
+        <v-divider />
+        <v-list-item
+          v-extlink="`https://www.patreon.com/compcon`"
+          href="https://www.patreon.com/compcon"
+        >
+          Support COMP/CON
+        </v-list-item>
       </v-list>
     </v-menu>
 
     <v-spacer style="max-width: 20px" />
 
-    <cc-solo-dialog ref="optionsModal" no-title-clip no-pad large no-confirm title="Options">
-      <options />
+    <cc-solo-dialog
+      ref="contentModal"
+      no-title-clip
+      no-pad
+      large
+      no-confirm
+      title="Manage Content Packs"
+    >
+      <content-page />
     </cc-solo-dialog>
 
-    <cc-solo-dialog ref="profileModal" large no-confirm title="User Profile">
-      profile test
+    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options & User Profile">
+      <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About">about test</cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help">help test</cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
   </v-app-bar>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-// import HelpPage from './Pages/HelpPage.vue'
-// import AboutPage from './Pages/AboutPage.vue'
-// import OptionsPage from './Pages/OptionsPage.vue'
-import Options from './pages/Options.vue'
+import HelpPage from './pages/Help.vue'
+import AboutPage from './pages/About.vue'
+import OptionsPage from './pages/Options.vue'
+import ContentPage from './pages/ExtraContent/index.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
 
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'cc-nav',
-  // components: { HelpPage, AboutPage, OptionsPage },
-  components: { Options },
-
+  components: { HelpPage, AboutPage, OptionsPage, ContentPage },
   props: {
     pilotManagement: { type: Boolean },
     encounter: { type: Boolean },

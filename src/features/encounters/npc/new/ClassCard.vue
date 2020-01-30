@@ -68,6 +68,7 @@
             :color="npcc.Color"
           />
           <editable-attribute
+            v-if="npcc.Role.toLowerCase() !== 'biological'"
             attr="HEAT CAPACITY"
             :val="npcc.Stats.HeatCapacity(tierPreview)"
             :color="npcc.Color"
@@ -99,7 +100,15 @@
         <v-divider class="my-2" />
         <v-row dense no-gutters>
           <editable-attribute attr="ACTIVATIONS" :val="1" :color="npcc.Color" />
-          <editable-attribute attr="SIZE" :val="npcc.Stats.Size(tierPreview)" :color="npcc.Color" />
+          <editable-attribute
+            attr="SIZE"
+            :val="
+              npcc.Stats.Sizes(tierPreview)
+                .join(' or ')
+                .replace('0.5', '½')
+            "
+            :color="npcc.Color"
+          />
         </v-row>
       </v-col>
     </v-row>
@@ -125,10 +134,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from '../components/EditableAttribute.vue'
+import SizeAttribute from '../components/SizeAttribute.vue'
 
 export default Vue.extend({
   name: 'npc-class-card',
-  components: { EditableAttribute },
+  components: { EditableAttribute, SizeAttribute },
   props: {
     npcc: {
       type: Object,

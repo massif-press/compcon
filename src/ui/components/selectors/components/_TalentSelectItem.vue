@@ -6,7 +6,7 @@
     <cc-solo-dialog ref="dialog" large icon="cci-trait" no-confirm :title="talent.Name">
       <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
-    <v-stepper v-model="step" non-linear class="elevation-0 mt-n1">
+    <v-stepper v-model="step" non-linear class="elevation-0 mt-n1 transparent">
       <v-stepper-header style="height: 50px!important" class="elevation-0">
         <v-stepper-step
           v-for="i in 3"
