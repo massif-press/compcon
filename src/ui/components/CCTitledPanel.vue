@@ -33,27 +33,32 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-titled-panel', })
-export default class CCTitledPanel extends Vue {
- 
-  @Prop({ type: String, required: true, })
-  readonly title!: string 
-
-  @Prop({ type: String, required: false, default: '', })
-  readonly icon: string
-
-  @Prop({ type: String, required: false, default: '', })
-  readonly color: string 
-
-  @Prop({ type: Boolean, })
-  readonly clickable?: boolean
-  
-  @Prop({ type: Boolean, })
-  readonly dense?: boolean
-
-}
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-titled-panel',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    clickable: {
+      type: Boolean,
+    },
+    dense: {
+      type: Boolean,
+    },
+  },
+})
 </script>
 
 <style scoped>

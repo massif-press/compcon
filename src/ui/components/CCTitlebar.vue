@@ -16,29 +16,37 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
-import GetColorMixin from '@/mixins/getColor'
-
-@Component({ name: 'cc-titlebar', })
-export default class CCTitlebar extends Mixins(GetColorMixin) {
-
-  @Prop({ type: Boolean, required: false, })
-  readonly fixed?: boolean 
-  
-  @Prop({ type: Boolean, required: false, default: true, })
-  readonly dark: boolean 
-
-  @Prop({ type: Boolean, default: true, })
-  readonly clipped: boolean
-
-  @Prop({ type: String, required: false, default: 'primary', })
-  readonly color: string 
-
-  @Prop({ type: String, required: false, default: '', })
-  readonly icon: string 
-
-  @Prop({ type: Boolean, required: false, })
-  readonly large?: boolean
-
-}
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-titlebar',
+  props: {
+    fixed: {
+      type: Boolean,
+      required: false,
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    clipped: {
+      type: Boolean,
+      default: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    large: {
+      type: Boolean,
+      required: false,
+    },
+  },
+})
 </script>
