@@ -20,7 +20,9 @@ import CountersBlock from './layout/CountersBlock.vue'
 
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'active-sheet',
   components: {
     TurnSidebar,
@@ -28,6 +30,6 @@ export default Vue.extend({
     MechBlock,
     CountersBlock,
   },
-  mixins: [activePilot],
+
 })
 </script>

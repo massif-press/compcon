@@ -29,8 +29,10 @@ import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'history-block',
-  mixins: [activePilot],
+  
 })
 </script>

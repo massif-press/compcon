@@ -7,7 +7,7 @@
       link
       :disabled="!availableTemplates.some(x => x.ID === e.ID)"
       @click="
-        $vuetify.goTo(`#e_${e.id}`, {
+        $vuetify.goTo(`#e_${e.ID}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
@@ -20,18 +20,12 @@
     <div v-if="!availableTemplates.length" class="grey--text heading h2 text-center">
       // NO TEMPLATES AVAILABLE //
     </div>
-    <v-row
-      v-for="(e, i) in availableTemplates"
-      :id="`e_${e.ID}`"
-      :key="`${e.ID}_${i}`"
-      dense
-      no-gutters
-    >
-      <v-col cols="auto" class="pr-0">
+    <v-row v-for="(e, i) in availableTemplates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
+      <v-col cols="1" class="pr-0">
         <v-btn
           block
           tile
-          outlined
+          icon
           min-height="calc(100% - 8px)"
           style="margin-right: -2px!important"
           class="pa-0 fadeSelect"
@@ -39,12 +33,12 @@
           @click="$emit('select', e)"
         >
           <cc-tooltip simple inline :content="`Add ${e.Name}`">
-            <v-icon size="80">mdi-plus</v-icon>
+            <v-icon size="80">cci-accuracy</v-icon>
           </cc-tooltip>
         </v-btn>
       </v-col>
       <v-col class="pl-0">
-        <cc-titled-panel icon="cci-trait" :title="e.Name" color="primary">
+        <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
           <p class="flavor-text mb-0" v-html="e.Description" />
           <v-divider class="my-2" />
           <span class="heading">

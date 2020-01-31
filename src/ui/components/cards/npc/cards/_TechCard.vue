@@ -8,11 +8,22 @@
     <div>
       <span v-if="item.Tier" class="heading h3">
         +{{ item.Feature.Accuracy(item.Tier) }}
-        Attack Bonus
+        Accuracy
       </span>
       <span v-else class="heading h3">
         +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
           item.Feature.Accuracy(3)
+        }}
+        Accuracy
+      </span>
+      <!-- <span v-if="item.AttackBonus" class="mx-3">&nbsp;|&nbsp;</span> -->
+      <span v-if="item.Tier" class="heading h3">
+        +{{ item.Feature.AttackBonus(item.Tier) }}
+        Attack Bonus
+      </span>
+      <span v-else class="heading h3">
+        +{{ item.Feature.AttackBonus(1) }} / +{{ item.Feature.AttackBonus(2) }} / +{{
+          item.Feature.AttackBonus(3)
         }}
         Attack Bonus
       </span>

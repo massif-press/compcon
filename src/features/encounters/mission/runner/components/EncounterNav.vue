@@ -90,7 +90,7 @@
         <cc-titled-panel title="WARNING: Delete Actor">
           Deleting this actor will remove it permanently from this mission. Any stat or record
           tracking for this entity will be lost. Are you sure you want to continue?
-          <v-btn block large tile color="error" @click="deleteActor()">
+          <v-btn block large tile color="error" class="mb-2" @click="deleteActor()">
             Confirm Deletion
           </v-btn>
         </cc-titled-panel>
@@ -171,11 +171,11 @@ export default Vue.extend({
     },
     repair() {
       this.actor.FullRepair()
-      close()
+      this.close()
     },
     deleteActor() {
       this.$emit('delete-actor')
-      close()
+      this.close()
     },
     close() {
       this.reactionDialog = false

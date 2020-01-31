@@ -101,6 +101,11 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    index: {
+      type: Number,
+      required: false,
+      default: -1,
+    },
     color: {
       type: String,
       required: false,
@@ -111,16 +116,16 @@ export default Vue.extend({
     },
   },
   methods: {
-    equip(item: MechSystem) {
-      if (this.system) {
-        this.mech.ActiveLoadout.ChangeSystem(item)
+    equip(sys: MechSystem) {
+      if (this.item) {
+        this.mech.ActiveLoadout.ChangeSystem(this.index, sys)
       } else {
-        this.mech.ActiveLoadout.AddSystem(item)
+        this.mech.ActiveLoadout.AddSystem(sys)
       }
       this.$refs.base.$refs.selectorDialog.hide()
     },
-    remove(item: MechSystem) {
-      this.mech.ActiveLoadout.RemoveSystem(item)
+    remove(sys: MechSystem) {
+      this.mech.ActiveLoadout.RemoveSystem(sys)
     },
   },
 })

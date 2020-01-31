@@ -15,14 +15,13 @@
     <v-sheet>
       <cc-titlebar dark icon="mdi-filter-variant">Set Item Filters</cc-titlebar>
       <v-card-text pb-0>
-        <cc-item-filter ref="controls" :item-type="itemType" @set-filters="stageFilters" />
+        <cc-item-filter ref="controls" :item-type="itemType" @set-filters="applyFilters($event)" />
       </v-card-text>
       <v-divider />
       <v-card-actions>
         <v-btn text @click="panel = false">dismiss</v-btn>
         <v-spacer />
-        <cc-btn color="warning" class="mr-3" @click="clearFilters">clear selected</cc-btn>
-        <cc-btn @click="setFilters">apply</cc-btn>
+        <cc-btn color="warning" class="mr-3" @click="clearFilters">clear all</cc-btn>
       </v-card-actions>
     </v-sheet>
   </v-bottom-sheet>
@@ -43,25 +42,15 @@ export default Vue.extend({
   data: () => ({
     filterCount: 0,
     panel: false,
-    filters: {},
   }),
   methods: {
-    stageFilters(newFilters) {
-      this.filters = newFilters
-    },
     clearFilters() {
-      this.filters = {}
       this.$refs.controls.clear()
-      this.applyFilters()
+      this.applyFilters({})
     },
-    setFilters() {
-      this.applyFilters()
-      this.panel = false
-    },
-    applyFilters() {
-      console.log(this.filters)
-      this.filterCount = Object.keys(this.filters).length
-      this.$emit('set-filters', this.filters)
+    applyFilters(newFilters) {
+      this.filterCount = Object.keys(newFilters).length
+      this.$emit('set-filters', newFilters)
     },
   },
 })

@@ -434,7 +434,7 @@ class Pilot {
   }
 
   public get AICapacity(): number {
-    return this.has('corebonus', 'cb_the_lesson_of_true_shaping') ? 2 : 1
+    return this.has('corebonus', 'cb_the_lesson_of_shaping') ? 2 : 1
   }
 
   // -- Skills ------------------------------------------------------------------------------------

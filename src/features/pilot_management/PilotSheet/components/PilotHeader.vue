@@ -131,10 +131,12 @@ import Vue from 'vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'pilot-header',
   components: { LevelEditDialog },
-  mixins: [activePilot],
+
   computed: {
     isLevelingUp(): boolean {
       return this.$route.name === 'pilot-level-wizard'

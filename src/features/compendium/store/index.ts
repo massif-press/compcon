@@ -20,13 +20,8 @@ import {
   NpcClass,
   NpcTemplate,
   NpcFeature,
-  NpcWeapon,
-  NpcReaction,
-  NpcTrait,
-  NpcSystem,
-  NpcTech,
   ContentPack,
-  CompendiumItem
+  CompendiumItem,
 } from '@/class'
 import {
   ICoreBonusData,
@@ -40,15 +35,8 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  INpcClassData,
-  INpcFeatureData,
-  INpcTemplateData,
-  INpcWeaponData,
-  INpcReactionData,
-  INpcSystemData,
-  INpcTechData,
   IContentPack,
-  ITagCompendiumData
+  ITagCompendiumData,
 } from '@/interface'
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
@@ -60,31 +48,26 @@ export const LOAD_PACK = 'LOAD_PACK'
 export const DELETE_PACK = 'DELETE_PACK'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 
-
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
   return function(self: CompendiumStore, name: string) {
-
     const baseName = `__Base_${name}`
-    
+
     Object.defineProperty(self, baseName, {
-      get: base
+      get: base,
     })
     Object.defineProperty(self, name, {
       get: function() {
         return [
           ...this[baseName],
-          ...this
-            .ContentPacks
-            .filter(pack => pack.Active)
-            .flatMap(pack => pack[name]
-              // .forEach((item: T /* ? */) => item._brew = pack.ID)
-            )
+          ...this.ContentPacks.filter(pack => pack.Active).flatMap(
+            pack => pack[name]
+            // .forEach((item: T /* ? */) => item._brew = pack.ID)
+          ),
         ]
-      }
+      },
     })
   }
 }
-
 
 @Module({
   name: 'datastore',
@@ -104,35 +87,53 @@ export class CompendiumStore extends VuexModule {
 
   ContentPacks: ContentPack[] = []
 
-  @Brewable(() => lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x))) NpcClasses: NpcClass[]
-  @Brewable(() => lancerData.npc_templates.map(
-    (x: INpcTemplateData) => new NpcTemplate(x)
-  )) NpcTemplates: NpcTemplate[]
-  @Brewable(() => lancerData.npc_features.map(function(x: any) {
-    if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
-    else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
-    else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
-    else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
-    return new NpcTech(x as INpcTechData)
-  })) NpcFeatures: NpcFeature[]
-  @Brewable(() => 
-    lancerData.talents.map((x: ITalentData) => new Talent(x))
-  ) Talents: Talent[]
-  @Brewable(
-    () => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x))
-  ) CoreBonuses: CoreBonus[]
-  @Brewable(() => 
-    lancerData.frames.map((x: IFrameData) => new Frame(x))
-  ) Frames: Frame[]
-  @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x))) Manufacturers: Manufacturer[]
-  @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x))) MechWeapons: MechWeapon[]
-  @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x))) WeaponMods: WeaponMod[]
-  @Brewable(() => lancerData.systems.map((x: IMechSystemData) => new MechSystem(x))) MechSystems: MechSystem[]
-  @Brewable(() => lancerData.pilot_gear.map(function(x: any) {
-    if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
-    else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-    return new PilotGear(x as IPilotGearData)
-  })) PilotGear: PilotGear[]
+  public get NpcClasses(): NpcClass[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses)
+  }
+  public get NpcTemplates(): NpcTemplate[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcTemplates)
+  }
+  public get NpcFeatures(): NpcFeature[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
+  }
+
+  // @Brewable(() => lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x)))
+  // NpcClasses: NpcClass[]
+  // @Brewable(() => lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x)))
+  // NpcTemplates: NpcTemplate[]
+  // @Brewable(() =>
+  //   lancerData.npc_features.map(function(x: any) {
+  //     if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
+  //     else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
+  //     else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
+  //     else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
+  //     return new NpcTech(x as INpcTechData)
+  //   })
+  // )
+  // NpcFeatures: NpcFeature[]
+
+  @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
+  Talents: Talent[]
+  @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
+  CoreBonuses: CoreBonus[]
+  @Brewable(() => lancerData.frames.map((x: IFrameData) => new Frame(x)))
+  Frames: Frame[]
+  @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x)))
+  Manufacturers: Manufacturer[]
+  @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
+  MechWeapons: MechWeapon[]
+  @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x)))
+  WeaponMods: WeaponMod[]
+  @Brewable(() => lancerData.systems.map((x: IMechSystemData) => new MechSystem(x)))
+  MechSystems: MechSystem[]
+  @Brewable(() =>
+    lancerData.pilot_gear.map(function(x: any) {
+      if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+      else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+      return new PilotGear(x as IPilotGearData)
+    })
+  )
+  PilotGear: PilotGear[]
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {
@@ -156,7 +157,6 @@ export class CompendiumStore extends VuexModule {
     this.Quirks = lancerData.quirks
     this.Environments = lancerData.environments
     this.Sitreps = lancerData.sitreps
-
   }
 
   @Mutation

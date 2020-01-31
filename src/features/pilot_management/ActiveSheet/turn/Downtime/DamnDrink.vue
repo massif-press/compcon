@@ -65,7 +65,7 @@
                     auto-grow
                     rows="1"
                     label="Details"
-                    box
+                    filled
                   />
                 </v-col>
                 <v-col cols="6">
@@ -99,7 +99,7 @@
                       auto-grow
                       rows="1"
                       label="Details"
-                      box
+                      filled
                     />
                   </div>
                 </v-col>
@@ -119,7 +119,7 @@
                       auto-grow
                       rows="1"
                       label="Details"
-                      box
+                      filled
                     />
                   </div>
                 </v-col>
@@ -183,7 +183,7 @@ export default Vue.extend({
       if (this.skillRoll < 10) {
         let nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Narrative',
+          type: 'Resources',
           name: 'A Damn Drink',
           label: '',
           description: '',
@@ -199,7 +199,7 @@ export default Vue.extend({
       } else if (this.skillRoll < 20) {
         let nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Narrative',
+          type: 'Resources',
           name: this.reserve1,
           label: '',
           description: '',
@@ -214,7 +214,7 @@ export default Vue.extend({
       } else {
         let nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Narrative',
+          type: 'Resources',
           name: this.reserve1,
           label: '',
           description: '',
@@ -228,7 +228,7 @@ export default Vue.extend({
 
         let nr2 = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Narrative',
+          type: 'Resources',
           name: this.reserve2,
           label: '',
           description: '',

@@ -171,8 +171,8 @@ class Encounter implements IMissionStep {
     this.save()
   }
 
-  public RemoveNpc(npc: Npc): void {
-    const idx = this._npcs.findIndex(x => x.id === npc.ID)
+  public RemoveNpc(npc: Npc, side: EncounterSide): void {
+    const idx = this._npcs.findIndex(x => x.id === npc.ID && x.side === side)
     if (idx > -1) this._npcs.splice(idx, 1)
     this.save()
   }
@@ -184,9 +184,12 @@ class Encounter implements IMissionStep {
   }
 
   public Reinforcements(side: EncounterSide): Npc[] {
-    return store.getters['npc/getNpcs'].filter(x =>
-      this.reinforcementIDBySide(side).some(y => y === x.ID)
-    )
+    const npcs = []
+    this.reinforcementIDBySide(side).forEach(id => {
+      const n = store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id)
+      if (n) npcs.push(n)
+    })
+    return npcs
   }
 
   private reinforcementIDBySide(side: EncounterSide): string[] {
@@ -198,8 +201,8 @@ class Encounter implements IMissionStep {
     this.save()
   }
 
-  public RemoveReinforcement(n: Npc): void {
-    const idx = this._reinforcements.findIndex(x => x.id === n.ID)
+  public RemoveReinforcement(n: Npc, side: EncounterSide): void {
+    const idx = this._reinforcements.findIndex(x => x.id === n.ID && x.side === side)
     if (idx > -1) this._reinforcements.splice(idx, 1)
     this.save()
   }
@@ -209,7 +212,7 @@ class Encounter implements IMissionStep {
     const idx = this._reinforcements.findIndex(x => x.id === n.ID)
     if (idx > -1) {
       this._reinforcements.splice(idx, 1)
-      this._npcs.push({ id: n.ID, side: r.side })
+      this._npcs.push({ id: r.id, side: r.side })
     }
   }
 
