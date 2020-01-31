@@ -5,6 +5,19 @@ declare interface IImageContainer {
   Image: string
 }
 
+interface INotificationVariant {
+  color: string
+  icon: string
+  prefix?: string
+  timeout?: number
+}
+interface INotification {
+  id: string
+  variant: string
+  text: string
+  onClick?: () => void
+}
+
 declare interface IDiceStats {
   min: number
   max: number
