@@ -81,7 +81,7 @@ class Tag {
 
   public GetName(addBonus?: number): string {
     let bonus = 0
-    if (this.ID === 'tg_limited') bonus = addBonus || 0
+    if (this.IsLimited) bonus = addBonus || 0
     if (!this._val) return this._name
     if (typeof this._val === 'number') {
       return this._name.replace(/{VAL}/g, (this._val + bonus).toString())
@@ -132,7 +132,7 @@ class Tag {
     let output = [] as Tag[]
     if (!data) return output
     data.forEach(x => {
-      let t = store.getters.referenceByID('Tags', x.id)
+      let t = store.getters.instantiate('Tags', x.id)
       if (x.val) t.Value = x.val
       output.push(t)
     })

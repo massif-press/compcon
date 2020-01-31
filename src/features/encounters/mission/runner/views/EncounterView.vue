@@ -4,17 +4,14 @@
       <v-col>
         <v-card flat outlined height="100%">
           <v-card-text>
-            <player-card
-              v-if="selected && isPlayer(selected)"
-              :mech="selected"
-              @delete-actor="deleteActor()"
-            />
-            <npc-card v-else-if="selected" :npc="selected" @delete-actor="deleteActor()" />
+            <player-card v-if="selected && isPlayer(selected)" :mech="selected" />
+            <npc-card v-else-if="selected" :npc="selected" />
             <encounter-nav
               v-if="selected"
               :mission="activeMission"
               :encounter="activeMission.Encounter"
               :actor="selected"
+              @delete-actor="deleteActor()"
             />
           </v-card-text>
         </v-card>
@@ -134,9 +131,12 @@ export default Vue.extend({
   },
   data: () => ({
     selectedActor: null,
-    actors: [],
+    // actors: [],
   }),
   computed: {
+    actors(): IActor[] {
+      return this.activeMission.Pilots.map(x => x.ActiveMech).concat(this.activeMission.ActiveNpcs)
+    },
     selected(): IActor {
       return this.actors.find(x => x.ID === this.selectedActor)
     },
@@ -155,11 +155,11 @@ export default Vue.extend({
       document.getElementById('scroll').scrollTop = 0
     },
   },
-  created() {
-    this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
-      this.activeMission.ActiveNpcs
-    ) as IActor[]
-  },
+  // created() {
+  //   this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
+  //     this.activeMission.ActiveNpcs
+  //   ) as IActor[]
+  // },
   methods: {
     isPlayer(a: any) {
       return !!a.Frame

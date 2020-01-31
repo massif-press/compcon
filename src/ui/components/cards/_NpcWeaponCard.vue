@@ -6,16 +6,10 @@
     <v-divider vertical class="mx-4" />
     <v-col cols="auto">
       <div class="text-center ml-auto mr-auto" style="display: inline-block">
-        <div class="clip-icon">
-          <v-icon x-large :color="`damage--${item.DamageType}`">cci-{{ item.DamageType }}</v-icon>
-        </div>
         <span>
-          {{ item.Damage(1) }}/{{ item.Damage(2) }}/{{ item.Damage(3) }}
-          <br />
-          <div class="overline mt-n1">
-            <b>{{ item.DamageType }}</b>
-            Damage
-          </div>
+          <cc-damage-element :damage="item.Damage(1)" />
+          <cc-damage-element :damage="item.Damage(2)" />
+          <cc-damage-element :damage="item.Damage(3)" />
         </span>
       </div>
     </v-col>

@@ -42,7 +42,7 @@
     <p v-else-if="npc.Note" class="flavor-text mb-0" v-html="npc.Note" />
 
     <v-row dense class="text-center" align="center">
-      <v-col cols="10">
+      <v-col cols="7">
         <v-row dense no-gutters>
           <simple-attribute attr="HULL" :val="npc.Stats.Hull" />
           <simple-attribute attr="AGI" :val="npc.Stats.Agility" />
@@ -51,7 +51,7 @@
         </v-row>
         <v-divider class="my-2" />
         <v-row dense no-gutters>
-          <simple-attribute attr="STRUCT." :val="npc.Stats.Structure" />
+          <simple-attribute attr="STRUCT" :val="npc.Stats.Structure" />
           <simple-attribute attr="ARMOR" :val="npc.Stats.Armor" />
           <simple-attribute attr="HP" :val="npc.Stats.HP" />
           <simple-attribute attr="REACTOR" :val="npc.Stats.Stress" />
@@ -66,7 +66,7 @@
           <simple-attribute attr="SPEED" :val="npc.Stats.Speed" />
           <simple-attribute attr="SAVE" :val="npc.Stats.Save" />
           <simple-attribute attr="EVADE" :val="npc.Stats.Evade" />
-          <simple-attribute attr="E-DEF." :val="npc.Stats.EDefense" />
+          <simple-attribute attr="E-DEF" :val="npc.Stats.EDefense" />
           <simple-attribute attr="SENSOR" :val="npc.Stats.Sensor" />
         </v-row>
         <v-divider class="my-2" />
@@ -102,6 +102,10 @@
             {{ npc.Power.toString().padStart(4, '0') }}
           </span>
         </div>
+      </v-col>
+      <v-divider vertical />
+      <v-col cols="3">
+        <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
       </v-col>
     </v-row>
     <v-row dense no-gutters class="my-2">

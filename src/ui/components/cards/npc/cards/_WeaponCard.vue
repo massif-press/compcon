@@ -6,26 +6,32 @@
     @remove-feature="$emit('remove-feature', $event)"
   >
     <v-row class="heading h3 text-center" dense no-gutters>
-      <v-col :class="`${item.Feature.DamageType}--text`">
+      <v-col>
         <span v-if="item.Tier" class="heading h3">
-          {{ item.Feature.Damage(item.Tier) }}
-          {{ item.Feature.DamageType }} Damage
+          <cc-damage-element small :damage="item.Feature.Damage(item.Tier)" />
         </span>
         <span v-else>
-          {{ item.Feature.Damage(1) }} / {{ item.Feature.Damage(2) }} /
-          {{ item.Feature.Damage(3) }} {{ item.Feature.DamageType }} Damage
+          <cc-damage-element small :damage="item.Feature.Damage(1)" />
+          /
+          <cc-damage-element small :damage="item.Feature.Damage(2)" />
+          /
+          <cc-damage-element small :damage="item.Feature.Damage(3)" />
         </span>
       </v-col>
       <v-divider vertical />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          +{{ item.Feature.Accuracy(item.Tier) }}
+          <span v-if="item.Feature.Accuracy(item.Tier) > 0">+</span>
+          {{ item.Feature.Accuracy(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
-          +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
-            item.Feature.Accuracy(3)
-          }}
+          <span v-if="item.Feature.Accuracy(1) > 0">+</span>
+          {{ item.Feature.Accuracy(1) }} /
+          <span v-if="item.Feature.Accuracy(2) > 0">+</span>
+          {{ item.Feature.Accuracy(2) }} /
+          <span v-if="item.Feature.Accuracy(3) > 0">+</span>
+          {{ item.Feature.Accuracy(3) }}
           Attack Bonus
         </span>
       </v-col>

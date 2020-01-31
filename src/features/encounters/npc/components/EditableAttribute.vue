@@ -26,7 +26,7 @@
           @keyup.enter="editMode = false"
           @focus="$event.target.select()"
         />
-        <span v-else class="heading h2">{{ val }}</span>
+        <span v-else class="heading h2">{{ val || '0' }}</span>
       </v-card-text>
     </v-card>
   </v-col>

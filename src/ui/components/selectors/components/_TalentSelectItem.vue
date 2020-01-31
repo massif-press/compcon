@@ -6,7 +6,7 @@
     <cc-solo-dialog ref="dialog" large icon="cci-trait" no-confirm :title="talent.Name">
       <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
-    <v-stepper v-model="step" non-linear class="elevation-0 mt-n1">
+    <v-stepper v-model="step" non-linear class="elevation-0 mt-n1 transparent">
       <v-stepper-header style="height: 50px!important" class="elevation-0">
         <v-stepper-step
           v-for="i in 3"
@@ -76,6 +76,11 @@ export default Vue.extend({
   data: () => ({
     step: 'I',
   }),
+  watch: {
+    pilotRank(newval, oldval) {
+      if (newval < oldval) this.step = 'I'.repeat(this.pilotRank + 1)
+    },
+  },
   created() {
     if (this.pilotRank === 1) this.step = 'II'
     else if (this.pilotRank > 1) this.step = 'III'

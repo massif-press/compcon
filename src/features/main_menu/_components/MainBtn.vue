@@ -10,7 +10,7 @@
         @mouseenter="$emit('hover')"
         @mouseover="mouseOver = true"
         @mouseleave="mouseOver = false"
-        @click="$router.push(to)"
+        @click="to ? $router.push(to) : $emit('clicked')"
       >
         <div class="unskew heading pb-1">
           <v-icon dark size="50" class="ml-n4 mt-n2">cci-pilot</v-icon>

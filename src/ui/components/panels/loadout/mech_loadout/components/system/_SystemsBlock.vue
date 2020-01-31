@@ -41,6 +41,7 @@
         :mech="mech"
         :item="s"
         :color="color"
+        :index="i"
         :readonly="readonly"
       />
 

@@ -23,8 +23,8 @@ export class NpcClass {
     tactics: string
   }
   private _stats: NpcClassStats
-  private _base_features: NpcFeature[]
-  private _optional_features: NpcFeature[]
+  private _base_features: string[]
+  private _optional_features: string[]
   private _power: number
   private _brew: string
 
@@ -35,12 +35,8 @@ export class NpcClass {
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
     this._power = data.power
-    this._base_features = this._base_features = data.base_features.map(x =>
-      store.getters.referenceByID('NpcFeatures', x)
-    )
-    this._optional_features = data.optional_features.map(x =>
-      store.getters.referenceByID('NpcFeatures', x)
-    )
+    this._base_features = data.base_features
+    this._optional_features = data.optional_features
     this._brew = data.brew || 'CORE'
   }
 
@@ -61,6 +57,7 @@ export class NpcClass {
   }
 
   public get RoleIcon(): string {
+    if (this._role.toLowerCase() === 'biological') return 'mdi-heart-pulse'
     return `cci-role-${this._role}`
   }
 
@@ -77,11 +74,11 @@ export class NpcClass {
   }
 
   public get BaseFeatures(): NpcFeature[] {
-    return this._base_features
+    return this._base_features.map(x => store.getters.referenceByID('NpcFeatures', x))
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this._optional_features
+    return this._optional_features.map(x => store.getters.referenceByID('NpcFeatures', x))
   }
 
   public get Stats(): NpcClassStats {
