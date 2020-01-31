@@ -51,13 +51,13 @@
       <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />
     </v-row>
     <span class="heading h3 text--text text-center mt-4">
-      COMP/CON is supported thanks to generous
+      COMP/CON is supported by the generous
       <a
         v-extlink="`https://www.patreon.com/compcon`"
         href="https://www.patreon.com/compcon"
         v-html="'contributions'"
       />
-      from:
+      of:
     </span>
     <v-row dense justify="center">
       <tier-five v-for="c in credits.t5" :key="c.name" :info="c" />

@@ -155,7 +155,7 @@
             updated every five (5) Cradle Standard Years of objective time to retain GMS licensing
             rights. Far-field operatives that anticipate deployments lasting longer than five Cradle
             Standard Years that have not been issued a man-portable Omninet Hook should apply for
-            the RM-11-B IDENT Supplimental (b) Extension. Contact your local Union Adminstrative
+            the RM-11-B IDENT Supplemental (b) Extension. Contact your local Union Adminstrative
             Officer for any other matters regarding this record.&emsp;&emsp;V-CDL//M-265-114-831 (A)
           </span>
         </v-row>

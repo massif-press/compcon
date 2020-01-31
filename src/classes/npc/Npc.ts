@@ -475,6 +475,14 @@ export class Npc implements IActor {
     return this.Stats.Speed
   }
 
+  public get Evasion(): number {
+    return this.Stats.Evade
+  }
+
+  public get EDefense(): number {
+    return this.Stats.EDefense
+  }
+
   public get Reactions(): string[] {
     return this._reactions
   }

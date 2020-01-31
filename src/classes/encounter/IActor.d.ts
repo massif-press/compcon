@@ -9,6 +9,8 @@ declare interface IActor {
   Destroyed: boolean
   Defeat: string
   Activations: number
+  Evasion: number
+  EDefense: number
   Actions: number
   CurrentStructure: number
   CurrentHP: number

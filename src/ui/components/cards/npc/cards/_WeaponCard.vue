@@ -6,7 +6,13 @@
     @remove-feature="$emit('remove-feature', $event)"
   >
     <v-row class="heading h3 text-center" dense no-gutters>
-      <v-col>
+      <v-col cols="auto">
+        <span class="heading h3">
+          <cc-range-element small :range="item.Feature.Range" />
+        </span>
+      </v-col>
+      <v-divider vertical class="mx-4" />
+      <v-col cols="auto">
         <span v-if="item.Tier" class="heading h3">
           <cc-damage-element small :damage="item.Feature.Damage(item.Tier)" />
         </span>
@@ -18,7 +24,7 @@
           <cc-damage-element small :damage="item.Feature.Damage(3)" />
         </span>
       </v-col>
-      <v-divider vertical />
+      <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
           <span v-if="item.Feature.Accuracy(item.Tier) > 0">+</span>

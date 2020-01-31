@@ -30,18 +30,18 @@
   "devs": [
     {
       "name": "Matthew Johnston",
-      "twitter": "dril",
-      "website": "https://github.com/massif-press"
+      "github": "Eranziel"
     },
     {
-      "name": "CommanderTso",
-      "twitter": "dril",
-      "website": "https://github.com/massif-press"
+      "name": "Scott Macmillan",
+      "twitter": "scottmacmillan",
+      "website": "commandertso.com",
+      "image": "https://cdn.discordapp.com/attachments/575847689506390017/672844868095049738/image0.jpg"
     },
     {
       "name": "Qwertronix",
-      "twitter": "dril",
-      "website": "https://github.com/massif-press"
+      "github": "Qwertronix",
+      "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
     }
   ],
   "t5": [],
@@ -67,6 +67,14 @@
     "thesjans",
     "VertigoCharades",
     "Xen",
-    "Zieche"
+    "Zieche",
+    "AK318",
+    "Elderino",
+    "V2Blast",
+    "Ceri",
+    "\"Op\" Philip Flarsheim",
+    "Murlaco",
+    "Tigg Kazzuma MD",
+    "Unwary"
   ]
 }

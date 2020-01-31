@@ -1,4 +1,4 @@
-import { Tag, Range, Damage } from '@/class'
+import { Tag, Range, Damage, RangeType } from '@/class'
 import { IRangeData } from '@/interface'
 import { NpcFeature, NpcFeatureType } from '.'
 import { INpcFeatureData } from './interfaces'

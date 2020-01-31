@@ -13,7 +13,7 @@ export const LOAD_ENCOUNTERS = 'LOAD_ENCOUNTERS'
 
 async function saveEncounterData(encounters: Encounter[]) {
   const serialized = encounters.map(x => Encounter.Serialize(x))
-  await saveData('encounters.json', serialized)
+  await saveData('encounters_v2.json', serialized)
 }
 
 @Module({
@@ -87,7 +87,7 @@ export class EncounterStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadEncounters() {
-    const pilotData = await loadData<IEncounterData>('encounters.json')
+    const pilotData = await loadData<IEncounterData>('encounters_v2.json')
     this.context.commit(LOAD_ENCOUNTERS, pilotData)
   }
 }

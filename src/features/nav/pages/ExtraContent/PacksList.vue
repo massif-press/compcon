@@ -6,6 +6,8 @@
       :headers="headers"
       :items="contentPacks"
       show-expand
+      :expanded.sync="expanded"
+      item-key="Name"
     >
       <!-- Active toggle -->
       <template v-slot:item.toggleActive="{ item }">
@@ -97,6 +99,7 @@ import { ContentPack } from '@/class'
 
 @Component
 export default class PacksList extends Vue {
+  private expanded
   private compendiumStore = getModule(CompendiumStore, this.$store)
 
   public async toggleActive(packID: string, active: boolean): Promise<void> {

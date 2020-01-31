@@ -383,6 +383,7 @@ class Mech implements IActor {
   }
 
   public get CurrentHP(): number {
+    if (this._current_hp > this.MaxHP) this.CurrentHP = this.MaxHP
     return this._current_hp
   }
 
