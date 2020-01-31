@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
       <v-divider class="my-2 " />
-      <v-row dense>
+      <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
         <v-data-table
           dense
           :items="classes"
@@ -27,6 +27,7 @@
           no-results-text="No NPC Classes Found"
           class="transparent"
           style="min-width: 100%"
+          disable-pagination
         >
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
@@ -56,19 +57,15 @@
           </template>
         </v-data-table>
       </v-row>
-      <v-divider class="my-2" />
-      <v-row justify="center">
+      <v-divider class="mt-2" />
+      <v-row justify="center" dense class="mb-n10">
         <v-col cols="10">
           <v-btn large block color="primary" :disabled="!selectedClass" @click="AddNpc()">
             <v-icon left>mdi-plus</v-icon>
             <span v-if="selectedClass">Add New {{ selectedClass.Name }}</span>
             <span v-else>Select NPC Class</span>
           </v-btn>
-        </v-col>
-      </v-row>
-      <v-row justify="center" dense>
-        <v-col cols="10">
-          <v-btn text small to="/gm/npc-roster">
+          <v-btn outlined block small class="mt-1" to="/gm/npc-roster">
             <v-icon left>mdi-chevron-left</v-icon>
             Return to NPC Roster
           </v-btn>

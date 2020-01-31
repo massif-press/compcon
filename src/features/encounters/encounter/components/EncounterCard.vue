@@ -252,27 +252,27 @@
             <v-divider v-if="forces.enemy.length" />
             <npc-chip
               v-for="(n, i) in forces.enemy"
-              :key="`fe_${n.ID}_i`"
+              :key="`fe_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveNpc(n)"
+              @remove="encounter.RemoveNpc(n, 'Enemy')"
               @clone="encounter.AddNpc(n, 'Enemy')"
             />
             <div v-if="forces.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
             <npc-chip
               v-for="(n, i) in forces.allied"
-              :key="`fa_${n.ID}_i`"
+              :key="`fa_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveNpc(n)"
+              @remove="encounter.RemoveNpc(n, 'Ally')"
               @clone="encounter.AddNpc(n, 'Ally')"
             />
             <div v-if="forces.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
             <npc-chip
               v-for="(n, i) in forces.neutral"
-              :key="`fn_${n.ID}_i`"
+              :key="`fn_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveNpc(n)"
+              @remove="encounter.RemoveNpc(n, 'Neutral')"
               @clone="encounter.AddNpc(n, 'Neutral')"
             />
             <div class="mx-6">
@@ -297,27 +297,27 @@
             <v-divider v-if="forces.enemy.length" />
             <npc-chip
               v-for="(n, i) in reinforcements.enemy"
-              :key="`re_${n.ID}_i`"
+              :key="`re_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveReinforcement(n)"
+              @remove="encounter.RemoveReinforcement(n, 'Enemy')"
               @clone="encounter.AddReinforcement(n, 'Enemy')"
             />
             <div v-if="reinforcements.allied.length" class="caption ml-2">ALLIED</div>
             <v-divider v-if="forces.allied.length" />
             <npc-chip
               v-for="(n, i) in reinforcements.allied"
-              :key="`ra_${n.ID}_i`"
+              :key="`ra_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveReinforcement(n)"
+              @remove="encounter.RemoveReinforcement(n, 'Ally')"
               @clone="encounter.AddReinforcement(n, 'Ally')"
             />
             <div v-if="reinforcements.neutral.length" class="caption ml-2">NEUTRAL</div>
             <v-divider v-if="forces.neutral.length" />
             <npc-chip
               v-for="(n, i) in reinforcements.neutral"
-              :key="`rn_${n.ID}_i`"
+              :key="`rn_${n.ID}_${i}`"
               :npc="n"
-              @remove="encounter.RemoveReinforcement(n)"
+              @remove="encounter.RemoveReinforcement(n, 'Neutral')"
               @clone="encounter.AddReinforcement(n, 'Neutral')"
             />
             <div class="mx-6">

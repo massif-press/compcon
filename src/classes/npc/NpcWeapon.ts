@@ -1,20 +1,21 @@
-import { Tag, Range } from '@/class'
+import { Tag, Range, Damage } from '@/class'
 import { IRangeData } from '@/interface'
 import { NpcFeature, NpcFeatureType } from '.'
 import { INpcFeatureData } from './interfaces'
+import { DamageType } from '../enums'
 
 export interface INpcDamageData {
   type: string
   damage: number[]
-  accuracy: number[]
-  advantage: number[]
 }
 
 export interface INpcWeaponData extends INpcFeatureData {
   weapon_type: string
-  damage: INpcDamageData
+  damage: INpcDamageData[]
   range: IRangeData[]
   on_hit: string
+  accuracy: number[]
+  attack_bonus: number[]
   tags: ITagData[]
   type: NpcFeatureType.Weapon
 }
@@ -22,8 +23,10 @@ export interface INpcWeaponData extends INpcFeatureData {
 export class NpcWeapon extends NpcFeature {
   private _tags: ITagData[]
   private _weapon_type: string
-  private _damage_data: INpcDamageData
+  private _damage_data: INpcDamageData[]
   private _range: Range[]
+  private _accuracy: number[]
+  private _attack_bonus: number[]
   private _on_hit?: string
 
   public constructor(data: INpcWeaponData) {
@@ -31,6 +34,8 @@ export class NpcWeapon extends NpcFeature {
     this._on_hit = data.on_hit || ''
     this._weapon_type = data.weapon_type
     this._damage_data = data.damage
+    this._accuracy = data.accuracy || [0, 0, 0]
+    this._attack_bonus = data.attack_bonus || [0, 0, 0]
     this._range = data.range.map(x => new Range(x))
     this._tags = data.tags
     this.type = NpcFeatureType.Weapon
@@ -64,20 +69,22 @@ export class NpcWeapon extends NpcFeature {
     return this._range
   }
 
-  public get DamageType(): string {
-    return this._damage_data.type
-  }
-
-  public Damage(tier: number): number {
-    return this._damage_data.damage[tier - 1]
+  public Damage(tier: number): Damage[] {
+    return this._damage_data.map(
+      (x: INpcDamageData) =>
+        new Damage({
+          type: x.type as DamageType,
+          val: x.damage[tier - 1],
+        })
+    )
   }
 
   public Accuracy(tier: number): number {
-    return this._damage_data.accuracy[tier - 1]
+    return this._accuracy[tier - 1]
   }
 
   public Advantage(tier: number): number {
-    return this._damage_data.advantage[tier - 1]
+    return this._attack_bonus[tier - 1]
   }
 
   public get Color(): string {

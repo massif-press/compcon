@@ -7,7 +7,7 @@
         v-bind="$props"
         style="visibility: visible;"
         :style="`visibility: visible; background-color: ${bgColor} !important`"
-        @click="$emit('click')"
+        @click.stop="$emit('click')"
       >
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
           &nbsp;
@@ -73,8 +73,8 @@ export default Vue.extend({
     bgColor(): string {
       if (this.disabled) return 'gray'
       else return this.getColor(this.color, this.$vuetify)
-    }
-  }
+    },
+  },
 })
 </script>
 

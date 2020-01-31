@@ -175,12 +175,15 @@ export default Vue.extend({
     },
     updateFilters() {
       let fObj = {} as any
-      if (this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.weaponTypeFilter.length) fObj.Type = [this.weaponTypeFilter]
-      if (this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter]
-      if (this.attackTypeFilter.length) fObj.RangeType = this.attackTypeFilter
-      if (this.damageTypeFilter.length) fObj.DamageType = this.damageTypeFilter
+      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
+      if (this.weaponTypeFilter && this.weaponTypeFilter.length) fObj.Type = [this.weaponTypeFilter]
+      if (this.weaponSizeFilter && this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter]
+      if (this.attackTypeFilter && this.attackTypeFilter.length)
+        fObj.RangeType = this.attackTypeFilter
+      if (this.damageTypeFilter && this.damageTypeFilter.length)
+        fObj.DamageType = this.damageTypeFilter
+      console.log(fObj)
       this.$emit('set-filters', fObj)
     },
   },

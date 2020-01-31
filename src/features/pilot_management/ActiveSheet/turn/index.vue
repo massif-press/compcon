@@ -51,21 +51,30 @@ export default Vue.extend({
   },
   data: () => ({
     mini: true,
-    step: 0,
   }),
+  computed: {
+    step() {
+      const stage = this.pilot.ActiveMech.State.stage
+      switch (stage) {
+        case 'Rest':
+          return 2
+        case 'Combat':
+          return 1
+        default:
+          return 0
+      }
+    },
+  },
   methods: {
     startCombat() {
-      this.step = 1
-      this.$refs.turn.restart()
-      this.$emit('combat')
+      this.pilot.ActiveMech.State.stage = 'Combat'
     },
     endCombat() {
-      this.step = 2
+      this.pilot.ActiveMech.State.stage = 'Rest'
       this.$refs.rest.startRest()
     },
     startDowntime() {
-      this.step = 0
-      this.$emit('downtime')
+      this.pilot.ActiveMech.State.stage = 'Downtime'
     },
   },
 })

@@ -144,6 +144,7 @@
           </v-col>
           <v-col cols="auto" class="mr-4">
             <cc-tick-bar
+              v-if="!npc.IsBiological"
               :key="npc.CurrentHeat"
               :current="npc.CurrentHeat"
               :max="npc.HeatCapacity"
@@ -179,25 +180,25 @@
                 prominent
                 :color="npc.Class.Color"
                 header="Hull"
-                :content="npc.Stats.Hull"
+                :content="npc.Stats.Hull || '0'"
               />
               <cc-active-card
                 prominent
                 :color="npc.Class.Color"
                 header="Agility"
-                :content="npc.Stats.Agility"
+                :content="npc.Stats.Agility || '0'"
               />
               <cc-active-card
                 prominent
                 :color="npc.Class.Color"
                 header="Systems"
-                :content="npc.Stats.Systems"
+                :content="npc.Stats.Systems || '0'"
               />
               <cc-active-card
                 prominent
                 :color="npc.Class.Color"
                 header="Engineering"
-                :content="npc.Stats.Engineering"
+                :content="npc.Stats.Engineering || '0'"
               />
             </v-row>
             <v-row>

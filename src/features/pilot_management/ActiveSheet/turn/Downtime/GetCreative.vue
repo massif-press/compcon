@@ -33,7 +33,7 @@
               </v-row>
               <v-row dense>
                 <v-col class="mx-6">
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+                  <v-textarea v-model="details" auto-grow rows="1" label="Details" filled />
                 </v-col>
               </v-row>
               <v-row justify="center">

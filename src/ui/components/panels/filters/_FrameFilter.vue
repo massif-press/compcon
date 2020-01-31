@@ -85,6 +85,7 @@ export default Vue.extend({
     mountTypes(): MountType[] {
       return Object.keys(MountType)
         .map(k => MountType[k as any])
+        .filter(x => x !== 'Integrated')
         .sort() as MountType[]
     },
   },

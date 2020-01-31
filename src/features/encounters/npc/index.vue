@@ -31,12 +31,13 @@
           calculate-widths
           class="transparent"
           style="min-width: 100%"
+          disable-pagination
         >
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
               <span class="heading white--text">
-                {{ h.group ? h.group.toUpperCase() : 'NONE' }}
+                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NONE' }}
               </span>
             </div>
           </template>

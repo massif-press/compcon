@@ -35,7 +35,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="9">
-                <div v-if="reserve.Type === 'Narrative'">
+                <div v-if="reserve.Type === 'Resources'">
                   <v-text-field
                     v-model.lazy="reserve.ResourceName"
                     :label="reserve.ResourceLabel"

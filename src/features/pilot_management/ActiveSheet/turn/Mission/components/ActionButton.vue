@@ -73,7 +73,7 @@ export default Vue.extend({
     actionColor: '',
   }),
   created() {
-    this.action = actions.find(x => x.id === `action_${this.actionId}`)
+    this.action = actions.find(x => x.id === `act_${this.actionId}`)
     if (this.colorOverride) this.actionColor = this.colorOverride
     else this.actionColor = `action--${this.action.action_type}`
   },

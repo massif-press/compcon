@@ -12,6 +12,13 @@
             Accuracy
           </div>
         </span>
+        <span>
+          +{{ item.AttackBonus(1) }}/+{{ item.AttackBonus(2) }}/+{{ item.AttackBonus(3) }}
+          <br />
+          <div class="overline mt-n1">
+            Attack Bonus
+          </div>
+        </span>
       </div>
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">

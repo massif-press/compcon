@@ -15,7 +15,7 @@ class Reserve {
 
   public constructor(data: IReserveData) {
     this._id = data.id
-    this.type = (data.type as ReserveType) || ReserveType.Narrative
+    this.type = (data.type as ReserveType) || ReserveType.Resources
     this._name = data.name || ''
     this._label = data.label || ''
     this._resource_name = data.resource_name || ''

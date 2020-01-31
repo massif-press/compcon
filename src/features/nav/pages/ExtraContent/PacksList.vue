@@ -1,5 +1,5 @@
 <template>
-  <div class="packsList" style="height: 600px;">
+  <div class="packsList" style="min-height: 300px;">
     <v-data-table
       hide-default-footer
       no-data-text="No content packs installed."
@@ -29,34 +29,58 @@
       </template>
       <!-- Delete action -->
       <template v-slot:item.deleteAction="{ item }">
-        <v-btn icon color="primary" @click="deletePack(item.ID)">
-          <v-icon>
-            delete
-          </v-icon>
-        </v-btn>
+        <v-menu offset-y offset-x top nudge-left="30px">
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="primary" class="fadeSelect" v-on="on">
+              <v-icon>
+                delete
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="text-center body-text">
+              <p>
+                This will remove this pack and all of its contents from COMP/CON. User data that
+                relies on this content will be unavailable and may cause errors. Are you sure you
+                want to continue?
+              </p>
+              <v-divider class="my-2" />
+              <v-row dense>
+                <v-btn small text>CANCEL</v-btn>
+                <v-btn small color="error" class="ml-auto" @click="deletePack(item.ID)">
+                  CONFIRM
+                </v-btn>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-menu>
       </template>
       <!-- Expanded view -->
       <template v-slot:expanded-item="{ item, headers }">
-        <td :colspan="headers.length" class="py-4 px-6 w-100">
-          <div class="d-flex">
-            <div style="display: flex; flex-direction: column;">
-              <span v-if="item.Description">
-                {{ item.Description }}
-              </span>
-              <span v-else class="font-italic grey--text text--darken-1">
-                No description.
-              </span>
-              <div v-if="item.Website" class="mt-auto" style="flex-grow: 0;">
-                <v-btn v-extlink="item.Website" text small color="secondary" :href="item.Website">
-                  <v-icon prepend>open_in_new</v-icon>
+        <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
+          <v-row>
+            <v-col>
+              <p class="body-text text--text pa-2 mb-1">
+                <span v-if="item.Description">
+                  {{ item.Description }}
+                </span>
+                <span v-else>
+                  No description given.
+                </span>
+              </p>
+
+              <div v-if="item.Website" class="mt-2">
+                <v-divider class="ma-1" />
+                <v-btn v-extlink="item.Website" :href="item.Website" text color="secondary">
+                  <v-icon prepend class="mr-1">open_in_new</v-icon>
                   &nbsp;Website
                 </v-btn>
               </div>
-            </div>
-            <div style="margin-left: 1em; max-width: 40%; min-width: 25%;">
-              <img v-if="item.ImageURL" style="max-width: 100%" :src="item.ImageURL" />
-            </div>
-          </div>
+            </v-col>
+            <v-col cols="2">
+              <v-img :src="item.ImageURL" alt="Pack image" />
+            </v-col>
+          </v-row>
         </td>
       </template>
     </v-data-table>
@@ -76,7 +100,6 @@ export default class PacksList extends Vue {
   private compendiumStore = getModule(CompendiumStore, this.$store)
 
   public async toggleActive(packID: string, active: boolean): Promise<void> {
-    console.log(packID, active)
     await this.compendiumStore.setPackActive({
       packID,
       active,
