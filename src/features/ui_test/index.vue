@@ -240,9 +240,9 @@ const icons = [
 export default Vue.extend({
   name: 'ui-test',
   data: () => ({
-    notificationText: '',
+    notificationText: 'test',
     notificationTypes: ["achievement", "confirmation", "error"],
-    notificationType: "Confirmation"
+    notificationType: "confirmation"
   }),
   methods: {
     allIcons() {

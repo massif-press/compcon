@@ -2,12 +2,11 @@
   <div class="notificationContainer">
     <v-snackbar
       ref="snackbar"
-      v-model="isOpen"
       v-ripple="isClickable"
       :style="{ cursor: isClickable ? 'pointer' : 'inherit' }"
       :value="true"
       :color="notificationVariant && notificationVariant.color"
-      :timeout="interacted ? timeout : 0"
+      :timeout="0"
       @mouseover="onInteract"
       @click="onClick"
     >
@@ -83,16 +82,14 @@ export default class NotificationSnackbar extends Vue {
     this.timeoutValue = 0
   }
 
+  private timeoutRef: NodeJS.Timeout
   async mounted() {
     await this.$nextTick()
-    if (this.timeout > 0) this.doTimeoutProgress()
-  }
-
-  isOpen = true;
-  @Watch('isOpen')
-  onChange(newValue: boolean) {
-    if (newValue === false) {
-      this.$emit('closed')
+    if (this.timeout > 0) {
+      this.doTimeoutProgress()
+      this.timeoutRef = setTimeout(() => {
+        this.$emit('dismiss')
+      }, this.timeout);
     }
   }
 
@@ -112,11 +109,8 @@ export default class NotificationSnackbar extends Vue {
     this.setProgressTransition(500)
     // wait for next tick so that the transition duration change takes
     await this.$nextTick()
-    // this will set `this.timeout` to 0
     this.interacted = true
-    // need to execute this method of the v-snackbar object to get it to actually take the timeout change
-    // tightly couples, but oh well
-    this.snackbar.setTimeout()
+    clearTimeout(this.timeoutRef)
   }
 
   // 
