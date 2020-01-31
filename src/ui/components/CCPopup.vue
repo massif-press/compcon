@@ -26,23 +26,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-popup',
-  props: {
-    icon: {
-      type: Boolean,
-      required: false,
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    confirm() {
-      this.dialog = false
-      this.$emit('confirm')
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-popup' })
+export default class CCPopup extends Vue {
+  @Prop({ type: Boolean, required: false, })
+  readonly flat?: boolean
+  @Prop({ type: Boolean, required: false, })
+  readonly icon?: boolean
+
+  dialog = false
+  confirm() {
+    this.dialog = false
+    this.$emit('confirm')
+  }
+}
 </script>
