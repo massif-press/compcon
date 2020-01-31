@@ -3,12 +3,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-slashes', })
-export default class CCSlashes extends Vue {
-  
-  @Prop({ type: [String, Number], required: false, default: '', })
-  readonly size: string | number 
-}
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-slashes',
+  props: {
+    size: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+  },
+})
 </script>
