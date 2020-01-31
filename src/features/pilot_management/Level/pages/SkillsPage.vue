@@ -8,7 +8,7 @@
   >
     <cc-title large>Improve Skill Triggers&emsp;</cc-title>
     <h2 class="heading">
-      MV-2 License Aqusition Request
+      MV-2 License Acquisition Request
       <cc-slashes />&nbsp;MV-2//a Skill Improvement Assessment
     </h2>
     <div style="position: absolute; right: 16px; top: 16px">

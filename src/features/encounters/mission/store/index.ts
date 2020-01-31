@@ -17,12 +17,12 @@ export const LOAD_ACTIVE_MISSIONS = 'LOAD_ACTIVE_MISSIONS'
 
 async function saveMissionData(missions: Mission[]) {
   const serialized = missions.map(x => Mission.Serialize(x))
-  await saveData('missions.json', serialized)
+  await saveData('missions_v2.json', serialized)
 }
 
 async function saveActiveMissionData(activeMissions: ActiveMission[]) {
   const serialized = activeMissions.map(x => ActiveMission.Serialize(x))
-  await saveData('active_missions.json', serialized)
+  await saveData('active_missions_v2.json', serialized)
 }
 
 @Module({
@@ -136,13 +136,13 @@ export class MissionStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadMissions() {
-    const missionData = await loadData<IMissionData>('missions.json')
+    const missionData = await loadData<IMissionData>('missions_v2.json')
     this.context.commit(LOAD_MISSIONS, missionData)
   }
 
   @Action({ rawError: true })
   public async loadActiveMissions() {
-    const missionData = await loadData<IActiveMissionData>('active_missions.json')
+    const missionData = await loadData<IActiveMissionData>('active_missions_v2.json')
     this.context.commit(LOAD_ACTIVE_MISSIONS, missionData)
   }
 }

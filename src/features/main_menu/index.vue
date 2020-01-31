@@ -20,7 +20,7 @@
 
     <v-footer color="primary" fixed>
       <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.optionsModal.show()">
+      <v-btn small dark text @mouseenter="ccLog('options')" @click="$refs.optionsModal.show()">
         Options
       </v-btn>
       <v-divider vertical dark class="mx-1" />
@@ -104,13 +104,13 @@ export default Vue.extend({
           break
         case 'pilot':
           this.$refs['log'].print(
-            'man pilot_sheet',
-            'Create and manage pilots and their mechs, print character sheets, and enable active play mode.'
+            'man pilot-sheet',
+            'Create and manage pilots and their mechs, print character sheets, and enable active play mode'
           )
           break
         case 'gm':
           this.$refs['log'].print(
-            'man gm_tools',
+            'man gm-tools',
             'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
           )
           break
@@ -118,19 +118,19 @@ export default Vue.extend({
           this.$refs['log'].print('man campaigns', 'work in progress')
           break
         case 'content':
-          this.$refs['log'].print('man homebrew', 'manage and create COMP/CON expansion data')
+          this.$refs['log'].print('man homebrew', 'Manage and create COMP/CON expansion data')
           break
         case 'options':
-          this.$refs['log'].print('compcon -settings --verbose', 'open the options manager')
+          this.$refs['log'].print('compcon -settings --verbose', 'Open the options manager')
           break
         case 'about':
-          this.$refs['log'].print('compcon --v', 'about COMP/CON')
+          this.$refs['log'].print('compcon --v', 'About COMP/CON')
           break
         case 'help':
-          this.$refs['log'].print('compcon --h', 'open COMP/CON help page')
+          this.$refs['log'].print('compcon --h', 'Open the COMP/CON help page')
           break
         case 'refresh':
-          this.$refs['log'].print('sudo halt -r authrestart', 'update and reload COMP/CON')
+          this.$refs['log'].print('sudo halt -r authrestart', 'Update and reload COMP/CON')
           break
         case 'update':
           this.$refs['log'].print(

@@ -6,7 +6,7 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.map(x => Pilot.Serialize(x))
-  await saveData('pilots.json', serialized)
+  await saveData('pilots_v2.json', serialized)
 }
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -90,7 +90,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotData = await loadData<IPilotData>('pilots.json')
+    const pilotData = await loadData<IPilotData>('pilots_v2.json')
     this.context.commit(LOAD_PILOTS, pilotData)
   }
 

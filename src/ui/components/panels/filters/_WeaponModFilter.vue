@@ -81,8 +81,8 @@ export default Vue.extend({
     },
     updateFilters() {
       let fObj = {} as any
-      if (this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter.length) fObj.Tags = this.tagFilter
+      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       this.$emit('set-filters', fObj)
     },
   },

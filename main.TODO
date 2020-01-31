@@ -1,30 +1,26 @@
-Current: 
 NPC etc: 
-  ✔ Tag interactions @done(20-01-30 13:25)
-  ✔ Size selector @done(20-01-30 13:09)
-
-  Etc:
-    ☐ Nav Menu
-      ☐ Profile 
-        ✔ Space for theme @done(20-01-29 15:45)
-        ✔ Space for sync/account settings @done(20-01-29 15:45)
-        ✔ Hard Reload @done(20-01-30 15:54)
-        ☐ Export/Import all functions
-          ☐ rewrite converter/validator
-        ☐ Clear all data
-        ✔ Space for achievements @done(20-01-29 15:45)
-      ✔ Content Packages @done(20-01-29 15:45)
-      ✔ Delete Content Package warning @done(20-01-30 15:54)
-      ✔ About @done(20-01-30 16:09)
-      ✔ Help @done(20-01-30 17:27)
 
   Style Pass:
-    ✔ Restyle CC tooltip @done(20-01-30 14:06)
     ☐ pilot NO IMG
     ☐ map NO IMG
     ☐ itch.io images and screens
 
 Archive:
+  ✔ Nav Menu @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Profile @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Export/Import all functions @done(20-01-31 14:37) @project(NPC etc.Etc)
+  ✔ Clear all data @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Tag interactions @done(20-01-30 13:25) @project(NPC etc)
+  ✔ Size selector @done(20-01-30 13:09) @project(NPC etc)
+  ✔ Space for theme @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Space for sync/account settings @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Hard Reload @done(20-01-30 15:54) @project(NPC etc.Etc)
+  ✔ Space for achievements @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Content Packages @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Delete Content Package warning @done(20-01-30 15:54) @project(NPC etc.Etc)
+  ✔ About @done(20-01-30 16:09) @project(NPC etc.Etc)
+  ✔ Help @done(20-01-30 17:27) @project(NPC etc.Etc)
+  ✔ Restyle CC tooltip @done(20-01-30 14:06) @project(NPC etc.Style Pass)
   ✔ confirm dialog on image delete @done(20-01-24 13:23) @project(Current.Image Selector)
   ✔ Fix NPC side selection @done(20-01-24 13:02) @project(Current.Encounter Data)
   ✔ NPC chip remove/dupe @done(20-01-24 11:41) @project(Current.Encounter Data)

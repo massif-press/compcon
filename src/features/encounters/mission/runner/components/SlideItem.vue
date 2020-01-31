@@ -80,6 +80,17 @@
               {{ actor.Activations }}
             </cc-tooltip>
           </v-col>
+          <v-col cols="auto">
+            <cc-tooltip inline title="Evasion" :content="`${actor.Evasion}`">
+              <v-icon dark class="mr-n2">mdi-arrow-decision</v-icon>
+              {{ actor.Evasion }}
+            </cc-tooltip>
+            <br />
+            <cc-tooltip inline title="E-Defense" :content="`${actor.EDefense}`">
+              <v-icon dark class="mr-n2">cci-marker</v-icon>
+              {{ actor.EDefense }}
+            </cc-tooltip>
+          </v-col>
         </v-row>
         <v-row class="text-center" justify="space-around" dense no-gutters>
           <v-col>

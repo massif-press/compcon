@@ -50,7 +50,7 @@ new Vue({
   router,
   store,
   created() {
-    Startup('2.0.0', 'PRERELEASE 2', store)
+    Startup(Vue.prototype.version, Vue.prototype.lancerVersion, store)
   },
   render: h => h(App),
 }).$mount('#app')

@@ -292,8 +292,8 @@
         <v-col>
           <v-row>
             <cc-active-card color="frame" header="Speed" :content="mech.Speed" />
-            <cc-active-card color="frame" header="Attack Bonus" :content="`+${mech.AttackBonus}`" />
-            <cc-active-card color="frame" header="Tech Attack" :content="`+${mech.TechAttack}`" />
+            <cc-active-card color="frame" header="Attack Bonus" :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`" />
+            <cc-active-card color="frame" header="Tech Attack" :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`" />
           </v-row>
           <v-row>
             <cc-active-card

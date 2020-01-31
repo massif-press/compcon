@@ -141,7 +141,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">E-DEFENSE</legend>
+              <legend class="stat-text px-1">E-DEF</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ mech.EDefense }}</div>
             </fieldset>
           </v-col>
@@ -153,7 +153,7 @@
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="stat-text px-1">SENSOR RANGE</legend>
+              <legend class="stat-text px-1">SENSORS</legend>
               <div class="heading h2 text-center mt-n2 pb-1">{{ mech.SensorRange }}</div>
             </fieldset>
           </v-col>

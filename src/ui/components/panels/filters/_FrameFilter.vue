@@ -98,8 +98,8 @@ export default Vue.extend({
     updateFilters() {
       let fObj = {} as any
       if (this.sourceFilter) fObj.Source = [this.sourceFilter]
-      if (this.typeFilter.length) fObj.Mechtype = this.typeFilter
-      if (this.mountFilter.length) fObj.Mounts = this.mountFilter
+      if (this.typeFilter && this.typeFilter.length) fObj.Mechtype = this.typeFilter
+      if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter
       this.$emit('set-filters', fObj)
     },
   },

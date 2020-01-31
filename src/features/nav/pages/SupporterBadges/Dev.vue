@@ -10,17 +10,21 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <div class="heading h2 mb-1 text--text">
+            <div class="heading h2 mb-2 text--text">
               {{ info.name }}
             </div>
-            <a v-extlink="`${info.website}`">
+            <a v-if="info.website" v-extlink="`${info.website}`">
               <v-icon color="primary">mdi-web</v-icon>
               <span v-if="big">Website</span>
             </a>
-            &emsp; | &emsp;
-            <a v-extlink="`https://twitter.com/${info.twitter}`">
+            <span v-if="big" class="mx-3">|</span>
+            <a v-if="info.twitter" v-extlink="`https://twitter.com/${info.twitter}`">
               <v-icon color="primary">mdi-twitter</v-icon>
               <span v-if="big">@{{ info.twitter }}</span>
+            </a>
+            <a v-if="info.github" v-extlink="`https://github.com/${info.github}`">
+              <v-icon color="primary">mdi-github-circle</v-icon>
+              <span v-if="big">{{ info.github }}</span>
             </a>
           </v-col>
         </v-row>

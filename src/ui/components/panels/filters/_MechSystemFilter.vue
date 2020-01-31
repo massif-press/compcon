@@ -103,9 +103,9 @@ export default Vue.extend({
     },
     updateFilters() {
       let fObj = {} as any
-      if (this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
+      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
+      if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
       this.$emit('set-filters', fObj)
     },
   },

@@ -56,7 +56,7 @@
         </v-text-field>
 
         <span class="overline">
-          RM-4-02 // APPROVED CALLSIGN (OR CADET DESINGATION, IF APPLICABLE)
+          RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
         </span>
         <v-text-field v-model="pilot.Callsign" outlined label="Callsign" hide-details>
           <template v-slot:prepend>
@@ -83,7 +83,7 @@
           </template>
         </v-text-field>
 
-        <span class="overline">RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER RM-4b SUPPLIMENTAL</span>
+        <span class="overline">RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER RM-4b SUPPLEMENTAL</span>
         <text-entry-popup
           label="Pilot Biography"
           :prepopulate="pilot.History"

@@ -13,7 +13,7 @@ export const LOAD_NPCS = 'LOAD_NPCS'
 
 async function saveNpcData(npcs: Npc[]) {
   const serialized = npcs.map(x => Npc.Serialize(x))
-  await saveData('npcs.json', serialized)
+  await saveData('npcs_v2.json', serialized)
 }
 
 @Module({
@@ -93,7 +93,7 @@ export class NpcStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadNpcs() {
-    const pilotData = await loadData<INpcData>('npcs.json')
+    const pilotData = await loadData<INpcData>('npcs_v2.json')
     this.context.commit(LOAD_NPCS, pilotData)
   }
 }

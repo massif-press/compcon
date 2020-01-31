@@ -8,7 +8,7 @@
   >
     <cc-title large>Unlock License&emsp;</cc-title>
     <h2 class="heading">
-      MV-2 License Aqusition Request
+      MV-2 License Acquisition Request
       <cc-slashes />&nbsp;MV-2//d Licensor/Licensee Transmit Record
     </h2>
     <div style="position: absolute; right: 16px; top: 16px">

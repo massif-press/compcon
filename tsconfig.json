@@ -12,22 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noEmit": false,
-    "types": [
-      "electron",
-      "jest"
-    ],
+    "types": ["electron", "jest"],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"]
   },
   "include": [
     "src/**/*.ts",
@@ -46,9 +36,7 @@
     "src/store/modules/configs.ts",
     "src/store/modules/compendium.js"
   ],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "allowJs": true,
   "declaration": false
 }
