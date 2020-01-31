@@ -29,19 +29,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Damage } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-damage-element',
-  props: {
-    damage: {
-      type: Array,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-  },
-})
+
+@Component({ name: 'cc-damage-element' })
+export default class CCDamageElement extends Vue {
+
+  @Prop({ type: Array, required: true, validator: (prop: Damage[]) => prop.every((dmg) => dmg instanceof Damage) }) 
+  readonly damage: Damage[]
+
+  @Prop({ type: Boolean, required: false, })
+  readonly small: boolean
+  
+}
 </script>

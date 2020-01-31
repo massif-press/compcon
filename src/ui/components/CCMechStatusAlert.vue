@@ -67,88 +67,83 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'status-alert',
-  props: {
-    type: {
-      type: String,
-      required: true,
-    },
-    criticalOnly: {
-      type: Boolean,
-    },
-    hideClear: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    show() {
-      if (!this.criticalOnly) return true
-      switch (this.type) {
-        case 'overSP':
-        case 'underSP':
-        case 'unfinished':
-        case 'unlicensed':
-          return false
-        default:
-          return true
-      }
-    },
-    icon() {
-      switch (this.type) {
-        case 'ejected':
-          return 'mdi-account-off-outline'
-          break
-        case 'destroyed':
-          return 'mdi-image-broken-variant'
-          break
-        case 'meltdown':
-          return 'mdi-alert-outline'
-          break
-        case 'reactorDestroyed':
-          return 'mdi-nuke'
-          break
-        case 'cascading':
-          return 'mdi-link-variant-off'
-          break
-        case 'overSP':
-        case 'underSP':
-          return 'cci-system'
-          break
-        case 'unfinished':
-          return 'mdi-alert'
-          break
-        case 'unlicensed':
-          return 'mdi-view-week'
-          break
-        default:
-          return ''
-          break
-      }
-    },
-    color() {
-      switch (this.type) {
-        case 'destroyed':
-        case 'cascading':
-          return 'error'
-          break
-        case 'meltdown':
-          return 'dangerzone'
-          break
-        case 'reactorDestroyed':
-          return 'accent darken-1'
-          break
-        case 'overSP':
-        case 'ejected':
-        case 'unlicensed':
-          return 'warning darken-1'
-          break
-        default:
-          return 'grey darken-1'
-          break
-      }
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'status-alert' })
+export default class CCMechStatusAlert extends Vue {
+  
+  @Prop({ type: String, required: true, })
+  readonly type!: string
+  @Prop({ type: Boolean, })
+  readonly criticalOnly?: boolean
+  @Prop({ type: Boolean, })
+  readonly hideClear?: boolean
+
+  get show() {
+    if (!this.criticalOnly) return true
+    switch (this.type) {
+      case 'overSP':
+      case 'underSP':
+      case 'unfinished':
+      case 'unlicensed':
+        return false
+      default:
+        return true
+    }
+  }
+  get icon() {
+    switch (this.type) {
+      case 'ejected':
+        return 'mdi-account-off-outline'
+        break
+      case 'destroyed':
+        return 'mdi-image-broken-variant'
+        break
+      case 'meltdown':
+        return 'mdi-alert-outline'
+        break
+      case 'reactorDestroyed':
+        return 'mdi-nuke'
+        break
+      case 'unshackled':
+        return 'mdi-link-variant-off'
+        break
+      case 'overSP':
+      case 'underSP':
+        return 'cci-system'
+        break
+      case 'unfinished':
+        return 'mdi-alert'
+        break
+      case 'unlicensed':
+        return 'mdi-view-week'
+        break
+      default:
+        return ''
+        break
+    }
+  }
+  get color() {
+    switch (this.type) {
+      case 'destroyed':
+      case 'cascading':
+        return 'error'
+        break
+      case 'meltdown':
+        return 'dangerzone'
+        break
+      case 'reactorDestroyed':
+        return 'accent darken-1'
+        break
+      case 'overSP':
+      case 'ejected':
+      case 'unlicensed':
+        return 'warning darken-1'
+        break
+      default:
+        return 'grey darken-1'
+        break
+    }
+  }
+}
 </script>
