@@ -25,7 +25,7 @@
               <v-row v-if="item.notes">
                 <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
                   <cc-tooltip simple inline :content="n">
-                    <v-icon small color="active">mdi-note</v-icon>
+                    <v-icon color="active">mdi-note</v-icon>
                   </cc-tooltip>
                 </v-col>
               </v-row>

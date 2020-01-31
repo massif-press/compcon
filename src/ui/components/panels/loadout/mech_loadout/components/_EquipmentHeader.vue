@@ -9,9 +9,10 @@
           mdi-link-variant-off
         </v-icon>
         <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">
-          {{ item.Name }} DESTROYED
+          {{ mod ? item.Name : '' }}DESTROYED
         </div>
-        <div v-else>{{ item.Name }}</div>
+        <div v-else-if="mod">{{ item.Name }}</div>
+        <div v-else>{{ item.Size }} {{ item.Type }}</div>
       </span>
     </v-col>
     <v-col v-if="item.Note" cols="auto" class="ml-2">
@@ -58,6 +59,9 @@ export default Vue.extend({
       type: Boolean,
     },
     dark: {
+      type: Boolean,
+    },
+    mod: {
       type: Boolean,
     },
   },

@@ -24,7 +24,7 @@
     </v-card-text>
     <v-divider />
     <v-card-actions>
-      <v-btn flat @click="close()">cancel</v-btn>
+      <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
       <v-btn large tile color="primary" @click="addSkill()">
         {{ tabs === 0 ? 'Add Skill' : 'Improve Skill' }}
@@ -50,7 +50,7 @@ export default Vue.extend({
       this.pilot.Reserves.push(
         new Reserve({
           id: 'reserve_skill',
-          type: 'Narrative',
+          type: 'Resources',
           name: 'Skill Focus',
           description: 'Added via the "Get Focused" Downtime Action',
           resource_name: 'Skill Focus',

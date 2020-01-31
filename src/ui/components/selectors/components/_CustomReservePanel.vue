@@ -8,7 +8,7 @@
       >
         <div class="text-center">
           <v-btn-toggle v-model="customType" tile mandatory group color="secondary">
-            <v-btn value="Narrative">Narrative Reserve</v-btn>
+            <v-btn value="Resources">Resources Reserve</v-btn>
             <v-divider vertical="mx-2" />
             <v-btn value="Mech">Mech Reserve</v-btn>
             <v-divider vertical="mx-2" />
@@ -50,7 +50,7 @@ import { Reserve } from '@/class'
 export default Vue.extend({
   name: 'custom-reserve-panel',
   data: () => ({
-    customType: 'Narrative',
+    customType: 'Resources',
     customName: '',
     details: '',
   }),
@@ -71,7 +71,7 @@ export default Vue.extend({
       this.$emit('add', nr)
     },
     clear() {
-      this.customType = 'Narrative'
+      this.customType = 'Resources'
       this.customName = ''
       this.details = ''
     },

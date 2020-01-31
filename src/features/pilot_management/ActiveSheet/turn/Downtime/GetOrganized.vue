@@ -188,14 +188,14 @@
                                   Additionally, the organization takes one of the following actions:
                                 </span>
                                 <v-btn-toggle v-model="action" mandatory>
-                                  <v-btn flat large value="Pay Debts">Pay Debts</v-btn>
-                                  <v-btn flat large value="Prove Worthiness">
+                                  <v-btn text large value="Pay Debts">Pay Debts</v-btn>
+                                  <v-btn text large value="Prove Worthiness">
                                     Prove Worthiness
                                   </v-btn>
-                                  <v-btn flat large value="Get Bailed Out">
+                                  <v-btn text large value="Get Bailed Out">
                                     Get Bailed Out
                                   </v-btn>
-                                  <v-btn flat large value="Make an Aggressive Move">
+                                  <v-btn text large value="Make an Aggressive Move">
                                     Make an Aggressive Move
                                   </v-btn>
                                 </v-btn-toggle>

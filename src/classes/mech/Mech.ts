@@ -5,6 +5,7 @@ import { rules } from 'lancer-data'
 import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { ActiveState } from './ActiveState'
 
 class Mech implements IActor {
   private _id: string
@@ -39,6 +40,7 @@ class Mech implements IActor {
   private _burn: number
   private _actions: number
   private _currentMove: number
+  private _state: ActiveState
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid()
@@ -72,6 +74,7 @@ class Mech implements IActor {
     this._activations = 1
     this._actions = 2
     this._currentMove = this.Speed
+    this._state = new ActiveState(this)
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -151,7 +154,7 @@ class Mech implements IActor {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
-    if (this._frame.Name.toUpperCase() === 'STANDARD PATTERN I "EVEREST"') {
+    if (this._frame.ID === 'mf_standard_pattern_i_everest') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
       if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
       else requirements.push(this.Frame.RequiredLicense)
@@ -218,7 +221,9 @@ class Mech implements IActor {
 
   public get Armor(): number {
     let bonus =
-      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < rules.max_mech_armor ? 1 : 0
+      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < rules.max_mech_armor
+        ? 1
+        : 0
     return this._frame.Armor + bonus
   }
 
@@ -867,6 +872,11 @@ class Mech implements IActor {
     return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
+  // -- Active Mode -------------------------------------------------------------------------------
+  public get State(): ActiveState {
+    return this._state
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
     return {
@@ -898,6 +908,7 @@ class Mech implements IActor {
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
       cc_ver: store.getters.getVersion || 'ERR',
+      state: ActiveState.Serialize(m._state),
     }
   }
 
@@ -942,6 +953,7 @@ class Mech implements IActor {
     m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
     m._cc_ver = data.cc_ver || ''
+    m._state = data.state ? ActiveState.Deserialize(data.state, m) : new ActiveState(m)
     return m
   }
 }

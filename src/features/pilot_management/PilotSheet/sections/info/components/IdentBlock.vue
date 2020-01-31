@@ -85,10 +85,12 @@ import Vue from 'vue'
 import CloudManager from '../../../components/CloudManager.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-export default Vue.extend({
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'ident-block',
   components: { CloudManager },
-  mixins: [activePilot],
+
   data: () => ({
     pilotStatuses: [
       { text: 'Active', value: 'ACTIVE' },

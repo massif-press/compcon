@@ -12,7 +12,7 @@ export interface INpcClassStats {
   agility: number[]
   systems: number[]
   engineering: number[]
-  size: number[]
+  size: number[][]
   structure?: number[]
   stress?: number[]
 }
@@ -76,7 +76,7 @@ export class NpcClassStats {
     return this._stats.engineering[tier - 1]
   }
 
-  public Size(tier: number): number {
+  public Sizes(tier: number): number[] {
     return this._stats.size[tier - 1]
   }
 

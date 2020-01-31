@@ -35,7 +35,7 @@
           <div class="primary sliced">
             <v-icon dark left>mdi-chevron-right</v-icon>
             <span class="heading white--text">
-              {{ h.group ? h.group.toUpperCase() : 'NONE' }}
+              {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NONE' }}
             </span>
           </div>
         </template>
@@ -51,6 +51,8 @@
               })
             "
           >
+            <v-icon v-html="item.Class.RoleIcon" />
+            <v-icon left v-html="`cci-rank-${item.Tier}`" />
             {{ item.Name }}
           </span>
         </template>

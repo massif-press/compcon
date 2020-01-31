@@ -15,12 +15,8 @@ function mechname(): string {
 }
 
 async function name(): Promise<string> {
-  const firstNamesList = (
-    await import(/* webpackChunkName: "generators" */ '@/assets/generators/firstnames.txt')
-  ).default
-  const lastNamesList = (
-    await import(/* webpackChunkName: "generators" */ '@/assets/generators/lastnames.txt')
-  ).default
+  const firstNamesList = require('@/assets/generators/firstnames.txt')
+  const lastNamesList = require('@/assets/generators/lastnames.txt')
 
   const prob: any = require('@/assets/generators/name_mods.json')
   const firstnames = pullRandom(firstNamesList, 2)
@@ -65,16 +61,5 @@ function flavorID(template: string): string {
   }
   return output
 }
-
-// function flavorString(): string {
-//   const str =
-//     Math.random()
-//       .toString(36)
-//       .substring(2, 15) +
-//     Math.random()
-//       .toString(36)
-//       .substring(2, 15)
-//   return btoa(str)
-// }
 
 export { name, callsign, mechname, mission, encryption, flavorID }
