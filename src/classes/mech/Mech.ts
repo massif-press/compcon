@@ -626,7 +626,7 @@ class Mech implements IActor {
     if (this.MeltdownImminent) out.push('meltdown')
     if (this.ActiveLoadout.Systems.filter(x => x.IsCascading).length) out.push('cascading')
     if (this.FreeSP < 0) out.push('overSP')
-    if (this.FreeSP) out.push('underSP')
+    if (this.FreeSP > 0) out.push('underSP')
     if (this.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
     if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
     return out
