@@ -11,7 +11,6 @@
         class="mb-1 align-end snackFade"
         :notification="notification"
         :timeout="5000"
-        @closed="hideNotification(notification.id)"
         @dismiss="hideNotification(notification.id)"
       />
     </transition-group>
