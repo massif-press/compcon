@@ -11,11 +11,11 @@ if (PLATFORM == 'electron') {
 const saveFile = function(filename, data, label = 'Save') {
   switch (PLATFORM) {
     case 'web':
-      var blob = new Blob([data], { type: 'text/csv' })
+      const blob = new Blob([data])
       if (window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveBlob(blob, filename)
       } else {
-        var elem = window.document.createElement('a')
+        const elem = window.document.createElement('a')
         elem.href = window.URL.createObjectURL(blob)
         elem.download = filename
         document.body.appendChild(elem)
