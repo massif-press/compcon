@@ -26,20 +26,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-stepper-content', })
-export default class CCStepperContent extends Vue{
-
-  @Prop({ type: Boolean, required: false, })
-  readonly noConfirm?: boolean
-  @Prop({ type: Boolean, required: false, })
-  readonly back?: boolean
-
-  @Prop({ type: Boolean, required: true, })
-  readonly complete!: boolean
-  @Prop({ type: String, required: true, })
-  readonly exit!: string
-
-}
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-stepper-content',
+  props: {
+    complete: {
+      type: Boolean,
+      required: true,
+    },
+    back: {
+      type: Boolean,
+      required: false,
+    },
+    exit: {
+      type: String,
+      required: true,
+    },
+    noConfirm: {
+      type: Boolean,
+      required: false,
+    },
+  },
+})
 </script>
