@@ -13,6 +13,7 @@
     "sourceMap": true,
     "noEmit": false,
     "types": [
+      "vuetify",
       "electron",
       "jest"
     ],

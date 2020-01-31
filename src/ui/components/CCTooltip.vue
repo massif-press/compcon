@@ -23,39 +23,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'cc-tooltip',
-  props: {
-    err: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    simple: {
-      type: Boolean,
-      required: false,
-    },
-    inline: {
-      type: Boolean,
-      required: false,
-    },
-    delayed: {
-      type: Boolean,
-      required: false,
-    },
-    title: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-  },
-})
+@Component({ name: 'cc-tooltip', })
+export default class CCTooltip extends Vue {
+  @Prop({ type: String, required: false, default: '', })
+  readonly err: string
+
+  @Prop({ type: Boolean, required: false, })
+  readonly simple?: boolean
+
+  @Prop({ type: Boolean, required: false, })
+  readonly inline?: boolean
+
+  @Prop({ type: Boolean,required: false, })
+  readonly delayed?: boolean
+
+  @Prop({ type: String, required: false, default: '', })
+  readonly title: string
+
+  @Prop({ type: String, required: true, })
+  readonly content!: string
+
+}
 </script>
 
 <style scoped>

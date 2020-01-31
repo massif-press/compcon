@@ -20,18 +20,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-statblock-panel',
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: [String, Number],
-      required: true,
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-statblock-panel', })
+export default class CCStatblockPanel extends Vue {
+
+  @Prop({ type: String, required: true, })
+  readonly name!: string
+  
+  @Prop({ type: [String, Number], required: true, })
+  readonly value!: string | number
+}
 </script>

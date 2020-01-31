@@ -12,14 +12,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-short-string-editor',
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-simple-select', })
+export default class CCSimpleSelect extends Vue {
+
+  @Prop({ type: Array, required: true, validator: (item) => item.text && item.text.toString })
+  readonly items!: { 
+    text: string | number | object
+    value: string | number | object
+  }[]
+
+}
 </script>
