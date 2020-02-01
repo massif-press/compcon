@@ -12,7 +12,11 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "noEmit": false,
-    "types": ["electron", "jest"],
+    "types": [
+      "vuetify",
+      "electron",
+      "jest"
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
