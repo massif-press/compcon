@@ -1,4 +1,4 @@
-import { Pilot, DamageType, RangeType } from '@/class'
+import { Pilot, RangeType } from '@/class'
 import Mech from '@/classes/mech/Mech'
 
 interface IRoll20Data {
@@ -40,7 +40,7 @@ interface IRoll20Data {
       name: string
       range: number
       damage: string
-      type: DamageType
+      type: string
       tags: string
     }[]
     //
@@ -80,7 +80,7 @@ interface IRoll20Data {
       type: string
       range: number
       damage: string
-      damageType: DamageType
+      damageType: string
       tags: string
       notes: string
     }[]
@@ -105,7 +105,7 @@ function strip(text: string) {
   return doc.body.textContent || ''
 }
 
-function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
+export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
   const output = {
     pilot: {
       name: pilot.Name,
@@ -183,8 +183,8 @@ function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         notes: weapon.Note,
       })),
-      corePassive: mech.Frame.CoreSystem.Passive,
-      coreActive: mech.Frame.CoreSystem.Active,
+      corePassive: `${mech.Frame.CoreSystem.PassiveName}\n${mech.Frame.CoreSystem.PassiveEffect}`,
+      coreActive: `${mech.Frame.CoreSystem.ActiveName}\n${mech.Frame.CoreSystem.ActiveEffect}`,
       traits: mech.Frame.Traits.map(rank => ({
         name: rank.name,
         description: strip(rank.description),
@@ -199,5 +199,3 @@ function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
   }
   return output
 }
-
-export default pilotToRoll20
