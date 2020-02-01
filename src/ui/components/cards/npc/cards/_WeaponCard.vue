@@ -27,29 +27,29 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          <span v-if="item.Feature.Accuracy(item.Tier) > 0">+</span>
-          {{ item.Feature.Accuracy(item.Tier) }}
+          <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
+          {{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
-          <span v-if="item.Feature.Accuracy(1) > 0">+</span>
-          {{ item.Feature.Accuracy(1) }} /
-          <span v-if="item.Feature.Accuracy(2) > 0">+</span>
-          {{ item.Feature.Accuracy(2) }} /
-          <span v-if="item.Feature.Accuracy(3) > 0">+</span>
-          {{ item.Feature.Accuracy(3) }}
+          <span v-if="item.Feature.AttackBonus(1) > 0">+</span>
+          {{ item.Feature.AttackBonus(1) }} /
+          <span v-if="item.Feature.AttackBonus(2) > 0">+</span>
+          {{ item.Feature.AttackBonus(2) }} /
+          <span v-if="item.Feature.AttackBonus(3) > 0">+</span>
+          {{ item.Feature.AttackBonus(3) }}
           Attack Bonus
         </span>
       </v-col>
       <v-divider vertical />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          +{{ item.Feature.Advantage(item.Tier) }}
+          +{{ item.Feature.Accuracy(item.Tier) }}
           Accuracy Bonus
         </span>
         <span v-else>
-          +{{ item.Feature.Advantage(1) }} / +{{ item.Feature.Advantage(2) }} / +{{
-            item.Feature.Advantage(3)
+          +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
+            item.Feature.Accuracy(3)
           }}
           Accuracy Bonus
         </span>

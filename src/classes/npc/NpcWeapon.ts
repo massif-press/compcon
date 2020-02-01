@@ -83,7 +83,7 @@ export class NpcWeapon extends NpcFeature {
     return this._accuracy[tier - 1]
   }
 
-  public Advantage(tier: number): number {
+  public AttackBonus(tier: number): number {
     return this._attack_bonus[tier - 1]
   }
 
