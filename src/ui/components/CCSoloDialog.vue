@@ -8,7 +8,7 @@
     <v-card tile class="background">
       <cc-titlebar :clipped="!noTitleClip" large :icon="icon" :color="color" :fixed="fullscreen">
         {{ title }}
-        <v-btn slot="items" dark icon @click="dialog = false">
+        <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
@@ -23,10 +23,10 @@
 
       <v-card-actions v-if="noConfirm">
         <v-spacer />
-        <v-btn text @click="dialog = false">dismiss</v-btn>
+        <v-btn text @click="hide">dismiss</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
-        <v-btn text @click="dialog = false">cancel</v-btn>
+        <v-btn text @click="hide">cancel</v-btn>
         <v-spacer />
         <cc-btn @click="confirm">confirm</cc-btn>
       </v-card-actions>
@@ -35,65 +35,45 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-solo-dialog',
-  props: {
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    large: {
-      type: Boolean,
-      required: false,
-    },
-    fullscreen: {
-      type: Boolean,
-      required: false,
-    },
-    noConfirm: {
-      type: Boolean,
-      required: false,
-    },
-    noPad: {
-      type: Boolean,
-      required: false,
-    },
-    noTitleClip: {
-      type: Boolean,
-      required: false,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    icon: {
-      type: String,
-      required: false,
-      default: '',
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    confirm() {
-      this.$emit('confirm')
-      this.dialog = false
-    },
-    show() {
-      this.dialog = true
-    },
-    hide() {
-      this.dialog = false
-    },
-  },
-})
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+
+@Component({ name: 'cc-solo-dialog', })
+export default class CCSoloDialog extends Vue {
+  @Prop({ type: String, required: false, default: 'primary', })
+  readonly color: string
+  @Prop({ type: String, required: false, default: '', })
+  readonly icon: string
+  
+  @Prop({ type: Boolean, required: false, })
+  readonly small?: boolean
+  @Prop({ type: Boolean, required: false, })
+  readonly large?: boolean
+
+  @Prop({ type: Boolean, required: false, })
+  readonly fullscreen?: boolean
+
+  @Prop({ type: Boolean, required: false, })
+  readonly noConfirm?: boolean
+  @Prop({ type: Boolean, required: false, })
+  readonly noPad?: boolean
+  @Prop({ type: Boolean, required: false, })
+  readonly noTitleClip?: boolean
+
+  @Prop({ type: String, required: false, })
+  readonly title?: string
+  
+  dialog = false
+  @Emit()
+  confirm() {
+    this.dialog = false
+  }
+  show() {
+    this.dialog = true
+  }
+  hide() {
+    this.dialog = false
+  }
+}
 </script>
 
 <style scoped>
