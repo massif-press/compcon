@@ -14,35 +14,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Pilot, Tag } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-tag',
-  props: {
-    tag: {
-      type: Object,
-      required: true,
-    },
-    pilot: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  },
-  computed: {
-    bonus() {
-      if (!this.pilot) return 0
-      else return this.pilot.LimitedBonus
-    },
-  },
-})
+@Component({ name: 'cc-tag', })
+export default class CCTag extends Vue {
+  @Prop({ type: Boolean, required: false, })
+  readonly small?: boolean 
+  @Prop({ type: String, required: false, default: 'primary', })
+  readonly color: string
+
+  @Prop({ type: Object, required: true, })
+  readonly tag!: Tag
+
+  @Prop({ type: Object, required: false, default: null, })
+  readonly pilot?: Pilot 
+
+  get bonus() {
+    if (!this.pilot) return 0
+    else return this.pilot.LimitedBonus
+  }
+}
 </script>
