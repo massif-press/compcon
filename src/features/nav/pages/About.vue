@@ -50,6 +50,7 @@
       <dev-badge v-for="c in credits.lead_devs" :key="c.name" :info="c" big />
       <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />
     </v-row>
+    <v-divider class="my-3" />
     <span class="heading h3 text--text text-center mt-4">
       COMP/CON is supported by the generous
       <a
@@ -59,21 +60,21 @@
       />
       of:
     </span>
-    <v-row dense justify="center">
+    <v-row justify="center">
       <tier-five v-for="c in credits.t5" :key="c.name" :info="c" />
     </v-row>
     <v-row dense justify="center">
       <tier-four v-for="c in credits.t4" :key="c.name" :info="c" />
     </v-row>
-    <div class="text-center my-4">
+    <v-row dense justify="center">
       <tier-three v-for="c in credits.t3" :key="c" :name="c" />
-    </div>
-    <div class="text-center my-4">
+    </v-row>
+    <v-row dense justify="center">
       <tier-two v-for="c in credits.t2" :key="c" :name="c" />
-    </div>
-    <div class="text-center my-4">
+    </v-row>
+    <v-row dense justify="center">
       <tier-one v-for="c in credits.t1" :key="c" :name="c" />
-    </div>
+    </v-row>
     <span class="heading h2 text--text text-center mt-2">Special Thanks to:</span>
     <div class="text-center my-2">
       <special-thanks v-for="c in credits.special_thanks" :key="c" :name="c" />

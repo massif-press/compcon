@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="fullscreen"
-    :width="small ? '30vw' : large ? '80vw' : '50vw'"
+    :width="small ? '30vw' : large ? '85vw' : '50vw'"
     :style="fullscreen ? `x-overflow: hidden` : ''"
   >
     <v-card tile class="background">

@@ -90,6 +90,14 @@ export class Npc implements IActor {
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
+  // private hasFeature(id: string): boolean {
+  //   return this.Features.some(x => x.ID === id)
+  // }
+
+  // private setFeatureMods(): void {
+
+  // }
+
   public get Active(): boolean {
     return this._active
   }
@@ -259,10 +267,7 @@ export class Npc implements IActor {
 
   public AddTemplate(temp: NpcTemplate): void {
     this._templates.push(temp)
-    temp.BaseFeatures.forEach(f => {
-      let t = typeof this.Tier === 'number' ? this.Tier : 1
-      this._items.push(new NpcItem(f, t))
-    })
+    temp.BaseFeatures.forEach(f => this.AddFeature(f))
     this.save()
   }
 
@@ -270,14 +275,8 @@ export class Npc implements IActor {
     const idx = this._templates.findIndex(x => x.ID === temp.ID)
     if (idx > -1) {
       this._templates.splice(idx, 1)
-      temp.BaseFeatures.forEach(f => {
-        let j = this._items.findIndex(y => y.Feature.ID === f.ID)
-        if (j > -1) this._items.splice(j, 1)
-      })
-      temp.OptionalFeatures.forEach(f => {
-        let k = this._items.findIndex(z => z.Feature.ID === f.ID)
-        if (k > -1) this._items.splice(k, 1)
-      })
+      temp.BaseFeatures.forEach(f => this.RemoveFeature(f))
+      temp.OptionalFeatures.forEach(f => this.RemoveFeature(f))
     }
     this.save()
   }
@@ -289,6 +288,20 @@ export class Npc implements IActor {
           if (remove) this._stats.Stats[key] -= feat.Bonus[key]
           else this._stats.Stats[key] += feat.Bonus[key]
         }
+      }
+    }
+    //TODO: these should be managed in the data instead
+    if (feat.ID === 'npcf_chaff') {
+      if (remove && typeof this.Tier === 'number') this._stats.HP = this.Class.Stats.HP(this.Tier)
+      else this._stats.HP = 1
+    }
+    if (feat.ID === 'npcf_weak') {
+      if (remove && typeof this.Tier === 'number') {
+        this._stats.Structure = this.Class.Stats.Structure(this.Tier)
+        this._stats.Stress = this.Class.Stats.Stress(this.Tier)
+      } else {
+        this._stats.Structure = 1
+        this._stats.Stress = 1
       }
     }
   }
@@ -304,8 +317,8 @@ export class Npc implements IActor {
     const j = this._items.findIndex(x => x.Feature.ID === feat.ID)
     if (j > -1) {
       this._items.splice(j, 1)
+      this.setStatBonuses(feat, true)
     }
-    this.setStatBonuses(feat, true)
     this.save()
   }
 

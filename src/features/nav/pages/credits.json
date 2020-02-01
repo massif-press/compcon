@@ -3,13 +3,13 @@
     {
       "name": "Miguel Lopez",
       "twitter": "The_One_Lopez",
-      "website": "massif-press.itch.io",
+      "website": "https://massif-press.itch.io",
       "image": "https://pbs.twimg.com/profile_images/1201241048732717056/SfxfR0CP_400x400.jpg"
     },
     {
       "name": "Tom Parkinson Morgan",
       "twitter": "Orbitaldropkick",
-      "website": "killsixbilliondemons.com",
+      "website": "https://killsixbilliondemons.com/",
       "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
     }
   ],
@@ -35,7 +35,7 @@
     {
       "name": "Scott Macmillan",
       "twitter": "scottmacmillan",
-      "website": "commandertso.com",
+      "website": "https://commandertso.com",
       "image": "https://cdn.discordapp.com/attachments/575847689506390017/672844868095049738/image0.jpg"
     },
     {
@@ -45,10 +45,30 @@
     }
   ],
   "t5": [],
-  "t4": [],
-  "t3": [],
-  "t2": [],
-  "t1": [],
+  "t4": [
+    {
+      "name": "Aphyria"
+    },
+    {
+      "name": "Mikhail “khail” Echávarri, PhC"
+    }
+  ],
+  "t3": ["MeckaMecha", "Praxiis", "Big Iron", "Cloudyshine"],
+  "t2": ["Adam Millson", "Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell"],
+  "t1": [
+    "James Goldsworthy",
+    "Frank \"Broadway\" Neuman",
+    "VertigoCharades",
+    "MIHistoryGuy",
+    "William McDuff",
+    "Kettellcorn",
+    "Starduster",
+    "SirSnufflesTheStalwart",
+    "Joonas Laakso",
+    "Ol_Coyote",
+    "Grant Brownlee",
+    "Phenomen#1337"
+  ],
   "special_thanks": [
     "#!",
     "ASullyVoice",
@@ -71,10 +91,15 @@
     "AK318",
     "Elderino",
     "V2Blast",
+    "Undyne",
     "Ceri",
+    "DeepOmega",
     "\"Op\" Philip Flarsheim",
+    "Morgdalaine Yaho",
     "Murlaco",
+    "Casual Sawfish",
     "Tigg Kazzuma MD",
-    "Unwary"
+    "Unwary",
+    "Grant BrownleeS"
   ]
 }

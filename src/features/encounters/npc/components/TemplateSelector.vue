@@ -11,6 +11,7 @@
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
+          container: '.v-dialog--active',
         })
       "
     >
