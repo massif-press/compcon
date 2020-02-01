@@ -1,6 +1,7 @@
-import { Vue } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 import { Framework } from 'vuetify';
 
+@Component
 export default class GetColorMixin extends Vue {
   color!: string
 
