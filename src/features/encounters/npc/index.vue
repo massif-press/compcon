@@ -146,7 +146,7 @@
             <v-card flat tile>
               <v-card-title>Select File to Import</v-card-title>
               <v-card-text>
-                <v-file-input counter label="NPC .JSON File" outlined dense @change="fileImport" />
+                <v-file-input v-model="importNpc" counter label="NPC .JSON File" outlined dense @change="fileImport" />
               </v-card-text>
               <v-divider />
               <v-card-actions>
