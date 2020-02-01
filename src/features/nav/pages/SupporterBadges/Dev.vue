@@ -2,9 +2,9 @@
   <v-col :cols="big ? 6 : 4">
     <v-card outlined>
       <v-card-text class="pa-1">
-        <v-row dense>
-          <v-col cols="auto" class="mr-4 ml-2">
-            <v-avatar color="orange" :size="big ? 62 : 48">
+        <v-row dense align="center">
+          <v-col cols="auto" class="mr-2 ml-2">
+            <v-avatar color="orange" size="62px">
               <v-img v-if="info.image" :src="info.image" />
               <span v-else class="white--text headline">{{ info.name.substring(0, 1) }}</span>
             </v-avatar>

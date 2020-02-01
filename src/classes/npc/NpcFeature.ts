@@ -80,16 +80,19 @@ export abstract class NpcFeature {
 
   public EffectByTier(tier: number): string {
     if (!this._effect) return ''
-    const perTier = /(\{.*?\})/
+    let fmt = this._effect
+    const perTier = /(\{.*?\})/g
     const m = this._effect.match(perTier)
     if (m) {
-      const tArr = m[0]
-        .replace('{', '')
-        .replace('}', '')
-        .split('/')
-      return this._effect.replace(perTier, `<b class="primary--text">${tArr[tier - 1]}</b>`)
+      m.forEach(x => {
+        const tArr = x
+          .replace('{', '')
+          .replace('}', '')
+          .split('/')
+        fmt = fmt.replace(x, `<b class="primary--text">${tArr[tier - 1]}</b>`)
+      })
     }
-    return this._effect
+    return fmt
   }
 
   public get IsLocked(): boolean {
