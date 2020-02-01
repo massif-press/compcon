@@ -35,7 +35,7 @@
           <v-icon x-large>cci-accuracy</v-icon>
         </div>
         <span>
-          +{{ item.Advantage(1) }}/+{{ item.Advantage(2) }}/+{{ item.Advantage(3) }}
+          +{{ item.Accuracy(1) }}/+{{ item.Accuracy(2) }}/+{{ item.Accuracy(3) }}
           <br />
           <div class="overline mt-n1">
             Advantage
