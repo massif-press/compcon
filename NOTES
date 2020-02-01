@@ -1,3 +1,21 @@
+NPC point calc
+  pilot LL x 100. A LL4 pilot should be worth 400 pts
+  T1 Untemplated NPC should be worth 100-400pts
+  T1 Grunt should be worth 25-50pts
+  T1 Elite should be worth 200-800pts
+  T1 Ultra should be worth 400-1200pts
+
+  stats should have a pct modifier above or below tier level
+
+Compare enemy encounter power to players + allies
+for T1: (100 = 1x player avg LL)
+<-400 - Trivial
+-400 - -100 - Easy
+-100 - +100 - Balanced
++100 - +400 - Difficult
+>+400 - Impossible
+
+
 3/18
 cloc src --exclude-dir=data --ignore-whitespace
       73 text files.
@@ -198,7 +216,7 @@ OTHER
  Be deployed
  Create a drone
  Consume a charge/use
- Become shackled/unshackled
+ Become shackled/cascading
  Do something once per turn/round/scene/full repair
  Get a different profile while in the Danger Zone
  Modify a stat (heat, etc.)

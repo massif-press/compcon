@@ -1,0 +1,15 @@
+# Meta stuff
+/package.json @jarena3 @aritsune
+
+/.travis.yml  @aritsune @CommanderTso
+
+/webpack.config.js  @aritsune
+/webpack_config/* @aritsune
+/electron/* @aritsune
+
+/netlify.toml @aritsune
+
+# Code
+## Homebrew
+/src/io/ContentPackParser.ts @aritsune
+/src/classes/ContentPack.ts  @aritsune

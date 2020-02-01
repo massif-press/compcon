@@ -1,8 +1,10 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const isDevMode = require('electron-is-dev');
 const { CapacitorSplashScreen } = require('@capacitor/electron');
 
 const path = require('path');
+
+require('electron-reload')(__dirname);
 
 // Place holders for our windows so they don't get garbage collected.
 let mainWindow = null;
@@ -11,7 +13,7 @@ let mainWindow = null;
 let splashScreen = null;
 
 //Change this if you do not wish to have a splash screen
-let useSplashScreen = true;
+let useSplashScreen = !isDevMode;
 
 // Create simple menu for easy devtools access, and for demo
 const menuTemplateDev = [
@@ -40,9 +42,17 @@ async function createWindow() {
     }
   });
 
+  globalShortcut.register('CommandOrControl+R', function () {
+    mainWindow.reload()
+  })
+
   if (process.env.NODE_ENV !== 'production') {
     require('vue-devtools').install()
   }
+
+  globalShortcut.register('CommandOrControl+Shift+I', function () {
+    mainWindow.webContents.openDevTools();
+  })
 
   if (isDevMode) {
     // Set our above template to the Menu Object if we are in development mode, dont want users having the devtools.

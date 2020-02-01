@@ -1,125 +1,100 @@
 {
   "name": "compcon",
   "version": "2.0.0",
-  "author": "Massif Press",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
+  "author": "Massif Press",
   "scripts": {
+    "build": "webpack --env.platform=web --env.prod",
     "dev": "webpack-dev-server --progress --env.platform=web",
-    "build": "webpack --progress --env.platform=web --env.prod",
-    "electron:test": "webpack --progress --env.platform=electron && cd ./electron && electron ./",
-    "electron:build": "webpack --progress --env.platform=electron --env.prod && cd ./electron && electron-builder ./"
-  },
-  "electronWebpack": {
-    "title": "COMP/CON v2.0.0",
-    "whiteListedModules": [
-      "vue",
-      "vuetify"
-    ]
-  },
-  "build": {
-    "productName": "compcon",
-    "appId": "com.jarena.compcon",
-    "directories": {
-      "output": "build/"
-    },
-    "files": [
-      "dist/main/**/*",
-      "dist/renderer/**/*"
-    ],
-    "mac": {
-      "icon": "icons/icon.icns",
-      "target": [
-        "zip"
-      ]
-    },
-    "win": {
-      "icon": "icons/icon.ico",
-      "target": [
-        {
-          "target": "portable",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "icon": "icons",
-      "target": [
-        {
-          "target": "AppImage"
-        }
-      ],
-      "category": "Game"
-    }
+    "electron:build": "webpack --env.platform=electron --env.prod && cd ./electron && electron-builder",
+    "electron:dev": "webpack-dev-server --progress --env.platform=electron",
+    "gen-schema": "node ./build_scripts/build-content-schema.js",
+    "int-test": "jest int",
+    "unit-test": "jest unit"
   },
   "dependencies": {
-    "@aricchi/electron-vue-devtools": "^5.0.8-1",
-    "@capacitor/cli": "^1.3.0",
     "@capacitor/core": "^1.3.0",
-    "@mdi/font": "^3.6.95",
-    "@types/fs-extra": "^5.0.5",
-    "@types/lodash": "^4.14.123",
+    "@mdi/font": "^4.8.95",
     "apexcharts": "^3.8.4",
     "axios": "^0.19.0",
-    "css-loader": "^3.0.0",
-    "electron-webpack-eslint": "^4.0.1",
-    "eslint": "^5.16.0",
-    "eslint-loader": "^2.1.2",
-    "fs-extra": "^7.0.1",
-    "lancer-data": "^2.0.0",
+    "electron": "4.0.0",
+    "jszip": "^3.2.2",
+    "lancer-data": "^2.0.8",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
-    "source-map-support": "^0.5.10",
-    "typeface-roboto": "^0.0.54",
+    "promisify-file-reader": "^3.0.5",
+    "typeface-roboto": "^0.0.75",
     "typeit": "^6.0.3",
-    "typograph": "^1.0.15",
     "vue-apexcharts": "^1.4.0",
+    "vue-class-component": "^7.1.0",
     "vue-mousetrap": "^1.0.1",
+    "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.0.6",
-    "vuedraggable": "^2.20.0",
-    "vuetify": "^2.0.0-beta.9",
+    "vuetify": "^2.2.8",
     "vuex": "^3.1.0",
-    "vuex-electron": "^1.0.3",
-    "vuex-module-decorators": "^0.10.1",
-    "xlsx": "^0.14.2"
+    "vuex-module-decorators": "^0.10.1"
   },
   "devDependencies": {
+    "@aricchi/electron-vue-devtools": "^5.0.8-1",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@capacitor/cli": "^1.3.0",
     "@types/jest": "^24.0.13",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
-    "@typescript-eslint/parser": "^1.7.0",
-    "circular-dependency-plugin": "^5.0.2",
+    "@types/jszip": "^3.1.6",
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.5",
     "core-js": "3",
-    "electron": "4.0.1",
-    "electron-builder": "20.38.4",
-    "electron-webpack": "^2.6.2",
-    "electron-webpack-ts": "^3.1.1",
-    "electron-webpack-vue": "^2.2.3",
+    "css-loader": "^3.0.0",
+    "deepmerge": "^4.2.2",
+    "electron-builder": "^22.3.2",
+    "electron-reload": "^1.5.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-html": "^5.0.3",
-    "eslint-plugin-vue": "^5.2.3",
-    "eslint-plugin-vuetify": "^1.0.0-beta.3",
-    "favicons-webpack-plugin": "^1.0.2",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-vuetify": "^1.0.0-beta.5",
+    "favicons-webpack-plugin": "^2.0.0",
+    "fibers": "^4.0.2",
     "file-loader": "^5.0.2",
+    "fork-ts-checker-webpack-plugin": "^4.0.3",
     "html-webpack-plugin": "^3.2.0",
-    "jest": "^24.8.0",
+    "jest": "^25.1.0",
     "jest-mock-random": "^1.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
     "raw-loader": "^4.0.0",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5",
+    "sass": "1.24.2",
+    "sass-loader": "^8.0.0",
+    "source-map-support": "^0.5.10",
+    "ts-jest": "^25.0.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "typescript-json-schema": "^0.42.0",
     "vue": "^2.6.10",
+    "vue-jest": "^3.0.5",
     "vue-loader": "^15.7.2",
+    "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.17",
-    "webpack": "4.28.4",
+    "vuetify-loader": "^1.4.3",
+    "webpack": "^4.41.4",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
     "webpack-inject-plugin": "^1.5.3",
     "webpack-merge": "^4.2.2",
     "webpack-pwa-manifest": "^4.1.1",
-    "workbox-webpack-plugin": "^4.3.1"
+    "workbox-webpack-plugin": "^4.3.1",
+    "write-file-webpack-plugin": "^4.5.1"
   }
 }

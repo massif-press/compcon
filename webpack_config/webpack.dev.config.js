@@ -1,7 +1,9 @@
 const { HotModuleReplacementPlugin } = require('webpack')
 
 module.exports = {
-    plugins: [
-        new HotModuleReplacementPlugin(),
-    ]
+  devtool: 'inline-source-map',
+  mode: 'development',
+  plugins: [
+    new HotModuleReplacementPlugin(),
+  ]
 }

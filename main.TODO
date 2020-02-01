@@ -1,151 +1,124 @@
-Next Steps:
-  ☐ Testing Framework
-    ☐ Unit
-    ☐ E2E
-  ☐ Robust error logging
-  ☐ Renders for itch.io
-  ☐ Allow user to set save data location
-  ☐ Split Pilot, Mech into subclasses
-  ☐ In-file interface declarations available globally through TS import()
-  ☐ Talent Die counters
-  ☐ Better visibility on range/damage bonuses (contributors)
-  ☐ Move explicit-lookup functions to a generalized bonus framework
-  ☐ Avatar image bounding box select
-  ☐ Charts
-  ☐ Tutorial popups (vue-tour)
-  ☐ Gear Catalog comparison view
-  ☐ Active Play mode should have a distinct unmounted and mounted mode, where properties like eg. movement are tracked within the pilot/mech class
-    ☐ Modify movement speed based on prone/immob/stunned
+NPC etc: 
 
-Bugs:
-  ☐ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc.
-  ☐ armsman (at least) bugged
-  ☐ disableable cc-btn
-
-Active Mode:
-  ☐ Toggleable dense loadout view
-
-Unshackling:
-  ☐ Add Unshackled to Reactor/Structure tables
-  ☐ Reshackled on shut down/full repair
-  ☐ Prevent c/c from shackled
-
-Flavor Pass:
-  ☐ Cloud settings panel
-  ☐ Statblock panel
-  ☐ Export panel
-  ☐ Print panel
-
-CCTooltip:
-  ☐ Restyle
-
-Hangar:
-  ☐ Quick Print Mech
-  ☐ Quick Statblock Mech
-
-Print:
-  ☐ Print all relevant tags
-  ☐ Print NPCs
-  ☐ Print Encounters
-
-Printing:
-  ☐ Mark danger zone heat
-  ☐ Print Preview
-  General Print Options:
-    ☐ Large fonts
-    ☐ Print trackable stats as numbers or as pips
-  Pilot Print Options:
-    ☐ Print image
-    ☐ Print empty appearance frame (for drawing)
-    ☐ Print History
-    ☐ Print appearance Notes
-    ☐ Print Pilot Notes
-    ☐ Add space for notes
-    ☐ Add space for sketches
-    ☐ Add space for additonal equipment
-  Mech Print Options: 
-    ☐ Print image
-    ☐ Print empty apparance frame (for drawing)
-    ☐ Print Notes
-    ☐ Add space for notes (lined)
-    ☐ Add space for sketches (unlined)
-    ☐ Per-item notes
-
-Item Selector:
-  ☐ Item card notes don't immediately update
-
-Image Selector:
-  ☐ image browser for specific-tagged item (person, specific frame, all mechs)
-  ☐ confirm dialog on image delete
-
-Pilot Roster:
-  ☐ Big Card view
-
-New Pilot:
-  ☐ Background Selector does not scroll to list
-  ☐ Background selector highlight on mouseover
-  ☐ Background Selector drops list side on reopen
-
-Pilot Sheet:
-  ☐ test importers
-    ☐ ask cc-club to test pull/push cloud syncs
-
-Factions:
-  ☐ Add Factions to Compendium
-  ☐ Pilot primary color should change based on faction
-  ☐ Faction info in Pilot dossier
-  ☐ Faction and Org builders
-
-Refactor:
-  ✔ remove old font stylings @done(19-12-05 13:50)
-  ☐ Replace most instances of .Source with .Manufacturer.Name
-  ☐ remove _shared
-  ☐ Rules logic into class
-  ☐ Contributor/Bonus rules logic should go into seperate class(es)
-  ☐ redo converter/validator
-
-Style Pass:
-  ☐ pilot NO IMG
-  ☐ global notification
-  ☐ error logging
-  ☐ ra text/horus text
-  ☐ integrate text color getter
-
-Improvements:
-  ☐ Add truncated effects to long effect equipment
-  ☐ Expand Glossary
-  ☐ browsable image galleries
-  ☐ hidden tags for specially-handled items
-    ☐ prototype weapon: set max uses
-    ☐ Signature Weapon damage type selection
-    ☐ Prototype Weapon type/range/damage type selection
-  ☐ Click to apply weapon/system self heat
-  ☐ Disable dangerzone systems outside of dangerzone
-  ☐ Ammo block
-  ☐ Mandatory org rolling at the start of every downtime
-  
-Campaign Tools:
-  ☐ Campaigns landing page (import/export/new/select)
-    ☐ Pilot Roster (import pilots via json or gistID)
-    ☐ NPC Roster
-    ☐ vuetify timelines
-
-Preconstructed Characters:
-  ☐ Select Character (cultural stuff)
-    ☐ provide for lore-flavored names, inc'l Barony, Sparra, HORUS acolyte, etc
-  ☐ Select Build (talents etc)
-  ☐ Select Mech (everest)
-
-2.0:
-  ☐ Delete Homebrew content packs
-  ☐ Core Book and Long Rim content packs
-  ☐ Update Help
-  ☐ Update About
-
-Homebrew:
-  ☐ serve content packs as archives `.lcp`
+  Style Pass:
+    ☐ pilot NO IMG
+    ☐ map NO IMG
+    ☐ itch.io images and screens
 
 Archive:
+  ✔ Nav Menu @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Profile @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Export/Import all functions @done(20-01-31 14:37) @project(NPC etc.Etc)
+  ✔ Clear all data @done(20-01-31 14:54) @project(NPC etc.Etc)
+  ✔ Tag interactions @done(20-01-30 13:25) @project(NPC etc)
+  ✔ Size selector @done(20-01-30 13:09) @project(NPC etc)
+  ✔ Space for theme @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Space for sync/account settings @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Hard Reload @done(20-01-30 15:54) @project(NPC etc.Etc)
+  ✔ Space for achievements @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Content Packages @done(20-01-29 15:45) @project(NPC etc.Etc)
+  ✔ Delete Content Package warning @done(20-01-30 15:54) @project(NPC etc.Etc)
+  ✔ About @done(20-01-30 16:09) @project(NPC etc.Etc)
+  ✔ Help @done(20-01-30 17:27) @project(NPC etc.Etc)
+  ✔ Restyle CC tooltip @done(20-01-30 14:06) @project(NPC etc.Style Pass)
+  ✔ confirm dialog on image delete @done(20-01-24 13:23) @project(Current.Image Selector)
+  ✔ Fix NPC side selection @done(20-01-24 13:02) @project(Current.Encounter Data)
+  ✔ NPC chip remove/dupe @done(20-01-24 11:41) @project(Current.Encounter Data)
+  ✔ Fix NPC group sort @done(20-01-24 11:20) @project(Current.Encounter Data)
+  ✔ Non-instanced encounter should reference NPCs @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Non-instanced mission should reference Encounter @done(20-01-23 16:31) @project(Current.Encounter Data)
+  ✔ Active mission should be self-contained @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Actors need to write to mission, not own saves @done(20-01-23 16:33) @project(Current.Encounter Data)
+  ✔ Event interface for Encounters and Rests @done(20-01-23 16:33) @project(Current.Missions)
+  ✔ Fix cc_ver stuff @done(20-01-21 10:12) @project(Current.Bugs)
+  ✔ Fix filter panel @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Weapon Mod Filter @done(20-01-21 13:42) @project(Current.Bugs)
+  ✔ Tag data seems to deserialize incorrectly, especially w/r/t tag values @done(20-01-20 14:31) @project(Current.Bugs)
+  ✔ Compendium tag data is incorrectly typed as ITagData -- should really be its own interface with id, name, description @done(20-01-20 14:34) @project(Current.Refactor)
+  ✔ Normalize folder names @done(20-01-17 15:36) @project(Current.Refactor)
+  ✔ panel colors @done(20-01-17 15:36) @project(Current.Style Pass)
+  ✔ For frame info make expandable image panel/need image somewhere on frame card @done(20-01-17 15:35) @project(Etc)
+  ✔ Background Selector does not scroll to list @done(20-01-17 14:15) @project(New Pilot)
+  ✔ Background selector highlight on mouseover @done(20-01-17 14:15) @project(New Pilot)
+  ✔ remove _shared @done(20-01-17 11:48) @project(Refactor)
+  ✔ Rollovers @done(20-01-15 20:24) @project(Missions)
+  ✔ Pending reaction array for Mech @done(20-01-15 15:33) @project(Missions)
+  ✔ Run Mission @done(20-01-16 14:06) @project(Missions)
+  ✔ Side Tabs @done(20-01-15 15:33) @project(Missions)
+  ✔ Notes @done(20-01-14 13:33) @project(Missions)
+  ✔ Active Mission scratchnote @done(20-01-14 13:33) @project(Missions)
+  ✔ Encounter Info @done(20-01-14 14:13) @project(Missions)
+  ✔ GM Notes, Map, etc @done(20-01-14 14:13) @project(Missions)
+  ✔ Reinforcements @done(20-01-15 16:55) @project(Missions)
+  ✔ Reinforcement pool @done(20-01-15 16:55) @project(Missions)
+  ✔ Add new NPC @done(20-01-15 16:55) @project(Missions)
+  ✔ Add new Pilot @done(20-01-15 16:55) @project(Missions)
+  ✔ Rests @done(20-01-16 14:06) @project(Missions)
+  ✔ Complete Mission @done(20-01-16 14:06) @project(Missions)
+  ✔ Success/Failure (based on conditions) @done(20-01-16 14:06) @project(Missions)
+  ✔ NPCs and Player mechs instantiating with full heat @done(20-01-13 22:27) @project(Bugs)
+  ✔ Actor interface for Pilots and NPCs @done(20-01-08 13:29) @project(Missions)
+  ✔ Scroll back to top on active card change @done(20-01-10 14:34) @project(Missions)
+  ✔ Active Cards @done(20-01-11 16:49) @project(Missions)
+  ✔ NPC features @done(20-01-11 16:49) @project(Missions)
+  ✔ Recharge @done(20-01-10 16:12) @project(Missions)
+  ✔ Limited @done(20-01-11 16:04) @project(Missions)
+  ✔ Write Reaction @done(20-01-11 16:19) @project(Missions)
+  ✔ Reactions combobox @done(20-01-10 16:31) @project(Missions)
+  ✔ Mark destroyed/exposed @done(20-01-09 16:13) @project(Missions)
+  ✔ Player system/mount mark destroyed @done(20-01-09 15:50) @project(Missions)
+  ✔ GM notes @done(20-01-09 15:51) @project(Missions)
+  ✔ End turn @done(20-01-09 15:51) @project(Missions)
+  ✔ Options @done(20-01-13 22:23) @project(Missions)
+  ✔ Add Custom Reaction @done(20-01-13 21:30) @project(Missions)
+  ✔ Remove from battle @done(20-01-13 22:23) @project(Missions)
+  ✔ Delete Actor (warning) @done(20-01-13 22:23) @project(Missions)
+  ✔ Complete repair (warning) @done(20-01-13 22:23) @project(Missions)
+  ✔ End round @done(20-01-10 16:32) @project(Missions)
+  ✔ Warning if end round with remaining actor turn @done(20-01-10 16:32) @project(Missions)
+  ✔ Rounds @done(20-01-10 16:32) @project(Missions)
+  ✔ Initiative Tracker @done(20-01-09 15:51) @project(Missions)
+  ✔ Talent Die counters @done(20-01-07 10:09) @project(Next Steps)
+  ✔ Frame cards rep cap @done(20-01-03 12:00)
+  ✔ Route based views @done(19-12-31 11:37) @project(Encounters)
+  ✔ Route based views @done(19-12-31 11:37) @project(NPC roster)
+  ✔ Build Mission @done(20-01-05 15:08) @project(Missions)
+  ✔ Add Encounters @done(20-01-05 15:08) @project(Missions)
+  ✔ Add Short Rest @done(20-01-05 15:08) @project(Missions)
+  ✔ Add GM Notes @done(20-01-05 15:08) @project(Missions)
+  ✔ Briefing page @done(20-01-07 13:25) @project(Missions)
+  ✔ Encounters instantiated as unique copies @done(20-01-05 15:08) @project(Missions)
+  ✔ List @done(20-01-07 13:26) @project(Missions)
+  ✔ Background Selector drops list side on reopen @done(19-12-30 21:46) @project(New Pilot)
+  ✔ remove old font stylings @done(19-12-05 13:50) @project(Refactor)
+  ✔ Serialize integrated weapons with Mechs (instead of Loadouts) to track notes, status, etc. @done(19-12-11 12:52) @project(Bugs)
+  ✔ armsman (at least) bugged @done(19-12-11 12:52) @project(Bugs)
+  ✔ NPC library @done(19-12-27 15:44) @project(NPC.NPC Roster)
+  ✔ Handle long names better @done(19-12-27 16:33) @project(NPC.NPC Roster)
+  ✔ Sort by: @done(19-12-17 13:27) @project(NPC.NPC Roster)
+  ✔ NpcItem Wrapper @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Cards @done(19-12-26 14:11) @project(NPC.NPC Roster)
+  ✔ Assign Label @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Assign NPC Tags @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Assign Campaign @done(19-12-19 13:37) @project(NPC.NPC Roster)
+  ✔ Show fluff @done(19-12-19 13:43) @project(NPC.NPC Roster)
+  ✔ Show tactics @done(19-12-19 13:43) @project(NPC.NPC Roster)
+  ✔ Assign Image @done(19-12-27 15:30) @project(NPC.NPC Roster)
+  ✔ Reflavor System @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Set system tier in custom mode @done(19-12-19 13:00) @project(NPC.NPC Roster)
+  ✔ Power level calculation @done(19-12-27 15:44) @project(NPC.NPC Roster)
+  ✔ Template Selector @done(19-12-26 18:39) @project(NPC.NPC Roster)
+  ✔ System Selector @done(19-12-26 14:11) @project(NPC.NPC Roster)
+  ✔ Add system from other class @done(19-12-26 14:59) @project(NPC.NPC Roster)
+  ✔ Add new NPC @done(19-12-18 16:06) @project(NPC.NPC Roster)
+  ✔ Save/Load NPCs @done(19-12-18 16:06) @project(NPC.NPC Roster)
+  ✔ Duplicate NPCs @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Delete NPCs @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Import/Export @done(19-12-26 20:28) @project(NPC.NPC Roster)
+  ✔ Statblock @done(19-12-26 21:01) @project(NPC.NPC Roster)
+  ✔ Move attribute mods to npc features @done(19-12-26 14:59) @project(NPC.NPC Roster)
+  ✔ Print Preview @done(19-12-06 15:19) @project(Printing)
+  ✔ remove old font stylings @done(19-12-05 13:50) @project(Refactor)
   ✔ Side Panel @done(19-12-05 13:01) @project(Active Mode)
   ✔ Downtime @done(19-12-04 11:15) @project(Active Mode)
   ✔ Mission @done(19-12-05 13:01) @project(Active Mode)
@@ -171,7 +144,7 @@ Archive:
   ✔ systems warnings @done(19-11-22 15:54) @project(Mech Sheet)
   ✔ Missing licenses @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ SP issues @done(19-11-22 15:53) @project(Mech Sheet)
-  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Unshackled AI @done(19-11-22 15:53) @project(Mech Sheet)
+  ✔ Destroyed/Ejected/Reactor Destroyed/Meltdown Imminent/Cascading AI @done(19-11-22 15:53) @project(Mech Sheet)
   ✔ loadouts @done(19-11-22 13:53) @project(Mech Sheet)
   ✔ core int weapons @done(19-11-20 22:26) @project(Mech loadout)
   ✔ instantiate correctly @done(19-11-20 22:26) @project(Mech loadout)
@@ -187,7 +160,7 @@ Archive:
   ✔ traits @done(19-11-13 14:48) @project(Mech Sheet)
   ✔ attributes @done(19-11-13 16:04) @project(Mech Sheet)
   ✔ CORE system @done(19-11-15 12:48) @project(Mech Sheet)
-  ✔ AI mark as Unshackled @done(19-11-20 13:47) @project(Mech loadout)
+  ✔ AI mark as Cascading @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mark Mod Destroyed @done(19-11-19 19:34) @project(Mech loadout)
   ✔ Properly serialize mods so they can remember destroyed/shackled/etc @done(19-11-20 13:47) @project(Mech loadout)
   ✔ Mod inserts @done(19-11-19 14:06) @project(Mech loadout)

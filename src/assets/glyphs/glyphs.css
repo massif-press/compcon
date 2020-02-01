@@ -1,0 +1,211 @@
+@font-face {
+  font-family: 'compcon';
+  src: url('fonts/compcon.ttf?f14i1r') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^='cci-'],
+[class*=' cci-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'compcon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cci-rank-1:before {
+  content: '\e942';
+}
+.cci-rank-2:before {
+  content: '\e943';
+}
+.cci-rank-3:before {
+  content: '\e944';
+}
+.cci-nested-hexagons:before {
+  content: '\e945';
+}
+.cci-npc-tech:before {
+  content: '\e945';
+}
+.cci-orbit:before {
+  content: '\e946';
+}
+.cci-orbital:before {
+  content: '\e947';
+}
+.cci-large-beam:before {
+  content: '\e948';
+}
+.cci-ammo:before {
+  content: '\e949';
+}
+.cci-burning:before {
+  content: '\e94a';
+}
+.cci-balance:before {
+  content: '\e94b';
+}
+.cci-reticle:before {
+  content: '\e94c';
+}
+.cci-spikes:before {
+  content: '\e94d';
+}
+.cci-eclipse:before {
+  content: '\e94e';
+}
+.cci-sword-array:before {
+  content: '\e94f';
+}
+.cci-npc-reaction:before {
+  content: '\e94f';
+}
+.cci-marker:before {
+  content: '\e950';
+}
+.cci-barrage:before {
+  content: '\e951';
+}
+.cci-range:before {
+  content: '\e902';
+}
+.cci-thrown:before {
+  content: '\e913';
+}
+.cci-weaponmod:before {
+  content: '\e93e';
+}
+.cci-weapon-mod:before {
+  content: '\e93e';
+}
+.cci-blast:before {
+  content: '\e941';
+}
+.cci-accuracy:before {
+  content: '\e900';
+}
+.cci-activate:before {
+  content: '\e901';
+}
+.cci-burst:before {
+  content: '\e903';
+}
+.cci-cone:before {
+  content: '\e904';
+}
+.cci-line:before {
+  content: '\e905';
+}
+.cci-corebonus:before {
+  content: '\e906';
+}
+.cci-burn:before {
+  content: '\e907';
+}
+.cci-energy:before {
+  content: '\e908';
+}
+.cci-explosive:before {
+  content: '\e909';
+}
+.cci-heat:before {
+  content: '\e90a';
+}
+.cci-kinetic:before {
+  content: '\e90b';
+}
+.cci-variable:before {
+  content: '\e90c';
+}
+.cci-deactivate:before {
+  content: '\e90d';
+}
+.cci-difficulty:before {
+  content: '\e90e';
+}
+.cci-frame:before {
+  content: '\e90f';
+}
+.cci-melee:before {
+  content: '\e910';
+}
+.cci-overcharge:before {
+  content: '\e911';
+}
+.cci-pilot:before {
+  content: '\e912';
+}
+.cci-reactor:before {
+  content: '\e914';
+}
+.cci-repair:before {
+  content: '\e915';
+}
+.cci-role-artillery:before {
+  content: '\e916';
+}
+.cci-role-controller:before {
+  content: '\e917';
+}
+.cci-role-striker:before {
+  content: '\e918';
+}
+.cci-role-support:before {
+  content: '\e919';
+}
+.cci-role-defender:before {
+  content: '\e91a';
+}
+.cci-size-1:before {
+  content: '\e91b';
+}
+.cci-size-2:before {
+  content: '\e921';
+}
+.cci-size-3:before {
+  content: '\e927';
+}
+.cci-size-4:before {
+  content: '\e92d';
+}
+.cci-size-half:before {
+  content: '\e933';
+}
+.cci-structure:before {
+  content: '\e934';
+}
+.cci-system:before {
+  content: '\e935';
+}
+.cci-mech-system:before {
+  content: '\e935';
+}
+.cci-npc-system:before {
+  content: '\e935';
+}
+.cci-threat:before {
+  content: '\e936';
+}
+.cci-trait:before {
+  content: '\e93f';
+}
+.cci-npc-trait:before {
+  content: '\e93f';
+}
+.cci-weapon:before {
+  content: '\e940';
+}
+.cci-mech-weapon:before {
+  content: '\e940';
+}
+.cci-npc-weapon:before {
+  content: '\e940';
+}

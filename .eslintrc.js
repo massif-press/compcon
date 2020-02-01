@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/indent': ['error', 2],
     camelcase: 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
     '@typescript-eslint/interface-name-prefix': 0,
     'vue/max-attributes-per-line': 'off',
@@ -25,6 +26,8 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-self-closing': 'off',
     'vue/multiline-html-element-content-newline': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-function-return-type': [
       'warn',
       {
