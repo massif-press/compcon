@@ -30,7 +30,8 @@
   "devs": [
     {
       "name": "Matthew Johnston",
-      "github": "Eranziel"
+      "github": "Eranziel",
+      "image": "https://cdn.discordapp.com/attachments/654899655800258597/673268137701146655/Eranziel-avatar2.jpg"
     },
     {
       "name": "Scott Macmillan",
@@ -44,17 +45,24 @@
       "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
     }
   ],
-  "t5": [],
+  "t5": [
+    {
+      "name": "Dustin R Kelley",
+      "website": "https://kazzuma.com/",
+      "blurb": "Art is not an Industry!"
+    }
+  ],
   "t4": [
     {
       "name": "Aphyria"
     },
     {
-      "name": "Mikhail “khail” Echávarri, PhC"
+      "name": "Mikhail “khail” Echávarri, PhC",
+      "twitter": "khailcon"
     }
   ],
-  "t3": ["MeckaMecha", "Praxiis", "Big Iron", "Cloudyshine"],
-  "t2": ["Adam Millson", "Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell"],
+  "t3": ["MeckaMecha", "Praxiis", "Big Iron", "Cloudyshine", "Archiomode"],
+  "t2": ["Adam Millson", "Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell", "WHITESPINE"],
   "t1": [
     "James Goldsworthy",
     "Frank \"Broadway\" Neuman",
@@ -67,7 +75,16 @@
     "Joonas Laakso",
     "Ol_Coyote",
     "Grant Brownlee",
-    "Phenomen#1337"
+    "Phenomen#1337",
+    "Enkufka",
+    "Fenna Ashwood",
+    "MrETheOne",
+    "R0bobot",
+    "Zoe \"Hornlet\" Rifkin",
+    "St Booker",
+    "jbuck",
+    "Sir Killjoy",
+    "Elesday"
   ],
   "special_thanks": [
     "#!",
