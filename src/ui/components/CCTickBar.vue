@@ -117,8 +117,6 @@ export default Vue.extend({
     clearable: {
       type: Boolean,
     },
-    rollover: { type: Boolean, default: false },
-    rolloverNegative: { type: Boolean, default: false },
   },
   data: () => ({
     model: 0,
@@ -144,7 +142,7 @@ export default Vue.extend({
     startInputting() {
       this.inputting = true
       this.$nextTick(() => {
-        ;(this.$refs.pipinput as HTMLInputElement).focus()
+        ; (this.$refs.pipinput as HTMLInputElement).focus()
       })
     },
     sendInput() {
@@ -162,22 +160,6 @@ export default Vue.extend({
         preResult -= parseInt(thisInput.substr(1))
       } else {
         preResult = parseInt(thisInput)
-      }
-
-      if (this.rolloverNegative) {
-        while (preResult > this.max) {
-          preResult = preResult - this.max
-          this.$emit('rollover')
-        }
-      } else preResult = Math.min(preResult, this.max)
-
-      if (this.rollover) {
-        while (preResult < 1) {
-          preResult = this.max + preResult
-          this.$emit('rollover')
-        }
-      } else {
-        preResult = Math.max(0, preResult)
       }
 
       this.$emit('update', preResult)
