@@ -36,8 +36,16 @@
       <v-col class="pt-0" dense>
         <span class="overline">OMNINET UPLINK ID</span>
         <br />
-        <span v-if="pilot.CloudID">{{ pilot.CloudID }}</span>
-        <span v-else class="stat-text error--text">// NOT SYNCED //</span>
+        <span v-if="pilot.CloudID">
+          <cc-short-string-editor class="d-inline" @set="pilot.CloudID = $event">
+            {{ pilot.CloudID }}
+          </cc-short-string-editor>
+        </span>
+        <span v-else class="stat-text error--text">
+          <cc-short-string-editor class="d-inline" @set="setCloudID($event)">
+            // NOT SYNCED //
+          </cc-short-string-editor>
+        </span>
         <cc-tooltip
           v-if="!syncing"
           inline
@@ -116,6 +124,11 @@ export default vueMixins(activePilot).extend({
         default:
           return 'text'
           break
+      }
+    },
+    setCloudID(id: string) {
+      if (id && id != "// NOT SYNCED //") {
+        this.pilot.CloudID = id
       }
     },
     sync() {

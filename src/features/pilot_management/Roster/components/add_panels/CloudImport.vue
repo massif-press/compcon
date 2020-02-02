@@ -72,8 +72,13 @@ export default Vue.extend({
       this.cloudLoading = false
     },
     confirmImport() {
-      this.importPilot.RenewID()
-      getModule(PilotManagementStore, this.$store).addPilot(this.importPilot)
+      let importPilot = this.importPilot as Pilot
+      if (importPilot.IsUserOwned) {
+        importPilot.CloudID = this.importID
+      } else {
+        importPilot.RenewID()
+      }
+      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
       this.reset()
       this.dialog = false
       this.importID = ''

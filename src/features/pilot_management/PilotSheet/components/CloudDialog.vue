@@ -34,7 +34,7 @@
             Vault
           </span>
           <span v-else>
-            {{ pilot.Callsign }} data is stored in
+            {{ pilot.Callsign }}'s data is stored in
             <b class="primary--text">someone else's</b>
             Vault
           </span>
