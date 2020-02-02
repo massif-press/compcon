@@ -40,7 +40,7 @@
 
     <v-toolbar-title>
       <span class="heading">COMP/CON</span>
-      <span class="flavor-text white--text">v{{ version }}</span>
+      <span class="flavor-text white--text">{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
