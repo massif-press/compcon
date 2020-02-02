@@ -92,14 +92,12 @@
         <v-col cols="5">
           <v-card flat outlined>
             <v-card-text class="pa-1">
-              <!-- TODO: no data image -->
               <v-img
                 v-if="encounter.Map"
                 :key="encounter.Map"
                 :src="encounter.Map"
                 aspect-ratio="1"
               />
-              <v-img v-else src="https://via.placeholder.com/550" />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
                 <span v-if="!encounter.Map">
                   <v-icon left>mdi-plus</v-icon>

@@ -75,7 +75,7 @@
     <v-row dense justify="center">
       <tier-one v-for="c in credits.t1" :key="c" :name="c" />
     </v-row>
-    <span class="heading h2 text--text text-center mt-2">Special Thanks to:</span>
+    <span class="heading h2 text--text text-center mt-4">Special Thanks to:</span>
     <div class="text-center my-2">
       <special-thanks v-for="c in credits.special_thanks" :key="c" :name="c" />
     </div>

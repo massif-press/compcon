@@ -266,7 +266,7 @@ class Pilot {
     if (this._cloud_portrait) return this._cloud_portrait
     else if (Capacitor.platform !== 'web' && this._portrait)
       return getImagePath(ImageTag.Pilot, this._portrait)
-    else return ''
+    else return getImagePath(ImageTag.Pilot, 'nodata.png', true)
   }
 
   // -- Cloud -------------------------------------------------------------------------------------

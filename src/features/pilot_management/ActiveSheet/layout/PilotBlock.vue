@@ -32,6 +32,10 @@
         <div class="heading h3 primary--text">Evasion</div>
         <div class="font-weight-bold">{{ pilot.Evasion }}</div>
       </v-col>
+      <v-col cols="auto" class="text-right mx-2 mt-n2">
+        <div class="heading h3 primary--text">Grit</div>
+        <div class="font-weight-bold">+{{ pilot.Grit }}</div>
+      </v-col>
     </v-row>
     <span class="overline">PILOT LOADOUT</span>
     <cc-pilot-loadout :pilot="pilot" readonly />
