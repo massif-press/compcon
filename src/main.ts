@@ -30,8 +30,7 @@ import { Capacitor } from '@capacitor/core'
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
-Vue.prototype.version = '2.0.0'
-Vue.prototype.lancerVersion = lancerData.info.version
+Vue.prototype.lancerVersion = `${lancerData.info.version} [${require('lancer-data/package.json').version}]`
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)

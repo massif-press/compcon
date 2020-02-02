@@ -11,6 +11,23 @@ const DefinePlugin = require('webpack').DefinePlugin
 const path = require('path');
 const merge = require('webpack-merge')
 
+
+function versionString() {
+  // Versioned releases
+  // Travis should only build on tags - therefore TRAVIS_TAG should always exist
+  // when we are in a Travis environment.
+  if (process.env.TRAVIS_TAG) {
+    return process.env.TRAVIS_TAG
+    // Otherwise, if COMMIT_REF exists, we are being built by Netlify (usually previews)
+  } else if (process.env.COMMIT_REF) {
+    const commitRef = process.env.COMMIT_REF.substring(0, 7)
+    return `PREVIEW @ ${commitRef}`
+    // Otherwise this is probably a local build
+  } else {
+    return 'UNKNOWN'
+  }
+}
+
 const baseConfig = {
   entry: {
     app: './src/main.ts',
@@ -146,7 +163,7 @@ const baseConfig = {
       template: path.resolve(__dirname, 'public/index.html')
     }),
     new DefinePlugin({
-      'process.env.COMMIT_REF': JSON.stringify((process.env.COMMIT_REF && process.env.COMMIT_REF.substring(0, 7)) || 'UNKNOWN')
+      'process.env.VERSION_STRING': JSON.stringify(versionString())
     }),
   ]
 }
