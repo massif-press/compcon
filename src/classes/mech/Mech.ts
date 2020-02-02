@@ -389,7 +389,10 @@ class Mech implements IActor {
 
   public set CurrentHP(hp: number) {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
-    else if (hp < 0) this._current_hp = 0
+    else if (hp <= 0) {
+      this.CurrentStructure -= 1
+      this.CurrentHP = this.MaxHP + hp
+    }
     else this._current_hp = hp
     this.save()
   }
@@ -397,11 +400,6 @@ class Mech implements IActor {
   public AddDamage(dmg: number, resistance?: string): void {
     if (resistance && this._resistances.includes(resistance)) {
       dmg = Math.ceil(dmg / 2)
-    }
-    while (dmg > this.CurrentHP) {
-      this.CurrentStructure -= 1
-      dmg -= this.CurrentHP
-      this._current_hp = this.MaxHP
     }
     this.CurrentHP -= dmg
   }
@@ -456,7 +454,10 @@ class Mech implements IActor {
   }
 
   public set CurrentHeat(heat: number) {
-    if (heat > this.HeatCapacity) this._current_heat = this.HeatCapacity
+    if (heat > this.HeatCapacity) {
+      this.CurrentStress = this.CurrentStress - 1
+      this.CurrentHeat = heat - this.HeatCapacity
+    }
     else if (heat < 0) this._current_heat = 0
     else this._current_heat = heat
     this.save()
