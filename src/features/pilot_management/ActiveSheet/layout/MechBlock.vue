@@ -126,9 +126,7 @@
             large
             color="hp"
             :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-            rollover
             @update="mech.CurrentHP = $event"
-            @rollover="onHpRollover"
           >
             <span class="heading h3">HP: {{ mech.CurrentHP }}/{{ mech.MaxHP }}</span>
           </cc-tick-bar>
@@ -188,10 +186,8 @@
             large
             :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
             :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
-            rollover-negative
             clearable
             @update="mech.CurrentHeat = $event"
-            @rollover="onHeatRollover"
           >
             <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
               HEAT: {{ mech.CurrentHeat }}/{{ mech.HeatCapacity }}
@@ -292,8 +288,16 @@
         <v-col>
           <v-row>
             <cc-active-card color="frame" header="Speed" :content="mech.Speed" />
-            <cc-active-card color="frame" header="Attack Bonus" :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`" />
-            <cc-active-card color="frame" header="Tech Attack" :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`" />
+            <cc-active-card
+              color="frame"
+              header="Attack Bonus"
+              :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`"
+            />
+            <cc-active-card
+              color="frame"
+              header="Tech Attack"
+              :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
+            />
           </v-row>
           <v-row>
             <cc-active-card
@@ -355,6 +359,7 @@
 </template>
 
 <script lang="ts">
+import sleep from '@/util/sleep'
 import { Mech, MechLoadout } from '@/class'
 import MechSelectButton from '../components/MechSelectButton.vue'
 
@@ -384,6 +389,28 @@ export default Vue.extend({
     structRolledOver: false,
     stressRolledOver: false,
   }),
+  watch: {
+    'mech.CurrentStructure': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.structRolledOver = true
+          await sleep(500)
+          this.structRolledOver = false
+          this.$refs.structureTable.show()
+        }
+      }
+    },
+    'mech.CurrentStress': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.stressRolledOver = true
+          await sleep(500)
+          this.stressRolledOver = false
+          this.$refs.stressTable.show()
+        }
+      }
+    }
+  },
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
@@ -413,36 +440,6 @@ export default Vue.extend({
         return 'variable--damage'
       }
       return 'hp'
-    },
-  },
-  methods: {
-    onHpRollover() {
-      if (this.mech.CurrentStructure <= 1) {
-        this.$nextTick(() => {
-          this.mech.CurrentHP = 0
-        })
-      }
-      this.mech.CurrentStructure = this.mech.CurrentStructure - 1
-      if (this.mech.CurrentStructure < 0) this.mech.CurrentStructure = 0
-      this.structRolledOver = true
-      setTimeout(() => {
-        this.structRolledOver = false
-        this.$refs.structureTable.show()
-      }, 500)
-    },
-    onHeatRollover() {
-      if (this.mech.CurrentStress <= 1) {
-        this.$nextTick(() => {
-          this.mech.CurrentHeat = this.mech.HeatCapacity
-        })
-      }
-      this.mech.CurrentStress = this.mech.CurrentStress - 1
-      if (this.mech.CurrentStress < 0) this.mech.CurrentStress = 0
-      this.stressRolledOver = true
-      setTimeout(() => {
-        this.stressRolledOver = false
-        this.$refs.stressTable.show()
-      }, 500)
     },
   },
 })

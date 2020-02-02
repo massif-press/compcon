@@ -5,7 +5,11 @@
       <v-col cols="8" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
-          <span class="primary--text">{{ userID }}</span>
+          <span class="primary--text">
+            <cc-short-string-editor class="d-inline" @set="setUserID($event)">
+              {{ userID }}
+            </cc-short-string-editor>
+          </span>
         </div>
         <v-divider />
         <div class="mx-12">
@@ -131,6 +135,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    setUserID(id: string) {
+      const store = getModule(CompendiumStore, this.$store)
+      store.UserProfile.ID = id
+    },
     async bulkExport() {
       exportAll().then(res => {
         saveFile(

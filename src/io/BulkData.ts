@@ -35,7 +35,7 @@ const importAll = async function(file): Promise<void> {
   const promises = arr.map(o => writeFile(o.filename, o.data))
   Promise.all(promises).then(() => {
     Extlog('Loading import data...')
-    Startup(Vue.prototype.version, Vue.prototype.lancerVersion, store)
+    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
     Extlog('Import data loaded!')
   })
 }
@@ -44,7 +44,7 @@ const clearAllData = async function(): Promise<void> {
   const promises = files.map(file => writeFile(file, ''))
   Promise.all(promises).then(() => {
     Extlog('Erasing all COMP/CON data...')
-    Startup(Vue.prototype.version, Vue.prototype.lancerVersion, store)
+    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
     Extlog('All data erased!')
   })
 }

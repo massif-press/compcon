@@ -3,9 +3,9 @@
     <p class="heading mech">COMP/CON</p>
     <div class="mx-2">
       C/C version:
-      <b class="primary--text">{{ version }}//[{{ commitRef }}]</b>
+      <b class="primary--text">{{ $appVersion }}</b>
       // LANCER CORE version:
-      <b class="primary--text">{{ lancerVersion }}</b>
+      <b class="primary--text">{{ $lancerVersion }}</b>
     </div>
     <p align="center" class="my-2">
       <a href="https://app.netlify.com/sites/compcon/deploys">

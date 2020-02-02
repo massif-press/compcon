@@ -307,7 +307,7 @@ class Pilot {
   }
 
   public get IsUserOwned(): boolean {
-    return this.CloudOwnerID === store.getters.getUserProfile.userID
+    return this.CloudOwnerID === store.getters.getUserProfile.ID
   }
 
   public SetCloudImage(src: string): void {
@@ -316,6 +316,9 @@ class Pilot {
   }
 
   public async CloudSave(): Promise<any> {
+    if (!this.CloudOwnerID) {
+      this.CloudOwnerID = store.getters.getUserProfile.ID
+    }
     if (!this.CloudID) {
       return gistApi.newPilot(this).then((response: any) => {
         this.setCloudInfo(response.id)
@@ -344,7 +347,7 @@ class Pilot {
 
   public setCloudInfo(id: string): void {
     this.CloudID = id
-    this.CloudOwnerID = store.getters.getUserProfile.userID
+    this.CloudOwnerID = store.getters.getUserProfile.ID
     this.LastCloudUpdate = new Date().toString()
   }
 
