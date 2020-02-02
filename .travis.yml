@@ -18,7 +18,7 @@ before_cache:
 stages:
   - name: test
   - name: build
-    if: tag IS present AND tag =~ /^\d+.\d+.\d+[a-z]?-(beta|stable|test)$/
+    if: tag IS present
 
 jobs:
   include:
@@ -31,32 +31,32 @@ jobs:
         - yarn int-test
         - yarn build --linux --publish never
     - stage: build
-      name: build_electron
-      os: osx
-      osx_image: xcode10.2
-      script:
-        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
-        - yarn electron:build -mwl --publish never
-      deploy:
-      - provider: releases
-        skip_cleanup: true
-        api_key: $GH_TOKEN
-        file_glob: true
-        file:
-        - "electron/dist/COMPCON*.AppImage"
-        - "electron/dist/COMPCON*.exe"
-        - "electron/dist/COMPCON*mac.zip"
-        skip_cleanup: true
-        draft: true
-        on:
-          tags: true
-          all_branches: true
-      - provider: script
-        skip_cleanup: true
-        on:
-          tags: true
-          all_branches: true
-        script: bash build_scripts/deploy_butler.sh
+      # name: build_electron
+      # os: osx
+      # osx_image: xcode10.2
+      # script:
+      #   - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
+      #   - yarn electron:build -mwl --publish never
+      # deploy:
+      # - provider: releases
+      #   skip_cleanup: true
+      #   api_key: $GH_TOKEN
+      #   file_glob: true
+      #   file:
+      #   - "electron/dist/COMPCON*.AppImage"
+      #   - "electron/dist/COMPCON*.exe"
+      #   - "electron/dist/COMPCON*mac.zip"
+      #   skip_cleanup: true
+      #   draft: true
+      #   on:
+      #     tags: true
+      #     branch: master
+      # - provider: script
+      #   skip_cleanup: true
+      #   on:
+      #     tags: true
+      #     branch: master
+      #   script: bash build_scripts/deploy_butler.sh
     - name: build_web
       os: linux
       script:
@@ -72,4 +72,4 @@ jobs:
         skip_cleanup: true
         on:
           tags: true
-          all_branches: true
+          branch: master
