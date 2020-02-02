@@ -14,7 +14,7 @@
     <div id="subtitle">
       <span>A digital toolset for the LANCER TTRPG</span>
       <v-icon size="8pt" color="white" class="ml-2 mr-2">mdi-delta</v-icon>
-      <span>VERSION: {{ versionString }} // LANCER CORE {{ lancerVersion }}</span>
+      <span>VERSION: {{ $appVersion }} // LANCER CORE {{ $lancerVersion }}</span>
     </div>
   </div>
 </template>
@@ -22,13 +22,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'cci-banner',
-  data: () => ({
-    versionString: ''
-  }),
-  mounted() {
-    this.versionString = process.env.VERSION_STRING;
-  }
+  name: 'cci-banner'
 })
 </script>
 

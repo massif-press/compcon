@@ -30,7 +30,8 @@ import { Capacitor } from '@capacitor/core'
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
-Vue.prototype.lancerVersion = `${lancerData.info.version} [${require('lancer-data/package.json').version}]`
+Vue.prototype.$appVersion = process.env.VERSION_STRING
+Vue.prototype.$lancerVersion = `${lancerData.info.version} [${require('lancer-data/package.json').version}]`
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
@@ -49,7 +50,7 @@ new Vue({
   router,
   store,
   created() {
-    Startup(Vue.prototype.version, Vue.prototype.lancerVersion, store)
+    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
   },
   render: h => h(App),
 }).$mount('#app')
