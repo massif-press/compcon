@@ -27,11 +27,13 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
+          <v-icon>cci-reticle</v-icon>
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
+          <v-icon>cci-reticle</v-icon>
           <span v-if="item.Feature.AttackBonus(1) > 0">+</span>
           {{ item.Feature.AttackBonus(1) }} /
           <span v-if="item.Feature.AttackBonus(2) > 0">+</span>
@@ -44,15 +46,37 @@
       <v-divider vertical />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          +{{ item.Feature.Accuracy(item.Tier) }}
-          Accuracy Bonus
+          <div v-if="item.Feature.Accuracy(item.Tier) > 0">
+            <v-icon>cci-accuracy</v-icon>
+            +{{ item.Feature.Accuracy(item.Tier) }}
+            Accuracy
+          </div>
+          <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
+            <v-icon>cci-difficulty</v-icon>
+            +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
+            Difficulty
+          </div>
         </span>
         <span v-else>
-          +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
-            item.Feature.Accuracy(3)
-          }}
-          Accuracy Bonus
+          <div v-if="item.Feature.Accuracy(1) > 0">
+            <v-icon>cci-accuracy</v-icon>
+            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
+              item.Feature.Accuracy(3)
+            }}
+            Accuracy
+          </div>
+          <div v-else-if="item.Feature.Accuracy(1) < 0">
+            <v-icon>cci-difficulty</v-icon>
+            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} / +{{
+              Math.abs(item.Feature.Accuracy(3))
+            }}
+            Difficulty
+          </div>
         </span>
+      </v-col>
+      <v-divider vertical />
+      <v-col>
+        <span style="float: right" class="heading h3">{{ item.Feature.WeaponType }}</span>
       </v-col>
     </v-row>
     <div v-if="item.Feature.OnHit">
