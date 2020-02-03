@@ -59,7 +59,7 @@
         <v-stepper-step
           editable
           :complete="pilot.HasFullCB"
-          :color="pilot.CBEligible ? (pilot.HasFullCB ? 'success' : 'primary') : 'grey'"
+          :color="pilot.cbEligible ? (pilot.HasFullCB ? 'success' : 'primary') : 'grey'"
           edit-icon="mdi-check"
           step="6"
         >
@@ -71,7 +71,7 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <overview-page :pilot="pilot" @next="step++" />
+          <overview-page :pilot="pilot" :cb-eligible="cbEligible" @next="step++" />
         </v-stepper-content>
         <v-stepper-content step="2">
           <skills-page :pilot="pilot" @next="step++" @back="step--" />
@@ -86,7 +86,7 @@
           <license-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="6">
-          <core-bonus-page :pilot="pilot" @next="step++" @back="step--" />
+          <core-bonus-page :pilot="pilot" :cb-eligible="cbEligible" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="7">
           <confirm-page :pilot="pilot" :original="currentPilot" @back="step--" />
@@ -123,6 +123,7 @@ export default Vue.extend({
   data: () => ({
     step: 1,
     pilot: {},
+    cbEligible: false,
   }),
   computed: {
     currentPilot(): Pilot {
@@ -139,6 +140,7 @@ export default Vue.extend({
   created() {
     this.pilot = Pilot.Deserialize(Pilot.Serialize(this.currentPilot))
     this.pilot.Level++
+    this.cbEligible = this.pilot.IsMissingCBs
   },
 })
 </script>

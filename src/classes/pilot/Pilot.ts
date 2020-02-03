@@ -635,10 +635,6 @@ class Pilot {
     return this.CurrentCBPoints === this.MaxCBPoints
   }
 
-  public get CBEligible(): boolean {
-    return this.Level % 3 === 0
-  }
-
   public AddCoreBonus(coreBonus: CoreBonus): void {
     this._core_bonuses.push(coreBonus)
     this.save()
