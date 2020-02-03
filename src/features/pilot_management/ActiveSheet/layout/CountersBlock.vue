@@ -8,10 +8,10 @@
       tag="div"
       class="row justify-start pr-4"
     >
-      <v-col v-for="cd in counterData" :key="cd.id" sm="2" style="min-height: 180px">
+      <v-col v-for="cd in counterData" :key="cd.id" cols="auto" style="min-height: 170px">
         <counter-component :counter-data="cd" @delete="deleteCustom" />
       </v-col>
-      <v-col key="NewCounter" sm="2" style="min-height: 180px">
+      <v-col key="NewCounter" cols="auto">
         <new-counter @create="onCustomCounterCreate" />
       </v-col>
     </transition-group>
@@ -33,8 +33,8 @@ export default vueMixins(activePilot).extend({
   props: {
     counterData: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onCustomCounterCreate(name: string) {
@@ -42,8 +42,8 @@ export default vueMixins(activePilot).extend({
     },
     deleteCustom(id: string) {
       this.pilot.deleteCustomCounter(id)
-    }
-  }
+    },
+  },
 })
 </script>
 
