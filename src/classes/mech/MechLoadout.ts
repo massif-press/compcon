@@ -103,7 +103,12 @@ class MechLoadout extends Loadout {
   }
 
   public get Equipment(): MechEquipment[] {
-    return (this.Weapons as MechEquipment[]).concat(this.Systems as MechEquipment[])
+    let mods = this.Weapons.map(x => x.Mod).filter(x => x != null)
+    let equip = ((this.Weapons as MechEquipment[])
+                  .concat(this.Systems as MechEquipment[])
+                  .concat(this.IntegratedSystems as MechEquipment[]))
+    if (mods.length > 0) return equip.concat(mods as MechEquipment[])
+    else return equip
   }
 
   public get Weapons(): MechWeapon[] {
@@ -223,6 +228,8 @@ class MechLoadout extends Loadout {
   }
 
   public get AICount(): number {
+    console.log(`AI count: ${this.Equipment.filter(x => x.IsAI).length}`)
+    console.log(this.Equipment.filter(x => x.IsAI))
     return this.Equipment.filter(x => x.IsAI).length
   }
 
