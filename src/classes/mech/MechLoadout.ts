@@ -228,8 +228,6 @@ class MechLoadout extends Loadout {
   }
 
   public get AICount(): number {
-    console.log(`AI count: ${this.Equipment.filter(x => x.IsAI).length}`)
-    console.log(this.Equipment.filter(x => x.IsAI))
     return this.Equipment.filter(x => x.IsAI).length
   }
 
