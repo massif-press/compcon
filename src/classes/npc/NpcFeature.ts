@@ -1,3 +1,5 @@
+import { Tag } from '@/class'
+
 export enum NpcFeatureType {
   Trait = 'Trait',
   System = 'System',
@@ -19,6 +21,7 @@ export interface INpcFeatureData {
   locked: boolean
   effect?: string
   bonus?: object
+  tags: ITagData[]
   brew: string
   type: NpcFeatureType
 }
@@ -30,6 +33,7 @@ export abstract class NpcFeature {
   private _effect: string
   private _bonus: object
   private _locked: boolean
+  private _tags: ITagData[]
   private _brew: string
   protected type: NpcFeatureType
 
@@ -40,6 +44,7 @@ export abstract class NpcFeature {
     this._effect = data.effect || ''
     this._bonus = data.bonus || null
     this._locked = data.locked || false
+    this._tags = data.tags
     this._brew = data.brew || 'CORE'
   }
 
@@ -97,6 +102,10 @@ export abstract class NpcFeature {
 
   public get IsLocked(): boolean {
     return this._locked
+  }
+
+  public get Tags(): Tag[] {
+    return Tag.Deserialize(this._tags)
   }
 
   public get FeatureType(): NpcFeatureType {
