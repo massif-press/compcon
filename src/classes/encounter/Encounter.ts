@@ -43,7 +43,7 @@ class Encounter implements IMissionStep {
     this._name = 'New Encounter'
     this._location = ''
     this._labels = []
-    this._campaign = ''
+    this._campaign = null
     this._gm_notes = ''
     this._narrative_notes = ''
     this._environment = 'Nominal'
