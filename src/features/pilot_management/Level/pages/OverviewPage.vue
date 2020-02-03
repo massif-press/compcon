@@ -62,7 +62,7 @@
                   <li>MECH SKILL UPGRADE</li>
                   <li>GRIT IMPROVEMENT</li>
                   <li>NEW LICENSE UNLOCK</li>
-                  <li v-if="pilot.CBEligible" class="font-weight-bolder">
+                  <li v-if="cbEligible" class="font-weight-bolder">
                     CORE BONUS INSTALLATION
                   </li>
                   <li v-else class="grey--text">INELIGIBLE FOR CORE BONUS</li>
@@ -85,6 +85,9 @@ export default Vue.extend({
     pilot: {
       type: Object,
       required: true,
+    },
+    cbEligible: {
+      type: Boolean,
     },
   },
 })
