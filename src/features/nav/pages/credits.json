@@ -54,13 +54,13 @@
     {
       "name": "Aphyria",
       "website": "https://https://berniesanders.com/"
-    }
-  ],
-  "t4": [
+    },
     {
       "name": "Mikhail “khail” Echávarri, PhC",
       "twitter": "khailcon"
-    },
+    }
+  ],
+  "t4": [
     {
       "name": "WHITESPINE",
       "website": "https://https://berniesanders.com/"
@@ -70,16 +70,18 @@
       "website": "https://https://berniesanders.com/"
     }
   ],
-  "t3": ["MeckaMecha", "Praxiis", "Big Iron", "Cloudyshine", "Archiomode", "Tricky", "Xen"],
-  "t2": [
-    "Adam Millson",
-    "Classical_Bass",
-    "FLABIS",
-    "Steven Pritchett",
-    "Vekell",
-    "R0bobot",
-    "Ragu"
+  "t3": [
+    "MeckaMecha",
+    "Praxiis",
+    "Big Iron",
+    "Cloudyshine",
+    "Archiomode",
+    "Tricky",
+    "Xen",
+    "Joe Halberstadt",
+    "Adam Millson"
   ],
+  "t2": ["Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell", "R0bobot", "Ragu"],
   "t1": [
     "James Goldsworthy",
     "Frank \"Broadway\" Neuman",

@@ -31,7 +31,7 @@ class Mission {
     this._id = uuid()
     this._name = 'New Mission'
     this._note = ''
-    this._campaign = ''
+    this._campaign = null
     this._labels = []
     this._rests = []
     this._step_ids = []
@@ -104,6 +104,11 @@ class Mission {
     return this._rests
   }
 
+  public ValidateSteps(): void {
+    const encs = store.getters['encounter/getEncounters'].map(x => x.ID)
+    this._step_ids = this._step_ids.filter(x => encs.some(y => y === x))
+  }
+
   public get Steps(): IMissionStep[] {
     return this._step_ids.map(x => this.Step(x))
   }
@@ -112,6 +117,8 @@ class Mission {
     const r = this._rests.find(x => x.ID === id)
     if (r) return r
     const enc = store.getters['encounter/getEncounters']
+    const rIdx = this._step_ids.indexOf(id)
+    if (rIdx == -1) this.RemoveStep(rIdx)
     return enc.find(x => x.ID === id)
   }
 
