@@ -877,6 +877,7 @@ class Pilot {
     const clone = Mech.Deserialize(mechData, this)
     clone.RenewID()
     clone.Name += '*'
+    clone.IsActive = false
     this._mechs.push(clone)
     this.save()
   }
