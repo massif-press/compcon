@@ -120,7 +120,7 @@
         <cc-npc-feature-card :feature="f" :tier="tierPreview" />
       </v-col>
     </v-row>
-    <cc-title small :color="npcc.Color" class="mt-2">
+    <cc-title v-if="npcc.OptionalFeatures.length" small :color="npcc.Color" class="mt-2">
       Optional Features
     </cc-title>
     <v-row dense>
@@ -134,11 +134,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from '../components/EditableAttribute.vue'
-import SizeAttribute from '../components/SizeAttribute.vue'
 
 export default Vue.extend({
   name: 'npc-class-card',
-  components: { EditableAttribute, SizeAttribute },
+  components: { EditableAttribute },
   props: {
     npcc: {
       type: Object,

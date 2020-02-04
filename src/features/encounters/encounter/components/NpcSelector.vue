@@ -25,6 +25,7 @@
         :search="search"
         no-results-text="No NPCs Found"
         no-data-text="No Saved NPCs"
+        disable-pagination
         hide-default-footer
         hide-default-header
         calculate-widths

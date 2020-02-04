@@ -1,7 +1,20 @@
 <template>
   <div id="wrapper">
     <main-title />
-    <update-alert @hover="ccLog('update')" />
+    <div style="position: absolute; top: 10px; right: 5vw; z-index: 11">
+      <v-btn
+        v-extlink="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
+        color="primary"
+        outlined
+        small
+        @mouseenter="ccLog('update')"
+      >
+        <v-icon left small>
+          mdi-information-outline
+        </v-icon>
+        View Changelog
+      </v-btn>
+    </div>
     <web-refresh v-if="$platform === 'web'" @hover="ccLog('refresh')" />
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
@@ -65,7 +78,6 @@
 import Vue from 'vue'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
-import UpdateAlert from './_components/UpdateAlert.vue'
 import WebRefresh from './_components/WebRefresh.vue'
 import CCLog from './_components/CCLog.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
@@ -78,7 +90,6 @@ export default Vue.extend({
   components: {
     MainTitle,
     MainBtn,
-    UpdateAlert,
     CCLog,
     WebRefresh,
     ContentPage,
