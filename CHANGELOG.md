@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/jarena3/compcon/compare/v2.0.0...v2.0.1) (2020-02-04)
+
+
+### Bug Fixes
+
+* **Active Sheet/Counters Block:** Changed counter styling to support smaller views ([50b079d](https://github.com/jarena3/compcon/commit/50b079d39f19eaf5dffa4563648a38c6dcca4059)), closes [#590](https://github.com/jarena3/compcon/issues/590)
+* **NPC/Encounter/Mission Lists:** Instantiate _campaign properties as null ([4275c17](https://github.com/jarena3/compcon/commit/4275c1785977cd8b1a5b6a3bde638c7164c044e7)), closes [#568](https://github.com/jarena3/compcon/issues/568)
+* **Pilot.ts:** Forced cloned mechs to start as inactive ([2dcfa9c](https://github.com/jarena3/compcon/commit/2dcfa9cbcfd65542a62a2fffabd927f873417d19)), closes [#570](https://github.com/jarena3/compcon/issues/570)
+* **Pilot.ts, Level/Core Bonus:** Corrected core bonus eligibility check ([76493fc](https://github.com/jarena3/compcon/commit/76493fcf2f9ffb6be588b3f03774cbd8efeb699b)), closes [#582](https://github.com/jarena3/compcon/issues/582)
+* **SizeAttribute.vue:** Corrects size view editable status ([c862e8e](https://github.com/jarena3/compcon/commit/c862e8e0b4e9a78ec3471579332c5ba70e6f4756)), closes [#572](https://github.com/jarena3/compcon/issues/572)
+* Check weapon mods when doing AI count ([dd458d1](https://github.com/jarena3/compcon/commit/dd458d1a73851d3efc963249fe688867e8a524ff))
+* NPC difficulty display and weapon type on cards ([1c5fab7](https://github.com/jarena3/compcon/commit/1c5fab7422053107f372ff6691103e25260d4058))
+* Show tags on NPC Trait cards. ([66859b2](https://github.com/jarena3/compcon/commit/66859b28ddeae8ef4fd763fa2315168404916ce7))
+
 ## 2.0.0 (2020-02-03)
 
 ### ⚠ BREAKING CHANGES
