@@ -24,6 +24,7 @@
           :search="search"
           no-results-text="No Missions Found"
           no-data-text="No Saved Missions"
+          disable-pagination
           hide-default-footer
           hide-default-header
           class="transparent"

@@ -51,7 +51,7 @@
               <cc-item-modal :item="f" />
             </v-col>
           </v-row>
-          <span class="heading">
+          <span v-if="e.OptionalFeatures.length" class="heading">
             <b class="primary--text">Optional</b>
             Features
           </span>

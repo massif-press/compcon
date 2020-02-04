@@ -9,6 +9,7 @@
           :items="activeMissions"
           :headers="headers"
           no-data-text="No Active Missions"
+          disable-pagination
           hide-default-footer
           class="transparent heading h3"
           style="min-width: 100%"
@@ -71,7 +72,6 @@
           :headers="availableHeaders"
           group-by="Campaign"
           no-data-text="No Saved Missions"
-          hide-default-footer
           class="transparent heading"
           style="min-width: 100%"
         >
@@ -115,7 +115,6 @@
           :headers="completedHeaders"
           group-by="Campaign"
           no-data-text="No Completed Missions"
-          hide-default-footer
           class="transparent heading h3"
           style="min-width: 100%"
         >

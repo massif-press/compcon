@@ -1,4 +1,3 @@
-import { Tag } from '@/class'
 import { NpcFeature, NpcFeatureType } from '.'
 import { INpcFeatureData } from './interfaces'
 

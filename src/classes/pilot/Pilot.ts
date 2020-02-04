@@ -333,8 +333,7 @@ class Pilot {
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
     return gistApi.loadPilot(this.CloudID).then((gist: any) => {
-      const newPilotData = JSON.parse(gist.files['pilot.txt'].content) as IPilotData
-      this.setPilotData(newPilotData)
+      this.setPilotData(gist)
       this.LastCloudUpdate = new Date().toString()
     })
   }

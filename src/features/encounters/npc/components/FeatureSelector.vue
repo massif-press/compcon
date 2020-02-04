@@ -32,7 +32,7 @@
             <v-icon
               class="ml-n2"
               :color="showDupe ? 'warning' : 'success'"
-              v-html="showDupe ? 'mdi-vector-arrange-above' : 'mdi-crop-square'"
+              v-html="showDupe ? 'mdi-hexagon-multiple-outline' : 'mdi-hexagon-multiple'"
             />
           </cc-tooltip>
         </v-switch>
@@ -75,6 +75,10 @@ export default Vue.extend({
         i = templateFeatures.concat(this.npc.Class.OptionalFeatures)
       }
       if (!this.showDupe) i = i.filter(x => !this.npc.SelectedFeatures.some(y => y.ID === x.ID))
+      else {
+        const tempBaseFeats = this.npc.Templates.flatMap(x => x.BaseFeatures)
+        i = i.concat(this.npc.Class.BaseFeatures).concat(tempBaseFeats)
+      }
       return i
     },
   },
