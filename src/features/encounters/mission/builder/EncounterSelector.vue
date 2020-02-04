@@ -22,6 +22,7 @@
         :search="search"
         no-results-text="No Encounters Found"
         no-data-text="No Saved Encounters"
+        disable-pagination
         hide-default-footer
         hide-default-header
         calculate-widths

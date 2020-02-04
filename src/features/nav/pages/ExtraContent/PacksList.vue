@@ -2,6 +2,7 @@
   <div class="packsList" style="min-height: 300px;">
     <v-data-table
       hide-default-footer
+      disable-pagination
       no-data-text="No content packs installed."
       :headers="headers"
       :items="contentPacks"
