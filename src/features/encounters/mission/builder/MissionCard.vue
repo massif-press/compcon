@@ -220,6 +220,10 @@ export default Vue.extend({
       return store.Missions.find(x => x.ID === this.id)
     },
   },
+  created() {
+    const store = getModule(MissionStore, this.$store)
+    store.Missions.forEach(m => m.ValidateSteps())
+  },
   methods: {
     randomName() {
       this.mission.Name = mission()

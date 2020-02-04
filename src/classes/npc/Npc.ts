@@ -70,7 +70,8 @@ export class Npc implements IActor {
     this._templates = []
     this._user_labels = []
     this._side = EncounterSide.Enemy
-    this._note = this._cloud_image = this._local_image = this._campaign = ''
+    this._note = this._cloud_image = this._local_image = ''
+    this._campaign = null
     this._class = npcClass
     this._tag = this.Class.Role.toLowerCase() === 'biological' ? 'Biological' : 'Mech'
     this._stats = NpcStats.FromClass(npcClass, t)

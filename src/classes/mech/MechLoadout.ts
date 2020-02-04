@@ -103,7 +103,12 @@ class MechLoadout extends Loadout {
   }
 
   public get Equipment(): MechEquipment[] {
-    return (this.Weapons as MechEquipment[]).concat(this.Systems as MechEquipment[])
+    let mods = this.Weapons.map(x => x.Mod).filter(x => x != null)
+    let equip = ((this.Weapons as MechEquipment[])
+                  .concat(this.Systems as MechEquipment[])
+                  .concat(this.IntegratedSystems as MechEquipment[]))
+    if (mods.length > 0) return equip.concat(mods as MechEquipment[])
+    else return equip
   }
 
   public get Weapons(): MechWeapon[] {
