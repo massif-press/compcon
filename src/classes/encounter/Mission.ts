@@ -105,8 +105,10 @@ class Mission {
   }
 
   public ValidateSteps(): void {
-    const encs = store.getters['encounter/getEncounters'].map(x => x.ID)
-    this._step_ids = this._step_ids.filter(x => encs.some(y => y === x))
+    const ids = store.getters['encounter/getEncounters']
+      .map((x: Encounter) => x.ID)
+      .concat(this._rests.map(x => x.ID))
+    this._step_ids = this._step_ids.filter(x => ids.some(y => y === x))
   }
 
   public get Steps(): IMissionStep[] {
