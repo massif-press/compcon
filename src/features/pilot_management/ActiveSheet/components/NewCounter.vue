@@ -2,9 +2,11 @@
   <v-card
     tile
     color="primary"
-    style="position: relative; height: 100%"
+    style="position: relative"
     :elevation="creating ? 12 : 0"
-    clipped
+    class="clipped-large text-center"
+    width="200px"
+    height="145px"
   >
     <transition name="fade">
       <v-card-text
@@ -45,8 +47,8 @@
         v-else
         block
         tile
-        elevation="0"
         color="primary"
+        class="ml-n1"
         style="height: 100%"
         @click="startCreating"
       >
@@ -86,7 +88,6 @@ export default class NewCounter extends Vue {
     this.name = ''
     this.creating = false
   }
-
 }
 </script>
 

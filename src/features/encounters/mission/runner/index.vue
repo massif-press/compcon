@@ -201,6 +201,10 @@ export default Vue.extend({
       return store.ActiveMissions.filter(x => x.IsComplete)
     },
   },
+  created() {
+    const store = getModule(MissionStore, this.$store)
+    store.Missions.forEach(m => m.ValidateSteps())
+  },
   methods: {
     deleteActiveMission(m: ActiveMission) {
       const store = getModule(MissionStore, this.$store)

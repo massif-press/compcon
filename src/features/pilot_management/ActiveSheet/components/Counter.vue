@@ -1,21 +1,24 @@
 <template>
-  <v-card v-if="counter" tile outlined color="primary">
+  <v-card v-if="counter" tile outlined color="primary" width="200px" min-width="200px">
     <v-card-title class="white--text py-2 d-flex">
       <span class="subtitle-2">{{ counter.Name }}</span>
-      <span v-if="counterData.custom" class="subtitle-2 font-italic" style="opacity: 0.5">
-        &nbsp;[custom]
-      </span>
-      <v-btn v-if="counterData.custom" class="ml-auto" dark icon x-small @click="$emit('delete')">
+      <v-btn
+        v-if="counterData.custom"
+        class="ml-auto fadeSelect"
+        dark
+        icon
+        x-small
+        @click="$emit('delete')"
+      >
         <v-icon small>delete</v-icon>
       </v-btn>
     </v-card-title>
     <v-card-text class="background pb-2">
       <v-row justify="center" class="counterContent">
-        <v-col sm="4">
+        <v-col cols="auto">
           <v-btn
-            fab
             small
-            elevation="0"
+            icon
             color="primary"
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()"
@@ -24,11 +27,11 @@
           </v-btn>
         </v-col>
 
-        <v-col sm="4">
+        <v-col>
           <v-text-field
             type="number"
             outlined
-            elevation="0"
+            dense
             class="counterValue"
             :class="{
               dirty,
@@ -40,10 +43,10 @@
           />
         </v-col>
 
-        <v-col sm="4" class="d-flex justify-end">
+        <v-col cols="auto">
           <v-btn
-            fab
             small
+            icon
             elevation="0"
             color="primary"
             :disabled="counter.Value >= counter.Max"
@@ -53,7 +56,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-btn elevation="0" color="primary" block small @click="counter.Reset()">
+      <v-btn tile outlined color="primary" block small @click="counter.Reset()">
         Reset
       </v-btn>
     </v-card-text>

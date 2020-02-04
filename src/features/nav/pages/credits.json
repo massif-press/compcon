@@ -50,23 +50,39 @@
       "name": "Dustin R Kelley",
       "website": "https://kazzuma.com/",
       "blurb": "Art is not an Industry!"
-    }
-  ],
-  "t4": [
+    },
     {
-      "name": "Aphyria"
+      "name": "Aphyria",
+      "website": "https://https://berniesanders.com/"
     },
     {
       "name": "Mikhail “khail” Echávarri, PhC",
       "twitter": "khailcon"
-    },
+    }
+  ],
+  "t4": [
     {
       "name": "WHITESPINE",
       "website": "https://https://berniesanders.com/"
+    },
+    {
+      "name": "ArsèneLupin42",
+      "website": "https://https://berniesanders.com/"
     }
   ],
-  "t3": ["MeckaMecha", "Praxiis", "Big Iron", "Cloudyshine", "Archiomode"],
-  "t2": ["Adam Millson", "Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell"],
+  "t3": [
+    "MeckaMecha",
+    "Praxiis",
+    "Big Iron",
+    "Cloudyshine",
+    "Archiomode",
+    "Tricky",
+    "Xen",
+    "Joe Halberstadt",
+    "Adam Millson",
+    "Mike Michael Karamchandani"
+  ],
+  "t2": ["Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell", "R0bobot", "Ragu"],
   "t1": [
     "James Goldsworthy",
     "Frank \"Broadway\" Neuman",
@@ -83,12 +99,13 @@
     "Enkufka",
     "Fenna Ashwood",
     "MrETheOne",
-    "R0bobot",
     "Zoe \"Hornlet\" Rifkin",
     "St Booker",
     "jbuck",
     "Sir Killjoy",
-    "Elesday"
+    "Elesday",
+    "Mithril_Toaster",
+    "Ryan Borja"
   ],
   "special_thanks": [
     "#!",

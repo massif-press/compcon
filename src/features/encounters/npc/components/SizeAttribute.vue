@@ -6,20 +6,20 @@
         style="font-weight: bold; max-height: 28px; font-size: 15px!important"
       >
         SIZE
-        <v-menu v-model="menu" right offset-y>
+        <v-menu
+          v-model="menu"
+          :value="editable || (selectable && stats.Sizes.length > 1)"
+          right
+          offset-y
+        >
           <template v-slot:activator="{ on }">
-            <v-icon v-if="editable" dark small class="fadeSelect" v-on="on">
-              mdi-circle-edit-outline
-            </v-icon>
             <v-icon
-              v-else-if="selectable && stats.Sizes.length > 1"
               dark
               small
               class="fadeSelect"
               v-on="on"
-            >
-              mdi-resize
-            </v-icon>
+              v-html="editable ? 'mdi-circle-edit-outline' : 'mdi-resize'"
+            />
           </template>
           <v-card>
             <v-card-text class="pa-2">
@@ -40,7 +40,7 @@
         </v-menu>
       </v-card-title>
       <v-card-text class="pa-1 text--text">
-        <span class="heading h2">{{ stats.Size === '0.5' ? '½' : stats.Size }}</span>
+        <span class="heading h2">{{ parseFloat(stats.Size) === 0.5 ? '½' : stats.Size }}</span>
       </v-card-text>
     </v-card>
   </v-col>
