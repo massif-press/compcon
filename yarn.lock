@@ -7665,9 +7665,9 @@ kleur@^3.0.3:
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
 lancer-data@^2.0.8:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.12.tgz#cd51a231e9f037dec6ea54a57aebc15835215c61"
-  integrity sha512-fpbF+UOMBz7fnvFmTqdUeGQRlNAKCqIGDUNzwvwOPV5gpD8zSlmUeBuHlzeDS8tNc+vnFJ2T8nRPeoIYdZKEhA==
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.13.tgz#4acad0193e4c960e4b7db46a612c309dba4ac2f9"
+  integrity sha512-FaG9/l7x04FKOEss95Ed8KGnROZqNkeOy5f5Qfi+1/EdhJ46YaMoYpyn1uMIqv0MBJpSU8NJkxq/zJDSzciPPA==
 
 latest-version@^5.0.0:
   version "5.1.0"
