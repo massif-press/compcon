@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/jarena3/compcon/compare/v2.0.1...v2.1.0) (2020-02-04)
+
+
+### Features
+
+* **Main menu changelog:** Changelog button now opens github changelog ([6fe02d9](https://github.com/jarena3/compcon/commit/6fe02d9b7c42fe6100bc8680545ccd908835d070))
+
+
+### Bug Fixes
+
+* **_FrameStatblock.vue:** Remove duplicated Repair Cap statblock ([ef00730](https://github.com/jarena3/compcon/commit/ef00730476c62b7ab7990449e9e743d9675d80e1)), closes [#607](https://github.com/jarena3/compcon/issues/607)
+* **CCReserveItem.vue:** Corrected bad layout spacing ([4325b5a](https://github.com/jarena3/compcon/commit/4325b5a5bc631890cc6a7936a35080370600306e)), closes [#594](https://github.com/jarena3/compcon/issues/594)
+* **CloudImport.vue:** Retain CloudID on import to allow cloud update ([6de7ed8](https://github.com/jarena3/compcon/commit/6de7ed80bf89fd3ce055d0c9ce8dc9ddc0b04944))
+* **CloudImport.vue:** set cloudID if pilot's is empty ([57ae9aa](https://github.com/jarena3/compcon/commit/57ae9aa2d0abb3772990be804609c47da48449a1))
+* **GM Panel Lists:** Fixed items being hidden by default pagination ([64c8943](https://github.com/jarena3/compcon/commit/64c89435f2046afdb6d94a8b40fceba41125b65b)), closes [#599](https://github.com/jarena3/compcon/issues/599)
+* **Mission.ts:** Corrected Step validation for Rest ([c921b16](https://github.com/jarena3/compcon/commit/c921b16d2a841d110a65ecf92c12cbecd5aa63c7)), closes [#601](https://github.com/jarena3/compcon/issues/601)
+* **NPC Feature Selector:** Allowed reselectable Base Features ([6190eab](https://github.com/jarena3/compcon/commit/6190eab10fd62115d94ff636e4157fb88c51f603)), closes [#569](https://github.com/jarena3/compcon/issues/569)
+* **Pilot.tx:** Corrected gist handling for cloud loading ([18e4fc1](https://github.com/jarena3/compcon/commit/18e4fc124592d50430fa5c2368e68d4ab8338d6c))
+* **Template Selector:** Hide "Optional Features" title if there aren't any ([3755616](https://github.com/jarena3/compcon/commit/3755616b002b91e28e114ffdd2ac58f02e941353)), closes [#579](https://github.com/jarena3/compcon/issues/579)
+
 ### [2.0.1](https://github.com/jarena3/compcon/compare/v2.0.0...v2.0.1) (2020-02-04)
 
 
