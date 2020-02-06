@@ -1,8 +1,9 @@
 import { store } from '@/store'
-import { CompendiumItem, Tag } from '@/class'
+import { CompendiumItem, Tag, ItemType } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
+  type?: string
   tags: ITagData[]
 }
 
@@ -39,6 +40,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!itemData) return null
     const item = store.getters.referenceByID('PilotGear', itemData.id)
     item.current_uses = itemData.uses
+    item.note = itemData.note
     return item
   }
 }

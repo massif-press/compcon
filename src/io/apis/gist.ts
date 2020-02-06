@@ -21,6 +21,11 @@ const getChangelog = function() {
   return gistApi.get(changelogGistID).then(res => res.data)
 }
 
+const creditsGistID = 'c79f09f5459c5991c1228c853191bd51'
+const getCredits = function() {
+  return gistApi.get(creditsGistID).then(res => res.data)
+}
+
 const newPilot = async function(pilot: Pilot): Promise<any> {
   return gistApi
     .post('', {
@@ -56,6 +61,7 @@ const loadPilot = async function(id: string): Promise<IPilotData> {
 
 export default {
   getChangelog,
+  getCredits,
   newPilot,
   savePilot,
   loadPilot,
