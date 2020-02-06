@@ -1,8 +1,9 @@
 import { store } from '@/store'
-import { CompendiumItem, Tag } from '@/class'
+import { CompendiumItem, Tag, ItemType } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
+  type?: string
   tags: ITagData[]
 }
 

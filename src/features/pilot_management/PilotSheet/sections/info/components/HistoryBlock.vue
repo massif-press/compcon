@@ -5,7 +5,7 @@
       Pilot Biography
     </cc-title>
     <div class="my-2">
-      <p v-if="pilot.History" class="flavor-text text--text mx-2" v-html="pilot.History" />
+      <p v-if="pilot.History" class="flavor-text text--text mx-2 preserve-linebreaks" v-html="pilot.History" />
       <no-data-block v-else />
     </div>
     <cc-solo-dialog
