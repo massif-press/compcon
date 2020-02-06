@@ -45,7 +45,12 @@ module.exports = {
     ],
     allowCustomScopes: true,
 
+    scopeOverrides: {
+        chore: []
+    },
+
+
     subjectLimit: 100,
 
-    footerPrefix : 'Closes',
+    footerPrefix: 'Closes',
 };
