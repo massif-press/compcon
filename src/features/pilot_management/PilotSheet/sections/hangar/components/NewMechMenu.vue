@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    some flavor text
     <v-row>
       <v-col>
         <cc-title>Select Frame</cc-title>
@@ -26,7 +25,12 @@
     </v-row>
     <v-row>
       <v-expansion-panels v-model="selectedFrame" accordion focusable active-class="border-primary">
-        <v-expansion-panel v-for="f in filteredFrames" :key="f.ID" class="border-highlight">
+        <v-expansion-panel
+          v-for="f in frames"
+          v-show="selectIncl(f.ID)"
+          :key="f.ID"
+          class="border-highlight"
+        >
           <v-expansion-panel-header id="hover-parent" hide-actions>
             <v-btn
               fab
@@ -55,7 +59,9 @@
                 outlined
                 color="primary"
                 class="mr-2"
-              >{{ mt }}</v-chip>
+              >
+                {{ mt }}
+              </v-chip>
             </div>
             <v-img
               id="img-hover"
@@ -72,7 +78,7 @@
     <v-divider class="my-5" />
 
     <v-expand-transition>
-      <div v-if="filteredFrames[selectedFrame]">
+      <div v-if="frames[selectedFrame]">
         <v-row justify="center">
           <v-col cols="8">
             <span class="overline">XK-4-01 // REGISTER MECH NAME</span>
@@ -92,14 +98,9 @@
 
         <v-row justify="center">
           <v-col cols="6">
-            <v-btn
-              tile
-              x-large
-              block
-              color="secondary"
-              :disabled="!mechName"
-              @click="addMech()"
-            >Register New Mech</v-btn>
+            <v-btn tile x-large block color="secondary" :disabled="!mechName" @click="addMech()">
+              Register New Mech
+            </v-btn>
           </v-col>
         </v-row>
       </div>
@@ -139,7 +140,7 @@ export default Vue.extend({
         i = i.filter(x => x.Mechtype.some(t => sel.includes(t)))
       }
 
-      return i
+      return i.map(x => x.ID)
     },
   },
   mounted() {
@@ -148,16 +149,15 @@ export default Vue.extend({
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
   methods: {
+    selectIncl(id: string) {
+      return this.filteredFrames.includes(id)
+    },
     randomName() {
       this.mechName = mechname()
     },
-    isLocked(frame: Frame): boolean {
-      if (frame.Source === 'GMS') return false
-      return !this.pilot.has('License', frame.Name, 2)
-    },
     addMech() {
-      const f = this.filteredFrames[this.selectedFrame]
-      let newMech = new Mech(f, this.pilot)
+      const f = this.frames[this.selectedFrame]
+      const newMech = new Mech(f, this.pilot)
       newMech.Name = this.mechName
       this.pilot.AddMech(newMech)
       this.mechName = null

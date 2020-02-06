@@ -17,9 +17,8 @@
               v-if="info.blurb"
               class="ma-1 pa-2 pl-3 light-panel flavor-text text--text"
               style="border-radius: 4px"
-            >
-              {{ info.blurb }}
-            </p>
+              v-html="info.blurb"
+            />
             <div class="text-right mr-3">
               <a v-if="info.website" v-extlink="`${info.website}`">
                 <v-icon color="primary">mdi-web</v-icon>

@@ -40,6 +40,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!itemData) return null
     const item = store.getters.referenceByID('PilotGear', itemData.id)
     item.current_uses = itemData.uses
+    item.note = itemData.note
     return item
   }
 }
