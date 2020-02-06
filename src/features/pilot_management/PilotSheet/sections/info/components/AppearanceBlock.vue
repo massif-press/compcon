@@ -7,7 +7,7 @@
     <div class="my-2">
       <p
         v-if="pilot.TextAppearance"
-        class="flavor-text text--text mx-2"
+        class="flavor-text text--text mx-2 preserve-linebreaks"
         v-html="pilot.TextAppearance"
       />
       <no-data-block v-else />

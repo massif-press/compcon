@@ -173,6 +173,10 @@ code.horus:hover {
   animation: distort-subtle 5s infinite;
 }
 
+.preserve-linebreaks {
+  white-space: pre-wrap;
+}
+
 @keyframes distort {
   0% {
     text-shadow: 2px 1px #ff00ff, -2px -3px #00ffff;
