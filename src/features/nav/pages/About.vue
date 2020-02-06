@@ -41,43 +41,48 @@
       </a>
     </p>
     <br />
-    <div class="heading h2 primary--text text-center mt-n1">LANCER by:</div>
-    <v-row justify="center">
-      <dev-badge v-for="c in credits.writers" :key="c.name" :info="c" big />
-    </v-row>
-    <div class="heading h2 primary--text text-center mt-2">COMP/CON Development by:</div>
-    <v-row dense>
-      <dev-badge v-for="c in credits.lead_devs" :key="c.name" :info="c" big />
-      <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />
-    </v-row>
-    <v-divider class="my-3" />
-    <span class="heading h3 text--text text-center mt-4">
-      COMP/CON is supported by the generous
-      <a
-        v-extlink="`https://www.patreon.com/compcon`"
-        href="https://www.patreon.com/compcon"
-        v-html="'contributions'"
-      />
-      of:
-    </span>
-    <v-row justify="center">
-      <tier-five v-for="c in credits.t5" :key="c.name" :info="c" />
-    </v-row>
-    <v-row dense justify="center">
-      <tier-four v-for="c in credits.t4" :key="c.name" :info="c" />
-    </v-row>
-    <v-row dense justify="center">
-      <tier-three v-for="c in credits.t3" :key="c" :name="c" />
-    </v-row>
-    <v-row dense justify="center">
-      <tier-two v-for="c in credits.t2" :key="c" :name="c" />
-    </v-row>
-    <v-row dense justify="center">
-      <tier-one v-for="c in credits.t1" :key="c" :name="c" />
-    </v-row>
-    <span class="heading h2 text--text text-center mt-4">Special Thanks to:</span>
-    <div class="text-center my-2">
-      <special-thanks v-for="c in credits.special_thanks" :key="c" :name="c" />
+    <div v-if="loading" class="text-center">
+      <v-progress-circular :size="80" :width="5" color="primary" indeterminate />
+    </div>
+    <div v-else>
+      <div class="heading h2 primary--text text-center mt-n1">LANCER by:</div>
+      <v-row justify="center">
+        <dev-badge v-for="c in credits.writers" :key="c.name" :info="c" big />
+      </v-row>
+      <div class="heading h2 primary--text text-center mt-2">COMP/CON Development by:</div>
+      <v-row dense>
+        <dev-badge v-for="c in credits.lead_devs" :key="c.name" :info="c" big />
+        <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />
+      </v-row>
+      <v-divider class="my-3" />
+      <span class="heading h3 text--text text-center mt-4">
+        COMP/CON is supported by the generous
+        <a
+          v-extlink="`https://www.patreon.com/compcon`"
+          href="https://www.patreon.com/compcon"
+          v-html="'contributions'"
+        />
+        of:
+      </span>
+      <v-row justify="center">
+        <tier-five v-for="c in credits.t5" :key="c.name" :info="c" />
+      </v-row>
+      <v-row dense justify="center">
+        <tier-four v-for="c in credits.t4" :key="c.name" :info="c" />
+      </v-row>
+      <v-row dense justify="center">
+        <tier-three v-for="c in credits.t3" :key="c" :name="c" />
+      </v-row>
+      <v-row dense justify="center">
+        <tier-two v-for="c in credits.t2" :key="c" :name="c" />
+      </v-row>
+      <v-row dense justify="center">
+        <tier-one v-for="c in credits.t1" :key="c" :name="c" />
+      </v-row>
+      <span class="heading h2 text--text text-center mt-4">Special Thanks to:</span>
+      <div class="text-center my-2">
+        <special-thanks v-for="c in credits.special_thanks" :key="c" :name="c" />
+      </div>
     </div>
   </div>
 </template>
@@ -92,6 +97,7 @@ import TierThree from './SupporterBadges/TierThree.vue'
 import TierTwo from './SupporterBadges/TierTwo.vue'
 import TierOne from './SupporterBadges/TierOne.vue'
 import SpecialThanks from './SupporterBadges/SpecialThanks.vue'
+import gistApi from '@/io/apis/gist'
 
 export default Vue.extend({
   name: 'about',
@@ -99,7 +105,24 @@ export default Vue.extend({
   data: () => ({
     commitRef: 'UNKNOWN',
     credits: credits,
+    loading: true,
   }),
+  created() {
+    gistApi
+      .getCredits()
+      .then((response: any) => {
+        if (!response || !response.files) {
+          this.credits = credits
+        } else {
+          this.credits = JSON.parse(response.files['credits.json'].content)
+        }
+        this.loading = false
+      })
+      .catch(() => {
+        this.credits = credits
+        this.loading = false
+      })
+  },
   mounted() {
     this.commitRef = process.env.COMMIT_REF
   },
