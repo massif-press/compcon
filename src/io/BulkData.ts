@@ -12,41 +12,43 @@ const files = [
   'encounters_v2.json',
   'pilots_v2.json',
   'npcs_v2.json',
+  'extra_content.json'
 ]
 
 const exportV1Pilots = async function(): Promise<string> {
   return readFile('pilots.json')
 }
 
-const exportAll = async function(): Promise<string> {
+interface IBulkExport {
+  filename: string
+  data: string
+}
+
+const exportAll = async function(): Promise<IBulkExport[]> {
   const promises = files.map(file => readFile(file))
-  let result = [] as { filename: string; data: string }[]
 
-  await Promise.all(promises).then(res => {
-    result = res.map((x, i) => ({ filename: files[i], data: x }))
-  })
+  const res = await Promise.all(promises)
+  
+  return res.map((data, i) => ({ filename: files[i], data }))
 
-  return JSON.stringify(result)
 }
 
 const importAll = async function(file): Promise<void> {
   const text = await PromisifyFileReader.readAsText(file)
   const arr = JSON.parse(text)
+  Extlog('Loading import data...')
   const promises = arr.map(o => writeFile(o.filename, o.data))
-  Promise.all(promises).then(() => {
-    Extlog('Loading import data...')
-    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
-    Extlog('Import data loaded!')
-  })
+  await Promise.all(promises)
+  Extlog('Import data loaded! Running startup...')
+  Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 const clearAllData = async function(): Promise<void> {
+  Extlog('Erasing all COMP/CON data...')
   const promises = files.map(file => writeFile(file, ''))
-  Promise.all(promises).then(() => {
-    Extlog('Erasing all COMP/CON data...')
-    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
-    Extlog('All data erased!')
-  })
+  await promises
+  Extlog('All data erased! Running startup...')
+  Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 export { exportV1Pilots, exportAll, importAll, clearAllData }
