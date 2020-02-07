@@ -36,7 +36,7 @@ import { Range } from '@/class'
 
 @Component({ name: 'cc-range-element' })
 export default class CCRangeElement extends Vue{
-  @Prop({ type: Array, required: true, validator: (elem) => elem instanceof Range })
+  @Prop({ type: Array, required: true, })
   readonly range!: Range[]
 
   @Prop({ type: Boolean, required: false, })
