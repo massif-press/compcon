@@ -19,15 +19,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Tag } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-tag',
-  props: {
-    tag: {
-      type: Object,
-      required: true,
-    },
-  },
-})
+
+@Component({ name: 'cc-tag' })
+export default class CCExtendedTag extends Vue {
+  @Prop({ type: Object, required: true, })
+  readonly tag: Tag
+}
 </script>
