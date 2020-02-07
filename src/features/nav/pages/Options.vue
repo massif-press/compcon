@@ -140,26 +140,24 @@ export default Vue.extend({
       store.UserProfile.ID = id
     },
     async bulkExport() {
-      exportAll().then(res => {
-        saveFile(
+      const result = await exportAll()
+      await saveFile(
           `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-          res,
+        JSON.stringify(result),
           'Save COMP/CON Archive'
         )
-      })
     },
     async bulkImport(file) {
-      importAll(file).then(() => {
+      await importAll(file)
         this.importDialog = false
-      })
     },
     async oldExport() {
-      exportV1Pilots().then(res => {
+      const res = await exportV1Pilots()
         saveFile('CC_v1_pilots.json', res, 'Save COMP/CON v1.x Pilot Archive')
-      })
     },
     async deleteAll() {
-      clearAllData().then(() => (this.deleteDialog = false))
+      await clearAllData()
+      this.deleteDialog = false
     },
   },
 })
