@@ -31,19 +31,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Range } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-range-element',
-  props: {
-    range: {
-      type: Array,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-  },
-})
+@Component({ name: 'cc-range-element' })
+export default class CCRangeElement extends Vue{
+  @Prop({ type: Array, required: true, })
+  readonly range!: Range[]
+
+  @Prop({ type: Boolean, required: false, })
+  readonly small?: boolean
+}
 </script>
