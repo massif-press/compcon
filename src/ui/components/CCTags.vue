@@ -29,7 +29,7 @@ export default class CCTags extends Vue {
   @Prop({ type: String, required: false, default: 'primary', })
   readonly color: string
 
-  @Prop({ type: Array, required: true, validator: (item) => item instanceof Tag })
+  @Prop({ type: Array, required: true,  })
   readonly tags!: Tag[]
 
   @Prop({ type: Object, required: false, default: null, })
