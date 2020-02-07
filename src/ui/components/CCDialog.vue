@@ -64,7 +64,7 @@ export default class CCDialog extends Vue {
   @Prop({ type: Boolean, })
   readonly noConfirm?: boolean
 
-  dialog: false
+  dialog = false
 
   @Emit()
   confirm() {
