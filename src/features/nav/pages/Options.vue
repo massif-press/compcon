@@ -86,9 +86,9 @@
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn color="secondary" flat large @click="deleteDialog = false">Dismiss</v-btn>
+                <v-btn color="secondary" text large @click="deleteDialog = false">Dismiss</v-btn>
                 <v-spacer />
-                <v-btn color="error" flat @click="deleteAll">
+                <v-btn color="error" text @click="deleteAll">
                   <v-icon left v-html="'mdi-alert'" />
                   Delete All User Data
                   <v-icon right v-html="'mdi-alert'" />
