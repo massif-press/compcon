@@ -121,7 +121,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-Component({ 
+@Component({ 
   name: 'ref-structure-table',
 })
 export default class CCRefStructureTable extends Vue {
