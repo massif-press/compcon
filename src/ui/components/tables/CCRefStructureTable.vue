@@ -122,9 +122,9 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 Component({ 
-  name: 'ref-stress-table',
+  name: 'ref-structure-table',
 })
-export default class CCStressTable extends Vue {
+export default class CCRefStructureTable extends Vue {
   dialog = false
   show() {
     this.dialog = true
