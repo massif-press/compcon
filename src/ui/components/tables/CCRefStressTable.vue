@@ -126,7 +126,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
-Component({ 
+@Component({ 
   name: 'ref-stress-table',
 })
 export default class CCRefStressTable extends Vue {
