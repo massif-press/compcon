@@ -199,11 +199,11 @@ export default class CCSidebarView extends Vue {
     this.destroyedMount = null
     this.dialog = false
   }
+  window = 0
 
   @Prop({ type: Object, required: true, })
   mech!: Mech
-    
-  window = 0
+
   rolls = []
   resultData = ResultData
   systemTraumaRoll = null
