@@ -18,15 +18,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ 
   name: 'table-window-item',
-  props: {
-    title: { type: String, required: true },
-    content: { type: String, required: false, default: '' },
-    disabled: { type: Boolean },
-    otherBtn: { type: Boolean },
-    hidePrevious: { type: Boolean },
-  },
 })
+export default class TableWindowItem extends Vue {
+  @Prop({ type: String, required: true })
+  title!: string
+  @Prop({ type: String, required: false, default: '' })
+  content: string
+  @Prop({ type: Boolean })
+  disabled?: boolean
+  @Prop({ type: Boolean })
+  otherBtn?: boolean
+  @Prop({ type: Boolean })
+  hidePrevious?: boolean
+}
 </script>
