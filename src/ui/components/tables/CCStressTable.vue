@@ -135,77 +135,75 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
 import ResultData from './_stress_results.json'
+import { Mech } from '@/class'
 
-export default Vue.extend({
+@Component({ 
   name: 'stress-table',
   components: { TableWindowItem },
-  props: {
-    mech: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    dialog: false,
-    window: 0,
-    rolls: [],
-    resultData: ResultData,
-    results: [
-      'Meltdown',
-      'Power Plant Destabilize',
-      'Power Plant Destabilize',
-      'Power Plant Destabilize',
-      'Emergency Shunt',
-      'Emergency Shunt',
-    ],
-  }),
-  computed: {
-    totalRolls() {
-      return (this.mech.CurrentStress - this.mech.MaxStress) * -1
-    },
-    resultWindow(): number {
-      if (this.rolls.filter(x => x === 1).length > 1) return 4
-      switch (Math.min(...this.rolls)) {
-        case 6:
-        case 5:
-          return 1
-        case 4:
-        case 3:
-        case 2:
-          return 2
-        case 1:
-          return 3
-      }
-      return 4
-    },
-  },
-  methods: {
-    show() {
-      this.dialog = true
-      if (this.mech.CurrentStress <= 1) this.window = 4
-    },
-    close() {
-      this.window = 0
-      this.rolls = []
-      this.dialog = false
-    },
-    applyES() {
-      if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
-      this.close()
-    },
-    applyPPD() {
-      if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
-      this.close()
-    },
-    applyMeltdown() {
-      this.mech.MeltdownImminent = true
-      this.close()
-    },
-  },
 })
+export default class CCStressTable extends Vue {
+
+  dialog = false
+  show() {
+    this.dialog = true
+    if (this.mech.CurrentStress <= 1) this.window = 4
+  }
+  close() {
+    this.window = 0
+    this.rolls = []
+    this.dialog = false
+  }
+  window = 0
+
+  @Prop({ type: Object, required: true, })
+  mech!: Mech
+
+  rolls = []
+  resultData = ResultData
+  results = [
+    'Meltdown',
+    'Power Plant Destabilize',
+    'Power Plant Destabilize',
+    'Power Plant Destabilize',
+    'Emergency Shunt',
+    'Emergency Shunt',
+  ]
+
+  get totalRolls() {
+    return (this.mech.CurrentStress - this.mech.MaxStress) * -1
+  }
+  get resultWindow(): number {
+    if (this.rolls.filter(x => x === 1).length > 1) return 4
+    switch (Math.min(...this.rolls)) {
+      case 6:
+      case 5:
+        return 1
+      case 4:
+      case 3:
+      case 2:
+        return 2
+      case 1:
+        return 3
+    }
+    return 4
+  }
+
+  applyES() {
+    if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
+    this.close()
+  }
+  applyPPD() {
+    if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
+    this.close()
+  }
+  applyMeltdown() {
+    this.mech.MeltdownImminent = true
+    this.close()
+  }
+}
 </script>
 
 <style scoped>
