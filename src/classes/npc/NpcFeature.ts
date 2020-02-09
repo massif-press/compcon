@@ -128,4 +128,8 @@ export abstract class NpcFeature {
     return ''
     // return this._origin.name
   }
+
+  public get Color(): string {
+    return 'npc--feature'
+  }
 }
