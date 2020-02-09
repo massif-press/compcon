@@ -32,7 +32,8 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <span class="heading white--text ml-2">
-                <v-icon dark>cci-role-{{ h.group }}</v-icon>
+                <v-icon v-if="h.group.toLowerCase() === 'biological'" dark>mdi-heart-pulse</v-icon>
+                <v-icon v-else dark>cci-role-{{ h.group }}</v-icon>
                 {{ h.group.toUpperCase() }}
               </span>
             </div>
