@@ -47,6 +47,6 @@ export class NpcTech extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'frame'
+    return 'npc--tech'
   }
 }
