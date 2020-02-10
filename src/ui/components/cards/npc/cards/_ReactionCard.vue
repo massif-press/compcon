@@ -18,6 +18,7 @@
         </v-btn>
       </cc-tooltip>
     </v-col>
+    <cc-tags v-if="item.Feature.Tags" :tags="item.Feature.Tags" small />
   </card-base>
 </template>
 

@@ -24,6 +24,10 @@ export class NpcClassStats {
     this._stats = data
   }
 
+  public Stat(key: string, tier: number): number {
+    return this._stats[key] ? this._stats[key][tier - 1] : 1
+  }
+
   public Activations(tier: number): number {
     return this._stats.activations[tier - 1]
   }
