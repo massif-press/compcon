@@ -19,22 +19,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'cc-sidebar-view',
-  props: {
-    popup: {
-      type: Boolean,
-      required: false,
-    },
-    cols: {
-      type: [Number, String],
-      required: false,
-      default: '2',
-    },
-  },
-})
+@Component({ name: 'cc-sidebar-view', })
+export default class CCSidebarView extends Vue {
+  @Prop({ type: Boolean, required: false, })
+  popup?: boolean 
+
+  @Prop({ type: [Number, String], required: false, default: '2', })
+  cols: number | string 
+}
 </script>
 
 <style scoped>

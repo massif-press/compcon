@@ -119,22 +119,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'ref-stress-table',
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    show() {
-      this.dialog = true
-    },
-    close() {
-      this.dialog = false
-    },
-  },
+@Component({ 
+  name: 'ref-structure-table',
 })
+export default class CCRefStructureTable extends Vue {
+  dialog = false
+  show() {
+    this.dialog = true
+  }
+  close() {
+    this.dialog = false
+  }
+}
 </script>
 
 <style scoped>
