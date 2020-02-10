@@ -283,26 +283,19 @@ export class Npc implements IActor {
   }
 
   setStatBonuses(feat: NpcFeature, remove?: boolean): void {
-    if (feat.Bonus) {
-      for (const key in feat.Bonus) {
-        if (feat.Bonus.hasOwnProperty(key)) {
-          if (remove) this._stats.Stats[key] -= feat.Bonus[key]
-          else this._stats.Stats[key] += feat.Bonus[key]
-        }
+    if (feat.Override) {
+      for (const key in feat.Override) {
+        if (remove && typeof this.Tier === 'number') this._stats.Stats[key] = this.Class.Stats.Stat(key, this.Tier)
+        else this._stats.Stats[key] = feat.Override[key]
       }
-    }
-    //TODO: these should be managed in the data instead
-    if (feat.ID === 'npcf_chaff') {
-      if (remove && typeof this.Tier === 'number') this._stats.HP = this.Class.Stats.HP(this.Tier)
-      else this._stats.HP = 1
-    }
-    if (feat.ID === 'npcf_weak') {
-      if (remove && typeof this.Tier === 'number') {
-        this._stats.Structure = this.Class.Stats.Structure(this.Tier)
-        this._stats.Stress = this.Class.Stats.Stress(this.Tier)
-      } else {
-        this._stats.Structure = 1
-        this._stats.Stress = 1
+    } else {
+      if (feat.Bonus) {
+        for (const key in feat.Bonus) {
+          if (feat.Bonus.hasOwnProperty(key)) {
+            if (remove) this._stats.Stats[key] -= feat.Bonus[key]
+            else this._stats.Stats[key] += feat.Bonus[key]
+          }
+        }
       }
     }
   }

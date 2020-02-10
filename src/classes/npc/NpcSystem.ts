@@ -25,6 +25,6 @@ export class NpcSystem extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'system'
+    return 'npc--system'
   }
 }
