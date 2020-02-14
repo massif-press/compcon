@@ -1,3 +1,31 @@
+## [2.0.4](https://github.com/jarena3/compcon/compare/2.0.3...2.0.4) (2020-02-14)
+
+
+### Bug Fixes
+
+* **getColor.ts:** fix the getColor mixin ([5504f7b](https://github.com/jarena3/compcon/commit/5504f7b893b15ec715d7008605a04addcdc5ef24))
+* **Mission Runner:** fix actors not becoming destroyed on 0hp/0str ([129559d](https://github.com/jarena3/compcon/commit/129559d3beaedf7e7987656e3a6471c5c6842ad2)), closes [#614](https://github.com/jarena3/compcon/issues/614)
+* **new npc:** add icon to biological header ([efca88f](https://github.com/jarena3/compcon/commit/efca88f4f1dc7dcbe1747640117db77ad9e93a83))
+* **npc features:** make NPC feature cards use the proper theme colors ([37557b1](https://github.com/jarena3/compcon/commit/37557b1b58f92a16c1b01eaebdd854e3d1c01cdb))
+* **npc reactions:** display tags on NPC reaction cards ([cca3888](https://github.com/jarena3/compcon/commit/cca3888e1263be58b00cc6e0e1e1ffb27e1c190b))
+* **npc templates:** automatically apply/remove template stat overrides ([8d59e56](https://github.com/jarena3/compcon/commit/8d59e56a181ceb35b6915c42d8fecc89fb223ad6)), closes [#631](https://github.com/jarena3/compcon/issues/631)
+* **Options:** include extra content in bulk export ([68be4aa](https://github.com/jarena3/compcon/commit/68be4aa46388d320cf471337799e743e1ab2f571))
+* **Pilot Sheet:** remove warning for less than 3 talents after LL0 ([3f70c68](https://github.com/jarena3/compcon/commit/3f70c68618bbe0220a7898fea85ed5418954aee3)), closes [#394](https://github.com/jarena3/compcon/issues/394)
+
+
+### Features
+
+* **Mission Runner:** number NPCs ([8f05000](https://github.com/jarena3/compcon/commit/8f05000138e9cdbbc12e88a02c8b91375e64ca02)), closes [#615](https://github.com/jarena3/compcon/issues/615)
+* Added WYSIWYG editor ([fba2269](https://github.com/jarena3/compcon/commit/fba2269fd513b7e53fdb488ffd6c7a14442178be)), closes [#606](https://github.com/jarena3/compcon/issues/606)
+* **Options:** add warning to bulk data import ([32c6708](https://github.com/jarena3/compcon/commit/32c670844684c45b96738045cd4aac3f1f9775af))
+
+
+### Reverts
+
+* Revert "Revert "Refactor base CC styled building block components to use VCC & VPD"" ([831e042](https://github.com/jarena3/compcon/commit/831e0423b30ce756835b921e8d08aaa83421c96c))
+
+
+
 ## [2.0.3](https://github.com/massif-press/compcon/compare/2.0.2...2.0.3) (2020-02-06)
 
 
