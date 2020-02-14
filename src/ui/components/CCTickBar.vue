@@ -56,9 +56,9 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Ref } from 'vue-property-decorator'
 
-@Component({ name: 'tick-bar', })
+@Component({ name: 'tick-bar' })
 export default class CCTickBar extends Vue {
-  created() {
+  created(): void {
     this.lock = true
     if (!this.readonly) {
       this.model = this.current > this.max ? this.max : this.current
@@ -66,38 +66,38 @@ export default class CCTickBar extends Vue {
     this.lock = false
   }
 
-  @Prop({ type: String, required: false, default: '', })
+  @Prop({ type: String, required: false, default: '' })
   readonly label: string
 
-  @Prop({ type: String, required: false, default: 'start', })
+  @Prop({ type: String, required: false, default: 'start' })
   readonly justify: string
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly small?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly large?: boolean
-  @Prop({ type: String, required: false, default: 'mdi-hexagon-outline', })
+  @Prop({ type: String, required: false, default: 'mdi-hexagon-outline' })
   readonly emptyIcon: string
-  @Prop({ type: String, required: false, default: 'mdi-hexagon', })
+  @Prop({ type: String, required: false, default: 'mdi-hexagon' })
   readonly fullIcon: string
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
-  @Prop({ type: String,required: false, default: 'grey lighten-1', })
+  @Prop({ type: String, required: false, default: 'grey lighten-1' })
   readonly bgColor: string
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly noPips?: boolean
 
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly readonly?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly noInput?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly flipInput?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly clearable?: boolean
 
-  @Prop({ type: Number, required: true, })
+  @Prop({ type: Number, required: true })
   readonly current!: number
-  @Prop({ type: Number, required: true, })
+  @Prop({ type: Number, required: true })
   readonly max!: number
 
   model = 0
@@ -106,27 +106,27 @@ export default class CCTickBar extends Vue {
   myInput = ''
 
   @Watch('model')
-  onModelChange(val: number, oldVal: number) {
+  onModelChange(val: number): void {
     if (!this.lock && !isNaN(val)) {
       this.$emit('update', val)
     }
   }
 
-  onInputChange(e) {
+  onInputChange(e): void {
     const newVal = e.target.value
     if (newVal.match(/^[+-\d]\d*$/) || newVal === '') this.myInput = newVal
     else e.target.value = this.myInput
   }
 
   @Ref('pipinput') readonly pipinput: HTMLInputElement
-  startInputting() {
+  startInputting(): void {
     this.inputting = true
     this.$nextTick(() => {
       this.pipinput.focus()
     })
   }
 
-  sendInput() {
+  sendInput(): void {
     const thisInput = this.myInput
     if (!thisInput.match(/\d/)) return
 
@@ -146,12 +146,11 @@ export default class CCTickBar extends Vue {
     this.$emit('update', preResult)
     this.myInput = ''
   }
-  
-  cancelInput() {
+
+  cancelInput(): void {
     this.inputting = false
     this.myInput = ''
   }
-
 }
 </script>
 

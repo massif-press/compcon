@@ -120,7 +120,6 @@
               color="hp"
               rollover
               @update="npc.CurrentHP = $event"
-              @rollover="onHpRollover"
             >
               <span class="heading h3">HP: {{ npc.CurrentHP }}/{{ npc.MaxHP }}</span>
             </cc-tick-bar>
@@ -154,7 +153,6 @@
               rollover-negative
               clearable
               @update="npc.CurrentHeat = $event"
-              @rollover="onHeatRollover"
             >
               <span class="heading h3">HEAT: {{ npc.CurrentHeat }}/{{ npc.HeatCapacity }}</span>
             </cc-tick-bar>
@@ -248,17 +246,12 @@
       </v-col>
     </v-row>
     <v-divider class="my-3" />
-    <v-row dense>
-      <v-textarea
-        v-model="npc.Note"
-        label="GM Notes"
-        dense
-        auto-grow
-        rows="3"
-        outlined
-        hide-actions
-      />
-    </v-row>
+    <cc-title small :color="npc.Class.Color">
+      NPC Notes
+      <cc-text-editor label="Edit NPC Notes" :original="npc.Note" @save="npc.Note = $event" />
+    </cc-title>
+    <p v-html="npc.Note" />
+    <v-divider class="my-3" />
     <v-row v-if="npc.Reactions.length" dense justify="center">
       <v-col cols="10">
         <div class="overline">STAGED REACTIONS</div>
@@ -310,6 +303,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import sleep from '@/util/sleep'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
@@ -347,50 +341,56 @@ export default Vue.extend({
       return store.Statuses.filter(x => x.type === 'Condition')
     },
   },
-  methods: {
-    onHpRollover() {
-      if (this.npc.MaxStructure === 1 || this.npc.CurrentStructure === 1) {
-        this.$nextTick(() => {
-          this.npc.CurrentHP = 0
-          this.npc.CurrentStructure = 0
-          this.npc.Destroyed = true
-        })
-        return
-      }
-      if (this.npc.CurrentStructure <= 1) {
-        this.$nextTick(() => {
-          this.npc.CurrentHP = 0
-        })
-      }
-      this.npc.CurrentStructure = this.npc.CurrentStructure - 1
-      if (this.npc.CurrentStructure < 0) this.npc.CurrentStructure = 0
-      this.structRolledOver = true
-      setTimeout(() => {
-        this.structRolledOver = false
-        this.$refs.structureTable.show()
-      }, 500)
+  watch: {
+    'npc.CurrentStructure': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.structRolledOver = true
+          if (this.npc.MaxStructure === 1 || this.npc.CurrentStructure === 1) {
+            this.$nextTick(() => {
+              this.npc.CurrentHP = 0
+              this.npc.CurrentStructure = 0
+              this.npc.Destroyed = true
+            })
+            return
+          }
+          if (this.npc.CurrentStructure <= 1) {
+            this.$nextTick(() => {
+              this.npc.CurrentHP = 0
+            })
+          }
+          this.npc.CurrentStructure = this.npc.CurrentStructure - 1
+          if (this.npc.CurrentStructure < 0) this.npc.CurrentStructure = 0
+          await sleep(500)
+          this.structRolledOver = false
+          this.$refs.structureTable.show()
+        }
+      },
     },
-    onHeatRollover() {
-      if (this.npc.MaxStress === 1) {
-        this.$nextTick(() => {
-          this.npc.CurrentHeat = this.npc.HeatCapacity
-          this.npc.CurrentStress = 0
-          if (!this.npc.Statuses.some(x => x === 'Exposed')) this.npc.Statuses.push('Exposed')
-        })
-        return
-      }
-      if (this.npc.CurrentStress <= 1) {
-        this.$nextTick(() => {
-          this.npc.CurrentHeat = this.npc.HeatCapacity
-        })
-      }
-      this.npc.CurrentStress = this.npc.CurrentStress - 1
-      if (this.npc.CurrentStress < 0) this.npc.CurrentStress = 0
-      this.stressRolledOver = true
-      setTimeout(() => {
-        this.stressRolledOver = false
-        this.$refs.stressTable.show()
-      }, 500)
+    'npc.CurrentStress': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.stressRolledOver = true
+          if (this.npc.MaxStress === 1) {
+            this.$nextTick(() => {
+              this.npc.CurrentHeat = this.npc.HeatCapacity
+              this.npc.CurrentStress = 0
+              if (!this.npc.Statuses.some(x => x === 'Exposed')) this.npc.Statuses.push('Exposed')
+            })
+            return
+          }
+          if (this.npc.CurrentStress <= 1) {
+            this.$nextTick(() => {
+              this.npc.CurrentHeat = this.npc.HeatCapacity
+            })
+          }
+          this.npc.CurrentStress = this.npc.CurrentStress - 1
+          if (this.npc.CurrentStress < 0) this.npc.CurrentStress = 0
+          await sleep(500)
+          this.stressRolledOver = false
+          this.$refs.stressTable.show()
+        }
+      },
     },
   },
 })
