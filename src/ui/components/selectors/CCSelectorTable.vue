@@ -99,7 +99,7 @@ export default Vue.extend({
   }),
   computed: {
     fItems() {
-      var vm = this as any
+      const vm = this as any
       let i = vm.items
 
       if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
@@ -141,3 +141,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+</style>

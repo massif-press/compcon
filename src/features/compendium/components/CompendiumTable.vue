@@ -126,3 +126,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+</style>
