@@ -313,7 +313,11 @@
         </v-col>
       </v-row>
       <v-divider class="my-2" />
-      <v-textarea v-model="npc.Note" outlined label="GM Notes" auto-grow rows="2" />
+      <cc-title small :color="npc.Class.Color">
+        NPC Notes
+        <cc-text-editor label="Edit NPC Notes" :original="npc.Note" @save="npc.Note = $event" />
+      </cc-title>
+      <p v-html="npc.Note" />
       <v-dialog v-model="flavor_dialog" width="60vw">
         <v-card tile>
           <v-card-title :class="`heading h1 white--text ${npc.Class.Color}`">
@@ -353,10 +357,32 @@ import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
 
 export default Vue.extend({
   name: 'npc-card',
-  components: { EditableAttribute, FeatureSelector, TemplateSelector, SizeAttribute },
+  components: {
+    EditableAttribute,
+    FeatureSelector,
+    TemplateSelector,
+    SizeAttribute,
+    TiptapVuetify,
+  },
   props: {
     id: {
       type: String,
@@ -379,6 +405,28 @@ export default Vue.extend({
     flavor_dialog: false,
     tactics_dialog: false,
     tags: ['Mech', 'Vehicle', 'Ship', 'Biological', 'Squad'],
+    extensions: [
+      History,
+      Blockquote,
+      Underline,
+      Strike,
+      Italic,
+      ListItem,
+      BulletList,
+      OrderedList,
+      [
+        Heading,
+        {
+          options: {
+            levels: [1, 2, 3],
+          },
+        },
+      ],
+      Bold,
+      Code,
+      HorizontalRule,
+      HardBreak,
+    ],
   }),
   computed: {
     npc() {

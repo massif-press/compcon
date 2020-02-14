@@ -46,19 +46,7 @@
       <v-col cols="8">
         <v-row class="px-3">
           <v-col>
-            <div class="ml-n3">
-              <cc-title small :color="color" class="pl-3">Operator Notes</cc-title>
-            </div>
-            <v-textarea
-              v-model="mech.Notes"
-              class="mt-2"
-              outlined
-              :color="color"
-              rows="2"
-              auto-grow
-              label="Notes"
-              hide-details
-            />
+            <operator-notes :mech="mech" :color="color" />
           </v-col>
         </v-row>
         <v-row class="px-3">
@@ -114,6 +102,7 @@ import Vue from 'vue'
 import MechNav from './components/MechNav.vue'
 import HeaderOverlay from './components/HeaderOverlay.vue'
 import CoreItem from './components/CoreItem.vue'
+import OperatorNotes from './sections/OperatorNotes.vue'
 import LicenseRequirementBlock from './sections/license_requirements/index.vue'
 import TraitBlock from './sections/traits/index.vue'
 import AttributesBlock from './sections/attributes/index.vue'
@@ -126,6 +115,7 @@ export default Vue.extend({
     MechNav,
     LicenseRequirementBlock,
     HeaderOverlay,
+    OperatorNotes,
     TraitBlock,
     AttributesBlock,
     CoreItem,

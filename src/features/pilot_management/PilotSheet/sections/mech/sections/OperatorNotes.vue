@@ -1,14 +1,14 @@
 <template>
   <div>
-    <cc-title small color="pilot">
-      <section-edit-icon label="Edit Pilot Appearance" @open-selector="show()" />
-      Pilot Appearance
+    <cc-title small :color="color" style="margin-left: -60px!important">
+      <section-edit-icon label="Edit Operator Notes" @open-selector="show()" />
+      Operator Notes
     </cc-title>
     <div class="my-2">
       <p
-        v-if="pilot.TextAppearance"
+        v-if="mech.Notes"
         class="flavor-text text--text mx-2 preserve-linebreaks"
-        v-html="pilot.TextAppearance"
+        v-html="mech.Notes"
       />
       <no-data-block v-else />
     </div>
@@ -17,11 +17,11 @@
       icon="mdi-circle-edit-outline"
       color="primary"
       large
-      title="Pilot Appearance"
-      @confirm="pilot.TextAppearance = appearance"
+      title="Operator Notes"
+      @confirm="mech.Notes = notes"
     >
       <tiptap-vuetify
-        v-model="appearance"
+        v-model="notes"
         :extensions="extensions"
         :card-props="{ flat: true, tile: true, elevation: 0 }"
         class="mt-4"
@@ -31,9 +31,9 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import SectionEditIcon from '../../components/SectionEditIcon.vue'
 import NoDataBlock from '../../components/NoDataBlock.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
 import {
   TiptapVuetify,
   Heading,
@@ -51,13 +51,22 @@ import {
   History,
 } from 'tiptap-vuetify'
 
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
-  name: 'appearance-block',
+export default Vue.extend({
+  name: 'notes-block',
   components: { SectionEditIcon, NoDataBlock, TiptapVuetify },
+  props: {
+    mech: {
+      type: Object,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
   data: () => ({
-    appearance: '',
+    notes: '',
     extensions: [
       History,
       Blockquote,
@@ -81,14 +90,12 @@ export default vueMixins(activePilot).extend({
       HardBreak,
     ],
   }),
-
   created() {
-    // this.$vuetify.lang.current = 'en'
-    this.appearance = this.pilot.TextAppearance || ''
+    this.notes = this.mech.Notes || ''
   },
   methods: {
     show() {
-      this.appearance = this.pilot.TextAppearance || ''
+      this.notes = this.mech.Notes || ''
       this.$refs.dialog.show()
     },
   },

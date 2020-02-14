@@ -48,27 +48,26 @@
           />
         </v-col>
       </v-row>
-      <v-textarea
-        v-model="encounter.NarrativeNotes"
-        outlined
-        label="Narrative Description"
-        auto-grow
-        rows="2"
-        class="mt-n3"
-      />
+      <cc-title small class="mb-3">
+        Narrative Description
+        <cc-text-editor
+          label="Edit Narrative Description"
+          :original="encounter.NarrativeNotes"
+          @save="encounter.NarrativeNotes = $event"
+        />
+      </cc-title>
+      <p v-html="encounter.NarrativeNotes" />
       <cc-title small class="mb-3">
         Location
+        <cc-text-editor
+          label="Edit Location Description"
+          :original="encounter.Location"
+          @save="encounter.Location = $event"
+        />
       </cc-title>
       <v-row dense align="start" class="mt-n2">
         <v-col cols="7">
-          <v-textarea
-            v-model="encounter.Location"
-            outlined
-            label="Location Description"
-            hide-details
-            auto-grow
-            rows="2"
-          />
+          <p v-html="encounter.Location" />
           <v-divider class="my-3" />
           <v-combobox
             v-model="encounter.Environment"
@@ -335,9 +334,15 @@
         </v-col>
       </v-row>
       <v-divider class="my-3" />
-      <v-row>
-        <v-textarea v-model="encounter.GmNotes" outlined label="GM Notes" auto-grow rows="2" />
-      </v-row>
+      <cc-title small class="mb-3">
+        GM Notes
+        <cc-text-editor
+          label="Edit GM Notes"
+          :original="encounter.GmNotes"
+          @save="encounter.GmNotes = $event"
+        />
+      </cc-title>
+      <p v-html="encounter.GmNotes" />
       <br />
       <cc-solo-dialog ref="npcDialog" no-confirm title="ADD NPC" fullscreen no-pad>
         <npc-selector @select="addNpc($event)" />
