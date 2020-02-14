@@ -105,6 +105,9 @@ export class ActiveMission {
     nn.RenewID()
     nn.Active = true
     nn.Side = s
+    const aCount = this._activeNpcs.map(x => x.Name.replace(/ #[\d]*/, '')).length
+    const rCount = this._activeReinforcements.map(x => x.Name.replace(/ #[\d]*/, '')).length
+    nn.Name += ` #${aCount + rCount + 1}`
     return nn
   }
 
@@ -128,6 +131,8 @@ export class ActiveMission {
     const nn = Npc.Deserialize(Npc.Serialize(n))
     nn.RenewID()
     nn.Active = true
+    const count = this._activeNpcs.map(x => x.Name.replace(/ #[\d]*/, '')).length
+    nn.Name += ` #${count}`
     this.ActiveNpcs.push(nn)
   }
 
