@@ -1,3 +1,41 @@
+## [2.0.3](https://github.com/massif-press/compcon/compare/2.0.2...2.0.3) (2020-02-06)
+
+
+### Bug Fixes
+
+* **contentpack.ts:** fixes all data in pilot_gear.json being loaded as pilot gear ([e89c0e3](https://github.com/massif-press/compcon/commit/e89c0e3f171c517356e1e7df9d65091d96690ed7))
+* **Frame Selection:** Fixed frame selector generating wrong frame ([e0a0b74](https://github.com/massif-press/compcon/commit/e0a0b74dba6391cc401113d24d5fc2613968cc6c)), closes [#608](https://github.com/massif-press/compcon/issues/608)
+* **lancer-data:** Add Unlimited tag ([254c8b4](https://github.com/massif-press/compcon/commit/254c8b4b1df2d47989291f6387c347bd9c30df15)), closes [#609](https://github.com/massif-press/compcon/issues/609)
+* **Pilot Equipment Notes:** Pilot Equipment will now correctly serialize notes ([2de7035](https://github.com/massif-press/compcon/commit/2de7035e953c338090c0185f8d1347abc03063bf)), closes [#611](https://github.com/massif-press/compcon/issues/611)
+* **pilot sheet:** show linebreaks in pilot biography & appearance blocks ([0bc8ea1](https://github.com/massif-press/compcon/commit/0bc8ea12b698ac3409671110ffed5602b4405ab0))
+* **pilotequipment.ts:** add type prop to IPilotEquipmentData ([96449a6](https://github.com/massif-press/compcon/commit/96449a6c7d38852361f653b334c00288ac8c529b))
+
+
+### Features
+
+* **About page Credits:** Serve credits remotely ([a2e101b](https://github.com/massif-press/compcon/commit/a2e101bdb6b9a335e5a673ef53a226fcb81fab88)), closes [#562](https://github.com/massif-press/compcon/issues/562)
+
+
+
+## [2.0.2](https://github.com/jarena3/compcon/compare/v2.1.0...v2.0.2) (2020-02-06)
+
+
+### Bug Fixes
+
+* **contentpack.ts:** fixes all data in pilot_gear.json being loaded as pilot gear ([e89c0e3](https://github.com/jarena3/compcon/commit/e89c0e3f171c517356e1e7df9d65091d96690ed7))
+* **Frame Selection:** Fixed frame selector generating wrong frame ([e0a0b74](https://github.com/jarena3/compcon/commit/e0a0b74dba6391cc401113d24d5fc2613968cc6c)), closes [#608](https://github.com/jarena3/compcon/issues/608)
+* **lancer-data:** Add Unlimited tag ([254c8b4](https://github.com/jarena3/compcon/commit/254c8b4b1df2d47989291f6387c347bd9c30df15)), closes [#609](https://github.com/jarena3/compcon/issues/609)
+* **Pilot Equipment Notes:** Pilot Equipment will now correctly serialize notes ([2de7035](https://github.com/jarena3/compcon/commit/2de7035e953c338090c0185f8d1347abc03063bf)), closes [#611](https://github.com/jarena3/compcon/issues/611)
+* **pilot sheet:** show linebreaks in pilot biography & appearance blocks ([0bc8ea1](https://github.com/jarena3/compcon/commit/0bc8ea12b698ac3409671110ffed5602b4405ab0))
+* **pilotequipment.ts:** add type prop to IPilotEquipmentData ([96449a6](https://github.com/jarena3/compcon/commit/96449a6c7d38852361f653b334c00288ac8c529b))
+
+
+### Features
+
+* **About page Credits:** Serve credits remotely ([a2e101b](https://github.com/jarena3/compcon/commit/a2e101bdb6b9a335e5a673ef53a226fcb81fab88)), closes [#562](https://github.com/jarena3/compcon/issues/562)
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
