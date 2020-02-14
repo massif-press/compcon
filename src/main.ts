@@ -27,14 +27,25 @@ import Startup from './io/Startup'
 
 import { Capacitor } from '@capacitor/core'
 
+import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
+import 'tiptap-vuetify/dist/main.css'
+
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.$appVersion = process.env.VERSION_STRING
-Vue.prototype.$lancerVersion = `${lancerData.info.version} [${require('lancer-data/package.json').version}]`
+Vue.prototype.$lancerVersion = `${lancerData.info.version} [${
+  require('lancer-data/package.json').version
+}]`
+
+const vuetify = new Vuetify(theme)
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
+Vue.use(TiptapVuetifyPlugin, {
+  vuetify,
+  iconsGroup: 'md',
+})
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
@@ -46,7 +57,7 @@ Vue.directive('extlink', externalLinkDirective)
 
 new Vue({
   components: { App },
-  vuetify: new Vuetify(theme),
+  vuetify,
   router,
   store,
   created() {

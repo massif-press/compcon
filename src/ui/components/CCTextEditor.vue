@@ -1,27 +1,20 @@
 <template>
-  <div>
-    <cc-title small color="pilot">
-      <section-edit-icon label="Edit Pilot Biography" @open-selector="show()" />
-      Pilot Biography
-    </cc-title>
-    <div class="my-2">
-      <p
-        v-if="pilot.History"
-        class="flavor-text text--text mx-2 preserve-linebreaks"
-        v-html="pilot.History"
-      />
-      <no-data-block v-else />
-    </div>
+  <div class="d-inline">
+    <span>
+      <cc-tooltip inline simple content="Edit">
+        <v-icon dark class="fadeSelect" @click="show()">mdi-circle-edit-outline</v-icon>
+      </cc-tooltip>
+    </span>
     <cc-solo-dialog
       ref="dialog"
       icon="mdi-circle-edit-outline"
       color="primary"
       large
-      title="Pilot Appearance"
-      @confirm="pilot.History = history"
+      :title="label"
+      @confirm="$emit('save', text)"
     >
       <tiptap-vuetify
-        v-model="history"
+        v-model="text"
         :extensions="extensions"
         :card-props="{ flat: true, tile: true, elevation: 0 }"
         class="mt-4"
@@ -31,9 +24,7 @@
 </template>
 
 <script lang="ts">
-import SectionEditIcon from '../../components/SectionEditIcon.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
+import Vue from 'vue'
 import {
   TiptapVuetify,
   Heading,
@@ -51,13 +42,22 @@ import {
   History,
 } from 'tiptap-vuetify'
 
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
-  name: 'history-block',
-  components: { SectionEditIcon, NoDataBlock, TiptapVuetify },
+export default Vue.extend({
+  name: 'cc-text-editor',
+  components: { TiptapVuetify },
+  props: {
+    original: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: false,
+      default: 'Edit Text',
+    },
+  },
   data: () => ({
-    history: '',
+    text: '',
     extensions: [
       History,
       Blockquote,
@@ -82,11 +82,11 @@ export default vueMixins(activePilot).extend({
     ],
   }),
   created() {
-    this.history = this.pilot.History || ''
+    this.notes = this.original || ''
   },
   methods: {
     show() {
-      this.history = this.pilot.History || ''
+      this.notes = this.original || ''
       this.$refs.dialog.show()
     },
   },

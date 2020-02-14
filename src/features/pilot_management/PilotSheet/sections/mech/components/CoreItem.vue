@@ -4,7 +4,7 @@
     <div class="mx-3">
       <p
         v-if="coreSystem.Description"
-        class="flavor-text panel darken-1 clipped pa-2 mx-2"
+        class="flavor-text panel clipped pa-2 mx-2"
         v-html="coreSystem.Description"
       />
       <v-alert
