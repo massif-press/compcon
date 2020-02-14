@@ -347,17 +347,12 @@
       />
     </v-row>
     <v-divider class="my-2" />
-    <v-row dense>
-      <v-textarea
-        v-model="mech.GmNote"
-        label="GM Notes"
-        dense
-        auto-grow
-        rows="3"
-        outlined
-        hide-actions
-      />
-    </v-row>
+    <cc-title small color="pilot">
+      GM's Notes
+      <cc-text-editor label="Edit Player Notes" :original="mech.GmNote" @save="mech.GmNote = $event" />
+    </cc-title>
+    <p v-html="mech.GmNote" />
+    <v-divider class="my-2" />
     <v-row v-if="mech.Reactions.length && !rest" dense justify="center">
       <v-col cols="10">
         <div class="overline">STAGED REACTIONS</div>

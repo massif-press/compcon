@@ -285,7 +285,8 @@ export class Npc implements IActor {
   setStatBonuses(feat: NpcFeature, remove?: boolean): void {
     if (feat.Override) {
       for (const key in feat.Override) {
-        if (remove && typeof this.Tier === 'number') this._stats.Stats[key] = this.Class.Stats.Stat(key, this.Tier)
+        if (remove && typeof this.Tier === 'number')
+          this._stats.Stats[key] = this.Class.Stats.Stat(key, this.Tier)
         else this._stats.Stats[key] = feat.Override[key]
       }
     } else {
@@ -360,7 +361,11 @@ export class Npc implements IActor {
   }
 
   public set CurrentHP(val: number) {
-    this.CurrentStats.HP = val
+    if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
+    else if (val <= 0) {
+      this.CurrentStructure -= 1
+      this.CurrentHP = this.MaxHP + val
+    } else this.CurrentStats.HP = val
   }
 
   public get CurrentStress(): number {
@@ -376,7 +381,11 @@ export class Npc implements IActor {
   }
 
   public set CurrentHeat(val: number) {
-    this.CurrentStats.HeatCapacity = val
+    if (val > this.MaxHP) this.CurrentStats.HeatCapacity = this.HeatCapacity
+    else if (val <= 0) {
+      this.CurrentStress -= 1
+      this.CurrentHP = this.HeatCapacity + val
+    } else this.CurrentStats.HeatCapacity = val
   }
 
   public get MaxStructure(): number {

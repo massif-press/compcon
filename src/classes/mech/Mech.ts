@@ -118,7 +118,7 @@ class Mech implements IActor {
   }
 
   public get GmNote(): string {
-    return this._notes
+    return this._gm_note
   }
 
   public set GmNote(val: string) {
@@ -392,8 +392,7 @@ class Mech implements IActor {
     else if (hp <= 0) {
       this.CurrentStructure -= 1
       this.CurrentHP = this.MaxHP + hp
-    }
-    else this._current_hp = hp
+    } else this._current_hp = hp
     this.save()
   }
 
@@ -457,8 +456,7 @@ class Mech implements IActor {
     if (heat > this.HeatCapacity) {
       this.CurrentStress = this.CurrentStress - 1
       this.CurrentHeat = heat - this.HeatCapacity
-    }
-    else if (heat < 0) this._current_heat = 0
+    } else if (heat < 0) this._current_heat = 0
     else this._current_heat = heat
     this.save()
   }
@@ -916,10 +914,11 @@ class Mech implements IActor {
 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
     const f = store.getters.referenceByID('Frames', data.frame)
-    let m = new Mech(f, pilot)
+    const m = new Mech(f, pilot)
     m._id = data.id
     m._name = data.name
-    ;(m._notes = data.notes), (m._gm_note = data.gm_note)
+    m._notes = data.notes
+    m._gm_note = data.gm_note
     m._portrait = data.portrait
     m._cloud_portrait = data.cloud_portrait
     m._active = data.active
