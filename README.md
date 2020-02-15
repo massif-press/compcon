@@ -45,7 +45,7 @@ COMP/CON is built with [Vue.js](https://vuejs.org/) and can build to either web 
 # Build for web
   yarn build
 # Build for Electron
-  yarn build:electron
+  yarn electron:build
 ```
 
 ## Got a problem?
