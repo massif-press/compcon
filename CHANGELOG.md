@@ -1,3 +1,12 @@
+## [2.0.5](https://github.com/jarena3/compcon/compare/2.0.4...2.0.5) (2020-02-15)
+
+
+### Bug Fixes
+
+* **Mission Runner:** fixed structure/stress being lost on switching NPCs ([d35d4a5](https://github.com/jarena3/compcon/commit/d35d4a582b323c14367cfdbb5faab752809e480a)), closes [#644](https://github.com/jarena3/compcon/issues/644)
+
+
+
 ## [2.0.4](https://github.com/jarena3/compcon/compare/2.0.3...2.0.4) (2020-02-14)
 
 
