@@ -330,6 +330,7 @@ export default Vue.extend({
     ],
     structRolledOver: false,
     stressRolledOver: false,
+    npcSwitch: false,
   }),
   computed: {
     statuses() {
@@ -342,6 +343,12 @@ export default Vue.extend({
     },
   },
   watch: {
+    // HACK: using this to safely switch between NPCs 
+    // 'npc.ID': {
+    //   async handler(newVal: string, oldVal: string) {
+
+    //   }
+    // },
     'npc.CurrentStructure': {
       async handler(newVal: number, oldVal: number) {
         if (newVal < oldVal) {
