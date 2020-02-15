@@ -312,7 +312,7 @@
                 header="Attack Bonus"
                 :content="`+${mech.AttackBonus}`"
               />
-              <cc-active-card color="pilot" header="Tech Attack" :content="`+${mech.TechAttack}`" />
+              <cc-active-card color="pilot" header="Tech Attack" :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`" />
             </v-row>
             <v-row>
               <cc-active-card
