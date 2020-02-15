@@ -4,8 +4,10 @@
       <v-col>
         <v-card flat outlined height="100%">
           <v-card-text>
-            <player-card v-if="selected && isPlayer(selected)" :mech="selected" />
-            <npc-card v-else-if="selected" :npc="selected" />
+            <player-card v-for="p in players" v-show="p === selected" :key="p.ID" :mech="p" />
+            <!-- <player-card v-if="selected && isPlayer(selected)" :mech="selected" /> -->
+            <npc-card v-for="(n, i) in npcs" v-show="n === selected" :key="n.ID + i" :npc="n" />
+            <!-- <npc-card v-else-if="selected" :npc="selected" /> -->
             <encounter-nav
               v-if="selected"
               :mission="activeMission"
@@ -131,11 +133,16 @@ export default Vue.extend({
   },
   data: () => ({
     selectedActor: null,
-    // actors: [],
   }),
   computed: {
     actors(): IActor[] {
-      return this.activeMission.Pilots.map(x => x.ActiveMech).concat(this.activeMission.ActiveNpcs)
+      return this.players.concat(this.npcs)
+    },
+    players(): IActor[] {
+      return this.activeMission.Pilots.map(x => x.ActiveMech)
+    },
+    npcs(): IActor[] {
+      return this.activeMission.ActiveNpcs
     },
     selected(): IActor {
       return this.actors.find(x => x.ID === this.selectedActor)
