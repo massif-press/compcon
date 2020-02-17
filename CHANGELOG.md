@@ -1,3 +1,19 @@
+## [2.0.6](https://github.com/jarena3/compcon/compare/2.0.5...2.0.6) (2020-02-17)
+
+
+### Bug Fixes
+
+* **Mission Runner:** fixed active mission saving ([593a61a](https://github.com/jarena3/compcon/commit/593a61abf7c54d26009da73ac6fb4cb1ba46cef1)), closes [#640](https://github.com/jarena3/compcon/issues/640)
+* **Mission Runner:** fixed runner stress/structure mechanics ([42a11d4](https://github.com/jarena3/compcon/commit/42a11d4f9fe36a07866c25b81905ad59d79f1001)), closes [#646](https://github.com/jarena3/compcon/issues/646)
+* **Pilot Sheet:** remove Omninet Uplink ID edit button ([b61080c](https://github.com/jarena3/compcon/commit/b61080cea3790e5ceb00291f07b00ffa8eb64413)), closes [#610](https://github.com/jarena3/compcon/issues/610)
+
+
+### Features
+
+* **Pilot Sheet:** added WYSIWYG editors to the new pilot wizard ([7f6351f](https://github.com/jarena3/compcon/commit/7f6351fc7a5e7fe5c841116a31ba4faaa8ec2ef6))
+
+
+
 ## [2.0.5](https://github.com/jarena3/compcon/compare/2.0.4...2.0.5) (2020-02-15)
 
 
