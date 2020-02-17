@@ -10,6 +10,15 @@ CHECK="${GREEN}✔${NC}"
 VERSION=$1
 VERSION_FANCY="${YELLOW}${BOLD}$VERSION${NC}"
 
+function do_rollback {
+    echo "${BOLD}${YELLOW}!${NC} Rolling back..." &&
+    echo "${BOLD}${YELLOW}!${NC} Deleting tag..." &&
+    git tag -d $VERSION &&
+    echo "${BOLD}${YELLOW}!${NC} Reverting file changes..." &&
+    git reset --hard HEAD^ &&
+    exit
+}
+
 if [ -z "$VERSION" ]
 then
     echo "${RED}✗${NC} No tag provided!"
@@ -31,4 +40,13 @@ echo "${CHECK} Created release commit" &&
 git tag $VERSION &&
 echo "${CHECK} Tagged release commit" &&
 echo "${CHECK} Release $VERSION_FANCY is ready!" &&
-echo "${BOLD}${YELLOW}!${NC} Check that everything is in order and then git push!"
+echo "${BOLD}${YELLOW}!${NC} Please check that everything is in order (changelog, latest commits, etc.) before continuing." &&
+echo "${BOLD}${YELLOW}!${NC} Push release ${VERSION} to remote?"
+while true; do
+    read -p "${BOLD}${YELLOW}!${NC} Push release ${VERSION} to remote? [y/n]" yn
+    case $yn in
+        [Yy]* ) git push tags && git push; break;;
+        [Nn]* ) do_rollback;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
