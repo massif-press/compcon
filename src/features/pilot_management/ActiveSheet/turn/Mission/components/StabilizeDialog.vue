@@ -96,7 +96,7 @@ export default Vue.extend({
       switch (this.stabilizeMajor) {
         case 'cool':
           this.mech.CurrentHeat = 0
-          this.endStatus('Exposed')
+          this.endStatus('EXPOSED')
           break
         case 'repair':
           this.mech.CurrentRepairs -= 1

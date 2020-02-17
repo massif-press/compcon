@@ -7586,10 +7586,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lancer-data@^2.0.15:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.15.tgz#f54ff05743e0b73adabfc348ddbc4a8b1477c99f"
-  integrity sha512-FghtWTiXQmaMzu8D9SAG2xQle1l2q36gl0I6FZAoakzQ63vrhOS4rkebRrHaOjr5XyMh0fRxwMKrAOwM0cOF9A==
+lancer-data@^2.0.16:
+  version "2.0.16"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.16.tgz#c1963fe0ab83ca32bd1f8340e0b37d1d41fb4464"
+  integrity sha512-+KXE3MZ7gZk6GanWcD6ZjlqP5R7PKalWyulPRrHveuNY0RdKWiZ7Q2vtoCIQ2G42BJ1vQnqMPHGJZuu8Z7siMA==
 
 latest-version@^5.0.0:
   version "5.1.0"

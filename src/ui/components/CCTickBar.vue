@@ -63,7 +63,12 @@ export default class CCTickBar extends Vue {
     if (!this.readonly) {
       this.model = this.current > this.max ? this.max : this.current
     } else this.model = this.max
-    this.lock = false
+  }
+
+  mounted(): void {
+    this.$nextTick(() => {
+      this.lock = false
+    })
   }
 
   @Prop({ type: String, required: false, default: '' })

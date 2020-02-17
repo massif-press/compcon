@@ -34,6 +34,7 @@
         <v-row justify="space-between" dense>
           <v-col cols="3">
             <cc-status-select
+              :key="npc.Statuses.length"
               label="Statuses"
               :items="statuses"
               :model="npc.Statuses"
@@ -44,6 +45,7 @@
           </v-col>
           <v-col cols="3">
             <cc-status-select
+              :key="npc.Conditions.length"
               label="Conditions"
               :items="conditions"
               :model="npc.Conditions"
@@ -54,6 +56,7 @@
           </v-col>
           <v-col cols="3">
             <cc-status-select
+              :key="npc.Resistances.length"
               label="Resistances"
               :items="resistances"
               :model="npc.Resistances"
@@ -343,34 +346,13 @@ export default Vue.extend({
     },
   },
   watch: {
-    // HACK: using this to safely switch between NPCs 
-    // 'npc.ID': {
-    //   async handler(newVal: string, oldVal: string) {
-
-    //   }
-    // },
     'npc.CurrentStructure': {
       async handler(newVal: number, oldVal: number) {
         if (newVal < oldVal) {
           this.structRolledOver = true
-          if (this.npc.MaxStructure === 1 || this.npc.CurrentStructure === 1) {
-            this.$nextTick(() => {
-              this.npc.CurrentHP = 0
-              this.npc.CurrentStructure = 0
-              this.npc.Destroyed = true
-            })
-            return
-          }
-          if (this.npc.CurrentStructure <= 1) {
-            this.$nextTick(() => {
-              this.npc.CurrentHP = 0
-            })
-          }
-          this.npc.CurrentStructure = this.npc.CurrentStructure - 1
-          if (this.npc.CurrentStructure < 0) this.npc.CurrentStructure = 0
           await sleep(500)
           this.structRolledOver = false
-          this.$refs.structureTable.show()
+          if (this.npc.CurrentStructure > 0) this.$refs.structureTable.show()
         }
       },
     },
@@ -378,24 +360,9 @@ export default Vue.extend({
       async handler(newVal: number, oldVal: number) {
         if (newVal < oldVal) {
           this.stressRolledOver = true
-          if (this.npc.MaxStress === 1) {
-            this.$nextTick(() => {
-              this.npc.CurrentHeat = this.npc.HeatCapacity
-              this.npc.CurrentStress = 0
-              if (!this.npc.Statuses.some(x => x === 'Exposed')) this.npc.Statuses.push('Exposed')
-            })
-            return
-          }
-          if (this.npc.CurrentStress <= 1) {
-            this.$nextTick(() => {
-              this.npc.CurrentHeat = this.npc.HeatCapacity
-            })
-          }
-          this.npc.CurrentStress = this.npc.CurrentStress - 1
-          if (this.npc.CurrentStress < 0) this.npc.CurrentStress = 0
           await sleep(500)
           this.stressRolledOver = false
-          this.$refs.stressTable.show()
+          if (this.npc.CurrentStress > 0) this.$refs.stressTable.show()
         }
       },
     },
