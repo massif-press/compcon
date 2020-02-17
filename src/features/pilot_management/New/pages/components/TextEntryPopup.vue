@@ -14,18 +14,42 @@
       ref="dialog"
       icon="mdi-circle-edit-outline"
       color="primary"
+      large
       :title="label"
       @confirm="save"
     >
-      <v-textarea v-model="text" outlined class="mt-6" />
+      <tiptap-vuetify
+        v-model="text"
+        :extensions="extensions"
+        :card-props="{ flat: true, tile: true, elevation: 0 }"
+        class="mt-4"
+      />
     </cc-solo-dialog>
   </v-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
+
 export default Vue.extend({
   name: 'text-entry-popup',
+  components: { TiptapVuetify },
   props: {
     label: {
       type: String,
@@ -39,6 +63,28 @@ export default Vue.extend({
   },
   data: () => ({
     text: '',
+    extensions: [
+      History,
+      Blockquote,
+      Underline,
+      Strike,
+      Italic,
+      ListItem,
+      BulletList,
+      OrderedList,
+      [
+        Heading,
+        {
+          options: {
+            levels: [1, 2, 3],
+          },
+        },
+      ],
+      Bold,
+      Code,
+      HorizontalRule,
+      HardBreak,
+    ],
   }),
   mounted() {
     if (this.prepopulate) this.text = this.prepopulate
