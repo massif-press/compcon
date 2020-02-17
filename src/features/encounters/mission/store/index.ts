@@ -69,8 +69,8 @@ export class MissionStore extends VuexModule {
 
   @Mutation
   private [CLONE_MISSION](payload: Mission): void {
-    let missionData = Mission.Serialize(payload)
-    let newMission = Mission.Deserialize(missionData)
+    const missionData = Mission.Serialize(payload)
+    const newMission = Mission.Deserialize(missionData)
     newMission.RenewID()
     newMission.Name += ' (COPY)'
     this.Missions.push(newMission)
@@ -106,7 +106,7 @@ export class MissionStore extends VuexModule {
 
   @Action
   public saveActiveMissionData(): void {
-    this.context.commit(SAVE_DATA)
+    this.context.commit(SAVE_ACTIVE_DATA)
   }
 
   @Action

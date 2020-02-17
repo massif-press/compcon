@@ -260,7 +260,13 @@ export class ActiveMission {
     m.Round = data.round
     m.Step = data.step
     m.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
+    m.ActiveNpcs.forEach(n => {
+      n.Active = true
+    })
     m.ActiveReinforcements = data.activeReinforcements.map(x => Npc.Deserialize(x))
+    m.ActiveReinforcements.forEach(n => {
+      n.Active = true
+    })
     m._pilotIDs = data.pilotIDs
     m._start_date = data.start
     m._end_date = data.end

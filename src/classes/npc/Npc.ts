@@ -19,6 +19,7 @@ export interface INpcData {
   templates: string[]
   items: INpcItemSaveData[]
   stats: INpcStats
+  currentStats: INpcStats
   note: string
   side: string
   cloudImage: string
@@ -91,26 +92,18 @@ export class Npc implements IActor {
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
-  // private hasFeature(id: string): boolean {
-  //   return this.Features.some(x => x.ID === id)
-  // }
-
-  // private setFeatureMods(): void {
-
-  // }
-
   public get Active(): boolean {
     return this._active
   }
 
   public set Active(val: boolean) {
-    if (val) this._current_stats = NpcStats.FromMax(this._stats)
     this._active = val
+    this._current_stats.Active = val
   }
 
   private save(): void {
     if (this.Active) store.dispatch('mission/saveActiveMissionData')
-    store.dispatch('npc/saveNpcData')
+    else store.dispatch('npc/saveNpcData')
   }
 
   public get ID(): string {
@@ -353,10 +346,9 @@ export class Npc implements IActor {
   }
 
   public set CurrentStructure(val: number) {
-    console.log(`setting structure from ${this.CurrentStructure} to ${val}`)
     this.CurrentStats.Structure = val
     if (this.Active && this.CurrentStats.Structure === 0) {
-      this.Stats.HP = 0
+      this.CurrentStats.HP = 0
       this.Destroyed = true
     }
   }
@@ -366,9 +358,8 @@ export class Npc implements IActor {
   }
 
   public set CurrentHP(val: number) {
-    console.log(`setting hp from ${this.CurrentHP} to ${val}`)
     if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
-    else if (val <= this.CurrentHP) {
+    else if (val <= 0) {
       this.CurrentStats.HP = this.MaxHP - val
       this.CurrentStructure -= 1
     } else this.CurrentStats.HP = val
@@ -379,7 +370,6 @@ export class Npc implements IActor {
   }
 
   public set CurrentStress(val: number) {
-    console.log(`setting stress from ${this.CurrentStress} to ${val}`)
     this.CurrentStats.Stress = val
     if (this.Active && this.CurrentStats.Stress === 0 && !this.Statuses.includes('EXPOSED')) {
       this.Statuses.push('EXPOSED')
@@ -391,7 +381,6 @@ export class Npc implements IActor {
   }
 
   public set CurrentHeat(val: number) {
-    console.log(`setting heat from ${this.CurrentHeat} to ${val}`)
     if (val > this.HeatCapacity) {
       this.CurrentStress -= 1
       this.CurrentStats.HeatCapacity = val - this.HeatCapacity
@@ -554,6 +543,7 @@ export class Npc implements IActor {
       templates: npc.Templates.map(x => x.ID),
       items: npc._items.map(x => NpcItem.Serialize(x)),
       stats: NpcStats.Serialize(npc._stats),
+      currentStats: NpcStats.Serialize(npc._current_stats),
       note: npc._note,
       side: npc.Side,
       cloudImage: npc._cloud_image,
@@ -573,7 +563,7 @@ export class Npc implements IActor {
   public static Deserialize(data: INpcData): Npc {
     const c = store.getters.referenceByID('NpcClasses', data.class)
     const npc = new Npc(c)
-    npc._active = data.active
+    npc.Active = data.active
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name
@@ -587,6 +577,9 @@ export class Npc implements IActor {
     npc._cloud_image = data.cloudImage
     npc._local_image = data.localImage
     npc._stats = NpcStats.Deserialize(data.stats)
+    npc._current_stats = data.currentStats
+      ? NpcStats.Deserialize(data.currentStats)
+      : NpcStats.FromMax(npc._stats)
     npc._statuses = data.statuses || []
     npc._conditions = data.conditions || []
     npc._resistances = data.resistances || []

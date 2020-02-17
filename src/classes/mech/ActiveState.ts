@@ -68,7 +68,7 @@ class ActiveState {
   }
 
   undo(): void {
-    let action = this.history.pop()
+    const action = this.history.pop()
     switch (action.field) {
       case 'avoid_meltdown':
         this.mech.MeltdownImminent = true
