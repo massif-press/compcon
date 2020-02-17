@@ -105,8 +105,12 @@ export class ActiveMission {
     nn.RenewID()
     nn.Active = true
     nn.Side = s
-    const aCount = this._activeNpcs.map(x => x.Name.replace(/ #[\d]*/, '')).length
-    const rCount = this._activeReinforcements.map(x => x.Name.replace(/ #[\d]*/, '')).length
+    const aCount = this._activeNpcs
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
+    const rCount = this._activeReinforcements
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
     nn.Name += ` #${aCount + rCount + 1}`
     return nn
   }
@@ -131,7 +135,9 @@ export class ActiveMission {
     const nn = Npc.Deserialize(Npc.Serialize(n))
     nn.RenewID()
     nn.Active = true
-    const count = this._activeNpcs.map(x => x.Name.replace(/ #[\d]*/, '')).length
+    const count = this._activeNpcs
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
     nn.Name += ` #${count}`
     this.ActiveNpcs.push(nn)
   }
@@ -213,15 +219,6 @@ export class ActiveMission {
     const idx = this._pilotIDs.indexOf(p.ID)
     if (idx > -1) this._pilotIDs.splice(idx, 1)
   }
-
-  // public get Npcs(): Npc[] {
-  //   const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
-  //   const npcs = []
-  //   this._mission.Encounters.forEach(e => {
-
-  //   })
-  //   return this._mission.Encounters.flatMap(x => x.Npcs)
-  // }
 
   public get Note(): string {
     return this._note

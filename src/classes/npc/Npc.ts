@@ -80,14 +80,14 @@ export class Npc implements IActor {
     npcClass.BaseFeatures.forEach(f => {
       this._items.push(new NpcItem(f, t))
     })
-    this._statuses = []
-    this._conditions = []
-    this._resistances = []
     this._reactions = ['Overwatch']
     this._burn = 0
     this._actions = 2
     this._destroyed = false
     this._defeat = ''
+    this._statuses = []
+    this._conditions = []
+    this._resistances = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
@@ -353,7 +353,12 @@ export class Npc implements IActor {
   }
 
   public set CurrentStructure(val: number) {
+    console.log(`setting structure from ${this.CurrentStructure} to ${val}`)
     this.CurrentStats.Structure = val
+    if (this.Active && this.CurrentStats.Structure === 0) {
+      this.Stats.HP = 0
+      this.Destroyed = true
+    }
   }
 
   public get CurrentHP(): number {
@@ -361,10 +366,11 @@ export class Npc implements IActor {
   }
 
   public set CurrentHP(val: number) {
+    console.log(`setting hp from ${this.CurrentHP} to ${val}`)
     if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
-    else if (val <= 0) {
+    else if (val <= this.CurrentHP) {
+      this.CurrentStats.HP = this.MaxHP - val
       this.CurrentStructure -= 1
-      this.CurrentHP = this.MaxHP + val
     } else this.CurrentStats.HP = val
   }
 
@@ -373,7 +379,11 @@ export class Npc implements IActor {
   }
 
   public set CurrentStress(val: number) {
+    console.log(`setting stress from ${this.CurrentStress} to ${val}`)
     this.CurrentStats.Stress = val
+    if (this.Active && this.CurrentStats.Stress === 0 && !this.Statuses.includes('EXPOSED')) {
+      this.Statuses.push('EXPOSED')
+    }
   }
 
   public get CurrentHeat(): number {
@@ -381,10 +391,10 @@ export class Npc implements IActor {
   }
 
   public set CurrentHeat(val: number) {
-    if (val > this.MaxHP) this.CurrentStats.HeatCapacity = this.HeatCapacity
-    else if (val <= 0) {
+    console.log(`setting heat from ${this.CurrentHeat} to ${val}`)
+    if (val > this.HeatCapacity) {
       this.CurrentStress -= 1
-      this.CurrentHP = this.HeatCapacity + val
+      this.CurrentStats.HeatCapacity = val - this.HeatCapacity
     } else this.CurrentStats.HeatCapacity = val
   }
 

@@ -140,25 +140,24 @@ import TableWindowItem from './_TableWindowItem.vue'
 import ResultData from './_stress_results.json'
 import { Mech } from '@/class'
 
-@Component({ 
+@Component({
   name: 'stress-table',
   components: { TableWindowItem },
 })
 export default class CCStressTable extends Vue {
-
   dialog = false
-  show() {
+  show(): void {
     this.dialog = true
     if (this.mech.CurrentStress <= 1) this.window = 4
   }
-  close() {
+  close(): void {
     this.window = 0
     this.rolls = []
     this.dialog = false
   }
   window = 0
 
-  @Prop({ type: Object, required: true, })
+  @Prop({ type: Object, required: true })
   mech!: Mech
 
   rolls = []
@@ -172,7 +171,7 @@ export default class CCStressTable extends Vue {
     'Emergency Shunt',
   ]
 
-  get totalRolls() {
+  get totalRolls(): number {
     return (this.mech.CurrentStress - this.mech.MaxStress) * -1
   }
   get resultWindow(): number {
@@ -191,15 +190,16 @@ export default class CCStressTable extends Vue {
     return 4
   }
 
-  applyES() {
+  applyES(): void {
     if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
     this.close()
   }
-  applyPPD() {
+  applyPPD(): void {
+    console.log('!!!!!!!!!!!')
     if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
     this.close()
   }
-  applyMeltdown() {
+  applyMeltdown(): void {
     this.mech.MeltdownImminent = true
     this.close()
   }
