@@ -2,9 +2,7 @@
   <div class="mx-6">
     <v-row dense>
       <v-col>
-        <span class="heading mech" style="line-height: 15px">
-          {{ npc.Name }}
-        </span>
+        <span class="heading mech" style="line-height: 15px">{{ npc.Name }}</span>
         <span class="heading h2 light-text--text">
           <cc-slashes />
           {{ npc.Side }}

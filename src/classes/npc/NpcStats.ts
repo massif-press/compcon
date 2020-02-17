@@ -23,6 +23,7 @@ export interface INpcStats {
 
 export class NpcStats {
   private _stats: INpcStats
+  private _active: boolean
 
   public constructor(data: INpcStats) {
     this._stats = data
@@ -92,8 +93,17 @@ export class NpcStats {
     this._stats.stress = max.Stats.stress
   }
 
+  public get Active(): boolean {
+    return this._active
+  }
+
+  public set Active(val: boolean) {
+    this._active = val
+  }
+
   private save(): void {
-    store.dispatch('npc/saveNpcData')
+    if (this.Active) store.dispatch('mission/saveActiveMissionData')
+    else store.dispatch('npc/saveNpcData')
   }
 
   public get Stats(): INpcStats {

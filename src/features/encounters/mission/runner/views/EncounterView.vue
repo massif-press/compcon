@@ -5,9 +5,7 @@
         <v-card flat outlined height="100%">
           <v-card-text>
             <player-card v-for="p in players" v-show="p === selected" :key="p.ID" :mech="p" />
-            <!-- <player-card v-if="selected && isPlayer(selected)" :mech="selected" /> -->
             <npc-card v-for="(n, i) in npcs" v-show="n === selected" :key="n.ID + i" :npc="n" />
-            <!-- <npc-card v-else-if="selected" :npc="selected" /> -->
             <encounter-nav
               v-if="selected"
               :mission="activeMission"
@@ -162,11 +160,6 @@ export default Vue.extend({
       document.getElementById('scroll').scrollTop = 0
     },
   },
-  // created() {
-  //   this.actors = this.activeMission.Pilots.map(x => x.ActiveMech).concat(
-  //     this.activeMission.ActiveNpcs
-  //   ) as IActor[]
-  // },
   methods: {
     isPlayer(a: any) {
       return !!a.Frame
