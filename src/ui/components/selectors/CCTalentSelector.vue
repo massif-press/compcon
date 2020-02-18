@@ -59,6 +59,14 @@
     </template>
 
     <template v-slot:right-column>
+      <v-text-field
+        v-model="search"
+        label="Search Talents"
+        dense
+        hide-details
+        class="mb-2"
+        outlined
+      />
       <talent-select-item
         v-for="talent in talents"
         :key="talent.ID"
@@ -82,6 +90,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, Talent } from '@/class'
 import { rules } from 'lancer-data'
+import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
   name: 'talent-selector',
@@ -90,6 +99,9 @@ export default Vue.extend({
     pilot: Pilot,
     levelUp: Boolean,
   },
+  data: () => ({
+    search: '',
+  }),
   computed: {
     newPilot(): boolean {
       return this.pilot.Level === 0
@@ -106,6 +118,7 @@ export default Vue.extend({
     },
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
+      if (this.search) return compendium.Talents.filter(x => accentInclude(x.Name, this.search))
       return compendium.Talents
     },
   },
