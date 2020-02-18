@@ -144,6 +144,18 @@ export default new Router({
               component: require('@/features/compendium/Views/Skills').default,
             },
             {
+              path: '/npc_classes',
+              component: require('@/features/compendium/Views/NpcClasses').default,
+            },
+            {
+              path: '/npc_features',
+              component: require('@/features/compendium/Views/NpcFeatures').default,
+            },
+            {
+              path: '/npc_templates',
+              component: require('@/features/compendium/Views/NpcTemplates').default,
+            },
+            {
               path: '/statuses',
               component: require('@/features/compendium/Views/Statuses').default,
             },

@@ -10,6 +10,10 @@ export class NpcTrait extends NpcFeature {
   public get Color(): string {
     return 'npc--trait'
   }
+
+  public get Icon(): string {
+    return 'cci-trait'
+  }
 }
 
 export default NpcTrait

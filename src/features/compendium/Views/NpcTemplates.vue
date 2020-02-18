@@ -5,39 +5,20 @@
       :key="`${i}_sidebar'`"
       slot="sidebar"
       link
-      :disabled="!availableTemplates.some(x => x.ID === e.ID)"
       @click="
         $vuetify.goTo(`#e_${e.ID}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
-          container: '.v-dialog--active',
         })
       "
     >
       <v-list-item-title class="heading h2 ml-2">{{ e.Name }}</v-list-item-title>
     </v-list-item>
-    <br />
-    <div v-if="!availableTemplates.length" class="grey--text heading h2 text-center">
+    <div v-if="!templates.length" class="grey--text heading h2 text-center">
       // NO TEMPLATES AVAILABLE //
     </div>
-    <v-row v-for="(e, i) in availableTemplates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
-      <v-col cols="1" class="pr-0">
-        <v-btn
-          block
-          tile
-          icon
-          min-height="calc(100% - 8px)"
-          style="margin-right: -2px!important"
-          class="pa-0 fadeSelect"
-          color="secondary"
-          @click="$emit('select', e)"
-        >
-          <cc-tooltip simple inline :content="`Add ${e.Name}`">
-            <v-icon size="80">cci-accuracy</v-icon>
-          </cc-tooltip>
-        </v-btn>
-      </v-col>
+    <v-row v-for="(e, i) in templates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
       <v-col class="pl-0">
         <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
           <p class="flavor-text mb-0" v-html="e.Description" />
@@ -70,24 +51,12 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { NpcFeature } from '@/class'
 
 export default Vue.extend({
-  name: 'npc-template-selector',
-  props: {
-    npc: {
-      type: Object,
-      required: true,
-    },
-  },
+  name: 'npc-templates',
   data: () => ({
     templates: [],
   }),
-  computed: {
-    availableTemplates(): NpcFeature[] {
-      return this.templates.filter(x => !this.npc.Templates.some(y => y.ID === x.ID))
-    },
-  },
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
     this.templates = compendium.NpcTemplates

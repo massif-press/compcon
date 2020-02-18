@@ -1,6 +1,7 @@
 import { store } from '@/store'
 import { ItemType } from '@/class'
 import { ICounterData } from '@/interface'
+import _ from 'lodash'
 
 // items that are stored as compendium data, refernced by ID and contain
 // at minimum a name, itemtype, and brew
@@ -9,7 +10,7 @@ interface ICompendiumItemData {
   id: string
   name: string
   description: string
-  brew?: string,
+  brew?: string
   counters?: ICounterData[]
 }
 
@@ -33,7 +34,6 @@ abstract class CompendiumItem {
       this._brew = itemData.brew || 'Core'
 
       this.Counters = itemData.counters || []
-
     } else {
       this._id = this._name = this._description = this._note = this._brew = ''
       this._item_type = ItemType.None
@@ -76,6 +76,14 @@ abstract class CompendiumItem {
   public set Note(note: string) {
     this._note = note
     this.save()
+  }
+
+  public get Icon(): string {
+    return 'cci-' + _.kebabCase(this.ItemType)
+  }
+
+  public get Color(): string {
+    return _.kebabCase(this.ItemType)
   }
 }
 
