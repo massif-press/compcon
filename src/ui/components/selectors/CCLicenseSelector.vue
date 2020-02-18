@@ -84,8 +84,8 @@ export default Vue.extend({
     },
   },
   watch: {
-    selectionComplete() {
-      window.scrollTo(0, document.body.scrollHeight)
+    selectionComplete(bool) {
+      if (bool) window.scrollTo(0, document.body.scrollHeight)
     },
   },
   created() {
