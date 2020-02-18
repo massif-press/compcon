@@ -1,10 +1,13 @@
 <template>
   <v-container fluid style="overflow: hidden">
     <v-row>
-      <v-col cols="3" style="position: relative" class="pr-4">
+      <v-col cols="3" class="pr-4">
         <div
-          :style="`position: fixed; width: 23vw; transform: translateY(-${offsetTop}px)`"
-          :class="success ? 'bordered-success' : 'bordered-primary'"
+          ref="float"
+          style="width: 23vw"
+          :class="
+            `${floating ? 'fixed-float' : ''} ${success ? 'bordered-success' : 'bordered-primary'}`
+          "
         >
           <div width="90%" class="ml-3">
             <cc-title small :color="success ? 'success' : 'primary'">{{ title }}</cc-title>
@@ -12,7 +15,7 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="9">
+      <v-col ref="content" cols="9">
         <slot name="right-column" />
       </v-col>
     </v-row>
@@ -41,20 +44,32 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    offsetTop: 0,
+    floating: false,
   }),
   mounted() {
+    this.floating = false
     window.addEventListener(
       'scroll',
       () => {
-        const scrollPos = window.scrollY
-        this.offsetTop = scrollPos > 400 ? 400 : scrollPos
+        if (!this.$refs.float || !this.$refs.content) return
+        const floatY = this.$refs['float'].getBoundingClientRect().top
+        const containerY = this.$refs['content'].getBoundingClientRect().top
+        if (floatY && floatY <= 30) this.floating = true
+        else if (floatY < containerY) this.floating = false
       },
       true
     )
   },
   beforeDestroy() {
+    this.floating = false
     window.removeEventListener('scroll', null, false)
   },
 })
 </script>
+
+<style scoped>
+.fixed-float {
+  position: fixed;
+  top: 60px;
+}
+</style>
