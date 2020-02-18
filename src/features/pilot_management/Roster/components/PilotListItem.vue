@@ -13,8 +13,9 @@
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
-      <div style="width: 100%" class="overlay primary sliced">
-        <h2 class="heading callsign" style="margin-left: 150px;">{{ pilot.Callsign }}</h2>
+      <div style="width: 100%;display: flex;justify-content: space-between;" class="overlay primary sliced">
+        <div class="heading callsign" style="margin-left: 150px; display: inline-block;">{{ pilot.Callsign }}</div>
+        <edit-menu style="display: inline-block; padding-right: 30px;" :pilot="pilot" />
       </div>
       <div style="margin-right: 30px; border-top: 0!important" class="light-panel clipped">
         <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
@@ -73,9 +74,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
 
 export default Vue.extend({
-  name: 'cc-pilot-list-item',
+  name: 'pilot-list-item',
+  components: {
+    EditMenu,
+  },
   props: {
     pilot: {
       type: Object,
