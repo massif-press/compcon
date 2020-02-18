@@ -1,12 +1,12 @@
 <template>
   <v-row justify="center">
     <v-col cols="7">
-      <cc-titled-panel title="New Organization" icon="cci-barrage" color="reserve--project">
+      <cc-titled-panel title="New Project" icon="cci-barrage" color="reserve--project">
         <v-row>
-          <v-col cols="6">
+          <v-col>
             <v-text-field v-model="projectName" label="Project Name" outlined hide-details />
           </v-col>
-          <v-col cols="3" class="text-center">
+          <v-col cols="auto" class="ml-auto text-center">
             <v-switch v-model="complicated" dense inset hide-details color="secondary">
               <span slot="label" class="stat-text text--text">
                 Complicated
@@ -20,7 +20,7 @@
               </span>
             </v-switch>
           </v-col>
-          <v-col cols="3" class="text-center">
+          <v-col cols="auto" class="text-center">
             <v-switch v-model="finished" dense inset hide-details color="secondary">
               <span slot="label" class="stat-text text--text">
                 Finished
@@ -64,7 +64,8 @@
           :disabled="!projectName"
           @click="add()"
         >
-          <v-icon left>cci-accuracy</v-icon>Add Project
+          <v-icon left>cci-accuracy</v-icon>
+          Add Project
         </v-btn>
       </cc-titled-panel>
     </v-col>
@@ -92,26 +93,24 @@ export default Vue.extend({
   }),
   methods: {
     add() {
-      let p = new Project({
+      const p = new Project({
         id: 'reserve_project',
         type: 'Project',
-        name: this.projectFinished ? this.projectName : 'Project (In Progress)',
-        label: this.projectName,
-        description: this.projectDetails,
-        complicated: this.projectComplicated,
+        name: `${this.projectName} ${this.finished ? '' : ' (In Progress)'}`,
+        label: 'Project',
+        description: '',
+        complicated: this.complicated,
         can_finish: false,
         finished: false,
         progress: 0,
         requirements: [],
-        resource_name: '',
-        resource_note: '',
+        resource_name: this.projectName,
+        resource_note: this.details,
         resource_cost: '',
         used: false,
       })
-      p.ResourceName = this.projectFinished ? '' : this.project_name
-      if (this.projectCost && !this.projectFinished)
-        p.ResourceCost = `Requires: ${this.projectCost.join(', ')}`
-      p.IsFinished = this.projectFinished
+      if (this.costs && !this.finished) p.ResourceCost = `Requires: ${this.costs.join(', ')}`
+      p.IsFinished = this.finished
       this.clear()
       this.$emit('add', p)
     },
