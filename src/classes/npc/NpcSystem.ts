@@ -6,7 +6,6 @@ export interface INpcSystemData extends INpcFeatureData {
 }
 
 export class NpcSystem extends NpcFeature {
-
   public constructor(data: INpcSystemData) {
     super(data)
     this.type = NpcFeatureType.System
@@ -26,5 +25,9 @@ export class NpcSystem extends NpcFeature {
 
   public get Color(): string {
     return 'npc--system'
+  }
+
+  public get Icon(): string {
+    return 'cci-system'
   }
 }

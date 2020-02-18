@@ -74,21 +74,26 @@
             @clicked="$router.push('talents')"
           />
         </v-row>
-        <!-- <v-row wrap justify="center">
+        <v-row wrap justify="center">
           <cc-major-btn
-            color="template"
+            color="primary"
             icon="cci-role-striker"
-            @clicked="$router.push('backgrounds')"
             name="NPC Classes"
+            @clicked="$router.push('npc_classes')"
           />
           <cc-major-btn
-            color="template"
-            icon="cci-reticule"
-            @clicked="$router.push('backgrounds')"
-            name="NPC Templates"
+            color="primary"
+            icon="cci-role-striker"
+            name="NPC Features"
+            @clicked="$router.push('npc_features')"
           />
-          <cc-major-btn color="template" icon="cci-large-beam" @clicked="$router.push('skills')" name="NPC Systems" />
-        </v-row>-->
+          <cc-major-btn
+            color="primary"
+            icon="cci-role-striker"
+            name="NPC Templates"
+            @clicked="$router.push('npc_templates')"
+          />
+        </v-row>
         <v-row wrap justify="center">
           <cc-major-btn
             icon="mdi-gauge"

@@ -1,22 +1,18 @@
 <template>
   <div>
-    <cc-dialog no-confirm :color="$_.kebabCase(item.ItemType)" large>
+    <cc-dialog no-confirm :color="item.Color" large>
       <span slot="button" class="white--text" style="width: 100%">
-        <v-icon left>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
+        <v-icon left>{{ item.Icon }}</v-icon>
         {{ item.Name }} {{ item.ItemType === 'Frame' ? 'FRAME' : '' }}
       </span>
 
       <span slot="title">
-        <v-icon left large dark>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
+        <v-icon left large dark>{{ item.Icon }}</v-icon>
         {{ item.Name }}
       </span>
-      <v-chip
-        slot="title-items"
-        color="white"
-        class="stat-text mt-4 mr-6"
-        outlined
-        label
-      >{{ item.Source }} {{ $_.startCase(item.ItemType) }}</v-chip>
+      <v-chip slot="title-items" color="white" class="stat-text mt-4 mr-6" outlined label>
+        {{ item.Source || '' }} {{ $_.startCase(item.ItemType) }}
+      </v-chip>
 
       <cc-item-card :item="item" />
     </cc-dialog>
