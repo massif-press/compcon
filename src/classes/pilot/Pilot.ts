@@ -839,7 +839,7 @@ class Pilot {
 
   public CloneLoadout(): void {
     const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-    let newLoadout = PilotLoadout.Deserialize(PilotLoadout.Serialize(this.ActiveLoadout))
+    const newLoadout = PilotLoadout.Deserialize(PilotLoadout.Serialize(this.ActiveLoadout))
     newLoadout.RenewID()
     newLoadout.Name += ' (Copy)'
     this._loadouts.splice(index + 1, 0, newLoadout)
@@ -994,7 +994,7 @@ class Pilot {
   }
 
   public static Deserialize(pilotData: IPilotData): Pilot {
-    let p = new Pilot()
+    const p = new Pilot()
     p.setPilotData(pilotData)
     return p
   }
@@ -1022,16 +1022,16 @@ class Pilot {
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
-    this.CoreBonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
+    this._core_bonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._loadouts = data.loadouts.length
       ? data.loadouts
           .filter(n => Boolean(n))
           .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
       : [new PilotLoadout(0)]
-    this.Reserves = data.reserves
+    this._reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
       : []
-    this.Organizations = data.orgs
+    this._orgs = data.orgs
       ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
       : []
     this._active_loadout = data.active_loadout_index

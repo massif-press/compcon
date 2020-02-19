@@ -15,7 +15,7 @@
     >
       <v-row dense>
         <v-col>
-          <span class="h2 heading text--text" style="line-height: 35px">
+          <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
             {{ item.Name }}
             <cc-tooltip v-if="item.Note" :key="item.Note.length" simple inline :content="item.Note">
               <v-icon small color="active">mdi-note</v-icon>
@@ -102,7 +102,7 @@ export default Vue.extend({
   }),
   methods: {
     equip(item: PilotGear) {
-      this.$emit('equip', item)
+      this.$emit('equip', this.$_.clone(item))
       this.$refs.base.closeSelector()
     },
     getGear() {

@@ -20,6 +20,8 @@ abstract class CompendiumItem {
   protected _description: string
   protected _note: string
   protected _item_type: ItemType
+  protected _flavor_name: string
+  protected _flavor_description: string
   private _brew: string
   private _err?: string
 
@@ -32,7 +34,6 @@ abstract class CompendiumItem {
       this._description = itemData.description
       this._item_type = ItemType.None
       this._brew = itemData.brew || 'Core'
-
       this.Counters = itemData.counters || []
     } else {
       this._id = this._name = this._description = this._note = this._brew = ''
@@ -50,11 +51,21 @@ abstract class CompendiumItem {
   }
 
   public get Name(): string {
-    return this._name
+    return this._flavor_name ? this._flavor_name : this._name
+  }
+
+  public set Name(val: string) {
+    this._flavor_name = val
+    this.save()
   }
 
   public get Description(): string {
-    return this._description
+    return this._flavor_description ? this._flavor_description : this._description
+  }
+
+  public set Description(val: string) {
+    this._flavor_description = val
+    this.save()
   }
 
   public get ItemType(): ItemType {
