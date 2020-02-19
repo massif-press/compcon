@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { CompendiumItem, Tag, ItemType } from '@/class'
+import { CompendiumItem, Tag } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
@@ -33,14 +33,18 @@ abstract class PilotEquipment extends CompendiumItem {
       uses: item.current_uses,
       cascading: false,
       note: item.Note,
+      flavorName: item._flavor_name,
+      flavorDescription: item._flavor_description,
     }
   }
 
   public static Deserialize(itemData: IEquipmentData | null): PilotEquipment | null {
     if (!itemData) return null
-    const item = store.getters.referenceByID('PilotGear', itemData.id)
+    const item = store.getters.instantiate('PilotGear', itemData.id)
     item.current_uses = itemData.uses
     item.note = itemData.note
+    item._flavor_name = itemData.flavorName
+    item._flavor_description = itemData.flavorDescription
     return item
   }
 }

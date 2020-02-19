@@ -16,7 +16,7 @@ const ordArr = [
 
 abstract class Loadout {
   private _id: string
-  private _name: string
+  protected _name: string
 
   public constructor(count: number, id?: string) {
     this._id = id ? id : uuid()

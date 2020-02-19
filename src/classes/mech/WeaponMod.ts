@@ -93,11 +93,11 @@ class WeaponMod extends MechEquipment {
   }
 
   public static Deserialize(data: IEquipmentData): WeaponMod {
-    let item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
-    item.Uses = data.uses || 0
-    item.Destroyed = data.destroyed || false
-    item.IsCascading = data.cascading || false
-    item.Note = data.note
+    const item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
+    item._uses = data.uses || 0
+    item._destroyed = data.destroyed || false
+    item._cascading = data.cascading || false
+    item._note = data.note
     return item
   }
 }

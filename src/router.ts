@@ -8,8 +8,12 @@ Vue.use(Router)
 export default new Router({
   // TODO: put in a check for dev here so it doesn't break HMR
   // mode: Capacitor.platform === 'web' ? 'history' : 'hash',
-  scrollBehavior() {
-    return { x: 0, y: 0 }
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
   },
   routes: [
     {
@@ -142,6 +146,18 @@ export default new Router({
             {
               path: '/skills',
               component: require('@/features/compendium/Views/Skills').default,
+            },
+            {
+              path: '/npc_classes',
+              component: require('@/features/compendium/Views/NpcClasses').default,
+            },
+            {
+              path: '/npc_features',
+              component: require('@/features/compendium/Views/NpcFeatures').default,
+            },
+            {
+              path: '/npc_templates',
+              component: require('@/features/compendium/Views/NpcTemplates').default,
             },
             {
               path: '/statuses',

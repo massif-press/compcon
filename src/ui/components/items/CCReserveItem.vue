@@ -4,12 +4,14 @@
       <template v-slot:activator="{ on }">
         <v-btn large outlined :color="reserve.Color" block v-on="on">
           <v-icon small left :color="reserve.Color">cci-barrage</v-icon>
-          <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <div
+            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px"
+          >
             <s v-if="reserve.Used">
-              {{ reserve.Name }}{{ reserve.ResourceName ? `: ${reserve.ResourceName}` : '' }}
+              {{ reserve.Name }}
             </s>
             <span v-else>
-              {{ reserve.Name }}{{ reserve.ResourceName ? `: ${reserve.ResourceName}` : '' }}
+              {{ reserve.Name }}
             </span>
           </div>
         </v-btn>
@@ -78,7 +80,7 @@
                 </v-switch>
               </v-col>
             </v-row>
-            <v-textarea v-model.lazy="reserve.Note" auto-grow filled rows="2" label="Details" />
+            <v-textarea v-model.lazy="reserve.Note" auto-grow filled rows="2" label="Notes" />
 
             <v-textarea
               v-model.lazy="reserve.ResourceCost"

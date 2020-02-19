@@ -12,13 +12,13 @@ interface IMechEquipmentData extends ILicensedItemData {
 abstract class MechEquipment extends LicensedItem {
   protected sp: number
   protected tags: Tag[]
+  protected _uses: number
+  protected _destroyed: boolean
+  protected _cascading: boolean
+  protected _loaded: boolean
   private _effect: string
   private _integrated: boolean
-  private _uses: number
   private _max_uses: number
-  private _destroyed: boolean
-  private _cascading: boolean
-  private _loaded: boolean
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)

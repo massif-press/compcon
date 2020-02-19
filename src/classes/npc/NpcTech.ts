@@ -49,4 +49,8 @@ export class NpcTech extends NpcFeature {
   public get Color(): string {
     return 'npc--tech'
   }
+
+  public get Icon(): string {
+    return 'mdi-chart-donut-variant'
+  }
 }

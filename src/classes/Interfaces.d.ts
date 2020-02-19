@@ -55,6 +55,8 @@ declare interface IEquipmentData {
   cascading: boolean
   note: string
   uses?: number
+  flavorName?: string
+  flavorDescription?: string
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
