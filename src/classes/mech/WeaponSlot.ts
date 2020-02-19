@@ -47,7 +47,7 @@ class WeaponSlot {
   }
 
   public static Deserialize(slotData: IWeaponSlotData): WeaponSlot {
-    let ws = new WeaponSlot(slotData.size as FittingSize)
+    const ws = new WeaponSlot(slotData.size as FittingSize)
     if (slotData.weapon) {
       const ew = MechWeapon.Deserialize(slotData.weapon)
       if (ew) ws.EquipWeapon(ew)

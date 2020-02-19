@@ -116,11 +116,11 @@ class Reserve {
         label: rData.label,
         description: rData.description,
       }
-    let r = new Reserve(data)
-    r.ResourceName = rData.resource_name
-    r.Note = rData.resource_note
-    r.ResourceCost = rData.resource_cost
-    r.Used = rData.used
+    const r = new Reserve(data)
+    r._resource_name = rData.resource_name
+    r._resource_note = rData.resource_note
+    r._resource_cost = rData.resource_cost
+    r._used = rData.used
     return r
   }
 }
