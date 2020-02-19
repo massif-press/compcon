@@ -78,7 +78,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public getTotalRange(mech: Mech): Range[] {
-    let bonuses = [] as { type: RangeType; val: number }[]
+    const bonuses = [] as { type: RangeType; val: number }[]
     if (this.Mod && this.Mod.AddedRange)
       bonuses.push({
         type: RangeType.Range,
@@ -133,17 +133,21 @@ class MechWeapon extends MechEquipment {
       loaded: item.Loaded,
       note: item.Note,
       mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
+      flavorName: item._flavor_name,
+      flavorDescription: item._flavor_description,
     }
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
-    let item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
-    item.Uses = data.uses || 0
-    item.Destroyed = data.destroyed || false
-    item.IsCascading = data.cascading || false
-    item.Loaded = data.loaded || true
-    item.Mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
-    item.Note = data.note
+    const item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
+    item._uses = data.uses || 0
+    item._destroyed = data.destroyed || false
+    item._cascading = data.cascading || false
+    item._loaded = data.loaded || true
+    item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
+    item._note = data.note
+    item._flavor_name = data.flavorName
+    item._flavor_description = data.flavorDescription
     return item
   }
 }

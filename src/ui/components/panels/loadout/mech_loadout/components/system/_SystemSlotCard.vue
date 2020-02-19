@@ -4,10 +4,10 @@
       <div slot="header">
         <span v-if="item">
           <equipment-options :item="item" />
-          <span v-if="!item.Destroyed" class="ml-n2">
+          <span v-if="!item.Destroyed" :key="item.Name" class="ml-n2">
             {{ item.Name }}
           </span>
-          <span v-else class="py-1 error" style="letter-spacing: 3px">
+          <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
           </span>
         </span>

@@ -3,7 +3,11 @@
     <slot-card-base ref="base" :item="item" :readonly="readonly">
       <div slot="header">
         <span v-if="item">
-          <equipment-options :item="item" />
+          <equipment-options
+            :item="item"
+            @swap="$refs.base.$refs.selectorDialog.show()"
+            @remove="remove()"
+          />
           <span v-if="!item.Destroyed" class="ml-n2">{{ item.Name }}</span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;

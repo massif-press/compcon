@@ -3,6 +3,49 @@
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
+          <v-menu v-if="item" offset-x left>
+            <template v-slot:activator="{ on }">
+              <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">
+                mdi-settings
+              </v-icon>
+            </template>
+            <v-list dense>
+              <v-list-item @click="$refs.selectorDialog.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-swap-vertical-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Change Item</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item @click="cn_dialog = true">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-circle-edit-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Set Custom Name</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="cd_dialog = true">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-circle-edit-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Set Custom Description</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item @click="$emit('remove')">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon color="error">mdi-delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Remove Item</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <div class="mt-n1">
             {{ title }}
             <cc-tooltip v-if="extended" simple inline content="Extended Harness">
@@ -58,6 +101,34 @@
         />
       </div>
     </cc-solo-dialog>
+    <v-dialog v-if="item" v-model="cn_dialog" width="40vw">
+      <v-card tile>
+        <v-text-field
+          v-model="item.Name"
+          :label="`Set custom name for ${item.Name}`"
+          outlined
+          autofocus
+          hide-details
+          class="pa-2"
+          @keyup.enter="cn_dialog = false"
+        />
+      </v-card>
+    </v-dialog>
+    <v-dialog v-if="item" v-model="cd_dialog" width="50vw">
+      <v-card tile>
+        <v-card-text>
+          <v-textarea
+            v-model="item.Description"
+            :label="`Set custom description for ${item.Name}`"
+            outlined
+            autofocus
+            hide-details
+            no-resize
+            class="pa-1 pt-5 mt-2"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-col>
 </template>
 
@@ -82,6 +153,10 @@ export default Vue.extend({
       type: Boolean,
     },
   },
+  data: () => ({
+    cn_dialog: false,
+    cd_dialog: false,
+  }),
   methods: {
     closeSelector() {
       this.$refs.selectorDialog.hide()
