@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <cc-title>new talent ui</cc-title>
+    <talent-test />
+    <v-divider />
     <cc-title>typography</cc-title>
     <v-row class="mx-5">
       <v-col>
@@ -37,35 +40,6 @@
         </p>
       </v-col>
     </v-row>
-    <v-divider class="ma-4" />
-    <cc-title>colors</cc-title>
-    <span class="heading sub">light</span>
-    <v-container grid-list-xs>
-      <v-row dense>
-        <!-- <v-col v-for="c in allColors('light')" :key="c.name + 'light'">
-          <v-card tile :color="c.color" class="text-center">
-            <v-card-text>
-              <span class="heading h3 px-2">{{ c.name }}</span>
-            </v-card-text>
-          </v-card>
-        </v-col> -->
-      </v-row>
-    </v-container>
-    <br />
-    <span class="heading sub">dark</span>
-    <v-card dark color="grey darken-3">
-      <v-container grid-list-xs>
-        <v-row dense>
-          <!-- <v-col v-for="c in allColors('dark')" :key="c.name + 'light'">
-            <v-card dark tile :color="c.color" class="text-center">
-              <v-card-text>
-                <span class="heading h3 px-2">{{ c.name }}</span>
-              </v-card-text>
-            </v-card>
-          </v-col> -->
-        </v-row>
-      </v-container>
-    </v-card>
     <v-divider class="ma-4" />
     <cc-title>glyphs</cc-title>
     <v-container grid-list-xs>
@@ -179,6 +153,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import TalentTest from './TalentTest.vue'
 
 const icons = [
   'rank-1',
@@ -239,10 +214,11 @@ const icons = [
 ]
 export default Vue.extend({
   name: 'ui-test',
+  components: { TalentTest },
   data: () => ({
     notificationText: 'test',
-    notificationTypes: ["achievement", "confirmation", "error"],
-    notificationType: "confirmation"
+    notificationTypes: ['achievement', 'confirmation', 'error'],
+    notificationType: 'confirmation',
   }),
   methods: {
     allIcons() {
@@ -250,7 +226,7 @@ export default Vue.extend({
     },
     allColors(theme) {
       const t = this.$vuetify.theme.themes[theme]
-      let output = []
+      const output = []
       Object.keys(t).forEach(e => {
         output.push({ name: e, color: t[e] })
       })
@@ -260,8 +236,10 @@ export default Vue.extend({
       console.log('dialog 1 confirmed')
     },
     doNotify() {
-      this.$notify(this.notificationText, this.notificationType, () => console.log('yup, you clicked the notification!', this))
-    }
+      this.$notify(this.notificationText, this.notificationType, () =>
+        console.log('yup, you clicked the notification!', this)
+      )
+    },
   },
 })
 </script>
