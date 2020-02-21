@@ -1,3 +1,12 @@
+## [2.0.9](https://github.com/jarena3/compcon/compare/2.0.8...2.0.9) (2020-02-21)
+
+
+### Bug Fixes
+
+* **Pilot Sheet:** hotfix for pre 2.0.8 pilot imports ([34bd038](https://github.com/jarena3/compcon/commit/34bd0382fae1fe21ecdfc9df0ff07b86a99f404f))
+
+
+
 ## [2.0.8](https://github.com/jarena3/compcon/compare/2.0.7...2.0.8) (2020-02-21)
 
 
