@@ -192,7 +192,7 @@ export default Vue.extend({
     },
     async importImage() {
       const { dialog } = require('electron').remote
-      var path = dialog.showOpenDialog({
+      const path = dialog.showOpenDialog({
         title: 'Load Image',
         buttonLabel: 'Load',
         properties: ['openFile'],

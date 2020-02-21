@@ -58,6 +58,10 @@ abstract class MechEquipment extends LicensedItem {
     return this.Tags.some(x => x.IsAI)
   }
 
+  public get IsIndestructible(): boolean {
+    return this.Tags.some(x => x.IsIndestructible)
+  }
+
   public get IsCascading(): boolean {
     return this._cascading
   }
@@ -90,6 +94,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public Destroy(): void {
+    if (this.IsIndestructible) return
     this._destroyed = true
     this.save()
   }
