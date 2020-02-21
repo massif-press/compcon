@@ -86,6 +86,7 @@ export default Vue.extend({
       if (!file) return
       try {
         const pilotData = await importData<IPilotData>(file)
+        if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
           x => `${x.Name} @ ${x.Version}`
         )
@@ -95,6 +96,7 @@ export default Vue.extend({
           this.missingContentWarning = true
         }
         this.importPilot = Pilot.Deserialize(pilotData)
+        this.importPilot.brews = pilotData.brews
         this.importPilot.RenewID()
       } catch (e) {
         this.error = e.message

@@ -89,6 +89,7 @@ export default Vue.extend({
       this.cloudLoading = true
       try {
         const pilotData = await gistApi.loadPilot(this.importID)
+        if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
           x => `${x.Name} @ ${x.Version}`
         )
@@ -98,20 +99,12 @@ export default Vue.extend({
           this.missingContentWarning = true
         }
         this.importPilot = Pilot.Deserialize(pilotData)
+        this.importPilot.brews = pilotData.brews
         this.importPilot.RenewID()
       } catch (e) {
         this.error = e.message
       }
       this.cloudLoading = false
-    },
-    stageImport() {
-      const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(x => x.Name)
-      const missingPacks = this.$_.without(this.importPilot.brews, installedPacks)
-      if (!missingPacks.length) this.confirmImport()
-      else {
-        this.missingContent = missingPacks.join('<br />')
-        this.missingContentWarning = true
-      }
     },
     confirmImport() {
       const importPilot = this.importPilot as Pilot
