@@ -22,7 +22,7 @@ abstract class CompendiumItem {
   protected _item_type: ItemType
   protected _flavor_name: string
   protected _flavor_description: string
-  private _brew: string
+  protected _brew: string
   private _err?: string
 
   public readonly Counters: ICounterData[]

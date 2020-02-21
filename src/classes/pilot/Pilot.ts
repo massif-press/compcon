@@ -14,6 +14,8 @@ import {
   Mech,
   CustomSkill,
   Organization,
+  CompendiumItem,
+  ContentPack,
 } from '@/class'
 import { rules } from 'lancer-data'
 import { store } from '@/store'
@@ -60,6 +62,7 @@ class Pilot {
   private _active_mech: string | null
 
   private cc_ver: string
+  private _brews: string[]
 
   public constructor() {
     this._id = uuid()
@@ -90,6 +93,7 @@ class Pilot {
     this._reserves = []
     this._orgs = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+    this._brews = []
     this.AddLoadout()
 
     // this._initCounters()
@@ -98,6 +102,31 @@ class Pilot {
   // -- Utility -----------------------------------------------------------------------------------
   private save(): void {
     store.dispatch('saveData')
+  }
+
+  public SetBrewData(): void {
+    const packs = store.getters.getItemCollection('ContentPacks') as ContentPack[]
+
+    function collectBrewGroup(items: CompendiumItem[]): string[] {
+      return items
+        .filter(x => x != null)
+        .map(i => i.Brew)
+        .filter(x => x.toLowerCase() !== 'core')
+    }
+
+    let brews = [] as string[]
+    this._loadouts.forEach(l => {
+      brews = _.union(brews, collectBrewGroup(l.Items))
+    })
+    this._mechs.forEach(m => {
+      brews = _.union(brews, collectBrewGroup([m.Frame]))
+      m.Loadouts.forEach(ml => {
+        brews = _.union(brews, collectBrewGroup(ml.Weapons))
+        brews = _.union(brews, collectBrewGroup(ml.Systems))
+      })
+    })
+    brews = brews.map(x => packs.find(y => y.ID === x)).map(z => `${z.Name} @ ${z.Version}`)
+    this._brews = brews
   }
 
   //TODO: don't extract id or type at call, just pass object and deal with it w/ instanceof/typeof
@@ -316,6 +345,7 @@ class Pilot {
   }
 
   public async CloudSave(): Promise<any> {
+    this.SetBrewData()
     if (!this.CloudOwnerID) {
       this.CloudOwnerID = store.getters.getUserProfile.ID
     }
@@ -990,6 +1020,7 @@ class Pilot {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
+      brews: p._brews || [],
     }
   }
 
@@ -1044,6 +1075,7 @@ class Pilot {
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
+    this._brews = data.brews || []
   }
 }
 
