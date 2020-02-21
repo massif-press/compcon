@@ -16,6 +16,22 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
+        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-2">
+            <v-icon>cci-variable</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Select Damage Type</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-2">
+            <v-icon>mdi-dice-6</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Set Max Uses</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-image-broken-variant</v-icon>
@@ -111,6 +127,19 @@
       label="Custom Item Description"
       @save="item.Description = $event"
       @reset="item.Description = ''"
+    />
+    <cc-damage-type-picker
+      v-if="item"
+      ref="damageTypeDialog"
+      :allowed-types="['Explosive', 'Energy', 'Kinetic']"
+      @select="item.DamageTypeOverride = $event"
+    />
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="maxUseDialog"
+      number
+      label="Set Maximum Uses"
+      @save="item.MaxUseOverride = $event"
     />
   </span>
 </template>

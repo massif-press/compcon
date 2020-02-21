@@ -63,7 +63,11 @@
             <v-row>
               <cc-range-element small :range="item.getTotalRange(mech)" />
               <v-divider vertical class="ml-2" />
-              <cc-damage-element small :damage="item.Damage" />
+              <cc-damage-element
+                small
+                :damage="item.Damage"
+                :type-override="item.DamageTypeOverride"
+              />
             </v-row>
           </v-col>
           <v-col cols="auto" class="ml-auto">&nbsp;</v-col>

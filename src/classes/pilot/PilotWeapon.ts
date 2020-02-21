@@ -24,6 +24,15 @@ class PilotWeapon extends PilotEquipment {
     return this.range
   }
 
+  public get DamageTypeOverride(): string {
+    return this._custom_damage_type || null
+  }
+
+  public set DamageTypeOverride(val: string) {
+    this._custom_damage_type = val
+    this.save()
+  }
+
   public get Damage(): Damage[] {
     return this.damage
   }

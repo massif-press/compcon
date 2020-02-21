@@ -19,6 +19,14 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
+              <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>cci-variable</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Select Damage Type</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item @click="$refs.cName.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon>mdi-circle-edit-outline</v-icon>
@@ -116,6 +124,12 @@
       label="Custom Item Description"
       @save="item.Description = $event"
       @reset="item.Description = ''"
+    />
+    <cc-damage-type-picker
+      v-if="item"
+      ref="damageTypeDialog"
+      :allowed-types="['Explosive', 'Energy', 'Kinetic']"
+      @select="item.DamageTypeOverride = $event"
     />
   </v-col>
 </template>

@@ -10,6 +10,7 @@ interface IPilotEquipmentData extends ICompendiumItemData {
 abstract class PilotEquipment extends CompendiumItem {
   private _tags: ITagData[]
   protected current_uses: number
+  protected _custom_damage_type?: string
 
   public constructor(equipmentData: IPilotEquipmentData) {
     super(equipmentData)
@@ -25,6 +26,10 @@ abstract class PilotEquipment extends CompendiumItem {
     return Tag.Deserialize(this._tags)
   }
 
+  public get CanSetDamage(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_damage_type')
+  }
+
   public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
     if (!item) return null
     return {
@@ -35,6 +40,7 @@ abstract class PilotEquipment extends CompendiumItem {
       note: item.Note,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
+      customDamageType: item._custom_damage_type || null,
     }
   }
 
@@ -45,6 +51,7 @@ abstract class PilotEquipment extends CompendiumItem {
     item.note = itemData.note
     item._flavor_name = itemData.flavorName
     item._flavor_description = itemData.flavorDescription
+    item._custom_damage_type = itemData.customDamageType || null
     return item
   }
 }
