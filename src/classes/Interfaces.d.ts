@@ -102,6 +102,7 @@ declare interface IPilotData {
   cc_ver: string
   counter_data: ICounterSaveData[]
   custom_counters: object[]
+  brews: string[]
 }
 
 declare interface IReserveData {
