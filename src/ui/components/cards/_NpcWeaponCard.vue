@@ -60,6 +60,7 @@
       <span class="flavor-text grey--text">// {{ item.Origin }}</span>
     </v-col>
     <p
+      v-if="item.OnHit"
       slot="statblock"
       class="panel text--text"
       style="font-size: 20px"
