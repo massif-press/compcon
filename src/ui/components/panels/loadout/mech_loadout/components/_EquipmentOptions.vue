@@ -16,7 +16,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item v-if="!item.Destroyed" @click="item.Destroy()">
+        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-image-broken-variant</v-icon>
           </v-list-item-icon>
@@ -24,7 +24,7 @@
             <v-list-item-title>Mark as Destroyed</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else @click="item.Repair()">
+        <v-list-item v-else-if="!item.IsIndestructible" @click="item.Repair()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-wrench</v-icon>
           </v-list-item-icon>
