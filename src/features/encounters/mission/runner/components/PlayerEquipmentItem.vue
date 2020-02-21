@@ -9,7 +9,7 @@
             </div>
           </v-col>
           <v-col v-if="item.Damage" cols="auto">
-            <cc-damage-element :damage="item.Damage" small class="d-inline" />
+            <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" small class="d-inline" />
           </v-col>
           <v-col v-if="item.Range" cols="auto">
             <cc-range-element :range="item.Range" small class="d-inline" />

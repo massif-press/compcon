@@ -19,6 +19,7 @@ abstract class MechEquipment extends LicensedItem {
   private _integrated: boolean
   private _max_uses: number
   protected _tags: ITagData[]
+  protected max_use_override: number
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)
@@ -104,6 +105,14 @@ abstract class MechEquipment extends LicensedItem {
     this.save()
   }
 
+  public get CanSetDamage(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_damage_type')
+  }
+
+  public get CanSetUses(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_max_uses')
+  }
+
   public get IsLoading(): boolean {
     return this.Tags.some(x => x.IsLoading)
   }
@@ -127,6 +136,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get MaxUses(): number {
+    if (this.max_use_override) return this.max_use_override
     return this._max_uses
   }
 

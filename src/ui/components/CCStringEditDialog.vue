@@ -5,6 +5,7 @@
         v-model="newString"
         :label="label"
         :placeholder="placeholder"
+        :type="number ? 'number' : 'text'"
         outlined
         hide-details
         autofocus
@@ -16,7 +17,7 @@
       <v-card-actions>
         <v-btn small text @click="cn_dialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn small text color="primary" @click="reset()">Reset</v-btn>
+        <v-btn v-if="!number" small text color="primary" @click="reset()">Reset</v-btn>
         <v-btn small text color="success darken-1" @click="confirm()">Save</v-btn>
       </v-card-actions>
     </v-card>
@@ -35,8 +36,11 @@ export default class CCStringEdit extends Vue {
   @Prop({ type: String, required: false, default: '' })
   readonly label: string
 
-  @Prop({ type: String })
-  readonly placeholder!: string
+  @Prop({ type: Boolean, required: false })
+  readonly number: boolean
+
+  @Prop({ type: String, required: false, default: '' })
+  readonly placeholder: string
 
   newString = ''
 
@@ -58,7 +62,8 @@ export default class CCStringEdit extends Vue {
   }
 
   save(): void {
-    if (this.newString) this.$emit('save', this.newString)
+    if (this.number && this.newString) this.$emit('save', parseInt(this.newString))
+    else if (this.newString) this.$emit('save', this.newString)
     this.newString = ''
   }
 }
