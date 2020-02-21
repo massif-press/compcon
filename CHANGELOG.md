@@ -1,3 +1,22 @@
+## [2.0.7](https://github.com/jarena3/compcon/compare/2.0.6...2.0.7) (2020-02-19)
+
+
+### Bug Fixes
+
+* **Pilot Sheet:** fixes Add Project panel ([37a412b](https://github.com/jarena3/compcon/commit/37a412bdfec7b0a14d1aa4e19e54277b1ba794ed)), closes [#648](https://github.com/jarena3/compcon/issues/648)
+
+
+### Features
+
+* **Compendium:** add tabs to Reserves & Downtime Compendium page ([d734a5f](https://github.com/jarena3/compcon/commit/d734a5f8a67a95de589602329e14462e1b98a702)), closes [#641](https://github.com/jarena3/compcon/issues/641)
+* **Compendium:** adds NPC data to the Compendium ([75b46a4](https://github.com/jarena3/compcon/commit/75b46a4ffb7bcd257869d1424a8c56bb2c2993ba)), closes [#551](https://github.com/jarena3/compcon/issues/551)
+* **Pilot Roster:** add menu from pilot sheet to list items ([825a99b](https://github.com/jarena3/compcon/commit/825a99b988f604ead87c1da9934202a4b3588544))
+* **Pilot Sheet:** add talent search ([1973985](https://github.com/jarena3/compcon/commit/1973985d35359e9b4384f49fff128a620ebc05a0)), closes [#638](https://github.com/jarena3/compcon/issues/638)
+* **Pilot Sheet:** added item customization ([0a37b37](https://github.com/jarena3/compcon/commit/0a37b37dd92f96054a524d57ad4b1ce816eb5698)), closes [#502](https://github.com/jarena3/compcon/issues/502)
+* **Pilot Sheet:** single-scroll Pilot skill/talent/bonus pages ([c99147b](https://github.com/jarena3/compcon/commit/c99147beec227c4b57951fc0dd00970d9e1e266a)), closes [#525](https://github.com/jarena3/compcon/issues/525)
+
+
+
 ## [2.0.6](https://github.com/jarena3/compcon/compare/2.0.5...2.0.6) (2020-02-17)
 
 
