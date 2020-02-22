@@ -1,3 +1,23 @@
+## [2.0.8](https://github.com/jarena3/compcon/compare/2.0.7...2.0.8) (2020-02-21)
+
+
+### Bug Fixes
+
+* **Encounter Builder:** add feature icons to NPC detail panels ([76f9132](https://github.com/jarena3/compcon/commit/76f91323cf31620dda11d52f327b16048e674b8b))
+* **Encounter Builder:** correct color of NPC features on NPC detail panels ([45b9955](https://github.com/jarena3/compcon/commit/45b995547b3db9f39c3794b4a458935575d71139)), closes [#660](https://github.com/jarena3/compcon/issues/660)
+* **NPC Roster:** hide empty "On Hit" in NPC weapon cards ([03a403e](https://github.com/jarena3/compcon/commit/03a403ece7a0b3fd22fe8785da65c2ac453151c3))
+* **Pilot Sheet:** removed nonresponsive warning DENY button ([ae17db3](https://github.com/jarena3/compcon/commit/ae17db3e9e40c9d7df686c72857c32993114d98b)), closes [#662](https://github.com/jarena3/compcon/issues/662)
+* hydrate mech equipment tags with getter instead of only once ([be82908](https://github.com/jarena3/compcon/commit/be82908f48b5794c5c89550fbe9b5dfe560faf78))
+
+
+### Features
+
+* **Mech Sheet:** add Indestructible equipment tag ([b5f27d2](https://github.com/jarena3/compcon/commit/b5f27d262dd9e1afc224c5bd2740a257fbeccebe)), closes [#649](https://github.com/jarena3/compcon/issues/649)
+* **Pilot Sheet:** add set item damage type and set item use count options ([9e14c85](https://github.com/jarena3/compcon/commit/9e14c8597c8c6efaeb483c2793892f9e84fe8c03)), closes [#654](https://github.com/jarena3/compcon/issues/654)
+* **Pilot Sheet:** check content pack content when importing pilot ([228e5da](https://github.com/jarena3/compcon/commit/228e5daa5a98dd82059a571be430cecc0ee1fc0b)), closes [#616](https://github.com/jarena3/compcon/issues/616)
+
+
+
 ## [2.0.7](https://github.com/jarena3/compcon/compare/2.0.6...2.0.7) (2020-02-19)
 
 

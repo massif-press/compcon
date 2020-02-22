@@ -11,7 +11,6 @@ interface IMechEquipmentData extends ILicensedItemData {
 
 abstract class MechEquipment extends LicensedItem {
   protected sp: number
-  protected tags: Tag[]
   protected _uses: number
   protected _destroyed: boolean
   protected _cascading: boolean
@@ -19,11 +18,13 @@ abstract class MechEquipment extends LicensedItem {
   private _effect: string
   private _integrated: boolean
   private _max_uses: number
+  protected _tags: ITagData[]
+  protected max_use_override: number
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)
     this.sp = itemData.sp || 0
-    this.tags = Tag.Deserialize(itemData.tags)
+    this._tags = itemData.tags
     this._effect = itemData.effect
     this._integrated = itemData.talent_item || itemData.frame_id || false
     this._uses = 0
@@ -39,7 +40,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get Tags(): Tag[] {
-    return this.tags
+    return Tag.Deserialize(this._tags)
   }
 
   public get Effect(): string {
@@ -56,6 +57,10 @@ abstract class MechEquipment extends LicensedItem {
 
   public get IsAI(): boolean {
     return this.Tags.some(x => x.IsAI)
+  }
+
+  public get IsIndestructible(): boolean {
+    return this.Tags.some(x => x.IsIndestructible)
   }
 
   public get IsCascading(): boolean {
@@ -90,6 +95,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public Destroy(): void {
+    if (this.IsIndestructible) return
     this._destroyed = true
     this.save()
   }
@@ -97,6 +103,14 @@ abstract class MechEquipment extends LicensedItem {
   public Repair(): void {
     this._destroyed = false
     this.save()
+  }
+
+  public get CanSetDamage(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_damage_type')
+  }
+
+  public get CanSetUses(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_max_uses')
   }
 
   public get IsLoading(): boolean {
@@ -122,6 +136,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get MaxUses(): number {
+    if (this.max_use_override) return this.max_use_override
     return this._max_uses
   }
 

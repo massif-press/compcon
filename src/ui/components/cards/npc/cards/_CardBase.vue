@@ -29,7 +29,7 @@
                 <v-list-item-title>Downgrade Tier</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="cn_dialog = true">
+            <v-list-item @click="$refs.cName.show()">
               <v-list-item-icon class="ma-0 mr-2 mt-2">
                 <v-icon>mdi-circle-edit-outline</v-icon>
               </v-list-item-icon>
@@ -37,7 +37,7 @@
                 <v-list-item-title>Set Custom Name</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="cd_dialog = true">
+            <v-list-item @click="$refs.cDesc.show()">
               <v-list-item-icon class="ma-0 mr-2 mt-2">
                 <v-icon>mdi-circle-edit-outline</v-icon>
               </v-list-item-icon>
@@ -113,34 +113,22 @@
         <slot name="active-actions" />
       </div>
     </v-card-text>
-    <v-dialog v-if="!readonly && !active" v-model="cn_dialog" width="40vw">
-      <v-card tile>
-        <v-text-field
-          v-model="item.Name"
-          :label="`Set custom name for ${item.Feature.Name}`"
-          outlined
-          autofocus
-          hide-details
-          class="pa-2"
-          @keyup.enter="cn_dialog = false"
-        />
-      </v-card>
-    </v-dialog>
-    <v-dialog v-if="!readonly && !active" v-model="cd_dialog" width="50vw">
-      <v-card tile>
-        <v-card-text>
-          <v-textarea
-            v-model="item.Description"
-            :label="`Set custom description for ${item.Feature.Name}`"
-            outlined
-            autofocus
-            hide-details
-            no-resize
-            class="pa-1 pt-5 mt-2"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <cc-string-edit-dialog
+      v-if="!readonly && !active"
+      ref="cName"
+      :placeholder="item.Feature.Name"
+      label="Custom Item Name"
+      @save="item.Name = $event"
+      @reset="item.Name = item.Feature.Name"
+    />
+    <cc-string-edit-dialog
+      v-if="!readonly && !active"
+      ref="cDesc"
+      :placeholder="item.Feature.Description"
+      label="Custom Item Description"
+      @save="item.Description = $event"
+      @reset="item.Description = ''"
+    />
   </v-card>
 </template>
 
@@ -160,9 +148,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-  data: () => ({
-    cn_dialog: false,
-    cd_dialog: false,
-  }),
 })
 </script>

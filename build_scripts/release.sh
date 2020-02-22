@@ -45,7 +45,7 @@ echo "${BOLD}${YELLOW}!${NC} Push release ${VERSION} to remote?"
 while true; do
     read -p "${BOLD}${YELLOW}!${NC} Push release ${VERSION} to remote? [y/n]" yn
     case $yn in
-        [Yy]* ) git push tags && git push; break;;
+        [Yy]* ) git push --tags && git push; break;;
         [Nn]* ) do_rollback;;
         * ) echo "Please answer yes or no.";;
     esac

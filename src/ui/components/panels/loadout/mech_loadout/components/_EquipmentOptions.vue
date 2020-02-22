@@ -16,7 +16,23 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item v-if="!item.Destroyed" @click="item.Destroy()">
+        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-2">
+            <v-icon>cci-variable</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Select Damage Type</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-2">
+            <v-icon>mdi-dice-6</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Set Max Uses</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-image-broken-variant</v-icon>
           </v-list-item-icon>
@@ -24,7 +40,7 @@
             <v-list-item-title>Mark as Destroyed</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else @click="item.Repair()">
+        <v-list-item v-else-if="!item.IsIndestructible" @click="item.Repair()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-wrench</v-icon>
           </v-list-item-icon>
@@ -69,7 +85,7 @@
           </v-list-item>
         </div>
         <v-divider />
-        <v-list-item @click="cn_dialog = true">
+        <v-list-item @click="$refs.cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon>mdi-circle-edit-outline</v-icon>
           </v-list-item-icon>
@@ -77,7 +93,7 @@
             <v-list-item-title>Set Custom Name</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="cd_dialog = true">
+        <v-list-item @click="$refs.cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon>mdi-circle-edit-outline</v-icon>
           </v-list-item-icon>
@@ -96,34 +112,35 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-dialog v-if="item" v-model="cn_dialog" width="40vw">
-      <v-card tile>
-        <v-text-field
-          v-model="item.Name"
-          :label="`Set custom name for ${item.Name}`"
-          outlined
-          autofocus
-          hide-details
-          class="pa-2"
-          @keyup.enter="cn_dialog = false"
-        />
-      </v-card>
-    </v-dialog>
-    <v-dialog v-if="item" v-model="cd_dialog" width="50vw">
-      <v-card tile>
-        <v-card-text>
-          <v-textarea
-            v-model="item.Description"
-            :label="`Set custom description for ${item.Name}`"
-            outlined
-            autofocus
-            hide-details
-            no-resize
-            class="pa-1 pt-5 mt-2"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cName"
+      :placeholder="item.Name"
+      label="Custom Item Name"
+      @save="item.Name = $event"
+      @reset="item.Name = ''"
+    />
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cDesc"
+      :placeholder="item.Description"
+      label="Custom Item Description"
+      @save="item.Description = $event"
+      @reset="item.Description = ''"
+    />
+    <cc-damage-type-picker
+      v-if="item"
+      ref="damageTypeDialog"
+      :allowed-types="['Explosive', 'Energy', 'Kinetic']"
+      @select="item.DamageTypeOverride = $event"
+    />
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="maxUseDialog"
+      number
+      label="Set Maximum Uses"
+      @save="item.MaxUseOverride = $event"
+    />
   </span>
 </template>
 
@@ -138,9 +155,5 @@ export default Vue.extend({
       required: true,
     },
   },
-  data: () => ({
-    cn_dialog: false,
-    cd_dialog: false,
-  }),
 })
 </script>

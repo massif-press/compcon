@@ -24,7 +24,7 @@
           <cc-range-element small :range="item.Range" />
         </v-col>
         <v-col cols="2">
-          <cc-damage-element small :damage="item.Damage" />
+          <cc-damage-element small :damage="item.Damage" :type-override="item.DamageTypeOverride" />
         </v-col>
         <v-col cols="7" class="text-right">
           <cc-tags small :tags="item.Tags" color="secondary" class="mt-n2" />
