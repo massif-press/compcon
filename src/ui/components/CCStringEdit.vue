@@ -16,24 +16,23 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import EditButton from './subcomponents/_EditButton.vue'
 
-@Component({ 
+@Component({
   name: 'cc-string-edit',
   components: { EditButton },
 })
-export default class CCStringEdit extends Vue{
-  
-  @Prop({ type: String, required: false, default: ' ', })
+export default class CCStringEdit extends Vue {
+  @Prop({ type: String, required: false, default: ' ' })
   readonly label: string
 
-  @Prop({ type: String, required: true, })
-  readonly placeholder!: string 
-    
-  @Prop({ type: Boolean, required: false, })
-  readonly dark?: boolean 
-  
+  @Prop({ type: String, required: true })
+  readonly placeholder!: string
+
+  @Prop({ type: Boolean, required: false })
+  readonly dark?: boolean
+
   newString = ''
 
-  save() {
+  save(): void {
     if (this.newString) this.$emit(this.newString)
     this.newString = ''
   }

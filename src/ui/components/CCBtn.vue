@@ -24,34 +24,33 @@ import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
 import GetColorMixin from '@/mixins/getColor'
 import { Route } from 'vue-router'
 
-
-@Component({ name: 'cc-btn', })
+@Component({ name: 'cc-btn' })
 export default class CCBtn extends Mixins(GetColorMixin) {
-  @Prop({ type: Boolean, required: false, default: false, }) 
+  @Prop({ type: Boolean, required: false, default: false })
   readonly large: boolean
-  @Prop({ type: Boolean, required: false, default: false, })
+  @Prop({ type: Boolean, required: false, default: false })
   readonly xLarge: boolean
-  @Prop({ type: Boolean, required: false, default: false, })
+  @Prop({ type: Boolean, required: false, default: false })
   readonly small: boolean
 
   get bgColor(): string {
     if (this.disabled) return 'gray'
     else return this.getColor(this.color, this.$vuetify)
   }
-  @Prop({ type: String, required: false, default: 'primary', })
-  readonly color: string 
-  @Prop({ type: Boolean, required: false, default: true, })
+  @Prop({ type: String, required: false, default: 'primary' })
+  readonly color: string
+  @Prop({ type: Boolean, required: false, default: true })
   readonly dark: boolean
-  @Prop({ type: Boolean, required: false, default: false, })
+  @Prop({ type: Boolean, required: false, default: false })
   readonly light: boolean
 
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly outlined?: boolean
 
-  @Prop({ type: Boolean, required: false, default: false, })
+  @Prop({ type: Boolean, required: false, default: false })
   readonly disabled: boolean
 
-  @Prop({ type: [String, Object], required: false, default: '', })
+  @Prop({ type: [String, Object], required: false, default: '' })
   readonly to: string | Route
 }
 </script>

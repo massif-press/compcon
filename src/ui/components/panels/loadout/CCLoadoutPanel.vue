@@ -54,7 +54,6 @@
               ]
               <v-divider class="my-2" />
               <v-row dense>
-                <v-btn small text>DENY</v-btn>
                 <cc-btn small color="error" class="ml-auto" @click="$emit('remove-loadout')">
                   CONFIRM
                 </cc-btn>
