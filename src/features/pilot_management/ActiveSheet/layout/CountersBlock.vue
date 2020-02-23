@@ -9,7 +9,7 @@
       class="row justify-start pr-4"
     >
       <v-col v-for="cd in counterData" :key="cd.id" cols="auto" style="min-height: 170px">
-        <counter-component :counter-data="cd" @delete="deleteCustom" />
+        <counter-component :counter-data="cd" @delete="deleteCustom(cd.id)" />
       </v-col>
       <v-col key="NewCounter" cols="auto">
         <new-counter @create="onCustomCounterCreate" />
