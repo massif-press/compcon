@@ -118,7 +118,7 @@ class Statblock {
   public static GenerateBuildSummary(pilot: Pilot, mech: Mech): string {
 
     const mechLoadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
-    return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL6 --
+    return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
     pilot.Licenses.length ? 
@@ -145,7 +145,8 @@ class Statblock {
   ${
     mech.IntegratedMounts.map(mount => 
       `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A'}`
-    )}${
+    )}
+  ${
     mechLoadout.AllEquippableMounts(pilot.has('CoreBonus', 'cb_improved_armament'), pilot.has('CoreBonus', 'cb_integrated_weapon'))
     .map(mount => {
       let out = `${mount.Name}: `
