@@ -119,6 +119,10 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
+
+    <div class="text-right">
+      <v-btn small text to="ui-test">UI Test</v-btn>
+    </div>
   </div>
 </template>
 

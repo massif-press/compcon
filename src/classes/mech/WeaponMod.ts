@@ -27,7 +27,6 @@ class WeaponMod extends MechEquipment {
   private _applied_to: WeaponType[]
   private _applied_string: string
   private _restricted_mounts: WeaponSize[]
-  private _tags: ITagData[]
   private _added_tags: ITagData[]
   private _added_damage?: Damage
   private _added_range?: Range
@@ -64,10 +63,6 @@ class WeaponMod extends MechEquipment {
 
   public get Restricted(): WeaponSize[] {
     return this._restricted_mounts
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
   }
 
   public get AddedTags(): Tag[] {

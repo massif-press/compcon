@@ -19,7 +19,15 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item @click="cn_dialog = true">
+              <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>cci-variable</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Select Damage Type</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="$refs.cName.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon>mdi-circle-edit-outline</v-icon>
                 </v-list-item-icon>
@@ -27,7 +35,7 @@
                   <v-list-item-title>Set Custom Name</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="cd_dialog = true">
+              <v-list-item @click="$refs.cDesc.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon>mdi-circle-edit-outline</v-icon>
                 </v-list-item-icon>
@@ -101,34 +109,28 @@
         />
       </div>
     </cc-solo-dialog>
-    <v-dialog v-if="item" v-model="cn_dialog" width="40vw">
-      <v-card tile>
-        <v-text-field
-          v-model="item.Name"
-          :label="`Set custom name for ${item.Name}`"
-          outlined
-          autofocus
-          hide-details
-          class="pa-2"
-          @keyup.enter="cn_dialog = false"
-        />
-      </v-card>
-    </v-dialog>
-    <v-dialog v-if="item" v-model="cd_dialog" width="50vw">
-      <v-card tile>
-        <v-card-text>
-          <v-textarea
-            v-model="item.Description"
-            :label="`Set custom description for ${item.Name}`"
-            outlined
-            autofocus
-            hide-details
-            no-resize
-            class="pa-1 pt-5 mt-2"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cName"
+      :placeholder="item.Name"
+      label="Custom Item Name"
+      @save="item.Name = $event"
+      @reset="item.Name = ''"
+    />
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cDesc"
+      :placeholder="item.Description"
+      label="Custom Item Description"
+      @save="item.Description = $event"
+      @reset="item.Description = ''"
+    />
+    <cc-damage-type-picker
+      v-if="item"
+      ref="damageTypeDialog"
+      :allowed-types="['Explosive', 'Energy', 'Kinetic']"
+      @select="item.DamageTypeOverride = $event"
+    />
   </v-col>
 </template>
 
@@ -153,10 +155,6 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-  data: () => ({
-    cn_dialog: false,
-    cd_dialog: false,
-  }),
   methods: {
     closeSelector() {
       this.$refs.selectorDialog.hide()

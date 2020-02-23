@@ -30,6 +30,7 @@ class MechWeapon extends MechEquipment {
   private _damage?: Damage[]
   private _range?: Range[]
   private _mod: WeaponMod | null
+  private _custom_damage_type?: string
   // private ammo?: WeaponAmmo | null;
 
   public constructor(weaponData: IMechWeaponData) {
@@ -67,6 +68,20 @@ class MechWeapon extends MechEquipment {
     if (this._damage && this.Mod && this.Mod.AddedDamage)
       return this._damage.concat(this.Mod.AddedDamage)
     return this._damage || []
+  }
+
+  public get DamageTypeOverride(): string {
+    return this._custom_damage_type || null
+  }
+
+  public set DamageTypeOverride(val: string) {
+    this._custom_damage_type = val
+    this.save()
+  }
+
+  public set MaxUseOverride(val: number) {
+    this.max_use_override = val
+    this.save()
   }
 
   public get DamageType(): DamageType[] {
@@ -135,6 +150,8 @@ class MechWeapon extends MechEquipment {
       mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
+      customDamageType: item._custom_damage_type || null,
+      maxUseOverride: item.max_use_override || 0,
     }
   }
 
@@ -148,6 +165,8 @@ class MechWeapon extends MechEquipment {
     item._note = data.note
     item._flavor_name = data.flavorName
     item._flavor_description = data.flavorDescription
+    item._custom_damage_type = data.customDamageType || null
+    item.max_use_override = data.maxUseOverride || 0
     return item
   }
 }

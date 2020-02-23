@@ -105,7 +105,6 @@
                   ]
                   <v-divider class="my-2" />
                   <v-row dense>
-                    <v-btn small text>DENY</v-btn>
                     <cc-btn small color="error" class="ml-auto" @click.stop="deleteImage(i)">
                       CONFIRM
                     </cc-btn>
@@ -193,7 +192,7 @@ export default Vue.extend({
     },
     async importImage() {
       const { dialog } = require('electron').remote
-      var path = dialog.showOpenDialog({
+      const path = dialog.showOpenDialog({
         title: 'Load Image',
         buttonLabel: 'Load',
         properties: ['openFile'],

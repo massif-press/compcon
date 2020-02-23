@@ -115,13 +115,14 @@
     </v-row>
     <v-row dense class="mr-2 mt-n1 ml-2">
       <v-col v-for="(item, j) in npc.Items" :key="`${npc.ID}_${item.Name}_${j}`" cols="auto">
-        <cc-dialog no-confirm small-btn :color="$_.kebabCase(item.Feature.ItemType)" large>
+        <cc-dialog no-confirm small-btn :color="item.Feature.Color" large>
           <span slot="button" class="white--text" style="width: 100%">
+            <v-icon left dark>{{ item.Feature.Icon }}</v-icon>
             {{ item.Name }}
           </span>
 
           <span slot="title">
-            <v-icon left large dark>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
+            <v-icon left large dark>{{ item.Feature.Icon }}</v-icon>
             {{ item.Name }}
           </span>
           <v-chip slot="title-items" color="white" class="stat-text mt-4 mr-6" outlined label>
