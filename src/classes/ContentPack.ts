@@ -105,70 +105,70 @@ export class ContentPack {
   private _data: IContentPackData
 
   private _Manufacturers: Manufacturer[] = []
-  public get Manufacturers() {
+  public get Manufacturers(): Manufacturer[] {
     return this._Manufacturers
   }
 
   private _CoreBonuses: CoreBonus[] = []
-  public get CoreBonuses() {
+  public get CoreBonuses(): CoreBonus[] {
     return this._CoreBonuses
   }
 
   private _Frames: Frame[] = []
-  public get Frames() {
+  public get Frames(): Frame[] {
     return this._Frames
   }
 
   private _MechWeapons: MechWeapon[] = []
-  public get MechWeapons() {
+  public get MechWeapons(): MechWeapon[] {
     return this._MechWeapons
   }
 
   private _MechSystems: MechSystem[] = []
-  public get MechSystems() {
+  public get MechSystems(): MechSystem[] {
     return this._MechSystems
   }
 
   private _WeaponMods: WeaponMod[] = []
-  public get WeaponMods() {
+  public get WeaponMods(): WeaponMod[] {
     return this._WeaponMods
   }
 
   private _PilotGear: PilotEquipment[] = []
-  public get PilotGear() {
+  public get PilotGear(): PilotEquipment[] {
     return this._PilotGear
   }
 
   private _Talents: Talent[] = []
-  public get Talents() {
+  public get Talents(): Talent[] {
     return this._Talents
   }
 
   private _Tags: Tag[] = []
-  public get Tags() {
+  public get Tags(): Tag[] {
     return this._Tags
   }
 
   private _NpcClasses: NpcClass[] = []
-  public get NpcClasses() {
+  public get NpcClasses(): NpcClass[] {
     return this._NpcClasses
   }
 
   private _NpcTemplates: NpcTemplate[] = []
-  public get NpcTemplates() {
+  public get NpcTemplates(): NpcTemplate[] {
     return this._NpcTemplates
   }
 
   private _NpcFeatures: NpcFeature[] = []
-  public get NpcFeatures() {
+  public get NpcFeatures(): NpcFeature[] {
     return this._NpcFeatures
   }
 
   private _active: boolean
-  public get Active() {
+  public get Active(): boolean {
     return this._active
   }
-  public SetActive(active: boolean) {
+  public SetActive(active: boolean): void {
     this._active = active
   }
 
@@ -186,11 +186,12 @@ export class ContentPack {
     this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x)) || []
     this._MechSystems = this._data.systems?.map(x => new MechSystem(x)) || []
     this._WeaponMods = this._data.mods?.map(x => new WeaponMod(x)) || []
-    this._PilotGear = this._data.pilotGear?.map(function(x) {
-      if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
-      else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-      return new PilotGear(x as IPilotGearData)
-    }) || []
+    this._PilotGear =
+      this._data.pilotGear?.map(function(x) {
+        if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+        else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+        return new PilotGear(x as IPilotGearData)
+      }) || []
     this._Talents = this._data.talents?.map(x => new Talent(x)) || []
     this._Tags = this._data.tags?.map(x => new Tag(x)) || []
 

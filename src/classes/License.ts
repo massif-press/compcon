@@ -15,7 +15,7 @@ class License {
     this._name = frame.Name
     this._brew = frame.Brew || 'Core'
 
-    let items: LicensedItem[] = _.cloneDeep(store.getters.getItemCollection('MechWeapons'))
+    const items: LicensedItem[] = _.cloneDeep(store.getters.getItemCollection('MechWeapons'))
       .concat(
         store.getters.getItemCollection('WeaponMods'),
         store.getters.getItemCollection('MechSystems')

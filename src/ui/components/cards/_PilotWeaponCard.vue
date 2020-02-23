@@ -5,7 +5,7 @@
     </v-col>
     <v-divider vertical class="mx-4" />
     <v-col cols="auto">
-      <cc-damage-element :damage="item.Damage" />
+      <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
     </v-col>
   </equipment-card-base>
 </template>
@@ -15,7 +15,7 @@ import Vue from 'vue'
 import EquipmentCardBase from './_EquipmentCardBase.vue'
 
 export default Vue.extend({
-  name: 'cc-mech-weapon-card',
+  name: 'cc-pilot-weapon-card',
   components: { EquipmentCardBase },
   props: {
     item: {

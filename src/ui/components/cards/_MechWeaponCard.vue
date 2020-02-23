@@ -5,7 +5,7 @@
     </v-col>
     <v-divider v-if="item.Range.length && item.Damage.length" vertical class="mx-4" />
     <v-col cols="auto">
-      <cc-damage-element :damage="item.Damage" />
+      <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
     </v-col>
     <v-divider v-if="item.SP" vertical class="mx-4" />
     <v-col v-if="item.SP" cols="auto" class="text-center">

@@ -74,6 +74,7 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     exportPilot() {
+      this.pilot.SetBrewData()
       saveFile(
         this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
         JSON.stringify(Pilot.Serialize(this.pilot)),

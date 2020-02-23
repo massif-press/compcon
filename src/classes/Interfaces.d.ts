@@ -57,11 +57,14 @@ declare interface IEquipmentData {
   uses?: number
   flavorName?: string
   flavorDescription?: string
+  customDamageType?: string
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
   loaded: boolean
   mod?: IEquipmentData
+  customDamageType?: string
+  maxUseOverride?: number
 }
 
 declare interface ICounterSaveData {
@@ -102,6 +105,7 @@ declare interface IPilotData {
   cc_ver: string
   counter_data: ICounterSaveData[]
   custom_counters: object[]
+  brews: string[]
 }
 
 declare interface IReserveData {

@@ -15,36 +15,38 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { MechEquipment, MechSystem, PilotGear } from '@/class'
-
+import { MechEquipment, PilotGear } from '@/class'
 
 @Component({ name: 'cc-item-uses' })
-export default class CCItemUses extends Vue{
-  
-  @Prop({ type: Boolean, })
+export default class CCItemUses extends Vue {
+  @Prop({ type: Boolean })
   readonly small?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly large?: boolean
-  @Prop({ type: String, required: false, default: 'mdi-hexagon-outline', })
-  readonly emptyIcon: string 
-  @Prop({ type: String, required: false, default: 'mdi-hexagon-slice-6', })
+  @Prop({ type: String, required: false, default: 'mdi-hexagon-outline' })
+  readonly emptyIcon: string
+  @Prop({ type: String, required: false, default: 'mdi-hexagon-slice-6' })
   readonly fullIcon: string
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
 
-  @Prop({ type: Object, required: true, validator: (item) => item.MaxUses && item.Uses, })
-  readonly item!: MechEquipment | MechSystem | PilotGear
-  @Prop({ type: Number, required: false, default: 0, })
+  @Prop({
+    type: Object,
+    required: true,
+    validator: item => item.MaxUses != null && item.Uses != null,
+  })
+  readonly item!: MechEquipment | PilotGear
+  @Prop({ type: Number, required: false, default: 0 })
   readonly bonus: number
 
-  get max() {
+  get max(): number {
     return this.item.MaxUses + this.bonus
   }
-  get current() {
+  get current(): number {
     return this.item.Uses
   }
 
-  set(val) {
+  set(val): void {
     if (val > this.current) Vue.set(this.item, 'Uses', this.item.Uses + 1)
     else Vue.set(this.item, 'Uses', this.item.Uses - 1)
   }

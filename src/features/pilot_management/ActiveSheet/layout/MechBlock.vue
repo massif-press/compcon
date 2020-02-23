@@ -152,7 +152,6 @@
                 ]
                 <v-divider class="my-2" />
                 <v-row dense>
-                  <v-btn small text>DENY</v-btn>
                   <cc-btn small color="error" class="ml-auto" @click="mech.FullRepair()">
                     CONFIRM
                   </cc-btn>
@@ -389,28 +388,6 @@ export default Vue.extend({
     structRolledOver: false,
     stressRolledOver: false,
   }),
-  watch: {
-    'mech.CurrentStructure': {
-      async handler(newVal: number, oldVal: number) {
-        if (newVal < oldVal) {
-          this.structRolledOver = true
-          await sleep(500)
-          this.structRolledOver = false
-          this.$refs.structureTable.show()
-        }
-      }
-    },
-    'mech.CurrentStress': {
-      async handler(newVal: number, oldVal: number) {
-        if (newVal < oldVal) {
-          this.stressRolledOver = true
-          await sleep(500)
-          this.stressRolledOver = false
-          this.$refs.stressTable.show()
-        }
-      }
-    }
-  },
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
@@ -440,6 +417,28 @@ export default Vue.extend({
         return 'variable--damage'
       }
       return 'hp'
+    },
+  },
+  watch: {
+    'mech.CurrentStructure': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.structRolledOver = true
+          await sleep(500)
+          this.structRolledOver = false
+          this.$refs.structureTable.show()
+        }
+      },
+    },
+    'mech.CurrentStress': {
+      async handler(newVal: number, oldVal: number) {
+        if (newVal < oldVal) {
+          this.stressRolledOver = true
+          await sleep(500)
+          this.stressRolledOver = false
+          this.$refs.stressTable.show()
+        }
+      },
     },
   },
 })
