@@ -82,6 +82,10 @@
     {
       "name": "squeakanine",
       "website": "https://berniesanders.com/"
+    },
+    {
+      "name": "Ginger",
+      "website": "https://berniesanders.com/"
     }
   ],
   "t3": [
@@ -96,7 +100,16 @@
     "Adam Millson",
     "Mike Michael Karamchandani"
   ],
-  "t2": ["Classical_Bass", "FLABIS", "Steven Pritchett", "Vekell", "R0bobot", "Ragu", "Knifes"],
+  "t2": [
+    "Classical_Bass",
+    "FLABIS",
+    "Steven Pritchett",
+    "Vekell",
+    "R0bobot",
+    "Ragu",
+    "Knifes",
+    "Double A"
+  ],
   "t1": [
     "James Goldsworthy",
     "Frank \"Broadway\" Neuman",
