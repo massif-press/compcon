@@ -1,21 +1,6 @@
 <template>
   <div id="wrapper">
     <main-title />
-    <div style="position: absolute; top: 10px; right: 5vw; z-index: 11">
-      <v-btn
-        v-extlink="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
-        color="primary"
-        outlined
-        small
-        @mouseenter="ccLog('update')"
-      >
-        <v-icon left small>
-          mdi-information-outline
-        </v-icon>
-        View Changelog
-      </v-btn>
-    </div>
-    <web-refresh v-if="$platform === 'web'" @hover="ccLog('refresh')" />
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
@@ -78,7 +63,6 @@
 import Vue from 'vue'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
-import WebRefresh from './_components/WebRefresh.vue'
 import CCLog from './_components/CCLog.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
@@ -91,7 +75,6 @@ export default Vue.extend({
     MainTitle,
     MainBtn,
     CCLog,
-    WebRefresh,
     ContentPage,
     AboutPage,
     HelpPage,
@@ -160,5 +143,15 @@ export default Vue.extend({
 #wrapper {
   width: 100%;
   height: 100vh;
+  background: url(../../assets/etc/grid.png);
+  animation: 600s scroll infinite linear;
+  top: 0;
+  left: 0;
+}
+
+@keyframes scroll {
+  100% {
+    background-position: -3000px -3000px;
+  }
 }
 </style>

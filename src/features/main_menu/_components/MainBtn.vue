@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12">
+  <v-col class="col-container" cols="12">
     <div style="height: 70px">
       <div
         class="btn-main"
@@ -13,11 +13,16 @@
         @click="to ? $router.push(to) : $emit('clicked')"
       >
         <div class="unskew heading pb-1">
-          <v-icon dark size="50" class="ml-n4 mt-n2">cci-pilot</v-icon>
+          <v-icon dark size="50" class="ml-n4 mt-n3">cci-pilot</v-icon>
           <slot />
         </div>
         <v-progress-linear v-if="loading" absolute bottom color="white" indeterminate />
       </div>
+    </div>
+    <div style="margin-left: -50px; margin-bottom: -40px">
+      <div style="display:inline-flex; height: 20px; min-width: 50px; background-color: blue; " />
+      <div class="d-inline overline mt-n2">SOME HELP TEXT</div>
+      <div class="help-expand" style="" />
     </div>
   </v-col>
 </template>
@@ -125,5 +130,17 @@ export default Vue.extend({
 .btn-main.disabled,
 .btn-main.disabled .unskew {
   cursor: default;
+}
+
+.help-expand {
+  display: inline-flex;
+  height: 20px;
+  background-color: blue;
+  width: 0px;
+  transition: width ease-in-out 0.6s;
+}
+
+.col-container:hover .help-expand {
+  width: 200px !important;
 }
 </style>
