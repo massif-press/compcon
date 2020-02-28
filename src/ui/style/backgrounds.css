@@ -1,0 +1,15 @@
+.diag-stripes {
+  background-image: linear-gradient(
+    135deg,
+    var(--v-primary-base) 25%,
+    transparent 25%,
+    transparent 50%,
+    var(--v-primary-base) 50%,
+    var(--v-primary-base) 75%,
+    transparent 75%,
+    transparent 100%
+  );
+  background-size: 5.66px 5.66px;
+  background-repeat: repeat;
+  image-rendering: crisp-edges;
+}
