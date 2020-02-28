@@ -4,13 +4,13 @@
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
-        <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
-        <main-btn :to="'/pilot_management'" :loading="pilotLoading" @hover="ccLog('pilot')">
+        <main-btn :to="'/compendium'" help="Equipment Database" @hover="ccLog('compendium')">Compendium</main-btn>
+        <main-btn :to="'/pilot_management'" help="Manage Pilots" :loading="pilotLoading" @hover="ccLog('pilot')">
           Pilot Roster
         </main-btn>
-        <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
-        <main-btn disabled>Campaign Manager</main-btn>
-        <main-btn @hover="ccLog('content')" @clicked="$refs.contentModal.show()">
+        <main-btn :to="'/gm'" help="Manage NPCs/Encounters/Missions" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
+        <main-btn disabled help="Feature In Progress">Campaign Manager</main-btn>
+        <main-btn help="Import Content Packs" @hover="ccLog('content')" @clicked="$refs.contentModal.show()">
           Content Manager
         </main-btn>
       </v-row>
@@ -123,9 +123,6 @@ export default Vue.extend({
         case 'help':
           this.$refs['log'].print('compcon --h', 'Open the COMP/CON help page')
           break
-        case 'refresh':
-          this.$refs['log'].print('sudo halt -r authrestart', 'Update and reload COMP/CON')
-          break
         case 'update':
           this.$refs['log'].print(
             'gms-upm compcon changelog -l',
@@ -143,7 +140,7 @@ export default Vue.extend({
 #wrapper {
   width: 100%;
   height: 100vh;
-  background: url(../../assets/etc/grid.png);
+  background: url(../../assets/ui/grid.png);
   animation: 600s scroll infinite linear;
   top: 0;
   left: 0;

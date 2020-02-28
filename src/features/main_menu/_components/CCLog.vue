@@ -2,9 +2,11 @@
   <div id="output-container">
     <v-row no-gutters>
       <v-col cols="auto" class="mr-2">
-        <v-divider vertical />
+        <!-- <v-divider vertical /> -->
         <div class="sidebar" />
-        <div style="width: 3px; height: 6px; background-color: red" />
+        <div >
+        <img src="../../../assets/ui/sb_l.png" />
+        </div>
       </v-col>
       <v-col>
         <p
@@ -20,7 +22,9 @@
       </v-col>
       <v-col cols="auto" class="ml-2">
         <div class="sidebar" />
-        <div style="width: 3px; height: 6px; background-color: red" />
+        <div >
+        <img class="ml-n2" src="../../../assets/ui/sb_r.png" />
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -217,9 +221,9 @@ export default Vue.extend({
   height: inherit;
   min-height: 95%;
   max-height: 95%;
-  max-width: 3px;
-  width: 3px;
-  background-color: black;
+  max-width: 16px;
+  width: 16px;
+  background: url(../../../assets/ui/scale_1.png);
   vertical-align: text-bottom;
 }
 </style>
