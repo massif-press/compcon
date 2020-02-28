@@ -4,12 +4,17 @@
       <v-select
         v-model="mechSelect"
         :items="pilot.Mechs"
+        placeholder="N/A"
         item-text="Name"
         item-value="ID"
         label="Include Mech (optional)"
         outlined
         clearable
+        hide-details
       />
+      <div :style="{ opacity: !!mechSelect ? 1 : 0 }">
+        <v-checkbox v-model="buildSummary" label="Compact / Build Summary" />
+      </div>
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
     </v-card-text>
   </cc-solo-dialog>
@@ -20,7 +25,7 @@ import Vue from 'vue'
 import { Statblock } from '@/class'
 
 export default Vue.extend({
-  name: 'cloud-dialog',
+  name: 'statblock-dialog',
   props: {
     pilot: {
       type: Object,
@@ -28,16 +33,17 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    mechSelect: '',
+    mechSelect: undefined,
+    buildSummary: false
   }),
   computed: {
     statblock(): string {
-      const m = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
-      return Statblock.Generate(this.pilot, m)
+      const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
+      if (this.buildSummary) {
+        return Statblock.GenerateBuildSummary(this.pilot, mech)
+      }
+      else return Statblock.Generate(this.pilot, mech)
     },
-  },
-  created() {
-    if (this.pilot.ActiveMech) this.mechSelect = this.pilot.ActiveMech
   },
   methods: {
     show() {
