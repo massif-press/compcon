@@ -20,9 +20,7 @@
       </div>
     </div>
     <div style="margin-left: -50px; margin-bottom: -40px">
-      <div style="display:inline-flex; height: 20px; min-width: 50px; background-color: blue; " />
-      <div class="d-inline overline mt-n2">SOME HELP TEXT</div>
-      <div class="help-expand" style="" />
+      <div class="d-inline overline mt-n2 help-text">>{{help}}</div>
     </div>
   </v-col>
 </template>
@@ -37,6 +35,10 @@ export default Vue.extend({
       type: String,
       required: false,
       default: '',
+    },
+    help: {
+      type: String,
+      required: true,
     },
     disabled: {
       type: Boolean,
@@ -132,15 +134,15 @@ export default Vue.extend({
   cursor: default;
 }
 
-.help-expand {
-  display: inline-flex;
-  height: 20px;
-  background-color: blue;
-  width: 0px;
-  transition: width ease-in-out 0.6s;
+.help-text {
+  opacity: 0.5;
+  color: var(--v-text-base);
+  transition: all ease-in-out 0.45s;
 }
 
-.col-container:hover .help-expand {
-  width: 200px !important;
-}
+.col-container:hover .help-text {
+  opacity: 1;
+  color: var(--v-primary-base);
+  font-weight: bolder;
+  }
 </style>
