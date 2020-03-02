@@ -20,7 +20,7 @@
       </div>
     </div>
     <div style="margin-left: -50px; margin-bottom: -40px">
-      <div class="d-inline overline mt-n2 help-text">>{{help}}</div>
+      <div class="d-inline overline mt-n2 help-text">>{{ help }}</div>
     </div>
   </v-col>
 </template>
@@ -138,11 +138,12 @@ export default Vue.extend({
   opacity: 0.5;
   color: var(--v-text-base);
   transition: all ease-in-out 0.45s;
+  margin-left: -90px;
 }
 
 .col-container:hover .help-text {
   opacity: 1;
   color: var(--v-primary-base);
   font-weight: bolder;
-  }
+}
 </style>
