@@ -37,40 +37,40 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
-@Component({ name: 'cc-solo-dialog', })
+@Component({ name: 'cc-solo-dialog' })
 export default class CCSoloDialog extends Vue {
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
-  @Prop({ type: String, required: false, default: '', })
+  @Prop({ type: String, required: false, default: '' })
   readonly icon: string
-  
-  @Prop({ type: Boolean, required: false, })
+
+  @Prop({ type: Boolean, required: false })
   readonly small?: boolean
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly large?: boolean
 
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly fullscreen?: boolean
 
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly noConfirm?: boolean
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly noPad?: boolean
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly noTitleClip?: boolean
 
-  @Prop({ type: String, required: false, })
+  @Prop({ type: String, required: false })
   readonly title?: string
-  
+
   dialog = false
   @Emit()
-  confirm() {
+  confirm(): void {
     this.dialog = false
   }
-  show() {
+  show(): void {
     this.dialog = true
   }
-  hide() {
+  hide(): void {
     this.dialog = false
   }
 }

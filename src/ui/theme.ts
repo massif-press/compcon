@@ -35,6 +35,7 @@ const themeDefaults = {
   repcap: '#8E8E8E',
   overcharge: '#F50057',
   corepower: '#00BFA5',
+  background: '#EDEDED',
 
   'action--move': '#C62828',
   'action--full': '#283593',
@@ -43,6 +44,8 @@ const themeDefaults = {
   'action--reaction': '#512DA8',
   'action--free': '#00695C',
   'action--downtime': '#37474F',
+  'action--protocol': '#007676',
+  'action--tech': '#802475',
 
   'damage--kinetic': '#757575',
   'damage--energy': '#29B6F6',
@@ -99,7 +102,7 @@ const theme: any = {
         ...themeDefaults,
         background: '#EDEDED',
 
-        'stark-panel': '#fff',
+        'stark-panel': '#EDEDED',
         'stark-text': '#000',
       },
       dark: {

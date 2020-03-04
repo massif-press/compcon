@@ -9,6 +9,7 @@ export interface ITagCompendiumData extends ICompendiumItemData {
   filter_ignore?: boolean
   hidden?: boolean
 }
+
 class Tag {
   private _id: string
   private _name: string
