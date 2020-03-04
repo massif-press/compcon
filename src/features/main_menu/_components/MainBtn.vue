@@ -138,7 +138,7 @@ export default Vue.extend({
   opacity: 0.5;
   color: var(--v-text-base);
   transition: all ease-in-out 0.45s;
-  margin-left: -90px;
+  margin-left: -125px;
 }
 
 .col-container:hover .help-text {

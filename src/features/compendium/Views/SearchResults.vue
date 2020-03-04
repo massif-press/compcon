@@ -30,10 +30,8 @@
                 clickable
                 @click="$refs[`modal_${item.ID}`][0].show()"
               >
-                <span
-                  class="item-description"
-                  v-html="item.Description ? item.Description : item.Effect ? item.Effect : ''"
-                />
+                <span class="item-description" v-html="item.Description || ''" />
+                <!-- <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" /> -->
               </cc-titled-panel>
               <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
             </v-col>

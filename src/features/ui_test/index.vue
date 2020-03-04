@@ -147,6 +147,26 @@
       </v-row>
     </v-container>
 
+    <!-- Text Panel Elements -->
+    <br />
+    <cc-title>Text Panel Elements</cc-title>
+    <v-container>
+      <cc-item-effect-panel :effects="genericExample.Effect" />
+      <cc-item-effect-panel :effects="chargeExample.Effect" />
+      <cc-item-effect-panel :effects="deployExample.Effect" />
+      <cc-item-effect-panel :effects="droneExample.Effect" />
+      <cc-item-effect-panel :effects="multipleExample.Effect" />
+      <cc-item-effect-panel :effects="aiExample.Effect" />
+      <cc-item-effect-panel :effects="techExample.Effect" />
+      <cc-item-effect-panel :effects="reactionExample.Effect" />
+      <v-divider class="my-2" />
+      <cc-item-effect-panel :effects="profileExample.Effect" />
+      <cc-item-effect-panel :effects="onAttackExample.Effect" />
+      <cc-item-effect-panel :effects="onHitExample.Effect" />
+      <cc-item-effect-panel :effects="onCritExample.Effect" />
+      <cc-item-effect-panel :effects="asDroneExample.Effect" />
+    </v-container>
+
     <v-btn text x-large to="/">back</v-btn>
   </v-container>
 </template>
@@ -154,6 +174,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import TalentTest from './TalentTest.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 const icons = [
   'rank-1',
@@ -219,7 +241,36 @@ export default Vue.extend({
     notificationText: 'test',
     notificationTypes: ['achievement', 'confirmation', 'error'],
     notificationType: 'confirmation',
+    chargeExample: null,
+    deployExample: null,
+    droneExample: null,
+    multipleExample: null,
+    aiExample: null,
+    techExample: null,
+    reactionExample: null,
+    genericExample: null,
+    profileExample: null,
+    onAttackExample: null,
+    onHitExample: null,
+    onCritExample: null,
+    asDroneExample: null,
   }),
+  created() {
+    const s = getModule(CompendiumStore, this.$store)
+    this.genericExample = s.MechSystems.find(x => x.ID === 'ms_eva_module')
+    this.chargeExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_smoke_charges')
+    this.deployExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_jericho_deployable_cover')
+    this.droneExample = s.MechSystems.find(x => x.ID === 'ms_turret_drones')
+    this.multipleExample = s.MechSystems.find(x => x.ID === 'ms_reinforced_cabling')
+    this.aiExample = s.MechSystems.find(x => x.ID === 'ms_sekhmet_class_nhp')
+    this.techExample = s.MechSystems.find(x => x.ID === 'ms_neurospike')
+    this.reactionExample = s.MechSystems.find(x => x.ID === 'ms_singularity_motivator')
+    this.profileExample = s.MechWeapons.find(x => x.ID === 'mw_siege_cannon')
+    this.onAttackExample = s.MechWeapons.find(x => x.ID === 'mw_plasma_thrower')
+    this.onHitExample = s.MechWeapons.find(x => x.ID === 'mw_annihilator')
+    this.onCritExample = s.MechWeapons.find(x => x.ID === 'mw_chain_axe')
+    this.asDroneExample = s.MechWeapons.find(x => x.ID === 'mw_ghast_nexus')
+  },
   methods: {
     allIcons() {
       return icons
