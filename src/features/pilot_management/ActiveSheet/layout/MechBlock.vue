@@ -310,7 +310,7 @@
           </v-row>
         </v-col>
         <v-col cols="auto">
-          <v-icon size="120" color="frame">cci-size-{{ mech.Size }}</v-icon>
+          <v-icon size="120" color="frame">{{ mech.SizeIcon }}</v-icon>
         </v-col>
       </v-row>
 

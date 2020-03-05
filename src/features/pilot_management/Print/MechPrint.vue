@@ -164,7 +164,7 @@
             </fieldset>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="60">cci-size-{{ mech.Size === 0.5 ? 'half' : mech.Size }}</v-icon>
+            <v-icon size="60">{{ mech.SizeIcon }}</v-icon>
           </v-col>
         </v-row>
       </v-col>
