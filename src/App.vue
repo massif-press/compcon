@@ -2,9 +2,9 @@
   <v-app id="app">
     <global-confirm ref="confirm" />
     <global-notifier ref="notifier" />
-    <v-slide-x-transition mode="out-in">
-      <router-view />
-    </v-slide-x-transition>
+    <!-- <v-fade-transition> -->
+    <router-view />
+    <!-- </v-fade-transition> -->
   </v-app>
 </template>
 
@@ -17,7 +17,7 @@ export default Vue.extend({
   name: 'compcon',
   components: {
     GlobalConfirm,
-    GlobalNotifier
+    GlobalNotifier,
   },
   mounted() {
     this.$mousetrap.bind('g r', () => {

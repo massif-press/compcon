@@ -4,13 +4,26 @@
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
-        <main-btn :to="'/compendium'" help="Equipment Database" @hover="ccLog('compendium')">Compendium</main-btn>
-        <main-btn :to="'/pilot_management'" help="Manage Pilots" :loading="pilotLoading" @hover="ccLog('pilot')">
+        <main-btn :to="'/compendium'" help="Equipment Database" @hover="ccLog('compendium')">
+          Compendium
+        </main-btn>
+        <main-btn
+          :to="'/pilot_management'"
+          help="Manage Pilots"
+          :loading="pilotLoading"
+          @hover="ccLog('pilot')"
+        >
           Pilot Roster
         </main-btn>
-        <main-btn :to="'/gm'" help="Manage NPCs/Encounters/Missions" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
+        <main-btn :to="'/gm'" help="Manage NPCs/Encounters/Missions" @hover="ccLog('gm')">
+          Encounter Toolkit
+        </main-btn>
         <main-btn disabled help="Feature In Progress">Campaign Manager</main-btn>
-        <main-btn help="Import Content Packs" @hover="ccLog('content')" @clicked="$refs.contentModal.show()">
+        <main-btn
+          help="Import Content Packs"
+          @hover="ccLog('content')"
+          @clicked="$refs.contentModal.show()"
+        >
           Content Manager
         </main-btn>
       </v-row>
