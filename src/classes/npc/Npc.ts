@@ -507,12 +507,18 @@ export class Npc implements IActor {
   }
 
   public AddReaction(r: string): void {
-    if (!this.Reactions.some(x => x === r)) this.Reactions.push(r)
+    console.log('about to add reaction')
+    if (!this._reactions.some(x => x === r)) this._reactions.push(r)
+    console.log('added reaction ', r)
+    console.log('array is now ', this._reactions)
   }
 
   public RemoveReaction(r: string): void {
-    const idx = this.Reactions.findIndex(x => x === r)
-    if (idx > -1) this.Reactions.splice(idx, 1)
+    const idx = this._reactions.findIndex(x => x === r)
+    console.log('del idx at ', idx)
+    if (idx > -1) this._reactions.splice(idx, 1)
+    console.log('deleted reaction ', r)
+    console.log('array is now ', this._reactions)
   }
 
   public FullRepair(): void {
