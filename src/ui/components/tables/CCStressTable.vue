@@ -148,7 +148,7 @@ export default class CCStressTable extends Vue {
   dialog = false
   show(): void {
     this.dialog = true
-    if (this.mech.CurrentStress <= 1) this.window = 4
+    if (this.mech.CurrentStress === 0) this.window = 4
   }
   close(): void {
     this.window = 0
@@ -195,7 +195,6 @@ export default class CCStressTable extends Vue {
     this.close()
   }
   applyPPD(): void {
-    console.log('!!!!!!!!!!!')
     if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
     this.close()
   }
