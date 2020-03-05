@@ -530,6 +530,10 @@ export class Npc implements IActor {
     this.save()
   }
 
+  public get SizeIcon(): string {
+    return `cci-size-${this.Stats.Size === 0.5 ? 'half' : this.Stats.Size}`
+  }
+
   public static Serialize(npc: Npc): INpcData {
     return {
       active: npc.Active,

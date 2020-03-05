@@ -228,7 +228,7 @@
             </v-row>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="120" :color="npc.Class.Color">cci-size-{{ npc.Stats.Size }}</v-icon>
+            <v-icon size="120" :color="npc.Class.Color">{{ npc.SizeIcon }}</v-icon>
           </v-col>
         </v-row>
       </v-col>

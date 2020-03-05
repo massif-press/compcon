@@ -72,6 +72,10 @@ class Frame extends LicensedItem {
     return this._stats.size
   }
 
+  public get SizeIcon(): string {
+    return `cci-size-${this.Size === 0.5 ? 'half' : this.Size}`
+  }
+
   public get Armor(): number {
     return this._stats.armor
   }

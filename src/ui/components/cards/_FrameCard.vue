@@ -7,7 +7,7 @@
             {{ item.Source }} {{ item.MechTypeString }} Frame
           </span>
           <v-icon size="60" color="primary" class="ml-auto mt-n2" style="line-height: 40px">
-            cci-size-{{ item.Size === 0.5 ? 'half' : item.Size }}
+            {{ item.SizeIcon }}
           </v-icon>
         </v-row>
         <div v-if="item.Description">
