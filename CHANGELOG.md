@@ -1,3 +1,17 @@
+## [2.0.10](https://github.com/jarena3/compcon/compare/2.0.9...2.0.10) (2020-03-05)
+
+
+### Bug Fixes
+
+* **Active Mode:** fix custom counter delete button not deleting correct counter ([5a8e36a](https://github.com/jarena3/compcon/commit/5a8e36a7669fb1d25798355dc0300c338bb77b40))
+
+
+### Features
+
+* **Pilot Sheet:** add a compact build summary statblock option for theorycrafting ([176691c](https://github.com/jarena3/compcon/commit/176691cbbda4d72042d89b2c4bb64422126e3715))
+
+
+
 ## [2.0.9](https://github.com/jarena3/compcon/compare/2.0.8...2.0.9) (2020-02-21)
 
 
