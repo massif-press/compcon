@@ -253,22 +253,24 @@
     </cc-title>
     <p v-html="npc.Note" />
     <v-divider class="my-3" />
-    <v-row v-if="npc.Reactions.length" dense justify="center">
+    <v-row v-if="reactions.length" dense justify="center">
       <v-col cols="10">
         <div class="overline">STAGED REACTIONS</div>
-        <v-chip
-          v-for="(r, i) in npc.Reactions"
-          :key="r + i"
-          dark
-          color="action--reaction"
-          close
-          close-icon="mdi-close"
-          class="mx-1"
-          @click:close="npc.RemoveReaction(r)"
-        >
-          <v-icon left dark>mdi-redo-variant</v-icon>
-          <span class="heading h3">{{ r }}</span>
-        </v-chip>
+        <v-chip-group :key="'cr_' + reactions.length">
+          <v-chip
+            v-for="(r, i) in reactions"
+            :key="r + i"
+            dark
+            color="action--reaction"
+            close
+            close-icon="mdi-close"
+            class="mx-1"
+            @click:close="npc.RemoveReaction(r)"
+          >
+            <v-icon left dark>mdi-redo-variant</v-icon>
+            <span class="heading h3">{{ r }}</span>
+          </v-chip>
+        </v-chip-group>
       </v-col>
     </v-row>
     <v-row dense justify="start" class="mt-3 mb-10">
@@ -341,6 +343,9 @@ export default Vue.extend({
     conditions() {
       const store = getModule(CompendiumStore, this.$store)
       return store.Statuses.filter(x => x.type === 'Condition')
+    },
+    reactions() {
+      return this.npc.Reactions
     },
   },
   watch: {

@@ -117,7 +117,7 @@ export class ActiveMission {
 
   private spawnNpcs(): void {
     if (this.Encounter.StepType === MissionStepType.Rest) return
-    this._activeNpcs = []
+    this._activeNpcs.splice(0, this._activeNpcs.length)
     const enc = this.Encounter as Encounter
     const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
     sides.forEach(s => {
