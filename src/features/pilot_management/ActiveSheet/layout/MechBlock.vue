@@ -286,13 +286,15 @@
         </v-col>
         <v-col>
           <v-row>
-            <cc-active-card color="frame" header="Speed" :content="mech.Speed" />
+            <cc-active-card prominent color="frame" header="Speed" :content="mech.Speed" />
             <cc-active-card
+              prominent
               color="frame"
               header="Attack Bonus"
               :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`"
             />
             <cc-active-card
+              prominent
               color="frame"
               header="Tech Attack"
               :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
@@ -300,13 +302,24 @@
           </v-row>
           <v-row>
             <cc-active-card
+              prominent
               color="frame"
               header="Evasion"
               :content="mech.IsStunned ? 5 : mech.Evasion"
             />
-            <cc-active-card color="frame" header="E-Defense" :content="mech.EDefense" />
-            <cc-active-card color="frame" header="Save Target" :content="mech.SaveTarget" />
-            <cc-active-card color="frame" header="Sensor Range" :content="mech.SensorRange" />
+            <cc-active-card prominent color="frame" header="E-Defense" :content="mech.EDefense" />
+            <cc-active-card
+              prominent
+              color="frame"
+              header="Save Target"
+              :content="mech.SaveTarget"
+            />
+            <cc-active-card
+              prominent
+              color="frame"
+              header="Sensor Range"
+              :content="mech.SensorRange"
+            />
           </v-row>
         </v-col>
         <v-col cols="auto">
