@@ -9,7 +9,7 @@
       <v-row dense class="mt-n6">
         <v-col cols="10">
           <span class="heading mech">
-            <cc-short-string-editor large @set="npc.Name = $event">
+            <cc-short-string-editor large :placeholder="npc.Name" @set="npc.Name = $event">
               <span
                 style="display:inline-block;  max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
               >

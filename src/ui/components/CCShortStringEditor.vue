@@ -11,6 +11,7 @@
         v-model="newStr"
         :dense="!large"
         :height="large ? '50px' : ''"
+        :placeholder="placeholder"
         required
         hide-details
         autofocus
@@ -26,30 +27,31 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-short-string-editor', })
+@Component({ name: 'cc-short-string-editor' })
 export default class CCShortStringEditor extends Vue {
-  
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: String, required: false })
+  readonly placeholder?: string
+  @Prop({ type: Boolean, required: false })
   readonly inline?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly large?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly before?: boolean
-  
+
   newStr = ''
   editing = false
 
-  edit() {
+  edit(): void {
     this.editing = true
     this.newStr = this.$slots.default[0].text.trim()
   }
-  submit() {
+  submit(): void {
     if (this.newStr.length) this.$emit('set', this.newStr)
+    this.newStr = ''
     this.editing = false
   }
 }
 </script>
-
 
 <style scoped>
 .name.fade-transition-enter-active {
