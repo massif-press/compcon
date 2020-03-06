@@ -19,7 +19,7 @@
             {{ m.Name }}
           </v-card-title>
           <v-card-text class="mt-1 ml-2 pr-4 pt-0">
-            <div style="float: right; margin-left: 20px; margin-right: 50px">
+            <div style="float: right; margin-left: 20px; margin-right: 50px; min-height: 350px">
               <svg
                 :style="
                   `width:350px; height:350px; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`
@@ -30,7 +30,11 @@
             </div>
             <blockquote class="quote-block fluff-text text--text" v-html="m.Quote" />
             <v-divider class="ma-2" style="width: 800px" />
-            <p class="body-text stark-text--text" v-html="m.Description" />
+            <p
+              class="body-text stark-text--text"
+              style="min-height: 400px;"
+              v-html="m.Description"
+            />
           </v-card-text>
         </v-card>
       </v-tab-item>
