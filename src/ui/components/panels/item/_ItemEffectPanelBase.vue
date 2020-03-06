@@ -15,7 +15,8 @@ export default {
   props: {
     effect: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
     inset: {
       type: Boolean,
@@ -32,7 +33,7 @@ export default {
   computed: {
     loader() {
       if (!this.effect) {
-        return null
+        return () => null
       }
       return () => import(`./effects/_Item${this.effect.EffectType}Effect.vue`)
     },
