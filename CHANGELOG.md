@@ -1,3 +1,12 @@
+## [2.0.12](https://github.com/jarena3/compcon/compare/2.0.11...2.0.12) (2020-03-06)
+
+
+### Bug Fixes
+
+* item action hotfix ([1d419f4](https://github.com/jarena3/compcon/commit/1d419f4b6ec95501d00546cd46c347ea2555a07f))
+
+
+
 ## [2.0.11](https://github.com/jarena3/compcon/compare/2.0.10...2.0.11) (2020-03-06)
 
 
