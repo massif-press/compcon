@@ -430,3 +430,43 @@ NEEDED ICONS:
 - Background
 - Status
 - Reference
+
+---
+
+Aptitudes:
+RANGED -- Damage dealt, not melee -- rounded down
+  +0.5 pt for range 0-10
+  +1 pts for range 10+
+  +1 pts for every 1pt of guaranteed damage
+  +0.5 pt for every 1pt of possible damage
+      eg: 2d6 + 2 @ range 20 
+            6 + 2 = 8 pts for damage
+            5 + 10 = 15 pts for range
+           = 23 Ranged Aptitude (before tags)
+
+  + 1pt/sq for burst/blast/line
+
+  + 2 CONTROL per threat
+  
+  accurate + additional 0.25pt for every 1pt of possible damage (0.5 => 0.75)
+
+  inaccurate - additional 0.25pt for every 1pt of possible damage (0.5 => 0.25)
+
+  reliable (+3 pts/pt of reliable)
+  
+  ap = total * 1.35
+
+  arcing = total * 1.15
+
+  smart = total * 1.15
+  
+  overkill = total * 1.15
+  
+  loading = total * 0.85
+  
+  ordnance = -2 to MANUVERABILITY and -2 to CONTROL
+
+
+  throwable weapons have ranged damage / 2.5
+
+  

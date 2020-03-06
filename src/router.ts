@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import encounterRoutes from './features/encounters/routes'
-import { Capacitor } from '@capacitor/core'
+// import { Capacitor } from '@capacitor/core'
 
 Vue.use(Router)
 
@@ -28,16 +28,12 @@ export default new Router({
     },
     {
       path: '/pilot_management',
-      component: () =>
-        import(/* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/index.vue'),
+      component: require('@/features/pilot_management/index.vue').default,
       children: [
         {
           path: '',
           name: 'pilot_roster',
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Roster/index.vue'
-            ),
+          component: require('@/features/pilot_management/Roster/index.vue').default,
         },
         {
           path: '/print/:pilotID/:mechID',

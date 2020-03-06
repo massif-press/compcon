@@ -68,7 +68,7 @@
           </v-col>
           <v-col cols="auto">
             <v-icon size="120" :color="color" class="px-4 mt-n2">
-              cci-size-{{ mech.Size === 0.5 ? 'half' : mech.Size }}
+              {{ mech.SizeIcon }}
             </v-icon>
           </v-col>
         </v-row>

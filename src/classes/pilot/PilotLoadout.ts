@@ -23,6 +23,7 @@ class PilotLoadout extends Loadout {
 
   public set Armor(items: (PilotArmor | null)[]) {
     this._armor = items
+    this.save()
   }
 
   public get Weapons(): (PilotWeapon | null)[] {
@@ -31,6 +32,7 @@ class PilotLoadout extends Loadout {
 
   public set Weapons(items: (PilotWeapon | null)[]) {
     this._weapons = items
+    this.save()
   }
 
   public get ExtendedWeapons(): (PilotWeapon | null)[] {
@@ -39,6 +41,7 @@ class PilotLoadout extends Loadout {
 
   public set ExtendedWeapons(items: (PilotWeapon | null)[]) {
     this._extendedWeapons = items
+    this.save()
   }
 
   public get Gear(): (PilotGear | null)[] {
@@ -47,6 +50,7 @@ class PilotLoadout extends Loadout {
 
   public set Gear(items: (PilotGear | null)[]) {
     this._gear = items
+    this.save()
   }
 
   public get ExtendedGear(): (PilotGear | null)[] {
@@ -55,6 +59,7 @@ class PilotLoadout extends Loadout {
 
   public set ExtendedGear(items: (PilotGear | null)[]) {
     this._extendedGear = items
+    this.save()
   }
 
   public get Items(): PilotEquipment[] {

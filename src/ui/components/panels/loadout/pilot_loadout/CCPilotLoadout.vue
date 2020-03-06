@@ -22,16 +22,16 @@
         :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
-        @equip="$set(pilot.ActiveLoadout.Weapons, i, $event)"
-        @remove="$set(pilot.ActiveLoadout.Weapons, i, null)"
+        @equip="setWeapon($event, i)"
+        @remove="setWeapon(null, i)"
       />
       <pilot-weapon-card
         v-for="(w, i) in extendedWeapons()"
         :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
-        @equip="$set(pilot.ActiveLoadout.ExtendedWeapons, i, $event)"
-        @remove="$set(pilot.ActiveLoadout.ExtendedWeapons, i, null)"
+        @equip="setWeapon($event, i)"
+        @remove="setWeapon(null, i)"
       />
     </v-row>
     <v-row dense>
@@ -40,8 +40,8 @@
         :key="`pgi_${i}`"
         :item="g"
         :readonly="readonly"
-        @equip="$set(pilot.ActiveLoadout.Gear, i, $event)"
-        @remove="$set(pilot.ActiveLoadout.Gear, i, null)"
+        @equip="setGear($event, i)"
+        @remove="setGear(null, i)"
       />
       <pilot-gear-card
         v-for="(g, i) in extendedGear()"
@@ -60,7 +60,7 @@ import Vue from 'vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
-import { PilotArmor } from '@/class'
+import { PilotArmor, PilotWeapon, PilotGear } from '@/class'
 
 export default Vue.extend({
   name: 'cc-pilot-loadout',
@@ -92,6 +92,14 @@ export default Vue.extend({
     },
     setArmor(a: PilotArmor | null) {
       this.$set(this.pilot.ActiveLoadout.Armor, 0, a)
+      this.pilot.Heal()
+    },
+    setWeapon(w: PilotWeapon | null, idx: number) {
+      this.$set(this.pilot.ActiveLoadout.Weapons, idx, w)
+      this.pilot.Heal()
+    },
+    setGear(g: PilotGear | null, idx: number) {
+      this.$set(this.pilot.ActiveLoadout.Gear, idx, g)
       this.pilot.Heal()
     },
   },

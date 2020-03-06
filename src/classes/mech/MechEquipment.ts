@@ -1,10 +1,10 @@
-import { LicensedItem, Tag } from '@/class'
+import { LicensedItem, Tag, ItemEffect } from '@/class'
 import { ILicensedItemData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number
   tags: ITagData[]
-  effect: string
+  effect: string | object | object[]
   talent_item?: boolean
   frame_id?: boolean
 }
@@ -15,7 +15,7 @@ abstract class MechEquipment extends LicensedItem {
   protected _destroyed: boolean
   protected _cascading: boolean
   protected _loaded: boolean
-  private _effect: string
+  private _effect: ItemEffect[]
   private _integrated: boolean
   private _max_uses: number
   protected _tags: ITagData[]
@@ -25,7 +25,7 @@ abstract class MechEquipment extends LicensedItem {
     super(itemData)
     this.sp = itemData.sp || 0
     this._tags = itemData.tags
-    this._effect = itemData.effect
+    this._effect = this.getItemData(itemData.effect)
     this._integrated = itemData.talent_item || itemData.frame_id || false
     this._uses = 0
     this._destroyed = false
@@ -39,11 +39,17 @@ abstract class MechEquipment extends LicensedItem {
     }
   }
 
+  private getItemData(data: any): ItemEffect {
+    if (!Array.isArray(data)) {
+      return [ItemEffect.Generate(data)]
+    } else return data.map(x => ItemEffect.Generate(x))
+  }
+
   public get Tags(): Tag[] {
     return Tag.Deserialize(this._tags)
   }
 
-  public get Effect(): string {
+  public get Effect(): ItemEffect[] {
     return this._effect
   }
 

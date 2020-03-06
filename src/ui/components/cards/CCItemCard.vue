@@ -25,7 +25,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.item.ItemType)
     this.loader()
       .then(() => {
         this.component = () => this.loader()
