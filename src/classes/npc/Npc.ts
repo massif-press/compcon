@@ -27,7 +27,6 @@ export interface INpcData {
   statuses: string[]
   conditions: string[]
   resistances: string[]
-  reactions: string[]
   burn: number
   destroyed: boolean
   defeat: string
@@ -55,7 +54,6 @@ export class Npc implements IActor {
   private _statuses: string[]
   private _conditions: string[]
   private _resistances: string[]
-  private _reactions: string[]
   private _burn: number
   private _actions: number
   private _destroyed: boolean
@@ -81,7 +79,6 @@ export class Npc implements IActor {
     npcClass.BaseFeatures.forEach(f => {
       this._items.push(new NpcItem(f, t))
     })
-    this._reactions = ['Overwatch']
     this._burn = 0
     this._actions = 2
     this._destroyed = false
@@ -499,20 +496,15 @@ export class Npc implements IActor {
   }
 
   public get Reactions(): string[] {
-    return this._reactions
-  }
-
-  public set Reactions(val: string[]) {
-    this._reactions = val
+    return this.CurrentStats.Reactions
   }
 
   public AddReaction(r: string): void {
-    if (!this.Reactions.some(x => x === r)) this.Reactions.push(r)
+    this.CurrentStats.AddReaction(r)
   }
 
   public RemoveReaction(r: string): void {
-    const idx = this.Reactions.findIndex(x => x === r)
-    if (idx > -1) this.Reactions.splice(idx, 1)
+    this.CurrentStats.RemoveReaction(r)
   }
 
   public FullRepair(): void {
@@ -526,8 +518,12 @@ export class Npc implements IActor {
     this.CurrentStats.Activations = this.Stats.Activations
     this._actions = 2
     this.CurrentStats.Speed = 0
-    this.Reactions = ['Overwatch']
+    this.CurrentStats.AddReaction('Overwatch')
     this.save()
+  }
+
+  public get SizeIcon(): string {
+    return `cci-size-${this.Stats.Size === 0.5 ? 'half' : this.Stats.Size}`
   }
 
   public static Serialize(npc: Npc): INpcData {
@@ -551,7 +547,6 @@ export class Npc implements IActor {
       statuses: npc._statuses,
       conditions: npc._conditions,
       resistances: npc._resistances,
-      reactions: npc._reactions,
       burn: npc._burn,
       destroyed: npc._destroyed,
       defeat: npc._defeat,
@@ -583,7 +578,6 @@ export class Npc implements IActor {
     npc._statuses = data.statuses || []
     npc._conditions = data.conditions || []
     npc._resistances = data.resistances || []
-    npc._reactions = data.reactions || []
     npc._burn = data.burn || 0
     npc._actions = data.actions || 1
     npc._destroyed = data.destroyed || false

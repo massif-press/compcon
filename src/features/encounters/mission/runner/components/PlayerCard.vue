@@ -312,7 +312,11 @@
                 header="Attack Bonus"
                 :content="`+${mech.AttackBonus}`"
               />
-              <cc-active-card color="pilot" header="Tech Attack" :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`" />
+              <cc-active-card
+                color="pilot"
+                header="Tech Attack"
+                :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
+              />
             </v-row>
             <v-row>
               <cc-active-card
@@ -326,7 +330,7 @@
             </v-row>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="120" color="pilot">cci-size-{{ mech.Size }}</v-icon>
+            <v-icon size="120" color="pilot">{{ mech.SizeIcon }}</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -349,7 +353,11 @@
     <v-divider class="my-2" />
     <cc-title small color="pilot">
       GM's Notes
-      <cc-text-editor label="Edit Player Notes" :original="mech.GmNote" @save="mech.GmNote = $event" />
+      <cc-text-editor
+        label="Edit Player Notes"
+        :original="mech.GmNote"
+        @save="mech.GmNote = $event"
+      />
     </cc-title>
     <p v-html="mech.GmNote" />
     <v-divider class="my-2" />
@@ -418,8 +426,8 @@ export default Vue.extend({
       required: true,
     },
     rest: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data: () => ({
     overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],

@@ -39,7 +39,7 @@
           </div>
         </equipment-header>
         <v-row v-if="item.Effect">
-          <p class="effect-text px-2 mx-2 py-0 mb-1" v-html="item.Effect" />
+          <cc-item-effect-panel :effects="item.Effect" transparent />
         </v-row>
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" @remove-mod="item.Mod = null" />

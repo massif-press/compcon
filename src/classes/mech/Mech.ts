@@ -212,6 +212,10 @@ class Mech implements IActor {
     } else return this._frame.Size
   }
 
+  public get SizeIcon(): string {
+    return `cci-size-${this.Size === 0.5 ? 'half' : this.Size}`
+  }
+
   public get SizeContributors(): string[] {
     const output = [`FRAME Base Size: ${this.Frame.Size}`]
     if (this._pilot.has('CoreBonus', 'cb_fomorian_frame'))

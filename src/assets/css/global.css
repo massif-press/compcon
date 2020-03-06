@@ -181,7 +181,7 @@
 .v-application,
 .v-light,
 .v-list,
-.v-stepper {
+.v-stepper .v-card {
   background: var(--v-background-base) !important;
 }
 

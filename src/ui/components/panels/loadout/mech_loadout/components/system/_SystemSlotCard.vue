@@ -35,7 +35,7 @@
         </v-alert>
         <v-row v-if="item.Effect" dense>
           <v-col class="mr-3">
-            <p class="effect-text mb-0" v-html="item.Effect" />
+            <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent />
           </v-col>
           <v-col cols="auto" class="ml-auto mr-3">
             <span class="heading h2" :style="`color: ${color}`">{{ item.SP }}</span>
