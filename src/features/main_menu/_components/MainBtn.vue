@@ -19,8 +19,11 @@
         <v-progress-linear v-if="loading" absolute bottom color="white" indeterminate />
       </div>
     </div>
-    <div style="margin-left: -50px; margin-bottom: -40px">
-      <div class="d-inline overline mt-n2 help-text">>{{ help }}</div>
+    <div
+      class="d-inline overline help-text"
+      style="position:absolute; left: 150px; width: fit-content!important"
+    >
+      > {{ help }}
     </div>
   </v-col>
 </template>
