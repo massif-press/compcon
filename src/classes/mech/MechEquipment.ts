@@ -39,7 +39,7 @@ abstract class MechEquipment extends LicensedItem {
     }
   }
 
-  private getItemData(data: any): ItemEffect {
+  private getItemData(data: any): ItemEffect[] {
     if (!Array.isArray(data)) {
       return [ItemEffect.Generate(data)]
     } else return data.map(x => ItemEffect.Generate(x))
