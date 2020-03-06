@@ -1,3 +1,23 @@
+## [2.0.11](https://github.com/jarena3/compcon/compare/2.0.10...2.0.11) (2020-03-06)
+
+
+### Bug Fixes
+
+* **Active Mode:** fix irreversible meltdown at 1/4 reactor ([747305f](https://github.com/jarena3/compcon/commit/747305fb93c6adcd8bb6b525e4a40092744a681c)), closes [#669](https://github.com/jarena3/compcon/issues/669)
+* **Main Menu:** remove broken screen transition effect ([508d324](https://github.com/jarena3/compcon/commit/508d324a89f32774dfeac20b87efe29d61ff6df1))
+* **Mission Runner:** fixed missing NPC size icon ([ab8f06a](https://github.com/jarena3/compcon/commit/ab8f06ab74823a2d5287b3b72a7010f8a367cac4)), closes [#678](https://github.com/jarena3/compcon/issues/678)
+* **NPC Roster:** fix NPC Name field autofill ([ac50bbd](https://github.com/jarena3/compcon/commit/ac50bbdb04440d24e38534ce28c4e908db6a3aa5)), closes [#676](https://github.com/jarena3/compcon/issues/676)
+* **Pilot Sheet:** fixed pilot gear saving ([a274d5e](https://github.com/jarena3/compcon/commit/a274d5e5e6405c26dcd6c283d94bb6bf25d889bc)), closes [#675](https://github.com/jarena3/compcon/issues/675)
+* **Pilot Sheet:** various graphical fixes ([58b3834](https://github.com/jarena3/compcon/commit/58b383481080e9f6dc56a242aa8f32e2e5c3c57f)), closes [#666](https://github.com/jarena3/compcon/issues/666)
+
+
+### Features
+
+* **Compendium:** expand item effect logic ([3731b29](https://github.com/jarena3/compcon/commit/3731b29335cf62d9b4971e9e7d0dafa229abaf66)), closes [#519](https://github.com/jarena3/compcon/issues/519)
+* **Mech Sheet:** add selectable damage to the Ghoul Nexus ([9c4f7e3](https://github.com/jarena3/compcon/commit/9c4f7e39799b2f76f53cbffb0b714830dfa911cb)), closes [#667](https://github.com/jarena3/compcon/issues/667)
+
+
+
 ## [2.0.10](https://github.com/jarena3/compcon/compare/2.0.9...2.0.10) (2020-03-05)
 
 
