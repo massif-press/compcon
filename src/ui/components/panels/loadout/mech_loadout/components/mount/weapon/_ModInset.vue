@@ -22,11 +22,7 @@
         >
           / / NHP IN CASCADE / /
         </v-alert>
-        <p
-          class="mb-0 px-2 pt-1 effect-text text--text"
-          @click.stop="$refs.detailDialog.show()"
-          v-html="mod.Effect"
-        />
+        <cc-item-effect-panel :effects="mod.Effect" @click.stop="$refs.detailDialog.show()" />
         <v-row v-if="mod.Tags" dense no-gutters>
           <v-col cols="auto" class="ml-auto mt-n2 mr-4">
             <cc-tags :tags="mod.Tags" color="mod" small />
