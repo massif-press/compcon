@@ -1,3 +1,12 @@
+## [2.0.13](https://github.com/jarena3/compcon/compare/2.0.12...2.0.13) (2020-03-06)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** fix weapon mod inset panel ([7e29881](https://github.com/jarena3/compcon/commit/7e298819f7e557a54b53ffd49b9d44c9f29bc88b))
+
+
+
 ## [2.0.12](https://github.com/jarena3/compcon/compare/2.0.11...2.0.12) (2020-03-06)
 
 
