@@ -1,3 +1,15 @@
+## [2.0.14](https://github.com/jarena3/compcon/compare/2.0.13...2.0.14) (2020-03-09)
+
+
+### Bug Fixes
+
+* **Compendium:** fix NPC item panel descriptions ([c60daf7](https://github.com/jarena3/compcon/commit/c60daf731e3701399e93c72584f187b6c6dcd378)), closes [#682](https://github.com/jarena3/compcon/issues/682) [#695](https://github.com/jarena3/compcon/issues/695)
+* **Mech Sheet:** fix Bonus Item Effect ([774ce8f](https://github.com/jarena3/compcon/commit/774ce8fbc3efe80e1e93d0d9b99b28078352a8c5))
+* **Mech Sheet:** fix tag display on weapons with profile effects ([3c53f74](https://github.com/jarena3/compcon/commit/3c53f74bb01963c7e9e70114f9380e3521ebcef3)), closes [#691](https://github.com/jarena3/compcon/issues/691)
+* **Pilot Sheet, Printed Sheets:** fix item effect populators ([4a51262](https://github.com/jarena3/compcon/commit/4a512622d233f80378e2e594450ef5b3b6a32b44)), closes [#684](https://github.com/jarena3/compcon/issues/684) [#624](https://github.com/jarena3/compcon/issues/624)
+
+
+
 ## [2.0.13](https://github.com/jarena3/compcon/compare/2.0.12...2.0.13) (2020-03-06)
 
 
