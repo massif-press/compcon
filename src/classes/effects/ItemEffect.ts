@@ -44,14 +44,14 @@ interface IEffectData {
   effect_type: EffectType
   name?: string
   activation?: ActivationType
-  tags?: ITagCompendiumData[]
+  tags?: ITagData[]
 }
 
 abstract class ItemEffect {
   private _err: boolean
   protected effectType: EffectType
   protected activation: ActivationType
-  protected tags: ITagCompendiumData[]
+  protected tags: ITagData[]
 
   public constructor(err?: boolean) {
     this._err = err
@@ -66,7 +66,7 @@ abstract class ItemEffect {
   }
 
   public get Tags(): Tag[] {
-    return this.tags ? this.tags.map(x => new Tag(x)) : []
+    return Tag.Deserialize(this.tags)
   }
 
   public static Generate(data: any): ItemEffect | null {

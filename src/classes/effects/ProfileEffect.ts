@@ -20,6 +20,7 @@ class ProfileEffect extends ItemEffect {
     this.Name = data.name
     this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
     this.Range = data.range ? data.range.map(x => new Range(x)) : []
+    this.tags = data.tags ? data.tags : []
     this.Detail = data.detail
     this.activation = ActivationType.None
     this.effectType = EffectType.Profile
