@@ -4,6 +4,11 @@
       <cc-extended-tag :tag="t" />
     </v-col>
   </v-row>
+  <div v-else-if="print">
+    <v-chip v-for="(t, i) in tags" :key="`${t.ID}_${i}`" outlined x-small label class="mx-1 mt-n1">
+      {{ t.Name }}
+    </v-chip>
+  </div>
   <div v-else>
     <cc-tag
       v-for="(t, i) in tags"
@@ -20,19 +25,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Pilot, Tag } from '@/class'
 
-@Component({ name: 'cc-tags', })
+@Component({ name: 'cc-tags' })
 export default class CCTags extends Vue {
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly small?: boolean
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly extended?: boolean
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: Boolean, required: false })
+  readonly print?: boolean
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
 
-  @Prop({ type: Array, required: true,  })
+  @Prop({ type: Array, required: true })
   readonly tags!: Tag[]
 
-  @Prop({ type: Object, required: false, default: null, })
-  readonly pilot?: Pilot 
+  @Prop({ type: Object, required: false, default: null })
+  readonly pilot?: Pilot
 }
 </script>

@@ -1,11 +1,19 @@
 <template>
-  <div :class="`pa-1 ${inset ? 'item-panel-inset' : transparent ? '' : 'light-panel clipped'}`">
-    <div v-if="effect.Options && effect.Options.length" class="flavor-text">
+  <effect-base
+    :effect="effect"
+    :color="color"
+    type="TECH"
+    no-icon
+    :inset="inset"
+    :transparent="transparent"
+    :print="print"
+  >
+    <div v-if="!print && effect.Options && effect.Options.length" class="flavor-text">
       Gain the following {{ effect.OptionSet }} options:
     </div>
     <div
       v-if="effect.Detail && effect.Options && effect.Options.length"
-      class="body-text"
+      :class="print ? 'overline' : 'body-text'"
       v-html="effect.Detail"
     />
     <v-alert
@@ -14,57 +22,54 @@
       dense
       outlined
       :color="color"
-      class="py-0 mx-3"
+      class="py-1 mx-3 mb-1"
     >
-      <v-row dense align="center" class="mt-n2">
-        <v-col cols="auto">
-          <v-icon x-large :color="color" class="ml-n2">
-            mdi-console-network
-          </v-icon>
-        </v-col>
-        <v-col>
-          <span class="overline mb-n4">
-            {{ o.Activation }} Tech
-            <cc-slashes />
-            INVADE
-          </span>
-          <div class="effect-text mt-n2">
-            {{ o.Name }}
-          </div>
-          <p class="body-text mt-n1 mb-1" v-html="o.Detail" />
-        </v-col>
-      </v-row>
+      <effect-base
+        :effect="o"
+        :color="color"
+        :type="`${o.Activation} Tech // INVADE`"
+        icon="mdi-console-network"
+        :inset="inset"
+        :transparent="transparent"
+        :print="print"
+      >
+        <div
+          :class="print ? 'caption font-weight-bold text--text' : 'effect-text mt-n2'"
+          v-html="o.Name"
+        />
+        <p :class="print ? 'overline mb-0 text--text' : 'body-text mb-1'" v-html="o.Detail" />
+      </effect-base>
     </v-alert>
     <v-alert
       v-if="!effect.Options || !effect.Options.length"
       dense
       outlined
       :color="color"
-      class="py-0 mx-3 mb-0"
+      class="py-1 mx-3 mb-0"
     >
-      <v-row dense align="center" class="mt-n2">
-        <v-col cols="auto">
-          <v-icon x-large :color="color" class="ml-n2">
-            mdi-console-network
-          </v-icon>
-        </v-col>
-        <v-col>
-          <span class="overline mb-n4">{{ effect.Activation }} Tech</span>
-          <div v-if="effect.Name" class="effect-text mt-n2">
-            {{ effect.Name }}
-          </div>
-          <p class="body-text mt-n1 mb-1" v-html="effect.Detail" />
-        </v-col>
-      </v-row>
+      <effect-base
+        :effect="effect"
+        :color="color"
+        :type="`${o.Activation} Tech`"
+        icon="mdi-console-network"
+        :inset="inset"
+        :transparent="transparent"
+        :print="print"
+      >
+        <div :class="print ? 'caption text--text' : 'effect-text mt-n2'" v-html="effect.Name" />
+        <p :class="print ? 'overline mb-0 text--text' : 'body-text mb-1'" v-html="effect.Detail" />
+      </effect-base>
     </v-alert>
-  </div>
+  </effect-base>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import EffectBase from '../_ItemEffectBase.vue'
 
 export default Vue.extend({
   name: 'cc-item-tech-effect',
+  components: { EffectBase },
   props: {
     effect: {
       type: Object,
@@ -75,10 +80,9 @@ export default Vue.extend({
       required: false,
       default: 'action--tech',
     },
-    inset: {
-      type: Boolean,
-    },
+    inset: { type: Boolean },
     transparent: { type: Boolean },
+    print: { type: Boolean },
   },
 })
 </script>

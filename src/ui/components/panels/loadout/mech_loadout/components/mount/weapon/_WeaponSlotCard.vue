@@ -25,8 +25,17 @@
         />
       </div>
       <div v-if="item">
-        <equipment-header :item="item" :color="color">
-          <div v-if="!intWeapon && !readonly">
+        <equipment-header :item="item" :color="color" :use-bonus="mech.Pilot.LimitedBonus">
+          <div class="d-inline mx-2">
+            <cc-range-element small :range="item.getTotalRange(mech)" class="d-inline" />
+            <cc-damage-element
+              small
+              :damage="item.Damage"
+              :type-override="item.DamageTypeOverride"
+              class="d-inline"
+            />
+          </div>
+          <div v-if="!intWeapon && !readonly" class="d-inline mx-2">
             <v-btn
               outlined
               small
@@ -42,36 +51,10 @@
           <cc-item-effect-panel :effects="item.Effect" transparent />
         </v-row>
         <v-row v-if="item.Mod" dense justify="center">
-          <mod-inset :mod="item.Mod" @remove-mod="item.Mod = null" />
-        </v-row>
-        <v-row v-if="item.IsLimited" dense no-gutters align="end" class="mt-n2">
-          <v-col cols="12">
-            <span class="overline">
-              USES
-            </span>
-          </v-col>
-          <v-col cols="auto">
-            <cc-item-uses :item="item" :bonus="mech.Pilot.LimitedBonus" :color="color" />
-          </v-col>
-          <v-col cols="auto" class="ml-2 mb-1 overline">
-            {{ item.MaxUses }}
-            ({{ item.Uses }}/{{ item.MaxUses + mech.Pilot.LimitedBonus }})
-          </v-col>
+          <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
         <v-row no-gutters align="center" class="ml-2 mr-6">
-          <v-col cols="auto">
-            <v-row>
-              <cc-range-element small :range="item.getTotalRange(mech)" />
-              <v-divider vertical class="ml-2" />
-              <cc-damage-element
-                small
-                :damage="item.Damage"
-                :type-override="item.DamageTypeOverride"
-              />
-            </v-row>
-          </v-col>
-          <v-col cols="auto" class="ml-auto">&nbsp;</v-col>
-          <v-col cols="auto">
+          <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
           </v-col>
           <v-col v-if="item.Mod" cols="auto" class="ml-6">

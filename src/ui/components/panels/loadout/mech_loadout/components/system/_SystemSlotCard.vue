@@ -33,44 +33,39 @@
         >
           / / AI IN CASCADE / /
         </v-alert>
-        <v-row v-if="item.Effect" dense>
-          <v-col class="mr-3">
-            <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent />
-          </v-col>
-          <v-col cols="auto" class="ml-auto mr-3">
+        <v-row dense align="center" class="mt-n2">
+          <v-col cols="auto" class="mr-3">
             <span class="heading h2" :style="`color: ${color}`">{{ item.SP }}</span>
             <span class="heading h3">SP</span>
           </v-col>
-        </v-row>
-        <v-row v-if="item.IsLimited" dense no-gutters align="end" class="mt-n2">
-          <v-col cols="12">
+          <v-col v-if="item.IsLimited" cols="auto" class="mr-2">
+            <cc-item-uses
+              :item="item"
+              :bonus="mech.Pilot.LimitedBonus"
+              :color="color"
+              class="d-inline"
+            />
             <span class="overline">
-              USES
+              ({{ item.Uses }}/{{ item.MaxUses + mech.Pilot.LimitedBonus }}) USES
             </span>
           </v-col>
-          <v-col cols="auto">
-            <cc-item-uses :item="item" :bonus="mech.Pilot.LimitedBonus" :color="color" />
+          <v-col v-if="item.IsLoading" cols="auto" dense>
+            <v-btn
+              small
+              dark
+              :color="item.Loaded ? 'pilot' : 'grey'"
+              @click.stop="item.Loaded = !item.Loaded"
+            >
+              <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
+              {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
+            </v-btn>
           </v-col>
-          <v-col cols="auto" class="ml-2 mb-1 overline">
-            ({{ item.Uses }}/{{ item.MaxUses + mech.Pilot.LimitedBonus }})
-          </v-col>
-        </v-row>
-        <v-row v-if="item.IsLoading" dense class="ml-1">
-          <v-btn
-            small
-            dark
-            :color="item.Loaded ? 'pilot' : 'grey'"
-            @click.stop="item.Loaded = !item.Loaded"
-          >
-            <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
-            {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-          </v-btn>
-        </v-row>
-        <v-row no-gutters align="center" class="ml-2 mr-6 mt-n1">
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
           </v-col>
         </v-row>
+
+        <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent class="mt-n3" />
       </div>
       <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
     </slot-card-base>
