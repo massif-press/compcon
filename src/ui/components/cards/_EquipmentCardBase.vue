@@ -16,9 +16,10 @@
       <span class="overline ml-n2">COMPENDIUM ENTRY</span>
       <p class="flavor-text mb-1" v-html="item.Description" />
     </div>
-
-    <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" class="mb-2" />
-
+    <div v-if="item.Effect">
+      <p v-if="typeof item.Effect === 'string'" class="text--text body-text" v-html="item.Effect" />
+      <cc-item-effect-panel v-else :effects="item.Effect" class="mb-2" />
+    </div>
     <cc-tags v-if="item.Tags" :tags="item.Tags" extended />
   </v-card-text>
 </template>
