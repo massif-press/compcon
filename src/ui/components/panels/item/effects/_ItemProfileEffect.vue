@@ -1,29 +1,36 @@
 <template>
-  <v-row dense :class="`body-text pa-1 ${inset ? 'item-panel-inset' : transparent ? '' : 'light-panel clipped'}`">
-    <v-col cols="auto">
-      <v-icon x-large :color="color">
-        mdi-swap-horizontal-bold
-      </v-icon>
-    </v-col>
-    <v-col class="mt-n3">
-      <span class="overline primary--text mb-n4" v-html="'WEAPON PROFILE'" />
-      <div class="effect-text mt-n2">
+  <v-alert dense outlined :color="color" class="pt-3 pb-n2">
+    <effect-base
+      :effect="effect"
+      :color="color"
+      type="WEAPON PROFILE"
+      icon="mdi-swap-horizontal-bold"
+      :inset="inset"
+      :transparent="transparent"
+      :print="print"
+    >
+      <div :class="print ? 'caption font-weight-bold text--text mt-n1' : 'heading h3 mt-n2'">
         {{ effect.Name }}&nbsp;
         <cc-range-element v-if="effect.Range" :range="effect.Range" small class="d-inline" />
         <cc-slashes />
         <cc-damage-element v-if="effect.Damage" :damage="effect.Damage" small class="d-inline" />
       </div>
-      <p v-if="effect.Detail" class="body-text mb-1" v-html="effect.Detail" />
-      <cc-tags v-if="effect.Tags" :tags="effect.Tags" />
-    </v-col>
-  </v-row>
+      <p
+        v-if="effect.Detail"
+        :class="print ? 'overline text--text mb-0 pb-0 mt-n1' : 'body-text mb-1'"
+        v-html="effect.Detail"
+      />
+    </effect-base>
+  </v-alert>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import EffectBase from '../_ItemEffectBase.vue'
 
 export default Vue.extend({
   name: 'cc-item-profile-effect',
+  components: { EffectBase },
   props: {
     effect: {
       type: Object,
@@ -34,9 +41,9 @@ export default Vue.extend({
       required: false,
       default: 'primary',
     },
-    inset: {
-      type: Boolean,
-    }, transparent: { type: Boolean }
+    inset: { type: Boolean },
+    transparent: { type: Boolean },
+    print: { type: Boolean },
   },
 })
 </script>

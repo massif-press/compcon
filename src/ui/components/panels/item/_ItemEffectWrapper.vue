@@ -5,13 +5,14 @@
     :effect="effect"
     :inset="inset"
     :transparent="transparent"
-    class="mb-1"
+    :print="print"
+    :class="!print ? 'mb-1' : ''"
   />
 </template>
 
 <script>
 export default {
-  name: 'cc-item-effect-panel-base',
+  name: 'cc-item-effect-wrapper',
   props: {
     effect: {
       type: Object,
@@ -22,6 +23,9 @@ export default {
       type: Boolean,
     },
     transparent: {
+      type: Boolean,
+    },
+    print: {
       type: Boolean,
     },
   },
@@ -52,13 +56,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.item-panel-inset {
-  border: 1px solid;
-  border-color: var(--v-primary-base) !important;
-  border-radius: 3px;
-  background-color: var(--v-light-panel-base) !important;
-  width: 96%;
-}
-</style>

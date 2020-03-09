@@ -9,6 +9,7 @@ import { IProtocolEffectData } from './ProtocolEffect'
 import { IReactionEffectData } from './ReactionEffect'
 import { IInvadeOptionData, ITechEffectData } from './TechEffect'
 import { IProfileEffectData } from './ProfileEffect'
+import { IOffensiveEffectData } from './OffensiveEffect'
 
 export {
   IAIData,
@@ -24,4 +25,5 @@ export {
   IInvadeOptionData,
   ITechEffectData,
   IProfileEffectData,
+  IOffensiveEffectData,
 }

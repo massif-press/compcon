@@ -1,6 +1,6 @@
 <template>
   <v-col style="min-width: 40vw">
-    <fieldset class="ma-0">
+    <fieldset class="ma-0" style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
         <span v-if="impArm">(IMPROVED ARMAMENT)</span>

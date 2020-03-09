@@ -1,23 +1,24 @@
 <template>
-  <v-row dense :class="`body-text pa-1 ${inset ? 'item-panel-inset' : transparent ? '' : 'light-panel clipped'}`">
-    <v-col cols="auto">
-      <v-icon x-large :color="color">
-        mdi-robot
-      </v-icon>
-    </v-col>
-    <v-col class="mt-n2">
-      <div class="overline primary--text" v-html="'AI'" />
-      <div class="flavor-text" v-html="effect.Detail" />
-      <cc-item-effect-panel :effects="effect.Abilities" inset />
-    </v-col>
-  </v-row>
+  <effect-base
+    :effect="effect"
+    :color="color"
+    type="AI"
+    icon="mdi-robot"
+    :inset="inset"
+    :transparent="transparent"
+    :print="print"
+  >
+    <div :class="print ? 'overline mb-2' : 'flavor-text'" v-html="effect.Detail" />
+  </effect-base>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import EffectBase from '../_ItemEffectBase.vue'
 
 export default Vue.extend({
   name: 'cc-item-ai-effect',
+  components: { EffectBase },
   props: {
     effect: {
       type: Object,
@@ -28,9 +29,9 @@ export default Vue.extend({
       required: false,
       default: 'primary',
     },
-    inset: {
-      type: Boolean,
-    }, transparent: { type: Boolean }
+    inset: { type: Boolean },
+    transparent: { type: Boolean },
+    print: { type: Boolean },
   },
 })
 </script>

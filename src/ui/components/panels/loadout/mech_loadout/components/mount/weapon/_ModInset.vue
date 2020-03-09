@@ -2,7 +2,14 @@
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title class="mod darken-1 py-0 heading h3 white--text" style="height: 24px!important">
-        <equipment-header :item="mod" mod interior dark class="mt-n1">
+        <equipment-header
+          :item="mod"
+          :use-bonus="mech.Pilot.LimitedBonus"
+          mod
+          interior
+          dark
+          class="mt-n1"
+        >
           <equipment-options slot="options" :item="mod" />
           <cc-tooltip simple inline content="Remove Mod">
             <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
@@ -46,6 +53,10 @@ export default Vue.extend({
   components: { EquipmentOptions, EquipmentHeader },
   props: {
     mod: {
+      type: Object,
+      required: true,
+    },
+    mech: {
       type: Object,
       required: true,
     },

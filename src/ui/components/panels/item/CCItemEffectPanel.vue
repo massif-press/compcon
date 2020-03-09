@@ -1,17 +1,18 @@
 <template>
-  <div class="my-1">
+  <div :class="print ? '' : 'my-1'">
     <item-effect
       v-for="(e, n) in effects"
       :key="ie_key + n"
       :effect="e"
       :transparent="transparent"
       :inset="inset"
+      :print="print"
     />
   </div>
 </template>
 
 <script>
-import ItemEffect from './_ItemEffectPanelBase.vue'
+import ItemEffect from './_ItemEffectWrapper.vue'
 
 export default {
   name: 'cc-item-effect-panel',
@@ -25,6 +26,9 @@ export default {
       type: Boolean,
     },
     transparent: {
+      type: Boolean,
+    },
+    print: {
       type: Boolean,
     },
   },
