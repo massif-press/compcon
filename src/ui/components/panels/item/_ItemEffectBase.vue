@@ -1,14 +1,16 @@
 <template>
-  <v-row dense :class="rowClass" align="center">
-    <v-col v-if="!print && !noIcon" cols="auto">
-      <v-icon x-large :color="color">
-        {{ icon }}
-      </v-icon>
-    </v-col>
-    <v-col class="mt-n2">
-      <div class="overline font-weight-bold primary--text" v-html="type" />
-      <slot />
-    </v-col>
+  <div>
+    <v-row dense :class="rowClass" align="center">
+      <v-col v-if="!print && !noIcon" cols="auto">
+        <v-icon x-large :color="color">
+          {{ icon }}
+        </v-icon>
+      </v-col>
+      <v-col class="mt-n2">
+        <div class="overline font-weight-bold primary--text" v-html="type" />
+        <slot />
+      </v-col>
+    </v-row>
     <cc-item-effect-panel
       v-if="effect.Abilities"
       :effects="effect.Abilities"
@@ -17,7 +19,7 @@
       class="mt-1"
     />
     <cc-tags v-if="effect.Tags" :tags="effect.Tags" :print="print" small />
-  </v-row>
+  </div>
 </template>
 
 <script lang="ts">
