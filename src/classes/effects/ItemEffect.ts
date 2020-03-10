@@ -13,7 +13,6 @@ import {
   OffensiveEffect,
   ProfileEffect,
 } from '@/class'
-import { ITagCompendiumData } from '../Tag'
 
 enum EffectType {
   Generic = 'Generic', // Covers old/fallback/simple

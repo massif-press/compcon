@@ -7,7 +7,7 @@
         </v-icon>
       </v-col>
       <v-col class="mt-n2">
-        <div class="overline font-weight-bold primary--text" v-html="type" />
+        <div class="overline font-weight-bold primary--text pb-1" v-html="type" />
         <slot />
       </v-col>
     </v-row>
@@ -18,7 +18,7 @@
       :print="print"
       class="mt-1"
     />
-    <cc-tags v-if="effect.Tags" :tags="effect.Tags" :print="print" small />
+    <cc-tags v-if="effect.Tags" :tags="effect.Tags" :print="print" :bonus="limitedBonus" small />
   </div>
 </template>
 
@@ -46,6 +46,11 @@ export default Vue.extend({
       type: String,
       required: false,
       default: 'EFFECT',
+    },
+    limitedBonus: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     noIcon: { type: Boolean },
     inset: { type: Boolean },

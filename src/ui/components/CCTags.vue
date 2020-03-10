@@ -6,7 +6,7 @@
   </v-row>
   <div v-else-if="print">
     <v-chip v-for="(t, i) in tags" :key="`${t.ID}_${i}`" outlined x-small label class="mx-1 mt-n1">
-      {{ t.Name }}
+      {{ t.GetName(bonus) }}
     </v-chip>
   </div>
   <div v-else>
@@ -41,5 +41,8 @@ export default class CCTags extends Vue {
 
   @Prop({ type: Object, required: false, default: null })
   readonly pilot?: Pilot
+
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly bonus?: number
 }
 </script>
