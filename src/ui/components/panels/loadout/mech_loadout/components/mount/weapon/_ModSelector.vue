@@ -127,7 +127,7 @@ export default Vue.extend({
       let i = this.mods.filter(x => x.AppliedTo.includes(this.weapon.Type.toLowerCase()))
 
       // // filter out any mount restrictions
-      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size))
+      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size.toLowerCase()))
 
       // filter already equipped
       if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
