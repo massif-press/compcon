@@ -88,6 +88,7 @@ export class NpcItem {
 
   public set IsCharged(val: boolean) {
     this._charged = val
+    this.save()
   }
 
   public get Uses(): number {
