@@ -1,3 +1,14 @@
+## [2.0.15](https://github.com/jarena3/compcon/compare/2.0.14...2.0.15) (2020-03-10)
+
+
+### Bug Fixes
+
+* **Compendium:** correct non-invade tech effect UI ([e55ab2b](https://github.com/jarena3/compcon/commit/e55ab2b9c5db7597b6c65b7f0568316540caad11)), closes [#696](https://github.com/jarena3/compcon/issues/696)
+* **Mech Sheet:** fixed UNCLE applying to superheavies ([13dc9b7](https://github.com/jarena3/compcon/commit/13dc9b7efedded53c190fde1174ea73b79840e58)), closes [#693](https://github.com/jarena3/compcon/issues/693)
+* **Mission Runner:** fixed NPC systems not saving charge state ([893351c](https://github.com/jarena3/compcon/commit/893351c598340b834759dd96163b183ee16756e2)), closes [#686](https://github.com/jarena3/compcon/issues/686)
+
+
+
 ## [2.0.14](https://github.com/jarena3/compcon/compare/2.0.13...2.0.14) (2020-03-09)
 
 
