@@ -61,12 +61,18 @@ export default Vue.extend({
 .printable {
   background-color: white !important;
 }
+
+@page {
+  margin: 0;
+  padding: 0;
+}
+
 @media print {
   @page {
     max-height: 100%;
     max-width: 210mm !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
     background-color: white;

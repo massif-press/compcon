@@ -34,9 +34,7 @@ Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.$appVersion = process.env.VERSION_STRING
-Vue.prototype.$lancerVersion = `${lancerData.info.version} [${
-  require('lancer-data/package.json').version
-}]`
+Vue.prototype.$lancerVersion = `${lancerData.info.version}`
 
 const vuetify = new Vuetify(theme)
 

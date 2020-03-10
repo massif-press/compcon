@@ -13,6 +13,10 @@
         </div>
         <v-divider />
         <div class="mx-12">
+          <v-btn outlined block color="info" class="my-1" @click="reload">
+            Download Updates and Reload
+          </v-btn>
+          <v-divider class="my-2" />
           <v-btn outlined block color="secondary" class="my-1" @click="bulkExport">
             Export All COMP/CON Data
           </v-btn>
@@ -148,6 +152,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    reload() {
+      location.reload(true)
+    },
     setUserID(id: string) {
       const store = getModule(CompendiumStore, this.$store)
       store.UserProfile.ID = id

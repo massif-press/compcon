@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row dense align="center">
       <v-col cols="auto">
-        <div class="overline no-height">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+        <div class="overline ">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
         <div class="heading h1 mt-n4">{{ mech.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-center">
@@ -28,7 +28,7 @@
 
     <v-row dense align="center" justify="space-around" class="mt-n5 mb-1">
       <v-col cols="auto">
-        <span class="font-weight-bold overline no-height pr-3">HULL</span>
+        <span class="font-weight-bold overline  pr-3">HULL</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
           <v-icon x-large color="primary" style="margin-right: -3px!important">
             mdi-hexagon-outline
@@ -37,7 +37,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline no-height pr-3">AGI</span>
+        <span class="font-weight-bold overline  pr-3">AGI</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
           <v-icon x-large color="primary" style="margin-right: -3px!important">
             mdi-hexagon-outline
@@ -46,7 +46,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline no-height pr-3">SYS</span>
+        <span class="font-weight-bold overline  pr-3">SYS</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
           <v-icon x-large color="primary" style="margin-right: -3px!important">
             mdi-hexagon-outline
@@ -55,7 +55,7 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline no-height pr-3">ENG</span>
+        <span class="font-weight-bold overline  pr-3">ENG</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
           <v-icon x-large color="primary" style="margin-right: -3px!important">
             mdi-hexagon-outline
@@ -70,7 +70,7 @@
 
     <v-row dense justify="space-between" align="start">
       <v-col class="text-center">
-        <div class="overline no-height">STRUCTURE</div>
+        <div class="overline ">STRUCTURE</div>
         <div>
           <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-structure</v-icon>
           <b class="flavor-text pt-3" v-html="`/${mech.MaxStructure}`" />
@@ -79,14 +79,14 @@
       <v-col cols="auto">
         <v-row dense no-gutters justify="center">
           <v-col cols="auto">
-            <div class="overline no-height ml-2">ARMOR</div>
+            <div class="overline  ml-2">ARMOR</div>
             <div style="position: relative; width: max-content;">
               <v-icon size="60" color="grey lighten-4" class="mr-n1">mdi-shield-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="mech.Armor" />
             </div>
           </v-col>
           <v-col cols="auto" class="text-center">
-            <div class="overline no-height mr-6">HP</div>
+            <div class="overline  mr-6">HP</div>
             <div>
               <v-icon size="60" color="grey lighten-4" class="mr-n1">
                 mdi-hexagon-outline
@@ -97,28 +97,28 @@
         </v-row>
       </v-col>
       <v-col class="text-center">
-        <div class="overline no-height mr-2">REACTOR</div>
+        <div class="overline  mr-2">REACTOR</div>
         <div>
           <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-reactor</v-icon>
           <b class="flavor-text pt-3" v-html="`/${mech.MaxStress}`" />
         </div>
       </v-col>
       <v-col class="text-center">
-        <div class="overline no-height mr-6">HEAT</div>
+        <div class="overline  mr-6">HEAT</div>
         <div>
           <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-fire</v-icon>
           <b class="flavor-text pt-3" v-html="`/${mech.HeatCapacity}`" />
         </div>
       </v-col>
       <v-col class="text-center">
-        <div class="overline no-height">REPAIR CAPACITY</div>
+        <div class="overline ">REPAIR CAPACITY</div>
         <div>
           <v-icon size="60" color="grey lighten-4" class="mr-n1">cci-repair</v-icon>
           <b class="flavor-text pt-3" v-html="`/${mech.RepairCapacity}`" />
         </div>
       </v-col>
       <v-col class="text-center">
-        <div class="overline no-height">CORE POWER</div>
+        <div class="overline ">CORE POWER</div>
         <v-icon size="50" color="grey lighten-4" class="mr-n1 mt-1">mdi-battery-outline</v-icon>
       </v-col>
     </v-row>
@@ -246,7 +246,7 @@
           <span class="overline">{{ w.Source }} {{ w.Size }} {{ w.Type }}</span>
         </span>
         <div class="my-n1">
-          <cc-tags :tags="w.Tags" :pilot="mech.Pilot" print />
+          <cc-tags :tags="w.Tags" :bonus="mech.Pilot.LimitedBonus" print />
         </div>
         <div class="caption">
           <b v-for="(r, k) in w.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
@@ -274,7 +274,7 @@
         </span>
         <cc-item-effect-panel v-if="s.Effect" :effects="s.Effect" print />
         <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
-          <cc-tags :tags="s.Tags" :pilot="mech.Pilot" print />
+          <cc-tags :tags="s.Tags" :bonus="mech.Pilot.LimitedBonus" print />
         </div>
       </div>
     </fieldset>
@@ -311,10 +311,6 @@ export default Vue.extend({
 <style scoped>
 .caption {
   font-size: 14px;
-}
-
-.no-height {
-  line-height: 0;
 }
 
 .icon-overlap {

@@ -50,7 +50,7 @@
       <effect-base
         :effect="effect"
         :color="color"
-        :type="`${o.Activation} Tech`"
+        :type="`${effect.Activation} Tech`"
         icon="mdi-console-network"
         :inset="inset"
         :transparent="transparent"

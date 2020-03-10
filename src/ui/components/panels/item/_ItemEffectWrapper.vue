@@ -6,6 +6,7 @@
     :inset="inset"
     :transparent="transparent"
     :print="print"
+    :limited-bonus="limitedBonus"
     :class="!print ? 'mb-1' : ''"
   />
 </template>
@@ -27,6 +28,11 @@ export default {
     },
     print: {
       type: Boolean,
+    },
+    limitedBonus: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   data() {

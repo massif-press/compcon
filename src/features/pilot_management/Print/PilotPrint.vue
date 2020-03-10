@@ -2,13 +2,13 @@
   <v-container fluid>
     <v-row dense align="start">
       <v-col cols="auto">
-        <div class="overline no-height">CALLSIGN</div>
+        <div class="overline ">CALLSIGN</div>
         <div class="heading h1 mt-n4">{{ pilot.Callsign }}</div>
       </v-col>
       <v-divider vertical class="mx-2" />
       <v-col cols="auto" class="flavor-text">
-        <div class="overline no-height">PILOT</div>
-        <b class="no-height">{{ pilot.Name }}</b>
+        <div class="overline ">PILOT</div>
+        <b class="">{{ pilot.Name }}</b>
         <br />
         <i v-if="pilot.Background">{{ pilot.Background }},&nbsp;</i>
         <i>LL {{ pilot.Level }}</i>
@@ -16,35 +16,35 @@
       <v-col class="ml-auto mr-auto">
         <v-row dense justify="space-between">
           <v-col cols="auto">
-            <div class="overline no-height mb-n1">HP</div>
+            <div class="overline  mb-n1">HP</div>
             <div>
               <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               <b class="flavor-text pt-3" v-html="`/${pilot.MaxHP}`" />
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline no-height mb-n1 ml-n7">ARMOR</div>
+            <div class="overline  mb-n1 ml-n7">ARMOR</div>
             <div style="position: relative; width: max-content;">
               <v-icon size="50" color="grey lighten-3">mdi-shield-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Armor" />
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline no-height mb-n1 ml-n6">E-DEF</div>
+            <div class="overline  mb-n1 ml-n6">E-DEF</div>
             <div style="position: relative; width: max-content;">
               <v-icon size="50" color="grey lighten-3">cci-marker</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.EDefense" />
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline no-height mb-n1 ml-n8">EVASION</div>
+            <div class="overline  mb-n1 ml-n8">EVASION</div>
             <div style="position: relative; width: max-content;">
               <v-icon size="50" color="grey lighten-3">mdi-arrow-decision</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline no-height mb-n1 ml-n6">SPEED</div>
+            <div class="overline  mb-n1 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content;">
               <v-icon size="50" color="grey lighten-3">$vuetify.icons.move</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
@@ -53,7 +53,7 @@
         </v-row>
       </v-col>
       <v-col cols="auto" class="text-right">
-        <div class="overline no-height mr-9">GRIT</div>
+        <div class="overline  mr-9">GRIT</div>
         <div class="heading mt-n5" style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
@@ -83,7 +83,7 @@
         <br />
         <v-row dense justify="space-between" class="mt-n3 pl-3">
           <v-col>
-            <span class="font-weight-bold overline no-height pr-4">HULL</span>
+            <span class="font-weight-bold overline  pr-4">HULL</span>
             <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="primary" style="margin-right: -3px!important">
                 mdi-hexagon-outline
@@ -92,7 +92,7 @@
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline no-height pr-3">AGI</span>
+            <span class="font-weight-bold overline  pr-3">AGI</span>
             <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="primary" style="margin-right: -3px!important">
                 mdi-hexagon-outline
@@ -101,7 +101,7 @@
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline no-height pr-3">SYS</span>
+            <span class="font-weight-bold overline  pr-3">SYS</span>
             <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="primary" style="margin-right: -3px!important">
                 mdi-hexagon-outline
@@ -110,7 +110,7 @@
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline no-height pr-3">ENG</span>
+            <span class="font-weight-bold overline  pr-3">ENG</span>
             <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
               <v-icon x-large color="primary" style="margin-right: -3px!important">
                 mdi-hexagon-outline
@@ -253,10 +253,6 @@ export default Vue.extend({
 <style scoped>
 .caption {
   font-size: 14px;
-}
-
-.no-height {
-  line-height: 0;
 }
 
 .icon-overlap {
