@@ -240,7 +240,14 @@
         </v-card>
       </v-col>
     </v-row>
-    <div class="overline">FEATURES</div>
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <div class="overline">FEATURES</div>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <recharge-menu :npc="npc" />
+      </v-col>
+    </v-row>
     <v-row dense>
       <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" cols="6">
         <cc-npc-item-card :item="i" active @add-reaction="npc.AddReaction($event)" />
@@ -309,9 +316,11 @@ import Vue from 'vue'
 import sleep from '@/util/sleep'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import RechargeMenu from './RechargeMenu.vue'
 
 export default Vue.extend({
   name: 'npc-card',
+  components: { RechargeMenu },
   props: {
     npc: {
       type: Object,

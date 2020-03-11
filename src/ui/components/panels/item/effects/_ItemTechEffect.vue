@@ -27,7 +27,7 @@
       <effect-base
         :effect="o"
         :color="color"
-        :type="`${o.Activation} Tech // INVADE`"
+        :type="`${o.Activation} Tech // ${effect.OptionSet.toUpperCase()}`"
         icon="mdi-console-network"
         :inset="inset"
         :transparent="transparent"
