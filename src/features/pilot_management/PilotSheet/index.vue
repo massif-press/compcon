@@ -28,6 +28,5 @@ export default vueMixins(activePilot).extend({
       required: true,
     },
   },
-
 })
 </script>

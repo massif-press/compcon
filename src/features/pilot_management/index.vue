@@ -1,6 +1,5 @@
 <template>
   <div>
-    <cc-nav pilot-management />
     <div class="ma-3">
       <v-fade-transition leave-absolute>
         <router-view />
@@ -11,11 +10,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CCNav from '@/features/nav/index.vue'
 
 export default Vue.extend({
   name: 'pilot-management',
-  components: { 'cc-nav': CCNav },
 })
 </script>
 
