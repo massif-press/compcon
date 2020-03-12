@@ -1,9 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import encounterRoutes from './features/encounters/routes'
+import pilotRoutes from './features/pilot_management/routes'
+import compendiumRoutes from './features/compendium/routes'
+
+import { getModule } from 'vuex-module-decorators'
+import { NavStore, store } from '@/store'
+
 // import { Capacitor } from '@capacitor/core'
 
 Vue.use(Router)
+
+const setNavMode = (to, from, next) => {
+  const p = to.path
+  const s = getModule(NavStore, store)
+
+  if (p.includes('/compendium')) s.setNavMode('compendium')
+  else if (p.includes('/pilot_management')) s.setNavMode('pilot')
+  else if (p.includes('/gm')) s.setNavMode('encounter')
+  else s.setNavMode('')
+
+  next()
+}
 
 export default new Router({
   // TODO: put in a check for dev here so it doesn't break HMR
@@ -17,6 +35,7 @@ export default new Router({
   },
   routes: [
     {
+      beforeEnter: setNavMode,
       path: '/',
       name: 'main-menu',
       component: require('@/features/main_menu/index').default,
@@ -26,177 +45,19 @@ export default new Router({
       name: 'ui-test',
       component: require('@/features/ui_test/index').default,
     },
-    {
-      path: '/pilot_management',
-      component: require('@/features/pilot_management/index.vue').default,
-      children: [
-        {
-          path: '',
-          name: 'pilot_roster',
-          component: require('@/features/pilot_management/Roster/index.vue').default,
-        },
-        {
-          path: '/print/:pilotID/:mechID',
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Print/index.vue'
-            ),
-          props: true,
-        },
-        {
-          path: '/pilot/:pilotID',
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/index.vue'
-            ),
-          props: true,
-          children: [
-            {
-              name: 'pilot_sheet',
-              path: '',
-              redirect: 'sheet/1',
-            },
-            {
-              name: 'mech_hangar',
-              path: '',
-              redirect: 'sheet/3',
-            },
-            {
-              path: 'sheet/:tab',
-              component: () =>
-                import(
-                  /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/layouts/index.vue'
-                ),
-              props: true,
-            },
-            {
-              path: 'mech/:mechID',
-              component: () =>
-                import(
-                  /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/PilotSheet/sections/mech/index.vue'
-                ),
-              props: true,
-            },
-          ],
-        },
-        {
-          path: '/active/:pilotID',
-          props: true,
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/ActiveSheet/index.vue'
-            ),
-        },
-        {
-          path: 'level/:pilotID',
-          name: 'level-up',
-          props: true,
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/Level/index.vue'
-            ),
-        },
-        {
-          path: '/new',
-          component: () =>
-            import(
-              /* webpackChunkName: "pilotManagement" */ '@/features/pilot_management/New/index.vue'
-            ),
-        },
-        {
-          path: '/compendium',
-          component: require('@/features/compendium/index').default,
-          children: [
-            {
-              path: '',
-              component: require('@/features/compendium/Views/Home').default,
-            },
-            {
-              path: '/compendium/search',
-              component: require('@/features/compendium/Views/SearchResults').default,
-            },
-            {
-              path: '/licenses',
-              component: require('@/features/compendium/Views/Licenses').default,
-            },
-            {
-              path: '/manufacturers',
-              component: require('@/features/compendium/Views/Manufacturers').default,
-            },
-            {
-              path: '/frames',
-              component: require('@/features/compendium/Views/Frames').default,
-            },
-            {
-              path: '/weapons',
-              component: require('@/features/compendium/Views/Weapons').default,
-            },
-            {
-              path: '/systems',
-              component: require('@/features/compendium/Views/Systems').default,
-            },
-            {
-              path: '/pilot_gear',
-              component: require('@/features/compendium/Views/PilotGear').default,
-            },
-            {
-              path: '/skills',
-              component: require('@/features/compendium/Views/Skills').default,
-            },
-            {
-              path: '/npc_classes',
-              component: require('@/features/compendium/Views/NpcClasses').default,
-            },
-            {
-              path: '/npc_features',
-              component: require('@/features/compendium/Views/NpcFeatures').default,
-            },
-            {
-              path: '/npc_templates',
-              component: require('@/features/compendium/Views/NpcTemplates').default,
-            },
-            {
-              path: '/statuses',
-              component: require('@/features/compendium/Views/Statuses').default,
-            },
-            {
-              path: '/tags',
-              component: require('@/features/compendium/Views/Tags').default,
-            },
-            {
-              path: '/reference',
-              component: require('@/features/compendium/Views/Reference').default,
-            },
-            {
-              path: '/corebonuses',
-              component: require('@/features/compendium/Views/CoreBonuses').default,
-            },
-            {
-              path: '/talents',
-              component: require('@/features/compendium/Views/Talents').default,
-            },
-            {
-              path: '/backgrounds',
-              component: require('@/features/compendium/Views/Backgrounds').default,
-            },
-            {
-              path: '/actions',
-              component: require('@/features/compendium/Views/ActionEconomy').default,
-            },
-            {
-              path: '/glossary',
-              component: require('@/features/compendium/Views/Glossary').default,
-            },
-            {
-              path: '/reserves',
-              component: require('@/features/compendium/Views/Reserves').default,
-            },
-          ],
-        },
-      ],
-    },
+    ...compendiumRoutes.map(route => ({
+      ...route,
+      beforeEnter: setNavMode,
+      path: route.path = '/compendium/' + route.path,
+    })),
+    ...pilotRoutes.map(route => ({
+      ...route,
+      beforeEnter: setNavMode,
+      path: route.path = '/pilot_management/' + route.path,
+    })),
     ...encounterRoutes.map(route => ({
       ...route,
+      beforeEnter: setNavMode,
       path: route.path = '/gm/' + route.path,
     })),
     {

@@ -2,9 +2,8 @@
   <v-app id="app">
     <global-confirm ref="confirm" />
     <global-notifier ref="notifier" />
-    <!-- <v-fade-transition> -->
+    <navbar />
     <router-view />
-    <!-- </v-fade-transition> -->
   </v-app>
 </template>
 
@@ -12,12 +11,14 @@
 import Vue from 'vue'
 import GlobalConfirm from '@/ui/GlobalConfirm.vue'
 import GlobalNotifier from '@/ui/GlobalNotifier.vue'
+import Navbar from '@/features/nav/index.vue'
 
 export default Vue.extend({
   name: 'compcon',
   components: {
     GlobalConfirm,
     GlobalNotifier,
+    Navbar,
   },
   mounted() {
     this.$mousetrap.bind('g r', () => {
