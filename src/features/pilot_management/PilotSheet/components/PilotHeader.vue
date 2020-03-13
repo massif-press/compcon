@@ -64,7 +64,7 @@
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text grey--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">

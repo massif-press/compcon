@@ -135,7 +135,6 @@ export class CompendiumStore extends VuexModule {
   @Mutation
   private [LOAD_DATA](): void {
     getUser().then(profile => (this.UserProfile = profile))
-
     this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
     this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses

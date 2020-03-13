@@ -39,7 +39,7 @@
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="primary--text heading clickable ml-n2" @click="toMission(item.ID)">
+            <span class="accent--text heading clickable ml-n2" @click="toMission(item.ID)">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">

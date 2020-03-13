@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="packInstaller white" style="min-height: 300px;">
+  <v-layout class="packInstaller" style="min-height: 300px;">
     <v-flex style="height: 100%; min-width: 25%; max-width: 25%" class="px-3 py-4">
       <v-file-input
         v-model="value"
@@ -58,7 +58,7 @@
           key="nopack"
           style="display: flex; width: 100%; height: 200px; align-items: center; justify-content: center;"
         >
-          <div class="heading h3 font-italic grey--text text--darken-1">
+          <div class="heading h3 font-italic subtle--text text--darken-1">
             No content pack selected.
           </div>
         </div>
@@ -131,10 +131,6 @@ export default class PackInstall extends Vue {
 </script>
 
 <style scoped>
-.packInstaller >>> .v-text-field__details {
-  display: none;
-}
-
 .packInstaller >>> .v-btn {
   transition: background-color 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }

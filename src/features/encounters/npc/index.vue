@@ -42,7 +42,7 @@
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="primary--text heading clickable ml-n2" @click="toNpc(item.ID)">
+            <span class="accent--text heading clickable ml-n2" @click="toNpc(item.ID)">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -146,7 +146,14 @@
             <v-card flat tile>
               <v-card-title>Select File to Import</v-card-title>
               <v-card-text>
-                <v-file-input v-model="importNpc" counter label="NPC .JSON File" outlined dense @change="fileImport" />
+                <v-file-input
+                  v-model="importNpc"
+                  counter
+                  label="NPC .JSON File"
+                  outlined
+                  dense
+                  @change="fileImport"
+                />
               </v-card-text>
               <v-divider />
               <v-card-actions>

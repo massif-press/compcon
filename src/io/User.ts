@@ -10,6 +10,7 @@ interface IUserProfile {
   rosterView: string
   hangarView: string
   pilotSheetView: string
+  theme: string
 }
 
 class UserProfile {
@@ -17,12 +18,14 @@ class UserProfile {
   private _rosterView: string
   private _hangarView: string
   private _pilotSheetView: string
+  private _theme: string
 
   public constructor(id: string) {
     this._id = id
     this._rosterView = 'list'
     this._hangarView = 'cards'
     this._pilotSheetView = 'tabbed'
+    this._theme = 'light'
   }
 
   private save(): void {
@@ -31,6 +34,7 @@ class UserProfile {
       rosterView: this.RosterView,
       hangarView: this.HangarView,
       pilotSheetView: this.PilotSheetView,
+      theme: this.Theme,
     }
 
     writeFile(CONFIG_FILE_NAME, JSON.stringify(data, null, 2))
@@ -72,12 +76,22 @@ class UserProfile {
     this.save()
   }
 
+  public get Theme(): string {
+    return this._theme
+  }
+
+  public set Theme(t: string) {
+    this._theme = t
+    this.save()
+  }
+
   public static Deserialize(data: IUserProfile): UserProfile {
-    let profile = new UserProfile(data.id)
+    const profile = new UserProfile(data.id)
     profile._id = data.id || uuid()
     profile.RosterView = data.rosterView || 'list'
     profile.HangarView = data.hangarView || 'cards'
     profile.PilotSheetView = data.pilotSheetView || 'tabbed'
+    profile.Theme = data.theme || 'light'
     return profile
   }
 }

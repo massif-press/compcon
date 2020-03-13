@@ -57,35 +57,35 @@
                         <span class="overline">STR</span>
                         <br />
                         <b>{{ mech.CurrentStructure }}</b>
-                        <span class="grey--text ml-n2">/{{ mech.MaxStructure }}</span>
+                        <span class="subtle--text ml-n2">/{{ mech.MaxStructure }}</span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
                         <span class="overline">HP</span>
                         <br />
                         <b>{{ mech.CurrentHP }}</b>
-                        <span class="grey--text ml-n2">/{{ mech.MaxHP }}</span>
+                        <span class="subtle--text ml-n2">/{{ mech.MaxHP }}</span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
                         <span class="overline">Stress</span>
                         <br />
                         <b>{{ mech.CurrentStress }}</b>
-                        <span class="grey--text ml-n2">/{{ mech.MaxStress }}</span>
+                        <span class="subtle--text ml-n2">/{{ mech.MaxStress }}</span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
                         <span class="overline">Heat</span>
                         <br />
                         <b>{{ mech.CurrentHeat }}</b>
-                        <span class="grey--text ml-n2">/{{ mech.HeatCapacity }}</span>
+                        <span class="subtle--text ml-n2">/{{ mech.HeatCapacity }}</span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
                         <span class="overline">RepCap</span>
                         <br />
                         <b>{{ mech.CurrentRepairs }}</b>
-                        <span class="grey--text ml-n2">/{{ mech.RepairCapacity }}</span>
+                        <span class="subtle--text ml-n2">/{{ mech.RepairCapacity }}</span>
                       </v-col>
                     </v-row>
                   </v-card-text>

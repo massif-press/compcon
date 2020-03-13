@@ -12,6 +12,8 @@ import Vue from 'vue'
 import GlobalConfirm from '@/ui/GlobalConfirm.vue'
 import GlobalNotifier from '@/ui/GlobalNotifier.vue'
 import Navbar from '@/features/nav/index.vue'
+import { getModule } from 'vuex-module-decorators'
+import { NavStore } from '@/store'
 
 export default Vue.extend({
   name: 'compcon',
@@ -19,6 +21,17 @@ export default Vue.extend({
     GlobalConfirm,
     GlobalNotifier,
     Navbar,
+  },
+  computed: {
+    dark(): boolean {
+      const d = getModule(NavStore, this.$store).DarkMode
+      return d
+    },
+  },
+  watch: {
+    dark(val) {
+      this.$vuetify.theme.dark = val
+    },
   },
   mounted() {
     this.$mousetrap.bind('g r', () => {

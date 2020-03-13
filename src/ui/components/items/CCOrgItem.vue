@@ -43,7 +43,7 @@
         <v-row dense justify="center" class="mx-4">
           <v-col class="text-center">
             <div>
-              <span class="heading h2 primary--text">+ {{org.Efficiency}}</span>
+              <span class="heading h2 accent--text">+ {{ org.Efficiency }}</span>
               <br />
               <span>
                 Organization Efficiency
@@ -64,7 +64,7 @@
           <v-divider vertical class="mx-5" />
           <v-col class="text-center">
             <div>
-              <span class="heading h2 primary--text">+ {{ org.Influence }}</span>
+              <span class="heading h2 accent--text">+ {{ org.Influence }}</span>
               <br />
               <span>
                 Organization Influence

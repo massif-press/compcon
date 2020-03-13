@@ -8,7 +8,7 @@
   >
     <v-container fluid>
       <v-row style="margin-top: 60px">
-        <span class="flavor-text grey--text">{{ images.length }} {{ type }} images found</span>
+        <span class="flavor-text subtle--text">{{ images.length }} {{ type }} images found</span>
         <cc-tooltip simple content="Feature In Development">
           <v-btn class="ml-4" small outlined tile disabled>Manage image library</v-btn>
         </cc-tooltip>
@@ -97,9 +97,9 @@
                   <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
                   <br />
                   //[COMP/CON:
-                  <b class="black--text">
+                  <b class="stark--text">
                     Lancer, this will
-                    <span class="primary--text">permanently delete this image.</span>
+                    <span class="accent--text">permanently delete this image.</span>
                     Do you want to continue?
                   </b>
                   ]

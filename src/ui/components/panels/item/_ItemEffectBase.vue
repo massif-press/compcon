@@ -7,7 +7,7 @@
         </v-icon>
       </v-col>
       <v-col class="mt-n2">
-        <div class="overline font-weight-bold primary--text pb-1" v-html="type" />
+        <div class="overline font-weight-bold accent--text pb-1" v-html="type" />
         <slot />
       </v-col>
     </v-row>

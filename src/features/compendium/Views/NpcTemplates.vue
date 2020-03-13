@@ -15,7 +15,7 @@
     >
       <v-list-item-title class="heading h2 ml-2">{{ e.Name }}</v-list-item-title>
     </v-list-item>
-    <div v-if="!templates.length" class="grey--text heading h2 text-center">
+    <div v-if="!templates.length" class="subtle--text heading h2 text-center">
       // NO TEMPLATES AVAILABLE //
     </div>
     <v-row v-for="(e, i) in templates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
@@ -24,7 +24,7 @@
           <p class="flavor-text mb-0" v-html="e.Description" />
           <v-divider class="my-2" />
           <span class="heading">
-            <b class="primary--text">Base</b>
+            <b class="accent--text">Base</b>
             Features
           </span>
           <v-row dense class="mr-2 mt-n1">
@@ -33,7 +33,7 @@
             </v-col>
           </v-row>
           <span v-if="e.OptionalFeatures.length" class="heading">
-            <b class="primary--text">Optional</b>
+            <b class="accent--text">Optional</b>
             Features
           </span>
           <v-row dense class="mr-2 mt-n1 pb-2">

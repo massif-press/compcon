@@ -5,7 +5,7 @@ import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
 
 import { getModule } from 'vuex-module-decorators'
-import { NavStore, store } from '@/store'
+import { CompendiumStore, NavStore, store } from '@/store'
 
 // import { Capacitor } from '@capacitor/core'
 
@@ -13,12 +13,14 @@ Vue.use(Router)
 
 const setNavMode = (to, from, next) => {
   const p = to.path
-  const s = getModule(NavStore, store)
+  const ns = getModule(NavStore, store)
 
-  if (p.includes('/compendium')) s.setNavMode('compendium')
-  else if (p.includes('/pilot_management')) s.setNavMode('pilot')
-  else if (p.includes('/gm')) s.setNavMode('encounter')
-  else s.setNavMode('')
+  if (p.includes('/compendium')) ns.setNavMode('compendium')
+  else if (p.includes('/pilot_management')) ns.setNavMode('pilot')
+  else if (p.includes('/gm')) ns.setNavMode('encounter')
+  else ns.setNavMode('')
+
+  ns.initDarkMode()
 
   next()
 }

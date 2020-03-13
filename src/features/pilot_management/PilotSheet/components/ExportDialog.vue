@@ -8,7 +8,7 @@
   >
     <v-card-text>
       <div v-if="pilot.CloudID" class="flavor-text">
-        <span class="font-weight-bold primary--text">Pilot Share Code:&nbsp;</span>
+        <span class="font-weight-bold accent--text">Pilot Share Code:&nbsp;</span>
         <span>
           {{ pilot.CloudID }}
           <cc-tooltip simple inline content="Copy Share Code to clipboard">
@@ -17,10 +17,10 @@
             </v-icon>
           </cc-tooltip>
           <v-fade-transition>
-            <span v-if="copyConfirm" class="grey--text">Copied!</span>
+            <span v-if="copyConfirm" class="subtle--text">Copied!</span>
           </v-fade-transition>
           <v-fade-transition>
-            <span v-if="copyConfirm" class="grey--text">Copied!</span>
+            <span v-if="copyConfirm" class="subtle--text">Copied!</span>
           </v-fade-transition>
         </span>
       </div>

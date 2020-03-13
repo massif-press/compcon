@@ -5,9 +5,9 @@
         <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
         <br />
         //[COMP/CON:
-        <b class="black--text">
+        <b class="stark--text">
           Lancer, please confirm deletion of Pilot Registration Information for:
-          <span class="primary--text">
+          <span class="accent--text">
             {{ pilot.Callsign }} ({{ pilot.Name }}, LL{{ pilot.Level }})
           </span>
         </b>

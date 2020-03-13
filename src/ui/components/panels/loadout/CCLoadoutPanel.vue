@@ -46,9 +46,9 @@
               <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
               <br />
               //[COMP/CON:
-              <b class="black--text">
+              <b class="stark--text">
                 Lancer, please confirm deletion of
-                <span class="primary--text">{{ activeLoadout.Name }}</span>
+                <span class="accent--text">{{ activeLoadout.Name }}</span>
                 Loadout
               </b>
               ]

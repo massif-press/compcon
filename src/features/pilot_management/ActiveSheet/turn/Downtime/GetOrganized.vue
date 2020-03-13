@@ -212,7 +212,7 @@
                               wrap
                             >
                               <v-col class="text-center">
-                                <span class="heading h3 grey--text">
+                                <span class="heading h3 subtle--text">
                                   Organization is operating at maximum capacity
                                 </span>
                               </v-col>
@@ -302,23 +302,23 @@
                                 parseInt(selected.Influence) < 6 &&
                                   parseInt(selected.Efficiency) < 6
                               "
-                              class="heading h3 primary--text"
+                              class="heading h3 accent--text"
                             >
                               Organization Influence and Efficiency increased by +2
                             </span>
                             <span
                               v-else-if="parseInt(selected.Influence) < 6"
-                              class="heading h3 primary--text"
+                              class="heading h3 accent--text"
                             >
                               Organization Influence increased by +2
                             </span>
                             <span
                               v-else-if="parseInt(selected.Efficiency) < 6"
-                              class="heading h3 primary--text"
+                              class="heading h3 accent--text"
                             >
                               Organization Efficiency increased by +2
                             </span>
-                            <span v-else class="heading h3 grey--text">
+                            <span v-else class="heading h3 subtle--text">
                               Organization is operating at maximum capacity
                             </span>
                           </v-col>

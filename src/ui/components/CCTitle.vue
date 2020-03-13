@@ -3,7 +3,7 @@
     :class="`px-2 ml-n3 clipped${size}`"
     :style="`width: max-content; background-color: ${getColor()};`"
   >
-    <span :class="`ctitle${size} ${dark ? 'white--text' : 'black--text'}`" class="pl-5 pr-5 pb-1">
+    <span :class="`ctitle${size} ${dark ? 'white--text' : 'stark--text'}`" class="pl-5 pr-5 pb-1">
       <slot />
     </span>
   </div>
@@ -13,19 +13,19 @@
 import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
 import GetColorMixin from '@/mixins/getColor'
 
-@Component({ name: 'cc-title', })
+@Component({ name: 'cc-title' })
 export default class CCTitle extends Mixins(GetColorMixin) {
-  @Prop({ type: Boolean, required: false, }) 
-  readonly large?: boolean 
-  
-  @Prop({ type: Boolean, required: false, }) 
+  @Prop({ type: Boolean, required: false })
+  readonly large?: boolean
+
+  @Prop({ type: Boolean, required: false })
   readonly small?: boolean
 
-  @Prop({ type: Boolean, required: false, default: true, })
-  readonly dark: boolean 
+  @Prop({ type: Boolean, required: false, default: true })
+  readonly dark: boolean
 
-  @Prop({ type: String, required: false, default: 'primary', })
-  readonly color: string 
+  @Prop({ type: String, required: false, default: 'primary' })
+  readonly color: string
 
   get size() {
     return this.large ? '-large' : this.small ? '-small' : ''

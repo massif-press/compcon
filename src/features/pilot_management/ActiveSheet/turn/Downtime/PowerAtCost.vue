@@ -11,11 +11,11 @@
       <v-divider class="mb-2" />
       <v-row class="mx-3">
         <v-col cols="6">
-          <span class="heading h3 primary--text">Resource Gained</span>
+          <span class="heading h3 accent--text">Resource Gained</span>
           <reserve-selector ref="rs" />
         </v-col>
         <v-col cols="6">
-          <span class="heading h3 primary--text">Complication</span>
+          <span class="heading h3 accent--text">Complication</span>
           <v-select
             v-model="complication1"
             label="Complication"
@@ -25,7 +25,7 @@
             hide-details
           />
           <br />
-          <span class="heading h3 primary--text">Additional Complication</span>
+          <span class="heading h3 accent--text">Additional Complication</span>
           <v-select
             v-model="complication2"
             label="Complication"
@@ -85,7 +85,7 @@ export default Vue.extend({
     addReserve() {
       const rs = this.$refs.rs
       const r = rs.reserveByID(rs.reserve)
-      let nr = new Reserve({
+      const nr = new Reserve({
         id: rs.reserve || 'reserve_custom',
         type: rs.type,
         name: (r && r.name) || rs.custom_name || 'Custom Reserve',

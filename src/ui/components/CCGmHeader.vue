@@ -15,16 +15,14 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-
 @Component({ name: 'cc-gm-header' })
-export default class CCGmHeader extends Vue{
-  
-  @Prop({ type: String, required: true, })
+export default class CCGmHeader extends Vue {
+  @Prop({ type: String, required: true })
   readonly title!: string
 
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: String, required: false, default: 'accent' })
   readonly color: string
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly flip: boolean
 }
 </script>

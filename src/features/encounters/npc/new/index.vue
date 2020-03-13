@@ -78,7 +78,7 @@
       <class-card v-if="selectedClass" ref="card" :npcc="selectedClass" />
       <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
         <v-col cols="auto">
-          <span class="heading h1 grey--text text--lighten-2">select npc class</span>
+          <span class="heading h1 subtle--text text--lighten-2">select npc class</span>
         </v-col>
       </v-row>
     </template>

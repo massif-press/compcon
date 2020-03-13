@@ -3,9 +3,9 @@
     <p class="heading mech">COMP/CON</p>
     <div class="mx-2">
       C/C version:
-      <b class="primary--text">{{ $appVersion }}</b>
+      <b class="accent--text">{{ $appVersion }}</b>
       // LANCER CORE version:
-      <b class="primary--text">{{ $lancerVersion }}</b>
+      <b class="accent--text">{{ $lancerVersion }}</b>
     </div>
     <p align="center" class="my-2">
       <a href="https://app.netlify.com/sites/compcon/deploys">
@@ -45,11 +45,11 @@
       <v-progress-circular :size="80" :width="5" color="primary" indeterminate />
     </div>
     <div v-else>
-      <div class="heading h2 primary--text text-center mt-n1">LANCER by:</div>
+      <div class="heading h2 accent--text text-center mt-n1">LANCER by:</div>
       <v-row justify="center">
         <dev-badge v-for="c in credits.writers" :key="c.name" :info="c" big />
       </v-row>
-      <div class="heading h2 primary--text text-center mt-2">COMP/CON Development by:</div>
+      <div class="heading h2 accent--text text-center mt-2">COMP/CON Development by:</div>
       <v-row dense>
         <dev-badge v-for="c in credits.lead_devs" :key="c.name" :info="c" big />
         <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />

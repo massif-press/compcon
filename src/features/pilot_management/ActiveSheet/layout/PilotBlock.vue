@@ -3,10 +3,10 @@
     <v-row align="start" class="mb-n3">
       <v-col>
         <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>
-        <div class="flavor-text grey--text">{{ pilot.Name }}</div>
+        <div class="flavor-text subtle--text">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
-        <span class="heading h3 primary--text">HP</span>
+        <span class="heading h3 accent--text">HP</span>
         <b>
           <cc-tick-bar
             small
@@ -21,19 +21,19 @@
         </b>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 primary--text">Armor</div>
+        <div class="heading h3 accent--text">Armor</div>
         <div class="font-weight-bold">{{ pilot.Armor }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 primary--text">E-Defense</div>
+        <div class="heading h3 accent--text">E-Defense</div>
         <div class="font-weight-bold">{{ pilot.EDefense }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 primary--text">Evasion</div>
+        <div class="heading h3 accent--text">Evasion</div>
         <div class="font-weight-bold">{{ pilot.Evasion }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 primary--text">Grit</div>
+        <div class="heading h3 accent--text">Grit</div>
         <div class="font-weight-bold">+{{ pilot.Grit }}</div>
       </v-col>
     </v-row>

@@ -3,7 +3,7 @@
     <div class="heading h3 text-center">
       {{ attr }}
       <br />
-      <b class="primary--text heading h2">{{ val }}</b>
+      <b class="accent--text heading h2">{{ val }}</b>
     </div>
   </v-col>
 </template>

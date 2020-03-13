@@ -81,6 +81,8 @@ import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options.vue'
+import { getModule } from 'vuex-module-decorators'
+import { NavStore } from '@/store'
 
 export default Vue.extend({
   name: 'landing-page',
@@ -99,6 +101,13 @@ export default Vue.extend({
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true
     next()
+  },
+  beforeMount() {
+    const ns = getModule(NavStore, this.$store)
+    console.log(ns)
+    ns.initDarkMode()
+    console.log(ns.DarkMode)
+    this.$vuetify.theme.dark = ns.DarkMode
   },
   methods: {
     ccLog(btn: string) {

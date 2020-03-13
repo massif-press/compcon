@@ -7,7 +7,7 @@
       <div style="position: relative">
         <div class="side-legend">
           <span
-            :class="`heading h3 ${mech.FreeSP < 0 ? 'error--text' : 'grey--text text--darken-3'}`"
+            :class="`heading h3 ${mech.FreeSP < 0 ? 'error--text' : 'subtle--text text--darken-3'}`"
           >
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}

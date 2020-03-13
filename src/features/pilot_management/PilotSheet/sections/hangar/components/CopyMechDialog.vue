@@ -5,9 +5,9 @@
         <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
         <br />
         //[COMP/CON:
-        <b class="black--text">
+        <b class="stark--text">
           Lancer, please confirm intention to create a duplicate of Mech Configuration:
-          <span class="primary--text">
+          <span class="accent--text">
             {{ mech.Name }} ({{ mech.Frame.Source }} {{ mech.Frame.Name }})
           </span>
         </b>

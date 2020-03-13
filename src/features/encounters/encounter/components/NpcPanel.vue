@@ -98,7 +98,7 @@
         <div>
           <b class="caption">POWER RATING</b>
           <br />
-          <span class="heading h2 primary--text">
+          <span class="heading h2 accent--text">
             {{ npc.Power.toString().padStart(4, '0') }}
           </span>
         </div>
@@ -110,7 +110,7 @@
     </v-row>
     <v-row dense no-gutters class="my-2">
       <v-col cols="2"><v-divider class="mt-3" /></v-col>
-      <span class="heading h3 primary--text px-2">FEATURES</span>
+      <span class="heading h3 accent--text px-2">FEATURES</span>
       <v-col><v-divider class="mt-3" /></v-col>
     </v-row>
     <v-row dense class="mr-2 mt-n1 ml-2">

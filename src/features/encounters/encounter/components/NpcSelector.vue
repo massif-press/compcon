@@ -42,7 +42,7 @@
         </template>
         <template v-slot:item.Name="{ item }">
           <span
-            class="primary--text heading clickable ml-n2"
+            class="accent--text heading clickable ml-n2"
             @click="
               $vuetify.goTo(`#e_${item.ID}`, {
                 duration: 150,
@@ -60,7 +60,7 @@
       </v-data-table>
     </div>
     <br />
-    <div v-if="!npcs.length" class="grey--text heading h2 text-center">
+    <div v-if="!npcs.length" class="subtle--text heading h2 text-center">
       // NO NPCS AVAILABLE //
     </div>
     <v-row v-for="(npc, i) in npcs" :id="`e_${npc.ID}`" :key="`${npc.ID}_${i}`">
