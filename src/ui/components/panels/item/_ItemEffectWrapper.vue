@@ -1,7 +1,7 @@
 <template>
   <component
     :is="component"
-    v-if="component"
+    v-if="effect && component"
     :effect="effect"
     :inset="inset"
     :transparent="transparent"
