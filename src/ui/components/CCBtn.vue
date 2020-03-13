@@ -67,6 +67,7 @@ export default class CCBtn extends Mixins(GetColorMixin) {
   width: 21px;
   height: 21px;
   clip-path: polygon(0 0, 0% 100%, 100% 0);
+  -webkit-clip-path: polygon(0 0, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
   transition: all 0.2s ease-in-out, background-color 1ms;
