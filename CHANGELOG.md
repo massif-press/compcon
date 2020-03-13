@@ -1,3 +1,20 @@
+## [2.0.16](https://github.com/jarena3/compcon/compare/2.0.15...2.0.16) (2020-03-13)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** fixed item effects sticking ([cd79699](https://github.com/jarena3/compcon/commit/cd79699b24536178f132f27c83b6c6c29b317281)), closes [#703](https://github.com/jarena3/compcon/issues/703)
+* fix Safari clip-paths ([ff45fe4](https://github.com/jarena3/compcon/commit/ff45fe4ad2d0091c5edbc08fa3bdf2276ef0fc7a)), closes [#702](https://github.com/jarena3/compcon/issues/702)
+
+
+### Features
+
+* add Dark Mode ([b7bbbf2](https://github.com/jarena3/compcon/commit/b7bbbf2044754c2a42eac6fb4dc928542f4e172e)), closes [#454](https://github.com/jarena3/compcon/issues/454)
+* **App UI:** add location-based navbar ([fe8043f](https://github.com/jarena3/compcon/commit/fe8043f807a654133ad35d39054b349118ca8a99)), closes [#547](https://github.com/jarena3/compcon/issues/547) [#605](https://github.com/jarena3/compcon/issues/605)
+* **Mission Runner:** add NPC Recharge prompt ([ed071a5](https://github.com/jarena3/compcon/commit/ed071a54da7221813ab6832f6d80d13186312494)), closes [#550](https://github.com/jarena3/compcon/issues/550)
+
+
+
 ## [2.0.15](https://github.com/jarena3/compcon/compare/2.0.14...2.0.15) (2020-03-10)
 
 
