@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { MechWeapon, FittingSize } from '@/class'
 import _ from 'lodash'
 import { store } from '@/store'
@@ -30,12 +31,12 @@ class WeaponSlot {
 
   public EquipWeapon(weapon: MechWeapon): void {
     const w = _.cloneDeep(weapon)
-    this._weapon = w
+    Vue.set(this, '_weapon', w)
     this.save()
   }
 
   public UnequipWeapon(): void {
-    this._weapon = null
+    Vue.set(this, '_weapon', null)
     this.save()
   }
 

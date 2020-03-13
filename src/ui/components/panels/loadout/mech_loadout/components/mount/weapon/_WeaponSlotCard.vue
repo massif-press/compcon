@@ -47,7 +47,12 @@
             </v-btn>
           </div>
         </equipment-header>
-        <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent />
+        <cc-item-effect-panel
+          v-if="item.Effect"
+          :key="item.Effect.length"
+          :effects="item.Effect"
+          transparent
+        />
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
