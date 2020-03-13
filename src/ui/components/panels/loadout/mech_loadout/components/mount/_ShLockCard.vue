@@ -1,8 +1,8 @@
 <template>
   <v-col class="pa-2" style="height: 100%">
-    <v-card flat tile class="clipped-large grey lighten-3">
+    <v-card flat tile class="clipped-large light-panel">
       <v-card-text class="text-center">
-        <span class="heading h2 grey--text text--darken-1">MOUNT LOCKED</span>
+        <span class="heading h2 subtle--text text--darken-1">MOUNT LOCKED</span>
         <br />
         <span class="caption">SUPERHEAVY WEAPON BRACING</span>
         <br />

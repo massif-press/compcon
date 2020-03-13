@@ -5,7 +5,7 @@
     <p class="text-center flavor-text panel text--text" v-html="mission.Mission.Note" />
     <v-row dense justify="center">
       <v-col cols="auto">
-        <div class="heading h3 primary--text mt-1">
+        <div class="heading h3 accent--text mt-1">
           Result:
         </div>
       </v-col>
@@ -17,7 +17,7 @@
     <cc-title>
       After-Action Report
     </cc-title>
-    <p class="panel heading h3 py-3 text-center grey--text">
+    <p class="panel heading h3 py-3 text-center subtle--text">
       <v-icon large color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
@@ -25,7 +25,7 @@
     <cc-title>
       Campaign Progression
     </cc-title>
-    <p class="panel heading h3 py-3 text-center grey--text">
+    <p class="panel heading h3 py-3 text-center subtle--text">
       <v-icon large color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //

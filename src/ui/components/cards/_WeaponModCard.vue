@@ -23,7 +23,7 @@
     <v-col cols="auto" class="ml-auto text-right">
       <span class="overline">APPLIED TO</span>
       <div class="heading h2 mt-n2">{{ item.AppliedString }}</div>
-      <span class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+      <span class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
       <div v-if="item.Restricted">
         <span class="stat-text error--text">
           RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS

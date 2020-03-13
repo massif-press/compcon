@@ -31,7 +31,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-structure</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -49,7 +49,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -63,7 +63,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-reactor</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -77,7 +77,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-burn</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -91,7 +91,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-repair</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>

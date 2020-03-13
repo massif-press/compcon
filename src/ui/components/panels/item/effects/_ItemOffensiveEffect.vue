@@ -11,21 +11,21 @@
   >
     <div v-if="effect.OnAttack">
       <span
-        :class="print ? 'caption font-weight-bold' : 'heading h3 primary--text'"
+        :class="print ? 'caption font-weight-bold' : 'heading h3 accent--text'"
         v-html="'On Attack:'"
       />
       <span :class="print ? 'overline' : 'body-text'" v-html="effect.OnAttack" />
     </div>
     <div v-if="effect.OnHit">
       <span
-        :class="print ? 'caption font-weight-bold' : 'heading h3 primary--text'"
+        :class="print ? 'caption font-weight-bold' : 'heading h3 accent--text'"
         v-html="'On Hit:'"
       />
       <span :class="print ? 'overline' : 'body-text'" v-html="effect.OnHit" />
     </div>
     <div v-if="effect.OnCrit">
       <span
-        :class="print ? 'caption font-weight-bold' : 'heading h3 primary--text'"
+        :class="print ? 'caption font-weight-bold' : 'heading h3 accent--text'"
         v-html="'On Critical:'"
       />
       <span :class="print ? 'overline' : 'body-text'" v-html="effect.OnCrit" />

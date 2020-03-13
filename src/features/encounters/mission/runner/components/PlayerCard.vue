@@ -41,7 +41,7 @@
                     </div>
                     <span class="heading h2">
                       {{ mech.Frame.CoreSystem.Active }}
-                      <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
+                      <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
                     <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
@@ -213,7 +213,7 @@
             >
               // HEAT::DANGER ZONE //
             </div>
-            <div v-else class="caption grey--text text-center">
+            <div v-else class="caption subtle--text text-center">
               HEAT LEVELS NOMINAL
             </div>
           </v-col>
@@ -254,7 +254,7 @@
             >
               AVAILABLE
             </div>
-            <div v-else class="text-center caption grey--text">
+            <div v-else class="text-center caption subtle--text">
               EXHAUSTED
             </div>
           </v-col>

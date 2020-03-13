@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h3 class="heading primary--text">User Options</h3>
+    <h3 class="heading accent--text">User Options</h3>
     <v-row dense>
       <v-col cols="8" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
-          <span class="primary--text">
+          <span class="accent--text">
             <cc-short-string-editor class="d-inline" @set="setUserID($event)">
               {{ userID }}
             </cc-short-string-editor>
@@ -30,11 +30,11 @@
               <v-card-text class="pa-6">
                 <p class="text-center heading h2 text--text">
                   This will OVERWRITE
-                  <b class="primary--text">ALL</b>
+                  <b class="accent--text">ALL</b>
                   local COMP/CON data.
                   <br />
                   This
-                  <b class="primary--text">cannot</b>
+                  <b class="accent--text">cannot</b>
                   be undone.
                 </p>
                 <v-file-input
@@ -77,15 +77,15 @@
                 </v-alert>
                 <p class="text-center heading h2 text--text">
                   This will delete
-                  <b class="primary--text">ALL</b>
+                  <b class="accent--text">ALL</b>
                   local COMP/CON data.
                   <br />
                   This
-                  <b class="primary--text">cannot</b>
+                  <b class="accent--text">cannot</b>
                   be undone.
                   <br />
                   <br />
-                  <b class="primary--text">Are you sure you want to continue?</b>
+                  <b class="accent--text">Are you sure you want to continue?</b>
                 </p>
               </v-card-text>
               <v-divider />
@@ -103,22 +103,29 @@
         </div>
       </v-col>
       <v-col>
-        <h3 class="heading primary--text">Theme</h3>
-        <v-select v-model="theme" dense outlined :items="['GMS Red (Default)']" />
+        <h3 class="heading accent--text">Theme</h3>
+        <v-select
+          v-model="theme"
+          dense
+          outlined
+          :items="themes"
+          item-text="name"
+          @change="setTheme"
+        />
       </v-col>
     </v-row>
 
     <v-divider class="my-4" />
 
-    <h3 class="heading primary--text">Cloud Account</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Cloud Account</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
 
-    <h3 class="heading primary--text">Achievements</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Achievements</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
@@ -140,7 +147,11 @@ import { saveFile } from '@/io/Dialog'
 export default Vue.extend({
   name: 'options',
   data: () => ({
-    theme: 'GMS Red (Default)',
+    theme: 'light',
+    themes: [
+      { name: 'GMS Red (Default)', value: 'light' },
+      { name: 'MSMC Dark', value: 'dark' },
+    ],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
@@ -150,10 +161,21 @@ export default Vue.extend({
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile.ID
     },
+    userTheme() {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile.Theme
+    },
+  },
+  created() {
+    this.theme = this.userTheme
   },
   methods: {
     reload() {
       location.reload(true)
+    },
+    setTheme() {
+      getModule(CompendiumStore, this.$store).UserProfile.Theme = this.theme
+      this.$vuetify.theme.dark = this.theme === 'dark'
     },
     setUserID(id: string) {
       const store = getModule(CompendiumStore, this.$store)

@@ -100,11 +100,11 @@ h3.heading {
 }
 .heading.mech {
   font-size: 36pt;
-  color: var(--v-primary-base);
+  color: var(--v-accent-base);
 }
 .heading.sub {
   font-size: 16pt;
-  color: var(--v-primary-base);
+  color: var(--v-accent-base);
 }
 
 .body-text {

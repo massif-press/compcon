@@ -72,7 +72,7 @@
       <v-col cols="1" class="text-center">
         <div class="heading h3">
           ROUND
-          <b class="primary--text">{{ activeMission.Round }}</b>
+          <b class="accent--text">{{ activeMission.Round }}</b>
         </div>
         <v-btn block tile color="primary" @click="stageRoundEnd()">End Round</v-btn>
         <v-divider class="my-2" />

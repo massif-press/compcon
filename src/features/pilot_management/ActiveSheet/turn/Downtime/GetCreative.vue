@@ -144,10 +144,7 @@
                   </v-alert>
                 </v-col>
               </v-row>
-              <div
-                v-if="improveSelection.ResourceCost"
-                class="text-center heading h2 primary--text"
-              >
+              <div v-if="improveSelection.ResourceCost" class="text-center heading h2 accent--text">
                 OR
               </div>
               <v-row justify="center">
@@ -284,7 +281,7 @@ export default Vue.extend({
   },
   methods: {
     addProject() {
-      let p = new Project({
+      const p = new Project({
         id: 'reserve_project',
         type: 'Project',
         name: 'Project (In Progress)',

@@ -4,13 +4,13 @@
       <v-card-text class="pa-1">
         <v-row v-if="p.ActiveMech" dense align="center">
           <v-col cols="auto" class="mr-3">
-            <span class="heading h3 primary--text">{{ p.Callsign }}</span>
+            <span class="heading h3 accent--text">{{ p.Callsign }}</span>
             <cc-slashes />
             <span class="flavor-text">{{ p.Name }} // LL {{ p.Level }}</span>
           </v-col>
           <v-divider vertical class="mx-2" />
           <v-col>
-            <span class="heading h3 primary--text">{{ p.ActiveMech.Name }}</span>
+            <span class="heading h3 accent--text">{{ p.ActiveMech.Name }}</span>
             <cc-slashes />
             <span class="flavor-text">
               {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
@@ -25,13 +25,13 @@
         </v-row>
         <v-row v-else dense align="center" class="panel">
           <v-col cols="auto" class="mr-3">
-            <span class="heading h3 grey--text">{{ p.Callsign }}</span>
+            <span class="heading h3 subtle--text">{{ p.Callsign }}</span>
             <cc-slashes />
-            <span class="flavor-text grey--text">{{ p.Name }} // LL {{ p.Level }}</span>
+            <span class="flavor-text subtle--text">{{ p.Name }} // LL {{ p.Level }}</span>
           </v-col>
           <v-divider vertical class="mx-2" />
           <v-col>
-            <span class="heading h3 grey--text">NO ACTIVE MECH</span>
+            <span class="heading h3 subtle--text">NO ACTIVE MECH</span>
           </v-col>
         </v-row>
       </v-card-text>

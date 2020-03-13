@@ -34,14 +34,14 @@
         <v-col class="text-center">
           The UAD IDENT Service has determined that&nbsp;
           <div
-            class="primary--text stat-text d-inline-block"
+            class="accent--text stat-text d-inline-block"
             style="position: relative; top: 10px; line-height: 10px;"
           >
             {{ pilot.Name }}
             <cc-slashes />
             "{{ pilot.Callsign }}"
             <br />
-            <span class="overline grey--text">{{ pilot.ID }}</span>
+            <span class="overline subtle--text">{{ pilot.ID }}</span>
           </div>
           &nbsp;is eligible for the following license update:
         </v-col>
@@ -65,7 +65,7 @@
                   <li v-if="cbEligible" class="font-weight-bolder">
                     CORE BONUS INSTALLATION
                   </li>
-                  <li v-else class="grey--text">INELIGIBLE FOR CORE BONUS</li>
+                  <li v-else class="subtle--text">INELIGIBLE FOR CORE BONUS</li>
                 </ul>
               </v-col>
             </v-row>

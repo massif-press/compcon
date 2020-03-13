@@ -3,7 +3,7 @@
     <v-col v-for="n in 3" :key="`r_${n}`" cols="4" :class="{ locked: ranked && rank < n }">
       <div :class="`text-${n === 1 ? 'left' : n === 2 ? 'center' : 'right'}`">
         <p class="pt-1">
-          <span class="stat-text grey--text text--darken-1">
+          <span class="stat-text subtle--text text--darken-1">
             RANK {{ 'I'.repeat(n) }}
             <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
             <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>

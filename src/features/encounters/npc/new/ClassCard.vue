@@ -12,12 +12,12 @@
       </v-col>
     </v-row>
     <p class="flavor-text panel pa-2" v-html="npcc.Flavor" />
-    <span class="heading h3 primary--text">Tactics</span>
+    <span class="heading h3 accent--text">Tactics</span>
     <p class="body-1" v-html="npcc.Tactics" />
     <v-divider class="mb-3" />
     <v-row dense align="center">
       <v-col>
-        <v-btn-toggle v-model="tierPreview" dense active-class="primary--text" class="mb-2">
+        <v-btn-toggle v-model="tierPreview" dense active-class="accent--text" class="mb-2">
           <v-btn :value="1">
             <v-icon left>cci-rank-1</v-icon>
             Tier 1

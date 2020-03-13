@@ -45,19 +45,19 @@
               <v-col cols="8">
                 <span class="flavor-text">
                   Callsign:
-                  <b class="primary--text">{{ pilot.Callsign }}</b>
+                  <b class="accent--text">{{ pilot.Callsign }}</b>
                   <br />
                   Name (or legal alias):
-                  <b class="primary--text">{{ pilot.Name }}</b>
+                  <b class="accent--text">{{ pilot.Name }}</b>
                   <br />
                   Background:
-                  <b class="primary--text">
+                  <b class="accent--text">
                     {{ pilot.Background || 'PILOT HISTORY NOT REGISTERED' }}
                   </b>
                 </span>
               </v-col>
               <v-col>
-                <span class="flavor-text grey--text">
+                <span class="flavor-text subtle--text">
                   CALLSIGN CONFIRMED
                   <br />
                   IDENTITY VERIFIED
@@ -69,25 +69,25 @@
             <v-row dense>
               <span class="flavor-text">
                 FRAME CONFIGURATION OPTIONS
-                <span class="grey--text">("H.A.S.E" OMNINET VAULT REMIT)</span>
+                <span class="subtle--text">("H.A.S.E" OMNINET VAULT REMIT)</span>
               </span>
             </v-row>
             <v-row>
               <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
                 [ HULL:
-                <span class="stat-text primary--text" style="font-size: 24px">
+                <span class="stat-text accent--text" style="font-size: 24px">
                   {{ pilot.MechSkills.Hull }}&emsp;
                 </span>
                 AGI:
-                <span class="stat-text primary--text" style="font-size: 24px">
+                <span class="stat-text accent--text" style="font-size: 24px">
                   {{ pilot.MechSkills.Agi }}&emsp;
                 </span>
                 SYS:
-                <span class="stat-text primary--text" style="font-size: 24px">
+                <span class="stat-text accent--text" style="font-size: 24px">
                   {{ pilot.MechSkills.Sys }}&emsp;
                 </span>
                 ENG:
-                <span class="stat-text primary--text" style="font-size: 24px">
+                <span class="stat-text accent--text" style="font-size: 24px">
                   {{ pilot.MechSkills.Eng }}
                 </span>
                 ]
@@ -97,7 +97,7 @@
               <v-col cols="6">
                 <span class="flavor-text">PILOT SKILL TRIGGER AUDIT</span>
                 <br />
-                <span v-if="!pilot.HasFullSkills" class="stat-text primary--text">
+                <span v-if="!pilot.HasFullSkills" class="stat-text accent--text">
                   &nbsp;ERR SKILL AUDIT INCOMPLETE
                 </span>
                 <v-chip
@@ -116,7 +116,7 @@
               <v-col cols="6">
                 <span class="flavor-text">PILOT TALENT AUDIT</span>
                 <br />
-                <span v-if="!pilot.HasFullTalents" class="stat-text primary--text">
+                <span v-if="!pilot.HasFullTalents" class="stat-text accent--text">
                   &nbsp;ERR TALENT AUDIT INCOMPLETE
                 </span>
                 <v-chip
@@ -135,7 +135,7 @@
               <v-col cols="6">
                 <span class="flavor-text">LICENSES REGISTERED</span>
                 <br />
-                <span v-if="!pilot.HasLicenses" class="stat-text primary--text">
+                <span v-if="!pilot.HasLicenses" class="stat-text accent--text">
                   &nbsp;ERR LICENSE REGISTRATION INCOMPLETE
                 </span>
                 <v-chip
@@ -155,7 +155,7 @@
               <v-col v-if="pilot.CoreBonuses.length" cols="6">
                 <span class="flavor-text">CORE BONUSES REGISTERED</span>
                 <br />
-                <span v-if="!pilot.HasCBs" class="stat-text primary--text">
+                <span v-if="!pilot.HasCBs" class="stat-text accent--text">
                   &nbsp;ERR CORE BONUS REGISTRATION INCOMPLETE
                 </span>
                 <v-chip
@@ -173,7 +173,7 @@
               </v-col>
             </v-row>
             <v-row dense>
-              <span v-if="pilotReady" class="flavor-text grey--text">
+              <span v-if="pilotReady" class="flavor-text subtle--text">
                 <v-icon large color="grey darken-2">mdi-fingerprint</v-icon>
                 BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM C//{{ futuredate() }}
               </span>
@@ -193,7 +193,7 @@
           </v-col>
         </v-row>
         <v-row dense>
-          <span class="overline grey--text text--darken-1" style="line-height: 10px">
+          <span class="overline subtle--text text--darken-1" style="line-height: 10px">
             Improper use of this IDENT record and/or its constituent data by the record holder or
             any other persons in punishable under the DoJ/HR A-645-c. This record is the property of
             the Union Administrative Office and the information herein must be transmitted on
@@ -219,7 +219,7 @@
       Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
     </v-btn>
     <v-alert type="error" outlined :value="!pilotReady">
-      <span class="stat-text primary--text">
+      <span class="stat-text accent--text">
         WARNING: IDENT record {{ pilot.ID }} cannot be updated due to the following reason(s):
       </span>
       <ul class="flavor-text error--text">
@@ -269,7 +269,7 @@ export default Vue.extend({
     },
     flipName(name: string): string {
       const suffixes = ['II', 'III', 'IV', 'V', 'VI', 'VII']
-      let nArr = name.split(' ')
+      const nArr = name.split(' ')
       let last = nArr.pop()
       if (suffixes.includes(last)) last = nArr.pop()
       nArr.unshift(last)
@@ -279,13 +279,13 @@ export default Vue.extend({
       return mission().replace(' ', '-')
     },
     futuredate(): string {
-      let d = new Date()
+      const d = new Date()
       d.setFullYear(d.getFullYear() + 3000)
       return d.toISOString()
     },
     randomNumber(max, min): number {
-      var rand = Math.random() * (max - min) + min
-      var power = Math.pow(10, 2)
+      const rand = Math.random() * (max - min) + min
+      const power = Math.pow(10, 2)
       return Math.floor(rand * power) / power
     },
     canContinue() {

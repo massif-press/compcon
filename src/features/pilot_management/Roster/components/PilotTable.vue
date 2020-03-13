@@ -23,18 +23,18 @@
         <td class="text-center">{{ p.Level }}</td>
         <td v-if="p.ActiveMech">
           {{ p.ActiveMech.Name }}
-          <span
-            class="grey--text"
-          >{{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}</span>
+          <span class="subtle--text">
+            {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
+          </span>
         </td>
         <td v-else>
-          <span class="grey--text">NONE</span>
+          <span class="subtle--text">NONE</span>
         </td>
         <td>
-          <span class="grey--text">NONE</span>
+          <span class="subtle--text">NONE</span>
         </td>
         <td>
-          <span class="grey--text">{{ p.PlayerName }}</span>
+          <span class="subtle--text">{{ p.PlayerName }}</span>
         </td>
       </tr>
     </tbody>

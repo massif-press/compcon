@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-if="!npc" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 grey--text text--lighten-2">no npc selected</span>
+        <span class="heading h1 subtle--text text--lighten-2">no npc selected</span>
       </v-col>
     </v-row>
     <div v-else>
@@ -90,7 +90,7 @@
       </v-row>
       <v-row dense align="center" class="mt-n2">
         <v-col cols="7">
-          <v-btn-toggle v-model="npc.Tier" dense active-class="primary--text" class="mb-2">
+          <v-btn-toggle v-model="npc.Tier" dense active-class="accent--text" class="mb-2">
             <v-btn :value="1">
               <v-icon left>cci-rank-1</v-icon>
               Tier 1

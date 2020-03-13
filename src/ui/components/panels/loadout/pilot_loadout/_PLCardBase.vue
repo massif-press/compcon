@@ -84,7 +84,9 @@
               @click="$refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span class="heading h2 grey--text my-auto" style="width: 100%; ">// EMPTY //</span>
+                <span class="heading h2 subtle--text my-auto" style="width: 100%; ">
+                  // EMPTY //
+                </span>
               </v-row>
             </div>
           </div>

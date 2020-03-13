@@ -21,7 +21,7 @@
       <v-row dense>
         <v-col>
           <span class="heading mech" style="line-height: 15px">{{ mech.Name }}</span>
-          <div class="flavor-text grey--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+          <div class="flavor-text subtle--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
         </v-col>
         <v-col cols="auto" class="ml-auto mr-2">
           <mech-select-button :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
@@ -144,9 +144,9 @@
                 <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
                 <br />
                 //[COMP/CON:
-                <b class="black--text">
+                <b class="stark--text">
                   Lancer, this will
-                  <span class="primary--text">fully repair and recharge this mech.</span>
+                  <span class="accent--text">fully repair and recharge this mech.</span>
                   Do you want to continue?
                 </b>
                 ]
@@ -201,7 +201,7 @@
           >
             // HEAT::DANGER ZONE //
           </div>
-          <div v-else class="caption grey--text text-center">
+          <div v-else class="caption subtle--text text-center">
             HEAT LEVELS NOMINAL
           </div>
         </v-col>
@@ -242,7 +242,7 @@
           >
             AVAILABLE
           </div>
-          <div v-else class="text-center caption grey--text">
+          <div v-else class="text-center caption subtle--text">
             EXHAUSTED
           </div>
         </v-col>
@@ -349,7 +349,7 @@
             <div v-if="mech.Frame.CoreSystem.PassiveName">
               <span class="heading h2">
                 {{ mech.Frame.CoreSystem.PassiveName }}
-                <span class="pt-2 ml-2 caption grey--text">(PASSIVE)</span>
+                <span class="pt-2 ml-2 caption subtle--text">(PASSIVE)</span>
               </span>
               <p class="mb-1" v-html="mech.Frame.CoreSystem.PassiveEffect" />
               <br />
@@ -357,7 +357,7 @@
             </div>
             <span class="heading h2">
               {{ mech.Frame.CoreSystem.ActiveName }}
-              <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
+              <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
             </span>
             <p class="mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
             <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />

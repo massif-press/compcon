@@ -20,7 +20,7 @@
       </template>
       <!-- Name -->
       <template v-slot:item.name="{ item }">
-        <span class="title" :class="item.Active ? 'primary--text' : 'grey--text font-italic'">
+        <span class="title" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
           {{ item.Name }}
         </span>
       </template>

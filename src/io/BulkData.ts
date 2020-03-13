@@ -12,7 +12,7 @@ const files = [
   'encounters_v2.json',
   'pilots_v2.json',
   'npcs_v2.json',
-  'extra_content.json'
+  'extra_content.json',
 ]
 
 const exportV1Pilots = async function(): Promise<string> {
@@ -28,9 +28,8 @@ const exportAll = async function(): Promise<IBulkExport[]> {
   const promises = files.map(file => readFile(file))
 
   const res = await Promise.all(promises)
-  
-  return res.map((data, i) => ({ filename: files[i], data }))
 
+  return res.map((data, i) => ({ filename: files[i], data }))
 }
 
 const importAll = async function(file): Promise<void> {

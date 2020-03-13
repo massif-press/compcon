@@ -72,7 +72,7 @@
     >
       <p
         v-if="item.Description"
-        class="flavor-text px-2 grey lighten-2 mb-1"
+        class="flavor-text px-2 light-panel mb-1"
         v-html="item.Description"
       />
       <slot />

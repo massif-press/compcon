@@ -31,7 +31,7 @@
       <v-card>
         <v-card-text class="text-center">
           <br />
-          <p class="heading h3 primary--text">
+          <p class="heading h3 accent--text">
             WARNING: The imported Pilot requires the following content packs that are not currently
             installed:
           </p>

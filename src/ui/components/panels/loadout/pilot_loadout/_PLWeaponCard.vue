@@ -48,7 +48,7 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 primary--text" style="line-height: 20px">{{ item.Name }}</span>
+          <span class="heading h1 accent--text" style="line-height: 20px">{{ item.Name }}</span>
           <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
@@ -56,7 +56,7 @@
             GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
           </span>
           <br />
-          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+          <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
             NO SELECTION
           </span>
           <span class="flavor-text overline mt-n1 error--text" style="display: block">

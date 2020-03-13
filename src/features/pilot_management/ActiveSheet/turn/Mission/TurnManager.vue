@@ -123,7 +123,7 @@
             @update="mech.State.move = $event"
           >
             <span class="flavor-text">
-              <span class="heading h3 primary--text">{{ mech.State.move }}</span>
+              <span class="heading h3 accent--text">{{ mech.State.move }}</span>
               /{{ mech.State.maxMove }}
               SPACES MOVED
             </span>

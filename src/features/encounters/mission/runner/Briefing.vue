@@ -5,7 +5,7 @@
         <div class="overline">//MISSION</div>
         <div class="heading mech mt-n6">{{ mission.Name }}</div>
         <p v-if="mission.Note" class="flavor-text panel text-center" v-html="mission.Note" />
-        <div v-else class="flavor-text grey--text text-center">// NO BRIEFING DATA //</div>
+        <div v-else class="flavor-text subtle--text text-center">// NO BRIEFING DATA //</div>
         <v-row justify="center">
           <v-col v-for="(s, i) in mission.Steps" :key="`step_${i}`" :cols="s.Name ? 3 : 1">
             <v-card outlined height="100%">
@@ -30,9 +30,9 @@
         </v-row>
         <v-divider class="my-2 " />
         <fieldset style="border-radius: 5px">
-          <legend><span class="px-2 heading h3 primary--text">PILOTS</span></legend>
+          <legend><span class="px-2 heading h3 accent--text">PILOTS</span></legend>
           <v-card v-if="!pilots.length" color="panel" flat tile>
-            <v-card-text class="text-center grey--text text--darken-2">
+            <v-card-text class="text-center subtle--text text--darken-2">
               <span class="heading h3">// WARNING: NO ASSIGNED PILOTS //</span>
             </v-card-text>
           </v-card>
@@ -40,13 +40,13 @@
             <v-card-text class="pa-1">
               <v-row dense align="center">
                 <v-col cols="auto" class="mr-3">
-                  <span class="heading h3 primary--text">{{ p.Callsign }}</span>
+                  <span class="heading h3 accent--text">{{ p.Callsign }}</span>
                   <cc-slashes />
                   <span class="flavor-text">{{ p.Name }} // LL {{ p.Level }}</span>
                 </v-col>
                 <v-divider vertical class="mx-2" />
                 <v-col>
-                  <span class="heading h3 primary--text">{{ p.ActiveMech.Name }}</span>
+                  <span class="heading h3 accent--text">{{ p.ActiveMech.Name }}</span>
                   <cc-slashes />
                   <span class="flavor-text">
                     {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}

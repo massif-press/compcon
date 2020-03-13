@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="7">
         <fieldset>
-          <legend class="heading h3 primary--text mx-2">COMBATANTS</legend>
+          <legend class="heading h3 accent--text mx-2">COMBATANTS</legend>
           <npc-chip
             v-for="(n, i) in mission.ActiveNpcs.filter(x => x.Side === 'Enemy')"
             :key="`cmbt_e_${n.ID}_${i}`"
@@ -27,7 +27,7 @@
           />
         </fieldset>
         <fieldset>
-          <legend class="heading h3 primary--text mx-2">PILOTS</legend>
+          <legend class="heading h3 accent--text mx-2">PILOTS</legend>
           <v-chip
             v-for="p in mission.Pilots"
             :key="`pilot_${p.ID}`"
@@ -43,10 +43,10 @@
       </v-col>
       <v-col cols="5">
         <fieldset>
-          <legend class="heading h3 primary--text mx-2">REINFORCEMENTS</legend>
+          <legend class="heading h3 accent--text mx-2">REINFORCEMENTS</legend>
           <div
             v-if="!mission.ActiveReinforcements.length"
-            class="text-center grey--text heading h3 mt-3 mb-4"
+            class="text-center subtle--text heading h3 mt-3 mb-4"
           >
             // NO REINFORCEMENTS REMAINING //
           </div>

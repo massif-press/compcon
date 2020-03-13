@@ -106,7 +106,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Statuses/Conditions</div>
+                  <div class="heading h3 accent--text">Statuses/Conditions</div>
                   <v-divider />
                   <div
                     v-if="!actor.Statuses.length && !actor.Conditions.length"
@@ -131,7 +131,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Resistances</div>
+                  <div class="heading h3 accent--text">Resistances</div>
                   <v-divider />
                   <div v-if="!actor.Resistances.length" class="flavor-text">
                     None
@@ -152,7 +152,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Prepared Reactions</div>
+                  <div class="heading h3 accent--text">Prepared Reactions</div>
                   <v-divider />
                   <div v-if="!actor.Reactions.length" class="flavor-text">
                     None

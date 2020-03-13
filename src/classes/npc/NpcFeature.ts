@@ -84,7 +84,7 @@ export abstract class NpcFeature {
     if (m) {
       return this._effect.replace(
         perTier,
-        m[0].replace('{', '<b class="primary--text">').replace('}', '</b>')
+        m[0].replace('{', '<b class="accent--text">').replace('}', '</b>')
       )
     }
     return this._effect
@@ -101,7 +101,7 @@ export abstract class NpcFeature {
           .replace('{', '')
           .replace('}', '')
           .split('/')
-        fmt = fmt.replace(x, `<b class="primary--text">${tArr[tier - 1]}</b>`)
+        fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
       })
     }
     return fmt

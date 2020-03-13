@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-if="!mission" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 grey--text text--lighten-2">no mission selected</span>
+        <span class="heading h1 subtle--text text--lighten-2">no mission selected</span>
       </v-col>
     </v-row>
     <div v-else>
@@ -83,11 +83,11 @@
                       @move-down="mission.MoveStepDown(idx)"
                       @remove="mission.RemoveStep(idx)"
                     >
-                      <div slot="title" class="primary--text">
+                      <div slot="title" class="accent--text">
                         {{ step.Name }}
                         <cc-slashes />
                         <span class="caption text--text">PR</span>
-                        <span class="heading h3 primary--text">
+                        <span class="heading h3 accent--text">
                           {{ step.Power.toString().padStart(4, '0') }}
                         </span>
                       </div>

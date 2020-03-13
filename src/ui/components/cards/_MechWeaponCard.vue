@@ -22,7 +22,7 @@
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.Size }} {{ item.Type }}</div>
-      <span v-if="item.Source" class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+      <span v-if="item.Source" class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
     </v-col>
   </equipment-card-base>
 </template>

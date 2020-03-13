@@ -1,7 +1,7 @@
 <template>
   <equipment-card-base :item="item">
     <v-col cols="auto" class="ml-auto text-right">
-      <span class="flavor-text grey--text">// {{ item.Origin }}</span>
+      <span class="flavor-text subtle--text">// {{ item.Origin }}</span>
     </v-col>
     <div slot="statblock">
       <span class="overline ml-n2">TRIGGER</span>

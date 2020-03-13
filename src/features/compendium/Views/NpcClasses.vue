@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-btn-toggle v-model="tier" dense active-class="primary--text">
+    <v-btn-toggle v-model="tier" dense active-class="accent--text">
       <v-btn :value="1">
         <v-icon left>cci-rank-1</v-icon>
         Tier 1

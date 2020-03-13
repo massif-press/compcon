@@ -9,7 +9,7 @@
             <action-type-card action="move" />
             <v-col cols="4" class="effect-text text-center">
               Full Action
-              <i class="grey--text text--darken-1">or</i>
+              <i class="subtle--text text--darken-1">or</i>
               2 Quick Actions
               <br />
               <v-card tile color="action--full" width="100%" class="text-center pt-4 pb-4">

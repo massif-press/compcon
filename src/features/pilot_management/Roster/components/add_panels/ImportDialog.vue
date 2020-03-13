@@ -12,7 +12,7 @@
         </v-col>
       </v-row>
 
-      <v-card-text class="grey--text stat-text" style="min-height:50vh">
+      <v-card-text class="subtle--text stat-text" style="min-height:50vh">
         <span ref="preambleLog"></span>
         <span ref="infoLog"></span>
       </v-card-text>
@@ -26,8 +26,10 @@
       <v-card-actions v-else-if="pilot">
         <span class="white--text flavor-text">
           Import
-          <b>{{ pilot.Callsign.toUpperCase() }}</b>//
-          <b>{{ pilot.Name }}</b>?
+          <b>{{ pilot.Callsign.toUpperCase() }}</b>
+          //
+          <b>{{ pilot.Name }}</b>
+          ?
         </span>
         <v-spacer />
         <cc-btn class="mx-2" small color="error" @click="$emit('cancel')">Cancel</cc-btn>
@@ -107,7 +109,6 @@ const jumps = [
 
 @Component
 export default class ImportDialog extends Vue {
-
   @Prop(Boolean) readonly value!: boolean
 
   @Prop(Pilot) readonly pilot?: Pilot
@@ -117,15 +118,14 @@ export default class ImportDialog extends Vue {
   @Ref() readonly preambleLog!: HTMLSpanElement
   @Ref() readonly infoLog!: HTMLSpanElement
 
-
-  @Prop(Object) readonly data: { pilot?: Pilot, error?: string }
+  @Prop(Object) readonly data: { pilot?: Pilot; error?: string }
 
   @Watch('pilot')
-  onPilotChange() {
+  onPilotChange(): void {
     this.doType()
   }
   @Watch('error')
-  onErrorChange() {
+  onErrorChange(): void {
     this.doType()
   }
 
@@ -148,7 +148,7 @@ export default class ImportDialog extends Vue {
       'un_omni-26483-xv99.cradle.primary.MASTER_NODE 21ns',
     ]
 
-    this.initialTypePromise = new Promise((resolve) => {
+    this.initialTypePromise = new Promise(resolve => {
       new TypeIt(this.preambleLog, {
         speed: 1,
         nextStringDelay: 10,
@@ -158,7 +158,7 @@ export default class ImportDialog extends Vue {
         cursor: false,
         lifeLike: false,
         waitUntilVisible: true,
-        afterComplete: () => resolve()
+        afterComplete: () => resolve(),
       })
         .type(
           '//[<span class="white--text">COMP/CON</span>: Understood, Pilot. Contacting UNI-COM Directory Service.]'
@@ -179,7 +179,6 @@ export default class ImportDialog extends Vue {
         })
         .go()
     })
-    
   }
 
   private infoTyper: TypeIt
@@ -190,14 +189,14 @@ export default class ImportDialog extends Vue {
       this.infoLog.innerHTML = '<br>$&nbsp;'
       return
     }
-    
+
     await this.initialTypePromise
 
     if (this.infoTyper) this.infoTyper.destroy()
 
     this.preambleLog.innerHTML = this.preambleLog.innerHTML.replace(/<br>\$ <br>/, '')
     this.infoLog.innerHTML = ''
-  
+
     this.infoTyper = new TypeIt(this.infoLog, {
       speed: 0,
       nextStringDelay: 0,
@@ -213,16 +212,19 @@ export default class ImportDialog extends Vue {
       .break()
       .type('Validating...')
       .break()
-    
+
     if (error) {
       this.infoTyper
-        .type(`// <span class="error--text">ERROR ERROR</span>=[[<span class="error--text font-style-italic">${error.toUpperCase().replace(/ /ig, '/')}</span>]]`)
+        .type(
+          `// <span class="error--text">ERROR ERROR</span>=[[<span class="error--text font-style-italic">${error
+            .toUpperCase()
+            .replace(/ /gi, '/')}</span>]]`
+        )
         .break()
         .type(`// <span class="error--text">IDENT INVALID</span>`)
         .break()
         .type('// PLEASE CHECK PROVIDED DATA.')
-    }
-    else if (pilot) {
+    } else if (pilot) {
       this.infoTyper
         .options({
           speed: 1,
@@ -230,36 +232,39 @@ export default class ImportDialog extends Vue {
         })
         .type(`<span class="success--text">IDENT VALID!</span>`)
         .break()
-        .type(`
+        .type(
+          `
         //IDENT <span class="white--text">${pilot.ID}</span>//
         SIGN[<span class="teal--text text--lighten-2">${pilot.Callsign.toUpperCase()}</span>]//
-        LL=${pilot.Level}`)
+        LL=${pilot.Level}`
+        )
         .break()
 
-      const licenseCount = pilot.Licenses
-        .reduce(( counter, pilotLicense ) => {
-          counter[pilotLicense.License.Source] = (counter[pilotLicense.License.Source] || 0) + pilotLicense.Rank
-          return counter
-        }, {})
+      const licenseCount = pilot.Licenses.reduce((counter, pilotLicense) => {
+        counter[pilotLicense.License.Source] =
+          (counter[pilotLicense.License.Source] || 0) + pilotLicense.Rank
+        return counter
+      }, {})
       const horusCount = licenseCount['HORUS'] || 0
 
-      let licenseStrings = ['GMS'].concat(Object.entries(licenseCount)
-        .filter(([name]) => name !== 'HORUS')
-        .map(([name, count]: [string, number]) => `${name.toUpperCase()} [${count}]`))
-      if (horusCount > 0) licenseStrings.push(`UNKNOWN UNKNOWN UNKN<span class="horus--subtle">░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)</span>`)
+      const licenseStrings = ['GMS'].concat(
+        Object.entries(licenseCount)
+          .filter(([name]) => name !== 'HORUS')
+          .map(([name, count]: [string, number]) => `${name.toUpperCase()} [${count}]`)
+      )
+      if (horusCount > 0)
+        licenseStrings.push(
+          `UNKNOWN UNKNOWN UNKN<span class="horus--subtle">░▒▇▀▒▏█: [(${horusCount})]▒ ࿘঩㍣᠃㻥¹福▉ ▉ ▉ ;-)</span>`
+        )
 
       const licenseString = licenseStrings.join(', ')
 
-      this.infoTyper.type(`//LICENSE RECORDS:: ${licenseString}`)
+      this.infoTyper
+        .type(`//LICENSE RECORDS:: ${licenseString}`)
         .break()
         .type('//// PLEASE CHECK AND CONFIRM THIS DATA.')
     }
     this.infoTyper.go()
   }
-
-
-  
-
-
 }
 </script>

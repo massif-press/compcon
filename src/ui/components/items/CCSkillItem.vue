@@ -2,7 +2,7 @@
   <div>
     <v-card v-if="skill.err" flat outlined>
       <v-card-text class="text-center pa-1">
-        <span class="flavor-text grey--text">// MISSING DATA //</span>
+        <span class="flavor-text subtle--text">// MISSING DATA //</span>
       </v-card-text>
     </v-card>
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
@@ -19,7 +19,7 @@
                   <v-icon v-for="n in bonus" :key="skill.ID + n" color="secondary" small>
                     mdi-hexagon
                   </v-icon>
-                  <span class="flavor-text grey--text">(+{{ bonus }})</span>
+                  <span class="flavor-text subtle--text">(+{{ bonus }})</span>
                 </div>
               </div>
             </v-col>

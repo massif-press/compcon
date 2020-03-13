@@ -4,7 +4,7 @@
     depressed
     :color="selected ? 'white' : 'primary'"
     :class="{
-      'primary--text': selected,
+      'accent--text': selected,
     }"
     :to="to"
     :disabled="disabled"
