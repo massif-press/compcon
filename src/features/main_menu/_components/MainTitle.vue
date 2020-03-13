@@ -61,6 +61,7 @@ export default Vue.extend({
   background-color: var(--v-primary-base);
   width: 70%;
   clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
+  -webkit-clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
   opacity: 1;
   z-index: 2;
 }

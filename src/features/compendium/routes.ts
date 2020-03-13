@@ -35,7 +35,7 @@ const routes: RouteConfig[] = [
         component: Home,
       },
       {
-        path: '/search',
+        path: '/compendium/search',
         component: Search,
       },
       {
