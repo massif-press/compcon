@@ -52,6 +52,7 @@ export default Vue.extend({
 
     Vue.prototype.$confirm = this.$refs.confirm.open
     Vue.prototype.$notify = this.$refs.notifier.notify.bind(this.$refs.notifier)
+
   },
 })
 </script>
