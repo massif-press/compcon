@@ -53,6 +53,10 @@ mixins.forEach(m => {
 
 Vue.directive('extlink', externalLinkDirective)
 
+
+Vue.config.errorHandler = (error, vm) => vm.$notify(error.message, 'error')
+window.onerror = (error) => Vue.prototype.$notify(error, 'error')
+
 new Vue({
   components: { App },
   vuetify,
