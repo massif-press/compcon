@@ -145,7 +145,7 @@ import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkDat
 import { saveFile } from '@/io/Dialog'
 
 export default Vue.extend({
-  name: 'options',
+  name: 'options-settings',
   data: () => ({
     theme: 'light',
     themes: [
@@ -164,7 +164,7 @@ export default Vue.extend({
     userTheme() {
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile.Theme
-    },
+    }
   },
   created() {
     this.theme = this.userTheme
