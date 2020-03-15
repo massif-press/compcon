@@ -24,6 +24,8 @@ import Component from 'vue-class-component'
 import uuid from 'uuid/v4'
 
 import NotificationSnackbar from './NotificationSnackbar.vue'
+import { getModule } from 'vuex-module-decorators'
+import { NavStore } from '@/store'
 
 @Component({
   components: { NotificationSnackbar }
@@ -42,6 +44,17 @@ export default class GlobalNotifier extends Vue {
     this.notifications = [...this.notifications, notification]
     this.shownNotifications = [...this.shownNotifications, notification]
     this.$forceUpdate()
+  }
+
+  public notifyError(error: Error, vm?: Vue) {
+    const nm = getModule(NavStore, this.$store)
+    nm.logError({
+      time: new Date(),
+      message: error.message,
+      component: vm?.$options?.name ?? undefined,
+      stack: error.stack
+    })
+    this.notify(error.message, 'error')
   }
 
   private hideNotification(id: string) {
