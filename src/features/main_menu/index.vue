@@ -54,7 +54,14 @@
         Support This Project
       </v-btn>
     </v-footer>
-    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options & User Profile">
+    <cc-solo-dialog
+      ref="optionsModal"
+      large
+      no-confirm
+      no-pad
+      no-title-clip
+      title="Options & User Profile"
+    >
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -80,7 +87,7 @@ import CCLog from './_components/CCLog.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
-import OptionsPage from '../nav/pages/Options.vue'
+import OptionsPage from '../nav/pages/Options/index.vue'
 import { getModule } from 'vuex-module-decorators'
 import { NavStore } from '@/store'
 

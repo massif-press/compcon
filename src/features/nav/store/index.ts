@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import { Module, VuexModule, Action, Mutation, MutationAction } from 'vuex-module-decorators'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, store } from '@/store'
 
 export const SET_NAV_MODE = 'SET_NAV_MODE'
 export const SET_DARK_MODE = 'SET_DARK_MODE'
+export const LOG_ERROR = 'LOG_ERROR'
 
 @Module({
   name: 'nav',
@@ -44,4 +45,17 @@ export class NavStore extends VuexModule {
       : 'light'
     this.context.commit(SET_DARK_MODE, mode)
   }
+
+  public Errors: IErrorReport[] = []
+
+  @Mutation
+  public [LOG_ERROR](error: IErrorReport) {
+    this.Errors = [error, ...this.Errors]
+  }
+
+  @Action({ commit: LOG_ERROR })
+  public logError(error: IErrorReport) {
+    return error
+  }
+
 }

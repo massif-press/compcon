@@ -95,7 +95,14 @@
       <content-page />
     </cc-solo-dialog>
 
-    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options & User Profile">
+    <cc-solo-dialog
+      ref="optionsModal"
+      large
+      no-confirm
+      no-pad
+      no-title-clip
+      title="Options & User Profile"
+    >
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -106,7 +113,7 @@
 <script lang="ts">
 import HelpPage from './pages/Help.vue'
 import AboutPage from './pages/About.vue'
-import OptionsPage from './pages/Options.vue'
+import OptionsPage from './pages/Options/index.vue'
 import ContentPage from './pages/ExtraContent/index.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
 

@@ -18,6 +18,13 @@ interface INotification {
   onClick?: () => void
 }
 
+declare interface IErrorReport {
+  time: Date
+  message: string
+  component?: string
+  stack: string
+}
+
 declare interface IDiceStats {
   min: number
   max: number
