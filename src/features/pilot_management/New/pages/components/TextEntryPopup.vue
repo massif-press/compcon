@@ -2,7 +2,7 @@
   <v-row dense class="mb-1">
     <v-col cols="auto">
       <cc-tooltip simple inline content="Feature In Development">
-        <v-icon color="grey lighten-1" class="mt-2">mdi-dice-multiple</v-icon>
+        <v-icon color="panel" class="mt-2">mdi-dice-multiple</v-icon>
       </cc-tooltip>
     </v-col>
     <v-col cols="11" class="pr-6">
@@ -23,6 +23,7 @@
         :extensions="extensions"
         :card-props="{ flat: true, tile: true, elevation: 0 }"
         class="mt-4"
+        :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
       />
     </cc-solo-dialog>
   </v-row>

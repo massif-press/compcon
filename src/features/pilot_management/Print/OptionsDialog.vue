@@ -18,7 +18,7 @@
             :items="trackableStatOptions"
           />
         </fieldset>
-        <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
+        <v-overlay absolute :value="true" color="panel" opacity="0.85">
           <span class="heading h2 text--text">Feature In Development</span>
         </v-overlay>
       </v-card>
@@ -28,7 +28,7 @@
           include:
           <print-option-select multiple title="Include" :items="pilotIncludeOptions" />
         </fieldset>
-        <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
+        <v-overlay absolute :value="true" color="panel" opacity="0.85">
           <span class="heading h2 text--text">Feature In Development</span>
         </v-overlay>
       </v-card>
@@ -39,7 +39,7 @@
             include:
             <print-option-select multiple title="Include" :items="mechIncludeOptions" />
           </fieldset>
-          <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
+          <v-overlay absolute :value="true" color="panel" opacity="0.85">
             <span class="heading h2 text--text">Feature In Development</span>
           </v-overlay>
         </v-card>
@@ -49,7 +49,7 @@
           <legend>Extras</legend>
           <print-option-select multiple title="Also Print" :items="extraOptions" />
         </fieldset>
-        <v-overlay absolute :value="true" color="grey lighten-1" opacity="0.85">
+        <v-overlay absolute :value="true" color="panel" opacity="0.85">
           <span class="heading h2 text--text">Feature In Development</span>
         </v-overlay>
       </v-card>

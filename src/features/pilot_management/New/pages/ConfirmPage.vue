@@ -97,7 +97,7 @@
                   v-for="s in pilot.Skills"
                   v-else
                   :key="s.Skill.ID"
-                  color="primary"
+                  color="accent"
                   class="ma-2"
                   outlined
                   label
@@ -116,7 +116,7 @@
                   v-for="t in pilot.Talents"
                   v-else
                   :key="t.Talent.ID"
-                  color="primary"
+                  color="accent"
                   class="ma-2"
                   outlined
                   label

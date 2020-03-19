@@ -98,6 +98,7 @@ const theme: any = {
         text: '#212121',
         subtle: '#9E9E9E',
         stark: '#000',
+        anti: '#fff',
         'light-text': '#424242',
         'stark-text': '#000',
 
@@ -117,13 +118,14 @@ const theme: any = {
         secondary: '#d98f30',
         pilot: '#000',
         error: '#F44336',
-        info: '#1565C0',
+        info: '#569BEA',
         success: '#00C853',
         warning: '#FFAB00',
 
         text: '#dbdbdb',
         subtle: '#b3b9ba',
         stark: '#fff',
+        anti: '#000',
         'light-text': '#96a0a0',
         'stark-text': '#fff',
 

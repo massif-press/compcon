@@ -3,9 +3,7 @@
     <v-expansion-panel-header id="hover-parent" style="height:65px;" hide-actions>
       <v-row style="position:absolute; z-index: 10" class="py-2">
         <v-col cols="1" class="ml-n3 mr-4">
-          <v-icon v-if="rank" size="50" color="primary" class="d-inline">
-            cci-rank-{{ rank }}
-          </v-icon>
+          <v-icon v-if="rank" size="50" color="accent" class="d-inline">cci-rank-{{ rank }}</v-icon>
           <cc-logo
             v-else
             size="xLarge"
@@ -24,7 +22,7 @@
             small
             dark
             outlined
-            color="primary"
+            color="accent"
             class="mr-2 pop"
           >
             {{ f }}
@@ -104,6 +102,7 @@ export default Vue.extend({
 }
 
 .pop {
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  text-shadow: -1px -1px 0 var(--v-anti-base), 1px -1px 0 var(--v-anti-base),
+    -1px 1px 0 var(--v-anti-base), 1px 1px 0 var(--v-anti-base);
 }
 </style>

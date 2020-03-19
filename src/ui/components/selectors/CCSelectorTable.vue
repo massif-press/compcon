@@ -41,7 +41,7 @@
     >
       <template v-slot:item.data-table-select="{ item }">
         <cc-tooltip simple inline :content="`Equip ${item.Name}`">
-          <v-btn icon color="primary" dark @click="$emit('equip', item)">
+          <v-btn icon color="accent" dark @click="$emit('equip', item)">
             <v-icon large>cci-accuracy</v-icon>
           </v-btn>
         </cc-tooltip>
@@ -56,7 +56,7 @@
         <cc-range-element small :range="item.Range" />
       </template>
       <template v-slot:item.Detail="{ item }">
-        <v-icon color="primary" @click="$refs[`modal_${item.ID}`].show()">
+        <v-icon color="accent" @click="$refs[`modal_${item.ID}`].show()">
           mdi-information-outline
         </v-icon>
         <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />

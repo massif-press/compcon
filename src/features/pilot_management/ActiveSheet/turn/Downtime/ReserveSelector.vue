@@ -22,7 +22,7 @@
       hide-details
     />
     <v-slide-y-transition>
-      <v-card v-if="type === 'Custom' || reserve" color="grey lighten-4" class="mx-3 mt-1">
+      <v-card v-if="type === 'Custom' || reserve" color="light-panel" class="mx-3 mt-1">
         <v-card-text class="flavor-text pt-1 pb-0">
           <p
             v-if="type !== 'Custom' && reserve"
@@ -36,8 +36,13 @@
                 reserve !== 'reserve_bombardment'
             "
           >
-            <v-text-field v-model="custom_name" label="Resource Name" style="width: 500px" />
-            <v-textarea v-model="details" auto-grow rows="1" label="Details" box />
+            <v-text-field
+              v-model="custom_name"
+              color="accent"
+              label="Resource Name"
+              style="width: 500px"
+            />
+            <v-textarea v-model="details" color="accent" auto-grow rows="1" label="Details" box />
           </div>
         </v-card-text>
       </v-card>

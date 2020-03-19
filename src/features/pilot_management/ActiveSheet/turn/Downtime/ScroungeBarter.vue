@@ -50,7 +50,7 @@
           </v-col>
           <v-row dense>
             <v-col>
-              <v-card color="grey lighten-4" class="ml-5 mr-5 mt-2">
+              <v-card color="panel" class="ml-5 mr-5 mt-2">
                 <v-toolbar dark dense color="action--downtime">
                   <v-toolbar-title>New Asset</v-toolbar-title>
                 </v-toolbar>

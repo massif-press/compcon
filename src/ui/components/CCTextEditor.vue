@@ -18,6 +18,7 @@
         :extensions="extensions"
         :card-props="{ flat: true, tile: true, elevation: 0 }"
         class="mt-4"
+        :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
       />
     </cc-solo-dialog>
   </div>

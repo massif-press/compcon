@@ -20,7 +20,7 @@
         RM-4 IDENT fingerprint should not complete this form unless instructed to by their
         commanding officer.
       </span>
-      <v-alert type="warning" color="primary" outlined class="mt-2" dense>
+      <v-alert type="warning" color="accent" outlined class="mt-2" dense>
         <b>
           All fields marked with the
           <v-icon small color="error">mdi-alert</v-icon>

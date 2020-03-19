@@ -94,19 +94,19 @@
 }
 
 .bordered {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-panel-border-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-primary {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-primary-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-success {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-success-base) !important;
   border-radius: 2px !important;
 }

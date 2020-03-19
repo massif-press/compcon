@@ -20,7 +20,7 @@
         NHP-directed review at secure Omninet address
         <code>un_omni-18364.andes.cerrobonete.node:9</code>
       </span>
-      <v-alert color="primary" outlined dense border="left" class="mt-2">
+      <v-alert color="accent" outlined dense border="left" class="mt-2">
         <span class="overline">
           Submitting unauthorized licensing updates and/or submitting applications for unauthorized
           or previously-witheld license rights without prior MV-8a/j authorization by a Union

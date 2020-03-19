@@ -8,7 +8,7 @@
       <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.talent.id}_${i}`">
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
-          <v-icon small color="primary">cci-rank-{{ pTalent.Rank }}</v-icon>
+          <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
         </span>
       </v-row>
@@ -32,7 +32,7 @@
             prominent
             dense
             border="left"
-            color="primary"
+            color="accent"
             icon="warning"
             class="stat-text"
             :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
@@ -44,7 +44,7 @@
             prominent
             dense
             border="left"
-            color="primary"
+            color="accent"
             icon="warning"
             class="stat-text"
             :value="!enoughSelections"
@@ -61,6 +61,8 @@
     <template v-slot:right-column>
       <v-text-field
         v-model="search"
+        prepend-icon="mdi-magnify"
+        color="accent"
         label="Search Talents"
         dense
         hide-details

@@ -4,7 +4,7 @@
       <v-icon
         :class="{ 'mr-4': small }"
         :size="small ? 40 : 80"
-        :color="lock ? 'grey lighten-1' : color"
+        :color="lock ? 'panel' : color"
         v-html="`cci-rank-${rank}`"
       />
     </v-col>

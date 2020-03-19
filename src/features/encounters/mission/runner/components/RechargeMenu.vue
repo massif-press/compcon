@@ -19,7 +19,7 @@
           class="mt-0 mb-4"
           :ripple="false"
           x-large
-          :color="roll && roll !== n ? 'grey lighten-1' : 'primary'"
+          :color="roll && roll !== n ? 'panel' : 'primary'"
           icon
           @click="roll = n"
         >
