@@ -25,7 +25,7 @@
         Resources Ethical Engineering Subcommittee only recognize CORE augmentation from a
         Union-approved and registered Lincensor.
       </span>
-      <v-alert v-if="cbEligible" color="primary" outlined dense border="left" class="mt-2">
+      <v-alert v-if="cbEligible" color="accent" outlined dense border="left" class="mt-2">
         <b>Select a CORE Bonus</b>
         <br />
         <span class="overline">
@@ -36,7 +36,7 @@
       </v-alert>
     </v-container>
     <cc-core-bonus-selector v-if="cbEligible" level-up :pilot="pilot" />
-    <v-card v-else flat tile color="grey lighten-2">
+    <v-card v-else flat tile color="panel">
       <v-card-text class="flavor-text text-center py-5 px-3">
         <span class="heading h2 subtle--text text--darken-1">PILOT INELIGIBLE FOR CORE BONUS</span>
         <br />

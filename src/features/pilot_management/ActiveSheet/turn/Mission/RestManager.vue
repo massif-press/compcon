@@ -30,7 +30,7 @@
             </span>
           </v-col>
           <v-divider dark class="ma-2" />
-          <v-card color="grey lighten-2" class="mb-2">
+          <v-card color="panel" class="mb-2">
             <v-card-text class="flavor-text text--text">
               This mech can be repaired to working order by spending 4 repair points. These repairs
               can be spent from this mech’s own pool or the pools of any pilots that wish to

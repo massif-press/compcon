@@ -84,9 +84,9 @@ export default class CCTickBar extends Vue {
   readonly emptyIcon: string
   @Prop({ type: String, required: false, default: 'mdi-hexagon' })
   readonly fullIcon: string
-  @Prop({ type: String, required: false, default: 'primary' })
+  @Prop({ type: String, required: false, default: 'accent' })
   readonly color: string
-  @Prop({ type: String, required: false, default: 'grey lighten-1' })
+  @Prop({ type: String, required: false, default: 'panel' })
   readonly bgColor: string
   @Prop({ type: Boolean })
   readonly noPips?: boolean

@@ -21,7 +21,7 @@
         </v-alert>
         <v-alert
           outlined
-          color="primary"
+          color="accent"
           icon="warning"
           class="stat-text"
           :value="pilot.IsMissingLicenses"

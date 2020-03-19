@@ -20,14 +20,14 @@
           {{ coreSystem.PassiveName }}
           <span class="subtle--text" style="font-size: 14px">(PASSIVE)</span>
         </h3>
-        <p class="flavor-text text--text" v-html="coreSystem.PassiveEffect" />
+        <p class="body-text text--text" v-html="coreSystem.PassiveEffect" />
       </v-alert>
       <v-alert prominent text dense tile :color="color" border="left" icon="cci-corebonus">
         <h3 class="heading" :style="`color: ${color}`">
           {{ coreSystem.ActiveName }}
           <span class="subtle--text text--darken-2" style="font-size: 14px">(ACTIVE)</span>
         </h3>
-        <p class="flavor-text" v-html="coreSystem.ActiveEffect" />
+        <p class="body-text text--text" v-html="coreSystem.ActiveEffect" />
         <cc-tags :tags="coreSystem.Tags" :color="color" small />
       </v-alert>
     </div>

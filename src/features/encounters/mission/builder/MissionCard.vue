@@ -105,17 +105,17 @@
                       </div>
                       <v-row dense>
                         <v-col>
-                          <span class="overline">SITREP</span>
+                          <span class="overline accent--text">SITREP</span>
                           <br />
                           <span class="flavor-text">{{ step.Sitrep.name }}</span>
                         </v-col>
                         <v-col>
-                          <span class="overline">ENVIRONMENT</span>
+                          <span class="overline accent--text">ENVIRONMENT</span>
                           <br />
                           <span class="flavor-text">{{ step.Environment }}</span>
                         </v-col>
                         <v-col>
-                          <span v-if="step.Labels" class="overline">LABELS</span>
+                          <span v-if="step.Labels" class="overline accent--text">LABELS</span>
                           <br />
                           <v-chip v-for="l in step.Labels" :key="l" small class="mx-1">
                             {{ l }}

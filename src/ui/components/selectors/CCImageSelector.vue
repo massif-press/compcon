@@ -52,7 +52,7 @@
             <v-btn
               small
               fab
-              color="grey lighten-2"
+              color="panel"
               relative
               style="top:25px; left: 0; z-index: 100"
               class="img-button"

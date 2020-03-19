@@ -39,10 +39,10 @@
               right
               class="fade-select"
               elevation="0"
-              color="grey lighten-3"
+              color="panel"
               @click.stop="$refs[`modal_${f.ID}`][0].show()"
             >
-              <v-icon color="primary" large>mdi-information-outline</v-icon>
+              <v-icon color="accent" large>mdi-information-outline</v-icon>
             </v-btn>
             <cc-search-result-modal :ref="`modal_${f.ID}`" :item="f" />
             <div>
@@ -57,7 +57,7 @@
                 small
                 dark
                 outlined
-                color="primary"
+                color="accent"
                 class="mr-2"
               >
                 {{ mt }}
