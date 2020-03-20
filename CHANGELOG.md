@@ -1,3 +1,12 @@
+## [2.0.18](https://github.com/jarena3/compcon/compare/2.0.17...2.0.18) (2020-03-20)
+
+
+### Bug Fixes
+
+* fixed an issue with the item-effect-wrapper that was throwing unhelpful errors ([9701fa3](https://github.com/jarena3/compcon/commit/9701fa3db7c28bd56b28d54c1ce1c9ed8e41a0c8))
+
+
+
 ## [2.0.17](https://github.com/jarena3/compcon/compare/2.0.16...2.0.17) (2020-03-20)
 
 
