@@ -33,7 +33,6 @@ export default class CCItemUses extends Vue {
   @Prop({
     type: Object,
     required: true,
-    validator: item => item.MaxUses != null && item.Uses != null,
   })
   readonly item!: MechEquipment | PilotGear
   @Prop({ type: Number, required: false, default: 0 })

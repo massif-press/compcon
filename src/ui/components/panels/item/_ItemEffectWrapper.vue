@@ -49,16 +49,18 @@ export default {
     },
   },
   mounted() {
-    this.loader()
-      .then(() => {
-        this.component = () => this.loader()
-      })
-      .catch(() => {
-        console.error(
-          this.effect,
-          `Unable to load component: ${this.effect.EffectType || 'generic'} item effect panel`
-        )
-      })
+    if (this.effect) {
+      this.loader()
+        .then(() => {
+          this.component = () => this.loader()
+        })
+        .catch(() => {
+          console.error(
+            this.effect,
+            `Unable to load component: ${this.effect.EffectType || 'generic'} item effect panel`
+          )
+        })
+    }
   },
 }
 </script>
