@@ -12,7 +12,7 @@
       />
 
       <v-btn class="my-2" color="primary" large block tile @click="print()">Print</v-btn>
-      <v-btn class="my-2" small color="primary" outlined block tile @click="printBlank()">
+      <v-btn class="my-2" small color="accent" outlined block tile @click="printBlank()">
         Print Blank Character Sheets
       </v-btn>
       <cc-tooltip simple content="Feature In Development">

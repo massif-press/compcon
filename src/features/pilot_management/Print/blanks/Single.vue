@@ -1,7 +1,9 @@
 <template>
   <v-col :cols="cols">
     <fieldset class="mx-1">
-      <legend class="flavor-text ml-1" style="font-size: 13px">{{ label }}</legend>
+      <legend class="flavor-text black--text ml-1" style="font-size: 13px">
+        &nbsp;{{ label }}&nbsp;
+      </legend>
       <div :style="`min-height: ${height}px`" />
     </fieldset>
   </v-col>
