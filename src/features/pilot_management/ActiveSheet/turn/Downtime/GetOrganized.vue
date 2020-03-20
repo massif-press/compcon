@@ -43,7 +43,7 @@
                       v-model="details"
                       auto-grow
                       rows="1"
-                      label="Purpose, goal, and orginaztion details"
+                      label="Purpose, goal, and organization details"
                     />
                   </v-col>
                 </v-row>
@@ -134,7 +134,7 @@
                         v-model="selected.Description"
                         auto-grow
                         rows="1"
-                        label="Purpose, goal, and orginaztion details"
+                        label="Purpose, goal, and organization details"
                       />
                       <v-row justify="center">
                         <v-col cols="5">

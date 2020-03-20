@@ -33,7 +33,7 @@
         </v-row>
         <v-textarea
           v-model="org.Description"
-          label="Purpose, goal, and orginaztion details"
+          label="Purpose, goal, and organization details"
           auto-grow
           rows="2"
           filled
