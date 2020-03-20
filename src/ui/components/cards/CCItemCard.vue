@@ -25,13 +25,15 @@ export default {
     },
   },
   mounted() {
-    this.loader()
-      .then(() => {
-        this.component = () => this.loader()
-      })
-      .catch(() => {
-        console.error(`Unable to load component ${this.item.ItemType}`)
-      })
+    if (this.item) {
+      this.loader()
+        .then(() => {
+          this.component = () => this.loader()
+        })
+        .catch(() => {
+          console.error(`Unable to load component ${this.item.ItemType}`)
+        })
+    }
   },
 }
 </script>
