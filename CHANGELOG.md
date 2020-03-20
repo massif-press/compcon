@@ -1,3 +1,21 @@
+## [2.0.17](https://github.com/jarena3/compcon/compare/2.0.16...2.0.17) (2020-03-20)
+
+
+### Bug Fixes
+
+* **Dark Theme:** improved color selection on many pages ([15504a9](https://github.com/jarena3/compcon/commit/15504a993db8c43f901556804796380543e1a2ba)), closes [#706](https://github.com/jarena3/compcon/issues/706)
+* **Nav Menu:** corrected Mission Runner link ([a025956](https://github.com/jarena3/compcon/commit/a0259563a250fb708472335452d5d0d9b084f263)), closes [#713](https://github.com/jarena3/compcon/issues/713)
+* **Pilot Sheet:** fix typo in org panel ([9e7dadd](https://github.com/jarena3/compcon/commit/9e7dadda156cf6dbce777d47991a43cf57acf8f5)), closes [#709](https://github.com/jarena3/compcon/issues/709)
+* **Pilot Sheet:** fixes print formatting issues ([428670f](https://github.com/jarena3/compcon/commit/428670fc5d6905468ac0d2eae5fc5bca55d555ba)), closes [#705](https://github.com/jarena3/compcon/issues/705)
+
+
+### Features
+
+* add automatic notifications for errors ([06aaade](https://github.com/jarena3/compcon/commit/06aaade5424164f9be551a0e4e249f803a256a68))
+* error logging w/ stack trace under Options ([458da73](https://github.com/jarena3/compcon/commit/458da734d0699365d0e7a8b31444a3ffbb3c0af8)), closes [#486](https://github.com/jarena3/compcon/issues/486)
+
+
+
 ## [2.0.16](https://github.com/jarena3/compcon/compare/2.0.15...2.0.16) (2020-03-13)
 
 
