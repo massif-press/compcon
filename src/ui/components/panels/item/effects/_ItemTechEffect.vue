@@ -34,10 +34,10 @@
         :print="print"
       >
         <div
-          :class="print ? 'caption font-weight-bold text--text' : 'effect-text mt-n2'"
+          :class="print ? 'caption font-weight-bold black--text' : 'effect-text mt-n2'"
           v-html="o.Name"
         />
-        <p :class="print ? 'overline mb-0 text--text' : 'body-text mb-1'" v-html="o.Detail" />
+        <p :class="print ? 'overline black--text mb-0' : 'body-text mb-1'" v-html="o.Detail" />
       </effect-base>
     </v-alert>
     <v-alert
@@ -56,8 +56,8 @@
         :transparent="transparent"
         :print="print"
       >
-        <div :class="print ? 'caption text--text' : 'effect-text mt-n2'" v-html="effect.Name" />
-        <p :class="print ? 'overline mb-0 text--text' : 'body-text mb-1'" v-html="effect.Detail" />
+        <div :class="print ? 'caption black--text' : 'effect-text mt-n2'" v-html="effect.Name" />
+        <p :class="print ? 'overline black--text mb-0' : 'body-text mb-1'" v-html="effect.Detail" />
       </effect-base>
     </v-alert>
   </effect-base>

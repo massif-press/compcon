@@ -1,5 +1,11 @@
 <template>
-  <div class="printable" style="width: 210mm; margin-left:auto; margin-right: auto;">
+  <v-card
+    tile
+    flat
+    light
+    class="printable"
+    style="width: 210mm; margin-left:auto; margin-right: auto;"
+  >
     <div class="no-print" style="min-height: 48px!important" />
     <blank-pilot-print v-if="blank" />
     <pilot-print v-else-if="pilot" :pilot="pilot" />
@@ -8,7 +14,7 @@
     <mech-print v-else-if="mech" :mech="mech" />
     <print-footer />
     <div class="no-print" style="min-height: 60px!important" />
-  </div>
+  </v-card>
 </template>
 
 <script lang="ts">

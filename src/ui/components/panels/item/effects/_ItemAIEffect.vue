@@ -8,7 +8,7 @@
     :transparent="transparent"
     :print="print"
   >
-    <div :class="print ? 'overline mb-2' : 'flavor-text'" v-html="effect.Detail" />
+    <div :class="print ? 'overline black--text mb-2' : 'flavor-text'" v-html="effect.Detail" />
   </effect-base>
 </template>
 

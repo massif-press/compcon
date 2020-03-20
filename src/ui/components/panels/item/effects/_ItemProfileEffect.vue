@@ -9,7 +9,7 @@
       :transparent="transparent"
       :print="print"
     >
-      <div :class="print ? 'caption font-weight-bold text--text mt-n1' : 'heading h3 mt-n2'">
+      <div :class="print ? 'caption font-weight-bold black--text mt-n1' : 'heading h3 mt-n2'">
         {{ effect.Name }}&nbsp;
         <cc-range-element v-if="effect.Range" :range="effect.Range" small class="d-inline" />
         <cc-slashes />
@@ -17,7 +17,7 @@
       </div>
       <p
         v-if="effect.Detail"
-        :class="print ? 'overline text--text mb-0 pb-0 mt-n1' : 'body-text mb-1'"
+        :class="print ? 'overline black--text mb-0 pb-0 mt-n1' : 'body-text mb-1'"
         v-html="effect.Detail"
       />
     </effect-base>

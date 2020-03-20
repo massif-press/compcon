@@ -17,13 +17,19 @@
       <div v-if="effect.Init" class="overline mb-n2 ml-2 action--reaction--text">INIT</div>
       <p
         v-if="effect.Init"
-        :class="print ? 'overline mt-n1 mb-0' : 'body-text mt-n1 mb-0'"
+        :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-0'"
         v-html="effect.Init"
       />
       <div class="overline mb-n2 ml-2 action--reaction--text">TRIGGER</div>
-      <p :class="print ? 'overline mt-n1 mb-0' : 'body-text mt-n1 mb-0'" v-html="effect.Trigger" />
+      <p
+        :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-0'"
+        v-html="effect.Trigger"
+      />
       <div class="overline mb-n2 ml-2 action--reaction--text">EFFECT</div>
-      <p :class="print ? 'overline mt-n1 mb-0' : 'body-text mt-n1 mb-1'" v-html="effect.Detail" />
+      <p
+        :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-1'"
+        v-html="effect.Detail"
+      />
     </div>
   </effect-base>
 </template>

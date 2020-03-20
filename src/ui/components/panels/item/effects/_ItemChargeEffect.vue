@@ -25,13 +25,13 @@
         </v-col>
         <v-col>
           <span class="overline font-weight-bold mb-n4" v-html="c.ChargeType" />
-          <div :class="print ? 'caption font-weight-bold text--text' : 'effect-text mt-n2'">
+          <div :class="print ? 'caption font-weight-bold black--text' : 'effect-text mt-n2'">
             {{ c.Name }}&nbsp;
             <cc-range-element v-if="c.Range" small :range="c.Range" class="d-inline" />
             <cc-damage-element v-if="c.Damage" small :damage="c.Damage" class="d-inline" />
           </div>
           <p
-            :class="print ? 'overline text--text mb-0' : 'body-text mt-n1 mb-1'"
+            :class="print ? 'overline black--text mb-0' : 'body-text mt-n1 mb-1'"
             v-html="c.Detail"
           />
         </v-col>

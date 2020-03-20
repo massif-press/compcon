@@ -3,15 +3,14 @@
     <v-row dense align="start">
       <v-col cols="auto">
         <div class="overline ">CALLSIGN</div>
-        <div class="heading h1 mt-n4">{{ pilot.Callsign }}</div>
-      </v-col>
-      <v-divider vertical class="mx-2" />
-      <v-col cols="auto" class="flavor-text">
-        <div class="overline ">PILOT</div>
-        <b class="">{{ pilot.Name }}</b>
-        <br />
-        <i v-if="pilot.Background">{{ pilot.Background }},&nbsp;</i>
-        <i>LL {{ pilot.Level }}</i>
+        <div class="heading h2 mt-n2">
+          {{ pilot.Callsign }}
+        </div>
+        <div class="mt-n1">
+          <b>{{ pilot.Name }}</b>
+          <i v-if="pilot.Background">, {{ pilot.Background }},&nbsp;</i>
+          <i>LL {{ pilot.Level }}</i>
+        </div>
       </v-col>
       <v-col class="ml-auto mr-auto">
         <v-row dense justify="space-between">
@@ -130,7 +129,7 @@
           <v-chip v-for="(l, i) in pilot.Licenses" :key="`plr_${i}`" outlined class="mx-1 mb-1">
             <v-icon left>cci-rank-{{ l.Rank }}</v-icon>
             <span
-              class="flavor-text"
+              class="flavor-text black--text"
               v-html="
                 `${l.License.Source} ${l.License.Name}
             ${'I'.repeat(l.rank)}`
@@ -148,6 +147,7 @@
       dense
       justify="space-between"
       class="mt-n1 caption"
+      style="position: relative; page-break-inside: avoid;"
     >
       <v-col>
         <fieldset>
@@ -182,7 +182,11 @@
 
     <span class="overline">PILOT LOADOUT</span>
     <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col v-for="(a, i) in pilot.ActiveLoadout.Armor.filter(x => x)" :key="`pla_${i}`">
+      <v-col
+        v-for="(a, i) in pilot.ActiveLoadout.Armor.filter(x => x)"
+        :key="`pla_${i}`"
+        style="position: relative; page-break-inside: avoid;"
+      >
         <fieldset v-if="a">
           <legend class="heading ml-1 px-2">
             {{ a.Name }}
