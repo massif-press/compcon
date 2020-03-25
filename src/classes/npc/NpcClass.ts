@@ -84,4 +84,8 @@ export class NpcClass {
   public get Stats(): NpcClassStats {
     return this._stats
   }
+
+  public get ItemType(): string {
+    return 'NPC Class'
+  }
 }

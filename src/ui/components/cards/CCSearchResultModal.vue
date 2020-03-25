@@ -4,9 +4,18 @@
       <cc-titlebar
         :icon="'cci-' + $_.kebabCase(item.ItemType)"
         :color="$_.kebabCase(item.ItemType)"
-      >{{ item.Source }} {{ item.Name }}</cc-titlebar>
+      >
+        {{ item.Source }} {{ item.Name }}
+      </cc-titlebar>
       <v-card-text>
-        <cc-item-card :item="item" />
+        <class-card
+          v-if="item.ItemType === 'NPC Class'"
+          :ref="`modal_${item.ID}`"
+          :npcc="item"
+          no-confirm
+        />
+
+        <cc-item-card v-else :item="item" />
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
@@ -19,8 +28,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
+
 export default Vue.extend({
   name: 'cc-search-result-modal',
+  components: { ClassCard },
   props: {
     item: {
       type: Object,
