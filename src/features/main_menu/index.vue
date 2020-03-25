@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <main-title />
+    <main-title @logupdate="ccLog('update')" />
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">

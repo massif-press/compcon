@@ -960,7 +960,7 @@ class Pilot {
   }
   public deleteCustomCounter(id: string): void {
     const index = this._customCounters.findIndex(c => c.custom && c.id === id)
-    if (index) {
+    if (index > -1) {
       this._customCounters.splice(index, 1)
       this._customCounters = [...this._customCounters]
     }
