@@ -121,7 +121,7 @@
       <cc-title small class="mb-3">
         SITREP
       </cc-title>
-      <v-combobox
+      <v-select
         v-model="encounter.Sitrep"
         item-text="name"
         outlined

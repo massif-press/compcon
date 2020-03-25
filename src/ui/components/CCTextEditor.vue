@@ -49,7 +49,8 @@ export default Vue.extend({
   props: {
     original: {
       type: String,
-      required: true,
+      required: false,
+      default: '',
     },
     label: {
       type: String,

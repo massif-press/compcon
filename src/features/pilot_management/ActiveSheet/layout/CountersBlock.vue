@@ -19,8 +19,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
 import CounterComponent from '../components/Counter.vue'
 import NewCounter from '../components/NewCounter.vue'
 import activePilot from '../../mixins/activePilot'

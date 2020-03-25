@@ -43,7 +43,7 @@ export default class CCShortStringEditor extends Vue {
 
   edit(): void {
     this.editing = true
-    this.newStr = this.$slots.default[0].text.trim()
+    this.newStr = this.$slots.default[0].text ? this.$slots.default[0].text.trim() : ''
   }
   submit(): void {
     if (this.newStr.length) this.$emit('set', this.newStr)

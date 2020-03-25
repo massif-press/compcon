@@ -53,9 +53,7 @@
         <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
-        <cc-solo-dialog :ref="`modal_${item.ID}`" large :title="item.Name">
-          <class-card :ref="`modal_${item.ID}`" :npcc="item" no-confirm />
-        </cc-solo-dialog>
+        <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
       </template>
       <template v-slot:item.Name="{ item }">
         <span class="stat-text">{{ item.Name }}</span>
@@ -105,16 +103,16 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
+import CompendiumTable from '../components/CompendiumTable.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { NpcClass } from '@/class'
 import { accentInclude } from '@/classes/utility/accent_fold'
 
 @Component({
-  components: { ClassCard },
+  components: { CompendiumTable },
 })
-export default class Weapons extends Vue {
+export default class NpcClasses extends Vue {
   private tier = 1
   private search = ''
   private tableHeight = 450
@@ -133,7 +131,6 @@ export default class Weapons extends Vue {
     { text: 'Save', align: 'left', value: 'Save' },
     { text: 'H/A/S/E', align: 'left', value: 'Hase', sortable: false },
   ]
-
   private compendium = getModule(CompendiumStore, this.$store)
   public get classes(): NpcClass[] {
     return this.compendium.NpcClasses

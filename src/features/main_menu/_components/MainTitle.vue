@@ -9,7 +9,7 @@
         outlined
         small
         class="mt-2 mr-2"
-        @mouseenter="ccLog('update')"
+        @mouseenter="$emit('logupdate')"
       >
         <v-icon left small>
           mdi-information-outline
