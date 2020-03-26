@@ -1,3 +1,12 @@
+## [2.0.19](https://github.com/jarena3/compcon/compare/2.0.18...2.0.19) (2020-03-26)
+
+
+### Bug Fixes
+
+* **Multiple:** fix several bugs ([fa7110f](https://github.com/jarena3/compcon/commit/fa7110f7a3224c3131f9070ca0ee4e69fdfa4bec)), closes [#727](https://github.com/jarena3/compcon/issues/727) [#728](https://github.com/jarena3/compcon/issues/728) [#723](https://github.com/jarena3/compcon/issues/723) [#717](https://github.com/jarena3/compcon/issues/717) [#720](https://github.com/jarena3/compcon/issues/720) [#721](https://github.com/jarena3/compcon/issues/721) [#726](https://github.com/jarena3/compcon/issues/726)
+
+
+
 ## [2.0.18](https://github.com/jarena3/compcon/compare/2.0.17...2.0.18) (2020-03-20)
 
 
