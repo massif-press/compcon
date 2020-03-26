@@ -148,7 +148,7 @@
             v-html="
               mech.CurrentStructure >= 3
                 ? 'Your mech is <b>stunned</b> until the end of your next turn.'
-                : 'Your mech must pass a <b>hull</b> save or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
+                : 'Your mech must pass a <b>hull</b> check or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
             "
           />
           <div slot="confirm-button">
@@ -156,9 +156,9 @@
               <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
             </div>
             <div v-else>
-              <v-btn color="error" tile large @click="window = 4">fail hull save</v-btn>
+              <v-btn color="error" tile large @click="window = 4">fail hull check</v-btn>
               <v-btn color="success darken-1" tile large @click="applyDirectHit()">
-                pass hull save
+                pass hull check
               </v-btn>
             </div>
           </div>
