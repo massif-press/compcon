@@ -34,6 +34,8 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.$vuetify.theme.dark = getModule(NavStore, this.$store).DarkMode
+
     this.$mousetrap.bind('g r', () => {
       this.$router.push('/pilot_management')
     })

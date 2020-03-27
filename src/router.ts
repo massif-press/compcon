@@ -5,27 +5,13 @@ import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
 
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, NavStore, store } from '@/store'
+import { NavStore, store } from '@/store'
 
 // import { Capacitor } from '@capacitor/core'
 
 Vue.use(Router)
 
-const setNavMode = (to, from, next) => {
-  const p = to.path
-  const ns = getModule(NavStore, store)
-
-  if (p.includes('/compendium')) ns.setNavMode('compendium')
-  else if (p.includes('/pilot_management')) ns.setNavMode('pilot')
-  else if (p.includes('/gm')) ns.setNavMode('encounter')
-  else ns.setNavMode('')
-
-  ns.initDarkMode()
-
-  next()
-}
-
-export default new Router({
+const r = new Router({
   // TODO: put in a check for dev here so it doesn't break HMR
   // mode: Capacitor.platform === 'web' ? 'history' : 'hash',
   scrollBehavior(to, from, savedPosition) {
@@ -37,7 +23,6 @@ export default new Router({
   },
   routes: [
     {
-      beforeEnter: setNavMode,
       path: '/',
       name: 'main-menu',
       component: require('@/features/main_menu/index').default,
@@ -49,17 +34,14 @@ export default new Router({
     },
     ...compendiumRoutes.map(route => ({
       ...route,
-      beforeEnter: setNavMode,
       path: route.path = '/compendium/' + route.path,
     })),
     ...pilotRoutes.map(route => ({
       ...route,
-      beforeEnter: setNavMode,
       path: route.path = '/pilot_management/' + route.path,
     })),
     ...encounterRoutes.map(route => ({
       ...route,
-      beforeEnter: setNavMode,
       path: route.path = '/gm/' + route.path,
     })),
     {
@@ -68,3 +50,21 @@ export default new Router({
     },
   ],
 })
+
+r.beforeEach((to, from, next) => {
+  const p = to.path
+  const ns = getModule(NavStore, store)
+
+  console.log('path: ', p)
+
+  if (p.includes('/compendium')) ns.setNavMode('compendium')
+  else if (p.includes('/pilot')) ns.setNavMode('pilot')
+  else if (p.includes('/gm')) ns.setNavMode('encounter')
+  else ns.setNavMode('')
+
+  ns.initDarkMode()
+
+  next()
+})
+
+export default r

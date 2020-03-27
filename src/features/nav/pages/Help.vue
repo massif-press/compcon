@@ -75,13 +75,6 @@
         Discord and join the `comp-con club` role if you want to stay updated. When it releases,
         we'll make a major update announcement on itch and twitter.
       </p>
-      <b>
-        A light app theme killed my father and I refuse to use them on moral grounds. Dark theme
-        when???
-      </b>
-      <p>
-        Soon.
-      </p>
     </div>
 
     <h3 class="heading accent--text">Additional Help</h3>
