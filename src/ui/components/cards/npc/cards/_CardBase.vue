@@ -45,15 +45,17 @@
                 <v-list-item-title>Set Custom Description</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-divider />
-            <v-list-item @click="$emit('remove-feature', $event)">
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon color="error">mdi-delete</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Remove {{ item.Feature.FeatureType }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <div v-if="destructable">
+              <v-divider />
+              <v-list-item @click="$emit('remove-feature', $event)">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon color="error">mdi-delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Remove {{ item.Feature.FeatureType }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </div>
           </v-list>
         </v-menu>
         <span v-if="readonly">
@@ -95,7 +97,7 @@
             <span class="caption">USES:</span>
             <cc-item-uses class="d-inline" :item="item" />
           </v-col>
-          <v-col cols="auto" class="ml-auto mr-2 mt-n2">
+          <v-col v-if="destructable" cols="auto" class="ml-auto mr-2 mt-n2">
             <cc-tooltip simple :content="`Mark ${item.Destroyed ? 'Repaired' : 'Destroyed'}`">
               <v-btn
                 icon
@@ -146,6 +148,15 @@ export default Vue.extend({
     },
     active: {
       type: Boolean,
+    },
+  },
+  computed: {
+    destructable() {
+      return (
+        this.item.Feature.FeatureType === 'System' ||
+        this.item.Feature.FeatureType === 'Weapon' ||
+        this.item.Feature.FeatureType === 'Tech'
+      )
     },
   },
 })

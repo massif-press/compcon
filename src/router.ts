@@ -55,8 +55,6 @@ r.beforeEach((to, from, next) => {
   const p = to.path
   const ns = getModule(NavStore, store)
 
-  console.log('path: ', p)
-
   if (p.includes('/compendium')) ns.setNavMode('compendium')
   else if (p.includes('/pilot') || p.includes('/active')) ns.setNavMode('pilot')
   else if (p.includes('/gm')) ns.setNavMode('encounter')
