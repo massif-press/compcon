@@ -7,7 +7,7 @@
   "scripts": {
     "build": "webpack --env.platform=web --env.prod",
     "dev": "webpack-dev-server --progress --env.platform=web",
-    "electron:build": "webpack --env.platform=electron --env.prod && cd ./electron && electron-builder",
+    "electron:build": "webpack --env.platform=electron --env.prod && node ./build_scripts/sync-package-json.js && cd ./electron && electron-builder",
     "electron:dev": "webpack-dev-server --progress --env.platform=electron",
     "gen-schema": "node ./build_scripts/build-content-schema.js",
     "int-test": "jest int",
