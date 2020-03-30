@@ -1,3 +1,21 @@
+## [2.0.20](https://github.com/jarena3/compcon/compare/2.0.19...2.0.20) (2020-03-30)
+
+
+### Bug Fixes
+
+* **Active Mode:** change struct/stress saves to checks ([4c1c6b9](https://github.com/jarena3/compcon/commit/4c1c6b911ce741a8612a5fc3ed2f857e8c42e5e0))
+* **Active Mode:** fixed hidden sidebar bug ([a6d0652](https://github.com/jarena3/compcon/commit/a6d06522aeead801174b152c268e1accccc5e100)), closes [#725](https://github.com/jarena3/compcon/issues/725)
+* **Compendium:** fixed compendium "expected a function" error ([8089772](https://github.com/jarena3/compcon/commit/808977277ac68700f588e1c10804c526d5c9e976)), closes [#736](https://github.com/jarena3/compcon/issues/736)
+* **Compendium:** fixed compendium routes ([e2f4763](https://github.com/jarena3/compcon/commit/e2f47630f5be0412326359ca973ac8fe326ad1ae))
+* **Encounter Builder:** fixed locked NPC sidebar ([589132b](https://github.com/jarena3/compcon/commit/589132b5ceeacd427f9da97da1e1a19ac477dc6c)), closes [#738](https://github.com/jarena3/compcon/issues/738)
+* **Encounter Builder:** fixed Sitrep Errors ([f5879f8](https://github.com/jarena3/compcon/commit/f5879f8da1e8154c55fddea8ad45ca82a8c950cd)), closes [#739](https://github.com/jarena3/compcon/issues/739) [#740](https://github.com/jarena3/compcon/issues/740)
+* **Mission Runner:** limit which systems can be destroyed ([5916688](https://github.com/jarena3/compcon/commit/59166883981a7ce74cc14938bd05ab0ab7c04ccb)), closes [#724](https://github.com/jarena3/compcon/issues/724)
+* **NPC Roster:** fixed some NPC bonuses being applied incorrectly ([eb36247](https://github.com/jarena3/compcon/commit/eb3624762da81f4e616a14e7c36e8711f51f2bb7)), closes [#742](https://github.com/jarena3/compcon/issues/742)
+* **NPC Roster:** nPC Feature removal fix ([95cf98a](https://github.com/jarena3/compcon/commit/95cf98a22c84dd3822fa5825d55311fa80812d93))
+* fixed theme/navbar reset on refresh ([4921730](https://github.com/jarena3/compcon/commit/4921730555dfcf18336a269353fc67fb9c5c8f7b)), closes [#710](https://github.com/jarena3/compcon/issues/710)
+
+
+
 ## [2.0.19](https://github.com/jarena3/compcon/compare/2.0.18...2.0.19) (2020-03-26)
 
 
