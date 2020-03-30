@@ -300,6 +300,7 @@
             :key="i.Feature.ID + idx"
             :item="i"
             @remove-feature="npc.RemoveFeature(i.Feature)"
+            @recalc="npc.RecalcBonuses()"
           />
         </v-col>
         <v-col cols="auto">
