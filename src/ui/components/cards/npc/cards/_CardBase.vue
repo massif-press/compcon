@@ -45,7 +45,7 @@
                 <v-list-item-title>Set Custom Description</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <div v-if="destructable">
+            <div>
               <v-divider />
               <v-list-item @click="$emit('remove-feature', $event)">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
