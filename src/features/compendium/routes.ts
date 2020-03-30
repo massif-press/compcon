@@ -39,79 +39,79 @@ const routes: RouteConfig[] = [
         component: Search,
       },
       {
-        path: '/licenses',
+        path: '/compendium/licenses',
         component: Licenses,
       },
       {
-        path: '/manufacturers',
+        path: '/compendium/manufacturers',
         component: Manufacturers,
       },
       {
-        path: '/frames',
+        path: '/compendium/frames',
         component: Frames,
       },
       {
-        path: '/weapons',
+        path: '/compendium/weapons',
         component: Weapons,
       },
       {
-        path: '/systems',
+        path: '/compendium/systems',
         component: Systems,
       },
       {
-        path: '/pilot_gear',
+        path: '/compendium/pilot_gear',
         component: PilotGear,
       },
       {
-        path: '/skills',
+        path: '/compendium/skills',
         component: Skills,
       },
       {
-        path: '/npc_classes',
+        path: '/compendium/npc_classes',
         component: NpcClasses,
       },
       {
-        path: '/npc_features',
+        path: '/compendium/npc_features',
         component: NpcFeatures,
       },
       {
-        path: '/npc_templates',
+        path: '/compendium/npc_templates',
         component: NpcTemplates,
       },
       {
-        path: '/statuses',
+        path: '/compendium/statuses',
         component: Statuses,
       },
       {
-        path: '/tags',
+        path: '/compendium/tags',
         component: Tags,
       },
       {
-        path: '/reference',
+        path: '/compendium/reference',
         component: Reference,
       },
       {
-        path: '/corebonuses',
+        path: '/compendium/corebonuses',
         component: CoreBonuses,
       },
       {
-        path: '/talents',
+        path: '/compendium/talents',
         component: Talents,
       },
       {
-        path: '/backgrounds',
+        path: '/compendium/backgrounds',
         component: Backgrounds,
       },
       {
-        path: '/actions',
+        path: '/compendium/actions',
         component: ActionEconomy,
       },
       {
-        path: '/glossary',
+        path: '/compendium/glossary',
         component: Glossary,
       },
       {
-        path: '/reserves',
+        path: '/compendium/reserves',
         component: Reserves,
       },
     ],

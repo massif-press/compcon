@@ -14,18 +14,18 @@
           <cc-major-btn
             icon="mdi-factory"
             name="Manufacturers"
-            @clicked="$router.push('manufacturers')"
+            @clicked="$router.push('compendium/manufacturers')"
           />
           <cc-major-btn
             color="primary"
             icon="mdi-view-week"
             name="Licenses"
-            @clicked="$router.push('licenses')"
+            @clicked="$router.push('compendium/licenses')"
           />
           <cc-major-btn
             icon="cci-corebonus"
             name="CORE Bonuses"
-            @clicked="$router.push('corebonuses')"
+            @clicked="$router.push('compendium/corebonuses')"
           />
         </v-row>
         <v-row wrap justify="center">
@@ -33,19 +33,19 @@
             color="frame"
             icon="cci-frame"
             name="Frames"
-            @clicked="$router.push('frames')"
+            @clicked="$router.push('compendium/frames')"
           />
           <cc-major-btn
             color="weapon"
             icon="cci-melee"
             name="Mech Weapons"
-            @clicked="$router.push('weapons')"
+            @clicked="$router.push('compendium/weapons')"
           />
           <cc-major-btn
             color="system"
             icon="mdi-chip"
             name="Mech Systems"
-            @clicked="$router.push('systems')"
+            @clicked="$router.push('compendium/systems')"
           />
         </v-row>
         <v-row wrap justify="center">
@@ -53,25 +53,25 @@
             color="secondary"
             icon="cci-pilot"
             name="Pilot Gear"
-            @clicked="$router.push('pilot_gear')"
+            @clicked="$router.push('compendium/pilot_gear')"
           />
           <cc-major-btn
             color="secondary"
             icon="public"
             name="Backgrounds"
-            @clicked="$router.push('backgrounds')"
+            @clicked="$router.push('compendium/backgrounds')"
           />
           <cc-major-btn
             color="secondary"
             icon="cci-accuracy"
             name="Skill Triggers"
-            @clicked="$router.push('skills')"
+            @clicked="$router.push('compendium/skills')"
           />
           <cc-major-btn
             color="secondary"
             icon="cci-rank-3"
             name="Talents"
-            @clicked="$router.push('talents')"
+            @clicked="$router.push('compendium/talents')"
           />
         </v-row>
         <v-row wrap justify="center">
@@ -79,37 +79,53 @@
             color="primary"
             icon="cci-role-striker"
             name="NPC Classes"
-            @clicked="$router.push('npc_classes')"
+            @clicked="$router.push('compendium/npc_classes')"
           />
           <cc-major-btn
             color="primary"
             icon="cci-role-striker"
             name="NPC Features"
-            @clicked="$router.push('npc_features')"
+            @clicked="$router.push('compendium/npc_features')"
           />
           <cc-major-btn
             color="primary"
             icon="cci-role-striker"
             name="NPC Templates"
-            @clicked="$router.push('npc_templates')"
+            @clicked="$router.push('compendium/npc_templates')"
           />
         </v-row>
         <v-row wrap justify="center">
           <cc-major-btn
             icon="mdi-gauge"
             name="Statuses & Conditions"
-            @clicked="$router.push('statuses')"
+            @clicked="$router.push('compendium/statuses')"
           />
-          <cc-major-btn icon="cci-barrage" name="Reserves" @clicked="$router.push('reserves')" />
-          <cc-major-btn icon="mdi-map" name="Action Economy" @clicked="$router.push('actions')" />
+          <cc-major-btn
+            icon="cci-barrage"
+            name="Reserves"
+            @clicked="$router.push('compendium/reserves')"
+          />
+          <cc-major-btn
+            icon="mdi-map"
+            name="Action Economy"
+            @clicked="$router.push('compendium/actions')"
+          />
         </v-row>
         <v-row wrap justify="center">
-          <cc-major-btn icon="mdi-tag" name="Equipment Tags" @clicked="$router.push('tags')" />
-          <cc-major-btn icon="mdi-map" name="Reference" @clicked="$router.push('reference')" />
+          <cc-major-btn
+            icon="mdi-tag"
+            name="Equipment Tags"
+            @clicked="$router.push('compendium/tags')"
+          />
+          <cc-major-btn
+            icon="mdi-map"
+            name="Reference"
+            @clicked="$router.push('compendium/reference')"
+          />
           <cc-major-btn
             icon="mdi-library-books"
             name="Glossary"
-            @clicked="$router.push('glossary')"
+            @clicked="$router.push('compendium/glossary')"
           />
         </v-row>
       </v-container>
