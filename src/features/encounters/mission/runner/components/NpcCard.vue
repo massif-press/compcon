@@ -250,7 +250,12 @@
     </v-row>
     <v-row dense>
       <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" cols="6">
-        <cc-npc-item-card :item="i" active @add-reaction="npc.AddReaction($event)" />
+        <cc-npc-item-card
+          :item="i"
+          active
+          @add-reaction="npc.AddReaction($event)"
+          @recalc="npc.RecalcBonuses()"
+        />
       </v-col>
     </v-row>
     <v-divider class="my-3" />

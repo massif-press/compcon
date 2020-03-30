@@ -13,7 +13,7 @@
             <v-icon icon small dark class="fadeSelect mt-n1" v-on="on">mdi-settings</v-icon>
           </template>
           <v-list dense>
-            <v-list-item :disabled="item.Tier === 3" @click="item.Tier++">
+            <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">
               <v-list-item-icon class="ma-0 mr-2 mt-3">
                 <v-icon>mdi-arrow-up-thick</v-icon>
               </v-list-item-icon>
@@ -21,7 +21,7 @@
                 <v-list-item-title>Upgrade Tier</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item :disabled="item.Tier === 1" @click="item.Tier--">
+            <v-list-item :disabled="item.Tier === 1" @click="downgradeTier()">
               <v-list-item-icon class="ma-0 mr-2 mt-2">
                 <v-icon>mdi-arrow-down-thick</v-icon>
               </v-list-item-icon>
@@ -157,6 +157,16 @@ export default Vue.extend({
         this.item.Feature.FeatureType === 'Weapon' ||
         this.item.Feature.FeatureType === 'Tech'
       )
+    },
+  },
+  methods: {
+    upgradeTier() {
+      this.item.Tier++
+      this.$emit('recalc')
+    },
+    downgradeTier() {
+      this.item.Tier--
+      this.$emit('recalc')
     },
   },
 })

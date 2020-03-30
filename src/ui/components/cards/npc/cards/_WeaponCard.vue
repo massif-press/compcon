@@ -4,6 +4,7 @@
     :active="active"
     :readonly="readonly"
     @remove-feature="$emit('remove-feature', $event)"
+    @recalc="$emit('recalc')"
   >
     <v-row class="heading h3 text-center" dense no-gutters>
       <v-col cols="auto">
@@ -67,9 +68,8 @@
           </div>
           <div v-else-if="item.Feature.Accuracy(1) < 0">
             <v-icon>cci-difficulty</v-icon>
-            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} / +{{
-              Math.abs(item.Feature.Accuracy(3))
-            }}
+            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} /
+            +{{ Math.abs(item.Feature.Accuracy(3)) }}
             Difficulty
           </div>
         </span>

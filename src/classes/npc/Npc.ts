@@ -208,8 +208,8 @@ export class Npc implements IActor {
       this._stats = NpcStats.FromClass(this.Class, newTier)
       this._items.forEach(i => {
         i.Tier = newTier
-        this.setStatBonuses(i.Feature)
       })
+      this.RecalcBonuses()
     }
     this.save()
   }
@@ -272,37 +272,50 @@ export class Npc implements IActor {
     this.save()
   }
 
-  setStatBonuses(feat: NpcFeature, remove?: boolean): void {
-    if (feat.Override) {
-      for (const key in feat.Override) {
-        if (remove && typeof this.Tier === 'number')
-          this._stats.Stats[key] = this.Class.Stats.Stat(key, this.Tier)
-        else this._stats.Stats[key] = feat.Override[key]
+  setStatBonuses(item: NpcItem, remove?: boolean): void {
+    if (item.Feature.Override) {
+      for (const key in item.Feature.Override) {
+        const o = Array.isArray(item.Feature.Override[key])
+          ? item.Feature.Override[key][item.Tier - 1]
+          : item.Feature.Override[key]
+        if (remove) delete this._stats.Overrides[key]
+        else this._stats.Overrides[key] = o
       }
     } else {
-      if (feat.Bonus) {
-        for (const key in feat.Bonus) {
-          if (feat.Bonus.hasOwnProperty(key)) {
-            if (remove) this._stats.Stats[key] -= feat.Bonus[key]
-            else this._stats.Stats[key] += feat.Bonus[key]
+      if (item.Feature.Bonus) {
+        for (const key in item.Feature.Bonus) {
+          const b = Array.isArray(item.Feature.Bonus[key])
+            ? item.Feature.Bonus[key][item.Tier - 1]
+            : item.Feature.Bonus[key]
+          if (remove) {
+            delete this._stats.Bonuses[key]
+          } else {
+            this._stats.Bonuses[key] = b
           }
         }
       }
     }
   }
 
+  public RecalcBonuses(): void {
+    this._items.forEach(i => {
+      this.setStatBonuses(i)
+    })
+  }
+
   public AddFeature(feat: NpcFeature): void {
     const t = typeof this.Tier === 'number' ? this.Tier : 1
-    this._items.push(new NpcItem(feat, t))
-    this.setStatBonuses(feat)
+    const item = new NpcItem(feat, t)
+    this._items.push(item)
+    this.setStatBonuses(item)
     this.save()
   }
 
   public RemoveFeature(feat: NpcFeature): void {
     const j = this._items.findIndex(x => x.Feature.ID === feat.ID)
     if (j > -1) {
+      this.setStatBonuses(this._items[j], true)
       this._items.splice(j, 1)
-      this.setStatBonuses(feat, true)
     }
     this.save()
   }
