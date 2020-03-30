@@ -122,12 +122,13 @@
         SITREP
       </cc-title>
       <v-select
-        v-model="encounter.Sitrep"
+        v-model="selRep"
         item-text="name"
         outlined
         dense
         label="Engagement Type"
         :items="sitreps"
+        @change="encounter.Sitrep = sitreps.find(x => x.name === selRep)"
       />
       <v-textarea
         v-model="encounter.Sitrep.description"
@@ -388,6 +389,9 @@ export default Vue.extend({
       default: () => [],
     },
   },
+  data: () => ({
+    selRep: 'Standard Combat',
+  }),
   computed: {
     encounter() {
       const store = getModule(EncounterStore, this.$store)
