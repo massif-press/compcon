@@ -1,6 +1,6 @@
 <template>
   <cc-sidebar-view cols="3">
-    <div slot="alt">
+    <div slot="sidebar">
       <v-row dense>
         <v-col>
           <v-text-field
