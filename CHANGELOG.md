@@ -1,3 +1,17 @@
+## [2.0.21](https://github.com/jarena3/compcon/compare/2.0.20...2.0.21) (2020-03-31)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** fix negative SP selection bug ([d674085](https://github.com/jarena3/compcon/commit/d6740858e8b529403744ab7d57af2cc6e9ebf775)), closes [#752](https://github.com/jarena3/compcon/issues/752)
+
+
+### Features
+
+* improved tablet views for pilot and compendium pages ([db42fde](https://github.com/jarena3/compcon/commit/db42fde3b427136e8a39ea2affef15a1cdcbcad4)), closes [#751](https://github.com/jarena3/compcon/issues/751)
+
+
+
 ## [2.0.20](https://github.com/jarena3/compcon/compare/2.0.19...2.0.20) (2020-03-30)
 
 
