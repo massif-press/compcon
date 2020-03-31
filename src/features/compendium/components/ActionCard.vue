@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="downtime ? 4 : 3">
+  <v-col :lg="downtime ? 4 : 3" cols="6">
     <cc-titled-panel
       clickable
       :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
@@ -17,6 +17,7 @@
       :color="`action--${action.action_type}`"
       no-confirm
       :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
+      width="80vw"
     >
       <p class="body-text text--text" v-html="action.detail" />
     </cc-solo-dialog>

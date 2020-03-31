@@ -3,7 +3,7 @@
   <div style="height: 155px;">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
-        <v-col cols="10">
+        <v-col :lg="10" :cols="12">
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
               <div class="overline mb-n6">callsign</div>
@@ -91,11 +91,10 @@
           <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>
       </v-row>
-      <div id="image-bg" />
-      <v-hover>
+      <div id="image-bg" class="d-none d-lg-flex" />
+      <v-hover class="d-none d-lg-flex">
         <template v-slot:default="{ hover }">
           <div id="image" class="border">
-            <!-- TODO: no data image -->
             <v-img
               v-if="pilot.Portrait"
               :key="pilot.Image"

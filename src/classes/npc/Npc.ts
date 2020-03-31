@@ -269,6 +269,8 @@ export class Npc implements IActor {
       temp.BaseFeatures.forEach(f => this.RemoveFeature(f))
       temp.OptionalFeatures.forEach(f => this.RemoveFeature(f))
     }
+    this.ResetStats()
+    this.RecalcBonuses()
     this.save()
   }
 
@@ -278,7 +280,7 @@ export class Npc implements IActor {
         const o = Array.isArray(item.Feature.Override[key])
           ? item.Feature.Override[key][item.Tier - 1]
           : item.Feature.Override[key]
-        if (remove) delete this._stats.Overrides[key]
+        if (remove) this._stats.Overrides[key] = 0
         else this._stats.Overrides[key] = o
       }
     } else {
@@ -288,7 +290,7 @@ export class Npc implements IActor {
             ? item.Feature.Bonus[key][item.Tier - 1]
             : item.Feature.Bonus[key]
           if (remove) {
-            delete this._stats.Bonuses[key]
+            this._stats.Bonuses[key] = 0
           } else {
             this._stats.Bonuses[key] = b
           }
