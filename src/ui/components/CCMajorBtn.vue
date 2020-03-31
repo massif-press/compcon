@@ -1,5 +1,5 @@
 <template>
-  <v-col grow>
+  <v-col :cols="cols">
     <v-hover v-slot:default="{ hover }">
       <v-card
         id="underline-parent"
@@ -43,19 +43,21 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-
 @Component({ name: 'cc-major-btn' })
 export default class CCMajorButton extends Vue {
-  @Prop({ type: String, required: true, })
+  @Prop({ type: String, required: true })
   readonly name!: string
 
-  @Prop({ type: String, required: false, default: '', })
+  @Prop({ type: String, required: false, default: '' })
   readonly icon: string
 
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly small?: boolean
 
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: String, required: false, default: '' })
+  readonly cols?: string
+
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
 }
 </script>

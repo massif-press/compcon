@@ -4,6 +4,7 @@
     :active="active"
     :readonly="readonly"
     @remove-feature="$emit('remove-feature', $event)"
+    @recalc="$emit('recalc')"
   >
     <span class="overline">TRIGGER</span>
     <p class="panel body-1 mb-0" v-html="item.Feature.Trigger" />

@@ -146,7 +146,7 @@ export default Vue.extend({
 
 .col-container:hover .help-text {
   opacity: 1;
-  color: var(--v-primary-base);
+  color: var(--v-accent-base);
   font-weight: bolder;
 }
 </style>

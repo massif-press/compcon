@@ -70,7 +70,7 @@
         v-for="(s, i) in pilot.Skills"
         :key="`sk_${i}`"
         :ref="`sk_${i}`"
-        cols="4"
+        :cols="$vuetify.breakpoint.lg ? 4 : 6"
         color="secondary"
         collapsible
         start-closed
@@ -129,6 +129,7 @@
         :key="`tal_${i}`"
         :ref="`tal_${i}`"
         collapsible
+        start-closed
         color="primary"
         :cols="6"
         :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
