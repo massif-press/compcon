@@ -1,5 +1,4 @@
 const WebpackPwaManifest = require('webpack-pwa-manifest')
-const { GenerateSW } = require('workbox-webpack-plugin')
 const InjectPlugin = require('webpack-inject-plugin').default
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -29,37 +28,6 @@ module.exports = {
         },
       ],
     }),
-    new GenerateSW({
-      swDest: 'sw.js',
-      clientsClaim: true,
-      skipWaiting: true,
-      navigateFallback: '/index.html',
-      exclude: ['netlify.toml', /\.map$/, /\.(png|jpg|jpeg|svg)$/i],
-      runtimeCaching: [
-        {
-          urlPattern: /(^https:\/\/.*)?\.(png|jpg|jpeg|svg)(#.*)?$/i,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        {
-          urlPattern: /(^https:\/\/.*)?\.(woff|woff2|ttf|otf|eot|)$/i,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'fonts',
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-      ],
-    }),
-    // inject code to register service worker we just generated, but only in prod
-    new InjectPlugin(() => fs.readFileSync(path.resolve(__dirname, '../public/register_sw.js'))),
     new FaviconsWebpackPlugin({
       logo: './icons/256x256.png', // svg works too!
       favicons: {
