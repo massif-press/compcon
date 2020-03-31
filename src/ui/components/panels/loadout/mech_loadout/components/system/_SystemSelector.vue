@@ -141,8 +141,7 @@ export default Vue.extend({
       }
 
       if (!this.showOverSP) {
-        const swapSP = this.equipped && this.equipped.SP ? this.equipped.SP : 0
-        i = i.filter(x => x.SP <= this.freeSP + swapSP)
+        i = i.filter(x => x.SP <= this.freeSP)
       }
 
       return i

@@ -11,7 +11,7 @@
           hide-details
           single-line
           placeholder="Search"
-          @input="$_.debounce(setSearch($event), 500)"
+          @input="setSearch($event)"
         />
       </v-col>
     </v-row>
