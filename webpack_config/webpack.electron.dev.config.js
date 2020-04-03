@@ -23,6 +23,7 @@ const subprocessPlugin = {
           });
 
           child.on('exit', () => {
+            require('process').exit()
             this.electronChildProcessRunning = false
           });
         }

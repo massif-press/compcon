@@ -1,5 +1,11 @@
 <template>
-  <v-btn dark outlined small :disabled="checking" @click="checkUpdates">
+  <v-btn v-if="updateFound" small class="primary--text glow-anim" @click="updateClick">
+    <v-icon left small color="primary">
+      cloud_download
+    </v-icon>
+    {{ updateText }}
+  </v-btn>
+  <v-btn v-else dark outlined small :disabled="checking" @click="checkUpdates">
     <v-icon left small :class="{ 'spin-anim': checking }">
       sync
     </v-icon>
@@ -10,10 +16,12 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import updateChecker from '@/classes/utility/UpdateChecker'
 
 @Component
 export default class UpdatesTracker extends Vue {
 
+  updateFound = false;
   checking = false;
   async checkUpdates() {
 
@@ -21,26 +29,29 @@ export default class UpdatesTracker extends Vue {
 
     this.checking = true;
 
-    const swReg: ServiceWorkerRegistration | undefined = window.swReg
-
-    if (!swReg) {
-      this.checking = false;
-      return;
-    };
-
-    let foundUpdate = false;
-    swReg.onupdatefound = () => { foundUpdate = true }
-
-    await swReg.update()
-
-    console.log('foundUpdate', foundUpdate)
+    await updateChecker.checkUpdates();
 
     this.checking = false;
   }
 
+  created() {
+    updateChecker.on('updatefound', () => this.updateFound = true)
+  }
+
   mounted() {
-    console.log('hello');
-    // this.checkUpdates();
+    if (updateChecker.updateAvailable) this.updateFound = true
+  }
+
+  get updateText(): string {
+    switch (this.$platform) {
+      case 'web':
+        return 'Update and Reload'
+      case 'electron':
+        return 'Download Update'
+    }
+  }
+  updateClick() {
+    updateChecker.getUpdate()
   }
 
 }
@@ -60,6 +71,22 @@ export default class UpdatesTracker extends Vue {
   }
   to {
     transform: rotate(-360deg);
+  }
+}
+
+.glow-anim {
+  animation-name: glow;
+  animation-duration: 1.2s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0px 0px 0px 0px rgba(245, 245, 245, 1);
+  }
+  to {
+    box-shadow: 0px 0px 0px 8px rgba(245, 245, 245, 0);
   }
 }
 </style>
