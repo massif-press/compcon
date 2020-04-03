@@ -33,11 +33,11 @@ export class UpdateChecker extends EventEmitter {
   private _updateAvailable = false;
   get updateAvailable() { return this._updateAvailable }
   set updateAvailable(val) {
-    this._updateAvailable = val;
-    if (val === true) {
-      this.emit('updatefound')
+    if (val === true && this.updateAvailable !== true) {
+      this.emit('updatefound',)
       Vue.prototype.$notify('Update found! Click <b>here</b> to download it.', null, () => this.getUpdate())
     }
+    this._updateAvailable = val;
   }
 
   private async _checkUpdates() {
