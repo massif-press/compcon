@@ -16,7 +16,7 @@
               <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
-              <v-list-item-title :class="`${color}--text font-weight-bold`">
+              <v-list-item-title class="accent--text font-weight-bold">
                 <v-icon color="primary" left>add</v-icon>
                 Add New Loadout
               </v-list-item-title>
@@ -41,25 +41,15 @@
               <v-icon>delete</v-icon>
             </v-btn>
           </template>
-          <v-card>
-            <v-card-text class="text-center flavor-text">
-              <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-              <br />
-              //[COMP/CON:
-              <b class="stark--text">
-                Lancer, please confirm deletion of
-                <span class="accent--text">{{ activeLoadout.Name }}</span>
-                Loadout
-              </b>
-              ]
-              <v-divider class="my-2" />
-              <v-row dense>
-                <cc-btn small color="error" class="ml-auto" @click="$emit('remove-loadout')">
-                  CONFIRM
-                </cc-btn>
-              </v-row>
-            </v-card-text>
-          </v-card>
+          <cc-confirmation
+            :content="
+              `Lancer, please confirm deletion of:
+          <span class='accent--text'>
+            ${activeLoadout.Name}
+          </span> Loadout`
+            "
+            @confirm="$emit('remove-loadout')"
+          />
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
