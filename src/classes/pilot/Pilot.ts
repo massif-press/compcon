@@ -521,8 +521,8 @@ class Pilot {
     this.save()
   }
 
-  public AddCustomSkill(skill: string): void {
-    this.AddSkill(new CustomSkill(skill))
+  public AddCustomSkill(cs: { skill: string; description: string }): void {
+    this.AddSkill(new CustomSkill(cs.skill, cs.description))
   }
 
   public CanRemoveSkill(skill: Skill | CustomSkill): boolean {
