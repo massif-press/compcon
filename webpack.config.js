@@ -163,7 +163,8 @@ const baseConfig = {
       template: path.resolve(__dirname, 'public/index.html')
     }),
     new DefinePlugin({
-      'process.env.VERSION_STRING': JSON.stringify(versionString())
+      'process.env.VERSION_STRING': JSON.stringify(versionString()),
+      'process.env.PACKAGE_VERSION': JSON.stringify(require('./package.json').version)
     }),
   ]
 }
