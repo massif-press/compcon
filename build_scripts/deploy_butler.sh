@@ -4,7 +4,7 @@ TAG_BUILD_VERSION=`echo $TRAVIS_TAG | cut -d'-' -f1`
 build_type=`echo $TRAVIS_TAG | cut -d'-' -f2`
 
 
-MAC_ITCH_CHANNEL="massif-press/compcon:osx"
+MAC_ITCH_CHANNEL="massif-press/compcon:mac"
 WIN_ITCH_CHANNEL="massif-press/compcon:win"
 LINUX_ITCH_CHANNEL="massif-press/compcon:linux"
 
