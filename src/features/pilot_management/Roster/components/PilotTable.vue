@@ -15,7 +15,7 @@
     <tbody>
       <tr v-for="p in pilots" :key="p.ID">
         <td>
-          <v-btn small text color="primary" @click="toPilotSheet(p)">{{ p.Callsign }}</v-btn>
+          <v-btn small text color="accent" @click="toPilotSheet(p)">{{ p.Callsign }}</v-btn>
         </td>
         <td>{{ p.Name }}</td>
         <td>
