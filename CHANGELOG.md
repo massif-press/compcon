@@ -1,3 +1,7 @@
+## [2.0.24](https://github.com/jarena3/compcon/compare/2.0.23...2.0.24) (2020-04-04)
+
+
+
 ## [2.0.23](https://github.com/jarena3/compcon/compare/2.0.22...2.0.23) (2020-04-04)
 
 
