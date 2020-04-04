@@ -229,7 +229,6 @@ export default Vue.extend({
   data: () => ({
     tabs: 0,
     burn: 0,
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
     resistances: [
       { name: 'Kinetic', color: 'kinetic' },
       { name: 'Energy', color: 'energy' },
@@ -245,6 +244,11 @@ export default Vue.extend({
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
+    },
+    overcharge(): string[] {
+      return this.pilot.has('corebonus', 'cb_heatfall_coolant_system')
+        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
+        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
     },
     loadout(): MechLoadout {
       return this.mech.ActiveLoadout
