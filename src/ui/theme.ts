@@ -43,7 +43,6 @@ const themeDefaults = {
   'reserve--tactical': '#827717',
   'reserve--mech': '#BF360C',
   'reserve--project': '#5D4037',
-  'reserve--organization': '#455A64',
   'reserve--custom': '#D84315',
 
   'role--striker': '#bd3f39',
@@ -109,6 +108,7 @@ const theme: any = {
         'stark-panel': '#EDEDED',
 
         'action--downtime': '#37474F',
+        'reserve--organization': '#455A64',
       },
       dark: {
         ...themeDefaults,
@@ -136,6 +136,7 @@ const theme: any = {
         'stark-panel': '#131b1f',
 
         'action--downtime': '#1dc2c2',
+        'reserve--organization': '#3ec2c2',
       },
     },
   },
