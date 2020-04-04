@@ -70,7 +70,7 @@
         v-for="(s, i) in pilot.Skills"
         :key="`sk_${i}`"
         :ref="`sk_${i}`"
-        :cols="$vuetify.breakpoint.lg ? 4 : 6"
+        :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
         color="secondary"
         collapsible
         start-closed
