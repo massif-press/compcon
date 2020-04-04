@@ -178,8 +178,12 @@ export default Vue.extend({
     stressRollover: { type: Boolean },
     hpResistance: { type: Boolean },
   },
-  data: () => ({
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
-  }),
+  computed: {
+    overcharge(): string[] {
+      return this.mech.Pilot.has('corebonus', 'cb_heatfall_coolant_system')
+        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
+        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
+    },
+  },
 })
 </script>
