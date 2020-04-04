@@ -101,7 +101,7 @@ export default Vue.extend({
 <style scoped>
 #pc-wrapper {
   position: relative;
-  min-height: 150px;
+  /* min-height: 150px; */
   min-width: 100%;
   cursor: pointer;
 }

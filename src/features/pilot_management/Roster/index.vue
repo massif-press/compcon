@@ -15,7 +15,7 @@
     <roster-sort :pilots="pilots" @sort="onSort" />
     <v-slide-x-transition mode="out-in">
       <v-container v-if="profile.RosterView === 'list'" fluid>
-        <v-row>
+        <v-row dense>
           <v-col v-for="p in pilots" :key="p.ID" cols="12">
             <pilot-list-item :pilot="p" />
           </v-col>
