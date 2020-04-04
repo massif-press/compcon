@@ -30,6 +30,11 @@ class Organization {
     return this._purpose
   }
 
+  public set Purpose(val: OrgType) {
+    this._purpose = val
+    this.save()
+  }
+
   public get Name(): string {
     return this._name
   }
