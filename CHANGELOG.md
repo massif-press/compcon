@@ -1,3 +1,20 @@
+## [2.0.22](https://github.com/jarena3/compcon/compare/2.0.21...2.0.22) (2020-04-04)
+
+
+### Bug Fixes
+
+* **Pilot Sheet:** fix organization type setting error ([7682161](https://github.com/jarena3/compcon/commit/7682161408b1d3ef710cce0d731739d78b1105d0)), closes [#757](https://github.com/jarena3/compcon/issues/757)
+
+
+### Features
+
+* **Active Mode:** overcharge now considers Heatfall ([9e12990](https://github.com/jarena3/compcon/commit/9e12990ffa89829faebbe2db46e14c3fb6a789e9)), closes [#755](https://github.com/jarena3/compcon/issues/755)
+* **Pilot Sheet:** add custom skill trigger description ([a4a2219](https://github.com/jarena3/compcon/commit/a4a22193f20c4263e1b355810e8e183e1c957fc8)), closes [#526](https://github.com/jarena3/compcon/issues/526)
+* **Pilot Sheet:** pilot roster cards ([fcdd132](https://github.com/jarena3/compcon/commit/fcdd1322f14e3e77de8a6458b1147fc53de9c172)), closes [#507](https://github.com/jarena3/compcon/issues/507)
+* **Pilot Sheet:** shorten skill trigger descriptions ([28da97d](https://github.com/jarena3/compcon/commit/28da97dbde6d6f4a835d568810482caf7b2df72c))
+
+
+
 ## [2.0.21](https://github.com/jarena3/compcon/compare/2.0.20...2.0.21) (2020-03-31)
 
 
