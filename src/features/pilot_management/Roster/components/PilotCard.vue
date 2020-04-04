@@ -4,7 +4,7 @@
       <template v-slot:default="{ hover }">
         <v-card
           class="card-outline"
-          height="300px"
+          height="25vw"
           tile
           flat
           @click="$router.push(`pilot/${pilot.ID}`)"
@@ -23,7 +23,7 @@
             <div class="overline mb-n1 text-right">LL</div>
             <div class="heading h2 mt-n2">{{ pilot.Level }}</div>
           </div>
-          <v-img :src="pilot.Portrait" position="top center" height="100%" />
+          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
           <v-fade-transition>
             <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
               <v-card flat tile class="flavor-text" light>

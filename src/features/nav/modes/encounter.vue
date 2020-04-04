@@ -4,9 +4,13 @@
     <v-divider vertical dark class="ml-2 mr-2" />
     <v-btn text tile to="/gm/encounter-builder">Encounters</v-btn>
     <v-divider vertical dark class="ml-2 mr-2" />
-    <v-btn v-if="$vuetify.breakpoint.lg" text tile to="/gm/mission/builder">Mission Builder</v-btn>
-    <v-btn v-if="$vuetify.breakpoint.lg" text tile to="/gm/mission/selector">Mission Runner</v-btn>
-    <v-btn v-if="!$vuetify.breakpoint.lg" text tile to="/gm/mission">Missions</v-btn>
+    <v-btn v-if="$vuetify.breakpoint.lgAndUp" text tile to="/gm/mission/builder">
+      Mission Builder
+    </v-btn>
+    <v-btn v-if="$vuetify.breakpoint.lgAndUp" text tile to="/gm/mission/selector">
+      Mission Runner
+    </v-btn>
+    <v-btn v-if="!$vuetify.breakpoint.lgAndUp" text tile to="/gm/mission">Missions</v-btn>
     <v-divider vertical dark class="ml-2 mr-2" />
   </div>
 </template>
