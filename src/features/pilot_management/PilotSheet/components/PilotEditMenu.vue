@@ -2,7 +2,7 @@
   <div>
     <v-menu offset-y top>
       <template v-slot:activator="{ on: menu }">
-        <v-btn class="ml-2" icon dark v-on="menu">
+        <v-btn class="ml-2" icon :dark="!light" v-on="menu">
           <v-icon>mdi-settings</v-icon>
         </v-btn>
       </template>
@@ -118,6 +118,9 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    light: {
+      type: Boolean,
+    },
   },
   methods: {
     deletePilot() {
@@ -125,6 +128,6 @@ export default Vue.extend({
       const store = getModule(PilotManagementStore, this.$store)
       store.deletePilot(this.pilot)
     },
-  },})
-
+  },
+})
 </script>
