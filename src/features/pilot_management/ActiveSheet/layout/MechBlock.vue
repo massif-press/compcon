@@ -89,7 +89,7 @@
       </v-row>
 
       <large-pip-layout
-        v-if="$vuetify.breakpoint.lg"
+        v-if="$vuetify.breakpoint.lgAndUp"
         :mech="mech"
         :struct-rollover="structRolledOver"
         :stress-rollover="stressRolledOver"
@@ -124,13 +124,13 @@
             <cc-active-card
               prominent
               color="frame"
-              :header="$vuetify.breakpoint.lg ? 'Attack Bonus' : 'Atk Bonus'"
+              :header="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
               :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`"
             />
             <cc-active-card
               prominent
               color="frame"
-              :header="$vuetify.breakpoint.lg ? 'Tech Attack' : 'Tech Atk'"
+              :header="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
               :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
             />
           </v-row>
@@ -144,19 +144,19 @@
             <cc-active-card
               prominent
               color="frame"
-              :header="$vuetify.breakpoint.lg ? 'E-Defense' : 'E-Def'"
+              :header="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-Def'"
               :content="mech.EDefense"
             />
             <cc-active-card
               prominent
               color="frame"
-              :header="$vuetify.breakpoint.lg ? 'Save Target' : 'Save'"
+              :header="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
               :content="mech.SaveTarget"
             />
             <cc-active-card
               prominent
               color="frame"
-              :header="$vuetify.breakpoint.lg ? 'Sensor Range' : 'Sensors'"
+              :header="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
               :content="mech.SensorRange"
             />
           </v-row>
@@ -229,7 +229,6 @@ export default Vue.extend({
   data: () => ({
     tabs: 0,
     burn: 0,
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
     resistances: [
       { name: 'Kinetic', color: 'kinetic' },
       { name: 'Energy', color: 'energy' },
@@ -245,6 +244,11 @@ export default Vue.extend({
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
+    },
+    overcharge(): string[] {
+      return this.pilot.has('corebonus', 'cb_heatfall_coolant_system')
+        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
+        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
     },
     loadout(): MechLoadout {
       return this.mech.ActiveLoadout

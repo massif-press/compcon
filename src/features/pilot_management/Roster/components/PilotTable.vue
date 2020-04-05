@@ -9,12 +9,13 @@
         <th class="text-left">Active Mech</th>
         <th class="text-left">Campaign</th>
         <th class="text-left">Player</th>
+        <th class="text-right">Options</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="p in pilots" :key="p.ID">
         <td>
-          <v-btn small text color="primary" @click="toPilotSheet(p)">{{ p.Callsign }}</v-btn>
+          <v-btn small text color="accent" @click="toPilotSheet(p)">{{ p.Callsign }}</v-btn>
         </td>
         <td>{{ p.Name }}</td>
         <td>
@@ -36,6 +37,9 @@
         <td>
           <span class="subtle--text">{{ p.PlayerName }}</span>
         </td>
+        <td class="text-right">
+          <edit-menu style="display: inline-block; padding-right: 10px;" :pilot="p" />
+        </td>
       </tr>
     </tbody>
   </v-simple-table>
@@ -44,9 +48,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pilot } from '@/class'
+import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
 
 export default Vue.extend({
   name: 'pilot-table',
+  components: { EditMenu },
   props: {
     pilots: {
       type: Array as () => Pilot[],

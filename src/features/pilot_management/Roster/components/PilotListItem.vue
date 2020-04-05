@@ -5,65 +5,47 @@
       color="primary"
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
-      min-width="150px"
-      min-height="150px"
+      min-width="108px"
+      min-height="108px"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="pilot.Portrait" position="top" height="150px" />
+        <v-img :src="pilot.Portrait" position="top" height="108px" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
       <div
         style="width: 100%;display: flex;justify-content: space-between;"
-        class="overlay primary sliced"
+        class="overlay primary"
       >
-        <div class="heading callsign" style="margin-left: 150px; display: inline-block;">
+        <div class="heading callsign" style="margin-left: 108px; display: inline-block;">
           {{ pilot.Callsign }}
         </div>
-        <edit-menu style="display: inline-block; padding-right: 30px;" :pilot="pilot" />
+        <edit-menu style="display: inline-block; padding-right: 10px;" :pilot="pilot" />
       </div>
-      <div style="margin-right: 30px; border-top: 0!important" class="light-panel clipped">
-        <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
-          <p class="flavor-text mb-0">
-            <span class="subtle--text">>IDENT//[</span>
+      <div style="border-top: 0!important" class="light-panel clipped">
+        <div style="margin-left: 108px; padding-left: 8px;">
+          <p class="flavor-text pt-1">
+            <span class="subtle--text">>[</span>
             <b class="stark--text">{{ pilot.Name }}</b>
-            <span class="subtle--text">] -</span>
-            <span class="subtle--text">>STATUS//[</span>
+            <span class="subtle--text">]</span>
+            <span class="subtle--text">STATUS [</span>
             <span :class="`${statusColor(pilot.Status)}--text`">{{ pilot.Status }}</span>
             <span class="subtle--text">] -</span>
             <span class="text--text">
               {{ pilot.Background.Name }}
-              <span class="subtle--text">&emsp;UNB::LNCR//OPCON_ID > (CHECKSUM OK)</span>
+            </span>
+            <b class="success--text">LL: {{ pilot.Level }}</b>
+            <cc-slashes />
+            <span class="text--text">
+              [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
+                pilot.MechSkills.Sys
+              }}
+              E:{{ pilot.MechSkills.Eng }} ]
             </span>
           </p>
-          <p class="flavor-text mb-0">
-            <span class="subtle--text">
-              >UNB LICENSING BOARD//REGISTRATION STATUS:
-              <span class="success--text">
-                VALID [
-                <b>LL: {{ pilot.Level }}</b>
-                ]
-              </span>
-              <span class="text--text">
-                [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
-                  pilot.MechSkills.Sys
-                }}
-                E:{{ pilot.MechSkills.Eng }} ]
-              </span>
-            </span>
-          </p>
-          <p class="flavor-text mb-0 ml-3">
-            <span v-for="(l, i) in pilot.Licenses" :key="i + pilot.ID">
-              <span class="subtle--text">[ {{ l.license.Source }}</span>
-              <b>
-                {{ l.license.Name }}
-                <span class="success--text">{{ l.Rank }}</span>
-              </b>
-              <span class="subtle--text">]</span>
-            </span>
-          </p>
-          <p v-if="pilot.ActiveMech" class="flavor-text mb-0">
-            <span class="subtle--text">UNB::LNCR//CAV - ACTIVE FRAME //</span>
+          <p v-if="pilot.ActiveMech" class="flavor-text mb-0 pb-2 mt-n1">
+            <span class="subtle--text">UNB::CAV (LNCR)</span>
+            <cc-slashes />
             <span class="text--text">
               {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
             </span>
@@ -119,7 +101,7 @@ export default Vue.extend({
 <style scoped>
 #pc-wrapper {
   position: relative;
-  min-height: 150px;
+  /* min-height: 150px; */
   min-width: 100%;
   cursor: pointer;
 }

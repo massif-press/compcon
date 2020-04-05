@@ -1,21 +1,30 @@
 <template>
-  <v-container fluid class="mx-3">
+  <v-container fluid class="px-3 mt-n6">
     <h1 class="heading margin-nav pl-2">Pilot Roster</h1>
     <v-btn-toggle v-model="profile.RosterView" mandatory>
       <v-btn small icon value="list">
-        <v-icon color="primary">mdi-view-list</v-icon>
+        <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
       <v-btn small icon value="table">
-        <v-icon color="primary">mdi-format-align-justify</v-icon>
+        <v-icon color="accent">mdi-format-align-justify</v-icon>
+      </v-btn>
+      <v-btn small icon value="cards">
+        <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
     </v-btn-toggle>
     <roster-sort :pilots="pilots" @sort="onSort" />
     <v-slide-x-transition mode="out-in">
       <v-container v-if="profile.RosterView === 'list'" fluid>
-        <v-row>
+        <v-row dense>
           <v-col v-for="p in pilots" :key="p.ID" cols="12">
             <pilot-list-item :pilot="p" />
           </v-col>
+        </v-row>
+        <add-pilot />
+      </v-container>
+      <v-container v-else-if="profile.RosterView === 'cards'" fluid>
+        <v-row>
+          <pilot-card v-for="p in pilots" :key="p.ID" :pilot="p" />
         </v-row>
         <add-pilot />
       </v-container>
@@ -31,6 +40,7 @@
 import Vue from 'vue'
 import RosterSort from './components/RosterSort.vue'
 import PilotTable from './components/PilotTable.vue'
+import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
 import AddPilot from './components/AddPilot.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -39,7 +49,7 @@ import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { RosterSort, PilotTable, AddPilot, PilotListItem },
+  components: { RosterSort, PilotTable, AddPilot, PilotListItem, PilotCard },
   data: () => ({
     sortParams: null,
   }),

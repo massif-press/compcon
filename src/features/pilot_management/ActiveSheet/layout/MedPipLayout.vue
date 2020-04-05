@@ -155,25 +155,10 @@
               Full Repair
             </v-btn>
           </template>
-          <v-card>
-            <v-card-text class="flavor-text">
-              <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-              <br />
-              //[COMP/CON:
-              <b class="stark--text">
-                Lancer, this will
-                <span class="accent--text">fully repair and recharge this mech.</span>
-                Do you want to continue?
-              </b>
-              ]
-              <v-divider class="my-2" />
-              <v-row dense>
-                <cc-btn small color="error" class="ml-auto" @click="mech.FullRepair()">
-                  CONFIRM
-                </cc-btn>
-              </v-row>
-            </v-card-text>
-          </v-card>
+          <cc-confirmation
+            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
+            @confirm="mech.FullRepair()"
+          />
         </v-menu>
       </v-col>
     </v-row>
@@ -193,8 +178,12 @@ export default Vue.extend({
     stressRollover: { type: Boolean },
     hpResistance: { type: Boolean },
   },
-  data: () => ({
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
-  }),
+  computed: {
+    overcharge(): string[] {
+      return this.mech.Pilot.has('corebonus', 'cb_heatfall_coolant_system')
+        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
+        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
+    },
+  },
 })
 </script>
