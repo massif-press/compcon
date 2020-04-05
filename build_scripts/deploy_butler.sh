@@ -11,6 +11,7 @@ curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/
 unzip butler.zip &&
 chmod +x butler &&
 ./butler -V &&
+ls ./electron/dist &&
 ./butler push ./electron/dist/COMPCON*.exe ${WIN_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION} &&
 ./butler push ./electron/dist/COMPCON*mac.zip ${MAC_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION} &&
 ./butler push ./electron/dist/COMPCON*.AppImage ${LINUX_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION}
