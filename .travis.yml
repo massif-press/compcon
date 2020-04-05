@@ -28,22 +28,20 @@ jobs:
         - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
         - yarn electron:build -mwl --publish never
       deploy:
-      - provider: releases
-        skip_cleanup: true
-        api_key: $GH_TOKEN
-        file_glob: true
-        file:
-        - "electron/dist/COMPCON*.AppImage"
-        - "electron/dist/COMPCON*.exe"
-        - "electron/dist/COMPCON*mac.zip"
-        skip_cleanup: true
-        draft: true
-        on:
-          branch: v2_electron
-          tags: true
+      # - provider: releases
+      #   token: $GH_TOKEN
+      #   file_glob: true
+      #   file:
+      #   - "electron/dist/COMPCON*.AppImage"
+      #   - "electron/dist/COMPCON*.exe"
+      #   - "electron/dist/COMPCON*mac.zip"
+      #   on:
+      #     branch: v2_electron
+      #     tags: true
+      #   edge: true
       - provider: script
-        skip_cleanup: true
         on:
           branch: v2_electron
           tags: true
         script: bash build_scripts/deploy_butler.sh
+        edge: true
