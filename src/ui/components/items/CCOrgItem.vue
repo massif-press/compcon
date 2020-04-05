@@ -28,7 +28,13 @@
             <v-text-field v-model="org.Name" label="Organization Name" outlined hide-details />
           </v-col>
           <v-col cols="6">
-            <v-text-field v-model="org.Purpose" label="Organization Type" outlined hide-details />
+            <v-select
+              v-model="org.Purpose"
+              label="Organization Type"
+              :items="orgTypes"
+              outlined
+              hide-details
+            />
           </v-col>
         </v-row>
         <v-textarea
@@ -94,6 +100,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { OrgType } from '@/class'
 
 export default Vue.extend({
   name: 'cc-org-item',
@@ -106,6 +113,13 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    orgTypes() {
+      return Object.keys(OrgType)
+        .map(k => OrgType[k as string])
+        .sort() as OrgType[]
+    },
+  },
   methods: {
     remove() {
       this.$emit('remove')

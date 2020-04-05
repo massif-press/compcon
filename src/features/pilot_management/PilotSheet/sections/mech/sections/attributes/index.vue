@@ -12,7 +12,7 @@
         <hase-pips attr="systems" :val="pilot.MechSkills.Sys" :color="color" />
         <hase-pips attr="engineering" :val="pilot.MechSkills.Eng" :color="color" />
         <v-divider class="mt-2" />
-        <span v-if="$vuetify.breakpoint.lg" class="overline no-height">System Points</span>
+        <span v-if="$vuetify.breakpoint.lgAndUp" class="overline no-height">System Points</span>
         <span v-else class="overline no-height">SP</span>
         <cc-tooltip
           :title="`${mech.MaxSP} System Points`"
@@ -54,13 +54,13 @@
                 :color="color"
               />
               <statblock-item
-                :attr="$vuetify.breakpoint.lg ? 'Heat Capacity' : 'Heat Cap'"
+                :attr="$vuetify.breakpoint.lgAndUp ? 'Heat Capacity' : 'Heat Cap'"
                 :val="mech.HeatCapacity"
                 :contributors="mech.HeatCapContributors"
                 :color="color"
               />
               <statblock-item
-                :attr="$vuetify.breakpoint.lg ? 'Repair Capacity' : 'Repair Cap'"
+                :attr="$vuetify.breakpoint.lgAndUp ? 'Repair Capacity' : 'Repair Cap'"
                 :val="mech.RepairCapacity"
                 :contributors="mech.RepCapContributors"
                 :color="color"
@@ -75,21 +75,21 @@
         </v-row>
         <v-row no-gutters>
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'Attack Bonus' : 'Atk Bonus'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
             signed
             :val="mech.AttackBonus"
             :contributors="mech.AttackBonusContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'Tech Attack' : 'Tech Atk'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
             signed
             :val="mech.TechAttack"
             :contributors="mech.TechAttackContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'Limited System Bonus' : 'Limited Bonus'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'Limited System Bonus' : 'Limited Bonus'"
             signed
             :val="mech.LimitedBonus"
             :contributors="mech.LimitedContributors"
@@ -110,19 +110,19 @@
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'E-Defense' : 'E-Def'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-Def'"
             :val="mech.EDefense"
             :contributors="mech.EDefenseContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'Sensor Range' : 'Sensors'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
             :val="mech.SensorRange"
             :contributors="mech.SensorRangeContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lg ? 'Save Target' : 'Save'"
+            :attr="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
             :val="mech.SaveTarget"
             :contributors="mech.SaveTargetContributors"
             :color="color"

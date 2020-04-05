@@ -92,25 +92,10 @@
                   </cc-tooltip>
                 </v-btn>
               </template>
-              <v-card>
-                <v-card-text class="text-center flavor-text">
-                  <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-                  <br />
-                  //[COMP/CON:
-                  <b class="stark--text">
-                    Lancer, this will
-                    <span class="accent--text">permanently delete this image.</span>
-                    Do you want to continue?
-                  </b>
-                  ]
-                  <v-divider class="my-2" />
-                  <v-row dense>
-                    <cc-btn small color="error" class="ml-auto" @click.stop="deleteImage(i)">
-                      CONFIRM
-                    </cc-btn>
-                  </v-row>
-                </v-card-text>
-              </v-card>
+              <cc-confirmation
+                content="Lancer, this will <span class='accent--text'> permanently delete this image.</span> Do you want to continue?"
+                @confirm="$emit('remove-loadout')"
+              />
             </v-menu>
 
             <v-img
