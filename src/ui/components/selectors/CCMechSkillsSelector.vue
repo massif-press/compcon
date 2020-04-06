@@ -10,6 +10,11 @@
         >
           {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }} Mech Skills selected
         </v-alert>
+        <div class="text-center mt-n2">
+          <v-btn small class="fadeSelect" color="info" outlined @click="pilot.resetHASE()">
+            Reset Mech Skills
+          </v-btn>
+        </div>
       </v-col>
     </v-row>
 
