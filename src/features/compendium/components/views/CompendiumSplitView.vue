@@ -33,11 +33,6 @@
           <div class="heading h1 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
-          <div class="text-center mt-3">
-            <v-btn color="secondary" x-large tile @click="$emit('equip', selectedItem)">
-              Equip {{ selectedItem.Name }}
-            </v-btn>
-          </div>
         </div>
       </v-col>
     </v-row>
@@ -46,8 +41,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
 export default Vue.extend({
-  name: 'selector-split-view',
+  name: 'compendium-split-view',
   props: {
     items: {
       type: Array,
@@ -67,7 +63,7 @@ export default Vue.extend({
 
 <style scoped>
 .side-fixed {
-  height: calc(100vh - 250px);
+  height: calc(100vh - 150px);
   overflow-y: scroll;
   top: 125px;
   padding-bottom: 35px;
