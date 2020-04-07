@@ -62,9 +62,11 @@
               <span style="display: block" class="stat-text white--text mt-n2">
                 <v-dialog>
                   <template v-slot:activator="{ on }">
-                    <v-icon class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
+                    <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
                   </template>
-                  <pilot-registration-card :pilot="pilot" pilot-ready />
+                  <v-sheet class="transparent">
+                    <pilot-registration-card :pilot="pilot" pilot-ready />
+                  </v-sheet>
                 </v-dialog>
               </span>
             </v-col>
