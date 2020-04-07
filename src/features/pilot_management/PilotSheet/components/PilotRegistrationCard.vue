@@ -1,11 +1,11 @@
 <template>
-  <v-container class="bordered-primary">
+  <div class="bordered-primary">
     <v-row class="primary white--text mt-n3 px-2" dense>
       <v-col>
         <span class="heading h1">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</span>
         <span class="heading h2 mt-7">&nbsp;({{ pilot.Name || 'ERR NAME NOT FOUND' }})</span>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
+      <v-col cols="auto" class="ml-auto mt-4">
         <v-icon size="70" dark>cci-orbital</v-icon>
       </v-col>
     </v-row>
@@ -16,7 +16,7 @@
       </span>
     </v-row>
 
-    <div class="ml-2">
+    <div class="ml-2 py-1 px-2">
       <v-row dense>
         <span v-if="!pilot.Name" class="flavor-text">
           ERR NAME NOT FOUND UNABLE TO GENERATE UUID
@@ -115,7 +115,7 @@
                 label
               >
                 <v-icon left>cci-trait</v-icon>
-                {{ t.Talent.Name }} I
+                {{ t.Talent.Name }} {{ 'I'.repeat(t.Rank) }}
               </v-chip>
             </v-col>
           </v-row>
@@ -151,7 +151,7 @@
         </span>
       </v-row>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">
