@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-n3">
+  <div class="mt-n2">
     <v-row dense>
       <v-col cols="3" class="pt-2 ml-n6">
         <v-list dense class="side-fixed">
@@ -30,7 +30,7 @@
           NO SELECTION
         </div>
         <div v-else class="side-fixed">
-          <div class="heading h1 stark--text">{{ selectedItem.Name }}</div>
+          <div class="heading h1 mt-2 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
           <div class="text-center mt-3">
@@ -67,7 +67,7 @@ export default Vue.extend({
 
 <style scoped>
 .side-fixed {
-  height: calc(100vh - 250px);
+  height: calc(100vh - 220px);
   overflow-y: scroll;
   top: 125px;
   padding-bottom: 35px;
