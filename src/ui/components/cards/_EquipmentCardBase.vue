@@ -18,7 +18,7 @@
     </div>
     <div v-if="item.Effect">
       <p v-if="typeof item.Effect === 'string'" class="text--text body-text" v-html="item.Effect" />
-      <cc-item-effect-panel v-else :effects="item.Effect" class="mb-2" />
+      <cc-item-effect-panel v-else :key="item.ID" :effects="item.Effect" class="mb-2" />
     </div>
     <cc-tags v-if="item.Tags" :tags="item.Tags" extended />
   </v-card-text>

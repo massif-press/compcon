@@ -1,22 +1,21 @@
 <template>
   <v-container fluid>
-    <compendium-table :headers="headers" :items="frames">Frames</compendium-table>
+    <compendium-browser :headers="headers" :items="frames">Frames</compendium-browser>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import CompendiumTable from '../components/CompendiumTable.vue'
+import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechType, Frame } from '@/class'
 
 @Component({
-  components: { CompendiumTable }
+  components: { CompendiumBrowser },
 })
 export default class Frames extends Vue {
-
   public headers = [
     { text: 'Source', align: 'left', value: 'Source' },
     { text: 'Frame', align: 'left', value: 'Name' },
@@ -40,6 +39,5 @@ export default class Frames extends Vue {
   }
 
   public frameTypes = Object.keys(MechType).sort() as MechType[]
-  
 }
 </script>

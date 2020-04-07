@@ -1,6 +1,6 @@
 <template>
   <effect-base :effect="effect" :inset="inset" :transparent="transparent" :print="print">
-    <p class="pt-0" v-html="effect.Detail" />
+    <p class="pt-0 body-text" v-html="effect.Detail" />
   </effect-base>
 </template>
 
