@@ -1,3 +1,12 @@
+## [2.0.26](https://github.com/jarena3/compcon/compare/2.0.25...2.0.26) (2020-04-07)
+
+
+### Bug Fixes
+
+* correct several styling issues ([0a09f15](https://github.com/jarena3/compcon/commit/0a09f15ee13930e49cd755a5dccf13654722f73a))
+
+
+
 ## [2.0.25](https://github.com/jarena3/compcon/compare/2.0.24...2.0.25) (2020-04-07)
 
 
