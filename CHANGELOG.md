@@ -1,3 +1,20 @@
+## [2.0.25](https://github.com/jarena3/compcon/compare/2.0.24...2.0.25) (2020-04-07)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** corrects Apocalypse Rail information ([c214568](https://github.com/jarena3/compcon/commit/c2145682c684e836236997e4694cc6139de524a0)), closes [#760](https://github.com/jarena3/compcon/issues/760)
+
+
+### Features
+
+* **Compendium:** add new equipment browser to compendium ([43ae10f](https://github.com/jarena3/compcon/commit/43ae10f3ce6452c7df488505e0bf72a8e3eb3c25))
+* add new selector UI ([3e0ced8](https://github.com/jarena3/compcon/commit/3e0ced8a31715f55ceb705ccdc8ec8fcda46fd61)), closes [#748](https://github.com/jarena3/compcon/issues/748)
+* **Pilot Sheet:** add pilot registration view ([542a4cb](https://github.com/jarena3/compcon/commit/542a4cb39176a1b1896d1f92354800fed1e96054)), closes [#596](https://github.com/jarena3/compcon/issues/596)
+* **Pilot Sheet:** hASE reset button ([7fd5bc5](https://github.com/jarena3/compcon/commit/7fd5bc5bdfb09290d5b287ad454cd7981e4f1fe8)), closes [#747](https://github.com/jarena3/compcon/issues/747)
+
+
+
 ## [2.0.24](https://github.com/jarena3/compcon/compare/2.0.23...2.0.24) (2020-04-04)
 
 
