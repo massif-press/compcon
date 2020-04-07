@@ -29,7 +29,7 @@
         >
           NO SELECTION
         </div>
-        <div v-else>
+        <div v-else class="side-fixed">
           <div class="heading h1 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
