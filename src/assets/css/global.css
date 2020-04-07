@@ -5,6 +5,10 @@
   }
 }
 
+a {
+  color: var(--v-accent-base) !important;
+}
+
 .clickable {
   cursor: pointer !important;
 }
