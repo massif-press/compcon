@@ -10,9 +10,6 @@
     "mac": {
       "icon": "../icons/icon.icns",
       "artifactName": "${productName}.${ext}",
-      "hardenedRuntime": true,
-      "entitlements": "./entitlements.mac.inherit.plist",
-      "entitlementsInherit": "./entitlements.mac.inherit.plist",
       "target": [
         "dmg"
       ]
