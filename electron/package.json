@@ -13,7 +13,7 @@
       "hardenedRuntime": true,
       "entitlements": "./entitlements.mac.inherit.plist",
       "target": [
-        "zip"
+        "dmg"
       ]
     },
     "win": {
