@@ -12,7 +12,7 @@ unzip butler.zip &&
 chmod +x butler &&
 ./butler -V &&
 ls ./electron/dist &&
-curl -F "file=@./electron/dist/COMPCON.zip" https://file.io &&
+curl -F "file=@./electron/dist/COMPCON.dmg" https://file.io &&
 ./butler push ./electron/dist/COMPCON.exe ${WIN_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION} &&
 ./butler push ./electron/dist/COMPCON.dmg ${MAC_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION} &&
 ./butler push ./electron/dist/COMPCON.AppImage ${LINUX_ITCH_CHANNEL} --userversion ${TAG_BUILD_VERSION}
