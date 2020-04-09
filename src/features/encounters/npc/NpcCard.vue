@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-if="!npc" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 subtle--text text--lighten-2">no npc selected</span>
+        <span class="heading h1 light-panel--text">no npc selected</span>
       </v-col>
     </v-row>
     <div v-else>
@@ -49,9 +49,8 @@
         <v-col>
           <v-combobox
             v-model="npc.Labels"
+            active-class="accent"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             background-color="stark-panel"
@@ -62,6 +61,7 @@
         <v-col>
           <v-combobox
             v-model="npc.Tag"
+            active-class="accent"
             background-color="stark-panel"
             outlined
             dense
@@ -72,6 +72,7 @@
         <v-col>
           <v-combobox
             v-model="npc.Campaign"
+            active-class="accent"
             background-color="stark-panel"
             outlined
             dense
@@ -270,7 +271,7 @@
         <v-col v-for="t in npc.Templates" :key="t.Name" cols="auto">
           <v-dialog width="50%">
             <template v-slot:activator="{ on }">
-              <v-btn block large outlined class="d-inline" v-on="on">
+              <v-btn block outlined class="d-inline" v-on="on">
                 {{ t.Name }}
               </v-btn>
             </template>
@@ -284,15 +285,29 @@
           </v-dialog>
         </v-col>
         <v-col cols="auto">
-          <v-btn small color="primary" tile outlined @click="$refs.templateDialog.show()">
+          <v-btn small color="accent" tile outlined @click="$refs.templateDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Template
           </v-btn>
         </v-col>
       </v-row>
-      <cc-title small :color="npc.Class.Color">
-        Features
-      </cc-title>
+      <v-row no-gutters>
+        <v-col cols="auto">
+          <cc-title small :color="npc.Class.Color">
+            Features
+          </cc-title>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn-toggle v-model="profile.NPCView" mandatory>
+            <v-btn small icon value="list">
+              <v-icon color="accent">mdi-view-list</v-icon>
+            </v-btn>
+            <v-btn small icon value="chips">
+              <v-icon color="accent">mdi-view-comfy</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-col>
+      </v-row>
       <v-row dense>
         <v-col cols="12">
           <cc-npc-item-card
@@ -304,7 +319,7 @@
           />
         </v-col>
         <v-col cols="auto">
-          <v-btn color="primary" tile outlined @click="$refs.featureDialog.show()">
+          <v-btn color="accent" tile outlined @click="$refs.featureDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Feature
             <span v-if="npc.AvailableFeatures.length">
@@ -357,7 +372,8 @@ import FeatureSelector from './components/FeatureSelector.vue'
 import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
 import { getModule } from 'vuex-module-decorators'
-import { NpcStore } from '@/store'
+import { CompendiumStore, NpcStore } from '@/store'
+import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'npc-card',
@@ -368,20 +384,9 @@ export default Vue.extend({
     SizeAttribute,
   },
   props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    labels: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    campaigns: {
-      type: Array,
-      required: false,
-      default: () => [],
+    npc: {
+      type: Object,
+      required: true,
     },
   },
   // TODO: put these in data
@@ -391,9 +396,17 @@ export default Vue.extend({
     tags: ['Mech', 'Vehicle', 'Ship', 'Biological', 'Squad'],
   }),
   computed: {
-    npc() {
+    labels() {
       const store = getModule(NpcStore, this.$store)
-      return store.Npcs.find(x => x.ID === this.id)
+      return store.Npcs.flatMap(x => x.Labels).filter(x => x)
+    },
+    campaigns() {
+      const store = getModule(NpcStore, this.$store)
+      return store.Npcs.map(x => x.Campaign).filter(x => x)
+    },
+    profile(): UserProfile {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile
     },
   },
   methods: {

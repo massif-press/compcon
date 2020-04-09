@@ -39,12 +39,13 @@
           />
         </v-col>
         <v-col>
+          {{ campaigns() }}
           <v-combobox
             v-model="encounter.Campaign"
             outlined
             dense
             label="Campaign"
-            :items="campaigns"
+            :items="campaigns()"
           />
         </v-col>
       </v-row>
@@ -373,29 +374,23 @@ export default Vue.extend({
   name: 'encounter-card',
   components: { NpcSelector, NpcChip },
   props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    labels: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    campaigns: {
-      type: Array,
-      required: false,
-      default: () => [],
+    encounter: {
+      type: Object,
+      required: true,
     },
   },
   data: () => ({
     selRep: 'Standard Combat',
+    ctest: ['a', 'b', 'c'],
   }),
   computed: {
-    encounter() {
+    labels() {
       const store = getModule(EncounterStore, this.$store)
-      return store.Encounters.find(x => x.ID === this.id)
+      return store.Encounters.flatMap(x => x.Labels).filter(x => x)
+    },
+    campaigns() {
+      const store = getModule(EncounterStore, this.$store)
+      return store.Encounters.map(x => x.Campaign).filter(x => x)
     },
     environmentData() {
       return getModule(CompendiumStore, this.$store).Environments
@@ -422,6 +417,7 @@ export default Vue.extend({
     },
   },
   methods: {
+
     setEnvironment() {
       if (this.encounter.Environment === 'Nominal') this.encounter.EnvironmentDetails = ''
       else if (this.environmentData.some(x => x.name === this.encounter.Environment))
