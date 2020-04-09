@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn text color="stark" tile to="/pilot_management">Pilot Roster</v-btn>
+    <v-btn text color="white" tile to="/pilot_management">Pilot Roster</v-btn>
     <v-divider v-if="pilot" vertical dark class="ml-2 mr-2" />
     <v-menu v-if="pilot" nudge-bottom="35px" open-on-hover>
       <template v-slot:activator="{ on }">

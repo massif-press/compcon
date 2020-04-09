@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-btn text color="stark" tile to="/gm">Encounter Toolkit</v-btn>
+    <v-btn text color="white" tile to="/gm">Encounter Toolkit</v-btn>
     <v-divider vertical dark class="ml-2 mr-2" />
-    <v-btn text color="stark" tile to="/pilot_management">Pilot Roster</v-btn>
+    <v-btn text color="white" tile to="/pilot_management">Pilot Roster</v-btn>
     <v-divider vertical dark class="ml-2 mr-2" />
   </div>
 </template>

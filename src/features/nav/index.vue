@@ -40,7 +40,7 @@
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
         <v-btn text icon to="/compendium" v-on="on">
-          <v-icon dark>mdi-book</v-icon>
+          <v-icon color="white">mdi-book</v-icon>
         </v-btn>
       </template>
       <span>Compendium</span>
