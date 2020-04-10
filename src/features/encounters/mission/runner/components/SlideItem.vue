@@ -13,19 +13,19 @@
       tile
       @click="toggle"
     >
-      <div class="text-center white--text flavor-text">
+      <div class="text-center white--text flavor-text pr-1">
         <div
           :class="active ? 'success darken-1' : ''"
-          style="max-width: 160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
+          style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
         >
-          <v-icon dark class="mx-n2">
+          <v-icon dark class="ml-n1">
             {{ defeated ? 'mdi-skull' : complete ? 'mdi-check' : actor.Icon }}
           </v-icon>
           <b :style="defeated ? 'text-decoration: linethrough' : ''">
             {{ actor.EncounterName }}
           </b>
         </div>
-        <v-row dense no-gutters style="width: 160px" justify="space-around">
+        <v-row dense no-gutters justify="space-around">
           <v-col cols="auto">
             <cc-tooltip
               v-if="actor.MaxStructure > 1"

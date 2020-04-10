@@ -11,7 +11,7 @@
             {{ npc.Templates.map(t => t.Name).join(' ') }} {{ npc.Tag }}
           </span>
         </div>
-        <div class="flavor-text mt-n6 ml-2">{{ npc.Subtitle }}</div>
+        <div class="flavor-text mt-n1 ml-2">{{ npc.Subtitle }}</div>
       </v-col>
     </v-row>
 
@@ -131,7 +131,7 @@
         </v-row>
 
         <v-row dense>
-          <v-col v-if="npc.MaxStress > 1" cols="auto" class="mr-n6">
+          <v-col v-if="npc.MaxStress > 1" cols="auto">
             <cc-tick-bar
               :key="npc.CurrentStress"
               :current="npc.CurrentStress"
