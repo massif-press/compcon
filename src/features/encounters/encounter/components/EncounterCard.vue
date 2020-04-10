@@ -30,8 +30,6 @@
           <v-combobox
             v-model="encounter.Labels"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             label="User Labels"

@@ -29,8 +29,6 @@
           <v-combobox
             v-model="mission.Labels"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             label="User Labels"
