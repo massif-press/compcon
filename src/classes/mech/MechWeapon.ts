@@ -31,7 +31,6 @@ class MechWeapon extends MechEquipment {
   private _range?: Range[]
   private _mod: WeaponMod | null
   private _custom_damage_type?: string
-  private _integrated: boolean
   // private ammo?: WeaponAmmo | null;
 
   public constructor(weaponData: IMechWeaponData) {
@@ -41,7 +40,6 @@ class MechWeapon extends MechEquipment {
     if (weaponData.damage) this._damage = weaponData.damage.map(x => new Damage(x))
     if (weaponData.range) this._range = weaponData.range.map(x => new Range(x))
     this._mod = null
-    this._integrated = this.ID.toLowerCase().includes('_integrated')
     this._item_type = ItemType.MechWeapon
   }
 

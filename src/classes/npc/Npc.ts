@@ -307,7 +307,7 @@ export class Npc implements IActor {
           if (remove) {
             this._stats.Bonuses[key] = 0
           } else {
-            this._stats.Bonuses[key] = b
+            this._stats.Bonuses[key] += b
           }
         }
       }
