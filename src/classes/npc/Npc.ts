@@ -221,6 +221,7 @@ export class Npc implements IActor {
       this._items.forEach(i => {
         i.Tier = newTier
       })
+      this.ResetStats()
       this.RecalcBonuses()
     }
     this.save()
