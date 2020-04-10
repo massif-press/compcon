@@ -7,31 +7,33 @@
         </v-btn>
       </template>
       <v-list dense>
-        <v-list-item @click="$emit('swap')">
-          <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-swap-vertical-variant</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Change Item</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider />
-        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>cci-variable</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Select Damage Type</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-dice-6</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Set Max Uses</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <div v-if="!item.IsIntegrated">
+          <v-list-item @click="$emit('swap')">
+            <v-list-item-icon class="ma-0 mr-2 mt-2">
+              <v-icon>mdi-swap-vertical-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Change Item</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider />
+          <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+            <v-list-item-icon class="ma-0 mr-2 mt-2">
+              <v-icon>cci-variable</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Select Damage Type</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
+            <v-list-item-icon class="ma-0 mr-2 mt-2">
+              <v-icon>mdi-dice-6</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Set Max Uses</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
         <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-image-broken-variant</v-icon>
@@ -101,15 +103,17 @@
             <v-list-item-title>Set Custom Description</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider />
-        <v-list-item @click="$emit('remove')">
-          <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon color="error">mdi-delete</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Remove Item</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <div v-if="!item.IsIntegrated">
+          <v-divider />
+          <v-list-item @click="$emit('remove')">
+            <v-list-item-icon class="ma-0 mr-2 mt-2">
+              <v-icon color="error">mdi-delete</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Remove Item</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </div>
       </v-list>
     </v-menu>
     <cc-string-edit-dialog
