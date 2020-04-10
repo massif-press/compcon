@@ -35,7 +35,7 @@
         <v-btn small icon class="fadeSelect" @click="$emit('clone-loadout')">
           <v-icon>mdi-content-duplicate</v-icon>
         </v-btn>
-        <v-menu offset-y top>
+        <v-menu v-model="confirmMenu" offset-y top>
           <template v-slot:activator="{ on }">
             <v-btn small icon class="fadeSelect" :disabled="loadouts.length === 1" v-on="on">
               <v-icon>delete</v-icon>
@@ -48,7 +48,7 @@
             ${activeLoadout.Name}
           </span> Loadout`
             "
-            @confirm="$emit('remove-loadout')"
+            @confirm="removeConfirm"
           />
         </v-menu>
       </v-toolbar-items>
@@ -82,6 +82,15 @@ export default Vue.extend({
     },
     readonly: {
       type: Boolean,
+    },
+  },
+  data: () => ({
+    confirmMenu: false,
+  }),
+  methods: {
+    removeConfirm() {
+      this.confirmMenu = false
+      this.$emit('remove-loadout')
     },
   },
 })
