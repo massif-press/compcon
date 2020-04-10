@@ -1,3 +1,12 @@
+## [2.0.28](https://github.com/jarena3/compcon/compare/2.0.27...2.0.28) (2020-04-10)
+
+
+### Bug Fixes
+
+* **Mission Runner:** hotfix for npc serialization issues ([474d4ed](https://github.com/jarena3/compcon/commit/474d4ed365254bc3ab6555b6b1e6ea5c412044de)), closes [#779](https://github.com/jarena3/compcon/issues/779) [#780](https://github.com/jarena3/compcon/issues/780) [#781](https://github.com/jarena3/compcon/issues/781)
+
+
+
 ## [2.0.27](https://github.com/jarena3/compcon/compare/2.0.26...2.0.27) (2020-04-10)
 
 
