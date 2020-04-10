@@ -112,8 +112,6 @@ export class ActiveMission {
       .map(x => x.Name.replace(/ #[\d]*/, ''))
       .filter(x => x === nn.Name).length
     nn.Name += ` #${aCount + rCount + 1}`
-    nn.ResetStats()
-    nn.RecalcBonuses()
     return nn
   }
 
