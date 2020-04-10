@@ -8,15 +8,19 @@
     <div v-else>
       <v-row dense class="mt-n6">
         <v-col cols="10">
-          <span class="heading mech">
+          <div class="heading mech">
             <cc-short-string-editor large :placeholder="npc.Name" @set="npc.Name = $event">
-              <span
-                style="display:inline-block;  max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-              >
+              <span class="heading-block">
                 {{ npc.Name }}
               </span>
             </cc-short-string-editor>
-          </span>
+          </div>
+          <div class="flavor-text mt-n6 ml-2">
+            <cc-short-string-editor large :placeholder="npc.Subtitle" @set="npc.Subtitle = $event">
+              <b v-if="npc.Subtitle" class="heading-block stark--text" v-html="npc.Subtitle" />
+              <i v-else class="heading-block subtle--text" v-html="'Add GM Summary'" />
+            </cc-short-string-editor>
+          </div>
         </v-col>
         <v-col cols="auto" class="ml-auto text-center mt-1">
           <v-icon v-if="npc.Tier === 'custom'" size="60" :color="npc.Class.Color">
@@ -298,7 +302,7 @@
           </cc-title>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-btn-toggle v-model="profile.NPCView" mandatory>
+          <v-btn-toggle v-model="profile.NpcView" mandatory>
             <v-btn small icon value="list">
               <v-icon color="accent">mdi-view-list</v-icon>
             </v-btn>
@@ -308,16 +312,27 @@
           </v-btn-toggle>
         </v-col>
       </v-row>
-      <v-row dense>
-        <v-col cols="12">
+      <v-row v-if="profile.NpcView === 'list'" dense>
+        <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" lg="12" xl="6">
           <cc-npc-item-card
+            :item="i"
+            @remove-feature="npc.RemoveFeature(i.Feature)"
+            @recalc="npc.RecalcBonuses()"
+          />
+        </v-col>
+      </v-row>
+      <v-row v-else-if="profile.NpcView === 'chips'" dense>
+        <v-chip-group column>
+          <cc-npc-item-chip
             v-for="(i, idx) in npc.Items"
             :key="i.Feature.ID + idx"
             :item="i"
             @remove-feature="npc.RemoveFeature(i.Feature)"
             @recalc="npc.RecalcBonuses()"
           />
-        </v-col>
+        </v-chip-group>
+      </v-row>
+      <v-row dense>
         <v-col cols="auto">
           <v-btn color="accent" tile outlined @click="$refs.featureDialog.show()">
             <v-icon left>mdi-plus</v-icon>
@@ -421,3 +436,13 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style>
+.heading-block {
+  display: inline-block;
+  max-width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>

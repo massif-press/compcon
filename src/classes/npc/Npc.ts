@@ -13,6 +13,7 @@ export interface INpcData {
   class: string
   tier: number | string
   name: string
+  subtitle: string
   campaign: string
   labels: string[]
   tag: string
@@ -38,6 +39,7 @@ export class Npc implements IActor {
   private _active: boolean
   private _id: string
   private _name: string
+  private _subtitle: string
   private _campaign: string
   private _tier: string | number
   private _class: NpcClass
@@ -65,6 +67,7 @@ export class Npc implements IActor {
     this._active = false
     this._id = uuid()
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
+    this._subtitle = ''
     this._tier = t
     this._templates = []
     this._user_labels = []
@@ -147,6 +150,15 @@ export class Npc implements IActor {
 
   public set Name(val: string) {
     this._name = val
+    this.save()
+  }
+
+  public get Subtitle(): string {
+    return this._subtitle
+  }
+
+  public set Subtitle(val: string) {
+    this._subtitle = val
     this.save()
   }
 
@@ -259,6 +271,8 @@ export class Npc implements IActor {
   public AddTemplate(temp: NpcTemplate): void {
     this._templates.push(temp)
     temp.BaseFeatures.forEach(f => this.AddFeature(f))
+    this.ResetStats()
+    this.RecalcBonuses()
     this.save()
   }
 
@@ -548,6 +562,7 @@ export class Npc implements IActor {
       class: npc.Class.ID,
       tier: npc._tier,
       name: npc._name,
+      subtitle: npc._subtitle,
       campaign: npc._campaign,
       labels: npc._user_labels,
       tag: npc._tag,
@@ -577,6 +592,7 @@ export class Npc implements IActor {
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name
+    npc._subtitle = data.subtitle || ''
     npc._side = data.side as EncounterSide
     npc._campaign = data.campaign
     npc._user_labels = data.labels

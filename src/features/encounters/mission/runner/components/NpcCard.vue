@@ -2,13 +2,16 @@
   <div class="mx-6">
     <v-row dense>
       <v-col>
-        <span class="heading mech" style="line-height: 15px">{{ npc.Name }}</span>
-        <span class="heading h2 light-text--text">
-          <cc-slashes />
-          {{ npc.Side }}
-          {{ typeof npc.Tier === 'number' ? `T${npc.Tier}` : `Custom` }} {{ npc.Class.Name }}
-          {{ npc.Templates.map(t => t.Name).join(' ') }} {{ npc.Tag }}
-        </span>
+        <div>
+          <span class="heading mech" style="line-height: 25px">{{ npc.Name }}</span>
+          <span class="heading h2 light-text--text">
+            <cc-slashes />
+            {{ npc.Side }}
+            {{ typeof npc.Tier === 'number' ? `T${npc.Tier}` : `Custom` }} {{ npc.Class.Name }}
+            {{ npc.Templates.map(t => t.Name).join(' ') }} {{ npc.Tag }}
+          </span>
+        </div>
+        <div class="flavor-text mt-n6 ml-2">{{ npc.Subtitle }}</div>
       </v-col>
     </v-row>
 
@@ -245,18 +248,40 @@
         <div class="overline">FEATURES</div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
+        <v-btn-toggle v-model="profile.NpcView" mandatory>
+          <v-btn small icon value="list">
+            <v-icon color="accent">mdi-view-list</v-icon>
+          </v-btn>
+          <v-btn small icon value="chips">
+            <v-icon color="accent">mdi-view-comfy</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+      </v-col>
+      <v-col cols="auto" class="ml-2">
         <recharge-menu :npc="npc" />
       </v-col>
     </v-row>
-    <v-row dense>
-      <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" cols="6">
+    <v-row v-if="profile.NpcView === 'list'" dense>
+      <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" lg="6" xl="4">
         <cc-npc-item-card
           :item="i"
           active
-          @add-reaction="npc.AddReaction($event)"
+          @remove-feature="npc.RemoveFeature(i.Feature)"
           @recalc="npc.RecalcBonuses()"
         />
       </v-col>
+    </v-row>
+    <v-row v-else-if="profile.NpcView === 'chips'" dense>
+      <v-chip-group column>
+        <cc-npc-item-chip
+          v-for="(i, idx) in npc.Items"
+          :key="i.Feature.ID + idx"
+          :item="i"
+          active
+          @remove-feature="npc.RemoveFeature(i.Feature)"
+          @recalc="npc.RecalcBonuses()"
+        />
+      </v-chip-group>
     </v-row>
     <v-divider class="my-3" />
     <cc-title small :color="npc.Class.Color">
@@ -322,6 +347,7 @@ import sleep from '@/util/sleep'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import RechargeMenu from './RechargeMenu.vue'
+import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'npc-card',
@@ -360,6 +386,10 @@ export default Vue.extend({
     },
     reactions() {
       return this.npc.Reactions
+    },
+    profile(): UserProfile {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile
     },
   },
   watch: {

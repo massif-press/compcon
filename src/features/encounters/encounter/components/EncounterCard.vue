@@ -39,13 +39,12 @@
           />
         </v-col>
         <v-col>
-          {{ campaigns() }}
           <v-combobox
             v-model="encounter.Campaign"
             outlined
             dense
             label="Campaign"
-            :items="campaigns()"
+            :items="campaigns"
           />
         </v-col>
       </v-row>
@@ -417,7 +416,6 @@ export default Vue.extend({
     },
   },
   methods: {
-
     setEnvironment() {
       if (this.encounter.Environment === 'Nominal') this.encounter.EnvironmentDetails = ''
       else if (this.environmentData.some(x => x.name === this.encounter.Environment))

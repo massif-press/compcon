@@ -1,63 +1,15 @@
 <template>
   <v-card flat tile class="my-1" color="transparent">
-    <v-card-title
-      :class="`${item.Feature.Color} sliced pb-1 pt-2`"
-      style="max-height:20px; line-height: 0"
-    >
-      <div
-        :class="`heading flavor-text white--text ${active ? 'pt-1 pb-2' : 'py-2 mt-n3'}`"
-        style="font-size:20px; line-height: 0"
-      >
-        <v-menu v-if="!readonly && !active" offset-x left>
-          <template v-slot:activator="{ on }">
-            <v-icon icon small dark class="fadeSelect mt-n1" v-on="on">mdi-settings</v-icon>
-          </template>
-          <v-list dense>
-            <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">
-              <v-list-item-icon class="ma-0 mr-2 mt-3">
-                <v-icon>mdi-arrow-up-thick</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Upgrade Tier</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item :disabled="item.Tier === 1" @click="downgradeTier()">
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>mdi-arrow-down-thick</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Downgrade Tier</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item @click="$refs.cName.show()">
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>mdi-circle-edit-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Set Custom Name</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item @click="$refs.cDesc.show()">
-              <v-list-item-icon class="ma-0 mr-2 mt-2">
-                <v-icon>mdi-circle-edit-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title>Set Custom Description</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <div>
-              <v-divider />
-              <v-list-item @click="$emit('remove-feature', $event)">
-                <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon color="error">mdi-delete</v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Remove {{ item.Feature.FeatureType }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </div>
-          </v-list>
-        </v-menu>
+    <v-card-title :class="`${item.Feature.Color} sliced pa-0`">
+      <div class="heading h3 flavor-text white--text pa-0 ml-2">
+        <item-menu
+          v-if="!readonly && !active"
+          :item="item"
+          :active="active"
+          @remove-feature="$emit('remove-feature', $event)"
+          @add-reaction="$emit('add-reaction', $event)"
+          @recalc="$emit('recalc')"
+        />
         <span v-if="readonly">
           {{ item.Feature.Name }}
         </span>
@@ -69,12 +21,12 @@
       </div>
     </v-card-title>
     <v-card-text
-      :class="`py-1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
+      :class="`py-1 mt-n1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
       :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
     >
       <p
         v-if="item.Description"
-        class="flavor-text px-2 light-panel mb-1"
+        class="flavor-text px-2 light-panel stark--text mb-1"
         v-html="item.Description"
       />
       <slot />
@@ -115,29 +67,16 @@
         <slot name="active-actions" />
       </div>
     </v-card-text>
-    <cc-string-edit-dialog
-      v-if="!readonly && !active"
-      ref="cName"
-      :placeholder="item.Feature.Name"
-      label="Custom Item Name"
-      @save="item.Name = $event"
-      @reset="item.Name = item.Feature.Name"
-    />
-    <cc-string-edit-dialog
-      v-if="!readonly && !active"
-      ref="cDesc"
-      :placeholder="item.Feature.Description"
-      label="Custom Item Description"
-      @save="item.Description = $event"
-      @reset="item.Description = ''"
-    />
   </v-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import ItemMenu from './_ItemMenu.vue'
+
 export default Vue.extend({
   name: 'npc-item-card-base',
+  components: { ItemMenu },
   props: {
     item: {
       type: Object,
@@ -153,20 +92,11 @@ export default Vue.extend({
   computed: {
     destructable() {
       return (
-        this.item.Feature.FeatureType === 'System' ||
-        this.item.Feature.FeatureType === 'Weapon' ||
-        this.item.Feature.FeatureType === 'Tech'
+        !this.readonly &&
+        (this.item.Feature.FeatureType === 'System' ||
+          this.item.Feature.FeatureType === 'Weapon' ||
+          this.item.Feature.FeatureType === 'Tech')
       )
-    },
-  },
-  methods: {
-    upgradeTier() {
-      this.item.Tier++
-      this.$emit('recalc')
-    },
-    downgradeTier() {
-      this.item.Tier--
-      this.$emit('recalc')
     },
   },
 })
