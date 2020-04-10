@@ -1,3 +1,24 @@
+## [2.0.27](https://github.com/jarena3/compcon/compare/2.0.26...2.0.27) (2020-04-10)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** correctly limit cog menu for integrated items ([4cb8c92](https://github.com/jarena3/compcon/commit/4cb8c9296e2579f581d66e6ebbbdb64540ebb79c)), closes [#766](https://github.com/jarena3/compcon/issues/766)
+* **Mech Sheet:** prevent dialog from persisting after loadout deletion ([37b5542](https://github.com/jarena3/compcon/commit/37b55426df7c494def22e1fc1b92122e4cd53ece)), closes [#769](https://github.com/jarena3/compcon/issues/769)
+* **Mission Runner:** corrects issue with structure and stress for NPCS not being registered ([b3c6944](https://github.com/jarena3/compcon/commit/b3c69440b3b900cf5e3ec12c632dbd8aa5f352a3)), closes [#767](https://github.com/jarena3/compcon/issues/767)
+* **NPC Roster:** correct stat math on resetting npc tier change ([e8fae59](https://github.com/jarena3/compcon/commit/e8fae59b7ac47997dedb5d8c5c175984583d337d)), closes [#775](https://github.com/jarena3/compcon/issues/775)
+* **NPC Roster:** correct template math ([e943d8d](https://github.com/jarena3/compcon/commit/e943d8df8699133aec35d7cf98020e827d6de9c4)), closes [#778](https://github.com/jarena3/compcon/issues/778) [#777](https://github.com/jarena3/compcon/issues/777)
+* **NPC Roster:** fix label and campaign dropdowns on npc sheet ([7674ac0](https://github.com/jarena3/compcon/commit/7674ac0838b6c7342b215842ed85502b0d1b6ccc)), closes [#745](https://github.com/jarena3/compcon/issues/745)
+* correct some additional visual bugs with the new selectors ([752576e](https://github.com/jarena3/compcon/commit/752576ef26dee253b06d082198c0e271190c55bb))
+* fixes several color/visibility issues ([356a985](https://github.com/jarena3/compcon/commit/356a98561690f838a7968705d7c44e8674b720d3))
+
+
+### Features
+
+* **Mission Runner:** add pilot talents to mission runner pilot sheet ([601c93d](https://github.com/jarena3/compcon/commit/601c93d665348dc171ede2fb1b01f56767894480))
+
+
+
 ## [2.0.26](https://github.com/jarena3/compcon/compare/2.0.25...2.0.26) (2020-04-07)
 
 
