@@ -236,7 +236,7 @@ export default Vue.extend({
       return Statblock.GenerateNPC(this.statblockNpc)
     },
     deleteNpc(npc: Npc) {
-      this.$router.push({ name: 'npc', params: {} })
+      this.selectedNpc = null
       const store = getModule(NpcStore, this.$store)
       store.deleteNpc(npc)
     },

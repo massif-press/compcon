@@ -50,7 +50,7 @@
             >
               {{ item.Name }}
               <v-scroll-x-transition leave-absolute>
-                <v-icon v-if="selectedClass === item" right color="primary">
+                <v-icon v-if="selectedClass === item" right color="accent">
                   mdi-chevron-triple-right
                 </v-icon>
               </v-scroll-x-transition>
