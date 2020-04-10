@@ -13,9 +13,9 @@
       tile
       @click="toggle"
     >
-      <div class="text-center white--text flavor-text pr-1">
+      <div class="text-center white--text flavor-text">
         <div
-          :class="active ? 'success darken-1' : ''"
+          :class="active ? 'success darken-1 px-1' : 'px-1'"
           style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
         >
           <v-icon dark class="ml-n1">
