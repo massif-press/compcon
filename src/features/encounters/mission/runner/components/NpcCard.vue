@@ -262,7 +262,7 @@
       </v-col>
     </v-row>
     <v-row v-if="profile.NpcView === 'list'" dense>
-      <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" lg="6" xl="4">
+      <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" md="12" lg="6" xl="4">
         <cc-npc-item-card
           :item="i"
           active

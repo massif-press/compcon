@@ -3,7 +3,7 @@
     <v-btn v-if="flat" :small="smallBtn" :color="color" text :dark="dark" @click="dialog = true">
       <slot name="button"></slot>
     </v-btn>
-    <v-btn v-else flat tile :small="smallBtn" :color="color" @click="dialog = true">
+    <v-btn v-else tile :small="smallBtn" :color="color" @click="dialog = true">
       <slot name="button"></slot>
     </v-btn>
     <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">

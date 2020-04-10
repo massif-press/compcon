@@ -313,7 +313,7 @@
         </v-col>
       </v-row>
       <v-row v-if="profile.NpcView === 'list'" dense>
-        <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" lg="12" xl="6">
+        <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" md="12" lg="12" xl="6">
           <cc-npc-item-card
             :item="i"
             @remove-feature="npc.RemoveFeature(i.Feature)"
@@ -401,7 +401,8 @@ export default Vue.extend({
   props: {
     npc: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
   },
   // TODO: put these in data

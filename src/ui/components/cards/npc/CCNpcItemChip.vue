@@ -1,5 +1,5 @@
 <template>
-  <v-chip label :color="item.Feature.Color">
+  <v-chip label :color="item.Feature.Color" dark>
     <item-menu
       v-if="!readonly && !active"
       :item="item"
