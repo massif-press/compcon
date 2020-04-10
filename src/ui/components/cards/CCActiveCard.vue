@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="cols" class="pa-1">
+  <v-col :cols="cols" :xl="xl" :lg="lg" :md="md" :sm="sm" class="pa-1">
     <v-card
       tile
       color="panel clipped"
@@ -49,6 +49,26 @@ export default Vue.extend({
       default: '',
     },
     cols: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    xl: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    lg: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    md: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    sm: {
       type: [String, Number],
       required: false,
       default: '',
