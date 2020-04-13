@@ -24,7 +24,7 @@
         </div>
       </v-col>
       <v-col cols="5">
-        <v-img :src="item.DefaultImage" />
+        <v-img :src="item.DefaultImage" max-width="35vw" />
         <cc-tooltip simple content="Feature In Development">
           <v-btn small outlined block disabled>View {{ item.Name }} Gallery</v-btn>
         </cc-tooltip>
