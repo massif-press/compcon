@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "2.0.19",
+  "version": "2.0.24",
   "main": "index.js",
   "author": "Massif Press",
   "license": "GPL-3.0-or-later",
@@ -48,6 +48,6 @@
     "electron-reload": "^1.5.0"
   },
   "devDependencies": {
-    "electron": "4.0.0"
+    "electron": "8.2.1"
   }
 }
