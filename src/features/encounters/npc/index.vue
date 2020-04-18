@@ -42,7 +42,7 @@
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="primary--text heading clickable ml-n2" @click="toNpc(item.ID)">
+            <span class="accent--text heading clickable ml-n2" @click="selectedNpc = item">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -98,7 +98,7 @@
               {{ item.Name }}
             </span>
             <v-scroll-x-transition leave-absolute>
-              <v-icon v-if="selectedNpc === item" right color="primary">
+              <v-icon v-if="selectedNpc === item" right color="accent">
                 mdi-chevron-triple-right
               </v-icon>
             </v-scroll-x-transition>
@@ -146,7 +146,14 @@
             <v-card flat tile>
               <v-card-title>Select File to Import</v-card-title>
               <v-card-text>
-                <v-file-input v-model="importNpc" counter label="NPC .JSON File" outlined dense @change="fileImport" />
+                <v-file-input
+                  v-model="importNpc"
+                  counter
+                  label="NPC .JSON File"
+                  outlined
+                  dense
+                  @change="fileImport"
+                />
               </v-card-text>
               <v-divider />
               <v-card-actions>
@@ -175,7 +182,7 @@
       </v-row>
     </template>
     <template slot="right">
-      <router-view />
+      <npc-card :npc="selectedNpc" />
     </template>
   </panel-view>
 </template>
@@ -183,6 +190,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import PanelView from '../components/PanelView.vue'
+import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
@@ -193,7 +201,7 @@ import { saveFile } from '@/io/Dialog'
 
 export default Vue.extend({
   name: 'npc-manager',
-  components: { PanelView, RosterGroup },
+  components: { PanelView, NpcCard, RosterGroup },
   data: () => ({
     search: '',
     selectedNpc: null,
@@ -210,14 +218,6 @@ export default Vue.extend({
     importNpc: null,
     statblockNpc: null,
   }),
-  computed: {
-    labels() {
-      return this.npcs.flatMap(x => x.Labels).filter(x => x != null && x != '')
-    },
-    campaigns() {
-      return this.npcs.map(x => x.Campaign).filter(x => x != null && x != '')
-    },
-  },
   watch: {
     selectedNpc() {
       this.$refs.view.resetScroll()
@@ -228,9 +228,6 @@ export default Vue.extend({
     this.npcs = store.Npcs
   },
   methods: {
-    toNpc(id: string) {
-      this.$router.push({ name: 'npc', params: { id } })
-    },
     setStatblock(npc: Npc) {
       this.statblockNpc = npc
       this.statblockDialog = true
@@ -239,7 +236,7 @@ export default Vue.extend({
       return Statblock.GenerateNPC(this.statblockNpc)
     },
     deleteNpc(npc: Npc) {
-      this.$router.push({ name: 'npc', params: {} })
+      this.selectedNpc = null
       const store = getModule(NpcStore, this.$store)
       store.deleteNpc(npc)
     },

@@ -1,18 +1,29 @@
 <template>
   <div id="wrapper">
-    <main-title />
-    <update-alert @hover="ccLog('update')" />
-    <web-refresh v-if="$platform === 'web'" @hover="ccLog('refresh')" />
+    <main-title @logupdate="ccLog('update')" />
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
-        <main-btn :to="'/compendium'" @hover="ccLog('compendium')">Compendium</main-btn>
-        <main-btn :to="'/pilot_management'" :loading="pilotLoading" @hover="ccLog('pilot')">
+        <main-btn :to="'/compendium'" help="Equipment Database" @hover="ccLog('compendium')">
+          Compendium
+        </main-btn>
+        <main-btn
+          :to="'/pilot_management'"
+          help="Manage Pilots"
+          :loading="pilotLoading"
+          @hover="ccLog('pilot')"
+        >
           Pilot Roster
         </main-btn>
-        <main-btn :to="'/gm'" @hover="ccLog('gm')">Encounter Toolkit</main-btn>
-        <main-btn disabled>Campaign Manager</main-btn>
-        <main-btn @hover="ccLog('content')" @clicked="$refs.contentModal.show()">
+        <main-btn :to="'/gm'" help="Manage NPCs/Encounters/Missions" @hover="ccLog('gm')">
+          Encounter Toolkit
+        </main-btn>
+        <main-btn disabled help="Feature In Progress">Campaign Manager</main-btn>
+        <main-btn
+          help="Import Content Packs"
+          @hover="ccLog('content')"
+          @clicked="$refs.contentModal.show()"
+        >
           Content Manager
         </main-btn>
       </v-row>
@@ -43,7 +54,14 @@
         Support This Project
       </v-btn>
     </v-footer>
-    <cc-solo-dialog ref="optionsModal" large no-confirm title="Options & User Profile">
+    <cc-solo-dialog
+      ref="optionsModal"
+      large
+      no-confirm
+      no-pad
+      no-title-clip
+      title="Options & User Profile"
+    >
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -65,22 +83,20 @@
 import Vue from 'vue'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
-import UpdateAlert from './_components/UpdateAlert.vue'
-import WebRefresh from './_components/WebRefresh.vue'
 import CCLog from './_components/CCLog.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
-import OptionsPage from '../nav/pages/Options.vue'
+import OptionsPage from '../nav/pages/Options/index.vue'
+import { getModule } from 'vuex-module-decorators'
+import { NavStore } from '@/store'
 
 export default Vue.extend({
   name: 'landing-page',
   components: {
     MainTitle,
     MainBtn,
-    UpdateAlert,
     CCLog,
-    WebRefresh,
     ContentPage,
     AboutPage,
     HelpPage,
@@ -92,6 +108,13 @@ export default Vue.extend({
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true
     next()
+  },
+  beforeMount() {
+    const ns = getModule(NavStore, this.$store)
+    console.log(ns)
+    ns.initDarkMode()
+    console.log(ns.DarkMode)
+    this.$vuetify.theme.dark = ns.DarkMode
   },
   methods: {
     ccLog(btn: string) {
@@ -129,9 +152,6 @@ export default Vue.extend({
         case 'help':
           this.$refs['log'].print('compcon --h', 'Open the COMP/CON help page')
           break
-        case 'refresh':
-          this.$refs['log'].print('sudo halt -r authrestart', 'Update and reload COMP/CON')
-          break
         case 'update':
           this.$refs['log'].print(
             'gms-upm compcon changelog -l',
@@ -149,5 +169,15 @@ export default Vue.extend({
 #wrapper {
   width: 100%;
   height: 100vh;
+  background: url(../../assets/ui/grid.png);
+  animation: 600s scroll infinite linear;
+  top: 0;
+  left: 0;
+}
+
+@keyframes scroll {
+  100% {
+    background-position: -3000px -3000px;
+  }
 }
 </style>

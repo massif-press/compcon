@@ -10,7 +10,7 @@
   >
     <span v-if="tag.err">ERR: MISSING DATA</span>
     <div v-else>
-      <h3 class="heading primary--text">
+      <h3 class="heading accent--text">
         {{ tag.GetName() }}
       </h3>
       <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription()" />
@@ -19,15 +19,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Tag } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-tag',
-  props: {
-    tag: {
-      type: Object,
-      required: true,
-    },
-  },
-})
+@Component({ name: 'cc-tag' })
+export default class CCExtendedTag extends Vue {
+  @Prop({ type: Object, required: true })
+  readonly tag: Tag
+}
 </script>

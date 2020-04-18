@@ -18,6 +18,13 @@ interface INotification {
   onClick?: () => void
 }
 
+declare interface IErrorReport {
+  time: Date
+  message: string
+  component?: string
+  stack: string
+}
+
 declare interface IDiceStats {
   min: number
   max: number
@@ -47,6 +54,7 @@ declare interface IRankedData {
   id: string
   rank: number
   custom?: boolean
+  custom_desc?: string
 }
 
 declare interface IEquipmentData {
@@ -55,11 +63,16 @@ declare interface IEquipmentData {
   cascading: boolean
   note: string
   uses?: number
+  flavorName?: string
+  flavorDescription?: string
+  customDamageType?: string
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
   loaded: boolean
   mod?: IEquipmentData
+  customDamageType?: string
+  maxUseOverride?: number
 }
 
 declare interface ICounterSaveData {
@@ -100,6 +113,7 @@ declare interface IPilotData {
   cc_ver: string
   counter_data: ICounterSaveData[]
   custom_counters: object[]
+  brews: string[]
 }
 
 declare interface IReserveData {

@@ -5,7 +5,11 @@
       Pilot Biography
     </cc-title>
     <div class="my-2">
-      <p v-if="pilot.History" class="flavor-text text--text mx-2" v-html="pilot.History" />
+      <p
+        v-if="pilot.History"
+        class="flavor-text text--text mx-2 preserve-linebreaks"
+        v-html="pilot.History"
+      />
       <no-data-block v-else />
     </div>
     <cc-solo-dialog
@@ -13,32 +17,71 @@
       icon="mdi-circle-edit-outline"
       color="primary"
       large
-      title="Pilot Appearance"
+      title="Pilot Biograpgy"
       @confirm="pilot.History = history"
     >
-      <v-textarea v-model="history" rows="15" outlined class="mt-6" />
+      <tiptap-vuetify
+        v-model="history"
+        :extensions="extensions"
+        :card-props="{ flat: true, tile: true, elevation: 0 }"
+        class="mt-4"
+        :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
+      />
     </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import SectionEditIcon from '../../components/SectionEditIcon.vue'
 import NoDataBlock from '../../components/NoDataBlock.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
-import { Pilot } from '@/class'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
 
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'history-block',
-  components: { SectionEditIcon, NoDataBlock },
+  components: { SectionEditIcon, NoDataBlock, TiptapVuetify },
   data: () => ({
     history: '',
+    extensions: [
+      History,
+      Blockquote,
+      Underline,
+      Strike,
+      Italic,
+      ListItem,
+      BulletList,
+      OrderedList,
+      [
+        Heading,
+        {
+          options: {
+            levels: [1, 2, 3],
+          },
+        },
+      ],
+      Bold,
+      Code,
+      HorizontalRule,
+      HardBreak,
+    ],
   }),
-  
   created() {
     this.history = this.pilot.History || ''
   },

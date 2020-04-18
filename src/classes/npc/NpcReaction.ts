@@ -20,6 +20,10 @@ export class NpcReaction extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'action--reaction'
+    return 'npc--reaction'
+  }
+
+  public get Icon(): string {
+    return 'mdi-redo-variant'
   }
 }

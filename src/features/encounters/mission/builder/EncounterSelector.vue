@@ -1,6 +1,6 @@
 <template>
   <cc-sidebar-view cols="3">
-    <div slot="alt">
+    <div slot="sidebar">
       <v-row dense>
         <v-col>
           <v-text-field
@@ -22,6 +22,7 @@
         :search="search"
         no-results-text="No Encounters Found"
         no-data-text="No Saved Encounters"
+        disable-pagination
         hide-default-footer
         hide-default-header
         calculate-widths
@@ -38,7 +39,7 @@
         </template>
         <template v-slot:item.Name="{ item }">
           <span
-            class="primary--text heading clickable ml-n2"
+            class="accent--text heading clickable ml-n2"
             @click="
               $vuetify.goTo(`#e_${item.ID}`, {
                 duration: 150,
@@ -54,7 +55,7 @@
       </v-data-table>
     </div>
     <br />
-    <div v-if="!encounters.length" class="grey--text heading h2 text-center">
+    <div v-if="!encounters.length" class="subtle--text heading h2 text-center">
       // NO ENCOUNTERS AVAILABLE //
     </div>
     <v-row

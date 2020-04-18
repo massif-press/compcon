@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <div class="overline">//MISSION</div>
-        <div class="heading h3 primary--text mt-n1">{{ mission.Name }}</div>
+        <div class="heading h3 accent--text mt-n1">{{ mission.Name }}</div>
         <p v-if="mission.Note" class="flavor-text panel text-center" v-html="mission.Note" />
         <v-row justify="center">
           <v-col v-for="(s, i) in mission.Steps" :key="`step_${i}`" :cols="s.Name ? 3 : 1">
@@ -81,41 +81,41 @@
     <v-divider class="mt-2" />
     <v-row dense justify="center">
       <v-col class="text-center">
-        <span class="heading h3 primary--text">PC victory</span>
+        <span class="heading h3 accent--text">PC victory</span>
         <p class="flavor-text" v-html="encounter.Sitrep.pcVictory" />
       </v-col>
       <v-divider vertical class="mx-2" />
       <v-col class="text-center">
-        <span class="heading h3 primary--text">enemy victory</span>
+        <span class="heading h3 accent--text">enemy victory</span>
         <p class="flavor-text" v-html="encounter.Sitrep.enemyVictory" />
       </v-col>
       <v-divider vertical class="mx-2" />
       <v-col class="text-center">
-        <span class="heading h3 primary--text">no victor</span>
+        <span class="heading h3 accent--text">no victor</span>
         <p class="flavor-text" v-html="encounter.Sitrep.noVictory" />
       </v-col>
     </v-row>
     <v-divider />
     <v-row dense justify="center">
       <v-col class="text-center">
-        <span class="heading h3 primary--text">Deployment</span>
+        <span class="heading h3 accent--text">Deployment</span>
         <p class="flavor-text" v-html="encounter.Sitrep.deployment" />
       </v-col>
       <v-divider vertical class="mx-2" />
       <v-col class="text-center">
-        <span class="heading h3 primary--text">Extraction</span>
+        <span class="heading h3 accent--text">Extraction</span>
         <p class="flavor-text" v-html="encounter.Sitrep.extraction" />
       </v-col>
     </v-row>
     <v-divider />
     <v-row dense justify="center">
       <v-col class="text-center">
-        <span class="heading h3 primary--text">Control Zones</span>
+        <span class="heading h3 accent--text">Control Zones</span>
         <p class="flavor-text" v-html="encounter.Sitrep.controlZone" />
       </v-col>
       <v-divider vertical class="mx-2" />
       <v-col class="text-center">
-        <span class="heading h3 primary--text">Objective</span>
+        <span class="heading h3 accent--text">Objective</span>
         <p class="flavor-text" v-html="encounter.Sitrep.objective" />
       </v-col>
     </v-row>

@@ -26,20 +26,20 @@
         </p>
         <v-slide-x-transition group mode="in-out" />
         <div v-if="!syncing" key="nosync" class="flavor-text">
-          <span class="heading h3 primary--text">Pilot status:&nbsp;</span>
+          <span class="heading h3 accent--text">Pilot status:&nbsp;</span>
           <span v-if="!pilot.CloudID">No Vault data found</span>
           <span v-else-if="pilot.IsUserOwned">
             {{ pilot.Callsign }}'s data is stored in
-            <b class="primary--text">your</b>
+            <b class="accent--text">your</b>
             Vault
           </span>
           <span v-else>
-            {{ pilot.Callsign }} data is stored in
-            <b class="primary--text">someone else's</b>
+            {{ pilot.Callsign }}'s data is stored in
+            <b class="accent--text">someone else's</b>
             Vault
           </span>
           <br />
-          <span class="heading h3 primary--text">Pilot Share Code:&nbsp;</span>
+          <span class="heading h3 accent--text">Pilot Share Code:&nbsp;</span>
           <span v-if="!pilot.CloudID">No Vault data found</span>
           <span v-else>
             {{ pilot.CloudID }}
@@ -49,11 +49,11 @@
               </v-icon>
             </cc-tooltip>
             <v-fade-transition>
-              <span v-if="copyConfirm" class="grey--text">Copied!</span>
+              <span v-if="copyConfirm" class="subtle--text">Copied!</span>
             </v-fade-transition>
           </span>
           <br />
-          <span class="heading h3 primary--text">Last Update:&nbsp;</span>
+          <span class="heading h3 accent--text">Last Update:&nbsp;</span>
           <span v-if="!pilot.CloudID">Never</span>
           <span v-else-if="!pilot.IsUserOwned">Vault updated at {{ pilot.LastCloudUpdate }}</span>
           <span v-else>Local data updated at {{ pilot.LastCloudUpdate }}</span>

@@ -14,7 +14,7 @@
           </span>
         </span>
         <br />
-        <span class="heading h1 primary--text" style="line-height: 20px">
+        <span class="heading h1 accent--text" style="line-height: 20px">
           {{ equipped.Name }}
         </span>
         <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
@@ -24,7 +24,7 @@
           UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
         </span>
         <br />
-        <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+        <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
           NO SELECTION
         </span>
         <span class="flavor-text overline mt-n1 error--text" style="display: block">
@@ -32,56 +32,58 @@
         </span>
       </div>
       <div slot="extra-item" class="mt-2 mb-n2">
-        <v-switch
-          v-model="showUnlicensed"
-          dense
-          inset
-          hide-details
-          color="warning"
-          class="mr-3 d-inline"
-        >
-          <cc-tooltip
-            slot="label"
-            simple
-            inline
-            :content="
-              showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-            "
+        <div class="mb-n2">
+          <v-switch
+            v-model="showUnlicensed"
+            dense
+            inset
+            hide-details
+            color="warning"
+            class="mr-3 d-inline"
           >
-            <v-icon
-              large
-              class="ml-n2"
-              :color="showUnlicensed ? 'warning' : 'success'"
-              v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-            />
-          </cc-tooltip>
-        </v-switch>
-        <v-switch
-          v-model="showOverSP"
-          dense
-          inset
-          hide-details
-          color="warning"
-          class="mr-3 d-inline"
-        >
-          <cc-tooltip
-            slot="label"
-            simple
-            inline
-            :content="
-              showOverSP
-                ? 'Systems exceeding SP Capacity: SHOWN'
-                : 'Systems exceeding SP Capacity: HIDDEN'
-            "
+            <cc-tooltip
+              slot="label"
+              simple
+              inline
+              :content="
+                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+              "
+            >
+              <v-icon
+                class="ml-n2"
+                :color="showUnlicensed ? 'warning' : 'success'"
+                v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
+              />
+            </cc-tooltip>
+          </v-switch>
+        </div>
+        <div class="mt-n4">
+          <v-switch
+            v-model="showOverSP"
+            dense
+            inset
+            hide-details
+            color="warning"
+            class="mr-3 d-inline"
           >
-            <v-icon
-              large
-              class="ml-n2"
-              :color="showOverSP ? 'warning' : 'success'"
-              v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
-            />
-          </cc-tooltip>
-        </v-switch>
+            <cc-tooltip
+              slot="label"
+              simple
+              inline
+              :content="
+                showOverSP
+                  ? 'Systems exceeding SP Capacity: SHOWN'
+                  : 'Systems exceeding SP Capacity: HIDDEN'
+              "
+            >
+              <v-icon
+                class="ml-n2"
+                :color="showOverSP ? 'warning' : 'success'"
+                v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
+              />
+            </cc-tooltip>
+          </v-switch>
+        </div>
       </div>
     </cc-selector-table>
   </div>
@@ -141,8 +143,7 @@ export default Vue.extend({
       }
 
       if (!this.showOverSP) {
-        const swapSP = this.equipped && this.equipped.SP ? this.equipped.SP : 0
-        i = i.filter(x => x.SP <= this.freeSP + swapSP)
+        i = i.filter(x => x.SP <= this.freeSP)
       }
 
       return i

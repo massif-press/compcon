@@ -1,3 +1,5 @@
+import { Tag } from '@/class'
+
 export enum NpcFeatureType {
   Trait = 'Trait',
   System = 'System',
@@ -19,6 +21,8 @@ export interface INpcFeatureData {
   locked: boolean
   effect?: string
   bonus?: object
+  override?: object
+  tags: ITagData[]
   brew: string
   type: NpcFeatureType
 }
@@ -29,7 +33,9 @@ export abstract class NpcFeature {
   private _origin: IOriginData
   private _effect: string
   private _bonus: object
+  private _override: object
   private _locked: boolean
+  private _tags: ITagData[]
   private _brew: string
   protected type: NpcFeatureType
 
@@ -39,7 +45,9 @@ export abstract class NpcFeature {
     this._origin = data.origin
     this._effect = data.effect || ''
     this._bonus = data.bonus || null
+    this._override = data.override || null
     this._locked = data.locked || false
+    this._tags = data.tags
     this._brew = data.brew || 'CORE'
   }
 
@@ -65,6 +73,10 @@ export abstract class NpcFeature {
     return this._bonus
   }
 
+  public get Override(): object {
+    return this._override
+  }
+
   public get Effect(): string {
     if (!this._effect) return ''
     const perTier = /(\{.*?\})/
@@ -72,7 +84,7 @@ export abstract class NpcFeature {
     if (m) {
       return this._effect.replace(
         perTier,
-        m[0].replace('{', '<b class="primary--text">').replace('}', '</b>')
+        m[0].replace('{', '<b class="accent--text">').replace('}', '</b>')
       )
     }
     return this._effect
@@ -80,20 +92,27 @@ export abstract class NpcFeature {
 
   public EffectByTier(tier: number): string {
     if (!this._effect) return ''
-    const perTier = /(\{.*?\})/
+    let fmt = this._effect
+    const perTier = /(\{.*?\})/g
     const m = this._effect.match(perTier)
     if (m) {
-      const tArr = m[0]
-        .replace('{', '')
-        .replace('}', '')
-        .split('/')
-      return this._effect.replace(perTier, `<b class="primary--text">${tArr[tier - 1]}</b>`)
+      m.forEach(x => {
+        const tArr = x
+          .replace('{', '')
+          .replace('}', '')
+          .split('/')
+        fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
+      })
     }
-    return this._effect
+    return fmt
   }
 
   public get IsLocked(): boolean {
     return this._locked
+  }
+
+  public get Tags(): Tag[] {
+    return Tag.Deserialize(this._tags)
   }
 
   public get FeatureType(): NpcFeatureType {

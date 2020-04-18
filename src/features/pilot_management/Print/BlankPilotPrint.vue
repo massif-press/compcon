@@ -3,13 +3,13 @@
     <v-row dense align="start">
       <single cols="5" label="CALLSIGN" height="60" />
       <v-divider vertical class="mx-2" />
-      <single cols="auto" label="LICENSE LEVEL" height="60" />
-      <single cols="1" label="GRIT" height="60" />
-      <v-spacer />
       <single cols="1" label="HULL" height="60" />
       <single cols="1" label="AGI" height="60" />
       <single cols="1" label="SYS" height="60" />
       <single cols="1" label="ENG" height="60" />
+      <v-divider vertical class="mx-2" />
+      <single cols="auto" label="LEVEL" height="60" />
+      <single cols="1" label="GRIT" height="60" />
     </v-row>
     <v-row dense align="start">
       <single cols="3" label="NAME" height="20" />
@@ -28,7 +28,7 @@
                 <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               </v-col>
               <v-col cols="auto" class="mt-6 mr-n2">
-                <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+                <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
               </v-col>
               <v-col cols="auto" class="mb-n2">
                 <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -40,7 +40,7 @@
             <v-icon size="60" color="grey lighten-3">mdi-shield-outline</v-icon>
           </v-col>
           <v-col cols="auto">
-            <div class="overline mb-n1">E-DEF</div>
+            <div class="overline mb-n1">EDEF</div>
             <v-icon size="60" color="grey lighten-3">cci-marker</v-icon>
           </v-col>
           <v-col cols="auto">
@@ -63,7 +63,6 @@
           <single cols="1" label="RANK" height="25" />
         </v-row>
       </v-col>
-      <v-divider vertical class="mx-2" />
       <v-col>
         <span class="overline">SKILL TRIGGERS</span>
         <v-row v-for="n in 6" :key="`skill_${n}`" dense no-gutters>
@@ -79,24 +78,21 @@
         <v-row dense>
           <single cols="7" label="TALENT" height="20" />
           <single cols="1" label="RANK" height="20" />
-          <single cols="12" label="DESCRIPTION" height="200" class="mt-n2" />
+          <single cols="12" label="DESCRIPTION" height="150" class="mt-n2" />
         </v-row>
       </v-col>
     </v-row>
     <v-divider class="my-2" />
-    <v-row dense>
-      <single cols="12" label="NOTES" height="200" class="mt-n2" />
-    </v-row>
     <div style="page-break-before: always;" />
     <span class="overline">PILOT EQUIPMENT</span>
     <v-row dense justify="space-between" class="mt-n2">
       <v-col>
         <v-row dense>
           <single cols="12" label="ARMOR" height="20" class="mb-n1" />
-          <single cols="3" label="HP BONUS" height="20" />
-          <single cols="3" label="E-DEF" height="20" />
-          <single cols="3" label="EVASION" height="20" />
-          <single cols="3" label="SPEED" height="20" />
+          <single cols="3" label="HP+" height="20" />
+          <single cols="3" label="EDEF" height="20" />
+          <single cols="3" label="EVADE" height="20" />
+          <single cols="3" label="SPD" height="20" />
           <single cols="12" label="EFFECTS" height="100" class="mt-n2" />
         </v-row>
       </v-col>
@@ -112,7 +108,7 @@
     <v-row dense justify="space-between">
       <v-col v-for="n in 3" :key="`gear_${n}`">
         <v-row dense>
-          <single cols="10" label="GEAR" height="20" class="mb-n1" />
+          <single cols="9" label="GEAR" height="20" class="mb-n1" />
           <single cols="2" label="USES" height="20" />
           <single cols="12" label="EFFECTS" height="100" class="mt-n2" />
         </v-row>
@@ -126,17 +122,16 @@
         <v-row dense>
           <single cols="10" label="RESOURCE" height="20" class="mb-n1" />
           <single cols="1" label="USED" height="20" />
-          <single cols="12" label="DESCRIPTION" height="150" class="mt-n2" />
+          <single cols="12" label="DESCRIPTION" height="175" class="mt-n2" />
         </v-row>
       </v-col>
     </v-row>
-    <v-divider class="mt-2" />
+    <div style="page-break-before: always;" />
     <v-row dense>
-      <single label="RESOURCES" height="350" />
-      <v-divider vertical class="ml-auto mr-auto" />
-      <single label="CONTACTS" height="350" />
-      <v-divider vertical class="ml-auto mr-auto" />
-      <single label="MISSION LOG" height="350" />
+      <single cols="12" label="NOTES" height="225" class="mt-n2" />
+      <single cols="12" label="RESOURCES" height="225" />
+      <single cols="12" label="CONTACTS" height="225" />
+      <single cols="12" label="MISSION LOG" height="225" />
     </v-row>
   </v-container>
 </template>

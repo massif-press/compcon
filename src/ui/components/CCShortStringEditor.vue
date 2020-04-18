@@ -11,6 +11,7 @@
         v-model="newStr"
         :dense="!large"
         :height="large ? '50px' : ''"
+        :placeholder="placeholder"
         required
         hide-details
         autofocus
@@ -24,36 +25,32 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-short-string-editor',
-  props: {
-    inline: {
-      type: Boolean,
-      required: false,
-    },
-    large: {
-      type: Boolean,
-    },
-    before: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    newStr: '',
-    editing: false,
-  }),
-  methods: {
-    edit() {
-      this.editing = true
-      this.newStr = this.$slots.default[0].text.trim()
-    },
-    submit() {
-      if (this.newStr.length) this.$emit('set', this.newStr)
-      this.editing = false
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-short-string-editor' })
+export default class CCShortStringEditor extends Vue {
+  @Prop({ type: String, required: false })
+  readonly placeholder?: string
+  @Prop({ type: Boolean, required: false })
+  readonly inline?: boolean
+  @Prop({ type: Boolean })
+  readonly large?: boolean
+  @Prop({ type: Boolean })
+  readonly before?: boolean
+
+  newStr = ''
+  editing = false
+
+  edit(): void {
+    this.editing = true
+    this.newStr = this.$slots.default[0].text ? this.$slots.default[0].text.trim() : ''
+  }
+  submit(): void {
+    if (this.newStr.length) this.$emit('set', this.newStr)
+    this.newStr = ''
+    this.editing = false
+  }
+}
 </script>
 
 <style scoped>

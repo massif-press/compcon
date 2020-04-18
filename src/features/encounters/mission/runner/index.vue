@@ -9,6 +9,7 @@
           :items="activeMissions"
           :headers="headers"
           no-data-text="No Active Missions"
+          disable-pagination
           hide-default-footer
           class="transparent heading h3"
           style="min-width: 100%"
@@ -53,7 +54,7 @@
                 </v-card-text>
               </v-card>
             </v-menu>
-            <v-btn small tile color="primary" :to="`runner/${item.ID}`">
+            <v-btn small tile color="primary" class="white--text" :to="`runner/${item.ID}`">
               CONTINUE MISSION
               <v-icon right>mdi-chevron-double-right</v-icon>
             </v-btn>
@@ -71,7 +72,6 @@
           :headers="availableHeaders"
           group-by="Campaign"
           no-data-text="No Saved Missions"
-          hide-default-footer
           class="transparent heading"
           style="min-width: 100%"
         >
@@ -97,7 +97,7 @@
             <v-chip v-for="l in item.Labels" :key="item.ID + l" small>{{ l }}</v-chip>
           </template>
           <template v-slot:item.Start="{ item }">
-            <v-btn small tile color="primary" :to="`briefing/${item.ID}`">
+            <v-btn small tile color="primary" class="white--text" :to="`briefing/${item.ID}`">
               START MISSION
               <v-icon right>mdi-chevron-double-right</v-icon>
             </v-btn>
@@ -115,7 +115,6 @@
           :headers="completedHeaders"
           group-by="Campaign"
           no-data-text="No Completed Missions"
-          hide-default-footer
           class="transparent heading h3"
           style="min-width: 100%"
         >
@@ -200,6 +199,10 @@ export default Vue.extend({
       const store = getModule(MissionStore, this.$store)
       return store.ActiveMissions.filter(x => x.IsComplete)
     },
+  },
+  created() {
+    const store = getModule(MissionStore, this.$store)
+    store.Missions.forEach(m => m.ValidateSteps())
   },
   methods: {
     deleteActiveMission(m: ActiveMission) {

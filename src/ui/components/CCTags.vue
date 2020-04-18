@@ -1,13 +1,18 @@
 <template>
   <v-row v-if="extended" no-gutters>
-    <v-col v-for="(t, i) in tags" :key="`${t.id}_${i}`" cols="12">
+    <v-col v-for="(t, i) in tags" :key="`${t.ID}_${i}`" cols="12">
       <cc-extended-tag :tag="t" />
     </v-col>
   </v-row>
+  <div v-else-if="print">
+    <v-chip v-for="(t, i) in tags" :key="`${t.ID}_${i}`" outlined x-small label class="mx-1 mt-n1">
+      {{ t.GetName(bonus) }}
+    </v-chip>
+  </div>
   <div v-else>
     <cc-tag
       v-for="(t, i) in tags"
-      :key="`${t.id}_${i}`"
+      :key="`${t.ID}_${i}`"
       :tag="t"
       :small="small"
       :color="color"
@@ -17,33 +22,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Pilot, Tag } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-tags',
-  props: {
-    tags: {
-      type: Array,
-      required: true,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-    },
-    extended: {
-      type: Boolean,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    pilot: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-})
+@Component({ name: 'cc-tags' })
+export default class CCTags extends Vue {
+  @Prop({ type: Boolean, required: false })
+  readonly small?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly extended?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly print?: boolean
+  @Prop({ type: String, required: false, default: 'primary' })
+  readonly color: string
+
+  @Prop({ type: Array, required: true })
+  readonly tags!: Tag[]
+
+  @Prop({ type: Object, required: false, default: null })
+  readonly pilot?: Pilot
+
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly bonus?: number
+}
 </script>

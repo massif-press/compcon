@@ -3,13 +3,13 @@
     {
       "name": "Miguel Lopez",
       "twitter": "The_One_Lopez",
-      "website": "massif-press.itch.io",
+      "website": "https://massif-press.itch.io",
       "image": "https://pbs.twimg.com/profile_images/1201241048732717056/SfxfR0CP_400x400.jpg"
     },
     {
       "name": "Tom Parkinson Morgan",
       "twitter": "Orbitaldropkick",
-      "website": "killsixbilliondemons.com",
+      "website": "https://killsixbilliondemons.com/",
       "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
     }
   ],
@@ -30,12 +30,13 @@
   "devs": [
     {
       "name": "Matthew Johnston",
-      "github": "Eranziel"
+      "github": "Eranziel",
+      "image": "https://cdn.discordapp.com/attachments/654899655800258597/673268137701146655/Eranziel-avatar2.jpg"
     },
     {
       "name": "Scott Macmillan",
       "twitter": "scottmacmillan",
-      "website": "commandertso.com",
+      "website": "https://commandertso.com",
       "image": "https://cdn.discordapp.com/attachments/575847689506390017/672844868095049738/image0.jpg"
     },
     {
@@ -44,11 +45,96 @@
       "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
     }
   ],
-  "t5": [],
-  "t4": [],
-  "t3": [],
-  "t2": [],
-  "t1": [],
+  "t5": [
+    {
+      "name": "Dustin R Kelley",
+      "website": "https://kazzuma.com/",
+      "blurb": "Kazzuma Creations, Art Is Not an Industry!",
+      "image": "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/60871054_2046096015692177_923287156821065728_n.png?_nc_cat=110&_nc_oc=AQnXA1TdthnlrazEHXBryuGHuEraymyeevm-F_cWJjQWsoFJC29dAcZF7T5q9oYT3Frlt2VCWIVCo3d76FbUQEm6&_nc_ht=scontent-ort2-1.xx&oh=f707d19ef37ac93447f02250378aa2b6&oe=5EBD1B64"
+    },
+    {
+      "name": "Aphyria",
+      "website": "https://https://berniesanders.com/",
+      "blurb": "When the whole world's on fire, everybody feels the burn.<br>(Avatar by Michelle Hoefener)",
+      "image": "https://cdn.discordapp.com/attachments/673952684381831169/674667123188039711/Kia_Avatar.jpg"
+    },
+    {
+      "name": "Mikhail “khail” Echávarri, PhC",
+      "twitter": "khailcon"
+    },
+    {
+      "name": "Hetros",
+      "website": "http://www.patreon.com/towergirls",
+      "twitter": "BernieSanders",
+      "blurb": "",
+      "image": "https://cdn.discordapp.com/attachments/235563694891859969/675546668371935256/kp2.png"
+    }
+  ],
+  "t4": [
+    {
+      "name": "WHITESPINE",
+      "website": "https://berniesanders.com/"
+    },
+    {
+      "name": "ArsèneLupin42",
+      "website": "https://berniesanders.com/"
+    },
+    {
+      "name": "squeakanine",
+      "website": "https://berniesanders.com/"
+    },
+    {
+      "name": "Ginger",
+      "website": "https://berniesanders.com/"
+    }
+  ],
+  "t3": [
+    "MeckaMecha",
+    "Praxiis",
+    "Big Iron",
+    "Cloudyshine",
+    "Archiomode",
+    "Tricky",
+    "Xen",
+    "Joe Halberstadt",
+    "Adam Millson",
+    "Mike Michael Karamchandani"
+  ],
+  "t2": [
+    "Classical_Bass",
+    "FLABIS",
+    "Steven Pritchett",
+    "Vekell",
+    "R0bobot",
+    "Ragu",
+    "Knifes",
+    "Double A"
+  ],
+  "t1": [
+    "James Goldsworthy",
+    "Frank \"Broadway\" Neuman",
+    "VertigoCharades",
+    "MIHistoryGuy",
+    "William McDuff",
+    "Kettellcorn",
+    "Starduster",
+    "SirSnufflesTheStalwart",
+    "Joonas Laakso",
+    "Ol_Coyote",
+    "Grant Brownlee",
+    "Phenomen#1337",
+    "Enkufka",
+    "Fenna Ashwood",
+    "MrETheOne",
+    "Zoe \"Hornlet\" Rifkin",
+    "St Booker",
+    "jbuck",
+    "Sir Killjoy",
+    "Elesday",
+    "Mithril_Toaster",
+    "Ryan Borja",
+    "Jack P"
+  ],
   "special_thanks": [
     "#!",
     "ASullyVoice",
@@ -71,9 +157,14 @@
     "AK318",
     "Elderino",
     "V2Blast",
+    "Undyne",
     "Ceri",
+    "DeepOmega",
+    "Grant Brownlee",
     "\"Op\" Philip Flarsheim",
+    "Morgdalaine Yaho",
     "Murlaco",
+    "Casual Sawfish",
     "Tigg Kazzuma MD",
     "Unwary"
   ]

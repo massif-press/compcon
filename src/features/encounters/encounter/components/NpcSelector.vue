@@ -1,6 +1,6 @@
 <template>
   <cc-sidebar-view cols="3">
-    <div slot="alt">
+    <div slot="sidebar">
       <v-row dense>
         <v-col>
           <v-text-field
@@ -25,6 +25,7 @@
         :search="search"
         no-results-text="No NPCs Found"
         no-data-text="No Saved NPCs"
+        disable-pagination
         hide-default-footer
         hide-default-header
         calculate-widths
@@ -41,7 +42,7 @@
         </template>
         <template v-slot:item.Name="{ item }">
           <span
-            class="primary--text heading clickable ml-n2"
+            class="accent--text heading clickable ml-n2"
             @click="
               $vuetify.goTo(`#e_${item.ID}`, {
                 duration: 150,
@@ -59,7 +60,7 @@
       </v-data-table>
     </div>
     <br />
-    <div v-if="!npcs.length" class="grey--text heading h2 text-center">
+    <div v-if="!npcs.length" class="subtle--text heading h2 text-center">
       // NO NPCS AVAILABLE //
     </div>
     <v-row v-for="(npc, i) in npcs" :id="`e_${npc.ID}`" :key="`${npc.ID}_${i}`">

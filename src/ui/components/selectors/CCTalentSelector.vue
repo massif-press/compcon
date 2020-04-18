@@ -8,7 +8,7 @@
       <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.talent.id}_${i}`">
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
-          <v-icon small color="primary">cci-rank-{{ pTalent.Rank }}</v-icon>
+          <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
         </span>
       </v-row>
@@ -32,7 +32,7 @@
             prominent
             dense
             border="left"
-            color="primary"
+            color="accent"
             icon="warning"
             class="stat-text"
             :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
@@ -44,7 +44,7 @@
             prominent
             dense
             border="left"
-            color="primary"
+            color="accent"
             icon="warning"
             class="stat-text"
             :value="!enoughSelections"
@@ -59,6 +59,16 @@
     </template>
 
     <template v-slot:right-column>
+      <v-text-field
+        v-model="search"
+        prepend-icon="mdi-magnify"
+        color="accent"
+        label="Search Talents"
+        dense
+        hide-details
+        class="mb-2"
+        outlined
+      />
       <talent-select-item
         v-for="talent in talents"
         :key="talent.ID"
@@ -82,6 +92,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, Talent } from '@/class'
 import { rules } from 'lancer-data'
+import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
   name: 'talent-selector',
@@ -90,6 +101,9 @@ export default Vue.extend({
     pilot: Pilot,
     levelUp: Boolean,
   },
+  data: () => ({
+    search: '',
+  }),
   computed: {
     newPilot(): boolean {
       return this.pilot.Level === 0
@@ -98,19 +112,21 @@ export default Vue.extend({
       return rules.minimum_pilot_talents
     },
     enoughSelections(): boolean {
-      return !(this.pilot.Talents.length < this.selectedMin)
+      // we should only care about the minimum pilot talents in non-levelup (creation)
+      return this.levelUp || !(this.pilot.Talents.length < this.selectedMin)
     },
     selectionComplete(): boolean {
       return (this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents
     },
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
+      if (this.search) return compendium.Talents.filter(x => accentInclude(x.Name, this.search))
       return compendium.Talents
     },
   },
   watch: {
-    selectionComplete() {
-      window.scrollTo(0, document.body.scrollHeight)
+    selectionComplete(bool) {
+      if (bool) window.scrollTo(0, document.body.scrollHeight)
     },
   },
 })

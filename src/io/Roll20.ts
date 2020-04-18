@@ -193,7 +193,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: system.Name,
         tags: system.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         sp: system.SP,
-        effect: strip(system.Effect),
+        effect: system.Effect,
       })),
     },
   }

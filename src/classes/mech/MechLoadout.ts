@@ -103,7 +103,12 @@ class MechLoadout extends Loadout {
   }
 
   public get Equipment(): MechEquipment[] {
-    return (this.Weapons as MechEquipment[]).concat(this.Systems as MechEquipment[])
+    const mods = this.Weapons.map(x => x.Mod).filter(x => x != null)
+    const equip = (this.Weapons as MechEquipment[])
+      .concat(this.Systems as MechEquipment[])
+      .concat(this.IntegratedSystems as MechEquipment[])
+    if (mods.length > 0) return equip.concat(mods as MechEquipment[])
+    else return equip
   }
 
   public get Weapons(): MechWeapon[] {
@@ -161,7 +166,7 @@ class MechLoadout extends Loadout {
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
-    let requirements = [] as ILicenseRequirement[]
+    const requirements = [] as ILicenseRequirement[]
     const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
       this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
     )
@@ -240,9 +245,9 @@ class MechLoadout extends Loadout {
   }
 
   public static Deserialize(loadoutData: IMechLoadoutData, mech: Mech): MechLoadout {
-    let ml = new MechLoadout(mech)
+    const ml = new MechLoadout(mech)
     ml.ID = loadoutData.id
-    ml.Name = loadoutData.name
+    ml._name = loadoutData.name
     ml._systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
     ml._integratedSystems = !loadoutData.integratedSystems
       ? mech.IntegratedSystems

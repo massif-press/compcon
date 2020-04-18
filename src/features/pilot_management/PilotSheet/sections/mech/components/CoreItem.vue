@@ -4,7 +4,7 @@
     <div class="mx-3">
       <p
         v-if="coreSystem.Description"
-        class="flavor-text panel darken-1 clipped pa-2 mx-2"
+        class="flavor-text panel clipped pa-2 mx-2"
         v-html="coreSystem.Description"
       />
       <v-alert
@@ -18,16 +18,16 @@
       >
         <h3 class="heading" :style="`color: ${color}`">
           {{ coreSystem.PassiveName }}
-          <span class="grey--text" style="font-size: 14px">(PASSIVE)</span>
+          <span class="subtle--text" style="font-size: 14px">(PASSIVE)</span>
         </h3>
-        <p class="flavor-text text--text" v-html="coreSystem.PassiveEffect" />
+        <p class="body-text text--text" v-html="coreSystem.PassiveEffect" />
       </v-alert>
       <v-alert prominent text dense tile :color="color" border="left" icon="cci-corebonus">
         <h3 class="heading" :style="`color: ${color}`">
           {{ coreSystem.ActiveName }}
-          <span class="grey--text text--darken-2" style="font-size: 14px">(ACTIVE)</span>
+          <span class="subtle--text text--darken-2" style="font-size: 14px">(ACTIVE)</span>
         </h3>
-        <p class="flavor-text" v-html="coreSystem.ActiveEffect" />
+        <p class="body-text text--text" v-html="coreSystem.ActiveEffect" />
         <cc-tags :tags="coreSystem.Tags" :color="color" small />
       </v-alert>
     </div>

@@ -5,17 +5,17 @@
       :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.Color"
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
-      min-width="150px"
-      min-height="150px"
+      min-width="138px"
+      min-height="138px"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="mech.Portrait" position="top center" height="150px" />
+        <v-img :src="mech.Portrait" position="top center" height="138px" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
       <div
         style="width: 100%"
-        class="overlay sliced"
+        class="overlay"
         :style="
           `background-color: ${
             mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
@@ -23,7 +23,7 @@
         "
       >
         <v-row no-gutters>
-          <span class="heading h2 callsign" style="margin-left: 150px;">{{ mech.Name }}</span>
+          <span class="heading h2 callsign" style="margin-left: 138px;">{{ mech.Name }}</span>
           <v-fade-transition>
             <span v-if="mech.IsActive" class="heading h2 callsign ml-auto pr-10">
               / / ACTIVE / /&nbsp;
@@ -31,8 +31,8 @@
           </v-fade-transition>
         </v-row>
       </div>
-      <div style="margin-right: 30px; border-top: 0!important" class="light-panel clipped">
-        <div style="margin-left: 150px; padding-left: 8px; min-height: 100px">
+      <div style="border-top: 0!important" class="light-panel clipped">
+        <div style="margin-left: 138px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
             <v-row no-gutters justify="end">
               <v-col cols="auto">
@@ -56,35 +56,35 @@
                 <span class="overline">STR</span>
                 <br />
                 <b>{{ mech.CurrentStructure }}</b>
-                <span class="grey--text ml-n2">/{{ mech.MaxStructure }}</span>
+                <span class="subtle--text ml-n2">/{{ mech.MaxStructure }}</span>
               </v-col>
               <v-divider vertical class="mx-2" />
               <v-col cols="auto">
                 <span class="overline">HP</span>
                 <br />
                 <b>{{ mech.CurrentHP }}</b>
-                <span class="grey--text ml-n2">/{{ mech.MaxHP }}</span>
+                <span class="subtle--text ml-n2">/{{ mech.MaxHP }}</span>
               </v-col>
               <v-divider vertical class="mx-2" />
               <v-col cols="auto">
                 <span class="overline">Stress</span>
                 <br />
                 <b>{{ mech.CurrentStress }}</b>
-                <span class="grey--text ml-n2">/{{ mech.MaxStress }}</span>
+                <span class="subtle--text ml-n2">/{{ mech.MaxStress }}</span>
               </v-col>
               <v-divider vertical class="mx-2" />
               <v-col cols="auto">
                 <span class="overline">Heat</span>
                 <br />
                 <b>{{ mech.CurrentHeat }}</b>
-                <span class="grey--text ml-n2">/{{ mech.HeatCapacity }}</span>
+                <span class="subtle--text ml-n2">/{{ mech.HeatCapacity }}</span>
               </v-col>
               <v-divider vertical class="mx-2" />
               <v-col cols="auto">
                 <span class="overline">RepCap</span>
                 <br />
                 <b>{{ mech.CurrentRepairs }}</b>
-                <span class="grey--text ml-n2">/{{ mech.RepairCapacity }}</span>
+                <span class="subtle--text ml-n2">/{{ mech.RepairCapacity }}</span>
               </v-col>
               <v-col cols="auto" class="white--text flavor-text">
                 <v-alert v-if="mech.Destroyed" color="error" dense tile class="text-center">
@@ -152,7 +152,7 @@ export default Vue.extend({
 <style scoped>
 #pc-wrapper {
   position: relative;
-  min-height: 150px;
+  min-height: 138px;
   min-width: 100%;
   cursor: pointer;
   margin-bottom: 12px;

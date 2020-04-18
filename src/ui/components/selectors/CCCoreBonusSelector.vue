@@ -4,7 +4,7 @@
       <v-row v-for="b in pilot.CoreBonuses" :key="`summary_${b.ID}`">
         <!-- <missing-item v-if="b.err" @remove="pilot.RemoveCoreBonus(b)" /> -->
         <span>
-          <v-icon small color="primary">cci-corebonus</v-icon>
+          <v-icon small color="accent">cci-corebonus</v-icon>
           <strong>{{ b.Name }}</strong>
           <span class="overline">{{ b.Source }}</span>
         </span>
@@ -17,21 +17,27 @@
           icon="check_circle"
           class="stat-text"
           :value="!pilot.IsMissingCBs"
-        >CORE Bonus Selection Complete</v-alert>
+        >
+          CORE Bonus Selection Complete
+        </v-alert>
         <v-alert
           outlined
-          color="primary"
+          color="accent"
           icon="warning"
           class="stat-text"
           :value="pilot.IsMissingCBs"
-        >{{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected</v-alert>
+        >
+          {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
+        </v-alert>
         <v-btn
           block
           text
           small
           :disabled="!pilot.CoreBonuses.length"
           @click="pilot.ClearCoreBonuses()"
-        >Reset</v-btn>
+        >
+          Reset
+        </v-btn>
       </v-row>
     </template>
 
@@ -92,29 +98,28 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, CoreBonus, Manufacturer } from '@/class'
 
-
 @Component({
   components: { Selector, CoreBonusSelectItem, MissingItem },
 })
 export default class CCCoreBonusSelector extends Vue {
-
-  @Prop({ type: Object, required: true }) pilot!: Pilot;
-  @Prop(Boolean) levelUp!: boolean;
+  @Prop({ type: Object, required: true }) pilot!: Pilot
+  @Prop(Boolean) levelUp!: boolean
 
   get coreBonuses(): CoreBonus[] {
     return getModule(CompendiumStore, this.$store).CoreBonuses
   }
   get manufacturersWithCBs(): {
-    manufacturer: Manufacturer,
+    manufacturer: Manufacturer
     coreBonuses: CoreBonus[]
   }[] {
     const manufacturers = getModule(CompendiumStore, this.$store).Manufacturers
 
-    return manufacturers.map(manufacturer => ({
-      manufacturer,
-      coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer === manufacturer)
-    })).filter(x => x.coreBonuses.length > 0)
-
+    return manufacturers
+      .map(manufacturer => ({
+        manufacturer,
+        coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer === manufacturer),
+      }))
+      .filter(x => x.coreBonuses.length > 0)
   }
 
   get selectionComplete(): boolean {
@@ -131,15 +136,15 @@ export default class CCCoreBonusSelector extends Vue {
       return `<b>${this.selectedCount(
         m.ID
       )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-    var lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
-    var output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
-    var remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
-    output += `<b>${this.availableCount(
-      m.ID
-    )}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
+    const lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
+    let output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
+    const remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
+    output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
     output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
     if (this.pilot.Level < 12)
-      output += `<br>${this.pilot.Level < 3 ? 'First' : 'Next'} ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
+      output += `<br>${
+        this.pilot.Level < 3 ? 'First' : 'Next'
+      } ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`
     return output
   }
 
@@ -156,7 +161,5 @@ export default class CCCoreBonusSelector extends Vue {
   isSelected(b: CoreBonus): boolean {
     return this.pilot.has('CoreBonus', b.ID)
   }
-
-
 }
 </script>

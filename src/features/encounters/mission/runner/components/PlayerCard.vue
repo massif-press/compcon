@@ -41,7 +41,7 @@
                     </div>
                     <span class="heading h2">
                       {{ mech.Frame.CoreSystem.Active }}
-                      <span class="pt-2 ml-2 caption grey--text">(ACTIVE)</span>
+                      <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
                     <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
@@ -213,7 +213,7 @@
             >
               // HEAT::DANGER ZONE //
             </div>
-            <div v-else class="caption grey--text text-center">
+            <div v-else class="caption subtle--text text-center">
               HEAT LEVELS NOMINAL
             </div>
           </v-col>
@@ -254,7 +254,7 @@
             >
               AVAILABLE
             </div>
-            <div v-else class="text-center caption grey--text">
+            <div v-else class="text-center caption subtle--text">
               EXHAUSTED
             </div>
           </v-col>
@@ -306,27 +306,44 @@
           </v-col>
           <v-col>
             <v-row>
-              <cc-active-card color="pilot" header="Speed" :content="mech.Speed" />
+              <cc-active-card prominent color="pilot" header="Speed" :content="mech.Speed" />
               <cc-active-card
+                prominent
                 color="pilot"
                 header="Attack Bonus"
                 :content="`+${mech.AttackBonus}`"
               />
-              <cc-active-card color="pilot" header="Tech Attack" :content="`+${mech.TechAttack}`" />
+              <cc-active-card
+                prominent
+                color="pilot"
+                header="Tech Attack"
+                :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
+              />
             </v-row>
             <v-row>
               <cc-active-card
+                prominent
                 color="pilot"
                 header="Evasion"
                 :content="mech.IsStunned ? 5 : mech.Evasion"
               />
-              <cc-active-card color="pilot" header="E-Defense" :content="mech.EDefense" />
-              <cc-active-card color="pilot" header="Save Target" :content="mech.SaveTarget" />
-              <cc-active-card color="pilot" header="Sensor Range" :content="mech.SensorRange" />
+              <cc-active-card prominent color="pilot" header="E-Defense" :content="mech.EDefense" />
+              <cc-active-card
+                prominent
+                color="pilot"
+                header="Save Target"
+                :content="mech.SaveTarget"
+              />
+              <cc-active-card
+                prominent
+                color="pilot"
+                header="Sensor Range"
+                :content="mech.SensorRange"
+              />
             </v-row>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="120" color="pilot">cci-size-{{ mech.Size }}</v-icon>
+            <v-icon size="120" color="primary">{{ mech.SizeIcon }}</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -338,6 +355,56 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row dense class="mt-n2">
+      <v-col cols="auto">
+        <span class="overline">TALENTS</span>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(mech.Pilot.Talents.length, 'tal_', true)"
+        >
+          <v-icon small left>mdi-chevron-up</v-icon>
+          All
+        </v-btn>
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect"
+          @click="expandAll(mech.Pilot.Talents.length, 'tal_', false)"
+        >
+          <v-icon small left>mdi-chevron-down</v-icon>
+          All
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <cc-active-card
+        v-for="(t, i) in mech.Pilot.Talents"
+        :key="`tal_${i}`"
+        :ref="`tal_${i}`"
+        collapsible
+        start-closed
+        color="primary"
+        md="12"
+        lg="6"
+        xl="4"
+        :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
+        subheader="PILOT TALENT"
+      >
+        <ul v-for="n in 3" :key="'t_' + n">
+          <li v-if="t.Rank >= n">
+            <span v-html="t.Talent.Ranks[n - 1].description" />
+          </li>
+        </ul>
+      </cc-active-card>
+    </v-row>
+
+    <v-divider class="my-2" />
+
     <div class="overline">LOADOUT</div>
     <v-row dense>
       <player-equipment-item
@@ -347,17 +414,16 @@
       />
     </v-row>
     <v-divider class="my-2" />
-    <v-row dense>
-      <v-textarea
-        v-model="mech.GmNote"
-        label="GM Notes"
-        dense
-        auto-grow
-        rows="3"
-        outlined
-        hide-actions
+    <cc-title small color="pilot">
+      GM's Notes
+      <cc-text-editor
+        label="Edit Player Notes"
+        :original="mech.GmNote"
+        @save="mech.GmNote = $event"
       />
-    </v-row>
+    </cc-title>
+    <p v-html="mech.GmNote" />
+    <v-divider class="my-2" />
     <v-row v-if="mech.Reactions.length && !rest" dense justify="center">
       <v-col cols="10">
         <div class="overline">STAGED REACTIONS</div>
@@ -423,8 +489,8 @@ export default Vue.extend({
       required: true,
     },
     rest: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data: () => ({
     overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
@@ -451,6 +517,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    expandAll(len: number, key: string, expand: boolean) {
+      for (let i = 0; i < len; i++) {
+        const k = key + i
+        this.$refs[k][0].collapsed = expand
+      }
+    },
     onHpRollover() {
       if (this.mech.CurrentStructure <= 1) {
         this.$nextTick(() => {

@@ -49,9 +49,7 @@ export default Vue.extend({
         string: JSON.stringify(converted, null, 4)
       })
       this.hide()
-      this.notify({
-        text: 'Roll20 data copied to clipboard'
-      })
+      Vue.prototype.$notify('Roll20 data copied to clipboard')
     }
   },
 })

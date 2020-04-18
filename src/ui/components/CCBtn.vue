@@ -20,62 +20,39 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-btn',
-  props: {
-    large: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    xLarge: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    small: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    dark: {
-      type: Boolean,
-      required: false,
-      default: true,
-    },
-    light: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    outlined: {
-      type: Boolean,
-      required: false,
-    },
-    to: {
-      type: [String, Object],
-      required: false,
-      default: '',
-    },
-  },
-  computed: {
-    bgColor(): string {
-      if (this.disabled) return 'gray'
-      else return this.getColor(this.color, this.$vuetify)
-    },
-  },
-})
+import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
+import GetColorMixin from '@/mixins/getColor'
+import { Route } from 'vue-router'
+
+@Component({ name: 'cc-btn' })
+export default class CCBtn extends Mixins(GetColorMixin) {
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly large: boolean
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly xLarge: boolean
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly small: boolean
+
+  get bgColor(): string {
+    if (this.disabled) return 'gray'
+    else return this.getColor(this.color, this.$vuetify)
+  }
+  @Prop({ type: String, required: false, default: 'primary' })
+  readonly color: string
+  @Prop({ type: Boolean, required: false, default: true })
+  readonly dark: boolean
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly light: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly outlined?: boolean
+
+  @Prop({ type: Boolean, required: false, default: false })
+  readonly disabled: boolean
+
+  @Prop({ type: [String, Object], required: false, default: '' })
+  readonly to: string | Route
+}
 </script>
 
 <style scoped>
@@ -90,6 +67,7 @@ export default Vue.extend({
   width: 21px;
   height: 21px;
   clip-path: polygon(0 0, 0% 100%, 100% 0);
+  -webkit-clip-path: polygon(0 0, 0% 100%, 100% 0);
   background: inherit;
   z-index: 1;
   transition: all 0.2s ease-in-out, background-color 1ms;

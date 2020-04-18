@@ -105,12 +105,19 @@ export class ActiveMission {
     nn.RenewID()
     nn.Active = true
     nn.Side = s
+    const aCount = this._activeNpcs
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
+    const rCount = this._activeReinforcements
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
+    nn.Name += ` #${aCount + rCount + 1}`
     return nn
   }
 
   private spawnNpcs(): void {
     if (this.Encounter.StepType === MissionStepType.Rest) return
-    this._activeNpcs = []
+    this._activeNpcs.splice(0, this._activeNpcs.length)
     const enc = this.Encounter as Encounter
     const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
     sides.forEach(s => {
@@ -128,6 +135,10 @@ export class ActiveMission {
     const nn = Npc.Deserialize(Npc.Serialize(n))
     nn.RenewID()
     nn.Active = true
+    const count = this._activeNpcs
+      .map(x => x.Name.replace(/ #[\d]*/, ''))
+      .filter(x => x === nn.Name).length
+    nn.Name += ` #${count}`
     this.ActiveNpcs.push(nn)
   }
 
@@ -209,15 +220,6 @@ export class ActiveMission {
     if (idx > -1) this._pilotIDs.splice(idx, 1)
   }
 
-  // public get Npcs(): Npc[] {
-  //   const sides = [EncounterSide.Ally, EncounterSide.Enemy, EncounterSide.Neutral]
-  //   const npcs = []
-  //   this._mission.Encounters.forEach(e => {
-
-  //   })
-  //   return this._mission.Encounters.flatMap(x => x.Npcs)
-  // }
-
   public get Note(): string {
     return this._note
   }
@@ -258,7 +260,13 @@ export class ActiveMission {
     m.Round = data.round
     m.Step = data.step
     m.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
+    m.ActiveNpcs.forEach(n => {
+      n.Active = true
+    })
     m.ActiveReinforcements = data.activeReinforcements.map(x => Npc.Deserialize(x))
+    m.ActiveReinforcements.forEach(n => {
+      n.Active = true
+    })
     m._pilotIDs = data.pilotIDs
     m._start_date = data.start
     m._end_date = data.end

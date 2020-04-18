@@ -1,12 +1,13 @@
 <template>
   <v-navigation-drawer
+    :value="true"
     :mini-variant="mini"
-    absolute
-    fixed
+    app
     right
+    permanent
     mini-variant-width="30"
     width="550px"
-    style="z-index: 9; position: fixed; height: 100%;"
+    style="z-index: 1; position: fixed; height: 100%;"
   >
     <div class="panel-expander">
       <v-row align="center" style="height: 100%" @click.stop="mini = !mini">

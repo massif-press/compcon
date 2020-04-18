@@ -36,8 +36,12 @@
       <v-col class="pt-0" dense>
         <span class="overline">OMNINET UPLINK ID</span>
         <br />
-        <span v-if="pilot.CloudID">{{ pilot.CloudID }}</span>
-        <span v-else class="stat-text error--text">// NOT SYNCED //</span>
+        <span v-if="pilot.CloudID">
+          {{ pilot.CloudID }}
+        </span>
+        <span v-else class="stat-text error--text">
+          // NOT SYNCED //
+        </span>
         <cc-tooltip
           v-if="!syncing"
           inline
@@ -81,7 +85,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import CloudManager from '../../../components/CloudManager.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
@@ -116,6 +119,11 @@ export default vueMixins(activePilot).extend({
         default:
           return 'text'
           break
+      }
+    },
+    setCloudID(id: string) {
+      if (id && id != '// NOT SYNCED //') {
+        this.pilot.CloudID = id
       }
     },
     sync() {

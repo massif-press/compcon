@@ -1,31 +1,33 @@
-import { LicensedItem, Tag } from '@/class'
+import { LicensedItem, Tag, ItemEffect } from '@/class'
 import { ILicensedItemData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number
   tags: ITagData[]
-  effect: string
+  effect: string | object | object[]
   talent_item?: boolean
   frame_id?: boolean
 }
 
 abstract class MechEquipment extends LicensedItem {
   protected sp: number
-  protected tags: Tag[]
-  private _effect: string
+  protected _uses: number
+  protected _destroyed: boolean
+  protected _cascading: boolean
+  protected _loaded: boolean
+  private _effect: ItemEffect[]
   private _integrated: boolean
-  private _uses: number
   private _max_uses: number
-  private _destroyed: boolean
-  private _cascading: boolean
-  private _loaded: boolean
+  protected _tags: ITagData[]
+  protected max_use_override: number
 
   public constructor(itemData: IMechEquipmentData) {
     super(itemData)
     this.sp = itemData.sp || 0
-    this.tags = Tag.Deserialize(itemData.tags)
-    this._effect = itemData.effect
-    this._integrated = itemData.talent_item || itemData.frame_id || false
+    this._tags = itemData.tags
+    this._effect = this.getItemData(itemData.effect)
+    this._integrated =
+      itemData.talent_item || itemData.frame_id || itemData.id.includes('_integrated')
     this._uses = 0
     this._destroyed = false
     this._cascading = false
@@ -38,11 +40,17 @@ abstract class MechEquipment extends LicensedItem {
     }
   }
 
-  public get Tags(): Tag[] {
-    return this.tags
+  private getItemData(data: any): ItemEffect[] {
+    if (!Array.isArray(data)) {
+      return [ItemEffect.Generate(data)]
+    } else return data.map(x => ItemEffect.Generate(x))
   }
 
-  public get Effect(): string {
+  public get Tags(): Tag[] {
+    return Tag.Deserialize(this._tags)
+  }
+
+  public get Effect(): ItemEffect[] {
     return this._effect
   }
 
@@ -56,6 +64,10 @@ abstract class MechEquipment extends LicensedItem {
 
   public get IsAI(): boolean {
     return this.Tags.some(x => x.IsAI)
+  }
+
+  public get IsIndestructible(): boolean {
+    return this.Tags.some(x => x.IsIndestructible)
   }
 
   public get IsCascading(): boolean {
@@ -90,6 +102,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public Destroy(): void {
+    if (this.IsIndestructible) return
     this._destroyed = true
     this.save()
   }
@@ -97,6 +110,14 @@ abstract class MechEquipment extends LicensedItem {
   public Repair(): void {
     this._destroyed = false
     this.save()
+  }
+
+  public get CanSetDamage(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_damage_type')
+  }
+
+  public get CanSetUses(): boolean {
+    return this._tags.some(x => x.id === 'tg_set_max_uses')
   }
 
   public get IsLoading(): boolean {
@@ -122,6 +143,7 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get MaxUses(): number {
+    if (this.max_use_override) return this.max_use_override
     return this._max_uses
   }
 

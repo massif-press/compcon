@@ -11,13 +11,13 @@
         <div class="overline mt-n1">{{ npcc.Role }}</div>
       </v-col>
     </v-row>
-    <p class="flavor-text panel pa-2" v-html="npcc.Flavor" />
-    <span class="heading h3 primary--text">Tactics</span>
+    <p class="flavor-text panel pa-2 stark--text" v-html="npcc.Flavor" />
+    <span class="heading h3 accent--text">Tactics</span>
     <p class="body-1" v-html="npcc.Tactics" />
     <v-divider class="mb-3" />
     <v-row dense align="center">
       <v-col>
-        <v-btn-toggle v-model="tierPreview" dense active-class="primary--text" class="mb-2">
+        <v-btn-toggle v-model="tierPreview" dense active-class="accent--text" class="mb-2">
           <v-btn :value="1">
             <v-icon left>cci-rank-1</v-icon>
             Tier 1
@@ -120,7 +120,7 @@
         <cc-npc-feature-card :feature="f" :tier="tierPreview" />
       </v-col>
     </v-row>
-    <cc-title small :color="npcc.Color" class="mt-2">
+    <cc-title v-if="npcc.OptionalFeatures.length" small :color="npcc.Color" class="mt-2">
       Optional Features
     </cc-title>
     <v-row dense>
@@ -134,11 +134,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import EditableAttribute from '../components/EditableAttribute.vue'
-import SizeAttribute from '../components/SizeAttribute.vue'
 
 export default Vue.extend({
   name: 'npc-class-card',
-  components: { EditableAttribute, SizeAttribute },
+  components: { EditableAttribute },
   props: {
     npcc: {
       type: Object,

@@ -4,13 +4,13 @@
       <div v-if="mech.Destroyed || mech.ReactorDestroyed">
         <destroyed-alert :mech="mech" />
         <div v-if="mech.ReactorDestroyed">
-          <p class="stat-text primary--text text-center pt-4">
+          <p class="stat-text accent--text text-center pt-4">
             This mech cannot be repaired and must be reprinted.
           </p>
         </div>
         <div v-else class="mx-3">
           <v-col cols="12" class="text-center mt-3 mb-3">
-            <span class="grey--text">
+            <span class="subtle--text">
               REPAIR CAPACITY REMAINING:
               <b>{{ mech.CurrentRepairs }}</b>
             </span>
@@ -30,7 +30,7 @@
             </span>
           </v-col>
           <v-divider dark class="ma-2" />
-          <v-card color="grey lighten-2" class="mb-2">
+          <v-card color="panel" class="mb-2">
             <v-card-text class="flavor-text text--text">
               This mech can be repaired to working order by spending 4 repair points. These repairs
               can be spent from this mech’s own pool or the pools of any pilots that wish to
@@ -74,7 +74,7 @@
       </div>
       <v-row v-else>
         <v-col class="mx-2">
-          <p class="overline flavor-text grey--text pb-0 mb-0">
+          <p class="overline flavor-text subtle--text pb-0 mb-0">
             //[COMP/CON: COMBAT OPERATIONS COMPLETE
             <br />
             DISCONNECTING PILOT SENSORIUM ... done
@@ -83,11 +83,11 @@
             <br />
             RUNNING FRAME DIAGNOSTIC SUITE ... done ]
           </p>
-          <p class="flavor-text grey--text">
+          <p class="flavor-text subtle--text">
             //[COMP/CON:
             <span class="text--text">
               Lancer, I have detected
-              <b class="primary--text">{{ issues }}</b>
+              <b class="accent--text">{{ issues }}</b>
               issue{{ issues === 1 ? '' : 's' }} requiring your attention:
             </span>
             ]
@@ -95,7 +95,7 @@
           <div class="text-center mt-3 mb-3">
             <span class="heading h3">
               REPAIR CAPACITY REMAINING:
-              <b class="primary--text">{{ mech.CurrentRepairs }}</b>
+              <b class="accent--text">{{ mech.CurrentRepairs }}</b>
             </span>
             <br />
             <span>
@@ -125,12 +125,12 @@
             />
           </div>
           <div class="text-left flavor-text">
-            <span v-if="mech.CurrentHP === mech.MaxHP" class="grey--text">
+            <span v-if="mech.CurrentHP === mech.MaxHP" class="subtle--text">
               > NO DAMAGE DETECTED
             </span>
             <v-row v-else dense align="center">
               <v-col cols="auto">
-                <b class="primary--text">WARNING: DAMAGE DETECTED</b>
+                <b class="accent--text">WARNING: DAMAGE DETECTED</b>
               </v-col>
               <v-col cols="auto" class="ml-auto">
                 <v-btn
@@ -148,12 +148,12 @@
             </v-row>
           </div>
           <div class="text-left flavor-text">
-            <span v-if="mech.CurrentStructure === mech.MaxStructure" class="grey--text">
+            <span v-if="mech.CurrentStructure === mech.MaxStructure" class="subtle--text">
               > STRUCTURAL INTEGRITY NOMINAL
             </span>
             <v-row v-else dense align="center">
               <v-col cols="auto">
-                <b class="primary--text">CRITICAL: STRUCTURE COMPROMISED</b>
+                <b class="accent--text">CRITICAL: STRUCTURE COMPROMISED</b>
               </v-col>
               <v-col cols="auto" class="ml-auto">
                 <v-btn
@@ -173,12 +173,12 @@
           </div>
 
           <div class="text-left flavor-text">
-            <span v-if="mech.CurrentStress === mech.MaxStress" class="grey--text">
+            <span v-if="mech.CurrentStress === mech.MaxStress" class="subtle--text">
               > REACTOR INTEGRITY NOMINAL
             </span>
             <v-row v-else dense align="center">
               <v-col cols="auto">
-                <b class="primary--text">CRITICAL: REACTOR COMPROMISED</b>
+                <b class="accent--text">CRITICAL: REACTOR COMPROMISED</b>
               </v-col>
               <v-col cols="auto" class="ml-auto">
                 <v-btn
@@ -198,11 +198,11 @@
           </div>
 
           <div class="text-left flavor-text">
-            <span v-if="!destroyedWeapons.length" class="grey--text">
+            <span v-if="!destroyedWeapons.length" class="subtle--text">
               > ARMAMENT NOMINAL
             </span>
             <div v-else>
-              <b class="primary--text">WARNING: ARMAMENT DAMAGED</b>
+              <b class="accent--text">WARNING: ARMAMENT DAMAGED</b>
               <v-row v-for="w in destroyedWeapons" :key="w.ID" dense align="center">
                 <v-col cols="auto" class="ml-auto">
                   <v-btn
@@ -224,11 +224,11 @@
           </div>
 
           <div class="text-left flavor-text">
-            <span v-if="!destroyedSystems.length" class="grey--text">
+            <span v-if="!destroyedSystems.length" class="subtle--text">
               > SYSTEMS NOMINAL
             </span>
             <div v-else>
-              <b class="primary--text">WARNING: SYSTEMS DAMAGED</b>
+              <b class="accent--text">WARNING: SYSTEMS DAMAGED</b>
               <v-row v-for="s in destroyedSystems" :key="s.ID" dense align="center">
                 <v-col cols="auto" class="ml-auto">
                   <v-btn

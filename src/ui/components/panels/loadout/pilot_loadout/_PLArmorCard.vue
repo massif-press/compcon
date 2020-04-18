@@ -13,7 +13,7 @@
       style="cursor: pointer!important; height:100%"
       @click="$refs.base.openDetail()"
     >
-      <span class="h2 heading text--text" style="line-height: 35px">
+      <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
         {{ item.Name }}
         <cc-tooltip v-if="item.Note" :key="item.Note.length" simple inline :content="item.Note">
           <v-icon small color="active">mdi-note</v-icon>
@@ -62,7 +62,7 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 primary--text" style="line-height: 20px">{{ item.Name }}</span>
+          <span class="heading h1 accent--text" style="line-height: 20px">{{ item.Name }}</span>
           <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
@@ -70,7 +70,7 @@
             GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
           </span>
           <br />
-          <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+          <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
             NO SELECTION
           </span>
           <span class="flavor-text overline mt-n1 error--text" style="display: block">
@@ -120,7 +120,7 @@ export default Vue.extend({
   }),
   methods: {
     equip(item: PilotArmor) {
-      this.$emit('equip', item)
+      this.$emit('equip', this.$_.clone(item))
       this.$refs.base.closeSelector()
     },
     getArmor() {

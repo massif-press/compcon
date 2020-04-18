@@ -1,4 +1,3 @@
-import { Tag } from '@/class'
 import { NpcFeature, NpcFeatureType } from '.'
 import { INpcFeatureData } from './interfaces'
 
@@ -11,22 +10,16 @@ export interface INpcTechData extends INpcFeatureData {
 }
 
 export class NpcTech extends NpcFeature {
-  private _tags: ITagData[]
   private _tech_type: string
   private _accuracy: number[]
   private _attack_bonus: number[]
 
   public constructor(data: INpcTechData) {
     super(data)
-    this._tags = data.tags
     this._tech_type = data.tech_type
     this._accuracy = data.accuracy || [0, 0, 0]
     this._attack_bonus = data.attack_bonus || [0, 0, 0]
     this.type = NpcFeatureType.Tech
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
   }
 
   public get IsLimited(): boolean {
@@ -54,6 +47,10 @@ export class NpcTech extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'frame'
+    return 'npc--tech'
+  }
+
+  public get Icon(): string {
+    return 'mdi-chart-donut-variant'
   }
 }

@@ -15,17 +15,17 @@
     >
       <div class="text-center white--text flavor-text">
         <div
-          :class="active ? 'success darken-1' : ''"
-          style="max-width: 160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
+          :class="active ? 'success darken-1 px-1' : 'px-1'"
+          style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; transition: all 0.35s ease-in-out;"
         >
-          <v-icon dark class="mx-n2">
+          <v-icon dark class="ml-n1">
             {{ defeated ? 'mdi-skull' : complete ? 'mdi-check' : actor.Icon }}
           </v-icon>
           <b :style="defeated ? 'text-decoration: linethrough' : ''">
             {{ actor.EncounterName }}
           </b>
         </div>
-        <v-row dense no-gutters style="width: 160px" justify="space-around">
+        <v-row dense no-gutters justify="space-around">
           <v-col cols="auto">
             <cc-tooltip
               v-if="actor.MaxStructure > 1"
@@ -106,7 +106,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Statuses/Conditions</div>
+                  <div class="heading h3 accent--text">Statuses/Conditions</div>
                   <v-divider />
                   <div
                     v-if="!actor.Statuses.length && !actor.Conditions.length"
@@ -131,7 +131,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Resistances</div>
+                  <div class="heading h3 accent--text">Resistances</div>
                   <v-divider />
                   <div v-if="!actor.Resistances.length" class="flavor-text">
                     None
@@ -152,7 +152,7 @@
               </template>
               <v-card>
                 <v-card-text>
-                  <div class="heading h3 primary--text">Prepared Reactions</div>
+                  <div class="heading h3 accent--text">Prepared Reactions</div>
                   <v-divider />
                   <div v-if="!actor.Reactions.length" class="flavor-text">
                     None

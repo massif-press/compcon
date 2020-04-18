@@ -2,6 +2,7 @@
   <div class="packsList" style="min-height: 300px;">
     <v-data-table
       hide-default-footer
+      disable-pagination
       no-data-text="No content packs installed."
       :headers="headers"
       :items="contentPacks"
@@ -19,7 +20,7 @@
       </template>
       <!-- Name -->
       <template v-slot:item.name="{ item }">
-        <span class="title" :class="item.Active ? 'primary--text' : 'grey--text font-italic'">
+        <span class="title" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
           {{ item.Name }}
         </span>
       </template>

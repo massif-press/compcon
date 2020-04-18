@@ -1,14 +1,22 @@
 <template>
   <div>
-    <h3 class="heading primary--text">User Options</h3>
+    <h3 class="heading accent--text">User Options</h3>
     <v-row dense>
       <v-col cols="8" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
-          <span class="primary--text">{{ userID }}</span>
+          <span class="accent--text">
+            <cc-short-string-editor class="d-inline" @set="setUserID($event)">
+              {{ userID }}
+            </cc-short-string-editor>
+          </span>
         </div>
         <v-divider />
         <div class="mx-12">
+          <v-btn outlined block color="info" class="my-1" @click="reload">
+            Download Updates and Reload
+          </v-btn>
+          <v-divider class="my-2" />
           <v-btn outlined block color="secondary" class="my-1" @click="bulkExport">
             Export All COMP/CON Data
           </v-btn>
@@ -20,6 +28,15 @@
             </template>
             <v-card>
               <v-card-text class="pa-6">
+                <p class="text-center heading h2 text--text">
+                  This will OVERWRITE
+                  <b class="accent--text">ALL</b>
+                  local COMP/CON data.
+                  <br />
+                  This
+                  <b class="accent--text">cannot</b>
+                  be undone.
+                </p>
                 <v-file-input
                   v-model="fileValue"
                   accept=".compcon"
@@ -60,22 +77,22 @@
                 </v-alert>
                 <p class="text-center heading h2 text--text">
                   This will delete
-                  <b class="primary--text">ALL</b>
+                  <b class="accent--text">ALL</b>
                   local COMP/CON data.
                   <br />
                   This
-                  <b class="primary--text">cannot</b>
+                  <b class="accent--text">cannot</b>
                   be undone.
                   <br />
                   <br />
-                  <b class="primary--text">Are you sure you want to continue?</b>
+                  <b class="accent--text">Are you sure you want to continue?</b>
                 </p>
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn color="secondary" flat large @click="deleteDialog = false">Dismiss</v-btn>
+                <v-btn color="secondary" text large @click="deleteDialog = false">Dismiss</v-btn>
                 <v-spacer />
-                <v-btn color="error" flat @click="deleteAll">
+                <v-btn color="error" text @click="deleteAll">
                   <v-icon left v-html="'mdi-alert'" />
                   Delete All User Data
                   <v-icon right v-html="'mdi-alert'" />
@@ -86,26 +103,37 @@
         </div>
       </v-col>
       <v-col>
-        <h3 class="heading primary--text">Theme</h3>
-        <v-select v-model="theme" dense outlined :items="['GMS Red (Default)']" />
+        <h3 class="heading accent--text">Theme</h3>
+        <v-select
+          v-model="theme"
+          dense
+          outlined
+          :items="themes"
+          item-text="name"
+          @change="setTheme"
+        />
       </v-col>
     </v-row>
 
     <v-divider class="my-4" />
 
-    <h3 class="heading primary--text">Cloud Account</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Cloud Account</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
 
-    <h3 class="heading primary--text">Achievements</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Achievements</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
+
+    <div class="text-right">
+      <v-btn small text to="./ui-test">UI Test</v-btn>
+    </div>
   </div>
 </template>
 
@@ -117,9 +145,13 @@ import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkDat
 import { saveFile } from '@/io/Dialog'
 
 export default Vue.extend({
-  name: 'options',
+  name: 'options-settings',
   data: () => ({
-    theme: 'GMS Red (Default)',
+    theme: 'light',
+    themes: [
+      { name: 'GMS Red (Default)', value: 'light' },
+      { name: 'MSMC Dark', value: 'dark' },
+    ],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
@@ -129,29 +161,45 @@ export default Vue.extend({
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile.ID
     },
+    userTheme() {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile.Theme
+    },
+  },
+  created() {
+    this.theme = this.userTheme
   },
   methods: {
+    reload() {
+      location.reload(true)
+    },
+    setTheme() {
+      getModule(CompendiumStore, this.$store).UserProfile.Theme = this.theme
+      this.$vuetify.theme.dark = this.theme === 'dark'
+    },
+    setUserID(id: string) {
+      const store = getModule(CompendiumStore, this.$store)
+      store.UserProfile.ID = id
+    },
     async bulkExport() {
-      exportAll().then(res => {
-        saveFile(
-          `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
-          res,
-          'Save COMP/CON Archive'
-        )
-      })
+      const result = await exportAll()
+      await saveFile(
+        `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
+        JSON.stringify(result),
+        'Save COMP/CON Archive'
+      )
     },
     async bulkImport(file) {
-      importAll(file).then(() => {
-        this.importDialog = false
-      })
+      await importAll(file)
+      this.importDialog = false
     },
     async oldExport() {
-      exportV1Pilots().then(res => {
-        saveFile('CC_v1_pilots.json', res, 'Save COMP/CON v1.x Pilot Archive')
-      })
+      const res = await exportV1Pilots()
+      saveFile('CC_v1_pilots.json', res, 'Save COMP/CON v1.x Pilot Archive')
     },
     async deleteAll() {
-      clearAllData().then(() => (this.deleteDialog = false))
+      await clearAllData()
+      this.deleteDialog = false
     },
   },
 })

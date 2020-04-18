@@ -2,7 +2,14 @@
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title class="mod darken-1 py-0 heading h3 white--text" style="height: 24px!important">
-        <equipment-header :item="mod" mod interior dark class="mt-n1">
+        <equipment-header
+          :item="mod"
+          :use-bonus="mech.Pilot.LimitedBonus"
+          mod
+          interior
+          dark
+          class="mt-n1"
+        >
           <equipment-options slot="options" :item="mod" />
           <cc-tooltip simple inline content="Remove Mod">
             <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
@@ -22,11 +29,7 @@
         >
           / / NHP IN CASCADE / /
         </v-alert>
-        <p
-          class="mb-0 px-2 pt-1 effect-text text--text"
-          @click.stop="$refs.detailDialog.show()"
-          v-html="mod.Effect"
-        />
+        <cc-item-effect-panel :effects="mod.Effect" @click.stop="$refs.detailDialog.show()" />
         <v-row v-if="mod.Tags" dense no-gutters>
           <v-col cols="auto" class="ml-auto mt-n2 mr-4">
             <cc-tags :tags="mod.Tags" color="mod" small />
@@ -50,6 +53,10 @@ export default Vue.extend({
   components: { EquipmentOptions, EquipmentHeader },
   props: {
     mod: {
+      type: Object,
+      required: true,
+    },
+    mech: {
       type: Object,
       required: true,
     },

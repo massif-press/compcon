@@ -8,26 +8,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-notification',
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-  },
-  data: () => ({
-    model: false,
-  }),
-  methods: {
-    close() {
-      this.model = false
-    },
-    open() {
-      this.model = true
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component({ name: 'cc-notification' })
+export default class CCNotification extends Vue{
+
+  @Prop({ type: String, required: false, default: 'primary', })
+  readonly color: string
+    
+  model = false
+  close() {
+    this.model = false
+  }
+  open() {
+    this.model = true
+  }
+}
 </script>

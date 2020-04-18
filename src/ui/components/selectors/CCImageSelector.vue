@@ -8,7 +8,7 @@
   >
     <v-container fluid>
       <v-row style="margin-top: 60px">
-        <span class="flavor-text grey--text">{{ images.length }} {{ type }} images found</span>
+        <span class="flavor-text subtle--text">{{ images.length }} {{ type }} images found</span>
         <cc-tooltip simple content="Feature In Development">
           <v-btn class="ml-4" small outlined tile disabled>Manage image library</v-btn>
         </cc-tooltip>
@@ -52,7 +52,7 @@
             <v-btn
               small
               fab
-              color="grey lighten-2"
+              color="panel"
               relative
               style="top:25px; left: 0; z-index: 100"
               class="img-button"
@@ -92,26 +92,10 @@
                   </cc-tooltip>
                 </v-btn>
               </template>
-              <v-card>
-                <v-card-text class="text-center flavor-text">
-                  <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-                  <br />
-                  //[COMP/CON:
-                  <b class="black--text">
-                    Lancer, this will
-                    <span class="primary--text">permanently delete this image.</span>
-                    Do you want to continue?
-                  </b>
-                  ]
-                  <v-divider class="my-2" />
-                  <v-row dense>
-                    <v-btn small text>DENY</v-btn>
-                    <cc-btn small color="error" class="ml-auto" @click.stop="deleteImage(i)">
-                      CONFIRM
-                    </cc-btn>
-                  </v-row>
-                </v-card-text>
-              </v-card>
+              <cc-confirmation
+                content="Lancer, this will <span class='accent--text'> permanently delete this image.</span> Do you want to continue?"
+                @confirm="$emit('remove-loadout')"
+              />
             </v-menu>
 
             <v-img
@@ -193,7 +177,7 @@ export default Vue.extend({
     },
     async importImage() {
       const { dialog } = require('electron').remote
-      var path = dialog.showOpenDialog({
+      const path = dialog.showOpenDialog({
         title: 'Load Image',
         buttonLabel: 'Load',
         properties: ['openFile'],

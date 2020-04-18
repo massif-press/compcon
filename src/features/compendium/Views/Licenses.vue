@@ -26,7 +26,7 @@
                   small
                   dark
                   outlined
-                  color="primary"
+                  color="accent"
                   class="mr-2"
                 >
                   {{ f }}

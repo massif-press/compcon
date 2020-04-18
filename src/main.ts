@@ -27,14 +27,23 @@ import Startup from './io/Startup'
 
 import { Capacitor } from '@capacitor/core'
 
+import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
+import 'tiptap-vuetify/dist/main.css'
+
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
-Vue.prototype.version = '2.0.0'
-Vue.prototype.lancerVersion = lancerData.info.version
+Vue.prototype.$appVersion = process.env.VERSION_STRING
+Vue.prototype.$lancerVersion = `${lancerData.info.version}`
+
+const vuetify = new Vuetify(theme)
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
+Vue.use(TiptapVuetifyPlugin, {
+  vuetify,
+  iconsGroup: 'md',
+})
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
@@ -44,13 +53,17 @@ mixins.forEach(m => {
 
 Vue.directive('extlink', externalLinkDirective)
 
+
+Vue.config.errorHandler = (error, vm) => Vue.prototype.$notifyError(error, vm)
+window.onerror = (error) => Vue.prototype.$notifyError(error)
+
 new Vue({
   components: { App },
-  vuetify: new Vuetify(theme),
+  vuetify,
   router,
   store,
   created() {
-    Startup(Vue.prototype.version, Vue.prototype.lancerVersion, store)
+    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
   },
   render: h => h(App),
 }).$mount('#app')

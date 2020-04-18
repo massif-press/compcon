@@ -14,7 +14,7 @@
           </span>
         </span>
         <br />
-        <span class="heading h1 primary--text" style="line-height: 20px">
+        <span class="heading h1 accent--text" style="line-height: 20px">
           {{ weapon.Mod.Name }}
         </span>
         <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</span>
@@ -24,7 +24,7 @@
           UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
         </span>
         <br />
-        <span class="heading h1 grey--text text--lighten-1" style="line-height: 20px">
+        <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
           NO SELECTION
         </span>
         <span class="flavor-text overline mt-n1 error--text" style="display: block">
@@ -32,54 +32,58 @@
         </span>
       </div>
       <div slot="extra-item" class="mt-2 mb-n2">
-        <v-switch
-          v-model="showUnlicensed"
-          dense
-          inset
-          hide-details
-          color="warning"
-          class="mr-3 d-inline mb-n2"
-        >
-          <cc-tooltip
-            slot="label"
-            simple
-            inline
-            :content="showUnlicensed ? 'Unlicensed mods: SHOWN' : 'Unlicensed mods: HIDDEN'"
+        <div class="mb-n2">
+          <v-switch
+            v-model="showUnlicensed"
+            dense
+            inset
+            hide-details
+            color="warning"
+            class="mr-3 d-inline"
           >
-            <v-icon
-              large
-              class="ml-n2"
-              :color="showUnlicensed ? 'warning' : 'success'"
-              v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-            />
-          </cc-tooltip>
-        </v-switch>
-        <v-switch
-          v-model="showOverSP"
-          dense
-          inset
-          hide-details
-          color="warning"
-          class="mr-3 d-inline mt-n2"
-        >
-          <cc-tooltip
-            slot="label"
-            simple
-            inline
-            :content="
-              showOverSP
-                ? 'Systems exceeding SP Capacity: SHOWN'
-                : 'Systems exceeding SP Capacity: HIDDEN'
-            "
+            <cc-tooltip
+              slot="label"
+              simple
+              inline
+              :content="
+                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+              "
+            >
+              <v-icon
+                class="ml-n2"
+                :color="showUnlicensed ? 'warning' : 'success'"
+                v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
+              />
+            </cc-tooltip>
+          </v-switch>
+        </div>
+        <div class="mt-n4">
+          <v-switch
+            v-model="showOverSP"
+            dense
+            inset
+            hide-details
+            color="warning"
+            class="mr-3 d-inline"
           >
-            <v-icon
-              large
-              class="ml-n2"
-              :color="showOverSP ? 'warning' : 'success'"
-              v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
-            />
-          </cc-tooltip>
-        </v-switch>
+            <cc-tooltip
+              slot="label"
+              simple
+              inline
+              :content="
+                showOverSP
+                  ? 'Systems exceeding SP Capacity: SHOWN'
+                  : 'Systems exceeding SP Capacity: HIDDEN'
+              "
+            >
+              <v-icon
+                class="ml-n2"
+                :color="showOverSP ? 'warning' : 'success'"
+                v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
+              />
+            </cc-tooltip>
+          </v-switch>
+        </div>
       </div>
     </cc-selector-table>
   </div>
@@ -127,7 +131,7 @@ export default Vue.extend({
       let i = this.mods.filter(x => x.AppliedTo.includes(this.weapon.Type.toLowerCase()))
 
       // // filter out any mount restrictions
-      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size))
+      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size.toLowerCase()))
 
       // filter already equipped
       if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)

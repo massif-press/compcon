@@ -2,10 +2,12 @@ import { ItemType } from '@/class'
 
 class CustomSkill {
   private _name: string
+  private _description: string
   private _item_type: ItemType
 
-  public constructor(name: string) {
+  public constructor(name: string, description: string) {
     this._name = name
+    this._description = description
     this._item_type = ItemType.Skill
   }
 
@@ -17,8 +19,16 @@ class CustomSkill {
     return this._name
   }
 
+  public get Trigger(): string {
+    return this._name
+  }
+
   public get Description(): string {
-    return 'Custom Skill Trigger'
+    return this._description
+  }
+
+  public set Description(val: string) {
+    this._description = val
   }
 
   public get ItemType(): ItemType {
@@ -31,10 +41,6 @@ class CustomSkill {
 
   public get Detail(): string {
     return ''
-  }
-
-  public get Trigger(): string {
-    return this._name
   }
 
   public get Family(): string {

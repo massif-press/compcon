@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-if="!encounter" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 grey--text text--lighten-2">no encounter selected</span>
+        <span class="heading h1 subtle--text text--lighten-2">no encounter selected</span>
       </v-col>
     </v-row>
     <div v-else>
@@ -30,8 +30,6 @@
           <v-combobox
             v-model="encounter.Labels"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             label="User Labels"
@@ -48,27 +46,26 @@
           />
         </v-col>
       </v-row>
-      <v-textarea
-        v-model="encounter.NarrativeNotes"
-        outlined
-        label="Narrative Description"
-        auto-grow
-        rows="2"
-        class="mt-n3"
-      />
+      <cc-title small class="mb-3">
+        Narrative Description
+        <cc-text-editor
+          label="Edit Narrative Description"
+          :original="encounter.NarrativeNotes"
+          @save="encounter.NarrativeNotes = $event"
+        />
+      </cc-title>
+      <p v-html="encounter.NarrativeNotes" />
       <cc-title small class="mb-3">
         Location
+        <cc-text-editor
+          label="Edit Location Description"
+          :original="encounter.Location"
+          @save="encounter.Location = $event"
+        />
       </cc-title>
       <v-row dense align="start" class="mt-n2">
         <v-col cols="7">
-          <v-textarea
-            v-model="encounter.Location"
-            outlined
-            label="Location Description"
-            hide-details
-            auto-grow
-            rows="2"
-          />
+          <p v-html="encounter.Location" />
           <v-divider class="my-3" />
           <v-combobox
             v-model="encounter.Environment"
@@ -92,14 +89,12 @@
         <v-col cols="5">
           <v-card flat outlined>
             <v-card-text class="pa-1">
-              <!-- TODO: no data image -->
               <v-img
                 v-if="encounter.Map"
                 :key="encounter.Map"
                 :src="encounter.Map"
                 aspect-ratio="1"
               />
-              <v-img v-else src="https://via.placeholder.com/550" />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
                 <span v-if="!encounter.Map">
                   <v-icon left>mdi-plus</v-icon>
@@ -124,13 +119,14 @@
       <cc-title small class="mb-3">
         SITREP
       </cc-title>
-      <v-combobox
-        v-model="encounter.Sitrep"
+      <v-select
+        v-model="selRep"
         item-text="name"
         outlined
         dense
         label="Engagement Type"
         :items="sitreps"
+        @change="encounter.Sitrep = sitreps.find(x => x.name === selRep)"
       />
       <v-textarea
         v-model="encounter.Sitrep.description"
@@ -144,7 +140,7 @@
       <v-divider class="mt-2" />
       <v-row dense justify="center">
         <v-col class="text-center">
-          <span class="heading h3 primary--text">PC victory</span>
+          <span class="heading h3 accent--text">PC victory</span>
           <v-textarea
             v-model="encounter.Sitrep.pcVictory"
             filled
@@ -158,7 +154,7 @@
         </v-col>
         <v-divider vertical class="mx-2" />
         <v-col class="text-center">
-          <span class="heading h3 primary--text">enemy victory</span>
+          <span class="heading h3 accent--text">enemy victory</span>
           <v-textarea
             v-model="encounter.Sitrep.enemyVictory"
             filled
@@ -172,7 +168,7 @@
         </v-col>
         <v-divider vertical class="mx-2" />
         <v-col class="text-center">
-          <span class="heading h3 primary--text">no victor</span>
+          <span class="heading h3 accent--text">no victor</span>
           <v-textarea
             v-model="encounter.Sitrep.noVictory"
             filled
@@ -188,7 +184,7 @@
       <v-divider />
       <v-row dense justify="center">
         <v-col class="text-center">
-          <span class="heading h3 primary--text">Deployment</span>
+          <span class="heading h3 accent--text">Deployment</span>
           <v-textarea
             v-model="encounter.Sitrep.deployment"
             filled
@@ -201,7 +197,7 @@
         </v-col>
         <v-divider vertical class="mx-2" />
         <v-col class="text-center">
-          <span class="heading h3 primary--text">Extraction</span>
+          <span class="heading h3 accent--text">Extraction</span>
           <v-textarea
             v-model="encounter.Sitrep.extraction"
             filled
@@ -216,7 +212,7 @@
       <v-divider />
       <v-row dense justify="center">
         <v-col class="text-center">
-          <span class="heading h3 primary--text">Control Zones</span>
+          <span class="heading h3 accent--text">Control Zones</span>
           <v-textarea
             v-model="encounter.Sitrep.controlZone"
             filled
@@ -229,7 +225,7 @@
         </v-col>
         <v-divider vertical class="mx-2" />
         <v-col class="text-center">
-          <span class="heading h3 primary--text">Objective</span>
+          <span class="heading h3 accent--text">Objective</span>
           <v-textarea
             v-model="encounter.Sitrep.objective"
             filled
@@ -247,7 +243,7 @@
       <v-row dense>
         <v-col cols="8">
           <fieldset>
-            <legend class="heading h3 primary--text mx-2">FORCES</legend>
+            <legend class="heading h3 accent--text mx-2">FORCES</legend>
             <div v-if="forces.enemy.length" class="caption ml-2">ENEMY</div>
             <v-divider v-if="forces.enemy.length" />
             <npc-chip
@@ -292,7 +288,7 @@
         </v-col>
         <v-col cols="4">
           <fieldset>
-            <legend class="heading h3 primary--text mx-2">REINFORCEMENTS</legend>
+            <legend class="heading h3 accent--text mx-2">REINFORCEMENTS</legend>
             <div v-if="reinforcements.enemy.length" class="caption ml-2">ENEMY</div>
             <v-divider v-if="forces.enemy.length" />
             <npc-chip
@@ -337,9 +333,15 @@
         </v-col>
       </v-row>
       <v-divider class="my-3" />
-      <v-row>
-        <v-textarea v-model="encounter.GmNotes" outlined label="GM Notes" auto-grow rows="2" />
-      </v-row>
+      <cc-title small class="mb-3">
+        GM Notes
+        <cc-text-editor
+          label="Edit GM Notes"
+          :original="encounter.GmNotes"
+          @save="encounter.GmNotes = $event"
+        />
+      </cc-title>
+      <p v-html="encounter.GmNotes" />
       <br />
       <cc-solo-dialog ref="npcDialog" no-confirm title="ADD NPC" fullscreen no-pad>
         <npc-selector @select="addNpc($event)" />
@@ -369,26 +371,23 @@ export default Vue.extend({
   name: 'encounter-card',
   components: { NpcSelector, NpcChip },
   props: {
-    id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    labels: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    campaigns: {
-      type: Array,
-      required: false,
-      default: () => [],
+    encounter: {
+      type: Object,
+      required: true,
     },
   },
+  data: () => ({
+    selRep: 'Standard Combat',
+    ctest: ['a', 'b', 'c'],
+  }),
   computed: {
-    encounter() {
+    labels() {
       const store = getModule(EncounterStore, this.$store)
-      return store.Encounters.find(x => x.ID === this.id)
+      return store.Encounters.flatMap(x => x.Labels).filter(x => x)
+    },
+    campaigns() {
+      const store = getModule(EncounterStore, this.$store)
+      return store.Encounters.map(x => x.Campaign).filter(x => x)
     },
     environmentData() {
       return getModule(CompendiumStore, this.$store).Environments

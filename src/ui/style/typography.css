@@ -1,31 +1,37 @@
 @font-face {
   font-family: 'Helvetica Black';
   src: url('../../assets/fonts/Helvetica-Black.otf') format('opentype');
+  font-weight: bolder;
 }
 
 @font-face {
   font-family: 'Helvetica Bold';
   src: url('../../assets/fonts/Helvetica-Bold.otf') format('opentype');
+  font-weight: bold;
 }
 
 @font-face {
   font-family: 'Helvetica Light';
   src: url('../../assets/fonts/Helvetica-Light.otf') format('opentype');
+  font-weight: lighter;
 }
 
 @font-face {
-  font-family: 'Helvetica Ultralight';
-  src: url('../../assets/fonts/HelveticaBQ-UltraLight.otf') format('opentype');
+  font-family: 'Helvetica';
+  src: url('../../assets/fonts/Helvetica.otf') format('opentype');
+  font-weight: normal;
 }
 
 @font-face {
   font-family: 'Helvetica Oblique';
   src: url('../../assets/fonts/Helvetica-LightOblique.otf') format('opentype');
+  font-style: italic, oblique;
 }
 
 @font-face {
   font-family: 'Consolas';
   src: url('../../assets/fonts/Consolas.ttf') format('truetype');
+  font-weight: normal;
 }
 
 .callsign-text {
@@ -94,11 +100,11 @@ h3.heading {
 }
 .heading.mech {
   font-size: 36pt;
-  color: var(--v-primary-base);
+  color: var(--v-accent-base);
 }
 .heading.sub {
   font-size: 16pt;
-  color: var(--v-primary-base);
+  color: var(--v-accent-base);
 }
 
 .body-text {
@@ -171,6 +177,10 @@ code.horus:hover {
 
 .horus--subtle {
   animation: distort-subtle 5s infinite;
+}
+
+.preserve-linebreaks {
+  white-space: pre-wrap;
 }
 
 @keyframes distort {

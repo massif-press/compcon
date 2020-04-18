@@ -21,7 +21,7 @@
     </cc-solo-dialog>
     <v-container fluid>
       <no-data-block v-if="!pilot.Licenses.length" />
-      <v-row v-else dense style="width: calc(100% - 225px)">
+      <v-row v-else :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''">
         <v-col v-for="(l, i) in pilot.Licenses" :key="`l_${i}`" cols="4">
           <cc-pilot-license-item :pilot-license="l" />
         </v-col>

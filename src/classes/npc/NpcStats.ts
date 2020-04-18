@@ -1,7 +1,8 @@
 import { NpcClass } from './'
 import { store } from '@/store'
+import _ from 'lodash'
 
-export interface INpcStats {
+interface INpcStats {
   activations: number
   armor: number
   hp: number
@@ -19,17 +20,48 @@ export interface INpcStats {
   size: number
   structure?: number
   stress?: number
+  reactions?: string[]
+  bonuses?: INpcStats
+  overrides?: INpcStats
 }
 
-export class NpcStats {
+class NpcStats {
   private _stats: INpcStats
+  private _bonuses: INpcStats
+  private _overrides: INpcStats
+  private _active: boolean
 
-  public constructor(data: INpcStats) {
+  public constructor(data: INpcStats, bonuses?: INpcStats, overrides?: INpcStats) {
     this._stats = data
+    this._bonuses = bonuses || NpcStats.Empty()
+    this._overrides = overrides || NpcStats.Empty()
+  }
+
+  public static Empty(): INpcStats {
+    return {
+      activations: 0,
+      armor: 0,
+      hp: 0,
+      evade: 0,
+      edef: 0,
+      heatcap: 0,
+      speed: 0,
+      sensor: 0,
+      save: 0,
+      hull: 0,
+      agility: 0,
+      systems: 0,
+      engineering: 0,
+      sizes: [],
+      size: 0,
+      structure: 0,
+      stress: 0,
+      reactions: [],
+    }
   }
 
   public static FromClass(npcClass: NpcClass, tier: number): NpcStats {
-    return new NpcStats({
+    const s = new NpcStats({
       activations: npcClass.Stats.Activations(tier),
       armor: npcClass.Stats.Armor(tier),
       hp: npcClass.Stats.HP(tier),
@@ -47,7 +79,11 @@ export class NpcStats {
       size: npcClass.Stats.Sizes(tier)[0],
       structure: npcClass.Stats.Structure(tier),
       stress: npcClass.Stats.Stress(tier),
+      reactions: ['Overwatch'],
+      bonuses: NpcStats.Empty(),
+      overrides: NpcStats.Empty(),
     })
+    return s
   }
 
   public static FromMax(max: NpcStats): NpcStats {
@@ -69,6 +105,9 @@ export class NpcStats {
       size: max.Size,
       structure: max.Structure,
       stress: max.Stress,
+      reactions: ['Overwatch'],
+      bonuses: NpcStats.Empty(),
+      overrides: NpcStats.Empty(),
     })
   }
 
@@ -90,10 +129,40 @@ export class NpcStats {
     this._stats.size = max.Stats.size
     this._stats.structure = max.Stats.structure
     this._stats.stress = max.Stats.stress
+    this._stats.reactions = ['Overwatch']
+  }
+
+  public get Active(): boolean {
+    return this._active
+  }
+
+  public set Active(val: boolean) {
+    this._active = val
+  }
+
+  public ClearBonuses(): void {
+    this._bonuses = NpcStats.Empty()
+  }
+
+  public get Bonuses(): INpcStats {
+    return this._bonuses
+  }
+
+  public set Bonuses(val: INpcStats) {
+    this._bonuses = val
+  }
+
+  public get Overrides(): INpcStats {
+    return this._overrides
+  }
+
+  public set Overrides(val: INpcStats) {
+    this._overrides = val
   }
 
   private save(): void {
-    store.dispatch('npc/saveNpcData')
+    if (this.Active) store.dispatch('mission/saveActiveMissionData')
+    else store.dispatch('npc/saveNpcData')
   }
 
   public get Stats(): INpcStats {
@@ -105,7 +174,8 @@ export class NpcStats {
   }
 
   public get Activations(): number {
-    return this._stats.activations
+    if (this._overrides.activations) return this._overrides.activations
+    return this._stats.activations + this._bonuses.activations
   }
 
   public set Activations(val: number) {
@@ -113,7 +183,8 @@ export class NpcStats {
   }
 
   public get Armor(): number {
-    return this._stats.armor
+    if (this._overrides.armor) return this._overrides.armor
+    return this._stats.armor + this._bonuses.armor
   }
 
   public set Armor(val: number) {
@@ -122,7 +193,8 @@ export class NpcStats {
   }
 
   public get HP(): number {
-    return this._stats.hp
+    if (this._overrides.hp) return this._overrides.hp
+    return this._stats.hp + this._bonuses.hp
   }
 
   public set HP(val: number) {
@@ -131,7 +203,8 @@ export class NpcStats {
   }
 
   public get Evade(): number {
-    return this._stats.evade
+    if (this._overrides.evade) return this._overrides.evade
+    return this._stats.evade + this._bonuses.evade
   }
 
   public set Evade(val: number) {
@@ -140,7 +213,8 @@ export class NpcStats {
   }
 
   public get EDefense(): number {
-    return this._stats.edef
+    if (this._overrides.edef) return this._overrides.edef
+    return this._stats.edef + this._bonuses.edef
   }
 
   public set EDefense(val: number) {
@@ -149,7 +223,8 @@ export class NpcStats {
   }
 
   public get HeatCapacity(): number {
-    return this._stats.heatcap
+    if (this._overrides.heatcap) return this._overrides.heatcap
+    return this._stats.heatcap + this._bonuses.heatcap
   }
 
   public set HeatCapacity(val: number) {
@@ -158,7 +233,8 @@ export class NpcStats {
   }
 
   public get Speed(): number {
-    return this._stats.speed
+    if (this._overrides.speed) return this._overrides.speed
+    return this._stats.speed + this._bonuses.speed
   }
 
   public set Speed(val: number) {
@@ -167,7 +243,8 @@ export class NpcStats {
   }
 
   public get Sensor(): number {
-    return this._stats.sensor
+    if (this._overrides.sensor) return this._overrides.sensor
+    return this._stats.sensor + this._bonuses.sensor
   }
 
   public set Sensor(val: number) {
@@ -176,7 +253,8 @@ export class NpcStats {
   }
 
   public get Save(): number {
-    return this._stats.save
+    if (this._overrides.save) return this._overrides.save
+    return this._stats.save + this._bonuses.save
   }
 
   public set Save(val: number) {
@@ -185,7 +263,8 @@ export class NpcStats {
   }
 
   public get Hull(): number {
-    return this._stats.hull
+    if (this._overrides.hull) return this._overrides.hull
+    return this._stats.hull + this._bonuses.hull
   }
 
   public set Hull(val: number) {
@@ -194,7 +273,8 @@ export class NpcStats {
   }
 
   public get Agility(): number {
-    return this._stats.agility
+    if (this._overrides.agility) return this._overrides.agility
+    return this._stats.agility + this._bonuses.agility
   }
 
   public set Agility(val: number) {
@@ -203,7 +283,8 @@ export class NpcStats {
   }
 
   public get Systems(): number {
-    return this._stats.systems
+    if (this._overrides.systems) return this._overrides.systems
+    return this._stats.systems + this._bonuses.systems
   }
 
   public set Systems(val: number) {
@@ -212,7 +293,8 @@ export class NpcStats {
   }
 
   public get Engineering(): number {
-    return this._stats.engineering
+    if (this._overrides.engineering) return this._overrides.engineering
+    return this._stats.engineering + this._bonuses.engineering
   }
 
   public set Engineering(val: number) {
@@ -225,7 +307,8 @@ export class NpcStats {
   }
 
   public get Size(): number {
-    return this._stats.size
+    if (this._overrides.size) return this._overrides.size
+    return this._stats.size + this._bonuses.size
   }
 
   public set Size(val: number) {
@@ -234,7 +317,8 @@ export class NpcStats {
   }
 
   public get Structure(): number {
-    return this._stats.structure
+    if (this._overrides.structure) return this._overrides.structure
+    return this._stats.structure + this._bonuses.structure
   }
 
   public set Structure(val: number) {
@@ -243,7 +327,8 @@ export class NpcStats {
   }
 
   public get Stress(): number {
-    return this._stats.stress
+    if (this._overrides.stress) return this._overrides.stress
+    return this._stats.stress + this._bonuses.stress
   }
 
   public set Stress(val: number) {
@@ -251,29 +336,52 @@ export class NpcStats {
     this.save()
   }
 
+  public get Reactions(): string[] {
+    return this._stats.reactions
+  }
+
+  public AddReaction(r: string): void {
+    if (!this._stats.reactions.some(x => x === r)) {
+      this._stats.reactions.push(r)
+    }
+    this.save()
+  }
+
+  public RemoveReaction(r: string): void {
+    const idx = this._stats.reactions.findIndex(x => x === r)
+    if (idx > -1) this._stats.reactions.splice(idx, 1)
+    this.save()
+  }
+
   public static Serialize(item: NpcStats): INpcStats {
     return {
-      activations: item.Activations,
-      armor: item.Armor,
-      hp: item.HP,
-      evade: item.Evade,
-      edef: item.EDefense,
-      heatcap: item.HeatCapacity,
-      speed: item.Speed,
-      sensor: item.Sensor,
-      save: item.Save,
-      hull: item.Hull,
-      agility: item.Agility,
-      systems: item.Systems,
-      engineering: item.Engineering,
-      sizes: item.Sizes,
-      size: item.Size,
-      structure: item.Structure,
-      stress: item.Stress,
+      activations: item.Stats.activations,
+      armor: item.Stats.armor,
+      hp: item.Stats.hp,
+      evade: item.Stats.evade,
+      edef: item.Stats.edef,
+      heatcap: item.Stats.heatcap,
+      speed: item.Stats.speed,
+      sensor: item.Stats.sensor,
+      save: item.Stats.save,
+      hull: item.Stats.hull,
+      agility: item.Stats.agility,
+      systems: item.Stats.systems,
+      engineering: item.Stats.engineering,
+      sizes: item.Stats.sizes,
+      size: item.Stats.size,
+      structure: item.Stats.structure,
+      stress: item.Stats.stress,
+      reactions: item.Stats.reactions,
+      bonuses: item.Bonuses,
+      overrides: item.Overrides,
     }
   }
 
   public static Deserialize(data: INpcStats): NpcStats {
-    return new NpcStats(data)
+    if (!data.reactions) data.reactions = ['Overwatch']
+    return new NpcStats(_.clone(data))
   }
 }
+
+export { NpcStats, INpcStats }

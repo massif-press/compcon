@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { NavStore } from './features/nav/store'
 import { CompendiumStore } from './features/compendium/store'
 import { PilotManagementStore } from './features/pilot_management/store/'
 import { NpcStore } from './features/encounters/npc/store'
@@ -12,6 +13,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
+    nav: NavStore,
     datastore: CompendiumStore,
     management: PilotManagementStore,
     npc: NpcStore,
@@ -20,4 +22,12 @@ const store = new Vuex.Store({
   },
 })
 
-export { store, CompendiumStore, EncounterStore, PilotManagementStore, NpcStore, MissionStore }
+export {
+  store,
+  NavStore,
+  CompendiumStore,
+  EncounterStore,
+  PilotManagementStore,
+  NpcStore,
+  MissionStore,
+}

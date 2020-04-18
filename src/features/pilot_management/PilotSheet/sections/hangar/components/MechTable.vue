@@ -10,7 +10,7 @@
     <tbody>
       <tr v-for="m in mechs" :key="m.ID">
         <td>
-          <v-btn small text color="primary" @click="$emit('go', m)">{{ m.Name }}</v-btn>
+          <v-btn small text color="accent" @click="$emit('go', m)">{{ m.Name }}</v-btn>
         </td>
         <td>{{ m.Frame.Source }} {{ m.Frame.Name }}</td>
         <td>
@@ -37,7 +37,7 @@ export default Vue.extend({
       if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
       if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
       if (m.IsActive) return ['ACTIVE', 'success--text']
-      return ['STANDBY', 'grey--text text--darken-2']
+      return ['STANDBY', 'subtle--text text--darken-2']
     },
   },
 })

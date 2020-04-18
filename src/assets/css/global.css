@@ -5,6 +5,10 @@
   }
 }
 
+a {
+  color: var(--v-accent-base) !important;
+}
+
 .clickable {
   cursor: pointer !important;
 }
@@ -94,19 +98,19 @@
 }
 
 .bordered {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-panel-border-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-primary {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-primary-base) !important;
   border-radius: 2px !important;
 }
 
 .bordered-success {
-  background: var(--v-light-panel-base) !important;
+  background: var(--v-stark-panel-base) !important;
   border: 5px double var(--v-success-base) !important;
   border-radius: 2px !important;
 }
@@ -181,7 +185,7 @@
 .v-application,
 .v-light,
 .v-list,
-.v-stepper {
+.v-stepper .v-card {
   background: var(--v-background-base) !important;
 }
 

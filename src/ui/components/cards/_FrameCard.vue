@@ -6,8 +6,8 @@
           <span class="heading h2 text--text">
             {{ item.Source }} {{ item.MechTypeString }} Frame
           </span>
-          <v-icon size="60" color="primary" class="ml-auto mt-n2" style="line-height: 40px">
-            cci-size-{{ item.Size === 0.5 ? 'half' : item.Size }}
+          <v-icon size="60" color="accent" class="ml-auto mt-n2" style="line-height: 40px">
+            {{ item.SizeIcon }}
           </v-icon>
         </v-row>
         <div v-if="item.Description">
@@ -16,7 +16,7 @@
         </div>
         <div>
           <span class="overline ml-n2 text--text">COMBAT PROFILE</span>
-          <p class="heading h3 grey--text light-panel text-center py-10">
+          <p class="heading h3 subtle--text light-panel text-center py-10">
             <v-icon large color="grey">mdi-lock</v-icon>
             <br />
             FEATURE IN DEVELOPMENT
@@ -45,7 +45,7 @@
     <span class="overline ml-n2 text--text">AVAILABLE WEAPON MOUNTS</span>
     <v-row justify="space-around" class="mb-3">
       <v-col v-for="(m, i) in item.Mounts" :key="m + i" cols="auto">
-        <v-chip large label outlined color="primary" class="heading h3">{{ m }} Mount</v-chip>
+        <v-chip large label outlined color="accent" class="heading h3">{{ m }} Mount</v-chip>
       </v-col>
     </v-row>
 

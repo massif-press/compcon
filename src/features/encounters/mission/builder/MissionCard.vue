@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-if="!mission" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 grey--text text--lighten-2">no mission selected</span>
+        <span class="heading h1 subtle--text text--lighten-2">no mission selected</span>
       </v-col>
     </v-row>
     <div v-else>
@@ -29,8 +29,6 @@
           <v-combobox
             v-model="mission.Labels"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             label="User Labels"
@@ -47,14 +45,15 @@
           />
         </v-col>
       </v-row>
-      <v-textarea
-        v-model="mission.Note"
-        outlined
-        label="GM Notes"
-        auto-grow
-        rows="2"
-        class="mt-n3"
-      />
+      <cc-title small class="mb-3">
+        Notes
+        <cc-text-editor
+          label="Edit Mission Notes"
+          :original="mission.Note"
+          @save="mission.Note = $event"
+        />
+      </cc-title>
+      <p v-html="mission.Note" />
       <cc-title small class="mt-3">
         ENCOUNTER STRUCTURE
       </cc-title>
@@ -82,11 +81,11 @@
                       @move-down="mission.MoveStepDown(idx)"
                       @remove="mission.RemoveStep(idx)"
                     >
-                      <div slot="title" class="primary--text">
+                      <div slot="title" class="accent--text">
                         {{ step.Name }}
                         <cc-slashes />
                         <span class="caption text--text">PR</span>
-                        <span class="heading h3 primary--text">
+                        <span class="heading h3 accent--text">
                           {{ step.Power.toString().padStart(4, '0') }}
                         </span>
                       </div>
@@ -104,17 +103,17 @@
                       </div>
                       <v-row dense>
                         <v-col>
-                          <span class="overline">SITREP</span>
+                          <span class="overline accent--text">SITREP</span>
                           <br />
                           <span class="flavor-text">{{ step.Sitrep.name }}</span>
                         </v-col>
                         <v-col>
-                          <span class="overline">ENVIRONMENT</span>
+                          <span class="overline accent--text">ENVIRONMENT</span>
                           <br />
                           <span class="flavor-text">{{ step.Environment }}</span>
                         </v-col>
                         <v-col>
-                          <span v-if="step.Labels" class="overline">LABELS</span>
+                          <span v-if="step.Labels" class="overline accent--text">LABELS</span>
                           <br />
                           <v-chip v-for="l in step.Labels" :key="l" small class="mx-1">
                             {{ l }}
@@ -164,7 +163,7 @@
       </v-row>
       <v-row dense>
         <v-col>
-          <v-btn block color="primary" outlined @click="$refs.selectDialog.show()">
+          <v-btn block color="accent" outlined @click="$refs.selectDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Encounter
           </v-btn>
@@ -219,6 +218,10 @@ export default Vue.extend({
       const store = getModule(MissionStore, this.$store)
       return store.Missions.find(x => x.ID === this.id)
     },
+  },
+  created() {
+    const store = getModule(MissionStore, this.$store)
+    store.Missions.forEach(m => m.ValidateSteps())
   },
   methods: {
     randomName() {

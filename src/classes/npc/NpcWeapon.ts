@@ -1,4 +1,4 @@
-import { Tag, Range, Damage, RangeType } from '@/class'
+import { Range, Damage } from '@/class'
 import { IRangeData } from '@/interface'
 import { NpcFeature, NpcFeatureType } from '.'
 import { INpcFeatureData } from './interfaces'
@@ -21,7 +21,6 @@ export interface INpcWeaponData extends INpcFeatureData {
 }
 
 export class NpcWeapon extends NpcFeature {
-  private _tags: ITagData[]
   private _weapon_type: string
   private _damage_data: INpcDamageData[]
   private _range: Range[]
@@ -37,7 +36,6 @@ export class NpcWeapon extends NpcFeature {
     this._accuracy = data.accuracy || [0, 0, 0]
     this._attack_bonus = data.attack_bonus || [0, 0, 0]
     this._range = data.range.map(x => new Range(x))
-    this._tags = data.tags
     this.type = NpcFeatureType.Weapon
   }
 
@@ -47,10 +45,6 @@ export class NpcWeapon extends NpcFeature {
 
   public get OnHit(): string {
     return this._on_hit
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
   }
 
   public get IsLimited(): boolean {
@@ -88,6 +82,10 @@ export class NpcWeapon extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'weapon'
+    return 'npc--weapon'
+  }
+
+  public get Icon(): string {
+    return 'cci-weapon'
   }
 }

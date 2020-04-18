@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="heading h3 primary--text">{{ title }}</span>
+    <span class="heading h3 accent--text">{{ title }}</span>
     <v-item-group :mandatory="mandatory" :multiple="multiple">
       <v-row dense justify="space-around" align="center">
         <v-col v-for="i in items" :key="i.text" :cols="multiple && '3'">

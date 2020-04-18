@@ -27,7 +27,6 @@ class WeaponMod extends MechEquipment {
   private _applied_to: WeaponType[]
   private _applied_string: string
   private _restricted_mounts: WeaponSize[]
-  private _tags: ITagData[]
   private _added_tags: ITagData[]
   private _added_damage?: Damage
   private _added_range?: Range
@@ -66,10 +65,6 @@ class WeaponMod extends MechEquipment {
     return this._restricted_mounts
   }
 
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
-  }
-
   public get AddedTags(): Tag[] {
     return Tag.Deserialize(this._added_tags)
   }
@@ -93,11 +88,11 @@ class WeaponMod extends MechEquipment {
   }
 
   public static Deserialize(data: IEquipmentData): WeaponMod {
-    let item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
-    item.Uses = data.uses || 0
-    item.Destroyed = data.destroyed || false
-    item.IsCascading = data.cascading || false
-    item.Note = data.note
+    const item = store.getters.instantiate('WeaponMods', data.id) as WeaponMod
+    item._uses = data.uses || 0
+    item._destroyed = data.destroyed || false
+    item._cascading = data.cascading || false
+    item._note = data.note
     return item
   }
 }

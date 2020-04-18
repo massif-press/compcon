@@ -14,14 +14,12 @@
 
     <div v-if="item.Description">
       <span class="overline ml-n2">COMPENDIUM ENTRY</span>
-      <p class="flavor-text" v-html="item.Description" />
+      <p class="flavor-text mb-1" v-html="item.Description" />
     </div>
-
     <div v-if="item.Effect">
-      <span class="overline ml-n2">EFFECT</span>
-      <p class="effect-text light-panel pa-2 clipped" v-html="item.Effect" />
+      <p v-if="typeof item.Effect === 'string'" class="text--text body-text" v-html="item.Effect" />
+      <cc-item-effect-panel v-else :key="item.ID" :effects="item.Effect" class="mb-2" />
     </div>
-
     <cc-tags v-if="item.Tags" :tags="item.Tags" extended />
   </v-card-text>
 </template>

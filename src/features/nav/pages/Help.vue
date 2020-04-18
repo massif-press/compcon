@@ -13,13 +13,13 @@
         </v-btn>
       </v-col>
     </v-row>
-    <h3 class="heading primary--text">Tutorial Mode</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Tutorial Mode</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
-    <h3 class="heading primary--text">FAQ</h3>
+    <h3 class="heading accent--text">FAQ</h3>
     <div class="body-text text--text">
       <b>
         What happened to the NPCs?
@@ -75,16 +75,9 @@
         Discord and join the `comp-con club` role if you want to stay updated. When it releases,
         we'll make a major update announcement on itch and twitter.
       </p>
-      <b>
-        A light app theme killed my father and I refuse to use them on moral grounds. Dark theme
-        when???
-      </b>
-      <p>
-        Soon.
-      </p>
     </div>
 
-    <h3 class="heading primary--text">Additional Help</h3>
+    <h3 class="heading accent--text">Additional Help</h3>
     <p class="body-text">
       We're currently working on more help resources for COMP/CON, especially for new players and
       GMs. In ththe meantime, please stop by
@@ -96,8 +89,8 @@
       (and specifically the #comp-con channel) if you have a question or comment for the developers.
     </p>
 
-    <h3 class="heading primary--text">Video Guide</h3>
-    <p class="panel py-3 text-center grey--text">
+    <h3 class="heading accent--text">Video Guide</h3>
+    <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //

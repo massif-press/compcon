@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <cc-nav encounter />
     <v-fade-transition leave-absolute>
       <router-view />
     </v-fade-transition>
@@ -9,11 +8,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import CcNav from '@/features/nav/index.vue'
 
 export default Vue.extend({
   name: 'encounter-toolkit',
-  components: { CcNav },
 })
 </script>
 

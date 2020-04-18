@@ -5,7 +5,7 @@
     </v-col>
     <v-divider v-if="item.Range.length && item.Damage.length" vertical class="mx-4" />
     <v-col cols="auto">
-      <cc-damage-element :damage="item.Damage" />
+      <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
     </v-col>
     <v-divider v-if="item.SP" vertical class="mx-4" />
     <v-col v-if="item.SP" cols="auto" class="text-center">
@@ -22,7 +22,7 @@
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.Size }} {{ item.Type }}</div>
-      <span v-if="item.Source" class="flavor-text grey--text">// {{ item.LicenseString }}</span>
+      <span v-if="item.Source" class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
     </v-col>
   </equipment-card-base>
 </template>

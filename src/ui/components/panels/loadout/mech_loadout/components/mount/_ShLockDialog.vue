@@ -11,9 +11,9 @@
         <span class="overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
         <br />
         //[COMP/CON:
-        <b class="black--text">
+        <b class="stark--text">
           Lancer, Superheavy-class armament requires two mounts. Please select a
-          <span class="primary--text">bracing mount.</span>
+          <span class="accent--text">bracing mount.</span>
           This bracing mount will be not be able to field armament until the Superheavy weapon is
           removed.
         </b>

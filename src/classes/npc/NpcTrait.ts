@@ -8,7 +8,11 @@ export class NpcTrait extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'primary'
+    return 'npc--trait'
+  }
+
+  public get Icon(): string {
+    return 'cci-trait'
   }
 }
 

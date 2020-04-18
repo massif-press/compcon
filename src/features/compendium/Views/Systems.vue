@@ -1,19 +1,19 @@
 <template>
   <v-container fluid>
-    <compendium-table :headers="headers" :items="systems">Mech Systems</compendium-table>
+    <compendium-browser :headers="headers" :items="systems">Mech Systems</compendium-browser>
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import CompendiumTable from '../components/CompendiumTable.vue'
+import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechEquipment } from '@/class'
 
 @Component({
-  components: { CompendiumTable },
+  components: { CompendiumBrowser },
 })
 export default class Weapons extends Vue {
   public headers = [

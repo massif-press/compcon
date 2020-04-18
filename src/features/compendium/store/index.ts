@@ -73,8 +73,8 @@ function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
   name: 'datastore',
 })
 export class CompendiumStore extends VuexModule {
-  public LancerVersion: string = ''
-  public CCVersion: string = ''
+  public LancerVersion = ''
+  public CCVersion = ''
   public UserProfile: UserProfile = {} as any
   public Skills: Skill[] = []
   public Statuses: Status[] = []
@@ -85,7 +85,7 @@ export class CompendiumStore extends VuexModule {
   public Environments: Environment[] = []
   public Sitreps: Sitrep[] = []
 
-  ContentPacks: ContentPack[] = []
+  public ContentPacks: ContentPack[] = []
 
   public get NpcClasses(): NpcClass[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses)
@@ -96,21 +96,6 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
-
-  // @Brewable(() => lancerData.npc_classes.map((x: INpcClassData) => new NpcClass(x)))
-  // NpcClasses: NpcClass[]
-  // @Brewable(() => lancerData.npc_templates.map((x: INpcTemplateData) => new NpcTemplate(x)))
-  // NpcTemplates: NpcTemplate[]
-  // @Brewable(() =>
-  //   lancerData.npc_features.map(function(x: any) {
-  //     if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
-  //     else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
-  //     else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x as INpcFeatureData)
-  //     else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
-  //     return new NpcTech(x as INpcTechData)
-  //   })
-  // )
-  // NpcFeatures: NpcFeature[]
 
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
@@ -150,7 +135,6 @@ export class CompendiumStore extends VuexModule {
   @Mutation
   private [LOAD_DATA](): void {
     getUser().then(profile => (this.UserProfile = profile))
-
     this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
     this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses

@@ -24,7 +24,7 @@ export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 })
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
-  public LoadedMechID: string = ''
+  public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
 
@@ -50,8 +50,8 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [CLONE_PILOT](payload: { pilot: Pilot; quirk: boolean }): void {
-    let pilotData = Pilot.Serialize(payload.pilot)
-    let newPilot = Pilot.Deserialize(pilotData)
+    const pilotData = Pilot.Serialize(payload.pilot)
+    const newPilot = Pilot.Deserialize(pilotData)
     newPilot.RenewID()
     newPilot.Name += ' (CLONE)'
     newPilot.Callsign += '*'

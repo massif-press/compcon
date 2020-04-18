@@ -20,7 +20,7 @@
         NHP-directed review at secure Omninet address
         <code>un_omni-18364.andes.cerrobonete.node:9</code>
       </span>
-      <v-alert color="primary" outlined dense border="left" class="mt-2">
+      <v-alert color="accent" outlined dense border="left" class="mt-2">
         <span class="overline">
           Submitting unauthorized licensing updates and/or submitting applications for unauthorized
           or previously-witheld license rights without prior MV-8a/j authorization by a Union
@@ -34,14 +34,14 @@
         <v-col class="text-center">
           The UAD IDENT Service has determined that&nbsp;
           <div
-            class="primary--text stat-text d-inline-block"
+            class="accent--text stat-text d-inline-block"
             style="position: relative; top: 10px; line-height: 10px;"
           >
             {{ pilot.Name }}
             <cc-slashes />
             "{{ pilot.Callsign }}"
             <br />
-            <span class="overline grey--text">{{ pilot.ID }}</span>
+            <span class="overline subtle--text">{{ pilot.ID }}</span>
           </div>
           &nbsp;is eligible for the following license update:
         </v-col>
@@ -62,10 +62,10 @@
                   <li>MECH SKILL UPGRADE</li>
                   <li>GRIT IMPROVEMENT</li>
                   <li>NEW LICENSE UNLOCK</li>
-                  <li v-if="pilot.CBEligible" class="font-weight-bolder">
+                  <li v-if="cbEligible" class="font-weight-bolder">
                     CORE BONUS INSTALLATION
                   </li>
-                  <li v-else class="grey--text">INELIGIBLE FOR CORE BONUS</li>
+                  <li v-else class="subtle--text">INELIGIBLE FOR CORE BONUS</li>
                 </ul>
               </v-col>
             </v-row>
@@ -85,6 +85,9 @@ export default Vue.extend({
     pilot: {
       type: Object,
       required: true,
+    },
+    cbEligible: {
+      type: Boolean,
     },
   },
 })

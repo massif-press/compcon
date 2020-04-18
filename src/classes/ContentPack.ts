@@ -7,6 +7,9 @@ import {
   MechWeapon,
   MechSystem,
   WeaponMod,
+  PilotEquipment,
+  PilotWeapon,
+  PilotArmor,
   PilotGear,
   Talent,
   Tag,
@@ -27,6 +30,9 @@ import {
   IMechSystemData,
   IWeaponModData,
   IPilotEquipmentData,
+  IPilotWeaponData,
+  IPilotArmorData,
+  IPilotGearData,
   ITalentData,
   INpcClassData,
   INpcFeatureData,
@@ -128,8 +134,8 @@ export class ContentPack {
     return this._WeaponMods
   }
 
-  private _PilotGear: PilotGear[] = []
-  public get PilotGear(): PilotGear[] {
+  private _PilotGear: PilotEquipment[] = []
+  public get PilotGear(): PilotEquipment[] {
     return this._PilotGear
   }
 
@@ -180,7 +186,12 @@ export class ContentPack {
     this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x)) || []
     this._MechSystems = this._data.systems?.map(x => new MechSystem(x)) || []
     this._WeaponMods = this._data.mods?.map(x => new WeaponMod(x)) || []
-    this._PilotGear = this._data.pilotGear?.map(x => new PilotGear(x)) || []
+    this._PilotGear =
+      this._data.pilotGear?.map(function(x) {
+        if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+        else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+        return new PilotGear(x as IPilotGearData)
+      }) || []
     this._Talents = this._data.talents?.map(x => new Talent(x)) || []
     this._Tags = this._data.tags?.map(x => new Tag(x)) || []
 

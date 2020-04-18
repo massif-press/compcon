@@ -3,13 +3,13 @@
     <cc-title large color="pilot">Hangar&emsp;</cc-title>
     <v-btn-toggle id="viewtoggle" v-model="profile.HangarView" mandatory>
       <v-btn small icon value="cards">
-        <v-icon color="primary">mdi-view-grid</v-icon>
+        <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
       <v-btn small icon value="list">
-        <v-icon color="primary">mdi-view-list</v-icon>
+        <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
       <v-btn small icon value="table">
-        <v-icon color="primary">mdi-format-align-justify</v-icon>
+        <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
     <v-container v-if="profile.HangarView === 'cards'" fluid>

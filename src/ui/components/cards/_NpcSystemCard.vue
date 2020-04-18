@@ -2,7 +2,7 @@
   <equipment-card-base :item="item">
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.FeatureType }}</div>
-      <span class="flavor-text grey--text">// {{ item.Origin }}</span>
+      <span class="flavor-text subtle--text">// {{ item.Origin }}</span>
     </v-col>
   </equipment-card-base>
 </template>

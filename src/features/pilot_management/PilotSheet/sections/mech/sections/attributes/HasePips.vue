@@ -2,7 +2,7 @@
   <cc-tooltip simple :content="`${attr.toUpperCase()}: ${val}`">
     <span class="overline no-height ml-n1">{{ attr }}</span>
     <br />
-    <div class="mt-n2 ml-1">
+    <div v-if="$vuetify.breakpoint.lgAndUp" class="mt-n2 ml-1">
       <span class="no-height ml-n1">
         <v-icon
           v-for="n in val"
@@ -21,6 +21,9 @@
           v-html="'mdi-hexagon-outline'"
         />
       </span>
+    </div>
+    <div v-else class="mt-n2">
+      <span class="accent--text heading h2">{{ val }}</span>
     </div>
   </cc-tooltip>
 </template>

@@ -18,7 +18,7 @@
         </v-row>
         <v-textarea
           v-model="orgDetails"
-          label="Purpose, goal, and orginaztion details"
+          label="Purpose, goal, and organization details"
           auto-grow
           rows="2"
           filled
@@ -93,7 +93,8 @@
           :disabled="!orgName || !orgType || !orgStart"
           @click="add()"
         >
-          <v-icon left>cci-accuracy</v-icon>Add Organization
+          <v-icon left>cci-accuracy</v-icon>
+          Add Organization
         </v-btn>
       </cc-titled-panel>
     </v-col>

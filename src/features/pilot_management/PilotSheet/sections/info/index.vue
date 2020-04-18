@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row class="pt-0">
-      <v-col cols="10" class="pt-0 mb-n8">
+      <v-col lg="10" cols="12" class="pt-0 mb-n8">
         <ident-block />
       </v-col>
       <v-col cols="8" dense>
@@ -25,7 +25,7 @@ import ImageBlock from './components/ImageBlock.vue'
 import NotesBlock from './components/NotesBlock.vue'
 
 export default Vue.extend({
-  name: 'infor-view',
+  name: 'info-view',
   components: { IdentBlock, HistoryBlock, AppearanceBlock, ImageBlock, NotesBlock },
 })
 </script>

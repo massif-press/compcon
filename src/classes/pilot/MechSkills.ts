@@ -61,6 +61,14 @@ class MechSkills {
     this.save()
   }
 
+  public Reset(): void {
+    this.hull = 0
+    this.agi = 0
+    this.sys = 0
+    this.eng = 0
+    this.save()
+  }
+
   public get Sum(): number {
     return this.hull + this.agi + this.sys + this.eng
   }

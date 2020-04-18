@@ -1,9 +1,8 @@
-|
 <template>
   <div style="height: 155px;">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
-        <v-col cols="10">
+        <v-col :lg="10" :cols="12">
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
               <div class="overline mb-n6">callsign</div>
@@ -50,10 +49,26 @@
                 {{ pilot.Background }}
               </span>
             </v-col>
-            <v-col v-if="pilot.Background" cols="auto" class="mr-3">
+            <v-col v-if="pilot.CloudID" cols="auto" class="mr-3">
+              <span class="overline lh">rm-4://(OMNINET UPLINK ID)</span>
+              <br />
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.CloudID }}
+              </span>
+            </v-col>
+            <v-col cols="auto" class="mr-3">
               <span class="overline lh">rm-4://(IDENT)</span>
               <br />
-              <span style="display: block" class="stat-text white--text mt-n2">{{ pilot.ID }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                <v-dialog>
+                  <template v-slot:activator="{ on }">
+                    <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
+                  </template>
+                  <v-sheet class="transparent">
+                    <pilot-registration-card :pilot="pilot" pilot-ready />
+                  </v-sheet>
+                </v-dialog>
+              </span>
             </v-col>
           </v-row>
         </v-col>
@@ -64,7 +79,7 @@
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text grey--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
@@ -91,11 +106,10 @@
           <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>
       </v-row>
-      <div id="image-bg" />
-      <v-hover>
+      <div id="image-bg" class="d-none d-lg-flex" />
+      <v-hover class="d-none d-lg-flex">
         <template v-slot:default="{ hover }">
           <div id="image" class="border">
-            <!-- TODO: no data image -->
             <v-img
               v-if="pilot.Portrait"
               :key="pilot.Image"
@@ -127,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import PilotRegistrationCard from './PilotRegistrationCard.vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
@@ -135,7 +149,7 @@ import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'pilot-header',
-  components: { LevelEditDialog },
+  components: { LevelEditDialog, PilotRegistrationCard },
 
   computed: {
     isLevelingUp(): boolean {

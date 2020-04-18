@@ -43,7 +43,7 @@ class Encounter implements IMissionStep {
     this._name = 'New Encounter'
     this._location = ''
     this._labels = []
-    this._campaign = ''
+    this._campaign = null
     this._gm_notes = ''
     this._narrative_notes = ''
     this._environment = 'Nominal'
@@ -238,7 +238,7 @@ class Encounter implements IMissionStep {
     if (this._cloud_map) return this._cloud_map
     else if (Capacitor.platform !== 'web' && this._local_map)
       return getImagePath(ImageTag.Map, this._local_map)
-    else return getImagePath(ImageTag.Frame, 'nodata.png', true)
+    else return getImagePath(ImageTag.Map, 'nodata.png', true)
   }
 
   public static Serialize(enc: Encounter): IEncounterData {

@@ -15,7 +15,7 @@
         manually
       </v-alert>
 
-      <v-row justify="center" class="text-center">
+      <v-row justify="center" align="center" class="text-center">
         <v-col cols="auto">
           <span class="overline">Current Level:</span>
           <br />
@@ -26,12 +26,12 @@
             hide-details
             dense
             outlined
-            background-color="grey lighten-3"
+            background-color="panel"
             class="level-input"
           />
         </v-col>
 
-        <v-col cols="1">
+        <v-col cols="auto" class="mx-3">
           <v-icon x-large>arrow_forward</v-icon>
         </v-col>
 
@@ -45,7 +45,7 @@
             hide-details
             dense
             outlined
-            background-color="white"
+            background-color="panel"
             class="level-input"
             @change="checkNewLevel()"
           />

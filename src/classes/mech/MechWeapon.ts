@@ -30,6 +30,7 @@ class MechWeapon extends MechEquipment {
   private _damage?: Damage[]
   private _range?: Range[]
   private _mod: WeaponMod | null
+  private _custom_damage_type?: string
   // private ammo?: WeaponAmmo | null;
 
   public constructor(weaponData: IMechWeaponData) {
@@ -69,6 +70,20 @@ class MechWeapon extends MechEquipment {
     return this._damage || []
   }
 
+  public get DamageTypeOverride(): string {
+    return this._custom_damage_type || null
+  }
+
+  public set DamageTypeOverride(val: string) {
+    this._custom_damage_type = val
+    this.save()
+  }
+
+  public set MaxUseOverride(val: number) {
+    this.max_use_override = val
+    this.save()
+  }
+
   public get DamageType(): DamageType[] {
     return this._damage.map(x => x.Type)
   }
@@ -78,7 +93,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public getTotalRange(mech: Mech): Range[] {
-    let bonuses = [] as { type: RangeType; val: number }[]
+    const bonuses = [] as { type: RangeType; val: number }[]
     if (this.Mod && this.Mod.AddedRange)
       bonuses.push({
         type: RangeType.Range,
@@ -133,17 +148,25 @@ class MechWeapon extends MechEquipment {
       loaded: item.Loaded,
       note: item.Note,
       mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
+      flavorName: item._flavor_name,
+      flavorDescription: item._flavor_description,
+      customDamageType: item._custom_damage_type || null,
+      maxUseOverride: item.max_use_override || 0,
     }
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
-    let item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
-    item.Uses = data.uses || 0
-    item.Destroyed = data.destroyed || false
-    item.IsCascading = data.cascading || false
-    item.Loaded = data.loaded || true
-    item.Mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
-    item.Note = data.note
+    const item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
+    item._uses = data.uses || 0
+    item._destroyed = data.destroyed || false
+    item._cascading = data.cascading || false
+    item._loaded = data.loaded || true
+    item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null
+    item._note = data.note
+    item._flavor_name = data.flavorName
+    item._flavor_description = data.flavorDescription
+    item._custom_damage_type = data.customDamageType || null
+    item.max_use_override = data.maxUseOverride || 0
     return item
   }
 }

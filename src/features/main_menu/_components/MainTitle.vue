@@ -1,20 +1,49 @@
 <template>
-  <div class="clipped px-2 pt-1">
-    <span id="title">COMP/CON</span>
-    <!-- Shout out Netlify on web for their free open source plan -->
-    <a
-      v-if="$platform === 'web'"
-      href="https://www.netlify.com"
-      style="position: relative; top: 1px; left: 5px;"
-      class="fadeSelect"
+  <div>
+    <div
+      style="position: absolute; z-index: 2; height: 43px; left: 0; right: 0; top: 0; bottom: 20px; background-color: var(--v-primary-base); text-align: right"
     >
-      <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" />
-    </a>
-    <br />
-    <div id="subtitle">
-      <span>A digital toolset for the LANCER TTRPG</span>
-      <v-icon size="8pt" color="white" class="ml-2 mr-2">mdi-delta</v-icon>
-      <span>V2 PREVIEW / COMMIT {{ commitRef }} // LANCER CORE {{ lancerVersion }}</span>
+      <v-btn
+        v-extlink="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
+        dark
+        outlined
+        small
+        class="mt-2 mr-2"
+        @mouseenter="$emit('logupdate')"
+      >
+        <v-icon left small>
+          mdi-information-outline
+        </v-icon>
+        View Changelog
+      </v-btn>
+    </div>
+    <div class="clipped px-2 pt-1">
+      <span id="title">COMP/CON</span>
+      <!-- Shout out Netlify on web for their free open source plan -->
+      <a
+        v-if="$platform === 'web'"
+        href="https://www.netlify.com"
+        style="position: relative; top: 1px; left: 5px;"
+        class="fadeSelect"
+      >
+        <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" />
+      </a>
+      <br />
+      <div id="subtitle">
+        <span>VERSION: {{ $appVersion }} // LANCER CORE {{ $lancerVersion }}</span>
+      </div>
+    </div>
+    <div
+      class="hover-parent"
+      style="position: absolute; left: calc(70% - 40px); top: 50px; display:inline-flex; z-index: 3"
+    >
+      <div
+        style="width: 40px; height: 40px; background-color: var(--v-primary-base); clip-path: polygon(100% 0, 0% 100%, 100% 100%)"
+      />
+      <div
+        class="hover-expand"
+        style="width: 10px; height: 40px; background-color: var(--v-primary-base); margin-left: -1px"
+      />
     </div>
   </div>
 </template>
@@ -23,12 +52,6 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'cci-banner',
-  data: () => ({
-    commitRef: ''
-  }),
-  mounted() {
-    this.commitRef = process.env.COMMIT_REF;
-  }
 })
 </script>
 
@@ -38,6 +61,7 @@ export default Vue.extend({
   background-color: var(--v-primary-base);
   width: 70%;
   clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
+  -webkit-clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
   opacity: 1;
   z-index: 2;
 }
@@ -59,4 +83,14 @@ export default Vue.extend({
   padding-left: 8px;
   padding-bottom: 4px;
 }
+
+/* TODO: access point for CC-CLI */
+
+/* .hover-expand {
+  transition: all cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s;
+}
+
+.hover-parent:hover .hover-expand {
+  width: 200px !important;
+} */
 </style>

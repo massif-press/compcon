@@ -88,6 +88,16 @@ export class NpcItem {
 
   public set IsCharged(val: boolean) {
     this._charged = val
+    this.save()
+  }
+
+  public get IsChargable(): boolean {
+    return this._feature.Tags.some(x => x.IsRecharging)
+  }
+
+  public get ChargeRoll(): number {
+    const rt = this._feature.Tags.find(x => x.IsRecharging)
+    return rt ? parseInt(rt.Value.toString()) : 0
   }
 
   public get Uses(): number {

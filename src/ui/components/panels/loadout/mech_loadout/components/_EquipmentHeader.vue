@@ -20,7 +20,13 @@
         <v-icon small color="active">mdi-note</v-icon>
       </cc-tooltip>
     </v-col>
-    <v-col v-if="item.IsLoading" cols="auto" class="mr-2">
+    <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
+      <div class="overline">
+        USES
+      </div>
+      <cc-item-uses :item="item" :bonus="useBonus" :color="color" />
+    </v-col>
+    <v-col v-if="item.IsLoading" cols="auto" class="mx-2">
       <v-btn
         small
         dark
@@ -31,11 +37,11 @@
         {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
       </v-btn>
     </v-col>
-    <v-col v-if="item.SP" cols="auto" class="mr-3 ml-auto">
-      <span class="heading h3" :style="`color: ${color}`">{{ item.SP }}SP</span>
-    </v-col>
     <v-col cols="auto" class="">
       <slot />
+    </v-col>
+    <v-col v-if="item.SP" cols="auto" class="mr-3 ml-auto">
+      <span class="heading h3" :style="`color: ${color}`">{{ item.SP }}SP</span>
     </v-col>
   </v-row>
 </template>
@@ -54,6 +60,11 @@ export default Vue.extend({
       type: String,
       required: false,
       default: null,
+    },
+    useBonus: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     interior: {
       type: Boolean,

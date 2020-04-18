@@ -3,6 +3,57 @@
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
+          <v-menu v-if="item" offset-x left>
+            <template v-slot:activator="{ on }">
+              <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">
+                mdi-settings
+              </v-icon>
+            </template>
+            <v-list dense>
+              <v-list-item @click="$refs.selectorDialog.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-swap-vertical-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Change Item</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>cci-variable</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Select Damage Type</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="$refs.cName.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-circle-edit-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Set Custom Name</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item @click="$refs.cDesc.show()">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon>mdi-circle-edit-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Set Custom Description</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider />
+              <v-list-item @click="$emit('remove')">
+                <v-list-item-icon class="ma-0 mr-2 mt-2">
+                  <v-icon color="error">mdi-delete</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>Remove Item</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-menu>
           <div class="mt-n1">
             {{ title }}
             <cc-tooltip v-if="extended" simple inline content="Extended Harness">
@@ -33,7 +84,9 @@
               @click="$refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span class="heading h2 grey--text my-auto" style="width: 100%; ">// EMPTY //</span>
+                <span class="heading h2 subtle--text my-auto" style="width: 100%; ">
+                  // EMPTY //
+                </span>
               </v-row>
             </div>
           </div>
@@ -58,6 +111,28 @@
         />
       </div>
     </cc-solo-dialog>
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cName"
+      :placeholder="item.Name"
+      label="Custom Item Name"
+      @save="item.Name = $event"
+      @reset="item.Name = ''"
+    />
+    <cc-string-edit-dialog
+      v-if="item"
+      ref="cDesc"
+      :placeholder="item.Description"
+      label="Custom Item Description"
+      @save="item.Description = $event"
+      @reset="item.Description = ''"
+    />
+    <cc-damage-type-picker
+      v-if="item"
+      ref="damageTypeDialog"
+      :allowed-types="['Explosive', 'Energy', 'Kinetic']"
+      @select="item.DamageTypeOverride = $event"
+    />
   </v-col>
 </template>
 

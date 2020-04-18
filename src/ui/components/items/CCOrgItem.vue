@@ -28,12 +28,18 @@
             <v-text-field v-model="org.Name" label="Organization Name" outlined hide-details />
           </v-col>
           <v-col cols="6">
-            <v-text-field v-model="org.Purpose" label="Organization Type" outlined hide-details />
+            <v-select
+              v-model="org.Purpose"
+              label="Organization Type"
+              :items="orgTypes"
+              outlined
+              hide-details
+            />
           </v-col>
         </v-row>
         <v-textarea
           v-model="org.Description"
-          label="Purpose, goal, and orginaztion details"
+          label="Purpose, goal, and organization details"
           auto-grow
           rows="2"
           filled
@@ -43,7 +49,7 @@
         <v-row dense justify="center" class="mx-4">
           <v-col class="text-center">
             <div>
-              <span class="heading h2 primary--text">+ {{org.Efficiency}}</span>
+              <span class="heading h2 accent--text">+ {{ org.Efficiency }}</span>
               <br />
               <span>
                 Organization Efficiency
@@ -64,7 +70,7 @@
           <v-divider vertical class="mx-5" />
           <v-col class="text-center">
             <div>
-              <span class="heading h2 primary--text">+ {{ org.Influence }}</span>
+              <span class="heading h2 accent--text">+ {{ org.Influence }}</span>
               <br />
               <span>
                 Organization Influence
@@ -94,6 +100,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { OrgType } from '@/class'
 
 export default Vue.extend({
   name: 'cc-org-item',
@@ -106,6 +113,13 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    orgTypes() {
+      return Object.keys(OrgType)
+        .map(k => OrgType[k as string])
+        .sort() as OrgType[]
+    },
+  },
   methods: {
     remove() {
       this.$emit('remove')

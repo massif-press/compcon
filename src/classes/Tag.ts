@@ -9,6 +9,7 @@ export interface ITagCompendiumData extends ICompendiumItemData {
   filter_ignore?: boolean
   hidden?: boolean
 }
+
 class Tag {
   private _id: string
   private _name: string
@@ -57,11 +58,11 @@ class Tag {
     if (typeof this._val === 'number') {
       return this._description.replace(/{VAL}/g, (this._val + bonus).toString())
     } else {
-      var str = this._val as string
+      const str = this._val as string
       if (str.includes('+')) {
         const split = str.split('+')
-        let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
-        let newDesc = this._description.replace(/{VAL}/g, newVal)
+        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
+        const newDesc = this._description.replace(/{VAL}/g, newVal)
         return bonus ? `${newDesc} (+${bonus})` : newDesc
       } else {
         return bonus > 0
@@ -86,11 +87,11 @@ class Tag {
     if (typeof this._val === 'number') {
       return this._name.replace(/{VAL}/g, (this._val + bonus).toString())
     } else {
-      var str = this._val as string
+      const str = this._val as string
       if (str.includes('+')) {
         const split = str.split('+')
-        let newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
-        let newName = this._name.replace(/{VAL}/g, newVal)
+        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
+        const newName = this._name.replace(/{VAL}/g, newVal)
         return bonus ? `${newName} (+${bonus})` : newName
       } else {
         return bonus > 0
@@ -128,11 +129,15 @@ class Tag {
     return this._id === 'tg_recharge'
   }
 
+  public get IsIndestructible(): boolean {
+    return this._id === 'tg_indestructible'
+  }
+
   public static Deserialize(data: ITagData[]): Tag[] {
-    let output = [] as Tag[]
+    const output = [] as Tag[]
     if (!data) return output
     data.forEach(x => {
-      let t = store.getters.instantiate('Tags', x.id)
+      const t = store.getters.instantiate('Tags', x.id)
       if (x.val) t.Value = x.val
       output.push(t)
     })

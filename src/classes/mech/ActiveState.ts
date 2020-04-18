@@ -68,7 +68,7 @@ class ActiveState {
   }
 
   undo(): void {
-    let action = this.history.pop()
+    const action = this.history.pop()
     switch (action.field) {
       case 'avoid_meltdown':
         this.mech.MeltdownImminent = true
@@ -117,7 +117,7 @@ class ActiveState {
         this.actions += 1
       case 'shutdown':
         this.actions += 1
-        const sdidx = this.mech.Statuses.findIndex(x => x === 'Shut Down')
+        const sdidx = this.mech.Statuses.findIndex(x => x === 'SHUT DOWN')
         if (sdidx > -1) this.mech.Statuses.splice(sdidx, 1)
       case 'braced':
         const bidx = this.mech.Resistances.findIndex(x => x === 'Next Attack')
@@ -243,17 +243,17 @@ class ActiveState {
   }
 
   shutDown() {
-    this.mech.Statuses.push('Shut Down')
-    this.mech.Conditions.push('Stunned')
+    this.mech.Statuses.push('SHUT DOWN')
+    this.mech.Conditions.push('STUNNDED')
     this.actions -= 1
     this.mech.CurrentHeat = 0
-    this.endStatus('Exposed')
+    this.endStatus('EXPOSED')
     this.history.push({ field: 'shutdown' })
   }
 
   boot() {
-    this.endStatus('Shut Down')
-    this.endCondition('Stunned')
+    this.endStatus('SHUT DOWN')
+    this.endCondition('STUNNDED')
     this.move = 0
     this.actions = 0
   }

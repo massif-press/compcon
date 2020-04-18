@@ -19,7 +19,7 @@
         Completing this Downtime Action will add a "Get Focused" item to this pilot's Downtime
         Reserves. Each "Get Focused" Reserve adds a bonus Skill Trigger selection, which can be made
         in the
-        <b class="primary--text">Pilot Sheet's Skill Trigger selection screen.</b>
+        <b class="accent--text">Pilot Sheet's Skill Trigger selection screen.</b>
       </v-alert>
     </v-card-text>
     <v-divider />

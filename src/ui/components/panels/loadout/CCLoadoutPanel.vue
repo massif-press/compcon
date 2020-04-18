@@ -16,7 +16,7 @@
               <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
-              <v-list-item-title :class="`${color}--text font-weight-bold`">
+              <v-list-item-title class="accent--text font-weight-bold">
                 <v-icon color="primary" left>add</v-icon>
                 Add New Loadout
               </v-list-item-title>
@@ -35,32 +35,21 @@
         <v-btn small icon class="fadeSelect" @click="$emit('clone-loadout')">
           <v-icon>mdi-content-duplicate</v-icon>
         </v-btn>
-        <v-menu offset-y top>
+        <v-menu v-model="confirmMenu" offset-y top>
           <template v-slot:activator="{ on }">
             <v-btn small icon class="fadeSelect" :disabled="loadouts.length === 1" v-on="on">
               <v-icon>delete</v-icon>
             </v-btn>
           </template>
-          <v-card>
-            <v-card-text class="text-center flavor-text">
-              <span class="overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
-              <br />
-              //[COMP/CON:
-              <b class="black--text">
-                Lancer, please confirm deletion of
-                <span class="primary--text">{{ activeLoadout.Name }}</span>
-                Loadout
-              </b>
-              ]
-              <v-divider class="my-2" />
-              <v-row dense>
-                <v-btn small text>DENY</v-btn>
-                <cc-btn small color="error" class="ml-auto" @click="$emit('remove-loadout')">
-                  CONFIRM
-                </cc-btn>
-              </v-row>
-            </v-card-text>
-          </v-card>
+          <cc-confirmation
+            :content="
+              `Lancer, please confirm deletion of:
+          <span class='accent--text'>
+            ${activeLoadout.Name}
+          </span> Loadout`
+            "
+            @confirm="removeConfirm"
+          />
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
@@ -93,6 +82,15 @@ export default Vue.extend({
     },
     readonly: {
       type: Boolean,
+    },
+  },
+  data: () => ({
+    confirmMenu: false,
+  }),
+  methods: {
+    removeConfirm() {
+      this.confirmMenu = false
+      this.$emit('remove-loadout')
     },
   },
 })

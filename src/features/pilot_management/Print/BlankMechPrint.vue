@@ -31,7 +31,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-structure</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -49,7 +49,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -63,7 +63,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-reactor</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -77,7 +77,7 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-burn</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
@@ -91,38 +91,37 @@
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-repair</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="grey--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
             <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="auto" class="ml-auto text-center">
-        <div class="overline mb-n1">OVERCHARGE</div>
-        <span class="grey lighten-3 mx-2 oc-border">
-          +1
-          <v-icon small>mdi-fire</v-icon>
-        </span>
-        <span class="grey lighten-3 mx-2 oc-border">
-          +1d3
-          <v-icon small>mdi-fire</v-icon>
-        </span>
-        <br />
-        <span class="grey lighten-3 mx-2 oc-border">
-          +1d6
-          <v-icon small>mdi-fire</v-icon>
-        </span>
-        <span class="grey lighten-3 mx-2 oc-border">
-          +1d6+4
-          <v-icon small>mdi-fire</v-icon>
-        </span>
+    </v-row>
+    <div class="overline mb-n1 mt-n1">OVERCHARGE</div>
+    <v-row no-gutters class="text-center" justify="space-around">
+      <v-col cols="auto" class="grey lighten-3 mx-2 oc-border">
+        +1
+        <v-icon small>mdi-fire</v-icon>
+      </v-col>
+      <v-col cols="auto" class="grey lighten-3 mx-2 oc-border">
+        +1d3
+        <v-icon small>mdi-fire</v-icon>
+      </v-col>
+      <v-col cols="auto" class="grey lighten-3 mx-2 oc-border">
+        +1d6
+        <v-icon small>mdi-fire</v-icon>
+      </v-col>
+      <v-col cols="auto" class="grey lighten-3 mx-2 oc-border">
+        +1d6+4
+        <v-icon small>mdi-fire</v-icon>
       </v-col>
     </v-row>
     <v-row align="start" class="mt-n2">
-      <single cols="2" label="ATTACK BONUS" height="40" />
-      <single cols="2" label="TECH ATTACK" height="40" />
-      <single cols="2" label="SAVE TARGET" height="40" />
+      <single cols="2" label="ATK BONUS" height="40" />
+      <single cols="2" label="TECH ATK" height="40" />
+      <single cols="2" label="SAVE" height="40" />
       <single cols="2" label="SPEED" height="40" />
       <single cols="2" label="E-DEFENSE" height="40" />
       <single cols="2" label="EVASION" height="40" />
@@ -145,10 +144,6 @@
       <single cols="12" label="ACTIVE ABILITY" height="100" class="mt-n2" />
     </v-row>
 
-    <v-divider class="my-2" />
-    <v-row dense>
-      <single cols="12" label="NOTES" height="400" class="mt-n2" />
-    </v-row>
     <div style="page-break-before: always;" />
 
     <span class="overline">ARMAMENT</span>
@@ -180,14 +175,13 @@
     </v-row>
     <v-divider class="my-1" />
     <span class="overline">SYSTEMS</span>
-    <v-row v-for="n in 3" :key="`ms_${n}`" dense class="mt-n3">
-      <v-col v-for="x in 3" :key="`ms_${n}_${x}`" cols="4">
+    <v-row v-for="n in 5" :key="`ms_${n}`" dense class="mt-n3">
+      <v-col v-for="x in 2" :key="`ms_${n}_${x}`" cols="6">
         <v-row dense>
           <single cols="10" label="SYSTEM" height="20" />
           <single cols="2" label="SP" height="20" />
-          <single cols="12" label="EFFECT" height="112" class="mt-n2" />
+          <single cols="12" label="EFFECT" height="150" class="mt-n2" />
         </v-row>
-        <v-divider class="my-1" />
       </v-col>
     </v-row>
     <v-row dense>
