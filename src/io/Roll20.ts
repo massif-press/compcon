@@ -67,6 +67,7 @@ interface IRoll20Data {
   ////////
   frame: {
     name: string
+    type: string
     size: number
     sp: number
     armor: number
@@ -166,7 +167,8 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
     //
     //
     frame: {
-      name: mech.Frame.ID === 'everest' ? 'GMS EVEREST' : mech.Frame.Name.toUpperCase(),
+      name: mech.Name,
+      type: mech.Frame.ID === 'everest' ? 'GMS EVEREST' : mech.Frame.Name.toUpperCase(),
       size: mech.Size,
       sp: mech.MaxSP,
       armor: mech.Armor,
