@@ -11,7 +11,7 @@
         <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">
           {{ mod ? item.Name : '' }}DESTROYED
         </div>
-        <div v-else-if="mod">{{ item.Name }}</div>
+        <div v-else-if="mod">WEAPON MODIFICATION</div>
         <div v-else>{{ item.Size }} {{ item.Type }}</div>
       </span>
     </v-col>
