@@ -106,8 +106,7 @@ declare interface IPilotData {
   core_bonuses: string[]
   reserves: IReserveData[]
   orgs: IOrganizationData[]
-  loadouts: IPilotLoadoutData[]
-  active_loadout_index: number
+  loadout: IPilotLoadoutData
   mechs: IMechData[]
   active_mech: string | null
   cc_ver: string

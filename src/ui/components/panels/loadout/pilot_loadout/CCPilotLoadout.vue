@@ -1,17 +1,8 @@
 <template>
-  <cc-loadout-panel
-    :loadouts="pilot.Loadouts"
-    :active-loadout="pilot.ActiveLoadout"
-    :readonly="readonly"
-    color="pilot"
-    @set-active="pilot.ActiveLoadout = $event"
-    @add-loadout="pilot.AddLoadout()"
-    @clone-loadout="pilot.CloneLoadout()"
-    @remove-loadout="pilot.RemoveLoadout()"
-  >
+  <div>
     <v-row :dense="readonly">
       <pilot-armor-card
-        :item="pilot.ActiveLoadout.Armor[0]"
+        :item="pilot.Loadout.Armor[0]"
         :readonly="readonly"
         @equip="setArmor($event)"
         @remove="setArmor(null)"
@@ -48,11 +39,11 @@
         :key="`pgi_${i}`"
         :item="g"
         :readonly="readonly"
-        @equip="$set(pilot.ActiveLoadout.ExtendedGear, i, $event)"
-        @remove="$set(pilot.ActiveLoadout.ExtendedGear, i, null)"
+        @equip="$set(pilot.Loadout.ExtendedGear, i, $event)"
+        @remove="$set(pilot.Loadout.ExtendedGear, i, null)"
       />
     </v-row>
-  </cc-loadout-panel>
+  </div>
 </template>
 
 <script lang="ts">
@@ -76,30 +67,29 @@ export default Vue.extend({
   },
   methods: {
     gear() {
-      return this.pilot.ActiveLoadout.Gear
+      return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.ActiveLoadout.ExtendedGear
+      if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.Loadout.ExtendedGear
       return []
     },
     weapons() {
-      return this.pilot.ActiveLoadout.Weapons
+      return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extendedharness'))
-        return this.pilot.ActiveLoadout.ExtendedWeapons
+      if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.Loadout.ExtendedWeapons
       return []
     },
     setArmor(a: PilotArmor | null) {
-      this.$set(this.pilot.ActiveLoadout.Armor, 0, a)
+      this.$set(this.pilot.Loadout.Armor, 0, a)
       this.pilot.Heal()
     },
     setWeapon(w: PilotWeapon | null, idx: number) {
-      this.$set(this.pilot.ActiveLoadout.Weapons, idx, w)
+      this.$set(this.pilot.Loadout.Weapons, idx, w)
       this.pilot.Heal()
     },
     setGear(g: PilotGear | null, idx: number) {
-      this.$set(this.pilot.ActiveLoadout.Gear, idx, g)
+      this.$set(this.pilot.Loadout.Gear, idx, g)
       this.pilot.Heal()
     },
   },

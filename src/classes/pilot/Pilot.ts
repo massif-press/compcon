@@ -55,8 +55,7 @@ class Pilot {
   private _reserves: Reserve[]
   private _orgs: Organization[]
 
-  private _loadouts: PilotLoadout[]
-  private _active_loadout: PilotLoadout
+  private _loadout: PilotLoadout
 
   private _mechs: Mech[]
   private _active_mech: string | null
@@ -80,6 +79,7 @@ class Pilot {
     this._portrait = ''
     this._cloud_portrait = ''
     this._quirk = ''
+    this._loadout = new PilotLoadout(0)
     this._current_hp = this.MaxHP
     this._background = ''
     this._licenses = []
@@ -88,14 +88,11 @@ class Pilot {
     this._mechSkills = new MechSkills()
     this._core_bonuses = []
     this._active_mech = null
-    this._loadouts = []
     this._mechs = []
     this._reserves = []
     this._orgs = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     this._brews = []
-    this.AddLoadout()
-
     // this._initCounters()
   }
 
@@ -114,10 +111,7 @@ class Pilot {
         .filter(x => x.toLowerCase() !== 'core')
     }
 
-    let brews = [] as string[]
-    this._loadouts.forEach(l => {
-      brews = _.union(brews, collectBrewGroup(l.Items))
-    })
+    let brews = collectBrewGroup(this._loadout.Items)
     this._mechs.forEach(m => {
       brews = _.union(brews, collectBrewGroup([m.Frame]))
       m.Loadouts.forEach(ml => {
@@ -387,11 +381,9 @@ class Pilot {
 
   public get MaxHP(): number {
     let health = rules.base_pilot_hp + this.Grit
-    if (this.ActiveLoadout) {
-      this.ActiveLoadout.Armor.forEach(x => {
-        if (x) health += x.HPBonus
-      })
-    }
+    this.Loadout.Armor.forEach(x => {
+      if (x) health += x.HPBonus
+    })
     return health
   }
 
@@ -412,47 +404,39 @@ class Pilot {
 
   public get Armor(): number {
     let armor = 0
-    if (this.ActiveLoadout) {
-      this.ActiveLoadout.Armor.forEach(x => {
-        if (x) armor += x.Armor
-      })
-    }
+    this.Loadout.Armor.forEach(x => {
+      if (x) armor += x.Armor
+    })
     return armor
   }
 
   public get Speed(): number {
     let speed = rules.base_pilot_speed
-    if (this.ActiveLoadout) {
-      this.ActiveLoadout.Armor.forEach(x => {
-        if (!x) return
-        if (x.Speed) speed = x.Speed
-        speed += x.SpeedBonus
-      })
-    }
+    this.Loadout.Armor.forEach(x => {
+      if (!x) return
+      if (x.Speed) speed = x.Speed
+      speed += x.SpeedBonus
+    })
     return speed
   }
 
   public get Evasion(): number {
     let evasion = rules.base_pilot_evasion
-    if (this.ActiveLoadout) {
-      this.ActiveLoadout.Armor.forEach(x => {
-        if (!x) return
-        if (x.Evasion) evasion = x.Evasion
-        evasion += x.EvasionBonus
-      })
-    }
+    this.Loadout.Armor.forEach(x => {
+      if (!x) return
+      if (x.Evasion) evasion = x.Evasion
+      evasion += x.EvasionBonus
+    })
     return evasion
   }
 
   public get EDefense(): number {
     let edef = rules.base_pilot_edef
-    if (this.ActiveLoadout) {
-      this.ActiveLoadout.Armor.forEach(x => {
-        if (!x) return
-        if (x.EDefense) edef = x.EDefense
-        edef += x.EDefenseBonus
-      })
-    }
+    this.Loadout.Armor.forEach(x => {
+      if (!x) return
+      if (x.EDefense) edef = x.EDefense
+      edef += x.EDefenseBonus
+    })
     return edef
   }
 
@@ -836,48 +820,12 @@ class Pilot {
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
-  public get Loadouts(): PilotLoadout[] {
-    return this._loadouts
+  public get Loadout(): PilotLoadout {
+    return this._loadout
   }
 
-  public set Loadouts(loadouts: PilotLoadout[]) {
-    this._loadouts = loadouts
-    this.save()
-  }
-
-  public get ActiveLoadout(): PilotLoadout {
-    return this._active_loadout
-  }
-
-  public set ActiveLoadout(loadout: PilotLoadout) {
-    this._active_loadout = loadout
-    this.save()
-  }
-
-  public AddLoadout(): void {
-    this._loadouts.push(new PilotLoadout(this._loadouts.length))
-    this.ActiveLoadout = this.Loadouts[this._loadouts.length - 1]
-    this.save()
-  }
-
-  public RemoveLoadout(): void {
-    if (this._loadouts.length === 1) {
-      console.error(`Cannot remove last Pilot Loadout`)
-    } else {
-      const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
-      this._loadouts.splice(index, 1)
-      this.save()
-    }
-  }
-
-  public CloneLoadout(): void {
-    const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-    const newLoadout = PilotLoadout.Deserialize(PilotLoadout.Serialize(this.ActiveLoadout))
-    newLoadout.RenewID()
-    newLoadout.Name += ' (Copy)'
-    this._loadouts.splice(index + 1, 0, newLoadout)
-    this._active_loadout = this._loadouts[index + 1]
+  public set Loadout(l: PilotLoadout) {
+    this._loadout = l
     this.save()
   }
 
@@ -1015,10 +963,7 @@ class Pilot {
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
       core_bonuses: p.CoreBonuses.map(x => x.ID),
-      loadouts: p.Loadouts.map(x => PilotLoadout.Serialize(x)),
-      active_loadout_index: p.ActiveLoadout
-        ? p.Loadouts.findIndex(x => x.ID === p.ActiveLoadout.ID)
-        : null,
+      loadout: PilotLoadout.Serialize(p.Loadout),
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
@@ -1039,6 +984,13 @@ class Pilot {
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''
     this._id = data.id
+    console.log((data as any).loadouts)
+    this._loadout = (data as any).loadouts
+      ? PilotLoadout.Deserialize((data as any).loadouts[0])
+      : data.loadout
+      ? PilotLoadout.Deserialize(data.loadout)
+      : new PilotLoadout(0)
+    console.log(this._loadout)
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
@@ -1058,20 +1010,12 @@ class Pilot {
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
     this._core_bonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
-    this._loadouts = data.loadouts.length
-      ? data.loadouts
-          .filter(n => Boolean(n))
-          .map((x: IPilotLoadoutData) => PilotLoadout.Deserialize(x))
-      : [new PilotLoadout(0)]
     this._reserves = data.reserves
       ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
       : []
     this._orgs = data.orgs
       ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
       : []
-    this._active_loadout = data.active_loadout_index
-      ? this._loadouts[data.active_loadout_index]
-      : this._loadouts[0]
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
