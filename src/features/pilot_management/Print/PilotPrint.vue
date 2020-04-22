@@ -183,7 +183,7 @@
     <span class="overline">PILOT LOADOUT</span>
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
-        v-for="(a, i) in pilot.ActiveLoadout.Armor.filter(x => x)"
+        v-for="(a, i) in pilot.Loadout.Armor.filter(x => x)"
         :key="`pla_${i}`"
         style="position: relative; page-break-inside: avoid;"
       >
@@ -203,7 +203,7 @@
           />
         </fieldset>
       </v-col>
-      <v-col v-for="(w, i) in pilot.ActiveLoadout.Weapons.filter(x => x)" :key="`plw_${i}`">
+      <v-col v-for="(w, i) in pilot.Loadout.Weapons.filter(x => x)" :key="`plw_${i}`">
         <fieldset v-if="w">
           <legend class="heading ml-1 px-2">
             {{ w.Name }}
@@ -222,7 +222,7 @@
       </v-col>
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col v-for="(g, i) in pilot.ActiveLoadout.Gear.filter(x => x)" :key="`plg_${i}`">
+      <v-col v-for="(g, i) in pilot.Loadout.Gear.filter(x => x)" :key="`plg_${i}`">
         <fieldset v-if="g">
           <legend class="heading ml-1 px-2">
             {{ g.Name }}
