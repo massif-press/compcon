@@ -1,7 +1,22 @@
 <template>
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
-      <v-card-title class="mod darken-1 py-0 heading h3 white--text" style="height: 24px!important">
+      <v-card-title
+        class="mod darken-1 py-0 pt-n1 heading h3 white--text"
+        style="height: 24px!important"
+      >
+        <v-row class="mt-n1" no-gutters>
+          <equipment-options slot="options" :item="mod" />
+          {{ mod.Name }}
+          <v-spacer />
+          <cc-tooltip simple inline content="Remove Mod">
+            <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
+              mdi-delete
+            </v-icon>
+          </cc-tooltip>
+        </v-row>
+      </v-card-title>
+      <div class="mod-border px-2 pt-1">
         <equipment-header
           :item="mod"
           :use-bonus="mech.Pilot.LimitedBonus"
@@ -9,16 +24,7 @@
           interior
           dark
           class="mt-n1"
-        >
-          <equipment-options slot="options" :item="mod" />
-          <cc-tooltip simple inline content="Remove Mod">
-            <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
-              mdi-delete
-            </v-icon>
-          </cc-tooltip>
-        </equipment-header>
-      </v-card-title>
-      <div class="mod-border">
+        />
         <v-alert
           v-if="mod.IsCascading"
           dense
@@ -72,6 +78,5 @@ export default Vue.extend({
 }
 .mod-border:hover {
   border-color: black;
-  background-color: white;
 }
 </style>
