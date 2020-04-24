@@ -31,6 +31,23 @@ class DeployableEffect extends ItemEffect {
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Deployable
   }
+
+  public toString() {
+    return [
+      (this.Name || '').toUpperCase(),
+      [
+        '//',
+        this.Count ? 'Uses: ' + this.Count : '',
+        this.Size ? 'Size: ' + this.Size : '',
+        this.HP ? 'HP: ' + this.HP : '',
+        this.Evasion ? 'Evasion: ' + this.Evasion : '',
+        this.EDef ? 'E-defense: ' + this.EDef : '',
+      ].filter(el => el !== '').join('   '),
+      'Activation: ' + this.activation + '   Type: ' + this.effectType,
+      this.Tags ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IDeployableData, DeployableEffect }
