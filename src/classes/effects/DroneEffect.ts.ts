@@ -34,6 +34,24 @@ class DroneEffect extends ItemEffect {
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Drone
   }
+
+  public toString() {
+    return [
+      (this.Name || '').toUpperCase(),
+      'Activation: ' + this.activation + '   Type: ' + this.effectType,
+      [
+        '//',
+        this.Size ? 'Size: ' + this.Size : '',
+        this.HP ? 'HP: ' + this.HP : '',
+        this.Armor ? 'Armor: ' + this.Armor : '',
+        this.Evasion ? 'Evasion: ' + this.Evasion : '',
+        this.EDef ? 'E-defense: ' + this.EDef : '',
+      ].filter(el => el !== '').join('   '),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+      this.Abilities.map(a => a.toString()).join('\n'),
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IDroneData, DroneEffect }
