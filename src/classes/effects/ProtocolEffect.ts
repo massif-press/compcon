@@ -16,6 +16,15 @@ class ProtocolEffect extends ItemEffect {
     this.activation = ActivationType.Protocol
     this.effectType = EffectType.Protocol
   }
+
+  public toString() {
+    return [
+      'Activation: ' + this.activation,
+      (this.Name || '').toUpperCase(),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IProtocolEffectData, ProtocolEffect }
