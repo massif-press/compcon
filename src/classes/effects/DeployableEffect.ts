@@ -34,6 +34,7 @@ class DeployableEffect extends ItemEffect {
 
   public toString() {
     return [
+      'Activation: ' + this.activation + '   Type: ' + this.effectType,
       (this.Name || '').toUpperCase(),
       [
         '//',
@@ -43,8 +44,7 @@ class DeployableEffect extends ItemEffect {
         this.Evasion ? 'Evasion: ' + this.Evasion : '',
         this.EDef ? 'E-defense: ' + this.EDef : '',
       ].filter(el => el !== '').join('   '),
-      'Activation: ' + this.activation + '   Type: ' + this.effectType,
-      this.Tags ? 'Tags: ' + this.Tags : '',
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Detail,
     ].filter(el => el !== '').join('\n');
   }

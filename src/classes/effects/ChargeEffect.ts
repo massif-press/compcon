@@ -61,9 +61,9 @@ class ChargeEffect extends ItemEffect {
 
   public toString() {
     return [
-      (this.Name || '').toUpperCase(),
       'Activation: ' + this.activation + '   Type: ' + this.effectType,
-      this.Tags ? 'Tags: ' + this.Tags : '',
+      (this.Name || '').toUpperCase(),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Charges.map(charge => charge.toString()).join('\n'),
     ].filter(el => el !== '').join('\n');
   }
