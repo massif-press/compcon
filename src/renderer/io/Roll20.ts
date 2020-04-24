@@ -81,6 +81,7 @@ interface IRoll20Data {
       name: string
       type: string
       range: number
+      altRanges: string
       damage: string
       damageType: string
       tags: string
@@ -182,8 +183,9 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: weapon.Name,
         type: `${weapon.Size} ${weapon.Type}`,
         range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
-        damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
-        damageType: weapon.Damage[0].Type,
+        altRanges: weapon.Range.filter(r => r.Type != RangeType.Range).map(r => r.Text).join('|'),
+        damage: weapon.Damage.map(dmg => dmg.Value).join('|'),
+        damageType: weapon.Damage.map(dmg => dmg.Type).join('|'),
         tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         notes: weapon.Note,
       })),
