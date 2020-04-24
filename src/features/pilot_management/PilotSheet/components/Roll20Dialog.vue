@@ -44,7 +44,6 @@ export default Vue.extend({
     async doConvert() {
       const mech = this.pilot.Mechs.find(mech => mech.ID === this.mechSelect)
       const converted = roll20ToPilot(this.pilot, mech)
-      console.log(converted)
       await Clipboard.write({
         string: JSON.stringify(converted, null, 4)
       })
