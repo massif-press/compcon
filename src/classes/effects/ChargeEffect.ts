@@ -33,6 +33,18 @@ class Charge {
     this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
     this.Detail = data.detail
   }
+
+  public toString() {
+    return [
+      (this.Name || '').toUpperCase(),
+      [
+        '//',
+        this.Range ? 'Range: ' + this.Range.map(d => d.Text).join(', ') : '',
+        this.Damage ? 'Damage: ' + this.Damage.map(d => d.Text).join(', ') : '',
+      ].filter(el => el !== '').join('   '),
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 class ChargeEffect extends ItemEffect {
@@ -45,6 +57,15 @@ class ChargeEffect extends ItemEffect {
     this.Charges = data.charges.map(x => new Charge(x))
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Charge
+  }
+
+  public toString() {
+    return [
+      (this.Name || '').toUpperCase(),
+      'Activation: ' + this.activation + '   Type: ' + this.effectType,
+      this.Tags ? 'Tags: ' + this.Tags : '',
+      this.Charges.map(charge => charge.toString()).join('\n'),
+    ].filter(el => el !== '').join('\n');
   }
 }
 
