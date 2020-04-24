@@ -199,7 +199,14 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: system.Name,
         tags: system.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         sp: system.SP,
-        effect: strip(system.Effect),
+        // This needs to be turned into a readable string to fit into a single textarea on the Roll20 sheet,
+        // but can consist of several (nested) different objects. Hence the stringify -> string hack.
+        oldeffect: JSON.stringify(system.Effect)
+          .replace(/"effectType":"\w+",?/g, '')
+          .replace(/{|},|}|\],|\]|",/g, '\n')
+          .replace(/\[|"/g, '')
+          .replace(/:/g, ': '),
+        effect: system.Effect.map(effect => effect.toString()).join('\n'),
       })),
     },
   }
