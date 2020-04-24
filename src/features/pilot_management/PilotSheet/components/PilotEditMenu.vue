@@ -92,55 +92,15 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <print-dialog ref="printDialog" :pilot="pilot" />
+    <export-dialog ref="exportDialog" :pilot="pilot" />
+    <statblock-dialog ref="statblockDialog" :pilot="pilot" />
 
-    <v-menu offset-y top>
-      <template v-slot:activator="{ on: menu }">
-        <v-btn class="unskew ml-2" icon dark v-on="menu">
-          <v-icon>mdi-view-grid-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-list subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
-        <v-list-item-group>
-          <v-list-item @click="$emit('set-layout', 'tabbed')">
-            <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-view-array</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Tabbed View</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="$emit('set-layout', 'classic')">
-            <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-view-sequential</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Sheet View (Classic View)</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item disabled>
-            <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-playlist-edit</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <cc-tooltip simple content="Feature In Development">
-                <v-list-item-title>Manage Custom Views</v-list-item-title>
-                <v-list-item-subtitle>Feature In Development</v-list-item-subtitle>
-              </cc-tooltip>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu>
-    <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
-    <export-dialog ref="exportDialog" class="unskew" :pilot="pilot" />
-    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" />
+    <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
 
-    <roll20-dialog ref="roll20Dialog" class="unskew" :pilot="pilot" />
-
-    <cloud-dialog ref="cloudDialog" class="unskew" :pilot="pilot" />
-    <delete-dialog ref="deleteDialog" class="unskew" :pilot="pilot" @delete="deletePilot()" />
-    <cloud-manager ref="cloud" class="unskew" :pilot="pilot" />
+    <cloud-dialog ref="cloudDialog" :pilot="pilot" />
+    <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
+    <cloud-manager ref="cloud" :pilot="pilot" />
   </div>
 </template>
 

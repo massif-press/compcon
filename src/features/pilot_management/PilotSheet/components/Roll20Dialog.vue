@@ -19,8 +19,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import roll20ToPilot from '@/io/Roll20'
+import { Pilot } from '@/class'
 import { Plugins } from '@capacitor/core'
-import Pilot from '../../../../classes/pilot/Pilot'
 const { Clipboard } = Plugins
 
 export default Vue.extend({
@@ -49,9 +49,7 @@ export default Vue.extend({
         string: JSON.stringify(converted, null, 4)
       })
       this.hide()
-      this.notify({
-        text: 'Roll20 data copied to clipboard'
-      })
+      Vue.prototype.$notify('Roll20 data copied to clipboard')
     }
   },
 })
