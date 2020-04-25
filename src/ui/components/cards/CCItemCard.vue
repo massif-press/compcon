@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" v-if="component" :item="item" />
+  <component :is="componentLoader" v-if="componentLoader" :item="item" />
 </template>
 
 <script>
@@ -17,23 +17,19 @@ export default {
     }
   },
   computed: {
-    loader() {
+    componentLoader() {
       if (!this.item) {
         return null
       }
-      return () => import(`./_${this.item.ItemType}Card.vue`)
-    },
-  },
-  mounted() {
-    if (this.item) {
-      this.loader()
-        .then(() => {
-          this.component = () => this.loader()
-        })
-        .catch(() => {
+      return () => {
+        try {
+          return import(`./_${this.item.ItemType}Card.vue`)
+        } catch (error) {
           console.error(`Unable to load component ${this.item.ItemType}`)
-        })
-    }
+          return null
+        }
+      }
+    },
   },
 }
 </script>
