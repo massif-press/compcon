@@ -30,6 +30,22 @@ jobs:
     #     - yarn unit-test	
     #     - yarn int-test	
     #     - yarn build --linux --publish never
+    - name: build_web	
+      os: linux	
+      script:	
+        - yarn build --progress=false	
+      deploy:	
+        provider: netlify	
+        site: $NETLIFY_SITE_ID	
+        auth: $NETLIFY_AUTH_TOKEN	
+        dir: 'dist/'	
+        prod: true	
+        message: 'Travis CI deployment'	
+        edge: true	
+        skip_cleanup: true
+        on:
+          tags: true
+          branch: master
     - stage: build
       name: build_electron
       os: osx
@@ -46,12 +62,12 @@ jobs:
         - "electron/dist/COMPCON*.exe"
         - "electron/dist/COMPCON*mac.zip"
         on:
-          branch: master
           tags: true
+          branch: master
         edge: true
       - provider: script
         on:
-          branch: master
           tags: true
+          branch: master
         script: bash build_scripts/deploy_butler.sh
         edge: true
