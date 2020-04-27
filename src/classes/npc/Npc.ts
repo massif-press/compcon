@@ -377,7 +377,7 @@ export class Npc implements IActor {
   public set CurrentHP(val: number) {
     if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
     else if (val <= 0) {
-      this.CurrentStats.HP = this.MaxHP - val
+      this.CurrentStats.HP = this.MaxHP + val
       this.CurrentStructure -= 1
     } else this.CurrentStats.HP = val
   }

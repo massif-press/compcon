@@ -9,3 +9,4 @@ thumbs.db
 butler*
 libc7zip.dylib
 schema_out/
+yarn-error.log

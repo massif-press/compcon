@@ -1,4 +1,6 @@
-if ('serviceWorker' in navigator) {
+import { Capacitor } from '@capacitor/core'
+
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production' && Capacitor.platform === 'web') {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js')
