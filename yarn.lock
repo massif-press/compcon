@@ -1734,7 +1734,12 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.11.1.tgz#49a2a83df9d26daacead30d0ccc8762b128d53c7"
   integrity sha512-eWQGP3qtxwL8FGneRrC5DwrJLGN4/dH1clNTuLfN81HCrxVtxRjygDTUoZJ5ASlDEeo0ppYFQjQIlXhtXpOn6g==
 
-"@types/node@^12.0.12", "@types/node@^12.5.0":
+"@types/node@12":
+  version "12.12.37"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.37.tgz#cb4782d847f801fa58316da5b4801ca3a59ae790"
+  integrity sha512-4mXKoDptrXAwZErQHrLzpe0FN/0Wmf5JRniSVIdwUrtDf9wnmEV1teCNLBo/TwuXhkK/bVegoEn/wmb+x0AuPg==
+
+"@types/node@^12.0.12":
   version "12.12.35"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.35.tgz#1e61b226c14380f4384f70cfe49a65c2c553ad2b"
   integrity sha512-ASYsaKecA7TUsDrqIGPNk3JeEox0z/0XR/WsJJ8BIX/9+SkMSImQXKWfU/yBrSyc7ZSE/NPqLu36Nur0miCFfQ==
@@ -7602,10 +7607,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lancer-data@^2.0.25:
-  version "2.0.25"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.25.tgz#b72692b8f7a650b73cf1cbe6b7e1ac245d8113a5"
-  integrity sha512-8HSRg8dBKewXKhLaAqynGdMZri4XnpvsGFrQm8ZJFjnqoaSl17NQNztjOr7QqF5B4rKj5iFhSs0W2DKE5Ar7sw==
+lancer-data@^2.0.26:
+  version "2.0.26"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.26.tgz#aba770a7b441bda1c51f638c517fcf32c7268351"
+  integrity sha512-io9KeafWEAkV1Cvp8EY84NVK7nggzH3liJVSnp3Lrjs2+sToNCUngEfW/3vKbMh8bjNg05DdlFw8GS5b9Lr9IQ==
 
 latest-version@^5.0.0:
   version "5.1.0"
