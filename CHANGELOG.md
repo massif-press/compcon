@@ -1,3 +1,24 @@
+## [2.0.29](https://github.com/jarena3/compcon/compare/2.0.28...2.0.29) (2020-04-27)
+
+
+### Bug Fixes
+
+* **Compendium:** fix two panel view for some compendium frames ([c9acf8f](https://github.com/jarena3/compcon/commit/c9acf8fe55b85cf3b0b32c0b4975833898c42eb1)), closes [#782](https://github.com/jarena3/compcon/issues/782)
+* **Item Card:** Make sure item card re-imports correct component when this.item updates ([23f9502](https://github.com/jarena3/compcon/commit/23f950220a0790200196d6d1ba080b8464168082))
+* **Mech Sheet:** correct equipped weapon mod inset ui ([41f92c4](https://github.com/jarena3/compcon/commit/41f92c43646143be7c1dd2a42c678d54edd7ca54)), closes [#791](https://github.com/jarena3/compcon/issues/791)
+* **Mech Sheet:** fixed superheavy lock not clearing on non-SH weapon swap ([ee87e40](https://github.com/jarena3/compcon/commit/ee87e40c6009603f1e1918a9c1f896e8be1daba9)), closes [#785](https://github.com/jarena3/compcon/issues/785)
+* **Mission Runner:** Ensure remaining HP is calculated correctly after a structure roll ([f80971c](https://github.com/jarena3/compcon/commit/f80971cccb03e8f9671d02ed4c2a83f04cfb2601))
+* **Mission Runner:** Restore scrolling in NPC selector for reinforcements ([20464d4](https://github.com/jarena3/compcon/commit/20464d4324b1e1f56eb9b1ea7950f828ac81c973))
+* **Roll20.ts:** fixes ([fa4a3ce](https://github.com/jarena3/compcon/commit/fa4a3ce3d470aba47c483ffb63bf2876b9c05ace))
+* **Roll20Dialog.vue:** fix path ([630d5a1](https://github.com/jarena3/compcon/commit/630d5a10a0d721e9637a5835cc0b6a16904b88b3))
+
+
+### Features
+
+* add update checker & notifications ([77152e3](https://github.com/jarena3/compcon/commit/77152e3ef4d1190b8ce198f6d008915bf8800ccd)), closes [#493](https://github.com/jarena3/compcon/issues/493)
+
+
+
 ## [2.0.28](https://github.com/jarena3/compcon/compare/2.0.27...2.0.28) (2020-04-10)
 
 
