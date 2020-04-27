@@ -17,9 +17,7 @@ before_cache:
 
 stages:
   # - name: test
-  -
   - name: build
-    if: tag IS present
 
 jobs:
   include:
@@ -44,7 +42,6 @@ jobs:
         prod: true	
         message: 'Travis CI deployment'	
         edge: true	
-        skip_cleanup: true
         on:
           tags: true
           branch: master
