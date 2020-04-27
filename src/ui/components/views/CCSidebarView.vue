@@ -11,7 +11,7 @@
           <slot name="sidebar" />
         </v-list>
       </v-col>
-      <v-col :offset="cols" class="pl-7 mr-7 left-slot">
+      <v-col :offset="cols" class="pl-7 mr-7">
         <slot />
       </v-col>
     </v-row>

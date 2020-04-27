@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-dialog no-confirm :color="item.Color" large>
+    <cc-dialog no-confirm :color="item.Color" large :small-btn="smallBtn">
       <span slot="button" class="white--text" style="width: 100%">
         <v-icon left>{{ item.Icon }}</v-icon>
         {{ item.Name }} {{ item.ItemType === 'Frame' ? 'FRAME' : '' }}
@@ -27,6 +27,9 @@ export default Vue.extend({
     item: {
       type: Object,
       required: true,
+    },
+    smallBtn: {
+      type: Boolean,
     },
   },
   data: () => ({

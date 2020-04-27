@@ -1,7 +1,7 @@
 <template>
   <effect-base :effect="effect" :inset="inset" :transparent="transparent" :print="print">
     <div :class="print ? 'caption' : 'effect-text mt-n2'" v-html="effect.Name" />
-    <p class="pt-0 mb-1" v-html="effect.Detail" />
+    <p class="pt-0 mb-1 body-text" v-html="effect.Detail" />
   </effect-base>
 </template>
 

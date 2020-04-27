@@ -22,23 +22,7 @@
       // NO TEMPLATES AVAILABLE //
     </div>
     <v-row v-for="(e, i) in availableTemplates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
-      <v-col cols="1" class="pr-0">
-        <v-btn
-          block
-          tile
-          icon
-          min-height="calc(100% - 8px)"
-          style="margin-right: -2px!important"
-          class="pa-0 fadeSelect"
-          color="secondary"
-          @click="$emit('select', e)"
-        >
-          <cc-tooltip simple inline :content="`Add ${e.Name}`">
-            <v-icon size="80">cci-accuracy</v-icon>
-          </cc-tooltip>
-        </v-btn>
-      </v-col>
-      <v-col class="pl-0">
+      <v-col>
         <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
           <p class="flavor-text mb-0" v-html="e.Description" />
           <v-divider class="my-2" />
@@ -48,7 +32,7 @@
           </span>
           <v-row dense class="mr-2 mt-n1">
             <v-col v-for="f in e.BaseFeatures" :key="f.ID" cols="auto">
-              <cc-item-modal :item="f" />
+              <cc-item-modal :item="f" small-btn />
             </v-col>
           </v-row>
           <span v-if="e.OptionalFeatures.length" class="heading">
@@ -57,7 +41,15 @@
           </span>
           <v-row dense class="mr-2 mt-n1 pb-2">
             <v-col v-for="f in e.OptionalFeatures" :key="f.ID" cols="auto">
-              <cc-item-modal :item="f" />
+              <cc-item-modal :item="f" small-btn />
+            </v-col>
+          </v-row>
+          <v-row dense justify="center">
+            <v-col cols="10">
+              <v-btn block tile outlined color="secondary" @click="$emit('select', e)">
+                <v-icon left>mdi-plus</v-icon>
+                Assign {{ e.Name }} Template
+              </v-btn>
             </v-col>
           </v-row>
         </cc-titled-panel>

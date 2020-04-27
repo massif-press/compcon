@@ -103,14 +103,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import CompendiumTable from '../components/CompendiumTable.vue'
+import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { NpcClass } from '@/class'
 import { accentInclude } from '@/classes/utility/accent_fold'
 
 @Component({
-  components: { CompendiumTable },
+  components: { CompendiumBrowser },
 })
 export default class NpcClasses extends Vue {
   private tier = 1

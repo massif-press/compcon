@@ -54,7 +54,7 @@
                 </v-card-text>
               </v-card>
             </v-menu>
-            <v-btn small tile color="primary" :to="`runner/${item.ID}`">
+            <v-btn small tile color="primary" class="white--text" :to="`runner/${item.ID}`">
               CONTINUE MISSION
               <v-icon right>mdi-chevron-double-right</v-icon>
             </v-btn>
@@ -97,7 +97,7 @@
             <v-chip v-for="l in item.Labels" :key="item.ID + l" small>{{ l }}</v-chip>
           </template>
           <template v-slot:item.Start="{ item }">
-            <v-btn small tile color="primary" :to="`briefing/${item.ID}`">
+            <v-btn small tile color="primary" class="white--text" :to="`briefing/${item.ID}`">
               START MISSION
               <v-icon right>mdi-chevron-double-right</v-icon>
             </v-btn>

@@ -26,7 +26,8 @@ abstract class MechEquipment extends LicensedItem {
     this.sp = itemData.sp || 0
     this._tags = itemData.tags
     this._effect = this.getItemData(itemData.effect)
-    this._integrated = itemData.talent_item || itemData.frame_id || false
+    this._integrated =
+      itemData.talent_item || itemData.frame_id || itemData.id.includes('_integrated')
     this._uses = 0
     this._destroyed = false
     this._cascading = false

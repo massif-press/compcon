@@ -1,5 +1,4 @@
 import uuid from 'uuid/v4'
-import _ from 'lodash'
 import { store } from '@/store'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
@@ -13,6 +12,7 @@ export interface INpcData {
   class: string
   tier: number | string
   name: string
+  subtitle: string
   campaign: string
   labels: string[]
   tag: string
@@ -38,6 +38,7 @@ export class Npc implements IActor {
   private _active: boolean
   private _id: string
   private _name: string
+  private _subtitle: string
   private _campaign: string
   private _tier: string | number
   private _class: NpcClass
@@ -65,6 +66,7 @@ export class Npc implements IActor {
     this._active = false
     this._id = uuid()
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
+    this._subtitle = ''
     this._tier = t
     this._templates = []
     this._user_labels = []
@@ -130,7 +132,7 @@ export class Npc implements IActor {
   }
 
   public ResetStats(): void {
-    this._current_stats = _.clone(this._stats)
+    this._current_stats = NpcStats.FromMax(this._stats)
   }
 
   public get EncounterName(): string {
@@ -147,6 +149,15 @@ export class Npc implements IActor {
 
   public set Name(val: string) {
     this._name = val
+    this.save()
+  }
+
+  public get Subtitle(): string {
+    return this._subtitle
+  }
+
+  public set Subtitle(val: string) {
+    this._subtitle = val
     this.save()
   }
 
@@ -258,68 +269,62 @@ export class Npc implements IActor {
 
   public AddTemplate(temp: NpcTemplate): void {
     this._templates.push(temp)
-    temp.BaseFeatures.forEach(f => this.AddFeature(f))
-    this.save()
+    temp.BaseFeatures.forEach(f => this.AddFeature(f, true))
+    this.RecalcBonuses()
   }
 
   public RemoveTemplate(temp: NpcTemplate): void {
     const idx = this._templates.findIndex(x => x.ID === temp.ID)
     if (idx > -1) {
       this._templates.splice(idx, 1)
-      temp.BaseFeatures.forEach(f => this.RemoveFeature(f))
-      temp.OptionalFeatures.forEach(f => this.RemoveFeature(f))
+      temp.BaseFeatures.forEach(f => this.RemoveFeature(f, true))
+      temp.OptionalFeatures.forEach(f => this.RemoveFeature(f, true))
+      this.RecalcBonuses()
     }
-    this.ResetStats()
-    this.RecalcBonuses()
-    this.save()
   }
 
-  setStatBonuses(item: NpcItem, remove?: boolean): void {
-    if (item.Feature.Override) {
-      for (const key in item.Feature.Override) {
-        const o = Array.isArray(item.Feature.Override[key])
-          ? item.Feature.Override[key][item.Tier - 1]
-          : item.Feature.Override[key]
-        if (remove) this._stats.Overrides[key] = 0
-        else this._stats.Overrides[key] = o
-      }
-    } else {
-      if (item.Feature.Bonus) {
-        for (const key in item.Feature.Bonus) {
-          const b = Array.isArray(item.Feature.Bonus[key])
-            ? item.Feature.Bonus[key][item.Tier - 1]
-            : item.Feature.Bonus[key]
-          if (remove) {
-            this._stats.Bonuses[key] = 0
-          } else {
-            this._stats.Bonuses[key] = b
+  setStatBonuses(): void {
+    this._stats.ClearBonuses()
+    this._items.forEach(item => {
+      if (item.Feature.Override) {
+        for (const key in item.Feature.Override) {
+          const o = Array.isArray(item.Feature.Override[key])
+            ? item.Feature.Override[key][item.Tier - 1]
+            : item.Feature.Override[key]
+          this._stats.Overrides[key] = o
+        }
+      } else {
+        if (item.Feature.Bonus) {
+          for (const key in item.Feature.Bonus) {
+            const b = Array.isArray(item.Feature.Bonus[key])
+              ? item.Feature.Bonus[key][item.Tier - 1]
+              : item.Feature.Bonus[key]
+            this._stats.Bonuses[key] += parseInt(b)
           }
         }
       }
-    }
-  }
-
-  public RecalcBonuses(): void {
-    this._items.forEach(i => {
-      this.setStatBonuses(i)
     })
   }
 
-  public AddFeature(feat: NpcFeature): void {
-    const t = typeof this.Tier === 'number' ? this.Tier : 1
-    const item = new NpcItem(feat, t)
-    this._items.push(item)
-    this.setStatBonuses(item)
+  public RecalcBonuses(): void {
+    this.setStatBonuses()
+    this.ResetStats()
     this.save()
   }
 
-  public RemoveFeature(feat: NpcFeature): void {
+  public AddFeature(feat: NpcFeature, skipRecalc?: boolean): void {
+    const t = typeof this.Tier === 'number' ? this.Tier : 1
+    const item = new NpcItem(feat, t)
+    this._items.push(item)
+    if (!skipRecalc) this.RecalcBonuses()
+  }
+
+  public RemoveFeature(feat: NpcFeature, skipRecalc?: boolean): void {
     const j = this._items.findIndex(x => x.Feature.ID === feat.ID)
     if (j > -1) {
-      this.setStatBonuses(this._items[j], true)
       this._items.splice(j, 1)
+      if (!skipRecalc) this.RecalcBonuses()
     }
-    this.save()
   }
 
   public get Items(): NpcItem[] {
@@ -372,7 +377,7 @@ export class Npc implements IActor {
   public set CurrentHP(val: number) {
     if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
     else if (val <= 0) {
-      this.CurrentStats.HP = this.MaxHP - val
+      this.CurrentStats.HP = this.MaxHP + val
       this.CurrentStructure -= 1
     } else this.CurrentStats.HP = val
   }
@@ -548,6 +553,7 @@ export class Npc implements IActor {
       class: npc.Class.ID,
       tier: npc._tier,
       name: npc._name,
+      subtitle: npc._subtitle,
       campaign: npc._campaign,
       labels: npc._user_labels,
       tag: npc._tag,
@@ -577,6 +583,7 @@ export class Npc implements IActor {
     npc._id = data.id
     npc._tier = data.tier
     npc._name = data.name
+    npc._subtitle = data.subtitle || ''
     npc._side = data.side as EncounterSide
     npc._campaign = data.campaign
     npc._user_labels = data.labels
@@ -598,6 +605,7 @@ export class Npc implements IActor {
     npc._destroyed = data.destroyed || false
     npc._defeat = data.defeat || ''
     npc.cc_ver = data.cc_ver
+    npc.RecalcBonuses()
     return npc
   }
 }

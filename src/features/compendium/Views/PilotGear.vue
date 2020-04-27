@@ -12,13 +12,13 @@
       <v-tab ripple>WEAPONS</v-tab>
       <v-tab ripple>GEAR</v-tab>
       <v-tab-item>
-        <compendium-table no-filter :headers="armor_headers" :items="armor" />
+        <compendium-browser no-filter :headers="armor_headers" :items="armor" />
       </v-tab-item>
       <v-tab-item>
-        <compendium-table no-filter :headers="weapon_headers" :items="weapons" />
+        <compendium-browser no-filter :headers="weapon_headers" :items="weapons" />
       </v-tab-item>
       <v-tab-item>
-        <compendium-table no-filter :headers="gear_headers" :items="gear" />
+        <compendium-browser no-filter :headers="gear_headers" :items="gear" />
       </v-tab-item>
     </v-tabs>
   </v-container>
@@ -27,13 +27,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import CompendiumTable from '../components/CompendiumTable.vue'
+import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { ItemType } from '@/class'
 
 @Component({
-  components: { CompendiumTable },
+  components: { CompendiumBrowser },
 })
 export default class PilotGear extends Vue {
   public armor_headers = [

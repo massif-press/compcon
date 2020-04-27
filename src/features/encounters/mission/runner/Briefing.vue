@@ -61,7 +61,7 @@
             </v-card-text>
           </v-card>
           <div class="my-2 mx-4">
-            <v-btn tile outlined color="primary" block @click="$refs.pilotDialog.show()">
+            <v-btn tile outlined color="accent" block @click="$refs.pilotDialog.show()">
               <v-icon left>mdi-plus</v-icon>
               Add Pilot
             </v-btn>
