@@ -1,5 +1,5 @@
 language: node_js
-node_js: '10'
+node_js: '12'
 cache:
   yarn: true
   directories:
@@ -16,60 +16,56 @@ before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 
 stages:
-  - name: test
+  # - name: test
   - name: build
-    if: tag IS present
 
 jobs:
   include:
-    - stage: test
-      name: 'test'
-      os: linux
-      dist: xenial
-      script:
-        - yarn unit-test
-        - yarn int-test
-        - yarn build --linux --publish never
+    # - stage: test	
+    #   name: 'test'	
+    #   os: linux	
+    #   dist: xenial	
+    #   script:	
+    #     - yarn unit-test	
+    #     - yarn int-test	
+    #     - yarn build --linux --publish never
     - stage: build
-      # name: build_electron
-      # os: osx
-      # osx_image: xcode10.2
-      # script:
-      #   - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
-      #   - yarn electron:build -mwl --publish never
-      # deploy:
-      # - provider: releases
-      #   skip_cleanup: true
-      #   api_key: $GH_TOKEN
-      #   file_glob: true
-      #   file:
-      #   - "electron/dist/COMPCON*.AppImage"
-      #   - "electron/dist/COMPCON*.exe"
-      #   - "electron/dist/COMPCON*mac.zip"
-      #   skip_cleanup: true
-      #   draft: true
-      #   on:
-      #     tags: true
-      #     branch: master
-      # - provider: script
-      #   skip_cleanup: true
-      #   on:
-      #     tags: true
-      #     branch: master
-      #   script: bash build_scripts/deploy_butler.sh
-    - name: build_web
-      os: linux
-      script:
-        - yarn build --progress=false
-      deploy:
-        provider: netlify
-        site: $NETLIFY_SITE_ID
-        auth: $NETLIFY_AUTH_TOKEN
-        dir: 'dist/'
-        prod: true
-        message: 'Travis CI deployment'
-        edge: true
-        skip_cleanup: true
+      name: build_web	
+      os: linux	
+      script:	
+        - yarn build --progress=false	
+      deploy:	
+        provider: netlify	
+        site: $NETLIFY_SITE_ID	
+        auth: $NETLIFY_AUTH_TOKEN	
+        dir: 'dist/'	
+        prod: true	
+        message: 'Travis CI deployment'	
+        edge: true	
         on:
           tags: true
           branch: master
+    - name: build_electron
+      os: osx
+      osx_image: xcode10.2
+      script:
+        - mkdir -p ~/$TRAVIS_BUILD_NUMBER/mac
+        - yarn electron:build --publish never
+      deploy:
+      - provider: releases
+        token: $GH_TOKEN
+        file_glob: true
+        file:
+        - "electron/dist/COMPCON*.AppImage"
+        - "electron/dist/COMPCON*.exe"
+        - "electron/dist/COMPCON*mac.zip"
+        on:
+          tags: true
+          branch: master
+        edge: true
+      - provider: script
+        on:
+          tags: true
+          branch: master
+        script: bash build_scripts/deploy_butler.sh
+        edge: true

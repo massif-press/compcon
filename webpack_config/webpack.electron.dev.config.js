@@ -10,12 +10,10 @@ const subprocessPlugin = {
         if (!this.electronChildProcessRunning) {
           const platform = require('os').platform()
           const childArgs = platform === 'win32' ?
-            ['cmd', ['/C', path.resolve('electron/node_modules/.bin/electron.cmd' + ' ./')]]
-            : [path.resolve('electron/node_modules/.bin/electron'), './']
+            ['cmd', ['/C', path.resolve('node_modules/.bin/electron.cmd'), path.resolve('electron/index.js')]]
+            : [path.resolve('electron/node_modules/.bin/electron'), ['./']]
 
-          const child = childProcess.spawn(...childArgs, {
-            cwd: './electron',
-          })
+          const child = childProcess.spawn(...childArgs)
 
           child.stdout.on('data', function (data) {
             console.log(data.toString());
@@ -25,6 +23,7 @@ const subprocessPlugin = {
           });
 
           child.on('exit', () => {
+            require('process').exit()
             this.electronChildProcessRunning = false
           });
         }

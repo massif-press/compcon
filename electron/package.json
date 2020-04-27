@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "2.0.0",
+  "version": "2.0.24",
   "main": "index.js",
   "author": "Massif Press",
   "license": "GPL-3.0-or-later",
@@ -9,14 +9,17 @@
     "appId": "com.massifpress.compcon",
     "mac": {
       "icon": "../icons/icon.icns",
+      "artifactName": "${productName}.${ext}",
       "hardenedRuntime": true,
       "entitlements": "./entitlements.mac.inherit.plist",
+      "entitlementsInherit": "./entitlements.mac.inherit.plist",
       "target": [
-        "zip"
+        "dmg"
       ]
     },
     "win": {
       "icon": "../icons/icon.ico",
+      "artifactName": "${productName}.${ext}",
       "target": [
         {
           "target": "portable",
@@ -29,6 +32,7 @@
     },
     "linux": {
       "icon": "../icons",
+      "artifactName": "${productName}.${ext}",
       "target": [
         {
           "target": "AppImage"
@@ -44,6 +48,6 @@
     "electron-reload": "^1.5.0"
   },
   "devDependencies": {
-    "electron": "4.0.0"
+    "electron": "8.2.1"
   }
 }
