@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Pilot, RangeType } from '@/class'
 import Mech from '@/classes/mech/Mech'
 
@@ -102,9 +103,9 @@ interface IRoll20Data {
   }
 }
 
-function strip(text: string) {
+function strip(text: string): string {
   text = text.replace(/<br\/?>/gi, '\n')
-  var doc = new DOMParser().parseFromString(text, 'text/html')
+  const doc = new DOMParser().parseFromString(text, 'text/html')
   return doc.body.textContent || ''
 }
 
@@ -130,25 +131,33 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       //
       backstory: pilot.History,
       appearance: pilot.TextAppearance,
-      gear: pilot.ActiveLoadout.Gear.map(
-        gear => gear.Name + (gear.MaxUses ? ` x${gear.MaxUses}` : '')
+      gear: pilot.Loadout.Gear.map(gear =>
+        gear ? gear.Name + (gear.MaxUses ? ` x${gear.MaxUses}` : '') : ''
       ).join('\n'),
-      armor: pilot.ActiveLoadout.Armor.map(armor => ({
-        name: armor.Name,
-        armor: armor.Armor,
-        evade: armor.Evasion,
-        edef: armor.EDefense,
-        speed: armor.Speed,
-        bonusHP: armor.HPBonus,
-      }))[0],
-      weapons: pilot.ActiveLoadout.Weapons.map(weapon => ({
-        name: weapon.Name,
-        // filter out blast since it's never used as the only "range" really
-        range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
-        damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
-        type: weapon.Damage[0].Type,
-        tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
-      })).slice(0, 2),
+      armor: pilot.Loadout.Armor.map(armor =>
+        armor
+          ? {
+              name: armor.Name,
+              armor: armor.Armor,
+              evade: armor.Evasion,
+              edef: armor.EDefense,
+              speed: armor.Speed,
+              bonusHP: armor.HPBonus,
+            }
+          : null
+      )[0],
+      weapons: pilot.Loadout.Weapons.map(weapon =>
+        weapon
+          ? {
+              name: weapon.Name,
+              // filter out blast since it's never used as the only "range" really
+              range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
+              damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
+              type: weapon.Damage[0].Type,
+              tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
+            }
+          : null
+      ).slice(0, 2),
       licenses: pilot.Licenses.map(l => ({
         name: `${l.License.Source} ${l.License.Name}`,
         rank: l.Rank,
@@ -183,7 +192,9 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: weapon.Name,
         type: `${weapon.Size} ${weapon.Type}`,
         range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
-        altRanges: weapon.Range.filter(r => r.Type != RangeType.Range).map(r => r.Text).join('|'),
+        altRanges: weapon.Range.filter(r => r.Type != RangeType.Range)
+          .map(r => r.Text)
+          .join('|'),
         damage: weapon.Damage.map(dmg => dmg.Value).join('|'),
         damageType: weapon.Damage.map(dmg => dmg.Type).join('|'),
         tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),

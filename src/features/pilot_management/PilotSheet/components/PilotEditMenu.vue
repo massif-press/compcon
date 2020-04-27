@@ -30,7 +30,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.roll20Dialog.show()">
+        <!-- <v-list-item @click="$refs.roll20Dialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-dice-d20</v-icon>
           </v-list-item-icon>
@@ -40,7 +40,7 @@
               Copy JSON data that can be interpreted by the Roll20 LANCER sheet
             </v-list-item-subtitle>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
         <v-list-item @click="$refs.exportDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-export-variant</v-icon>
