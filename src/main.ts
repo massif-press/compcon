@@ -16,6 +16,8 @@ import Vuetify from 'vuetify/lib'
 import VueMousetrap from 'vue-mousetrap'
 import lancerData from 'lancer-data'
 
+import './registerServiceWorker'
+
 import theme from './ui/theme'
 
 import mixins from './mixins'
@@ -29,6 +31,7 @@ import { Capacitor } from '@capacitor/core'
 
 import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
 import 'tiptap-vuetify/dist/main.css'
+
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
