@@ -134,7 +134,7 @@
     </p>
 
     <div class="text-right">
-      <v-btn small text to="ui-test">UI Test</v-btn>
+      <v-btn small text to="./ui-test">UI Test</v-btn>
     </div>
   </div>
 </template>
@@ -166,7 +166,7 @@ export default Vue.extend({
     userTheme() {
       const store = getModule(CompendiumStore, this.$store)
       return store.UserProfile.Theme
-    }
+    },
   },
   created() {
     this.theme = this.userTheme

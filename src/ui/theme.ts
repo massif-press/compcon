@@ -1,8 +1,5 @@
 const themeDefaults = {
   frame: '#673AB7',
-  weapon: '#212121',
-  'mech-weapon': '#212121',
-  'pilot-weapon': '#212121',
   system: '#58b434',
   'mech-system': '#58b434',
   'pilot-gear': '#58b434',
@@ -94,6 +91,10 @@ const theme: any = {
         success: '#00C853',
         warning: '#FFAB00',
 
+        weapon: '#212121',
+        'mech-weapon': '#212121',
+        'pilot-weapon': '#212121',
+
         text: '#212121',
         subtle: '#9E9E9E',
         stark: '#000',
@@ -121,6 +122,10 @@ const theme: any = {
         info: '#569BEA',
         success: '#00C853',
         warning: '#FFAB00',
+
+        weapon: '#333333',
+        'mech-weapon': '#333333',
+        'pilot-weapon': '#333333',
 
         text: '#dbdbdb',
         subtle: '#b3b9ba',

@@ -29,8 +29,6 @@
           <v-combobox
             v-model="mission.Labels"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             label="User Labels"
@@ -165,7 +163,7 @@
       </v-row>
       <v-row dense>
         <v-col>
-          <v-btn block color="primary" outlined @click="$refs.selectDialog.show()">
+          <v-btn block color="accent" outlined @click="$refs.selectDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Encounter
           </v-btn>

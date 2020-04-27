@@ -140,6 +140,10 @@ class NpcStats {
     this._active = val
   }
 
+  public ClearBonuses(): void {
+    this._bonuses = NpcStats.Empty()
+  }
+
   public get Bonuses(): INpcStats {
     return this._bonuses
   }

@@ -34,14 +34,6 @@ const routes: RouteConfig[] = [
         path: '/gm/npc-roster',
         name: 'npc-roster',
         component: NpcRoster,
-        children: [
-          {
-            path: ':id',
-            name: 'npc',
-            component: NpcCard,
-            props: true,
-          },
-        ],
       },
       {
         path: '/gm/new-npc',

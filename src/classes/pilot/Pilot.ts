@@ -782,6 +782,10 @@ class Pilot {
     this.save()
   }
 
+  public resetHASE(): void {
+    this._mechSkills.Reset()
+  }
+
   public get CurrentHASEPoints(): number {
     return this._mechSkills.Sum
   }

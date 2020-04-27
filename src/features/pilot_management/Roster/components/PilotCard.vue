@@ -1,31 +1,42 @@
 <template>
-  <v-col cols="4">
+  <v-col :cols="small ? 2 : 4">
     <v-hover>
       <template v-slot:default="{ hover }">
         <v-card
           class="card-outline"
-          height="25vw"
+          :height="small ? '10vw' : '25vw'"
           tile
           flat
           @click="$router.push(`pilot/${pilot.ID}`)"
         >
           <div
             class="clipped-large"
-            style="
-              z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: var(--v-primary-base)"
+            :style="
+              `
+              z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
+                small ? '25' : '32'
+              }px; ${
+                small && hover ? 'opacity: 1' : 'opacity: 0.6'
+              }; background-color: var(--v-primary-base); transition: opacity 0.2s;`
+            "
           >
-            <span class="heading h2 white--text flavor-text ml-2" style="letter-spacing: 3px">
+            <div
+              :class="`heading ${small ? 'h3' : 'h2'} white--text flavor-text ml-2`"
+              style="letter-spacing: 3px; text-overflow: ellipsis;"
+            >
               {{ pilot.Callsign }}
-            </span>
+            </div>
           </div>
-          <div class="triangle" />
+          <div :class="small ? 'small-triangle' : 'triangle'" />
           <div class="ll">
-            <div class="overline mb-n1 text-right">LL</div>
-            <div class="heading h2 mt-n2">{{ pilot.Level }}</div>
+            <div v-if="!small" class="overline mb-n1 text-right">LL</div>
+            <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
+              {{ pilot.Level.toString().padStart(2, '0') }}
+            </div>
           </div>
           <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
           <v-fade-transition>
-            <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
+            <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8">
               <v-card flat tile class="flavor-text" light>
                 <v-card-text>
                   <b>{{ pilot.Name }}</b>
@@ -93,6 +104,9 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    small: {
+      type: Boolean,
+    },
   },
 })
 </script>
@@ -111,6 +125,18 @@ export default Vue.extend({
   height: 0;
   border-style: solid;
   border-width: 0 0 65px 65px;
+  z-index: 2;
+  border-color: transparent transparent var(--v-primary-base) transparent;
+}
+
+.small-triangle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 45px 45px;
   z-index: 2;
   border-color: transparent transparent var(--v-primary-base) transparent;
 }

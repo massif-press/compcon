@@ -2,21 +2,25 @@
   <v-container fluid>
     <v-row v-if="!npc" align="center" justify="center" style="width: 100%; height: 100%;">
       <v-col cols="auto">
-        <span class="heading h1 subtle--text text--lighten-2">no npc selected</span>
+        <span class="heading h1 light-panel--text">no npc selected</span>
       </v-col>
     </v-row>
     <div v-else>
       <v-row dense class="mt-n6">
         <v-col cols="10">
-          <span class="heading mech">
+          <div class="heading mech">
             <cc-short-string-editor large :placeholder="npc.Name" @set="npc.Name = $event">
-              <span
-                style="display:inline-block;  max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-              >
+              <span class="heading-block">
                 {{ npc.Name }}
               </span>
             </cc-short-string-editor>
-          </span>
+          </div>
+          <div class="flavor-text mt-n6 ml-2">
+            <cc-short-string-editor large :placeholder="npc.Subtitle" @set="npc.Subtitle = $event">
+              <b v-if="npc.Subtitle" class="heading-block stark--text" v-html="npc.Subtitle" />
+              <i v-else class="heading-block subtle--text" v-html="'Add GM Summary'" />
+            </cc-short-string-editor>
+          </div>
         </v-col>
         <v-col cols="auto" class="ml-auto text-center mt-1">
           <v-icon v-if="npc.Tier === 'custom'" size="60" :color="npc.Class.Color">
@@ -49,9 +53,8 @@
         <v-col>
           <v-combobox
             v-model="npc.Labels"
+            active-class="accent"
             outlined
-            small-chips
-            deletable-chips
             dense
             multiple
             background-color="stark-panel"
@@ -62,6 +65,7 @@
         <v-col>
           <v-combobox
             v-model="npc.Tag"
+            active-class="accent"
             background-color="stark-panel"
             outlined
             dense
@@ -72,6 +76,7 @@
         <v-col>
           <v-combobox
             v-model="npc.Campaign"
+            active-class="accent"
             background-color="stark-panel"
             outlined
             dense
@@ -270,7 +275,7 @@
         <v-col v-for="t in npc.Templates" :key="t.Name" cols="auto">
           <v-dialog width="50%">
             <template v-slot:activator="{ on }">
-              <v-btn block large outlined class="d-inline" v-on="on">
+              <v-btn block outlined class="d-inline" v-on="on">
                 {{ t.Name }}
               </v-btn>
             </template>
@@ -284,27 +289,52 @@
           </v-dialog>
         </v-col>
         <v-col cols="auto">
-          <v-btn small color="primary" tile outlined @click="$refs.templateDialog.show()">
+          <v-btn small color="accent" tile outlined @click="$refs.templateDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Template
           </v-btn>
         </v-col>
       </v-row>
-      <cc-title small :color="npc.Class.Color">
-        Features
-      </cc-title>
-      <v-row dense>
-        <v-col cols="12">
+      <v-row no-gutters>
+        <v-col cols="auto">
+          <cc-title small :color="npc.Class.Color">
+            Features
+          </cc-title>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn-toggle v-model="profile.NpcView" mandatory>
+            <v-btn small icon value="list">
+              <v-icon color="accent">mdi-view-list</v-icon>
+            </v-btn>
+            <v-btn small icon value="chips">
+              <v-icon color="accent">mdi-view-comfy</v-icon>
+            </v-btn>
+          </v-btn-toggle>
+        </v-col>
+      </v-row>
+      <v-row v-if="profile.NpcView === 'list'" dense>
+        <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" md="12" lg="12" xl="6">
           <cc-npc-item-card
+            :item="i"
+            @remove-feature="npc.RemoveFeature(i.Feature)"
+            @recalc="npc.RecalcBonuses()"
+          />
+        </v-col>
+      </v-row>
+      <v-row v-else-if="profile.NpcView === 'chips'" dense>
+        <v-chip-group column>
+          <cc-npc-item-chip
             v-for="(i, idx) in npc.Items"
             :key="i.Feature.ID + idx"
             :item="i"
             @remove-feature="npc.RemoveFeature(i.Feature)"
             @recalc="npc.RecalcBonuses()"
           />
-        </v-col>
+        </v-chip-group>
+      </v-row>
+      <v-row dense>
         <v-col cols="auto">
-          <v-btn color="primary" tile outlined @click="$refs.featureDialog.show()">
+          <v-btn color="accent" tile outlined @click="$refs.featureDialog.show()">
             <v-icon left>mdi-plus</v-icon>
             Add Feature
             <span v-if="npc.AvailableFeatures.length">
@@ -357,7 +387,8 @@ import FeatureSelector from './components/FeatureSelector.vue'
 import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
 import { getModule } from 'vuex-module-decorators'
-import { NpcStore } from '@/store'
+import { CompendiumStore, NpcStore } from '@/store'
+import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'npc-card',
@@ -368,20 +399,10 @@ export default Vue.extend({
     SizeAttribute,
   },
   props: {
-    id: {
-      type: String,
+    npc: {
+      type: Object,
       required: false,
       default: null,
-    },
-    labels: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
-    campaigns: {
-      type: Array,
-      required: false,
-      default: () => [],
     },
   },
   // TODO: put these in data
@@ -391,9 +412,17 @@ export default Vue.extend({
     tags: ['Mech', 'Vehicle', 'Ship', 'Biological', 'Squad'],
   }),
   computed: {
-    npc() {
+    labels() {
       const store = getModule(NpcStore, this.$store)
-      return store.Npcs.find(x => x.ID === this.id)
+      return store.Npcs.flatMap(x => x.Labels).filter(x => x)
+    },
+    campaigns() {
+      const store = getModule(NpcStore, this.$store)
+      return store.Npcs.map(x => x.Campaign).filter(x => x)
+    },
+    profile(): UserProfile {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile
     },
   },
   methods: {
@@ -408,3 +437,13 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style>
+.heading-block {
+  display: inline-block;
+  max-width: 90%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>

@@ -1,4 +1,3 @@
-|
 <template>
   <div style="height: 155px;">
     <div id="header-container">
@@ -50,10 +49,26 @@
                 {{ pilot.Background }}
               </span>
             </v-col>
-            <v-col v-if="pilot.Background" cols="auto" class="mr-3">
+            <v-col v-if="pilot.CloudID" cols="auto" class="mr-3">
+              <span class="overline lh">rm-4://(OMNINET UPLINK ID)</span>
+              <br />
+              <span style="display: block" class="stat-text white--text mt-n2">
+                {{ pilot.CloudID }}
+              </span>
+            </v-col>
+            <v-col cols="auto" class="mr-3">
               <span class="overline lh">rm-4://(IDENT)</span>
               <br />
-              <span style="display: block" class="stat-text white--text mt-n2">{{ pilot.ID }}</span>
+              <span style="display: block" class="stat-text white--text mt-n2">
+                <v-dialog>
+                  <template v-slot:activator="{ on }">
+                    <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
+                  </template>
+                  <v-sheet class="transparent">
+                    <pilot-registration-card :pilot="pilot" pilot-ready />
+                  </v-sheet>
+                </v-dialog>
+              </span>
             </v-col>
           </v-row>
         </v-col>
@@ -126,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import PilotRegistrationCard from './PilotRegistrationCard.vue'
 import LevelEditDialog from './LevelEditDialog.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
@@ -134,7 +149,7 @@ import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'pilot-header',
-  components: { LevelEditDialog },
+  components: { LevelEditDialog, PilotRegistrationCard },
 
   computed: {
     isLevelingUp(): boolean {

@@ -1,3 +1,59 @@
+## [2.0.28](https://github.com/jarena3/compcon/compare/2.0.27...2.0.28) (2020-04-10)
+
+
+### Bug Fixes
+
+* **Mission Runner:** hotfix for npc serialization issues ([474d4ed](https://github.com/jarena3/compcon/commit/474d4ed365254bc3ab6555b6b1e6ea5c412044de)), closes [#779](https://github.com/jarena3/compcon/issues/779) [#780](https://github.com/jarena3/compcon/issues/780) [#781](https://github.com/jarena3/compcon/issues/781)
+
+
+
+## [2.0.27](https://github.com/jarena3/compcon/compare/2.0.26...2.0.27) (2020-04-10)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** correctly limit cog menu for integrated items ([4cb8c92](https://github.com/jarena3/compcon/commit/4cb8c9296e2579f581d66e6ebbbdb64540ebb79c)), closes [#766](https://github.com/jarena3/compcon/issues/766)
+* **Mech Sheet:** prevent dialog from persisting after loadout deletion ([37b5542](https://github.com/jarena3/compcon/commit/37b55426df7c494def22e1fc1b92122e4cd53ece)), closes [#769](https://github.com/jarena3/compcon/issues/769)
+* **Mission Runner:** corrects issue with structure and stress for NPCS not being registered ([b3c6944](https://github.com/jarena3/compcon/commit/b3c69440b3b900cf5e3ec12c632dbd8aa5f352a3)), closes [#767](https://github.com/jarena3/compcon/issues/767)
+* **NPC Roster:** correct stat math on resetting npc tier change ([e8fae59](https://github.com/jarena3/compcon/commit/e8fae59b7ac47997dedb5d8c5c175984583d337d)), closes [#775](https://github.com/jarena3/compcon/issues/775)
+* **NPC Roster:** correct template math ([e943d8d](https://github.com/jarena3/compcon/commit/e943d8df8699133aec35d7cf98020e827d6de9c4)), closes [#778](https://github.com/jarena3/compcon/issues/778) [#777](https://github.com/jarena3/compcon/issues/777)
+* **NPC Roster:** fix label and campaign dropdowns on npc sheet ([7674ac0](https://github.com/jarena3/compcon/commit/7674ac0838b6c7342b215842ed85502b0d1b6ccc)), closes [#745](https://github.com/jarena3/compcon/issues/745)
+* correct some additional visual bugs with the new selectors ([752576e](https://github.com/jarena3/compcon/commit/752576ef26dee253b06d082198c0e271190c55bb))
+* fixes several color/visibility issues ([356a985](https://github.com/jarena3/compcon/commit/356a98561690f838a7968705d7c44e8674b720d3))
+
+
+### Features
+
+* **Mission Runner:** add pilot talents to mission runner pilot sheet ([601c93d](https://github.com/jarena3/compcon/commit/601c93d665348dc171ede2fb1b01f56767894480))
+
+
+
+## [2.0.26](https://github.com/jarena3/compcon/compare/2.0.25...2.0.26) (2020-04-07)
+
+
+### Bug Fixes
+
+* correct several styling issues ([0a09f15](https://github.com/jarena3/compcon/commit/0a09f15ee13930e49cd755a5dccf13654722f73a))
+
+
+
+## [2.0.25](https://github.com/jarena3/compcon/compare/2.0.24...2.0.25) (2020-04-07)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** corrects Apocalypse Rail information ([c214568](https://github.com/jarena3/compcon/commit/c2145682c684e836236997e4694cc6139de524a0)), closes [#760](https://github.com/jarena3/compcon/issues/760)
+
+
+### Features
+
+* **Compendium:** add new equipment browser to compendium ([43ae10f](https://github.com/jarena3/compcon/commit/43ae10f3ce6452c7df488505e0bf72a8e3eb3c25))
+* add new selector UI ([3e0ced8](https://github.com/jarena3/compcon/commit/3e0ced8a31715f55ceb705ccdc8ec8fcda46fd61)), closes [#748](https://github.com/jarena3/compcon/issues/748)
+* **Pilot Sheet:** add pilot registration view ([542a4cb](https://github.com/jarena3/compcon/commit/542a4cb39176a1b1896d1f92354800fed1e96054)), closes [#596](https://github.com/jarena3/compcon/issues/596)
+* **Pilot Sheet:** hASE reset button ([7fd5bc5](https://github.com/jarena3/compcon/commit/7fd5bc5bdfb09290d5b287ad454cd7981e4f1fe8)), closes [#747](https://github.com/jarena3/compcon/issues/747)
+
+
+
 ## [2.0.24](https://github.com/jarena3/compcon/compare/2.0.23...2.0.24) (2020-04-04)
 
 

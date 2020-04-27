@@ -1,13 +1,10 @@
 <template>
   <v-container fluid>
     <v-row class="mx-2 mt-n2 mb-2" no-gutters align="center">
-      <v-col>
-        <slot />
+      <v-col cols="auto">
+        <h1 class="heading accent--text"><slot /></h1>
       </v-col>
-      <v-col cols="auto" class="ml-auto mr-5">
-        <slot name="extra-item" />
-      </v-col>
-      <v-col cols="auto" class="mr-1">
+      <v-col cols="auto" class="ml-auto mr-2">
         <v-btn-toggle v-model="profile.SelectorView" mandatory>
           <v-btn small icon value="split">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
@@ -20,7 +17,6 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-divider vertical class="mx-2" />
       <v-col cols="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
@@ -38,35 +34,28 @@
       </v-col>
       <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
     </v-row>
-    <selector-table-view
+    <compendium-table-view
       v-if="profile.SelectorView === 'list'"
       :headers="headers"
       :items="fItems"
-      @equip="$emit('equip', $event)"
     />
-    <selector-split-view
-      v-else-if="profile.SelectorView === 'split'"
-      :headers="headers"
-      :items="fItems"
-      @equip="$emit('equip', $event)"
-    />
-    <div v-else />
+    <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
   </v-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import ItemFilter from '@/classes/utility/ItemFilter'
-import SelectorTableView from './views/_SelectorTableView.vue'
-import SelectorSplitView from './views/_SelectorSplitView.vue'
 import { accentInclude } from '@/classes/utility/accent_fold'
+import CompendiumSplitView from './views/CompendiumSplitView.vue'
+import CompendiumTableView from './views/CompendiumTableView.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
-  name: 'cc-selector-table',
-  components: { SelectorTableView, SelectorSplitView },
+  name: 'compendium-browser',
+  components: { CompendiumTableView, CompendiumSplitView },
   props: {
     headers: {
       type: Array,
@@ -79,11 +68,6 @@ export default Vue.extend({
     noFilter: {
       type: Boolean,
       required: false,
-    },
-    itemTypeFallback: {
-      type: String,
-      required: false,
-      default: '',
     },
   },
   data: () => ({
@@ -110,7 +94,7 @@ export default Vue.extend({
     },
   },
   created() {
-    if (!this.itemType) this.itemType = this.itemTypeFallback
+    this.itemType = this.items[0].ItemType
   },
   methods: {
     setFilters(newFilter) {
@@ -119,9 +103,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-</style>
