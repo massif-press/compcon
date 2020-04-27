@@ -27,6 +27,17 @@ class ReactionEffect extends ItemEffect {
     this.activation = ActivationType.Reaction
     this.effectType = EffectType.Reaction
   }
+
+  public toString() {
+    return [
+      'Activation: ' + this.activation,
+      (this.Name || '').toUpperCase() + ' // ' + this.Frequency,
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Init,
+      'Trigger: ' + this.Trigger,
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IReactionEffectData, ReactionEffect }

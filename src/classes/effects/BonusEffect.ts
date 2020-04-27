@@ -31,6 +31,23 @@ class BonusEffect extends ItemEffect {
     this.activation = ActivationType.None
     this.effectType = EffectType.Bonus
   }
+
+  public toString() {
+    return [
+      'Activation: ' + this.activation + '   Type: ' + this.effectType,
+      (this.Name || '').toUpperCase(),
+      [
+        '//',
+        this.Size ? 'Size: ' + this.Size : '',
+        this.HP ? 'HP: ' + this.HP : '',
+        this.Armor ? 'Armor: ' + this.Armor : '',
+        this.Evasion ? 'Evasion: ' + this.Evasion : '',
+        this.EDef ? 'E-defense: ' + this.EDef : '',
+      ].filter(el => el !== '').join('   '),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IBonusEffectData, BonusEffect }

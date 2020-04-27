@@ -30,6 +30,17 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="$refs.roll20Dialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-dice-d20</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Convert to Roll20</v-list-item-title>
+            <v-list-item-subtitle>
+              Copy JSON data that can be interpreted by the Roll20 LANCER sheet
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item @click="$refs.exportDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-export-variant</v-icon>
@@ -84,6 +95,9 @@
     <print-dialog ref="printDialog" :pilot="pilot" />
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
+
+    <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
+
     <cloud-dialog ref="cloudDialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
     <cloud-manager ref="cloud" :pilot="pilot" />
@@ -96,6 +110,7 @@ import Vue from 'vue'
 import CloudManager from './CloudManager.vue'
 import CloudDialog from './CloudDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
+import Roll20Dialog from './Roll20Dialog.vue'
 import ExportDialog from './ExportDialog.vue'
 import PrintDialog from './PrintDialog.vue'
 import DeleteDialog from './DeletePilotDialog.vue'
@@ -109,6 +124,7 @@ export default Vue.extend({
     CloudManager,
     CloudDialog,
     StatblockDialog,
+    Roll20Dialog,
     ExportDialog,
     PrintDialog,
     DeleteDialog,
