@@ -23,6 +23,16 @@ class AIEffect extends ItemEffect {
     this.activation = ActivationType.None
     this.effectType = EffectType.AI
   }
+
+  public toString() {
+    return [
+      'Type: ' + this.effectType,
+      (this.Name || '').toUpperCase(),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+      this.Abilities.map(a => a.toString()).join('\n'),
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IAIData, AIEffect }
