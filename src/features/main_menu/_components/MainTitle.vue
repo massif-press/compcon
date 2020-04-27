@@ -3,6 +3,7 @@
     <div
       style="position: absolute; z-index: 2; height: 43px; left: 0; right: 0; top: 0; bottom: 20px; background-color: var(--v-primary-base); text-align: right"
     >
+      <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" />
       <v-btn
         v-extlink="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
         dark
@@ -50,8 +51,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import UpdateChecker from './UpdateChecker.vue'
+
 export default Vue.extend({
   name: 'cci-banner',
+  components: { UpdateChecker }
 })
 </script>
 

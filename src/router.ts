@@ -7,6 +7,8 @@ import compendiumRoutes from './features/compendium/routes'
 import { getModule } from 'vuex-module-decorators'
 import { NavStore, store } from '@/store'
 
+import updateChecker from '@/classes/utility/UpdateChecker'
+
 // import { Capacitor } from '@capacitor/core'
 
 Vue.use(Router)
@@ -63,6 +65,10 @@ r.beforeEach((to, from, next) => {
   ns.initDarkMode()
 
   next()
+})
+
+r.afterEach(() => {
+  updateChecker.checkUpdates()
 })
 
 export default r

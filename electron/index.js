@@ -4,7 +4,8 @@ const { CapacitorSplashScreen } = require('@capacitor/electron');
 
 const path = require('path');
 
-require('electron-reload')(__dirname);
+
+if (isDevMode) require('electron-reload')(__dirname);
 
 // Place holders for our windows so they don't get garbage collected.
 let mainWindow = null;
