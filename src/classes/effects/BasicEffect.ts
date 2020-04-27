@@ -16,6 +16,15 @@ class BasicEffect extends ItemEffect {
     this.activation = data.activation || ActivationType.None
     this.effectType = EffectType.Basic
   }
+
+  public toString() {
+    return [
+      'Activation: ' + this.activation,
+      (this.Name || '').toUpperCase(),
+      this.Tags.length ? 'Tags: ' + this.Tags : '',
+      this.Detail,
+    ].filter(el => el !== '').join('\n');
+  }
 }
 
 export { IBasicEffectData, BasicEffect }
