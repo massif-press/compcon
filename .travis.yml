@@ -17,6 +17,7 @@ before_cache:
 
 stages:
   # - name: test
+  -
   - name: build
     if: tag IS present
 
@@ -30,7 +31,8 @@ jobs:
     #     - yarn unit-test	
     #     - yarn int-test	
     #     - yarn build --linux --publish never
-    - name: build_web	
+    - stage: build
+      name: build_web	
       os: linux	
       script:	
         - yarn build --progress=false	
@@ -46,8 +48,7 @@ jobs:
         on:
           tags: true
           branch: master
-    - stage: build
-      name: build_electron
+    - name: build_electron
       os: osx
       osx_image: xcode10.2
       script:
