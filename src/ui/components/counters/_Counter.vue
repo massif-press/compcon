@@ -2,24 +2,26 @@
   <v-card v-if="counter" tile outlined color="primary" width="200px" min-width="200px">
     <v-card-title class="white--text py-2 d-flex">
       <span class="subtitle-2">{{ counter.Name }}</span>
-      <v-btn
-        v-if="counterData.custom"
-        class="ml-auto fadeSelect"
-        dark
-        icon
-        x-small
-        @click="$emit('delete')"
-      >
-        <v-icon small>delete</v-icon>
-      </v-btn>
+      <v-spacer />
+      <cc-tooltip simple content="Reset Counter">
+        <v-btn class="fadeSelect" dark icon x-small @click="counter.Reset()">
+          <v-icon small>mdi-reload</v-icon>
+        </v-btn>
+      </cc-tooltip>
+
+      <cc-tooltip v-if="counterData.custom" simple content="Delete Counter">
+        <v-btn class="fadeSelect ml-1" dark icon x-small @click="$emit('delete')">
+          <v-icon small>delete</v-icon>
+        </v-btn>
+      </cc-tooltip>
     </v-card-title>
-    <v-card-text class="background pb-2">
+    <v-card-text class="background pb-0">
       <v-row justify="center" class="counterContent">
         <v-col cols="auto">
           <v-btn
             small
             icon
-            color="primary"
+            color="accent"
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()"
           >
@@ -48,7 +50,7 @@
             small
             icon
             elevation="0"
-            color="primary"
+            color="accent"
             :disabled="counter.Value >= counter.Max"
             @click="counter.Increment()"
           >
@@ -56,9 +58,6 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-btn tile outlined color="primary" block small @click="counter.Reset()">
-        Reset
-      </v-btn>
     </v-card-text>
   </v-card>
 </template>
@@ -67,10 +66,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Counter } from '@/class'
-import activePilot from '../../mixins/activePilot'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
-import { Pilot } from '@/class'
 
 @Component({
   props: {
@@ -78,13 +73,15 @@ import { Pilot } from '@/class'
       type: Object,
       required: true,
     },
+    saveData: {
+      type: Array,
+      required: true,
+    },
   },
-  mixins: [activePilot],
   watch: {
     counter: {
       handler(val: Counter) {
-        ;(this.pilot as Pilot).saveCounter(val.Serialize())
-        getModule(PilotManagementStore, this.$store).saveData()
+        this.$emit('update', val)
       },
       deep: true,
     },
@@ -93,19 +90,19 @@ import { Pilot } from '@/class'
 export default class CounterComponent extends Vue {
   public counter: Counter = null
 
-  created() {
+  created(): void {
     this.counter = new Counter(this.$props.counterData)
 
-    const data = (this as any).pilot.CounterSaveData.find(data => data.id === this.counter.ID)
+    const data = this.$props.saveData.find(data => data.id === this.counter.ID)
     if (data) this.counter.LoadData(data)
   }
 
   public dirty = false
-  onInput() {
+  onInput(): void {
     this.dirty = true
   }
 
-  onInputEnterOrLeave(e: FocusEvent | InputEvent) {
+  onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
     const element = e.target as HTMLInputElement
 
     const val = parseInt(element.value)

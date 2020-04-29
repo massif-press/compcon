@@ -412,9 +412,10 @@
       </cc-active-card>
     </v-row>
 
-    <v-divider class="my-2" />
+    <div class="overline">COUNTERS</div>
+    <cc-counter-set :actor="mech.Pilot" />
 
-    <div class="overline">LOADOUT</div>
+    <div class="overline mt-n6">LOADOUT</div>
     <v-row dense>
       <player-equipment-item
         v-for="(i, idx) in mech.ActiveLoadout.Equipment"

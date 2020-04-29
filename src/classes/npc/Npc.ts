@@ -5,6 +5,7 @@ import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
+import { ICounterData } from '@/interface'
 
 export interface INpcData {
   active: boolean
@@ -31,6 +32,8 @@ export interface INpcData {
   destroyed: boolean
   defeat: string
   actions: number
+  counter_data: ICounterSaveData[]
+  custom_counters: object[]
   cc_ver: string
 }
 
@@ -360,6 +363,52 @@ export class Npc implements IActor {
     else return getImagePath(ImageTag.Frame, 'nodata.png', true)
   }
 
+  // -- COUNTERS ----------------------------------------------------------------------------------
+
+  private _counterSaveData = []
+  public get CounterSaveData(): ICounterSaveData[] {
+    return this._counterSaveData
+  }
+  public saveCounter(inputData: ICounterSaveData): void {
+    const index = this._counterSaveData.findIndex(datum => datum.id === inputData.id)
+    if (index < 0) {
+      this._counterSaveData = [...this._counterSaveData, inputData]
+    } else {
+      this._counterSaveData[index] = inputData
+      this._counterSaveData = [...this._counterSaveData]
+    }
+    this.save()
+  }
+
+  private _customCounters: ICounterData[] = []
+  public get CustomCounterData(): ICounterData[] {
+    return this._customCounters || []
+  }
+
+  public createCustomCounter(name: string): void {
+    const counter = {
+      name,
+      id: uuid(),
+      custom: true,
+    }
+    this._customCounters = [...this._customCounters, counter]
+    this.save()
+  }
+
+  public deleteCustomCounter(id: string): void {
+    const index = this._customCounters.findIndex(c => c.custom && c.id === id)
+    if (index > -1) {
+      this._customCounters.splice(index, 1)
+      this._customCounters = [...this._customCounters]
+    }
+    this.save()
+  }
+
+  public get CounterData(): ICounterData[] {
+    // TODO: handle features that require a counter
+    return [this.CustomCounterData].flat().filter(x => x)
+  }
+
   // -- Encounter Management ----------------------------------------------------------------------
 
   public get CurrentStructure(): number {
@@ -576,6 +625,8 @@ export class Npc implements IActor {
       destroyed: npc._destroyed,
       defeat: npc._defeat,
       actions: npc._actions,
+      counter_data: npc.CounterSaveData,
+      custom_counters: npc.CustomCounterData,
       cc_ver: npc.cc_ver,
     }
   }
@@ -609,6 +660,8 @@ export class Npc implements IActor {
     npc._actions = data.actions || 1
     npc._destroyed = data.destroyed || false
     npc._defeat = data.defeat || ''
+    npc._counterSaveData = data.counter_data || []
+    npc._customCounters = (data.custom_counters as ICounterData[]) || []
     npc.cc_ver = data.cc_ver
     return npc
   }

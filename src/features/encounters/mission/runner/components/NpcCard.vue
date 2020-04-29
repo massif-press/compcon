@@ -261,6 +261,10 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <div class="overline">COUNTERS</div>
+    <cc-counter-set :actor="npc" />
+
     <v-row no-gutters>
       <v-col cols="auto">
         <div class="overline">FEATURES</div>
