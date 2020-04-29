@@ -26,7 +26,6 @@ export class NpcStore extends VuexModule {
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {
     this.Npcs = [...payload.map(x => Npc.Deserialize(x))]
-    saveNpcData(this.Npcs)
   }
 
   @Mutation
@@ -42,8 +41,8 @@ export class NpcStore extends VuexModule {
 
   @Mutation
   private [CLONE_NPC](payload: Npc): void {
-    let npcData = Npc.Serialize(payload)
-    let newNpc = Npc.Deserialize(npcData)
+    const npcData = Npc.Serialize(payload)
+    const newNpc = Npc.Deserialize(npcData)
     newNpc.RenewID()
     newNpc.Name += ' (COPY)'
     this.Npcs.push(newNpc)
@@ -93,7 +92,7 @@ export class NpcStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadNpcs() {
-    const pilotData = await loadData<INpcData>('npcs_v2.json')
-    this.context.commit(LOAD_NPCS, pilotData)
+    const npcData = await loadData<INpcData>('npcs_v2.json')
+    this.context.commit(LOAD_NPCS, npcData)
   }
 }

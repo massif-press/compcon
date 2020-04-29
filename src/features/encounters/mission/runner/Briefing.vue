@@ -168,11 +168,9 @@ export default Vue.extend({
       if (idx > -1) this.pilots.splice(idx, 1)
     },
     startMission() {
-      console.log('constructing new mission')
       const m = new ActiveMission(this.mission, this.pilots)
       const store = getModule(MissionStore, this.$store)
       store.addActiveMission(m)
-      console.log(m)
       this.$router.push({ name: 'mission-runner', params: { id: m.ID } })
     },
   },

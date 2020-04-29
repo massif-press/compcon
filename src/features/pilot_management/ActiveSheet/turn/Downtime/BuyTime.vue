@@ -119,7 +119,6 @@ export default Vue.extend({
         nr.ResourceCost = 'Only a little time, and only if drastic measures are taken right now'
       else if (this.skillRoll < 20)
         nr.ResourceCost = 'The situation becomes precarious or desperate'
-      console.log(this.pilot.Reserves)
       this.pilot.Reserves.push(nr)
       this.close()
     },

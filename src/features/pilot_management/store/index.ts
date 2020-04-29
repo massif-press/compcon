@@ -39,7 +39,7 @@ export class PilotManagementStore extends VuexModule {
     // should maybe validate in the action instead of the mutator...
     // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
     this.Pilots = [...payload.map(x => Pilot.Deserialize(x))]
-    savePilots(this.Pilots)
+    // savePilots(this.Pilots)
   }
 
   @Mutation

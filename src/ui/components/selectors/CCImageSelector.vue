@@ -189,7 +189,6 @@ export default Vue.extend({
         ],
       })
       if (!path) return
-      console.log(path[0])
       await addImage(this.type, path[0])
       await this.importAll()
       this.$forceUpdate()
