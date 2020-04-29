@@ -349,6 +349,10 @@ export class Npc implements IActor {
     return this._local_image
   }
 
+  public get HasImage(): boolean {
+    return !!this._cloud_image || !!this._local_image
+  }
+
   public get Image(): string {
     if (this._cloud_image) return this._cloud_image
     else if (Capacitor.platform !== 'web' && this._local_image)
