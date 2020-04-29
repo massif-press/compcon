@@ -188,6 +188,7 @@ declare interface IMechData {
   current_heat: number
   current_repairs: number
   current_overcharge: number
+  current_core_energy: number
   loadouts: IMechLoadoutData[]
   active_loadout_index: number
   statuses: string[]

@@ -261,7 +261,7 @@ export default Vue.extend({
     },
     hpResistance(): boolean {
       if (this.mech.Resistances.length === 1 && this.mech.Resistances[0] === 'Heat') return false
-      return this.mech.Resistances.length
+      return !!this.mech.Resistances.length
     },
     hpColor(): string {
       if (this.mech.Resistances.length) {

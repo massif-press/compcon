@@ -555,7 +555,7 @@ class Mech implements IActor {
   }
 
   public set CurrentCoreEnergy(energy: number) {
-    this._current_core_energy = energy < 1 ? 0 : 1
+    this._current_core_energy = energy
     this.save()
   }
 
@@ -901,6 +901,7 @@ class Mech implements IActor {
       current_heat: m._current_heat,
       current_repairs: m._current_repairs,
       current_overcharge: m._current_overcharge,
+      current_core_energy: m._current_core_energy,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
       active_loadout_index: m.Loadouts.findIndex(x => x.ID === m.ActiveLoadout.ID),
       statuses: m._statuses,
@@ -935,6 +936,7 @@ class Mech implements IActor {
     m._current_heat = data.current_heat
     m._current_repairs = data.current_repairs
     m._current_overcharge = data.current_overcharge || 0
+    m._current_core_energy = data.current_core_energy != null ? data.current_core_energy : 1
     m._cc_ver = data.cc_ver
     if (
       data.active_loadout_index === null ||
