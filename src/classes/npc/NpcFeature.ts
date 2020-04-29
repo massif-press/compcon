@@ -24,6 +24,7 @@ export interface INpcFeatureData {
   override?: object
   tags: ITagData[]
   brew: string
+  hide_active: boolean
   type: NpcFeatureType
 }
 
@@ -37,6 +38,7 @@ export abstract class NpcFeature {
   private _locked: boolean
   private _tags: ITagData[]
   private _brew: string
+  private _hide_active: boolean
   protected type: NpcFeatureType
 
   public constructor(data: INpcFeatureData) {
@@ -49,6 +51,7 @@ export abstract class NpcFeature {
     this._locked = data.locked || false
     this._tags = data.tags
     this._brew = data.brew || 'CORE'
+    this._hide_active = data.hide_active || false
   }
 
   public get ID(): string {
@@ -113,6 +116,10 @@ export abstract class NpcFeature {
 
   public get Tags(): Tag[] {
     return Tag.Deserialize(this._tags)
+  }
+
+  public get HideActive(): boolean {
+    return this._hide_active
   }
 
   public get FeatureType(): NpcFeatureType {
