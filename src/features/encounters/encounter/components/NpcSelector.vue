@@ -44,7 +44,7 @@
           <span
             class="accent--text heading clickable ml-n2"
             @click="
-              $vuetify.goTo(`#e_${item.ID}`, {
+              $vuetify.goTo(`#${generateNpcElementId(item)}`, {
                 duration: 150,
                 easing: 'easeInOutQuad',
                 offset: 25,
@@ -63,7 +63,7 @@
     <div v-if="!npcs.length" class="subtle--text heading h2 text-center">
       // NO NPCS AVAILABLE //
     </div>
-    <v-row v-for="(npc, i) in npcs" :id="`e_${npc.ID}`" :key="`${npc.ID}_${i}`">
+    <v-row v-for="(npc, i) in npcs" :id="generateNpcElementId(npc)" :key="`${npc.ID}_${i}`">
       <v-col class="pl-0 mb-2">
         <npc-panel :npc="npc">
           <div>
@@ -120,6 +120,11 @@ export default Vue.extend({
   created() {
     const compendium = getModule(NpcStore, this.$store)
     this.npcs = compendium.Npcs
+  },
+  methods: {
+    generateNpcElementId: function(npc) {
+      return `e_${this._uid}_${npc.ID}`
+    },
   },
 })
 </script>
