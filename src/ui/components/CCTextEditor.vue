@@ -84,11 +84,11 @@ export default Vue.extend({
     ],
   }),
   created() {
-    this.notes = this.original || ''
+    this.text = this.original || ''
   },
   methods: {
     show() {
-      this.notes = this.original || ''
+      this.text = this.original || ''
       this.$refs.dialog.show()
     },
   },
