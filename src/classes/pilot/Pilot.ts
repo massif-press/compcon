@@ -896,12 +896,14 @@ class Pilot {
       this._counterSaveData[index] = inputData
       this._counterSaveData = [...this._counterSaveData]
     }
+    this.save()
   }
 
   private _customCounters: ICounterData[] = []
   public get CustomCounterData(): ICounterData[] {
     return this._customCounters || []
   }
+
   public createCustomCounter(name: string): void {
     const counter = {
       name,
@@ -909,13 +911,16 @@ class Pilot {
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
+    this.save()
   }
+
   public deleteCustomCounter(id: string): void {
     const index = this._customCounters.findIndex(c => c.custom && c.id === id)
     if (index > -1) {
       this._customCounters.splice(index, 1)
       this._customCounters = [...this._customCounters]
     }
+    this.save()
   }
 
   public get CounterData(): ICounterData[] {

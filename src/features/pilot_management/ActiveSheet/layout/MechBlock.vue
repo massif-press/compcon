@@ -203,7 +203,7 @@
           </cc-active-card>
         </v-col>
       </v-row>
-
+      <cc-counter-set :actor="pilot" />
       <cc-mech-loadout :mech="mech" readonly />
     </div>
   </div>

@@ -6,7 +6,7 @@
     :elevation="creating ? 12 : 0"
     class="clipped-large text-center"
     width="200px"
-    height="145px"
+    height="118px"
   >
     <transition name="fade">
       <v-card-text
@@ -69,20 +69,20 @@ import Component from 'vue-class-component'
 export default class NewCounter extends Vue {
   creating = false
 
-  name: string = ''
+  name = ''
 
-  async startCreating() {
+  async startCreating(): Promise<void> {
     this.creating = true
     await Vue.nextTick()
     ;(this.$refs.nameField as any).focus()
   }
 
-  cancel() {
+  cancel(): void {
     this.name = ''
     this.creating = false
   }
 
-  create() {
+  create(): void {
     if (!this.name) return
     this.$emit('create', this.name)
     this.name = ''
