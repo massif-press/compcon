@@ -160,7 +160,6 @@ export default Vue.extend({
   }),
   methods: {
     react() {
-      console.log(this.actor.ID)
       this.actor.AddReaction(this.reaction)
       this.reaction = ''
       this.close()

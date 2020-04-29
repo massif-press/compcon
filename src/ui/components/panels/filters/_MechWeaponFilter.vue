@@ -174,7 +174,7 @@ export default Vue.extend({
       this.damageTypeFilter = []
     },
     updateFilters() {
-      let fObj = {} as any
+      const fObj = {} as any
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.weaponTypeFilter && this.weaponTypeFilter.length) fObj.Type = [this.weaponTypeFilter]
@@ -183,7 +183,6 @@ export default Vue.extend({
         fObj.RangeType = this.attackTypeFilter
       if (this.damageTypeFilter && this.damageTypeFilter.length)
         fObj.DamageType = this.damageTypeFilter
-      console.log(fObj)
       this.$emit('set-filters', fObj)
     },
   },

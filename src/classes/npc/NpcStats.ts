@@ -41,6 +41,8 @@ class NpcStats {
     return {
       activations: 0,
       armor: 0,
+      structure: 0,
+      stress: 0,
       hp: 0,
       evade: 0,
       edef: 0,
@@ -54,8 +56,6 @@ class NpcStats {
       engineering: 0,
       sizes: [],
       size: 0,
-      structure: 0,
-      stress: 0,
       reactions: [],
     }
   }
@@ -63,6 +63,8 @@ class NpcStats {
   public static FromClass(npcClass: NpcClass, tier: number): NpcStats {
     const s = new NpcStats({
       activations: npcClass.Stats.Activations(tier),
+      structure: npcClass.Stats.Structure(tier),
+      stress: npcClass.Stats.Stress(tier),
       armor: npcClass.Stats.Armor(tier),
       hp: npcClass.Stats.HP(tier),
       evade: npcClass.Stats.Evade(tier),
@@ -77,8 +79,6 @@ class NpcStats {
       engineering: npcClass.Stats.Engineering(tier),
       sizes: npcClass.Stats.Sizes(tier),
       size: npcClass.Stats.Sizes(tier)[0],
-      structure: npcClass.Stats.Structure(tier),
-      stress: npcClass.Stats.Stress(tier),
       reactions: ['Overwatch'],
       bonuses: NpcStats.Empty(),
       overrides: NpcStats.Empty(),
@@ -90,6 +90,8 @@ class NpcStats {
     return new NpcStats({
       activations: max.Activations,
       armor: max.Armor,
+      structure: max.Structure,
+      stress: max.Stress,
       hp: max.HP,
       evade: max.Evade,
       edef: max.EDefense,
@@ -103,8 +105,6 @@ class NpcStats {
       engineering: max.Engineering,
       sizes: max.Sizes,
       size: max.Size,
-      structure: max.Structure,
-      stress: max.Stress,
       reactions: ['Overwatch'],
       bonuses: NpcStats.Empty(),
       overrides: NpcStats.Empty(),
@@ -113,6 +113,8 @@ class NpcStats {
 
   public Reset(max: NpcStats): void {
     this._stats.activations = max.Stats.activations
+    this._stats.structure = max.Stats.structure
+    this._stats.stress = max.Stats.stress
     this._stats.armor = max.Stats.armor
     this._stats.hp = max.Stats.hp
     this._stats.evade = max.Stats.evade
@@ -127,8 +129,6 @@ class NpcStats {
     this._stats.engineering = max.Stats.engineering
     this._stats.sizes = max.Stats.sizes
     this._stats.size = max.Stats.size
-    this._stats.structure = max.Stats.structure
-    this._stats.stress = max.Stats.stress
     this._stats.reactions = ['Overwatch']
   }
 
@@ -357,6 +357,8 @@ class NpcStats {
     return {
       activations: item.Stats.activations,
       armor: item.Stats.armor,
+      structure: item.Stats.structure,
+      stress: item.Stats.stress,
       hp: item.Stats.hp,
       evade: item.Stats.evade,
       edef: item.Stats.edef,
@@ -370,8 +372,6 @@ class NpcStats {
       engineering: item.Stats.engineering,
       sizes: item.Stats.sizes,
       size: item.Stats.size,
-      structure: item.Stats.structure,
-      stress: item.Stats.stress,
       reactions: item.Stats.reactions,
       bonuses: item.Bonuses,
       overrides: item.Overrides,

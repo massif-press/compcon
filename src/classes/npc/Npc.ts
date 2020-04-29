@@ -590,10 +590,11 @@ export class Npc implements IActor {
     npc._tag = data.tag
     npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
     npc._items = data.items.map(x => NpcItem.Deserialize(x))
+    npc._stats = NpcStats.Deserialize(data.stats)
+    npc.RecalcBonuses()
     npc._note = data.note
     npc._cloud_image = data.cloudImage
     npc._local_image = data.localImage
-    npc._stats = NpcStats.Deserialize(data.stats)
     npc._current_stats = data.currentStats
       ? NpcStats.Deserialize(data.currentStats)
       : NpcStats.FromMax(npc._stats)
@@ -605,7 +606,6 @@ export class Npc implements IActor {
     npc._destroyed = data.destroyed || false
     npc._defeat = data.defeat || ''
     npc.cc_ver = data.cc_ver
-    npc.RecalcBonuses()
     return npc
   }
 }
