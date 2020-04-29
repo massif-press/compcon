@@ -11,7 +11,7 @@ export class NpcReaction extends NpcFeature {
 
   public constructor(data: INpcReactionData) {
     super(data)
-    this._trigger = data.trigger
+    this._trigger = data.trigger || ''
     this.type = NpcFeatureType.Reaction
   }
 

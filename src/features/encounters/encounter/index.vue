@@ -145,7 +145,6 @@ export default Vue.extend({
   },
   methods: {
     deleteEncounter(encounter: Encounter) {
-      this.$router.push({ name: 'encounter', params: {} })
       const store = getModule(EncounterStore, this.$store)
       store.deleteEncounter(encounter)
     },

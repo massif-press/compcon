@@ -54,7 +54,6 @@
     },
     {
       "name": "Aphyria",
-      "website": "https://https://berniesanders.com/",
       "blurb": "When the whole world's on fire, everybody feels the burn.<br>(Avatar by Michelle Hoefener)",
       "image": "https://cdn.discordapp.com/attachments/673952684381831169/674667123188039711/Kia_Avatar.jpg"
     },
@@ -65,28 +64,19 @@
     {
       "name": "Hetros",
       "website": "http://www.patreon.com/towergirls",
-      "twitter": "BernieSanders",
-      "blurb": "",
       "image": "https://cdn.discordapp.com/attachments/235563694891859969/675546668371935256/kp2.png"
+    },
+    {
+      "name": "Onno Inada"
     }
   ],
   "t4": [
-    {
-      "name": "WHITESPINE",
-      "website": "https://berniesanders.com/"
-    },
-    {
-      "name": "ArsèneLupin42",
-      "website": "https://berniesanders.com/"
-    },
-    {
-      "name": "squeakanine",
-      "website": "https://berniesanders.com/"
-    },
-    {
-      "name": "Ginger",
-      "website": "https://berniesanders.com/"
-    }
+    { "name": "Adam Harrington" },
+    { "name": "akn318" },
+    { "name": "WHITESPINE" },
+    { "name": "ArsèneLupin42" },
+    { "name": "squeakanine" },
+    { "name": "Ginger" }
   ],
   "t3": [
     "MeckaMecha",
@@ -98,7 +88,10 @@
     "Xen",
     "Joe Halberstadt",
     "Adam Millson",
-    "Mike Michael Karamchandani"
+    "Mike Michael Karamchandani",
+    "Mason Hochstetler",
+    "Richard Moon",
+    "Thom Black"
   ],
   "t2": [
     "Classical_Bass",
@@ -108,7 +101,22 @@
     "R0bobot",
     "Ragu",
     "Knifes",
-    "Double A"
+    "Double A",
+    "No thank you",
+    "Crusader Knight",
+    "Ian Auger-Juul",
+    "Abbott Veldhuizen",
+    "Marcus Yonce",
+    "Jacob Hoey",
+    "Jack Lemmer",
+    "Nice",
+    "Vincent",
+    "Amos Isom",
+    "Jordan Ritz",
+    "John Machin",
+    "David Stanfield",
+    "Rowan Brown",
+    "Connor Best"
   ],
   "t1": [
     "James Goldsworthy",
@@ -133,7 +141,49 @@
     "Elesday",
     "Mithril_Toaster",
     "Ryan Borja",
-    "Jack P"
+    "Jack P",
+    "patrick morrissey",
+    "Tyler Schuster",
+    "JonNotJon",
+    "Brendon Butler",
+    "Jack Purcell",
+    "Scott Evans",
+    "Duke Kayn",
+    "Mike",
+    "Kent Hay",
+    "Al Billings",
+    "TJRHTK",
+    "Cameron Colgate",
+    "Connor Townsend",
+    "Jude",
+    "Jonathan Lin",
+    "Sean Richmond",
+    "glitchghoul",
+    "Jenny",
+    "JadeFalcon777",
+    "Paul Lagasse",
+    "JD Cole",
+    "Ellen McCauley",
+    "Elijah Kolesar",
+    "TheCalicoKid",
+    "Jack Darby",
+    "Tony Sorrentino",
+    "Bubu",
+    "Internationale Skeleton",
+    "Chris Walker",
+    "Patrick Taylor",
+    "Jackson Maxey",
+    "DandyAndyJ",
+    "Matthew Watts",
+    "Rhaplanca",
+    "Arthur Lace",
+    "Shane Boras",
+    "Brandan Drury",
+    "Steven Simeone",
+    "Halae",
+    "Howard Hansen",
+    "Alison",
+    "Alexander Hickman"
   ],
   "special_thanks": [
     "#!",

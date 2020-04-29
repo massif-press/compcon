@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12">
-    <v-card color="amber accent-4">
+    <v-card color="primary">
       <v-card-text class="pa-1">
         <v-row dense>
           <v-col cols="auto" class="mr-2 ml-2">

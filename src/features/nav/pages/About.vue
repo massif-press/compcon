@@ -64,23 +64,23 @@
         />
         of:
       </span>
-      <v-row justify="center">
+      <v-row>
         <tier-five v-for="c in credits.t5" :key="c.name" :info="c" />
       </v-row>
-      <v-row dense justify="center">
+      <v-row dense>
         <tier-four v-for="c in credits.t4" :key="c.name" :info="c" />
       </v-row>
-      <v-row dense justify="center">
+      <v-row dense>
         <tier-three v-for="c in credits.t3" :key="c" :name="c" />
       </v-row>
-      <v-row dense justify="center">
+      <v-row dense>
         <tier-two v-for="c in credits.t2" :key="c" :name="c" />
       </v-row>
-      <v-row dense justify="center">
+      <v-row dense>
         <tier-one v-for="c in credits.t1" :key="c" :name="c" />
       </v-row>
-      <span class="heading h2 text--text text-center mt-4">Special Thanks to:</span>
-      <div class="text-center my-2">
+      <span class="heading h2 text--text mt-4">Special Thanks to:</span>
+      <div class="my-2">
         <special-thanks v-for="c in credits.special_thanks" :key="c" :name="c" />
       </div>
     </div>

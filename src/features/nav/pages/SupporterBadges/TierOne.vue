@@ -1,5 +1,5 @@
 <template>
-  <v-chip class="mx-1 my-1 font-weight-bold" color="cyan lighten-4">
+  <v-chip class="mx-1 my-1 font-weight-bold black--text" color="cyan lighten-4">
     <v-avatar left color="cyan darken-4">
       <v-icon color="white" size="18">cci-rank-1</v-icon>
     </v-avatar>

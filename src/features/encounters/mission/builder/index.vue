@@ -144,7 +144,6 @@ export default Vue.extend({
       this.$router.push({ name: 'edit-mission', params: { id } })
     },
     deleteMission(Mission: Mission) {
-      this.$router.push({ name: 'edit-mission', params: {} })
       const store = getModule(MissionStore, this.$store)
       store.deleteMission(Mission)
     },
