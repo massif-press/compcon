@@ -47,7 +47,12 @@
         />
         <br />
         <v-row dense justify="center" class="mx-4">
-          <v-col class="text-center">
+          <v-col cols="auto">
+            <v-btn icon large :disabled="org.Efficiency === 0" @click="org.Efficiency -= 2">
+              <v-icon large color="accent">remove</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col class="text-center" cols="auto">
             <div>
               <span class="heading h2 accent--text">+ {{ org.Efficiency }}</span>
               <br />
@@ -67,8 +72,18 @@
               </span>
             </div>
           </v-col>
-          <v-divider vertical class="mx-5" />
-          <v-col class="text-center">
+          <v-col cols="auto">
+            <v-btn icon large :disabled="org.Efficiency === 6" @click="org.Efficiency += 2">
+              <v-icon large color="accent">add</v-icon>
+            </v-btn>
+          </v-col>
+          <v-spacer />
+          <v-col cols="auto">
+            <v-btn icon large :disabled="org.Influence === 0" @click="org.Influence -= 2">
+              <v-icon large color="accent">remove</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col class="text-center" cols="auto">
             <div>
               <span class="heading h2 accent--text">+ {{ org.Influence }}</span>
               <br />
@@ -85,6 +100,11 @@
                 </cc-tooltip>
               </span>
             </div>
+          </v-col>
+          <v-col cols="auto">
+            <v-btn icon large :disabled="org.Influence === 6" @click="org.Influence += 2">
+              <v-icon large color="accent">add</v-icon>
+            </v-btn>
           </v-col>
         </v-row>
         <br />
