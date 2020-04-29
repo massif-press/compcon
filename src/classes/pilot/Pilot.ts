@@ -984,13 +984,11 @@ class Pilot {
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''
     this._id = data.id
-    console.log((data as any).loadouts)
     this._loadout = (data as any).loadouts
       ? PilotLoadout.Deserialize((data as any).loadouts[0])
       : data.loadout
       ? PilotLoadout.Deserialize(data.loadout)
       : new PilotLoadout(0)
-    console.log(this._loadout)
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name

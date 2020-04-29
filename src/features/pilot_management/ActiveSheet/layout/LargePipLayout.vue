@@ -9,7 +9,7 @@
           large
           color="structure"
           full-icon="cci-structure"
-          :class="{ rolledOver: structRolledOver }"
+          :class="{ rolledOver: structRollover }"
           @update="mech.CurrentStructure = $event"
         >
           <span class="heading h3">
@@ -68,7 +68,7 @@
           large
           color="stress"
           full-icon="cci-reactor"
-          :class="{ rolledOver: stressRolledOver }"
+          :class="{ rolledOver: stressRollover }"
           @update="mech.CurrentStress = $event"
         >
           <span class="heading h3">Reactor: {{ mech.CurrentStress }}/{{ mech.MaxStress }}</span>
