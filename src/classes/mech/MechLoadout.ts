@@ -113,6 +113,7 @@ class MechLoadout extends Loadout {
 
   public get Weapons(): MechWeapon[] {
     return this.AllMounts(true, true)
+      .filter(x => !x.IsLocked)
       .flatMap(x => x.Weapons)
       .filter(x => x != null)
   }
