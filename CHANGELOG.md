@@ -1,3 +1,26 @@
+## [2.0.30](https://github.com/jarena3/compcon/compare/2.0.29...2.0.30) (2020-04-29)
+
+
+### Bug Fixes
+
+* **Active Mode:** corrected serialization of mech current core power ([683a9fa](https://github.com/jarena3/compcon/commit/683a9fa59b0c52c50d3add94372f5cbb34ccf9ec)), closes [#790](https://github.com/jarena3/compcon/issues/790)
+* **Encounter Builder:** fixes a bad routing call that hides the nav bar on encounter or mission dele ([7c4da21](https://github.com/jarena3/compcon/commit/7c4da21eeb0a884218624c8afb0cd9ef12bdee9d)), closes [#821](https://github.com/jarena3/compcon/issues/821)
+* **Encounter Builder:** Restore scrolling when multiple NPC selectors have been active on page ([8694a93](https://github.com/jarena3/compcon/commit/8694a93dc00ed120ade072423d38537f76e25172))
+* **Mech Sheet:** unmount superheavy bracing only on superheavy switch ([2a7f87a](https://github.com/jarena3/compcon/commit/2a7f87af7b871c8eaf7b91c6f22902da91b1c25f)), closes [#819](https://github.com/jarena3/compcon/issues/819)
+* **Mission Runner:** corrected active mission NPC hp serialization ([a78054f](https://github.com/jarena3/compcon/commit/a78054f16eecc83660e1cbb6fa553015b5e0688e)), closes [#801](https://github.com/jarena3/compcon/issues/801)
+* **Mission Runner:** hide superheavy-locked mounted weapons in active mission player cards ([1011397](https://github.com/jarena3/compcon/commit/10113971113fc22bb281c82445625f1b5eee9fed)), closes [#786](https://github.com/jarena3/compcon/issues/786)
+* **NPC Roster:** correctly set NPC info text editor content ([2f010a4](https://github.com/jarena3/compcon/commit/2f010a4c8be353761d419c9fe7e1d456f27fa493)), closes [#797](https://github.com/jarena3/compcon/issues/797)
+* **Pilot Sheet:** s/Biograpgy/Biography/g ([20f1708](https://github.com/jarena3/compcon/commit/20f170885fcd457738edbe14d79fa3194959046e))
+
+
+### Features
+
+* **Mission Runner:** add counters to pilots and npcs in the mission runner ([995a8b7](https://github.com/jarena3/compcon/commit/995a8b75d50dc898d919e7ede7b61d507b12e27b)), closes [#546](https://github.com/jarena3/compcon/issues/546)
+* **Mission Runner:** small mission runner upgrades ([041e26e](https://github.com/jarena3/compcon/commit/041e26e2a9e3521c23aaf3f0c3f3daec537f213b))
+* **Pilot Sheet:** improve Downtime Organizations from the Pilot Sheet ([127231e](https://github.com/jarena3/compcon/commit/127231e33eba92e34d4a4d85ef2bf61bfb240eca)), closes [#784](https://github.com/jarena3/compcon/issues/784)
+
+
+
 ## [2.0.29](https://github.com/jarena3/compcon/compare/2.0.28...2.0.29) (2020-04-27)
 
 
