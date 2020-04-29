@@ -17,7 +17,7 @@
       icon="mdi-circle-edit-outline"
       color="primary"
       large
-      title="Pilot Biograpgy"
+      title="Pilot Biography"
       @confirm="pilot.History = history"
     >
       <tiptap-vuetify
