@@ -150,7 +150,8 @@ export default Vue.extend({
       if (item.Size === WeaponSize.Superheavy) {
         this.equipSuperheavy(item)
       } else {
-        this.mech.ActiveLoadout.UnequipSuperheavy()
+        if (this.item && this.item.Size === WeaponSize.Superheavy)
+          this.mech.ActiveLoadout.UnequipSuperheavy()
         this.weaponSlot.EquipWeapon(item, this.mech.Pilot)
       }
     },
