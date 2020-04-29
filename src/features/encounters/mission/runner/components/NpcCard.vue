@@ -13,6 +13,11 @@
         </div>
         <div class="flavor-text mt-n1 ml-2">{{ npc.Subtitle }}</div>
       </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn v-if="npc.Activations === 0" large color="secondary" @click="npc.Activations += 1">
+          Reactivate
+        </v-btn>
+      </v-col>
     </v-row>
 
     <v-alert v-if="npc.Defeat" prominent color="error" dark border="left" icon="mdi-skull">
@@ -21,17 +26,17 @@
 
     <v-alert
       v-if="npc.Activations === 0 && !npc.Defeat"
-      prominent
       dark
       dense
       border="left"
       icon="mdi-check"
+      color="panel"
     >
       <span class="heading h2">Turn Complete</span>
     </v-alert>
 
     <v-row dense>
-      <v-col cols="9">
+      <v-col>
         <v-row justify="space-between" dense>
           <v-col cols="3">
             <cc-status-select
@@ -161,7 +166,7 @@
               <span class="heading h3">HEAT: {{ npc.CurrentHeat }}/{{ npc.HeatCapacity }}</span>
             </cc-tick-bar>
           </v-col>
-          <v-col class="mr-4">
+          <v-col cols="auto" class="mr-4">
             <cc-tick-bar
               :key="npc.CurrentMove"
               :current="npc.CurrentMove"
@@ -172,6 +177,19 @@
               @update="npc.CurrentMove = $event"
             >
               <span class="heading h3">MOVES: {{ npc.CurrentMove }}/{{ npc.MaxMove }}</span>
+            </cc-tick-bar>
+          </v-col>
+          <v-col class="mr-4">
+            <cc-tick-bar
+              :key="npc.Activations"
+              :current="npc.Activations"
+              :max="npc.Activations"
+              large
+              color="secondary"
+              full-icon="cci-activate"
+              readonly
+            >
+              <span class="heading h3">ACTIVATIONS: {{ npc.Activations }}</span>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -235,7 +253,7 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="3">
+      <v-col v-if="npc.HasImage">
         <v-card flat outlined>
           <v-card-text class="pa-1">
             <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
@@ -308,32 +326,6 @@
             <span class="heading h3">{{ r }}</span>
           </v-chip>
         </v-chip-group>
-      </v-col>
-    </v-row>
-    <v-row dense justify="start" class="mt-3 mb-10">
-      <v-col v-if="!npc.Defeat">
-        <v-btn
-          block
-          x-large
-          color="secondary"
-          :disabled="npc.Activations === 0"
-          @click="npc.Activations -= 1"
-        >
-          End Turn
-        </v-btn>
-        <v-slide-y-transition leave-absolute>
-          <v-btn
-            v-if="npc.Activations === 0"
-            block
-            outlined
-            small
-            color="primary"
-            class="mt-1"
-            @click="npc.Activations += 1"
-          >
-            Reactivate
-          </v-btn>
-        </v-slide-y-transition>
       </v-col>
     </v-row>
     <cc-ref-stress-table ref="stressTable" />

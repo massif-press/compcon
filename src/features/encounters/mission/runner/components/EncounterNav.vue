@@ -1,6 +1,14 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
+    <cc-nav-item v-if="actor.Activations > 0" @clicked="actor.Activations -= 1">
+      <cc-tooltip simple content="End Turn">
+        <v-icon size="50" color="stark" class="end-turn mt-n2 pl-n2">
+          cci-activate
+        </v-icon>
+      </cc-tooltip>
+    </cc-nav-item>
+    <div v-if="actor.Activations > 0" id="divider-2" />
     <cc-nav-item @clicked="noteSheet = true">
       <cc-tooltip simple content="GM Notepad">
         <v-icon>mdi-note</v-icon>
@@ -191,7 +199,7 @@ export default Vue.extend({
 .nav-body {
   position: fixed;
   bottom: 140px;
-  right: -50px;
+  right: -70px;
   min-height: 40px;
   padding: 5px 80px 5px 20px;
   transform: skew(-0.65rad);
@@ -208,10 +216,31 @@ export default Vue.extend({
   top: 0;
   z-index: 11;
   background-color: white;
+  opacity: 0.5;
+  position: absolute;
+}
+
+#divider-2 {
+  width: 2px;
+  min-width: 2px;
+  height: 47px;
+  right: 350px;
+  top: 0;
+  z-index: 11;
+  background-color: white;
+  opacity: 0.5;
   position: absolute;
 }
 
 .unskew {
   transform: skew(0.65rad);
+}
+
+.end-turn {
+  transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+}
+
+.end-turn:hover {
+  text-shadow: 1px 1px 10px #fff, 1px 1px 10px #ccc;
 }
 </style>

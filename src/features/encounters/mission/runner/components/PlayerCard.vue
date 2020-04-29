@@ -1,7 +1,11 @@
 <template>
   <div class="mx-6">
-    <v-row dense>
+    <v-row dense align="center">
       <v-col>
+        <div v-if="mech.Pilot.PlayerName" class="mb-1">
+          <span class="heading h3 stark--text">{{ mech.Pilot.PlayerName }}</span>
+          <span class="flavor-text">as</span>
+        </div>
         <span class="heading mech" style="line-height: 15px">
           {{ mech.Pilot.Callsign }}
           <span class="light-text--text">
@@ -52,15 +56,20 @@
           </v-dialog>
         </div>
       </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn v-if="mech.Activations === 0" large color="secondary" @click="mech.Activations += 1">
+          Reactivate
+        </v-btn>
+      </v-col>
     </v-row>
 
     <v-alert
       v-if="mech.Activations === 0 && !mech.Defeat"
-      prominent
       dark
       dense
       border="left"
       icon="mdi-check"
+      color="panel"
     >
       <span class="heading h2">Turn Complete</span>
     </v-alert>
@@ -343,7 +352,7 @@
             </v-row>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="120" color="primary">{{ mech.SizeIcon }}</v-icon>
+            <v-icon size="120" color="accent">{{ mech.SizeIcon }}</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -440,32 +449,6 @@
           <v-icon left dark>mdi-redo-variant</v-icon>
           <span class="heading h3">{{ r }}</span>
         </v-chip>
-      </v-col>
-    </v-row>
-    <v-row v-if="!rest" dense justify="start" class="mb-10">
-      <v-col v-if="!mech.Defeat">
-        <v-btn
-          block
-          x-large
-          color="secondary"
-          :disabled="mech.Activations === 0"
-          @click="mech.Activations = 0"
-        >
-          End Turn
-        </v-btn>
-        <v-slide-y-transition leave-absolute>
-          <v-btn
-            v-if="mech.Activations === 0"
-            block
-            outlined
-            small
-            color="primary"
-            class="mt-1"
-            @click="mech.Activations += 1"
-          >
-            Reactivate
-          </v-btn>
-        </v-slide-y-transition>
       </v-col>
     </v-row>
     <div v-if="rest" style="height: 30px" />
