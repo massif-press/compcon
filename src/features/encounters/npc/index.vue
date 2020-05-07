@@ -138,7 +138,7 @@
         <v-col cols="8">
           <v-dialog v-model="importDialog" width="50%" persistent>
             <template v-slot:activator="{ on }">
-              <v-btn small outlined block tile color="primary" class="mt-1" v-on="on">
+              <v-btn small outlined block tile color="accent" class="mt-1" v-on="on">
                 <v-icon left>mdi-application-import</v-icon>
                 Import NPC
               </v-btn>

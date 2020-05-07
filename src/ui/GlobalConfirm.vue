@@ -12,7 +12,7 @@
       <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
       <v-card-actions class="pt-0">
         <v-spacer></v-spacer>
-        <v-btn color="primary darken-1" text @click.native="agree">Yes</v-btn>
+        <v-btn color="accent darken-1" text @click.native="agree">Yes</v-btn>
         <v-btn color="grey" text @click.native="cancel">Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -34,14 +34,18 @@ export default class CCConfirmDialog extends Vue {
   private options = {
     color: 'primary',
     width: 500,
-    zIndex: 200
+    zIndex: 200,
   }
 
-  open(title: string, message: string, options: {
-    color?: string,
-    width?: number,
-    zIndex?: number
-  } = {}) {
+  open(
+    title: string,
+    message: string,
+    options: {
+      color?: string
+      width?: number
+      zIndex?: number
+    } = {}
+  ) {
     this.dialog = true
     this.title = title
     this.message = message
@@ -56,11 +60,10 @@ export default class CCConfirmDialog extends Vue {
     this.resolve(true)
     this.dialog = false
   }
-  
+
   cancel() {
     this.resolve(false)
     this.dialog = false
   }
-
 }
 </script>

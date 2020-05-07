@@ -12,7 +12,10 @@
         text
         class="ml-auto mr-2"
         @click="$emit('back')"
-      >BACK</v-btn>
+      >
+        BACK
+      </v-btn>
+      <slot name="other" />
       <v-btn
         v-if="!noConfirm"
         color="success"
@@ -20,7 +23,9 @@
         large
         tile
         @click="$emit('complete')"
-      >CONTINUE</v-btn>
+      >
+        CONTINUE
+      </v-btn>
     </v-row>
   </div>
 </template>
@@ -28,18 +33,16 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-stepper-content', })
-export default class CCStepperContent extends Vue{
-
-  @Prop({ type: Boolean, required: false, })
+@Component({ name: 'cc-stepper-content' })
+export default class CCStepperContent extends Vue {
+  @Prop({ type: Boolean, required: false })
   readonly noConfirm?: boolean
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly back?: boolean
 
-  @Prop({ type: Boolean, required: true, })
+  @Prop({ type: Boolean, required: true })
   readonly complete!: boolean
-  @Prop({ type: String, required: true, })
+  @Prop({ type: String, required: true })
   readonly exit!: string
-
 }
 </script>

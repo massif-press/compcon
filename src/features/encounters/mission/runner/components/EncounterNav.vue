@@ -3,7 +3,7 @@
     <div id="cap" />
     <cc-nav-item v-if="actor.Activations > 0" @clicked="actor.Activations -= 1">
       <cc-tooltip simple content="End Turn">
-        <v-icon size="50" color="stark" class="end-turn mt-n2 pl-n2">
+        <v-icon size="50" color="white" class="end-turn mt-n2 pl-n2">
           cci-activate
         </v-icon>
       </cc-tooltip>
