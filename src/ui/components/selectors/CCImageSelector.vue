@@ -85,7 +85,7 @@
                   relative
                   style="top:25px; left: 20px; z-index: 100"
                   class="img-button"
-                  v-on.stop="on"
+                  v-on="on"
                 >
                   <cc-tooltip simple content="Delete Image">
                     <v-icon color="error">mdi-delete</v-icon>

@@ -1,6 +1,11 @@
 <template>
   <v-container fluid style="margin-top: 50px">
-    <v-stepper v-model="step" non-linear class="elevation-0">
+    <v-stepper
+      v-model="step"
+      non-linear
+      class="elevation-0"
+      style="background-color: var(--v-background-base)"
+    >
       <v-stepper-header class="elevation-0" style="height: 40px">
         <v-stepper-step
           editable
@@ -49,6 +54,7 @@
           <identification-page
             :pilot="pilot"
             @next="step++"
+            @templates="step = 6"
             @set="pilot[$event.attr] = $event.val"
           />
         </v-stepper-content>
@@ -64,6 +70,9 @@
         <v-stepper-content step="5">
           <confirm-page :pilot="pilot" @next="step++" @back="step--" @done="onDone" />
         </v-stepper-content>
+        <v-stepper-content step="6">
+          <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
+        </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
   </v-container>
@@ -76,11 +85,19 @@ import SkillsPage from './pages/SkillsPage.vue'
 import TalentsPage from './pages/TalentsPage.vue'
 import MechSkillsPage from './pages/MechSkillsPage.vue'
 import ConfirmPage from './pages/ConfirmPage.vue'
+import TemplatesPage from './pages/TemplatesPage.vue'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'pilot-wizard',
-  components: { IdentificationPage, SkillsPage, TalentsPage, MechSkillsPage, ConfirmPage },
+  components: {
+    IdentificationPage,
+    SkillsPage,
+    TalentsPage,
+    MechSkillsPage,
+    ConfirmPage,
+    TemplatesPage,
+  },
   data: () => ({
     step: 1,
     pilot: {},
@@ -98,10 +115,9 @@ export default Vue.extend({
     onDone() {
       this.done = true
       this.$router.push('./pilot_management')
-    }
+    },
   },
   async beforeRouteLeave(to, from, next) {
-
     if (this.done) {
       next()
     } else {
@@ -113,7 +129,6 @@ export default Vue.extend({
       if (confirmLeave) next()
       else next(false)
     }
-
-  }
+  },
 })
 </script>

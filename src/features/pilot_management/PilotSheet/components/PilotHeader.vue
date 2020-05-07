@@ -117,7 +117,6 @@
               aspect-ratio="1"
               position="top center"
             />
-            <v-img v-else src="https://via.placeholder.com/550" />
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="secondary">
                 <cc-btn color="secondary" @click="$refs.imageSelector.open()">

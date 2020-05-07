@@ -26,7 +26,7 @@
       </div>
       <v-row>
         <v-col>
-          <v-btn large block tile outlined color="primary" @click="exportPilot()">
+          <v-btn large block tile outlined color="accent" @click="exportPilot()">
             Export Pilot Data File
           </v-btn>
         </v-col>

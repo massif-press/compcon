@@ -7,24 +7,26 @@
         <cc-short-string-editor large before @set="mech.Name = $event">
           <cc-title :large="mech.Name.length < 31" :color="color">{{ mech.Name }}&emsp;</cc-title>
         </cc-short-string-editor>
-        <cc-logo size="large" :source="mech.Frame.Manufacturer" />
-        <span class="heading h2" style="position: relative; top: -11px">
-          <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>
-          <span class="text--text">{{ mech.Frame.Name }}</span>
-          <v-icon right class="fadeSelect mt-n1" @click="$refs.frameInfoDialog.show()">
-            mdi-information-outline
-          </v-icon>
-          <cc-solo-dialog
-            ref="frameInfoDialog"
-            icon="cci-frame"
-            :color="color"
-            no-confirm
-            large
-            :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
-          >
-            <p class="flavor-text mt-3 text--text" v-html="mech.Frame.Description" />
-          </cc-solo-dialog>
-        </span>
+        <div class="mt-n2">
+          <cc-logo size="large" :source="mech.Frame.Manufacturer" />
+          <span class="heading h2" style="position: relative; top: -11px">
+            <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>
+            <span class="text--text">{{ mech.Frame.Name }}</span>
+            <v-icon right class="fadeSelect mt-n1" @click="$refs.frameInfoDialog.show()">
+              mdi-information-outline
+            </v-icon>
+            <cc-solo-dialog
+              ref="frameInfoDialog"
+              icon="cci-frame"
+              :color="color"
+              no-confirm
+              large
+              :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
+            >
+              <p class="flavor-text mt-3 text--text" v-html="mech.Frame.Description" />
+            </cc-solo-dialog>
+          </span>
+        </div>
       </v-col>
       <v-col cols="auto" class="ml-auto mt-4">
         <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
@@ -42,7 +44,7 @@
       @clear-ejected="mech.Ejected = false"
       @clear-status="mech.Repair()"
     />
-    <v-row align="center">
+    <v-row align="start">
       <v-col cols="8">
         <v-row class="px-3">
           <v-col>
@@ -56,8 +58,8 @@
           <trait-block :mech="mech" :color="color" />
         </v-row>
       </v-col>
-      <v-col cols="4">
-        <div class="text-center">
+      <v-col cols="4" class="mt-n10">
+        <div class="text-center mt-n10">
           <div class="border">
             <v-img
               :key="mech.Image"
