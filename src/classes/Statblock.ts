@@ -1,17 +1,17 @@
 import { Pilot, Mech, Npc } from '@/class'
 
+function linebreak(i: number, length: number): string {
+  if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
+    return '\n  '
+  } else if (i + 1 < length) {
+    return ', '
+  } else {
+    return '\n'
+  }
+}
+
 class Statblock {
   public static Generate(pilot?: Pilot, mech?: Mech): string {
-    function linebreak(i: number, length: number): string {
-      if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
-        return '\n  '
-      } else if (i + 1 < length) {
-        return ', '
-      } else {
-        return '\n'
-      }
-    }
-
     let output = ''
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
@@ -172,21 +172,18 @@ class Statblock {
   public static GenerateNPC(npc: Npc): string {
     let output = `// ${npc.Name} //\n`
     output += `${npc.Class.Name.toUpperCase()}`
-    if (npc.Templates) output += `${npc.Templates.map(t => t.Name).join(' ')}`
+    if (npc.Templates) output += ` ${npc.Templates.map(t => t.Name).join(' ')}`
     output += typeof npc.Tier === 'number' ? `, Tier ${npc.Tier} ` : ', Custom '
-    output += npc.Tag
-    output += '\n[ STATS ]'
-    output += `\nH: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}`
-    output += `\nSTRUCT: ${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.Stats.HP}`
-    output += `\nSTRESS: ${npc.Stats.Stress} | HEATCAP: ${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}`
-    output += `\nSAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}`
-    output += `\nSENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}`
-    output += '\n[ FEATURES ]\n'
-    npc.Items.forEach((e, idx) => {
-      output += `${e.Name} (${'I'.repeat(e.Tier)})`
-      if (idx % 3 === 0) output += '\n'
-    })
-
+    output += `${npc.Tag}\n`
+    output += '[ STATS ]\n'
+    output += `  H: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}\n`
+    output += `  STRUCT: ${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.Stats.HP}\n`
+    output += `  STRESS: ${npc.Stats.Stress} | HEATCAP: ${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
+    output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
+    output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
+    output += '[ FEATURES ]\n  '
+    output += npc.Items.map((item, index) => `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`).join("")
+    console.log(npc.Items.map((item, index) => `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`).join(""))
     return output
   }
 }
