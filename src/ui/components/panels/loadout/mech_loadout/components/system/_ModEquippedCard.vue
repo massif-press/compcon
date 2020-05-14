@@ -4,7 +4,10 @@
       <div slot="header">
         <span v-if="mod">
           <equipment-options :item="mod" />
-          <span v-if="!mod.Destroyed" class="ml-n2">{{ mod.Name }}</span>
+          <span v-if="!mod.Destroyed" class="ml-n2">
+            {{ mod.Name }}
+            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+          </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ mod.Name }} DESTROYED / /&emsp;
           </span>

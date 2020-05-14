@@ -8,7 +8,10 @@
             @swap="$refs.base.$refs.selectorDialog.show()"
             @remove="remove()"
           />
-          <span v-if="!item.Destroyed" class="ml-n2">{{ item.Name }}</span>
+          <span v-if="!item.Destroyed" class="ml-n2">
+            {{ item.Name }}
+            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+          </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
           </span>

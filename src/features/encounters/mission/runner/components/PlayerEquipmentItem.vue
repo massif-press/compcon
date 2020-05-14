@@ -5,11 +5,22 @@
         <v-row dense>
           <v-col cols="auto" class="mr-2">
             <div class="heading h3" :style="item.Destroyed ? 'text-decoration: line-through;' : ''">
-              {{ item.Name }}
+              <span v-if="item.FlavorName">
+                {{ item.Name }}
+                <span class="caption">{{ item.TrueName }}</span>
+              </span>
+              <span v-else>
+                {{ item.Name }}
+              </span>
             </div>
           </v-col>
           <v-col v-if="item.Damage" cols="auto">
-            <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" small class="d-inline" />
+            <cc-damage-element
+              :damage="item.Damage"
+              :type-override="item.DamageTypeOverride"
+              small
+              class="d-inline"
+            />
           </v-col>
           <v-col v-if="item.Range" cols="auto">
             <cc-range-element :range="item.Range" small class="d-inline" />
