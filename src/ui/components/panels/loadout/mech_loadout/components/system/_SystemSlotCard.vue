@@ -6,6 +6,7 @@
           <equipment-options :item="item" />
           <span v-if="!item.Destroyed" :key="item.Name" class="ml-n2">
             {{ item.Name }}
+            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
           </span>
           <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;

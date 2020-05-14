@@ -59,6 +59,14 @@ abstract class CompendiumItem {
     this.save()
   }
 
+  public get FlavorName(): string {
+    return this._flavor_name
+  }
+
+  public get TrueName(): string {
+    return this._name
+  }
+
   public get Description(): string {
     return this._flavor_description ? this._flavor_description : this._description
   }
