@@ -1,6 +1,7 @@
 <template>
-  <v-alert v-if="show" :color="color" prominent dense tile :icon="icon" dark>
-    <div class="heading h2 mb-2">
+  <v-alert v-if="show" :color="color" dense dark>
+    <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="stark">{{ icon }}</v-icon>
+    <div class="heading h2">
       <span v-if="type === 'ejected'">ALERT: PILOT EJECTED</span>
       <span v-else-if="type === 'destroyed'">MECH DESTROYED</span>
       <span v-else-if="type === 'meltdown'">DANGER: REACTOR MELTDOWN IMMINENT</span>
@@ -71,12 +72,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component({ name: 'status-alert' })
 export default class CCMechStatusAlert extends Vue {
-  
-  @Prop({ type: String, required: true, })
+  @Prop({ type: String, required: true })
   readonly type!: string
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly criticalOnly?: boolean
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly hideClear?: boolean
 
   get show() {
