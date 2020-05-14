@@ -14,6 +14,7 @@ class Mech implements IActor {
   private _gm_note: string
   private _portrait: string
   private _cloud_portrait: string
+  private _built_in_img: string
   private _frame: Frame
   private _loadouts: MechLoadout[]
   private _active_loadout: MechLoadout
@@ -198,9 +199,8 @@ class Mech implements IActor {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (Capacitor.platform !== 'web' && this._portrait)
-      return getImagePath(ImageTag.Mech, this._portrait)
-    else return this.Frame.DefaultImage
+    if (this._portrait) return getImagePath(ImageTag.Mech, this._portrait)
+    return this.Frame.DefaultImage
   }
 
   // -- Attributes --------------------------------------------------------------------------------

@@ -7,45 +7,73 @@
     title="Select Image"
   >
     <v-container fluid>
-      <div class="image-select-column">
-        <div class="image-display-block">
-          <img :src="displayImage" />
-        </div>
-        <v-file-input
-          ref="fileInput"
-          class="image-input"
-          accept="image/*"
-          outlined
-          placeholder="Select Image"
-          label="IMAGE FILE"
-          prepend-icon="mdi-paperclip"
-          :disabled="loading"
-          @change="onChange"
-        ></v-file-input>
-        <cc-btn
-          color="secondary"
-          style="align-self: center"
-          :disabled="!imageData || loading"
-          @click="saveImage()"
-        >
-          <template v-if="!loading">
-            Save Image
-          </template>
-          <template v-else>
-            <v-progress-circular size="25" width="3" indeterminate />
-          </template>
-        </cc-btn>
-      </div>
+      <v-row>
+        <v-col cols="12" md="6">
+          <div class="heading h3 ml-n2">AVAILABLE IMAGES</div>
+          <mech-image-selector
+            v-if="type === 'mech'"
+            :mech="item"
+            @set-img="selectedImage = $event"
+          />
+          <p v-else class="panel ma-2 pa-2">
+            <i>No Images Found</i>
+          </p>
+          <v-divider class="mx-3" />
+          <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
+          <v-file-input
+            ref="fileInput"
+            class="px-6 mt-2"
+            accept="image/*"
+            dense
+            outlined
+            placeholder="Select Image"
+            label="IMAGE FILE"
+            prepend-icon="mdi-file-upload-outline"
+            :disabled="loading"
+            @change="onChange"
+          />
+          <div>
+            <i>10MB maximum file size. PNG files over 5MB will be converted to JPEGs.</i>
+          </div>
+        </v-col>
+        <v-col>
+          <div class="text-center">
+            <v-img
+              :src="displayImage"
+              contain
+              max-width="500px"
+              max-height="500px"
+              class="ml-auto mr-auto"
+              :style="`image-rendering: ${isPixel ? 'pixelated' : 'crisp-edges'};`"
+            />
+            <cc-btn
+              color="secondary"
+              :disabled="!selectedImage && (!imageData || loading)"
+              @click="saveImage()"
+            >
+              <template v-if="!loading">
+                Set Image
+              </template>
+              <template v-else>
+                <v-progress-circular size="25" width="3" indeterminate />
+              </template>
+            </cc-btn>
+          </div>
+        </v-col>
+      </v-row>
     </v-container>
   </cc-solo-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import path from 'path'
 import imgur from '../../../io/apis/imgur'
+import MechImageSelector from './components/_MechImageSelector.vue'
 
 export default Vue.extend({
   name: 'web-image-selector',
+  components: { MechImageSelector },
   props: {
     item: {
       type: Object,
@@ -57,14 +85,19 @@ export default Vue.extend({
     },
   },
   data: () => ({
+    selectedImage: null,
     imageData: null,
     loading: false,
   }),
   computed: {
     displayImage() {
+      if (this.selectedImage) return this.selectedImage
       if (this.imageData) return `data:image/png;base64,${this.imageData}`
       else if (this.item.Portrait) return this.item.Portrait
       else return 'https://via.placeholder.com/550'
+    },
+    isPixel() {
+      return this.selectedImage && path.basename(this.selectedImage).includes('_pixel')
     },
   },
   methods: {
@@ -73,6 +106,7 @@ export default Vue.extend({
         this.imageData = null
         return
       }
+      this.selectedImage = null
       const reader = new FileReader()
       reader.addEventListener(
         'load',
@@ -85,18 +119,25 @@ export default Vue.extend({
       reader.readAsBinaryString(file)
     },
     async saveImage() {
-      this.loading = true
-      const link = await imgur.uploadImage(this.imageData)
-      try {
-        this.item.SetCloudImage(link)
-        this.$emit('notify', 'Cloud Upload Successful')
-      } catch (err) {
-        this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+      if (this.selectedImage) {
+        this.item.SetCloudImage(null)
+        this.item.SetLocalImage(path.basename(this.selectedImage))
+        this.close()
+      } else {
+        this.loading = true
+        this.selectedImage = null
+        const link = await imgur.uploadImage(this.imageData)
+        try {
+          this.item.SetCloudImage(link)
+          this.$emit('notify', 'Cloud Upload Successful')
+        } catch (err) {
+          this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+        }
+        this.close()
+        this.$refs.fileInput.value = null
+        this.loading = false
+        this.imageData = null
       }
-      this.close()
-      this.$refs.fileInput.value = null
-      this.loading = false
-      this.imageData = null
     },
     open() {
       this.$refs.dialog.show()
@@ -107,28 +148,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-.image-select-column {
-  width: 550px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.image-display-block {
-  width: 550px;
-  height: 550px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.image-display-block img {
-  display: block;
-  max-width: 100%;
-}
-
-.image-input {
-  margin-top: 20px !important;
-}
-</style>

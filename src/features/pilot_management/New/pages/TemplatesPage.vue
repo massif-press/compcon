@@ -128,6 +128,8 @@ export default Vue.extend({
         .find(m => m.Type === 'Heavy')
         .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]))
 
+      mech.SetLocalImage(this.selected.image)
+
       this.pilot.AddMech(mech)
       this.pilot.ActiveMech = mech
 

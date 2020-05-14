@@ -22,7 +22,7 @@
         </div>
         <edit-menu style="display: inline-block; padding-right: 10px;" :pilot="pilot" />
       </div>
-      <div style="border-top: 0!important" class="light-panel clipped">
+      <div style="border-top: 0!important;  min-height: 72px; " class="light-panel clipped">
         <div style="margin-left: 108px; padding-left: 8px;">
           <p class="flavor-text pt-1">
             <span class="subtle--text">>[</span>
