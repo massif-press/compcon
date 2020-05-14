@@ -30,9 +30,10 @@ class DeployableEffect extends ItemEffect {
     this.EDef = data.edef
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Deployable
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       'Activation: ' + this.activation + '   Type: ' + this.effectType,
       (this.Name || '').toUpperCase(),
@@ -43,10 +44,14 @@ class DeployableEffect extends ItemEffect {
         this.HP ? 'HP: ' + this.HP : '',
         this.Evasion ? 'Evasion: ' + this.Evasion : '',
         this.EDef ? 'E-defense: ' + this.EDef : '',
-      ].filter(el => el !== '').join('   '),
+      ]
+        .filter(el => el !== '')
+        .join('   '),
       this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Detail,
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 

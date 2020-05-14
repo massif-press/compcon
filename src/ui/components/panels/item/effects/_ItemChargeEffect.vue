@@ -34,6 +34,9 @@
             :class="print ? 'overline black--text mb-0' : 'body-text mt-n1 mb-1'"
             v-html="c.Detail"
           />
+          <div class="mt-n2">
+            <cc-tags v-if="c.Tags" :tags="c.Tags" :print="print" :bonus="0" small />
+          </div>
         </v-col>
       </v-row>
     </v-alert>

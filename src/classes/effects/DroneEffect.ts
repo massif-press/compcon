@@ -9,6 +9,7 @@ interface IDroneData extends IEffectData {
   evasion: number
   detail: string
   abilities?: IEffectData[]
+  tags?: ITagData[]
 }
 
 class DroneEffect extends ItemEffect {
@@ -33,9 +34,10 @@ class DroneEffect extends ItemEffect {
     this.Abilities = data.abilities ? data.abilities.map(x => ItemEffect.Generate(x)) : []
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Drone
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       (this.Name || '').toUpperCase(),
       'Activation: ' + this.activation + '   Type: ' + this.effectType,
@@ -46,11 +48,15 @@ class DroneEffect extends ItemEffect {
         this.Armor ? 'Armor: ' + this.Armor : '',
         this.Evasion ? 'Evasion: ' + this.Evasion : '',
         this.EDef ? 'E-defense: ' + this.EDef : '',
-      ].filter(el => el !== '').join('   '),
+      ]
+        .filter(el => el !== '')
+        .join('   '),
       this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Detail,
       this.Abilities.map(a => a.toString()).join('\n'),
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 

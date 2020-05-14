@@ -24,6 +24,7 @@ class ProfileEffect extends ItemEffect {
     this.Detail = data.detail
     this.activation = ActivationType.None
     this.effectType = EffectType.Profile
+    this.tags = data.tags || []
   }
 }
 

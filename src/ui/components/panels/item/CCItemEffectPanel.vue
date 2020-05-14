@@ -1,5 +1,5 @@
 <template>
-  <div :class="print ? '' : 'my-1'">
+  <div :class="print ? '' : 'mt-1 mb-3'">
     <item-effect
       v-for="(e, n) in effects"
       :key="ie_key + n"

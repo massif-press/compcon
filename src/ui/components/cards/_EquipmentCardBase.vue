@@ -20,7 +20,10 @@
       <p v-if="typeof item.Effect === 'string'" class="text--text body-text" v-html="item.Effect" />
       <cc-item-effect-panel v-else :key="item.ID" :effects="item.Effect" class="mb-2" />
     </div>
-    <cc-tags v-if="item.Tags" :tags="item.Tags" extended />
+    <div v-if="item.Tags">
+      <div class="overline ml-n2">EQUIPMENT TAGS</div>
+      <cc-tags :tags="item.Tags" extended />
+    </div>
   </v-card-text>
 </template>
 

@@ -24,11 +24,8 @@ class InvadeOption {
     this.Activation = activation || ActivationType.Quick
   }
 
-  public toString() {
-    return [
-      (this.Name || '').toUpperCase(),
-      this.Detail,
-    ].filter(el => el !== '').join('\n');
+  public toString(): string {
+    return [(this.Name || '').toUpperCase(), this.Detail].filter(el => el !== '').join('\n')
   }
 }
 
@@ -46,16 +43,19 @@ class TechEffect extends ItemEffect {
     this.Options = data.options ? data.options.map(x => new InvadeOption(x, data.activation)) : []
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Tech
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       this.activation + ' ' + this.effectType + ' // ' + this.OptionSet,
       (this.Name || '').toUpperCase(),
       this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Detail,
       this.Options.map(a => a.toString()).join('\n'),
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 

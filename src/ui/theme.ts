@@ -24,7 +24,6 @@ const themeDefaults = {
   'action--full': '#283593',
   'action--quick': '#3949AB',
   'action--overcharge': '#F50057',
-  'action--reaction': '#512DA8',
   'action--free': '#00695C',
   'action--protocol': '#007676',
   'action--tech': '#802475',
@@ -110,6 +109,7 @@ const theme: any = {
 
         'action--downtime': '#37474F',
         'reserve--organization': '#455A64',
+        'action--reaction': '#512DA8',
       },
       dark: {
         ...themeDefaults,
@@ -142,6 +142,7 @@ const theme: any = {
 
         'action--downtime': '#1dc2c2',
         'reserve--organization': '#3ec2c2',
+        'action--reaction': '#be51ed',
       },
     },
   },
