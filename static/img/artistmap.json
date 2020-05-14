@@ -1,0 +1,70 @@
+[
+  {
+    "artist": "Tom Parkinson-Morgan",
+    "website": "http://www.massifpress.com",
+    "twitter": "Orbitaldropkick",
+    "images": [
+      { "name": "SSC ATLAS", "img": "mf_atlas" },
+      { "name": "HORUS BALOR", "img": "mf_balor" },
+      { "name": "HA BARBAROSSA", "img": "mf_barbarossa" },
+      { "name": "SSC BLACK WITCH", "img": "mf_black_witch" },
+      { "name": "IPS-N BLACKBEARD", "img": "mf_blackbeard" },
+      { "name": "SSC DEATH'S HEAD", "img": "mf_deaths_head" },
+      { "name": "IPS-N DRAKE", "img": "mf_drake" },
+      { "name": "SSC DUSK WING", "img": "mf_dusk_wing" },
+      { "name": "HA GENGHIS", "img": "mf_genghis" },
+      { "name": "HORUS GOBLIN", "img": "mf_goblin" },
+      { "name": "HORUS GORGON", "img": "mf_gorgon" },
+      { "name": "HORUS HYDRA", "img": "mf_hydra" },
+      { "name": "HA ISKANDER", "img": "mf_iskander" },
+      { "name": "HORUS KOBOLD", "img": "mf_kobold" },
+      { "name": "IPS-N LANCASTER", "img": "mf_lancaaster" },
+      { "name": "HORUS LICH", "img": "mf_lich" },
+      { "name": "HORUS MANTICORE", "img": "mf_manticore" },
+      { "name": "SSC METALMARK", "img": "mf_metalmark" },
+      { "name": "HORUS MINOTAUR", "img": "mf_minotaur" },
+      { "name": "SSC MONARCH", "img": "mf_monarch" },
+      { "name": "SSC MOURNING CLOAK", "img": "mf_mourning_cloak" },
+      { "name": "HA NAPOLEON", "img": "mf_napoleon" },
+      { "name": "IPS-N NELSON", "img": "mf_nelson" },
+      { "name": "HORUS PEGASUS", "img": "mf_pegasus" },
+      { "name": "IPS-N RALEIGH", "img": "mf_raleigh" },
+      { "name": "HA SALADIN", "img": "mf_saladin" },
+      { "name": "HA SHERMAN", "img": "mf_sherman" },
+      { "name": "SSC SWALLOWTAIL", "img": "mf_swallowtail" },
+      { "name": "HA SUNZI", "img": "mf_sunzi" },
+      { "name": "HA TOKUGAWA", "img": "mf_tokugawa" },
+      { "name": "IPS-N TORTUGA", "img": "mf_tortuga" },
+      { "name": "IPS-N VLAD", "img": "mf_vlad" },
+      { "name": "IPS-N ZHENG", "img": "mf_zheng}" }
+    ]
+  },
+  {
+    "artist": "Retrograde Minis",
+    "logo": "retrograde_logo.png",
+    "website": "https://www.retrogrademinis.com",
+    "twitter": "MinisRetrograde",
+    "images": [
+      {
+        "name": " GMS EVEREST (Assault Pattern)",
+        "img": "pre_assault_pixel"
+      },
+      {
+        "name": " GMS EVEREST (Sniper Pattern)",
+        "img": "pre_sniper_pixel"
+      },
+      {
+        "name": " GMS EVEREST (Vanguard Pattern)",
+        "img": "pre_vanguard_pixel"
+      },
+      {
+        "name": " GMS EVEREST (Hacker Pattern)",
+        "img": "pre_hacker_pixel"
+      },
+      {
+        "name": " GMS EVEREST (Support Pattern)",
+        "img": "pre_support_pixel"
+      }
+    ]
+  }
+]

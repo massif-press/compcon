@@ -28,6 +28,7 @@ interface IFrameData extends ILicensedItemData {
   traits: FrameTrait[]
   core_system: ICoreData
   image_url?: string
+  other_art?: { tag: ImageTag; src: string }[]
 }
 
 class Frame extends LicensedItem {
@@ -38,6 +39,7 @@ class Frame extends LicensedItem {
   private _traits: FrameTrait[]
   private _core_system: CoreSystem
   private _image_url?: string
+  private _other_art?: { tag: ImageTag; src: string }[]
 
   public constructor(frameData: IFrameData) {
     super(frameData)
@@ -49,6 +51,7 @@ class Frame extends LicensedItem {
     this._core_system = new CoreSystem(frameData.core_system)
     this._item_type = ItemType.Frame
     this._image_url = frameData.image_url
+    this._other_art = frameData.other_art
   }
 
   public get Mechtype(): MechType[] {
@@ -57,6 +60,10 @@ class Frame extends LicensedItem {
 
   public get YPosition(): number {
     return this._y_pos
+  }
+
+  public get OtherArt(): { tag: ImageTag; src: string }[] {
+    return this._other_art
   }
 
   public get MechTypeString(): string {

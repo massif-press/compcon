@@ -596,7 +596,6 @@ Reasonable Doubt
 Strictly Business
 Unreasonable Optimism
 It Doesn't Matter
-Good Luck As You're About to Fly
 Gestalt and Gravity
 Disintegration and Rejection
 A Long Goodbye
@@ -742,15 +741,15 @@ The Ten Dances Of The Damned
 The Tower Of Babel
 The Hour of Decision
 Hiding Place
-Rig Paladins
+Rig Paladin
 How to Shake Hands With the Devil
 The Shape of the Dragon
 Emperor's Blade
 Secret of the Angels
 Epistle
-Epistles of Mayhem
-Epistles of Power
-Epistles of Void
+Epistle of Mayhem
+Epistle of Power
+Epistle of Void
 Lost Treasure
 A Lecture on Philosophy
 Walk Free

@@ -13,7 +13,7 @@
       <v-icon large>cci-pilot</v-icon>
     </v-btn>
     <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
-      <v-icon large>cci-activate</v-icon>
+      <v-icon large color="white">cci-activate</v-icon>
     </v-btn>
     <v-divider vertical class="mx-2" />
     <div id="divider" />

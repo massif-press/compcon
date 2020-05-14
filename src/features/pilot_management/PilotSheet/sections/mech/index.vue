@@ -3,11 +3,11 @@
     <header-overlay :mech="mech" />
     <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
-      <v-col cols="auto" class="mt-4">
+      <v-col cols="auto">
         <cc-short-string-editor large before @set="mech.Name = $event">
           <cc-title :large="mech.Name.length < 31" :color="color">{{ mech.Name }}&emsp;</cc-title>
         </cc-short-string-editor>
-        <div class="mt-n2">
+        <div class="mt-n6">
           <cc-logo size="large" :source="mech.Frame.Manufacturer" />
           <span class="heading h2" style="position: relative; top: -11px">
             <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>
@@ -44,42 +44,45 @@
       @clear-ejected="mech.Ejected = false"
       @clear-status="mech.Repair()"
     />
-    <v-row align="start">
+    <v-row align="center" no-gutters>
       <v-col cols="8">
-        <v-row class="px-3">
+        <v-row class="px-3 mt-n4">
           <v-col>
             <operator-notes :mech="mech" :color="color" />
           </v-col>
         </v-row>
-        <v-row class="px-3">
+        <v-row class="px-3 mt-n6">
           <license-requirement-block :mech="mech" :color="color" />
         </v-row>
-        <v-row class="px-3">
+        <v-row class="px-3 mt-n6">
           <trait-block :mech="mech" :color="color" />
         </v-row>
       </v-col>
-      <v-col cols="4" class="mt-n10">
-        <div class="text-center mt-n10">
-          <div class="border">
-            <v-img
+      <v-col cols="4" style="max-height: inherit;">
+        <div class="text-center mt-n10" style="max-height: inherit;">
+          <div style="position:relative; max-height: inherit;">
+            <img
               :key="mech.Image"
               :src="mech.Portrait"
-              min-height="100%"
-              max-width="100%"
+              :style="
+                `object-fit: contain; max-width: 20vw; width: 100%; image-rendering: ${
+                  isPixel ? 'pixelated' : 'crisp-edges'
+                };`
+              "
               position="top center"
             />
+            <v-btn
+              outlined
+              color="secondary"
+              small
+              class="fadeSelect"
+              style="position: absolute; bottom: 10px; right: 0"
+              @click="$refs.imageSelector.open()"
+            >
+              <v-icon left>mdi-circle-edit-outline</v-icon>
+              Set Mech Image
+            </v-btn>
           </div>
-          <v-btn
-            outlined
-            color="secondary"
-            small
-            block
-            class="fadeSelect"
-            @click="$refs.imageSelector.open()"
-          >
-            <v-icon left>mdi-circle-edit-outline</v-icon>
-            Set Mech Image
-          </v-btn>
 
           <cc-image-selector-web v-if="$platform" ref="imageSelector" :item="mech" type="mech" />
           <cc-image-selector v-else ref="imageSelector" :item="mech" type="mech" />
@@ -142,6 +145,9 @@ export default Vue.extend({
     },
     color() {
       return this.mech.Frame.Manufacturer.Color
+    },
+    isPixel() {
+      return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel')
     },
   },
   methods: {

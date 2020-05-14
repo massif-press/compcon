@@ -107,7 +107,7 @@
               block
               tile
               outlined
-              color="primary"
+              color="accent"
               :disabled="!pilot.CloudID"
               @click="$refs.cloud.load()"
             >
@@ -126,7 +126,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn large block tile outlined color="primary" @click="$refs.cloud.new()">
+            <v-btn large block tile outlined color="accent" @click="$refs.cloud.new()">
               Create new Vault record
             </v-btn>
           </v-col>
