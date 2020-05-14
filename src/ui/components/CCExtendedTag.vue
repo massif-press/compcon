@@ -1,13 +1,6 @@
 <template>
-  <v-alert
-    v-show="!tag.IsHidden"
-    outlined
-    dense
-    prominent
-    icon="label"
-    color="primary"
-    border="left"
-  >
+  <v-alert v-show="!tag.IsHidden" outlined dense color="primary" border="left">
+    <v-icon slot="prepend" x-large class="ml-n2 mr-1" color="primary">label</v-icon>
     <span v-if="tag.err">ERR: MISSING DATA</span>
     <div v-else>
       <h3 class="heading accent--text">

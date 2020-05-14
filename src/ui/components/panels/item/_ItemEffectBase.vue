@@ -18,7 +18,9 @@
       :print="print"
       class="mt-1"
     />
-    <cc-tags v-if="effect.Tags" :tags="effect.Tags" :print="print" :bonus="limitedBonus" small />
+    <div v-if="effect.Tags" class="mt-n5 ml-12 mb-3">
+      <cc-tags :tags="effect.Tags" :print="print" :bonus="limitedBonus" small />
+    </div>
   </div>
 </template>
 

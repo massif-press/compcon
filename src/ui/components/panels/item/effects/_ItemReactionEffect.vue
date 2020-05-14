@@ -13,19 +13,21 @@
     </span>
     <cc-slashes />
     <span :class="print ? 'caption mt-n2' : 'flavor-text mt-n2'">{{ effect.Frequency }}</span>
-    <div class="mt-n1 ml-2">
-      <div v-if="effect.Init" class="overline mb-n2 ml-2 action--reaction--text">INIT</div>
+    <div class="mt-n1 ml-2 mb-2">
+      <div v-if="effect.Init" class="overline font-weight-bold mb-n2 ml-2 action--reaction--text">
+        INIT
+      </div>
       <p
         v-if="effect.Init"
         :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-0'"
         v-html="effect.Init"
       />
-      <div class="overline mb-n2 ml-2 action--reaction--text">TRIGGER</div>
+      <div class="overline mb-n1 font-weight-bold action--reaction--text">TRIGGER</div>
       <p
         :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-0'"
         v-html="effect.Trigger"
       />
-      <div class="overline mb-n2 ml-2 action--reaction--text">EFFECT</div>
+      <div class="overline mb-n1 font-weight-bold action--reaction--text">EFFECT</div>
       <p
         :class="print ? 'overline black--text mt-n1 mb-0' : 'body-text mt-n1 mb-1'"
         v-html="effect.Detail"

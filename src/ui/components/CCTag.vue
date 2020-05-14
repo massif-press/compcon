@@ -17,20 +17,20 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Pilot, Tag } from '@/class'
 
-@Component({ name: 'cc-tag', })
+@Component({ name: 'cc-tag' })
 export default class CCTag extends Vue {
-  @Prop({ type: Boolean, required: false, })
-  readonly small?: boolean 
-  @Prop({ type: String, required: false, default: 'primary', })
+  @Prop({ type: Boolean, required: false })
+  readonly small?: boolean
+  @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
 
-  @Prop({ type: Object, required: true, })
+  @Prop({ type: Object, required: true })
   readonly tag!: Tag
 
-  @Prop({ type: Object, required: false, default: null, })
-  readonly pilot?: Pilot 
+  @Prop({ type: Object, required: false, default: null })
+  readonly pilot?: Pilot
 
-  get bonus() {
+  get bonus(): number {
     if (!this.pilot) return 0
     else return this.pilot.LimitedBonus
   }

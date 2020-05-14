@@ -9,6 +9,7 @@ class GenericEffect extends ItemEffect {
     this.Detail = effect
     this.activation = ActivationType.None
     this.effectType = EffectType.Generic
+    this.tags = []
   }
 }
 

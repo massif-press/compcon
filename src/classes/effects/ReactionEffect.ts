@@ -26,9 +26,10 @@ class ReactionEffect extends ItemEffect {
     this.Trigger = data.trigger
     this.activation = ActivationType.Reaction
     this.effectType = EffectType.Reaction
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       'Activation: ' + this.activation,
       (this.Name || '').toUpperCase() + ' // ' + this.Frequency,
@@ -36,7 +37,9 @@ class ReactionEffect extends ItemEffect {
       this.Init,
       'Trigger: ' + this.Trigger,
       this.Detail,
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 

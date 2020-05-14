@@ -27,6 +27,7 @@ class OffensiveEffect extends ItemEffect {
     this.Abilities = data.abilities ? data.abilities.map(x => ItemEffect.Generate(x)) : []
     this.activation = data.activation || ActivationType.None
     this.effectType = EffectType.Offensive
+    this.tags = data.tags || []
   }
 }
 

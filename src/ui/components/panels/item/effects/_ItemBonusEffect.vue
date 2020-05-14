@@ -8,7 +8,7 @@
     :transparent="transparent"
     :print="print"
   >
-    <div :class="print ? 'caption' : 'effect-text mt-n2'">
+    <div :class="print ? 'caption' : 'effect-text mt-n2 mb-2'">
       <cc-tooltip
         simple
         inline

@@ -1,6 +1,6 @@
 import { IRangeData, IDamageData } from '@/interface'
 import { ItemEffect, IEffectData } from './ItemEffect'
-import { ActivationType, EffectType, Damage, Range } from '@/class'
+import { ActivationType, EffectType, Damage, Range, Tag } from '@/class'
 
 enum ChargeType {
   Grenade = 'Grenade',
@@ -13,6 +13,7 @@ interface IChargeData {
   detail: string
   range?: IRangeData[]
   damage?: IDamageData[]
+  tags?: ITagData[]
 }
 
 interface IChargeEffectData extends IEffectData {
@@ -25,6 +26,7 @@ class Charge {
   public readonly Range?: Range[]
   public readonly Damage?: Damage[]
   public readonly Detail: string
+  public readonly tags?: ITagData[]
 
   public constructor(data: IChargeData) {
     this.Name = data.name
@@ -32,18 +34,27 @@ class Charge {
     this.Range = data.range ? data.range.map(x => new Range(x)) : []
     this.Damage = data.damage ? data.damage.map(x => new Damage(x)) : []
     this.Detail = data.detail
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public get Tags(): Tag[] {
+    return Tag.Deserialize(this.tags)
+  }
+
+  public toString(): string {
     return [
       (this.Name || '').toUpperCase(),
       [
         '//',
         this.Range ? 'Range: ' + this.Range.map(d => d.Text).join(', ') : '',
         this.Damage ? 'Damage: ' + this.Damage.map(d => d.Text).join(', ') : '',
-      ].filter(el => el !== '').join('   '),
+      ]
+        .filter(el => el !== '')
+        .join('   '),
       this.Detail,
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 
@@ -57,15 +68,18 @@ class ChargeEffect extends ItemEffect {
     this.Charges = data.charges.map(x => new Charge(x))
     this.activation = data.activation || ActivationType.Quick
     this.effectType = EffectType.Charge
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       'Activation: ' + this.activation + '   Type: ' + this.effectType,
       (this.Name || '').toUpperCase(),
       this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Charges.map(charge => charge.toString()).join('\n'),
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 

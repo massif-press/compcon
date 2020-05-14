@@ -22,16 +22,19 @@ class AIEffect extends ItemEffect {
     this.Abilities = data.abilities.map(x => ItemEffect.Generate(x))
     this.activation = ActivationType.None
     this.effectType = EffectType.AI
+    this.tags = data.tags || []
   }
 
-  public toString() {
+  public toString(): string {
     return [
       'Type: ' + this.effectType,
       (this.Name || '').toUpperCase(),
       this.Tags.length ? 'Tags: ' + this.Tags : '',
       this.Detail,
       this.Abilities.map(a => a.toString()).join('\n'),
-    ].filter(el => el !== '').join('\n');
+    ]
+      .filter(el => el !== '')
+      .join('\n')
   }
 }
 
