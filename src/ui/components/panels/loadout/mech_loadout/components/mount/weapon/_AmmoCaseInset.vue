@@ -6,14 +6,24 @@
     </div>
     <v-row no-gutters class="px-2">
       <v-col>
-        <v-select color="accent" outlined dense hide-details :items="ammoItems" />
+        <v-select
+          v-model="selected"
+          color="accent"
+          outlined
+          dense
+          hide-details
+          :items="ammoItems"
+        />
       </v-col>
       <v-col cols="auto" class="ml-auto pl-8 pr-3">
         <div class="caption">COST</div>
+        <div>{{ ammoItems[selected].cost }}</div>
       </v-col>
     </v-row>
-    <div class="caption px-2 font-weight-bold">EFFECT</div>
-    <div class="body-text px-4">None</div>
+    <div v-if="selected > 0">
+      <div class="caption px-2 font-weight-bold">EFFECT</div>
+      <div class="body-text px-4">{{ ammoItems[selected].effect }}</div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +32,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'ammo-case-inset',
   data: () => ({
+    selected: 0,
     allAmmo: [
       {
         name: 'Standard',
