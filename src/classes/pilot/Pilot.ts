@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
 import {
+  Rules,
   Reserve,
   MechSkills,
   PilotLicense,
@@ -17,7 +18,6 @@ import {
   CompendiumItem,
   ContentPack,
 } from '@/class'
-import { rules } from 'lancer-data'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
@@ -380,7 +380,7 @@ class Pilot {
   }
 
   public get MaxHP(): number {
-    let health = rules.base_pilot_hp + this.Grit
+    let health = Rules.BasePilotHP + this.Grit
     this.Loadout.Armor.forEach(x => {
       if (x) health += x.HPBonus
     })
@@ -411,7 +411,7 @@ class Pilot {
   }
 
   public get Speed(): number {
-    let speed = rules.base_pilot_speed
+    let speed = Rules.BasePilotSpeed
     this.Loadout.Armor.forEach(x => {
       if (!x) return
       if (x.Speed) speed = x.Speed
@@ -421,7 +421,7 @@ class Pilot {
   }
 
   public get Evasion(): number {
-    let evasion = rules.base_pilot_evasion
+    let evasion = Rules.BasePilotEvasion
     this.Loadout.Armor.forEach(x => {
       if (!x) return
       if (x.Evasion) evasion = x.Evasion
@@ -431,7 +431,7 @@ class Pilot {
   }
 
   public get EDefense(): number {
-    let edef = rules.base_pilot_edef
+    let edef = Rules.BasePilotEdef
     this.Loadout.Armor.forEach(x => {
       if (!x) return
       if (x.EDefense) edef = x.EDefense
@@ -469,7 +469,7 @@ class Pilot {
 
   public get MaxSkillPoints(): number {
     const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
-    return rules.minimum_pilot_skills + this._level + bonus
+    return Rules.MinimumPilotSkills + this._level + bonus
   }
 
   public get IsMissingSkills(): boolean {
@@ -486,12 +486,12 @@ class Pilot {
 
   public CanAddSkill(skill: Skill | CustomSkill): boolean {
     if (this._level === 0) {
-      return this._skills.length < rules.minimum_pilot_skills && !this.has('Skill', skill.ID)
+      return this._skills.length < Rules.MinimumPilotSkills && !this.has('Skill', skill.ID)
     } else {
       const underLimit = this.CurrentSkillPoints < this.MaxSkillPoints
       if (!this.has('Skill', skill.ID) && underLimit) return true
       const pSkill = this._skills.find(x => x.Skill.ID === skill.ID)
-      return underLimit && pSkill && pSkill.Rank < rules.max_trigger_rank
+      return underLimit && pSkill && pSkill.Rank < Rules.MaxTriggerRank
     }
   }
 
@@ -550,7 +550,7 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    return rules.minimum_pilot_talents + this._level
+    return Rules.MinimumPilotTalents + this._level
   }
 
   public get IsMissingTalents(): boolean {
@@ -775,7 +775,7 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    return rules.minimum_mech_skills + this._level
+    return Rules.MinimumMechSkills + this._level
   }
 
   public get IsMissingHASE(): boolean {

@@ -1,6 +1,5 @@
 import { store } from '@/store'
-import { rules } from 'lancer-data'
-import { HASE } from '@/class'
+import { Rules, HASE } from '@/class'
 
 class MechSkills {
   private hull: number
@@ -52,7 +51,7 @@ class MechSkills {
   }
 
   public Increment(field: HASE): void {
-    if (this[field] < rules.max_hase) this[field] += 1
+    if (this[field] < Rules.MaxHase) this[field] += 1
     this.save()
   }
 

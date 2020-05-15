@@ -4,6 +4,7 @@
 // stored anywhere and collected imports are fine as long as their constituents are impored
 // first in this file.
 
+import { Rules } from './classes/utility/Rules'
 import {
   MountType,
   FittingSize,
@@ -104,6 +105,7 @@ import { ContentPack } from './classes/ContentPack'
 import { Counter } from './classes/Counter'
 
 export {
+  Rules,
   AIEffect,
   BasicEffect,
   ChargeType,

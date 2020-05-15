@@ -1,9 +1,7 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
-import { rules } from 'lancer-data'
-import { Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
-import { Capacitor } from '@capacitor/core'
+import { Rules, Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ActiveState } from './ActiveState'
 
@@ -205,7 +203,7 @@ class Mech implements IActor {
 
   // -- Attributes --------------------------------------------------------------------------------
   public get Size(): number {
-    if (this._frame.Size === rules.max_frame_size) return rules.max_frame_size
+    if (this._frame.Size === Rules.MaxFrameSize) return Rules.MaxFrameSize
     const bonus = this._pilot.has('CoreBonus', 'cb_fomorian_frame')
     if (bonus) {
       return this._frame.Size === 0.5 ? 1 : this._frame.Size + 1
@@ -225,7 +223,7 @@ class Mech implements IActor {
 
   public get Armor(): number {
     const bonus =
-      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < rules.max_mech_armor
+      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < Rules.MaxMechArmor
         ? 1
         : 0
     return this._frame.Armor + bonus
@@ -337,11 +335,11 @@ class Mech implements IActor {
   }
 
   public get Grapple(): number {
-    return rules.base_grapple
+    return Rules.BaseGrapple
   }
 
   public get Ram(): number {
-    return rules.base_ram
+    return Rules.BaseRam
   }
 
   public get SaveBonus(): number {

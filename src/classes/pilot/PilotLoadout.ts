@@ -1,5 +1,12 @@
-import { PilotEquipment, PilotArmor, PilotWeapon, PilotGear, Loadout, ItemType } from '@/class'
-import { rules } from 'lancer-data'
+import {
+  Rules,
+  PilotEquipment,
+  PilotArmor,
+  PilotWeapon,
+  PilotGear,
+  Loadout,
+  ItemType,
+} from '@/class'
 
 class PilotLoadout extends Loadout {
   private _armor: (PilotArmor | null)[]
@@ -10,9 +17,9 @@ class PilotLoadout extends Loadout {
 
   public constructor(count: number, id?: string) {
     super(count, id)
-    this._armor = Array(rules.max_pilot_armor).fill(null)
-    this._gear = Array(rules.max_pilot_gear).fill(null)
-    this._weapons = Array(rules.max_pilot_weapons).fill(null)
+    this._armor = Array(Rules.MaxPilotArmor).fill(null)
+    this._gear = Array(Rules.MaxPilotGear).fill(null)
+    this._weapons = Array(Rules.MaxPilotWeapons).fill(null)
     this._extendedWeapons = Array(1).fill(null)
     this._extendedGear = Array(2).fill(null)
   }

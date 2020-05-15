@@ -94,8 +94,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { MechWeapon } from '@/class'
-import { rules } from 'lancer-data'
+import { Rules, MechWeapon } from '@/class'
 import { flavorID } from '@/io/Generators'
 
 export default Vue.extend({
@@ -133,7 +132,7 @@ export default Vue.extend({
         : this.mech.FreeSP
     },
     availableWeapons(): MechWeapon[] {
-      const fittings = rules.mount_fittings[this.weaponSlot.Size]
+      const fittings = Rules.MountFittings[this.weaponSlot.Size]
       // filter by fitting size
       let i = this.weapons.filter(x => fittings.includes(x.Size))
 

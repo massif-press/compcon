@@ -1,5 +1,4 @@
-import { rules } from 'lancer-data'
-import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
+import { Rules, LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
 import { ILicensedItemData, ICoreData } from '@/interface'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
@@ -88,7 +87,7 @@ class Frame extends LicensedItem {
   }
 
   public get Structure(): number {
-    return rules.base_structure + (this._stats.structuremod || 0)
+    return Rules.BaseStructure + (this._stats.structuremod || 0)
   }
 
   public get HP(): number {
@@ -104,7 +103,7 @@ class Frame extends LicensedItem {
   }
 
   public get HeatStress(): number {
-    return rules.base_stress + (this._stats.stressmod || 0)
+    return Rules.BaseStress + (this._stats.stressmod || 0)
   }
 
   public get HeatCap(): number {

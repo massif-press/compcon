@@ -90,8 +90,7 @@ import MissingItem from './components/_MissingItem.vue'
 import TalentSelectItem from './components/_TalentSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Pilot, Talent } from '@/class'
-import { rules } from 'lancer-data'
+import { Rules, Pilot, Talent } from '@/class'
 import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
@@ -109,7 +108,7 @@ export default Vue.extend({
       return this.pilot.Level === 0
     },
     selectedMin(): number {
-      return rules.minimum_pilot_talents
+      return Rules.MinimumPilotTalents
     },
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
