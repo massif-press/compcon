@@ -1,5 +1,4 @@
-import { Skill, CustomSkill } from '@/class'
-import { rules } from 'lancer-data'
+import { Rules, Skill, CustomSkill } from '@/class'
 
 class PilotSkill {
   private _skill: Skill | CustomSkill
@@ -25,7 +24,7 @@ class PilotSkill {
   }
 
   public get Bonus(): number {
-    return this._rank * rules.trigger_bonus_per_rank
+    return this._rank * Rules.TriggerBonusPerRank
   }
 
   public get IsCustom(): boolean {
@@ -33,7 +32,7 @@ class PilotSkill {
   }
 
   public Increment(): boolean {
-    if (this._rank >= rules.max_trigger_rank) return false
+    if (this._rank >= Rules.MaxTriggerRank) return false
     this._rank += 1
     return true
   }

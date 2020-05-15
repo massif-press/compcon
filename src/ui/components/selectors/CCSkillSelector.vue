@@ -89,8 +89,7 @@ import MissingItem from './components/_MissingItem.vue'
 import Selector from './components/_SelectorBase.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { rules } from 'lancer-data'
-import { Pilot } from '@/class'
+import { Rules, Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'skill-selector',
@@ -113,7 +112,7 @@ export default Vue.extend({
       return this.pilot.Level === 0
     },
     selectedMin(): number {
-      return rules.minimum_pilot_skills
+      return Rules.MinimumPilotSkills
     },
     enoughSelections(): boolean {
       return !(this.pilot.Skills.length < this.selectedMin)

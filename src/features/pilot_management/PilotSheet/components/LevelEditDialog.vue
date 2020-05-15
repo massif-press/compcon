@@ -71,9 +71,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { rules } from 'lancer-data'
-
-const maxLvl = parseInt(rules.max_pilot_level) || 12
+import { Rules } from '@/class'
 
 export default Vue.extend({
   name: 'cloud-dialog',
@@ -100,11 +98,11 @@ export default Vue.extend({
       if (this.newLevel.length > 2) this.newLevel = this.newLevel.substring(0, 2)
       const lvl = parseInt(this.newLevel) || 0
       if (lvl < 0) this.newLevel = 0
-      if (lvl > maxLvl) this.newLevel = maxLvl
+      if (lvl > Rules.MaxPilotLevel) this.newLevel = Rules.MaxPilotLevel
     },
     setLevel() {
       let lvl = parseInt(this.newLevel) || 0
-      if (lvl > maxLvl) lvl = maxLvl
+      if (lvl > Rules.MaxPilotLevel) lvl = Rules.MaxPilotLevel
       this.pilot.Level = lvl
       this.hide()
     },
