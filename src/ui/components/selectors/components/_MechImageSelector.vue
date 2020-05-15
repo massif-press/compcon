@@ -27,7 +27,7 @@
         </v-col>
       </v-row>
     </v-row>
-    <v-alert v-if="selected" outlined dense color="primary" class="my-2">
+    <v-alert v-if="selected && artist" outlined dense color="primary" class="my-2">
       <v-row>
         <v-col>
           <div>
@@ -74,6 +74,7 @@ export default Vue.extend({
       if (!this.selected) return null
       const basename = path.basename(this.selected, path.extname(this.selected))
       const artist = map.find(x => x.images.some(y => y.img === basename))
+      if (!artist) return null
       const image = artist.images.find(x => x.img === basename)
       return {
         imgName: image.name,
