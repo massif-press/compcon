@@ -59,6 +59,7 @@
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
+        <!-- <ammo-case-inset /> -->
         <v-row no-gutters align="center" class="ml-2 mr-6">
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
@@ -100,6 +101,7 @@ import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'
 import ModSelector from './_ModSelector.vue'
 import ModInset from './_ModInset.vue'
+import AmmoCaseInset from './_AmmoCaseInset.vue'
 import EquipmentOptions from '../../_EquipmentOptions.vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue'
 import ShLockDialog from '../_ShLockDialog.vue'
@@ -112,6 +114,7 @@ export default Vue.extend({
     WeaponSelector,
     ModSelector,
     ModInset,
+    AmmoCaseInset,
     EquipmentOptions,
     EquipmentHeader,
     ShLockDialog,
