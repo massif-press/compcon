@@ -1,3 +1,12 @@
+## [2.0.32](https://github.com/jarena3/compcon/compare/2.0.31...2.0.32) (2020-05-15)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** hotfix for missing artist map images ([9c31ed3](https://github.com/jarena3/compcon/commit/9c31ed3bd855a1d8762aa1194225a799274329c3))
+
+
+
 ## [2.0.31](https://github.com/jarena3/compcon/compare/2.0.30...2.0.31) (2020-05-15)
 
 
