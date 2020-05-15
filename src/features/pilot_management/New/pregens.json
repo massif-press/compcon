@@ -22,8 +22,9 @@
       "mech": {
         "systems": [
           "ms_type_3_projected_shield",
-          "ms_stable_structure",
-          "ms_pattern_b_hex_charges"
+          "ms_pattern_b_hex_charges",
+          "ms_personalizations",
+          "ms_custom_paint_job"
         ],
         "mounts": [
           {

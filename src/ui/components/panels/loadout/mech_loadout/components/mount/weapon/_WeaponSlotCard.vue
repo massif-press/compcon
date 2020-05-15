@@ -59,7 +59,7 @@
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
-        <!-- <ammo-case-inset /> -->
+        <ammo-case-inset :level="armoryLevel" />
         <v-row no-gutters align="center" class="ml-2 mr-6">
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
@@ -105,7 +105,14 @@ import AmmoCaseInset from './_AmmoCaseInset.vue'
 import EquipmentOptions from '../../_EquipmentOptions.vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue'
 import ShLockDialog from '../_ShLockDialog.vue'
-import { MechWeapon, WeaponMod, WeaponSize, EquippableMount } from '@/class'
+import {
+  MechWeapon,
+  WeaponMod,
+  WeaponSize,
+  EquippableMount,
+  PilotTalent,
+  WeaponType,
+} from '@/class'
 
 export default Vue.extend({
   name: 'weapon-slot-card',
@@ -148,6 +155,15 @@ export default Vue.extend({
     },
     color() {
       return this.mech.Frame.Manufacturer.Color
+    },
+    armoryLevel() {
+      if (!this.item) return 0
+      if (this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee) return 0
+      const tal = this.mech.Pilot.Talents.find(
+        (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
+      )
+      if (!tal) return 0
+      return tal.Rank
     },
   },
   methods: {
