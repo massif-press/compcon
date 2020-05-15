@@ -130,6 +130,9 @@ export default Vue.extend({
 
       mech.SetLocalImage(this.selected.image)
 
+      this.pilot.Mechs.forEach(m => {
+        this.pilot.RemoveMech(m)
+      })
       this.pilot.AddMech(mech)
       this.pilot.ActiveMech = mech
 

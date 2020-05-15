@@ -1,11 +1,11 @@
 <template>
-  <div class="light-panel clipped" @click.stop>
+  <div v-show="level > 0" class="light-panel clipped" @click.stop>
     <div class="caption stark--text px-2 py-1">
       WALKING ARMORY//
       <b>SELECTED AMMUNITION</b>
     </div>
-    <v-row no-gutters class="px-2">
-      <v-col>
+    <v-row no-gutters class="px-2 mr-4">
+      <v-col cols="3">
         <v-select
           v-model="selected"
           color="accent"
@@ -13,16 +13,23 @@
           dense
           hide-details
           :items="ammoItems"
+          item-text="name"
+          return-object
+          class="mb-1"
         />
       </v-col>
-      <v-col cols="auto" class="ml-auto pl-8 pr-3">
-        <div class="caption">COST</div>
-        <div>{{ ammoItems[selected].cost }}</div>
+      <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
+        <div class="overline">COST::AMMO CASE</div>
+        <div>
+          <v-icon v-for="n in selected.cost" :key="selected.name + '_ammo_' + n">
+            mdi-hexagon-slice-6
+          </v-icon>
+        </div>
       </v-col>
     </v-row>
-    <div v-if="selected > 0">
+    <div v-if="selected.effect" class="mt-1">
       <div class="caption px-2 font-weight-bold">EFFECT</div>
-      <div class="body-text px-4">{{ ammoItems[selected].effect }}</div>
+      <div class="body-text px-4">{{ selected.effect }}</div>
     </div>
   </div>
 </template>
@@ -31,8 +38,11 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'ammo-case-inset',
+  props: {
+    level: { type: Number, required: true, default: 0 },
+  },
   data: () => ({
-    selected: 0,
+    selected: null,
     allAmmo: [
       {
         name: 'Standard',
@@ -75,11 +85,12 @@ export default Vue.extend({
   }),
   computed: {
     ammoItems() {
-      let ammo = ['Standard']
-      ammo = ammo.concat(['Thumper', 'Shock', 'Mag'])
-      ammo = ammo.concat(['Hellfire', 'Jager'])
-      return ammo
+      if (this.level < 2) return this.allAmmo.slice(0, 4)
+      return this.allAmmo
     },
+  },
+  created() {
+    this.selected = this.allAmmo[0]
   },
 })
 </script>
