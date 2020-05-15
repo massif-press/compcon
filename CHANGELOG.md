@@ -1,3 +1,20 @@
+## [2.0.31](https://github.com/jarena3/compcon/compare/2.0.30...2.0.31) (2020-05-15)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** can now correctly set max uses and damage type on the Engineer's Prototype Weapon ([ccf2bbb](https://github.com/jarena3/compcon/commit/ccf2bbb07080e0fc8769a05f1fae6aa89bd18648)), closes [#798](https://github.com/jarena3/compcon/issues/798)
+* item effect tags now display correctly ([25a4dc7](https://github.com/jarena3/compcon/commit/25a4dc7b49c04e40ec910cb545e770cd3a3d89ea)), closes [#842](https://github.com/jarena3/compcon/issues/842)
+
+
+### Features
+
+* show original equipment name on renamed items ([c109271](https://github.com/jarena3/compcon/commit/c10927113e1ea068842ad50a56cbe692e8d64b7c)), closes [#789](https://github.com/jarena3/compcon/issues/789)
+* **Mech Sheet:** updated the image selection UI, added in the Retrograde premade EVERESTs ([b9c0fb4](https://github.com/jarena3/compcon/commit/b9c0fb490149c3df88381397ac1879952f57c192)), closes [#498](https://github.com/jarena3/compcon/issues/498)
+* **Pilot Sheet:** adds pregenerated templates as a character creation option ([ff1e91b](https://github.com/jarena3/compcon/commit/ff1e91b0a4a60f48da0e7ada43c69cccf145a617)), closes [#511](https://github.com/jarena3/compcon/issues/511)
+
+
+
 ## [2.0.30](https://github.com/jarena3/compcon/compare/2.0.29...2.0.30) (2020-04-29)
 
 
