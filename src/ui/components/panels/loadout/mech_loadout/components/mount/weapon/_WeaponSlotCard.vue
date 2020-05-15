@@ -59,7 +59,7 @@
         <v-row v-if="item.Mod" dense justify="center">
           <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
-        <ammo-case-inset />
+        <!-- <ammo-case-inset /> -->
         <v-row no-gutters align="center" class="ml-2 mr-6">
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
