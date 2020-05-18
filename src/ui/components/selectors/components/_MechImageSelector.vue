@@ -12,7 +12,7 @@
           :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
         >
           <div @click="selected = mech.Frame.DefaultImage">
-            <v-img :src="mech.Frame.DefaultImage" />
+            <v-img :src="mech.Frame.DefaultImage" contain />
           </div>
         </v-col>
         <v-col
@@ -38,7 +38,7 @@
             <v-icon color="primary">mdi-web</v-icon>
             <span>Website</span>
           </a>
-          <span class="ml-4 mr-2">|</span>
+          <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
           <a v-if="artist.twitter" v-extlink="`https://twitter.com/${artist.twitter}`" class="ml-3">
             <v-icon color="primary">mdi-twitter</v-icon>
             <span>@{{ artist.twitter }}</span>

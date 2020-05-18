@@ -26,7 +26,7 @@
       <v-col cols="5">
         <v-img :src="item.DefaultImage" max-width="35vw" />
         <cc-tooltip simple content="Feature In Development">
-          <v-btn small outlined block disabled>View {{ item.Name }} Gallery</v-btn>
+          <frame-gallery-modal :frame="item" />
         </cc-tooltip>
       </v-col>
     </v-row>
@@ -56,11 +56,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { FrameStatblock, FrameCoreSystemPanel } from './frame'
+import { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel } from './frame'
 
 export default Vue.extend({
   name: 'cc-frame-card',
-  components: { FrameStatblock, FrameCoreSystemPanel },
+  components: { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel },
   props: {
     item: {
       type: Object,

@@ -30,7 +30,8 @@
       { "name": "HORUS PEGASUS", "img": "mf_pegasus" },
       { "name": "IPS-N RALEIGH", "img": "mf_raleigh" },
       { "name": "HA SALADIN", "img": "mf_saladin" },
-      { "name": "HA SHERMAN", "img": "mf_sherman" },
+      { "name": "HA SHERMAN MK.II", "img": "mf_sherman" },
+      { "name": "HA SHERMAN MK.I", "img": "alt_sherman_old" },
       { "name": "SSC SWALLOWTAIL", "img": "mf_swallowtail" },
       { "name": "HA SUNZI", "img": "mf_sunzi" },
       { "name": "HA TOKUGAWA", "img": "mf_tokugawa" },
@@ -64,6 +65,24 @@
       {
         "name": " GMS EVEREST (Support Pattern)",
         "img": "pre_support_pixel"
+      }
+    ]
+  },
+  {
+    "artist": "Tan Juan Gee",
+    "twitter": "juangeedraws",
+    "images": [
+      {
+        "name": "H0rTUGA",
+        "img": "alt_hortuga"
+      },
+      {
+        "name": "IPS-N VLAD (Agonist Pattern)",
+        "img": "alt_agonist"
+      },
+      {
+        "name": "SSC DEATH'S HEAD (Hercules Pattern)",
+        "img": "alt_hercules"
       }
     ]
   }
