@@ -74,6 +74,7 @@ import { WeaponMod } from './classes/mech/WeaponMod'
 import WeaponSlot from './classes/mech/WeaponSlot'
 import Mech from './classes/mech/Mech'
 import Reserve from './classes/pilot/reserves/Reserve'
+import BonusPoints from './classes/pilot/bonuspoints/BonusPoints'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
 import { Manufacturer } from './classes/Manufacturer'
@@ -103,6 +104,7 @@ import {
 import { Encounter, Rest, Mission, ActiveMission, MissionStepType } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
 import { Counter } from './classes/Counter'
+
 
 export {
   Rules,
@@ -157,6 +159,7 @@ export {
   PilotLoadout,
   PilotSkill,
   PilotTalent,
+  BonusPoints,
   Reserve,
   Project,
   Organization,

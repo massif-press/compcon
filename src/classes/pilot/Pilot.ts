@@ -17,6 +17,7 @@ import {
   Organization,
   CompendiumItem,
   ContentPack,
+  BonusPoints
 } from '@/class'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
@@ -63,6 +64,8 @@ class Pilot {
   private cc_ver: string
   private _brews: string[]
 
+  private pointBonuses: BonusPoints
+
   public constructor() {
     this._id = uuid()
     this._cloudID = ''
@@ -94,6 +97,8 @@ class Pilot {
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     this._brews = []
     // this._initCounters()
+
+    this.pointBonuses = new BonusPoints
   }
 
   // -- Utility -----------------------------------------------------------------------------------
