@@ -32,27 +32,19 @@ class MechLoadout extends Loadout {
   }
 
   public UpdateIntegrated(mech: Mech): void {
-    this._integratedSystems.forEach((s, idx) => {
-      if (!mech.IntegratedSystems.find(x => x.ID === s.ID)) this._integratedSystems.splice(idx, 1)
-    })
+    this._integratedSystems.splice(0, this._integratedSystems.length)
 
     mech.IntegratedSystems.forEach(s => {
-      if (!this._integratedSystems.find(x => x.ID === s.ID)) this._integratedSystems.push(s)
+      this._integratedSystems.push(s)
     })
 
-    this._integratedMounts.forEach((s, idx) => {
-      console.log('finding currently installed ', s)
-      if (!mech.IntegratedMounts.find(x => x.ItemSource === s.ItemSource))
-        console.log('not found: ', s.ItemSource)
-      this._integratedMounts.splice(idx, 1)
-    })
+    this._integratedMounts.splice(0, this._integratedMounts.length)
 
     mech.IntegratedMounts.forEach(s => {
-      console.log(s)
-      if (!this._integratedMounts.find(x => x.ItemSource === s.ItemSource))
-        console.log('not found int mount')
       this._integratedMounts.push(s)
     })
+
+    console.log(this._integratedMounts)
 
     this.save()
   }
