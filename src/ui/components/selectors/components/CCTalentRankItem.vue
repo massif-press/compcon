@@ -9,7 +9,7 @@
       />
     </v-col>
     <v-col>
-      <p class="effect-text px-3 ma-0 ml-n2" v-html="description" />
+      <p class="body-text px-3 ma-0 ml-n2" v-html="description" />
     </v-col>
   </v-row>
 </template>

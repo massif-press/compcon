@@ -19,19 +19,20 @@
     >
       <cc-talent-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container>
+    <v-container :fluid="!!pilot.Talents.length">
       <no-data-block v-if="!pilot.Talents.length" />
-      <cc-talent-item
-        v-for="(t, i) in pilot.Talents"
-        v-else
-        :key="`t_${i}`"
-        :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-        :talent="t.Talent"
-        :rank="t.Rank"
-        hide-locked
-        color="pilot"
-        item-color="secondary"
-      />
+      <v-row v-else dense justify="center">
+        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" md="12" lg="6" xl="4">
+          <cc-talent-item
+            :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+            :talent="t.Talent"
+            :rank="t.Rank"
+            hide-locked
+            color="pilot"
+            item-color="secondary"
+          />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>

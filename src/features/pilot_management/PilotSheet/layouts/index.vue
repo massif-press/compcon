@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore } from '@/store'
+import { CompendiumStore } from '@/store'
 import { Pilot } from '@/class'
 import { UserProfile } from '@/io/User'
 import TabbedLayout from './Tabbed.vue'

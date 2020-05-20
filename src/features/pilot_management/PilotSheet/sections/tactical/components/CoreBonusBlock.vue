@@ -19,9 +19,13 @@
     >
       <cc-core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container>
+    <v-container :fluid="!!pilot.CoreBonuses.length">
       <no-data-block v-if="!pilot.CoreBonuses.length" />
-      <cc-core-bonus-item v-for="(b, i) in pilot.CoreBonuses" v-else :key="`b_${i}`" :bonus="b" />
+      <v-row v-else dense justify="center">
+        <v-col v-for="(b, i) in pilot.CoreBonuses" :key="`b_${i}`" md="12" lg="6" xl="4">
+          <cc-core-bonus-item :bonus="b" />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
