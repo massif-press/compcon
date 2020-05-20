@@ -1,3 +1,21 @@
+## [2.0.35](https://github.com/jarena3/compcon/compare/2.0.34...2.0.35) (2020-05-20)
+
+
+### Bug Fixes
+
+* **Active Mode:** prevent talent counters from being added early ([e1a26ac](https://github.com/jarena3/compcon/commit/e1a26ac0c7af29577b03c3e1c15b64c70533eedc)), closes [#849](https://github.com/jarena3/compcon/issues/849)
+* **Mech Sheet:** fixed an error that would pop up when equipping external batteries on a barbarossa ([5a688e4](https://github.com/jarena3/compcon/commit/5a688e4e65be354674551cdd41c71c647dcd24c8)), closes [#844](https://github.com/jarena3/compcon/issues/844)
+* **Mech Sheet:** fixed engineer integrated weapon not updating correctly ([2d3805b](https://github.com/jarena3/compcon/commit/2d3805b0e0d8197712b48ccc2807f963858a8859)), closes [#763](https://github.com/jarena3/compcon/issues/763)
+
+
+### Features
+
+* **Compendium:** add frame galleries ([c3349cc](https://github.com/jarena3/compcon/commit/c3349cc3904cd7a17acfa7ad4fe341963c7b27fc))
+* **Mech Sheet:** armament ammo selection box ([28b7542](https://github.com/jarena3/compcon/commit/28b75426f4c40ea999ff85fdca14a2892da55453)), closes [#505](https://github.com/jarena3/compcon/issues/505)
+* **Pilot Sheet:** arrange already-selected talents to the top of the talent selector list ([7cec578](https://github.com/jarena3/compcon/commit/7cec57854fbc5feb6738e977a62d1dc2c911d184))
+
+
+
 ## [2.0.34](https://github.com/jarena3/compcon/compare/2.0.33...2.0.34) (2020-05-15)
 
 
