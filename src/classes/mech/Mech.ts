@@ -787,7 +787,9 @@ class Mech implements IActor {
     }
     if (this._pilot.has('Talent', 't_engineer')) {
       const id = `mw_prototype_${this._pilot.getTalentRank('t_engineer')}`
+      console.log(id)
       const engWeapon = store.getters.referenceByID('MechWeapons', id)
+      console.log(engWeapon)
       intg.push(new IntegratedMount(engWeapon, 'Engineer'))
     }
     return intg
