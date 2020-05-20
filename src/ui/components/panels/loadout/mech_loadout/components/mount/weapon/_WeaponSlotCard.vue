@@ -30,8 +30,14 @@
       <div v-if="item">
         <equipment-header :item="item" :color="color" :use-bonus="mech.Pilot.LimitedBonus">
           <div class="d-inline mx-2">
-            <cc-range-element small :range="item.getTotalRange(mech)" class="d-inline" />
+            <cc-range-element
+              v-if="item.Range"
+              small
+              :range="item.getTotalRange(mech)"
+              class="d-inline"
+            />
             <cc-damage-element
+              v-if="item.Damage"
               small
               :damage="item.Damage"
               :type-override="item.DamageTypeOverride"
