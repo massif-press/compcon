@@ -1,8 +1,8 @@
 <template>
-  <cc-titled-panel :title="talent.Name" :icon="`cci-rank-${rank}`" :color="color">
-    <v-btn slot="items" icon @click="$refs.dialog.show()">
-      <v-icon large>mdi-information-outline</v-icon>
-    </v-btn>
+  <cc-titled-panel :title="talent.Name" :icon="`cci-rank-${rank}`" :color="color" dense>
+    <v-icon slot="items" class="fadeSelect mt-n5" @click="$refs.dialog.show()">
+      mdi-information-outline
+    </v-icon>
     <cc-solo-dialog ref="dialog" large icon="cci-trait" no-confirm :title="talent.Name">
       <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
