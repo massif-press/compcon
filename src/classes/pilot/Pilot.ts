@@ -925,7 +925,9 @@ class Pilot {
 
   public get CounterData(): ICounterData[] {
     return [
-      this.Talents?.flatMap(pilotTalent => pilotTalent.Talent.Counters),
+      this.Talents?.flatMap(pilotTalent =>
+        pilotTalent.Talent.Counters.filter(x => !x.level || x.level <= pilotTalent.Rank)
+      ),
       this.CoreBonuses?.flatMap(cb => cb.Counters),
       this.ActiveMech?.Frame.Counters,
       this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
