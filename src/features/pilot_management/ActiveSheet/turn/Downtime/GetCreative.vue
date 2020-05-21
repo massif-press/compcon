@@ -44,8 +44,8 @@
                     label="Initial Roll Result"
                     outlined
                     dense
-                    append-outer-icon="add"
-                    prepend-icon="remove"
+                    append-outer-icon="mdi-plus-circle-outline"
+                    prepend-icon="mdi-minus-circle-outline"
                     hide-details
                     @click:append-outer="initialRoll++"
                     @click:prepend="initialRoll > 1 ? initialRoll-- : ''"
@@ -156,8 +156,8 @@
                     outlined
                     dense
                     hide-details
-                    append-outer-icon="add"
-                    prepend-icon="remove"
+                    append-outer-icon="mdi-plus-circle-outline"
+                    prepend-icon="mdi-minus-circle-outline"
                     @click:append-outer="improveRoll++"
                     @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
                   />

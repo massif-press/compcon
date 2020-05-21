@@ -22,8 +22,8 @@
             outlined
             dense
             hide-details
-            append-outer-icon="add"
-            prepend-icon="remove"
+            append-outer-icon="mdi-plus-circle-outline"
+            prepend-icon="mdi-minus-circle-outline"
             @click:append-outer="skillRoll++"
             @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
           />

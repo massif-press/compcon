@@ -23,8 +23,8 @@
               label="Heat Roll Result"
               outlined
               dense
-              append-outer-icon="add"
-              prepend-icon="remove"
+              append-outer-icon="mdi-plus-circle-outline"
+              prepend-icon="mdi-minus-circle-outline"
               @click:append-outer="overcharge_heat < 10 ? overcharge_heat++ : ''"
               @click:prepend="overcharge_heat > 0 ? overcharge_heat-- : ''"
             />
