@@ -59,6 +59,7 @@ class Pilot {
 
   private _mechs: Mech[]
   private _active_mech: string | null
+  private _mounted: boolean
 
   private cc_ver: string
   private _brews: string[]
@@ -85,6 +86,7 @@ class Pilot {
     this._licenses = []
     this._skills = []
     this._talents = []
+    this._mounted = false
     this._mechSkills = new MechSkills()
     this._core_bonuses = []
     this._active_mech = null
@@ -881,6 +883,19 @@ class Pilot {
     this.save()
   }
 
+  public get Mounted(): boolean {
+    if (!this.ActiveMech) return false
+    if (this.ActiveMech.Destroyed || this.ActiveMech.ReactorDestroyed || this.ActiveMech.Ejected)
+      return false
+    return this._mounted
+  }
+
+  public set Mounted(val: boolean) {
+    if (val) this.ActiveMech.Ejected = false
+    this._mounted = val
+    this.save()
+  }
+
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []
@@ -953,13 +968,14 @@ class Pilot {
       name: p.Name,
       player_name: p.PlayerName,
       status: p.Status,
+      mounted: p.Mounted,
       factionID: p._factionID,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
       portrait: p._portrait,
       cloud_portrait: p._cloud_portrait,
-      quirk: p.Qirk,
+      quirk: p.Quirk,
       current_hp: p.CurrentHP,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
@@ -1000,6 +1016,7 @@ class Pilot {
     this._name = data.name
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
+    this._mounted = data.mounted || true
     this._factionID = data.factionID
     this._text_appearance = data.text_appearance
     this._notes = data.notes

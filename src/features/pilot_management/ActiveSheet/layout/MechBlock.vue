@@ -17,14 +17,44 @@
         <mech-select-button big :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
       </div>
     </div>
+    <div v-else-if="mech && !pilot.Mounted">
+      <v-divider class="my-2" />
+      <v-alert prominent dense outlined border="bottom" color="accent" icon="cci-frame">
+        <div class="overline text--text">PILOT DISMOUNTED - MECH STATUS: [ IDLE ]</div>
+        <div class="heading h3 mt-n2">
+          <div class="stark--text">
+            {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+            <cc-slashes />
+            {{ mech.Name }}
+            <span class="ml-1 flavor-text subtle--text">(ACTIVE MECH)</span>
+          </div>
+        </div>
+        <cc-tooltip simple content="Enter the mech and switch to Mech Mode">
+          <v-btn color="secondary" outlined block class="my-1" @click="pilot.Mounted = true">
+            mount mech
+          </v-btn>
+        </cc-tooltip>
+      </v-alert>
+    </div>
     <div v-else>
       <v-row dense>
-        <v-col>
-          <span class="heading mech" style="line-height: 15px">{{ mech.Name }}</span>
-          <div class="flavor-text subtle--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</div>
+        <v-col class="mt-n5">
+          <div class="overline subtle--text">MOUNTED::</div>
+          <div class="heading h2 mt-n3">
+            <span class="accent--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
+            <cc-slashes />
+            <span class="stark--text">{{ mech.Name }}</span>
+          </div>
+          <div class="overline subtle--text">PILOT::</div>
+          <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
         </v-col>
         <v-col cols="auto" class="ml-auto mr-2">
           <mech-select-button :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
+        </v-col>
+        <v-col v-if="pilot.Mounted" cols="auto">
+          <cc-tooltip title="DISMOUNT MECH" content="Exit the mech and switch to Pilot Mode">
+            <v-btn small outlined @click="pilot.Mounted = false">dismount mech</v-btn>
+          </cc-tooltip>
         </v-col>
       </v-row>
 

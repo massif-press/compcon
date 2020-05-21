@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="!pilot.Mounted">
     <v-row align="start" class="mb-n3">
       <v-col>
         <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>

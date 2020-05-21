@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row dense align="center" class="mt-n3">
-      <v-col cols="2" class="mr-n6">
+    <v-row dense align="center" justify="space-around" class="mt-n3">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStructure"
           :current="mech.CurrentStructure"
@@ -17,7 +17,7 @@
           </span>
         </cc-tick-bar>
       </v-col>
-      <v-col v-if="mech.Armor" cols="auto" class="mx-1">
+      <v-col v-if="mech.Armor" cols="auto">
         <cc-tick-bar
           :key="mech.Armor"
           :current="mech.Armor"
@@ -31,7 +31,7 @@
           <span class="heading h3">Armor</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-1">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentHP"
           :current="mech.CurrentHP"
@@ -45,7 +45,7 @@
           <span class="heading h3">HP</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-1">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.Overshield"
           :current="mech.Overshield"
@@ -60,7 +60,7 @@
           <span class="heading h3">OVERSHIELD</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
+      <v-col cols="auto">
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ on }">
             <v-btn large icon class="fadeSelect" v-on="on">
@@ -75,8 +75,8 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
-      <v-col cols="2" class="mr-n6">
+    <v-row dense justify="space-around">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStress"
           :current="mech.CurrentStress"
@@ -90,7 +90,7 @@
           <span class="heading h3">Reactor</span>
         </cc-tick-bar>
       </v-col>
-      <v-col class="mr-4">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentHeat"
           :current="mech.CurrentHeat"
@@ -118,7 +118,7 @@
           HEAT LEVELS NOMINAL
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentRepairs"
           :current="mech.CurrentRepairs"
@@ -133,7 +133,7 @@
           </span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"

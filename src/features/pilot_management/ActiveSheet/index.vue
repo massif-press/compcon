@@ -4,7 +4,6 @@
     <div style="height: 40px" />
     <div style="margin-right: 80px">
       <pilot-block :pilot="pilot" />
-      <v-divider class="mt-2 mb-4" />
       <mech-block :pilot="pilot" />
     </div>
   </v-container>
