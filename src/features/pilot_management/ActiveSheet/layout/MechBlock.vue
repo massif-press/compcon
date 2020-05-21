@@ -73,9 +73,9 @@
           <v-text-field
             v-model="mech.Burn"
             type="number"
-            append-outer-icon="add"
+            append-outer-icon="mdi-plus-circle-outline"
             append-icon="mdi-fire"
-            prepend-icon="remove"
+            prepend-icon="mdi-minus-circle-outline"
             style="width: 115px"
             class="hide-input-spinners"
             hint="BURN"
