@@ -21,7 +21,7 @@
                 contain
               />
             </v-col>
-            <v-col cols="4" class="ml-auto">
+            <v-col cols="4" class="ml-auto pr-6">
               <div class="heading h1 accent--text">{{ frame.Name }}</div>
               <v-alert v-if="selected && artist" outlined dense color="primary" class="my-2">
                 <v-row>
@@ -37,6 +37,7 @@
                     <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
                     <a
                       v-if="artist.twitter"
+                      :key="artist.twitter"
                       v-extlink="`https://twitter.com/${artist.twitter}`"
                       class="ml-3"
                     >
