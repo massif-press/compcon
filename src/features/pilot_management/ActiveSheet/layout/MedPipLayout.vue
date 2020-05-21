@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row dense align="center" justify="space-around" class="mt-n3">
-      <v-col>
+      <v-col cols="3">
         <cc-tick-bar
           :key="mech.CurrentStructure"
           :current="mech.CurrentStructure"
@@ -13,7 +13,7 @@
           @update="mech.CurrentStructure = $event"
         >
           <span class="heading h3">
-            Structure: {{ mech.CurrentStructure }}/{{ mech.MaxStructure }}
+            Structure
           </span>
         </cc-tick-bar>
       </v-col>
@@ -26,8 +26,10 @@
           color="armor"
           full-icon="mdi-shield"
           readonly
+          number-only
+          hide-values
         >
-          <span class="heading h3">Armor: {{ mech.Armor }}</span>
+          <span class="heading h3">Armor</span>
         </cc-tick-bar>
       </v-col>
       <v-col class="ml-1">
@@ -38,9 +40,25 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
+          max-length="16"
           @update="mech.CurrentHP = $event"
         >
-          <span class="heading h3">HP: {{ mech.CurrentHP }}/{{ mech.MaxHP }}</span>
+          <span class="heading h3">HP</span>
+        </cc-tick-bar>
+      </v-col>
+      <v-col cols="auto" class="ml-1">
+        <cc-tick-bar
+          :key="mech.Overshield"
+          :current="mech.Overshield"
+          :max="mech.Overshield"
+          large
+          color="stark"
+          :full-icon="'mdi-octagram'"
+          number-only
+          hide-values
+          @update="mech.Overshield = $event"
+        >
+          <span class="heading h3">OVERSHIELD</span>
         </cc-tick-bar>
       </v-col>
     </v-row>
@@ -57,7 +75,7 @@
           :class="{ rolledOver: stressRollover }"
           @update="mech.CurrentStress = $event"
         >
-          <span class="heading h3">Reactor: {{ mech.CurrentStress }}/{{ mech.MaxStress }}</span>
+          <span class="heading h3">Reactor</span>
         </cc-tick-bar>
       </v-col>
       <v-col class="mr-4">
@@ -69,13 +87,14 @@
           :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
           :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
           clearable
+          max-length="12"
           @update="mech.CurrentHeat = $event"
         >
           <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
-            HEAT: {{ mech.CurrentHeat }}/{{ mech.HeatCapacity }}
+            HEAT
           </span>
           <span v-else class="heading h3">
-            HEAT: {{ mech.CurrentHeat }}/{{ mech.HeatCapacity }}
+            HEAT
           </span>
         </cc-tick-bar>
         <div v-if="mech.IsInDangerZone" class="caption font-weight-bold dangerzone--text">
@@ -96,7 +115,7 @@
           @update="mech.CurrentRepairs = $event"
         >
           <span class="heading h3">
-            REPAIR CAPACITY: {{ mech.CurrentRepairs }}/{{ mech.RepairCapacity }}
+            REPAIR CAPACITY
           </span>
         </cc-tick-bar>
       </v-col>
@@ -114,6 +133,8 @@
           color="corepower"
           empty-icon="mdi-battery-10"
           full-icon="mdi-battery"
+          max-length="12"
+          hide-values
           @update="mech.CurrentCoreEnergy = $event"
         >
           <span class="heading h3">CORE POWER</span>
@@ -136,6 +157,7 @@
           clearable
           color="overcharge"
           full-icon="mdi-alert-decagram"
+          hide-values
           @update="mech.CurrentOvercharge = $event"
         >
           <span class="heading h3">
@@ -147,7 +169,7 @@
         </div>
       </v-col>
 
-      <v-col class="ml-auto">
+      <v-col class="ml-auto text-center">
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ on }">
             <v-btn large outlined class="fadeSelect" v-on="on">
@@ -162,6 +184,7 @@
         </v-menu>
       </v-col>
     </v-row>
+    <v-divider class="mt-1 mb-2" />
   </div>
 </template>
 

@@ -15,9 +15,7 @@
             :current="pilot.CurrentHP"
             :max="pilot.MaxHP"
             @update="pilot.CurrentHP = $event"
-          >
-            {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
-          </cc-tick-bar>
+          ></cc-tick-bar>
         </b>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">

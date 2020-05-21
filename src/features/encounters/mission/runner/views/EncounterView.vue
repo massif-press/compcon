@@ -78,7 +78,7 @@
         <v-divider class="my-2" />
         <v-menu offset-x left>
           <template v-slot:activator="{ on }">
-            <v-btn block small color="primary" outlined v-on="on">
+            <v-btn block small color="accent" outlined v-on="on">
               Complete
               <br />
               Encounter

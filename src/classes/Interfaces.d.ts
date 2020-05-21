@@ -184,6 +184,7 @@ declare interface IMechData {
   active: boolean
   current_structure: number
   current_hp: number
+  overshield: number
   current_stress: number
   current_heat: number
   current_repairs: number
