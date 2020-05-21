@@ -2,8 +2,8 @@
   <v-col cols="4">
     <v-card :color="item.Destroyed ? 'error' : ''" outlined class="ma-1">
       <v-card-text class="py-2 px-3">
-        <v-row dense>
-          <v-col cols="auto" class="mr-2">
+        <v-row dense align="center">
+          <v-col lg="12" xl="auto" class="mr-2">
             <div class="heading h3" :style="item.Destroyed ? 'text-decoration: line-through;' : ''">
               <span v-if="item.FlavorName">
                 {{ item.Name }}
@@ -24,6 +24,9 @@
           </v-col>
           <v-col v-if="item.Range" cols="auto">
             <cc-range-element :range="item.Range" small class="d-inline" />
+          </v-col>
+          <v-col v-if="item.MaxUses" cols="auto" class="mb-n1">
+            <cc-item-uses :item="item" />
           </v-col>
           <v-col cols="auto" class="ml-auto">
             <v-dialog width="75vw">
