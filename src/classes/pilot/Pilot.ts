@@ -248,18 +248,12 @@ class Pilot {
     this.save()
   }
 
-  public get Qirk(): string {
+  public get Quirk(): string {
     return this._quirk
   }
 
-  public set Qirk(newVal: string) {
+  public set Quirk(newVal: string) {
     this._quirk = newVal
-    this.save()
-  }
-
-  public RollQuirk(): void {
-    const _quirks = store.getters.getItemCollection('Quirks')
-    this._quirk = _quirks[Math.floor(Math.random() * _quirks.length)]
     this.save()
   }
 

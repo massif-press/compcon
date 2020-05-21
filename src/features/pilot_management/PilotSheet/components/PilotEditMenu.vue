@@ -1,13 +1,15 @@
 <template>
   <div>
-    <v-menu offset-y top>
+    <v-menu offset-y offset-x>
       <template v-slot:activator="{ on: menu }">
         <v-btn class="ml-2" icon :dark="!light" v-on="menu">
           <v-icon>mdi-settings</v-icon>
         </v-btn>
       </template>
-      <v-list two-line subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-2">Pilot Options</v-subheader>
+      <v-list two-line subheader color="panel">
+        <v-subheader v-if="!dense" class="heading h2 white--text primary py-0 px-2">
+          Pilot Options
+        </v-subheader>
         <v-list-item @click="$refs.printDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-printer</v-icon>
@@ -16,6 +18,17 @@
             <v-list-item-title>Print</v-list-item-title>
             <v-list-item-subtitle>
               Print tabletop-ready character and mech sheets
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="$refs.cloneDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-dna</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Clone</v-list-item-title>
+            <v-list-item-subtitle>
+              Duplicate or Flash Clone this character
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -95,11 +108,10 @@
     <print-dialog ref="printDialog" :pilot="pilot" />
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
-
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
-
     <cloud-dialog ref="cloudDialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
+    <clone-dialog ref="cloneDialog" :pilot="pilot" />
     <cloud-manager ref="cloud" :pilot="pilot" />
   </div>
 </template>
@@ -109,6 +121,7 @@ import Vue from 'vue'
 
 import CloudManager from './CloudManager.vue'
 import CloudDialog from './CloudDialog.vue'
+import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import Roll20Dialog from './Roll20Dialog.vue'
 import ExportDialog from './ExportDialog.vue'
@@ -128,6 +141,7 @@ export default Vue.extend({
     ExportDialog,
     PrintDialog,
     DeleteDialog,
+    CloneDialog,
   },
   props: {
     pilot: {
@@ -135,6 +149,9 @@ export default Vue.extend({
       required: true,
     },
     light: {
+      type: Boolean,
+    },
+    dense: {
       type: Boolean,
     },
   },
