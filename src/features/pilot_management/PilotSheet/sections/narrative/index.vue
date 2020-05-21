@@ -1,5 +1,13 @@
 <template>
   <div>
+    <v-row v-if="pilot.Quirk" align="center">
+      <v-col cols="10">
+        <div class="flavor-text font-weight-bold stark--text">CLONE QUIRK</div>
+        <v-alert icon="mdi-dna" prominent dense color="primary" outlined>
+          <div class="body-text stark--text font-weight-bold">{{ pilot.Quirk }}</div>
+        </v-alert>
+      </v-col>
+    </v-row>
     <skill-block :pilot="pilot" />
     <dt-resources-block :pilot="pilot" />
     <!-- TODO: -->
