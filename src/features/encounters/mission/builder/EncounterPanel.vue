@@ -10,11 +10,18 @@
         <v-chip v-for="l in encounter.Labels" :key="l" small class="mx-1">{{ l }}</v-chip>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <b class="caption">TOTAL POWER RATING</b>
-        <br />
-        <span class="heading h2 accent--text">
-          {{ encounter.Power.toString().padStart(4, '0') }}
-        </span>
+        <cc-tooltip
+          title="Power Rating"
+          content="The Power Rating is an attempt to calculate the relative strength of an NPC (or encounters’ worth of NPCs) based on tier and applied templates, compared to mission’s Pilot and their current level. It should, generally, produce results more or less in line with the Balancing Combat section on pp. 283 of the LANCER Core Book.<br> That said, this is an experimental feature that is still very heavily in development, and does not (yet) always produce reliable results. Moreover, this tool doesn’t consider NPC or player team composition, synergies, strengths, and weaknesses. Nor does this tool consider map layout, mission objectives, or reinforcement schedules.<br>While we will continue to work on this tool to produce more accurate, actionable results, please use it only as a general indicator of relative NPC strength."
+        >
+          <div>
+            <b class="caption">TOTAL POWER RATING</b>
+            <br />
+            <span class="heading h2 accent--text">
+              {{ encounter.Power.toString().padStart(4, '0') }}
+            </span>
+          </div>
+        </cc-tooltip>
       </v-col>
     </v-row>
     <p v-if="encounter.Note" class="flavor-text mb-0" v-html="encounter.Note" />

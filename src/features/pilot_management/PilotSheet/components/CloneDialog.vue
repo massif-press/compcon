@@ -95,6 +95,7 @@ export default Vue.extend({
       newPilot.RenewID()
       newPilot.Callsign += '″'
       newPilot.Name += ' (COPY)'
+      newPilot.Status = 'ACTIVE'
       this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },

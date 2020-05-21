@@ -9,16 +9,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
-import { Pilot } from '@/class'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
-
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'notes-block',
-
 })
 </script>

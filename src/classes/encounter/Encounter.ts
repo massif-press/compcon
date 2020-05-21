@@ -178,8 +178,12 @@ class Encounter implements IMissionStep {
   }
 
   public get Power(): number {
-    const enemy = this.Npcs(EncounterSide.Enemy).reduce((a, b) => +a + +b.Power, 0)
-    const ally = this.Npcs(EncounterSide.Ally).reduce((a, b) => +a + +b.Power, 0)
+    const enemy = this.Npcs(EncounterSide.Enemy)
+      .concat(this.Reinforcements(EncounterSide.Enemy))
+      .reduce((a, b) => +a + +b.Power, 0)
+    const ally = this.Npcs(EncounterSide.Ally)
+      .concat(this.Reinforcements(EncounterSide.Enemy))
+      .reduce((a, b) => +a + +b.Power, 0)
     return enemy - ally
   }
 

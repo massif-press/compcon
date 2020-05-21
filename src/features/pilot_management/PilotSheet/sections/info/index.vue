@@ -5,6 +5,7 @@
         <ident-block />
       </v-col>
       <v-col cols="8" dense>
+        <clone-block />
         <history-block />
         <appearance-block />
         <notes-block />
@@ -23,9 +24,10 @@ import HistoryBlock from './components/HistoryBlock.vue'
 import AppearanceBlock from './components/AppearanceBlock.vue'
 import ImageBlock from './components/ImageBlock.vue'
 import NotesBlock from './components/NotesBlock.vue'
+import CloneBlock from './components/CloneBlock.vue'
 
 export default Vue.extend({
   name: 'info-view',
-  components: { IdentBlock, HistoryBlock, AppearanceBlock, ImageBlock, NotesBlock },
+  components: { IdentBlock, HistoryBlock, AppearanceBlock, ImageBlock, NotesBlock, CloneBlock },
 })
 </script>
