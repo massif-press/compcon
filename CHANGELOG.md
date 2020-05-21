@@ -1,3 +1,12 @@
+## [3.0.37](https://github.com/jarena3/compcon/compare/2.0.36...3.0.37) (2020-05-21)
+
+
+### Bug Fixes
+
+* **Mech Sheet:** corrected and cleaned up some image selection issues ([fea01c8](https://github.com/jarena3/compcon/commit/fea01c82756b0e1a3228b2a60695b5f2ae670ace))
+
+
+
 ## [2.0.36](https://github.com/jarena3/compcon/compare/2.0.35...2.0.36) (2020-05-20)
 
 
