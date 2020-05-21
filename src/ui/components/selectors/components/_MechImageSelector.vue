@@ -5,7 +5,7 @@
         COMP/CON OMNINET ARCHIVE ::
         <b class="stark--text">{{ mech.Frame.Name }}</b>
       </div>
-      <v-row justify="center" align="center">
+      <v-row align="center">
         <v-col
           v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'"
           cols="2"
@@ -39,7 +39,12 @@
             <span>Website</span>
           </a>
           <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
-          <a v-if="artist.twitter" v-extlink="`https://twitter.com/${artist.twitter}`" class="ml-3">
+          <a
+            v-if="artist.twitter"
+            :key="artist.twitter"
+            v-extlink="`https://twitter.com/${artist.twitter}`"
+            class="ml-3"
+          >
             <v-icon color="primary">mdi-twitter</v-icon>
             <span>@{{ artist.twitter }}</span>
           </a>
