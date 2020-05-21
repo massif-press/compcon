@@ -96,6 +96,13 @@
         :hp-resistance="hpResistance"
       />
       <med-pip-layout
+        v-else-if="$vuetify.breakpoint.mdAndUp"
+        :mech="mech"
+        :struct-rollover="structRolledOver"
+        :stress-rollover="stressRolledOver"
+        :hp-resistance="hpResistance"
+      />
+      <small-pip-layout
         v-else
         :mech="mech"
         :struct-rollover="structRolledOver"
@@ -215,11 +222,12 @@ import { Mech, MechLoadout } from '@/class'
 import MechSelectButton from '../components/MechSelectButton.vue'
 import LargePipLayout from './LargePipLayout.vue'
 import MedPipLayout from './MedPipLayout.vue'
+import SmallPipLayout from './SmallPipLayout.vue'
 
 import Vue from 'vue'
 export default Vue.extend({
   name: 'mech-block',
-  components: { MechSelectButton, LargePipLayout, MedPipLayout },
+  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout },
   props: {
     pilot: {
       type: Object,

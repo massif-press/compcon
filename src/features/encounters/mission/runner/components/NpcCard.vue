@@ -103,7 +103,7 @@
               @update="npc.CurrentStructure = $event"
             >
               <span class="heading h3">
-                Structure: {{ npc.CurrentStructure }}/{{ npc.MaxStructure }}
+                Structure
               </span>
             </cc-tick-bar>
           </v-col>
@@ -117,7 +117,7 @@
               full-icon="mdi-shield"
               readonly
             >
-              <span class="heading h3">Armor: {{ npc.Armor }}</span>
+              <span class="heading h3">Armor</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" class="ml-1">
@@ -130,7 +130,7 @@
               rollover
               @update="npc.CurrentHP = $event"
             >
-              <span class="heading h3">HP: {{ npc.CurrentHP }}/{{ npc.MaxHP }}</span>
+              <span class="heading h3">HP</span>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -147,7 +147,7 @@
               :class="{ rolledOver: stressRolledOver }"
               @update="npc.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor: {{ npc.CurrentStress }}/{{ npc.MaxStress }}</span>
+              <span class="heading h3">Reactor</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" class="mr-4">
@@ -163,7 +163,7 @@
               clearable
               @update="npc.CurrentHeat = $event"
             >
-              <span class="heading h3">HEAT: {{ npc.CurrentHeat }}/{{ npc.HeatCapacity }}</span>
+              <span class="heading h3">HEAT</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" class="mr-4">
@@ -176,7 +176,7 @@
               full-icon="$vuetify.icons.move"
               @update="npc.CurrentMove = $event"
             >
-              <span class="heading h3">MOVES: {{ npc.CurrentMove }}/{{ npc.MaxMove }}</span>
+              <span class="heading h3">MOVES</span>
             </cc-tick-bar>
           </v-col>
           <v-col class="mr-4">
@@ -189,7 +189,7 @@
               full-icon="cci-activate"
               readonly
             >
-              <span class="heading h3">ACTIVATIONS: {{ npc.Activations }}</span>
+              <span class="heading h3">ACTIVATIONS</span>
             </cc-tick-bar>
           </v-col>
         </v-row>

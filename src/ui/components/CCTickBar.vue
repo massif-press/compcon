@@ -4,10 +4,8 @@
       <v-col v-if="!flipInput" cols="auto">
         <slot />
       </v-col>
-      <v-col v-if="clearable" cols="auto">
-        <v-btn icon small @click="$emit('update', 0)">
-          <v-icon :color="color">clear</v-icon>
-        </v-btn>
+      <v-col v-if="!flipInput && !hideValues" cols="auto" class="heading h3">
+        <span v-if="!hideMax" v-html="`: ${current}${hideMax ? '' : `/${max}`}`" />
       </v-col>
       <v-col v-if="!noInput && !readonly" cols="auto" :class="!large ? 'mt-n1' : ''">
         <v-fade-transition leave-absolute>
@@ -33,9 +31,17 @@
       <v-col v-if="flipInput" cols="auto">
         <slot />
       </v-col>
+      <v-col v-if="flipInput && !hideValues" cols="auto" class="heading h3">
+        <span v-if="!hideMax" v-html="`${current}${hideMax ? '' : `/${max}`}`" />
+      </v-col>
+      <v-col v-if="clearable" cols="auto">
+        <v-btn icon small @click="$emit('update', 0)">
+          <v-icon :color="color">clear</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
     <v-rating
-      v-if="!noPips"
+      v-if="!noPips && !maxExceeded"
       :key="current"
       v-model="model"
       class="d-inline-block"
@@ -50,6 +56,11 @@
       :color="color"
       :background-color="bgColor"
     />
+    <div v-else-if="maxExceeded">
+      <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
+      <span class="flavor-text subtle--text">x</span>
+      <span class="heading h3">{{ current }}</span>
+    </div>
   </div>
 </template>
 
@@ -90,6 +101,10 @@ export default class CCTickBar extends Vue {
   readonly bgColor: string
   @Prop({ type: Boolean })
   readonly noPips?: boolean
+  @Prop({ type: Boolean })
+  readonly hideMax?: boolean
+  @Prop({ type: Boolean })
+  readonly hideValues?: boolean
 
   @Prop({ type: Boolean })
   readonly readonly?: boolean
@@ -99,11 +114,15 @@ export default class CCTickBar extends Vue {
   readonly flipInput?: boolean
   @Prop({ type: Boolean })
   readonly clearable?: boolean
+  @Prop({ type: Boolean })
+  readonly numberOnly?: boolean
 
   @Prop({ type: Number, required: true })
   readonly current!: number
   @Prop({ type: Number, required: true })
   readonly max!: number
+  @Prop({ type: [Number, String], required: false })
+  readonly maxLength?: number
 
   model = 0
   lock = true
@@ -129,6 +148,12 @@ export default class CCTickBar extends Vue {
     this.$nextTick(() => {
       this.pipinput.focus()
     })
+  }
+
+  get maxExceeded(): boolean {
+    if (this.numberOnly) return true
+    if (!this.maxLength) return false
+    return this.max > this.maxLength
   }
 
   sendInput(): void {

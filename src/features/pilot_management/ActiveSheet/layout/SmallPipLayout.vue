@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row dense align="center" class="mt-n3">
-      <v-col cols="2" class="mr-n6">
+    <v-row dense no-gutters align="center" justify="space-between" class="mt-n3">
+      <v-col>
         <cc-tick-bar
           :key="mech.CurrentStructure"
           :current="mech.CurrentStructure"
@@ -10,14 +10,15 @@
           color="structure"
           full-icon="cci-structure"
           :class="{ rolledOver: structRollover }"
+          number-only
           @update="mech.CurrentStructure = $event"
         >
           <span class="heading h3">
-            Structure
+            STRUCT.
           </span>
         </cc-tick-bar>
       </v-col>
-      <v-col v-if="mech.Armor" cols="auto" class="mx-1">
+      <v-col v-if="mech.Armor" class="mx-1">
         <cc-tick-bar
           :key="mech.Armor"
           :current="mech.Armor"
@@ -25,13 +26,14 @@
           large
           color="armor"
           full-icon="mdi-shield"
-          hide-max
           readonly
+          number-only
+          hide-values
         >
           <span class="heading h3">Armor</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-1">
+      <v-col class="ml-1">
         <cc-tick-bar
           :key="mech.CurrentHP"
           :current="mech.CurrentHP"
@@ -39,7 +41,7 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-          max-length="30"
+          number-only
           @update="mech.CurrentHP = $event"
         >
           <span class="heading h3">HP</span>
@@ -53,30 +55,17 @@
           large
           color="stark"
           :full-icon="'mdi-octagram'"
-          max-length="6"
-          hide-max
+          number-only
+          hide-values
           @update="mech.Overshield = $event"
         >
           <span class="heading h3">OVERSHIELD</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
-        <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ on }">
-            <v-btn large icon class="fadeSelect" v-on="on">
-              <v-icon x-large>cci-repair</v-icon>
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
-            @confirm="mech.FullRepair()"
-          />
-        </v-menu>
-      </v-col>
     </v-row>
 
-    <v-row dense>
-      <v-col cols="2" class="mr-n6">
+    <v-row dense align="center" justify="space-around">
+      <v-col>
         <cc-tick-bar
           :key="mech.CurrentStress"
           :current="mech.CurrentStress"
@@ -84,6 +73,7 @@
           large
           color="stress"
           full-icon="cci-reactor"
+          number-only
           :class="{ rolledOver: stressRollover }"
           @update="mech.CurrentStress = $event"
         >
@@ -99,6 +89,7 @@
           :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
           :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
           clearable
+          number-only
           @update="mech.CurrentHeat = $event"
         >
           <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
@@ -108,15 +99,6 @@
             HEAT
           </span>
         </cc-tick-bar>
-        <div
-          v-if="mech.IsInDangerZone"
-          class="caption font-weight-bold dangerzone--text text-center"
-        >
-          // HEAT::DANGER ZONE //
-        </div>
-        <div v-else class="caption subtle--text text-center">
-          HEAT LEVELS NOMINAL
-        </div>
       </v-col>
       <v-col>
         <cc-tick-bar
@@ -126,14 +108,18 @@
           large
           color="repcap"
           full-icon="control_point"
+          number-only
           @update="mech.CurrentRepairs = $event"
         >
           <span class="heading h3">
-            REPAIR CAPACITY
+            REP. CAP.
           </span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
+    </v-row>
+
+    <v-row dense align="center" justify="space-around">
+      <v-col class="ml-auto">
         <cc-tick-bar
           :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
@@ -142,7 +128,6 @@
           no-input
           clearable
           color="corepower"
-          class="text-center"
           empty-icon="mdi-battery-10"
           full-icon="mdi-battery"
           hide-values
@@ -150,17 +135,15 @@
         >
           <span class="heading h3">CORE POWER</span>
         </cc-tick-bar>
-        <div
-          v-if="mech.CurrentCoreEnergy"
-          class="text-center caption font-weight-bold corepower--text"
-        >
+        <div v-if="mech.CurrentCoreEnergy" class="caption font-weight-bold corepower--text">
           AVAILABLE
         </div>
-        <div v-else class="text-center caption subtle--text">
+        <div v-else class="caption subtle--text">
           EXHAUSTED
         </div>
       </v-col>
-      <v-col cols="auto">
+
+      <v-col>
         <cc-tick-bar
           :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
@@ -170,7 +153,6 @@
           clearable
           color="overcharge"
           full-icon="mdi-alert-decagram"
-          class="text-center"
           hide-values
           @update="mech.CurrentOvercharge = $event"
         >
@@ -178,9 +160,24 @@
             Overcharge
           </span>
         </cc-tick-bar>
-        <div class="text-center caption overcharge--text font-weight-bold">
+        <div class="caption overcharge--text font-weight-bold">
           {{ overcharge[mech.CurrentOvercharge] }}
         </div>
+      </v-col>
+
+      <v-col class="ml-auto">
+        <v-menu offset-y offset-x top nudge-left="30px">
+          <template v-slot:activator="{ on }">
+            <v-btn large outlined class="fadeSelect" v-on="on">
+              <v-icon large left>cci-repair</v-icon>
+              Full Repair
+            </v-btn>
+          </template>
+          <cc-confirmation
+            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
+            @confirm="mech.FullRepair()"
+          />
+        </v-menu>
       </v-col>
     </v-row>
   </div>
@@ -189,7 +186,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'large-pip-layout',
+  name: 'med-pip-layout',
   props: {
     mech: {
       type: Object,

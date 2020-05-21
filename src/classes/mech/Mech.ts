@@ -18,6 +18,7 @@ class Mech implements IActor {
   private _active_loadout: MechLoadout
   private _current_structure: number
   private _current_hp: number
+  private _overshield: number
   private _current_stress: number
   private _current_heat: number
   private _current_repairs: number
@@ -53,6 +54,7 @@ class Mech implements IActor {
     this._active = false
     this._current_structure = this.MaxStructure
     this._current_hp = this.MaxHP
+    this._overshield = 0
     this._current_stress = this.MaxStress
     this._current_heat = 0
     this._current_repairs = this.RepairCapacity
@@ -385,6 +387,14 @@ class Mech implements IActor {
 
   public get StructureContributors(): string[] {
     return [`FRAME Base Structure: ${this.Frame.Structure}`]
+  }
+
+  public get Overshield(): number {
+    return this._overshield
+  }
+
+  public set Overshield(val: number) {
+    this._overshield = val
   }
 
   public get CurrentHP(): number {
@@ -895,6 +905,7 @@ class Mech implements IActor {
       active: m._active,
       current_structure: m._current_structure,
       current_hp: m._current_hp,
+      overshield: m._overshield,
       current_stress: m._current_stress,
       current_heat: m._current_heat,
       current_repairs: m._current_repairs,
@@ -930,6 +941,7 @@ class Mech implements IActor {
     m._active = data.active
     m._current_structure = data.current_structure
     m._current_hp = data.current_hp
+    m._overshield = data.overshield || 0
     m._current_stress = data.current_stress
     m._current_heat = data.current_heat
     m._current_repairs = data.current_repairs

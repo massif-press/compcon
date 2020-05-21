@@ -84,7 +84,7 @@
 
     <v-row dense>
       <v-col cols="9">
-        <v-row justify="space-between" dense>
+        <v-row justify="space-around" dense>
           <v-col cols="3">
             <cc-status-select
               label="Statuses"
@@ -135,8 +135,8 @@
           </v-col>
         </v-row>
 
-        <v-row dense align="center" class="mt-n3">
-          <v-col cols="auto" class="mr-n6">
+        <v-row dense align="center" justify="space-between" class="mt-n3">
+          <v-col cols="auto">
             <cc-tick-bar
               :key="mech.CurrentStructure"
               :current="mech.CurrentStructure"
@@ -148,11 +148,11 @@
               @update="mech.CurrentStructure = $event"
             >
               <span class="heading h3">
-                Struct: {{ mech.CurrentStructure }}/{{ mech.MaxStructure }}
+                Struct
               </span>
             </cc-tick-bar>
           </v-col>
-          <v-col v-if="mech.Armor" cols="auto" class="ml-5">
+          <v-col v-if="mech.Armor" cols="auto">
             <cc-tick-bar
               :key="mech.Armor"
               :current="mech.Armor"
@@ -161,11 +161,13 @@
               color="armor"
               full-icon="mdi-shield"
               readonly
+              number-only
+              hide-max
             >
-              <span class="heading h3">Armor: {{ mech.Armor }}</span>
+              <span class="heading h3">Armor</span>
             </cc-tick-bar>
           </v-col>
-          <v-col cols="auto" class="ml-5">
+          <v-col cols="auto">
             <cc-tick-bar
               :key="mech.CurrentHP"
               :current="mech.CurrentHP"
@@ -173,16 +175,32 @@
               large
               color="hp"
               rollover
+              max-length="20"
               @update="mech.CurrentHP = $event"
               @rollover="onHpRollover"
             >
-              <span class="heading h3">HP: {{ mech.CurrentHP }}/{{ mech.MaxHP }}</span>
+              <span class="heading h3">HP</span>
+            </cc-tick-bar>
+          </v-col>
+          <v-col cols="auto">
+            <cc-tick-bar
+              :key="mech.Overshield"
+              :current="mech.Overshield"
+              :max="mech.Overshield"
+              large
+              color="stark"
+              number-only
+              hide-values
+              :full-icon="'mdi-octagram'"
+              @update="mech.Overshield = $event"
+            >
+              <span class="heading h3">OVERSHIELD</span>
             </cc-tick-bar>
           </v-col>
         </v-row>
 
-        <v-row dense>
-          <v-col cols="auto" class="mr-n6">
+        <v-row dense align="center" justify="space-between">
+          <v-col cols="auto">
             <cc-tick-bar
               :key="mech.CurrentStress"
               :current="mech.CurrentStress"
@@ -193,10 +211,10 @@
               :class="{ rolledOver: stressRolledOver }"
               @update="mech.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor: {{ mech.CurrentStress }}/{{ mech.MaxStress }}</span>
+              <span class="heading h3">Reactor</span>
             </cc-tick-bar>
           </v-col>
-          <v-col class="ml-5">
+          <v-col cols="auto">
             <cc-tick-bar
               :key="mech.CurrentHeat"
               :current="mech.CurrentHeat"
@@ -210,23 +228,14 @@
               @rollover="onHeatRollover"
             >
               <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
-                HEAT: {{ mech.CurrentHeat }}/{{ mech.HeatCapacity }}
+                HEAT
               </span>
               <span v-else class="heading h3">
-                HEAT: {{ mech.CurrentHeat }}/{{ mech.HeatCapacity }}
+                HEAT
               </span>
             </cc-tick-bar>
-            <div
-              v-if="mech.IsInDangerZone"
-              class="caption font-weight-bold dangerzone--text text-center"
-            >
-              // HEAT::DANGER ZONE //
-            </div>
-            <div v-else class="caption subtle--text text-center">
-              HEAT LEVELS NOMINAL
-            </div>
           </v-col>
-          <v-col>
+          <v-col cols="auto">
             <cc-tick-bar
               :key="mech.CurrentRepairs"
               :current="mech.CurrentRepairs"
@@ -237,7 +246,7 @@
               @update="mech.CurrentRepairs = $event"
             >
               <span class="heading h3">
-                REPAIR CAP: {{ mech.CurrentRepairs }}/{{ mech.RepairCapacity }}
+                REPAIR CAP
               </span>
             </cc-tick-bar>
           </v-col>
@@ -253,19 +262,11 @@
               class="text-center"
               empty-icon="mdi-battery-10"
               full-icon="mdi-battery"
+              hide-values
               @update="mech.CurrentCoreEnergy = $event"
             >
               <span class="heading h3">CORE</span>
             </cc-tick-bar>
-            <div
-              v-if="mech.CurrentCoreEnergy"
-              class="text-center caption font-weight-bold corepower--text"
-            >
-              AVAILABLE
-            </div>
-            <div v-else class="text-center caption subtle--text">
-              EXHAUSTED
-            </div>
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
@@ -278,19 +279,20 @@
               color="overcharge"
               full-icon="mdi-alert-decagram"
               class="text-center"
+              hide-values
               @update="mech.CurrentOvercharge = $event"
             >
               <span class="heading h3">
-                Overcharge
+                Overcharge&nbsp;
+                <span class="text-center overcharge--text font-weight-bold">
+                  {{ overcharge[mech.CurrentOvercharge] }}
+                </span>
               </span>
             </cc-tick-bar>
-            <div class="text-center caption overcharge--text font-weight-bold">
-              {{ overcharge[mech.CurrentOvercharge] }}
-            </div>
           </v-col>
         </v-row>
 
-        <v-row dense align="center">
+        <v-row dense align="center" class="mt-2">
           <v-col cols="auto" class="flavor-text mr-2 ml-2 mt-n2">
             <div>
               <span class="heading h2">{{ mech.Hull }}</span>
@@ -358,7 +360,7 @@
       </v-col>
       <v-col cols="3">
         <v-card flat outlined>
-          <v-card-text class="pa-1">
+          <v-card-text class="pa-1 ml-2">
             <v-img v-if="mech.Image" :key="mech.Image" :src="mech.Image" aspect-ratio="1" />
           </v-card-text>
         </v-card>

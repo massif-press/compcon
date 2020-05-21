@@ -122,10 +122,8 @@
             :readonly="mech.IsShutDown"
             @update="mech.State.move = $event"
           >
-            <span class="flavor-text">
-              <span class="heading h3 accent--text">{{ mech.State.move }}</span>
-              /{{ mech.State.maxMove }}
-              SPACES MOVED
+            <span class="flavor-text pt-1">
+              SPACES MOVED:&nbsp;
             </span>
           </cc-tick-bar>
         </v-col>
