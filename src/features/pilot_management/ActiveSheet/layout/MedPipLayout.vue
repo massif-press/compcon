@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row dense align="center" justify="space-around" class="mt-n3">
-      <v-col cols="3">
+    <v-row dense align="center" justify="space-between" class="mt-n3">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStructure"
           :current="mech.CurrentStructure"
@@ -17,7 +17,7 @@
           </span>
         </cc-tick-bar>
       </v-col>
-      <v-col v-if="mech.Armor" class="mx-1">
+      <v-col v-if="mech.Armor" cols="auto">
         <cc-tick-bar
           :key="mech.Armor"
           :current="mech.Armor"
@@ -32,7 +32,7 @@
           <span class="heading h3">Armor</span>
         </cc-tick-bar>
       </v-col>
-      <v-col class="ml-1">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentHP"
           :current="mech.CurrentHP"
@@ -46,7 +46,7 @@
           <span class="heading h3">HP</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto" class="ml-1">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.Overshield"
           :current="mech.Overshield"
@@ -63,8 +63,8 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center" justify="space-around">
-      <v-col>
+    <v-row dense align="center" justify="space-between">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStress"
           :current="mech.CurrentStress"
@@ -78,7 +78,7 @@
           <span class="heading h3">Reactor</span>
         </cc-tick-bar>
       </v-col>
-      <v-col class="mr-4">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentHeat"
           :current="mech.CurrentHeat"
@@ -104,7 +104,7 @@
           HEAT LEVELS NOMINAL
         </div>
       </v-col>
-      <v-col>
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentRepairs"
           :current="mech.CurrentRepairs"
@@ -122,7 +122,7 @@
     </v-row>
 
     <v-row dense align="center" justify="space-around">
-      <v-col class="ml-auto">
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
@@ -147,7 +147,7 @@
         </div>
       </v-col>
 
-      <v-col>
+      <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
@@ -169,7 +169,7 @@
         </div>
       </v-col>
 
-      <v-col class="ml-auto text-center">
+      <v-col cols="auto" class="text-center">
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ on }">
             <v-btn large outlined class="fadeSelect" v-on="on">

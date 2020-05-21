@@ -90,6 +90,7 @@ declare interface IPilotData {
   name: string
   player_name: string
   status: string
+  mounted: boolean
   factionID: string
   text_appearance: string
   notes: string
