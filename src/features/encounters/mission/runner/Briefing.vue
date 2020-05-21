@@ -29,7 +29,7 @@
           </v-col>
         </v-row>
         <v-divider class="my-2 " />
-        <fieldset style="border-radius: 5px">
+        <fieldset style="border-radius: 5px" class="px-3">
           <legend><span class="px-2 heading h3 accent--text">PILOTS</span></legend>
           <v-card v-if="!pilots.length" color="panel" flat tile>
             <v-card-text class="text-center subtle--text text--darken-2">
@@ -54,7 +54,7 @@
                 </v-col>
                 <v-col cols="auto" class="ml-auto mr-2">
                   <v-btn icon color="error" class="fadeSelect" @click="removePilot(p)">
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
@@ -68,27 +68,32 @@
           </div>
         </fieldset>
         <div v-if="pilots.length">
-          <div class="overline mt-2 mb-n4">//POWER RATING</div>
-          <v-row dense class="flavor-text text-center">
-            <v-col>
-              TOTAL PILOT:
-              <span class="heading h3">{{ pilotPower }}</span>
-            </v-col>
-            <v-col>
-              AVERAGE ENCOUNTER:
-              <span class="heading h3">{{ avgPower }}</span>
-            </v-col>
-            <v-col>
-              MAXIMUM ENCOUNTER:
-              <span class="heading h3">{{ maxPower }}</span>
-            </v-col>
-          </v-row>
-          <v-row dense class="heading h3 text-center">
-            <v-col>
-              CALCULATED MISSION RATING:
-              <span :class="`${diffColor}--text`">{{ difficulty }}</span>
-            </v-col>
-          </v-row>
+          <cc-tooltip
+            title="Power Rating"
+            content="The Power Rating is an attempt to calculate the relative strength of an NPC (or encounters’ worth of NPCs) based on tier and applied templates, compared to mission’s Pilot and their current level. It should, generally, produce results more or less in line with the Balancing Combat section on pp. 283 of the LANCER Core Book.<br> That said, this is an experimental feature that is still very heavily in development, and does not (yet) always produce reliable results. Moreover, this tool doesn’t consider NPC or player team composition, synergies, strengths, and weaknesses. Nor does this tool consider map layout, mission objectives, or reinforcement schedules.<br>While we will continue to work on this tool to produce more accurate, actionable results, please use it only as a general indicator of relative NPC strength."
+          >
+            <div class="overline mt-2 mb-n4">//POWER RATING</div>
+            <v-row dense class="flavor-text text-center">
+              <v-col>
+                TOTAL PILOT:
+                <span class="heading h3">{{ pilotPower }}</span>
+              </v-col>
+              <v-col>
+                AVERAGE ENCOUNTER:
+                <span class="heading h3">{{ avgPower }}</span>
+              </v-col>
+              <v-col>
+                MAXIMUM ENCOUNTER:
+                <span class="heading h3">{{ maxPower }}</span>
+              </v-col>
+            </v-row>
+            <v-row dense class="heading h3 text-center">
+              <v-col>
+                CALCULATED MISSION RATING:
+                <span :class="`${diffColor}--text`">{{ difficulty }}</span>
+              </v-col>
+            </v-row>
+          </cc-tooltip>
         </div>
         <v-row justify="center">
           <v-col cols="10">

@@ -389,6 +389,11 @@ class Pilot {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
     else if (hp < 0) this._current_hp = 0
     else this._current_hp = hp
+
+    if (this._current_hp === 0) {
+      this.Status = 'KIA'
+    }
+
     this.save()
   }
 

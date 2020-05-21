@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid class="px-12">
     <v-card v-for="p in pilots" :key="p.ID" cols="12" outlined class="my-1">
       <v-card-text class="pa-1">
         <v-row v-if="p.ActiveMech" dense align="center">
@@ -16,7 +16,10 @@
               {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
             </span>
           </v-col>
-          <v-col cols="auto" class="ml-auto mr-2">
+          <v-col cols="auto" class="ml-auto">
+            <span class="flavor-text">PR//{{ p.Power }}</span>
+          </v-col>
+          <v-col cols="auto" class="ml-2 mr-2">
             <v-btn color="primary" @click="$emit('select', p)">
               <v-icon left>mdi-plus</v-icon>
               Assign

@@ -19,10 +19,15 @@
           </span>
         </v-col>
         <v-col cols="2" class="ml-auto text-center mt-n1">
-          <div class="active--text heading h1">
-            {{ encounter.Power.toString().padStart(4, '0') }}
-          </div>
-          <div class="overline mt-n3">TOTAL POWER RATING</div>
+          <cc-tooltip
+            title="Power Rating"
+            content="The Power Rating is an attempt to calculate the relative strength of an NPC (or encounters’ worth of NPCs) based on tier and applied templates, compared to mission’s Pilot and their current level. It should, generally, produce results more or less in line with the Balancing Combat section on pp. 283 of the LANCER Core Book.<br> That said, this is an experimental feature that is still very heavily in development, and does not (yet) always produce reliable results. Moreover, this tool doesn’t consider NPC or player team composition, synergies, strengths, and weaknesses. Nor does this tool consider map layout, mission objectives, or reinforcement schedules.<br>While we will continue to work on this tool to produce more accurate, actionable results, please use it only as a general indicator of relative NPC strength."
+          >
+            <div class="active--text heading h1">
+              {{ encounter.Power.toString().padStart(4, '0') }}
+            </div>
+            <div class="overline mt-n3">TOTAL POWER RATING</div>
+          </cc-tooltip>
         </v-col>
       </v-row>
       <v-row dense align="center">
