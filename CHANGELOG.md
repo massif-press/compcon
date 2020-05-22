@@ -1,3 +1,23 @@
+# [2.1.0](https://github.com/jarena3/compcon/compare/3.0.37...2.1.0) (2020-05-22)
+
+
+### Bug Fixes
+
+* **Encounter Builder:** fixed a bug that was preventing encounter GM notes from saving correctly ([839fc0d](https://github.com/jarena3/compcon/commit/839fc0d68f4263cfca08dfeb1af18f4f919ac762)), closes [#853](https://github.com/jarena3/compcon/issues/853)
+
+
+### Features
+
+* **Active Mode:** add gm-side tracking pips to player limited items in the encounter runner ([5f38a68](https://github.com/jarena3/compcon/commit/5f38a6862d705d9d54eb8dfc76e00650316d3b65)), closes [#851](https://github.com/jarena3/compcon/issues/851)
+* **Active Mode:** added an overshield tracker and an alternate condensed view for pip bars ([6cab3c2](https://github.com/jarena3/compcon/commit/6cab3c2eeaade57d730424622885a8e4794f44de)), closes [#635](https://github.com/jarena3/compcon/issues/635)
+* **Active Mode:** make + and - buttons look more explicitly like buttons ([b3cd5e4](https://github.com/jarena3/compcon/commit/b3cd5e4bfe4448e406108130810f1801f08610ea))
+* **Active Mode:** prompt engineering check for burn damage ([72805f5](https://github.com/jarena3/compcon/commit/72805f5d2d2991b8f37e72669e1ba54eb82463d2)), closes [#527](https://github.com/jarena3/compcon/issues/527)
+* **Active Mode:** split active mode into pilot/mech modes ([78c4edc](https://github.com/jarena3/compcon/commit/78c4edcd7f8412deab24a7b650c3fc7f0b63650a)), closes [#492](https://github.com/jarena3/compcon/issues/492)
+* **Encounter Builder:** power rating tooltips; encounter power rating also considers reinforcements ([c19a758](https://github.com/jarena3/compcon/commit/c19a758ee1b3acbb8c35c32d707361d63cbbfc7c)), closes [#852](https://github.com/jarena3/compcon/issues/852)
+* **Pilot Sheet:** add pilot duplication and cloning ([ec75f8d](https://github.com/jarena3/compcon/commit/ec75f8dd978660b5d5e3a47e7bbcc19231dbb98a)), closes [#504](https://github.com/jarena3/compcon/issues/504)
+
+
+
 ## [3.0.37](https://github.com/jarena3/compcon/compare/2.0.36...3.0.37) (2020-05-21)
 
 
