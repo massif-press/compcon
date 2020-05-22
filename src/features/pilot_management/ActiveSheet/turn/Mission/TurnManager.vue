@@ -332,7 +332,7 @@
     </div>
     <v-row dense justify="center">
       <v-col cols="8">
-        <v-btn block color="primary" dark large @click="mech.State.newTurn()">END TURN</v-btn>
+        <v-btn block color="primary" dark large @click="endTurn()">END TURN</v-btn>
       </v-col>
       <v-col cols="9" class="mt-1">
         <v-btn small block color="amber darken-4" @click="endCombat()">End Combat</v-btn>
@@ -348,6 +348,7 @@
       :mech="mech"
       @stabilize="mech.State.commitStabilize($event)"
     />
+    <burn-dialog ref="burn" :mech="mech" @complete="mech.State.newTurn()" />
   </v-window-item>
 </template>
 
@@ -357,10 +358,11 @@ import ActionButton from './components/ActionButton.vue'
 import DestroyedAlert from './components/DestroyedAlert.vue'
 import StabilizeDialog from './components/StabilizeDialog.vue'
 import OverchargeDialog from './components/OverchargeDialog.vue'
+import BurnDialog from './components/BurnDialog.vue'
 
 export default Vue.extend({
   name: 'turn-manager',
-  components: { ActionButton, DestroyedAlert, StabilizeDialog, OverchargeDialog },
+  components: { ActionButton, DestroyedAlert, StabilizeDialog, OverchargeDialog, BurnDialog },
   props: {
     pilot: {
       type: Object,
@@ -390,6 +392,11 @@ export default Vue.extend({
     redundantRepair() {
       this.mech.State.redundantRepair()
       this.$refs.stabilize.show(true)
+    },
+    endTurn() {
+      if (this.mech.Burn) {
+        this.$refs.burn.show()
+      } else this.mech.State.newTurn()
     },
     endCombat() {
       this.mech.State.restart()
