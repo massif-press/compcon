@@ -1,3 +1,12 @@
+## [2.1.1](https://github.com/jarena3/compcon/compare/2.1.0...2.1.1) (2020-05-22)
+
+
+### Bug Fixes
+
+* **Active Mode:** hotfix for core bonuses and talents still being stuck on the new pilot mode ([0150920](https://github.com/jarena3/compcon/commit/015092053f30206b52cb120c44b4edd26b39a894)), closes [#854](https://github.com/jarena3/compcon/issues/854)
+
+
+
 # [2.1.0](https://github.com/jarena3/compcon/compare/3.0.37...2.1.0) (2020-05-22)
 
 
