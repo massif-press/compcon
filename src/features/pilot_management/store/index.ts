@@ -55,7 +55,6 @@ export class PilotManagementStore extends VuexModule {
     newPilot.RenewID()
     newPilot.Name += ' (CLONE)'
     newPilot.Callsign += '*'
-    if (payload.quirk) newPilot.RollQuirk()
     for (const mech of newPilot.Mechs) {
       mech.RenewID()
     }
