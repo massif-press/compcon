@@ -87,6 +87,9 @@ export default Vue.extend({
       newPilot.Callsign += '※'
       newPilot.Name += ' (CLONE)'
       newPilot.Quirk = this.quirk
+      for (const mech of newPilot.Mechs) {
+        mech.RenewID()
+      }
       this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
@@ -96,6 +99,9 @@ export default Vue.extend({
       newPilot.Callsign += '″'
       newPilot.Name += ' (COPY)'
       newPilot.Status = 'ACTIVE'
+      for (const mech of newPilot.Mechs) {
+        mech.RenewID()
+      }
       this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
