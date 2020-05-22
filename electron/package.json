@@ -1,11 +1,11 @@
 {
   "name": "compcon",
-  "version": "2.0.24",
+  "version": "2.1.1",
   "main": "index.js",
   "author": "Massif Press",
   "license": "GPL-3.0-or-later",
   "build": {
-    "productName": "COMP/CON",
+    "productName": "COMPCON",
     "appId": "com.massifpress.compcon",
     "mac": {
       "icon": "../icons/icon.icns",
