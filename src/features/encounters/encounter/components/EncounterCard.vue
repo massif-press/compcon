@@ -342,11 +342,11 @@
         GM Notes
         <cc-text-editor
           label="Edit GM Notes"
-          :original="encounter.GmNotes"
-          @save="encounter.GmNotes = $event"
+          :original="encounter.Note"
+          @save="encounter.Note = $event"
         />
       </cc-title>
-      <p v-html="encounter.GmNotes" />
+      <p :key="encounter.Note.length" v-html="encounter.Note" />
       <br />
       <cc-solo-dialog ref="npcDialog" no-confirm title="ADD NPC" fullscreen no-pad>
         <npc-selector @select="addNpc($event)" />
