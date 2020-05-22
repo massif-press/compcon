@@ -240,6 +240,89 @@
           </cc-active-card>
         </v-col>
       </v-row>
+      <v-row dense>
+        <v-col cols="auto">
+          <span class="overline">CORE BONUSES</span>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn
+            x-small
+            outlined
+            class="fadeSelect"
+            @click="expandAll(pilot.CoreBonuses.length, 'cb_', true)"
+          >
+            <v-icon small left>mdi-chevron-up</v-icon>
+            All
+          </v-btn>
+          <v-btn
+            x-small
+            outlined
+            class="fadeSelect"
+            @click="expandAll(pilot.CoreBonuses.length, 'cb_', false)"
+          >
+            <v-icon small left>mdi-chevron-down</v-icon>
+            All
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row v-if="pilot.CoreBonuses">
+        <cc-active-card
+          v-for="(bonus, i) in pilot.CoreBonuses"
+          :key="`cb_${i}`"
+          :ref="`cb_${i}`"
+          :cols="12 / pilot.CoreBonuses.length"
+          color="corepower"
+          collapsible
+          :header="bonus.Name"
+          subheader="CORE BONUS"
+        >
+          <p class="pa-1 ma-0" v-html="bonus.Effect" />
+        </cc-active-card>
+      </v-row>
+      <v-row dense>
+        <v-col cols="auto">
+          <span class="overline">TALENTS</span>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn
+            x-small
+            outlined
+            class="fadeSelect"
+            @click="expandAll(pilot.Talents.length, 'tal_', true)"
+          >
+            <v-icon small left>mdi-chevron-up</v-icon>
+            All
+          </v-btn>
+          <v-btn
+            x-small
+            outlined
+            class="fadeSelect"
+            @click="expandAll(pilot.Talents.length, 'tal_', false)"
+          >
+            <v-icon small left>mdi-chevron-down</v-icon>
+            All
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <cc-active-card
+          v-for="(t, i) in pilot.Talents"
+          :key="`tal_${i}`"
+          :ref="`tal_${i}`"
+          collapsible
+          start-closed
+          color="primary"
+          :cols="6"
+          :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
+          subheader="PILOT TALENT"
+        >
+          <ul v-for="n in 3" :key="'t_' + n">
+            <li v-if="t.Rank >= n">
+              <span v-html="t.Talent.Ranks[n - 1].description" />
+            </li>
+          </ul>
+        </cc-active-card>
+      </v-row>
       <cc-counter-set :actor="pilot" />
       <cc-mech-loadout :mech="mech" readonly />
     </div>
@@ -335,6 +418,14 @@ export default Vue.extend({
           this.$refs.stressTable.show()
         }
       },
+    },
+  },
+  methods: {
+    expandAll(len: number, key: string, expand: boolean) {
+      for (let i = 0; i < len; i++) {
+        const k = key + i
+        if (this.$refs[k]) this.$refs[k][0].collapsed = expand
+      }
     },
   },
 })
