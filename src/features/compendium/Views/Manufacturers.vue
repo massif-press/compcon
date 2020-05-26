@@ -3,7 +3,7 @@
     <h1 class="heading">MANUFACTURERS</h1>
     <v-tabs
       v-model="tabModel"
-      vertical
+      :vertical="$vuetify.breakpoint.lgAndUp"
       background-color="primary"
       :slider-size="12"
       slider-color="active"
@@ -19,11 +19,9 @@
             {{ m.Name }}
           </v-card-title>
           <v-card-text class="mt-1 ml-2 pr-4 pt-0">
-            <div style="float: right; margin-left: 20px; margin-right: 50px; min-height: 350px">
+            <div style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw">
               <svg
-                :style="
-                  `width:350px; height:350px; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`
-                "
+                :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
               >
                 <use :href="m.Logo + '#Content'"></use>
               </svg>

@@ -55,9 +55,11 @@
 
     <v-spacer />
 
-    <pilot-mode v-if="mode === 'pilot'" />
-    <compendium-mode v-if="mode === 'compendium'" />
-    <encounter-mode v-if="mode === 'encounter'" />
+    <div v-if="$vuetify.breakpoint.mdAndUp">
+      <pilot-mode v-if="mode === 'pilot'" />
+      <compendium-mode v-if="mode === 'compendium'" />
+      <encounter-mode v-if="mode === 'encounter'" />
+    </div>
 
     <v-divider vertical dark class="ml-2 mr-2" />
     <v-menu nudge-bottom="40px">
