@@ -40,7 +40,11 @@
     </v-row>
     <compendium-mobile-view v-if="!$vuetify.breakpoint.mdAndUp" :items="fItems" />
     <div v-else>
-      <compendium-table-view v-if="profile.SelectorView === 'list'" :headers="headers" />
+      <compendium-table-view
+        v-if="profile.SelectorView === 'list'"
+        :items="fItems"
+        :headers="headers"
+      />
       <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
     </div>
   </v-container>

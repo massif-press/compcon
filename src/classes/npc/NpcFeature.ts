@@ -68,6 +68,14 @@ export abstract class NpcFeature {
     } ${this.FeatureType}`
   }
 
+  public get OriginClass(): string {
+    return this._origin.name
+  }
+
+  public get OriginSet(): string {
+    return this._origin.base ? 'Base' : 'Optional'
+  }
+
   public get IsBase(): boolean {
     return this._origin.base
   }
