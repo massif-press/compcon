@@ -10,7 +10,9 @@
       style="min-width: 15vw"
     >
       <v-card-title class="heading h3 primary px-3 py-0 ma-0">
-        <span class="white--text">{{ name }}</span>
+        <span class="white--text" :style="$vuetify.breakpoint.lgAndUp ? '' : 'font-size: 16px'">
+          {{ name }}
+        </span>
       </v-card-title>
       <v-card-text class="heading x-large-text text--text px-2 ma-0 mt-1 mb-0">
         <span>{{ value }}</span>
@@ -22,13 +24,12 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-statblock-panel', })
+@Component({ name: 'cc-statblock-panel' })
 export default class CCStatblockPanel extends Vue {
-
-  @Prop({ type: String, required: true, })
+  @Prop({ type: String, required: true })
   readonly name!: string
-  
-  @Prop({ type: [String, Number], required: true, })
+
+  @Prop({ type: [String, Number], required: true })
   readonly value!: string | number
 }
 </script>

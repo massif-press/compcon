@@ -79,7 +79,7 @@ export default Vue.extend({
 
 <style scoped>
 #img-hover {
-  opacity: 0.7;
+  opacity: 0.55;
   transition: all 0.3s ease-in-out;
 }
 

@@ -4,7 +4,7 @@
       <v-icon
         :class="{ 'mr-4': small }"
         :size="small ? 40 : 80"
-        :color="lock ? 'panel' : color"
+        :color="lock ? 'light-panel' : color"
         v-html="`cci-rank-${rank}`"
       />
     </v-col>
@@ -38,7 +38,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
   },
 })

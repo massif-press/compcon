@@ -1,5 +1,6 @@
 <template>
-  <div id="wrapper">
+  <landing-page-mobile v-if="$vuetify.breakpoint.mdAndDown" />
+  <div v-else id="wrapper">
     <main-title @logupdate="ccLog('update')" />
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
@@ -81,6 +82,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import LandingPageMobile from './mobile.vue'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import CCLog from './_components/CCLog.vue'
@@ -94,6 +96,7 @@ import { NavStore } from '@/store'
 export default Vue.extend({
   name: 'landing-page',
   components: {
+    LandingPageMobile,
     MainTitle,
     MainBtn,
     CCLog,
@@ -111,9 +114,7 @@ export default Vue.extend({
   },
   beforeMount() {
     const ns = getModule(NavStore, this.$store)
-    console.log(ns)
     ns.initDarkMode()
-    console.log(ns.DarkMode)
     this.$vuetify.theme.dark = ns.DarkMode
   },
   methods: {

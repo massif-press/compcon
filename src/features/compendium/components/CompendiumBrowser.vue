@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <h1 class="heading accent--text"><slot /></h1>
       </v-col>
-      <v-col cols="auto" class="ml-auto mr-2">
+      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="auto" class="ml-auto mr-2">
         <v-btn-toggle v-model="profile.SelectorView" mandatory>
           <v-btn small icon value="split">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
@@ -17,7 +17,7 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="3" class="ml-auto mr-5">
+      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
           class="search-field"
@@ -32,14 +32,17 @@
           :hint="`${fItems.length} Items`"
         />
       </v-col>
-      <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
+      <cc-filter-panel
+        v-if="$vuetify.breakpoint.lgAndUp && !noFilter"
+        :item-type="itemType"
+        @set-filters="setFilters"
+      />
     </v-row>
-    <compendium-table-view
-      v-if="profile.SelectorView === 'list'"
-      :headers="headers"
-      :items="fItems"
-    />
-    <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
+    <compendium-mobile-view v-if="!$vuetify.breakpoint.lgAndUp" :items="fItems" />
+    <div v-else>
+      <compendium-table-view v-if="profile.SelectorView === 'list'" :headers="headers" />
+      <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
+    </div>
   </v-container>
 </template>
 
@@ -47,6 +50,7 @@
 import Vue from 'vue'
 import ItemFilter from '@/classes/utility/ItemFilter'
 import { accentInclude } from '@/classes/utility/accent_fold'
+import CompendiumMobileView from './views/CompendiumMobileView.vue'
 import CompendiumSplitView from './views/CompendiumSplitView.vue'
 import CompendiumTableView from './views/CompendiumTableView.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -55,7 +59,7 @@ import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'compendium-browser',
-  components: { CompendiumTableView, CompendiumSplitView },
+  components: { CompendiumMobileView, CompendiumTableView, CompendiumSplitView },
   props: {
     headers: {
       type: Array,

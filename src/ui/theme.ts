@@ -136,7 +136,7 @@ const theme: any = {
 
         background: '#263237',
         panel: '#293940',
-        'light-panel': '#3c5059',
+        'light-panel': '#2e3e45',
         'panel-border': '#8a949e',
         'stark-panel': '#131b1f',
 

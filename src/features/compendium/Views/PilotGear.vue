@@ -2,7 +2,7 @@
   <v-container fluid>
     <h1 class="heading">PILOT EQUIPMENT</h1>
     <v-tabs
-      vertical
+      :vertical="$vuetify.breakpoint.mdAndUp"
       background-color="primary"
       :slider-size="12"
       slider-color="active"
