@@ -21,7 +21,8 @@ export default class Weapons extends Vue {
   public headers = [
     { text: 'Feature', align: 'left', value: 'Name' },
     { text: 'Type', align: 'left', value: 'FeatureType' },
-    { text: 'Origin', align: 'left', value: 'Origin' },
+    { text: 'Class', align: 'left', value: 'OriginClass' },
+    { text: 'Set', align: 'left', value: 'OriginSet' },
   ]
 
   private compendium = getModule(CompendiumStore, this.$store)
