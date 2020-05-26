@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'home-card',
   props: {
     to: { type: String, required: true },
     title: { type: String, required: true },
