@@ -123,9 +123,9 @@ const theme: any = {
         success: '#00C853',
         warning: '#FFAB00',
 
-        weapon: '#333333',
-        'mech-weapon': '#333333',
-        'pilot-weapon': '#333333',
+        weapon: '#555555',
+        'mech-weapon': '#555555',
+        'pilot-weapon': '#555555',
 
         text: '#dbdbdb',
         subtle: '#b3b9ba',
