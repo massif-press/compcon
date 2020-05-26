@@ -1,5 +1,5 @@
 <template>
-  <landing-page-mobile v-if="$vuetify.breakpoint.mdAndDown" />
+  <landing-page-mobile v-if="$vuetify.breakpoint.smAndDown" />
   <div v-else id="wrapper">
     <main-title @logupdate="ccLog('update')" />
     <c-c-log ref="log" />
