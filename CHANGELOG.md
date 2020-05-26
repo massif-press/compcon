@@ -1,3 +1,20 @@
+## [2.1.2](https://github.com/jarena3/compcon/compare/2.1.1...2.1.2) (2020-05-26)
+
+
+### Bug Fixes
+
+* **Active Mode:** correct the Direct Hit rules entry ([5c91602](https://github.com/jarena3/compcon/commit/5c916022b8d954024d71b207d0db874426b74817)), closes [#862](https://github.com/jarena3/compcon/issues/862)
+* **Encounter Builder:** fix bad encounter builder image setter ([5fd47d8](https://github.com/jarena3/compcon/commit/5fd47d8c153b55f8b5186a723c09f45e358caa33)), closes [#856](https://github.com/jarena3/compcon/issues/856)
+
+
+### Features
+
+* **Compendium:** mobile main menu and compendium ([615d1be](https://github.com/jarena3/compcon/commit/615d1be7d7a2921f8ce24643965f500578209e72))
+* **Compendium:** restyled the compendium landing page ([fd31889](https://github.com/jarena3/compcon/commit/fd31889a797f15bcf0f131f832fcc9c2d17c6da6))
+* **NPC Roster:** add npc feature origin sorting in npc builder and compendium ([627b789](https://github.com/jarena3/compcon/commit/627b789a5d460d8091fd54dc5965936f14a514dd)), closes [#833](https://github.com/jarena3/compcon/issues/833)
+
+
+
 ## [2.1.1](https://github.com/jarena3/compcon/compare/2.1.0...2.1.1) (2020-05-22)
 
 
