@@ -220,21 +220,21 @@ class Encounter implements IMissionStep {
     }
   }
 
-  public SetCloudMap(src: string): void {
+  public SetCloudImage(src: string): void {
     this._cloud_map = src
     this.save()
   }
 
-  public get CloudMap(): string {
+  public get CloudImage(): string {
     return this._cloud_map
   }
 
-  public SetLocalMap(src: string): void {
+  public SetLocalImage(src: string): void {
     this._local_map = src
     this.save()
   }
 
-  public get LocalMap(): string {
+  public get LocalImage(): string {
     return this._local_map
   }
 

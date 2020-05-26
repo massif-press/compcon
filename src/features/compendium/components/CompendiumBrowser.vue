@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <h1 class="heading accent--text"><slot /></h1>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="auto" class="ml-auto mr-2">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-auto mr-2">
         <v-btn-toggle v-model="profile.SelectorView" mandatory>
           <v-btn small icon value="split">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
@@ -17,7 +17,7 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="3" class="ml-auto mr-5">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
           class="search-field"
@@ -33,12 +33,12 @@
         />
       </v-col>
       <cc-filter-panel
-        v-if="$vuetify.breakpoint.lgAndUp && !noFilter"
+        v-if="$vuetify.breakpoint.mdAndUp && !noFilter"
         :item-type="itemType"
         @set-filters="setFilters"
       />
     </v-row>
-    <compendium-mobile-view v-if="!$vuetify.breakpoint.lgAndUp" :items="fItems" />
+    <compendium-mobile-view v-if="!$vuetify.breakpoint.mdAndUp" :items="fItems" />
     <div v-else>
       <compendium-table-view v-if="profile.SelectorView === 'list'" :headers="headers" />
       <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
