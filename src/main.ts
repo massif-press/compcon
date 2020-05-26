@@ -32,7 +32,6 @@ import { Capacitor } from '@capacitor/core'
 import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
 import 'tiptap-vuetify/dist/main.css'
 
-
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
@@ -56,9 +55,8 @@ mixins.forEach(m => {
 
 Vue.directive('extlink', externalLinkDirective)
 
-
 Vue.config.errorHandler = (error, vm) => Vue.prototype.$notifyError(error, vm)
-window.onerror = (error) => Vue.prototype.$notifyError(error)
+window.onerror = error => Vue.prototype.$notifyError(error)
 
 new Vue({
   components: { App },

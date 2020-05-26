@@ -78,7 +78,7 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="secondary darken-2 sliced">
               <span class="heading white--text ml-3">
-                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NONE' }}
+                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NO CAMPAIGN' }}
               </span>
             </div>
           </template>

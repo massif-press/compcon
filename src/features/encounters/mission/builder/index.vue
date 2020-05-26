@@ -34,7 +34,7 @@
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
               <span class="heading white--text">
-                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NONE' }}
+                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NO CAMPAIGN' }}
               </span>
             </div>
           </template>
@@ -137,6 +137,7 @@ export default Vue.extend({
   },
   created() {
     const store = getModule(MissionStore, this.$store)
+    console.log(store.Missions)
     this.missions = store.Missions
   },
   methods: {
