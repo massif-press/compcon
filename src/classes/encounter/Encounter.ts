@@ -259,8 +259,8 @@ class Encounter implements IMissionStep {
       environment: enc.Environment,
       environmentDetails: enc.EnvironmentDetails,
       sitrep: enc.Sitrep,
-      cloud_map: enc.CloudMap,
-      local_map: enc.LocalMap,
+      cloud_map: enc.CloudImage,
+      local_map: enc.LocalImage,
     }
   }
 
