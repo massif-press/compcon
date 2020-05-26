@@ -31,7 +31,7 @@ class Mission {
     this._id = uuid()
     this._name = 'New Mission'
     this._note = ''
-    this._campaign = null
+    this._campaign = ''
     this._labels = []
     this._rests = []
     this._step_ids = []
@@ -175,7 +175,7 @@ class Mission {
     m._name = data.name
     m._note = data.note
     m._labels = data.labels
-    m._campaign = data.campaign
+    m._campaign = data.campaign || ''
     m._rests = data.rests.map(x => Rest.Deserialize(x))
     m._step_ids = data.step_ids
     return m
