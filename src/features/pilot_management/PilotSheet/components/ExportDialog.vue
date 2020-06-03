@@ -42,7 +42,22 @@
           </cc-tooltip>
         </v-col>
       </v-row>
-      <v-row></v-row>
+      <v-row>
+        <v-col>
+          <v-btn large block tile outlined color="accent" @click="copyPilot()">
+            Copy Pilot Data to Clipboard (Roll20 Import)
+          </v-btn>
+        </v-col>
+        <v-col cols="auto" class="ml-n1">
+          <cc-tooltip
+            simple
+            inline
+            content="This will copy your pilot's data into your computer's clipboard, suitable for importing into the LANCER Character Sheet on Roll20"
+          >
+            <v-icon class="mt-2 ml-n3">mdi-information-outline</v-icon>
+          </cc-tooltip>
+        </v-col>
+      </v-row>
     </v-card-text>
   </cc-solo-dialog>
 </template>
@@ -80,6 +95,12 @@ export default Vue.extend({
         JSON.stringify(Pilot.Serialize(this.pilot)),
         'Save Pilot'
       )
+      this.hide()
+    },
+    copyPilot() {
+      this.pilot.SetBrewData()
+      navigator.clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
+      Vue.prototype.$notify('Roll20 data copied to clipboard')
       this.hide()
     },
     async copyCode() {
