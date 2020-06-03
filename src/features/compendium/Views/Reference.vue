@@ -86,8 +86,7 @@
                     until the end of your next turn.
                     <br />
                     1 or lower - Your mech is
-                    <b>destroyed</b>
-                    .
+                    <b>destroyed.</b>
                   </span>
                 </v-col>
               </v-row>
