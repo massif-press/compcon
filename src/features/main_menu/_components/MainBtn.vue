@@ -13,7 +13,7 @@
         @click="to ? $router.push(to) : $emit('clicked')"
       >
         <div class="unskew heading pb-1">
-          <v-icon dark size="50" class="ml-n4 mt-n3">cci-pilot</v-icon>
+          <v-icon dark size="50" class="ml-n4 mt-n3">{{ icon }}</v-icon>
           <slot />
         </div>
         <v-progress-linear v-if="loading" absolute bottom color="white" indeterminate />
@@ -45,11 +45,13 @@ export default Vue.extend({
     },
     disabled: {
       type: Boolean,
-      default: false,
     },
     loading: {
       type: Boolean,
-      default: false,
+    },
+    icon: {
+      type: String,
+      default: 'cci-pilot',
     },
   },
   data: () => ({

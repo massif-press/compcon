@@ -26,7 +26,7 @@
       dense
     >
       <h3 v-if="subKey" class="heading mb-2" v-html="e[subKey]" />
-      <p class="flavor-text" v-html="e[descriptionKey]" />
+      <p class="body-text" v-html="e[descriptionKey]" />
     </cc-titled-panel>
   </cc-sidebar-view>
 </template>
