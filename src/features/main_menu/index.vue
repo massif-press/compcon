@@ -5,10 +5,16 @@
     <c-c-log ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
-        <main-btn :to="'/compendium'" help="Equipment Database" @hover="ccLog('compendium')">
+        <main-btn
+          icon="cci-compendium"
+          :to="'/compendium'"
+          help="Equipment Database"
+          @hover="ccLog('compendium')"
+        >
           Compendium
         </main-btn>
         <main-btn
+          icon="cci-pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
           :loading="pilotLoading"
@@ -16,11 +22,19 @@
         >
           Pilot Roster
         </main-btn>
-        <main-btn :to="'/gm'" help="Manage NPCs/Encounters/Missions" @hover="ccLog('gm')">
+        <main-btn
+          icon="cci-encounter"
+          :to="'/gm'"
+          help="Manage NPCs/Encounters/Missions"
+          @hover="ccLog('gm')"
+        >
           Encounter Toolkit
         </main-btn>
-        <main-btn disabled help="Feature In Progress">Campaign Manager</main-btn>
+        <main-btn icon="cci-campaign" disabled help="Feature In Progress">
+          Campaign Manager
+        </main-btn>
         <main-btn
+          icon="cci-content-manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
           @clicked="$refs.contentModal.show()"

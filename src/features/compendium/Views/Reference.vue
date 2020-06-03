@@ -79,9 +79,9 @@
                     <br />
                     2 - Your mech must pass a
                     <b>hull</b>
-                    save or be
-                    <b>destroyed</b>
-                    .Even on a successful check, your mech is
+                    check or be
+                    <b>destroyed.</b>
+                    Even on a successful check, your mech is
                     <b>stunned</b>
                     until the end of your next turn.
                     <br />

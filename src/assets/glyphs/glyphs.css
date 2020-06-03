@@ -20,192 +20,339 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.cci-rank-1:before {
-  content: '\e942';
-}
-.cci-rank-2:before {
-  content: '\e943';
-}
-.cci-rank-3:before {
-  content: '\e944';
-}
-.cci-nested-hexagons:before {
-  content: '\e945';
-}
-.cci-npc-tech:before {
-  content: '\e945';
-}
-.cci-orbit:before {
-  content: '\e946';
-}
-.cci-orbital:before {
-  content: '\e947';
-}
-.cci-large-beam:before {
-  content: '\e948';
-}
-.cci-ammo:before {
-  content: '\e949';
-}
-.cci-burning:before {
-  content: '\e94a';
-}
-.cci-balance:before {
-  content: '\e94b';
-}
-.cci-reticle:before {
-  content: '\e94c';
-}
-.cci-spikes:before {
-  content: '\e94d';
-}
-.cci-eclipse:before {
-  content: '\e94e';
-}
-.cci-sword-array:before {
-  content: '\e94f';
-}
-.cci-npc-reaction:before {
-  content: '\e94f';
-}
-.cci-marker:before {
-  content: '\e950';
-}
-.cci-barrage:before {
-  content: '\e951';
-}
-.cci-range:before {
-  content: '\e902';
-}
-.cci-thrown:before {
-  content: '\e913';
-}
-.cci-weaponmod:before {
-  content: '\e93e';
-}
-.cci-weapon-mod:before {
-  content: '\e93e';
-}
-.cci-blast:before {
-  content: '\e941';
-}
-.cci-accuracy:before {
+.cci-npc-template:before {
   content: '\e900';
 }
-.cci-activate:before {
+.cci-license:before {
   content: '\e901';
 }
-.cci-burst:before {
+.cci-npc-feature:before {
+  content: '\e902';
+}
+.cci-npc-class:before {
   content: '\e903';
 }
-.cci-cone:before {
+.cci-squad:before {
   content: '\e904';
 }
-.cci-line:before {
+.cci-status-downandout:before {
   content: '\e905';
 }
-.cci-corebonus:before {
+.cci-condition-immobilized:before {
   content: '\e906';
 }
-.cci-burn:before {
+.cci-condition-slow:before {
   content: '\e907';
 }
-.cci-energy:before {
+.cci-manufacturer:before {
   content: '\e908';
 }
-.cci-explosive:before {
+.cci-condition-stunned:before {
   content: '\e909';
 }
-.cci-heat:before {
+.cci-condition-shredded:before {
   content: '\e90a';
 }
-.cci-kinetic:before {
+.cci-condition-lock-on:before {
   content: '\e90b';
 }
-.cci-variable:before {
+.cci-condition-jammed:before {
   content: '\e90c';
 }
-.cci-deactivate:before {
+.cci-status-shut-down:before {
   content: '\e90d';
 }
-.cci-difficulty:before {
+.cci-status-prone:before {
   content: '\e90e';
 }
-.cci-frame:before {
+.cci-status-invisible:before {
   content: '\e90f';
 }
-.cci-melee:before {
+.cci-status-hidden:before {
   content: '\e910';
 }
-.cci-overcharge:before {
+.cci-status-exposed:before {
   content: '\e911';
 }
-.cci-pilot:before {
+.cci-status-engaged:before {
   content: '\e912';
 }
-.cci-reactor:before {
+.cci-status-danger-zone:before {
+  content: '\e913';
+}
+.cci-activation-full:before {
   content: '\e914';
 }
-.cci-repair:before {
+.cci-activation-quick:before {
   content: '\e915';
 }
-.cci-role-artillery:before {
+.cci-tech-full:before {
   content: '\e916';
 }
-.cci-role-controller:before {
+.cci-tech-quick:before {
   content: '\e917';
 }
-.cci-role-striker:before {
+.cci-e-def:before {
   content: '\e918';
 }
-.cci-role-support:before {
+.cci-downtime:before {
   content: '\e919';
 }
-.cci-role-defender:before {
+.cci-evasion:before {
   content: '\e91a';
 }
-.cci-size-1:before {
+.cci-npc-tier-custom:before {
   content: '\e91b';
 }
-.cci-size-2:before {
+.cci-npc-tier-3:before {
+  content: '\e91c';
+}
+.cci-npc-tier-2:before {
+  content: '\e91d';
+}
+.cci-npc-tier-1:before {
+  content: '\e91e';
+}
+.cci-free-action:before {
+  content: '\e91f';
+}
+.cci-reaction:before {
+  content: '\e920';
+}
+.cci-reserve-tac:before {
   content: '\e921';
 }
-.cci-size-3:before {
+.cci-reserve-mech:before {
+  content: '\e922';
+}
+.cci-system-point:before {
+  content: '\e923';
+}
+.cci-generic-item:before {
+  content: '\e924';
+}
+.cci-save:before {
+  content: '\e925';
+}
+.cci-sensor:before {
+  content: '\e926';
+}
+.cci-weapon-profile:before {
   content: '\e927';
 }
-.cci-size-4:before {
+.cci-protocol:before {
+  content: '\e928';
+}
+.cci-drone:before {
+  content: '\e929';
+}
+.cci-skill:before {
+  content: '\e92a';
+}
+.cci-talent:before {
+  content: '\e92b';
+}
+.cci-grenade:before {
+  content: '\e92c';
+}
+.cci-deployable:before {
   content: '\e92d';
 }
-.cci-size-half:before {
+.cci-content-manager:before {
+  content: '\e92e';
+}
+.cci-campaign:before {
+  content: '\e92f';
+}
+.cci-encounter:before {
+  content: '\e930';
+}
+.cci-compendium:before {
+  content: '\e931';
+}
+.cci-mine:before {
+  content: '\e932';
+}
+.cci-ship:before {
   content: '\e933';
 }
-.cci-structure:before {
+.cci-vehicle:before {
   content: '\e934';
 }
-.cci-system:before {
+.cci-accuracy:before {
   content: '\e935';
 }
-.cci-mech-system:before {
-  content: '\e935';
-}
-.cci-npc-system:before {
-  content: '\e935';
-}
-.cci-threat:before {
+.cci-activate:before {
   content: '\e936';
 }
-.cci-trait:before {
+.cci-range:before {
+  content: '\e937';
+}
+.cci-burst:before {
+  content: '\e938';
+}
+.cci-cone:before {
+  content: '\e939';
+}
+.cci-line:before {
+  content: '\e93a';
+}
+.cci-corebonus:before {
+  content: '\e93b';
+}
+.cci-burn:before {
+  content: '\e93c';
+}
+.cci-energy:before {
+  content: '\e93d';
+}
+.cci-explosive:before {
+  content: '\e93e';
+}
+.cci-heat:before {
   content: '\e93f';
 }
-.cci-npc-trait:before {
-  content: '\e93f';
+.cci-kinetic:before {
+  content: '\e940';
+}
+.cci-variable:before {
+  content: '\e941';
+}
+.cci-deactivate:before {
+  content: '\e942';
+}
+.cci-condition-impaired:before {
+  content: '\e943';
+}
+.cci-difficulty:before {
+  content: '\e943';
+}
+.cci-frame:before {
+  content: '\e944';
+}
+.cci-melee:before {
+  content: '\e945';
+}
+.cci-overcharge:before {
+  content: '\e946';
+}
+.cci-pilot:before {
+  content: '\e947';
+}
+.cci-thrown:before {
+  content: '\e948';
+}
+.cci-reactor:before {
+  content: '\e949';
+}
+.cci-repair:before {
+  content: '\e94a';
+}
+.cci-role-artillery:before {
+  content: '\e94b';
+}
+.cci-role-controller:before {
+  content: '\e94c';
+}
+.cci-role-striker:before {
+  content: '\e94d';
+}
+.cci-role-support:before {
+  content: '\e94e';
+}
+.cci-role-tank:before {
+  content: '\e94f';
+}
+.cci-size-1:before {
+  content: '\e950';
+}
+.cci-size-2:before {
+  content: '\e951';
+}
+.cci-size-3:before {
+  content: '\e952';
+}
+.cci-size-4:before {
+  content: '\e953';
+}
+.cci-size-half:before {
+  content: '\e954';
+}
+.cci-structure:before {
+  content: '\e955';
+}
+.cci-system:before {
+  content: '\e956';
+}
+.cci-mech-system:before {
+  content: '\e956';
+}
+.cci-threat:before {
+  content: '\e957';
+}
+.cci-weaponmod:before {
+  content: '\e958';
+}
+.cci-weapon-mod:before {
+  content: '\e958';
+}
+.cci-trait:before {
+  content: '\e959';
 }
 .cci-weapon:before {
-  content: '\e940';
+  content: '\e95a';
 }
 .cci-mech-weapon:before {
-  content: '\e940';
+  content: '\e95a';
 }
-.cci-npc-weapon:before {
-  content: '\e940';
+.cci-blast:before {
+  content: '\e95b';
+}
+.cci-rank-1:before {
+  content: '\e95c';
+}
+.cci-rank-2:before {
+  content: '\e95d';
+}
+.cci-rank-3:before {
+  content: '\e95e';
+}
+.cci-nested-hexagons:before {
+  content: '\e95f';
+}
+.cci-orbit:before {
+  content: '\e960';
+}
+.cci-orbital:before {
+  content: '\e961';
+}
+.cci-large-beam:before {
+  content: '\e962';
+}
+.cci-ammo:before {
+  content: '\e963';
+}
+.cci-burning:before {
+  content: '\e964';
+}
+.cci-balance:before {
+  content: '\e965';
+}
+.cci-reticule:before {
+  content: '\e966';
+}
+.cci-spikes:before {
+  content: '\e967';
+}
+.cci-eclipse:before {
+  content: '\e968';
+}
+.cci-sword-array:before {
+  content: '\e969';
+}
+.cci-marker:before {
+  content: '\e96a';
+}
+.cci-barrage:before {
+  content: '\e96b';
 }

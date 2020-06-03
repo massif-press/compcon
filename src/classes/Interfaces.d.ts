@@ -275,6 +275,7 @@ declare interface Faction {
 declare interface Status {
   name: string
   type: string
+  icon: string
   effects: string[]
 }
 

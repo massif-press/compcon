@@ -3,7 +3,7 @@
     {{ action }}
     <br />
     <v-card tile :color="`action--${action}`" class="pt-4 pb-4">
-      <v-icon size="100" dark>$vuetify.icons.{{ action }}</v-icon>
+      <v-icon size="100" dark>{{ icon }}</v-icon>
     </v-card>
   </v-col>
 </template>
@@ -14,6 +14,10 @@ export default Vue.extend({
   name: 'action-type-card',
   props: {
     action: {
+      type: String,
+      required: true,
+    },
+    icon: {
       type: String,
       required: true,
     },

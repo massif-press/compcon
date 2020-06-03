@@ -6,7 +6,7 @@
       <v-card color="panel" elevation-10>
         <v-card-text>
           <v-row justify="center" dense>
-            <action-type-card action="move" />
+            <action-type-card icon="$vuetify.icons.move" action="move" />
             <v-col cols="4" class="effect-text text-center">
               Full Action
               <i class="subtle--text text--darken-1">or</i>
@@ -19,9 +19,9 @@
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
               </v-card>
             </v-col>
-            <action-type-card action="overcharge" />
-            <action-type-card action="reaction" />
-            <action-type-card action="free" />
+            <action-type-card icon="cci-overcharge" action="overcharge" />
+            <action-type-card icon="cci-reaction" action="reaction" />
+            <action-type-card icon="cci-free-action" action="free" />
           </v-row>
         </v-card-text>
       </v-card>

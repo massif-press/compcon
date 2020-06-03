@@ -27,11 +27,12 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { Talent } from '@/class'
 
 @Component
 export default class Talents extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
-  get talents() {
+  get talents(): Talent[] {
     return this.compendium.Talents
   }
 }

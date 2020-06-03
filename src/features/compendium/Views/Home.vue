@@ -17,7 +17,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="mdi-factory"
+            icon="cci-manufacturer"
             name="Manufacturers"
             @clicked="$router.push('compendium/manufacturers')"
           />
@@ -26,7 +26,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="mdi-view-week"
+            icon="cci-license"
             name="Licenses"
             @clicked="$router.push('compendium/licenses')"
           />
@@ -106,7 +106,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-role-striker"
+            icon="cci-npc-class"
             name="NPC Classes"
             @clicked="$router.push('compendium/npc_classes')"
           />
@@ -115,7 +115,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-role-striker"
+            icon="cci-npc-feature"
             name="NPC Features"
             @clicked="$router.push('compendium/npc_features')"
           />
@@ -124,7 +124,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-role-striker"
+            icon="cci-npc-template"
             name="NPC Templates"
             @clicked="$router.push('compendium/npc_templates')"
           />
@@ -132,7 +132,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="mdi-gauge"
+            icon="cci-status-exposed"
             name="Statuses & Conditions"
             @clicked="$router.push('compendium/statuses')"
           />
@@ -140,7 +140,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-barrage"
+            icon="cci-reserve-tac"
             name="Reserves"
             @clicked="$router.push('compendium/reserves')"
           />
@@ -148,7 +148,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="mdi-map"
+            icon="cci-activate"
             name="Action Economy"
             @clicked="$router.push('compendium/actions')"
           />
@@ -164,7 +164,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="mdi-map"
+            icon="cci-accuracy"
             name="Reference"
             @clicked="$router.push('compendium/reference')"
           />
@@ -172,7 +172,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="mdi-library-books"
+            icon="cci-compendium"
             name="Glossary"
             @clicked="$router.push('compendium/glossary')"
           />
