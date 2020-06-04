@@ -23,10 +23,18 @@
         <v-list-item-title class="heading h3">{{ cb.Name }}</v-list-item-title>
       </v-list-item>
     </div>
-    <h1 class="heading mb-3">CORE BONUSES</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3">CORE BONUSES</h1>
     <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
-      <cc-logo size="xLarge" :source="manufacturer(m)" class="mb-n2" />
-      <span class="heading mech" :style="`color: ${manufacturer(m).Color}`">
+      <cc-logo
+        :size="$vuetify.breakpoint.mdAndUp ? 'xLarge' : 'medium'"
+        :source="manufacturer(m)"
+        class="mb-n2"
+      />
+      <span
+        v-resize-text="{ maxFontSize: '36pt' }"
+        class="heading mech"
+        :style="`color: ${manufacturer(m).Color}`"
+      >
         {{ manufacturer(m).Name }}
       </span>
       <cc-core-bonus-item

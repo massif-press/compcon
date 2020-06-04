@@ -2,7 +2,7 @@
   <div>
     <h3 class="heading accent--text">User Options</h3>
     <v-row dense>
-      <v-col cols="8" class="mr-3">
+      <v-col md="12" lg="8" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
           <span class="accent--text">
@@ -12,7 +12,7 @@
           </span>
         </div>
         <v-divider />
-        <div class="mx-12">
+        <div class="text-center">
           <div v-if="$platform === 'web'">
             <v-btn outlined block color="info" class="my-1" @click="reload">
               Download Updates and Reload

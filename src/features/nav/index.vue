@@ -48,7 +48,7 @@
 
     <v-divider vertical dark class="ml-2 mr-2" />
 
-    <v-toolbar-title>
+    <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
       <span class="heading">COMP/CON</span>
       <span class="flavor-text white--text">{{ $appVersion }}</span>
     </v-toolbar-title>
@@ -61,7 +61,8 @@
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider vertical dark class="ml-2 mr-2" />
+    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
+
     <v-menu nudge-bottom="40px">
       <template v-slot:activator="{ on }">
         <v-btn text icon v-on="on">

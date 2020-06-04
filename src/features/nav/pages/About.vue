@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2">
+  <div :class="`mt-2 ${$vuetify.breakpoint.mdAndDown ? 'text-center' : ''}`">
     <p class="heading mech">COMP/CON</p>
     <div class="mx-2">
       C/C version:

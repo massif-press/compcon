@@ -1,5 +1,5 @@
 <template>
-  <v-col :lg="downtime ? 4 : 3" md="6" sm="12">
+  <v-col xl="4" :lg="downtime ? '4' : '3'" md="6" xs="12">
     <cc-titled-panel
       clickable
       :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
@@ -7,7 +7,7 @@
       :color="`action--${action.action_type}`"
       @click="$refs.dialog.show()"
     >
-      <v-card-text class="text-xs-left py-2" style="height: 115px">
+      <v-card-text class="text-xs-left py-2">
         <p class="flavor-text py-0" v-html="action.description" />
       </v-card-text>
     </cc-titled-panel>

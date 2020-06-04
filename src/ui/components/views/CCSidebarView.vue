@@ -11,7 +11,10 @@
           <slot name="sidebar" />
         </v-list>
       </v-col>
-      <v-col :offset="$vuetify.breakpoint.mdAndUp ? cols : 0" class="pl-7 mr-7">
+      <v-col
+        :offset="$vuetify.breakpoint.mdAndUp ? cols : 0"
+        :class="$vuetify.breakpoint.mdAndUp ? 'pl-7 mr-7' : ''"
+      >
         <slot />
       </v-col>
     </v-row>

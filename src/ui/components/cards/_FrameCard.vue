@@ -1,14 +1,18 @@
 <template>
   <v-card-text>
-    <v-row>
-      <v-col cols="7">
-        <v-row>
-          <span class="heading h2 text--text">
-            {{ item.Source }} {{ item.MechTypeString }} Frame
-          </span>
-          <v-icon size="60" color="accent" class="ml-auto mt-n2" style="line-height: 40px">
-            {{ item.SizeIcon }}
-          </v-icon>
+    <v-row dense>
+      <v-col md="12" lg="7">
+        <v-row dense align="center">
+          <v-col>
+            <span class="heading h2 text--text">
+              {{ item.Source }} {{ item.MechTypeString }} Frame
+            </span>
+          </v-col>
+          <v-col cols="auto" class="ml-auto">
+            <v-icon size="60" color="accent" class="mt-n2" style="line-height: 40px">
+              {{ item.SizeIcon }}
+            </v-icon>
+          </v-col>
         </v-row>
         <div v-if="item.Description">
           <span class="overline ml-n2 text--text">COMPENDIUM ENTRY</span>
@@ -23,7 +27,7 @@
           </p>
         </div>
       </v-col>
-      <v-col cols="5">
+      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="5">
         <v-img :src="item.DefaultImage" max-width="35vw" />
         <cc-tooltip simple content="Feature In Development">
           <frame-gallery-modal :frame="item" />

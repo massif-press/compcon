@@ -17,7 +17,7 @@
           }`
         "
       >
-        <p class="pt-1">
+        <p class="pt-1 mb-1">
           <span class="stat-text subtle--text text--darken-1">
             RANK {{ 'I'.repeat(n) }}
             <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
@@ -25,7 +25,7 @@
           </span>
         </p>
         <div v-for="i in license.Unlocks[n - 1]" :key="i.id" class="my-2">
-          <cc-item-modal :item="i" />
+          <cc-item-modal :item="i" :small-btn="$vuetify.breakpoint.mdAndDown" />
         </div>
       </div>
     </v-col>

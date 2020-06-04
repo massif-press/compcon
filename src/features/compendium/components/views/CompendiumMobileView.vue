@@ -16,7 +16,7 @@
       />
     </v-row>
     <v-row dense>
-      <v-col class="pl-7 mr-7">
+      <v-col>
         <div
           v-if="!selectedItem"
           class="heading h2 light-panel--text text-center"
@@ -25,7 +25,7 @@
           NO SELECTION
         </div>
         <div v-else class="side-fixed">
-          <div class="heading h1 stark--text">{{ selectedItem.Name }}</div>
+          <div class="heading h2 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
         </div>

@@ -20,22 +20,20 @@ import updateChecker from '@/classes/utility/UpdateChecker'
 
 @Component
 export default class UpdatesTracker extends Vue {
-
-  updateFound = false;
-  checking = false;
+  updateFound = false
+  checking = false
   async checkUpdates() {
+    console.log('checking....')
 
-    console.log('checking....');
+    this.checking = true
 
-    this.checking = true;
+    await updateChecker.checkUpdates()
 
-    await updateChecker.checkUpdates();
-
-    this.checking = false;
+    this.checking = false
   }
 
   created() {
-    updateChecker.on('updatefound', () => this.updateFound = true)
+    updateChecker.on('updatefound', () => (this.updateFound = true))
   }
 
   mounted() {
@@ -53,7 +51,6 @@ export default class UpdatesTracker extends Vue {
   updateClick() {
     updateChecker.getUpdate()
   }
-
 }
 </script>
 

@@ -2,7 +2,6 @@
   <sidebar-array-view
     title="GLOSSARY"
     :array="glossary"
-    icon="mdi-information-outline"
     name-key="name"
     description-key="description"
   />

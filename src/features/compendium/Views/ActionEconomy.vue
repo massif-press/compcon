@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="heading mb-3 ml-5">ACTION ECONOMY</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">ACTION ECONOMY</h1>
     <v-container>
       <span class="heading mech">Per Turn</span>
       <v-card color="panel" elevation-10>
@@ -28,7 +28,7 @@
     </v-container>
 
     <v-container grid-list-md fluid>
-      <v-row wrap fill-height justify="center">
+      <v-row fill-height justify="center">
         <action-card v-for="a in actions" :key="a.id" :action="a" />
       </v-row>
     </v-container>

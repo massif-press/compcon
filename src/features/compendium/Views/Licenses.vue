@@ -1,12 +1,21 @@
 <template>
   <v-container fluid px-5>
-    <h1 class="heading">LICENSES</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
-        <span class="heading mech" :style="`color: ${manufacturer(m).Color}`">
-          <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
-          {{ manufacturer(m).Name }}
-        </span>
+        <div>
+          <cc-logo
+            :source="manufacturer(m)"
+            :size="$vuetify.breakpoint.mdAndDown ? 'large' : 'xLarge'"
+            class="pt-4"
+          />
+          <span
+            :class="$vuetify.breakpoint.mdAndDown ? 'heading h2' : 'heading mech'"
+            :style="`width: 100%; color: ${manufacturer(m).Color}`"
+          >
+            {{ manufacturer(m).Name }}
+          </span>
+        </div>
         <v-expansion-panels accordion focusable active-class="border-primary">
           <v-expansion-panel
             v-for="l in licenses[m]"
@@ -20,10 +29,12 @@
                   <br />
                   <span class="heading h2 font-weight-bold">{{ frame(l.FrameID).Name }}</span>
                 </span>
+                <br v-if="$vuetify.breakpoint.mdAndDown" />
                 <v-chip
                   v-for="f in frame(l.FrameID).Mechtype"
                   :key="f"
-                  small
+                  :small="!$vuetify.breakpoint.mdAndDown"
+                  :x-small="$vuetify.breakpoint.mdAndDown"
                   dark
                   outlined
                   color="accent"
@@ -33,7 +44,7 @@
                 </v-chip>
               </div>
               <v-img
-                id="img-hover"
+                :id="$vuetify.breakpoint.mdAndDown ? 'img-mobile' : 'img-hover'"
                 :src="frame(l.FrameID).DefaultImage"
                 max-height="100%"
                 :position="`top ${frame(l.FrameID).YPosition}% left 20vw`"
@@ -88,6 +99,19 @@ export default Vue.extend({
 }
 
 .border-primary #img-hover {
+  opacity: 1;
+}
+
+#img-mobile {
+  opacity: 0.1;
+  transition: all 0.3s ease-in-out;
+}
+
+#mobile-parent:hover > #img-mobile {
+  opacity: 1;
+}
+
+.border-primary #img-mobile {
   opacity: 1;
 }
 </style>

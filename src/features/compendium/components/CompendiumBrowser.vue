@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mx-2 mt-n2 mb-2" no-gutters align="center">
       <v-col cols="auto">
-        <h1 class="heading accent--text"><slot /></h1>
+        <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-auto mr-2">
         <v-btn-toggle v-model="profile.SelectorView" mandatory>

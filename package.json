@@ -31,6 +31,7 @@
     "vue-class-component": "^7.1.0",
     "vue-mousetrap": "^1.0.1",
     "vue-property-decorator": "^8.3.0",
+    "vue-resize-text": "^0.1.1",
     "vue-router": "^3.0.6",
     "vuetify": "^2.2.8",
     "vuex": "^3.1.0",
