@@ -9,10 +9,13 @@
       width="100%"
       style="min-width: 15vw"
     >
-      <v-card-title class="heading h3 primary px-3 py-0 ma-0">
-        <span class="white--text" :style="$vuetify.breakpoint.lgAndUp ? '' : 'font-size: 16px'">
-          {{ name }}
-        </span>
+      <v-card-title class="heading h3 primary px-3 py-0 ma-0 white--text">
+        <div class="text-center" style="width: 100%">
+          <cc-tooltip inline :content="name">
+            <v-icon large color="white">{{ icon }}</v-icon>
+          </cc-tooltip>
+          <span v-if="$vuetify.breakpoint.lgAndUp">{{ name }}</span>
+        </div>
       </v-card-title>
       <v-card-text class="heading x-large-text text--text px-2 ma-0 mt-1 mb-0">
         <span>{{ value }}</span>
@@ -28,6 +31,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCStatblockPanel extends Vue {
   @Prop({ type: String, required: true })
   readonly name!: string
+
+  @Prop({ type: String, required: true })
+  readonly icon!: string
 
   @Prop({ type: [String, Number], required: true })
   readonly value!: string | number

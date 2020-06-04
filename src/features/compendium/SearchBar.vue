@@ -3,7 +3,7 @@
     ref="input"
     v-model="searchText"
     class="search-field"
-    prepend-icon="search"
+    :prepend-icon="$vuetify.breakpoint.lgAndUp ? 'search' : ''"
     solo
     hide-details
     single-line

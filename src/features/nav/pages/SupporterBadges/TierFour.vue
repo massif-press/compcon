@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="6">
+  <v-col md="12" lg="6">
     <v-alert prominent dark border="left" color="deep-purple darken-4" icon="mdi-atom-variant">
       <div class="heading h2">
         {{ info.name }}

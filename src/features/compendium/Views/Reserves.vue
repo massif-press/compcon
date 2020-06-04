@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="heading mb-3 ml-5">RESERVES & DOWNTIME</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">RESERVES & DOWNTIME</h1>
     <v-tabs
       v-model="tabModel"
       background-color="primary"

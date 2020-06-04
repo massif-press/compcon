@@ -1,17 +1,25 @@
 <template>
   <v-container class="mt-0 pt-1" fill-height>
     <v-row justify-space-between wrap dense>
-      <cc-statblock-panel name="Armor" :value="frame.Armor" />
-      <cc-statblock-panel name="HP" :value="frame.HP" />
-      <cc-statblock-panel name="Evasion" :value="frame.Evasion" />
-      <cc-statblock-panel name="E-Defense" :value="frame.EDefense" />
-      <cc-statblock-panel name="Heat Capacity" :value="frame.HeatCap" />
-      <cc-statblock-panel name="Sensor Range" :value="frame.SensorRange" />
-      <cc-statblock-panel name="Tech Attack" :value="frame.TechAttack" />
-      <cc-statblock-panel name="Repair Capacity" :value="frame.RepCap" />
-      <cc-statblock-panel name="Save" :value="frame.SaveTarget" />
-      <cc-statblock-panel name="Speed" :value="frame.Speed" />
-      <cc-statblock-panel name="SP" :value="frame.SP" />
+      <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="frame.Armor" />
+      <cc-statblock-panel icon="$vuetify.icons.hp" name="HP" :value="frame.HP" />
+      <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="frame.Evasion" />
+      <cc-statblock-panel icon="$vuetify.icons.edef" name="E-Defense" :value="frame.EDefense" />
+      <cc-statblock-panel icon="$vuetify.icons.heat" name="Heat Capacity" :value="frame.HeatCap" />
+      <cc-statblock-panel
+        icon="$vuetify.icons.sensor"
+        name="Sensor Range"
+        :value="frame.SensorRange"
+      />
+      <cc-statblock-panel icon="$vuetify.icons.tech" name="Tech Attack" :value="frame.TechAttack" />
+      <cc-statblock-panel
+        icon="$vuetify.icons.repair"
+        name="Repair Capacity"
+        :value="frame.RepCap"
+      />
+      <cc-statblock-panel icon="$vuetify.icons.save" name="Save" :value="frame.SaveTarget" />
+      <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="frame.Speed" />
+      <cc-statblock-panel icon="$vuetify.icons.sp" name="SP" :value="frame.SP" />
     </v-row>
   </v-container>
 </template>

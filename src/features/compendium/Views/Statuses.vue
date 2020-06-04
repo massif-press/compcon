@@ -15,13 +15,13 @@
     >
       <v-list-item-title class="heading h3 ml-2">{{ e.name }}</v-list-item-title>
     </v-list-item>
-    <h1 class="heading mb-3 ml-5">STATUSES & EFFECTS</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">STATUSES & EFFECTS</h1>
     <cc-titled-panel
       v-for="(e, i) in statuses"
       :id="`e_${e.name.replace(/\W/g, '')}`"
       :key="`${e.name.replace(/\W/g, '')}_${i}`"
       :title="e.name"
-      class="my-4 ml-5"
+      class="my-2"
       dense
     >
       <div class="flavor-text mt-n2 mb-n2 text-right" v-html="e.type" />

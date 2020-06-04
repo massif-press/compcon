@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="big ? 6 : 4">
+  <v-col xs="12" lg="6">
     <v-card outlined>
       <v-card-text class="pa-1">
         <v-row dense align="center">

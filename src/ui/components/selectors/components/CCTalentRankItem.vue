@@ -1,6 +1,6 @@
 <template>
   <v-row dense align="center">
-    <v-col cols="auto" class="text-center">
+    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="text-center">
       <v-icon
         :class="{ 'mr-4': small }"
         :size="small ? 40 : 80"

@@ -1,24 +1,26 @@
 <template>
-  <v-card
-    :ripple="!disabled"
-    outlined
-    tile
-    class="text-center"
-    @click="to ? $router.push(to) : $emit('clicked')"
-  >
-    <div :class="disabled ? 'grey py-4' : 'primary fade py-4'">
-      <v-icon dark size="150">
-        {{ icon }}
-      </v-icon>
-    </div>
-    <h2 class="heading mt-1">
-      {{ title }}
-    </h2>
-    <v-divider class="my-2" />
-    <p class="flavor-text px-2">
-      {{ text }}
-    </p>
-  </v-card>
+  <v-col cols="6">
+    <v-card
+      :ripple="!disabled"
+      outlined
+      tile
+      class="text-center"
+      @click="to ? $router.push(to) : $emit('clicked')"
+    >
+      <div :class="disabled ? 'grey py-4' : 'primary fade py-4'">
+        <v-icon dark size="125">
+          {{ icon }}
+        </v-icon>
+      </div>
+      <h2 v-resize-text="{ minFontSize: '18px' }" class="heading mt-1 no-wrap">
+        {{ title }}
+      </h2>
+      <v-divider class="my-1" />
+      <span v-resize-text class="flavor-text px-2 no-wrap">
+        {{ text }}
+      </span>
+    </v-card>
+  </v-col>
 </template>
 
 <script>

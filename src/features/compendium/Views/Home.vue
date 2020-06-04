@@ -1,18 +1,29 @@
 <template>
   <div>
     <v-container fluid>
-      <div class="display-3 text-center mt-n2 mb-n2" style="letter-spacing: 15px!important">
+      <div
+        class="font-weight-light text-center my-n2"
+        :style="
+          $vuetify.breakpoint.mdAndDown
+            ? 'letter-spacing: 1vw!important; font-size: 7vw!important;'
+            : 'letter-spacing: 2vw!important; font-size: 4vw!important;'
+        "
+      >
         COMPENDIUM
       </div>
-      <v-row justify="center">
-        <v-col cols="8">
+      <v-row dense justify="center">
+        <v-col lg="8" xs="12">
           <search-bar />
         </v-col>
       </v-row>
     </v-container>
-    <div class="ml-5 mr-5">
+    <div>
       <v-container fluid grid-list-lg class="mt-0 pt-0">
-        <v-row dense justify="space-around" align="center">
+        <v-row
+          dense
+          :justify="$vuetify.breakpoint.smAndDown ? 'space-between' : 'space-around'"
+          align="center"
+        >
           <compendium-page-button
             lg="4"
             md="6"

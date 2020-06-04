@@ -1,20 +1,24 @@
 <template>
   <div>
     <v-btn v-if="flat" :small="smallBtn" :color="color" text :dark="dark" @click="dialog = true">
-      <slot name="button"></slot>
+      <slot name="button" />
     </v-btn>
     <v-btn v-else tile :small="smallBtn" :color="color" @click="dialog = true">
-      <slot name="button"></slot>
+      <slot name="button" />
     </v-btn>
-    <v-dialog v-model="dialog" :width="small ? '30vw' : large ? '80vw' : '50vw'">
+    <v-dialog
+      v-model="dialog"
+      :fullscreen="fullscreen"
+      :width="small ? '30vw' : large ? '80vw' : '50vw'"
+    >
       <v-card tile class="background">
         <cc-titlebar :color="color">
-          <slot name="title"></slot>
-          <slot slot="items" name="title-items"></slot>
+          <slot name="title" />
+          <slot slot="items" name="title-items" />
         </cc-titlebar>
 
         <v-card-text>
-          <slot></slot>
+          <slot />
         </v-card-text>
 
         <v-divider></v-divider>
@@ -40,6 +44,8 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 export default class CCDialog extends Vue {
   @Prop({ type: Boolean })
   readonly small?: boolean
+  @Prop({ type: Boolean })
+  readonly fullscreen?: boolean
   @Prop({ type: Boolean })
   readonly smallBtn?: boolean
   @Prop({ type: Boolean })

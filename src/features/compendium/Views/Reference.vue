@@ -1,20 +1,22 @@
 <template>
   <div>
-    <h1 class="heading mb-3 ml-5">REFERENCE</h1>
-    <v-container class="effect-text">
-      <span class="heading mech">Structure Damage & Overheating</span>
-      <v-row justify="center">
-        <v-col cols="11">
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">REFERENCE</h1>
+    <v-container fluid class="effect-text">
+      <span v-resize-text="{ maxFontSize: '36pt' }" class="heading mech">
+        Structure Damage & Overheating
+      </span>
+      <v-row dense justify="center">
+        <v-col>
           <v-toolbar color="red darken-3" dark>
             <v-toolbar-title>STRUCTURE DAMAGE</v-toolbar-title>
           </v-toolbar>
           <v-card>
             <v-card-text>
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <span class="heading h3">Roll</span>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Result</span>
                 </v-col>
                 <v-col cols="7">
@@ -23,12 +25,12 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-5</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-6</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Glancing Blow</span>
                 </v-col>
                 <v-col cols="7">
@@ -41,12 +43,12 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-2</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-4</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">System Trauma</span>
                 </v-col>
                 <v-col cols="7">
@@ -62,10 +64,10 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Direct Hit</span>
                 </v-col>
                 <v-col cols="7">
@@ -92,11 +94,11 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-1</v-icon>
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Crushing Hit</span>
                 </v-col>
                 <v-col cols="7">
@@ -112,17 +114,17 @@
         </v-col>
       </v-row>
       <v-row justify="center" class="mt-4">
-        <v-col cols="11">
+        <v-col>
           <v-toolbar color="orange darken-4" dark>
             <v-toolbar-title>OVERHEATING</v-toolbar-title>
           </v-toolbar>
           <v-card>
             <v-card-text>
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <span class="heading h3">Roll</span>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Result</span>
                 </v-col>
                 <v-col cols="7">
@@ -131,12 +133,12 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-5</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-6</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Emergency Shunt</span>
                 </v-col>
                 <v-col cols="7">
@@ -150,12 +152,12 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-2</v-icon>
                   <v-icon large>mdi-minus</v-icon>
                   <v-icon large>mdi-dice-4</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Power Plant Destabilize</span>
                 </v-col>
                 <v-col cols="7">
@@ -169,10 +171,10 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Meltdown</span>
                 </v-col>
                 <v-col cols="7">
@@ -197,11 +199,11 @@
               </v-row>
               <v-divider class="ma-2" />
               <v-row>
-                <v-col cols="2">
+                <v-col>
                   <v-icon large>mdi-dice-1</v-icon>
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-col>
-                <v-col cols="3">
+                <v-col v-if="$vuetify.breakpoint.smAndUp" cols="3">
                   <span class="heading h3">Irreversible Meltdown</span>
                 </v-col>
                 <v-col cols="7">
