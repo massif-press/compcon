@@ -41,5 +41,12 @@ export default Vue.extend({
       { name: 'Power Rating', val: 'PowerTier', icon: 'mdi-battery-80' },
     ],
   }),
+  methods: {
+    flatten(val) {
+      if (!val.length) return ''
+      if (Array.isArray(val)) return val.join(' ,')
+      return val
+    },
+  },
 })
 </script>
