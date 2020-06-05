@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="primary" dense>
+    <v-row class="primary mt-n6" dense>
       <span class="flavor-text white--text ml-6">
         Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record {{ pilot.ID }}
       </span>
@@ -95,7 +95,7 @@
                 outlined
                 label
               >
-                <v-icon left>cci-trait</v-icon>
+                <v-icon left>cci-skill</v-icon>
                 {{ s.Skill.Trigger }}
               </v-chip>
             </v-col>
@@ -114,7 +114,7 @@
                 outlined
                 label
               >
-                <v-icon left>cci-trait</v-icon>
+                <v-icon left>cci-talent</v-icon>
                 {{ t.Talent.Name }} {{ 'I'.repeat(t.Rank) }}
               </v-chip>
             </v-col>

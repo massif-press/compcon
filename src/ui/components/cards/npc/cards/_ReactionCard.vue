@@ -15,7 +15,7 @@
       <cc-tooltip simple :content="`Stage Reaction: ${item.Name}`">
         <v-btn outlined small color="action--reaction" @click="$emit('add-reaction', item.Name)">
           <v-icon>mdi-plus</v-icon>
-          <v-icon>mdi-redo-variant</v-icon>
+          <v-icon>cci-reaction</v-icon>
         </v-btn>
       </cc-tooltip>
     </v-col>

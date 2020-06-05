@@ -45,7 +45,7 @@
           </v-col>
           <v-col cols="auto">
             <div class="overline mb-n1">EVASION</div>
-            <v-icon size="60" color="grey lighten-3">mdi-arrow-decision</v-icon>
+            <v-icon size="60" color="grey lighten-3">cci-evasion</v-icon>
           </v-col>
           <v-col cols="auto">
             <div class="overline mb-n1">SPEED</div>

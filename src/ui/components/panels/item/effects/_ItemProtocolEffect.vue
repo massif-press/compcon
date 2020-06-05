@@ -3,7 +3,7 @@
     :effect="effect"
     :color="color"
     type="PROTOCOL"
-    icon="mdi-location-enter"
+    icon="cci-protocol"
     :inset="inset"
     :transparent="transparent"
     :print="print"

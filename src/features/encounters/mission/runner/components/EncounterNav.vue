@@ -35,7 +35,7 @@
         <v-list dense>
           <v-list-item v-if="!actor.Defeated" @click="reactionDialog = true">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
-              <v-icon>mdi-redo-variant</v-icon>
+              <v-icon>cci-reaction</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Stage Custom Reaction</v-list-item-title>

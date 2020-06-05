@@ -449,7 +449,7 @@
           class="mx-1"
           @click:close="mech.RemoveReaction(r)"
         >
-          <v-icon left dark>mdi-redo-variant</v-icon>
+          <v-icon left dark>cci-reaction</v-icon>
           <span class="heading h3">{{ r }}</span>
         </v-chip>
       </v-col>

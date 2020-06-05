@@ -12,7 +12,7 @@
     </cc-title>
     <cc-solo-dialog
       ref="skillSelector"
-      icon="cci-trait"
+      icon="cci-skill"
       no-confirm
       title="Set Pilot Skill Triggers"
       fullscreen

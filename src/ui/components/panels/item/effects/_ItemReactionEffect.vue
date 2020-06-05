@@ -3,7 +3,7 @@
     :effect="effect"
     :color="color"
     type="REACTION"
-    icon="mdi-redo-variant"
+    icon="cci-reaction"
     :inset="inset"
     :transparent="transparent"
     :print="print"

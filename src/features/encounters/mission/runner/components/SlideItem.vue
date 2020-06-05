@@ -82,7 +82,7 @@
           </v-col>
           <v-col cols="auto">
             <cc-tooltip inline title="Evasion" :content="`${actor.Evasion}`">
-              <v-icon dark class="mr-n2">mdi-arrow-decision</v-icon>
+              <v-icon dark class="mr-n2">cci-evasion</v-icon>
               {{ actor.Evasion }}
             </cc-tooltip>
             <br />
@@ -147,7 +147,7 @@
             <v-menu open-on-hover top offset-y>
               <template v-slot:activator="{ on }">
                 <v-icon dark :class="!actor.Reactions.length ? 'fadeSelect' : ''" v-on="on">
-                  mdi-redo-variant
+                  cci-reaction
                 </v-icon>
               </template>
               <v-card>

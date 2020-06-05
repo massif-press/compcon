@@ -43,7 +43,7 @@
         delay
         :content="`${effect.Evasion > 0 ? '+' : '-'}${effect.Evasion} Evasion`"
       >
-        <v-icon>mdi-arrow-decision</v-icon>
+        <v-icon>cci-evasion</v-icon>
         {{ effect.Evasion }}
       </cc-tooltip>
       <cc-tooltip

@@ -1,6 +1,6 @@
 <template>
   <v-alert v-if="show" :color="color" dense dark>
-    <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="stark">{{ icon }}</v-icon>
+    <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="white">{{ icon }}</v-icon>
     <div class="heading h2">
       <span v-if="type === 'ejected'">ALERT: PILOT EJECTED</span>
       <span v-else-if="type === 'destroyed'">MECH DESTROYED</span>
@@ -116,7 +116,7 @@ export default class CCMechStatusAlert extends Vue {
         return 'mdi-alert'
         break
       case 'unlicensed':
-        return 'mdi-view-week'
+        return 'cci-license'
         break
       default:
         return ''

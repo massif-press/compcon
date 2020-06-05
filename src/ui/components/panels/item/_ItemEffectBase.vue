@@ -42,7 +42,7 @@ export default Vue.extend({
     icon: {
       type: String,
       required: false,
-      default: 'cci-trait',
+      default: 'cci-generic-item',
     },
     type: {
       type: String,

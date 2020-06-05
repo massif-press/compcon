@@ -3,7 +3,7 @@
     :effect="effect"
     :color="color"
     type="DEPLOYABLE"
-    icon="mdi-arrow-expand-all"
+    icon="cci-deployable"
     :inset="inset"
     :transparent="transparent"
     :print="print"
@@ -24,7 +24,7 @@
         {{ effect.HP }}
       </cc-tooltip>
       <cc-tooltip v-if="effect.Evasion" simple inline delay :content="`${effect.Evasion} Evasion`">
-        <v-icon>mdi-arrow-decision</v-icon>
+        <v-icon>cci-evasion</v-icon>
         {{ effect.Evasion }}
       </cc-tooltip>
       <cc-tooltip v-if="effect.EDef" simple inline delay :content="`${effect.EDef} E-Defense`">

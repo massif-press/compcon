@@ -38,7 +38,7 @@
           <v-col cols="auto">
             <div class="overline  mb-n1 ml-n8">EVASION</div>
             <div style="position: relative; width: max-content;">
-              <v-icon size="50" color="grey lighten-3">mdi-arrow-decision</v-icon>
+              <v-icon size="50" color="grey lighten-3">cci-evasion</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
