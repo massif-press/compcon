@@ -36,9 +36,11 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
-              <span class="heading white--text">
-                {{ h.group && h.group !== 'null' ? h.group.toUpperCase() : 'NONE' }}
+              <span v-if="h.group && h.group !== 'null'" class="heading white--text text-uppercase">
+                <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
+                <span v-else v-html="h.group" />
               </span>
+              <span v-else>NONE</span>
             </div>
           </template>
           <template v-slot:item.Name="{ item }">

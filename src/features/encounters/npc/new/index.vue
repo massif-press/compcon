@@ -31,10 +31,11 @@
         >
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
-              <span class="heading white--text ml-2">
+              <span v-if="h.group" class="heading white--text ml-2 text-uppercase">
                 <v-icon v-if="h.group.toLowerCase() === 'biological'" dark>mdi-heart-pulse</v-icon>
                 <v-icon v-else dark>cci-role-{{ h.group }}</v-icon>
-                {{ h.group.toUpperCase() }}
+                <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
+                <span v-else v-html="h.group" />
               </span>
             </div>
           </template>

@@ -640,8 +640,8 @@ export class Npc implements IActor {
     npc._name = data.name
     npc._subtitle = data.subtitle || ''
     npc._side = data.side as EncounterSide
-    npc._campaign = data.campaign
-    npc._user_labels = data.labels
+    npc._campaign = data.campaign || ''
+    npc._user_labels = data.labels || []
     npc._tag = data.tag
     npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
     npc._items = data.items.map(x => NpcItem.Deserialize(x))
