@@ -4,13 +4,14 @@
       :effect="effect"
       :color="color"
       type="WEAPON PROFILE"
-      icon="mdi-swap-horizontal-bold"
+      icon="cci-weapon-profile"
       :inset="inset"
       :transparent="transparent"
       :print="print"
     >
       <div :class="print ? 'caption font-weight-bold black--text mt-n1' : 'heading h3 mt-n2'">
-        {{ effect.Name }}&nbsp;
+        <span class="accent--text">{{ effect.Name }}</span>
+        &nbsp;
         <cc-range-element v-if="effect.Range" :range="effect.Range" small class="d-inline" />
         <cc-slashes />
         <cc-damage-element v-if="effect.Damage" :damage="effect.Damage" small class="d-inline" />

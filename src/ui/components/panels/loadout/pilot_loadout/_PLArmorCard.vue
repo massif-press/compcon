@@ -34,13 +34,13 @@
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon>cci-marker</v-icon>
+            <v-icon>cci-edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ item.EDefense }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Evasion">
-            <v-icon>mdi-arrow-decision</v-icon>
+            <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ item.Evasion }}</span>
         </v-col>

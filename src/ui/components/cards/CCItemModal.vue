@@ -1,6 +1,7 @@
 <template>
   <div>
     <cc-dialog
+      ref="dialog"
       no-confirm
       :color="item.Color"
       :large="$vuetify.breakpoint.mdAndUp"
@@ -16,6 +17,17 @@
         <v-icon left large dark>{{ item.Icon }}</v-icon>
         {{ item.Name }}
       </span>
+
+      <v-btn
+        v-if="$vuetify.breakpoint.smAndDown"
+        slot="title-items"
+        dark
+        icon
+        @click="$refs.dialog.confirm()"
+      >
+        <v-icon large left>close</v-icon>
+      </v-btn>
+
       <v-chip
         v-if="$vuetify.breakpoint.lgAndUp"
         slot="title-items"
@@ -45,9 +57,6 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-  data: () => ({
-    dialog: false,
-  }),
   methods: {
     truncate(str) {
       if (str.length > 26) return str.substring(0, 24) + '…'

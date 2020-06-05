@@ -66,8 +66,8 @@ export default Vue.extend({
   },
   methods: {
     icon(ctype: string) {
-      if (ctype === 'Grenade') return 'mdi-bomb'
-      return 'mdi-mine'
+      if (ctype === 'Grenade') return 'cci-grenade'
+      return 'cci-mine'
     },
   },
 })

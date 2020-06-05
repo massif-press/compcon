@@ -89,13 +89,13 @@
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
-            <v-icon>cci-marker</v-icon>
+            <v-icon>cci-edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Evasion: ${pilot.Evasion}`">
-            <v-icon>mdi-arrow-decision</v-icon>
+            <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Evasion }}</span>
         </v-col>

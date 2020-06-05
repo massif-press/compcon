@@ -2,11 +2,11 @@
   <equipment-card-base :item="item">
     <v-container slot="statblock" grid-list-md class="mt-0 pt-1">
       <v-row justify-space-between wrap fill-height>
-        <cc-statblock-panel name="Armor" :value="item.Armor" />
-        <cc-statblock-panel name="HP Bonus" :value="`+ ${item.HPBonus}`" />
-        <cc-statblock-panel name="E-Defense" :value="item.EDefense" />
-        <cc-statblock-panel name="Evasion" :value="item.Evasion" />
-        <cc-statblock-panel name="Speed" :value="item.Speed" />
+        <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="item.Armor" />
+        <cc-statblock-panel icon="$vuetify.icons.hp" name="HP Bonus" :value="`+ ${item.HPBonus}`" />
+        <cc-statblock-panel icon="$vuetify.icons.edef" name="E-Defense" :value="item.EDefense" />
+        <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="item.Evasion" />
+        <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="item.Speed" />
       </v-row>
     </v-container>
   </equipment-card-base>

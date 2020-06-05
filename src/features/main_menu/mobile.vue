@@ -66,9 +66,8 @@
           title="Roster"
           text="Manage Pilots"
           :loading="pilotLoading"
-          disabled
+          :to="'/pilot_management'"
         />
-        <!-- :to="'/pilot_management'" -->
         <mobile-btn disabled icon="mdi-map" title="Campaigns" text="WIP" />
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
