@@ -18,11 +18,13 @@
         <v-card flat class="px-3 py-3 panel clipped-x-large">
           <v-card-title
             :class="`heading ${$vuetify.breakpoint.lgAndUp ? 'mech pb-3' : 'h2'}`"
-            :style="`color: ${m.Color};`"
+            :style="`color: ${m.Color}; word-break: break-word!important`"
           >
-            {{ m.Name }}
+            <span style="overflow-wrap: normal!important;">
+              {{ m.Name }}
+            </span>
           </v-card-title>
-          <v-card-text class="mt-1 ml-2 pr-4 pt-0">
+          <v-card-text class="mt-1 pr-4 pt-0">
             <div
               v-if="$vuetify.breakpoint.lgAndUp"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"

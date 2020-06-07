@@ -1,5 +1,5 @@
 <template>
-  <div id="pc-wrapper" @click="selectable ? $emit('select', pilot) : toPilotSheet()">
+  <div id="pc-wrapper" class="my-1" @click="selectable ? $emit('select', pilot) : toPilotSheet()">
     <v-card
       tile
       color="primary"

@@ -14,6 +14,10 @@ function mechname(): string {
   return pullRandom(require('@/assets/generators/mechnames.txt'), 1)[0]
 }
 
+function teamName(): string {
+  return pullRandom(require('@/assets/generators/teamnames.txt'), 1)[0]
+}
+
 async function name(): Promise<string> {
   const firstNamesList = require('@/assets/generators/firstnames.txt')
   const lastNamesList = require('@/assets/generators/lastnames.txt')
@@ -62,4 +66,4 @@ function flavorID(template: string): string {
   return output
 }
 
-export { name, callsign, mechname, mission, encryption, flavorID }
+export { name, callsign, mechname, teamName, mission, encryption, flavorID }

@@ -33,6 +33,7 @@
     "vue-property-decorator": "^8.3.0",
     "vue-resize-text": "^0.1.1",
     "vue-router": "^3.0.6",
+    "vuedraggable": "^2.23.2",
     "vuetify": "^2.2.8",
     "vuex": "^3.1.0",
     "vuex-module-decorators": "^0.10.1"
