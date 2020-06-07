@@ -1,3 +1,15 @@
+/* List Flip */
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
 /* Slide Transition */
 .slide-enter-active {
   transition: all 0.3s ease;

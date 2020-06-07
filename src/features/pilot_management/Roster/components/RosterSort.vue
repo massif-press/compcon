@@ -1,7 +1,7 @@
 <template>
   <v-menu offset-y open-on-hover>
     <template v-slot:activator="{ on }">
-      <v-btn icon absolute top right class="margin-nav-absolute" v-on="on">
+      <v-btn icon v-on="on">
         <v-icon>mdi-sort</v-icon>
       </v-btn>
     </template>

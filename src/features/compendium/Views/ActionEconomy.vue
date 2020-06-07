@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">ACTION ECONOMY</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading ml-5">ACTION ECONOMY</h1>
     <v-container>
-      <span class="heading mech">Per Turn</span>
+      <h2 v-resize-text="{ maxFontSize: '36pt' }" class="heading mech">Per Turn</h2>
       <v-card color="panel" elevation-10>
         <v-card-text>
           <v-row justify="center" dense>
-            <action-type-card icon="$vuetify.icons.move" action="move" />
-            <v-col cols="4" class="effect-text text-center">
+            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 4" class="effect-text text-center">
               Full Action
               <i class="subtle--text text--darken-1">or</i>
               2 Quick Actions
@@ -19,6 +18,7 @@
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
               </v-card>
             </v-col>
+            <action-type-card icon="$vuetify.icons.move" action="move" />
             <action-type-card icon="cci-overcharge" action="overcharge" />
             <action-type-card icon="cci-reaction" action="reaction" />
             <action-type-card icon="cci-free-action" action="free" />

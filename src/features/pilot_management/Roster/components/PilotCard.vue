@@ -1,10 +1,11 @@
 <template>
-  <v-col :cols="small ? 2 : 4">
-    <v-hover>
+  <div class="d-inline-flex ma-2" :style="small ? 'min-width: 10vw' : 'min-width: 25vw'">
+    <v-hover :style="small ? 'min-width: 10vw' : 'min-width: 25vw'">
       <template v-slot:default="{ hover }">
         <v-card
           class="card-outline"
-          :height="small ? '10vw' : '25vw'"
+          :min-height="small ? '10vw' : '25vw'"
+          :min-width="small ? '10vw' : '25vw'"
           tile
           flat
           @click="$router.push(`pilot/${pilot.ID}`)"
@@ -28,7 +29,7 @@
             </div>
           </div>
           <div :class="small ? 'small-triangle' : 'triangle'" />
-          <div class="ll">
+          <div class="ll white--text">
             <div v-if="!small" class="overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
@@ -91,7 +92,7 @@
         </v-card>
       </template>
     </v-hover>
-  </v-col>
+  </div>
 </template>
 
 <script lang="ts">

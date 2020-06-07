@@ -40,6 +40,10 @@ class Pilot {
   private _quirk: string
   private _history: string
 
+  private _group: string
+  private _sortIndex: number
+  private _campaign: string
+
   private _id: string
   private _level: number
   private _portrait: string
@@ -93,8 +97,11 @@ class Pilot {
     this._mechs = []
     this._reserves = []
     this._orgs = []
-    this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     this._brews = []
+    this._group = ''
+    this._sortIndex = 0
+    this._campaign = ''
+    this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     // this._initCounters()
   }
 
@@ -956,10 +963,41 @@ class Pilot {
       .filter(x => x)
   }
 
+  // -- Organization ------------------------------------------------------------------------------
+  public get Group(): string {
+    return this._group
+  }
+
+  public set Group(val: string) {
+    this._group = val
+    this.save()
+  }
+
+  public get SortIndex(): number {
+    return this._sortIndex
+  }
+
+  public set SortIndex(val: number) {
+    this._sortIndex = val
+    this.save()
+  }
+
+  public get Campaign(): string {
+    return this._campaign
+  }
+
+  public set Campaign(val: string) {
+    this._campaign = val
+    this.save()
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(p: Pilot): IPilotData {
     return {
       id: p.ID,
+      campaign: p.Campaign,
+      group: p.Group,
+      sort_index: p.SortIndex,
       cloudID: p.CloudID,
       cloudOwnerID: p.CloudOwnerID,
       lastCloudUpdate: p.LastCloudUpdate,
@@ -1002,6 +1040,9 @@ class Pilot {
   }
 
   private setPilotData(data: IPilotData): void {
+    this._campaign = data.campaign || ''
+    this._group = data.group || ''
+    this._sortIndex = data.sort_index || 0
     this._cloudID = data.cloudID || ''
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''

@@ -82,6 +82,9 @@ declare interface ICounterSaveData {
 
 declare interface IPilotData {
   id: string
+  campaign: string
+  group: string
+  sort_index: number
   cloudID: string
   cloudOwnerID: string
   lastCloudUpdate: string
