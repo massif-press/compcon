@@ -1,3 +1,22 @@
+## [2.1.4](https://github.com/jarena3/compcon/compare/2.1.3...2.1.4) (2020-06-09)
+
+
+### Bug Fixes
+
+* **Compendium:** correct structure damage hull save/check text ([a75bba3](https://github.com/jarena3/compcon/commit/a75bba3d87a37d2f7f1778a8ad81f544260e4682)), closes [#883](https://github.com/jarena3/compcon/issues/883)
+* **NPC Roster:** correct remaining 'sort by' issues ([ef395e2](https://github.com/jarena3/compcon/commit/ef395e2913d05526f2d2d8693f1a6183a6a8a2bd)), closes [#877](https://github.com/jarena3/compcon/issues/877)
+
+
+### Features
+
+* **Compendium:** improve compendium mobile view ([ae1de6d](https://github.com/jarena3/compcon/commit/ae1de6dbdb316486fb0c46767a5ae1514040b430))
+* **Pilot Sheet:** add organizational groupings for pilots ([cd219c7](https://github.com/jarena3/compcon/commit/cd219c71307ceaebc55db6faf8f31ac1aa0b6769))
+* **Pilot Sheet:** add roll20 exporter ([24906ef](https://github.com/jarena3/compcon/commit/24906ef1f50ce89caea0a66ddb4a150aa0447058))
+* **Pilot Sheet:** implement more new icons on the pilot sheet ([405cc2e](https://github.com/jarena3/compcon/commit/405cc2e741a8c8c5ae72db83e0c4691f2e63fbe4))
+* added more cc-specific icons ([4722273](https://github.com/jarena3/compcon/commit/472227307e945a7358e5bd2bd977ebba8fc308ab))
+
+
+
 ## [2.1.3](https://github.com/jarena3/compcon/compare/2.1.0...2.1.3) (2020-05-26)
 
 
