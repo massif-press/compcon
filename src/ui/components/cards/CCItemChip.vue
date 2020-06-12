@@ -13,15 +13,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'cc-item-chip',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-})
+@Component({name: 'cc-item-chip'})
+export default class CCItemChip extends Vue {
+  @Prop({type: Object, required: true})
+  readonly item
+}
 </script>

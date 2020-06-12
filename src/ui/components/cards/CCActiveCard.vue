@@ -25,69 +25,38 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-active-card',
-  props: {
-    color: {
-      type: String,
-      required: false,
-      default: 'primary',
-    },
-    header: {
-      type: String,
-      required: true,
-    },
-    subheader: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    content: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    cols: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    xl: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    lg: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    md: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    sm: {
-      type: [String, Number],
-      required: false,
-      default: '',
-    },
-    collapsible: {
-      type: Boolean,
-    },
-    startClosed: {
-      type: Boolean,
-    },
-    prominent: {
-      type: Boolean,
-    },
-  },
-  data: () => ({
-    collapsed: false,
-  }),
+import { Vue, Component, Prop } from 'vue-property-decorator'
+@Component({name: 'cc-active-card'})
+export default class CCActiveCard extends Vue {
+  @Prop({ type: String, required: false, default: 'primary' })
+  readonly color: string
+  @Prop({ type: String, required: true })
+  readonly header: string
+  @Prop({ type: String, required: false, default: '' })
+  readonly subheader: string
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly content: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly cols: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly xl: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly lg: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly md: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
+  readonly cm: string | number
+  @Prop({ type: Boolean })
+  readonly collapsible: boolean
+  @Prop({ type: Boolean })
+  readonly startClosed: boolean
+  @Prop({ type: Boolean })
+  readonly prominent: boolean
+
+  collapsed = false
+
   created() {
     this.collapsed = this.startClosed
-  },
-})
+  }
+}
 </script>
