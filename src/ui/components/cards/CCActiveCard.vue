@@ -53,11 +53,7 @@ export default class CCActiveCard extends Vue {
   @Prop({ type: Boolean })
   readonly prominent: boolean
 
-  data() {
-    return {
-      collapsed: false,
-    }
-  }
+  collapsed = false
 
   created() {
     this.collapsed = this.startClosed
