@@ -27,25 +27,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
 
-export default Vue.extend({
-  name: 'cc-search-result-modal',
-  components: { ClassCard },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    dialog: false,
-  }),
-  methods: {
-    show() {
-      this.dialog = true
-    },
-  },
-})
+@Component({name: 'cc-search-result-modal', components: { ClassCard }})
+export default class CCSearchResultModal extends Vue {
+  @Prop({type: Object, required: true})
+  readonly item
+
+  dialog = false
+
+  show() {
+    this.dialog = true
+  }
+}
 </script>
