@@ -14,8 +14,8 @@
       />
       <div v-if="!!mechSelect">
         <v-checkbox v-model="buildSummary" label="Compact / Build Summary" />
-        <v-checkbox v-model="discordEmoji" label="Enhance with Discord Emoji" />
       </div>
+      <v-checkbox v-model="discordEmoji" label="Enhance with Pilot NET Discord Emoji" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
     </v-card-text>
   </cc-solo-dialog>
