@@ -185,7 +185,7 @@ class Statblock {
       if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
       else
         out += mount.Weapons.filter(Boolean)
-          .map(weapon => `${weapon.Name}${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
+          .map(weapon => `${weapon.Name}${weapon.Range ? ' ' + weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
           .join(' / ')
 
       if (mount.Bonuses.length > 0)
