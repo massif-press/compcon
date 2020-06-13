@@ -12,8 +12,9 @@
         clearable
         hide-details
       />
-      <div :style="{ opacity: !!mechSelect ? 1 : 0 }">
+      <div v-if="!!mechSelect">
         <v-checkbox v-model="buildSummary" label="Compact / Build Summary" />
+        <v-checkbox v-model="discordEmoji" label="Enhance with Discord Emoji" />
       </div>
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
     </v-card-text>
@@ -32,13 +33,14 @@ export default class StatblockDialog extends Vue {
 
   mechSelect = ""
   buildSummary = false
+  discordEmoji = false
 
   get statblock(): string {
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
     if (this.buildSummary) {
       return Statblock.GenerateBuildSummary(this.pilot, mech)
     }
-    else return Statblock.Generate(this.pilot, mech)
+    else return Statblock.Generate(this.pilot, mech, this.discordEmoji)
   }
 
   $refs!: {
