@@ -72,7 +72,7 @@ class Statblock {
         output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
       output += `  STRUCTURE:${mech.CurrentStructure}${
         mech.IsActive ? '/' + mech.MaxStructure : ''
-        }`
+      }`
       output += ` HP:${mech.CurrentHP}${mech.IsActive ? '/' + mech.MaxHP : ''}`
       output += ` ARMOR:${mech.Armor}\n`
       output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
@@ -120,53 +120,53 @@ class Statblock {
     return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
-      pilot.Licenses.length
-        ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
-        : 'N/A'
-      }
+  pilot.Licenses.length
+    ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
+    : 'N/A'
+}
 [ CORE BONUSES ]
   ${pilot.CoreBonuses.length ? `${pilot.CoreBonuses.map(cb => cb.Name).join(', ')}` : 'N/A'}
 [ TALENTS ]
   ${pilot.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
 [ STATS ]
   HULL:${pilot.MechSkills.Hull} AGI:${pilot.MechSkills.Agi} SYS:${pilot.MechSkills.Sys} ENGI:${
-      pilot.MechSkills.Eng
-      }
+  pilot.MechSkills.Eng
+}
   STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
   STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
   TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${
-      mech.LimitedBonus
-      }
+  mech.LimitedBonus
+}
   SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${
-      mech.SaveTarget
-      }
+  mech.SaveTarget
+}
 [ WEAPONS ]
   ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A'}`)}
   ${mechLoadout
-        .AllEquippableMounts(
-          pilot.has('CoreBonus', 'cb_improved_armament'),
-          pilot.has('CoreBonus', 'cb_integrated_weapon')
-        )
-        .map(mount => {
-          let out = `${mount.Name}: `
-          if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
-          else
-            out += mount.Weapons.filter(Boolean)
-              .map(weapon => `${weapon.Name}${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
-              .join(' / ')
+    .AllEquippableMounts(
+      pilot.has('CoreBonus', 'cb_improved_armament'),
+      pilot.has('CoreBonus', 'cb_integrated_weapon')
+    )
+    .map(mount => {
+      let out = `${mount.Name}: `
+      if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
+      else
+        out += mount.Weapons.filter(Boolean)
+          .map(weapon => `${weapon.Name}${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
+          .join(' / ')
 
-          if (mount.Bonuses.length > 0)
-            out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+      if (mount.Bonuses.length > 0)
+        out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
 
-          return out
-        })
-        .join('\n  ')}
+      return out
+    })
+    .join('\n  ')}
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
-          let out = sys.Name
-          if (sys.IsLimited) out += ` x${sys.MaxUses + mech.LimitedBonus}`
-          return out
-        }).join(', ')}`
+    let out = sys.Name
+    if (sys.IsLimited) out += ` x${sys.MaxUses + mech.LimitedBonus}`
+    return out
+  }).join(', ')}`
   }
 
   public static GenerateNPC(npc: Npc): string {
