@@ -148,7 +148,7 @@ class Statblock {
     return output
   }
 
-  public static GenerateBuildSummary(pilot: Pilot, mech: Mech): string {
+  public static GenerateBuildSummary(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
     const mechLoadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
     return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
@@ -186,8 +186,8 @@ class Statblock {
       else
         out += mount.Weapons.filter(Boolean)
           .map(weapon => `${weapon.Name}${
-            weapon.Range ? ' ' + weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${
-            weapon.Damage ? ' ' + weapon.Damage.filter(Boolean).map(d => `${d.DiscordEmoji}${d.Value}`).join(' ') : ''}${
+            (discordEmoji && weapon.Range) ? ' ' + weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${
+            (discordEmoji && weapon.Damage) ? ' ' + weapon.Damage.filter(Boolean).map(d => `${d.DiscordEmoji}${d.Value}`).join(' ') : ''}${
             weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
           .join(' / ')
 

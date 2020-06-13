@@ -38,7 +38,7 @@ export default class StatblockDialog extends Vue {
   get statblock(): string {
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
     if (this.buildSummary) {
-      return Statblock.GenerateBuildSummary(this.pilot, mech)
+      return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)
     }
     else return Statblock.Generate(this.pilot, mech, this.discordEmoji)
   }
