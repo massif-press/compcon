@@ -21,37 +21,36 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Statblock } from '@/class'
+import { Vue, Component, Prop} from 'vue-property-decorator'
+import { Mech, Pilot, Statblock } from '@/class'
+import CCSoloDialog from '@/ui/components/CCSoloDialog.vue'
 
-export default Vue.extend({
-  name: 'statblock-dialog',
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    mechSelect: undefined,
-    buildSummary: false
-  }),
-  computed: {
-    statblock(): string {
-      const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
-      if (this.buildSummary) {
-        return Statblock.GenerateBuildSummary(this.pilot, mech)
-      }
-      else return Statblock.Generate(this.pilot, mech)
-    },
-  },
-  methods: {
-    show() {
-      this.$refs.dialog.show()
-    },
-    hide() {
-      this.$refs.dialog.hide()
-    },
-  },
-})
+@Component({ name: 'statblock-dialog' })
+export default class StatblockDialog extends Vue {
+  @Prop({type: Object, required: true})
+  readonly pilot: Pilot
+
+  mechSelect = ""
+  buildSummary = false
+
+  get statblock(): string {
+    const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
+    if (this.buildSummary) {
+      return Statblock.GenerateBuildSummary(this.pilot, mech)
+    }
+    else return Statblock.Generate(this.pilot, mech)
+  }
+
+  $refs!: {
+    dialog: CCSoloDialog
+  }
+
+  show() {
+    this.$refs.dialog.show()
+  }
+
+  hide() {
+    this.$refs.dialog.hide()
+  }
+}
 </script>
