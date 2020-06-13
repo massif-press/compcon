@@ -174,8 +174,8 @@ class Statblock {
   mech.SaveTarget
 }
 [ WEAPONS ]
-  ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A'}`)}
-  ${mechLoadout
+  ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A'}\n`)}${
+  mechLoadout
     .AllEquippableMounts(
       pilot.has('CoreBonus', 'cb_improved_armament'),
       pilot.has('CoreBonus', 'cb_integrated_weapon')
