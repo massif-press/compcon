@@ -11,7 +11,7 @@ function linebreak(i: number, length: number): string {
 }
 
 class Statblock {
-  public static Generate(pilot?: Pilot, mech?: Mech): string {
+  public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
     let output = ''
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
@@ -54,6 +54,20 @@ class Statblock {
         for (let i = 0; i < loadout.Items.length; i++) {
           if (loadout.Items[i]) {
             output += `${loadout.Items[i].Name}`
+            if (discordEmoji && loadout.Items[i].Range) {
+              const ranges: string[] = [];
+              loadout.Items[i].Range.forEach((r) => {
+                ranges.push(`${r.DiscordEmoji} ${r.Value}`)
+              })
+              output += ` ${ranges.join(" ")}`
+            }
+            if (discordEmoji && loadout.Items[i].Damage) {
+              const damages: string[] = [];
+              loadout.Items[i].Damage.forEach((d) => {
+                damages.push(`${d.DiscordEmoji} ${d.Value}`)
+              })
+              output += ` ${damages.join(" ")}`
+            }
             if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== loadout.Items.length) {
               output += '\n  '
             } else if (i + 1 < loadout.Items.length) {
@@ -97,6 +111,20 @@ class Statblock {
           } else {
             mount.Weapons.forEach((w, idx) => {
               if (w) output += `${w.Name}`
+              if (discordEmoji && w.Range) {
+                const ranges: string[] = [];
+                w.Range.forEach((r) => {
+                  ranges.push(`${r.DiscordEmoji} ${r.Value}`)
+                })
+                output += ` ${ranges.join(" ")}`
+              }
+              if (discordEmoji && w.Damage) {
+                const damages: string[] = [];
+                w.Damage.forEach((d) => {
+                  damages.push(`${d.DiscordEmoji} ${d.Value}`)
+                })
+                output += ` ${damages.join(" ")}`
+              }
               if (w.Mod) output += ` (${w.Mod.Name})`
               if (idx + 1 < mount.Weapons.length) output += ' / '
             })
