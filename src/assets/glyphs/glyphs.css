@@ -263,6 +263,9 @@
 .cci-role-tank:before {
   content: '\e94f';
 }
+.cci-role-defender:before {
+  content: '\e94f';
+}
 .cci-size-1:before {
   content: '\e950';
 }
