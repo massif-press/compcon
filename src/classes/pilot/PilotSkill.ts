@@ -50,13 +50,14 @@ class PilotSkill {
         rank: item.Rank,
         custom: true,
         custom_desc: item.Skill.Description,
+        custom_detail: item.Skill.Detail,
       }
     return { id: item.Skill.ID, rank: item.Rank }
   }
 
   public static Deserialize(itemData: IRankedData): PilotSkill {
     if (itemData.custom)
-      return new PilotSkill(new CustomSkill(itemData.id, itemData.custom_desc), itemData.rank)
+      return new PilotSkill(new CustomSkill(itemData.id, itemData.custom_desc, itemData.custom_detail), itemData.rank)
     return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank)
   }
 }

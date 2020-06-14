@@ -55,6 +55,7 @@ declare interface IRankedData {
   rank: number
   custom?: boolean
   custom_desc?: string
+  custom_detail?: string
 }
 
 declare interface IEquipmentData {
