@@ -210,6 +210,11 @@ export class Npc implements IActor {
 
   public set Labels(val: string[]) {
     this._user_labels = val
+    this.save()
+  }
+
+  public get LabelString(): string {
+    return this._user_labels.join(', ')
   }
 
   public get Tier(): number | string {

@@ -35,7 +35,7 @@ export default Vue.extend({
       { name: 'None', val: null, icon: 'mdi-close' },
       { name: 'Role', val: 'Class.Role', icon: 'cci-role-striker' },
       { name: 'Class', val: 'Class.Name', icon: 'mdi-rhombus-outline' },
-      { name: 'Labels', val: 'Labels', icon: 'mdi-label-outline' },
+      { name: 'Labels', val: 'LabelString', icon: 'mdi-label-outline' },
       { name: 'Campaign', val: 'Campaign', icon: 'mdi-map' },
       { name: 'Tier', val: 'Tier', icon: 'cci-rank-3' },
       { name: 'Power Rating', val: 'PowerTier', icon: 'mdi-battery-80' },
