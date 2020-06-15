@@ -29,6 +29,7 @@ export interface INpcData {
   conditions: string[]
   resistances: string[]
   burn: number
+  overshield: number
   destroyed: boolean
   defeat: string
   actions: number
@@ -59,6 +60,7 @@ export class Npc implements IActor {
   private _conditions: string[]
   private _resistances: string[]
   private _burn: number
+  private _overshield: number
   private _actions: number
   private _destroyed: boolean
   private _defeat: string
@@ -85,6 +87,7 @@ export class Npc implements IActor {
       this._items.push(new NpcItem(f, t))
     })
     this._burn = 0
+    this._overshield = 0
     this._actions = 2
     this._destroyed = false
     this._defeat = ''
@@ -515,6 +518,15 @@ export class Npc implements IActor {
     this.save()
   }
 
+  public get Overshield(): number {
+    return this._overshield
+  }
+
+  public set Overshield(val: number) {
+    this._overshield = val
+    this.save()
+  }
+
   public get Destroyed(): boolean {
     return this._destroyed
   }
@@ -627,6 +639,7 @@ export class Npc implements IActor {
       conditions: npc._conditions,
       resistances: npc._resistances,
       burn: npc._burn,
+      overshield: npc._overshield,
       destroyed: npc._destroyed,
       defeat: npc._defeat,
       actions: npc._actions,
@@ -662,6 +675,7 @@ export class Npc implements IActor {
     npc._conditions = data.conditions || []
     npc._resistances = data.resistances || []
     npc._burn = data.burn || 0
+    npc._overshield = data.overshield || 0
     npc._actions = data.actions || 1
     npc._destroyed = data.destroyed || false
     npc._defeat = data.defeat || ''

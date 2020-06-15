@@ -133,6 +133,21 @@
               <span class="heading h3">HP</span>
             </cc-tick-bar>
           </v-col>
+          <v-col cols="auto" class="ml-1">
+            <cc-tick-bar
+              :key="npc.Overshield"
+              :current="npc.Overshield"
+              :max="npc.Overshield"
+              large
+              color="stark"
+              number-only
+              hide-values
+              :full-icon="'mdi-octagram'"
+              @update="npc.Overshield = $event"
+            >
+              <span class="heading h3">Overshield</span>
+            </cc-tick-bar>
+          </v-col>
         </v-row>
 
         <v-row dense>
