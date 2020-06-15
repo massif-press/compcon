@@ -29,6 +29,22 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
+      <v-col v-if="isTouch" cols="auto">
+        <v-switch v-model="preventDnd" dense inset hide-details color="accent" class="mr-3">
+          <cc-tooltip
+            slot="label"
+            simple
+            inline
+            :content="preventDnd ? 'Pilot Reordering: OFF' : 'Pilot Reordering: ON'"
+          >
+            <v-icon
+              class="ml-n2"
+              :color="preventDnd ? 'primary' : 'accent'"
+              v-html="preventDnd ? 'mdi-lock' : 'mdi-cursor-move'"
+            />
+          </cc-tooltip>
+        </v-switch>
+      </v-col>
       <!-- <v-col cols="auto">
         <roster-sort :pilots="pilots" @sort="onSort" />
       </v-col> -->
@@ -55,15 +71,13 @@
             <v-expand-transition>
               <draggable
                 :list="groups[g]"
+                :disabled="preventDnd"
                 group="pilots"
                 v-bind="dragOptions"
                 @start="drag = true"
                 @end="drag = false"
                 @change="moved($event, g)"
               >
-                <!-- <v-row v-if="!groups[g].length" slot="header" dense justify="center">
-                  <v-col cols="auto" class="h3 subtle--text">EMPTY</v-col>
-                </v-row> -->
                 <component
                   :is="pilotCardType"
                   v-for="(p, i) in groups[g]"
@@ -73,14 +87,6 @@
                 />
               </draggable>
             </v-expand-transition>
-            <!-- <div v-if="profile.RosterView === 'list'"> -->
-            <!-- </div> -->
-            <!-- <v-row v-else-if="profile.RosterView === 'cards'">
-                  <pilot-card v-for="p in pilots" :key="p.ID" :pilot="p" />
-                </v-row>
-                <v-row v-else-if="profile.RosterView === 'small-cards'">
-                  <pilot-card v-for="p in pilots" :key="p.ID" :pilot="p" small />
-                </v-row> -->
           </div>
         </div>
       </v-container>
@@ -149,6 +155,7 @@ export default Vue.extend({
     groups: [],
     shown: [],
     newGroupName: '',
+    preventDnd: true,
   }),
   computed: {
     pilotCardType(): string {
@@ -188,6 +195,13 @@ export default Vue.extend({
         ghostClass: 'ghost',
       }
     },
+    isTouch() {
+      if ('ontouchstart' in document.documentElement) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   watch: {
     pilots() {
@@ -197,6 +211,7 @@ export default Vue.extend({
   created() {
     this.reset()
     this.shown = Object.keys(this.groups)
+    this.preventDnd = this.isTouch
   },
   methods: {
     reset() {
