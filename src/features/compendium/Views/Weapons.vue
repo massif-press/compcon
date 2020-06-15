@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -28,7 +29,10 @@ export default class Weapons extends Vue {
 
   private compendium = getModule(CompendiumStore, this.$store)
   public get weapons(): MechWeapon[] {
-    return this.compendium.MechWeapons.filter(x => x.Source)
+    return _.sortBy(
+      this.compendium.MechWeapons.filter(x => x.Source),
+      ['Source', 'Name']
+    )
   }
 }
 </script>
