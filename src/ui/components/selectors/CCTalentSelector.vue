@@ -85,6 +85,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import Selector from './components/_SelectorBase.vue'
 import MissingItem from './components/_MissingItem.vue'
 import TalentSelectItem from './components/_TalentSelectItem.vue'
@@ -120,15 +121,13 @@ export default Vue.extend({
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
       if (this.search) return compendium.Talents.filter(x => accentInclude(x.Name, this.search))
-      return compendium.Talents.sort(function(a, b) {
-        if (a.ID < b.ID) return -1
-        if (a.ID > b.ID) return 1
-        return 0
-      }).sort(a => {
-        if (!this.pilot.Talents.some(x => x.Talent.ID === a.ID)) return 1
-        if (this.pilot.Talents.some(x => x.Talent.ID === a.ID)) return -1
-        return 0
-      })
+
+      return _.sortBy(compendium.Talents, [
+        t => {
+          return this.pilot.Talents.some(x => x.Talent.ID === t.ID) ? -1 : 1
+        },
+        'Name',
+      ])
     },
   },
   watch: {

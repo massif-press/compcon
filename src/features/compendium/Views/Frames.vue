@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -35,7 +36,7 @@ export default class Frames extends Vue {
 
   private compendium = getModule(CompendiumStore, this.$store)
   public get frames(): Frame[] {
-    return this.compendium.Frames
+    return _.sortBy(this.compendium.Frames, ['Source', 'Name'])
   }
 
   public frameTypes = Object.keys(MechType).sort() as MechType[]
