@@ -65,6 +65,10 @@ class Damage {
     return `cci-${this._damage_type.toLowerCase()}`
   }
 
+  public get DiscordEmoji(): string {
+    return `:cc_damage_${this._damage_type.toLowerCase()}:`
+  }
+
   public get Color(): string {
     return `damage--${this._damage_type.toLowerCase()}`
   }

@@ -43,6 +43,17 @@ class Range {
     return `cci-${this._range_type.toLowerCase()}`
   }
 
+  public get DiscordEmoji(): string {
+    switch (this._range_type)
+    {
+      case RangeType.Range:
+      case RangeType.Threat:
+      case RangeType.Thrown:
+        return `:cc_${this._range_type.toLowerCase()}:`
+    }
+    return `:cc_aoe_${this._range_type.toLowerCase()}:`
+  }
+
   public get Text(): string {
     if (this._override) return this.Value.toString()
     if (this._bonus) return `${this._range_type} ${this.Value} (+${this._bonus})`
