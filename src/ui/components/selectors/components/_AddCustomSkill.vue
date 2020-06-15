@@ -12,10 +12,20 @@
         outlined
         dense
         hide-details
-        rows="2"
+        rows="1"
         auto-grow
         class="pl-4 mt-1"
         label="Description"
+      />
+      <v-textarea
+        v-model="newDetail"
+        outlined
+        dense
+        hide-details
+        rows="3"
+        auto-grow
+        class="pl-4 mt-1"
+        label="Detail"
       />
     </v-col>
     <v-col cols="auto" class="text-center">
@@ -37,12 +47,14 @@ export default Vue.extend({
   data: () => ({
     newSkill: '',
     newDesc: '',
+    newDetail: '',
   }),
   methods: {
     addSkill() {
-      this.$emit('add-custom', { skill: this.newSkill, description: this.newDesc })
+      this.$emit('add-custom', { skill: this.newSkill, description: this.newDesc, detail: this.newDetail })
       this.newSkill = ''
       this.newDesc = ''
+      this.newDetail = ''
     },
   },
 })
