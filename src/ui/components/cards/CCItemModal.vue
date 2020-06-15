@@ -45,23 +45,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'cc-item-modal',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    smallBtn: {
-      type: Boolean,
-    },
-  },
-  methods: {
-    truncate(str) {
-      if (str.length > 26) return str.substring(0, 24) + '…'
-      return str
-    },
-  },
-})
+import { Vue, Component, Prop } from 'vue-property-decorator'
+@Component({name: 'cc-item-modal'})
+export default class CCItemModal extends Vue {
+  @Prop({type: Object, required: true})
+  readonly item
+  @Prop({type: Boolean})
+  readonly smallBtn: boolean
+  truncate(str) {
+    if (str.length > 26) return str.substring(0, 24) + '…'
+    return str
+  }
+}
 </script>
