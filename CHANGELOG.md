@@ -1,3 +1,22 @@
+## [2.1.5](https://github.com/jarena3/compcon/compare/2.1.4...2.1.5) (2020-06-15)
+
+
+### Bug Fixes
+
+* **Active Mode:** fixed the reactor stress popup erroneously referencing structure instead ([83ef700](https://github.com/jarena3/compcon/commit/83ef7009ac7f25e0b98a2d20f16a388b2dd54301)), closes [#878](https://github.com/jarena3/compcon/issues/878)
+* **Mission Runner:** fixed missing core power descriptions ([38c2db4](https://github.com/jarena3/compcon/commit/38c2db46dfd19526c2211f05bab9d5927866cee4)), closes [#888](https://github.com/jarena3/compcon/issues/888)
+* **NPC Roster:** fix label sorting in the NPC roster ([289d263](https://github.com/jarena3/compcon/commit/289d263a0ad7a208962ff9ad6e8d8c9ca3ce34d9)), closes [#893](https://github.com/jarena3/compcon/issues/893)
+* **Pilot Sheet:** added a Pilot Roster reorder/lock order toggle to touch devices ([c39b4c9](https://github.com/jarena3/compcon/commit/c39b4c96e8798fa39edaac14678cedf04d01ced7)), closes [#896](https://github.com/jarena3/compcon/issues/896)
+
+
+### Features
+
+* **Mission Runner:** added Overshield tracker to Mission Runner NPCs ([165872d](https://github.com/jarena3/compcon/commit/165872da30dc8e9c130ebd007bb7dc40d36be485)), closes [#872](https://github.com/jarena3/compcon/issues/872)
+* **Pilot Sheet:** adds the detail field to custom skill triggers ([0a9b9bc](https://github.com/jarena3/compcon/commit/0a9b9bca11b6169f63bc55063bce79a497d4ace0)), closes [#903](https://github.com/jarena3/compcon/issues/903)
+* **Pilot Sheet:** improved equipment and talent sorting ([0edba82](https://github.com/jarena3/compcon/commit/0edba821ca8084c6c268e633f619bede5a978995)), closes [#880](https://github.com/jarena3/compcon/issues/880)
+
+
+
 ## [2.1.4](https://github.com/jarena3/compcon/compare/2.1.3...2.1.4) (2020-06-09)
 
 
