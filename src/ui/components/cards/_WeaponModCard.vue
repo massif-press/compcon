@@ -34,17 +34,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import EquipmentCardBase from './_EquipmentCardBase.vue'
+import { WeaponMod } from '@/class'
 
-export default Vue.extend({
-  name: 'cc-weapon-mod-card',
-  components: { EquipmentCardBase },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
-})
+@Component({ components: { EquipmentCardBase }, })
+export default class WeaponModCard extends Vue {
+  @Prop({ type: Object, required: true, })
+  readonly item: WeaponMod
+}
 </script>
