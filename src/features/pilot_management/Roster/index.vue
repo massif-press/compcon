@@ -46,14 +46,7 @@
               <span class="overline">({{ groups[g].length }})</span>
             </v-col>
             <v-col v-if="g" cols="auto" class="ml-auto mr-8">
-              <v-btn
-                dark
-                small
-                icon
-                class="fadeSelect"
-                :disabled="groups[g].length > 0"
-                @click="deleteGroup(g)"
-              >
+              <v-btn dark small icon class="fadeSelect" @click="deleteGroup(g)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-col>
@@ -196,20 +189,28 @@ export default Vue.extend({
       }
     },
   },
+  watch: {
+    pilots() {
+      this.reset()
+    },
+  },
   created() {
-    const store = getModule(PilotManagementStore, this.$store)
-    this.groups = _.groupBy(this.pilots, 'Group')
-    for (const g in this.groups) {
-      if (this.groups.hasOwnProperty(g)) {
-        this.groups[g] = _.sortBy(this.groups[g], 'SortIndex')
-      }
-    }
-    store.PilotGroups.forEach(pg => {
-      if (!Object.keys(this.groups).includes(pg)) Vue.set(this.groups, pg, [])
-    })
+    this.reset()
     this.shown = Object.keys(this.groups)
   },
   methods: {
+    reset() {
+      const store = getModule(PilotManagementStore, this.$store)
+      this.groups = _.groupBy(this.pilots, 'Group')
+      for (const g in this.groups) {
+        if (this.groups.hasOwnProperty(g)) {
+          this.groups[g] = _.sortBy(this.groups[g], 'SortIndex')
+        }
+      }
+      store.PilotGroups.forEach(pg => {
+        if (!Object.keys(this.groups).includes(pg)) Vue.set(this.groups, pg, [])
+      })
+    },
     toggleShown(group: string) {
       const idx = this.shown.indexOf(group)
       if (idx === -1) this.shown.push(group)
@@ -245,9 +246,13 @@ export default Vue.extend({
     },
     deleteGroup(g) {
       const store = getModule(PilotManagementStore, this.$store)
+      this.groups[g].forEach((p: Pilot) => {
+        Vue.set(p, 'Group', '')
+      })
       if (!this.groups[g]) return
       Vue.delete(this.groups, g)
       store.deleteGroup(g)
+      this.reset()
     },
     randomName() {
       this.newGroupName = teamName()
