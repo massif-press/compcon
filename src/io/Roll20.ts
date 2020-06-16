@@ -153,7 +153,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
               // filter out blast since it's never used as the only "range" really
               range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
               damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
-              type: weapon.Damage[0].Type,
+              type: weapon.DefaultDamageType,
               tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
             }
           : null
