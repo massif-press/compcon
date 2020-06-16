@@ -37,6 +37,14 @@ class PilotWeapon extends PilotEquipment {
     return this.damage
   }
 
+  public get MaxDamage(): number {
+    if (0 === this.Damage.length) {
+      return 0;
+    } else {
+      return this.Damage[0].Max;
+    }
+  }
+
   public get Effect(): string {
     return this.effect
   }

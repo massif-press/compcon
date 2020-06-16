@@ -70,6 +70,14 @@ class MechWeapon extends MechEquipment {
     return this._damage || []
   }
 
+  public get MaxDamage(): number {
+    if (0 === this.Damage.length) {
+      return 0;
+    } else {
+      return this.Damage[0].Max;
+    }
+  }
+
   public get DamageTypeOverride(): string {
     return this._custom_damage_type || null
   }
