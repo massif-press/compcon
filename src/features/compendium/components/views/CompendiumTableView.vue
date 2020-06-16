@@ -33,48 +33,49 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'compendium-table-view',
-  props: {
-    headers: {
-      type: Array,
-      required: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  data: () => ({
-    itemType: '',
-    tableHeight: 500,
-  }),
+@Component({name: 'compendium-table-view',})
+export default class CompendiumTableView extends Vue {
+  @Prop({
+    type: Array,
+    required: true,
+  })
+  readonly headers: string[]
+
+  @Prop({
+    type: Array,
+    required: true,
+  })
+  readonly items: any[]
+
+  itemType = ''
+  tableHeight = 500
+
   mounted() {
     this.onResize()
-  },
-  methods: {
-    customSort(items, index, descending) {
-      const desc = descending[0]
-      items.sort((a, b) => {
-        index.forEach(idx => {
-          if (idx === 'Damage') {
-            return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
-          } else if (idx === 'Range') {
-            return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
-          } else {
-            return desc ? (a[idx] < b[idx] ? -1 : 1) : b[idx] < a[idx] ? -1 : 1
-          }
-        })
+  }
+
+  customSort(items, index, descending) {
+    const desc = descending[0]
+    items.sort((a, b) => {
+      index.forEach(idx => {
+        if (idx === 'Damage') {
+          return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
+        } else if (idx === 'Range') {
+          return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
+        } else {
+          return desc ? (a[idx] < b[idx] ? -1 : 1) : b[idx] < a[idx] ? -1 : 1
+        }
       })
-      return items
-    },
-    onResize() {
-      this.tableHeight = window.innerHeight - 160
-    },
-  },
-})
+    })
+    return items
+  }
+
+  onResize() {
+    this.tableHeight = window.innerHeight - 160
+  }
+}
 </script>
 
 <style scoped>
