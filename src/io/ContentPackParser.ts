@@ -2,6 +2,7 @@ import JSZip, { JSZipObject } from 'jszip'
 import {
   IMechWeaponData,
   IManufacturerData,
+  IFactionData,
   ICoreBonusData,
   IFrameData,
   IMechSystemData,
@@ -74,6 +75,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   }
 
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
+  const factions = await getZipData<IFactionData>(zip, 'factions.json')
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonus.json'), 'cb')
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf')
   const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw')
@@ -96,6 +98,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
     manifest,
     data: {
       manufacturers,
+      factions,
       coreBonuses,
       frames,
       weapons,
