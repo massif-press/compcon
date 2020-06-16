@@ -42,6 +42,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { MechWeapon, PilotWeapon } from '@/class'
 
 @Component({ name: 'selector-table-view' })
 export default class SelectorTableView extends Vue {
@@ -55,7 +56,7 @@ export default class SelectorTableView extends Vue {
     type: Array,
     required: true,
   })
-  readonly items: any[]
+  readonly items: PilotWeapon[] | MechWeapon[]
 
   tableHeight = 535
   mounted() {
@@ -66,7 +67,9 @@ export default class SelectorTableView extends Vue {
     const desc = descending[0]
     items.sort((a, b) => {
       if (index[0] === 'Damage[0].Max') {
-        return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
+        const aMax = a.Damage[0] ? a.Damage[0].Max : 0
+        const bMax = b.Damage[0] ? b.Damage[0].Max : 0
+        return desc ? bMax - aMax : aMax - bMax
       } else if (index[0] === 'Range[0].Max') {
         return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
       } else {
