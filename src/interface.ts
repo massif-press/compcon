@@ -35,6 +35,7 @@ import { IPilotArmorData } from './classes/pilot/PilotArmor'
 import { IPilotWeaponData } from './classes/pilot/PilotWeapon'
 import { IPilotGearData } from './classes/pilot/PilotGear'
 import { IManufacturerData } from './classes/Manufacturer'
+import { IFactionData } from './classes/Faction'
 import { ITalentData } from './classes/pilot/Talent'
 import { ISkillData } from './classes/pilot/Skill'
 import { IMechWeaponData } from './classes/mech/MechWeapon'
@@ -85,6 +86,7 @@ export {
   IPilotWeaponData,
   IPilotGearData,
   IManufacturerData,
+  IFactionData,
   ITalentData,
   ISkillData,
   IMechWeaponData,
