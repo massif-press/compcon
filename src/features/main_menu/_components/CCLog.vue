@@ -35,8 +35,10 @@ import Vue from 'vue'
 import TypeIt from 'typeit'
 import GmsStart from './startup_logs/gms'
 import MsmcStart from './startup_logs/msmc'
+import { HorusStart, HorusChat } from './startup_logs/horus'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { UserProfile } from '@/io/User'
 
 export default Vue.extend({
   name: 'cc-log',
@@ -45,6 +47,12 @@ export default Vue.extend({
     text: [],
     lock: false,
   }),
+  computed: {
+    profile(): UserProfile {
+      const store = getModule(CompendiumStore, this.$store)
+      return store.UserProfile
+    },
+  },
   async mounted() {
     this.lock = true
     await Vue.nextTick()
@@ -61,11 +69,26 @@ export default Vue.extend({
         this.$refs.output?.scrollIntoView({ block: 'end' })
       },
       afterComplete: () => {
-        this.lock = false
+        if (this.profile.Theme === 'horus') {
+          HorusChat(this.$refs.output)
+        } else {
+          this.lock = false
+        }
       },
     })
-    if (this.$vuetify.theme.dark) MsmcStart(this.typer)
-    else GmsStart(this.typer)
+
+    switch (this.profile.Theme) {
+      case 'horus':
+        // this.typer.go()
+        HorusStart(this.typer)
+        // HorusChat(this.typer)
+        break
+      case 'msmc':
+        MsmcStart(this.typer)
+      default:
+        GmsStart(this.typer)
+        break
+    }
   },
   methods: {
     print(user: string, response: string) {
