@@ -34,6 +34,18 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: 'IBM VGA';
+  src: url('../../assets/fonts/PxPlus_IBM_VGA8.ttf') format('truetype');
+  font-weight: normal;
+}
+
+.ibm-text {
+  font-size: 16px;
+  line-height: 14px;
+  font-family: 'IBM VGA';
+}
+
 .callsign-text {
   font-weight: 300;
   font-size: 3.5em;

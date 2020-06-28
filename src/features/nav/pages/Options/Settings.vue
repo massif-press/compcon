@@ -141,6 +141,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import allThemes from '@/ui/style/themes'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkData'
@@ -149,11 +150,13 @@ import { saveFile } from '@/io/Dialog'
 export default Vue.extend({
   name: 'options-settings',
   data: () => ({
-    theme: 'light',
-    themes: [
-      { name: 'GMS Red (Default)', value: 'light' },
-      { name: 'MSMC Dark', value: 'dark' },
-    ],
+    theme: 'gms',
+    themes: [],
+    // themes: [
+    //   { name: 'GMS Red (Default Light)', value: 'light' },
+    //   { name: 'MSMC Dark', value: 'dark' },
+    //   { name: 'HORUS Dark', value: 'horus' },
+    // ],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
@@ -170,6 +173,12 @@ export default Vue.extend({
   },
   created() {
     this.theme = this.userTheme
+    for (const k in allThemes) {
+      if (allThemes.hasOwnProperty(k)) {
+        const e = allThemes[k]
+        this.themes.push({ name: e.name, value: e.id })
+      }
+    }
   },
   methods: {
     reload() {
@@ -177,7 +186,15 @@ export default Vue.extend({
     },
     setTheme() {
       getModule(CompendiumStore, this.$store).UserProfile.Theme = this.theme
-      this.$vuetify.theme.dark = this.theme === 'dark'
+      const isDark = allThemes[this.theme].type === 'dark'
+
+      if (isDark) {
+        this.$vuetify.theme.themes.dark = allThemes[this.theme].colors
+        this.$vuetify.theme.dark = true
+      } else {
+        this.$vuetify.theme.themes.light = allThemes[this.theme].colors
+        this.$vuetify.theme.dark = false
+      }
     },
     setUserID(id: string) {
       const store = getModule(CompendiumStore, this.$store)

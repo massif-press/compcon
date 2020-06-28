@@ -63,8 +63,6 @@ r.beforeEach((to, from, next) => {
   else if (p.includes('/gm')) ns.setNavMode('encounter')
   else ns.setNavMode('')
 
-  ns.initDarkMode()
-
   next()
 })
 

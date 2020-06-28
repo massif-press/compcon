@@ -31,7 +31,7 @@ class UserProfile {
     this._rosterView = 'list'
     this._hangarView = 'cards'
     this._pilotSheetView = 'tabbed'
-    this._theme = 'light'
+    this._theme = 'gms'
   }
 
   private save(): void {
