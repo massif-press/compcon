@@ -1,4 +1,4 @@
-import { PilotEquipment, Range, Damage, ItemType } from '@/class'
+import { PilotEquipment, Range, Damage, ItemType, DamageType } from '@/class'
 import { IPilotEquipmentData, IRangeData, IDamageData } from '@/interface'
 
 interface IPilotWeaponData extends IPilotEquipmentData {
@@ -33,8 +33,24 @@ class PilotWeapon extends PilotEquipment {
     this.save()
   }
 
+  public get DefaultDamageType(): DamageType {
+    if (0 === this.Damage.length) {
+      return DamageType.Variable
+    } else {
+      return this.Damage[0].Type
+    }
+  }
+
   public get Damage(): Damage[] {
     return this.damage
+  }
+
+  public get MaxDamage(): number {
+    if (0 === this.Damage.length) {
+      return 0;
+    } else {
+      return this.Damage[0].Max;
+    }
   }
 
   public get Effect(): string {

@@ -67,9 +67,7 @@ export default class SelectorTableView extends Vue {
     const desc = descending[0]
     items.sort((a, b) => {
       if (index[0] === 'Damage[0].Max') {
-        const aMax = a.Damage[0] ? a.Damage[0].Max : 0
-        const bMax = b.Damage[0] ? b.Damage[0].Max : 0
-        return desc ? bMax - aMax : aMax - bMax
+        return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
       } else if (index[0] === 'Range[0].Max') {
         return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
       } else {

@@ -61,9 +61,7 @@ export default class CompendiumTableView extends Vue {
     items.sort((a, b) => {
       index.forEach(idx => {
         if (idx === 'Damage') {
-          const aMax = a.Damage[0] ? a.Damage[0].Max : 0
-          const bMax = b.Damage[0] ? b.Damage[0].Max : 0
-          return desc ? bMax - aMax : aMax - bMax
+          return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
         } else if (idx === 'Range') {
           return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
         } else {

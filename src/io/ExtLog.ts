@@ -2,7 +2,6 @@ import path from 'path'
 import Vue from 'vue'
 import { writeFile, readFile, exists, USER_DATA_PATH, ensureDataDir } from './Data'
 import { Capacitor } from '@capacitor/core'
-import theme from '@/ui/theme'
 
 const LOG_FILE_NAME = 'compcon.log'
 const LOG_FILE_PATH = path.join(USER_DATA_PATH, LOG_FILE_NAME)
@@ -11,7 +10,7 @@ const logErrorMsg = err =>
   `Critical Error: COMP/CON unable to create error log at ${LOG_FILE_PATH}: \n ${err}`
 
 const logPrefixStyles = [
-  `background: ${theme.theme.themes.light.primary}`,
+  `background: #991E2A`,
   `border-radius: 0.5em`,
   `color: white`,
   `font-weight: bold`,
