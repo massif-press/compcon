@@ -2,17 +2,17 @@ import { store } from '@/store'
 import _ from 'lodash'
 import {
   Damage,
+  DamageType,
+  ItemType,
+  Mech,
+  MechEquipment,
   Range,
+  RangeType,
   WeaponMod,
   WeaponSize,
   WeaponType,
-  ItemType,
-  MechEquipment,
-  DamageType,
-  RangeType,
-  Mech,
 } from '@/class'
-import { IMechEquipmentData, IDamageData, IRangeData } from '@/interface'
+import { IDamageData, IMechEquipmentData, IRangeData } from '@/interface'
 
 // TODO:
 // class WeaponAmmo {}
@@ -70,6 +70,14 @@ class MechWeapon extends MechEquipment {
     return this._damage || []
   }
 
+  public get MaxDamage(): number {
+    if (0 === this.Damage.length) {
+      return 0;
+    } else {
+      return this.Damage[0].Max;
+    }
+  }
+
   public get DamageTypeOverride(): string {
     return this._custom_damage_type || null
   }
@@ -86,6 +94,14 @@ class MechWeapon extends MechEquipment {
 
   public get DamageType(): DamageType[] {
     return this._damage.map(x => x.Type)
+  }
+
+  public get DefaultDamageType(): DamageType {
+    if (0 === this.DamageType.length) {
+      return DamageType.Variable
+    } else {
+      return this.DamageType[0]
+    }
   }
 
   public get Range(): Range[] {

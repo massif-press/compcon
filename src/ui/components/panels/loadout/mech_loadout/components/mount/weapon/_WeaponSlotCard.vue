@@ -66,7 +66,10 @@
           <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
         </v-row>
         <ammo-case-inset :level="armoryLevel" />
-        <v-row no-gutters align="center" class="ml-2 mr-6">
+        <v-row no-gutters align="center" class="mr-6">
+          <v-col v-if="item" cols="auto">
+            <!-- <cc-synergy-panel location="Weapon" :item="item" :pilot="mech.Pilot" /> -->
+          </v-col>
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
           </v-col>

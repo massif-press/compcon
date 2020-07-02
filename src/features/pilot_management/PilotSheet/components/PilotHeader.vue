@@ -6,7 +6,12 @@
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
               <div class="overline mb-n6">callsign</div>
-              <div class="heading h1" style="letter-spacing: 10px">{{ pilot.Callsign }}</div>
+              <div
+                class="heading h1"
+                style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+              >
+                {{ pilot.Callsign }}
+              </div>
             </v-col>
             <v-col cols="auto" class="ml-auto text-center mt-2">
               <div class="overline mb-n9">license level</div>

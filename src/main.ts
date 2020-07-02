@@ -20,6 +20,7 @@ import VueResizeText from 'vue-resize-text'
 import './registerServiceWorker'
 
 import theme from './ui/theme'
+import themes from '@/ui/style/themes'
 
 import mixins from './mixins'
 
@@ -38,6 +39,25 @@ Object.defineProperty(Vue.prototype, '$platform', { value: Capacitor.platform })
 
 Vue.prototype.$appVersion = process.env.VERSION_STRING
 Vue.prototype.$lancerVersion = `${lancerData.info.version}`
+
+// Preload theme
+const ls = JSON.parse(localStorage.getItem('user.config'))
+let activeTheme = null
+
+if (ls && ls.theme) {
+  activeTheme = themes[ls.theme]
+}
+
+if (!activeTheme) {
+  console.log(`there's no active theme`)
+  activeTheme = themes.gms
+}
+
+theme.theme.dark = activeTheme.type === 'dark'
+theme.dark = activeTheme.type === 'dark'
+
+theme.theme.themes.dark = activeTheme.colors
+theme.theme.themes.light = activeTheme.colors
 
 const vuetify = new Vuetify(theme)
 
