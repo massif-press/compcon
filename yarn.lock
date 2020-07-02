@@ -8190,10 +8190,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lancer-data@^2.0.30:
-  version "2.0.30"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.30.tgz#41dd93cbea5ec7593382715cc28e6a6fb9b434f3"
-  integrity sha512-Qf6peKaBMiItz825T7XP1ZZDKXqlJlp1dbPIpFO8TQnRh6y/MkfraIwGO+OXS0N0wuZXOvGOXvmUPEEL0my7Tw==
+lancer-data@^2.0.32:
+  version "2.0.32"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.32.tgz#b1ec5dac86bca6251bae7fd88db19ff956f472d0"
+  integrity sha512-2cHoOGD4O+lO8iEI+F1yq1Rnr+VzFW/Pyk+N3FW73TsmxM5rab9fy3wR5LgTHCIhSD+jUN8D7X5bMOXUBhtQiQ==
 
 latest-version@^5.0.0:
   version "5.1.0"
