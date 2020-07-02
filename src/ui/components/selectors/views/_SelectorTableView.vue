@@ -41,42 +41,44 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  name: 'selector-table-view',
-  props: {
-    headers: {
-      type: Array,
-      required: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-  },
-  data: () => ({
-    tableHeight: 535,
-  }),
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { MechWeapon, PilotWeapon } from '@/class'
+
+@Component({ name: 'selector-table-view' })
+export default class SelectorTableView extends Vue {
+  @Prop({
+    type: Array,
+    required: true,
+  })
+  readonly headers: string[]
+
+  @Prop({
+    type: Array,
+    required: true,
+  })
+  readonly items: PilotWeapon[] | MechWeapon[]
+
+  tableHeight = 535
   mounted() {
     this.onResize()
-  },
-  methods: {
-    customSort(items, index, descending) {
-      const desc = descending[0]
-      items.sort((a, b) => {
-        if (index[0] === 'Damage[0].Max') {
-          return desc ? b.Damage[0].Max - a.Damage[0].Max : a.Damage[0].Max - b.Damage[0].Max
-        } else if (index[0] === 'Range[0].Max') {
-          return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
-        } else {
-          return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
-        }
-      })
-      return items
-    },
-    onResize() {
-      this.tableHeight = window.innerHeight - 215
-    },
-  },
-})
+  }
+
+  customSort(items, index, descending) {
+    const desc = descending[0]
+    items.sort((a, b) => {
+      if (index[0] === 'Damage[0].Max') {
+        return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
+      } else if (index[0] === 'Range[0].Max') {
+        return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
+      } else {
+        return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
+      }
+    })
+    return items
+  }
+
+  onResize() {
+    this.tableHeight = window.innerHeight - 215
+  }
+}
 </script>
