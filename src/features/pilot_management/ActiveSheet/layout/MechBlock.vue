@@ -67,7 +67,7 @@
         @clear-status="mech.Repair()"
       />
 
-      <v-row justify="space-between" dense>
+      <v-row justify="space-between" align="center" dense>
         <v-col cols="3">
           <cc-status-select
             label="Statuses"
@@ -99,7 +99,7 @@
           />
         </v-col>
 
-        <v-col cols="auto" class="ml-auto mr-3">
+        <v-col cols="auto" class="ml-auto mr-auto">
           <v-text-field
             v-model="mech.Burn"
             type="number"
@@ -115,6 +115,22 @@
             @click:prepend="mech.Burn -= 1"
             @change="mech.Burn = parseInt($event)"
           />
+        </v-col>
+
+        <v-col cols="auto" class="mx-3">
+          <cc-tooltip simple inline content="Full Repair">
+            <v-menu offset-y offset-x bottom left>
+              <template v-slot:activator="{ on }">
+                <v-btn icon class="fadeSelect" v-on="on">
+                  <v-icon x-large>cci-repair</v-icon>
+                </v-btn>
+              </template>
+              <cc-confirmation
+                content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
+                @confirm="mech.FullRepair()"
+              />
+            </v-menu>
+          </cc-tooltip>
         </v-col>
       </v-row>
 
