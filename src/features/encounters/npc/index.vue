@@ -149,12 +149,11 @@
               <v-card-title>Select File to Import</v-card-title>
               <v-card-text>
                 <v-file-input
-                  v-model="importNpc"
+                  v-model="npcImportFile"
                   counter
                   label="NPC .JSON File"
                   outlined
                   dense
-                  @change="fileImport"
                 />
               </v-card-text>
               <v-divider />
@@ -218,6 +217,7 @@ export default class NpcManager extends Vue{
   npcs = []
   importDialog = false
   statblockDialog = false
+  npcImportFile: File = null;
   importNpc : Npc = null
   statblockNpc = null
 
@@ -260,7 +260,9 @@ export default class NpcManager extends Vue{
     )
   }
 
+  @Watch('npcImportFile')
   async fileImport(file) {
+    if (!file) return
     const npcData = await importData<INpcData>(file)
     this.importNpc = Npc.Deserialize(npcData)
     this.importNpc.RenewID()
@@ -271,6 +273,7 @@ export default class NpcManager extends Vue{
     store.addNpc(this.importNpc)
     this.importNpc = null
     this.importDialog = false
+    this.npcImportFile = null
   }
 }
 </script>
