@@ -45,6 +45,8 @@ export default class CCActiveCard extends Vue {
   @Prop({ type: [String, Number], required: false, default: '' })
   readonly md: string | number
   @Prop({ type: [String, Number], required: false, default: '' })
+  readonly sm: string | number
+  @Prop({ type: [String, Number], required: false, default: '' })
   readonly cm: string | number
   @Prop({ type: Boolean })
   readonly collapsible: boolean
