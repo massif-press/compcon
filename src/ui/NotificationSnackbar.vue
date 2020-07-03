@@ -6,7 +6,7 @@
       :style="{ cursor: isClickable ? 'pointer' : 'inherit' }"
       :value="true"
       :color="notificationVariant && notificationVariant.color"
-      :timeout="0"
+      :timeout="-1"
       @mouseover="onInteract"
       @click="onClick"
     >
