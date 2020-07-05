@@ -184,7 +184,9 @@ class Statblock {
   mech.SaveTarget
 }
 [ WEAPONS ]
-  ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A'}\n`)}${
+  ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A  '}${
+    (discordEmoji && mount.Weapon && mount.Weapon.Range) ? ' ' + mount.Weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${
+    (discordEmoji && mount.Weapon && mount.Weapon.Damage) ? ' ' + mount.Weapon.Damage.filter(Boolean).map(d => `${d.DiscordEmoji}${d.Value}`).join(' ') : ''}\n  `)}${
   mechLoadout
     .AllEquippableMounts(
       pilot.has('CoreBonus', 'cb_improved_armament'),
