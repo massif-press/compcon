@@ -100,7 +100,26 @@ class Statblock {
 
       output += '[ WEAPONS ]\n'
       for (const im of mech.IntegratedMounts) {
-        output += `  INTEGRATED MOUNT: ${im.Weapon ? im.Weapon.Name : ''}\n`
+        output += '  INTEGRATED MOUNT: '
+        const w = im.Weapon
+        if (w) output += `${w.Name}`
+        if (discordEmoji) {
+          if (w.Range) {
+            const ranges: string[] = [];
+            w.Range.forEach((r) => {
+              ranges.push(`${r.DiscordEmoji} ${r.Value}`)
+            })
+            output += ` ${ranges.join(" ")}`
+          }
+          if (w.Damage) {
+            const damages: string[] = [];
+            w.Damage.forEach((d) => {
+              damages.push(`${d.DiscordEmoji} ${d.Value}`)
+            })
+            output += ` ${damages.join(" ")}`
+          }
+        }
+        output += '\n'
       }
       const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
       if (loadout) {
