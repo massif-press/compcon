@@ -1,4 +1,4 @@
-import { Pilot, Mech, Npc, PilotWeapon } from '@/class'
+import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '@/class'
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -8,6 +8,29 @@ function linebreak(i: number, length: number): string {
   } else {
     return '\n'
   }
+}
+
+function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string
+{
+  if (w) output += `${w.Name}`
+  if (discordEmoji) {
+    if (w.Range) {
+      const ranges: string[] = [];
+      w.Range.forEach((r) => {
+        ranges.push(`${r.DiscordEmoji} ${r.Value}`)
+      })
+      output += ` ${ranges.join(" ")}`
+    }
+    if (w.Damage) {
+      const damages: string[] = [];
+      w.Damage.forEach((d) => {
+        damages.push(`${d.DiscordEmoji} ${d.Value}`)
+      })
+      output += ` ${damages.join(" ")}`
+    }
+  }
+
+  return output
 }
 
 class Statblock {
@@ -102,23 +125,7 @@ class Statblock {
       for (const im of mech.IntegratedMounts) {
         output += '  INTEGRATED MOUNT: '
         const w = im.Weapon
-        if (w) output += `${w.Name}`
-        if (discordEmoji) {
-          if (w.Range) {
-            const ranges: string[] = [];
-            w.Range.forEach((r) => {
-              ranges.push(`${r.DiscordEmoji} ${r.Value}`)
-            })
-            output += ` ${ranges.join(" ")}`
-          }
-          if (w.Damage) {
-            const damages: string[] = [];
-            w.Damage.forEach((d) => {
-              damages.push(`${d.DiscordEmoji} ${d.Value}`)
-            })
-            output += ` ${damages.join(" ")}`
-          }
-        }
+        output = addWeaponToOutput(output, discordEmoji, w);
         output += '\n'
       }
       const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
@@ -132,23 +139,7 @@ class Statblock {
             output += 'SUPERHEAVY WEAPON BRACING'
           } else {
             mount.Weapons.forEach((w, idx) => {
-              if (w) output += `${w.Name}`
-              if (discordEmoji) {
-                if (w.Range) {
-                  const ranges: string[] = [];
-                  w.Range.forEach((r) => {
-                    ranges.push(`${r.DiscordEmoji} ${r.Value}`)
-                  })
-                  output += ` ${ranges.join(" ")}`
-                }
-                if (w.Damage) {
-                  const damages: string[] = [];
-                  w.Damage.forEach((d) => {
-                    damages.push(`${d.DiscordEmoji} ${d.Value}`)
-                  })
-                  output += ` ${damages.join(" ")}`
-                }
-              }
+              output = addWeaponToOutput(output, discordEmoji, w);
               if (w.Mod) output += ` (${w.Mod.Name})`
               if (idx + 1 < mount.Weapons.length) output += ' / '
             })
