@@ -51,7 +51,7 @@ export default class PilotGear extends Vue {
   ]
   public gear_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
-    { text: 'Uses', align: 'center', value: 'Uses' },
+    { text: 'Uses', align: 'center', value: 'MaxUses' },
   ]
 
   // typing on these is wrong... look into fixing it
