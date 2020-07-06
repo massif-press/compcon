@@ -25,7 +25,11 @@ export class NpcStore extends VuexModule {
 
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {
-    this.Npcs = [...payload.map(x => Npc.Deserialize(x))]
+    const newNpcs: Npc[] = [...payload.map(x => Npc.Deserialize(x))];
+    this.Npcs.splice(0, this.Npcs.length);
+    newNpcs.forEach((npc: Npc) => {
+      this.Npcs.push(npc);
+    });
   }
 
   @Mutation
