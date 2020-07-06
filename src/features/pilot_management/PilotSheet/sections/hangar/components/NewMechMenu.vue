@@ -110,6 +110,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, Frame, Mech, MechType } from '@/class'
@@ -145,7 +146,7 @@ export default Vue.extend({
   },
   mounted() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.frames = compendium.Frames
+    this.frames = _.sortBy(compendium.Frames, ['Source', 'Name'])
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
   methods: {

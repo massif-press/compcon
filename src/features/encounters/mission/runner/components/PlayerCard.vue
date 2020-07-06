@@ -44,10 +44,10 @@
                       <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive" />
                     </div>
                     <span class="heading h2">
-                      {{ mech.Frame.CoreSystem.Active }}
+                      {{ mech.Frame.CoreSystem.ActiveName }}
                       <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
-                    <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
+                    <p class="mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
                   </cc-active-card>
                 </v-col>

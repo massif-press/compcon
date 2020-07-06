@@ -105,13 +105,13 @@
         >
           <p
             v-html="
-              mech.CurrentStructure >= 3
+              mech.CurrentStress >= 3
                 ? 'Your mech is <b>exposed</b> until you take action to remove the condition.'
                 : 'Your mech must pass a engineering check or suffer a reactor meltdown at the end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking a full action and repeating this check. Even on a successful check, your mech suffers from the <b>exposed</b> condition until you take action to remove it.'
             "
           />
           <div slot="confirm-button">
-            <div v-if="mech.CurrentStructure >= 3">
+            <div v-if="mech.CurrentStress >= 3">
               <v-btn color="success" large @click="applyPPD()">confirm</v-btn>
             </div>
             <div v-else>

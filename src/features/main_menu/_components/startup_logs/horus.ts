@@ -112,6 +112,17 @@ function formatBan(input: string[]): string {
   } --ADMIN //</span>`
 }
 
+function randomNoRepeat(arr) {
+  var copy = arr.slice(0);
+  return function () {
+    if (copy.length < 1) { copy = arr.slice(0); }
+    var index = Math.floor(Math.random() * copy.length);
+    var item = copy[index];
+    copy.splice(index, 1);
+    return item;
+  };
+}
+
 const HorusChat = output => {
   const chat = require('./horus_chat/chat.txt').split('\n')
   const mods = require('./horus_chat/mods.txt').split('\n')
@@ -136,8 +147,10 @@ const HorusChat = output => {
     allLines.push(formatBan(l.split(/,(.+)/)))
   })
 
+  const sel = randomNoRepeat(allLines);
+
   function callback(): void {
-    output.innerHTML += `<br>${_.sample(allLines)}`
+    output.innerHTML += `<br>${sel()}`
     output.scrollIntoView({ block: 'end' })
   }
 

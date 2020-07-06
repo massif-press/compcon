@@ -91,6 +91,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechSystem } from '@/class'
@@ -146,7 +147,7 @@ export default Vue.extend({
         i = i.filter(x => x.SP <= this.freeSP)
       }
 
-      return i
+      return _.sortBy(i, ['Source', 'Name'])
     },
   },
   created() {

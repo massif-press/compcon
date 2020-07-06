@@ -28,7 +28,7 @@ import { getModule } from 'vuex-module-decorators'
 import { NavStore } from '@/store'
 
 @Component({
-  components: { NotificationSnackbar }
+  components: { NotificationSnackbar },
 })
 export default class GlobalNotifier extends Vue {
   // TODO: move this to the store
@@ -47,12 +47,13 @@ export default class GlobalNotifier extends Vue {
   }
 
   public notifyError(error: Error, vm?: Vue) {
+    if (!error || !error.message) return
     const nm = getModule(NavStore, this.$store)
     nm.logError({
       time: new Date(),
       message: error.message,
       component: vm?.$options?.name ?? undefined,
-      stack: error.stack
+      stack: error.stack,
     })
     this.notify(error.message, 'error')
   }
@@ -60,7 +61,6 @@ export default class GlobalNotifier extends Vue {
   private hideNotification(id: string) {
     this.shownNotifications = this.shownNotifications.filter(notif => notif.id !== id)
   }
-
 }
 </script>
 
