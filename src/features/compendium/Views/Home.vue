@@ -25,15 +25,23 @@
           align="center"
         >
           <compendium-page-button
-            lg="4"
+            lg="3"
             md="6"
             sm="12"
             icon="cci-manufacturer"
             name="Manufacturers"
             @clicked="$router.push('compendium/manufacturers')"
           />
+          <!-- <compendium-page-button
+            lg="3"
+            md="6"
+            sm="12"
+            icon="cci-manufacturer"
+            name="Factions"
+            @clicked="$router.push('compendium/factions')"
+          /> -->
           <compendium-page-button
-            lg="4"
+            lg="3"
             md="6"
             sm="12"
             color="primary"
@@ -42,7 +50,7 @@
             @clicked="$router.push('compendium/licenses')"
           />
           <compendium-page-button
-            lg="4"
+            lg="3"
             md="6"
             sm="12"
             icon="cci-corebonus"

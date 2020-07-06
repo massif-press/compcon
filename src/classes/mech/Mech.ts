@@ -395,6 +395,7 @@ class Mech implements IActor {
 
   public set Overshield(val: number) {
     this._overshield = val
+    this.save()
   }
 
   public get CurrentHP(): number {

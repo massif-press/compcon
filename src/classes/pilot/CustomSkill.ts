@@ -3,11 +3,13 @@ import { ItemType } from '@/class'
 class CustomSkill {
   private _name: string
   private _description: string
+  private _detail: string
   private _item_type: ItemType
 
-  public constructor(name: string, description: string) {
+  public constructor(name: string, description: string, detail: string) {
     this._name = name
     this._description = description
+    this._detail = detail
     this._item_type = ItemType.Skill
   }
 
@@ -40,7 +42,11 @@ class CustomSkill {
   }
 
   public get Detail(): string {
-    return ''
+    return this._detail
+  }
+
+  public set Detail(val: string) {
+    this._detail = val
   }
 
   public get Family(): string {

@@ -60,19 +60,6 @@
           <span class="heading h3">OVERSHIELD</span>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto">
-        <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ on }">
-            <v-btn large icon class="fadeSelect" v-on="on">
-              <v-icon x-large>cci-repair</v-icon>
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
-            @confirm="mech.FullRepair()"
-          />
-        </v-menu>
-      </v-col>
     </v-row>
 
     <v-row dense justify="space-around">

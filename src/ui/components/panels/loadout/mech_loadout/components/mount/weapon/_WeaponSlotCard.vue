@@ -68,7 +68,7 @@
         <ammo-case-inset :level="armoryLevel" />
         <v-row no-gutters align="center" class="mr-6">
           <v-col v-if="item" cols="auto">
-            <cc-synergy-panel location="Weapon" :item="item" :pilot="mech.Pilot" />
+            <!-- <cc-synergy-panel location="Weapon" :item="item" :pilot="mech.Pilot" /> -->
           </v-col>
           <v-col cols="auto" class="ml-auto">
             <cc-tags small :tags="item.Tags" :color="color" />
