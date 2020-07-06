@@ -177,7 +177,7 @@ export default Vue.extend({
     },
     async importImage() {
       const { dialog } = require('electron').remote
-      const path = dialog.showOpenDialog({
+      const dialogResult = await dialog.showOpenDialog({
         title: 'Load Image',
         buttonLabel: 'Load',
         properties: ['openFile'],
@@ -188,8 +188,8 @@ export default Vue.extend({
           },
         ],
       })
-      if (!path) return
-      await addImage(this.type, path[0])
+      if (!dialogResult.filePaths[0]) return
+      await addImage(this.type, dialogResult.filePaths[0])
       await this.importAll()
       this.$forceUpdate()
     },
