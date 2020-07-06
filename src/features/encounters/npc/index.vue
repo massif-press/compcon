@@ -149,12 +149,11 @@
               <v-card-title>Select File to Import</v-card-title>
               <v-card-text>
                 <v-file-input
-                  v-model="importNpc"
+                  v-model="npcImportFile"
                   counter
                   label="NPC .JSON File"
                   outlined
                   dense
-                  @change="fileImport"
                 />
               </v-card-text>
               <v-divider />
@@ -190,7 +189,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+  import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import PanelView from '../components/PanelView.vue'
 import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
@@ -201,71 +200,82 @@ import { INpcData } from '@/interface'
 import { importData } from '@/io/Data'
 import { saveFile } from '@/io/Dialog'
 
-export default Vue.extend({
-  name: 'npc-manager',
+@Component({
+  name: 'ncp-manager',
   components: { PanelView, NpcCard, RosterGroup },
-  data: () => ({
-    search: '',
-    selectedNpc: null,
-    grouping: null,
-    headers: [
-      { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'Class', value: 'Class' },
-      { text: 'Role', value: 'Role' },
-      { text: 'Tier', value: 'Tier' },
-    ],
-    npcs: [],
-    importDialog: false,
-    statblockDialog: false,
-    importNpc: null,
-    statblockNpc: null,
-  }),
-  watch: {
-    selectedNpc() {
-      this.$refs.view.resetScroll()
-    },
-  },
+})
+export default class NpcManager extends Vue{
+  search = ''
+  selectedNpc : Npc = null
+  grouping = null
+  headers = [
+    { text: 'Name', value: 'Name', align: 'left' },
+    { text: 'Class', value: 'Class' },
+    { text: 'Role', value: 'Role' },
+    { text: 'Tier', value: 'Tier' },
+  ]
+  npcs = []
+  importDialog = false
+  statblockDialog = false
+  npcImportFile: File = null;
+  importNpc : Npc = null
+  statblockNpc = null
+
+  @Watch('selectedNpc')
+  onSelectedNpcChanged() {
+    this.$refs.view.resetScroll()
+
+  }
+
   created() {
     const store = getModule(NpcStore, this.$store)
     this.npcs = store.Npcs
-  },
-  methods: {
-    setStatblock(npc: Npc) {
-      this.statblockNpc = npc
-      this.statblockDialog = true
-    },
-    statblock() {
-      return Statblock.GenerateNPC(this.statblockNpc)
-    },
-    deleteNpc(npc: Npc) {
-      this.selectedNpc = null
-      const store = getModule(NpcStore, this.$store)
-      store.deleteNpc(npc)
-    },
-    copyNpc(npc: Npc) {
-      const store = getModule(NpcStore, this.$store)
-      store.cloneNpc(npc)
-    },
-    exportNpc(npc: Npc) {
-      saveFile(
-        npc.Name.toUpperCase().replace(/\W/g, '') + '.json',
-        JSON.stringify(Npc.Serialize(npc)),
-        'Save NPC'
-      )
-    },
-    async fileImport(file) {
-      const npcData = await importData<INpcData>(file)
-      this.importNpc = Npc.Deserialize(npcData)
-      this.importNpc.RenewID()
-    },
-    confirmImport() {
-      const store = getModule(NpcStore, this.$store)
-      store.addNpc(this.importNpc)
-      this.importNpc = null
-      this.importDialog = false
-    },
-  },
-})
+  }
+
+  setStatblock(npc: Npc) {
+    this.statblockNpc = npc
+    this.statblockDialog = true
+  }
+
+  statblock() {
+    return Statblock.GenerateNPC(this.statblockNpc)
+  }
+
+  deleteNpc(npc: Npc) {
+    this.selectedNpc = null
+    const store = getModule(NpcStore, this.$store)
+    store.deleteNpc(npc)
+  }
+
+  copyNpc(npc: Npc) {
+    const store = getModule(NpcStore, this.$store)
+    store.cloneNpc(npc)
+  }
+
+  exportNpc(npc: Npc) {
+    saveFile(
+      npc.Name.toUpperCase().replace(/\W/g, '') + '.json',
+      JSON.stringify(Npc.Serialize(npc)),
+      'Save NPC'
+    )
+  }
+
+  @Watch('npcImportFile')
+  async fileImport(file) {
+    if (!file) return
+    const npcData = await importData<INpcData>(file)
+    this.importNpc = Npc.Deserialize(npcData)
+    this.importNpc.RenewID()
+  }
+
+  confirmImport() {
+    const store = getModule(NpcStore, this.$store)
+    store.addNpc(this.importNpc)
+    this.importNpc = null
+    this.importDialog = false
+    this.npcImportFile = null
+  }
+}
 </script>
 
 <style>
