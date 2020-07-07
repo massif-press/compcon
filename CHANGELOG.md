@@ -1,20 +1,15 @@
 ## [2.1.6](https://github.com/massif-press/compcon/compare/2.1.5...2.1.6) (2020-07-02)
 
-
 ### Bug Fixes
 
-* **Compendium:** correct Grease Monkey II text ([86fb1fc](https://github.com/massif-press/compcon/commit/86fb1fce8cb1a72f258ca7f302b904ed8313dd90)), closes [#932](https://github.com/massif-press/compcon/issues/932)
-* **Mission Runner:** correct encounter PR calculation with reinforcements ([a57db58](https://github.com/massif-press/compcon/commit/a57db5854898dbf2ad90b1fe863c7ea77d5c6a52)), closes [#935](https://github.com/massif-press/compcon/issues/935)
-* **Pilot Sheet:** overflow very long pilot callsigns ([b5be738](https://github.com/massif-press/compcon/commit/b5be7381d08aec7847bb5341a742a0044ed5975e)), closes [#921](https://github.com/massif-press/compcon/issues/921)
-
+- **Compendium:** correct Grease Monkey II text ([86fb1fc](https://github.com/massif-press/compcon/commit/86fb1fce8cb1a72f258ca7f302b904ed8313dd90)), closes [#932](https://github.com/massif-press/compcon/issues/932)
+- **Mission Runner:** correct encounter PR calculation with reinforcements ([a57db58](https://github.com/massif-press/compcon/commit/a57db5854898dbf2ad90b1fe863c7ea77d5c6a52)), closes [#935](https://github.com/massif-press/compcon/issues/935)
+- **Pilot Sheet:** overflow very long pilot callsigns ([b5be738](https://github.com/massif-press/compcon/commit/b5be7381d08aec7847bb5341a742a0044ed5975e)), closes [#921](https://github.com/massif-press/compcon/issues/921)
 
 ### Features
 
-* add HORUS theme and intro ([4fd7283](https://github.com/massif-press/compcon/commit/4fd728386a185e948e0fe6207e56c4a1e4abf584))
-* **Active Mode:** move full repair active mode button ([f65f799](https://github.com/massif-press/compcon/commit/f65f799c006379eef68ea976d046ffa5db035b40)), closes [#930](https://github.com/massif-press/compcon/issues/930)
-* **Compendium:** adds factions to compendium ([7652b91](https://github.com/massif-press/compcon/commit/7652b916f04458c9a3767edbef0b2e7c2c8da01d))
-
-
+- add HORUS theme and intro ([4fd7283](https://github.com/massif-press/compcon/commit/4fd728386a185e948e0fe6207e56c4a1e4abf584))
+- **Active Mode:** move full repair active mode button ([f65f799](https://github.com/massif-press/compcon/commit/f65f799c006379eef68ea976d046ffa5db035b40)), closes [#930](https://github.com/massif-press/compcon/issues/930)
 
 ## [2.1.5](https://github.com/jarena3/compcon/compare/2.1.4...2.1.5) (2020-06-15)
 
