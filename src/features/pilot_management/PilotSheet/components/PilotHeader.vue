@@ -3,9 +3,9 @@
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col :lg="10" :cols="12">
-          <v-row style="height: 60px;">
+          <v-row dense style="height: 60px;">
             <v-col cols="auto">
-              <div class="overline mb-n4">callsign</div>
+              <div class="overline mb-n6">callsign</div>
               <div
                 class="heading h1"
                 style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
