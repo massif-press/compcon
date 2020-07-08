@@ -305,6 +305,7 @@
           active
           @remove-feature="npc.RemoveFeature(i.Feature)"
           @recalc="npc.RecalcBonuses()"
+          @add-reaction="npc.AddReaction($event)"
         />
       </v-col>
     </v-row>
