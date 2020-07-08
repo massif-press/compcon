@@ -48,7 +48,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!itemData) return null
     const item = store.getters.instantiate('PilotGear', itemData.id)
     item.current_uses = itemData.uses
-    item.note = itemData.note
+    item._note = itemData.note
     item._flavor_name = itemData.flavorName
     item._flavor_description = itemData.flavorDescription
     item._custom_damage_type = itemData.customDamageType || null
