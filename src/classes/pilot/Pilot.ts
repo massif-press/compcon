@@ -513,7 +513,7 @@ class Pilot {
     this.save()
   }
 
-  public AddCustomSkill(cs: { skill: string; description: string, detail: string }): void {
+  public AddCustomSkill(cs: { skill: string; description: string; detail: string }): void {
     this.AddSkill(new CustomSkill(cs.skill, cs.description, cs.detail))
   }
 
@@ -558,7 +558,8 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    return Rules.MinimumPilotTalents + this._level
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_talent').length
+    return Rules.MinimumPilotTalents + this._level + bonus
   }
 
   public get IsMissingTalents(): boolean {
@@ -641,7 +642,8 @@ class Pilot {
   }
 
   public get MaxCBPoints(): number {
-    return Math.floor(this._level / 3)
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_corebonus').length
+    return Math.floor(this._level / 3) + bonus
   }
 
   public get IsMissingCBs(): boolean {
@@ -712,7 +714,8 @@ class Pilot {
   }
 
   public get MaxLicensePoints(): number {
-    return this._level
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_license').length
+    return this._level + bonus
   }
 
   public get IsMissingLicenses(): boolean {
@@ -783,7 +786,8 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    return Rules.MinimumMechSkills + this._level
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_mechskill').length
+    return Rules.MinimumMechSkills + this._level + bonus
   }
 
   public get IsMissingHASE(): boolean {
