@@ -1,23 +1,22 @@
 ## [2.1.7](https://github.com/massif-press/compcon/compare/2.1.6...2.1.7) (2020-07-08)
 
-
 ### Bug Fixes
 
-* **Mech Sheet:** correct mech stats header spacing ([a181d5a](https://github.com/massif-press/compcon/commit/a181d5afe2c6f2ee6424008e02d231b2c812844f)), closes [#937](https://github.com/massif-press/compcon/issues/937)
-* **NPC Roster:** impose mandatory selection on NPC tier ([e277c0c](https://github.com/massif-press/compcon/commit/e277c0c99f6fb7b7ad277939f4f651bbc1e5798c)), closes [#952](https://github.com/massif-press/compcon/issues/952)
-
+- **Mech Sheet:** correct mech stats header spacing ([a181d5a](https://github.com/massif-press/compcon/commit/a181d5afe2c6f2ee6424008e02d231b2c812844f)), closes [#937](https://github.com/massif-press/compcon/issues/937)
+- **NPC Roster:** impose mandatory selection on NPC tier ([e277c0c](https://github.com/massif-press/compcon/commit/e277c0c99f6fb7b7ad277939f4f651bbc1e5798c)), closes [#952](https://github.com/massif-press/compcon/issues/952)
+- **Mission Runner:** recognize NPC traits that recharge (thanks Mischala!)
+- **Compendium:** show Uses field on Pilot Equipment Compendium page (thanks Mischala!)
+- **Statblock Export:** show integrated mount emoji (thanks gnu-lorien!)
+- **Mech Sheet:** fix undefined error in Mech Equipment Selector (thanks gnu-lorien!)
 
 ### Features
 
-* **Compendium:** add License Level column to Systems table ([dc824ad](https://github.com/massif-press/compcon/commit/dc824ad8029d584353448575da9f4d96bbad969e)), closes [#929](https://github.com/massif-press/compcon/issues/929)
-* **Pilot Sheet:** add bonuses to reserves ([0470b6a](https://github.com/massif-press/compcon/commit/0470b6a0fbb5ca831734a1a7acd805a2ec0bc85b)), closes [#672](https://github.com/massif-press/compcon/issues/672)
-
+- **Compendium:** add License Level column to Systems table ([dc824ad](https://github.com/massif-press/compcon/commit/dc824ad8029d584353448575da9f4d96bbad969e)), closes [#929](https://github.com/massif-press/compcon/issues/929)
+- **Pilot Sheet:** add bonuses to reserves ([0470b6a](https://github.com/massif-press/compcon/commit/0470b6a0fbb5ca831734a1a7acd805a2ec0bc85b)), closes [#672](https://github.com/massif-press/compcon/issues/672)
 
 ### Reverts
 
-* Revert "fixed a little spacing on the pilot header" ([1048810](https://github.com/massif-press/compcon/commit/10488104222dfa7a7020ef692c675fc6d66aa34f))
-
-
+- Revert "fixed a little spacing on the pilot header" ([1048810](https://github.com/massif-press/compcon/commit/10488104222dfa7a7020ef692c675fc6d66aa34f))
 
 ## [2.1.6](https://github.com/massif-press/compcon/compare/2.1.5...2.1.6) (2020-07-02)
 
