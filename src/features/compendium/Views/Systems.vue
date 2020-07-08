@@ -16,11 +16,12 @@ import { MechEquipment } from '@/class'
 @Component({
   components: { CompendiumBrowser },
 })
-export default class Weapons extends Vue {
+export default class Systems extends Vue {
   public headers = [
     { text: 'Source', align: 'left', value: 'Source' },
     { text: 'System', align: 'left', value: 'Name' },
     { text: 'License', align: 'left', value: 'LicenseString' },
+    { text: 'License Level', align: 'left', value: 'LicenseLevel' },
     { text: 'SP Cost', align: 'left', value: 'SP' },
   ]
 
