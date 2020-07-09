@@ -271,7 +271,7 @@
       <v-col v-if="npc.HasImage">
         <v-card flat outlined>
           <v-card-text class="pa-1">
-            <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
+            <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" max-width="50vw" max-height="50vh" aspect-ratio="1" />
           </v-card-text>
         </v-card>
       </v-col>
