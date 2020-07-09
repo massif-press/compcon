@@ -104,6 +104,7 @@ import {
 import { Encounter, Rest, Mission, ActiveMission, MissionStepType } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
 import { Counter } from './classes/Counter'
+import { GmPack } from './classes/GmPack'
 
 export {
   Rules,
@@ -203,4 +204,5 @@ export {
   ActiveMission,
   ContentPack,
   Counter,
+  GmPack,
 }
