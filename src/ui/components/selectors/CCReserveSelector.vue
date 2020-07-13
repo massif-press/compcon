@@ -6,13 +6,16 @@
     />
     <v-tabs background-color="primary" hide-slider grow>
       <v-tab>
-        <b>Resources Reserve</b>
+        <b>Pilot Bonuses</b>
       </v-tab>
       <v-tab>
-        <b>Tactical Reserve</b>
+        <b>Resource Reserves</b>
       </v-tab>
       <v-tab>
-        <b>Mech Reserve</b>
+        <b>Tactical Reserves</b>
+      </v-tab>
+      <v-tab>
+        <b>Mech Reserves</b>
       </v-tab>
       <v-tab>
         <b>Custom Reserve</b>
@@ -25,10 +28,23 @@
       </v-tab>
       <v-tab-item>
         <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Resources']" :key="`item_${r.ID}`" cols="6" class="px-4">
+          <v-col v-for="r in reserves['Bonuses']" :key="`item_${r.ID}`" cols="6" class="px-4">
             <reserve-item
               :reserve="r"
               icon="cci-pilot"
+              color="pilot"
+              class="ma-2"
+              @click="add(r)"
+            />
+          </v-col>
+        </v-row>
+      </v-tab-item>
+      <v-tab-item>
+        <v-row dense class="px-12">
+          <v-col v-for="r in reserves['Resources']" :key="`item_${r.ID}`" cols="6" class="px-4">
+            <reserve-item
+              :reserve="r"
+              icon="cci-accuracy"
               color="reserve--resources"
               class="ma-2"
               @click="add(r)"
@@ -41,7 +57,7 @@
           <v-col v-for="r in reserves['Tactical']" :key="`item_${r.ID}`" cols="6" class="px-4">
             <reserve-item
               :reserve="r"
-              icon="cci-barrage"
+              icon="cci-reserve-tac"
               color="reserve--tactical"
               class="ma-1"
               @click="add(r)"
@@ -54,7 +70,7 @@
           <v-col v-for="r in reserves['Mech']" :key="`item_${r.ID}`" cols="6" class="px-4">
             <reserve-item
               :reserve="r"
-              icon="cci-frame"
+              icon="cci-reserve-mech"
               color="reserve--mech"
               class="ma-1"
               @click="add(r)"

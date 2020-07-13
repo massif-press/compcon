@@ -1,20 +1,35 @@
-## [2.1.6](https://github.com/massif-press/compcon/compare/2.1.5...2.1.6) (2020-07-02)
-
+## [2.1.7](https://github.com/massif-press/compcon/compare/2.1.6...2.1.7) (2020-07-08)
 
 ### Bug Fixes
 
-* **Compendium:** correct Grease Monkey II text ([86fb1fc](https://github.com/massif-press/compcon/commit/86fb1fce8cb1a72f258ca7f302b904ed8313dd90)), closes [#932](https://github.com/massif-press/compcon/issues/932)
-* **Mission Runner:** correct encounter PR calculation with reinforcements ([a57db58](https://github.com/massif-press/compcon/commit/a57db5854898dbf2ad90b1fe863c7ea77d5c6a52)), closes [#935](https://github.com/massif-press/compcon/issues/935)
-* **Pilot Sheet:** overflow very long pilot callsigns ([b5be738](https://github.com/massif-press/compcon/commit/b5be7381d08aec7847bb5341a742a0044ed5975e)), closes [#921](https://github.com/massif-press/compcon/issues/921)
-
+- **Mech Sheet:** correct mech stats header spacing ([a181d5a](https://github.com/massif-press/compcon/commit/a181d5afe2c6f2ee6424008e02d231b2c812844f)), closes [#937](https://github.com/massif-press/compcon/issues/937)
+- **NPC Roster:** impose mandatory selection on NPC tier ([e277c0c](https://github.com/massif-press/compcon/commit/e277c0c99f6fb7b7ad277939f4f651bbc1e5798c)), closes [#952](https://github.com/massif-press/compcon/issues/952)
+- **Mission Runner:** recognize NPC traits that recharge (thanks Mischala!)
+- **Compendium:** show Uses field on Pilot Equipment Compendium page (thanks Mischala!)
+- **Statblock Export:** show integrated mount emoji (thanks gnu-lorien!)
+- **Mech Sheet:** fix undefined error in Mech Equipment Selector (thanks gnu-lorien!)
 
 ### Features
 
-* add HORUS theme and intro ([4fd7283](https://github.com/massif-press/compcon/commit/4fd728386a185e948e0fe6207e56c4a1e4abf584))
-* **Active Mode:** move full repair active mode button ([f65f799](https://github.com/massif-press/compcon/commit/f65f799c006379eef68ea976d046ffa5db035b40)), closes [#930](https://github.com/massif-press/compcon/issues/930)
-* **Compendium:** adds factions to compendium ([7652b91](https://github.com/massif-press/compcon/commit/7652b916f04458c9a3767edbef0b2e7c2c8da01d))
+- **Compendium:** add License Level column to Systems table ([dc824ad](https://github.com/massif-press/compcon/commit/dc824ad8029d584353448575da9f4d96bbad969e)), closes [#929](https://github.com/massif-press/compcon/issues/929)
+- **Pilot Sheet:** add bonuses to reserves ([0470b6a](https://github.com/massif-press/compcon/commit/0470b6a0fbb5ca831734a1a7acd805a2ec0bc85b)), closes [#672](https://github.com/massif-press/compcon/issues/672)
 
+### Reverts
 
+- Revert "fixed a little spacing on the pilot header" ([1048810](https://github.com/massif-press/compcon/commit/10488104222dfa7a7020ef692c675fc6d66aa34f))
+
+## [2.1.6](https://github.com/massif-press/compcon/compare/2.1.5...2.1.6) (2020-07-02)
+
+### Bug Fixes
+
+- **Compendium:** correct Grease Monkey II text ([86fb1fc](https://github.com/massif-press/compcon/commit/86fb1fce8cb1a72f258ca7f302b904ed8313dd90)), closes [#932](https://github.com/massif-press/compcon/issues/932)
+- **Mission Runner:** correct encounter PR calculation with reinforcements ([a57db58](https://github.com/massif-press/compcon/commit/a57db5854898dbf2ad90b1fe863c7ea77d5c6a52)), closes [#935](https://github.com/massif-press/compcon/issues/935)
+- **Pilot Sheet:** overflow very long pilot callsigns ([b5be738](https://github.com/massif-press/compcon/commit/b5be7381d08aec7847bb5341a742a0044ed5975e)), closes [#921](https://github.com/massif-press/compcon/issues/921)
+
+### Features
+
+- add HORUS theme and intro ([4fd7283](https://github.com/massif-press/compcon/commit/4fd728386a185e948e0fe6207e56c4a1e4abf584))
+- **Active Mode:** move full repair active mode button ([f65f799](https://github.com/massif-press/compcon/commit/f65f799c006379eef68ea976d046ffa5db035b40)), closes [#930](https://github.com/massif-press/compcon/issues/930)
 
 ## [2.1.5](https://github.com/jarena3/compcon/compare/2.1.4...2.1.5) (2020-06-15)
 
