@@ -201,12 +201,12 @@ import { importData } from '@/io/Data'
 import { saveFile } from '@/io/Dialog'
 
 @Component({
-  name: 'ncp-manager',
+  name: 'npc-manager',
   components: { PanelView, NpcCard, RosterGroup },
 })
-export default class NpcManager extends Vue{
+export default class NpcManager extends Vue {
   search = ''
-  selectedNpc : Npc = null
+  selectedNpc: Npc = null
   grouping = null
   headers = [
     { text: 'Name', value: 'Name', align: 'left' },
@@ -217,8 +217,8 @@ export default class NpcManager extends Vue{
   npcs = []
   importDialog = false
   statblockDialog = false
-  npcImportFile: File = null;
-  importNpc : Npc = null
+  npcImportFile: File = null
+  importNpc: Npc = null
   statblockNpc = null
 
   @Watch('selectedNpc')
@@ -260,11 +260,15 @@ export default class NpcManager extends Vue{
   }
 
   @Watch('npcImportFile')
-  async fileImport(file): Promise<INpcData> {
+  async fileImport(file): Promise<any> {
+    console.log(file)
+    console.log(!file)
     if (!file) return
     const npcData = await importData<INpcData>(file)
+    console.log(npcData)
     this.importNpc = Npc.Deserialize(npcData)
     this.importNpc.RenewID()
+    console.log(this.importNpc)
   }
 
   confirmImport(): void {
