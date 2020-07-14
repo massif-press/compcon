@@ -73,14 +73,6 @@ declare interface IEquipmentData {
   customDamageType?: string
 }
 
-declare interface IGmPackData {
-  name: string
-  description?: string
-  missions: IMissionData[]
-  encounters: IEncounterData[]
-  npcs: INpcData[]
-}
-
 declare interface IMechWeaponSaveData extends IEquipmentData {
   loaded: boolean
   mod?: IEquipmentData

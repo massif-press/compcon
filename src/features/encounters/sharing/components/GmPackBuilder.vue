@@ -99,10 +99,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue } from 'vue-property-decorator'
+import { getModule } from 'vuex-module-decorators'
 import _ from 'lodash'
 import { Npc, Mission, Encounter, GmPack } from '@/class'
-import { getModule } from 'vuex-module-decorators'
 import { NpcStore, EncounterStore, MissionStore } from '@/store'
 import { saveFile } from '@/io/Dialog'
 
@@ -252,7 +252,7 @@ export default Vue.extend({
         'Save GM Pack'
       )
     }
-  },
+  }
 })
 </script>
 

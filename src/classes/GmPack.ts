@@ -1,5 +1,13 @@
 import { Npc, Encounter, Mission } from '@/class';
-import { IGmPackData } from './Interfaces';
+import { INpcData, IEncounterData, IMissionData } from '@/interface';
+
+export interface IGmPackData {
+  name: string
+  description?: string
+  missions: IMissionData[]
+  encounters: IEncounterData[]
+  npcs: INpcData[]
+}
 
 export class GmPack {
   private _name: string

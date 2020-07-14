@@ -56,6 +56,7 @@ import { IEncounterData, IMissionData, IActiveMissionData } from './classes/enco
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
 import { ICounterData } from './classes/Counter'
 import { ITagCompendiumData } from './classes/Tag'
+import { IGmPackData } from './classes/GmPack'
 
 export {
   IAIData,
@@ -110,4 +111,5 @@ export {
   ITagCompendiumData,
   IInvadeOptionData,
   ITechEffectData,
+  IGmPackData,
 }
