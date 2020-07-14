@@ -5,6 +5,7 @@ import { ICompendiumItemData } from '@/interface'
 interface ITalentRank {
   name: string
   description: string
+  synergy?: object
 }
 
 interface ITalentData extends ICompendiumItemData {

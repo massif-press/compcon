@@ -254,9 +254,9 @@
               <v-img
                 v-if="npc.Image"
                 :key="npc.Image"
+                :src="npc.Image"
                 max-width="30vw"
                 max-height="30vh"
-                :src="npc.Image"
                 aspect-ratio="1"
               />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
