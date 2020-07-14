@@ -189,6 +189,7 @@
           </v-row>
           <v-row>
             <cc-active-card
+              :key="mech.IsStunned"
               prominent
               color="frame"
               header="Evasion"

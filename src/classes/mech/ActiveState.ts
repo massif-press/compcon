@@ -146,7 +146,7 @@ class ActiveState {
 
   hide() {
     this.history.push({ field: 'hide', val: false })
-    if (!this.mech.Statuses.includes('Hidden')) this.mech.Statuses.push('Hidden')
+    if (!this.mech.Statuses.includes('HIDDEN')) this.mech.Statuses.push('HIDDEN')
     this.actions -= 1
   }
 
@@ -244,7 +244,7 @@ class ActiveState {
 
   shutDown() {
     this.mech.Statuses.push('SHUT DOWN')
-    this.mech.Conditions.push('STUNNDED')
+    this.mech.Conditions.push('STUNNED')
     this.actions -= 1
     this.mech.CurrentHeat = 0
     this.endStatus('EXPOSED')
@@ -253,7 +253,7 @@ class ActiveState {
 
   boot() {
     this.endStatus('SHUT DOWN')
-    this.endCondition('STUNNDED')
+    this.endCondition('STUNNED')
     this.move = 0
     this.actions = 0
   }
