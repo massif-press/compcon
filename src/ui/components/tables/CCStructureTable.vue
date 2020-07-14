@@ -257,12 +257,12 @@ export default class CCSidebarView extends Vue {
   }
 
   applyGlancingBlow(): void {
-    if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
+    if (!this.mech.Conditions.includes('IMPAIRED')) this.mech.Conditions.push('IMPAIRED')
     this.close()
   }
 
   applyDirectHit(): void {
-    if (!this.mech.Conditions.includes('Stunned')) this.mech.Conditions.push('Stunned')
+    if (!this.mech.Conditions.includes('STUNNED')) this.mech.Conditions.push('STUNNED')
     this.close()
   }
 
