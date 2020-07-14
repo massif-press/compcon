@@ -251,7 +251,14 @@
         <v-col cols="5">
           <v-card flat outlined>
             <v-card-text class="pa-1">
-              <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
+              <v-img
+                v-if="npc.Image"
+                :key="npc.Image"
+                max-width="30vw"
+                max-height="30vh"
+                :src="npc.Image"
+                aspect-ratio="1"
+              />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
                 <span v-if="!npc.Image">
                   <v-icon left>mdi-plus</v-icon>
