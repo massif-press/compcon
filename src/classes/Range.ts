@@ -44,8 +44,7 @@ class Range {
   }
 
   public get DiscordEmoji(): string {
-    switch (this._range_type)
-    {
+    switch (this._range_type) {
       case RangeType.Range:
       case RangeType.Threat:
       case RangeType.Thrown:
@@ -61,9 +60,9 @@ class Range {
   }
 
   public static AddBonuses(ranges: Range[], bonuses: { type: RangeType; val: number }[]): Range[] {
-    var output = [] as Range[]
+    const output = [] as Range[]
     ranges.forEach(range => {
-      let bonus = bonuses
+      const bonus = bonuses
         .filter(x => x.type === range.Type)
         .map(x => x.val)
         .reduce((sum, bonus) => sum + bonus, 0)
