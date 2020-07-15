@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot">
+    <cc-title small color="pilot" class="ml-n10 pl-3">
       <span class="ml-9">&emsp;</span>
       Player Notes
     </cc-title>

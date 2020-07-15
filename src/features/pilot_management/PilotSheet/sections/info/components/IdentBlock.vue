@@ -1,19 +1,18 @@
 <template>
   <v-container fluid class="pt-0">
-    <v-row class="stat-text pt-0 pb-0">
-      <v-col class="pt-0">
-        <span class="overline">CALLSIGN</span>
+    <v-row dense class="stat-text pt-0 pb-0 mt-n6">
+      <v-col>
+        <div class="overline mb-n3 subtle--text">CALLSIGN</div>
         <cc-short-string-editor @set="pilot.Callsign = $event">
           {{ pilot.Callsign }}
         </cc-short-string-editor>
       </v-col>
-      <v-col class="pt-0">
-        <span class="overline">NAME</span>
+      <v-col>
+        <div class="overline mb-n3 subtle--text">NAME</div>
         <cc-short-string-editor @set="pilot.Name = $event">{{ pilot.Name }}</cc-short-string-editor>
       </v-col>
-      <v-col class="pt-0">
-        <span class="overline">BACKGROUND</span>
-        <br />
+      <v-col>
+        <div class="overline mb-n3 subtle--text">BACKGROUND</div>
         <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
           {{ pilot.Background }}
         </cc-short-string-editor>
@@ -27,15 +26,15 @@
         </span>
       </v-col>
     </v-row>
-    <v-row class="stat-text pt-0 mt-n3">
-      <v-col class="pt-0" dense>
-        <span class="overline">RM-4://(IDENT)</span>
-        <br />
-        {{ pilot.ID }}
+    <v-row dense class="stat-text pt-0 mt-n3">
+      <v-col>
+        <div class="overline mb-n3 subtle--text">PLAYER</div>
+        <cc-short-string-editor @set="pilot.PlayerName = $event">
+          {{ pilot.PlayerName || '---' }}
+        </cc-short-string-editor>
       </v-col>
-      <v-col class="pt-0" dense>
-        <span class="overline">OMNINET UPLINK ID</span>
-        <br />
+      <v-col>
+        <div class="overline mb-n3 subtle--text">OMNINET UPLINK ID</div>
         <span v-if="pilot.CloudID">
           {{ pilot.CloudID }}
         </span>
@@ -54,28 +53,8 @@
           <v-progress-circular indeterminate size="20" width="2" color="secondary" />
         </cc-tooltip>
       </v-col>
-      <v-col />
-    </v-row>
-    <v-row class="stat-text pt-0 mt-n3">
-      <v-col class="pt-0" dense>
-        <span class="overline">PLAYER</span>
-        <cc-short-string-editor @set="pilot.PlayerName = $event">
-          {{ pilot.PlayerName || '---' }}
-        </cc-short-string-editor>
-      </v-col>
-      <v-col class="pt-0" dense>
-        <span class="overline">FACTION</span>
-        <br />
-        ---
-        <cc-tooltip simple inline content="Feature In Development">
-          <v-icon small class="fadeSelect" @click.stop>
-            mdi-circle-edit-outline
-          </v-icon>
-        </cc-tooltip>
-      </v-col>
-      <v-col class="pt-0" dense>
-        <span class="overline">STATUS</span>
-        <br />
+      <v-col>
+        <div class="overline mb-n3 subtle--text">STATUS</div>
         <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>

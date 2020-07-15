@@ -1,7 +1,9 @@
 <template>
-  <v-card tile outlined color="panel darken-1">
+  <v-card tile outlined color="panel darken-1" style="opacity: 0.4">
     <v-card-text class="text-center">
-      <h2 class="heading flavor-text subtle--text text--darken-1">// NO DATA //</h2>
+      <h2 class="heading flavor-text subtle--text text--darken-1" style="opacity: 0.6">
+        // NO DATA //
+      </h2>
     </v-card-text>
   </v-card>
 </template>

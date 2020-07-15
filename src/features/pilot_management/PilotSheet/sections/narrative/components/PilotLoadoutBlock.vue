@@ -1,6 +1,6 @@
 <template>
   <div class="pb-3">
-    <cc-title small color="pilot" class="mb-2">
+    <cc-title small color="pilot" class="ml-n10 pl-3 mb-2">
       <span class="ml-9">&emsp;</span>
       Gear Loadout
     </cc-title>

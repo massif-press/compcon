@@ -6,7 +6,7 @@
           <v-menu v-if="item" offset-x left>
             <template v-slot:activator="{ on }">
               <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">
-                mdi-settings
+                mdi-cog
               </v-icon>
             </template>
             <v-list dense>

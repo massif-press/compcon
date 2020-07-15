@@ -25,7 +25,7 @@
           align="center"
         >
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             icon="cci-manufacturer"
@@ -41,7 +41,7 @@
             @clicked="$router.push('compendium/factions')"
           /> -->
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             color="primary"
@@ -50,7 +50,7 @@
             @clicked="$router.push('compendium/licenses')"
           />
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             icon="cci-corebonus"
