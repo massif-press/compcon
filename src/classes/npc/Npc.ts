@@ -6,7 +6,6 @@ import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 import { ICounterData } from '@/interface'
-import { ICounterSaveData } from '../Interfaces'
 
 export interface INpcData {
   active: boolean
