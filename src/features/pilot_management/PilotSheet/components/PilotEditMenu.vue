@@ -3,7 +3,7 @@
     <v-menu offset-y offset-x>
       <template v-slot:activator="{ on: menu }">
         <v-btn class="ml-2" icon :dark="!light" v-on="menu">
-          <v-icon>mdi-settings</v-icon>
+          <v-icon>mdi-cog</v-icon>
         </v-btn>
       </template>
       <v-list two-line subheader color="panel">

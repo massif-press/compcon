@@ -3,7 +3,7 @@
     <v-menu offset-y top @click.stop>
       <template v-slot:activator="{ on: menu }">
         <v-btn dark small class="ml-n3 mt-n1 ml-0 fadeSelect" icon v-on="menu" @click.stop>
-          <v-icon small>mdi-settings</v-icon>
+          <v-icon small>mdi-cog</v-icon>
         </v-btn>
       </template>
       <v-list dense>

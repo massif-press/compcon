@@ -2,10 +2,10 @@
   <div style="height: 155px;">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
-        <v-col :lg="10" :cols="12">
+        <v-col>
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
-              <div class="overline mb-n6">callsign</div>
+              <div class="overline mb-n6 subtle--text">callsign</div>
               <div
                 class="heading h1"
                 style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
@@ -13,58 +13,86 @@
                 {{ pilot.Callsign }}
               </div>
             </v-col>
-            <v-col cols="auto" class="ml-auto text-center mt-2">
-              <div class="overline mb-n9">license level</div>
+            <v-col
+              cols="auto"
+              class="ml-auto text-center mt-2"
+              :style="$vuetify.breakpoint.lgAndUp ? `margin-right:200px` : ''"
+            >
+              <div class="overline mb-n9">
+                license level
+                <cc-tooltip v-if="!isLevelingUp" delayed simple inline content="Edit License Level">
+                  <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
+                    mdi-circle-edit-outline
+                  </v-icon>
+                </cc-tooltip>
+              </div>
               <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">{{ pilot.Level }}</div>
-              <cc-tooltip
+              <v-btn
                 v-if="!isLevelingUp && pilot.Level < 12"
-                simple
-                inline
-                content="Level Up"
-                class="ml-4"
+                tile
+                outlined
+                small
+                class="fadeSelect mt-n4"
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
-                <v-icon
-                  large
-                  dark
-                  class="fadeSelect"
-                  @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
-                >
+                Level Up
+                <v-icon dark right>
                   mdi-arrow-up-bold-hexagon-outline
                 </v-icon>
-              </cc-tooltip>
-              <cc-tooltip v-if="!isLevelingUp" delayed simple inline content="Edit License Level">
-                <v-icon small dark class="fadeSelect mt-2" @click="$refs.levelEdit.show()">
-                  mdi-circle-edit-outline
-                </v-icon>
-              </cc-tooltip>
+              </v-btn>
+            </v-col>
+            <v-col v-show="$vuetify.breakpoint.lgAndUp" cols="auto">
+              <div id="image-bg" />
+              <v-hover>
+                <template v-slot:default="{ hover }">
+                  <div id="image" class="border">
+                    <v-img
+                      v-if="pilot.Portrait"
+                      :key="pilot.Image"
+                      :src="pilot.Portrait"
+                      aspect-ratio="1"
+                      position="top center"
+                    />
+                    <v-fade-transition>
+                      <v-overlay v-if="hover" absolute color="secondary">
+                        <cc-btn color="secondary" @click="$refs.imageSelector.open()">
+                          Set Pilot Portrait
+                        </cc-btn>
+                      </v-overlay>
+                    </v-fade-transition>
+                  </div>
+                </template>
+              </v-hover>
             </v-col>
           </v-row>
           <v-row dense>
-            <v-col cols="auto" class="mr-3">
-              <span class="overline lh">name</span>
-              <br />
-              <span style="display: block" class="stat-text white--text mt-n2">
+            <v-col cols="auto" class="mr-5">
+              <div class="overline mb-n2 subtle--text">name</div>
+              <div class="stat-text white--text mt-n3">
                 {{ pilot.Name }}
-              </span>
+              </div>
             </v-col>
-            <v-col v-if="pilot.Background" cols="auto" class="mr-3">
-              <span class="overline lh">background</span>
-              <br />
-              <span style="display: block" class="stat-text white--text mt-n2">
+            <v-col v-if="pilot.Background" cols="auto" class="mr-5">
+              <div class="overline mb-n2 subtle--text">background</div>
+              <div class="stat-text white--text mt-n3">
                 {{ pilot.Background }}
-              </span>
+              </div>
             </v-col>
-            <v-col v-if="pilot.CloudID" cols="auto" class="mr-3">
-              <span class="overline lh">rm-4://(OMNINET UPLINK ID)</span>
-              <br />
-              <span style="display: block" class="stat-text white--text mt-n2">
+            <v-col v-if="pilot.PlayerName" cols="auto" class="mr-5">
+              <div class="overline mb-n2 subtle--text">player</div>
+              <div class="stat-text white--text mt-n3">
+                {{ pilot.PlayerName }}
+              </div>
+            </v-col>
+            <v-col v-if="pilot.CloudID" cols="auto" class="mr-5">
+              <div class="overline mb-n2 subtle--text">rm-4://(OMNINET UPLINK ID)</div>
+              <div class="stat-text white--text mt-n3">
                 {{ pilot.CloudID }}
-              </span>
+              </div>
             </v-col>
-            <v-col cols="auto" class="mr-3">
-              <span class="overline lh">rm-4://(IDENT)</span>
-              <br />
-              <span style="display: block" class="stat-text white--text mt-n2">
+            <v-col cols="auto" class="mr-5">
+              <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
+              <div class="stat-text white--text mt-n3">
                 <v-dialog>
                   <template v-slot:activator="{ on }">
                     <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
@@ -73,7 +101,7 @@
                     <pilot-registration-card :pilot="pilot" pilot-ready />
                   </v-sheet>
                 </v-dialog>
-              </span>
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -111,27 +139,6 @@
           <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>
       </v-row>
-      <div id="image-bg" class="d-none d-lg-flex" />
-      <v-hover class="d-none d-lg-flex">
-        <template v-slot:default="{ hover }">
-          <div id="image" class="border">
-            <v-img
-              v-if="pilot.Portrait"
-              :key="pilot.Image"
-              :src="pilot.Portrait"
-              aspect-ratio="1"
-              position="top center"
-            />
-            <v-fade-transition>
-              <v-overlay v-if="hover" absolute color="secondary">
-                <cc-btn color="secondary" @click="$refs.imageSelector.open()">
-                  Set Pilot Portrait
-                </cc-btn>
-              </v-overlay>
-            </v-fade-transition>
-          </div>
-        </template>
-      </v-hover>
     </div>
     <cc-image-selector-web
       v-if="$platform === 'web'"
@@ -178,7 +185,7 @@ export default vueMixins(activePilot).extend({
   background-color: var(--v-panel-base);
   color: var(--v-text-base);
   z-index: 10;
-  width: 75vw;
+  width: 70vw;
   margin-left: -20px;
 }
 .unskew {

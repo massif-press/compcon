@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title large color="pilot">Hangar&emsp;</cc-title>
+    <cc-title large color="pilot" class="ml-n10 pl-3">Hangar&emsp;</cc-title>
     <v-btn-toggle id="viewtoggle" v-model="profile.HangarView" mandatory>
       <v-btn small icon value="cards">
         <v-icon color="accent">mdi-view-grid</v-icon>

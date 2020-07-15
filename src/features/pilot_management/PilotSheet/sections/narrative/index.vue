@@ -2,10 +2,6 @@
   <div>
     <skill-block :pilot="pilot" />
     <dt-resources-block :pilot="pilot" />
-    <!-- TODO: -->
-    <!-- <cc-title small>
-      <section-edit-icon label="Edit Pilot Organizations" />Organizations
-    </cc-title>-->
     <pilot-loadout-block :pilot="pilot" />
   </div>
 </template>
