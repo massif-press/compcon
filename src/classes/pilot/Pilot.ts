@@ -349,6 +349,7 @@ class Pilot {
     if (!this.CloudID) {
       return gistApi.newPilot(this).then((response: any) => {
         this.setCloudInfo(response.id)
+        return gistApi.savePilot(this)
       })
     } else {
       return gistApi.savePilot(this).then((response: any) => {
