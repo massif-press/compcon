@@ -359,7 +359,10 @@ class Pilot {
 
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
-    return gistApi.loadPilot(this.CloudID).then((gist: any) => {
+    return gistApi.loadPilot(this.CloudID).then((gist: IPilotData) => {
+      if(!this.IsUserOwned) {
+        gist.group = this._group
+      }
       this.setPilotData(gist)
       this.LastCloudUpdate = new Date().toString()
     })
@@ -1054,8 +1057,8 @@ class Pilot {
     this._loadout = (data as any).loadouts
       ? PilotLoadout.Deserialize((data as any).loadouts[0])
       : data.loadout
-      ? PilotLoadout.Deserialize(data.loadout)
-      : new PilotLoadout(0)
+        ? PilotLoadout.Deserialize(data.loadout)
+        : new PilotLoadout(0)
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
