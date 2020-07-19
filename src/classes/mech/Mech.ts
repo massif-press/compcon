@@ -716,11 +716,11 @@ class Mech implements IActor {
   }
 
   public get IsShutDown(): boolean {
-    return this.Statuses.includes('Shut Down')
+    return this.Statuses.includes('SHUT DOWN')
   }
 
   public get IsStunned(): boolean {
-    return this._conditions.includes('Stunned')
+    return this._conditions.includes('STUNNED')
   }
 
   public get Conditions(): string[] {

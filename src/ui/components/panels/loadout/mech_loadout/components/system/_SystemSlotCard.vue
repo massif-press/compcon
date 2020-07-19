@@ -65,8 +65,12 @@
             <cc-tags small :tags="item.Tags" :color="color" />
           </v-col>
         </v-row>
-
         <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent class="mt-n3" />
+        <v-row v-if="item" dense>
+          <v-col cols="auto">
+            <cc-synergy-panel location="system" :item="item" :pilot="mech.Pilot" />
+          </v-col>
+        </v-row>
       </div>
       <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
     </slot-card-base>

@@ -60,6 +60,7 @@ import PilotLicense from './classes/pilot/PilotLicense'
 import PilotLoadout from './classes/pilot/PilotLoadout'
 import PilotSkill from './classes/pilot/PilotSkill'
 import PilotTalent from './classes/pilot/PilotTalent'
+import TalentDecorator from './classes/pilot/TalentDecorator'
 import Pilot from './classes/pilot/Pilot'
 import { CoreSystem } from './classes/mech/CoreSystem'
 import { Frame } from './classes/mech/Frame'
@@ -159,6 +160,7 @@ export {
   PilotLoadout,
   PilotSkill,
   PilotTalent,
+  TalentDecorator,
   Reserve,
   Project,
   Organization,
