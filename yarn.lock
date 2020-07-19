@@ -1726,10 +1726,10 @@
     "@babel/runtime" "^7.7.2"
     core-js "^3.4.1"
 
-"@mdi/font@^4.8.95":
-  version "4.9.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.9.95.tgz#00ed2ffe289c9230f146e74559c07542d3f4475a"
-  integrity sha512-m2sbAs+SMwRnWpkMriBxEulwuhmqRyh6X+hdOZlqSxYZUM2C2TaDnQ4gcilzdoAgru2XYnWViZ/xPuSDGgRXVw==
+"@mdi/font@^5.3.45":
+  version "5.3.45"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.3.45.tgz#086d3ef77dee260c04dd5a593af602c250e5b315"
+  integrity sha512-SD5d2vHEKRvDCInZQFXOwiFpBlzpuZOiqwxKf6E+zCt7UDc52TUSrL0+TXqY57VQh/SnTpZVXM+Uvs21OdPFWg==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -8239,10 +8239,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lancer-data@^2.0.33:
-  version "2.0.34"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.34.tgz#c1d893d67474d6a475567fba89694d1326a1ac15"
-  integrity sha512-B61jM4v+IzouEBpuW6uYP40/VW9sMYP8xVjQIndmIdkP9uGJL/chjPqUMzFlTNg9ukOzlhNg3OJcINcpFoSIag==
+lancer-data@^2.0.35:
+  version "2.0.35"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-2.0.35.tgz#8681d8e86b6dc0233b829f2bef42331df7a8b36c"
+  integrity sha512-Y/oNNSEYwjET8+UD/nk/PwzDbU2UJvrR9mmiteEnlRnFFH7cuQQfGqv5bKvR1qnzDQmVaQ/LSv6uNY9u/T7B/A==
 
 latest-version@^5.0.0:
   version "5.1.0"
