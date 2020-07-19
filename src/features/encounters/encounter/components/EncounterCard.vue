@@ -127,11 +127,12 @@
       <v-select
         v-model="selRep"
         item-text="name"
+        item-value="id"
         outlined
         dense
         label="Engagement Type"
         :items="sitreps"
-        @change="encounter.Sitrep = sitreps.find(x => x.name === selRep)"
+        @change="onSitrepChange"
       />
       <v-textarea
         v-model="encounter.Sitrep.description"
@@ -382,8 +383,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    selRep: 'Standard Combat',
-    ctest: ['a', 'b', 'c'],
+    selRep: {}
   }),
   computed: {
     labels() {
@@ -416,7 +416,10 @@ export default Vue.extend({
         allied: this.encounter.Reinforcements('Ally'),
         neutral: this.encounter.Reinforcements('Neutral'),
       }
-    },
+    }
+  },
+  created() {
+    this.selRep = { name: this.encounter.Sitrep.name, value: this.encounter.Sitrep }
   },
   methods: {
     setEnvironment() {
@@ -434,6 +437,10 @@ export default Vue.extend({
       this.encounter.AddReinforcement(event.npc, event.side)
       this.$refs.reinforcementDialog.hide()
     },
+    onSitrepChange(event) {
+      const selectedSitrep = this.sitreps.find((x) => x.id === event);
+      this.encounter.Sitrep = selectedSitrep
+    }
   },
 })
 </script>
