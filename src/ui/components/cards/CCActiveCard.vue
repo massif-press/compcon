@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="cols" :xl="xl" :lg="lg" :md="md" :sm="sm" class="pa-1">
+  <v-col :cols="cols" class="pa-1">
     <v-card
       tile
       color="panel clipped"
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-@Component({name: 'cc-active-card'})
+@Component({ name: 'cc-active-card' })
 export default class CCActiveCard extends Vue {
   @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
@@ -38,16 +38,6 @@ export default class CCActiveCard extends Vue {
   readonly content: string | number
   @Prop({ type: [String, Number], required: false, default: '' })
   readonly cols: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly xl: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly lg: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly md: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly sm: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly cm: string | number
   @Prop({ type: Boolean })
   readonly collapsible: boolean
   @Prop({ type: Boolean })
@@ -57,7 +47,7 @@ export default class CCActiveCard extends Vue {
 
   collapsed = false
 
-  created() {
+  created(): void {
     this.collapsed = this.startClosed
   }
 }

@@ -145,7 +145,7 @@ export default Vue.extend({
 
       if (!this.showUnlicensed) {
         i = i.filter(
-          x => x.Source === 'GMS' || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         )
       }
       if (!this.showOverSP) {

@@ -1,5 +1,5 @@
 <template>
-  <v-alert dense outlined :color="color" class="pt-3 pb-n2">
+  <v-alert dense outlined color="active" class="mx-2 pa-0">
     <effect-base
       :effect="effect"
       :color="color"
@@ -9,7 +9,7 @@
       :transparent="transparent"
       :print="print"
     >
-      <div :class="print ? 'caption font-weight-bold black--text mt-n1' : 'heading h3 mt-n2'">
+      <div :class="print ? 'caption font-weight-bold black--text mt-n1' : 'heading h3 '">
         <span class="accent--text">{{ effect.Name }}</span>
         &nbsp;
         <cc-range-element v-if="effect.Range" :range="effect.Range" small class="d-inline" />
@@ -18,7 +18,7 @@
       </div>
       <p
         v-if="effect.Detail"
-        :class="print ? 'overline black--text mb-0 pb-0 mt-n1' : 'body-text mb-1'"
+        :class="print ? 'overline black--text mb-0 pb-0 mt-n1' : 'body-text mb-0'"
         v-html="effect.Detail"
       />
     </effect-base>
@@ -40,7 +40,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     inset: { type: Boolean },
     transparent: { type: Boolean },

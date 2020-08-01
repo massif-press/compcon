@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'You can only make this action where there’s a drink to actually get (in town, a station, a city, or some other populated area). It doesn’t have to be an actual drink, but you blow off some steam, carouse, and generally get into trouble. You could be doing this to make connections, collect gossip, forge a reputation, or maybe just to forget what happened on the last mission. There’s usually trouble.'
         "
@@ -10,7 +10,7 @@
       <v-divider class="mb-2" />
       <div class="pt-2 heading h3 text-center">
         Roll
-        <v-icon large color="primary">mdi-dice-d20</v-icon>
+        <v-icon large color="accent">mdi-dice-d20</v-icon>
         &nbsp;and add any relevant Skill Trigger bonuses, modifiers, or accuracy
       </div>
       <v-row justify="center">

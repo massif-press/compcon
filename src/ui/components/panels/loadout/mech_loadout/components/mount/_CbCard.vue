@@ -1,5 +1,6 @@
 <template>
-  <v-alert dark prominent dense tile color="pilot" icon="cci-corebonus" class="mt-1 mb-n1 mx-2">
+  <v-alert dark prominent dense color="pilot" class="mt-1 mb-n1 mx-2">
+    <v-icon slot="prepend" size="40" class="mr-3">cci-corebonus</v-icon>
     <span class="heading h3">{{ bonus.Name }}</span>
     <br />
     <span class="flavor-text white--text">{{ bonus.MountedEffect }}</span>

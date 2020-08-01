@@ -6,6 +6,8 @@
 
 import { Rules } from './classes/utility/Rules'
 import {
+  Duration,
+  ActivationType,
   MountType,
   FittingSize,
   WeaponSize,
@@ -32,7 +34,6 @@ import {
   DroneEffect,
   GenericEffect,
   EffectType,
-  ActivationType,
   ItemEffect,
   BonusEffect,
   ProtocolEffect,
@@ -41,6 +42,8 @@ import {
   ProfileEffect,
   OffensiveEffect,
 } from './classes/effects'
+import { Drone } from './classes/Drone'
+import { Deployable } from './classes/Deployable'
 import { CompendiumItem } from './classes/CompendiumItem'
 import { LicensedItem } from './classes/LicensedItem'
 import { CoreBonus } from './classes/pilot/CoreBonus'
@@ -49,7 +52,7 @@ import Loadout from './classes/Loadout'
 import { Range } from './classes/Range'
 import { Skill } from './classes/pilot/Skill'
 import CustomSkill from './classes/pilot/CustomSkill'
-import { Talent } from './classes/pilot/Talent'
+import { Talent, TalentRank } from './classes/pilot/Talent'
 import License from './classes/License'
 import MechSkills from './classes/pilot/MechSkills'
 import { PilotEquipment } from './classes/pilot/PilotEquipment'
@@ -60,7 +63,7 @@ import PilotLicense from './classes/pilot/PilotLicense'
 import PilotLoadout from './classes/pilot/PilotLoadout'
 import PilotSkill from './classes/pilot/PilotSkill'
 import PilotTalent from './classes/pilot/PilotTalent'
-import TalentDecorator from './classes/pilot/TalentDecorator'
+import { Synergy } from './classes/Synergy'
 import Pilot from './classes/pilot/Pilot'
 import { CoreSystem } from './classes/mech/CoreSystem'
 import { Frame } from './classes/mech/Frame'
@@ -125,6 +128,9 @@ export {
   TechEffect,
   ProfileEffect,
   OffensiveEffect,
+  Drone,
+  Deployable,
+  Duration,
   MountType,
   FittingSize,
   WeaponSize,
@@ -149,6 +155,7 @@ export {
   CustomSkill,
   Tag,
   Talent,
+  TalentRank,
   MechSkills,
   Pilot,
   PilotEquipment,
@@ -159,7 +166,7 @@ export {
   PilotLoadout,
   PilotSkill,
   PilotTalent,
-  TalentDecorator,
+  Synergy,
   Reserve,
   Project,
   Organization,

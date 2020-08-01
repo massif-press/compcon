@@ -10,7 +10,7 @@ const theme = {
     active: '#218a8a',
     accent: '#1dc2c2',
     secondary: '#d98f30',
-    pilot: '#000',
+    pilot: '#061a1f',
     error: '#F44336',
     info: '#569BEA',
     success: '#00C853',

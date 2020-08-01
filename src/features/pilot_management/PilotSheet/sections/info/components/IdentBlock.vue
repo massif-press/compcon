@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pt-0">
-    <v-row dense class="stat-text pt-0 pb-0 mt-n6">
+    <v-row dense class="stat-text pt-0 pb-0 mt-n2">
       <v-col>
         <div class="overline mb-n3 subtle--text">CALLSIGN</div>
         <cc-short-string-editor @set="pilot.Callsign = $event">

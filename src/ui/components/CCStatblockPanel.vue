@@ -17,7 +17,7 @@
           <span v-if="$vuetify.breakpoint.lgAndUp">{{ name }}</span>
         </div>
       </v-card-title>
-      <v-card-text class="heading x-large-text text--text px-2 ma-0 mt-1 mb-0">
+      <v-card-text class="heading h2 text--text py-2">
         <span>{{ value }}</span>
       </v-card-text>
     </v-card>

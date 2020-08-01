@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'You focus on increasing your own skills, training, and self-improvement. You might practice, learn, meditate, or call on a teacher.'
         "

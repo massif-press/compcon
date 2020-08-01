@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on }">
       <div v-if="visible" style="position: relative">
         <div class="side-legend">
-          <v-btn small outlined :color="hasEffect ? color : 'grey darken-2'" v-on="on">
+          <v-btn small outlined :color="color" v-on="on">
             <v-icon :left="!hasEffect">cci-corebonus</v-icon>
             <span v-if="!hasEffect">Core Bonus Available</span>
           </v-btn>
@@ -69,7 +69,7 @@ export default Vue.extend({
       return this.mount.Bonuses.length
     },
     color(): string {
-      return this.mech.Frame.Manufacturer.Color
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
     visible(): boolean {
       return this.mech.AvailableBonuses.length || this.mount.Bonuses.length
@@ -83,10 +83,10 @@ export default Vue.extend({
   position: absolute;
   right: 20px;
   top: -30px;
-  background-color: white;
+  background-color: var(--v-background-base);
   height: 30px;
   border: 2px;
-  border-color: var(--v-grey-darken2);
+  border-color: var(--v-stark-base);
   border-radius: 5px;
 }
 </style>

@@ -12,7 +12,7 @@
         </div>
       </span>
     </v-col>
-    <v-col cols="auto" class="ml-auto text-right">
+    <v-col v-if="item.LicenseString" cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.Type }}</div>
       <span class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
     </v-col>

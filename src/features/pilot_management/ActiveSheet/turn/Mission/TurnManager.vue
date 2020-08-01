@@ -354,15 +354,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionButton from './components/ActionButton.vue'
-import DestroyedAlert from './components/DestroyedAlert.vue'
-import StabilizeDialog from './components/StabilizeDialog.vue'
-import OverchargeDialog from './components/OverchargeDialog.vue'
-import BurnDialog from './components/BurnDialog.vue'
+// import ActionButton from './components/ActionButton.vue'
+// import DestroyedAlert from './components/DestroyedAlert.vue'
+// import StabilizeDialog from './components/StabilizeDialog.vue'
+// import OverchargeDialog from './components/OverchargeDialog.vue'
+// import BurnDialog from './components/BurnDialog.vue'
 
 export default Vue.extend({
   name: 'turn-manager',
-  components: { ActionButton, DestroyedAlert, StabilizeDialog, OverchargeDialog, BurnDialog },
+  // components: { ActionButton, DestroyedAlert, StabilizeDialog, OverchargeDialog, BurnDialog },
   props: {
     pilot: {
       type: Object,

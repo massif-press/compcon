@@ -265,7 +265,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import DestroyedAlert from './components/DestroyedAlert.vue'
+// import DestroyedAlert from './components/DestroyedAlert.vue'
 import { MechEquipment } from '@/class'
 
 function normalize(current, max): number {
@@ -275,7 +275,7 @@ function normalize(current, max): number {
 
 export default Vue.extend({
   name: 'rest-manager',
-  components: { DestroyedAlert },
+  // components: { DestroyedAlert },
   props: {
     pilot: {
       type: Object,

@@ -51,7 +51,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     inset: { type: Boolean },
     transparent: { type: Boolean },

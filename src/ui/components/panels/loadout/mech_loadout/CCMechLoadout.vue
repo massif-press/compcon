@@ -22,7 +22,7 @@
 
         <mount-block
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
-          intWeapon
+          int-weapon
           :readonly="readonly"
           :mount="mech.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
@@ -34,7 +34,7 @@
             mech.Pilot.has('CoreBonus', 'cb_improved_armament') &&
               mech.ActiveLoadout.EquippableMounts.length < 3
           "
-          impArm
+          imp-arm
           :readonly="readonly"
           :mount="mech.ActiveLoadout.ImprovedArmamentMount"
           :mech="mech"
@@ -75,7 +75,8 @@ export default Vue.extend({
   },
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.Color
+      console.log(this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark))
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
   },
 })

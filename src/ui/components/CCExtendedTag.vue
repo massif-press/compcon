@@ -1,5 +1,5 @@
 <template>
-  <v-alert v-show="!tag.IsHidden" outlined dense color="primary" border="left">
+  <v-alert v-show="!tag.IsHidden" outlined dense color="primary" border="left" class="mb-1">
     <v-icon
       v-if="$vuetify.breakpoint.lgAndUp"
       slot="prepend"
@@ -12,7 +12,7 @@
     <span v-if="tag.err">ERR: MISSING DATA</span>
     <div v-else>
       <h3 class="heading accent--text">
-        <v-icon v-if="$vuetify.breakpoint.mdAndDown" class="mt-n1" color="primary">label</v-icon>
+        <v-icon v-if="$vuetify.breakpoint.mdAndDown" class="mt-n1" color="active">label</v-icon>
         {{ tag.GetName() }}
       </h3>
       <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription()" />

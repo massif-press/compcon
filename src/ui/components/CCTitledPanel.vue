@@ -35,24 +35,22 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-titled-panel', })
+@Component({ name: 'cc-titled-panel' })
 export default class CCTitledPanel extends Vue {
- 
-  @Prop({ type: String, required: true, })
-  readonly title!: string 
+  @Prop({ type: String, required: true })
+  readonly title!: string
 
-  @Prop({ type: String, required: false, default: '', })
+  @Prop({ type: String, required: false, default: '' })
   readonly icon: string
 
-  @Prop({ type: String, required: false, default: '', })
-  readonly color: string 
+  @Prop({ type: String, required: false, default: '' })
+  readonly color: string
 
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly clickable?: boolean
-  
-  @Prop({ type: Boolean, })
-  readonly dense?: boolean
 
+  @Prop({ type: Boolean })
+  readonly dense?: boolean
 }
 </script>
 

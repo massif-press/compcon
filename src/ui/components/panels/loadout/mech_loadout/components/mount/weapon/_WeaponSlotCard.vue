@@ -5,55 +5,61 @@
         <span v-if="item">
           <equipment-options
             :item="item"
+            :readonly="readonly"
             @swap="$refs.base.$refs.selectorDialog.show()"
             @remove="remove()"
           />
           <span v-if="!item.Destroyed" class="ml-n2">
             {{ item.Name }}
             <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+            <span class="caption subtle--text ml-1">
+              <b>{{ item.Size }}</b>
+              {{ item.Type }}
+            </span>
           </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
+            &nbsp;//
+            <strike>{{ item.Name }}</strike>
+            //&nbsp;
           </span>
         </span>
         <span v-else>{{ weaponSlot.Size }} Weapon</span>
       </div>
-      <div v-if="!readonly" slot="header-items" class="text-right">
-        <v-icon v-if="item" class="fadeSelect mt-n1" dark @click.stop="remove()">delete</v-icon>
-        <v-icon
-          class="fadeSelect mt-n1"
-          dark
-          @click.stop="$refs.base.$refs.selectorDialog.show()"
-          v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
+      <div slot="header-items" class="text-right">
+        <cc-range-element
+          v-if="item.Range"
+          small
+          :range="item.getTotalRange(mech)"
+          class="d-inline"
+        />
+
+        <cc-slashes v-if="item.Range && item.Damage" />
+        <cc-damage-element
+          v-if="item.Damage"
+          small
+          :damage="item.Damage"
+          :type-override="item.DamageTypeOverride"
+          class="d-inline"
         />
       </div>
       <div v-if="item">
         <equipment-header :item="item" :color="color" :use-bonus="mech.Pilot.LimitedBonus">
-          <div class="d-inline mx-2">
-            <cc-range-element
-              v-if="item.Range"
-              small
-              :range="item.getTotalRange(mech)"
-              class="d-inline"
-            />
-            <cc-damage-element
-              v-if="item.Damage"
-              small
-              :damage="item.Damage"
-              :type-override="item.DamageTypeOverride"
-              class="d-inline"
-            />
-          </div>
-          <div v-if="!intWeapon && !readonly" class="d-inline mx-2">
-            <v-btn
-              outlined
-              small
-              :color="item.Mod ? color : 'grey darken-2'"
-              @click.stop="$refs.modDialog.show()"
-            >
-              <v-icon :color="item.Mod ? color : ''" :left="!item.Mod">cci-weaponmod</v-icon>
+          <div v-if="!intWeapon && !readonly" slot="left">
+            <v-btn outlined small :color="color" @click.stop="$refs.modDialog.show()">
+              <v-icon :color="color" :left="!item.Mod">cci-weaponmod</v-icon>
               <span v-if="!item.Mod">NO MOD INSTALLED</span>
             </v-btn>
+          </div>
+          <div v-if="!intWeapon && !readonly" class="mr-2">
+            <v-icon v-if="item" class="fadeSelect mt-n1" dark @click.stop="remove()">
+              delete
+            </v-icon>
+            <v-icon
+              class="fadeSelect mt-n1"
+              dark
+              @click.stop="$refs.base.$refs.selectorDialog.show()"
+              v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
+            />
           </div>
         </equipment-header>
         <cc-item-effect-panel
@@ -69,9 +75,6 @@
         <v-row no-gutters align="center" class="mr-6">
           <v-col v-if="item" cols="auto">
             <cc-synergy-panel location="weapon" :item="item" :pilot="mech.Pilot" />
-          </v-col>
-          <v-col cols="auto" class="ml-auto">
-            <cc-tags small :tags="item.Tags" :color="color" />
           </v-col>
           <v-col v-if="item.Mod" cols="auto" class="ml-6">
             <cc-tags small :tags="item.Mod.AddedTags" color="mod" />
@@ -163,7 +166,7 @@ export default Vue.extend({
       return this.weaponSlot.Weapon
     },
     color() {
-      return this.mech.Frame.Manufacturer.Color
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
     armoryLevel() {
       if (!this.item) return 0

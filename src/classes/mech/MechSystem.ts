@@ -23,6 +23,10 @@ class MechSystem extends MechEquipment {
     return this._system_type
   }
 
+  public get Color(): string {
+    return 'mech-system'
+  }
+
   public static Serialize(item: MechSystem): IEquipmentData {
     return {
       id: item.ID,

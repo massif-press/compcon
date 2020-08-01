@@ -24,9 +24,10 @@ const themeDefaults = {
   'action--full': '#283593',
   'action--quick': '#3949AB',
   'action--overcharge': '#F50057',
-  'action--free': '#00695C',
+  'action--free': '#1fad79',
   'action--protocol': '#007676',
   'action--tech': '#802475',
+  'action--invade': '#802475',
 
   'damage--kinetic': '#757575',
   'damage--energy': '#29B6F6',

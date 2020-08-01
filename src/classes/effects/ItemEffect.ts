@@ -12,6 +12,7 @@ import {
   AIEffect,
   OffensiveEffect,
   ProfileEffect,
+  ActivationType,
 } from '@/class'
 
 enum EffectType {
@@ -27,16 +28,6 @@ enum EffectType {
   Bonus = 'Bonus',
   Offensive = 'Offensive',
   Profile = 'Profile',
-}
-
-enum ActivationType {
-  None = 'None',
-  Passive = 'Passive',
-  Quick = 'Quick',
-  Full = 'Full',
-  Other = 'Other',
-  Reaction = 'Reaction',
-  Protocol = 'Protocol',
 }
 
 interface IEffectData {

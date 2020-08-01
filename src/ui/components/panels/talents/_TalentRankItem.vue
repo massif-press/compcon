@@ -7,7 +7,7 @@
       </span>
     </div>
     <div class="light-panel clipped mb-2">
-      <cc-talent-rank-item :rank="rankIndex" :description="talentRank.description" />
+      <cc-talent-rank-item :rank="rankIndex" :talent-rank="talentRank" />
     </div>
   </div>
 </template>
