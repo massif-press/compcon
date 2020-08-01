@@ -49,9 +49,19 @@ export default class CCTooltip extends Vue {
 
 <style scoped>
 .cc-tooltip {
-  background: var(--v-panel-base) !important;
-  background-color: var(--v-panel-base) !important;
+  background: var(--v-panel-darken1) !important;
+  background-color: var(--v-panel-darken1) !important;
   opacity: 1 !important;
   max-width: 50vw;
+  border: 1px var(--v-active-base) solid;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'You poke your nose around, perhaps where it doesn’t belong. You’re investigating something, doing research, following up on a mystery, tracking a target, or keeping an eye on something. You might be doing research in a library, or go undercover in an organization to learn what you can. Whatever you’re doing, you’re generally trying to gather information on a subject of your choosing.'
         "

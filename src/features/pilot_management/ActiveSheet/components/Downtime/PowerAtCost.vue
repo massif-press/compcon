@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'Name what you want. You can <strong>always</strong> get it, but the GM chooses <strong>one or two</strong> complications, depending on how outlandish the request is'
         "

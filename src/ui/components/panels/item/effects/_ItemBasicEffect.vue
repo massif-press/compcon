@@ -1,7 +1,7 @@
 <template>
   <effect-base :effect="effect" :inset="inset" :transparent="transparent" :print="print">
     <div :class="print ? 'caption' : 'effect-text mt-n2'" v-html="effect.Name" />
-    <p class="pt-0 mb-1 body-text" v-html="effect.Detail" />
+    <p class="pt-0 mb-0 pb-0 body-text" v-html="effect.Detail" />
   </effect-base>
 </template>
 
@@ -20,7 +20,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     inset: { type: Boolean },
     transparent: { type: Boolean },

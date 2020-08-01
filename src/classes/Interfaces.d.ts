@@ -118,6 +118,7 @@ declare interface IPilotData {
   counter_data: ICounterSaveData[]
   custom_counters: object[]
   brews: string[]
+  state: IMechState
 }
 
 declare interface IReserveData {
@@ -209,7 +210,6 @@ declare interface IMechData {
   meltdown_imminent: boolean
   reactor_destroyed: boolean
   cc_ver: string
-  state: IMechState
 }
 
 declare interface IMechLoadoutData {
@@ -300,9 +300,4 @@ declare interface Sitrep {
   objective?: string
   controlZone?: string
   extraction?: string
-}
-
-declare interface FrameTrait {
-  name: string
-  description: string
 }

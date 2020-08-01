@@ -160,6 +160,10 @@ class MechWeapon extends MechEquipment {
     return this._mod || null
   }
 
+  public get Color(): string {
+    return 'mech-weapon'
+  }
+
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,

@@ -4,7 +4,12 @@
       <v-list-item>
         <v-list-item-title>
           <cc-logo :source="manufacturer(m)" class="mb-n1" />
-          <span class="heading sub" :style="`color: ${manufacturer(m).Color}`">{{ m }}</span>
+          <span
+            class="heading sub"
+            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+          >
+            {{ m }}
+          </span>
         </v-list-item-title>
       </v-list-item>
 
@@ -33,7 +38,7 @@
       <span
         v-resize-text="{ maxFontSize: '36pt' }"
         class="heading mech"
-        :style="`color: ${manufacturer(m).Color}`"
+        :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
       >
         {{ manufacturer(m).Name }}
       </span>

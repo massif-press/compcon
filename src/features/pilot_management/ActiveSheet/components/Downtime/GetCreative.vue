@@ -1,7 +1,7 @@
 <template>
   <v-card-text>
     <p
-      class="text-center flavor-text pt-2"
+      class="text-center body-text pt-2"
       v-html="
         'You tweak something or attempt to make something new, either a physical project, or a piece of software. It doesn’t have to be something on the a gear list, but it generally can’t be something as impactful as a piece of mech gear. Once finished, you can use it as <strong>reserves.</strong>'
       "

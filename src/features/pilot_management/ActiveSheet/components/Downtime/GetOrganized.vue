@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="'Start, run, or improve an organization, business, or other venture.'"
       />
       <v-divider class="mb-2" />

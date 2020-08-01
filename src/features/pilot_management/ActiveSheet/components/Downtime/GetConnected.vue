@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'You try and make connections, call upon favors, ask for help, or drum up support for a particular course of action. You need access to communications or just good old fashioned face to face conversation to take this action. <br /> You can use your connection’s resources or aid as <strong>reserves</strong> for the next mission.'
         "

@@ -1,6 +1,29 @@
-import { Rules, LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
+import {
+  Rules,
+  LicensedItem,
+  MountType,
+  ItemType,
+  MechType,
+  CoreSystem,
+  Duration,
+  ActivationType,
+} from '@/class'
 import { ILicensedItemData, ICoreData } from '@/interface'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
+
+interface FrameSynergy {
+  locations: string[]
+  detail: string
+}
+
+interface FrameTrait {
+  name: string
+  description: string
+  synergies?: FrameSynergy[]
+  use?: Duration
+  activation?: ActivationType
+  deactivation?: ActivationType
+}
 
 interface IFrameStats {
   size: number
@@ -21,6 +44,7 @@ interface IFrameStats {
 
 interface IFrameData extends ILicensedItemData {
   mechtype: MechType[]
+  license_level: number
   y_pos?: number
   mounts: MountType[]
   stats: IFrameStats

@@ -6,7 +6,8 @@ interface IManufacturerData {
   description: string
   quote: string
   logo: string
-  color: string
+  light: string
+  dark: string
   logo_url?: string
 }
 
@@ -16,7 +17,8 @@ class Manufacturer {
   private _description: string
   private _quote: string
   private _logo: string
-  private _color: string
+  private _light: string
+  private _dark: string
   private _logo_url?: string
 
   public constructor(data: IManufacturerData) {
@@ -25,7 +27,8 @@ class Manufacturer {
     this._description = data.description
     this._quote = data.quote
     this._logo = data.logo
-    this._color = data.color
+    this._light = data.light
+    this._dark = data.dark
     this._logo_url = data.logo_url
   }
 
@@ -46,7 +49,19 @@ class Manufacturer {
   }
 
   public get Color(): string {
-    return this._color
+    return this._light
+  }
+
+  public GetColor(dark?: boolean): string {
+    return dark ? this._dark : this._light
+  }
+
+  public get Light(): string {
+    return this._light
+  }
+
+  public get Dark(): string {
+    return this._dark
   }
 
   public get LogoIsExternal(): boolean {

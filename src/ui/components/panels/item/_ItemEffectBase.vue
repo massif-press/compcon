@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <v-row dense :class="rowClass" align="center">
+  <div class="mt-n2 mb-1">
+    <v-row dense :class="rowClass" align="center" class="px-2">
       <v-col v-if="!print && !noIcon" cols="auto">
         <v-icon x-large :color="color">
           {{ icon }}
         </v-icon>
       </v-col>
       <v-col class="mt-n2">
-        <div class="overline font-weight-bold accent--text pb-1" v-html="type" />
+        <div class="overline font-weight-bold subtle--text mb-n2" v-html="type" />
         <slot />
       </v-col>
     </v-row>
@@ -18,7 +18,7 @@
       :print="print"
       class="mt-1"
     />
-    <div v-if="effect.Tags" class="mt-n5 ml-12 mb-3">
+    <div v-if="effect.Tags" class="mt-n3 ml-12">
       <cc-tags :tags="effect.Tags" :print="print" :bonus="limitedBonus" small />
     </div>
   </div>
@@ -33,7 +33,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'active',
     },
     effect: {
       type: Object,

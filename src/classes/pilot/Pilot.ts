@@ -23,6 +23,7 @@ import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData } from '@/interface'
+import { ActiveState } from '../mech/ActiveState'
 
 class Pilot {
   private _cloudID: string
@@ -64,6 +65,7 @@ class Pilot {
   private _mechs: Mech[]
   private _active_mech: string | null
   private _mounted: boolean
+  private _state: ActiveState
 
   private cc_ver: string
   private _brews: string[]
@@ -101,6 +103,7 @@ class Pilot {
     this._group = ''
     this._sortIndex = 0
     this._campaign = ''
+    this._state = new ActiveState(null)
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     // this._initCounters()
   }
@@ -995,6 +998,11 @@ class Pilot {
     this.save()
   }
 
+  // -- Active Mode -------------------------------------------------------------------------------
+  public get State(): ActiveState {
+    return this._state
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(p: Pilot): IPilotData {
     return {
@@ -1033,6 +1041,7 @@ class Pilot {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
+      state: ActiveState.Serialize(p.State),
       brews: p._brews || [],
     }
   }
@@ -1056,6 +1065,7 @@ class Pilot {
       : data.loadout
       ? PilotLoadout.Deserialize(data.loadout)
       : new PilotLoadout(0)
+    this._state = data.state
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
@@ -1089,6 +1099,7 @@ class Pilot {
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
+    this._state = ActiveState.Deserialize(data.state)
     this._brews = data.brews || []
   }
 }

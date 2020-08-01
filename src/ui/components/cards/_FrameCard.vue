@@ -43,7 +43,7 @@
       v-for="(t, i) in item.Traits"
       :key="`trait_${i}`"
       :trait="t"
-      :color="item.Manufacturer.Color"
+      :color="item.Manufacturer.GetColor($vuetify.theme.dark)"
     />
 
     <span class="overline ml-n2 text--text">AVAILABLE WEAPON MOUNTS</span>

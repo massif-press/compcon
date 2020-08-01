@@ -49,7 +49,7 @@
               <span>
                 <span class="caption">{{ f.Source }}</span>
                 <br />
-                <span class="heading h2 font-weight-bold">{{ f.Name }}</span>
+                <span class="heading h2 font-weight-bold">{{ f.Name }} {{ f.LicenseLevel }}</span>
               </span>
               <v-chip
                 v-for="mt in f.Mechtype"
@@ -133,8 +133,7 @@ export default Vue.extend({
     filteredFrames() {
       let i = this.frames as Frame[]
 
-      if (!this.showAll)
-        i = i.filter(x => this.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
+      if (!this.showAll) i = i.filter(x => this.pilot.has('License', x.Name, 2) || !x.LicenseLevel)
 
       if (this.selectedTypes.length) {
         const sel = this.selectedTypes.map(x => this.frameTypes[x])

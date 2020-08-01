@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense align="center" justify="space-around" class="mt-n3">
+    <v-row dense align="center" justify="space-between" class="mt-n3 mx-4">
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStructure"
@@ -28,7 +28,7 @@
           hide-max
           readonly
         >
-          <span class="heading h3">Armor</span>
+          <span class="heading h3">Armor: {{ mech.Armor }}</span>
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
@@ -39,7 +39,7 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-          max-length="30"
+          max-length="25"
           @update="mech.CurrentHP = $event"
         >
           <span class="heading h3">HP</span>
@@ -57,12 +57,12 @@
           hide-max
           @update="mech.Overshield = $event"
         >
-          <span class="heading h3">OVERSHIELD</span>
+          <span class="heading h3">OVERSHIELD: {{ mech.Overshield }}</span>
         </cc-tick-bar>
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-around">
+    <v-row dense justify="space-between" class="mx-4">
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStress"

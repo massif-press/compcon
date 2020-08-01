@@ -155,6 +155,7 @@ class Mech implements IActor {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
+    //TODO: change from GMS to LL0
     if (this._frame.ID === 'mf_standard_pattern_i_everest') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
       if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
@@ -888,11 +889,6 @@ class Mech implements IActor {
     return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
-  // -- Active Mode -------------------------------------------------------------------------------
-  public get State(): ActiveState {
-    return this._state
-  }
-
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
     return {
@@ -926,7 +922,6 @@ class Mech implements IActor {
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
       cc_ver: store.getters.getVersion || 'ERR',
-      state: ActiveState.Serialize(m._state),
     }
   }
 
@@ -974,7 +969,6 @@ class Mech implements IActor {
     m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
     m._cc_ver = data.cc_ver || ''
-    m._state = data.state ? ActiveState.Deserialize(data.state, m) : new ActiveState(m)
     return m
   }
 }

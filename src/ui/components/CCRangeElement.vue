@@ -3,7 +3,7 @@
     <div
       v-for="(r, i) in range"
       :key="`rng_${i}`"
-      class="text-center ml-auto mr-auto"
+      class="text-center px-2"
       style="display: inline-block"
     >
       <cc-tooltip :title="r.Type" :content="r.Text">
@@ -11,7 +11,7 @@
           <v-icon color="text">{{ r.Icon }}</v-icon>
           <v-icon v-if="r.Override">mdi-information-outline</v-icon>
           <span v-else>{{ r.Value }}</span>
-          <cc-slashes v-if="i + 1 < range.length" />
+          <!-- <cc-slashes v-if="i + 1 < range.length" /> -->
         </span>
         <div v-else class="clip-icon">
           <v-icon x-large color="text">
@@ -35,11 +35,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Range } from '@/class'
 
 @Component({ name: 'cc-range-element' })
-export default class CCRangeElement extends Vue{
-  @Prop({ type: Array, required: true, })
+export default class CCRangeElement extends Vue {
+  @Prop({ type: Array, required: true })
   readonly range!: Range[]
 
-  @Prop({ type: Boolean, required: false, })
+  @Prop({ type: Boolean, required: false })
   readonly small?: boolean
 }
 </script>

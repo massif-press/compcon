@@ -2,33 +2,28 @@
   <v-col class="pa-2">
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
-        <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
-          <span class="mt-n1" style="display: flex; width: 100%">
+        <v-card-title
+          class="white--text py-0 heading h3 hover-item"
+          style="cursor: pointer;"
+          @click="$refs.detailDialog.show()"
+        >
+          <span style="display: flex; width: 100%">
             <slot name="header" />
             <v-spacer />
             <slot name="header-items" />
           </span>
         </v-card-title>
-        <v-card-text
-          :id="item ? 'underline-parent' : ''"
-          class="`px-2 py-1 text-center`"
-          style="height: calc(100% - 28px)"
-        >
+        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-1 text-center`">
           <div class="underline-slide" style="height: 100%">
-            <div
-              v-if="item"
-              class="text-left"
-              style="cursor: pointer!important"
-              @click="$refs.detailDialog.show()"
-            >
+            <div v-if="item" class="text-left">
               <slot />
-              <v-row v-if="item.notes">
+              <!-- <v-row v-if="item.notes">
                 <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
                   <cc-tooltip simple inline :content="n">
                     <v-icon color="active">mdi-note</v-icon>
                   </cc-tooltip>
                 </v-col>
-              </v-row>
+              </v-row> -->
             </div>
             <div
               v-else
@@ -55,7 +50,7 @@
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
-      <div v-if="item">
+      <!-- <div v-if="item">
         <v-textarea
           v-model="item.Note"
           outlined
@@ -65,7 +60,7 @@
           prepend-icon="mdi-note"
           label="Equipment Notes"
         />
-      </div>
+      </div> -->
     </cc-solo-dialog>
   </v-col>
 </template>
@@ -91,30 +86,15 @@ export default Vue.extend({
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-light-panel-darken1);
-  transition: background-color 0.4s ease-in-out;
+  background-color: var(--v-light-panel);
 }
 
-#underline-parent:hover {
-  background-color: var(--v-light-panel-base);
+.hover-item {
+  background-color: var(--v-pilot-base);
+  transition: 0.4s all;
 }
 
-.underline-slide::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  z-index: 10;
-  background-color: var(--v-grey-base);
-  transform-origin: bottom left;
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-#underline-parent:hover > .underline-slide::before {
-  transform-origin: bottom left;
-  transform: scaleX(1);
+.hover-item:hover {
+  background-color: var(--v-pilot-lighten1);
 }
 </style>

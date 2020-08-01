@@ -27,9 +27,7 @@ class License {
       items.filter(x => x.LicenseLevel === 2),
       items.filter(x => x.LicenseLevel === 3),
     ]
-
-    // add frame unlock as the first item of LL2
-    this._unlocks[1].unshift(frame)
+    if (frame.LicenseLevel) this._unlocks[frame.LicenseLevel - 1].unshift(frame)
   }
 
   public get Name(): string {

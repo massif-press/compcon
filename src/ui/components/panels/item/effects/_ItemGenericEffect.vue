@@ -1,6 +1,6 @@
 <template>
   <effect-base :effect="effect" :inset="inset" :transparent="transparent" :print="print">
-    <p class="pt-0 body-text" v-html="effect.Detail" />
+    <p class="pt-0 mb-0 body-text" v-html="effect.Detail" />
   </effect-base>
 </template>
 
@@ -19,7 +19,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     inset: { type: Boolean },
     transparent: { type: Boolean },

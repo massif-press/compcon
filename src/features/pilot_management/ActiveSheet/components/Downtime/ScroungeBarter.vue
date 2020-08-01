@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <p
-        class="text-center flavor-text"
+        class="text-center body-text"
         v-html="
           'You try and get your hands on some gear or asset for your group by dredging the scrapyard, chasing down rumors, bartering in the local market, hunting around, or through good old fashioned force of will. You could try and get some better pilot gear that could help you, a vehicle, narcotics, goods, or other sundries. It’s got to be something physical that you can acquire, but doesn’t necessarily have to be on the gear list. If you get it, you can take it on the next mission as <strong>reserves.</strong>'
         "

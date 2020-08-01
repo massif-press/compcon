@@ -7,13 +7,12 @@
     :transparent="transparent"
     :print="print"
     :limited-bonus="limitedBonus"
-    :class="!print ? 'mb-1' : ''"
   />
 </template>
 
 <script>
 export default {
-  name: 'cc-item-effect-wrapper',
+  name: 'cc-item-action-wrapper',
   props: {
     effect: {
       type: Object,

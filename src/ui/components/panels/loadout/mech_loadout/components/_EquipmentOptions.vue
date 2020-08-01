@@ -2,12 +2,12 @@
   <span v-if="item">
     <v-menu offset-y top @click.stop>
       <template v-slot:activator="{ on: menu }">
-        <v-btn dark small class="ml-n3 mt-n1 ml-0 fadeSelect" icon v-on="menu" @click.stop>
-          <v-icon small>mdi-cog</v-icon>
+        <v-btn dark small class="ml-n3 mt-n1 mr-2 fadeSelect" icon v-on="menu" @click.stop>
+          <v-icon>settings</v-icon>
         </v-btn>
       </template>
       <v-list dense>
-        <div v-if="!item.IsIntegrated">
+        <div v-if="!item.IsIntegrated && !readonly">
           <v-list-item @click="$emit('swap')">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
               <v-icon>mdi-swap-vertical-variant</v-icon>
@@ -36,7 +36,7 @@
         </v-list-item>
         <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-image-broken-variant</v-icon>
+            <v-icon color="error">mdi-image-broken-variant</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Mark as Destroyed</v-list-item-title>
@@ -103,7 +103,7 @@
             <v-list-item-title>Set Custom Description</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div v-if="!item.IsIntegrated">
+        <div v-if="!item.IsIntegrated && !readonly">
           <v-divider />
           <v-list-item @click="$emit('remove')">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
@@ -158,6 +158,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    readonly: Boolean,
   },
 })
 </script>

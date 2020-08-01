@@ -144,7 +144,7 @@ export default Vue.extend({
       return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID)
     },
     color() {
-      return this.mech.Frame.Manufacturer.Color
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
     isPixel() {
       return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel')

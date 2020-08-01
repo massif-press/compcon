@@ -3,7 +3,9 @@
     <div
       :style="
         `border: 2px solid ${
-          mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+          mech.IsActive
+            ? 'var(--v-success-base)'
+            : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
         }`
       "
     >
@@ -14,7 +16,9 @@
               class="clipped-large"
               :style="
                 `z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
-                  mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+                  mech.IsActive
+                    ? 'var(--v-success-base)'
+                    : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
                 }`
               "
             >
@@ -31,7 +35,7 @@
                 size="xLarge"
                 :source="mech.Frame.Manufacturer"
                 color="white"
-                :stroke="mech.Frame.Manufacturer.Color"
+                :stroke="mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)"
               />
             </div>
             <div

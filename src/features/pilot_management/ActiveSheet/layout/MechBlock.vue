@@ -3,40 +3,7 @@
     <cc-stress-table ref="stressTable" :mech="mech" />
     <cc-structure-table ref="structureTable" :mech="mech" />
 
-    <div v-if="!mech" class="ma-5">
-      <div v-if="!pilot.Mechs.length">
-        <v-alert type="error" prominent>
-          <span class="heading h3">No Saved Mech Configurations</span>
-          <br />
-        </v-alert>
-      </div>
-      <div v-else class="ma-5">
-        <v-alert value="visible" type="warning" class="mb-3 effect-text">
-          <span class="heading h3">No Active Mech Detected</span>
-        </v-alert>
-        <mech-select-button big :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
-      </div>
-    </div>
-    <div v-else-if="mech && !pilot.Mounted">
-      <v-divider class="my-2" />
-      <v-alert prominent dense outlined border="bottom" color="accent" icon="cci-frame">
-        <div class="overline text--text">PILOT DISMOUNTED - MECH STATUS: [ IDLE ]</div>
-        <div class="heading h3 mt-n2">
-          <div class="stark--text">
-            {{ mech.Frame.Source }} {{ mech.Frame.Name }}
-            <cc-slashes />
-            {{ mech.Name }}
-            <span class="ml-1 flavor-text subtle--text">(ACTIVE MECH)</span>
-          </div>
-        </div>
-        <cc-tooltip simple content="Enter the mech and switch to Mech Mode">
-          <v-btn color="secondary" outlined block class="my-1" @click="pilot.Mounted = true">
-            mount mech
-          </v-btn>
-        </cc-tooltip>
-      </v-alert>
-    </div>
-    <div v-else>
+    <div>
       <v-row dense>
         <v-col class="mt-n5">
           <div class="overline subtle--text">MOUNTED::</div>
@@ -45,7 +12,7 @@
             <cc-slashes />
             <span class="stark--text">{{ mech.Name }}</span>
           </div>
-          <div class="overline subtle--text">PILOT::</div>
+          <div class="overline subtle--text mt-n2">PILOT::</div>
           <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
         </v-col>
         <v-col cols="auto" class="ml-auto mr-2">
@@ -67,7 +34,7 @@
         @clear-status="mech.Repair()"
       />
 
-      <v-row justify="space-between" align="center" dense>
+      <v-row justify="space-between" align="center" dense class="mb-2">
         <v-col cols="3">
           <cc-status-select
             label="Statuses"
@@ -257,91 +224,121 @@
           </cc-active-card>
         </v-col>
       </v-row>
-      <v-row dense>
-        <v-col cols="auto">
+
+      <v-row v-if="pilot.CoreBonuses" dense>
+        <v-col cols="auto" class="mb-n2">
           <span class="overline">CORE BONUSES</span>
-        </v-col>
-        <v-col cols="auto" class="ml-auto">
-          <v-btn
-            x-small
-            outlined
-            class="fadeSelect"
-            @click="expandAll(pilot.CoreBonuses.length, 'cb_', true)"
-          >
-            <v-icon small left>mdi-chevron-up</v-icon>
-            All
-          </v-btn>
-          <v-btn
-            x-small
-            outlined
-            class="fadeSelect"
-            @click="expandAll(pilot.CoreBonuses.length, 'cb_', false)"
-          >
-            <v-icon small left>mdi-chevron-down</v-icon>
-            All
+          <v-btn small right icon class="fadeSelect" @click="showCBs = !showCBs">
+            <v-icon small v-html="showCBs ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
           </v-btn>
         </v-col>
+        <v-scroll-x-transition>
+          <v-col v-if="showCBs" cols="auto" class="ml-auto">
+            <v-btn
+              x-small
+              outlined
+              class="fadeSelect"
+              @click="expandAll(pilot.CoreBonuses.length, 'cb_', true)"
+            >
+              <v-icon small left>mdi-chevron-up</v-icon>
+              All
+            </v-btn>
+            <v-btn
+              x-small
+              outlined
+              class="fadeSelect"
+              @click="expandAll(pilot.CoreBonuses.length, 'cb_', false)"
+            >
+              <v-icon small left>mdi-chevron-down</v-icon>
+              All
+            </v-btn>
+          </v-col>
+        </v-scroll-x-transition>
       </v-row>
-      <v-row v-if="pilot.CoreBonuses">
-        <cc-active-card
-          v-for="(bonus, i) in pilot.CoreBonuses"
-          :key="`cb_${i}`"
-          :ref="`cb_${i}`"
-          :cols="12 / pilot.CoreBonuses.length"
-          color="corepower"
-          collapsible
-          :header="bonus.Name"
-          subheader="CORE BONUS"
-        >
-          <p class="pa-1 ma-0" v-html="bonus.Effect" />
-        </cc-active-card>
-      </v-row>
+      <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
+        <v-row v-if="pilot.CoreBonuses && showCBs">
+          <cc-active-card
+            v-for="(bonus, i) in pilot.CoreBonuses"
+            :key="`cb_${i}`"
+            :ref="`cb_${i}`"
+            :cols="12 / pilot.CoreBonuses.length"
+            color="corepower"
+            collapsible
+            :header="bonus.Name"
+            subheader="CORE BONUS"
+          >
+            <p class="pa-1 ma-0" v-html="bonus.Effect" />
+          </cc-active-card>
+        </v-row>
+      </v-scroll-y-reverse-transition>
+
       <v-row dense>
-        <v-col cols="auto">
-          <span class="overline">TALENTS</span>
-        </v-col>
-        <v-col cols="auto" class="ml-auto">
-          <v-btn
-            x-small
-            outlined
-            class="fadeSelect"
-            @click="expandAll(pilot.Talents.length, 'tal_', true)"
-          >
-            <v-icon small left>mdi-chevron-up</v-icon>
-            All
-          </v-btn>
-          <v-btn
-            x-small
-            outlined
-            class="fadeSelect"
-            @click="expandAll(pilot.Talents.length, 'tal_', false)"
-          >
-            <v-icon small left>mdi-chevron-down</v-icon>
-            All
+        <v-col cols="auto" class="mb-n2">
+          <span class="overline">PILOT TALENTS</span>
+          <v-btn small right icon class="fadeSelect" @click="showTalents = !showTalents">
+            <v-icon small v-html="showTalents ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
           </v-btn>
         </v-col>
+        <v-scroll-x-transition>
+          <v-col v-if="showTalents" cols="auto" class="ml-auto">
+            <v-btn
+              x-small
+              outlined
+              class="fadeSelect"
+              @click="expandAll(pilot.Talents.length, 'tal_', true)"
+            >
+              <v-icon small left>mdi-chevron-up</v-icon>
+              All
+            </v-btn>
+            <v-btn
+              x-small
+              outlined
+              class="fadeSelect"
+              @click="expandAll(pilot.Talents.length, 'tal_', false)"
+            >
+              <v-icon small left>mdi-chevron-down</v-icon>
+              All
+            </v-btn>
+          </v-col>
+        </v-scroll-x-transition>
       </v-row>
-      <v-row justify="center">
-        <cc-active-card
-          v-for="(t, i) in pilot.Talents"
-          :key="`tal_${i}`"
-          :ref="`tal_${i}`"
-          collapsible
-          start-closed
-          color="primary"
-          :cols="6"
-          :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
-          subheader="PILOT TALENT"
-        >
-          <ul v-for="n in 3" :key="'t_' + n">
-            <li v-if="t.Rank >= n">
-              <span v-html="t.Talent.Ranks[n - 1].description" />
-            </li>
-          </ul>
-        </cc-active-card>
+      <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
+        <v-row v-if="showTalents" justify="center">
+          <cc-active-card
+            v-for="(t, i) in pilot.Talents"
+            :key="`tal_${i}`"
+            :ref="`tal_${i}`"
+            collapsible
+            start-closed
+            color="primary"
+            :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
+            :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
+          >
+            <ul v-for="n in 3" :key="'t_' + n">
+              <li v-if="t.Rank >= n">
+                <span v-html="t.Talent.Ranks[n - 1].description" />
+              </li>
+            </ul>
+          </cc-active-card>
+        </v-row>
+      </v-scroll-y-reverse-transition>
+
+      <v-row dense>
+        <v-col cols="12" class="mb-n4">
+          <span class="overline">
+            COUTNERS
+          </span>
+          <v-btn small right icon class="fadeSelect" @click="showCounters = !showCounters">
+            <v-icon small v-html="showCounters ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+          </v-btn>
+        </v-col>
+        <v-scroll-y-reverse-transition mode="out-in">
+          <cc-counter-set v-if="showCounters" :actor="pilot" />
+          <div v-else style="min-height: 24px" />
+        </v-scroll-y-reverse-transition>
       </v-row>
-      <cc-counter-set :actor="pilot" />
-      <cc-mech-loadout :mech="mech" readonly />
+
+      <active-mode-loadout :mech="mech" />
     </div>
   </div>
 </template>
@@ -353,11 +350,12 @@ import MechSelectButton from '../components/MechSelectButton.vue'
 import LargePipLayout from './LargePipLayout.vue'
 import MedPipLayout from './MedPipLayout.vue'
 import SmallPipLayout from './SmallPipLayout.vue'
+import ActiveModeLoadout from './ActiveModeLoadout.vue'
 
 import Vue from 'vue'
 export default Vue.extend({
   name: 'mech-block',
-  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout },
+  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout, ActiveModeLoadout },
   props: {
     pilot: {
       type: Object,
@@ -365,6 +363,9 @@ export default Vue.extend({
     },
   },
   data: () => ({
+    showTalents: true,
+    showCBs: true,
+    showCounters: true,
     tabs: 0,
     burn: 0,
     resistances: [

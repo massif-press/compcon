@@ -24,7 +24,7 @@ class CoreSystem {
 
   public constructor(coreData: ICoreData) {
     this._name = coreData.name
-    this._description = coreData.description
+    this._description = coreData.description || ''
     this._integrated = coreData.integrated ? coreData.integrated.id : null
     this._passive_name = coreData.passive_name
     this._passive_effect = coreData.passive_effect

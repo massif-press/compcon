@@ -11,7 +11,7 @@
           />
           <span
             :class="$vuetify.breakpoint.mdAndDown ? 'heading h2' : 'heading mech'"
-            :style="`width: 100%; color: ${manufacturer(m).Color}`"
+            :style="`width: 100%; color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
           >
             {{ manufacturer(m).Name }}
           </span>

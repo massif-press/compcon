@@ -27,7 +27,7 @@
         class="background pa-1"
         style="height:100%; margin-left: 40px;"
       >
-        <downtime-manager ref="dt" :pilot="pilot" @end="startCombat()" />
+        <!-- <downtime-manager ref="dt" :pilot="pilot" @end="startCombat()" /> -->
         <turn-manager ref="turn" :pilot="pilot" @end="endCombat()" />
         <rest-manager ref="rest" :pilot="pilot" @restart="startCombat()" @end="startDowntime()" />
       </v-window>
@@ -39,11 +39,10 @@
 import Vue from 'vue'
 import TurnManager from './Mission/TurnManager.vue'
 import RestManager from './Mission/RestManager.vue'
-import DowntimeManager from './Downtime/DowntimeManager.vue'
 
 export default Vue.extend({
   name: 'turn-sidebar',
-  components: { TurnManager, RestManager, DowntimeManager },
+  components: { TurnManager, RestManager },
   props: {
     pilot: {
       type: Object,
