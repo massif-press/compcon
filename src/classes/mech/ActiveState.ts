@@ -1,10 +1,14 @@
+// defines the pilot's relationship to the mech for actvive mode. does not hold active mech info (eg heat, destroyed status)
+// but associated logic should be handled by this class (eg. ride-along conditions)
+
 // activemech via activestate
 // status via activestate
 // new ver tutorial on startup (first time only, track in profile)
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
-import { Mech, Drone, Deployable } from '@/class'
+import { store } from '@/store'
+import { Mech, Drone, Deployable, Pilot } from '@/class'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -31,12 +35,13 @@ interface IActiveStateData {
   bracedCooldown: boolean
   redundant: boolean
   history: IHistoryItem[]
+  active_mech_id: string
 }
 
 class ActiveState {
   private _deployed_drones: Drone[]
   private _deployed_deployables: Deployable[]
-  private _stage: Stage
+  public _stage: Stage
 
   private _log: LogEntry[] // write this to a pilot log after mission is ended
 
@@ -44,6 +49,7 @@ class ActiveState {
 
   private _pilot_status: string //enum?
 
+  private _pilot: Pilot
   private _mech: Mech | null
 
   private _round: number
@@ -60,12 +66,13 @@ class ActiveState {
   private _redundant: boolean
   private _history: IHistoryItem[]
 
-  public constructor(mech?: Mech) {
-    this._mech = mech || null
+  public constructor(pilot: Pilot) {
+    this._pilot = pilot
+    this._mech = null
     this._stage = Stage.Narrative
     this._round = 1
+    this._on_turn = false
     this._move = 0
-    this._maxMove = mech ? mech.Speed : 0
     this._actions = 2
     this._overwatch = false
     this._braced = false
@@ -76,12 +83,15 @@ class ActiveState {
     this._history = []
   }
 
+  private save(): void {
+    store.dispatch('saveData')
+  }
+
   public newRound(): void {
     this._round += 1
     this._history = []
     this._move = 0
     this._actions = 2
-    this._maxMove = this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
     this._overcharged = false
     this._overwatch = false
     this._prepare = false
@@ -98,23 +108,77 @@ class ActiveState {
     }
   }
 
-  // public StartCombat()
-  // public EndCombat()
-  // public StartRest()
-  // public EndRest()
-  // public EndMission()
-  // public StartDowntime()
+  public get MaxMove(): number {
+    return this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
+  }
 
-  // public SetActiveMech()
-  // public MountMech()
-  // public DismountMech()
-  // public EjectMech()
+  public get Stage(): Stage {
+    return this._stage
+  }
+
+  public StartCombat(): void {
+    this._stage = Stage.Combat
+    this.save()
+  }
+
+  public get TurnActive(): boolean {
+    return this._on_turn
+  }
+
+  public StartTurn(): void {
+    this._on_turn = true
+    this.save()
+  }
+
+  public EndTurn(): void {
+    this._on_turn = false
+    this.save()
+  }
+
+  public StartRest(): void {
+    this._stage = Stage.Rest
+    this.save()
+  }
+  public StartDowntime(): void {
+    this._stage = Stage.Narrative
+    this.save()
+  }
+
+  public set ActiveMech(mech: Mech) {
+    this._mech = mech
+    this.save()
+  }
+
+  public get ActiveMech(): Mech | null {
+    return this._mech || null
+  }
+
+  public get IsMounted() {
+    return this._pilot_mounted
+  }
+
+  public set IsMounted(val: boolean) {
+    this._pilot_mounted = val
+    this.save()
+  }
+
+  public MountMech(): void {
+    this.IsMounted = true
+  }
+
+  public DismountMech(): void {
+    this.IsMounted = false
+  }
+
+  public EjectMech(): void {
+    // add Impaired
+    // mech remains impaired and cannot eject again until a full repair
+    this.IsMounted = false
+  }
+
   // public DestroyMech()
   // public DestroyReactor()
   // public StartMeltdown()
-
-  // public StartTurn()
-  // public EndTurn()
 
   restart(): void {
     this._round = 1
@@ -394,8 +458,8 @@ class ActiveState {
     }
   }
 
-  public static Deserialize(data: IMechState): ActiveState {
-    const s = new ActiveState()
+  public static Deserialize(pilot: Pilot, data: IMechState): ActiveState {
+    const s = new ActiveState(pilot)
     // s._stage = data.stage || 'Downtime'
     s._round = data.turn
     s._move = data.move

@@ -77,6 +77,9 @@ export default Vue.extend({
     mod: {
       type: Boolean,
     },
+    readonly: {
+      type: Boolean,
+    },
   },
 })
 </script>

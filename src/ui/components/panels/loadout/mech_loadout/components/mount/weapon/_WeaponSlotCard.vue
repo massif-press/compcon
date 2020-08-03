@@ -43,7 +43,12 @@
         />
       </div>
       <div v-if="item">
-        <equipment-header :item="item" :color="color" :use-bonus="mech.Pilot.LimitedBonus">
+        <equipment-header
+          :item="item"
+          :readonly="readonly"
+          :color="color"
+          :use-bonus="mech.Pilot.LimitedBonus"
+        >
           <div v-if="!intWeapon && !readonly" slot="left">
             <v-btn outlined small :color="color" @click.stop="$refs.modDialog.show()">
               <v-icon :color="color" :left="!item.Mod">cci-weaponmod</v-icon>

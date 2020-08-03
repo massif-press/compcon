@@ -25,6 +25,45 @@ import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData } from '@/interface'
 import { ActiveState } from '../mech/ActiveState'
 
+interface IPilotData {
+  id: string
+  campaign: string
+  group: string
+  sort_index: number
+  cloudID: string
+  cloudOwnerID: string
+  lastCloudUpdate: string
+  level: number
+  callsign: string
+  name: string
+  player_name: string
+  status: string
+  factionID: string
+  text_appearance: string
+  notes: string
+  history: string
+  portrait: string
+  cloud_portrait: string
+  quirk: string
+  current_hp: number
+  background: string
+  mechSkills: number[]
+  licenses: IRankedData[]
+  skills: IRankedData[]
+  talents: IRankedData[]
+  core_bonuses: string[]
+  reserves: IReserveData[]
+  orgs: IOrganizationData[]
+  loadout: IPilotLoadoutData
+  mechs: IMechData[]
+  active_mech: string | null
+  cc_ver: string
+  counter_data: ICounterSaveData[]
+  custom_counters: object[]
+  brews: string[]
+  state: IMechState
+}
+
 class Pilot {
   private _cloudID: string
   private _cloudOwnerID: string
@@ -63,8 +102,6 @@ class Pilot {
   private _loadout: PilotLoadout
 
   private _mechs: Mech[]
-  private _active_mech: string | null
-  private _mounted: boolean
   private _state: ActiveState
 
   private cc_ver: string
@@ -92,10 +129,8 @@ class Pilot {
     this._licenses = []
     this._skills = []
     this._talents = []
-    this._mounted = false
     this._mechSkills = new MechSkills()
     this._core_bonuses = []
-    this._active_mech = null
     this._mechs = []
     this._reserves = []
     this._orgs = []
@@ -103,7 +138,7 @@ class Pilot {
     this._group = ''
     this._sortIndex = 0
     this._campaign = ''
-    this._state = new ActiveState(null)
+    this._state = new ActiveState(this)
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     // this._initCounters()
   }
@@ -875,39 +910,14 @@ class Pilot {
   }
 
   public get ActiveMech(): Mech | null {
-    if (!this._active_mech) {
-      if (!this._mechs.length) return null
-      this.ActiveMech = this._mechs[0]
+    if (!this._state.ActiveMech && this._mechs.length) {
+      this._state.ActiveMech = this._mechs[0]
     }
-    return this._mechs.find(x => x.ID === this._active_mech) || null
+    return this._state.ActiveMech
   }
 
   public set ActiveMech(mech: Mech | null) {
-    this._mechs.forEach(m => {
-      m.IsActive = false
-    })
-
-    if (!mech) {
-      this.save()
-      return
-    }
-
-    mech.IsActive = true
-    this._active_mech = mech.ID
-    this.save()
-  }
-
-  public get Mounted(): boolean {
-    if (!this.ActiveMech) return false
-    if (this.ActiveMech.Destroyed || this.ActiveMech.ReactorDestroyed || this.ActiveMech.Ejected)
-      return false
-    return this._mounted
-  }
-
-  public set Mounted(val: boolean) {
-    if (val) this.ActiveMech.Ejected = false
-    this._mounted = val
-    this.save()
+    this._state.ActiveMech = mech
   }
 
   // -- COUNTERS ----------------------------------------------------------------------------------
@@ -1018,7 +1028,6 @@ class Pilot {
       name: p.Name,
       player_name: p.PlayerName,
       status: p.Status,
-      mounted: p.Mounted,
       factionID: p._factionID,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
@@ -1060,18 +1069,13 @@ class Pilot {
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''
     this._id = data.id
-    this._loadout = (data as any).loadouts
-      ? PilotLoadout.Deserialize((data as any).loadouts[0])
-      : data.loadout
-      ? PilotLoadout.Deserialize(data.loadout)
-      : new PilotLoadout(0)
-    this._state = data.state
+    this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
+    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
-    this._mounted = data.mounted || true
     this._factionID = data.factionID
     this._text_appearance = data.text_appearance
     this._notes = data.notes
@@ -1099,9 +1103,8 @@ class Pilot {
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
-    this._state = ActiveState.Deserialize(data.state)
     this._brews = data.brews || []
   }
 }
 
-export default Pilot
+export { Pilot, IPilotData }
