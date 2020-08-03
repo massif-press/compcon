@@ -107,6 +107,7 @@ import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
 import { importData } from '@/io/Data'
+import { IPilotData } from '@/interface'
 
 export default Vue.extend({
   name: 'pilot-selector',

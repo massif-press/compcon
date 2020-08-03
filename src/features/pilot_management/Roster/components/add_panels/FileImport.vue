@@ -55,6 +55,7 @@ import { Pilot } from '@/class'
 import { importData } from '@/io/Data'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { IPilotData } from '@/interface'
 import ImportDialog from './ImportDialog.vue'
 
 export default Vue.extend({

@@ -81,46 +81,6 @@ declare interface ICounterSaveData {
   val: number
 }
 
-declare interface IPilotData {
-  id: string
-  campaign: string
-  group: string
-  sort_index: number
-  cloudID: string
-  cloudOwnerID: string
-  lastCloudUpdate: string
-  level: number
-  callsign: string
-  name: string
-  player_name: string
-  status: string
-  mounted: boolean
-  factionID: string
-  text_appearance: string
-  notes: string
-  history: string
-  portrait: string
-  cloud_portrait: string
-  quirk: string
-  current_hp: number
-  background: string
-  mechSkills: number[]
-  licenses: IRankedData[]
-  skills: IRankedData[]
-  talents: IRankedData[]
-  core_bonuses: string[]
-  reserves: IReserveData[]
-  orgs: IOrganizationData[]
-  loadout: IPilotLoadoutData
-  mechs: IMechData[]
-  active_mech: string | null
-  cc_ver: string
-  counter_data: ICounterSaveData[]
-  custom_counters: object[]
-  brews: string[]
-  state: IMechState
-}
-
 declare interface IReserveData {
   id: string
   type?: string

@@ -1,17 +1,19 @@
 <template>
-  <v-footer fixed>
-    <v-btn small @click="clicked = !clicked">ttt</v-btn>
-    <v-slide-y-transition leave-absolute>
-      <div v-if="!clicked">
-        <v-btn small>start combat</v-btn>
-        <v-btn small>complete mission</v-btn>
+  <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid var(--v-primary-base)">
+    <v-slide-y-transition group leave-absolute>
+      <div v-if="state.Stage === 'Narrative'" :key="'a-ftr-narrative'">
+        <span>Narrative</span>
+        <v-btn small @click="state.StartCombat()">start mission</v-btn>
       </div>
-      <div v-else>
-        ROUND X >>
-        <v-btn small>start turn</v-btn>
-        <v-btn small>end turn</v-btn>
-        <v-btn small>next round</v-btn>
-        <v-btn small>end combat</v-btn>
+      <div v-if="state.Stage === 'Combat'" :key="'a-ftr-combat'">
+        <span>Combat</span>
+        <v-btn small @click="state.StartDowntime()">end mission</v-btn>
+        <v-btn small @click="state.StartRest()">start rest</v-btn>
+      </div>
+      <div v-if="state.Stage === 'Rest'" :key="'a-ftr-rest'">
+        <span>Rest</span>
+        <v-btn small @click="state.StartCombat()">start combat</v-btn>
+        <v-btn small @click="state.StartDowntime()">end mission</v-btn>
       </div>
     </v-slide-y-transition>
     <v-spacer />
@@ -54,24 +56,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import ActionMenuButton from '../components/ActionMenuButton.vue'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
+import vueMixins from '@/util/vueMixins'
 
-export default Vue.extend({
+export default vueMixins(activePilot).extend({
   name: 'turn-footer',
   components: { ActionMenuButton },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
-  data: () => ({
-    clicked: false,
-  }),
   computed: {
     state() {
-      return this.pilot.ActiveMech.State
+      return this.pilot.State
     },
   },
 })

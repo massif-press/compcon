@@ -75,7 +75,6 @@ class Mech implements IActor {
     this._activations = 1
     this._actions = 2
     this._currentMove = this.Speed
-    this._state = new ActiveState(this)
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
