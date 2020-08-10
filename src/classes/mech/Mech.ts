@@ -378,6 +378,7 @@ class Mech implements IActor {
     if (structure > this.MaxStructure) this._current_structure = this.MaxStructure
     else if (structure < 0) this._current_structure = 0
     else this._current_structure = structure
+    if (this._current_structure === 0) this.Destroy()
     this.save()
   }
 

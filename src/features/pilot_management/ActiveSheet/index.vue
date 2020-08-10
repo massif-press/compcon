@@ -6,6 +6,15 @@
       <active-combat v-else-if="pilot.State.Stage === 'Combat'" :key="'act-ft-tr-combat'" />
       <active-rest v-else-if="pilot.State.Stage === 'Rest'" :key="'act-ft-tr-rest'" />
     </v-fade-transition>
+    <div>
+      <span class="overline">
+        PLAYER NOTES
+        <v-btn small right icon class="fadeSelect" @click="showNotes = !showNotes">
+          <v-icon small v-html="showNotes ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+        </v-btn>
+      </span>
+      <v-textarea v-if="showNotes" v-model="pilot.Notes" outlined auto-grow color="accent" />
+    </div>
     <div style="height: 60px" />
     <turn-footer />
   </v-container>
@@ -34,5 +43,8 @@ export default vueMixins(activePilot).extend({
     ActiveNarrative,
     ActiveRest,
   },
+  data: () => ({
+    showNotes: false,
+  }),
 })
 </script>

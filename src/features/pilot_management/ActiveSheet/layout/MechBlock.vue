@@ -352,16 +352,11 @@ import MedPipLayout from './MedPipLayout.vue'
 import SmallPipLayout from './SmallPipLayout.vue'
 import ActiveModeLoadout from './ActiveModeLoadout.vue'
 
-import Vue from 'vue'
-export default Vue.extend({
+import activePilot from '@/features/pilot_management/mixins/activePilot'
+import vueMixins from '@/util/vueMixins'
+export default vueMixins(activePilot).extend({
   name: 'mech-block',
   components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout, ActiveModeLoadout },
-  props: {
-    pilot: {
-      type: Object,
-      required: true,
-    },
-  },
   data: () => ({
     showTalents: true,
     showCBs: true,

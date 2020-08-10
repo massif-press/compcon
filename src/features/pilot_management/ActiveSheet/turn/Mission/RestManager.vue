@@ -75,7 +75,7 @@
       <v-row v-else>
         <v-col class="mx-2">
           <p class="overline flavor-text subtle--text pb-0 mb-0">
-            //[COMP/CON: COMBAT OPERATIONS COMPLETE
+            <b>COMBAT OPERATIONS COMPLETE</b>
             <br />
             DISCONNECTING PILOT SENSORIUM ... done
             <br />

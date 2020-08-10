@@ -22,7 +22,7 @@ import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { ICounterData } from '@/interface'
+import { ICounterData, IAction } from '@/interface'
 import { ActiveState } from '../mech/ActiveState'
 
 interface IPilotData {
@@ -665,6 +665,17 @@ class Pilot {
     })
   }
 
+  public get TalentActions(): IAction[] {
+    let tActions = []
+    this._talents.forEach(pt => {
+      for (let i = 1; i <= pt.Rank; i++) {
+        const tr = pt.Talent.Rank(i)
+        if (tr.actions && tr.actions.length) tActions = tActions.concat(tr.actions)
+      }
+    })
+    return tActions
+  }
+
   // -- Core Bonuses ------------------------------------------------------------------------------
   public get CoreBonuses(): CoreBonus[] {
     return this._core_bonuses
@@ -1009,6 +1020,10 @@ class Pilot {
   }
 
   // -- Active Mode -------------------------------------------------------------------------------
+  public get Actions(): IAction[] {
+    return this.TalentActions
+  }
+
   public get State(): ActiveState {
     return this._state
   }

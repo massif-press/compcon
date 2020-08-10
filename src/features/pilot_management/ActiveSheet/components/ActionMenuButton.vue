@@ -9,11 +9,13 @@
       <v-toolbar dense flat class="heading h3" style="min-width: 80px">
         {{ title }}
         <v-spacer />
-        <v-btn small icon color="accent" class="ml-4"><v-icon>mdi-open-in-new</v-icon></v-btn>
+        <v-btn small icon color="accent" class="ml-4" @click="$emit('open-menu')">
+          <v-icon>mdi-open-in-new</v-icon>
+        </v-btn>
       </v-toolbar>
-      <v-list class="px-2 py-3">
-        <v-list-item v-for="a in actions" :key="a">
-          <v-list-item-title>{{ a }}</v-list-item-title>
+      <v-list class="px-2 py-3" dense color="panel">
+        <v-list-item v-for="a in actions" :key="a.id" @click.stop>
+          <v-list-item-title class="text-button">{{ a.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </div>

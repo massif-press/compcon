@@ -112,7 +112,7 @@
           :max="mech.RepairCapacity"
           large
           color="repcap"
-          full-icon="control_point"
+          full-icon="cci-repair"
           @update="mech.CurrentRepairs = $event"
         >
           <span class="heading h3">

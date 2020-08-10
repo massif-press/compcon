@@ -2,7 +2,7 @@
   <div>
     <pilot-block :pilot="pilot" />
 
-    <span class="overline">
+    <!-- <span class="overline">
       DOWNTIME ACTIONS
     </span>
     <v-row dense>
@@ -33,7 +33,7 @@
       <dt-action ref="scrounge" action-id="act_scrounge_and_barter">
         <scrounge-barter :pilot="pilot" @close="$refs.scrounge.dialog = false" />
       </dt-action>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 
