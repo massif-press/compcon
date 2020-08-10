@@ -8,7 +8,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import { store } from '@/store'
-import { Mech, Drone, Deployable, Pilot } from '@/class'
+import { Mech, Drone, Deployable, Pilot, Rules, MechEquipment } from '@/class'
+import { IAction } from '@/interface'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -53,7 +54,7 @@ class ActiveState {
   private _mech: Mech | null
 
   private _round: number
-  private _on_turn: boolean // off turn -> reacion mode
+  private _encounter: number
 
   private _move: number
   private _maxMove: number
@@ -71,7 +72,7 @@ class ActiveState {
     this._mech = null
     this._stage = Stage.Narrative
     this._round = 1
-    this._on_turn = false
+    this._encounter = 0
     this._move = 0
     this._actions = 2
     this._overwatch = false
@@ -118,27 +119,55 @@ class ActiveState {
 
   public StartCombat(): void {
     this._stage = Stage.Combat
+    this._pilot_mounted = true
+    this._round = 1
+    this._encounter++
     this.save()
   }
 
-  public get TurnActive(): boolean {
-    return this._on_turn
+  public get Round(): number {
+    return this._round
   }
 
-  public StartTurn(): void {
-    this._on_turn = true
-    this.save()
-  }
-
-  public EndTurn(): void {
-    this._on_turn = false
+  public NextRound(): void {
+    this._round++
     this.save()
   }
 
   public StartRest(): void {
     this._stage = Stage.Rest
+    this._pilot.CurrentHP += Math.ceil(this._pilot.MaxHP / 2)
+    this._mech.CurrentHeat = 0
+    this._mech.Conditions.splice(0, this._mech.Conditions.length)
+    this._mech.Statuses.splice(0, this._mech.Statuses.length)
     this.save()
   }
+
+  RepairHP(): void {
+    this._mech.CurrentHP = this._mech.MaxHP
+    this._mech.CurrentRepairs -= 1
+  }
+
+  RepairStructure(): void {
+    this._mech.CurrentStructure += 1
+    this._mech.CurrentRepairs -= this._mech.ID === 'mf_standard_pattern_i_everest' ? 1 : 2
+  }
+
+  RepairStress(): void {
+    this._mech.CurrentStress = this._mech.MaxStress
+    this._mech.CurrentRepairs -= 2
+  }
+
+  RepairSystem(w: MechEquipment): void {
+    w.Repair()
+    this._mech.CurrentRepairs -= 1
+  }
+
+  RepairDestroyed(selfRepairPts: number): void {
+    this._mech.CurrentRepairs -= selfRepairPts
+    this._mech.Repair()
+  }
+
   public StartDowntime(): void {
     this._stage = Stage.Narrative
     this.save()
@@ -395,48 +424,24 @@ class ActiveState {
     this._mech.MeltdownImminent = false
   }
 
-  public get Protocols(): string[] {
-    return ['test protocol']
+  public get Protocols(): IAction[] {
+    return this._pilot.Actions.filter(x => x.activation === 'Protocol')
   }
 
   public get MoveActions(): string[] {
     return ['move']
   }
-  public get FullActions(): string[] {
-    return [
-      'barrage',
-      'full tech',
-      'stabilize',
-      'disengage',
-      'improvised attack',
-      'full activation',
-      'boot up',
-      'mount',
-      'dismount',
-      'skill check',
-    ]
+  public get FullActions(): IAction[] {
+    return Rules.BaseFullActions.concat(this._pilot.Actions.filter(x => x.activation === 'Full'))
   }
-  public get QuickActions(): string[] {
-    return [
-      'skirmish',
-      'boost',
-      'ram',
-      'grapple',
-      'quick tech',
-      'hide',
-      'search',
-      'quick activation',
-      'eject',
-      'prepare',
-      'self-destruct',
-      'shut down',
-    ]
+  public get QuickActions(): IAction[] {
+    return Rules.BaseQuickActions.concat(this._pilot.Actions.filter(x => x.activation === 'Quick'))
   }
-  public get FreeActions(): string[] {
-    return ['overcharge']
+  public get FreeActions(): IAction[] {
+    return Rules.BaseFreeActions.concat(this._pilot.Actions.filter(x => x.activation === 'Free'))
   }
-  public get Reactions(): string[] {
-    return ['brace', 'overwatch']
+  public get Reactions(): IAction[] {
+    return Rules.BaseReactions.concat(this._pilot.Actions.filter(x => x.activation === 'Reaction'))
   }
   public get OtherActions(): string[] {
     return ['overcharge']

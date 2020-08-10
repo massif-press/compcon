@@ -133,62 +133,6 @@ Campaign Manager
     Import/Export Mission
 
 ----
-Have:
-- Pilot
-- Frame
-- Advantage
-- Difficulty
-- Melee
-- Threat
-- Thrown
-- Range
-- AoE Blast
-- AoE Burst
-- AoE Cone
-- AoE Line
-- Kinetic Damage
-- Energy Damage
-- Explosive Damage
-- Heat Damage
-- Burn Damage
-- Reactor Stress
-- Structure
-- Variable Damage
-- Repair Capacity pip
-- Overcharge pip
-- Mech System
-- Activate Pilot/Mech
-- Deactivate Pilot/Mech
-
-NPC roles:
-- Striker
-- Tank
-- Controller
-- Support
-- Artillery
-
-NPC module types:
-- Weapon
-- System
-- Trait
-
-Need:
-- Free Action
-- Downtime Action
-- Downtime Reserve (or, Narrative/Mech/Tactical Reserve)
-- Destroy/Repair
-
-
-More glyphs:
-Variable Damage
-Select Weapon Mod
-Repair Capacity
-Overcharge Point
-Apply CORE Bonus
-System
-Activate/Deactivate Pilot/Mech
-Rank 1/2/3
-HP/ARMOR/EDEF/EVA/SPD
 
 
 types of action lancer items can take:
@@ -221,31 +165,6 @@ OTHER
  Get a different profile while in the Danger Zone
  Modify a stat (heat, etc.)
  
- 
-Additional actions:
-```json
-actions: [
-  {
-    "action": "quick",
-    "name": "Smoke Charge",
-    "effect": "The blast area grants soft cover to all characters and objects inside. Lasts until the end of your next turn, then disperses."
-    "tags": [
-      {
-        "id": "grenade"
-      },
-      {
-        "id": "range",
-        "val": 5
-      },
-      {
-        "id": "burst",
-        "val": 3
-      }
-    ]
-  }
-]
-```
-
 
 
 # Base Actions :
@@ -368,61 +287,6 @@ no duped actions, unless free or overcharged
 
 
 
- rank-1
-rank-2
-rank-3
-nested-hexagons
-orbit
-orbital
-large-beam
-ammo
-burning
-balance
-reticule
-spikes
-eclipse
-sword-array
-marker
-barrage
-range
-thrown
-weaponmod
-blast
-accuracy
-activate
-burst
-cone
-line
-corebonus
-burn
-energy
-explosive
-heat
-kinetic
-variable
-deactivate
-difficulty
-frame
-melee
-overcharge
-pilot
-reactor
-repair
-role-artillery
-role-controller
-role-striker
-role-support
-role-tank
-size-1
-size-2
-size-3
-size-4
-size-half
-structure
-system
-threat
-trait
-weapon
 
 
 NEEDED ICONS:

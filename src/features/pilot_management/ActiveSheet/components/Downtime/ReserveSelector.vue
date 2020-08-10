@@ -42,7 +42,14 @@
               label="Resource Name"
               style="width: 500px"
             />
-            <v-textarea v-model="details" color="accent" auto-grow rows="1" label="Details" box />
+            <v-textarea
+              v-model="details"
+              color="accent"
+              auto-grow
+              rows="1"
+              label="Details"
+              filled
+            />
           </div>
         </v-card-text>
       </v-card>
