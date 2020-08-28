@@ -8,26 +8,14 @@ interface IPilotEquipmentData extends ICompendiumItemData {
 }
 
 abstract class PilotEquipment extends CompendiumItem {
-  private _tags: ITagData[]
+  public readonly CanSetDamage: boolean
   protected current_uses: number
   protected _custom_damage_type?: string
 
-  public constructor(equipmentData: IPilotEquipmentData) {
-    super(equipmentData)
-    this._tags = equipmentData.tags || []
+  public constructor(data: IPilotEquipmentData) {
+    super(data)
+    this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
     this.current_uses = 0
-  }
-
-  protected save(): void {
-    store.dispatch('saveData')
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
-  }
-
-  public get CanSetDamage(): boolean {
-    return this._tags.some(x => x.id === 'tg_set_damage_type')
   }
 
   public static Serialize(item: PilotEquipment | null): IEquipmentData | null {

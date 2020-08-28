@@ -22,8 +22,8 @@ import {
 } from './classes/effects/interfaces'
 import { ICompendiumItemData } from './classes/CompendiumItem'
 import { ILicensedItemData } from './classes/LicensedItem'
-import { ISynergyItem, ISynergyDecorator } from './classes/Synergy'
-import { IAction } from './classes/Action'
+import { ISynergyData, ISynergyDecorator } from './classes/Synergy'
+import { Action } from './classes/Action'
 import { ICoreData } from './classes/mech/CoreSystem'
 import { IFrameData, IFrameStats } from './classes/mech/Frame'
 import { IMechEquipmentData } from './classes/mech/MechEquipment'
@@ -75,9 +75,9 @@ export {
   IOffensiveEffectData,
   ICompendiumItemData,
   ILicensedItemData,
-  ISynergyItem,
+  ISynergyData,
   ISynergyDecorator,
-  IAction,
+  Action,
   ICoreData,
   IFrameData,
   IFrameStats,

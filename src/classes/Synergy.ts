@@ -1,18 +1,30 @@
 import { MechEquipment, Pilot, MechWeapon, ItemType, MechSystem, Frame } from '@/class'
 
-interface ISynergyItem {
+interface ISynergyData {
   locations: string[]
+  detail: string
   types?: string[]
   sizes?: string[]
-  detail: string
 }
 
 interface ISynergyDecorator {
   title: string
-  synergy: ISynergyItem
+  synergy: ISynergyData
 }
 
 class Synergy {
+  public readonly Locations: string[]
+  public readonly Detail: string
+  public readonly Types: string[]
+  public readonly Sizes: string[]
+
+  public constructor(data: ISynergyData) {
+    this.Locations = data.locations
+    this.Detail = data.detail
+    this.Types = data.types || ['any']
+    this.Sizes = data.sizes || ['any']
+  }
+
   public static TalentSynergies(
     item: MechEquipment,
     pilot: Pilot,
@@ -67,4 +79,4 @@ class Synergy {
   }
 }
 
-export { Synergy, ISynergyItem, ISynergyDecorator }
+export { Synergy, ISynergyData, ISynergyDecorator }

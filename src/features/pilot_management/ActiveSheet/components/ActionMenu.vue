@@ -18,27 +18,28 @@
     <v-tabs-items v-model="selected">
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of all protocols</v-card-text>
+          <v-card-text>{{ pilot.State.Protocols }}</v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of all full actions</v-card-text>
+          <v-card-text>{{ pilot.State.FullActions }}</v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of all quick actions</v-card-text>
+          <v-card-text>{{ pilot.State.QuickActions }}</v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of all reactions}</v-card-text>
+          <v-card-text>{{ pilot.State.Reactions }}</v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of free actions</v-card-text>
+          <v-card-text>Overwatch</v-card-text>
+          <v-card-text>{{ pilot.State.FreeActions }}</v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -56,8 +57,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import activePilot from '@/features/pilot_management/mixins/activePilot'
+import vueMixins from '@/util/vueMixins'
+
+export default vueMixins(activePilot).extend({
   name: 'active-action-menu',
   props: {
     tab: { type: Number, required: true },

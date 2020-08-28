@@ -4,13 +4,13 @@ class CustomSkill {
   private _name: string
   private _description: string
   private _detail: string
-  private _item_type: ItemType
+  private ItemType: ItemType
 
   public constructor(name: string, description: string, detail: string) {
     this._name = name
     this._description = description
     this._detail = detail
-    this._item_type = ItemType.Skill
+    this.ItemType = ItemType.Skill
   }
 
   public get ID(): string {
@@ -34,7 +34,7 @@ class CustomSkill {
   }
 
   public get ItemType(): ItemType {
-    return this._item_type
+    return this.ItemType
   }
 
   public get Brew(): string {

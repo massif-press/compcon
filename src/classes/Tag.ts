@@ -11,24 +11,24 @@ export interface ITagCompendiumData extends ICompendiumItemData {
 }
 
 class Tag {
-  private _id: string
+  public readonly ID: string
+  public readonly FilterIgnore: boolean
+  public readonly IsHidden: boolean
+  public readonly ItemType: ItemType
+  public readonly _brew: string
   private _name: string
-  private _description: string
   private _val: number | string
-  private _filter_ignore: boolean
-  private _hidden: boolean
-  private _item_type: ItemType
-  private _brew: string
+  private _description: string
 
   public constructor(tagData: ITagCompendiumData) {
-    this._id = tagData.id
+    this.ID = tagData.id
     this._name = tagData.name
     this._description = tagData.description
     this._brew = tagData.brew || 'Core'
     this._val = ''
-    this._hidden = tagData.hidden || false
-    this._filter_ignore = tagData.filter_ignore || this._hidden
-    this._item_type = ItemType.Tag
+    this.IsHidden = tagData.hidden || false
+    this.FilterIgnore = tagData.filter_ignore || this.IsHidden
+    this.ItemType = ItemType.Tag
   }
 
   public get Value(): number | string {
@@ -37,14 +37,6 @@ class Tag {
 
   public set Value(val: number | string) {
     this._val = val
-  }
-
-  public get FilterIgnore(): boolean {
-    return this._filter_ignore
-  }
-
-  public get IsHidden(): boolean {
-    return this._hidden
   }
 
   public get Description(): string {
@@ -72,10 +64,6 @@ class Tag {
     }
   }
 
-  public get ID(): string {
-    return this._id
-  }
-
   public get Name(): string {
     return this._name.replace(/{VAL}/g, 'X')
   }
@@ -101,36 +89,32 @@ class Tag {
     }
   }
 
-  public get ItemType(): ItemType {
-    return this._item_type
-  }
-
   public get Brew(): string {
     return this._brew
   }
 
   public get IsUnique(): boolean {
-    return this._id === 'tg_unique'
+    return this.ID === 'tg_unique'
   }
 
   public get IsAI(): boolean {
-    return this._id === 'tg_ai'
+    return this.ID === 'tg_ai'
   }
 
   public get IsLimited(): boolean {
-    return this._id === 'tg_limited'
+    return this.ID === 'tg_limited'
   }
 
   public get IsLoading(): boolean {
-    return this._id === 'tg_loading'
+    return this.ID === 'tg_loading'
   }
 
   public get IsRecharging(): boolean {
-    return this._id === 'tg_recharge'
+    return this.ID === 'tg_recharge'
   }
 
   public get IsIndestructible(): boolean {
-    return this._id === 'tg_indestructible'
+    return this.ID === 'tg_indestructible'
   }
 
   public static Deserialize(data: ITagData[]): Tag[] {

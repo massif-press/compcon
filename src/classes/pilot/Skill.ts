@@ -15,7 +15,7 @@ class Skill extends CompendiumItem {
     super(data)
     this._detail = data.detail
     this._family = SkillFamily[data.family] as SkillFamily
-    this._item_type = ItemType.Skill
+    this.ItemType = ItemType.Skill
   }
 
   public get Detail(): string {

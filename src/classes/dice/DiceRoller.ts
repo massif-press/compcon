@@ -130,15 +130,15 @@ class DiceRoller {
   // it makes no evaluation re their success or failure
 
   public static rollSkillCheck(
-    staticBonus: number = 0,
-    totalAccuracy: number = 0,
-    totalDifficulty: number = 0
+    staticBonus = 0,
+    totalAccuracy = 0,
+    totalDifficulty = 0
   ): D20RollResult {
-    let d20Result: number = DiceRoller.rollDie(20)
+    const d20Result: number = DiceRoller.rollDie(20)
 
-    let netAccuracyDice: number = totalAccuracy - totalDifficulty
-    let accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
-    let total = d20Result + staticBonus + accuracyResults.result
+    const netAccuracyDice: number = totalAccuracy - totalDifficulty
+    const accuracyResults = DiceRoller.rollAccuracyDice(netAccuracyDice)
+    const total = d20Result + staticBonus + accuracyResults.result
 
     return new D20RollResult(
       total,
@@ -150,16 +150,12 @@ class DiceRoller {
     )
   }
 
-  public static rollToHit(
-    staticBonus: number = 0,
-    totalAccuracy: number = 0,
-    totalDifficulty: number = 0
-  ): D20RollResult {
+  public static rollToHit(staticBonus = 0, totalAccuracy = 0, totalDifficulty = 0): D20RollResult {
     return DiceRoller.rollSkillCheck(staticBonus, totalAccuracy, totalDifficulty)
   }
 
   public static rollDamage(diceString: string): DamageRollResult {
-    let parsedRoll = DiceRoller.parseDiceString(diceString)
+    const parsedRoll = DiceRoller.parseDiceString(diceString)
 
     if (!parsedRoll) {
       // return as a error - they get back the dice string
@@ -168,14 +164,14 @@ class DiceRoller {
       return new DamageRollResult(diceString, 0, [0], 0, true)
     } else {
       let total = 0
-      let rawRolls: number[] = []
+      const rawRolls: number[] = []
       let staticBonus = 0
 
       staticBonus = parsedRoll.modifier
       total = staticBonus
 
       parsedRoll.dice.forEach(dieSet => {
-        let x = DiceRoller.rollDieSet(dieSet)
+        const x = DiceRoller.rollDieSet(dieSet)
         total += x.result
         rawRolls.push(...x.rolls)
       })
@@ -186,26 +182,26 @@ class DiceRoller {
 
   public static parseDiceString(diceString: string): ParsedDieString {
     // remove all spaces
-    let parsedString = diceString.replace(/\s/g, '')
+    const parsedString = diceString.replace(/\s/g, '')
 
     // parse
-    let numberTest = new RegExp('^([\\+-]?[0-9]*)$').exec(parsedString)
-    let simpleDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)$').exec(parsedString)
-    let complexDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(parsedString)
+    const numberTest = new RegExp('^([\\+-]?[0-9]*)$').exec(parsedString)
+    const simpleDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)$').exec(parsedString)
+    const complexDieTest = new RegExp('^([\\+-]?[0-9]*)d([0-9]*)([\\+-][0-9]*)$').exec(parsedString)
 
     if (numberTest) {
-      let dieSet = new DieSet(0, 0)
-      let modifier = parseInt(numberTest[1])
+      const dieSet = new DieSet(0, 0)
+      const modifier = parseInt(numberTest[1])
 
       return new ParsedDieString([dieSet], modifier)
     } else if (simpleDieTest) {
-      let dieSet = new DieSet(parseInt(simpleDieTest[1]), parseInt(simpleDieTest[2]))
+      const dieSet = new DieSet(parseInt(simpleDieTest[1]), parseInt(simpleDieTest[2]))
       // let modifier = 0
 
       return new ParsedDieString([dieSet], 0)
     } else if (complexDieTest) {
-      let dieSet = new DieSet(parseInt(complexDieTest[1]), parseInt(complexDieTest[2]))
-      let modifier = parseInt(complexDieTest[3])
+      const dieSet = new DieSet(parseInt(complexDieTest[1]), parseInt(complexDieTest[2]))
+      const modifier = parseInt(complexDieTest[3])
 
       return new ParsedDieString([dieSet], modifier)
     } else {
@@ -217,10 +213,10 @@ class DiceRoller {
     if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [] }
 
     let total = 0
-    let rolls: number[] = []
+    const rolls: number[] = []
 
     for (let x = 0; x < dieSet.quantity; x++) {
-      let result = DiceRoller.rollDie(dieSet.type)
+      const result = DiceRoller.rollDie(dieSet.type)
       total += result
       rolls.push(result)
     }
@@ -235,7 +231,7 @@ class DiceRoller {
     if (numberOfDice === 0) return { result: 0, rolls: [] }
 
     // needs to handle both positive and negative accuracy (aka difficulty)
-    let rawResults = DiceRoller.rollDieSet(new DieSet(Math.abs(numberOfDice), 6))
+    const rawResults = DiceRoller.rollDieSet(new DieSet(Math.abs(numberOfDice), 6))
 
     let total: number = Math.max(...rawResults.rolls)
     if (numberOfDice < 0) {

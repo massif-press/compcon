@@ -32,7 +32,7 @@ class PilotArmor extends PilotEquipment {
     this.edef_bonus = data.edef_bonus || 0
     this.evasion = data.evasion || 0
     this.evasion_bonus = data.evasion_bonus || 0
-    this._item_type = ItemType.PilotArmor
+    this.ItemType = ItemType.PilotArmor
   }
 
   public get HPBonus(): number {

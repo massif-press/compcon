@@ -1,38 +1,30 @@
-import {
-  Rules,
-  LicensedItem,
-  MountType,
-  ItemType,
-  MechType,
-  CoreSystem,
-  Duration,
-  ActivationType,
-} from '@/class'
-import { ILicensedItemData, ICoreData } from '@/interface'
+import { LicensedItem, MountType, ItemType, MechType, CoreSystem, Duration } from '@/class'
+import { ILicensedItemData, ICoreData, IDeployableData, ICounterData } from '@/interface'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-
-interface FrameSynergy {
-  locations: string[]
-  detail: string
-}
+import { IActionData } from '../Action'
+import { IBonusData } from '../Bonus'
+import { ISynergyData } from '../Synergy'
 
 interface FrameTrait {
   name: string
   description: string
-  synergies?: FrameSynergy[]
   use?: Duration
-  activation?: ActivationType
-  deactivation?: ActivationType
+  actions?: IActionData[]
+  bonuses?: IBonusData[]
+  synergies?: ISynergyData[]
+  deployables?: IDeployableData[]
+  integrated?: string[]
+  counters?: ICounterData[]
 }
 
 interface IFrameStats {
   size: number
+  structure: number
+  stress: number
   armor: number
-  structuremod?: number
   hp: number
   evasion: number
   edef: number
-  stressmod?: number
   heatcap: number
   repcap: number
   sensor_range: number
@@ -45,13 +37,13 @@ interface IFrameStats {
 interface IFrameData extends ILicensedItemData {
   mechtype: MechType[]
   license_level: number
-  y_pos?: number
   mounts: MountType[]
   stats: IFrameStats
   traits: FrameTrait[]
   core_system: ICoreData
+  y_pos?: number
   image_url?: string
-  other_art?: { tag: ImageTag; src: string }[]
+  other_art?: { tag?: ImageTag; src?: string; url?: string }[]
 }
 
 class Frame extends LicensedItem {
@@ -62,7 +54,7 @@ class Frame extends LicensedItem {
   private _traits: FrameTrait[]
   private _core_system: CoreSystem
   private _image_url?: string
-  private _other_art?: { tag: ImageTag; src: string }[]
+  private _other_art?: { tag?: ImageTag; src?: string; url?: string }[]
 
   public constructor(frameData: IFrameData) {
     super(frameData)
@@ -72,7 +64,7 @@ class Frame extends LicensedItem {
     this._stats = frameData.stats
     this._traits = frameData.traits
     this._core_system = new CoreSystem(frameData.core_system)
-    this._item_type = ItemType.Frame
+    this.ItemType = ItemType.Frame
     this._image_url = frameData.image_url
     this._other_art = frameData.other_art
   }
@@ -85,7 +77,7 @@ class Frame extends LicensedItem {
     return this._y_pos
   }
 
-  public get OtherArt(): { tag: ImageTag; src: string }[] {
+  public get OtherArt(): { tag?: ImageTag; src?: string; url?: string }[] {
     return this._other_art
   }
 
@@ -111,7 +103,7 @@ class Frame extends LicensedItem {
   }
 
   public get Structure(): number {
-    return Rules.BaseStructure + (this._stats.structuremod || 0)
+    return this._stats.structure
   }
 
   public get HP(): number {
@@ -127,7 +119,7 @@ class Frame extends LicensedItem {
   }
 
   public get HeatStress(): number {
-    return Rules.BaseStress + (this._stats.stressmod || 0)
+    return this._stats.stress
   }
 
   public get HeatCap(): number {

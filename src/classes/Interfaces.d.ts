@@ -74,6 +74,7 @@ declare interface IMechWeaponSaveData extends IEquipmentData {
   mod?: IEquipmentData
   customDamageType?: string
   maxUseOverride?: number
+  selectedProfile: number
 }
 
 declare interface ICounterSaveData {
