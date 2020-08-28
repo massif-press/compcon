@@ -17,7 +17,7 @@ class PilotWeapon extends PilotEquipment {
     this.range = data.range.map(x => new Range(x))
     this.damage = data.damage.map(x => new Damage(x))
     this.effect = data.effect || ''
-    this._item_type = ItemType.PilotWeapon
+    this.ItemType = ItemType.PilotWeapon
   }
 
   public get Range(): Range[] {
@@ -47,9 +47,9 @@ class PilotWeapon extends PilotEquipment {
 
   public get MaxDamage(): number {
     if (0 === this.Damage.length) {
-      return 0;
+      return 0
     } else {
-      return this.Damage[0].Max;
+      return this.Damage[0].Max
     }
   }
 

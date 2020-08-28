@@ -790,9 +790,9 @@ class Mech implements IActor {
   // -- Integrated/Talents ------------------------------------------------------------------------
   public get IntegratedMounts(): IntegratedMount[] {
     const intg = []
-    if (this._frame.CoreSystem.Integrated) {
-      intg.push(new IntegratedMount(this._frame.CoreSystem.getIntegrated(), 'CORE System'))
-    }
+    this._frame.CoreSystem.IntegratedWeapons.forEach(x => {
+      intg.push(new IntegratedMount(x, 'CORE System'))
+    })
     if (this._pilot.has('Talent', 't_nuclear_cavalier', 3)) {
       const frWeapon = store.getters.referenceByID('MechWeapons', 'mw_fuel_rod_gun')
       intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))

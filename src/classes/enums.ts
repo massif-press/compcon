@@ -1,8 +1,10 @@
 enum Duration {
   Free = 'Free',
   Turn = 'Turn',
-  NextTurn = 'NextTurn',
-  Scene = 'Scene',
+  NextTurn = 'Next Turn',
+  Round = 'Round',
+  NextRound = 'Next Round',
+  Encounter = 'Encounter',
   Mission = 'Mission',
 }
 
@@ -70,6 +72,7 @@ enum ItemType {
   MechWeapon = 'MechWeapon',
   MechSystem = 'MechSystem',
   WeaponMod = 'WeaponMod',
+  SystemMod = 'SystemMod',
   NpcFeature = 'NpcFeature',
 }
 

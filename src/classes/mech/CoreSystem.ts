@@ -1,70 +1,96 @@
 import { store } from '@/store'
-import { MechWeapon, Tag } from '@/class'
+import { MechWeapon, Tag, ActivationType, Duration, MechSystem } from '@/class'
+import { IActionData, Action } from '../Action'
+import { IBonusData, Bonus } from '../Bonus'
+import { ISynergyData, Synergy } from '../Synergy'
+import { IDeployableData } from '../effects/interfaces'
+import { ICounterData } from '../Counter'
+import { MechEquipment } from './MechEquipment'
 
 interface ICoreData {
   name: string
   description: string
-  integrated?: { id: string }
-  passive_name?: string
-  passive_effect?: string
   active_name: string
   active_effect: string
+  activation: ActivationType
+  deactivation?: ActivationType
+  use?: Duration
+  active_actions?: IActionData[]
+  active_bonuses?: IBonusData[]
+  active_synergies?: ISynergyData[]
+  passive_name?: string
+  passive_effect?: string
+  passive_actions?: IActionData[]
+  passive_bonuses?: IBonusData[]
+  passive_synergies?: ISynergyData[]
+  deployables?: IDeployableData[]
+  counters?: ICounterData[]
+  integrated?: string[]
   tags: ITagData[]
 }
 
 class CoreSystem {
-  private _name: string
-  private _description: string
-  private _integrated: string | null
-  private _passive_name?: string
-  private _passive_effect?: string
-  private _active_name: string
-  private _active_effect: string
+  public readonly Name: string
+  public readonly Description: string
+  public readonly Activation: ActivationType
+  public readonly ActiveName: string
+  public readonly ActiveEffect: string
+  public readonly ActiveActions: Action[]
+  public readonly ActiveBonuses: Bonus[]
+  public readonly ActiveSynergies: Synergy[]
+  public readonly Deactivation?: ActivationType
+  public readonly Use: Duration
+  public readonly PassiveName: string
+  public readonly PassiveEffect: string
+  public readonly PassiveActions: Action[]
+  public readonly PassiveBonuses: Bonus[]
+  public readonly PassiveSynergies: Synergy[]
+  public readonly Deployables: IDeployableData[]
+  public readonly Counters: ICounterData[]
+  private _integrated: string[]
   private _tags: ITagData[]
 
-  public constructor(coreData: ICoreData) {
-    this._name = coreData.name
-    this._description = coreData.description || ''
-    this._integrated = coreData.integrated ? coreData.integrated.id : null
-    this._passive_name = coreData.passive_name
-    this._passive_effect = coreData.passive_effect
-    this._active_name = coreData.active_name
-    this._active_effect = coreData.active_effect
-    this._tags = coreData.tags
+  public constructor(data: ICoreData) {
+    this.Name = data.name
+    this.Description = data.description || ''
+    this.ActiveName = data.active_name
+    this.ActiveEffect = data.active_effect
+    this.Activation = data.activation
+    this.ActiveActions = data.active_actions ? data.active_actions.map(x => new Action(x)) : []
+    this.ActiveBonuses = data.active_bonuses ? data.active_bonuses.map(x => new Bonus(x)) : []
+    this.ActiveSynergies = data.active_synergies
+      ? data.active_synergies.map(x => new Synergy(x))
+      : []
+    if (data.deactivation) this.Deactivation = data.deactivation
+    this.Use = data.use ? (data.use as Duration) : Duration.Mission
+    this.PassiveName = data.passive_name || ''
+    this.PassiveEffect = data.passive_effect || ''
+    this.PassiveActions = data.passive_actions ? data.passive_actions.map(x => new Action(x)) : []
+    this.PassiveBonuses = data.passive_bonuses ? data.passive_bonuses.map(x => new Bonus(x)) : []
+    this.PassiveSynergies = data.passive_synergies
+      ? data.passive_synergies.map(x => new Synergy(x))
+      : []
+    this.Deployables = data.deployables ? data.deployables : []
+    this.Counters = data.counters ? data.counters : []
+    this._integrated = data.integrated ? data.integrated : []
+    this._tags = data.tags
   }
 
-  public get Name(): string {
-    return this._name
+  public get IntegratedEquipment(): MechEquipment[] {
+    if (!this._integrated) return []
+    return this._integrated.map(x => {
+      const w = store.getters.referenceByID('MechWeapons', x)
+      if (w) return w
+      return store.getters.referenceByID('MechSystems', x)
+    })
   }
 
-  public get Description(): string {
-    return this._description
+  public get IntegratedWeapons(): MechWeapon[] {
+    return this._integrated.map(x => store.getters.referenceByID('MechWeapons', x))
   }
 
-  public get Integrated(): MechWeapon | null {
-    if (!this._integrated) return null
-    return store.getters.referenceByID('MechWeapons', this._integrated)
-  }
-
-  public getIntegrated(): MechWeapon | null {
-    if (!this._integrated) return null
-    return store.getters.instantiate('MechWeapons', this._integrated)
-  }
-
-  public get PassiveName(): string | null {
-    return this._passive_name || null
-  }
-
-  public get PassiveEffect(): string | null {
-    return this._passive_effect || null
-  }
-
-  public get ActiveName(): string {
-    return this._active_name
-  }
-
-  public get ActiveEffect(): string {
-    return this._active_effect
+  public get IntegratedSystems(): MechSystem[] {
+    return this._integrated.map(x => store.getters.referenceByID('MechSystems', x))
   }
 
   public get Tags(): Tag[] {

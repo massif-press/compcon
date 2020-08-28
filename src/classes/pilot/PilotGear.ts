@@ -11,7 +11,7 @@ class PilotGear extends PilotEquipment {
   public constructor(gearData: IPilotGearData) {
     super(gearData)
     this.uses = gearData.uses || null
-    this._item_type = ItemType.PilotGear
+    this.ItemType = ItemType.PilotGear
   }
 
   public get Uses(): number | null {

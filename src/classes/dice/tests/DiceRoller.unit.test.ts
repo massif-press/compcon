@@ -10,7 +10,7 @@ describe('rollSkillCheck', () => {
   it('rolls a basic check correctly', () => {
     mockRandom([0.499])
 
-    let result = DiceRoller.rollSkillCheck()
+    const result = DiceRoller.rollSkillCheck()
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(0)
@@ -23,7 +23,7 @@ describe('rollSkillCheck', () => {
   it('rolls a complicated skill check correctly', () => {
     mockRandom([0.499, 0.001, 0.55])
 
-    let result = DiceRoller.rollSkillCheck(5, 5, 3)
+    const result = DiceRoller.rollSkillCheck(5, 5, 3)
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(5)
@@ -38,7 +38,7 @@ describe('rollSkillCheck', () => {
   it('handles negative accuracy correctly', () => {
     mockRandom([0.499, 0.001, 0.55])
 
-    let result = DiceRoller.rollSkillCheck(0, 3, 5)
+    const result = DiceRoller.rollSkillCheck(0, 3, 5)
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.accuracyDiceCount).toBe(-2)
     expect(result.accuracyResult).toBe(-4)
@@ -53,7 +53,7 @@ describe('rollToHit', () => {
   it('rolls a basic hit roll correctly', () => {
     mockRandom([0.499])
 
-    let result = DiceRoller.rollToHit()
+    const result = DiceRoller.rollToHit()
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(0)
@@ -66,7 +66,7 @@ describe('rollToHit', () => {
   it('rolls a complicated hit roll correctly', () => {
     mockRandom([0.499, 0.001, 0.55])
 
-    let result = DiceRoller.rollSkillCheck(5, 5, 3)
+    const result = DiceRoller.rollSkillCheck(5, 5, 3)
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.rawDieRoll).toBe(10)
     expect(result.staticBonus).toBe(5)
@@ -81,7 +81,7 @@ describe('rollToHit', () => {
   it('handles negative accuracy correctly', () => {
     mockRandom([0.499, 0.001, 0.55])
 
-    let result = DiceRoller.rollSkillCheck(0, 3, 5)
+    const result = DiceRoller.rollSkillCheck(0, 3, 5)
     expect(result).toBeInstanceOf(D20RollResult)
     expect(result.accuracyDiceCount).toBe(-2)
     expect(result.accuracyResult).toBe(-4)
@@ -96,7 +96,7 @@ describe('rollDamage', () => {
   it('rolls static 123 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('123')
+    const result = DiceRoller.rollDamage('123')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('123')
     expect(result.parseError).toBeFalsy()
@@ -108,7 +108,7 @@ describe('rollDamage', () => {
   it('rolls static 000123 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('000123')
+    const result = DiceRoller.rollDamage('000123')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('000123')
     expect(result.parseError).toBeFalsy()
@@ -120,7 +120,7 @@ describe('rollDamage', () => {
   it('rolls 1d6 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('1d6')
+    const result = DiceRoller.rollDamage('1d6')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('1d6')
     expect(result.parseError).toBeFalsy()
@@ -132,7 +132,7 @@ describe('rollDamage', () => {
   it('rolls 1d6+10 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('1d6+10')
+    const result = DiceRoller.rollDamage('1d6+10')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('1d6+10')
     expect(result.parseError).toBeFalsy()
@@ -144,7 +144,7 @@ describe('rollDamage', () => {
   it('rolls 1d6-22 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('1d6-22')
+    const result = DiceRoller.rollDamage('1d6-22')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('1d6-22')
     expect(result.parseError).toBeFalsy()
@@ -156,7 +156,7 @@ describe('rollDamage', () => {
   it('rolls 1 d 6 - 22 correctly', () => {
     mockRandom([0.4])
 
-    let result = DiceRoller.rollDamage('1 d 6 - 22')
+    const result = DiceRoller.rollDamage('1 d 6 - 22')
     expect(result).toBeInstanceOf(DamageRollResult)
     expect(result.diceString).toEqual('1 d 6 - 22')
     expect(result.parseError).toBeFalsy()
@@ -180,17 +180,17 @@ describe('parseDiceString', () => {
     ${'-1d3-22'}   | ${1}        | ${3}    | ${-1}       | ${-22}
     ${'1 d 6 + 5'} | ${1}        | ${6}    | ${1}        | ${5}
   `('parses $input correctly', ({ input, arrayLength, dieType, dieQuantity, modifier }) => {
-  let result = DiceRoller.parseDiceString(input)
-  expect(result).toBeInstanceOf(ParsedDieString)
-  expect(result.dice).toHaveLength(arrayLength)
-  expect(result.dice[0]).toBeInstanceOf(DieSet)
-  expect(result.dice[0].type).toEqual(dieType)
-  expect(result.dice[0].quantity).toEqual(dieQuantity)
-  expect(result.modifier).toEqual(modifier)
-})
+    const result = DiceRoller.parseDiceString(input)
+    expect(result).toBeInstanceOf(ParsedDieString)
+    expect(result.dice).toHaveLength(arrayLength)
+    expect(result.dice[0]).toBeInstanceOf(DieSet)
+    expect(result.dice[0].type).toEqual(dieType)
+    expect(result.dice[0].quantity).toEqual(dieQuantity)
+    expect(result.modifier).toEqual(modifier)
+  })
 
   it('returns a parse error for a bad string', () => {
-    let result = DiceRoller.parseDiceString('blahblah')
+    const result = DiceRoller.parseDiceString('blahblah')
 
     expect(result).toBeUndefined()
   })

@@ -1,11 +1,20 @@
 import { CompendiumItem, ItemType, Manufacturer } from '@/class'
 import { store } from '@/store'
-import { ICompendiumItemData } from '@/interface'
+import { ICompendiumItemData, IDeployableData, ICounterData } from '@/interface'
+import { IActionData } from '../Action'
+import { IBonusData } from '../Bonus'
+import { ISynergyData } from '../Synergy'
 
 interface ICoreBonusData extends ICompendiumItemData {
   source: string
   effect: string
   mounted_effect?: string
+  actions?: IActionData[]
+  bonuses?: IBonusData[]
+  synergies?: ISynergyData[]
+  deployables?: IDeployableData[]
+  integrated?: string[]
+  counters?: ICounterData[]
 }
 
 class CoreBonus extends CompendiumItem {
@@ -18,7 +27,7 @@ class CoreBonus extends CompendiumItem {
     this._source = cbData.source
     this._effect = cbData.effect
     this._mounted_effect = cbData.mounted_effect || ''
-    this._item_type = ItemType.CoreBonus
+    this.ItemType = ItemType.CoreBonus
   }
 
   public get Source(): string {

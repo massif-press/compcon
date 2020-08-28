@@ -12,35 +12,61 @@ import {
   WeaponSize,
   WeaponType,
 } from '@/class'
-import { IDamageData, IMechEquipmentData, IRangeData } from '@/interface'
-
-// TODO:
-// class WeaponAmmo {}
+import { IDamageData, IMechEquipmentData, IRangeData, IEffectData } from '@/interface'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
   type: WeaponType
-  damage: IDamageData[]
-  range: IRangeData[]
+  damage?: IDamageData[]
+  range?: IRangeData[]
+  profiles?: IWeaponProfileData[]
+  selected_profile: number
+}
+
+interface IWeaponProfileData {
+  damage?: IDamageData[]
+  range?: IRangeData[]
+  effect: IEffectData
+}
+
+interface WeaponProfile {
+  damage?: Damage[]
+  range?: Range[]
+  effect: string | object | object[]
+  // TODO: ACTIONS
 }
 
 class MechWeapon extends MechEquipment {
   private _size: WeaponSize
   private _weapon_type: WeaponType
-  private _damage?: Damage[]
-  private _range?: Range[]
   private _mod: WeaponMod | null
+  private _profiles: WeaponProfile[]
   private _custom_damage_type?: string
-  // private ammo?: WeaponAmmo | null;
+  private _selected_profile: number
 
   public constructor(weaponData: IMechWeaponData) {
     super(weaponData)
     this._size = weaponData.mount
     this._weapon_type = weaponData.type
-    if (weaponData.damage) this._damage = weaponData.damage.map(x => new Damage(x))
-    if (weaponData.range) this._range = weaponData.range.map(x => new Range(x))
+    this._profiles = []
+    if (weaponData.profiles) {
+      weaponData.profiles.forEach(p => {
+        const profile = {} as WeaponProfile
+        if (p.damage) profile.damage = p.damage.map(x => new Damage(x))
+        if (p.range) profile.range = p.range.map(x => new Range(x))
+        if (p.effect) profile.effect = p.effect
+        this._profiles.push(profile)
+      })
+    } else {
+      const defaultProfile = {} as WeaponProfile
+      if (weaponData.damage) defaultProfile.damage = weaponData.damage.map(x => new Damage(x))
+      if (weaponData.range) defaultProfile.range = weaponData.range.map(x => new Range(x))
+      if (weaponData.effect) defaultProfile.effect = weaponData.effect
+      this._profiles.push(defaultProfile)
+    }
+    this._selected_profile = 0
     this._mod = null
-    this._item_type = ItemType.MechWeapon
+    this.ItemType = ItemType.MechWeapon
   }
 
   public get Size(): WeaponSize {
@@ -52,22 +78,31 @@ class MechWeapon extends MechEquipment {
   }
 
   public get TotalSP(): number {
-    if (!this.Mod) return this.sp
-    return this.Mod.SP + this.sp
-  }
-
-  public get SP(): number {
-    return this.sp
+    if (!this.Mod) return this.SP
+    return this.Mod.SP + this.SP
   }
 
   public get ModSP(): number {
     return this.Mod ? this.Mod.SP : 0
   }
 
+  public get Profiles(): WeaponProfile[] {
+    return this._profiles
+  }
+
+  public get SelectedProfile(): WeaponProfile {
+    return this._profiles[this._selected_profile]
+  }
+
+  public SetProfileSelection(val: number): void {
+    this._selected_profile = val
+    this.save()
+  }
+
   public get Damage(): Damage[] {
-    if (this._damage && this.Mod && this.Mod.AddedDamage)
-      return this._damage.concat(this.Mod.AddedDamage)
-    return this._damage || []
+    if (this.SelectedProfile.damage && this.Mod && this.Mod.AddedDamage)
+      return this.SelectedProfile.damage.concat(this.Mod.AddedDamage)
+    return this.SelectedProfile.damage || []
   }
 
   public get MaxDamage(): number {
@@ -93,7 +128,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get DamageType(): DamageType[] {
-    return this._damage.map(x => x.Type)
+    return this.SelectedProfile.damage.map(x => x.Type)
   }
 
   public get DefaultDamageType(): DamageType {
@@ -105,16 +140,19 @@ class MechWeapon extends MechEquipment {
   }
 
   public get Range(): Range[] {
-    return this._range || []
+    return this.SelectedProfile.range || []
   }
 
   public getTotalRange(mech: Mech): Range[] {
     const bonuses = [] as { type: RangeType; val: number }[]
     if (this.Mod && this.Mod.AddedRange)
-      bonuses.push({
-        type: RangeType.Range,
-        val: parseInt(this.Mod.AddedRange.Value),
+      this.Mod.AddedRange.forEach(r => {
+        bonuses.push({
+          type: RangeType.Range,
+          val: parseInt(r.Value),
+        })
       })
+
     if (mech.Pilot.has('CoreBonus', 'cb_neurolink_targeting') && !this.IsIntegrated)
       bonuses.push({
         type: RangeType.Range,
@@ -149,7 +187,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get RangeType(): RangeType[] {
-    return this._range.map(x => x.Type)
+    return this.SelectedProfile.range.map(x => x.Type)
   }
 
   public set Mod(_mod: WeaponMod | null) {
@@ -177,6 +215,7 @@ class MechWeapon extends MechEquipment {
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
       maxUseOverride: item.max_use_override || 0,
+      selectedProfile: item._selected_profile || 0,
     }
   }
 
@@ -192,6 +231,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
     item.max_use_override = data.maxUseOverride || 0
+    item._selected_profile = data.selectedProfile || 0
     return item
   }
 }

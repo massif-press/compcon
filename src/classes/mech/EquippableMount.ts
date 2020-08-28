@@ -73,7 +73,7 @@ class EquippableMount extends Mount {
   }
 
   public static Deserialize(mountData: IMountData): EquippableMount {
-    let m = new EquippableMount(mountData.mount_type as MountType)
+    const m = new EquippableMount(mountData.mount_type as MountType)
     m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
     m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
     m._bonuses = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
