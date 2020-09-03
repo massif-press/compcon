@@ -12,56 +12,32 @@ interface IManufacturerData {
 }
 
 class Manufacturer {
-  private _id: string
-  private _name: string
-  private _description: string
-  private _quote: string
+  public readonly ID: string
+  public readonly Name: string
+  public readonly Description: string
+  public readonly Quote: string
+  public readonly Light: string
+  public readonly Dark: string
   private _logo: string
-  private _light: string
-  private _dark: string
   private _logo_url?: string
 
   public constructor(data: IManufacturerData) {
-    this._id = data.id
-    this._name = data.name
-    this._description = data.description
-    this._quote = data.quote
+    this.ID = data.id
+    this.Name = data.name
+    this.Description = data.description
+    this.Quote = data.quote
+    this.Light = data.light
+    this.Dark = data.dark
     this._logo = data.logo
-    this._light = data.light
-    this._dark = data.dark
     this._logo_url = data.logo_url
   }
 
-  public get ID(): string {
-    return this._id
-  }
-
-  public get Name(): string {
-    return this._name
-  }
-
-  public get Description(): string {
-    return this._description
-  }
-
-  public get Quote(): string {
-    return this._quote
-  }
-
   public get Color(): string {
-    return this._light
+    return this.Light
   }
 
   public GetColor(dark?: boolean): string {
-    return dark ? this._dark : this._light
-  }
-
-  public get Light(): string {
-    return this._light
-  }
-
-  public get Dark(): string {
-    return this._dark
+    return dark ? this.Dark : this.Light
   }
 
   public get LogoIsExternal(): boolean {

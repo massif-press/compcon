@@ -1,22 +1,18 @@
 import { Rules, Skill, CustomSkill } from '@/class'
 
 class PilotSkill {
-  private _skill: Skill | CustomSkill
+  public readonly Skill: Skill | CustomSkill
+  public readonly IsCustom: boolean
   private _rank: number
-  private _isCustom: boolean
 
   public constructor(skill: Skill | CustomSkill, rank?: number) {
-    this._skill = skill
+    this.Skill = skill
     this._rank = rank ? rank : 1
-    this._isCustom = skill instanceof CustomSkill
+    this.IsCustom = skill instanceof CustomSkill
   }
 
   public get Title(): string {
-    return this._skill.Name
-  }
-
-  public get Skill(): Skill | CustomSkill {
-    return this._skill
+    return this.Skill.Name
   }
 
   public get Rank(): number {
@@ -25,10 +21,6 @@ class PilotSkill {
 
   public get Bonus(): number {
     return this._rank * Rules.TriggerBonusPerRank
-  }
-
-  public get IsCustom(): boolean {
-    return this._isCustom
   }
 
   public Increment(): boolean {
@@ -57,7 +49,10 @@ class PilotSkill {
 
   public static Deserialize(itemData: IRankedData): PilotSkill {
     if (itemData.custom)
-      return new PilotSkill(new CustomSkill(itemData.id, itemData.custom_desc, itemData.custom_detail), itemData.rank)
+      return new PilotSkill(
+        new CustomSkill(itemData.id, itemData.custom_desc, itemData.custom_detail),
+        itemData.rank
+      )
     return new PilotSkill(Skill.Deserialize(itemData.id), itemData.rank)
   }
 }

@@ -17,13 +17,20 @@ import {
   Organization,
   CompendiumItem,
   ContentPack,
+  Synergy,
+  MechWeapon,
 } from '@/class'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { ICounterData, IAction } from '@/interface'
+import { ICounterData, Action } from '@/interface'
 import { ActiveState } from '../mech/ActiveState'
+import { Bonus } from '../Bonus'
+import { IReserveData } from './reserves/Reserve'
+import { IDeployableData } from '../effects/interfaces'
+import { MechSystem } from '../mech/MechSystem'
+import { IMechData } from '../mech/Mech'
 
 interface IPilotData {
   id: string
@@ -486,17 +493,8 @@ class Pilot {
     return edef
   }
 
-  //TODO: collect passives, eg:
   public get LimitedBonus(): number {
-    let bonus = Math.floor(this.MechSkills.Eng / 2)
-    if (this._core_bonuses.find(x => x.ID === 'cb_integrated_ammo_feeds')) {
-      bonus += 2
-    }
-    return bonus
-  }
-
-  public get AICapacity(): number {
-    return this.has('corebonus', 'cb_the_lesson_of_shaping') ? 2 : 1
+    return Math.floor(this.MechSkills.Eng / 2) + Bonus.get('limited_bonus', this)
   }
 
   // -- Skills ------------------------------------------------------------------------------------
@@ -514,8 +512,7 @@ class Pilot {
   }
 
   public get MaxSkillPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
-    return Rules.MinimumPilotSkills + this._level + bonus
+    return Rules.MinimumPilotSkills + this._level + Bonus.get('skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -596,8 +593,7 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_talent').length
-    return Rules.MinimumPilotTalents + this._level + bonus
+    return Rules.MinimumPilotTalents + this._level + Bonus.get('talent_point', this)
   }
 
   public get IsMissingTalents(): boolean {
@@ -665,17 +661,6 @@ class Pilot {
     })
   }
 
-  public get TalentActions(): IAction[] {
-    let tActions = []
-    this._talents.forEach(pt => {
-      for (let i = 1; i <= pt.Rank; i++) {
-        const tr = pt.Talent.Rank(i)
-        if (tr.actions && tr.actions.length) tActions = tActions.concat(tr.actions)
-      }
-    })
-    return tActions
-  }
-
   // -- Core Bonuses ------------------------------------------------------------------------------
   public get CoreBonuses(): CoreBonus[] {
     return this._core_bonuses
@@ -691,8 +676,7 @@ class Pilot {
   }
 
   public get MaxCBPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_corebonus').length
-    return Math.floor(this._level / 3) + bonus
+    return Math.floor(this._level / 3) + Bonus.get('cb_point', this)
   }
 
   public get IsMissingCBs(): boolean {
@@ -835,8 +819,7 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_mechskill').length
-    return Rules.MinimumMechSkills + this._level + bonus
+    return Rules.MinimumMechSkills + this._level + Bonus.get('mech_skill_point', this)
   }
 
   public get IsMissingHASE(): boolean {
@@ -972,25 +955,6 @@ class Pilot {
     this.save()
   }
 
-  public get CounterData(): ICounterData[] {
-    return [
-      this.Talents?.flatMap(pilotTalent =>
-        pilotTalent.Talent.Counters.filter(x => !x.level || x.level <= pilotTalent.Rank)
-      ),
-      this.CoreBonuses?.flatMap(cb => cb.Counters),
-      this.ActiveMech?.Frame.Counters,
-      this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
-      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [
-        ...weapon.Counters,
-        ...(weapon.Mod?.Counters || []),
-      ]),
-      this.ActiveMech?.Frame.CoreSystem.Integrated?.Counters,
-      this.CustomCounterData,
-    ]
-      .flat()
-      .filter(x => x)
-  }
-
   // -- Organization ------------------------------------------------------------------------------
   public get Group(): string {
     return this._group
@@ -1020,12 +984,44 @@ class Pilot {
   }
 
   // -- Active Mode -------------------------------------------------------------------------------
-  public get Actions(): IAction[] {
-    return this.TalentActions
-  }
-
   public get State(): ActiveState {
     return this._state
+  }
+
+  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
+  private features<T>(p: string): T[] {
+    return this.ActiveMech[p]
+      .concat(this.Loadout.Items.flatMap(x => x[p]))
+      .concat(this.Reserves.filter(x => !x.Used).flatMap(y => y[p]))
+      .concat(this._talents.flatMap(x => x.UnlockedRanks.flatMap(y => y[p])))
+  }
+
+  public get Bonuses(): Bonus[] {
+    return this.features('Bonuses')
+  }
+
+  public get Synergies(): Synergy[] {
+    return this.features('Synergies')
+  }
+
+  public get Actions(): Action[] {
+    return this.features('Actions')
+  }
+
+  public get Deployables(): IDeployableData[] {
+    return this.features('Deployables')
+  }
+
+  public get Counters(): ICounterData[] {
+    return this.features('Counters')
+  }
+
+  public get IntegratedWeapons(): MechWeapon[] {
+    return this.features('IntegratedWeapons')
+  }
+
+  public get IntegratedSystems(): MechSystem[] {
+    return this.features('IntegratedSystems')
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -1114,7 +1110,7 @@ class Pilot {
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
-    this._active_mech = data.active_mech
+    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []

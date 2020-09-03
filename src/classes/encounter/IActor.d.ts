@@ -11,7 +11,7 @@ declare interface IActor {
   Activations: number
   Evasion: number
   EDefense: number
-  Actions: number
+  TurnActions: number
   CurrentStructure: number
   CurrentHP: number
   CurrentStress: number

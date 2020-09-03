@@ -9,16 +9,16 @@ interface IDamageData {
 }
 
 class Damage {
-  private _damage_type: DamageType
-  private _value: string
+  public readonly Type: DamageType
+  public readonly Value: string
+  public readonly Override: boolean
   private _raw_value: string | number
-  private _override: boolean
 
   public constructor(damage: IDamageData) {
-    this._damage_type = this.getDamageType(damage.type)
+    this.Type = this.getDamageType(damage.type)
+    this.Value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
+    this.Override = damage.override || false
     this._raw_value = damage.val
-    this._value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
-    this._override = damage.override || false
   }
 
   private getDamageType(str?: string): DamageType {
@@ -37,18 +37,6 @@ class Damage {
     return DamageType.Variable
   }
 
-  public get Override(): boolean {
-    return this._override
-  }
-
-  public get Type(): DamageType {
-    return this._damage_type
-  }
-
-  public get Value(): string {
-    return this._value
-  }
-
   //TODO: replace with dicemath
   public get Max(): number {
     if (typeof this._raw_value === 'number') return this._raw_value
@@ -62,20 +50,20 @@ class Damage {
   }
 
   public get Icon(): string {
-    return `cci-${this._damage_type.toLowerCase()}`
+    return `cci-${this.Type.toLowerCase()}`
   }
 
   public get DiscordEmoji(): string {
-    return `:cc_damage_${this._damage_type.toLowerCase()}:`
+    return `:cc_damage_${this.Type.toLowerCase()}:`
   }
 
   public get Color(): string {
-    return `damage--${this._damage_type.toLowerCase()}`
+    return `damage--${this.Type.toLowerCase()}`
   }
 
   public get Text(): string {
-    if (this._override) return this._value
-    return `${this._value} ${this._damage_type} Damage`
+    if (this.Override) return this.Value
+    return `${this.Value} ${this.Type} Damage`
   }
 }
 

@@ -9,7 +9,7 @@
 import Vue from 'vue'
 import { store } from '@/store'
 import { Mech, Drone, Deployable, Pilot, Rules, MechEquipment } from '@/class'
-import { IAction } from '@/interface'
+import { Action } from '@/interface'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -173,7 +173,7 @@ class ActiveState {
     this.save()
   }
 
-  public set ActiveMech(mech: Mech) {
+  public set ActiveMech(mech: Mech | null) {
     this._mech = mech
     this.save()
   }
@@ -424,24 +424,24 @@ class ActiveState {
     this._mech.MeltdownImminent = false
   }
 
-  public get Protocols(): IAction[] {
-    return this._pilot.Actions.filter(x => x.activation === 'Protocol')
+  public get Protocols(): Action[] {
+    return this._pilot.Actions.filter(x => x.Activation === 'Protocol')
   }
 
   public get MoveActions(): string[] {
     return ['move']
   }
-  public get FullActions(): IAction[] {
-    return Rules.BaseFullActions.concat(this._pilot.Actions.filter(x => x.activation === 'Full'))
+  public get FullActions(): Action[] {
+    return Rules.BaseFullActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Full'))
   }
-  public get QuickActions(): IAction[] {
-    return Rules.BaseQuickActions.concat(this._pilot.Actions.filter(x => x.activation === 'Quick'))
+  public get QuickActions(): Action[] {
+    return Rules.BaseQuickActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Quick'))
   }
-  public get FreeActions(): IAction[] {
-    return Rules.BaseFreeActions.concat(this._pilot.Actions.filter(x => x.activation === 'Free'))
+  public get FreeActions(): Action[] {
+    return Rules.BaseFreeActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Free'))
   }
-  public get Reactions(): IAction[] {
-    return Rules.BaseReactions.concat(this._pilot.Actions.filter(x => x.activation === 'Reaction'))
+  public get Reactions(): Action[] {
+    return Rules.BaseReactions.concat(this._pilot.Actions.filter(x => x.Activation === 'Reaction'))
   }
   public get OtherActions(): string[] {
     return ['overcharge']

@@ -1,9 +1,56 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
-import { Rules, Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
+import {
+  Rules,
+  Pilot,
+  Frame,
+  MechLoadout,
+  MechSystem,
+  CoreBonus,
+  Synergy,
+  MechWeapon,
+} from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ActiveState } from './ActiveState'
+import { Bonus } from '../Bonus'
+import { IDeployableData } from '../effects/interfaces'
+import { ICounterData } from '../Counter'
+import { Action } from '../Action'
+
+interface IMechData {
+  id: string
+  name: string
+  notes: string
+  gm_note: string
+  portrait: string
+  cloud_portrait: string
+  frame: string
+  active: boolean
+  current_structure: number
+  current_hp: number
+  overshield: number
+  current_stress: number
+  current_heat: number
+  current_repairs: number
+  current_overcharge: number
+  current_core_energy: number
+  loadouts: IMechLoadoutData[]
+  active_loadout_index: number
+  statuses: string[]
+  conditions: string[]
+  resistances: string[]
+  reactions: string[]
+  burn: number
+  ejected: boolean
+  destroyed: boolean
+  defeat: string
+  activations: number
+  meltdown_imminent: boolean
+  reactor_destroyed: boolean
+  core_active: boolean
+  cc_ver: string
+}
 
 class Mech implements IActor {
   private _id: string
@@ -38,8 +85,9 @@ class Mech implements IActor {
   private _reactor_destroyed: boolean
   private _meltdown_imminent: boolean
   private _burn: number
-  private _actions: number
+  private _turn_actions: number
   private _currentMove: number
+  private _core_active: boolean
   private _state: ActiveState
 
   public constructor(frame: Frame, pilot: Pilot) {
@@ -73,8 +121,9 @@ class Mech implements IActor {
     this._loadouts = [new MechLoadout(this)]
     this.ActiveLoadout = this._loadouts[0]
     this._activations = 1
-    this._actions = 2
+    this._turn_actions = 2
     this._currentMove = this.Speed
+    this._core_active = false
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -569,6 +618,15 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get IsCoreActive(): boolean {
+    return this._core_active
+  }
+
+  public set CoreActive(val: boolean) {
+    this._core_active = val
+    this.save()
+  }
+
   public get CurrentOvercharge(): number {
     return this._current_overcharge
   }
@@ -588,12 +646,12 @@ class Mech implements IActor {
     this.save()
   }
 
-  public get Actions(): number {
-    return this._actions
+  public get TurnActions(): number {
+    return this._turn_actions
   }
 
-  public set Actions(val: number) {
-    this._actions = val
+  public set TurnActions(val: number) {
+    this._turn_actions = val
     this.save()
   }
 
@@ -629,7 +687,7 @@ class Mech implements IActor {
 
   public NewTurn(): void {
     this._activations = 1
-    this._actions = 2
+    this._turn_actions = 2
     this._currentMove = this.MaxMove
     this.save()
   }
@@ -787,43 +845,6 @@ class Mech implements IActor {
     this.save()
   }
 
-  // -- Integrated/Talents ------------------------------------------------------------------------
-  public get IntegratedMounts(): IntegratedMount[] {
-    const intg = []
-    this._frame.CoreSystem.IntegratedWeapons.forEach(x => {
-      intg.push(new IntegratedMount(x, 'CORE System'))
-    })
-    if (this._pilot.has('Talent', 't_nuclear_cavalier', 3)) {
-      const frWeapon = store.getters.referenceByID('MechWeapons', 'mw_fuel_rod_gun')
-      intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))
-    }
-    if (this._pilot.has('Talent', 't_engineer')) {
-      const id = `mw_prototype_${this._pilot.getTalentRank('t_engineer')}`
-      const engWeapon = store.getters.referenceByID('MechWeapons', id)
-      intg.push(new IntegratedMount(engWeapon, 'Engineer'))
-    }
-    return intg
-  }
-
-  public get IntegratedSystems(): MechSystem[] {
-    const intg = []
-    if (this._pilot.has('Talent', 't_walking_armory')) {
-      const arms = store.getters.instantiate(
-        'MechSystems',
-        `ms_walking_armory_${this._pilot.getTalentRank('t_walking_armory')}`
-      )
-      intg.push(arms)
-    }
-    if (this._pilot.has('Talent', 't_technophile')) {
-      const techno = store.getters.instantiate(
-        'MechSystems',
-        `ms_technophile_${this._pilot.getTalentRank('t_technophile')}`
-      )
-      intg.push(techno)
-    }
-    return intg
-  }
-
   // -- Loadouts ----------------------------------------------------------------------------------
   public get Loadouts(): MechLoadout[] {
     return this._loadouts
@@ -889,6 +910,42 @@ class Mech implements IActor {
     return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
+  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
+  private features<T>(p: string): T[] {
+    return this.ActiveLoadout.Equipment.filter(x => !x.Destroyed && !x.IsCascading)
+      .flatMap(x => x[p])
+      .concat(this.Frame.Traits.flatMap(x => x[p]))
+      .concat(this.Frame.CoreSystem[`Passive${p}`])
+      .concat(this.CoreActive ? this.Frame.CoreSystem[`Active${p}`] : [])
+  }
+
+  public get Bonuses(): Bonus[] {
+    return this.features('Bonuses')
+  }
+
+  public get Synergies(): Synergy[] {
+    return this.features('Synergies')
+  }
+
+  public get Actions(): Action[] {
+    return this.features('Actions')
+  }
+
+  public get Deployables(): IDeployableData[] {
+    return this.features('Deployables')
+  }
+
+  public get Counters(): ICounterData[] {
+    return this.features('Counters')
+  }
+
+  public get IntegratedWeapons(): MechWeapon[] {
+    return this.features('IntegratedWeapons')
+  }
+
+  public get IntegratedSystems(): MechSystem[] {
+    return this.features('IntegratedSystems')
+  }
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
     return {
@@ -921,6 +978,7 @@ class Mech implements IActor {
       activations: m._activations,
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
+      core_active: m._core_active,
       cc_ver: store.getters.getVersion || 'ERR',
     }
   }
@@ -968,9 +1026,10 @@ class Mech implements IActor {
     m._activations = data.activations || 1
     m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
+    m._core_active = data.core_active || false
     m._cc_ver = data.cc_ver || ''
     return m
   }
 }
 
-export default Mech
+export { Mech, IMechData }

@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { CompendiumItem, Tag } from '@/class'
+import { CompendiumItem } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {

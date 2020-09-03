@@ -1,4 +1,5 @@
 import { RangeType } from '@/class'
+import { Bonus } from './Bonus'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -59,22 +60,25 @@ class Range {
     return `${this._range_type} ${this.Value}`
   }
 
-  public static AddBonuses(ranges: Range[], bonuses: { type: RangeType; val: number }[]): Range[] {
+  public static AddBonuses(ranges: Range[], bonuses: Bonus[]): Range[] {
     const output = [] as Range[]
-    ranges.forEach(range => {
-      const bonus = bonuses
-        .filter(x => x.type === range.Type)
-        .map(x => x.val)
-        .reduce((sum, bonus) => sum + bonus, 0)
-      output.push(
-        new Range({
-          type: range.Type,
-          val: range._value,
-          override: range._override,
-          bonus: bonus,
-        })
-      )
-    })
+    // ranges.forEach(range => {
+    //   const bonus = bonuses
+    //     .filter(x => {
+    //       return true
+    //       //TODO: Range Bonuses
+    //     })
+    //     .map(x => x.Value)
+    //     .reduce((sum, bonus) => sum + bonus, 0)
+    //   output.push(
+    //     new Range({
+    //       type: range.Type,
+    //       val: range._value,
+    //       override: range._override,
+    //       bonus: bonus,
+    //     })
+    //   )
+    // })
     return output
   }
 }
