@@ -69,10 +69,10 @@ class Action {
   public readonly Detail: string
   public readonly Cost: number
   public readonly Frequency: Frequency
-  private _uses: number
   public readonly Init: string
   public readonly Trigger: string
   public readonly IsPilotAction: boolean
+  private _uses: number
 
   public constructor(data: IActionData, generatedName?: string) {
     this.Name = data.name ? data.name : generatedName || 'Unknown Action'

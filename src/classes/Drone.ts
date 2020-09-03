@@ -26,18 +26,18 @@ interface IDeployedDroneData {
 class Drone {
   public readonly ID: string
   public readonly BaseName: string
-  private _name: string
   public readonly Source: string
   public readonly License: string
   public readonly Detail: string
   public readonly Size: number
   public readonly MaxHP: number
-  private _current_hp: number
-  private _overshield: number
   public readonly Armor: number
   public readonly Evasion: number
   public readonly EDefense: number
   public readonly MaxHeat: number
+  private _name: string
+  private _current_hp: number
+  private _overshield: number
   private _current_heat: number
   private _isDestroyed: boolean
 

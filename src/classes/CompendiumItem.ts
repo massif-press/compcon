@@ -5,10 +5,7 @@ import _ from 'lodash'
 import { IActionData, Action } from './Action'
 import { IBonusData, Bonus } from './Bonus'
 import { ISynergyData, Synergy } from './Synergy'
-import { IDeployableData } from './effects/interfaces'
-
-// items that are stored as compendium data, refernced by ID and contain
-// at minimum a name, itemtype, and brew
+import { IDeployableData } from './Deployable'
 
 interface ICompendiumItemData {
   id: string
@@ -25,6 +22,7 @@ interface ICompendiumItemData {
 }
 
 abstract class CompendiumItem {
+  public ItemType: ItemType
   public readonly Brew: string
   public readonly ID: string
   public readonly Actions: Action[]
@@ -38,7 +36,6 @@ abstract class CompendiumItem {
   protected _name: string
   protected _description: string
   protected _note: string
-  protected ItemType: ItemType
   protected _flavor_name: string
   protected _flavor_description: string
 
@@ -47,7 +44,7 @@ abstract class CompendiumItem {
     if (data) {
       this.ID = data.id
       this._name = data.name
-      this._description = data.description
+      this._description = data.description || ''
       this.Brew = data.brew || 'Core'
       this.Actions = data.actions ? data.actions.map(x => new Action(x)) : []
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []

@@ -11,6 +11,7 @@ interface INotificationVariant {
   prefix?: string
   timeout?: number
 }
+
 interface INotification {
   id: string
   variant: string
@@ -23,31 +24,6 @@ declare interface IErrorReport {
   message: string
   component?: string
   stack: string
-}
-
-declare interface IDiceStats {
-  min: number
-  max: number
-  mean: number
-  error: boolean
-  diceString: string
-}
-
-declare interface Id20RollResult {
-  total: number
-  rawDieRoll: number
-  staticBonus: number
-  accuracyDiceCount: number // net accuracy dice total - negative if at disadvantage
-  rawAccuracyRolls: number[] // results of each accuracy/disadvantage die
-  accuracyResult: number
-}
-
-declare interface IDamageRollResult {
-  diceString: string
-  total: number
-  rawDieRolls: number[]
-  staticBonus: number
-  parseError: boolean
 }
 
 declare interface IRankedData {
@@ -80,26 +56,6 @@ declare interface IMechWeaponSaveData extends IEquipmentData {
 declare interface ICounterSaveData {
   id: string
   val: number
-}
-
-declare interface IReserveData {
-  id: string
-  type?: string
-  name?: string
-  label?: string
-  description?: string
-  resource_name: string
-  resource_note: string
-  resource_cost: string
-  used: boolean
-}
-
-declare interface IProjectData extends IReserveData {
-  complicated: boolean
-  can_finish: boolean
-  finished: boolean
-  progress: number
-  requirements: string[]
 }
 
 declare interface IOrganizationData {
@@ -138,39 +94,6 @@ declare interface IMechState {
   bracedCooldown: boolean
   redundant: boolean
   history: IHistoryItem[]
-}
-
-declare interface IMechData {
-  id: string
-  name: string
-  notes: string
-  gm_note: string
-  portrait: string
-  cloud_portrait: string
-  frame: string
-  active: boolean
-  current_structure: number
-  current_hp: number
-  overshield: number
-  current_stress: number
-  current_heat: number
-  current_repairs: number
-  current_overcharge: number
-  current_core_energy: number
-  loadouts: IMechLoadoutData[]
-  active_loadout_index: number
-  statuses: string[]
-  conditions: string[]
-  resistances: string[]
-  reactions: string[]
-  burn: number
-  ejected: boolean
-  destroyed: boolean
-  defeat: string
-  activations: number
-  meltdown_imminent: boolean
-  reactor_destroyed: boolean
-  cc_ver: string
 }
 
 declare interface IMechLoadoutData {

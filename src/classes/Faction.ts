@@ -10,36 +10,20 @@ interface IFactionData {
 }
 
 class Faction {
-  private _id: string
-  private _name: string
-  private _description: string
+  public readonly ID: string
+  public readonly Name: string
+  public readonly Description: string
+  public readonly Color: string
   private _logo: string
-  private _color: string
   private _logo_url?: string
 
   public constructor(data: IFactionData) {
-    this._id = data.id
-    this._name = data.name
-    this._description = data.description
+    this.ID = data.id
+    this.Name = data.name
+    this.Description = data.description
+    this.Color = data.color
     this._logo = data.logo
-    this._color = data.color
     this._logo_url = data.logo_url
-  }
-
-  public get ID(): string {
-    return this._id
-  }
-
-  public get Name(): string {
-    return this._name
-  }
-
-  public get Description(): string {
-    return this._description
-  }
-
-  public get Color(): string {
-    return this._color
   }
 
   public get LogoIsExternal(): boolean {

@@ -95,6 +95,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechWeapon } from '@/class'
 import { flavorID } from '@/io/Generators'
+import { Bonus } from '@/classes/Bonus'
 
 export default Vue.extend({
   name: 'mod-selector',
@@ -140,7 +141,7 @@ export default Vue.extend({
       i = i.filter(x => !this.mech.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID))
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= this.mech.Pilot.AICapacity) {
+      if (this.mech.ActiveLoadout.AICount >= Bonus.get('ai_cap', this.mech.Pilot)) {
         i = i.filter(x => !x.IsAI)
       }
 

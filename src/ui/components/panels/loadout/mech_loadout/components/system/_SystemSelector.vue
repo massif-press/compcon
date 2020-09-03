@@ -96,6 +96,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechSystem } from '@/class'
 import { flavorID } from '@/io/Generators'
+import { Bonus } from '@/classes/Bonus'
 
 export default Vue.extend({
   name: 'system-selector',
@@ -133,7 +134,7 @@ export default Vue.extend({
       )
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= this.mech.Pilot.AICapacity) {
+      if (this.mech.ActiveLoadout.AICount >= Bonus.get('ai_cap', this.mech.Pilot)) {
         i = i.filter(x => !x.IsAI)
       }
 

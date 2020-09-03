@@ -1,21 +1,7 @@
-import { LicensedItem, MountType, ItemType, MechType, CoreSystem, Duration } from '@/class'
-import { ILicensedItemData, ICoreData, IDeployableData, ICounterData } from '@/interface'
+import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
+import { ILicensedItemData, ICoreData } from '@/interface'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { IActionData } from '../Action'
-import { IBonusData } from '../Bonus'
-import { ISynergyData } from '../Synergy'
-
-interface FrameTrait {
-  name: string
-  description: string
-  use?: Duration
-  actions?: IActionData[]
-  bonuses?: IBonusData[]
-  synergies?: ISynergyData[]
-  deployables?: IDeployableData[]
-  integrated?: string[]
-  counters?: ICounterData[]
-}
+import { FrameTrait, IFrameTraitData } from './FrameTrait'
 
 interface IFrameStats {
   size: number
@@ -39,7 +25,7 @@ interface IFrameData extends ILicensedItemData {
   license_level: number
   mounts: MountType[]
   stats: IFrameStats
-  traits: FrameTrait[]
+  traits: IFrameTraitData[]
   core_system: ICoreData
   y_pos?: number
   image_url?: string
@@ -47,47 +33,31 @@ interface IFrameData extends ILicensedItemData {
 }
 
 class Frame extends LicensedItem {
-  private _mechtype: MechType[]
-  private _y_pos: number
-  private _mounts: MountType[]
-  private _stats: IFrameStats
-  private _traits: FrameTrait[]
-  private _core_system: CoreSystem
+  public readonly MechType: MechType[]
+  public readonly YPosition: number
+  public readonly Mounts: MountType[]
+  public readonly Traits: FrameTrait[]
+  public readonly CoreSystem: CoreSystem
+  public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[]
   private _image_url?: string
-  private _other_art?: { tag?: ImageTag; src?: string; url?: string }[]
+  private _stats: IFrameStats
 
   public constructor(frameData: IFrameData) {
     super(frameData)
-    this._mechtype = frameData.mechtype
-    this._y_pos = frameData.y_pos || 30
-    this._mounts = frameData.mounts
+    this.MechType = frameData.mechtype
+    this.YPosition = frameData.y_pos || 30
+    this.Mounts = frameData.mounts
     this._stats = frameData.stats
-    this._traits = frameData.traits
-    this._core_system = new CoreSystem(frameData.core_system)
+    this.Traits = frameData.traits.map(x => new FrameTrait(x))
+    this.CoreSystem = new CoreSystem(frameData.core_system)
     this.ItemType = ItemType.Frame
     this._image_url = frameData.image_url
-    this._other_art = frameData.other_art
-  }
-
-  public get Mechtype(): MechType[] {
-    return this._mechtype
-  }
-
-  public get YPosition(): number {
-    return this._y_pos
-  }
-
-  public get OtherArt(): { tag?: ImageTag; src?: string; url?: string }[] {
-    return this._other_art
+    this.OtherArt = frameData.other_art
   }
 
   public get MechTypeString(): string {
-    if (this._mechtype.length === 1) return this._mechtype[0]
-    return `${this._mechtype[0]} / ${this._mechtype[1]}`
-  }
-
-  public get Mounts(): MountType[] {
-    return this._mounts
+    if (this.MechType.length === 1) return this.MechType[0]
+    return `${this.MechType[0]} / ${this.MechType[1]}`
   }
 
   public get Size(): number {
@@ -148,14 +118,6 @@ class Frame extends LicensedItem {
 
   public get SP(): number {
     return this._stats.sp
-  }
-
-  public get Traits(): FrameTrait[] {
-    return this._traits
-  }
-
-  public get CoreSystem(): CoreSystem {
-    return this._core_system
   }
 
   public get DefaultImage(): string {

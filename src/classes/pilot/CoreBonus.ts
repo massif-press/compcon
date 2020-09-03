@@ -18,36 +18,24 @@ interface ICoreBonusData extends ICompendiumItemData {
 }
 
 class CoreBonus extends CompendiumItem {
-  private _source: string
-  private _effect: string
-  private _mounted_effect: string
+  public readonly Source: string
+  public readonly Effect: string
+  public readonly MountedEffect: string
 
   public constructor(cbData?: ICoreBonusData) {
     super(cbData)
-    this._source = cbData.source
-    this._effect = cbData.effect
-    this._mounted_effect = cbData.mounted_effect || ''
+    this.Source = cbData.source
+    this.Effect = cbData.effect
+    this.MountedEffect = cbData.mounted_effect || ''
     this.ItemType = ItemType.CoreBonus
   }
 
-  public get Source(): string {
-    return this._source
-  }
-
   public get Manufacturer(): Manufacturer {
-    return store.getters.referenceByID('Manufacturers', this._source)
-  }
-
-  public get Effect(): string {
-    return this._effect
+    return store.getters.referenceByID('Manufacturers', this.Source)
   }
 
   public get IsMountable(): boolean {
     return !!this.MountedEffect
-  }
-
-  public get MountedEffect(): string {
-    return this._mounted_effect
   }
 
   public static Deserialize(id: string): CoreBonus {

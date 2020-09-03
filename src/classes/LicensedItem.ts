@@ -8,21 +8,16 @@ interface ILicensedItemData extends ICompendiumItemData {
   license_level: number
 }
 
-// these items are unlocked via pilots ranking up in a specific frame license
 abstract class LicensedItem extends CompendiumItem {
-  private _source: string
+  public readonly Source: string
+  public readonly LicenseLevel: number
   private _license: string
-  private _license_level: number
 
   public constructor(itemData: ILicensedItemData) {
     super(itemData)
-    this._source = itemData.source || ''
+    this.Source = itemData.source.toUpperCase() || ''
     this._license = itemData.license || ''
-    this._license_level = itemData.license_level || 0
-  }
-
-  public get Source(): string {
-    return this._source.toUpperCase()
+    this.LicenseLevel = itemData.license_level || 0
   }
 
   public get Manufacturer(): Manufacturer {
@@ -33,13 +28,9 @@ abstract class LicensedItem extends CompendiumItem {
     return this.ItemType === ItemType.Frame ? this.Name : this._license
   }
 
-  public get LicenseLevel(): number {
-    return this._license_level
-  }
-
   public get LicenseString(): string {
-    if (this._license) return `${this._license} ${this._license_level}`
-    return this._source
+    if (this._license) return `${this._license} ${this.LicenseLevel}`
+    return this.Source
   }
 
   public get RequiredLicense(): ILicenseRequirement {

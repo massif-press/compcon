@@ -15,7 +15,13 @@ class Tag {
   public readonly FilterIgnore: boolean
   public readonly IsHidden: boolean
   public readonly ItemType: ItemType
-  public readonly _brew: string
+  public readonly Brew: string
+  public readonly IsUnique: boolean
+  public readonly IsAI: boolean
+  public readonly IsLimited: boolean
+  public readonly IsLoading: boolean
+  public readonly IsRecharging: boolean
+  public readonly IsIndestructible: boolean
   private _name: string
   private _val: number | string
   private _description: string
@@ -24,11 +30,21 @@ class Tag {
     this.ID = tagData.id
     this._name = tagData.name
     this._description = tagData.description
-    this._brew = tagData.brew || 'Core'
+    this.Brew = tagData.brew || 'Core'
     this._val = ''
     this.IsHidden = tagData.hidden || false
     this.FilterIgnore = tagData.filter_ignore || this.IsHidden
     this.ItemType = ItemType.Tag
+    this.IsUnique = this.ID === 'tg_unique'
+    this.IsAI = this.ID === 'tg_ai'
+    this.IsLimited = this.ID === 'tg_limited'
+    this.IsLoading = this.ID === 'tg_loading'
+    this.IsRecharging = this.ID === 'tg_recharge'
+    this.IsIndestructible = this.ID === 'tg_indestructible'
+  }
+
+  public get Name(): string {
+    return this._name.replace(/{VAL}/g, 'X')
   }
 
   public get Value(): number | string {
@@ -64,10 +80,6 @@ class Tag {
     }
   }
 
-  public get Name(): string {
-    return this._name.replace(/{VAL}/g, 'X')
-  }
-
   public GetName(addBonus?: number): string {
     let bonus = 0
     if (this.IsLimited) bonus = addBonus || 0
@@ -87,34 +99,6 @@ class Tag {
           : this._name.replace(/{VAL}/g, this._val)
       }
     }
-  }
-
-  public get Brew(): string {
-    return this._brew
-  }
-
-  public get IsUnique(): boolean {
-    return this.ID === 'tg_unique'
-  }
-
-  public get IsAI(): boolean {
-    return this.ID === 'tg_ai'
-  }
-
-  public get IsLimited(): boolean {
-    return this.ID === 'tg_limited'
-  }
-
-  public get IsLoading(): boolean {
-    return this.ID === 'tg_loading'
-  }
-
-  public get IsRecharging(): boolean {
-    return this.ID === 'tg_recharge'
-  }
-
-  public get IsIndestructible(): boolean {
-    return this.ID === 'tg_indestructible'
   }
 
   public static Deserialize(data: ITagData[]): Tag[] {

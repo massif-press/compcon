@@ -1,5 +1,5 @@
 import { rules, actions } from 'lancer-data'
-import { IAction } from '@/interface'
+import { Action } from '@/interface'
 
 export class Rules {
   public static get BaseStructure(): number {
@@ -90,23 +90,23 @@ export class Rules {
     return rules.overcharge
   }
 
-  public static BaseProtocols(): IAction[] {
+  public static BaseProtocols(): Action[] {
     return []
   }
 
-  public static get BaseFullActions(): IAction[] {
+  public static get BaseFullActions(): Action[] {
     return actions.filter(x => x.action_type === 'full' && !x.reserve)
   }
 
-  public static get BaseQuickActions(): IAction[] {
+  public static get BaseQuickActions(): Action[] {
     return actions.filter(x => x.action_type === 'quick' && !x.reserve)
   }
 
-  public static get BaseReactions(): IAction[] {
+  public static get BaseReactions(): Action[] {
     return actions.filter(x => x.action_type === 'reaction' && !x.reserve)
   }
 
-  public static get BaseFreeActions(): IAction[] {
+  public static get BaseFreeActions(): Action[] {
     return actions.filter(x => x.action_type === 'overcharge' && !x.reserve)
   }
 }
