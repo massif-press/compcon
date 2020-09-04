@@ -28,9 +28,9 @@ import { ICounterData, Action } from '@/interface'
 import { ActiveState } from '../mech/ActiveState'
 import { Bonus } from '../Bonus'
 import { IReserveData } from './reserves/Reserve'
-import { IDeployableData } from '../effects/interfaces'
 import { MechSystem } from '../mech/MechSystem'
 import { IMechData } from '../mech/Mech'
+import { IDeployableData } from '../Deployable'
 
 interface IPilotData {
   id: string

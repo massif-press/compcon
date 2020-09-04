@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
 import { Pilot, RangeType } from '@/class'
-import Mech from '@/classes/mech/Mech'
+import { Mech } from '@/classes/mech/Mech'
 
 interface IRoll20Data {
   ////////
@@ -190,7 +190,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       mounts: [mech.Frame.Mounts[0], mech.Frame.Mounts[1], mech.Frame.Mounts[2]],
       weapons: mech.ActiveLoadout.Weapons.map(weapon => ({
         name: weapon.Name,
-        type: `${weapon.Size} ${weapon.Type}`,
+        type: `${weapon.Size} ${weapon.ItemType}`,
         range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
         altRanges: weapon.Range.filter(r => r.Type != RangeType.Range)
           .map(r => r.Text)
@@ -203,14 +203,14 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       corePassive: `${mech.Frame.CoreSystem.PassiveName}\n${mech.Frame.CoreSystem.PassiveEffect}`,
       coreActive: `${mech.Frame.CoreSystem.ActiveName}\n${mech.Frame.CoreSystem.ActiveEffect}`,
       traits: mech.Frame.Traits.map(rank => ({
-        name: rank.name,
-        description: strip(rank.description),
+        name: rank.Name,
+        description: strip(rank.Description),
       })),
       systems: mech.ActiveLoadout.Systems.map(system => ({
         name: system.Name,
         tags: system.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         sp: system.SP,
-        effect: system.Effect.map(effect => effect.toString()).join('\n'),
+        effect: system.Effect,
       })),
     },
   }

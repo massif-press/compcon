@@ -17,12 +17,12 @@ import {
   IMechEquipmentData,
   IRangeData,
   ISynergyData,
-  IDeployableData,
   ICounterData,
 } from '@/interface'
 import { IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
 import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'
+import { IDeployableData } from '../Deployable'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize

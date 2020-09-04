@@ -1,9 +1,10 @@
 import { store } from '@/store'
-import { ReserveType, Synergy, Tag, MechEquipment, MechWeapon, MechSystem } from '@/class'
+import { ReserveType, Synergy, MechEquipment, MechWeapon, MechSystem } from '@/class'
 import { reserves } from 'lancer-data'
 import { IActionData, Action } from '@/classes/Action'
 import { IBonusData, Bonus } from '@/classes/Bonus'
-import { ISynergyData, IDeployableData, ICounterData } from '@/interface'
+import { ISynergyData, ICounterData } from '@/interface'
+import { IDeployableData } from '@/classes/Deployable'
 
 declare interface IReserveData {
   id: string

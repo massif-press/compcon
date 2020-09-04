@@ -25,20 +25,19 @@ class Frequency {
   public readonly Duration: ActivePeriod
 
   public constructor(frq: string) {
-    function setUnlimited(): void {
+    if (!frq || !frq.includes('/')) {
       this.Uses = Number.MAX_SAFE_INTEGER
       this.Duration = ActivePeriod.Unlimited
-    }
-
-    if (!frq || !frq.includes('/')) {
-      setUnlimited()
     } else {
       const fArr = frq.split('/')
       const num = parseInt(fArr[0])
 
       if (!Number.isNaN && Number.isInteger(num)) {
         this.Uses = num
-      } else setUnlimited()
+      } else {
+        this.Uses = Number.MAX_SAFE_INTEGER
+        this.Duration = ActivePeriod.Unlimited
+      }
 
       switch (fArr[1].toLowerCase()) {
         case 'turn':
@@ -55,7 +54,8 @@ class Frequency {
           this.Duration = ActivePeriod.Mission
           break
         default:
-          setUnlimited()
+          this.Uses = Number.MAX_SAFE_INTEGER
+          this.Duration = ActivePeriod.Unlimited
           break
       }
     }

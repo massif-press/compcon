@@ -3,9 +3,9 @@ import { MechWeapon, Tag, ActivationType, Duration, MechSystem } from '@/class'
 import { IActionData, Action } from '../Action'
 import { IBonusData, Bonus } from '../Bonus'
 import { ISynergyData, Synergy } from '../Synergy'
-import { IDeployableData } from '../effects/interfaces'
 import { ICounterData } from '../Counter'
 import { MechEquipment } from './MechEquipment'
+import { IDeployableData } from '../Deployable'
 
 interface ICoreData {
   name: string

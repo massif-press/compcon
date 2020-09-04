@@ -23,6 +23,7 @@ import {
   NpcFeature,
   ContentPack,
   CompendiumItem,
+  PilotEquipment,
 } from '@/class'
 import {
   ICoreBonusData,
@@ -42,6 +43,7 @@ import {
 } from '@/interface'
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
+import { IReserveData } from '@/classes/pilot/reserves/Reserve'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -116,12 +118,12 @@ export class CompendiumStore extends VuexModule {
   MechSystems: MechSystem[]
   @Brewable(() =>
     lancerData.pilot_gear.map(function(x: any) {
-      if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
-      else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
+      if (x.type.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+      else if (x.type.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData)
       return new PilotGear(x as IPilotGearData)
     })
   )
-  PilotGear: PilotGear[]
+  PilotGear: PilotEquipment[]
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {

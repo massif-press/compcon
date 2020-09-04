@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import _ from 'lodash'
 import {
   LicensedItem,
@@ -13,6 +14,17 @@ import {
   WeaponMod,
 } from '@/class'
 
+interface IMechLoadoutData {
+  id: string
+  name: string
+  systems: IEquipmentData[]
+  integratedSystems: IEquipmentData[]
+  mounts: IMountData[]
+  integratedMounts: { weapon: IMechWeaponSaveData }[]
+  improved_armament: IMountData
+  integratedWeapon: IMountData
+}
+
 class MechLoadout extends Loadout {
   private _integratedMounts: IntegratedMount[]
   private _equippableMounts: EquippableMount[]
@@ -23,7 +35,7 @@ class MechLoadout extends Loadout {
 
   public constructor(mech: Mech) {
     super(mech.Loadouts ? mech.Loadouts.length : 0)
-    this._integratedMounts = [...mech.IntegratedMounts]
+    this._integratedMounts = mech.IntegratedWeapons.map(x => new IntegratedMount(x))
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
     this._integratedSystems = mech.IntegratedSystems
@@ -32,20 +44,12 @@ class MechLoadout extends Loadout {
   }
 
   public UpdateIntegrated(mech: Mech): void {
-    this._integratedSystems.splice(0, this._integratedSystems.length)
-
-    mech.IntegratedSystems.forEach(s => {
-      this._integratedSystems.push(s)
-    })
-
-    this._integratedMounts.splice(0, this._integratedMounts.length)
-
-    mech.IntegratedMounts.forEach(s => {
-      this._integratedMounts.push(s)
-    })
-
-    console.log(this._integratedMounts)
-
+    Vue.set(this, '_integratedSystems', mech.IntegratedSystems)
+    Vue.set(
+      this,
+      '_integratedMounts',
+      mech.IntegratedWeapons.map(x => new IntegratedMount(x))
+    )
     this.save()
   }
 
@@ -252,7 +256,7 @@ class MechLoadout extends Loadout {
       : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
     ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.IntegratedMounts
+      ? mech.IntegratedWeapons.map(x => new IntegratedMount(x))
       : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
     ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml._integratedWeapon = !loadoutData.integratedWeapon
@@ -263,4 +267,4 @@ class MechLoadout extends Loadout {
   }
 }
 
-export default MechLoadout
+export { MechLoadout, IMechLoadoutData }
