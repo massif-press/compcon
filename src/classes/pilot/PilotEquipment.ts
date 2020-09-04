@@ -14,7 +14,7 @@ abstract class PilotEquipment extends CompendiumItem {
 
   public constructor(data: IPilotEquipmentData) {
     super(data)
-    this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
+    this.CanSetDamage = data.tags && data.tags.some(x => x.id === 'tg_set_damage_type')
     this.current_uses = 0
   }
 

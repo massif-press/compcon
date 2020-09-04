@@ -13,11 +13,11 @@ abstract class LicensedItem extends CompendiumItem {
   public readonly LicenseLevel: number
   private _license: string
 
-  public constructor(itemData: ILicensedItemData) {
-    super(itemData)
-    this.Source = itemData.source.toUpperCase() || ''
-    this._license = itemData.license || ''
-    this.LicenseLevel = itemData.license_level || 0
+  public constructor(data: ILicensedItemData) {
+    super(data)
+    this.Source = data.source ? data.source.toUpperCase() : ''
+    this._license = data.license || ''
+    this.LicenseLevel = data.license_level || 0
   }
 
   public get Manufacturer(): Manufacturer {

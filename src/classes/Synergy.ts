@@ -32,7 +32,9 @@ class Synergy {
   ): ISynergyDecorator[] {
     let synergies = []
     const type =
-      item.ItemType === ItemType.MechWeapon ? (item as MechWeapon).Type : (item as MechSystem).Type
+      item.ItemType === ItemType.MechWeapon
+        ? (item as MechWeapon).ItemType
+        : (item as MechSystem).Type
     const size = item.ItemType === ItemType.MechWeapon ? (item as MechWeapon).Size : 'any'
 
     pilot.Talents.forEach(pt => {
@@ -62,10 +64,10 @@ class Synergy {
   public static FrameSynergies(frame: Frame, location: string): ISynergyDecorator[] {
     let synergies = []
     frame.Traits.forEach(t => {
-      if (t.synergies)
-        t.synergies.forEach(s => {
+      if (t.Synergies)
+        t.Synergies.forEach(s => {
           synergies.push({
-            title: t.name,
+            title: t.Name,
             synergy: s,
           })
         })

@@ -4,22 +4,6 @@
 // stored anywhere and collected imports are fine as long as their constituents are impored
 // first in this file.
 
-import {
-  IAIData,
-  IBasicEffectData,
-  IChargeData,
-  IChargeEffectData,
-  IDeployableData,
-  IDroneData,
-  IEffectData,
-  IBonusEffectData,
-  IProtocolEffectData,
-  IReactionEffectData,
-  IInvadeOptionData,
-  ITechEffectData,
-  IProfileEffectData,
-  IOffensiveEffectData,
-} from './classes/effects/interfaces'
 import { ICompendiumItemData } from './classes/CompendiumItem'
 import { ILicensedItemData } from './classes/LicensedItem'
 import { ISynergyData, ISynergyDecorator } from './classes/Synergy'
@@ -61,18 +45,6 @@ import { ITagCompendiumData } from './classes/Tag'
 import { IPilotData } from './classes/pilot/Pilot'
 
 export {
-  IAIData,
-  IBasicEffectData,
-  IChargeData,
-  IChargeEffectData,
-  IDeployableData,
-  IDroneData,
-  IEffectData,
-  IBonusEffectData,
-  IProtocolEffectData,
-  IReactionEffectData,
-  IProfileEffectData,
-  IOffensiveEffectData,
   ICompendiumItemData,
   ILicensedItemData,
   ISynergyData,
@@ -114,7 +86,5 @@ export {
   IContentPack,
   ICounterData,
   ITagCompendiumData,
-  IInvadeOptionData,
-  ITechEffectData,
   IPilotData,
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '@/class'
 
 function linebreak(i: number, length: number): string {
@@ -10,23 +11,22 @@ function linebreak(i: number, length: number): string {
   }
 }
 
-function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string
-{
+function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string {
   if (w) output += `${w.Name}`
   if (discordEmoji) {
     if (w.Range) {
-      const ranges: string[] = [];
-      w.Range.forEach((r) => {
+      const ranges: string[] = []
+      w.Range.forEach(r => {
         ranges.push(`${r.DiscordEmoji} ${r.Value}`)
       })
-      output += ` ${ranges.join(" ")}`
+      output += ` ${ranges.join(' ')}`
     }
     if (w.Damage) {
-      const damages: string[] = [];
-      w.Damage.forEach((d) => {
+      const damages: string[] = []
+      w.Damage.forEach(d => {
         damages.push(`${d.DiscordEmoji} ${d.Value}`)
       })
-      output += ` ${damages.join(" ")}`
+      output += ` ${damages.join(' ')}`
     }
   }
 
@@ -79,19 +79,19 @@ class Statblock {
             output += `${loadout.Items[i].Name}`
             if (discordEmoji) {
               const weapon = loadout.Items[i] as PilotWeapon
-              if ("Range" in weapon) {
-                const ranges: string[] = [];
-                weapon.Range.forEach((r) => {
+              if ('Range' in weapon) {
+                const ranges: string[] = []
+                weapon.Range.forEach(r => {
                   ranges.push(`${r.DiscordEmoji} ${r.Value}`)
                 })
-                output += ` ${ranges.join(" ")}`
+                output += ` ${ranges.join(' ')}`
               }
-              if ("Damage" in weapon) {
-                const damages: string[] = [];
-                weapon.Damage.forEach((d) => {
+              if ('Damage' in weapon) {
+                const damages: string[] = []
+                weapon.Damage.forEach(d => {
                   damages.push(`${d.DiscordEmoji} ${d.Value}`)
                 })
-                output += ` ${damages.join(" ")}`
+                output += ` ${damages.join(' ')}`
               }
             }
             if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== loadout.Items.length) {
@@ -122,10 +122,9 @@ class Statblock {
       output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
       output += '[ WEAPONS ]\n'
-      for (const im of mech.IntegratedMounts) {
+      for (const im of mech.IntegratedWeapons) {
         output += '  INTEGRATED MOUNT: '
-        const w = im.Weapon
-        output = addWeaponToOutput(output, discordEmoji, w);
+        output = addWeaponToOutput(output, discordEmoji, im)
         output += '\n'
       }
       const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
@@ -139,7 +138,7 @@ class Statblock {
             output += 'SUPERHEAVY WEAPON BRACING'
           } else {
             mount.Weapons.forEach((w, idx) => {
-              output = addWeaponToOutput(output, discordEmoji, w);
+              output = addWeaponToOutput(output, discordEmoji, w)
               if (w.Mod) output += ` (${w.Mod.Name})`
               if (idx + 1 < mount.Weapons.length) output += ' / '
             })
@@ -163,52 +162,80 @@ class Statblock {
     return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
-  pilot.Licenses.length
-    ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
-    : 'N/A'
-}
+    pilot.Licenses.length
+      ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
+      : 'N/A'
+  }
 [ CORE BONUSES ]
   ${pilot.CoreBonuses.length ? `${pilot.CoreBonuses.map(cb => cb.Name).join(', ')}` : 'N/A'}
 [ TALENTS ]
   ${pilot.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
 [ STATS ]
   HULL:${pilot.MechSkills.Hull} AGI:${pilot.MechSkills.Agi} SYS:${pilot.MechSkills.Sys} ENGI:${
-  pilot.MechSkills.Eng
-}
+      pilot.MechSkills.Eng
+    }
   STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
   STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
   TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${
-  mech.LimitedBonus
-}
+      mech.LimitedBonus
+    }
   SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${
-  mech.SaveTarget
-}
+      mech.SaveTarget
+    }
 [ WEAPONS ]
-  ${mech.IntegratedMounts.map(mount => `Integrated: ${mount.Weapon ? mount.Weapon.Name : 'N/A  '}${
-    (discordEmoji && mount.Weapon && mount.Weapon.Range) ? ' ' + mount.Weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${
-    (discordEmoji && mount.Weapon && mount.Weapon.Damage) ? ' ' + mount.Weapon.Damage.filter(Boolean).map(d => `${d.DiscordEmoji}${d.Value}`).join(' ') : ''}\n  `)}${
-  mechLoadout
-    .AllEquippableMounts(
-      pilot.has('CoreBonus', 'cb_improved_armament'),
-      pilot.has('CoreBonus', 'cb_integrated_weapon')
-    )
-    .map(mount => {
-      let out = `${mount.Name}: `
-      if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
-      else
-        out += mount.Weapons.filter(Boolean)
-          .map(weapon => `${weapon.Name}${
-            (discordEmoji && weapon.Range) ? ' ' + weapon.Range.filter(Boolean).map(r => `${r.DiscordEmoji}${r.Value}`).join(' ') : ''}${
-            (discordEmoji && weapon.Damage) ? ' ' + weapon.Damage.filter(Boolean).map(d => `${d.DiscordEmoji}${d.Value}`).join(' ') : ''}${
-            weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`)
-          .join(' / ')
+  ${mech.IntegratedWeapons.map(
+    weapon =>
+      `Integrated: ${weapon ? weapon.Name : 'N/A  '}${
+        discordEmoji && weapon && weapon.Range
+          ? ' ' +
+            weapon.Range.filter(Boolean)
+              .map(r => `${r.DiscordEmoji}${r.Value}`)
+              .join(' ')
+          : ''
+      }${
+        discordEmoji && weapon && weapon.Damage
+          ? ' ' +
+            weapon.Damage.filter(Boolean)
+              .map(d => `${d.DiscordEmoji}${d.Value}`)
+              .join(' ')
+          : ''
+      }\n  `
+  )}${mechLoadout
+      .AllEquippableMounts(
+        pilot.has('CoreBonus', 'cb_improved_armament'),
+        pilot.has('CoreBonus', 'cb_integrated_weapon')
+      )
+      .map(mount => {
+        let out = `${mount.Name}: `
+        if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
+        else
+          out += mount.Weapons.filter(Boolean)
+            .map(
+              weapon =>
+                `${weapon.Name}${
+                  discordEmoji && weapon.Range
+                    ? ' ' +
+                      weapon.Range.filter(Boolean)
+                        .map(r => `${r.DiscordEmoji}${r.Value}`)
+                        .join(' ')
+                    : ''
+                }${
+                  discordEmoji && weapon.Damage
+                    ? ' ' +
+                      weapon.Damage.filter(Boolean)
+                        .map(d => `${d.DiscordEmoji}${d.Value}`)
+                        .join(' ')
+                    : ''
+                }${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`
+            )
+            .join(' / ')
 
-      if (mount.Bonuses.length > 0)
-        out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+        if (mount.Bonuses.length > 0)
+          out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
 
-      return out
-    })
-    .join('\n  ')}
+        return out
+      })
+      .join('\n  ')}
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
     let out = sys.Name
@@ -230,8 +257,16 @@ class Statblock {
     output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
     output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
     output += '[ FEATURES ]\n  '
-    output += npc.Items.map((item, index) => `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`).join("")
-    console.log(npc.Items.map((item, index) => `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`).join(""))
+    output += npc.Items.map(
+      (item, index) =>
+        `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
+    ).join('')
+    console.log(
+      npc.Items.map(
+        (item, index) =>
+          `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
+      ).join('')
+    )
     return output
   }
 }

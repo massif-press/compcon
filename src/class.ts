@@ -24,24 +24,6 @@ import {
   EncounterSide,
 } from './classes/enums'
 import Tag from './classes/Tag'
-import {
-  AIEffect,
-  BasicEffect,
-  ChargeType,
-  Charge,
-  ChargeEffect,
-  DeployableEffect,
-  DroneEffect,
-  GenericEffect,
-  EffectType,
-  ItemEffect,
-  BonusEffect,
-  ProtocolEffect,
-  ReactionEffect,
-  TechEffect,
-  ProfileEffect,
-  OffensiveEffect,
-} from './classes/effects'
 import { Drone } from './classes/Drone'
 import { Deployable } from './classes/Deployable'
 import { CompendiumItem } from './classes/CompendiumItem'
@@ -67,7 +49,7 @@ import { Synergy } from './classes/Synergy'
 import { Pilot } from './classes/pilot/Pilot'
 import { CoreSystem } from './classes/mech/CoreSystem'
 import { Frame } from './classes/mech/Frame'
-import MechLoadout from './classes/mech/MechLoadout'
+import { MechLoadout } from './classes/mech/MechLoadout'
 import { MechEquipment } from './classes/mech/MechEquipment'
 import { MechSystem } from './classes/mech/MechSystem'
 import { MechWeapon } from './classes/mech/MechWeapon'
@@ -76,7 +58,7 @@ import IntegratedMount from './classes/mech/IntegratedMount'
 import EquippableMount from './classes/mech/EquippableMount'
 import { WeaponMod } from './classes/mech/WeaponMod'
 import WeaponSlot from './classes/mech/WeaponSlot'
-import Mech from './classes/mech/Mech'
+import { Mech } from './classes/mech/Mech'
 import { Reserve } from './classes/pilot/reserves/Reserve'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
@@ -111,23 +93,7 @@ import { Counter } from './classes/Counter'
 
 export {
   Rules,
-  AIEffect,
-  BasicEffect,
-  ChargeType,
-  Charge,
-  ChargeEffect,
-  DeployableEffect,
-  DroneEffect,
-  GenericEffect,
-  EffectType,
   ActivationType,
-  ItemEffect,
-  BonusEffect,
-  ProtocolEffect,
-  ReactionEffect,
-  TechEffect,
-  ProfileEffect,
-  OffensiveEffect,
   Drone,
   Deployable,
   Duration,

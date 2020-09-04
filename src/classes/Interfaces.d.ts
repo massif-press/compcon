@@ -96,17 +96,6 @@ declare interface IMechState {
   history: IHistoryItem[]
 }
 
-declare interface IMechLoadoutData {
-  id: string
-  name: string
-  systems: IEquipmentData[]
-  integratedSystems: IEquipmentData[]
-  mounts: IMountData[]
-  integratedMounts: { weapon: IMechWeaponSaveData; source: string }[]
-  improved_armament: IMountData
-  integratedWeapon: IMountData
-}
-
 declare interface IMountData {
   mount_type: string
   lock: boolean

@@ -14,9 +14,10 @@ import {
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ActiveState } from './ActiveState'
 import { Bonus } from '../Bonus'
-import { IDeployableData } from '../effects/interfaces'
 import { ICounterData } from '../Counter'
 import { Action } from '../Action'
+import { IDeployableData } from '../Deployable'
+import { IMechLoadoutData } from './MechLoadout'
 
 interface IMechData {
   id: string
