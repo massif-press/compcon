@@ -2,7 +2,6 @@
   <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : ''}`" @click="$emit('click')">
     <v-toolbar
       :color="color ? color : 'primary'"
-      dark
       flat
       dense
       :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${clickable ? 'titlebar' : ''}`"
@@ -22,7 +21,9 @@
       flat
       outlined
       :style="
-        `border-color: ${color ? color : 'var(--v-primary-base)'} !important; margin-top: -2px`
+        `background-color: var(--v-panel-base); border-color: ${
+          color ? color : 'var(--v-primary-base)'
+        } !important; margin-top: -2px`
       "
     >
       <v-card-text class="pt-2 pb-0 px-4">

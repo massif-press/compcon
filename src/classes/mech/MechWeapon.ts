@@ -87,9 +87,9 @@ class MechWeapon extends MechEquipment {
     this.Size = data.mount
     this.WeaponType = data.type
     if (data.profiles) {
-      this.Profiles = data.profiles.map(x => new WeaponProfile(x))
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this.ID, i))
     } else {
-      this.Profiles = [new WeaponProfile(data)]
+      this.Profiles = [new WeaponProfile(data, this.ID)]
     }
     this._selected_profile = 0
     this._mod = null
@@ -109,9 +109,25 @@ class MechWeapon extends MechEquipment {
     return this.Profiles[this._selected_profile]
   }
 
-  public SetProfileSelection(val: number): void {
+  public SetProfileSelection(val: number, temp: boolean): void {
     this._selected_profile = val
-    this.save()
+    if (!temp) this.save()
+  }
+
+  public get ProfileEffect(): string {
+    return this.SelectedProfile.Effect || ''
+  }
+
+  public get ProfileOnAttack(): string {
+    return this.SelectedProfile.OnAttack || ''
+  }
+
+  public get ProfileOnHit(): string {
+    return this.SelectedProfile.OnHit || ''
+  }
+
+  public get ProfileOnCrit(): string {
+    return this.SelectedProfile.OnCrit || ''
   }
 
   public get Damage(): Damage[] {

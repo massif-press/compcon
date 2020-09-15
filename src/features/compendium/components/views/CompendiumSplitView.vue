@@ -1,15 +1,15 @@
 <template>
   <div class="mt-n3">
     <v-row dense>
-      <v-col cols="3" class="pt-2 ml-n6">
-        <v-list dense class="side-fixed">
+      <v-col cols="auto" class="pt-2 ml-n6">
+        <v-list dense class="side-fixed pr-2">
           <v-list-item-group v-model="selected" color="accent">
             <v-list-item v-for="i in items" :key="`${i.ID}_sidebar'`" :value="i.ID" dense>
               <v-list-item-icon>
                 <cc-logo v-if="i.Manufacturer" :source="i.Manufacturer" class="mb-n1" />
                 <v-icon v-else>cci-trait</v-icon>
               </v-list-item-icon>
-              <v-list-item-content class="ml-n6 mt-n1">
+              <v-list-item-content class="ml-n6 mb-n1">
                 <v-list-item-title
                   class="heading h3 stark--text font-weight-bold"
                   style="font-size: 15px"

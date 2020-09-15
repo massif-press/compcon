@@ -23,11 +23,11 @@
 
         <v-divider></v-divider>
 
-        <v-card-actions v-if="noConfirm">
+        <v-card-actions v-if="noConfirm && !noDismiss">
           <v-spacer />
           <v-btn text @click="dialog = false">dismiss</v-btn>
         </v-card-actions>
-        <v-card-actions v-else>
+        <v-card-actions v-else-if="!noDismiss">
           <v-btn text @click="dialog = false">cancel</v-btn>
           <v-spacer />
           <cc-btn @click="confirm">confirm</cc-btn>
@@ -60,6 +60,8 @@ export default class CCDialog extends Vue {
   readonly dark?: boolean
   @Prop({ type: Boolean })
   readonly noConfirm?: boolean
+  @Prop({ type: Boolean })
+  readonly noDismiss?: boolean
 
   dialog = false
 

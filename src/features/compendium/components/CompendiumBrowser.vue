@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-auto mr-2">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-4 mr-2">
         <v-btn-toggle v-model="profile.SelectorView" mandatory>
           <v-btn small icon value="split">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>

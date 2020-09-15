@@ -1,6 +1,6 @@
 <template>
-  <v-container class="mt-0 pt-1" fill-height>
-    <v-row justify-space-between wrap dense>
+  <v-container class="mt-0 pt-1">
+    <v-row justify="space-between" dense>
       <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="frame.Armor" />
       <cc-statblock-panel icon="$vuetify.icons.hp" name="HP" :value="frame.HP" />
       <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="frame.Evasion" />
@@ -17,9 +17,9 @@
         name="Repair Capacity"
         :value="frame.RepCap"
       />
-      <cc-statblock-panel icon="$vuetify.icons.save" name="Save" :value="frame.SaveTarget" />
+      <cc-statblock-panel icon="$vuetify.icons.save" name="Save Target" :value="frame.SaveTarget" />
       <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="frame.Speed" />
-      <cc-statblock-panel icon="$vuetify.icons.sp" name="SP" :value="frame.SP" />
+      <cc-statblock-panel icon="$vuetify.icons.sp" name="System Points" :value="frame.SP" />
     </v-row>
   </v-container>
 </template>

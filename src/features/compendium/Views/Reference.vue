@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">REFERENCE</h1>
     <v-container fluid class="effect-text">
       <span v-resize-text="{ maxFontSize: '36pt' }" class="heading mech">
@@ -228,7 +228,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
