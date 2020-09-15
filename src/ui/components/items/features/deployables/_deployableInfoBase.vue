@@ -1,0 +1,134 @@
+<template>
+  <v-card-text>
+    <v-row justify="space-between" dense class="mt-2 mx-8">
+      <cc-statblock-panel
+        v-if="deployable.size"
+        inline
+        class="mx-1"
+        :icon="`cci-size-${deployable.size === 0.5 ? 'half' : deployable.size}`"
+        name="Size"
+        :value="`${deployable.size === 0.5 ? '½' : deployable.size}`"
+      />
+      <cc-statblock-panel
+        v-if="deployable.armor"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.armor"
+        name="Armor"
+        :value="deployable.armor"
+      />
+      <cc-statblock-panel
+        v-if="deployable.hp || deployable.size"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.hp"
+        name="HP"
+        :value="
+          deployable.hp
+            ? deployable.hp.toString().replace(/[{}]/gim, '')
+            : parseFloat(deployable.size || 0.5) * 10
+        "
+      />
+      <cc-statblock-panel
+        v-if="deployable.size"
+        icon="$vuetify.icons.evasion"
+        inline
+        class="mx-1"
+        name="Evasion"
+        :value="deployable.evasion || 10"
+      />
+      <cc-statblock-panel
+        v-if="deployable.edef"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.edef"
+        name="E-Defense"
+        :value="deployable.edef"
+      />
+      <cc-statblock-panel
+        v-if="deployable.heatcap"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.heat"
+        name="Heat Capacity"
+        :value="deployable.heatcap"
+      />
+      <cc-statblock-panel
+        v-if="deployable.sensor"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.sensor"
+        name="Sensor Range"
+        :value="deployable.sensor"
+      />
+      <cc-statblock-panel
+        v-if="deployable.techattack"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.tech"
+        name="Tech Attack"
+        :value="deployable.techattack"
+      />
+      <cc-statblock-panel
+        v-if="deployable.repcap"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.repair"
+        name="Repair Capacity"
+        :value="deployable.repcap"
+      />
+      <cc-statblock-panel
+        v-if="deployable.save"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.save"
+        name="Save Target"
+        :value="deployable.save"
+      />
+      <cc-statblock-panel
+        v-if="deployable.speed"
+        inline
+        class="mx-1"
+        icon="$vuetify.icons.speed"
+        name="Speed"
+        :value="deployable.speed"
+      />
+    </v-row>
+    <v-row justify="center" dense>
+      <v-col cols="auto">
+        <p
+          class="panel mb-0 clipped body-text px-4 py-2"
+          style="width: 50vw"
+          v-html="deployable.detail"
+        />
+      </v-col>
+    </v-row>
+    <div v-if="actions.length">
+      <v-row no-gutters justify="center">
+        <v-col v-for="(a, i) in actions" :key="`${deployable.name}_action_${i}`" cols="auto">
+          <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+        </v-col>
+      </v-row>
+    </div>
+  </v-card-text>
+</template>
+
+<script lang="ts">
+import { Action } from '@/classes/Action'
+import Vue from 'vue'
+
+export default Vue.extend({
+  name: 'deployable-info-base',
+  props: {
+    deployable: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    actions() {
+      return this.deployable.actions ? this.deployable.actions.map(x => new Action(x)) : []
+    },
+  },
+})
+</script>

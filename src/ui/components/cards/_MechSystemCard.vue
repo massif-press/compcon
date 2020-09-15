@@ -1,8 +1,8 @@
 <template>
   <equipment-card-base :item="item">
     <v-col v-if="item.SP" cols="auto" class="text-center">
-      <div class="clip-icon">
-        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>mdi-flash</v-icon>
+      <div class="panel clipped">
+        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>cci-system-point</v-icon>
       </div>
       <span>
         <b>{{ item.SP }}</b>

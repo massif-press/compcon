@@ -6,23 +6,22 @@
       class="text-center px-2"
       style="display: inline-block"
     >
-      <cc-tooltip :title="r.Type" :content="r.Text">
+      <cc-tooltip :title="r.Text" :content="Help(r.Type)">
         <span v-if="small">
           <v-icon color="text">{{ r.Icon }}</v-icon>
           <v-icon v-if="r.Override">mdi-information-outline</v-icon>
           <span v-else>{{ r.Value }}</span>
           <!-- <cc-slashes v-if="i + 1 < range.length" /> -->
         </span>
-        <div v-else class="clip-icon">
-          <v-icon x-large color="text">
+        <div v-else>
+          <v-icon x-large color="text" class="mt-n4 mr-n3">
             {{ r.Icon }}
           </v-icon>
+          <span class="heading text--text" style="font-size: 24pt;">{{ r.Value }}</span>
         </div>
       </cc-tooltip>
       <span v-if="!small">
-        &nbsp;{{ r.Value }}
-        <br />
-        <div class="overline mt-n1">
+        <div class="overline mt-n2">
           <b>{{ r.Type }}</b>
         </div>
       </span>
@@ -33,6 +32,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Range } from '@/class'
+import { glossary } from 'lancer-data'
 
 @Component({ name: 'cc-range-element' })
 export default class CCRangeElement extends Vue {
@@ -41,5 +41,11 @@ export default class CCRangeElement extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+
+  Help(name: string): string {
+    return `<div class="overline subtle--text mb-n2 mt-n2">${name}:</div><div>${
+      glossary.find(x => x.name.toLowerCase() === name.toLowerCase()).description
+    }</div>`
+  }
 }
 </script>

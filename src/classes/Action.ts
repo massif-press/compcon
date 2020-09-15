@@ -23,11 +23,13 @@ enum ActivePeriod {
 class Frequency {
   public readonly Uses: number
   public readonly Duration: ActivePeriod
+  private _unlimited: boolean
 
   public constructor(frq: string) {
     if (!frq || !frq.includes('/')) {
       this.Uses = Number.MAX_SAFE_INTEGER
       this.Duration = ActivePeriod.Unlimited
+      this._unlimited = true
     } else {
       const fArr = frq.split('/')
       const num = parseInt(fArr[0])
@@ -37,6 +39,7 @@ class Frequency {
       } else {
         this.Uses = Number.MAX_SAFE_INTEGER
         this.Duration = ActivePeriod.Unlimited
+        this._unlimited = true
       }
 
       switch (fArr[1].toLowerCase()) {
@@ -56,9 +59,15 @@ class Frequency {
         default:
           this.Uses = Number.MAX_SAFE_INTEGER
           this.Duration = ActivePeriod.Unlimited
+          this._unlimited = true
           break
       }
     }
+  }
+
+  public ToString(): string {
+    if (this._unlimited) return this.Duration
+    return `${this.Uses}/${this.Duration}`
   }
 }
 
@@ -75,8 +84,9 @@ class Action {
   private _uses: number
 
   public constructor(data: IActionData, generatedName?: string) {
-    this.Name = data.name ? data.name : generatedName || 'Unknown Action'
-    this.Activation = data.activation
+    if (data.name) this.Name = data.name
+    else this.Name = generatedName || 'Unknown Action'
+    this.Activation = data.activation || ActivationType.Quick
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''
     this.Cost = data.cost || 1
@@ -97,6 +107,23 @@ class Action {
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
+  }
+
+  public get Color(): string {
+    return `action--${this.Activation.toLowerCase()}`
+  }
+
+  public get Icon(): string {
+    switch (this.Activation) {
+      case ActivationType.Full:
+        return 'mdi-hexagon-slice-6'
+      case ActivationType.Quick:
+        return 'mdi-hexagon-slice-3'
+      case ActivationType.Move:
+        return 'mdi-arrow-right-bold-hexagon-outline'
+      default:
+        return `cci-${this.Activation.toLowerCase().replace(' ', '-')}`
+    }
   }
 }
 
