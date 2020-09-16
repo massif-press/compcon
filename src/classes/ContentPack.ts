@@ -34,7 +34,6 @@ import {
   IPilotEquipmentData,
   IPilotWeaponData,
   IPilotArmorData,
-  IPilotGearData,
   ITalentData,
   INpcClassData,
   INpcFeatureData,
@@ -198,7 +197,7 @@ export class ContentPack {
       this._data.pilotGear?.map(function(x) {
         if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
         else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-        return new PilotGear(x as IPilotGearData)
+        return new PilotGear(x as IPilotEquipmentData)
       }) || []
     this._Talents = this._data.talents?.map(x => new Talent(x)) || []
     this._Tags = this._data.tags?.map(x => new Tag(x)) || []

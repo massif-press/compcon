@@ -32,7 +32,6 @@ import {
   IMechWeaponData,
   ISkillData,
   IPilotArmorData,
-  IPilotGearData,
   IPilotWeaponData,
   IWeaponModData,
   IMechSystemData,
@@ -40,6 +39,7 @@ import {
   IFactionData,
   IContentPack,
   ITagCompendiumData,
+  IPilotEquipmentData,
 } from '@/interface'
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
@@ -120,7 +120,7 @@ export class CompendiumStore extends VuexModule {
     lancerData.pilot_gear.map(function(x: any) {
       if (x.type.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
       else if (x.type.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData)
-      return new PilotGear(x as IPilotGearData)
+      return new PilotGear(x as IPilotEquipmentData)
     })
   )
   PilotGear: PilotEquipment[]

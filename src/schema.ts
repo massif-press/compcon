@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/class-name-casing */
 /* eslint-disable @typescript-eslint/camelcase */
-import { 
+import {
   IManufacturerData,
   IFactionData,
   ICoreBonusData,
@@ -10,7 +10,6 @@ import {
   IWeaponModData,
   ITalentData,
   IContentPackManifest,
-  IPilotGearData,
   IPilotWeaponData,
   IPilotArmorData,
   INpcClassData,
@@ -20,12 +19,11 @@ import {
   INpcSystemData,
   INpcTechData,
   INpcTemplateData,
-  ITagCompendiumData
+  ITagCompendiumData,
+  IPilotEquipmentData,
 } from './interface'
 
-
-type IFrameData_Fixed = Omit<IFrameData,
-'license' | 'license_level'>
+type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level'>
 
 type NoBrew<T> = Omit<T, 'brew' | 'id'>
 
@@ -38,19 +36,19 @@ export type SCHEMA__weapons = NoBrew<IMechWeaponData>[]
 export type SCHEMA__systems = NoBrew<IMechSystemData>[]
 export type SCHEMA__mods = NoBrew<IWeaponModData>[]
 export type SCHEMA__pilot_gear = (
-  NoBrew<IPilotWeaponData> |
-  NoBrew<IPilotArmorData> |
-  NoBrew<IPilotGearData>
+  | NoBrew<IPilotWeaponData>
+  | NoBrew<IPilotArmorData>
+  | NoBrew<IPilotEquipmentData>
 )[]
 export type SCHEMA__talents = NoBrew<ITalentData>[]
 export type SCHEMA__tags = Omit<NoBrew<ITagCompendiumData>, 'filter_ignore' | 'hidden'>[]
 
 export type SCHEMA__npc_classes = NoBrew<INpcClassData>[]
 export type SCHEMA__npc_features = (
-  NoBrew<INpcFeatureData> |
-  NoBrew<INpcWeaponData> |
-  NoBrew<INpcReactionData> |
-  NoBrew<INpcSystemData> |
-  NoBrew<INpcTechData>
+  | NoBrew<INpcFeatureData>
+  | NoBrew<INpcWeaponData>
+  | NoBrew<INpcReactionData>
+  | NoBrew<INpcSystemData>
+  | NoBrew<INpcTechData>
 )[]
 export type SCHEMA__npc_templates = NoBrew<INpcTemplateData>[]
