@@ -27,10 +27,8 @@ interface IWeaponModData extends IMechEquipmentData {
 class WeaponMod extends MechEquipment {
   public readonly AllowedTypes: WeaponType[]
   public readonly AllowedSizes: WeaponSize[]
-  public readonly AllowedMounts: MountType[]
   public readonly RestrictedTypes: WeaponType[]
   public readonly RestrictedSizes: WeaponSize[]
-  public readonly RestrictedMounts: MountType[]
   public readonly AddedTags: Tag[]
   public readonly AddedDamage: Damage[]
   public readonly AddedRange: Range[]
@@ -41,24 +39,25 @@ class WeaponMod extends MechEquipment {
       data.allowed_types || Object.keys(WeaponType).map(k => WeaponType[k as string])
     this.AllowedSizes =
       data.allowed_sizes || Object.keys(WeaponSize).map(k => WeaponSize[k as string])
-    this.AllowedMounts =
-      data.allowed_mounts ||
-      Object.keys(MountType).map(
-        k =>
-          data.allowed_mounts ||
-          Object.keys(MountType).map(k => WeaponType[k as string])[k as string]
-      )
     this.RestrictedTypes = data.restricted_types || []
     this.RestrictedSizes = data.restricted_sizes || []
-    this.RestrictedMounts = data.restricted_mounts || []
     this.AddedTags = data.added_tags ? Tag.Deserialize(data.added_tags) : []
     this.AddedDamage = data.added_damage ? data.added_damage.map(x => new Damage(x)) : []
     this.AddedRange = data.added_range ? data.added_range.map(x => new Range(x)) : []
+    console.log(this.AddedRange)
     this.ItemType = ItemType.WeaponMod
   }
 
   public get Type(): SystemType {
     return SystemType.Mod
+  }
+
+  public get PossibleTypes(): WeaponType[] {
+    return this.AllowedTypes.filter(x => !this.RestrictedTypes.includes(x))
+  }
+
+  public get PossibleSizes(): WeaponSize[] {
+    return this.AllowedSizes.filter(x => !this.RestrictedSizes.includes(x))
   }
 
   public get AppliedString(): string {

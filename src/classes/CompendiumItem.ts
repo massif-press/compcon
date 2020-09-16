@@ -100,7 +100,7 @@ abstract class CompendiumItem {
     if (!this._integrated) return []
     return this._integrated.map(x => {
       const w = store.getters.referenceByID('MechWeapons', x)
-      if (w) return w
+      if (w.Name) return w
       return store.getters.referenceByID('MechSystems', x)
     })
   }

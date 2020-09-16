@@ -10,14 +10,18 @@
         <span v-if="small">
           <v-icon color="text">{{ r.Icon }}</v-icon>
           <v-icon v-if="r.Override">mdi-information-outline</v-icon>
-          <span v-else>{{ r.Value }}</span>
+          <span v-else>
+            {{ `${added ? '+' : ''}${r.Value}` }}
+          </span>
           <!-- <cc-slashes v-if="i + 1 < range.length" /> -->
         </span>
         <div v-else>
           <v-icon x-large color="text" class="mt-n4 mr-n3">
             {{ r.Icon }}
           </v-icon>
-          <span class="heading text--text" style="font-size: 24pt;">{{ r.Value }}</span>
+          <span class="heading text--text" style="font-size: 24pt;">
+            {{ `${added ? '+' : ''}${r.Value}` }}
+          </span>
         </div>
       </cc-tooltip>
       <span v-if="!small">
@@ -41,6 +45,9 @@ export default class CCRangeElement extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly added?: boolean
 
   Help(name: string): string {
     return `<div class="overline subtle--text mb-n2 mt-n2">${name}:</div><div>${

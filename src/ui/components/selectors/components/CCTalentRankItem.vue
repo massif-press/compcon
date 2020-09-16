@@ -9,16 +9,47 @@
       />
     </v-col>
     <v-col>
-      <p class="body-text px-3 ma-0 ml-n2" v-html="talentRank.description" />
-      <div style="max-width: calc(100% - 20px)">
-        <v-row v-if="actions" dense justify="center" align="center">
-          <v-col cols="10">
-            <cc-item-action-panel v-for="a in actions" :key="a.name" :action="a" class="mb-1" />
+      <p class="body-text px-3 ma-0 ml-n2" v-html="talentRank.Description" />
+      <div v-if="talentRank.Actions.length">
+        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT ACTIONS</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(a, i) in talentRank.Actions"
+            :key="`${talentRank.Name}_action_${i}`"
+            cols="auto"
+          >
+            <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
           </v-col>
         </v-row>
-        <v-row v-if="item" dense justify="center" align="center">
-          <v-col cols="auto">
-            <cc-item-modal :item="item" />
+      </div>
+
+      <div v-if="talentRank.Deployables.length">
+        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT DEPLOYABLES</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(d, i) in talentRank.Deployables"
+            :key="`${talentRank.Name}_deployable_${i}`"
+            cols="auto"
+          >
+            <cc-deployable-info
+              :deployable="d"
+              :panel="false"
+              :name-override="talentRank.Name"
+              class="ma-2"
+            />
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="talentRank.IntegratedEquipment.length">
+        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT EQUIPMENT</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(x, i) in talentRank.IntegratedEquipment"
+            :key="`${talentRank.Name}_integrated_${i}`"
+            cols="auto"
+          >
+            <cc-integrated-info :item="x" :panel="false" />
           </v-col>
         </v-row>
       </div>
@@ -28,7 +59,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { TalentRank } from '@/class'
 export default Vue.extend({
   name: 'cc-talent-rank-item',
   props: {
@@ -52,14 +82,6 @@ export default Vue.extend({
       type: String,
       required: false,
       default: 'accent',
-    },
-  },
-  computed: {
-    item() {
-      return TalentRank.Item(this.talentRank)
-    },
-    actions() {
-      return TalentRank.Actions(this.talentRank)
     },
   },
 })

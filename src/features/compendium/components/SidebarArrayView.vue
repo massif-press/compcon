@@ -22,7 +22,7 @@
       :key="`${e[nameKey].replace(/\W/g, '')}_${i}`"
       :icon="icon || ''"
       :title="e[nameKey]"
-      class="my-4"
+      class="my-6"
       dense
     >
       <h3 v-if="subKey" class="heading mb-2" v-html="e[subKey]" />

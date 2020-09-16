@@ -9,14 +9,16 @@
       <cc-tooltip
         v-if="typeOverride"
         :key="typeOverride"
-        :title="`${d.Value} ${typeOverride} Damage`"
+        :title="`${added ? '+' : ''}${d.Value} ${typeOverride} Damage`"
         :content="Help(d)"
       >
         <span v-if="small">
           <v-icon :color="`damage--${typeOverride.toLowerCase()}`">
             cci-{{ typeOverride.toLowerCase() }}
           </v-icon>
-          <span>{{ d.Value }}</span>
+          <span>
+            {{ d.Value }}
+          </span>
         </span>
         <div v-else class="clip-icon">
           <v-icon x-large :color="`damage--${typeOverride.toLowerCase()}`">
@@ -28,11 +30,15 @@
         <span v-if="small">
           <v-icon :color="d.Color">{{ d.Icon }}</v-icon>
           <v-icon v-if="d.Override">mdi-information-outline</v-icon>
-          <span v-else>{{ d.Value }}</span>
+          <span v-else>
+            {{ `${added ? '+' : ''}${d.Value}` }}
+          </span>
         </span>
         <div v-else>
           <v-icon x-large :color="d.Color" class="mt-n4 mr-n3">{{ d.Icon }}</v-icon>
-          <span class="heading text--text" style="font-size: 24pt;">{{ d.Value }}</span>
+          <span class="heading text--text" style="font-size: 24pt;">
+            {{ `${added ? '+' : ''}${d.Value}` }}
+          </span>
         </div>
       </cc-tooltip>
       <span v-if="!small">
@@ -62,6 +68,9 @@ export default class CCDamageElement extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly small: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly added: boolean
 
   Help(d: Damage): string {
     switch (d.Type.toLowerCase()) {
