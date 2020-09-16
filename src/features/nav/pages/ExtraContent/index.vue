@@ -1,6 +1,6 @@
 <template>
   <v-card flat tile class="containerCard">
-    <v-tabs v-model="tabs" background-color="secondary accent-4" dark icons-and-text>
+    <v-tabs v-model="tabs" background-color="panel" color="accent" dark icons-and-text>
       <v-tab>
         Content Packs
         <v-icon>list_alt</v-icon>
@@ -9,6 +9,10 @@
         Install Content
         <v-icon>open_in_browser</v-icon>
       </v-tab>
+      <v-tab>
+        LCP Directory
+        <v-icon>mdi-format-list-text</v-icon>
+      </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tabs">
       <v-tab-item>
@@ -16,6 +20,9 @@
       </v-tab-item>
       <v-tab-item>
         <pack-install @installed="onInstalled" />
+      </v-tab-item>
+      <v-tab-item>
+        <v-card>TODO</v-card>
       </v-tab-item>
     </v-tabs-items>
   </v-card>

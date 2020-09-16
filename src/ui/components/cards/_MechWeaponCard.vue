@@ -11,17 +11,17 @@
     <div v-else slot="other_effects">
       <div v-if="item.ProfileOnAttack" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
-        <span class="overline">ON ATTACK</span>
+        <span class="overline stark--text">ON ATTACK</span>
         <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnAttack" />
       </div>
       <div v-if="item.ProfileOnHit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
-        <span class="overline">ON HIT</span>
+        <span class="overline stark--text">ON HIT</span>
         <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnHit" />
       </div>
       <div v-if="item.ProfileOnCrit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
-        <span class="overline">ON CRITICAL HIT</span>
+        <span class="overline stark--text">ON CRITICAL HIT</span>
         <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnCrit" />
       </div>
     </div>

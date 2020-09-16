@@ -8,7 +8,7 @@
     </cc-solo-dialog>
     <cc-talent-rank-item
       v-for="(tr, i) in ranks"
-      :key="tr.name"
+      :key="tr.Name"
       :lock="i + 1 > rank"
       :rank="i + 1"
       :talent-rank="tr"

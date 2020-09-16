@@ -4,6 +4,10 @@
       <v-icon left dark>{{ item.Icon }}</v-icon>
       {{ item.Name }}
     </span>
+    <span slot="title">
+      <v-icon left large dark>{{ item.Icon }}</v-icon>
+      {{ item.Name }}
+    </span>
     <integrated-info-base :item="item" />
   </cc-dialog>
 </template>
