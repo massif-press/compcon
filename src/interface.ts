@@ -19,7 +19,6 @@ import { ICoreBonusData } from './classes/pilot/CoreBonus'
 import { IPilotEquipmentData } from './classes/pilot/PilotEquipment'
 import { IPilotArmorData } from './classes/pilot/PilotArmor'
 import { IPilotWeaponData } from './classes/pilot/PilotWeapon'
-import { IPilotGearData } from './classes/pilot/PilotGear'
 import { IManufacturerData } from './classes/Manufacturer'
 import { IFactionData } from './classes/Faction'
 import { ITalentData } from './classes/pilot/Talent'
@@ -62,7 +61,6 @@ export {
   IPilotEquipmentData,
   IPilotArmorData,
   IPilotWeaponData,
-  IPilotGearData,
   IManufacturerData,
   IFactionData,
   ITalentData,
