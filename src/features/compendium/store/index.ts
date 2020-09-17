@@ -44,6 +44,7 @@ import {
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/reserves/Reserve'
+import * as PActions from '@/classes/Action'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -80,11 +81,9 @@ export class CompendiumStore extends VuexModule {
   public LancerVersion = ''
   public CCVersion = ''
   public UserProfile: UserProfile = {} as any
-  public Skills: Skill[] = []
   public Statuses: Status[] = []
   public Quirks: string[] = []
   // public Licenses: License[] = []
-  public Reserves: Reserve[] = []
   public Environments: Environment[] = []
   public Sitreps: Sitrep[] = []
 
@@ -99,7 +98,8 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
-
+  @Brewable(() => lancerData.actions.map((x: PActions.IActionData) => new PActions.Action(x)))
+  Actions: PActions.Action[]
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
   @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
@@ -124,6 +124,10 @@ export class CompendiumStore extends VuexModule {
     })
   )
   PilotGear: PilotEquipment[]
+  @Brewable(() => lancerData.reserves.map((x: IReserveData) => new Reserve(x)))
+  Reserves: Reserve[]
+  @Brewable(() => lancerData.skills.map((x: ISkillData) => new Skill(x)))
+  Skills: Skill[]
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {
@@ -140,8 +144,6 @@ export class CompendiumStore extends VuexModule {
   @Mutation
   private [LOAD_DATA](): void {
     getUser().then(profile => (this.UserProfile = profile))
-    this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
-    this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
     this.Environments = lancerData.environments

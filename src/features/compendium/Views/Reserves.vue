@@ -1,30 +1,20 @@
 <template>
   <div>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">RESERVES & DOWNTIME</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">RESERVES</h1>
     <v-tabs
       v-model="tabModel"
       background-color="primary"
-      :slider-size="12"
+      :slider-size="6"
       slider-color="active"
       fixed-tabs
     >
       <v-tab v-for="(k, i) in Object.keys(reserves)" :key="'tab_' + k + i" ripple>
         {{ k }}
       </v-tab>
-      <v-tab ripple>
-        Downtime Actions
-      </v-tab>
       <v-tab-item v-for="(k, i) in Object.keys(reserves)" :key="'titem_' + k + i + 'desc'">
-        <v-container grid-list-md fluid>
-          <v-row wrap fill-height justify="center">
+        <v-container>
+          <v-row justify="center">
             <reserve-card v-for="r in reserves[k]" :key="r.ID" :reserve="r" />
-          </v-row>
-        </v-container>
-      </v-tab-item>
-      <v-tab-item v-for="(k, i) in Object.keys(reserves)" :key="'stitem_' + k + i + 'desc'">
-        <v-container grid-list-md fluid>
-          <v-row wrap fill-height justify="center">
-            <action-card v-for="a in downtimeActions" :key="a.id" :action="a" downtime />
           </v-row>
         </v-container>
       </v-tab-item>
@@ -34,22 +24,21 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import _ from 'lodash'
-import ActionCard from '../components/ActionCard.vue'
 import ReserveCard from '../components/ReserveCard.vue'
-import { actions, reserves } from 'lancer-data'
+import Component from 'vue-class-component'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
+import { Reserve } from '@/class'
+import _, { Dictionary } from 'lodash'
 
-export default Vue.extend({
-  name: 'reference',
-  components: { ActionCard, ReserveCard },
-  data: () => ({
-    tabModel: 0,
-    downtimeActions: [],
-    reserves: [],
-  }),
-  created() {
-    this.reserves = _.groupBy(reserves, 'type')
-    this.downtimeActions = actions.filter(x => x.action_type === 'downtime')
-  },
+@Component({
+  components: { ReserveCard },
 })
+export default class Reserves extends Vue {
+  tabModel: 0
+  private compendium = getModule(CompendiumStore, this.$store)
+  get reserves(): Dictionary<Reserve[]> {
+    return _.groupBy(this.compendium.Reserves, 'Type')
+  }
+}
 </script>

@@ -44,7 +44,6 @@ class WeaponMod extends MechEquipment {
     this.AddedTags = data.added_tags ? Tag.Deserialize(data.added_tags) : []
     this.AddedDamage = data.added_damage ? data.added_damage.map(x => new Damage(x)) : []
     this.AddedRange = data.added_range ? data.added_range.map(x => new Range(x)) : []
-    console.log(this.AddedRange)
     this.ItemType = ItemType.WeaponMod
   }
 
@@ -58,10 +57,6 @@ class WeaponMod extends MechEquipment {
 
   public get PossibleSizes(): WeaponSize[] {
     return this.AllowedSizes.filter(x => !this.RestrictedSizes.includes(x))
-  }
-
-  public get AppliedString(): string {
-    return 'todo'
   }
 
   public static Serialize(item: WeaponMod): IEquipmentData {

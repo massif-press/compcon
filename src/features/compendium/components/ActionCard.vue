@@ -2,24 +2,37 @@
   <v-col xl="4" :lg="downtime ? '4' : '3'" md="6" xs="12">
     <cc-titled-panel
       clickable
-      :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
-      :icon="`$vuetify.icons.${action.action_type}`"
-      :color="`action--${action.action_type}`"
+      :title="`${action.Name}${action.IsPilotAction ? ' (Pilot Only)' : ''}`"
+      :icon="action.Icon"
+      :color="action.Color"
+      style="height:100%"
       @click="$refs.dialog.show()"
     >
-      <v-card-text class="text-xs-left py-2">
-        <p class="flavor-text py-0" v-html="action.description" />
+      <v-card-text class="text-left py-1">
+        <p class="body-text mb-1 pa-2" v-html="action.Terse" />
       </v-card-text>
     </cc-titled-panel>
     <cc-solo-dialog
       ref="dialog"
-      :icon="`$vuetify.icons.${action.action_type}`"
-      :color="`action--${action.action_type}`"
-      no-confirm
-      :title="action.name + (action.pilot ? ' (Pilot Only)' : '')"
+      :title="`${action.Name}${action.IsPilotAction ? ' (Pilot Only)' : ''}`"
+      :icon="action.Icon"
+      :color="action.Color"
+      no-actions
       width="80vw"
     >
-      <p class="body-text text--text" v-html="action.detail" />
+      <v-container>
+        <p class="body-text text--text mb-1 mt-2" v-html="action.Detail" />
+        <div class="overline subtle--text">OPTIONS</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(a, i) in action.SubActions"
+            :key="`${action.Name}_action_${i}`"
+            cols="auto"
+          >
+            <cc-action :action="a" :panel="false" class="ma-2" />
+          </v-col>
+        </v-row>
+      </v-container>
     </cc-solo-dialog>
   </v-col>
 </template>

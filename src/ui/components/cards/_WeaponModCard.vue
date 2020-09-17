@@ -1,5 +1,15 @@
 <template>
   <equipment-card-base :item="item">
+    <v-col cols="auto" class="text-center">
+      <v-icon size="56px" color="stark" class="mt-n3 mb-n2">cci-weapon-mod</v-icon>
+      <div class="overline mt-n1 mb-n5">
+        WEAPON
+      </div>
+      <div class="overline">
+        MODIFICATION
+      </div>
+    </v-col>
+    <v-divider vertical class="mx-4" />
     <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto">
       <cc-range-element :range="item.AddedRange" added />
     </v-col>

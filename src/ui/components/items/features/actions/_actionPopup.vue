@@ -1,5 +1,5 @@
 <template>
-  <cc-dialog no-dismiss small-btn :color="action.Color" large>
+  <cc-dialog no-dismiss :color="action.Color" large>
     <span slot="button" class="white--text" style="width: 100%">
       <v-icon dark>{{ action.Icon }}</v-icon>
       {{ action.Name }}
