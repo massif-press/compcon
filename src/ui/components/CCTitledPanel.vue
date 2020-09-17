@@ -4,12 +4,15 @@
       :color="color ? color : 'primary'"
       flat
       dense
+      dark
       :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${clickable ? 'titlebar' : ''}`"
       :style="dense ? 'height: 28px' : ''"
     >
       <v-toolbar-title :class="dense ? 'mt-n6' : ''">
         <v-icon v-if="icon" :x-large="!dense" left>{{ icon }}</v-icon>
-        <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
+        <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">
+          {{ title }}
+        </span>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items class="mr-4">

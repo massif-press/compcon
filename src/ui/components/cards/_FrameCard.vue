@@ -54,8 +54,8 @@
     <span class="overline ml-n2 text--text">AVAILABLE WEAPON MOUNTS</span>
     <v-row justify="space-around" class="mb-3">
       <v-col v-for="(m, i) in item.Mounts" :key="m + i" cols="auto">
-        <v-card color="primary" class="clipped">
-          <v-card-text class="heading h3 stark--text px-8">{{ m }} Mount</v-card-text>
+        <v-card color="primary" dark class="clipped">
+          <v-card-text class="heading h3 px-8">{{ m }} Mount</v-card-text>
         </v-card>
       </v-col>
     </v-row>

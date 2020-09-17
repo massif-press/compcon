@@ -66,6 +66,10 @@ class Reserve {
     store.dispatch('saveData')
   }
 
+  public get Icon(): string {
+    return `cci-reserve-${this.Type.toString().toLowerCase()}`
+  }
+
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return []
     return this._integrated.map(x => {

@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <v-row justify="space-between" dense class="mt-2 mx-8">
+    <v-row justify="center" dense class="mt-2 mx-8">
       <cc-statblock-panel
         v-if="deployable.size"
         inline

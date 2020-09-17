@@ -32,7 +32,7 @@
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-chip v-if="cs.Use !== 'Mission'" small label outlined>{{ cs.Use.toUpperCase() }}</v-chip>
-        <v-chip small label :color="`action--${cs.Activation.toLowerCase()}`">
+        <v-chip small label dark :color="`action--${cs.Activation.toLowerCase()}`">
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
       </v-col>

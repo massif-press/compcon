@@ -10,6 +10,7 @@ interface IActionData {
   terse?: string
   detail: string
   pilot?: boolean
+  sub_actions?: IActionData[]
 }
 
 enum ActivePeriod {
@@ -81,6 +82,8 @@ class Action {
   public readonly Init: string
   public readonly Trigger: string
   public readonly IsPilotAction: boolean
+  public readonly IsDowntimeAction: boolean
+  private _sub_actions: IActionData[]
   private _uses: number
 
   public constructor(data: IActionData, generatedName?: string) {
@@ -95,6 +98,9 @@ class Action {
     this.Init = data.init || ''
     this.Trigger = data.trigger || ''
     this.IsPilotAction = data.pilot
+    this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
+    this._sub_actions = data.sub_actions || []
+    // this.SubAactions = data.sub_actions ? data.sub_actions.map(a => new Action(a)) : []
   }
 
   public get Uses(): number {
@@ -107,6 +113,10 @@ class Action {
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
+  }
+
+  public get SubActions(): Action[] {
+    return this._sub_actions.map(a => new Action(a))
   }
 
   public get Color(): string {
