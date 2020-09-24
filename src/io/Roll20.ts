@@ -169,8 +169,8 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
     talents: pilot.Talents.map(talent => ({
       name: talent.Talent.Name,
       ranks: talent.Talent.Ranks.map(rank => ({
-        name: rank.name,
-        description: strip(rank.description),
+        name: rank.Name,
+        description: strip(rank.Description),
       })),
       currentRank: talent.Rank,
     })),
