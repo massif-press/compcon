@@ -10,15 +10,12 @@ import {
   SystemType,
 } from '@/class'
 import { IDamageData, IRangeData, IMechEquipmentData } from '@/interface'
-import { MountType } from '../enums'
 
 interface IWeaponModData extends IMechEquipmentData {
   allowed_types?: WeaponType[]
   allowed_sizes?: WeaponSize[]
-  allowed_mounts?: MountType[]
   restricted_types?: WeaponType[]
   restricted_sizes?: WeaponSize[]
-  restricted_mounts?: MountType[]
   added_tags?: ITagData[]
   added_damage?: IDamageData[]
   added_range?: IRangeData[]

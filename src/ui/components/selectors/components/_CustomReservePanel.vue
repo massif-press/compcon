@@ -3,15 +3,15 @@
     <v-col cols="7">
       <cc-titled-panel
         title="Custom Reserve"
-        icon="cci-barrage"
+        :icon="`cci-reserve-${customType.toLowerCase()}`"
         :color="`reserve--${customType.toLowerCase()}`"
       >
         <div class="text-center">
           <v-btn-toggle v-model="customType" tile mandatory group color="secondary">
-            <v-btn value="Resources">Resources Reserve</v-btn>
-            <v-divider vertical="mx-2" />
+            <v-btn value="Resource">Resource Reserve</v-btn>
+            <v-divider vertical class="mx-2" />
             <v-btn value="Mech">Mech Reserve</v-btn>
-            <v-divider vertical="mx-2" />
+            <v-divider vertical class="mx-2" />
             <v-btn value="Tactical">Tactical Reserve</v-btn>
           </v-btn-toggle>
         </div>
@@ -36,7 +36,8 @@
           :disabled="!customType || !customName"
           @click="add()"
         >
-          <v-icon left>cci-accuracy</v-icon>Add Reserve
+          <v-icon left>cci-accuracy</v-icon>
+          Add Reserve
         </v-btn>
       </cc-titled-panel>
     </v-col>
@@ -50,13 +51,13 @@ import { Reserve } from '@/class'
 export default Vue.extend({
   name: 'custom-reserve-panel',
   data: () => ({
-    customType: 'Resources',
+    customType: 'Resource',
     customName: '',
     details: '',
   }),
   methods: {
     add() {
-      let nr = new Reserve({
+      const nr = new Reserve({
         id: 'reserve_custom',
         type: this.customType,
         name: this.customName,
@@ -66,6 +67,7 @@ export default Vue.extend({
         resource_note: '',
         resource_cost: '',
         used: false,
+        consumable: true,
       })
       this.clear()
       this.$emit('add', nr)

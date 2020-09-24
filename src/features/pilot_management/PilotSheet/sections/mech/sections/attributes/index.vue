@@ -1,16 +1,16 @@
 <template>
   <v-col>
     <div class="ml-n3">
-      <cc-title small :color="color" class="pl-3">
+      <cc-title small :color="color" class="pl-3 ml-n6">
         Mech Attributes
       </cc-title>
     </div>
     <v-row no-gutters>
       <v-col cols="1" class="mr-3">
-        <hase-pips attr="hull" :val="pilot.MechSkills.Hull" :color="color" />
-        <hase-pips attr="agility" :val="pilot.MechSkills.Agi" :color="color" />
-        <hase-pips attr="systems" :val="pilot.MechSkills.Sys" :color="color" />
-        <hase-pips attr="engineering" :val="pilot.MechSkills.Eng" :color="color" />
+        <hase-pips :mech="mech" attr="hull" :val="pilot.MechSkills.Hull" :color="color" />
+        <hase-pips :mech="mech" attr="agility" :val="pilot.MechSkills.Agi" :color="color" />
+        <hase-pips :mech="mech" attr="systems" :val="pilot.MechSkills.Sys" :color="color" />
+        <hase-pips :mech="mech" attr="engineering" :val="pilot.MechSkills.Eng" :color="color" />
         <v-divider class="mt-2" />
         <span v-if="$vuetify.breakpoint.lgAndUp" class="overline no-height">System Points</span>
         <span v-else class="overline no-height">SP</span>

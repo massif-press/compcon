@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="mod">
+    <slot-card-base ref="base" :item="mod" :mech="mech">
       <div slot="header">
         <span v-if="mod">
           <equipment-options :item="mod" />
@@ -54,6 +54,10 @@ export default Vue.extend({
     EquipmentOptions,
   },
   props: {
+    mech: {
+      type: Object,
+      required: true,
+    },
     weapon: {
       type: Object,
       required: false,

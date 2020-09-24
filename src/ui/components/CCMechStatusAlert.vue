@@ -1,5 +1,5 @@
 <template>
-  <v-alert v-if="show" :color="color" dense dark>
+  <v-alert v-if="show" :color="color" dense dark class="ma-0">
     <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="white">{{ icon }}</v-icon>
     <div class="heading h2">
       <span v-if="type === 'ejected'">ALERT: PILOT EJECTED</span>

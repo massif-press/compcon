@@ -28,6 +28,7 @@
             :talent="t.Talent"
             :rank="t.Rank"
             hide-locked
+            action-buttons
             color="pilot"
             item-color="secondary"
           />

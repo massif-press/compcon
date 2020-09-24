@@ -3,6 +3,9 @@
     <cc-selector-table
       :items="availableSystems"
       :headers="headers"
+      sp-disable
+      :sp-ignore="showOverSP"
+      :sp="freeSP"
       item-type-fallback="MechSystem"
       @equip="$emit('equip', $event)"
     >
@@ -79,7 +82,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
+                v-html="'cci-system-point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -134,7 +137,7 @@ export default Vue.extend({
       )
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= Bonus.get('ai_cap', this.mech.Pilot)) {
+      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
         i = i.filter(x => !x.IsAI)
       }
 
@@ -144,9 +147,9 @@ export default Vue.extend({
         )
       }
 
-      if (!this.showOverSP) {
-        i = i.filter(x => x.SP <= this.freeSP)
-      }
+      // if (!this.showOverSP) {
+      //   i = i.filter(x => x.SP <= this.freeSP)
+      // }
 
       return _.sortBy(i, ['Source', 'Name'])
     },

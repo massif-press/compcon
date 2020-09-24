@@ -1,6 +1,13 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="item" :readonly="readonly">
+    <slot-card-base
+      ref="base"
+      :item="item"
+      :mech="mech"
+      :readonly="readonly"
+      :color="color"
+      :empty="!item"
+    >
       <div slot="header">
         <span v-if="item">
           <equipment-options
@@ -25,13 +32,8 @@
         </span>
         <span v-else>{{ weaponSlot.Size }} Weapon</span>
       </div>
-      <div slot="header-items" class="text-right">
-        <cc-range-element
-          v-if="item.Range"
-          small
-          :range="item.getTotalRange(mech)"
-          class="d-inline"
-        />
+      <div v-if="item" slot="header-items" class="text-right">
+        <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
 
         <cc-slashes v-if="item.Range && item.Damage" />
         <cc-damage-element
@@ -41,13 +43,27 @@
           :type-override="item.DamageTypeOverride"
           class="d-inline"
         />
+        <div
+          v-if="!intWeapon && !readonly"
+          class="d-inline pl-3 ml-3"
+          style=" border-left: 1px solid #616161;"
+        >
+          <v-icon v-if="item" class="fadeSelect mt-n1" @click.stop="remove()">
+            delete
+          </v-icon>
+          <v-icon
+            class="fadeSelect mt-n1"
+            @click.stop="$refs.base.$refs.selectorDialog.show()"
+            v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
+          />
+        </div>
       </div>
-      <div v-if="item">
+      <div v-if="item" class="mt-1">
         <equipment-header
           :item="item"
           :readonly="readonly"
           :color="color"
-          :use-bonus="mech.Pilot.LimitedBonus"
+          :use-bonus="mech.LimitedBonus"
         >
           <div v-if="!intWeapon && !readonly" slot="left">
             <v-btn outlined small :color="color" @click.stop="$refs.modDialog.show()">
@@ -55,36 +71,44 @@
               <span v-if="!item.Mod">NO MOD INSTALLED</span>
             </v-btn>
           </div>
-          <div v-if="!intWeapon && !readonly" class="mr-2">
-            <v-icon v-if="item" class="fadeSelect mt-n1" dark @click.stop="remove()">
-              delete
-            </v-icon>
-            <v-icon
-              class="fadeSelect mt-n1"
-              dark
-              @click.stop="$refs.base.$refs.selectorDialog.show()"
-              v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
-            />
-          </div>
         </equipment-header>
-        <cc-item-effect-panel
-          v-if="item.Effect"
-          :key="item.Effect.length"
-          :effects="item.Effect"
-          transparent
-        />
-        <v-row v-if="item.Mod" dense justify="center">
-          <mod-inset :mod="item.Mod" :mech="mech" @remove-mod="item.Mod = null" />
-        </v-row>
-        <ammo-case-inset :level="armoryLevel" />
-        <v-row no-gutters align="center" class="mr-6">
-          <v-col v-if="item" cols="auto">
-            <cc-synergy-panel location="weapon" :item="item" :pilot="mech.Pilot" />
-          </v-col>
-          <v-col v-if="item.Mod" cols="auto" class="ml-6">
-            <cc-tags small :tags="item.Mod.AddedTags" color="mod" />
-          </v-col>
-        </v-row>
+        <div class="mt-n1">
+          <div v-if="item.ProfileEffect">
+            <div class="mb-n2">
+              <v-icon>cci-weapon</v-icon>
+              <span class="overline">
+                <span class="stark--text">EQUIPMENT EFFECT</span>
+                ::{{ item.SelectedProfile.Name }}
+              </span>
+              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileEffect" />
+            </div>
+          </div>
+          <div v-if="item.ProfileOnAttack">
+            <div class="mb-n2">
+              <v-icon>cci-weapon</v-icon>
+              <span class="overline stark--text">ON ATTACK</span>
+              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnAttack" />
+            </div>
+          </div>
+          <div v-if="item.ProfileOnHit">
+            <div class="mb-n2">
+              <v-icon>cci-weapon</v-icon>
+              <span class="overline stark--text">ON HIT</span>
+              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnHit" />
+            </div>
+          </div>
+          <div v-if="item.ProfileOnCrit">
+            <div class="mb-n2">
+              <v-icon>cci-weapon</v-icon>
+              <span class="overline stark--text">ON CRITICAL HIT</span>
+              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnCrit" />
+            </div>
+          </div>
+          <v-row v-if="item.Mod" dense justify="center">
+            <mod-inset :mod="item.Mod" :mech="mech" :color="color" @remove-mod="item.Mod = null" />
+          </v-row>
+          <ammo-case-inset :level="armoryLevel" />
+        </div>
       </div>
       <weapon-selector
         slot="selector"
@@ -129,6 +153,7 @@ import {
   EquippableMount,
   PilotTalent,
   WeaponType,
+  Range,
 } from '@/class'
 
 export default Vue.extend({
@@ -181,6 +206,10 @@ export default Vue.extend({
       )
       if (!tal) return 0
       return tal.Rank
+    },
+    getRange() {
+      if (!this.item) return []
+      return Range.CalculateRange(this.item, this.mech)
     },
   },
   methods: {

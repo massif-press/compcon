@@ -49,7 +49,7 @@
               <span>
                 <span class="caption">{{ f.Source }}</span>
                 <br />
-                <span class="heading h2 font-weight-bold">{{ f.Name }} {{ f.LicenseLevel }}</span>
+                <span class="heading h2 font-weight-bold">{{ f.Name }}</span>
               </span>
               <v-chip
                 v-for="mt in f.Mechtype"
@@ -137,7 +137,7 @@ export default Vue.extend({
 
       if (this.selectedTypes.length) {
         const sel = this.selectedTypes.map(x => this.frameTypes[x])
-        i = i.filter(x => x.Mechtype.some(t => sel.includes(t)))
+        i = i.filter(x => x.MechType.some(t => sel.includes(t)))
       }
 
       return i.map(x => x.ID)
@@ -168,3 +168,31 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+#img-hover {
+  opacity: 0.55;
+  transition: all 0.3s ease-in-out;
+}
+
+#hover-parent:hover > #img-hover {
+  opacity: 1;
+}
+
+.border-primary #img-hover {
+  opacity: 1;
+}
+
+#img-mobile {
+  opacity: 0.1;
+  transition: all 0.3s ease-in-out;
+}
+
+#mobile-parent:hover > #img-mobile {
+  opacity: 1;
+}
+
+.border-primary #img-mobile {
+  opacity: 1;
+}
+</style>

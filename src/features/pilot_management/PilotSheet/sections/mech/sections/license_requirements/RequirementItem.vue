@@ -16,7 +16,7 @@
     </template>
 
     <v-card tile>
-      <v-card-title v-if="license.missing" class="warning white--text font-weight-bolder py-1 my-0">
+      <v-card-title v-if="license.missing" class="error white--text font-weight-bolder py-1 my-0">
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text--text">

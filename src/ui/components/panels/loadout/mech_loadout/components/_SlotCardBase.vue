@@ -5,7 +5,7 @@
         <v-card-title
           class="white--text py-0 heading h3 hover-item"
           style="cursor: pointer;"
-          @click="$refs.detailDialog.show()"
+          @click="empty ? '' : $refs.detailDialog.show()"
         >
           <span style="display: flex; width: 100%">
             <slot name="header" />
@@ -13,17 +13,61 @@
             <slot name="header-items" />
           </span>
         </v-card-title>
-        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-1 text-center`">
-          <div class="underline-slide" style="height: 100%">
-            <div v-if="item" class="text-left">
-              <slot />
-              <!-- <v-row v-if="item.notes">
-                <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
-                  <cc-tooltip simple inline :content="n">
-                    <v-icon color="active">mdi-note</v-icon>
-                  </cc-tooltip>
+        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
+          <div class="underline-slide">
+            <slot />
+            <div v-if="item">
+              <v-row class="text-left" dense align="end">
+                <v-col>
+                  <v-row justify="space-around" dense>
+                    <v-col v-if="item.Actions && item.Actions.length" cols="auto">
+                      <div class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
+                      <v-row no-gutters justify="center">
+                        <v-col
+                          v-for="(a, i) in item.Actions"
+                          :key="`${item.Name}_action_${i}`"
+                          cols="auto"
+                        >
+                          <cc-action
+                            :action="a"
+                            :panel="$vuetify.breakpoint.lgAndUp"
+                            class="ma-2"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col v-if="item.Deployables.length" cols="auto">
+                      <div class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
+                      <v-row no-gutters justify="center">
+                        <v-col
+                          v-for="(d, i) in item.Deployables"
+                          :key="`${item.Name}_deployable_${i}`"
+                          cols="auto"
+                        >
+                          <cc-deployable-info
+                            :deployable="d"
+                            :panel="$vuetify.breakpoint.lgAndUp"
+                            :name-override="item.Name"
+                            class="ma-2"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
                 </v-col>
-              </v-row> -->
+              </v-row>
+              <v-row no-gutters class="mr-3 mt-n2">
+                <v-col cols="auto">
+                  <cc-tags small :tags="item.Tags" :color="color" />
+                </v-col>
+                <v-spacer />
+                <v-col cols="auto">
+                  <cc-bonus-display :item="item" />
+                </v-col>
+                <v-col cols="auto">
+                  <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
+                </v-col>
+              </v-row>
             </div>
             <div
               v-else
@@ -50,22 +94,12 @@
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
-      <!-- <div v-if="item">
-        <v-textarea
-          v-model="item.Note"
-          outlined
-          auto-grow
-          rows="2"
-          filled
-          prepend-icon="mdi-note"
-          label="Equipment Notes"
-        />
-      </div> -->
     </cc-solo-dialog>
   </v-col>
 </template>
 
 <script lang="ts">
+import { ItemType } from '@/class'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -76,9 +110,29 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    mech: {
+      type: Object,
+      required: true,
+      default: null,
+    },
     readonly: {
       type: Boolean,
       default: false,
+    },
+    empty: {
+      type: Boolean,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
+  computed: {
+    synergyLocation() {
+      if (!this.item) return 'none'
+      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
     },
   },
 })

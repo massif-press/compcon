@@ -18,17 +18,13 @@
           class="pa-0"
           editable
         >
-          {{ talent.Ranks[i - 1].name }}
+          {{ talent.Rank(i).Name }}
         </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
         <v-stepper-content v-for="i in 3" :key="i" :step="'I'.repeat(i)" class="pt-0 pb-2">
-          <cc-talent-rank-item
-            :lock="pilotRank < i"
-            :rank="i"
-            :description="talent.Ranks[i - 1].description"
-          />
+          <cc-talent-rank-item :lock="pilotRank < i" :rank="i" :talent-rank="talent.Rank(i)" />
           <v-btn
             v-if="pilotRank < i"
             block
@@ -38,11 +34,11 @@
             @click="add()"
           >
             <v-icon left>cci-accuracy</v-icon>
-            Unlock {{ talent.Name }}: {{ talent.Ranks[i - 1].name }}
+            Unlock {{ talent.Name }}: {{ talent.Rank(i).Name }}
           </v-btn>
           <v-btn v-else block outlined color="error" @click="remove()">
             <v-icon left>cci-difficulty</v-icon>
-            Unlearn {{ talent.Name }}: {{ talent.Ranks[i - 1].name }}
+            Unlearn {{ talent.Name }}: {{ talent.Rank(i).Name }}
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>

@@ -55,7 +55,9 @@ class Reserve {
     this._description = data.description || ''
     this.Actions = data.actions ? data.actions.map(x => new Action(x)) : []
     this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
-    this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x)) : []
+    this.Synergies = data.synergies
+      ? data.synergies.map(x => new Synergy(x, `Reserve: ${data.name}`))
+      : []
     this.Deployables = data.deployables ? data.deployables : []
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
@@ -67,6 +69,8 @@ class Reserve {
   }
 
   public get Icon(): string {
+    if (this.Type === ReserveType.Organization) return 'mdi-account-group'
+    if (this.Type === ReserveType.Project) return 'cci-orbital'
     return `cci-reserve-${this.Type.toString().toLowerCase()}`
   }
 

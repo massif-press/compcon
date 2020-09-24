@@ -33,10 +33,11 @@
                 outlined
                 small
                 class="fadeSelect mt-n4"
+                color="grey lighten-3"
                 @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
                 Level Up
-                <v-icon dark right>
+                <v-icon right>
                   mdi-arrow-up-bold-hexagon-outline
                 </v-icon>
               </v-btn>
@@ -93,7 +94,7 @@
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
               <div class="stat-text white--text mt-n3">
-                <v-dialog>
+                <v-dialog max-width="1200px">
                   <template v-slot:activator="{ on }">
                     <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
                   </template>

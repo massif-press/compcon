@@ -1,16 +1,16 @@
 <template>
-  <v-col cols="3">
+  <v-col cols="auto" class="mx-2">
     <v-dialog v-model="dialog" width="70vw">
       <template v-slot:activator="{ on }">
-        <v-btn large outlined :color="`reserve--organization`" block v-on="on">
-          <v-icon small left :color="`reserve--organization`">cci-barrage</v-icon>
+        <v-btn large outlined color="stark" block v-on="on">
+          <v-icon small left color="stark">mdi-account-multiple</v-icon>
           {{ org.Name }}
         </v-btn>
       </template>
       <cc-titled-panel
         :title="org.Name"
-        icon="cci-barrage"
-        color="reserve--organization"
+        icon="mdi-account-multiple"
+        color="primary"
         style="height: 100%"
       >
         <div slot="items">
@@ -46,7 +46,7 @@
           hide-details
         />
         <br />
-        <v-row dense justify="center" class="mx-4">
+        <v-row dense justify="center" class="mx-12">
           <v-col cols="auto">
             <v-btn icon large :disabled="org.Efficiency === 0" @click="org.Efficiency -= 2">
               <v-icon large color="accent">remove</v-icon>

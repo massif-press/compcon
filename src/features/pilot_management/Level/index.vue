@@ -110,7 +110,7 @@ import { PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
-  name: 'pilot-wizard',
+  name: 'level-wizard',
   components: {
     OverviewPage,
     SkillsPage,

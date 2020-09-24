@@ -1,5 +1,8 @@
 <template>
-  <v-col style="min-width: 40vw">
+  <v-col
+    :style="$vuetify.breakpoint.lgAndUp ? 'min-width: 40vw' : ''"
+    :cols="$vuetify.breakpoint.mdAndDown ? '12' : ''"
+  >
     <fieldset class="ma-0 py-0" style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}

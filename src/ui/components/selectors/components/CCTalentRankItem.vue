@@ -11,20 +11,18 @@
     <v-col>
       <p class="body-text px-3 ma-0 ml-n2" v-html="talentRank.Description" />
       <div v-if="talentRank.Actions.length">
-        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT ACTIONS</div>
         <v-row no-gutters justify="center">
           <v-col
             v-for="(a, i) in talentRank.Actions"
             :key="`${talentRank.Name}_action_${i}`"
             cols="auto"
           >
-            <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+            <cc-action :action="a" :panel="!actionButtons" class="ma-2" />
           </v-col>
         </v-row>
       </div>
 
       <div v-if="talentRank.Deployables.length">
-        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT DEPLOYABLES</div>
         <v-row no-gutters justify="center">
           <v-col
             v-for="(d, i) in talentRank.Deployables"
@@ -42,7 +40,6 @@
       </div>
 
       <div v-if="talentRank.IntegratedEquipment.length">
-        <div class="overline ml-n2 mb-n1 ml-4 subtle--text">TALENT EQUIPMENT</div>
         <v-row no-gutters justify="center">
           <v-col
             v-for="(x, i) in talentRank.IntegratedEquipment"
@@ -71,6 +68,10 @@ export default Vue.extend({
       required: true,
     },
     lock: {
+      type: Boolean,
+      required: false,
+    },
+    actionButtons: {
       type: Boolean,
       required: false,
     },

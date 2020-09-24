@@ -2,7 +2,7 @@
   <span>
     <v-menu offset-x left>
       <template v-slot:activator="{ on }">
-        <v-icon icon dark class="fadeSelect" v-on="on">mdi-cog</v-icon>
+        <v-icon icon dark class="fadeSelect" v-on="on">mdi-settings</v-icon>
       </template>
       <v-list dense>
         <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">

@@ -3,7 +3,7 @@
     <v-row no-gutters>
       <v-col cols="auto">
         <v-icon large dark class="mt-n2" color="stark">{{ action.Icon }}</v-icon>
-        <span class="heading h2 text--text">{{ action.Name }}</span>
+        <span class="heading h2 text--text">{{ action.Name }}&emsp;</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-chip slot="title-items" color="stark" small class="stat-text mr-2" outlined label>

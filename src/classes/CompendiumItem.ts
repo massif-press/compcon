@@ -50,7 +50,7 @@ abstract class CompendiumItem {
         ? data.actions.map(x => new Action(x, `Activate ${data.name}`))
         : []
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
-      this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x)) : []
+      this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
       this.Deployables = data.deployables ? data.deployables : []
       this.Counters = data.counters ? data.counters : []
       this.Tags = Tag.Deserialize(data.tags)
@@ -106,11 +106,15 @@ abstract class CompendiumItem {
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechWeapons', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechWeapons', x))
+      .filter(x => !x.err)
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechSystems', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechSystems', x))
+      .filter(x => !x.err)
   }
 
   public get Note(): string {

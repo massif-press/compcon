@@ -11,7 +11,7 @@ class MechSystem extends MechEquipment {
 
   public constructor(systemData: IMechSystemData) {
     super(systemData)
-    this._system_type = systemData.type
+    this._system_type = systemData.type || SystemType.System
     this.ItemType = ItemType.MechSystem
   }
 

@@ -174,10 +174,6 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Range || []
   }
 
-  public getTotalRange(mech: Mech): Range[] {
-    return Range.AddBonuses(this.Range, mech.Bonuses)
-  }
-
   public get RangeType(): RangeType[] {
     return this.SelectedProfile.Range.map(x => x.Type)
   }

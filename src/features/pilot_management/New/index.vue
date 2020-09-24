@@ -89,7 +89,7 @@ import TemplatesPage from './pages/TemplatesPage.vue'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
-  name: 'pilot-wizard',
+  name: 'new-pilot-wizard',
   components: {
     IdentificationPage,
     SkillsPage,

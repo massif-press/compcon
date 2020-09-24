@@ -18,22 +18,22 @@
       </cc-tooltip>
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
-      <span>
+      <div class="mt-n2">
         The RM-4b PILOT SELF ASSESSMENT (Talents) audit catalogs an individual pilot's self-reported
         combat operation aptitudes and confers requisition privileges for simulator time, holofield
         and cortical sensorium training materials, battlefield telemetry data at classifications
         below GREY SIERRA SHARP, and (in specific cases) GMS MM-pattern materiel licenses.
         Additional resources may be made available at your request in the course of field
         operations.
-      </span>
-      <v-alert color="accent" outlined dense border="left" class="mt-2">
+      </div>
+      <v-alert type="warning" color="accent" outlined class="mt-2" dense prominent>
         <b>Select three (3) Pilot Talents.</b>
         <br />
-        <span class="overline">
+        <div class="overline" style="line-height:13px">
           By submitting this form you attest that your responses are truthful and accurate to the
           best of your knowledge. Knowingly providing false or or incomplete information is
           punishable under DoJ/HR AR 303-J.
-        </span>
+        </div>
       </v-alert>
     </v-container>
     <cc-talent-selector :pilot="pilot" />

@@ -75,7 +75,6 @@ export default Vue.extend({
   },
   computed: {
     color() {
-      console.log(this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark))
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
   },

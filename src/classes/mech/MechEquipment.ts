@@ -41,9 +41,9 @@ abstract class MechEquipment extends LicensedItem {
       this.IsLimited = !!ltd
       this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
       this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
-      this.IsLoading = data.tags.some(x => x.id === 'tg_set_max_uses')
-      this.IsAI = data.tags.some(x => x.id === 'tg_set_max_uses')
-      this.IsIndestructible = data.tags.some(x => x.id === 'tg_set_max_uses')
+      this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
+      this.IsAI = data.tags.some(x => x.id === 'tg_ai')
+      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
       this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
     } else {

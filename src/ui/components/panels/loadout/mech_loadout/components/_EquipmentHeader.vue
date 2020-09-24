@@ -1,26 +1,15 @@
 <template>
-  <v-row dense no-gutters align="center">
+  <v-row no-gutters align="center" class="mb-n1">
     <v-col cols="auto">
       <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
         <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
-        <div v-if="item.Destroyed && mod" class="error" style="text-decoration: line-through">
-          {{ mod ? item.Name : '' }}DESTROYED
-        </div>
-        <div v-else-if="mod">WEAPON MODIFICATION</div>
       </span>
     </v-col>
-    <v-col v-if="item.Note" cols="auto" class="ml-2">
-      <cc-tooltip :key="item.Note.length" simple inline :content="item.Note">
-        <v-icon small color="active">mdi-note</v-icon>
-      </cc-tooltip>
-    </v-col>
     <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
-      <div class="overline">
-        USES
-      </div>
-      <cc-item-uses :item="item" :bonus="useBonus" :color="color" />
+      <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
+      <span class="overline">({{ item.Uses }}/{{ item.MaxUses + useBonus }}) USES</span>
     </v-col>
     <v-col v-if="item.IsLoading && readonly" cols="auto" class="mx-2">
       <v-btn
@@ -36,14 +25,11 @@
     <v-col cols="auto">
       <slot name="left" />
     </v-col>
-    <v-col cols="auto" class="ml-auto">
-      <cc-tags small :tags="item.Tags" :color="color" />
-    </v-col>
     <v-col cols="auto" class="mx-2">
       <slot />
     </v-col>
-    <v-col v-if="item.SP && !readonly" cols="auto" class="mr-3">
-      <span class="heading h3" :style="`color: ${color}`">{{ item.SP }}SP</span>
+    <v-col v-if="item.SP && !readonly" cols="auto" class="ml-auto mr-3">
+      <span class="heading h3">{{ item.SP }}SP</span>
     </v-col>
   </v-row>
 </template>
