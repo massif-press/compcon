@@ -23,7 +23,7 @@ class TalentRank extends CompendiumItem {
 class Talent extends CompendiumItem {
   public readonly Terse: string
   // public readonly Icon: string
-  private _ranks: ITalentRankData[]
+  private _ranks: TalentRank[]
 
   public constructor(data: any) {
     super(data)
@@ -32,11 +32,11 @@ class Talent extends CompendiumItem {
     this._ranks = data.ranks.map(x => new TalentRank(x))
   }
 
-  public get Ranks(): ITalentRankData[] {
+  public get Ranks(): TalentRank[] {
     return this._ranks
   }
 
-  public Rank(rank: number): ITalentRankData {
+  public Rank(rank: number): TalentRank {
     try {
       return this._ranks[rank - 1]
     } catch (err) {

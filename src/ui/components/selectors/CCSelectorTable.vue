@@ -42,12 +42,18 @@
       v-if="profile.SelectorView === 'list'"
       :headers="headers"
       :items="fItems"
+      sp-disable
+      :sp-ignore="spIgnore"
+      :sp="sp"
       @equip="$emit('equip', $event)"
     />
     <selector-split-view
       v-else-if="profile.SelectorView === 'split'"
       :headers="headers"
       :items="fItems"
+      sp-disable
+      :sp-ignore="spIgnore"
+      :sp="sp"
       @equip="$emit('equip', $event)"
     />
     <div v-else />
@@ -85,6 +91,9 @@ export default Vue.extend({
       required: false,
       default: '',
     },
+    spDisable: { type: Boolean },
+    spIgnore: { type: Boolean },
+    sp: { type: Number, required: false, default: 0 },
   },
   data: () => ({
     search: '',

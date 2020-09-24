@@ -12,6 +12,7 @@
       :lock="i + 1 > rank"
       :rank="i + 1"
       :talent-rank="tr"
+      :action-buttons="actionButtons"
       small
       :color="itemColor"
     />
@@ -33,6 +34,10 @@ export default Vue.extend({
       required: true,
     },
     hideLocked: {
+      type: Boolean,
+      required: false,
+    },
+    actionButtons: {
       type: Boolean,
       required: false,
     },

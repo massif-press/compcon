@@ -20,7 +20,7 @@
     <v-menu offset-y top>
       <template v-slot:activator="{ on: menu }">
         <v-btn class="unskew ml-2" icon dark v-on="menu">
-          <v-icon>mdi-cog</v-icon>
+          <v-icon>mdi-settings</v-icon>
         </v-btn>
       </template>
       <v-list two-line subheader>

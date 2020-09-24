@@ -130,8 +130,8 @@ class Pilot {
     this._portrait = ''
     this._cloud_portrait = ''
     this._quirk = ''
+    this._current_hp = Rules.BasePilotHP
     this._loadout = new PilotLoadout(0)
-    this._current_hp = this.MaxHP
     this._background = ''
     this._licenses = []
     this._skills = []
@@ -428,11 +428,9 @@ class Pilot {
   }
 
   public get MaxHP(): number {
-    let health = Rules.BasePilotHP + this.Grit
-    this.Loadout.Armor.forEach(x => {
-      if (x) health += x.HPBonus
-    })
-    return health
+    const health = Rules.BasePilotHP + this.Grit
+    const bonus = Bonus.getPilot('pilot_hp', this)
+    return health + bonus
   }
 
   public get CurrentHP(): number {
@@ -456,31 +454,15 @@ class Pilot {
   }
 
   public get Armor(): number {
-    let armor = 0
-    this.Loadout.Armor.forEach(x => {
-      if (x) armor += x.Armor
-    })
-    return armor
+    return Bonus.getPilot('pilot_armor', this)
   }
 
   public get Speed(): number {
-    let speed = Rules.BasePilotSpeed
-    this.Loadout.Armor.forEach(x => {
-      if (!x) return
-      if (x.Speed) speed = x.Speed
-      speed += x.SpeedBonus
-    })
-    return speed
+    return Rules.BasePilotSpeed + Bonus.getPilot('pilot_speed', this)
   }
 
   public get Evasion(): number {
-    let evasion = Rules.BasePilotEvasion
-    this.Loadout.Armor.forEach(x => {
-      if (!x) return
-      if (x.Evasion) evasion = x.Evasion
-      evasion += x.EvasionBonus
-    })
-    return evasion
+    return Rules.BasePilotEvasion + Bonus.getPilot('pilot_evasion', this)
   }
 
   public get EDefense(): number {
@@ -494,7 +476,7 @@ class Pilot {
   }
 
   public get LimitedBonus(): number {
-    return Math.floor(this.MechSkills.Eng / 2) + Bonus.get('limited_bonus', this)
+    return Math.floor(this.MechSkills.Eng / 2) + Bonus.getPilot('limited_bonus', this)
   }
 
   // -- Skills ------------------------------------------------------------------------------------
@@ -512,7 +494,7 @@ class Pilot {
   }
 
   public get MaxSkillPoints(): number {
-    return Rules.MinimumPilotSkills + this._level + Bonus.get('skill_point', this)
+    return Rules.MinimumPilotSkills + this._level + Bonus.getPilot('skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -593,7 +575,7 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    return Rules.MinimumPilotTalents + this._level + Bonus.get('talent_point', this)
+    return Rules.MinimumPilotTalents + this._level + Bonus.getPilot('talent_point', this)
   }
 
   public get IsMissingTalents(): boolean {
@@ -676,7 +658,7 @@ class Pilot {
   }
 
   public get MaxCBPoints(): number {
-    return Math.floor(this._level / 3) + Bonus.get('cb_point', this)
+    return Math.floor(this._level / 3) + Bonus.getPilot('cb_point', this)
   }
 
   public get IsMissingCBs(): boolean {
@@ -819,7 +801,7 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    return Rules.MinimumMechSkills + this._level + Bonus.get('mech_skill_point', this)
+    return Rules.MinimumMechSkills + this._level + Bonus.getPilot('mech_skill_point', this)
   }
 
   public get IsMissingHASE(): boolean {
@@ -844,6 +826,11 @@ class Pilot {
     this.save()
   }
 
+  public AddReserve(reserve: Reserve): void {
+    this._reserves.push(reserve)
+    this.save()
+  }
+
   public RemoveReserve(index: number): void {
     this._reserves.splice(index, 1)
     this.save()
@@ -855,6 +842,11 @@ class Pilot {
 
   public set Organizations(orgs: Organization[]) {
     this._orgs = orgs
+    this.save()
+  }
+
+  public AddOrganization(org: Organization): void {
+    this._orgs.push(org)
     this.save()
   }
 
@@ -990,8 +982,8 @@ class Pilot {
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
   private features<T>(p: string): T[] {
-    return this.ActiveMech[p]
-      .concat(this.Loadout.Items.flatMap(x => x[p]))
+    return this.Loadout.Items.flatMap(x => x[p])
+      .concat(this.CoreBonuses.flatMap(x => x[p]))
       .concat(this.Reserves.filter(x => !x.Used).flatMap(y => y[p]))
       .concat(this._talents.flatMap(x => x.UnlockedRanks.flatMap(y => y[p])))
   }

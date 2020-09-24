@@ -1,84 +1,56 @@
-import { MechEquipment, Pilot, MechWeapon, ItemType, MechSystem, Frame } from '@/class'
+import { Mech } from '@/class'
+import { CompendiumItem } from './CompendiumItem'
+import { ItemType } from './enums'
+import { MechSystem } from './mech/MechSystem'
+import { MechWeapon } from './mech/MechWeapon'
+import { Pilot } from './pilot/Pilot'
 
 interface ISynergyData {
   locations: string[]
   detail: string
-  types?: string[]
-  sizes?: string[]
-}
-
-interface ISynergyDecorator {
-  title: string
-  synergy: ISynergyData
+  weapon_types?: string[]
+  system_types?: string[]
+  weapon_sizes?: string[]
 }
 
 class Synergy {
   public readonly Locations: string[]
   public readonly Detail: string
-  public readonly Types: string[]
-  public readonly Sizes: string[]
+  public readonly WeaponTypes: string[]
+  public readonly WeaponSizes: string[]
+  public readonly SystemTypes: string[]
+  public readonly Origin: string
 
-  public constructor(data: ISynergyData) {
+  public constructor(data: ISynergyData, origin: string) {
+    this.Origin = origin || 'UNKNOWN ORIGIN'
     this.Locations = data.locations
     this.Detail = data.detail
-    this.Types = data.types || ['any']
-    this.Sizes = data.sizes || ['any']
+    this.WeaponTypes = data.weapon_types || ['any']
+    this.WeaponSizes = data.weapon_sizes || ['any']
+    this.SystemTypes = data.system_types || ['any']
   }
 
-  public static TalentSynergies(
-    item: MechEquipment,
-    pilot: Pilot,
-    location: string
-  ): ISynergyDecorator[] {
-    let synergies = []
-    const type =
-      item.ItemType === ItemType.MechWeapon
-        ? (item as MechWeapon).ItemType
-        : (item as MechSystem).Type
-    const size = item.ItemType === ItemType.MechWeapon ? (item as MechWeapon).Size : 'any'
+  public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
+    let sArr = mech.Synergies.filter(s => s.Locations.includes(location.toLowerCase()))
 
-    pilot.Talents.forEach(pt => {
-      for (let i = 1; i <= pt.Rank; i++) {
-        if (pt.Talent.Rank(i) && pt.Talent.Rank(i).synergies)
-          pt.Talent.Rank(i).synergies.forEach(s => {
-            synergies.push({
-              title: `${pt.Talent.Name} RANK ${'I'.repeat(i)}//${pt.Talent.Rank(i).name}`,
-              synergy: s,
-            })
-          })
-      }
-    })
-
-    synergies = synergies.filter(
-      x =>
-        (!x.synergy.locations ||
-          x.synergy.locations.includes(location) ||
-          x.synergy.locations.includes('any')) &&
-        (!x.synergy.types || x.synergy.types.includes(type) || x.synergy.types.includes('any')) &&
-        (!x.synergy.sizes || x.synergy.sizes.includes(size) || x.synergy.sizes.includes('any'))
-    )
-
-    return synergies
-  }
-
-  public static FrameSynergies(frame: Frame, location: string): ISynergyDecorator[] {
-    let synergies = []
-    frame.Traits.forEach(t => {
-      if (t.Synergies)
-        t.Synergies.forEach(s => {
-          synergies.push({
-            title: t.Name,
-            synergy: s,
-          })
-        })
-    })
-
-    synergies = synergies.filter(
-      x => !x.locations || x.locations.includes(location) || x.locations.includes('any')
-    )
-
-    return synergies
+    if (!item) return sArr
+    if (item.ItemType === ItemType.MechWeapon) {
+      sArr = sArr.filter(s => {
+        if (s.WeaponTypes.includes('any')) return true
+        return s.WeaponTypes.includes((item as MechWeapon).WeaponType)
+      })
+      sArr = sArr.filter(s => {
+        if (s.WeaponSizes.includes('any')) return true
+        return s.WeaponSizes.includes((item as MechWeapon).Size)
+      })
+    } else if (item.ItemType === ItemType.MechSystem || item.ItemType === ItemType.WeaponMod) {
+      sArr = sArr.filter(s => {
+        if (s.SystemTypes.includes('any')) return true
+        return s.SystemTypes.includes((item as MechSystem).Type)
+      })
+    }
+    return sArr
   }
 }
 
-export { Synergy, ISynergyData, ISynergyDecorator }
+export { Synergy, ISynergyData }

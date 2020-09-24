@@ -87,7 +87,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'cc-frame-core-system-panel',
+  name: 'frame-core-system-panel',
   props: {
     cs: {
       type: Object,

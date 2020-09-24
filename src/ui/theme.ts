@@ -36,7 +36,7 @@ const themeDefaults = {
   'damage--heat': '#FF7043',
   'damage--variable': '#D500F9',
 
-  'reserve--resources': '#00695C',
+  'reserve--resource': '#00695C',
   'reserve--tactical': '#827717',
   'reserve--mech': '#BF360C',
   'reserve--project': '#5D4037',

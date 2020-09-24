@@ -25,14 +25,16 @@
         </v-col>
       </v-row>
 
-      <cc-mech-status-alert
-        v-for="s in mech.StatusString"
-        :key="`status-${s}`"
-        :type="s"
-        critical-only
-        @clear-ejected="mech.Ejected = false"
-        @clear-status="mech.Repair()"
-      />
+      <v-row dense justify="center">
+        <v-col v-for="s in mech.StatusString" :key="`status-${s}`" cols="auto">
+          <cc-mech-status-alert
+            :type="s"
+            critical-only
+            @clear-ejected="mech.Ejected = false"
+            @clear-status="mech.Repair()"
+          />
+        </v-col>
+      </v-row>
 
       <v-row justify="space-between" align="center" dense class="mb-2">
         <v-col cols="3">

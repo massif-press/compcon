@@ -7,26 +7,25 @@
       &nbsp;RM-4 Personnel::Pilot (C)
     </h2>
     <v-container class="flavor-text" style="font-size: 14px">
-      <span>
+      <div class="mt-n2">
         Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
         omninet-based certification system that guides the user through the UAD's pilot registration
         process. IDENT helps ensure pilots meet regulatory and policy requirements through the use
         of NHP-directed data validation protocols. Union Regulars that have already been issued an
         RM-4 IDENT fingerprint should not complete this form unless instructed to by their
         commanding officer.
-      </span>
-      <v-alert type="warning" color="accent" outlined class="mt-2" dense>
+      </div>
+      <v-alert type="warning" color="accent" outlined class="mt-2" dense prominent>
         <b>
           All fields marked with the
-          <v-icon small color="error">mdi-alert</v-icon>
-          &nbsp;glyph must be populated.
+          <v-icon color="error">mdi-alert</v-icon>
+          glyph must be populated.
         </b>
-        <br />
-        <span class="overline">
+        <div class="overline" style="line-height:13px">
           By submitting this form you attest that your responses are truthful and accurate to the
           best of your knowledge. Knowingly providing false or or incomplete information is
           punishable under DoJ/HR AR 303-J.
-        </span>
+        </div>
       </v-alert>
     </v-container>
     <v-row class="mx-6">

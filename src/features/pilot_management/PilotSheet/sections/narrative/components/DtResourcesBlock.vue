@@ -19,7 +19,7 @@
     </cc-solo-dialog>
     <v-container>
       <no-data-block v-if="!pilot.Reserves.length && !pilot.Organizations.length" />
-      <v-row v-else>
+      <v-row v-else dense>
         <cc-reserve-item
           v-for="(r, i) in pilot.Reserves"
           :key="`r_${i}`"

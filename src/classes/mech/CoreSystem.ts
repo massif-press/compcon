@@ -59,7 +59,7 @@ class CoreSystem {
     this.ActiveActions = data.active_actions ? data.active_actions.map(x => new Action(x)) : []
     this.ActiveBonuses = data.active_bonuses ? data.active_bonuses.map(x => new Bonus(x)) : []
     this.ActiveSynergies = data.active_synergies
-      ? data.active_synergies.map(x => new Synergy(x))
+      ? data.active_synergies.map(x => new Synergy(x, 'Frame CORE System (Active)'))
       : []
     if (data.deactivation) this.Deactivation = data.deactivation
     this.Use = data.use ? (data.use as Duration) : Duration.Mission
@@ -68,7 +68,7 @@ class CoreSystem {
     this.PassiveActions = data.passive_actions ? data.passive_actions.map(x => new Action(x)) : []
     this.PassiveBonuses = data.passive_bonuses ? data.passive_bonuses.map(x => new Bonus(x)) : []
     this.PassiveSynergies = data.passive_synergies
-      ? data.passive_synergies.map(x => new Synergy(x))
+      ? data.passive_synergies.map(x => new Synergy(x, 'Frame CORE System (Passive)'))
       : []
     this.Deployables = data.deployables ? data.deployables : []
     this.Counters = data.counters ? data.counters : []
@@ -85,12 +85,24 @@ class CoreSystem {
     })
   }
 
+  public get PassiveIntegratedWeapons(): MechWeapon[] {
+    return this.IntegratedWeapons
+  }
+
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechWeapons', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechWeapons', x))
+      .filter(x => !x.err)
+  }
+
+  public get PassiveIntegratedSystems(): MechSystem[] {
+    return this.IntegratedSystems
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechSystems', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechSystems', x))
+      .filter(x => !x.err)
   }
 
   public get Tags(): Tag[] {

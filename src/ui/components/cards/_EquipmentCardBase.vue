@@ -13,13 +13,13 @@
     <slot name="statblock" />
 
     <div v-if="item.Effect">
-      <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT EFFECT</div>
+      <div class="overline ml-n2 subtle--text">EQUIPMENT EFFECT</div>
       <p class="text--text body-text mb-1" v-html="item.Effect" />
     </div>
     <slot name="other_effects" />
 
     <div v-if="item.Actions.length">
-      <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT ACTIONS</div>
+      <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="auto">
           <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
@@ -28,7 +28,7 @@
     </div>
 
     <div v-if="item.Deployables.length">
-      <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT DEPLOYABLES</div>
+      <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(d, i) in item.Deployables" :key="`${item.Name}_deployable_${i}`" cols="auto">
           <cc-deployable-info
@@ -42,7 +42,7 @@
     </div>
 
     <div v-if="item.IntegratedEquipment.length">
-      <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT INTEGRATIONS</div>
+      <div class="overline ml-n2 subtle--text">EQUIPMENT INTEGRATIONS</div>
       <v-row no-gutters justify="center">
         <v-col
           v-for="(x, i) in item.IntegratedEquipment"

@@ -16,8 +16,9 @@ class PilotTalent {
 
   public get UnlockedRanks(): TalentRank[] {
     const allRanks = []
-    for (let i = 1; i < this._rank; i++) {
-      allRanks.push(this.Talent.Rank(i))
+    for (let i = 1; i <= this._rank; i++) {
+      if (this.Talent.Rank(i).Exclusive && i < this._rank) continue
+      else allRanks.push(this.Talent.Rank(i))
     }
     return allRanks
   }

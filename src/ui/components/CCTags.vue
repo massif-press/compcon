@@ -5,7 +5,14 @@
     </v-col>
   </v-row>
   <div v-else-if="print">
-    <v-chip v-for="(t, i) in tags" :key="`${t.ID}_${i}`" outlined x-small label class="mx-1 mt-n1">
+    <v-chip
+      v-for="(t, i) in tags"
+      :key="`${t.ID}_${i}`"
+      outlined
+      x-small
+      label
+      class="mx-1 mt-n1 my-0"
+    >
       {{ t.GetName(bonus) }}
     </v-chip>
   </div>

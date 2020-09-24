@@ -6,7 +6,7 @@
 
 import { ICompendiumItemData } from './classes/CompendiumItem'
 import { ILicensedItemData } from './classes/LicensedItem'
-import { ISynergyData, ISynergyDecorator } from './classes/Synergy'
+import { ISynergyData } from './classes/Synergy'
 import { Action } from './classes/Action'
 import { ICoreData } from './classes/mech/CoreSystem'
 import { IFrameData, IFrameStats } from './classes/mech/Frame'
@@ -47,7 +47,6 @@ export {
   ICompendiumItemData,
   ILicensedItemData,
   ISynergyData,
-  ISynergyDecorator,
   Action,
   ICoreData,
   IFrameData,

@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <div style="width: 50vw">
+    <div>
       <div v-if="action.Init" class="body-text stark--text mt-2" v-html="action.Init" />
       <div v-if="action.Trigger">
         <div class="subtle--text overline mb-n2">Trigger</div>

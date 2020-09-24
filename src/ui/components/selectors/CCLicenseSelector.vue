@@ -42,7 +42,7 @@
             :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
           >
             <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
-            {{ manufacturer(m).name }}
+            {{ manufacturer(m).Name }}
           </span>
           <v-expansion-panels accordion focusable active-class="border-primary">
             <license-select-item

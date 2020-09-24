@@ -159,7 +159,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-reserve-tac"
+            icon="cci-reserve-mech"
             name="Reserves"
             @clicked="$router.push('compendium/reserves')"
           />

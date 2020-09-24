@@ -48,7 +48,7 @@
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
-                    <v-icon small class="fadeSelect">mdi-cog</v-icon>
+                    <v-icon small class="fadeSelect">mdi-settings</v-icon>
                   </v-btn>
                 </template>
                 <v-list dense>

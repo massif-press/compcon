@@ -7,7 +7,7 @@
     <v-spacer />
     <v-btn @click="$refs.options.show()">
       <span>Options</span>
-      <v-icon>mdi-cog</v-icon>
+      <v-icon>mdi-settings</v-icon>
     </v-btn>
     <options-dialog ref="options" @set="setOptions($event)" />
     <v-btn @click="print()">

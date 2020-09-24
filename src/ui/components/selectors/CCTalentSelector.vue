@@ -5,7 +5,7 @@
     :success="!pilot.IsMissingTalents && enoughSelections"
   >
     <template v-slot:left-column>
-      <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.talent.id}_${i}`">
+      <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.Talent.ID}_${i}`">
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>

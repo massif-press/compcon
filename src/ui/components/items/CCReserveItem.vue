@@ -1,24 +1,20 @@
 <template>
-  <v-col cols="3">
+  <v-col cols="auto" class="mx-2">
     <v-dialog v-model="dialog" width="60vw">
       <template v-slot:activator="{ on }">
-        <v-btn large outlined :color="reserve.Color" block v-on="on">
-          <v-icon small left :color="reserve.Color">cci-barrage</v-icon>
-          <div
-            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px"
-          >
-            <s v-if="reserve.Used">
-              {{ reserve.Name }}
-            </s>
-            <span v-else>
-              {{ reserve.Name }}
-            </span>
-          </div>
+        <v-btn large outlined color="stark" class="px-4" block v-on="on">
+          <v-icon left color="stark">{{ reserve.Icon }}</v-icon>
+          <s v-if="reserve.Used">
+            {{ reserve.Name }}
+          </s>
+          <span v-else>
+            {{ reserve.Name }}
+          </span>
         </v-btn>
       </template>
       <cc-titled-panel
         :title="reserve.Name"
-        icon="cci-barrage"
+        :icon="reserve.Icon"
         :color="reserve.Color"
         style="height: 100%"
       >

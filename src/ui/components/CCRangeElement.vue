@@ -8,7 +8,7 @@
     >
       <cc-tooltip :title="r.Text" :content="Help(r.Type)">
         <span v-if="small">
-          <v-icon color="text">{{ r.Icon }}</v-icon>
+          <v-icon :dark="dark">{{ r.Icon }}</v-icon>
           <v-icon v-if="r.Override">mdi-information-outline</v-icon>
           <span v-else>
             {{ `${added ? '+' : ''}${r.Value}` }}
@@ -16,7 +16,7 @@
           <!-- <cc-slashes v-if="i + 1 < range.length" /> -->
         </span>
         <div v-else>
-          <v-icon x-large color="text" class="mt-n4 mr-n3">
+          <v-icon x-large :dark="dark" class="mt-n4 mr-n3">
             {{ r.Icon }}
           </v-icon>
           <span class="heading text--text" style="font-size: 24pt;">
@@ -45,6 +45,9 @@ export default class CCRangeElement extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly dark?: boolean
 
   @Prop({ type: Boolean, required: false })
   readonly added?: boolean

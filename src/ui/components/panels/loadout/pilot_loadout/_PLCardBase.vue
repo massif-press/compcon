@@ -6,7 +6,7 @@
           <v-menu v-if="item" offset-x left>
             <template v-slot:activator="{ on }">
               <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">
-                mdi-cog
+                mdi-settings
               </v-icon>
             </template>
             <v-list dense>
@@ -76,7 +76,39 @@
           style="height: calc(100% - 28px)"
         >
           <div class="underline-slide" style="height: 100%">
-            <slot v-if="item" @click="$refs.detailDialog.show()" />
+            <div v-if="item">
+              <slot @click="$refs.detailDialog.show()" />
+              <div v-if="item.Actions.length">
+                <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
+                <v-row no-gutters justify="center">
+                  <v-col
+                    v-for="(a, i) in item.Actions"
+                    :key="`${item.Name}_action_${i}`"
+                    cols="auto"
+                  >
+                    <cc-action :action="a" :panel="false" class="ma-2" />
+                  </v-col>
+                </v-row>
+              </div>
+
+              <div v-if="item.Deployables.length">
+                <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
+                <v-row no-gutters justify="center">
+                  <v-col
+                    v-for="(d, i) in item.Deployables"
+                    :key="`${item.Name}_deployable_${i}`"
+                    cols="auto"
+                  >
+                    <cc-deployable-info
+                      :deployable="d"
+                      :panel="false"
+                      :name-override="item.Name"
+                      class="ma-2"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
             <div
               v-else
               class="py-3 text-center fadeSelect"
@@ -99,7 +131,7 @@
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
-      <div v-if="item">
+      <!-- <div v-if="item">
         <v-textarea
           v-model="item.Note"
           outlined
@@ -109,7 +141,7 @@
           prepend-icon="mdi-note"
           label="Equipment Notes"
         />
-      </div>
+      </div> -->
     </cc-solo-dialog>
     <cc-string-edit-dialog
       v-if="item"
