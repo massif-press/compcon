@@ -3,6 +3,7 @@ import uuid from 'uuid/v4'
 
 interface IDeployableData {
   name: string
+  type?: string
   source: string
   license: string
   size: number
@@ -27,6 +28,7 @@ interface IDeployedData {
 class Deployable {
   public readonly ID: string
   public readonly BaseName: string
+  public readonly Type: string
   public readonly Source: string
   public readonly License: string
   public readonly Detail: string
@@ -39,9 +41,10 @@ class Deployable {
   private _current_hp: number
   private _isDestroyed: boolean
 
-  public constructor(data: IDeployableData, owner?: string, n?: number) {
+  public constructor(data: IDeployableData, owner: IActor, n?: number) {
     this.ID = uuid()
-    this.BaseName = `${owner ? `${owner}'s ` : ''}${data.name}${n ? ` (#${n})` : ''}`
+    this.BaseName = `${owner ? `${owner.EncounterName}'s ` : ''}${data.name}${n ? ` (#${n})` : ''}`
+    this.Type = data.type || 'Deployable'
     this.Source = data.source
     this.License = data.license
     this.Detail = data.detail
@@ -98,8 +101,8 @@ class Deployable {
     }
   }
 
-  public static Deserialize(base: IDeployableData, data: IDeployedData): Deployable {
-    const d = new Deployable(base)
+  public static Deserialize(base: IDeployableData, owner: IActor, data: IDeployedData): Deployable {
+    const d = new Deployable(base, owner)
     d.Name = data.assigned_name
     d.CurrentHP = data.current_hp
     d.IsDestroyed = data.isDestroyed

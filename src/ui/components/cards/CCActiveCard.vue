@@ -11,12 +11,18 @@
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
         </v-icon>
         <span class="heading h3 white--text">{{ header }}</span>
-        <v-spacer />
+        <v-divider v-if="content && prominent" class="mx-3 subtle" style="opacity: 0.5" />
+        <v-spacer v-else />
         <span class="overline white--text mr-2">{{ subheader }}</span>
+        <span v-if="content && prominent" class="heading h1 py-2 pr-3 white--text">
+          {{ content }}
+        </span>
       </v-card-title>
       <v-scroll-y-transition leave-absolute>
-        <v-card-text v-if="!collapsed" class="pa-1 pl-2 ma-0 text--text body-text">
-          <div v-if="content" :class="prominent ? 'text-center heading h3' : ''">{{ content }}</div>
+        <v-card-text v-if="!collapsed && !prominent" class="pa-1 pl-2 ma-0 text--text body-text">
+          <div v-if="content && !prominent">
+            {{ content }}
+          </div>
           <slot v-else />
         </v-card-text>
       </v-scroll-y-transition>

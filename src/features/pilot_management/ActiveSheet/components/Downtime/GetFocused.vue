@@ -50,13 +50,14 @@ export default Vue.extend({
       this.pilot.Reserves.push(
         new Reserve({
           id: 'reserve_skill',
-          type: 'Resources',
+          type: 'Bonus',
           name: 'Skill Focus',
           description: 'Added via the "Get Focused" Downtime Action',
           resource_name: 'Skill Focus',
           resource_cost: '',
           resource_note: '',
           used: false,
+          consumable: false,
         })
       )
       this.close()

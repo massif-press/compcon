@@ -183,13 +183,14 @@ export default Vue.extend({
       if (this.skillRoll < 10) {
         const nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Resources',
+          type: 'Resource',
           name: 'A Damn Drink',
           label: '',
           description: '',
           resource_note: '',
           resource_cost: '',
           resource_name: '',
+          consumable: true,
           used: false,
         })
         const lossArr = [...this.losses]
@@ -202,13 +203,14 @@ export default Vue.extend({
       } else if (this.skillRoll < 20) {
         const nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Resources',
+          type: 'Resource',
           name: this.reserve1,
           label: '',
           description: '',
           resource_note: '',
           resource_cost: '',
           resource_name: '',
+          consumable: true,
           used: false,
         })
         nr.Note = this.details1
@@ -217,13 +219,14 @@ export default Vue.extend({
       } else {
         const nr = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Resources',
+          type: 'Resource',
           name: this.reserve1,
           label: '',
           description: '',
           resource_note: '',
           resource_cost: '',
           resource_name: '',
+          consumable: true,
           used: false,
         })
         nr.Note = this.details1
@@ -231,13 +234,14 @@ export default Vue.extend({
 
         const nr2 = new Reserve({
           id: 'reserve_damndrink',
-          type: 'Resources',
+          type: 'Resource',
           name: this.reserve2,
           label: '',
           description: '',
           resource_note: '',
           resource_cost: '',
           resource_name: '',
+          consumable: true,
           used: false,
         })
         nr2.Note = this.details2

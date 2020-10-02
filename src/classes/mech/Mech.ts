@@ -306,11 +306,13 @@ class Mech implements IActor {
   }
 
   public get Evasion(): number {
+    if (this.IsStunned) return 5
     const bonus = Bonus.get('evasion', this) + this.Agi
     return this._frame.Evasion + bonus
   }
 
   public get EvasionContributors(): string[] {
+    if (this.IsStunned) return ['STUNNED']
     const output = [
       `FRAME Base Evasion: ${this.Frame.Evasion}`,
       `Pilot AGILITY Bonus: +${this.Agi}`,
@@ -610,7 +612,7 @@ class Mech implements IActor {
   }
 
   public get IsInDangerZone(): boolean {
-    return this.IsActive && this._current_heat >= Math.ceil(this.HeatCapacity / 2)
+    return this._current_heat >= Math.ceil(this.HeatCapacity / 2)
   }
 
   public get HeatCapacity(): number {

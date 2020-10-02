@@ -1,4 +1,4 @@
-import { rules, actions } from 'lancer-data'
+import { rules } from 'lancer-data'
 import { Action } from '@/interface'
 
 export class Rules {
@@ -92,21 +92,5 @@ export class Rules {
 
   public static BaseProtocols(): Action[] {
     return []
-  }
-
-  public static get BaseFullActions(): Action[] {
-    return actions.filter(x => x.action_type === 'full' && !x.reserve)
-  }
-
-  public static get BaseQuickActions(): Action[] {
-    return actions.filter(x => x.action_type === 'quick' && !x.reserve)
-  }
-
-  public static get BaseReactions(): Action[] {
-    return actions.filter(x => x.action_type === 'reaction' && !x.reserve)
-  }
-
-  public static get BaseFreeActions(): Action[] {
-    return actions.filter(x => x.action_type === 'overcharge' && !x.reserve)
   }
 }

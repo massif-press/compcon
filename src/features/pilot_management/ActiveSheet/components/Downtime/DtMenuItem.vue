@@ -2,6 +2,7 @@
   <v-list-item color="active" @click.stop="dialog = true">
     <v-list-item-content>
       <v-list-item-title class="text-body-1 font-weight-bold mr-2">
+        <v-icon large color="action--downtime" class="ml-n2 mt-n1 mr-3">cci-downtime</v-icon>
         {{ action.name }}
       </v-list-item-title>
       <v-list-item-subtitle v-html="action.description" />
@@ -12,7 +13,7 @@
         <v-spacer />
         <v-menu left offset-x width="50vw" open-on-hover>
           <template v-slot:activator="{ on }">
-            <v-icon class="fadeSelect" v-on="on" style="cursor: help;">
+            <v-icon class="fadeSelect" style="cursor: help;" v-on="on">
               mdi-help-circle-outline
             </v-icon>
           </template>
@@ -25,9 +26,11 @@
         <slot @close="dialog = false" />
       </v-card>
     </v-dialog>
-    <v-menu left width="80vw" offset-x open-on-hover open-delay="500">
+    <v-menu left width="80vw" offset-x open-on-hover open-delay="100">
       <template v-slot:activator="{ on }">
-        <v-icon class="fadeSelect" style="cursor: help;" v-on="on">mdi-help-circle-outline</v-icon>
+        <v-icon class="fadeSelect ml-4" style="cursor: help;" v-on="on">
+          mdi-help-circle-outline
+        </v-icon>
       </template>
       <v-card tile>
         <v-toolbar dense flat color="action--downtime darken-2" class="heading h2" dark>

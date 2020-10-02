@@ -29,7 +29,7 @@
             </div>
           </div>
           <div :class="small ? 'small-triangle' : 'triangle'" />
-          <div class="ll white--text">
+          <div class="ll white--text" style="line-height: 25px">
             <div v-if="!small" class="overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
@@ -40,41 +40,30 @@
             <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8">
               <v-card flat tile class="flavor-text" light>
                 <v-card-text>
-                  <b>{{ pilot.Name }}</b>
-                  //
-                  <b>{{ pilot.Callsign }} {{ pilot.Background }}</b>
-                  <v-row dense>
-                    <v-col cols="auto">
-                      <span class="overline">HP</span>
-                      <br />
-                      <b>{{ pilot.CurrentHP }}</b>
-                      <span class="subtle--text ml-n2">/{{ pilot.MaxHP }}</span>
-                    </v-col>
-                    <v-divider vertical class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="overline">Armor</span>
-                      <br />
-                      <b>{{ pilot.Armor }}</b>
-                    </v-col>
-                    <v-divider vertical class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="overline">E-Def</span>
-                      <br />
-                      <b>{{ pilot.EDefense }}</b>
-                    </v-col>
-                    <v-divider vertical class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="overline">Evasion</span>
-                      <br />
-                      <b>{{ pilot.Evasion }}</b>
-                    </v-col>
-                    <v-divider vertical class="mx-2" />
-                    <v-col cols="auto">
-                      <span class="overline">Speed</span>
-                      <br />
-                      <b>{{ pilot.Speed }}</b>
-                    </v-col>
-                  </v-row>
+                  {{ pilot.Name }}
+                  <br />
+                  <b>{{ pilot.Callsign }}</b>
+                  <cc-slashes />
+                  <b>{{ pilot.Background }}</b>
+                  <cc-slashes />
+                  <b>{{ pilot.Status }}</b>
+                  <v-divider />
+                  HULL {{ pilot.MechSkills.Hull }} - AGI {{ pilot.MechSkills.Agi }} - SYS
+                  {{ pilot.MechSkills.Sys }} - ENG
+                  {{ pilot.MechSkills.Eng }}
+                  <v-divider />
+                  <div>
+                    <span v-for="(s, i) in pilot.Talents" :key="pilot.ID + s.Talent.Name">
+                      {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
+                      {{ i + 1 !== pilot.Talents.length ? '-' : '' }}
+                    </span>
+                  </div>
+                  <v-divider />
+                  <div>
+                    <span v-for="(b, i) in pilot.CoreBonuses" :key="pilot.ID + b.Name">
+                      {{ b.Name }} {{ i + 1 !== pilot.CoreBonuses.length ? '-' : '' }}
+                    </span>
+                  </div>
                   <div v-if="pilot.ActiveMech">
                     <v-divider />
                     <div class="flavor-text anti--text mb-0">

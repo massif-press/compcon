@@ -1,6 +1,13 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="item" :color="color" :mech="mech" :empty="empty">
+    <slot-card-base
+      ref="base"
+      :item="item"
+      :color="color"
+      :mech="mech"
+      :empty="empty"
+      :readonly="readonly"
+    >
       <div slot="header">
         <span v-if="item">
           <equipment-options :item="item" :readonly="readonly" />
@@ -16,16 +23,12 @@
         </span>
         <span v-else>System</span>
       </div>
-      <div v-if="!readonly" slot="header-items" class="text-right">
-        <div v-if="item" class="mr-3">
+      <div v-if="!readonly" slot="header-items" class="text-right d-inline">
+        <div v-if="item" style="display: inline-block">
           <span class="heading h2">{{ item.SP }}</span>
           <span class="heading h3">SP</span>
         </div>
-        <div
-          v-if="!readonly"
-          class="d-inline pl-3 ml-3 mr-3"
-          style=" border-left: 1px solid #616161;"
-        >
+        <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
           <v-icon v-if="item" class="fadeSelect mt-n1" @click.stop="remove(item)">
             delete
           </v-icon>

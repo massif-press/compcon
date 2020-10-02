@@ -68,7 +68,7 @@ export default Vue.extend({
     reserve: '',
     custom_name: '',
     details: '',
-    reserveTypes: ['Resources', 'Tactical', 'Mech', 'Custom'],
+    reserveTypes: ['Resource', 'Tactical', 'Mech', 'Custom'],
   }),
   computed: {
     reserveComplete() {
@@ -77,6 +77,7 @@ export default Vue.extend({
       )
     },
     reserves() {
+      console.log(reserves)
       return reserves.filter(x => x.type === this.type)
     },
   },

@@ -252,15 +252,15 @@
           <b v-for="(r, k) in w.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
           <span v-if="w.Damage.length">|</span>
           <b v-for="(d, k) in w.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
-          <cc-item-effect-panel v-if="w.Effect" :effects="w.Effect" print />
-          <p v-if="w.Mod" class="px-2">
+          <p v-if="w.Effect" :v-html="w.Effect" print />
+          <div v-if="w.Mod" class="px-2">
             <span class="heading">
               {{ w.Mod.Name }}
             </span>
             <span class="overline">&nbsp;//APPLIED MOD</span>
             <br />
-            <cc-item-effect-panel v-if="w.Mod.Effect" :effects="w.Mod.Effect" print />
-          </p>
+            <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
+          </div>
         </div>
       </div>
     </fieldset>
@@ -272,7 +272,7 @@
           {{ s.Name }}
           <span class="overline">{{ s.Source }} {{ s.Type }}</span>
         </span>
-        <cc-item-effect-panel v-if="s.Effect" :effects="s.Effect" print />
+        <p v-if="s.Effect" :v-html="s.Effect" print />
         <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
           <cc-tags :tags="s.Tags" :bonus="mech.Pilot.LimitedBonus" print />
         </div>

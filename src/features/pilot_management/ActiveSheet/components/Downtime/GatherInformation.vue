@@ -133,7 +133,7 @@ export default Vue.extend({
     addReserve() {
       const nr = new Reserve({
         id: 'reserve_gatherinfo',
-        type: 'Resources',
+        type: 'Resource',
         name: 'Information',
         label: '',
         description: '',
@@ -141,6 +141,7 @@ export default Vue.extend({
         resource_name: '',
         resource_cost: '',
         used: false,
+        consumable: true,
       })
       if (this.skillRoll < 10)
         nr.ResourceCost = 'Gathering this information has gotten you into immediate trouble'

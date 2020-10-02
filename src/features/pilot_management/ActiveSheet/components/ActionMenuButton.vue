@@ -14,8 +14,8 @@
         </v-btn>
       </v-toolbar>
       <v-list class="px-2 py-3" dense color="panel">
-        <v-list-item v-for="a in actions" :key="a.id" @click.stop>
-          <v-list-item-title class="text-button">{{ a.name }}</v-list-item-title>
+        <v-list-item v-for="(a, i) in actions" :key="`${title}_action${i}_${a.Name}`" @click.stop>
+          <v-list-item-title class="text-button">{{ a.Name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </div>

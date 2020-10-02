@@ -86,9 +86,9 @@
       </v-btn>
     </span>
     <v-scroll-y-reverse-transition mode="out-in">
-      <v-row v-if="showReserves && (pilot.Reserves || pilot.Organizations)">
+      <v-row v-if="showReserves && (pilot.Reserves || pilot.Organizations)" class="mt-n3">
         <cc-reserve-item
-          v-for="(r, i) in pilot.Reserves"
+          v-for="(r, i) in pilot.Reserves.filter(r => r.Type !== 'Bonus')"
           :key="`r_${i}`"
           :reserve="r"
           @remove="pilot.RemoveReserve(i)"

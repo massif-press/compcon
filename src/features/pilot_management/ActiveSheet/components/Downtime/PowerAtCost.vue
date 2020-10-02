@@ -94,6 +94,7 @@ export default Vue.extend({
         resource_name: rs.custom_name || '',
         resource_note: rs.details || '',
         resource_cost: this.complication1,
+        consumable: true,
         used: false,
       })
       if (this.complication2 !== 'None') nr.ResourceCost += `\n${this.complication2}`

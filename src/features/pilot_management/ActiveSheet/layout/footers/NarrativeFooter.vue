@@ -15,12 +15,14 @@
             >//[
             <span class="accent--text">COMP/CON</span>
             :
-            <span class="stark-text--text">Confirmation Required</span>
-            ] TODO: text here about mission recording, combat mode, confirm mission start
+            <span class="stark-text--text">Active Protocols Standing By</span>
+            ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will assist with running
+            LANCER Missions and Encounters. First-time users are encouraged to enable the Active
+            Mode Tutorial using the checkbox below.
           </p>
           <v-row justify="center" no-gutters class="mt-n2">
             <v-col cols="auto">
-              <v-checkbox color="accent" label="Enable Tutorial Mode" dense hide-details />
+              <v-checkbox color="accent" label="Enable Active Mode Tutorial" dense hide-details />
             </v-col>
           </v-row>
           <v-alert dense outlined :color="pilot.ActiveMech.Frame.Manufacturer.Color" class="mt-4">
@@ -48,12 +50,19 @@
               </v-col>
             </v-row>
           </v-alert>
-          <p class="flavor-text stark--text mt-2 mx-6">
+          <v-row dense justify="center">
+            <v-col v-for="s in pilot.ActiveMech.StatusString" :key="`status-${s}`" cols="auto">
+              <cc-mech-status-alert :type="s" readonly />
+            </v-col>
+          </v-row>
+          <p v-if="pilot.ActiveMech.StatusString" class="flavor-text stark--text mt-2 mx-6">
             >//[
             <span class="accent--text">COMP/CON</span>
             :
-            <span class="stark-text--text">Confirmation Required</span>
-            ] TODO: if any frame warnings, display them here
+            <span class="stark-text--text">Frame Issues Detected</span>
+            ] Pilot, COMP/CON has detected one ore more issues with the selected mech. If these
+            issues are not addressed, your mech may operate at reduced combat efficacy. Caution is
+            advised.
           </p>
           <v-row justify="center" class="mt-2">
             <v-col cols="auto">
@@ -95,7 +104,9 @@
         <v-toolbar dense flat class="heading h3" style="min-width: 80px">
           DOWNTIME ACTIONS
           <v-spacer />
-          <v-btn small icon color="accent" class="ml-4"><v-icon>mdi-open-in-new</v-icon></v-btn>
+          <v-btn small icon color="accent" class="ml-4" @click="$refs.dialog.show()">
+            <v-icon>mdi-open-in-new</v-icon>
+          </v-btn>
         </v-toolbar>
         <v-list class="px-2 py-3" color="panel" two-line>
           <dt-menu-item ref="atcost" action-id="act_power_at_a_cost">
@@ -128,6 +139,16 @@
         </v-list>
       </div>
     </v-menu>
+    <cc-solo-dialog
+      ref="dialog"
+      title="Downtime Actions"
+      icon="cci-downtime"
+      color="action--downtime"
+      no-actions
+      fullscreen
+    >
+      <downtime-menu @close="$refs.dialog.hide()" />
+    </cc-solo-dialog>
   </v-footer>
 </template>
 
@@ -146,6 +167,7 @@ import {
   GetFocused,
   GetCreative,
   GetOrganized,
+  DowntimeMenu,
 } from '../../components/Downtime'
 
 export default vueMixins(activePilot).extend({
@@ -162,6 +184,7 @@ export default vueMixins(activePilot).extend({
     GetFocused,
     GetCreative,
     GetOrganized,
+    DowntimeMenu,
   },
   data: () => ({ scDialog: false }),
 })

@@ -5,7 +5,7 @@
     :items="items"
     item-text="name"
     multiple
-    :color="color"
+    color="accent"
     dense
     hide-details
     outlined

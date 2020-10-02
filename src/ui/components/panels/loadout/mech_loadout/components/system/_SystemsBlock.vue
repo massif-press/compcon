@@ -32,6 +32,7 @@
         :mod="w.Mod"
         :weapon="w"
         :color="color"
+        :readonly="readonly"
         @remove="w.Mod = null"
       />
 

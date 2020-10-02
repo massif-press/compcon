@@ -186,6 +186,7 @@
           <b v-else class="warning--text">WARNING: DAMAGE DETECTED</b>
           <br />
           <v-btn
+            v-if="mech.CurrentHP !== mech.MaxHP"
             small
             dark
             tile
@@ -206,6 +207,7 @@
           <b v-else class="error--text">CRITICAL: STRUCTURE COMPROMISED</b>
           <br />
           <v-btn
+            v-if="mech.CurrentStructure !== mech.MaxStructure"
             small
             dark
             tile
@@ -227,6 +229,7 @@
           <b v-else class="error--text">CRITICAL: REACTOR COMPROMISED</b>
           <br />
           <v-btn
+            v-if="mech.CurrentStress !== mech.MaxStress"
             small
             dark
             tile
@@ -301,7 +304,6 @@
             large
             color="structure"
             full-icon="cci-structure"
-            :class="{ rolledOver: structRollover }"
             @update="mech.CurrentStructure = $event"
           >
             <span class="heading h3">
@@ -317,7 +319,6 @@
             large
             color="stress"
             full-icon="cci-reactor"
-            :class="{ rolledOver: stressRollover }"
             @update="mech.CurrentStress = $event"
           >
             <span class="heading h3">Reactor</span>
@@ -330,7 +331,7 @@
             :max="mech.MaxHP"
             large
             color="hp"
-            :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
+            full-icon="mdi-hexagon"
             max-length="25"
             @update="mech.CurrentHP = $event"
           >

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="mod" :mech="mech">
+    <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly">
       <div slot="header">
         <span v-if="mod">
           <equipment-options :item="mod" />
