@@ -8,7 +8,7 @@
         </v-btn>
       </v-col>
       <v-scroll-y-reverse-transition mode="out-in">
-        <cc-mech-loadout v-if="showLoadout" :mech="mech" readonly />
+        <cc-mech-loadout v-if="showLoadout" :mech="mech" readonly active />
       </v-scroll-y-reverse-transition>
     </v-row>
   </div>

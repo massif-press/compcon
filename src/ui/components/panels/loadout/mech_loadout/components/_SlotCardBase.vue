@@ -21,7 +21,7 @@
                 <v-col>
                   <v-row justify="space-around" dense>
                     <v-col v-if="item.Actions && item.Actions.length" cols="auto">
-                      <div class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
+                      <div v-if="!readonly" class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
                       <v-row no-gutters justify="center">
                         <v-col
                           v-for="(a, i) in item.Actions"
@@ -30,14 +30,14 @@
                         >
                           <cc-action
                             :action="a"
-                            :panel="$vuetify.breakpoint.lgAndUp"
+                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
                             class="ma-2"
                           />
                         </v-col>
                       </v-row>
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
-                      <div class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
+                      <div v-if="!readonly" class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
                       <v-row no-gutters justify="center">
                         <v-col
                           v-for="(d, i) in item.Deployables"
@@ -46,7 +46,7 @@
                         >
                           <cc-deployable-info
                             :deployable="d"
-                            :panel="$vuetify.breakpoint.lgAndUp"
+                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
                             :name-override="item.Name"
                             class="ma-2"
                           />

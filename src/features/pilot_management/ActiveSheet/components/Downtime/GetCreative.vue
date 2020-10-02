@@ -294,6 +294,7 @@ export default Vue.extend({
         used: false,
         can_finish: false,
         finished: false,
+        consumable: false,
         progress: this.initialRoll < 10 || this.improveRoll < 10 ? 1 : 0,
         requirements: [],
       })

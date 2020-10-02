@@ -109,7 +109,7 @@ export default Vue.extend({
     addReserve() {
       const nr = new Reserve({
         id: 'reserve_boughttime',
-        type: 'Resources',
+        type: 'Resource',
         name: 'Connection',
         label: '',
         description: '',
@@ -117,6 +117,7 @@ export default Vue.extend({
         resource_name: this.custom_name,
         resource_cost: '',
         used: false,
+        consumable: true,
       })
       if (this.skillRoll < 10)
         nr.ResourceCost =

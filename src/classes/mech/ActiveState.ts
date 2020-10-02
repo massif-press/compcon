@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import { store } from '@/store'
-import { Mech, Drone, Deployable, Pilot, Rules, MechEquipment } from '@/class'
+import { Mech, Drone, Deployable, Pilot, MechEquipment } from '@/class'
 import { Action } from '@/interface'
 
 enum Stage {
@@ -36,7 +36,8 @@ interface IActiveStateData {
   bracedCooldown: boolean
   redundant: boolean
   history: IHistoryItem[]
-  active_mech_id: string
+  // active_mech_id: string
+  mounted: boolean
 }
 
 class ActiveState {
@@ -425,29 +426,34 @@ class ActiveState {
   }
 
   public get Protocols(): Action[] {
-    return this._pilot.Actions.filter(x => x.Activation === 'Protocol')
+    return this._mech.Actions.filter(x => x.Activation === 'Protocol')
   }
 
   public get MoveActions(): string[] {
     return ['move']
   }
+
+  private get baseActions(): Action[] {
+    return store.getters.getItemCollection('Actions')
+  }
+
   public get FullActions(): Action[] {
-    return Rules.BaseFullActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Full'))
+    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Full')
   }
   public get QuickActions(): Action[] {
-    return Rules.BaseQuickActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Quick'))
+    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Quick')
   }
   public get FreeActions(): Action[] {
-    return Rules.BaseFreeActions.concat(this._pilot.Actions.filter(x => x.Activation === 'Free'))
+    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Free')
   }
   public get Reactions(): Action[] {
-    return Rules.BaseReactions.concat(this._pilot.Actions.filter(x => x.Activation === 'Reaction'))
+    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Reaction')
   }
   public get OtherActions(): string[] {
     return ['overcharge']
   }
 
-  public static Serialize(s: ActiveState): IMechState {
+  public static Serialize(s: ActiveState): IActiveStateData {
     return {
       stage: s._stage,
       turn: s._round,
@@ -460,12 +466,13 @@ class ActiveState {
       bracedCooldown: s._bracedCooldown,
       redundant: s._redundant,
       history: s._history,
+      mounted: s._pilot_mounted,
     }
   }
 
-  public static Deserialize(pilot: Pilot, data: IMechState): ActiveState {
+  public static Deserialize(pilot: Pilot, data: IActiveStateData): ActiveState {
     const s = new ActiveState(pilot)
-    // s._stage = data.stage || 'Downtime'
+    s._stage = data.stage as Stage
     s._round = data.turn
     s._move = data.move
     s._actions = data.actions
@@ -476,6 +483,7 @@ class ActiveState {
     s._bracedCooldown = data.bracedCooldown
     s._redundant = data.redundant
     s._history = data.history
+    s._pilot_mounted = data.mounted
     return s
   }
 }

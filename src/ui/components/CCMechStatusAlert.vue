@@ -61,7 +61,8 @@
         Operational capacity significantly impaired
       </span>
       <span v-else-if="type === 'unlicensed'" class="white--text flavor-text">
-        Pilot is missing one or more licenses required to legally print this configuration
+        Pilot is missing one or more licenses required to legally print or operate this
+        configuration
       </span>
     </div>
   </v-alert>

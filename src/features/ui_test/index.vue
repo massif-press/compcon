@@ -147,26 +147,6 @@
       </v-row>
     </v-container>
 
-    <!-- Text Panel Elements -->
-    <br />
-    <cc-title>Text Panel Elements</cc-title>
-    <v-container>
-      <cc-item-effect-panel :effects="genericExample.Effect" />
-      <cc-item-effect-panel :effects="chargeExample.Effect" />
-      <cc-item-effect-panel :effects="deployExample.Effect" />
-      <cc-item-effect-panel :effects="droneExample.Effect" />
-      <cc-item-effect-panel :effects="multipleExample.Effect" />
-      <cc-item-effect-panel :effects="aiExample.Effect" />
-      <cc-item-effect-panel :effects="techExample.Effect" />
-      <cc-item-effect-panel :effects="reactionExample.Effect" />
-      <v-divider class="my-2" />
-      <cc-item-effect-panel :effects="profileExample.Effect" />
-      <cc-item-effect-panel :effects="onAttackExample.Effect" />
-      <cc-item-effect-panel :effects="onHitExample.Effect" />
-      <cc-item-effect-panel :effects="onCritExample.Effect" />
-      <cc-item-effect-panel :effects="asDroneExample.Effect" />
-    </v-container>
-
     <v-btn text x-large to="/">back</v-btn>
   </v-container>
 </template>

@@ -40,9 +40,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, WeaponType, Manufacturer } from '@/class'
+import { Tag, Manufacturer } from '@/class'
 
-const nameSort = function(a, b) {
+const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
   if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
   return 0
@@ -80,7 +80,7 @@ export default Vue.extend({
       this.weaponTypeFilter = []
     },
     updateFilters() {
-      let fObj = {} as any
+      const fObj = {} as any
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       this.$emit('set-filters', fObj)

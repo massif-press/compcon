@@ -31,7 +31,7 @@
                 color="warning darken-3"
                 @click="
                   ecDialog = false
-                  pilot.State.StartCombat()
+                  pilot.State.StartRest()
                 "
               >
                 &nbsp;Start Rest
@@ -69,80 +69,88 @@
 
     <v-spacer />
 
-    <action-menu-button
-      :actions="pilot.State.Protocols"
-      color="action--protocol"
-      title="PROTOCOLS"
-      @open-menu="openMenu(0)"
-    >
-      <v-icon slot="icon" size="40">cci-protocol</v-icon>
-    </action-menu-button>
-
-    <v-divider vertical class="mx-3" />
-    <action-menu-button
-      :actions="pilot.State.MoveActions"
-      color="action--move"
-      title="MOVEMENT"
-      @open-menu="openMenu(0)"
-    >
-      <v-icon slot="icon" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
-    </action-menu-button>
-
-    <action-menu-button
-      :actions="pilot.State.FullActions"
-      color="action--full"
-      title="FULL ACTIONS"
-      @open-menu="openMenu(1)"
-    >
-      <v-icon slot="icon" size="30">mdi-hexagon-slice-6</v-icon>
-    </action-menu-button>
-
-    <action-menu-button
-      :actions="pilot.State.QuickActions"
-      color="action--quick"
-      title="QUICK ACTIONS"
-      @open-menu="openMenu(2)"
-    >
-      <v-icon slot="icon" size="30">mdi-hexagon-slice-3</v-icon>
-    </action-menu-button>
-
-    <action-menu-button
-      :actions="pilot.State.Reactions"
-      color="action--reaction"
-      title="REACTIONS"
-      @open-menu="openMenu(3)"
-    >
-      <v-icon slot="icon" size="35">cci-reaction</v-icon>
-    </action-menu-button>
-
-    <action-menu-button
-      :actions="pilot.State.FreeActions"
-      color="action--free"
-      title="FREE ACTIONS"
-      @open-menu="openMenu(4)"
-    >
-      <v-icon slot="icon" size="35">cci-free-action</v-icon>
-    </action-menu-button>
+    <div class="mt-n1">
+      <action-menu-button
+        :actions="pilot.State.Protocols"
+        color="action--protocol"
+        title="PROTOCOLS"
+        @open-menu="openMenu(0)"
+      >
+        <v-icon slot="icon" color="white" size="40">cci-protocol</v-icon>
+      </action-menu-button>
+    </div>
 
     <v-divider vertical class="mx-3" />
 
-    <action-menu-button
-      :actions="pilot.State.Protocols"
-      color="primary"
-      title="DATA"
-      @open-menu="openMenu(5)"
-    >
-      <v-icon slot="icon" size="25">mdi-notebook</v-icon>
-    </action-menu-button>
+    <div class="mt-n1">
+      <action-menu-button
+        :actions="pilot.State.MoveActions"
+        color="action--move"
+        title="MOVEMENT"
+        @open-menu="openMenu(0)"
+      >
+        <v-icon slot="icon" color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
+      </action-menu-button>
 
-    <action-menu-button
-      :actions="pilot.State.Protocols"
-      color="primary"
-      title="OTHER"
-      @open-menu="openMenu(6)"
-    >
-      <v-icon slot="icon" size="30">mdi-dots-vertical</v-icon>
-    </action-menu-button>
+      <action-menu-button
+        :actions="pilot.State.FullActions"
+        color="action--full"
+        title="FULL ACTIONS"
+        @open-menu="openMenu(1)"
+      >
+        <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-6</v-icon>
+      </action-menu-button>
+
+      <action-menu-button
+        :actions="pilot.State.QuickActions"
+        color="action--quick"
+        title="QUICK ACTIONS"
+        @open-menu="openMenu(2)"
+      >
+        <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-3</v-icon>
+      </action-menu-button>
+
+      <action-menu-button
+        :actions="pilot.State.Reactions"
+        color="action--reaction"
+        title="REACTIONS"
+        @open-menu="openMenu(3)"
+      >
+        <v-icon slot="icon" color="white" size="35">cci-reaction</v-icon>
+      </action-menu-button>
+
+      <action-menu-button
+        :actions="pilot.State.FreeActions"
+        color="action--free"
+        title="FREE ACTIONS"
+        @open-menu="openMenu(4)"
+      >
+        <v-icon slot="icon" color="white" size="35">cci-free-action</v-icon>
+      </action-menu-button>
+    </div>
+
+    <v-divider vertical class="mx-3" />
+
+    <div class="mt-n1">
+      <action-menu-button
+        :actions="pilot.State.Protocols"
+        color="primary"
+        title="DATA"
+        @open-menu="openMenu(5)"
+      >
+        <v-icon slot="icon" color="white" size="25">mdi-notebook</v-icon>
+      </action-menu-button>
+
+      <action-menu-button
+        :actions="pilot.State.Protocols"
+        color="primary"
+        title="OTHER"
+        @open-menu="openMenu(6)"
+      >
+        <v-icon slot="icon" color="white" size="30">mdi-dots-vertical</v-icon>
+      </action-menu-button>
+    </div>
+
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>

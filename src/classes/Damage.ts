@@ -1,4 +1,5 @@
-import { DamageType } from '@/class'
+import { DamageType, Mech, MechWeapon } from '@/class'
+import { Bonus } from './Bonus'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -6,17 +7,32 @@ interface IDamageData {
   type: DamageType
   val: string | number
   override?: boolean
+  bonus?: string | number
 }
 
 class Damage {
   public readonly Type: DamageType
   public readonly Value: string
+  public readonly Bonus: string
   public readonly Override: boolean
   private _raw_value: string | number
 
   public constructor(damage: IDamageData) {
     this.Type = this.getDamageType(damage.type)
-    this.Value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
+    if (typeof damage.val === 'number') {
+      if (!damage.bonus) this.Value = damage.val.toString()
+      else if (typeof damage.bonus === 'number') this.Value = (damage.val + damage.bonus).toString()
+      else this.Value = `${damage.val} + ${damage.bonus}`
+    } else {
+      if (damage.bonus)
+        this.Value = damage.val + damage.bonus ? ` + ${damage.bonus.toString()}` : ''
+      else this.Value = damage.val
+    }
+    this.Bonus = damage.bonus
+      ? typeof damage.bonus === 'number'
+        ? damage.bonus.toString()
+        : damage.bonus
+      : ''
     this.Override = damage.override || false
     this._raw_value = damage.val
   }
@@ -47,6 +63,34 @@ class Damage {
       // (qty * size) + bonus
       return parseInt(split[0]) * parseInt(split[1]) + bonus
     }
+  }
+
+  public static CalculateDamage(item: MechWeapon, mech: Mech): Damage[] {
+    if (!item || !mech) return []
+    if (!Bonus.get('damage', mech)) return item.Damage
+    const bonuses = mech.Bonuses.filter(x => x.ID === 'damage')
+    const output = []
+    item.Damage.forEach(d => {
+      if (d.Override) return
+      let bonus = 0
+      bonuses.forEach(b => {
+        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponType === wt)) return
+        if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+        if (b.RangeTypes.length && !b.RangeTypes.some(rt => item.RangeType.some(x => x === rt)))
+          return
+        if (!b.DamageTypes.length || b.DamageTypes.some(rt => d.Type === rt)) {
+          bonus += Bonus.Evaluate(b, mech.Pilot)
+        }
+      })
+      output.push(
+        new Damage({
+          type: d.Type,
+          val: d._raw_value,
+          bonus: bonus,
+        })
+      )
+    })
+    return output
   }
 
   public get Icon(): string {

@@ -31,13 +31,13 @@
       <v-row v-if="!readonly" dense class="mt-2" style="max-height: 200px; overflow-y: scroll">
         <p class="text--text" v-html="item.Description" />
       </v-row>
-      <v-row v-if="item.Notes">
+      <!-- <v-row v-if="item.Notes">
         <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
           <cc-tooltip simple inline :content="n">
             <v-icon small color="active">mdi-note</v-icon>
           </cc-tooltip>
         </v-col>
-      </v-row>
+      </v-row> -->
     </div>
     <v-card-text slot="selector">
       <cc-selector-table no-filter :items="getGear()" :headers="headers" @equip="equip($event)">

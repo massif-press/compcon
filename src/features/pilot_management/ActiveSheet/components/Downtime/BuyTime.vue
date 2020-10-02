@@ -106,7 +106,7 @@ export default Vue.extend({
     addReserve() {
       const nr = new Reserve({
         id: 'reserve_boughttime',
-        type: 'Resources',
+        type: 'Resource',
         name: 'Bought Time',
         label: '',
         description: 'More time and breathing room for you and your group to act',
@@ -114,6 +114,7 @@ export default Vue.extend({
         resource_cost: '',
         resource_name: '',
         used: false,
+        consumable: true,
       })
       if (this.skillRoll < 10)
         nr.ResourceCost = 'Only a little time, and only if drastic measures are taken right now'

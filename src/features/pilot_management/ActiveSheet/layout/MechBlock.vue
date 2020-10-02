@@ -7,16 +7,15 @@
       <v-row dense>
         <v-col class="mt-n5">
           <div class="overline subtle--text">MOUNTED::</div>
-          <div class="heading h2 mt-n3">
+          <div class="heading h2 mt-n4">
             <span class="accent--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
             <cc-slashes />
             <span class="stark--text">{{ mech.Name }}</span>
           </div>
+        </v-col>
+        <v-col cols="auto" class="ml-auto mr-2 mt-n3">
           <div class="overline subtle--text mt-n2">PILOT::</div>
           <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
-        </v-col>
-        <v-col cols="auto" class="ml-auto mr-2">
-          <mech-select-button :mechs="pilot.Mechs" @select="pilot.ActiveMech = $event" />
         </v-col>
         <v-col v-if="pilot.Mounted" cols="auto">
           <cc-tooltip title="DISMOUNT MECH" content="Exit the mech and switch to Pilot Mode">
@@ -36,7 +35,7 @@
         </v-col>
       </v-row>
 
-      <v-row justify="space-between" align="center" dense class="mb-2">
+      <v-row justify="space-between" align="center" dense class="mt-n3">
         <v-col cols="3">
           <cc-status-select
             label="Statuses"
@@ -125,20 +124,36 @@
         :hp-resistance="hpResistance"
       />
 
-      <v-row dense align="center">
-        <v-col cols="auto" class="flavor-text mr-2 ml-2 mt-n2">
-          <span class="heading h2 accent--text">{{ pilot.MechSkills.Hull }}</span>
-          <span>//HULL</span>
-          <br />
-          <span class="heading h2 accent--text">{{ pilot.MechSkills.Agi }}</span>
-          <span>//AGI</span>
-          <br />
-          <span class="heading h2 accent--text">{{ pilot.MechSkills.Sys }}</span>
-          <span>//SYS</span>
-          <br />
-          <span class="heading h2 accent--text">{{ pilot.MechSkills.Eng }}</span>
-          <span>//ENG</span>
-          <br />
+      <v-row dense align="center" class="mt-n3">
+        <v-col cols="auto" class="ml-2 mt-n2">
+          <div class="mb-n2">
+            <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
+            <span class="heading h2 accent--text">
+              {{ pilot.MechSkills.Hull }}
+              <span class="flavor-text subtle--text">//HULL</span>
+            </span>
+          </div>
+          <div class="mb-n2">
+            <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
+            <span class="heading h2 accent--text">
+              {{ pilot.MechSkills.Agi }}
+              <span class="flavor-text subtle--text">//AGI</span>
+            </span>
+          </div>
+          <div class="mb-n2">
+            <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
+            <span class="heading h2 accent--text">
+              {{ pilot.MechSkills.Sys }}
+              <span class="flavor-text subtle--text">//SYS</span>
+            </span>
+          </div>
+          <div class="mb-n2">
+            <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
+            <span class="heading h2 accent--text">
+              {{ pilot.MechSkills.Eng }}
+              <span class="flavor-text subtle--text">//ENG</span>
+            </span>
+          </div>
         </v-col>
         <v-col>
           <v-row>
@@ -162,7 +177,7 @@
               prominent
               color="frame"
               header="Evasion"
-              :content="mech.IsStunned ? 5 : mech.Evasion"
+              :content="mech.Evasion"
             />
             <cc-active-card
               prominent
@@ -195,10 +210,10 @@
             v-for="(trait, i) in mech.Frame.Traits"
             :key="`tr_${i}`"
             color="frame"
-            :header="trait.name"
+            :header="trait.Name"
             subheader="FRAME TRAIT"
           >
-            <span v-html="trait.description" />
+            <span v-html="trait.Description" />
           </cc-active-card>
         </v-col>
         <v-col cols="8">
@@ -267,7 +282,7 @@
             color="corepower"
             collapsible
             :header="bonus.Name"
-            subheader="CORE BONUS"
+            style="min-width: 400px"
           >
             <p class="pa-1 ma-0" v-html="bonus.Effect" />
           </cc-active-card>
@@ -341,6 +356,8 @@
       </v-row>
 
       <active-mode-loadout :mech="mech" />
+
+      <deployed-block />
     </div>
   </div>
 </template>
@@ -353,12 +370,13 @@ import LargePipLayout from './LargePipLayout.vue'
 import MedPipLayout from './MedPipLayout.vue'
 import SmallPipLayout from './SmallPipLayout.vue'
 import ActiveModeLoadout from './ActiveModeLoadout.vue'
+import DeployedBlock from './DeployedBlock.vue'
 
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 export default vueMixins(activePilot).extend({
   name: 'mech-block',
-  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout, ActiveModeLoadout },
+  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout, ActiveModeLoadout, DeployedBlock },
   data: () => ({
     showTalents: true,
     showCBs: true,

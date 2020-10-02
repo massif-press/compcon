@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="auto" class="mx-2">
+  <v-col cols="auto">
     <v-dialog v-model="dialog" width="60vw">
       <template v-slot:activator="{ on }">
         <v-btn large outlined color="stark" class="px-4" block v-on="on">

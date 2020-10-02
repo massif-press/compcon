@@ -39,7 +39,7 @@
         <cc-damage-element
           v-if="item.Damage"
           small
-          :damage="item.Damage"
+          :damage="getDamage"
           :type-override="item.DamageTypeOverride"
           class="d-inline"
         />
@@ -75,33 +75,28 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <v-icon>cci-weapon</v-icon>
-              <span class="overline">
-                <span class="stark--text">EQUIPMENT EFFECT</span>
-                ::{{ item.SelectedProfile.Name }}
-              </span>
               <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileEffect" />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
-            <div class="mb-n2">
-              <v-icon>cci-weapon</v-icon>
+            <div class="mb-n2 mt-1">
+              <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON ATTACK</span>
-              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnAttack" />
+              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnAttack" />
             </div>
           </div>
           <div v-if="item.ProfileOnHit">
-            <div class="mb-n2">
-              <v-icon>cci-weapon</v-icon>
+            <div class="mb-n2 mt-1">
+              <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON HIT</span>
-              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnHit" />
+              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnHit" />
             </div>
           </div>
           <div v-if="item.ProfileOnCrit">
-            <div class="mb-n2">
-              <v-icon>cci-weapon</v-icon>
+            <div class="mb-n2 mt-1">
+              <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON CRITICAL HIT</span>
-              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnCrit" />
+              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnCrit" />
             </div>
           </div>
           <v-row v-if="item.Mod" dense justify="center">
@@ -154,6 +149,7 @@ import {
   PilotTalent,
   WeaponType,
   Range,
+  Damage,
 } from '@/class'
 
 export default Vue.extend({
@@ -210,6 +206,10 @@ export default Vue.extend({
     getRange() {
       if (!this.item) return []
       return Range.CalculateRange(this.item, this.mech)
+    },
+    getDamage() {
+      if (!this.item) return []
+      return Damage.CalculateDamage(this.item, this.mech)
     },
   },
   methods: {

@@ -72,6 +72,9 @@ export default Vue.extend({
     readonly: {
       type: Boolean,
     },
+    active: {
+      type: Boolean,
+    },
   },
   computed: {
     color() {

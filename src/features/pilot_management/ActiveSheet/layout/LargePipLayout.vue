@@ -1,6 +1,35 @@
 <template>
   <div>
-    <v-row dense align="center" justify="space-between" class="mt-n3 mx-4">
+    <v-row align="start" dense class="mt-n1 ml-4 mr-2">
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display location="move" :mech="mech" class="d-inline" />
+      </v-col>
+      <v-col cols="auto">
+        <cc-tick-bar
+          :key="mech.CurrentMove"
+          :current="mech.CurrentMove"
+          :max="mech.MaxMove"
+          large
+          color="accent"
+          full-icon="mdi-arrow-right-bold-hexagon-outline"
+          @update="mech.CurrentMove = $event"
+        >
+          <span class="heading h3">
+            Movement
+          </span>
+        </cc-tick-bar>
+      </v-col>
+      <v-col cols="auto" align-self="end">
+        <v-btn>
+          boost
+          <cc-synergy-display location="boost" :mech="mech" class="d-inline" />
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row align="start" class="mt-n3 mx-2">
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display location="structure" :mech="mech" class="d-inline" />
+      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStructure"
@@ -18,6 +47,9 @@
         </cc-tick-bar>
       </v-col>
       <v-col v-if="mech.Armor" cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="armor" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.Armor"
           :current="mech.Armor"
@@ -31,6 +63,9 @@
           <span class="heading h3">Armor: {{ mech.Armor }}</span>
         </cc-tick-bar>
       </v-col>
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display location="hp" :mech="mech" class="d-inline" />
+      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentHP"
@@ -39,13 +74,16 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-          max-length="25"
+          max-length="30"
           @update="mech.CurrentHP = $event"
         >
           <span class="heading h3">HP</span>
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="overshield" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.Overshield"
           :current="mech.Overshield"
@@ -62,7 +100,10 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" class="mx-4">
+    <v-row align="start" class="mt-n3 mx-2">
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display location="stress" :mech="mech" class="d-inline" />
+      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStress"
@@ -78,6 +119,9 @@
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="heat" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentHeat"
           :current="mech.CurrentHeat"
@@ -106,6 +150,9 @@
         </div>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="repairs" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentRepairs"
           :current="mech.CurrentRepairs"
@@ -121,6 +168,9 @@
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="core_energy" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
@@ -148,6 +198,9 @@
         </div>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display location="overcharge" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
@@ -168,6 +221,11 @@
         <div class="text-center caption overcharge--text font-weight-bold">
           {{ overcharge[mech.CurrentOvercharge] }}
         </div>
+      </v-col>
+      <v-col cols="auto" align-self="center" class="mb-n3 ml-n9">
+        <v-btn fab small elevation="0" color="overcharge">
+          <v-icon large>cci-overcharge</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </div>
