@@ -11,7 +11,7 @@
       <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
       <span class="overline">({{ item.Uses }}/{{ item.MaxUses + useBonus }}) USES</span>
     </v-col>
-    <v-col v-if="item.IsLoading && readonly" cols="auto" class="mx-2">
+    <v-col v-if="item.IsLoading && readonly" cols="auto" class="ma-1">
       <v-btn
         small
         dark
@@ -27,9 +27,6 @@
     </v-col>
     <v-col cols="auto" class="mx-2">
       <slot />
-    </v-col>
-    <v-col v-if="item.SP && !readonly" cols="auto" class="ml-auto mr-3">
-      <span class="heading h3">{{ item.SP }}SP</span>
     </v-col>
   </v-row>
 </template>

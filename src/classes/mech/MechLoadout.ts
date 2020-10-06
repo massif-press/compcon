@@ -86,6 +86,15 @@ class MechLoadout extends Loadout {
     return ms
   }
 
+  public AllActiveMounts(m: Mech): Mount[] {
+    let ms = [] as Mount[]
+    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount)
+    if (m.Pilot.has('CoreBonus', 'cb_improved_armament') && this.EquippableMounts.length < 3)
+      ms.push(this.ImprovedArmamentMount)
+    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts)
+    return ms.filter(x => x.Weapons.length)
+  }
+
   public get Mounts(): Mount[] {
     return (this._integratedMounts as Mount[]).concat(this._equippableMounts)
   }
@@ -140,6 +149,10 @@ class MechLoadout extends Loadout {
   public set Systems(systems: MechSystem[]) {
     this._systems = systems
     this.save()
+  }
+
+  public AllActiveSystems(): MechSystem[] {
+    return this.IntegratedSystems.concat(this.Systems)
   }
 
   public HasSystem(systemID: string): boolean {

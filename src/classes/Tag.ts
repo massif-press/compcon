@@ -22,6 +22,7 @@ class Tag {
   public readonly IsLoading: boolean
   public readonly IsRecharging: boolean
   public readonly IsIndestructible: boolean
+  public readonly IsSmart: boolean
   private _name: string
   private _val: number | string
   private _description: string
@@ -41,6 +42,7 @@ class Tag {
     this.IsLoading = this.ID === 'tg_loading'
     this.IsRecharging = this.ID === 'tg_recharge'
     this.IsIndestructible = this.ID === 'tg_indestructible'
+    this.IsSmart = this.ID === 'tg_smart'
   }
 
   public get Name(): string {

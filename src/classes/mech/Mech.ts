@@ -10,9 +10,9 @@ import {
   CoreBonus,
   Synergy,
   MechWeapon,
+  Mount,
 } from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { ActiveState } from './ActiveState'
 import { Bonus } from '../Bonus'
 import { ICounterData } from '../Counter'
 import { Action } from '../Action'
@@ -89,7 +89,6 @@ class Mech implements IActor {
   private _turn_actions: number
   private _currentMove: number
   private _core_active: boolean
-  private _state: ActiveState
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid()
@@ -938,6 +937,10 @@ class Mech implements IActor {
   public set ActiveLoadout(loadout: MechLoadout) {
     this._active_loadout = loadout
     this.save()
+  }
+
+  public get ActiveMounts(): Mount[] {
+    return this.ActiveLoadout.AllActiveMounts(this)
   }
 
   public AddLoadout(): void {

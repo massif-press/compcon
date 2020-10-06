@@ -6,20 +6,13 @@
         style="height: 24px!important"
       >
         <v-row class="mt-n1" no-gutters>
-          <equipment-options slot="options" :item="mod" />
+          <equipment-options v-if="!action" slot="options" :item="mod" />
           <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
             DESTROYED
           </span>
           <span v-else>
             {{ mod.Name }}
           </span>
-          <v-spacer />
-          <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
-          <cc-tooltip simple inline content="Remove Mod">
-            <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
-              mdi-delete
-            </v-icon>
-          </cc-tooltip>
         </v-row>
       </v-card-title>
       <div class="mod-border px-2 pt-1">
@@ -48,7 +41,7 @@
           </div>
           <p class="text--text body-text mb-1 mr-3 ml-7" v-html="mod.Effect" />
         </div>
-        <v-row class="text-left" dense align="end">
+        <v-row v-if="!action" class="text-left" dense align="end">
           <v-col>
             <v-row justify="space-around" dense>
               <v-col v-if="mod.Actions.length" cols="auto">
@@ -79,8 +72,8 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-row no-gutters class="mr-3 mt-n3">
-          <v-col cols="auto">
+        <v-row no-gutters class="mr-3 mt-n2">
+          <v-col v-if="!action" cols="auto">
             <cc-tags small :tags="mod.Tags" :color="color" />
           </v-col>
           <v-spacer />
@@ -101,11 +94,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import EquipmentOptions from '../../_EquipmentOptions.vue'
-import EquipmentHeader from '../../_EquipmentHeader.vue'
+import EquipmentOptions from '../../mech_loadout/components/_EquipmentOptions.vue'
+import EquipmentHeader from '../../mech_loadout/components/_EquipmentHeader.vue'
 
 export default Vue.extend({
-  name: 'mod-inset',
+  name: 'active-mod-inset',
   components: { EquipmentOptions, EquipmentHeader },
   props: {
     mod: {
@@ -121,6 +114,7 @@ export default Vue.extend({
       required: false,
       default: 'primary',
     },
+    action: { type: Boolean },
   },
 })
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly">
+  <div style="height: 100%" :class="readonly ? 'mt-n1' : ''">
+    <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly" style="height: 100%">
       <div slot="header">
         <span v-if="mod">
-          <equipment-options :item="mod" />
+          <equipment-options :item="mod" :readonly="readonly" :active="readonly" />
           <span v-if="!mod.Destroyed" class="ml-n2">
             {{ mod.Name }}
             <span v-if="mod.FlavorName" class="caption ml-2 my-n1">//{{ mod.TrueName }}</span>
@@ -14,30 +14,37 @@
         </span>
       </div>
       <div slot="header-items" class="text-right">
-        <v-btn v-if="mod" icon dark @click="$emit('remove')">
-          <v-icon class="fadeSelect mt-n1">delete</v-icon>
+        <div style="display: inline-block">
+          <span class="heading h2">{{ mod.SP }}</span>
+          <span class="heading h3">SP</span>
+        </div>
+        <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
+          <v-btn v-if="mod" icon dark @click="$emit('remove')">
+            <v-icon class="fadeSelect mt-n1">delete</v-icon>
+          </v-btn>
+        </div>
+        <v-btn v-else right icon class="fadeSelect" @click.stop="hide = !hide">
+          <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </div>
-      <v-row dense no-gutters>
-        <v-col cols="auto">
-          <v-alert
-            v-if="mod.IsCascading"
-            dense
-            tile
-            color="error"
-            class="text-center white--text stat-text"
-            style="letter-spacing: 3px;"
-          >
-            / / AI IN CASCADE / /
-          </v-alert>
-          <div class="overline">APPLIED TO</div>
-          <div class="heading h3 subtle--text text--darken-2 ml-3 mt-n1">{{ weapon.Name }}</div>
-        </v-col>
-        <v-col cols="auto" class="ml-auto mr-3">
-          <span class="heading h2" :style="`color: ${color}`">{{ mod.SP }}</span>
-          <span class="heading h3">SP</span>
-        </v-col>
-      </v-row>
+      <v-slide-y-transition>
+        <v-row v-if="!hide" dense no-gutters style="height: 100%">
+          <v-col cols="auto">
+            <v-alert
+              v-if="mod.IsCascading"
+              dense
+              tile
+              color="error"
+              class="text-center white--text stat-text"
+              style="letter-spacing: 3px;"
+            >
+              / / AI IN CASCADE / /
+            </v-alert>
+            <div class="overline mt-n1">APPLIED TO</div>
+            <div class="heading h3 subtle--text ml-3 mt-n2 mb-1">{{ weapon.Name }}</div>
+          </v-col>
+        </v-row>
+      </v-slide-y-transition>
     </slot-card-base>
   </div>
 </template>
@@ -73,6 +80,10 @@ export default Vue.extend({
       required: false,
       default: 'primary',
     },
+    readonly: { type: Boolean },
   },
+  data: () => ({
+    hide: false,
+  }),
 })
 </script>
