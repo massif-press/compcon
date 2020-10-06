@@ -1,15 +1,16 @@
 <template>
-  <component :is="panel ? 'ActionPanel' : 'ActionPopup'" :action="action" />
+  <component :is="cType" :action="action" />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import ActionPanel from './_actionPanel.vue'
 import ActionPopup from './_actionPopup.vue'
+import ActionButton from './_actionButton.vue'
 
 export default Vue.extend({
   name: 'cc-action',
-  components: { ActionPanel, ActionPopup },
+  components: { ActionPanel, ActionPopup, ActionButton },
   props: {
     action: {
       type: Object,
@@ -21,6 +22,15 @@ export default Vue.extend({
     },
     panel: {
       type: Boolean,
+    },
+    active: {
+      type: Boolean,
+    },
+  },
+  computed: {
+    cType() {
+      if (this.active) return 'ActionButton'
+      return this.panel ? 'ActionPanel' : 'ActionPopup'
     },
   },
 })

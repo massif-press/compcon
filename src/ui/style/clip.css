@@ -23,38 +23,35 @@
   -webkit-clip-path: polygon(0 0, calc(100% - 30px) 0%, 100% 100%, 0% 100%);
 }
 
+.dual-sliced {
+  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+  -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
 .clipped-large {
-  clip-path: polygon(
-    calc(100% + 1px) 0,
-    calc(100% + 1px) calc(100% - 30px),
-    calc(100% - 30px) 100%,
-    0 100%,
-    0 0
-  );
-  -webkit-clip-path: polygon(
-    calc(100% + 1px) 0,
-    calc(100% + 1px) calc(100% - 30px),
-    calc(100% - 30px) 100%,
-    0 100%,
-    0 0
-  );
+  clip-path: polygon(calc(100% + 1px) 0,
+      calc(100% + 1px) calc(100% - 30px),
+      calc(100% - 30px) 100%,
+      0 100%,
+      0 0);
+  -webkit-clip-path: polygon(calc(100% + 1px) 0,
+      calc(100% + 1px) calc(100% - 30px),
+      calc(100% - 30px) 100%,
+      0 100%,
+      0 0);
 }
 
 .clipped-x-large {
-  clip-path: polygon(
-    calc(100% + 1px) 0,
-    calc(100% + 1px) calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
-  -webkit-clip-path: polygon(
-    calc(100% + 1px) 0,
-    calc(100% + 1px) calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
+  clip-path: polygon(calc(100% + 1px) 0,
+      calc(100% + 1px) calc(100% - 50px),
+      calc(100% - 50px) 100%,
+      0 100%,
+      0 0);
+  -webkit-clip-path: polygon(calc(100% + 1px) 0,
+      calc(100% + 1px) calc(100% - 50px),
+      calc(100% - 50px) 100%,
+      0 100%,
+      0 0);
 }
 
 .clipped-large-invert {
@@ -73,35 +70,29 @@
 }
 
 .clipped-btn {
-  clip-path: polygon(
-    20px 0,
-    100% 0,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    0 100%,
-    0 20px
-  );
-  -webkit-clip-path: polygon(
-    20px 0,
-    100% 0,
-    100% calc(100% - 20px),
-    calc(100% - 20px) 100%,
-    0 100%,
-    0 20px
-  );
+  clip-path: polygon(20px 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      0 100%,
+      0 20px);
+  -webkit-clip-path: polygon(20px 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      0 100%,
+      0 20px);
 }
 
 .clip-icon {
   width: fit-content;
   clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
-  -webkit-clip-path: polygon(
-    5px 0,
-    100% 0,
-    100% calc(100% - 5px),
-    calc(100% - 5px) 100%,
-    0 100%,
-    0 5px
-  );
+  -webkit-clip-path: polygon(5px 0,
+      100% 0,
+      100% calc(100% - 5px),
+      calc(100% - 5px) 100%,
+      0 100%,
+      0 5px);
   background-color: var(--v-light-panel-base);
   border: 3px double var(--v-panel-border-base);
   margin: auto;

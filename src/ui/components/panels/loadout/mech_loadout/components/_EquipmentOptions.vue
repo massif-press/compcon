@@ -86,8 +86,8 @@
             </v-list-item-content>
           </v-list-item>
         </div>
-        <v-divider />
-        <v-list-item @click="$refs.cName.show()">
+        <v-divider v-if="!active" />
+        <v-list-item v-if="!active" @click="$refs.cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon>mdi-circle-edit-outline</v-icon>
           </v-list-item-icon>
@@ -95,7 +95,7 @@
             <v-list-item-title>Set Custom Name</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.cDesc.show()">
+        <v-list-item v-if="!active" @click="$refs.cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon>mdi-circle-edit-outline</v-icon>
           </v-list-item-icon>
@@ -159,6 +159,7 @@ export default Vue.extend({
       required: true,
     },
     readonly: Boolean,
+    active: Boolean,
   },
 })
 </script>

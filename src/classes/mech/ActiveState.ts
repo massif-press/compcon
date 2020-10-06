@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import { store } from '@/store'
-import { Mech, Drone, Deployable, Pilot, MechEquipment } from '@/class'
+import { Mech, Drone, Deployable, Pilot, MechEquipment, MechWeapon } from '@/class'
 import { Action } from '@/interface'
 
 enum Stage {
@@ -57,6 +57,8 @@ class ActiveState {
   private _round: number
   private _encounter: number
 
+  private _barrageSelections: MechWeapon[]
+
   private _move: number
   private _maxMove: number
   private _actions: number
@@ -76,6 +78,7 @@ class ActiveState {
     this._encounter = 0
     this._move = 0
     this._actions = 2
+    this._barrageSelections = []
     this._overwatch = false
     this._braced = false
     this._overcharged = false
@@ -94,6 +97,7 @@ class ActiveState {
     this._history = []
     this._move = 0
     this._actions = 2
+    this._barrageSelections = []
     this._overcharged = false
     this._overwatch = false
     this._prepare = false
@@ -209,6 +213,23 @@ class ActiveState {
   // public DestroyMech()
   // public DestroyReactor()
   // public StartMeltdown()
+
+  public get BarrageSelections(): MechWeapon[] {
+    return this._barrageSelections
+  }
+
+  public SelectBarrage(w: MechWeapon) {
+    if (this._barrageSelections.length < 2) this._barrageSelections.push(w)
+  }
+
+  public RemoveBarrage(w: MechWeapon) {
+    const idx = this._barrageSelections.findIndex(x => x.ID === w.ID)
+    if (idx > -1) this._barrageSelections.splice(idx, 1)
+  }
+
+  public ClearBarrageSelections() {
+    this._barrageSelections = []
+  }
 
   restart(): void {
     this._round = 1

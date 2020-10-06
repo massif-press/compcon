@@ -13,7 +13,7 @@
         :content="Help(d)"
       >
         <span v-if="small">
-          <v-icon :color="`damage--${typeOverride.toLowerCase()}`">
+          <v-icon :color="`damage--${typeOverride.toLowerCase()}`" class="mr-n2 ml-n1">
             cci-{{ typeOverride.toLowerCase() }}
           </v-icon>
           <span>
@@ -28,7 +28,7 @@
       </cc-tooltip>
       <cc-tooltip v-else :title="`${d.Value} ${d.Type} Damage`" :content="Help(d)">
         <span v-if="small">
-          <v-icon :color="d.Color">{{ d.Icon }}</v-icon>
+          <v-icon :color="d.Color" class="mr-n2 ml-n1">{{ d.Icon }}</v-icon>
           <v-icon v-if="d.Override">mdi-information-outline</v-icon>
           <span v-else>
             {{ `${added ? '+' : ''}${d.Value}` }}

@@ -17,6 +17,9 @@
             @remove="remove()"
           />
           <span v-if="!item.Destroyed" class="ml-n2">
+            <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
+              <v-icon style="margin-top: -2px">cci-weaponmod</v-icon>
+            </cc-tooltip>
             {{ item.Name }}
             <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
             <span class="caption subtle--text ml-1">
@@ -35,7 +38,7 @@
       <div v-if="item" slot="header-items" class="text-right">
         <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
 
-        <cc-slashes v-if="item.Range && item.Damage" />
+        <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
         <cc-damage-element
           v-if="item.Damage"
           small
@@ -43,6 +46,13 @@
           :type-override="item.DamageTypeOverride"
           class="d-inline"
         />
+        <div
+          v-if="item && item.SP"
+          class="d-inline pl-3 ml-3"
+          style=" border-left: 1px solid #616161;"
+        >
+          <span>{{ item.SP }}SP</span>
+        </div>
         <div
           v-if="!intWeapon && !readonly"
           class="d-inline pl-3 ml-3"
@@ -66,9 +76,15 @@
           :use-bonus="mech.LimitedBonus"
         >
           <div v-if="!intWeapon && !readonly" slot="left">
-            <v-btn outlined small :color="color" @click.stop="$refs.modDialog.show()">
-              <v-icon :color="color" :left="!item.Mod">cci-weaponmod</v-icon>
-              <span v-if="!item.Mod">NO MOD INSTALLED</span>
+            <v-btn
+              v-if="!item.Mod"
+              outlined
+              small
+              :color="color"
+              @click.stop="$refs.modDialog.show()"
+            >
+              <v-icon :color="color" left>cci-weaponmod</v-icon>
+              <span>NO MOD INSTALLED</span>
             </v-btn>
           </div>
         </equipment-header>

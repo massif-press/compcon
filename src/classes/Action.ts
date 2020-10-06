@@ -1,6 +1,7 @@
 import { ActivationType } from '@/class'
 
 interface IActionData {
+  id?: string
   name: string
   activation: ActivationType
   cost?: number
@@ -73,6 +74,7 @@ class Frequency {
 }
 
 class Action {
+  public readonly ID: string
   public readonly Name: string
   public readonly Activation: ActivationType
   public readonly Terse: string
@@ -89,6 +91,7 @@ class Action {
   public constructor(data: IActionData, generatedName?: string) {
     if (data.name) this.Name = data.name
     else this.Name = generatedName || 'Unknown Action'
+    this.ID = data.id ? data.id : `act_${this.Name}`
     this.Activation = data.activation || ActivationType.Quick
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''

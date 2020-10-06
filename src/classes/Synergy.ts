@@ -3,7 +3,6 @@ import { CompendiumItem } from './CompendiumItem'
 import { ItemType } from './enums'
 import { MechSystem } from './mech/MechSystem'
 import { MechWeapon } from './mech/MechWeapon'
-import { Pilot } from './pilot/Pilot'
 
 interface ISynergyData {
   locations: string[]

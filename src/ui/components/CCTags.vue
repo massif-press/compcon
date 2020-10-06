@@ -1,7 +1,7 @@
 <template>
   <v-row v-if="extended" no-gutters>
     <v-col v-for="(t, i) in tags" :key="`${t.ID}_${i}`" cols="12">
-      <cc-extended-tag :tag="t" />
+      <cc-extended-tag :tag="t" :color="color" />
     </v-col>
   </v-row>
   <div v-else-if="print">
