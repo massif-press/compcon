@@ -14,8 +14,26 @@
         </v-btn>
       </v-toolbar>
       <v-list class="px-2 py-3" dense color="panel">
-        <v-list-item v-for="(a, i) in actions" :key="`${title}_action${i}_${a.Name}`" @click.stop>
-          <v-list-item-title class="text-button">{{ a.Name }}</v-list-item-title>
+        <v-list-item
+          v-for="(a, i) in baseActions"
+          :key="`${title}_action${i}_${a.Name}`"
+          @click="$emit('open-dialog', a)"
+        >
+          <v-list-item-title class="text-button">
+            <v-icon left>{{ a.Icon }}</v-icon>
+            {{ a.Name }}
+          </v-list-item-title>
+        </v-list-item>
+        <v-divider v-if="baseActions.length && itemActions.length" />
+        <v-list-item
+          v-for="(a, i) in itemActions"
+          :key="`${title}_action${i}_${a.Name}`"
+          @click="$emit('open-activation', a)"
+        >
+          <v-list-item-title class="text-button">
+            <v-icon left>{{ a.Icon }}</v-icon>
+            {{ a.Name }}
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </div>
@@ -35,7 +53,11 @@ export default Vue.extend({
       type: String,
       required: true,
     },
-    actions: {
+    baseActions: {
+      type: Array,
+      required: true,
+    },
+    itemActions: {
       type: Array,
       required: true,
     },

@@ -3,77 +3,92 @@
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.mdAndDown"
     :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
+    width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
-        <v-icon x-large>mdi-hexagon-slice-3</v-icon>
-        Skirmish
+      <cc-titlebar large color="action--full">
+        <v-icon x-large>mdi-hexagon-slice-6</v-icon>
+        Barrage
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
 
-      <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
+      select two weapons or one superheavy weapon
 
-      <v-card-text>
-        <weapon-attack :item="item" :mech="mech" :mount="mount">
-          <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
-            {{ item.Name }}
-          </div>
-        </weapon-attack>
-        <v-container>
-          <div v-if="extraAux" class="my-3">
-            <div class="body-text text-center font-weight-bold">
-              You may make an additional attack with the following mounted Auxiliary weapon:
-            </div>
-            <v-alert dense outlined class="my-1" colored-border color="primary">
-              wip
-            </v-alert>
-            <div class="text-center font-weight-bold">
-              This weapon cannot deal bonus damage.
-            </div>
-          </div>
-        </v-container>
-      </v-card-text>
+      <v-slide-y-reverse-transition>
+        <div v-if="complete">
+          <v-divider />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
+          </v-card-actions>
+        </div>
+      </v-slide-y-reverse-transition>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
+import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
+import { DamageType } from '@/classes/enums'
 import Vue from 'vue'
-import WeaponAttack from '../components/_WeaponAttack.vue'
+// import WeaponAttack from '../components/_WeaponAttack.vue'
 
 export default Vue.extend({
-  name: 'skirmish-dialog',
-  components: { WeaponAttack },
+  name: 'improvised-attack-dialog',
+  // components: { WeaponAttack },
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
     mech: {
-      type: Object,
-      required: true,
-    },
-    mount: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
     dialog: false,
+    complete: false,
   }),
   computed: {
-    extraAux() {
-      if (this.mount.Weapons.length === 1) return null
-      else {
-        const extra = this.mount.Weapons.find(x => x !== this.item)
-        return extra || null
-      }
+    item(): MechWeapon {
+      return new MechWeapon({
+        id: 'improv_attack',
+        name: 'Improvised Attack',
+        mount: WeaponSize.Main,
+        type: WeaponType.Melee,
+        damage: [
+          {
+            type: DamageType.Kinetic,
+            val: '1d6',
+          },
+        ],
+        range: [
+          {
+            type: RangeType.Threat,
+            val: 1,
+          },
+        ],
+        source: 'GMS',
+        license: 'GMS',
+        license_level: 0,
+        description: '',
+        selected_profile: 0,
+        sp: 0,
+        tags: [],
+        effect: '',
+      })
     },
   },
   methods: {
+    attackConfirm() {
+      this.complete = true
+    },
+    attackUndo() {
+      this.complete = false
+    },
+    reset() {
+      this.$refs.main.reset()
+      if (this.extraAux) this.$refs.aux.reset()
+    },
     confirm(): void {
       this.dialog = false
     },

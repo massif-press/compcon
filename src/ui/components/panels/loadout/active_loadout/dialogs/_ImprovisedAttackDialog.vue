@@ -8,14 +8,23 @@
     <v-card tile class="background">
       <cc-titlebar large color="action--full">
         <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Barrage
+        Improvised Attack
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
 
-      select two weapons or one superheavy weapon
-
+      <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
+      <v-card-text class="mb-0 pb-2">
+        <weapon-attack
+          ref="main"
+          :item="item"
+          :mech="mech"
+          improv
+          @confirm="attackConfirm"
+          @reset="attackUndo"
+        />
+      </v-card-text>
       <v-slide-y-reverse-transition>
         <div v-if="complete">
           <v-divider />
@@ -33,11 +42,11 @@
 import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
 import { DamageType } from '@/classes/enums'
 import Vue from 'vue'
-// import WeaponAttack from '../components/_WeaponAttack.vue'
+import WeaponAttack from '../components/_WeaponAttack.vue'
 
 export default Vue.extend({
   name: 'improvised-attack-dialog',
-  // components: { WeaponAttack },
+  components: { WeaponAttack },
   props: {
     mech: {
       type: Object,

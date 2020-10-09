@@ -52,7 +52,7 @@
           tile
           block
           :color="barrageToggle ? 'secondary' : 'action--full'"
-          :disabled="!barrageToggle && barrageCount === 2"
+          :disabled="barrageDisabled"
           @click="setBarrage()"
         >
           <v-icon left>mdi-hexagon-slice-6</v-icon>
@@ -77,19 +77,29 @@
       <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`">
         <cc-action :action="a" active />
       </v-col>
+      <barrage-dialog
+        ref="b_dialog"
+        :items="state.BarrageSelections"
+        :mech="mech"
+        :mounts="state.BarrageMounts"
+      />
+      <sh-barrage-dialog ref="sh_b_dialog" :item="item" :mech="mech" :mount="mount" />
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import SkirmishDialog from '../dialogs/_SkirmishDialog.vue'
+import SkirmishDialog from '../dialogs/_SelSkirmishDialog.vue'
+import BarrageDialog from '../dialogs/_SelBarrageDialog.vue'
+import ShBarrageDialog from '../dialogs/_SelSHBarrageDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { WeaponSize } from '@/class'
 
 export default Vue.extend({
   name: 'weapon-activators',
-  components: { SkirmishDialog },
+  components: { SkirmishDialog, BarrageDialog, ShBarrageDialog },
   props: {
     item: {
       type: Object,
@@ -104,9 +114,6 @@ export default Vue.extend({
       required: true,
     },
   },
-  data: () => ({
-    barrageToggle: false,
-  }),
   computed: {
     state() {
       return this.mech.Pilot.State
@@ -123,15 +130,26 @@ export default Vue.extend({
     barrageHelp() {
       return this.compendium.Actions.find(x => x.ID === 'act_barrage').Detail
     },
+    barrageToggle() {
+      return this.state.BarrageSelections.some(x => x === this.item)
+    },
+    barrageDisabled() {
+      if (this.item.Size === WeaponSize.Superheavy) return this.barrageCount > 0
+      return !this.barrageToggle && this.barrageCount === 2
+    },
   },
   methods: {
     setBarrage() {
+      if (this.item.Size === WeaponSize.Superheavy) {
+        this.$refs.sh_b_dialog.show()
+      }
       if (this.barrageCount < 2 && !this.barrageToggle) {
-        this.barrageToggle = true
-        this.state.SelectBarrage(this.item)
+        this.state.SelectBarrage(this.item, this.mount)
+        if (this.barrageCount === 2) {
+          this.$refs.b_dialog.show()
+        }
       } else {
-        this.barrageToggle = false
-        this.state.RemoveBarrage(this.item)
+        this.state.RemoveBarrage(this.item, this.mount)
       }
     },
   },
