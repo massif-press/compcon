@@ -171,7 +171,7 @@ class DiceRoller {
     return DiceRoller.rollSkillCheck(staticBonus, totalAccuracy, totalDifficulty)
   }
 
-  public static rollDamage(diceString: string): DamageRollResult {
+  public static rollDamage(diceString: string, critical?: boolean): DamageRollResult {
     const parsedRoll = DiceRoller.parseDiceString(diceString)
 
     if (!parsedRoll) {
@@ -188,9 +188,17 @@ class DiceRoller {
       total = staticBonus
 
       parsedRoll.dice.forEach(dieSet => {
-        const x = DiceRoller.rollDieSet(dieSet)
-        total += x.result
-        rawRolls.push(...x.rolls)
+        if (critical) {
+          const x = DiceRoller.rollDieSet(dieSet)
+          const y = DiceRoller.rollDieSet(dieSet)
+          total += x.result > y.result ? x.result : y.result
+          rawRolls.push(...x.rolls)
+          rawRolls.push(...y.rolls)
+        } else {
+          const x = DiceRoller.rollDieSet(dieSet)
+          total += x.result
+          rawRolls.push(...x.rolls)
+        }
       })
 
       return new DamageRollResult(diceString, total, rawRolls, staticBonus, false)

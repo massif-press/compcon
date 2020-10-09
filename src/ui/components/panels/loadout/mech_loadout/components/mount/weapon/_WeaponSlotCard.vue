@@ -81,6 +81,7 @@
               outlined
               small
               :color="color"
+              class="mb-1"
               @click.stop="$refs.modDialog.show()"
             >
               <v-icon :color="color" left>cci-weaponmod</v-icon>

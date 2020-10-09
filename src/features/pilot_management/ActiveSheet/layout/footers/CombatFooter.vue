@@ -71,10 +71,13 @@
 
     <div class="mt-n1">
       <action-menu-button
-        :actions="pilot.State.Protocols"
+        :base-actions="pilot.State.BaseActions('Protocol')"
+        :item-actions="pilot.State.ItemActions('Protocol')"
+        :mech="pilot.ActiveMech"
         color="action--protocol"
         title="PROTOCOLS"
         @open-menu="openMenu(0)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="40">cci-protocol</v-icon>
       </action-menu-button>
@@ -84,46 +87,61 @@
 
     <div class="mt-n1">
       <action-menu-button
-        :actions="pilot.State.MoveActions"
+        :base-actions="[]"
+        :item-actions="[]"
+        :mech="pilot.ActiveMech"
         color="action--move"
         title="MOVEMENT"
         @open-menu="openMenu(0)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
       </action-menu-button>
 
       <action-menu-button
-        :actions="pilot.State.FullActions"
+        :base-actions="pilot.State.BaseActions('Full')"
+        :item-actions="pilot.State.ItemActions('Full')"
+        :mech="pilot.ActiveMech"
         color="action--full"
         title="FULL ACTIONS"
         @open-menu="openMenu(1)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-6</v-icon>
       </action-menu-button>
 
       <action-menu-button
-        :actions="pilot.State.QuickActions"
+        :base-actions="pilot.State.BaseActions('Quick')"
+        :item-actions="pilot.State.ItemActions('Quick')"
+        :mech="pilot.ActiveMech"
         color="action--quick"
         title="QUICK ACTIONS"
         @open-menu="openMenu(2)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-3</v-icon>
       </action-menu-button>
 
       <action-menu-button
-        :actions="pilot.State.Reactions"
+        :base-actions="pilot.State.BaseActions('Reaction')"
+        :item-actions="pilot.State.ItemActions('Reaction')"
+        :mech="pilot.ActiveMech"
         color="action--reaction"
         title="REACTIONS"
         @open-menu="openMenu(3)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="35">cci-reaction</v-icon>
       </action-menu-button>
 
       <action-menu-button
-        :actions="pilot.State.FreeActions"
+        :base-actions="pilot.State.BaseActions('Free')"
+        :item-actions="pilot.State.ItemActions('Free')"
+        :mech="pilot.ActiveMech"
         color="action--free"
         title="FREE ACTIONS"
         @open-menu="openMenu(4)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="35">cci-free-action</v-icon>
       </action-menu-button>
@@ -133,23 +151,37 @@
 
     <div class="mt-n1">
       <action-menu-button
-        :actions="pilot.State.Protocols"
+        :base-actions="[]"
+        :item-actions="[]"
+        :mech="pilot.ActiveMech"
         color="primary"
         title="DATA"
         @open-menu="openMenu(5)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="25">mdi-notebook</v-icon>
       </action-menu-button>
 
       <action-menu-button
-        :actions="pilot.State.Protocols"
+        :base-actions="[]"
+        :item-actions="[]"
+        :mech="pilot.ActiveMech"
         color="primary"
         title="OTHER"
         @open-menu="openMenu(6)"
+        @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="30">mdi-dots-vertical</v-icon>
       </action-menu-button>
     </div>
+
+    <cc-combat-dialog
+      v-for="a in pilot.State.AllBaseActions"
+      :key="`fa_${a.ID}`"
+      :ref="`dialog_${a.ID}`"
+      :action="a"
+      :mech="pilot.ActiveMech"
+    />
 
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large>
       <action-menu :tab="menuTab" />
@@ -174,6 +206,10 @@ export default vueMixins(activePilot).extend({
     openMenu(tab) {
       this.menuTab = tab
       this.$refs.actionMenu.show()
+    },
+    openDialog(action) {
+      const r = this.$refs[`dialog_${action.ID}`]
+      if (r && r[0]) r[0].show()
     },
   },
 })

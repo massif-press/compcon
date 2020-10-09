@@ -8,7 +8,16 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import { store } from '@/store'
-import { Mech, Drone, Deployable, Pilot, MechEquipment, MechWeapon } from '@/class'
+import {
+  Mech,
+  Drone,
+  Deployable,
+  Pilot,
+  MechEquipment,
+  MechWeapon,
+  Mount,
+  ActivationType,
+} from '@/class'
 import { Action } from '@/interface'
 
 enum Stage {
@@ -58,6 +67,7 @@ class ActiveState {
   private _encounter: number
 
   private _barrageSelections: MechWeapon[]
+  private _barrageMounts: Mount[]
 
   private _move: number
   private _maxMove: number
@@ -79,6 +89,7 @@ class ActiveState {
     this._move = 0
     this._actions = 2
     this._barrageSelections = []
+    this._barrageMounts = []
     this._overwatch = false
     this._braced = false
     this._overcharged = false
@@ -218,17 +229,25 @@ class ActiveState {
     return this._barrageSelections
   }
 
-  public SelectBarrage(w: MechWeapon) {
-    if (this._barrageSelections.length < 2) this._barrageSelections.push(w)
+  public get BarrageMounts(): Mount[] {
+    return this._barrageMounts
   }
 
-  public RemoveBarrage(w: MechWeapon) {
+  public SelectBarrage(w: MechWeapon, m: Mount) {
+    if (this._barrageSelections.length < 2) this._barrageSelections.push(w)
+    if (this._barrageMounts.length < 2) this._barrageMounts.push(m)
+  }
+
+  public RemoveBarrage(w: MechWeapon, m: Mount) {
     const idx = this._barrageSelections.findIndex(x => x.ID === w.ID)
     if (idx > -1) this._barrageSelections.splice(idx, 1)
+    const midx = this._barrageMounts.findIndex(x => x.ID === m.ID)
+    if (midx > -1) this._barrageMounts.splice(idx, 1)
   }
 
   public ClearBarrageSelections() {
     this._barrageSelections = []
+    this._barrageMounts = []
   }
 
   restart(): void {
@@ -458,17 +477,44 @@ class ActiveState {
     return store.getters.getItemCollection('Actions')
   }
 
-  public get FullActions(): Action[] {
-    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Full')
+  public BaseActions(type: string): Action[] {
+    let act = this.baseActions.filter(
+      x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
+    )
+    if (!this._mech.IsShutDown) act = act.filter(x => x.ID !== 'act_boot_up')
+    if (type === ActivationType.Free)
+      act.push(this.baseActions.find(x => x.ID === 'act_overcharge'))
+    return act
   }
+  public ItemActions(type: string): Action[] {
+    return this._mech.Actions.filter(
+      x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
+    )
+  }
+
+  private get baseActionTypes() {
+    const exclude = ['Move', 'Invade', 'Quick Tech', 'Full Tech']
+    return Object.keys(ActivationType)
+      .map(k => ActivationType[k as string])
+      .filter(x => !exclude.includes(x))
+  }
+
+  public get AllBaseActions(): Action[] {
+    return this.baseActionTypes.flatMap(t => this.BaseActions(t))
+  }
+
+  public get AllItemActions(): Action[] {
+    return this.baseActionTypes.flatMap(t => this.ItemActions(t))
+  }
+
   public get QuickActions(): Action[] {
-    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Quick')
+    return []
   }
   public get FreeActions(): Action[] {
-    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Free')
+    return []
   }
   public get Reactions(): Action[] {
-    return this.baseActions.concat(this._mech.Actions).filter(x => x.Activation === 'Reaction')
+    return []
   }
   public get OtherActions(): string[] {
     return ['overcharge']

@@ -160,6 +160,10 @@
   content: '\e91f';
 }
 
+.cci-free:before {
+  content: '\e91f';
+}
+
 .cci-reaction:before {
   content: '\e920';
 }

@@ -4,7 +4,6 @@ import {
   Damage,
   DamageType,
   ItemType,
-  Mech,
   MechEquipment,
   Range,
   RangeType,
