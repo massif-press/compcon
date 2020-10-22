@@ -8,89 +8,85 @@
     <v-card tile class="background">
       <cc-titlebar large color="action--full">
         <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Barrage
+        Full Activation
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
 
-      select two weapons or one superheavy weapon
+      <v-card-text class="pt-3">
+        <action-detail-expander :action="action" />
+        <v-divider class="my-3" />
+        <v-container v-if="Object.keys(actions).length" style="max-width: 800px">
+          <div v-for="(k, i) in Object.keys(actions)" :key="`sys_act_${i}`">
+            <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
+            <item-selector-row
+              v-for="(a, j) in actions[k]"
+              :key="`action_${j}`"
+              :item="a"
+              @click="activate(a)"
+            />
+          </div>
+        </v-container>
+        <v-card v-else flat tile class="panel clipped">
+          <v-row justify="center" align="center">
+            <v-col class="heading h3" style="opacity: 0.3" cols="auto">
+              / / NO ACTIONS AVAILABLE / /
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-card-text>
 
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
+      </v-card-actions>
     </v-card>
+    <item-dialog ref="i_dialog" :mech="mech" :action="selected" @close="hide()" />
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
-import { DamageType } from '@/classes/enums'
+import _ from 'lodash'
+import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ItemDialog from './_ItemActionDialog.vue'
+
 import Vue from 'vue'
-// import WeaponAttack from '../components/_WeaponAttack.vue'
 
 export default Vue.extend({
-  name: 'improvised-attack-dialog',
-  // components: { WeaponAttack },
+  name: 'full-activation-dialog',
+  components: { ActionDetailExpander, ItemDialog, ItemSelectorRow },
   props: {
     mech: {
+      type: Object,
+      required: true,
+    },
+    action: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
     dialog: false,
-    complete: false,
+    selected: null,
   }),
   computed: {
-    item(): MechWeapon {
-      return new MechWeapon({
-        id: 'improv_attack',
-        name: 'Improvised Attack',
-        mount: WeaponSize.Main,
-        type: WeaponType.Melee,
-        damage: [
-          {
-            type: DamageType.Kinetic,
-            val: '1d6',
-          },
-        ],
-        range: [
-          {
-            type: RangeType.Threat,
-            val: 1,
-          },
-        ],
-        source: 'GMS',
-        license: 'GMS',
-        license_level: 0,
-        description: '',
-        selected_profile: 0,
-        sp: 0,
-        tags: [],
-        effect: '',
-      })
+    state() {
+      return this.mech.Pilot.State
+    },
+    actions() {
+      return _.groupBy(this.state.ItemActions('Full'), 'Origin')
     },
   },
+  created() {
+    this.selected = this.action
+  },
   methods: {
-    attackConfirm() {
-      this.complete = true
-    },
-    attackUndo() {
-      this.complete = false
-    },
-    reset() {
-      this.$refs.main.reset()
-      if (this.extraAux) this.$refs.aux.reset()
-    },
-    confirm(): void {
-      this.dialog = false
+    activate(action) {
+      this.selected = action
+      this.$refs.i_dialog.show()
     },
     show(): void {
       this.dialog = true

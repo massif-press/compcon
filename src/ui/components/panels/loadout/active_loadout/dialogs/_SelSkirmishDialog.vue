@@ -16,8 +16,8 @@
 
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
-      <v-card-text class="mb-0 pb-2">
-        <weapon-attack ref="main" :item="item" :mech="mech">
+      <v-card-text v-if="item && mount" class="mb-0 pb-2">
+        <weapon-attack ref="main" :item="item" :mech="mech" :mount="mount">
           <div class="heading h2 mt-3 mb-n3">
             <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
             {{ item.Name }}
@@ -32,7 +32,14 @@
               </div>
             </div>
             <v-alert dense outlined class="my-1" colored-border color="primary">
-              <weapon-attack ref="aux" :item="extraAux" :mech="mech" aux class="mt-n3">
+              <weapon-attack
+                ref="aux"
+                :item="extraAux"
+                :mech="mech"
+                :mount="mount"
+                aux
+                class="mt-n3"
+              >
                 <div class="heading h3 mt-3 mb-n3">
                   <v-icon large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
                   {{ extraAux.Name }}
@@ -56,7 +63,8 @@ export default Vue.extend({
   props: {
     item: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
     mech: {
       type: Object,
@@ -64,7 +72,8 @@ export default Vue.extend({
     },
     mount: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
   },
   data: () => ({
@@ -86,12 +95,14 @@ export default Vue.extend({
     },
     confirm(): void {
       this.dialog = false
+      this.$emit('close')
     },
     show(): void {
       this.dialog = true
     },
     hide(): void {
       this.dialog = false
+      this.$emit('close')
     },
   },
 })

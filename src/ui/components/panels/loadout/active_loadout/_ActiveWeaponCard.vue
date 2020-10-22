@@ -50,7 +50,7 @@
         <v-slide-y-transition>
           <v-card-text v-if="!hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
-              <weapon-activators :item="item" :mech="mech" :mount="mount" />
+              <weapon-activators v-if="!item.Destroyed" :item="item" :mech="mech" :mount="mount" />
               <equipment-header
                 :item="item"
                 readonly

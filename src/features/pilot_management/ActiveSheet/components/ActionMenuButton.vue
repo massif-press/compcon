@@ -28,7 +28,7 @@
         <v-list-item
           v-for="(a, i) in itemActions"
           :key="`${title}_action${i}_${a.Name}`"
-          @click="$emit('open-activation', a)"
+          @click="$emit('open-dialog', a)"
         >
           <v-list-item-title class="text-button">
             <v-icon left>{{ a.Icon }}</v-icon>

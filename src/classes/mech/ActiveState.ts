@@ -481,11 +481,14 @@ class ActiveState {
     let act = this.baseActions.filter(
       x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
     )
+    act = act.filter(x => x.ID !== 'act_free_action')
     if (!this._mech.IsShutDown) act = act.filter(x => x.ID !== 'act_boot_up')
     if (type === ActivationType.Free)
       act.push(this.baseActions.find(x => x.ID === 'act_overcharge'))
+    // if (type === ActivationType.Quick) act.push(this.baseActions.find(x => x.ID === 'act_invade'))
     return act
   }
+
   public ItemActions(type: string): Action[] {
     return this._mech.Actions.filter(
       x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
@@ -499,12 +502,37 @@ class ActiveState {
       .filter(x => !exclude.includes(x))
   }
 
+  private get techActionTypes() {
+    const include = ['Invade', 'Quick Tech', 'Full Tech']
+    return Object.keys(ActivationType)
+      .map(k => ActivationType[k as string])
+      .filter(x => include.includes(x))
+  }
+
   public get AllBaseActions(): Action[] {
     return this.baseActionTypes.flatMap(t => this.BaseActions(t))
   }
 
+  public get AllBaseTechActions(): Action[] {
+    return this.techActionTypes.flatMap(t => this.BaseActions(t))
+  }
+
   public get AllItemActions(): Action[] {
     return this.baseActionTypes.flatMap(t => this.ItemActions(t))
+  }
+
+  public get AllItemTechActions(): Action[] {
+    return this.techActionTypes.flatMap(t => this.ItemActions(t))
+  }
+
+  public get AllActions(): Action[] {
+    return this.AllBaseActions.concat(this.AllItemActions)
+  }
+
+  public get TechActions(): Action[] {
+    const exclude = ['QUICK TECH', 'FULL TECH']
+    const out = this.AllBaseTechActions.concat(this.AllItemTechActions)
+    return out.filter(x => !exclude.some(y => y === x.Name.toUpperCase()))
   }
 
   public get QuickActions(): Action[] {

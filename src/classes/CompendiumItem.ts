@@ -46,9 +46,7 @@ abstract class CompendiumItem {
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
-      this.Actions = data.actions
-        ? data.actions.map(x => new Action(x, `Activate ${data.name}`))
-        : []
+      this.Actions = data.actions ? data.actions.map(x => new Action(x, data.name)) : []
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
       this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
       this.Deployables = data.deployables ? data.deployables : []

@@ -14,71 +14,19 @@
         </v-btn>
       </cc-titlebar>
 
-      <v-card-text class="pt-4">
+      <v-card-text class="pt-3">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
 
-        <action-detail-expander :action="action" />
         <v-row justify="center" align="center">
           <v-col>
-            <v-row dense justify="space-around">
-              <v-col cols="auto">
-                <div class="heading h3 text-center">Choose one of the following:</div>
-                <v-radio-group v-model="stabilizeMajor" dense hide-details colum>
-                  <v-radio
-                    label="Cool Mech, resetting the heat gauge and ending the EXPOSED status"
-                    value="cool"
-                    color="accent"
-                  />
-                  <v-radio
-                    :label="
-                      `Spend 1 Repair to restore HP to maximum. ${
-                        !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
-                      }`
-                    "
-                    value="repair"
-                    color="accent"
-                    :disabled="!mech.CurrentRepairs"
-                  />
-                </v-radio-group>
-              </v-col>
-              <v-col cols="auto">
-                <v-divider vertical />
-              </v-col>
-              <v-col cols="auto">
-                <div class="heading h3 text-center">And one of the following:</div>
-                <v-radio-group v-model="stabilizeMinor" color="accent" dense hide-details column>
-                  <v-radio
-                    label="Reload all weapons with the LOADING Tag"
-                    value="reload"
-                    color="accent"
-                  />
-                  <v-radio
-                    label="End all BURN currently affecting your mech"
-                    value="end_burn"
-                    color="accent"
-                    :disabled="mech.Burn === 0"
-                  />
-                  <v-radio
-                    label="End a condition affecting your mech"
-                    value="end_self_condition"
-                    color="accent"
-                    :disabled="!mech.Conditions.length"
-                  />
-                  <v-radio
-                    label="End a condition affecting an adjacent ally"
-                    value="end_ally_condition"
-                    color="accent"
-                  />
-                </v-radio-group>
-              </v-col>
-            </v-row>
+            <action-detail-expander :action="action" />
           </v-col>
           <v-col cols="auto">
             <v-btn
               large
               tile
               block
-              :disabled="!stabilizeMajor || !stabilizeMinor || actionFree"
+              :disabled="actionFree"
               :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
               @click="actionCost = select(actionCost)"
             >
@@ -90,7 +38,7 @@
               small
               tile
               block
-              :disabled="!stabilizeMajor || !stabilizeMinor || actionCost"
+              :disabled="actionCost"
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
               @click="actionFree = select(actionFree)"
             >
@@ -110,7 +58,7 @@
         <v-slide-x-reverse-transition>
           <v-row v-if="actionFree || actionCost" no-gutters class="mt-2">
             <v-col cols="auto" class="ml-auto" align="end">
-              <v-fade-transition v-for="(s, i) in dLog" :key="`dLog_${i}`">
+              <v-fade-transition v-for="(s, i) in action.Log" :key="`log_${i}`">
                 <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
                   <span>
                     >//[
@@ -157,7 +105,7 @@ import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
 export default Vue.extend({
-  name: 'stabilize-dialog',
+  name: 'action-dialog-base',
   components: { ActionDetailExpander },
   props: {
     synergyLocation: { type: [String, Array], required: false, default: () => [] },
@@ -172,31 +120,13 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    stabilizeMajor: null,
-    stabilizeMinor: null,
     actionCost: false,
     actionFree: false,
     dialog: false,
+    expanded: false,
     timer: 0,
     finished: false,
   }),
-  computed: {
-    dLog() {
-      console.log(this.stabilizeMajor, this.stabilizeMinor)
-      const arr = ['EMERGENCY PROTOCOLS ACTIVATED.']
-      if (this.stabilizeMajor === 'cool') arr.push('VENTING REACTOR HEAT.')
-      else if (this.stabilizeMajor === 'repair') arr.push('AUTOREPAIR SUBSYSTEMS ENGAGED.')
-
-      if (this.stabilizeMinor === 'reload') arr.push('RELOADING WEAPONS.')
-      else if (this.stabilizeMinor === 'end_burn') arr.push('SUPPRESSANTS DEPLOAYED.')
-      else if (this.stabilizeMinor === 'end_self_condition')
-        arr.push('SYSTEM RESTORATION COMPLETED.')
-      else if (this.stabilizeMinor === 'end_ally_condition') arr.push('REMOTE ASSIST ON.')
-
-      console.log(arr)
-      return arr
-    },
-  },
   methods: {
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -204,7 +134,7 @@ export default Vue.extend({
       const timer = setInterval(function() {
         self.timer++
 
-        if (self.timer > self.dLog.length * 10) {
+        if (self.timer > self.action.Log.length * 10) {
           clearInterval(timer)
           self.finished = true
         }
@@ -225,6 +155,7 @@ export default Vue.extend({
     },
     hide(): void {
       this.dialog = false
+      this.$emit('close')
     },
   },
 })

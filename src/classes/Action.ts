@@ -12,6 +12,8 @@ interface IActionData {
   detail: string
   pilot?: boolean
   sub_actions?: IActionData[]
+  synergy_locations?: string[]
+  log?: string[]
 }
 
 enum ActivePeriod {
@@ -29,7 +31,7 @@ class Frequency {
 
   public constructor(frq: string) {
     if (!frq || !frq.includes('/')) {
-      this.Uses = Number.MAX_SAFE_INTEGER
+      this.Uses = 1
       this.Duration = ActivePeriod.Unlimited
       this._unlimited = true
     } else {
@@ -39,7 +41,7 @@ class Frequency {
       if (!Number.isNaN && Number.isInteger(num)) {
         this.Uses = num
       } else {
-        this.Uses = Number.MAX_SAFE_INTEGER
+        this.Uses = 1
         this.Duration = ActivePeriod.Unlimited
         this._unlimited = true
       }
@@ -76,6 +78,7 @@ class Frequency {
 class Action {
   public readonly ID: string
   public readonly Name: string
+  public readonly Origin: string
   public readonly Activation: ActivationType
   public readonly Terse: string
   public readonly Detail: string
@@ -85,13 +88,23 @@ class Action {
   public readonly Trigger: string
   public readonly IsPilotAction: boolean
   public readonly IsDowntimeAction: boolean
+  public readonly SynergyLocations: string[]
+  public readonly Log: string[]
   private _sub_actions: IActionData[]
   private _uses: number
 
-  public constructor(data: IActionData, generatedName?: string) {
+  public constructor(data: IActionData, origin?: string) {
     if (data.name) this.Name = data.name
-    else this.Name = generatedName || 'Unknown Action'
-    this.ID = data.id ? data.id : `act_${this.Name}`
+    else this.Name = `Activate ${origin}` || 'Unknown Action'
+    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}`
+    this.Origin = origin || ''
+    if (data.synergy_locations)
+      this.SynergyLocations = Array.isArray(data.synergy_locations)
+        ? data.synergy_locations
+        : [data.synergy_locations]
+    else this.SynergyLocations = []
+    if (data.log) this.Log = Array.isArray(data.log) ? data.log : [data.log]
+    else this.Log = [`ACTIVATION CONFIRMED.`]
     this.Activation = data.activation || ActivationType.Quick
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''

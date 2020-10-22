@@ -22,7 +22,7 @@ interface IDeployedData {
   current_hp: number
   current_duration?: number
   overshield?: number
-  isDestroyed?: boolean
+  Destroyed?: boolean
 }
 
 class Deployable {
@@ -39,7 +39,7 @@ class Deployable {
   public readonly EDefense: number
   private _name: string
   private _current_hp: number
-  private _isDestroyed: boolean
+  private _destroyed: boolean
 
   public constructor(data: IDeployableData, owner: IActor, n?: number) {
     this.ID = uuid()
@@ -54,7 +54,7 @@ class Deployable {
     this.Armor = data.armor || 0
     this.Evasion = data.evasion
     this.EDefense = data.edef
-    this._isDestroyed = false
+    this._destroyed = false
   }
 
   private save(): void {
@@ -78,17 +78,17 @@ class Deployable {
   public set CurrentHP(hp: number) {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
     else if (hp <= 0) {
-      this.IsDestroyed = true
+      this.Destroyed = true
     } else this._current_hp = hp
     this.save()
   }
 
-  public get IsDestroyed(): boolean {
-    return this._isDestroyed
+  public get Destroyed(): boolean {
+    return this._destroyed
   }
 
-  public set IsDestroyed(val: boolean) {
-    this._isDestroyed = val
+  public set Destroyed(val: boolean) {
+    this._destroyed = val
     this.save()
   }
 
@@ -97,7 +97,7 @@ class Deployable {
       id: deployable.ID,
       assigned_name: deployable.Name,
       current_hp: deployable.CurrentHP,
-      isDestroyed: deployable.IsDestroyed,
+      Destroyed: deployable.Destroyed,
     }
   }
 
@@ -105,7 +105,7 @@ class Deployable {
     const d = new Deployable(base, owner)
     d.Name = data.assigned_name
     d.CurrentHP = data.current_hp
-    d.IsDestroyed = data.isDestroyed
+    d.Destroyed = data.Destroyed
     return d
   }
 }
