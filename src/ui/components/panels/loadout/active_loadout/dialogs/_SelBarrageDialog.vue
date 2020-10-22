@@ -16,9 +16,9 @@
 
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
-      <v-card-text class="mb-0 pb-2">
+      <v-card-text v-if="items.length" class="mb-0 pb-2">
         <div v-for="(item, i) in items" :key="`barrage_item_${item.ID}_${i}`">
-          <weapon-attack :ref="`main_${i}`" :item="item" :mech="mech">
+          <weapon-attack :ref="`main_${i}`" :item="item" :mech="mech" :mount="mounts[i]">
             <div class="heading h2 mt-3 mb-n3">
               <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
               {{ item.Name }}
@@ -34,7 +34,14 @@
               </div>
             </div>
             <v-alert dense outlined class="my-1" colored-border color="primary">
-              <weapon-attack :ref="`aux_${i}`" :item="aux" :mech="mech" aux class="mt-n3">
+              <weapon-attack
+                :ref="`aux_${i}`"
+                :item="aux"
+                :mech="mech"
+                :mount="mounts[i]"
+                aux
+                class="mt-n3"
+              >
                 <div class="heading h3 mt-3 mb-n3">
                   <v-icon large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
                   {{ extraAux.Name }}
@@ -57,16 +64,8 @@ export default Vue.extend({
   name: 'barrage-dialog',
   components: { WeaponAttack },
   props: {
-    items: {
-      type: Array,
-      required: true,
-    },
     mech: {
       type: Object,
-      required: true,
-    },
-    mounts: {
-      type: Array,
       required: true,
     },
   },
@@ -74,6 +73,15 @@ export default Vue.extend({
     dialog: false,
   }),
   computed: {
+    state() {
+      return this.mech.Pilot.State
+    },
+    items() {
+      return this.state.BarrageSelections
+    },
+    mounts() {
+      return this.state.BarrageMounts
+    },
     auxes() {
       const arr = []
       this.mounts.forEach(m => {
@@ -97,6 +105,7 @@ export default Vue.extend({
     confirm(): void {
       this.mech.Pilot.State.ClearBarrageSelections()
       this.dialog = false
+      this.$emit('close')
     },
     show(): void {
       this.dialog = true
@@ -105,6 +114,7 @@ export default Vue.extend({
       console.log('clear')
       this.mech.Pilot.State.ClearBarrageSelections()
       this.dialog = false
+      this.$emit('close')
     },
   },
 })

@@ -7,8 +7,8 @@
   >
     <v-card tile class="background">
       <cc-titlebar large color="action--quick">
-        <v-icon x-large>cci-quick-tech</v-icon>
-        Quick Tech
+        <v-icon x-large>cci-invade</v-icon>
+        Invade
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
@@ -20,12 +20,11 @@
         <v-container v-if="Object.keys(actions).length" style="max-width: 800px">
           <div v-for="(k, i) in Object.keys(actions)" :key="`sys_act_${i}`">
             <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
-            <item-selector-row
-              v-for="(a, j) in actions[k]"
-              :key="`action_${j}`"
-              :item="a"
-              @click="activate(a)"
-            />
+            <div v-for="(a, j) in actions[k]" :key="`action_${j}`">
+              invasion options: {{ a }}
+              <br />
+              reduce opacity, can't click until invade success, repeat result etc
+            </div>
           </div>
         </v-container>
         <v-card v-else flat tile class="panel clipped">
@@ -57,7 +56,7 @@ import Vue from 'vue'
 import { ActivationType } from '@/class'
 
 export default Vue.extend({
-  name: 'quick-tech-dialog',
+  name: 'invade-dialog',
   components: { ActionDetailExpander, ItemDialog, ItemSelectorRow },
   props: {
     mech: {
@@ -78,10 +77,12 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     actions() {
-      const qtArr = this.state.TechActions.filter(
-        x => x.Activation === ActivationType.QuickTech
-      ).concat(this.state.baseActions.find(x => x.ID === 'act_invade'))
-      return _.groupBy(qtArr, 'Origin')
+      console.log(this.state.TechActions)
+      console.log(this.state.TechActions.filter(x => x.Activation === ActivationType.Invade))
+      return _.groupBy(
+        this.state.TechActions.filter(x => x.Activation === ActivationType.Invade),
+        'Origin'
+      )
     },
   },
   created() {

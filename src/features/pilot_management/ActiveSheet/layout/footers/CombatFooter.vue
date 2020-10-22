@@ -86,17 +86,11 @@
     <v-divider vertical class="mx-3" />
 
     <div class="mt-n1">
-      <action-menu-button
-        :base-actions="[]"
-        :item-actions="[]"
+      <move-menu-button
         :mech="pilot.ActiveMech"
-        color="action--move"
-        title="MOVEMENT"
         @open-menu="openMenu(0)"
         @open-dialog="openDialog($event)"
-      >
-        <v-icon slot="icon" color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
-      </action-menu-button>
+      />
 
       <action-menu-button
         :base-actions="pilot.State.BaseActions('Full')"
@@ -176,7 +170,7 @@
     </div>
 
     <cc-combat-dialog
-      v-for="a in pilot.State.AllBaseActions"
+      v-for="a in pilot.State.AllActions"
       :key="`fa_${a.ID}`"
       :ref="`dialog_${a.ID}`"
       :action="a"
@@ -191,13 +185,14 @@
 
 <script lang="ts">
 import ActionMenuButton from '../../components/ActionMenuButton.vue'
+import MoveMenuButton from '../../components/MoveMenuButton.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
-  name: 'turn-footer',
-  components: { ActionMenuButton, ActionMenu },
+  name: 'combat-footer',
+  components: { MoveMenuButton, ActionMenuButton, ActionMenu },
   data: () => ({
     menuTab: 0,
     ecDialog: false,

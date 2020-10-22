@@ -259,7 +259,8 @@ class Mech implements IActor {
 
   public get Size(): number {
     const bonus = Bonus.get('size', this)
-    const size = Math.ceil(this._frame.Size + bonus)
+    let size = this._frame.Size + bonus
+    if (size > 0.5 && size % 1 !== 0) size = Math.ceil(size)
     return size > Rules.MaxFrameSize ? Rules.MaxFrameSize : size
   }
 

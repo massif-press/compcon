@@ -16,7 +16,7 @@
 
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
-      <v-card-text class="mb-0 pb-2">
+      <v-card-text v-if="item" class="mb-0 pb-2">
         <weapon-attack ref="main" :item="item" :mech="mech" :mount="mount">
           <div class="heading h2 mt-3 mb-n3">
             <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
@@ -36,15 +36,7 @@ export default Vue.extend({
   name: 'superheavy-barrage-dialog',
   components: { WeaponAttack },
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
     mech: {
-      type: Object,
-      required: true,
-    },
-    mount: {
       type: Object,
       required: true,
     },
@@ -52,12 +44,26 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    state() {
+      return this.mech.Pilot.State
+    },
+    item() {
+      if (this.state.BarrageSelections.length) return this.state.BarrageSelections[0]
+      return null
+    },
+    mount() {
+      if (this.state.BarrageMounts.length) return this.state.BarrageMounts[0]
+      return null
+    },
+  },
   methods: {
     reset() {
       this.$refs.main.reset()
     },
     confirm(): void {
       this.dialog = false
+      this.$emit('close')
     },
     show(): void {
       this.dialog = true
@@ -65,6 +71,7 @@ export default Vue.extend({
     hide(): void {
       console.log('sh hide')
       this.dialog = false
+      this.$emit('close')
     },
   },
 })

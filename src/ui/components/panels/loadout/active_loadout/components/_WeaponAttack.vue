@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="mount">
+      <cb-card
+        v-for="b in mount.Bonuses"
+        :key="`${mount.ID}_bonus-${b.ID}`"
+        :bonus="b"
+        class="my-1"
+      />
+    </div>
     <v-row dense>
       <v-col>
         <slot />
@@ -406,7 +414,12 @@ each source of damage is used.`
                 </v-row>
                 <v-row v-if="hit || (missed && !!reliable)" no-gutters class="mt-n4">
                   <v-col cols="auto" class="ml-auto">
-                    <v-checkbox v-model="kill" color="accent" dense>
+                    <v-checkbox
+                      v-model="kill"
+                      color="accent"
+                      dense
+                      :disabled="hit && !summedDamage"
+                    >
                       <span slot="label" class="caption">TARGET DESTROYED</span>
                     </v-checkbox>
                   </v-col>
@@ -464,10 +477,11 @@ import ActiveModInset from '../components/_ActiveModInset.vue'
 import AmmoCaseInset from '../../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue'
 import PilotTalent from '@/classes/pilot/PilotTalent'
 import { ActivationType, Damage, DiceRoller, Range, Synergy, WeaponSize, WeaponType } from '@/class'
+import CbCard from '../../mech_loadout/components/mount/_CbCard.vue'
 
 export default Vue.extend({
   name: 'weapon-attack',
-  components: { AmmoCaseInset, ActiveModInset },
+  components: { AmmoCaseInset, ActiveModInset, CbCard },
   props: {
     item: {
       type: Object,
@@ -476,6 +490,11 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    mount: {
+      type: Object,
+      required: false,
+      default: null,
     },
     aux: { type: Boolean },
     improv: { type: Boolean },
@@ -519,6 +538,17 @@ export default Vue.extend({
         return sArr.concat(Synergy.Collect('improvised_attack', this.mech, this.item))
       return sArr
     },
+    hardpoints() {
+      if (!this.mount) return false
+      return (
+        this.mount.Bonuses &&
+        this.mount.Bonuses.find(x => x.ID === 'cb_auto_stabilizing_hardpoints')
+      )
+    },
+    overpower() {
+      if (!this.mount) return false
+      return this.mount.Bonuses && this.mount.Bonuses.find(x => x.ID === 'cb_overpower_caliber')
+    },
     armoryLevel() {
       if (this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee) return 0
       const tal = this.mech.Pilot.Talents.find(
@@ -545,9 +575,11 @@ export default Vue.extend({
       return r ? r.Value : 0
     },
     minAccuracy() {
-      if (this.item.Tags.some(x => x.ID === 'tg_accurate')) return 1
-      if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.ID === 'tg_accurate')) return 1
-      return 0
+      let bonus = 0
+      if (this.item.Tags.some(x => x.ID === 'tg_accurate')) bonus += 1
+      if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.ID === 'tg_accurate')) bonus += 1
+      if (this.hardpoints) bonus += 1
+      return bonus
     },
     minDifficulty() {
       if (this.item.Tags.some(x => x.ID === 'tg_inaccurate')) return 1

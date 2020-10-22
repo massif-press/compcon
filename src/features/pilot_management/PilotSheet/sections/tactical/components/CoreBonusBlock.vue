@@ -22,7 +22,7 @@
     <v-container :fluid="!!pilot.CoreBonuses.length">
       <no-data-block v-if="!pilot.CoreBonuses.length" />
       <v-row v-else dense justify="center">
-        <v-col v-for="(b, i) in pilot.CoreBonuses" :key="`b_${i}`" md="12" lg="6" xl="4">
+        <v-col v-for="(b, i) in pilot.CoreBonuses" :key="`b_${i}`" style="min-width: 500px;">
           <cc-core-bonus-item :bonus="b" />
         </v-col>
       </v-row>

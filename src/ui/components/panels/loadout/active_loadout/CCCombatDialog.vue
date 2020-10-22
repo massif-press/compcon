@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" v-if="component" ref="c" :mech="mech" />
+  <component :is="component" v-if="component" ref="c" :mech="mech" :action="action" />
 </template>
 
 <script lang="ts">
@@ -38,6 +38,12 @@ export default Vue.extend({
       const name = toTitleCase(this.action.Name)
       return () => import(`./dialogs/_${name}Dialog.vue`)
     },
+    itemLoader() {
+      if (!this.action) {
+        return null
+      }
+      return () => import(`./dialogs/_ItemActionDialog.vue`)
+    },
   },
   mounted() {
     this.loader()
@@ -45,7 +51,7 @@ export default Vue.extend({
         this.component = () => this.loader()
       })
       .catch(() => {
-        console.error(`Unable to load component ./dialogs/_${toTitleCase(this.action.Name)}Dialog`)
+        this.component = () => this.itemLoader()
       })
   },
   methods: {

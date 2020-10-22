@@ -25,7 +25,7 @@
           x-large
           block
           outlined
-          color="primary"
+          color="accent"
           class="my-2"
           @click="$emit('select', m)"
         >

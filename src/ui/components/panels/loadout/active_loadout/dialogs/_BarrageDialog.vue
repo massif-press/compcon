@@ -14,83 +14,93 @@
         </v-btn>
       </cc-titlebar>
 
-      select two weapons or one superheavy weapon
+      <v-card-text class="pt-3">
+        <action-detail-expander :action="action" />
+        <v-divider class="my-3" />
+        <v-container style="max-width: 800px">
+          <div class="text-center heading h3 text--text my-3">
+            Select two weapons or one Superheavy weapon
+          </div>
+          <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
+            <item-selector-row
+              v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
+              :key="`weap_${j}`"
+              :item="w"
+              :selected="barrageToggle(w)"
+              @click="setBarrage(w, m)"
+            />
+            <v-divider
+              v-if="m.Weapons.some(x => x.Size === 'Superheavy' && !x.Destroyed)"
+              class="my-2"
+            />
+            <item-selector-row
+              v-for="(w, j) in m.Weapons.filter(x => x.Size === 'Superheavy' && !x.Destroyed)"
+              :key="`weap_${j}`"
+              :item="w"
+              :selected="barrageToggle(w)"
+              @click="setBarrage(w, m)"
+            />
+          </div>
+        </v-container>
+      </v-card-text>
 
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
+      </v-card-actions>
     </v-card>
+
+    <w-barrage-dialog ref="b_dialog" :mech="mech" @close="hide()" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" @close="hide()" />
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
-import { DamageType } from '@/classes/enums'
+import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import WBarrageDialog from './_SelBarrageDialog.vue'
+import ShBarrageDialog from './_SelSHBarrageDialog.vue'
+
 import Vue from 'vue'
-// import WeaponAttack from '../components/_WeaponAttack.vue'
+import { WeaponSize } from '@/class'
 
 export default Vue.extend({
-  name: 'improvised-attack-dialog',
-  // components: { WeaponAttack },
+  name: 'barrage-dialog',
+  components: { ActionDetailExpander, WBarrageDialog, ShBarrageDialog, ItemSelectorRow },
   props: {
     mech: {
+      type: Object,
+      required: true,
+    },
+    action: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
     dialog: false,
-    complete: false,
   }),
   computed: {
-    item(): MechWeapon {
-      return new MechWeapon({
-        id: 'improv_attack',
-        name: 'Improvised Attack',
-        mount: WeaponSize.Main,
-        type: WeaponType.Melee,
-        damage: [
-          {
-            type: DamageType.Kinetic,
-            val: '1d6',
-          },
-        ],
-        range: [
-          {
-            type: RangeType.Threat,
-            val: 1,
-          },
-        ],
-        source: 'GMS',
-        license: 'GMS',
-        license_level: 0,
-        description: '',
-        selected_profile: 0,
-        sp: 0,
-        tags: [],
-        effect: '',
-      })
+    state() {
+      return this.mech.Pilot.State
     },
   },
   methods: {
-    attackConfirm() {
-      this.complete = true
+    barrageToggle(w) {
+      return this.state.BarrageSelections.some(x => x === w)
     },
-    attackUndo() {
-      this.complete = false
-    },
-    reset() {
-      this.$refs.main.reset()
-      if (this.extraAux) this.$refs.aux.reset()
-    },
-    confirm(): void {
-      this.dialog = false
+    setBarrage(item, mount) {
+      if (item.Size === WeaponSize.Superheavy) {
+        this.$refs.sh_b_dialog.show()
+      }
+      if (this.state.BarrageSelections.some(x => x === item)) this.state.ClearBarrageSelections()
+      else if (this.state.BarrageSelections.length < 2) {
+        this.state.SelectBarrage(item, mount)
+        if (this.state.BarrageSelections.length === 2) {
+          this.$refs.b_dialog.show()
+        }
+      }
     },
     show(): void {
       this.dialog = true

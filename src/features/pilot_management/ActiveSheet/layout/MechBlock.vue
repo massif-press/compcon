@@ -127,31 +127,31 @@
       <v-row dense align="center" class="mt-n3">
         <v-col cols="auto" class="ml-2 mt-n2">
           <div class="mb-n2">
-            <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
             <span class="heading h2 accent--text">
               {{ pilot.MechSkills.Hull }}
               <span class="flavor-text subtle--text">//HULL</span>
+              <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
             </span>
           </div>
           <div class="mb-n2">
-            <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
             <span class="heading h2 accent--text">
               {{ pilot.MechSkills.Agi }}
               <span class="flavor-text subtle--text">//AGI</span>
+              <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
             </span>
           </div>
           <div class="mb-n2">
-            <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
             <span class="heading h2 accent--text">
               {{ pilot.MechSkills.Sys }}
               <span class="flavor-text subtle--text">//SYS</span>
+              <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
             </span>
           </div>
           <div class="mb-n2">
-            <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
             <span class="heading h2 accent--text">
               {{ pilot.MechSkills.Eng }}
               <span class="flavor-text subtle--text">//ENG</span>
+              <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
             </span>
           </div>
         </v-col>
@@ -200,7 +200,13 @@
           </v-row>
         </v-col>
         <v-col cols="auto">
-          <v-icon size="120" color="frame">{{ mech.SizeIcon }}</v-icon>
+          <div style="position:relative">
+            <v-icon size="120" color="frame" style="z-index:2">{{ mech.SizeIcon }}</v-icon>
+            <div
+              v-if="mech.Size > 0.5"
+              style="background-color: white; position: absolute; bottom: 20px; top: 20px; left:20px;right:20px; border-radius:50%; z-index:1"
+            />
+          </div>
         </v-col>
       </v-row>
 
@@ -333,7 +339,7 @@
           >
             <ul v-for="n in 3" :key="'t_' + n">
               <li v-if="t.Rank >= n">
-                <span v-html="t.Talent.Ranks[n - 1].description" />
+                <span v-html="t.Talent.Ranks[n - 1].Description" />
               </li>
             </ul>
           </cc-active-card>
@@ -376,7 +382,14 @@ import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 export default vueMixins(activePilot).extend({
   name: 'mech-block',
-  components: { MechSelectButton, LargePipLayout, MedPipLayout, SmallPipLayout, ActiveModeLoadout, DeployedBlock },
+  components: {
+    MechSelectButton,
+    LargePipLayout,
+    MedPipLayout,
+    SmallPipLayout,
+    ActiveModeLoadout,
+    DeployedBlock,
+  },
   data: () => ({
     showTalents: true,
     showCBs: true,

@@ -20,7 +20,7 @@ interface IDeployedDroneData {
   current_hp: number
   current_heat?: number
   overshield?: number
-  isDestroyed?: boolean
+  Destroyed?: boolean
 }
 
 class Drone {
@@ -39,7 +39,7 @@ class Drone {
   private _current_hp: number
   private _overshield: number
   private _current_heat: number
-  private _isDestroyed: boolean
+  private _destroyed: boolean
 
   public constructor(data: IDroneData, owner?: string, n?: number) {
     this.ID = uuid()
@@ -55,7 +55,7 @@ class Drone {
     this.EDefense = data.edef
     this.MaxHeat = data.heat || 0
     this._current_heat = this.MaxHeat
-    this._isDestroyed = false
+    this._destroyed = false
   }
 
   private save(): void {
@@ -88,7 +88,7 @@ class Drone {
   public set CurrentHP(hp: number) {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
     else if (hp <= 0) {
-      this.IsDestroyed = true
+      this.Destroyed = true
     } else this._current_hp = hp
     this.save()
   }
@@ -104,12 +104,12 @@ class Drone {
     this.save()
   }
 
-  public get IsDestroyed(): boolean {
-    return this._isDestroyed
+  public get Destroyed(): boolean {
+    return this._destroyed
   }
 
-  public set IsDestroyed(val: boolean) {
-    this._isDestroyed = val
+  public set Destroyed(val: boolean) {
+    this._destroyed = val
     this.save()
   }
 
@@ -120,7 +120,7 @@ class Drone {
       current_hp: drone.CurrentHP,
       current_heat: drone.CurrentHeat,
       overshield: drone.Overshield,
-      isDestroyed: drone.IsDestroyed,
+      Destroyed: drone.Destroyed,
     }
   }
 
@@ -130,7 +130,7 @@ class Drone {
     d.CurrentHP = data.current_hp
     d.CurrentHeat = data.current_heat || 0
     d.Overshield = data.overshield || 0
-    d.IsDestroyed = data.isDestroyed
+    d.Destroyed = data.Destroyed
     return d
   }
 }
