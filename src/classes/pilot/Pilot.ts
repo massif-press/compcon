@@ -25,7 +25,7 @@ import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData, Action } from '@/interface'
-import { ActiveState } from '../mech/ActiveState'
+import { ActiveState, IActiveStateData } from '../mech/ActiveState'
 import { Bonus } from '../Bonus'
 import { IReserveData } from './reserves/Reserve'
 import { MechSystem } from '../mech/MechSystem'
@@ -68,7 +68,7 @@ interface IPilotData {
   counter_data: ICounterSaveData[]
   custom_counters: object[]
   brews: string[]
-  state: IMechState
+  state: IActiveStateData
 }
 
 class Pilot {

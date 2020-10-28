@@ -94,6 +94,7 @@ declare interface IMechState {
   bracedCooldown: boolean
   redundant: boolean
   history: IHistoryItem[]
+  mounted?: boolean
 }
 
 declare interface IMountData {
