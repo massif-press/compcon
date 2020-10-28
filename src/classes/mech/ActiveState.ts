@@ -68,6 +68,8 @@ class ActiveState {
 
   private _barrageSelections: MechWeapon[]
   private _barrageMounts: Mount[]
+  private _shBarrageSelection: MechWeapon
+  private _shBarrageMount: Mount
 
   private _move: number
   private _maxMove: number
@@ -229,8 +231,26 @@ class ActiveState {
     return this._barrageSelections
   }
 
+  public get SHBarrageSelection(): MechWeapon {
+    return this._shBarrageSelection
+  }
+
   public get BarrageMounts(): Mount[] {
     return this._barrageMounts
+  }
+
+  public get SHBarrageMount(): Mount {
+    return this._shBarrageMount
+  }
+
+  public SelectShBarrage(w: MechWeapon, m: Mount) {
+    this._shBarrageSelection = w
+    this._shBarrageMount = m
+  }
+
+  public ClearShBarrage() {
+    this._shBarrageSelection = null
+    this._shBarrageMount = null
   }
 
   public SelectBarrage(w: MechWeapon, m: Mount) {
@@ -479,19 +499,22 @@ class ActiveState {
 
   public BaseActions(type: string): Action[] {
     let act = this.baseActions.filter(
-      x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
+      x =>
+        x.Activation === type &&
+        ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
     )
-    act = act.filter(x => x.ID !== 'act_free_action')
     if (!this._mech.IsShutDown) act = act.filter(x => x.ID !== 'act_boot_up')
     if (type === ActivationType.Free)
       act.push(this.baseActions.find(x => x.ID === 'act_overcharge'))
     // if (type === ActivationType.Quick) act.push(this.baseActions.find(x => x.ID === 'act_invade'))
-    return act
+    return act.filter(x => !x.IsActiveHidden)
   }
 
   public ItemActions(type: string): Action[] {
     return this._mech.Actions.filter(
-      x => x.Activation === type && x.IsPilotAction !== this._pilot_mounted
+      x =>
+        x.Activation === type &&
+        ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
     )
   }
 

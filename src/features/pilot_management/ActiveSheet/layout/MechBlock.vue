@@ -243,6 +243,9 @@
               <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
             </span>
             <p class="mb-1 text--text body-text" v-html="mech.Frame.CoreSystem.ActiveEffect" />
+            <div class="my-1 px-6">
+              <cc-action active :action="coreActivator" />
+            </div>
             <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
           </cc-active-card>
         </v-col>
@@ -411,6 +414,9 @@ export default vueMixins(activePilot).extend({
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
+    },
+    coreActivator() {
+      return this.mech.Actions.find(x => x.ID === 'core_active_activate')
     },
     overcharge(): string[] {
       return this.pilot.has('corebonus', 'cb_heatfall_coolant_system')

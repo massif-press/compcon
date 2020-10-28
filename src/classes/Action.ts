@@ -11,7 +11,8 @@ interface IActionData {
   terse?: string
   detail: string
   pilot?: boolean
-  sub_actions?: IActionData[]
+  mech?: boolean
+  hide_active?: boolean
   synergy_locations?: string[]
   log?: string[]
 }
@@ -87,10 +88,11 @@ class Action {
   public readonly Init: string
   public readonly Trigger: string
   public readonly IsPilotAction: boolean
+  public readonly IsMechAction: boolean
   public readonly IsDowntimeAction: boolean
+  public readonly IsActiveHidden: boolean
   public readonly SynergyLocations: string[]
   public readonly Log: string[]
-  private _sub_actions: IActionData[]
   private _uses: number
 
   public constructor(data: IActionData, origin?: string) {
@@ -114,9 +116,9 @@ class Action {
     this.Init = data.init || ''
     this.Trigger = data.trigger || ''
     this.IsPilotAction = data.pilot
+    this.IsMechAction = data.mech || !data.pilot
+    this.IsActiveHidden = data.hide_active
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
-    this._sub_actions = data.sub_actions || []
-    // this.SubAactions = data.sub_actions ? data.sub_actions.map(a => new Action(a)) : []
   }
 
   public get Uses(): number {
@@ -129,10 +131,6 @@ class Action {
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
-  }
-
-  public get SubActions(): Action[] {
-    return this._sub_actions.map(a => new Action(a))
   }
 
   public get Color(): string {

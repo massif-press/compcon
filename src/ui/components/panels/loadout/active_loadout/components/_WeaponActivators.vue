@@ -2,7 +2,13 @@
   <div>
     <v-row v-if="item.Size === 'Superheavy'">
       <v-col>
-        <v-btn tile block color="action--full">
+        <v-btn
+          tile
+          block
+          color="action--full"
+          :disabled="!!barrageCount"
+          @click="setBarrage(item, mount)"
+        >
           <v-icon left>mdi-hexagon-slice-6</v-icon>
           barrage
           <v-menu offset-y max-width="700px">
@@ -53,7 +59,7 @@
           block
           :color="barrageToggle ? 'secondary' : 'action--full'"
           :disabled="barrageDisabled"
-          @click="setBarrage()"
+          @click="setBarrage(item, mount)"
         >
           <v-icon left>mdi-hexagon-slice-6</v-icon>
           barrage
@@ -83,8 +89,8 @@
         :mech="mech"
         :mounts="state.BarrageMounts"
       />
-      <sh-barrage-dialog ref="sh_b_dialog" :item="item" :mech="mech" :mount="mount" />
     </v-row>
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" />
   </div>
 </template>
 
@@ -139,17 +145,17 @@ export default Vue.extend({
     },
   },
   methods: {
-    setBarrage() {
+    setBarrage(item, mount) {
       if (this.item.Size === WeaponSize.Superheavy) {
+        this.state.SelectShBarrage(item, mount)
         this.$refs.sh_b_dialog.show()
-      }
-      if (this.barrageCount < 2 && !this.barrageToggle) {
-        this.state.SelectBarrage(this.item, this.mount)
+      } else if (this.barrageCount < 2 && !this.barrageToggle) {
+        this.state.SelectBarrage(item, mount)
         if (this.barrageCount === 2) {
           this.$refs.b_dialog.show()
         }
       } else {
-        this.state.RemoveBarrage(this.item, this.mount)
+        this.state.RemoveBarrage(item, mount)
       }
     },
   },

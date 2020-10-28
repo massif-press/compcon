@@ -92,13 +92,15 @@ export default Vue.extend({
     },
     setBarrage(item, mount) {
       if (item.Size === WeaponSize.Superheavy) {
+        this.state.SelectShBarrage(item, mount)
         this.$refs.sh_b_dialog.show()
-      }
-      if (this.state.BarrageSelections.some(x => x === item)) this.state.ClearBarrageSelections()
-      else if (this.state.BarrageSelections.length < 2) {
-        this.state.SelectBarrage(item, mount)
-        if (this.state.BarrageSelections.length === 2) {
-          this.$refs.b_dialog.show()
+      } else {
+        if (this.state.BarrageSelections.some(x => x === item)) this.state.ClearBarrageSelections()
+        else if (this.state.BarrageSelections.length < 2) {
+          this.state.SelectBarrage(item, mount)
+          if (this.state.BarrageSelections.length === 2) {
+            this.$refs.b_dialog.show()
+          }
         }
       }
     },

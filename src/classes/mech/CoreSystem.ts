@@ -33,6 +33,7 @@ class CoreSystem {
   public readonly Name: string
   public readonly Description: string
   public readonly Activation: ActivationType
+  public readonly ActivateAction: Action
   public readonly ActiveName: string
   public readonly ActiveEffect: string
   public readonly ActiveActions: Action[]
@@ -49,6 +50,20 @@ class CoreSystem {
   public readonly Counters: ICounterData[]
   private _integrated: string[]
   private _tags: ITagData[]
+
+  private generateActivateAction(): Action {
+    return new Action(
+      {
+        id: `core_active_activate`,
+        name: 'Activate CORE System',
+        activation: this.Activation,
+        detail: this.ActiveEffect,
+        mech: true,
+        hide_active: true,
+      },
+      'Frame CORE System'
+    )
+  }
 
   public constructor(data: ICoreData) {
     this.Name = data.name
@@ -74,6 +89,7 @@ class CoreSystem {
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
     this._tags = data.tags
+    this.ActivateAction = this.generateActivateAction()
   }
 
   public get IntegratedEquipment(): MechEquipment[] {

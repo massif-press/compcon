@@ -232,7 +232,7 @@ import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
 export default Vue.extend({
-  name: 'skill-check-dialog',
+  name: 'ram-dialog',
   components: { ActionDetailExpander },
   props: {
     mech: {
