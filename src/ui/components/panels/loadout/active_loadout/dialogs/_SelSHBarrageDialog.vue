@@ -49,12 +49,10 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     item() {
-      if (this.state.BarrageSelections.length) return this.state.BarrageSelections[0]
-      return null
+      return this.state.SHBarrageSelection
     },
     mount() {
-      if (this.state.BarrageMounts.length) return this.state.BarrageMounts[0]
-      return null
+      return this.state.SHBarrageMount
     },
   },
   methods: {
@@ -69,7 +67,6 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
-      console.log('sh hide')
       this.dialog = false
       this.$emit('close')
     },

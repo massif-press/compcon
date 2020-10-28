@@ -1001,15 +1001,6 @@ class Mech implements IActor {
       output = output.concat(activeBonuses)
     }
 
-    // console.log('active loadout ', p, ' :')
-    // console.log(ld)
-    // console.log('frame traits ', this.Frame.Name, p, ' :')
-    // console.log(this.Frame.Traits.flatMap(x => x[p]))
-    // console.log('core sys passive ', p, ' :')
-    // console.log(this.Frame.CoreSystem[`Passive${p}`] || [])
-    // console.log('core sys active ', p, ' :')
-    // console.log(this.CoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
-
     output = output
       .concat(this.Frame.Traits.flatMap(x => x[p]))
       .concat(this.Frame.CoreSystem[`Passive${p}`] || [])
@@ -1027,7 +1018,9 @@ class Mech implements IActor {
   }
 
   public get Actions(): Action[] {
-    return this.features('Actions')
+    const arr = this.features<Action>('Actions')
+    if (this.CurrentCoreEnergy) arr.push(this.Frame.CoreSystem.ActivateAction)
+    return arr
   }
 
   public get Deployables(): IDeployableData[] {
