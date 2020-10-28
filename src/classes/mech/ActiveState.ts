@@ -606,4 +606,4 @@ class ActiveState {
   }
 }
 
-export { ActiveState }
+export { ActiveState, IActiveStateData }
