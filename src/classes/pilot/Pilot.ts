@@ -982,9 +982,11 @@ class Pilot {
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
   private features<T>(p: string): T[] {
-    return this.Loadout.Items.flatMap(x => x[p])
-      .concat(this.CoreBonuses.flatMap(x => x[p]))
-      .concat(this.Reserves.filter(x => !x.Used).flatMap(y => y[p]))
+    if (!this.Loadout) return []
+    return this._loadout.Items.filter(i => !!i)
+      .flatMap(x => x[p])
+      .concat(this._core_bonuses.flatMap(x => x[p]))
+      .concat(this._reserves.filter(x => !x.Used).flatMap(y => y[p]))
       .concat(this._talents.flatMap(x => x.UnlockedRanks.flatMap(y => y[p])))
   }
 
