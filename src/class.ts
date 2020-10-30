@@ -24,8 +24,6 @@ import {
   EncounterSide,
 } from './classes/enums'
 import Tag from './classes/Tag'
-import { Drone } from './classes/Drone'
-import { Deployable } from './classes/Deployable'
 import { CompendiumItem } from './classes/CompendiumItem'
 import { LicensedItem } from './classes/LicensedItem'
 import { CoreBonus } from './classes/pilot/CoreBonus'
@@ -60,6 +58,7 @@ import { WeaponMod } from './classes/mech/WeaponMod'
 import WeaponSlot from './classes/mech/WeaponSlot'
 import { Mech } from './classes/mech/Mech'
 import { Reserve } from './classes/pilot/reserves/Reserve'
+import { Deployable } from './classes/Deployable'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
 import { Manufacturer } from './classes/Manufacturer'
@@ -94,8 +93,6 @@ import { Counter } from './classes/Counter'
 export {
   Rules,
   ActivationType,
-  Drone,
-  Deployable,
   Duration,
   MountType,
   FittingSize,
@@ -134,6 +131,7 @@ export {
   PilotTalent,
   Synergy,
   Reserve,
+  Deployable,
   Project,
   Organization,
   CoreSystem,

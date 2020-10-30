@@ -50,6 +50,11 @@ abstract class CompendiumItem {
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
       this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
       this.Deployables = data.deployables ? data.deployables : []
+      if (data.deployables) {
+        this.Actions = this.Actions.concat(
+          data.deployables.map(d => Action.CreateDeployAction(d, this._name))
+        )
+      }
       this.Counters = data.counters ? data.counters : []
       this.Tags = Tag.Deserialize(data.tags)
       this._integrated = data.integrated ? data.integrated : []

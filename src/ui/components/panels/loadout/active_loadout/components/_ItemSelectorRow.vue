@@ -6,6 +6,7 @@
         block
         tile
         :color="selected ? 'secondary' : item.Color"
+        :disabled="disabled"
         @click="$emit('click')"
       >
         <span style="position: absolute; left: 0">
@@ -32,6 +33,9 @@ export default Vue.extend({
       required: true,
     },
     selected: {
+      type: Boolean,
+    },
+    disabled: {
       type: Boolean,
     },
   },

@@ -40,6 +40,11 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    cached: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   data: () => ({
     dialog: false,
@@ -49,6 +54,7 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     item() {
+      if (!this.state.SHBarrageSelection) return this.cached
       return this.state.SHBarrageSelection
     },
     mount() {

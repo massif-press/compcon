@@ -8,17 +8,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import { store } from '@/store'
-import {
-  Mech,
-  Drone,
-  Deployable,
-  Pilot,
-  MechEquipment,
-  MechWeapon,
-  Mount,
-  ActivationType,
-} from '@/class'
+import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '@/class'
 import { Action } from '@/interface'
+import { throws } from 'assert'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -50,8 +42,7 @@ interface IActiveStateData {
 }
 
 class ActiveState {
-  private _deployed_drones: Drone[]
-  private _deployed_deployables: Deployable[]
+  private _deployed: Deployable[]
   public _stage: Stage
 
   private _log: LogEntry[] // write this to a pilot log after mission is ended
@@ -66,6 +57,9 @@ class ActiveState {
   private _round: number
   private _encounter: number
 
+  private _actions: number
+  private _protocol_available: boolean
+
   private _barrageSelections: MechWeapon[]
   private _barrageMounts: Mount[]
   private _shBarrageSelection: MechWeapon
@@ -73,7 +67,6 @@ class ActiveState {
 
   private _move: number
   private _maxMove: number
-  private _actions: number
   private _overwatch: boolean
   private _braced: boolean
   private _overcharged: boolean
@@ -90,6 +83,7 @@ class ActiveState {
     this._encounter = 0
     this._move = 0
     this._actions = 2
+    this._protocol_available = true
     this._barrageSelections = []
     this._barrageMounts = []
     this._overwatch = false
@@ -110,6 +104,7 @@ class ActiveState {
     this._history = []
     this._move = 0
     this._actions = 2
+    this._protocol_available = true
     this._barrageSelections = []
     this._overcharged = false
     this._overwatch = false
@@ -131,6 +126,22 @@ class ActiveState {
     return this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
   }
 
+  public get Actions(): number {
+    return this._actions
+  }
+
+  public set Actions(val: number) {
+    this._actions = val
+  }
+
+  public get IsProtocolAvailable(): boolean {
+    return this._protocol_available
+  }
+
+  public set IsProtocolAvailable(val: boolean) {
+    this._protocol_available = val
+  }
+
   public get Stage(): Stage {
     return this._stage
   }
@@ -149,6 +160,11 @@ class ActiveState {
 
   public NextRound(): void {
     this._round++
+    this._actions = 2
+    this._protocol_available = true
+    //un-'use' all actions/weapons based on frequency
+    this._mech.CurrentMove = this._mech.MaxMove
+    //if in brace recovery, do so here
     this.save()
   }
 
@@ -275,6 +291,7 @@ class ActiveState {
     this._history = []
     this._move = 0
     this._actions = 2
+    this._protocol_available = true
     this._maxMove = this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
     this._overcharged = false
     this._prepare = false
@@ -485,14 +502,6 @@ class ActiveState {
     this._mech.MeltdownImminent = false
   }
 
-  public get Protocols(): Action[] {
-    return this._mech.Actions.filter(x => x.Activation === 'Protocol')
-  }
-
-  public get MoveActions(): string[] {
-    return ['move']
-  }
-
   private get baseActions(): Action[] {
     return store.getters.getItemCollection('Actions')
   }
@@ -516,6 +525,10 @@ class ActiveState {
         x.Activation === type &&
         ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
     )
+  }
+
+  public ActionsByType(type: string): Action[] {
+    return this.BaseActions(type).concat(this.ItemActions(type))
   }
 
   private get baseActionTypes() {
@@ -556,19 +569,6 @@ class ActiveState {
     const exclude = ['QUICK TECH', 'FULL TECH']
     const out = this.AllBaseTechActions.concat(this.AllItemTechActions)
     return out.filter(x => !exclude.some(y => y === x.Name.toUpperCase()))
-  }
-
-  public get QuickActions(): Action[] {
-    return []
-  }
-  public get FreeActions(): Action[] {
-    return []
-  }
-  public get Reactions(): Action[] {
-    return []
-  }
-  public get OtherActions(): string[] {
-    return ['overcharge']
   }
 
   public static Serialize(s: ActiveState): IActiveStateData {

@@ -11,6 +11,7 @@ interface IMechEquipmentData extends ILicensedItemData {
 
 abstract class MechEquipment extends LicensedItem {
   protected _uses: number
+  protected _used: boolean
   protected _destroyed: boolean
   protected _cascading: boolean
   protected _loaded: boolean
@@ -49,6 +50,14 @@ abstract class MechEquipment extends LicensedItem {
     } else {
       this._max_uses = 0
     }
+  }
+
+  public get Used(): boolean {
+    return this._used
+  }
+
+  public set Used(b: boolean) {
+    this._used = b
   }
 
   public get IsCascading(): boolean {

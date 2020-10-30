@@ -90,7 +90,7 @@
         :mounts="state.BarrageMounts"
       />
     </v-row>
-    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" />
   </div>
 </template>
 

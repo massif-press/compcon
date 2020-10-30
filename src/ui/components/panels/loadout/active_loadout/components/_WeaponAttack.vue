@@ -13,7 +13,7 @@
         <slot />
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <cc-tags v-if="item.Tags" :tags="item.Tags" />
+        <cc-tags v-if="item.ProfileTags" :tags="item.ProfileTags" />
       </v-col>
       <v-col cols="auto">
         <cc-tags
@@ -21,6 +21,16 @@
           :tags="item.Mod.AddedTags"
           color="mod darken-2"
         />
+      </v-col>
+    </v-row>
+    <v-row no-gutters class="mt-2">
+      <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
+        <div class="overline mb-n2">WEAPON PROFILES</div>
+        <v-tabs v-model="tab" grow height="30px">
+          <v-tab v-for="p in item.Profiles" :key="p.ID">
+            <span class="accent--text font-weight-bold">{{ p.Name }}</span>
+          </v-tab>
+        </v-tabs>
       </v-col>
     </v-row>
     <v-row dense justify="center">
@@ -36,11 +46,12 @@
           dense
           outlined
           color="active"
+          class="mt-2"
           :style="`opacity: ${!attackRoll ? '0.4' : '1'}`"
         >
-          <div class="mb-n2 mt-1">
+          <div class="my-n2">
             <div class="overline stark--text my-n2">ON ATTACK</div>
-            <p class="text--text body-text mb-1 mr-2 ml-3" v-html="item.ProfileOnAttack" />
+            <p class="text--text body-text mb-1" v-html="item.ProfileOnAttack" />
           </div>
         </v-alert>
 
@@ -73,9 +84,9 @@
           :color="hit ? 'accent' : 'subtle'"
           :style="`opacity: ${!hit ? '0.4' : '1'}`"
         >
-          <div class="mb-n2 mt-1">
-            <span class="overline stark--text">ON HIT</span>
-            <p class="text--text body-text mb-1 mr-2 ml-3 mt-n2" v-html="item.ProfileOnHit" />
+          <div class="mb-n2">
+            <div class="overline stark--text my-n2">ON HIT</div>
+            <p class="text--text body-text mb-1" v-html="item.ProfileOnHit" />
           </div>
         </v-alert>
         <v-alert
@@ -500,6 +511,7 @@ export default Vue.extend({
     improv: { type: Boolean },
   },
   data: () => ({
+    tab: 0,
     accuracy: 0,
     difficulty: 0,
     attackRoll: null,
@@ -633,6 +645,11 @@ export default Vue.extend({
     },
     finalDamage() {
       return this.reliable > this.summedDamage ? this.reliable : this.summedDamage
+    },
+  },
+  watch: {
+    tab(newval: number) {
+      this.item.SetProfileSelection(newval, true)
     },
   },
   mounted() {

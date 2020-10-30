@@ -44,6 +44,7 @@
       </v-card-actions>
     </v-card>
     <item-dialog ref="i_dialog" :mech="mech" :action="selected" @close="hide()" />
+    <invade-dialog ref="inv_dialog" :mech="mech" :action="selected" @close="hide()" />
   </v-dialog>
 </template>
 
@@ -52,13 +53,14 @@ import _ from 'lodash'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
 import ItemDialog from './_ItemActionDialog.vue'
+import InvadeDialog from './_InvadeDialog.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/class'
 
 export default Vue.extend({
   name: 'quick-tech-dialog',
-  components: { ActionDetailExpander, ItemDialog, ItemSelectorRow },
+  components: { ActionDetailExpander, ItemDialog, InvadeDialog, ItemSelectorRow },
   props: {
     mech: {
       type: Object,
@@ -78,9 +80,7 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     actions() {
-      const qtArr = this.state.TechActions.filter(
-        x => x.Activation === ActivationType.QuickTech
-      ).concat(this.state.baseActions.find(x => x.ID === 'act_invade'))
+      const qtArr = this.state.TechActions.filter(x => x.Activation === ActivationType.QuickTech)
       return _.groupBy(qtArr, 'Origin')
     },
   },
@@ -90,7 +90,8 @@ export default Vue.extend({
   methods: {
     activate(action) {
       this.selected = action
-      this.$refs.i_dialog.show()
+      if (this.selected.ID === 'act_invade') this.$refs.inv_dialog.show()
+      else this.$refs.i_dialog.show()
     },
     show(): void {
       this.dialog = true

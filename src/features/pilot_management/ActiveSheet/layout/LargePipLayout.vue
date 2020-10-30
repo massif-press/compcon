@@ -1,9 +1,6 @@
 <template>
   <div>
     <v-row align="start" dense class="mt-n1 ml-4 mr-2">
-      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-        <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
-      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentMove"
@@ -12,7 +9,7 @@
           large
           color="action--move"
           full-icon="mdi-arrow-right-bold-hexagon-outline"
-          @update="mech.CurrentMove = $event"
+          @update="mech.Move($event)"
         >
           <span class="heading h3">
             Movement
@@ -20,7 +17,7 @@
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto" align-self="end">
-        <cc-synergy-display large location="boost" :mech="mech" class="d-inline" />
+        <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
       </v-col>
     </v-row>
     <v-row align="start" class="mt-n3 mx-2">

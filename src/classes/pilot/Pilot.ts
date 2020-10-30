@@ -31,6 +31,7 @@ import { IReserveData } from './reserves/Reserve'
 import { MechSystem } from '../mech/MechSystem'
 import { IMechData } from '../mech/Mech'
 import { IDeployableData } from '../Deployable'
+// import { ICombatLogData } from './CombatLog'
 
 interface IPilotData {
   id: string
@@ -69,6 +70,7 @@ interface IPilotData {
   custom_counters: object[]
   brews: string[]
   state: IActiveStateData
+  // combat_log: ICombatLogData[]
 }
 
 class Pilot {

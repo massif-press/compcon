@@ -10,7 +10,7 @@
         <v-card-title
           class="white--text py-0 heading h3 hover-item"
           style="cursor: pointer;"
-          @click="empty ? '' : $refs.detailDialog.show()"
+          @click="$refs.detailDialog.show()"
         >
           <span style="display: flex; width: 100%">
             <span v-if="item">
@@ -50,6 +50,16 @@
         <v-slide-y-transition>
           <v-card-text v-if="!hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
+              <v-row no-gutters>
+                <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
+                  <div class="overline mb-n2">WEAPON PROFILES</div>
+                  <v-tabs v-model="tab" grow height="30px">
+                    <v-tab v-for="p in item.Profiles" :key="p.ID">
+                      <span class="accent--text font-weight-bold">{{ p.Name }}</span>
+                    </v-tab>
+                  </v-tabs>
+                </v-col>
+              </v-row>
               <weapon-activators v-if="!item.Destroyed" :item="item" :mech="mech" :mount="mount" />
               <equipment-header
                 :item="item"
@@ -124,7 +134,7 @@
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2" align="start">
                 <v-col cols="auto">
-                  <cc-tags small :tags="item.Tags" :color="color" />
+                  <cc-tags small :tags="item.ProfileTags" :color="color" />
                   <cc-tags v-if="item.Mod" small :tags="item.Mod.AddedTags" color="mod darken-2" />
                 </v-col>
                 <v-spacer />
@@ -157,7 +167,7 @@ import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue'
 import { WeaponSize, PilotTalent, WeaponType, Range, Damage } from '@/class'
 
 export default Vue.extend({
-  name: 'weapon-slot-card',
+  name: 'active-weapon-card',
   components: {
     WeaponActivators,
     ActiveModInset,
@@ -182,6 +192,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
+    tab: 0,
     hide: false,
   }),
   computed: {
@@ -203,6 +214,11 @@ export default Vue.extend({
     getDamage() {
       if (!this.item) return []
       return Damage.CalculateDamage(this.item, this.mech)
+    },
+  },
+  watch: {
+    tab(newval: number) {
+      this.item.SetProfileSelection(newval, true)
     },
   },
 })
